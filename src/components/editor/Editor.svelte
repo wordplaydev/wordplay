@@ -9,7 +9,13 @@
     import CaretView, {
         type CaretBounds,
     } from '@components/editor/caret/CaretView.svelte';
+    import RemoteCaretOverlay from '@components/editor/RemoteCaretOverlay.svelte';
     import { computeCaretDescriptionPosition } from '@components/editor/caretDescriptionPosition';
+    import {
+        decodeRemoteCaret,
+        encodeRemoteCaret,
+        type RemoteCaret,
+    } from '@db/projects/caretEncoding';
     import {
         type Edit,
         InsertSymbol,
@@ -132,8 +138,6 @@
         setOutputPreview?: () => void;
         /** A function for updating conflicts of interest */
         updateConflicts?: (source: Source, conflicts: Conflict[]) => void;
-        /** Whether the code was revised by another creator */
-        overwritten?: boolean;
         /** Function to set large deletion notification for this editor */
         setLargeDeletionNotification?: (
             message: LocaleTextAccessor | null,
@@ -155,7 +159,6 @@
         conflictsOfInterest = $bindable([]),
         setOutputPreview,
         updateConflicts,
-        overwritten = false,
         setLargeDeletionNotification,
         caretSnapshot = $bindable(undefined),
     }: Props = $props();
@@ -198,6 +201,103 @@
     // Expose caret value to parent via bindable prop.
     $effect(() => {
         caretSnapshot = $caret;
+    });
+
+    /** Narrowing helper: distinguishes a text-mode selection range
+     *  (`[number, number]`) from an AST Path (`{type, index}[]`).
+     *  Array.isArray alone can't tell them apart because both are
+     *  arrays. */
+    function isRangeTuple(v: readonly unknown[]): v is [number, number] {
+        return (
+            v.length === 2 &&
+            typeof v[0] === 'number' &&
+            typeof v[1] === 'number'
+        );
+    }
+
+    // Encoded snapshot of the LOCAL user's caret, kept current with
+    // every caret change. We re-resolve this against the Y.Text after
+    // a remote-origin update so the local caret follows the same
+    // content (or AST node) it was anchored to — just like we do for
+    // peer carets, but for ourselves. Stored in a plain `let` because
+    // Svelte reactivity isn't needed: only the onChange listener
+    // below reads it, and it does so on its own event tick.
+    let localCaretEncoded: RemoteCaret = null;
+
+    // Encode the local caret on every caret change AND publish it to
+    // the PresenceTracker so collaborators see where we're editing.
+    // The encoding (caretEncoding.encodeRemoteCaret) turns text
+    // positions into Yjs RelativePositions anchored to content (not
+    // integer indices), and node positions into AST Paths the
+    // receiver resolves with nearest-ancestor fallback. No-op when
+    // CRDT isn't active for this project — the encoder needs the
+    // Y.Text.
+    $effect(() => {
+        const c = $caret;
+        const crdt = Projects.getProjectCRDT(project.getID());
+        if (crdt === undefined) return;
+        const sourceIndex = project.getIndexOfSource(source);
+        const yText = crdt.getYText(sourceIndex);
+        const encoded = encodeRemoteCaret(yText, source, c.position);
+        localCaretEncoded = encoded;
+        const tracker = Projects.getPresenceTracker(project.getID());
+        if (tracker !== undefined)
+            tracker.updateCaret(sourceIndex, encoded);
+    });
+
+    // When a remote peer's edit lands, the local user's caret index
+    // would normally stay put — but the content under it has shifted.
+    // Subscribe to the CRDT's onChange and, on remote-origin updates,
+    // decode our encoded snapshot against the now-updated Y.Text to
+    // get the position that anchors to the same content. For
+    // node-mode (Path), resolve through the latest source's root with
+    // the nearest-ancestor fallback baked into decodeRemoteCaret.
+    //
+    // Origin filtering matters: local edits also fire onChange, and
+    // re-applying the snapshot to ourselves would clobber the caret
+    // position the user just typed into. We only re-resolve when the
+    // change came from a peer.
+    $effect(() => {
+        const crdt = Projects.getProjectCRDT(project.getID());
+        if (crdt === undefined) return;
+        const sourceIndex = project.getIndexOfSource(source);
+        if (sourceIndex < 0) return;
+        return crdt.onChange((idx, _code, origin) => {
+            if (idx !== sourceIndex) return;
+            if (origin !== 'remote') return;
+            if (localCaretEncoded === null) return;
+            // The bridge in ProjectsDatabase.activateCRDT has
+            // already replaced the source in history by the time we
+            // run (its listener fires first). Read the post-bridge
+            // source from history rather than from our `source`
+            // closure — the closure source is the pre-merge one and
+            // its AST won't contain the merged content.
+            const latest = Projects.getHistory(project.getID())?.getCurrent();
+            const latestSource = latest?.getSources()[sourceIndex];
+            if (latestSource === undefined) return;
+            const yText = crdt.getYText(idx);
+            const decoded = decodeRemoteCaret(
+                localCaretEncoded,
+                yText,
+                latestSource,
+            );
+            if (decoded === null) return;
+            const current = untrack(() => $caret);
+            if (typeof decoded === 'number') {
+                caret.set(current.withPosition(decoded));
+            } else if (Array.isArray(decoded)) {
+                if (isRangeTuple(decoded)) {
+                    caret.set(current.withPosition(decoded));
+                } else {
+                    // Path — resolve to a Node in the post-merge
+                    // source. decodeRemoteCaret already did the
+                    // nearest-ancestor walk so this path resolves.
+                    const node = latestSource.root.resolvePath(decoded);
+                    if (node !== undefined)
+                        caret.set(current.withPosition(node));
+                }
+            }
+        });
     });
 
     let restoredPosition: CaretPosition | undefined = $state(undefined);
@@ -1585,39 +1685,42 @@
 
     /** Announce symbol insertion (character echo) or caret position (navigation) to screen readers.
      *  WCAG 2.1 SC 4.1.3: status messages are conveyed via the live region in Announcer.svelte.
-     *  On typing: announce the character that was inserted (character echo).
-     *  On navigation: announce the cursor's contextual description. */
+     *  On typing: announce the character that was inserted (character echo) immediately,
+     *    matching standard text-input behavior — the Announcer's own queue takes care
+     *    of pacing for screen readers that can't keep up with rapid input.
+     *  On navigation: announce the cursor's contextual description, deferred during
+     *    typing flurries because `caret.getDescription()` is expensive and screen readers
+     *    can't keep up. */
     $effect(() => {
         if ($announce && document.activeElement === input && $caret) {
-            // Defer announcements during held-key/typing flurries. Screen readers
-            // can't keep up with 30Hz updates anyway and the user gets a clear
-            // announcement of the final position when the flurry settles.
-            // caret.getDescription() does locale-template concretization and
-            // string building per call, which adds up on long key holds.
-            if (deferDisplayUpdate && $keyboardEditIdle !== IdleKind.Idle)
-                return;
             // Read lastInsertedKey before entering untrack so the value is captured
             // at the time the reactive effect fires (i.e. after the caret update).
             const key = lastInsertedKey;
+            // Character echo: never defer. Send each typed character to
+            // the Announcer with the 'type' kind so it's processed in FIFO
+            // order (without trimming) — matching standard text-input
+            // behavior where every key is heard.
+            if (key !== undefined) {
+                untrack(() => {
+                    $announce('type', $caret.getLanguage(), key);
+                    lastInsertedKey = undefined;
+                });
+                return;
+            }
+            // Navigation announcements may be deferred during typing flurries —
+            // see comment above.
+            if (deferDisplayUpdate && $keyboardEditIdle !== IdleKind.Idle)
+                return;
             untrack(() => {
-                if (key !== undefined) {
-                    // Character echo: announce only the typed symbol so the screen
-                    // reader does not flood the user with position descriptions while typing.
-                    $announce(sourceID, $caret.getLanguage(), key);
-                } else {
-                    // Navigation: announce the cursor's contextual description.
-                    $announce(
-                        sourceID,
-                        $caret.getLanguage(),
-                        $caret.getDescription(
-                            caretExpressionType,
-                            conflictsOfInterest,
-                            context,
-                        ),
-                    );
-                }
-                // Reset so the next caret change (navigation) gets a position description.
-                lastInsertedKey = undefined;
+                $announce(
+                    sourceID,
+                    $caret.getLanguage(),
+                    $caret.getDescription(
+                        caretExpressionType,
+                        conflictsOfInterest,
+                        context,
+                    ),
+                );
             });
         }
     });
@@ -1899,6 +2002,22 @@
 <svelte:window onblur={handleRelease} />
 
 <!--
+    iOS Safari preserves document.activeElement across a backgrounded tab
+    (switching apps, locking the device, etc.) even though the on-screen
+    keyboard is gone. On return, the next tap calls grabFocus(), but
+    setKeyboardFocus's "already focused" short-circuit then skips .focus()
+    so the keyboard never reappears — until the user taps something else
+    first to move activeElement off the textarea. Blurring on visibility
+    change resets the state so the next tap re-focuses cleanly.
+-->
+<svelte:document
+    onvisibilitychange={() => {
+        if (document.hidden && input && document.activeElement === input)
+            input.blur();
+    }}
+/>
+
+<!--
     Has ARIA role text box to allow keyboard keys to go through
     All NodeViews are set to role="presentation"
     We use the live region above
@@ -1911,7 +2030,6 @@
         : 'stepping'}"
     class:readonly={!editable}
     class:focused
-    class:overwritten
     class:dragging={dragCandidate !== undefined || $dragged !== undefined}
     class:density-compact={$blockDensity === 'compact'}
     class:density-spacious={$blockDensity === 'spacious'}
@@ -1930,6 +2048,17 @@
     onpointerup={handleRelease}
     onpointermove={handlePointerMove}
     onpointerleave={handlePointerLeave}
+    onmousedown={(event) => {
+        // iOS Safari fires synthetic mousedown after a touchend even though
+        // we handled the gesture via pointer events, and the default action
+        // of that synthetic mousedown blurs the (programmatically focused)
+        // textarea — which is what dismisses the on-screen keyboard a
+        // moment after a tap. Calling preventDefault here cancels that
+        // focus side-effect. Real mouse/pen mousedown is already suppressed
+        // by the preventDefault on pointerdown, so the only events that
+        // reach this handler in practice are the touch-synthesized ones.
+        event.preventDefault();
+    }}
     onkeydown={handleKeyDown}
     ondblclick={(event) => {
         event.stopPropagation();
@@ -2052,6 +2181,19 @@
         {zoom}
         placedByPointer={caretSetByPointer}
         bind:location={caretLocation}
+    />
+    <!-- Floating per-peer caret overlays, anchored to token positions in
+         this source. Always mounted because CRDT is always-on, but the
+         component renders nothing when no remote peers are publishing
+         presence here — so a solo user sees no overlay chrome. -->
+    <RemoteCaretOverlay
+        projectID={project.getID()}
+        sourceIndex={project.getIndexOfSource(source)}
+        {source}
+        viewport={editor}
+        blocks={$blocks}
+        {getNodeView}
+        rtl={$locales.getDirection() === 'rtl'}
     />
     <!--
         This is a localized description of the current caret position, a live region for screen readers,
@@ -2263,19 +2405,4 @@
         justify-content: center;
     }
 
-    /** A single cycle color animation to indicate the code was revised. */
-    @keyframes overwritten {
-        0% {
-            background-color: var(--wordplay-highlight-color);
-        }
-
-        100% {
-            background-color: var(--wordplay-background);
-        }
-    }
-
-    .overwritten {
-        animation: overwritten 1s;
-        animation-iteration-count: 1;
-    }
 </style>

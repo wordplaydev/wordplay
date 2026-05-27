@@ -6,6 +6,14 @@
     /** How long to wait before updating the live region. */
     const delay = 200;
 
+    /** Kinds of announcement that represent per-keystroke character echo
+     *  (typing in the code editor, typing on stage, etc.). These are
+     *  processed FIFO with brief pacing — each character matters and must
+     *  be heard in order, matching standard text-input behavior. Other
+     *  kinds (status, notifications, value descriptions) are processed
+     *  most-recent-only since only the latest state is interesting. */
+    const TypeKinds = new Set(['type', 'keyinput']);
+
     /** A function we expose to other components to announce things with this component. */
     export function announce(
         id: string,
@@ -32,37 +40,54 @@
         // Is there a timeout? Wait for it to dequue.
         if (timeout) return;
 
-        // Have we fallen behind? Trim everything by the most recent.
-        if (announcements.length > 3) {
-            const mostRecent = announcements.shift();
-            if (mostRecent) announcements = [mostRecent];
+        // Pick the next announcement. For character-echo kinds we go in
+        // strict FIFO order so the user hears every key in the order they
+        // pressed them. For everything else, we keep only the most recent
+        // — older status/notification updates are irrelevant once a newer
+        // one arrives, and screen readers can't keep up with 30Hz noise
+        // anyway.
+        let next: Announcement | undefined;
+        if (announcements.length > 0 && TypeKinds.has(announcements[0].kind)) {
+            next = announcements.shift();
+        } else {
+            // Have we fallen behind? Trim everything by the most recent.
+            if (announcements.length > 3) {
+                const mostRecent = announcements.shift();
+                if (mostRecent) announcements = [mostRecent];
+            }
+            next = announcements.pop();
+            announcements = [];
         }
-
-        // Grab the message of a different kind from the current message, or the next one if there aren't any.
-        let next = announcements.pop();
-        announcements = [];
 
         if (next) {
             if (
                 current === undefined ||
-                next.text !== current.announcement.text
+                next.text !== current.announcement.text ||
+                TypeKinds.has(next.kind)
             ) {
                 current = { announcement: next, time: Date.now() };
 
-                // Decide when to dequeue the next message proportional to length of text,
-                // assuming a lower 300 words/minute (5 words/second), and about 5 characters per word
-                const wordCount = current.announcement.text.length / 5;
-                const wordsPerSecond = 3;
-                const secondsToRead = wordCount * (1 / wordsPerSecond);
+                // Character echo paces by a small fixed interval so rapid
+                // typing flows smoothly. Other messages pace proportional
+                // to reading time (300 wpm ≈ 5 wps ≈ 5 chars/word).
+                let nextDelay: number;
+                if (TypeKinds.has(next.kind)) {
+                    nextDelay = 50;
+                } else {
+                    const wordCount = current.announcement.text.length / 5;
+                    const wordsPerSecond = 3;
+                    const secondsToRead = wordCount * (1 / wordsPerSecond);
+                    nextDelay = Math.min(2000, secondsToRead * delay);
+                }
 
-                // Dequeue after the amount of reading time it takes, or 2 seconds, whatever is shorter.
+                // Dequeue after the chosen delay.
                 timeout = setTimeout(
                     () => {
-                        // It's been a second. Clear the timeout (so the dequeue does something above), then dequeue to update the announncement.
+                        // Clear the timeout (so the dequeue does something above), then dequeue to update the announcement.
                         timeout = undefined;
                         dequeue();
                     },
-                    Math.min(2000, secondsToRead * delay),
+                    nextDelay,
                 );
             }
         }

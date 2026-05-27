@@ -2,6 +2,7 @@ import type Project from '@db/projects/Project';
 import CycleType from '@nodes/CycleType';
 import type Definition from '@nodes/Definition';
 import type Expression from '@nodes/Expression';
+import type Input from '@nodes/Input';
 import type Node from '@nodes/Node';
 import type PropertyReference from '@nodes/PropertyReference';
 import type Reference from '@nodes/Reference';
@@ -120,5 +121,25 @@ export default class Context {
 
     getStreamType(type: Type): StreamType | undefined {
         return this.streamTypes.get(type);
+    }
+
+    /**
+     * Returns true when `expression`'s computed type is already an
+     * {@link UnknownType}, meaning the root-cause conflict for it lives
+     * elsewhere.
+     *
+     * Conflict producers should consult this before reporting type-
+     * compatibility complaints against `expression` — otherwise the same root
+     * cause gets re-reported by every consumer of the corrupt type, drowning
+     * learners in cascading errors. See issue #1146: `a ? ??` would otherwise
+     * yield UnknownName + UnparsableConflict + ExpectedBooleanCondition, where
+     * the third is purely a consequence of the first.
+     *
+     * Accepts `Input` as well as `Expression` so callers iterating over table
+     * cells / call arguments don't need to unwrap first; `Input.getType`
+     * delegates to its underlying value's type.
+     */
+    isUnknownDownstream(expression: Expression | Input): boolean {
+        return expression.getType(this) instanceof UnknownType;
     }
 }

@@ -1,4 +1,5 @@
-SpokenWords
+🎭
+"SpokenWords"/en"口述词语"/zh-CN"口述詞語"/zh-TW
 === start
 click: Button(ø)
 speech: Speech(reset: click language: 'en-US' limit: 10)

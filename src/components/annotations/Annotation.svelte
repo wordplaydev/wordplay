@@ -27,7 +27,11 @@
     const editors = getEditors();
     let editor = $derived($editors?.get(sourceID));
 
-    function resolveAnnotation(resolution: Resolution, context: Context) {
+    /** Apply a repair: run the mediator, swap the project. */
+    function resolveAnnotation(
+        resolution: Extract<Resolution, { kind: 'repair' }>,
+        context: Context,
+    ) {
         const { newProject } = resolution.mediator(context, $locales);
         Projects.reviseProject(newProject);
     }
@@ -62,10 +66,16 @@
             <Speech character={annotation.node.getCharacter($locales)} below>
                 {#snippet content()}
                     {#each annotation.messages as markup}
+                        {@const repairs = annotation
+                            .resolutions()
+                            .filter(
+                                (r): r is Extract<typeof r, { kind: 'repair' }> =>
+                                    r.kind === 'repair',
+                            )}
                         <aside aria-label={markup.toText()}>
                             <MarkupHTMLView {markup} />
-                            {#each annotation.resolutions as resolution}
-                                <div class="resolution">
+                            {#each repairs as resolution}
+                                <div class="resolution repair">
                                     <Button
                                         background
                                         tip={(l) =>
@@ -75,7 +85,8 @@
                                                 resolution,
                                                 annotation.context,
                                             )}>{CONFIRM_SYMBOL}</Button
-                                    ><div class="description"
+                                    >
+                                    <div class="description"
                                         ><MarkupHTMLView
                                             inline
                                             markup={resolution.description(
@@ -101,6 +112,8 @@
         gap: var(--wordplay-spacing);
         padding-block-start: var(--wordplay-spacing);
         align-items: flex-start;
+        word-wrap: break-word;
+        overflow-wrap: anywhere;
     }
 
     .annotation {
@@ -146,6 +159,11 @@
     .description {
         padding: var(--wordplay-spacing);
         border-radius: var(--wordplay-spacing);
+        /* Wrap long resolution text — literal-union descriptions can otherwise
+           overflow the sidebar's hidden-x edge and get clipped. */
+        word-wrap: break-word;
+        overflow-wrap: anywhere;
+        min-width: 0;
     }
 
     h3 {

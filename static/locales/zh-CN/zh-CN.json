@@ -215,15 +215,18 @@
             "conflict": {
                 "UnknownLanguage": {
                     "name": "未知语言",
-                    "explanation": "我不知道这个语言呢"
+                    "explanation": "我不知道这个语言呢",
+                    "resolution": "$~移除此语言代码"
                 },
                 "MissingLanguage": {
                     "name": "缺少语言",
-                    "explanation": "这里缺少了对语言的描述，你能加上一个吗？"
+                    "explanation": "这里缺少了对语言的描述，你能加上一个吗？",
+                    "resolution": "$~删除空的语言标签"
                 },
                 "DuplicateLanguage": {
                     "name": "$~重复语言",
-                    "explanation": "$~您两次使用了语言“ $code ”。混合语言标签中每种语言只能列出一次。"
+                    "explanation": "$~您两次使用了语言“ $code ”。混合语言标签中每种语言只能列出一次。",
+                    "resolution": "$~删除重复的 * $code * 标签"
                 }
             }
         },
@@ -266,19 +269,24 @@
             "conflict": {
                 "InvalidRow": {
                     "name": "无效行",
-                    "explanation": "行要么所有都是值，要么必须是所有都是 @Bind。"
+                    "explanation": "行要么所有都是值，要么必须是所有都是 @Bind。",
+                    "resolutionKeepPositional": "$~删除已命名的单元格，只保留位置单元格。",
+                    "resolutionUnwrapInputs": "$~从已命名的单元格中删除名称"
                 },
                 "MissingCell": {
                     "name": "缺失列",
-                    "explanation": "我和列 $column 走散啦。"
+                    "explanation": "我和列 $column 走散啦。",
+                    "resolution": "$~添加一个占位符单元格，用于 * $column *"
                 },
                 "UnknownColumn": {
                     "name": "未知的列名",
-                    "explanation": "我不知道有哪一列是这个名字呀。"
+                    "explanation": "我不知道有哪一列是这个名字呀。",
+                    "resolution": "$~重命名为 * $name *"
                 },
                 "ExtraCell": {
                     "name": "额外的列",
-                    "explanation": "根据我的表格类型，我是一个不应该存在的多余列。"
+                    "explanation": "根据我的表格类型，我是一个不应该存在的多余列。",
+                    "resolution": "$~移除多余的单元格"
                 },
                 "UnexpectedColumnBind": {
                     "name": "无联结行",
@@ -309,7 +317,8 @@
             "conflict": {
                 "DuplicateTypeVariable": {
                     "name": "重复类型变量",
-                    "explanation": "我的名字和$duplicate"
+                    "explanation": "我的名字和$duplicate",
+                    "resolution": "$~删除重复的类型变量"
                 }
             },
             "label": {
@@ -384,7 +393,8 @@
             "conflict": {
                 "UnsupportedFontFormat": {
                     "name": "$~不支持的字体格式",
-                    "explanation": "$~我的朋友 * $face * 不知道如何成为$format 。"
+                    "explanation": "$~我的朋友 * $face * 不知道如何成为$format 。",
+                    "resolution": "$~移除格式"
                 }
             }
         },
@@ -402,7 +412,7 @@
             "description": "提到 $name",
             "emotion": "serious",
             "doc": [
-                "我是一个术语 \\$program\\ 或者一个动态输入 \\$1\\的参考资料。",
+                "我是一个术语 \\$program\\ 或者一个动态输入 \\$name\\的参考资料。",
                 "不过这主要是一个内部功能，你应该不需要知道。"
             ]
         },
@@ -438,7 +448,10 @@
             "conflict": {
                 "OrderOfOperations": {
                     "name": "模糊的顺序",
-                    "explanation": "我是按照读取顺序而非数学运算顺序来评估一个值的。你想用 @Block 来指定我的运算顺序吗？"
+                    "explanation": "我是按照读取顺序而非数学运算顺序来评估一个值的。你想用 @Block 来指定我的运算顺序吗？",
+                    "resolutionPEMDAS": "$~按照 PEMDAS 数学顺序：先计算$higher$lower",
+                    "resolutionReading": "$~请按阅读顺序：先评估$lower ，再评估$higher",
+                    "resolutionWrap": "$~添加括号以明确订单。"
                 }
             },
             "label": {
@@ -487,32 +500,48 @@
                 },
                 "DuplicateShare": {
                     "name": "重复共享",
-                    "explanation": "我的名字和 $duplicate 一样。这使得我们分享的是什么变得不清楚。"
+                    "explanation": "我的名字和 $duplicate 一样。这使得我们分享的是什么变得不清楚。",
+                    "resolution": "$~删除此重复共享"
                 },
                 "IncompatibleType": {
                     "name": "不相容类型",
                     "explanation": "我应该是 $expected 的，但现在我是 $given",
-                    "resolution": "$~转换为$expected"
+                    "resolution": "$~转换为$expected",
+                    "resolutionLiteral": "$~使用 ! 将列表、集合或映射标记为字面值，这样它的值就会保持具体而不是泛化—— $expected。",
+                    "resolutionOtherwise": "$~用 ?? 处理缺失值，因为$expected ø",
+                    "resolutionGuard": "$~首先使用类型保护检查它是否为$expected，因为$expected。",
+                    "resolutionDeclaration": "$~显式声明类型，因为$expected。",
+                    "resolutionWrap": "$~将其放入列表、集合或映射中，因为$expected。",
+                    "resolutionStructure": "$~将其包裹在$expected，因为该槽位需要一个$expected。",
+                    "resolutionDefault": "$~请为绑定指定一个初始值，因为$expected。",
+                    "resolutionWiden": "$~允许此绑定使用值的类型，因为$expected，无法容纳实际存储的内容。",
+                    "resolutionReorder": "$~交换输入框，因为它们的类型在另一种顺序下更合适—— $expected。",
+                    "resolutionPlaceholder": "$~暂时用占位符代替，因为$expected——然后从自动完成菜单中选择一个值。"
                 },
                 "MisplacedShare": {
                     "name": "放错位置的共享",
-                    "explanation": "我只能分享在 @Program 等级的事物，没办法分享一切！"
+                    "explanation": "我只能分享在 @Program 等级的事物，没办法分享一切！",
+                    "resolution": "$~移除 *↑* 标记"
                 },
                 "MissingShareLanguages": {
                     "name": "缺少语言",
-                    "explanation": "如果你想分享这个内容，你必须说明它是什么语言的，这样其他人才能知道它们是否能读懂！"
+                    "explanation": "如果你想分享这个内容，你必须说明它是什么语言的，这样其他人才能知道它们是否能读懂！",
+                    "resolution": "$~移除 *↑* 标记"
                 },
                 "RequiredAfterOptional": {
                     "name": "可选后需要输入",
-                    "explanation": "我不能在这里，我前面还有一个可选的 @Bind 操作。"
+                    "explanation": "我不能在这里，我前面还有一个可选的 @Bind 操作。",
+                    "resolution": "$~将必填输入移到可选输入之前"
                 },
                 "UnexpectedEtc": {
                     "name": "输入列表后的意外输入",
-                    "explanation": "只有在 @FunctionDefinition 中我才是可变的长度"
+                    "explanation": "只有在 @FunctionDefinition 中我才是可变的长度",
+                    "resolution": "$~删除 *…*"
                 },
                 "UnusedBind": {
                     "name": "未使用的绑定",
-                    "explanation": "我被命名为 $name 但是还没有人使用我。难道我不被需要吗？"
+                    "explanation": "我被命名为 $name 但是还没有人使用我。难道我不被需要吗？",
+                    "resolution": "$~删除此绑定"
                 }
             },
             "label": {
@@ -548,7 +577,8 @@
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "缺失算式",
-                    "explanation": "我需要至少一个不是 @Bind 的算式，这样我才有值可以返回。"
+                    "explanation": "我需要至少一个不是 @Bind 的算式，这样我才有值可以返回。",
+                    "resolution": "$~添加最终表达式"
                 }
             },
             "label": {
@@ -571,11 +601,13 @@
             "conflict": {
                 "UnknownBorrow": {
                     "name": "未知借用",
-                    "explanation": "我不知道哪个 $source 是叫这个名字的"
+                    "explanation": "我不知道哪个 $source 是叫这个名字的",
+                    "resolution": "$~移除此借用"
                 },
                 "BorrowCycle": {
                     "name": "自引用借用",
-                    "explanation": "$~这取决于 $borrow $source"
+                    "explanation": "$~这取决于 $borrow $source",
+                    "resolution": "$~移除这笔借款以打破循环"
                 }
             },
             "exception": {
@@ -617,13 +649,24 @@
                 "如果我们只能做这种二选一的判断，会不会漏掉一些很重要的背景信息?"
             ],
             "start": "让我们看看 $condition 是不是正确的",
-            "afterthen": "$1[跳过这些代码 | 不要跳过这些代码]",
+            "afterthen": "$name[跳过这些代码 | 不要跳过这些代码]",
             "else": "$~$jumping[跳过代码 | 不跳过代码]",
             "finish": "我想这就是 $value 了吧?",
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "name": "预期布尔条件",
-                    "explanation": "$~我需要一个布尔值来做决定，但我得到的却是 $type。我怎样才能用 $type 来选择是或不是呢?"
+                    "explanation": "$~我需要一个布尔值来做决定，但我得到的却是 $type。我怎样才能用 $type 来选择是或不是呢?",
+                    "resolution": "$~将其转换为$expected ，因为$expected。",
+                    "resolutionLiteral": "$~使用 ! 将列表、集合或映射标记为字面值，这样它的值就会保持具体而不是泛化—— $expected。",
+                    "resolutionOtherwise": "$~用 ?? 处理缺失值，因为$expected ø",
+                    "resolutionGuard": "$~首先使用类型保护检查它是否为$expected，因为$expected。",
+                    "resolutionDeclaration": "$~显式声明类型，因为$expected。",
+                    "resolutionWrap": "$~将其放入列表、集合或映射中，因为$expected。",
+                    "resolutionStructure": "$~将其包裹在$expected，因为该槽位需要一个$expected。",
+                    "resolutionDefault": "$~请为绑定指定一个初始值，因为$expected。",
+                    "resolutionWiden": "$~允许此绑定使用值的类型，因为$expected，无法容纳实际存储的内容。",
+                    "resolutionReorder": "$~交换输入框，因为它们的类型在另一种顺序下更合适—— $expected。",
+                    "resolutionPlaceholder": "$~暂时用占位符代替，因为$expected——然后从自动完成菜单中选择一个值。"
                 }
             },
             "label": {
@@ -646,7 +689,8 @@
             "conflict": {
                 "MisplacedConversion": {
                     "name": "错误的转换",
-                    "explanation": "哇，我不能在这里，只能在@Block里。"
+                    "explanation": "哇，我不能在这里，只能在@Block里。",
+                    "resolution": "$~移除此转换"
                 }
             },
             "label": {
@@ -673,7 +717,8 @@
             "conflict": {
                 "UnknownConversion": {
                     "name": "未知转换",
-                    "explanation": "糟糕，无法将 $expected 转成 $given"
+                    "explanation": "糟糕，无法将 $expected 转成 $given",
+                    "resolution": "$~移除转换"
                 }
             },
             "exception": {
@@ -730,35 +775,53 @@
                 "IncompatibleInput": {
                     "name": "$~不兼容的输入",
                     "explanation": "$~我预期收到$expected ，但实际收到$given",
-                    "resolution": "$~转换为$expected"
+                    "resolution": "$~转换为$expected",
+                    "resolutionLiteral": "$~使用 ! 将列表、集合或映射标记为字面值，这样它的值就会保持具体而不是泛化—— $expected。",
+                    "resolutionOtherwise": "$~用 ?? 处理缺失值，因为$expected ø",
+                    "resolutionGuard": "$~首先使用类型保护检查它是否为$expected，因为$expected。",
+                    "resolutionDeclaration": "$~显式声明类型，因为$expected。",
+                    "resolutionWrap": "$~将其放入列表、集合或映射中，因为$expected。",
+                    "resolutionStructure": "$~将其包裹在$expected，因为该槽位需要一个$expected。",
+                    "resolutionDefault": "$~请为绑定指定一个初始值，因为$expected。",
+                    "resolutionWiden": "$~允许此绑定使用值的类型，因为$expected，无法容纳实际存储的内容。",
+                    "resolutionReorder": "$~交换输入框，因为它们的类型在另一种顺序下更合适—— $expected。",
+                    "resolutionPlaceholder": "$~暂时用占位符代替，因为$expected——然后从自动完成菜单中选择一个值。"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~意外的类型输入",
-                    "explanation": "$~我是一个额外的、意想不到的输入类型。"
+                    "explanation": "$~我是一个额外的、意想不到的输入类型。",
+                    "resolution": "$~移除此输入类型"
                 },
                 "MissingInput": {
                     "name": "$~缺少输入",
-                    "explanation": "$~没有输入 $name $input 的值 :("
+                    "explanation": "$~没有输入 $name $input 的值 :(",
+                    "resolutionAddInput": "$~添加缺失的$input ，并添加其默认值",
+                    "resolutionPlaceholder": "$~将缺失的$input，然后从自动完成菜单中选择一个值。"
                 },
                 "NotInstantiable": {
                     "name": "$~结构不完整",
-                    "explanation": "$~我无法创建 @StructureDefinition，因为它包含未实现的功能。"
+                    "explanation": "$~我无法创建 @StructureDefinition，因为它包含未实现的功能。",
+                    "resolution": "$~搭建缺失功能的框架"
                 },
                 "UnexpectedInput": {
                     "name": "$~意外输入",
-                    "explanation": "$~我是一个意料之外的参与者。"
+                    "explanation": "$~我是一个意料之外的参与者。",
+                    "resolution": "$~移除此输入"
                 },
                 "UnknownInput": {
                     "name": "$~未知输入",
-                    "explanation": "$~这个函数 *$name* 不需要输入我的名字。"
+                    "explanation": "$~这个函数 *$name* 不需要输入我的名字。",
+                    "resolution": "$~将此输入重命名为 * $name *"
                 },
                 "InputListMustBeLast": {
                     "name": "$~额外的输入不是最后的",
-                    "explanation": "$~输入列表必须放在最后。"
+                    "explanation": "$~输入列表必须放在最后。",
+                    "resolution": "$~将列表输入移到末尾。"
                 },
                 "SeparatedEvaluate": {
                     "name": "$~模棱两可的评价",
-                    "explanation": "$~$name 是您要评估的 $structure[$structure|$function] 的名称吗？请尝试删除我后面的空格，这样我就知道这是一个 @Evaluate 而不是一个单独的 @Block。"
+                    "explanation": "$~$name 是您要评估的 $structure[$structure|$function] 的名称吗？请尝试删除我后面的空格，这样我就知道这是一个 @Evaluate 而不是一个单独的 @Block。",
+                    "resolution": "$~关闭 * $name * 及其输入项之间的空格"
                 }
             },
             "exception": {
@@ -802,7 +865,8 @@
             "conflict": {
                 "Placeholder": {
                     "name": "$~占位符",
-                    "explanation": "$~你能帮我填表吗？我只是个占位符。"
+                    "explanation": "$~你能帮我填表吗？我只是个占位符。",
+                    "resolution": "$~替换为 * $candidate *"
                 }
             },
             "exception": {
@@ -839,7 +903,8 @@
             "conflict": {
                 "NoExpression": {
                     "name": "$~缺失表达",
-                    "explanation": "$~我需要一个表达式来进行计算，你能添加一个吗？"
+                    "explanation": "$~我需要一个表达式来进行计算，你能添加一个吗？",
+                    "resolution": "$~添加占位符正文"
                 }
             },
             "label": {
@@ -901,7 +966,9 @@
             "conflict": {
                 "ImpossibleType": {
                     "name": "$~不可能类型",
-                    "explanation": "$~这永远不可能是 $type"
+                    "explanation": "$~这永远不可能是 $type",
+                    "resolutionIsFalse": "$~将此类型检查替换为 *⊥*（答案始终为假）",
+                    "resolutionDropOtherwise": "$~去掉 *??* — 左侧永远不会是 *ø*"
                 }
             },
             "exception": {
@@ -961,7 +1028,8 @@
             "conflict": {
                 "NotAKeyValue": {
                     "name": "$~缺失值",
-                    "explanation": "$~我在一个 @Map 中，所以我需要一个值。"
+                    "explanation": "$~我在一个 @Map 中，所以我需要一个值。",
+                    "resolution": "$~封装成键值对"
                 }
             },
             "label": {
@@ -997,7 +1065,8 @@
             "conflict": {
                 "NotANumber": {
                     "name": "$~不是一个数字",
-                    "explanation": "$~我以为我知道所有的数字，但这个我不知道。"
+                    "explanation": "$~我以为我知道所有的数字，但这个我不知道。",
+                    "resolution": "$~替换为 *0*"
                 }
             }
         },
@@ -1112,7 +1181,8 @@
             "conflict": {
                 "InvalidProperty": {
                     "name": "$~未知财产",
-                    "explanation": "$~我不是结构 $structure 中的名字，所以不能进行精炼。"
+                    "explanation": "$~我不是结构 $structure 中的名字，所以不能进行精炼。",
+                    "resolution": "$~重命名为 * $name *"
                 }
             },
             "label": {
@@ -1151,7 +1221,8 @@
             "conflict": {
                 "ExpectedStream": {
                     "name": "$~预期流量",
-                    "explanation": "$~$condition 没有引用流，所以我永远不会做出反应！"
+                    "explanation": "$~$condition 没有引用流，所以我永远不会做出反应！",
+                    "resolution": "$~放弃反应，只保留初始值"
                 }
             },
             "label": {
@@ -1181,11 +1252,13 @@
                 },
                 "ReferenceCycle": {
                     "name": "$~自我参照价值",
-                    "explanation": "$~嗯，$name 的值取决于它自身，那么我怎么知道应该给它赋予什么值呢？"
+                    "explanation": "$~嗯，$name 的值取决于它自身，那么我怎么知道应该给它赋予什么值呢？",
+                    "resolution": "$~将 * $name * 替换为占位符以打破循环"
                 },
                 "UnexpectedTypeVariable": {
                     "name": "$~意外类型变量",
-                    "explanation": "$~我不知道该如何处理这些类型的输入。"
+                    "explanation": "$~我不知道该如何处理这些类型的输入。",
+                    "resolution": "$~从函数中移除此类型变量。"
                 }
             },
             "exception": {
@@ -1210,7 +1283,8 @@
             "conflict": {
                 "ExpectedSelectName": {
                     "name": "$~缺少列名",
-                    "explanation": "$~我至少需要一个列名。"
+                    "explanation": "$~我至少需要一个列名。",
+                    "resolution": "$~删除此单元格"
                 }
             }
         },
@@ -1238,7 +1312,18 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~不兼容的密钥",
-                    "explanation": "$~我预期会收到一个类型为 $expected 的密钥。"
+                    "explanation": "$~我预期会收到一个类型为 $expected 的密钥。",
+                    "resolution": "$~将其转换为$expected ，因为$expected。",
+                    "resolutionLiteral": "$~使用 ! 将列表、集合或映射标记为字面值，这样它的值就会保持具体而不是泛化—— $expected。",
+                    "resolutionOtherwise": "$~用 ?? 处理缺失值，因为$expected ø",
+                    "resolutionGuard": "$~首先使用类型保护检查它是否为$expected，因为$expected。",
+                    "resolutionDeclaration": "$~显式声明类型，因为$expected。",
+                    "resolutionWrap": "$~将其放入列表、集合或映射中，因为$expected。",
+                    "resolutionStructure": "$~将其包裹在$expected，因为该槽位需要一个$expected。",
+                    "resolutionDefault": "$~请为绑定指定一个初始值，因为$expected。",
+                    "resolutionWiden": "$~允许此绑定使用值的类型，因为$expected，无法容纳实际存储的内容。",
+                    "resolutionReorder": "$~交换输入框，因为它们的类型在另一种顺序下更合适—— $expected。",
+                    "resolutionPlaceholder": "$~暂时用占位符代替，因为$expected——然后从自动完成菜单中选择一个值。"
                 }
             }
         },
@@ -1264,33 +1349,39 @@
             "description": "结构 $name",
             "emotion": "kind",
             "doc": [
-                "你好，你好吗?我吗?我很好。我喜欢定义存储值和功能的结构，所以只要我能整天这样做，我就很高兴。",
-                "我这样工作！",
-                "\\•披萨( \\ 原料•['']\n大小•#in\n) (\n\tƒ 成本() 大小 × 10美元/in\n)\n\n披萨(['意大利腊肠' '胡椒'] 12in).成本()\\",
-                "明白是怎么回事了吧?我定义了\\Pizza\\，它有两个输入，\\ingredients\\ (@Text 列表)和\\size\\(以英寸为单位的数字)。",
-                "在内部，@FunctionDefinition 创建了一个计算披萨价格的函数，假设每英寸$10。",
-                "我不需要@FunctionDefinition。我可以只是输入。",
-                "\\•披萨(\n原料•['']\n大小•#in\n)\\",
-                "我也可以把@Bind 放在里面，这样我们就可以提前评估成本。",
-                "\\•披萨(\n原料•['']\n大小•#in\n) (\n\t成本: 大小 × 10美金/in\n)\n\n披萨(['意大利腊肠' '胡椒'] 12in).cost\\"
+                "$~你好，你好吗？我？我很好。我喜欢定义存储值和函数的结构，所以只要我能整天做这件事，我就很开心。",
+                "$~我的工作方式是这样的：",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tƒ cost() size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost()\\",
+                "$~明白了吗？我定义了\\Pizza\\ ，它有两个输入， \\ingredients\\ （ @Text）和\\size\\ （英寸数）。",
+                "$~在内部， @FunctionDefinition，用于评估披萨的成本，假设每英寸 10 美元。",
+                "$~我不需要使用@FunctionDefinition，我可以直接作为输入。",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n)\\",
+                "$~我也可以在里面使用@Bind ，这样我们就可以提前评估成本。",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tcost: size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost\\",
+                "$~使用 ↑ 将函数或值标记为结构体本身，而不是实例。这样，您就可以使用结构体的名称来访问它，而无需创建新的结构体。",
+                "$~\\•Math() (\n\t↑ pi: 3.14159\n\t↑ ƒ square(n•#) n · n\n)\n\nMath.pi\nMath.square(5)\\"
             ],
             "start": "让我们来定义这个可爱的结构",
             "conflict": {
                 "DisallowedInputs": {
                     "name": "$~不允许输入",
-                    "explanation": "$~我无法接收输入，因为我的一个或多个接口函数尚未实现。"
+                    "explanation": "$~我无法接收输入，因为我的一个或多个接口函数尚未实现。",
+                    "resolution": "$~移除输入"
                 },
                 "IncompleteImplementation": {
                     "name": "$~结构不完整",
-                    "explanation": "$~我的函数要么全部实现，要么一个都不实现。绝不允许有任何混乱的混合！"
+                    "explanation": "$~我的函数要么全部实现，要么一个都不实现。绝不允许有任何混乱的混合！",
+                    "resolution": "$~去掉输入，使其成为一个接口"
                 },
                 "NotAnInterface": {
                     "name": "$~不是一个接口",
-                    "explanation": "$~我不是接口；结构体只能实现接口，不能实现其他结构体。"
+                    "explanation": "$~我不是接口；结构体只能实现接口，不能实现其他结构体。",
+                    "resolution": "$~从接口列表中删除此项"
                 },
                 "UnimplementedInterface": {
                     "name": "$~未实现",
-                    "explanation": "$~我实现了$interface ，但还没有实现$function"
+                    "explanation": "$~我实现了$interface ，但还没有实现$function",
+                    "resolution": "$~在此结构上搭建缺失的 * $function * 框架"
                 }
             },
             "label": {
@@ -1354,7 +1445,8 @@
                 "reminder": "注意：你可以撤消此操作并在共享对话框中查看你标记为非敏感的其他内容。",
                 "character": {
                     "name": "$~可能的自定义角色",
-                    "explanation": "$~这看起来像是一个角色名称。要显示角色名称，请使用 @FormattedLiteral 而不是 @TextLiteral。"
+                    "explanation": "$~这看起来像是一个角色名称。要显示角色名称，请使用 @FormattedLiteral 而不是 @TextLiteral。",
+                    "resolutionStrip": "$~从文本中删除特殊字符"
                 }
             },
             "label": {
@@ -1402,7 +1494,8 @@
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~放错了这个参考",
-                    "explanation": "$~我只能进入结构、转化或反应中。"
+                    "explanation": "$~我只能进入结构、转化或反应中。",
+                    "resolution": "$~替换为占位符"
                 }
             }
         },
@@ -1451,7 +1544,8 @@
                 },
                 "UnclosedDelimiter": {
                     "name": "$~未闭合的分隔符",
-                    "explanation": "$~我预计在$expected$unclosed"
+                    "explanation": "$~我预计在$expected$unclosed",
+                    "resolution": "$~添加缺失的 * $expected *"
                 }
             },
             "exception": {
@@ -1476,11 +1570,23 @@
             "conflict": {
                 "ExpectedColumnBind": {
                     "name": "$~缺失列值",
-                    "explanation": "$~我需要每一列都有一个值。"
+                    "explanation": "$~我需要每一列都有一个值。",
+                    "resolution": "$~将此单元格包装成命名列"
                 },
                 "IncompatibleCellType": {
                     "name": "$~不相容的细胞类型",
-                    "explanation": "$~我应该输入 $expected $given"
+                    "explanation": "$~我应该输入 $expected $given",
+                    "resolution": "$~将其转换为$expected ，因为$expected。",
+                    "resolutionLiteral": "$~使用 ! 将列表、集合或映射标记为字面值，这样它的值就会保持具体而不是泛化—— $expected。",
+                    "resolutionOtherwise": "$~用 ?? 处理缺失值，因为$expected ø",
+                    "resolutionGuard": "$~首先使用类型保护检查它是否为$expected，因为$expected。",
+                    "resolutionDeclaration": "$~显式声明类型，因为$expected。",
+                    "resolutionWrap": "$~将其放入列表、集合或映射中，因为$expected。",
+                    "resolutionStructure": "$~将其包裹在$expected，因为该槽位需要一个$expected。",
+                    "resolutionDefault": "$~请为绑定指定一个初始值，因为$expected。",
+                    "resolutionWiden": "$~允许此绑定使用值的类型，因为$expected，无法容纳实际存储的内容。",
+                    "resolutionReorder": "$~交换输入框，因为它们的类型在另一种顺序下更合适—— $expected。",
+                    "resolutionPlaceholder": "$~暂时用占位符代替，因为$expected——然后从自动完成菜单中选择一个值。"
                 }
             }
         },
@@ -1572,7 +1678,8 @@
             "conflict": {
                 "UnknownTypeName": {
                     "name": "$~未知类型名称",
-                    "explanation": "$~类型名称只能引用结构体或类型变量，但这里指的是类型 $type"
+                    "explanation": "$~类型名称只能引用结构体或类型变量，但这里指的是类型 $type",
+                    "resolution": "$~替换为类型占位符"
                 }
             }
         },
@@ -1636,7 +1743,8 @@
             "conflict": {
                 "ExpectedColumnType": {
                     "name": "$~缺少列类型",
-                    "explanation": "$~我需要一种列类型"
+                    "explanation": "$~我需要一种列类型",
+                    "resolution": "$~添加类型占位符"
                 }
             }
         },
@@ -1662,7 +1770,8 @@
             "doc": [
                 "我应该代表谁，A 还是 B 还是其他什么？我永远无法决定！",
                 "\\犹豫•''|#|{ø}: \"我不知道！\"\\"
-            ]
+            ],
+            "elidedSuffix": "$~或$omitted"
         },
         "Unit": {
             "name": "单位",
@@ -3249,6 +3358,59 @@
             "down": {
                 "names": "下",
                 "doc": "如果@None，则按下键生成输入。如果\\⊥\\，那么只提供向下的输入，如果\\⊥\\，那么只提供释放的输入。"
+            },
+            "keys": {
+                "Shift": ["$~转移"],
+                "Control": ["$~控制", "$~Ctrl"],
+                "Alt": ["$~另类", "$~选项"],
+                "Meta": ["$~元", "$~命令", "$~视窗"],
+                "AltGraph": ["$~AltGraph"],
+                "CapsLock": ["$~大写锁定", "$~大写锁定"],
+                "NumLock": ["$~数字锁定键", "$~数字锁定键"],
+                "ScrollLock": ["$~ScrollLock", "$~滚动锁定"],
+                "Enter": ["$~进入", "$~返回"],
+                "Tab": ["$~标签页"],
+                " ": ["$~空间", "$~空格键", "$~"],
+                "ArrowUp": ["$~向上箭头", "$~向上"],
+                "ArrowDown": ["$~向下箭头", "$~向下"],
+                "ArrowLeft": ["$~左箭头", "$~左边"],
+                "ArrowRight": ["$~右箭头", "$~正确的"],
+                "Home": ["$~家"],
+                "End": ["$~结尾"],
+                "PageUp": ["$~上一页", "$~上一页"],
+                "PageDown": ["$~向下翻页", "$~向下翻页"],
+                "Backspace": ["$~退格键"],
+                "Delete": ["$~删除", "$~德尔"],
+                "Insert": ["$~插入", "$~保险"],
+                "Clear": ["$~清除"],
+                "Cut": ["$~切"],
+                "Copy": ["$~复制"],
+                "Paste": ["$~粘贴"],
+                "Undo": ["$~撤销"],
+                "Redo": ["$~重做"],
+                "Escape": ["$~逃脱", "$~Esc键"],
+                "Pause": ["$~暂停"],
+                "ContextMenu": ["$~上下文菜单", "$~菜单"],
+                "Help": ["$~帮助"],
+                "Convert": ["$~转变"],
+                "NonConvert": ["$~非转换"],
+                "KanaMode": ["$~KanaMode"],
+                "HangulMode": ["$~韩语模式"],
+                "Hiragana": ["$~平假名"],
+                "Katakana": ["$~片假名"],
+                "Romaji": ["$~罗马字"],
+                "F1": ["$~F1"],
+                "F2": ["$~F2"],
+                "F3": ["$~F3"],
+                "F4": ["$~F4"],
+                "F5": ["$~F5"],
+                "F6": ["$~F6"],
+                "F7": ["$~F7"],
+                "F8": ["$~F8"],
+                "F9": ["$~F9"],
+                "F10": ["$~F10"],
+                "F11": ["$~F11"],
+                "F12": ["$~F12"]
             }
         },
         "Time": {
@@ -3536,12 +3698,12 @@
         "Hand": {
             "doc": [
                 "$~/扭来扭去/",
-                "$~@FunctionDefinition 在这里！让我来给你介绍一下 @Hand。",
-                "$~@Hand 会监控你的摄像头，寻找你的手，并告诉你手的位置、伸出的手指以及手掌或手背朝向摄像头。举起你的手，挥动它，数数你的手指——@Hand 会跟随你的动作。",
-                "$~@Hand 的底层使用了机器学习模型。首次在程序中使用它时，模型需要几秒钟时间下载，加载期间舞台右上角会出现一个旋转的小手图标。之后，它会被缓存并立即启动。",
-                "$~每个帧 @Hand 返回一个结构，其中包含 place（手的位置）、open（如果手张开则为 true）、fingers（伸出的手指数量）、拇指、食指、中指、无名指和小指的布尔值以及 palm（如果手掌朝向摄像机则为 true）等字段。",
+                "$~@FunctionDefinition！让我来告诉你关于@Hand。",
+                "$~@Hand会监控你的摄像头，寻找你的手，并告诉你手的位置、伸出的手指以及手掌或手背朝向摄像头。举起你的手，挥动它，数数你的手指—— @Hand。",
+                "$~@Hand。首次在程序中使用它时，模型需要几秒钟时间下载，加载期间舞台右上角会出现一个旋转的小手图标。之后，它会被缓存并立即启动。",
+                "$~每一帧， @Hand@Gesture — 在那里查看完整的输入列表及其含义。",
                 "$~试试这个——无论你的手放在哪里，它都会显示一个与你的手部姿势相匹配的表情符号：",
-                "$~\\hand: Hand()\n\nPhrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
+                "$~\\hand: Hand()\nPhrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
             ],
             "names": ["$~🖐️", "$~手"],
             "frequency": {
@@ -3654,7 +3816,7 @@
                 "doc": "与 @Phrase/style 相同！",
                 "names": "风格"
             },
-            "defaultDescription": "$~$name[$name|] $layout $pose"
+            "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
         },
         "Phrase": {
             "doc": [
@@ -3769,7 +3931,7 @@
                 "doc": "移动到舞台上不同位置时使用的动画风格。",
                 "names": "风格"
             },
-            "defaultDescription": "$~$size[$size 韵律 |]短语 $text $name[命名 $name|] $face[$face|] $animation"
+            "defaultDescription": "$~$size [ $size meter |]phrase $text $name [named $name |] $face [ $face |] $animation $color [ $color |]"
         },
         "Arrangement": {
             "doc": "我是Verse中各种排列方式的灵感, 包括@Row、@Stack、@Grid 和@Free。我与@Group 密切合作，",
@@ -4024,20 +4186,24 @@
         },
         "Color": {
             "doc": [
-                "我是一种可见的颜色，由三个维度构成。",
-                "一下是一些色轮上常见的颜色，用中等亮度和高色度显示。",
-                "\\Color(50% 100 0°)\\",
-                "\\Color(50% 100 30°)\\",
-                "\\Color(50% 100 60°)\\",
-                "\\Color(50% 100 90°)\\",
-                "\\Color(50% 100 120°)\\",
-                "\\Color(50% 100 150°)\\",
-                "\\Color(50% 100 180°)\\",
-                "\\Color(50% 100 210°)\\",
-                "\\Color(50% 100 240°)\\",
-                "\\Color(50% 100 270°)\\",
-                "\\Color(50% 100 300°)\\",
-                "\\Color(50% 100 330°)\\"
+                "$~我是一种可见的颜色，由三个基本维度构成。",
+                "$~以下是一些色轮上常见的颜色，亮度适中，饱和度较高：",
+                "$~\\Color(50% 100 0°)\\",
+                "$~\\Color(50% 100 30°)\\",
+                "$~\\Color(50% 100 60°)\\",
+                "$~\\Color(50% 100 90°)\\",
+                "$~\\Color(50% 100 120°)\\",
+                "$~\\Color(50% 100 150°)\\",
+                "$~\\Color(50% 100 180°)\\",
+                "$~\\Color(50% 100 210°)\\",
+                "$~\\Color(50% 100 240°)\\",
+                "$~\\Color(50% 100 270°)\\",
+                "$~\\Color(50% 100 300°)\\",
+                "$~\\Color(50% 100 330°)\\",
+                "$~对于最常用的十一种颜色名称，你不需要从头开始创建我。我的名字有缩写：",
+                "$~\\Color.red\\",
+                "$~\\Color.blue\\",
+                "$~这些简写形式在你的语言中也适用，所以说法语的人可以写\\couleur.rouge\\ ，说日语的人可以写\\色.赤\\ 。简写形式包括：红色、橙色、黄色、绿色、蓝色、紫色、棕色、粉色、黑色、白色和灰色。"
             ],
             "names": ["🌈", "颜色"],
             "lightness": {
@@ -4051,6 +4217,58 @@
             "hue": {
                 "doc": "我应该是色轮上的什么颜色，从品红色 \\0\\，红色 \\30\\，绿色 \\120\\，到蓝色 \\270\\。",
                 "names": ["色调", "h"]
+            },
+            "colors": {
+                "black": {
+                    "doc": "$~基本颜色为黑色。",
+                    "names": ["$~黑色的"]
+                },
+                "white": {
+                    "doc": "$~基本颜色为白色。",
+                    "names": ["$~白色的"]
+                },
+                "gray": {
+                    "doc": "$~基本颜色为灰色。",
+                    "names": ["$~灰色的"]
+                },
+                "red": {
+                    "doc": "$~基本颜色是红色。",
+                    "names": ["$~红色的"]
+                },
+                "orange": {
+                    "doc": "$~基本颜色是橙色。",
+                    "names": ["$~橙子"]
+                },
+                "yellow": {
+                    "doc": "$~基本颜色是黄色。",
+                    "names": ["$~黄色的"]
+                },
+                "green": {
+                    "doc": "$~绿色是最基本的颜色。",
+                    "names": ["$~绿色的"]
+                },
+                "blue": {
+                    "doc": "$~基本颜色是蓝色。",
+                    "names": ["$~蓝色的"]
+                },
+                "purple": {
+                    "doc": "$~紫色是基本颜色。",
+                    "names": ["$~紫色的"]
+                },
+                "brown": {
+                    "doc": "$~基本颜色为棕色。",
+                    "names": ["$~棕色的"]
+                },
+                "pink": {
+                    "doc": "$~基本颜色是粉色。",
+                    "names": ["$~粉色的"]
+                }
+            },
+            "description": {
+                "modified": "$~$modifier $color",
+                "mix": "$~$first - $second",
+                "light": "$~光",
+                "dark": "$~黑暗的"
             }
         },
         "Sequence": {
@@ -4273,7 +4491,7 @@
                 "doc": "应用于其位置在@Motion 中的输出的重力。",
                 "names": "重力"
             },
-            "defaultDescription": "$~阶段$name [ $name |] 共$count$frame [帧为$frame |] $pose"
+            "defaultDescription": "$~阶段$name [ $name |] 共$count$frame [帧$frame |] $pose $color [ $color |]"
         },
         "Easing": {
             "straight": "直线",
@@ -4368,7 +4586,7 @@
             "defaultDescription": "$~说 $text"
         },
         "Gesture": {
-            "doc": "$~我是摄像头检测到的手势。我的字段会告诉你手在舞台上的位置、伸出的手指以及手掌或手背朝向摄像头。@Hand 返回我的一个值。",
+            "doc": "$~我是摄像头检测到的手部姿势快照，由@Hand。我的位置信息告诉你手在舞台上的位置，我的手指信息告诉你伸出了多少根手指，当手张开（伸出三根或以上手指）时，我的“张开”状态为真，我的拇指、食指、中指、无名指和小指分别表示伸出的具体手指。当手掌朝向摄像头时，我的“掌心”状态为真，当手背朝向摄像头时，我的“掌心”状态为假。",
             "names": ["$~✋", "$~手势"],
             "place": {
                 "doc": "$~舞台上手的位置。",
@@ -4507,7 +4725,8 @@
             "field": {
                 "name": {
                     "description": "编辑项目名称",
-                    "placeholder": "名称"
+                    "placeholder": "名称",
+                    "invalid": "$~翻译不完整——请检查您的引号和语言标签，例如“hi”/en“hola”/es。"
                 }
             },
             "help": "显示键盘快捷键",
@@ -4518,7 +4737,14 @@
                 "projectContainedPII": "为了保护你的隐私，包含可能个人身份信息的项目未在线保存。请检查该项目以查看该信息是否具有身份识别性。",
                 "projectsNotLoadingOnline": "无法加载在线项目。",
                 "projectNotSavedOnline": "无法在线保存项目。",
-                "settingsUnsaved": "无法在线保存设置。"
+                "settingsUnsaved": "无法在线保存设置。",
+                "failureReason": {
+                    "indexedDBWriteFailed": "$~您的浏览器无法将这些项目保存到此设备上。",
+                    "indexedDBUnsupported": "$~您的浏览器不允许 Wordplay 在此设备上保存项目。",
+                    "firestoreBatchFailed": "$~我们无法将这些项目上传到云端。它们仍然安全地保存在这台设备上。",
+                    "projectContainsPII": "$~这些项目看起来包含个人信息，所以我们没有将它们保存到网上。请打开每个项目，查看哪些内容可能涉及个人信息。"
+                },
+                "failuresHeader": "$~$count："
             },
             "dialog": {
                 "unsaved": "未保存",
@@ -4573,8 +4799,8 @@
                     "explanation": "删除该图库不会删除其项目。图库将被永久删除。"
                 },
                 "classes": {
-                    "header": "$~课程",
-                    "explanation": "$~与此画廊相关的类别。"
+                    "header": "课程",
+                    "explanation": "与此画廊相关的课程。"
                 }
             },
             "confirm": {
@@ -4611,7 +4837,6 @@
                 "$~• 浏览<galleries@://galleries>寻找灵感。",
                 "$~如果你遇到困难，<learn more@://learn> 。"
             ],
-            "overwritten": "收到了更新版本！",
             "confirm": {
                 "delete": {
                     "description": "删除此$source",
@@ -4908,7 +5133,7 @@
                     "stories": "$~讲故事",
                     "motion": "$~运用物理",
                     "video": "$~使用相机",
-                    "gallery": "$~由您的 Wordplay 同行导演创作"
+                    "gallery": "Wordplay 同行创作者制作"
                 },
                 "related": "$~这不是您要找的吗？",
                 "howToGalleryButton": {
@@ -5068,12 +5293,20 @@
                     "copy": {
                         "header": "$~复制并粘贴",
                         "explanation": "$~将此项目作为文本复制到剪贴板并在其他地方共享。"
+                    },
+                    "preview": {
+                        "header": "$~预览",
+                        "explanation": "$~这是用于在列表和图库中代表您项目的小图标。系统会根据您项目显示的内容自动选择一个图标；您也可以自定义一个字符或表情符号。"
                     }
                 },
                 "field": {
                     "emailOrUsername": {
                         "placeholder": "電子郵件或使用者名稱",
                         "description": "你想要授予編輯權限的人員的電子郵件或使用者名"
+                    },
+                    "preview": {
+                        "placeholder": "$~预览字形",
+                        "description": "$~用作此项目预览字形的单个字符或表情符号"
                     }
                 },
                 "mode": {
@@ -5084,12 +5317,21 @@
                             "$~只有您和您的合作者才能看到此项目",
                             "$~任何人都可以看到这个项目"
                         ]
+                    },
+                    "preview": {
+                        "label": "$~预览模式",
+                        "labels": ["$~汽车", "$~风俗"],
+                        "tips": [
+                            "$~让项目根据其显示的内容自行选择预览字形",
+                            "$~固定你选择的字形"
+                        ]
                     }
                 },
                 "error": {
                     "unknown": "我们不知道这封邮件的创建者是谁。",
                     "anonymous": "你必須登入才能共享。",
-                    "self": "$~您无法添加自己。"
+                    "self": "$~您无法添加自己。",
+                    "invalidPreview": "$~请选择一个字符或表情符号。"
                 },
                 "button": {
                     "submit": "通过此电子邮件地址分享项目",
@@ -5463,7 +5705,7 @@
                 },
                 "search": {
                     "placeholder": "$~搜索",
-                    "noResults": "$~未找到结果"
+                    "noResults": "未找到结果。"
                 }
             },
             "guide": {
@@ -5504,13 +5746,13 @@
                     "shared": "$~共享",
                     "archived": "$~已归档",
                     "howtoviewonly": {
-                        "header": "$~操作指南",
+                        "header": "操作指南",
                         "explanation": "$~您可以查看这些图库中的操作指南并与之互动，但除非图库或项目是公开的，否则您无法查看它们的项目。"
                     }
                 },
                 "search": {
                     "description": "$~搜索项目和源文件",
-                    "noResults": "$~未找到结果。"
+                    "noResults": "未找到结果。"
                 }
             },
             "galleries": {
@@ -5518,34 +5760,34 @@
                 "prompt": "这些是其他人创作的表演作品。体验它们，学习它们，或者将它们改编成你自己的作品陈述。",
                 "button": {
                     "more": {
-                        "label": "$~更多的...",
-                        "tip": "$~加载更多画廊"
+                        "label": "更多…",
+                        "tip": "加载更多画廊"
                     },
-                    "newgallery": "$~新画廊"
+                    "newgallery": "新建画廊"
                 },
                 "section": {
                     "own": {
-                        "header": "$~此致",
+                        "header": "你的",
                         "explanation": [
-                            "$~向受邀参加的画廊投稿，或者策划自己的特定主题画廊，并邀请其他人参加。",
-                            "$~策展人负责使用<gallery moderation dashboard@://galleries/moderation>来审核画廊中的内容。"
+                            "向你受邀加入的画廊投稿，或创建一个有特定主题的画廊并邀请他人加入。",
+                            "/策展人负责使用<gallery moderation dashboard@://galleries/moderation>审核画廊中的内容。/"
                         ]
                     },
                     "examples": {
-                        "header": "$~示例",
-                        "explanation": "$~这些是由 Wordplay 开发人员精心挑选的图库。它们是学习和获得灵感的良好起点。"
+                        "header": "示例",
+                        "explanation": "这些是 Wordplay 开发人员精选的画廊。它们是学习和寻找灵感的好起点。"
                     },
                     "public": {
-                        "header": "$~民众",
-                        "explanation": "$~这些是文字游戏创作者们公开的作品集。看看其他人创作了什么，从中汲取灵感吧！"
+                        "header": "公开",
+                        "explanation": "这些是 Wordplay 创作者公开分享的画廊。看看其他人做了什么，从中获取灵感吧！"
                     }
                 },
                 "error": {
-                    "nogalleryedits": "$~您必须<登录@://login>才能创建和更改图库。"
+                    "nogalleryedits": "你必须<登录@://login>才能创建和修改画廊。"
                 },
                 "search": {
-                    "description": "$~搜索示例图库项目",
-                    "noResults": "$~未找到结果。"
+                    "description": "搜索示例画廊项目",
+                    "noResults": "未找到结果。"
                 }
             },
             "about": {
@@ -5785,10 +6027,10 @@
                 "subheader": {
                     "teachers": "$~教师",
                     "students": "$~学生",
-                    "galleries": "$~画廊"
+                    "galleries": "画廊"
                 },
                 "prompt": {
-                    "gallery": "$~为您的班级创建一个画廊，以组织作业或项目。项目中的所有教师都将成为画廊策展人，所有学生都将成为画廊创建者。",
+                    "gallery": "为你的班级创建一个画廊，用来组织作业或项目。项目中的所有教师都是画廊策展人，所有学生都是画廊创作者。",
                     "delete": "$~删除此类课程将永久删除有关该课程的信息，但会删除其项目、图库或学生帐户。"
                 },
                 "field": {
@@ -5807,7 +6049,7 @@
                 },
                 "error": {
                     "notfound": "$~我们找不到此类，或者您没有查看它的权限。",
-                    "gallery": "$~我们无法为此类创建画廊。"
+                    "gallery": "我们无法为此班级创建画廊。"
                 }
             },
             "characters": {
@@ -6183,7 +6425,7 @@
                     "input": "$~输入",
                     "output": "$~输出",
                     "ui": "$~用户界面",
-                    "gallery": "$~画廊",
+                    "gallery": "画廊",
                     "moderation": "$~适度"
                 },
                 "singletonWordsWarning": "$~你草稿中有些词在整个文本中只出现过一次。你确定它们的拼写正确，并且与其他文本保持一致吗？",
@@ -6305,10 +6547,10 @@
         },
         "howto": {
             "galleryView": {
-                "header": "$~操作指南",
-                "subheader": "$~$total how-tos，$new new",
-                "subheaderEmpty": "$~创造第一个！",
-                "prompt": "$~“使用指南”是对如何使用 Wordplay 实现特定功能的简短解释和示例代码。当你掌握了想要分享的技巧后，请为本图库中的其他创作者编写一份指南，以便它们也能学习！"
+                "header": "操作指南",
+                "subheader": "$total 个操作指南，$new 个新的",
+                "subheaderEmpty": "创建第一个吧！",
+                "prompt": "操作指南是用 Wordplay 实现某个功能的简短说明和示例代码。当你学会想分享的内容后，为本画廊的其他创作者写一份指南，让他们也能学会。"
             },
             "headerTooltip": "$~返回图库",
             "drafts": {
@@ -6515,27 +6757,27 @@
             }
         },
         "gallerymoderation": {
-            "header": "$~图库审核控制面板",
-            "description": "$~您管理的图库中出现的以下消息已被用户举报，需要进行审核。",
+            "header": "画廊审核面板",
+            "description": "你管理的画廊中，以下消息已被用户举报，需要你审核。",
             "labels": {
-                "message": "$~信息",
-                "reporter": "$~记者",
-                "action": "$~版主操作"
+                "message": "消息",
+                "reporter": "举报人",
+                "action": "版主操作"
             },
             "view": {
-                "label": "$~查看聊天记录",
-                "tip": "$~在聊天中查看消息"
+                "label": "查看聊天",
+                "tip": "在聊天中查看消息"
             },
             "remove": {
-                "label": "$~消除",
-                "tip": "$~此消息违反了相关准则。"
+                "label": "删除",
+                "tip": "此消息违反了准则"
             },
             "keep": {
-                "label": "$~保持",
-                "tip": "$~此消息不违反准则"
+                "label": "保留",
+                "tip": "此消息没有违反准则"
             },
-            "empty": "$~所有消息均无需审核。",
-            "error": "$~您必须登录才能管理图库"
+            "empty": "没有需要审核的消息",
+            "error": "你必须登录才能管理画廊"
         },
         "emoji": {
             "noCharacters": "$~创建自定义角色",
@@ -6585,7 +6827,8 @@
             "skinTone": "$~肤色",
             "script": "$~脚本",
             "scriptLabel": "$~按脚本筛选",
-            "pickFilter": "$~选择类别或脚本"
+            "pickFilter": "$~选择类别或脚本",
+            "moreLanguages": "$~以及$count"
         },
         "localize": {
             "header": "$~本地化",
@@ -6649,6 +6892,12 @@
             "offline": "$~您目前处于离线状态。部分功能需要联网后才能使用。",
             "unreachable": "$~我们无法连接到 Wordplay 数据库。连接恢复后，部分功能将无法使用。",
             "label": "$~连接状态"
+        },
+        "presence": {
+            "peersLabel": "$~参与本项目编辑的合作者",
+            "joined": "$~加入费用为$name 。",
+            "left": "$~还剩$name 。",
+            "waitingForSlot": "$~正在等待剪辑名额——目前已有四位合作者在剪辑。当其中一位离开后，您也可以进行剪辑。"
         }
     },
     "moderation": {
@@ -6713,8 +6962,8 @@
             "description": "简单的实用工具和应用程序。"
         },
         "stories": {
-            "name": "$~故事",
-            "description": "$~互动故事和叙述。"
+            "name": "故事",
+            "description": "互动故事和叙事。"
         }
     },
     "system": {

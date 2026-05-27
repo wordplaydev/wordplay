@@ -1,4 +1,9 @@
 import { Purpose } from '@concepts/Purpose';
+import {
+    MachineTranslated,
+    Revised,
+    Unwritten,
+} from '@locale/Annotations';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { BasisTypeName } from '@basis/BasisConstants';
@@ -12,6 +17,17 @@ import type { Grammar } from '@nodes/Node';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import Type from '@nodes/Type';
+
+/** Strip locale annotation markers without trimming surrounding whitespace —
+ *  used for compositional locale strings (e.g. the UnknownType connector)
+ *  whose author-provided leading/trailing spaces are part of the rendered
+ *  layout. */
+function stripAnnotations(text: string): string {
+    return text
+        .replaceAll(Unwritten, '')
+        .replaceAll(Revised, '')
+        .replaceAll(MachineTranslated, '');
+}
 
 export default abstract class UnknownType<
     ExpressionType extends Node,
@@ -82,8 +98,14 @@ export default abstract class UnknownType<
             parts = [
                 ...parts,
                 new Token(
-                    locales.getUnannotatedText(
-                        (l) => l.node.UnknownType.connector,
+                    // Read the connector raw and strip just annotation markers;
+                    // `getUnannotatedText` would also trim, eating the trailing
+                    // space that separates `", because "` from the reason that
+                    // follows.
+                    stripAnnotations(
+                        locales.getWithAnnotations(
+                            (l) => l.node.UnknownType.connector,
+                        ),
                     ),
                     Sym.Words,
                 ),

@@ -1,4 +1,5 @@
-Headlines
+l
+"Headlines"/en"头条新闻"/zh-CN"頭條新聞"/zh-TW
 === start/en
 headlines: Webpage('https://www.nytimes.com' '.indicate-hover')
 headlines•# ? 

@@ -216,8 +216,12 @@ export default class Webpage extends StreamValue<
             DomainCounts[domain] = counts;
 
             // If local storage exists, save it.
-            if (typeof localStorage !== 'undefined')
-                localStorage.setItem(
+            if (
+                typeof window !== 'undefined' &&
+                typeof window.localStorage !== 'undefined' &&
+                typeof window.localStorage.setItem === 'function'
+            )
+                window.localStorage.setItem(
                     'domainRequests',
                     JSON.stringify(DomainCounts),
                 );
@@ -391,8 +395,10 @@ type DomainData = {
  * Data by domain to help with rate limiting.
  * */
 const DomainCounts: Record<string, DomainData> =
-    typeof localStorage !== 'undefined'
-        ? JSON.parse(localStorage.getItem('domainRequests') ?? '{}')
+    typeof window !== 'undefined' &&
+    typeof window.localStorage !== 'undefined' &&
+    typeof window.localStorage.getItem === 'function'
+        ? JSON.parse(window.localStorage.getItem('domainRequests') ?? '{}')
         : {};
 
 /** A function that gets a node's text nodes, except for style and script tags */

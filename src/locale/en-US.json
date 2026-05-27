@@ -215,15 +215,18 @@
             "conflict": {
                 "UnknownLanguage": {
                     "name": "unknown language",
-                    "explanation": "I don't know this language"
+                    "explanation": "I don't know this language",
+                    "resolution": "Remove this language code"
                 },
                 "MissingLanguage": {
                     "name": "missing language",
-                    "explanation": "I'm missing a language. Can you add one?"
+                    "explanation": "I'm missing a language. Can you add one?",
+                    "resolution": "Remove the empty language tag"
                 },
                 "DuplicateLanguage": {
                     "name": "duplicate language",
-                    "explanation": "You used the language '$code' twice. Mixed-language tags should list each language only once."
+                    "explanation": "You used the language '$code' twice. Mixed-language tags should list each language only once.",
+                    "resolution": "Remove the duplicate *$code* tag"
                 }
             }
         },
@@ -266,19 +269,24 @@
             "conflict": {
                 "InvalidRow": {
                     "name": "invalid row",
-                    "explanation": "Rows either have to be all values or all @Bind."
+                    "explanation": "Rows either have to be all values or all @Bind.",
+                    "resolutionKeepPositional": "Drop the named cells, keep only the positional ones",
+                    "resolutionUnwrapInputs": "Drop the names from the named cells"
                 },
                 "MissingCell": {
                     "name": "missing column",
-                    "explanation": "I'm missing column $column"
+                    "explanation": "I'm missing column $column",
+                    "resolution": "Add a placeholder cell for *$column*"
                 },
                 "ExtraCell": {
                     "name": "extra column",
-                    "explanation": "Based on my table type, I'm an extra column that shouldn't be here."
+                    "explanation": "Based on my table type, I'm an extra column that shouldn't be here.",
+                    "resolution": "Remove the extra cell"
                 },
                 "UnknownColumn": {
                     "name": "unknown column name",
-                    "explanation": "I don't know a column by this name"
+                    "explanation": "I don't know a column by this name",
+                    "resolution": "Rename to *$name*"
                 },
                 "UnexpectedColumnBind": {
                     "name": "no binds rows",
@@ -312,7 +320,8 @@
             "conflict": {
                 "DuplicateTypeVariable": {
                     "name": "duplicate type variable",
-                    "explanation": "I have the same name as $duplicate"
+                    "explanation": "I have the same name as $duplicate",
+                    "resolution": "Remove the duplicate type variable"
                 }
             }
         },
@@ -384,7 +393,8 @@
             "conflict": {
                 "UnsupportedFontFormat": {
                     "name": "unsupported font format",
-                    "explanation": "My friend *$face* doesn't know how to be $format."
+                    "explanation": "My friend *$face* doesn't know how to be $format.",
+                    "resolution": "Remove the formatting"
                 }
             }
         },
@@ -444,7 +454,10 @@
             "conflict": {
                 "OrderOfOperations": {
                     "name": "ambiguous order",
-                    "explanation": "I evaluate in reading order, not in math order of operations. Do you want to use @Block to specify the order I should evaluate in?"
+                    "explanation": "I evaluate left to right, but math usually evaluates ^ before × ÷, and × ÷ before + −. That order is called PEMDAS. Pick how you want me to evaluate this.",
+                    "resolutionPEMDAS": "Apply PEMDAS math order: evaluate $higher before $lower",
+                    "resolutionReading": "Keep reading order: evaluate $lower before $higher",
+                    "resolutionWrap": "Add parentheses to make the order explicit"
                 }
             }
         },
@@ -495,32 +508,48 @@
                 },
                 "DuplicateShare": {
                     "name": "duplicate share",
-                    "explanation": "I have the same name as $duplicate. That makes it unclear what we're sharing."
+                    "explanation": "I have the same name as $duplicate. That makes it unclear what we're sharing.",
+                    "resolution": "Remove this duplicate share"
                 },
                 "IncompatibleType": {
                     "name": "incompatible type",
                     "explanation": "I expected $expected, but received type $given",
-                    "resolution": "Convert to $expected"
+                    "resolution": "Convert it to $expected, since $expected is required",
+                    "resolutionLiteral": "Mark the list, set, or map as literal with !, so its values stay specific instead of being generalized — $expected needs the exact values",
+                    "resolutionOtherwise": "Handle the missing value with ??, since $expected does not allow ø",
+                    "resolutionGuard": "Check that it is a $expected first with a type guard, since $expected can not be the other possible types",
+                    "resolutionDeclaration": "Declare the type explicitly, since $expected needs the literal values to be preserved",
+                    "resolutionWrap": "Put it in a list, set, or map, since $expected needs a collection of values",
+                    "resolutionStructure": "Wrap it in $expected, since the slot needs a $expected value",
+                    "resolutionDefault": "Give the binding a starting value, since $expected can not be missing here",
+                    "resolutionWiden": "Allow the value's type for this binding, since $expected is too narrow for what is actually stored",
+                    "resolutionReorder": "Swap the inputs, since their types fit better in the other order — $expected belongs in the other slot",
+                    "resolutionPlaceholder": "Replace it with a placeholder for now, since $expected is required — then pick a value from the autocomplete menu"
                 },
                 "MisplacedShare": {
                     "name": "misplaced share",
-                    "explanation": "I can only share things at the @Program level, not inside anything!"
+                    "explanation": "I can only share things at the @Program level, not inside anything!",
+                    "resolution": "Remove the *↑* marker"
                 },
                 "MissingShareLanguages": {
                     "name": "missing language",
-                    "explanation": "if you want to share this, you have to say what language this is in, so others know if they can read it!"
+                    "explanation": "if you want to share this, you have to say what language this is in, so others know if they can read it!",
+                    "resolution": "Remove the *↑* marker"
                 },
                 "RequiredAfterOptional": {
                     "name": "required input after optional",
-                    "explanation": "I can't be here, there's an optional @Bind before me"
+                    "explanation": "I can't be here, there's an optional @Bind before me",
+                    "resolution": "Move required inputs before optional ones"
                 },
                 "UnexpectedEtc": {
                     "name": "unexpected input after input list",
-                    "explanation": "I can only be variable length in a @FunctionDefinition"
+                    "explanation": "I can only be variable length in a @FunctionDefinition",
+                    "resolution": "Remove the *…*"
                 },
                 "UnusedBind": {
                     "name": "unused bind",
-                    "explanation": "I'm named $name, but no one is using me. Maybe I'm not needed?"
+                    "explanation": "I'm named $name, but no one is using me. Maybe I'm not needed?",
+                    "resolution": "Delete this binding"
                 }
             }
         },
@@ -554,7 +583,8 @@
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "missing expression",
-                    "explanation": "I need at least one expression that isn't a @Bind, so I have a value to return."
+                    "explanation": "I need at least one expression that isn't a @Bind, so I have a value to return.",
+                    "resolution": "Add a final expression"
                 }
             }
         },
@@ -579,11 +609,13 @@
             "conflict": {
                 "UnknownBorrow": {
                     "name": "unknown borrow",
-                    "explanation": "I don't know a $source by this name"
+                    "explanation": "I don't know a $source by this name",
+                    "resolution": "Remove this borrow"
                 },
                 "BorrowCycle": {
                     "name": "self-referencing borrow",
-                    "explanation": "this depends on $borrow, which depends on this $source, so the program can't be evaluated"
+                    "explanation": "this depends on $borrow, which depends on this $source, so the program can't be evaluated",
+                    "resolution": "Remove this borrow to break the cycle"
                 }
             },
             "exception": {
@@ -631,7 +663,18 @@
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "name": "expected boolean condition",
-                    "explanation": "I need a @Boolean to make a decision, but I got a $type instead."
+                    "explanation": "I need a @Boolean to make a decision, but I got a $type instead.",
+                    "resolution": "Convert it to $expected, since $expected is required",
+                    "resolutionLiteral": "Mark the list, set, or map as literal with !, so its values stay specific instead of being generalized — $expected needs the exact values",
+                    "resolutionOtherwise": "Handle the missing value with ??, since $expected does not allow ø",
+                    "resolutionGuard": "Check that it is a $expected first with a type guard, since $expected can not be the other possible types",
+                    "resolutionDeclaration": "Declare the type explicitly, since $expected needs the literal values to be preserved",
+                    "resolutionWrap": "Put it in a list, set, or map, since $expected needs a collection of values",
+                    "resolutionStructure": "Wrap it in $expected, since the slot needs a $expected value",
+                    "resolutionDefault": "Give the binding a starting value, since $expected can not be missing here",
+                    "resolutionWiden": "Allow the value's type for this binding, since $expected is too narrow for what is actually stored",
+                    "resolutionReorder": "Swap the inputs, since their types fit better in the other order — $expected belongs in the other slot",
+                    "resolutionPlaceholder": "Replace it with a placeholder for now, since $expected is required — then pick a value from the autocomplete menu"
                 }
             }
         },
@@ -654,7 +697,8 @@
             "conflict": {
                 "MisplacedConversion": {
                     "name": "misplaced conversion",
-                    "explanation": "whoa, I can't be here, just in @Block."
+                    "explanation": "whoa, I can't be here, just in @Block.",
+                    "resolution": "Remove this conversion"
                 }
             }
         },
@@ -676,7 +720,8 @@
             "conflict": {
                 "UnknownConversion": {
                     "name": "unknown conversion",
-                    "explanation": "We couldn't find a way to convert a $expected into a $given"
+                    "explanation": "We couldn't find a way to convert a $expected into a $given",
+                    "resolution": "Remove the conversion"
                 }
             },
             "exception": {
@@ -740,35 +785,53 @@
                 "IncompatibleInput": {
                     "name": "incompatible input",
                     "explanation": "I expected $expected, but received $given",
-                    "resolution": "Convert to $expected"
+                    "resolution": "Convert it to $expected, since $expected is required",
+                    "resolutionLiteral": "Mark the list, set, or map as literal with !, so its values stay specific instead of being generalized — $expected needs the exact values",
+                    "resolutionOtherwise": "Handle the missing value with ??, since $expected does not allow ø",
+                    "resolutionGuard": "Check that it is a $expected first with a type guard, since $expected can not be the other possible types",
+                    "resolutionDeclaration": "Declare the type explicitly, since $expected needs the literal values to be preserved",
+                    "resolutionWrap": "Put it in a list, set, or map, since $expected needs a collection of values",
+                    "resolutionStructure": "Wrap it in $expected, since the slot needs a $expected value",
+                    "resolutionDefault": "Give the binding a starting value, since $expected can not be missing here",
+                    "resolutionWiden": "Allow the value's type for this binding, since $expected is too narrow for what is actually stored",
+                    "resolutionReorder": "Swap the inputs, since their types fit better in the other order — $expected belongs in the other slot",
+                    "resolutionPlaceholder": "Replace it with a placeholder for now, since $expected is required — then pick a value from the autocomplete menu"
                 },
                 "UnexpectedTypeInput": {
                     "name": "unexpected type input",
-                    "explanation": "I'm an extra, unexpected type input."
+                    "explanation": "I'm an extra, unexpected type input.",
+                    "resolution": "Remove this type input"
                 },
                 "MissingInput": {
                     "name": "missing input",
-                    "explanation": "I can't evaluate $name without the input $input :("
+                    "explanation": "I can't evaluate $name without the input $input :(",
+                    "resolutionAddInput": "Add the missing $input, with its default value",
+                    "resolutionPlaceholder": "Add the missing $input as a placeholder, then pick a value from the autocomplete menu"
                 },
                 "NotInstantiable": {
                     "name": "incomplete structure",
-                    "explanation": "I can't make this @StructureDefinition, it has unimplemented functions."
+                    "explanation": "I can't make this @StructureDefinition, it has unimplemented functions.",
+                    "resolution": "Scaffold the missing functions"
                 },
                 "UnexpectedInput": {
                     "name": "unexpected input",
-                    "explanation": "I'm an unexpected input."
+                    "explanation": "I'm an unexpected input.",
+                    "resolution": "Remove this input"
                 },
                 "UnknownInput": {
                     "name": "unknown input",
-                    "explanation": "This function *$name* doesn't expect an input with my name."
+                    "explanation": "This function *$name* doesn't expect an input with my name.",
+                    "resolution": "Rename this input to *$name*"
                 },
                 "InputListMustBeLast": {
                     "name": "extra inputs aren't last",
-                    "explanation": "list of inputs must be last"
+                    "explanation": "list of inputs must be last",
+                    "resolution": "Move the list input to the end"
                 },
                 "SeparatedEvaluate": {
                     "name": "ambiguous evaluate",
-                    "explanation": "Is $name the name of a $structure[$structure|$function] you're trying to evaluate? Try removing the space after me, so I know it's an @Evaluate and not a separate @Block."
+                    "explanation": "Is $name the name of a $structure[$structure|$function] you're trying to evaluate? Try removing the space after me, so I know it's an @Evaluate and not a separate @Block.",
+                    "resolution": "Close the space between *$name* and its inputs"
                 }
             },
             "exception": {
@@ -810,7 +873,8 @@
             "conflict": {
                 "Placeholder": {
                     "name": "placeholder",
-                    "explanation": "Can you fill me? I'm just a placeholder."
+                    "explanation": "Can you fill me? I'm just a placeholder.",
+                    "resolution": "Replace with *$candidate*"
                 }
             },
             "exception": {
@@ -849,7 +913,8 @@
             "conflict": {
                 "NoExpression": {
                     "name": "missing expression",
-                    "explanation": "I need an expression to evaluate, can you add one?"
+                    "explanation": "I need an expression to evaluate, can you add one?",
+                    "resolution": "Add a placeholder body"
                 }
             }
         },
@@ -906,7 +971,9 @@
             "conflict": {
                 "ImpossibleType": {
                     "name": "impossible type",
-                    "explanation": "this can't ever be $type"
+                    "explanation": "this can't ever be $type",
+                    "resolutionIsFalse": "Replace this type check with *⊥* (the answer is always false)",
+                    "resolutionDropOtherwise": "Drop the *??* — the left side is never *ø*"
                 }
             },
             "exception": {
@@ -969,7 +1036,8 @@
             "conflict": {
                 "NotAKeyValue": {
                     "name": "missing value",
-                    "explanation": "I'm in a @Map, so I need a value."
+                    "explanation": "I'm in a @Map, so I need a value.",
+                    "resolution": "Wrap as a key-value pair"
                 }
             }
         },
@@ -1002,7 +1070,8 @@
             "conflict": {
                 "NotANumber": {
                     "name": "not a number",
-                    "explanation": "I thought I knew all the numbers, but I don't know this one"
+                    "explanation": "I thought I knew all the numbers, but I don't know this one",
+                    "resolution": "Replace with *0*"
                 }
             }
         },
@@ -1121,7 +1190,8 @@
             "conflict": {
                 "InvalidProperty": {
                     "name": "unknown property",
-                    "explanation": "I'm not a name in the structure $structure, so I can't be refined."
+                    "explanation": "I'm not a name in the structure $structure, so I can't be refined.",
+                    "resolution": "Rename to *$name*"
                 }
             }
         },
@@ -1161,7 +1231,8 @@
             "conflict": {
                 "ExpectedStream": {
                     "name": "expected stream",
-                    "explanation": "$condition doesn't reference a stream, so I will never react!"
+                    "explanation": "$condition doesn't reference a stream, so I will never react!",
+                    "resolution": "Drop the reaction, keep just the initial value"
                 }
             }
         },
@@ -1186,11 +1257,13 @@
                 },
                 "ReferenceCycle": {
                     "name": "self-referencing value",
-                    "explanation": "um, $name's value depends on itself, so how do I know what value to give it?"
+                    "explanation": "um, $name's value depends on itself, so how do I know what value to give it?",
+                    "resolution": "Replace *$name* with a placeholder to break the cycle"
                 },
                 "UnexpectedTypeVariable": {
                     "name": "unexpected type variable",
-                    "explanation": "I don't know what to do with these type inputs"
+                    "explanation": "I don't know what to do with these type inputs",
+                    "resolution": "Remove this type variable from the function"
                 }
             },
             "exception": {
@@ -1215,7 +1288,8 @@
             "conflict": {
                 "ExpectedSelectName": {
                     "name": "missing column name",
-                    "explanation": "I need at least one column name."
+                    "explanation": "I need at least one column name.",
+                    "resolution": "Remove this cell"
                 }
             }
         },
@@ -1243,7 +1317,18 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "incompatible key",
-                    "explanation": "I expected a key of type $expected"
+                    "explanation": "I expected a key of type $expected",
+                    "resolution": "Convert it to $expected, since $expected is required",
+                    "resolutionLiteral": "Mark the list, set, or map as literal with !, so its values stay specific instead of being generalized — $expected needs the exact values",
+                    "resolutionOtherwise": "Handle the missing value with ??, since $expected does not allow ø",
+                    "resolutionGuard": "Check that it is a $expected first with a type guard, since $expected can not be the other possible types",
+                    "resolutionDeclaration": "Declare the type explicitly, since $expected needs the literal values to be preserved",
+                    "resolutionWrap": "Put it in a list, set, or map, since $expected needs a collection of values",
+                    "resolutionStructure": "Wrap it in $expected, since the slot needs a $expected value",
+                    "resolutionDefault": "Give the binding a starting value, since $expected can not be missing here",
+                    "resolutionWiden": "Allow the value's type for this binding, since $expected is too narrow for what is actually stored",
+                    "resolutionReorder": "Swap the inputs, since their types fit better in the other order — $expected belongs in the other slot",
+                    "resolutionPlaceholder": "Replace it with a placeholder for now, since $expected is required — then pick a value from the autocomplete menu"
                 }
             }
         },
@@ -1283,25 +1368,31 @@
                 "I don't need to have @FunctionDefinition in me. I can just be inputs.",
                 "\\•Pizza(\ningredients•['']\nsize•#in\n)\\",
                 "I can also have @Bind inside, so we could evaluate the cost in advance.",
-                "\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tcost: size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost\\"
+                "\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tcost: size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost\\",
+                "Mark a function or value with ↑ to make it belong to the structure itself, not to instances. Then you can use the name of the structure to reach it, without making one.",
+                "\\•Math() (\n\t↑ pi: 3.14159\n\t↑ ƒ square(n•#) n · n\n)\n\nMath.pi\nMath.square(5)\\"
             ],
             "start": "Let's define this lovely structure",
             "conflict": {
                 "DisallowedInputs": {
                     "name": "inputs not allowed",
-                    "explanation": "I can't have inputs because one of or more of my interface functions isn't implemented"
+                    "explanation": "I can't have inputs because one of or more of my interface functions isn't implemented",
+                    "resolution": "Remove the inputs"
                 },
                 "IncompleteImplementation": {
                     "name": "incomplete structure",
-                    "explanation": "my functions either need to all be implemented, or none be implemented. No messy mixtures!"
+                    "explanation": "my functions either need to all be implemented, or none be implemented. No messy mixtures!",
+                    "resolution": "Drop the inputs to make it an interface"
                 },
                 "NotAnInterface": {
                     "name": "not an interface",
-                    "explanation": "I am not an interface; a structure can only implement interfaces, not other structures"
+                    "explanation": "I am not an interface; a structure can only implement interfaces, not other structures",
+                    "resolution": "Drop this from the interface list"
                 },
                 "UnimplementedInterface": {
                     "name": "unimplemented",
-                    "explanation": "I implement $interface but haven't implemented $function"
+                    "explanation": "I implement $interface but haven't implemented $function",
+                    "resolution": "Scaffold the missing *$function* on this structure"
                 }
             }
         },
@@ -1364,7 +1455,8 @@
                 "reminder": "Note: You can undo this action and see other things you've marked as non-sensitive in the sharing dialog.",
                 "character": {
                     "name": "possible custom character",
-                    "explanation": "This looks like a character name. To show those, use @FormattedLiteral instead of @TextLiteral."
+                    "explanation": "This looks like a character name. To show those, use @FormattedLiteral instead of @TextLiteral.",
+                    "resolutionStrip": "Strip the special characters from the text"
                 }
             }
         },
@@ -1409,7 +1501,8 @@
             "conflict": {
                 "MisplacedThis": {
                     "name": "misplaced this reference",
-                    "explanation": "I'm only allowed in a structure, conversion, or reaction."
+                    "explanation": "I'm only allowed in a structure, conversion, or reaction.",
+                    "resolution": "Replace with a placeholder"
                 }
             }
         },
@@ -1458,7 +1551,8 @@
                 },
                 "UnclosedDelimiter": {
                     "name": "unclosed delimiter",
-                    "explanation": "I expected $expected sometime after $unclosed"
+                    "explanation": "I expected $expected sometime after $unclosed",
+                    "resolution": "Add the missing *$expected*"
                 }
             },
             "exception": {
@@ -1483,11 +1577,23 @@
             "conflict": {
                 "ExpectedColumnBind": {
                     "name": "missing column value",
-                    "explanation": "I need a value for every column"
+                    "explanation": "I need a value for every column",
+                    "resolution": "Wrap this cell as a named column"
                 },
                 "IncompatibleCellType": {
                     "name": "incompatible cell type",
-                    "explanation": "I'm supposed to be type $expected, but I'm $given"
+                    "explanation": "I'm supposed to be type $expected, but I'm $given",
+                    "resolution": "Convert it to $expected, since $expected is required",
+                    "resolutionLiteral": "Mark the list, set, or map as literal with !, so its values stay specific instead of being generalized — $expected needs the exact values",
+                    "resolutionOtherwise": "Handle the missing value with ??, since $expected does not allow ø",
+                    "resolutionGuard": "Check that it is a $expected first with a type guard, since $expected can not be the other possible types",
+                    "resolutionDeclaration": "Declare the type explicitly, since $expected needs the literal values to be preserved",
+                    "resolutionWrap": "Put it in a list, set, or map, since $expected needs a collection of values",
+                    "resolutionStructure": "Wrap it in $expected, since the slot needs a $expected value",
+                    "resolutionDefault": "Give the binding a starting value, since $expected can not be missing here",
+                    "resolutionWiden": "Allow the value's type for this binding, since $expected is too narrow for what is actually stored",
+                    "resolutionReorder": "Swap the inputs, since their types fit better in the other order — $expected belongs in the other slot",
+                    "resolutionPlaceholder": "Replace it with a placeholder for now, since $expected is required — then pick a value from the autocomplete menu"
                 }
             }
         },
@@ -1579,7 +1685,8 @@
             "conflict": {
                 "UnknownTypeName": {
                     "name": "unknown type name",
-                    "explanation": "type names can only refer to structures or type variables, but this refers to type $type"
+                    "explanation": "type names can only refer to structures or type variables, but this refers to type $type",
+                    "resolution": "Replace with a type placeholder"
                 }
             }
         },
@@ -1643,7 +1750,8 @@
             "conflict": {
                 "ExpectedColumnType": {
                     "name": "missing column type",
-                    "explanation": "I need a column type"
+                    "explanation": "I need a column type",
+                    "resolution": "Add a type placeholder"
                 }
             }
         },
@@ -1665,6 +1773,7 @@
         "UnionType": {
             "name": "option",
             "description": "one of $first or $second",
+            "elidedSuffix": " or $omitted other options",
             "emotion": "curious",
             "doc": [
                 "Who should I represent, A or B or something else? I can never decide!",
@@ -3269,6 +3378,59 @@
             "down": {
                 "names": "down",
                 "doc": "IF @None, then key down generates inputs. If \\⊤\\, then only down inputs are provided, and if \\⊥\\, then only release inputs are provided."
+            },
+            "keys": {
+                "Shift": ["Shift"],
+                "Control": ["Control", "Ctrl"],
+                "Alt": ["Alt", "Option"],
+                "Meta": ["Meta", "Command", "Windows"],
+                "AltGraph": ["AltGraph"],
+                "CapsLock": ["CapsLock", "Caps Lock"],
+                "NumLock": ["NumLock", "Num Lock"],
+                "ScrollLock": ["ScrollLock", "Scroll Lock"],
+                "Enter": ["Enter", "Return"],
+                "Tab": ["Tab"],
+                " ": ["Space", "Spacebar", " "],
+                "ArrowUp": ["ArrowUp", "Up"],
+                "ArrowDown": ["ArrowDown", "Down"],
+                "ArrowLeft": ["ArrowLeft", "Left"],
+                "ArrowRight": ["ArrowRight", "Right"],
+                "Home": ["Home"],
+                "End": ["End"],
+                "PageUp": ["PageUp", "Page Up"],
+                "PageDown": ["PageDown", "Page Down"],
+                "Backspace": ["Backspace"],
+                "Delete": ["Delete", "Del"],
+                "Insert": ["Insert", "Ins"],
+                "Clear": ["Clear"],
+                "Cut": ["Cut"],
+                "Copy": ["Copy"],
+                "Paste": ["Paste"],
+                "Undo": ["Undo"],
+                "Redo": ["Redo"],
+                "Escape": ["Escape", "Esc"],
+                "Pause": ["Pause"],
+                "ContextMenu": ["ContextMenu", "Menu"],
+                "Help": ["Help"],
+                "Convert": ["Convert"],
+                "NonConvert": ["NonConvert"],
+                "KanaMode": ["KanaMode"],
+                "HangulMode": ["HangulMode"],
+                "Hiragana": ["Hiragana"],
+                "Katakana": ["Katakana"],
+                "Romaji": ["Romaji"],
+                "F1": ["F1"],
+                "F2": ["F2"],
+                "F3": ["F3"],
+                "F4": ["F4"],
+                "F5": ["F5"],
+                "F6": ["F6"],
+                "F7": ["F7"],
+                "F8": ["F8"],
+                "F9": ["F9"],
+                "F10": ["F10"],
+                "F11": ["F11"],
+                "F12": ["F12"]
             }
         },
         "Time": {
@@ -3386,7 +3548,7 @@
                 "@FunctionDefinition here! Let me tell you about @Hand.",
                 "@Hand watches your camera for a hand and tells you where it is, which fingers are extended, and whether the palm or back of your hand is facing the camera. Hold your hand up, wave it around, count on your fingers — @Hand follows.",
                 "Behind the scenes, @Hand uses a machine-learning model. The first time you use it in a program the model takes a few seconds to download, and a tiny spinning hand appears in the top-right corner of the stage while it loads. After that it stays cached and starts instantly.",
-                "Each frame @Hand returns a structure with fields like place (where the hand is), open (true if your hand is open), fingers (how many fingers are up), individual booleans for thumb, index, middle, ring, and pinky, and palm (true if your palm faces the camera).",
+                "Each frame, @Hand gives you a @Gesture — look there for the full list of inputs and what they mean.",
                 "Try this — it shows an emoji that matches your hand pose wherever your real hand is:",
                 "\\hand: Hand()\nPhrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
             ],
@@ -3686,7 +3848,7 @@
                 "doc": "Same as @Phrase/style!",
                 "names": "style"
             },
-            "defaultDescription": "$name[$name|] $layout $pose"
+            "defaultDescription": "$name[$name|] $layout $pose $color[$color|]"
         },
         "Phrase": {
             "doc": [
@@ -3810,7 +3972,7 @@
                 "doc": "The animation style to use when moving to a different place on stage.",
                 "names": "style"
             },
-            "defaultDescription": "$size[$size meter |]phrase $text $name[named $name|] $face[$face|] $animation"
+            "defaultDescription": "$size[$size meter |]phrase $text $name[named $name|] $face[$face|] $animation $color[$color|]"
         },
         "Arrangement": {
             "doc": "I am an inspiration to the many other kinds of arrangement in the Verse, including @Row, @Stack, @Grid, and @Free. I work closely with @Group to ",
@@ -4095,7 +4257,11 @@
                 "\\Color(50% 100 240°)\\",
                 "\\Color(50% 100 270°)\\",
                 "\\Color(50% 100 300°)\\",
-                "\\Color(50% 100 330°)\\"
+                "\\Color(50% 100 330°)\\",
+                "For the eleven most common color names, you don't have to make me from scratch. I have shortcuts on my name:",
+                "\\Color.red\\",
+                "\\Color.blue\\",
+                "These shortcuts work in your language too, so a French speaker can write \\couleur.rouge\\ and a Japanese speaker can write \\色.赤\\. The shortcuts are: red, orange, yellow, green, blue, purple, brown, pink, black, white, and gray."
             ],
             "names": ["🌈", "Color"],
             "lightness": {
@@ -4109,6 +4275,58 @@
             "hue": {
                 "doc": "What color I should be, on a color wheel, from magenta \\0\\, red \\30\\, green \\120\\, to blue \\270\\.",
                 "names": ["hue", "h"]
+            },
+            "colors": {
+                "black": {
+                    "doc": "The basic color black.",
+                    "names": ["black"]
+                },
+                "white": {
+                    "doc": "The basic color white.",
+                    "names": ["white"]
+                },
+                "gray": {
+                    "doc": "The basic color gray.",
+                    "names": ["gray"]
+                },
+                "red": {
+                    "doc": "The basic color red.",
+                    "names": ["red"]
+                },
+                "orange": {
+                    "doc": "The basic color orange.",
+                    "names": ["orange"]
+                },
+                "yellow": {
+                    "doc": "The basic color yellow.",
+                    "names": ["yellow"]
+                },
+                "green": {
+                    "doc": "The basic color green.",
+                    "names": ["green"]
+                },
+                "blue": {
+                    "doc": "The basic color blue.",
+                    "names": ["blue"]
+                },
+                "purple": {
+                    "doc": "The basic color purple.",
+                    "names": ["purple"]
+                },
+                "brown": {
+                    "doc": "The basic color brown.",
+                    "names": ["brown"]
+                },
+                "pink": {
+                    "doc": "The basic color pink.",
+                    "names": ["pink"]
+                }
+            },
+            "description": {
+                "modified": "$modifier $color",
+                "mix": "$first-$second",
+                "light": "light",
+                "dark": "dark"
             }
         },
         "Sequence": {
@@ -4163,7 +4381,7 @@
             }
         },
         "Gesture": {
-            "doc": "I'm a hand gesture detected by the camera. My fields tell you where the hand is on stage, which fingers are extended, and whether the palm or back of the hand is facing the camera.",
+            "doc": "I'm a snapshot of a hand pose detected by the camera, emitted by the @Hand stream. My place tells you where the hand is on stage, my fingers tells you how many are extended, my open is true when the hand is open (3+ fingers extended), and my thumb, index, middle, ring, and pinky each say which specific fingers are extended. My palm is true when the palm faces the camera, false when the back of the hand does.",
             "names": ["✋", "Gesture"],
             "place": {
                 "doc": "Where the hand is on stage.",
@@ -4373,7 +4591,7 @@
                 "doc": "The gravity to apply to output whose place is in @Motion.",
                 "names": "gravity"
             },
-            "defaultDescription": "stage $name[$name |]of $count outputs$frame[with frame $frame|] $pose"
+            "defaultDescription": "stage $name[$name |]of $count outputs$frame[with frame $frame|] $pose $color[$color|]"
         },
         "Easing": {
             "straight": "straight",
@@ -4556,7 +4774,8 @@
             "field": {
                 "name": {
                     "description": "edit project name",
-                    "placeholder": "name"
+                    "placeholder": "name",
+                    "invalid": "Incomplete translation — check your quotes and language tags, like \"hi\"/en\"hola\"/es."
                 }
             },
             "help": "show keyboard shortcuts",
@@ -4567,7 +4786,14 @@
                 "projectContainedPII": "To protect your privacy, a project with potentially personally identifiable information was not saved online. Check the project to see if the information is identifying.",
                 "projectsNotLoadingOnline": "Unable to load online projects.",
                 "projectNotSavedOnline": "Unable to save projects online.",
-                "settingsUnsaved": "Unable to save settings online."
+                "settingsUnsaved": "Unable to save settings online.",
+                "failureReason": {
+                    "indexedDBWriteFailed": "Your browser couldn't save these projects on this device.",
+                    "indexedDBUnsupported": "Your browser won't let Wordplay save projects on this device.",
+                    "firestoreBatchFailed": "We couldn't send these projects to the cloud. They're still safe on this device.",
+                    "projectContainsPII": "These projects look like they have personal information, so we didn't save them online. Open each one to check what looks personal."
+                },
+                "failuresHeader": "$count project(s) didn't save:"
             },
             "dialog": {
                 "unsaved": "Unsaved work...",
@@ -4913,7 +5139,6 @@
                 "• Browse the <galleries@://galleries> for inspiration.",
                 "If you're stuck, <learn more@://learn>."
             ],
-            "overwritten": "Project revised elsewhere",
             "confirm": {
                 "delete": {
                     "description": "delete this $source",
@@ -5379,12 +5604,20 @@
                     "pii": {
                         "header": "Personal Information",
                         "explanation": "Sharing personally identifiable information (PII) publicly can put creators at risk, so we detect possible PII and warn creators to either remove the sensitive data or mark it as non-sensitive.\n\nBelow is a list of possible PII in this project you have marked as non-sensitive. You can click the button next to it to mark it as sensitive again, but doing so means that your project won't be saved online anymore."
+                    },
+                    "preview": {
+                        "header": "Preview",
+                        "explanation": "This is the little glyph that represents your project in lists and galleries. Auto picks one based on what your project shows; Custom lets you pin a single character or emoji."
                     }
                 },
                 "field": {
                     "emailOrUsername": {
                         "placeholder": "email or username",
                         "description": "email or username of the person who you want to give edit access"
+                    },
+                    "preview": {
+                        "placeholder": "preview glyph",
+                        "description": "single character or emoji to use as this project's preview glyph"
                     }
                 },
                 "mode": {
@@ -5395,12 +5628,21 @@
                             "only you and collaborators can see this project",
                             "anyone can see this project"
                         ]
+                    },
+                    "preview": {
+                        "label": "preview mode",
+                        "labels": ["auto", "custom"],
+                        "tips": [
+                            "let the project pick its own preview glyph based on what it shows",
+                            "pin a glyph you choose"
+                        ]
                     }
                 },
                 "error": {
                     "unknown": "We don't know a creator with this email.",
                     "anonymous": "You must be <logged in@://login> to share.",
-                    "self": "You can't add yourself."
+                    "self": "You can't add yourself.",
+                    "invalidPreview": "Pick exactly one character or emoji."
                 },
                 "button": {
                     "submit": "Share the project with this email address",
@@ -5734,6 +5976,12 @@
                 "viewers": "/Viewers/ can *view* the project and its *code*, but they cannot *discuss* or *edit* it.",
                 "restrict": "When a project is in a *gallery*, by default *everyone* who can see the gallery can see your project. The /restrict/ toggle *hides* it from everyone except you and the gallery curators."
             }
+        },
+        "presence": {
+            "peersLabel": "collaborators editing this project",
+            "joined": "$name joined.",
+            "left": "$name left.",
+            "waitingForSlot": "Waiting for an editing slot — four collaborators are already editing. When one leaves, you'll be able to edit too."
         },
         "palette": {
             "label": "palette",
@@ -6678,6 +6926,7 @@
             "skinTone": "skin tone",
             "script": "scripts",
             "scriptLabel": "filter by script",
+            "moreLanguages": "and $count more",
             "pickFilter": "Choose a category or script",
             "groups": {
                 "label": "groups",

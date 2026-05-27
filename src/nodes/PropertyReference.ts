@@ -28,6 +28,7 @@ import type Node from '@nodes/Node';
 import { node, type Grammar, type Replacement } from '@nodes/Node';
 import Reference from '@nodes/Reference';
 import StreamType from '@nodes/StreamType';
+import StructureDefinitionType from '@nodes/StructureDefinitionType';
 import StructureType from '@nodes/StructureType';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
@@ -82,7 +83,7 @@ export default class PropertyReference extends Expression {
                 const prefix = node.name?.getName() ?? '';
                 return (
                     definition
-                        .getDefinitions(node)
+                        .getDefinitions(node, context)
                         // Filter my matching prefixes
                         .filter((def) =>
                             def
@@ -204,23 +205,32 @@ export default class PropertyReference extends Expression {
     getDefinitions(node: Node, context: Context): Definition[] {
         const subjectType = this.getSubjectType(context);
 
+        // Instance access — `getDefinitions` returns inputs + all block
+        // statements, which already includes any `↑` static members. So
+        // `m.PI` autocompletes alongside instance members.
         if (subjectType instanceof StructureType)
-            return subjectType.definition.getDefinitions(node);
-        else return subjectType.getDefinitions(node, context);
+            return subjectType.definition.getDefinitions(node, context);
+        // Definition access (e.g. `Foo.bar` where `Foo` names the structure
+        // itself) — only statics are visible.
+        if (subjectType instanceof StructureDefinitionType)
+            return subjectType.getStaticDefinitions(node, context);
+        return subjectType.getDefinitions(node, context);
     }
 
     resolve(context: Context): Definition | undefined {
         if (this.name === undefined) return undefined;
 
         const subjectType = this.getSubjectType(context);
+        const name = this.name.getName();
 
+        // Instance access — `getDefinition` already looks through block
+        // statements, which includes any `↑` static members.
         if (subjectType instanceof StructureType)
-            return subjectType.getDefinition(this.name.getName());
-        else
-            return subjectType.getDefinitionOfNameInScope(
-                this.name.getName(),
-                context,
-            );
+            return subjectType.getDefinition(name);
+        // Definition access (`Foo.bar`) — restrict to statics only.
+        if (subjectType instanceof StructureDefinitionType)
+            return subjectType.getStaticDefinition(name, context);
+        return subjectType.getDefinitionOfNameInScope(name, context);
     }
 
     getSubjectType(context: Context): Type {

@@ -66,6 +66,8 @@ All user-visible strings live in locale JSON files ([static/locales/](static/loc
 
 The tag goes in the comment (e.g. `/** [plain] Tooltip for the X button */`); the TypeScript alias should match (`FormattedText` for `[formatted]`, `NameText` for `[name]`, plain `string` for `[plain]`/`[emotion]`). Fields without a recognized tag are filtered out of the editor and invisible to translators, so **every new localization key needs both a comment and a tag**. The matching logic lives in [src/components/localization/Localizer.svelte](src/components/localization/Localizer.svelte) (`getEditorType`).
 
+**Template inputs are always named, never numbered.** When a locale string takes runtime values, type it as `Template<['name1', 'name2', ...]>`, write `"$name"` in the JSON, and substitute via `$locales.concretize((l) => l.path, { name: value }).toText()`. Never write `$1`/`$2` or call `.replace('$1', value)` on a template string. Numbered placeholders bypass the locale verifier's typed-key check, get clobbered by auto-translators (they don't survive `npm run locales-translate`), and are illegible to translators reviewing the JSON.
+
 **After every edit to a locale or tutorial JSON file** (anything under [static/locales/](static/locales/) — including the per-locale `*-tutorial.json` and `*-emojis.json` files — or [src/locale/en-US.json](src/locale/en-US.json)), run prettier on the changed files:
 
 ```bash
@@ -77,6 +79,24 @@ Translation tools (e.g. `npm run locales-translate`) and direct script edits oft
 ### Immutability convention
 
 Immutable data structures and pure functions are the norm everywhere except: Svelte components (internal state + global context), `Evaluator` (stack-based evaluation state), and `Database` (persistence). Most bugs will be in those three areas.
+
+### Screen-reader announcements
+
+All dynamic announcements to screen readers must go through the centralized [Announcer.svelte](src/components/project/Announcer.svelte). The Announcer owns the single `aria-live` region for the app, queues messages, and paces them by reading time so consecutive updates don't trample each other. Do **not** add component-local `aria-live` divs — they conflict with the centralized region and cause cross-talk on real screen readers.
+
+To announce from any component:
+
+```ts
+import { getAnnouncer } from '@components/project/Contexts';
+// ...
+const announce = getAnnouncer();
+// In an event handler or `$effect`:
+if (announce && $announce) {
+    $announce('your-kind-id', $locales.getLanguages()[0], message);
+}
+```
+
+`aria-label` on a focused element is still appropriate for _focus-time_ labeling — screen readers read the label when the element receives focus. Use Announcer for _change-time_ announcements (the user moved a slider, picked a color, toggled a setting).
 
 ### Keep ARCHITECTURE.md in sync
 

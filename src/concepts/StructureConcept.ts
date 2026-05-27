@@ -202,15 +202,22 @@ export default class StructureConcept extends Concept {
      * True if the concept represents the given type. Used to map types to concepts.
      */
     representsType(type: Type) {
+        // For StructureType / NameType we must match on definition identity:
+        // every StructureType shares the same constructor, so falling through
+        // to the class-equality check below would let the basis `structure`
+        // concept claim every user-defined structure (e.g. the Gesture output
+        // type, which would then link to the generic Structure docs).
+        if (type instanceof StructureType)
+            return this.definition === type.definition;
+        if (type instanceof NameType)
+            return (
+                type.definition !== undefined &&
+                this.definition === type.definition
+            );
         return (
-            (type instanceof StructureType &&
-                this.definition === type.definition) ||
-            (type instanceof NameType &&
-                type.definition &&
-                this.definition == type.definition) ||
-            (type !== undefined &&
-                this.type !== undefined &&
-                type.constructor === this.type.constructor)
+            type !== undefined &&
+            this.type !== undefined &&
+            type.constructor === this.type.constructor
         );
     }
 }

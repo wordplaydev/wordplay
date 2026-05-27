@@ -1,4 +1,5 @@
 import { getBind } from '@locale/getBind';
+import { describeColorLocalized } from '@output/BasicColors';
 import { STAGE_SYMBOL } from '@parser/Symbols';
 import BoolValue from '@values/BoolValue';
 import ListValue from '@values/ListValue';
@@ -232,6 +233,15 @@ export default class Stage extends Output {
 
     getDescription(locales: Locales) {
         if (this._description === undefined) {
+            const bg = this.background;
+            const colorDescription = bg
+                ? describeColorLocalized(
+                      locales,
+                      bg.lightness.toNumber(),
+                      bg.chroma.toNumber(),
+                      bg.hue.toNumber(),
+                  )
+                : undefined;
             this._description = locales
                 .concretize(
                     (l) => l.output.Stage.defaultDescription,
@@ -240,6 +250,7 @@ export default class Stage extends Output {
                         name: this.name instanceof TextLang ? this.name.text : undefined,
                         frame: this.frame?.getDescription(locales),
                         pose: this.pose.getDescription(locales).trim(),
+                        color: colorDescription,
                     },
                 )
                 .toText()

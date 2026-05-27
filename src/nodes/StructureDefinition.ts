@@ -6,6 +6,9 @@ import { UnimplementedInterface } from '@conflicts/UnimplementedInterface';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type Evaluator from '@runtime/Evaluator';
+import Finish from '@runtime/Finish';
+import Initialize from '@runtime/Initialize';
+import Start from '@runtime/Start';
 import StartFinish from '@runtime/StartFinish';
 import type Step from '@runtime/Step';
 import InternalException from '@values/InternalException';
@@ -57,6 +60,20 @@ export default class StructureDefinition extends DefinitionExpression {
 
     // PERF: Cache definitions to avoid having to recreate the list.
     #definitionsCache: Map<Node, Definition[]> = new Map();
+
+    /** Optional native builder for `↑` static binds. Set by basis-structure
+     *  creators (e.g., `createColorType`) whose static-bind values are
+     *  better constructed directly in TypeScript than evaluated from
+     *  Wordplay source. User-defined structures get their statics populated
+     *  by the normal compile + evaluate flow (see `compile`/`evaluate`
+     *  below), but basis structures are looked up via
+     *  `Evaluation.resolveDefault` and never reach that flow — so they
+     *  opt in to a builder that runs once on first static-member access,
+     *  with its result cached. */
+    staticBuilder?: (
+        evaluator: import('@runtime/Evaluator').default,
+        def: StructureDefinition,
+    ) => Map<Bind, Value>;
 
     constructor(
         docs: Docs | undefined,
@@ -128,10 +145,44 @@ export default class StructureDefinition extends DefinitionExpression {
 
     /**
      * Used by Evaluator to get the steps for the evaluation of this structure definition.
-     * Asks the block for it's steps.
+     * Asks the block for its steps, but filters out any `↑` static
+     * statements: those evaluate once at definition time (see `compile`
+     * below), not per-instance. Without this filter, evaluating an
+     * instance would re-run every static bind, and a self-referencing
+     * static bind (e.g. `↑ red: 🌈(…)` on `Color`) would recurse forever.
      */
     getEvaluationSteps(evaluator: Evaluator, context: Context): Step[] {
-        return this.expression?.getEvaluationSteps(evaluator, context) ?? [];
+        const block = this.expression;
+        if (block === undefined) return [];
+        const statementSteps = block.statements
+            .filter((s) => {
+                if (s instanceof Bind && s.isStatic(context)) return false;
+                if (
+                    s instanceof FunctionDefinition &&
+                    s.isStatic(context)
+                )
+                    return false;
+                return true;
+            })
+            .reduce(
+                (prev: Step[], current) => [
+                    ...prev,
+                    ...current.compile(evaluator, context),
+                ],
+                [],
+            );
+        return [
+            ...statementSteps,
+            // Mirrors Block.getEvaluationSteps' trailing collect.
+            new Initialize(block, (e: Evaluator) => block.collect(e)),
+        ];
+    }
+
+    /** True when this structure has any `↑` static binds that need to be
+     *  evaluated at definition time (when the structure value is first
+     *  created in the surrounding scope). */
+    hasStaticBinds(context: Context): boolean {
+        return this.getStaticBindsWithValues(context).length > 0;
     }
 
     getDescriptor(): NodeDescriptor {
@@ -435,7 +486,27 @@ export default class StructureDefinition extends DefinitionExpression {
             : undefined;
     }
 
-    getDefinitions(node: Node): Definition[] {
+    /** The subset of block statements that are static (`↑ ƒ` or `↑ name:`).
+     *  Static members live on the definition itself, not on instances. */
+    getStaticDefinitions(context: Context): (Bind | FunctionDefinition)[] {
+        if (!(this.expression instanceof Block)) return [];
+        return this.expression.statements.filter(
+            (s): s is Bind | FunctionDefinition =>
+                (s instanceof Bind || s instanceof FunctionDefinition) &&
+                s.isStatic(context),
+        );
+    }
+
+    /** Resolve a name against this structure's static members only. Used by
+     *  `Foo.bar` when `Foo` refers to the definition itself. */
+    getStaticDefinition(
+        name: string,
+        context: Context,
+    ): Bind | FunctionDefinition | undefined {
+        return this.getStaticDefinitions(context).find((s) => s.hasName(name));
+    }
+
+    getDefinitions(node: Node, context: Context): Definition[] {
         // Does an input delare the name that isn't the one asking?
         let definitions = this.#definitionsCache.get(node);
         if (definitions === undefined) {
@@ -447,8 +518,21 @@ export default class StructureDefinition extends DefinitionExpression {
             const askerInsideInput = this.inputs.some(
                 (i) => i instanceof Bind && i.contains(node),
             );
+            // Static members (`↑ ƒ` / `↑ name:`) don't have access to
+            // instance inputs — they live on the definition itself, so the
+            // instance isn't bound yet when they evaluate. Detect by walking
+            // statements: if any direct static block-statement contains the
+            // asker, exclude inputs from scope.
+            const askerInsideStatic =
+                this.expression instanceof Block &&
+                this.expression.statements.some(
+                    (s) =>
+                        (s instanceof Bind || s instanceof FunctionDefinition) &&
+                        s.isStatic(context) &&
+                        s.contains(node),
+                );
             definitions = [
-                ...(askerInsideInput
+                ...(askerInsideInput || askerInsideStatic
                     ? []
                     : (this.inputs.filter(
                           (i) => i instanceof Bind && i !== node,
@@ -504,23 +588,89 @@ export default class StructureDefinition extends DefinitionExpression {
         return this.expression instanceof Block ? [this.expression] : [];
     }
 
-    compile(): Step[] {
-        return [new StartFinish(this)];
+    compile(evaluator: Evaluator, context: Context): Step[] {
+        const statics = this.getStaticBindsWithValues(context);
+        if (statics.length === 0) return [new StartFinish(this)];
+        // Bind the structure to its name *before* evaluating any static
+        // bind values. Otherwise a static bind whose value references the
+        // enclosing structure (e.g. `↑ red: 🌈(…)` on `Color`) would fail
+        // to resolve its own type at runtime. The Finish step then
+        // populates the already-bound StructureDefinitionValue's statics
+        // map from the stack.
+        const steps: Step[] = [
+            new Start(this, (e) => {
+                const closure = e.getCurrentEvaluation();
+                if (closure === undefined)
+                    return new InternalException(
+                        this,
+                        e,
+                        'there is no evaluation, which should be impossible',
+                    );
+                const def = new StructureDefinitionValue(
+                    this,
+                    closure,
+                    new Map(),
+                );
+                e.bind(this.names, def);
+                return undefined;
+            }),
+        ];
+        for (const bind of statics)
+            if (bind.value)
+                steps.push(...bind.value.compile(evaluator, context));
+        steps.push(new Finish(this));
+        return steps;
+    }
+
+    /** The subset of static block-statement binds that have a default value
+     *  expression to evaluate at definition time. */
+    getStaticBindsWithValues(context: Context): Bind[] {
+        return this.getStaticDefinitions(context).filter(
+            (s): s is Bind => s instanceof Bind && s.value !== undefined,
+        );
     }
 
     evaluate(evaluator: Evaluator): Value {
-        // Bind this definition to it's names.
-        const context = evaluator.getCurrentEvaluation();
-        if (context !== undefined) {
-            const def = new StructureDefinitionValue(this, context);
-            evaluator.bind(this.names, def);
-            return def;
-        } else
+        const closure = evaluator.getCurrentEvaluation();
+        if (closure === undefined)
             return new InternalException(
                 this,
                 evaluator,
                 'there is no evaluation, which should be impossible',
             );
+
+        // Two compile paths converge here:
+        //  1. No static binds → `StartFinish(this)` ran; just construct the
+        //     StructureDefinitionValue and bind it.
+        //  2. Static binds → the Start action already created and bound the
+        //     definition value. The static-bind value expressions then ran
+        //     between Start and Finish, leaving their values on the stack.
+        //     Pop them in reverse (they were pushed in source order) and
+        //     populate the already-bound StructureDefinitionValue's statics
+        //     map.
+        const context = closure.getContext();
+        const statics = this.getStaticBindsWithValues(context);
+
+        if (statics.length === 0) {
+            const def = new StructureDefinitionValue(this, closure, new Map());
+            evaluator.bind(this.names, def);
+            return def;
+        }
+
+        const bound = closure.resolve(this.names);
+        const def =
+            bound instanceof StructureDefinitionValue
+                ? bound
+                : new StructureDefinitionValue(this, closure, new Map());
+        for (let i = statics.length - 1; i >= 0; i--) {
+            const value = evaluator.popValue(this);
+            def.statics.set(statics[i], value);
+        }
+        // In the unlikely event the Start action didn't bind (e.g. fresh
+        // Definition value above), bind now.
+        if (!(bound instanceof StructureDefinitionValue))
+            evaluator.bind(this.names, def);
+        return def;
     }
 
     evaluateTypeGuards(current: TypeSet, guard: GuardContext) {

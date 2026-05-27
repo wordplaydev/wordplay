@@ -12,6 +12,12 @@
 </script>
 
 <script lang="ts">
+    // Side-effect import: registers type-mismatch resolvers with the Conflict
+    // registry. Loaded once at app startup so the registry is populated by
+    // the time any annotation asks for resolutions. See the file's header
+    // for why it can't be imported by the conflict files directly.
+    import '@conflicts/registerTypeResolutions';
+
     import { browser } from '$app/environment';
     import { page } from '$app/state';
     import ConnectionBanner from '@components/app/ConnectionBanner.svelte';
@@ -104,12 +110,21 @@
         // Install browser online/offline + visibilitychange listeners.
         const cleanupNetworkListeners = DB.installNetworkListeners();
 
+        // Install best-effort save-on-unload handlers so local edits
+        // (especially in-memory CRDT state) survive a tab close that
+        // beats saveSoon's debounce. See
+        // ProjectsDatabase.installSaveOnUnloadListeners for what it
+        // catches and what it can't.
+        const cleanupSaveOnUnload =
+            DB.Projects.installSaveOnUnloadListeners();
+
         // Wait a second before showing loading
         setTimeout(() => (lag = true), 1000);
 
         // Have the Database cleanup database connections when this is unmounted.
         return () => {
             cleanupNetworkListeners();
+            cleanupSaveOnUnload();
             DB.clean();
         };
     });
@@ -234,13 +249,18 @@
 >
     <ConnectionBanner />
     <div class="content" class:locked inert={locked}>
-        {#if !$localesReady}
-            {#if lag}<Loading />{/if}
-        {:else if !loaded && lag}
+        <!-- Always render children, even before the user's preferred locale
+             finishes loading. The server renders with the default locale,
+             and so must the client during hydration — otherwise gating on
+             $localesReady would skip the page's <svelte:head> on the client
+             for non-en-US users while the server already emitted a <title>,
+             producing a hydration mismatch (see Title.svelte for the matching
+             locale-pinning during initial render). The body is kept invisible
+             via the `locale-loading` CSS class until $localesReady flips. -->
+        {#if (!$localesReady || !loaded) && lag}
             <Loading />
-        {:else}
-            {@render children()}
         {/if}
+        {@render children()}
     </div>
 </div>
 <!-- Render a live region with announcements as soon as possible -->

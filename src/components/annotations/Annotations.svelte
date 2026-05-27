@@ -1,11 +1,21 @@
 <script module lang="ts">
+    /**
+     * Resolutions are exposed as a thunk so the (potentially expensive) inference
+     * inside {@link Conflict.getResolutions} only runs when an annotation is actually
+     * rendered — see Annotation.svelte's `$derived` wrapper.
+     */
     export type AnnotationInfo = {
         node: Node;
         element: Element | null;
         messages: Markup[];
         kind: 'step' | 'major' | 'minor';
         context: Context;
-        resolutions: Resolution[];
+        /**
+         * A thunk that returns the conflict's resolutions. `readonly Resolution[]`
+         * lets us accept both the non-empty `Resolutions` tuple from new
+         * conflicts and any plain array shape from intermediate code.
+         */
+        resolutions: () => readonly Resolution[];
         conflict?: ConflictLocaleAccessor;
     };
 </script>
@@ -38,7 +48,17 @@
     import type Evaluator from '@runtime/Evaluator';
     import type Step from '@runtime/Step';
     import { tick } from 'svelte';
-    import { locales, Settings, showAnnotations } from '@db/Database';
+    import {
+        locales,
+        Settings,
+        showAnnotations,
+        annotationsWidth,
+    } from '@db/Database';
+    import {
+        ANNOTATIONS_MIN_WIDTH,
+        ANNOTATIONS_MAX_WIDTH,
+    } from '@db/settings/AnnotationsWidthSetting';
+    import ResizeKnob from '@components/widgets/ResizeKnob.svelte';
     import type Project from '@db/projects/Project';
     import Characters from '../../lore/BasisCharacters';
     import type Markup from '@nodes/Markup';
@@ -125,9 +145,9 @@
         // Reset the annotation list to active annotations.
         annotations = sourceConflicts
             .map((conflict: Conflict) => {
+                // getMessage is cheap (no inference) — explanation needed eagerly for the speech bubble.
+                // Resolutions are wrapped in a thunk and only computed when the annotation renders.
                 const nodes = conflict.getMessage(context, Templates);
-                // Based on the node given, decide what to show.
-                // From these, we generate one or two speech bubbles to illustrate the conflict.
                 return [
                     {
                         node: nodes.node,
@@ -143,8 +163,8 @@
                             ? ('minor' as const)
                             : ('major' as const),
                         context,
-                        // Place the resolutions in the node.
-                        resolutions: nodes.resolutions ?? [],
+                        resolutions: () =>
+                            conflict.getResolutions(context, Templates),
                         conflict: conflict.getLocalePath(),
                     },
                 ];
@@ -179,7 +199,7 @@
                         ],
                         kind: 'step',
                         context,
-                        resolutions: [],
+                        resolutions: () => [],
                     },
                 ];
         }
@@ -256,13 +276,113 @@
         $evaluation;
         updateAnnotations();
     });
+
+    // --- Resize gesture -----------------------------------------------------
+    // The knob is the only resize affordance: it carries the pointer events
+    // directly (no edge-band detection on the section), so the user must be
+    // hovered over it to start a resize. Persistent so users see it any time
+    // the sidebar is expanded.
+    let dragging = $state(false);
+    let sectionEl: HTMLElement | undefined = $state();
+    let dragStartX = 0;
+    let dragStartWidth = 0;
+    /**
+     * Live width during a drag. We don't mutate the setting's store directly
+     * during the drag because `Setting.set` no-ops when the new value already
+     * equals `store.get()` — which would skip persisting to localStorage on
+     * pointerup if the store was already advanced by the drag loop.
+     */
+    let draggingWidth: number | undefined = $state(undefined);
+    /** The element that captured the drag; cleared in the up handler. */
+    let captureEl: Element | undefined;
+
+    let renderedWidth = $derived(draggingWidth ?? $annotationsWidth);
+
+    function handleKnobPointerDown(event: PointerEvent) {
+        if (sectionEl === undefined) return;
+        const target = event.currentTarget;
+        if (!(target instanceof Element)) return;
+        dragging = true;
+        dragStartX = event.clientX;
+        dragStartWidth = sectionEl.getBoundingClientRect().width;
+        draggingWidth = dragStartWidth;
+        target.setPointerCapture(event.pointerId);
+        captureEl = target;
+        event.stopPropagation();
+        event.preventDefault();
+    }
+
+    function handleKnobPointerMove(event: PointerEvent) {
+        if (!dragging) return;
+        // Sidebar sits on the right edge of the viewport. Moving the pointer
+        // leftward grows the sidebar; rightward shrinks it. Update only the
+        // local component state during the drag — `Settings.setAnnotationsWidth`
+        // is called once on pointerup so the persistence path runs exactly
+        // once with a value that differs from the store's current value.
+        draggingWidth = Math.max(
+            ANNOTATIONS_MIN_WIDTH,
+            Math.min(
+                ANNOTATIONS_MAX_WIDTH,
+                dragStartWidth + (dragStartX - event.clientX),
+            ),
+        );
+    }
+
+    function handleKnobPointerUp(event: PointerEvent) {
+        if (!dragging) return;
+        dragging = false;
+        if (captureEl?.hasPointerCapture(event.pointerId))
+            captureEl.releasePointerCapture(event.pointerId);
+        captureEl = undefined;
+        // Persist the final width once the drag ends. The store still holds
+        // the pre-drag value, so `Setting.set` sees a change and writes
+        // through to localStorage.
+        const final = draggingWidth;
+        draggingWidth = undefined;
+        if (final !== undefined) Settings.setAnnotationsWidth(final);
+    }
+
+    /**
+     * Keyboard nudge from the knob. Sidebar grows leftward (the knob is on
+     * the inline-start edge), so we subtract dx from the current width. dy
+     * is ignored — the sidebar only resizes horizontally.
+     */
+    function handleKnobNudge(dx: number, _dy: number) {
+        const current = $annotationsWidth;
+        const newWidth = Math.max(
+            ANNOTATIONS_MIN_WIDTH,
+            Math.min(ANNOTATIONS_MAX_WIDTH, current - dx),
+        );
+        Settings.setAnnotationsWidth(newWidth);
+    }
 </script>
 
 <!-- Render annotations by node -->
+<!-- Wrapper provides the positioning context for the resize knob outside the
+     section's overflow-x:hidden clip. The knob is a sibling of the section
+     rather than a child, so its half that sits past the section's left edge
+     stays visible. -->
+<div class="annotations-frame" class:expanded={isExpanded}>
+    {#if isExpanded}
+        <ResizeKnob
+            edge="left"
+            active={dragging}
+            onpointerdown={handleKnobPointerDown}
+            onpointermove={handleKnobPointerMove}
+            onpointerup={handleKnobPointerUp}
+            onnudge={handleKnobNudge}
+        />
+    {/if}
+<!-- svelte-ignore a11y_no_static_element_interactions -->
 <section
+    bind:this={sectionEl}
     aria-label={$locales.getPlainText((l) => l.ui.annotations.label)}
     class:expanded={isExpanded}
+    class:dragging
     data-uiid="conflict"
+    style:width={isExpanded ? `${renderedWidth}px` : null}
+    style:min-width={isExpanded ? `${renderedWidth}px` : null}
+    style:max-width={isExpanded ? `${renderedWidth}px` : null}
 >
     <Expander
         expanded={isExpanded}
@@ -451,9 +571,17 @@
         {/each}
     {/if}
 </section>
+</div>
 
 <style>
+    .annotations-frame {
+        position: relative;
+        height: 100%;
+        display: flex;
+    }
+
     section {
+        position: relative;
         padding: var(--wordplay-spacing);
         overflow-x: hidden;
         overflow-y: auto;
@@ -462,14 +590,20 @@
             var(--wordplay-border-color);
         max-width: 2em;
         min-width: 2em;
+        /* Long resolution text wraps onto multiple lines rather than getting
+           hidden by overflow-x; long unbreakable runs (e.g. literal text in
+           a union enumeration) break at any character. */
+        word-wrap: break-word;
+        overflow-wrap: anywhere;
         transition:
             max-width calc(var(--animation-factor) * 100ms),
             min-width calc(var(--animation-factor) * 100ms);
     }
 
-    section.expanded {
-        max-width: 15em;
-        min-width: 15em;
+    /* During the drag itself, suppress the width transition for responsive
+       feedback. */
+    section.expanded.dragging {
+        transition: none;
     }
 
     section:not(:global(.expanded)) {

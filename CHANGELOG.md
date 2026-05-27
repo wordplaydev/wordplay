@@ -4,30 +4,62 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
-## 0.18.1 - 2026-05-23
+## 0.19.1 - 2026-05-26
 
-### Added
-
-- 🔠 We added font face previews to drop downs in the palette and settings!
-- 🔒 We now ask for permission to cameras, microphones, and other inputs and show an exception if declined (#789).
-- 📖 Added 11 new built-in how-to's to the [Guide](https://wordplay.dev/guide) on layout, the @Pointer stream, @Structure, picking from a list with @Random, conditional rendering, and physics with @Motion and @Matter.
-- 🔢 You can now do math with Han numerals for Chinese, Japanese, and Korean (#2), Thai (#6), and Indic numerals for Bengali, Devanagari, Gujarati, Gurmukhi, Kannada, Tamil, and Telugu (#5, #7).
-- 🌐 We added Bengali (#142), Indonesian (#148), and Romanian (#433)!
-- 🔣 The emoji + glyph chooser now lets you filter by language scripts (#322).
-- 📡 We added better feedback when the site is offline and saves are pending.
-- ⬆️ We added a "back to top" button on long pages.
-- 🌐 We made text, names, and docs multilingual: tag them like `/es_en` to mark them as a mix of languages (Spanglish, Franglais, and more), and then you can filter code and output by matching languages (#430).
-
-### Changed
-
-- 🎨 We gave the [updates](https://wordplay.dev/updates) a little emoji to make the page easier to scan.
-- 📝 We made @Phrase word wrapping locale specific (#164).
-- 🛠️ We upgraded internal tooling for stability.
-- 🌐 We made the default choices on the language choosers in the editor and stage clearer.
-- 📖 Example code in how-tos and docs now shows every translation, not just the one matching your language.
+This week we fixed several bugs that classrooms were running into.
 
 ### Fixed
 
+- 📖 We fixed a bug where text typed in a how-to could disappear before it was saved. How-tos now save automatically as you write, so your work is safe even if you click outside the editor or get interrupted.
+- 📖 New how-tos now land close to the others on the canvas instead of getting dropped far away or piled on top of each other, and you can finally drag apart how-tos that ended up stacked. Moving a how-to also pans automatically.
+- ⚡ How-to preview glyphs no longer get stuck on a spinning placeholder when other people in the same gallery are editing.
+- 🐛 We fixed a bug where projects could crash and freeze the page if a stream kept setting itself off in a loop. The runtime now stops the loop in time so the page keeps working.
+- 💾 We fixed a bug where saving could silently fail after a long class period. Saves and live coediting now refresh your sign-in on their own and try once more, so an expired login doesn't cost you your work.
+- 📛 We now limit project names to 64 characters and character names to 32 characters. Go wild within limits!
+
+## 0.19.0 - 2026-05-23
+
+This week we focused on multilingual coding features, improved conflict resolution, collaborative editing, and several bug fixes.
+
+### Added
+
+- 🤝 You can now edit a project together with up to four people at the same time. Edits, undo/redo, and other people's carets and selections all sync between collaborators as you type (#135).
+- 🌐 You can now do math with Han numerals for Chinese, Japanese, and Korean (#2), Thai (#6), and Indic numerals for Bengali, Devanagari, Gujarati, Gurmukhi, Kannada, Tamil, and Telugu (#5, #7).
+- 🌐 We added Bengali (#142), Indonesian (#148), and Romanian (#433)!
+- 🌐 The emoji/glyph chooser now lets you filter by language scripts (#322).
+- 🌐 We made text, names, and docs multilingual: tag them like `'hola kitty'/es_en` to mark them as a mix of languages (Spanglish, Franglais, and more), and then you can filter code and output by matching languages (#430).
+- 🌐 The @Key stream now shows and accepts key names in your language. French programs can write `Key('Espace')` and English programs can write `Key('Space')`, and autocomplete suggests the named keys in your locale (#11).
+- 🌐 The @Color structure now has shortcuts for those eleven common colors, with names in your language. Write `Color.red` in English, `couleur.rouge` in French, or `色.赤` in Japanese instead of mixing the color yourself (#109).
+- 🌐 You can now give a project a name in many languages, like `"hi"/en"hola"/es`. The name shown matches your language, and search finds the project no matter which language you type in (#456).
+- 🔠 We added font face previews to drop downs in the palette and settings!
+- 🎤 We now ask for permission to cameras, microphones, and other inputs and show an exception if declined (#789).
+- 📖 Added 11 new built-in how-to's to the [Guide](https://wordplay.dev/guide) on layout, the @Pointer stream, @Structure, picking from a list with @Random, conditional rendering, and physics with @Motion and @Matter.
+- 📡 We added better feedback when the site is offline and saves are pending.
+- ⬆️ We added a "back to top" button on long pages.
+- 🟰 In an equals comparison, we menu's now suggest what the right might be based on the left.
+- 🧱 Inside a structure, you can now mark a function or value with ↑ to make it belong to the structure itself instead of to instances. So you can write `Math.pi` and `Math.square(5)` without making a `Math()` first.
+- 🧱 Every problem in your code now offers at least one suggested fix you can click to apply (#827).
+- 🧱 When your code mixes math operators, like \1 + 2 · 3\, we now offer to fix it using math order (PEMDAS, so ^ runs before × ÷, which run before + −), or to keep reading order with parentheses (#333).
+- 🔊 Screen readers now hear color names for @Phrase, @Group, @Stage, and @Shape, and as you move the sliders in the color chooser. We use the eleven most common color words across languages (red, orange, yellow, green, blue, purple, brown, pink, black, white, gray), and combine them for in-between colors like "light blue-purple" (#109).
+- 🖱️ You can now drag the knob on the edge of the annotations sidebar to make it wider or narrower, and the same knob style is now used between tile panes.
+
+### Changed
+
+- 🌐 We made the default choices on the language choosers in the editor and stage clearer.
+- 🔣 The script picker in the glyph chooser now lists which languages use each script.
+- 🎨 We gave the [updates](https://wordplay.dev/updates) a little emoji to make the page easier to scan.
+- 📝 We made @Phrase word wrapping locale specific (#164).
+- 🛠️ We upgraded internal tooling for stability.
+- 📖 Example code in how-tos and docs now shows every translation, not just the one matching your language.
+- 🚦 When your code has a syntax error, the suggested fixes are now much smarter, better accounting for context (#885).
+- 🚦 When your code has a type error, the suggested fixes are now much smarter too, with options like converting values, wrapping in a list, adding a missing input, or filling in a default (#1025).
+- 🚦 When your code has a problem, we now show fewer follow-up conflicts that distract from the root cause. For example, if a name like `foo` is undefined, we won't also complain everywhere else `foo` is used (#1146).
+- ⚡ The little glyphs on [galleries](https://wordplay.dev/galleries) and your [projects](https://wordplay.dev/projects) page now load right away instead of one per second. We also let you pick your own glyph for a project in the share dialog (#435).
+- 💾 When projects don't save, the error message now lists which projects failed, why each one failed, and the technical error code to help with bug reports.
+
+### Fixed
+
+- 🌐 We fixed several localization problems in machine translated locales (#122).
 - 🤝 When many people were sharing to a gallery at once, it could lead to some shares failing. That shouldn't happen anymore. We made similar changes to updates to chats, feedback, how tos, teacher classes.
 - 🚦 We fixed problems with how text types with multiple options are shown as conflicts, especially with output animation styles (#541).
 - 🔠 We fixed a few font face weight availability problems (#1026).
@@ -35,9 +67,18 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🐞 We fixed the debugger so you can now step through anonymous functions and see each step as you go, instead of getting a confusing missing value error (#680).
 - 🚦 We fixed a false conflict that appeared on anonymous functions in expressions like \[1 2 3 4].translate(ƒ(a) a + 1)\, even when the code was fine.
 - 🚦 We fixed the conflict underlines so they follow the code when values pop in next to expressions while stepping through the debugger.
-- 🌐 We fixed several localization problems in machine translated locales (#122).
+- 🐞 We fixed three problems related to type checking in conditionals.
+- 🚦 Passing the @Color structure itself where a color value was expected (like `Phrase('hi' color: Color)`) used to be quietly accepted. It's now a conflict — write `Color.red` or `Color(50% 100 0°)` to make a color value.
+- 🔊 In the code editor, typing now reads each character to screen readers, like a normal text field.
+- 🔊 Stage output announcements now start with "output" so screen reader users can tell them apart from editor and chooser announcements, and @Text outputs read the actual text instead of just the word "text".
+- 🚦 We fixed a bug where one syntax error could show up as two duplicate warnings.
+- 📖 We fixed a bug where how-to's didn't show up for people with access to many galleries, like teachers with lots of classes.
+- 📝 We fixed two bugs with the editor on iPhone and iPad that made it impossible to type.
+- 🎨 Safari now renders color emoji correctly in markup.
 
 ## 0.18.0 - 2026-05-15
+
+This week we focused on new and improved inputs and a new in-app localization mode.
 
 ### Added
 

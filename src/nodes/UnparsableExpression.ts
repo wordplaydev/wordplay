@@ -46,6 +46,28 @@ export default class UnparsableExpression extends SimpleExpression {
     }
 
     computeConflicts(context: Context): Conflict[] {
+        // An empty unparsable defers to a sibling unparsable in the same parent
+        // — it's usually a parser side-effect of running out of tokens while
+        // filling required slots, not a separate error. When multiple empty
+        // siblings exist (e.g. `←` produces two empty UnparsableExpressions in
+        // Previous.number and .stream), only the first emits a conflict.
+        if (this.unparsables.length === 0) {
+            const parent = context.source.root.getParent(this);
+            if (parent) {
+                const allUnparsables = parent
+                    .nodes()
+                    .filter(
+                        (n) =>
+                            n instanceof UnparsableExpression ||
+                            n instanceof UnparsableType,
+                    );
+                const someWithContent = allUnparsables.some(
+                    (n) => n !== this && n.unparsables.length > 0,
+                );
+                if (someWithContent) return [];
+                if (allUnparsables[0] !== this) return [];
+            }
+        }
         return [new UnparsableConflict(this, context)];
     }
 

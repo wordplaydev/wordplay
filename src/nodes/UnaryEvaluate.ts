@@ -135,16 +135,18 @@ export default class UnaryEvaluate extends Expression {
         // Find the function on the left's type.
         const fun = this.getFunction(context);
 
-        // No match? Give a conflict.
-        if (fun === undefined)
-            conflicts.push(
-                new IncompatibleInput(
-                    this.fun,
-                    this.input.getType(context),
-                    FunctionType.make(undefined, [], new AnyType()),
-                ),
-            );
-        else if (fun.getRequiredInputs().length > 0) {
+        // No match? Give a conflict — unless the operand's type is already
+        // UnknownType, in which case the root-cause conflict is upstream.
+        if (fun === undefined) {
+            if (!context.isUnknownDownstream(this.input))
+                conflicts.push(
+                    new IncompatibleInput(
+                        this.fun,
+                        this.input.getType(context),
+                        FunctionType.make(undefined, [], new AnyType()),
+                    ),
+                );
+        } else if (fun.getRequiredInputs().length > 0) {
             conflicts.push(
                 new MissingInput(fun, this, this.input, fun.inputs[0]),
             );
@@ -209,7 +211,13 @@ export default class UnaryEvaluate extends Expression {
     }
 
     /**
-     * Logical negations take the set complement of the current set from the original.
+     * Logical negation flips the operand's narrowing. If the operand actually
+     * narrowed `current` to a subset, `~operand` is the complement of that
+     * subset within `current`. If the operand didn't narrow `current` at all
+     * (e.g. `~state.guesses.has(key)` — `has(key)` returns a Bool whose
+     * truthiness doesn't refine `key`'s type), `~` is a no-op too: otherwise
+     * `current.difference(current)` would collapse the set to empty and turn
+     * the binding's type into Never.
      * */
     evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
         // We only manipulate possible types for logical negation operators.
@@ -218,8 +226,13 @@ export default class UnaryEvaluate extends Expression {
         // Get the possible types of the operand.
         const possible = this.input.evaluateTypeGuards(current, guard);
 
-        // Return the difference between the original types and the possible types,
-        return guard.original.difference(possible, guard.context);
+        // No narrowing from the operand → no narrowing here either. Narrowing
+        // only removes types, so size equality implies the sets match.
+        if (possible.size() === current.size()) return current;
+
+        // Otherwise, return the complement of the operand's narrowed set
+        // within `current`: the types where the operand's assertion is false.
+        return current.difference(possible, guard.context);
     }
 
     getStart() {

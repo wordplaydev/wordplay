@@ -47,6 +47,7 @@ import type TypeSet from '@nodes/TypeSet';
 import TypeVariable from '@nodes/TypeVariable';
 import UnaryEvaluate from '@nodes/UnaryEvaluate';
 import UnionType from '@nodes/UnionType';
+import UnknownType from '@nodes/UnknownType';
 import UnknownNameType from '@nodes/UnknownNameType';
 
 /**
@@ -325,12 +326,18 @@ export default class Reference extends SimpleExpression {
         // Is this name undefined in scope?
         if (bindOrTypeVar === undefined) {
             const scope = this.getScope(context);
-            conflicts.push(
-                new UnknownName(
-                    this,
-                    scope instanceof Type ? scope : undefined,
-                ),
-            );
+            // Suppress when the scope is itself an UnknownType — the root-cause
+            // conflict lives on whatever made the scope corrupt. Without this,
+            // `missing + 10` would yield UnknownName twice: once for `missing`
+            // and once for `+`, because resolving `+` on UnknownNameType also
+            // fails. #1146
+            if (!(scope instanceof UnknownType))
+                conflicts.push(
+                    new UnknownName(
+                        this,
+                        scope instanceof Type ? scope : undefined,
+                    ),
+                );
         }
         // Can't refer to type variables with a reference, those can only be mentioned in type inputs.
         else if (bindOrTypeVar instanceof TypeVariable)

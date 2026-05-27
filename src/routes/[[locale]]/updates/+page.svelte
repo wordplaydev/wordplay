@@ -31,6 +31,48 @@
     setConceptPath(path);
 
     Settings.setUpdatesLastChecked(datedUpdates[0].date.split('T')[0]);
+
+    /** Convert a CHANGELOG bullet's text into Wordplay markup.
+     *
+     *  Markdown-style substitutions (`**`, `_`, `[…](…)`, `#N`) must NOT
+     *  rewrite content inside backticks — `en_us` should round-trip
+     *  unchanged. Pull every backtick span out into a placeholder first,
+     *  apply the prose transforms, then restore each span as a Wordplay
+     *  Example (`\…\`). */
+    function toMarkup(text: string): string {
+        const PLACEHOLDER = '';
+        const spans: string[] = [];
+        let body = text.replaceAll(/`(.+?)`/g, (_, code) => {
+            spans.push(code);
+            return `${PLACEHOLDER}${spans.length - 1}${PLACEHOLDER}`;
+        });
+        body = body
+            // Escape literals of any markup symbol that we'll later
+            // *introduce* via a substitution below, so a stray copy in the
+            // source can't accidentally trigger that markup. Wordplay markup
+            // escapes specials by doubling them — see
+            // `unescapeMarkupSymbols`. Order matters: do these *before* the
+            // substitutions that emit those symbols.
+            //
+            // `\` — guards against a runaway Example when placeholders are
+            //   restored as `\…\`.
+            // `/` — `_` → `/` italics conversion runs below; without
+            //   escaping, a literal `/` (e.g., in paths or ratios) becomes
+            //   an italic marker.
+            .replaceAll('\\', '\\\\')
+            .replaceAll('/', '//')
+            .replaceAll('**', '*')
+            .replaceAll('_', '/')
+            .replaceAll(/\[([^\]]+)\]\(([^)]+)\)/g, '<$1@$2>')
+            .replaceAll(
+                /#([0-9]+)/g,
+                '<$1@https://github.com/wordplaydev/wordplay/issues/$1>',
+            );
+        return body.replaceAll(
+            new RegExp(`${PLACEHOLDER}(\\d+)${PLACEHOLDER}`, 'g'),
+            (_, idx) => `\\${spans[Number(idx)]}\\`,
+        );
+    }
 </script>
 
 {#snippet note(entry: { text: string; emoji: string | null })}
@@ -39,17 +81,7 @@
         {#if entry.emoji}
             <span class="marker emoji" aria-hidden="true">{entry.emoji}</span>
         {/if}
-        <MarkupHTMLView
-            markup={entry.text
-                .replaceAll('**', '*')
-                .replaceAll('_', '/')
-                .replaceAll(/`(.+?)`/g, '\\"$1"\\')
-                .replaceAll(/\[([^\]]+)\]\(([^)]+)\)/g, '<$1@$2>')
-                .replaceAll(
-                    /#([0-9]+)/g,
-                    '<$1@https://github.com/wordplaydev/wordplay/issues/$1>',
-                )}
-        />
+        <MarkupHTMLView markup={toMarkup(entry.text)} />
     </li>
 {/snippet}
 
@@ -76,6 +108,9 @@
             >
 
             {#if !collapsed[index]}
+                {#if update.summary}
+                    <MarkupHTMLView markup={toMarkup(update.summary)} />
+                {/if}
                 {#if update.changes.added.length > 0}
                     <h3 class="added"
                         ><LocalizedText
@@ -87,6 +122,11 @@
                             {@render note(item)}
                         {/each}
                     </ul>
+                    {#if update.summaries?.added}
+                        <MarkupHTMLView
+                            markup={toMarkup(update.summaries.added)}
+                        />
+                    {/if}
                 {/if}
                 {#if update.changes.changed.length > 0}
                     <h3 class="changed"
@@ -99,6 +139,11 @@
                             {@render note(item)}
                         {/each}
                     </ul>
+                    {#if update.summaries?.changed}
+                        <MarkupHTMLView
+                            markup={toMarkup(update.summaries.changed)}
+                        />
+                    {/if}
                 {/if}
                 {#if update.changes.fixed.length > 0}
                     <h3 class="fixed"
@@ -111,6 +156,11 @@
                             {@render note(item)}
                         {/each}
                     </ul>
+                    {#if update.summaries?.fixed}
+                        <MarkupHTMLView
+                            markup={toMarkup(update.summaries.fixed)}
+                        />
+                    {/if}
                 {/if}
                 {#if update.changes.removed.length > 0}
                     <h3 class="removed"
@@ -123,6 +173,11 @@
                             {@render note(item)}
                         {/each}
                     </ul>
+                    {#if update.summaries?.removed}
+                        <MarkupHTMLView
+                            markup={toMarkup(update.summaries.removed)}
+                        />
+                    {/if}
                 {/if}
             {/if}
         </div>

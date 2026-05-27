@@ -68,8 +68,15 @@
 </script>
 
 {#snippet code()}
-    <div class="code">
-        <div
+    <!-- `span` rather than `div` so the element is intrinsically inline.
+         Before scoped CSS applies on a hard refresh (the brief window
+         where the browser has parsed the HTML but not yet the `<style>`),
+         `<div>` would render as block and inline examples would briefly
+         stack vertically before settling. Spans default to `inline` and
+         the CSS below then upgrades them to `inline-flex` / `flex` /
+         `inline-block` without a layout shift. -->
+    <span class="code">
+        <span
             role="textbox"
             aria-label={$locales.getPlainText(
                 (l) => node.getLocalePath()(l).name,
@@ -100,24 +107,24 @@
                 {elide}
                 locale={localize ? $locales.getLocale() : null}
                 inert={!draggable}
-            /></div
+            /></span
         >{#if type && concept}&nbsp;<TypeView
                 {type}
                 context={concept.context}
             />
         {/if}
-    </div>
+    </span>
 {/snippet}
 
 {#snippet link()}
     {#if describe && concept}
-        <div class="link">
+        <span class="link">
             <ConceptLinkUI link={concept} symbolic={false} />
-        </div>
+        </span>
     {/if}
 {/snippet}
 
-<div class="view">
+<span class="view">
     {#if flip}
         {@render link()}
         {@render code()}
@@ -125,7 +132,7 @@
         {@render code()}
         {@render link()}
     {/if}
-</div>
+</span>
 
 <style>
     .view {
@@ -182,7 +189,16 @@
         box-shadow: var(--color-shadow) 4px 4px 4px;
     }
 
+    /* Inline examples embedded in paragraph text (the only call site that
+       passes outline={false}). Give them a neutral rounded border and a
+       subtle alternating background so they're visually separated from
+       surrounding prose — names share the text color, so without this they
+       blur into the sentence. No padding: identifiers already carry their
+       own internal spacing. */
     .node:not(:global(.outline)) {
         border-radius: var(--wordplay-border-radius);
+        padding-left: var(--wordplay-spacing);
+        padding-right: var(--wordplay-spacing);
+        background: var(--wordplay-alternating-color);
     }
 </style>

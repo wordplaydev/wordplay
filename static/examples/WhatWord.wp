@@ -1,4 +1,5 @@
-WhatWord
+W
+"WhatWord"/en"猜单词"/zh-CN"猜單字"/zh-TW
 === start/en
 ↓ words
 
@@ -22,7 +23,7 @@ key/en,tecla/es,مفتاح/ar: ⌨️()
 ¶عندما تتغير حالة لوحة المفاتيح ، تتغير حالة اللعبة.¶/ar
 state/en,estado/es,حالة/ar•Game: Game([] words.sorted(ƒ() Random()) ⊥) … ∆ key …
 		key = "Escape" ? Game([] words.sorted(ƒ() Random()) ⊥)
-			(state.status ≠ "playing") & (key = " ") ? Game([] state.remaining.sansFirst() ⊤)
+			(state.status ≠ "playing") & (key = "Space") ? Game([] state.remaining.sansFirst() ⊤)
 				(state.status = "playing") & (key.length() = 1) & ~state.guesses.has(key) ?
 					Game(state.guesses.add(key) state.remaining ⊤)
 					state

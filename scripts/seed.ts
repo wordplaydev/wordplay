@@ -1,6 +1,8 @@
 import admin from 'firebase-admin';
-import type { SerializedGallery } from '../src/db/galleries/Gallery';
-import type { SerializedProject } from '../src/db/projects/ProjectSchemas';
+import Gallery from '../src/db/galleries/Gallery';
+import Project from '../src/db/projects/Project';
+import DefaultLocale from '../src/locale/DefaultLocale';
+import Source from '../src/nodes/Source';
 
 process.env.FIREBASE_AUTH_EMULATOR_HOST = '127.0.0.1:9099';
 process.env.FIRESTORE_EMULATOR_HOST = '127.0.0.1:8080';
@@ -44,6 +46,16 @@ const SEEDED_USERS: SeededUser[] = [
         claims: null,
     },
     {
+        // Second creator for manual testing of collaborative editing
+        // (#135). Paired with `creator` on SEEDED_COLLAB_PROJECT_ID below
+        // so two emulator browser sessions can open the same project and
+        // exercise the presence + CRDT flows.
+        uid: 'creator0000000000000000000002',
+        username: 'creator2',
+        displayName: '✎',
+        claims: null,
+    },
+    {
         uid: 'seeded-teacher-uid-00000000001',
         username: 'teacher',
         displayName: 'Teacher',
@@ -69,9 +81,24 @@ const SEEDED_USERS: SeededUser[] = [
     },
 ];
 
+/**
+ * Stable ID for the shared collaborative-editing test project. Owned by
+ * `creator`, with `creator2` as a collaborator, so logging in as either
+ * one and opening /project/{this id} drops you straight into a project
+ * the other can also edit. The fixed ID means both browser windows can
+ * navigate to the same URL without copy-pasting.
+ */
+const SEEDED_COLLAB_PROJECT_ID = 'seed-collab-project';
+
 /** Stable IDs for the demo class + gallery so tests can reference them directly. */
 const SEEDED_CLASS_ID = 'seeded-class-id';
 const SEEDED_CLASS_GALLERY_ID = 'seeded-class-gallery-id';
+
+/** Stable IDs for the creator-owned how-to workshop (class + gallery). Used
+ *  for manual testing of the how-to editor / drafts list with enough fixture
+ *  content to exercise multi-draft + multi-published layouts. */
+const SEEDED_HOWTO_CLASS_ID = 'seeded-howto-class-id';
+const SEEDED_HOWTO_GALLERY_ID = 'seeded-howto-gallery-id';
 
 /**
  * Names for creator-owned public projects, each paired 1:1 with a gallery
@@ -198,26 +225,16 @@ async function seedClassAndGallery(): Promise<void> {
         galleries: [SEEDED_CLASS_GALLERY_ID],
     };
 
-    const galleryDoc: SerializedGallery = {
-        v: 2,
-        id: SEEDED_CLASS_GALLERY_ID,
-        path: null,
-        name: { 'en-US': 'Demo Class Gallery' },
-        description: { 'en-US': 'Seeded gallery for the demo class.' },
-        words: [],
-        projects: [],
-        curators: [teacher.uid],
-        creators: students.map((s) => s.uid),
-        public: false,
-        featured: false,
-        howTos: [],
-        howToExpandedVisibility: false,
-        howToExpandedGalleries: [],
-        howToViewers: {},
-        howToViewersFlat: [],
-        howToGuidingQuestions: [],
-        howToReactions: {},
-    };
+    // Use Gallery.make so the serialized shape always matches the
+    // current schema — same future-proofing rationale as Project.make
+    // above. The .data field is the serialized form.
+    const galleryDoc = Gallery.make(
+        SEEDED_CLASS_GALLERY_ID,
+        { 'en-US': 'Demo Class Gallery' },
+        { 'en-US': 'Seeded gallery for the demo class.' },
+        [teacher.uid],
+        students.map((s) => s.uid),
+    ).data;
 
     // setDoc overwrites whatever's there — fine for seeding because we want a
     // known starting state on every emulator start.
@@ -235,75 +252,255 @@ function makePublicProject(
     index: number,
     ownerUid: string,
     galleryId: string,
-): SerializedProject {
+) {
     const id = `seed-project-${String(index).padStart(2, '0')}`;
     const name = PUBLIC_PROJECT_NAMES[index] ?? `Project ${index}`;
-    return {
-        v: 5,
+    // Use Project.make so the serialized shape always matches the
+    // current schema — no risk of v5/v6/v7/v8 drift if the schema
+    // bumps again later. Project.make defaults handle stamps, crdt,
+    // history, viewers, commenters, flags, etc.
+    return Project.make(
         id,
         name,
-        sources: [
-            {
-                names: 'start',
-                code: `Phrase("${name}")`,
-                caret: 0,
-            },
-        ],
-        locales: ['en-US'],
-        owner: ownerUid,
-        collaborators: [],
-        public: true,
-        listed: true,
-        archived: false,
-        timestamp: Date.now() - index * 1000,
-        persisted: true,
-        gallery: galleryId,
-        flags: {
-            dehumanization: null,
-            violence: null,
-            disclosure: null,
-            misinformation: null,
-        },
-        nonPII: [],
-        chat: null,
-        history: [],
-        restrictedGallery: false,
-        viewers: [],
-        commenters: [],
-    };
+        new Source('start', `Phrase("${name}")`),
+        [],
+        DefaultLocale,
+        ownerUid, // owner
+        [], // collaborators
+        true, // public
+        undefined, // carets
+        true, // listed
+        false, // archived
+        true, // persisted
+        galleryId, // gallery
+        undefined, // flags — defaults to unknownFlags()
+        Date.now() - index * 1000, // timestamp
+    ).serialize();
 }
 
 function makePublicGallery(
     index: number,
     curatorUid: string,
     projectId: string,
-): SerializedGallery {
+) {
     // Gallery.isBuiltIn() treats hyphen-free IDs as built-ins, so the ID must
     // contain a hyphen. Stable IDs keep the seed idempotent across reruns.
     const id = `seed-public-gallery-${String(index).padStart(2, '0')}`;
     const theme = PUBLIC_GALLERY_THEMES[index] ?? `Gallery ${index}`;
-    return {
-        v: 2,
+    return Gallery.make(
         id,
-        path: null,
-        name: { 'en-US': theme },
-        description: {
+        { 'en-US': theme },
+        {
             'en-US': `A seeded public gallery for testing (#${index + 1}).`,
         },
-        words: theme.toLowerCase().split(/\s+/),
-        projects: [projectId],
-        curators: [curatorUid],
-        creators: [curatorUid],
-        public: true,
-        featured: false,
-        howTos: [],
-        howToExpandedVisibility: false,
-        howToExpandedGalleries: [],
-        howToViewers: {},
-        howToViewersFlat: [],
-        howToGuidingQuestions: [],
-        howToReactions: {},
+        [curatorUid],
+        [curatorUid],
+        {
+            words: theme.toLowerCase().split(/\s+/),
+            projects: [projectId],
+            public: true,
+        },
+    ).data;
+}
+
+/**
+ * A project shared between `creator` (owner) and `creator2` (collaborator)
+ * for manual testing of collaborative editing (#135). Both users can edit
+ * the same project at /project/{SEEDED_COLLAB_PROJECT_ID}, so opening it
+ * in two browser windows — one signed in as each — exercises the live
+ * coediting flow: per-field stamp merge for metadata, Yjs CRDT for
+ * source code, and the presence overlay (floating remote carets +
+ * footer chip row).
+ *
+ * Written at v8 (the current schema): empty stamps, null CRDT snapshot.
+ * The first edit from either browser bumps stamps and writes a real
+ * `crdt` snapshot.
+ */
+async function seedCollaborativeProject(): Promise<void> {
+    const firestore = admin.firestore();
+    const creator = SEEDED_USERS.find((u) => u.username === 'creator');
+    const creator2 = SEEDED_USERS.find((u) => u.username === 'creator2');
+    if (!creator || !creator2)
+        throw new Error('creator or creator2 missing from SEEDED_USERS');
+
+    // Use Project.make so the serialized shape always matches the
+    // current schema. Project.make's defaults handle stamps, crdt,
+    // and every other field future schema bumps might add — no
+    // risk of stale literals in this file when the schema moves.
+    const project = Project.make(
+        SEEDED_COLLAB_PROJECT_ID,
+        'Shared Sketch',
+        new Source('start', 'Phrase("Type here together!")'),
+        [],
+        DefaultLocale,
+        creator.uid, // owner
+        [creator2.uid], // collaborators
+        false, // public
+        undefined, // carets
+        true, // listed
+        false, // archived
+        true, // persisted
+        null, // gallery
+    ).serialize();
+
+    await firestore
+        .collection('projects')
+        .doc(SEEDED_COLLAB_PROJECT_ID)
+        .set(project);
+    console.log(
+        `[seed] Wrote collaborative project "${SEEDED_COLLAB_PROJECT_ID}" (owner: ${creator.username}, collaborator: ${creator2.username})`,
+    );
+}
+
+/** Titles for the seeded how-tos. Length controls how many are created. */
+const HOWTO_TITLES = [
+    'Make a phrase pulse',
+    'Use color to set mood',
+    'Animate text along a path',
+    'Layer shapes for depth',
+    'Loop a stream forever',
+    'Sync motion to music',
+    'Type ahead like a typewriter',
+    'Bounce a ball off the walls',
+    'Build a rainfall effect',
+    'Spin letters one by one',
+    'Wave words like a flag',
+    'Stack three colors on a page',
+    'React when the user clicks',
+    'Read keystrokes as input',
+    'Switch scenes on a timer',
+];
+
+const HOWTO_GUIDING_QUESTIONS = [
+    'What did you make?',
+    'What was tricky and how did you solve it?',
+    'What could someone try next?',
+];
+
+const HOWTO_REACTIONS: Record<string, string> = {
+    '👍': 'like',
+    '💡': 'gave me an idea',
+    '❓': 'have a question',
+};
+
+/**
+ * Seed a class + gallery + many how-tos all owned by `creator`. The class
+ * lists `creator` as the sole teacher; the gallery has `creator` as both
+ * curator and creator so they can edit and view everything. Roughly two
+ * thirds of the how-tos are published (laid out on a small grid on the
+ * canvas) and one third are drafts (so the drafts list also has content).
+ *
+ * Sized for hand-testing the how-to editor flows: multi-draft autosave,
+ * cross-document state isolation, the drafts list, and the published-canvas
+ * preview.
+ */
+async function seedCreatorHowTos(): Promise<void> {
+    const firestore = admin.firestore();
+    const creator = SEEDED_USERS.find((u) => u.username === 'creator');
+    if (!creator) throw new Error('Creator user missing from SEEDED_USERS');
+
+    const classDoc = {
+        id: SEEDED_HOWTO_CLASS_ID,
+        name: 'Creator Workshop',
+        description:
+            'A seeded class with many how-tos owned by `creator`, for manual testing of the how-to editor.',
+        teachers: [creator.uid],
+        learners: [],
+        info: [],
+        galleries: [SEEDED_HOWTO_GALLERY_ID],
     };
+    await firestore
+        .collection('classes')
+        .doc(SEEDED_HOWTO_CLASS_ID)
+        .set(classDoc);
+    console.log(`[seed] Wrote class "${SEEDED_HOWTO_CLASS_ID}"`);
+
+    const howToIds = HOWTO_TITLES.map(
+        (_, i) => `seed-howto-${String(i).padStart(2, '0')}`,
+    );
+
+    // Use Gallery.make so the serialized shape always matches the
+    // current schema; opts.howTos pre-links the gallery to the docs we're
+    // about to write below.
+    const galleryDoc = Gallery.make(
+        SEEDED_HOWTO_GALLERY_ID,
+        { 'en-US': 'Creator Workshop Gallery' },
+        {
+            'en-US':
+                'Seeded gallery for the Creator Workshop class, populated with how-tos.',
+        },
+        [creator.uid], // curators
+        [creator.uid], // creators
+        {
+            howTos: howToIds,
+            howToGuidingQuestions: HOWTO_GUIDING_QUESTIONS,
+            howToReactions: HOWTO_REACTIONS,
+        },
+    ).data;
+    await firestore
+        .collection('galleries')
+        .doc(SEEDED_HOWTO_GALLERY_ID)
+        .set(galleryDoc);
+    console.log(`[seed] Wrote gallery "${SEEDED_HOWTO_GALLERY_ID}"`);
+
+    // Use the constant Date.now() once so all publishedAt timestamps are
+    // relative to a single point — keeps the seed deterministic across
+    // runs as long as the clock is monotonic.
+    const now = Date.now();
+
+    const batch = firestore.batch();
+    for (let i = 0; i < HOWTO_TITLES.length; i++) {
+        const id = howToIds[i];
+        const title = HOWTO_TITLES[i];
+        // Every 3rd how-to is a draft so the drafts list has something to
+        // show alongside the canvas-rendered published ones.
+        const published = i % 3 !== 0;
+        // Lay published how-tos out on a 5-column grid; drafts get (0,0)
+        // since they don't render on the canvas.
+        const xcoord = published ? (i % 5) * 250 : 0;
+        const ycoord = published ? Math.floor(i / 5) * 250 : 0;
+        const howToDoc = {
+            v: 2,
+            id,
+            galleryId: SEEDED_HOWTO_GALLERY_ID,
+            published,
+            publishedAt: published ? now - i * 60_000 : null,
+            xcoord,
+            ycoord,
+            title: `¶${title}¶/en-US`,
+            guidingQuestions: HOWTO_GUIDING_QUESTIONS,
+            text: HOWTO_GUIDING_QUESTIONS.map(
+                (_, qi) =>
+                    `¶Example answer ${qi + 1} for "${title}". (Seeded content — edit me!)¶/en-US`,
+            ),
+            creator: creator.uid,
+            collaborators: [],
+            viewers: {},
+            viewersFlat: [],
+            scopeOverwrite: false,
+            locales: ['en-US'],
+            isPublic: false,
+            social: {
+                v: 1,
+                notifySubscribers: true,
+                reactionOptions: HOWTO_REACTIONS,
+                reactions: Object.fromEntries(
+                    Object.keys(HOWTO_REACTIONS).map((emoji) => [emoji, []]),
+                ),
+                usedByProjects: [],
+                chat: null,
+                bookmarkers: [],
+                submittedToGuide: false,
+                seenByUsers: [creator.uid],
+                viewCount: 0,
+            },
+        };
+        batch.set(firestore.collection('howtos').doc(id), howToDoc);
+    }
+    await batch.commit();
+    console.log(
+        `[seed] Wrote ${HOWTO_TITLES.length} how-tos in gallery "${SEEDED_HOWTO_GALLERY_ID}" (owner: ${creator.username})`,
+    );
 }
 
 /**
@@ -345,6 +542,16 @@ async function main(): Promise<void> {
     } catch (err) {
         console.error('[seed] Failed to seed public projects/galleries:', err);
     }
+    try {
+        await seedCollaborativeProject();
+    } catch (err) {
+        console.error('[seed] Failed to seed collaborative project:', err);
+    }
+    try {
+        await seedCreatorHowTos();
+    } catch (err) {
+        console.error('[seed] Failed to seed creator how-tos:', err);
+    }
     console.log('[seed] Done. Manual logins:');
     for (const user of SEEDED_USERS) {
         const claimsNote = user.claims
@@ -352,6 +559,12 @@ async function main(): Promise<void> {
             : '';
         console.log(`  - ${user.username} / ${PASSWORD}${claimsNote}`);
     }
+    console.log(
+        `[seed] Collaborative project: /project/${SEEDED_COLLAB_PROJECT_ID} (open in two browsers signed in as creator + creator2)`,
+    );
+    console.log(
+        `[seed] Creator how-tos: /gallery/${SEEDED_HOWTO_GALLERY_ID}/howto (sign in as creator)`,
+    );
 }
 
 await main();

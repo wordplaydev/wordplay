@@ -1,7 +1,9 @@
-import Conflict from '@conflicts/Conflict';
+import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import type Context from '@nodes/Context';
+import type Node from '@nodes/Node';
 import type LocaleText from '@locale/LocaleText';
 import type Locales from '@locale/Locales';
-import type Words from '@nodes/Words';
+import Words from '@nodes/Words';
 
 /**
  * A warning emitted when a @Phrase's markup requests a weight or italic style
@@ -33,6 +35,31 @@ export default class UnsupportedFontFormat extends Conflict {
                     { face: this.face, format: this.format },
                 ),
         };
+    }
+
+    override getResolutions(
+        _context: Context,
+        _concepts: Node[],
+    ): Resolutions {
+        // Strip the formatting markers (open/close tokens) so the words
+        // render plain, without the missing format.
+        const plain = new Words(undefined, this.words.segments, undefined);
+        return [
+            {
+                kind: 'repair',
+                description: (locales: Locales) =>
+                    locales.concretize(
+                        (l) => UnsupportedFontFormat.LocalePath(l).resolution,
+                        { face: this.face, format: this.format },
+                    ),
+                mediator: (ctx) => ({
+                    newProject: ctx.project.withRevisedNodes([
+                        [this.words, plain],
+                    ]),
+                    newNode: plain,
+                }),
+            },
+        ];
     }
 
     getLocalePath() {

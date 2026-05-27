@@ -48,7 +48,6 @@ import Type from '@nodes/Type';
 import TypePlaceholder from '@nodes/TypePlaceholder';
 import type TypeSet from '@nodes/TypeSet';
 import TypeToken from '@nodes/TypeToken';
-import UnknownType from '@nodes/UnknownType';
 
 export default class Bind extends Expression {
     readonly docs: Docs;
@@ -397,7 +396,10 @@ export default class Bind extends Expression {
             this.value instanceof Expression
         ) {
             const valueType = this.value.getType(context);
-            if (!this.type.accepts(valueType, context))
+            if (
+                !context.isUnknownDownstream(this.value) &&
+                !this.type.accepts(valueType, context)
+            )
                 conflicts.push(
                     new IncompatibleType(
                         this.names,
@@ -468,21 +470,30 @@ export default class Bind extends Expression {
                 conflicts.push(new UnusedBind(this));
         }
 
-        // Shares can only appear in the program's root block.
+        // Shares can only appear in the program's root block OR (with the
+        // "static" interpretation) as a direct statement of a structure block.
         if (this.share !== undefined) {
-            if (
-                !context.source.expression.expression
-                    .getChildren()
-                    .includes(this)
-            )
+            const atRoot = context.source.expression.expression
+                .getChildren()
+                .includes(this);
+            const isStatic = this.isStatic(context);
+            if (!atRoot && !isStatic)
                 conflicts.push(new MisplacedShare(this, this.share));
 
-            // Bindings must have language tags on all names to clarify what langauge they're written in.
-            if (!this.names.names.every((n) => n.language !== undefined))
+            // Bindings must have language tags on all names to clarify what
+            // language they're written in — but only for top-level shares.
+            // Static binds inside a structure don't cross source files.
+            if (
+                atRoot &&
+                !this.names.names.every((n) => n.language !== undefined)
+            )
                 conflicts.push(new MissingShareLanguages(this));
 
-            // Other shares in this project can't have the same name
-            const sources = context.project.getSourcesExcept(context.source);
+            // Other shares in this project can't have the same name. Only
+            // applies to top-level shares; static binds don't cross sources.
+            const sources = atRoot
+                ? context.project.getSourcesExcept(context.source)
+                : undefined;
             if (sources !== undefined) {
                 for (const source of sources) {
                     if (source.expression.expression instanceof Block) {
@@ -524,6 +535,18 @@ export default class Bind extends Expression {
         return this.share !== undefined;
     }
 
+    /** True when `↑` precedes this bind AND the bind is a direct statement
+     *  of a `StructureDefinition`'s block. In that position `↑` re-interprets
+     *  as "static" — the value lives on the definition itself, not per
+     *  instance. */
+    isStatic(context: Context): boolean {
+        if (this.share === undefined) return false;
+        const parent = this.getParent(context);
+        if (!(parent instanceof Block)) return false;
+        const grand = parent.getParent(context);
+        return grand instanceof StructureDefinition;
+    }
+
     computeType(context: Context): Type {
         // Always compute the value's type, as it has side effects on streams.
         const valueType = this.value ? this.value.getType(context) : undefined;
@@ -531,8 +554,12 @@ export default class Bind extends Expression {
         // What type is this binding?
         let type = this.getSpecifiedType() ?? valueType;
 
-        if (type === undefined || type instanceof UnknownType)
-            type = this.getExpectedType(context);
+        // Only fall back to the inferred-from-context expected type when we
+        // have *nothing* — declared type and value both absent. If the value's
+        // type is corrupt (UnknownType), propagate that corruption so
+        // downstream consumers can suppress cascading conflicts via
+        // {@link Context.isUnknownDownstream}. (#1146)
+        if (type === undefined) type = this.getExpectedType(context);
 
         // If the type is a name, and it refers to a structure, resolve it.
         // Leave any other names (namely those that refer to type variables) to be concretized by others.

@@ -375,7 +375,20 @@ export default abstract class Node {
         let scope: Node | undefined = this.getScope(context);
         // See if this node has any additional basis functions to include.
         let additional = this.getAdditionalBasisScope(context);
+        // If the scope chain involves an UnknownType (e.g. a CycleType from
+        // mid-cycle type inference), the result is incomplete and must not
+        // be cached — later non-cycling calls would otherwise read this stale
+        // value. (Mirrors Context.getType's no-cache-on-UnknownType guard.)
+        // We check via getBasisTypeName to avoid a circular import with
+        // UnknownType, which imports Token, which extends Node.
+        let cycled = false;
+        const isUnknownTypeScope = (n: Node | undefined) =>
+            n !== undefined &&
+            'getBasisTypeName' in n &&
+            typeof (n as Type).getBasisTypeName === 'function' &&
+            (n as Type).getBasisTypeName() === 'unknown';
         while (scope !== undefined || additional) {
+            if (isUnknownTypeScope(scope)) cycled = true;
             if (scope)
                 definitions = definitions.concat(
                     scope.getDefinitions(this, context),
@@ -398,8 +411,9 @@ export default abstract class Node {
             ...context.project.getDefaultShares().all,
         ];
 
-        // Cache the definitions for later.
-        context.definitions.set(this, definitions);
+        // Cache the definitions for later, unless cycle detection produced
+        // a partial result.
+        if (!cycled) context.definitions.set(this, definitions);
 
         // Return the definitions we found, in order.
         return definitions;

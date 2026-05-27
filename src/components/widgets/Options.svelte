@@ -18,8 +18,8 @@
     import { locales } from '@db/Database';
     import type { LocaleTextAccessor } from '@locale/Locales';
 
-    import { tick, type Snippet } from 'svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import { tick, type Snippet } from 'svelte';
 
     interface Props {
         value: string | undefined;
@@ -189,6 +189,7 @@
         padding: var(--wordplay-spacing);
         box-shadow: var(--wordplay-border-width) var(--wordplay-border-width) 0
             var(--wordplay-border-color);
+        max-width: 7em;
         transition:
             transform calc(var(--animation-factor) * 100ms),
             box-shadow calc(var(--animation-factor) * 100ms),

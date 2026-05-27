@@ -1,4 +1,5 @@
-Sequence Easing
+s
+"Sequence Easing"/en"序列缓动"/zh-CN"序列緩動"/zh-TW
 ===
 keyframes: {
 		0%: Pose(offset: Place(-1m 0m))

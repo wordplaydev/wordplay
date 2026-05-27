@@ -1,15 +1,18 @@
 import { ExpectedEndingExpression } from '@conflicts/ExpectedEndingExpression';
 import { testConflict } from '@conflicts/TestUtilities';
 import { expect, test } from 'vitest';
-import IncompatibleInput from '@conflicts/IncompatibleInput';
+import { UnknownName } from '@conflicts/UnknownName';
 import evaluateCode from '@runtime/evaluate';
 import Block from '@nodes/Block';
-import Evaluate from '@nodes/Evaluate';
+import Reference from '@nodes/Reference';
 
 test.each([
     ['(1)', '()', Block, ExpectedEndingExpression],
-    ['ƒ b() 1\nb()', "(ƒ b() 1)\nb()'", Evaluate, IncompatibleInput],
-    ['•B()\nB()', "a: (•B())\nB()'", Evaluate, IncompatibleInput],
+    // Calling a binding that lives in an inner block from outside its scope.
+    // Reported as UnknownName on the Reference rather than a downstream
+    // IncompatibleInput on the Evaluate — root-cause conflict only (#1146).
+    ['ƒ b() 1\nb()', "(ƒ b() 1)\nb()'", Reference, UnknownName],
+    ['•B()\nB()', "a: (•B())\nB()'", Reference, UnknownName],
 ])(
     'Expect %s no conflicts, %s to have conflicts',
     (good, bad, node, conflict, number?) => {

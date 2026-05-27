@@ -47,3 +47,31 @@ test('Test access evaluate', () => {
         TextValue,
     );
 });
+
+test('Definition.staticName resolves the static bind', () => {
+    // Regression: the inner `a` Reference of `Math.a` walks its scope chain
+    // from the subject's type — a StructureDefinitionType. That type must
+    // expose the structure's static members via `getDefinitions`, or `a`
+    // is flagged as UnknownName even though `Math.a` is the intended path.
+    const code = '•Math() (\n\t↑ a: 1\n)\nMath.a';
+    const source = new Source('test', code);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const context = project.getContext(source);
+
+    const prop = source
+        .nodes()
+        .find(
+            (n): n is PropertyReference =>
+                n instanceof PropertyReference && n.name?.getName() === 'a',
+        );
+    expect(prop).toBeDefined();
+    if (!prop?.name) return;
+
+    const def = prop.name.getDefinitionOfNameInScope('a', context);
+    expect(def).toBeInstanceOf(Bind);
+    expect((def as Bind).hasName('a')).toBe(true);
+
+    // And there should be no conflict on the inner Reference.
+    project.analyze();
+    expect(Array.from(project.getConflictedNodes().keys())).toEqual([]);
+});

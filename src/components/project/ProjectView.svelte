@@ -10,6 +10,8 @@
     import Annotations from '@components/annotations/Annotations.svelte';
     import CollaborateView from '@components/app/chat/CollaborateView.svelte';
     import Emoji from '@components/app/Emoji.svelte';
+    import { extractPreview } from '@components/app/extractPreview';
+    import { getLocalizedProjectName } from '@db/projects/getLocalizedProjectName';
     import Documentation from '@components/concepts/Documentation.svelte';
     import {
         handleKeyCommand,
@@ -58,18 +60,22 @@
         isResizeable,
         type ArrangementType,
     } from '@db/settings/Arrangement';
+    import { consent, refreshConsentFromBrowser } from '@input/permissions';
     import type Locale from '@locale/Locale';
     import Evaluate from '@nodes/Evaluate';
     import Node, { isFieldPosition } from '@nodes/Node';
     import Source from '@nodes/Source';
     import type Color from '@output/Color';
-    import { CANCEL_SYMBOL, INFO_SYMBOL } from '@parser/Symbols';
+    import {
+        CANCEL_SYMBOL,
+        EXCEPTION_SYMBOL,
+        INFO_SYMBOL,
+    } from '@parser/Symbols';
     import { isName } from '@parser/Tokenizer';
     import Evaluator from '@runtime/Evaluator';
     import type Value from '@values/Value';
     import { onDestroy, onMount, tick, untrack } from 'svelte';
     import { writable, type Writable } from 'svelte/store';
-    import { consent, refreshConsentFromBrowser } from '@input/permissions';
     import Characters from '../../lore/BasisCharacters';
     import {
         PROJECT_PARAM_EDIT,
@@ -88,7 +94,6 @@
     import Palette from '@components/palette/Palette.svelte';
     import type Bounds from '@components/project/Bounds';
     import {
-        getAnnouncer,
         getConceptPath,
         getFullscreen,
         IdleKind,
@@ -135,6 +140,7 @@
     } from '@db/settings/AnimationFactorSetting';
     import type MenuInfo from '@edit/menu/Menu';
     import type { LocaleTextAccessor } from '@locale/Locales';
+    import RemoteCarets from '@components/editor/RemoteCarets.svelte';
 
     interface Props {
         project: Project;
@@ -148,8 +154,6 @@
         fit?: boolean;
         /** True if the project should focus the main editor source on mount */
         autofocus?: boolean;
-        /** True if the project was overwritten by another instance of Wordplay */
-        overwritten?: boolean;
         /** Show the guide if the project is empty */
         guide?: boolean;
         /** True if the moderation warnings should show */
@@ -173,7 +177,6 @@
         showOutput = false,
         fit = true,
         autofocus = true,
-        overwritten = false,
         guide = true,
         warn = true,
         shareable = true,
@@ -278,9 +281,6 @@
     /** The fullscreen context of the page that this is in. */
     const pageFullscreen = getFullscreen();
 
-    /** The live region announcer */
-    const announce = getAnnouncer();
-
     /** Tell the parent Page whether we're in fullscreen so it can hide and color things appropriately. */
     $effect(() => {
         pageFullscreen?.set({
@@ -328,6 +328,37 @@
         if (keyboardIdleTimeout) clearTimeout(keyboardIdleTimeout);
     });
 
+    // Live coediting (Yjs CRDT + Firestore update transport + presence
+    // heartbeat) is view-driven: we activate it when the user opens
+    // this project and tear it down when they leave. Activating in
+    // ProjectsDatabase.track() instead would spin up a Y.Doc and two
+    // Firestore listeners for *every* project the user has access to,
+    // even ones they aren't looking at — wasted quota.
+    //
+    // Lifecycle hooks (onMount / onDestroy), not $effect: this isn't
+    // reactive work and using $effect produces an infinite loop. The
+    // cleanup deactivates the CRDT, which calls history.edit to
+    // capture the final snapshot — that write fires reactive deps
+    // that the parent route reads to re-derive the `project` prop,
+    // which would re-fire any $effect that reads `project`. Pinning
+    // the project ID at component init and running activate/deactivate
+    // exactly once each sidesteps the loop entirely. ProjectView
+    // remounts on SvelteKit route changes, so re-activation on URL
+    // change happens naturally via the next mount.
+    const crdtProjectID = project.getID();
+    onMount(() => {
+        Projects.activateCRDT(crdtProjectID);
+    });
+    onDestroy(() => {
+        // deactivateCRDT is async (it awaits the final flush of
+        // queued realtime updates before tearing down). The
+        // in-memory snapshot capture happens *synchronously* inside
+        // before any await, so a rapid re-mount after this unmount
+        // would still see the latest snapshot on the in-memory
+        // project — see the docs on deactivateCRDT.
+        void Projects.deactivateCRDT(crdtProjectID);
+    });
+
     /** Keep a project global store indicating modifier key state, so that controls can highlight themselves */
     const keyModifiers = writable<KeyModifierState>({
         control: false,
@@ -369,7 +400,23 @@
 
     // When the project changes, create a new evaluator, observe it.
     let staleEvaluator = $state(false);
+    /** The project we last built the evaluator from. Used to skip rebuilds
+     *  for metadata-only changes (e.g., preview-glyph updates) — the
+     *  Evaluator only cares about id + name + sources, which is exactly
+     *  what `Project.equals()` compares. Without this, toggling
+     *  manual→auto in the share dialog would rebuild the evaluator from
+     *  scratch and the preview-write would race the fresh evaluation,
+     *  leaving a visible delay (or worse, stamping EXCEPTION_SYMBOL). */
+    let lastProjectForEvaluator: Project | undefined;
     projectStore.subscribe((newProject) => {
+        if (
+            lastProjectForEvaluator !== undefined &&
+            lastProjectForEvaluator.equals(newProject)
+        ) {
+            lastProjectForEvaluator = newProject;
+            return;
+        }
+        lastProjectForEvaluator = newProject;
         // If the project change, but the creator is typing, debounce update after the keyboard idle wait time.
         if ($keyboardEditIdle === IdleKind.Typing) staleEvaluator = true;
         // Otherwise, update immediately.
@@ -444,7 +491,118 @@
 
     /** Clean up the evaluator when unmounting. */
     onDestroy(() => {
-        $evaluator.stop();
+        // Cancel any pending debounced write — we're about to do it
+        // synchronously below.
+        if (pendingPreviewWrite !== undefined) {
+            clearTimeout(pendingPreviewWrite);
+            pendingPreviewWrite = undefined;
+        }
+        // If the user navigates away faster than the live evaluator
+        // produced its first value (e.g., type-and-immediately-back-out
+        // from ProjectView), getLatestSourceValue returns undefined and
+        // the write below would bail. Force the evaluator to a stable
+        // value with getInitialValue() — it resets and runs to completion
+        // synchronously, which is fine because we're about to stop the
+        // evaluator anyway.
+        if (
+            $evaluator !== undefined &&
+            $evaluator.getLatestSourceValue(project.getMain()) === undefined
+        ) {
+            try {
+                $evaluator.getInitialValue();
+            } catch {
+                // Best-effort: if the evaluator is in some torn-down
+                // state, fall through to writePreviewFromEvaluator which
+                // will bail on undefined.
+            }
+        }
+        writePreviewFromEvaluator();
+        $evaluator?.stop();
+    });
+
+    /**
+     * Auto-update the persisted project preview (issue #435). The live
+     * evaluator is already running, so we piggy-back on its current value
+     * instead of constructing a separate evaluator like /projects and
+     * /galleries used to do.
+     *
+     * Strategy:
+     *  - If no auto preview exists yet (fresh project, or the user just
+     *    toggled from manual back to auto), write immediately so the tile
+     *    isn't blank.
+     *  - Otherwise debounce: each `$evaluation` change cancels the pending
+     *    write and schedules a new one ~3s out. After 3s of no further
+     *    evaluator activity, the latest preview lands. This both avoids
+     *    history noise during a typing burst and guarantees the preview
+     *    eventually refreshes — the previous throttle could silently drop
+     *    every write between two evaluator settles.
+     */
+    let pendingPreviewWrite: ReturnType<typeof setTimeout> | undefined;
+    let lastWrittenText: string | undefined = undefined;
+    // Just long enough to coalesce typing-burst evaluations into a single
+    // write; short enough that a user editing and immediately switching
+    // tabs sees the new glyph on /projects without "wait a moment" feel.
+    // The onDestroy hook also forces a synchronous write on unmount, so
+    // this value is only the in-session typing-burst coalesce window.
+    const PREVIEW_DEBOUNCE_MS = 500;
+
+    function writePreviewFromEvaluator() {
+        if ($evaluator === undefined) return;
+        if (project.getPreview()?.mode === 'manual') return;
+        const value = $evaluator.getLatestSourceValue(project.getMain());
+        // The evaluator may not have produced a value yet (fresh project,
+        // just-recreated evaluator, etc.). Stamping `EXCEPTION_SYMBOL` over
+        // a cached good preview is worse than waiting — bail out and let
+        // the next $evaluation tick try again.
+        if (value === undefined) return;
+        const extracted = extractPreview($evaluator, value, $locales);
+        if (extracted.text === EXCEPTION_SYMBOL) return;
+        // Skip the write if the text hasn't changed since the last one —
+        // saves a no-op history.edit + saveSoon.
+        if (
+            extracted.text === lastWrittenText &&
+            project.getPreview()?.mode === 'auto'
+        )
+            return;
+        lastWrittenText = extracted.text;
+        Projects.setAutoPreview(project.getID(), extracted);
+    }
+
+    $effect(() => {
+        // Track both evaluator activity AND the project's current preview,
+        // so toggling manual→auto (which clears `preview` to undefined)
+        // also triggers a refresh.
+        $evaluation;
+        const current = project.getPreview();
+
+        // Manual override is the user's word — don't write.
+        if (current?.mode === 'manual') return;
+
+        // No auto preview yet → write immediately so the tile isn't blank.
+        if (current === undefined) {
+            if (pendingPreviewWrite !== undefined) {
+                clearTimeout(pendingPreviewWrite);
+                pendingPreviewWrite = undefined;
+            }
+            untrack(writePreviewFromEvaluator);
+            return;
+        }
+
+        // Have an auto preview — debounce subsequent updates so a typing
+        // burst doesn't push a history entry per keystroke.
+        if (pendingPreviewWrite !== undefined)
+            clearTimeout(pendingPreviewWrite);
+        pendingPreviewWrite = setTimeout(() => {
+            pendingPreviewWrite = undefined;
+            untrack(writePreviewFromEvaluator);
+        }, PREVIEW_DEBOUNCE_MS);
+
+        return () => {
+            if (pendingPreviewWrite !== undefined) {
+                clearTimeout(pendingPreviewWrite);
+                pendingPreviewWrite = undefined;
+            }
+        };
     });
 
     /** Several store contexts for tracking evaluator state. */
@@ -1322,20 +1480,6 @@
         });
     });
 
-    // When ovewritten, announce it
-    $effect(() => {
-        if (overwritten)
-            untrack(() => {
-                if ($announce) {
-                    $announce(
-                        project.getID(),
-                        $locales.getLanguages()[0],
-                        $locales.getPlainText((l) => l.ui.source.overwritten),
-                    );
-                }
-            });
-    });
-
     let currentArrangement = $state<ArrangementType>($arrangement);
 
     /** When dragged is set, update the layout if necessary to support dragging to the last editor. */
@@ -1809,7 +1953,10 @@
     }
 </script>
 
-<svelte:head><title>Wordplay - {project.getName()}</title></svelte:head>
+<svelte:head
+    ><title>Wordplay - {getLocalizedProjectName(project, $locales)}</title
+    ></svelte:head
+>
 
 <svelte:window
     onkeydown={handleKey}
@@ -1911,6 +2058,7 @@
                                     <Button
                                         tip={(l) => l.ui.output.tour.launch}
                                         background="circular"
+                                        padding={false}
                                         icon={INFO_SYMBOL}
                                         uiid="stageTourLaunch"
                                         action={() => {
@@ -1921,6 +2069,7 @@
                                     <Button
                                         tip={(l) => l.ui.source.tour.launch}
                                         background="circular"
+                                        padding={false}
                                         icon={INFO_SYMBOL}
                                         uiid="sourceTourLaunch"
                                         action={() => {
@@ -1931,6 +2080,7 @@
                                     <Button
                                         tip={(l) => l.ui.docs.tour.launch}
                                         background="circular"
+                                        padding={false}
                                         icon={INFO_SYMBOL}
                                         uiid="docsTourLaunch"
                                         action={() => {
@@ -1941,6 +2091,7 @@
                                     <Button
                                         tip={(l) => l.ui.palette.tour.launch}
                                         background="circular"
+                                        padding={false}
                                         icon={INFO_SYMBOL}
                                         uiid="paletteTourLaunch"
                                         action={startPaletteTour}
@@ -1950,6 +2101,7 @@
                                         tip={(l) =>
                                             l.ui.collaborate.tour.launch}
                                         background="circular"
+                                        padding={false}
                                         icon={INFO_SYMBOL}
                                         uiid="collaborateTourLaunch"
                                         action={() => {
@@ -2159,7 +2311,6 @@
                                                     tile.id
                                                 ] ?? null}
                                                 editable={editableAndCurrent}
-                                                {overwritten}
                                                 sourceID={tile.id}
                                                 selected={source ===
                                                     selectedSource}
@@ -2198,6 +2349,14 @@
                                 {@const notification =
                                     largeDeletionNotifications.get(tile.id)}
                                 {#if tile.kind === TileKind.Source && editable}
+                                    <!-- Collaborator chip row sits above
+                                         the glyph-insertion area, in the
+                                         same band the large-deletion
+                                         overlay uses. Renders nothing
+                                         when the local user is the only
+                                         editor. -->
+                                    <RemoteCarets projectID={project.getID()} />
+
                                     {#if editableAndCurrent}<GlyphInserter
                                             sourceID={tile.id}
                                         />{/if}

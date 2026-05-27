@@ -215,15 +215,18 @@
             "conflict": {
                 "UnknownLanguage": {
                     "name": "$~hindikilalangwika",
-                    "explanation": "$~Hindi ko alam ang wikang ito"
+                    "explanation": "$~Hindi ko alam ang wikang ito",
+                    "resolution": "$~Alisin ang code ng wika na ito"
                 },
                 "MissingLanguage": {
                     "name": "$~nawawalangwika",
-                    "explanation": "$~May kulang akong wika. Maaari ka bang magdagdag ng isa?"
+                    "explanation": "$~May kulang akong wika. Maaari ka bang magdagdag ng isa?",
+                    "resolution": "$~Alisin ang walang laman na tag ng wika"
                 },
                 "DuplicateLanguage": {
                     "name": "$~doblengwika",
-                    "explanation": "$~Ginamit mo nang dalawang beses ang wikang ' $code '. Ang mga tag na may halo-halong wika ay dapat maglista ng bawat wika nang isang beses lamang."
+                    "explanation": "$~Ginamit mo nang dalawang beses ang wikang ' $code '. Ang mga tag na may halo-halong wika ay dapat maglista ng bawat wika nang isang beses lamang.",
+                    "resolution": "$~Alisin ang dobleng * $code * tag"
                 }
             }
         },
@@ -266,19 +269,24 @@
             "conflict": {
                 "InvalidRow": {
                     "name": "$~hindiwastonghilera",
-                    "explanation": "$~Ang mga hilera ay dapat na purong halaga o purong @Bind."
+                    "explanation": "$~Ang mga hilera ay dapat na purong halaga o purong @Bind.",
+                    "resolutionKeepPositional": "$~Alisin ang mga pinangalanang cell, panatilihin lamang ang mga nasa posisyon",
+                    "resolutionUnwrapInputs": "$~Alisin ang mga pangalan mula sa mga pinangalanang cell"
                 },
                 "MissingCell": {
                     "name": "$~nawawalangkolum",
-                    "explanation": "$~Kulang ako ng column na $column"
+                    "explanation": "$~Kulang ako ng column na $column",
+                    "resolution": "$~Magdagdag ng placeholder cell para sa * $column *"
                 },
                 "ExtraCell": {
                     "name": "$~dagdagnahaligi",
-                    "explanation": "$~Batay sa uri ng aking talahanayan, isa akong karagdagang kolum na hindi dapat nandito."
+                    "explanation": "$~Batay sa uri ng aking talahanayan, isa akong karagdagang kolum na hindi dapat nandito.",
+                    "resolution": "$~Alisin ang sobrang cell"
                 },
                 "UnknownColumn": {
                     "name": "$~hindikilalangpangalanngkolum",
-                    "explanation": "$~Wala akong alam na column na may ganitong pangalan"
+                    "explanation": "$~Wala akong alam na column na may ganitong pangalan",
+                    "resolution": "$~Palitan ang pangalan sa * $name *"
                 },
                 "UnexpectedColumnBind": {
                     "name": "$~walangbindnamgahilera",
@@ -312,7 +320,8 @@
             "conflict": {
                 "DuplicateTypeVariable": {
                     "name": "$~doblenguringbaryabol",
-                    "explanation": "$~Pareho ang pangalan ko ng $duplicate"
+                    "explanation": "$~Pareho ang pangalan ko ng $duplicate",
+                    "resolution": "$~Alisin ang duplicate na variable ng uri"
                 }
             }
         },
@@ -384,7 +393,8 @@
             "conflict": {
                 "UnsupportedFontFormat": {
                     "name": "$~hindisinusuportahangformatngfont",
-                    "explanation": "$~Hindi marunong maging $face ang kaibigan kong si * $format * ."
+                    "explanation": "$~Hindi marunong maging $face ang kaibigan kong si * $format * .",
+                    "resolution": "$~Alisin ang pag-format"
                 }
             }
         },
@@ -405,7 +415,7 @@
             "description": "$~banggitin ang $name sa markup",
             "emotion": "serious",
             "doc": [
-                "$~Isa akong reperensya sa alinman sa terminolohiyang \\$program\\ o isang dynamic input na \\$1\\.",
+                "$~Isa akong reperensya sa alinman sa terminolohiyang \\$program\\ o isang dynamic input na \\$name\\.",
                 "$~Kadalasan, isa itong panloob na tampok, kaya hindi mo na kailangang malaman pa ito."
             ]
         },
@@ -444,7 +454,10 @@
             "conflict": {
                 "OrderOfOperations": {
                     "name": "$~hindimalinawnapagkakasunud-sunod",
-                    "explanation": "$~Sinusuri ko ang aking pagsusuri ayon sa pagkakasunod-sunod ng pagbasa, hindi ayon sa pagkakasunod-sunod ng matematika ng mga operasyon. Gusto mo bang gamitin ang @Block para tukuyin ang pagkakasunod-sunod kung saan ako dapat magsuri?"
+                    "explanation": "$~Sinusuri ko ang aking pagsusuri ayon sa pagkakasunod-sunod ng pagbasa, hindi ayon sa pagkakasunod-sunod ng matematika ng mga operasyon. Gusto mo bang gamitin ang @Block para tukuyin ang pagkakasunod-sunod kung saan ako dapat magsuri?",
+                    "resolutionPEMDAS": "$~Ilapat ang pagkakasunod-sunod ng matematika ng PEMDAS: suriin $higher bago $lower",
+                    "resolutionReading": "$~Ipagpatuloy ang pagbasa nang maayos: suriin $lower bago $higher",
+                    "resolutionWrap": "$~Magdagdag ng panaklong upang maging malinaw ang pagkakasunod-sunod"
                 }
             }
         },
@@ -495,32 +508,48 @@
                 },
                 "DuplicateShare": {
                     "name": "$~doblengpagbabahagi",
-                    "explanation": "$~Pareho kami ng pangalan ni $duplicate. Kaya hindi malinaw kung ano ang aming pinagsasaluhan."
+                    "explanation": "$~Pareho kami ng pangalan ni $duplicate. Kaya hindi malinaw kung ano ang aming pinagsasaluhan.",
+                    "resolution": "$~Alisin ang duplicate na pagbabahaging ito"
                 },
                 "IncompatibleType": {
                     "name": "$~hinditugmanguri",
                     "explanation": "$~Dapat type $expected ako, pero type $given ako.",
-                    "resolution": "$~I-convert sa $expected"
+                    "resolution": "$~I-convert sa $expected",
+                    "resolutionLiteral": "$~Markahan ang listahan, set, o mapa bilang literal gamit ang !, para manatiling tiyak ang mga halaga nito sa halip na maging pangkalahatan — kailangan $expected ang eksaktong mga halaga",
+                    "resolutionOtherwise": "$~Pangasiwaan ang nawawalang halaga gamit ang ??, dahil hindi pinapayagan $expected ang ø",
+                    "resolutionGuard": "$~Tiyaking ito ay isang $expected first gamit ang isang type guard, dahil $expected ay hindi maaaring maging ang iba pang posibleng mga uri",
+                    "resolutionDeclaration": "$~Ipahayag nang tahasan ang uri, dahil kailangan $expected na mapanatili ang mga literal na halaga",
+                    "resolutionWrap": "$~Ilagay ito sa isang listahan, set, o mapa, dahil $expected ay nangangailangan ng koleksyon ng mga halaga",
+                    "resolutionStructure": "$~Balutin ito sa $expected , dahil ang slot ay nangangailangan ng halagang $expected",
+                    "resolutionDefault": "$~Bigyan ang binding ng panimulang halaga, dahil hindi maaaring mawala $expected dito",
+                    "resolutionWiden": "$~Payagan ang uri ng halaga para sa pagbubuklod na ito, dahil $expected ay masyadong makitid para sa kung ano talaga ang nakaimbak",
+                    "resolutionReorder": "$~Palitan ang mga input, dahil mas akma ang mga uri nito sa kabilang pagkakasunud-sunod — $expected ay kabilang sa kabilang puwang",
+                    "resolutionPlaceholder": "$~Palitan ito ng placeholder sa ngayon, dahil kinakailangan ang $expected — pagkatapos ay pumili ng value mula sa autocomplete menu"
                 },
                 "MisplacedShare": {
                     "name": "$~malingnailagaynabahagi",
-                    "explanation": "$~Maaari ko lang ibahagi ang mga bagay sa antas ng @Program, hindi sa loob ng kahit ano!"
+                    "explanation": "$~Maaari ko lang ibahagi ang mga bagay sa antas ng @Program, hindi sa loob ng kahit ano!",
+                    "resolution": "$~Alisin ang panandang *↑*"
                 },
                 "MissingShareLanguages": {
                     "name": "$~nawawalangwika",
-                    "explanation": "$~Kung gusto mong ibahagi ito, kailangan mong sabihin kung anong wika ito, para malaman ng iba kung mababasa nila ito!"
+                    "explanation": "$~Kung gusto mong ibahagi ito, kailangan mong sabihin kung anong wika ito, para malaman ng iba kung mababasa nila ito!",
+                    "resolution": "$~Alisin ang panandang *↑*"
                 },
                 "RequiredAfterOptional": {
                     "name": "$~kinakailanganginputpagkataposngopsyonal",
-                    "explanation": "$~Hindi ako pwede dito, may opsyonal na @Bind bago ako."
+                    "explanation": "$~Hindi ako pwede dito, may opsyonal na @Bind bago ako.",
+                    "resolution": "$~Ilipat ang mga kinakailangang input bago ang mga opsyonal"
                 },
                 "UnexpectedEtc": {
                     "name": "$~hindiinaasahanginputpagkataposnglistahannginput",
-                    "explanation": "$~Maaari lamang akong maging variable length sa isang @FunctionDefinition"
+                    "explanation": "$~Maaari lamang akong maging variable length sa isang @FunctionDefinition",
+                    "resolution": "$~Alisin ang *****"
                 },
                 "UnusedBind": {
                     "name": "$~hindinagamitnabind",
-                    "explanation": "$~Ang pangalan ko ay $name, pero walang gumagamit sa akin. Siguro hindi ako kailangan?"
+                    "explanation": "$~Ang pangalan ko ay $name, pero walang gumagamit sa akin. Siguro hindi ako kailangan?",
+                    "resolution": "$~Burahin ang pagbubuklod na ito"
                 }
             }
         },
@@ -554,7 +583,8 @@
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "$~nawawalangekspresyon",
-                    "explanation": "Kailangan ko ng kahit isang ekspresyon na hindi @Bind, para may halaga akong ibalik."
+                    "explanation": "Kailangan ko ng kahit isang ekspresyon na hindi @Bind, para may halaga akong ibalik.",
+                    "resolution": "$~Magdagdag ng pangwakas na ekspresyon"
                 }
             }
         },
@@ -579,11 +609,13 @@
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~hindikilalangpaghiram",
-                    "explanation": "$~Wala akong alam na $source na ganito ang pangalan"
+                    "explanation": "$~Wala akong alam na $source na ganito ang pangalan",
+                    "resolution": "$~Alisin ang hiniram na ito"
                 },
                 "BorrowCycle": {
                     "name": "$~paghiramnatumutukoysasarili",
-                    "explanation": "$~Nakadepende ito sa $borrow, na nakadepende sa $source na ito, kaya hindi masusuri ang programa"
+                    "explanation": "$~Nakadepende ito sa $borrow, na nakadepende sa $source na ito, kaya hindi masusuri ang programa",
+                    "resolution": "$~Alisin ang hiram na ito upang masira ang siklo"
                 }
             },
             "exception": {
@@ -631,7 +663,18 @@
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "name": "$~inaasahangkondisyongboolean",
-                    "explanation": "$~Kailangan ko ng @Boolean para makapagdesisyon, pero $type na lang ang nakuha ko."
+                    "explanation": "$~Kailangan ko ng @Boolean para makapagdesisyon, pero $type na lang ang nakuha ko.",
+                    "resolution": "$~I-convert ito sa $expected , dahil kinakailangan ang $expected",
+                    "resolutionLiteral": "$~Markahan ang listahan, set, o mapa bilang literal gamit ang !, para manatiling tiyak ang mga halaga nito sa halip na maging pangkalahatan — kailangan $expected ang eksaktong mga halaga",
+                    "resolutionOtherwise": "$~Pangasiwaan ang nawawalang halaga gamit ang ??, dahil hindi pinapayagan $expected ang ø",
+                    "resolutionGuard": "$~Tiyaking ito ay isang $expected first gamit ang isang type guard, dahil $expected ay hindi maaaring maging ang iba pang posibleng mga uri",
+                    "resolutionDeclaration": "$~Ipahayag nang tahasan ang uri, dahil kailangan $expected na mapanatili ang mga literal na halaga",
+                    "resolutionWrap": "$~Ilagay ito sa isang listahan, set, o mapa, dahil $expected ay nangangailangan ng koleksyon ng mga halaga",
+                    "resolutionStructure": "$~Balutin ito sa $expected , dahil ang slot ay nangangailangan ng halagang $expected",
+                    "resolutionDefault": "$~Bigyan ang binding ng panimulang halaga, dahil hindi maaaring mawala $expected dito",
+                    "resolutionWiden": "$~Payagan ang uri ng halaga para sa pagbubuklod na ito, dahil $expected ay masyadong makitid para sa kung ano talaga ang nakaimbak",
+                    "resolutionReorder": "$~Palitan ang mga input, dahil mas akma ang mga uri nito sa kabilang pagkakasunud-sunod — $expected ay kabilang sa kabilang puwang",
+                    "resolutionPlaceholder": "$~Palitan ito ng placeholder sa ngayon, dahil kinakailangan ang $expected — pagkatapos ay pumili ng value mula sa autocomplete menu"
                 }
             }
         },
@@ -654,7 +697,8 @@
             "conflict": {
                 "MisplacedConversion": {
                     "name": "$~malinglugarngconversion",
-                    "explanation": "$~Naku, hindi ako pwede dito, sa @Block lang."
+                    "explanation": "$~Naku, hindi ako pwede dito, sa @Block lang.",
+                    "resolution": "$~Alisin ang conversion na ito"
                 }
             }
         },
@@ -676,7 +720,8 @@
             "conflict": {
                 "UnknownConversion": {
                     "name": "$~hindikilalangconversion",
-                    "explanation": "$~Hindi kami makahanap ng paraan para gawing $expected ang isang $given"
+                    "explanation": "$~Hindi kami makahanap ng paraan para gawing $expected ang isang $given",
+                    "resolution": "$~Alisin ang conversion"
                 }
             },
             "exception": {
@@ -738,35 +783,53 @@
                 "IncompatibleInput": {
                     "name": "$~hinditugmanginput",
                     "explanation": "$~Dapat type $expected ako, pero type $given ako.",
-                    "resolution": "$~I-convert sa $expected"
+                    "resolution": "$~I-convert sa $expected",
+                    "resolutionLiteral": "$~Markahan ang listahan, set, o mapa bilang literal gamit ang !, para manatiling tiyak ang mga halaga nito sa halip na maging pangkalahatan — kailangan $expected ang eksaktong mga halaga",
+                    "resolutionOtherwise": "$~Pangasiwaan ang nawawalang halaga gamit ang ??, dahil $expected ay hindi nagpapahintulot ng ø",
+                    "resolutionGuard": "$~Tiyaking ito ay isang $expected first gamit ang isang type guard, dahil $expected ay hindi maaaring maging ang iba pang posibleng mga uri",
+                    "resolutionDeclaration": "$~Ipahayag nang malinaw ang uri, dahil kailangan $expected na mapanatili ang mga literal na halaga",
+                    "resolutionWrap": "$~Ilagay ito sa isang listahan, set, o mapa, dahil $expected ay nangangailangan ng koleksyon ng mga halaga",
+                    "resolutionStructure": "$~Balutin ito sa $expected , dahil ang slot ay nangangailangan ng halagang $expected",
+                    "resolutionDefault": "$~Bigyan ang binding ng panimulang halaga, dahil hindi maaaring mawala $expected dito",
+                    "resolutionWiden": "$~Payagan ang uri ng halaga para sa pagbubuklod na ito, dahil $expected ay masyadong makitid para sa kung ano talaga ang nakaimbak",
+                    "resolutionReorder": "$~Palitan ang mga input, dahil mas akma ang mga uri nito sa kabilang pagkakasunud-sunod — $expected ay kabilang sa kabilang puwang",
+                    "resolutionPlaceholder": "$~Palitan ito ng placeholder sa ngayon, dahil kinakailangan ang $expected — pagkatapos ay pumili ng value mula sa autocomplete menu"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~hindiinaasahanguringinput",
-                    "explanation": "$~Isa akong dagdag, hindi inaasahang tipo ng input."
+                    "explanation": "$~Isa akong dagdag, hindi inaasahang tipo ng input.",
+                    "resolution": "$~Alisin ang ganitong uri ng input"
                 },
                 "MissingInput": {
                     "name": "$~nawawalanginput",
-                    "explanation": "$~Hindi ko ma-evaluate ang $name nang walang input na $input :("
+                    "explanation": "$~Hindi ko ma-evaluate ang $name nang walang input na $input :(",
+                    "resolutionAddInput": "$~Idagdag ang nawawalang $input , kasama ang default na halaga nito",
+                    "resolutionPlaceholder": "$~Idagdag ang nawawalang $input bilang placeholder, pagkatapos ay pumili ng value mula sa autocomplete menu"
                 },
                 "NotInstantiable": {
                     "name": "$~hindikumpletongistruktura",
-                    "explanation": "$~Hindi ko magawa itong @StructureDefinition, mayroon itong mga hindi naipatupad na function."
+                    "explanation": "$~Hindi ko magawa itong @StructureDefinition, mayroon itong mga hindi naipatupad na function.",
+                    "resolution": "$~I-scaffolding ang mga nawawalang function"
                 },
                 "UnexpectedInput": {
                     "name": "$~hindiinaasahanginput",
-                    "explanation": "$~Ako'y isang hindi inaasahang input."
+                    "explanation": "$~Ako'y isang hindi inaasahang input.",
+                    "resolution": "$~Alisin ang input na ito"
                 },
                 "UnknownInput": {
                     "name": "$~hindikilalanginput",
-                    "explanation": "$~Hindi inaasahan ng function na *$name* na ito ang input na may pangalan ko."
+                    "explanation": "$~Hindi inaasahan ng function na *$name* na ito ang input na may pangalan ko.",
+                    "resolution": "$~Palitan ang pangalan ng input na ito ng * $name *"
                 },
                 "InputListMustBeLast": {
                     "name": "$~angmgakaragdaganginputayhindipangmatagalan",
-                    "explanation": "$~dapat nasa huli ang listahan ng mga input"
+                    "explanation": "$~dapat nasa huli ang listahan ng mga input",
+                    "resolution": "$~Ilipat ang input ng listahan sa dulo"
                 },
                 "SeparatedEvaluate": {
                     "name": "$~hindimalinawnapagsusuri",
-                    "explanation": "$~Ang $name ba ang pangalan ng isang $structure[$structure|$function] na sinusubukan mong suriin? Subukan mong alisin ang espasyo sa tabi ko, para malaman kong isa itong @Evaluate at hindi isang hiwalay na @Block."
+                    "explanation": "$~Ang $name ba ang pangalan ng isang $structure[$structure|$function] na sinusubukan mong suriin? Subukan mong alisin ang espasyo sa tabi ko, para malaman kong isa itong @Evaluate at hindi isang hiwalay na @Block.",
+                    "resolution": "$~Isara ang espasyo sa pagitan ng * $name * at ng mga input nito"
                 }
             },
             "exception": {
@@ -808,7 +871,8 @@
             "conflict": {
                 "Placeholder": {
                     "name": "$~pang-industriya",
-                    "explanation": "$~Maaari mo ba akong punan? Isa lamang akong taga-ayos."
+                    "explanation": "$~Maaari mo ba akong punan? Isa lamang akong taga-ayos.",
+                    "resolution": "$~Palitan ng * $candidate *"
                 }
             },
             "exception": {
@@ -847,7 +911,8 @@
             "conflict": {
                 "NoExpression": {
                     "name": "$~nawawalangekspresyon",
-                    "explanation": "$~Kailangan ko ng expression para ma-evaluate, puwede ka bang magdagdag?"
+                    "explanation": "$~Kailangan ko ng expression para ma-evaluate, puwede ka bang magdagdag?",
+                    "resolution": "$~Magdagdag ng katawan ng placeholder"
                 }
             }
         },
@@ -904,7 +969,9 @@
             "conflict": {
                 "ImpossibleType": {
                     "name": "$~imposiblenguri",
-                    "explanation": "$~hindi ito maaaring maging $type kailanman"
+                    "explanation": "$~hindi ito maaaring maging $type kailanman",
+                    "resolutionIsFalse": "$~Palitan ang ganitong uri ng tsek ng *⊥* (ang sagot ay palaging mali)",
+                    "resolutionDropOtherwise": "$~Ibaba ang *??* — ang kaliwang bahagi ay hindi kailanman *ø*"
                 }
             },
             "exception": {
@@ -967,7 +1034,8 @@
             "conflict": {
                 "NotAKeyValue": {
                     "name": "$~nawawalanghalaga",
-                    "explanation": "$~Nasa isang @Map ako, kaya kailangan ko ng value."
+                    "explanation": "$~Nasa isang @Map ako, kaya kailangan ko ng value.",
+                    "resolution": "$~I-wrap bilang pares ng key-value"
                 }
             }
         },
@@ -1000,7 +1068,8 @@
             "conflict": {
                 "NotANumber": {
                     "name": "$~hindiisangnumero",
-                    "explanation": "$~Akala ko alam ko na lahat ng numero, pero hindi ko pala alam ito."
+                    "explanation": "$~Akala ko alam ko na lahat ng numero, pero hindi ko pala alam ito.",
+                    "resolution": "$~Palitan ng *0*"
                 }
             }
         },
@@ -1119,7 +1188,8 @@
             "conflict": {
                 "InvalidProperty": {
                     "name": "$~hindikilalangari-arian",
-                    "explanation": "$~Wala akong pangalan sa istrukturang $structure, kaya hindi ako maaaring pinuhin pa."
+                    "explanation": "$~Wala akong pangalan sa istrukturang $structure, kaya hindi ako maaaring pinuhin pa.",
+                    "resolution": "$~Palitan ang pangalan sa * $name *"
                 }
             }
         },
@@ -1159,7 +1229,8 @@
             "conflict": {
                 "ExpectedStream": {
                     "name": "$~inaasahangdaloy",
-                    "explanation": "$~Walang tinutukoy na stream ang $condition, kaya hindi ako kailanman magre-react!"
+                    "explanation": "$~Walang tinutukoy na stream ang $condition, kaya hindi ako kailanman magre-react!",
+                    "resolution": "$~Itigil ang reaksyon, panatilihin lamang ang paunang halaga"
                 }
             }
         },
@@ -1184,11 +1255,13 @@
                 },
                 "ReferenceCycle": {
                     "name": "$~halagangtumutukoysasarili",
-                    "explanation": "$~Um, ang halaga ng $name ay nakadepende sa sarili nito, kaya paano ko malalaman kung anong halaga ang ibibigay dito?"
+                    "explanation": "$~Um, ang halaga ng $name ay nakadepende sa sarili nito, kaya paano ko malalaman kung anong halaga ang ibibigay dito?",
+                    "resolution": "$~Palitan ang * $name * ng isang placeholder upang masira ang siklo"
                 },
                 "UnexpectedTypeVariable": {
                     "name": "$~hindiinaasahanguringbaryabol",
-                    "explanation": "$~Hindi ko alam ang gagawin ko sa mga ganitong uri ng input"
+                    "explanation": "$~Hindi ko alam ang gagawin ko sa mga ganitong uri ng input",
+                    "resolution": "$~Alisin ang uri ng variable na ito mula sa function"
                 }
             },
             "exception": {
@@ -1213,7 +1286,8 @@
             "conflict": {
                 "ExpectedSelectName": {
                     "name": "$~nawawalangpangalanngkolum",
-                    "explanation": "$~Kailangan ko ng kahit isang pangalan ng column."
+                    "explanation": "$~Kailangan ko ng kahit isang pangalan ng column.",
+                    "resolution": "$~Alisin ang cell na ito"
                 }
             }
         },
@@ -1241,7 +1315,18 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~hinditugmangsusi",
-                    "explanation": "$~Inaasahan ko ang isang susi na uri ng $expected"
+                    "explanation": "$~Inaasahan ko ang isang susi na uri ng $expected",
+                    "resolution": "$~I-convert ito sa $expected , dahil kinakailangan ang $expected",
+                    "resolutionLiteral": "$~Markahan ang listahan, set, o mapa bilang literal gamit ang !, para manatiling tiyak ang mga halaga nito sa halip na maging pangkalahatan — kailangan $expected ang eksaktong mga halaga",
+                    "resolutionOtherwise": "$~Pangasiwaan ang nawawalang halaga gamit ang ??, dahil hindi pinapayagan $expected ang ø",
+                    "resolutionGuard": "$~Tiyaking ito ay isang $expected first gamit ang isang type guard, dahil $expected ay hindi maaaring maging ang iba pang posibleng mga uri",
+                    "resolutionDeclaration": "$~Ipahayag nang malinaw ang uri, dahil kailangan $expected na mapanatili ang mga literal na halaga",
+                    "resolutionWrap": "$~Ilagay ito sa isang listahan, set, o mapa, dahil $expected ay nangangailangan ng koleksyon ng mga halaga",
+                    "resolutionStructure": "$~Balutin ito sa $expected , dahil ang slot ay nangangailangan ng halagang $expected",
+                    "resolutionDefault": "$~Bigyan ang binding ng panimulang halaga, dahil hindi maaaring mawala $expected dito",
+                    "resolutionWiden": "$~Payagan ang uri ng halaga para sa pagbubuklod na ito, dahil $expected ay masyadong makitid para sa kung ano talaga ang nakaimbak",
+                    "resolutionReorder": "$~Palitan ang mga input, dahil mas akma ang mga uri nito sa kabilang pagkakasunud-sunod — $expected ay kabilang sa kabilang puwang",
+                    "resolutionPlaceholder": "$~Palitan ito ng placeholder sa ngayon, dahil kinakailangan ang $expected — pagkatapos ay pumili ng value mula sa autocomplete menu"
                 }
             }
         },
@@ -1275,31 +1360,37 @@
             "doc": [
                 "$~Bakit hello, kumusta ka? Ako? Magaling ako. Mahilig akong magtakda ng mga istruktura na nag-iimbak ng mga halaga at tungkulin, kaya hangga't nagagawa ko iyon buong araw, masaya na ako.",
                 "$~Ganito ang trabaho ko:",
-                "$~\\•Pizza(\nmga sangkap•['']\nlaki•#in\n) (\nƒ gastos() laki × 10dolyar/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).gastos()\\",
-                "$~Nakikita mo ba kung paano iyon gumagana? Tinukoy ko ang \\Pizza\\, na may dalawang input, \\ingredients\\ (isang listahan ng @Text) at \\size\\ (isang numero sa pulgada).",
-                "$~Sa loob, ang @FunctionDefinition ay gumawa ng isang function na sumusuri sa halaga ng isang pizza, sa pag-aakalang $$10 bawat pulgada.",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tƒ cost() size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost()\\",
+                "$~Nakikita mo ba kung paano iyon gumagana? Tinukoy ko ang \\Pizza\\ , na may dalawang input, \\ingredients\\ (isang listahan ng @Text ) at \\size\\ (isang numero sa pulgada).",
+                "$~Sa loob, @FunctionDefinition ay gumawa ng isang function na sumusuri sa halaga ng isang pizza, sa pag-aakalang $$10 bawat pulgada.",
                 "$~Hindi ko kailangang magkaroon ng @FunctionDefinition sa akin. Maaari lang akong maging input.",
-                "$~\\•Pizza(\nmga sangkap•['']\nlaki•#sa\n)\\",
-                "$~Maaari ko ring ilagay ang @Bind sa loob, para masuri natin ang gastos nang maaga.",
-                "$~\\•Pizza(\nmga sangkap•['']\nlaki•#in\n) (\nhalaga: laki × 10dolyar/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).halaga\\"
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n)\\",
+                "$~Maaari ko ring ilagay @Bind sa loob, para masuri natin ang gastos nang maaga.",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tcost: size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost\\",
+                "$~Markahan ang isang function o value gamit ang ↑ para maisama ito sa mismong structure, hindi sa mga instance. Pagkatapos, maaari mong gamitin ang pangalan ng structure para maabot ito, nang hindi gumagawa ng isa.",
+                "$~\\•Math() (\n\t↑ pi: 3.14159\n\t↑ ƒ square(n•#) n · n\n)\n\nMath.pi\nMath.square(5)\\"
             ],
             "start": "$~Bigyang-kahulugan natin ang magandang istrukturang ito",
             "conflict": {
                 "DisallowedInputs": {
                     "name": "$~hindipinapayaganangmgainput",
-                    "explanation": "$~Hindi ako makakuha ng mga input dahil hindi naipatupad ang isa o higit pa sa aking mga function sa interface."
+                    "explanation": "$~Hindi ako makakuha ng mga input dahil hindi naipatupad ang isa o higit pa sa aking mga function sa interface.",
+                    "resolution": "$~Alisin ang mga input"
                 },
                 "IncompleteImplementation": {
                     "name": "$~hindikumpletongistruktura",
-                    "explanation": "$~Kailangang ipatupad lahat ang mga tungkulin ko, o kung hindi ay wala talagang dapat ipatupad. Walang makalat na halo!"
+                    "explanation": "$~Kailangang ipatupad lahat ang mga tungkulin ko, o kung hindi ay wala talagang dapat ipatupad. Walang makalat na halo!",
+                    "resolution": "$~I-drop ang mga input para gawin itong isang interface"
                 },
                 "NotAnInterface": {
                     "name": "$~hindiisanginterface",
-                    "explanation": "$~Hindi ako isang interface; ang isang istraktura ay maaari lamang magpatupad ng mga interface, hindi iba pang mga istruktura"
+                    "explanation": "$~Hindi ako isang interface; ang isang istraktura ay maaari lamang magpatupad ng mga interface, hindi iba pang mga istruktura",
+                    "resolution": "$~Alisin ito sa listahan ng interface"
                 },
                 "UnimplementedInterface": {
                     "name": "$~hindinaipatupad",
-                    "explanation": "$~Ipinapatupad ko ang $interface ngunit hindi ko pa naipatupad ang $function"
+                    "explanation": "$~Ipinapatupad ko ang $interface ngunit hindi ko pa naipatupad ang $function",
+                    "resolution": "$~Ilagay ang nawawalang * $function * sa istrukturang ito"
                 }
             }
         },
@@ -1362,7 +1453,8 @@
                 "reminder": "$~Paalala: Maaari mong i-undo ang aksyon na ito at makita ang iba pang mga bagay na minarkahan mo bilang hindi sensitibo sa dialog ng pagbabahagi.",
                 "character": {
                     "name": "$~posiblengpasadyangkarakter",
-                    "explanation": "$~Mukhang pangalan ito ng karakter. Para maipakita ang mga iyon, gamitin ang @FormattedLiteral sa halip na @TextLiteral."
+                    "explanation": "$~Mukhang pangalan ito ng karakter. Para maipakita ang mga iyon, gamitin ang @FormattedLiteral sa halip na @TextLiteral.",
+                    "resolutionStrip": "$~Alisin ang mga espesyal na karakter mula sa teksto"
                 }
             }
         },
@@ -1407,7 +1499,8 @@
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~nailagayangsangguniangitosamalinglugar",
-                    "explanation": "$~Pinapayagan lamang ako sa isang istruktura, pagbabagong-anyo, o reaksyon."
+                    "explanation": "$~Pinapayagan lamang ako sa isang istruktura, pagbabagong-anyo, o reaksyon.",
+                    "resolution": "$~Palitan ng placeholder"
                 }
             }
         },
@@ -1456,7 +1549,8 @@
                 },
                 "UnclosedDelimiter": {
                     "name": "$~hindinakasarangdelimiter",
-                    "explanation": "$~Inaasahan ko ang $expected ilang sandali pagkatapos ng $unclosed"
+                    "explanation": "$~Inaasahan ko ang $expected ilang sandali pagkatapos ng $unclosed",
+                    "resolution": "$~Idagdag ang nawawalang * $expected *"
                 }
             },
             "exception": {
@@ -1481,11 +1575,23 @@
             "conflict": {
                 "ExpectedColumnBind": {
                     "name": "$~nawawalanghalagangkolum",
-                    "explanation": "$~Kailangan ko ng value para sa bawat column"
+                    "explanation": "$~Kailangan ko ng value para sa bawat column",
+                    "resolution": "$~I-wrap ang cell na ito bilang isang pinangalanang column"
                 },
                 "IncompatibleCellType": {
                     "name": "$~hinditugmanguringselula",
-                    "explanation": "$~Dapat tipo $expected ako, pero $given ako."
+                    "explanation": "$~Dapat tipo $expected ako, pero $given ako.",
+                    "resolution": "$~I-convert ito sa $expected , dahil kinakailangan ang $expected",
+                    "resolutionLiteral": "$~Markahan ang listahan, set, o mapa bilang literal gamit ang !, para manatiling tiyak ang mga halaga nito sa halip na maging pangkalahatan — kailangan $expected ang eksaktong mga halaga",
+                    "resolutionOtherwise": "$~Pangasiwaan ang nawawalang halaga gamit ang ??, dahil hindi pinapayagan $expected ang ø",
+                    "resolutionGuard": "$~Tiyaking ito ay isang $expected first gamit ang isang type guard, dahil $expected ay hindi maaaring maging ang iba pang posibleng mga uri",
+                    "resolutionDeclaration": "$~Ipahayag nang malinaw ang uri, dahil kailangan $expected na mapanatili ang mga literal na halaga",
+                    "resolutionWrap": "$~Ilagay ito sa isang listahan, set, o mapa, dahil $expected ay nangangailangan ng koleksyon ng mga halaga",
+                    "resolutionStructure": "$~Balutin ito sa $expected , dahil ang slot ay nangangailangan ng halagang $expected",
+                    "resolutionDefault": "$~Bigyan ang binding ng panimulang halaga, dahil hindi maaaring mawala $expected dito",
+                    "resolutionWiden": "$~Payagan ang uri ng halaga para sa pagbubuklod na ito, dahil $expected ay masyadong makitid para sa kung ano talaga ang nakaimbak",
+                    "resolutionReorder": "$~Palitan ang mga input, dahil mas akma ang mga uri nito sa kabilang pagkakasunud-sunod — $expected ay kabilang sa kabilang puwang",
+                    "resolutionPlaceholder": "$~Palitan ito ng placeholder sa ngayon, dahil kinakailangan ang $expected — pagkatapos ay pumili ng value mula sa autocomplete menu"
                 }
             }
         },
@@ -1577,7 +1683,8 @@
             "conflict": {
                 "UnknownTypeName": {
                     "name": "$~hindikilalangpangalannguri",
-                    "explanation": "$~Ang mga pangalan ng uri ay maaari lamang tumukoy sa mga istruktura o mga baryabol ng uri, ngunit ito ay tumutukoy sa uri na $type"
+                    "explanation": "$~Ang mga pangalan ng uri ay maaari lamang tumukoy sa mga istruktura o mga baryabol ng uri, ngunit ito ay tumutukoy sa uri na $type",
+                    "resolution": "$~Palitan ng placeholder na uri"
                 }
             }
         },
@@ -1641,7 +1748,8 @@
             "conflict": {
                 "ExpectedColumnType": {
                     "name": "$~nawawalanguringkolum",
-                    "explanation": "$~Kailangan ko ng uri ng kolum"
+                    "explanation": "$~Kailangan ko ng uri ng kolum",
+                    "resolution": "$~Magdagdag ng placeholder ng uri"
                 }
             }
         },
@@ -1667,7 +1775,8 @@
             "doc": [
                 "$~Sino ang dapat kong katawanin, si A o si B o iba pa? Hindi ako makapagdesisyon!",
                 "$~\\kawalan ng desisyon•''|#|{ø}: \"Hindi ko alam!\"\\"
-            ]
+            ],
+            "elidedSuffix": "$~o $omitted ang iba pang mga opsyon"
         },
         "Unit": {
             "name": "$~yunit",
@@ -3267,6 +3376,59 @@
             "down": {
                 "names": "$~pababa",
                 "doc": "$~KUNG @None, ang key down ay bubuo ng mga input. Kung \\⊤\\, ang mga down input lamang ang ibibigay, at kung \\⊥\\, ang mga release input lamang ang ibibigay."
+            },
+            "keys": {
+                "Shift": ["$~Paglipat"],
+                "Control": ["$~Kontrol", "$~Ctrl"],
+                "Alt": ["$~Alt", "$~Opsyon"],
+                "Meta": ["$~Meta", "$~Utos", "$~Mga Bintana"],
+                "AltGraph": ["$~AltGraph"],
+                "CapsLock": ["$~CapsLock", "$~Caps Lock"],
+                "NumLock": ["$~NumLock", "$~Num Lock"],
+                "ScrollLock": ["$~ScrollLock", "$~I-scroll Lock"],
+                "Enter": ["$~Pumasok", "$~Pagbabalik"],
+                "Tab": ["$~Tab"],
+                " ": ["$~Kalawakan", "$~Spacebar", "$~"],
+                "ArrowUp": ["$~Palaso Pataas", "$~Pataas"],
+                "ArrowDown": ["$~PalasoPababa", "$~Pababa"],
+                "ArrowLeft": ["$~Palaso Kaliwa", "$~Kaliwa"],
+                "ArrowRight": ["$~PalasoKanan", "$~Kanan"],
+                "Home": ["$~Tahanan"],
+                "End": ["$~Wakas"],
+                "PageUp": ["$~PageUp", "$~Pahina Pataas"],
+                "PageDown": ["$~PahinaDown", "$~Pahina Pababa"],
+                "Backspace": ["$~Backspace"],
+                "Delete": ["$~Burahin", "$~Del"],
+                "Insert": ["$~Ipasok", "$~Ins"],
+                "Clear": ["$~I-clear"],
+                "Cut": ["$~Gupitin"],
+                "Copy": ["$~Kopyahin"],
+                "Paste": ["$~I-paste"],
+                "Undo": ["$~I-undo"],
+                "Redo": ["$~Gawing muli"],
+                "Escape": ["$~Pagtakas", "$~Esc"],
+                "Pause": ["$~Ihinto"],
+                "ContextMenu": ["$~Menu ng Konteksto", "$~Menu"],
+                "Help": ["$~Tulong"],
+                "Convert": ["$~I-convert"],
+                "NonConvert": ["$~Hindi Nagko-convert"],
+                "KanaMode": ["$~KanaMode"],
+                "HangulMode": ["$~HangulMode"],
+                "Hiragana": ["$~Hiragana"],
+                "Katakana": ["$~Katakana"],
+                "Romaji": ["$~Romaji"],
+                "F1": ["$~F1"],
+                "F2": ["$~F2"],
+                "F3": ["$~F3"],
+                "F4": ["$~F4"],
+                "F5": ["$~F5"],
+                "F6": ["$~F6"],
+                "F7": ["$~F7"],
+                "F8": ["$~F8"],
+                "F9": ["$~F9"],
+                "F10": ["$~F10"],
+                "F11": ["$~F11"],
+                "F12": ["$~F12"]
             }
         },
         "Time": {
@@ -3553,12 +3715,12 @@
         "Hand": {
             "doc": [
                 "$~/kumawag-kawag/",
-                "$~@FunctionDefinition narito! Hayaan mong ikuwento ko sa iyo ang tungkol kay @Hand.",
-                "$~Tinitingnan ni @Hand ang iyong kamera para sa isang kamay at sinasabi sa iyo kung nasaan ito, kung aling mga daliri ang nakaunat, at kung ang palad o likod ng iyong kamay ay nakaharap sa kamera. Itaas ang iyong kamay, iwagayway ito, bilangin gamit ang iyong mga daliri — Sumusunod si @Hand.",
-                "$~Sa likod ng mga eksena, gumagamit ang @Hand ng isang machine-learning model. Sa unang pagkakataon na gagamitin mo ito sa isang programa, aabutin lamang ng ilang segundo bago ma-download ang modelo, at isang maliit na umiikot na kamay ang lilitaw sa kanang sulok sa itaas ng stage habang naglo-load ito. Pagkatapos nito, mananatili itong naka-cache at agad na magsisimula.",
-                "$~Ang bawat frame na @Hand ay nagbabalik ng istruktura na may mga field tulad ng place (kung nasaan ang kamay), open (true kung bukas ang iyong kamay), fingers (ilang daliri ang nakataas), mga indibidwal na boolean para sa hinlalaki, hintuturo, gitna, singsing, at maliit na daliri, at palm (true kung ang iyong palad ay nakaharap sa camera).",
+                "$~@FunctionDefinition narito! Hayaan mong ikuwento ko sa iyo ang tungkol kay @Hand .",
+                "$~Tinitingnan @Hand ang iyong kamera para sa isang kamay at sinasabi sa iyo kung nasaan ito, kung aling mga daliri ang nakaunat, at kung ang palad o likod ng iyong kamay ay nakaharap sa kamera. Itaas ang iyong kamay, iwagayway ito, bilangin gamit ang iyong mga daliri — Sumusunod @Hand .",
+                "$~Sa likod ng mga eksena, gumagamit @Hand ng isang machine-learning model. Sa unang pagkakataon na gagamitin mo ito sa isang programa, aabutin lamang ng ilang segundo bago ma-download ang modelo, at isang maliit na umiikot na kamay ang lilitaw sa kanang sulok sa itaas ng stage habang naglo-load ito. Pagkatapos nito, mananatili itong naka-cache at agad na magsisimula.",
+                "$~Sa bawat frame, @Hand ay nagbibigay sa iyo ng isang @Gesture — hanapin doon ang kumpletong listahan ng mga input at kung ano ang ibig sabihin ng mga ito.",
                 "$~Subukan ito — nagpapakita ito ng emoji na tumutugma sa postura ng iyong kamay kung nasaan man ang iyong totoong kamay:",
-                "$~\\kamay: Kamay()\nParirala((kamay.bukas ? '🖐️' '✊') lugar: kamay.lugar)\\"
+                "$~\\hand: Hand()\nPhrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
             ],
             "names": ["$~🖐️", "$~Kamay"],
             "frequency": {
@@ -3683,7 +3845,7 @@
                 "doc": "$~Pareho ng @Phrase/style!",
                 "names": "$~estilo"
             },
-            "defaultDescription": "$~$name[$name|] $layout $pose"
+            "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
         },
         "Phrase": {
             "doc": [
@@ -3807,7 +3969,7 @@
                 "doc": "$~Ang istilo ng animation na gagamitin kapag lumilipat sa ibang lugar sa entablado.",
                 "names": "$~estilo"
             },
-            "defaultDescription": "$~$size[$size metro |]parirala $text $name[pinangalanang $name|] $face[$face|] $animation"
+            "defaultDescription": "$~$size [ $size meter |]parirala $text $name [pinangalanang $name |] $face [ $face |] $animation $color [ $color |]"
         },
         "Arrangement": {
             "doc": "$~Isa akong inspirasyon sa maraming iba pang uri ng pagkakaayos sa Talata, kabilang ang @Row, @Stack, @Grid, at @Free. Malapit akong nakikipagtulungan sa @Group para",
@@ -4081,18 +4243,22 @@
             "doc": [
                 "$~Ako ay isang nakikitang kulay, na binubuo ng tatlong mahahalagang dimensyon.",
                 "$~Narito ang ilang karaniwang kulay sa paligid ng color wheel, sa katamtamang liwanag at mataas na chroma:",
-                "$~\\Kulay(50% 100 0°)\\",
-                "$~\\Kulay(50% 100 30°)\\",
-                "$~\\Kulay(50% 100 60°)\\",
-                "$~\\Kulay(50% 100 90°)\\",
-                "$~\\Kulay(50% 100 120°)\\",
-                "$~\\Kulay(50% 100 150°)\\",
-                "$~\\Kulay(50% 100 180°)\\",
-                "$~\\Kulay(50% 100 210°)\\",
-                "$~\\Kulay(50% 100 240°)\\",
-                "$~\\Kulay(50% 100 270°)\\",
-                "$~\\Kulay(50% 100 300°)\\",
-                "$~\\Kulay(50% 100 330°)\\"
+                "$~\\Color(50% 100 0°)\\",
+                "$~\\Color(50% 100 30°)\\",
+                "$~\\Color(50% 100 60°)\\",
+                "$~\\Color(50% 100 90°)\\",
+                "$~\\Color(50% 100 120°)\\",
+                "$~\\Color(50% 100 150°)\\",
+                "$~\\Color(50% 100 180°)\\",
+                "$~\\Color(50% 100 210°)\\",
+                "$~\\Color(50% 100 240°)\\",
+                "$~\\Color(50% 100 270°)\\",
+                "$~\\Color(50% 100 300°)\\",
+                "$~\\Color(50% 100 330°)\\",
+                "$~Para sa labing-isang pinakakaraniwang pangalan ng kulay, hindi mo na kailangang gawin ako mula sa simula. Mayroon akong mga shortcut sa aking pangalan:",
+                "$~\\Color.red\\",
+                "$~\\Color.blue\\",
+                "$~Gumagana rin ang mga shortcut na ito sa iyong wika, kaya maaaring isulat ng isang nagsasalita ng Pranses \\couleur.rouge\\ at ng isang nagsasalita ng Hapon \\色.赤\\ . Ang mga shortcut ay: pula, kahel, dilaw, berde, asul, lila, kayumanggi, rosas, itim, puti, at kulay abo."
             ],
             "names": ["$~🌈", "$~Kulay"],
             "lightness": {
@@ -4106,6 +4272,58 @@
             "hue": {
                 "doc": "$~Anong kulay ang dapat kong maging, sa isang color wheel, mula magenta \\0\\, pula \\30\\, berde \\120\\, hanggang asul \\270\\.",
                 "names": ["$~kulay", "$~h"]
+            },
+            "colors": {
+                "black": {
+                    "doc": "$~Ang pangunahing kulay ay itim.",
+                    "names": ["$~itim"]
+                },
+                "white": {
+                    "doc": "$~Ang pangunahing kulay ay puti.",
+                    "names": ["$~puti"]
+                },
+                "gray": {
+                    "doc": "$~Ang pangunahing kulay ay kulay abo.",
+                    "names": ["$~kulayabo"]
+                },
+                "red": {
+                    "doc": "$~Ang pangunahing kulay ay pula.",
+                    "names": ["$~pula"]
+                },
+                "orange": {
+                    "doc": "$~Ang pangunahing kulay ay kulay kahel.",
+                    "names": ["$~kahel"]
+                },
+                "yellow": {
+                    "doc": "$~Ang pangunahing kulay ay dilaw.",
+                    "names": ["$~dilaw"]
+                },
+                "green": {
+                    "doc": "$~Ang pangunahing kulay ay berde.",
+                    "names": ["$~berde"]
+                },
+                "blue": {
+                    "doc": "$~Ang pangunahing kulay ay asul.",
+                    "names": ["$~asul"]
+                },
+                "purple": {
+                    "doc": "$~Ang pangunahing kulay ay lila.",
+                    "names": ["$~lila"]
+                },
+                "brown": {
+                    "doc": "$~Ang pangunahing kulay ay kayumanggi.",
+                    "names": ["$~kayumanggi"]
+                },
+                "pink": {
+                    "doc": "$~Ang pangunahing kulay ay rosas.",
+                    "names": ["$~kulayrosas"]
+                }
+            },
+            "description": {
+                "modified": "$~$modifier $color",
+                "mix": "$~$first - $second",
+                "light": "$~liwanag",
+                "dark": "$~madilim"
             }
         },
         "Sequence": {
@@ -4330,7 +4548,7 @@
                 "doc": "$~Ang gravity na ilalapat sa output na ang lugar ay nasa @Motion.",
                 "names": "$~grabidad"
             },
-            "defaultDescription": "$~yugto $name[$name |]ng $count ay naglalabas ng $frame[na may frame na $frame|] $pose"
+            "defaultDescription": "$~yugto $name [ $name |]ng $count ay naglalabas ng $frame [kasama ang frame na $frame |] $pose $color [ $color |]"
         },
         "Easing": {
             "straight": "$~tuwid",
@@ -4410,7 +4628,7 @@
             }
         },
         "Gesture": {
-            "doc": "$~Ang \"Ako\" ay isang kilos ng kamay na nade-detect ng kamera. Sinasabi sa iyo ng aking mga field kung nasaan ang kamay sa entablado, kung aling mga daliri ang nakaunat, at kung ang palad o likod ng kamay ay nakaharap sa kamera. Ang \"@Hand\" ay nagbabalik ng \"Ako\".",
+            "doc": "$~Isa akong snapshot ng isang pose ng kamay na na-detect ng camera, na inilalabas ng @Hand stream. Sinasabi sa iyo ng aking lugar kung nasaan ang kamay sa entablado, sinasabi sa iyo ng aking mga daliri kung ilan ang nakaunat, ang aking bukas ay true kapag ang kamay ay nakabukas (3+ daliri ang nakaunat), at ang aking hinlalaki, hintuturo, gitnang bahagi, singsing, at maliit na daliri ay nagsasabi kung aling mga partikular na daliri ang nakaunat. Ang aking palad ay true kapag ang palad ay nakaharap sa camera, at false kapag ang likod ng kamay ay nakaharap.",
             "names": ["$~✋", "$~Kilos"],
             "place": {
                 "doc": "$~Kung saan nasa entablado ang kamay.",
@@ -4552,7 +4770,8 @@
             "field": {
                 "name": {
                     "description": "$~i-edit ang pangalan ng proyekto",
-                    "placeholder": "$~pangalan"
+                    "placeholder": "$~pangalan",
+                    "invalid": "$~Hindi kumpletong pagsasalin — tingnan ang iyong mga panipi at mga tag ng wika, tulad ng \"hi\"/en\"hola\"/es."
                 }
             },
             "help": "$~ipakita ang mga shortcut sa keyboard",
@@ -4563,7 +4782,14 @@
                 "projectContainedPII": "$~Para protektahan ang iyong privacy, hindi na-save online ang isang proyekto na may posibleng personal na impormasyong makakapagpakilala. Suriin ang proyekto para makita kung ang impormasyon ay nakakapagpakilala.",
                 "projectsNotLoadingOnline": "$~Hindi ma-load ang mga online na proyekto.",
                 "projectNotSavedOnline": "$~Hindi ma-save ang mga proyekto online.",
-                "settingsUnsaved": "$~Hindi ma-save ang mga setting online."
+                "settingsUnsaved": "$~Hindi ma-save ang mga setting online.",
+                "failureReason": {
+                    "indexedDBWriteFailed": "$~Hindi ma-save ng iyong browser ang mga proyektong ito sa device na ito.",
+                    "indexedDBUnsupported": "$~Hindi papayagan ng iyong browser ang Wordplay na mag-save ng mga proyekto sa device na ito.",
+                    "firestoreBatchFailed": "$~Hindi namin maipadala ang mga proyektong ito sa cloud. Ligtas pa rin ang mga ito sa device na ito.",
+                    "projectContainsPII": "$~Mukhang may personal na impormasyon ang mga proyektong ito, kaya hindi namin na-save online. Buksan ang bawat isa para tingnan kung ano ang mukhang personal."
+                },
+                "failuresHeader": "$~Hindi na-save ng proyektong $count :"
             },
             "dialog": {
                 "unsaved": "$~Hindi na-save na trabaho...",
@@ -4910,7 +5136,6 @@
                 "$~• Mag-browse sa<galleries@://galleries> para sa inspirasyon.",
                 "$~Kung ikaw ay natigil,<learn more@://learn> ."
             ],
-            "overwritten": "$~Binago ang proyekto sa ibang lugar",
             "confirm": {
                 "delete": {
                     "description": "$~burahin ang $source na ito",
@@ -5369,12 +5594,20 @@
                     "pii": {
                         "header": "$~Personal na Impormasyon",
                         "explanation": "$~Ang pagbabahagi ng personal na impormasyon (PII) sa publiko ay maaaring maglagay sa panganib sa mga tagalikha, kaya tinitingnan namin ang posibleng PII at binabalaan ang mga tagalikha na alisin ang sensitibong data o markahan ito bilang hindi sensitibo.\n\nNasa ibaba ang isang listahan ng mga posibleng PII sa proyektong ito na iyong minarkahan bilang hindi sensitibo. Maaari mong i-click ang button sa tabi nito upang markahan itong muli bilang sensitibo, ngunit ang paggawa nito ay nangangahulugan na ang iyong proyekto ay hindi na mase-save online."
+                    },
+                    "preview": {
+                        "header": "$~Preview",
+                        "explanation": "$~Ito ang maliit na glyph na kumakatawan sa iyong proyekto sa mga listahan at gallery. Awtomatikong pumipili ng isa batay sa ipinapakita ng iyong proyekto; Binibigyang-daan ka ng Custom na i-pin ang isang character o emoji."
                     }
                 },
                 "field": {
                     "emailOrUsername": {
                         "placeholder": "$~email o username",
                         "description": "$~email o username ng taong gusto mong bigyan ng access sa pag-edit"
+                    },
+                    "preview": {
+                        "placeholder": "$~preview na gliph",
+                        "description": "$~isang karakter o emoji na gagamitin bilang preview glyph ng proyektong ito"
                     }
                 },
                 "mode": {
@@ -5385,12 +5618,21 @@
                             "$~Ikaw at ang mga collaborator lamang ang makakakita sa proyektong ito",
                             "$~kahit sino ay maaaring makakita ng proyektong ito"
                         ]
+                    },
+                    "preview": {
+                        "label": "$~paraan ng pag-preview",
+                        "labels": ["$~awto", "$~pasadyang"],
+                        "tips": [
+                            "$~hayaan ang proyekto na pumili ng sarili nitong preview glyph batay sa ipinapakita nito",
+                            "$~i-pin ang isang glyph na iyong napili"
+                        ]
                     }
                 },
                 "error": {
                     "unknown": "$~Hindi namin kilala ang creator na may ganitong email.",
                     "anonymous": "$~Dapat ay <naka-log in@://login> ka para makapagbahagi.",
-                    "self": "$~Hindi mo maaaring idagdag ang iyong sarili."
+                    "self": "$~Hindi mo maaaring idagdag ang iyong sarili.",
+                    "invalidPreview": "$~Pumili ng eksaktong isang karakter o emoji."
                 },
                 "button": {
                     "submit": "$~Ibahagi ang proyekto gamit ang email address na ito",
@@ -6712,7 +6954,8 @@
             },
             "script": "$~mga iskrip",
             "scriptLabel": "$~i-filter ayon sa script",
-            "pickFilter": "$~Pumili ng kategorya o script"
+            "pickFilter": "$~Pumili ng kategorya o script",
+            "moreLanguages": "$~at $count pa"
         },
         "tour": {
             "label": "$~paglilibot",
@@ -6725,6 +6968,12 @@
             "offline": "$~Naka-offline ka. Hindi gagana ang ilang feature hangga't hindi ka online.",
             "unreachable": "$~Hindi namin makontak ang database ng Wordplay. Hindi gagana ang ilang feature hangga't hindi bumabalik ang koneksyon.",
             "label": "$~Katayuan ng koneksyon"
+        },
+        "presence": {
+            "peersLabel": "$~mga kolaborator na nag-eedit ng proyektong ito",
+            "joined": "$~Sumali $name .",
+            "left": "$~$name lang ang natitira.",
+            "waitingForSlot": "$~Naghihintay ng slot sa pag-eedit — apat na kolaborator ang nag-eedit na. Kapag umalis ang isa, makakapag-edit ka na rin."
         }
     },
     "moderation": {

@@ -1,6 +1,7 @@
 <script lang="ts">
     import Fonts from '@basis/Fonts';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import Spinning from '@components/app/Spinning.svelte';
     import {
         getAnnouncer,
         getTip,
@@ -8,31 +9,29 @@
         isAuthenticated,
     } from '@components/project/Contexts';
     import { characterToSVG, type Character } from '@db/characters/Character';
-    import { CharactersDB, DB, HowTos, locales, Projects } from '@db/Database';
+    import { CharactersDB, DB, HowTos, locales } from '@db/Database';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
     import Project from '@db/projects/Project';
-    import ConceptLink, { CharacterName } from '@nodes/ConceptLink';
-    import type Example from '@nodes/Example';
+    import { enqueuePreviewCompute } from '@db/projects/previewQueue';
     import Source from '@nodes/Source';
-    import { getFaceCSS } from '@output/outputToCSS';
-    import { toStage } from '@output/Stage';
-    import { EXCEPTION_SYMBOL } from '@parser/Symbols';
     import { toMarkup } from '@parser/toMarkup';
-    import Evaluator from '@runtime/Evaluator';
-    import ExceptionValue from '@values/ExceptionValue';
-    import MarkupValue from '@values/MarkupValue';
-    import StructureValue from '@values/StructureValue';
-    import type Value from '@values/Value';
     import { untrack } from 'svelte';
     import type { SvelteMap } from 'svelte/reactivity';
     import UnicodeString from '@unicode/UnicodeString';
     import HowToForm from './HowToForm.svelte';
-    import { movePermitted } from './HowToMovement';
+    import {
+        findHowToPlacement,
+        movePermitted,
+        snapToNearestEdge,
+    } from './HowToMovement';
+    import { pickPreviewExample } from './pickPreviewExample';
 
     interface Props {
         howTo: HowTo;
         cameraX: number;
         cameraY: number;
+        canvasWidth: number;
+        canvasHeight: number;
         whichMoving: string | undefined;
         notPermittedAreas: SvelteMap<string, [number, number, number, number]>;
         galleryCuratorCollaborators: string[];
@@ -41,8 +40,10 @@
 
     let {
         howTo = $bindable(),
-        cameraX,
-        cameraY,
+        cameraX = $bindable(),
+        cameraY = $bindable(),
+        canvasWidth,
+        canvasHeight,
         whichMoving = $bindable(),
         notPermittedAreas = $bindable(),
         galleryCuratorCollaborators,
@@ -59,15 +60,18 @@
     let xcoord: number = $derived(howTo?.getCoordinates()[0] ?? 0);
     let ycoord: number = $derived(howTo?.getCoordinates()[1] ?? 0);
     let isPublished: boolean = $derived(howTo ? howTo.isPublished() : false);
-    // logic for picking the preview glyph
-    // if there are any examples in the how-to at all, use the first one's glyph per the same logic in ProjectPreview
-    // if there are not any examples, we just use the first character of the first line of text
-    type Preview = {
+    // Preview glyph for the how-to. If the how-to text has an embedded
+    // example, evaluate it (via the off-main-thread preview queue) and use
+    // its representative glyph. If not, take the first grapheme of the
+    // markup's natural-language text as a cheap fallback. The queue ensures
+    // we don't evaluate during render, so a page of how-tos doesn't hang
+    // WebKit.
+    type Displayed = {
         foreground: string | null;
         background: string | null;
         face: string | null;
         previewText: string;
-        character: string | null;
+        characterName: string | null;
     };
 
     let formComponent = $state<HowToForm | undefined>();
@@ -76,134 +80,107 @@
         return formComponent?.showPreview();
     }
 
-    let { foreground, background, face, previewText, character }: Preview =
-        $derived.by(() => {
-            let [markup, spaces] = toMarkup(text.join('\n\n'));
+    let displayed = $state<Displayed | null>(null);
+    let character = $state<Character | null>(null);
 
-            // step 1: determine which example to preview:
-            // prefer the first highlighted example, fall back to the first example
-            let examples = markup.getExamples();
-            let example: Example | undefined =
-                examples.find((e) => e.highlight !== undefined) ?? examples[0];
+    // Memoize the join on string value so snapshot-driven howTo
+    // reassignments (which create a fresh `text` array reference even
+    // when the text content is identical) don't re-enqueue every
+    // preview compute through the single-slot queue. Without this,
+    // any classmate's autosave in the same gallery flashes every
+    // preview tile to the spinning placeholder and many never settle
+    // because they get cancelled by the next reassignment first.
+    let joinedText: string = $derived(text.join('\n\n'));
 
-            // step 2: if undefined, just get the first character. if no first character, emdash
-            if (!example) {
-                let representativeText: string | undefined =
-                    markup.getRepresentativeText();
+    $effect(() => {
+        const [markup, spaces] = toMarkup(joinedText);
+        // Starred (`⭐`) example wins; otherwise the first example. See
+        // pickPreviewExample for the priority + its tests.
+        const example = pickPreviewExample(markup);
 
-                return {
-                    foreground: null,
-                    background: null,
-                    face: null,
-                    previewText: representativeText
-                        ? new UnicodeString(representativeText)
-                              .substring(0, 1)
-                              .toString()
-                        : '—',
-                    character: null,
-                };
-            }
-
-            // step 3: if there is an example, try evaluating it, following how ExampleUI.svelte creates a project
-            // and how ProjectPreview.svelte evaluates it
-            let project: Project = Project.make(
-                null,
-                'example',
-                new Source('example', [example.program, spaces]),
-                [],
-                $locales.getLocales(),
-            );
-            let evaluator = new Evaluator(
-                project,
-                DB,
-                $locales.getLocales(),
-                false,
-            );
-            let value: Value | undefined = evaluator.getInitialValue();
-            evaluator.stop();
-
-            let characterName: string | null = value
-                ? findCharacterName(value)
-                : null;
-
-            if (characterName) {
-                let character: Character | null = null;
-                CharactersDB.getByName(characterName).then((char) => {
-                    if (char) character = char;
-                });
-
-                if (character) {
-                    Projects.deleteProject(project.getID());
-                    return {
-                        foreground: null,
-                        background: null,
-                        face: null,
-                        previewText: '',
-                        character: characterToSVG(character, '100%'),
-                    };
-                }
-
-                Projects.deleteProject(project.getID());
-                return {
-                    foreground: null,
-                    background: null,
-                    face: null,
-                    previewText: '',
-                    character: null,
-                };
-            }
-
-            let stage = value ? toStage(evaluator, value) : undefined;
-            if (stage && stage.face) Fonts.loadFace(stage.face);
-
-            Projects.deleteProject(project.getID());
-
-            return {
-                face: stage ? getFaceCSS(stage.face) : null,
-                foreground: stage
-                    ? (stage.pose.color?.toCSS() ?? null)
-                    : 'var(--wordplay-evaluation-color)',
-                background: stage
-                    ? stage.back.toCSS()
-                    : value instanceof ExceptionValue || value === undefined
-                      ? 'var(--wordplay-error)'
-                      : null,
-                previewText: stage
-                    ? new UnicodeString(stage.getRepresentativeText($locales))
+        // No example to evaluate — synchronously derive a fallback from the
+        // markup's plain text. Cheap, no evaluator needed.
+        if (!example) {
+            const representativeText: string | undefined =
+                markup.getRepresentativeText();
+            displayed = {
+                foreground: null,
+                background: null,
+                face: null,
+                previewText: representativeText
+                    ? new UnicodeString(representativeText)
                           .substring(0, 1)
                           .toString()
-                    : value
-                      ? value.getRepresentativeText($locales)
-                      : EXCEPTION_SYMBOL,
-                character: null,
+                    : '—',
+                characterName: null,
             };
-        });
-
-    // copied from ProjectPreview.svelte
-    function findCharacterName(value: Value): string | null {
-        // If it's a MarkupValue, check for character links
-        if (value instanceof MarkupValue) {
-            const nodes = value.markup.nodes();
-            for (const node of nodes) {
-                if (node instanceof ConceptLink) {
-                    const parsed = ConceptLink.parse(node.getName());
-                    if (parsed instanceof CharacterName) {
-                        return `${parsed.username}/${parsed.name}`;
-                    }
-                }
-            }
+            character = null;
+            return;
         }
 
-        // If it's a StructureValue, check all its fields recursively
-        if (value instanceof StructureValue) {
-            const bindings = value.context.getBindingsByNames();
-            for (const [, fieldValue] of bindings) {
-                const result = findCharacterName(fieldValue);
-                if (result) return result;
-            }
+        // Has an example — defer to the queue. Until it resolves the tile
+        // shows a Spinning placeholder.
+        displayed = null;
+        character = null;
+        let cancelled = false;
+        const project = Project.make(
+            null,
+            'example',
+            new Source('example', [example.program, spaces]),
+            [],
+            $locales.getLocales(),
+        );
+        enqueuePreviewCompute(project, $locales, DB)
+            .then((extracted) => {
+                if (cancelled) return;
+                if (extracted.face) Fonts.loadFace(extracted.face);
+                displayed = {
+                    foreground: extracted.foreground,
+                    background: extracted.background,
+                    face: extracted.face,
+                    previewText: extracted.text,
+                    characterName: extracted.characterName,
+                };
+            })
+            .catch(() => {
+                if (cancelled) return;
+                // On failure show an em-dash placeholder rather than
+                // leaving the Spinning forever.
+                displayed = {
+                    foreground: null,
+                    background: null,
+                    face: null,
+                    previewText: '—',
+                    characterName: null,
+                };
+            });
+        return () => {
+            cancelled = true;
+        };
+    });
+
+    // Resolve the Character SVG once the preview names one.
+    $effect(() => {
+        const name = displayed?.characterName ?? null;
+        if (!name) {
+            character = null;
+            return;
         }
-        return null;
-    }
+        let cancelled = false;
+        CharactersDB.getByName(name)
+            .then((char) => {
+                if (!cancelled && char) character = char;
+            })
+            .catch(() => undefined);
+        return () => {
+            cancelled = true;
+        };
+    });
+
+    const foreground = $derived(displayed?.foreground ?? null);
+    const background = $derived(displayed?.background ?? null);
+    const face = $derived(displayed?.face ?? null);
+    const previewText = $derived(displayed?.previewText ?? '');
 
     // code that enables drag and drop functionality
 
@@ -222,41 +199,98 @@
     let renderX: number = $derived(xcoord + (isPublished ? cameraX : 0));
     let renderY: number = $derived(ycoord + (isPublished ? cameraY : 0));
 
+    /** Anchor recorded at drag start: the viewport-space cursor position
+     *  and the tile's world-space position. We compute new positions as
+     *  origin.xcoord + (e.clientX - origin.clientX) instead of summing
+     *  e.movementX so the tile stays exactly under the pointer for the
+     *  full drag — even fast moves and long drags can't accumulate
+     *  delta-rounding drift between cursor and tile. */
+    let dragOrigin: {
+        clientX: number;
+        clientY: number;
+        xcoord: number;
+        ycoord: number;
+    } | null = null;
+
+    /** Margin (in canvas-local pixels) we try to keep between the
+     *  moving tile and the visible canvas edge — matches
+     *  `--wordplay-spacing` so the auto-pan keeps the tile inside the
+     *  same comfortable bounds the rest of the layout uses. */
+    const AUTO_PAN_PAD = 16;
+
+    /** Pan the camera the minimum amount needed to keep the moving
+     *  tile inside the visible canvas. xcoord stays in world space —
+     *  only cameraX/Y shift — so the cursor anchor (origin.xcoord +
+     *  cursor delta) keeps working without correction; the tile slides
+     *  visually with the camera while the cursor follows the same
+     *  world position. */
+    function autoPanToShowTile() {
+        if (!isPublished) return;
+        if (canvasWidth <= 0 || canvasHeight <= 0) return;
+
+        let panX = 0;
+        let panY = 0;
+
+        if (renderX < AUTO_PAN_PAD) {
+            panX = AUTO_PAN_PAD - renderX;
+        } else if (renderX + width > canvasWidth - AUTO_PAN_PAD) {
+            panX = canvasWidth - AUTO_PAN_PAD - (renderX + width);
+        }
+
+        if (renderY < AUTO_PAN_PAD) {
+            panY = AUTO_PAN_PAD - renderY;
+        } else if (renderY + height > canvasHeight - AUTO_PAN_PAD) {
+            panY = canvasHeight - AUTO_PAN_PAD - (renderY + height);
+        }
+
+        if (panX !== 0) cameraX += panX;
+        if (panY !== 0) cameraY += panY;
+    }
+
     function onpointerdown(e: PointerEvent) {
         if (!canEdit || whichDialogOpen) return;
 
         e.stopPropagation();
 
+        // Capture the pointer so the matching pointerup is delivered to
+        // this element no matter where the cursor ends up — releasing
+        // outside the canvas (or even outside the browser viewport)
+        // would otherwise leave whichMoving === howToId and the tile
+        // would keep following the cursor until the next click.
+        (e.currentTarget as Element).setPointerCapture(e.pointerId);
+
+        dragOrigin = {
+            clientX: e.clientX,
+            clientY: e.clientY,
+            xcoord,
+            ycoord,
+        };
         whichMoving = howToId;
     }
 
     function onpointerup() {
         if (whichMoving !== howToId || !canEdit || whichDialogOpen) return;
 
+        dragOrigin = null;
         whichMoving = undefined;
 
         onDropHowTo();
     }
 
-    // // Drag and drop function referenced from: https://svelte.dev/playground/7d674cc78a3a44beb2c5a9381c7eb1a9?version=5.46.0
+    // Drag is unconstrained — the cursor should never fight the user.
+    // Collision and out-of-range correction happens in onDropHowTo,
+    // which snaps the dropped tile to the nearest valid resting spot.
     function onpointermove(e: PointerEvent) {
-        if (!canEdit || whichMoving !== howToId || whichDialogOpen) return;
-        let intendX = xcoord + e.movementX;
-        let intendY = ycoord + e.movementY;
-
         if (
-            movePermitted(
-                intendX,
-                intendY,
-                width,
-                height,
-                howToId,
-                notPermittedAreas,
-            )
-        ) {
-            xcoord = intendX;
-            ycoord = intendY;
-        }
+            !canEdit ||
+            whichMoving !== howToId ||
+            whichDialogOpen ||
+            dragOrigin === null
+        )
+            return;
+        xcoord = dragOrigin.xcoord + (e.clientX - dragOrigin.clientX);
+        ycoord = dragOrigin.ycoord + (e.clientY - dragOrigin.clientY);
+        autoPanToShowTile();
     }
 
     let keyboardFocused: boolean = $state(false);
@@ -283,99 +317,98 @@
     function onkeydown(event: KeyboardEvent) {
         if (!canEdit || !keyboardFocused || whichDialogOpen) return;
 
-        let intendX: number;
-        let intendY: number;
-
         // if this item isn't the one that is moving, then don't do anything
         if (whichMoving && whichMoving !== howToId) return;
 
+        // Keyboard moves in discrete 10px steps. Unlike the unconstrained
+        // pointer drag, each step is gated by movePermitted so a screen-
+        // reader user never lands the tile on top of another one — there
+        // is no "release" event to snap on for keyboard navigation, so
+        // the prevention has to happen at step time.
+        let intendX = xcoord;
+        let intendY = ycoord;
         switch (event.key) {
             case 'ArrowUp':
-                intendY = ycoord - 10;
-                if (
-                    movePermitted(
-                        xcoord,
-                        intendY,
-                        width,
-                        height,
-                        howToId,
-                        notPermittedAreas,
-                    )
-                ) {
-                    ycoord = intendY;
-                    whichMoving = howToId;
-                }
-
-                event.preventDefault();
+                intendY -= 10;
                 break;
             case 'ArrowDown':
-                intendY = ycoord + 10;
-                if (
-                    movePermitted(
-                        xcoord,
-                        intendY,
-                        width,
-                        height,
-                        howToId,
-                        notPermittedAreas,
-                    )
-                ) {
-                    ycoord = intendY;
-                    whichMoving = howToId;
-                }
-
-                event.preventDefault();
+                intendY += 10;
                 break;
             case 'ArrowLeft':
-                intendX = xcoord - 10;
-                if (
-                    movePermitted(
-                        intendX,
-                        ycoord,
-                        width,
-                        height,
-                        howToId,
-                        notPermittedAreas,
-                    )
-                ) {
-                    xcoord = intendX;
-                    whichMoving = howToId;
-                }
-
-                event.preventDefault();
+                intendX -= 10;
                 break;
             case 'ArrowRight':
-                intendX = xcoord + 10;
-                if (
-                    movePermitted(
-                        intendX,
-                        ycoord,
-                        width,
-                        height,
-                        howToId,
-                        notPermittedAreas,
-                    )
-                ) {
-                    xcoord = intendX;
-                    whichMoving = howToId;
-                }
-
-                event.preventDefault();
+                intendX += 10;
                 break;
-
             default:
                 return;
+        }
+        event.preventDefault();
+        if (
+            movePermitted(
+                intendX,
+                intendY,
+                width,
+                height,
+                howToId,
+                notPermittedAreas,
+            )
+        ) {
+            xcoord = intendX;
+            ycoord = intendY;
+            whichMoving = howToId;
+            autoPanToShowTile();
         }
     }
 
     function onDropHowTo() {
         if (!howTo) return;
 
-        howTo = new HowTo({
-            ...howTo.getData(),
-            xcoord: xcoord,
-            ycoord: ycoord,
-        });
+        // If the user released on top of another tile (or way out in
+        // empty space far from the cluster), snap to a valid resting
+        // spot. Drag itself is unconstrained — see onpointermove — so
+        // this is where collision and out-of-range correction lands.
+        //
+        // Prefer snap-to-nearest-edge of the overlapped tile so the
+        // dropped tile stays right where the user released it. Spiral
+        // outward only when no edge fits (every neighbor of the
+        // target is also occupied, or the drop was far enough out
+        // that the cluster-rebase needs to kick in).
+        if (
+            width > 0 &&
+            height > 0 &&
+            !movePermitted(
+                xcoord,
+                ycoord,
+                width,
+                height,
+                howToId,
+                notPermittedAreas,
+            )
+        ) {
+            const edgeSnap = snapToNearestEdge(
+                xcoord,
+                ycoord,
+                width,
+                height,
+                howToId,
+                notPermittedAreas,
+            );
+            if (edgeSnap !== null) {
+                [xcoord, ycoord] = edgeSnap;
+            } else {
+                [xcoord, ycoord] = findHowToPlacement(
+                    notPermittedAreas,
+                    xcoord,
+                    ycoord,
+                    width,
+                    height,
+                    howToId,
+                );
+            }
+        }
+
+        howTo = howTo.withFields({ xcoord, ycoord });
 
         HowTos.updateHowTo(howTo, true);
     }
@@ -432,8 +465,10 @@
         style:color={foreground}
         style:font-family={face}
     >
-        {#if character}
-            {@html character}
+        {#if displayed === null}
+            <Spinning />
+        {:else if character}
+            {@html characterToSVG(character, '100%')}
         {:else}
             {previewText}
         {/if}
@@ -444,6 +479,7 @@
 <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 <div
     class="howto"
+    class:moving={whichMoving === howToId}
     style:left={`${renderX}px`}
     style:top={`${renderY}px`}
     id="howto-{howToId}"
@@ -503,6 +539,24 @@
         padding: var(--wordplay-spacing);
         margin: var(--wordplay-spacing);
         touch-action: none;
+        /* Tiles overlap during drag (and can naturally end up close to
+           each other after a snap). An opaque background keeps the
+           contents from showing through to whatever is behind. */
+        background: var(--wordplay-background);
+        /* The title text used to be selectable, so a mousedown that
+           skimmed across letters started a text selection instead of a
+           drag — leaving a stuck selection rectangle and no actual
+           drag. Disable selection on the whole tile so every mousedown
+           goes straight to the drag path. */
+        user-select: none;
+        -webkit-user-select: none;
+    }
+
+    /* While a tile is being dragged or keyboard-moved, hoist it above
+       its siblings so it always reads as the active one even when it
+       briefly overlaps another tile mid-motion. */
+    .howto.moving {
+        z-index: 1;
     }
 
     .howtotitle {

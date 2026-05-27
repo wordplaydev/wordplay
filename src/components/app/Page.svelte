@@ -88,7 +88,7 @@
                 <Button
                     tip={(l) => l.ui.widget.backtotop}
                     action={scrollToTop}
-                    background>⏶</Button
+                    background="circular">⏶</Button
                 >
             </div>
         </div>
@@ -228,6 +228,18 @@
         gap: var(--wordplay-spacing);
     }
 
+    /* Cancel Link's default align-self: flex-start (used in flex columns
+       like Profile's <Action>) so inactive links in this row-direction nav
+       line up vertically with active links (which render as raw text and
+       follow `align-items: center`). Without this, inactive <a class="link">
+       items pin to the top of the row while raw-text active items stay
+       centered, producing an obvious vertical mismatch when the row is
+       taller than a single line (the LOGO emoji at 150% font-size makes it
+       tall here). */
+    nav :global(.link) {
+        align-self: center;
+    }
+
     /* Anchor sits in the flex flow just above the footer with no height of
        its own, so the absolutely-positioned inner bar rests on top of the
        footer (anchor's bottom edge == footer's top edge) without pushing
@@ -239,20 +251,12 @@
         z-index: 2;
     }
 
-    /* Full-width flex bar so the button is centered by its parent rather
-       than by its own transform — Button applies a hover/focus translate
-       that would otherwise fight a translateX(-50%) centering. */
+    /* Pinned to the inline end (right in LTR, left in RTL) just above the
+       footer. Padding from both the edge and the footer matches the standard
+       page spacing. */
     .backtotop-inner {
         position: absolute;
         bottom: var(--wordplay-spacing);
-        left: 0;
-        right: 0;
-        display: flex;
-        justify-content: center;
-        pointer-events: none;
-    }
-
-    .backtotop-inner :global(button) {
-        pointer-events: auto;
+        inset-inline-end: var(--wordplay-spacing);
     }
 </style>

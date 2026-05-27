@@ -57,202 +57,12 @@
       ],
       "type": "object"
     },
-    "ConflictText<[\"borrow\"]>": {
-      "additionalProperties": false,
-      "description": "The text that describes this conflict type.",
-      "properties": {
-        "explanation": {
-          "$ref": "#/definitions/Template%3C%5B%22borrow%22%5D%3E",
-          "description": "[formatted] The text that describes this conflict on the node which generated it."
-        },
-        "name": {
-          "description": "[name] The short header to describe the conflict",
-          "type": "string"
-        }
-      },
-      "required": [
-        "name",
-        "explanation"
-      ],
-      "type": "object"
-    },
-    "ConflictText<[\"code\"]>": {
-      "additionalProperties": false,
-      "description": "The text that describes this conflict type.",
-      "properties": {
-        "explanation": {
-          "$ref": "#/definitions/Template%3C%5B%22code%22%5D%3E",
-          "description": "[formatted] The text that describes this conflict on the node which generated it."
-        },
-        "name": {
-          "description": "[name] The short header to describe the conflict",
-          "type": "string"
-        }
-      },
-      "required": [
-        "name",
-        "explanation"
-      ],
-      "type": "object"
-    },
-    "ConflictText<[\"column\"]>": {
-      "additionalProperties": false,
-      "description": "The text that describes this conflict type.",
-      "properties": {
-        "explanation": {
-          "$ref": "#/definitions/Template%3C%5B%22column%22%5D%3E",
-          "description": "[formatted] The text that describes this conflict on the node which generated it."
-        },
-        "name": {
-          "description": "[name] The short header to describe the conflict",
-          "type": "string"
-        }
-      },
-      "required": [
-        "name",
-        "explanation"
-      ],
-      "type": "object"
-    },
-    "ConflictText<[\"condition\"]>": {
-      "additionalProperties": false,
-      "description": "The text that describes this conflict type.",
-      "properties": {
-        "explanation": {
-          "$ref": "#/definitions/Template%3C%5B%22condition%22%5D%3E",
-          "description": "[formatted] The text that describes this conflict on the node which generated it."
-        },
-        "name": {
-          "description": "[name] The short header to describe the conflict",
-          "type": "string"
-        }
-      },
-      "required": [
-        "name",
-        "explanation"
-      ],
-      "type": "object"
-    },
-    "ConflictText<[\"duplicate\"]>": {
-      "additionalProperties": false,
-      "description": "The text that describes this conflict type.",
-      "properties": {
-        "explanation": {
-          "$ref": "#/definitions/Template%3C%5B%22duplicate%22%5D%3E",
-          "description": "[formatted] The text that describes this conflict on the node which generated it."
-        },
-        "name": {
-          "description": "[name] The short header to describe the conflict",
-          "type": "string"
-        }
-      },
-      "required": [
-        "name",
-        "explanation"
-      ],
-      "type": "object"
-    },
-    "ConflictText<[\"expected\",\"given\"]>": {
-      "additionalProperties": false,
-      "description": "The text that describes this conflict type.",
-      "properties": {
-        "explanation": {
-          "$ref": "#/definitions/Template%3C%5B%22expected%22%2C%22given%22%5D%3E",
-          "description": "[formatted] The text that describes this conflict on the node which generated it."
-        },
-        "name": {
-          "description": "[name] The short header to describe the conflict",
-          "type": "string"
-        }
-      },
-      "required": [
-        "name",
-        "explanation"
-      ],
-      "type": "object"
-    },
-    "ConflictText<[\"expected\"]>": {
-      "additionalProperties": false,
-      "description": "The text that describes this conflict type.",
-      "properties": {
-        "explanation": {
-          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
-          "description": "[formatted] The text that describes this conflict on the node which generated it."
-        },
-        "name": {
-          "description": "[name] The short header to describe the conflict",
-          "type": "string"
-        }
-      },
-      "required": [
-        "name",
-        "explanation"
-      ],
-      "type": "object"
-    },
     "ConflictText<[\"expression\"]>": {
       "additionalProperties": false,
       "description": "The text that describes this conflict type.",
       "properties": {
         "explanation": {
           "$ref": "#/definitions/Template%3C%5B%22expression%22%5D%3E",
-          "description": "[formatted] The text that describes this conflict on the node which generated it."
-        },
-        "name": {
-          "description": "[name] The short header to describe the conflict",
-          "type": "string"
-        }
-      },
-      "required": [
-        "name",
-        "explanation"
-      ],
-      "type": "object"
-    },
-    "ConflictText<[\"face\",\"format\"]>": {
-      "additionalProperties": false,
-      "description": "The text that describes this conflict type.",
-      "properties": {
-        "explanation": {
-          "$ref": "#/definitions/Template%3C%5B%22face%22%2C%22format%22%5D%3E",
-          "description": "[formatted] The text that describes this conflict on the node which generated it."
-        },
-        "name": {
-          "description": "[name] The short header to describe the conflict",
-          "type": "string"
-        }
-      },
-      "required": [
-        "name",
-        "explanation"
-      ],
-      "type": "object"
-    },
-    "ConflictText<[\"interface\",\"function\"]>": {
-      "additionalProperties": false,
-      "description": "The text that describes this conflict type.",
-      "properties": {
-        "explanation": {
-          "$ref": "#/definitions/Template%3C%5B%22interface%22%2C%22function%22%5D%3E",
-          "description": "[formatted] The text that describes this conflict on the node which generated it."
-        },
-        "name": {
-          "description": "[name] The short header to describe the conflict",
-          "type": "string"
-        }
-      },
-      "required": [
-        "name",
-        "explanation"
-      ],
-      "type": "object"
-    },
-    "ConflictText<[\"name\",\"input\"]>": {
-      "additionalProperties": false,
-      "description": "The text that describes this conflict type.",
-      "properties": {
-        "explanation": {
-          "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22input%22%5D%3E",
           "description": "[formatted] The text that describes this conflict on the node which generated it."
         },
         "name": {
@@ -285,44 +95,6 @@
       ],
       "type": "object"
     },
-    "ConflictText<[\"name\",\"structure\"]>": {
-      "additionalProperties": false,
-      "description": "The text that describes this conflict type.",
-      "properties": {
-        "explanation": {
-          "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22structure%22%5D%3E",
-          "description": "[formatted] The text that describes this conflict on the node which generated it."
-        },
-        "name": {
-          "description": "[name] The short header to describe the conflict",
-          "type": "string"
-        }
-      },
-      "required": [
-        "name",
-        "explanation"
-      ],
-      "type": "object"
-    },
-    "ConflictText<[\"name\"]>": {
-      "additionalProperties": false,
-      "description": "The text that describes this conflict type.",
-      "properties": {
-        "explanation": {
-          "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
-          "description": "[formatted] The text that describes this conflict on the node which generated it."
-        },
-        "name": {
-          "description": "[name] The short header to describe the conflict",
-          "type": "string"
-        }
-      },
-      "required": [
-        "name",
-        "explanation"
-      ],
-      "type": "object"
-    },
     "ConflictText<[\"shadowed\"]>": {
       "additionalProperties": false,
       "description": "The text that describes this conflict type.",
@@ -342,69 +114,12 @@
       ],
       "type": "object"
     },
-    "ConflictText<[\"structure\"]>": {
-      "additionalProperties": false,
-      "description": "The text that describes this conflict type.",
-      "properties": {
-        "explanation": {
-          "$ref": "#/definitions/Template%3C%5B%22structure%22%5D%3E",
-          "description": "[formatted] The text that describes this conflict on the node which generated it."
-        },
-        "name": {
-          "description": "[name] The short header to describe the conflict",
-          "type": "string"
-        }
-      },
-      "required": [
-        "name",
-        "explanation"
-      ],
-      "type": "object"
-    },
     "ConflictText<[\"text\",\"reminder\"]>": {
       "additionalProperties": false,
       "description": "The text that describes this conflict type.",
       "properties": {
         "explanation": {
           "$ref": "#/definitions/Template%3C%5B%22text%22%2C%22reminder%22%5D%3E",
-          "description": "[formatted] The text that describes this conflict on the node which generated it."
-        },
-        "name": {
-          "description": "[name] The short header to describe the conflict",
-          "type": "string"
-        }
-      },
-      "required": [
-        "name",
-        "explanation"
-      ],
-      "type": "object"
-    },
-    "ConflictText<[\"type\"]>": {
-      "additionalProperties": false,
-      "description": "The text that describes this conflict type.",
-      "properties": {
-        "explanation": {
-          "$ref": "#/definitions/Template%3C%5B%22type%22%5D%3E",
-          "description": "[formatted] The text that describes this conflict on the node which generated it."
-        },
-        "name": {
-          "description": "[name] The short header to describe the conflict",
-          "type": "string"
-        }
-      },
-      "required": [
-        "name",
-        "explanation"
-      ],
-      "type": "object"
-    },
-    "ConflictText<[\"unclosed\",\"expected\"]>": {
-      "additionalProperties": false,
-      "description": "The text that describes this conflict type.",
-      "properties": {
-        "explanation": {
-          "$ref": "#/definitions/Template%3C%5B%22unclosed%22%2C%22expected%22%5D%3E",
           "description": "[formatted] The text that describes this conflict on the node which generated it."
         },
         "name": {
@@ -472,55 +187,6 @@
       "properties": {
         "description": {
           "$ref": "#/definitions/Template%3C%5B%22concept%22%5D%3E",
-          "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
-        },
-        "doc": {
-          "$ref": "#/definitions/DocText",
-          "description": "Documentation text that appears in the documentation view"
-        },
-        "emotion": {
-          "description": "[emotion] The emotion that should be conveyed in animations of the node type",
-          "enum": [
-            "angry",
-            "arrogant",
-            "bored",
-            "cheerful",
-            "curious",
-            "confused",
-            "eager",
-            "excited",
-            "grumpy",
-            "happy",
-            "insecure",
-            "kind",
-            "neutral",
-            "sad",
-            "scared",
-            "serious",
-            "shy",
-            "surprised",
-            "precise"
-          ],
-          "type": "string"
-        },
-        "name": {
-          "description": "[name] The name that should be used to refer to the node type",
-          "type": "string"
-        }
-      },
-      "required": [
-        "description",
-        "doc",
-        "emotion",
-        "name"
-      ],
-      "type": "object"
-    },
-    "DescriptiveNodeText<[\"first\",\"second\"]>": {
-      "additionalProperties": false,
-      "properties": {
-        "description": {
-          "$ref": "#/definitions/Template%3C%5B%22first%22%2C%22second%22%5D%3E",
           "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
         },
         "doc": {
@@ -3075,6 +2741,372 @@
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The optional key to listen for"
                 },
+                "keys": {
+                  "additionalProperties": false,
+                  "description": "Per-locale translations for the named keys `Key()` can emit (Space, Enter, ArrowUp, etc.). Keyed by the canonical English `KeyboardEvent.key` string from [KeyboardKeys.ts](src/input/KeyboardKeys.ts). Each value is an array whose first entry is this locale's display name (what `Key()` emits) and any remaining entries are accepted aliases for the `key` filter argument. The record's literal-key type pins every `WellKnownKey` as required so the locale verifier and `locales-fix` ensure full coverage in every locale.",
+                  "properties": {
+                    " ": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Alt": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "AltGraph": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "ArrowDown": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "ArrowLeft": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "ArrowRight": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "ArrowUp": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Backspace": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "CapsLock": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Clear": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "ContextMenu": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Control": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Convert": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Copy": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Cut": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Delete": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "End": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Enter": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Escape": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "F1": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "F10": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "F11": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "F12": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "F2": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "F3": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "F4": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "F5": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "F6": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "F7": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "F8": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "F9": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "HangulMode": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Help": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Hiragana": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Home": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Insert": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "KanaMode": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Katakana": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Meta": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "NonConvert": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "NumLock": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "PageDown": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "PageUp": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Paste": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Pause": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Redo": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Romaji": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "ScrollLock": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Shift": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Tab": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Undo": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "Shift",
+                    "Control",
+                    "Alt",
+                    "Meta",
+                    "AltGraph",
+                    "CapsLock",
+                    "NumLock",
+                    "ScrollLock",
+                    "Enter",
+                    "Tab",
+                    " ",
+                    "ArrowUp",
+                    "ArrowDown",
+                    "ArrowLeft",
+                    "ArrowRight",
+                    "Home",
+                    "End",
+                    "PageUp",
+                    "PageDown",
+                    "Backspace",
+                    "Delete",
+                    "Insert",
+                    "Clear",
+                    "Cut",
+                    "Copy",
+                    "Paste",
+                    "Undo",
+                    "Redo",
+                    "Escape",
+                    "Pause",
+                    "ContextMenu",
+                    "Help",
+                    "Convert",
+                    "NonConvert",
+                    "KanaMode",
+                    "HangulMode",
+                    "Hiragana",
+                    "Katakana",
+                    "Romaji",
+                    "F1",
+                    "F2",
+                    "F3",
+                    "F4",
+                    "F5",
+                    "F6",
+                    "F7",
+                    "F8",
+                    "F9",
+                    "F10",
+                    "F11",
+                    "F12"
+                  ],
+                  "type": "object"
+                },
                 "names": {
                   "$ref": "#/definitions/NameText",
                   "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
@@ -3084,6 +3116,7 @@
                 "doc",
                 "down",
                 "key",
+                "keys",
                 "names"
               ],
               "type": "object"
@@ -3686,7 +3719,81 @@
             "yo",
             "za",
             "zh",
-            "zu"
+            "zu",
+            "ace",
+            "awa",
+            "ban",
+            "bax",
+            "bbc",
+            "bik",
+            "blt",
+            "brx",
+            "bsq",
+            "bug",
+            "ccp",
+            "ceb",
+            "chr",
+            "cjm",
+            "ckb",
+            "cop",
+            "doi",
+            "emk",
+            "fon",
+            "hil",
+            "hmn",
+            "hnn",
+            "hoc",
+            "ilo",
+            "khb",
+            "kha",
+            "kru",
+            "lep",
+            "lif",
+            "lis",
+            "luo",
+            "mad",
+            "mag",
+            "mai",
+            "mak",
+            "men",
+            "min",
+            "mni",
+            "mos",
+            "mro",
+            "new",
+            "nnp",
+            "nod",
+            "nst",
+            "osa",
+            "raj",
+            "rej",
+            "rhg",
+            "rom",
+            "sah",
+            "sat",
+            "saz",
+            "shn",
+            "srb",
+            "syl",
+            "tbw",
+            "tdd",
+            "tem",
+            "tzm",
+            "txo",
+            "unr",
+            "vai",
+            "war",
+            "zza",
+            "kbd",
+            "ady",
+            "lez",
+            "crh",
+            "myv",
+            "mdf",
+            "mhr",
+            "udm",
+            "bua",
+            "tyv"
           ],
           "type": "string"
         },
@@ -3711,8 +3818,38 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "OrderOfOperations": {
-                      "$ref": "#/definitions/ConflictText",
-                      "description": "Warning about order of evaluation of binary evaluations always being reading order, not math order of operations"
+                      "additionalProperties": false,
+                      "description": "Warning about order of evaluation of binary evaluations always being reading order, not math order of operations",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolutionPEMDAS": {
+                          "$ref": "#/definitions/Template%3C%5B%22higher%22%2C%22lower%22%5D%3E",
+                          "description": "[formatted] Action: rotate the tree to evaluate the higher-precedence operator first (PEMDAS)"
+                        },
+                        "resolutionReading": {
+                          "$ref": "#/definitions/Template%3C%5B%22higher%22%2C%22lower%22%5D%3E",
+                          "description": "[formatted] Action: parenthesize the left subtree to keep the existing left-to-right reading order"
+                        },
+                        "resolutionWrap": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action: same-precedence case — just add parentheses to make the order explicit"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolutionPEMDAS",
+                        "resolutionReading",
+                        "resolutionWrap"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -3823,8 +3960,28 @@
                       "type": "object"
                     },
                     "DuplicateShare": {
-                      "$ref": "#/definitions/ConflictText%3C%5B%22duplicate%22%5D%3E",
-                      "description": "When a shared bind has a duplicate name that's shared."
+                      "additionalProperties": false,
+                      "description": "When a shared bind has a duplicate name that's shared.",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%22duplicate%22%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action description for the repair this conflict offers"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     },
                     "IncompatibleType": {
                       "additionalProperties": false,
@@ -3840,7 +3997,81 @@
                         },
                         "resolution": {
                           "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
-                          "description": "[formatted] Suggested fix when bind type and value type are incompatible"
+                          "description": "[formatted] Suggested fix that converts the value to the expected type"
+                        },
+                        "resolutionDeclaration": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that adds an explicit type declaration"
+                        },
+                        "resolutionDefault": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that adds a default value to a Bind"
+                        },
+                        "resolutionGuard": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that uses a type guard to narrow a union"
+                        },
+                        "resolutionLiteral": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that marks a list/set/map as literal so its values stay specific"
+                        },
+                        "resolutionOtherwise": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that uses `??` to handle a none value"
+                        },
+                        "resolutionPlaceholder": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that replaces the value with a placeholder so the autocomplete menu can take over"
+                        },
+                        "resolutionReorder": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that swaps two arguments in an Evaluate"
+                        },
+                        "resolutionStructure": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that wraps the value in a Structure constructor call"
+                        },
+                        "resolutionWiden": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that widens a Bind's declared type to include the given"
+                        },
+                        "resolutionWrap": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that wraps the value in a list/set/map literal"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution",
+                        "resolutionDeclaration",
+                        "resolutionDefault",
+                        "resolutionGuard",
+                        "resolutionLiteral",
+                        "resolutionOtherwise",
+                        "resolutionPlaceholder",
+                        "resolutionReorder",
+                        "resolutionStructure",
+                        "resolutionWiden",
+                        "resolutionWrap"
+                      ],
+                      "type": "object"
+                    },
+                    "MisplacedShare": {
+                      "additionalProperties": false,
+                      "description": "When a bind is marked as share, but not at the top level.",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action description for the repair this conflict offers"
                         }
                       },
                       "required": [
@@ -3850,25 +4081,101 @@
                       ],
                       "type": "object"
                     },
-                    "MisplacedShare": {
-                      "$ref": "#/definitions/ConflictText",
-                      "description": "When a bind is marked as share, but not at the top level."
-                    },
                     "MissingShareLanguages": {
-                      "$ref": "#/definitions/ConflictText",
-                      "description": "When a bind is shared, but not language tagged."
+                      "additionalProperties": false,
+                      "description": "When a bind is shared, but not language tagged.",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action description for the repair this conflict offers"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     },
                     "RequiredAfterOptional": {
-                      "$ref": "#/definitions/ConflictText",
-                      "description": "When a bind is required, but appears after an optional bind in a definition"
+                      "additionalProperties": false,
+                      "description": "When a bind is required, but appears after an optional bind in a definition",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action description for the repair this conflict offers"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     },
                     "UnexpectedEtc": {
-                      "$ref": "#/definitions/ConflictText",
-                      "description": "When a bind is marked as a variable length list, but not at the end."
+                      "additionalProperties": false,
+                      "description": "When a bind is marked as a variable length list, but not at the end.",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action description for the repair this conflict offers"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     },
                     "UnusedBind": {
-                      "$ref": "#/definitions/ConflictText%3C%5B%22name%22%5D%3E",
-                      "description": "When a bind is declared but never used."
+                      "additionalProperties": false,
+                      "description": "When a bind is declared but never used.",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action description for the repair this conflict offers"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -3973,8 +4280,28 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "ExpectedEndingExpression": {
-                      "$ref": "#/definitions/ConflictText",
-                      "description": "When there's no non-Bind expression to produce a value"
+                      "additionalProperties": false,
+                      "description": "When there's no non-Bind expression to produce a value",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action description for the repair this conflict offers"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -4121,12 +4448,52 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "BorrowCycle": {
-                      "$ref": "#/definitions/ConflictText%3C%5B%22borrow%22%5D%3E",
-                      "description": "When a borrowed value depends on the source file doing the borrowing."
+                      "additionalProperties": false,
+                      "description": "When a borrowed value depends on the source file doing the borrowing.",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%22borrow%22%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action description for the repair this conflict offers"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     },
                     "UnknownBorrow": {
-                      "$ref": "#/definitions/ConflictText",
-                      "description": "When the borrowed name could not be found"
+                      "additionalProperties": false,
+                      "description": "When the borrowed name could not be found",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action description for the repair this conflict offers"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -4316,8 +4683,78 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "ExpectedBooleanCondition": {
-                      "$ref": "#/definitions/ConflictText%3C%5B%22type%22%5D%3E",
-                      "description": "When the condition is not boolean typed, e.g., `1 ? 'yes' 'no'` Description inputs: $1 = The non-boolean expression"
+                      "additionalProperties": false,
+                      "description": "When the condition is not boolean typed, e.g., `1 ? 'yes' 'no'` Description inputs: $1 = The non-boolean expression",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%22type%22%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that converts the value to the expected type"
+                        },
+                        "resolutionDeclaration": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that adds an explicit type declaration"
+                        },
+                        "resolutionDefault": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that adds a default value to a Bind"
+                        },
+                        "resolutionGuard": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that uses a type guard to narrow a union"
+                        },
+                        "resolutionLiteral": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that marks a list/set/map as literal so its values stay specific"
+                        },
+                        "resolutionOtherwise": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that uses `??` to handle a none value"
+                        },
+                        "resolutionPlaceholder": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that replaces the value with a placeholder so the autocomplete menu can take over"
+                        },
+                        "resolutionReorder": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that swaps two arguments in an Evaluate"
+                        },
+                        "resolutionStructure": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that wraps the value in a Structure constructor call"
+                        },
+                        "resolutionWiden": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that widens a Bind's declared type to include the given"
+                        },
+                        "resolutionWrap": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that wraps the value in a list/set/map literal"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution",
+                        "resolutionDeclaration",
+                        "resolutionDefault",
+                        "resolutionGuard",
+                        "resolutionLiteral",
+                        "resolutionOtherwise",
+                        "resolutionPlaceholder",
+                        "resolutionReorder",
+                        "resolutionStructure",
+                        "resolutionWiden",
+                        "resolutionWrap"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -4421,8 +4858,28 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "MisplacedConversion": {
-                      "$ref": "#/definitions/ConflictText",
-                      "description": "When a conversion is defined somewhere it's not allowed."
+                      "additionalProperties": false,
+                      "description": "When a conversion is defined somewhere it's not allowed.",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action description for the repair this conflict offers"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -4519,8 +4976,28 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "UnknownConversion": {
-                      "$ref": "#/definitions/ConflictText%3C%5B%22expected%22%2C%22given%22%5D%3E",
-                      "description": "When conversion could not be found. Description inputs: $1 = from type, $2: to type"
+                      "additionalProperties": false,
+                      "description": "When conversion could not be found. Description inputs: $1 = from type, $2: to type",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%2C%22given%22%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action: drop the convert expression, leaving just the inner value"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -4804,7 +5281,81 @@
                         },
                         "resolution": {
                           "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
-                          "description": "[formatted] Suggested fix when an input's type does not match the expected type"
+                          "description": "[formatted] Suggested fix that converts the value to the expected type"
+                        },
+                        "resolutionDeclaration": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that adds an explicit type declaration"
+                        },
+                        "resolutionDefault": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that adds a default value to a Bind"
+                        },
+                        "resolutionGuard": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that uses a type guard to narrow a union"
+                        },
+                        "resolutionLiteral": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that marks a list/set/map as literal so its values stay specific"
+                        },
+                        "resolutionOtherwise": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that uses `??` to handle a none value"
+                        },
+                        "resolutionPlaceholder": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that replaces the value with a placeholder so the autocomplete menu can take over"
+                        },
+                        "resolutionReorder": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that swaps two arguments in an Evaluate"
+                        },
+                        "resolutionStructure": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that wraps the value in a Structure constructor call"
+                        },
+                        "resolutionWiden": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that widens a Bind's declared type to include the given"
+                        },
+                        "resolutionWrap": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that wraps the value in a list/set/map literal"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution",
+                        "resolutionDeclaration",
+                        "resolutionDefault",
+                        "resolutionGuard",
+                        "resolutionLiteral",
+                        "resolutionOtherwise",
+                        "resolutionPlaceholder",
+                        "resolutionReorder",
+                        "resolutionStructure",
+                        "resolutionWiden",
+                        "resolutionWrap"
+                      ],
+                      "type": "object"
+                    },
+                    "InputListMustBeLast": {
+                      "additionalProperties": false,
+                      "description": "When a list of inputs is given but isn't last.",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action description for the repair this conflict offers"
                         }
                       },
                       "required": [
@@ -4814,33 +5365,154 @@
                       ],
                       "type": "object"
                     },
-                    "InputListMustBeLast": {
-                      "$ref": "#/definitions/ConflictText",
-                      "description": "When a list of inputs is given but isn't last."
-                    },
                     "MissingInput": {
-                      "$ref": "#/definitions/ConflictText%3C%5B%22name%22%2C%22input%22%5D%3E",
-                      "description": "When an input is expected, but not given. Description inputs: $1 = function name, $2: missing input"
+                      "additionalProperties": false,
+                      "description": "When an input is expected, but not given. Description inputs: $1 = function name, $2: missing input",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22input%22%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolutionAddInput": {
+                          "$ref": "#/definitions/Template%3C%5B%22input%22%5D%3E",
+                          "description": "[formatted] Suggested fix that adds the missing input with a default value"
+                        },
+                        "resolutionPlaceholder": {
+                          "$ref": "#/definitions/Template%3C%5B%22input%22%5D%3E",
+                          "description": "[formatted] Suggested fix that adds the missing input as a placeholder so autocomplete can take over"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolutionAddInput",
+                        "resolutionPlaceholder"
+                      ],
+                      "type": "object"
                     },
                     "NotInstantiable": {
-                      "$ref": "#/definitions/ConflictText",
-                      "description": "When the structure definition given is an interface, and can't be created"
+                      "additionalProperties": false,
+                      "description": "When the structure definition given is an interface, and can't be created",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action description for the repair this conflict offers"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     },
                     "SeparatedEvaluate": {
-                      "$ref": "#/definitions/ConflictText%3C%5B%22name%22%2C%22structure%22%5D%3E",
-                      "description": "When something looks like an Evaluate with space"
+                      "additionalProperties": false,
+                      "description": "When something looks like an Evaluate with space",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22structure%22%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                          "description": "[formatted] Action description for the repair this conflict offers"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     },
                     "UnexpectedInput": {
-                      "$ref": "#/definitions/ConflictText",
-                      "description": "When an input value is given but not expected Description inputs: $1 = evaluate with unexected input, $2: unexpected input"
+                      "additionalProperties": false,
+                      "description": "When an input value is given but not expected Description inputs: $1 = evaluate with unexected input, $2: unexpected input",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action description for the repair this conflict offers"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     },
                     "UnexpectedTypeInput": {
-                      "$ref": "#/definitions/ConflictText",
-                      "description": "When a type input given is not expected. Description inputs: $1 = definition given, $2: type given"
+                      "additionalProperties": false,
+                      "description": "When a type input given is not expected. Description inputs: $1 = definition given, $2: type given",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action description for the repair this conflict offers"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     },
                     "UnknownInput": {
-                      "$ref": "#/definitions/ConflictText%3C%5B%22name%22%5D%3E",
-                      "description": "When an named input value is given but not a known input name"
+                      "additionalProperties": false,
+                      "description": "When an named input value is given but not a known input name",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                          "description": "[formatted] Action: rename the unknown input to a suggested one in the function's signature"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -4973,7 +5645,27 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "Placeholder": {
-                      "$ref": "#/definitions/ConflictText"
+                      "additionalProperties": false,
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%22candidate%22%5D%3E",
+                          "description": "[formatted] Action: replace the placeholder with a concrete candidate (NodeRef)"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -5134,8 +5826,28 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "NoExpression": {
-                      "$ref": "#/definitions/ConflictText",
-                      "description": "When a function has no expression"
+                      "additionalProperties": false,
+                      "description": "When a function has no expression",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action description for the repair this conflict offers"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -5405,8 +6117,33 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "ImpossibleType": {
-                      "$ref": "#/definitions/ConflictText%3C%5B%22type%22%5D%3E",
-                      "description": "When the type given isn't possible"
+                      "additionalProperties": false,
+                      "description": "When the type given isn't possible",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%22type%22%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolutionDropOtherwise": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action: drop a redundant `??` operator whose left side is never ø"
+                        },
+                        "resolutionIsFalse": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action: replace an impossible Is test with the constant ⊥"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolutionDropOtherwise",
+                        "resolutionIsFalse"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -5629,13 +6366,73 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "DuplicateLanguage": {
-                      "$ref": "#/definitions/ConflictText%3C%5B%22code%22%5D%3E"
+                      "additionalProperties": false,
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%22code%22%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%22code%22%5D%3E",
+                          "description": "[formatted] Action description for the repair this conflict offers"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     },
                     "MissingLanguage": {
-                      "$ref": "#/definitions/ConflictText"
+                      "additionalProperties": false,
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action description for the repair this conflict offers"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     },
                     "UnknownLanguage": {
-                      "$ref": "#/definitions/ConflictText"
+                      "additionalProperties": false,
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action description for the repair this conflict offers"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -5825,8 +6622,28 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "NotAKeyValue": {
-                      "$ref": "#/definitions/ConflictText",
-                      "description": "When something other than a key value pair is given. Description inputs: $1 = expression that's not a map"
+                      "additionalProperties": false,
+                      "description": "When something other than a key value pair is given. Description inputs: $1 = expression that's not a map",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action description for the repair this conflict offers"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -6074,8 +6891,28 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "UnknownTypeName": {
-                      "$ref": "#/definitions/ConflictText%3C%5B%22type%22%5D%3E",
-                      "description": "A type representing an unknown name Description inputs: $1 = Invalid type"
+                      "additionalProperties": false,
+                      "description": "A type representing an unknown name Description inputs: $1 = Invalid type",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%22type%22%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action: replace the bad NameType with a type placeholder"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -6286,8 +7123,28 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "NotANumber": {
-                      "$ref": "#/definitions/ConflictText",
-                      "description": "When something is not a valid number format"
+                      "additionalProperties": false,
+                      "description": "When something is not a valid number format",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action description for the repair this conflict offers"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -6632,7 +7489,27 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "InvalidProperty": {
-                      "$ref": "#/definitions/ConflictText%3C%5B%22structure%22%5D%3E"
+                      "additionalProperties": false,
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%22structure%22%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                          "description": "[formatted] Action: rename to the suggested closest property"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -6799,8 +7676,28 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "ExpectedStream": {
-                      "$ref": "#/definitions/ConflictText%3C%5B%22condition%22%5D%3E",
-                      "description": "When the condition doesn't refer to a strema"
+                      "additionalProperties": false,
+                      "description": "When the condition doesn't refer to a strema",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%22condition%22%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action description for the repair this conflict offers"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -6898,12 +7795,52 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "ReferenceCycle": {
-                      "$ref": "#/definitions/ConflictText%3C%5B%22name%22%5D%3E",
-                      "description": "When a name refers to itself outside a reaction"
+                      "additionalProperties": false,
+                      "description": "When a name refers to itself outside a reaction",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                          "description": "[formatted] Action description for the repair this conflict offers"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     },
                     "UnexpectedTypeVariable": {
-                      "$ref": "#/definitions/ConflictText",
-                      "description": "When a reference refers to a type variable"
+                      "additionalProperties": false,
+                      "description": "When a reference refers to a type variable",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action description for the repair this conflict offers"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     },
                     "UnknownName": {
                       "additionalProperties": false,
@@ -7007,24 +7944,109 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "ExtraCell": {
-                      "$ref": "#/definitions/ConflictText",
-                      "description": "When an extra cell was provided. $1: Cell"
+                      "additionalProperties": false,
+                      "description": "When an extra cell was provided. $1: Cell",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action description for the repair this conflict offers"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     },
                     "InvalidRow": {
-                      "$ref": "#/definitions/ConflictText",
-                      "description": "When a row does not form to it's table's type definition"
+                      "additionalProperties": false,
+                      "description": "When a row does not form to it's table's type definition",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolutionKeepPositional": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action: drop the named cells from the row, keep positional"
+                        },
+                        "resolutionUnwrapInputs": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action: drop the names from the named cells, making them positional"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolutionKeepPositional",
+                        "resolutionUnwrapInputs"
+                      ],
+                      "type": "object"
                     },
                     "MissingCell": {
-                      "$ref": "#/definitions/ConflictText%3C%5B%22column%22%5D%3E",
-                      "description": "When cell is missing from a row. $1: Column $2: Row"
+                      "additionalProperties": false,
+                      "description": "When cell is missing from a row. $1: Column $2: Row",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%22column%22%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%22column%22%5D%3E",
+                          "description": "[formatted] Action description for the repair this conflict offers"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     },
                     "UnexpectedColumnBind": {
                       "$ref": "#/definitions/ConflictText",
                       "description": "When a bind was not expected in a row but it was provided."
                     },
                     "UnknownColumn": {
-                      "$ref": "#/definitions/ConflictText",
-                      "description": "When a unknown column is specified by name."
+                      "additionalProperties": false,
+                      "description": "When a unknown column is specified by name.",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                          "description": "[formatted] Action: rename to the suggested column name"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -7092,8 +8114,28 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "ExpectedSelectName": {
-                      "$ref": "#/definitions/ConflictText",
-                      "description": "When a cell in the row isn't a name Description inputs: $1: The select expression"
+                      "additionalProperties": false,
+                      "description": "When a cell in the row isn't a name Description inputs: $1: The select expression",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action description for the repair this conflict offers"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -7227,8 +8269,78 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "IncompatibleKey": {
-                      "$ref": "#/definitions/ConflictText%3C%5B%22expected%22%5D%3E",
-                      "description": "A type of the key given doesn't match the type of the key in the set Description inputs: $1: expected type, $2: given type"
+                      "additionalProperties": false,
+                      "description": "A type of the key given doesn't match the type of the key in the set Description inputs: $1: expected type, $2: given type",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that converts the value to the expected type"
+                        },
+                        "resolutionDeclaration": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that adds an explicit type declaration"
+                        },
+                        "resolutionDefault": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that adds a default value to a Bind"
+                        },
+                        "resolutionGuard": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that uses a type guard to narrow a union"
+                        },
+                        "resolutionLiteral": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that marks a list/set/map as literal so its values stay specific"
+                        },
+                        "resolutionOtherwise": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that uses `??` to handle a none value"
+                        },
+                        "resolutionPlaceholder": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that replaces the value with a placeholder so the autocomplete menu can take over"
+                        },
+                        "resolutionReorder": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that swaps two arguments in an Evaluate"
+                        },
+                        "resolutionStructure": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that wraps the value in a Structure constructor call"
+                        },
+                        "resolutionWiden": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that widens a Bind's declared type to include the given"
+                        },
+                        "resolutionWrap": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that wraps the value in a list/set/map literal"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution",
+                        "resolutionDeclaration",
+                        "resolutionDefault",
+                        "resolutionGuard",
+                        "resolutionLiteral",
+                        "resolutionOtherwise",
+                        "resolutionPlaceholder",
+                        "resolutionReorder",
+                        "resolutionStructure",
+                        "resolutionWiden",
+                        "resolutionWrap"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -7377,20 +8489,100 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "DisallowedInputs": {
-                      "$ref": "#/definitions/ConflictText",
-                      "description": "When inputs are declared on a structure with unimplemented functions"
+                      "additionalProperties": false,
+                      "description": "When inputs are declared on a structure with unimplemented functions",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action description for the repair this conflict offers"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     },
                     "IncompleteImplementation": {
-                      "$ref": "#/definitions/ConflictText",
-                      "description": "When a structure implements some functions, but not all"
+                      "additionalProperties": false,
+                      "description": "When a structure implements some functions, but not all",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action description for the repair this conflict offers"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     },
                     "NotAnInterface": {
-                      "$ref": "#/definitions/ConflictText",
-                      "description": "When a structure implements something that isn't an interface"
+                      "additionalProperties": false,
+                      "description": "When a structure implements something that isn't an interface",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action description for the repair this conflict offers"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     },
                     "UnimplementedInterface": {
-                      "$ref": "#/definitions/ConflictText%3C%5B%22interface%22%2C%22function%22%5D%3E",
-                      "description": "When a structure implements an interface, but not all of its functions Description inputs: $1 = Interface, $2 = Function"
+                      "additionalProperties": false,
+                      "description": "When a structure implements an interface, but not all of its functions Description inputs: $1 = Interface, $2 = Function",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%22interface%22%2C%22function%22%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%22function%22%5D%3E",
+                          "description": "[formatted] Action description for the repair this conflict offers"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -7558,8 +8750,28 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "ExpectedColumnType": {
-                      "$ref": "#/definitions/ConflictText",
-                      "description": "When a column's type is missing Description inputs: $1 = The missing column"
+                      "additionalProperties": false,
+                      "description": "When a column's type is missing Description inputs: $1 = The missing column",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action description for the repair this conflict offers"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -7696,7 +8908,27 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "MisplacedThis": {
-                      "$ref": "#/definitions/ConflictText"
+                      "additionalProperties": false,
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action: replace with a placeholder so the learner can pick a value in scope"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -7772,7 +9004,27 @@
                       "$ref": "#/definitions/ConflictText%3C%5B%22text%22%2C%22reminder%22%5D%3E"
                     },
                     "character": {
-                      "$ref": "#/definitions/ConflictText"
+                      "additionalProperties": false,
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolutionStrip": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action: strip the special concept-link characters from the translation"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolutionStrip"
+                      ],
+                      "type": "object"
                     },
                     "email": {
                       "$ref": "#/definitions/ConflictText%3C%5B%22text%22%2C%22reminder%22%5D%3E"
@@ -7885,8 +9137,28 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "DuplicateTypeVariable": {
-                      "$ref": "#/definitions/ConflictText%3C%5B%22duplicate%22%5D%3E",
-                      "description": "When a type variable name is the same as another. $1: The duplicate name"
+                      "additionalProperties": false,
+                      "description": "When a type variable name is the same as another. $1: The duplicate name",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%22duplicate%22%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action description for the repair this conflict offers"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -8034,8 +9306,59 @@
               "type": "object"
             },
             "UnionType": {
-              "$ref": "#/definitions/DescriptiveNodeText%3C%5B%22first%22%2C%22second%22%5D%3E",
-              "description": "Two possible types, e.g., `# | ''` Description inputs: $1 = first type, $2 = second type"
+              "additionalProperties": false,
+              "description": "Two possible types, e.g., `# | ''` Description inputs: $1 = first type, $2 = second type",
+              "properties": {
+                "description": {
+                  "$ref": "#/definitions/Template%3C%5B%22first%22%2C%22second%22%5D%3E",
+                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation text that appears in the documentation view"
+                },
+                "elidedSuffix": {
+                  "$ref": "#/definitions/Template%3C%5B%22omitted%22%5D%3E",
+                  "description": "[formatted] Suffix appended after a code-rendered, truncated UnionType when there are too many members to show inline. $1 = how many members were omitted. Rendered next to (not in place of) the truncated code form."
+                },
+                "emotion": {
+                  "description": "[emotion] The emotion that should be conveyed in animations of the node type",
+                  "enum": [
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
+                  "type": "string"
+                },
+                "name": {
+                  "description": "[name] The name that should be used to refer to the node type",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "description",
+                "doc",
+                "elidedSuffix",
+                "emotion",
+                "name"
+              ],
+              "type": "object"
             },
             "Unit": {
               "$ref": "#/definitions/DescriptiveNodeText%3C%5B%22unit%22%5D%3E",
@@ -8113,8 +9436,28 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "UnclosedDelimiter": {
-                      "$ref": "#/definitions/ConflictText%3C%5B%22unclosed%22%2C%22expected%22%5D%3E",
-                      "description": "When a delimiter is unclosed. Description inputs: $1: unclosed token, $2: opening delimiter"
+                      "additionalProperties": false,
+                      "description": "When a delimiter is unclosed. Description inputs: $1: unclosed token, $2: opening delimiter",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%22unclosed%22%2C%22expected%22%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Action description for the repair this conflict offers"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     },
                     "UnparsableConflict": {
                       "additionalProperties": false,
@@ -8220,12 +9563,102 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "ExpectedColumnBind": {
-                      "$ref": "#/definitions/ConflictText",
-                      "description": "When a column name was expected but not given"
+                      "additionalProperties": false,
+                      "description": "When a column name was expected but not given",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action description for the repair this conflict offers"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     },
                     "IncompatibleCellType": {
-                      "$ref": "#/definitions/ConflictText%3C%5B%22expected%22%2C%22given%22%5D%3E",
-                      "description": "When a value was given that didn't match the expected type of the column Description inputs: $1: expected type, $2: given type"
+                      "additionalProperties": false,
+                      "description": "When a value was given that didn't match the expected type of the column Description inputs: $1: expected type, $2: given type",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%2C%22given%22%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that converts the value to the expected type"
+                        },
+                        "resolutionDeclaration": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that adds an explicit type declaration"
+                        },
+                        "resolutionDefault": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that adds a default value to a Bind"
+                        },
+                        "resolutionGuard": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that uses a type guard to narrow a union"
+                        },
+                        "resolutionLiteral": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that marks a list/set/map as literal so its values stay specific"
+                        },
+                        "resolutionOtherwise": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that uses `??` to handle a none value"
+                        },
+                        "resolutionPlaceholder": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that replaces the value with a placeholder so the autocomplete menu can take over"
+                        },
+                        "resolutionReorder": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that swaps two arguments in an Evaluate"
+                        },
+                        "resolutionStructure": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that wraps the value in a Structure constructor call"
+                        },
+                        "resolutionWiden": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that widens a Bind's declared type to include the given"
+                        },
+                        "resolutionWrap": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that wraps the value in a list/set/map literal"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution",
+                        "resolutionDeclaration",
+                        "resolutionDefault",
+                        "resolutionGuard",
+                        "resolutionLiteral",
+                        "resolutionOtherwise",
+                        "resolutionPlaceholder",
+                        "resolutionReorder",
+                        "resolutionStructure",
+                        "resolutionWiden",
+                        "resolutionWrap"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -8308,8 +9741,28 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "UnsupportedFontFormat": {
-                      "$ref": "#/definitions/ConflictText%3C%5B%22face%22%2C%22format%22%5D%3E",
-                      "description": "When a"
+                      "additionalProperties": false,
+                      "description": "When a",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%22face%22%2C%22format%22%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action description for the repair this conflict offers"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -8566,6 +10019,99 @@
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "0-150 with 0 as grey and 150 as full color"
                 },
+                "colors": {
+                  "additionalProperties": false,
+                  "description": "Names for each of the 11 Basic Color Terms (black, white, gray, red, orange, yellow, green, blue, purple, brown, pink). Each entry exposes its multilingual names as static binds on the `Color` structure (so `Color.red`/`色.赤`/etc. work), and is also the user-facing word used by screen-reader color descriptions.",
+                  "properties": {
+                    "black": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "[plain] doc + [name] names for \"black\""
+                    },
+                    "blue": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "[plain] doc + [name] names for \"blue\""
+                    },
+                    "brown": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "[plain] doc + [name] names for \"brown\""
+                    },
+                    "gray": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "[plain] doc + [name] names for \"gray\""
+                    },
+                    "green": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "[plain] doc + [name] names for \"green\""
+                    },
+                    "orange": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "[plain] doc + [name] names for \"orange\""
+                    },
+                    "pink": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "[plain] doc + [name] names for \"pink\""
+                    },
+                    "purple": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "[plain] doc + [name] names for \"purple\""
+                    },
+                    "red": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "[plain] doc + [name] names for \"red\""
+                    },
+                    "white": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "[plain] doc + [name] names for \"white\""
+                    },
+                    "yellow": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "[plain] doc + [name] names for \"yellow\""
+                    }
+                  },
+                  "required": [
+                    "black",
+                    "white",
+                    "gray",
+                    "red",
+                    "orange",
+                    "yellow",
+                    "green",
+                    "blue",
+                    "purple",
+                    "brown",
+                    "pink"
+                  ],
+                  "type": "object"
+                },
+                "description": {
+                  "additionalProperties": false,
+                  "description": "Templates for assembling color descriptions from the BCT names plus optional light/dark modifier and boundary-color mix.",
+                  "properties": {
+                    "dark": {
+                      "description": "[plain] Word used when lightness is below the matched focal",
+                      "type": "string"
+                    },
+                    "light": {
+                      "description": "[plain] Word used when lightness is above the matched focal",
+                      "type": "string"
+                    },
+                    "mix": {
+                      "$ref": "#/definitions/Template%3C%5B%22first%22%2C%22second%22%5D%3E",
+                      "description": "[plain] Join two BCTs into a mix description; $1 = first color name, $2 = second color name."
+                    },
+                    "modified": {
+                      "$ref": "#/definitions/Template%3C%5B%22modifier%22%2C%22color%22%5D%3E",
+                      "description": "[plain] $1 = modifier (or empty), $2 = color name(s). Allows per-locale word order."
+                    }
+                  },
+                  "required": [
+                    "modified",
+                    "mix",
+                    "light",
+                    "dark"
+                  ],
+                  "type": "object"
+                },
                 "doc": {
                   "$ref": "#/definitions/DocText",
                   "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
@@ -8585,6 +10131,8 @@
               },
               "required": [
                 "chroma",
+                "colors",
+                "description",
                 "doc",
                 "hue",
                 "lightness",
@@ -8779,8 +10327,8 @@
                   "description": "The list of content in the group"
                 },
                 "defaultDescription": {
-                  "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22layout%22%2C%22pose%22%5D%3E",
-                  "description": "[formatted] $1 = optional group name, $2 = layout description, $3 = pose description"
+                  "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22layout%22%2C%22pose%22%2C%22color%22%5D%3E",
+                  "description": "[formatted] $1 = optional group name, $2 = layout description, $3 = pose description, $4 = optional background color name"
                 },
                 "description": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -8975,8 +10523,8 @@
                   "description": "The color of characters in a phrase, group, or stage"
                 },
                 "defaultDescription": {
-                  "$ref": "#/definitions/Template%3C%5B%22text%22%2C%22name%22%2C%22size%22%2C%22face%22%2C%22animation%22%5D%3E",
-                  "description": "[formatted] A description of the phrase for screen readers. $1: non-optional text, $2: optional name, $3: optional size, $4: optional font, $5: then non-optional pose"
+                  "$ref": "#/definitions/Template%3C%5B%22text%22%2C%22name%22%2C%22size%22%2C%22face%22%2C%22animation%22%2C%22color%22%5D%3E",
+                  "description": "[formatted] A description of the phrase for screen readers. $1: non-optional text, $2: optional name, $3: optional size, $4: optional font, $5: non-optional pose, $6: optional color name"
                 },
                 "description": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -9607,8 +11155,8 @@
                   "description": "A list of content to show on stage"
                 },
                 "defaultDescription": {
-                  "$ref": "#/definitions/Template%3C%5B%22count%22%2C%22name%22%2C%22frame%22%2C%22pose%22%5D%3E",
-                  "description": "[formatted] A description of the stage for screen readers. $1: output count, $2: optional stage name, $3: optional frame description, $4: pose description"
+                  "$ref": "#/definitions/Template%3C%5B%22count%22%2C%22name%22%2C%22frame%22%2C%22pose%22%2C%22color%22%5D%3E",
+                  "description": "[formatted] A description of the stage for screen readers. $1: output count, $2: optional stage name, $3: optional frame description, $4: pose description, $5: optional background color name"
                 },
                 "description": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -11563,6 +13111,10 @@
                           "description": "[plain] When someone wants to add a collaborator but isn't authenticated",
                           "type": "string"
                         },
+                        "invalidPreview": {
+                          "description": "[plain] When the preview-glyph text field doesn't contain exactly one grapheme",
+                          "type": "string"
+                        },
                         "self": {
                           "description": "[plain] Can't add self",
                           "type": "string"
@@ -11575,7 +13127,8 @@
                       "required": [
                         "unknown",
                         "anonymous",
-                        "self"
+                        "self",
+                        "invalidPreview"
                       ],
                       "type": "object"
                     },
@@ -11600,10 +13153,15 @@
                         "emailOrUsername": {
                           "$ref": "#/definitions/FieldText",
                           "description": "The email or username field for the collaborator being added"
+                        },
+                        "preview": {
+                          "$ref": "#/definitions/FieldText",
+                          "description": "The single-grapheme preview glyph field"
                         }
                       },
                       "required": [
-                        "emailOrUsername"
+                        "emailOrUsername",
+                        "preview"
                       ],
                       "type": "object"
                     },
@@ -11615,13 +13173,18 @@
                       "additionalProperties": false,
                       "description": "Modes in the share dialog",
                       "properties": {
+                        "preview": {
+                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                          "description": "The preview auto/custom toggle mode widget"
+                        },
                         "public": {
                           "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
                           "description": "The public/private toggle mode widget"
                         }
                       },
                       "required": [
-                        "public"
+                        "public",
+                        "preview"
                       ],
                       "type": "object"
                     },
@@ -11654,6 +13217,10 @@
                           "$ref": "#/definitions/HeaderAndExplanationText",
                           "description": "The personal information subheader and explanation"
                         },
+                        "preview": {
+                          "$ref": "#/definitions/HeaderAndExplanationText",
+                          "description": "The preview-glyph customization subheader and explanation"
+                        },
                         "public": {
                           "$ref": "#/definitions/HeaderAndExplanationText",
                           "description": "The public/private toggle subheader and explanation"
@@ -11663,7 +13230,8 @@
                         "gallery",
                         "public",
                         "pii",
-                        "copy"
+                        "copy",
+                        "preview"
                       ],
                       "type": "object"
                     }
@@ -12134,6 +13702,10 @@
                   "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
                   "description": "Emoji category labels for the filter"
                 },
+                "moreLanguages": {
+                  "$ref": "#/definitions/Template%3C%5B%22count%22%5D%3E",
+                  "description": "[plain] Suffix appended after the first few language names captioning a script option, when more languages use the script than fit. $count is the number of additional languages."
+                },
                 "noCharacters": {
                   "description": "[plain] Prompt when no custom characters are available",
                   "type": "string"
@@ -12160,6 +13732,7 @@
                 "skinTone",
                 "script",
                 "scriptLabel",
+                "moreLanguages",
                 "pickFilter",
                 "groups"
               ],
@@ -15995,6 +17568,35 @@
               ],
               "type": "object"
             },
+            "presence": {
+              "additionalProperties": false,
+              "description": "Strings shown by the live-presence layer when other people are editing the same project. See PresenceTracker and RemoteCarets.",
+              "properties": {
+                "joined": {
+                  "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                  "description": "[plain] Announcer message when a peer first appears (joins the project). $name is the peer's display name."
+                },
+                "left": {
+                  "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                  "description": "[plain] Announcer message when a peer's presence falls out of the map (left or went idle). $name is the peer's display name."
+                },
+                "peersLabel": {
+                  "description": "[plain] ARIA label for the row of collaborator chips in the editor footer",
+                  "type": "string"
+                },
+                "waitingForSlot": {
+                  "description": "[plain] Banner shown when the local editor can't get a presence slot because the concurrent-editor cap is already reached.",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "peersLabel",
+                "joined",
+                "left",
+                "waitingForSlot"
+              ],
+              "type": "object"
+            },
             "project": {
               "additionalProperties": false,
               "description": "Project settings and controls",
@@ -16155,8 +17757,28 @@
                   "additionalProperties": false,
                   "properties": {
                     "name": {
-                      "$ref": "#/definitions/FieldText",
-                      "description": "[name] The project name text field"
+                      "additionalProperties": false,
+                      "description": "[name] The project name text field",
+                      "properties": {
+                        "description": {
+                          "description": "[plain] The tooltip and ARIA-label for the text field",
+                          "type": "string"
+                        },
+                        "invalid": {
+                          "description": "[plain] Shown when the typed name looks like a multilingual text literal (e.g. starts with a quote) but doesn't parse cleanly — missing close quote, missing language tag, trailing garbage, etc.",
+                          "type": "string"
+                        },
+                        "placeholder": {
+                          "description": "[plain] The placeholder text fo the text field.",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "description",
+                        "invalid",
+                        "placeholder"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -16176,6 +17798,39 @@
                   "additionalProperties": false,
                   "description": "The messages shown for save status",
                   "properties": {
+                    "failureReason": {
+                      "additionalProperties": false,
+                      "description": "Per-reason explanations shown in the save-failure dialog, grouped above the list of affected project names.",
+                      "properties": {
+                        "firestoreBatchFailed": {
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "[formatted] Sending projects to the cloud failed"
+                        },
+                        "indexedDBUnsupported": {
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "[formatted] Browser doesn't support saving projects locally"
+                        },
+                        "indexedDBWriteFailed": {
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "[formatted] Browser local save failed (IndexedDB write error)"
+                        },
+                        "projectContainsPII": {
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "[formatted] Project contained personal info so wasn't sent online"
+                        }
+                      },
+                      "required": [
+                        "indexedDBWriteFailed",
+                        "indexedDBUnsupported",
+                        "firestoreBatchFailed",
+                        "projectContainsPII"
+                      ],
+                      "type": "object"
+                    },
+                    "failuresHeader": {
+                      "$ref": "#/definitions/Template%3C%5B%22count%22%5D%3E",
+                      "description": "[plain] Header above the per-project failure list. $count = total count"
+                    },
                     "projectContainedPII": {
                       "$ref": "#/definitions/FormattedText",
                       "description": "[formatted] When a project wasn't saved because it contained PII"
@@ -16207,7 +17862,9 @@
                     "projectContainedPII",
                     "projectsNotLoadingOnline",
                     "projectNotSavedOnline",
-                    "settingsUnsaved"
+                    "settingsUnsaved",
+                    "failureReason",
+                    "failuresHeader"
                   ],
                   "type": "object"
                 },
@@ -16818,10 +18475,6 @@
                   ],
                   "type": "object"
                 },
-                "overwritten": {
-                  "description": "[plain] When some other device had a more recent edit that overrode this device's version.",
-                  "type": "string"
-                },
                 "title": {
                   "description": "[plain] The label for the code editor toolbar",
                   "type": "string"
@@ -16893,7 +18546,6 @@
                 "label",
                 "title",
                 "empty",
-                "overwritten",
                 "confirm",
                 "toggle",
                 "button",
@@ -17328,6 +18980,7 @@
             "output",
             "docs",
             "collaborate",
+            "presence",
             "palette",
             "timeline",
             "tour",
@@ -17796,6 +19449,9 @@
     "Template<[\"borrow\"]>": {
       "type": "string"
     },
+    "Template<[\"candidate\"]>": {
+      "type": "string"
+    },
     "Template<[\"code\"]>": {
       "type": "string"
     },
@@ -17808,7 +19464,7 @@
     "Template<[\"condition\"]>": {
       "type": "string"
     },
-    "Template<[\"count\",\"name\",\"frame\",\"pose\"]>": {
+    "Template<[\"count\",\"name\",\"frame\",\"pose\",\"color\"]>": {
       "type": "string"
     },
     "Template<[\"count\"]>": {
@@ -17841,7 +19497,13 @@
     "Template<[\"function\"]>": {
       "type": "string"
     },
+    "Template<[\"higher\",\"lower\"]>": {
+      "type": "string"
+    },
     "Template<[\"input\",\"output\"]>": {
+      "type": "string"
+    },
+    "Template<[\"input\"]>": {
       "type": "string"
     },
     "Template<[\"inputs\"]>": {
@@ -17874,10 +19536,13 @@
     "Template<[\"moderated\",\"remaining\"]>": {
       "type": "string"
     },
+    "Template<[\"modifier\",\"color\"]>": {
+      "type": "string"
+    },
     "Template<[\"name\",\"input\"]>": {
       "type": "string"
     },
-    "Template<[\"name\",\"layout\",\"pose\"]>": {
+    "Template<[\"name\",\"layout\",\"pose\",\"color\"]>": {
       "type": "string"
     },
     "Template<[\"name\",\"scope\"]>": {
@@ -17899,6 +19564,9 @@
       "type": "string"
     },
     "Template<[\"number\",\"unit\"]>": {
+      "type": "string"
+    },
+    "Template<[\"omitted\"]>": {
       "type": "string"
     },
     "Template<[\"opacity\",\"rotation\",\"scale\",\"flipx\",\"flipy\",\"blur\"]>": {
@@ -17952,7 +19620,7 @@
     "Template<[\"template\"]>": {
       "type": "string"
     },
-    "Template<[\"text\",\"name\",\"size\",\"face\",\"animation\"]>": {
+    "Template<[\"text\",\"name\",\"size\",\"face\",\"animation\",\"color\"]>": {
       "type": "string"
     },
     "Template<[\"text\",\"reminder\"]>": {

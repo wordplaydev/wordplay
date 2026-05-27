@@ -3,10 +3,12 @@
     import Header from '@components/app/Header.svelte';
     import Notice from '@components/app/Notice.svelte';
     import ProjectPreviewSet from '@components/app/ProjectPreviewSet.svelte';
+    import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import Writing from '@components/app/Writing.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser, isAuthenticated } from '@components/project/Contexts';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import Title from '@components/widgets/Title.svelte';
     import { locales, Projects } from '@db/Database';
@@ -127,7 +129,19 @@
         />
     </div>
 
-    {#if searchTerm.trim() && owned.length === 0 && shared.length === 0 && archived.length === 0}
+    {#if !Projects.hydrated}
+        <!-- Brief gap between page mount and the first IndexedDB
+             emission. Show a spinner inline where the project list
+             will appear so the user has feedback instead of staring
+             at an empty page. -->
+        <div class="loading" role="status">
+            <Spinning
+                size={2}
+                label={(l) => l.ui.widget.loading.message}
+            />
+            <LocalizedText path={(l) => l.ui.widget.loading.message} />
+        </div>
+    {:else if searchTerm.trim() && owned.length === 0 && shared.length === 0 && archived.length === 0}
         <Notice
             testid="no-results-message"
             text={(l) => l.ui.page.projects.search.noResults}
@@ -164,7 +178,7 @@
     {/if}
 
     <!-- If there are any shared projects, make a shared section. -->
-    {#if shared.length + commenterViewerProjects.length > 0}
+    {#if Projects.hydrated && shared.length + commenterViewerProjects.length > 0}
         <Subheader text={(l) => l.ui.page.projects.subheader.shared} />
         <ProjectPreviewSet
             set={shared.concat(commenterViewerProjects)}
@@ -188,7 +202,7 @@
     {/if}
 
     <!-- If there are archived projects in search results, show them -->
-    {#if searchTerm.trim() && archived.length > 0}
+    {#if Projects.hydrated && searchTerm.trim() && archived.length > 0}
         <Subheader text={(l) => l.ui.page.projects.subheader.archived} />
         <ProjectPreviewSet
             set={archived}
@@ -226,7 +240,7 @@
     {/if}
 
     <!-- If there are any archived projects, make an archived section. -->
-    {#if Projects.allArchivedProjects.length > 0}
+    {#if Projects.hydrated && Projects.allArchivedProjects.length > 0}
         <Subheader text={(l) => l.ui.page.projects.subheader.archived} />
         <MarkupHTMLView markup={(l) => l.ui.page.projects.archiveprompt} />
         {#if $user === null}<Notice
@@ -275,5 +289,14 @@
         flex-direction: column;
         gap: var(--wordplay-spacing);
         margin-block-end: var(--wordplay-spacing);
+    }
+
+    .loading {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: var(--wordplay-spacing);
+        padding-block: calc(var(--wordplay-spacing) * 2);
+        color: var(--wordplay-inactive-color);
     }
 </style>

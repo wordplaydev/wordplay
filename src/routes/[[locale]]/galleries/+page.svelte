@@ -24,6 +24,7 @@
     } from 'firebase/firestore';
     import { onMount } from 'svelte';
     import GalleryPreview from '@components/app/GalleryPreview.svelte';
+    import Loading from '@components/app/Loading.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
@@ -161,8 +162,8 @@
         {:else if Galleries.getStatus() === 'loggedout'}
             <Notice text={(l) => l.ui.page.galleries.error.nogalleryedits} />
         {:else}
-            {#each Galleries.accessibleGalleries.values() as gallery, index}
-                <GalleryPreview {gallery} delay={index * 1000} />
+            {#each Galleries.accessibleGalleries.values() as gallery}
+                <GalleryPreview {gallery} />
             {/each}
         {/if}
 
@@ -189,6 +190,11 @@
                 >
             {/each}
         {/if}
+    {:else if $user === undefined}
+        <!-- Firebase auth hasn't resolved yet. Show a placeholder so the
+             "logged out" notice doesn't flash for users who turn out to be
+             logged in (same pattern used by /profile). -->
+        <Loading />
     {:else}
         <Notice text={(l) => l.ui.page.galleries.error.nogalleryedits} />
     {/if}
@@ -225,9 +231,9 @@
         {/if}
     {:else}
         <div class="previews">
-            {#each Galleries.getExampleGalleries() as gallery, index}
+            {#each Galleries.getExampleGalleries() as gallery}
                 <div class="preview">
-                    <GalleryPreview {gallery} delay={index * 250} />
+                    <GalleryPreview {gallery} />
                 </div>
             {/each}
         </div>
@@ -243,9 +249,9 @@
     {:else}
         <div class="public">
             <div class="previews">
-                {#each galleries as gallery, index}
+                {#each galleries as gallery}
                     <div class="preview">
-                        <GalleryPreview {gallery} delay={index * 250} />
+                        <GalleryPreview {gallery} />
                     </div>
                 {/each}
             </div>

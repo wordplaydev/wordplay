@@ -28,11 +28,11 @@
         let newCount = 0;
         if ($conflicts) {
             for (const conflict of $conflicts) {
-                const nodes = conflict.getMessage(
+                const node = conflict.getConflictingNode(
                     project.getContext(source),
                     Templates,
                 );
-                if (source.has(nodes.node)) {
+                if (source.has(node)) {
                     if (!conflict.isMinor()) newCount++;
                 }
             }

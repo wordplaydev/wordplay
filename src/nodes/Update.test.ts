@@ -3,17 +3,20 @@ import IncompatibleCellType from '@conflicts/IncompatibleCellType';
 import { testConflict } from '@conflicts/TestUtilities';
 import UnknownColumn from '@conflicts/UnknownColumn';
 import { expect, test } from 'vitest';
-import IncompatibleInput from '@conflicts/IncompatibleInput';
 import DefaultLocales from '@locale/DefaultLocales';
 import evaluateCode from '@runtime/evaluate';
 import Update from '@nodes/Update';
 
 test.each([
+    // Number assigned to a text column — IncompatibleCellType. (Previously this
+    // test caught the cascading "query isn't boolean" IncompatibleInput from
+    // `one < 1` on a text column; that cascade is now suppressed by the type-
+    // rooted gates in #1146, and the proper cell-type conflict is what fires.)
     [
         'table: ⎡one•#⎦\ntable ⎡: one: 1 ⎦ one < 1',
         'table: ⎡one•""⎦\ntable ⎡: one: 1 ⎦ one < 1',
         Update,
-        IncompatibleInput,
+        IncompatibleCellType,
     ],
     [
         'table: ⎡one•#⎦\ntable ⎡: one: 1 ⎦ one < 1',

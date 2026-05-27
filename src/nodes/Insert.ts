@@ -126,8 +126,10 @@ export default class Insert extends Expression {
         const tableType = this.table.getType(context);
 
         // Table must be table typed.
-        if (!(tableType instanceof TableType))
+        if (!(tableType instanceof TableType)) {
+            if (context.isUnknownDownstream(this.table)) return conflicts;
             return [new IncompatibleInput(this, tableType, TableType.make([]))];
+        }
 
         // The row must "match" the columns, where match means that all columns without a default get a value.
         // Rows can either be all unnamed and provide values for every column or they can be selectively named,
@@ -145,7 +147,10 @@ export default class Insert extends Expression {
                         matchedColumns.push(column);
                         const expected = column.getType(context);
                         const given = cell.getType(context);
-                        if (!expected.accepts(given, context))
+                        if (
+                            !context.isUnknownDownstream(cell) &&
+                            !expected.accepts(given, context)
+                        )
                             conflicts.push(
                                 new IncompatibleCellType(
                                     tableType,
@@ -177,7 +182,10 @@ export default class Insert extends Expression {
                 else {
                     const expected = column.getType(context);
                     const given = cell.getType(context);
-                    if (!expected.accepts(given, context))
+                    if (
+                        !context.isUnknownDownstream(cell) &&
+                        !expected.accepts(given, context)
+                    )
                         conflicts.push(
                             new IncompatibleCellType(
                                 tableType,

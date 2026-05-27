@@ -12,11 +12,11 @@
     import type Spaces from '@parser/Spaces';
     import { unescapeMarkupSymbols } from '@parser/Tokenizer';
     import { BULLET_SYMBOL } from '@parser/Symbols';
-    import { withColorEmoji } from '@unicode/emoji';
     import RootView from '@components/project/RootView.svelte';
     import ValueView from '@components/values/ValueView.svelte';
     import CodeView from '@components/concepts/CodeView.svelte';
     import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
+    import elideNode from '@components/concepts/elideNode';
     import ExampleUI from '@components/concepts/ExampleUI.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import WebLinkHTMLView from '@components/concepts/WebLinkHTMLView.svelte';
@@ -44,12 +44,21 @@
     }
 
     function getTokenText(token: Token) {
-        return withColorEmoji(
-            (token.startsWith(BULLET_SYMBOL)
+        // Don't apply withColorEmoji here. Wrapping every emoji sequence in
+        // a U+FE0F variation selector forced Safari into a code path that
+        // uses Apple Color Emoji even when Noto Color Emoji is first in the
+        // font-family cascade, breaking visual consistency with PhraseView
+        // / CreatorView. The locale source text already carries U+FE0F on
+        // the emoji that need it (e.g. 🖱️ ⌨️ 🖥️), so passing the text
+        // through unchanged lets each emoji use its natural Unicode
+        // presentation default — color emoji render in color via Noto,
+        // text-default symbols stay text unless the source explicitly
+        // requests color.
+        return (
+            token.startsWith(BULLET_SYMBOL)
                 ? token.getText().substring(1).trimStart()
-                : withColorEmoji(unescapeMarkupSymbols(token.getText()))
-            ).replaceAll('--', '—'),
-        );
+                : unescapeMarkupSymbols(token.getText())
+        ).replaceAll('--', '—');
     }
 </script>
 
@@ -79,12 +88,24 @@
             )}
             inline
         />
-    {:else}<RootView
-            node={segment.node}
-            inline
-            locale="symbolic"
-            blocks={false}
-        />{/if}
+    {:else}
+        {@const elision = elideNode(segment.node, segment.locales)}
+        {#if elision}
+            <!-- Render the elided preview (still as code, via RootView) and
+                 append the localized "or N other options" suffix as markup. -->
+            <RootView
+                node={elision.preview}
+                inline
+                locale="symbolic"
+                blocks={false}
+            /><MarkupHTMLView markup={elision.suffix} inline />
+        {:else}<RootView
+                node={segment.node}
+                inline
+                locale="symbolic"
+                blocks={false}
+            />{/if}
+    {/if}
 {:else if segment instanceof ValueRef}<strong
         ><ValueView value={segment.value} /></strong
     >

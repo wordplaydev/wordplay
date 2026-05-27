@@ -154,10 +154,15 @@ export default class Match extends Expression {
 
         // Ensure that the corresponding values have a compatible type with the value.
         const valueType = this.value.getType(context).generalize(context);
+        const valueIsCorrupt = context.isUnknownDownstream(this.value);
 
         for (const corresponding of this.cases) {
             const givenType = corresponding.key.getType(context);
-            if (!valueType.accepts(givenType, context))
+            if (
+                !valueIsCorrupt &&
+                !context.isUnknownDownstream(corresponding.key) &&
+                !valueType.accepts(givenType, context)
+            )
                 conflicts.push(
                     new IncompatibleType(
                         corresponding.key,

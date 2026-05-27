@@ -55,8 +55,8 @@ type OutputTexts = {
         layout: NameAndDoc;
         /** The matter to use for the group if it's involved in collisions */
         matter: NameAndDoc;
-        /** [formatted] $1 = optional group name, $2 = layout description, $3 = pose description */
-        defaultDescription: Template<['name', 'layout', 'pose']>;
+        /** [formatted] $1 = optional group name, $2 = layout description, $3 = pose description, $4 = optional background color name */
+        defaultDescription: Template<['name', 'layout', 'pose', 'color']>;
     } & TypeTexts;
     /** A shadow */
     Aura: NameAndDoc & {
@@ -83,15 +83,17 @@ type OutputTexts = {
         matter: NameAndDoc;
         /** The shadow properties for the phrase */
         aura: NameAndDoc;
-        /** [formatted] A description of the phrase for screen readers. $1: non-optional text, $2: optional name, $3: optional size, $4: optional font, $5: then non-optional pose */
+        /** [formatted] A description of the phrase for screen readers. $1: non-optional text, $2: optional name, $3: optional size, $4: optional font, $5: non-optional pose, $6: optional color name */
         defaultDescription: Template<
-            ['text', 'name', 'size', 'face', 'animation']
+            ['text', 'name', 'size', 'face', 'animation', 'color']
         >;
     } & TypeTexts;
     /** The whole stage view and settings to control its appearance */
     Stage: NameAndDoc & {
-        /** [formatted] A description of the stage for screen readers. $1: output count, $2: optional stage name, $3: optional frame description, $4: pose description */
-        defaultDescription: Template<['count', 'name', 'frame', 'pose']>;
+        /** [formatted] A description of the stage for screen readers. $1: output count, $2: optional stage name, $3: optional frame description, $4: pose description, $5: optional background color name */
+        defaultDescription: Template<
+            ['count', 'name', 'frame', 'pose', 'color']
+        >;
         /** A list of content to show on stage */
         content: NameAndDoc;
         /** The shape of the frame to clip stage content */
@@ -221,6 +223,49 @@ type OutputTexts = {
         chroma: NameAndDoc;
         /** 0-360, a color wheel  */
         hue: NameAndDoc;
+        /** Names for each of the 11 Basic Color Terms (black, white, gray,
+         *  red, orange, yellow, green, blue, purple, brown, pink). Each
+         *  entry exposes its multilingual names as static binds on the
+         *  `Color` structure (so `Color.red`/`色.赤`/etc. work), and is also
+         *  the user-facing word used by screen-reader color descriptions. */
+        colors: {
+            /** [plain] doc + [name] names for "black" */
+            black: NameAndDoc;
+            /** [plain] doc + [name] names for "white" */
+            white: NameAndDoc;
+            /** [plain] doc + [name] names for "gray" */
+            gray: NameAndDoc;
+            /** [plain] doc + [name] names for "red" */
+            red: NameAndDoc;
+            /** [plain] doc + [name] names for "orange" */
+            orange: NameAndDoc;
+            /** [plain] doc + [name] names for "yellow" */
+            yellow: NameAndDoc;
+            /** [plain] doc + [name] names for "green" */
+            green: NameAndDoc;
+            /** [plain] doc + [name] names for "blue" */
+            blue: NameAndDoc;
+            /** [plain] doc + [name] names for "purple" */
+            purple: NameAndDoc;
+            /** [plain] doc + [name] names for "brown" */
+            brown: NameAndDoc;
+            /** [plain] doc + [name] names for "pink" */
+            pink: NameAndDoc;
+        };
+        /** Templates for assembling color descriptions from the BCT names
+         *  plus optional light/dark modifier and boundary-color mix. */
+        description: {
+            /** [plain] $1 = modifier (or empty), $2 = color name(s). Allows
+             *  per-locale word order. */
+            modified: Template<['modifier', 'color']>;
+            /** [plain] Join two BCTs into a mix description; $1 = first
+             *  color name, $2 = second color name. */
+            mix: Template<['first', 'second']>;
+            /** [plain] Word used when lightness is above the matched focal */
+            light: string;
+            /** [plain] Word used when lightness is below the matched focal */
+            dark: string;
+        };
     };
     /** A place on stage */
     Place: NameAndDoc & {

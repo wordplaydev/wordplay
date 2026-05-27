@@ -72,6 +72,9 @@
     // get the how-tos in the gallery
     let howTos: HowTo[] = $state([]);
 
+    // true if queried how-to exists and user has access, false if query failed, null if query in progress
+    let urlLoaded = $state<null | boolean>(null);
+
     // get all of the how-tos for the gallery if the user has gallery access
     // otherwise, see if there was a specific how-to id in the url and if so just get that one
     $effect(() => {
@@ -80,8 +83,14 @@
                 if (data) howTos = data;
             });
         } else if (urlID) {
+            urlLoaded = null;
             HowTos.getHowTo(urlID).then((data) => {
-                if (data) howTos = [data];
+                if (data) {
+                    howTos = [data];
+                    urlLoaded = true;
+                } else {
+                    urlLoaded = false;
+                }
             });
         }
     });
@@ -338,9 +347,9 @@
     });
 </script>
 
-{#if gallery === null}
+{#if gallery === null || (gallery === undefined && urlID !== null && urlLoaded === null)}
     <Loading />
-{:else if (!galleryID && gallery === undefined) || (galleryID && gallery === undefined && howTos.length === 0)}
+{:else if gallery === undefined && (galleryID === undefined || urlID === null || urlLoaded === false)}
     <Writing>
         <Notice text={(l) => l.ui.howto.error.unknown} />
     </Writing>
@@ -418,8 +427,8 @@
                             />
                             <div class="draftslist">
                                 <ul>
-                                    {#each howTos as _, i (i)}
-                                        {#if !howTos[i].isPublished()}
+                                    {#each howTos as howTo, i (howTo.getHowToId())}
+                                        {#if !howTo.isPublished()}
                                             <li>
                                                 <HowToForm
                                                     editingMode={false}
@@ -496,13 +505,15 @@
                     {onblur}
                     {onkeydown}
                 >
-                    {#each howTos as howTo, i (i)}
+                    {#each howTos as howTo, i (howTo.getHowToId())}
                         {#if howTo.isPublished() && howTo.inCanvasArea(-cameraX, -cameraX + canvasWidth, -cameraY, -cameraY + canvasHeight)}
                             <HowToPreview
                                 bind:howTo={howTos[i]}
                                 bind:this={howToComponents[i]}
-                                {cameraX}
-                                {cameraY}
+                                bind:cameraX
+                                bind:cameraY
+                                {canvasWidth}
+                                {canvasHeight}
                                 bind:whichMoving
                                 bind:notPermittedAreas
                                 galleryCuratorCollaborators={gallery

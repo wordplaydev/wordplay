@@ -627,7 +627,7 @@
                         [
                             "Evaluate",
                             "serious",
-                            "$~Cada avaliação tem o seguinte aspeto: `@UI/Evaluate: alguma função, seguida de um parêntesis esquerdo e direito, com qualquer número de entradas entre elas. Aqui, tenho apenas `@ExpressionPlaceholder` como função e mais três como entradas de espaço reservado."
+                            "$~Cada avaliação tem o seguinte aspeto: @UI/Evaluate: alguma função, seguida de um parêntesis esquerdo e direito, com qualquer número de entradas entre elas. Aqui, tenho apenas @ExpressionPlaceholder como função e mais três como entradas de espaço reservado."
                         ],
                         ["conflict", "_(_ _ _)"],
                         null,

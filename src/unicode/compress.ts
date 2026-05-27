@@ -19,10 +19,11 @@
 // "Cyrl") and is empty for Common / Inherited / Unknown, and
 // <group>/<subgroup> are the short codes defined in emoji.ts.
 //
-// Additionally writes static/unicode/scripts.txt, a small companion file with
-// one "<iso>;<english-name>" line per script that actually appears in
-// codes.txt. The picker uses it as a fallback label source for scripts not
-// curated in src/locale/Scripts.ts.
+// Script display labels (English names, native names, writing direction) for
+// every ISO 15924 code live in src/locale/Scripts.ts. When `scriptsSeen`
+// below contains a code missing from that map, this script logs a warning so
+// it can be added before the next release — the codes.txt entry will
+// otherwise render with its raw ISO code in the glyph picker.
 //
 // Run: npm run codes
 
@@ -31,11 +32,11 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 import { EmojiGroups, EmojiSubgroups } from '@unicode/emoji.ts';
+import { Scripts } from '@locale/Scripts.ts';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..', '..');
 const OUTPUT_PATH = path.join(ROOT, 'static', 'unicode', 'codes.txt');
-const SCRIPTS_OUTPUT_PATH = path.join(ROOT, 'static', 'unicode', 'scripts.txt');
 
 const UNICODE_DATA_URL =
     'https://www.unicode.org/Public/UCD/latest/ucd/UnicodeData.txt';
@@ -127,25 +128,6 @@ function parseScripts(
     return ranges;
 }
 
-/** Build a long-English-name lookup for ISO codes, used to write scripts.txt.
- * Prefers the *first* alias listed in PropertyValueAliases.txt (the canonical
- * long name like "Latin"), falling back to the iso code itself if no alias
- * was found. */
-function buildIsoToLongName(text: string): Map<string, string> {
-    const isoToLong = new Map<string, string>();
-    for (const rawLine of text.split('\n')) {
-        const line = rawLine.split('#')[0].trim();
-        if (!line) continue;
-        const parts = line.split(';').map((p) => p.trim());
-        if (parts[0] !== 'sc') continue;
-        const iso = parts[1];
-        const long = parts[2];
-        if (!iso || !long || isoToLong.has(iso)) continue;
-        isoToLong.set(iso, long.replace(/_/g, ' '));
-    }
-    return isoToLong;
-}
-
 /** Binary search the script ranges for a single codepoint. Returns the ISO
  * code or an empty string for "no script" (the codepoint falls in
  * Common/Inherited/Unknown or no Scripts.txt range matched it at all). */
@@ -218,7 +200,6 @@ async function main() {
     console.log(`Parsed ${emojis.size} base emojis.`);
 
     const longToIso = parseScriptAliases(aliasesText);
-    const isoToLong = buildIsoToLongName(aliasesText);
     const scriptRanges = parseScripts(scriptsText, longToIso);
     console.log(`Parsed ${scriptRanges.length} script ranges.`);
 
@@ -274,19 +255,21 @@ async function main() {
         `Wrote ${OUTPUT_PATH} (${nonEmojiCount} codepoints, ${emojiCount} emoji rows, ${(output.length / 1024).toFixed(1)} KB).`,
     );
 
-    // Emit the script-label companion file. Sort by ISO code for stable
-    // output. Only includes scripts that actually appear in codes.txt so the
-    // picker dropdown lists exactly the scripts it can render.
-    const scriptLines: string[] = [];
-    for (const iso of Array.from(scriptsSeen).sort()) {
-        const long = isoToLong.get(iso) ?? iso;
-        scriptLines.push(`${iso};${long}`);
+    // Warn about any scripts that codes.txt references but Scripts.ts
+    // doesn't catalogue. The picker will fall back to displaying these as
+    // raw ISO codes; add entries to src/locale/Scripts.ts to fix.
+    const missing = Array.from(scriptsSeen)
+        .filter((iso) => !Object.hasOwn(Scripts, iso))
+        .sort();
+    if (missing.length > 0) {
+        console.warn(
+            `WARNING: ${missing.length} script(s) in codes.txt are missing from src/locale/Scripts.ts: ${missing.join(', ')}`,
+        );
+    } else {
+        console.log(
+            `All ${scriptsSeen.size} scripts referenced in codes.txt are catalogued in src/locale/Scripts.ts.`,
+        );
     }
-    const scriptsOutput = scriptLines.join('\n') + '\n';
-    fs.writeFileSync(SCRIPTS_OUTPUT_PATH, scriptsOutput);
-    console.log(
-        `Wrote ${SCRIPTS_OUTPUT_PATH} (${scriptsSeen.size} scripts, ${(scriptsOutput.length / 1024).toFixed(1)} KB).`,
-    );
 }
 
 main().catch((err) => {

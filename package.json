@@ -1,6 +1,6 @@
 {
     "name": "wordplay",
-    "version": "0.18.1",
+    "version": "0.19.1",
     "type": "module",
     "scripts": {
         "sync": "svelte-kit sync",
@@ -19,8 +19,8 @@
         "env:windows": "copy .env.template .env",
         "build": "npm upgrade shared-types && npm run env && npm run updates && npm run mediapipe && vite build && (cd functions && npm run build)",
         "preview": "vite preview",
-        "stage": "firebase use dev && firebase deploy",
-        "release": "firebase use prod && firebase deploy && firebase use dev",
+        "stage": "firebase use dev && firebase deploy && npm run env",
+        "release": "firebase use prod && firebase deploy && firebase use dev && npm run env",
         "tutorial-schema": "npx ts-json-schema-generator --no-type-check --tsconfig tsconfig.json --path 'src/tutorial/Tutorial.ts' --type 'Tutorial' --out static/schemas/Tutorial.json",
         "locale-schema": "npx ts-json-schema-generator --no-type-check --tsconfig tsconfig.json --path 'src/locale/LocaleText.ts' --type 'LocaleText' --out static/schemas/LocaleText.json && npx tsx src/util/verify-locales/generate-template-inputs.ts",
         "create-schemas": "npm run tutorial-schema && npm run locale-schema",
@@ -35,7 +35,7 @@
         "schemas": "npm-watch create-schemas",
         "merge": "git checkout main && git merge dev && git push origin main && git checkout dev",
         "outdated": "npx check-outdated --ignore-pre-releases --columns name,type,current,latest,changes",
-        "updates": "node scripts/updates.js",
+        "updates": "npx tsx scripts/updates.ts",
         "mediapipe": "node scripts/copy-wasm.mjs",
         "claims": "node scripts/claims.js ",
         "contributors": "npx tsx functions/src/refresh-contributors-local.ts"
@@ -102,6 +102,7 @@
         "pitchy": "^4",
         "shared-types": "file:./functions/src/shared",
         "uuid": "^14",
+        "yjs": "^13.6.30",
         "zod": "^4"
     },
     "overrides": {

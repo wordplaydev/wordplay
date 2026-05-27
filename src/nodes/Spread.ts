@@ -79,7 +79,10 @@ export default class Spread extends Node {
     computeConflicts(context: Context): Conflict[] {
         if (this.list) {
             const type = this.list.getType(context);
-            if (!(type instanceof ListType))
+            if (
+                !context.isUnknownDownstream(this.list) &&
+                !(type instanceof ListType)
+            )
                 return [
                     new IncompatibleType(
                         this.list,

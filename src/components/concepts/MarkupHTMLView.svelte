@@ -4,25 +4,28 @@
 </script>
 
 <script lang="ts">
-    import MachineTranslatedAnnotation from '@components/app/MachineTranslatedAnnotation.svelte';
     import LocallyRevisedAnnotation from '@components/app/LocallyRevisedAnnotation.svelte';
+    import MachineTranslatedAnnotation from '@components/app/MachineTranslatedAnnotation.svelte';
     import Notice from '@components/app/Notice.svelte';
+    import SegmentHTMLView from '@components/concepts/SegmentHTMLView.svelte';
     import { accessorToLocalePath } from '@components/localization/accessorToLocalePath';
     import { getLocalizing } from '@components/project/Contexts';
-    import {
-        localeEdits,
-        saveLocaleEdit,
-        deleteLocaleEdit,
-    } from '@db/locales/LocalizationDexie';
     import Button from '@components/widgets/Button.svelte';
     import FormattedEditor from '@components/widgets/FormattedEditor.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import { animationDuration, animationFactor, locales } from '@db/Database';
+    import {
+        deleteLocaleEdit,
+        localeEdits,
+        saveLocaleEdit,
+    } from '@db/locales/LocalizationDexie';
     import type { LocaleTextsAccessor, TemplateInput } from '@locale/Locales';
     import { toLocaleString } from '@locale/LocaleText';
     import { withoutAnnotations } from '@locale/withoutAnnotations';
     import ConceptLink from '@nodes/ConceptLink';
     import Markup from '@nodes/Markup';
     import Paragraph from '@nodes/Paragraph';
+    import { parseDocs, parseFormattedLiteral } from '@parser/parseExpression';
     import {
         CANCEL_SYMBOL,
         CONFIRM_SYMBOL,
@@ -30,12 +33,9 @@
         FORMATTED_SYMBOL,
         REVERT_SYMBOL,
     } from '@parser/Symbols';
-    import { parseDocs, parseFormattedLiteral } from '@parser/parseExpression';
     import { toMarkup } from '@parser/toMarkup';
     import { toTokens } from '@parser/toTokens';
     import { tick } from 'svelte';
-    import { animationDuration, animationFactor, locales } from '@db/Database';
-    import SegmentHTMLView from '@components/concepts/SegmentHTMLView.svelte';
 
     interface Props {
         markup:
@@ -350,7 +350,17 @@
                             <div class="markup" class:note>
                                 {#each displayParagraphsAndLists as paragraphOrList, index}
                                     {#if paragraphOrList instanceof Paragraph}
-                                        <p
+                                        <!--
+                                            `div` rather than `p`: an inline
+                                            Example's NodeView produces a
+                                            `<div>` for the node-view wrapper,
+                                            and `<div>` isn't phrasing content
+                                            so `<p>` rejects it (SSR errors
+                                            and hydration mismatch). The
+                                            paragraph styling carries via the
+                                            `.paragraph` class either way.
+                                        -->
+                                        <div
                                             class="paragraph"
                                             class:animated={$animationFactor >
                                                 0}
@@ -363,7 +373,7 @@
                                                     alone={paragraphOrList
                                                         .segments.length === 1}
                                                     first={index === 0}
-                                                />{/each}</p
+                                                />{/each}</div
                                         >
                                     {:else}
                                         <ul
@@ -403,7 +413,7 @@
         {/each}
     {:else}<div class="markup" class:note
             >{#each paragraphsAndLists as paragraphOrList, index}{#if paragraphOrList instanceof Paragraph}
-                    <p
+                    <div
                         class="paragraph"
                         class:animated={$animationFactor > 0}
                         style="--delay:{$animationDuration * index * 0.1}ms"
@@ -412,7 +422,7 @@
                                 {spaces}
                                 alone={paragraphOrList.segments.length === 1}
                                 first={index === 0}
-                            />{/each}</p
+                            />{/each}</div
                     >{:else}<ul
                         class:animated={$animationFactor > 0}
                         style="--delay:{$animationDuration * index * 0.1}ms"
@@ -433,6 +443,17 @@
     .markup {
         display: flex;
         flex-direction: column;
+        /* Put Noto Color Emoji first so emoji codepoints in markup
+           prose render in color in Safari. The inherited
+           --wordplay-app-font has Noto Sans first, which Safari can't
+           reliably skip past for emoji codepoints — it picks Noto Emoji
+           later in the cascade and renders monochrome. The CSSFallbackFaces
+           used by PhraseView already follows this Color-Emoji-first pattern;
+           this mirrors it for markup text. Safe to put Color Emoji first
+           because its unicode-range in fonts.css is restricted to true
+           emoji codepoints — it doesn't claim ASCII/digits and so doesn't
+           shadow Noto Sans for normal text. */
+        font-family: 'Noto Color Emoji', 'Noto Sans', sans-serif;
     }
 
     .markup:not(:last-child) {
@@ -463,17 +484,15 @@
         }
     }
 
-    p {
+    .paragraph {
         margin-inline-start: 0;
+        margin-block-start: 0em;
+        margin-block-end: 1em;
+        line-height: 1.5;
     }
 
     .note {
         font-size: var(--wordplay-small-font-size);
-    }
-
-    p {
-        margin-block-start: 0em;
-        margin-block-end: 1em;
     }
 
     ul {
@@ -481,7 +500,7 @@
         margin-block-end: 1em;
     }
 
-    p:last-of-type {
+    .paragraph:last-of-type {
         margin-block-end: 0;
     }
 

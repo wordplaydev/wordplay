@@ -1,3 +1,4 @@
-Timer
+•
+"Timer"/en"计时器"/zh-CN"計時器"/zh-TW
 ===
 Phrase("•".repeat(((Time(1000ms) → #s) % 5).roundDown() + 1s))

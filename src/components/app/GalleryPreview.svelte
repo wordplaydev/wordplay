@@ -13,35 +13,52 @@
 
     interface Props {
         gallery: Gallery;
-        /** How many milliseconds to wait to start updating */
-        delay: number;
     }
 
-    let { gallery, delay }: Props = $props();
+    let { gallery }: Props = $props();
 
-    let index = $state(0);
-    let projectID = $derived<string | undefined>(gallery.getProjects()[0]);
-
-    /** Null means loading */
+    /** The project currently shown in the tile. `null` while we're awaiting
+     *  the first `Projects.get(...)`; `undefined` after a fetch that
+     *  couldn't resolve a project. */
     let project: Project | null | undefined = $state(null);
-    let timeoutID: NodeJS.Timeout;
 
     let description = $derived(
         gallery.getDescription($locales).split('\n').join('\n\n'),
     );
 
-    async function loadNext() {
-        index = (index + 1) % gallery.getProjects().length;
-        projectID = gallery.getProjects()[index];
-        if (projectID) project = await Projects.get(projectID);
-        timeoutID = setTimeout(loadNext, 10000);
-    }
-
+    // Rotate through the gallery's projects every 4 seconds. The rotation
+    // is a feature, not a workaround — it gives the card visual rhythm and
+    // showcases multiple projects from the gallery without taking extra
+    // space. The first tick is offset by a random amount up to the
+    // rotation interval so that, when several GalleryPreview tiles render
+    // together (e.g. on /galleries), they don't all flip at once. The
+    // unmount guard is needed because `Projects.get(...)` is async
+    // (potentially hitting Firestore), so a fetch that resolves after
+    // unmount mustn't write to `project` ($state belongs to a now-
+    // destroyed effect).
+    const ROTATION_MS = 4000;
     onMount(() => {
-        setTimeout(loadNext, delay);
+        let unmounted = false;
+        let timeoutID: NodeJS.Timeout | undefined;
+        let index = 0;
 
-        return () =>
-            timeoutID !== undefined ? clearTimeout(timeoutID) : undefined;
+        async function loadNext() {
+            if (unmounted) return;
+            const projects = gallery.getProjects();
+            if (projects.length > 0) {
+                index = (index + 1) % projects.length;
+                const next = await Projects.get(projects[index]);
+                if (unmounted) return;
+                project = next;
+            }
+            timeoutID = setTimeout(loadNext, ROTATION_MS);
+        }
+
+        timeoutID = setTimeout(loadNext, Math.random() * ROTATION_MS);
+        return () => {
+            unmounted = true;
+            if (timeoutID !== undefined) clearTimeout(timeoutID);
+        };
     });
 </script>
 

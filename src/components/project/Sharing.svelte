@@ -11,6 +11,7 @@
     import Options from '@components/widgets/Options.svelte';
     import { getUser } from '@components/project/Contexts';
     import PII from '@components/project/PII.svelte';
+    import Preview from '@components/project/Preview.svelte';
     import Public from '@components/project/Public.svelte';
 
     interface Props {
@@ -88,4 +89,6 @@
         nonPII={project.getNonPII()}
         unmark={(piiText) => Projects.reviseProject(project.withPII(piiText))}
     />
+
+    <Preview {project} />
 {/if}

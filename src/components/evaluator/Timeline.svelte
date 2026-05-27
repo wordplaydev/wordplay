@@ -1,20 +1,20 @@
 <script lang="ts">
+    import Emoji from '@components/app/Emoji.svelte';
+    import Subheader from '@components/app/Subheader.svelte';
+    import Controls from '@components/evaluator/Controls.svelte';
+    import { getEvaluation } from '@components/project/Contexts';
+    import ButtonWidget from '@components/widgets/Button.svelte';
+    import Tour, { type UIExplanation } from '@components/widgets/Tour.svelte';
+    import { animationDuration, locales, Settings } from '@db/Database';
+    import Button from '@input/Button';
+    import Key from '@input/Key';
+    import { DEFECT_SYMBOL, INFO_SYMBOL } from '@parser/Symbols';
     import type Evaluator from '@runtime/Evaluator';
     import BoolValue from '@values/BoolValue';
     import ExceptionValue from '@values/ExceptionValue';
     import StructureValue from '@values/StructureValue';
     import { tick, untrack } from 'svelte';
     import { slide } from 'svelte/transition';
-    import { animationDuration, locales, Settings } from '@db/Database';
-    import Button from '@input/Button';
-    import Key from '@input/Key';
-    import { DEFECT_SYMBOL, INFO_SYMBOL } from '@parser/Symbols';
-    import Emoji from '@components/app/Emoji.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
-    import { getEvaluation } from '@components/project/Contexts';
-    import Controls from '@components/evaluator/Controls.svelte';
-    import ButtonWidget from '@components/widgets/Button.svelte';
-    import Tour, { type UIExplanation } from '@components/widgets/Tour.svelte';
 
     interface Props {
         /** The evaluator running the program */
@@ -251,6 +251,7 @@
     <ButtonWidget
         tip={(l) => l.ui.timeline.tour.launch}
         background="circular"
+        padding={false}
         icon={INFO_SYMBOL}
         action={() => (touring = true)}
     ></ButtonWidget>

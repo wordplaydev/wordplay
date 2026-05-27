@@ -215,15 +215,18 @@
             "conflict": {
                 "UnknownLanguage": {
                     "name": "$~未知語言",
-                    "explanation": "$~我不懂這種語言。"
+                    "explanation": "$~我不懂這種語言。",
+                    "resolution": "$~移除此語言代碼"
                 },
                 "MissingLanguage": {
                     "name": "$~缺少語言",
-                    "explanation": "$~我這裡缺少一種語言。你能添加一種嗎？"
+                    "explanation": "$~我這裡缺少一種語言。你能添加一種嗎？",
+                    "resolution": "$~刪除空的語言標籤"
                 },
                 "DuplicateLanguage": {
                     "name": "$~重複語言",
-                    "explanation": "$~您兩次使用了語言「 $code 」。混合語言標籤中每種語言只能列出一次。"
+                    "explanation": "$~您兩次使用了語言「 $code 」。混合語言標籤中每種語言只能列出一次。",
+                    "resolution": "$~刪除重複的 * $code * 標籤"
                 }
             }
         },
@@ -266,19 +269,24 @@
             "conflict": {
                 "InvalidRow": {
                     "name": "$~無效行",
-                    "explanation": "$~行要么全部是值，要么全部是 @Bind。"
+                    "explanation": "$~行要么全部是值，要么全部是 @Bind。",
+                    "resolutionKeepPositional": "$~刪除已命名的儲存格，只保留位置儲存格。",
+                    "resolutionUnwrapInputs": "$~從已命名的儲存格中刪除名稱"
                 },
                 "MissingCell": {
                     "name": "$~缺失列",
-                    "explanation": "$~我缺少列 $column"
+                    "explanation": "$~我缺少列 $column",
+                    "resolution": "$~新增一個佔位符單元格，用於 * $column *"
                 },
                 "UnknownColumn": {
                     "name": "$~未知的列名",
-                    "explanation": "$~我不知道有這麼個專欄。"
+                    "explanation": "$~我不知道有這麼個專欄。",
+                    "resolution": "$~重新命名為 * $name *"
                 },
                 "ExtraCell": {
                     "name": "$~額外的列",
-                    "explanation": "$~根據我的表格類型，我是一個不應該存在的多餘列。"
+                    "explanation": "$~根據我的表格類型，我是一個不應該存在的多餘列。",
+                    "resolution": "$~移除多餘的儲存格"
                 },
                 "UnexpectedColumnBind": {
                     "name": "$~無綁定行",
@@ -309,7 +317,8 @@
             "conflict": {
                 "DuplicateTypeVariable": {
                     "name": "$~重複類型變數",
-                    "explanation": "$~我的名字和$duplicate"
+                    "explanation": "$~我的名字和$duplicate",
+                    "resolution": "$~刪除重複的類型變數"
                 }
             },
             "label": {
@@ -384,7 +393,8 @@
             "conflict": {
                 "UnsupportedFontFormat": {
                     "name": "$~不支援的字體格式",
-                    "explanation": "$~我的朋友 * $face * 不知道如何成為$format 。"
+                    "explanation": "$~我的朋友 * $face * 不知道如何成為$format 。",
+                    "resolution": "$~移除格式"
                 }
             }
         },
@@ -402,7 +412,7 @@
             "description": "提到 $name",
             "emotion": "serious",
             "doc": [
-                "我是一個術語 \\$program\\ 或一個動態輸入 \\$1\\的參考資料。",
+                "我是一個術語 \\$program\\ 或一個動態輸入 \\$name\\的參考資料。",
                 "不過這主要是一個內部功能，你應該不需要知道。"
             ]
         },
@@ -438,7 +448,10 @@
             "conflict": {
                 "OrderOfOperations": {
                     "name": "$~模糊的順序",
-                    "explanation": "$~我按照閱讀順序進行求值，而不是按照數學運算順序。您是否要使用 @Block 來指定我的求值順序？"
+                    "explanation": "$~我按照閱讀順序進行求值，而不是按照數學運算順序。您是否要使用 @Block 來指定我的求值順序？",
+                    "resolutionPEMDAS": "$~依照 PEMDAS 數學順序：先計算$higher$lower",
+                    "resolutionReading": "$~請依閱讀順序：先評估$lower ，再評估$higher",
+                    "resolutionWrap": "$~新增括號以明確訂單。"
                 }
             },
             "label": {
@@ -487,32 +500,48 @@
                 },
                 "DuplicateShare": {
                     "name": "$~重複共享",
-                    "explanation": "$~我和 $duplicate 同名。這使得我們分享的內容變得不明確。"
+                    "explanation": "$~我和 $duplicate 同名。這使得我們分享的內容變得不明確。",
+                    "resolution": "$~刪除此重複共享"
                 },
                 "IncompatibleType": {
                     "name": "$~不相容類型",
                     "explanation": "$~我期望得到 $expected $given 類型",
-                    "resolution": "$~轉換為$expected"
+                    "resolution": "$~轉換為$expected",
+                    "resolutionLiteral": "$~使用 ! 將列表、集合或映射標記為字面值，這樣它的值就會保持具體而不是泛化—— $expected。",
+                    "resolutionOtherwise": "$~用 ?? 處理缺失值，因為$expected ø",
+                    "resolutionGuard": "$~首先使用類型保護檢查它是否為$expected，因為$expected。",
+                    "resolutionDeclaration": "$~明確聲明類型，因為$expected。",
+                    "resolutionWrap": "$~將其放入列表、集合或映射中，因為$expected。",
+                    "resolutionStructure": "$~將其包裹在$expected，因為該插槽需要一個$expected。",
+                    "resolutionDefault": "$~請為綁定指定一個初始值，因為$expected。",
+                    "resolutionWiden": "$~允許此綁定使用值的類型，因為$expected，無法容納實際儲存的內容。",
+                    "resolutionReorder": "$~交換輸入框，因為它們的類型在另一個順序下更合適—— $expected。",
+                    "resolutionPlaceholder": "$~暫時用佔位符代替，因為$expected－然後從自動完成選單中選擇一個值。"
                 },
                 "MisplacedShare": {
                     "name": "$~放錯位置的份額",
-                    "explanation": "$~我只能在 @Program 層級分享內容，無法在任何內部分享！"
+                    "explanation": "$~我只能在 @Program 層級分享內容，無法在任何內部分享！",
+                    "resolution": "$~移除 *↑* 標記"
                 },
                 "MissingShareLanguages": {
                     "name": "$~缺少語言",
-                    "explanation": "$~如果你想分享這個內容，你必須說明它是什麼語言的，這樣其他人才能知道他們是否能讀懂！"
+                    "explanation": "$~如果你想分享這個內容，你必須說明它是什麼語言的，這樣其他人才能知道他們是否能讀懂！",
+                    "resolution": "$~移除 *↑* 標記"
                 },
                 "RequiredAfterOptional": {
                     "name": "$~可選後必填輸入",
-                    "explanation": "$~我不能在這裡，我前面還有一個可選的 @Bind 操作。"
+                    "explanation": "$~我不能在這裡，我前面還有一個可選的 @Bind 操作。",
+                    "resolution": "$~將必填輸入移到可選輸入之前"
                 },
                 "UnexpectedEtc": {
                     "name": "$~輸入列表後的意外輸入",
-                    "explanation": "$~我只能在 @FunctionDefinition 中使用可變長度"
+                    "explanation": "$~我只能在 @FunctionDefinition 中使用可變長度",
+                    "resolution": "$~刪除 *…*"
                 },
                 "UnusedBind": {
                     "name": "$~未使用的綁定",
-                    "explanation": "$~我的名字是$name"
+                    "explanation": "$~我的名字是$name",
+                    "resolution": "$~刪除此綁定"
                 }
             },
             "label": {
@@ -548,7 +577,8 @@
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "$~缺失表達",
-                    "explanation": "我需要至少一個不是 @Bind 的表述，這樣我才有值可以返回。"
+                    "explanation": "我需要至少一個不是 @Bind 的表述，這樣我才有值可以返回。",
+                    "resolution": "$~新增最終表達式"
                 }
             },
             "label": {
@@ -571,11 +601,13 @@
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~未知借款",
-                    "explanation": "$~我不知道有名為 $source 的資源"
+                    "explanation": "$~我不知道有名為 $source 的資源",
+                    "resolution": "$~移除此借用"
                 },
                 "BorrowCycle": {
                     "name": "$~自引用借用",
-                    "explanation": "$~這取決於 $borrow，而 $borrow 又取決於這個 $source，因此無法評估程式。"
+                    "explanation": "$~這取決於 $borrow，而 $borrow 又取決於這個 $source，因此無法評估程式。",
+                    "resolution": "$~移除這筆借款以打破循環"
                 }
             },
             "exception": {
@@ -617,13 +649,24 @@
                 "如果我們只能做這些決定，難道你不擔心我們就會錯過一些重要的世界的內容嗎?"
             ],
             "start": "讓我們看看 $condition 是不是正確的",
-            "afterthen": "$1[跳過這些代碼 | 不要跳過這些代碼]",
+            "afterthen": "$name[跳過這些代碼 | 不要跳過這些代碼]",
             "else": "$~$jumping[跳過程式碼 | 不跳過程式碼]",
             "finish": "我想這就是 $value 了吧?",
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "name": "$~預期布林條件",
-                    "explanation": "$~我需要一個 @Boolean 類型的值來做決定，但我得到的卻是 $type 類型的值。"
+                    "explanation": "$~我需要一個 @Boolean 類型的值來做決定，但我得到的卻是 $type 類型的值。",
+                    "resolution": "$~將其轉換為$expected ，因為$expected。",
+                    "resolutionLiteral": "$~使用 ! 將列表、集合或映射標記為字面值，這樣它的值就會保持具體而不是泛化—— $expected。",
+                    "resolutionOtherwise": "$~用 ?? 處理缺失值，因為$expected ø",
+                    "resolutionGuard": "$~首先使用類型保護檢查它是否為$expected，因為$expected。",
+                    "resolutionDeclaration": "$~明確聲明類型，因為$expected。",
+                    "resolutionWrap": "$~將其放入列表、集合或映射中，因為$expected。",
+                    "resolutionStructure": "$~將其包裹在$expected，因為該插槽需要一個$expected。",
+                    "resolutionDefault": "$~請為綁定指定一個初始值，因為$expected。",
+                    "resolutionWiden": "$~允許此綁定使用值的類型，因為$expected，無法容納實際儲存的內容。",
+                    "resolutionReorder": "$~交換輸入框，因為它們的類型在另一個順序下更合適—— $expected。",
+                    "resolutionPlaceholder": "$~暫時用佔位符代替，因為$expected－然後從自動完成選單中選擇一個值。"
                 }
             },
             "label": {
@@ -646,7 +689,8 @@
             "conflict": {
                 "MisplacedConversion": {
                     "name": "$~錯誤的轉換",
-                    "explanation": "$~哇，我不能在這裡，只能在@Block。"
+                    "explanation": "$~哇，我不能在這裡，只能在@Block。",
+                    "resolution": "$~移除此轉換"
                 }
             },
             "label": {
@@ -673,7 +717,8 @@
             "conflict": {
                 "UnknownConversion": {
                     "name": "$~未知轉換",
-                    "explanation": "$~我們找不到將 $expected 轉換為 $given 的方法。"
+                    "explanation": "$~我們找不到將 $expected 轉換為 $given 的方法。",
+                    "resolution": "$~移除轉換"
                 }
             },
             "exception": {
@@ -730,35 +775,53 @@
                 "IncompatibleInput": {
                     "name": "$~不相容的輸入",
                     "explanation": "$~我預期收到$expected ，但實際收到$given",
-                    "resolution": "$~轉換為$expected"
+                    "resolution": "$~轉換為$expected",
+                    "resolutionLiteral": "$~使用 ! 將列表、集合或映射標記為字面值，這樣它的值就會保持具體而不是泛化—— $expected。",
+                    "resolutionOtherwise": "$~用 ?? 處理缺失值，因為$expected ø",
+                    "resolutionGuard": "$~首先使用類型保護檢查它是否為$expected，因為$expected。",
+                    "resolutionDeclaration": "$~明確聲明類型，因為$expected。",
+                    "resolutionWrap": "$~將其放入列表、集合或映射中，因為$expected。",
+                    "resolutionStructure": "$~將其包裹在$expected，因為該插槽需要一個$expected。",
+                    "resolutionDefault": "$~請為綁定指定一個初始值，因為$expected。",
+                    "resolutionWiden": "$~允許此綁定使用值的類型，因為$expected，無法容納實際儲存的內容。",
+                    "resolutionReorder": "$~交換輸入框，因為它們的類型在另一個順序下更合適—— $expected。",
+                    "resolutionPlaceholder": "$~暫時用佔位符代替，因為$expected－然後從自動完成選單中選擇一個值。"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~意外的類型輸入",
-                    "explanation": "$~我是一個額外的、意想不到的輸入類型。"
+                    "explanation": "$~我是一個額外的、意想不到的輸入類型。",
+                    "resolution": "$~移除此輸入類型"
                 },
                 "MissingInput": {
                     "name": "$~缺少輸入",
-                    "explanation": "$~沒有輸入 $name $input 的值 :("
+                    "explanation": "$~沒有輸入 $name $input 的值 :(",
+                    "resolutionAddInput": "$~加入缺少的$input ，並加入其預設值",
+                    "resolutionPlaceholder": "$~將缺少的$input，然後從自動完成選單中選擇一個值。"
                 },
                 "NotInstantiable": {
                     "name": "$~結構不完整",
-                    "explanation": "$~我無法建立 @StructureDefinition，因為它包含未實現的功能。"
+                    "explanation": "$~我無法建立 @StructureDefinition，因為它包含未實現的功能。",
+                    "resolution": "$~搭建缺失功能的框架"
                 },
                 "UnexpectedInput": {
                     "name": "$~意外輸入",
-                    "explanation": "$~我是一個意料之外的參與者。"
+                    "explanation": "$~我是一個意料之外的參與者。",
+                    "resolution": "$~移除此輸入"
                 },
                 "UnknownInput": {
                     "name": "$~未知輸入",
-                    "explanation": "$~這個函數 *$name* 不需要輸入我的名字。"
+                    "explanation": "$~這個函數 *$name* 不需要輸入我的名字。",
+                    "resolution": "$~將此輸入重命名為 * $name *"
                 },
                 "InputListMustBeLast": {
                     "name": "$~額外的輸入不是最後的",
-                    "explanation": "$~輸入清單必須放在最後。"
+                    "explanation": "$~輸入清單必須放在最後。",
+                    "resolution": "$~將列表輸入移到末尾。"
                 },
                 "SeparatedEvaluate": {
                     "name": "$~模稜兩可的評價",
-                    "explanation": "$~$name 是您要評估的 $structure[$structure|$function] 的名稱嗎？請嘗試刪除我後面的空格，這樣我就知道它是 @Evaluate 而不是單獨的 @Block。"
+                    "explanation": "$~$name 是您要評估的 $structure[$structure|$function] 的名稱嗎？請嘗試刪除我後面的空格，這樣我就知道它是 @Evaluate 而不是單獨的 @Block。",
+                    "resolution": "$~關閉 * $name * 及其輸入項目之間的空格"
                 }
             },
             "exception": {
@@ -802,7 +865,8 @@
             "conflict": {
                 "Placeholder": {
                     "name": "$~佔位符",
-                    "explanation": "$~你能幫我填上訊息嗎？我只是個佔位符。"
+                    "explanation": "$~你能幫我填上訊息嗎？我只是個佔位符。",
+                    "resolution": "$~替換為 * $candidate *"
                 }
             },
             "exception": {
@@ -839,7 +903,8 @@
             "conflict": {
                 "NoExpression": {
                     "name": "$~缺失表達",
-                    "explanation": "$~我需要一個表達式來進行計算，你能加一個嗎？"
+                    "explanation": "$~我需要一個表達式來進行計算，你能加一個嗎？",
+                    "resolution": "$~添加佔位符正文"
                 }
             },
             "label": {
@@ -901,7 +966,9 @@
             "conflict": {
                 "ImpossibleType": {
                     "name": "$~不可能類型",
-                    "explanation": "$~這永遠不可能是 $type"
+                    "explanation": "$~這永遠不可能是 $type",
+                    "resolutionIsFalse": "$~將此類型檢查替換為 *⊥*（答案始終為假）",
+                    "resolutionDropOtherwise": "$~去掉 *??* — 左邊永遠不會是 *ø*"
                 }
             },
             "exception": {
@@ -961,7 +1028,8 @@
             "conflict": {
                 "NotAKeyValue": {
                     "name": "$~缺失值",
-                    "explanation": "$~我在一個 @Map 中，所以我需要一個值。"
+                    "explanation": "$~我在一個 @Map 中，所以我需要一個值。",
+                    "resolution": "$~封裝成鍵值對"
                 }
             },
             "label": {
@@ -997,7 +1065,8 @@
             "conflict": {
                 "NotANumber": {
                     "name": "$~不是一個數字",
-                    "explanation": "$~我以為我知道所有的數字，但這個我不知道。"
+                    "explanation": "$~我以為我知道所有的數字，但這個我不知道。",
+                    "resolution": "$~替換為 *0*"
                 }
             }
         },
@@ -1112,7 +1181,8 @@
             "conflict": {
                 "InvalidProperty": {
                     "name": "$~未知財產",
-                    "explanation": "$~我不是結構 $structure 中的名字，所以不能進行精煉。"
+                    "explanation": "$~我不是結構 $structure 中的名字，所以不能進行精煉。",
+                    "resolution": "$~重新命名為 * $name *"
                 }
             },
             "label": {
@@ -1151,7 +1221,8 @@
             "conflict": {
                 "ExpectedStream": {
                     "name": "$~預期流量",
-                    "explanation": "$~$condition 沒有引用流，所以我永遠不會做出反應！"
+                    "explanation": "$~$condition 沒有引用流，所以我永遠不會做出反應！",
+                    "resolution": "$~放棄反應，只保留初始值"
                 }
             },
             "label": {
@@ -1181,11 +1252,13 @@
                 },
                 "ReferenceCycle": {
                     "name": "$~自我參照價值",
-                    "explanation": "$~嗯，$name 的值取決於它自身，那麼我怎麼知道該給它什麼值呢？"
+                    "explanation": "$~嗯，$name 的值取決於它自身，那麼我怎麼知道該給它什麼值呢？",
+                    "resolution": "$~將 * $name * 替換為佔位符以打破循環"
                 },
                 "UnexpectedTypeVariable": {
                     "name": "$~意外類型變數",
-                    "explanation": "$~我不知道該如何處理這些類型的輸入。"
+                    "explanation": "$~我不知道該如何處理這些類型的輸入。",
+                    "resolution": "$~從函數中移除此類型變數。"
                 }
             },
             "exception": {
@@ -1210,7 +1283,8 @@
             "conflict": {
                 "ExpectedSelectName": {
                     "name": "$~缺少列名",
-                    "explanation": "$~我至少需要一個列名。"
+                    "explanation": "$~我至少需要一個列名。",
+                    "resolution": "$~刪除此儲存格"
                 }
             }
         },
@@ -1238,7 +1312,18 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~不相容的密鑰",
-                    "explanation": "$~我預期會收到一個類型為 $expected 的金鑰。"
+                    "explanation": "$~我預期會收到一個類型為 $expected 的金鑰。",
+                    "resolution": "$~將其轉換為$expected ，因為$expected。",
+                    "resolutionLiteral": "$~使用 ! 將列表、集合或映射標記為字面值，這樣它的值就會保持具體而不是泛化—— $expected。",
+                    "resolutionOtherwise": "$~用 ?? 處理缺失值，因為$expected ø",
+                    "resolutionGuard": "$~首先使用類型保護檢查它是否為$expected，因為$expected。",
+                    "resolutionDeclaration": "$~明確聲明類型，因為$expected。",
+                    "resolutionWrap": "$~將其放入列表、集合或映射中，因為$expected。",
+                    "resolutionStructure": "$~將其包裹在$expected，因為該插槽需要一個$expected。",
+                    "resolutionDefault": "$~請為綁定指定一個初始值，因為$expected。",
+                    "resolutionWiden": "$~允許此綁定使用值的類型，因為$expected，無法容納實際儲存的內容。",
+                    "resolutionReorder": "$~交換輸入框，因為它們的類型在另一個順序下更合適—— $expected。",
+                    "resolutionPlaceholder": "$~暫時用佔位符代替，因為$expected－然後從自動完成選單中選擇一個值。"
                 }
             }
         },
@@ -1264,33 +1349,39 @@
             "description": "結構 $name",
             "emotion": "kind",
             "doc": [
-                "你好，你好嗎?我嗎?我很好。我喜歡定義存儲值和功能的結構，所以只要我能整天這樣做，我就很高興。",
-                "我這樣工作！",
-                "\\•披薩( \\ 原料•['']\n大小•#in\n) (\n\tƒ 成本() 大小× 10美元/in\n)\n\n披薩(['義大利臘腸' '胡椒'] 12in).成本()\\",
-                "明白是怎麼回事了吧?我定義了\\Pizza\\，它有兩個輸入，\\ingredients\\ (@Text 列表)和\\size\\(以英寸為單位的數字)。",
-                "在內部，@FunctionDefinition 創建了一個計算披薩價格的函數，假設每英吋$10。",
-                "我不需要@FunctionDefinition。我可以只是輸入。",
-                "\\•披薩(\n原料•['']\n大小•#in\n)\\",
-                "我也可以把@Bind 放在裡面，這樣我們就可以提前評估成本。",
-                "\\•披薩(\n原料•['']\n大小•#in\n) (\n\t成本: 大小× 10美金/in\n)\n\n披薩(['意大利臘腸' '胡椒'] 12in).cost\\"
+                "$~你好，你好嗎？我？我很好。我喜歡定義儲存值和函數的結構，所以只要我能整天做這件事，我就很開心。",
+                "$~我的工作方式是這樣的：",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tƒ cost() size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost()\\",
+                "$~明白了嗎？我定義了\\Pizza\\ ，它有兩個輸入， \\ingredients\\ （ @Text）和\\size\\ （英寸數）。",
+                "$~在內部， @FunctionDefinition，用於評估披薩的成本，假設每英寸 10 美元。",
+                "$~我不需要使用@FunctionDefinition，我可以直接作為輸入。",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n)\\",
+                "$~我也可以在裡面使用@Bind ，這樣我們就可以提前評估成本。",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tcost: size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost\\",
+                "$~使用 ↑ 將函數或值標記為結構體本身，而不是實例。這樣，您就可以使用結構體的名稱來存取它，而無需建立新的結構體。",
+                "$~\\•Math() (\n\t↑ pi: 3.14159\n\t↑ ƒ square(n•#) n · n\n)\n\nMath.pi\nMath.square(5)\\"
             ],
             "start": "讓我們來定義這個可愛的結構",
             "conflict": {
                 "DisallowedInputs": {
                     "name": "$~不允許輸入",
-                    "explanation": "$~我無法接收輸入，因為我的一個或多個介面函數尚未實現。"
+                    "explanation": "$~我無法接收輸入，因為我的一個或多個介面函數尚未實現。",
+                    "resolution": "$~移除輸入"
                 },
                 "IncompleteImplementation": {
                     "name": "$~結構不完整",
-                    "explanation": "$~我的函數要嘛全部實現，要嘛一個都不實現。絕不允許有任何混亂的混合！"
+                    "explanation": "$~我的函數要嘛全部實現，要嘛一個都不實現。絕不允許有任何混亂的混合！",
+                    "resolution": "$~去掉輸入，使其成為一個接口"
                 },
                 "NotAnInterface": {
                     "name": "$~不是一個介面",
-                    "explanation": "$~我不是接口；結構體只能實作接口，不能實作其他結構體。"
+                    "explanation": "$~我不是接口；結構體只能實作接口，不能實作其他結構體。",
+                    "resolution": "$~從介面清單中刪除此項"
                 },
                 "UnimplementedInterface": {
                     "name": "$~未實現",
-                    "explanation": "$~我實作了$interface ，但還沒有實作$function"
+                    "explanation": "$~我實作了$interface ，但還沒有實作$function",
+                    "resolution": "$~在此結構上建立缺少的 * $function * 框架"
                 }
             },
             "label": {
@@ -1356,7 +1447,8 @@
                 "reminder": "$~注意：您可以撤銷此操作並在共用對話方塊中查看您標記為非敏感的其他內容。",
                 "character": {
                     "name": "$~可能的自訂角色",
-                    "explanation": "$~這看起來像是角色名稱。若要顯示角色名稱，請使用 @FormattedLiteral 而不是 @TextLiteral。"
+                    "explanation": "$~這看起來像是角色名稱。若要顯示角色名稱，請使用 @FormattedLiteral 而不是 @TextLiteral。",
+                    "resolutionStrip": "$~從文字中刪除特殊字符"
                 }
             },
             "label": {
@@ -1404,7 +1496,8 @@
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~放錯了這個參考",
-                    "explanation": "$~我只能進入結構、轉化或反應。"
+                    "explanation": "$~我只能進入結構、轉化或反應。",
+                    "resolution": "$~替換為佔位符"
                 }
             }
         },
@@ -1453,7 +1546,8 @@
                 },
                 "UnclosedDelimiter": {
                     "name": "$~未閉合的分隔符",
-                    "explanation": "$~我預計在$expected$unclosed"
+                    "explanation": "$~我預計在$expected$unclosed",
+                    "resolution": "$~加入缺少的 * $expected *"
                 }
             },
             "exception": {
@@ -1478,11 +1572,23 @@
             "conflict": {
                 "ExpectedColumnBind": {
                     "name": "$~缺少列值",
-                    "explanation": "$~我需要每一列都有一個值。"
+                    "explanation": "$~我需要每一列都有一個值。",
+                    "resolution": "$~將此儲存格包裝成命名列"
                 },
                 "IncompatibleCellType": {
                     "name": "$~不相容的細胞類型",
-                    "explanation": "$~我應該輸入 $expected $given"
+                    "explanation": "$~我應該輸入 $expected $given",
+                    "resolution": "$~將其轉換為$expected ，因為$expected。",
+                    "resolutionLiteral": "$~使用 ! 將列表、集合或映射標記為字面值，這樣它的值就會保持具體而不是泛化—— $expected。",
+                    "resolutionOtherwise": "$~用 ?? 處理缺失值，因為$expected ø",
+                    "resolutionGuard": "$~首先使用類型保護檢查它是否為$expected，因為$expected。",
+                    "resolutionDeclaration": "$~明確聲明類型，因為$expected。",
+                    "resolutionWrap": "$~將其放入列表、集合或映射中，因為$expected。",
+                    "resolutionStructure": "$~將其包裹在$expected，因為該插槽需要一個$expected。",
+                    "resolutionDefault": "$~請為綁定指定一個初始值，因為$expected。",
+                    "resolutionWiden": "$~允許此綁定使用值的類型，因為$expected，無法容納實際儲存的內容。",
+                    "resolutionReorder": "$~交換輸入框，因為它們的類型在另一個順序下更合適—— $expected。",
+                    "resolutionPlaceholder": "$~暫時用佔位符代替，因為$expected－然後從自動完成選單中選擇一個值。"
                 }
             }
         },
@@ -1574,7 +1680,8 @@
             "conflict": {
                 "UnknownTypeName": {
                     "name": "$~未知類型名稱",
-                    "explanation": "$~類型名稱只能引用結構體或型別變量，但這裡指的是型別 $type"
+                    "explanation": "$~類型名稱只能引用結構體或型別變量，但這裡指的是型別 $type",
+                    "resolution": "$~替換為類型佔位符"
                 }
             }
         },
@@ -1638,7 +1745,8 @@
             "conflict": {
                 "ExpectedColumnType": {
                     "name": "$~缺少列類型",
-                    "explanation": "$~我需要一種列類型"
+                    "explanation": "$~我需要一種列類型",
+                    "resolution": "$~新增類型佔位符"
                 }
             }
         },
@@ -1664,7 +1772,8 @@
             "doc": [
                 "我應該代表誰，A 還是 B 還是其他什麼？我永遠無法決定！",
                 "\\猶豫•''|#|{ø}: \"我不知道！ \"\\"
-            ]
+            ],
+            "elidedSuffix": "$~或$omitted"
         },
         "Unit": {
             "name": "單位",
@@ -3251,6 +3360,59 @@
             "down": {
                 "names": "下",
                 "doc": "如果@None,則按下鍵產生輸入。如果\\⊥\\,那麼只提供向下的輸入,如果\\⊥\\,那麼只提供釋放的輸入。"
+            },
+            "keys": {
+                "Shift": ["$~轉移"],
+                "Control": ["$~控制", "$~Ctrl"],
+                "Alt": ["$~另類", "$~選項"],
+                "Meta": ["$~元", "$~命令", "$~視窗"],
+                "AltGraph": ["$~AltGraph"],
+                "CapsLock": ["$~大寫鎖定", "$~大寫鎖定"],
+                "NumLock": ["$~數字鎖定鍵", "$~數字鎖定鍵"],
+                "ScrollLock": ["$~ScrollLock", "$~滾動鎖定"],
+                "Enter": ["$~進入", "$~返回"],
+                "Tab": ["$~標籤頁"],
+                " ": ["$~空間", "$~空白鍵", "$~"],
+                "ArrowUp": ["$~向上箭頭", "$~向上"],
+                "ArrowDown": ["$~向下箭頭", "$~向下"],
+                "ArrowLeft": ["$~左箭頭", "$~左邊"],
+                "ArrowRight": ["$~右箭頭", "$~正確的"],
+                "Home": ["$~家"],
+                "End": ["$~結尾"],
+                "PageUp": ["$~上一頁", "$~上一頁"],
+                "PageDown": ["$~往下翻頁", "$~往下翻頁"],
+                "Backspace": ["$~退格鍵"],
+                "Delete": ["$~刪除", "$~德爾"],
+                "Insert": ["$~插入", "$~保險"],
+                "Clear": ["$~清除"],
+                "Cut": ["$~切"],
+                "Copy": ["$~複製"],
+                "Paste": ["$~貼上"],
+                "Undo": ["$~撤銷"],
+                "Redo": ["$~重做"],
+                "Escape": ["$~逃脫", "$~Esc鍵"],
+                "Pause": ["$~暫停"],
+                "ContextMenu": ["$~內容選單", "$~選單"],
+                "Help": ["$~幫助"],
+                "Convert": ["$~轉變"],
+                "NonConvert": ["$~非轉換"],
+                "KanaMode": ["$~KanaMode"],
+                "HangulMode": ["$~韓語模式"],
+                "Hiragana": ["$~平假名"],
+                "Katakana": ["$~片假名"],
+                "Romaji": ["$~羅馬字"],
+                "F1": ["$~F1"],
+                "F2": ["$~F2"],
+                "F3": ["$~F3"],
+                "F4": ["$~F4"],
+                "F5": ["$~F5"],
+                "F6": ["$~F6"],
+                "F7": ["$~F7"],
+                "F8": ["$~F8"],
+                "F9": ["$~F9"],
+                "F10": ["$~F10"],
+                "F11": ["$~F11"],
+                "F12": ["$~F12"]
             }
         },
         "Time": {
@@ -3537,13 +3699,13 @@
         },
         "Hand": {
             "doc": [
-                "$~/扭來扭去/",
-                "$~@FunctionDefinition 在這裡！讓我來給你介紹一下 @Hand。",
-                "$~@Hand 會監控你的鏡頭，尋找你的手，並告訴你手的位置、伸出的手指以及手掌或手背朝向攝影機。舉起你的手，揮動它，數數你的手指——@Hand 會跟隨你的動作。",
-                "$~@Hand 的底層使用了機器學習模型。首次在程式中使用它時，模型需要幾秒鐘下載，載入期間舞台右上角會出現一個旋轉的小手圖示。之後，它會被快取並立即啟動。",
-                "$~每個畫面 @Hand 傳回一個結構，其中包含 place（手的位置）、open（如果手張開則為 true）、fingers（伸出的手指數量）、拇指、食指、中指、無名指和小指的布林值以及 palm（如果手掌朝向攝影機則為 true）等字段。",
+                "$~/扭動扭動/",
+                "$~@FunctionDefinition！讓我來告訴你關於@Hand。",
+                "$~@Hand會監控你的鏡頭，尋找你的手，並告訴你手的位置、伸出的手指以及手掌或手背朝向攝影機。舉起你的手，揮動它，數數你的手指－ @Hand。",
+                "$~@Hand。首次在程式中使用它時，模型需要幾秒鐘下載，載入期間舞台右上角會出現一個旋轉的小手圖示。之後，它會被快取並立即啟動。",
+                "$~每一幀， @Hand@Gesture — 在那裡查看完整的輸入列表及其含義。",
                 "$~試試這個——無論你的手放在哪裡，它都會顯示一個與你的手部姿勢相匹配的表情符號：",
-                "$~\\hand: Hand()\n\nPhrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
+                "$~\\hand: Hand()\nPhrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
             ],
             "names": ["$~🖐️", "$~手"],
             "frequency": {
@@ -3571,7 +3733,7 @@
                 "你也可以給我一個邊框,我會進行裁切。",
                 "\\舞台([短語('stufffffff')]顏色(0% 0 0°)矩形(-1m -1m 1m 1m)顏色:顏色(100% 0 0°))\\"
             ],
-            "defaultDescription": "$~舞台 $name[$name|] 共有 $count 個片語 $frame[$frame 邊框|] $pose",
+            "defaultDescription": "$~階段$name [ $name |] 共$count$frame [幀$frame |] $pose $color [ $color |]",
             "content": {
                 "doc": "要在舞台上展示的@Output 清單。",
                 "names": "畫框"
@@ -3668,7 +3830,7 @@
         "Group": {
             "names": ["🔳", "組合"],
             "doc": "哦你好,你過的怎麼樣？當有其他人在身邊時,我總是很愉快,所以能和你在一起真是太好了！\n 我將@Phrase 和@Group 組合一起放在@Stage 上,並將它們放在@Arrangement 中,這樣它們的位置就有了一些秩序。以進行安排。 \n 例如,在這裡我用了一個@Stack Arrnagement和一些垂直堆疊的@Phrase ：\n \\組(堆疊() [短語('第一個') 短語('第二個' )])\\ \n 我如何安排事物取決於你給我的@Arrangement。",
-            "defaultDescription": "$~$name[$name|] $layout $pose",
+            "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]",
             "content": {
                 "doc": "已安排的 @Output 清單。",
                 "names": "內容"
@@ -3765,7 +3927,7 @@
         "Phrase": {
             "names": ["短語"],
             "doc": "你好,你好！還記得我嗎？怎麼會有人忘記/我/。沒錯,我就是偉大的@Phrase,準備好在@Stage 上表達最可愛的@Text。\n 只要讓我這樣,我就會出現在@Stage ：\n \\短語('太棒了！')\\ \n 顯然,我需要一些@Text,但除此之外,我可以做任何@Output 可以做的所有事情,包括更改我的大小、字體、旋轉,以及使用@Pose 和@Sequence 進行所有令人難以置信的舞蹈。上編輯我。",
-            "defaultDescription": "$~$size[$size 公尺 |]片語 $text $name[命名 $name|] $face[$face|] $animation",
+            "defaultDescription": "$~$size [ $size meter |]phrase $text $name [named $name |] $face [ $face |] $animation $color [ $color |]",
             "text": {
                 "doc": "在 @Stage 上展示的角色。",
                 "names": "字元"
@@ -4124,20 +4286,24 @@
         },
         "Color": {
             "doc": [
-                "我是一種可見的顏色,由三個維度構成。",
-                "一下是一些色輪上常見的顏色,用中等亮度和高色度顯示。",
-                "\\顏色(50% 100 0°)\\",
-                "\\顏色(50% 100 30°)\\",
-                "\\顏色(50% 100 60°)\\",
-                "\\顏色(50% 100 90°)\\",
-                "\\顏色(50% 100 120°)\\",
-                "\\顏色(50% 100 150°)\\",
-                "\\顏色(50% 100 180°)\\",
-                "\\顏色(50% 100 210°)\\",
-                "\\顏色(50% 100 240°)\\",
-                "\\顏色(50% 100 270°)\\",
-                "\\顏色(50% 100 300°)\\",
-                "\\顏色(50% 100 330°)\\"
+                "$~我是一種可見的顏色，由三個基本維度所構成。",
+                "$~以下是一些色輪上常見的顏色，亮度適中，飽和度較高：",
+                "$~\\Color(50% 100 0°)\\",
+                "$~\\Color(50% 100 30°)\\",
+                "$~\\Color(50% 100 60°)\\",
+                "$~\\Color(50% 100 90°)\\",
+                "$~\\Color(50% 100 120°)\\",
+                "$~\\Color(50% 100 150°)\\",
+                "$~\\Color(50% 100 180°)\\",
+                "$~\\Color(50% 100 210°)\\",
+                "$~\\Color(50% 100 240°)\\",
+                "$~\\Color(50% 100 270°)\\",
+                "$~\\Color(50% 100 300°)\\",
+                "$~\\Color(50% 100 330°)\\",
+                "$~對於最常用的十一種顏色名稱，你不需要從頭開始創建我。我的名字有縮寫：",
+                "$~\\Color.red\\",
+                "$~\\Color.blue\\",
+                "$~這些簡寫形式在你的語言中也適用，所以說法語的人可以寫\\couleur.rouge\\ ，說日語的人可以寫\\色.赤\\ 。簡寫形式包括：紅色、橙色、黃色、綠色、藍色、紫色、棕色、粉紅色、黑色、白色和灰色。"
             ],
             "names": ["🌈", "色彩"],
             "lightness": {
@@ -4151,6 +4317,58 @@
             "hue": {
                 "doc": "我應該是色輪上的什麼顏色,從洋紅色 \\0\\,紅色 \\30\\,綠色 \\120\\,到藍色 \\270\\。",
                 "names": ["色調", "h"]
+            },
+            "colors": {
+                "black": {
+                    "doc": "$~基本顏色為黑色。",
+                    "names": ["$~黑色的"]
+                },
+                "white": {
+                    "doc": "$~基本顏色為白色。",
+                    "names": ["$~白色的"]
+                },
+                "gray": {
+                    "doc": "$~基本顏色為灰色。",
+                    "names": ["$~灰色的"]
+                },
+                "red": {
+                    "doc": "$~基本顏色是紅色。",
+                    "names": ["$~紅色的"]
+                },
+                "orange": {
+                    "doc": "$~基本色是橙色。",
+                    "names": ["$~橘子"]
+                },
+                "yellow": {
+                    "doc": "$~基本顏色是黃色。",
+                    "names": ["$~黃色的"]
+                },
+                "green": {
+                    "doc": "$~綠色是最基本的顏色。",
+                    "names": ["$~綠色的"]
+                },
+                "blue": {
+                    "doc": "$~基本顏色是藍色。",
+                    "names": ["$~藍色的"]
+                },
+                "purple": {
+                    "doc": "$~紫色是基本顏色。",
+                    "names": ["$~紫色的"]
+                },
+                "brown": {
+                    "doc": "$~基本顏色為棕色。",
+                    "names": ["$~棕色的"]
+                },
+                "pink": {
+                    "doc": "$~基礎顏色是粉紅色。",
+                    "names": ["$~粉紅色的"]
+                }
+            },
+            "description": {
+                "modified": "$~$modifier $color",
+                "mix": "$~$first - $second",
+                "light": "$~光",
+                "dark": "$~黑暗的"
             }
         },
         "Sequence": {
@@ -4364,7 +4582,7 @@
             "defaultDescription": "$~說 $text"
         },
         "Gesture": {
-            "doc": "$~我是攝影機偵測到的手勢。我的欄位會告訴你手在舞台上的位置、伸出的手指以及手掌或手背是朝向攝影機。 @Hand 傳回我的一個值。",
+            "doc": "$~我是相機偵測到的手部姿勢快照，由@Hand。我的位置資訊告訴你手在舞台上的位置，我的手指訊息告訴你伸出了多少根手指，當手張開（伸出三根或以上手指）時，我的「張開」狀態為真，我的拇指、食指、中指、無名指和小指分別表示伸出的具體手指。當手掌朝向攝影機時，我的「掌心」狀態為真，當手背朝向攝影機時，我的「掌心」狀態為假。",
             "names": ["$~✋", "$~手勢"],
             "place": {
                 "doc": "$~舞台上手的位置。",
@@ -4503,7 +4721,8 @@
             "field": {
                 "name": {
                     "description": "編輯專案名稱",
-                    "placeholder": "姓名"
+                    "placeholder": "姓名",
+                    "invalid": "$~翻譯不完整——請檢查您的引用和語言標籤，例如“hi”/en“hola”/es。"
                 }
             },
             "help": "顯示鍵盤快速鍵",
@@ -4514,7 +4733,14 @@
                 "projectContainedPII": "$~為了保護您的隱私，包含潛在個人識別資訊的項目不會在線上保存。檢查項目以查看資訊是否具有識別性。",
                 "projectsNotLoadingOnline": "$~無法載入線上項目。",
                 "projectNotSavedOnline": "$~無法線上儲存項目。",
-                "settingsUnsaved": "$~無法線上儲存設定。"
+                "settingsUnsaved": "$~無法線上儲存設定。",
+                "failureReason": {
+                    "indexedDBWriteFailed": "$~您的瀏覽器無法將這些項目儲存到此裝置上。",
+                    "indexedDBUnsupported": "$~您的瀏覽器不允許 Wordplay 在此裝置上儲存項目。",
+                    "firestoreBatchFailed": "$~我們無法將這些項目上傳到雲端。它們仍然安全地保存在這台設備上。",
+                    "projectContainsPII": "$~這些項目看起來包含個人訊息，所以我們沒有將它們保存到網路上。請開啟每個項目，查看哪些內容可能涉及個人資訊。"
+                },
+                "failuresHeader": "$~$count："
             },
             "dialog": {
                 "unsaved": "$~未儲存的工作...",
@@ -4554,7 +4780,7 @@
         },
         "gallery": {
             "untitled": "未命名",
-            "undescribed": "$~無描述",
+            "undescribed": "無描述",
             "subheader": {
                 "curators": {
                     "header": "策展人",
@@ -4569,8 +4795,8 @@
                     "explanation": "刪除該圖庫不會刪除其項目。圖庫將會永久刪除。"
                 },
                 "classes": {
-                    "header": "$~課程",
-                    "explanation": "$~與此畫廊相關的課程。"
+                    "header": "課程",
+                    "explanation": "與此畫廊相關的課程。"
                 }
             },
             "confirm": {
@@ -4607,7 +4833,6 @@
                 "$~• 瀏覽<galleries@://galleries>尋找靈感。",
                 "$~如果你遇到困難，<learn more@://learn> 。"
             ],
-            "overwritten": "收到了更新版本！",
             "confirm": {
                 "delete": {
                     "description": "刪除此$source",
@@ -4904,7 +5129,7 @@
                     "stories": "講故事",
                     "motion": "動作",
                     "video": "錄影",
-                    "gallery": "$~由您的 Wordplay 同儕導演創作"
+                    "gallery": "Wordplay 同儕創作者製作"
                 },
                 "related": "這些不是您要找的嗎？",
                 "howToGalleryButton": {
@@ -5064,12 +5289,20 @@
                     "copy": {
                         "header": "複製貼上",
                         "explanation": "將此項附複製到剪貼簿並在其他地方分享。"
+                    },
+                    "preview": {
+                        "header": "$~預覽",
+                        "explanation": "$~這是用於在清單和圖庫中代表您項目的小圖示。系統會根據您項目顯示的內容自動選擇一個圖示；您也可以自訂一個字元或表情符號。"
                     }
                 },
                 "field": {
                     "emailOrUsername": {
                         "placeholder": "電子郵件或使用者名稱",
                         "description": "您想要授予編輯權限的人員的電子郵件或使用者名稱"
+                    },
+                    "preview": {
+                        "placeholder": "$~預覽字形",
+                        "description": "$~用作此項目預覽字形的單一字元或表情符號"
                     }
                 },
                 "mode": {
@@ -5080,12 +5313,21 @@
                             "$~只有您和您的合作者才能看到此項目",
                             "$~任何人都可以看到這個項目"
                         ]
+                    },
+                    "preview": {
+                        "label": "$~預覽模式",
+                        "labels": ["$~汽車", "$~風俗"],
+                        "tips": [
+                            "$~讓項目根據其顯示的內容自行選擇預覽字形",
+                            "$~固定你選擇的字形"
+                        ]
                     }
                 },
                 "error": {
                     "unknown": "我們不知道這封郵件的創建者是誰。",
                     "anonymous": "您必須登錄才能共享。",
-                    "self": "您無法添加自己。"
+                    "self": "您無法添加自己。",
+                    "invalidPreview": "$~請選擇一個字元或表情符號。"
                 },
                 "button": {
                     "submit": "透過此電子郵件地址分享項目",
@@ -5468,7 +5710,7 @@
                 },
                 "search": {
                     "placeholder": "$~搜尋",
-                    "noResults": "$~未找到結果"
+                    "noResults": "未找到結果。"
                 }
             },
             "guide": {
@@ -5515,7 +5757,7 @@
                 },
                 "search": {
                     "description": "$~搜尋項目和來源文件",
-                    "noResults": "$~未找到結果。"
+                    "noResults": "未找到結果。"
                 }
             },
             "galleries": {
@@ -5526,31 +5768,31 @@
                         "label": "更多的...",
                         "tip": "下載更多畫廊！"
                     },
-                    "newgallery": "$~新畫廊"
+                    "newgallery": "新建畫廊"
                 },
                 "section": {
                     "own": {
-                        "header": "$~此致",
+                        "header": "你的",
                         "explanation": [
-                            "$~向受邀參加的畫廊投稿，或策劃自己的特定主題畫廊，並邀請其他人參加。",
-                            "$~策展人負責使用<gallery moderation dashboard@://galleries/moderation>來審核畫廊中的內容。"
+                            "向你受邀加入的畫廊投稿，或建立一個有特定主題的畫廊並邀請他人加入。",
+                            "/策展人負責使用<gallery moderation dashboard@://galleries/moderation>審核畫廊中的內容。/"
                         ]
                     },
                     "examples": {
-                        "header": "$~範例",
-                        "explanation": "$~這些都是由 Wordplay 開發人員精心挑選的圖庫。它們是學習和獲得靈感的良好起點。"
+                        "header": "範例",
+                        "explanation": "這些是 Wordplay 開發人員精選的畫廊。它們是學習和尋找靈感的好起點。"
                     },
                     "public": {
-                        "header": "$~民眾",
-                        "explanation": "$~這些都是文字遊戲創作者們公開的作品集。看看其他人創作了什麼，從中汲取靈感吧！"
+                        "header": "公開",
+                        "explanation": "這些是 Wordplay 創作者公開分享的畫廊。看看其他人做了什麼，從中獲取靈感吧！"
                     }
                 },
                 "error": {
-                    "nogalleryedits": "$~您必須<登入@://login>才能建立和變更圖庫。"
+                    "nogalleryedits": "你必須<登入@://login>才能建立和修改畫廊。"
                 },
                 "search": {
-                    "description": "$~搜尋範例圖庫項目",
-                    "noResults": "$~未找到結果。"
+                    "description": "搜尋範例畫廊項目",
+                    "noResults": "未找到結果。"
                 }
             },
             "about": {
@@ -6185,7 +6427,7 @@
                     "input": "$~輸入",
                     "output": "$~輸出",
                     "ui": "$~使用者介面",
-                    "gallery": "$~畫廊",
+                    "gallery": "畫廊",
                     "moderation": "$~適度"
                 },
                 "singletonWordsWarning": "$~你草稿中有些字在整個文本中只出現過一次。你確定它們的拼字正確，並且與其他文本保持一致嗎？",
@@ -6307,10 +6549,10 @@
         },
         "howto": {
             "galleryView": {
-                "header": "$~操作指南",
-                "subheader": "$~$total how-tos, $new new",
-                "subheaderEmpty": "$~創造第一個！",
-                "prompt": "$~「使用指南」是如何使用 Wordplay 實現特定功能的簡短解釋和範例程式碼。當你掌握了想要分享的技巧後，請為本圖庫的其他創作者撰寫一份指南，讓他們也能學習！"
+                "header": "操作指南",
+                "subheader": "$total 個操作指南，$new 個新的",
+                "subheaderEmpty": "建立第一個吧！",
+                "prompt": "操作指南是用 Wordplay 實現某個功能的簡短說明和範例程式碼。當你學會想分享的內容後，為本畫廊的其他創作者寫一份指南，讓他們也能學會。"
             },
             "headerTooltip": "$~返回圖庫",
             "drafts": {
@@ -6517,27 +6759,27 @@
             }
         },
         "gallerymoderation": {
-            "header": "$~圖庫審核控制面板",
-            "description": "$~您管理的圖庫中出現的以下訊息已被使用者舉報，需要進行審核。",
+            "header": "畫廊審核面板",
+            "description": "你管理的畫廊中，以下訊息已被使用者舉報，需要你審核。",
             "labels": {
-                "message": "$~訊息",
-                "reporter": "$~記者",
-                "action": "$~版主操作"
+                "message": "訊息",
+                "reporter": "舉報人",
+                "action": "版主操作"
             },
             "view": {
-                "label": "$~查看聊天記錄",
-                "tip": "$~在聊天中查看訊息"
+                "label": "查看聊天",
+                "tip": "在聊天中查看訊息"
             },
             "remove": {
-                "label": "$~消除",
-                "tip": "$~此訊息違反了相關準則。"
+                "label": "刪除",
+                "tip": "此訊息違反了準則"
             },
             "keep": {
-                "label": "$~保持",
-                "tip": "$~此訊息不違反準則"
+                "label": "保留",
+                "tip": "此訊息沒有違反準則"
             },
-            "empty": "$~所有訊息均無需審核。",
-            "error": "$~您必須登入才能管理圖庫"
+            "empty": "沒有需要審核的訊息",
+            "error": "你必須登入才能管理畫廊"
         },
         "emoji": {
             "noCharacters": "$~建立自訂角色",
@@ -6587,7 +6829,8 @@
             "skinTone": "$~膚色",
             "script": "$~腳本",
             "scriptLabel": "$~按腳本篩選",
-            "pickFilter": "$~選擇類別或腳本"
+            "pickFilter": "$~選擇類別或腳本",
+            "moreLanguages": "$~以及$count"
         },
         "localize": {
             "header": "$~在地化",
@@ -6651,6 +6894,12 @@
             "offline": "$~您目前處於離線狀態。部分功能需要連網後才能使用。",
             "unreachable": "$~我們無法連接到 Wordplay 資料庫。連線恢復後，部分功能將無法使用。",
             "label": "$~連線狀態"
+        },
+        "presence": {
+            "peersLabel": "$~參與本計畫編輯的合作者",
+            "joined": "$~加入費用為$name 。",
+            "left": "$~還剩$name 。",
+            "waitingForSlot": "$~正在等待剪輯名額——目前已有四位合作者在剪輯。當其中一位離開後，您也可以進行剪輯。"
         }
     },
     "moderation": {
@@ -6715,8 +6964,8 @@
             "description": "簡單的實用工具和應用程式。"
         },
         "stories": {
-            "name": "$~故事",
-            "description": "$~互動故事和敘述。"
+            "name": "故事",
+            "description": "互動故事和敘事。"
         }
     },
     "system": {

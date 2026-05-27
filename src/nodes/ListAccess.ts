@@ -126,7 +126,10 @@ export default class ListAccess extends Expression {
             );
 
         const listType = this.list.getType(context);
-        if (!(listType instanceof ListType))
+        if (
+            !context.isUnknownDownstream(this.list) &&
+            !(listType instanceof ListType)
+        )
             conflicts.push(
                 new IncompatibleInput(this.list, listType, ListType.make()),
             );
@@ -134,8 +137,9 @@ export default class ListAccess extends Expression {
         const indexType = this.index.getType(context);
 
         if (
-            !(indexType instanceof NumberType) ||
-            (indexType.unit instanceof Unit && !indexType.unit.isUnitless())
+            !context.isUnknownDownstream(this.index) &&
+            (!(indexType instanceof NumberType) ||
+                (indexType.unit instanceof Unit && !indexType.unit.isUnitless()))
         )
             conflicts.push(
                 new IncompatibleInput(this.index, indexType, NumberType.make()),

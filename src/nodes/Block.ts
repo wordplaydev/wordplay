@@ -394,7 +394,7 @@ export default class Block extends Expression {
      *  definitions), and returns the block's result. Statements pushed in
      *  source order, so popping in reverse iteration order recovers them in
      *  source order. */
-    private collect(evaluator: Evaluator): Value {
+    collect(evaluator: Evaluator): Value {
         const results: Value[] = [];
         for (let i = this.statements.length - 1; i >= 0; i--) {
             const value = evaluator.popValue(this);

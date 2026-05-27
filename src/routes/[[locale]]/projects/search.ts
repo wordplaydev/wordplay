@@ -4,6 +4,7 @@
  */
 
 import type Project from '@db/projects/Project';
+import { parseAsMultilingualName } from '@db/projects/getLocalizedProjectName';
 import type Locales from '@locale/Locales';
 import type Source from '@nodes/Source';
 import Doc from '@nodes/Doc';
@@ -90,9 +91,16 @@ export function toSearchable(
     project: Project,
     locales: Locales,
 ): SearchableProject {
+    // For multilingual project names (Wordplay TextLiteral source, e.g.
+    // `"hi"/en"hola"/es`), flatten every translation into the searchable
+    // string so a user typing "hola" still matches the project even when
+    // the active locale is English. Plain names search as-is (#456).
+    const raw = project.getName();
+    const parsed = parseAsMultilingualName(raw);
+    const name = parsed ? parsed.texts.map((t) => t.getText()).join(' ') : raw;
     return {
         project,
-        name: project.getName(),
+        name,
         sources: project.getSources().map((source) => ({
             name: source.getPreferredName(locales.getLocales()),
             code: extractSourceText(source),
