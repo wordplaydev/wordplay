@@ -19,13 +19,19 @@
     import type { SvelteMap } from 'svelte/reactivity';
     import UnicodeString from '@unicode/UnicodeString';
     import HowToForm from './HowToForm.svelte';
-    import { movePermitted } from './HowToMovement';
+    import {
+        findHowToPlacement,
+        movePermitted,
+        snapToNearestEdge,
+    } from './HowToMovement';
     import { pickPreviewExample } from './pickPreviewExample';
 
     interface Props {
         howTo: HowTo;
         cameraX: number;
         cameraY: number;
+        canvasWidth: number;
+        canvasHeight: number;
         whichMoving: string | undefined;
         notPermittedAreas: SvelteMap<string, [number, number, number, number]>;
         galleryCuratorCollaborators: string[];
@@ -34,8 +40,10 @@
 
     let {
         howTo = $bindable(),
-        cameraX,
-        cameraY,
+        cameraX = $bindable(),
+        cameraY = $bindable(),
+        canvasWidth,
+        canvasHeight,
         whichMoving = $bindable(),
         notPermittedAreas = $bindable(),
         galleryCuratorCollaborators,
@@ -75,8 +83,17 @@
     let displayed = $state<Displayed | null>(null);
     let character = $state<Character | null>(null);
 
+    // Memoize the join on string value so snapshot-driven howTo
+    // reassignments (which create a fresh `text` array reference even
+    // when the text content is identical) don't re-enqueue every
+    // preview compute through the single-slot queue. Without this,
+    // any classmate's autosave in the same gallery flashes every
+    // preview tile to the spinning placeholder and many never settle
+    // because they get cancelled by the next reassignment first.
+    let joinedText: string = $derived(text.join('\n\n'));
+
     $effect(() => {
-        const [markup, spaces] = toMarkup(text.join('\n\n'));
+        const [markup, spaces] = toMarkup(joinedText);
         // Starred (`⭐`) example wins; otherwise the first example. See
         // pickPreviewExample for the priority + its tests.
         const example = pickPreviewExample(markup);
@@ -182,41 +199,98 @@
     let renderX: number = $derived(xcoord + (isPublished ? cameraX : 0));
     let renderY: number = $derived(ycoord + (isPublished ? cameraY : 0));
 
+    /** Anchor recorded at drag start: the viewport-space cursor position
+     *  and the tile's world-space position. We compute new positions as
+     *  origin.xcoord + (e.clientX - origin.clientX) instead of summing
+     *  e.movementX so the tile stays exactly under the pointer for the
+     *  full drag — even fast moves and long drags can't accumulate
+     *  delta-rounding drift between cursor and tile. */
+    let dragOrigin: {
+        clientX: number;
+        clientY: number;
+        xcoord: number;
+        ycoord: number;
+    } | null = null;
+
+    /** Margin (in canvas-local pixels) we try to keep between the
+     *  moving tile and the visible canvas edge — matches
+     *  `--wordplay-spacing` so the auto-pan keeps the tile inside the
+     *  same comfortable bounds the rest of the layout uses. */
+    const AUTO_PAN_PAD = 16;
+
+    /** Pan the camera the minimum amount needed to keep the moving
+     *  tile inside the visible canvas. xcoord stays in world space —
+     *  only cameraX/Y shift — so the cursor anchor (origin.xcoord +
+     *  cursor delta) keeps working without correction; the tile slides
+     *  visually with the camera while the cursor follows the same
+     *  world position. */
+    function autoPanToShowTile() {
+        if (!isPublished) return;
+        if (canvasWidth <= 0 || canvasHeight <= 0) return;
+
+        let panX = 0;
+        let panY = 0;
+
+        if (renderX < AUTO_PAN_PAD) {
+            panX = AUTO_PAN_PAD - renderX;
+        } else if (renderX + width > canvasWidth - AUTO_PAN_PAD) {
+            panX = canvasWidth - AUTO_PAN_PAD - (renderX + width);
+        }
+
+        if (renderY < AUTO_PAN_PAD) {
+            panY = AUTO_PAN_PAD - renderY;
+        } else if (renderY + height > canvasHeight - AUTO_PAN_PAD) {
+            panY = canvasHeight - AUTO_PAN_PAD - (renderY + height);
+        }
+
+        if (panX !== 0) cameraX += panX;
+        if (panY !== 0) cameraY += panY;
+    }
+
     function onpointerdown(e: PointerEvent) {
         if (!canEdit || whichDialogOpen) return;
 
         e.stopPropagation();
 
+        // Capture the pointer so the matching pointerup is delivered to
+        // this element no matter where the cursor ends up — releasing
+        // outside the canvas (or even outside the browser viewport)
+        // would otherwise leave whichMoving === howToId and the tile
+        // would keep following the cursor until the next click.
+        (e.currentTarget as Element).setPointerCapture(e.pointerId);
+
+        dragOrigin = {
+            clientX: e.clientX,
+            clientY: e.clientY,
+            xcoord,
+            ycoord,
+        };
         whichMoving = howToId;
     }
 
     function onpointerup() {
         if (whichMoving !== howToId || !canEdit || whichDialogOpen) return;
 
+        dragOrigin = null;
         whichMoving = undefined;
 
         onDropHowTo();
     }
 
-    // // Drag and drop function referenced from: https://svelte.dev/playground/7d674cc78a3a44beb2c5a9381c7eb1a9?version=5.46.0
+    // Drag is unconstrained — the cursor should never fight the user.
+    // Collision and out-of-range correction happens in onDropHowTo,
+    // which snaps the dropped tile to the nearest valid resting spot.
     function onpointermove(e: PointerEvent) {
-        if (!canEdit || whichMoving !== howToId || whichDialogOpen) return;
-        let intendX = xcoord + e.movementX;
-        let intendY = ycoord + e.movementY;
-
         if (
-            movePermitted(
-                intendX,
-                intendY,
-                width,
-                height,
-                howToId,
-                notPermittedAreas,
-            )
-        ) {
-            xcoord = intendX;
-            ycoord = intendY;
-        }
+            !canEdit ||
+            whichMoving !== howToId ||
+            whichDialogOpen ||
+            dragOrigin === null
+        )
+            return;
+        xcoord = dragOrigin.xcoord + (e.clientX - dragOrigin.clientX);
+        ycoord = dragOrigin.ycoord + (e.clientY - dragOrigin.clientY);
+        autoPanToShowTile();
     }
 
     let keyboardFocused: boolean = $state(false);
@@ -243,99 +317,98 @@
     function onkeydown(event: KeyboardEvent) {
         if (!canEdit || !keyboardFocused || whichDialogOpen) return;
 
-        let intendX: number;
-        let intendY: number;
-
         // if this item isn't the one that is moving, then don't do anything
         if (whichMoving && whichMoving !== howToId) return;
 
+        // Keyboard moves in discrete 10px steps. Unlike the unconstrained
+        // pointer drag, each step is gated by movePermitted so a screen-
+        // reader user never lands the tile on top of another one — there
+        // is no "release" event to snap on for keyboard navigation, so
+        // the prevention has to happen at step time.
+        let intendX = xcoord;
+        let intendY = ycoord;
         switch (event.key) {
             case 'ArrowUp':
-                intendY = ycoord - 10;
-                if (
-                    movePermitted(
-                        xcoord,
-                        intendY,
-                        width,
-                        height,
-                        howToId,
-                        notPermittedAreas,
-                    )
-                ) {
-                    ycoord = intendY;
-                    whichMoving = howToId;
-                }
-
-                event.preventDefault();
+                intendY -= 10;
                 break;
             case 'ArrowDown':
-                intendY = ycoord + 10;
-                if (
-                    movePermitted(
-                        xcoord,
-                        intendY,
-                        width,
-                        height,
-                        howToId,
-                        notPermittedAreas,
-                    )
-                ) {
-                    ycoord = intendY;
-                    whichMoving = howToId;
-                }
-
-                event.preventDefault();
+                intendY += 10;
                 break;
             case 'ArrowLeft':
-                intendX = xcoord - 10;
-                if (
-                    movePermitted(
-                        intendX,
-                        ycoord,
-                        width,
-                        height,
-                        howToId,
-                        notPermittedAreas,
-                    )
-                ) {
-                    xcoord = intendX;
-                    whichMoving = howToId;
-                }
-
-                event.preventDefault();
+                intendX -= 10;
                 break;
             case 'ArrowRight':
-                intendX = xcoord + 10;
-                if (
-                    movePermitted(
-                        intendX,
-                        ycoord,
-                        width,
-                        height,
-                        howToId,
-                        notPermittedAreas,
-                    )
-                ) {
-                    xcoord = intendX;
-                    whichMoving = howToId;
-                }
-
-                event.preventDefault();
+                intendX += 10;
                 break;
-
             default:
                 return;
+        }
+        event.preventDefault();
+        if (
+            movePermitted(
+                intendX,
+                intendY,
+                width,
+                height,
+                howToId,
+                notPermittedAreas,
+            )
+        ) {
+            xcoord = intendX;
+            ycoord = intendY;
+            whichMoving = howToId;
+            autoPanToShowTile();
         }
     }
 
     function onDropHowTo() {
         if (!howTo) return;
 
-        howTo = new HowTo({
-            ...howTo.getData(),
-            xcoord: xcoord,
-            ycoord: ycoord,
-        });
+        // If the user released on top of another tile (or way out in
+        // empty space far from the cluster), snap to a valid resting
+        // spot. Drag itself is unconstrained — see onpointermove — so
+        // this is where collision and out-of-range correction lands.
+        //
+        // Prefer snap-to-nearest-edge of the overlapped tile so the
+        // dropped tile stays right where the user released it. Spiral
+        // outward only when no edge fits (every neighbor of the
+        // target is also occupied, or the drop was far enough out
+        // that the cluster-rebase needs to kick in).
+        if (
+            width > 0 &&
+            height > 0 &&
+            !movePermitted(
+                xcoord,
+                ycoord,
+                width,
+                height,
+                howToId,
+                notPermittedAreas,
+            )
+        ) {
+            const edgeSnap = snapToNearestEdge(
+                xcoord,
+                ycoord,
+                width,
+                height,
+                howToId,
+                notPermittedAreas,
+            );
+            if (edgeSnap !== null) {
+                [xcoord, ycoord] = edgeSnap;
+            } else {
+                [xcoord, ycoord] = findHowToPlacement(
+                    notPermittedAreas,
+                    xcoord,
+                    ycoord,
+                    width,
+                    height,
+                    howToId,
+                );
+            }
+        }
+
+        howTo = howTo.withFields({ xcoord, ycoord });
 
         HowTos.updateHowTo(howTo, true);
     }
@@ -406,6 +479,7 @@
 <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 <div
     class="howto"
+    class:moving={whichMoving === howToId}
     style:left={`${renderX}px`}
     style:top={`${renderY}px`}
     id="howto-{howToId}"
@@ -465,6 +539,24 @@
         padding: var(--wordplay-spacing);
         margin: var(--wordplay-spacing);
         touch-action: none;
+        /* Tiles overlap during drag (and can naturally end up close to
+           each other after a snap). An opaque background keeps the
+           contents from showing through to whatever is behind. */
+        background: var(--wordplay-background);
+        /* The title text used to be selectable, so a mousedown that
+           skimmed across letters started a text selection instead of a
+           drag — leaving a stuck selection rectangle and no actual
+           drag. Disable selection on the whole tile so every mousedown
+           goes straight to the drag path. */
+        user-select: none;
+        -webkit-user-select: none;
+    }
+
+    /* While a tile is being dragged or keyboard-moved, hoist it above
+       its siblings so it always reads as the active one even when it
+       briefly overlaps another tile mid-motion. */
+    .howto.moving {
+        z-index: 1;
     }
 
     .howtotitle {

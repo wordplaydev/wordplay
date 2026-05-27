@@ -6,6 +6,7 @@ import { z } from 'zod';
 import Project from '@db/projects/Project';
 import ProjectCRDT from '@db/projects/ProjectCRDT';
 import {
+    needsSchemaUpgrade,
     ProjectSchema,
     ProjectSchemaLatestVersion,
     upgradeProject,
@@ -186,6 +187,52 @@ describe('upgradeProject — schema migration from pre-CRDT shapes', () => {
         expect(later.timestamp).toBe(2000);
         expect(later.name).toBe('later');
     });
+
+    test('needsSchemaUpgrade signals when a raw doc is older than the latest schema (drives forced re-save on load)', () => {
+        // The ProjectsDatabase load path uses this signal to flip the
+        // history's `saved` bit on freshly-deserialized projects whose
+        // on-disk shape predates the current code's schema. Without
+        // it, an untouched-since-the-schema-bump doc stays at the old
+        // `v` forever — see Henry M.'s v=6 project in prod that no
+        // post-v8 save ever migrated forward.
+        expect(needsSchemaUpgrade({ v: 4 })).toBe(true);
+        expect(needsSchemaUpgrade({ v: 5 })).toBe(true);
+        expect(needsSchemaUpgrade({ v: 6 })).toBe(true);
+        expect(needsSchemaUpgrade({ v: 7 })).toBe(true);
+        // A doc already at the latest version is fine — no rewrite.
+        expect(needsSchemaUpgrade({ v: ProjectSchemaLatestVersion })).toBe(
+            false,
+        );
+        // Defensive cases: unknown / missing / non-numeric `v` must NOT
+        // force a rewrite. We don't want to mass-rewrite docs we can't
+        // confidently identify as old, and a malformed input shouldn't
+        // be the trigger that floods Firestore with corrupt writes.
+        expect(needsSchemaUpgrade(null)).toBe(false);
+        expect(needsSchemaUpgrade(undefined)).toBe(false);
+        expect(needsSchemaUpgrade({})).toBe(false);
+        expect(needsSchemaUpgrade({ v: 'six' })).toBe(false);
+        expect(needsSchemaUpgrade('not an object')).toBe(false);
+    });
+
+    test('upgrade-on-load round-trip: an older serialized doc, once upgraded, parses and reports as up-to-date', () => {
+        // Closes the loop on the forced re-save behavior: needsSchemaUpgrade
+        // says "old", upgradeProject migrates in memory, and the next
+        // serialize() emits the latest version with all the new fields
+        // populated. Persist's batch.set on the v=ProjectSchemaLatestVersion
+        // payload is what actually backfills the doc in Firestore.
+        const oldDoc = v4Project();
+        expect(needsSchemaUpgrade(oldDoc)).toBe(true);
+        const upgraded = upgradeProject(oldDoc);
+        // Round-trip the migrated shape through ProjectSchema.parse — the
+        // exact validation persist() relies on before committing the batch.
+        // If this throws, the migrated doc would be rejected at write time.
+        const parsed = ProjectSchema.parse(upgraded);
+        expect(parsed.v).toBe(ProjectSchemaLatestVersion);
+        expect(parsed.stamps).toBeDefined();
+        expect('crdt' in parsed).toBe(true);
+        // The migrated payload no longer looks like "needs upgrade".
+        expect(needsSchemaUpgrade(parsed)).toBe(false);
+    });
 });
 
 describe('Project.bumpStampsFrom — stamps stay aligned with content', () => {
@@ -236,5 +283,25 @@ describe('Project.serialize — Firestore-compatible output', () => {
         expect(p.getPreview()).toBeUndefined();
         const serialized = p.serialize();
         expect('preview' in serialized).toBe(false);
+    });
+
+    test('serialize always stamps the latest schema version — old docs get migrated forward on next save', () => {
+        // Persist's only mechanism for forward-migrating a stale
+        // Firestore doc is to re-serialize it at the latest schema
+        // version on the next save. Combined with `upgradeProject`'s
+        // chain (covered above), an old v4/v6/v7 doc that gets read,
+        // touched, and saved comes back as v=ProjectSchemaLatestVersion
+        // with stamps and crdt fields populated. If serialize ever
+        // drifted from the latest constant, existing users would never
+        // get fields added in later schema bumps backfilled.
+        const serialized = makeBase().serialize();
+        expect(serialized.v).toBe(ProjectSchemaLatestVersion);
+        // stamps and crdt — the v7 and v8 fields — must be present on
+        // every serialized output, not just on docs that exercised
+        // them in tests. Firestore rejects literal undefined, so
+        // "missing" here would also fail ProjectSchema.parse below.
+        expect(serialized.stamps).toBeDefined();
+        expect('crdt' in serialized).toBe(true);
+        expect(() => ProjectSchema.parse(serialized)).not.toThrow();
     });
 });

@@ -11,6 +11,7 @@
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
     import Labeled from '@components/widgets/Labeled.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Mode from '@components/widgets/Mode.svelte';
     import Options, { type Option } from '@components/widgets/Options.svelte';
     import TextField from '@components/widgets/TextField.svelte';
@@ -26,9 +27,7 @@
         locales,
     } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
-    import HowTo, {
-        HowToSchemaLatestVersion,
-    } from '@db/howtos/HowToDatabase.svelte';
+    import type HowTo from '@db/howtos/HowToDatabase.svelte';
     import type Locale from '@locale/Locale';
     import { localeToString, stringToLocale } from '@locale/Locale';
     import {
@@ -36,9 +35,9 @@
         type LocaleText,
     } from '@locale/LocaleText';
     import type { ButtonText } from '@locale/UITexts';
-    import { onMount, type Snippet } from 'svelte';
+    import { onDestroy, onMount, type Snippet } from 'svelte';
     import { SvelteMap, SvelteSet } from 'svelte/reactivity';
-    import { movePermitted } from './HowToMovement';
+    import { findHowToPlacement } from './HowToMovement';
     import HowToPrompt from './HowToPrompt.svelte';
     import HowToTranslationEditor from './HowToTranslationEditor.svelte';
     import HowToUsedBy from './HowToUsedBy.svelte';
@@ -106,10 +105,15 @@
 
     $effect(() => {
         if (howTo) {
-            allCollaborators = [
-                ...howTo.getCollaborators(),
-                howTo.getCreator(),
-            ];
+            // Dedupe: the stored `collaborators` field may already contain
+            // the creator (legacy data + earlier round-trips), and without
+            // deduping here, autosave would append another creator entry
+            // on every save.
+            const creator = howTo.getCreator();
+            const collabs = howTo
+                .getCollaborators()
+                .filter((uid) => uid !== creator);
+            allCollaborators = [...collabs, creator];
         } else if ($user) {
             allCollaborators = [$user.uid];
         }
@@ -120,22 +124,31 @@
     );
 
     // locales
-    // defined as the first of the user's locales that is in the how-to's locales, if it exists
-    // then the first of the how-to's locales if it doesn't
+    // Initial value: the first of the user's preferred locales that the
+    // how-to also has; otherwise the how-to's first locale; otherwise the
+    // user's current locale.
+    //
+    // Latched after first initialization so that subsequent `howTo`
+    // reassignments (e.g., autosave round-trips, snapshot listeners) don't
+    // overwrite a locale the student manually picked from the dropdown.
     let localeName: string = $state('');
+    let localeNameInitialized = false;
     $effect(() => {
+        if (localeNameInitialized) return;
         if (howTo) {
-            // loop through the user's preferred locales. let the localeName by the first of the preferred locales that the how-to has
-            for (let locale of $locales.getPreferredLocales()) {
+            for (const locale of $locales.getPreferredLocales()) {
                 if (howTo.getLocales().includes(localeToString(locale))) {
                     localeName = localeToString(locale);
+                    localeNameInitialized = true;
                     return;
                 }
             }
-            localeName = howTo.getLocales()[0];
+            localeName =
+                howTo.getLocales()[0] ?? $locales.getLocaleString();
+            localeNameInitialized = true;
         } else {
-            // if the how-to doesn't exist, just set the current locale name to be the most preferred locale
             localeName = $locales.getLocaleString();
+            localeNameInitialized = true;
         }
     });
 
@@ -195,10 +208,108 @@
             usedLocales = new SvelteSet<string>(howTo.getLocales());
         }
     });
+    // Initialize multilingualText for the "+ new" form once prompts are
+    // available (galleryQuestions may arrive after mount). Guarded on
+    // .length === 0 so it never overwrites a user's in-progress edits if
+    // the howTo prop transiently becomes undefined.
     $effect(() => {
-        if (!howTo && prompts.length > 0) {
+        if (!howTo && prompts.length > 0 && multilingualText.length === 0) {
             multilingualText = Array(prompts.length).fill('');
         }
+    });
+
+    // -- Autosave ---------------------------------------------------------
+    // Existing drafts autosave on a short debounce so students don't lose
+    // text between explicit saves. The new-howTo "+" form is not autosaved
+    // (it doesn't have a doc yet; "Save as draft" creates one).
+    const AUTOSAVE_DEBOUNCE_MS = 1500;
+    const SAVED_FADE_MS = 2000;
+
+    let autosaveStatus: 'idle' | 'pending' | 'saving' | 'saved' | 'error' =
+        $state('idle');
+    let autosaveTimer: ReturnType<typeof setTimeout> | undefined;
+    let savedFadeTimer: ReturnType<typeof setTimeout> | undefined;
+    /** Latch initial sync from onMount so we don't autosave just because
+     *  we populated titles/multilingualText/usedLocales on first render. */
+    let autosaveArmed = false;
+
+    async function persistChanges() {
+        if (!howTo || !gallery) return;
+        autosaveStatus = 'saving';
+        try {
+            const title = await generateTitleStringWithPlaceholders(
+                usedLocales,
+                titles,
+            );
+            howTo = howTo.withFields({
+                title,
+                text: multilingualText,
+                collaborators: allCollaborators,
+                scopeOverwrite: overwriteAccess,
+                locales: [...usedLocales],
+                isPublic,
+                social: { notifySubscribers: notify },
+            });
+            await HowTos.updateHowTo(howTo, true);
+            autosaveStatus = 'saved';
+            if (savedFadeTimer !== undefined) clearTimeout(savedFadeTimer);
+            savedFadeTimer = setTimeout(() => {
+                if (autosaveStatus === 'saved') autosaveStatus = 'idle';
+            }, SAVED_FADE_MS);
+        } catch (err) {
+            console.error('How-to autosave failed', err);
+            autosaveStatus = 'error';
+        }
+    }
+
+    function scheduleAutosave() {
+        if (!howTo) return;
+        if (autosaveTimer !== undefined) clearTimeout(autosaveTimer);
+        autosaveStatus = 'pending';
+        autosaveTimer = setTimeout(() => {
+            autosaveTimer = undefined;
+            persistChanges();
+        }, AUTOSAVE_DEBOUNCE_MS);
+    }
+
+    function flushAutosave() {
+        if (autosaveTimer !== undefined) {
+            clearTimeout(autosaveTimer);
+            autosaveTimer = undefined;
+            persistChanges();
+        }
+    }
+
+    // Trigger autosave when the editor's content state changes.
+    // Deliberately narrow: only the fields a student edits in the body of
+    // the form. Collaborator/access changes go through their own explicit
+    // updateHowTo paths and would cause feedback loops if tracked here.
+    $effect(() => {
+        // Read each reactive source to register dependencies.
+        for (const t of multilingualText) void t;
+        for (const [, v] of titles) void v;
+        for (const l of usedLocales) void l;
+
+        if (!autosaveArmed || !howTo) return;
+        scheduleAutosave();
+    });
+
+    // After mount, allow autosave to fire on subsequent changes.
+    onMount(() => {
+        queueMicrotask(() => {
+            autosaveArmed = true;
+        });
+    });
+
+    // If the dialog closes (including via clickOutside) with a pending
+    // debounce, flush so we don't lose those edits.
+    $effect(() => {
+        if (!show) flushAutosave();
+    });
+
+    onDestroy(() => {
+        flushAutosave();
+        if (savedFadeTimer !== undefined) clearTimeout(savedFadeTimer);
     });
 
     // social interactions
@@ -228,75 +339,16 @@
             .sort((a, b) => a.label.localeCompare(b.label)),
     );
 
-    function findPlaceToWrite() {
-        const searchStep: number = 150; // distance to shift by each search
-        const maxSearches: number = 20; // maximum number of search attempts, to prevent infinite loop
-
-        let baseX = -cameraX;
-        let baseY = -cameraY;
-
-        let proposedX = baseX;
-        let proposedY = baseY;
-
-        for (let i = 0; i < maxSearches; i++) {
-            /** search grid!
-             * 8 5 3
-             * 6 0 1
-             * 7 4 2
-             */
-            if (
-                movePermitted(
-                    proposedX,
-                    proposedY,
-                    searchStep - 30,
-                    searchStep - 30,
-                    undefined,
-                    notPermittedAreas,
-                )
-            ) {
-                break;
-            }
-
-            let gridIndex = (i % 8) + 1;
-            let multiplier = Math.floor(i / 8) + 1;
-
-            switch (gridIndex) {
-                case 1:
-                    proposedX = baseX + searchStep * multiplier;
-                    proposedY = baseY;
-                    break;
-                case 2:
-                    proposedX = baseX + searchStep * multiplier;
-                    proposedY = baseY + searchStep * multiplier;
-                    break;
-                case 3:
-                    proposedX = baseX + searchStep * multiplier;
-                    proposedY = baseY - searchStep * multiplier;
-                    break;
-                case 4:
-                    proposedX = baseX;
-                    proposedY = baseY + searchStep * multiplier;
-                    break;
-                case 5:
-                    proposedX = baseX;
-                    proposedY = baseY - searchStep * multiplier;
-                    break;
-                case 6:
-                    proposedX = baseX - searchStep * multiplier;
-                    proposedY = baseY;
-                    break;
-                case 7:
-                    proposedX = baseX - searchStep * multiplier;
-                    proposedY = baseY + searchStep * multiplier;
-                    break;
-                case 8:
-                    proposedX = baseX - searchStep * multiplier;
-                    proposedY = baseY - searchStep * multiplier;
-                    break;
-            }
-        }
-
-        return [proposedX, proposedY];
+    function findPlaceToWrite(): [number, number] {
+        // Probe size matches a how-to preview tile (~120px) so the
+        // placement search reserves enough room with the buffer.
+        return findHowToPlacement(
+            notPermittedAreas,
+            -cameraX,
+            -cameraY,
+            120,
+            120,
+        );
     }
 
     /** Add placeholder titles for any locales that have text but no title */
@@ -331,19 +383,14 @@
     async function writeNewHowTo(publish: boolean) {
         if (!gallery) return;
 
-        let title: string = await generateTitleStringWithPlaceholders(
-            usedLocales,
-            titles,
-        );
-
-        let writeX: number = 0;
-        let writeY: number = 0;
-
-        if (publish) {
-            [writeX, writeY] = findPlaceToWrite();
-        }
-
         if (!howTo) {
+            // Creating a brand-new how-to from the "+" form.
+            const title: string =
+                await generateTitleStringWithPlaceholders(usedLocales, titles);
+            let writeX = 0;
+            let writeY = 0;
+            if (publish) [writeX, writeY] = findPlaceToWrite();
+
             await HowTos.addHowTo(
                 gallery,
                 publish,
@@ -360,50 +407,65 @@
                 isPublic,
             );
 
-            // pan the camera to the new how-to
             [cameraX, cameraY] = [-writeX, -writeY];
             show = false;
             editingMode = true;
 
             // reset form
             howTo = undefined;
-            title = '';
             multilingualText = [];
             titles = new SvelteMap<string, string>([
                 [$locales.getLocaleString(), ''],
             ]);
             allCollaborators = [];
-        } else {
-            // if was not published, and now is published, need to find coordinates for the how-to
-            // if was already published, then keep the same coordinates
-            let [writeX, writeY] = howTo.getCoordinates();
+            return;
+        }
 
-            if (!isPublished) {
-                [writeX, writeY] = findPlaceToWrite();
-            }
+        // Existing how-to: any pending debounced autosave is about to be
+        // superseded by this explicit save; cancel it.
+        if (autosaveTimer !== undefined) clearTimeout(autosaveTimer);
+        autosaveTimer = undefined;
 
-            howTo = new HowTo({
-                ...howTo.getData(),
-                v: HowToSchemaLatestVersion,
+        const title: string =
+            await generateTitleStringWithPlaceholders(usedLocales, titles);
+        let [writeX, writeY] = howTo.getCoordinates();
+        // Only reposition (and pan to) the how-to when it's transitioning
+        // from draft to published. Drafts don't render on the canvas, so
+        // repositioning them on every "Save as draft" was disorienting
+        // and contributed to the perception that things had moved/lost.
+        const repositioning = publish && !isPublished;
+        if (repositioning) [writeX, writeY] = findPlaceToWrite();
+
+        autosaveStatus = 'saving';
+        try {
+            howTo = howTo.withFields({
                 published: publish,
-                title: title,
+                title,
                 text: multilingualText,
                 xcoord: writeX,
                 ycoord: writeY,
                 collaborators: allCollaborators,
                 scopeOverwrite: overwriteAccess,
                 locales: [...usedLocales],
-                isPublic: isPublic,
-                social: {
-                    ...howTo.getSocial(),
-                    notifySubscribers: notify,
-                },
+                isPublic,
+                social: { notifySubscribers: notify },
             });
+            if (repositioning) [cameraX, cameraY] = [-writeX, -writeY];
+            await HowTos.updateHowTo(howTo, true);
 
-            // pan the camera to the updated how-to
-            [cameraX, cameraY] = [-writeX, -writeY];
-            HowTos.updateHowTo(howTo, true);
-            editingMode = false;
+            autosaveStatus = 'saved';
+            if (savedFadeTimer !== undefined) clearTimeout(savedFadeTimer);
+            savedFadeTimer = setTimeout(() => {
+                if (autosaveStatus === 'saved') autosaveStatus = 'idle';
+            }, SAVED_FADE_MS);
+
+            // Only exit editing mode when publishing — "Save as draft"
+            // should keep the student in the editor (autosave + explicit
+            // save both leave the editor open).
+            if (publish) editingMode = false;
+        } catch (err) {
+            console.error('How-to save failed', err);
+            autosaveStatus = 'error';
         }
     }
 
@@ -437,12 +499,8 @@
             newBookmarkers = [...howTo.getBookmarkers(), $user.uid];
         }
 
-        howTo = new HowTo({
-            ...howTo.getData(),
-            social: {
-                ...howTo.getSocial(),
-                bookmarkers: newBookmarkers,
-            },
+        howTo = howTo.withFields({
+            social: { bookmarkers: newBookmarkers },
         });
 
         await HowTos.updateHowTo(howTo, true);
@@ -470,13 +528,7 @@
             };
         }
 
-        howTo = new HowTo({
-            ...howTo.getData(),
-            social: {
-                ...howTo.getSocial(),
-                reactions: newReactions,
-            },
-        });
+        howTo = howTo.withFields({ social: { reactions: newReactions } });
 
         HowTos.updateHowTo(howTo, true);
     }
@@ -504,10 +556,7 @@
 
         if (!howTo) return;
 
-        howTo = new HowTo({
-            ...howTo.getData(),
-            collaborators: allCollaborators,
-        });
+        howTo = howTo.withFields({ collaborators: allCollaborators });
 
         HowTos.updateHowTo(howTo, true);
 
@@ -556,10 +605,8 @@
             if ($user && !newSeenByUsers.includes($user.uid))
                 newSeenByUsers.push($user.uid);
 
-            howTo = new HowTo({
-                ...howTo.getData(),
+            howTo = howTo.withFields({
                 social: {
-                    ...howTo.getSocial(),
                     seenByUsers: newSeenByUsers,
                     viewCount: howTo.getViewCount() + 1,
                 },
@@ -739,6 +786,21 @@
                         icons={['🔔', '🔕']}
                         select={(num) => (notify = num === 0)}
                     />
+                {/if}
+
+                {#if howTo && autosaveStatus !== 'idle'}
+                    <span
+                        class="autosave-status"
+                        class:autosave-error={autosaveStatus === 'error'}
+                    >
+                        {#if autosaveStatus === 'pending' || autosaveStatus === 'saving'}
+                            <LocalizedText path={(l) => l.ui.save.saving} />
+                        {:else if autosaveStatus === 'saved'}
+                            <LocalizedText path={(l) => l.ui.save.saved} />
+                        {:else if autosaveStatus === 'error'}
+                            <LocalizedText path={(l) => l.ui.save.unsaved} />
+                        {/if}
+                    </span>
                 {/if}
 
                 <Button
@@ -957,6 +1019,18 @@
     .toolbar-right {
         display: flex;
         gap: var(--wordplay-spacing);
+        align-items: center;
+    }
+
+    .autosave-status {
+        font-size: var(--wordplay-small-font-size);
+        color: var(--wordplay-inactive-color);
+        font-style: italic;
+    }
+
+    .autosave-status.autosave-error {
+        color: var(--wordplay-error);
+        font-style: normal;
     }
 
     .howtosplitview {

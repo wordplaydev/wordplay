@@ -207,6 +207,18 @@ export class ProjectHistory {
         this.saved = true;
     }
 
+    /** Mark the history as unsaved without going through {@link edit}.
+     *  Used when an external signal — e.g., the Firestore listener
+     *  delivering a doc at an older schema version — indicates that
+     *  the persisted shape no longer matches the latest serialize()
+     *  output, so persist() needs to rewrite even if no user-visible
+     *  field changed. {@link edit} would also bump stamps + history,
+     *  which is wrong here: there's no new author edit, just a
+     *  schema-format catch-up. */
+    markUnsaved() {
+        this.saved = false;
+    }
+
     wasRestored() {
         return this.change === ChangeType.UndoRedo;
     }
