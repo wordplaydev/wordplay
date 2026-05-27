@@ -94,7 +94,6 @@
     import Palette from '@components/palette/Palette.svelte';
     import type Bounds from '@components/project/Bounds';
     import {
-        getAnnouncer,
         getConceptPath,
         getFullscreen,
         IdleKind,
@@ -141,6 +140,7 @@
     } from '@db/settings/AnimationFactorSetting';
     import type MenuInfo from '@edit/menu/Menu';
     import type { LocaleTextAccessor } from '@locale/Locales';
+    import RemoteCarets from '@components/editor/RemoteCarets.svelte';
 
     interface Props {
         project: Project;
@@ -154,8 +154,6 @@
         fit?: boolean;
         /** True if the project should focus the main editor source on mount */
         autofocus?: boolean;
-        /** True if the project was overwritten by another instance of Wordplay */
-        overwritten?: boolean;
         /** Show the guide if the project is empty */
         guide?: boolean;
         /** True if the moderation warnings should show */
@@ -179,7 +177,6 @@
         showOutput = false,
         fit = true,
         autofocus = true,
-        overwritten = false,
         guide = true,
         warn = true,
         shareable = true,
@@ -284,9 +281,6 @@
     /** The fullscreen context of the page that this is in. */
     const pageFullscreen = getFullscreen();
 
-    /** The live region announcer */
-    const announce = getAnnouncer();
-
     /** Tell the parent Page whether we're in fullscreen so it can hide and color things appropriately. */
     $effect(() => {
         pageFullscreen?.set({
@@ -332,6 +326,37 @@
     setResetKeyboardIdle(resetKeyboardIdle);
     onDestroy(() => {
         if (keyboardIdleTimeout) clearTimeout(keyboardIdleTimeout);
+    });
+
+    // Live coediting (Yjs CRDT + Firestore update transport + presence
+    // heartbeat) is view-driven: we activate it when the user opens
+    // this project and tear it down when they leave. Activating in
+    // ProjectsDatabase.track() instead would spin up a Y.Doc and two
+    // Firestore listeners for *every* project the user has access to,
+    // even ones they aren't looking at — wasted quota.
+    //
+    // Lifecycle hooks (onMount / onDestroy), not $effect: this isn't
+    // reactive work and using $effect produces an infinite loop. The
+    // cleanup deactivates the CRDT, which calls history.edit to
+    // capture the final snapshot — that write fires reactive deps
+    // that the parent route reads to re-derive the `project` prop,
+    // which would re-fire any $effect that reads `project`. Pinning
+    // the project ID at component init and running activate/deactivate
+    // exactly once each sidesteps the loop entirely. ProjectView
+    // remounts on SvelteKit route changes, so re-activation on URL
+    // change happens naturally via the next mount.
+    const crdtProjectID = project.getID();
+    onMount(() => {
+        Projects.activateCRDT(crdtProjectID);
+    });
+    onDestroy(() => {
+        // deactivateCRDT is async (it awaits the final flush of
+        // queued realtime updates before tearing down). The
+        // in-memory snapshot capture happens *synchronously* inside
+        // before any await, so a rapid re-mount after this unmount
+        // would still see the latest snapshot on the in-memory
+        // project — see the docs on deactivateCRDT.
+        void Projects.deactivateCRDT(crdtProjectID);
     });
 
     /** Keep a project global store indicating modifier key state, so that controls can highlight themselves */
@@ -1455,20 +1480,6 @@
         });
     });
 
-    // When ovewritten, announce it
-    $effect(() => {
-        if (overwritten)
-            untrack(() => {
-                if ($announce) {
-                    $announce(
-                        project.getID(),
-                        $locales.getLanguages()[0],
-                        $locales.getPlainText((l) => l.ui.source.overwritten),
-                    );
-                }
-            });
-    });
-
     let currentArrangement = $state<ArrangementType>($arrangement);
 
     /** When dragged is set, update the layout if necessary to support dragging to the last editor. */
@@ -2300,7 +2311,6 @@
                                                     tile.id
                                                 ] ?? null}
                                                 editable={editableAndCurrent}
-                                                {overwritten}
                                                 sourceID={tile.id}
                                                 selected={source ===
                                                     selectedSource}
@@ -2339,6 +2349,14 @@
                                 {@const notification =
                                     largeDeletionNotifications.get(tile.id)}
                                 {#if tile.kind === TileKind.Source && editable}
+                                    <!-- Collaborator chip row sits above
+                                         the glyph-insertion area, in the
+                                         same band the large-deletion
+                                         overlay uses. Renders nothing
+                                         when the local user is the only
+                                         editor. -->
+                                    <RemoteCarets projectID={project.getID()} />
+
                                     {#if editableAndCurrent}<GlyphInserter
                                             sourceID={tile.id}
                                         />{/if}

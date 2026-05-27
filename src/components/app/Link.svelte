@@ -100,7 +100,6 @@
 
 <style>
     .link {
-        /* Don't stretch links, even if in a flex. */
         align-self: flex-start;
     }
 

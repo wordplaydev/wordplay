@@ -1,8 +1,8 @@
 <script lang="ts">
-    import Text from '@components/widgets/LocalizedText.svelte';
-    import type { Creator } from '@db/creators/CreatorDatabase';
     import CreatorSymbolView from '@components/app/CreatorCharacterView.svelte';
     import Feedback from '@components/app/Notice.svelte';
+    import Text from '@components/widgets/LocalizedText.svelte';
+    import type { Creator } from '@db/creators/CreatorDatabase';
 
     interface Props {
         creator: Creator | null;
@@ -52,8 +52,8 @@
 
     .chrome {
         border-radius: var(--wordplay-border-radius);
-        border-top-left-radius: 1em;
-        border-bottom-left-radius: 1em;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
     }
 

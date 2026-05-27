@@ -110,12 +110,21 @@
         // Install browser online/offline + visibilitychange listeners.
         const cleanupNetworkListeners = DB.installNetworkListeners();
 
+        // Install best-effort save-on-unload handlers so local edits
+        // (especially in-memory CRDT state) survive a tab close that
+        // beats saveSoon's debounce. See
+        // ProjectsDatabase.installSaveOnUnloadListeners for what it
+        // catches and what it can't.
+        const cleanupSaveOnUnload =
+            DB.Projects.installSaveOnUnloadListeners();
+
         // Wait a second before showing loading
         setTimeout(() => (lag = true), 1000);
 
         // Have the Database cleanup database connections when this is unmounted.
         return () => {
             cleanupNetworkListeners();
+            cleanupSaveOnUnload();
             DB.clean();
         };
     });

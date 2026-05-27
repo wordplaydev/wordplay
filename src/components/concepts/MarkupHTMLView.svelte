@@ -443,6 +443,17 @@
     .markup {
         display: flex;
         flex-direction: column;
+        /* Put Noto Color Emoji first so emoji codepoints in markup
+           prose render in color in Safari. The inherited
+           --wordplay-app-font has Noto Sans first, which Safari can't
+           reliably skip past for emoji codepoints — it picks Noto Emoji
+           later in the cascade and renders monochrome. The CSSFallbackFaces
+           used by PhraseView already follows this Color-Emoji-first pattern;
+           this mirrors it for markup text. Safe to put Color Emoji first
+           because its unicode-range in fonts.css is restricted to true
+           emoji codepoints — it doesn't claim ASCII/digits and so doesn't
+           shadow Noto Sans for normal text. */
+        font-family: 'Noto Color Emoji', 'Noto Sans', sans-serif;
     }
 
     .markup:not(:last-child) {

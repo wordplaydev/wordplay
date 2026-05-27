@@ -23,7 +23,8 @@
         "firebase-functions": "^7",
         "nodemailer": "^8",
         "prettier": "^3.8.3",
-        "shared-types": "file:./src/shared"
+        "shared-types": "file:./src/shared",
+        "yjs": "^13.6.30"
     },
     "devDependencies": {
         "@types/nodemailer": "^8",

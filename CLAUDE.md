@@ -66,6 +66,8 @@ All user-visible strings live in locale JSON files ([static/locales/](static/loc
 
 The tag goes in the comment (e.g. `/** [plain] Tooltip for the X button */`); the TypeScript alias should match (`FormattedText` for `[formatted]`, `NameText` for `[name]`, plain `string` for `[plain]`/`[emotion]`). Fields without a recognized tag are filtered out of the editor and invisible to translators, so **every new localization key needs both a comment and a tag**. The matching logic lives in [src/components/localization/Localizer.svelte](src/components/localization/Localizer.svelte) (`getEditorType`).
 
+**Template inputs are always named, never numbered.** When a locale string takes runtime values, type it as `Template<['name1', 'name2', ...]>`, write `"$name"` in the JSON, and substitute via `$locales.concretize((l) => l.path, { name: value }).toText()`. Never write `$1`/`$2` or call `.replace('$1', value)` on a template string. Numbered placeholders bypass the locale verifier's typed-key check, get clobbered by auto-translators (they don't survive `npm run locales-translate`), and are illegible to translators reviewing the JSON.
+
 **After every edit to a locale or tutorial JSON file** (anything under [static/locales/](static/locales/) — including the per-locale `*-tutorial.json` and `*-emojis.json` files — or [src/locale/en-US.json](src/locale/en-US.json)), run prettier on the changed files:
 
 ```bash

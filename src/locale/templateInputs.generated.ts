@@ -432,6 +432,8 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'ui.page.character.announce.selection': ['shapes'],
     'ui.page.localize.oneLocaleNote': ['locale'],
     'ui.page.thanks.intro': ['count'],
+    'ui.presence.joined': ['name'],
+    'ui.presence.left': ['name'],
     'ui.project.save.failuresHeader': ['count'],
     'ui.source.empty': ['symbol'],
     'ui.source.options.locale.all': ['count'],

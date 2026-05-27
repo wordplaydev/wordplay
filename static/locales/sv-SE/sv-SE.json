@@ -412,7 +412,7 @@
             "description": "$~nämn $name",
             "emotion": "serious",
             "doc": [
-                "$~Jag är en referens till antingen terminologi \\$program\\ eller en dynamisk ingång \\$1\\.",
+                "$~Jag är en referens till antingen terminologi \\$program\\ eller en dynamisk ingång \\$name\\.",
                 "$~Detta är dock mestadels en intern funktion, så du borde inte behöva veta det."
             ]
         },
@@ -4892,7 +4892,6 @@
                 "$~• Bläddra bland<galleries@://galleries> för inspiration.",
                 "$~Om du har fastnat,<learn more@://learn> ."
             ],
-            "overwritten": "$~Projektet revideras på annat håll",
             "confirm": {
                 "delete": {
                     "description": "$~ta bort denna $source",
@@ -6959,6 +6958,12 @@
             "offline": "$~Du är offline. Vissa funktioner fungerar inte förrän du är online.",
             "unreachable": "$~Vi kan inte nå Wordplay-databasen. Vissa funktioner fungerar inte förrän anslutningen är tillbaka.",
             "label": "$~Anslutningsstatus"
+        },
+        "presence": {
+            "peersLabel": "$~samarbetspartners som redigerar detta projekt",
+            "joined": "$~$name gick med.",
+            "left": "$~$name kvar.",
+            "waitingForSlot": "$~Väntar på en redigeringsplats – fyra medarbetare redigerar redan. När en lämnar kan du också redigera."
         }
     },
     "moderation": {

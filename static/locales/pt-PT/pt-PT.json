@@ -412,7 +412,7 @@
             "description": "$~mencionar $name",
             "emotion": "serious",
             "doc": [
-                "$~Sou uma referência à terminologia \\$program\\ ou a uma entrada dinâmica \\$1\\.",
+                "$~Sou uma referência à terminologia \\$program\\ ou a uma entrada dinâmica \\$name\\.",
                 "$~Trata-se principalmente de uma funcionalidade interna, pelo que não precisa de saber isso."
             ]
         },
@@ -5133,7 +5133,6 @@
                 "$~• Navegue pelo<galleries@://galleries> Para inspiração.",
                 "$~Se estiver preso,<learn more@://learn> ."
             ],
-            "overwritten": "$~Projeto revisto em outro local",
             "confirm": {
                 "delete": {
                     "description": "$~apague este $source",
@@ -6966,6 +6965,12 @@
             "offline": "$~Está offline. Algumas funcionalidades só funcionarão quando estiver online.",
             "unreachable": "$~Não conseguimos aceder à base de dados do Wordplay. Algumas funcionalidades não estarão disponíveis até que a ligação seja restabelecida.",
             "label": "$~Estado da conexão"
+        },
+        "presence": {
+            "peersLabel": "$~colaboradores que editaram este projeto",
+            "joined": "$~A entrada custou $name .",
+            "left": "$~Resta apenas $name .",
+            "waitingForSlot": "$~Aguarda vaga para edição — quatro colaboradores já estão a editar. Quando um deles sair, também poderá editar."
         }
     },
     "moderation": {

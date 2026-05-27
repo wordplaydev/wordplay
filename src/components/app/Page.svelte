@@ -228,6 +228,18 @@
         gap: var(--wordplay-spacing);
     }
 
+    /* Cancel Link's default align-self: flex-start (used in flex columns
+       like Profile's <Action>) so inactive links in this row-direction nav
+       line up vertically with active links (which render as raw text and
+       follow `align-items: center`). Without this, inactive <a class="link">
+       items pin to the top of the row while raw-text active items stay
+       centered, producing an obvious vertical mismatch when the row is
+       taller than a single line (the LOGO emoji at 150% font-size makes it
+       tall here). */
+    nav :global(.link) {
+        align-self: center;
+    }
+
     /* Anchor sits in the flex flow just above the footer with no height of
        its own, so the absolutely-positioned inner bar rests on top of the
        footer (anchor's bottom edge == footer's top edge) without pushing

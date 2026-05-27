@@ -412,7 +412,7 @@
             "description": "$~mentionne $name dans le balisage",
             "emotion": "serious",
             "doc": [
-                "$~Je fais référence soit à une terminologie \\$programme\\ soit à une entrée dynamique \\$1\\.",
+                "$~Je fais référence soit à une terminologie \\$programme\\ soit à une entrée dynamique \\$name\\.",
                 "$~Il s’agit principalement d’une fonctionnalité interne, vous n’avez donc pas besoin de la connaître."
             ]
         },
@@ -4878,7 +4878,6 @@
                 "$~• Parcourez le<galleries@://galleries> pour vous inspirer.",
                 "$~Si vous êtes bloqué,<learn more@://learn> ."
             ],
-            "overwritten": "$~J'ai reçu une version plus récente !",
             "confirm": {
                 "delete": {
                     "description": "$~supprimer cette $source",
@@ -6965,6 +6964,12 @@
             "offline": "$~Vous êtes hors ligne. Certaines fonctionnalités ne seront pas disponibles tant que vous ne serez pas connecté(e).",
             "unreachable": "$~Impossible d'accéder à la base de données Wordplay. Certaines fonctionnalités seront indisponibles jusqu'au rétablissement de la connexion.",
             "label": "$~État de la connexion"
+        },
+        "presence": {
+            "peersLabel": "$~collaborateurs travaillant sur ce projet",
+            "joined": "$~$name inscrit.",
+            "left": "$~Il reste $name .",
+            "waitingForSlot": "$~En attente d'un créneau de montage : quatre collaborateurs sont déjà en train de monter. Dès que l'un d'eux se libère, vous pourrez également participer."
         }
     },
     "moderation": {

@@ -263,7 +263,7 @@
     }
 
     .salient {
-        background: var(--color-yellow-transparent);
+        background: var(--color-yellow);
         color: var(--wordplay-foreground);
     }
 

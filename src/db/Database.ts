@@ -159,6 +159,28 @@ export class Database {
         return this.user ? this.user.email : null;
     }
 
+    /**
+     * A stable per-device identifier used as the `writer` field in project
+     * field stamps. Persisted in localStorage so reloads keep the same ID,
+     * which is what makes Lamport-counter tiebreaks deterministic across
+     * tabs and reloads. We don't use the user UID directly because the same
+     * user editing on two devices needs distinct writer IDs for convergence —
+     * see VectorClock.compareStamps and the #135 fix.
+     */
+    getWriterID(): string {
+        if (typeof window === 'undefined') return '';
+        const key = 'wordplay.writerID';
+        let id = window.localStorage.getItem(key);
+        if (id === null) {
+            id =
+                typeof crypto !== 'undefined' && crypto.randomUUID
+                    ? crypto.randomUUID()
+                    : `w-${Math.random().toString(36).slice(2)}-${Date.now().toString(36)}`;
+            window.localStorage.setItem(key, id);
+        }
+        return id;
+    }
+
     /** Update the saving status and broadcast via the store. Save status is
      *  intentionally NOT coupled to Firebase reachability: `uploadSettings`
      *  fires Saved even when no Firestore write happened (no logged-in user),

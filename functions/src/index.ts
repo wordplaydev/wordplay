@@ -13,6 +13,7 @@ import type {
     EmailExistsOutput,
 } from 'shared-types';
 
+import compactProjectUpdatesHandler from './compactProjectUpdates.js';
 import createClassHandler from './createClass.js';
 import emailExistsHandler from './emailExists.js';
 import galleryEditedHandler from './galleryEdited.js';
@@ -65,6 +66,18 @@ export const getWebpage = onRequest(cors, getWebpageHandler);
 export const purgeArchivedProjects = onSchedule(
     { schedule: 'every day 00:00', timeZone: 'UTC' },
     purgeArchivedProjectsHandler,
+);
+
+/**
+ * Every hour, merge accumulated realtime CRDT updates for actively-coedited
+ * projects back into the project document's `crdt` snapshot field, deleting
+ * the consumed update docs. Keeps the `projects/{id}/updates` subcollection
+ * bounded so Firestore costs scale with active editing time rather than
+ * total keystrokes-ever. See compactProjectUpdates.ts for the algorithm.
+ */
+export const compactProjectUpdates = onSchedule(
+    { schedule: 'every 1 hours', timeZone: 'UTC', memory: '512MiB' },
+    compactProjectUpdatesHandler,
 );
 
 /**

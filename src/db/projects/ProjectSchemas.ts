@@ -135,23 +135,120 @@ const ProjectSchemaV6 = ProjectSchemaV5.omit({ v: true }).extend(
     }).shape,
 );
 
+/**
+ * Schema for a single Lamport stamp on one field.
+ *
+ * The pair `(counter, writer)` is what gives concurrent edits a
+ * deterministic order. See VectorClock.ts for the full explanation of
+ * why we use Lamport stamps and what they protect against (issue #135).
+ */
+const FieldStampSchema = z.object({
+    /** Lamport counter at time of write. Zero is the sentinel value
+     *  meaning "no one has ever written this field" — paired with an
+     *  empty writer string. The merge treats it as losing to anything. */
+    c: z.number().min(0),
+    /** Client ID (per-device UUID from Database.getWriterID) that
+     *  performed the write. Used as the tiebreak when two stamps share
+     *  the same counter — without it, concurrent writes to the same
+     *  field could converge to different winners on different replicas. */
+    w: z.string(),
+});
+
+/**
+ * Schema for the per-project stamps record. One {@link FieldStampSchema}
+ * per stamped field, plus a Lamport ceiling that records the highest
+ * counter we've seen anywhere in this project. The ceiling is what each
+ * new bump reads to compute its `max + 1` increment.
+ */
+const ProjectStampsSchema = z.object({
+    /** Highest counter ever observed across all fields of this project,
+     *  across all merges. Used by bumpField() as the basis for the
+     *  next Lamport increment. */
+    lamport: z.number().min(0),
+    /** Stamps for fields that have ever been written. Fields not
+     *  present here are treated as NeverWritten (counter 0) — they
+     *  lose to anything with a real stamp during merge. */
+    fields: z.record(z.string(), FieldStampSchema),
+});
+
+/**
+ * v7: per-field Lamport stamps replace the scalar `timestamp` as the
+ * source of truth for reconciling two copies of the same project.
+ *
+ * Before v7, a sync between two replicas compared whole-project
+ * timestamps and overwrote the older side wholesale — clobbering
+ * concurrent edits to unrelated fields (the bug in #135). With the
+ * `stamps` field in place, the merge code in Project.mergeWith picks
+ * the winning value field-by-field, so edits to disjoint fields
+ * preserve both sides. The legacy `timestamp` is kept for backward
+ * compatibility and as a fallback when both sides have NeverWritten
+ * stamps on the same field (which only happens for v6→v7 migrations
+ * that haven't been touched under v7 yet).
+ *
+ * Source identity for CRDT bindings (added in v8) is keyed by position
+ * in the sources array. A future schema bump can introduce stable
+ * per-source UUIDs if source reordering becomes a real use case.
+ */
+const ProjectSchemaV7 = ProjectSchemaV6.omit({ v: true }).extend(
+    z.object({
+        v: z.literal(7),
+        /** Per-field stamps used by the per-field LWW merge. See VectorClock.ts. */
+        stamps: ProjectStampsSchema,
+    }).shape,
+);
+
+/**
+ * v8: source code is merged via a Yjs CRDT, not via stamps.
+ *
+ * Where stamps (v7) handle "pick one" metadata fields like `name` and
+ * `public`, source code calls for character-level convergence: two
+ * devices typing in different functions should *both* see both sets of
+ * keystrokes, not have one side's lost to a stamp comparison. That's
+ * what a CRDT does — see ProjectCRDT.ts for the full story.
+ *
+ * The `crdt` field on the project doc stores a base64-encoded Yjs
+ * snapshot of the merged state. Every project that's being actively
+ * viewed in ProjectView gets a Y.Doc spun up against this snapshot
+ * (see ProjectsDatabase.activateCRDT) — including solo projects,
+ * because the #135 reproduction applies to single users on two
+ * devices too. Projects the user isn't viewing don't pay the CRDT
+ * runtime cost; their snapshot just sits in this field until the
+ * next time someone opens them. New v8 projects start with
+ * `crdt: null` and get a snapshot written on first save.
+ *
+ * `sources[i].code` continues to hold the materialized text — it stays
+ * in sync with each Y.Text so older readers still get the right
+ * content. The snapshot is the *authoritative* source of truth; the
+ * materialized text is a view we maintain for backwards compatibility
+ * and project-tile rendering.
+ */
+const ProjectSchemaV8 = ProjectSchemaV7.omit({ v: true }).extend(
+    z.object({
+        v: z.literal(8),
+        /** Base64 of Y.encodeStateAsUpdateV2(doc), or null when CRDT is inactive. */
+        crdt: z.nullable(z.string()),
+    }).shape,
+);
+
 /** The latest version of a project.  */
-export const ProjectSchemaLatestVersion = 6;
+export const ProjectSchemaLatestVersion = 8;
 
 /** How we store sources as JSON in databases */
 export type SerializedCaret = z.infer<typeof CaretSchema>;
 export type SerializedSource = z.infer<typeof SourceSchema>;
 export type SerializedSourceCheckpoint = z.infer<typeof SourceCheckpointSchema>;
 export type SerializedPreview = z.infer<typeof PreviewSchema>;
+export type SerializedFieldStamp = z.infer<typeof FieldStampSchema>;
+export type SerializedProjectStamps = z.infer<typeof ProjectStampsSchema>;
 
 /** An alias for a project ID, to help clarify when a string is a project ID throughout the implementation. */
 export type ProjectID = string;
 
 /** Alias for the latest version of the schema. */
-export const ProjectSchema = ProjectSchemaV6;
+export const ProjectSchema = ProjectSchemaV8;
 
 /** The type of the latest version of the project */
-export type SerializedProject = z.infer<typeof ProjectSchemaV6>;
+export type SerializedProject = z.infer<typeof ProjectSchemaV8>;
 
 export type SerializedProjectUnknownVersion =
     | z.infer<typeof ProjectSchemaV1>
@@ -159,6 +256,8 @@ export type SerializedProjectUnknownVersion =
     | z.infer<typeof ProjectSchemaV3>
     | z.infer<typeof ProjectSchemaV4>
     | z.infer<typeof ProjectSchemaV5>
+    | z.infer<typeof ProjectSchemaV6>
+    | z.infer<typeof ProjectSchemaV7>
     | SerializedProject;
 
 /** Project updgrader */
@@ -185,6 +284,21 @@ export function upgradeProject(
             // triggers an on-demand compute via the preview queue (see
             // src/db/projects/previewQueue.ts).
             return upgradeProject({ ...project, v: 6, preview: undefined });
+        case 6:
+            // v6→v7: initialize empty stamps. The existing scalar `timestamp`
+            // is kept as a fallback when both sides' stamps are NeverWritten
+            // (i.e., neither replica has touched the project under v7 yet) —
+            // see ProjectsDatabase.track().
+            return upgradeProject({
+                ...project,
+                v: 7,
+                stamps: { lamport: 0, fields: {} },
+            });
+        case 7:
+            // v7→v8: CRDT snapshot is null until the project activates
+            // collaboration (has at least one collaborator). See ProjectCRDT
+            // and ProjectsDatabase.
+            return upgradeProject({ ...project, v: 8, crdt: null });
         case ProjectSchemaLatestVersion:
             return project;
         default:
