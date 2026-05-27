@@ -2,6 +2,9 @@
 // CACHE
 ////////////////////////////////
 
+import { CharacterSchema, type Character } from '@db/characters/Character';
+import { SaveStatus, type Database } from '@db/Database';
+import { firestore } from '@db/firebase';
 import type Project from '@db/projects/Project';
 import ConceptLink, { CharacterName } from '@nodes/ConceptLink';
 import type Node from '@nodes/Node';
@@ -24,11 +27,13 @@ import {
 } from 'firebase/firestore';
 import { SvelteMap } from 'svelte/reactivity';
 import { v4 as uuidv4 } from 'uuid';
-import { SaveStatus, type Database } from '@db/Database';
-import { firestore } from '@db/firebase';
-import { CharacterSchema, type Character } from '@db/characters/Character';
 
 const CharactersCollection = 'characters';
+
+/**
+ * Cap on a character name
+ */
+export const MAX_CHARACTER_NAME_LENGTH = 32;
 
 export class CharactersDatabase {
     private readonly db: Database;

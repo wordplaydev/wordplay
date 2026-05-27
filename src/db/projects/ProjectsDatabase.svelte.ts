@@ -1,5 +1,37 @@
 import { PossiblePII } from '@conflicts/PossiblePII';
+import {
+    Galleries,
+    Locales,
+    SaveFailureReason,
+    SaveStatus,
+    type Database,
+    type SaveFailure,
+} from '@db/Database';
+import { auth, firestore } from '@db/firebase';
 import type Gallery from '@db/galleries/Gallery';
+import { EditFailure } from '@db/projects/EditFailure';
+import { unknownFlags } from '@db/projects/Moderation';
+import { PresenceTracker } from '@db/projects/PresenceTracker.svelte';
+import Project from '@db/projects/Project';
+import ProjectCRDT, {
+    base64ToBytes as decodeCRDTSnapshot,
+} from '@db/projects/ProjectCRDT';
+import {
+    PersistenceType,
+    ProjectHistory,
+} from '@db/projects/ProjectHistory.svelte';
+import {
+    needsSchemaUpgrade,
+    ProjectSchema,
+    upgradeProject,
+    type SerializedProject,
+    type SerializedProjectUnknownVersion,
+} from '@db/projects/ProjectSchemas';
+import { ProjectsDexie } from '@db/projects/ProjectsDexie';
+import YjsFirestoreProvider from '@db/projects/YjsFirestoreProvider';
+import type LocaleText from '@locale/LocaleText';
+import type Node from '@nodes/Node';
+import Source from '@nodes/Source';
 import { COPY_SYMBOL } from '@parser/Symbols';
 import { type Observable } from 'dexie';
 import { FirebaseError } from 'firebase/app';
@@ -18,38 +50,6 @@ import {
 } from 'firebase/firestore';
 import { SvelteMap } from 'svelte/reactivity';
 import { ExamplePrefix, getExample } from '../../examples/examples';
-import type LocaleText from '@locale/LocaleText';
-import type Node from '@nodes/Node';
-import Source from '@nodes/Source';
-import {
-    Galleries,
-    Locales,
-    SaveFailureReason,
-    SaveStatus,
-    type Database,
-    type SaveFailure,
-} from '@db/Database';
-import { auth, firestore } from '@db/firebase';
-import { EditFailure } from '@db/projects/EditFailure';
-import { unknownFlags } from '@db/projects/Moderation';
-import Project from '@db/projects/Project';
-import ProjectCRDT, {
-    base64ToBytes as decodeCRDTSnapshot,
-} from '@db/projects/ProjectCRDT';
-import { PresenceTracker } from '@db/projects/PresenceTracker.svelte';
-import YjsFirestoreProvider from '@db/projects/YjsFirestoreProvider';
-import {
-    PersistenceType,
-    ProjectHistory,
-} from '@db/projects/ProjectHistory.svelte';
-import {
-    needsSchemaUpgrade,
-    ProjectSchema,
-    upgradeProject,
-    type SerializedProject,
-    type SerializedProjectUnknownVersion,
-} from '@db/projects/ProjectSchemas';
-import { ProjectsDexie } from '@db/projects/ProjectsDexie';
 
 /** The name of the projects collection in Firebase */
 export const ProjectsCollection = 'projects';
@@ -58,6 +58,11 @@ export const ProjectsCollection = 'projects';
  * Projects shouldn't be larger than 1,048,576 bytes, the Firestore document limit.
  */
 export const MAX_PROJECT_BYTE_SIZE = 1048576;
+
+/**
+ * Cap on a project name.
+ */
+export const MAX_PROJECT_NAME_LENGTH = 64;
 
 export default class ProjectsDatabase {
     /** The database that manages this */
@@ -180,11 +185,11 @@ export default class ProjectsDatabase {
         typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
             ? crypto.randomUUID()
             : typeof crypto !== 'undefined' &&
-                  typeof crypto.getRandomValues === 'function'
-                ? `s-${Array.from(crypto.getRandomValues(new Uint8Array(16)))
-                      .map((byte) => byte.toString(16).padStart(2, '0'))
-                      .join('')}-${Date.now().toString(36)}`
-                : `s-${Date.now().toString(36)}`;
+                typeof crypto.getRandomValues === 'function'
+              ? `s-${Array.from(crypto.getRandomValues(new Uint8Array(16)))
+                    .map((byte) => byte.toString(16).padStart(2, '0'))
+                    .join('')}-${Date.now().toString(36)}`
+              : `s-${Date.now().toString(36)}`;
 
     /** True once the initial local-IndexedDB hydration has produced its
      *  first batch of projects (or determined there are none). Reactive
@@ -935,9 +940,7 @@ export default class ProjectsDatabase {
                 if (history === undefined) continue;
                 try {
                     history.edit(
-                        history
-                            .getCurrent()
-                            .withCRDTSnapshot(crdt.encode()),
+                        history.getCurrent().withCRDTSnapshot(crdt.encode()),
                         false,
                         false,
                     );
@@ -1310,7 +1313,10 @@ export default class ProjectsDatabase {
             // this device's writer ID. This is what makes the remote-side
             // merge in track() above pick the right side per field.
             const stamped = project
-                .bumpStampsFrom(history.getCurrent(), this.database.getWriterID())
+                .bumpStampsFrom(
+                    history.getCurrent(),
+                    this.database.getWriterID(),
+                )
                 .withNewTime();
 
             // If a CRDT session is active for this project, apply the

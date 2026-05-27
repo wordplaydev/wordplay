@@ -36,6 +36,14 @@
         kind?: 'email' | 'password' | undefined;
         /** CSS length or nothing, setting the max-width of the field*/
         max?: string | undefined;
+        /** Hard cap on input length, in UTF-16 code units. Wired through to
+         *  the underlying `<input maxlength>` so the browser blocks further
+         *  keystrokes and truncates pastes. Close to "graphemes" for ASCII
+         *  and most CJK; for emoji-heavy text the cap is more restrictive
+         *  than a pure grapheme count (zero-width-joiner emoji can take
+         *  4+ code units each), which is what we want — visual width per
+         *  emoji is also higher, so layout constraints are tighter. */
+        maxlength?: number | undefined;
         /** A unique ID for testing and ARIA purposes */
         id: string;
         /** Whether to put validation messages inline instead of floating */
@@ -67,6 +75,7 @@
         id,
         kind = undefined,
         max = undefined,
+        maxlength = undefined,
         inlineValidation = false,
         noTipBadge = false,
     }: Props = $props();
@@ -176,6 +185,7 @@
             aria-describedby="{id}-error"
             style:width={fill ? null : `${width + 5}px`}
             style:max-width={max}
+            {maxlength}
             disabled={!editable}
             bind:value={text}
             bind:this={view}

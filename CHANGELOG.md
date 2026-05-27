@@ -15,6 +15,7 @@ This week we fixed several bugs that classrooms were running into.
 - ⚡ How-to preview glyphs no longer get stuck on a spinning placeholder when other people in the same gallery are editing.
 - 🐛 We fixed a bug where projects could crash and freeze the page if a stream kept setting itself off in a loop. The runtime now stops the loop in time so the page keeps working.
 - 💾 We fixed a bug where saving could silently fail after a long class period. Saves and live coediting now refresh your sign-in on their own and try once more, so an expired login doesn't cost you your work.
+- 📛 We now limit project names to 64 characters and character names to 32 characters. Go wild within limits!
 
 ## 0.19.0 - 2026-05-23
 
