@@ -4,6 +4,16 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.19.2 - 2026-05-27
+
+### Changed
+
+- ⚡ How-to preview glyphs now appear right away for everyone in a gallery. Before, each browser had to figure out the preview on its own — now it's saved when the author saves a how-to, so everyone else sees it instantly.
+
+### Fixed
+
+- 🐛 We fixed a bug where a "can't connect to the database" message would flash briefly during class when lots of students were editing at the same time. It was a false alarm — now it only appears if there are two connection failures in a row.
+
 ## 0.19.1 - 2026-05-26
 
 This week we fixed several bugs that classrooms were running into.
