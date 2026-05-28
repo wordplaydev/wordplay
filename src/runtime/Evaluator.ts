@@ -65,6 +65,18 @@ export const MAX_CALL_STACK_DEPTH = 512;
  * */
 export const MAX_STEP_COUNT = 262144;
 /**
+ * Cap on how many consecutive synchronous reactions (evaluate → start → finish
+ * → step → evaluate → …) we allow before deferring the next batch to a fresh
+ * task. A program where a stream re-fires itself during its own reaction —
+ * e.g., a Collision against a Phrase whose new position keeps colliding —
+ * grows this chain without bound and eventually overflows the JS call stack,
+ * which both crashes the runtime and starves the event loop long enough to
+ * prevent Firebase Auth from refreshing its token (cascading into save
+ * failures). Deferring after this many tail-reactions unwinds the stack and
+ * keeps the main thread responsive without losing the queued changes.
+ */
+export const MAX_REACTION_CHAIN = 32;
+/**
 Don't let source values take more than 256 MB of memory. 
 One memory unit is probably an average of about 128 bytes, given how much provenance we store per value.
 */
@@ -1170,8 +1182,23 @@ export default class Evaluator {
         if (this.isDone() && this.queuedChanges.length > 0) {
             const changes = this.queuedChanges;
             this.queuedChanges = [];
-            // React to the changes.
-            this.evaluate(changes);
+            // Defer once the synchronous chain gets long, so a stream that
+            // re-fires itself during its own reaction doesn't grow the
+            // call stack past V8's RangeError limit. We bounce through
+            // `later()` to let the event loop run (and Firebase Auth's
+            // refresh timer along with it) before continuing.
+            this.reactionChainLength++;
+            if (this.reactionChainLength >= MAX_REACTION_CHAIN) {
+                this.reactionChainLength = 0;
+                this.later(() => this.evaluate(changes));
+            } else {
+                this.evaluate(changes);
+            }
+        } else if (this.isDone()) {
+            // Chain completed without further queued reactions — reset
+            // the counter so a future independent stream change starts
+            // from depth zero.
+            this.reactionChainLength = 0;
         }
     }
 
@@ -1614,6 +1641,13 @@ export default class Evaluator {
 
     // Changes we haven't processed yet, because we're not done evaluating.
     private queuedChanges: StreamValue[] = [];
+
+    /** How deep we are in a synchronous chain of stream-driven reactions
+     *  (step → evaluate → start → finish → step → …). Incremented when
+     *  {@link step} tail-calls {@link evaluate} for queued changes; reset
+     *  whenever a step finishes with no queued changes. Compared against
+     *  {@link MAX_REACTION_CHAIN} to defer rather than recurse. */
+    private reactionChainLength = 0;
 
     evaluate(changed: StreamValue[]) {
         // If we're starting a new evaluation, but not done, add the changes to the queue and let end() evaluate them after we're done.

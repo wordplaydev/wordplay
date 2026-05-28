@@ -43,6 +43,7 @@
         type CharacterShape,
         type Point,
     } from '@db/characters/Character';
+    import { MAX_CHARACTER_NAME_LENGTH } from '@db/characters/CharacterDatabase.svelte';
     import { Creator } from '@db/creators/CreatorDatabase';
     import { CharactersDB, locales } from '@db/Database';
     import type Project from '@db/projects/Project';
@@ -2388,6 +2389,8 @@
                         description={(l) =>
                             l.ui.page.character.field.name.description}
                         validator={isValidName}
+                        max="8em"
+                        maxlength={MAX_CHARACTER_NAME_LENGTH}
                     ></TextField>
                 </h1>
                 <RootView

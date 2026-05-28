@@ -4,6 +4,19 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.19.1 - 2026-05-26
+
+This week we fixed several bugs that classrooms were running into.
+
+### Fixed
+
+- 📖 We fixed a bug where text typed in a how-to could disappear before it was saved. How-tos now save automatically as you write, so your work is safe even if you click outside the editor or get interrupted.
+- 📖 New how-tos now land close to the others on the canvas instead of getting dropped far away or piled on top of each other, and you can finally drag apart how-tos that ended up stacked. Moving a how-to also pans automatically.
+- ⚡ How-to preview glyphs no longer get stuck on a spinning placeholder when other people in the same gallery are editing.
+- 🐛 We fixed a bug where projects could crash and freeze the page if a stream kept setting itself off in a loop. The runtime now stops the loop in time so the page keeps working.
+- 💾 We fixed a bug where saving could silently fail after a long class period. Saves and live coediting now refresh your sign-in on their own and try once more, so an expired login doesn't cost you your work.
+- 📛 We now limit project names to 64 characters and character names to 32 characters. Go wild within limits!
+
 ## 0.19.0 - 2026-05-23
 
 This week we focused on multilingual coding features, improved conflict resolution, collaborative editing, and several bug fixes.

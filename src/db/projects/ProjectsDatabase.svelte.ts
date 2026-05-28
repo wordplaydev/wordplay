@@ -1,5 +1,37 @@
 import { PossiblePII } from '@conflicts/PossiblePII';
+import {
+    Galleries,
+    Locales,
+    SaveFailureReason,
+    SaveStatus,
+    type Database,
+    type SaveFailure,
+} from '@db/Database';
+import { auth, firestore } from '@db/firebase';
 import type Gallery from '@db/galleries/Gallery';
+import { EditFailure } from '@db/projects/EditFailure';
+import { unknownFlags } from '@db/projects/Moderation';
+import { PresenceTracker } from '@db/projects/PresenceTracker.svelte';
+import Project from '@db/projects/Project';
+import ProjectCRDT, {
+    base64ToBytes as decodeCRDTSnapshot,
+} from '@db/projects/ProjectCRDT';
+import {
+    PersistenceType,
+    ProjectHistory,
+} from '@db/projects/ProjectHistory.svelte';
+import {
+    needsSchemaUpgrade,
+    ProjectSchema,
+    upgradeProject,
+    type SerializedProject,
+    type SerializedProjectUnknownVersion,
+} from '@db/projects/ProjectSchemas';
+import { ProjectsDexie } from '@db/projects/ProjectsDexie';
+import YjsFirestoreProvider from '@db/projects/YjsFirestoreProvider';
+import type LocaleText from '@locale/LocaleText';
+import type Node from '@nodes/Node';
+import Source from '@nodes/Source';
 import { COPY_SYMBOL } from '@parser/Symbols';
 import { type Observable } from 'dexie';
 import { FirebaseError } from 'firebase/app';
@@ -18,37 +50,6 @@ import {
 } from 'firebase/firestore';
 import { SvelteMap } from 'svelte/reactivity';
 import { ExamplePrefix, getExample } from '../../examples/examples';
-import type LocaleText from '@locale/LocaleText';
-import type Node from '@nodes/Node';
-import Source from '@nodes/Source';
-import {
-    Galleries,
-    Locales,
-    SaveFailureReason,
-    SaveStatus,
-    type Database,
-    type SaveFailure,
-} from '@db/Database';
-import { firestore } from '@db/firebase';
-import { EditFailure } from '@db/projects/EditFailure';
-import { unknownFlags } from '@db/projects/Moderation';
-import Project from '@db/projects/Project';
-import ProjectCRDT, {
-    base64ToBytes as decodeCRDTSnapshot,
-} from '@db/projects/ProjectCRDT';
-import { PresenceTracker } from '@db/projects/PresenceTracker.svelte';
-import YjsFirestoreProvider from '@db/projects/YjsFirestoreProvider';
-import {
-    PersistenceType,
-    ProjectHistory,
-} from '@db/projects/ProjectHistory.svelte';
-import {
-    ProjectSchema,
-    upgradeProject,
-    type SerializedProject,
-    type SerializedProjectUnknownVersion,
-} from '@db/projects/ProjectSchemas';
-import { ProjectsDexie } from '@db/projects/ProjectsDexie';
 
 /** The name of the projects collection in Firebase */
 export const ProjectsCollection = 'projects';
@@ -57,6 +58,11 @@ export const ProjectsCollection = 'projects';
  * Projects shouldn't be larger than 1,048,576 bytes, the Firestore document limit.
  */
 export const MAX_PROJECT_BYTE_SIZE = 1048576;
+
+/**
+ * Cap on a project name.
+ */
+export const MAX_PROJECT_NAME_LENGTH = 64;
 
 export default class ProjectsDatabase {
     /** The database that manages this */
@@ -179,11 +185,11 @@ export default class ProjectsDatabase {
         typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
             ? crypto.randomUUID()
             : typeof crypto !== 'undefined' &&
-                  typeof crypto.getRandomValues === 'function'
-                ? `s-${Array.from(crypto.getRandomValues(new Uint8Array(16)))
-                      .map((byte) => byte.toString(16).padStart(2, '0'))
-                      .join('')}-${Date.now().toString(36)}`
-                : `s-${Date.now().toString(36)}`;
+                typeof crypto.getRandomValues === 'function'
+              ? `s-${Array.from(crypto.getRandomValues(new Uint8Array(16)))
+                    .map((byte) => byte.toString(16).padStart(2, '0'))
+                    .join('')}-${Date.now().toString(36)}`
+              : `s-${Date.now().toString(36)}`;
 
     /** True once the initial local-IndexedDB hydration has produced its
      *  first batch of projects (or determined there are none). Reactive
@@ -241,14 +247,18 @@ export default class ProjectsDatabase {
         // fromCloud=false: this is our own IndexedDB cache rehydrating,
         // not a peer/backend writing — the cache may trail the in-memory
         // Y.Doc, so track() must skip foldRemoteCRDT for these.
-        for (const project of projects) {
+        for (const { project, upgraded } of projects) {
             this.track(
                 project,
                 true,
                 project.isTutorial()
                     ? PersistenceType.Local
                     : PersistenceType.Online,
-                true,
+                // Mark as unsaved when the on-disk shape was older than
+                // the current schema, so the next persist() round writes
+                // the migrated doc back. Cached IndexedDB entries from a
+                // pre-upgrade session would otherwise never get bumped.
+                !upgraded,
                 false,
             );
         }
@@ -279,13 +289,28 @@ export default class ProjectsDatabase {
         }
     }
 
-    async deserializeAll(serialized: unknown[]) {
-        // Load all of the projects and their locale dependencies.
-        return (
-            await Promise.all(
-                serialized.map((project) => this.parseProject(project)),
-            )
-        ).filter((project): project is Project => project !== undefined);
+    async deserializeAll(
+        serialized: unknown[],
+    ): Promise<Array<{ project: Project; upgraded: boolean }>> {
+        // Load all of the projects and their locale dependencies, pairing
+        // each parsed Project with a flag indicating whether the raw
+        // serialized data was at an older schema version. Callers use
+        // the flag to mark the history as unsaved so persist() backfills
+        // the upgraded schema on the next round — without an explicit
+        // user edit. See `needsSchemaUpgrade` below for the rationale.
+        const results = await Promise.all(
+            serialized.map(async (raw) => {
+                const upgraded = needsSchemaUpgrade(raw);
+                const project = await this.parseProject(raw);
+                return project !== undefined
+                    ? { project, upgraded }
+                    : undefined;
+            }),
+        );
+        return results.filter(
+            (r): r is { project: Project; upgraded: boolean } =>
+                r !== undefined,
+        );
     }
 
     async deserialize(
@@ -390,7 +415,9 @@ export default class ProjectsDatabase {
 
                 // Deserialize the projects and track them, if they're not already tracked.
                 // Ensure the project is only tracked as editable if the user is the owner, collaborator, or curator.
-                for (const project of await this.deserializeAll(serialized)) {
+                for (const { project, upgraded } of await this.deserializeAll(
+                    serialized,
+                )) {
                     // The project is ediable i they are an owner, collaborator, or it is in a gallery for which they are curator.
                     const gallery = project.getGallery();
                     const editable =
@@ -401,7 +428,28 @@ export default class ProjectsDatabase {
                                 .get(gallery)
                                 ?.hasCurator(user.uid) === true);
 
-                    this.track(project, editable, PersistenceType.Online, true);
+                    // If the Firestore doc was at an older schema version,
+                    // mark the history as unsaved so persist() backfills
+                    // the upgraded shape on the next saveSoon tick. Only
+                    // valid for editable projects — a read-only viewer
+                    // doesn't have permission to rewrite the doc.
+                    const history = this.track(
+                        project,
+                        editable,
+                        PersistenceType.Online,
+                        editable ? !upgraded : true,
+                    );
+                    if (editable && upgraded) {
+                        // track() may have merged into a pre-existing
+                        // history (one we'd already tracked this session)
+                        // whose `saved=true` wouldn't have been touched
+                        // by the `saved` arg above — that arg only seeds
+                        // the *new-history* path. Force the bit here so
+                        // persist() picks the row up on the next round
+                        // and rewrites the doc at the latest schema.
+                        history?.markUnsaved();
+                        this.saveSoon();
+                    }
                 }
 
                 // Find all projects 1) known locally, 2) that didn't appear in latest update
@@ -754,6 +802,14 @@ export default class ProjectsDatabase {
                 crdt,
                 this.sessionID,
                 writable,
+                async () => {
+                    // Force-refresh the Firebase Auth ID token so a
+                    // stale-token permission-denied has a chance to
+                    // recover before the provider gives up.
+                    if (auth?.currentUser) {
+                        await auth.currentUser.getIdToken(true);
+                    }
+                },
             );
             this.crdtProviders.set(projectID, provider);
 
@@ -884,9 +940,7 @@ export default class ProjectsDatabase {
                 if (history === undefined) continue;
                 try {
                     history.edit(
-                        history
-                            .getCurrent()
-                            .withCRDTSnapshot(crdt.encode()),
+                        history.getCurrent().withCRDTSnapshot(crdt.encode()),
                         false,
                         false,
                     );
@@ -1259,7 +1313,10 @@ export default class ProjectsDatabase {
             // this device's writer ID. This is what makes the remote-side
             // merge in track() above pick the right side per field.
             const stamped = project
-                .bumpStampsFrom(history.getCurrent(), this.database.getWriterID())
+                .bumpStampsFrom(
+                    history.getCurrent(),
+                    this.database.getWriterID(),
+                )
                 .withNewTime();
 
             // If a CRDT session is active for this project, apply the
@@ -1554,32 +1611,68 @@ export default class ProjectsDatabase {
             }
 
             if (sendable.length > 0) {
-                // Create a batch of the unsaved projects, remembering exactly
-                // which version of each history we sent. We need this so that if
-                // an edit lands during the await batch.commit() below, we don't
-                // mistakenly mark the history as saved — that would clobber the
-                // new edit's saved=false flag and the next saveSoon would skip it.
-                const batch = writeBatch(firestore);
+                // Build a fresh write batch for each commit attempt — a
+                // Firestore WriteBatch is single-use, so the
+                // permission-denied retry below has to rebuild it.
+                // sentVersions stays stable across attempts because the
+                // version we *intended* to send doesn't change just
+                // because the SDK rejected the previous attempt.
                 const sentVersions = new Map<
                     (typeof sendable)[number],
                     Project
                 >();
-                for (const history of sendable) {
-                    const current = history.getCurrent();
-                    // Mark it as persisted, since we're about to save it that way.
-                    const serialized = this.withCRDTSnapshot(
-                        current.asPersisted(),
-                    ).serialize();
-                    batch.set(
-                        doc(firestore, ProjectsCollection, serialized.id),
-                        serialized,
-                    );
-                    sentVersions.set(history, current);
+                for (const history of sendable)
+                    sentVersions.set(history, history.getCurrent());
+
+                // Capture into a local so the type narrowing from the
+                // enclosing `if (firestore && userID)` carries into the
+                // arrow function below.
+                const db = firestore;
+                const buildBatch = () => {
+                    const batch = writeBatch(db);
+                    for (const [, sentVersion] of sentVersions) {
+                        // Mark it as persisted, since we're about to save it that way.
+                        const serialized = this.withCRDTSnapshot(
+                            sentVersion.asPersisted(),
+                        ).serialize();
+                        batch.set(
+                            doc(db, ProjectsCollection, serialized.id),
+                            serialized,
+                        );
+                    }
+                    return batch;
+                };
+
+                let commitError: unknown = undefined;
+                try {
+                    await this.database.track(buildBatch().commit());
+                } catch (error) {
+                    commitError = error;
                 }
 
-                try {
-                    await this.database.track(batch.commit());
+                // If the only thing wrong is a stale auth token (the
+                // common case for a long editing session where the
+                // event loop has been starved enough to skip the
+                // 55-minute refresh), force a refresh and try once
+                // more. The Firestore rule allows owner/collaborator
+                // writes; a real permission-denied here is rare and
+                // the retry will just fail the same way.
+                if (
+                    commitError instanceof FirebaseError &&
+                    commitError.code === 'permission-denied' &&
+                    auth?.currentUser !== undefined &&
+                    auth?.currentUser !== null
+                ) {
+                    try {
+                        await auth.currentUser.getIdToken(true);
+                        await this.database.track(buildBatch().commit());
+                        commitError = undefined;
+                    } catch (retryError) {
+                        commitError = retryError;
+                    }
+                }
 
+                if (commitError === undefined) {
                     // Only mark a history as saved if its current version is still
                     // the exact one we just sent. If reviseProject() ran during the
                     // await above, history.getCurrent() will point to a new object
@@ -1588,14 +1681,14 @@ export default class ProjectsDatabase {
                     for (const [history, sentVersion] of sentVersions)
                         if (history.getCurrent() === sentVersion)
                             history.markSaved();
-                } catch (error) {
-                    if (error instanceof FirebaseError) {
-                        console.error(error.code);
-                        console.error(error.message);
+                } else {
+                    if (commitError instanceof FirebaseError) {
+                        console.error(commitError.code);
+                        console.error(commitError.message);
                     }
                     const detail =
-                        error instanceof FirebaseError
-                            ? error.code
+                        commitError instanceof FirebaseError
+                            ? commitError.code
                             : undefined;
                     // Firestore batch.commit is atomic: nothing wrote, so every
                     // project in the batch needs a failure entry.

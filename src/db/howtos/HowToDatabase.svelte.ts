@@ -143,6 +143,35 @@ export default class HowTo {
         this.data = data;
     }
 
+    /**
+     * Build a new HowTo from this one with the given fields overridden.
+     * Always bumps `v` to the latest schema version so any save through
+     * this path migrates the doc forward — old docs in Firestore catch
+     * up the next time their owner edits anything.
+     *
+     * The `social` field merges: callers name only the social subfields
+     * that actually change (e.g., `{ social: { bookmarkers: [...] } }`)
+     * instead of having to spread the rest of social themselves.
+     *
+     * Hand the result to {@link HowToDatabase.updateHowTo} (or batch it
+     * into addHowTo) to persist — HowTo itself is immutable.
+     */
+    withFields(
+        updates: Partial<Omit<HowToDocument, 'social' | 'v'>> & {
+            social?: Partial<HowToSocialDocument>;
+        },
+    ): HowTo {
+        const { social, ...rest } = updates;
+        return new HowTo({
+            ...this.data,
+            ...rest,
+            v: HowToSchemaLatestVersion,
+            social: social
+                ? { ...this.data.social, ...social }
+                : this.data.social,
+        });
+    }
+
     getHowToId() {
         return this.data.id;
     }

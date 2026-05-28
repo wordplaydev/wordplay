@@ -129,6 +129,137 @@ describe('YjsFirestoreProvider — data-loss prevention on stop', () => {
         expect(addDoc).not.toHaveBeenCalled();
     });
 
+    test('writable session refreshes the token and retries once on permission-denied (stale-token recovery)', async () => {
+        // A long-running owner session can have its Firebase Auth token
+        // expire if the event loop gets starved (Henry M.'s case: a
+        // Collision feedback loop blocked the main thread past the
+        // 55-minute refresh window). The provider's constructor-time
+        // writable=true check says we *should* be allowed, so the first
+        // permission-denied is almost always a stale-token race rather
+        // than a real permission change. Force one refresh and retry
+        // before giving up.
+        let attempt = 0;
+        (addDoc as ReturnType<typeof vi.fn>).mockImplementation(
+            async () => {
+                attempt++;
+                if (attempt === 1)
+                    throw new FirebaseError(
+                        'permission-denied',
+                        'Missing or insufficient permissions.',
+                    );
+                return { id: 'doc-after-refresh' };
+            },
+        );
+        const refreshAuth = vi.fn(async () => undefined);
+        const consoleWarn = vi
+            .spyOn(console, 'warn')
+            .mockImplementation(() => undefined);
+
+        const crdt = ProjectCRDT.fromSources(['x']);
+        const provider = new YjsFirestoreProvider(
+            fakeDb,
+            'project-refresh',
+            crdt,
+            'writer-A',
+            true,
+            refreshAuth,
+        );
+
+        crdt.applyLocalEdit(0, 'x', 'xa', 'local');
+        await provider.stop();
+
+        // Two addDoc calls: the rejected one and the retry after refresh.
+        expect(addDoc).toHaveBeenCalledTimes(2);
+        expect(refreshAuth).toHaveBeenCalledTimes(1);
+        // No terminal warning — the retry succeeded, so the provider is
+        // still happy to publish more edits.
+        expect(consoleWarn).not.toHaveBeenCalled();
+
+        consoleWarn.mockRestore();
+    });
+
+    test('writable session that fails a second permission-denied after refresh is terminal', async () => {
+        // If the refresh+retry path ALSO comes back with
+        // permission-denied, the verdict is real (collaborator was
+        // actually removed, account state changed, etc.) and we should
+        // fall back to the existing terminal behavior. One refresh per
+        // session — no infinite refresh loop.
+        (addDoc as ReturnType<typeof vi.fn>).mockImplementation(
+            async () => {
+                throw new FirebaseError(
+                    'permission-denied',
+                    'Missing or insufficient permissions.',
+                );
+            },
+        );
+        const refreshAuth = vi.fn(async () => undefined);
+        const consoleWarn = vi
+            .spyOn(console, 'warn')
+            .mockImplementation(() => undefined);
+
+        const crdt = ProjectCRDT.fromSources(['x']);
+        const provider = new YjsFirestoreProvider(
+            fakeDb,
+            'project-real-deny',
+            crdt,
+            'writer-A',
+            true,
+            refreshAuth,
+        );
+
+        crdt.applyLocalEdit(0, 'x', 'xa', 'local');
+        await provider.stop();
+
+        // Two addDoc calls: the initial reject + retry-after-refresh
+        // that also rejects. After that, terminal.
+        expect(addDoc).toHaveBeenCalledTimes(2);
+        expect(refreshAuth).toHaveBeenCalledTimes(1);
+        // Single terminal warning after the retry also fails.
+        expect(consoleWarn).toHaveBeenCalledTimes(1);
+
+        consoleWarn.mockRestore();
+    });
+
+    test('non-writable session does NOT refresh on permission-denied (no point — rule will still deny)', async () => {
+        // A viewer/commenter who somehow slipped past the writable
+        // gate and emitted an update should fail closed without
+        // burning a token refresh. Refresh wouldn't change the rule's
+        // verdict and would unnecessarily round-trip auth.
+        (addDoc as ReturnType<typeof vi.fn>).mockImplementation(
+            async () => {
+                throw new FirebaseError(
+                    'permission-denied',
+                    'Missing or insufficient permissions.',
+                );
+            },
+        );
+        const refreshAuth = vi.fn(async () => undefined);
+        const consoleWarn = vi
+            .spyOn(console, 'warn')
+            .mockImplementation(() => undefined);
+
+        const crdt = ProjectCRDT.fromSources(['x']);
+        const provider = new YjsFirestoreProvider(
+            fakeDb,
+            'project-readonly-deny',
+            crdt,
+            'writer-A',
+            false, // writable=false — we already know the rule will deny
+            refreshAuth,
+        );
+
+        // writable=false means the provider never attached its
+        // local→remote listener, so a CRDT edit doesn't produce an
+        // addDoc to refuse. Verify that's still the case.
+        crdt.applyLocalEdit(0, 'x', 'xa', 'local');
+        await provider.stop();
+        expect(addDoc).not.toHaveBeenCalled();
+        expect(refreshAuth).not.toHaveBeenCalled();
+        expect(consoleWarn).not.toHaveBeenCalled();
+
+        consoleWarn.mockRestore();
+    });
+
     test('permission-denied is terminal — no retry, no console.error spam', async () => {
         // Reproduces the production-log issue: a viewer/commenter
         // session typed into a project they didn't own; every flush

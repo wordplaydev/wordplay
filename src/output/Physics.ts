@@ -437,6 +437,22 @@ export default class Physics {
         );
 
         if (steps > 0) {
+            // Decrement the accumulator BEFORE the step loop, not after.
+            // Engine.update fires collisionStart/End synchronously, and the
+            // Collision-stream handler eventually lands in
+            // Evaluator.end(), which calls physics.tick(0) "just in case"
+            // there are pending collisions to surface. With a post-loop
+            // decrement, that reentrant tick(0) saw the same accumulator
+            // value, computed the same `steps`, and re-ran Engine.update
+            // — infinite recursion (RangeError after ~75 frames on a
+            // project with an active collision).
+            //
+            // Pre-decrementing means the reentrant tick(0) sees the
+            // accumulator already drained for this batch, computes
+            // steps=0, and returns cleanly.
+            this.accumulator -= steps * FIXED_STEP_MS;
+            // Drop remainder when we hit the cap so it doesn't grow forever.
+            if (steps === MAX_STEPS) this.accumulator = 0;
             for (let i = 1; i <= steps; i++) {
                 // Interpolate sweeping bodies along their path so the engine
                 // can detect overlaps at intermediate positions.
@@ -450,9 +466,6 @@ export default class Physics {
                 for (const engine of this.enginesByZ.values())
                     MatterJS.Engine.update(engine, FIXED_STEP_MS);
             }
-            this.accumulator -= steps * FIXED_STEP_MS;
-            // Drop remainder when we hit the cap so it doesn't grow forever.
-            if (steps === MAX_STEPS) this.accumulator = 0;
         }
 
         // Ensure sweeping bodies reach their final target (covers steps == 0).

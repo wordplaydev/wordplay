@@ -34,6 +34,7 @@
     import type Chat from '@db/chats/ChatDatabase.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
     import { locales, Projects } from '@db/Database';
+    import { MAX_PROJECT_NAME_LENGTH } from '@db/projects/ProjectsDatabase.svelte';
     import {
         getLocalizedProjectName,
         validateProjectName,
@@ -300,7 +301,8 @@
                             validator={validateProjectName}
                             changed={(name) =>
                                 Projects.reviseProject(project.withName(name))}
-                            max="7em"
+                            max="8em"
+                            maxlength={MAX_PROJECT_NAME_LENGTH}
                         />
                     {:else}{getLocalizedProjectName(project, $locales)}{/if}
                 </span>
