@@ -128,6 +128,9 @@ export class Database {
      *  Concurrent writes share a single check rather than spawning their own. */
     private writeCheckInFlight = false;
     private static WRITE_CHECK_TIMEOUT_MS = 8_000;
+    /** Number of consecutive probe failures. Only marks Firebase unreachable
+     *  after two in a row, suppressing false positives under classroom load. */
+    private writeCheckConsecutiveFailures = 0;
 
     constructor(locales: SupportedLocale[], defaultLocale: LocaleText) {
         // Set up in-memory stores of configuration settings and locale caches.
@@ -257,8 +260,15 @@ export class Database {
             ),
         ])
             .then(
-                () => this.markFirebaseReachable(),
-                () => this.markFirebaseDisconnected(),
+                () => {
+                    this.writeCheckConsecutiveFailures = 0;
+                    this.markFirebaseReachable();
+                },
+                () => {
+                    this.writeCheckConsecutiveFailures++;
+                    if (this.writeCheckConsecutiveFailures >= 2)
+                        this.markFirebaseDisconnected();
+                },
             )
             .finally(() => {
                 this.writeCheckInFlight = false;
