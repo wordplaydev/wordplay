@@ -1,7 +1,6 @@
+⏳
 Study Mode Meter
-
-study-mode-meter
-
+=== start/en
 ¶The action stores the choice the user clicks, such as add or reset.¶/en
 action: Choice()
 
