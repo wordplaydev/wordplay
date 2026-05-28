@@ -12,6 +12,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Fixed
 
+- 🤝 We fixed the send button in the collaboration chat so it stays visible and works on narrow screens. (#1157)
 - 🤝 We fixed a bug where new chat messages didn't appear until you switched browser tabs and came back. (#1158)
 - 🐛 We fixed a bug where a "can't connect to the database" message would flash briefly during class when lots of students were editing at the same time. It was a false alarm — now it only appears if there are two connection failures in a row.
 
