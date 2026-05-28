@@ -266,7 +266,7 @@
         border-radius: var(--wordplay-border-radius);
         display: flex;
         flex-direction: row;
-        align-items: center;
+        align-items: flex-start;
         gap: var(--wordplay-spacing);
     }
 
@@ -316,6 +316,8 @@
         overflow: hidden;
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
         border-radius: var(--wordplay-border-radius);
+        flex-shrink: 0;
+        aspect-ratio: 1 / 1;
     }
 
     .preview:hover {
