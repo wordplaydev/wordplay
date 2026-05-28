@@ -9,6 +9,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Changed
 
 - ⚡ How-to preview glyphs now appear right away for everyone in a gallery. Before, each browser had to figure out the preview on its own — now it's saved when the author saves a how-to, so everyone else sees it instantly.
+- 📐 We made the toolbars across the app hide extra buttons in a popup menu (☰) when the screen is too narrow, so everything stays reachable on small phones. The page footer's links also shrink to just their emoji icons when there isn't room for the text.
 
 ### Fixed
 

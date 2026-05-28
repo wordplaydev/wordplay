@@ -18928,6 +18928,25 @@
                   ],
                   "type": "object"
                 },
+                "overflow": {
+                  "additionalProperties": false,
+                  "description": "The overflow toolbar toggle that reveals clipped toolbar items",
+                  "properties": {
+                    "button": {
+                      "$ref": "#/definitions/ToggleText",
+                      "description": "The toggle button that shows or hides the overflow panel"
+                    },
+                    "popup": {
+                      "description": "[plain] ARIA label for the overflow panel",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "button",
+                    "popup"
+                  ],
+                  "type": "object"
+                },
                 "table": {
                   "additionalProperties": false,
                   "description": "An editable table",
@@ -18960,7 +18979,8 @@
                 "home",
                 "table",
                 "formatted",
-                "backtotop"
+                "backtotop",
+                "overflow"
               ],
               "type": "object"
             }

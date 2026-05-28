@@ -4661,7 +4661,14 @@
                 "bullet": "$~项目符号",
                 "attention": "$~突出显示此表达式"
             },
-            "backtotop": "$~返回顶部"
+            "backtotop": "$~返回顶部",
+            "overflow": {
+                "button": {
+                    "on": "$~隐藏额外控件",
+                    "off": "$~显示额外控件"
+                },
+                "popup": "$~附加控件"
+            }
         },
         "tile": {
             "toggle": {

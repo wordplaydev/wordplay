@@ -128,6 +128,8 @@ export const ERASE_SYMBOL = '⌫';
 export const TEACH_SYMBOL = '🏫';
 export const LEARN_SYMBOL = '🎓';
 export const SYMBOL_SYMBOL = '🙂';
+// Discord / community-help link in the page footer.
+export const HELP_SYMBOL = '🤝';
 
 export const UNDO_SYMBOL = '⟲';
 export const REDO_SYMBOL = '⟳';

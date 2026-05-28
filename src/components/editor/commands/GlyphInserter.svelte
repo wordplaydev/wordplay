@@ -2,6 +2,7 @@
     import GlyphChooser from '@components/widgets/GlyphChooser.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import Toggle from '@components/widgets/Toggle.svelte';
+    import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
     import type Caret from '@edit/caret/Caret';
     import FormattedLiteral from '@nodes/FormattedLiteral';
     import Node from '@nodes/Node';
@@ -119,57 +120,59 @@
 </script>
 
 <section class:expanded class="directory">
-    <div class="matches">
-        {#if expanded}
-            <GlyphChooser
-                externalQuery={query}
-                pick={(glyph) => insert(glyph)}
+    {#snippet glyphControls()}
+        <div class="controls">
+            <TextField
+                id="glyph-search"
+                max="5m"
+                placeholder={SEARCH_SYMBOL}
+                description={(l) => l.ui.source.cursor.search}
+                bind:text={query}
             />
-        {:else}
-            {#each Defaults as command}<CommandButton
-                    {sourceID}
-                    {command}
-                    token
-                    focusAfter
-                />{/each}
-        {/if}
-    </div>
-    <div class="controls">
-        <TextField
-            id="glyph-search"
-            max="5m"
-            placeholder={SEARCH_SYMBOL}
-            description={(l) => l.ui.source.cursor.search}
-            bind:text={query}
+            <Toggle
+                uiid="directory"
+                tips={(l) => l.ui.source.toggle.characters}
+                on={expanded}
+                {toggle}>{withColorEmoji(expanded ? '😴' : '😊')}</Toggle
+            >
+        </div>
+    {/snippet}
+
+    {#snippet glyphChooserView()}
+        <GlyphChooser externalQuery={query} pick={(glyph) => insert(glyph)} />
+    {/snippet}
+
+    {#snippet defaultButton(i: number)}
+        <CommandButton
+            command={Defaults[i]}
+            {sourceID}
+            token
+            focusAfter
         />
-        <Toggle
-            uiid="directory"
-            tips={(l) => l.ui.source.toggle.characters}
-            on={expanded}
-            {toggle}>{withColorEmoji(expanded ? '😴' : '😊')}</Toggle
-        >
-    </div>
+    {/snippet}
+
+    {#if expanded}
+        <!-- Expanded: GlyphChooser takes the stretchy slot; controls pinned right. -->
+        <OverflowToolbar
+            items={[]}
+            stretchy={glyphChooserView}
+            pinned={[glyphControls]}
+        />
+    {:else}
+        <!-- Collapsed: each CommandButton is its own item, overflows one by one. -->
+        <OverflowToolbar
+            items={{ count: Defaults.length, render: defaultButton }}
+            pinned={[glyphControls]}
+        />
+    {/if}
 </section>
 
 <style>
     section {
         display: flex;
-        flex-direction: row;
-        gap: 0;
         background-color: var(--wordplay-background);
-        align-items: baseline;
         border-top: var(--wordplay-border-color) solid 1px;
-    }
-
-    .matches {
-        flex-grow: 1;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: var(--wordplay-spacing);
-        overflow-x: auto;
-        padding: var(--wordplay-spacing);
-        align-content: baseline;
+        padding-inline-start: var(--wordplay-spacing);
     }
 
     .controls {
@@ -179,9 +182,5 @@
         gap: var(--wordplay-spacing);
         padding: var(--wordplay-spacing);
         flex-shrink: 0;
-    }
-
-    section.expanded {
-        min-height: 10em;
     }
 </style>

@@ -129,6 +129,13 @@ type UITexts = {
         };
         /** [plain] The back to top link label */
         backtotop: string;
+        /** The overflow toolbar toggle that reveals clipped toolbar items */
+        overflow: {
+            /** The toggle button that shows or hides the overflow panel */
+            button: ToggleText;
+            /** [plain] ARIA label for the overflow panel */
+            popup: string;
+        };
     };
     /** Controls for the tiled windows in the project */
     tile: {

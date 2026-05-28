@@ -4699,7 +4699,14 @@
                 "bullet": "$~madde işareti",
                 "attention": "$~bu ifadeyi vurgulayın"
             },
-            "backtotop": "$~başa dön"
+            "backtotop": "$~başa dön",
+            "overflow": {
+                "button": {
+                    "on": "$~Ek kontrolleri gizle",
+                    "off": "$~ek kontrolleri göster"
+                },
+                "popup": "$~Ek kontroller"
+            }
         },
         "tile": {
             "toggle": {

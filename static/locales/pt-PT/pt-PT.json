@@ -4700,7 +4700,14 @@
                 "bullet": "$~marcador",
                 "attention": "$~Destaque esta expressão"
             },
-            "backtotop": "$~Voltar ao topo"
+            "backtotop": "$~Voltar ao topo",
+            "overflow": {
+                "button": {
+                    "on": "$~ocultar controlos extras",
+                    "off": "$~mostrar controlos adicionais"
+                },
+                "popup": "$~Controles adicionais"
+            }
         },
         "tile": {
             "toggle": {

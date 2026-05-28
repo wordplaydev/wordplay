@@ -4702,7 +4702,14 @@
                 "bullet": "$~puce",
                 "attention": "$~mettre en évidence cette expression"
             },
-            "backtotop": "$~Retour en haut de page"
+            "backtotop": "$~Retour en haut de page",
+            "overflow": {
+                "button": {
+                    "on": "$~masquer les commandes supplémentaires",
+                    "off": "$~afficher les commandes supplémentaires"
+                },
+                "popup": "$~Commandes supplémentaires"
+            }
         },
         "tile": {
             "toggle": {

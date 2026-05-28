@@ -4700,7 +4700,14 @@
                 "bullet": "$~dấu đầu dòng",
                 "attention": "$~nhấn mạnh biểu thức này"
             },
-            "backtotop": "$~trở lại đầu trang"
+            "backtotop": "$~trở lại đầu trang",
+            "overflow": {
+                "button": {
+                    "on": "$~ẩn các điều khiển bổ sung",
+                    "off": "$~hiển thị các điều khiển bổ sung"
+                },
+                "popup": "$~Các điều khiển bổ sung"
+            }
         },
         "tile": {
             "toggle": {

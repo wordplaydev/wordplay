@@ -4699,7 +4699,14 @@
                 "bullet": "$~punkt",
                 "attention": "$~markera detta uttryck"
             },
-            "backtotop": "$~tillbaka till toppen"
+            "backtotop": "$~tillbaka till toppen",
+            "overflow": {
+                "button": {
+                    "on": "$~dölj extra kontroller",
+                    "off": "$~visa extra kontroller"
+                },
+                "popup": "$~Ytterligare kontroller"
+            }
         },
         "tile": {
             "toggle": {

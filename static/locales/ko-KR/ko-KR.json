@@ -4699,7 +4699,14 @@
                 "bullet": "$~글머리 기호",
                 "attention": "$~이 표현을 강조 표시하세요"
             },
-            "backtotop": "$~맨 위로 돌아가기"
+            "backtotop": "$~맨 위로 돌아가기",
+            "overflow": {
+                "button": {
+                    "on": "$~추가 컨트롤 숨기기",
+                    "off": "$~추가 컨트롤 표시"
+                },
+                "popup": "$~추가 제어"
+            }
         },
         "tile": {
             "toggle": {

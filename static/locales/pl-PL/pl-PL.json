@@ -4707,7 +4707,14 @@
                 "bullet": "$~punkt listy",
                 "attention": "$~zaznacz to wyrażenie"
             },
-            "backtotop": "$~powrót na górę"
+            "backtotop": "$~powrót na górę",
+            "overflow": {
+                "button": {
+                    "on": "$~ukryj dodatkowe elementy sterujące",
+                    "off": "$~pokaż dodatkowe elementy sterujące"
+                },
+                "popup": "$~Dodatkowe elementy sterujące"
+            }
         },
         "tile": {
             "toggle": {

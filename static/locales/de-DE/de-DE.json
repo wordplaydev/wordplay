@@ -4698,7 +4698,14 @@
                 "bullet": "$~Aufzählungszeichen",
                 "attention": "$~Diesen Ausdruck hervorheben"
             },
-            "backtotop": "$~Zurück nach oben"
+            "backtotop": "$~Zurück nach oben",
+            "overflow": {
+                "button": {
+                    "on": "$~Zusätzliche Steuerelemente ausblenden",
+                    "off": "$~Zusätzliche Steuerelemente anzeigen"
+                },
+                "popup": "$~Zusätzliche Bedienelemente"
+            }
         },
         "tile": {
             "toggle": {

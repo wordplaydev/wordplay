@@ -1,18 +1,37 @@
 <script lang="ts">
     import { page } from '$app/state';
+    import CreatorView from '@components/app/CreatorView.svelte';
     import Emoji from '@components/app/Emoji.svelte';
+    import Feedback from '@components/app/Feedback.svelte';
     import Link from '@components/app/Link.svelte';
+    import Status from '@components/app/Status.svelte';
     import Localizer from '@components/localization/Localizer.svelte';
     import {
         getLocalizing,
+        getUser,
+        isAuthenticated,
         setFullscreen,
         type FullscreenContext,
     } from '@components/project/Contexts';
+    import LocaleChooser from '@components/settings/LocaleChooser.svelte';
+    import Notifications from '@components/settings/Notifications.svelte';
     import Settings from '@components/settings/Settings.svelte';
     import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
+    import Toggle from '@components/widgets/Toggle.svelte';
+    import { Creator } from '@db/creators/CreatorDatabase';
     import Color from '@output/Color';
-    import { LOGO_SYMBOL } from '@parser/Symbols';
+    import {
+        DOCUMENTATION_SYMBOL,
+        HELP_SYMBOL,
+        LEARN_SYMBOL,
+        LOGO_SYMBOL,
+        PROJECT_SYMBOL,
+        STAGE_SYMBOL,
+        SYMBOL_SYMBOL,
+        TEACH_SYMBOL,
+    } from '@parser/Symbols';
     import { localeGoto } from '@util/localeGoto';
     import { type Snippet } from 'svelte';
     import { writable } from 'svelte/store';
@@ -42,7 +61,8 @@
     });
     setFullscreen(fullscreen);
 
-    let localizing = getLocalizing();
+    const localizing = getLocalizing();
+    const user = getUser();
 
     $effect(() => {
         if (typeof document !== 'undefined' && $fullscreen) {
@@ -95,48 +115,177 @@
     {/if}
     <footer class:fullscreen={$fullscreen.on}>
         <nav>
-            {#if footer}
-                <Link nowrap tip={(l) => l.ui.widget.home} to="/"
-                    ><Emoji
-                        ><span style:font-size="150%">{LOGO_SYMBOL}</span
-                        ></Emoji
-                    ></Link
-                >
-                <Link nowrap to="/projects"
-                    ><LocalizedText
-                        path={(l) => l.ui.page.projects.header}
-                    /></Link
-                >
-                <Link nowrap to="/galleries"
-                    ><LocalizedText
-                        path={(l) => l.ui.page.galleries.header}
-                    /></Link
-                >
-                <Link nowrap to="/characters"
-                    ><LocalizedText
-                        path={(l) => l.ui.page.characters.header}
-                    /></Link
-                >
-                <Link nowrap to="/learn"
-                    ><LocalizedText
-                        path={(l) => l.ui.page.learn.header}
-                    /></Link
-                >
-                <Link nowrap to="/guide"
-                    ><LocalizedText
-                        path={(l) => l.ui.page.guide.header}
-                    /></Link
-                >
-                <Link nowrap to="/teach"
-                    ><LocalizedText
-                        path={(l) => l.ui.page.teach.header}
-                    /></Link
-                >
-                <Link nowrap external to="https://discord.gg/Jh2Qq9husy"
-                    ><LocalizedText path={(l) => l.term.help} /></Link
-                >
-            {/if}
-            <Settings />
+            {#snippet navHome()}
+                {#if footer}
+                    <Link nowrap tip={(l) => l.ui.widget.home} to="/"
+                        ><Emoji
+                            ><span style:font-size="150%">{LOGO_SYMBOL}</span
+                            ></Emoji
+                        ></Link
+                    >
+                {/if}
+            {/snippet}
+            {#snippet navSettings()}
+                <Settings />
+            {/snippet}
+            {#snippet navProjects()}
+                {#if footer}
+                    <Link
+                        nowrap
+                        tip={(l) => l.ui.page.projects.header}
+                        to="/projects"
+                    >
+                        <Emoji>{PROJECT_SYMBOL}</Emoji><span class="nav-label"
+                            ><LocalizedText
+                                path={(l) => l.ui.page.projects.header}
+                            /></span
+                        >
+                    </Link>
+                {/if}
+            {/snippet}
+            {#snippet navGalleries()}
+                {#if footer}
+                    <Link
+                        nowrap
+                        tip={(l) => l.ui.page.galleries.header}
+                        to="/galleries"
+                    >
+                        <Emoji>{STAGE_SYMBOL}</Emoji><span class="nav-label"
+                            ><LocalizedText
+                                path={(l) => l.ui.page.galleries.header}
+                            /></span
+                        >
+                    </Link>
+                {/if}
+            {/snippet}
+            {#snippet navCharacters()}
+                {#if footer}
+                    <Link
+                        nowrap
+                        tip={(l) => l.ui.page.characters.header}
+                        to="/characters"
+                    >
+                        <Emoji>{SYMBOL_SYMBOL}</Emoji><span class="nav-label"
+                            ><LocalizedText
+                                path={(l) => l.ui.page.characters.header}
+                            /></span
+                        >
+                    </Link>
+                {/if}
+            {/snippet}
+            {#snippet navLearn()}
+                {#if footer}
+                    <Link
+                        nowrap
+                        tip={(l) => l.ui.page.learn.header}
+                        to="/learn"
+                    >
+                        <Emoji>{LEARN_SYMBOL}</Emoji><span class="nav-label"
+                            ><LocalizedText
+                                path={(l) => l.ui.page.learn.header}
+                            /></span
+                        >
+                    </Link>
+                {/if}
+            {/snippet}
+            {#snippet navGuide()}
+                {#if footer}
+                    <Link
+                        nowrap
+                        tip={(l) => l.ui.page.guide.header}
+                        to="/guide"
+                    >
+                        <Emoji>{DOCUMENTATION_SYMBOL}</Emoji><span
+                            class="nav-label"
+                            ><LocalizedText
+                                path={(l) => l.ui.page.guide.header}
+                            /></span
+                        >
+                    </Link>
+                {/if}
+            {/snippet}
+            {#snippet navTeach()}
+                {#if footer}
+                    <Link
+                        nowrap
+                        tip={(l) => l.ui.page.teach.header}
+                        to="/teach"
+                    >
+                        <Emoji>{TEACH_SYMBOL}</Emoji><span class="nav-label"
+                            ><LocalizedText
+                                path={(l) => l.ui.page.teach.header}
+                            /></span
+                        >
+                    </Link>
+                {/if}
+            {/snippet}
+            {#snippet navDiscord()}
+                {#if footer}
+                    <Link
+                        nowrap
+                        external
+                        tip={(l) => l.term.help}
+                        to="https://discord.gg/Jh2Qq9husy"
+                    >
+                        <Emoji>{HELP_SYMBOL}</Emoji><span class="nav-label"
+                            ><LocalizedText path={(l) => l.term.help} /></span
+                        >
+                    </Link>
+                {/if}
+            {/snippet}
+            {#snippet navLocalizationToggle()}
+                {#if isAuthenticated($user)}
+                    <Toggle
+                        on={localizing.on}
+                        tips={(l) => l.ui.localize.toggle.mode}
+                        toggle={() => (localizing.on = !localizing.on)}
+                        >✎</Toggle
+                    >
+                {/if}
+            {/snippet}
+            {#snippet navLocaleChooser()}
+                <LocaleChooser />
+            {/snippet}
+            {#snippet navFeedback()}
+                <Feedback />
+            {/snippet}
+            {#snippet navNotifications()}
+                <Notifications />
+            {/snippet}
+            {#snippet navCreator()}
+                <Link nowrap to="/login">
+                    <CreatorView
+                        anonymize={false}
+                        creator={$user ? Creator.from($user) : null}
+                        chrome={$user !== null}
+                        prompt
+                    />
+                </Link>
+            {/snippet}
+            {#snippet navStatus()}
+                <Status />
+            {/snippet}
+            <OverflowToolbar
+                pinnedStart={[
+                    navHome,
+                    navProjects,
+                    navGalleries,
+                    navCharacters,
+                    navLearn,
+                    navGuide,
+                    navTeach,
+                    navDiscord,
+                ]}
+                items={[
+                    navSettings,
+                    navLocalizationToggle,
+                    navLocaleChooser,
+                    navFeedback,
+                    navNotifications,
+                    navCreator,
+                ]}
+                pinned={[navStatus]}
+            />
         </nav>
     </footer>
 </div>
@@ -172,6 +321,30 @@
         z-index: 1;
         color: var(--wordplay-foreground);
         background: var(--wordplay-background);
+    }
+
+    footer {
+        /* Container query context so the nav-label hiding rule below
+           tracks the footer's actual width, not the viewport. */
+        container-type: inline-size;
+    }
+
+    /* Small gap between each link's emoji icon and its text label.
+       Because it lives on the label and not the parent, when the label
+       collapses to `display: none` below the container-query threshold,
+       the gap vanishes with it. */
+    footer :global(.nav-label) {
+        margin-inline-start: var(--wordplay-spacing-half);
+    }
+
+    /* Below the threshold, collapse each nav link to its emoji icon only
+       so the hamburger toggle stays visible on narrow screens. The
+       Link's `tip` provides the accessible name when the visible text
+       label is hidden. */
+    @container (max-width: 800px) {
+        footer :global(.nav-label) {
+            display: none;
+        }
     }
 
     header {
@@ -238,6 +411,15 @@
        tall here). */
     nav :global(.link) {
         align-self: center;
+    }
+
+    /* Settings.svelte uses margin-inline-start:auto to push itself to the
+       end of its flex row. Inside the OverflowToolbar's `pinned` wrapper
+       it's a single-child inline-flex, so the auto margin has no effect
+       anyway — but it can affect the natural-width measurement done by
+       the toolbar. Cancel it; the pinned slot handles anchoring instead. */
+    nav :global(.settings) {
+        margin-inline-start: 0;
     }
 
     /* Anchor sits in the flex flow just above the footer with no height of

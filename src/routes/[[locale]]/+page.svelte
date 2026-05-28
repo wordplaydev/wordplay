@@ -8,9 +8,9 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import {
         DOCUMENTATION_SYMBOL,
-        EDIT_SYMBOL,
         LEARN_SYMBOL,
         LOGO_SYMBOL,
+        PROJECT_SYMBOL,
         STAGE_SYMBOL,
         SYMBOL_SYMBOL,
         TEACH_SYMBOL,
@@ -150,7 +150,7 @@
                 smaller
                 subtitle={(l) => l.ui.page.landing.link.projects}
                 ><Iconified
-                    icon={EDIT_SYMBOL}
+                    icon={PROJECT_SYMBOL}
                     text={(l) => l.ui.page.projects.header}
                 /></BigLink
             >

@@ -4705,7 +4705,14 @@
                 "bullet": "$~peluru",
                 "attention": "$~sorot ungkapan ini"
             },
-            "backtotop": "$~kembali ke atas"
+            "backtotop": "$~kembali ke atas",
+            "overflow": {
+                "button": {
+                    "on": "$~sembunyikan kontrol tambahan",
+                    "off": "$~Tampilkan kontrol tambahan"
+                },
+                "popup": "$~Kontrol tambahan"
+            }
         },
         "tile": {
             "toggle": {

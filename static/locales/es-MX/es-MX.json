@@ -4681,7 +4681,14 @@
                 "bullet": "$~viñeta",
                 "attention": "$~resaltar esta expresión"
             },
-            "backtotop": "$~volver arriba"
+            "backtotop": "$~volver arriba",
+            "overflow": {
+                "button": {
+                    "on": "$~ocultar controles adicionales",
+                    "off": "$~mostrar controles adicionales"
+                },
+                "popup": "$~Controles adicionales"
+            }
         },
         "tile": {
             "toggle": {
