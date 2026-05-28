@@ -165,6 +165,44 @@
         return () => observer.disconnect();
     });
 
+    // Strip identifying attributes (`id`, `data-testid`, `data-uiid`) from
+    // every descendant of the measurement divs. The measurement clones share
+    // the same snippet bodies as the visible items, which means without this
+    // pass each test selector matches twice (visible + clone) and Playwright
+    // strict mode fails. Re-run on any DOM mutation so attributes added by
+    // re-renders are stripped too.
+    $effect(() => {
+        const measureEls = [
+            measureItemsEl,
+            measurePinnedEl,
+            measurePinnedStartEl,
+        ].filter((el): el is HTMLDivElement => el !== undefined);
+
+        const strip = (node: Element) => {
+            if (node.hasAttribute('id')) node.removeAttribute('id');
+            if (node.hasAttribute('data-testid'))
+                node.removeAttribute('data-testid');
+            if (node.hasAttribute('data-uiid'))
+                node.removeAttribute('data-uiid');
+            for (const child of node.children) strip(child);
+        };
+
+        const observers: MutationObserver[] = [];
+        for (const root of measureEls) {
+            strip(root);
+            const observer = new MutationObserver(() => strip(root));
+            observer.observe(root, {
+                subtree: true,
+                childList: true,
+                attributes: true,
+                attributeFilter: ['id', 'data-testid', 'data-uiid'],
+            });
+            observers.push(observer);
+        }
+
+        return () => observers.forEach((o) => o.disconnect());
+    });
+
     // Reposition the panel each time it opens or the toggle moves.
     $effect(() => {
         if (!open || !toggleEl) return;
