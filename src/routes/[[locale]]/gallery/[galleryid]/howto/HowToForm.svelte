@@ -611,10 +611,16 @@
     // false: couldn't load it.
     let chat = $state<Chat | undefined | null | false>(null);
     $effect(() => {
-        // When the how-to or chat change, get the chat.
-        if (howTo)
-            Chats.getChatHowTo(howTo).then((retrievedChat) => {
-                chat = retrievedChat;
+        // When the how-to changes, get the chat and subscribe to future updates.
+        if (!howTo) return;
+        const currentHowTo = howTo;
+        const howToID = currentHowTo.getHowToId();
+        Chats.getChatHowTo(currentHowTo).then((retrievedChat) => {
+            chat = retrievedChat;
+        });
+        if (howToID)
+            return Chats.onChatUpdated(howToID, (updated) => {
+                chat = updated;
             });
     });
 

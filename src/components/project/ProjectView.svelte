@@ -1473,11 +1473,19 @@
         // ChatDatabase singleton itself goes away — which never happens
         // during a page session.
         const currentProject = project;
+        const projectID = currentProject.getID();
         untrack(() => {
             Chats.getChat(currentProject).then((retrievedChat) => {
                 chat = retrievedChat;
             });
         });
+
+        // Keep chat in sync with future Firebase updates for this project via
+        // an explicit push subscription that bypasses the reactive graph.
+        if (projectID)
+            return Chats.onChatUpdated(projectID, (updated) => {
+                chat = updated;
+            });
     });
 
     let currentArrangement = $state<ArrangementType>($arrangement);
