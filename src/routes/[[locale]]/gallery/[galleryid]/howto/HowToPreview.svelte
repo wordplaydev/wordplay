@@ -93,6 +93,21 @@
     let joinedText: string = $derived(text.join('\n\n'));
 
     $effect(() => {
+        // Fast path: use the preview persisted to Firestore on the author's
+        // last save. Readers skip the evaluation queue entirely.
+        const cached = howTo?.getPreview();
+        if (cached) {
+            if (cached.face) Fonts.loadFace(cached.face);
+            displayed = {
+                foreground: cached.foreground,
+                background: cached.background,
+                face: cached.face,
+                previewText: cached.text,
+                characterName: cached.characterName,
+            };
+            return;
+        }
+
         const [markup, spaces] = toMarkup(joinedText);
         // Starred (`⭐`) example wins; otherwise the first example. See
         // pickPreviewExample for the priority + its tests.

@@ -6,6 +6,10 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ## 0.19.2 - 2026-05-27
 
+### Changed
+
+- ⚡ How-to preview glyphs now appear right away for everyone in a gallery. Before, each browser had to figure out the preview on its own — now it's saved when the author saves a how-to, so everyone else sees it instantly.
+
 ### Fixed
 
 - 🐛 We fixed a bug where a "can't connect to the database" message would flash briefly during class when lots of students were editing at the same time. It was a false alarm — now it only appears if there are two connection failures in a row.

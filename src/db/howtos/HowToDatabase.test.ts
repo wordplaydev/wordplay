@@ -55,8 +55,50 @@ vi.mock('@db/galleries/GalleryDatabase.svelte', () => ({
 
 vi.mock('@db/Database', () => ({}));
 
-import { HowToDatabase, HowTosCollection } from './HowToDatabase.svelte';
+import HowTo, {
+    HowToDatabase,
+    HowToSchemaLatestVersion,
+    HowTosCollection,
+    upgradeHowTo,
+} from './HowToDatabase.svelte';
 import Gallery from '@db/galleries/Gallery';
+
+const baseSocial = {
+    v: 1 as const,
+    notifySubscribers: false,
+    reactionOptions: {},
+    reactions: {},
+    usedByProjects: [],
+    chat: null,
+    bookmarkers: [],
+    submittedToGuide: false,
+    seenByUsers: [],
+    viewCount: 0,
+};
+
+function makeHowToDoc(overrides: Record<string, unknown> = {}) {
+    return {
+        v: HowToSchemaLatestVersion as 3,
+        id: 'ht-1',
+        galleryId: 'g-1',
+        published: false,
+        publishedAt: null,
+        xcoord: 0,
+        ycoord: 0,
+        title: '',
+        guidingQuestions: [],
+        text: [],
+        creator: 'user-1',
+        collaborators: [],
+        viewers: {},
+        viewersFlat: [],
+        scopeOverwrite: false,
+        locales: ['en-US'],
+        isPublic: false,
+        social: baseSocial,
+        ...overrides,
+    };
+}
 
 function makeGallery(id: string, howTos: string[] = []) {
     // Minimal stub that satisfies the methods deleteHowTo/addHowTo call on it.
@@ -159,5 +201,124 @@ describe('HowToDatabase atomic how-to + gallery updates', () => {
                 howTos: { _op: 'arrayRemove', elements: ['ht-1'] },
             });
         });
+    });
+
+    describe('setAutoPreview', () => {
+        it('calls updateDoc with only the preview field (partial write)', async () => {
+            const { updateDoc } = await import('firebase/firestore');
+            const howTo = new HowTo(makeHowToDoc({ id: 'ht-42' }));
+            db['howtos'].set('ht-42', howTo);
+
+            const preview = {
+                text: '★',
+                foreground: '#fff',
+                background: '#000',
+                face: null,
+                characterName: null,
+            };
+            await db.setAutoPreview('ht-42', preview);
+
+            expect(updateDoc).toHaveBeenCalledOnce();
+            const [, data] = (updateDoc as ReturnType<typeof vi.fn>).mock
+                .calls[0];
+            expect(data).toEqual({ preview });
+        });
+
+        it('updates the local cache', async () => {
+            const howTo = new HowTo(makeHowToDoc({ id: 'ht-43' }));
+            db['howtos'].set('ht-43', howTo);
+
+            const preview = {
+                text: 'A',
+                foreground: null,
+                background: null,
+                face: null,
+                characterName: null,
+            };
+            await db.setAutoPreview('ht-43', preview);
+
+            expect(db['howtos'].get('ht-43')?.getPreview()).toEqual(preview);
+        });
+
+        it('does nothing when the how-to is not in the local cache', async () => {
+            const { updateDoc } = await import('firebase/firestore');
+            await db.setAutoPreview('ht-missing', {
+                text: 'X',
+                foreground: null,
+                background: null,
+                face: null,
+                characterName: null,
+            });
+            expect(updateDoc).not.toHaveBeenCalled();
+        });
+    });
+});
+
+describe('HowTo preview', () => {
+    it('getPreview returns undefined for a fresh how-to', () => {
+        const howTo = new HowTo(makeHowToDoc());
+        expect(howTo.getPreview()).toBeUndefined();
+    });
+
+    it('withPreview round-trips through getPreview', () => {
+        const preview = {
+            text: '🎉',
+            foreground: 'red',
+            background: 'blue',
+            face: 'sans-serif',
+            characterName: null,
+        };
+        const howTo = new HowTo(makeHowToDoc()).withPreview(preview);
+        expect(howTo.getPreview()).toEqual(preview);
+    });
+
+    it('getData omits preview when undefined', () => {
+        const howTo = new HowTo(makeHowToDoc());
+        expect(howTo.getData()).not.toHaveProperty('preview');
+    });
+
+    it('getData includes preview when set', () => {
+        const preview = {
+            text: 'Z',
+            foreground: null,
+            background: null,
+            face: null,
+            characterName: null,
+        };
+        const howTo = new HowTo(makeHowToDoc()).withPreview(preview);
+        expect(howTo.getData().preview).toEqual(preview);
+    });
+});
+
+describe('upgradeHowTo', () => {
+    it('upgrades a v1 doc to the latest version', () => {
+        const v1 = {
+            v: 1 as const,
+            id: 'ht-v1',
+            galleryId: 'g',
+            published: false,
+            publishedAt: null,
+            xcoord: 0,
+            ycoord: 0,
+            title: '',
+            guidingQuestions: [],
+            text: [],
+            creator: 'u',
+            collaborators: [],
+            viewers: {},
+            viewersFlat: [],
+            scopeOverwrite: false,
+            locales: [],
+            social: baseSocial,
+        };
+        const upgraded = upgradeHowTo(v1);
+        expect(upgraded.v).toBe(HowToSchemaLatestVersion);
+    });
+
+    it('upgrades a v2 doc to the latest version without a preview field', () => {
+        const v2 = { ...makeHowToDoc(), v: 2 as const };
+        const upgraded = upgradeHowTo(v2);
+        expect(upgraded.v).toBe(HowToSchemaLatestVersion);
+        expect(upgraded).not.toHaveProperty('preview');
     });
 });
