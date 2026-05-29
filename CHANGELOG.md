@@ -6,6 +6,10 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ## 0.19.2 - 2026-05-27
 
+### Added
+
+- 🔔 We now notify you when a new version of the site is ready while your tab is still open.
+
 ### Changed
 
 - ⚡ How-to preview glyphs now appear right away for everyone in a gallery. Before, each browser had to figure out the preview on its own — now it's saved when the author saves a how-to, so everyone else sees it instantly.

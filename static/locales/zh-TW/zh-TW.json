@@ -6907,6 +6907,13 @@
             "joined": "$~加入費用為$name 。",
             "left": "$~還剩$name 。",
             "waitingForSlot": "$~正在等待剪輯名額——目前已有四位合作者在剪輯。當其中一位離開後，您也可以進行剪輯。"
+        },
+        "update": {
+            "label": "$~新版本已發布",
+            "message": "$~我們發布了新版本。",
+            "refresh": "$~重新整理",
+            "updates": "$~查看更新",
+            "dismiss": "$~解僱"
         }
     },
     "moderation": {

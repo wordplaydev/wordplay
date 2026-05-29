@@ -6986,6 +6986,13 @@
             "joined": "$~Dołączył(a) $name .",
             "left": "$~Pozostał $name .",
             "waitingForSlot": "$~Czekam na miejsce na edycję — czterech współpracowników już edytuje. Gdy jeden z nich odejdzie, Ty też będziesz mógł edytować."
+        },
+        "update": {
+            "label": "$~Nowa wersja dostępna",
+            "message": "$~Wydaliśmy nową wersję.",
+            "refresh": "$~Odświeżać",
+            "updates": "$~zobacz aktualizacje",
+            "dismiss": "$~Odrzucać"
         }
     },
     "moderation": {

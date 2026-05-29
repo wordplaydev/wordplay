@@ -6970,6 +6970,13 @@
             "joined": "$~$name katıldı.",
             "left": "$~$name kaldı.",
             "waitingForSlot": "$~Düzenleme için sıra bekliyorum — dört işbirlikçi zaten düzenleme yapıyor. Birisi ayrıldığında, siz de düzenleme yapabileceksiniz."
+        },
+        "update": {
+            "label": "$~Yeni sürüm mevcut.",
+            "message": "$~Yeni bir sürüm yayınladık.",
+            "refresh": "$~Yenile",
+            "updates": "$~Güncellemeleri görün",
+            "dismiss": "$~Azletmek"
         }
     },
     "moderation": {

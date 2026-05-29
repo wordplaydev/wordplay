@@ -6981,6 +6981,13 @@
             "joined": "$~Sumali $name .",
             "left": "$~$name lang ang natitira.",
             "waitingForSlot": "$~Naghihintay ng slot sa pag-eedit — apat na kolaborator ang nag-eedit na. Kapag umalis ang isa, makakapag-edit ka na rin."
+        },
+        "update": {
+            "label": "$~May bagong bersyon na magagamit",
+            "message": "$~Naglabas kami ng bagong bersyon.",
+            "refresh": "$~I-refresh",
+            "updates": "$~tingnan ang mga update",
+            "dismiss": "$~I-dismiss"
         }
     },
     "moderation": {

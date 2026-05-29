@@ -6073,6 +6073,13 @@
             "unreachable": "We can't reach the database. Some things won't work until we can.",
             "label": "Connection status"
         },
+        "update": {
+            "label": "New version available",
+            "message": "We released a new version.",
+            "refresh": "Refresh",
+            "updates": "see the updates",
+            "dismiss": "Dismiss"
+        },
         "localize": {
             "header": "Localize",
             "reference": "English reference",

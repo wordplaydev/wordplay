@@ -1171,6 +1171,19 @@ type UITexts = {
         /** [plain] ARIA label for the connection banner live region */
         label: string;
     };
+    /** Notification shown when a newer version of the app has been deployed while the tab was open. */
+    update: {
+        /** [plain] ARIA label for the new-version notification region */
+        label: string;
+        /** [plain] Message shown when a newer version of the app is available */
+        message: string;
+        /** [plain] Action label that reloads the page to the new version */
+        refresh: string;
+        /** [plain] Link label to the updates/changelog page */
+        updates: string;
+        /** [plain] Tooltip for the button that dismisses the notification */
+        dismiss: string;
+    };
     /** Text for the localization editor */
     localize: {
         /** [plain] The header for the localization editor */

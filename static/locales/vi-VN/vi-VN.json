@@ -6974,6 +6974,13 @@
             "joined": "$~$name tham gia.",
             "left": "$~Còn lại $name la.",
             "waitingForSlot": "$~Đang chờ đến lượt chỉnh sửa — đã có bốn cộng tác viên đang chỉnh sửa. Khi một người rời đi, bạn cũng sẽ có thể chỉnh sửa."
+        },
+        "update": {
+            "label": "$~Phiên bản mới đã có sẵn",
+            "message": "$~Chúng tôi đã phát hành phiên bản mới.",
+            "refresh": "$~Làm cho khỏe lại",
+            "updates": "$~xem các bản cập nhật",
+            "dismiss": "$~Miễn nhiệm"
         }
     },
     "moderation": {

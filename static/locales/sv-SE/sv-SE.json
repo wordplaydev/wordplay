@@ -6971,6 +6971,13 @@
             "joined": "$~$name gick med.",
             "left": "$~$name kvar.",
             "waitingForSlot": "$~Väntar på en redigeringsplats – fyra medarbetare redigerar redan. När en lämnar kan du också redigera."
+        },
+        "update": {
+            "label": "$~Ny version tillgänglig",
+            "message": "$~Vi släppte en ny version.",
+            "refresh": "$~Uppdatera",
+            "updates": "$~se uppdateringarna",
+            "dismiss": "$~Avfärda"
         }
     },
     "moderation": {

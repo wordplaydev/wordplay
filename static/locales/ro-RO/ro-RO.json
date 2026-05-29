@@ -6980,6 +6980,13 @@
             "joined": "$~$name s-a alăturat.",
             "left": "$~A mai rămas $name .",
             "waitingForSlot": "$~Aștept un interval orar de editare — patru colaboratori editează deja. Când unul dintre ei pleacă, vei putea edita și tu."
+        },
+        "update": {
+            "label": "$~Versiune nouă disponibilă",
+            "message": "$~Am lansat o nouă versiune.",
+            "refresh": "$~Reîmprospăta",
+            "updates": "$~vezi actualizările",
+            "dismiss": "$~Închide"
         }
     },
     "moderation": {

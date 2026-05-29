@@ -6956,6 +6956,13 @@
             "joined": "$~$name se unió.",
             "left": "$~Queda $name .",
             "waitingForSlot": "$~Esperando un turno para editar: cuatro colaboradores ya están editando. Cuando uno se vaya, tú también podrás editar."
+        },
+        "update": {
+            "label": "$~Nueva versión disponible",
+            "message": "$~Hemos lanzado una nueva versión.",
+            "refresh": "$~Refrescar",
+            "updates": "$~ver las actualizaciones",
+            "dismiss": "$~Despedir"
         }
     },
     "moderation": {

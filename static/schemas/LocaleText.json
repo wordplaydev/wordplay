@@ -18840,6 +18840,40 @@
               ],
               "type": "object"
             },
+            "update": {
+              "additionalProperties": false,
+              "description": "Notification shown when a newer version of the app has been deployed while the tab was open.",
+              "properties": {
+                "dismiss": {
+                  "description": "[plain] Tooltip for the button that dismisses the notification",
+                  "type": "string"
+                },
+                "label": {
+                  "description": "[plain] ARIA label for the new-version notification region",
+                  "type": "string"
+                },
+                "message": {
+                  "description": "[plain] Message shown when a newer version of the app is available",
+                  "type": "string"
+                },
+                "refresh": {
+                  "description": "[plain] Action label that reloads the page to the new version",
+                  "type": "string"
+                },
+                "updates": {
+                  "description": "[plain] Link label to the updates/changelog page",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "label",
+                "message",
+                "refresh",
+                "updates",
+                "dismiss"
+              ],
+              "type": "object"
+            },
             "widget": {
               "additionalProperties": false,
               "description": "Generic reusable widgets and their generic labels.",
@@ -19007,6 +19041,7 @@
             "dialog",
             "save",
             "connection",
+            "update",
             "localize",
             "page",
             "edit",

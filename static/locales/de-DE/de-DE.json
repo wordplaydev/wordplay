@@ -6973,6 +6973,13 @@
             "joined": "$~$name Beitritt.",
             "left": "$~$name übrig.",
             "waitingForSlot": "$~Warten auf einen Bearbeitungsplatz – vier Mitarbeiter bearbeiten bereits. Sobald einer ausscheidet, können auch Sie bearbeiten."
+        },
+        "update": {
+            "label": "$~Neue Version verfügbar",
+            "message": "$~Wir haben eine neue Version veröffentlicht.",
+            "refresh": "$~Aktualisieren",
+            "updates": "$~Siehe die Aktualisierungen",
+            "dismiss": "$~Zurückweisen"
         }
     },
     "moderation": {

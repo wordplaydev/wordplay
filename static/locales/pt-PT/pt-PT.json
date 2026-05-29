@@ -6978,6 +6978,13 @@
             "joined": "$~A entrada custou $name .",
             "left": "$~Resta apenas $name .",
             "waitingForSlot": "$~Aguarda vaga para edição — quatro colaboradores já estão a editar. Quando um deles sair, também poderá editar."
+        },
+        "update": {
+            "label": "$~Nova versão disponível",
+            "message": "$~Lançamos uma nova versão.",
+            "refresh": "$~Atualizar",
+            "updates": "$~Veja as atualizações",
+            "dismiss": "$~Dispensar"
         }
     },
     "moderation": {

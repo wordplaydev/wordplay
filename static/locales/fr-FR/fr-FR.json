@@ -6977,6 +6977,13 @@
             "joined": "$~$name inscrit.",
             "left": "$~Il reste $name .",
             "waitingForSlot": "$~En attente d'un créneau de montage : quatre collaborateurs sont déjà en train de monter. Dès que l'un d'eux se libère, vous pourrez également participer."
+        },
+        "update": {
+            "label": "$~Nouvelle version disponible",
+            "message": "$~Nous avons publié une nouvelle version.",
+            "refresh": "$~Rafraîchir",
+            "updates": "$~Consultez les mises à jour",
+            "dismiss": "$~Rejeter"
         }
     },
     "moderation": {
