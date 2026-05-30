@@ -510,17 +510,22 @@
         />
     </span>
     {#if !searchActive}
-        <span data-uiid="docsModeToggle">
+        <!-- The section + subsection switchers form a filter grid: their labels share a
+             right-aligned column and their option groups a left-aligned column. Each Mode
+             uses `display: contents` (the `grid` prop) so its label/group are items here. -->
+        <div class="filters">
             <Mode
+                grid
+                uiid="docsModeToggle"
                 modes={(l) => l.ui.docs.mode.browse}
                 icons={[DOCUMENTATION_SYMBOL, IDEA_SYMBOL]}
                 choice={Modes.indexOf(mode)}
                 select={(choice) => chooseSection(Modes[choice], purpose)}
             />
-        </span>
-        {#if mode === 'language'}
-            <Mode
-                modes={(l) => l.ui.docs.mode.purpose}
+            {#if mode === 'language'}
+                <Mode
+                    grid
+                    modes={(l) => l.ui.docs.mode.purpose}
                 choice={Object.keys(Purpose).indexOf(purpose)}
                 select={(choice) =>
                     chooseSection(mode, Object.values(Purpose)[choice])}
@@ -541,10 +546,11 @@
                     TYPE_SYMBOL,
                     '',
                 ]}
-                wrap
-                omit={standalone ? [0] : []}
-            />
-        {/if}
+                    wrap
+                    omit={standalone ? [0] : []}
+                />
+            {/if}
+        </div>
     {/if}
 
     {#if $path.length > 1}
@@ -952,6 +958,17 @@
         z-index: 1;
         margin-left: var(--wordplay-spacing-half);
         margin-right: var(--wordplay-spacing-half);
+    }
+
+    /* Filter grid: the section + subsection Modes (each `display: contents`) drop their
+       labels into a right-aligned first column and their option groups into a left-aligned
+       second column. */
+    .filters {
+        display: grid;
+        grid-template-columns: max-content minmax(0, 1fr);
+        column-gap: var(--wordplay-spacing);
+        row-gap: var(--wordplay-spacing-half);
+        align-items: baseline;
     }
 
     /* The search field's parent needs to be block so the field fills width. */
