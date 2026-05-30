@@ -797,7 +797,6 @@
         // Set the URL to reflect the latest concept selected.
         if (index) {
             setConceptInURL(
-                $locales,
                 $path && $path.length > 0 ? $path[$path.length - 1] : undefined,
                 index,
                 searchParams,

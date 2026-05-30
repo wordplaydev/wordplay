@@ -108,7 +108,7 @@
     $effect(() => {
         if (browser && $path && mounted) {
             const newParams = new URLSearchParams();
-            setConceptInURL($locales, concept ?? undefined, index, newParams);
+            setConceptInURL(concept ?? undefined, index, newParams);
 
             const newSearch = newParams.toString()
                 ? `?${newParams.toString()}`

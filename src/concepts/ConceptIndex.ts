@@ -299,14 +299,21 @@ export default class ConceptIndex {
         return this.concepts.find((c) => c.getSubConcepts().has(concept));
     }
 
-    /** Finds a subconcept by owner name and concept name */
+    /** Finds a subconcept by owner token and concept token */
     getSubConcept(owner: string, concept: string) {
-        const subconcepts = this.getConceptByName(owner)?.getSubConcepts();
+        const subconcepts = this.getConceptByToken(owner)?.getSubConcepts();
         return subconcepts
             ? Array.from(subconcepts).find((c) =>
-                  c.hasName(concept, this.locales),
+                  this.conceptMatchesToken(c, concept),
               )
             : undefined;
+    }
+
+    /** Finds a subconcept of the given concept by name. */
+    getSubConceptByName(owner: Concept, name: string): Concept | undefined {
+        return Array.from(owner.getSubConcepts()).find((sub) =>
+            sub.hasName(name, this.locales),
+        );
     }
 
     getConceptsOfTypes(types: TypeSet): StructureConcept[] {
@@ -320,10 +327,29 @@ export default class ConceptIndex {
         return this.concepts.find((c) => c.hasName(name, this.locales));
     }
 
-    getConceptByCharacterName(name: string): Concept | undefined {
-        return this.concepts.find(
-            (c) => c.getCharacterName(this.locales) === name,
+    /**
+     * The token used to identify a concept in a URL: its character name if it has
+     * one, otherwise its plain name. This is the inverse of {@link conceptMatchesToken}
+     * and {@link getConceptByToken}; keep all three in sync so that a concept written
+     * to a URL can always be read back.
+     */
+    getConceptToken(concept: Concept): string {
+        return (
+            concept.getCharacterName(this.locales) ??
+            concept.getName(this.locales, false)
         );
+    }
+
+    /** True if the concept is the one identified by the given URL token. */
+    conceptMatchesToken(concept: Concept, token: string): boolean {
+        return (
+            concept.getCharacterName(this.locales) === token ||
+            concept.hasName(token, this.locales)
+        );
+    }
+
+    getConceptByToken(token: string): Concept | undefined {
+        return this.concepts.find((c) => this.conceptMatchesToken(c, token));
     }
 
     addExample(node: Node) {

@@ -19,6 +19,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Fixed
 
 - 🤫 We made really long types in the guide a little shorter for readability.
+- 🔗 Some concept links in the guide weren't working, but they are now!
 
 ## 0.19.2 - 2026-05-27
 

@@ -97,10 +97,11 @@
                     const property = id.property;
                     if (property === undefined) return { concept };
 
-                    // Otherwise, s
-                    const subConcept = Array.from(
-                        concept.getSubConcepts(),
-                    ).find((sub) => sub.hasName(property, $locales));
+                    // Otherwise, resolve the named subconcept on the concept itself.
+                    const subConcept = index.getSubConceptByName(
+                        concept,
+                        property,
+                    );
                     if (subConcept !== undefined)
                         return { container: concept, concept: subConcept };
                     else if (concept.affiliation !== undefined) {
@@ -108,9 +109,10 @@
                             concept.affiliation,
                         );
                         if (structure) {
-                            const subConcept = Array.from(
-                                structure.getSubConcepts(),
-                            ).find((sub) => sub.hasName(property, $locales));
+                            const subConcept = index.getSubConceptByName(
+                                structure,
+                                property,
+                            );
                             if (subConcept) {
                                 return {
                                     container: concept,
