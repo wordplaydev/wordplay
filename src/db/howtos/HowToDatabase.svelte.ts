@@ -666,8 +666,14 @@ export class HowToDatabase {
             ),
         );
 
-        // Listener 2: how-tos in any of the user's editor/curator galleries.
+        // Listener 2: published how-tos in any of the user's editor/curator galleries.
         // Chunked into groups of 30 because Firestore caps `in` at 30 values.
+        // The `published == true` filter is required: the security rules only grant
+        // gallery curators/collaborators read access to *published* how-tos (see the
+        // read rule in firestore.rules). Other creators' unpublished drafts in these
+        // galleries are not readable, and because Firestore rejects an entire query if
+        // any matched doc is denied, omitting this filter triggers permission-denied.
+        // The user's own drafts in these galleries are still covered by Listener 1.
         const editorGalleryIds = Array.from(
             this.db.Galleries.accessibleGalleries.keys(),
         );
@@ -677,6 +683,7 @@ export class HowToDatabase {
             const galleryQuery = query(
                 collection(firestore, HowTosCollection),
                 where('galleryId', 'in', chunk),
+                where('published', '==', true),
             );
             this.unsubscribes.push(
                 onSnapshot(
