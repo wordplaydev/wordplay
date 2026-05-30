@@ -7,7 +7,6 @@
         getConceptPath,
         getUser,
     } from '@components/project/Contexts';
-    import Button from '@components/widgets/Button.svelte';
     import Concept from '@concepts/Concept';
     import GalleryHowConcept from '@concepts/GalleryHowConcept';
     import { locales } from '@db/Database';
@@ -183,27 +182,20 @@
     {#if isConceptGalleryHow && (concept as GalleryHowConcept).howTo.hasBookmarker($user?.uid ?? '')}
         <MarkupHTMLView inline markup={'🔖'} />
     {/if}
-    <Button
-        padding={false}
-        action={navigate}
-        wrap={true}
-        tip={() =>
-            $locales
-                .concretize((l) => l.ui.docs.link, { name: longName })
-                .toText()}
-        ><span class="conceptlink interactive">
-            {#if label}
-                {withMonoEmoji(label)}
-            {:else}
-                {#if ownerConcept}
-                    <span class="long"
-                        >{ownerConcept.getName($locales, false)}</span
-                    >.{/if}<span class="long">{longName}</span
-                >{#if symbolicName.toLocaleLowerCase($locales.getLocaleString()) !== longName.toLocaleLowerCase($locales.getLocaleString())}
-                    <sub>{withMonoEmoji(symbolicName)}</sub>{/if}
-            {/if}
-        </span>
-    </Button>
+    <button
+        type="button"
+        class="conceptlink interactive"
+        title={$locales
+            .concretize((l) => l.ui.docs.link, { name: longName })
+            .toText()}
+        onclick={navigate}
+        >{#if label}{withMonoEmoji(label)}{:else}{#if ownerConcept}<span
+                    class="long">{ownerConcept.getName($locales, false)}</span
+                >.{/if}<span class="long">{longName}</span
+            >{#if symbolicName.toLocaleLowerCase($locales.getLocaleString()) !== longName.toLocaleLowerCase($locales.getLocaleString())}<sub
+                    >{withMonoEmoji(symbolicName)}</sub
+                >{/if}{/if}</button
+    >
 {:else if match}
     {#if match instanceof UIName}
         <TutorialHighlight id={match.id} source />
@@ -225,28 +217,26 @@
 {/if}
 
 <style>
+    /* Render concept links exactly like a plain text <Link> (a bare <a>):
+       no button chrome, highlight-colored, underline only on hover/focus. */
     .conceptlink {
-        display: inline-block;
-        font-style: var(--wordplay-font-size);
+        display: inline;
+        font: inherit;
         text-align: start;
-    }
-
-    .conceptlink.interactive {
-        text-decoration: underline;
-        text-decoration-color: var(--wordplay-highlight-color);
-        text-decoration-thickness: calc(var(--wordplay-focus-width) / 2);
-    }
-
-    :global(button):focus .conceptlink,
-    .conceptlink.interactive:hover {
+        color: var(--wordplay-highlight-color);
+        background: none;
+        border: none;
+        padding: 0;
+        margin: 0;
+        text-decoration: none;
         cursor: pointer;
+    }
+
+    .conceptlink.interactive:focus,
+    .conceptlink.interactive:hover {
+        outline: none;
+        text-decoration: underline;
         text-decoration-thickness: var(--wordplay-focus-width);
         text-decoration-color: var(--wordplay-focus-color);
-    }
-
-    :global(button):focus .conceptlink {
-        background: var(--wordplay-focus-color);
-        color: var(--wordplay-background);
-        border-radius: var(--wordplay-border-radius);
     }
 </style>
