@@ -3728,6 +3728,50 @@
                 "names": ["$~upplösning"],
                 "doc": "$~Bredden i pixlar för att ta prover från kameran innan handmodellen körs. Högre värden kan ge något mer exakta landmärken men kostar mer tid per bildruta."
             }
+        },
+        "Contour": {
+            "doc": ["$?"],
+            "names": ["$?"],
+            "inputs": [
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                }
+            ],
+            "error": {
+                "connection": "$?",
+                "unavailable": "$?",
+                "unreadable": "$?",
+                "outline": "$?"
+            }
         }
     },
     "output": {

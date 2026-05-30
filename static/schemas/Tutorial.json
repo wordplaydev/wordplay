@@ -652,6 +652,10 @@
           "type": "string"
         },
         {
+          "const": "Contour",
+          "type": "string"
+        },
+        {
           "const": "Webpage",
           "type": "string"
         },

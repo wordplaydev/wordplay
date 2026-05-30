@@ -3731,6 +3731,50 @@
                 "names": ["$~Auflösung"],
                 "doc": "$~Die Breite in Pixeln, mit der die Kamera vor der Berechnung des Handmodells abgetastet wird. Höhere Werte können zu etwas genaueren Landmarken führen, benötigen aber mehr Zeit pro Frame."
             }
+        },
+        "Contour": {
+            "doc": ["$?"],
+            "names": ["$?"],
+            "inputs": [
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                }
+            ],
+            "error": {
+                "connection": "$?",
+                "unavailable": "$?",
+                "unreadable": "$?",
+                "outline": "$?"
+            }
         }
     },
     "output": {

@@ -3733,6 +3733,50 @@
                 "names": "$~y",
                 "doc": "$~Direcția și magnitudinea direcției de-a lungul axei y."
             }
+        },
+        "Contour": {
+            "doc": ["$?"],
+            "names": ["$?"],
+            "inputs": [
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                }
+            ],
+            "error": {
+                "connection": "$?",
+                "unavailable": "$?",
+                "unreadable": "$?",
+                "outline": "$?"
+            }
         }
     },
     "output": {

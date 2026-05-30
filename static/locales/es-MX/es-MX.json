@@ -3710,6 +3710,50 @@
                 "names": ["$~resolución"],
                 "doc": "$~El ancho en píxeles con el que se muestrea la cámara antes de ejecutar el modelo de la mano. Valores más altos pueden proporcionar puntos de referencia ligeramente más precisos, pero consumen más tiempo por fotograma."
             }
+        },
+        "Contour": {
+            "doc": ["$?"],
+            "names": ["$?"],
+            "inputs": [
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                }
+            ],
+            "error": {
+                "connection": "$?",
+                "unavailable": "$?",
+                "unreadable": "$?",
+                "outline": "$?"
+            }
         }
     },
     "output": {

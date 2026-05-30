@@ -3733,6 +3733,50 @@
                 "names": "$~y",
                 "doc": "$~Arah dan besaran arah sepanjang sumbu y."
             }
+        },
+        "Contour": {
+            "doc": ["$?"],
+            "names": ["$?"],
+            "inputs": [
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$?"
+                }
+            ],
+            "error": {
+                "connection": "$?",
+                "unavailable": "$?",
+                "unreadable": "$?",
+                "outline": "$?"
+            }
         }
     },
     "output": {

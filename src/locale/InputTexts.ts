@@ -111,6 +111,31 @@ type InputTexts = {
     };
     /** A stream of text messages from the audience */
     Chat: NameAndDoc;
+    /** A stream of Place values tracing the glyph outlines of text in a font face */
+    Contour: NameAndDoc & {
+        /** [ the text to outline, the font face, the em size in meters, the origin place, the font weight, whether to use italics, the spacing between points in meters, the order of the points ] */
+        inputs: [
+            NameAndDoc,
+            NameAndDoc,
+            NameAndDoc,
+            NameAndDoc,
+            NameAndDoc,
+            NameAndDoc,
+            NameAndDoc,
+            NameAndDoc,
+        ];
+        /** Errors that can happen while tracing, generating exception values */
+        error: {
+            /** [plain] The font file couldn't be reached (no network) */
+            connection: string;
+            /** [plain] The font file wasn't found on the server */
+            unavailable: string;
+            /** [plain] The font file downloaded but couldn't be read */
+            unreadable: string;
+            /** [plain] The font loaded but its glyphs couldn't be outlined */
+            outline: string;
+        };
+    };
     /** A stream of list of text from an HTML document indicated by a URL */
     Webpage: NameAndDoc & {
         /** The URL to retrieve */

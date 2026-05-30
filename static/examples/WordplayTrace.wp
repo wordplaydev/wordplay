@@ -1,0 +1,36 @@
+✨
+"Word Trace"/en"文字游戏轨迹"/zh-CN"文字遊戲軌跡"/zh-TW
+===
+¶ This project traces the outlines of a word "wordplay" with a comet of dots that sweeps
+around the letters, driven by a Time() stream. Half the word glows at any
+moment, fading from bright at the head of the trace to transparent at the tail. ¶
+
+points: Contour('wordplay' "Noto Sans" 3m place: Place(-6m 0m) spacing: 0.5m)
+
+¶ How many points are on the outline, and a safe count to divide by before the
+font has loaded (when the list is still empty). ¶
+count: points.length()
+
+¶ The trace covers half the word, so half is always visible. ¶
+trail: count ÷ 2
+
+¶ A head index that advances one point every tick and wraps around the word. ¶
+head: 0 … ∆ Time(10ms) … (head + 1) % count
+
+Stage(
+	points.translate(
+		ƒ(point•Place index•#)
+			(
+				¶ How many points behind the head this one is, wrapping around. ¶
+				age: (((head - index) + 1) + count) % count
+				Phrase(
+					"•"
+					size: 1m
+					place: point
+					color: Color(90% 100 (index ÷ count) × 360°)
+					opacity: age < trail ? 1 - (age ÷ trail) 0
+					duration: 0s
+				))
+	)
+	background: Color(8% 0 0°)
+)

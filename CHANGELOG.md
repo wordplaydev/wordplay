@@ -4,6 +4,12 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.20.0 - 2026-05-29
+
+### Added
+
+- 🔣 We added `@Contour`, a new built-in input stream that traces the outline of letters in a font as a list of `@Place` values, so you can dot, trace, or animate the shape of any glyph. You can read about it in the [Guide](https://wordplay.dev/guide?concept=Contour). (#1167)
+
 ## 0.19.2 - 2026-05-27
 
 ### Added

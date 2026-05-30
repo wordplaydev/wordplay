@@ -198,6 +198,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'Size',
                 'FloatingFoods',
                 'AditiAnimatedName',
+                'WordplayTrace',
             ],
             locales,
         ),
