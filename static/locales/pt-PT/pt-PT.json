@@ -93,7 +93,6 @@
         "Region": "$~região traço",
         "BooleanType": "$~tipo booleano",
         "NumberType": "$~tipo de número",
-        "JapaneseNumeral": "$~numeral japonês",
         "RomanNumeral": "$~numeral romano",
         "Pi": "$~pi",
         "Infinity": "$~infinito",
@@ -123,7 +122,17 @@
         "Locale": "$~localidade",
         "Unknown": "$~desconhecido",
         "End": "$~fim",
-        "Highlight": "$~exemplo destacado"
+        "Highlight": "$~exemplo destacado",
+        "LanguageJoin": "$~conector de idiomas",
+        "HanNumeral": "$~numeral han",
+        "ThaiNumeral": "$~numeral tailandês",
+        "BengaliNumeral": "$~numeral bengali",
+        "DevanagariNumeral": "$~numeral devanágari",
+        "GujaratiNumeral": "$~numeral gujarati",
+        "GurmukhiNumeral": "$~numeral gurmukhi",
+        "KannadaNumeral": "$~numeral canarês",
+        "TamilNumeral": "$~numeral tâmil",
+        "TeluguNumeral": "$~numeral telugu"
     },
     "node": {
         "Dimension": {
@@ -157,7 +166,8 @@
                 "$~Pode indicar-me um @Language para que outras pessoas saibam em que língua estou a escrever:",
                 "$~\\¶Sou um médico inglês¶/pt\nduração: 5s\\",
                 "$~Sabia que pode fazer uma lista comigo? Vá falar com @Docs."
-            ]
+            ],
+            "description": "$~documentar uma expressão com texto"
         },
         "Docs": {
             "name": "$~listadeexplicações",
@@ -167,7 +177,8 @@
                 "$~Não precisa de fazer nada de especial para criar uma lista. Basta colocar vários @Doc um ao lado do outro, assim:",
                 "$~\\¶Olá¶/pt\n¶Olá¶/es\ncumprimentos: '…'\\"
             ],
-            "start": "$~Valorizando a documentação!"
+            "start": "$~Valorizando a documentação!",
+            "description": "$~Listar documentação em vários idiomas"
         },
         "KeyValue": {
             "name": "$~mapeamento",
@@ -178,7 +189,8 @@
                 "$~\\{1:1}\\",
                 "$~Ou um mapeamento de texto para números:",
                 "$~\\{'coelho':1}\\"
-            ]
+            ],
+            "description": "$~mapear uma chave para um valor"
         },
         "Language": {
             "name": "$~idioma",
@@ -242,7 +254,8 @@
                 "$~Sou uma lista de @Name, útil quando se pretende atribuir vários nomes a um valor, frequentemente com diferentes @Language.",
                 "$~Os nomes são separados pelos símbolos \\,\\. Por exemplo, aqui está @Bind a atribuir um valor múltiplo a @Name.",
                 "\\hi/en,olá/pt,hola/es: 'bem-vindo'\\"
-            ]
+            ],
+            "description": "$~listar nomes em vários idiomas"
         },
         "Row": {
             "name": "$~linha",
@@ -274,7 +287,8 @@
                     "name": "nenhuma linha ligada",
                     "explanation": "$~Eu deveria ser um valor, não um @Bind."
                 }
-            }
+            },
+            "description": "$~representar uma linha numa tabela"
         },
         "Token": {
             "name": "$~token",
@@ -288,7 +302,8 @@
         "TypeInputs": {
             "name": "tipo de entrada",
             "emotion": "curious",
-            "doc": "$~Sou uma lista de tipos que substituem as variáveis de tipo anotadas com `@TypeVariables` numa `@StructureDefinition` ou `@FunctionDefinition`. Ajudo todos a saber que tipo de entradas vão receber."
+            "doc": "$~Sou uma lista de tipos que substituem as variáveis de tipo anotadas com `@TypeVariables` numa `@StructureDefinition` ou `@FunctionDefinition`. Ajudo todos a saber que tipo de entradas vão receber.",
+            "description": "$~Preencha os espaços de variáveis de tipo"
         },
         "TypeVariable": {
             "name": "variável de tipo",
@@ -303,12 +318,14 @@
                     "explanation": "$~Tenho o mesmo nome que $duplicate",
                     "resolution": "$~Remova a variável de tipo duplicada."
                 }
-            }
+            },
+            "description": "$~Dê um nome ao tipo fornecido pelo chamador."
         },
         "TypeVariables": {
             "name": "variáveis de tipo",
             "emotion": "curious",
-            "doc": "$~Sou uma lista de @TypeVariable."
+            "doc": "$~Sou uma lista de @TypeVariable.",
+            "description": "$~variáveis do tipo lista numa definição"
         },
         "Markup": {
             "name": "$~marcação",
@@ -330,7 +347,8 @@
                 "$~\"Sou um parágrafo num documento.\"",
                 "$~Se pretender vários parágrafos, basta inserir linhas em branco.",
                 "$~¶Parágrafo 1.\n\nParágrafo 2.\n\nParágrafo 3.¶'três parágrafos'\\"
-            ]
+            ],
+            "description": "$~agrupar palavras num parágrafo"
         },
         "WebLink": {
             "name": "$~ligação",
@@ -373,7 +391,8 @@
                     "explanation": "$~O meu amigo * $face * não sabe como ser $format .",
                     "resolution": "$~Remova a formatação"
                 }
-            }
+            },
+            "description": "$~Escreva em linguagem simples na documentação."
         },
         "Example": {
             "name": "$~exemplo",
@@ -384,7 +403,8 @@
                 "Se estiver a utilizar Exemplos nos seus tutoriais, pode marcar um Exemplo como destaque.",
                 "\\¶Aqui está um exemplo em destaque: \\1 + 2\\⭐¶3 + 4\\",
                 "O exemplo em destaque é apresentado como pré-visualização no espaço do tutorial e no Guia."
-            ]
+            ],
+            "description": "$~Visualizar código executável na documentação"
         },
         "Mention": {
             "name": "$~menção",
@@ -401,7 +421,8 @@
             "doc": [
                 "$~Sou uma forma de escolher entre dois segmentos de explicação com base em saber se um valor de entrada da explicação está definido ou é verdadeiro.",
                 "$~Trata-se principalmente de uma funcionalidade interna, pelo que não precisa de saber isso."
-            ]
+            ],
+            "description": "$~Escolha entre a marcação baseada em condições."
         },
         "BinaryEvaluate": {
             "name": "$~avaliaçãobinária",
@@ -609,7 +630,8 @@
                 "$~Sou muito útil quando se pretende que algo mude apenas se houver uma alteração no fluxo de dados.",
                 "$~É isso."
             ],
-            "start": "$~Vamos ver se houve alguma alteração de US$ 1…"
+            "start": "$~Vamos ver se houve alguma alteração de US$ 1…",
+            "description": "$~Retorna verdadeiro se o fluxo foi alterado."
         },
         "Conditional": {
             "name": "$~condicional",
@@ -646,7 +668,8 @@
                     "resolutionReorder": "$~Troque as entradas, uma vez que os seus tipos se ajustam melhor à outra ordem — $expected pertence ao outro slot.",
                     "resolutionPlaceholder": "$~Por enquanto, substitua por um valor de exemplo, uma vez que $expected é obrigatório — depois, escolha um valor no menu de autocompletar."
                 }
-            }
+            },
+            "description": "$~Verifique esta condição e avalie-a como uma de duas expressões."
         },
         "ConversionDefinition": {
             "name": "definição de conversão",
@@ -698,7 +721,8 @@
                     "description": "$~conversão impossível",
                     "explanation": "$~Não sei como converter de $1 para $2."
                 }
-            }
+            },
+            "description": "$~Converter valor para outro tipo"
         },
         "Delete": {
             "name": "$~eliminar",
@@ -710,7 +734,8 @@
                 "$~Ufa, o Jeff já foi. Adeus, Jeff. Lembrem-se apenas que não altero a tabela original, crio uma nova, sem o Jeff. Vocês decidem onde ela vai ficar."
             ],
             "start": "Vamos pegar na tabela primeiro.",
-            "finish": "$~Criei uma nova tabela sem as linhas correspondentes!"
+            "finish": "$~Criei uma nova tabela sem as linhas correspondentes!",
+            "description": "$~remover linhas correspondentes da tabela"
         },
         "DocumentedExpression": {
             "name": "expressão documentada",
@@ -721,7 +746,8 @@
                 "$~\\doubleplus: 1\n(2 × doubleplus) + \n¶Vamos aumentar um bocadinho¶\n1\\",
                 "$~Sou útil para fazer comentários sobre alguma parte de um programa."
             ],
-            "start": "$~Vamos avaliar a expressão"
+            "start": "$~Vamos avaliar a expressão",
+            "description": "$~anexar documentação a uma expressão"
         },
         "Evaluate": {
             "name": "$~avaliar",
@@ -891,7 +917,8 @@
             "initialize": "$~Preparar-se para passar pelos itens",
             "next": "$~passando para o item seguinte",
             "check": "$~decidindo se deve continuar",
-            "finish": "$~Avaliei em US$ 1."
+            "finish": "$~Avaliei em US$ 1.",
+            "description": "$~iterar internamente sobre os valores da lista"
         },
         "Initial": {
             "name": "$~iniciar",
@@ -901,7 +928,8 @@
                 "$~\\◆ ? Tempo() 'oi'\\",
                 "$~Não viste, mas a primeira avaliação foi um tempo, mas depois todos os ticks de tempo futuros, eu era \\⊥\\, então @Conditional fez \\⊤\\.",
                 "$~Sou muito útil se estiver a trabalhar com um fluxo de dados e quiser fazer algo apenas à primeira -- ou nunca à primeira!"
-            ]
+            ],
+            "description": "$~Retorna verdadeiro na primeira avaliação."
         },
         "Insert": {
             "name": "$~inserir",
@@ -913,7 +941,8 @@
                 "$~Lembre-se, como tudo no Verso, não altero uma tabela, reviso-a. Portanto, precisa de decidir onde pretende colocar a tabela revista que criar. Muito provavelmente, vai querer rever uma tabela numa @Reaction para alguma entrada e armazená-la num @Bind."
             ],
             "start": "$~Vamos encontrar a tabela para atualizar.",
-            "finish": "$~Criei uma nova tabela com as linhas revistas!"
+            "finish": "$~Criei uma nova tabela com as linhas revistas!",
+            "description": "$~adicionar uma linha a uma tabela"
         },
         "Is": {
             "name": "$~é",
@@ -965,7 +994,8 @@
                 "$~\\list: ['pássaro' 'pato' 'peixe' 'cobra']\nlista[2]\\"
             ],
             "start": "$~Vamos começar pela lista de $1",
-            "finish": "$~O item no índice custa 1 dólar!"
+            "finish": "$~O item no índice custa 1 dólar!",
+            "description": "$~Obter valor na posição da lista"
         },
         "ListLiteral": {
             "name": "lista literal",
@@ -981,7 +1011,8 @@
             "doc": [
                 "$~Uma ferramenta que o ajuda a criar listas com os valores de outras listas. Assim:",
                 "$~\\list: [1 2 3]\nfinal: [:list 4 5 6]\\"
-            ]
+            ],
+            "description": "$~Expandir lista noutra lista"
         },
         "MapLiteral": {
             "name": "mapa literal",
@@ -1018,7 +1049,8 @@
             ],
             "start": "$~Vamos ver quanto vale 1 dólar...",
             "case": "$~Vamos verificar essa condição.",
-            "finish": "$~Ok, temos um valor final!"
+            "finish": "$~Ok, temos um valor final!",
+            "description": "$~comparar valor em múltiplos casos"
         },
         "NumberLiteral": {
             "name": "literal numérico",
@@ -1038,13 +1070,15 @@
             "name": "expressão interna",
             "emotion": "neutral",
             "doc": "$~Como me encontrou? Sou uma expressão utilizada apenas pelos criadores originais. Para saber mais sobre mim, terá de falar com eles.",
-            "start": "$~Expressão secreta"
+            "start": "$~Expressão secreta",
+            "description": "$~executar uma expressão de criador integrada"
         },
         "NoneLiteral": {
             "name": "nenhuma literal",
             "emotion": "neutral",
             "doc": "$~/@FunctionDefinition aqui. Isto é apenas @FunctionDefinition. Eles são únicos! Veja @None para saber mais sobre eles.",
-            "start": "$~… ø"
+            "start": "$~… ø",
+            "description": "$~criar o valor nulo"
         },
         "Otherwise": {
             "name": "de outro modo",
@@ -1055,7 +1089,8 @@
                 "$~\\maybeNumber•#|ø: 1 maybeNumber ?? 0\\"
             ],
             "start": "$~ø ??",
-            "finish": "$~… 1 dólar"
+            "finish": "$~… 1 dólar",
+            "description": "$~fornecer valor de cópia de segurança caso nenhum"
         },
         "Previous": {
             "name": "$~anterior",
@@ -1075,7 +1110,8 @@
             "finish": "$~Avaliado em valor de transmissão de 1 USD",
             "label": {
                 "range": "$~intervalo"
-            }
+            },
+            "description": "$~obter o valor anterior do caudal"
         },
         "Program": {
             "name": "$~programa",
@@ -1118,8 +1154,13 @@
                 "InternalException": {
                     "description": "$~erro interno",
                     "explanation": "$~Algo de muito mau aconteceu internamente: $1"
+                },
+                "PermissionException": {
+                    "description": "$~permissão negada",
+                    "explanation": "$~Preciso da sua $permission para executar o programa, mas não a tenho. Clique em \"Tentar novamente\" para tentar novamente. Se isto não resolver o problema, permita $permission para este site nas definições do seu browser."
                 }
-            }
+            },
+            "description": "$~Contém todas as expressões de um programa"
         },
         "PropertyBind": {
             "name": "$~refinar",
@@ -1183,7 +1224,8 @@
                     "explanation": "condition não se refere a uma fluxo, por isso nunca vou reagir!",
                     "resolution": "$~Elimine a reação, mantendo apenas o valor inicial."
                 }
-            }
+            },
+            "description": "$~criar um valor na alteração do fluxo"
         },
         "Reference": {
             "name": "$~referência",
@@ -1239,7 +1281,8 @@
                     "explanation": "$~Preciso de pelo menos um nome de coluna.",
                     "resolution": "$~Remova esta célula"
                 }
-            }
+            },
+            "description": "$~filtrar linhas correspondentes da tabela"
         },
         "SetLiteral": {
             "name": "conjunto literal",
@@ -1277,7 +1320,8 @@
                     "resolutionReorder": "$~Troque as entradas, uma vez que os seus tipos se ajustam melhor à outra ordem — $expected pertence ao outro slot.",
                     "resolutionPlaceholder": "$~Por enquanto, substitua por um valor de exemplo, uma vez que $expected é obrigatório — depois, escolha um valor no menu de autocompletar."
                 }
-            }
+            },
+            "description": "$~verificar se o conjunto ou mapa contém"
         },
         "Source": {
             "name": "$~fonte",
@@ -1286,13 +1330,15 @@
                 "$~Ah, conhece o @Program? Eu ajudo-te a dar-lhes nomes. Pense em mim como a janela à volta de um @Program e no nome que lhe dá.",
                 "$~Também pode criar outros objetos com @Source e @UI/addSource, juntamente com outros objetos com @Program, e utilizar @Borrow para aceder aos mesmos noutro programa.",
                 "$~Esta pode ser uma boa forma de organizar uma grande apresentação em documentos separados."
-            ]
+            ],
+            "description": "$~Dê um nome a um ficheiro fonte de programa."
         },
         "StreamDefinition": {
             "name": "$~caudal",
             "emotion": "curious",
             "doc": "$~Acho que preciso de criar novas transmissões. Mas não sei bem como fazer isso. Para já, acho que vou usar as transmissões que já existem?",
-            "start": "$~Crie este novo tipo de transmissão"
+            "start": "$~Crie este novo tipo de transmissão",
+            "description": "$~definir um novo tipo de fluxo"
         },
         "StructureDefinition": {
             "name": "$~estrutura",
@@ -1448,7 +1494,8 @@
                     "explanation": "$~Só me é permitido participar numa estrutura, conversão ou reação.",
                     "resolution": "$~Substitua por um espaço reservado"
                 }
-            }
+            },
+            "description": "$~consulte o valor da estrutura atual"
         },
         "UnaryEvaluate": {
             "name": "avaliação unária",
@@ -1503,7 +1550,8 @@
                     "description": "$~???",
                     "explanation": "$~Olá, aqui é o @FunctionDefinition! Não temos a certeza do que esta instrução significa, por isso paramos."
                 }
-            }
+            },
+            "description": "$~marcar uma expressão não analisável"
         },
         "Update": {
             "name": "$~atualização",
@@ -1537,12 +1585,14 @@
                     "resolutionReorder": "$~Troque as entradas, uma vez que os seus tipos se ajustam melhor à outra ordem — $expected pertence ao outro slot.",
                     "resolutionPlaceholder": "$~Por enquanto, substitua por um valor de exemplo, uma vez que $expected é obrigatório — depois, escolha um valor no menu de autocompletar."
                 }
-            }
+            },
+            "description": "$~rever as linhas correspondentes na tabela"
         },
         "AnyType": {
             "name": "$~qualquer",
             "emotion": "curious",
-            "doc": "$~Eu represento qualquer tipo possível. Por vezes apareço porque não sei que tipo de valor algo tem, por isso pode ser qualquer coisa."
+            "doc": "$~Eu represento qualquer tipo possível. Por vezes apareço porque não sei que tipo de valor algo tem, por isso pode ser qualquer coisa.",
+            "description": "$~combinar com qualquer tipo possível"
         },
         "BooleanType": {
             "name": "$~booleano",
@@ -1551,7 +1601,8 @@
                 "$~Utilizo a anotação @Bind para declarar que um nome é um valor @Boolean. Assim:",
                 "$~\\com fome•?: 'gelatina'\\",
                 "$~Se quiser ter a certeza de que algo é @Boolean, use-me e eu verificarei!"
-            ]
+            ],
+            "description": "$~Introduza um valor booleano verdadeiro/falso"
         },
         "ConversionType": {
             "name": "$~conversão",
@@ -1559,7 +1610,8 @@
             "doc": [
                 "$~Utilizo a anotação `@Bind` para indicar que um nome é uma `@ConversionDefinition`. Provavelmente não precisa de me usar, pois poucas pessoas me passam como valor, mas se precisasse, eu teria este aspeto:",
                 "$~\\magic•?→'': → ? '' . ? 'sim' 'não'\\"
-            ]
+            ],
+            "description": "$~introduza uma definição de conversão"
         },
         "FormattedType": {
             "name": "$~formatado",
@@ -1568,12 +1620,14 @@
                 "$~Utilizo a anotação @Bind para indicar que um nome é um valor @FormattedLiteral. Assim:",
                 "$~\\hungry•`…`: `Eu sou tão /chique/!`\\",
                 "$~Quer ter a certeza de que algo é um valor @FormattedLiteral? Veja como o fazer."
-            ]
+            ],
+            "description": "$~Introduza um valor de texto formatado"
         },
         "ExceptionType": {
             "name": "$~exceção",
             "emotion": "neutral",
-            "doc": "$~Eu represento uma exceção. Não há como dizer ao bind que sou uma exceção, porque as exceções apenas interrompem o @Program, pelo que não pode usá-las como valores."
+            "doc": "$~Eu represento uma exceção. Não há como dizer ao bind que sou uma exceção, porque as exceções apenas interrompem o @Program, pelo que não pode usá-las como valores.",
+            "description": "$~introduza um valor de exceção"
         },
         "FunctionType": {
             "name": "$~função",
@@ -1630,7 +1684,8 @@
         "NeverType": {
             "name": "$~nunca",
             "emotion": "curious",
-            "doc": "$~Eu represento um tipo que é impossível. Como quando se pergunta ao @Is se algo é um @Is, mas nunca poderá ser um número."
+            "doc": "$~Eu represento um tipo que é impossível. Como quando se pergunta ao @Is se algo é um @Is, mas nunca poderá ser um número.",
+            "description": "$~representam um tipo impossível"
         },
         "NoneType": {
             "name": "$~nenhum",
@@ -1638,7 +1693,8 @@
             "doc": [
                 "$~@None é o melhor nada que existe, e eu sou o seu fiel representante.",
                 "$~\\space•ø: ø\\"
-            ]
+            ],
+            "description": "$~introduza um valor \"nenhum\""
         },
         "SetType": {
             "name": "$~conjunto",
@@ -1652,7 +1708,8 @@
         "StreamDefinitionType": {
             "name": "$~definiçãodefluxo",
             "emotion": "angry",
-            "doc": "$~Eu represento um fluxo que definiu, o que não é possível, então porque está a ler isto?"
+            "doc": "$~Eu represento um fluxo que definiu, o que não é possível, então porque está a ler isto?",
+            "description": "$~tipo um fluxo definido"
         },
         "StreamType": {
             "name": "fluxo",
@@ -1660,7 +1717,8 @@
             "doc": [
                 "$~Celebro a beleza e o significado dos fluxos de dados… pedindo ao @Bind para os armazenar:",
                 "$~tempo•…#ms: Tempo()"
-            ]
+            ],
+            "description": "$~introduza um valor de fluxo"
         },
         "StructureType": {
             "name": "$~estrutura",
@@ -1672,7 +1730,8 @@
             "name": "$~desconhecido",
             "connector": "$~, porque",
             "emotion": "curious",
-            "doc": "$~Hum... Não sei o que represento, mas estou mesmo curioso. Você sabe? Parece que devíamos saber. Talvez precise de nos dizer se não conseguirmos descobrir."
+            "doc": "$~Hum... Não sei o que represento, mas estou mesmo curioso. Você sabe? Parece que devíamos saber. Talvez precise de nos dizer se não conseguirmos descobrir.",
+            "description": "$~desconhecido"
         },
         "TableType": {
             "name": "tabela",
@@ -1684,7 +1743,8 @@
                     "explanation": "$~Preciso de um tipo de coluna",
                     "resolution": "$~Adicione um espaço reservado para a digitação"
                 }
-            }
+            },
+            "description": "$~introduza um valor de tabela"
         },
         "TextType": {
             "name": "$~texto",
@@ -1698,7 +1758,8 @@
         "TypePlaceholder": {
             "name": "$~espaçoreservado",
             "emotion": "eager",
-            "doc": "$~Espero um dia representar um tipo, tal como a minha melhor amiga @ExpressionPlaceholder representa uma expressão! Ajuda-me a decidir qual o tipo?"
+            "doc": "$~Espero um dia representar um tipo, tal como a minha melhor amiga @ExpressionPlaceholder representa uma expressão! Ajuda-me a decidir qual o tipo?",
+            "description": "$~conter um espaço reservado a um tipo"
         },
         "UnionType": {
             "name": "$~opção",
@@ -1723,12 +1784,14 @@
         "UnparsableType": {
             "name": "não analisável",
             "emotion": "curious",
-            "doc": "$~Represento o tipo de uma expressão desconhecida. Apareço quando tentas usar essa expressão para alguma coisa."
+            "doc": "$~Represento o tipo de uma expressão desconhecida. Apareço quando tentas usar essa expressão para alguma coisa.",
+            "description": "$~digite uma expressão não analisável"
         },
         "VariableType": {
             "name": "tipo de variável",
             "emotion": "curious",
-            "doc": "$~Conhece a variável @TypeVariable e como representa algum tipo de valor desconhecido? Represento-a em todas as negociações entre valores."
+            "doc": "$~Conhece a variável @TypeVariable e como representa algum tipo de valor desconhecido? Represento-a em todas as negociações entre valores.",
+            "description": "$~representar uma variável de tipo em uso"
         },
         "CycleType": {
             "name": "tipo de ciclo",
@@ -1739,7 +1802,8 @@
         "UnknownVariableType": {
             "name": "variável desconhecida",
             "emotion": "curious",
-            "doc": "$~Por vezes tentamos adivinhar o valor de algo; apareço quando não sabemos."
+            "doc": "$~Por vezes tentamos adivinhar o valor de algo; apareço quando não sabemos.",
+            "description": "$~representam uma variável de tipo desconhecido"
         },
         "NotAType": {
             "name": "$~inesperado",
@@ -1750,17 +1814,20 @@
         "NoExpressionType": {
             "name": "nenhuma expressão",
             "emotion": "angry",
-            "doc": "$~Sabe como o @Block precisa de pelo menos uma expressão? Eu sou o que acontece quando não se fornece uma. Então, forneça uma!"
+            "doc": "$~Sabe como o @Block precisa de pelo menos uma expressão? Eu sou o que acontece quando não se fornece uma. Então, forneça uma!",
+            "description": "$~digite um bloco vazio"
         },
         "NotEnclosedType": {
             "name": "não na estrutura, conversão ou reação",
             "emotion": "curious",
-            "doc": "$~@This, por mais interessante que seja, só pertence a sítios específicos. Apareço quando eles se perdem, por isso ninguém sabe que valor representam."
+            "doc": "$~@This, por mais interessante que seja, só pertence a sítios específicos. Apareço quando eles se perdem, por isso ninguém sabe que valor representam.",
+            "description": "$~Marque isto como usado fora de uma estrutura."
         },
         "NotImplementedType": {
             "name": "tipo não implementado",
             "emotion": "curious",
-            "doc": "$~Quando utiliza @ExpressionPlaceholder, mas não especifica o tipo, sou o tipo que recebe. Aceite!"
+            "doc": "$~Quando utiliza @ExpressionPlaceholder, mas não especifica o tipo, sou o tipo que recebe. Aceite!",
+            "description": "$~Introduza um espaço reservado em branco"
         },
         "UnknownNameType": {
             "name": "tipo de nome desconhecido",
@@ -4649,7 +4716,8 @@
     "ui": {
         "font": {
             "app": "$~Noto Sans",
-            "code": "$~Noto Sans Mono"
+            "code": "$~Noto Sans Mono",
+            "missing": "$~Não"
         },
         "phrases": {
             "welcome": "$~Olá"
@@ -4732,7 +4800,10 @@
                     "label": "$~copiar como texto"
                 },
                 "addSource": "criar uma nova fonte",
-                "duplicate": "$~copie este projeto",
+                "duplicate": {
+                    "tip": "$~duplicar este projeto",
+                    "label": "$~duplicado"
+                },
                 "revert": "$~reverter para o código original",
                 "focusOutput": "$~teclado de foco no palco",
                 "focusSource": "$~concentre-se na próxima fonte",
@@ -4746,11 +4817,7 @@
                     "tip": "$~Edite os idiomas deste projeto e traduza-o para outros idiomas.",
                     "label": "$~traduzir"
                 },
-                "primary": "$~definido como o local principal deste projeto",
-                "history": {
-                    "on": "$~Mostrar o código do projeto recente",
-                    "off": "$~Mostrar o código do projeto atual"
-                }
+                "primary": "$~definido como o local principal deste projeto"
             },
             "field": {
                 "name": {
@@ -4796,6 +4863,17 @@
                     "on": "$~sair do browser em ecrã inteiro",
                     "off": "$~entrar no browser em ecrã inteiro"
                 }
+            },
+            "label": "$~projeto",
+            "tour": {
+                "launch": "$~Faça um tour pelos controlos do projeto.",
+                "controls": "$~Estes /controlos/ na parte inferior aplicam-se ao *projecto como um todo*, independentemente do bloco em que está a trabalhar.",
+                "name": "$~Ocampo/name/éonomedoseuprojeto.Osnomesaparecemnasvistas*projecto*e*galeria*.",
+                "sourceToggle": "$~Este botão /toggle/ mostra ou oculta o *ficheiro de origem*. Os *outros botões /toggle* desta linha fazem o mesmo para os outros blocos.",
+                "addSource": "$~Alguns projetos beneficiam de *múltiplos* ficheiros de origem, em que os dados são armazenados num só e importados para a origem *principal*. O botão /adicionar origem/ cria um novo ficheiro.",
+                "share": "$~A caixa de diálogo /partilhar/ permite-lhe partilhar o seu projeto com *galerias*, com o *público* ou copiá-lo como *texto* para partilhar noutro local.",
+                "translate": "$~O botão /traduzir/ pode adicionar *traduções* dos *nomes*, *textos* e *documentação* do seu projeto para outros idiomas.",
+                "checkpoints": "$~O painel /revisions/ permite-lhe voltar às versões anteriores do seu projeto e guardar versões que pretende guardar."
             }
         },
         "checkpoints": {
@@ -5051,8 +5129,9 @@
                             "$~Os colaboradores de qualquer galeria criada por qualquer curador podem visualizar."
                         ]
                     },
-                    "expanded": "$~expandido",
-                    "limited": "$~limitado"
+                    "expandedOptions": "$~Permita que os curadores e criadores da galeria selecionada vejam as instruções desta galeria.",
+                    "expandedAdd": "$~Adicionar galeria à lista",
+                    "expandedRemove": "$~Remover galeria da lista"
                 },
                 "guidingQuestions": {
                     "subheader": {
@@ -5123,6 +5202,10 @@
                 "characters": {
                     "on": "$~ocultar o seletor de emojis e símbolos",
                     "off": "$~Mostrar o seletor de emojis e símbolos"
+                },
+                "expandSequence": {
+                    "on": "$~itens de recolha",
+                    "off": "$~expandir itens"
                 }
             },
             "options": {
@@ -5133,7 +5216,6 @@
             },
             "button": {
                 "selectOutput": "Exibir este resultado no palco",
-                "expandSequence": "$~expandir este código recolhido",
                 "expandControls": "$~Mostrar comandos de edição adicionais",
                 "collapseControls": "$~ocultar comandos de edição adicionais",
                 "zoomIn": "$~Aumente o tamanho do código.",
@@ -5148,7 +5230,6 @@
             "menu": {
                 "label": "$~menu de preenchimento automático",
                 "show": "$~Mostrar menu de preenchimento automático",
-                "back": "$~sair do submenu",
                 "empty": "$~Sem sugestões."
             },
             "cursor": {
@@ -5170,7 +5251,6 @@
                 "selectAll": "$~selecionar programa",
                 "incrementLiteral": "$~Aumentar número, texto ou valor booleano",
                 "decrementLiteral": "$~diminuir número, texto ou booleano",
-                "insertSymbol": "$~inserir $1",
                 "insertTab": "$~inserir guia",
                 "insertTrue": "$~inserir verdadeiro",
                 "insertFalse": "$~inserir falso",
@@ -5190,7 +5270,6 @@
                 "insertConvert": "$~inserir símbolo de conversão",
                 "insertPrevious": "$~inserir símbolo anterior",
                 "insertTable": "$~inserir símbolo de abertura de tabela",
-                "insertTableClose": "$~inserir símbolo de fechar tabela",
                 "insertBorrow": "$~inserir empréstimo",
                 "insertShare": "$~inserir partilha",
                 "insertLine": "$~inserir quebra de linha",
@@ -5224,6 +5303,14 @@
             "error": {
                 "invalidName": "$~Este deve ser um nome válido para um jogo de palavras.",
                 "invalidWords": "$~As palavras não podem estar vazias nem conter símbolos reservados."
+            },
+            "tour": {
+                "launch": "$~Faça um tour pelo editor.",
+                "editor": "$~Todo o seu código deve ser introduzido no editor. Cada programa Wordplay resulta num valor, e esse valor é o que aparece no palco.",
+                "textBlocks": "$~Esta opção alterna entre duas formas de edição: /texto/ e /blocos/. *Texto* é mais flexível, mas mais fácil de cometer erros. Os *blocos* são menos propensos a erros, no entanto mais lentos e rígidos.",
+                "toolbar": "$~Estes controlos da /barra de ferramentas/ permitem *selecionar tudo*, *aumentar e *diminuir o zoom*, *desfazer*, *refazer*, *recortar*, *copiar* e *colar*.",
+                "expand": "$~A opção /expandir/ revela ferramentas de edição mais *avançadas*.",
+                "shortcuts": "$~O botão /atalhos/ abre uma lista de *atalhos de teclado* que pode utilizar para editar mais rapidamente."
             }
         },
         "annotations": {
@@ -5237,7 +5324,8 @@
                 "resolution": "$~Resolva este conflito.",
                 "toggle": "$~Mostrar e ocultar anotações",
                 "highlight": "$~Visualizar este código no editor"
-            }
+            },
+            "nodeDescription": "$~Eles $description ."
         },
         "output": {
             "label": "$~saída do programa",
@@ -5266,11 +5354,29 @@
                 "zoomIn": "$~fazer zoom no palco",
                 "zoomOut": "$~zoom out do palco",
                 "rotate": "$~frase rotativa",
-                "resize": "$~frase de redimensionamento"
+                "resize": "$~frase de redimensionamento",
+                "resetZoom": "$~repor o zoom para o local do palco"
             },
             "options": {
                 "locale": "$~idioma preferido para a saída",
                 "default": "$~predefinição"
+            },
+            "tour": {
+                "launch": "$~faça um passeio pelo palco",
+                "stage": "$~O parâmetro /stage/ mostra o *valor actual* do seu programa. Este valor pode ser um *valor bruto*, como um número ou uma lista, uma *saída visual* que pode ver ou até um *som* que pode ouvir.",
+                "reset": "$~O botão /reset/ faz recuar a avaliação do seu programa até ao *início*, reproduzindo qualquer tempo, tecla ou fluxo de entrada a partir do zero.",
+                "zoom": "$~Os botões /zoom/ permitem ampliar e reduzir o zoom no ecrã para que possa ver a sua saída com mais clareza ou com mais detalhe.",
+                "grid": "$~O botão /grid/ apresenta uma *grelha* no ecrã, útil para posicionar os elementos com precisão durante o processo de criação.",
+                "lock": "$~O botão /lock/ fixa a visão do palco. Quando *bloqueado*, o palco permanece estático; quando *desbloqueado*, pode mover e ampliar a imagem livremente.",
+                "animationSpeed": "$~O controlo /velocidade da animação/ define a velocidade de reprodução das animações. O mesmo controlo está em *definições*, pelo que pode alterá-lo em qualquer um dos locais."
+            },
+            "permission": {
+                "title": "$~Este projeto necessita de permissão.",
+                "microphone": "$~microfone",
+                "camera": "$~câmera",
+                "note": "$~O seu navegador perguntará antes de partilhar.",
+                "start": "$~Iniciar",
+                "retry": "$~Tentar novamente"
             }
         },
         "timeline": {
@@ -5290,6 +5396,17 @@
                 "present": "$~até ao fim",
                 "start": "$~Ao início",
                 "reset": "$~reiniciar desempenho"
+            },
+            "tour": {
+                "launch": "$~Faça um tour pela linha do tempo.",
+                "timeline": "$~A linha do tempo permite-lhe avançar e recuar na avaliação do seu programa, um passo de cada vez. É uma excelente forma de ver como o seu programa calcula o seu valor e de construir um modelo mental de como os programas Wordplay avaliam, especialmente se não estiver a ver o comportamento desejado.",
+                "reset": "$~O botão /reset/ faz recuar a avaliação do seu programa até ao *início*, para que possa começar a ver a avaliação a partir do zero.",
+                "playMode": "$~O programa está agora em execução. No modo de reprodução, o seu programa é executado até terminar (se é que termina), respondendo às entradas em tempo real.",
+                "pauseMode": "$~O programa está agora /pausado/. No modo *pausado*, pode *avançar* e *recuar* na avaliação. A janela /anotações/ mostra agora o que está a acontecer em cada passo, e o *valor actual* de cada parte do seu programa aparece ao lado no editor.",
+                "annotations": "$~A janela /annotations/ é onde aparecem as explicações de cada passo. À medida que executa o programa passo a passo, é aqui que irá ler o que acabou de acontecer.",
+                "editor": "$~O /editor/ apresenta o seu código. Ao depurar passo a passo, o *valor* de cada parte do seu programa aparecerá ao lado dessa parte *após* a sua avaliação, permitindo-lhe observar os valores a acumularem-se à medida que o programa é executado.",
+                "history": "$~O /histórico/ mostra todas as *entradas* que o seu programa recebeu, como teclas premidas, intervalos de tempo e eventos de ponteiros. É *arrastável*, pelo que pode voltar a qualquer momento no histórico de avaliação do programa simplesmente arrastando.",
+                "stepControls": "$~Os controlos de /passo/ permitem-lhe navegar pela avaliação com precisão. Pode saltar para o *início* ou *fim*, avançar ou recuar um passo de cada vez, saltar por *uma entrada*, *sair* de uma função ou saltar para a parte do código *atualmente selecionada*."
             }
         },
         "docs": {
@@ -5398,6 +5515,14 @@
                         "$~documentação e comentários",
                         "$~conceitos avançados de linguagem"
                     ]
+                },
+                "howToFilter": {
+                    "label": "$~tutoriais criados pelos utilizadores",
+                    "labels": ["$~tudo", "$~galeria e favoritos"],
+                    "tips": [
+                        "$~Veja todos os tutoriais criados pelos utilizadores.",
+                        "$~Veja apenas os tutoriais criados pelos utilizadores na galeria deste projeto e todos os favoritos."
+                    ]
                 }
             },
             "note": {
@@ -5486,7 +5611,19 @@
                     "video": "$~Usar uma câmara",
                     "gallery": "$~Criado pelos seus colegas diretores do Wordplay"
                 },
-                "related": "$~Não é o que procura?"
+                "related": "$~Não é o que procura?",
+                "howToGalleryButton": {
+                    "label": "$~Veja o passo a passo no espaço",
+                    "tip": "$~Veja o passo a passo no espaço"
+                }
+            },
+            "tour": {
+                "launch": "$~Faça um tour pelo guia.",
+                "guide": "$~O /guia/ contém *documentação* para todos os conceitos e *recursos* da *linguagem de programação* Wordplay.",
+                "code": "$~Esta é a secção /código/. Contém a documentação da *linguagem de programação* — os blocos de construção que pode combinar para criar programas.",
+                "howto": "$~Esta é a secção /como fazer/. Contém *padrões úteis* para alcançar comportamentos específicos nos seus projetos.",
+                "mode": "$~Utilize este botão /toggle/ para alternar entre as secções de *código* e *instruções*.",
+                "search": "$~A caixa de pesquisa é útil para *descobrir* funcionalidades ou encontrar uma rapidamente *pelo nome*."
             }
         },
         "dialog": {
@@ -5596,7 +5733,8 @@
                             "$~1x",
                             "$~2x",
                             "$~5x",
-                            "$~10x"
+                            "$~10x",
+                            "$~auto"
                         ],
                         "tips": [
                             "$~animações desativadas",
@@ -5606,7 +5744,8 @@
                             "$~velocidade normal",
                             "$~velocidade dupla",
                             "$~cinco velocidades",
-                            "$~dez velocidades"
+                            "$~dez velocidades",
+                            "$~utilizar a configuração atual do dispositivo"
                         ]
                     },
                     "dark": {
@@ -5654,6 +5793,15 @@
                             "$~Texto vertical, lido da direita para a esquerda.",
                             "$~Texto vertical, lido da esquerda para a direita."
                         ]
+                    },
+                    "blockDensity": {
+                        "label": "$~espaçamento entre blocos",
+                        "labels": ["$~compactar", "$~normal", "$~espaçoso"],
+                        "tips": [
+                            "$~Blocos mais compactos para exibir mais código no ecrã.",
+                            "$~espaçamento padrão entre blocos",
+                            "$~Blocos mais soltos para facilitar a seleção e o arrastamento."
+                        ]
                     }
                 },
                 "options": {
@@ -5695,8 +5843,7 @@
                 "explanation": "$~Selecione os idiomas para a interface, o tutorial e a documentação.",
                 "subheader": {
                     "selected": "$~Selecionado",
-                    "supported": "$~Disponível",
-                    "help": "$~Ajude-nos a traduzir…"
+                    "supported": "$~Disponível"
                 },
                 "button": {
                     "show": "$~alterar localidade",
@@ -5704,6 +5851,19 @@
                     "add": "$~Utilize esta localidade e as atuais.",
                     "remove": "$~remover esta localidade",
                     "menu": "$~outros idiomas"
+                },
+                "localizeHelp": "$~Para ajudar a melhorar as traduções no seu idioma, clique no ícone do lápis ✎ na parte inferior da página para ativar o modo de localização e sugerir melhorias.",
+                "request": {
+                    "header": "$~Não encontrou o seu idioma?",
+                    "explanation": "$~Selecione um idioma e uma região e abriremos um pedido no GitHub para discutir a sua adição.",
+                    "languageLabel": "$~idioma",
+                    "regionLabel": "$~região",
+                    "submit": "$~Pedido",
+                    "submitting": "$~Enviando solicitação…",
+                    "success": "$~Discuta esta solicitação connosco no GitHub!",
+                    "error": "$~Algo correu mal. Por favor, tente novamente.",
+                    "alreadySupported": "$~Esse idioma e região já são suportados.",
+                    "requiresLogin": "$~Precisa de estar conectado para solicitar um idioma."
                 }
             },
             "help": {
@@ -5852,6 +6012,14 @@
                         "$~Apenas os curadores da galeria podem ver o seu projeto."
                     ]
                 }
+            },
+            "tour": {
+                "launch": "$~Faça um tour de colaboração",
+                "collaborate": "$~Os projetos podem ser partilhados com outras pessoas, e pode falar com todos com quem o projeto foi partilhado diretamente aqui.",
+                "collaborators": "$~/Os colaboradores/ podem *editar* o projeto e *conversar* sobre ele consigo.",
+                "commenters": "$~Os comentadores podem *discutir* o projeto consigo, mas não podem *editá-lo*.",
+                "viewers": "$~Os /Visualizadores/ podem *visualizar* o projeto e o seu *código*, mas não podem *discuti-lo* ou *editá-lo*.",
+                "restrict": "$~Quando um projeto está numa *galeria*, por defeito, *todos* os que conseguem ver a galeria podem também ver o seu projeto. A opção /restrict/ *oculta* o projeto de todos, exceto de si e dos curadores da galeria."
             }
         },
         "palette": {
@@ -5862,7 +6030,6 @@
                 "default": "$~predefinição",
                 "inherited": "$~herdado",
                 "notSequence": "$~não uma sequência",
-                "notContent": "$~não é uma lista de conteúdos",
                 "format": "$~formatar",
                 "weight": "$~peso",
                 "light": "$~luz",
@@ -5916,6 +6083,15 @@
                 "percent": "$~Deve ser uma percentagem entre 0 e 100.",
                 "lessThanNext": "$~Este valor deve ser inferior ao próximo.",
                 "moreThanPrevious": "$~Esta deve ser mais do que a entrada anterior."
+            },
+            "tour": {
+                "launch": "$~faça um passeio pela paleta",
+                "palette": "$~Quando o projeto estiver *pausado*, pode utilizar a /paleta/ para editar *frases*, *grupos* e o *estágio*.",
+                "text": "$~Todas as /propriedades/ de uma frase podem ser editadas aqui. Este é o *texto* da frase, mas outras propriedades têm os seus próprios controlos.",
+                "set": "$~Quando uma propriedade está a utilizar o seu valor padrão, o botão de lápis permite definir um valor explícito para a mesma.",
+                "unset": "$~Quando uma propriedade tem um valor /explícito/ definido, o botão *X* remove esse valor, fazendo com que a propriedade volte ao seu valor *padrão*.",
+                "editor": "$~Todas as alterações efetuadas na paleta são refletidas no código apresentado no editor.",
+                "stage": "$~As frases podem também ser /movidas/, /redimensionadas/ e /rotacionadas/ diretamente no *palco*."
             }
         },
         "save": {
@@ -5937,7 +6113,10 @@
                 "edit": "$~Sugira uma alteração para este texto.",
                 "submit": "$~Enviar sugestão de edição",
                 "cancel": "$~Descartar edição sugerida",
-                "revert": "$~Voltar ao texto oficial"
+                "revert": "$~Voltar ao texto oficial",
+                "editTip": "$~Sugira uma alteração na dica de ferramenta deste controlo.",
+                "prev": "$~Editar o item anterior",
+                "next": "$~Edite o próximo item"
             },
             "field": {
                 "plain": {
@@ -5961,11 +6140,16 @@
             "emotion": "Choose an emotion",
             "invalidName": "$~Nome inválido para jogo de palavras",
             "reference": "$~Referência em inglês",
-            "unwritten": "$~Texto não escrito",
-            "revised": "$~Texto revisto",
-            "revisedDescription": "$~Estas revisões foram guardadas localmente e ainda não foram submetidas para revisão.",
-            "submitRevisions": "$~Enviar revisões",
-            "submitted": "$~Obrigado! O seu texto revisto será analisado e poderá ser publicado em breve."
+            "inputs": {
+                "header": "$~Entradas que este modelo aceita",
+                "usedTip": "$~Clique para inserir outra referência no cursor.",
+                "unusedTip": "$~Clique para inserir esta referência no cursor.",
+                "missing": "$~Entradas em falta:",
+                "legacy": "$~Substitua estas referências posicionais antigas por referências nomeadas:",
+                "unknown": "$~Estas referências não correspondem a nenhuma entrada ou terminologia declarada, pelo que não serão utilizadas como substitutos:",
+                "submitBlocked": "$~Verifique todas as informações introduzidas antes de enviar."
+            },
+            "invalidConceptLinks": "$~Estes links conceptuais não funcionam no idioma atual. Digitou algum deles incorretamente ou removeu-o de propósito?"
         },
         "page": {
             "unknown": {
@@ -6007,7 +6191,8 @@
                         "label": "$~Contribuir",
                         "subtitle": "Ajude-nos a criar Wordplay"
                     },
-                    "design": "$~Sistema de referência de design para colaboradores"
+                    "design": "$~Sistema de referência de design para colaboradores",
+                    "thanks": "$~Quem ajudou a fazê-lo?"
                 }
             },
             "learn": {
@@ -6125,11 +6310,6 @@
                         "description": "$~descrição da classe",
                         "placeholder": "$~descrição"
                     },
-                    "newteacher": {
-                        "placeholder": "$~e-mail ou nome de utilizador",
-                        "description": "e-mail ou nome de utilizador do criador a quem pretende conceder acesso de professor a esta turma."
-                    },
-                    "addteacher": "$~Adicionar um professor a esta turma",
                     "delete": {
                         "tip": "$~apague esta classe para sempre.",
                         "label": "$~Apague esta classe"
@@ -6497,9 +6677,7 @@
                     "forgot": "$~*Esqueceu-se da palavra-passe?* Infelizmente, não podemos recuperar a sua conta, pois não recolhemos informações de contacto.",
                     "enter": "$~Parece que o seu link de login veio de um browser ou dispositivo diferente. Pode inserir o seu e-mail novamente para termos a certeza de que é você?",
                     "play": "$~Está conectado(a), agora podemos guardar os seus projetos online! Quer criar algo?",
-                    "tooyoung": "$~Precisa de ter 13 anos ou mais para fazer login com um e-mail.",
                     "passwordrule": "$~As palavras-passe devem ter pelo menos 6 caracteres; se não estiver a utilizar um gestor de palavras-passe, escolha três palavras longas de que se lembre.",
-                    "passwordreminder": "$~Parece que ainda não tem conta. Introduza novamente a sua palavra-passe e certifique-se de que a guarda em local seguro e correto, pois não poderá ser recuperada.",
                     "changeEmail": "$~Deseja alterar o seu e-mail? Envie um novo e enviaremos uma confirmação para o endereço antigo.",
                     "changePassword": "$~Deseja alterar a sua palavra-passe? Introduza uma nova e repita o processo.",
                     "email": "$~Possui uma conta ligada apenas a um e-mail? Faça login com o seu e-mail e, se houver uma conta associada, enviar-lhe-emos um e-mail com o link de acesso. Para preservar a privacidade, não suportamos novas contas ligadas apenas a um e-mail.",
@@ -6519,7 +6697,6 @@
                     "usernameTaken": "$~Este nome de utilizador já está em utilização.",
                     "failure": "$~Não foi possível fazer login :(",
                     "offline": "$~Não conseguimos alcançar a cloud ☁️.",
-                    "unchanged": "$~Não foi possível alterar o seu endereço de e-mail, mas não sabemos o motivo.",
                     "delete": "$~Não foi possível eliminar a sua conta, mas não sabemos o motivo.",
                     "invalidPassword": "$~As palavras-passe devem ter no mínimo 6 caracteres.",
                     "wrongPassword": "$~Nome de utilizador e palavra-passe inválidos. Ou a sua palavra-passe está incorreta, ou outra pessoa já está a utilizar este nome de utilizador.",
@@ -6637,8 +6814,6 @@
                 "palette": "$~Paleta",
                 "semantic": "$~Cores Semânticas",
                 "fonts": "$~Fontes",
-                "appfont": "$~Fonte do texto",
-                "codefont": "$~Fonte de código",
                 "spacing": "$~Espaçamento",
                 "typography": "$~Tipografia",
                 "components": "$~Componentes",
@@ -6656,7 +6831,6 @@
                 "demo": {
                     "button": "$~Exemplo",
                     "note": "$~Isto é uma nota.",
-                    "warning": "$~Isto é um aviso.",
                     "notice": "$~Este é um aviso.",
                     "header": "$~Cabeçalho",
                     "subheader": "$~Subtítulo",
@@ -6669,6 +6843,99 @@
                     "optionb": "$~Opção B",
                     "optionc": "$~Opção C"
                 }
+            },
+            "localize": {
+                "header": "$~Localizar",
+                "description": [
+                    "$~Aqui pode navegar por todas as strings localizáveis na plataforma e sugerir traduções ou revisões para textos não escritos e traduzidos automaticamente. Pode enviar as suas revisões para análise quando estiver pronto.",
+                    "$~Ao escrever, lembre-se de utilizar uma linguagem simples, adequada a um público jovem que pode ainda não dominar vocabulário avançado. Além disso, seja consistente, utilizando a mesma terminologia em diferentes textos, quando aplicável."
+                ],
+                "workspaceLink": "$~ver todo o texto + enviar",
+                "workspaceHeader": "$~Texto para escrever ou rever",
+                "submitHeader": "$~Submeter",
+                "submitPrompt": "$~Quando estiver pronto para propor este conjunto de edições, pode enviá-lo abaixo.",
+                "oneLocaleNote": "$~Cada contribuição abrange um idioma de cada vez. Este lote será enviado como edições para $locale . Se quiser contribuir com um idioma diferente, mude primeiro de idioma; as edições guardadas em cada idioma são guardadas separadamente.",
+                "bundleSummary": "$~Edições neste lote",
+                "editEntry": "$~Voltar para editar esta string",
+                "revertEntry": "$~Eliminar esta edição do lote",
+                "prevBundleItem": "$~Rever a edição anterior",
+                "nextBundleItem": "$~Reveja a próxima edição.",
+                "descriptionField": {
+                    "description": "$~Uma breve descrição do conjunto de edições, para ajudar os revisores a compreenderem as alterações.",
+                    "placeholder": "$~O que mudou e porquê?"
+                },
+                "notSpamLabel": "$~Prometo que estas edições não são spam.",
+                "notSpamNote": "$~O Wordplay é um projeto sem fins lucrativos, liderado por voluntários.",
+                "requireLogin": "$~Precisa de estar conectado para contribuir com sugestões de localização.",
+                "singletonWordsWarning": "$~Algumas palavras do seu rascunho aparecem apenas uma vez em todo o texto. Tem a certeza de que a ortografia está correta e consistente com o resto do texto?",
+                "submit": {
+                    "description": "$~Enviar este lote de edições",
+                    "prompt": "$~Submeter"
+                },
+                "submitSuccess": "$~Obrigado! As suas edições foram enviadas e serão analisadas em breve.",
+                "viewPR": "$~Veja a solicitação de pull request",
+                "submitError": "$~Ocorreu um erro ao enviar. As suas edições ainda estão guardadas neste dispositivo — tente novamente.",
+                "empty": "$~Nenhuma sequência de caracteres corresponde a este filtro.",
+                "prevEntry": "$~Edite a string anterior",
+                "nextEntry": "$~Edite a sequência de caracteres seguinte.",
+                "qualityMode": {
+                    "label": "$~espetáculo",
+                    "labels": [
+                        "$~tudo",
+                        "$~traduzido por máquina ou não escrito"
+                    ],
+                    "tips": [
+                        "$~mostrar todas as strings",
+                        "$~Mostrar apenas strings traduzidas automaticamente ou não escritas."
+                    ]
+                },
+                "sectionMode": {
+                    "label": "$~secção",
+                    "labels": [
+                        "$~tudo",
+                        "$~plataforma",
+                        "$~termo",
+                        "$~token",
+                        "$~nó",
+                        "$~base",
+                        "$~entrada",
+                        "$~saída",
+                        "$~interface do utilizador",
+                        "$~galeria",
+                        "$~moderação"
+                    ],
+                    "tips": [
+                        "$~Mostrar todas as secções",
+                        "$~nome da plataforma",
+                        "$~terminologia partilhada",
+                        "$~descrições de tokens",
+                        "$~construções de linguagem de programação",
+                        "$~tipos predefinidos como número, texto, lista",
+                        "$~Descrição do caudal e da fonte de entrada",
+                        "$~descrições dos tipos de saída",
+                        "$~a interface do utilizador da aplicação",
+                        "$~conteúdo padrão da galeria",
+                        "$~mensagens de moderação de conteúdos"
+                    ]
+                },
+                "section": {
+                    "wordplay": "$~Plataforma",
+                    "term": "$~Terminologia",
+                    "token": "$~Fichas",
+                    "node": "$~construções da linguagem",
+                    "basis": "$~Tipos integrados",
+                    "input": "$~Entradas",
+                    "output": "$~Saídas",
+                    "ui": "$~Interface do utilizador",
+                    "gallery": "$~Galeria",
+                    "moderation": "$~Moderação"
+                }
+            },
+            "thanks": {
+                "header": "$~Obrigado",
+                "intro": "$~Agradecemos aos nossos * $count * colaboradores por contribuírem para o design, desenvolvimento, localização e conteúdo do Wordplay! E agradecemos também aos muitos professores e jovens que orientaram o nosso design em grupos de foco, sessões de design e salas de aula, cujos nomes não listamos aqui para preservar a sua privacidade. Este projeto foi financiado pela National Science Foundation sob os números de subvenção 2318257, 2031265, 2100296 e 2122950, pela Universidade de Washington e por generosas doações.<gifts@://donate> De pessoas como você.",
+                "teachers": "$~Professores",
+                "contributors": "$~Colaboradores"
             }
         },
         "edit": {
@@ -6683,10 +6950,6 @@
             "append": "$~/Ansioso por inserir…/",
             "remove": "$~/Considera sair…/",
             "replace": "$~/Deseja intervir…/",
-            "wrap": "$~parênteses",
-            "unwrap": "$~desembrulhar",
-            "bind": "$~Dê um nome a esta expressão.",
-            "show": "$~… mostrar mais",
             "area": "escreve código"
         },
         "template": {
@@ -6837,5 +7100,10 @@
             "name": "$~Histórias",
             "description": "$~Histórias e narrativas interativas."
         }
+    },
+    "system": {
+        "noscript": "$~O Wordplay utiliza JavaScript. O seu navegador não o suporta ou está desativado.",
+        "unsupportedHeading": "$~Navegador não compatível",
+        "unsupportedBody": "$~O seu navegador não suporta funcionalidades essenciais. Para utilizar o Wordplay, precisa de atualizar para uma versão mais recente."
     }
 }
