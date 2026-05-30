@@ -1991,9 +1991,17 @@ export default class Caret {
             this.column,
         );
 
-        return newPosition !== undefined
-            ? this.withPosition(newPosition, this.column)
-            : undefined;
+        if (newPosition !== undefined)
+            return this.withPosition(newPosition, this.column);
+
+        // There's no line in the requested direction: pressing ArrowDown on the
+        // last line moves the caret to the very end of the source, and ArrowUp
+        // on the first line moves it to the very beginning.
+        const boundary =
+            direction === 1 ? this.source.getCode().getLength() : 0;
+        return boundary === position
+            ? undefined
+            : this.withPosition(boundary, this.source.getColumn(boundary) ?? 0);
     }
 
     wrap(project: Project, key: string): Revision | undefined {
