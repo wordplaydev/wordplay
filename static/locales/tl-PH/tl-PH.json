@@ -5633,6 +5633,10 @@
                 "search": "$~Ang kahon na /search/ ay nakakatulong para sa *pagtuklas* ng mga tampok, o mabilis na paghahanap ng isa *ayon sa pangalan*.",
                 "code": "$~Ito ang seksyong /code/. Naglalaman ito ng dokumentasyon ng *programming language* — ang mga building block na maaari mong pagsamahin upang makagawa ng mga programa.",
                 "howto": "$~Ito ang seksyong /paano-gawin/. Naglalaman ito ng *mga kapaki-pakinabang na pattern* para sa pagkamit ng mga partikular na gawi sa iyong mga proyekto."
+            },
+            "breadcrumb": {
+                "label": "$~kasaysayan ng nabigasyon",
+                "home": "$~Tahanan"
             }
         },
         "dialog": {

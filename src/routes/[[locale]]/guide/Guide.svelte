@@ -16,6 +16,11 @@
     import type Concept from '@concepts/Concept';
     import ConceptIndex from '@concepts/ConceptIndex';
     import {
+        currentConcept,
+        type GuideHistory,
+        type GuidePlace,
+    } from '@components/concepts/GuideHistory';
+    import {
         getConceptFromURL,
         getEnumFromURL,
         getQueryFromURL,
@@ -63,57 +68,57 @@
         ),
     );
 
-    // Create a concept path for children, initialized
-    let path = writable<Concept[]>([]);
+    // Create the navigation history for children, initialized empty (home).
+    let path = writable<GuideHistory>([]);
     setConceptPath(path);
+
+    /** Build a (shallow) history from the URL: a browse section (the bottom/home of the
+     *  history), with the named concept or search on top of it. The URL only records the
+     *  current location + section filters; the deeper in-app stack lives in the path
+     *  store and is navigated with the breadcrumb's back/home/crumb controls. */
+    function historyFromURL(): GuideHistory {
+        const section: GuidePlace = {
+            kind: 'section',
+            mode: guideSection,
+            purpose: guidePurpose,
+        };
+        const c = getConceptFromURL(index, page.url.searchParams);
+        if (c) return [section, { kind: 'concept', concept: c }];
+        const q = getQueryFromURL(page.url.searchParams);
+        return q.trim().length > 0
+            ? [section, { kind: 'search', query: q }]
+            : [section];
+    }
 
     let mounted = $state(false);
     onMount(() => {
         // Before showing, wait for how tos to load.
         Locales.loadHowTos($locales.getLocaleString()).then(() => {
-            concept = getConceptFromURL(index, page.url.searchParams);
-            path.set(concept ? [concept] : []);
+            path.set(historyFromURL());
             mounted = true;
         });
     });
 
-    // After any navigation, extract the concept from the URL and
-    // ensure the concept path is set to match it.
+    // On browser back/forward, restore the location and filters from the URL. Our own
+    // (programmatic) navigations already updated the stack, so we ignore non-popstate
+    // navigations — re-deriving from the URL would flatten the in-app history.
     afterNavigate(({ type }) => {
-        // Restore the search query from the URL only on back/forward. Our own
-        // (debounced) URL writes already reflect the current query, and restoring
-        // then could clobber an in-flight change.
-        if (type === 'popstate') {
-            const urlQuery = getQueryFromURL(page.url.searchParams);
-            if (searchQuery !== urlQuery) searchQuery = urlQuery;
-            guideSection = getEnumFromURL(
-                page.url.searchParams,
-                PARAM_SECTION,
-                Modes,
-                sectionFallback(),
-            );
-            guidePurpose = getEnumFromURL(
-                page.url.searchParams,
-                PARAM_PURPOSE,
-                Object.values(Purpose),
-                Purpose.Outputs,
-            );
-        }
-
-        concept = getConceptFromURL(index, page.url.searchParams);
-        // Only update the path if the concept exists and is not already in the path.
-        if (
-            concept !== undefined &&
-            ($path.length === 0 ||
-                concept.getCharacterName($locales) !==
-                    $path.at(-1)?.getCharacterName($locales))
-        ) {
-            path.set([concept]);
-        }
-        // Only update if the path isn't already empty.
-        else if (!concept) {
-            path.set([]);
-        }
+        if (type !== 'popstate') return;
+        const urlQuery = getQueryFromURL(page.url.searchParams);
+        if (searchQuery !== urlQuery) searchQuery = urlQuery;
+        guideSection = getEnumFromURL(
+            page.url.searchParams,
+            PARAM_SECTION,
+            Modes,
+            sectionFallback(),
+        );
+        guidePurpose = getEnumFromURL(
+            page.url.searchParams,
+            PARAM_PURPOSE,
+            Object.values(Purpose),
+            Purpose.Outputs,
+        );
+        path.set(historyFromURL());
     });
 
     // There's no actual project; the documentation component just relies on one to have contexts.
@@ -157,7 +162,7 @@
     });
 
     $effect(() => {
-        concept = $path.at(-1);
+        concept = currentConcept($path);
     });
 
     // When the concept path or (debounced) search query changes, navigate to the
@@ -186,6 +191,10 @@
             if (window.location.search !== newSearch) {
                 localeGoto(`/guide${newSearch}`, {
                     replaceState: window.location.search === '',
+                    // Keep focus (and scroll) so syncing the URL while the creator
+                    // is typing in the search field doesn't steal focus from it.
+                    keepFocus: true,
+                    noScroll: true,
                 });
             }
         }

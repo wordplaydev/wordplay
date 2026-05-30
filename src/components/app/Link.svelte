@@ -77,7 +77,7 @@
      back and trigger an infinite re-mount loop. -->
 {#snippet linkPart()}
     {#if isActive}
-        {@render labelOrChildren()}
+        <span class="link inactive">{@render labelOrChildren()}</span>
     {:else}<a
             data-sveltekit-preload-data="tap"
             data-sveltekit-reload={reload ? '' : null}
@@ -112,6 +112,13 @@
 
     .nowrap {
         white-space: nowrap;
+    }
+
+    /* A link to the page you're already on: greyed, no underline, to signal it's
+       inactive. */
+    .inactive {
+        color: var(--wordplay-inactive-color);
+        text-decoration: none;
     }
 
     .external {

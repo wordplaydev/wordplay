@@ -5398,6 +5398,10 @@
                 "search": "$~Pole wyszukiwania /search/ jest przydatne do *odkrywania* funkcji lub szybkiego znajdowania ich *po nazwie*.",
                 "code": "$~To jest sekcja /code/. Zawiera dokumentację *języka programowania* — elementy składowe, które można łączyć, aby tworzyć programy.",
                 "howto": "$~To jest sekcja /jak-zrobić/. Zawiera *przydatne wzorce* do osiągnięcia określonych zachowań w Twoich projektach."
+            },
+            "breadcrumb": {
+                "label": "$~historia nawigacji",
+                "home": "$~Dom"
             }
         },
         "dialog": {

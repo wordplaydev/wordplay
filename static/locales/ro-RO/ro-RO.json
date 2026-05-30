@@ -5642,6 +5642,10 @@
                 "howto": "$~Aceasta este secțiunea /cum-se/. Conține *modele utile* pentru obținerea anumitor comportamente în proiectele tale.",
                 "mode": "$~Folosește acest buton /toggle/ pentru a comuta între secțiunile *code* și *cum să*.",
                 "search": "$~Caseta /căutare/ este utilă pentru *descoperirea* funcțiilor sau pentru găsirea rapidă a uneia *după nume*."
+            },
+            "breadcrumb": {
+                "label": "$~istoricul navigației",
+                "home": "$~Acasă"
             }
         },
         "dialog": {

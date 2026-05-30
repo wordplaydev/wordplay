@@ -12980,6 +12980,22 @@
                             "additionalProperties": false,
                             "description": "The documentation browser",
                             "properties": {
+                                "breadcrumb": {
+                                    "additionalProperties": false,
+                                    "description": "The navigation breadcrumbs in the documentation tile",
+                                    "properties": {
+                                        "home": {
+                                            "description": "[plain] The first breadcrumb, returning to the browsing page",
+                                            "type": "string"
+                                        },
+                                        "label": {
+                                            "description": "[plain] The ARIA label for the breadcrumb navigation",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": ["label", "home"],
+                                    "type": "object"
+                                },
                                 "button": {
                                     "additionalProperties": false,
                                     "description": "Buttons in the documentation tile",
@@ -13337,6 +13353,7 @@
                                 "nodoc",
                                 "button",
                                 "field",
+                                "breadcrumb",
                                 "note",
                                 "mode",
                                 "header",

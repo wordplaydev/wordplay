@@ -5355,6 +5355,10 @@
                 "search": "$~El cuadro de búsqueda es útil para *descubrir* funciones o para encontrar una rápidamente *por su nombre*.",
                 "code": "$~Esta es la sección /code/. Contiene la documentación del *lenguaje de programación*, los componentes básicos que puedes combinar para crear programas.",
                 "howto": "$~Esta es la sección de \"cómo hacerlo\". Contiene patrones útiles para lograr comportamientos específicos en tus proyectos."
+            },
+            "breadcrumb": {
+                "label": "$~historial de navegación",
+                "home": "$~Hogar"
             }
         },
         "dialog": {

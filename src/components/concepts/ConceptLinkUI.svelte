@@ -8,6 +8,7 @@
         getUser,
     } from '@components/project/Contexts';
     import Concept from '@concepts/Concept';
+    import { currentConcept, pushConcept } from '@components/concepts/GuideHistory';
     import GalleryHowConcept from '@concepts/GalleryHowConcept';
     import { locales } from '@db/Database';
     import ConceptRef from '@locale/ConceptRef';
@@ -151,30 +152,21 @@
     let longName: string = $derived(concept?.getName($locales, false) ?? '');
     let symbolicName: string = $derived(concept?.getName($locales, true) ?? '');
 
+    /** True when this link points to the concept currently being viewed. Such a link
+     *  is rendered inactive (grey thick underline) — it's the only revisitation case
+     *  we account for: clicking it does nothing. */
+    let isCurrent = $derived(
+        concept !== undefined &&
+            path !== undefined &&
+            currentConcept($path)?.isEqualTo(concept) === true,
+    );
+
     function navigate() {
-        // If we have a concept and the last concept isn't it, navigate
-        if (match) {
-            if (typeof match !== 'string' && 'concept' in match) {
-                const concept = match.concept;
-                if (path) {
-                    // Already at this concept? Make a new path anyway to ensure that tile is shown if collapsed.
-                    const alreadyHere = $path.at(-1) === concept;
-                    if (alreadyHere)
-                        path.set([
-                            ...$path.slice(0, $path.length - 1),
-                            concept,
-                        ]);
-                    // If the concept before the last is the concept, just go back
-                    else if (
-                        $path.length >= 2 &&
-                        $path[$path.length - 2] === concept
-                    )
-                        path.set($path.slice(0, $path.length - 1));
-                    // Otherwise, append the concept.
-                    else path.set([...$path, concept]);
-                }
-            }
-        }
+        // Inactive (already-here) links do nothing; otherwise push the concept onto
+        // the navigation history as a new location.
+        if (isCurrent) return;
+        if (match && typeof match !== 'string' && 'concept' in match && path)
+            path.set(pushConcept($path, match.concept));
     }
 </script>
 
@@ -184,7 +176,10 @@
     {/if}
     <button
         type="button"
-        class="conceptlink interactive"
+        class="conceptlink"
+        class:interactive={!isCurrent}
+        class:inactive={isCurrent}
+        aria-disabled={isCurrent}
         title={$locales
             .concretize((l) => l.ui.docs.link, { name: longName })
             .toText()}
@@ -238,5 +233,13 @@
         text-decoration: underline;
         text-decoration-thickness: var(--wordplay-focus-width);
         text-decoration-color: var(--wordplay-focus-color);
+    }
+
+    /* A link to the concept you're already on: greyed, no underline, to signal
+       it's inactive. */
+    .conceptlink.inactive {
+        color: var(--wordplay-inactive-color);
+        text-decoration: none;
+        cursor: default;
     }
 </style>

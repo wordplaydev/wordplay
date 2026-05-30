@@ -5630,6 +5630,10 @@
                 "search": "$~A caixa de pesquisa é útil para *descobrir* funcionalidades ou encontrar uma rapidamente *pelo nome*.",
                 "code": "$~Esta é a secção /código/. Contém a documentação da *linguagem de programação* — os blocos de construção que pode combinar para criar programas.",
                 "howto": "$~Esta é a secção /como fazer/. Contém *padrões úteis* para alcançar comportamentos específicos nos seus projetos."
+            },
+            "breadcrumb": {
+                "label": "$~histórico de navegação",
+                "home": "$~Casa"
             }
         },
         "dialog": {

@@ -5390,6 +5390,10 @@
                 "search": "$~/Arama/ kutusu, özellikleri *keşfetmek* veya bir özelliği *ismiyle* hızlıca bulmak için faydalıdır.",
                 "code": "$~Bu, /code/ bölümüdür. Programlama dili belgelerini içerir; yani programlar oluşturmak için birleştirebileceğiniz yapı taşlarını.",
                 "howto": "$~Bu, \"nasıl yapılır\" bölümüdür. Projelerinizde belirli davranışları elde etmek için *yararlı kalıplar* içerir."
+            },
+            "breadcrumb": {
+                "label": "$~gezinme geçmişi",
+                "home": "$~Ev"
             }
         },
         "dialog": {

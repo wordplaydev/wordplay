@@ -5376,6 +5376,10 @@
                 "search": "$~La zone /search/ est utile pour *découvrir* des fonctionnalités ou en trouver rapidement une *par son nom*.",
                 "code": "$~Voici la section /code/. Elle contient la documentation du *langage de programmation* — les éléments de base que vous pouvez combiner pour créer des programmes.",
                 "howto": "$~Voici la section /how-to/. Elle contient des *modèles utiles* pour obtenir des comportements spécifiques dans vos projets."
+            },
+            "breadcrumb": {
+                "label": "$~historique de navigation",
+                "home": "$~Maison"
             }
         },
         "dialog": {

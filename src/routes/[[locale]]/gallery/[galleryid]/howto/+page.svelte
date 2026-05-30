@@ -15,10 +15,10 @@
         setConceptIndex,
         setConceptPath,
         setProject,
+        type ConceptPath,
     } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
     import Options, { type Option } from '@components/widgets/Options.svelte';
-    import type Concept from '@concepts/Concept';
     import ConceptIndex from '@concepts/ConceptIndex';
     import { Galleries, HowTos, Locales, locales } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
@@ -312,7 +312,7 @@
     // Provide a placeholder concept index, path, and project so that
     // Any ConceptLinkUI inside how-to markup (and example annotations) can resolve.
     // Mirrors the standalone guide setup in Guide.svelte.
-    setConceptPath(writable<Concept[]>([]));
+    setConceptPath(writable<ConceptPath>([]));
 
     let placeholderProject = $derived(
         Project.make(null, 'howto', Source.make(''), [], $locales.getLocales()),

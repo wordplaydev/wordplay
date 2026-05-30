@@ -5642,6 +5642,10 @@
                 "howto": "$~Ini adalah bagian /cara-cara/. Bagian ini berisi *pola-pola bermanfaat* untuk mencapai perilaku tertentu dalam proyek Anda.",
                 "mode": "$~Gunakan tombol ini untuk beralih sendiri antara bagian *kode* dan *cara*.",
                 "search": "$~Kotak /pencarian/ berguna untuk *menemukan* fitur, atau menemukan fitur dengan cepat *berdasarkan nama*."
+            },
+            "breadcrumb": {
+                "label": "$~riwayat navigasi",
+                "home": "$~Rumah"
             }
         },
         "dialog": {

@@ -5439,6 +5439,10 @@
             "field": {
                 "search": "keywords"
             },
+            "breadcrumb": {
+                "label": "navigation history",
+                "home": "Home"
+            },
             "header": {
                 "names": {
                     "header": "Names",

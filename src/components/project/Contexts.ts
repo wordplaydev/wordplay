@@ -1,6 +1,6 @@
 import type { ActiveHint } from '@components/widgets/Hint.svelte';
-import type Concept from '@concepts/Concept';
 import type ConceptIndex from '@concepts/ConceptIndex';
+import type { GuideHistory } from '@components/concepts/GuideHistory';
 import type Conflict from '@conflicts/Conflict';
 import type Project from '@db/projects/Project';
 import type Caret from '@edit/caret/Caret';
@@ -255,8 +255,9 @@ export const [getShowLines, setShowLines] = createContext<Writable<boolean>>();
 
 // DOCUMENTATION-WIDE CONTEXTS
 
-/** The current selected path in a docs browser */
-export type ConceptPath = Concept[];
+/** The guide's navigation history: a flat stack of visited locations (home is the
+ *  empty stack; search results and concepts are pushed on top). See GuideHistory.ts. */
+export type ConceptPath = GuideHistory;
 export const [getConceptPath, setConceptPath] =
     createContext<Writable<ConceptPath>>();
 

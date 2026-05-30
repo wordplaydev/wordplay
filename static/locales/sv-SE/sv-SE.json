@@ -5390,6 +5390,10 @@
                 "search": "$~Sökrutan är användbar för att *upptäcka* funktioner, eller för att snabbt hitta en *med namn*.",
                 "code": "$~Detta är /code/-avsnittet. Det innehåller dokumentation för *programmeringsspråk* — byggstenarna du kan kombinera för att skapa program.",
                 "howto": "$~Detta är avsnittet /hur-gör-det-själv/. Det innehåller *användbara mönster* för att uppnå specifika beteenden i dina projekt."
+            },
+            "breadcrumb": {
+                "label": "$~navigeringshistorik",
+                "home": "$~Hem"
             }
         },
         "dialog": {

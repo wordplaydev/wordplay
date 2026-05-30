@@ -33,7 +33,6 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Options from '@components/widgets/Options.svelte';
     import Tour, { type UIExplanation } from '@components/widgets/Tour.svelte';
-    import type Concept from '@concepts/Concept';
     import ConceptIndex from '@concepts/ConceptIndex';
     import {
         getConceptFromURL,
@@ -124,6 +123,12 @@
         type EditorState,
         type KeyModifierState,
     } from '@components/project/Contexts';
+    import {
+        currentConcept,
+        remapConcepts,
+        sameHistory,
+        type GuidePlace,
+    } from '@components/concepts/GuideHistory';
     import CopyButton from '@components/project/CopyButton.svelte';
     import Layout from '@components/project/Layout';
     import Moderation from '@components/project/Moderation.svelte';
@@ -808,7 +813,7 @@
         // Set the URL to reflect the latest concept selected.
         if (index) {
             setConceptInURL(
-                $path && $path.length > 0 ? $path[$path.length - 1] : undefined,
+                $path ? currentConcept($path) : undefined,
                 index,
                 searchParams,
             );
@@ -845,7 +850,13 @@
                 : page.url.search;
         // If the search params haven't changed, don't navigate.
         if (search !== currentSearch)
-            goto(`?${search}`, { replaceState: true });
+            // Keep focus/scroll so syncing the guide URL while the creator is typing
+            // in the docs search field doesn't steal focus from it.
+            goto(`?${search}`, {
+                replaceState: true,
+                keepFocus: true,
+                noScroll: true,
+            });
     });
 
     /** Persist the layout when it changes */
@@ -1100,11 +1111,21 @@
         ) === 'gallery',
     );
 
-    // Restore the concept in the URL after mounting.
+    /** The browse section at the bottom of the guide history (its "home"), built from
+     *  the host's current section + subsection filters. */
+    function guideHomeSection(): GuidePlace {
+        return { kind: 'section', mode: guideSection, purpose: guidePurpose };
+    }
+
+    // Restore the concept in the URL after mounting, on top of the home section.
     onMount(() => {
-        if (index) {
+        if (index && path) {
             const concept = getConceptFromURL(index, page.url.searchParams);
-            if (concept && path) path.set([concept]);
+            path.set(
+                concept
+                    ? [guideHomeSection(), { kind: 'concept', concept }]
+                    : [guideHomeSection()],
+            );
         }
     });
 
@@ -1180,15 +1201,14 @@
                 // Set the index
                 index = newIndex;
 
-                // Map the old path to the new one using concept equality.
+                // Map the old history's concepts to the new index, dropping any that no
+                // longer resolve; search locations are preserved.
                 if (path)
                     path.set(
                         newIndex && $path
-                            ? $path
-                                  .map((concept) =>
-                                      newIndex?.getEquivalent(concept),
-                                  )
-                                  .filter((c): c is Concept => c !== undefined)
+                            ? remapConcepts($path, (concept) =>
+                                  newIndex.getEquivalent(concept),
+                              )
                             : [],
                     );
 
@@ -1204,16 +1224,15 @@
     // When the path changes, show the docs and mirror the concept in the URL.
     let latestPath = $state<ConceptPath>($path ?? []);
 
-    // When the path changes, show the docs, and leave fullscreen.
+    // When the path navigates to a concept, show the docs, and leave fullscreen.
+    // (Gated on a current concept, not just a non-empty history, so the always-present
+    // home section at the bottom of the history doesn't auto-expand the docs tile.)
     $effect(() => {
         const docs = untrack(() => layout.getDocs());
         if (
             $path &&
-            $path.length > 0 &&
-            ($path.length !== latestPath.length ||
-                !$path.every((concept, index) =>
-                    concept.isEqualTo(latestPath[index]),
-                ) ||
+            currentConcept($path) !== undefined &&
+            (!sameHistory($path, latestPath) ||
                 untrack(() => layout.isFullscreen()) ||
                 (docs !== undefined && !docs.isExpanded()))
         ) {
@@ -1227,7 +1246,7 @@
     // When the layout changes to hide the docs, reset the path.
     $effect(() => {
         const docs = layout.getDocs();
-        if (docs?.isCollapsed()) path.set([]);
+        if (docs?.isCollapsed()) path.set([guideHomeSection()]);
     });
 
     // When the path changes, set the latest path

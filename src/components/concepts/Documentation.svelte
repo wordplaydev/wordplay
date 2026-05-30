@@ -11,11 +11,19 @@
     import TutorialHighlight from '@components/app/TutorialHighlight.svelte';
     import CodeView from '@components/concepts/CodeView.svelte';
     import ConceptGroupView from '@components/concepts/ConceptGroupView.svelte';
-    import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
     import ConceptsView from '@components/concepts/ConceptsView.svelte';
     import ConceptView from '@components/concepts/ConceptView.svelte';
     import { summarizeUnionTypes } from '@components/concepts/elideNode';
     import FunctionConceptView from '@components/concepts/FunctionConceptView.svelte';
+    import {
+        currentSearch,
+        navigateSection,
+        popTo,
+        reconcileSearch,
+        sameHistory,
+        currentConcept as topConcept,
+        type GuideMode,
+    } from '@components/concepts/GuideHistory';
     import HowConceptView from '@components/concepts/HowConceptView.svelte';
     import NodeConceptView from '@components/concepts/NodeConceptView.svelte';
     import StreamConceptView from '@components/concepts/StreamConceptView.svelte';
@@ -71,6 +79,7 @@
         BIND_SYMBOL,
         DOCUMENTATION_SYMBOL,
         FORMATTED_SYMBOL,
+        HOME_SYMBOL,
         IDEA_SYMBOL,
         LIST_CLOSE_SYMBOL,
         LIST_OPEN_SYMBOL,
@@ -84,8 +93,10 @@
         TRUE_SYMBOL,
         TYPE_SYMBOL,
     } from '@parser/Symbols';
+    import { withMonoEmoji } from '@unicode/emoji';
     import { debounced } from '@util/debounce.svelte';
-    import { onDestroy, tick } from 'svelte';
+    import { tick, untrack } from 'svelte';
+    import { get } from 'svelte/store';
     import HowToConceptView from './HowToConceptView.svelte';
 
     interface Props {
@@ -152,12 +163,13 @@
      *  "keep typing" prompt instead. */
     const MIN_QUERY_LENGTH = 3;
 
-    /** True once the user has typed anything: we enter search-results mode (and
-     *  hide the browsing controls) even before the query is long enough to run. */
-    let searchActive = $derived(query.trim().length > 0);
+    /** True when the top of the navigation history is a search location: we show the
+     *  search results and hide the browsing controls. The search box and the search
+     *  location are kept in sync by the two effects below. */
+    let searchActive = $derived(currentSearch($path) !== undefined);
 
-    /** The current concept is always the one at the end of the list. */
-    let currentConcept = $derived($path[$path.length - 1]);
+    /** The current concept, when the top of the history is a concept. */
+    let currentConcept = $derived(topConcept($path));
 
     let viewWidth: number = $state(0);
     let viewHeight: number = $state(0);
@@ -323,23 +335,38 @@
             : [],
     );
 
-    // When navigating *to* a concept, clear the search. (Guarding on a non-empty
-    // path avoids wiping a query restored from the URL: the store's initial
-    // emission and the empty-path set on load both have length 0.)
-    const queryResetUnsub = path.subscribe((p) => {
-        if (p.length > 0) query = '';
-    });
-    onDestroy(() => queryResetUnsub());
+    // Keep the search box and the navigation history in sync. The box (`query`) and
+    // the top search location are two views of the same thing; these two guarded,
+    // convergent effects maintain the invariant "query non-empty ⇔ top of history is a
+    // search with that query" without looping:
+    //  - typing pushes/refines/pops a search location;
+    //  - navigating (push concept, back, home, go-to crumb) updates the history, and
+    //    the box follows — cleared on a concept/home, restored on a search.
 
-    /** Remember the previous path we visited */
+    // query → history. Reads the store untracked so this depends only on `query`;
+    // reconcileSearch returns the same reference when nothing changes, so we skip
+    // redundant writes (and avoid a feedback loop with the effect below).
+    $effect(() => {
+        const q = query;
+        const history = get(path);
+        const next = reconcileSearch(history, q);
+        if (next !== history) path.set(next);
+    });
+
+    // history → query. Depends only on the history (query is read untracked); clears
+    // the box on a concept/home location and restores it on a search location.
+    $effect(() => {
+        const top = $path.at(-1);
+        const desired = top?.kind === 'search' ? top.query : '';
+        if (untrack(() => query) !== desired) query = desired;
+    });
+
+    /** Remember the previous history we visited */
     let previousPath: ConceptPath = $state([]);
 
-    /** When the path changes to a different concept, scroll to top. */
+    /** When the history changes to a different location, scroll to top. */
     $effect(() => {
-        if (
-            previousPath.map((c) => c.getName($locales, false)).join() !==
-            $path.map((c) => c.getName($locales, false)).join()
-        ) {
+        if (!sameHistory(previousPath, $path)) {
             scrollToTop();
             previousPath = $path.slice();
         }
@@ -408,20 +435,64 @@
         );
     }
 
+    // Navigation: the history → query effect keeps the search box in sync with each of
+    // these, so they only need to update the history.
+
+    /** Pop the current location, returning to the previous concept or search results. */
     function back() {
-        $path.pop();
-        path.set([...$path]);
+        path.set($path.slice(0, -1));
     }
 
+    /** Return to home: the bottom of the history, which is always a browse section. */
     function home() {
-        path.set([]);
+        path.set(popTo($path, 0));
     }
 
-    // If blocks mode is on, switch language mode.
+    /** Jump to the location at `index` in the breadcrumb, dropping everything after it. */
+    function goTo(index: number) {
+        path.set(popTo($path, index));
+    }
+
+    /** Choose a browse section/subsection. Moving between sections modifies the current
+     *  location; from a concept/search it adds a new section location (see
+     *  {@link navigateSection}). Also updates the live mode/purpose the browse view and
+     *  toggles read (kept in sync with the active section by the effect below). */
+    function chooseSection(
+        newMode: (typeof Modes)[number],
+        newPurpose: PurposeType,
+    ) {
+        const m = $blocks ? 'language' : newMode;
+        mode = m;
+        purpose = newPurpose;
+        path.set(navigateSection($path, m, newPurpose));
+    }
+
+    /** A short label for a section breadcrumb: the how-to label, or the code
+     *  subsection (purpose) name. */
+    function sectionLabel(sectionMode: GuideMode, sectionPurpose: PurposeType) {
+        return sectionMode === 'howto'
+            ? $locales.getPlainText((l) => l.ui.docs.mode.browse.labels[1])
+            : $locales.getPlainText(
+                  (l) => l.ui.docs.purposes[sectionPurpose].header,
+              );
+    }
+
+    // history → section filters. When the top of the history is a section (we navigated
+    // back/over to a browse page), restore the section + subsection it captured into the
+    // live mode/purpose (clamped to language while in blocks mode). Reads mode/purpose
+    // untracked so this depends only on the history and blocks state.
     $effect(() => {
-        if ($blocks) {
-            mode = 'language';
+        const top = $path.at(-1);
+        if (top?.kind === 'section') {
+            const m = $blocks ? 'language' : top.mode;
+            if (untrack(() => mode) !== m) mode = m;
+            if (untrack(() => purpose) !== top.purpose) purpose = top.purpose;
         }
+    });
+
+    // If blocks mode is on, the guide only shows language (code) concepts.
+    $effect(() => {
+        if ($blocks && mode !== 'language') mode = 'language';
     });
 </script>
 
@@ -444,23 +515,15 @@
                 modes={(l) => l.ui.docs.mode.browse}
                 icons={[DOCUMENTATION_SYMBOL, IDEA_SYMBOL]}
                 choice={Modes.indexOf(mode)}
-                select={(choice) => {
-                    const newMode = Modes[choice];
-                    if (mode !== newMode) {
-                        mode = newMode;
-                        path.set([]);
-                    }
-                }}
+                select={(choice) => chooseSection(Modes[choice], purpose)}
             />
         </span>
         {#if mode === 'language'}
             <Mode
                 modes={(l) => l.ui.docs.mode.purpose}
                 choice={Object.keys(Purpose).indexOf(purpose)}
-                select={(choice) => {
-                    purpose = Object.values(Purpose)[choice];
-                    path.set([]);
-                }}
+                select={(choice) =>
+                    chooseSection(mode, Object.values(Purpose)[choice])}
                 icons={[
                     '👤',
                     '🖥️',
@@ -484,24 +547,50 @@
         {/if}
     {/if}
 
-    {#if currentConcept}
-        <span class="path">
-            {#if $path.length > 1}
-                <Button
-                    tip={(l) => l.ui.docs.button.home}
-                    icon="⇤"
-                    action={home}
-                ></Button>{/if}
+    {#if $path.length > 1}
+        <nav
+            class="path"
+            aria-label={$locales.getPlainText(
+                (l) => l.ui.docs.breadcrumb.label,
+            )}
+        >
             <Button tip={(l) => l.ui.docs.button.back} icon="←" action={back}
             ></Button>
-            {#each $path as concept, index}{#if index > 0}
-                    ·
-                {/if}{#if index === $path.length - 1}<ConceptLinkUI
-                        link={concept}
-                        symbolic={false}
-                    />{/if}
+            {#each $path as place, index}
+                {@const isLast = index === $path.length - 1}
+                {#if index > 0}<span class="sep" aria-hidden="true">›</span
+                    >{/if}{#if index === 0}<button
+                        type="button"
+                        class="crumb home"
+                        title={$locales.getPlainText(
+                            (l) => l.ui.docs.button.home,
+                        )}
+                        aria-label={$locales.getPlainText(
+                            (l) => l.ui.docs.breadcrumb.home,
+                        )}
+                        onclick={home}>{withMonoEmoji(HOME_SYMBOL)}</button
+                    >{:else}{@const label =
+                        place.kind === 'concept'
+                            ? place.concept.getName($locales, false)
+                            : place.kind === 'search'
+                              ? `${SEARCH_SYMBOL} ${getLanguageQuoteOpen(
+                                    $locales.getLocale().language,
+                                )}${place.query}${getLanguageQuoteClose(
+                                    $locales.getLocale().language,
+                                )}`
+                              : sectionLabel(
+                                    place.mode,
+                                    place.purpose,
+                                )}{#if isLast}<span
+                            class="crumb current"
+                            aria-current="page">{label}</span
+                        >{:else}<button
+                            type="button"
+                            class="crumb"
+                            onclick={() => goTo(index)}>{label}</button
+                        >{/if}{/if}
             {/each}
-        </span>
+        </nav>
     {/if}
 </div>
 <section
@@ -525,6 +614,7 @@
                     <div class="result">
                         <CodeView
                             {concept}
+                            elide
                             node={summarizeUnionTypes(
                                 concept.getRepresentation($locales),
                             )}
@@ -545,7 +635,11 @@
                 <div bind:this={resultsSentinel} aria-hidden="true"></div>
             {:else}
                 <!-- Query too short to search yet: prompt to keep typing. -->
-                <Notice text={(l) => l.ui.docs.note.keepTyping} />
+                <Note
+                    ><LocalizedText
+                        path={(l) => l.ui.docs.note.keepTyping}
+                    /></Note
+                >
             {/if}
         {:else}
             <!-- A selected concept is prioritized over the home page -->
@@ -867,9 +961,43 @@
         flex-wrap: nowrap;
         overflow-x: auto;
         font-size: var(--wordplay-small-font-size);
-        gap: var(--wordplay-spacing);
+        gap: var(--wordplay-spacing-half);
         padding-left: var(--wordplay-spacing);
         align-items: center;
+    }
+
+    /* A breadcrumb crumb, styled like a plain text link. */
+    .crumb {
+        flex-shrink: 0;
+        font: inherit;
+        background: none;
+        border: none;
+        padding: 0;
+        margin: 0;
+        white-space: nowrap;
+        color: var(--wordplay-highlight-color);
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .crumb:focus,
+    .crumb:hover {
+        outline: none;
+        text-decoration: underline;
+        text-decoration-thickness: var(--wordplay-focus-width);
+        text-decoration-color: var(--wordplay-focus-color);
+    }
+
+    /* The current location: inactive — greyed, no underline. */
+    .crumb.current {
+        color: var(--wordplay-inactive-color);
+        cursor: default;
+    }
+
+    .sep {
+        flex-shrink: 0;
+        color: var(--wordplay-relation-color);
+        user-select: none;
     }
 
     .result {

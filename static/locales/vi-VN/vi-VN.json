@@ -5630,6 +5630,10 @@
                 "search": "$~Hộp tìm kiếm rất hữu ích để *khám phá* các tính năng, hoặc tìm kiếm nhanh một tính năng *theo tên*.",
                 "code": "$~Đây là phần /code/. Nó chứa tài liệu về *ngôn ngữ lập trình* — những khối xây dựng mà bạn có thể kết hợp để tạo ra các chương trình.",
                 "howto": "$~Đây là phần hướng dẫn. Nó chứa các *mẫu hữu ích* để đạt được các hành vi cụ thể trong dự án của bạn."
+            },
+            "breadcrumb": {
+                "label": "$~lịch sử điều hướng",
+                "home": "$~Trang chủ"
             }
         },
         "dialog": {

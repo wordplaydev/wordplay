@@ -30,6 +30,13 @@ type DocumentationText = {
         /** [plain] The search text field */
         search: string;
     };
+    /** The navigation breadcrumbs in the documentation tile */
+    breadcrumb: {
+        /** [plain] The ARIA label for the breadcrumb navigation */
+        label: string;
+        /** [plain] The first breadcrumb, returning to the browsing page */
+        home: string;
+    };
     /** Notes shown in the documentation tile */
     note: {
         /** [plain] The project has no concepts. */
