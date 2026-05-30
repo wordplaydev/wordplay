@@ -4544,7 +4544,7 @@
                 "HI. STAGE HERE. TELL ME WHAT TO SHOW AND I WILL SHOW IT.",
                 "\\Stage([Phrase('stufffffff')])\\",
                 "IF YOU WANT, GIVE ME A BACKGROUND @Color AND I WILL LIGHT THE STAGE ACCORDINGLY.",
-                "\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°)\\",
+                "\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°))\\",
                 "YOU MAY ALSO GIVE ME A FRAME BORDER AND I WILL CROP.",
                 "\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°) frame: Rectangle(-1m -1m 1m 1m))\\"
             ],
