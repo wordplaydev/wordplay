@@ -24,6 +24,7 @@ export const DraftLocales = [
     'bn-BD',
     'id-ID',
     'ro-RO',
+    'pt-PT'
 ];
 
 /** Supported locale names. Put a locale in this list when it's no longer a draft. */
