@@ -1,4 +1,5 @@
 <script lang="ts">
+    import AnyType from '@nodes/AnyType';
     import type Bind from '@nodes/Bind';
     import Flow from '@components/editor/blocks/Flow.svelte';
     import NodeView, {
@@ -25,8 +26,10 @@
             <NodeView node={[node, 'share']} {format} empty="hide" />
             <NodeView node={[node, 'names']} {format} />
             <NodeView node={[node, 'etc']} {format} empty="hide" />
-            <NodeView node={[node, 'dot']} {format} empty="hide" />
-            <NodeView node={[node, 'type']} {format} empty="menu" />
+            {#if !(node.type instanceof AnyType)}
+                <NodeView node={[node, 'dot']} {format} empty="hide" />
+                <NodeView node={[node, 'type']} {format} empty="menu" />
+            {/if}
             <NodeView node={[node, 'colon']} {format} empty="hide" />
         </Flow>
         <NodeView node={[node, 'value']} {format} />
@@ -38,11 +41,11 @@
     /><NodeView node={[node, 'names']} {format} /><NodeView
         node={[node, 'etc']}
         {format}
-    /><span class="type"
-        ><NodeView node={[node, 'dot']} {format} /><NodeView
-            node={[node, 'type']}
-            {format}
-        /></span
-    ><strong><NodeView node={[node, 'colon']} {format} /></strong
+    />{#if !(node.type instanceof AnyType)}<span class="type"
+            ><NodeView node={[node, 'dot']} {format} /><NodeView
+                node={[node, 'type']}
+                {format}
+            /></span
+        >{/if}<strong><NodeView node={[node, 'colon']} {format} /></strong
     >{#if node.value}<NodeView node={[node, 'value']} {format} />{/if}
 {/if}
