@@ -5633,6 +5633,10 @@
                 "howToGalleryButton": {
                     "label": "$~vezi instrucțiunile din spațiu",
                     "tip": "$~vezi instrucțiunile din spațiu"
+                },
+                "explain": {
+                    "header": "$~Ghiduri",
+                    "explanation": "$~/Exemple scurte care arată cum se fac lucrurile în Wordplay. Apasă pe redare în orice previzualizare pentru a o vedea rulând, apoi deschide-o pentru a citi cum funcționează./"
                 }
             },
             "tour": {

@@ -5253,6 +5253,10 @@
                 "howToGalleryButton": {
                     "label": "$~se hur man gör i utrymmet",
                     "tip": "$~se hur man gör i utrymmet"
+                },
+                "explain": {
+                    "header": "$~Instruktioner",
+                    "explanation": "$~/Korta exempel som visar hur man gör saker i Wordplay. Tryck på play i valfri förhandsgranskning för att se den köras, öppna den sedan för att läsa hur den fungerar./"
                 }
             },
             "mode": {

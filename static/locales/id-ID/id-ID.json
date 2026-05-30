@@ -5633,6 +5633,10 @@
                 "howToGalleryButton": {
                     "label": "$~lihat petunjuk cara melakukannya di ruang tersebut",
                     "tip": "$~lihat petunjuk cara melakukannya di ruang tersebut"
+                },
+                "explain": {
+                    "header": "$~Cara-cara",
+                    "explanation": "$~Contoh singkat yang menunjukkan cara melakukan berbagai hal di Wordplay. Tekan putar pada pratinjau mana pun untuk melihatnya berjalan, lalu buka untuk membaca cara kerjanya."
                 }
             },
             "tour": {

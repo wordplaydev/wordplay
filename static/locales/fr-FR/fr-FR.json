@@ -5239,6 +5239,10 @@
                 "howToGalleryButton": {
                     "label": "$~voir le mode d'emploi dans l'espace",
                     "tip": "$~voir le mode d'emploi dans l'espace"
+                },
+                "explain": {
+                    "header": "$~Tutoriels",
+                    "explanation": "$~/Courts exemples illustrant l'utilisation de Wordplay. Cliquez sur « Lecture » dans un aperçu pour le voir s'exécuter, puis ouvrez-le pour en découvrir le fonctionnement./"
                 }
             },
             "mode": {

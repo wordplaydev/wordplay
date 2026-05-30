@@ -32,7 +32,7 @@
     import Source from '@nodes/Source';
     import { toMarkup } from '@parser/toMarkup';
     import UnicodeString from '@unicode/UnicodeString';
-    import { pickPreviewExample } from './pickPreviewExample';
+    import { pickPreviewExample } from '@concepts/pickPreviewExample';
     import type Gallery from '@db/galleries/Gallery';
     import type HowTo from '@db/howtos/HowToDatabase.svelte';
     import type Locale from '@locale/Locale';

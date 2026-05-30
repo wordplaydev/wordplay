@@ -5624,6 +5624,10 @@
                 "howToGalleryButton": {
                     "label": "$~tingnan ang mga paraan sa espasyo",
                     "tip": "$~tingnan ang mga paraan sa espasyo"
+                },
+                "explain": {
+                    "header": "$~Mga Paano-Gawin",
+                    "explanation": "$~/Maikling halimbawa na nagpapakita kung paano gawin ang mga bagay sa Wordplay. Pindutin ang play sa anumang preview para makita itong tumakbo, pagkatapos ay buksan ito para mabasa kung paano ito gumagana./"
                 }
             },
             "tour": {

@@ -5622,6 +5622,10 @@
                 }
             },
             "how": {
+                "explain": {
+                    "header": "How-tos",
+                    "explanation": "/Short examples that show how to do things in Wordplay. Press play on any preview to see it run, then open it to read how it works./"
+                },
                 "category": {
                     "characters": "create and control characters",
                     "styling": "style characters and text",

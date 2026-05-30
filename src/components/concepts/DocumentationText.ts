@@ -104,6 +104,8 @@ type DocumentationText = {
     };
     /** Everything related to how to content */
     how: {
+        /** Header and explanation of what how-tos are, shown atop the how-to section */
+        explain: HeaderAndExplanationText;
         /** The category names */
         category: Record<keyof typeof HowToCategories, string>;
         /** [plain] The subheader for related how to's */

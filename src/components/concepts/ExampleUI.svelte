@@ -18,11 +18,9 @@
     import { onMount } from 'svelte';
     import { writable } from 'svelte/store';
     import { blocks, DB, locales, Settings } from '@db/Database';
-    import Stage, { NameGenerator, toStage } from '@output/Stage';
-    import type Value from '@values/Value';
     import Annotations from '@components/annotations/Annotations.svelte';
     import Editor from '@components/editor/Editor.svelte';
-    import OutputView from '@components/output/OutputView.svelte';
+    import OutputPreview from '@components/concepts/OutputPreview.svelte';
     import {
         getConceptIndex,
         IdleKind,
@@ -41,7 +39,6 @@
     import SelectedOutput from '@components/project/SelectedOutput.svelte';
     import type { CommandContext } from '@components/editor/commands/Commands';
     import type Node from '@nodes/Node';
-    import ValueView from '@components/values/ValueView.svelte';
 
     interface Props {
         example: Example;
@@ -52,8 +49,8 @@
 
     let { example, spaces, evaluated }: Props = $props();
 
-    let value: Value | undefined = $state(undefined);
-    let stage: Stage | undefined = $state(undefined);
+    /** Whether the output preview is currently playing (vs. showing the static first frame). */
+    let playing = $state(false);
     let copied = $state(false);
     let currentCaret: Caret | undefined = $state(undefined);
     let annotationsExpanded = $state(false);
@@ -165,23 +162,13 @@
         evaluation.set(getEvalContext());
     }
 
-    function update() {
-        if (evaluator && project) {
-            value = evaluator.getLatestSourceValue(project.getMain());
-            stage = value
-                ? toStage(evaluator, value, new NameGenerator())
-                : undefined;
-        }
-    }
-
-    // Wire the eager evaluator's observers and start it. reset() handles
-    // subsequent project changes.
-    // svelte-ignore state_referenced_locally
-    if (evaluated) evaluator.observe(update);
+    // Wire the eager evaluator's store observer and seed the static first frame (no
+    // auto-play). When `evaluated`, the OutputPreview below drives play/stop on this same
+    // evaluator, so the Editor reflects play state. reset() handles project changes.
     // svelte-ignore state_referenced_locally
     evaluator.observe(updateEvaluatorStores);
     // svelte-ignore state_referenced_locally
-    evaluator.start();
+    evaluator.getInitialValue();
 
     onMount(() => {
         return () => {
@@ -190,7 +177,6 @@
                 index?.removeExample(example.program.expression);
             if (evaluator) {
                 evaluator.stop();
-                evaluator.ignore(update);
                 evaluator.ignore(updateEvaluatorStores);
             }
         };
@@ -200,15 +186,14 @@
         // Don't create a new evaluator if the project is the same.
         if (!hard && evaluator && evaluator.project === project) return;
 
-        evaluator?.ignore(update);
         evaluator?.ignore(updateEvaluatorStores);
         evaluator?.stop();
 
         if (project) {
+            playing = false;
             evaluator = new Evaluator(project, DB, $locales.getLocales());
-            if (evaluated) evaluator.observe(update);
             evaluator.observe(updateEvaluatorStores);
-            evaluator.start();
+            evaluator.getInitialValue();
             updateEvaluatorStores();
         }
     }
@@ -287,34 +272,17 @@
                     labeled={false}
                     modeLabels={false}
                 />
-
-                {#if evaluated && value}
-                    <div class="reset">
-                        <Button
-                            tip={(l) => l.ui.timeline.button.reset}
-                            icon="↻"
-                            background={true}
-                            action={() => reset(true)}
-                        ></Button>
-                    </div>
-                {/if}
             </div>
         </div>
-        {#if evaluated && value}
+        {#if evaluated && project && evaluator}
             <div class="value">
-                {#if stage && evaluator && project}
-                    <div class="stage">
-                        <OutputView
-                            {project}
-                            {evaluator}
-                            {value}
-                            grid
-                            editable={false}
-                            wheel={false}
-                            blurOnTyping={false}
-                        />
-                    </div>
-                {:else}<ValueView {value} inline={false} />{/if}
+                <OutputPreview
+                    {project}
+                    {evaluator}
+                    {playing}
+                    onPlay={() => (playing = true)}
+                    onStop={() => (playing = false)}
+                />
             </div>
         {/if}
     </div>
@@ -337,11 +305,6 @@
         display: flex;
         flex-direction: column;
         gap: var(--wordplay-spacing);
-    }
-
-    .reset {
-        display: flex;
-        margin-inline-start: auto;
     }
 
     .example {
@@ -408,15 +371,6 @@
     .code-panel.evaluated :global(.view),
     .code-panel.evaluated :global(.node) {
         touch-action: pan-x;
-    }
-
-    .stage {
-        display: flex;
-        min-width: 10em;
-        width: 100%;
-        aspect-ratio: 4/3;
-        border-radius: var(--wordplay-border-radius);
-        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
     }
 
     .tools {

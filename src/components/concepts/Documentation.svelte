@@ -9,8 +9,8 @@
     import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import TutorialHighlight from '@components/app/TutorialHighlight.svelte';
-    import ConceptPreview from '@components/concepts/ConceptPreview.svelte';
     import ConceptGroupView from '@components/concepts/ConceptGroupView.svelte';
+    import ConceptPreview from '@components/concepts/ConceptPreview.svelte';
     import ConceptsView from '@components/concepts/ConceptsView.svelte';
     import ConceptView from '@components/concepts/ConceptView.svelte';
     import { summarizeUnionTypes } from '@components/concepts/elideNode';
@@ -689,6 +689,10 @@
                     {#if howTos === undefined}
                         <Spinning></Spinning>
                     {:else}
+                        <HeaderAndExplanation
+                            text={(l) => l.ui.docs.how.explain}
+                            sub
+                        />
                         {#if !standalone && gallery}
                             <Mode
                                 modes={(l) => l.ui.docs.mode.howToFilter}
@@ -703,10 +707,10 @@
                                 text={(l) => l.ui.docs.how.category.gallery}
                             />
                             <div class="howtos">
-                                {#each galleryHowConcepts as how}
+                                {#each galleryHowConcepts as how (how.getHowToId())}
                                     <ConceptPreview
-                                        node={how.getRepresentation()}
                                         concept={how}
+                                        node={how.getRepresentation()}
                                         elide
                                     />
                                 {/each}
@@ -728,10 +732,10 @@
                                         ]}
                                 />
                                 <div class="howtos">
-                                    {#each categoryHowTos as how}
+                                    {#each categoryHowTos as how (how.how.id)}
                                         <ConceptPreview
-                                            node={how.getRepresentation()}
                                             concept={how}
+                                            node={how.getRepresentation()}
                                             elide
                                         />
                                     {/each}
@@ -928,7 +932,7 @@
         padding: calc(2 * var(--wordplay-spacing));
         display: flex;
         flex-direction: column;
-        gap: var(--wordplay-spacing);
+        gap: calc(3 * var(--wordplay-spacing));
     }
 
     .content:focus {
@@ -1004,6 +1008,11 @@
         margin-top: var(--wordplay-spacing);
     }
 
+    /* Cap how-to output previews in search results so they don't fill the full result row. */
+    .result :global(.view.how) {
+        max-width: 10em;
+    }
+
     .matches {
         margin-left: var(--wordplay-spacing);
     }
@@ -1012,8 +1021,9 @@
     }
 
     .howtos {
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(10em, 1fr));
         gap: 1em;
+        align-items: start;
     }
 </style>

@@ -5198,6 +5198,10 @@
                 "howToGalleryButton": {
                     "label": "$~请查看空间中的操作方法",
                     "tip": "$~请查看空间中的操作方法"
+                },
+                "explain": {
+                    "header": "$~操作指南",
+                    "explanation": "$~/简短示例，展示如何在 Wordplay 中进行操作。点击任意预览即可观看运行，然后打开查看其工作原理。/"
                 }
             },
             "mode": {

@@ -8,7 +8,9 @@ import type Markup from '@nodes/Markup';
 import type { CharacterName } from '../tutorial/Tutorial';
 import Concept from '@concepts/Concept';
 import type HowTo from '@concepts/HowTo';
+import { pickPreviewExample } from '@concepts/pickPreviewExample';
 import { Purpose } from '@concepts/Purpose';
+import type Example from '@nodes/Example';
 
 /** Represents how to do something with Wordplay, backed by a how document. */
 export default class HowConcept extends Concept {
@@ -51,6 +53,12 @@ export default class HowConcept extends Concept {
             this.how.content.getExamples()[0]?.program.expression ??
             this.how.content
         );
+    }
+
+    /** The example whose output drives this how-to's preview: the starred (`⭐`)
+     *  example, else the first, else none. */
+    getPreviewExample(): Example | undefined {
+        return pickPreviewExample(this.how.content);
     }
 
     // All the examples, to enable dragging

@@ -1,8 +1,10 @@
 import Concept from '@concepts/Concept';
+import { pickPreviewExample } from '@concepts/pickPreviewExample';
 import { Purpose } from '@concepts/Purpose';
 import type HowTo from '@db/howtos/HowToDatabase.svelte';
 import Locales from '@locale/Locales';
 import type Context from '@nodes/Context';
+import type Example from '@nodes/Example';
 import Markup from '@nodes/Markup';
 import type Node from '@nodes/Node';
 import Words from '@nodes/Words';
@@ -43,6 +45,14 @@ export default class GalleryHowConcept extends Concept {
         let markup = toMarkup(this.howTo.getText().join('\n\n'))[0];
 
         return markup.getExamples()[0]?.program.expression ?? markup;
+    }
+
+    /** The example whose output drives this how-to's preview: the starred (`⭐`)
+     *  example, else the first, else none. */
+    getPreviewExample(): Example | undefined {
+        return pickPreviewExample(
+            toMarkup(this.howTo.getText().join('\n\n'))[0],
+        );
     }
 
     getNames(locales: Locales): string[] {

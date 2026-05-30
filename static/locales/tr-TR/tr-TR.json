@@ -5253,6 +5253,10 @@
                 "howToGalleryButton": {
                     "label": "$~Bu alandaki \"nasıl yapılır\" bölümüne bakın.",
                     "tip": "$~Bu alandaki \"nasıl yapılır\" bölümüne bakın."
+                },
+                "explain": {
+                    "header": "$~Nasıl yapılır",
+                    "explanation": "$~/Wordplay'de işlemlerin nasıl yapılacağını gösteren kısa örnekler. Çalıştırılmasını görmek için herhangi bir önizlemede oynat düğmesine basın, ardından nasıl çalıştığını okumak için dosyayı açın./"
                 }
             },
             "mode": {

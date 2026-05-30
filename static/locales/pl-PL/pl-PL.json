@@ -5261,6 +5261,10 @@
                 "howToGalleryButton": {
                     "label": "$~zobacz instrukcję w przestrzeni",
                     "tip": "$~zobacz instrukcję w przestrzeni"
+                },
+                "explain": {
+                    "header": "$~Instrukcje",
+                    "explanation": "$~/Krótkie przykłady pokazujące, jak to zrobić w Wordplay. Naciśnij przycisk „Odtwórz” w dowolnym podglądzie, aby zobaczyć, jak to działa, a następnie otwórz go, aby dowiedzieć się, jak to działa./"
                 }
             },
             "mode": {

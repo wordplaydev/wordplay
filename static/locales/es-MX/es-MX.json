@@ -5218,6 +5218,10 @@
                 "howToGalleryButton": {
                     "label": "$~Consulta las instrucciones en el espacio",
                     "tip": "$~Consulta las instrucciones en el espacio"
+                },
+                "explain": {
+                    "header": "$~Cómo hacerlo",
+                    "explanation": "$~Ejemplos breves que muestran cómo hacer cosas en Wordplay. Pulsa reproducir en cualquier vista previa para verla en funcionamiento y luego ábrela para leer cómo funciona."
                 }
             },
             "mode": {

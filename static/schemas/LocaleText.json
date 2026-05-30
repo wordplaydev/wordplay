@@ -13149,6 +13149,10 @@
                                             ],
                                             "type": "object"
                                         },
+                                        "explain": {
+                                            "$ref": "#/definitions/HeaderAndExplanationText",
+                                            "description": "Header and explanation of what how-tos are, shown atop the how-to section"
+                                        },
                                         "howToGalleryButton": {
                                             "$ref": "#/definitions/ButtonText",
                                             "description": "Button text to go to the how-to in the space"
@@ -13159,6 +13163,7 @@
                                         }
                                     },
                                     "required": [
+                                        "explain",
                                         "category",
                                         "related",
                                         "howToGalleryButton"

@@ -24,7 +24,7 @@
         movePermitted,
         snapToNearestEdge,
     } from './HowToMovement';
-    import { pickPreviewExample } from './pickPreviewExample';
+    import { pickPreviewExample } from '@concepts/pickPreviewExample';
 
     interface Props {
         howTo: HowTo;

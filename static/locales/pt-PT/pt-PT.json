@@ -5621,6 +5621,10 @@
                 "howToGalleryButton": {
                     "label": "$~Veja o passo a passo no espaço",
                     "tip": "$~Veja o passo a passo no espaço"
+                },
+                "explain": {
+                    "header": "$~Tutoriais",
+                    "explanation": "$~Exemplos curtos que mostram como fazer coisas no Wordplay. Clique em reproduzir em qualquer pré-visualização para ver o exemplo em execução e, em seguida, abra-o para ler como funciona."
                 }
             },
             "tour": {

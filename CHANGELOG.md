@@ -17,6 +17,7 @@ This week focused on improving many aspects of the Guide, including speed, usabi
 ### Changed
 
 - ⚡️ We made search faster and more forgiving across the platform, including in the guide, tutorial, projects, glyph chooser, and localization mode.
+- ▶️ We made how-to previews more useful, showing behavior instead of code. Click into the how-to to see and copy code (#1039).
 - 📚 We redesigned navigation in the guide to make it more like a web browser, with a home and back button, a browsing history, and links that become inactive.
 - ➕ We made it easier to expand and collapse really big values.
 - ⌨️ When pressing up on the first line or down on the last line, you go the beginning and end of the source.
