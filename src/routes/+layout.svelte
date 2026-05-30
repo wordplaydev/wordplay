@@ -22,6 +22,7 @@
     import { page } from '$app/state';
     import ConnectionBanner from '@components/app/ConnectionBanner.svelte';
     import Loading from '@components/app/Loading.svelte';
+    import UpdateNotification from '@components/app/UpdateNotification.svelte';
     import Announcer from '@components/project/Announcer.svelte';
     import Hint, { ActiveHint } from '@components/widgets/Hint.svelte';
     import { firestore } from '@db/firebase';
@@ -268,6 +269,9 @@
     bind:announcer={() => $announcerStore, (fn) => announcerStore.set(fn)}
 />
 <Hint></Hint>
+<!-- Top-right notification when a newer app version has been deployed.
+     Rendered at body level so its fixed positioning escapes the .content flow. -->
+<UpdateNotification />
 
 <style>
     /* Flex column at the viewport height so the banner can take its natural

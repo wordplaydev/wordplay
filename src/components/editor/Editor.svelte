@@ -460,6 +460,23 @@
     // The possible candidate for dragging
     let dragCandidate: Node | undefined = $state(undefined);
 
+    // Tracks consecutive clicks on the same token so that double, triple,
+    // quadruple, … clicks select that token and then climb to its ancestors. We
+    // track this ourselves rather than relying on the pointer event's click
+    // count (event.detail isn't populated consistently across browsers). "Same
+    // location" is measured by the token the click's source index falls in (its
+    // text plus leading whitespace), NOT by pixel position or elementFromPoint:
+    // placing a caret re-renders the token and shifts the layout, which makes
+    // the resolved index oscillate between the token's text and its preceding
+    // space — but both of those fall in the same token, so this is stable.
+    // clickDepth is how far we've climbed (0 = a plain position caret, 1 = the
+    // token itself, 2 = its parent, …).
+    let lastClickToken: Node | undefined = undefined;
+    let lastClickTime = 0;
+    let clickDepth = 0;
+    /** ms within which a click on the same token continues a multi-click */
+    const MULTI_CLICK_MS = 500;
+
     // Whenever the caret changes, update it's announcements.
     const announce = getAnnouncer();
 
@@ -652,7 +669,47 @@
         event.preventDefault();
         event.stopPropagation();
 
-        placeCaretAt(event);
+        // A click on the same token as the previous one (soon enough after it)
+        // is a continued multi-click: select that token, then climb one ancestor
+        // for each further click, stopping at the root. Otherwise it's a fresh
+        // click, so record the token and place a position caret as usual. We
+        // resolve the click's source index and find the token it falls in rather
+        // than comparing the node under the pointer, since the index→token
+        // mapping is stable across the layout shift that placing a caret causes.
+        const clickIndex = getCaretPositionAt(
+            $caret,
+            event,
+            getTokenViews,
+            $blocks,
+        );
+        const clickToken =
+            clickIndex === undefined
+                ? undefined
+                : source.getTokenAt(clickIndex, true);
+        const sameLocation =
+            clickToken !== undefined &&
+            clickToken === lastClickToken &&
+            event.timeStamp - lastClickTime < MULTI_CLICK_MS;
+        lastClickTime = event.timeStamp;
+
+        if (sameLocation) {
+            clickDepth += 1;
+        } else {
+            clickDepth = 0;
+            lastClickToken = clickToken;
+        }
+
+        if (clickDepth === 0 || lastClickToken === undefined) {
+            placeCaretAt(event);
+        } else {
+            let node: Node = lastClickToken;
+            for (let i = 0; i < clickDepth - 1; i++) {
+                const parent = source.root.getParent(node);
+                if (parent === undefined) break;
+                node = parent;
+            }
+            caret.set($caret.withPosition(node));
+        }
 
         // After we handle the click, focus on keyboard input, in case it's not focused.
         grabFocus('Focusing editor on pointer down.');
@@ -2060,11 +2117,6 @@
         event.preventDefault();
     }}
     onkeydown={handleKeyDown}
-    ondblclick={(event) => {
-        event.stopPropagation();
-        let node = getNodeAt(source, event, true);
-        if (node) caret.set($caret.withPosition(node));
-    }}
     onfocusin={() => {
         // If the active element is a widget for a token in this editor's source,
         // set the caret to that token.

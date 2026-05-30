@@ -2,6 +2,7 @@ import type Locales from '@locale/Locales';
 import type Markup from '@nodes/Markup';
 import type Node from '@nodes/Node';
 import type Type from '@nodes/Type';
+import TypePlaceholder from '@nodes/TypePlaceholder';
 import UnionType from '@nodes/UnionType';
 
 /**
@@ -85,4 +86,47 @@ function buildUnion(members: Type[]): UnionType {
     return result instanceof UnionType
         ? result
         : UnionType.make(result, result);
+}
+
+/**
+ * Return a clone of `node` in which every over-threshold `UnionType` is
+ * replaced by a shorter summary: its first {@link UNION_ELISION_PREVIEW_COUNT}
+ * members followed by a `TypePlaceholder` (rendered as `_`) standing in for
+ * the omitted members — e.g. `"a" | "b" | "c" | _`.
+ *
+ * Unlike {@link elideNode}, this produces a valid AST (no Markup suffix), so
+ * it can be rendered directly by RootView/CodeView. Use it to summarize the
+ * representation node of a concept (e.g. a stream's `getEvaluateTemplate`,
+ * whose required inputs embed their full type as a placeholder annotation)
+ * before display, so a font-name union doesn't dominate the summary.
+ *
+ * Only the outermost over-threshold union in each nesting is rewritten; the
+ * input node is returned unchanged when no union needs summarizing.
+ */
+export function summarizeUnionTypes(node: Node): Node {
+    const candidates = node.nodes(
+        (n): n is UnionType =>
+            n instanceof UnionType &&
+            flattenUnionMembers(n).length > UNION_ELISION_THRESHOLD,
+    );
+    // Keep only maximal unions — a union nested inside another candidate is
+    // already covered by rewriting its ancestor.
+    const maximal = candidates.filter(
+        (u) => !candidates.some((other) => other !== u && other.contains(u)),
+    );
+
+    let result = node;
+    for (const union of maximal) {
+        const members = flattenUnionMembers(union);
+        const summary = buildUnion([
+            ...members.slice(0, UNION_ELISION_PREVIEW_COUNT),
+            TypePlaceholder.make(),
+        ]);
+        // replace() descends into children, so it can't swap the root itself;
+        // when the whole node is the union, use the summary directly. Disjoint
+        // maximal unions otherwise survive earlier replacements by reference
+        // (clone preserves untouched subtrees), so chaining replace() is safe.
+        result = result === union ? summary : result.replace(union, summary);
+    }
+    return result;
 }

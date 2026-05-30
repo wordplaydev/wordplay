@@ -13,6 +13,11 @@
         tip?: LocaleTextAccessor | undefined;
         nowrap?: boolean;
         external?: boolean;
+        /** Force a full-page navigation (data-sveltekit-reload) instead of a
+         * client-side one. Use when the destination must load fresh code/data
+         * rather than render with the bundle this tab is already running —
+         * e.g. linking to /updates from the new-version notification. */
+        reload?: boolean;
         label?: LocaleTextAccessor;
         children?: import('svelte').Snippet;
     }
@@ -22,6 +27,7 @@
         tip = undefined,
         nowrap = false,
         external = false,
+        reload = false,
         label,
         children,
     }: Props = $props();
@@ -74,6 +80,7 @@
         {@render labelOrChildren()}
     {:else}<a
             data-sveltekit-preload-data="tap"
+            data-sveltekit-reload={reload ? '' : null}
             title={tip ? $locales.getPlainText(tip) : undefined}
             {href}
             target={external ? '_blank' : null}

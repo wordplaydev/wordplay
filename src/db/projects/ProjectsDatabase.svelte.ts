@@ -782,7 +782,8 @@ export default class ProjectsDatabase {
         // would filter out the other tab's updates as its own, and the
         // presence tracker would write to a single shared presence doc
         // that both tabs treat as self. Per-tab IDs fix both.
-        if (firestore !== undefined) {
+        if (firestore !== undefined &&
+            this.projectHistories.get(projectID)?.getPersisted() === PersistenceType.Online) {
             // Only owners and collaborators are allowed to write to the
             // `/updates` subcollection (see firestore.rules). For
             // viewers, commenters, or any session that doesn't pass

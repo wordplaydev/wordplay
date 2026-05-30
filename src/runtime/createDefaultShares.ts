@@ -12,6 +12,7 @@ import { createCameraDefinition } from '@input/Camera';
 import { createChatDefinition } from '@input/Chat';
 import { createChoiceDefinition } from '@input/Choice';
 import { createCollisionDefinition } from '@input/Collision';
+import { createContourDefinition } from '@input/Contour';
 import { createKeyDefinition } from '@input/Key';
 import { createMotionDefinition } from '@input/Motion';
 import { createPitchDefinition } from '@input/Pitch';
@@ -109,6 +110,7 @@ export default function createDefaultShares(locales: Locales) {
         Hand: createHandDefinition(locales, HandType),
         Webpage: createWebpageDefinition(locales),
         Chat: createChatDefinition(locales),
+        Contour: createContourDefinition(locales, PlaceType),
         Collision: createCollisionDefinition(locales, ReboundType),
         Scene: createSceneDefinition(locales, PhraseType, GroupType, ShapeType),
         Reaction: createReactionDefinition(locales),

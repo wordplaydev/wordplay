@@ -7,6 +7,7 @@ import {
 } from '@locale/Scripts';
 import { OR_SYMBOL } from '@parser/Symbols';
 import { writable } from 'svelte/store';
+import type { Font as FontkitFont } from 'fontkit';
 
 export type FontWeight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
 export type FontWeightRange = { min: FontWeight; max: FontWeight };
@@ -667,21 +668,10 @@ export class FontManager {
             return null;
         }
 
-        // If there's a rannge, figure out of the index of the range.
-        const rangeIndex =
-            font.range && Array.isArray(supportedFace.ranges)
-                ? supportedFace.ranges.indexOf(font.range)
-                : undefined;
-
-        // Otherwise, try loading it. Remove spaces.
-        const spacelessFontName = font.name.replaceAll(' ', '');
+        // Build the static file URL for this specific weight/italic/range.
         const fontFace = new FontFace(
             font.name,
-            `url(/fonts/${spacelessFontName}/${spacelessFontName}-${
-                Array.isArray(supportedFace.weights) ? font.weight : 'all'
-            }${font.italic ? '-italic' : ''}${
-                rangeIndex !== undefined ? `-${rangeIndex}` : ''
-            }.${supportedFace.format}`,
+            `url(${getFontFileURL(font) ?? ''}`,
             {
                 ...{
                     style: font.italic ? 'italic' : 'normal',
@@ -772,4 +762,135 @@ export const SupportedFontsFamiliesType = SupportedFaces.map(
 
 export function getFaceDescription(name: string, face: Face) {
     return `${name} [${face.scripts.map((s) => Scripts[s]?.name ?? '?').join(' ')}]`;
+}
+
+/** Build the static file URL for a specific font file (weight/italic/range), or
+ * undefined if the face isn't supported. Mirrors the path scheme used by
+ * FontManager.registerFontFace. */
+export function getFontFileURL(font: Font): string | undefined {
+    const face = Faces[font.name];
+    if (face === undefined) return undefined;
+    const rangeIndex =
+        font.range && Array.isArray(face.ranges)
+            ? face.ranges.indexOf(font.range)
+            : undefined;
+    const spaceless = font.name.replaceAll(' ', '');
+    return `/fonts/${spaceless}/${spaceless}-${
+        Array.isArray(face.weights) ? font.weight : 'all'
+    }${font.italic ? '-italic' : ''}${
+        rangeIndex !== undefined ? `-${rangeIndex}` : ''
+    }.${face.format}`;
+}
+
+/** True if the given CSS unicode-range string (e.g. "U+0000-00FF, U+0131")
+ * contains the given codepoint. */
+export function rangeContains(rangeString: string, codepoint: number): boolean {
+    for (const part of rangeString.split(',')) {
+        const match = part
+            .trim()
+            .match(/^U\+([0-9A-Fa-f]+)(?:-([0-9A-Fa-f]+))?$/);
+        if (match) {
+            const start = parseInt(match[1], 16);
+            const end = match[2] !== undefined ? parseInt(match[2], 16) : start;
+            if (codepoint >= start && codepoint <= end) return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * A cache of fonts parsed by fontkit for contour extraction, keyed by
+ * face + weight + italic + range index. This is separate from the FontManager's
+ * FontFace registry because the browser FontFace API does not expose the raw
+ * font bytes that fontkit needs. fontkit decodes WOFF2 (and WOFF/TTF/OTF) itself.
+ */
+const contourFonts = new Map<string, FontkitFont>();
+
+/** Why a contour font failed to load, for reporting back to the creator:
+ * - `connection`: the font file couldn't be reached (network/offline).
+ * - `unavailable`: the server responded, but the font file wasn't found.
+ * - `unreadable`: the file downloaded, but couldn't be read as a font. */
+export type ContourFontError = 'connection' | 'unavailable' | 'unreadable';
+
+/** In-flight loads, so concurrent requests for the same file share one fetch. */
+const contourFontLoads = new Map<
+    string,
+    Promise<FontkitFont | ContourFontError>
+>();
+
+function contourFontKey(
+    face: SupportedFace,
+    weight: FontWeight,
+    italic: boolean,
+    range: string | undefined,
+): string {
+    return `${face}-${weight}-${italic ? 'i' : 'n'}-${range ?? 'all'}`;
+}
+
+/**
+ * Fetch and parse a single font file for contour extraction, caching the parsed
+ * fontkit Font. fontkit decodes WOFF2 internally, so no separate decompression
+ * step is needed. Returns a parsed Font on success, a ContourFontError describing
+ * the failure (so the caller can report it), or undefined when there's nothing to
+ * do (no browser, or an unsupported face/weight).
+ */
+export async function getContourFont(
+    face: SupportedFace,
+    weight: FontWeight,
+    italic: boolean,
+    range: string | undefined,
+): Promise<FontkitFont | ContourFontError | undefined> {
+    // No DOM/fetch available (SSR, tests): nothing to load.
+    if (typeof window === 'undefined') return undefined;
+
+    const key = contourFontKey(face, weight, italic, range);
+
+    const cached = contourFonts.get(key);
+    if (cached) return cached;
+
+    const inFlight = contourFontLoads.get(key);
+    if (inFlight) return inFlight;
+
+    const faceData = Faces[face];
+    if (faceData === undefined) return undefined;
+
+    const url = getFontFileURL({
+        name: face,
+        weight,
+        italic,
+        format: faceData.format,
+        range,
+    });
+    if (url === undefined) return undefined;
+
+    const load = (async (): Promise<FontkitFont | ContourFontError> => {
+        try {
+            let response: Response;
+            try {
+                response = await fetch(url);
+            } catch {
+                // Couldn't reach the network at all.
+                return 'connection';
+            }
+            // The server responded, but the font file isn't there.
+            if (!response.ok) return 'unavailable';
+
+            const buffer = await response.arrayBuffer();
+            const fontkit = await import('fontkit');
+            const created = fontkit.create(new Uint8Array(buffer));
+            // Font files are single fonts, but create() may return a collection.
+            const font = 'fonts' in created ? created.fonts[0] : created;
+            if (font === undefined) return 'unreadable';
+            contourFonts.set(key, font);
+            return font;
+        } catch {
+            // Downloaded, but fontkit couldn't read it as a font.
+            return 'unreadable';
+        } finally {
+            contourFontLoads.delete(key);
+        }
+    })();
+
+    contourFontLoads.set(key, load);
+    return load;
 }

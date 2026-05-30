@@ -1,5 +1,6 @@
 <script lang="ts">
     import Mode from '@components/widgets/Mode.svelte';
+    import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
     import { blocks, Settings } from '@db/Database';
     import type Locale from '@locale/Locale';
     import {
@@ -8,7 +9,6 @@
         TEXT_EDITING_SYMBOL,
     } from '@parser/Symbols';
     import EditorLocaleChooser from '@components/project/EditorLocaleChooser.svelte';
-    import Button from '@components/widgets/Button.svelte';
     import CommandButton from '@components/widgets/CommandButton.svelte';
     import type { Command } from '@components/editor/commands/Commands';
 
@@ -32,102 +32,63 @@
         onChangeLocale,
     }: Props = $props();
 
-    let expanded = $state(false);
+    // Flat list of important commands shown in order: navigate, then modify
+    // (modify only when editable). Each command is its own overflow unit so
+    // they drop into the hamburger popup individually as the row narrows.
+    // Non-important commands aren't shown in the toolbar at all — they're
+    // still reachable via keyboard shortcuts and autocomplete.
+    const commands = $derived(
+        editable
+            ? [
+                  ...navigateCommands.filter((c) => c.important),
+                  ...modifyCommands.filter((c) => c.important),
+              ]
+            : navigateCommands.filter((c) => c.important),
+    );
 
-    function toggleExpanded() {
-        expanded = !expanded;
-    }
+    const hasLocale = $derived(localesUsed.length > 0);
 
-    // Separate important commands (to show always) from collapsed commands
-    const importantModifyCommands = $derived(
-        modifyCommands.filter((cmd) => cmd.important),
-    );
-    const collapsedModifyCommands = $derived(
-        modifyCommands.filter((cmd) => !cmd.important),
-    );
-
-    const importantNavigateCommands = $derived(
-        navigateCommands.filter((cmd) => cmd.important),
-    );
-    const collapsedNavigateCommands = $derived(
-        navigateCommands.filter((cmd) => !cmd.important),
-    );
+    // Item layout (each index = one overflow unit):
+    //   0           : mode toggle
+    //   1           : locale chooser (only when hasLocale)
+    //   1+|2+ ..    : individual command buttons
+    const localeOffset = $derived(hasLocale ? 1 : 0);
+    const itemCount = $derived(1 + localeOffset + commands.length);
 </script>
 
-<span data-uiid="textBlocksToggle">
-    <Mode
-        icons={[TEXT_EDITING_SYMBOL, BLOCK_EDITING_SYMBOL]}
-        modes={(l) => l.ui.dialog.settings.mode.blocks}
-        choice={$blocks ? 1 : 0}
-        select={(mode) => Settings.setBlocks(mode === 1)}
-        labeled={false}
-        modeLabels={false}
-    />
-</span>
-
-<!-- The command-button group, highlighted as a single tour step. -->
-<span class="toolbar-commands" data-uiid="editorToolbar">
-    <!-- Navigate commands are always visible -->
-    {#each importantNavigateCommands as command}
-        <CommandButton {command} {sourceID} />
-    {/each}
-
-    <!-- If there are multiple locales, show the locale chooser -->
-    {#if localesUsed.length > 0}
-        {LOCALE_SYMBOL}
-        <EditorLocaleChooser
-            locale={editorLocales[sourceID]}
-            options={localesUsed}
-            change={(locale) => {
-                onChangeLocale(locale);
-            }}
+{#snippet renderItem(i: number)}
+    {#if i === 0}
+        <span data-uiid="textBlocksToggle">
+            <Mode
+                icons={[TEXT_EDITING_SYMBOL, BLOCK_EDITING_SYMBOL]}
+                modes={(l) => l.ui.dialog.settings.mode.blocks}
+                choice={$blocks ? 1 : 0}
+                select={(mode) => Settings.setBlocks(mode === 1)}
+                labeled={false}
+                modeLabels={false}
+            />
+        </span>
+    {:else if hasLocale && i === 1}
+        <span class="locale" data-uiid="editorToolbar">
+            {LOCALE_SYMBOL}
+            <EditorLocaleChooser
+                locale={editorLocales[sourceID]}
+                options={localesUsed}
+                change={(locale) => onChangeLocale(locale)}
+            />
+        </span>
+    {:else}
+        <CommandButton
+            command={commands[i - 1 - localeOffset]}
+            {sourceID}
         />
     {/if}
+{/snippet}
 
-    <!-- Make a Button for every modify command if editable -->
-    {#if editable}
-        <!-- Important modify commands are always visible -->
-        {#each importantModifyCommands as command}
-            <CommandButton {command} {sourceID} />
-        {/each}
-    {/if}
-</span>
-
-<!-- Show accordion button only if there are collapsed commands -->
-{#if editable && (collapsedModifyCommands.length > 0 || collapsedNavigateCommands.length > 0)}
-    <!-- Accordion control button -->
-    <Button
-        uiid="editorExpand"
-        tip={(l) =>
-            expanded
-                ? l.ui.source.button.collapseControls
-                : l.ui.source.button.expandControls}
-        active={true}
-        action={toggleExpanded}
-        icon={expanded ? '⋮' : '⋯'}
-    />
-
-    <!-- Accordion content (expanded when clicked) -->
-    {#if expanded}
-        <div class="accordion-content">
-            {#each collapsedNavigateCommands as command}
-                <CommandButton {command} {sourceID} />
-            {/each}
-            {#each collapsedModifyCommands as command}
-                <CommandButton {command} {sourceID} />
-            {/each}
-        </div>
-    {/if}
-{/if}
+<OverflowToolbar items={{ count: itemCount, render: renderItem }} />
 
 <style>
-    .accordion-content {
-        display: inline-flex;
-        gap: var(--wordplay-spacing);
-    }
-
-    /* Group the toolbar commands so the Tour can highlight them all at once. */
-    .toolbar-commands {
+    .locale {
         display: inline-flex;
         align-items: center;
         gap: var(--wordplay-spacing);

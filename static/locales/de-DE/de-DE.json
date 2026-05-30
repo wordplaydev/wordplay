@@ -3731,6 +3731,58 @@
                 "names": ["$~Auflösung"],
                 "doc": "$~Die Breite in Pixeln, mit der die Kamera vor der Berechnung des Handmodells abgetastet wird. Höhere Werte können zu etwas genaueren Landmarken führen, benötigen aber mehr Zeit pro Frame."
             }
+        },
+        "Contour": {
+            "doc": [
+                "$~Hallo! Hier ist @FunctionDefinition . Möchten Sie die Form von Buchstaben sehen?",
+                "$~Nennen Sie mir einen Text und eine Schriftart, und ich werde die Kontur jedes Glyphen als @List von @Place -Werten Punkt für Punkt nachzeichnen.",
+                "$~\\Contour('a' \"Noto Sans\")\\",
+                "$~Übergeben Sie diese @Place -Werte an eine @List von @Phrase , um die Kontur als Punkte dargestellt zu sehen:",
+                "$~\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' place: point)))\\",
+                "$~Sie können die Kontur mit @Number in Metern skalieren, ihren Ursprung mit @Place verschieben, eine Schriftstärke auswählen, Kursivschrift aktivieren und den Abstand zwischen den Punkten in Metern festlegen. Ein kleinerer Abstand zeichnet die Kontur genauer nach, mit gleichmäßig verteilten Punkten entlang von Linien und Kurven.",
+                "$~Manche Glyphen, wie z. B. Farb-Emojis, haben keine Kontur und bringen daher keine Punkte. Während ich die Schriftart lade, stelle ich Ihnen eine leere @List zur Verfügung und fülle sie anschließend aus."
+            ],
+            "names": ["$~🖋️", "$~Kontur"],
+            "inputs": [
+                {
+                    "doc": "$~Der Text, dessen Glyphenumrisse ich nachzeichnen soll.",
+                    "names": "$~Glyphen"
+                },
+                {
+                    "doc": "$~Die Schriftart, in der die Glyphen nachgezeichnet werden sollen.",
+                    "names": "$~Gesicht"
+                },
+                {
+                    "doc": "$~Die Höhe des Glyphen in Metern, skaliert mit der Kontur.",
+                    "names": "$~Größe"
+                },
+                {
+                    "doc": "$~Ein optionaler Ursprung @Place , um jeden Punkt zu verschieben.",
+                    "names": "$~Ort"
+                },
+                {
+                    "doc": "$~Die zu verwendende Schriftstärke wird an die nächstliegende Schriftstärke angepasst.",
+                    "names": "$~Gewicht"
+                },
+                {
+                    "doc": "$~Ob die kursive Version des Schriftbildes verwendet werden soll, falls eine solche existiert.",
+                    "names": "$~Kursivschrift"
+                },
+                {
+                    "doc": "$~Der Abstand in Metern zwischen den Messpunkten entlang der Kontur wird sowohl entlang gerader als auch entlang von Kurven konstant gehalten. Kleinere Werte ermöglichen eine feinere Darstellung bis hin zu einem Minimum von 0,01 Metern.",
+                    "names": "$~Abstand"
+                },
+                {
+                    "doc": "$~Die Reihenfolge der Punkte: „vorwärts“ oder „rückwärts“.",
+                    "names": "$~Richtung"
+                }
+            ],
+            "error": {
+                "connection": "$~Ich konnte keinen Internetzugang haben, um die Schriftart zu erhalten, daher kann ich die Buchstaben nicht nachzeichnen.",
+                "unavailable": "$~Ich konnte die Datei dieser Schriftart nicht finden, daher kann ich ihre Buchstaben nicht nachzeichnen.",
+                "unreadable": "$~Ich habe die Schriftart heruntergeladen, konnte sie aber nicht lesen, daher kann ich die Buchstaben nicht nachzeichnen.",
+                "outline": "$~Ich habe die Schriftart geladen, aber ich konnte die Form dieser Buchstaben nicht hinbekommen."
+            }
         }
     },
     "output": {
@@ -4698,7 +4750,14 @@
                 "bullet": "$~Aufzählungszeichen",
                 "attention": "$~Diesen Ausdruck hervorheben"
             },
-            "backtotop": "$~Zurück nach oben"
+            "backtotop": "$~Zurück nach oben",
+            "overflow": {
+                "button": {
+                    "on": "$~Zusätzliche Steuerelemente ausblenden",
+                    "off": "$~Zusätzliche Steuerelemente anzeigen"
+                },
+                "popup": "$~Zusätzliche Bedienelemente"
+            }
         },
         "tile": {
             "toggle": {
@@ -6966,6 +7025,13 @@
             "joined": "$~$name Beitritt.",
             "left": "$~$name übrig.",
             "waitingForSlot": "$~Warten auf einen Bearbeitungsplatz – vier Mitarbeiter bearbeiten bereits. Sobald einer ausscheidet, können auch Sie bearbeiten."
+        },
+        "update": {
+            "label": "$~Neue Version verfügbar",
+            "message": "$~Wir haben eine neue Version veröffentlicht.",
+            "refresh": "$~Aktualisieren",
+            "updates": "$~Siehe die Aktualisierungen",
+            "dismiss": "$~Zurückweisen"
         }
     },
     "moderation": {

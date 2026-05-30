@@ -3736,6 +3736,58 @@
                 "names": ["$~rezolucja"],
                 "doc": "$~Szerokość w pikselach, przy której próbkowane jest zdjęcie kamery przed uruchomieniem modelu dłoni. Wyższe wartości mogą zapewnić nieco dokładniejsze punkty orientacyjne, ale kosztują więcej czasu na klatkę."
             }
+        },
+        "Contour": {
+            "doc": [
+                "$~/Cześć! Tutaj @FunctionDefinition . Chcesz zobaczyć /kształt/ liter?",
+                "$~Podaj mi trochę tekstu i krój czcionki, a ja narysuję kontury każdego glifu jako @List wartości @Place , jeden punkt po drugim.",
+                "$~\\Contour('a' \"Noto Sans\")\\",
+                "$~Przekaż te wartości @Place do @List w @Phrase , aby zobaczyć zarys narysowany w postaci kropek:",
+                "$~\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' place: point)))\\",
+                "$~Możesz skalować kontur za pomocą @Number w metrach, przesuwać jego początek za pomocą @Place , wybierać grubość czcionki, włączać kursywę i ustawiać odstępy między punktami w metrach. Mniejsze odstępy pozwalają na dokładniejsze obrysowanie konturu, z równomiernie rozłożonymi punktami wzdłuż linii i krzywych.",
+                "$~Niektóre glify, takie jak kolorowe emoji, nie mają konturu, więc nie dodają punktów. Podczas gdy pobieram czcionkę, dam ci pustą @List , a potem ją wypełnię, kiedy będę gotowy."
+            ],
+            "names": ["$~🖋️", "$~Kontur"],
+            "inputs": [
+                {
+                    "doc": "$~Tekst, którego kontury mam naszkicować.",
+                    "names": "$~glify"
+                },
+                {
+                    "doc": "$~Czcionka służąca do rysowania glifów.",
+                    "names": "$~twarz"
+                },
+                {
+                    "doc": "$~Wysokość glifu w metrach, skalująca obrys.",
+                    "names": "$~rozmiar"
+                },
+                {
+                    "doc": "$~Opcjonalny punkt początkowy @Place , o który należy przesunąć każdy punkt.",
+                    "names": "$~miejsce"
+                },
+                {
+                    "doc": "$~Grubość czcionki, jaka ma zostać użyta, dopasowana do najbliższej obsługiwanej przez powierzchnię.",
+                    "names": "$~waga"
+                },
+                {
+                    "doc": "$~Czy używać kursywy, jeśli takowa istnieje.",
+                    "names": "$~kursywa"
+                },
+                {
+                    "doc": "$~Odległość w metrach między punktami próbkowania wzdłuż konturu, spójna zarówno na liniach prostych, jak i krzywych. Mniejsze wartości pozwalają na dokładniejsze śledzenie, aż do minimum 0,01 metra.",
+                    "names": "$~rozstaw"
+                },
+                {
+                    "doc": "$~Kolejność punktów: „do przodu” lub „do tyłu”.",
+                    "names": "$~kierunek"
+                }
+            ],
+            "error": {
+                "connection": "$~Nie udało mi się uzyskać dostępu do Internetu, aby pobrać tę czcionkę, więc nie mogę odrysować jej liter.",
+                "unavailable": "$~Nie mogłem znaleźć pliku tej czcionki, więc nie mogę odrysować jej liter.",
+                "unreadable": "$~Pobrałem czcionkę, ale nie potrafię jej odczytać, więc nie mogę odrysować jej liter.",
+                "outline": "$~Załadowałem czcionkę, ale nie mogłem uzyskać kształtu tych liter."
+            }
         }
     },
     "output": {
@@ -4707,7 +4759,14 @@
                 "bullet": "$~punkt listy",
                 "attention": "$~zaznacz to wyrażenie"
             },
-            "backtotop": "$~powrót na górę"
+            "backtotop": "$~powrót na górę",
+            "overflow": {
+                "button": {
+                    "on": "$~ukryj dodatkowe elementy sterujące",
+                    "off": "$~pokaż dodatkowe elementy sterujące"
+                },
+                "popup": "$~Dodatkowe elementy sterujące"
+            }
         },
         "tile": {
             "toggle": {
@@ -6979,6 +7038,13 @@
             "joined": "$~Dołączył(a) $name .",
             "left": "$~Pozostał $name .",
             "waitingForSlot": "$~Czekam na miejsce na edycję — czterech współpracowników już edytuje. Gdy jeden z nich odejdzie, Ty też będziesz mógł edytować."
+        },
+        "update": {
+            "label": "$~Nowa wersja dostępna",
+            "message": "$~Wydaliśmy nową wersję.",
+            "refresh": "$~Odświeżać",
+            "updates": "$~zobacz aktualizacje",
+            "dismiss": "$~Odrzucać"
         }
     },
     "moderation": {

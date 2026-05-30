@@ -289,6 +289,12 @@ export class ChatDatabase {
     /** This is a global reactive map that stores chats obtained from Firestore */
     readonly chats = $state(new SvelteMap<string, Chat>());
 
+    /** Push-notification listeners keyed by projectID, fired from updateChat. */
+    private readonly chatListeners = new Map<
+        string,
+        Set<(chat: Chat) => void>
+    >();
+
     private unsubscribe: Unsubscribe | undefined = undefined;
 
     private projectsListener: (project: Project) => void;
@@ -300,6 +306,24 @@ export class ChatDatabase {
         this.projectsListener = this.handleRevisedProject.bind(this);
         this.galleryListener = this.handleRevisedGallery.bind(this);
         this.howToListener = this.handleRevisedHowTo.bind(this);
+    }
+
+    /**
+     * Subscribe to updates for a specific chat. Returns an unsubscribe function.
+     * This is a callback-based subscription that avoids going through Svelte's
+     * reactive graph, preventing the closure-pinning issue described in ProjectView.
+     */
+    onChatUpdated(
+        projectID: string,
+        callback: (chat: Chat) => void,
+    ): () => void {
+        let listeners = this.chatListeners.get(projectID);
+        if (listeners === undefined) {
+            listeners = new Set();
+            this.chatListeners.set(projectID, listeners);
+        }
+        listeners.add(callback);
+        return () => this.chatListeners.get(projectID)?.delete(callback);
     }
 
     /**
@@ -319,6 +343,9 @@ export class ChatDatabase {
 
         // Set the revised chat for the project in the local state, propogating updates.
         this.chats.set(projectID, chat);
+
+        // Notify any push-subscribers for this project.
+        this.chatListeners.get(projectID)?.forEach((cb) => cb(chat));
 
         // Make sure we're listening to updates on the chat's project.
         if (chat.getType() === 'project') {

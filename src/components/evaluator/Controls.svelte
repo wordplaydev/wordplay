@@ -21,35 +21,43 @@
 
     interface Props {
         evaluator: Evaluator;
+        /** Show the restart + play/pause buttons (default true) */
+        playback?: boolean;
+        /** Show the step-through buttons (default true) */
+        steps?: boolean;
     }
 
-    let { evaluator }: Props = $props();
+    let { evaluator, playback = true, steps = true }: Props = $props();
 
     const evaluation = getEvaluation();
 </script>
 
-<CommandButton padding background command={Restart} uiid="timelineReset" />
-<Switch
-    on={$evaluation?.playing === true}
-    toggle={(play) => (play ? evaluator.play() : evaluator.pause())}
-    offTip={Pause.description}
-    onTip={Play.description}
-    offLabel={Pause.symbol}
-    onLabel={Play.symbol}
-    uiid="playToggle"
-    shortcut={toShortcut(Play)}
-/>
-<div class="step-controls" data-uiid="stepControls">
-    <CommandButton command={StepToStart} />
-    <CommandButton command={StepBackInput} />
-    <CommandButton command={StepBackNode} />
-    <CommandButton command={StepBack} />
-    <CommandButton command={StepOut} />
-    <CommandButton command={StepForward} />
-    <CommandButton command={StepForwardNode} />
-    <CommandButton command={StepForwardInput} />
-    <CommandButton command={StepToPresent} />
-</div>
+{#if playback}
+    <CommandButton padding background command={Restart} uiid="timelineReset" />
+    <Switch
+        on={$evaluation?.playing === true}
+        toggle={(play) => (play ? evaluator.play() : evaluator.pause())}
+        offTip={Pause.description}
+        onTip={Play.description}
+        offLabel={Pause.symbol}
+        onLabel={Play.symbol}
+        uiid="playToggle"
+        shortcut={toShortcut(Play)}
+    />
+{/if}
+{#if steps}
+    <div class="step-controls" data-uiid="stepControls">
+        <CommandButton command={StepToStart} />
+        <CommandButton command={StepBackInput} />
+        <CommandButton command={StepBackNode} />
+        <CommandButton command={StepBack} />
+        <CommandButton command={StepOut} />
+        <CommandButton command={StepForward} />
+        <CommandButton command={StepForwardNode} />
+        <CommandButton command={StepForwardInput} />
+        <CommandButton command={StepToPresent} />
+    </div>
+{/if}
 
 <style>
     .step-controls {

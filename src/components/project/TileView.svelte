@@ -113,83 +113,9 @@
     let tileWidth = $state(0);
     let tileHeight = $state(0);
 
-    // Refs and detection for whether the header's three sections fit inline,
-    // or whether the toolbar should drop to its own row beneath the name and
-    // tile-controls. Pure CSS can't express "wrap only this child to a full
-    // row when content overflows" while keeping it visually centered when it
-    // fits, so we measure the children's natural widths and toggle a class.
-    let headerEl: HTMLElement | null = $state(null);
-    let nameSectionEl: HTMLElement | null = $state(null);
-    let toolbarEl: HTMLElement | null = $state(null);
-    let tileControlsEl: HTMLElement | null = $state(null);
-    let toolbarStacked = $state(false);
-
-    $effect(() => {
-        if (
-            headerEl === null ||
-            nameSectionEl === null ||
-            tileControlsEl === null
-        )
-            return;
-        const eHeader = headerEl;
-        const eName = nameSectionEl;
-        const eControls = tileControlsEl;
-        const eToolbar = toolbarEl;
-
-        const check = () => {
-            const headerStyle = getComputedStyle(eHeader);
-            const padL = parseFloat(headerStyle.paddingLeft) || 0;
-            const padR = parseFloat(headerStyle.paddingRight) || 0;
-            const gap =
-                parseFloat(
-                    headerStyle.columnGap === 'normal'
-                        ? headerStyle.gap
-                        : headerStyle.columnGap,
-                ) || 0;
-
-            const nameW = eName.offsetWidth;
-            const controlsW = eControls.offsetWidth;
-
-            // Sum the toolbar's children rather than reading offsetWidth on
-            // the toolbar itself: in stacked mode the toolbar spans the row
-            // (offsetWidth = full width), in compact mode it's the 1fr
-            // column (offsetWidth = remaining space). Children are sized
-            // by their content and stable across both modes.
-            let toolbarW = 0;
-            const toolbarChildren = eToolbar?.children ?? [];
-            if (eToolbar && toolbarChildren.length > 0) {
-                const tStyle = getComputedStyle(eToolbar);
-                const tGap =
-                    parseFloat(
-                        tStyle.columnGap === 'normal'
-                            ? tStyle.gap
-                            : tStyle.columnGap,
-                    ) || 0;
-                for (let i = 0; i < toolbarChildren.length; i++) {
-                    toolbarW += (toolbarChildren[i] as HTMLElement).offsetWidth;
-                }
-                if (toolbarChildren.length > 1)
-                    toolbarW += tGap * (toolbarChildren.length - 1);
-            }
-
-            const available = eHeader.clientWidth - padL - padR;
-            const gapsBetweenItems = toolbarW > 0 ? 2 : 1;
-            const totalNeeded =
-                nameW + toolbarW + controlsW + gap * gapsBetweenItems;
-
-            toolbarStacked = totalNeeded > available;
-        };
-
-        const observer = new ResizeObserver(check);
-        observer.observe(eHeader);
-        observer.observe(eName);
-        observer.observe(eControls);
-        if (eToolbar) observer.observe(eToolbar);
-
-        check();
-
-        return () => observer.disconnect();
-    });
+    // The toolbar's middle grid column (1fr) auto-shrinks via min-width:0,
+    // and OverflowToolbar compacts its contents to fit. No stacking needed
+    // since toolbars stay on one row even on narrow screens.
 
     function handleKeyDown(event: KeyboardEvent) {
         // Move or resize on command-arrow
@@ -407,17 +333,11 @@
             <!-- Render the toolbar -->
             <div
                 class="header"
-                class:stacked={toolbarStacked}
                 style:color={foreground}
                 style:fill={foreground}
-                bind:this={headerEl}
             >
                 <!-- This goes above the toolbar because we need the feedback to be visible. -->
-                <div
-                    class="name-section"
-                    style="z-index:2"
-                    bind:this={nameSectionEl}
-                >
+                <div class="name-section" style="z-index:2">
                     <Subheader compact>
                         <div class="name" class:source={tile.isSource()}>
                             {#if editable && tile.isSource()}
@@ -459,11 +379,11 @@
                     {#if help}{@render help()}{/if}
                 </div>
                 {#if extra}
-                    <div class="toolbar" bind:this={toolbarEl}>
+                    <div class="toolbar">
                         {@render extra()}
                     </div>
                 {/if}
-                <div class="tile-controls" bind:this={tileControlsEl}>
+                <div class="tile-controls">
                     {#if !layout.isFullscreen()}
                         <Button
                             background={false}
@@ -536,7 +456,7 @@
         grid-area: toolbar;
         display: flex;
         flex-direction: row;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         align-items: center;
         gap: var(--wordplay-spacing);
         min-width: 0;
@@ -661,15 +581,6 @@
 
         border-block-end: solid var(--wordplay-border-color)
             var(--wordplay-border-width);
-    }
-
-    /* When the three sections don't fit on one row, drop the toolbar to a
-       second row spanning the full width. The 1fr middle column stays in
-       place so name/controls keep their content-based widths on row 1. */
-    .header.stacked {
-        grid-template-areas:
-            'name . controls'
-            'toolbar toolbar toolbar';
     }
 
     .name-section {

@@ -21,11 +21,18 @@
     import {
         Chats,
         Creators,
+        DB,
         Galleries,
         HowTos,
         Locales,
         locales,
     } from '@db/Database';
+    import { enqueuePreviewCompute } from '@db/projects/previewQueue';
+    import Project from '@db/projects/Project';
+    import Source from '@nodes/Source';
+    import { toMarkup } from '@parser/toMarkup';
+    import UnicodeString from '@unicode/UnicodeString';
+    import { pickPreviewExample } from './pickPreviewExample';
     import type Gallery from '@db/galleries/Gallery';
     import type HowTo from '@db/howtos/HowToDatabase.svelte';
     import type Locale from '@locale/Locale';
@@ -233,6 +240,37 @@
      *  we populated titles/multilingualText/usedLocales on first render. */
     let autosaveArmed = false;
 
+    async function computeAndSavePreview(target: HowTo) {
+        const joined = target
+            .getTextInLocale($locales.getLocaleString())
+            .join('\n\n');
+        const [markup, spaces] = toMarkup(joined);
+        const example = pickPreviewExample(markup);
+        if (!example) {
+            const rep = markup.getRepresentativeText();
+            const text = rep
+                ? new UnicodeString(rep).substring(0, 1).toString()
+                : '—';
+            await HowTos.setAutoPreview(target.getHowToId(), {
+                text,
+                foreground: null,
+                background: null,
+                face: null,
+                characterName: null,
+            });
+            return;
+        }
+        const project = Project.make(
+            null,
+            'example',
+            new Source('example', [example.program, spaces]),
+            [],
+            $locales.getLocales(),
+        );
+        const extracted = await enqueuePreviewCompute(project, $locales, DB);
+        await HowTos.setAutoPreview(target.getHowToId(), extracted);
+    }
+
     async function persistChanges() {
         if (!howTo || !gallery) return;
         autosaveStatus = 'saving';
@@ -251,6 +289,7 @@
                 social: { notifySubscribers: notify },
             });
             await HowTos.updateHowTo(howTo, true);
+            computeAndSavePreview(howTo).catch(() => {});
             autosaveStatus = 'saved';
             if (savedFadeTimer !== undefined) clearTimeout(savedFadeTimer);
             savedFadeTimer = setTimeout(() => {
@@ -391,7 +430,7 @@
             let writeY = 0;
             if (publish) [writeX, writeY] = findPlaceToWrite();
 
-            await HowTos.addHowTo(
+            const created = await HowTos.addHowTo(
                 gallery,
                 publish,
                 writeX,
@@ -406,6 +445,7 @@
                 overwriteAccess,
                 isPublic,
             );
+            if (created) computeAndSavePreview(created).catch(() => {});
 
             [cameraX, cameraY] = [-writeX, -writeY];
             show = false;
@@ -452,6 +492,7 @@
             });
             if (repositioning) [cameraX, cameraY] = [-writeX, -writeY];
             await HowTos.updateHowTo(howTo, true);
+            computeAndSavePreview(howTo).catch(() => {});
 
             autosaveStatus = 'saved';
             if (savedFadeTimer !== undefined) clearTimeout(savedFadeTimer);
@@ -570,10 +611,16 @@
     // false: couldn't load it.
     let chat = $state<Chat | undefined | null | false>(null);
     $effect(() => {
-        // When the how-to or chat change, get the chat.
-        if (howTo)
-            Chats.getChatHowTo(howTo).then((retrievedChat) => {
-                chat = retrievedChat;
+        // When the how-to changes, get the chat and subscribe to future updates.
+        if (!howTo) return;
+        const currentHowTo = howTo;
+        const howToID = currentHowTo.getHowToId();
+        Chats.getChatHowTo(currentHowTo).then((retrievedChat) => {
+            chat = retrievedChat;
+        });
+        if (howToID)
+            return Chats.onChatUpdated(howToID, (updated) => {
+                chat = updated;
             });
     });
 

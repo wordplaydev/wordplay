@@ -389,6 +389,7 @@
     .toolbar {
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
         gap: var(--wordplay-spacing);
         padding-bottom: var(--wordplay-spacing);
         border-bottom: var(--wordplay-border-width) solid

@@ -1,9 +1,5 @@
 <script lang="ts">
     import { Faces, getFaceDescription } from '@basis/Fonts';
-    import CreatorView from '@components/app/CreatorView.svelte';
-    import Feedback from '@components/app/Feedback.svelte';
-    import Link from '@components/app/Link.svelte';
-    import Status from '@components/app/Status.svelte';
     import {
         getLocalizing,
         getUser,
@@ -11,14 +7,10 @@
     } from '@components/project/Contexts';
     import { LayoutIcons } from '@components/project/Layout';
     import FaceName from '@components/settings/FaceName.svelte';
-    import LocaleChooser from '@components/settings/LocaleChooser.svelte';
-    import Notifications from '@components/settings/Notifications.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Mode from '@components/widgets/Mode.svelte';
     import Options from '@components/widgets/Options.svelte';
-    import Toggle from '@components/widgets/Toggle.svelte';
-    import { Creator } from '@db/creators/CreatorDatabase';
     import {
         arrangement,
         blockDensity,
@@ -49,7 +41,7 @@
     } from '@parser/Symbols';
     import { onMount } from 'svelte';
 
-    let user = getUser();
+    const user = getUser();
 
     onMount(async () => {
         if (
@@ -90,7 +82,7 @@
         $voice ? voices.find((v) => v.voiceURI === $voice) : undefined,
     );
 
-    let localizing = getLocalizing();
+    const localizing = getLocalizing();
 
     // Force localizing mode off whenever the visitor is signed out, so badges
     // and inline editors disappear on sign-out and don't reappear for an
@@ -100,16 +92,15 @@
     });
 </script>
 
-<div class="settings">
-    <Dialog
-        button={{
-            tip: (l) => l.ui.dialog.settings.button.show,
-            icon: '⚙',
-            background: true,
-        }}
-        header={(l) => l.ui.dialog.settings.header}
-        explanation={(l) => l.ui.dialog.settings.explanation}
-    >
+<Dialog
+    button={{
+        tip: (l) => l.ui.dialog.settings.button.show,
+        icon: '⚙',
+        background: true,
+    }}
+    header={(l) => l.ui.dialog.settings.header}
+    explanation={(l) => l.ui.dialog.settings.explanation}
+>
         <hr />
         <div class="controls">
             <label for="ui-face">
@@ -337,42 +328,8 @@
             </div>
         </div>
     </Dialog>
-    <!-- The localization toggle is only useful for signed-in users since
-         submitting an edit bundle requires authentication. Hide the toggle
-         from anonymous visitors entirely; if an anonymous user had localizing
-         turned on previously, turn it off so they don't see ✎/💭 badges they
-         can't submit. -->
-    {#if isAuthenticated($user)}
-        <Toggle
-            on={localizing.on}
-            tips={(l) => l.ui.localize.toggle.mode}
-            toggle={() => (localizing.on = !localizing.on)}>✎</Toggle
-        >
-    {/if}
-    <LocaleChooser />
-    <Feedback />
-    <Notifications />
-    <Link nowrap to="/login">
-        <CreatorView
-            anonymize={false}
-            creator={$user ? Creator.from($user) : null}
-            chrome={$user !== null}
-            prompt
-        />
-    </Link>
-    <Status />
-</div>
 
 <style>
-    .settings {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: var(--wordplay-spacing-half);
-        margin-inline-start: auto;
-    }
-
     .controls {
         display: flex;
         flex-direction: column;

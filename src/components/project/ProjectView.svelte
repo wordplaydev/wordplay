@@ -83,6 +83,7 @@
     } from '../../routes/[[locale]]/project/constants';
 
     import Toolbar from '@components/editor/commands/Toolbar.svelte';
+    import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
     import Editor from '@components/editor/Editor.svelte';
     import type { HighlightSpec } from '@components/editor/highlights/Highlights';
     import getOutlineOf, {
@@ -1473,11 +1474,19 @@
         // ChatDatabase singleton itself goes away — which never happens
         // during a page session.
         const currentProject = project;
+        const projectID = currentProject.getID();
         untrack(() => {
             Chats.getChat(currentProject).then((retrievedChat) => {
                 chat = retrievedChat;
             });
         });
+
+        // Keep chat in sync with future Firebase updates for this project via
+        // an explicit push subscription that bypasses the reactive graph.
+        if (projectID)
+            return Chats.onChatUpdated(projectID, (updated) => {
+                chat = updated;
+            });
     });
 
     let currentArrangement = $state<ArrangementType>($arrangement);
@@ -2130,127 +2139,164 @@
                                 {/if}
                                 <!-- Put some extra buttons in the output toolbar -->
                                 {#if tile.kind === TileKind.Output}
-                                    {#if !editable}<CopyButton {project}
-                                        ></CopyButton>{/if}
-                                    {#if (requestedPlay || showOutput) && layout.isFullscreen()}<Button
-                                            uiid="editProject"
+                                    {#snippet outputPlayPause()}
+                                        {#if requestedPlay || showOutput}
+                                            <Switch
+                                                on={$evaluation?.playing ===
+                                                    true}
+                                                toggle={(play) =>
+                                                    play
+                                                        ? $evaluator.play()
+                                                        : $evaluator.pause()}
+                                                offTip={Pause.description}
+                                                onTip={Play.description}
+                                                offLabel={Pause.symbol}
+                                                onLabel={Play.symbol}
+                                                uiid="playToggle"
+                                                shortcut={toShortcut(Play)}
+                                            />
+                                        {/if}
+                                    {/snippet}
+                                    {#snippet outputRestart()}
+                                        <CommandButton
                                             background
-                                            tip={(l) =>
-                                                l.ui.page.projects.button
-                                                    .viewcode}
-                                            action={() => stopPlaying()}
-                                            icon="👁️"
-                                        ></Button>{/if}
-                                    <CommandButton
-                                        background
-                                        padding
-                                        command={Restart}
-                                    />
-                                    {#if requestedPlay || showOutput}
-                                        <Switch
-                                            on={$evaluation?.playing === true}
-                                            toggle={(play) =>
-                                                play
-                                                    ? $evaluator.play()
-                                                    : $evaluator.pause()}
-                                            offTip={Pause.description}
-                                            onTip={Play.description}
-                                            offLabel={Pause.symbol}
-                                            onLabel={Play.symbol}
-                                            uiid="playToggle"
-                                            shortcut={toShortcut(Play)}
+                                            padding
+                                            command={Restart}
                                         />
-                                    {/if}
-                                    {#if localesUsed.length > 0}<OutputLocaleChooser
-                                            {localesUsed}
-                                            locale={evaluationLocale}
-                                            change={(locale) => {
-                                                evaluationLocale = locale;
-                                                updateEvaluator(project);
-                                            }}
-                                        />{/if}
-                                    <!-- {#if !$evaluation.evaluator.isPlaying()}
-                                    <Painting
-                                            bind:painting
-                                        />{/if} -->
-                                    <span
-                                        class="zoom-group"
-                                        data-uiid="stageZoom"
-                                    >
-                                        <Button
-                                            background
-                                            action={() =>
-                                                outputView?.adjustZoom(-1)}
-                                            tip={(l) =>
-                                                l.ui.output.button.zoomOut}
-                                            ><Emoji>–🔎</Emoji></Button
+                                    {/snippet}
+                                    {#snippet outputCopy()}
+                                        {#if !editable}<CopyButton
+                                                {project}
+                                            ></CopyButton>{/if}
+                                    {/snippet}
+                                    {#snippet outputEdit()}
+                                        {#if (requestedPlay || showOutput) && layout.isFullscreen()}
+                                            <Button
+                                                uiid="editProject"
+                                                background
+                                                tip={(l) =>
+                                                    l.ui.page.projects.button
+                                                        .viewcode}
+                                                action={() => stopPlaying()}
+                                                icon="👁️"
+                                            ></Button>
+                                        {/if}
+                                    {/snippet}
+                                    {#snippet outputLocale()}
+                                        {#if localesUsed.length > 0}
+                                            <OutputLocaleChooser
+                                                {localesUsed}
+                                                locale={evaluationLocale}
+                                                change={(locale) => {
+                                                    evaluationLocale = locale;
+                                                    updateEvaluator(project);
+                                                }}
+                                            />
+                                        {/if}
+                                    {/snippet}
+                                    {#snippet outputZoom()}
+                                        <span
+                                            class="zoom-group"
+                                            data-uiid="stageZoom"
                                         >
-                                        <Button
-                                            background
-                                            action={() =>
-                                                outputView?.adjustZoom(1)}
-                                            tip={(l) =>
-                                                l.ui.output.button.zoomIn}
-                                            ><Emoji>+🔎</Emoji></Button
-                                        >
-                                    </span>
-                                    {#if hasStagePlace}
-                                        <Button
-                                            action={() =>
-                                                outputView?.resetZoom()}
-                                            tip={(l) =>
-                                                l.ui.output.button.resetZoom}
-                                            background
-                                            active={focusOverridden}
-                                            ><Emoji>⟲🔎</Emoji></Button
-                                        >
-                                    {/if}
-                                    <Toggle
-                                        uiid="stageGrid"
-                                        tips={(l) => l.ui.output.toggle.grid}
-                                        on={grid}
-                                        toggle={() => (grid = !grid)}
-                                        ><Emoji>▦</Emoji></Toggle
-                                    ><Toggle
-                                        uiid="stageLock"
-                                        tips={(l) => l.ui.output.toggle.fit}
-                                        on={fit}
-                                        toggle={() => (fit = !fit)}
-                                        ><Emoji
-                                            >{#if fit}🔒{:else}🔓{/if}</Emoji
-                                        ></Toggle
-                                    >
-                                    <label
-                                        class="output-locale"
-                                        data-uiid="stageAnimationSpeed"
-                                        >{AnimationIcon}
-                                        <Options
-                                            value={$animationFactor === null
-                                                ? 'auto'
-                                                : String($animationFactor)}
-                                            label={(l) =>
-                                                l.ui.dialog.settings.mode
-                                                    .animate.label}
-                                            options={AnimationFactors.map(
-                                                (factor, i) => ({
-                                                    value:
-                                                        factor === null
-                                                            ? 'auto'
-                                                            : String(factor),
-                                                    label: AnimationFactorIcons[
-                                                        i
-                                                    ],
-                                                }),
-                                            )}
-                                            change={(v) =>
-                                                Settings.setAnimationFactor(
-                                                    v === undefined ||
-                                                        v === 'auto'
-                                                        ? null
-                                                        : Number(v),
+                                            <Button
+                                                background
+                                                action={() =>
+                                                    outputView?.adjustZoom(-1)}
+                                                tip={(l) =>
+                                                    l.ui.output.button.zoomOut}
+                                                ><Emoji>–🔎</Emoji></Button
+                                            >
+                                            <Button
+                                                background
+                                                action={() =>
+                                                    outputView?.adjustZoom(1)}
+                                                tip={(l) =>
+                                                    l.ui.output.button.zoomIn}
+                                                ><Emoji>+🔎</Emoji></Button
+                                            >
+                                            {#if hasStagePlace}
+                                                <Button
+                                                    action={() =>
+                                                        outputView?.resetZoom()}
+                                                    tip={(l) =>
+                                                        l.ui.output.button
+                                                            .resetZoom}
+                                                    background
+                                                    active={focusOverridden}
+                                                    ><Emoji>⟲🔎</Emoji></Button
+                                                >
+                                            {/if}
+                                        </span>
+                                    {/snippet}
+                                    {#snippet outputGridFit()}
+                                        <span class="grid-fit">
+                                            <Toggle
+                                                uiid="stageGrid"
+                                                tips={(l) =>
+                                                    l.ui.output.toggle.grid}
+                                                on={grid}
+                                                toggle={() => (grid = !grid)}
+                                                ><Emoji>▦</Emoji></Toggle
+                                            ><Toggle
+                                                uiid="stageLock"
+                                                tips={(l) =>
+                                                    l.ui.output.toggle.fit}
+                                                on={fit}
+                                                toggle={() => (fit = !fit)}
+                                                ><Emoji
+                                                    >{#if fit}🔒{:else}🔓{/if}</Emoji
+                                                ></Toggle
+                                            >
+                                        </span>
+                                    {/snippet}
+                                    {#snippet outputAnimation()}
+                                        <label
+                                            class="output-locale"
+                                            data-uiid="stageAnimationSpeed"
+                                            >{AnimationIcon}
+                                            <Options
+                                                value={$animationFactor === null
+                                                    ? 'auto'
+                                                    : String($animationFactor)}
+                                                label={(l) =>
+                                                    l.ui.dialog.settings.mode
+                                                        .animate.label}
+                                                options={AnimationFactors.map(
+                                                    (factor, i) => ({
+                                                        value:
+                                                            factor === null
+                                                                ? 'auto'
+                                                                : String(
+                                                                      factor,
+                                                                  ),
+                                                        label: AnimationFactorIcons[
+                                                            i
+                                                        ],
+                                                    }),
                                                 )}
-                                        />
-                                    </label>
+                                                change={(v) =>
+                                                    Settings.setAnimationFactor(
+                                                        v === undefined ||
+                                                            v === 'auto'
+                                                            ? null
+                                                            : Number(v),
+                                                    )}
+                                            />
+                                        </label>
+                                    {/snippet}
+                                    <OverflowToolbar
+                                        items={[
+                                            outputPlayPause,
+                                            outputRestart,
+                                            outputCopy,
+                                            outputEdit,
+                                            outputLocale,
+                                            outputZoom,
+                                            outputGridFit,
+                                            outputAnimation,
+                                        ]}
+                                    />
                                 {:else if tile.isSource()}
                                     {#if !editable}<CopyButton {project}
                                         ></CopyButton>{/if}
@@ -2661,6 +2707,12 @@
 
     /* Group the two zoom buttons so the Tour can highlight them together. */
     .zoom-group {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--wordplay-spacing);
+    }
+
+    .grid-fit {
         display: inline-flex;
         align-items: center;
         gap: var(--wordplay-spacing);

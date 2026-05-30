@@ -2667,6 +2667,65 @@
               ],
               "type": "object"
             },
+            "Contour": {
+              "additionalProperties": false,
+              "description": "A stream of Place values tracing the glyph outlines of text in a font face",
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "error": {
+                  "additionalProperties": false,
+                  "description": "Errors that can happen while tracing, generating exception values",
+                  "properties": {
+                    "connection": {
+                      "description": "[plain] The font file couldn't be reached (no network)",
+                      "type": "string"
+                    },
+                    "outline": {
+                      "description": "[plain] The font loaded but its glyphs couldn't be outlined",
+                      "type": "string"
+                    },
+                    "unavailable": {
+                      "description": "[plain] The font file wasn't found on the server",
+                      "type": "string"
+                    },
+                    "unreadable": {
+                      "description": "[plain] The font file downloaded but couldn't be read",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "connection",
+                    "unavailable",
+                    "unreadable",
+                    "outline"
+                  ],
+                  "type": "object"
+                },
+                "inputs": {
+                  "description": "[ the text to outline, the font face, the em size in meters, the origin place, the font weight, whether to use italics, the spacing between points in meters, the order of the points ]",
+                  "items": {
+                    "$ref": "#/definitions/NameAndDoc"
+                  },
+                  "maxItems": 8,
+                  "minItems": 8,
+                  "type": "array"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                }
+              },
+              "required": [
+                "doc",
+                "error",
+                "inputs",
+                "names"
+              ],
+              "type": "object"
+            },
             "Direction": {
               "additionalProperties": false,
               "description": "A vector indicating a direction and magnitude.",
@@ -3522,6 +3581,7 @@
             "Motion",
             "Placement",
             "Chat",
+            "Contour",
             "Webpage",
             "Collision",
             "Rebound",
@@ -18840,6 +18900,40 @@
               ],
               "type": "object"
             },
+            "update": {
+              "additionalProperties": false,
+              "description": "Notification shown when a newer version of the app has been deployed while the tab was open.",
+              "properties": {
+                "dismiss": {
+                  "description": "[plain] Tooltip for the button that dismisses the notification",
+                  "type": "string"
+                },
+                "label": {
+                  "description": "[plain] ARIA label for the new-version notification region",
+                  "type": "string"
+                },
+                "message": {
+                  "description": "[plain] Message shown when a newer version of the app is available",
+                  "type": "string"
+                },
+                "refresh": {
+                  "description": "[plain] Action label that reloads the page to the new version",
+                  "type": "string"
+                },
+                "updates": {
+                  "description": "[plain] Link label to the updates/changelog page",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "label",
+                "message",
+                "refresh",
+                "updates",
+                "dismiss"
+              ],
+              "type": "object"
+            },
             "widget": {
               "additionalProperties": false,
               "description": "Generic reusable widgets and their generic labels.",
@@ -18928,6 +19022,25 @@
                   ],
                   "type": "object"
                 },
+                "overflow": {
+                  "additionalProperties": false,
+                  "description": "The overflow toolbar toggle that reveals clipped toolbar items",
+                  "properties": {
+                    "button": {
+                      "$ref": "#/definitions/ToggleText",
+                      "description": "The toggle button that shows or hides the overflow panel"
+                    },
+                    "popup": {
+                      "description": "[plain] ARIA label for the overflow panel",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "button",
+                    "popup"
+                  ],
+                  "type": "object"
+                },
                 "table": {
                   "additionalProperties": false,
                   "description": "An editable table",
@@ -18960,7 +19073,8 @@
                 "home",
                 "table",
                 "formatted",
-                "backtotop"
+                "backtotop",
+                "overflow"
               ],
               "type": "object"
             }
@@ -18987,6 +19101,7 @@
             "dialog",
             "save",
             "connection",
+            "update",
             "localize",
             "page",
             "edit",

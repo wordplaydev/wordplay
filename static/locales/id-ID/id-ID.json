@@ -3733,6 +3733,58 @@
                 "names": "$~y",
                 "doc": "$~Arah dan besaran arah sepanjang sumbu y."
             }
+        },
+        "Contour": {
+            "doc": [
+                "$~Halo! @FunctionDefinition di sini. Ingin melihat bentuk huruf?",
+                "$~Beri saya teks dan jenis huruf, dan saya akan menelusuri garis luar setiap glif sebagai @List dari nilai @Place , satu titik demi satu titik.",
+                "$~\\Contour('a' \"Noto Sans\")\\",
+                "$~Masukkan nilai @Place tersebut ke dalam @List of @Phrase untuk melihat garis luarnya digambar sebagai titik-titik:",
+                "$~\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' place: point)))\\",
+                "$~Anda dapat mengubah ukuran garis luar dengan @Number of meters, memindahkan titik asalnya dengan @Place , memilih ketebalan font, mengaktifkan huruf miring, dan mengatur `spacing` antar titik sebagai jarak dalam meter. `spacing` yang lebih kecil akan menelusuri garis luar dengan lebih akurat, dengan titik-titik yang berjarak sama di sepanjang garis dan kurva.",
+                "$~Beberapa glif, seperti emoji warna, tidak memiliki garis luar, sehingga tidak menambahkan titik. Sambil menunggu font tersedia, saya akan memberikan @List kosong, lalu mengisinya saat saya siap."
+            ],
+            "names": ["$~🖋️", "$~Kontur"],
+            "inputs": [
+                {
+                    "doc": "$~Teks yang garis luar glifnya harus saya jiplak.",
+                    "names": "$~glif"
+                },
+                {
+                    "doc": "$~Jenis huruf yang akan digunakan untuk menjiplak glif.",
+                    "names": "$~menghadapi"
+                },
+                {
+                    "doc": "$~Tinggi glif dalam meter, dengan skala pada garis luarnya.",
+                    "names": "$~ukuran"
+                },
+                {
+                    "doc": "$~Asal opsional @Place untuk mengimbangi setiap titik.",
+                    "names": "$~tempat"
+                },
+                {
+                    "doc": "$~Ketebalan font yang akan digunakan, disesuaikan dengan penyangga tampilan terdekat.",
+                    "names": "$~berat"
+                },
+                {
+                    "doc": "$~Apakah akan menggunakan versi miring dari huruf tersebut, jika ada.",
+                    "names": "$~hurufmiring"
+                },
+                {
+                    "doc": "$~Jarak dalam meter antara titik-titik sampel di sepanjang garis luar, dijaga konsisten di sepanjang garis lurus maupun lengkung. Nilai yang lebih kecil menghasilkan penelusuran yang lebih halus, hingga minimum 0,01 meter.",
+                    "names": "$~jarak"
+                },
+                {
+                    "doc": "$~Urutan poinnya: 'maju' atau 'mundur'.",
+                    "names": "$~arah"
+                }
+            ],
+            "error": {
+                "connection": "$~Saya tidak bisa mengakses internet untuk mendapatkan font tersebut, jadi saya tidak bisa menjiplak huruf-hurufnya.",
+                "unavailable": "$~Saya tidak dapat menemukan file font tersebut, jadi saya tidak dapat menelusuri huruf-hurufnya.",
+                "unreadable": "$~Saya sudah mengunduh font-nya, tetapi saya tidak bisa membacanya, jadi saya tidak bisa menjiplak huruf-hurufnya.",
+                "outline": "$~Saya sudah memuat font-nya, tetapi saya tidak bisa mendapatkan bentuk huruf-huruf ini."
+            }
         }
     },
     "output": {
@@ -4705,7 +4757,14 @@
                 "bullet": "$~peluru",
                 "attention": "$~sorot ungkapan ini"
             },
-            "backtotop": "$~kembali ke atas"
+            "backtotop": "$~kembali ke atas",
+            "overflow": {
+                "button": {
+                    "on": "$~sembunyikan kontrol tambahan",
+                    "off": "$~Tampilkan kontrol tambahan"
+                },
+                "popup": "$~Kontrol tambahan"
+            }
         },
         "tile": {
             "toggle": {
@@ -6976,6 +7035,13 @@
             "joined": "$~Bergabung dengan biaya $name .",
             "left": "$~Sisa $name .",
             "waitingForSlot": "$~Sedang menunggu giliran mengedit — empat kolaborator sudah sedang mengedit. Saat salah satu dari mereka pergi, Anda juga bisa mengedit."
+        },
+        "update": {
+            "label": "$~Versi baru tersedia",
+            "message": "$~Kami telah merilis versi baru.",
+            "refresh": "$~Menyegarkan",
+            "updates": "$~lihat pembaruan",
+            "dismiss": "$~Membubarkan"
         }
     },
     "moderation": {

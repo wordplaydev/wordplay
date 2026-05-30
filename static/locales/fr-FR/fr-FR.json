@@ -3731,6 +3731,58 @@
                 "names": ["$~résolution"],
                 "doc": "$~Largeur en pixels de l'échantillonnage de la caméra avant l'exécution du modèle de main. Des valeurs plus élevées permettent d'obtenir des points de repère légèrement plus précis, mais augmentent le temps de calcul par image."
             }
+        },
+        "Contour": {
+            "doc": [
+                "$~Bonjour ! Ici @FunctionDefinition . Vous voulez voir la forme des lettres ?",
+                "$~Donnez-moi un texte et une police de caractères, et je tracerai le contour de chaque glyphe sous forme de @List de valeurs @Place , un point après l'autre.",
+                "$~\\Contour('a' \"Noto Sans\")\\",
+                "$~Intégrez ces valeurs @Place dans une @List de @Phrase pour voir le contour dessiné sous forme de points :",
+                "$~\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' place: point)))\\",
+                "$~Vous pouvez redimensionner le contour avec @Number en mètres, déplacer son origine avec @Place , choisir une épaisseur de police, activer l'italique et définir l'espacement entre les points en mètres. Un espacement plus petit permet un tracé plus précis, avec des points régulièrement espacés le long des lignes et des courbes.",
+                "$~Certains glyphes, comme les émojis couleur, n'ont pas de contour et n'ajoutent donc aucun point. Pendant que je télécharge la police, je vous fournirai une liste vide @List ) que je remplirai ensuite."
+            ],
+            "names": ["$~🖋️", "$~Contour"],
+            "inputs": [
+                {
+                    "doc": "$~Le texte dont je dois tracer les contours des glyphes.",
+                    "names": "$~glyphes"
+                },
+                {
+                    "doc": "$~La police de caractères utilisée pour tracer les glyphes.",
+                    "names": "$~affronter"
+                },
+                {
+                    "doc": "$~Hauteur du glyphe en mètres, mise à l'échelle du contour.",
+                    "names": "$~taille"
+                },
+                {
+                    "doc": "$~Une origine optionnelle @Place pour décaler chaque point.",
+                    "names": "$~lieu"
+                },
+                {
+                    "doc": "$~Le poids de la police à utiliser, ajusté au plus près des supports de la face.",
+                    "names": "$~poids"
+                },
+                {
+                    "doc": "$~Faut-il utiliser la version italique du caractère, si elle existe ?",
+                    "names": "$~italique"
+                },
+                {
+                    "doc": "$~La distance en mètres entre les points échantillonnés le long du contour est constante, aussi bien sur les lignes que sur les courbes. Plus la valeur est petite, plus le tracé est précis, jusqu'à un minimum de 0,01 mètre.",
+                    "names": "$~espacement"
+                },
+                {
+                    "doc": "$~L'ordre des points : « vers l'avant » ou « vers l'arrière ».",
+                    "names": "$~direction"
+                }
+            ],
+            "error": {
+                "connection": "$~Je n'ai pas pu accéder à Internet pour télécharger la police de caractères, je ne peux donc pas en tracer les lettres.",
+                "unavailable": "$~Je n'ai pas pu trouver le fichier de cette police, je ne peux donc pas en tracer les lettres.",
+                "unreadable": "$~J'ai téléchargé la police, mais je n'ai pas pu la lire, donc je ne peux pas tracer ses lettres.",
+                "outline": "$~J'ai chargé la police, mais je n'ai pas réussi à obtenir la forme de ces lettres."
+            }
         }
     },
     "output": {
@@ -4702,7 +4754,14 @@
                 "bullet": "$~puce",
                 "attention": "$~mettre en évidence cette expression"
             },
-            "backtotop": "$~Retour en haut de page"
+            "backtotop": "$~Retour en haut de page",
+            "overflow": {
+                "button": {
+                    "on": "$~masquer les commandes supplémentaires",
+                    "off": "$~afficher les commandes supplémentaires"
+                },
+                "popup": "$~Commandes supplémentaires"
+            }
         },
         "tile": {
             "toggle": {
@@ -6970,6 +7029,13 @@
             "joined": "$~$name inscrit.",
             "left": "$~Il reste $name .",
             "waitingForSlot": "$~En attente d'un créneau de montage : quatre collaborateurs sont déjà en train de monter. Dès que l'un d'eux se libère, vous pourrez également participer."
+        },
+        "update": {
+            "label": "$~Nouvelle version disponible",
+            "message": "$~Nous avons publié une nouvelle version.",
+            "refresh": "$~Rafraîchir",
+            "updates": "$~Consultez les mises à jour",
+            "dismiss": "$~Rejeter"
         }
     },
     "moderation": {

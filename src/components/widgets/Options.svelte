@@ -178,6 +178,11 @@
         appearance: base-select;
     }
 
+    select button,
+    selectedcontent {
+        white-space: nowrap;
+    }
+
     select {
         background: var(--wordplay-background);
         color: var(--wordplay-foreground);

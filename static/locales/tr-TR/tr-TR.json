@@ -3728,6 +3728,58 @@
                 "names": ["$~çözünürlük"],
                 "doc": "$~El modelini çalıştırmadan önce kameranın örnekleme yapacağı piksel cinsinden genişlik. Daha yüksek değerler biraz daha doğru referans noktaları sağlayabilir, ancak kare başına daha fazla zaman kaybına neden olur."
             }
+        },
+        "Contour": {
+            "doc": [
+                "$~Merhaba! Ben @FunctionDefinition . Harflerin /şeklini/ görmek ister misiniz?",
+                "$~Bana biraz metin ve bir yazı tipi verin, ben de her bir karakterin ana hatlarını, @Place değerlerinden oluşan bir @List olarak, birbiri ardına noktalar halinde çizeyim.",
+                "$~\\Contour('a' \"Noto Sans\")\\",
+                "$~@Place değerlerini bir @Phrase @List besleyerek ana hatların noktalar halinde çizildiğini görebilirsiniz:",
+                "$~\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' place: point)))\\",
+                "$~Anahatı @Number metre ile ölçeklendirebilir, başlangıç noktasını @Place ile taşıyabilir, yazı tipi kalınlığı seçebilir, italik yazı tipini açabilir ve noktalar arasındaki `aralığı` metre cinsinden mesafe olarak ayarlayabilirsiniz. Daha küçük bir `aralık`, anahatı daha yakından takip eder ve hem çizgiler hem de eğriler boyunca eşit aralıklı noktalar oluşturur.",
+                "$~Renk emojileri gibi bazı karakterlerin kenar çizgisi yoktur, bu nedenle puan eklemezler. Yazı tipini indirirken size boş bir @List vereceğim, hazır olduğumda ise onu dolduracağım."
+            ],
+            "names": ["$~🖋️", "$~Kontur"],
+            "inputs": [
+                {
+                    "doc": "$~Harflerinin ana hatlarını çizmem gereken metin.",
+                    "names": "$~glifler"
+                },
+                {
+                    "doc": "$~Harfleri çizmek için kullanılacak yazı tipi.",
+                    "names": "$~yüz"
+                },
+                {
+                    "doc": "$~Sembolün yüksekliği metre cinsinden, ana hatlara göre ölçeklendirilmiştir.",
+                    "names": "$~boyut"
+                },
+                {
+                    "doc": "$~Her noktanın ötelenmesi için isteğe bağlı bir başlangıç noktası @Place .",
+                    "names": "$~yer"
+                },
+                {
+                    "doc": "$~Kullanılacak yazı tipi kalınlığı, yüzey desteklerine en yakın şekilde hizalanmış olarak.",
+                    "names": "$~ağırlık"
+                },
+                {
+                    "doc": "$~Eğer varsa, yüzün italik versiyonunu kullanıp kullanmamak.",
+                    "names": "$~italik"
+                },
+                {
+                    "doc": "$~Örneklenen noktalar arasındaki mesafe, çizgi ve eğriler boyunca tutarlı kalacak şekilde, metre cinsinden ifade edilmiştir. Daha küçük değerler, 0,01 metreye kadar daha hassas izleme sağlar.",
+                    "names": "$~aralık"
+                },
+                {
+                    "doc": "$~Puanların sırası: 'ileri' veya 'geri'.",
+                    "names": "$~yön"
+                }
+            ],
+            "error": {
+                "connection": "$~İnternete bağlanamadığım için yazı tipini indiremedim, bu yüzden harflerini çizemiyorum.",
+                "unavailable": "$~O yazı tipinin dosyasını bulamadım, bu yüzden harflerini çizemiyorum.",
+                "unreadable": "$~Yazı tipini indirdim ama okuyamadım, bu yüzden harflerini takip edemiyorum.",
+                "outline": "$~Yazı tipini yükledim ama bu harflerin şeklini elde edemedim."
+            }
         }
     },
     "output": {
@@ -4699,7 +4751,14 @@
                 "bullet": "$~madde işareti",
                 "attention": "$~bu ifadeyi vurgulayın"
             },
-            "backtotop": "$~başa dön"
+            "backtotop": "$~başa dön",
+            "overflow": {
+                "button": {
+                    "on": "$~Ek kontrolleri gizle",
+                    "off": "$~ek kontrolleri göster"
+                },
+                "popup": "$~Ek kontroller"
+            }
         },
         "tile": {
             "toggle": {
@@ -6963,6 +7022,13 @@
             "joined": "$~$name katıldı.",
             "left": "$~$name kaldı.",
             "waitingForSlot": "$~Düzenleme için sıra bekliyorum — dört işbirlikçi zaten düzenleme yapıyor. Birisi ayrıldığında, siz de düzenleme yapabileceksiniz."
+        },
+        "update": {
+            "label": "$~Yeni sürüm mevcut.",
+            "message": "$~Yeni bir sürüm yayınladık.",
+            "refresh": "$~Yenile",
+            "updates": "$~Güncellemeleri görün",
+            "dismiss": "$~Azletmek"
         }
     },
     "moderation": {

@@ -113,16 +113,36 @@ const HowToSchemaV2 = HowToSchemaV1.extend({
     isPublic: z.boolean(),
 });
 
-export const HowToSchemaLatestVersion = 2;
-const HowToSchema = HowToSchemaV2;
+const HowToPreviewSchema = z.object({
+    text: z.string(),
+    foreground: z.string().nullable(),
+    background: z.string().nullable(),
+    face: z.string().nullable(),
+    characterName: z.string().nullable(),
+});
+export type HowToPreview = z.infer<typeof HowToPreviewSchema>;
+
+const HowToSchemaV3 = HowToSchemaV2.extend({
+    v: z.literal(3),
+    /** Cached preview computed by the author's browser on save, so readers skip evaluation */
+    preview: HowToPreviewSchema.optional(),
+});
+
+export const HowToSchemaLatestVersion = 3;
+const HowToSchema = HowToSchemaV3;
 
 export type HowToDocument = z.infer<typeof HowToSchema>;
-export type HowToUnknownVersion = z.infer<typeof HowToSchemaV1> | HowToDocument;
+export type HowToUnknownVersion =
+    | z.infer<typeof HowToSchemaV1>
+    | z.infer<typeof HowToSchemaV2>
+    | HowToDocument;
 
 export function upgradeHowTo(howTo: HowToUnknownVersion): HowToDocument {
     switch (howTo.v) {
         case 1:
             return upgradeHowTo({ ...howTo, v: 2, isPublic: false });
+        case 2:
+            return upgradeHowTo({ ...howTo, v: 3 });
         case HowToSchemaLatestVersion:
             return howTo;
         default:
@@ -366,8 +386,18 @@ export default class HowTo {
         return this.data.scopeOverwrite;
     }
 
+    getPreview(): HowToPreview | undefined {
+        return this.data.preview;
+    }
+
+    withPreview(preview: HowToPreview): HowTo {
+        return new HowTo({ ...this.data, preview });
+    }
+
     getData() {
-        return { ...this.data };
+        const data = { ...this.data };
+        if (data.preview === undefined) delete data.preview;
+        return data;
     }
 }
 
@@ -442,6 +472,16 @@ export class HowToDatabase {
                 ),
             );
         }
+    }
+
+    async setAutoPreview(howToId: string, preview: HowToPreview): Promise<void> {
+        if (!firestore) return;
+        const howTo = this.howtos.get(howToId);
+        if (!howTo) return;
+        this.howtos.set(howToId, howTo.withPreview(preview));
+        await this.db.track(
+            updateDoc(doc(firestore, HowTosCollection, howToId), { preview }),
+        );
     }
 
     async deleteHowTo(howToId: string, gallery: Gallery) {

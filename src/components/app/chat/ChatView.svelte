@@ -248,14 +248,18 @@
         </div>
     </div>
     <form class="new" data-sveltekit-keepfocus>
-        <div class="controls">
+        <div class="editor">
             <FormattedEditor
                 id="new-message"
-                placeholder={(l) => l.ui.collaborate.field.message.placeholder}
-                description={(l) => l.ui.collaborate.field.message.description}
+                placeholder={(l) =>
+                    l.ui.collaborate.field.message.placeholder}
+                description={(l) =>
+                    l.ui.collaborate.field.message.description}
                 bind:view={newMessageView}
                 bind:text={newMessage}
             />
+        </div>
+        <div class="send">
             <Button
                 submit
                 active={chat !== undefined && newMessage.trim() !== ''}
@@ -291,9 +295,9 @@
     }
 
     .new {
-        display: flex;
-        flex-direction: column;
-        gap: calc(0.5 * var(--wordplay-spacing));
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
         flex-shrink: 0;
         position: sticky;
         bottom: 0;
@@ -302,10 +306,17 @@
         z-index: 1;
     }
 
-    .controls {
-        display: flex;
-        flex-direction: row;
-        gap: var(--wordplay-spacing);
+    .editor,
+    .send {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .send {
+        align-self: end;
+        justify-self: end;
+        padding: calc(0.5 * var(--wordplay-spacing));
+        z-index: 2;
     }
 
     .message {

@@ -3622,6 +3622,58 @@
             ],
             "names": ["🗣️", "Chat"]
         },
+        "Contour": {
+            "doc": [
+                "/Hello! @FunctionDefinition here. Want to see the /shape/ of letters?",
+                "Give me some text and a font face, and I'll trace the outline of each glyph as a @List of @Place values, one point after another.",
+                "\\Contour('a' \"Noto Sans\")\\",
+                "Feed those @Place values to a @List of @Phrase to see the outline drawn as dots:",
+                "\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' place: point)))\\",
+                "You can scale the outline with a @Number of meters, move its origin with a @Place, choose a font weight, turn on italics, and set the `spacing` between points as a distance in meters. A smaller `spacing` traces the outline more closely, with evenly spaced points along both lines and curves.",
+                "Some glyphs, like color emoji, have no outline, so they add no points. While I fetch the font, I'll give you an empty @List, then fill it in when I'm ready."
+            ],
+            "names": ["🖋️", "Contour"],
+            "inputs": [
+                {
+                    "doc": "The text whose glyph outlines I should trace.",
+                    "names": "glyphs"
+                },
+                {
+                    "doc": "The font face to trace the glyphs in.",
+                    "names": "face"
+                },
+                {
+                    "doc": "The height of the glyph in meters, scaling the outline.",
+                    "names": "size"
+                },
+                {
+                    "doc": "An optional origin @Place to offset every point by.",
+                    "names": "place"
+                },
+                {
+                    "doc": "The font weight to use, snapped to the nearest the face supports.",
+                    "names": "weight"
+                },
+                {
+                    "doc": "Whether to use the italic version of the face, if it has one.",
+                    "names": "italics"
+                },
+                {
+                    "doc": "The distance in meters between sampled points along the outline, kept consistent along lines and curves alike. Smaller values trace more finely, down to a minimum of 0.01 meters.",
+                    "names": "spacing"
+                },
+                {
+                    "doc": "The order of the points: 'forward' or 'backward'.",
+                    "names": "direction"
+                }
+            ],
+            "error": {
+                "connection": "I couldn't reach the internet to get the font, so I can't trace its letters.",
+                "unavailable": "I couldn't find that font's file, so I can't trace its letters.",
+                "unreadable": "I downloaded the font, but I couldn't read it, so I can't trace its letters.",
+                "outline": "I loaded the font, but I couldn't get the shape of these letters."
+            }
+        },
         "Placement": {
             "doc": [
                 "/Hey, @FunctionDefinition here. Let's talk about how to get us moving!/",
@@ -4706,7 +4758,14 @@
                 "bullet": "bullet",
                 "attention": "highlight this expression"
             },
-            "backtotop": "back to top"
+            "backtotop": "back to top",
+            "overflow": {
+                "button": {
+                    "on": "hide extra controls",
+                    "off": "show extra controls"
+                },
+                "popup": "Additional controls"
+            }
         },
         "tile": {
             "toggle": {
@@ -6065,6 +6124,13 @@
             "offline": "You're offline. Some things won't work until you are online.",
             "unreachable": "We can't reach the database. Some things won't work until we can.",
             "label": "Connection status"
+        },
+        "update": {
+            "label": "New version available",
+            "message": "We released a new version.",
+            "refresh": "Refresh",
+            "updates": "see the updates",
+            "dismiss": "Dismiss"
         },
         "localize": {
             "header": "Localize",

@@ -3728,6 +3728,58 @@
                 "names": ["$~nghịquyết"],
                 "doc": "$~Độ rộng tính bằng pixel mà camera lấy mẫu trước khi chạy mô hình bàn tay. Giá trị cao hơn có thể cho ra các điểm mốc chính xác hơn một chút nhưng tốn nhiều thời gian hơn cho mỗi khung hình."
             }
+        },
+        "Contour": {
+            "doc": [
+                "$~Xin chào! @FunctionDefinition đây. Bạn muốn xem /hình dạng/ của các chữ cái không?",
+                "$~Hãy cho tôi một đoạn văn bản và một kiểu phông chữ, và tôi sẽ vẽ lại đường viền của từng ký tự dưới dạng một @List các giá trị @Place , từng điểm một.",
+                "$~\\Contour('a' \"Noto Sans\")\\",
+                "$~Hãy đưa các giá trị @Place đó vào một @List gồm @Phrase để thấy đường viền được vẽ dưới dạng các chấm:",
+                "$~\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' place: point)))\\",
+                "$~Bạn có thể điều chỉnh kích thước đường viền bằng @Number of meters, di chuyển điểm gốc bằng @Place , chọn độ đậm phông chữ, bật chế độ in nghiêng và đặt `spacing` giữa các điểm theo khoảng cách tính bằng mét. `spacing` nhỏ hơn sẽ vẽ đường viền sát hơn, với các điểm cách đều nhau dọc theo cả đường thẳng và đường cong.",
+                "$~Một số ký tự, như biểu tượng cảm xúc màu sắc, không có đường viền, vì vậy chúng không được tính điểm. Trong khi tôi tải phông chữ, tôi sẽ cung cấp cho bạn một @List trống, sau đó sẽ điền vào khi tôi sẵn sàng."
+            ],
+            "names": ["$~🖋️", "$~Đườngviền"],
+            "inputs": [
+                {
+                    "doc": "$~Văn bản mà tôi cần đồ lại đường viền của các ký tự.",
+                    "names": "$~kýtự"
+                },
+                {
+                    "doc": "$~Phông chữ dùng để đồ lại các ký tự.",
+                    "names": "$~khuônmặt"
+                },
+                {
+                    "doc": "$~Chiều cao của ký tự tính bằng mét, được đo theo tỷ lệ đường viền.",
+                    "names": "$~kíchcỡ"
+                },
+                {
+                    "doc": "$~Thuộc tính @Place tùy chọn dùng để dịch chuyển mọi điểm.",
+                    "names": "$~địađiểm"
+                },
+                {
+                    "doc": "$~Độ đậm của phông chữ cần sử dụng, được căn chỉnh sao cho gần nhất với các điểm hỗ trợ trên mặt chữ.",
+                    "names": "$~cânnặng"
+                },
+                {
+                    "doc": "$~Liệu có nên sử dụng phiên bản chữ nghiêng của khuôn mặt hay không, nếu có.",
+                    "names": "$~chữnghiêng"
+                },
+                {
+                    "doc": "$~Khoảng cách tính bằng mét giữa các điểm được lấy mẫu dọc theo đường viền, được giữ nhất quán dọc theo cả đường thẳng và đường cong. Giá trị nhỏ hơn cho phép vẽ chi tiết hơn, đến mức tối thiểu là 0,01 mét.",
+                    "names": "$~khoảngcách"
+                },
+                {
+                    "doc": "$~Thứ tự các điểm: 'tiến' hoặc 'lùi'.",
+                    "names": "$~phươnghướng"
+                }
+            ],
+            "error": {
+                "connection": "$~Tôi không thể truy cập internet để tải phông chữ, vì vậy tôi không thể đồ lại các chữ cái của nó.",
+                "unavailable": "$~Tôi không tìm thấy tệp phông chữ đó, nên tôi không thể đồ lại các chữ cái của nó.",
+                "unreadable": "$~Tôi đã tải phông chữ xuống, nhưng tôi không thể đọc được nó, vì vậy tôi không thể đồ lại các chữ cái của nó.",
+                "outline": "$~Tôi đã tải phông chữ lên, nhưng không thể tạo được hình dạng của các chữ cái này."
+            }
         }
     },
     "output": {
@@ -4700,7 +4752,14 @@
                 "bullet": "$~dấu đầu dòng",
                 "attention": "$~nhấn mạnh biểu thức này"
             },
-            "backtotop": "$~trở lại đầu trang"
+            "backtotop": "$~trở lại đầu trang",
+            "overflow": {
+                "button": {
+                    "on": "$~ẩn các điều khiển bổ sung",
+                    "off": "$~hiển thị các điều khiển bổ sung"
+                },
+                "popup": "$~Các điều khiển bổ sung"
+            }
         },
         "tile": {
             "toggle": {
@@ -6967,6 +7026,13 @@
             "joined": "$~$name tham gia.",
             "left": "$~Còn lại $name la.",
             "waitingForSlot": "$~Đang chờ đến lượt chỉnh sửa — đã có bốn cộng tác viên đang chỉnh sửa. Khi một người rời đi, bạn cũng sẽ có thể chỉnh sửa."
+        },
+        "update": {
+            "label": "$~Phiên bản mới đã có sẵn",
+            "message": "$~Chúng tôi đã phát hành phiên bản mới.",
+            "refresh": "$~Làm cho khỏe lại",
+            "updates": "$~xem các bản cập nhật",
+            "dismiss": "$~Miễn nhiệm"
         }
     },
     "moderation": {

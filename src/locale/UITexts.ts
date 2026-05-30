@@ -129,6 +129,13 @@ type UITexts = {
         };
         /** [plain] The back to top link label */
         backtotop: string;
+        /** The overflow toolbar toggle that reveals clipped toolbar items */
+        overflow: {
+            /** The toggle button that shows or hides the overflow panel */
+            button: ToggleText;
+            /** [plain] ARIA label for the overflow panel */
+            popup: string;
+        };
     };
     /** Controls for the tiled windows in the project */
     tile: {
@@ -1163,6 +1170,19 @@ type UITexts = {
         unreachable: string;
         /** [plain] ARIA label for the connection banner live region */
         label: string;
+    };
+    /** Notification shown when a newer version of the app has been deployed while the tab was open. */
+    update: {
+        /** [plain] ARIA label for the new-version notification region */
+        label: string;
+        /** [plain] Message shown when a newer version of the app is available */
+        message: string;
+        /** [plain] Action label that reloads the page to the new version */
+        refresh: string;
+        /** [plain] Link label to the updates/changelog page */
+        updates: string;
+        /** [plain] Tooltip for the button that dismisses the notification */
+        dismiss: string;
     };
     /** Text for the localization editor */
     localize: {

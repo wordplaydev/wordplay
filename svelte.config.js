@@ -11,6 +11,14 @@ const config = {
             assets: 'build',
             fallback: '200.html',
         }),
+        version: {
+            // Poll _app/version.json every 15 minutes so long-open tabs
+            // notice a deploy. SvelteKit also re-checks on every client-side
+            // navigation. The `updated` store from $app/state flips to true
+            // when the deployed version differs from the running one; see
+            // UpdateNotification.svelte.
+            pollInterval: 15 * 60 * 1000,
+        },
         alias: {
             '@components': path.resolve('./src/components'),
             '@nodes': path.resolve('./src/nodes'),
