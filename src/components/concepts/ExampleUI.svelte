@@ -404,7 +404,7 @@
         white-space: nowrap;
     }
 
-    /* Allow iOS horizontal scroll by overriding the touch-action: none set deep in CodeView */
+    /* Allow iOS horizontal scroll by overriding the touch-action: none set deep in ConceptPreview */
     .code-panel.evaluated :global(.view),
     .code-panel.evaluated :global(.node) {
         touch-action: pan-x;

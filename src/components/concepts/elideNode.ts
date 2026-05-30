@@ -57,10 +57,9 @@ function elideUnion(union: UnionType, locales: Locales): Elision | null {
     if (members.length <= UNION_ELISION_THRESHOLD) return null;
 
     const preview = buildUnion(members.slice(0, UNION_ELISION_PREVIEW_COUNT));
-    const suffix = locales.concretize(
-        (l) => l.node.UnionType.elidedSuffix,
-        { omitted: members.length - UNION_ELISION_PREVIEW_COUNT },
-    );
+    const suffix = locales.concretize((l) => l.node.UnionType.elidedSuffix, {
+        omitted: members.length - UNION_ELISION_PREVIEW_COUNT,
+    });
     return { preview, suffix };
 }
 
@@ -95,7 +94,7 @@ function buildUnion(members: Type[]): UnionType {
  * the omitted members — e.g. `"a" | "b" | "c" | _`.
  *
  * Unlike {@link elideNode}, this produces a valid AST (no Markup suffix), so
- * it can be rendered directly by RootView/CodeView. Use it to summarize the
+ * it can be rendered directly by RootView/ConceptPreview. Use it to summarize the
  * representation node of a concept (e.g. a stream's `getEvaluateTemplate`,
  * whose required inputs embed their full type as a placeholder annotation)
  * before display, so a font-name union doesn't dominate the summary.

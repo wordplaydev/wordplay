@@ -21,7 +21,6 @@
         inline?: boolean;
         outline?: boolean;
         elide?: boolean;
-        flip?: boolean;
         localize?: boolean;
     }
 
@@ -34,7 +33,6 @@
         inline = false,
         outline = true,
         elide = false,
-        flip = false,
         // Examples and concept-code views default to *not* filtering by the
         // current locale — they are samples of code, so every translation
         // should be visible. Callers that want locale-aware filtering can
@@ -125,13 +123,8 @@
 {/snippet}
 
 <span class="view">
-    {#if flip}
-        {@render link()}
-        {@render code()}
-    {:else}
-        {@render code()}
-        {@render link()}
-    {/if}
+    {@render code()}
+    {@render link()}
 </span>
 
 <style>
@@ -139,7 +132,15 @@
         display: inline-flex;
         flex-direction: column;
         touch-action: pan-y;
-        gap: var(--wordplay-spacing);
+        /* Half spacing inside a preview (between code and its concept link) so the
+           larger gap *between* previews reads as the segmentation boundary. */
+        gap: var(--wordplay-spacing-half);
+    }
+
+    /* Indent the concept link to match the code's inset (the outline padding, or the
+       inline node's left padding), so the link text aligns with the code text. */
+    .link {
+        padding-inline-start: var(--wordplay-spacing);
     }
 
     .node {
@@ -162,13 +163,17 @@
         cursor: grab;
     }
 
+    /* Elided previews are clipped to a 2:1 box (max-width is twice max-height) so
+       both tall and long samples stay compact. */
     .node.elide {
         max-height: 10ex;
+        max-width: 20ex;
         overflow: hidden;
     }
 
     .node.elide.blocks {
         max-height: 20ex;
+        max-width: 40ex;
     }
 
     .code {

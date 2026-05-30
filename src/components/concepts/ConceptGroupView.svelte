@@ -1,10 +1,10 @@
 <script lang="ts">
+    import ConceptPreview from '@components/concepts/ConceptPreview.svelte';
     import Expander from '@components/widgets/Expander.svelte';
-    import type Concept from '@concepts/Concept';
-    import { slide } from 'svelte/transition';
-    import { animationDuration, locales } from '@db/Database';
     import Note from '@components/widgets/Note.svelte';
-    import CodeView from '@components/concepts/CodeView.svelte';
+    import type Concept from '@concepts/Concept';
+    import { animationDuration, locales } from '@db/Database';
+    import { slide } from 'svelte/transition';
 
     interface Props {
         concepts: Concept[];
@@ -38,7 +38,7 @@
                     duration: $animationDuration,
                 }}
             >
-                <CodeView
+                <ConceptPreview
                     {concept}
                     {describe}
                     node={concept.getRepresentation($locales)}
@@ -65,7 +65,7 @@
         flex-direction: column;
         align-items: start;
         width: 100%;
-        gap: calc(2 * var(--wordplay-spacing));
+        gap: calc(3 * var(--wordplay-spacing));
         border-top: var(--wordplay-border-color) dotted
             var(--wordplay-border-width);
         border-bottom: var(--wordplay-border-color) dotted

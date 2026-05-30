@@ -9,7 +9,7 @@
     import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import TutorialHighlight from '@components/app/TutorialHighlight.svelte';
-    import CodeView from '@components/concepts/CodeView.svelte';
+    import ConceptPreview from '@components/concepts/ConceptPreview.svelte';
     import ConceptGroupView from '@components/concepts/ConceptGroupView.svelte';
     import ConceptsView from '@components/concepts/ConceptsView.svelte';
     import ConceptView from '@components/concepts/ConceptView.svelte';
@@ -612,7 +612,7 @@
                     {@const start = text[1]}
                     {@const end = text[2]}
                     <div class="result">
-                        <CodeView
+                        <ConceptPreview
                             {concept}
                             elide
                             node={summarizeUnionTypes(
@@ -678,7 +678,7 @@
                 {:else if currentConcept instanceof GalleryHowConcept}
                     <HowToConceptView concept={currentConcept} />
                 {:else}
-                    <CodeView
+                    <ConceptPreview
                         node={currentConcept.getRepresentation($locales)}
                         concept={currentConcept}
                     />
@@ -704,7 +704,7 @@
                             />
                             <div class="howtos">
                                 {#each galleryHowConcepts as how}
-                                    <CodeView
+                                    <ConceptPreview
                                         node={how.getRepresentation()}
                                         concept={how}
                                         elide
@@ -729,7 +729,7 @@
                                 />
                                 <div class="howtos">
                                     {#each categoryHowTos as how}
-                                        <CodeView
+                                        <ConceptPreview
                                             node={how.getRepresentation()}
                                             concept={how}
                                             elide

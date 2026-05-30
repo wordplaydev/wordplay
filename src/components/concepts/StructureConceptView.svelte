@@ -5,7 +5,7 @@
     import { locales } from '@db/Database';
     import { onMount } from 'svelte';
     import BindConceptView from '@components/concepts/BindConceptView.svelte';
-    import CodeView from '@components/concepts/CodeView.svelte';
+    import ConceptPreview from '@components/concepts/ConceptPreview.svelte';
     import ConceptView from '@components/concepts/ConceptView.svelte';
     import Names from '@components/concepts/NamesView.svelte';
 
@@ -57,7 +57,7 @@
     {#if concept.inter.length > 0}
         <HeaderAndExplanation text={(l) => l.ui.docs.header.interfaces} sub />
         {#each concept.inter as inter}
-            <CodeView concept={inter} node={inter.getRepresentation()} />
+            <ConceptPreview concept={inter} node={inter.getRepresentation()} />
         {/each}
     {/if}
 
@@ -85,14 +85,14 @@
     {#if concept.functions.length > 0}
         <HeaderAndExplanation text={(l) => l.ui.docs.header.functions} sub />
         {#each concept.functions as fun}
-            <CodeView node={fun.getRepresentation()} concept={fun} />
+            <ConceptPreview node={fun.getRepresentation()} concept={fun} />
         {/each}
     {/if}
 
     {#if concept.conversions.length > 0}
         <HeaderAndExplanation text={(l) => l.ui.docs.header.conversions} sub />
         {#each concept.conversions as conversion}
-            <CodeView
+            <ConceptPreview
                 node={conversion.getRepresentation()}
                 concept={conversion}
             />
