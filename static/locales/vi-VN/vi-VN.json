@@ -4483,7 +4483,7 @@
                 "$~Chào. Sân khấu đây. Hãy nói cho tôi biết cần trình diễn cái gì và tôi sẽ trình diễn.",
                 "$~\\Stage([Phrase('stufffffff')])\\",
                 "$~NẾU BẠN MUỐN, HÃY CHO TÔI BIẾT PHÔNG NỀN @Color VÀ TÔI SẼ CHIẾU SÁNG SÂN KHẤU CHO PHÙ HỢP.",
-                "$~\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°)\\",
+                "$~\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°))\\",
                 "$~Bạn cũng có thể cung cấp cho tôi khung viền và tôi sẽ cắt ảnh.",
                 "$~\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°) frame: Rectangle(-1m -1m 1m 1m))\\"
             ],

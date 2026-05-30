@@ -4498,7 +4498,7 @@
                 "$~Olá. Palco aqui. Diga-me o que mostrar e eu mostro-lhe.",
                 "$~\\Stage([Phrase('stufffffff')])\\",
                 "$~Se quiser, dê-me uma cor de fundo e eu iluminarei o palco de acordo.",
-                "$~\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°)\\",
+                "$~\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°))\\",
                 "$~Também me pode fornecer uma borda e eu recortarei.",
                 "$~\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°) frame: Rectangle(-1m -1m 1m 1m))\\"
             ],
