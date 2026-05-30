@@ -5365,7 +5365,9 @@
                 }
             },
             "note": {
-                "empty": "$~Les noms que vous définissez dans votre projet apparaîtront ici."
+                "empty": "$~Les noms que vous définissez dans votre projet apparaîtront ici.",
+                "keepTyping": "$~Continuez à taper pour rechercher…",
+                "noMatches": "$~Aucun résultat"
             },
             "tour": {
                 "launch": "$~faire une visite guidée",

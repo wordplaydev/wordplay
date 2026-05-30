@@ -4,16 +4,20 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
-## 0.20.0 - 2026-05-29
+## 0.20.0 - 2026-05-30
+
+This week focused on improving many aspects of the Guide, including speed, usability, and bug fixes. We also added a new stream called `@Contour` that lets you get the shape of a glyph as a list of points, letting you do neat things to celebrate your favorite letters and symbols!
 
 ### Added
 
 - 🔣 We added `@Contour`, a new built-in input stream that traces the outline of letters in a font as a list of `@Place` values, so you can dot, trace, or animate the shape of any glyph. You can read about it in the [Guide](https://wordplay.dev/guide?concept=Contour). (#1167)
+- 🔗 We made the guide remember the query and sections you were viewing, in case you need to refresh the page or share a link.
 - 🖱️ Now you can click click click in the editor to expand the selection. (Just like pressing escape, escape, escape does).
 
 ### Changed
 
-- ⚡️ We made it easier to expand and collapse really big values.
+- ⚡️ We made search faster and more forgiving across the platform, including in the guide, tutorial, projects, glyph chooser, and localization mode.
+- ➕ We made it easier to expand and collapse really big values.
 - ⌨️ When pressing up on the first line or down on the last line, you go the beginning and end of the source.
 
 ### Fixed

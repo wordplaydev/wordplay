@@ -5530,7 +5530,9 @@
                 }
             },
             "note": {
-                "empty": "$~Các tên bạn định nghĩa trong dự án của mình sẽ hiển thị ở đây."
+                "empty": "$~Các tên bạn định nghĩa trong dự án của mình sẽ hiển thị ở đây.",
+                "keepTyping": "$~Tiếp tục gõ để tìm kiếm…",
+                "noMatches": "$~Không có kết quả phù hợp"
             },
             "purposes": {
                 "Project": {

@@ -5542,7 +5542,9 @@
                 }
             },
             "note": {
-                "empty": "$~Nama yang Anda tentukan dalam proyek Anda akan muncul di sini."
+                "empty": "$~Nama yang Anda tentukan dalam proyek Anda akan muncul di sini.",
+                "keepTyping": "$~Terus ketik untuk mencari…",
+                "noMatches": "$~Tidak ada kecocokan"
             },
             "purposes": {
                 "Project": {

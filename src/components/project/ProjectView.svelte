@@ -12,7 +12,9 @@
     import Emoji from '@components/app/Emoji.svelte';
     import { extractPreview } from '@components/app/extractPreview';
     import { getLocalizedProjectName } from '@db/projects/getLocalizedProjectName';
-    import Documentation from '@components/concepts/Documentation.svelte';
+    import Documentation, {
+        Modes,
+    } from '@components/concepts/Documentation.svelte';
     import {
         handleKeyCommand,
         Pause,
@@ -35,8 +37,17 @@
     import ConceptIndex from '@concepts/ConceptIndex';
     import {
         getConceptFromURL,
+        getEnumFromURL,
+        getQueryFromURL,
+        PARAM_HOWTO,
+        PARAM_PURPOSE,
+        PARAM_SECTION,
         setConceptInURL,
+        setEnumInURL,
+        setQueryInURL,
     } from '@concepts/ConceptParams';
+    import { Purpose } from '@concepts/Purpose';
+    import { debounced } from '@util/debounce.svelte';
     import type Conflict from '@conflicts/Conflict';
     import type Chat from '@db/chats/ChatDatabase.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
@@ -803,6 +814,29 @@
             );
         }
 
+        // Reflect the guide's search query so a refresh restores its results.
+        setQueryInURL(debouncedGuideQuery.current, searchParams);
+
+        // Reflect the guide's browsing location (section, concept type, how-to filter).
+        setEnumInURL(
+            searchParams,
+            PARAM_SECTION,
+            guideSection,
+            guideSectionFallback(),
+        );
+        setEnumInURL(
+            searchParams,
+            PARAM_PURPOSE,
+            guidePurpose,
+            Purpose.Outputs,
+        );
+        setEnumInURL(
+            searchParams,
+            PARAM_HOWTO,
+            guideGalleryOnly ? 'gallery' : 'all',
+            guideHowToFallback(),
+        );
+
         // Update the URL, removing = for keys with no values
         const search = `${searchParams.toString().replace(/=(?=&|$)/gm, '')}`;
         const currentSearch =
@@ -1029,6 +1063,42 @@
 
     // After mounting, see if there's a concept in the URL, and set the path to it if so.
     let path = getConceptPath();
+
+    /** The embedded guide's search query, restored from the URL on load and
+     *  synced back (debounced) so a refresh keeps the guide tile's results. */
+    let guideQuery = $state(getQueryFromURL(page.url.searchParams));
+    const debouncedGuideQuery = debounced(() => guideQuery, 400);
+
+    // The embedded guide's browsing location, restored from the URL and bound to
+    // Documentation so a refresh keeps the section, concept type, and how-to filter.
+    const guideSectionFallback = () => ($blocks ? 'language' : 'howto');
+    // How-to filter default mirrors Documentation's old context rule.
+    const guideHowToFallback = () =>
+        project.getGallery() == null ? 'gallery' : 'all';
+    let guideSection = $state(
+        getEnumFromURL(
+            page.url.searchParams,
+            PARAM_SECTION,
+            Modes,
+            guideSectionFallback(),
+        ),
+    );
+    let guidePurpose = $state(
+        getEnumFromURL(
+            page.url.searchParams,
+            PARAM_PURPOSE,
+            Object.values(Purpose),
+            Purpose.Outputs,
+        ),
+    );
+    let guideGalleryOnly = $state(
+        getEnumFromURL(
+            page.url.searchParams,
+            PARAM_HOWTO,
+            ['gallery', 'all'] as const,
+            guideHowToFallback(),
+        ) === 'gallery',
+    );
 
     // Restore the concept in the URL after mounting.
     onMount(() => {
@@ -2164,8 +2234,7 @@
                                         />
                                     {/snippet}
                                     {#snippet outputCopy()}
-                                        {#if !editable}<CopyButton
-                                                {project}
+                                        {#if !editable}<CopyButton {project}
                                             ></CopyButton>{/if}
                                     {/snippet}
                                     {#snippet outputEdit()}
@@ -2317,6 +2386,10 @@
                                     <Documentation
                                         {project}
                                         standalone={false}
+                                        bind:query={guideQuery}
+                                        bind:mode={guideSection}
+                                        bind:purpose={guidePurpose}
+                                        bind:galleryOnly={guideGalleryOnly}
                                     />
                                 {:else if tile.kind === TileKind.Palette}
                                     <Palette

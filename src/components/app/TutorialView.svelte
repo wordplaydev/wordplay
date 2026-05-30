@@ -4,7 +4,7 @@
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Options from '@components/widgets/Options.svelte';
-    import { locales, Projects } from '@db/Database';
+    import { locales, Projects, Locales } from '@db/Database';
     import Project from '@db/projects/Project';
     import { withoutAnnotations } from '@locale/withoutAnnotations';
     import type Node from '@nodes/Node';
@@ -33,11 +33,13 @@
     import { Performances } from '../../tutorial/Performances';
     import Progress from '../../tutorial/Progress';
     import {
-        PerformanceMode,
         type Dialog,
-        type PeformanceModeType,
         type Performance,
+        type Tutorial,
     } from '../../tutorial/Tutorial';
+    import { buildTutorialSearch } from '../../tutorial/tutorialSearch';
+    import { searchItems, excerpt } from '@util/search';
+    import { debounced } from '@util/debounce.svelte';
     import {
         actTitlePath,
         dialogTextPath,
@@ -335,66 +337,67 @@
     };
 
     let searchQuery = $state('');
+    const debouncedQuery = debounced(() => searchQuery);
 
-    /** Find a segment of text that matches the query. */
-    function makeExcerpt(text: string, query: string): string {
-        const lowerText = text.toLowerCase();
-        const lowerQuery = query.toLowerCase();
-        const matchIndex = lowerText.indexOf(lowerQuery);
-        if (matchIndex === -1) return text.slice(0, 200);
-        const start = Math.max(0, matchIndex - 100);
-        const end = Math.min(text.length, matchIndex + query.length + 100);
-        const before = text.slice(start, matchIndex);
-        const match = text.slice(matchIndex, matchIndex + query.length);
-        const after = text.slice(matchIndex + query.length, end);
-        return `${start > 0 ? '…' : ''}${before}*${match}*${after}${end < text.length ? '…' : ''}`;
-    }
+    // Tutorials for the non-primary selected locales, loaded so a multilingual
+    // user can search content in any of their languages. The primary locale's
+    // tutorial is `progress.tutorial`, already loaded by the route.
+    let extraTutorials = $state<Tutorial[]>([]);
+    $effect(() => {
+        const primary = $locales.getLocale();
+        const others = $locales.getLocales().filter((l) => l !== primary);
+        let cancelled = false;
+        Promise.all(
+            others.map((l) => Locales.getTutorial(l.language, l.regions)),
+        ).then((loaded) => {
+            if (!cancelled)
+                extraTutorials = loaded.filter(
+                    (t): t is Tutorial => t !== undefined,
+                );
+        });
+        return () => {
+            cancelled = true;
+        };
+    });
 
-    // Compute search results based on the search query.
+    // All selected locales' tutorials, de-duplicated by language (a missing
+    // translation falls back to en-US, which we don't want to index twice).
+    let searchTutorials = $derived.by(() => {
+        const byLanguage = new Map<string, Tutorial>();
+        byLanguage.set(progress.tutorial.language, progress.tutorial);
+        for (const t of extraTutorials)
+            if (!byLanguage.has(t.language)) byLanguage.set(t.language, t);
+        return [...byLanguage.values()];
+    });
+
+    // Precompute searchable records across every selected locale's tutorial.
+    // Navigation uses parallel act/scene indices, so a match in any locale jumps
+    // to the same scene (rendered in the displayed/primary locale).
+    let searchRecords = $derived(
+        searchTutorials.flatMap((t) =>
+            buildTutorialSearch(t, $locales.getLanguages()),
+        ),
+    );
+
+    // Compute search results from the debounced query using the shared policy.
     let searchResults = $derived.by((): SearchResult[] => {
-        if (searchQuery.length === 0) return [];
-        const results: SearchResult[] = [];
-        const lowerQuery = searchQuery.toLowerCase();
         const tutorial = progress.tutorial;
-        for (let actIndex = 0; actIndex < tutorial.acts.length; actIndex++) {
-            const act = tutorial.acts[actIndex];
-            for (
-                let sceneIndex = 0;
-                sceneIndex < act.scenes.length;
-                sceneIndex++
-            ) {
-                const scene = act.scenes[sceneIndex];
-                let pauseCount = 0;
-                for (
-                    let lineIndex = 0;
-                    lineIndex < scene.lines.length;
-                    lineIndex++
-                ) {
-                    const line = scene.lines[lineIndex];
-                    if (line === null) {
-                        pauseCount++;
-                        continue;
-                    }
-                    if (PerformanceMode.includes(line[0] as PeformanceModeType))
-                        continue;
-                    const texts = (line as Dialog).slice(2) as string[];
-                    const fullText = texts.join('\n\n');
-                    if (fullText.toLowerCase().includes(lowerQuery)) {
-                        results.push({
-                            excerpt: makeExcerpt(fullText, searchQuery),
-                            progress: new Progress(
-                                tutorial,
-                                actIndex + 1,
-                                sceneIndex + 1,
-                                pauseCount + 1,
-                            ),
-                            label: `${withoutAnnotations(act.title)} — ${withoutAnnotations(scene.subtitle ?? scene.title)}`,
-                        });
-                    }
-                }
-            }
-        }
-        return results;
+        const languages = $locales.getLanguages();
+        return searchItems(
+            searchRecords,
+            debouncedQuery.current,
+            languages,
+        ).map(([target, [display, start, end]]) => ({
+            // 100 chars of context, matched range wrapped in * for Markup bold.
+            excerpt: excerpt(display, start, end, 100, '*'),
+            progress: new Progress(
+                tutorial,
+                target.act,
+                target.scene,
+                target.pause,
+            ),
+            label: target.label,
+        }));
     });
 
     async function handleKey(event: KeyboardEvent) {
@@ -478,9 +481,7 @@
     </div>
     {#if searchQuery.length > 0}
         <div class="search-results">
-            {#if searchResults.length === 0}
-                <LocalizedText path={(l) => l.ui.page.learn.search.noResults} />
-            {:else}
+            {#if searchResults.length > 0}
                 {#each searchResults as result}
                     <button
                         class="search-result"
@@ -493,6 +494,8 @@
                         <MarkupHTMLView markup={result.excerpt} inline />
                     </button>
                 {/each}
+            {:else if debouncedQuery.current.length > 0}
+                <LocalizedText path={(l) => l.ui.page.learn.search.noResults} />
             {/if}
         </div>
     {:else}

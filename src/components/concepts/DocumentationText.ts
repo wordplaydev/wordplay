@@ -1,7 +1,11 @@
 import type { HowToCategories } from '@concepts/HowTo';
 import { Purpose } from '@concepts/Purpose';
 import type { FormattedText, Template } from '@locale/LocaleText';
-import type { ButtonText, HeaderAndExplanationText, ModeText } from '@locale/UITexts';
+import type {
+    ButtonText,
+    HeaderAndExplanationText,
+    ModeText,
+} from '@locale/UITexts';
 
 type DocumentationText = {
     /** [plain] The ARIA label for the palette section. */
@@ -30,6 +34,10 @@ type DocumentationText = {
     note: {
         /** [plain] The project has no concepts. */
         empty: string;
+        /** [plain] Prompt shown in search mode when the query is too short to search yet. */
+        keepTyping: string;
+        /** [plain] Shown in search mode when a query matches no concepts. */
+        noMatches: string;
     };
     /** Modes in the guide */
     mode: {

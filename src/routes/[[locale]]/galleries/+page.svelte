@@ -11,6 +11,7 @@
     import { Galleries, Projects, locales } from '@db/Database';
     import type Project from '@db/projects/Project';
     import { searchProjects, type ProjectMatch } from '../projects/search';
+    import { debounced } from '@util/debounce.svelte';
     import {
         collection,
         getDocs,
@@ -96,8 +97,11 @@
 
     let galleries = $derived([...loadedGalleries]);
 
-    // Search functionality for example gallery projects
+    // Search functionality for example gallery projects. The input updates
+    // `searchTerm` immediately (so loading can start promptly); the search runs
+    // against a debounced copy.
     let searchTerm = $state('');
+    const debouncedTerm = debounced(() => searchTerm);
 
     /** All example projects, loaded lazily when search is first used */
     let allExampleProjects: Project[] = $state([]);
@@ -127,7 +131,7 @@
     });
 
     let searchResults: ProjectMatch[] = $derived(
-        searchProjects(allExampleProjects, searchTerm, $locales),
+        searchProjects(allExampleProjects, debouncedTerm.current, $locales),
     );
 </script>
 
@@ -212,7 +216,7 @@
         max="10em"
     />
 
-    {#if searchTerm.trim()}
+    {#if debouncedTerm.current.trim()}
         {#if loadingExamples}
             <Spinning label={(l) => l.ui.widget.loading.message} />
         {:else if searchResults.length === 0}
@@ -222,7 +226,7 @@
                 {#each searchResults as { project, matchText } (project.getID())}
                     <ProjectPreview
                         {project}
-                        {searchTerm}
+                        searchTerm={debouncedTerm.current}
                         {...matchText !== undefined ? { matchText } : {}}
                         anonymize={false}
                     />

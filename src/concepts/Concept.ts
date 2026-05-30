@@ -91,39 +91,6 @@ export default abstract class Concept {
     abstract getSubConcepts(): Set<Concept>;
 
     /**
-     * Should return true if anything about the concept matches the query text.
-     */
-    getTextMatching(
-        locales: Locales,
-        query: string,
-    ): [string, number, number] | undefined {
-        const names = this.getNames(locales, false);
-        const lowerDescriptions = names.map((name) =>
-            name.toLocaleLowerCase(locales.getLanguages()),
-        );
-        const name = lowerDescriptions.find((lowerDescription) =>
-            lowerDescription.includes(query),
-        );
-        // Return name match at priority 1
-        if (name) {
-            return [name, name.indexOf(query), 1];
-        }
-        const markups = this.getDocs(locales);
-        // If the name doesn't match, see if a doc does
-        for (const markup of markups) {
-            const [match, index] = markup.getMatchingText(query, locales) ?? [
-                undefined,
-                undefined,
-            ];
-            if (match) {
-                // Add priority 2 to the list
-                return [match, index, 2];
-            }
-        }
-        return undefined;
-    }
-
-    /**
      * Given a node ID, finds the node in the concept graph that corresponds.
      */
     getNode(id: number): Node | undefined {

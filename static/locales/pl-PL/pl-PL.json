@@ -5387,7 +5387,9 @@
                 }
             },
             "note": {
-                "empty": "$~Tutaj pojawią się nazwy zdefiniowane w projekcie."
+                "empty": "$~Tutaj pojawią się nazwy zdefiniowane w projekcie.",
+                "keepTyping": "$~Kontynuuj pisanie, aby wyszukać…",
+                "noMatches": "$~Brak dopasowań"
             },
             "tour": {
                 "launch": "$~weź udział w wycieczce z przewodnikiem",

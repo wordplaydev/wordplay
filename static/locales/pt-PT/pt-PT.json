@@ -5530,7 +5530,9 @@
                 }
             },
             "note": {
-                "empty": "$~Os nomes que definir no seu projeto aparecerão aqui."
+                "empty": "$~Os nomes que definir no seu projeto aparecerão aqui.",
+                "keepTyping": "$~Continue a digitar para pesquisar…",
+                "noMatches": "$~Nenhuma correspondência"
             },
             "purposes": {
                 "Project": {

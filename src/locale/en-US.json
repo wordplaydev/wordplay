@@ -5543,7 +5543,9 @@
                 }
             },
             "note": {
-                "empty": "Names you define in your project will show up here."
+                "empty": "Names you define in your project will show up here.",
+                "keepTyping": "Keep typing to search…",
+                "noMatches": "No matches"
             },
             "purposes": {
                 "Project": {

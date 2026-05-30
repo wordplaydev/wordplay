@@ -5,15 +5,16 @@
 
 <script lang="ts">
     import HeaderAndExplanation from '@components/app/HeaderAndExplanation.svelte';
+    import Notice from '@components/app/Notice.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import TutorialHighlight from '@components/app/TutorialHighlight.svelte';
     import CodeView from '@components/concepts/CodeView.svelte';
-    import { summarizeUnionTypes } from '@components/concepts/elideNode';
     import ConceptGroupView from '@components/concepts/ConceptGroupView.svelte';
     import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
     import ConceptsView from '@components/concepts/ConceptsView.svelte';
     import ConceptView from '@components/concepts/ConceptView.svelte';
+    import { summarizeUnionTypes } from '@components/concepts/elideNode';
     import FunctionConceptView from '@components/concepts/FunctionConceptView.svelte';
     import HowConceptView from '@components/concepts/HowConceptView.svelte';
     import NodeConceptView from '@components/concepts/NodeConceptView.svelte';
@@ -83,6 +84,7 @@
         TRUE_SYMBOL,
         TYPE_SYMBOL,
     } from '@parser/Symbols';
+    import { debounced } from '@util/debounce.svelte';
     import { onDestroy, tick } from 'svelte';
     import HowToConceptView from './HowToConceptView.svelte';
 
@@ -90,9 +92,26 @@
         project: Project;
         standalone: boolean;
         collapse?: boolean;
+        /** Two-way bound search query. The standalone guide binds this to sync it
+         *  to the URL; embedded uses leave it unbound (it's local state). */
+        query?: string;
+        /** Two-way bound browsing location, bound by hosts that persist it to the
+         *  URL: the section (code vs how-to), the code section's concept type, and
+         *  the how-to filter. Unbound uses keep them as local state. */
+        mode?: (typeof Modes)[number];
+        purpose?: PurposeType;
+        galleryOnly?: boolean;
     }
 
-    let { project, standalone, collapse = false }: Props = $props();
+    let {
+        project,
+        standalone,
+        collapse = false,
+        query = $bindable(''),
+        mode = $bindable($blocks ? 'language' : 'howto'),
+        purpose = $bindable(Purpose.Outputs),
+        galleryOnly = $bindable(false),
+    }: Props = $props();
 
     let view: HTMLElement | undefined = $state();
 
@@ -125,14 +144,17 @@
     let path = getConceptPath();
     let dragged = getDragged();
 
-    /** The current search string */
-    let query = $state('');
+    /** A debounced copy of {@link query} that the search runs against, so fast
+     *  typing doesn't trigger a full search on every keystroke. */
+    const debouncedQuery = debounced(() => query);
 
-    /** The browsing mode (programming language or how to) */
-    let mode = $state<(typeof Modes)[number]>($blocks ? 'language' : 'howto');
+    /** Fewest characters that actually run a search; shorter queries show a
+     *  "keep typing" prompt instead. */
+    const MIN_QUERY_LENGTH = 3;
 
-    /** The purpose selected for browsing */
-    let purpose = $state<PurposeType>(Purpose.Outputs);
+    /** True once the user has typed anything: we enter search-results mode (and
+     *  hide the browsing controls) even before the query is long enough to run. */
+    let searchActive = $derived(query.trim().length > 0);
 
     /** The current concept is always the one at the end of the list. */
     let currentConcept = $derived($path[$path.length - 1]);
@@ -151,6 +173,51 @@
         }
     }
 
+    /** How many search results to render per page. Results are lazily revealed
+     *  as the user scrolls so a large result set doesn't cause rendering lag. */
+    const RESULTS_PAGE = 25;
+    let resultLimit = $state(RESULTS_PAGE);
+    /** Sentinel at the end of the rendered results; when it scrolls into view we
+     *  reveal another page. */
+    let resultsSentinel = $state<HTMLElement>();
+
+    // Reset the visible window whenever the result set changes (a new query).
+    $effect(() => {
+        void results;
+        resultLimit = RESULTS_PAGE;
+    });
+
+    // Reveal more results as the sentinel approaches the viewport.
+    $effect(() => {
+        const sentinel = resultsSentinel;
+        // Guard on `instanceof HTMLElement`, not `=== undefined`: Svelte sets a
+        // `bind:this` to null (not undefined) when its element unmounts, which can
+        // happen mid-layout in the embedded guide. getScrollParent/observe would
+        // then throw "parameter 1 is not of type 'Element'".
+        if (
+            !(sentinel instanceof HTMLElement) ||
+            !(view instanceof HTMLElement) ||
+            results === undefined
+        )
+            return;
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (
+                    entries.some((e) => e.isIntersecting) &&
+                    results !== undefined &&
+                    resultLimit < results.length
+                )
+                    resultLimit = Math.min(
+                        resultLimit + RESULTS_PAGE,
+                        results.length,
+                    );
+            },
+            { root: getScrollParent(view) ?? null, rootMargin: '400px' },
+        );
+        observer.observe(sentinel);
+        return () => observer.disconnect();
+    });
+
     // Keep a cache of the how tos for the current language.
     let howTos = $state<HowTo[] | undefined>(undefined);
     $effect(() => {
@@ -161,13 +228,9 @@
     });
 
     // get the user generated how-tos that are in a gallery, if the gallery exists
-
-    // determine if the guide will only show how-tos from the project's gallery
-    // or if it will show all how-tos that the user has access to
-    let galleryOnly: boolean = $state(false);
-    $effect(() => {
-        galleryOnly = project.getGallery() == null && !standalone;
-    });
+    // `galleryOnly` (whether to show only the project gallery's how-tos) is a
+    // bound prop so hosts can restore it from the URL; the toggle only appears in
+    // the embedded guide with a gallery, so unbound (standalone) uses keep false.
 
     let galleryID: string | null = $derived(project.getGallery());
     let gallery: Gallery | undefined = $state(undefined);
@@ -244,9 +307,11 @@
             : [],
     );
 
-    // When the path changes, reset the query
-    const queryResetUnsub = path.subscribe(() => {
-        query = '';
+    // When navigating *to* a concept, clear the search. (Guarding on a non-empty
+    // path avoids wiping a query restored from the URL: the store's initial
+    // emission and the empty-path set on load both have length 0.)
+    const queryResetUnsub = path.subscribe((p) => {
+        if (p.length > 0) query = '';
     });
     onDestroy(() => queryResetUnsub());
 
@@ -264,16 +329,14 @@
         }
     });
 
-    // If the query changes to non-empty, compute matches
-    let results: [Concept, [string, number, number]][] | undefined = $derived(
-        query.length > 1
-            ? index?.getQuery($locales, query)?.sort((a, b) => {
-                  const [, aMatches] = a;
-                  const [, bMatches] = b;
-                  return aMatches[2] - bMatches[2];
-              })
-            : undefined,
-    );
+    // If the query changes to non-empty, compute matches. getQuery already
+    // returns results ordered name-matches-first, then by match quality.
+    let results: [Concept, [string, number, number, number]][] | undefined =
+        $derived(
+            debouncedQuery.current.trim().length >= MIN_QUERY_LENGTH
+                ? index?.getQuery(debouncedQuery.current)
+                : undefined,
+        );
 
     // Find all the highlights in the current documentation so we can render them.
     let highlights = $derived(
@@ -359,7 +422,7 @@
             fill
         />
     </span>
-    {#if query.length === 0}
+    {#if !searchActive}
         <span data-uiid="docsModeToggle">
             <Mode
                 modes={(l) => l.ui.docs.mode.browse}
@@ -436,35 +499,38 @@
     bind:clientHeight={viewHeight}
 >
     <div class="content">
-        <!-- Search results are prioritized over a selected concept -->
-        {#if results}
-            {#each results as [concept, text]}
-                <div class="result">
-                    <CodeView
-                        {concept}
-                        node={summarizeUnionTypes(
-                            concept.getRepresentation($locales),
-                        )}
-                    />
-                    <!-- Show the matching text -->
-                    {#if text.length > 1 || concept.getName($locales, false) !== text[0]}
-                        {@const match = text[0]}
-                        {@const index = text[1]}
+        <!-- Search mode is prioritized over a selected concept or the home page -->
+        {#if searchActive}
+            {#if results}
+                {#each results.slice(0, resultLimit) as [concept, text]}
+                    {@const match = text[0]}
+                    {@const start = text[1]}
+                    {@const end = text[2]}
+                    <div class="result">
+                        <CodeView
+                            {concept}
+                            node={summarizeUnionTypes(
+                                concept.getRepresentation($locales),
+                            )}
+                        />
+                        <!-- Show the matching text, highlighting the matched range. -->
                         <div class="matches">
                             <Note
-                                >{match.substring(0, index)}<span class="match"
-                                    >{match.substring(
-                                        index,
-                                        index + query.length,
-                                    )}</span
-                                >{match.substring(index + query.length)}</Note
+                                >{match.substring(0, start)}<span class="match"
+                                    >{match.substring(start, end)}</span
+                                >{match.substring(end)}</Note
                             >
                         </div>
-                    {/if}
-                </div>
+                    </div>
+                {:else}
+                    <Notice text={(l) => l.ui.docs.note.noMatches} />
+                {/each}
+                <!-- Infinite-scroll sentinel: reveals another page when reached. -->
+                <div bind:this={resultsSentinel} aria-hidden="true"></div>
             {:else}
-                <div class="empty">😞</div>
-            {/each}
+                <!-- Query too short to search yet: prompt to keep typing. -->
+                <Notice text={(l) => l.ui.docs.note.keepTyping} />
+            {/if}
         {:else}
             <!-- A selected concept is prioritized over the home page -->
             {#if currentConcept}
@@ -799,11 +865,6 @@
     }
     .match {
         color: var(--wordplay-highlight-color);
-    }
-
-    .empty {
-        font-size: calc(2 * var(--wordplay-font-size));
-        text-align: center;
     }
 
     .howtos {

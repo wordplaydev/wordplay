@@ -5361,7 +5361,9 @@
                 }
             },
             "note": {
-                "empty": "$~Die in Ihrem Projekt definierten Namen werden hier angezeigt."
+                "empty": "$~Die in Ihrem Projekt definierten Namen werden hier angezeigt.",
+                "keepTyping": "$~Tippen Sie weiter, um zu suchen…",
+                "noMatches": "$~Keine Übereinstimmungen"
             },
             "tour": {
                 "launch": "$~Nehmen Sie an einer Führung teil",

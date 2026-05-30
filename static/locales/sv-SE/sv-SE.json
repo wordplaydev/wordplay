@@ -5379,7 +5379,9 @@
                 }
             },
             "note": {
-                "empty": "$~Namn som du definierar i ditt projekt kommer att visas här."
+                "empty": "$~Namn som du definierar i ditt projekt kommer att visas här.",
+                "keepTyping": "$~Fortsätt skriva för att söka…",
+                "noMatches": "$~Inga träffar"
             },
             "tour": {
                 "launch": "$~ta en rundtur med guiden",

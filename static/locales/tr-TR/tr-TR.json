@@ -5379,7 +5379,9 @@
                 }
             },
             "note": {
-                "empty": "$~Projenizde tanımladığınız isimler burada görünecektir."
+                "empty": "$~Projenizde tanımladığınız isimler burada görünecektir.",
+                "keepTyping": "$~Arama yapmak için yazmaya devam edin…",
+                "noMatches": "$~Eşleşme bulunamadı."
             },
             "tour": {
                 "launch": "$~Rehbere bir göz atın.",

@@ -5533,7 +5533,9 @@
                 }
             },
             "note": {
-                "empty": "$~Lalabas dito ang mga pangalang tinukoy mo sa iyong proyekto."
+                "empty": "$~Lalabas dito ang mga pangalang tinukoy mo sa iyong proyekto.",
+                "keepTyping": "$~Patuloy na mag-type para maghanap…",
+                "noMatches": "$~Walang mga tugma"
             },
             "purposes": {
                 "Project": {

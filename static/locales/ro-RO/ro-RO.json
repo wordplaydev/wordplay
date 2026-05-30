@@ -5542,7 +5542,9 @@
                 }
             },
             "note": {
-                "empty": "$~Numele pe care le definiți în proiectul dvs. vor apărea aici."
+                "empty": "$~Numele pe care le definiți în proiectul dvs. vor apărea aici.",
+                "keepTyping": "$~Continuă să scrii pentru a căuta…",
+                "noMatches": "$~Nicio potrivire"
             },
             "purposes": {
                 "Project": {

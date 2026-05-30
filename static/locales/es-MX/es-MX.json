@@ -5344,7 +5344,9 @@
                 }
             },
             "note": {
-                "empty": "$~Los nombres que defina en su proyecto aparecerán aquí."
+                "empty": "$~Los nombres que defina en su proyecto aparecerán aquí.",
+                "keepTyping": "$~Sigue escribiendo para buscar…",
+                "noMatches": "$~No hay coincidencias"
             },
             "tour": {
                 "launch": "$~Haz un recorrido por la guía",

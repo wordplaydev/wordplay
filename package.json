@@ -97,7 +97,6 @@
         "dexie": "^4",
         "firebase": "^12",
         "fontkit": "^2.0.4",
-        "fuse.js": "^7",
         "graphemer": "^1",
         "matter-js": "^0",
         "picomatch": "^4",
