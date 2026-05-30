@@ -637,7 +637,7 @@
                     />
                     <ConceptGroupView concepts={appearance} {collapse} {row} />
                     <HeaderAndExplanation
-                        text={(l) => l.ui.docs.header.appearance}
+                        text={(l) => l.ui.docs.header.animation}
                         sub
                     />
                     <ConceptGroupView concepts={styles} {collapse} {row} />
