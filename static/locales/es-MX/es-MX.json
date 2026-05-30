@@ -3712,47 +3712,55 @@
             }
         },
         "Contour": {
-            "doc": ["$?"],
-            "names": ["$?"],
+            "doc": [
+                "$~/¡Hola! Soy @FunctionDefinition . ¿Quieres ver la /forma/ de las letras?",
+                "$~Dame un texto y una fuente, y trazaré el contorno de cada glifo como una @List de valores @Place , un punto tras otro.",
+                "$~\\Contour('a' \"Noto Sans\")\\",
+                "$~Pase esos valores @Place a una @List de @Phrase para ver el contorno dibujado como puntos:",
+                "$~\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' place: point)))\\",
+                "$~Puedes escalar el contorno con un @Number de metros, mover su origen con un @Place , elegir un grosor de fuente, activar la cursiva y establecer el `spacing` entre puntos como una distancia en metros. Un `spacing` menor traza el contorno con mayor precisión, con puntos espaciados uniformemente tanto a lo largo de líneas como de curvas.",
+                "$~Algunos glifos, como los emojis de color, no tienen contorno, por lo que no suman puntos. Mientras busco la fuente, te daré una @List vacía y la completaré cuando esté listo."
+            ],
+            "names": ["$~🖋️", "$~Contorno"],
             "inputs": [
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~El texto cuyos contornos de glifos debo trazar.",
+                    "names": "$~glifos"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~La tipografía en la que se trazarán los glifos.",
+                    "names": "$~rostro"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~La altura del glifo en metros, escalando el contorno.",
+                    "names": "$~tamaño"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~Un origen opcional @Place para desplazar cada punto.",
+                    "names": "$~lugar"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~El grosor de la fuente a utilizar, ajustado al más cercano que admita la fuente.",
+                    "names": "$~peso"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~Si se debe usar la versión en cursiva de la fuente, en caso de que la tenga.",
+                    "names": "$~cursiva"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~La distancia en metros entre los puntos muestreados a lo largo del contorno se mantiene constante tanto en líneas rectas como en curvas. Los valores más pequeños permiten un trazado más preciso, hasta un mínimo de 0,01 metros.",
+                    "names": "$~espaciado"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~El orden de los puntos: 'hacia adelante' o 'hacia atrás'.",
+                    "names": "$~dirección"
                 }
             ],
             "error": {
-                "connection": "$?",
-                "unavailable": "$?",
-                "unreadable": "$?",
-                "outline": "$?"
+                "connection": "$~No pude conectarme a internet para conseguir la fuente, así que no puedo descifrar sus letras.",
+                "unavailable": "$~No pude encontrar el archivo de esa fuente, así que no puedo descifrar sus letras.",
+                "unreadable": "$~Descargué la fuente, pero no pude leerla, así que no puedo descifrar sus letras.",
+                "outline": "$~Cargué la fuente, pero no pude obtener la forma de estas letras."
             }
         }
     },

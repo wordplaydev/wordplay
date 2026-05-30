@@ -3730,47 +3730,55 @@
             }
         },
         "Contour": {
-            "doc": ["$?"],
-            "names": ["$?"],
+            "doc": [
+                "$~/Hej! @FunctionDefinition här. Vill du se /formen/ på bokstäver?",
+                "$~Ge mig lite text och ett teckensnitt, så ritar jag konturerna av varje tecken som en @List med @Place -värden, en punkt efter en annan.",
+                "$~\\Contour('a' \"Noto Sans\")\\",
+                "$~Mata in dessa @Place -värden till en @List med @Phrase för att se konturen ritad som punkter:",
+                "$~\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' place: point)))\\",
+                "$~Du kan skala konturen med ett @Number of meters, flytta dess origo med ett @Place , välja en teckensnittsvikt, aktivera kursiv stil och ställa in `spacing` mellan punkter som ett avstånd i meter. Ett mindre `spacing` följer konturen närmare, med jämnt fördelade punkter längs både linjer och kurvor.",
+                "$~Vissa tecken, som färgemojis, har ingen kontur, så de lägger inte till några punkter. Medan jag hämtar teckensnittet ger jag dig en tom @List och fyller sedan i den när jag är redo."
+            ],
+            "names": ["$~🖋️", "$~Kontur"],
             "inputs": [
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~Texten vars glyfkonturer jag ska rita upp.",
+                    "names": "$~tecken"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~Teckensnittet att spåra glyferna i.",
+                    "names": "$~ansikte"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~Teckenhöjden i meter, skalad enligt konturen.",
+                    "names": "$~storlek"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~Ett valfritt origo @Place att förskjuta varje punkt med.",
+                    "names": "$~plats"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~Teckensnittstjockleken som ska användas, fäst vid närmaste ytstöd.",
+                    "names": "$~vikt"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~Huruvida den kursiva versionen av ansiktet ska användas, om det finns en.",
+                    "names": "$~kursiv"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~Avståndet i meter mellan samplade punkter längs konturen, hållet konsekvent längs både linjer och kurvor. Mindre värden spåras finare, ner till ett minimum av 0,01 meter.",
+                    "names": "$~mellanrum"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~Punkternas ordning: 'framåt' eller 'bakåt'.",
+                    "names": "$~riktning"
                 }
             ],
             "error": {
-                "connection": "$?",
-                "unavailable": "$?",
-                "unreadable": "$?",
-                "outline": "$?"
+                "connection": "$~Jag kunde inte komma åt internet för att hämta typsnittet, så jag kan inte spåra bokstäverna.",
+                "unavailable": "$~Jag kunde inte hitta filen med det typsnittet, så jag kan inte spåra dess bokstäver.",
+                "unreadable": "$~Jag laddade ner typsnittet, men jag kunde inte läsa det, så jag kan inte spåra bokstäverna.",
+                "outline": "$~Jag laddade typsnittet, men jag kunde inte få formen på bokstäverna."
             }
         }
     },

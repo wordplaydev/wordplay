@@ -3730,47 +3730,55 @@
             }
         },
         "Contour": {
-            "doc": ["$?"],
-            "names": ["$?"],
+            "doc": [
+                "$~Merhaba! Ben @FunctionDefinition . Harflerin /şeklini/ görmek ister misiniz?",
+                "$~Bana biraz metin ve bir yazı tipi verin, ben de her bir karakterin ana hatlarını, @Place değerlerinden oluşan bir @List olarak, birbiri ardına noktalar halinde çizeyim.",
+                "$~\\Contour('a' \"Noto Sans\")\\",
+                "$~@Place değerlerini bir @Phrase @List besleyerek ana hatların noktalar halinde çizildiğini görebilirsiniz:",
+                "$~\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' place: point)))\\",
+                "$~Anahatı @Number metre ile ölçeklendirebilir, başlangıç noktasını @Place ile taşıyabilir, yazı tipi kalınlığı seçebilir, italik yazı tipini açabilir ve noktalar arasındaki `aralığı` metre cinsinden mesafe olarak ayarlayabilirsiniz. Daha küçük bir `aralık`, anahatı daha yakından takip eder ve hem çizgiler hem de eğriler boyunca eşit aralıklı noktalar oluşturur.",
+                "$~Renk emojileri gibi bazı karakterlerin kenar çizgisi yoktur, bu nedenle puan eklemezler. Yazı tipini indirirken size boş bir @List vereceğim, hazır olduğumda ise onu dolduracağım."
+            ],
+            "names": ["$~🖋️", "$~Kontur"],
             "inputs": [
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~Harflerinin ana hatlarını çizmem gereken metin.",
+                    "names": "$~glifler"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~Harfleri çizmek için kullanılacak yazı tipi.",
+                    "names": "$~yüz"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~Sembolün yüksekliği metre cinsinden, ana hatlara göre ölçeklendirilmiştir.",
+                    "names": "$~boyut"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~Her noktanın ötelenmesi için isteğe bağlı bir başlangıç noktası @Place .",
+                    "names": "$~yer"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~Kullanılacak yazı tipi kalınlığı, yüzey desteklerine en yakın şekilde hizalanmış olarak.",
+                    "names": "$~ağırlık"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~Eğer varsa, yüzün italik versiyonunu kullanıp kullanmamak.",
+                    "names": "$~italik"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~Örneklenen noktalar arasındaki mesafe, çizgi ve eğriler boyunca tutarlı kalacak şekilde, metre cinsinden ifade edilmiştir. Daha küçük değerler, 0,01 metreye kadar daha hassas izleme sağlar.",
+                    "names": "$~aralık"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~Puanların sırası: 'ileri' veya 'geri'.",
+                    "names": "$~yön"
                 }
             ],
             "error": {
-                "connection": "$?",
-                "unavailable": "$?",
-                "unreadable": "$?",
-                "outline": "$?"
+                "connection": "$~İnternete bağlanamadığım için yazı tipini indiremedim, bu yüzden harflerini çizemiyorum.",
+                "unavailable": "$~O yazı tipinin dosyasını bulamadım, bu yüzden harflerini çizemiyorum.",
+                "unreadable": "$~Yazı tipini indirdim ama okuyamadım, bu yüzden harflerini takip edemiyorum.",
+                "outline": "$~Yazı tipini yükledim ama bu harflerin şeklini elde edemedim."
             }
         }
     },

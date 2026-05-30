@@ -3735,47 +3735,55 @@
             }
         },
         "Contour": {
-            "doc": ["$?"],
-            "names": ["$?"],
+            "doc": [
+                "$~/Salut! @FunctionDefinition aici. Vrei să vezi /forma/ literelor?",
+                "$~Dă-mi niște text și un font și voi trasa conturul fiecărui glif ca o @List de valori @Place , punct după punct.",
+                "$~\\Contour('a' \"Noto Sans\")\\",
+                "$~Introduceți acele valori @Place într-o @List de @Phrase pentru a vedea conturul desenat ca puncte:",
+                "$~\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' place: point)))\\",
+                "$~Puteți scala conturul cu un @Number de metri, puteți muta originea acestuia cu un @Place , puteți alege o grosime a fontului, puteți activa italic și puteți seta `spațierea` dintre puncte ca distanță în metri. O `spațiere` mai mică trasează conturul mai îndeaproape, cu puncte distanțate uniform atât de-a lungul liniilor, cât și de-a lungul curbelor.",
+                "$~Unele glife, cum ar fi emoji-urile colorate, nu au contur, deci nu adaugă puncte. În timp ce preiau fontul, vă voi da o @List goală, apoi o voi completa când sunt gata."
+            ],
+            "names": ["$~🖋️", "$~Contur"],
             "inputs": [
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~Textul ale cărui contururi de glife ar trebui să le trasez.",
+                    "names": "$~glife"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~Fontul în care se vor trasa glifele.",
+                    "names": "$~faţă"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~Înălțimea glifului în metri, scalarea conturului.",
+                    "names": "$~dimensiune"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~O origine opțională @Place pentru a decala fiecare punct.",
+                    "names": "$~loc"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~Grosimea fontului de utilizat, fixată la cel mai apropiat punct de sprijin al feței.",
+                    "names": "$~greutate"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~Dacă se utilizează versiunea italic a feței, dacă există una.",
+                    "names": "$~italice"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~Distanța în metri dintre punctele eșantionate de-a lungul conturului, menținută consistentă atât de-a lungul liniilor, cât și al curbelor. Valorile mai mici sunt trasate mai fin, până la un minim de 0,01 metri.",
+                    "names": "$~spațiere"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~Ordinea punctelor: „înainte” sau „înapoi”.",
+                    "names": "$~direcţie"
                 }
             ],
             "error": {
-                "connection": "$?",
-                "unavailable": "$?",
-                "unreadable": "$?",
-                "outline": "$?"
+                "connection": "$~Nu am putut accesa internetul ca să obțin fontul, așa că nu-i pot identifica literele.",
+                "unavailable": "$~Nu am găsit fișierul fontului respectiv, așa că nu-i pot identifica literele.",
+                "unreadable": "$~Am descărcat fontul, dar nu l-am putut citi, așa că nu-i pot urmări literele.",
+                "outline": "$~Am încărcat fontul, dar nu am reușit să obțin forma acestor litere."
             }
         }
     },

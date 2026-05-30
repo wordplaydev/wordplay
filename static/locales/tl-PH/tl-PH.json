@@ -3733,47 +3733,55 @@
             }
         },
         "Contour": {
-            "doc": ["$?"],
-            "names": ["$?"],
+            "doc": [
+                "$~/Kumusta! @FunctionDefinition nandito na. Gusto mo bang makita ang /hugis/ ng mga letra?",
+                "$~Bigyan mo ako ng ilang teksto at font face, at susubaybayan ko ang balangkas ng bawat glyph bilang isang @List of @Place values, sunod-sunod ang mga punto.",
+                "$~\\Contour('a' \"Noto Sans\")\\",
+                "$~Ipakain ang mga halagang @Place na iyon sa isang @List of @Phrase upang makita ang balangkas na iginuhit bilang mga tuldok:",
+                "$~\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' place: point)))\\",
+                "$~Maaari mong i-scale ang outline gamit ang @Number of meters, ilipat ang pinagmulan nito gamit ang @Place , pumili ng font weight, i-on ang italics, at itakda ang `spacing` sa pagitan ng mga punto bilang distansya sa metro. Ang mas maliit na `spacing` ay mas malapit na sumusubaybay sa outline, na may pantay na pagitan ng mga punto sa parehong linya at kurba.",
+                "$~Ang ilang mga glyph, tulad ng color emoji, ay walang outline, kaya wala silang dinadagdag na mga point. Habang kinukuha ko ang font, bibigyan kita ng isang blangkong @List , pagkatapos ay pupunan ko ito kapag handa na ako."
+            ],
+            "names": ["$~🖋️", "$~Kontur"],
             "inputs": [
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~Ang teksto na ang mga balangkas ng glyph ay dapat kong sundan.",
+                    "names": "$~mgaglyph"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~Ang mukha ng font para bakasin ang mga glyph.",
+                    "names": "$~mukha"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~Ang taas ng glyph sa metro, na sinusukat ang balangkas.",
+                    "names": "$~laki"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~Isang opsyonal na origin @Place para ma-offset ang bawat punto.",
+                    "names": "$~lugar"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~Ang bigat ng font na gagamitin, naka-snap sa pinakamalapit na suporta ng mukha.",
+                    "names": "$~timbang"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~Kung gagamitin ba ang italic na bersyon ng mukha, kung mayroon man.",
+                    "names": "$~mgaitaliko"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~Ang distansya sa metro sa pagitan ng mga na-sample na punto sa kahabaan ng balangkas, ay pinananatiling pare-pareho sa mga linya at kurba. Ang mas maliliit na halaga ay mas pino ang sinusundan, hanggang sa minimum na 0.01 metro.",
+                    "names": "$~pagitan"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~Ang pagkakasunod-sunod ng mga punto: 'pasulong' o 'paatras'.",
+                    "names": "$~direksyon"
                 }
             ],
             "error": {
-                "connection": "$?",
-                "unavailable": "$?",
-                "unreadable": "$?",
-                "outline": "$?"
+                "connection": "$~Hindi ko ma-access ang internet para makuha ang font, kaya hindi ko ma-trace ang mga letra nito.",
+                "unavailable": "$~Hindi ko mahanap ang file ng font na iyon, kaya hindi ko matunton ang mga letra nito.",
+                "unreadable": "$~Na-download ko na ang font, pero hindi ko mabasa, kaya hindi ko masubaybayan ang mga letra nito.",
+                "outline": "$~Ni-load ko na ang font, pero hindi ko makuha ang hugis ng mga letrang ito."
             }
         }
     },

@@ -3730,47 +3730,55 @@
             }
         },
         "Contour": {
-            "doc": ["$?"],
-            "names": ["$?"],
+            "doc": [
+                "$~Olá! @FunctionDefinition aqui. Quer ver o formato das letras?",
+                "$~Forneça-me um texto e uma fonte, e eu traçarei o contorno de cada glifo como uma @List de valores @Place , um ponto após o outro.",
+                "$~\\Contour('a' \"Noto Sans\")\\",
+                "$~Forneça estes valores @Place a uma @List de @Phrase para ver o contorno desenhado como pontos:",
+                "$~\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' place: point)))\\",
+                "$~Pode dimensionar o contorno com um @Number de metros, mover a sua origem com um @Place , escolher uma espessura de fonte, ativar o itálico e definir o `espaçamento` entre os pontos como uma distância em metros. Um `espaçamento` mais pequeno traça o contorno mais de perto, com pontos uniformemente espaçados ao longo de linhas e curvas.",
+                "$~Alguns glifos, como os emojis coloridos, não têm contorno, pelo que não acrescentam pontos. Enquanto procuro a fonte, enviar-lhe-ei uma @List vazia e depois preenchê-la-ei quando estiver pronto."
+            ],
+            "names": ["$~🖋️", "$~Contorno"],
             "inputs": [
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~O texto cujos contornos de glifos devo traçar.",
+                    "names": "$~glifos"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~A fonte utilizada para traçar os glifos.",
+                    "names": "$~rosto"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~A altura do glifo em metros, dimensionando o contorno.",
+                    "names": "$~tamanho"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~Uma origem @Place opcional para deslocar cada ponto.",
+                    "names": "$~local"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~A espessura da fonte a utilizar, ajustada ao suporte mais próximo da face.",
+                    "names": "$~peso"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~Indica se deve ser utilizada a versão em itálico da fonte, caso exista.",
+                    "names": "$~itálico"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~A distância em metros entre os pontos amostrados ao longo do contorno foi mantida constante tanto em linhas retas como em curvas. Valores mais baixos representam uma resolução mais fina, atingindo um mínimo de 0,01 metros.",
+                    "names": "$~espaçamento"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$?"
+                    "doc": "$~A ordem dos pontos: 'para a frente' ou 'para trás'.",
+                    "names": "$~direção"
                 }
             ],
             "error": {
-                "connection": "$?",
-                "unavailable": "$?",
-                "unreadable": "$?",
-                "outline": "$?"
+                "connection": "$~Não consegui aceder à internet para obter a fonte, por isso não consigo traçar as suas letras.",
+                "unavailable": "$~Não consegui encontrar o ficheiro dessa fonte, por isso não consigo rastrear as suas letras.",
+                "unreadable": "$~Fiz o download da fonte, mas não consegui lê-la, pelo que não consigo traçar as letras.",
+                "outline": "$~Carreguei a fonte, mas não consegui obter o formato dessas letras."
             }
         }
     },
