@@ -11,6 +11,7 @@ import type { CharacterName } from '../tutorial/Tutorial';
 import Concept from '@concepts/Concept';
 import { Purpose } from '@concepts/Purpose';
 import type StructureConcept from '@concepts/StructureConcept';
+import { CONVERT_SYMBOL } from '@parser/Symbols';
 
 export default class ConversionConcept extends Concept {
     /** The function this concept represents. */
@@ -46,20 +47,31 @@ export default class ConversionConcept extends Concept {
         return Emotion.cheerful;
     }
 
-    hasName() {
-        return false;
+    /**
+     * A concise, locale-independent identity built from the input/output type
+     * source, e.g. "#m → #ft". Conversions have no user-assigned name, so this
+     * doubles as both the display label and the URL token: it is what
+     * {@link getName} returns and what {@link hasName} matches on, which is how
+     * the guide round-trips a conversion through ?concept=Owner/<identifier>.
+     */
+    getIdentifier(): string {
+        return `${this.definition.input.toWordplay().trim()} ${CONVERT_SYMBOL} ${this.definition.output.toWordplay().trim()}`;
+    }
+
+    hasName(name: string) {
+        return name === this.getIdentifier();
     }
 
     getDocs(locales: Locales): Markup[] {
         return this.definition.docs.getMarkup(locales);
     }
 
-    getNames(locales: Locales) {
-        return [this.definition.getDescription(locales, this.context).toText()];
+    getNames() {
+        return [this.getIdentifier()];
     }
 
-    getName(locales: Locales) {
-        return this.definition.getDescription(locales, this.context).toText();
+    getName() {
+        return this.getIdentifier();
     }
 
     getRepresentation() {
