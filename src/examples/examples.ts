@@ -247,7 +247,14 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
             Object.fromEntries(
                 locale.map((l) => [localeToString(l), l.gallery.tools]),
             ),
-            ['Calculator', 'Literacy', 'Timer', 'Headlines', 'SentenceLength'],
+            [
+                'Calculator',
+                'Literacy',
+                'Timer',
+                'Headlines',
+                'SentenceLength',
+                'StudyModeMeter',
+            ],
             locales,
         ),
     ];
