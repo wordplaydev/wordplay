@@ -807,9 +807,14 @@
                     ? editorHorizontalStart - (!horizontal ? lineHeight : 0)
                     : priorTokenViewRect.left + viewportXOffset;
 
+            // When there's no prior token (the caret is at the very start of
+            // the source), align the caret's top with the current (first)
+            // token's top. Using editorVerticalStart here would add a few
+            // pixels of vertical offset, making position 0 sit lower than
+            // position 1+, which renders at the token's top.
             let priorTokenTop =
                 priorTokenViewRect === undefined
-                    ? editorVerticalStart
+                    ? tokenTop
                     : priorTokenViewRect.top + viewportYOffset;
 
             // 1) Trailing space (the caret is before the first newline)
