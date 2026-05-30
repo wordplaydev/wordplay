@@ -233,6 +233,22 @@
     // the embedded guide with a gallery, so unbound (standalone) uses keep false.
 
     let galleryID: string | null = $derived(project.getGallery());
+
+    // Re-derive the how-to filter default when the project's gallery actually
+    // changes while the guide is open. The first run only records the gallery (no
+    // re-derive), so a value the host restored from the URL survives load.
+    let lastGallery: string | null | undefined;
+    let galleryTracked = false;
+    $effect(() => {
+        const currentGallery = project.getGallery();
+        if (!galleryTracked) {
+            galleryTracked = true;
+            lastGallery = currentGallery;
+        } else if (currentGallery !== lastGallery) {
+            lastGallery = currentGallery;
+            galleryOnly = currentGallery == null && !standalone;
+        }
+    });
     let gallery: Gallery | undefined = $state(undefined);
     let galleryHowTos: GalleryHowTo[] = $state([]);
     $effect(() => {
