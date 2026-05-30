@@ -10,6 +10,10 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 - 🔣 We added `@Contour`, a new built-in input stream that traces the outline of letters in a font as a list of `@Place` values, so you can dot, trace, or animate the shape of any glyph. You can read about it in the [Guide](https://wordplay.dev/guide?concept=Contour). (#1167)
 
+### Changed
+
+- ⚡️ We made it easier to expand and collapse really big values.
+
 ### Fixed
 
 - 🤫 We made really long types in the guide a little shorter for readability.
