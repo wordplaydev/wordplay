@@ -13,6 +13,7 @@
     import RootView from '@components/project/RootView.svelte';
     import CodeView from '@components/concepts/CodeView.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import { summarizeUnionTypes } from '@components/concepts/elideNode';
 
     interface Props {
         concept: Concept;
@@ -58,7 +59,10 @@
 
         return undefined;
     }
-    let node = $derived(concept.getRepresentation($locales));
+    // Summarize long internal unions (e.g. a stream input's font-face union)
+    // so the representation reads as a compact summary rather than a wall of
+    // type options. Display-only; the concept's representation is unchanged.
+    let node = $derived(summarizeUnionTypes(concept.getRepresentation($locales)));
 
     // When locales or the concept change, retrieve the URL to the tutorial.
     $effect(() => {

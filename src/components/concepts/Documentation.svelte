@@ -9,6 +9,7 @@
     import Subheader from '@components/app/Subheader.svelte';
     import TutorialHighlight from '@components/app/TutorialHighlight.svelte';
     import CodeView from '@components/concepts/CodeView.svelte';
+    import { summarizeUnionTypes } from '@components/concepts/elideNode';
     import ConceptGroupView from '@components/concepts/ConceptGroupView.svelte';
     import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
     import ConceptsView from '@components/concepts/ConceptsView.svelte';
@@ -441,7 +442,9 @@
                 <div class="result">
                     <CodeView
                         {concept}
-                        node={concept.getRepresentation($locales)}
+                        node={summarizeUnionTypes(
+                            concept.getRepresentation($locales),
+                        )}
                     />
                     <!-- Show the matching text -->
                     {#if text.length > 1 || concept.getName($locales, false) !== text[0]}
