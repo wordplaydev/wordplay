@@ -4793,6 +4793,12 @@
                     "off": "$~afficher les commandes supplémentaires"
                 },
                 "popup": "$~Commandes supplémentaires"
+            },
+            "color": {
+                "pick": {
+                    "label": "$~choisir une couleur",
+                    "tip": "$~Sélectionnez une couleur sur votre écran."
+                }
             }
         },
         "tile": {
@@ -6413,10 +6419,6 @@
                     "allColor": {
                         "label": "$~toutes les couleurs",
                         "tip": "$~Sélectionnez toutes les formes de la même couleur que la sélection."
-                    },
-                    "pick": {
-                        "label": "$~choisir une couleur",
-                        "tip": "$~Sélectionnez une couleur sur votre écran pour dessiner les pixels et les formes."
                     },
                     "saturationUp": {
                         "label": "$~saturation",

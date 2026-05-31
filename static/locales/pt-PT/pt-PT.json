@@ -4790,6 +4790,12 @@
                     "off": "$~mostrar controlos adicionais"
                 },
                 "popup": "$~Controles adicionais"
+            },
+            "color": {
+                "pick": {
+                    "label": "$~escolha a cor",
+                    "tip": "$~Selecione uma cor no seu ecrã."
+                }
             }
         },
         "tile": {
@@ -6643,10 +6649,6 @@
                     "allColor": {
                         "label": "$~todas as cores",
                         "tip": "$~Selecione todas as formas com a mesma cor da seleção."
-                    },
-                    "pick": {
-                        "label": "$~escolha a cor",
-                        "tip": "$~Selecione uma cor do seu ecrã para utilizar no desenho de pixéis e formas."
                     },
                     "saturationUp": {
                         "label": "$~saturação",

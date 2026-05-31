@@ -4790,6 +4790,12 @@
                     "off": "$~visa extra kontroller"
                 },
                 "popup": "$~Ytterligare kontroller"
+            },
+            "color": {
+                "pick": {
+                    "label": "$~välj färg",
+                    "tip": "$~välj en färg från din skärm"
+                }
             }
         },
         "tile": {
@@ -6502,10 +6508,6 @@
                     "allColor": {
                         "label": "$~alla i färg",
                         "tip": "$~markera alla former med samma färg som markeringen"
-                    },
-                    "pick": {
-                        "label": "$~välj färg",
-                        "tip": "$~välj en färg från skärmen som ska användas för att rita pixlar och former"
                     },
                     "saturationUp": {
                         "label": "$~mättnad",

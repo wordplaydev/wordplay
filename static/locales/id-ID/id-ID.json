@@ -4795,6 +4795,12 @@
                     "off": "$~Tampilkan kontrol tambahan"
                 },
                 "popup": "$~Kontrol tambahan"
+            },
+            "color": {
+                "pick": {
+                    "label": "$~pilih warna",
+                    "tip": "$~Pilih warna dari layar Anda"
+                }
             }
         },
         "tile": {
@@ -6742,10 +6748,6 @@
                     "allColor": {
                         "label": "$~semua warna",
                         "tip": "$~Pilih semua bentuk dengan warna yang sama dengan yang dipilih."
-                    },
-                    "pick": {
-                        "label": "$~pilih warna",
-                        "tip": "$~Pilih warna dari layar Anda untuk digunakan saat menggambar piksel dan bentuk."
                     },
                     "saturationUp": {
                         "label": "$~kejenuhan",

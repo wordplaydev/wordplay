@@ -46,7 +46,7 @@
 </script>
 
 <script lang="ts">
-    import { LCHtoCSS } from '@output/ColorJS';
+    import { LCHtoCSS, RGBtoLCH } from '@output/ColorJS';
     import { describeColorLocalized } from '@output/BasicColors';
     import { getFirstText } from '@locale/LocaleText';
     import { locales } from '@db/Database';
@@ -126,6 +126,37 @@
             hue,
         ),
     );
+
+    /** Whether the browser supports the EyeDropper API, gating the picker button. */
+    const canPick = typeof window !== 'undefined' && 'EyeDropper' in window;
+
+    /** Open the OS color picker (eyedropper) and set the chooser to the
+     *  selected screen color, converting from sRGB to the LCH space the
+     *  chooser uses. */
+    async function pickColor() {
+        if (window.EyeDropper === undefined) return;
+
+        const dropper = new window.EyeDropper();
+        const result = await dropper.open();
+        const match = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(
+            result.sRGBHex,
+        );
+        const rgb = match
+            ? {
+                  r: parseInt(match[1], 16), // Convert the hex pair to a decimal number
+                  g: parseInt(match[2], 16),
+                  b: parseInt(match[3], 16),
+              }
+            : null;
+        if (rgb === null) return;
+
+        const lch = RGBtoLCH(rgb.r / 255, rgb.g / 255, rgb.b / 255);
+
+        lightness = Math.round(lch.coords[0] ?? 0) / 100;
+        chroma = Math.round(lch.coords[1] ?? 0);
+        hue = Math.round(lch.coords[2] ?? 0);
+        broadcast();
+    }
 </script>
 
 <div class="component" {id}>
@@ -170,6 +201,14 @@
             style:top="{(1 - chromaToPercent(chroma)) * hueHeight}px"
         ></div>
     </div>
+    {#if editable && canPick}
+        <Button
+            tip={(l) => l.ui.widget.color.pick.tip}
+            padding={false}
+            icon="💧"
+            action={() => pickColor()}
+        ></Button>
+    {/if}
     <div class="primary">
         {#each [...palette, ...Primary] as primary}{@const swatchLabel =
                 describeColorLocalized(

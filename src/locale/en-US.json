@@ -4789,6 +4789,12 @@
                 "bullet": "bullet",
                 "attention": "highlight this expression"
             },
+            "color": {
+                "pick": {
+                    "label": "pick color",
+                    "tip": "select a color from your screen"
+                }
+            },
             "backtotop": "back to top",
             "overflow": {
                 "button": {
@@ -6755,10 +6761,6 @@
                     "allColor": {
                         "label": "all of color",
                         "tip": "select all shapes with the same color as the selection"
-                    },
-                    "pick": {
-                        "label": "pick color",
-                        "tip": "select a color from your screen to use for drawing pixels and shapes"
                     },
                     "saturationUp": {
                         "label": "saturation",

@@ -4795,6 +4795,12 @@
                     "off": "$~afișați controale suplimentare"
                 },
                 "popup": "$~Controale suplimentare"
+            },
+            "color": {
+                "pick": {
+                    "label": "$~alege culoarea",
+                    "tip": "$~selectați o culoare de pe ecran"
+                }
             }
         },
         "tile": {
@@ -6739,10 +6745,6 @@
                     "allColor": {
                         "label": "$~toată culoarea",
                         "tip": "$~selectați toate formele cu aceeași culoare ca selecția"
-                    },
-                    "pick": {
-                        "label": "$~alege culoarea",
-                        "tip": "$~selectați o culoare de pe ecran pentru a o utiliza pentru desenarea pixelilor și formelor"
                     },
                     "saturationUp": {
                         "label": "$~saturaţie",

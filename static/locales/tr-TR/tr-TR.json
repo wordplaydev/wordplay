@@ -4790,6 +4790,12 @@
                     "off": "$~ek kontrolleri göster"
                 },
                 "popup": "$~Ek kontroller"
+            },
+            "color": {
+                "pick": {
+                    "label": "$~renk seçin",
+                    "tip": "$~Ekranınızdan bir renk seçin."
+                }
             }
         },
         "tile": {
@@ -6498,10 +6504,6 @@
                     "allColor": {
                         "label": "$~tüm renkler",
                         "tip": "$~Seçimle aynı renkteki tüm şekilleri seçin."
-                    },
-                    "pick": {
-                        "label": "$~renk seçin",
-                        "tip": "$~Piksel ve şekil çizmek için ekranınızdan bir renk seçin."
                     },
                     "saturationUp": {
                         "label": "$~doygunluk",

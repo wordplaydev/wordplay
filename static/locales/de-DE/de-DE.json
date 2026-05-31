@@ -4793,6 +4793,12 @@
                     "off": "$~Zusätzliche Steuerelemente anzeigen"
                 },
                 "popup": "$~Zusätzliche Bedienelemente"
+            },
+            "color": {
+                "pick": {
+                    "label": "$~Farbe auswählen",
+                    "tip": "$~Wählen Sie eine Farbe von Ihrem Bildschirm aus."
+                }
             }
         },
         "tile": {
@@ -6413,10 +6419,6 @@
                     "allColor": {
                         "label": "$~alle Farben",
                         "tip": "$~Wählen Sie alle Formen mit der gleichen Farbe wie die Auswahl aus."
-                    },
-                    "pick": {
-                        "label": "$~Farbe auswählen",
-                        "tip": "$~Wähle eine Farbe von deinem Bildschirm aus, die zum Zeichnen von Pixeln und Formen verwendet werden soll."
                     },
                     "saturationUp": {
                         "label": "$~Sättigung",

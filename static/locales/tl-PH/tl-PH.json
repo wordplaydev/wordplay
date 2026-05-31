@@ -4793,6 +4793,12 @@
                     "off": "$~magpakita ng mga karagdagang kontrol"
                 },
                 "popup": "$~Mga karagdagang kontrol"
+            },
+            "color": {
+                "pick": {
+                    "label": "$~pumili ng kulay",
+                    "tip": "$~pumili ng kulay mula sa iyong screen"
+                }
             }
         },
         "tile": {
@@ -6646,10 +6652,6 @@
                     "allColor": {
                         "label": "$~lahat ng kulay",
                         "tip": "$~piliin ang lahat ng hugis na may parehong kulay gaya ng napili"
-                    },
-                    "pick": {
-                        "label": "$~pumili ng kulay",
-                        "tip": "$~pumili ng kulay mula sa iyong screen na gagamitin para sa pagguhit ng mga pixel at hugis"
                     },
                     "saturationUp": {
                         "label": "$~saturation",

@@ -51,8 +51,8 @@
     import type LocaleText from '@locale/LocaleText';
     import { type ModeText } from '@locale/UITexts';
     import ConceptLink, { CharacterName } from '@nodes/ConceptLink';
-    import { RGBtoLCH } from '@output/ColorJS';
     import { toProgram } from '@parser/parseProgram';
+    import { RGBtoLCH } from '@output/ColorJS';
     import {
         BORROW_SYMBOL,
         CANCEL_SYMBOL,
@@ -910,35 +910,6 @@
                 s.fill.c === fill.c &&
                 s.fill.h === fill.h,
         );
-    }
-
-    async function pickColor() {
-        if (window.EyeDropper === undefined) return;
-
-        const dropper = new window.EyeDropper();
-        const result = await dropper.open();
-        // Do something with the selected color
-        const match = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(
-            result.sRGBHex,
-        );
-        const rgb = match
-            ? {
-                  r: parseInt(match[1], 16), // Convert the hex pair to a decimal number
-                  g: parseInt(match[2], 16),
-                  b: parseInt(match[3], 16),
-              }
-            : null;
-        if (rgb === null) return;
-
-        const lch = RGBtoLCH(rgb.r / 255, rgb.g / 255, rgb.b / 255);
-
-        currentFill = {
-            l: Math.round(lch.coords[0] ?? 0) / 100,
-            c: Math.round(lch.coords[1] ?? 0),
-            h: Math.round(lch.coords[2] ?? 0),
-        };
-        currentFillSetting = 'set';
-        mode = DrawingMode.Pixel;
     }
 
     async function saturation(delta: number) {
@@ -2205,14 +2176,6 @@
             icon={SELECTION_SYMBOL}
             label={(l) => l.ui.page.character.button.allColor.label}
         />
-        {#if 'EyeDropper' in window}
-            <Button
-                tip={(l) => l.ui.page.character.button.pick.tip}
-                action={() => pickColor()}
-                icon="🌓"
-                label={(l) => l.ui.page.character.button.pick.label}
-            />
-        {/if}
         <Button
             tip={(l) => l.ui.page.character.button.saturationUp.tip}
             action={() => saturation(5)}

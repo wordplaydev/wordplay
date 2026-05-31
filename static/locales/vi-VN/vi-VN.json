@@ -4790,6 +4790,12 @@
                     "off": "$~hiển thị các điều khiển bổ sung"
                 },
                 "popup": "$~Các điều khiển bổ sung"
+            },
+            "color": {
+                "pick": {
+                    "label": "$~chọn màu",
+                    "tip": "$~Chọn một màu từ màn hình của bạn"
+                }
             }
         },
         "tile": {
@@ -6608,10 +6614,6 @@
                     "allColor": {
                         "label": "$~tất cả màu sắc",
                         "tip": "$~Chọn tất cả các hình có cùng màu với hình đã chọn."
-                    },
-                    "pick": {
-                        "label": "$~chọn màu",
-                        "tip": "$~Chọn một màu từ màn hình của bạn để sử dụng cho việc vẽ các điểm ảnh và hình dạng."
                     },
                     "saturationUp": {
                         "label": "$~độ bão hòa",

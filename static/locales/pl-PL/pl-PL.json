@@ -4798,6 +4798,12 @@
                     "off": "$~pokaż dodatkowe elementy sterujące"
                 },
                 "popup": "$~Dodatkowe elementy sterujące"
+            },
+            "color": {
+                "pick": {
+                    "label": "$~wybierz kolor",
+                    "tip": "$~wybierz kolor z ekranu"
+                }
             }
         },
         "tile": {
@@ -6514,10 +6520,6 @@
                     "allColor": {
                         "label": "$~wszystkie kolorowe",
                         "tip": "$~wybierz wszystkie kształty o tym samym kolorze co zaznaczenie"
-                    },
-                    "pick": {
-                        "label": "$~wybierz kolor",
-                        "tip": "$~wybierz kolor z ekranu, którego będziesz używać do rysowania pikseli i kształtów"
                     },
                     "saturationUp": {
                         "label": "$~nasycenie",

@@ -15118,10 +15118,6 @@
                           "$ref": "#/definitions/ButtonText",
                           "description": "Paste button text"
                         },
-                        "pick": {
-                          "$ref": "#/definitions/ButtonText",
-                          "description": "The color picker button"
-                        },
                         "redo": {
                           "$ref": "#/definitions/ButtonText",
                           "description": "The redo tooltip"
@@ -15164,7 +15160,6 @@
                         "redo",
                         "all",
                         "allColor",
-                        "pick",
                         "saturationUp",
                         "saturationDown",
                         "end",
@@ -19131,6 +19126,20 @@
                   "description": "[plain] The back to top link label",
                   "type": "string"
                 },
+                "color": {
+                  "additionalProperties": false,
+                  "description": "The color chooser widget",
+                  "properties": {
+                    "pick": {
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "The eyedropper button that picks a color from the screen"
+                    }
+                  },
+                  "required": [
+                    "pick"
+                  ],
+                  "type": "object"
+                },
                 "confirm": {
                   "additionalProperties": false,
                   "description": "A confirm button",
@@ -19262,6 +19271,7 @@
                 "home",
                 "table",
                 "formatted",
+                "color",
                 "backtotop",
                 "overflow"
               ],

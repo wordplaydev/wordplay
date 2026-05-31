@@ -127,6 +127,11 @@ type UITexts = {
             /** [plain] The highlight line of code button (👀) */
             attention: string;
         };
+        /** The color chooser widget */
+        color: {
+            /** The eyedropper button that picks a color from the screen */
+            pick: ButtonText;
+        };
         /** [plain] The back to top link label */
         backtotop: string;
         /** The overflow toolbar toggle that reveals clipped toolbar items */

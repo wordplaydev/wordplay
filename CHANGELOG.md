@@ -25,6 +25,7 @@ This week focused on improving many aspects of the Guide, including speed, usabi
 - ➕ We made it easier to expand and collapse really big values.
 - ⌨️ When pressing up on the first line or down on the last line, you go the beginning and end of the source.
 - 🚦 When you divide `÷` or take a remainder `%` by a number that might be zero, Wordplay now warns you and offers to fix it with `??` so you can pick a backup value. Before, dividing by zero could quietly give a broken number or stop your program with a confusing message.
+- 🎨 The color picker now has an eyedropper button you can use to grab any color from your screen. It works everywhere you choose a color, not just when drawing characters. (#1156)
 
 ### Fixed
 
