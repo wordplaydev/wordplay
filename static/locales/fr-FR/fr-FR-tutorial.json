@@ -2963,7 +2963,7 @@
                             "serious",
                             "$~Voici un exemple. Vous voyez le flux @Key ? En plaçant ∆ avant la question, /Ce flux a-t-il changé ?/ Avant qu'il ne change, j'évalue la valeur initiale, \\1m\\. Mais lorsque la touche espace est enfoncée, @Program réévalue et j'évalue l'expression *suivante*, qui est \\1m\\ plus la valeur du flux précédent ; cela est représenté par \\.\\. Cela ajoute \\1m\\ à la taille de la phrase, ce qui fait que le mot devient de plus en plus gros."
                         ],
-                        ["fix", "Phrase('hi' size: 1m … ∆ Key(' ') … 1m + .)"],
+                        ["fix", "Phrase('hi' size: 1m … ∆ Key(' ') … 1m + ⬚)"],
                         null,
                         [
                             "FunctionDefinition",
@@ -3010,7 +3010,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' size: 1m … Key(' ') = ' ' … 1m + .)"
+                            "Phrase('hi' size: 1m … Key(' ') = ' ' … 1m + ⬚)"
                         ],
                         null,
                         [

@@ -132,7 +132,8 @@
         "KannadaNumeral": "$~Kannada rakamı",
         "TamilNumeral": "$~tamil rakamı",
         "TeluguNumeral": "$~Telugu rakamı",
-        "LanguageJoin": "$~dil birleştirici"
+        "LanguageJoin": "$~dil birleştirici",
+        "Translate": "$~çevir"
     },
     "node": {
         "Dimension": {
@@ -682,7 +683,7 @@
             "emotion": "excited",
             "doc": [
                 "$~Dostum, bir türden diğerine dönüşümleri tanımlıyorum! @Block'a giriyorum, şöyle bir şey:",
-                "$~\\→ #kedi #kedi . ÷ 2\n6kedi→#kedi\\",
+                "$~\\→ #kedi #kedi ⬚ ÷ 2\n6kedi→#kedi\\",
                 "$~Kedileri nasıl kedilere dönüştürdüğümü gördün mü? Harika!",
                 "$~\\.\\'nin orada ne yaptığını merak ediyor olabilirsiniz. Bu, dönüştürülen değeri temsil eder. Bunu kullanıyorum çünkü değerin başka türlü bir adı yoktur."
             ],
@@ -1485,20 +1486,22 @@
             "description": "$~geçerli yapı değerine başvur",
             "emotion": "serious",
             "doc": [
-                "$~Bazen bir değerin örtüklüğüne isim vermek yerine, ona atıfta bulunmak faydalı olabilir.",
-                "$~Örneğin, dönüştürülen değeri adlandırmayan yeni bir @ConversionDefinition yapmak istediğinizi varsayalım. Bana başvurabilirsiniz:",
-                "$~\\→ #gökkuşakları #sevinçler . × 1000000sevinçler\n2gökkuşakları → #sevinçler\\",
-                "$~Beni orada gökkuşağı sayısını temsil ederken görüyor musun?",
-                "$~Veya bir @Reaction yapmak istediğinizi, ancak en son değeri adlandırmak zorunda olmadığınızı varsayalım:",
-                "$~\\2 … ∆ Zaman(1000ms) … . × 2\\",
-                "$~Beni kontrol edin, önceki tepki değerini temsil ediyor.",
-                "$~Çok sık gelmiyorum ama geldiğimde @Bind'den gerçekten bir değer elde etmeye yardımcı olabiliyorum!"
+                "$~Bazen bir değeri adlandırmak yerine dolaylı olarak belirtmek faydalı olabilir. İşte ben de öyleyim — \\⬚\\ , etrafındaki kodun üzerinde çalıştığı değeri temsil eden küçük bir kare.",
+                "$~@ConversionDefinition içinde, dönüştürülen değer benim:",
+                "$~\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
+                "$~@Reaction içinde, en son değer benim:",
+                "$~\\2 … ∆ Time(1000ms) … ⬚ × 2\\",
+                "$~@Translate ifadesinin içinde, eşlenen mevcut öğe benim, bu nedenle her değere bir ekleniyor:",
+                "$~\\[1 2 3] ↦ ⬚ + 1\\",
+                "$~Ve bir @StructureDefinition içinde, ben mevcut değerin kendisiyim, bu yüzden tıpkı başka bir değerin parçalarına \\other.rank\\ ile ulaşabildiğim gibi, kendi parçalarıma \\⬚.rank\\ \\other.rank\\ ile ulaşabilirim:",
+                "$~\\•Card(rank•#) (\n\tƒ beats(other•Card) ⬚.rank > other.rank\n)\n\nCard(10).beats(Card(7))\\",
+                "$~Çok sık ortaya çıkmıyorum ama çıktığımda, bir @Bind gerçekten değer elde edilmesine yardımcı olabiliyorum!"
             ],
             "start": "$~$value olarak belirlenmiştir.",
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~bureferansıyanlışyerekoydum",
-                    "explanation": "$~Sadece bir yapı, dönüşüm veya reaksiyonda yer almama izin veriliyor.",
+                    "explanation": "$~Sadece yapı, dönüşüm, reaksiyon veya çeviri işlemlerine katılmama izin veriliyor.",
                     "resolution": "$~Yer tutucu ile değiştirin"
                 }
             }
@@ -1596,7 +1599,7 @@
         },
         "AnyType": {
             "name": "$~herhangi",
-            "description": "$~olası herhangi bir türle eşleş",
+            "description": "$~herhangi",
             "emotion": "curious",
             "doc": "$~Herhangi bir olası türü temsil ediyorum. Bazen bir şeyin ne tür bir değere sahip olduğunu bilmediğim için ortaya çıkıyorum, bu yüzden herhangi bir şey olabilir."
         },
@@ -1616,7 +1619,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Bir ismin @ConversionDefinition olduğunu belirtmek için @Bind ile çalışırım. Muhtemelen beni kullanmanıza gerek yoktur, çünkü pek çok kişi beni bir değer olarak kullanmaz, ancak kullansaydınız, şöyle görünürdüm:",
-                "$~\\magic•?→'': → ? '' . ? 'evet' 'hayır'\\"
+                "$~\\magic•?→'': → ? '' ⬚ ? 'evet' 'hayır'\\"
             ]
         },
         "FormattedType": {
@@ -1846,6 +1849,32 @@
             "description": "$~$type'i işlev olmayan olarak işaretle",
             "emotion": "confused",
             "doc": "$~Bazılarımız fonksiyon bekliyordu; fonksiyon alamayınca ben geliyorum."
+        },
+        "Translate": {
+            "name": "$~çevir",
+            "description": "$~Bir koleksiyonu yeni bir koleksiyona eşle",
+            "emotion": "excited",
+            "doc": [
+                "$~AMAN TANRIM! Bir sürü eşyanız var ve hepsine aynı şeyi yapmak mı istiyorsunuz?? İşte ben de öyleyim! Tam olarak bunu yapıyorum!!",
+                "$~Soluma bir koleksiyon koy, okumu çiz \\↦\\ , sonra sağıma her öğenin neye DÖNÜŞMESİ gerektiğini yaz — @This şu anda elimde tuttuğum öğeyi belirtmek için kullan!",
+                "$~\\[1 2 3] ↦ ⬚ + 1\\ size \\[2 3 4]\\ verir. İşte bu! Her sayıya bir eklenmiş hali, döngü yok, @FunctionDefinition yok, karmaşa yok!",
+                "$~Verilerden @Phrase çıktısı oluşturmada HARİKA biriyim! Bir isim listeniz mi var? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ ve artık HER isim için bir ifade var!!",
+                "$~@List , @Set , @Map (haritanın DEĞERLERİNİ değiştiriyorum, anahtarlar oldukları yerde kalıyor!) ve hatta @Table üzerinde çalışıyorum!",
+                "$~Daha gelişmiş bir şey mi istiyorsunuz? Mesela her öğenin dizini veya birçok yerde yeniden kullanabileceğiniz bir işlev mi? O zaman @List/translate gibi daha sakin, yetişkin kuzenlerimi ziyaret edin. Ama hızlı günlük haritalama için ben buradayım!!"
+            ],
+            "start": "$~Dur bir dakika, $expression klasöründeki her şeyi alayım!",
+            "finish": "$~İşte karşınızda yepyeni koleksiyonunuz! $value",
+            "next": "$~Sonraki öğe: $value !",
+            "conflict": {
+                "ExpectedCollection": {
+                    "name": "$~beklenentahsilat",
+                    "explanation": "$~Koleksiyon dönüştürme işleminin sol tarafının bir koleksiyon olması gerektiğini bekliyordum, ancak $type aldım."
+                },
+                "ExpectedThis": {
+                    "name": "$~Bunubekliyordum.",
+                    "explanation": "$~@This ifadesini bu koleksiyondaki bir öğeye atıfta bulunmak için mi kullandınız?"
+                }
+            }
         }
     },
     "basis": {
@@ -5065,7 +5094,9 @@
                     "noSelection": "$~Hiçbir şey seçilmedi.",
                     "noMove": "$~Daha fazla ilerleyemiyorum"
                 },
-                "nextMatch": "$~Sonraki arama sonucuna git"
+                "nextMatch": "$~Sonraki arama sonucuna git",
+                "insertTranslate": "$~çeviri sembolünü ekle",
+                "insertThis": "$~Bu sembolü ekleyin"
             },
             "options": {
                 "locale": {

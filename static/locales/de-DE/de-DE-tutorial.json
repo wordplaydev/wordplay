@@ -2943,7 +2943,7 @@
                             "serious",
                             "$~Hier ist ein Beispiel. Sehen Sie den @Key-Stream? Ich setze ∆ vor die Frage /Hat sich dieser Stream geändert?/ Bevor er sich ändert, bewerte ich den Anfangswert \\1m\\. Aber wenn die Leertaste gedrückt wird, wertet @Program neu aus und ich bewerte den *nächsten* Ausdruck, der \\1m\\ plus den vorherigen Stream-Wert ist; dieser wird durch \\.\\ dargestellt. Dadurch wird \\1m\\ zur Länge der Phrase hinzugefügt, wodurch das Wort immer größer wird."
                         ],
-                        ["fix", "Phrase('hi' size: 1m … ∆ Key(' ') … 1m + .)"],
+                        ["fix", "Phrase('hi' size: 1m … ∆ Key(' ') … 1m + ⬚)"],
                         null,
                         [
                             "FunctionDefinition",
@@ -2990,7 +2990,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' size: 1m … Key(' ') = ' ' … 1m + .)"
+                            "Phrase('hi' size: 1m … Key(' ') = ' ' … 1m + ⬚)"
                         ],
                         null,
                         [

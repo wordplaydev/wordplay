@@ -2979,7 +2979,7 @@
                             "serious",
                             "$~Narito ang isang halimbawa. Nakikita mo ba ang @Key stream? Kapag inilagay mo ang ∆ bago ito magtanong, /Nagbago ba ang stream na ito?/ Bago ito magbago, sinusuri ko ito sa paunang halaga na \\1m\\. Ngunit kapag pinindot ang space key, muling sinusuri ng @Program, at sinusuri ko ito sa *susunod* na ekspresyon, na \\1m\\ kasama ang dating halaga ng stream; na kinakatawan ng \\.\\. Nagdadagdag ito ng \\1m\\ sa laki ng parirala, na nagpapalaki nang nagpapalaki sa salita."
                         ],
-                        ["fix", "Phrase('hi' size: 1m … ∆ Key(' ') … 1m + .)"],
+                        ["fix", "Phrase('hi' size: 1m … ∆ Key(' ') … 1m + ⬚)"],
                         null,
                         [
                             "FunctionDefinition",
@@ -3026,7 +3026,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' size: 1m … Key(' ') = ' ' … 1m + .)"
+                            "Phrase('hi' size: 1m … Key(' ') = ' ' … 1m + ⬚)"
                         ],
                         null,
                         [

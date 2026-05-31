@@ -304,6 +304,10 @@
           "type": "string"
         },
         {
+          "const": "Translate",
+          "type": "string"
+        },
+        {
           "const": "Delete",
           "type": "string"
         },

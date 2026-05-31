@@ -2947,7 +2947,7 @@
                             "serious",
                             "$~Eis um exemplo. Vê o fluxo @Key? Colocar ∆ antes dele pergunta: /Este fluxo mudou?/ Antes de mudar, avalio para o valor inicial, \\1m\\. Mas quando a tecla espaço é pressionada, o @Program reavalia e eu avalio para a *próxima* expressão, que é \\1m\\ mais o valor do fluxo anterior; este é representado por \\. \\. Isto acrescenta \\1m\\ ao tamanho da frase, fazendo com que a palavra fique cada vez maior."
                         ],
-                        ["fix", "Phrase('hi' size: 1m … ∆ Key(' ') … 1m + .)"],
+                        ["fix", "Phrase('hi' size: 1m … ∆ Key(' ') … 1m + ⬚)"],
                         null,
                         [
                             "FunctionDefinition",
@@ -2994,7 +2994,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' size: 1m … Key(' ') = ' ' … 1m + .)"
+                            "Phrase('hi' size: 1m … Key(' ') = ' ' … 1m + ⬚)"
                         ],
                         null,
                         [

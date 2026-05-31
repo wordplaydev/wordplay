@@ -2,7 +2,7 @@
 === 开始
 click: ∆ Button()
 
-clickCount: 0 … click … 1 + .
+clickCount: 0 … click … 1 + clickCount
 
 basketballPlace: (clickCount % 2) = 0 ? Place(x: Pointer().x y: 8m z: 0m) Motion(place: Place(0m 8m 0m))
 
@@ -18,7 +18,7 @@ basketXPlace: Random(-9000m 9000m) ÷ 1000 … (click & ((clickCount % 2) = 1)) 
 
 ¶ 记录得分和尝试次数 ¶
 ¶ 记录得分和尝试次数 ¶
-score: 0 … (click & ((clickCount % 2) = 1) & ((basketXPlace + 0.81m) > (basketball.place ?? Place()).x) & ((basketXPlace - 0.8m) < (basketball.place ?? Place()).x)) & (2.1m > (basketball.place ?? Place()).y) … 1 + .
+score: 0 … (click & ((clickCount % 2) = 1) & ((basketXPlace + 0.81m) > (basketball.place ?? Place()).x) & ((basketXPlace - 0.8m) < (basketball.place ?? Place()).x)) & (2.1m > (basketball.place ?? Place()).y) … 1 + ⬚
 
 attempt: (clickCount ÷ 2).roundUp()
 

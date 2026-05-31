@@ -132,7 +132,8 @@
         "KannadaNumeral": "$~numeral na Kannada",
         "TamilNumeral": "$~numeral na Tamil",
         "TeluguNumeral": "$~numeral na Telugu",
-        "LanguageJoin": "$~tagapagdugtong ng wika"
+        "LanguageJoin": "$~tagapagdugtong ng wika",
+        "Translate": "$~isalin"
     },
     "node": {
         "Dimension": {
@@ -690,7 +691,7 @@
             },
             "doc": [
                 "$~Dude, binibigyang-kahulugan ko ang mga conversion mula sa isang uri patungo sa isa pa! Pupunta ako sa @Block, parang ganito:",
-                "$~\\→ #kuting #pusa . ÷ 2\n6kuting→#pusa\\",
+                "$~\\→ #kuting #pusa ⬚ ÷ 2\n6kuting→#pusa\\",
                 "$~Kita mo kung paano ko ginawang pusa ang mga kuting? Grabe!",
                 "$~Maaaring nagtataka ka kung ano ang ginagawa ng \\.\\ doon. Kinakatawan nito ang value na kino-convert. Ginagamit ko iyon dahil wala namang pangalan ang value kung hindi."
             ],
@@ -1488,20 +1489,22 @@
             "description": "$~sumangguni sa kasalukuyang halaga ng istruktura",
             "emotion": "serious",
             "doc": [
-                "$~Minsan, makakatulong na tukuyin ang isang halaga nang hindi ipinahihiwatig, sa halip na pangalanan ito.",
-                "$~Halimbawa, ipagpalagay na gusto mong gumawa ng bagong @ConversionDefinition, na hindi nagpapangalan sa value na kino-convert. Maaari mo na lang itong i-refer sa akin:",
-                "$~\\→ #bahaghari #mga kagalakan . × 1000000mga kagalakan\n2bahaghari → #mga kagalakan\\",
-                "$~Nakikita mo ba ako roon, na kumakatawan sa bilang ng mga bahaghari?",
-                "$~O ipagpalagay na gusto mong gumawa ng @Reaction, ngunit hindi mo kailangang pangalanan ang pinakabagong halaga:",
-                "$~\\2 … ∆ Oras(1000ms) … . × 2\\",
-                "$~Tingnan mo ako, na kumakatawan sa nakaraang halaga ng reaksyon.",
-                "$~Hindi ako madalas sumipot, pero kapag sumipot ako, malaki ang maitutulong ko para makuha ang halaga ng isang @Bind!"
+                "$~Minsan, makakatulong na tukuyin ang isang halaga nang hindi sinasabi, sa halip na pangalanan ito. Ako iyon — \\⬚\\ , isang maliit na parisukat na kumakatawan sa anumang halaga na pinagtatrabahuhan ng nakapalibot na code.",
+                "$~Sa loob ng isang @ConversionDefinition , ako ang halagang kino-convert:",
+                "$~\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
+                "$~Sa loob ng isang @Reaction , ako ang pinakabagong halaga:",
+                "$~\\2 … ∆ Time(1000ms) … ⬚ × 2\\",
+                "$~Sa loob ng isang @Translate , ako ang kasalukuyang item na mina-map, kaya nagdaragdag ito ng isa sa bawat halaga:",
+                "$~\\[1 2 3] ↦ ⬚ + 1\\",
+                "$~At sa loob ng isang @StructureDefinition , ako ang kasalukuyang halaga mismo, para maabot ko ang sarili kong mga bahagi gamit ang \\⬚.rank\\ , tulad ng pag-abot ko sa mga bahagi ng ibang halaga gamit ang \\other.rank\\ :",
+                "$~\\•Card(rank•#) (\n\tƒ beats(other•Card) ⬚.rank > other.rank\n)\n\nCard(10).beats(Card(7))\\",
+                "$~Hindi ako madalas sumipot, pero kapag sumipot ako, malaki ang maitutulong ko para makuha ang halaga ng isang @Bind !"
             ],
             "start": "$~Nasuri sa $value",
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~nailagayangsangguniangitosamalinglugar",
-                    "explanation": "$~Pinapayagan lamang ako sa isang istruktura, pagbabagong-anyo, o reaksyon.",
+                    "explanation": "$~Pinapayagan lamang ako sa isang istruktura, pagbabagong-anyo, reaksyon, o pagsasalin.",
                     "resolution": "$~Palitan ng placeholder"
                 }
             }
@@ -1599,7 +1602,7 @@
         },
         "AnyType": {
             "name": "$~kahitano",
-            "description": "$~itugma ang anumang posibleng uri",
+            "description": "$~kahit ano",
             "emotion": "curious",
             "doc": "$~Kinakatawan ko ang kahit anong posibleng uri. Minsan lumalabas ako dahil hindi ko alam kung anong uri ng halaga ang isang bagay, kaya puwede itong maging kahit ano."
         },
@@ -1619,7 +1622,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Gumagamit ako ng @Bind para ipahiwatig na ang isang pangalan ay isang @ConversionDefinition. Malamang hindi mo na ako kailangang gamitin, dahil hindi maraming tao ang nagpapasa sa akin bilang isang halaga, ngunit kung ginawa mo, ganito ang magiging hitsura ko:",
-                "$~\\mahika•?→'': → ? '' . ? 'oo' 'hindi'\\"
+                "$~\\mahika•?→'': → ? '' ⬚ ? 'oo' 'hindi'\\"
             ]
         },
         "FormattedType": {
@@ -1849,6 +1852,32 @@
             "description": "$~markahan ang $type bilang isang hindi tungkulin",
             "emotion": "confused",
             "doc": "$~Ang ilan sa amin ay umaasa ng mga pagtitipon; ako naman ay pumupunta kapag wala."
+        },
+        "Translate": {
+            "name": "$~isalin",
+            "description": "$~i-map ang isang koleksyon sa isang bago",
+            "emotion": "excited",
+            "doc": [
+                "$~OH OH OH! Mayroon ka bang BUONG KOLEKSYON ng mga bagay at gusto mong gawin ang PAREHONG bagay sa LAHAT?? AKO 'yan! Iyon talaga ang GINAGAWA KO!!",
+                "$~Maglagay ng koleksyon sa kaliwa ko, iguhit ang arrow ko na \\↦\\ , pagkatapos sa kanan ko isulat kung ano ang dapat MAGING GAMIT ng bawat item — gamitin @This para tukuyin ang item na hawak ko NGAYON!",
+                "$~Ang \\[1 2 3] ↦ ⬚ + 1\\ ay magbibigay sa iyo ng \\[2 3 4]\\ . BOOM! Bawat numero, dagdagan ng isa, walang mga loop, walang @FunctionDefinition , walang abala!",
+                "$~Ang galing ko sa paggawa ng @Phrase output mula sa data! May listahan ka ba ng mga pangalan? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ at ngayon ay may parirala na para sa BAWAT pangalan!!",
+                "$~Nagtatrabaho ako sa @List , @Set , @Map (binabago ko ang mga VALUES ng mapa — nananatili ang mga key kung nasaan sila!), at maging @Table !",
+                "$~Gusto mo ba ng mas elegante — tulad ng index ng bawat item, o isang function na maaari mong gamitin muli sa maraming lugar? Bisitahin ang aking mas kalmado at malalaki nang mga pinsan tulad ni @List/translate . Pero para sa mabilis na pang-araw-araw na pagmamapa, narito ako!!"
+            ],
+            "start": "$~Teka, kunin natin ang lahat gamit ang $expression !",
+            "finish": "$~TA-DA! Narito ang iyong bagong koleksyon: $value",
+            "next": "$~Susunod na aytem: $value !",
+            "conflict": {
+                "ExpectedCollection": {
+                    "name": "$~inaasahangkoleksyon",
+                    "explanation": "$~Inaasahan kong ang kaliwang bahagi ng conversion ng koleksyon ay dapat na isang koleksyon, ngunit ang nakuha ko ay $type"
+                },
+                "ExpectedThis": {
+                    "name": "$~inaasahanito",
+                    "explanation": "$~Ibig mo bang gamitin @This para tumukoy sa isang item sa koleksyon na ito?"
+                }
+            }
         }
     },
     "basis": {
@@ -5315,7 +5344,9 @@
                     "noSelection": "$~Walang napili",
                     "noMove": "$~Hindi na makagalaw pa"
                 },
-                "nextMatch": "$~pumunta sa susunod na tugma sa paghahanap"
+                "nextMatch": "$~pumunta sa susunod na tugma sa paghahanap",
+                "insertTranslate": "$~ipasok ang simbolo ng pagsasalin",
+                "insertThis": "$~ilagay ang simbolong ito"
             },
             "error": {
                 "invalidName": "$~Dapat itong isang wastong pangalan ng Wordplay.",

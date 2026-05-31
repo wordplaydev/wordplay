@@ -132,7 +132,8 @@
         "KannadaNumeral": "$~chữ số kannada",
         "TamilNumeral": "$~chữ số Tamil",
         "TeluguNumeral": "$~số telugu",
-        "LanguageJoin": "$~người tham gia ngôn ngữ"
+        "LanguageJoin": "$~người tham gia ngôn ngữ",
+        "Translate": "$~dịch"
     },
     "node": {
         "Dimension": {
@@ -687,7 +688,7 @@
             },
             "doc": [
                 "$~Này anh bạn, tôi định nghĩa các chuyển đổi từ kiểu dữ liệu này sang kiểu dữ liệu khác! Tôi vào @Block, đại loại như thế này:",
-                "$~\\→ #mèo con #mèo . ÷ 2\n6mèo con→#mèo\\",
+                "$~\\→ #mèo con #mèo ⬚ ÷ 2\n6mèo con→#mèo\\",
                 "$~Các bạn thấy tôi đã biến những chú mèo con thành mèo trưởng thành như thế nào chưa? Tuyệt vời!",
                 "$~Có thể bạn đang thắc mắc dấu chấm \\.\\ ở đó có ý nghĩa gì. Nó đại diện cho giá trị đang được chuyển đổi. Tôi sử dụng nó vì nếu không thì giá trị đó không có tên."
             ],
@@ -1485,20 +1486,22 @@
             "description": "$~tham chiếu đến giá trị cấu trúc hiện tại",
             "emotion": "serious",
             "doc": [
-                "$~Đôi khi, việc đề cập đến một giá trị một cách ngầm định sẽ hữu ích hơn là phải gọi tên nó.",
-                "$~Ví dụ, giả sử bạn muốn tạo một @ConversionDefinition mới, mà không cần đặt tên cho giá trị được chuyển đổi. Bạn chỉ cần tham chiếu đến nó bằng @ConversionDefinition:",
-                "$~\\→ #cầuvồng #niềmvui . × 1000000niềmvui\n2cầuvồng → #niềmvui\\",
-                "$~Bạn thấy tôi ở đó, tượng trưng cho số lượng cầu vồng chứ?",
-                "$~Hoặc giả sử bạn muốn tạo một @Reaction, nhưng không cần phải đặt tên cho giá trị gần nhất:",
-                "$~\\2 … ∆ Thời gian (1000ms) … . × 2\\",
-                "$~Hãy xem tôi này, đại diện cho giá trị phản ứng trước đó.",
-                "$~Tôi không thường xuyên xuất hiện, nhưng mỗi khi xuất hiện, tôi đều có thể giúp tận dụng tối đa giá trị từ @Bind!"
+                "$~Đôi khi, việc tham chiếu ngầm đến một giá trị sẽ hữu ích hơn là phải đặt tên cho nó. Đó là tôi — \\⬚\\ , một hình vuông nhỏ đại diện cho bất kỳ giá trị nào mà đoạn mã xung quanh đang xử lý.",
+                "$~Bên trong một @ConversionDefinition , tôi là giá trị đang được chuyển đổi:",
+                "$~\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
+                "$~Bên trong một @Reaction , tôi là giá trị gần nhất:",
+                "$~\\2 … ∆ Time(1000ms) … ⬚ × 2\\",
+                "$~Bên trong @Translate , tôi là mục hiện đang được ánh xạ, vì vậy điều này sẽ cộng thêm một vào mỗi giá trị:",
+                "$~\\[1 2 3] ↦ ⬚ + 1\\",
+                "$~Và bên trong một @StructureDefinition , tôi chính là giá trị hiện tại, vì vậy tôi có thể truy cập các phần của chính mình bằng \\⬚.rank\\ , giống như tôi truy cập các phần của giá trị khác bằng \\other.rank\\ :",
+                "$~\\•Card(rank•#) (\n\tƒ beats(other•Card) ⬚.rank > other.rank\n)\n\nCard(10).beats(Card(7))\\",
+                "$~Tôi không thường xuyên xuất hiện, nhưng mỗi khi xuất hiện, tôi đều có thể giúp khai thác tối đa giá trị từ @Bind !"
             ],
             "start": "$~Được định giá thành $value",
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~Tôiđãđểlạcmấttàiliệuthamkhảonày.",
-                    "explanation": "$~Tôi chỉ được phép tham gia vào cấu trúc, quá trình chuyển đổi hoặc phản ứng.",
+                    "explanation": "$~Tôi chỉ được phép tham gia vào các thao tác cấu trúc, chuyển đổi, phản ứng hoặc dịch thuật.",
                     "resolution": "$~Thay thế bằng một chỗ giữ chỗ"
                 }
             }
@@ -1596,7 +1599,7 @@
         },
         "AnyType": {
             "name": "$~bấtkì",
-            "description": "$~khớp với bất kỳ kiểu có thể",
+            "description": "$~bất kì",
             "emotion": "curious",
             "doc": "$~Tôi đại diện cho mọi loại hình có thể. Đôi khi tôi xuất hiện vì tôi không biết giá trị của một thứ gì đó là gì, vì vậy nó có thể là bất cứ thứ gì."
         },
@@ -1616,7 +1619,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Tôi sử dụng chú thích @Bind để chỉ ra rằng một tên là @ConversionDefinition. Có lẽ bạn không cần dùng đến tôi, vì không nhiều người truyền tôi như một giá trị, nhưng nếu bạn cần, tôi sẽ trông như thế này:",
-                "$~\\magic•?→'': → ? '' . ? 'vâng' 'không'\\"
+                "$~\\magic•?→'': → ? '' ⬚ ? 'vâng' 'không'\\"
             ]
         },
         "FormattedType": {
@@ -1846,6 +1849,32 @@
             "description": "$~đánh dấu $type là không phải hàm",
             "emotion": "confused",
             "doc": "$~Một số người trong chúng ta mong đợi các hoạt động; tôi xuất hiện khi chúng ta không có hoạt động nào cả."
+        },
+        "Translate": {
+            "name": "$~dịch",
+            "description": "$~ánh xạ một bộ sưu tập vào một bộ sưu tập mới.",
+            "emotion": "excited",
+            "doc": [
+                "$~Ôi trời ơi! Bạn có cả một bộ sưu tập đồ vật và muốn làm cùng một việc với TẤT CẢ chúng không?? Đó chính là tôi! Đó đúng nghĩa đen là những gì tôi làm!!",
+                "$~Đặt một bộ sưu tập ở bên trái, vẽ mũi tên \\↦\\ , sau đó ở bên phải viết mỗi mục nên BIẾN THÀNH cái gì — sử dụng @This để chỉ mục tôi đang cầm NGAY BÂY GIỜ!",
+                "$~\\[1 2 3] ↦ ⬚ + 1\\ cho bạn \\[2 3 4]\\ . BÙM! Mọi số cộng thêm một, không vòng lặp, không @FunctionDefinition , không rắc rối!",
+                "$~Tôi thật TUYỆT VỜI khi tạo ra hàm @Phrase từ dữ liệu! Bạn có danh sách tên không? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ và giờ thì đã có một cụm từ cho MỌI tên rồi!!",
+                "$~Tôi làm việc với @List , @Set , @Map (tôi thay đổi GIÁ TRỊ của map — các khóa vẫn giữ nguyên vị trí!), và thậm chí cả @Table !",
+                "$~Bạn muốn thứ gì đó cầu kỳ hơn — như chỉ mục của từng mục, hay một hàm bạn có thể tái sử dụng ở nhiều nơi? Hãy ghé thăm những người anh em họ trưởng thành và điềm tĩnh hơn của tôi như @List/translate . Nhưng đối với việc lập bản đồ nhanh chóng hàng ngày, tôi luôn sẵn sàng!!"
+            ],
+            "start": "$~Chờ chút, để tôi lấy hết mọi thứ trong $expression !",
+            "finish": "$~TA-DA! Đây là bộ sưu tập hoàn toàn mới của bạn: $value",
+            "next": "$~Mục tiếp theo: $value !",
+            "conflict": {
+                "ExpectedCollection": {
+                    "name": "$~bộsưutậpdựkiến",
+                    "explanation": "$~Tôi tưởng rằng phía bên trái của phép chuyển đổi tập hợp phải là một tập hợp, nhưng tôi lại nhận được $type"
+                },
+                "ExpectedThis": {
+                    "name": "$~Tôiđãdựđoánđiềunày",
+                    "explanation": "$~Bạn có ý định sử dụng @This để tham chiếu đến một mục trong bộ sưu tập này không?"
+                }
+            }
         }
     },
     "basis": {
@@ -5311,7 +5340,9 @@
                     "noSelection": "$~Chưa có gì được chọn",
                     "noMove": "$~Không thể tiến xa hơn nữa"
                 },
-                "nextMatch": "$~chuyển đến kết quả tìm kiếm phù hợp tiếp theo"
+                "nextMatch": "$~chuyển đến kết quả tìm kiếm phù hợp tiếp theo",
+                "insertTranslate": "$~chèn ký hiệu dịch",
+                "insertThis": "$~chèn biểu tượng này"
             },
             "error": {
                 "invalidName": "$~Đây phải là một tên chơi chữ hợp lệ.",

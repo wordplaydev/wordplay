@@ -120,4 +120,16 @@ export default class SetValue extends SimpleValue {
         for (const value of this.values) sum += value.getSize();
         return sum;
     }
+
+    isCollection() {
+        return true;
+    }
+
+    getTranslationItems(): Value[] {
+        return this.values;
+    }
+
+    createTranslation(creator: Expression, results: Value[]): Value {
+        return new SetValue(creator, results);
+    }
 }

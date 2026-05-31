@@ -2951,7 +2951,7 @@
                             "serious",
                             "$~Iată un exemplu. Vedeți fluxul @Key? Punând ∆ înainte de a întreba /A fost modificat acest flux?/ Înainte de a se schimba, evaluez la valoarea inițială, \\1m\\. Dar când este apăsată tasta spațiu, @Program reevaluează, iar eu evaluez la *următoarea* expresie, care este \\1m\\ plus oricare dintre valorile anterioare ale fluxului; aceasta este reprezentată de \\.\\. Aceasta adaugă \\1m\\ la dimensiunea frazei, făcând cuvântul să devină din ce în ce mai mare."
                         ],
-                        ["fix", "Phrase('hi' size: 1m … ∆ Key(' ') … 1m + .)"],
+                        ["fix", "Phrase('hi' size: 1m … ∆ Key(' ') … 1m + ⬚)"],
                         null,
                         [
                             "FunctionDefinition",
@@ -2998,7 +2998,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' size: 1m … Key(' ') = ' ' … 1m + .)"
+                            "Phrase('hi' size: 1m … Key(' ') = ' ' … 1m + ⬚)"
                         ],
                         null,
                         [

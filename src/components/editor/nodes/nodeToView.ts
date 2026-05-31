@@ -14,6 +14,7 @@ import ConditionalView from '@components/editor/nodes/ConditionalView.svelte';
 import ConversionDefinitionView from '@components/editor/nodes/ConversionDefinitionView.svelte';
 import ConversionTypeView from '@components/editor/nodes/ConversionTypeView.svelte';
 import ConvertView from '@components/editor/nodes/ConvertView.svelte';
+import TranslateView from '@components/editor/nodes/TranslateView.svelte';
 import DeleteView from '@components/editor/nodes/DeleteView.svelte';
 import DimensionView from '@components/editor/nodes/DimensionView.svelte';
 import DocView from '@components/editor/nodes/DocView.svelte';
@@ -98,6 +99,7 @@ import Conditional from '@nodes/Conditional';
 import ConversionDefinition from '@nodes/ConversionDefinition';
 import ConversionType from '@nodes/ConversionType';
 import Convert from '@nodes/Convert';
+import Translate from '@nodes/Translate';
 import Delete from '@nodes/Delete';
 import Dimension from '@nodes/Dimension';
 import Doc from '@nodes/Doc';
@@ -402,6 +404,11 @@ map(UnaryEvaluate, UnaryEvaluateView, {
 });
 
 map(Convert, ConvertView, {
+    kind: 'evaluate',
+    direction: 'inline',
+    size: 'normal',
+});
+map(Translate, TranslateView, {
     kind: 'evaluate',
     direction: 'inline',
     size: 'normal',

@@ -2975,7 +2975,7 @@
                             "serious",
                             "$~Đây là một ví dụ. Bạn thấy luồng @Key chứ? Đặt ∆ trước khi nó hỏi, /Luồng này có thay đổi không?/ Trước khi thay đổi, tôi đánh giá thành giá trị ban đầu, \\1m\\. Nhưng khi nhấn phím cách, @Program đánh giá lại, và tôi đánh giá thành biểu thức *tiếp theo*, đó là \\1m\\ cộng với giá trị của luồng trước đó; điều đó được biểu thị bằng \\.\\. Điều này làm tăng kích thước của cụm từ thêm \\1m\\, khiến từ ngày càng dài ra."
                         ],
-                        ["fix", "Phrase('hi' size: 1m … ∆ Key(' ') … 1m + .)"],
+                        ["fix", "Phrase('hi' size: 1m … ∆ Key(' ') … 1m + ⬚)"],
                         null,
                         [
                             "FunctionDefinition",
@@ -3022,7 +3022,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' size: 1m … Key(' ') = ' ' … 1m + .)"
+                            "Phrase('hi' size: 1m … Key(' ') = ' ' … 1m + ⬚)"
                         ],
                         null,
                         [

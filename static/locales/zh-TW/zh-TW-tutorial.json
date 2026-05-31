@@ -2897,7 +2897,7 @@
                             "serious",
                             "$~這是一個例子。看@Key？在詢問「這個流是否改變？」之前放置 ∆，在它發生變化之前，我評估其初始值 \\1m\\。但是當按下空白鍵時，@Program 會重新評估，並且我會評估*next*表達式，即 \\1m\\ 加上前一個流值；以 \\.\\ 表示。這會在短語的大小上添加 \\1m\\，使單字變得越來越大。"
                         ],
-                        ["fix", "Phrase('hi' size: 1m … ∆ Key(' ') … 1m + .)"],
+                        ["fix", "Phrase('hi' size: 1m … ∆ Key(' ') … 1m + ⬚)"],
                         null,
                         [
                             "FunctionDefinition",
@@ -2940,7 +2940,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' size: 1m … Key(' ') = ' ' … 1m + .)"
+                            "Phrase('hi' size: 1m … Key(' ') = ' ' … 1m + ⬚)"
                         ],
                         null,
                         [

@@ -6,6 +6,7 @@ import Changed from '@nodes/Changed';
 import Conditional from '@nodes/Conditional';
 import ConversionDefinition from '@nodes/ConversionDefinition';
 import Convert from '@nodes/Convert';
+import Translate from '@nodes/Translate';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import Input from '@nodes/Input';
@@ -249,6 +250,7 @@ const Templates: Node[] = [
     new UnaryEvaluate(Reference.make('-'), ExpressionPlaceholder.make()),
     ExpressionPlaceholder.make(),
     Convert.make(ExpressionPlaceholder.make(), TypePlaceholder.make()),
+    Translate.make(ExpressionPlaceholder.make(), This.make()),
     Name.make(PLACEHOLDER_SYMBOL),
     Names.make([PLACEHOLDER_SYMBOL]),
     Reference.make(PLACEHOLDER_SYMBOL),

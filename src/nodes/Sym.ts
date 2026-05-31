@@ -13,6 +13,7 @@ const Sym = {
     Borrow: '↓',
     Share: '↑',
     Convert: '→',
+    Translate: '↦',
     Placeholder: '_',
 
     Doc: '¶',
@@ -64,7 +65,7 @@ const Sym = {
     Initial: '◆',
     Previous: '←',
     Etc: '...',
-    This: '..',
+    This: '⬚',
     Locale: '🌏',
 
     // These are the only operators eligible for unary, binary, or teriary notation.

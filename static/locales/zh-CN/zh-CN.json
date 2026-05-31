@@ -132,7 +132,8 @@
         "KannadaNumeral": "$~卡纳达数字",
         "TamilNumeral": "$~泰米尔数字",
         "TeluguNumeral": "$~泰卢固语数字",
-        "LanguageJoin": "$~语言连接词"
+        "LanguageJoin": "$~语言连接词",
+        "Translate": "$~翻译"
     },
     "node": {
         "Dimension": {
@@ -682,7 +683,7 @@
             "emotion": "excited",
             "doc": [
                 "哥们儿，我定义了从一种类型到另一种类型的转换！我在 @Block 中执行，就像这样：",
-                "\\→ #猫咪 #猫 . ÷ 2\n6猫咪→#猫\\",
+                "\\→ #猫咪 #猫 ⬚ ÷ 2\n6猫咪→#猫\\",
                 "看我是如何将猫咪变成猫的？酷毙了！",
                 "你可能想知道那个 \\.\\ 是干嘛的。那代表了正在转换的值。我用它是因为这个值不然会没有名字。"
             ],
@@ -1483,20 +1484,22 @@
             "description": "当前结构",
             "emotion": "serious",
             "doc": [
-                "有时候，隐含地引用值比命名它更有帮助。",
-                "例如，假设你想创建一个新的 @ConversionDefinition，它不命名正在转换的值。你可以使用我来引用它：",
-                "\\→ #彩虹 #欢乐 . × 1000000欢乐\n2彩虹 → #欢乐\\",
-                "看看这里，代表彩虹数量的部分？",
-                "或者，假设你想创建一个 @Reaction，但不想为最近的值命名：",
-                "\\2 … ∆ 时间(1000毫秒) … . × 2\\",
-                "看看我，代表前一个反应值。",
-                "我不经常出现，但当出现时，我可以帮助值摆脱 @Bind ！"
+                "$~有时候，隐式地引用某个值比直接命名它更方便。我就是其中之一—— \\⬚\\ ，一个代表周围代码正在处理的任何值的小方块。",
+                "$~在@ConversionDefinition，我是要转换的值：",
+                "$~\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
+                "$~在@Reaction，我是最新值：",
+                "$~\\2 … ∆ Time(1000ms) … ⬚ × 2\\",
+                "$~在@Translate，我是当前正在映射的项，因此它会将每个值加一：",
+                "$~\\[1 2 3] ↦ ⬚ + 1\\",
+                "$~在@StructureDefinition，我就是当前值本身，所以我可以使用\\⬚.rank\\访问我自己的部分，就像我可以使用\\other.rank\\访问另一个值的部分一样：",
+                "$~\\•Card(rank•#) (\n\tƒ beats(other•Card) ⬚.rank > other.rank\n)\n\nCard(10).beats(Card(7))\\",
+                "$~我并不经常出现，但当我出现时，我真的可以帮助一个值从@Bind！"
             ],
             "start": "评估为 $value",
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~放错了这个参考",
-                    "explanation": "$~我只能进入结构、转化或反应中。",
+                    "explanation": "$~我只能参与结构、转换、反应或翻译。",
                     "resolution": "$~替换为占位符"
                 }
             }
@@ -1594,7 +1597,7 @@
         },
         "AnyType": {
             "name": "任意",
-            "description": "任意类型",
+            "description": "$~任何",
             "emotion": "curious",
             "doc": "我代表任何可能的类型。有时我会出现，因为不知道某些东西是什么类型，所以它可以是任何类型。"
         },
@@ -1614,7 +1617,7 @@
             "emotion": "serious",
             "doc": [
                 "我与 @Bind 一起工作，指示名称是 @ConversionDefinition。你可能不需要使用我，因为没有多少人将我作为值传递，但如果你这样做，我将如下所示：",
-                "\\magic•?→'': → ? '' . ? 'yep' 'nope'\\"
+                "\\magic•?→'': → ? '' ⬚ ? 'yep' 'nope'\\"
             ]
         },
         "FormattedType": {
@@ -1844,6 +1847,32 @@
             "description": "$~将 $type 标记为非函数",
             "emotion": "confused",
             "doc": "有些人期望函数；当我们没有得到函数时，我就会出现。"
+        },
+        "Translate": {
+            "name": "$~翻译",
+            "description": "$~将一个集合映射到一个新的集合中",
+            "emotion": "excited",
+            "doc": [
+                "$~哦哦哦！你是不是也有一大堆东西，然后想对每一件都做同样的事情？我就是这样！我真的就是这么做的！！",
+                "$~在我的左边放一个集合，画一个箭头\\↦\\ ，然后在我的右边写出每个物品应该变成什么——用@This！",
+                "$~\\[1 2 3] ↦ ⬚ + 1\\得到\\[2 3 4]\\ 。 BOOM！每个数字加一，无需循环，无需@FunctionDefinition ，轻松搞定！",
+                "$~我简直太棒了，能从数据中生成@Phrase！有一份姓名列表吗？ \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\现在每个名字都有一个对应的短语了！！",
+                "$~我使用@List 、 @Set 、 @Map （我更改映射的值——键保持不变！），甚至@Table ！",
+                "$~想要更高级的功能——比如每个项目的索引，或者可以在很多地方复用的函数？那就去看看我那些更成熟、更强大的工具，比如@List/translate 。但如果是日常快速映射，我就是你要找的！"
+            ],
+            "start": "$~稍等，让我把$expression！",
+            "finish": "$~锵锵！你的全新系列到啦： $value",
+            "next": "$~下一项： $value ！",
+            "conflict": {
+                "ExpectedCollection": {
+                    "name": "$~预计收款",
+                    "explanation": "$~我原本以为集合转换的左侧必须是一个集合，但我得到的是$type"
+                },
+                "ExpectedThis": {
+                    "name": "$~预料之中",
+                    "explanation": "$~您是不是想使用@This？"
+                }
+            }
         }
     },
     "basis": {
@@ -5010,7 +5039,9 @@
                     "noSelection": "$~未选择任何内容",
                     "noMove": "$~无法再继续前进了。"
                 },
-                "nextMatch": "$~转到下一个搜索结果"
+                "nextMatch": "$~转到下一个搜索结果",
+                "insertTranslate": "$~插入翻译符号",
+                "insertThis": "$~插入此符号"
             },
             "options": {
                 "locale": {

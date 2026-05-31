@@ -11,12 +11,14 @@ This week focused on improving many aspects of the Guide, including speed, usabi
 ### Added
 
 - 🔣 We added `@Contour`, a new built-in input stream that traces the outline of letters in a font as a list of `@Place` values, so you can dot, trace, or animate the shape of any glyph. You can read about it in the [Guide](https://wordplay.dev/guide?concept=Contour). (#1167)
+- 🔁 There's a new feature in the programming language called _translate_! It lets you convert the items in a list, set, map, or table into a new list, set, map, or table. Put a collection on the left, the new `↦` arrow in the middle, and what each item should become on the right, using `⬚` to mean the current item. So `[1 2 3] ↦ ⬚ + 1` makes `[2 3 4]`.
 - 🔗 We made the guide remember the query and sections you were viewing, in case you need to refresh the page or share a link.
 - 🔎 We added a search and replace feature to the code editor.
 - 🖱️ Now you can click click click in the editor to expand the selection. (Just like pressing escape, escape, escape does).
 
 ### Changed
 
+- 🔲 We changed the symbol for "this" — the unnamed value inside conversions, reactions, structures, and the new `↦` map — from `.` to `⬚` (a little dotted square). Now you can reach its parts cleanly, like `⬚.x`, instead of the confusing `..x`.
 - ⚡️ We made search faster and more forgiving across the platform, including in the guide, tutorial, projects, glyph chooser, and localization mode.
 - ▶️ We made how-to previews more useful, showing behavior instead of code. Click into the how-to to see and copy code (#1039).
 - 📚 We redesigned navigation in the guide to make it more like a web browser, with a home and back button, a browsing history, and links that become inactive.

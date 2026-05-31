@@ -428,6 +428,10 @@ type UITexts = {
             insertPrevious: string;
             /** [plain] Insert → symbol */
             insertConvert: string;
+            /** [plain] Insert ↦ translate symbol */
+            insertTranslate: string;
+            /** [plain] Insert ⬚ this symbol */
+            insertThis: string;
             /** [plain] Insert table symbol */
             insertTable: string;
             /** [plain] Insert borrow symbol */

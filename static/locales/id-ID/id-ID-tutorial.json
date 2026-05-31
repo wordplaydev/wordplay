@@ -2963,7 +2963,7 @@
                             "serious",
                             "$~Berikut contohnya. Lihat aliran @Key? Dengan meletakkan ∆ sebelum pertanyaan, /Apakah aliran ini berubah?/ Sebelum berubah, saya mengevaluasi ke nilai awal, \\1m\\. Tetapi ketika tombol spasi ditekan, @Program mengevaluasi ulang, dan saya mengevaluasi ke ekspresi *berikutnya*, yaitu \\1m\\ ditambah nilai aliran sebelumnya; itu diwakili oleh \\.\\. Ini menambahkan \\1m\\ ke ukuran frasa, membuat kata menjadi semakin besar."
                         ],
-                        ["fix", "Phrase('hi' size: 1m … ∆ Key(' ') … 1m + .)"],
+                        ["fix", "Phrase('hi' size: 1m … ∆ Key(' ') … 1m + ⬚)"],
                         null,
                         [
                             "FunctionDefinition",
@@ -3010,7 +3010,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' size: 1m … Key(' ') = ' ' … 1m + .)"
+                            "Phrase('hi' size: 1m … Key(' ') = ' ' … 1m + ⬚)"
                         ],
                         null,
                         [

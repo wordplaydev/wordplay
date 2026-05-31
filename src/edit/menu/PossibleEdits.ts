@@ -78,6 +78,7 @@ import TableLiteral from '@nodes/TableLiteral';
 import TextLiteral from '@nodes/TextLiteral';
 import TextType from '@nodes/TextType';
 import This from '@nodes/This';
+import Translate from '@nodes/Translate';
 import Token from '@nodes/Token';
 import TypeInputs from '@nodes/TypeInputs';
 import TypePlaceholder from '@nodes/TypePlaceholder';
@@ -732,6 +733,7 @@ const PossibleNodes = [
     IsLocale,
     Otherwise,
     Match,
+    Translate,
     This,
     // Streams
     Reaction,

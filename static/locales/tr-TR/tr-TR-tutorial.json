@@ -2975,7 +2975,7 @@
                             "serious",
                             "$~İşte bir örnek. @Key akışına bakın? /Bu akış değişti mi?/ diye sormadan önce ∆ koyarak, değişmeden önce, başlangıç değeri olan \\1m\\ değerini değerlendiriyorum. Ancak boşluk tuşuna basıldığında, @Program yeniden değerlendiriyor ve bir sonraki ifadeyi değerlendiriyorum, bu da \\1m\\ artı önceki akış değeri neyse o; bu, \\.\\ ile temsil ediliyor. Bu, ifadenin boyutuna \\1m\\ ekleyerek sözcüğün giderek daha da büyümesini sağlıyor."
                         ],
-                        ["fix", "Phrase('hi' size: 1m … ∆ Key(' ') … 1m + .)"],
+                        ["fix", "Phrase('hi' size: 1m … ∆ Key(' ') … 1m + ⬚)"],
                         null,
                         [
                             "FunctionDefinition",
@@ -3022,7 +3022,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' size: 1m … Key(' ') = ' ' … 1m + .)"
+                            "Phrase('hi' size: 1m … Key(' ') = ' ' … 1m + ⬚)"
                         ],
                         null,
                         [

@@ -155,7 +155,9 @@ Some are associated with particular types of expressions:
 > otherwise → `??`  
 > match → `???`
 > conversion → `→` | `->` | `=>`  
-> access → `.`
+> translate → `↦` | `↤`  
+> access → `.`  
+> this → `⬚`
 
 Some are operators, including arithetmic, inequalities, logical, and unicode math, supplemental, and arrows:
 
@@ -779,10 +781,10 @@ The same works for numbers with units, as numerous conversion functions are defi
 1km → #m
 ```
 
-Conversions can be extended with conversion definitions. Thi defines a global conversion from kitty counts to cat counts, where the `.` refers to the input value:
+Conversions can be extended with conversion definitions. This defines a global conversion from kitty counts to cat counts, where `⬚` ([This](#this)) refers to the input value:
 
 ```
-→ #kitty #cat . ÷ 2
+→ #kitty #cat ⬚ ÷ 2
 ```
 
 ### _conflicts_
@@ -792,6 +794,44 @@ Conversions can be extended with conversion definitions. Thi defines a global co
 #### _evaluation_
 
 Conversions first evaluate their input value. Then, all conversions in scope are retrieved, including all of the conversions defined on the input value, and any defined external to the value. Finally, a graph is built of all of the conversion paths, the shortest path is found betwen the input and output types. If no path is found, a conversion exception is generated, halting the program. Otherwise, the conversion function is evaluated on the input, and its result is provided as the convert's value.
+
+### Translate
+
+> TRANSLATE → EXPRESSION `↦` EXPRESSION
+
+A translate maps a collection into a new one. Its left side must be a list, set, map, or table, and its right side is an expression evaluated once for each item, with `⬚` ([This](#this)) bound to the current item. It's a terse equivalent of the higher-order `translate` function: `[1 2 3] ↦ ⬚ + 1` is equivalent to `[1 2 3].translate(ƒ(item) item + 1)` and produces `[2 3 4]`.
+
+```
+[1 2 3] ↦ ⬚ + 1
+{1 2 3} ↦ ⬚ + 1
+{1:10 2:20} ↦ ⬚ + 1
+```
+
+The right-to-left form `↤` is identical and provided for right-to-left languages.
+
+For lists and sets, `⬚` is each value, and the result is a new list or set of the translated values. For maps, `⬚` is each value and the result is a new map with the same keys and translated values. For tables, `⬚` is each row structure and the result is a new table whose rows come from the translated structures.
+
+### _conflicts_
+
+- `ExpectedCollection`: the left side is not a list, set, map, or table
+- `ExpectedThis`: the right side has no `⬚` referring to the current item (a warning, only reported when the left side is a valid collection)
+
+#### _evaluation_
+
+A translate first evaluates its left side to a collection value. It then iterates the collection's values in order, binding `⬚` to each item, evaluating the right side, and collecting the results. When iteration completes, the collected results are assembled into a new collection of the same kind as the input.
+
+### This
+
+> THIS → `⬚`
+
+`⬚` refers to an implicit, unnamed value supplied by the nearest enclosing context. It is only valid inside one of four constructs, and its meaning depends on which:
+
+- in a **conversion definition**, it is the input value being converted;
+- in a **reaction**, it is the reaction's most recent value;
+- in a **structure definition**, it is the current structure instance;
+- in a **translate** (`↦`), it is the current item being mapped.
+
+Because `⬚` is a complete expression on its own, its properties and functions are reached with ordinary access: `⬚.x`. Using `⬚` outside any of these four contexts is a conflict (`MisplacedThis`).
 
 ## Names
 
@@ -1040,10 +1080,10 @@ clicks: 1 … ∆ Button() clicks + 1
 
 This looks like a circular definition of `clicks`, but it's not: the clicks in the reaction's next expression refers to the previous value in the reaction's value stream.
 
-Reactions don't have to be named to refer to their previous values. We can use `.` to refer to the reaction's value, just like we use it to refer to a value in a conversion definition.
+Reactions don't have to be named to refer to their previous values. We can use `⬚` ([This](#this)) to refer to the reaction's value, just like we use it to refer to a value in a conversion definition.
 
 ```
-1 … ∆ Button() … . + 1
+1 … ∆ Button() … ⬚ + 1
 ```
 
 Reactions are the standard way to do event-driven programming declaratively and functionally: they're how programs respond to changes in input.

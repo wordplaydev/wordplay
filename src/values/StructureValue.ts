@@ -114,6 +114,12 @@ export default class StructureValue extends Value {
 
     resolve(name: string | Names, evaluator?: Evaluator): Value | undefined {
         const value = this.context.resolve(name);
+        // Re-bind a method to this instance so that `⬚` (This) inside the
+        // method resolves to the instance it was called on, rather than the
+        // scope in which the structure was constructed. Name resolution still
+        // works because this StructureValue delegates to its context.
+        if (value instanceof FunctionValue)
+            return new FunctionValue(value.definition, this);
         if (value !== undefined) return value;
         // Fall through to static members on the definition (e.g. `m.PI` on
         // an instance of `Math`, or `someColor.red` on a `Color` instance).

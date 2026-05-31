@@ -132,7 +132,8 @@
         "KannadaNumeral": "$~chiffres kannada",
         "TamilNumeral": "$~chiffres tamouls",
         "TeluguNumeral": "$~chiffres télougous",
-        "LanguageJoin": "$~jointure de langage"
+        "LanguageJoin": "$~jointure de langage",
+        "Translate": "$~traduire"
     },
     "node": {
         "Dimension": {
@@ -682,7 +683,7 @@
             "emotion": "excited",
             "doc": [
                 "$~Mec, je définis des conversions d'un type à un autre ! Je vais dans @Block, quelque chose comme ça :",
-                "$~\\→ #chaton #chat . ÷ 2\n6chaton→#chat\\",
+                "$~\\→ #chaton #chat ⬚ ÷ 2\n6chaton→#chat\\",
                 "$~Vous voyez comment j'ai transformé des chatons en chats ? C'est génial !",
                 "$~Vous vous demandez peut-être ce que fait ce \\.\\ ici. Il représente la valeur en cours de conversion. Je l'utilise parce que la valeur n'a pas de nom autrement."
             ],
@@ -1485,20 +1486,22 @@
             "description": "$~fait référence à la valeur de structure actuelle",
             "emotion": "serious",
             "doc": [
-                "$~Parfois, il est utile de faire référence à une valeur de manière implicite, plutôt que de devoir la nommer.",
-                "$~Par exemple, supposons que vous souhaitiez créer une nouvelle @ConversionDefinition, qui ne nomme pas la valeur convertie. Vous pouvez simplement vous y référer avec moi:",
-                "$~\\→ #arcs-en-ciel #joies . × 1000000joies\n2arcs-en-ciel → #joies\\",
-                "$~Vous me voyez là, représentant le nombre d’arcs-en-ciel ?",
-                "$~Ou supposons que vous vouliez créer une @Reaction, mais que vous n'ayez pas à nommer la valeur la plus récente:",
-                "$~\\2 … ∆ Temps (1000 ms) … . × 2\\",
-                "$~Regardez-moi, représentant la valeur de réaction précédente.",
-                "$~Je n'apparais pas souvent, mais quand je le fais, je peux vraiment aider une valeur à sortir d'un @Bind!"
+                "$~Il est parfois utile de faire référence à une valeur implicitement, plutôt que de la nommer. C'est mon cas : \\⬚\\ , un petit carré qui représente la valeur sur laquelle travaille le code environnant.",
+                "$~Dans une @ConversionDefinition , je suis la valeur convertie :",
+                "$~\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
+                "$~Dans une @Reaction , je suis la valeur la plus récente :",
+                "$~\\2 … ∆ Time(1000ms) … ⬚ × 2\\",
+                "$~Dans une @Translate , je suis l'élément actuellement mappé, donc cela ajoute un à chaque valeur :",
+                "$~\\[1 2 3] ↦ ⬚ + 1\\",
+                "$~Et à l'intérieur d'une @StructureDefinition , je suis la valeur actuelle elle-même, donc je peux accéder à mes propres parties avec \\⬚.rank\\ , tout comme j'accède aux parties d'une autre valeur avec \\other.rank\\ :",
+                "$~\\•Card(rank•#) (\n\tƒ beats(other•Card) ⬚.rank > other.rank\n)\n\nCard(10).beats(Card(7))\\",
+                "$~Je ne suis pas souvent présent, mais quand je le suis, je peux vraiment aider à extraire une valeur d'un @Bind !"
             ],
             "start": "$~Évalué à $value",
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~j'aiégarécetteréférence",
-                    "explanation": "$~Je ne suis autorisé que dans une structure, une conversion ou une réaction.",
+                    "explanation": "$~Je suis uniquement autorisé à intervenir dans une structure, une conversion, une réaction ou une traduction.",
                     "resolution": "$~Remplacer par un espace réservé"
                 }
             }
@@ -1596,7 +1599,7 @@
         },
         "AnyType": {
             "name": "$~n'importelequel",
-            "description": "$~correspond à tout type possible",
+            "description": "$~n'importe lequel",
             "emotion": "curious",
             "doc": "$~Je représente n'importe quel type possible. Parfois, je me présente parce que je ne sais pas quelle valeur a quelque chose, alors cela pourrait être n'importe quoi."
         },
@@ -1616,7 +1619,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Je travaille avec @Bind pour indiquer qu'un nom est une @ConversionDefinition. Vous n'avez probablement pas besoin de m'utiliser, car peu de gens me transmettent comme valeur, mais si vous le faisiez, je ressemblerais à ceci:",
-                "$~\\magic•?→'': → ? '' . ? 'ouais' 'non'\\"
+                "$~\\magic•?→'': → ? '' ⬚ ? 'ouais' 'non'\\"
             ]
         },
         "FormattedType": {
@@ -1846,6 +1849,32 @@
             "description": "$~représente une variable de type inconnue",
             "emotion": "curious",
             "doc": "$~Parfois, nous essayons de deviner quelle est la valeur de quelque chose ; j'interviens alors que nous ne le savons pas."
+        },
+        "Translate": {
+            "name": "$~traduire",
+            "description": "$~mapper une collection dans une nouvelle",
+            "emotion": "excited",
+            "doc": [
+                "$~Oh oh oh ! Vous avez toute une collection d'objets et vous voulez faire la même chose à chacun d'eux ? C'est moi ! C'est littéralement ce que je fais !",
+                "$~Placez une collection sur ma gauche, dessinez ma flèche \\↦\\ , puis sur ma droite écrivez ce en quoi chaque élément devrait se TRANSFORMER — utilisez @This pour désigner l'élément que je tiens MAINTENANT !",
+                "$~\\[1 2 3] ↦ ⬚ + 1\\ donne \\[2 3 4]\\ . Et voilà ! Tous les nombres, plus un, sans boucles, sans @FunctionDefinition , sans tracas !",
+                "$~Je suis GÉNIAL pour générer @Phrase à partir de données ! Vous avez une liste de noms ? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ et voilà, une phrase pour CHAQUE nom !",
+                "$~Je travaille sur @List , @Set , @Map (je change les VALEURS de la map — les clés restent exactement où elles sont !), et même @Table !",
+                "$~Vous cherchez quelque chose de plus sophistiqué, comme l'index de chaque élément ou une fonction réutilisable à de nombreux endroits ? Allez faire un tour sur le site de mes cousins plus sérieux et professionnels, comme @List/translate . Mais pour une cartographie rapide au quotidien, je suis là !"
+            ],
+            "start": "$~Attendez, laissez-moi tout récupérer dans $expression !",
+            "finish": "$~TADAM ! Voici votre toute nouvelle collection : $value",
+            "next": "$~Élément suivant : $value !",
+            "conflict": {
+                "ExpectedCollection": {
+                    "name": "$~collectionattendue",
+                    "explanation": "$~Je m'attendais à ce que le membre gauche d'une conversion de collection soit une collection, mais j'ai obtenu $type"
+                },
+                "ExpectedThis": {
+                    "name": "$~Jem'yattendais.",
+                    "explanation": "$~Souhaitiez-vous utiliser @This pour faire référence à un élément de cette collection ?"
+                }
+            }
         }
     },
     "basis": {
@@ -5051,7 +5080,9 @@
                     "noSelection": "$~Rien sélectionné",
                     "noMove": "$~Je ne peux plus avancer."
                 },
-                "nextMatch": "$~passer au résultat de recherche suivant"
+                "nextMatch": "$~passer au résultat de recherche suivant",
+                "insertTranslate": "$~insérer le symbole de traduction",
+                "insertThis": "$~insérer ce symbole"
             },
             "options": {
                 "locale": {

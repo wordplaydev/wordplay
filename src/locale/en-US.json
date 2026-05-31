@@ -68,6 +68,7 @@
         "Borrow": "borrow",
         "Share": "share",
         "Convert": "convert",
+        "Translate": "translate",
         "Doc": "explanation",
         "Formatted": "formatted",
         "FormattedType": "formatted type",
@@ -690,9 +691,9 @@
             },
             "doc": [
                 "Dude, I define conversions from one type to another! I go in @Block, something like this:",
-                "\\→ #kitty #cat . ÷ 2\n6kitty→#cat\\",
+                "\\→ #kitty #cat ⬚ ÷ 2\n6kitty→#cat\\",
                 "See how I turned kitties into cats? Wicked!",
-                "You might be wondering what that \\.\\ is doing there. That represents the value being converted. I use that because the value has no name otherwise."
+                "You might be wondering what that \\⬚\\ is doing there. That represents the value being converted. I use that because the value has no name otherwise."
             ],
             "start": "Awesome, a new conversion!",
             "conflict": {
@@ -729,6 +730,32 @@
                 "ConversionException": {
                     "description": "impossible conversion",
                     "explanation": "I don't know how to convert from $from to $to"
+                }
+            }
+        },
+        "Translate": {
+            "name": "translate",
+            "description": "map a collection into a new one",
+            "emotion": "excited",
+            "doc": [
+                "OH OH OH! Do you have a WHOLE COLLECTION of things and want to do the SAME thing to EVERY single one?? That's ME! That's literally what I DO!!",
+                "Put a collection on my left, draw my arrow \\↦\\, then on my right write what each item should TURN INTO — use @This to mean the item I'm holding RIGHT NOW!",
+                "\\[1 2 3] ↦ ⬚ + 1\\ gives you \\[2 3 4]\\. BOOM! Every number, plus one, no loops, no @FunctionDefinition, no fuss!",
+                "I am AMAZING for making @Phrase output from data! Got a list of names? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ and now there's a phrase for EVERY name!!",
+                "I work on @List, @Set, @Map (I change the map's VALUES — the keys stay right where they are!), and even @Table!",
+                "Want something fancier — like the index of each item, or a function you can reuse in lots of places? Go visit my calmer, grown-up cousins like @List/translate. But for quick everyday mapping, I'm here!!"
+            ],
+            "start": "Hang on, lemme grab everything in $expression!",
+            "finish": "TA-DA! Here's your brand new collection: $value",
+            "next": "Next item: $value!",
+            "conflict": {
+                "ExpectedCollection": {
+                    "name": "expected collection",
+                    "explanation": "I expected the left side of a collection conversion has to be a collection, but I got $type"
+                },
+                "ExpectedThis": {
+                    "name": "expected this",
+                    "explanation": "Did you mean to use @This to refer to an item in this collection?"
                 }
             }
         },
@@ -1490,20 +1517,22 @@
             "description": "refer to current structure value",
             "emotion": "serious",
             "doc": [
-                "Sometimes, it's helpful to refer to a value implicitly, rather than having to name it.",
-                "For example, suppose you wanted to make a new @ConversionDefinition, which doesn't name the value being converted. You can just refer to it with me:",
-                "\\→ #rainbows #joys . × 1000000joys\n2rainbows → #joys\\",
-                "See me there, representing the number of rainbows?",
-                "Or suppose you wanted to make a @Reaction, but not have to name the most recent value:",
-                "\\2 … ∆ Time(1000ms) … . × 2\\",
-                "Check me out, representing the previous reaction value.",
+                "Sometimes it's helpful to refer to a value implicitly, rather than having to name it. That's me — \\⬚\\, a little square that stands for whatever value the surrounding code is working on.",
+                "Inside a @ConversionDefinition, I'm the value being converted:",
+                "\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
+                "Inside a @Reaction, I'm the most recent value:",
+                "\\2 … ∆ Time(1000ms) … ⬚ × 2\\",
+                "Inside a @Translate, I'm the current item being mapped, so this adds one to each value:",
+                "\\[1 2 3] ↦ ⬚ + 1\\",
+                "And inside a @StructureDefinition, I'm the current value itself, so I can reach my own parts with \\⬚.rank\\, just like I reach another value's parts with \\other.rank\\:",
+                "\\•Card(rank•#) (\n\tƒ beats(other•Card) ⬚.rank > other.rank\n)\n\nCard(10).beats(Card(7))\\",
                 "I don't show up often, but when I do, I can really help a value get out of a @Bind!"
             ],
             "start": "Evaluated to $value",
             "conflict": {
                 "MisplacedThis": {
                     "name": "misplaced this reference",
-                    "explanation": "I'm only allowed in a structure, conversion, or reaction.",
+                    "explanation": "I'm only allowed in a structure, conversion, reaction, or translate.",
                     "resolution": "Replace with a placeholder"
                 }
             }
@@ -1601,7 +1630,7 @@
         },
         "AnyType": {
             "name": "any",
-            "description": "match any possible type",
+            "description": "any",
             "emotion": "curious",
             "doc": "I represent any possible type. Sometimes I show up because I don't know what kind of value something is, so it could be anything."
         },
@@ -1621,7 +1650,7 @@
             "emotion": "serious",
             "doc": [
                 "I work with @Bind to indicate that a name is a @ConversionDefinition. You probably don't need to use me, because not a lot of people pass me around as a value, but if you did, I would look like this:",
-                "\\magic•?→'': → ? '' . ? 'yep' 'nope'\\"
+                "\\magic•?→'': → ? '' ⬚ ? 'yep' 'nope'\\"
             ]
         },
         "FormattedType": {
@@ -5288,6 +5317,8 @@
                 "insertStream": "insert stream symbol",
                 "insertChange": "insert change symbol",
                 "insertConvert": "insert convert symbol",
+                "insertTranslate": "insert translate symbol",
+                "insertThis": "insert this symbol",
                 "insertPrevious": "insert previous symbol",
                 "insertTable": "insert table open symbol",
                 "insertBorrow": "insert borrow",

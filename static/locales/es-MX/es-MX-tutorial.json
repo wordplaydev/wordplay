@@ -2909,7 +2909,7 @@
                             "serious",
                             "He aquí un ejemplo. ¿Ves la transmisión de @Key? Poniendo \\∆\\ antes de preguntar: '¿Cambió esta secuencia'? Antes de que cambie, evalúo el valor inicial, \\1m\\. Pero cuando se presiona la tecla espacio, @Program reevalúa y evalúo la *siguiente* expresión, que es \\1m\\ más el valor del flujo anterior, que está representado por \\.\\. Esto añade 1 m al tamaño de la frase, haciendo que la palabra se haga cada vez más grande."
                         ],
-                        ["fit", "Phrase('hi' size: 1m … ∆ Key(' ') … 1m + .)"],
+                        ["fit", "Phrase('hi' size: 1m … ∆ Key(' ') … 1m + ⬚)"],
                         null,
                         [
                             "FunctionDefinition",
@@ -2956,7 +2956,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' size: 1m … Key(' ') = ' ' … 1m + .)"
+                            "Phrase('hi' size: 1m … Key(' ') = ' ' … 1m + ⬚)"
                         ],
                         null,
                         [

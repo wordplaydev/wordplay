@@ -142,4 +142,20 @@ export default class MapValue extends SimpleValue {
             sum += key.getSize() + value.getSize();
         return sum;
     }
+
+    isCollection() {
+        return true;
+    }
+
+    /** A translate (↦) over a map binds `.` to each value, preserving keys. */
+    getTranslationItems(): Value[] {
+        return this.values.map(([, value]) => value);
+    }
+
+    createTranslation(creator: Expression, results: Value[]): Value {
+        return new MapValue(
+            creator,
+            this.values.map(([key], index) => [key, results[index]]),
+        );
+    }
 }

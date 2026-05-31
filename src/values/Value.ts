@@ -44,4 +44,19 @@ export default abstract class Value {
      * Used to manage history size.
      */
     abstract getSize(): number;
+
+    /** True if this value is a collection the translate (↦) construct can iterate. Overridden by List, Set, Map, and Table values. */
+    isCollection(): boolean {
+        return false;
+    }
+
+    /** The ordered items a translate (↦) binds to `.`, one per iteration. Only meaningful when isCollection() is true. */
+    getTranslationItems(): Value[] {
+        return [];
+    }
+
+    /** Build a new collection of this value's kind from the translated results, preserving structure (e.g. Map keys). Only meaningful when isCollection() is true. */
+    createTranslation(_creator: Expression, _results: Value[]): Value {
+        return this;
+    }
 }

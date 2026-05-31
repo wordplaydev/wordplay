@@ -20,6 +20,8 @@ export const TAG_CLOSE_SYMBOL_FULL = '＞';
 export const CONVERT_SYMBOL = '→';
 export const CONVERT_SYMBOL2 = '->';
 export const CONVERT_SYMBOL3 = '=>';
+export const TRANSLATE_SYMBOL = '↦';
+export const TRANSLATE_SYMBOL_RTL = '↤';
 export const FUNCTION_SYMBOL = 'ƒ';
 export const EVAL_OPEN_SYMBOL = '(';
 export const EVAL_CLOSE_SYMBOL = ')';
@@ -58,6 +60,8 @@ export const TRUE_SYMBOL = '⊤';
 export const FALSE_SYMBOL = '⊥';
 export const PROPERTY_SYMBOL = '.';
 export const PROPERTY_SYMBOL_FULL = '。';
+/** The "this" reference: a dotted square, symbolizing a value to be filled in. */
+export const THIS_SYMBOL = '⬚';
 export const BORROW_SYMBOL = '↓';
 export const SHARE_SYMBOL = '↑';
 export const DOCS_SYMBOL = '¶';

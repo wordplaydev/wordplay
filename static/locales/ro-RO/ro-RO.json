@@ -132,7 +132,8 @@
         "Unknown": "$~necunoscut",
         "End": "$~Sfârşit",
         "Highlight": "$~exemplu evidențiat",
-        "LanguageJoin": "$~unitor de limbi"
+        "LanguageJoin": "$~unitor de limbi",
+        "Translate": "$~traduce"
     },
     "node": {
         "Dimension": {
@@ -690,7 +691,7 @@
             },
             "doc": [
                 "$~Omule, eu definesc conversiile de la un tip la altul! Intru în @Block, ceva de genul:",
-                "$~\\→ #pisicuță #pisică . ÷ 2 6pisicuță→#pisică\\",
+                "$~\\→ #pisicuță #pisică ⬚ ÷ 2 6pisicuță→#pisică\\",
                 "$~Ai văzut cum am transformat pisici în feline? Ce răutăcios!",
                 "$~Poate vă întrebați ce face acel \\.\\ acolo. Acesta reprezintă valoarea care este convertită. Folosesc acest parametru pentru că altfel valoarea nu are nume."
             ],
@@ -1490,20 +1491,22 @@
             "description": "$~se referă la valoarea structurii curente",
             "emotion": "serious",
             "doc": [
-                "$~Uneori, este util să te referi implicit la o valoare, în loc să fie nevoie să o denumești.",
-                "$~De exemplu, să presupunem că vrei să creezi o nouă @ConversionDefinition, care nu denumește valoarea convertită. Poți pur și simplu să o consulți împreună cu mine:",
-                "$~\\→ #curcubee #bucurii . × 1000000bucurii 2curcubee → #bucurii\\",
-                "$~Mă vezi acolo, reprezentând numărul curcubeelor?",
-                "$~Sau să presupunem că vrei să creezi o @Reaction, dar nu trebuie să menționezi cea mai recentă valoare:",
-                "$~\\2 … ∆ Timp (1000ms) … . × 2\\",
-                "$~Verifică-mă, reprezentând valoarea reacției anterioare.",
-                "$~Nu apar des, dar când o fac, pot ajuta cu adevărat o persoană importantă să iasă dintr-o @Bind!"
+                "$~Uneori este util să te referi implicit la o valoare, în loc să fie nevoie să o numești. Așa sunt eu — \\⬚\\ , un pătrat mic care reprezintă orice valoare la care lucrează codul din jur.",
+                "$~În interiorul unui @ConversionDefinition , eu sunt valoarea care este convertită:",
+                "$~\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
+                "$~În interiorul unei @Reaction , sunt cea mai recentă valoare:",
+                "$~\\2 … ∆ Time(1000ms) … ⬚ × 2\\",
+                "$~În interiorul unui @Translate , eu sunt elementul mapat curent, deci aceasta adaugă câte una la fiecare valoare:",
+                "$~\\[1 2 3] ↦ ⬚ + 1\\",
+                "$~Și în interiorul unei @StructureDefinition , eu sunt valoarea curentă însăși, deci pot ajunge la propriile mele părți cu \\⬚.rank\\ , la fel cum ajung la părțile altei valori cu \\other.rank\\ :",
+                "$~\\•Card(rank•#) (\n\tƒ beats(other•Card) ⬚.rank > other.rank\n)\n\nCard(10).beats(Card(7))\\",
+                "$~Nu apar des, dar când o fac, pot ajuta cu adevărat o persoană importantă să iasă dintr-o @Bind !"
             ],
             "start": "$~Evaluat la $value",
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~ampierdutaceastăreferință",
-                    "explanation": "$~Am voie doar într-o structură, conversie sau reacție.",
+                    "explanation": "$~Am voie doar într-o structură, conversie, reacție sau traducere.",
                     "resolution": "$~Înlocuiți cu un substituent"
                 }
             }
@@ -1601,7 +1604,7 @@
         },
         "AnyType": {
             "name": "$~orice",
-            "description": "$~potrivește orice tip posibil",
+            "description": "$~orice",
             "emotion": "curious",
             "doc": "$~Reprezint orice tip posibil. Uneori apar pentru că nu știu ce valoare are ceva, așa că ar putea fi orice."
         },
@@ -1621,7 +1624,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Lucrez cu @Bind pentru a indica faptul că un nume este o @ConversionDefinition. Probabil că nu este nevoie să mă folosești, deoarece nu mulți oameni mă transmit ca valoare, dar dacă ai face-o, aș arăta astfel:",
-                "$~\\magic•?→'': → ? '' . ? 'da' 'nu'\\"
+                "$~\\magic•?→'': → ? '' ⬚ ? 'da' 'nu'\\"
             ]
         },
         "FormattedType": {
@@ -1851,6 +1854,32 @@
             "description": "$~marchează $type ca nefuncție",
             "emotion": "confused",
             "doc": "$~Unii dintre noi ne așteptam la niște funcții; eu apar când nu primim una."
+        },
+        "Translate": {
+            "name": "$~traduce",
+            "description": "$~mapați o colecție într-una nouă",
+            "emotion": "excited",
+            "doc": [
+                "$~O, O, O, O! Ai o ÎNTREAGĂ COLECȚIE de lucruri și vrei să faci ACELAȘI lucru cu FIECARE în parte?? Asta sunt EU! Literalmente asta FAC!!",
+                "$~Pune o colecție în stânga mea, desenează săgeata mea \\↦\\ , apoi în dreapta scrie în ce ar trebui să se TRANSFORME fiecare element — folosește @This pentru a însemna elementul pe care îl țin CHIAR ACUM!",
+                "$~\\[1 2 3] ↦ ⬚ + 1\\ îți dă \\[2 3 4]\\ . BOOM! Fiecare număr, plus unu, fără bucle, fără @FunctionDefinition , fără bătaie de cap!",
+                "$~Sunt UIMITOR că am reușit să creez ieșiri @Phrase din date! Ai o listă de nume? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ și acum există câte o expresie pentru FIECARE nume!!",
+                "$~Lucrez cu @List , @Set , @Map (schimb VALOARELE hărții — cheile rămân exact unde sunt!) și chiar @Table !",
+                "$~Vrei ceva mai sofisticat — cum ar fi indexul fiecărui element sau o funcție pe care o poți reutiliza în multe locuri? Vizitează-mi verișorii mai calmi și mai maturi, cum ar fi @List/translate . Dar pentru cartografiere rapidă de zi cu zi, sunt aici!!"
+            ],
+            "start": "$~Stai puțin, lasă-mă să iau tot ce e în $expression !",
+            "finish": "$~TA-DA! Iată noua ta colecție: $value",
+            "next": "$~Următorul element: $value !",
+            "conflict": {
+                "ExpectedCollection": {
+                    "name": "$~colectareașteptată",
+                    "explanation": "$~Mă așteptam ca partea stângă a unei conversii de colecție să fie o colecție, dar am primit $type"
+                },
+                "ExpectedThis": {
+                    "name": "$~așteptamasta",
+                    "explanation": "$~Ai vrut să folosești @This pentru a te referi la un element din această colecție?"
+                }
+            }
         }
     },
     "basis": {
@@ -5317,7 +5346,9 @@
                     "noSelection": "$~Nimic selectat",
                     "noMove": "$~Nu mă pot mișca mai departe"
                 },
-                "nextMatch": "$~treceți la următoarea potrivire de căutare"
+                "nextMatch": "$~treceți la următoarea potrivire de căutare",
+                "insertTranslate": "$~inserați simbolul de traducere",
+                "insertThis": "$~introduceți acest simbol"
             },
             "error": {
                 "invalidName": "$~Acesta trebuie să fie un nume valid de joc de cuvinte.",

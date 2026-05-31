@@ -2963,7 +2963,7 @@
                             "serious",
                             "$~Här är ett exempel. Ser du @Key-strömmen? Sätter jag ∆ innan den frågar, /Ändrade den här strömmen?/ Innan den ändras, utvärderar jag till det initiala värdet, \\1m\\. Men när mellanslagstangenten trycks ned, omvärderar @Program, och jag utvärderar till *nästa* uttrycket, som är \\1m\\ plus vad som än var föregående strömvärde; som representeras av \\.\\. Detta lägger till \\1m\\ till storleken på frasen, vilket gör att ordet blir större och större."
                         ],
-                        ["fix", "Phrase('hi' size: 1m … ∆ Key(' ') … 1m + .)"],
+                        ["fix", "Phrase('hi' size: 1m … ∆ Key(' ') … 1m + ⬚)"],
                         null,
                         [
                             "FunctionDefinition",
@@ -3010,7 +3010,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' size: 1m … Key(' ') = ' ' … 1m + .)"
+                            "Phrase('hi' size: 1m … Key(' ') = ' ' … 1m + ⬚)"
                         ],
                         null,
                         [

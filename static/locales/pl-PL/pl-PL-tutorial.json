@@ -2951,7 +2951,7 @@
                             "serious",
                             "$~Oto przykład. Zobacz strumień @Key? Wstawiając ∆ przed pytaniem, /Czy ten strumień się zmienił?/ Zanim się zmieni, oceniam na wartość początkową, \\1m\\. Ale gdy naciśnięty jest klawisz spacji, @Program ponownie ocenia, a ja oceniam na *następne* wyrażenie, które jest \\1m\\ plus jakakolwiek poprzednia wartość strumienia; jest to reprezentowane przez \\.\\. Dodaje to \\1m\\ do rozmiaru frazy, sprawiając, że słowo staje się coraz większe."
                         ],
-                        ["fix", "Phrase('hi' size: 1m … ∆ Key(' ') … 1m + .)"],
+                        ["fix", "Phrase('hi' size: 1m … ∆ Key(' ') … 1m + ⬚)"],
                         null,
                         [
                             "FunctionDefinition",
@@ -2998,7 +2998,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' size: 1m … Key(' ') = ' ' … 1m + .)"
+                            "Phrase('hi' size: 1m … Key(' ') = ' ' … 1m + ⬚)"
                         ],
                         null,
                         [

@@ -513,8 +513,8 @@ describe('MisplacedConversion', () => {
 });
 
 describe('MisplacedThis', () => {
-    test('`.` outside any structure → repair (placeholder)', () => {
-        expectRepair('.', MisplacedThis);
+    test('⬚ outside any structure → repair (placeholder)', () => {
+        expectRepair('⬚', MisplacedThis);
     });
 });
 

@@ -25,6 +25,7 @@ import Token from '@nodes/Token';
 import { Sym } from '@nodes/Sym';
 import Dimension from '@nodes/Dimension';
 import Reference from '@nodes/Reference';
+import ListLiteral from '@nodes/ListLiteral';
 
 test.each([
     ['blank programs suggest numbers', '**', undefined, Append, '0'],
@@ -147,6 +148,27 @@ test.each([
         (node) => node instanceof NumberLiteral,
         Replace,
         '-5',
+    ],
+    [
+        'suggest translate (↦) on a collection',
+        '[1 2 3]',
+        (node) => node instanceof ListLiteral,
+        Replace,
+        '[1 2 3] ↦ _•#',
+    ],
+    [
+        'suggest this (⬚) in a translate body',
+        '[1 2 3] ↦ _',
+        (node) => node instanceof ExpressionPlaceholder,
+        Replace,
+        '⬚',
+    ],
+    [
+        'suggest this (⬚) in a reaction',
+        '1 … ∆ Time() … _',
+        (node) => node instanceof ExpressionPlaceholder,
+        Replace,
+        '⬚',
     ],
     [
         'suggest locale with region when Language is selected',

@@ -132,7 +132,8 @@
         "KannadaNumeral": "$~cyfra kannada",
         "TamilNumeral": "$~cyfra tamilska",
         "TeluguNumeral": "$~cyfra telugu",
-        "LanguageJoin": "$~łącznik językowy"
+        "LanguageJoin": "$~łącznik językowy",
+        "Translate": "$~tłumaczyć"
     },
     "node": {
         "Dimension": {
@@ -682,7 +683,7 @@
             "emotion": "excited",
             "doc": [
                 "$~Koleś, ja definiuję konwersje z jednego typu na inny! Wchodzę w @Block, coś takiego:",
-                "$~\\→ #kotek #kot . ÷ 2\n6kotek→#kot\\",
+                "$~\\→ #kotek #kot ⬚ ÷ 2\n6kotek→#kot\\",
                 "$~Widzisz jak zamieniłem kociaki w koty? Obłędne!",
                 "$~Możesz się zastanawiać, co to \\.\\ tam robi. To reprezentuje wartość, która jest konwertowana. Używam tego, ponieważ wartość nie ma innej nazwy."
             ],
@@ -1485,20 +1486,22 @@
             "description": "$~odnosi się do bieżącej wartości struktury",
             "emotion": "serious",
             "doc": [
-                "$~Czasami pomocne jest odwołanie się do ukrytej wartości, zamiast konieczności jej podawania po imieniu.",
-                "$~Na przykład, załóżmy, że chcesz utworzyć nową @ConversionDefinition, która nie nazywa wartości, która jest konwertowana. Możesz po prostu odwołać się do niej ze mną:",
-                "$~\\→ #tęcze #radości . × 1000000radości\n2tęcze → #radości\\",
-                "$~Widzisz mnie tam, reprezentującego liczbę tęcz?",
-                "$~Albo załóżmy, że chcesz utworzyć @Reaction, ale nie chcesz podawać nazwy najnowszej wartości:",
-                "$~\\2 … ∆ Czas (1000 ms) … . × 2\\",
-                "$~Sprawdź mnie, reprezentującą poprzednią wartość reakcji.",
-                "$~Nie pojawiam się tu często, ale kiedy już to zrobię, naprawdę mogę pomóc w wydobyciu wartości z @Bind!"
+                "$~Czasami pomocne jest odwołanie się do wartości niejawnie, zamiast konieczności jej nazywania. To ja — \\⬚\\ , mały kwadracik oznaczający dowolną wartość, nad którą pracuje otaczający ją kod.",
+                "$~Wewnątrz @ConversionDefinition znajduję się konwertowana wartość:",
+                "$~\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
+                "$~Wewnątrz @Reaction mam najnowszą wartość:",
+                "$~\\2 … ∆ Time(1000ms) … ⬚ × 2\\",
+                "$~Wewnątrz @Translate jestem bieżącym mapowanym elementem, więc dodaje to jeden do każdej wartości:",
+                "$~\\[1 2 3] ↦ ⬚ + 1\\",
+                "$~A wewnątrz @StructureDefinition jestem samą bieżącą wartością, więc mogę dotrzeć do własnych części za pomocą \\⬚.rank\\ , tak jak docieram do części innej wartości za pomocą \\other.rank\\ :",
+                "$~\\•Card(rank•#) (\n\tƒ beats(other•Card) ⬚.rank > other.rank\n)\n\nCard(10).beats(Card(7))\\",
+                "$~Nie pojawiam się często, ale kiedy już to zrobię, naprawdę mogę pomóc w wyciągnięciu wartości z @Bind !"
             ],
             "start": "$~Oceniono na $value",
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~zgubiłemtoodniesienie",
-                    "explanation": "$~Mogę występować jedynie w strukturze, konwersji lub reakcji.",
+                    "explanation": "$~Mogę jedynie występować w strukturze, konwersji, reakcji lub tłumaczeniu.",
                     "resolution": "$~Zastąp symbolem zastępczym"
                 }
             }
@@ -1596,7 +1599,7 @@
         },
         "AnyType": {
             "name": "$~każdy",
-            "description": "$~dopasowuje dowolny możliwy typ",
+            "description": "$~każdy",
             "emotion": "curious",
             "doc": "$~Reprezentuję każdy możliwy typ. Czasami pojawiam się, ponieważ nie wiem, jaką wartość ma coś, więc może to być cokolwiek."
         },
@@ -1616,7 +1619,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Współpracuję z @Bind, aby wskazać, że nazwa jest @ConversionDefinition. Prawdopodobnie nie musisz mnie używać, ponieważ niewiele osób przekazuje mnie jako wartość, ale gdybyś to zrobił, wyglądałoby to tak:",
-                "$~\\magic•?→'': → ? '' . ? 'tak' 'nie'\\"
+                "$~\\magic•?→'': → ? '' ⬚ ? 'tak' 'nie'\\"
             ]
         },
         "FormattedType": {
@@ -1846,6 +1849,32 @@
             "description": "$~oznacz $type jako nie-funkcję",
             "emotion": "confused",
             "doc": "$~Niektórzy z nas spodziewali się pewnych wydarzeń; ja pojawiałem się, gdy ich nie dostawaliśmy."
+        },
+        "Translate": {
+            "name": "$~tłumaczyć",
+            "description": "$~mapować kolekcję do nowej",
+            "emotion": "excited",
+            "doc": [
+                "$~OCH, OCH, OCH! Masz CAŁĄ KOLEKCJĘ rzeczy i chcesz zrobić TO SAMO z KAŻDĄ z nich?? To ja! Dosłownie to ROBIĘ!!",
+                "$~Umieść kolekcję po mojej lewej stronie, narysuj strzałkę \\↦\\ , a następnie po mojej prawej stronie napisz, w co każdy element powinien się ZMIENIĆ — użyj @This , aby oznaczyć element, który trzymam TERAZ!",
+                "$~\\[1 2 3] ↦ ⬚ + 1\\ daje \\[2 3 4]\\ . BUM! Każda liczba, plus jeden, bez pętli, bez @FunctionDefinition , bez zamieszania!",
+                "$~Jestem NIESAMOWITY w tworzeniu wyników @Phrase z danych! Masz listę imion? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ i teraz jest fraza dla KAŻDEGO imienia!!",
+                "$~Pracuję nad @List , @Set , @Map (zmieniam WARTOŚCI mapy — klucze pozostają tam, gdzie są!), a nawet @Table !",
+                "$~Masz ochotę na coś bardziej wyszukanego — na przykład indeks każdego elementu albo funkcję, którą możesz wykorzystać w wielu miejscach? Odwiedź moich spokojniejszych, dorosłych kuzynów, takich jak @List/translate . Ale jeśli chodzi o szybkie, codzienne mapowanie, to jestem tutaj!"
+            ],
+            "start": "$~Poczekaj, zaraz złapię wszystko z $expression !",
+            "finish": "$~TA-DA! Oto Twoja nowa kolekcja: $value",
+            "next": "$~Następny element: $value !",
+            "conflict": {
+                "ExpectedCollection": {
+                    "name": "$~oczekiwanakolekcja",
+                    "explanation": "$~Spodziewałem się, że lewa strona konwersji kolekcji musi być kolekcją, ale otrzymałem $type"
+                },
+                "ExpectedThis": {
+                    "name": "$~spodziewałemsiętego",
+                    "explanation": "$~Czy miałeś na myśli użycie @This w celu odwołania się do elementu w tej kolekcji?"
+                }
+            }
         }
     },
     "basis": {
@@ -5073,7 +5102,9 @@
                     "noSelection": "$~Nic nie wybrano",
                     "noMove": "$~Nie mogę się ruszyć dalej"
                 },
-                "nextMatch": "$~przejdź do następnego wyniku wyszukiwania"
+                "nextMatch": "$~przejdź do następnego wyniku wyszukiwania",
+                "insertTranslate": "$~wstaw symbol tłumaczenia",
+                "insertThis": "$~wstaw ten symbol"
             },
             "options": {
                 "locale": {

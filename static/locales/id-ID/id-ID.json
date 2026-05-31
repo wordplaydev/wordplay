@@ -132,7 +132,8 @@
         "Unknown": "$~tidak dikenal",
         "End": "$~akhir",
         "Highlight": "$~contoh yang disorot",
-        "LanguageJoin": "$~penyambung bahasa"
+        "LanguageJoin": "$~penyambung bahasa",
+        "Translate": "$~menerjemahkan"
     },
     "node": {
         "Dimension": {
@@ -690,7 +691,7 @@
             },
             "doc": [
                 "$~Bro, aku yang menentukan konversi dari satu tipe ke tipe lainnya! Aku masuk ke @Block, kira-kira seperti ini:",
-                "$~\\→ #kucing #kucing . ÷ 2 6kucing→#kucing\\",
+                "$~\\→ #kucing #kucing ⬚ ÷ 2 6kucing→#kucing\\",
                 "$~Lihat bagaimana aku mengubah anak kucing menjadi kucing dewasa? Keren!",
                 "$~Anda mungkin bertanya-tanya apa fungsi \\.\\ di situ. Itu mewakili nilai yang sedang dikonversi. Saya menggunakannya karena nilai tersebut tidak memiliki nama lain."
             ],
@@ -1490,20 +1491,22 @@
             "description": "$~mengacu pada nilai struktur saat ini",
             "emotion": "serious",
             "doc": [
-                "$~Terkadang, lebih bermanfaat untuk merujuk pada suatu nilai secara implisit, daripada harus menyebutkannya secara eksplisit.",
-                "$~Misalnya, anggaplah Anda ingin membuat @ConversionDefinition baru, yang tidak menyebutkan nilai yang sedang dikonversi. Anda cukup merujuknya bersama saya:",
-                "$~\\→ #pelangi #kebahagiaan . × 1000000kebahagiaan 2pelangi → #kebahagiaan\\",
-                "$~Lihat aku di sana, mewakili jumlah pelangi?",
-                "$~Atau misalkan Anda ingin membuat @Reaction, tetapi tidak perlu menyebutkan nilai terbaru:",
-                "$~\\2 … ∆ Waktu(1000ms) … . × 2\\",
-                "$~Lihat saya, yang mewakili nilai reaksi sebelumnya.",
-                "$~Saya jarang muncul, tetapi ketika saya muncul, saya benar-benar dapat membantu sebuah nilai keluar dari @Bind!"
+                "$~Terkadang, akan lebih mudah untuk merujuk pada suatu nilai secara implisit, daripada harus menyebutkannya. Itulah saya — \\⬚\\ , sebuah kotak kecil yang mewakili nilai apa pun yang sedang dikerjakan oleh kode di sekitarnya.",
+                "$~Di dalam @ConversionDefinition , saya adalah nilai yang sedang dikonversi:",
+                "$~\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
+                "$~Di dalam @Reaction , saya adalah nilai terbaru:",
+                "$~\\2 … ∆ Time(1000ms) … ⬚ × 2\\",
+                "$~Di dalam @Translate , saya adalah item yang sedang dipetakan, jadi ini menambahkan satu ke setiap nilai:",
+                "$~\\[1 2 3] ↦ ⬚ + 1\\",
+                "$~Dan di dalam @StructureDefinition , saya adalah nilai saat ini itu sendiri, jadi saya dapat mengakses bagian saya sendiri dengan \\⬚.rank\\ , sama seperti saya mengakses bagian nilai lain dengan \\other.rank\\ :",
+                "$~\\•Card(rank•#) (\n\tƒ beats(other•Card) ⬚.rank > other.rank\n)\n\nCard(10).beats(Card(7))\\",
+                "$~Saya jarang muncul, tetapi ketika saya muncul, saya benar-benar dapat membantu mendapatkan nilai dari @Bind !"
             ],
             "start": "$~Dievaluasi menjadi $value",
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~referensiinisalahtempat",
-                    "explanation": "$~Saya hanya diperbolehkan berada dalam struktur, konversi, atau reaksi.",
+                    "explanation": "$~Saya hanya diperbolehkan dalam struktur, konversi, reaksi, atau penerjemahan.",
                     "resolution": "$~Ganti dengan tempat penampung"
                 }
             }
@@ -1601,7 +1604,7 @@
         },
         "AnyType": {
             "name": "$~setiap",
-            "description": "$~cocok dengan semua jenis yang mungkin",
+            "description": "$~setiap",
             "emotion": "curious",
             "doc": "$~Saya mewakili semua kemungkinan tipe. Terkadang saya muncul karena saya tidak tahu nilai apa yang dimiliki sesuatu, jadi bisa apa saja."
         },
@@ -1621,7 +1624,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Saya bekerja dengan @Bind untuk menunjukkan bahwa sebuah nama adalah @ConversionDefinition. Anda mungkin tidak perlu menggunakan saya, karena tidak banyak orang yang meneruskan saya sebagai nilai, tetapi jika Anda membutuhkannya, tampilan saya akan seperti ini:",
-                "$~\\magic•?→'': → ? '' . ? 'ya' 'tidak'\\"
+                "$~\\magic•?→'': → ? '' ⬚ ? 'ya' 'tidak'\\"
             ]
         },
         "FormattedType": {
@@ -1851,6 +1854,32 @@
             "description": "$~menandai $type sebagai bukan fungsi",
             "emotion": "confused",
             "doc": "$~Sebagian dari kita mengharapkan adanya acara; saya hadir ketika acara tersebut tidak diadakan."
+        },
+        "Translate": {
+            "name": "$~menerjemahkan",
+            "description": "$~memetakan koleksi ke koleksi baru",
+            "emotion": "excited",
+            "doc": [
+                "$~OH OH OH! Apakah kamu punya BANYAK koleksi barang dan ingin melakukan hal yang SAMA pada SETIAP barangnya?? Itulah AKU! Itulah yang benar-benar aku lakukan!!",
+                "$~Letakkan koleksi di sebelah kiri saya, gambar panah saya \\↦\\ , lalu di sebelah kanan saya tuliskan apa yang seharusnya menjadi hasil akhir dari setiap item — gunakan @This untuk menunjukkan item yang sedang saya pegang SAAT INI!",
+                "$~\\[1 2 3] ↦ ⬚ + 1\\ menghasilkan \\[2 3 4]\\ . BOOM! Setiap angka, ditambah satu, tanpa perulangan, tanpa @FunctionDefinition , tanpa ribet!",
+                "$~Saya SANGAT hebat dalam membuat output @Phrase dari data! Punya daftar nama? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ dan sekarang ada frasa untuk SETIAP nama!!",
+                "$~Saya mengerjakan @List , @Set , @Map (saya mengubah VALUES map — kunci tetap di tempatnya!), dan bahkan @Table !",
+                "$~Ingin sesuatu yang lebih canggih — seperti indeks setiap item, atau fungsi yang dapat Anda gunakan kembali di banyak tempat? Kunjungi saja sepupu saya yang lebih tenang dan dewasa seperti @List/translate . Tapi untuk pemetaan sehari-hari yang cepat, saya di sini!!"
+            ],
+            "start": "$~Tunggu sebentar, izinkan saya mengambil semua yang ada di $expression !",
+            "finish": "$~TA-DA! Ini dia koleksi terbaru Anda: $value",
+            "next": "$~Item berikutnya: $value !",
+            "conflict": {
+                "ExpectedCollection": {
+                    "name": "$~koleksiyangdiharapkan",
+                    "explanation": "$~Saya mengharapkan sisi kiri dari konversi koleksi harus berupa koleksi, tetapi yang saya dapatkan $type"
+                },
+                "ExpectedThis": {
+                    "name": "$~mengharapkanini",
+                    "explanation": "$~Apakah Anda bermaksud menggunakan @This untuk merujuk pada item dalam koleksi ini?"
+                }
+            }
         }
     },
     "basis": {
@@ -5317,7 +5346,9 @@
                     "noSelection": "$~Tidak ada yang dipilih",
                     "noMove": "$~Tidak bisa bergerak lebih jauh lagi"
                 },
-                "nextMatch": "$~Lanjutkan ke hasil pencarian berikutnya"
+                "nextMatch": "$~Lanjutkan ke hasil pencarian berikutnya",
+                "insertTranslate": "$~sisipkan simbol terjemahan",
+                "insertThis": "$~sisipkan simbol ini"
             },
             "error": {
                 "invalidName": "$~Ini harus berupa nama Wordplay yang valid.",
