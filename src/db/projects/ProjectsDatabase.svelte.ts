@@ -64,6 +64,10 @@ export const MAX_PROJECT_BYTE_SIZE = 1048576;
  */
 export const MAX_PROJECT_NAME_LENGTH = 64;
 
+/** `sessionStorage` key under which the per-tab session id is persisted so
+ *  it survives reloads of the same tab. See {@link ProjectsDatabase.sessionID}. */
+const SessionIDStorageKey = 'wordplay.sessionID';
+
 export default class ProjectsDatabase {
     /** The database that manages this */
     readonly database: Database;
@@ -162,8 +166,10 @@ export default class ProjectsDatabase {
     private lastCRDTCodes: Map<string, string[]> = new Map();
 
     /**
-     * Per-tab session identifier. Stable for the lifetime of this
-     * ProjectsDatabase instance (i.e., one tab). Distinct from
+     * Per-tab session identifier. Persisted in `sessionStorage` (key
+     * {@link SessionIDStorageKey}) so it is **stable across reloads of the
+     * same tab** while remaining **isolated per tab** — exactly the
+     * semantics `sessionStorage` provides. Distinct from
      * {@link Database.getWriterID} which is stored in localStorage and
      * therefore *shared* across tabs in the same browser.
      *
@@ -176,13 +182,35 @@ export default class ProjectsDatabase {
      *     (so each tab gets its own presence doc and color, rather
      *     than two tabs overwriting one shared doc)
      *
+     * Persisting across reloads is what prevents the *phantom
+     * collaborator* on refresh: a reloaded tab reuses the same presence
+     * doc key, so the new tracker self-filters it and overwrites its
+     * stale `lastSeen` rather than seeing the orphaned old doc as a
+     * second editor. Generating a fresh id each load would make every
+     * refresh look like a departing-then-arriving peer for ~10s (until
+     * the old doc ages out via the stale sweep).
+     *
+     * Known trade-off: browser "Duplicate Tab" copies `sessionStorage`,
+     * so a duplicated tab inherits this id and the two tabs share one
+     * presence doc (appearing as a single collaborator). That's a rare,
+     * cosmetic degradation — far less disruptive than a phantom on every
+     * refresh. Opening a fresh tab/window gets its own empty
+     * `sessionStorage` and therefore its own id, so normal multi-tab
+     * co-editing is unaffected.
+     *
      * Stamps in ProjectsDatabase.edit() keep using the per-device
      * writer — that's about authorship identity, not session
      * deduplication, and two tabs as the same user really do share
      * the same authorship for stamping purposes.
      */
     private readonly sessionID: string =
-        typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
+        ProjectsDatabase.resolveSessionID();
+
+    /** Generate a fresh session id using the best available randomness,
+     *  falling back gracefully when `crypto` is unavailable. */
+    private static newSessionID(): string {
+        return typeof crypto !== 'undefined' &&
+            typeof crypto.randomUUID === 'function'
             ? crypto.randomUUID()
             : typeof crypto !== 'undefined' &&
                 typeof crypto.getRandomValues === 'function'
@@ -190,6 +218,27 @@ export default class ProjectsDatabase {
                     .map((byte) => byte.toString(16).padStart(2, '0'))
                     .join('')}-${Date.now().toString(36)}`
               : `s-${Date.now().toString(36)}`;
+    }
+
+    /** Read the per-tab session id from `sessionStorage`, creating and
+     *  persisting one on first use. Falls back to a non-persisted id when
+     *  `sessionStorage` is unavailable (SSR, disabled, or private-mode
+     *  quota) — behavior there is no worse than a freshly generated id. */
+    private static resolveSessionID(): string {
+        if (typeof sessionStorage === 'undefined')
+            return ProjectsDatabase.newSessionID();
+        try {
+            const existing = sessionStorage.getItem(SessionIDStorageKey);
+            if (existing !== null) return existing;
+            const fresh = ProjectsDatabase.newSessionID();
+            sessionStorage.setItem(SessionIDStorageKey, fresh);
+            return fresh;
+        } catch {
+            // sessionStorage present but read/write threw (private mode,
+            // quota, or blocked) — degrade to a non-persisted id.
+            return ProjectsDatabase.newSessionID();
+        }
+    }
 
     /** True once the initial local-IndexedDB hydration has produced its
      *  first batch of projects (or determined there are none). Reactive
