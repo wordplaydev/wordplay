@@ -516,7 +516,8 @@
                     "resolutionDefault": "$~请为绑定指定一个初始值，因为$expected。",
                     "resolutionWiden": "$~允许此绑定使用值的类型，因为$expected，无法容纳实际存储的内容。",
                     "resolutionReorder": "$~交换输入框，因为它们的类型在另一种顺序下更合适—— $expected。",
-                    "resolutionPlaceholder": "$~暂时用占位符代替，因为$expected——然后从自动完成菜单中选择一个值。"
+                    "resolutionPlaceholder": "$~暂时用占位符代替，因为$expected——然后从自动完成菜单中选择一个值。",
+                    "explanationDivideByZero": "$~这可能是 ø，因为$source，而这里需要一个数字。"
                 },
                 "MisplacedShare": {
                     "name": "放错位置的共享",
@@ -785,7 +786,8 @@
                     "resolutionDefault": "$~请为绑定指定一个初始值，因为$expected。",
                     "resolutionWiden": "$~允许此绑定使用值的类型，因为$expected，无法容纳实际存储的内容。",
                     "resolutionReorder": "$~交换输入框，因为它们的类型在另一种顺序下更合适—— $expected。",
-                    "resolutionPlaceholder": "$~暂时用占位符代替，因为$expected——然后从自动完成菜单中选择一个值。"
+                    "resolutionPlaceholder": "$~暂时用占位符代替，因为$expected——然后从自动完成菜单中选择一个值。",
+                    "explanationDivideByZero": "$~这可能是 ø，因为$source，而这里需要一个数字。"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~意外的类型输入",

@@ -524,7 +524,8 @@
                     "resolutionDefault": "$~Berikan nilai awal pada binding, karena $expected tidak boleh hilang di sini.",
                     "resolutionWiden": "$~Izinkan tipe nilai untuk pengikatan ini, karena $expected terlalu sempit untuk apa yang sebenarnya disimpan.",
                     "resolutionReorder": "$~Tukar posisi inputnya, karena tipe datanya lebih cocok jika diurutkan sebaliknya — $expected seharusnya berada di posisi lain.",
-                    "resolutionPlaceholder": "$~Untuk sementara, gantilah dengan nilai sementara, karena $expected wajib diisi — lalu pilih nilai dari menu pelengkapan otomatis."
+                    "resolutionPlaceholder": "$~Untuk sementara, gantilah dengan nilai sementara, karena $expected wajib diisi — lalu pilih nilai dari menu pelengkapan otomatis.",
+                    "explanationDivideByZero": "$~Ini bisa jadi ø karena $source mungkin dibagi nol, dan angka diperlukan di sini."
                 },
                 "MisplacedShare": {
                     "name": "$~sahamyangsalahtempat",
@@ -795,7 +796,8 @@
                     "resolutionDefault": "$~Berikan nilai awal pada binding, karena $expected tidak boleh hilang di sini.",
                     "resolutionWiden": "$~Izinkan tipe nilai untuk pengikatan ini, karena $expected terlalu sempit untuk apa yang sebenarnya disimpan.",
                     "resolutionReorder": "$~Tukar posisi inputnya, karena tipe datanya lebih cocok jika diurutkan sebaliknya — $expected seharusnya berada di posisi lain.",
-                    "resolutionPlaceholder": "$~Untuk sementara, gantilah dengan nilai sementara, karena $expected wajib diisi — lalu pilih nilai dari menu pelengkapan otomatis."
+                    "resolutionPlaceholder": "$~Untuk sementara, gantilah dengan nilai sementara, karena $expected wajib diisi — lalu pilih nilai dari menu pelengkapan otomatis.",
+                    "explanationDivideByZero": "$~Ini bisa jadi ø karena $source mungkin dibagi nol, dan angka diperlukan di sini."
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~inputtipeyangtidakterduga",

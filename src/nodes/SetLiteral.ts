@@ -135,6 +135,10 @@ export default class SetLiteral extends CompositeLiteral {
               );
     }
 
+    getConstantLength(): number {
+        return this.values.length;
+    }
+
     computeType(context: Context): Type {
         // Generate a union type from all the values.
         const union = SetType.make(this.getItemType(context));

@@ -62,6 +62,7 @@ import StructureType from '@nodes/StructureType';
 import { Sym } from '@nodes/Sym';
 import type Token from '@nodes/Token';
 import type Type from '@nodes/Type';
+import NoneType from '@nodes/NoneType';
 import TypeInputs from '@nodes/TypeInputs';
 import type TypeSet from '@nodes/TypeSet';
 import TypeVariable from '@nodes/TypeVariable';
@@ -74,6 +75,31 @@ type Mapping = {
 };
 
 type InputMapping = { inputs: Mapping[]; extra: (Expression | Input)[] };
+
+/**
+ * Whether a function whose output is `given` should be offered for a slot
+ * expecting `expected`. Accepts an exact fit, and also a function that fits
+ * once a possible ø is removed (e.g. `÷`/`%`, which yield `# | ø`) — so common
+ * operations stay discoverable in typed slots and the none-handling conflict's
+ * `??` quick-fix guides the creator to account for the ø.
+ */
+function acceptsAllowingNone(
+    expected: Type,
+    given: Type,
+    context: Context,
+): boolean {
+    if (expected.accepts(given, context)) return true;
+    const members = given.getPossibleTypes(context);
+    if (!members.some((m) => m instanceof NoneType)) return false;
+    const withoutNone = members.filter((m) => !(m instanceof NoneType));
+    return (
+        withoutNone.length > 0 &&
+        expected.accepts(
+            UnionType.getPossibleUnion(context, withoutNone),
+            context,
+        )
+    );
+}
 
 export default class Evaluate extends Expression {
     readonly fun: Expression;
@@ -162,7 +188,8 @@ export default class Evaluate extends Expression {
                     | StreamDefinition =>
                     (def instanceof FunctionDefinition &&
                         (expectedType === undefined ||
-                            expectedType.accepts(
+                            acceptsAllowingNone(
+                                expectedType,
                                 def.getOutputType(
                                     context,
                                     // If it's a binary evaluate, we pass a hypothetical evaluate so
@@ -787,6 +814,22 @@ export default class Evaluate extends Expression {
     isOneOf(context: Context, ...types: StructureDefinition[]) {
         const fun = this.getFunction(context);
         return types.includes(fun as StructureDefinition);
+    }
+
+    isProvablyNonZero(context: Context): boolean {
+        // `.length()` of a non-empty literal collection is always ≥ 1.
+        if (this.fun instanceof PropertyReference) {
+            const subject = this.fun.structure;
+            const count = subject.getConstantLength();
+            if (count !== undefined && count > 0) {
+                const length = subject
+                    .getType(context)
+                    .getDefinitionOfNameInScope('length', context);
+                if (length !== undefined && this.getFunction(context) === length)
+                    return true;
+            }
+        }
+        return false;
     }
 
     computeType(context: Context): Type {

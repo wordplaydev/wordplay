@@ -516,7 +516,8 @@
                     "resolutionDefault": "$~Ge bindningen ett startvärde, eftersom $expected inte får saknas här",
                     "resolutionWiden": "$~Tillåt värdets typ för denna bindning, eftersom $expected är för smalt för vad som faktiskt lagras.",
                     "resolutionReorder": "$~Byt ingångarna, eftersom deras typer passar bättre i den andra ordningen — $expected hör hemma i den andra platsen",
-                    "resolutionPlaceholder": "$~Ersätt det med en platshållare för tillfället, eftersom $expected är obligatoriskt – välj sedan ett värde från autokompletteringsmenyn"
+                    "resolutionPlaceholder": "$~Ersätt det med en platshållare för tillfället, eftersom $expected är obligatoriskt – välj sedan ett värde från autokompletteringsmenyn",
+                    "explanationDivideByZero": "$~Detta kan vara ø eftersom $source kan dividera med noll, och ett tal krävs här"
                 },
                 "MisplacedShare": {
                     "name": "$~felplaceraddelning",
@@ -785,7 +786,8 @@
                     "resolutionDefault": "$~Ge bindningen ett startvärde, eftersom $expected inte får saknas här",
                     "resolutionWiden": "$~Tillåt värdets typ för denna bindning, eftersom $expected är för smalt för vad som faktiskt lagras.",
                     "resolutionReorder": "$~Byt ingångarna, eftersom deras typer passar bättre i den andra ordningen — $expected hör hemma i den andra platsen",
-                    "resolutionPlaceholder": "$~Ersätt det med en platshållare för tillfället, eftersom $expected är obligatoriskt – välj sedan ett värde från autokompletteringsmenyn"
+                    "resolutionPlaceholder": "$~Ersätt det med en platshållare för tillfället, eftersom $expected är obligatoriskt – välj sedan ett värde från autokompletteringsmenyn",
+                    "explanationDivideByZero": "$~Detta kan vara ø eftersom $source kan dividera med noll, och ett tal krävs här"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~oväntadtypinmatning",

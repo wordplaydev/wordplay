@@ -516,7 +516,8 @@
                     "resolutionDefault": "$~Podaj powiązaniu wartość początkową, ponieważ $expected nie może tutaj zabraknąć",
                     "resolutionWiden": "$~Zezwól na typ wartości dla tego powiązania, ponieważ $expected jest zbyt wąski w stosunku do tego, co jest faktycznie przechowywane",
                     "resolutionReorder": "$~Zamień wejścia, ponieważ ich typy lepiej pasują w innej kolejności — $expected należy do innego slotu",
-                    "resolutionPlaceholder": "$~Zastąp go na razie symbolem zastępczym, ponieważ wymagany jest $expected — a następnie wybierz wartość z menu autouzupełniania"
+                    "resolutionPlaceholder": "$~Zastąp go na razie symbolem zastępczym, ponieważ wymagany jest $expected — a następnie wybierz wartość z menu autouzupełniania",
+                    "explanationDivideByZero": "$~Może to być ø, ponieważ $source może dzielić przez zero, a tutaj wymagana jest liczba"
                 },
                 "MisplacedShare": {
                     "name": "$~źleumieszczonyudział",
@@ -785,7 +786,8 @@
                     "resolutionDefault": "$~Podaj powiązaniu wartość początkową, ponieważ $expected nie może tutaj zabraknąć",
                     "resolutionWiden": "$~Zezwól na typ wartości dla tego powiązania, ponieważ $expected jest zbyt wąski w stosunku do tego, co jest faktycznie przechowywane",
                     "resolutionReorder": "$~Zamień wejścia, ponieważ ich typy lepiej pasują w innej kolejności — $expected należy do innego slotu",
-                    "resolutionPlaceholder": "$~Zastąp go na razie symbolem zastępczym, ponieważ wymagany jest $expected — a następnie wybierz wartość z menu autouzupełniania"
+                    "resolutionPlaceholder": "$~Zastąp go na razie symbolem zastępczym, ponieważ wymagany jest $expected — a następnie wybierz wartość z menu autouzupełniania",
+                    "explanationDivideByZero": "$~Może to być ø, ponieważ $source może dzielić przez zero, a tutaj wymagana jest liczba"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~nieoczekiwanytypdanychwejściowych",

@@ -284,9 +284,13 @@ export default function bootstrapNumber(locales: Locales) {
                     (locale) => locale.basis.Number.function.divide,
                     // Divide's operand can be any unitless number
                     NumberType.make(),
-                    // Divide's output's type is the unit's quotient
-                    NumberType.make((left, right) =>
-                        right ? left.quotient(right) : left,
+                    // Divide's output's type is the unit's quotient, or ø when
+                    // the divisor is zero.
+                    UnionType.make(
+                        NumberType.make((left, right) =>
+                            right ? left.quotient(right) : left,
+                        ),
+                        NoneType.make(),
                     ),
                     (requestor, left, right) => left.divide(requestor, right),
                     false,
@@ -294,7 +298,12 @@ export default function bootstrapNumber(locales: Locales) {
                 createBinaryOp(
                     (locale) => locale.basis.Number.function.remainder,
                     NumberType.make(),
-                    NumberType.make((left) => left),
+                    // Remainder's output is a number, or ø when the divisor is
+                    // zero.
+                    UnionType.make(
+                        NumberType.make((left) => left),
+                        NoneType.make(),
+                    ),
                     (requestor, left, right) =>
                         left.remainder(requestor, right),
                     false,

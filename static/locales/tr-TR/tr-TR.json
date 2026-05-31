@@ -516,7 +516,8 @@
                     "resolutionDefault": "$~Bağlantıya bir başlangıç değeri verin, çünkü $expected burada eksik olamaz.",
                     "resolutionWiden": "$~Bu bağlama için değerin türüne izin verin, çünkü $expected aslında depolanan şey için çok dar kapsamlıdır.",
                     "resolutionReorder": "$~Girişleri yer değiştirin, çünkü türleri diğer sırada daha iyi uyuyor — $expected diğer yuvaya ait.",
-                    "resolutionPlaceholder": "$~Şimdilik bunun yerine bir yer tutucu koyun, çünkü $expected gerekli — ardından otomatik tamamlama menüsünden bir değer seçin."
+                    "resolutionPlaceholder": "$~Şimdilik bunun yerine bir yer tutucu koyun, çünkü $expected gerekli — ardından otomatik tamamlama menüsünden bir değer seçin.",
+                    "explanationDivideByZero": "$~Bu, $source sıfıra bölünebileceğinden ve burada bir sayı gerektiğinden ø olabilir."
                 },
                 "MisplacedShare": {
                     "name": "$~yanlışyerleştirilmişpaylaşım",
@@ -785,7 +786,8 @@
                     "resolutionDefault": "$~Bağlantıya bir başlangıç değeri verin, çünkü $expected burada eksik olamaz.",
                     "resolutionWiden": "$~Bu bağlama için değerin türüne izin verin, çünkü $expected aslında depolanan şey için çok dar kapsamlıdır.",
                     "resolutionReorder": "$~Girişleri yer değiştirin, çünkü türleri diğer sırada daha iyi uyuyor — $expected diğer yuvaya ait.",
-                    "resolutionPlaceholder": "$~Şimdilik bunun yerine bir yer tutucu koyun, çünkü $expected gerekli — ardından otomatik tamamlama menüsünden bir değer seçin."
+                    "resolutionPlaceholder": "$~Şimdilik bunun yerine bir yer tutucu koyun, çünkü $expected gerekli — ardından otomatik tamamlama menüsünden bir değer seçin.",
+                    "explanationDivideByZero": "$~Bu, $source sıfıra bölünebileceğinden ve burada bir sayı gerektiğinden ø olabilir."
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~beklenmeyentipgirişi",

@@ -81,6 +81,7 @@ export const NOT_SYMBOL = '~';
 export const PRODUCT_SYMBOL = '×';
 export const DOT_SYMBOL = '·';
 export const QUOTIENT_SYMBOL = '÷';
+export const REMAINDER_SYMBOL = '%';
 export const SUM_SYMBOL = '+';
 export const DIFFERENCE_SYMBOL = '-';
 

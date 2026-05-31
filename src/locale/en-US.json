@@ -514,6 +514,7 @@
                 "IncompatibleType": {
                     "name": "incompatible type",
                     "explanation": "I expected $expected, but received type $given",
+                    "explanationDivideByZero": "This could be ø because $source might divide by zero, and a number is required here",
                     "resolution": "Convert it to $expected, since $expected is required",
                     "resolutionLiteral": "Mark the list, set, or map as literal with !, so its values stay specific instead of being generalized — $expected needs the exact values",
                     "resolutionOtherwise": "Handle the missing value with ??, since $expected does not allow ø",
@@ -785,6 +786,7 @@
                 "IncompatibleInput": {
                     "name": "incompatible input",
                     "explanation": "I expected $expected, but received $given",
+                    "explanationDivideByZero": "This could be ø because $source might divide by zero, and a number is required here",
                     "resolution": "Convert it to $expected, since $expected is required",
                     "resolutionLiteral": "Mark the list, set, or map as literal with !, so its values stay specific instead of being generalized — $expected needs the exact values",
                     "resolutionOtherwise": "Handle the missing value with ??, since $expected does not allow ø",

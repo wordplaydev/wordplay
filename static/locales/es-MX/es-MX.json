@@ -488,7 +488,8 @@
                     "resolutionDefault": "$~Asigna un valor inicial al enlace, ya que $expected no puede faltar aquí.",
                     "resolutionWiden": "$~Permitir el tipo de valor para este enlace, ya que $expected es demasiado restrictivo para lo que realmente está almacenado.",
                     "resolutionReorder": "$~Intercambia las entradas, ya que sus tipos encajan mejor en el otro orden: $expected pertenece a la otra ranura.",
-                    "resolutionPlaceholder": "$~Reemplácelo con un marcador de posición por ahora, ya que $expected es obligatorio; luego, seleccione un valor del menú de autocompletar."
+                    "resolutionPlaceholder": "$~Reemplácelo con un marcador de posición por ahora, ya que $expected es obligatorio; luego, seleccione un valor del menú de autocompletar.",
+                    "explanationDivideByZero": "$~Esto podría ser ø porque $source podría dividirse por cero, y aquí se requiere un número."
                 },
                 "MisplacedShare": {
                     "name": "$~acciónextraviada",
@@ -757,7 +758,8 @@
                     "resolutionDefault": "$~Asigna un valor inicial al enlace, ya que $expected no puede faltar aquí.",
                     "resolutionWiden": "$~Permitir el tipo de valor para este enlace, ya que $expected es demasiado restrictivo para lo que realmente está almacenado.",
                     "resolutionReorder": "$~Intercambia las entradas, ya que sus tipos encajan mejor en el otro orden: $expected pertenece a la otra ranura.",
-                    "resolutionPlaceholder": "$~Reemplácelo con un marcador de posición por ahora, ya que $expected es obligatorio; luego, seleccione un valor del menú de autocompletar."
+                    "resolutionPlaceholder": "$~Reemplácelo con un marcador de posición por ahora, ya que $expected es obligatorio; luego, seleccione un valor del menú de autocompletar.",
+                    "explanationDivideByZero": "$~Esto podría ser ø porque $source podría dividirse por cero, y aquí se requiere un número."
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~entradadetipoinesperado",

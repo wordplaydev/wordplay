@@ -166,6 +166,10 @@ export default class NumberLiteral extends Literal {
         return new NumberLiteral(this.number.clone(), unit);
     }
 
+    isProvablyNonZero(): boolean {
+        return !this.getValue().num.isZero();
+    }
+
     getValue() {
         if (this.#numberCache)
             return new NumberValue(

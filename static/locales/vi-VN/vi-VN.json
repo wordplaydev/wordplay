@@ -521,7 +521,8 @@
                     "resolutionDefault": "$~Hãy cung cấp giá trị khởi tạo cho liên kết, vì $expected không được phép thiếu ở đây.",
                     "resolutionWiden": "$~Cho phép sử dụng kiểu dữ liệu của giá trị cho liên kết này, vì $expected quá hẹp so với những gì thực sự được lưu trữ.",
                     "resolutionReorder": "$~Hãy hoán đổi thứ tự các biến đầu vào, vì kiểu dữ liệu của chúng phù hợp hơn khi được sắp xếp theo thứ tự khác — $expected thuộc về vị trí kia.",
-                    "resolutionPlaceholder": "$~Hãy tạm thời thay thế nó bằng một ký tự giữ chỗ, vì $expected là bắt buộc — sau đó chọn một giá trị từ menu tự động hoàn thành."
+                    "resolutionPlaceholder": "$~Hãy tạm thời thay thế nó bằng một ký tự giữ chỗ, vì $expected là bắt buộc — sau đó chọn một giá trị từ menu tự động hoàn thành.",
+                    "explanationDivideByZero": "$~Đây có thể là ø vì $source có thể chia cho 0, và ở đây cần một số."
                 },
                 "MisplacedShare": {
                     "name": "$~cổphầnbịthấtlạc",
@@ -790,7 +791,8 @@
                     "resolutionDefault": "$~Hãy cung cấp giá trị khởi tạo cho liên kết, vì $expected không được phép thiếu ở đây.",
                     "resolutionWiden": "$~Cho phép sử dụng kiểu dữ liệu của giá trị cho liên kết này, vì $expected quá hẹp so với những gì thực sự được lưu trữ.",
                     "resolutionReorder": "$~Hãy hoán đổi thứ tự các biến đầu vào, vì kiểu dữ liệu của chúng phù hợp hơn khi được sắp xếp theo thứ tự khác — $expected thuộc về vị trí kia.",
-                    "resolutionPlaceholder": "$~Hãy tạm thời thay thế nó bằng một ký tự giữ chỗ, vì $expected là bắt buộc — sau đó chọn một giá trị từ menu tự động hoàn thành."
+                    "resolutionPlaceholder": "$~Hãy tạm thời thay thế nó bằng một ký tự giữ chỗ, vì $expected là bắt buộc — sau đó chọn một giá trị từ menu tự động hoàn thành.",
+                    "explanationDivideByZero": "$~Đây có thể là ø vì $source có thể chia cho 0, và ở đây cần một số."
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~đầuvàokiểukhôngmongđợi",

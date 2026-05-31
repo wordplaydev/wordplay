@@ -516,7 +516,8 @@
                     "resolutionDefault": "$~Weisen Sie der Bindung einen Startwert zu, da $expected hier nicht fehlen darf.",
                     "resolutionWiden": "$~Erlauben Sie den Datentyp des Wertes für diese Bindung, da $expected zu eng gefasst ist für das, was tatsächlich gespeichert wird.",
                     "resolutionReorder": "$~Tauschen Sie die Eingaben, da ihre Datentypen in der anderen Reihenfolge besser passen – $expected gehört an die andere Stelle.",
-                    "resolutionPlaceholder": "$~Ersetzen Sie es vorerst durch einen Platzhalter, da $expected erforderlich ist – wählen Sie dann einen Wert aus dem Autovervollständigungsmenü aus."
+                    "resolutionPlaceholder": "$~Ersetzen Sie es vorerst durch einen Platzhalter, da $expected erforderlich ist – wählen Sie dann einen Wert aus dem Autovervollständigungsmenü aus.",
+                    "explanationDivideByZero": "$~Dies könnte ø sein, da $source durch Null geteilt werden könnte und hier eine Zahl benötigt wird."
                 },
                 "MisplacedShare": {
                     "name": "$~falschplatzierteAktie",
@@ -785,7 +786,8 @@
                     "resolutionDefault": "$~Weisen Sie der Bindung einen Startwert zu, da $expected hier nicht fehlen darf.",
                     "resolutionWiden": "$~Erlauben Sie den Datentyp des Wertes für diese Bindung, da $expected zu eng gefasst ist für das, was tatsächlich gespeichert wird.",
                     "resolutionReorder": "$~Tauschen Sie die Eingaben, da ihre Datentypen in der anderen Reihenfolge besser passen – $expected gehört an die andere Stelle.",
-                    "resolutionPlaceholder": "$~Ersetzen Sie es vorerst durch einen Platzhalter, da $expected erforderlich ist – wählen Sie dann einen Wert aus dem Autovervollständigungsmenü aus."
+                    "resolutionPlaceholder": "$~Ersetzen Sie es vorerst durch einen Platzhalter, da $expected erforderlich ist – wählen Sie dann einen Wert aus dem Autovervollständigungsmenü aus.",
+                    "explanationDivideByZero": "$~Dies könnte ø sein, da $source durch Null geteilt werden könnte und hier eine Zahl benötigt wird."
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~unerwarteteTypeingabe",

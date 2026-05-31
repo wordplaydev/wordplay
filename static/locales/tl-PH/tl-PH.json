@@ -524,7 +524,8 @@
                     "resolutionDefault": "$~Bigyan ang binding ng panimulang halaga, dahil hindi maaaring mawala $expected dito",
                     "resolutionWiden": "$~Payagan ang uri ng halaga para sa pagbubuklod na ito, dahil $expected ay masyadong makitid para sa kung ano talaga ang nakaimbak",
                     "resolutionReorder": "$~Palitan ang mga input, dahil mas akma ang mga uri nito sa kabilang pagkakasunud-sunod — $expected ay kabilang sa kabilang puwang",
-                    "resolutionPlaceholder": "$~Palitan ito ng placeholder sa ngayon, dahil kinakailangan ang $expected — pagkatapos ay pumili ng value mula sa autocomplete menu"
+                    "resolutionPlaceholder": "$~Palitan ito ng placeholder sa ngayon, dahil kinakailangan ang $expected — pagkatapos ay pumili ng value mula sa autocomplete menu",
+                    "explanationDivideByZero": "$~Maaaring ito ay ø dahil $source ay maaaring hatiin sa zero, at kinakailangan ang isang numero dito"
                 },
                 "MisplacedShare": {
                     "name": "$~malingnailagaynabahagi",
@@ -793,7 +794,8 @@
                     "resolutionDefault": "$~Bigyan ang binding ng panimulang halaga, dahil hindi maaaring mawala $expected dito",
                     "resolutionWiden": "$~Payagan ang uri ng halaga para sa pagbubuklod na ito, dahil $expected ay masyadong makitid para sa kung ano talaga ang nakaimbak",
                     "resolutionReorder": "$~Palitan ang mga input, dahil mas akma ang mga uri nito sa kabilang pagkakasunud-sunod — $expected ay kabilang sa kabilang puwang",
-                    "resolutionPlaceholder": "$~Palitan ito ng placeholder sa ngayon, dahil kinakailangan ang $expected — pagkatapos ay pumili ng value mula sa autocomplete menu"
+                    "resolutionPlaceholder": "$~Palitan ito ng placeholder sa ngayon, dahil kinakailangan ang $expected — pagkatapos ay pumili ng value mula sa autocomplete menu",
+                    "explanationDivideByZero": "$~Maaaring ito ay ø dahil $source ay maaaring hatiin sa zero, at kinakailangan ang isang numero dito"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~hindiinaasahanguringinput",

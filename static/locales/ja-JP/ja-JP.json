@@ -516,7 +516,8 @@
                     "resolutionDefault": "$~バインディングに開始値を指定します。 $expected。",
                     "resolutionWiden": "$~このバインディングでは値の型を許可してください。 $expected。",
                     "resolutionReorder": "$~入力を入れ替えてください。型が逆の順序の方が適切です。 $expected。",
-                    "resolutionPlaceholder": "$~とりあえずプレースホルダーに置き換えてください。 $expected、その後オートコンプリートメニューから値を選択してください。"
+                    "resolutionPlaceholder": "$~とりあえずプレースホルダーに置き換えてください。 $expected、その後オートコンプリートメニューから値を選択してください。",
+                    "explanationDivideByZero": "$~これは、 $source、ø になる可能性があり、ここでは数値が必要です。"
                 },
                 "MisplacedShare": {
                     "name": "$~間違ったシェア",
@@ -785,7 +786,8 @@
                     "resolutionDefault": "$~バインディングに開始値を指定します。 $expected。",
                     "resolutionWiden": "$~このバインディングでは値の型を許可してください。 $expected。",
                     "resolutionReorder": "$~入力を入れ替えてください。型が逆の順序の方が適切です。 $expected。",
-                    "resolutionPlaceholder": "$~とりあえずプレースホルダーに置き換えてください。 $expected、その後オートコンプリートメニューから値を選択してください。"
+                    "resolutionPlaceholder": "$~とりあえずプレースホルダーに置き換えてください。 $expected、その後オートコンプリートメニューから値を選択してください。",
+                    "explanationDivideByZero": "$~これは、 $source、ø になる可能性があり、ここでは数値が必要です。"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~予期しない型入力",

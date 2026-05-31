@@ -280,6 +280,8 @@ But this is a type error, because the units aren't compatible:
 
 The unit type system is not arbitrarily sophisticated: when mathematical operators go beyond the semantics of products, sums, and powers, units are dropped.
 
+Divide `÷` and remainder `%` evaluate to `ø` when the divisor is zero (never a silent `NaN`), so their output type is `# | ø`. To keep ordinary arithmetic concise, the type is narrowed back to `#` when the divisor is provably non-zero — a non-zero number literal, the `.length()` of a non-empty literal list, set, map, or table, or a name bound (transitively) to one of those. Otherwise the result is `# | ø`, and using it where a number is required is a conflict that suggests handling the possible zero with `??` (e.g. `total ÷ count ?? 0`).
+
 #### _evaluation_
 
 Number literals evaluate to a number value that stores an immutable [decimal.js](https://mikemcl.github.io/decimal.js/) value and immutable unit.

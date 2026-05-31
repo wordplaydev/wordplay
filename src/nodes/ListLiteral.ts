@@ -163,6 +163,13 @@ export default class ListLiteral extends CompositeLiteral {
             : UnionType.getPossibleUnion(context, types);
     }
 
+    getConstantLength(): number | undefined {
+        // Unknown if any element is a spread, since its length isn't fixed.
+        return this.values.some((v) => v instanceof Spread)
+            ? undefined
+            : this.values.length;
+    }
+
     computeType(context: Context): Type {
         // Strip away any concrete types in the item types.
         const union = ListType.make(

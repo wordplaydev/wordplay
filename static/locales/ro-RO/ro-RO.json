@@ -524,7 +524,8 @@
                     "resolutionDefault": "$~Dați legăturii o valoare inițială, deoarece $expected nu poate lipsi aici",
                     "resolutionWiden": "$~Permiteți tipul valorii pentru această legare, deoarece $expected este prea restrâns pentru ceea ce este stocat efectiv",
                     "resolutionReorder": "$~Schimbați intrările, deoarece tipurile lor se potrivesc mai bine în ordinea opusă — $expected aparține în celălalt slot",
-                    "resolutionPlaceholder": "$~Înlocuiți-l deocamdată cu un provizoriu, deoarece $expected este obligatoriu — apoi alegeți o valoare din meniul de completare automată."
+                    "resolutionPlaceholder": "$~Înlocuiți-l deocamdată cu un provizoriu, deoarece $expected este obligatoriu — apoi alegeți o valoare din meniul de completare automată.",
+                    "explanationDivideByZero": "$~Aceasta ar putea fi ø deoarece $source s-ar putea împărți la zero și este necesar un număr aici."
                 },
                 "MisplacedShare": {
                     "name": "$~acțiunepierdută",
@@ -795,7 +796,8 @@
                     "resolutionDefault": "$~Dați legăturii o valoare inițială, deoarece $expected nu poate lipsi aici",
                     "resolutionWiden": "$~Permiteți tipul valorii pentru această legare, deoarece $expected este prea restrâns pentru ceea ce este stocat efectiv",
                     "resolutionReorder": "$~Schimbați intrările, deoarece tipurile lor se potrivesc mai bine în ordinea opusă — $expected aparține în celălalt slot",
-                    "resolutionPlaceholder": "$~Înlocuiți-l deocamdată cu un provizoriu, deoarece $expected este obligatoriu — apoi alegeți o valoare din meniul de completare automată."
+                    "resolutionPlaceholder": "$~Înlocuiți-l deocamdată cu un provizoriu, deoarece $expected este obligatoriu — apoi alegeți o valoare din meniul de completare automată.",
+                    "explanationDivideByZero": "$~Aceasta ar putea fi ø deoarece $source s-ar putea împărți la zero și este necesar un număr aici."
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~intraredetipneașteptat",

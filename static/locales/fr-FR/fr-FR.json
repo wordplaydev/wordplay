@@ -516,7 +516,8 @@
                     "resolutionDefault": "$~Indiquez une valeur initiale à la liaison, car $expected ne peut pas être manquant ici.",
                     "resolutionWiden": "$~Autorisez le type de la valeur pour cette liaison, car $expected est trop restrictif pour ce qui est réellement stocké.",
                     "resolutionReorder": "$~Inversez les entrées, car leurs types correspondent mieux dans l'autre ordre : $expected devrait se trouver dans l'autre emplacement.",
-                    "resolutionPlaceholder": "$~Remplacez-le par un espace réservé pour le moment, car $expected est obligatoire ; choisissez ensuite une valeur dans le menu de saisie semi-automatique."
+                    "resolutionPlaceholder": "$~Remplacez-le par un espace réservé pour le moment, car $expected est obligatoire ; choisissez ensuite une valeur dans le menu de saisie semi-automatique.",
+                    "explanationDivideByZero": "$~Cela pourrait être ø car $source pourrait être divisé par zéro, et un nombre est requis ici."
                 },
                 "MisplacedShare": {
                     "name": "$~partmalplacée",
@@ -785,7 +786,8 @@
                     "resolutionDefault": "$~Indiquez une valeur initiale à la liaison, car $expected ne peut pas être manquant ici.",
                     "resolutionWiden": "$~Autorisez le type de la valeur pour cette liaison, car $expected est trop restrictif pour ce qui est réellement stocké.",
                     "resolutionReorder": "$~Inversez les entrées, car leurs types correspondent mieux dans l'autre ordre : $expected devrait se trouver dans l'autre emplacement.",
-                    "resolutionPlaceholder": "$~Remplacez-le par un espace réservé pour le moment, car $expected est obligatoire ; choisissez ensuite une valeur dans le menu de saisie semi-automatique."
+                    "resolutionPlaceholder": "$~Remplacez-le par un espace réservé pour le moment, car $expected est obligatoire ; choisissez ensuite une valeur dans le menu de saisie semi-automatique.",
+                    "explanationDivideByZero": "$~Cela pourrait être ø car $source pourrait être divisé par zéro, et un nombre est requis ici."
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~entréedetypeinattendue",

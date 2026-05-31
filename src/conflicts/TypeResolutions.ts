@@ -31,6 +31,7 @@ import Evaluate from '@nodes/Evaluate';
 import type Source from '@nodes/Source';
 import { makeConversionResolutions } from '@conflicts/ConversionResolutions';
 import walkTypeSources from '@conflicts/walkTypeSources';
+import findDivideByZeroSource from '@conflicts/findDivideByZeroSource';
 
 type TemplatesAccessor = (locales: LocaleText) => TypeResolutionTemplates;
 
@@ -238,10 +239,15 @@ function generateOtherwiseResolution(
     const fallback =
         expectedType.getDefaultExpression?.(context) ??
         ExpressionPlaceholder.make();
-    const revised = Otherwise.make(givenNode, fallback);
+
+    // When the ø comes from a divide-by-zero, wrap the division itself (e.g.
+    // `((head + 1) % count) ?? 1`) rather than the symptom site, so the fix
+    // handles the zero at its source and clears every downstream use.
+    const target = findDivideByZeroSource(givenNode, context) ?? givenNode;
+    const revised = Otherwise.make(target, fallback);
 
     return makeResolution(
-        givenNode,
+        target,
         revised,
         expectedType,
         (l) => templates(l).resolutionOtherwise,

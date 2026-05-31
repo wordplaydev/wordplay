@@ -521,7 +521,8 @@
                     "resolutionDefault": "$~תן לקישור ערך התחלתי, מכיוון ש- $expected לא יכול להיות חסר כאן.",
                     "resolutionWiden": "$~אפשר את סוג הערך עבור קישור זה, מכיוון ש- $expected צר מדי עבור מה שמאוחסן בפועל.",
                     "resolutionReorder": "$~החליפו את הקלטים, מכיוון שהסוגים שלהם מתאימים יותר לסדר השני - $expected שייך לחריץ השני",
-                    "resolutionPlaceholder": "$~החלף אותו ב-placeholder לעת עתה, מכיוון ש- $expected נדרש — לאחר מכן בחר ערך מתפריט ההשלמה האוטומטית"
+                    "resolutionPlaceholder": "$~החלף אותו ב-placeholder לעת עתה, מכיוון ש- $expected נדרש — לאחר מכן בחר ערך מתפריט ההשלמה האוטומטית",
+                    "explanationDivideByZero": "$~זה יכול להיות ø מכיוון ש- $source עשוי לחלק באפס, ומספר נדרש כאן."
                 },
                 "MisplacedShare": {
                     "name": "$~שיתוףלאבמקום",
@@ -790,7 +791,8 @@
                     "resolutionDefault": "$~תן לקישור ערך התחלתי, מכיוון ש- $expected לא יכול להיות חסר כאן.",
                     "resolutionWiden": "$~אפשר את סוג הערך עבור קישור זה, מכיוון ש- $expected צר מדי עבור מה שמאוחסן בפועל.",
                     "resolutionReorder": "$~החליפו את הקלטים, מכיוון שהסוגים שלהם מתאימים יותר לסדר השני - $expected שייך לחריץ השני",
-                    "resolutionPlaceholder": "$~החלף אותו ב-placeholder לעת עתה, מכיוון ש- $expected נדרש — לאחר מכן בחר ערך מתפריט ההשלמה האוטומטית"
+                    "resolutionPlaceholder": "$~החלף אותו ב-placeholder לעת עתה, מכיוון ש- $expected נדרש — לאחר מכן בחר ערך מתפריט ההשלמה האוטומטית",
+                    "explanationDivideByZero": "$~זה יכול להיות ø מכיוון ש- $source עשוי לחלק באפס, ומספר נדרש כאן."
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~קלטמסוגבלתיצפוי",

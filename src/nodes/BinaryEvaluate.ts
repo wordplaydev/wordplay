@@ -41,6 +41,9 @@ import type Node from '@nodes/Node';
 import { node, type Grammar, type Replacement } from '@nodes/Node';
 import NoneLiteral from '@nodes/NoneLiteral';
 import NoneType from '@nodes/NoneType';
+import UnionType from '@nodes/UnionType';
+import findDivideByZeroSource from '@conflicts/findDivideByZeroSource';
+import { QUOTIENT_SYMBOL, REMAINDER_SYMBOL } from '@parser/Symbols';
 import NumberLiteral from '@nodes/NumberLiteral';
 import NumberType from '@nodes/NumberType';
 import Reference from '@nodes/Reference';
@@ -246,7 +249,18 @@ export default class BinaryEvaluate extends Expression {
         // cascade-blame this. Suppressed when the left's type is already
         // UnknownType (its own upstream conflict carries the explanation). #1146
         if (fun === undefined) {
-            if (!context.isUnknownDownstream(this.left))
+            // If the operator is missing because the left could be ø from a
+            // divide-by-zero, report that against the left so its explanation
+            // names the division and its fix wraps it in `??`.
+            if (findDivideByZeroSource(this.left, context) !== undefined)
+                conflicts.push(
+                    new IncompatibleInput(
+                        this.left,
+                        this.left.getType(context),
+                        NumberType.make(),
+                    ),
+                );
+            else if (!context.isUnknownDownstream(this.left))
                 conflicts.push(
                     new IncompatibleInput(
                         this.fun,
@@ -300,16 +314,44 @@ export default class BinaryEvaluate extends Expression {
         return conflicts;
     }
 
+    isPossibleDivideByZero(context: Context): boolean {
+        const operator = this.getOperator();
+        return (
+            (operator === QUOTIENT_SYMBOL || operator === REMAINDER_SYMBOL) &&
+            !this.right.isProvablyNonZero(context)
+        );
+    }
+
     computeType(context: Context): Type {
         // The type of the expression is whatever the function definition says it is.
         const fun = this.getFunction(context);
-        return fun !== undefined
-            ? getConcreteExpectedType(fun, undefined, this, context)
-            : new UnknownNameType(
-                  this,
-                  this.fun.name,
-                  this.left.getType(context),
-              );
+        if (fun === undefined)
+            return new UnknownNameType(
+                this,
+                this.fun.name,
+                this.left.getType(context),
+            );
+
+        const type = getConcreteExpectedType(fun, undefined, this, context);
+
+        // `÷` and `%` declare a `# | ø` output because they yield ø on a zero
+        // divisor. When the divisor is provably non-zero, narrow the result
+        // back to a plain number so creators don't have to handle an
+        // impossible ø. (Stripping ø from a type without ø is a no-op, so this
+        // is safe even for a user-defined operator that shares the symbol.)
+        const operator = this.getOperator();
+        if (
+            (operator === QUOTIENT_SYMBOL || operator === REMAINDER_SYMBOL) &&
+            this.right.isProvablyNonZero(context)
+        )
+            return UnionType.getPossibleUnion(
+                context,
+                type
+                    .getPossibleTypes(context)
+                    .filter((t) => !(t instanceof NoneType)),
+            );
+
+        return type;
     }
 
     getDependencies(context: Context): Expression[] {
