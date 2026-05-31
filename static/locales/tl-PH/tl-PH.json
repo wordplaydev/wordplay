@@ -3932,12 +3932,12 @@
         },
         "Phrase": {
             "doc": [
-                "$~Kumusta, kumusta! Natatandaan mo ba ako? Paano naman makakalimutan ng sinuman ang /ako/. Tama, ako ang kahanga-hangang @Phrase, handang kumatawan sa pinakamaganda sa @Text sa @Stage.",
-                "$~Gawin mo lang akong ganito, at lalabas ako sa @Stage:",
-                "$~\\Parirala('kahanga-hanga!')\\",
-                "$~Kailangan ko ang @TextLiteral o @FormattedLiteral para maipakita. Gamit ang @FormattedLiteral, magagamit ko ang mga bagay tulad ng \\`*bold* at /italic/`\\ o kaya'y sumangguni sa custom na @ConceptLink na iyong ginawa.",
-                "$~Maaari mo ring ibigay sa akin ang lahat ng kayang gawin ng isang @Output, kabilang ang pagpapalit ng aking laki, font, rotation, at gawin ang lahat ng aking mga kahanga-hangang sayaw gamit ang @Pose at @Sequence.",
-                "$~Maaari mo rin akong piliin sa @Stage at i-edit sa palette sa tabi."
+                "$~Kumusta, kumusta! Natatandaan mo ba ako? Paano naman makakalimutan ng sinuman ang /ako/. Tama, ako ang kahanga-hangang @Phrase , handang kumatawan sa pinakamaganda sa @Text sa @Stage .",
+                "$~Gawin mo lang akong ganito, at lalabas ako sa @Stage :",
+                "$~\\Phrase('magnificent!')\\",
+                "$~Kailangan ko @TextLiteral o @FormattedLiteral para maipakita. Gamit ang @FormattedLiteral , magagamit ko ang mga bagay tulad ng \\`*bold* and /italic/`\\ o kaya'y sumangguni sa custom @ConceptLink na iyong ginawa.",
+                "$~Maaari mo ring opsyonal na ibigay sa akin ang lahat ng kayang gawin ng isang @Output , kabilang ang pagpapalit ng aking laki, font, rotation, at gawin ang lahat ng aking mga hindi kapani-paniwalang sayaw gamit ang @Pose at @Sequence .",
+                "$~Maaari mo rin akong piliin sa @Stage at i-edit gamit ang palette 🎨 sa tabi ko — isa itong magandang paraan para subukan ang iba't ibang font at piliin ang tamang /face/ para sa iyong @Text ."
             ],
             "names": ["$~💬", "$~Parirala"],
             "text": {
@@ -3949,7 +3949,7 @@
                 "names": "$~laki"
             },
             "face": {
-                "doc": "$~Ang pangalan ng font face na dapat kong ilagay.",
+                "doc": "$~Ang pangalan ng font face na dapat kong ilagay. Ang pinakamadaling paraan para pumili ng isa ay ang piliin ang \"ako\" at buksan ang palette 🎨 sa tabi, kung saan maaari mong i-preview ang mga font at pumili ng /face/ nang hindi tina-type ang pangalan nito.",
                 "names": "$~mukha"
             },
             "place": {

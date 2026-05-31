@@ -4009,7 +4009,14 @@
         },
         "Phrase": {
             "names": ["短語"],
-            "doc": "你好,你好！還記得我嗎？怎麼會有人忘記/我/。沒錯,我就是偉大的@Phrase,準備好在@Stage 上表達最可愛的@Text。\n 只要讓我這樣,我就會出現在@Stage ：\n \\短語('太棒了！')\\ \n 顯然,我需要一些@Text,但除此之外,我可以做任何@Output 可以做的所有事情,包括更改我的大小、字體、旋轉,以及使用@Pose 和@Sequence 進行所有令人難以置信的舞蹈。上編輯我。",
+            "doc": [
+                "$~哈嘍，哈嘍！還記得我嗎？誰會忘記我呢？沒錯，我就是魅力四射的@Phrase ，準備在@Phrase@Text 。",
+                "$~只要你讓我這樣，我就會出現在@Stage：",
+                "$~\\Phrase('magnificent!')\\",
+                "$~我需要顯示@TextLiteral@FormattedLiteral 。使用@FormattedLiteral ，我可以使用諸如\\`*bold* and /italic/`\\之類的屬性，或引用您創建的自訂@ConceptLink 。",
+                "$~您還可以選擇給我@Output，包括更改我的大小、字體、旋轉，以及使用@Pose@Sequence。",
+                "$~您也可以在@Stage，並使用旁邊的調色板 🎨 編輯我——這是嘗試不同字體並為您的@Text。"
+            ],
             "defaultDescription": "$~$size [ $size meter |]phrase $text $name [named $name |] $face [ $face |] $animation $color [ $color |]",
             "text": {
                 "doc": "在 @Stage 上展示的角色。",
@@ -4020,7 +4027,7 @@
                 "names": "尺寸"
             },
             "face": {
-                "doc": "我應該使用的字體名稱。",
+                "doc": "$~我應該使用的字體名稱是什麼？最簡單的選擇方法是選中我，然後打開旁邊的調色板🎨，在那裡您可以預覽字體並直接選擇字體，而無需輸入其名稱。",
                 "names": "表面"
             },
             "place": {

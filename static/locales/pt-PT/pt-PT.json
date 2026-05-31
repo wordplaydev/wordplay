@@ -3929,12 +3929,12 @@
         },
         "Phrase": {
             "doc": [
-                "$~Olá, olá! Lembram-se de mim? Como é que alguém me poderia esquecer? É isso mesmo, sou a magnífica @Phrase, pronta para representar o mais adorável dos @Text no @Stage.",
-                "$~Faz-me assim e eu apareço no @Stage:",
-                "$~\\Frase('magnífico!')\\",
-                "$~Preciso que @TextLiteral ou @FormattedLiteral sejam apresentados. Com @FormattedLiteral, posso utilizar coisas como \\`*negrito*` e `/itálico/`\\ ou fazer referência a um @ConceptLink personalizado que crie.",
-                "$~Também pode, opcionalmente, dar-me tudo o que um @Output pode fazer, incluindo alterar o meu tamanho, tipo de letra, rotação e fazer todas as minhas incríveis danças com @Pose e @Sequence.",
-                "$~Também me pode selecionar no @Stage e editar-me na paleta ao lado."
+                "$~Olá, olá! Lembram-se de mim? Como é que alguém poderia esquecer /mim/? É isso mesmo, eu sou a magnífica @Phrase , pronta para representar o mais adorável dos @Text no @Stage .",
+                "$~Faz-me assim e eu apareço no @Stage :",
+                "$~\\Phrase('magnificent!')\\",
+                "$~Preciso @TextLiteral ou @FormattedLiteral sejam apresentados. Com @FormattedLiteral , posso utilizar coisas como \\`*bold* and /italic/`\\ ou fazer referência a @ConceptLink personalizado que crie.",
+                "$~Também pode, opcionalmente, dar-me tudo o que um @Output pode fazer, incluindo alterar o meu tamanho, tipo de letra, rotação e fazer todas as minhas incríveis danças com @Pose e @Sequence .",
+                "$~Também me pode selecionar no @Stage e editar-me com a paleta 🎨 ao lado — é uma ótima forma de experimentar diferentes tipos de letra e escolher a /cara/ certa para o seu @Text ."
             ],
             "names": ["$~💬", "$~Frase"],
             "text": {
@@ -3946,7 +3946,7 @@
                 "names": "$~tamanho"
             },
             "face": {
-                "doc": "$~Qual o nome da fonte que devo utilizar?",
+                "doc": "$~O nome da fonte que devo utilizar. A forma mais fácil de escolher uma é selecionar-me e abrir a paleta 🎨 ao lado, onde pode visualizar as fontes e escolher uma sem ter de digitar o nome.",
                 "names": "$~rosto"
             },
             "place": {

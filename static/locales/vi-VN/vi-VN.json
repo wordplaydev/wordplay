@@ -3929,12 +3929,12 @@
         },
         "Phrase": {
             "doc": [
-                "$~Xin chào, xin chào! Mọi người còn nhớ tôi không? Làm sao ai có thể quên tôi được chứ. Đúng vậy, tôi chính là @Phrase tuyệt vời, sẵn sàng đại diện cho những @Text đáng yêu nhất trên @Stage.",
-                "$~Hãy tạo hình tôi như thế này, và tôi sẽ xuất hiện trên @Stage:",
-                "$~\\Phrase('tuyệt vời!')\\",
-                "$~Tôi cần hiển thị @TextLiteral hoặc @FormattedLiteral. Với @FormattedLiteral, tôi có thể sử dụng các kiểu chữ như \\`*in đậm* và /in nghiêng/`\\ hoặc tham chiếu đến @ConceptLink tùy chỉnh mà bạn tạo.",
-                "$~Bạn cũng có thể tùy chọn cung cấp cho tôi tất cả những gì mà @Output có thể làm, bao gồm thay đổi kích thước, phông chữ, xoay và thực hiện tất cả các điệu nhảy tuyệt vời của tôi với @Pose và @Sequence.",
-                "$~Bạn cũng có thể chọn tôi trên @Stage và chỉnh sửa tôi trên bảng công cụ bên cạnh."
+                "$~Xin chào, xin chào! Mọi người còn nhớ tôi không? Làm sao ai có thể quên tôi được chứ. Đúng vậy, tôi là @Phrase tuyệt vời, sẵn sàng đại diện cho @Text đáng yêu nhất trên @Stage .",
+                "$~Hãy tạo hình tôi như thế này, và tôi sẽ xuất hiện trên @Stage :",
+                "$~\\Phrase('magnificent!')\\",
+                "$~Tôi cần sử dụng @TextLiteral hoặc @FormattedLiteral để hiển thị. Với @FormattedLiteral , tôi có thể sử dụng các kiểu chữ như \\`*bold* and /italic/`\\ hoặc tham chiếu đến @ConceptLink tùy chỉnh mà bạn tạo.",
+                "$~Bạn cũng có thể tùy chọn cung cấp cho tôi tất cả những gì mà @Output có thể làm, bao gồm thay đổi kích thước, phông chữ, xoay và thực hiện tất cả các điệu nhảy tuyệt vời của tôi với @Pose và @Sequence .",
+                "$~Bạn cũng có thể chọn tôi trên @Stage và chỉnh sửa tôi bằng bảng màu 🎨 bên cạnh — đó là một cách tuyệt vời để thử các phông chữ khác nhau và chọn kiểu chữ phù hợp cho @Text của bạn."
             ],
             "names": ["$~Cụmtừ"],
             "text": {
@@ -3946,7 +3946,7 @@
                 "names": "$~kíchcỡ"
             },
             "face": {
-                "doc": "$~Tên kiểu chữ tôi nên dùng.",
+                "doc": "$~Tên của kiểu chữ mà tôi nên dùng. Cách dễ nhất để chọn một kiểu chữ là chọn tôi và mở bảng màu 🎨 bên cạnh, nơi bạn có thể xem trước các kiểu chữ và chọn một kiểu mà không cần gõ tên của nó.",
                 "names": "$~khuônmặt"
             },
             "place": {

@@ -3912,11 +3912,12 @@
         "Phrase": {
             "names": ["💬", "Frase"],
             "doc": [
-                "¡Hola, hola! ¿Me recuerdas? ¿Cómo podría alguien olvidarse de /mí/? Eso es correcto, yo soy la frase maravillosa, lista para representar el @Text hermoso en el @Stage.",
-                "Solo hazme así, y aparecerá en el @Stage:",
-                "\\Frase('¡magnífico!')\\",
-                "Necesito @Text obviamente, pero de otro modo, yo puedo aser todo que un @Output puedo hacer, incluyendo cambiando mi tamaño, fuente, rotacion, y todo los bailes con @Pose y @Sequence.",
-                "Tambien puedes seleccionarme en el @Stage y editarme con la paleta cerca de la puerta."
+                "$~Hola, hola! ¿Se acuerdan de mí? ¿Cómo podría alguien olvidarme? Así es, soy la magnífica @Phrase , lista para representar lo más hermoso de @Text en @Stage .",
+                "$~Hazme así y apareceré en @Stage :",
+                "$~\\Phrase('magnificent!')\\",
+                "$~Necesito @TextLiteral o @FormattedLiteral para mostrar. Con @FormattedLiteral , puedo usar cosas como \\`*bold* and /italic/`\\ o hacer referencia a @ConceptLink personalizado que crees.",
+                "$~También puedes darme opcionalmente todo lo que puede hacer un @Output , incluyendo cambiar mi tamaño, fuente, rotación y hacer todos mis increíbles bailes con @Pose y @Sequence .",
+                "$~También puedes seleccionarme en @Stage y editarme con la paleta 🎨 que está al lado; es una excelente manera de probar diferentes fuentes y elegir la /cara/ adecuada para tu @Text ."
             ],
             "defaultDescription": "$~$size [ $size meter |]frase $text $name [named $name |] $face [ $face |] $animation $color [ $color |]",
             "text": {
@@ -3928,7 +3929,7 @@
                 "names": "tamaño"
             },
             "face": {
-                "doc": "El nombre de la fuente que yo debo ponerme.",
+                "doc": "$~El nombre de la fuente que debo usar. La forma más fácil de elegir una es seleccionarme y abrir la paleta 🎨 que está al lado, donde puedes previsualizar fuentes y elegir una sin escribir su nombre.",
                 "names": "fuente"
             },
             "place": {

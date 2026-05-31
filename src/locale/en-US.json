@@ -3940,7 +3940,7 @@
                 "\\Phrase('magnificent!')\\",
                 "I need @TextLiteral or @FormattedLiteral to show. With @FormattedLiteral, I can use things like \\`*bold* and /italic/`\\ or refer to custom @ConceptLink you create.",
                 "You can also optionally give me everything an @Output can do, including changing my size, font, rotation, and do all of my incredible dances with @Pose and @Sequence.",
-                "You can also select me on @Stage and edit me on the palette next door."
+                "You can also select me on @Stage and edit me with the palette 🎨 next door — it's a great way to try out different fonts and pick the right /face/ for your @Text."
             ],
             "names": ["💬", "Phrase"],
             "text": {
@@ -3952,7 +3952,7 @@
                 "names": "size"
             },
             "face": {
-                "doc": "The name of the font face I should put on.",
+                "doc": "The name of the font face I should put on. The easiest way to choose one is to select me and open the palette 🎨 next door, where you can preview fonts and pick a /face/ without typing its name.",
                 "names": "face"
             },
             "place": {

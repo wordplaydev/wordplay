@@ -3934,12 +3934,12 @@
         },
         "Phrase": {
             "doc": [
-                "$~Halo, halo! Masih ingat aku? Bagaimana mungkin ada yang melupakan aku? Benar sekali, aku adalah @Phrase yang luar biasa, siap mewakili @Text terindah di @Stage.",
-                "$~Buat saja aku seperti ini, dan aku akan muncul di @Stage:",
-                "$~Frasa('luar biasa!')",
-                "$~Saya membutuhkan @TextLiteral atau @FormattedLiteral untuk ditampilkan. Dengan @FormattedLiteral, saya dapat menggunakan hal-hal seperti \\`*tebal* dan /miring/`\\ atau merujuk ke @ConceptLink kustom yang Anda buat.",
-                "$~Anda juga dapat secara opsional memberi saya semua yang dapat dilakukan oleh @Output, termasuk mengubah ukuran, font, rotasi, dan melakukan semua tarian luar biasa saya dengan @Pose dan @Sequence.",
-                "$~Anda juga dapat memilih saya di @Stage dan mengedit saya di palet di sebelahnya."
+                "$~Halo, halo! Ingat aku? Bagaimana mungkin ada yang melupakanku? Benar sekali, aku adalah @Phrase yang luar biasa, siap mewakili @Text terindah di @Stage .",
+                "$~Buat saja aku seperti ini, dan aku akan muncul di @Stage :",
+                "$~\\Phrase('magnificent!')\\",
+                "$~Saya membutuhkan @TextLiteral atau @FormattedLiteral untuk ditampilkan. Dengan @FormattedLiteral , saya dapat menggunakan hal-hal seperti \\`*bold* and /italic/`\\ atau merujuk ke @ConceptLink kustom yang Anda buat.",
+                "$~Anda juga dapat secara opsional memberi saya semua yang dapat dilakukan oleh @Output , termasuk mengubah ukuran, font, rotasi, dan melakukan semua tarian luar biasa saya dengan @Pose dan @Sequence .",
+                "$~Anda juga dapat memilih saya di @Stage dan mengedit saya dengan palet 🎨 di sebelahnya — ini adalah cara yang bagus untuk mencoba berbagai font dan memilih /face/ yang tepat untuk @Text Anda."
             ],
             "names": ["$~💬", "$~Frasa"],
             "text": {
@@ -3951,7 +3951,7 @@
                 "names": "$~ukuran"
             },
             "face": {
-                "doc": "$~Nama jenis huruf yang harus saya cantumkan.",
+                "doc": "$~Nama jenis huruf yang harus saya gunakan. Cara termudah untuk memilihnya adalah dengan memilih saya dan membuka palet 🎨 di sebelahnya, di mana Anda dapat melihat pratinjau font dan memilih jenis huruf tanpa mengetik namanya.",
                 "names": "$~menghadapi"
             },
             "place": {

@@ -4039,7 +4039,12 @@
         "Phrase": {
             "names": ["💬", "Satzglied"],
             "doc": [
-                "Hallo, hallo? Erinnerst du mich? Wie könnte jemand /mich/ vergessen? Ich bin das geniale @Phrase und ich bin bereit, die schönste aller @Text auf der Bühne zu darstellen."
+                "$~Hallo, hallo! Erinnert ihr euch an mich? Wie könnte man mich vergessen? Genau, ich bin die großartige @Phrase , bereit, die schönsten @Text auf @Stage zu repräsentieren.",
+                "$~Mach mich einfach so, und ich werde auf @Stage erscheinen:",
+                "$~\\Phrase('magnificent!')\\",
+                "$~Ich benötige @TextLiteral oder @FormattedLiteral zur Anzeige. Mit @FormattedLiteral kann ich Formatierungen wie \\`*bold* and /italic/`\\ verwenden oder auf benutzerdefinierte @ConceptLink verweisen, die Sie erstellen.",
+                "$~Optional können Sie mir auch alle Funktionen von @Output zur Verfügung stellen, einschließlich der Änderung von Größe, Schriftart und Drehung sowie der Ausführung all meiner unglaublichen Posen mit @Pose und @Sequence .",
+                "$~Du kannst mich auch auf @Stage auswählen und mit der Palette 🎨 daneben bearbeiten – das ist eine tolle Möglichkeit, verschiedene Schriftarten auszuprobieren und die richtige Schriftart für deinen @Text auszuwählen."
             ],
             "description": {
                 "names": "$~Beschreibung",
@@ -4056,7 +4061,7 @@
                 "names": "$~Größe"
             },
             "face": {
-                "doc": "$~Der Name der Schriftart, die ich verwenden soll.",
+                "doc": "$~Der Name der Schriftart, die ich verwenden soll. Am einfachsten wähle ich mich aus und öffne die Palette 🎨 daneben. Dort kann ich mir Schriftarten in der Vorschau ansehen und eine Schriftart auswählen, ohne ihren Namen eingeben zu müssen.",
                 "names": "$~gesicht"
             },
             "place": {

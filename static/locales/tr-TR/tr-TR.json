@@ -3929,11 +3929,12 @@
         },
         "Phrase": {
             "doc": [
-                "$~Merhaba, merhaba! Beni hatırlıyor musunuz? Kim /beni/ unutabilir ki? Doğru duydunuz, ben @Stage'deki en güzel @Text'i temsil etmeye hazır olan muhteşem @Phrase'im.",
-                "$~Beni böyle yapın, @Stage'de görüneyim:",
-                "$~\\Phrase('muhteşem!')\\",
-                "$~Elbette biraz @Text'e ihtiyacım var, ama onun dışında @Output'un yapabildiği her şeyi yapabilirim; boyutumu, yazı tipimi, dönüşümü değiştirebilir ve @Pose ve @Sequence ile inanılmaz danslarımı yapabilirim.",
-                "$~Ayrıca beni @Stage'den seçebilir ve yan taraftaki paletten düzenleyebilirsiniz."
+                "$~Merhaba, merhaba! Beni hatırlıyor musunuz? Beni kim unutabilir ki? Evet, ben muhteşem @Phrase , @Text en güzel örneklerini @Stage Stage'de temsil etmeye hazırım.",
+                "$~Beni böyle yapın, @Stage Stage'de görüneceğim:",
+                "$~\\Phrase('magnificent!')\\",
+                "$~@TextLiteral veya @FormattedLiteral göstermem gerekiyor. @FormattedLiteral ile \\`*bold* and /italic/`\\ gibi şeyler kullanabilir veya oluşturduğunuz özel @ConceptLink referans verebilirim.",
+                "$~Ayrıca isteğe bağlı olarak bana @Output yapabileceği her şeyi verebilirsiniz; boyutumu, yazı tipimi, döndürmeyi değiştirmek ve @Pose ve @Sequence ile inanılmaz danslarımı yapmak da dahil.",
+                "$~Ayrıca beni @Stage Stage'de seçebilir ve yan taraftaki paleti 🎨 kullanarak düzenleyebilirsiniz; bu, farklı yazı tiplerini denemek ve @Text Text'iniz için doğru yazı tipini seçmek için harika bir yöntemdir."
             ],
             "names": ["$~💬", "$~İfadeetmek"],
             "text": {
@@ -3945,7 +3946,7 @@
                 "names": "$~boyut"
             },
             "face": {
-                "doc": "$~Üzerine koymam gereken yazı tipinin adı.",
+                "doc": "$~Kullanmam gereken yazı tipinin adı. Birini seçmenin en kolay yolu beni seçmek ve yan taraftaki paleti 🎨 açmak; burada yazı tiplerini önizleyebilir ve adını yazmadan bir yazı tipi seçebilirsiniz.",
                 "names": "$~yüz"
             },
             "place": {

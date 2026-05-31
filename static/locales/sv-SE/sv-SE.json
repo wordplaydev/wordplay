@@ -3929,11 +3929,12 @@
         },
         "Phrase": {
             "doc": [
-                "$~Hej, hej! Kommer du ihåg mig? Hur kunde någon glömma /mig/. Det stämmer, jag är den mäktiga @Phrase, redo att representera den vackraste av @Text på @Stage.",
-                "$~Gör mig bara så här, så kommer jag att dyka upp på @Stage:",
+                "$~Hallå, hallå! Kommer du ihåg mig? Hur kan någon glömma /mig/. Just det, jag är den magnifika @Phrase , redo att representera det vackraste av @Text på @Stage .",
+                "$~Få mig bara att gilla det här, så dyker jag upp på @Stage :",
                 "$~\\Phrase('magnificent!')\\",
-                "$~Jag behöver naturligtvis lite @Text, men annars kan jag göra allt en @Output kan göra, inklusive att ändra min storlek, typsnitt, rotation och göra alla mina otroliga danser med @Pose och @Sequence.",
-                "$~Du kan också välja mig på @Stage och redigera mig på paletten bredvid."
+                "$~Jag behöver @TextLiteral eller @FormattedLiteral för att visa. Med @FormattedLiteral kan jag använda saker som \\`*bold* and /italic/`\\ eller referera till en anpassad @ConceptLink som du skapar.",
+                "$~Du kan också valfritt ge mig allt en @Output kan göra, inklusive att ändra min storlek, teckensnitt, rotation och göra alla mina otroliga danser med @Pose och @Sequence .",
+                "$~Du kan också välja mig på @Stage och redigera mig med paletten 🎨 bredvid — det är ett bra sätt att testa olika typsnitt och välja rätt /face/ till din @Text ."
             ],
             "names": ["$~💬", "$~Fras"],
             "text": {
@@ -3945,7 +3946,7 @@
                 "names": "$~storlek"
             },
             "face": {
-                "doc": "$~Namnet på typsnittet jag ska sätta på.",
+                "doc": "$~Namnet på typsnittet jag ska använda. Det enklaste sättet att välja ett är att välja mig och öppna paletten 🎨 bredvid, där du kan förhandsgranska typsnitt och välja ett /typsnitt/ utan att skriva dess namn.",
                 "names": "$~ansikte"
             },
             "place": {

@@ -3937,11 +3937,12 @@
         },
         "Phrase": {
             "doc": [
-                "$~Cześć, cześć! Pamiętasz mnie? Jak ktoś mógłby zapomnieć /me/. Tak, jestem wspaniałym @Phrase, gotowym reprezentować najpiękniejsze @Text na @Stage.",
-                "$~Zrób mi to po prostu tak, a pojawię się na @Stage:",
-                "$~\\Phrase('wspaniały!')\\",
-                "$~Oczywiście potrzebuję @Text, ale poza tym mogę robić wszystko, co @Output potrafi, łącznie ze zmianą rozmiaru, czcionki, obrotu i wykonywaniem wszystkich moich niesamowitych tańców za pomocą @Pose i @Sequence.",
-                "$~Możesz również wybrać mnie na @Stage i edytować na palecie obok."
+                "$~Cześć, cześć! Pamiętasz mnie? Jak ktokolwiek mógłby o mnie zapomnieć. Zgadza się, jestem wspaniałym @Phrase , gotowym reprezentować najpiękniejszy tekst @Text na @Stage .",
+                "$~Zrób mi to tak, a pojawię się na @Stage :",
+                "$~\\Phrase('magnificent!')\\",
+                "$~Potrzebuję @TextLiteral lub @FormattedLiteral do wyświetlenia. Dzięki @FormattedLiteral mogę używać elementów takich jak \\`*bold* and /italic/`\\ lub odwoływać się do utworzonego przez siebie niestandardowego @ConceptLink .",
+                "$~Możesz też opcjonalnie udostępnić mi wszystkie funkcje @Output , w tym zmianę rozmiaru, czcionki, obrotu oraz wykonywanie wszystkich moich niesamowitych tańców za pomocą @Pose i @Sequence .",
+                "$~Możesz mnie również wybrać na @Stage i edytować za pomocą palety 🎨 obok — to świetny sposób na wypróbowanie różnych czcionek i wybranie właściwej /face/ dla Twojego @Text ."
             ],
             "names": ["$~💬", "$~Wyrażenie"],
             "text": {
@@ -3953,7 +3954,7 @@
                 "names": "$~rozmiar"
             },
             "face": {
-                "doc": "$~Nazwa czcionki, którą powinienem zastosować.",
+                "doc": "$~Nazwę czcionki, którą powinienem użyć. Najłatwiej wybrać jedną, zaznaczając mnie i otwierając paletę 🎨 obok, gdzie można podejrzeć czcionki i wybrać /face/ bez wpisywania nazwy.",
                 "names": "$~twarz"
             },
             "place": {

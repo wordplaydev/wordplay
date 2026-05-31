@@ -4039,11 +4039,12 @@
         "Phrase": {
             "names": ["$~💬", "$~Phrase"],
             "doc": [
-                "$~Bonjour, bonjour ! Vous vous souvenez de moi ? Comment pourrait-on oublier /moi/. C'est vrai, je suis la magnifique @Phrase, prête à représenter le plus beau des @Text sur @Stage.",
-                "$~Faites-moi simplement aimer ça et j'apparaîtrai sur @Stage:",
-                "$~\\Phrase('magnifique!')\\",
-                "$~J'ai besoin de @Text, évidemment, mais sinon, je peux faire tout ce qu'un @Output peut faire, y compris changer ma taille, ma police, ma rotation et faire toutes mes danses incroyables avec @Pose et @Sequence.",
-                "$~Vous pouvez également me sélectionner sur @Stage et me modifier sur la palette voisine."
+                "$~Bonjour, bonjour ! Vous vous souvenez de moi ? Comment pourrait-on m'oublier ? Eh oui, je suis la magnifique @Phrase , prête à représenter le plus beau des @Text sur @Stage .",
+                "$~Faites-moi juste comme ça, et je serai sur @Stage:",
+                "$~\\Phrase('magnificent!')\\",
+                "$~J'ai besoin que @TextLiteral ou @FormattedLiteral s'affichent. Avec @FormattedLiteral , je peux utiliser des éléments comme \\`*bold* and /italic/`\\ ou faire référence à un lien personnalisé @ConceptLink que vous avez créé.",
+                "$~Vous pouvez également me donner, si vous le souhaitez, tout ce qu'un @Output peut faire, y compris modifier ma taille, ma police, ma rotation et réaliser toutes mes incroyables danses avec @Pose et @Sequence .",
+                "$~Vous pouvez également me sélectionner sur @Stage et me modifier avec la palette 🎨 juste à côté — c'est un excellent moyen d'essayer différentes polices et de choisir la bonne /face/ pour votre @Text ."
             ],
             "description": {
                 "doc": [
@@ -4060,7 +4061,7 @@
                 "names": "$~taille"
             },
             "face": {
-                "doc": "$~Le nom de la police que je devrais mettre.",
+                "doc": "$~Le nom de la police à utiliser. Le plus simple est de me sélectionner et d'ouvrir la palette 🎨 ci-contre, où vous pouvez prévisualiser les polices et en choisir une sans saisir son nom.",
                 "names": "$~affronter"
             },
             "place": {

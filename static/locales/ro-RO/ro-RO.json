@@ -3934,12 +3934,12 @@
         },
         "Phrase": {
             "doc": [
-                "$~Salut, salut! Îți amintești de mine? Cum ar putea cineva să mă uite pe /mă/? Așa este, sunt magnifica @Phrase, gata să reprezint cel mai frumos @Text pe @Stage.",
-                "$~Fă-mă așa și voi apărea pe @Stage:",
-                "$~\\Phrase('magnific!')\\",
-                "$~Am nevoie de @TextLiteral sau @FormattedLiteral pentru a se afișa. Cu @FormattedLiteral, pot folosi elemente precum \\`*bold* și /italic/`\\ sau pot face referire la @ConceptLink personalizat pe care îl creați.",
-                "$~De asemenea, poți opțional să-mi dai tot ce poate face un @Output, inclusiv să-mi schimbi dimensiunea, fontul, rotația și să fac toate dansurile mele incredibile cu @Pose și @Sequence.",
-                "$~De asemenea, mă poți selecta pe @Stage și mă poți edita în paleta alăturată."
+                "$~Salut, salut! Îți amintești de mine? Cum ar putea cineva să mă uite pe /mă/. Așa este, sunt magnifica @Phrase , gata să reprezint cel mai frumos @Text pe @Stage .",
+                "$~Fă-mă așa și voi apărea pe @Stage :",
+                "$~\\Phrase('magnificent!')\\",
+                "$~Am nevoie @TextLiteral sau @FormattedLiteral pentru a se afișa. Cu @FormattedLiteral , pot folosi elemente precum \\`*bold* and /italic/`\\ sau pot face referire la @ConceptLink personalizat pe care îl creați.",
+                "$~De asemenea, poți opțional să-mi dai tot ce poate face un @Output , inclusiv să-mi schimbi dimensiunea, fontul, rotația și să fac toate dansurile mele incredibile cu @Pose și @Sequence .",
+                "$~De asemenea, mă poți selecta pe @Stage și edita cu paleta 🎨 de alături — e o modalitate excelentă de a încerca diferite fonturi și de a alege /face/ potrivit pentru @Text ."
             ],
             "names": ["$~💬", "$~Fraza"],
             "text": {
@@ -3951,7 +3951,7 @@
                 "names": "$~dimensiune"
             },
             "face": {
-                "doc": "$~Numele fontului pe care ar trebui să-l pun.",
+                "doc": "$~Numele fontului pe care ar trebui să-l pun. Cel mai simplu mod de a alege unul este să mă selectezi și să deschizi paleta 🎨 de alături, unde poți previzualiza fonturile și alege o /față/ fără să-i tastezi numele.",
                 "names": "$~faţă"
             },
             "place": {
