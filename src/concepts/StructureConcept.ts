@@ -28,14 +28,20 @@ export default class StructureConcept extends Concept {
     /** A derived list of interfaces */
     readonly inter: StructureConcept[];
 
-    /** A derived list of FunctionConcepts */
+    /** A derived list of FunctionConcepts for instance functions */
     readonly functions: FunctionConcept[];
+
+    /** A derived list of FunctionConcepts for static functions */
+    readonly staticFunctions: FunctionConcept[];
 
     /** A derived list of BindConcepts for inputs */
     readonly inputs: BindConcept[];
 
-    /** A derived list of BindConcepts for properties */
+    /** A derived list of BindConcepts for instance properties */
     readonly properties: BindConcept[];
+
+    /** A derived list of BindConcepts for static properties */
+    readonly staticProperties: BindConcept[];
 
     /** A derived list of ConversionConcepts */
     readonly conversions: ConversionConcept[];
@@ -70,8 +76,9 @@ export default class StructureConcept extends Concept {
                   ]
                 : examples;
 
-        this.functions = this.definition
-            .getFunctions()
+        const allFunctions = this.definition.getFunctions();
+        this.functions = allFunctions
+            .filter((def) => !def.isStatic(context))
             .map(
                 (def) =>
                     new FunctionConcept(
@@ -83,6 +90,20 @@ export default class StructureConcept extends Concept {
                         context,
                     ),
             );
+        this.staticFunctions = allFunctions
+            .filter((def) => def.isStatic(context))
+            .map(
+                (def) =>
+                    new FunctionConcept(
+                        purpose,
+                        definition,
+                        def,
+                        this,
+                        locales,
+                        context,
+                        this.definition,
+                    ),
+            );
         this.conversions = this.definition
             .getAllConversions()
             .map((def) => new ConversionConcept(def, context, this));
@@ -90,10 +111,23 @@ export default class StructureConcept extends Concept {
         this.inputs = this.definition.inputs.map(
             (bind) => new BindConcept(this.purpose, bind, locales, context),
         );
-        this.properties = this.definition
-            .getProperties()
+        const allProperties = this.definition.getProperties();
+        this.properties = allProperties
+            .filter((bind) => !bind.isStatic(context))
             .map(
                 (bind) => new BindConcept(this.purpose, bind, locales, context),
+            );
+        this.staticProperties = allProperties
+            .filter((bind) => bind.isStatic(context))
+            .map(
+                (bind) =>
+                    new BindConcept(
+                        this.purpose,
+                        bind,
+                        locales,
+                        context,
+                        this.definition,
+                    ),
             );
 
         this.inter = this.definition
@@ -160,7 +194,9 @@ export default class StructureConcept extends Concept {
         return new Set([
             ...this.inputs,
             ...this.properties,
+            ...this.staticProperties,
             ...this.functions,
+            ...this.staticFunctions,
             ...this.conversions,
         ]);
     }
