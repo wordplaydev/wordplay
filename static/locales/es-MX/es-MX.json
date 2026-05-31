@@ -4934,6 +4934,10 @@
                 "expandSequence": {
                     "on": "$~elementos colapsados",
                     "off": "$~expandir elementos"
+                },
+                "search": {
+                    "on": "$~ocultar búsqueda",
+                    "off": "$~buscar el código"
                 }
             },
             "button": {
@@ -4941,13 +4945,16 @@
                 "expandControls": "$~mostrar comandos de edición adicionales",
                 "collapseControls": "$~ocultar comandos de edición adicionales",
                 "zoomIn": "$~Aumentar el tamaño del código",
-                "zoomOut": "$~Hacer el código más pequeño"
+                "zoomOut": "$~Hacer el código más pequeño",
+                "replace": "$~reemplazar todas las coincidencias"
             },
             "field": {
                 "name": {
                     "description": "editar nombre de fuente",
                     "placeholder": "nombre"
-                }
+                },
+                "search": "$~texto",
+                "replace": "$~reemplazar"
             },
             "menu": {
                 "label": "menú de autocompletar",
@@ -5020,7 +5027,8 @@
                     "noClipboardItem": "$~No hay nada en el portapapeles",
                     "noSelection": "$~Nada seleccionado",
                     "noMove": "$~No puedo moverme más"
-                }
+                },
+                "nextMatch": "$~pasar a la siguiente coincidencia de búsqueda"
             },
             "options": {
                 "locale": {

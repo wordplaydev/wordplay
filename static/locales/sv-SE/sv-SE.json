@@ -4969,6 +4969,10 @@
                 "expandSequence": {
                     "on": "$~komprimera objekt",
                     "off": "$~expandera objekt"
+                },
+                "search": {
+                    "on": "$~dölj sökning",
+                    "off": "$~sök efter koden"
                 }
             },
             "button": {
@@ -4976,13 +4980,16 @@
                 "expandControls": "$~visa ytterligare redigeringskommandon",
                 "collapseControls": "$~dölj ytterligare redigeringskommandon",
                 "zoomIn": "$~Gör koden större",
-                "zoomOut": "$~Gör koden mindre"
+                "zoomOut": "$~Gör koden mindre",
+                "replace": "$~ersätt alla träffar"
             },
             "field": {
                 "name": {
                     "description": "$~redigera källnamnet",
                     "placeholder": "$~namn"
-                }
+                },
+                "search": "$~text",
+                "replace": "$~ersätta"
             },
             "menu": {
                 "label": "$~autoslutförande-menyn",
@@ -5055,7 +5062,8 @@
                     "noClipboardItem": "$~Ingenting på urklippet",
                     "noSelection": "$~Inget valt",
                     "noMove": "$~Kan inte röra mig längre"
-                }
+                },
+                "nextMatch": "$~gå till nästa sökträff"
             },
             "options": {
                 "locale": {

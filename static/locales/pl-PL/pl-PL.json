@@ -4977,6 +4977,10 @@
                 "expandSequence": {
                     "on": "$~zwiń elementy",
                     "off": "$~rozwiń elementy"
+                },
+                "search": {
+                    "on": "$~ukryj wyszukiwanie",
+                    "off": "$~wyszukaj kod"
                 }
             },
             "button": {
@@ -4984,13 +4988,16 @@
                 "expandControls": "$~pokaż dodatkowe polecenia edycyjne",
                 "collapseControls": "$~ukryj dodatkowe polecenia edycyjne",
                 "zoomIn": "$~Powiększ kod",
-                "zoomOut": "$~Zmniejsz kod"
+                "zoomOut": "$~Zmniejsz kod",
+                "replace": "$~zamień wszystkie mecze"
             },
             "field": {
                 "name": {
                     "description": "$~edytuj nazwę źródła",
                     "placeholder": "$~nazwa"
-                }
+                },
+                "search": "$~tekst",
+                "replace": "$~zastępować"
             },
             "menu": {
                 "label": "$~menu autouzupełniania",
@@ -5063,7 +5070,8 @@
                     "noClipboardItem": "$~Nic w schowku",
                     "noSelection": "$~Nic nie wybrano",
                     "noMove": "$~Nie mogę się ruszyć dalej"
-                }
+                },
+                "nextMatch": "$~przejdź do następnego wyniku wyszukiwania"
             },
             "options": {
                 "locale": {

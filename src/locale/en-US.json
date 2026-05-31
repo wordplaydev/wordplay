@@ -5216,6 +5216,10 @@
                 "expandSequence": {
                     "on": "collapse items",
                     "off": "expand items"
+                },
+                "search": {
+                    "on": "hide search",
+                    "off": "search the code"
                 }
             },
             "options": {
@@ -5229,13 +5233,16 @@
                 "expandControls": "show additional editing commands",
                 "collapseControls": "hide additional editing commands",
                 "zoomIn": "Make the code larger",
-                "zoomOut": "Make the code smaller"
+                "zoomOut": "Make the code smaller",
+                "replace": "replace all matches"
             },
             "field": {
                 "name": {
                     "description": "edit source name",
                     "placeholder": "name"
-                }
+                },
+                "search": "text",
+                "replace": "replace"
             },
             "menu": {
                 "label": "autocomplete menu",
@@ -5259,6 +5266,7 @@
                 "nextNode": "select neighbor after",
                 "parent": "select container",
                 "selectAll": "select program",
+                "nextMatch": "go to the next search match",
                 "incrementLiteral": "increase number, text, or Boolean",
                 "decrementLiteral": "decrease number, text, or Boolean",
                 "insertTab": "insert tab",

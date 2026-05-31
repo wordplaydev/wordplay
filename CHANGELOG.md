@@ -12,6 +12,7 @@ This week focused on improving many aspects of the Guide, including speed, usabi
 
 - 🔣 We added `@Contour`, a new built-in input stream that traces the outline of letters in a font as a list of `@Place` values, so you can dot, trace, or animate the shape of any glyph. You can read about it in the [Guide](https://wordplay.dev/guide?concept=Contour). (#1167)
 - 🔗 We made the guide remember the query and sections you were viewing, in case you need to refresh the page or share a link.
+- 🔎 We added a search and replace feature to the code editor.
 - 🖱️ Now you can click click click in the editor to expand the selection. (Just like pressing escape, escape, escape does).
 
 ### Changed

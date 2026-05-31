@@ -4955,6 +4955,10 @@
                 "expandSequence": {
                     "on": "$~réduire les éléments",
                     "off": "$~développer les éléments"
+                },
+                "search": {
+                    "on": "$~masquer la recherche",
+                    "off": "$~rechercher le code"
                 }
             },
             "button": {
@@ -4962,13 +4966,16 @@
                 "expandControls": "$~afficher des commandes d'édition supplémentaires",
                 "collapseControls": "$~masquer les commandes d'édition supplémentaires",
                 "zoomIn": "$~Agrandir le code",
-                "zoomOut": "$~Réduisez la taille du code."
+                "zoomOut": "$~Réduisez la taille du code.",
+                "replace": "$~remplacer toutes les correspondances"
             },
             "field": {
                 "name": {
                     "description": "$~modifier le nom de la source",
                     "placeholder": "$~nom"
-                }
+                },
+                "search": "$~texte",
+                "replace": "$~remplacer"
             },
             "menu": {
                 "label": "$~menu de saisie semi-automatique",
@@ -5041,7 +5048,8 @@
                     "noClipboardItem": "$~Rien sur le presse-papiers",
                     "noSelection": "$~Rien sélectionné",
                     "noMove": "$~Je ne peux plus avancer."
-                }
+                },
+                "nextMatch": "$~passer au résultat de recherche suivant"
             },
             "options": {
                 "locale": {

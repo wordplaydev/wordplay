@@ -4910,6 +4910,10 @@
                 "expandSequence": {
                     "on": "$~折疊項目",
                     "off": "$~展開專案"
+                },
+                "search": {
+                    "on": "$~隱藏搜尋",
+                    "off": "$~搜尋代碼"
                 }
             },
             "button": {
@@ -4917,13 +4921,16 @@
                 "expandControls": "$~显示附加编辑命令",
                 "collapseControls": "$~隐藏附加编辑命令",
                 "zoomIn": "$~增加程式碼量",
-                "zoomOut": "$~縮小程式碼體積"
+                "zoomOut": "$~縮小程式碼體積",
+                "replace": "$~替換所有匹配項"
             },
             "field": {
                 "name": {
                     "description": "編輯來源名稱",
                     "placeholder": "姓名"
-                }
+                },
+                "search": "$~文字",
+                "replace": "$~代替"
             },
             "menu": {
                 "label": "自動完成選單",
@@ -4996,7 +5003,8 @@
                     "noClipboardItem": "$~剪貼簿沒有任何內容",
                     "noSelection": "$~未選擇任何內容",
                     "noMove": "$~無法再繼續前進了。"
-                }
+                },
+                "nextMatch": "$~轉到下一個搜尋結果"
             },
             "options": {
                 "locale": {

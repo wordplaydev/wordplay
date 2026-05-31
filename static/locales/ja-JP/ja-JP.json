@@ -4969,6 +4969,10 @@
                 "expandSequence": {
                     "on": "$~アイテムを折りたたむ",
                     "off": "$~アイテムを展開する"
+                },
+                "search": {
+                    "on": "$~検索を非表示にする",
+                    "off": "$~コードを検索"
                 }
             },
             "button": {
@@ -4976,13 +4980,16 @@
                 "expandControls": "$~追加の編集コマンドを表示",
                 "collapseControls": "$~追加の編集コマンドを非表示にする",
                 "zoomIn": "$~コードを大きくする",
-                "zoomOut": "$~コードを小さくする"
+                "zoomOut": "$~コードを小さくする",
+                "replace": "$~一致するものをすべて置換します"
             },
             "field": {
                 "name": {
                     "description": "$~ソース名を編集",
                     "placeholder": "$~名前"
-                }
+                },
+                "search": "$~文章",
+                "replace": "$~交換する"
             },
             "menu": {
                 "label": "$~オートコンプリートメニュー",
@@ -5055,7 +5062,8 @@
                     "noClipboardItem": "$~クリップボードには何もありません",
                     "noSelection": "$~何も選択されていません",
                     "noMove": "$~これ以上動けない"
-                }
+                },
+                "nextMatch": "$~次の検索結果へ進む"
             },
             "options": {
                 "locale": {

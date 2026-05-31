@@ -5213,6 +5213,10 @@
                 "expandSequence": {
                     "on": "$~mga item na tiklupin",
                     "off": "$~palawakin ang mga item"
+                },
+                "search": {
+                    "on": "$~itago ang paghahanap",
+                    "off": "$~hanapin ang code"
                 }
             },
             "options": {
@@ -5226,13 +5230,16 @@
                 "expandControls": "$~magpakita ng mga karagdagang utos sa pag-edit",
                 "collapseControls": "$~itago ang mga karagdagang utos sa pag-edit",
                 "zoomIn": "$~Gawing mas malaki ang code",
-                "zoomOut": "$~Gawing mas maliit ang code"
+                "zoomOut": "$~Gawing mas maliit ang code",
+                "replace": "$~palitan ang lahat ng tugma"
             },
             "field": {
                 "name": {
                     "description": "$~i-edit ang pangalan ng pinagmulan",
                     "placeholder": "$~pangalan"
-                }
+                },
+                "search": "$~teksto",
+                "replace": "$~palitan"
             },
             "menu": {
                 "label": "$~awtomatikong pagkumpleto ng menu",
@@ -5305,7 +5312,8 @@
                     "noClipboardItem": "$~Walang nakalagay sa clipboard",
                     "noSelection": "$~Walang napili",
                     "noMove": "$~Hindi na makagalaw pa"
-                }
+                },
+                "nextMatch": "$~pumunta sa susunod na tugma sa paghahanap"
             },
             "error": {
                 "invalidName": "$~Dapat itong isang wastong pangalan ng Wordplay.",

@@ -5215,6 +5215,10 @@
                 "expandSequence": {
                     "on": "$~restrânge elementele",
                     "off": "$~extindeți elementele"
+                },
+                "search": {
+                    "on": "$~căutare ascunsă",
+                    "off": "$~caută codul"
                 }
             },
             "options": {
@@ -5228,13 +5232,16 @@
                 "expandControls": "$~afișați comenzi suplimentare de editare",
                 "collapseControls": "$~ascunde comenzile de editare suplimentare",
                 "zoomIn": "$~Măriți codul",
-                "zoomOut": "$~Faceți codul mai mic"
+                "zoomOut": "$~Faceți codul mai mic",
+                "replace": "$~înlocuiește toate chibriturile"
             },
             "field": {
                 "name": {
                     "description": "$~editați numele sursei",
                     "placeholder": "$~nume"
-                }
+                },
+                "search": "$~text",
+                "replace": "$~înlocui"
             },
             "menu": {
                 "label": "$~meniu de completare automată",
@@ -5307,7 +5314,8 @@
                     "noClipboardItem": "$~Nimic pe clipboard",
                     "noSelection": "$~Nimic selectat",
                     "noMove": "$~Nu mă pot mișca mai departe"
-                }
+                },
+                "nextMatch": "$~treceți la următoarea potrivire de căutare"
             },
             "error": {
                 "invalidName": "$~Acesta trebuie să fie un nume valid de joc de cuvinte.",

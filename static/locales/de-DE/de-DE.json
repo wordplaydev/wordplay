@@ -4951,6 +4951,10 @@
                 "expandSequence": {
                     "on": "$~Elemente ausblenden",
                     "off": "$~Elemente erweitern"
+                },
+                "search": {
+                    "on": "$~Suche ausblenden",
+                    "off": "$~Code durchsuchen"
                 }
             },
             "button": {
@@ -4958,13 +4962,16 @@
                 "expandControls": "$~zusätzliche Bearbeitungsbefehle anzeigen",
                 "collapseControls": "$~zusätzliche Bearbeitungsbefehle ausblenden",
                 "zoomIn": "$~Vergrößern Sie den Code",
-                "zoomOut": "$~Verkleinern Sie den Code"
+                "zoomOut": "$~Verkleinern Sie den Code",
+                "replace": "$~Alle Übereinstimmungen ersetzen"
             },
             "field": {
                 "name": {
                     "description": "$~Quellnamen bearbeiten",
                     "placeholder": "$~Name"
-                }
+                },
+                "search": "$~Text",
+                "replace": "$~ersetzen"
             },
             "menu": {
                 "label": "$~Autovervollständigungsmenü",
@@ -5037,7 +5044,8 @@
                     "noClipboardItem": "$~Nichts auf dem Zwischenbrett",
                     "noSelection": "$~Nichts ausgewählt",
                     "noMove": "$~Ich kann mich nicht weiter bewegen."
-                }
+                },
+                "nextMatch": "$~Zum nächsten Suchtreffer gehen"
             },
             "options": {
                 "locale": {

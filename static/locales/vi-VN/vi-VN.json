@@ -5209,6 +5209,10 @@
                 "expandSequence": {
                     "on": "$~thu gọn các mục",
                     "off": "$~mở rộng các mục"
+                },
+                "search": {
+                    "on": "$~tìm kiếm ẩn",
+                    "off": "$~tìm kiếm mã"
                 }
             },
             "options": {
@@ -5222,13 +5226,16 @@
                 "expandControls": "$~Hiển thị các lệnh chỉnh sửa bổ sung",
                 "collapseControls": "$~ẩn các lệnh chỉnh sửa bổ sung",
                 "zoomIn": "$~Làm cho mã lớn hơn",
-                "zoomOut": "$~Thu nhỏ mã nguồn"
+                "zoomOut": "$~Thu nhỏ mã nguồn",
+                "replace": "$~thay thế tất cả các kết quả khớp"
             },
             "field": {
                 "name": {
                     "description": "$~chỉnh sửa tên nguồn",
                     "placeholder": "$~tên"
-                }
+                },
+                "search": "$~chữ",
+                "replace": "$~thay thế"
             },
             "menu": {
                 "label": "$~menu tự động hoàn thành",
@@ -5301,7 +5308,8 @@
                     "noClipboardItem": "$~Không có gì trên bảng nhớ tạm",
                     "noSelection": "$~Chưa có gì được chọn",
                     "noMove": "$~Không thể tiến xa hơn nữa"
-                }
+                },
+                "nextMatch": "$~chuyển đến kết quả tìm kiếm phù hợp tiếp theo"
             },
             "error": {
                 "invalidName": "$~Đây phải là một tên chơi chữ hợp lệ.",

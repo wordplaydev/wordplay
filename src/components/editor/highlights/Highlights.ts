@@ -22,6 +22,8 @@ import Token from '@nodes/Token';
 import TypePlaceholder from '@nodes/TypePlaceholder';
 import type Project from '@db/projects/Project';
 import type Evaluator from '@runtime/Evaluator';
+import type { SearchLanguages } from '@util/search';
+import UnicodeString from '@unicode/UnicodeString';
 import ExceptionValue from '@values/ExceptionValue';
 import {
     getOutlineOfRows,
@@ -75,6 +77,10 @@ export const HighlightTypes = {
     empty: true,
     // Highlight definitions and uses
     related: false,
+    // Text matching the editor's search query. Rendered above the code so the
+    // outline around the matched substring stays visible over opaque token
+    // blocks in blocks mode.
+    search: true,
 };
 
 export class Highlights {
@@ -400,6 +406,56 @@ export function getDragHighlights(
     }
 
     return highlights;
+}
+
+/** A grapheme range [start, end) into a source's text. */
+export type SearchMatchRange = { start: number; end: number };
+
+/**
+ * Find every case-insensitive occurrence of `query` within each token's text,
+ * returned as grapheme ranges in source-text coordinates. Matching is scoped to
+ * token text (not the whitespace between tokens) and matches substrings rather
+ * than whole tokens, so the caller can highlight just the matched characters via
+ * {@link getRangeOutline}. Ranges are computed in graphemes (not UTF-16 code
+ * units) so they line up with the grapheme-based source positions getRangeOutline
+ * expects, and so the highlight works for emoji and combining marks.
+ */
+export function getSearchMatches(
+    source: Source,
+    query: string,
+    languages: SearchLanguages,
+): SearchMatchRange[] {
+    const matches: SearchMatchRange[] = [];
+    const queryGraphemes = new UnicodeString(query.trim())
+        .getGraphemes()
+        .map((g) => g.toLocaleLowerCase(languages));
+    const queryLength = queryGraphemes.length;
+    if (queryLength === 0) return matches;
+
+    for (const token of source.getTokens()) {
+        const position = source.getTokenTextPosition(token);
+        if (position === undefined) continue;
+        const tokenGraphemes = new UnicodeString(token.getText())
+            .getGraphemes()
+            .map((g) => g.toLocaleLowerCase(languages));
+        // Slide the query over the token, recording non-overlapping matches.
+        for (let i = 0; i + queryLength <= tokenGraphemes.length; ) {
+            let matched = true;
+            for (let j = 0; j < queryLength; j++)
+                if (tokenGraphemes[i + j] !== queryGraphemes[j]) {
+                    matched = false;
+                    break;
+                }
+            if (matched) {
+                matches.push({
+                    start: position + i,
+                    end: position + i + queryLength,
+                });
+                i += queryLength;
+            } else i++;
+        }
+    }
+    return matches;
 }
 
 /**

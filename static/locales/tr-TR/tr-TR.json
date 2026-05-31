@@ -4969,6 +4969,10 @@
                 "expandSequence": {
                     "on": "$~öğeleri daralt",
                     "off": "$~öğeleri genişlet"
+                },
+                "search": {
+                    "on": "$~aramayı gizle",
+                    "off": "$~kodu ara"
                 }
             },
             "button": {
@@ -4976,13 +4980,16 @@
                 "expandControls": "$~ek düzenleme komutlarını göster",
                 "collapseControls": "$~ek düzenleme komutlarını gizle",
                 "zoomIn": "$~Kodu daha büyük yapın",
-                "zoomOut": "$~Kodu küçültün"
+                "zoomOut": "$~Kodu küçültün",
+                "replace": "$~tüm eşleşmeleri değiştir"
             },
             "field": {
                 "name": {
                     "description": "$~kaynak adını düzenle",
                     "placeholder": "$~isim"
-                }
+                },
+                "search": "$~metin",
+                "replace": "$~yer değiştirmek"
             },
             "menu": {
                 "label": "$~otomatik tamamlama menüsü",
@@ -5055,7 +5062,8 @@
                     "noClipboardItem": "$~Panoda hiçbir şey yok.",
                     "noSelection": "$~Hiçbir şey seçilmedi.",
                     "noMove": "$~Daha fazla ilerleyemiyorum"
-                }
+                },
+                "nextMatch": "$~Sonraki arama sonucuna git"
             },
             "options": {
                 "locale": {

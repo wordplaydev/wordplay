@@ -114,6 +114,11 @@ export type CommandContext = {
     /** The HTMLElement rendering the editor */
     view: HTMLElement | undefined;
     toggleMenu?: () => void;
+    /** Toggle the focused editor's search field. */
+    toggleSearch?: () => void;
+    /** Move the caret to the next search match, cycling back to the first.
+     *  Returns true if it was handled (consuming the keystroke). */
+    nextSearchMatch?: () => boolean;
     toggleBlocks?: (on: boolean) => void;
     setFullscreen?: (on: boolean) => void;
     focusOrCycleTile?: (content?: TileKind) => void;
@@ -238,6 +243,44 @@ export const ShowKeyboardHelp: Command = {
             return true;
         } else return false;
     },
+};
+
+export const ToggleSearch: Command = {
+    symbol: '🔍',
+    description: (l) => l.ui.source.field.search,
+    visible: Visibility.Invisible,
+    category: Category.Cursor,
+    shift: false,
+    alt: false,
+    control: true,
+    key: 'KeyF',
+    keySymbol: 'F',
+    // When an editor is handling this, consume Cmd/Ctrl+F (overriding the
+    // browser's find shortcut) and toggle the editor's search field. Returns
+    // false when no editor provides toggleSearch, so the browser shortcut still
+    // works when no editor is focused.
+    execute: ({ toggleSearch }) => {
+        if (toggleSearch) {
+            toggleSearch();
+            return true;
+        } else return false;
+    },
+};
+
+export const GoToNextMatch: Command = {
+    symbol: '🔍',
+    description: (l) => l.ui.source.cursor.nextMatch,
+    visible: Visibility.Invisible,
+    category: Category.Cursor,
+    shift: false,
+    alt: false,
+    control: true,
+    key: 'KeyG',
+    keySymbol: 'G',
+    // Move to the next match (overriding the browser's find-next) when an
+    // editor is searching. Returns false otherwise so the browser shortcut
+    // still works when no editor is searching.
+    execute: ({ nextSearchMatch }) => nextSearchMatch?.() ?? false,
 };
 
 export const IncrementLiteral: Command = {
@@ -1619,6 +1662,9 @@ const Commands: Command[] = [
             return false;
         },
     },
+
+    ToggleSearch,
+    GoToNextMatch,
 
     // The catch all
     InsertSymbol,

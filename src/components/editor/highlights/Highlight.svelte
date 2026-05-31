@@ -100,6 +100,14 @@
         fill: none;
     }
 
+    /* Search matches draw a stroke around the matched substring. Stroke (not
+       fill) so they stay visible over opaque token blocks in blocks mode and
+       never occlude text. */
+    .search.outline path {
+        stroke: var(--wordplay-error);
+        fill: none;
+    }
+
     /* Definitions and uses get hover feedback without border */
     .related:not(:global(.selected)).outline path {
         stroke: none;

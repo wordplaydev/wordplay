@@ -5215,6 +5215,10 @@
                 "expandSequence": {
                     "on": "$~barang-barang yang runtuh",
                     "off": "$~perluas item"
+                },
+                "search": {
+                    "on": "$~sembunyikan pencarian",
+                    "off": "$~cari kodenya"
                 }
             },
             "options": {
@@ -5228,13 +5232,16 @@
                 "expandControls": "$~Tampilkan perintah pengeditan tambahan",
                 "collapseControls": "$~sembunyikan perintah pengeditan tambahan",
                 "zoomIn": "$~Perbesar kodenya",
-                "zoomOut": "$~Perkecil ukuran kode."
+                "zoomOut": "$~Perkecil ukuran kode.",
+                "replace": "$~ganti semua kecocokan"
             },
             "field": {
                 "name": {
                     "description": "$~edit nama sumber",
                     "placeholder": "$~nama"
-                }
+                },
+                "search": "$~teks",
+                "replace": "$~mengganti"
             },
             "menu": {
                 "label": "$~menu pelengkap otomatis",
@@ -5307,7 +5314,8 @@
                     "noClipboardItem": "$~Tidak ada apa pun di papan klip.",
                     "noSelection": "$~Tidak ada yang dipilih",
                     "noMove": "$~Tidak bisa bergerak lebih jauh lagi"
-                }
+                },
+                "nextMatch": "$~Lanjutkan ke hasil pencarian berikutnya"
             },
             "error": {
                 "invalidName": "$~Ini harus berupa nama Wordplay yang valid.",

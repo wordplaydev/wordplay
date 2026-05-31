@@ -311,6 +311,8 @@ type UITexts = {
             characters: ToggleText;
             /** [plain] The toggle for expanding and collapsing a long list of items in the editor */
             expandSequence: ToggleText;
+            /** [plain] The toggle that shows or hides the editor search field */
+            search: ToggleText;
         };
         button: {
             /** [plain] Output preview button for selecting output for display in output tile */
@@ -323,6 +325,8 @@ type UITexts = {
             zoomIn: string;
             /** [plain] The zoom out button for the code editor */
             zoomOut: string;
+            /** [plain] The button that replaces all search matches with the replacement text */
+            replace: string;
         };
         menu: {
             /** [plain] How to describe the autocomplete menu */
@@ -335,6 +339,10 @@ type UITexts = {
         field: {
             /** [name] The name of the source file */
             name: FieldText;
+            /** [plain] The placeholder and ARIA description for the editor token search field */
+            search: string;
+            /** [plain] The placeholder and ARIA description for the editor replace field */
+            replace: string;
         };
         options: {
             /** The locale chooser for a source file */
@@ -378,6 +386,8 @@ type UITexts = {
             parent: string;
             /** [plain] Select the whole program */
             selectAll: string;
+            /** [plain] Move cursor to the next search match */
+            nextMatch: string;
             /** [plain] Increment the literal at the cursor */
             incrementLiteral: string;
             /** [plain] Decrement the literal at the cursor */

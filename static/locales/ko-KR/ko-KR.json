@@ -4952,6 +4952,10 @@
                 "expandSequence": {
                     "on": "$~접기 항목",
                     "off": "$~항목 확장"
+                },
+                "search": {
+                    "on": "$~검색 숨기기",
+                    "off": "$~코드를 검색하세요"
                 }
             },
             "button": {
@@ -4959,13 +4963,16 @@
                 "expandControls": "$~추가 편집 명령 표시",
                 "collapseControls": "$~추가 편집 명령 숨기기",
                 "zoomIn": "$~코드 크기를 늘리세요",
-                "zoomOut": "$~코드 크기를 줄이세요"
+                "zoomOut": "$~코드 크기를 줄이세요",
+                "replace": "$~모든 일치 항목을 바꿉니다"
             },
             "field": {
                 "name": {
                     "description": "$~소스 이름 수정",
                     "placeholder": "$~이름"
-                }
+                },
+                "search": "$~텍스트",
+                "replace": "$~바꾸다"
             },
             "menu": {
                 "label": "$~자동완성 메뉴",
@@ -5038,7 +5045,8 @@
                     "noClipboardItem": "$~클립보드에 아무것도 없음",
                     "noSelection": "$~선택된 항목 없음",
                     "noMove": "$~더 이상 움직일 수 없습니다"
-                }
+                },
+                "nextMatch": "$~다음 검색 결과로 이동"
             },
             "options": {
                 "locale": {

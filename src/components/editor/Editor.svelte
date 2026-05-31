@@ -5,6 +5,7 @@
 <!-- svelte-ignore state_referenced_locally -->
 <script lang="ts">
     import Emoji from '@components/app/Emoji.svelte';
+    import EditorSearch from '@components/editor/EditorSearch.svelte';
     import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
     import CaretView, {
         type CaretBounds,
@@ -32,6 +33,7 @@
         getDragHighlights,
         getProjectHighlights,
         getRangeOutline,
+        getSearchMatches,
         updateOutlines,
     } from '@components/editor/highlights/Highlights';
     import {
@@ -1031,6 +1033,57 @@
         return menu === undefined ? showMenu($caret.position) : hideMenu();
     }
 
+    // Toggle the search field (Cmd/Ctrl+F). EditorSearch focuses the field on
+    // open and clears the query on close, so flipping the flag is enough.
+    function toggleSearch() {
+        searchActive = !searchActive;
+    }
+
+    // Move the caret to the next match after the current position, cycling back
+    // to the first after the last (Cmd/Ctrl+G, or Enter in the search field).
+    // Returns whether it handled the keystroke.
+    function goToNextMatch(): boolean {
+        if (!searchActive) return false;
+        const matches = searchMatches;
+        if (matches.length === 0) return true;
+        const position = $caret.isPosition() ? $caret.position : undefined;
+        const next =
+            (position !== undefined
+                ? matches.find((match) => match.start > position)
+                : undefined) ?? matches[0];
+        caret.set($caret.withPosition(next.start));
+        return true;
+    }
+
+    // Replace every search match with the given replacement text, as a single
+    // source edit. Afterward there are typically no matches left, so the search
+    // highlights and the replace UI disappear on their own.
+    function replace(replacement: string) {
+        const matches = searchMatches;
+        if (matches.length === 0) return;
+        // Splice the replacement into each match range (grapheme coordinates).
+        // Matches are non-overlapping and in document order.
+        const code = source.code;
+        let newCode = '';
+        let cursor = 0;
+        for (const match of matches) {
+            newCode += code.substring(cursor, match.start).toString();
+            newCode += replacement;
+            cursor = match.end;
+        }
+        newCode += code.substring(cursor).toString();
+
+        const newSource = source.reparse(newCode);
+        // Place the caret just after the first replacement.
+        const newPosition =
+            matches[0].start + new UnicodeString(replacement).getLength();
+        handleEdit(
+            [newSource, $caret.withSource(newSource).withPosition(newPosition)],
+            IdleKind.Typed,
+            true,
+        );
+    }
+
     function handleMenuItem(
         selection: Edit | RevisionSet | undefined,
     ): boolean {
@@ -1354,6 +1407,8 @@
             dragging: $dragged !== undefined,
             database: DB,
             toggleMenu,
+            toggleSearch,
+            nextSearchMatch: goToNextMatch,
             blocks: $blocks,
             locales: $locales,
             view: editor,
@@ -1838,6 +1893,13 @@
     // them rather than leave misleading outlines hovering over moved code.
     // They repopulate when the flurry settles and analysis runs.
     let projectHighlights = $state<Highlights>(new Highlights());
+
+    // Editor search state: whether the search field is open, and the current
+    // query. Per-editor and ephemeral, so it lives as local state here, bound
+    // to the EditorSearch component that renders the toggle and field.
+    let searchActive = $state(false);
+    let searchQuery = $state('');
+
     $effect(() => {
         // Track every input but bail before recomputing if typing.
         const stepNode = projectStepNode;
@@ -2036,6 +2098,84 @@
             : undefined,
     );
 
+    // The current search match ranges (grapheme [start, end) in source text),
+    // or empty when search is closed or the query is blank. A pure model
+    // computation shared by the highlight outlines, match navigation, and the
+    // replace UI.
+    let searchMatches = $derived(
+        searchActive && searchQuery.trim().length > 0
+            ? getSearchMatches(source, searchQuery, $locales.getLanguages())
+            : [],
+    );
+
+    // Outlines for the editor search: one clipped range outline per matched
+    // substring, using the same getRangeOutline machinery as the range
+    // selection above so it highlights just the matched text and works in
+    // blocks mode. Recomputed after render (tick) and on the same
+    // layout-affecting state as the node outlines, so matches track reflows
+    // (zoom, resize, blocks toggle, sequence expand/collapse).
+    let searchOutlines = $state<Outline[]>([]);
+    $effect(() => {
+        // Track the matches and layout-affecting state.
+        const matches = searchMatches;
+        $blocks;
+        editorWidth;
+        editorHeight;
+        zoom;
+        outlineRevision;
+        const rtl = $locales.getDirection() === 'rtl';
+        if (matches.length === 0) {
+            searchOutlines = [];
+            return;
+        }
+        tick().then(() => {
+            searchOutlines = matches
+                .map((match) =>
+                    getRangeOutline(
+                        source,
+                        match.start,
+                        match.end,
+                        getNodeView,
+                        true,
+                        rtl,
+                        $blocks,
+                    ),
+                )
+                .filter((outline): outline is Outline => outline !== undefined);
+        });
+    });
+
+    // When the query changes, move the caret to the first match so the user
+    // lands on a result; the caret's own scroll-into-view (CaretView) brings it
+    // on screen if it was scrolled off. Tracks only the query/active — not the
+    // caret — so navigating with the next-match command doesn't re-trigger this
+    // and snap back to the first.
+    $effect(() => {
+        const active = searchActive;
+        const query = searchQuery.trim();
+        if (!active || query.length === 0) return;
+        untrack(() => {
+            if (searchMatches.length > 0)
+                caret.set($caret.withPosition(searchMatches[0].start));
+        });
+    });
+
+    // When search closes, return focus to the editor — closing always comes
+    // from an explicit toggle (button, command, or Cmd/Ctrl+F in the field),
+    // and the field or toggle button held focus, so without this it would fall
+    // to the body. Track the previous value with a plain (non-reactive) flag so
+    // this only fires on a true→false transition, not on mount.
+    let searchWasActive = false;
+    $effect(() => {
+        const active = searchActive;
+        if (searchWasActive && !active)
+            // Wait for the field to unmount before refocusing.
+            tick().then(() =>
+                grabFocus('Returning focus to editor after closing search.'),
+            );
+        searchWasActive = active;
+    });
+
     // When the caret changes in block mode and the editor is focused, see if we need to focus a token widget.
     $effect(() => {
         if ($blocks && $caret && focused) {
@@ -2214,6 +2354,16 @@
             ignored={shakeCaret}
         />
     {/if}
+    <!-- Render search match outlines above the code so they stay visible
+         over opaque token blocks in blocks mode. -->
+    {#each searchOutlines as outline}
+        <Highlight
+            {outline}
+            underline={outline}
+            types={['search']}
+            above={true}
+        />
+    {/each}
 
     <!-- Render the caret on top of the program -->
     <CaretView
@@ -2340,6 +2490,16 @@
             </Button>
         </div>
     {/if}
+    <!-- Floating search: a magnifying-glass toggle pinned top-right that
+         reveals a query field. Matched substrings are highlighted via
+         searchOutlines above the code. -->
+    <EditorSearch
+        bind:active={searchActive}
+        bind:query={searchQuery}
+        matchCount={searchMatches.length}
+        next={goToNextMatch}
+        {replace}
+    />
 </div>
 
 <style>

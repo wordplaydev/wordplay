@@ -5210,6 +5210,10 @@
                 "expandSequence": {
                     "on": "$~itens de recolha",
                     "off": "$~expandir itens"
+                },
+                "search": {
+                    "on": "$~ocultar pesquisa",
+                    "off": "$~pesquisar o código"
                 }
             },
             "options": {
@@ -5223,13 +5227,16 @@
                 "expandControls": "$~Mostrar comandos de edição adicionais",
                 "collapseControls": "$~ocultar comandos de edição adicionais",
                 "zoomIn": "$~Aumente o tamanho do código.",
-                "zoomOut": "$~Reduza o tamanho do código."
+                "zoomOut": "$~Reduza o tamanho do código.",
+                "replace": "$~substituir todas as correspondências"
             },
             "field": {
                 "name": {
                     "description": "$~editar nome da fonte",
                     "placeholder": "$~nome"
-                }
+                },
+                "search": "$~texto",
+                "replace": "$~substituir"
             },
             "menu": {
                 "label": "$~menu de preenchimento automático",
@@ -5302,7 +5309,8 @@
                     "noClipboardItem": "$~Nada na área de transferência",
                     "noSelection": "$~Nada selecionado",
                     "noMove": "$~Não consigo avançar mais."
-                }
+                },
+                "nextMatch": "$~ir para o próximo resultado da pesquisa"
             },
             "error": {
                 "invalidName": "$~Este deve ser um nome válido para um jogo de palavras.",

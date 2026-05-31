@@ -141,7 +141,7 @@ Editing comes in three forms:
 The editor does many other things, including:
 
 - Rendering conflicts based on the current caret position
-- Highlighting based on the mouse, touch screen, and drag interactions, defined by `Highlights.ts`
+- Highlighting based on the mouse, touch screen, drag interactions, and editor search matches, defined by `Highlights.ts`
 - Providing descriptions for screen readers
 
 ### Edit operations
