@@ -4500,16 +4500,52 @@
                 "dark": "$~sombre"
             },
             "random": {
-                "doc": ["$?"],
-                "names": "$?",
+                "doc": [
+                    "$~Attribuez une couleur aléatoire.",
+                    "$~En l'absence de couleurs, je choisis au hasard une des couleurs de base :",
+                    "$~\\Color.random()\\",
+                    "$~Pour une couleur, je conserve sa luminosité et son intensité, mais je choisis une teinte aléatoire :",
+                    "$~\\Color.random(Color.blue)\\",
+                    "$~Avec deux couleurs, je choisis aléatoirement la luminosité, la saturation et la teinte parmi les deux :",
+                    "$~\\Color.random(Color.black Color.white)\\"
+                ],
+                "names": "$~aléatoire",
                 "inputs": [
                     {
-                        "doc": "$?",
-                        "names": "$?"
+                        "doc": "$~Une couleur optionnelle. Utilisée seule, je conserve sa luminosité et sa saturation, et je choisis aléatoirement sa teinte. Avec une seconde couleur, elle représente une des extrémités de la gamme à choisir.",
+                        "names": "$~un"
                     },
                     {
-                        "doc": "$?",
-                        "names": "$?"
+                        "doc": "$~Une deuxième couleur optionnelle. Si elle est fournie, je choisis aléatoirement sa luminosité, sa saturation et sa teinte parmi les deux couleurs.",
+                        "names": "$~b"
+                    }
+                ]
+            },
+            "lighter": {
+                "doc": [
+                    "$~Donnez-moi une version plus claire, en augmentant ma luminosité d'un pour cent (5 % par défaut).",
+                    "$~\\Color.blue.lighter()\\",
+                    "$~\\Color.blue.lighter(20%)\\"
+                ],
+                "names": "$~plusléger",
+                "inputs": [
+                    {
+                        "doc": "$~Augmenter la luminosité en pourcentage. Par défaut : 5 %.",
+                        "names": "$~par"
+                    }
+                ]
+            },
+            "darker": {
+                "doc": [
+                    "$~Donne-moi une version plus sombre, en diminuant ma luminosité d'un pour cent (5 % par défaut).",
+                    "$~\\Color.blue.darker()\\",
+                    "$~\\Color.blue.darker(20%)\\"
+                ],
+                "names": "$~plussombre",
+                "inputs": [
+                    {
+                        "doc": "$~Pourcentage de réduction de la luminosité. Par défaut : 5 %.",
+                        "names": "$~par"
                     }
                 ]
             }

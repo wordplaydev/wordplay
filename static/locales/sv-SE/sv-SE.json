@@ -4391,16 +4391,52 @@
                 "dark": "$~mörk"
             },
             "random": {
-                "doc": ["$?"],
-                "names": "$?",
+                "doc": [
+                    "$~Ge en slumpmässig färg.",
+                    "$~Utan färger väljer jag en av grundfärgerna slumpmässigt:",
+                    "$~\\Color.random()\\",
+                    "$~Med en färg behåller jag dess ljushet och kroma men väljer en slumpmässig nyans:",
+                    "$~\\Color.random(Color.blue)\\",
+                    "$~Med två färger väljer jag en slumpmässig ljusstyrka, kroma och nyans mellan de två:",
+                    "$~\\Color.random(Color.black Color.white)\\"
+                ],
+                "names": "$~slumpmässig",
                 "inputs": [
                     {
-                        "doc": "$?",
-                        "names": "$?"
+                        "doc": "$~En valfri färg. Jag behåller dess ljushet och kroma och slumpmässigt väljer nyans. Med en andra färg är det ena änden av skalan att välja mellan.",
+                        "names": "$~en"
                     },
                     {
-                        "doc": "$?",
-                        "names": "$?"
+                        "doc": "$~En valfri andra färg. När den ges väljer jag en slumpmässig ljusstyrka, kroma och nyans mellan de två färgerna.",
+                        "names": "$~b"
+                    }
+                ]
+            },
+            "lighter": {
+                "doc": [
+                    "$~Ge en ljusare version av mig, och öka min ljushet med en procentandel (5 % som standard).",
+                    "$~\\Color.blue.lighter()\\",
+                    "$~\\Color.blue.lighter(20%)\\"
+                ],
+                "names": "$~tändare",
+                "inputs": [
+                    {
+                        "doc": "$~Hur mycket ljusstyrkan ska höjas, i procent. Standardinställningen är 5 %.",
+                        "names": "$~av"
+                    }
+                ]
+            },
+            "darker": {
+                "doc": [
+                    "$~Ge en mörkare version av mig, sänk min ljusstyrka med en procentandel (5 % som standard).",
+                    "$~\\Color.blue.darker()\\",
+                    "$~\\Color.blue.darker(20%)\\"
+                ],
+                "names": "$~mörkare",
+                "inputs": [
+                    {
+                        "doc": "$~Hur mycket ljusstyrkan ska sänkas, i procent. Standardinställningen är 5 %.",
+                        "names": "$~av"
                     }
                 ]
             }

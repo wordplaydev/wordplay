@@ -14,6 +14,7 @@ This week focused on improving many aspects of the Guide, including speed, usabi
 - 🔁 There's a new feature in the programming language called _translate_! It lets you convert the items in a list, set, map, or table into a new list, set, map, or table. Put a collection on the left, the new `↦` arrow in the middle, and what each item should become on the right, using `⬚` to mean the current item. So `[1 2 3] ↦ ⬚ + 1` makes `[2 3 4]`.
 - 🔗 We made the guide remember the query and sections you were viewing, in case you need to refresh the page or share a link.
 - 🎨 @Color has a function called @Color.random, which lets you pick a random basic color, a random color of a particular lightness and chrome, or a random color between two colors.
+- 🎨 @Color now also has @Color.lighter and @Color.darker, which give you a brighter or dimmer version of a color. They change the lightness by 5%, or by any percent you give them, like `Color.blue.lighter(20%)`.
 - 🔎 We added a search and replace feature to the code editor.
 - 🖱️ Now you can click click click in the editor to expand the selection. (Just like pressing escape, escape, escape does).
 

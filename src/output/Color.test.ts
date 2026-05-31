@@ -34,3 +34,30 @@ test('Color.random(a b) chooses each channel within the two colors range', () =>
     expect(color?.chroma.toNumber()).toBe(0);
     expect(color?.hue.toNumber()).toBe(0);
 });
+
+test('Color.lighter() raises lightness by 5%, keeping chroma and hue', () => {
+    const color = toColor(evaluateCode('Color.blue.lighter()'));
+    expect(color).toBeDefined();
+    expect(color?.lightness.toNumber()).toBeCloseTo(Focals.blue.l + 0.05, 10);
+    expect(color?.chroma.toNumber()).toBe(Focals.blue.c);
+    expect(color?.hue.toNumber()).toBe(Focals.blue.h);
+});
+
+test('Color.lighter(by) raises lightness by the given percent', () => {
+    const color = toColor(evaluateCode('Color.blue.lighter(20%)'));
+    expect(color?.lightness.toNumber()).toBeCloseTo(Focals.blue.l + 0.2, 10);
+});
+
+test('Color.darker() lowers lightness by 5%', () => {
+    const color = toColor(evaluateCode('Color.blue.darker()'));
+    expect(color?.lightness.toNumber()).toBeCloseTo(Focals.blue.l - 0.05, 10);
+    expect(color?.chroma.toNumber()).toBe(Focals.blue.c);
+    expect(color?.hue.toNumber()).toBe(Focals.blue.h);
+});
+
+test('Color.lighter()/darker() clamp lightness to [0,1]', () => {
+    // white is already l=1, so lightening stays at 1; black is l=0, so
+    // darkening stays at 0.
+    expect(toColor(evaluateCode('Color.white.lighter()'))?.lightness.toNumber()).toBe(1);
+    expect(toColor(evaluateCode('Color.black.darker()'))?.lightness.toNumber()).toBe(0);
+});

@@ -4409,16 +4409,52 @@
                 "dark": "$~madilim"
             },
             "random": {
-                "doc": ["$?"],
-                "names": "$?",
+                "doc": [
+                    "$~Magbigay ng kulay na walang kapareha.",
+                    "$~Dahil walang kulay, pipili ako ng isa sa mga pangunahing kulay nang random:",
+                    "$~\\Color.random()\\",
+                    "$~Sa isang kulay, pinapanatili ko ang gaan at kroma nito ngunit pumipili ng iba't ibang kulay:",
+                    "$~\\Color.random(Color.blue)\\",
+                    "$~Gamit ang dalawang kulay, pipili ako ng random na gaan, kroma, at kulay sa pagitan ng dalawa:",
+                    "$~\\Color.random(Color.black Color.white)\\"
+                ],
+                "names": "$~random",
                 "inputs": [
                     {
-                        "doc": "$?",
-                        "names": "$?"
+                        "doc": "$~Isang opsyonal na kulay. Ako lang ang may hawak ng lightness at chroma nito at pinipili ko ang hue. Kapag may pangalawang kulay, isa lang itong pagpipilian.",
+                        "names": "$~isang"
                     },
                     {
-                        "doc": "$?",
-                        "names": "$?"
+                        "doc": "$~Opsyonal na pangalawang kulay. Kapag ibinigay, pipili ako ng random na liwanag, kroma, at kulay sa pagitan ng dalawang kulay.",
+                        "names": "$~b"
+                    }
+                ]
+            },
+            "lighter": {
+                "doc": [
+                    "$~Magbigay ng mas magaan na bersyon ko, na pinapataas ang aking gaan ng isang porsyento (5% bilang default).",
+                    "$~\\Color.blue.lighter()\\",
+                    "$~\\Color.blue.lighter(20%)\\"
+                ],
+                "names": "$~masmagaan",
+                "inputs": [
+                    {
+                        "doc": "$~Gaano kalaki ang dapat itaas ang gaan, bilang porsyento. Nakatakda sa 5% ayon sa default.",
+                        "names": "$~ni"
+                    }
+                ]
+            },
+            "darker": {
+                "doc": [
+                    "$~Bigyan ng mas madilim na bersyon ko, na binabawasan ang aking kagaanan ng isang porsyento (5% bilang default).",
+                    "$~\\Color.blue.darker()\\",
+                    "$~\\Color.blue.darker(20%)\\"
+                ],
+                "names": "$~masmadilim",
+                "inputs": [
+                    {
+                        "doc": "$~Gaano karami ang babawasan ang kagaanan, bilang porsyento. Nakatakda sa 5% ayon sa default.",
+                        "names": "$~ni"
                     }
                 ]
             }

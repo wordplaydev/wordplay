@@ -4411,16 +4411,52 @@
                 "dark": "$~întuneric"
             },
             "random": {
-                "doc": ["$?"],
-                "names": "$?",
+                "doc": [
+                    "$~Dați o culoare aleatorie.",
+                    "$~Fără culori, aleg una dintre culorile de bază la întâmplare:",
+                    "$~\\Color.random()\\",
+                    "$~Cu o singură culoare, îi păstrez luminozitatea și croma, dar aleg o nuanță aleatorie:",
+                    "$~\\Color.random(Color.blue)\\",
+                    "$~Cu două culori, aleg o luminozitate, o cromă și o nuanță aleatorie între cele două:",
+                    "$~\\Color.random(Color.black Color.white)\\"
+                ],
+                "names": "$~aleatoriu",
                 "inputs": [
                     {
-                        "doc": "$?",
-                        "names": "$?"
+                        "doc": "$~O culoare opțională. Singură, îi păstrez luminozitatea și croma și aleatorizez nuanța. Cu o a doua culoare, este o extremă a gamei din care se poate alege.",
+                        "names": "$~o"
                     },
                     {
-                        "doc": "$?",
-                        "names": "$?"
+                        "doc": "$~O a doua culoare opțională. Când este dată, aleg o luminozitate, o cromă și o nuanță aleatorie între cele două culori.",
+                        "names": "$~b"
+                    }
+                ]
+            },
+            "lighter": {
+                "doc": [
+                    "$~Dă o versiune mai ușoară a mea, crescându-mi luminozitatea cu un procent (5% implicit).",
+                    "$~\\Color.blue.lighter()\\",
+                    "$~\\Color.blue.lighter(20%)\\"
+                ],
+                "names": "$~brichetă",
+                "inputs": [
+                    {
+                        "doc": "$~Cu cât să crească luminozitatea, ca procent. Implicit, valoarea este 5%.",
+                        "names": "$~de"
+                    }
+                ]
+            },
+            "darker": {
+                "doc": [
+                    "$~Oferă o versiune mai închisă a mea, reducându-mi luminozitatea cu un procent (5% implicit).",
+                    "$~\\Color.blue.darker()\\",
+                    "$~\\Color.blue.darker(20%)\\"
+                ],
+                "names": "$~maiîntunecat",
+                "inputs": [
+                    {
+                        "doc": "$~Cu cât să se reducă luminozitatea, ca procent. Implicit, valoarea este 5%.",
+                        "names": "$~de"
                     }
                 ]
             }

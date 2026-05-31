@@ -4391,16 +4391,52 @@
                 "dark": "$~karanlık"
             },
             "random": {
-                "doc": ["$?"],
-                "names": "$?",
+                "doc": [
+                    "$~Rastgele bir renk verin.",
+                    "$~Renk seçeneği yoksa, temel renklerden birini rastgele seçiyorum:",
+                    "$~\\Color.random()\\",
+                    "$~Tek bir renk kullanırken, açıklığını ve doygunluğunu koruyorum ama rastgele bir ton seçiyorum:",
+                    "$~\\Color.random(Color.blue)\\",
+                    "$~İki renk kullanırken, bu iki renk arasından rastgele bir açıklık, doygunluk ve ton seçiyorum:",
+                    "$~\\Color.random(Color.black Color.white)\\"
+                ],
+                "names": "$~rastgele",
                 "inputs": [
                     {
-                        "doc": "$?",
-                        "names": "$?"
+                        "doc": "$~İsteğe bağlı bir renk. Tek başına kullanıldığında, açıklığını ve doygunluğunu koruyup tonunu rastgele seçiyorum. İkinci bir renkle birlikte kullanıldığında ise, seçilebilecek renk yelpazesinin bir ucunu oluşturuyor.",
+                        "names": "$~A"
                     },
                     {
-                        "doc": "$?",
-                        "names": "$?"
+                        "doc": "$~İsteğe bağlı ikinci bir renk. Verildiğinde, iki renk arasında rastgele bir açıklık, doygunluk ve ton seçiyorum.",
+                        "names": "$~B"
+                    }
+                ]
+            },
+            "lighter": {
+                "doc": [
+                    "$~Bana daha açık renkli bir versiyon ver, açıklık oranımı belirli bir yüzde artır (varsayılan olarak %5).",
+                    "$~\\Color.blue.lighter()\\",
+                    "$~\\Color.blue.lighter(20%)\\"
+                ],
+                "names": "$~dahahafif",
+                "inputs": [
+                    {
+                        "doc": "$~Parlaklık seviyesini yüzde olarak ne kadar artırmak istediğinizi belirtin. Varsayılan değer %5'tir.",
+                        "names": "$~ile"
+                    }
+                ]
+            },
+            "darker": {
+                "doc": [
+                    "$~Bana daha koyu bir versiyon ver, açıklık oranımı belirli bir yüzde (varsayılan olarak %5) düşür.",
+                    "$~\\Color.blue.darker()\\",
+                    "$~\\Color.blue.darker(20%)\\"
+                ],
+                "names": "$~dahakoyu",
+                "inputs": [
+                    {
+                        "doc": "$~Parlaklık seviyesini yüzde olarak ne kadar düşürmek istediğinizi belirtin. Varsayılan değer %5'tir.",
+                        "names": "$~ile"
                     }
                 ]
             }

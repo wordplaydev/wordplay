@@ -4406,16 +4406,52 @@
                 "dark": "$~escuro"
             },
             "random": {
-                "doc": ["$?"],
-                "names": "$?",
+                "doc": [
+                    "$~Dê uma cor aleatória.",
+                    "$~Sem cores disponíveis, escolho uma das cores básicas de forma aleatória:",
+                    "$~\\Color.random()\\",
+                    "$~Com uma cor, mantenho a sua luminosidade e croma, mas escolho uma tonalidade aleatória:",
+                    "$~\\Color.random(Color.blue)\\",
+                    "$~Com duas cores, escolho aleatoriamente um valor de luminosidade, croma e tonalidade entre as duas:",
+                    "$~\\Color.random(Color.black Color.white)\\"
+                ],
+                "names": "$~aleatório",
                 "inputs": [
                     {
-                        "doc": "$?",
-                        "names": "$?"
+                        "doc": "$~Uma cor opcional. Sozinha, mantenho a sua luminosidade e croma, e aleatorizo a tonalidade. Com uma segunda cor, fica numa das extremidades do espectro de cores.",
+                        "names": "$~um"
                     },
                     {
-                        "doc": "$?",
-                        "names": "$?"
+                        "doc": "$~Uma segunda cor opcional. Quando fornecida, escolho aleatoriamente um valor de luminosidade, croma e matiz entre as duas cores.",
+                        "names": "$~b"
+                    }
+                ]
+            },
+            "lighter": {
+                "doc": [
+                    "$~Crie uma versão mais leve de mim, aumentando a minha leveza em percentagem (5% por defeito).",
+                    "$~\\Color.blue.lighter()\\",
+                    "$~\\Color.blue.lighter(20%)\\"
+                ],
+                "names": "$~isqueiro",
+                "inputs": [
+                    {
+                        "doc": "$~O quanto aumentar a luminosidade, em percentagem. O predefinido é 5%.",
+                        "names": "$~por"
+                    }
+                ]
+            },
+            "darker": {
+                "doc": [
+                    "$~Crie uma versão mais escura de mim, reduzindo o meu brilho em percentagem (5% por defeito).",
+                    "$~\\Color.blue.darker()\\",
+                    "$~\\Color.blue.darker(20%)\\"
+                ],
+                "names": "$~maisescuro",
+                "inputs": [
+                    {
+                        "doc": "$~O quanto diminuir o brilho, em percentagem. O predefinido é 5%.",
+                        "names": "$~por"
                     }
                 ]
             }

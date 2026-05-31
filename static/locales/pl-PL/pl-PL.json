@@ -4399,16 +4399,52 @@
                 "dark": "$~ciemny"
             },
             "random": {
-                "doc": ["$?"],
-                "names": "$?",
+                "doc": [
+                    "$~Podaj losowy kolor.",
+                    "$~Ponieważ nie mam wyboru kolorów, wybieram losowo jeden z kolorów podstawowych:",
+                    "$~\\Color.random()\\",
+                    "$~W przypadku jednego koloru zachowuję jego jasność i nasycenie, ale wybieram losowy odcień:",
+                    "$~\\Color.random(Color.blue)\\",
+                    "$~Mając dwa kolory, wybieram losowo jasność, nasycenie i odcień spośród dwóch:",
+                    "$~\\Color.random(Color.black Color.white)\\"
+                ],
+                "names": "$~losowy",
                 "inputs": [
                     {
-                        "doc": "$?",
-                        "names": "$?"
+                        "doc": "$~Kolor opcjonalny. Sam zachowuję jego jasność i nasycenie, a odcień losowo dobieram. Z drugim kolorem to jeden koniec zakresu do wyboru.",
+                        "names": "$~A"
                     },
                     {
-                        "doc": "$?",
-                        "names": "$?"
+                        "doc": "$~Opcjonalny drugi kolor. Jeśli jest dostępny, wybieram losowo jasność, nasycenie i odcień między tymi dwoma kolorami.",
+                        "names": "$~B"
+                    }
+                ]
+            },
+            "lighter": {
+                "doc": [
+                    "$~Pokaż lżejszą wersję mnie, zwiększając moją lekkość o pewien procent (domyślnie 5%).",
+                    "$~\\Color.blue.lighter()\\",
+                    "$~\\Color.blue.lighter(20%)\\"
+                ],
+                "names": "$~zapalniczka",
+                "inputs": [
+                    {
+                        "doc": "$~O ile zwiększyć jasność (w procentach). Domyślnie 5%.",
+                        "names": "$~przez"
+                    }
+                ]
+            },
+            "darker": {
+                "doc": [
+                    "$~Pokaż ciemniejszą wersję mnie, zmniejszając jasność o pewien procent (domyślnie 5%).",
+                    "$~\\Color.blue.darker()\\",
+                    "$~\\Color.blue.darker(20%)\\"
+                ],
+                "names": "$~ciemniejszy",
+                "inputs": [
+                    {
+                        "doc": "$~O ile procent zmniejszyć jasność. Domyślnie 5%.",
+                        "names": "$~przez"
                     }
                 ]
             }

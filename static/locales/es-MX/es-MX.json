@@ -4373,16 +4373,52 @@
                 "dark": "$~oscuro"
             },
             "random": {
-                "doc": ["$?"],
-                "names": "$?",
+                "doc": [
+                    "$~Elige un color al azar.",
+                    "$~Al no tener colores, elijo uno de los colores básicos al azar:",
+                    "$~\\Color.random()\\",
+                    "$~Con un solo color, mantengo su luminosidad y croma, pero elijo un tono al azar:",
+                    "$~\\Color.random(Color.blue)\\",
+                    "$~Con dos colores, elijo aleatoriamente un nivel de luminosidad, saturación y matiz entre ambos:",
+                    "$~\\Color.random(Color.black Color.white)\\"
+                ],
+                "names": "$~aleatorio",
                 "inputs": [
                     {
-                        "doc": "$?",
-                        "names": "$?"
+                        "doc": "$~Un color opcional. Si lo uso solo, mantengo su luminosidad y saturación, y el tono es aleatorio. Si lo combino con un segundo color, se convierte en uno de los extremos de la gama de colores disponibles.",
+                        "names": "$~a"
                     },
                     {
-                        "doc": "$?",
-                        "names": "$?"
+                        "doc": "$~Un segundo color opcional. Si se proporciona, selecciono aleatoriamente un nivel de luminosidad, saturación y matiz entre los dos colores.",
+                        "names": "$~b"
+                    }
+                ]
+            },
+            "lighter": {
+                "doc": [
+                    "$~Dame una versión más clara de mí, aumentando mi luminosidad en un porcentaje (5% por defecto).",
+                    "$~\\Color.blue.lighter()\\",
+                    "$~\\Color.blue.lighter(20%)\\"
+                ],
+                "names": "$~encendedor",
+                "inputs": [
+                    {
+                        "doc": "$~Cuánto aumentar la luminosidad, en porcentaje. Por defecto es del 5%.",
+                        "names": "$~por"
+                    }
+                ]
+            },
+            "darker": {
+                "doc": [
+                    "$~Dame una versión más oscura de mí, reduciendo mi luminosidad en un porcentaje (5% por defecto).",
+                    "$~\\Color.blue.darker()\\",
+                    "$~\\Color.blue.darker(20%)\\"
+                ],
+                "names": "$~másoscuro",
+                "inputs": [
+                    {
+                        "doc": "$~Cuánto reducir el brillo, en porcentaje. Por defecto es del 5%.",
+                        "names": "$~por"
                     }
                 ]
             }

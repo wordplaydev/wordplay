@@ -4391,16 +4391,52 @@
                 "dark": "$~tối tăm"
             },
             "random": {
-                "doc": ["$?"],
-                "names": "$?",
+                "doc": [
+                    "$~Chọn một màu ngẫu nhiên.",
+                    "$~Nếu không có màu nào cụ thể, tôi sẽ chọn ngẫu nhiên một trong những màu cơ bản:",
+                    "$~\\Color.random()\\",
+                    "$~Với một màu duy nhất, tôi giữ nguyên độ sáng và độ bão hòa nhưng chọn một sắc độ ngẫu nhiên:",
+                    "$~\\Color.random(Color.blue)\\",
+                    "$~Với hai màu, tôi chọn ngẫu nhiên độ sáng, độ bão hòa và sắc độ giữa hai màu đó:",
+                    "$~\\Color.random(Color.black Color.white)\\"
+                ],
+                "names": "$~ngẫunhiên",
                 "inputs": [
                     {
-                        "doc": "$?",
-                        "names": "$?"
+                        "doc": "$~Một màu tùy chọn. Khi chỉ dùng một màu, tôi giữ nguyên độ sáng và độ bão hòa của nó và chọn ngẫu nhiên sắc độ. Khi dùng thêm màu thứ hai, bạn có thể chọn một trong các sắc độ nằm ở đầu kia của dải màu.",
+                        "names": "$~Một"
                     },
                     {
-                        "doc": "$?",
-                        "names": "$?"
+                        "doc": "$~Màu thứ hai là tùy chọn. Khi được cung cấp, tôi sẽ chọn ngẫu nhiên độ sáng, độ bão hòa và sắc độ giữa hai màu đó.",
+                        "names": "$~b"
+                    }
+                ]
+            },
+            "lighter": {
+                "doc": [
+                    "$~Hãy cho tôi một phiên bản nhẹ hơn, tăng độ sáng của tôi lên một tỷ lệ phần trăm (mặc định là 5%).",
+                    "$~\\Color.blue.lighter()\\",
+                    "$~\\Color.blue.lighter(20%)\\"
+                ],
+                "names": "$~nhẹhơn",
+                "inputs": [
+                    {
+                        "doc": "$~Mức độ tăng độ sáng, tính theo phần trăm. Mặc định là 5%.",
+                        "names": "$~qua"
+                    }
+                ]
+            },
+            "darker": {
+                "doc": [
+                    "$~Hãy cho tôi một phiên bản tối hơn, giảm độ sáng của tôi đi một phần trăm (mặc định là 5%).",
+                    "$~\\Color.blue.darker()\\",
+                    "$~\\Color.blue.darker(20%)\\"
+                ],
+                "names": "$~tốihơn",
+                "inputs": [
+                    {
+                        "doc": "$~Mức độ giảm độ sáng, tính theo phần trăm. Mặc định là 5%.",
+                        "names": "$~qua"
                     }
                 ]
             }

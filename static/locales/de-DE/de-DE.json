@@ -4500,16 +4500,52 @@
                 "dark": "$~dunkel"
             },
             "random": {
-                "doc": ["$?"],
-                "names": "$?",
+                "doc": [
+                    "$~Wähle eine zufällige Farbe.",
+                    "$~Da keine Farben verfügbar sind, wähle ich zufällig eine der Grundfarben aus:",
+                    "$~\\Color.random()\\",
+                    "$~Bei einer Farbe behalte ich deren Helligkeit und Farbsättigung bei, wähle aber einen zufälligen Farbton:",
+                    "$~\\Color.random(Color.blue)\\",
+                    "$~Bei zwei Farben wähle ich zufällig eine Helligkeit, Farbsättigung und einen Farbton aus beiden Werten aus:",
+                    "$~\\Color.random(Color.black Color.white)\\"
+                ],
+                "names": "$~zufällig",
                 "inputs": [
                     {
-                        "doc": "$?",
-                        "names": "$?"
+                        "doc": "$~Eine optionale Farbe. Alleinstehend behalte ich ihre Helligkeit und Farbsättigung bei und variiere den Farbton. Mit einer zweiten Farbe steht eine der beiden Farbvarianten zur Auswahl.",
+                        "names": "$~A"
                     },
                     {
-                        "doc": "$?",
-                        "names": "$?"
+                        "doc": "$~Eine optionale zweite Farbe. Falls angegeben, wähle ich zufällig Helligkeit, Farbsättigung und Farbton zwischen den beiden Farben.",
+                        "names": "$~B"
+                    }
+                ]
+            },
+            "lighter": {
+                "doc": [
+                    "$~Erstelle eine leichtere Version von mir, indem du meine Helligkeit um einen Prozentsatz erhöhst (standardmäßig 5 %).",
+                    "$~\\Color.blue.lighter()\\",
+                    "$~\\Color.blue.lighter(20%)\\"
+                ],
+                "names": "$~Feuerzeug",
+                "inputs": [
+                    {
+                        "doc": "$~Um wie viel Prozent soll die Helligkeit erhöht werden? Standardwert: 5 %.",
+                        "names": "$~von"
+                    }
+                ]
+            },
+            "darker": {
+                "doc": [
+                    "$~Erstelle eine dunklere Version von mir, indem du meine Helligkeit um einen Prozentsatz reduzierst (standardmäßig 5 %).",
+                    "$~\\Color.blue.darker()\\",
+                    "$~\\Color.blue.darker(20%)\\"
+                ],
+                "names": "$~dunkler",
+                "inputs": [
+                    {
+                        "doc": "$~Um wie viel Prozent soll die Helligkeit reduziert werden? Standardwert: 5 %.",
+                        "names": "$~von"
                     }
                 ]
             }

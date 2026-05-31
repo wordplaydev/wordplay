@@ -1,4 +1,5 @@
 import type LocaleText from '@locale/LocaleText';
+import FunctionDefinition from '@nodes/FunctionDefinition';
 import type Names from '@nodes/Names';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import StructureType from '@nodes/StructureType';
@@ -138,6 +139,16 @@ export default class StructureValue extends Value {
                     break;
                 }
             }
+        }
+        // Instance functions declared in the structure's block aren't bound
+        // into the Evaluation of structures built directly via
+        // `StructureValue.make` (which skips block evaluation — e.g. Color's
+        // basic-color statics). Reach them through the definition, binding
+        // `this` as the instance so `⬚` resolves to it.
+        if (typeof name === 'string') {
+            const instanceFunction = this.type.getDefinition(name);
+            if (instanceFunction instanceof FunctionDefinition)
+                return new FunctionValue(instanceFunction, this);
         }
         const basisFun =
             evaluator && typeof name === 'string'

@@ -14,6 +14,7 @@ import NameType from '@nodes/NameType';
 import NoneLiteral from '@nodes/NoneLiteral';
 import NoneType from '@nodes/NoneType';
 import NumberLiteral from '@nodes/NumberLiteral';
+import NumberType from '@nodes/NumberType';
 import Reference from '@nodes/Reference';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import { Sym } from '@nodes/Sym';
@@ -148,13 +149,69 @@ export function createColorType(locales: Locales) {
         randomFun.expression,
     );
 
-    // Inject the static function into the structure's block, preserving the
-    // existing BCT static binds and block formatting. The parsed Color always
-    // has a block (the second parenthesized group), so this is defined.
+    // Instance functions `lighter()`/`darker()` that adjust the color's
+    // lightness, defaulting to 5%. They reuse the lightness input's own `•%`
+    // type so the `by` amount is a percent (e.g. `Color.blue.lighter(10%)`),
+    // and read the receiving color through the closure. Lightness is 0–1
+    // internally, and a `%` value's `.toNumber()` is already in that scale
+    // (so `5%` → 0.05); the result is clamped to [0, 1].
+    const lightnessType = colorDef.inputs[0]?.type ?? NumberType.make();
+    const adjustLightness =
+        (sign: number) =>
+        (requestor: Expression, evaluation: Evaluation): Value => {
+            const evaluator = evaluation.getEvaluator();
+            const def = evaluator.project.shares.output.Color;
+            const closure = evaluation.getClosure();
+            const color =
+                closure instanceof StructureValue ? toColor(closure) : undefined;
+            if (color === undefined)
+                return evaluation.getValueOrTypeException(
+                    requestor,
+                    NameType.make(colorName),
+                    closure instanceof StructureValue ? closure : undefined,
+                );
+            const by = evaluation.getInput(0);
+            const amount = by instanceof NumberValue ? by.toNumber() : 0.05;
+            const newLightness = Math.max(
+                0,
+                Math.min(1, color.lightness.toNumber() + sign * amount),
+            );
+            return StructureValue.make(
+                evaluator,
+                evaluator.project.getMain(),
+                def,
+                new NumberValue(requestor, new Decimal(newLightness)),
+                new NumberValue(requestor, color.chroma),
+                new NumberValue(requestor, color.hue, Unit.reuse(['°'])),
+            );
+        };
+    const lighterFun = createBasisFunction(
+        locales,
+        (locale) => locale.output.Color.lighter,
+        undefined,
+        [[lightnessType, NumberLiteral.make('5%')]],
+        NameType.make(colorName),
+        adjustLightness(1),
+    );
+    const darkerFun = createBasisFunction(
+        locales,
+        (locale) => locale.output.Color.darker,
+        undefined,
+        [[lightnessType, NumberLiteral.make('5%')]],
+        NameType.make(colorName),
+        adjustLightness(-1),
+    );
+
+    // Inject the functions into the structure's block, preserving the existing
+    // BCT static binds and block formatting. The parsed Color always has a
+    // block (the second parenthesized group), so this is defined.
     const oldBlock = colorDef.expression;
     if (oldBlock === undefined)
         throw new Error('Color structure definition is missing its block');
-    const block = oldBlock.withStatement(staticRandom);
+    const block = oldBlock
+        .withStatement(staticRandom)
+        .withStatement(lighterFun)
+        .withStatement(darkerFun);
     const finalDef = colorDef.replace(oldBlock, block);
 
     // Register a native builder for the BCT static bind values. Color is a

@@ -4411,16 +4411,52 @@
                 "dark": "$~gelap"
             },
             "random": {
-                "doc": ["$?"],
-                "names": "$?",
+                "doc": [
+                    "$~Berikan warna secara acak.",
+                    "$~Karena tidak ada warna lain, saya memilih salah satu warna dasar secara acak:",
+                    "$~\\Color.random()\\",
+                    "$~Dengan satu warna, saya mempertahankan kecerahan dan kroma-nya tetapi memilih corak secara acak:",
+                    "$~\\Color.random(Color.blue)\\",
+                    "$~Dengan dua warna, saya memilih tingkat kecerahan, kroma, dan corak secara acak di antara keduanya:",
+                    "$~\\Color.random(Color.black Color.white)\\"
+                ],
+                "names": "$~acak",
                 "inputs": [
                     {
-                        "doc": "$?",
-                        "names": "$?"
+                        "doc": "$~Warna opsional. Jika berdiri sendiri, saya mempertahankan kecerahan dan kroma warnanya, lalu mengacak coraknya. Dengan warna kedua, itu menjadi salah satu ujung rentang warna yang dapat dipilih.",
+                        "names": "$~A"
                     },
                     {
-                        "doc": "$?",
-                        "names": "$?"
+                        "doc": "$~Warna kedua opsional. Jika diberikan, saya akan memilih kecerahan, kroma, dan corak secara acak di antara kedua warna tersebut.",
+                        "names": "$~B"
+                    }
+                ]
+            },
+            "lighter": {
+                "doc": [
+                    "$~Berikan versi diriku yang lebih ringan, dengan meningkatkan keringananku sebesar satu persen (5% secara default).",
+                    "$~\\Color.blue.lighter()\\",
+                    "$~\\Color.blue.lighter(20%)\\"
+                ],
+                "names": "$~lebihringan",
+                "inputs": [
+                    {
+                        "doc": "$~Besarnya peningkatan kecerahan, dalam persentase. Nilai default adalah 5%.",
+                        "names": "$~oleh"
+                    }
+                ]
+            },
+            "darker": {
+                "doc": [
+                    "$~Berikan versi diriku yang lebih gelap, dengan menurunkan tingkat kecerahanku sebesar satu persen (5% secara default).",
+                    "$~\\Color.blue.darker()\\",
+                    "$~\\Color.blue.darker(20%)\\"
+                ],
+                "names": "$~lebihgelap",
+                "inputs": [
+                    {
+                        "doc": "$~Seberapa besar penurunan kecerahan, dalam persentase. Nilai default adalah 5%.",
+                        "names": "$~oleh"
                     }
                 ]
             }

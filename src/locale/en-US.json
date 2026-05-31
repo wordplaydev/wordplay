@@ -4432,6 +4432,34 @@
                         "names": "b"
                     }
                 ]
+            },
+            "lighter": {
+                "doc": [
+                    "Give a lighter version of me, raising my lightness by a percent (5% by default).",
+                    "\\Color.blue.lighter()\\",
+                    "\\Color.blue.lighter(20%)\\"
+                ],
+                "names": "lighter",
+                "inputs": [
+                    {
+                        "doc": "How much to raise the lightness, as a percent. Defaults to 5%.",
+                        "names": "by"
+                    }
+                ]
+            },
+            "darker": {
+                "doc": [
+                    "Give a darker version of me, lowering my lightness by a percent (5% by default).",
+                    "\\Color.blue.darker()\\",
+                    "\\Color.blue.darker(20%)\\"
+                ],
+                "names": "darker",
+                "inputs": [
+                    {
+                        "doc": "How much to lower the lightness, as a percent. Defaults to 5%.",
+                        "names": "by"
+                    }
+                ]
             }
         },
         "Sequence": {

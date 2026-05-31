@@ -276,6 +276,12 @@ type OutputTexts = {
          *  keeps that color's lightness and chroma but randomizes the hue;
          *  with two colors it randomizes each LCH value within their range. */
         random: FunctionText<[NameAndDoc, NameAndDoc]>;
+        /** `lighter()` — a new color with lightness increased by a percent
+         *  (5% by default). */
+        lighter: FunctionText<[NameAndDoc]>;
+        /** `darker()` — a new color with lightness decreased by a percent
+         *  (5% by default). */
+        darker: FunctionText<[NameAndDoc]>;
     };
     /** A place on stage */
     Place: NameAndDoc & {
