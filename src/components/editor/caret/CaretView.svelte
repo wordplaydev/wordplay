@@ -250,6 +250,28 @@
         });
     });
 
+    // Code tokens have no measurable height until the editor's font loads, so
+    // until then they measure as zero-height boxes flush with the editor's top.
+    // Because the editor vertically centers its content within a fixed
+    // min-height, the tokens (and the position-0 caret aligned to them) shift
+    // down once the glyphs gain real height. An editable editor gets corrected
+    // by the next focus/click/scroll, but a read-only embedded editor (e.g.
+    // ExampleUI) never does — leaving the caret a few pixels too high. Recompute
+    // once fonts are ready so the caret settles onto the laid-out token.
+    $effect(() => {
+        let cancelled = false;
+        document.fonts.ready.then(() => {
+            // Wait one frame so the font-driven reflow has been applied before
+            // we measure, then adopt the settled position.
+            requestAnimationFrame(() => {
+                if (!cancelled) location = computeLocation();
+            });
+        });
+        return () => {
+            cancelled = true;
+        };
+    });
+
     // When caret location or view changes and not playing, tick, then scroll to it.
     let lastScroll = 0;
     $effect(() => {
