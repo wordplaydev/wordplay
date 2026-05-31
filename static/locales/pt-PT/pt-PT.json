@@ -4404,6 +4404,20 @@
                 "mix": "$~$first - $second",
                 "light": "$~luz",
                 "dark": "$~escuro"
+            },
+            "random": {
+                "doc": ["$?"],
+                "names": "$?",
+                "inputs": [
+                    {
+                        "doc": "$?",
+                        "names": "$?"
+                    },
+                    {
+                        "doc": "$?",
+                        "names": "$?"
+                    }
+                ]
             }
         },
         "Sequence": {

@@ -4397,6 +4397,20 @@
                 "mix": "$~$first - $second",
                 "light": "$~φως",
                 "dark": "$~σκοτάδι"
+            },
+            "random": {
+                "doc": ["$?"],
+                "names": "$?",
+                "inputs": [
+                    {
+                        "doc": "$?",
+                        "names": "$?"
+                    },
+                    {
+                        "doc": "$?",
+                        "names": "$?"
+                    }
+                ]
             }
         },
         "Sequence": {

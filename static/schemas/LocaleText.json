@@ -10302,6 +10302,10 @@
                 "names": {
                   "$ref": "#/definitions/NameText",
                   "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "random": {
+                  "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3562-3827-1170802340-0-8673%2Cdef-alias-1170802340-3562-3827-1170802340-0-8673%5D%3E",
+                  "description": "The static `Color.random()` function that produces a random color. With no inputs it picks a random basic color; with one color it keeps that color's lightness and chroma but randomizes the hue; with two colors it randomizes each LCH value within their range."
                 }
               },
               "required": [
@@ -10311,7 +10315,8 @@
                 "doc",
                 "hue",
                 "lightness",
-                "names"
+                "names",
+                "random"
               ],
               "type": "object"
             },

@@ -4389,6 +4389,20 @@
                 "mix": "$~$first - $second",
                 "light": "$~ಬೆಳಕು",
                 "dark": "$~ಕತ್ತಲೆ"
+            },
+            "random": {
+                "doc": ["$?"],
+                "names": "$?",
+                "inputs": [
+                    {
+                        "doc": "$?",
+                        "names": "$?"
+                    },
+                    {
+                        "doc": "$?",
+                        "names": "$?"
+                    }
+                ]
             }
         },
         "Sequence": {

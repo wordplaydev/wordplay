@@ -4495,6 +4495,20 @@
                 "mix": "$~$first - $second",
                 "light": "$~빛",
                 "dark": "$~어두운"
+            },
+            "random": {
+                "doc": ["$?"],
+                "names": "$?",
+                "inputs": [
+                    {
+                        "doc": "$?",
+                        "names": "$?"
+                    },
+                    {
+                        "doc": "$?",
+                        "names": "$?"
+                    }
+                ]
             }
         },
         "Sequence": {

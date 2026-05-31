@@ -4410,6 +4410,28 @@
                 "mix": "$first-$second",
                 "light": "light",
                 "dark": "dark"
+            },
+            "random": {
+                "doc": [
+                    "Give a random color.",
+                    "With no colors, I pick one of the basic colors at random:",
+                    "\\Color.random()\\",
+                    "With one color, I keep its lightness and chroma but pick a random hue:",
+                    "\\Color.random(Color.blue)\\",
+                    "With two colors, I pick a random lightness, chroma, and hue between the two:",
+                    "\\Color.random(Color.black Color.white)\\"
+                ],
+                "names": "random",
+                "inputs": [
+                    {
+                        "doc": "An optional color. Alone, I keep its lightness and chroma and randomize the hue. With a second color, it's one end of the range to pick from.",
+                        "names": "a"
+                    },
+                    {
+                        "doc": "An optional second color. When given, I pick a random lightness, chroma, and hue between the two colors.",
+                        "names": "b"
+                    }
+                ]
             }
         },
         "Sequence": {
