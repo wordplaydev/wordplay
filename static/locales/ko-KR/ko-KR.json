@@ -890,13 +890,13 @@
                 "안녕! 나는 몇 가지 입력을 받고, 그 입력을 사용하여 표현을 평가하고 출력을 생성해내는 함수야.",
                 "간단한 예를 보여줄게:",
                 "\\ƒ repeat(message•'') message × 5\nrepeat('hi')\\",
-                "이 함수는 하나의 입력, \\message\\를 가지고 있고 @Text/repeat 함수를 사용하여 메시지를 다섯 번 반복해.",
+                "이 함수는 하나의 입력, \\message\\를 가지고 있고 @Text.repeat 함수를 사용하여 메시지를 다섯 번 반복해.",
                 "다양한 입력으로 무언가를 반복해서 평가하고 싶을 때 정말 유용해요!",
                 "나는 여러 작은 트릭을 알고 있어. 예를 들자면, 난 이름이 없어도 돼. 나는 여기서 바로 @Evaluate 값으로 이동하고 있어.",
                 "\\(ƒ(message•'') message × 5)('hi')\\",
                 "또는, 어떤 숫자 입력이든 사용할 수 있는 함수도 있어. 입력 이름 뒤에 \\…\\ 문자를 사용하면 돼.",
                 "\\ƒ yes(messages…•'') messages.sans('no')\nyes('yes' 'yes' 'no' 'yes' 'no')\\",
-                "'no'를 모두 제거했지? messages는 @List 이기 때문에 @List/sansAll 을 사용할 수 있었어.",
+                "'no'를 모두 제거했지? messages는 @List 이기 때문에 @List.sansAll 을 사용할 수 있었어.",
                 "가끔씩 나는 내가 생산하는 값의 종류를 명확하게 하고 싶을 때 있어. 그럴 때는 입력 목록 뒤에 @Is 를 추가해:",
                 "\\ƒ add(x•# y•#)•'' x + y\\",
                 "이것에 문제가 있는 것을 알 수 있을 것야: @Text 으로 평가된다고 말하고 있지만 두 개의 @Number 가져가고 있어. 일관성이 없을 때 알려드릴 수 있어",
@@ -920,7 +920,7 @@
             "name": "고차 함수",
             "description": "$~목록 값을 내부적으로 반복하기",
             "emotion": "kind",
-            "doc": "나는 @FunctionDefinition 중 특별한 종류로, 여러 가지 항목들의 목록에 작용해. 나에 대해 자세히 알 필요는 없어, 나는 @List/translate 와 같은 함수를 만들어내기 위한 거야.",
+            "doc": "나는 @FunctionDefinition 중 특별한 종류로, 여러 가지 항목들의 목록에 작용해. 나에 대해 자세히 알 필요는 없어, 나는 @List.translate 와 같은 함수를 만들어내기 위한 거야.",
             "start": "주어진 함수를 평가하는 중",
             "initialize": "항목들을 순회하기 위해 준비 중",
             "next": "다음 항목으로 이동 중",
@@ -1860,7 +1860,7 @@
                 "$~\\[1 2 3] ↦ ⬚ + 1\\ 은 \\[2 3 4]\\ 를 제공합니다. 짜잔! 모든 숫자에 1을 더하고, 루프도 없고, @FunctionDefinition 도 없고, 복잡할 것도 없습니다!",
                 "$~데이터에서 @Phrase 출력하는 데 정말 탁월해요! 이름 목록이 있나요? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ 이제 모든 이름에 대한 문구가 나왔어요!!",
                 "$~저는 @List , @Set , @Map (맵의 값만 변경하고 키는 그대로 유지됩니다!), 심지어 @Table 까지 다룹니다!",
-                "$~각 항목의 인덱스나 여러 곳에서 재사용할 수 있는 함수처럼 좀 더 고급스러운 기능이 필요하신가요? 그렇다면 좀 더 차분하고 성숙한 @List/translate 같은 계정을 방문해 보세요. 하지만 간단한 일상 매핑에는 제가 딱입니다!"
+                "$~각 항목의 인덱스나 여러 곳에서 재사용할 수 있는 함수처럼 좀 더 고급스러운 기능이 필요하신가요? 그렇다면 좀 더 차분하고 성숙한 @List.translate 같은 계정을 방문해 보세요. 하지만 간단한 일상 매핑에는 제가 딱입니다!"
             ],
             "start": "$~잠깐만, $expression 에 있는 모든 걸 가져올게!",
             "finish": "$~짜잔! 여러분의 새로운 컬렉션을 소개합니다: $value",
@@ -3345,7 +3345,7 @@
             "doc": [
                 "$~/클릭탭!/",
                 "$~/@FunctionDefinition 은 여기서 설명하겠습니다./",
-                "$~@Choice 를 청중이 선택한 @Phrase/name 스트림처럼 생각하십시오. 누군가가 이름이 있는 @Phrase 에서 /Enter/를 눌러 클릭하거나 탭하거나 키보드를 선택하면 @Choice 는 이름과 일치하는 새 값을 갖게 됩니다.",
+                "$~@Choice 를 청중이 선택한 @Phrase.name 스트림처럼 생각하십시오. 누군가가 이름이 있는 @Phrase 에서 /Enter/를 눌러 클릭하거나 탭하거나 키보드를 선택하면 @Choice 는 이름과 일치하는 새 값을 갖게 됩니다.",
                 "$~따라서 이를 사용하는 가장 좋은 방법은 선택 가능한 문구 @Phrase 를 사용하여 연주를 생성한 다음 @Reaction 을 사용하여 해당 이름이 선택되면 수행할 작업을 결정하는 것입니다.",
                 "$~가장 간단한 예는 다음과 같습니다.",
                 "$~\\그룹(\n스택() \n[\nPhrase('하나' 선택 가능:⊤ 이름:'1') \nPhrase('two' 선택 가능:⊤ 이름:'2') \n문구(선택())\n]\n)\\",
@@ -3462,12 +3462,12 @@
         "Time": {
             "doc": [
                 "$~/틱 틱 틱/",
-                "$~@FunctionDefinition 여기서는 @Time/frequency 말을 하지 않으므로 설명하겠습니다.",
+                "$~@FunctionDefinition 여기서는 @Time.frequency 말을 하지 않으므로 설명하겠습니다.",
                 "$~시간은 특정 빈도로 똑딱거리는 흐름입니다.",
                 "$~그럴 때마다 @Program 은 새로운 시간 값으로 재평가합니다.",
                 "$~예를 들어:",
                 "$~\\시간()\\",
-                "$~@Time/frequency 시간을 제공하면 해당 속도로 틱됩니다. 예를 들어:",
+                "$~@Time.frequency 시간을 제공하면 해당 속도로 틱됩니다. 예를 들어:",
                 "$~\\시간(1000ms)\\",
                 "$~그러나 @Program 이 다음 틱에 응답하기 전에 평가할 시간이 필요하기 때문에 크기가 얼마나 작은지에 대한 제한이 있습니다.",
                 "$~가장 작은 것은 아마도 \\20ms\\ 정도일 것입니다."
@@ -3566,7 +3566,7 @@
                 "$~/뿡뿡뿡/",
                 "$~/안녕하세요, @FunctionDefinition 입니다! @Scene 을 찾으셨군요.",
                 "$~@Scene 이 특히 멋진 것 같아요. 기본 아이디어는 @Phrase 또는 @Group 목록을 제공한 다음 이를 순서대로 표시하고 마지막 항목에서 중지하는 것입니다.",
-                "$~타이밍을 제어하려면 각 출력에 @Phrase/duration 을 설정하면 다음 출력으로 이동하기 전에 해당 출력이 오랫동안 표시되고 설정한 @Phrase/entering 또는 @Phrase/exiting 전환을 사용할 수 있습니다. . @Sequence 로 설정하면 해당 기간이 사용됩니다.",
+                "$~타이밍을 제어하려면 각 출력에 @Phrase.duration 을 설정하면 다음 출력으로 이동하기 전에 해당 출력이 오랫동안 표시되고 설정한 @Phrase.entering 또는 @Phrase.exiting 전환을 사용할 수 있습니다. . @Sequence 로 설정하면 해당 기간이 사용됩니다.",
                 "$~이 모든 기능을 통해 다음 세 가지 문구를 순서대로 보여주는 작은 @Scene 과 같은 작업을 수행할 수 있습니다.",
                 "$~\\장면([\n\tPhrase('안녕하세요' 지속 시간: 1초)\n\tPhrase('잘 지내세요?' 지속 시간: 2초 회전: 5° 입력: 포즈(회전: 0°))\n\t문구('나는 괜찮아')\n])\\",
                 "$~첫 번째 출력이 1초 동안 표시되고 다음 출력이 2초 동안 표시되지만 5도 회전으로 애니메이션된 다음 마지막 출력이 표시되는 방식을 확인하세요.",
@@ -3841,11 +3841,11 @@
                 "names": "$~액자"
             },
             "size": {
-                "doc": "$~@Group/size 좋아요",
+                "doc": "$~@Group.size 좋아요",
                 "names": "$~크기"
             },
             "face": {
-                "doc": "$~@Group/face 좋아요",
+                "doc": "$~@Group.face 좋아요",
                 "names": "$~얼굴"
             },
             "place": {
@@ -3853,7 +3853,7 @@
                 "names": "$~장소"
             },
             "name": {
-                "doc": ["$~@Phrase/name 동일합니다!"],
+                "doc": ["$~@Phrase.name 동일합니다!"],
                 "names": "$~이름"
             },
             "description": {
@@ -3863,63 +3863,63 @@
                 "names": "$~설명"
             },
             "selectable": {
-                "doc": "$~@Phrase/selectable 동일하며 선택 가능합니다!",
+                "doc": "$~@Phrase.selectable 동일하며 선택 가능합니다!",
                 "names": "$~선택가능"
             },
             "color": {
-                "doc": "$~@Group/color 동일",
+                "doc": "$~@Group.color 동일",
                 "names": "$~색상"
             },
             "background": {
-                "doc": "$~@Group/background 동일",
+                "doc": "$~@Group.background 동일",
                 "names": "$~배경"
             },
             "opacity": {
-                "doc": "$~@Group/opacity 동일",
+                "doc": "$~@Group.opacity 동일",
                 "names": "$~불투명"
             },
             "offset": {
-                "doc": "$~@Group/offset 동일",
+                "doc": "$~@Group.offset 동일",
                 "names": "$~오프셋"
             },
             "rotation": {
-                "doc": "$~@Group/rotation 동일",
+                "doc": "$~@Group.rotation 동일",
                 "names": ["$~📐", "$~회전"]
             },
             "scale": {
-                "doc": "$~@Group/scale 동일",
+                "doc": "$~@Group.scale 동일",
                 "names": "$~규모"
             },
             "flipx": {
-                "doc": "$~@Group/flipx 동일",
+                "doc": "$~@Group.flipx 동일",
                 "names": "$~플립스"
             },
             "flipy": {
-                "doc": "$~@Group/flipy 동일",
+                "doc": "$~@Group.flipy 동일",
                 "names": "$~플리피"
             },
             "entering": {
-                "doc": "$~@Group/entering 동일",
+                "doc": "$~@Group.entering 동일",
                 "names": "$~입력"
             },
             "resting": {
-                "doc": "$~@Group/resting 같습니다!",
+                "doc": "$~@Group.resting 같습니다!",
                 "names": "$~쉬고있는"
             },
             "moving": {
-                "doc": "$~@Group/moving 동일합니다!",
+                "doc": "$~@Group.moving 동일합니다!",
                 "names": "$~움직이는"
             },
             "exiting": {
-                "doc": "$~@Group/exiting 동일합니다!",
+                "doc": "$~@Group.exiting 동일합니다!",
                 "names": "$~종료"
             },
             "duration": {
-                "doc": "$~@Phrase/duration 동일합니다!",
+                "doc": "$~@Phrase.duration 동일합니다!",
                 "names": ["$~⏳", "$~지속"]
             },
             "style": {
-                "doc": "$~@Phrase/style 동일합니다!",
+                "doc": "$~@Phrase.style 동일합니다!",
                 "names": "$~스타일"
             },
             "gravity": {
@@ -3963,7 +3963,7 @@
                 "names": "$~장소"
             },
             "name": {
-                "doc": ["$~@Phrase/name 과 동일합니다!"],
+                "doc": ["$~@Phrase.name 과 동일합니다!"],
                 "names": "$~이름"
             },
             "description": {
@@ -3973,7 +3973,7 @@
                 "names": "$~설명"
             },
             "selectable": {
-                "doc": "$~@Phrase/selectable 가능과 동일합니다!",
+                "doc": "$~@Phrase.selectable 가능과 동일합니다!",
                 "names": "$~선택가능"
             },
             "color": {
@@ -4001,35 +4001,35 @@
                 "names": "$~규모"
             },
             "flipx": {
-                "doc": "$~@Phrase/flipx 와 동일합니다!",
+                "doc": "$~@Phrase.flipx 와 동일합니다!",
                 "names": "$~플립스"
             },
             "flipy": {
-                "doc": "$~@Phrase/flipy 와 동일",
+                "doc": "$~@Phrase.flipy 와 동일",
                 "names": "$~플리피"
             },
             "entering": {
-                "doc": "$~@Phrase/entering 과 동일합니다!",
+                "doc": "$~@Phrase.entering 과 동일합니다!",
                 "names": "$~입력"
             },
             "resting": {
-                "doc": "$~@Phrase/resting 과 같습니다!",
+                "doc": "$~@Phrase.resting 과 같습니다!",
                 "names": "$~쉬고있는"
             },
             "moving": {
-                "doc": "$~@Phrase/moving 과 동일합니다!",
+                "doc": "$~@Phrase.moving 과 동일합니다!",
                 "names": "$~움직이는"
             },
             "exiting": {
-                "doc": "$~@Phrase/exiting 동일합니다!",
+                "doc": "$~@Phrase.exiting 동일합니다!",
                 "names": "$~종료"
             },
             "duration": {
-                "doc": "$~@Phrase/duration 과 동일합니다!",
+                "doc": "$~@Phrase.duration 과 동일합니다!",
                 "names": ["duración"]
             },
             "style": {
-                "doc": "$~@Phrase/style 과 동일합니다!",
+                "doc": "$~@Phrase.style 과 동일합니다!",
                 "names": "$~스타일"
             }
         },
@@ -4065,11 +4065,11 @@
                 "names": ["$~↵", "$~포장하다"]
             },
             "alignment": {
-                "doc": "$~@Phrase/wrap 경계가 설정된 경우 기호를 가장자리의 시작, 중앙 또는 끝에 정렬해야 하는지 여부입니다.",
+                "doc": "$~@Phrase.wrap 경계가 설정된 경우 기호를 가장자리의 시작, 중앙 또는 끝에 정렬해야 하는지 여부입니다.",
                 "names": "$~조정"
             },
             "direction": {
-                "doc": "$~기호를 가로 또는 세로로 쓸지 여부, 세로 및 @Phrase/wrap 이 설정된 경우 텍스트 줄 바꿈을 왼쪽 또는 오른쪽으로 할지 여부입니다.",
+                "doc": "$~기호를 가로 또는 세로로 쓸지 여부, 세로 및 @Phrase.wrap 이 설정된 경우 텍스트 줄 바꿈을 왼쪽 또는 오른쪽으로 할지 여부입니다.",
                 "names": "$~방향"
             },
             "matter": {

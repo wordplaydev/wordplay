@@ -890,13 +890,13 @@
                 "$~Tekrar merhaba! Bazı girdiler alıyorum, sonra bunları kullanarak bir ifadeyi değerlendiriyorum ve bir çıktı üretiyorum.",
                 "$~İşte basit bir örnek:",
                 "$~\\ƒ tekrar(mesaj•'') mesaj × 5\ntekrar('merhaba')\\",
-                "$~Bu fonksiyon tek bir girdi, \\message\\, alır ve mesajı beş kez tekrarlamak için @Text/repeat fonksiyonunu kullanır.",
+                "$~Bu fonksiyon tek bir girdi, \\message\\, alır ve mesajı beş kez tekrarlamak için @Text.repeat fonksiyonunu kullanır.",
                 "$~Bir şeyi tekrar tekrar, ama farklı girdilerle değerlendirmek istiyorsanız gerçekten yardımcı oluyorum!",
                 "$~Başka bir sürü küçük numaram var. Örneğin, bir isme sahip olmam gerekmiyor. Burada, doğrudan bir değer olarak @Evaluate'e gidiyorum.",
                 "$~\\(ƒ(mesaj•'') mesaj × 5)('merhaba')\\",
                 "$~Veya, giriş adından sonra \\…\\ karakterini kullanarak herhangi sayıda girdi alan bir fonksiyon.",
                 "$~\\ƒ yes(mesajlar…•'') mesajlar.sans('hayır')\nyes('evet' 'evet' 'hayır' 'evet' 'hayır')\\",
-                "$~Tüm 'hayır'ları nasıl alıp onlardan kurtulduğunu görüyor musun? Bunun sebebi messages'ın bir @List olması ve bu yüzden @List/sansAll'ı kullanabilmemiz.",
+                "$~Tüm 'hayır'ları nasıl alıp onlardan kurtulduğunu görüyor musun? Bunun sebebi messages'ın bir @List olması ve bu yüzden @List.sansAll'ı kullanabilmemiz.",
                 "$~Bazen ne tür bir değer ürettiğimi açıkça belirtmek isteyebilirsiniz. Bunu yapmak için, girdiler listesinden sonra bir @Is ekleyin:",
                 "$~\\ƒ ekle(x•# y•#)•'' x + y\\",
                 "$~Bunda bir sorun fark edebilirsiniz: @Text olarak değerlendirildiğini söylüyor, ancak iki @Number alıyor. İşler tutarsız olduğunda size söyleyebilirim!",
@@ -920,7 +920,7 @@
             "name": "$~dahayüksekmertebedenfonksiyon",
             "description": "$~liste değerleri üzerinde dahili olarak yinele",
             "emotion": "kind",
-            "doc": "$~Ben, şeylerin listeleri üzerinde işlem yapan çok özel bir @FunctionDefinition türüyüm. @List/translate gibi fonksiyonları mümkün kılmam dışında, benim hakkımda hiçbir şey bilmenize gerek yok.",
+            "doc": "$~Ben, şeylerin listeleri üzerinde işlem yapan çok özel bir @FunctionDefinition türüyüm. @List.translate gibi fonksiyonları mümkün kılmam dışında, benim hakkımda hiçbir şey bilmenize gerek yok.",
             "start": "$~Verilen fonksiyonun değerlendirilmesi",
             "initialize": "$~Öğeler arasında adım atmaya hazırlanmak",
             "next": "$~bir sonraki maddeye geçmek",
@@ -1860,7 +1860,7 @@
                 "$~\\[1 2 3] ↦ ⬚ + 1\\ size \\[2 3 4]\\ verir. İşte bu! Her sayıya bir eklenmiş hali, döngü yok, @FunctionDefinition yok, karmaşa yok!",
                 "$~Verilerden @Phrase çıktısı oluşturmada HARİKA biriyim! Bir isim listeniz mi var? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ ve artık HER isim için bir ifade var!!",
                 "$~@List , @Set , @Map (haritanın DEĞERLERİNİ değiştiriyorum, anahtarlar oldukları yerde kalıyor!) ve hatta @Table üzerinde çalışıyorum!",
-                "$~Daha gelişmiş bir şey mi istiyorsunuz? Mesela her öğenin dizini veya birçok yerde yeniden kullanabileceğiniz bir işlev mi? O zaman @List/translate gibi daha sakin, yetişkin kuzenlerimi ziyaret edin. Ama hızlı günlük haritalama için ben buradayım!!"
+                "$~Daha gelişmiş bir şey mi istiyorsunuz? Mesela her öğenin dizini veya birçok yerde yeniden kullanabileceğiniz bir işlev mi? O zaman @List.translate gibi daha sakin, yetişkin kuzenlerimi ziyaret edin. Ama hızlı günlük haritalama için ben buradayım!!"
             ],
             "start": "$~Dur bir dakika, $expression klasöründeki her şeyi alayım!",
             "finish": "$~İşte karşınızda yepyeni koleksiyonunuz! $value",
@@ -3345,7 +3345,7 @@
             "doc": [
                 "$~/tık tık tık!/",
                 "$~/@FunctionDefinition burada, bunu açıklayacağım./",
-                "$~@Choice'u izleyicileriniz tarafından seçilen bir @Phrase/name akışı gibi düşünün. Birisi bir @Phrase'e tıklarsa, dokunursa veya klavyeden /Enter/ tuşuna basarak bir isim seçerse -- @Choice isimle eşleşen yeni bir değere sahip olacaktır.",
+                "$~@Choice'u izleyicileriniz tarafından seçilen bir @Phrase.name akışı gibi düşünün. Birisi bir @Phrase'e tıklarsa, dokunursa veya klavyeden /Enter/ tuşuna basarak bir isim seçerse -- @Choice isimle eşleşen yeni bir değere sahip olacaktır.",
                 "$~Bu yüzden bunu kullanmanın en iyi yolu, @Phrase adlı seçilebilir ifadelerle bir performans oluşturmak ve ardından bu isim seçildiğinde ne yapılacağına karar vermek için @Reaction kullanmaktır.",
                 "$~En basit örneği şöyledir:",
                 "$~\\Group(\nStack() \n[\nCümle('bir' seçilebilir:⊤ ad:'1') \nCümle('iki' seçilebilir:⊤ ad:'2') \nCümle(Seçim())\n]\n)\\",
@@ -3467,7 +3467,7 @@
                 "$~Her seferinde @Program yeni zaman değeriyle yeniden değerlendirme yapar.",
                 "$~Örneğin:",
                 "$~\\Zaman()\\",
-                "$~Eğer @Time/frequency'e zaman verirseniz, o oranda tik atacaktır. Örneğin:",
+                "$~Eğer @Time.frequency'e zaman verirseniz, o oranda tik atacaktır. Örneğin:",
                 "$~\\Zaman(1000ms)\\",
                 "$~Ancak, @Program'ın bir sonraki tik'e yanıt verebilmesi için değerlendirme yapması gerektiğinden, bunun ne kadar küçük olabileceği konusunda sınırlamalar vardır.",
                 "$~En küçüğü muhtemelen \\20ms\\ civarındadır."
@@ -3538,7 +3538,7 @@
                 "$~/Bup bup bup/",
                 "$~/Merhaba, @FunctionDefinition burada! @Scene'i bulduğunuzu görüyorum.",
                 "$~@Scene'in özellikle harika olduğunu düşünüyorum. Temel fikir, ona bir @Phrase veya @Group listesi vermeniz ve ardından bunları sırayla göstermesi ve sonuncusunda durması.",
-                "$~Zamanlamayı kontrol etmek için, her çıktıda @Phrase/duration'ı ayarlayabilir ve bir sonrakine geçmeden önce bunu o kadar uzun süre gösterebilir ve ayarlamış olabileceğiniz @Phrase/entering veya @Phrase/exiting geçişlerini kullanabilirsiniz. Bunları bir @Sequence'e ayarlarsanız, süresini kullanacaktır.",
+                "$~Zamanlamayı kontrol etmek için, her çıktıda @Phrase.duration'ı ayarlayabilir ve bir sonrakine geçmeden önce bunu o kadar uzun süre gösterebilir ve ayarlamış olabileceğiniz @Phrase.entering veya @Phrase.exiting geçişlerini kullanabilirsiniz. Bunları bir @Sequence'e ayarlarsanız, süresini kullanacaktır.",
                 "$~Bütün bunlar, şu üç cümleyi sırayla gösteren küçük @Scene gibi şeyler yapmanıza olanak tanır:",
                 "$~\\Scene([\nPhrase('Merhaba' süresi: 1s)\nPhrase('Nasılsın?' süresi: 2s dönüş: 5° giriş: Pose(dönme: 0°))\nPhrase('İyiyim')\n])\\",
                 "$~İlk çıktının bir saniye, sonrakinin iki saniye boyunca, ancak beş derecelik bir dönüşle canlandırılarak gösterildiğini ve ardından sonuncusunun gösterildiğini görüyor musunuz?",
@@ -3856,7 +3856,7 @@
                 "names": "$~yer"
             },
             "name": {
-                "doc": ["$~@Phrase/name ile aynı!"],
+                "doc": ["$~@Phrase.name ile aynı!"],
                 "names": "$~isim"
             },
             "description": {
@@ -3866,7 +3866,7 @@
                 "names": "$~Tanım"
             },
             "selectable": {
-                "doc": "$~@Phrase/selectable ile aynı!",
+                "doc": "$~@Phrase.selectable ile aynı!",
                 "names": "$~seçilebilir"
             },
             "color": {
@@ -3894,35 +3894,35 @@
                 "names": "$~ölçek"
             },
             "flipx": {
-                "doc": "$~@Phrase/flipx ile aynı!",
+                "doc": "$~@Phrase.flipx ile aynı!",
                 "names": "$~tersçevir"
             },
             "flipy": {
-                "doc": "$~@Phrase/flipy ile aynı",
+                "doc": "$~@Phrase.flipy ile aynı",
                 "names": "$~tersyüz"
             },
             "entering": {
-                "doc": "$~@Phrase/entering! ile aynı",
+                "doc": "$~@Phrase.entering! ile aynı",
                 "names": "$~giriş"
             },
             "resting": {
-                "doc": "$~@Phrase/resting ile aynı!",
+                "doc": "$~@Phrase.resting ile aynı!",
                 "names": "$~dinlenme"
             },
             "moving": {
-                "doc": "$~@Phrase/moving! ile aynı",
+                "doc": "$~@Phrase.moving! ile aynı",
                 "names": "$~hareketeden"
             },
             "exiting": {
-                "doc": "$~@Phrase/exiting! ile aynı",
+                "doc": "$~@Phrase.exiting! ile aynı",
                 "names": "$~çıkış"
             },
             "duration": {
-                "doc": "$~@Phrase/duration ile aynı!",
+                "doc": "$~@Phrase.duration ile aynı!",
                 "names": ["$~⏳", "$~süre"]
             },
             "style": {
-                "doc": "$~@Phrase/style ile aynı!",
+                "doc": "$~@Phrase.style ile aynı!",
                 "names": "$~stil"
             },
             "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
@@ -3958,11 +3958,11 @@
                 "names": ["$~↵", "$~dürüm"]
             },
             "alignment": {
-                "doc": "$~@Phrase/wrap sınır kümesi varsa, sembolleri kenarın başlangıcına, ortasına veya sonuna hizalamalı mıyım?",
+                "doc": "$~@Phrase.wrap sınır kümesi varsa, sembolleri kenarın başlangıcına, ortasına veya sonuna hizalamalı mıyım?",
                 "names": "$~hizalama"
             },
             "direction": {
-                "doc": "$~Sembollerin yatay mı yoksa dikey mi yazılacağı ve dikey ve @Phrase/wrap ayarlıysa metnin sola mı yoksa sağa mı kaydırılacağı.",
+                "doc": "$~Sembollerin yatay mı yoksa dikey mi yazılacağı ve dikey ve @Phrase.wrap ayarlıysa metnin sola mı yoksa sağa mı kaydırılacağı.",
                 "names": "$~yön"
             },
             "matter": {
@@ -4542,11 +4542,11 @@
                 "names": "$~çerçeve"
             },
             "size": {
-                "doc": "$~@Group/size BEĞEN",
+                "doc": "$~@Group.size BEĞEN",
                 "names": "$~boyut"
             },
             "face": {
-                "doc": "$~@Group/face BEĞEN",
+                "doc": "$~@Group.face BEĞEN",
                 "names": "$~yüz"
             },
             "place": {
@@ -4554,7 +4554,7 @@
                 "names": "$~yer"
             },
             "name": {
-                "doc": ["$~@Phrase/name ile AYNI!"],
+                "doc": ["$~@Phrase.name ile AYNI!"],
                 "names": "$~isim"
             },
             "description": {
@@ -4564,63 +4564,63 @@
                 "names": "$~Tanım"
             },
             "selectable": {
-                "doc": "$~@Phrase/selectable ile aynı!",
+                "doc": "$~@Phrase.selectable ile aynı!",
                 "names": "$~seçilebilir"
             },
             "color": {
-                "doc": "$~@Group/color ile AYNI",
+                "doc": "$~@Group.color ile AYNI",
                 "names": "$~renk"
             },
             "background": {
-                "doc": "$~@Group/background ile AYNI",
+                "doc": "$~@Group.background ile AYNI",
                 "names": "$~arkaplan"
             },
             "opacity": {
-                "doc": "$~@Group/opacity İLE AYNI",
+                "doc": "$~@Group.opacity İLE AYNI",
                 "names": "$~opaklık"
             },
             "offset": {
-                "doc": "$~@Group/offset ile aynı",
+                "doc": "$~@Group.offset ile aynı",
                 "names": "$~telafietmek"
             },
             "rotation": {
-                "doc": "$~@Group/rotation ile AYNI",
+                "doc": "$~@Group.rotation ile AYNI",
                 "names": ["$~📐", "$~rotasyon"]
             },
             "scale": {
-                "doc": "$~@Group/scale AYNI",
+                "doc": "$~@Group.scale AYNI",
                 "names": "$~ölçek"
             },
             "flipx": {
-                "doc": "$~@Group/flipx ile aynı",
+                "doc": "$~@Group.flipx ile aynı",
                 "names": "$~tersçevir"
             },
             "flipy": {
-                "doc": "$~@Group/flipy ile aynı",
+                "doc": "$~@Group.flipy ile aynı",
                 "names": "$~tersyüz"
             },
             "entering": {
-                "doc": "$~@Group/entering ile aynı",
+                "doc": "$~@Group.entering ile aynı",
                 "names": "$~giriş"
             },
             "resting": {
-                "doc": "$~@Group/resting ile AYNI!",
+                "doc": "$~@Group.resting ile AYNI!",
                 "names": "$~dinlenme"
             },
             "moving": {
-                "doc": "$~@Group/moving ile aynı!",
+                "doc": "$~@Group.moving ile aynı!",
                 "names": "$~hareketeden"
             },
             "exiting": {
-                "doc": "$~@Group/exiting ile aynı!",
+                "doc": "$~@Group.exiting ile aynı!",
                 "names": "$~çıkış"
             },
             "duration": {
-                "doc": "$~@Phrase/duration ile AYNI!",
+                "doc": "$~@Phrase.duration ile AYNI!",
                 "names": ["$~⏳", "$~süre"]
             },
             "style": {
-                "doc": "$~@Phrase/style ile AYNI!",
+                "doc": "$~@Phrase.style ile AYNI!",
                 "names": "$~stil"
             },
             "gravity": {

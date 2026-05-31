@@ -890,13 +890,13 @@
                 "$~Hej igen! Jag tar några ingångar, utvärderar sedan ett uttryck med hjälp av dem och producerar en utdata.",
                 "$~Här är ett enkelt exempel:",
                 "$~\\ƒ upprepa(meddelande•'') meddelande × 5\nrepeat('hej')\\",
-                "$~Den funktionen tar en ingång, \\meddelande\\, och använder @Text/repeat-funktionen för att upprepa meddelandet fem gånger.",
+                "$~Den funktionen tar en ingång, \\meddelande\\, och använder @Text.repeat-funktionen för att upprepa meddelandet fem gånger.",
                 "$~Jag är verkligen behjälplig om du vill utvärdera något om och om igen, men med olika input!",
                 "$~Jag har många andra små knep. Jag behöver till exempel inte ha ett namn. Här går jag bara direkt till @Evaluate som ett värde.",
                 "$~\\(ƒ(meddelande•'') meddelande × 5)('hej')\\",
                 "$~Eller här är en funktion som tar valfritt antal ingångar, med tecknet \\...\\ efter ett ingångsnamn.",
                 "$~\\ƒ yes(meddelanden...•'') messages.sans('no')\nyes('yes' 'yes' 'no' 'yes' 'no')\\",
-                "$~Se hur det tog alla nej och blev av med dem? Det beror på att meddelanden är en @List, och därför skulle vi kunna använda @List/sansAll.",
+                "$~Se hur det tog alla nej och blev av med dem? Det beror på att meddelanden är en @List, och därför skulle vi kunna använda @List.sansAll.",
                 "$~Ibland kanske du vill göra det tydligt vilken typ av värde jag producerar. För att göra det, lägg till ett @Is efter listan med ingångar:",
                 "$~\\ƒ add(x•# y•#)•'' x + y\\",
                 "$~Du kanske märker ett problem med den här: den säger att den utvärderas till @Text, men det tar två @Number. Jag kan berätta när saker och ting är inkonsekventa!",
@@ -920,7 +920,7 @@
             "name": "$~högreordningsfunktion",
             "description": "$~itererar internt över listvärden",
             "emotion": "kind",
-            "doc": "$~Jag är en väldigt speciell sorts @FunctionDefinition som fungerar på listor med saker. Du behöver inte veta något om mig, förutom att jag gör funktioner som @List/translate möjliga.",
+            "doc": "$~Jag är en väldigt speciell sorts @FunctionDefinition som fungerar på listor med saker. Du behöver inte veta något om mig, förutom att jag gör funktioner som @List.translate möjliga.",
             "start": "$~Utvärdera den angivna funktionen",
             "initialize": "$~förbereder sig för att gå igenom objekt",
             "next": "$~gå vidare till nästa punkt",
@@ -1860,7 +1860,7 @@
                 "$~\\[1 2 3] ↦ ⬚ + 1\\ ger dig \\[2 3 4]\\ . BOOM! Varje tal, plus ett, inga loopar, ingen @FunctionDefinition , inget krångel!",
                 "$~Jag är FANTASTISK som gör @Phrase utdata från data! Har du en lista med namn? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ och nu finns det en fras för VARJE namn!!",
                 "$~Jag arbetar med @List , @Set , @Map (jag ändrar kartans VÄRDEN — nycklarna stannar precis där de är!), och till och med @Table !",
-                "$~Vill du ha något mer avancerade – som indexet för varje objekt, eller en funktion som du kan återanvända på många ställen? Besök mina lugnare, vuxna kusiner som @List/translate . Men för snabb vardagsmappning finns jag här!!"
+                "$~Vill du ha något mer avancerade – som indexet för varje objekt, eller en funktion som du kan återanvända på många ställen? Besök mina lugnare, vuxna kusiner som @List.translate . Men för snabb vardagsmappning finns jag här!!"
             ],
             "start": "$~Vänta, låt mig hämta allt i $expression !",
             "finish": "$~TA-DA! Här är din helt nya kollektion: $value",
@@ -3345,7 +3345,7 @@
             "doc": [
                 "$~/klicktryck!/",
                 "$~/@FunctionDefinition här, jag ska förklara den här./",
-                "$~Tänk på @Choice som en ström av @Choice som väljs ut av din publik. Om någon klickar, trycker eller tangentbordet väljer genom att trycka på /Enter/ på en @Phrase/name med ett namn -- kommer @Choice att ha ett nytt värde som matchar namnet.",
+                "$~Tänk på @Choice som en ström av @Choice som väljs ut av din publik. Om någon klickar, trycker eller tangentbordet väljer genom att trycka på /Enter/ på en @Phrase.name med ett namn -- kommer @Choice att ha ett nytt värde som matchar namnet.",
                 "$~Så det bästa sättet att använda det är att skapa en föreställning med namngivna valbara fraser @Phrase, och sedan använda en @Reaction för att bestämma vad som ska göras när det namnet väljs.",
                 "$~Här är det enklaste exemplet:",
                 "$~\\Grupp(\nStack() \n[\nFras('en' valbar:⊤ namn:'1') \nFras('två' valbar:⊤ namn:'2') \nFras(Choice())\n]\n)\\",
@@ -3467,7 +3467,7 @@
                 "$~Varje gång det gör det, omvärderar @Program med det nya tidsvärdet.",
                 "$~Till exempel:",
                 "$~\\Tid()\\",
-                "$~Om du anger tid en @Time/frequency, kommer den att bocka i den takten. Till exempel:",
+                "$~Om du anger tid en @Time.frequency, kommer den att bocka i den takten. Till exempel:",
                 "$~\\Tid(1000ms)\\",
                 "$~Det finns dock gränser för hur liten den kan vara, eftersom @Program behöver tid att utvärdera innan de kan svara på nästa bock.",
                 "$~Den minsta är förmodligen runt \\20ms\\."
@@ -3538,7 +3538,7 @@
                 "$~/boop boop boop/",
                 "$~/Hej, @FunctionDefinition här! Jag ser att du hittade @Scene.",
                 "$~Jag tycker @Scene är särskilt cool. Grundidén är att du ger den en lista med @Scene eller @Phrase och sedan kommer den att visa dem i sekvens och stanna vid den sista.",
-                "$~För att kontrollera timing kan du antingen ställa in @Phrase/duration på varje utgång, och den kommer att visa den så länge innan du går vidare till nästa, och använda vilken @Phrase/entering eller @Phrase/exiting övergångar du kan ha ställt in . Om du ställer in dem på en @Sequence kommer den att använda dess varaktighet.",
+                "$~För att kontrollera timing kan du antingen ställa in @Phrase.duration på varje utgång, och den kommer att visa den så länge innan du går vidare till nästa, och använda vilken @Phrase.entering eller @Phrase.exiting övergångar du kan ha ställt in . Om du ställer in dem på en @Sequence kommer den att använda dess varaktighet.",
                 "$~Allt detta låter dig göra saker som den här lilla @Scene, som visar dessa tre fraser i följd:",
                 "$~\\Scen([\n\tFras('Hej' varaktighet: 1s)\n\tFras('Hur mår du?' varaktighet: 2s rotation: 5° inträde: Pose(rotation: 0°))\n\tFras('Jag mår bra')\n])\\",
                 "$~Se hur den första utgången visas i en sekund, sedan den nästa i två sekunder, men animerad till en fem graders rotation, och sedan visar den den sista?",
@@ -3856,7 +3856,7 @@
                 "names": "$~plats"
             },
             "name": {
-                "doc": ["$~Samma som @Phrase/name!"],
+                "doc": ["$~Samma som @Phrase.name!"],
                 "names": "$~namn"
             },
             "description": {
@@ -3866,7 +3866,7 @@
                 "names": "$~beskrivning"
             },
             "selectable": {
-                "doc": "$~Samma som @Phrase/selectable!",
+                "doc": "$~Samma som @Phrase.selectable!",
                 "names": "$~valbara"
             },
             "color": {
@@ -3894,35 +3894,35 @@
                 "names": "$~skala"
             },
             "flipx": {
-                "doc": "$~Samma som @Phrase/flipx!",
+                "doc": "$~Samma som @Phrase.flipx!",
                 "names": "$~flipx"
             },
             "flipy": {
-                "doc": "$~Samma som @Phrase/flipy",
+                "doc": "$~Samma som @Phrase.flipy",
                 "names": "$~flipy"
             },
             "entering": {
-                "doc": "$~Samma som @Phrase/entering!",
+                "doc": "$~Samma som @Phrase.entering!",
                 "names": "$~gårin"
             },
             "resting": {
-                "doc": "$~Samma som @Phrase/resting!",
+                "doc": "$~Samma som @Phrase.resting!",
                 "names": "$~vilande"
             },
             "moving": {
-                "doc": "$~Samma som @Phrase/moving!",
+                "doc": "$~Samma som @Phrase.moving!",
                 "names": "$~rörlig"
             },
             "exiting": {
-                "doc": "$~Samma som @Phrase/exiting!",
+                "doc": "$~Samma som @Phrase.exiting!",
                 "names": "$~avslutar"
             },
             "duration": {
-                "doc": "$~Samma som @Phrase/duration!",
+                "doc": "$~Samma som @Phrase.duration!",
                 "names": ["$~⏳", "$~varaktighet"]
             },
             "style": {
-                "doc": "$~Samma som @Phrase/style!",
+                "doc": "$~Samma som @Phrase.style!",
                 "names": "$~stil"
             },
             "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
@@ -3958,11 +3958,11 @@
                 "names": ["$~↵", "$~sjal"]
             },
             "alignment": {
-                "doc": "$~Om det finns en @Phrase/wrap, om jag ska justera symboler till början, mitten eller slutet av kanten.",
+                "doc": "$~Om det finns en @Phrase.wrap, om jag ska justera symboler till början, mitten eller slutet av kanten.",
                 "names": "$~inriktning"
             },
             "direction": {
-                "doc": "$~Huruvida symboler skrivs horisontellt eller vertikalt, och om vertikal och @Phrase/wrap är inställda, om texten radbryts åt vänster eller höger.",
+                "doc": "$~Huruvida symboler skrivs horisontellt eller vertikalt, och om vertikal och @Phrase.wrap är inställda, om texten radbryts åt vänster eller höger.",
                 "names": "$~riktning"
             },
             "matter": {
@@ -4542,11 +4542,11 @@
                 "names": "$~ram"
             },
             "size": {
-                "doc": "$~GILLA @Group/size",
+                "doc": "$~GILLA @Group.size",
                 "names": "$~storlek"
             },
             "face": {
-                "doc": "$~GILLA @Group/face",
+                "doc": "$~GILLA @Group.face",
                 "names": "$~ansikte"
             },
             "place": {
@@ -4554,7 +4554,7 @@
                 "names": "$~plats"
             },
             "name": {
-                "doc": ["$~SAMMA SOM @Phrase/name!"],
+                "doc": ["$~SAMMA SOM @Phrase.name!"],
                 "names": "$~namn"
             },
             "description": {
@@ -4564,63 +4564,63 @@
                 "names": "$~beskrivning"
             },
             "selectable": {
-                "doc": "$~SAMMA SOM @Phrase/selectable!",
+                "doc": "$~SAMMA SOM @Phrase.selectable!",
                 "names": "$~valbara"
             },
             "color": {
-                "doc": "$~SAMMA SOM @Group/color",
+                "doc": "$~SAMMA SOM @Group.color",
                 "names": "$~färg"
             },
             "background": {
-                "doc": "$~SAMMA SOM @Group/background",
+                "doc": "$~SAMMA SOM @Group.background",
                 "names": "$~bakgrund"
             },
             "opacity": {
-                "doc": "$~SAMMA SOM @Group/opacity",
+                "doc": "$~SAMMA SOM @Group.opacity",
                 "names": "$~opacitet"
             },
             "offset": {
-                "doc": "$~SAMMA SOM @Group/offset",
+                "doc": "$~SAMMA SOM @Group.offset",
                 "names": "$~offset"
             },
             "rotation": {
-                "doc": "$~SAMMA SOM @Group/rotation",
+                "doc": "$~SAMMA SOM @Group.rotation",
                 "names": ["$~📐", "$~rotation"]
             },
             "scale": {
-                "doc": "$~SAMMA SOM @Group/scale",
+                "doc": "$~SAMMA SOM @Group.scale",
                 "names": "$~skala"
             },
             "flipx": {
-                "doc": "$~SAMMA SOM @Group/flipx",
+                "doc": "$~SAMMA SOM @Group.flipx",
                 "names": "$~flipx"
             },
             "flipy": {
-                "doc": "$~SAMMA SOM @Group/flipy",
+                "doc": "$~SAMMA SOM @Group.flipy",
                 "names": "$~flipy"
             },
             "entering": {
-                "doc": "$~SAMMA SOM @Group/entering in",
+                "doc": "$~SAMMA SOM @Group.entering in",
                 "names": "$~gårin"
             },
             "resting": {
-                "doc": "$~SAMMA SOM @Group/resting!",
+                "doc": "$~SAMMA SOM @Group.resting!",
                 "names": "$~vilande"
             },
             "moving": {
-                "doc": "$~SAMMA SOM @Group/moving!",
+                "doc": "$~SAMMA SOM @Group.moving!",
                 "names": "$~rörlig"
             },
             "exiting": {
-                "doc": "$~SAMMA SOM @Group/exiting!",
+                "doc": "$~SAMMA SOM @Group.exiting!",
                 "names": "$~avslutar"
             },
             "duration": {
-                "doc": "$~SAMMA SOM @Phrase/duration!",
+                "doc": "$~SAMMA SOM @Phrase.duration!",
                 "names": ["$~⏳", "$~varaktighet"]
             },
             "style": {
-                "doc": "$~SAMMA SOM @Phrase/style!",
+                "doc": "$~SAMMA SOM @Phrase.style!",
                 "names": "$~stil"
             },
             "gravity": {

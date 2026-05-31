@@ -900,13 +900,13 @@
                 "$~Salut din nou! Preiau niște date de intrare, apoi evaluez o expresie folosindu-le, generând un rezultat.",
                 "$~Iată un exemplu simplu:",
                 "$~\\ƒ repeat(mesaj•'') mesaj × 5 repeat('salut')\\",
-                "$~Această funcție primește o singură intrare, \\message\\, și folosește funcția @Text/repeat pentru a repeta mesajul de cinci ori.",
+                "$~Această funcție primește o singură intrare, \\message\\, și folosește funcția @Text.repeat pentru a repeta mesajul de cinci ori.",
                 "$~Sunt de mare ajutor dacă vrei să evaluezi ceva iar și iar, dar cu date de intrare diferite!",
                 "$~Am o mulțime de alte mici trucuri. De exemplu, nu trebuie să am un nume. Aici, voi trece direct la @Evaluate ca valoare.",
                 "$~\\(ƒ(mesaj•'') mesaj × 5)('salut')\\",
                 "$~Sau, iată o funcție care acceptă orice număr de intrări, folosind caracterul \\…\\ după numele unei intrări.",
                 "$~\\ƒ da(mesaje…•'') mesaje.sans('nu') da('da' 'da' 'nu' 'da' 'nu')\\",
-                "$~Vezi cum a luat toate „nu-urile” și a scăpat de ele? Asta pentru că messages este o @List, așa că am putea folosi @List/sansAll.",
+                "$~Vezi cum a luat toate „nu-urile” și a scăpat de ele? Asta pentru că messages este o @List, așa că am putea folosi @List.sansAll.",
                 "$~Uneori, poate doriți să clarificați ce fel de valoare produc. Pentru a face acest lucru, adăugați un @Is după lista de intrări:",
                 "$~\\ƒ adună(x•# y•#)•'' x + y\\",
                 "$~S-ar putea să observați o problemă cu aceasta: spune că se evaluează ca @Text, dar are nevoie de două @Number. Vă pot spune când lucrurile sunt inconsistente!",
@@ -925,7 +925,7 @@
             "name": "$~funcțiedeordinsuperior",
             "description": "$~iterează intern peste valorile listei",
             "emotion": "kind",
-            "doc": "$~Sunt un tip foarte special de @FunctionDefinition care operează pe liste de lucruri. Nu trebuie să știi nimic despre mine, în afară de faptul că fac posibile funcții precum @List/translate.",
+            "doc": "$~Sunt un tip foarte special de @FunctionDefinition care operează pe liste de lucruri. Nu trebuie să știi nimic despre mine, în afară de faptul că fac posibile funcții precum @List.translate.",
             "start": "$~Evaluarea funcției date",
             "initialize": "$~pregătirea parcurgerii elementelor",
             "next": "$~trecerea la următorul element",
@@ -1865,7 +1865,7 @@
                 "$~\\[1 2 3] ↦ ⬚ + 1\\ îți dă \\[2 3 4]\\ . BOOM! Fiecare număr, plus unu, fără bucle, fără @FunctionDefinition , fără bătaie de cap!",
                 "$~Sunt UIMITOR că am reușit să creez ieșiri @Phrase din date! Ai o listă de nume? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ și acum există câte o expresie pentru FIECARE nume!!",
                 "$~Lucrez cu @List , @Set , @Map (schimb VALOARELE hărții — cheile rămân exact unde sunt!) și chiar @Table !",
-                "$~Vrei ceva mai sofisticat — cum ar fi indexul fiecărui element sau o funcție pe care o poți reutiliza în multe locuri? Vizitează-mi verișorii mai calmi și mai maturi, cum ar fi @List/translate . Dar pentru cartografiere rapidă de zi cu zi, sunt aici!!"
+                "$~Vrei ceva mai sofisticat — cum ar fi indexul fiecărui element sau o funcție pe care o poți reutiliza în multe locuri? Vizitează-mi verișorii mai calmi și mai maturi, cum ar fi @List.translate . Dar pentru cartografiere rapidă de zi cu zi, sunt aici!!"
             ],
             "start": "$~Stai puțin, lasă-mă să iau tot ce e în $expression !",
             "finish": "$~TA-DA! Iată noua ta colecție: $value",
@@ -3350,7 +3350,7 @@
             "doc": [
                 "$~/apăsare rapidă!/",
                 "$~/@FunctionDefinition aici, o să explic asta./",
-                "$~Gândește-te la @Choice ca la un flux de @Phrase/name selectate de publicul tău. Dacă cineva dă clic, atinge sau selectează de la tastatură apăsând /Enter/ pe o @Phrase cu un nume, @Choice va avea o nouă valoare care corespunde numelui.",
+                "$~Gândește-te la @Choice ca la un flux de @Phrase.name selectate de publicul tău. Dacă cineva dă clic, atinge sau selectează de la tastatură apăsând /Enter/ pe o @Phrase cu un nume, @Choice va avea o nouă valoare care corespunde numelui.",
                 "$~Deci, cea mai bună modalitate de a o utiliza este să creezi o performanță cu fraze selectabile denumite @Phrase și apoi să folosești o @Reaction pentru a decide ce să faci când este ales acel nume.",
                 "$~Iată cel mai simplu exemplu:",
                 "$~\\Group( Stack() [ Frază('unu' selectabil:⊤ nume:'1') Frază('doi' selectabil:⊤ nume:'2') Frază(Alegere()) ] )\\",
@@ -3472,7 +3472,7 @@
                 "$~De fiecare dată când se întâmplă acest lucru, @Program reevaluează cu noua valoare de timp.",
                 "$~De exemplu:",
                 "$~\\Timp()\\",
-                "$~Dacă furnizați o @Time/frequency pentru timp, se va bifa la acea rată. De exemplu:",
+                "$~Dacă furnizați o @Time.frequency pentru timp, se va bifa la acea rată. De exemplu:",
                 "$~Timp(1000ms)",
                 "$~Totuși, există limite privind cât de mică poate fi, deoarece @Program are nevoie de timp pentru a evalua înainte de a putea răspunde la următoarea bifă.",
                 "$~Cel mai mic este probabil în jur de \\20ms\\."
@@ -3598,7 +3598,7 @@
                 "$~/Boop boop boop/",
                 "$~/Salut, sunt @FunctionDefinition! Văd că ai găsit @Scene.",
                 "$~Cred că @Scene e deosebit de interesant. Ideea de bază este să îi dai o listă de @Phrase sau @Group, iar apoi le va afișa în ordine și se va opri la ultima.",
-                "$~Pentru a controla temporizarea, poți fie seta @Phrase/duration pentru fiecare ieșire, care va afișa durata respectivă înainte de a trece la următoarea, fie poți folosi orice tranziții @Phrase/entering sau @Phrase/exiting pe care le-ai fi setat. Dacă le setezi la o @Sequence, va folosi durata acesteia.",
+                "$~Pentru a controla temporizarea, poți fie seta @Phrase.duration pentru fiecare ieșire, care va afișa durata respectivă înainte de a trece la următoarea, fie poți folosi orice tranziții @Phrase.entering sau @Phrase.exiting pe care le-ai fi setat. Dacă le setezi la o @Sequence, va folosi durata acesteia.",
                 "$~Toate acestea vă permit să faceți lucruri precum această mică @Scene, care afișează aceste trei fraze în secvență:",
                 "$~\\Scene([ Phrase('Salut' durată: 1s) Phrase('Ce mai faci?' durată: 2s rotație: 5° intrare: Pose(rotație: 0°)) Phrase('Sunt bine') ])\\",
                 "$~Vedeți cum prima ieșire este afișată timp de o secundă, apoi următoarea timp de două secunde, dar animată la o rotație de cinci grade, și apoi arată ultima?",
@@ -3861,7 +3861,7 @@
                 "names": "$~loc"
             },
             "name": {
-                "doc": ["$~La fel ca @Phrase/name!"],
+                "doc": ["$~La fel ca @Phrase.name!"],
                 "names": "$~nume"
             },
             "description": {
@@ -3871,7 +3871,7 @@
                 "names": "$~descriere"
             },
             "selectable": {
-                "doc": "$~La fel ca @Phrase/selectable!",
+                "doc": "$~La fel ca @Phrase.selectable!",
                 "names": "$~selectabil"
             },
             "color": {
@@ -3899,35 +3899,35 @@
                 "names": "$~scară"
             },
             "flipx": {
-                "doc": "$~La fel ca @Phrase/flipx!",
+                "doc": "$~La fel ca @Phrase.flipx!",
                 "names": "$~flipx"
             },
             "flipy": {
-                "doc": "$~La fel ca @Phrase/flipy",
+                "doc": "$~La fel ca @Phrase.flipy",
                 "names": "$~flip"
             },
             "entering": {
-                "doc": "$~La fel ca la @Phrase/entering!",
+                "doc": "$~La fel ca la @Phrase.entering!",
                 "names": "$~intrând"
             },
             "resting": {
-                "doc": "$~La fel ca @Phrase/resting!",
+                "doc": "$~La fel ca @Phrase.resting!",
                 "names": "$~odihnă"
             },
             "moving": {
-                "doc": "$~La fel ca @Phrase/moving!",
+                "doc": "$~La fel ca @Phrase.moving!",
                 "names": "$~mișcânduse"
             },
             "exiting": {
-                "doc": "$~La fel ca @Phrase/exiting!",
+                "doc": "$~La fel ca @Phrase.exiting!",
                 "names": "$~ieșire"
             },
             "duration": {
-                "doc": "$~La fel ca @Phrase/duration!",
+                "doc": "$~La fel ca @Phrase.duration!",
                 "names": ["$~⏳", "$~durată"]
             },
             "style": {
-                "doc": "$~La fel ca @Phrase/style!",
+                "doc": "$~La fel ca @Phrase.style!",
                 "names": "$~stil"
             },
             "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
@@ -3963,11 +3963,11 @@
                 "names": ["$~↵", "$~înfășura"]
             },
             "alignment": {
-                "doc": "$~Dacă există o limită @Phrase/wrap setată, dacă ar trebui să aliniez simbolurile la începutul, centrul sau sfârșitul marginii.",
+                "doc": "$~Dacă există o limită @Phrase.wrap setată, dacă ar trebui să aliniez simbolurile la începutul, centrul sau sfârșitul marginii.",
                 "names": "$~aliniere"
             },
             "direction": {
-                "doc": "$~Dacă simbolurile sunt scrise orizontal sau vertical și, dacă este setat vertical și @Phrase/wrap, dacă textul se încadrează la stânga sau la dreapta.",
+                "doc": "$~Dacă simbolurile sunt scrise orizontal sau vertical și, dacă este setat vertical și @Phrase.wrap, dacă textul se încadrează la stânga sau la dreapta.",
                 "names": "$~direcţie"
             },
             "matter": {
@@ -4602,11 +4602,11 @@
                 "names": "$~cadru"
             },
             "size": {
-                "doc": "$~LIKE @Group/size",
+                "doc": "$~LIKE @Group.size",
                 "names": "$~dimensiune"
             },
             "face": {
-                "doc": "$~LIKE @Group/face",
+                "doc": "$~LIKE @Group.face",
                 "names": "$~faţă"
             },
             "place": {
@@ -4614,7 +4614,7 @@
                 "names": "$~loc"
             },
             "name": {
-                "doc": ["$~LA FEL CA @Phrase/name!"],
+                "doc": ["$~LA FEL CA @Phrase.name!"],
                 "names": "$~nume"
             },
             "description": {
@@ -4624,63 +4624,63 @@
                 "names": "$~descriere"
             },
             "selectable": {
-                "doc": "$~ACELAȘI CA @Phrase/selectable!",
+                "doc": "$~ACELAȘI CA @Phrase.selectable!",
                 "names": "$~selectabil"
             },
             "color": {
-                "doc": "$~ACELAȘI CA @Group/color",
+                "doc": "$~ACELAȘI CA @Group.color",
                 "names": "$~culoare"
             },
             "background": {
-                "doc": "$~ACELAȘI CA @Group/background",
+                "doc": "$~ACELAȘI CA @Group.background",
                 "names": "$~fundal"
             },
             "opacity": {
-                "doc": "$~ACELAȘI CA @Group/opacity",
+                "doc": "$~ACELAȘI CA @Group.opacity",
                 "names": "$~opacitate"
             },
             "offset": {
-                "doc": "$~ACELAȘI CA @Group/offset",
+                "doc": "$~ACELAȘI CA @Group.offset",
                 "names": "$~compensare"
             },
             "rotation": {
-                "doc": "$~ACELAȘI CA @Group/rotation",
+                "doc": "$~ACELAȘI CA @Group.rotation",
                 "names": ["$~📐", "$~rotaţie"]
             },
             "scale": {
-                "doc": "$~ACELAȘI CA @Group/scale",
+                "doc": "$~ACELAȘI CA @Group.scale",
                 "names": "$~scară"
             },
             "flipx": {
-                "doc": "$~ACELAȘI CA @Group/flipx",
+                "doc": "$~ACELAȘI CA @Group.flipx",
                 "names": "$~flipx"
             },
             "flipy": {
-                "doc": "$~ACELAȘI CA @Group/flipy",
+                "doc": "$~ACELAȘI CA @Group.flipy",
                 "names": "$~flip"
             },
             "entering": {
-                "doc": "$~ACELAȘI CA @Group/entering",
+                "doc": "$~ACELAȘI CA @Group.entering",
                 "names": "$~intrând"
             },
             "resting": {
-                "doc": "$~LA FEL CA @Group/resting!",
+                "doc": "$~LA FEL CA @Group.resting!",
                 "names": "$~odihnă"
             },
             "moving": {
-                "doc": "$~LA FEL CA @Group/moving mișcare!",
+                "doc": "$~LA FEL CA @Group.moving mișcare!",
                 "names": "$~mișcânduse"
             },
             "exiting": {
-                "doc": "$~LA FEL CA @Group/exiting!",
+                "doc": "$~LA FEL CA @Group.exiting!",
                 "names": "$~ieșire"
             },
             "duration": {
-                "doc": "$~LA FEL CA @Phrase/duration!",
+                "doc": "$~LA FEL CA @Phrase.duration!",
                 "names": ["$~⏳", "$~durată"]
             },
             "style": {
-                "doc": "$~LA FEL CA @Phrase/style!",
+                "doc": "$~LA FEL CA @Phrase.style!",
                 "names": "$~stil"
             },
             "gravity": {

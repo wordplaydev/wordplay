@@ -900,13 +900,13 @@
                 "$~Halo lagi! Saya menerima beberapa input, kemudian mengevaluasi sebuah ekspresi menggunakan input tersebut, dan menghasilkan sebuah output.",
                 "$~Berikut contoh sederhananya:",
                 "$~\\ƒ ulangi(pesan•'') pesan × 5 ulangi('hai')\\",
-                "$~Fungsi tersebut menerima satu input, \\message\\, dan menggunakan fungsi @Text/repeat untuk mengulang pesan tersebut sebanyak lima kali.",
+                "$~Fungsi tersebut menerima satu input, \\message\\, dan menggunakan fungsi @Text.repeat untuk mengulang pesan tersebut sebanyak lima kali.",
                 "$~Saya sangat membantu jika Anda ingin mengevaluasi sesuatu berulang kali, tetapi dengan masukan yang berbeda!",
                 "$~Saya memang punya banyak trik kecil lainnya. Misalnya, saya tidak perlu memiliki nama. Di sini, saya langsung menuju ke @Evaluate sebagai sebuah nilai.",
                 "$~\\(ƒ(pesan•'') pesan × 5)('hai')\\",
                 "$~Atau, berikut adalah fungsi yang menerima sejumlah input, menggunakan karakter \\…\\ setelah nama input.",
                 "$~\\ƒ ya(pesan…•'') pesan.sans('tidak') ya('ya' 'ya' 'tidak' 'ya' 'tidak')\\",
-                "$~Lihat bagaimana semua 'tidak' dihilangkan? Itu karena messages adalah @List, jadi kita bisa menggunakan @List/sansAll.",
+                "$~Lihat bagaimana semua 'tidak' dihilangkan? Itu karena messages adalah @List, jadi kita bisa menggunakan @List.sansAll.",
                 "$~Terkadang Anda mungkin ingin memperjelas jenis nilai apa yang saya hasilkan. Untuk melakukan itu, tambahkan @Is setelah daftar input:",
                 "$~\\ƒ add(x•# y•#)•'' x + y\\",
                 "$~Anda mungkin akan menemukan masalah pada contoh ini: tertulis bahwa hasilnya adalah @Text, tetapi ternyata membutuhkan dua @Number. Saya bisa memberi tahu Anda jika ada ketidakkonsistenan!",
@@ -925,7 +925,7 @@
             "name": "$~fungsitingkattinggi",
             "description": "$~mengulang nilai-nilai daftar secara internal",
             "emotion": "kind",
-            "doc": "$~Saya adalah @FunctionDefinition yang sangat istimewa yang beroperasi pada daftar hal-hal. Anda tidak perlu tahu apa pun tentang saya, selain bahwa saya memungkinkan fungsi seperti @List/translate.",
+            "doc": "$~Saya adalah @FunctionDefinition yang sangat istimewa yang beroperasi pada daftar hal-hal. Anda tidak perlu tahu apa pun tentang saya, selain bahwa saya memungkinkan fungsi seperti @List.translate.",
             "start": "$~Mengevaluasi fungsi yang diberikan",
             "initialize": "$~bersiap untuk menelusuri item-item tersebut",
             "next": "$~beralih ke item berikutnya",
@@ -1865,7 +1865,7 @@
                 "$~\\[1 2 3] ↦ ⬚ + 1\\ menghasilkan \\[2 3 4]\\ . BOOM! Setiap angka, ditambah satu, tanpa perulangan, tanpa @FunctionDefinition , tanpa ribet!",
                 "$~Saya SANGAT hebat dalam membuat output @Phrase dari data! Punya daftar nama? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ dan sekarang ada frasa untuk SETIAP nama!!",
                 "$~Saya mengerjakan @List , @Set , @Map (saya mengubah VALUES map — kunci tetap di tempatnya!), dan bahkan @Table !",
-                "$~Ingin sesuatu yang lebih canggih — seperti indeks setiap item, atau fungsi yang dapat Anda gunakan kembali di banyak tempat? Kunjungi saja sepupu saya yang lebih tenang dan dewasa seperti @List/translate . Tapi untuk pemetaan sehari-hari yang cepat, saya di sini!!"
+                "$~Ingin sesuatu yang lebih canggih — seperti indeks setiap item, atau fungsi yang dapat Anda gunakan kembali di banyak tempat? Kunjungi saja sepupu saya yang lebih tenang dan dewasa seperti @List.translate . Tapi untuk pemetaan sehari-hari yang cepat, saya di sini!!"
             ],
             "start": "$~Tunggu sebentar, izinkan saya mengambil semua yang ada di $expression !",
             "finish": "$~TA-DA! Ini dia koleksi terbaru Anda: $value",
@@ -3472,7 +3472,7 @@
                 "$~Setiap kali hal itu terjadi, @Program mengevaluasi ulang dengan nilai waktu yang baru.",
                 "$~Misalnya:",
                 "$~\\Waktu()\\",
-                "$~Jika Anda memberikan waktu dengan format @Time/frequency, maka waktu akan berjalan sesuai dengan frekuensi tersebut. Misalnya:",
+                "$~Jika Anda memberikan waktu dengan format @Time.frequency, maka waktu akan berjalan sesuai dengan frekuensi tersebut. Misalnya:",
                 "$~Waktu (1000ms)",
                 "$~Namun, ada batasan seberapa kecil ukurannya, karena @Program membutuhkan waktu untuk mengevaluasi sebelum dapat merespons pada tick berikutnya.",
                 "$~Yang terkecil mungkin sekitar 20ms."
@@ -3598,7 +3598,7 @@
                 "$~/Boop boop boop/",
                 "$~Halo, @FunctionDefinition di sini! Saya lihat Anda menemukan @Scene.",
                 "$~Menurut saya, @Scene sangat keren. Ide dasarnya adalah Anda memberikan daftar @Phrase atau @Group, lalu program akan menampilkannya secara berurutan dan berhenti pada yang terakhir.",
-                "$~Untuk mengontrol pengaturan waktu, Anda dapat mengatur @Phrase/duration pada setiap output, dan output tersebut akan ditampilkan selama durasi tersebut sebelum beralih ke output berikutnya, dan menggunakan transisi @Phrase/entering atau @Phrase/exiting apa pun yang telah Anda atur. Jika Anda mengaturnya ke @Sequence, maka akan menggunakan durasi @Sequence tersebut.",
+                "$~Untuk mengontrol pengaturan waktu, Anda dapat mengatur @Phrase.duration pada setiap output, dan output tersebut akan ditampilkan selama durasi tersebut sebelum beralih ke output berikutnya, dan menggunakan transisi @Phrase.entering atau @Phrase.exiting apa pun yang telah Anda atur. Jika Anda mengaturnya ke @Sequence, maka akan menggunakan durasi @Sequence tersebut.",
                 "$~Semua itu memungkinkan Anda melakukan hal-hal seperti @Scene kecil ini, yang menampilkan tiga frasa ini secara berurutan:",
                 "$~\\Scene([ Phrase('Halo' duration: 1s) Phrase('Apa kabar?' duration: 2s rotation: 5° entering: Pose(rotation: 0°)) Phrase('Saya baik-baik saja') ])\\",
                 "$~Perhatikan bagaimana output pertama ditampilkan selama satu detik, kemudian output berikutnya selama dua detik, tetapi dianimasikan dengan rotasi lima derajat, dan kemudian menampilkan output terakhir?",
@@ -3861,7 +3861,7 @@
                 "names": "$~tempat"
             },
             "name": {
-                "doc": ["$~Sama seperti @Phrase/name!"],
+                "doc": ["$~Sama seperti @Phrase.name!"],
                 "names": "$~nama"
             },
             "description": {
@@ -3871,7 +3871,7 @@
                 "names": "$~keterangan"
             },
             "selectable": {
-                "doc": "$~Sama seperti @Phrase/selectable!",
+                "doc": "$~Sama seperti @Phrase.selectable!",
                 "names": "$~dapatdipilih"
             },
             "color": {
@@ -3899,35 +3899,35 @@
                 "names": "$~skala"
             },
             "flipx": {
-                "doc": "$~Sama seperti @Phrase/flipx!",
+                "doc": "$~Sama seperti @Phrase.flipx!",
                 "names": "$~flipx"
             },
             "flipy": {
-                "doc": "$~Sama seperti @Phrase/flipy",
+                "doc": "$~Sama seperti @Phrase.flipy",
                 "names": "$~membalik"
             },
             "entering": {
-                "doc": "$~Sama seperti @Phrase/entering!",
+                "doc": "$~Sama seperti @Phrase.entering!",
                 "names": "$~memasuki"
             },
             "resting": {
-                "doc": "$~Sama seperti @Phrase/resting!",
+                "doc": "$~Sama seperti @Phrase.resting!",
                 "names": "$~beristirahat"
             },
             "moving": {
-                "doc": "$~Sama seperti @Phrase/moving!",
+                "doc": "$~Sama seperti @Phrase.moving!",
                 "names": "$~pindah"
             },
             "exiting": {
-                "doc": "$~Sama seperti @Phrase/exiting!",
+                "doc": "$~Sama seperti @Phrase.exiting!",
                 "names": "$~keluar"
             },
             "duration": {
-                "doc": "$~Sama seperti @Phrase/duration!",
+                "doc": "$~Sama seperti @Phrase.duration!",
                 "names": ["$~⏳", "$~lamanya"]
             },
             "style": {
-                "doc": "$~Sama seperti @Phrase/style!",
+                "doc": "$~Sama seperti @Phrase.style!",
                 "names": "$~gaya"
             },
             "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
@@ -3963,11 +3963,11 @@
                 "names": ["$~↵", "$~membungkus"]
             },
             "alignment": {
-                "doc": "$~Jika ada batasan @Phrase/wrap yang ditetapkan, apakah saya harus menyelaraskan simbol ke awal, tengah, atau akhir tepi.",
+                "doc": "$~Jika ada batasan @Phrase.wrap yang ditetapkan, apakah saya harus menyelaraskan simbol ke awal, tengah, atau akhir tepi.",
                 "names": "$~penyelarasan"
             },
             "direction": {
-                "doc": "$~Apakah simbol ditulis secara horizontal atau vertikal, dan jika vertikal dan @Phrase/wrap diatur, apakah teks dibungkus ke kiri atau ke kanan.",
+                "doc": "$~Apakah simbol ditulis secara horizontal atau vertikal, dan jika vertikal dan @Phrase.wrap diatur, apakah teks dibungkus ke kiri atau ke kanan.",
                 "names": "$~arah"
             },
             "matter": {
@@ -4602,11 +4602,11 @@
                 "names": "$~bingkai"
             },
             "size": {
-                "doc": "$~SUKA @Group/size",
+                "doc": "$~SUKA @Group.size",
                 "names": "$~ukuran"
             },
             "face": {
-                "doc": "$~SUKAI @Group/face",
+                "doc": "$~SUKAI @Group.face",
                 "names": "$~menghadapi"
             },
             "place": {
@@ -4614,7 +4614,7 @@
                 "names": "$~tempat"
             },
             "name": {
-                "doc": ["$~SAMA SEPERTI @Phrase/name!"],
+                "doc": ["$~SAMA SEPERTI @Phrase.name!"],
                 "names": "$~nama"
             },
             "description": {
@@ -4624,63 +4624,63 @@
                 "names": "$~keterangan"
             },
             "selectable": {
-                "doc": "$~SAMA SEPERTI @Phrase/selectable!",
+                "doc": "$~SAMA SEPERTI @Phrase.selectable!",
                 "names": "$~dapatdipilih"
             },
             "color": {
-                "doc": "$~SAMA DENGAN @Group/color",
+                "doc": "$~SAMA DENGAN @Group.color",
                 "names": "$~warna"
             },
             "background": {
-                "doc": "$~SAMA SEPERTI @Group/background",
+                "doc": "$~SAMA SEPERTI @Group.background",
                 "names": "$~latarbelakang"
             },
             "opacity": {
-                "doc": "$~SAMA DENGAN @Group/opacity",
+                "doc": "$~SAMA DENGAN @Group.opacity",
                 "names": "$~kegelapan"
             },
             "offset": {
-                "doc": "$~SAMA DENGAN @Group/offset",
+                "doc": "$~SAMA DENGAN @Group.offset",
                 "names": "$~mengimbangi"
             },
             "rotation": {
-                "doc": "$~SAMA SEPERTI @Group/rotation",
+                "doc": "$~SAMA SEPERTI @Group.rotation",
                 "names": ["$~📐", "$~rotasi"]
             },
             "scale": {
-                "doc": "$~SAMA SEPERTI @Group/scale",
+                "doc": "$~SAMA SEPERTI @Group.scale",
                 "names": "$~skala"
             },
             "flipx": {
-                "doc": "$~SAMA SEPERTI @Group/flipx",
+                "doc": "$~SAMA SEPERTI @Group.flipx",
                 "names": "$~flipx"
             },
             "flipy": {
-                "doc": "$~SAMA SEPERTI @Group/flipy",
+                "doc": "$~SAMA SEPERTI @Group.flipy",
                 "names": "$~membalik"
             },
             "entering": {
-                "doc": "$~SAMA DENGAN @Group/entering",
+                "doc": "$~SAMA DENGAN @Group.entering",
                 "names": "$~memasuki"
             },
             "resting": {
-                "doc": "$~SAMA SEPERTI @Group/resting!",
+                "doc": "$~SAMA SEPERTI @Group.resting!",
                 "names": "$~beristirahat"
             },
             "moving": {
-                "doc": "$~SAMA SEPERTI @Group/moving!",
+                "doc": "$~SAMA SEPERTI @Group.moving!",
                 "names": "$~pindah"
             },
             "exiting": {
-                "doc": "$~SAMA SEPERTI @Group/exiting!",
+                "doc": "$~SAMA SEPERTI @Group.exiting!",
                 "names": "$~keluar"
             },
             "duration": {
-                "doc": "$~SAMA SEPERTI @Phrase/duration!",
+                "doc": "$~SAMA SEPERTI @Phrase.duration!",
                 "names": ["$~⏳", "$~lamanya"]
             },
             "style": {
-                "doc": "$~SAMA SEPERTI @Phrase/style!",
+                "doc": "$~SAMA SEPERTI @Phrase.style!",
                 "names": "$~gaya"
             },
             "gravity": {

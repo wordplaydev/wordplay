@@ -653,14 +653,14 @@
                             "Evaluate",
                             "neutral",
                             "$~Size düğmelerden birini göstereyim. @UI/paletteExpand'deki küçük *palet* geçiş düğmesini bulabilir misiniz? Paleti genişletmek için onu seçin ve ardından sahnede ifadeyi seçin.",
-                            "$~Bunu yaptığınızda, @Phrase'in kabul ettiği birçok girdiyi göreceksiniz. Örneğin, @Phrase/size için kalem düğmesine basmayı deneyin, bu bir kaydırıcıyı ortaya çıkaracaktır.",
+                            "$~Bunu yaptığınızda, @Phrase'in kabul ettiği birçok girdiyi göreceksiniz. Örneğin, @Phrase.size için kalem düğmesine basmayı deneyin, bu bir kaydırıcıyı ortaya çıkaracaktır.",
                             "$~Bu kaydırıcıyı kullanarak ifadenin boyutunu değiştirebilir, aynı zamanda @Evaluate kodunu da seçtiğiniz boyuta göre değiştirebilirsiniz."
                         ],
                         null,
                         [
                             "Evaluate",
                             "serious",
-                            "$~Bunu yaptığınızda, programda yeni bir girdim olduğunu görüyor musunuz? Bu @Phrase/size girdisidir. Fonksiyonların belirli bir girdi sırası vardır, ancak bir fonksiyonun isteğe bağlı girdiler listesi varsa, hangisini vermek istediğinizi belirtmek için adlarını kullanabilirsiniz. Burada @Phrase/size veriyoruz, ancak diğer isteğe bağlı girdilerin hiçbirini vermiyoruz. Paletle başka bir girdiyi değiştirmeyi deneyin, belki yazı tipi gibi."
+                            "$~Bunu yaptığınızda, programda yeni bir girdim olduğunu görüyor musunuz? Bu @Phrase.size girdisidir. Fonksiyonların belirli bir girdi sırası vardır, ancak bir fonksiyonun isteğe bağlı girdiler listesi varsa, hangisini vermek istediğinizi belirtmek için adlarını kullanabilirsiniz. Burada @Phrase.size veriyoruz, ancak diğer isteğe bağlı girdilerin hiçbirini vermiyoruz. Paletle başka bir girdiyi değiştirmeyi deneyin, belki yazı tipi gibi."
                         ],
                         null,
                         ["conflict", "'hi'(1 2)"],
@@ -927,14 +927,14 @@
                         [
                             "Text",
                             "curious",
-                            "$~Ve buradaki arkadaşımız @FunctionDefinition bana tanımladıkları tüm harika fonksiyonlardan bahsetti mi? Her türlü şeyi yapmama izin verdiler. Bunlardan biri oldukça basit: Adı @Text/length ve tek yaptığı bir metnin uzunluğunu almak. Örneğin, burada @Evaluate ve küçük arkadaşımız @PropertyReference ile bir araya gelirsek, uzunluk fonksiyonunu girdi olmadan değerlendirebilir ve uzunluk değerini geri alabiliriz. Metni değiştirmeyi deneyin ve Program'ın gösterdiği uzunluğun kısalıp uzadıkça değiştiğini görün."
+                            "$~Ve buradaki arkadaşımız @FunctionDefinition bana tanımladıkları tüm harika fonksiyonlardan bahsetti mi? Her türlü şeyi yapmama izin verdiler. Bunlardan biri oldukça basit: Adı @Text.length ve tek yaptığı bir metnin uzunluğunu almak. Örneğin, burada @Evaluate ve küçük arkadaşımız @PropertyReference ile bir araya gelirsek, uzunluk fonksiyonunu girdi olmadan değerlendirebilir ve uzunluk değerini geri alabiliriz. Metni değiştirmeyi deneyin ve Program'ın gösterdiği uzunluğun kısalıp uzadıkça değiştiğini görün."
                         ],
                         ["edit", "'hello'.length()"],
                         null,
                         [
                             "Text",
                             "happy",
-                            "$~İşte bir tane daha muhteşem. Beni güldürüyor. Adı @Text/repeat ve değerlendirildiğinde, değerlendirildiği metni alır ve siz ne kadar çok söylerseniz o kadar tekrarlar. Sayıyı değiştirmeyi ve ne kadar değerlendirildiğine bakmayı deneyin."
+                            "$~İşte bir tane daha muhteşem. Beni güldürüyor. Adı @Text.repeat ve değerlendirildiğinde, değerlendirildiği metni alır ve siz ne kadar çok söylerseniz o kadar tekrarlar. Sayıyı değiştirmeyi ve ne kadar değerlendirildiğine bakmayı deneyin."
                         ],
                         ["edit", "'hello '.repeat(5)"],
                         null,
@@ -1108,7 +1108,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Biri @Boolean/and idi, değil mi? Sizden birini ve bir diğer girdiyi alır? Ve ikisi de \\⊤\\ ise \\⊤\\ olarak değerlendirilir."
+                            "$~Biri @Boolean.and idi, değil mi? Sizden birini ve bir diğer girdiyi alır? Ve ikisi de \\⊤\\ ise \\⊤\\ olarak değerlendirilir."
                         ],
                         [
                             "⊤",
@@ -1130,7 +1130,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Ve diğeri @Boolean/or idi, değil mi? O da bir girdi mi alıyor? Ama eğer ikisi de doğruysa \\⊤\\ olarak mı değerlendiriliyor?"
+                            "$~Ve diğeri @Boolean.or idi, değil mi? O da bir girdi mi alıyor? Ama eğer ikisi de doğruysa \\⊤\\ olarak mı değerlendiriliyor?"
                         ],
                         [
                             "⊤",
@@ -1152,7 +1152,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Ama diğeri @Boolean/not miydi?"
+                            "$~Ama diğeri @Boolean.not miydi?"
                         ],
                         ["⊤", "precise", "$~Doğru. \\~⊤ = ⊥\\."],
                         ["⊥", "precise", "$~Yanlış değil. \\~⊥ = ⊤\\."],
@@ -1701,21 +1701,21 @@
                         [
                             "List",
                             "neutral",
-                            "$~Evet, ama @FunctionDefinition, bunların hepsi senin yaptığın şeyler. Bana her türlü şeyi yapmamı sağlayan tüm bu güzel işlevleri temsil ediyorsun! Mesela @List/reverse — oh, bu harika ve basit. Sadece değerlerimi alıyor ve onları ters sıraya koyuyor."
+                            "$~Evet, ama @FunctionDefinition, bunların hepsi senin yaptığın şeyler. Bana her türlü şeyi yapmamı sağlayan tüm bu güzel işlevleri temsil ediyorsun! Mesela @List.reverse — oh, bu harika ve basit. Sadece değerlerimi alıyor ve onları ters sıraya koyuyor."
                         ],
                         ["edit", "[ 1 2 3 4 5 ].reverse()"],
                         null,
                         [
                             "List",
                             "excited",
-                            "$~Ve bu eğlenceli: @List/sans sadece verilen değere eşit olan tüm değerleri kaldırır. Sonuçtaki listede sıfır kalmadığını görüyor musunuz?"
+                            "$~Ve bu eğlenceli: @List.sans sadece verilen değere eşit olan tüm değerleri kaldırır. Sonuçtaki listede sıfır kalmadığını görüyor musunuz?"
                         ],
                         ["edit", "[ 1 0 1 0 1 ].sans(0)"],
                         null,
                         [
                             "List",
                             "serious",
-                            "$~Ah, dördüncü kuralı açıklamayı unuttuğuma inanamıyorum! Tamam, kural dört: Hiçbir zaman bir listeyi değiştirmem. Sadece yenilerini yaparım. Benim üzerimde hangi fonksiyonu değerlendirirseniz değerlendirin, her zaman yeni bir liste yaparım; hiçbirini değiştirmem. Peki yukarıdaki @List/reverse örnek? Bu listeyi değiştirmedi; yeni bir liste yaptı. Peki ya sans örneği? Bu orijinal listeden sıfırları kaldırmadı; sıfırları olmayan yeni bir liste yaptı. Bu aslında Verse'deki her şey için geçerlidir: değerler bir kez yapıldığında, oldukları gibidirler ve değişmezler."
+                            "$~Ah, dördüncü kuralı açıklamayı unuttuğuma inanamıyorum! Tamam, kural dört: Hiçbir zaman bir listeyi değiştirmem. Sadece yenilerini yaparım. Benim üzerimde hangi fonksiyonu değerlendirirseniz değerlendirin, her zaman yeni bir liste yaparım; hiçbirini değiştirmem. Peki yukarıdaki @List.reverse örnek? Bu listeyi değiştirmedi; yeni bir liste yaptı. Peki ya sans örneği? Bu orijinal listeden sıfırları kaldırmadı; sıfırları olmayan yeni bir liste yaptı. Bu aslında Verse'deki her şey için geçerlidir: değerler bir kez yapıldığında, oldukları gibidirler ve değişmezler."
                         ],
                         null,
                         [
@@ -1733,7 +1733,7 @@
                         [
                             "List",
                             "serious",
-                            "$~Tamam, belki bir liste fonksiyonu, çünkü bu benim favorim. Buna @List/random denir ve listede rastgele bir değer verir. Çok eğlencelidir çünkü ne elde edeceğinizi asla bilemezsiniz! Ne elde ettiniz, ne elde ettiniz? Kendi hayvanınızı eklemeyi deneyin ve ne elde ettiğinizi görün."
+                            "$~Tamam, belki bir liste fonksiyonu, çünkü bu benim favorim. Buna @List.random denir ve listede rastgele bir değer verir. Çok eğlencelidir çünkü ne elde edeceğinizi asla bilemezsiniz! Ne elde ettiniz, ne elde ettiniz? Kendi hayvanınızı eklemeyi deneyin ve ne elde ettiğinizi görün."
                         ],
                         [
                             "edit",
@@ -1827,12 +1827,12 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Belki, @Set/difference?"
+                            "$~Belki, @Set.difference?"
                         ],
                         [
                             "Set",
                             "neutral",
-                            "$~Evet, @Set/difference.",
+                            "$~Evet, @Set.difference.",
                             "$~Bir küme üzerinde değerlendirildiğinde ve başka bir küme verildiğinde, değerlendirilen kümeden verilen kümedeki tüm öğeleri kaldırır (Hm, bunlar biraz beceriksizce söylenmiş kelimelerdi, ama demek istediğim buydu). İşte bir örnek. Sonucun yalnızca \\{3}\\ kümesi olduğunu görüyor musunuz? \\{ 1 2 }\\ içindeki değerler kaldırıldıktan sonra geriye kalan tek değer budur."
                         ],
                         ["edit", "{ 1 2 3 }.difference({ 1 2 })"],
@@ -2438,7 +2438,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Şunu görüyor musunuz \\1000ms\\? Bu, @Time'a varsayılan her 33 milisaniye yerine her 1000 milisaniyede bir tıklama yapmasını söyleyen bir @Time/frequency. Şimdi her saniye tıklayan bir sayaç gibidir. @Time'ın aldığı bu girdiler bir yapılandırma gibidir: akışa nasıl davranacağını söylerler."
+                            "$~Şunu görüyor musunuz \\1000ms\\? Bu, @Time'a varsayılan her 33 milisaniye yerine her 1000 milisaniyede bir tıklama yapmasını söyleyen bir @Time.frequency. Şimdi her saniye tıklayan bir sayaç gibidir. @Time'ın aldığı bu girdiler bir yapılandırma gibidir: akışa nasıl davranacağını söylerler."
                         ],
                         [
                             "Time",
@@ -2450,7 +2450,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Ama karşılaştığımız tüm harika karakterleri zamanı daha da dönüştürmek için kullanabiliriz. Örneğin, zamanın \\2\\'nin bir katı olup olmadığını bilmek isteseydik ne olurdu? Bir bölümün kalanını alan @Number/remainder'ı kullanabilirdik. Kalan sıfırsa, \\⊤\\ ve aksi takdirde \\⊥\\ olarak değerlendiririz. \\⊤\\ ve \\⊥\\ arasında nasıl ileri geri değiştiğini görüyor musunuz? Çok büyülü."
+                            "$~Ama karşılaştığımız tüm harika karakterleri zamanı daha da dönüştürmek için kullanabiliriz. Örneğin, zamanın \\2\\'nin bir katı olup olmadığını bilmek isteseydik ne olurdu? Bir bölümün kalanını alan @Number.remainder'ı kullanabilirdik. Kalan sıfırsa, \\⊤\\ ve aksi takdirde \\⊥\\ olarak değerlendiririz. \\⊤\\ ve \\⊥\\ arasında nasıl ileri geri değiştiğini görüyor musunuz? Çok büyülü."
                         ],
                         [
                             "Time",
@@ -2626,7 +2626,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~@Volume, performansların seyircilerden gelen sese yanıt vermesini sağlamak için kullanılabilir. Örneğin, burada akıştan gelen genlik sayısını belirli sayıda \\'o'\\ karakterine dönüştürerek küçük bir genlik görselleştirmesi yapabiliriz. Gürültü yaptığınızda daha fazla \\'o'\\ olduğunu görüyor musunuz? @Volume genliği \\10\\'a bölünür ve \\0\\ ila \\10\\ aralığına yerleştirilir. Daha sonra, bu değer \\'o'\\'yu belirtilen sayıda tekrarlayan @Text/repeat fonksiyonuna verilir."
+                            "$~@Volume, performansların seyircilerden gelen sese yanıt vermesini sağlamak için kullanılabilir. Örneğin, burada akıştan gelen genlik sayısını belirli sayıda \\'o'\\ karakterine dönüştürerek küçük bir genlik görselleştirmesi yapabiliriz. Gürültü yaptığınızda daha fazla \\'o'\\ olduğunu görüyor musunuz? @Volume genliği \\10\\'a bölünür ve \\0\\ ila \\10\\ aralığına yerleştirilir. Daha sonra, bu değer \\'o'\\'yu belirtilen sayıda tekrarlayan @Text.repeat fonksiyonuna verilir."
                         ],
                         ["Volume", "neutral", "$~vızzZZZZZzzzzZZZZ…"],
                         ["edit", "'o'.repeat(Volume() × 10)"]
@@ -2779,7 +2779,7 @@
                             "FunctionDefinition",
                             "excited",
                             "$~Ama @Motion'ın daha birçok numarası var.",
-                            "$~Mesela buna @Motion/velocity ile bir başlangıç verebiliriz.",
+                            "$~Mesela buna @Motion.velocity ile bir başlangıç verebiliriz.",
                             "$~Bu örnekte top önce sağa ve yukarı doğru hareket ediyor ve biraz dönüyor."
                         ],
                         ["Motion", "excited", "$~Uuuuuş…"],
@@ -2797,9 +2797,9 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Hatta @Stage/gravity'yi gerçekten aşırı olacak şekilde bile değiştirebilirsiniz.",
+                            "$~Hatta @Stage.gravity'yi gerçekten aşırı olacak şekilde bile değiştirebilirsiniz.",
                             "$~Bunu Ay'a benzetmeyi deneyin, orada yer çekimi çok düşük!",
-                            "$~Veya @Matter/mass veya @Matter/mass değerlerini değiştirmeyi deneyin, bu @Phrase'in nasıl sıçrayacağını etkiler."
+                            "$~Veya @Matter.mass veya @Matter.mass değerlerini değiştirmeyi deneyin, bu @Phrase'in nasıl sıçrayacağını etkiler."
                         ],
                         ["Motion", "excited", "$~Şşş…"],
                         null,
@@ -3182,7 +3182,7 @@
                         [
                             "Phrase",
                             "excited",
-                            "$~Ama sadece metin stilinden daha fazlasını yapabilirim. Örneğin, metre cinsinden ölçülen bir @Phrase/size alabilirim \\m\\. Boyutu istediğiniz herhangi bir boyuta değiştirmeyi deneyin!"
+                            "$~Ama sadece metin stilinden daha fazlasını yapabilirim. Örneğin, metre cinsinden ölçülen bir @Phrase.size alabilirim \\m\\. Boyutu istediğiniz herhangi bir boyuta değiştirmeyi deneyin!"
                         ],
                         ["edit", "Phrase('hi' 2m)"],
                         null,
@@ -3196,7 +3196,7 @@
                         [
                             "Phrase",
                             "excited",
-                            "$~Kostümleri sever misin? Ben kostümleri çooooook seviyorum. @Phrase/face'im bir kostüm. Seçtiğin kelimeyi renklendirmek için desteklenen yüzlerden herhangi birini seç."
+                            "$~Kostümleri sever misin? Ben kostümleri çooooook seviyorum. @Phrase.face'im bir kostüm. Seçtiğin kelimeyi renklendirmek için desteklenen yüzlerden herhangi birini seç."
                         ],
                         [
                             "use",
@@ -3218,7 +3218,7 @@
                         [
                             "Phrase",
                             "curious",
-                            "$~Hiç eksenden biraz uzaklaşmış hissediyor musunuz? Belki dünyaya biraz @Pose/rotation ile rotasyon veriyorsunuz. Beni döndürmek için rotasyon değerini değiştirmeyi deneyin!"
+                            "$~Hiç eksenden biraz uzaklaşmış hissediyor musunuz? Belki dünyaya biraz @Pose.rotation ile rotasyon veriyorsunuz. Beni döndürmek için rotasyon değerini değiştirmeyi deneyin!"
                         ],
                         [
                             "fit",
@@ -3253,7 +3253,7 @@
                         [
                             "Phrase",
                             "kind",
-                            "$~Sadece belirli bir özellik mi vermek istiyorsunuz? Sadece istediğinizi adlandırın. Burada, @Phrase/size ve @Phrase/rotation adını veriyoruz."
+                            "$~Sadece belirli bir özellik mi vermek istiyorsunuz? Sadece istediğinizi adlandırın. Burada, @Phrase.size ve @Phrase.rotation adını veriyoruz."
                         ],
                         [
                             "edit",
@@ -3263,7 +3263,7 @@
                         [
                             "Phrase",
                             "neutral",
-                            "$~Şimdi bunların hepsini aradan çıkardığımıza göre, danstan bahsedebiliriz, canım! Dans etmek en sevdiğim şeylerden biri. Hareket ettiğim *dört* yol var. İlk olarak, @Phrase/entering yapabilirim. Enter, sahneye girme şeklim. Bana nasıl gireceğimi söylemezsen, sanki oraya ışınlanmışım gibi sahnede BLIP beliririm. Ama bana @Pose verirsen, bana verdiğin pozla başlarım, sonra dinlenme pozuma geçerim. Örneğin, beni görünmezden, oh-çok-gözünün önünde görünür hale getirelim."
+                            "$~Şimdi bunların hepsini aradan çıkardığımıza göre, danstan bahsedebiliriz, canım! Dans etmek en sevdiğim şeylerden biri. Hareket ettiğim *dört* yol var. İlk olarak, @Phrase.entering yapabilirim. Enter, sahneye girme şeklim. Bana nasıl gireceğimi söylemezsen, sanki oraya ışınlanmışım gibi sahnede BLIP beliririm. Ama bana @Pose verirsen, bana verdiğin pozla başlarım, sonra dinlenme pozuma geçerim. Örneğin, beni görünmezden, oh-çok-gözünün önünde görünür hale getirelim."
                         ],
                         ["edit", "Phrase('hi' entering: Pose(opacity: 0))"],
                         null,
@@ -3280,7 +3280,7 @@
                         [
                             "Phrase",
                             "neutral",
-                            "$~Şimdi, diyelim ki hareket ediyordum. Zamanı yerimize ayarlayalım, böylece her saniye biraz sağa hareket edeyim. Ama eğer bir @Phrase/moving @Pose ayarlarsak ve @Pose \\5°\\ ve belki biraz renk olursa, yerim her değiştiğinde sahnede en sevimli küçük eğimle kayacağım."
+                            "$~Şimdi, diyelim ki hareket ediyordum. Zamanı yerimize ayarlayalım, böylece her saniye biraz sağa hareket edeyim. Ama eğer bir @Phrase.moving @Pose ayarlarsak ve @Pose \\5°\\ ve belki biraz renk olursa, yerim her değiştiğinde sahnede en sevimli küçük eğimle kayacağım."
                         ],
                         [
                             "fit",
@@ -3290,7 +3290,7 @@
                         [
                             "Phrase",
                             "curious",
-                            "$~Sevimlilik havasında değil misiniz? @Phrase/style'ımı değiştirerek beni biraz daha ciddi hale getirmeye ne dersiniz? Gerçekten incelikli ama stiller bir hareketin /duygusunu/ gerçekten değiştirebilir."
+                            "$~Sevimlilik havasında değil misiniz? @Phrase.style'ımı değiştirerek beni biraz daha ciddi hale getirmeye ne dersiniz? Gerçekten incelikli ama stiller bir hareketin /duygusunu/ gerçekten değiştirebilir."
                         ],
                         [
                             "fit",
@@ -3300,7 +3300,7 @@
                         [
                             "Phrase",
                             "excited",
-                            "$~Ve son darbe olarak, @Phrase/exiting bir çıkış yapmamı sağlayalım. @Conditional ile oynayabilir ve 3 saniye sonra sahneden çıkmamı sağlayabiliriz."
+                            "$~Ve son darbe olarak, @Phrase.exiting bir çıkış yapmamı sağlayalım. @Conditional ile oynayabilir ve 3 saniye sonra sahneden çıkmamı sağlayabiliriz."
                         ],
                         [
                             "fit",
@@ -3312,7 +3312,7 @@
                         [
                             "Phrase",
                             "surprised",
-                            "$~Beklediğin çıkış bu değil mi? Kaybolma eylemi biraz sert, değil mi? Bana bir @Phrase/exiting @Pose ver, sahnede istediğin poza doğru kayacağım. Burada, hayattan büyük olacağım, baş aşağı düşeceğim ve @Pose/opacity \\0\\'a doğru kaybolacağım."
+                            "$~Beklediğin çıkış bu değil mi? Kaybolma eylemi biraz sert, değil mi? Bana bir @Phrase.exiting @Pose ver, sahnede istediğin poza doğru kayacağım. Burada, hayattan büyük olacağım, baş aşağı düşeceğim ve @Pose.opacity \\0\\'a doğru kaybolacağım."
                         ],
                         [
                             "fit",
@@ -3359,8 +3359,8 @@
                             "Phrase",
                             "sad",
                             "$~Aman Tanrım, aman Tanrım, rengi unuttuğuma İNANAMIYORUM. Tamam, yani herhangi bir @Pose'un bir rengi olabilir, değil mi? Ama @Color üç bölümden oluşur. İlk olarak, 0 ile 100% arasında bir @Pose, bunu bir odanın ne kadar parlak olduğu olarak düşünebilirsiniz, siyahtan beyaza ve ortada %50'de renk.",
-                            "$~Daha sonra 0 ile ∞ arasında bir @Color/chroma değeri, hiç renk olmayan griden tam renkliye kadar ne kadar renk olduğunu ifade eder.",
-                            "$~Ve son olarak, bir renk tekerleği gibi düşünebileceğiniz, kırmızıdan yeşile ve maviye dereceler halinde bir @Color/hue. Yani parlak kırmızı olmamı mı istiyorsunuz? Dinlenme poz rengimi \\Color(50% 300 30°)\\ olarak ayarlayın."
+                            "$~Daha sonra 0 ile ∞ arasında bir @Color.chroma değeri, hiç renk olmayan griden tam renkliye kadar ne kadar renk olduğunu ifade eder.",
+                            "$~Ve son olarak, bir renk tekerleği gibi düşünebileceğiniz, kırmızıdan yeşile ve maviye dereceler halinde bir @Color.hue. Yani parlak kırmızı olmamı mı istiyorsunuz? Dinlenme poz rengimi \\Color(50% 300 30°)\\ olarak ayarlayın."
                         ],
                         ["edit", "Phrase('red' color: 🌈(50% 300 30°))"],
                         null,
@@ -3507,7 +3507,7 @@
                         [
                             "Sequence",
                             "curious",
-                            "$~Ama, diyorsunuz, ya bunu sonsuza kadar yapmak isteseydik? Bana bir @Phrase/resting ayarlayabilirsiniz. @Phrase sahnede ve dinleniyor olduğu sürece, bir diziyi tekrarlayacaklardır. Sonsuz yalpalamalar!"
+                            "$~Ama, diyorsunuz, ya bunu sonsuza kadar yapmak isteseydik? Bana bir @Phrase.resting ayarlayabilirsiniz. @Phrase sahnede ve dinleniyor olduğu sürece, bir diziyi tekrarlayacaklardır. Sonsuz yalpalamalar!"
                         ],
                         [
                             "edit",
@@ -3979,7 +3979,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Ve şimdi, aralarındaki geçişler hakkında ne düşünüyorsunuz? Bunu @Phrase/entering ve @Phrase/exiting ile kontrol edebiliriz, @Pose'u başlangıç ve bitiş olarak ayarlayabiliriz. Örneğin, burada her @Phrase'i görünmez olarak başlatıp sonlandırıyoruz, böylece açılıp kapanıyor."
+                            "$~Ve şimdi, aralarındaki geçişler hakkında ne düşünüyorsunuz? Bunu @Phrase.entering ve @Phrase.exiting ile kontrol edebiliriz, @Pose'u başlangıç ve bitiş olarak ayarlayabiliriz. Örneğin, burada her @Phrase'i görünmez olarak başlatıp sonlandırıyoruz, böylece açılıp kapanıyor."
                         ],
                         [
                             "edit",
@@ -4075,7 +4075,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~İşte basit bir örnek. Üç ifadeye sahip olduğunu görüyor musunuz? İlk ikisinin iki önemli ayrıntısı var. Birincisi, seçilebilir olarak ayarlanmışlar. Bu, @Stage'e tıklanırlarsa veya seçmek için klavye kullanılırsa seçildiklerini söyler. İkinci ayrıntı, bir @Phrase/name'e sahip olmalarıdır. Bu, @Stage'e seçilen ifade için benzersiz bir ad verir. @Stage'in neyin seçildiğini bilmesi için benzersiz olması önemlidir. Üçüncü ifade, seçilen bir dizi @Phrase veya @Group adı olan @Choice akışına ayarlanmıştır. Burada, başka bir ifadeye yalnızca hangi adın seçildiğini göstermesi için ad veriyoruz. Kediye veya köpeğe tıklamayı veya birini seçmek için klavyeyi kullanmayı deneyin. Üçüncü @Phrase'in adın seçildiğini nasıl gösterdiğini görüyor musunuz?"
+                            "$~İşte basit bir örnek. Üç ifadeye sahip olduğunu görüyor musunuz? İlk ikisinin iki önemli ayrıntısı var. Birincisi, seçilebilir olarak ayarlanmışlar. Bu, @Stage'e tıklanırlarsa veya seçmek için klavye kullanılırsa seçildiklerini söyler. İkinci ayrıntı, bir @Phrase.name'e sahip olmalarıdır. Bu, @Stage'e seçilen ifade için benzersiz bir ad verir. @Stage'in neyin seçildiğini bilmesi için benzersiz olması önemlidir. Üçüncü ifade, seçilen bir dizi @Phrase veya @Group adı olan @Choice akışına ayarlanmıştır. Burada, başka bir ifadeye yalnızca hangi adın seçildiğini göstermesi için ad veriyoruz. Kediye veya köpeğe tıklamayı veya birini seçmek için klavyeyi kullanmayı deneyin. Üçüncü @Phrase'in adın seçildiğini nasıl gösterdiğini görüyor musunuz?"
                         ],
                         [
                             "Choice",
@@ -4195,7 +4195,7 @@
                         [
                             "Bind",
                             "excited",
-                            "$~Doğru! Yani, değerler, onları yaptığımızda, bir top gibi, ifadeden ifadeye, @Program @Stage'e göstermek için verdiği son değeri yapana kadar, bir şekilde etrafımızdan dolaştırılırlar. Ancak bazen, bir değeri etrafta dolaştırmaktansa, onu bir kenara koymak ve daha sonra başka bir ifade için saklamak faydalı olur. @Phrase/name bunun içindir. Ben şeylere isim veririm ki onları daha sonra kullanabilelim."
+                            "$~Doğru! Yani, değerler, onları yaptığımızda, bir top gibi, ifadeden ifadeye, @Program @Stage'e göstermek için verdiği son değeri yapana kadar, bir şekilde etrafımızdan dolaştırılırlar. Ancak bazen, bir değeri etrafta dolaştırmaktansa, onu bir kenara koymak ve daha sonra başka bir ifade için saklamak faydalı olur. @Phrase.name bunun içindir. Ben şeylere isim veririm ki onları daha sonra kullanabilelim."
                         ],
                         null,
                         [
@@ -4230,7 +4230,7 @@
                         [
                             "Bind",
                             "serious",
-                            "$~Şimdi, ifadeyi oluşturalım. @List/has ifadesini metne koyalım ve metne dönüştürelim. Şimdi, sahnede \\⊤\\ veya \\⊥\\ olarak @Phrase elde ederiz. Güzel!"
+                            "$~Şimdi, ifadeyi oluşturalım. @List.has ifadesini metne koyalım ve metne dönüştürelim. Şimdi, sahnede \\⊤\\ veya \\⊥\\ olarak @Phrase elde ederiz. Güzel!"
                         ],
                         [
                             "edit",
@@ -4532,7 +4532,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Sanırım daha önce gördüklerinizle başlayalım. Her değerin üzerinde değerlendirebileceğiniz farklı işlevleri olduğunu biliyor musunuz? Sayıların @Number/add bildiği ve bir metin değerinin @Text/has miktar metin içerip içermediğini kontrol etmeyi bildiği veya @Set'in belirli bir değere sahip olup olmadığını kontrol etmeyi bildiği gibi? Eh, bu işlevleri tanımlayan benim. Yani, onları kendim yaratmak için ilhamım yok - sizin gibi yöneticilerin yaptığı şey bu - ancak bir işlevin kabul ettiği girdileri, sahip olduğu adları ve girdileri kullanarak bir çıktı değerini değerlendiren ifadeyi tanımlarım."
+                            "$~Sanırım daha önce gördüklerinizle başlayalım. Her değerin üzerinde değerlendirebileceğiniz farklı işlevleri olduğunu biliyor musunuz? Sayıların @Number.add bildiği ve bir metin değerinin @Text.has miktar metin içerip içermediğini kontrol etmeyi bildiği veya @Set'in belirli bir değere sahip olup olmadığını kontrol etmeyi bildiği gibi? Eh, bu işlevleri tanımlayan benim. Yani, onları kendim yaratmak için ilhamım yok - sizin gibi yöneticilerin yaptığı şey bu - ancak bir işlevin kabul ettiği girdileri, sahip olduğu adları ve girdileri kullanarak bir çıktı değerini değerlendiren ifadeyi tanımlarım."
                         ],
                         null,
                         [
@@ -4546,7 +4546,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~İşte daha kullanışlı bir örnek. Tek ve çift sayıları biliyor musunuz? Bir keresinde bir yönetmenim bir sayının çift olup olmadığını (sanırım 2'ye bölünebilir demek?) kontrol etmek istemişti, bu yüzden şunu yazmıştı. Bu, \\even\\ adlı, \\number\\ adlı tek bir sayı alan bir fonksiyondur. Her girdinin ne tür bir değer olduğunu bana söylemeniz gerekir, böylece @Evaluate fonksiyonu değerlendiren herhangi bir şeyin doğru türde değer gönderdiğinden emin olabilir. Sonra, sayıyı alır, ikiye böler, kalanı alır (@Number/remainder ile) ve sonra kalanın @Number/equal ile \\0\\'a eşit olup olmadığını kontrol eder. Böylece tüm fonksiyon ya \\⊤\\ ya da \\⊥\\ olarak değerlendirilir. Örneğin, çiftin bu değerlendirmesi \\⊥\\ olarak değerlendirildi çünkü \\3\\ tektir. Nasıl çalıştığını görmek için geri sarma düğmelerini kullanmayı deneyin."
+                            "$~İşte daha kullanışlı bir örnek. Tek ve çift sayıları biliyor musunuz? Bir keresinde bir yönetmenim bir sayının çift olup olmadığını (sanırım 2'ye bölünebilir demek?) kontrol etmek istemişti, bu yüzden şunu yazmıştı. Bu, \\even\\ adlı, \\number\\ adlı tek bir sayı alan bir fonksiyondur. Her girdinin ne tür bir değer olduğunu bana söylemeniz gerekir, böylece @Evaluate fonksiyonu değerlendiren herhangi bir şeyin doğru türde değer gönderdiğinden emin olabilir. Sonra, sayıyı alır, ikiye böler, kalanı alır (@Number.remainder ile) ve sonra kalanın @Number.equal ile \\0\\'a eşit olup olmadığını kontrol eder. Böylece tüm fonksiyon ya \\⊤\\ ya da \\⊥\\ olarak değerlendirilir. Örneğin, çiftin bu değerlendirmesi \\⊥\\ olarak değerlendirildi çünkü \\3\\ tektir. Nasıl çalıştığını görmek için geri sarma düğmelerini kullanmayı deneyin."
                         ],
                         [
                             "edit",
@@ -4583,7 +4583,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Gösterilecek bir şey daha var. Sanırım önemli çünkü herkes bu konuda çok heyecanlı! Bir fonksiyonu nasıl oluşturup değerlendirebileceğinizi biliyor musunuz? Benim oluşturduğum fonksiyonlar değerler olduğundan, bunları başka bir fonksiyona girdi olarak da verebilirsiniz. İşte bir örnek. Diyelim ki bir sayı listeniz var ve içinde sadece çift sayılar olsun istiyorsunuz. @List, girdi olarak bir fonksiyon alan ve listedeki her değer için fonksiyonu kullanarak onu tutup tutmamaya karar veren @List/filter adında bir fonksiyona sahiptir. Sayılardan oluşan bir liste yapalım ve @List/filter'a daha önce yaptığımız \\even\\ fonksiyonunu girdi olarak verelim. Ne oluyor bakalım? Sadece çift sayıları alıyoruz. Tek sayılar vermesi için değiştirmeyi denemek ister misiniz? Belki fonksiyonu bir şekilde değiştirmeyi deneyebilirsiniz?"
+                            "$~Gösterilecek bir şey daha var. Sanırım önemli çünkü herkes bu konuda çok heyecanlı! Bir fonksiyonu nasıl oluşturup değerlendirebileceğinizi biliyor musunuz? Benim oluşturduğum fonksiyonlar değerler olduğundan, bunları başka bir fonksiyona girdi olarak da verebilirsiniz. İşte bir örnek. Diyelim ki bir sayı listeniz var ve içinde sadece çift sayılar olsun istiyorsunuz. @List, girdi olarak bir fonksiyon alan ve listedeki her değer için fonksiyonu kullanarak onu tutup tutmamaya karar veren @List.filter adında bir fonksiyona sahiptir. Sayılardan oluşan bir liste yapalım ve @List.filter'a daha önce yaptığımız \\even\\ fonksiyonunu girdi olarak verelim. Ne oluyor bakalım? Sadece çift sayıları alıyoruz. Tek sayılar vermesi için değiştirmeyi denemek ister misiniz? Belki fonksiyonu bir şekilde değiştirmeyi deneyebilirsiniz?"
                         ],
                         [
                             "edit",
@@ -5525,7 +5525,7 @@
                         [
                             "Evaluate",
                             "excited",
-                            "$~Ah evet, tabii ki! Müziği onlara bıraksak nasıl olur? @Phrase, @Volume'u dinleyip onu kendi rengindeki @Color/lightness ve @Color/chroma'ya bağlayabilir misin? Bu şekilde, yönetmenimiz gürültü yaptığında biz de beyaz ateşe döneriz!"
+                            "$~Ah evet, tabii ki! Müziği onlara bıraksak nasıl olur? @Phrase, @Volume'u dinleyip onu kendi rengindeki @Color.lightness ve @Color.chroma'ya bağlayabilir misin? Bu şekilde, yönetmenimiz gürültü yaptığında biz de beyaz ateşe döneriz!"
                         ],
                         ["Phrase", "kind", "$~Harika fikir!"],
                         ["use", "edit", "EvaluateDance14"],

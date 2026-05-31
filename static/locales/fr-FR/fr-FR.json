@@ -890,13 +890,13 @@
                 "$~Bonjour à nouveau ! Je prends quelques entrées, puis j'évalue une expression en les utilisant, produisant une sortie.",
                 "$~Voici un exemple simple :",
                 "$~\\ƒ répéter(message•'') message × 5\nrépéter('salut')\\",
-                "$~Cette fonction prend une entrée, \\message\\, et utilise la fonction @Text/repeat pour répéter le message cinq fois.",
+                "$~Cette fonction prend une entrée, \\message\\, et utilise la fonction @Text.repeat pour répéter le message cinq fois.",
                 "$~Je suis vraiment utile si vous souhaitez évaluer quelque chose encore et encore, mais avec des entrées différentes!",
                 "$~J'ai plein d'autres petites astuces. Par exemple, je n'ai pas besoin d'avoir un nom. Ici, je vais directement à @Evaluate comme valeur.",
                 "$~\\(ƒ(message•'') message × 5)('salut')\\",
                 "$~Ou, voici une fonction qui prend n’importe quel nombre d’entrées, en utilisant le caractère \\…\\ après un nom d’entrée.",
                 "$~\\ƒ oui(messages…•'') messages.sans('non')\noui('oui' 'oui' 'non' 'oui' 'non')\\",
-                "$~Vous voyez comment il a pris tous les « non » et s'en est débarrassé ? C'est parce que messages est une @List, et nous pourrions donc utiliser @List/sansAll.",
+                "$~Vous voyez comment il a pris tous les « non » et s'en est débarrassé ? C'est parce que messages est une @List, et nous pourrions donc utiliser @List.sansAll.",
                 "$~Parfois, vous souhaiterez peut-être préciser le type de valeur que je produis. Pour ce faire, ajoutez un @Is après la liste des entrées:",
                 "$~\\ƒ ajouter(x•# y•#)•'' x + y\\",
                 "$~Vous remarquerez peut-être un problème avec celui-ci : il indique qu'il évalue à @Text, mais il faut deux @Number. Je peux vous dire quand les choses sont incohérentes !",
@@ -920,7 +920,7 @@
             "name": "$~fonctiond'ordresupérieur",
             "description": "$~itère sur les valeurs de liste en interne",
             "emotion": "kind",
-            "doc": "$~Je suis un type très spécial de @FunctionDefinition qui opère sur des listes d'éléments. Vous n'avez pas besoin de savoir quoi que ce soit sur moi, à part que je rends possibles des fonctions comme @List/translate.",
+            "doc": "$~Je suis un type très spécial de @FunctionDefinition qui opère sur des listes d'éléments. Vous n'avez pas besoin de savoir quoi que ce soit sur moi, à part que je rends possibles des fonctions comme @List.translate.",
             "start": "$~Évaluation de la fonction donnée",
             "initialize": "$~se prépare à parcourir les éléments",
             "next": "$~passer à l'élément suivant",
@@ -1860,7 +1860,7 @@
                 "$~\\[1 2 3] ↦ ⬚ + 1\\ donne \\[2 3 4]\\ . Et voilà ! Tous les nombres, plus un, sans boucles, sans @FunctionDefinition , sans tracas !",
                 "$~Je suis GÉNIAL pour générer @Phrase à partir de données ! Vous avez une liste de noms ? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ et voilà, une phrase pour CHAQUE nom !",
                 "$~Je travaille sur @List , @Set , @Map (je change les VALEURS de la map — les clés restent exactement où elles sont !), et même @Table !",
-                "$~Vous cherchez quelque chose de plus sophistiqué, comme l'index de chaque élément ou une fonction réutilisable à de nombreux endroits ? Allez faire un tour sur le site de mes cousins plus sérieux et professionnels, comme @List/translate . Mais pour une cartographie rapide au quotidien, je suis là !"
+                "$~Vous cherchez quelque chose de plus sophistiqué, comme l'index de chaque élément ou une fonction réutilisable à de nombreux endroits ? Allez faire un tour sur le site de mes cousins plus sérieux et professionnels, comme @List.translate . Mais pour une cartographie rapide au quotidien, je suis là !"
             ],
             "start": "$~Attendez, laissez-moi tout récupérer dans $expression !",
             "finish": "$~TADAM ! Voici votre toute nouvelle collection : $value",
@@ -3345,7 +3345,7 @@
             "doc": [
                 "$~/clic-tap !/",
                 "$~/@FunctionDefinition ici, je vais expliquer celui-ci./",
-                "$~Considérez @Choice comme un flux de @Phrase/name sélectionné par votre public. Si quelqu'un clique, appuie ou sélectionne au clavier en appuyant sur /Entrée/ sur une @Phrase avec un nom, @Choice aura une nouvelle valeur correspondant au nom.",
+                "$~Considérez @Choice comme un flux de @Phrase.name sélectionné par votre public. Si quelqu'un clique, appuie ou sélectionne au clavier en appuyant sur /Entrée/ sur une @Phrase avec un nom, @Choice aura une nouvelle valeur correspondant au nom.",
                 "$~La meilleure façon de l'utiliser est donc de créer une performance avec des phrases nommées sélectionnables @Phrase, puis d'utiliser une @Reaction pour décider quoi faire lorsque ce nom est choisi.",
                 "$~Voici l’exemple le plus simple :",
                 "$~\\Group(\nStack() \n[\nPhrase('un' sélectionnable:⊤ nom:'1') \nPhrase('deux' sélectionnable:⊤ nom:'2') \nPhrase(Choice())\n]\n)\\",
@@ -3470,7 +3470,7 @@
                 "$~À chaque fois, @Program réévalue avec la nouvelle valeur temporelle.",
                 "$~Par exemple:",
                 "$~\\Temps()\\",
-                "$~Si vous attribuez à l'heure une @Time/frequency, le temps de réponse sera calculé à cette fréquence. Par exemple:",
+                "$~Si vous attribuez à l'heure une @Time.frequency, le temps de réponse sera calculé à cette fréquence. Par exemple:",
                 "$~\\Heure(1000ms)\\",
                 "$~Cependant, il y a des limites à sa taille, car @Program a besoin de temps pour évaluer avant de pouvoir répondre au prochain tick.",
                 "$~Le plus petit est probablement d'environ \\20 ms\\."
@@ -3569,7 +3569,7 @@
                 "$~/Boop boop boop/",
                 "$~/Bonjour, @FunctionDefinition ici ! Je vois que vous avez trouvé @Scene.",
                 "$~Je pense que @Scene est particulièrement cool. L'idée de base est de lui donner une liste de @Phrase ou @Group, puis il les affichera dans l'ordre et s'arrêtera sur le dernier.",
-                "$~Pour contrôler le timing, vous pouvez soit définir la @Phrase/duration sur chaque sortie, et elle l'affichera pendant cette durée avant de passer à la suivante, et utiliser les transitions @Phrase/entering ou @Phrase/exiting que vous avez définies. Si vous les définissez sur une @Sequence, elle utilisera sa durée.",
+                "$~Pour contrôler le timing, vous pouvez soit définir la @Phrase.duration sur chaque sortie, et elle l'affichera pendant cette durée avant de passer à la suivante, et utiliser les transitions @Phrase.entering ou @Phrase.exiting que vous avez définies. Si vous les définissez sur une @Sequence, elle utilisera sa durée.",
                 "$~Tout cela vous permet de faire des choses comme cette petite @Scene, qui montre ces trois phrases en séquence:",
                 "$~\\Scene([\nPhrase('Bonjour' durée: 1s)\nPhrase('Comment allez-vous?' durée: 2s rotation: 5° entrée: Pose(rotation: 0°))\nPhrase('Je vais bien')\n])\\",
                 "$~Voyez comment la première sortie est affichée pendant une seconde, puis la suivante pendant deux secondes, mais animée avec une rotation de cinq degrés, puis elle affiche la dernière ?",
@@ -3849,11 +3849,11 @@
                 "names": "$~cadre"
             },
             "size": {
-                "doc": "$~J'AIME @Group/size",
+                "doc": "$~J'AIME @Group.size",
                 "names": "$~taille"
             },
             "face": {
-                "doc": "$~AIMEZ @Group/face",
+                "doc": "$~AIMEZ @Group.face",
                 "names": "$~affronter"
             },
             "place": {
@@ -3861,67 +3861,67 @@
                 "names": "$~lieu"
             },
             "name": {
-                "doc": ["$~MÊME QUE @Phrase/name!"],
+                "doc": ["$~MÊME QUE @Phrase.name!"],
                 "names": "$~nom"
             },
             "selectable": {
-                "doc": "$~MÊME QUE @Phrase/selectable !",
+                "doc": "$~MÊME QUE @Phrase.selectable !",
                 "names": "$~sélectionnable"
             },
             "color": {
-                "doc": "$~MÊME QUE @Group/color",
+                "doc": "$~MÊME QUE @Group.color",
                 "names": "$~couleur"
             },
             "background": {
-                "doc": "$~MÊME QUE @Group/background",
+                "doc": "$~MÊME QUE @Group.background",
                 "names": "$~arrièreplan"
             },
             "opacity": {
-                "doc": "$~MÊME QUE @Group/opacity",
+                "doc": "$~MÊME QUE @Group.opacity",
                 "names": "$~opacité"
             },
             "offset": {
-                "doc": "$~MÊME QUE @Group/offset",
+                "doc": "$~MÊME QUE @Group.offset",
                 "names": "$~compenser"
             },
             "rotation": {
-                "doc": "$~MÊME QUE @Group/rotation",
+                "doc": "$~MÊME QUE @Group.rotation",
                 "names": ["$~📐", "$~rotation"]
             },
             "scale": {
-                "doc": "$~MÊME QUE @Group/scale",
+                "doc": "$~MÊME QUE @Group.scale",
                 "names": "$~échelle"
             },
             "flipx": {
-                "doc": "$~MÊME QUE @Group/flipx",
+                "doc": "$~MÊME QUE @Group.flipx",
                 "names": "$~flipx"
             },
             "flipy": {
-                "doc": "$~MÊME QUE @Group/flipy",
+                "doc": "$~MÊME QUE @Group.flipy",
                 "names": "$~flippant"
             },
             "entering": {
-                "doc": "$~MÊME QUE @Group/entering",
+                "doc": "$~MÊME QUE @Group.entering",
                 "names": "$~entrer"
             },
             "resting": {
-                "doc": "$~MÊME QUE @Group/resting!",
+                "doc": "$~MÊME QUE @Group.resting!",
                 "names": "$~aurepos"
             },
             "moving": {
-                "doc": "$~MÊME QUE @Group/moving!",
+                "doc": "$~MÊME QUE @Group.moving!",
                 "names": "$~mobile"
             },
             "exiting": {
-                "doc": "$~MÊME QUE @Group/exiting!",
+                "doc": "$~MÊME QUE @Group.exiting!",
                 "names": "$~sortant"
             },
             "duration": {
-                "doc": "$~MÊME QUE @Phrase/duration!",
+                "doc": "$~MÊME QUE @Phrase.duration!",
                 "names": ["duración"]
             },
             "style": {
-                "doc": "$~MÊME QUE @Phrase/style!",
+                "doc": "$~MÊME QUE @Phrase.style!",
                 "names": "$~style"
             },
             "gravity": {
@@ -3971,11 +3971,11 @@
                 "names": "$~lieu"
             },
             "name": {
-                "doc": ["$~Le même que @Phrase/name!"],
+                "doc": ["$~Le même que @Phrase.name!"],
                 "names": "$~nom"
             },
             "selectable": {
-                "doc": "$~Le même que @Phrase/selectable!",
+                "doc": "$~Le même que @Phrase.selectable!",
                 "names": "$~sélectionnable"
             },
             "color": {
@@ -4003,35 +4003,35 @@
                 "names": "$~échelle"
             },
             "flipx": {
-                "doc": "$~Identique à @Phrase/flipx!",
+                "doc": "$~Identique à @Phrase.flipx!",
                 "names": "$~flipx"
             },
             "flipy": {
-                "doc": "$~Identique à @Phrase/flipy",
+                "doc": "$~Identique à @Phrase.flipy",
                 "names": "$~flippant"
             },
             "entering": {
-                "doc": "$~Identique à @Phrase/entering!",
+                "doc": "$~Identique à @Phrase.entering!",
                 "names": "$~entrer"
             },
             "resting": {
-                "doc": "$~Identique à @Phrase/resting!",
+                "doc": "$~Identique à @Phrase.resting!",
                 "names": "$~aurepos"
             },
             "moving": {
-                "doc": "$~Identique à @Phrase/moving!",
+                "doc": "$~Identique à @Phrase.moving!",
                 "names": "$~mobile"
             },
             "exiting": {
-                "doc": "$~Identique à @Phrase/exiting!",
+                "doc": "$~Identique à @Phrase.exiting!",
                 "names": "$~sortant"
             },
             "duration": {
-                "doc": "$~Identique à @Phrase/duration!",
+                "doc": "$~Identique à @Phrase.duration!",
                 "names": ["duración"]
             },
             "style": {
-                "doc": "$~Identique à @Phrase/style!",
+                "doc": "$~Identique à @Phrase.style!",
                 "names": "$~style"
             },
             "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
@@ -4073,11 +4073,11 @@
                 "names": ["$~↵", "$~envelopper"]
             },
             "alignment": {
-                "doc": "$~S'il existe une limite @Phrase/wrap définie, si je dois aligner les symboles sur le début, le centre ou la fin du bord.",
+                "doc": "$~S'il existe une limite @Phrase.wrap définie, si je dois aligner les symboles sur le début, le centre ou la fin du bord.",
                 "names": "$~alignement"
             },
             "direction": {
-                "doc": "$~Si les symboles sont écrits horizontalement ou verticalement, et si vertical et @Phrase/wrap sont définis, si le texte s'enroule à gauche ou à droite.",
+                "doc": "$~Si les symboles sont écrits horizontalement ou verticalement, et si vertical et @Phrase.wrap sont définis, si le texte s'enroule à gauche ou à droite.",
                 "names": "$~direction"
             },
             "matter": {

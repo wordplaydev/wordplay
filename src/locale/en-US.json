@@ -743,7 +743,7 @@
                 "\\[1 2 3] ↦ ⬚ + 1\\ gives you \\[2 3 4]\\. BOOM! Every number, plus one, no loops, no @FunctionDefinition, no fuss!",
                 "I am AMAZING for making @Phrase output from data! Got a list of names? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ and now there's a phrase for EVERY name!!",
                 "I work on @List, @Set, @Map (I change the map's VALUES — the keys stay right where they are!), and even @Table!",
-                "Want something fancier — like the index of each item, or a function you can reuse in lots of places? Go visit my calmer, grown-up cousins like @List/translate. But for quick everyday mapping, I'm here!!"
+                "Want something fancier — like the index of each item, or a function you can reuse in lots of places? Go visit my calmer, grown-up cousins like @List.translate. But for quick everyday mapping, I'm here!!"
             ],
             "start": "Hang on, lemme grab everything in $expression!",
             "finish": "TA-DA! Here's your brand new collection: $value",
@@ -926,13 +926,13 @@
                 "Hi again! I take some inputs, then evaluate an expression using them, producing an output.",
                 "Here's a simple example:",
                 "\\ƒ repeat(message•'') message × 5\nrepeat('hi')\\",
-                "That function takes one input, \\message\\, and uses the @Text/repeat function to repeat the message five times.",
+                "That function takes one input, \\message\\, and uses the @Text.repeat function to repeat the message five times.",
                 "I'm really helpful if you want to evaluate something over and over, but with different inputs!",
                 "I do have lots of other little tricks. For example, I don't have to have a name. Here, I'm just going directly to @Evaluate as a value.",
                 "\\(ƒ(message•'') message × 5)('hi')\\",
                 "Or, here's a function that takes any number of inputs, using the \\…\\ character after an input name.",
                 "\\ƒ yes(messages…•'') messages.sans('no')\nyes('yes' 'yes' 'no' 'yes' 'no')\\",
-                "See how it took all the 'no's and got rid of them? That's because messages is a @List, and so we could use @List/sansAll.",
+                "See how it took all the 'no's and got rid of them? That's because messages is a @List, and so we could use @List.sansAll.",
                 "Sometimes you might want to make it clear what kind of value I produce. To do that, add an @Is after the list of inputs:",
                 "\\ƒ add(x•# y•#)•'' x + y\\",
                 "You might notice a problem with this one: it says it evaluates to @Text, but it takes two @Number. I can tell you when things are inconsistent!",
@@ -951,7 +951,7 @@
             "name": "higher order function",
             "description": "iterate over list values internally",
             "emotion": "kind",
-            "doc": "I'm a very special kind of @FunctionDefinition that operates on lists of things. You don't need to know anything about me, other than I make functions like @List/translate possible. ",
+            "doc": "I'm a very special kind of @FunctionDefinition that operates on lists of things. You don't need to know anything about me, other than I make functions like @List.translate possible. ",
             "start": "Evaluating the function given",
             "initialize": "preparing to step through items",
             "next": "moving to the next item",
@@ -3350,7 +3350,7 @@
             "doc": [
                 "/clickety tap!/",
                 "/@FunctionDefinition here, I'll explain this one./",
-                "Think of @Choice like a stream of @Phrase/name that are selected by your audience. If someone clicks, taps, or keyboard selects by pressing /Enter/ on a @Phrase with a name -- @Choice will have a new value matching the name.",
+                "Think of @Choice like a stream of @Phrase.name that are selected by your audience. If someone clicks, taps, or keyboard selects by pressing /Enter/ on a @Phrase with a name -- @Choice will have a new value matching the name.",
                 "So the best way to use it is to create a performance with named selectable phrases @Phrase, and then use a @Reaction to decide what to do when that name is chosen.",
                 "Here's the simplest example:",
                 "\\Group(\nStack() \n[\nPhrase('one' selectable:⊤ name:'1') \nPhrase('two' selectable:⊤ name:'2') \nPhrase(Choice())\n]\n)\\",
@@ -3472,7 +3472,7 @@
                 "Each time it does, @Program reevaluates with the new time value.",
                 "For example:",
                 "\\Time()\\",
-                "If you provide time a @Time/frequency, it will tick at that rate. For example:",
+                "If you provide time a @Time.frequency, it will tick at that rate. For example:",
                 "\\Time(1000ms)\\",
                 "However, there are limits to how small it can be, since @Program needs time to evaluate before they can respond to the next tick.",
                 "The smallest is probably around \\20ms\\."
@@ -3598,7 +3598,7 @@
                 "/Boop boop boop/",
                 "/Hello, @FunctionDefinition here! I see you found @Scene.",
                 "I think @Scene is particularly cool. The basic idea is that you give it a list of @Phrase or @Group and then it will show them in sequence and stop on the last one.",
-                "To control timing, you can either set the @Phrase/duration on each output, and it will show it for that long before moving on to the next one, and use whatever @Phrase/entering or @Phrase/exiting transitions you might have set. If you set them to a @Sequence, it will use the its duration.",
+                "To control timing, you can either set the @Phrase.duration on each output, and it will show it for that long before moving on to the next one, and use whatever @Phrase.entering or @Phrase.exiting transitions you might have set. If you set them to a @Sequence, it will use the its duration.",
                 "All of that lets you do things like this little @Scene, which shows these three phrases in sequence:",
                 "\\Scene([\n\tPhrase('Hello' duration: 1s)\n\tPhrase('How are you?' duration: 2s rotation: 5° entering: Pose(rotation: 0°))\n\tPhrase('I am fine')\n])\\",
                 "See how the first output is shown for a second, then the next for two seconds, but animated to a five degree rotation, and then it shows the last one?",
@@ -3862,7 +3862,7 @@
                 "names": "place"
             },
             "name": {
-                "doc": ["The same as @Phrase/name!"],
+                "doc": ["The same as @Phrase.name!"],
                 "names": "name"
             },
             "description": {
@@ -3872,7 +3872,7 @@
                 "names": "description"
             },
             "selectable": {
-                "doc": "The same as @Phrase/selectable!",
+                "doc": "The same as @Phrase.selectable!",
                 "names": "selectable"
             },
             "color": {
@@ -3900,35 +3900,35 @@
                 "names": "scale"
             },
             "flipx": {
-                "doc": "Same as @Phrase/flipx!",
+                "doc": "Same as @Phrase.flipx!",
                 "names": "flipx"
             },
             "flipy": {
-                "doc": "Same as @Phrase/flipy",
+                "doc": "Same as @Phrase.flipy",
                 "names": "flipy"
             },
             "entering": {
-                "doc": "Same as @Phrase/entering!",
+                "doc": "Same as @Phrase.entering!",
                 "names": "entering"
             },
             "resting": {
-                "doc": "Same as @Phrase/resting!",
+                "doc": "Same as @Phrase.resting!",
                 "names": "resting"
             },
             "moving": {
-                "doc": "Same as @Phrase/moving!",
+                "doc": "Same as @Phrase.moving!",
                 "names": "moving"
             },
             "exiting": {
-                "doc": "Same as @Phrase/exiting!",
+                "doc": "Same as @Phrase.exiting!",
                 "names": "exiting"
             },
             "duration": {
-                "doc": "Same as @Phrase/duration!",
+                "doc": "Same as @Phrase.duration!",
                 "names": ["⏳", "duration"]
             },
             "style": {
-                "doc": "Same as @Phrase/style!",
+                "doc": "Same as @Phrase.style!",
                 "names": "style"
             },
             "defaultDescription": "$name[$name|] $layout $pose $color[$color|]"
@@ -3964,11 +3964,11 @@
                 "names": ["↵", "wrap"]
             },
             "alignment": {
-                "doc": "If there's a @Phrase/wrap boundary set, whether I should align symbols to the start, center, or end of edge.",
+                "doc": "If there's a @Phrase.wrap boundary set, whether I should align symbols to the start, center, or end of edge.",
                 "names": "alignment"
             },
             "direction": {
-                "doc": "Whether symbols are written horizontally or vertically, and if vertical and @Phrase/wrap is set, whether text wraps left or right.",
+                "doc": "Whether symbols are written horizontally or vertically, and if vertical and @Phrase.wrap is set, whether text wraps left or right.",
                 "names": "direction"
             },
             "matter": {
@@ -4611,11 +4611,11 @@
                 "names": "frame"
             },
             "size": {
-                "doc": "LIKE @Group/size",
+                "doc": "LIKE @Group.size",
                 "names": "size"
             },
             "face": {
-                "doc": "LIKE @Group/face",
+                "doc": "LIKE @Group.face",
                 "names": "face"
             },
             "place": {
@@ -4623,7 +4623,7 @@
                 "names": "place"
             },
             "name": {
-                "doc": ["SAME AS @Phrase/name!"],
+                "doc": ["SAME AS @Phrase.name!"],
                 "names": "name"
             },
             "description": {
@@ -4633,63 +4633,63 @@
                 "names": "description"
             },
             "selectable": {
-                "doc": "SAME AS @Phrase/selectable!",
+                "doc": "SAME AS @Phrase.selectable!",
                 "names": "selectable"
             },
             "color": {
-                "doc": "SAME AS @Group/color",
+                "doc": "SAME AS @Group.color",
                 "names": "color"
             },
             "background": {
-                "doc": "SAME AS @Group/background",
+                "doc": "SAME AS @Group.background",
                 "names": "background"
             },
             "opacity": {
-                "doc": "SAME AS @Group/opacity",
+                "doc": "SAME AS @Group.opacity",
                 "names": "opacity"
             },
             "offset": {
-                "doc": "SAME AS @Group/offset",
+                "doc": "SAME AS @Group.offset",
                 "names": "offset"
             },
             "rotation": {
-                "doc": "SAME AS @Group/rotation",
+                "doc": "SAME AS @Group.rotation",
                 "names": ["📐", "rotation"]
             },
             "scale": {
-                "doc": "SAME AS @Group/scale",
+                "doc": "SAME AS @Group.scale",
                 "names": "scale"
             },
             "flipx": {
-                "doc": "SAME AS @Group/flipx",
+                "doc": "SAME AS @Group.flipx",
                 "names": "flipx"
             },
             "flipy": {
-                "doc": "SAME AS @Group/flipy",
+                "doc": "SAME AS @Group.flipy",
                 "names": "flipy"
             },
             "entering": {
-                "doc": "SAME AS @Group/entering",
+                "doc": "SAME AS @Group.entering",
                 "names": "entering"
             },
             "resting": {
-                "doc": "SAME AS @Group/resting!",
+                "doc": "SAME AS @Group.resting!",
                 "names": "resting"
             },
             "moving": {
-                "doc": "SAME AS @Group/moving!",
+                "doc": "SAME AS @Group.moving!",
                 "names": "moving"
             },
             "exiting": {
-                "doc": "SAME AS @Group/exiting!",
+                "doc": "SAME AS @Group.exiting!",
                 "names": "exiting"
             },
             "duration": {
-                "doc": "SAME AS @Phrase/duration!",
+                "doc": "SAME AS @Phrase.duration!",
                 "names": ["⏳", "duration"]
             },
             "style": {
-                "doc": "SAME AS @Phrase/style!",
+                "doc": "SAME AS @Phrase.style!",
                 "names": "style"
             },
             "gravity": {

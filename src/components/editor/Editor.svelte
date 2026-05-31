@@ -987,6 +987,7 @@
             $caret,
             isFieldPosition(anchor) ? anchor : undefined,
             $locales,
+            concepts,
         );
 
         // If in blocks mode, filter edits that would create conflicts.

@@ -862,13 +862,13 @@
                 "¡Hola de nuevo! Tomo algunos inputs, luego evalúo una expresión usando esos inputs, y produzco un output.",
                 "Aquí tienes un ejemplo simple:",
                 "\\ƒ repetir(mensaje•'') mensaje × 5\nrepetir('hola')\\",
-                "Esa función toma un input, \\message\\, y usa la función @Text/repeat para repetir el mensaje cinco veces.",
+                "Esa función toma un input, \\message\\, y usa la función @Text.repeat para repetir el mensaje cinco veces.",
                 "¡Soy realmente útil si quieres evaluar algo una y otra vez, pero con diferentes inputs!",
                 "Tengo muchos otros trucos. Por ejemplo, no necesito tener un nombre. Aquí, voy directamente a @Evaluate como un valor.",
                 "\\(ƒ(mensaje•'') mensaje × 5)('hola')\\",
                 "O, aquí hay una función que toma cualquier cantidad de inputs, usando el carácter \\…\\ después del nombre del input.",
                 "\\ƒ si(mensajes…•'') mensajes.sans('no')\nsi('sí' 'sí' 'no' 'sí' 'no')\\",
-                "¿Ves cómo tomó todos los 'no' y se deshizo de ellos? Eso es porque messages es un @List, y así pudimos usar @List/sansAll.",
+                "¿Ves cómo tomó todos los 'no' y se deshizo de ellos? Eso es porque messages es un @List, y así pudimos usar @List.sansAll.",
                 "A veces es posible que desees dejar claro qué tipo de valor produzco. Para hacer eso, agrega un @Is después de la lista de inputs:",
                 "\\ƒ a(x•# y•#)•'' x + y\\",
                 "Puede que notes un problema con este: dice que se evalúa como @Text, pero toma dos @Number. ¡Puedo decirte cuando las cosas son inconsistentes!",
@@ -892,7 +892,7 @@
             "name": "función de orden superior",
             "description": "$~itera internamente sobre valores de lista",
             "emotion": "kind",
-            "doc": "Soy un tipo muy especial de @FunctionDefinition que opera en listas de cosas. No necesitas saber nada sobre mí, excepto que hago funciones como @List/translate posibles.",
+            "doc": "Soy un tipo muy especial de @FunctionDefinition que opera en listas de cosas. No necesitas saber nada sobre mí, excepto que hago funciones como @List.translate posibles.",
             "start": "evaluando la función dada",
             "initialize": "preparándome para recorrer los elementos",
             "next": "pasando al siguiente elemento",
@@ -1860,7 +1860,7 @@
                 "$~\\[1 2 3] ↦ ⬚ + 1\\ te da \\[2 3 4]\\ . ¡BOOM! ¡Cada número, más uno, sin bucles, sin @FunctionDefinition , sin complicaciones!",
                 "$~¡Soy INCREÍBLE para generar @Phrase a partir de datos! ¿Tienes una lista de nombres? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ y ahora hay una frase para CADA nombre!",
                 "$~Trabajo con @List , @Set , @Map (¡cambio los VALORES del mapa; las claves se quedan donde están!) e incluso @Table .",
-                "$~¿Quieres algo más sofisticado, como el índice de cada elemento o una función que puedas reutilizar en muchos sitios? Visita a mis primos más tranquilos y maduros como @List/translate . Pero para mapas rápidos del día a día, ¡aquí estoy!"
+                "$~¿Quieres algo más sofisticado, como el índice de cada elemento o una función que puedas reutilizar en muchos sitios? Visita a mis primos más tranquilos y maduros como @List.translate . Pero para mapas rápidos del día a día, ¡aquí estoy!"
             ],
             "start": "$~¡Espera, déjame tomar todo en $expression !",
             "finish": "$~¡TA-DA! Aquí tienes tu nueva colección: $value",
@@ -3326,7 +3326,7 @@
             "doc": [
                 "/click y tap!/",
                 "/@FunctionDefinition aqui, yo te la explicare./",
-                "Piensa en @Choice como un río de @Phrase/name que es seleccionada por su audiencia. Si alguien hace click, tap o selecciona con su teclado, presionando /Enter/ en una @Phrase con un nombre -- @Choice tendrá un nuevo valor, emparejada con su nombre.",
+                "Piensa en @Choice como un río de @Phrase.name que es seleccionada por su audiencia. Si alguien hace click, tap o selecciona con su teclado, presionando /Enter/ en una @Phrase con un nombre -- @Choice tendrá un nuevo valor, emparejada con su nombre.",
                 "La mejor manera de usarlos es creando una actuación con frases de selección nombradas @Phrase, después usa @Reaction para decidir qué hacer con el nombre elegido",
                 "Este es un ejemplo simple.",
                 "\\Group(\nStack() \n[\nPhrase('uno' seleccion:T nombre: '1'1) \nPhrase('dos' seleccion:T nombre: '2') \nPhrase(Choice())\n]\n)\\",
@@ -3448,7 +3448,7 @@
                 "Cada vez que avanza, @Program reevalúa con el nuevo valor del tiempo.",
                 "Por ejemplo:",
                 "\\Tiempo()\\",
-                "Si proporcionas un @Time/frequency, avanzará a ese ritmo. Por ejemplo:",
+                "Si proporcionas un @Time.frequency, avanzará a ese ritmo. Por ejemplo:",
                 "\\Tiempo(1000ms)\\",
                 "Sin embargo, la frecuencia tiene límites en lo pequeño que puede ser porque @Program necesita tiempo para evaluar antes de que pueda avanzar.",
                 "Lo más pequeño que puede ser es alrededor de \\20ms\\."
@@ -3519,7 +3519,7 @@
                 "$~/boop boop boop/",
                 "$~/¡Hola, @FunctionDefinition aquí! Veo que encontraste @Scene.",
                 "$~Creo que @Scene es particularmente interesante. La idea básica es que le proporciones una lista de @Phrase o @Group y luego los mostrará en secuencia y se detendrá en el último.",
-                "$~Para controlar el tiempo, puede configurar @Phrase/duration en cada salida, y la mostrará durante ese tiempo antes de pasar a la siguiente, y usar cualquier transición @Phrase/entering o @Phrase/exiting que haya configurado. . Si los configura en @Sequence, usará su duración.",
+                "$~Para controlar el tiempo, puede configurar @Phrase.duration en cada salida, y la mostrará durante ese tiempo antes de pasar a la siguiente, y usar cualquier transición @Phrase.entering o @Phrase.exiting que haya configurado. . Si los configura en @Sequence, usará su duración.",
                 "$~Todo eso te permite hacer cosas como esta pequeña @Scene, que muestra estas tres frases en secuencia:",
                 "$~\\Escena([\n\tFrase (duración de 'Hola': 1 s)\n\tFrase('¿Cómo estás?' duración: 2s rotación: 5° entrando: Pose(rotación: 0°))\n\tFrase('Estoy bien')\n])\\",
                 "$~¿Ves cómo la primera salida se muestra durante un segundo, luego la siguiente durante dos segundos, pero animada con una rotación de cinco grados, y luego muestra la última?",
@@ -3838,7 +3838,7 @@
                 "names": "lugar"
             },
             "name": {
-                "doc": ["Lo mismo que @Phrase/name"],
+                "doc": ["Lo mismo que @Phrase.name"],
                 "names": "nombre"
             },
             "description": {
@@ -3848,7 +3848,7 @@
                 "names": "$~descripción"
             },
             "selectable": {
-                "doc": "Lo mismo que @Phrase/selectable",
+                "doc": "Lo mismo que @Phrase.selectable",
                 "names": "seleccionable"
             },
             "color": {
@@ -3876,35 +3876,35 @@
                 "names": "escala"
             },
             "flipx": {
-                "doc": "¡Igual que @Phrase/flipx!",
+                "doc": "¡Igual que @Phrase.flipx!",
                 "names": "voltearx"
             },
             "flipy": {
-                "doc": "¡Igual que @Phrase/flipy!",
+                "doc": "¡Igual que @Phrase.flipy!",
                 "names": "volteary"
             },
             "entering": {
-                "doc": "¡Igual que @Group/entering!",
+                "doc": "¡Igual que @Group.entering!",
                 "names": "entrando"
             },
             "resting": {
-                "doc": "¡Igual que @Group/resting!",
+                "doc": "¡Igual que @Group.resting!",
                 "names": "inmóvil"
             },
             "moving": {
-                "doc": "¡Igual que @Group/moving!",
+                "doc": "¡Igual que @Group.moving!",
                 "names": "moviendo"
             },
             "exiting": {
-                "doc": "¡Igual que @Group/exiting!",
+                "doc": "¡Igual que @Group.exiting!",
                 "names": "saliendo"
             },
             "duration": {
-                "doc": "¡Igual que @Phrase/duration!",
+                "doc": "¡Igual que @Phrase.duration!",
                 "names": "duración"
             },
             "style": {
-                "doc": "¡Igual queE @Phrase/style!",
+                "doc": "¡Igual queE @Phrase.style!",
                 "names": "estilo"
             },
             "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
@@ -3941,11 +3941,11 @@
                 "names": ["↵", "envolver"]
             },
             "alignment": {
-                "doc": "Si hay una límite de @Phrase/wrap límite establecido, si debo de alinear los simbolos al principo, en medio, or al final.",
+                "doc": "Si hay una límite de @Phrase.wrap límite establecido, si debo de alinear los simbolos al principo, en medio, or al final.",
                 "names": "alineación"
             },
             "direction": {
-                "doc": "Si los símbolos se escriben horizontal o verticalmente, y si se establece vertical y @Phrase/wrap, si el texto se ajusta hacia la izquierda o hacia la derecha.",
+                "doc": "Si los símbolos se escriben horizontal o verticalmente, y si se establece vertical y @Phrase.wrap, si el texto se ajusta hacia la izquierda o hacia la derecha.",
                 "names": "dirección"
             },
             "matter": {
@@ -4524,11 +4524,11 @@
                 "names": "marco"
             },
             "size": {
-                "doc": "COMO @Group/size",
+                "doc": "COMO @Group.size",
                 "names": "tamaño"
             },
             "face": {
-                "doc": "COMO @Group/face",
+                "doc": "COMO @Group.face",
                 "names": "cara"
             },
             "place": {
@@ -4536,7 +4536,7 @@
                 "names": "lugar"
             },
             "name": {
-                "doc": ["IGUAL QUE @Phrase/name!"],
+                "doc": ["IGUAL QUE @Phrase.name!"],
                 "names": "nombre"
             },
             "description": {
@@ -4546,63 +4546,63 @@
                 "names": "$~descripción"
             },
             "selectable": {
-                "doc": "IGUAL QUE @Phrase/selectable!",
+                "doc": "IGUAL QUE @Phrase.selectable!",
                 "names": "seleccionable"
             },
             "color": {
-                "doc": "IGUAL QUE @Group/color",
+                "doc": "IGUAL QUE @Group.color",
                 "names": "color"
             },
             "background": {
-                "doc": "IGUAL QUE @Group/background",
+                "doc": "IGUAL QUE @Group.background",
                 "names": "fondo"
             },
             "opacity": {
-                "doc": "IGUAL QUE @Group/opacity",
+                "doc": "IGUAL QUE @Group.opacity",
                 "names": "opacidad"
             },
             "offset": {
-                "doc": "IGUAL QUE @Group/offset",
+                "doc": "IGUAL QUE @Group.offset",
                 "names": "desplazamiento"
             },
             "rotation": {
-                "doc": "IGUAL QUE @Group/rotation",
+                "doc": "IGUAL QUE @Group.rotation",
                 "names": ["📐", "rotación"]
             },
             "scale": {
-                "doc": "IGUAL QUE @Group/scale",
+                "doc": "IGUAL QUE @Group.scale",
                 "names": "escala"
             },
             "flipx": {
-                "doc": "IGUAL QUE @Group/flipx",
+                "doc": "IGUAL QUE @Group.flipx",
                 "names": "voltearx"
             },
             "flipy": {
-                "doc": "IGUAL QUE @Group/flipy",
+                "doc": "IGUAL QUE @Group.flipy",
                 "names": "volteary"
             },
             "entering": {
-                "doc": "IGUAL QUE @Group/entering",
+                "doc": "IGUAL QUE @Group.entering",
                 "names": "entrando"
             },
             "resting": {
-                "doc": "IGUAL QUE @Group/resting!",
+                "doc": "IGUAL QUE @Group.resting!",
                 "names": "inmóvil"
             },
             "moving": {
-                "doc": "IGUAL QUE @Group/moving!",
+                "doc": "IGUAL QUE @Group.moving!",
                 "names": "movimiento"
             },
             "exiting": {
-                "doc": "IGUAL QUE @Group/exiting!",
+                "doc": "IGUAL QUE @Group.exiting!",
                 "names": "saliendo"
             },
             "duration": {
-                "doc": "IGUAL QUE @Phrase/duration!",
+                "doc": "IGUAL QUE @Phrase.duration!",
                 "names": ["⏳", "duracion"]
             },
             "style": {
-                "doc": "IGUAL QUE @Phrase/style!",
+                "doc": "IGUAL QUE @Phrase.style!",
                 "names": "estilo"
             },
             "gravity": {

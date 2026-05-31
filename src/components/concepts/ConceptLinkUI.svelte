@@ -51,6 +51,10 @@
         | HowToName
         // A custom character name
         | CharacterName
+        // A concept name (with optional subconcept property) that we couldn't
+        // resolve to a Concept — e.g. on pages without a concept index, like
+        // /updates. We render a guide link for it, preserving the property.
+        | ConceptName
         // A concept name that we couldn't resolve to a Concept. We'll make a link for it.
         | string
         | undefined;
@@ -125,7 +129,11 @@
                             concept,
                         };
                 }
-            } else if (id instanceof ConceptName) return id.name;
+            } else if (id instanceof ConceptName)
+                // No index at all (e.g. /updates): render a guide link, keeping
+                // the subconcept property so `@Color.random` links to the
+                // member rather than degrading to `@Color`.
+                return id;
 
             return undefined;
         }
@@ -198,6 +206,18 @@
         {match.codepoint}
     {:else if match instanceof CharacterName}
         <CharacterView name={match} />
+    {:else if match instanceof ConceptName}
+        <!-- No index available to resolve the concept (e.g. /updates). Link to
+             the guide, displaying a subconcept as `Owner.member` and encoding
+             it as `Owner/member` so the guide's concept param resolves it. -->
+        <Link
+            to={`/guide?concept=${encodeURIComponent(
+                match.property ? `${match.name}/${match.property}` : match.name,
+            )}`}
+            >{match.property
+                ? `${match.name}.${match.property}`
+                : match.name}</Link
+        >
     {:else if typeof match === 'string'}
         <Link to={`/guide?concept=${encodeURIComponent(match)}`}>{match}</Link>
     {/if}

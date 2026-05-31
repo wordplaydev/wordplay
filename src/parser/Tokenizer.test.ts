@@ -85,6 +85,13 @@ test.each([
     ['1 + *2* 3', '1|+|3|'],
     /** Ensure all variants on concepts are tokenized correctly */
     ['`@Boolean`', '`|@Boolean|`|'],
+    // A concept and its member/subconcept use `.` (mirrors property access).
+    ['`@Color.random`', '`|@Color.random|`|'],
+    ['`@Phrase.size`', '`|@Phrase.size|`|'],
+    // A trailing sentence period is not part of the link.
+    ['`see @Color.`', '`|see |@Color|.|`|'],
+    ['`@Color. next`', '`|@Color|. next|`|'],
+    // UI, how-to, and character references keep `/`.
     ['`@UI/button`', '`|@UI/button|`|'],
     ['`@Stage/color`', '`|@Stage/color|`|'],
     ['`@11`', '`|@11|`|'],

@@ -890,13 +890,13 @@
                 "$~こんにちは！いくつかの入力を受け取り、それらを使用して式を評価し、出力を生成します。",
                 "$~簡単な例を次に示します。",
                 "$~\\ƒ repeat(message•'') メッセージ × 5\nrepeat('hi')\\",
-                "$~この関数は 1 つの入力 \\message\\ を受け取り、@Text/repeat 関数を使用してメッセージを 5 回繰り返します。",
+                "$~この関数は 1 つの入力 \\message\\ を受け取り、@Text.repeat 関数を使用してメッセージを 5 回繰り返します。",
                 "$~何かを何度も評価したいが、入力を変えたい場合には、本当に役立ちます。",
                 "$~他にもたくさんの小さなトリックがあります。たとえば、名前は必要ありません。ここでは、値として直接 @Evaluate に渡します。",
                 "$~\\(ƒ(メッセージ•'') メッセージ × 5)('こんにちは')\\",
                 "$~または、入力名の後に \\…\\ 文字を使用して、任意の数の入力を受け取る関数を次に示します。",
                 "$~\\ƒ yes(messages…•'')messages.sans('no')\nyes('yes' 'yes' 'no' 'yes' 'no')\\",
-                "$~すべての「no」が削除されているのがわかりますか? これは、messages が @List であるため、@List/sansAll を使用できるからです。",
+                "$~すべての「no」が削除されているのがわかりますか? これは、messages が @List であるため、@List.sansAll を使用できるからです。",
                 "$~どのような値を生成するのかを明確にしたい場合があります。そのためには、入力リストの後に @Is を追加します。",
                 "$~\\ƒ 加算(x•# y•#)•'' x + y\\",
                 "$~これに問題があることに気付くかもしれません。@Text に評価されると書かれていますが、2 つの @Number が必要です。矛盾がある場合は、すぐにわかります。",
@@ -920,7 +920,7 @@
             "name": "$~高階関数",
             "description": "$~リスト値を内部的に反復する",
             "emotion": "kind",
-            "doc": "$~私は、リストを操作する非常に特殊な種類の @FunctionDefinition です。@List/translate のような関数を可能にするということ以外、私について何も知る必要はありません。",
+            "doc": "$~私は、リストを操作する非常に特殊な種類の @FunctionDefinition です。@List.translate のような関数を可能にするということ以外、私について何も知る必要はありません。",
             "start": "$~与えられた関数を評価する",
             "initialize": "$~項目をステップ実行するための準備",
             "next": "$~次の項目へ移動",
@@ -1860,7 +1860,7 @@
                 "$~\\[1 2 3] ↦ ⬚ + 1\\は\\[2 3 4]\\になります。ドーン！すべての数字に 1 を足したもので、ループも@FunctionDefinition、面倒なことは一切ありません！",
                 "$~私はデータから@Phrase！名前のリストがありますか？ \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\これで、すべての名前に対応するフレーズが作成されます!!",
                 "$~私は@List 、 @Set 、 @Map (マップの VALUES を変更します。キーはそのままです)、そして@List。",
-                "$~もっと凝った機能、例えば各項目のインデックスや、様々な場所で再利用できる関数が欲しいですか？それなら、 @List/translate、より落ち着いた大人向けのライブラリをご覧ください。でも、手軽な日常的な地図作成なら、私がいますよ！"
+                "$~もっと凝った機能、例えば各項目のインデックスや、様々な場所で再利用できる関数が欲しいですか？それなら、 @List.translate、より落ち着いた大人向けのライブラリをご覧ください。でも、手軽な日常的な地図作成なら、私がいますよ！"
             ],
             "start": "$~ちょっと待って、 $expression！",
             "finish": "$~じゃーん！これがあなたの新しいコレクションです： $value",
@@ -3345,7 +3345,7 @@
             "doc": [
                 "$~/カチカチタップ！/",
                 "$~/@FunctionDefinition はここにあります。これについて説明します。/",
-                "$~@Choice は、視聴者が選択した @Phrase/name のストリームのようなものだと考えてください。名前付きの @Phrase をクリック、タップ、またはキーボードで Enter キーを押して選択すると、@Choice には名前に一致する新しい値が含まれます。",
+                "$~@Choice は、視聴者が選択した @Phrase.name のストリームのようなものだと考えてください。名前付きの @Phrase をクリック、タップ、またはキーボードで Enter キーを押して選択すると、@Choice には名前に一致する新しい値が含まれます。",
                 "$~したがって、これを使用する最良の方法は、名前付きの選択可能なフレーズ @Phrase を使用してパフォーマンスを作成し、@Reaction を使用してその名前が選択されたときに何を実行するかを決定することです。",
                 "$~最も簡単な例を以下に示します。",
                 "$~\\Group(\nStack() \n[\nPhrase('one' 選択可能:⊤ 名前:'1')\nPhrase('two' 選択可能:⊤ 名前:'2')\nPhrase(Choice())\n]\n)\\",
@@ -3467,7 +3467,7 @@
                 "$~そのたびに、@Program は新しい時間値で再評価します。",
                 "$~例えば：",
                 "$~\\時間（）\\",
-                "$~@Time/frequency で時間を指定すると、そのレートで刻まれます。例:",
+                "$~@Time.frequency で時間を指定すると、そのレートで刻まれます。例:",
                 "$~\\時間(1000ms)\\",
                 "$~ただし、@Program は次のティックに応答する前に評価する時間が必要なので、小さくできる範囲には制限があります。",
                 "$~最小値はおそらく \\20ms\\ 程度です。"
@@ -3538,7 +3538,7 @@
                 "$~/ブーブーブー/",
                 "$~/こんにちは、@FunctionDefinition です! @Scene を見つけたようです。",
                 "$~@Scene は特に素晴らしいと思います。基本的な考え方は、@Phrase または @Group のリストを与えると、それらを順番に表示して最後のもので停止するというものです。",
-                "$~タイミングを制御するには、各出力に @Phrase/duration を設定し、次の出力に移る前にその長さだけ表示し、設定した @Phrase/entering または @Phrase/exiting 遷移を使用します。@Sequence に設定すると、その期間が使用されます。",
+                "$~タイミングを制御するには、各出力に @Phrase.duration を設定し、次の出力に移る前にその長さだけ表示し、設定した @Phrase.entering または @Phrase.exiting 遷移を使用します。@Sequence に設定すると、その期間が使用されます。",
                 "$~これらすべてにより、次の 3 つのフレーズを順番に表示する小さな @Scene のようなものが実現できます。",
                 "$~\\Scene([\nPhrase('こんにちは' 持続時間: 1 秒)\nPhrase('お元気ですか?' 持続時間: 2 秒 回転: 5° 入力: Pose(回転: 0°))\nPhrase('元気です')\n])\\",
                 "$~最初の出力が 1 秒間表示され、次の出力が 2 秒間表示され、5 度回転するアニメーションが表示され、最後の出力が表示されることがわかります。",
@@ -3856,7 +3856,7 @@
                 "names": "$~場所"
             },
             "name": {
-                "doc": ["$~@Phrase/name!"],
+                "doc": ["$~@Phrase.name!"],
                 "names": "$~名前"
             },
             "description": {
@@ -3866,7 +3866,7 @@
                 "names": "$~説明"
             },
             "selectable": {
-                "doc": "$~@Phrase/selectable! と同じです。",
+                "doc": "$~@Phrase.selectable! と同じです。",
                 "names": "$~選択可能"
             },
             "color": {
@@ -3894,35 +3894,35 @@
                 "names": "$~規模"
             },
             "flipx": {
-                "doc": "$~@Phrase/flipx!",
+                "doc": "$~@Phrase.flipx!",
                 "names": "$~フリップス"
             },
             "flipy": {
-                "doc": "$~@Phrase/flipy",
+                "doc": "$~@Phrase.flipy",
                 "names": "$~ひらひら"
             },
             "entering": {
-                "doc": "$~@Phrase/entering と同じです。",
+                "doc": "$~@Phrase.entering と同じです。",
                 "names": "$~入る"
             },
             "resting": {
-                "doc": "$~@Phrase/resting と同じです!",
+                "doc": "$~@Phrase.resting と同じです!",
                 "names": "$~休憩中"
             },
             "moving": {
-                "doc": "$~@Phrase/moving! と同じです。",
+                "doc": "$~@Phrase.moving! と同じです。",
                 "names": "$~動く"
             },
             "exiting": {
-                "doc": "$~@Phrase/exiting! と同じです。",
+                "doc": "$~@Phrase.exiting! と同じです。",
                 "names": "$~終了する"
             },
             "duration": {
-                "doc": "$~@Phrase/duration と同じです。",
+                "doc": "$~@Phrase.duration と同じです。",
                 "names": ["$~⏳", "$~間隔"]
             },
             "style": {
-                "doc": "$~@Phrase/style と同じです!",
+                "doc": "$~@Phrase.style と同じです!",
                 "names": "$~スタイル"
             },
             "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
@@ -3958,11 +3958,11 @@
                 "names": ["$~↵", "$~包む"]
             },
             "alignment": {
-                "doc": "$~@Phrase/wrap 境界が設定されている場合、シンボルをエッジの先頭、中央、または末尾のいずれに揃えるかを指定します。",
+                "doc": "$~@Phrase.wrap 境界が設定されている場合、シンボルをエッジの先頭、中央、または末尾のいずれに揃えるかを指定します。",
                 "names": "$~配置"
             },
             "direction": {
-                "doc": "$~シンボルを水平に記述するか垂直に記述するか、垂直で @Phrase/wrap が設定されている場合は、テキストを左に折り返すか右に折り返すかを指定します。",
+                "doc": "$~シンボルを水平に記述するか垂直に記述するか、垂直で @Phrase.wrap が設定されている場合は、テキストを左に折り返すか右に折り返すかを指定します。",
                 "names": "$~方向"
             },
             "matter": {
@@ -4542,11 +4542,11 @@
                 "names": "$~フレーム"
             },
             "size": {
-                "doc": "$~@Group/size",
+                "doc": "$~@Group.size",
                 "names": "$~サイズ"
             },
             "face": {
-                "doc": "$~@Group/face",
+                "doc": "$~@Group.face",
                 "names": "$~顔"
             },
             "place": {
@@ -4554,7 +4554,7 @@
                 "names": "$~場所"
             },
             "name": {
-                "doc": ["$~@Phrase/name と同じです!"],
+                "doc": ["$~@Phrase.name と同じです!"],
                 "names": "$~名前"
             },
             "description": {
@@ -4564,63 +4564,63 @@
                 "names": "$~説明"
             },
             "selectable": {
-                "doc": "$~@Phrase/selectable と同じ/選択可能!",
+                "doc": "$~@Phrase.selectable と同じ/選択可能!",
                 "names": "$~選択可能"
             },
             "color": {
-                "doc": "$~@Group/color",
+                "doc": "$~@Group.color",
                 "names": "$~色"
             },
             "background": {
-                "doc": "$~@Group/background",
+                "doc": "$~@Group.background",
                 "names": "$~背景"
             },
             "opacity": {
-                "doc": "$~@Group/opacity と同じ",
+                "doc": "$~@Group.opacity と同じ",
                 "names": "$~不透明度"
             },
             "offset": {
-                "doc": "$~@Group/offset",
+                "doc": "$~@Group.offset",
                 "names": "$~オフセット"
             },
             "rotation": {
-                "doc": "$~@Group/rotation",
+                "doc": "$~@Group.rotation",
                 "names": ["$~📐", "$~回転"]
             },
             "scale": {
-                "doc": "$~@Group/scale",
+                "doc": "$~@Group.scale",
                 "names": "$~規模"
             },
             "flipx": {
-                "doc": "$~@Group/flipx",
+                "doc": "$~@Group.flipx",
                 "names": "$~フリップス"
             },
             "flipy": {
-                "doc": "$~@Group/flipy",
+                "doc": "$~@Group.flipy",
                 "names": "$~ひらひら"
             },
             "entering": {
-                "doc": "$~@Group/entering",
+                "doc": "$~@Group.entering",
                 "names": "$~入る"
             },
             "resting": {
-                "doc": "$~@Group/resting!",
+                "doc": "$~@Group.resting!",
                 "names": "$~休憩中"
             },
             "moving": {
-                "doc": "$~@Group/moving!",
+                "doc": "$~@Group.moving!",
                 "names": "$~動く"
             },
             "exiting": {
-                "doc": "$~@Group/exiting と同じです!",
+                "doc": "$~@Group.exiting と同じです!",
                 "names": "$~終了する"
             },
             "duration": {
-                "doc": "$~@Phrase/duration と同じです。",
+                "doc": "$~@Phrase.duration と同じです。",
                 "names": ["$~⏳", "$~間隔"]
             },
             "style": {
-                "doc": "$~@Phrase/style と同じです!",
+                "doc": "$~@Phrase.style と同じです!",
                 "names": "$~スタイル"
             },
             "gravity": {

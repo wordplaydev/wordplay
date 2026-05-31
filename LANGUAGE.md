@@ -104,7 +104,10 @@ Wordplay has a secondary notation for markup, delimited by backticks, as in ¶ `
 > extrabold → `^`  
 > link → `@`  
 > mention → `$`  
-> concept → `/@(?!(https?)?://)[a-zA-Z/]*`  
+> concept → `@(?!(https?)?://)[a-zA-Z0-9]+([.][a-zA-Z0-9]+|/[a-zA-Z0-9]+)?`
+
+A concept link references a documented concept (e.g. `@Phrase`). A concept and one of its members (a property, function, or other subconcept) are separated by `.`, mirroring property access (e.g. `@Color.random`, `@Phrase.size`). A `/` separator instead references something that is not a concept: a UI element (`@UI/toolbar`), a how-to (`@How/...`), or a creator-defined character (`@username/charactername`). The separator must be followed by a name, so a sentence-ending period after a link (e.g. `see @Color.`) is left as punctuation.
+
 > words → _any sequence of characters between `markup` that aren't markup delimeters above_
 
 Compound data structures have several delimiters:

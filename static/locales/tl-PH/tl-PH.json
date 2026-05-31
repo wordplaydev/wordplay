@@ -898,13 +898,13 @@
                 "$~Kumusta ulit! Kumukuha ako ng ilang input, pagkatapos ay sinusuri ko ang isang expression gamit ang mga ito, at lumilikha ng output.",
                 "$~Narito ang isang simpleng halimbawa:",
                 "$~\\ƒ ulitin(mensahe•'') mensahe × 5\nulitin('hi')\\",
-                "$~Ang function na iyon ay kumukuha ng isang input, ang \\message\\, at ginagamit ang function na @Text/repeat upang ulitin ang mensahe nang limang beses.",
+                "$~Ang function na iyon ay kumukuha ng isang input, ang \\message\\, at ginagamit ang function na @Text.repeat upang ulitin ang mensahe nang limang beses.",
                 "$~Malaking tulong talaga ako kung gusto mong suriin ang isang bagay nang paulit-ulit, pero iba-iba ang input mo!",
                 "$~Marami pa akong ibang maliliit na trick. Halimbawa, hindi ko kailangang magkaroon ng pangalan. Dito, diretso lang ako sa @Evaluate bilang isang value.",
                 "$~\\(ƒ(mensahe•'') mensahe × 5)('hi')\\",
                 "$~O, narito ang isang function na tumatanggap ng kahit anong bilang ng mga input, gamit ang karakter na \\…\\ pagkatapos ng pangalan ng input.",
                 "$~\\ƒ oo(mga mensahe…•'') mga mensahe.sans('hindi')\noo('oo' 'oo' 'hindi' 'oo' 'hindi')\\",
-                "$~Nakita mo kung paano nito tinanggal lahat ng 'hindi'? Iyon ay dahil ang messages ay isang @List, kaya maaari nating gamitin ang @List/sansAll.",
+                "$~Nakita mo kung paano nito tinanggal lahat ng 'hindi'? Iyon ay dahil ang messages ay isang @List, kaya maaari nating gamitin ang @List.sansAll.",
                 "$~Minsan, maaaring gusto mong linawin kung anong uri ng halaga ang aking nalilikha. Para magawa iyon, magdagdag ng @Is pagkatapos ng listahan ng mga input:",
                 "$~\\ƒ idagdag(x•# y•#)•'' x + y\\",
                 "$~Maaaring may mapansin kang problema rito: sinasabi nitong nag-e-evaluate ito sa @Text, pero kailangan nito ng dalawang @Number. Masasabi ko sa iyo kapag may mga bagay na hindi pare-pareho!",
@@ -923,7 +923,7 @@
             "name": "$~masmataasnatungkulin",
             "description": "$~ulitin ang mga halaga ng listahan sa loob",
             "emotion": "kind",
-            "doc": "$~Isa akong napaka-espesyal na uri ng @FunctionDefinition na gumagana sa mga listahan ng mga bagay. Hindi mo kailangang malaman ang tungkol sa akin, maliban na lang kung ginagawang posible ko ang mga function tulad ng @List/translate.",
+            "doc": "$~Isa akong napaka-espesyal na uri ng @FunctionDefinition na gumagana sa mga listahan ng mga bagay. Hindi mo kailangang malaman ang tungkol sa akin, maliban na lang kung ginagawang posible ko ang mga function tulad ng @List.translate.",
             "start": "$~Pagsusuri sa ibinigay na tungkulin",
             "initialize": "$~paghahanda para sa pagtalakay sa mga bagay",
             "next": "$~paglipat sa susunod na aytem",
@@ -1863,7 +1863,7 @@
                 "$~Ang \\[1 2 3] ↦ ⬚ + 1\\ ay magbibigay sa iyo ng \\[2 3 4]\\ . BOOM! Bawat numero, dagdagan ng isa, walang mga loop, walang @FunctionDefinition , walang abala!",
                 "$~Ang galing ko sa paggawa ng @Phrase output mula sa data! May listahan ka ba ng mga pangalan? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ at ngayon ay may parirala na para sa BAWAT pangalan!!",
                 "$~Nagtatrabaho ako sa @List , @Set , @Map (binabago ko ang mga VALUES ng mapa — nananatili ang mga key kung nasaan sila!), at maging @Table !",
-                "$~Gusto mo ba ng mas elegante — tulad ng index ng bawat item, o isang function na maaari mong gamitin muli sa maraming lugar? Bisitahin ang aking mas kalmado at malalaki nang mga pinsan tulad ni @List/translate . Pero para sa mabilis na pang-araw-araw na pagmamapa, narito ako!!"
+                "$~Gusto mo ba ng mas elegante — tulad ng index ng bawat item, o isang function na maaari mong gamitin muli sa maraming lugar? Bisitahin ang aking mas kalmado at malalaki nang mga pinsan tulad ni @List.translate . Pero para sa mabilis na pang-araw-araw na pagmamapa, narito ako!!"
             ],
             "start": "$~Teka, kunin natin ang lahat gamit ang $expression !",
             "finish": "$~TA-DA! Narito ang iyong bagong koleksyon: $value",
@@ -3348,7 +3348,7 @@
             "doc": [
                 "$~/clickety tap!/",
                 "$~/@FunctionDefinition dito, ipapaliwanag ko ito./",
-                "$~Isipin ang @Choice na parang isang stream ng @Phrase/name na pinipili ng iyong audience. Kung may mag-click, mag-tap, o pipili ng keyboard sa pamamagitan ng pagpindot sa /Enter/ sa isang @Phrase na may pangalan -- magkakaroon ng bagong value ang @Choice na tumutugma sa pangalan.",
+                "$~Isipin ang @Choice na parang isang stream ng @Phrase.name na pinipili ng iyong audience. Kung may mag-click, mag-tap, o pipili ng keyboard sa pamamagitan ng pagpindot sa /Enter/ sa isang @Phrase na may pangalan -- magkakaroon ng bagong value ang @Choice na tumutugma sa pangalan.",
                 "$~Kaya ang pinakamahusay na paraan upang gamitin ito ay ang lumikha ng isang pagtatanghal na may pinangalanang mapipiling mga pariralang @Phrase, at pagkatapos ay gumamit ng @Reaction upang magpasya kung ano ang gagawin kapag napili ang pangalang iyon.",
                 "$~Narito ang pinakasimpleng halimbawa:",
                 "$~\\Group(\nStack() \n[\nParirala('isa' mapipili:⊤ pangalan:'1') \nParirala('dalawa' mapipili:⊤ pangalan:'2') \nParirala(Pagpili())\n]\n)\\",
@@ -3470,7 +3470,7 @@
                 "$~Sa bawat pagkakataong mangyari ito, muling susuriin ng @Program gamit ang bagong halaga ng oras.",
                 "$~Halimbawa:",
                 "$~\\Oras()\\",
-                "$~Kung magbibigay ka ng oras na @Time/frequency, titiktik ito sa bilis na iyon. Halimbawa:",
+                "$~Kung magbibigay ka ng oras na @Time.frequency, titiktik ito sa bilis na iyon. Halimbawa:",
                 "$~Oras(1000ms)",
                 "$~Gayunpaman, may mga limitasyon kung gaano ito kaliit, dahil ang @Program ay nangangailangan ng oras upang masuri bago sila makatugon sa susunod na tik.",
                 "$~Ang pinakamaliit ay malamang nasa bandang \\20ms\\."
@@ -3576,7 +3576,7 @@
                 "$~/Uy uy uy uy/",
                 "$~/Kumusta, @FunctionDefinition nandito na! Nakita kong natagpuan mo na ang @Scene.",
                 "$~Sa tingin ko, ang @Scene ay partikular na astig. Ang pangunahing ideya ay bibigyan mo ito ng listahan ng @Phrase o @Group at pagkatapos ay ipapakita nito ang mga ito nang sunod-sunod at hihinto sa huli.",
-                "$~Para makontrol ang timing, maaari mong itakda ang @Phrase/duration sa bawat output, at ipapakita nito ito nang matagal bago lumipat sa susunod, at gamitin ang anumang @Phrase/entering o @Phrase/exiting transitions na maaaring naitakda mo. Kung itatakda mo ang mga ito sa isang @Sequence, gagamitin nito ang duration nito.",
+                "$~Para makontrol ang timing, maaari mong itakda ang @Phrase.duration sa bawat output, at ipapakita nito ito nang matagal bago lumipat sa susunod, at gamitin ang anumang @Phrase.entering o @Phrase.exiting transitions na maaaring naitakda mo. Kung itatakda mo ang mga ito sa isang @Sequence, gagamitin nito ang duration nito.",
                 "$~Ang lahat ng iyan ay nagbibigay-daan sa iyo na gawin ang mga bagay tulad ng maliit na @Scene na ito, na nagpapakita ng tatlong pariralang ito nang magkakasunod:",
                 "$~\\Scene([\nParira('Kumusta' tagal: 1 segundo)\nParira('Kumusta ka?' tagal: 2 segundo pag-ikot: 5° pagpasok: Pose(pag-ikot: 0°))\nParira('Ayos lang ako')\n])\\",
                 "$~Nakikita mo ba kung paano ipinapakita ang unang output sa loob ng isang segundo, pagkatapos ay ang susunod sa loob ng dalawang segundo, ngunit ina-animate sa limang digri na pag-ikot, at pagkatapos ay ipinapakita nito ang huli?",
@@ -3859,7 +3859,7 @@
                 "names": "$~lugar"
             },
             "name": {
-                "doc": ["$~Pareho ng @Phrase/name!"],
+                "doc": ["$~Pareho ng @Phrase.name!"],
                 "names": "$~pangalan"
             },
             "description": {
@@ -3869,7 +3869,7 @@
                 "names": "$~paglalarawan"
             },
             "selectable": {
-                "doc": "$~Pareho ng @Phrase/selectable piliin!",
+                "doc": "$~Pareho ng @Phrase.selectable piliin!",
                 "names": "$~mapipili"
             },
             "color": {
@@ -3897,35 +3897,35 @@
                 "names": "$~sukat"
             },
             "flipx": {
-                "doc": "$~Pareho ng kay @Phrase/flipx!",
+                "doc": "$~Pareho ng kay @Phrase.flipx!",
                 "names": "$~flipx"
             },
             "flipy": {
-                "doc": "$~Pareho ng @Phrase/flipy",
+                "doc": "$~Pareho ng @Phrase.flipy",
                 "names": "$~mabaliw"
             },
             "entering": {
-                "doc": "$~Pareho ng @Phrase/entering!",
+                "doc": "$~Pareho ng @Phrase.entering!",
                 "names": "$~pagpasok"
             },
             "resting": {
-                "doc": "$~Pareho ng @Phrase/resting!",
+                "doc": "$~Pareho ng @Phrase.resting!",
                 "names": "$~nagpapahinga"
             },
             "moving": {
-                "doc": "$~Pareho ng @Phrase/moving!",
+                "doc": "$~Pareho ng @Phrase.moving!",
                 "names": "$~gumagalaw"
             },
             "exiting": {
-                "doc": "$~Pareho ng @Phrase/exiting!",
+                "doc": "$~Pareho ng @Phrase.exiting!",
                 "names": "$~palabas"
             },
             "duration": {
-                "doc": "$~Pareho ng @Phrase/duration!",
+                "doc": "$~Pareho ng @Phrase.duration!",
                 "names": ["$~⏳", "$~tagal"]
             },
             "style": {
-                "doc": "$~Pareho ng @Phrase/style!",
+                "doc": "$~Pareho ng @Phrase.style!",
                 "names": "$~estilo"
             },
             "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
@@ -3961,11 +3961,11 @@
                 "names": ["$~↵", "$~pambalot"]
             },
             "alignment": {
-                "doc": "$~Kung mayroong nakatakdang hangganan na @Phrase/wrap, dapat ko bang ihanay ang mga simbolo sa simula, gitna, o dulo ng gilid.",
+                "doc": "$~Kung mayroong nakatakdang hangganan na @Phrase.wrap, dapat ko bang ihanay ang mga simbolo sa simula, gitna, o dulo ng gilid.",
                 "names": "$~pagkakahanay"
             },
             "direction": {
-                "doc": "$~Kung ang mga simbolo ay nakasulat nang pahalang o patayo, at kung patayo at nakatakda ang @Phrase/wrap, kung ang teksto ay nakabalot pakaliwa o pakanan.",
+                "doc": "$~Kung ang mga simbolo ay nakasulat nang pahalang o patayo, at kung patayo at nakatakda ang @Phrase.wrap, kung ang teksto ay nakabalot pakaliwa o pakanan.",
                 "names": "$~direksyon"
             },
             "matter": {
@@ -4560,11 +4560,11 @@
                 "names": "$~balangkas"
             },
             "size": {
-                "doc": "$~I-LIKE @Group/size",
+                "doc": "$~I-LIKE @Group.size",
                 "names": "$~laki"
             },
             "face": {
-                "doc": "$~I-LIKE @Group/face",
+                "doc": "$~I-LIKE @Group.face",
                 "names": "$~mukha"
             },
             "place": {
@@ -4572,7 +4572,7 @@
                 "names": "$~lugar"
             },
             "name": {
-                "doc": ["$~PAREHO NG @Phrase/name!"],
+                "doc": ["$~PAREHO NG @Phrase.name!"],
                 "names": "$~pangalan"
             },
             "description": {
@@ -4582,63 +4582,63 @@
                 "names": "$~paglalarawan"
             },
             "selectable": {
-                "doc": "$~PAREHO NG @Phrase/selectable!",
+                "doc": "$~PAREHO NG @Phrase.selectable!",
                 "names": "$~mapipili"
             },
             "color": {
-                "doc": "$~PAREHO NG @Group/color",
+                "doc": "$~PAREHO NG @Group.color",
                 "names": "$~kulay"
             },
             "background": {
-                "doc": "$~PAREHO NG @Group/background",
+                "doc": "$~PAREHO NG @Group.background",
                 "names": "$~background"
             },
             "opacity": {
-                "doc": "$~PAREHO NG @Group/opacity",
+                "doc": "$~PAREHO NG @Group.opacity",
                 "names": "$~kalabuan"
             },
             "offset": {
-                "doc": "$~PAREHO NG @Group/offset",
+                "doc": "$~PAREHO NG @Group.offset",
                 "names": "$~offset"
             },
             "rotation": {
-                "doc": "$~PAREHO NG @Group/rotation",
+                "doc": "$~PAREHO NG @Group.rotation",
                 "names": ["$~📐", "$~pagikot"]
             },
             "scale": {
-                "doc": "$~PAREHO NG @Group/scale",
+                "doc": "$~PAREHO NG @Group.scale",
                 "names": "$~sukat"
             },
             "flipx": {
-                "doc": "$~PAREHO NG @Group/flipx",
+                "doc": "$~PAREHO NG @Group.flipx",
                 "names": "$~flipx"
             },
             "flipy": {
-                "doc": "$~PAREHO NG @Group/flipy",
+                "doc": "$~PAREHO NG @Group.flipy",
                 "names": "$~mabaliw"
             },
             "entering": {
-                "doc": "$~PAREHO NG @Group/entering",
+                "doc": "$~PAREHO NG @Group.entering",
                 "names": "$~pagpasok"
             },
             "resting": {
-                "doc": "$~PAREHO NG @Group/resting!",
+                "doc": "$~PAREHO NG @Group.resting!",
                 "names": "$~nagpapahinga"
             },
             "moving": {
-                "doc": "$~PAREHO NG @Group/moving!",
+                "doc": "$~PAREHO NG @Group.moving!",
                 "names": "$~gumagalaw"
             },
             "exiting": {
-                "doc": "$~PAREHO NG @Group/exiting!",
+                "doc": "$~PAREHO NG @Group.exiting!",
                 "names": "$~palabas"
             },
             "duration": {
-                "doc": "$~PAREHO NG @Phrase/duration!",
+                "doc": "$~PAREHO NG @Phrase.duration!",
                 "names": ["$~⏳", "$~tagal"]
             },
             "style": {
-                "doc": "$~PAREHO NG @Phrase/style!",
+                "doc": "$~PAREHO NG @Phrase.style!",
                 "names": "$~estilo"
             },
             "gravity": {

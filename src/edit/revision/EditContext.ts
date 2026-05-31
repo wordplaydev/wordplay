@@ -1,3 +1,4 @@
+import type ConceptIndex from '@concepts/ConceptIndex';
 import type Locales from '@locale/Locales';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
@@ -10,6 +11,8 @@ type BaseContext = {
     type: Type | undefined;
     /** Locales currently in use */
     locales: Locales;
+    /** The concept index, when available, for completing concept links in markup. */
+    concepts?: ConceptIndex | undefined;
 };
 
 export type ReplaceContext = BaseContext & {

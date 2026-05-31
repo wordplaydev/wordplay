@@ -890,13 +890,13 @@
                 "嗨又見面了！我接受一些輸入，然後使用它們來評估一個表達式，產生一個輸出。",
                 "這裡有一個簡單的例子：",
                 "\\ƒ 重複(訊息•'') 訊息 × 5\n重複('你好')\\",
-                "函數接受一個輸入，\\訊息\\，並使用 @Text/repeat 函數將訊息重複五次。",
+                "函數接受一個輸入，\\訊息\\，並使用 @Text.repeat 函數將訊息重複五次。",
                 "如果你想一遍又一遍地評估某些東西，但使用不同的輸入，我非常有用！",
                 "我還有許多其他小技巧。例如，我不一定要有一個名字。在這裡，我直接轉到 @Evaluate 作為一個值。",
                 "\\(ƒ(訊息•'') 訊息 × 5)('你好')\\",
                 "或者，這是一個接受任意數量輸入的函數，在輸入名稱後加上 \\…\\ 字元。",
                 "\\ƒ 是的(訊息…•'') 訊息.排除('不')\n是的('是' '是' '不' '是' '不')\\",
-                "看看它是如何取出所有的 '不' 並將它們去掉的？這是因為消息是一個 @List，所以我們可以使用 @List/sansAll.",
+                "看看它是如何取出所有的 '不' 並將它們去掉的？這是因為消息是一個 @List，所以我們可以使用 @List.sansAll.",
                 "有時你可能想要明確我產生的值是什麼類型的。為此，在輸入列表之後添加一個 @Is 即可：",
                 "\\ƒ 加(x•# y•#)•'' x + y\\",
                 "你可能會注意到這個例子有一個問題：它說它評估為 @Text，但它接受兩個 @Number。我可以告訴你什麼時候事情不一致！",
@@ -920,7 +920,7 @@
             "name": "高階函數",
             "description": "迭代清單",
             "emotion": "kind",
-            "doc": "我是一種非常特殊的 @FunctionDefinition，用於操作物品列表。除了我使得像 @List/translate 這樣的函數成為可能之外，你不需要了解太多關於我。",
+            "doc": "我是一種非常特殊的 @FunctionDefinition，用於操作物品列表。除了我使得像 @List.translate 這樣的函數成為可能之外，你不需要了解太多關於我。",
             "start": "評估給定的函數",
             "initialize": "準備逐一遍歷項目",
             "next": "移動到下一個專案",
@@ -1860,7 +1860,7 @@
                 "$~\\[1 2 3] ↦ ⬚ + 1\\得到\\[2 3 4]\\ 。 BOOM！每個數字加一，無需循環，無需@FunctionDefinition ，輕鬆搞定！",
                 "$~我簡直太棒了，能從數據中生成@Phrase！有一份姓名清單嗎？ \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\現在每個名字都有一個對應的短語了！ ！",
                 "$~我使用@List 、 @Set 、 @Map （我更改映射的值——鍵保持不變！），甚至@Table ！",
-                "$~想要更進階的功能－例如每個項目的索引，或是可以在很多地方重複使用的函數？那就去看看我那些更成熟、更強大的工具，像是@List/translate 。但如果是日常快速映射，我就是你要找的！"
+                "$~想要更進階的功能－例如每個項目的索引，或是可以在很多地方重複使用的函數？那就去看看我那些更成熟、更強大的工具，像是@List.translate 。但如果是日常快速映射，我就是你要找的！"
             ],
             "start": "$~稍等，讓我把$expression！",
             "finish": "$~鏘鏘！你的全新系列到啦： $value",
@@ -3332,7 +3332,7 @@
             "doc": [
                 "/點擊一下！/",
                 "/@FunctionDefinition, 我來解釋下這個吧！/",
-                "將@Choice 視為由受眾選擇的@Phrase/name 流。如果有人在帶有名稱的@Phrase 上單擊、敲擊或按/Enter/ 進行鍵盤選擇,@Choice 將有一個與名稱匹配的新值。",
+                "將@Choice 視為由受眾選擇的@Phrase.name 流。如果有人在帶有名稱的@Phrase 上單擊、敲擊或按/Enter/ 進行鍵盤選擇,@Choice 將有一個與名稱匹配的新值。",
                 "因此,使用它的最佳方法是使用命名的可選短語@Phrase 創建一個表演,然後使用@Reaction 來決定選擇該名稱時要執行的操作。",
                 "這裡有一個簡單的例子：",
                 "\\Group(\nStack() \n[\nPhrase('一個'可選:⊤名稱:'1') \nPhrase('兩個'可選:⊤名稱:'2') \nPhrase(Choice( ))\n ]\n)\\",
@@ -3454,7 +3454,7 @@
                 "每次執行時,@Program 用新的時間值重新求值。",
                 "比如說：",
                 "\\時間（）\\",
-                "如果您為時間提供@Time/frequency,它將以該速率滴答。例如:",
+                "如果您為時間提供@Time.frequency,它將以該速率滴答。例如:",
                 "\\時間(1000ms)\\",
                 "然而,它可以有多小是有限的,因為@Program 需要時間來評估,然後才能回應下一個tick。",
                 "最小的可能在\\20ms\\左右."
@@ -3553,7 +3553,7 @@
                 "$~/嘟嘟嘟/",
                 "$~/你好，我是@FunctionDefinition！我看到你找到了@Scene。",
                 "$~我認為@Scene 特別酷。基本思想是，您給它一個@Scene@Phrase，然後它將按順序顯示它們並在最後一個停止。",
-                "$~為了控制時間，您可以設定每個輸出上的@Phrase/duration，它會在移動到下一個輸出之前顯示該時間，並使用您可能設定的任何@Phrase/entering 或@Phrase/exiting 轉換。如果將它們設為@Sequence，它將使用其持續時間。",
+                "$~為了控制時間，您可以設定每個輸出上的@Phrase.duration，它會在移動到下一個輸出之前顯示該時間，並使用您可能設定的任何@Phrase.entering 或@Phrase.exiting 轉換。如果將它們設為@Sequence，它將使用其持續時間。",
                 "$~所有這些讓你可以做類似這個小@Scene，它按順序顯示這三個短語：",
                 "$~\\場景（[\n\t短語（'Hello' 持續時間：1s）\n\t短語（'你好嗎？'持續時間：2秒旋轉：5°輸入：姿勢（旋轉：0°））\n\t短語（‘我很好’）\n])\\",
                 "$~看看第一個輸出如何顯示一秒鐘，然後下一個輸出顯示兩秒鐘，但動畫旋轉五度，然後顯示最後一個？",
@@ -3826,11 +3826,11 @@
                 "names": "邊框"
             },
             "size": {
-                "doc": "類似@Group/size",
+                "doc": "類似@Group.size",
                 "names": "大小"
             },
             "face": {
-                "doc": "類似@Group/face",
+                "doc": "類似@Group.face",
                 "names": ["字体", "朝向"]
             },
             "place": {
@@ -3838,7 +3838,7 @@
                 "names": "位置"
             },
             "name": {
-                "doc": ["與@Phrase/name!相同"],
+                "doc": ["與@Phrase.name!相同"],
                 "names": "名稱"
             },
             "description": {
@@ -3846,59 +3846,59 @@
                 "names": "$~描述"
             },
             "selectable": {
-                "doc": "與@Phrase/selectable!相同",
+                "doc": "與@Phrase.selectable!相同",
                 "names": "可選擇性"
             },
             "color": {
-                "doc": "與@Group/color 相同",
+                "doc": "與@Group.color 相同",
                 "names": "顏色"
             },
             "background": {
-                "doc": "與@Group/background 相同",
+                "doc": "與@Group.background 相同",
                 "names": "背景"
             },
             "opacity": {
-                "doc": "與@Group/opacity 相同",
+                "doc": "與@Group.opacity 相同",
                 "names": "透明"
             },
             "offset": {
-                "doc": "與@Group/offset 相同",
+                "doc": "與@Group.offset 相同",
                 "names": "偏移"
             },
             "rotation": {
-                "doc": "與@Group/rotation 相同",
+                "doc": "與@Group.rotation 相同",
                 "names": ["📐", "旋轉"]
             },
             "scale": {
-                "doc": "與@Group/scale 相同",
+                "doc": "與@Group.scale 相同",
                 "names": "縮放"
             },
             "flipx": {
-                "doc": "與@Group/flipx 相同",
+                "doc": "與@Group.flipx 相同",
                 "names": "水平翻轉"
             },
             "flipy": {
-                "doc": "與@Group/flipy 相同",
+                "doc": "與@Group.flipy 相同",
                 "names": "垂直翻轉"
             },
             "entering": {
-                "doc": "與@Group/entering 相同",
+                "doc": "與@Group.entering 相同",
                 "names": "進入時"
             },
             "resting": {
-                "doc": "與@Group/resting!相同",
+                "doc": "與@Group.resting!相同",
                 "names": "休息時"
             },
             "moving": {
-                "doc": "與@Group/moving!相同",
+                "doc": "與@Group.moving!相同",
                 "names": "移動時"
             },
             "exiting": {
-                "doc": "與@Group/exiting!相同",
+                "doc": "與@Group.exiting!相同",
                 "names": "離開時"
             },
             "duration": {
-                "doc": "與@Phrase/duration!相同",
+                "doc": "與@Phrase.duration!相同",
                 "names": ["⏳", "持續時間"]
             },
             "style": {
@@ -3939,7 +3939,7 @@
                 "names": "位置"
             },
             "name": {
-                "doc": "與 @Phrase/name 相同！",
+                "doc": "與 @Phrase.name 相同！",
                 "names": "名稱"
             },
             "description": {
@@ -3947,7 +3947,7 @@
                 "names": "$~描述"
             },
             "selectable": {
-                "doc": "與 @Phrase/selectable 的相同! ",
+                "doc": "與 @Phrase.selectable 的相同! ",
                 "names": "可選擇的"
             },
             "color": {
@@ -3975,35 +3975,35 @@
                 "names": "比例"
             },
             "flipx": {
-                "doc": "與 @Phrase/flipx 翻轉相同！",
+                "doc": "與 @Phrase.flipx 翻轉相同！",
                 "names": "水平翻轉"
             },
             "flipy": {
-                "doc": "與 @Phrase/flipy 相同！",
+                "doc": "與 @Phrase.flipy 相同！",
                 "names": "垂直翻轉"
             },
             "entering": {
-                "doc": "與 @Phrase/entering 相同！",
+                "doc": "與 @Phrase.entering 相同！",
                 "names": "進入"
             },
             "resting": {
-                "doc": "與 @Phrase/resting 相同！",
+                "doc": "與 @Phrase.resting 相同！",
                 "names": "休息"
             },
             "moving": {
-                "doc": "與 @Phrase/moving 相同！",
+                "doc": "與 @Phrase.moving 相同！",
                 "names": "移動"
             },
             "exiting": {
-                "doc": "與 @Phrase/exiting 相同！",
+                "doc": "與 @Phrase.exiting 相同！",
                 "names": "退出"
             },
             "duration": {
-                "doc": "與 @Phrase/duration 相同！",
+                "doc": "與 @Phrase.duration 相同！",
                 "names": ["⏳", "持續時間"]
             },
             "style": {
-                "doc": "與 @Phrase/style 相同！",
+                "doc": "與 @Phrase.style 相同！",
                 "names": "風格"
             }
         },
@@ -4039,11 +4039,11 @@
                 "names": ["↵", "包裹"]
             },
             "alignment": {
-                "doc": "如果有 @Phrase/wrap 的邊界集,我是否應該將符號與邊緣的開始、中心或結束對齊。",
+                "doc": "如果有 @Phrase.wrap 的邊界集,我是否應該將符號與邊緣的開始、中心或結束對齊。",
                 "names": "對齊"
             },
             "direction": {
-                "doc": "$~符號是水平書寫還是垂直書寫，如果設定了垂直和@Phrase/wrap，則文字是左換行還是右換行。",
+                "doc": "$~符號是水平書寫還是垂直書寫，如果設定了垂直和@Phrase.wrap，則文字是左換行還是右換行。",
                 "names": "方向"
             },
             "matter": {
