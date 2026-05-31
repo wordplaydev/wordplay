@@ -130,6 +130,9 @@
         autofocus?: boolean;
         /** Whether the editor is editable */
         editable: boolean;
+        /** Whether to offer the search-and-replace field (Cmd/Ctrl+F). Only the
+         *  ProjectView editor enables this; embedded editors (e.g. ExampleUI) don't. */
+        searchable?: boolean;
         /** The locale to use for rending code */
         locale: Locale | null;
         /** The bindable menu the ProjectView displaying this editor should show. */
@@ -156,6 +159,7 @@
         selected = false,
         autofocus = true,
         editable,
+        searchable = false,
         locale,
         menu = $bindable(undefined),
         conflictsOfInterest = $bindable([]),
@@ -1036,6 +1040,7 @@
     // Toggle the search field (Cmd/Ctrl+F). EditorSearch focuses the field on
     // open and clears the query on close, so flipping the flag is enough.
     function toggleSearch() {
+        if (!searchable) return;
         searchActive = !searchActive;
     }
 
@@ -2492,14 +2497,16 @@
     {/if}
     <!-- Floating search: a magnifying-glass toggle pinned top-right that
          reveals a query field. Matched substrings are highlighted via
-         searchOutlines above the code. -->
-    <EditorSearch
-        bind:active={searchActive}
-        bind:query={searchQuery}
-        matchCount={searchMatches.length}
-        next={goToNextMatch}
-        {replace}
-    />
+         searchOutlines above the code. Only shown for the ProjectView editor. -->
+    {#if searchable}
+        <EditorSearch
+            bind:active={searchActive}
+            bind:query={searchQuery}
+            matchCount={searchMatches.length}
+            next={goToNextMatch}
+            {replace}
+        />
+    {/if}
 </div>
 
 <style>

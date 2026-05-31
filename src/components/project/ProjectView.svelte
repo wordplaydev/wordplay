@@ -1117,17 +1117,16 @@
         return { kind: 'section', mode: guideSection, purpose: guidePurpose };
     }
 
-    // Restore the concept in the URL after mounting, on top of the home section.
-    onMount(() => {
-        if (index && path) {
-            const concept = getConceptFromURL(index, page.url.searchParams);
-            path.set(
-                concept
-                    ? [guideHomeSection(), { kind: 'concept', concept }]
-                    : [guideHomeSection()],
-            );
-        }
-    });
+    /** Build the initial guide history from the URL: the home section, with the
+     *  named concept on top of it if the URL names one. Done when the index is
+     *  first built (see the index effect below) rather than in onMount, since the
+     *  index is created lazily in an effect and isn't available at mount time. */
+    function conceptHistoryFromURL(builtIndex: ConceptIndex): ConceptPath {
+        const concept = getConceptFromURL(builtIndex, page.url.searchParams);
+        return concept
+            ? [guideHomeSection(), { kind: 'concept', concept }]
+            : [guideHomeSection()];
+    }
 
     let latestProject: Project | undefined;
     let latestHowTos: unknown = undefined;
@@ -1182,6 +1181,11 @@
                 resolvedHowTos !== latestHowTos ||
                 currentGalleryHowTos !== latestGalleryHowTos
             ) {
+                // Whether this is the first time we're building the index, so we
+                // can restore the concept named in the URL (rather than remap an
+                // existing history) once the index exists.
+                const firstBuild = index === undefined;
+
                 latestProject = currentProject;
                 latestHowTos = resolvedHowTos;
                 latestGalleryHowTos = currentGalleryHowTos;
@@ -1201,14 +1205,20 @@
                 // Set the index
                 index = newIndex;
 
-                // Map the old history's concepts to the new index, dropping any that no
-                // longer resolve; search locations are preserved.
+                // On the first build, restore the concept named in the URL so a
+                // refresh keeps the guide on it; otherwise map the old history's
+                // concepts to the new index, dropping any that no longer resolve
+                // (search locations are preserved).
                 if (path)
                     path.set(
-                        newIndex && $path
-                            ? remapConcepts($path, (concept) =>
-                                  newIndex.getEquivalent(concept),
-                              )
+                        newIndex
+                            ? firstBuild
+                                ? conceptHistoryFromURL(newIndex)
+                                : $path
+                                  ? remapConcepts($path, (concept) =>
+                                        newIndex.getEquivalent(concept),
+                                    )
+                                  : []
                             : [],
                     );
 
@@ -2448,6 +2458,7 @@
                                                     tile.id
                                                 ] ?? null}
                                                 editable={editableAndCurrent}
+                                                searchable
                                                 sourceID={tile.id}
                                                 selected={source ===
                                                     selectedSource}
