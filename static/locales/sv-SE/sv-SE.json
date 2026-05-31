@@ -4795,7 +4795,10 @@
                 "pick": {
                     "label": "$~välj färg",
                     "tip": "$~välj en färg från din skärm"
-                }
+                },
+                "field": "$~färgfält",
+                "instructions": "$~Använd vänster- och högerpiltangenterna för att ändra nyans och upp- och nedpiltangenterna för att ändra färgåtergivning. Håll shift-tangenten nedtryckt för finare steg.",
+                "value": "$~$color , LCH $l , $c , $h"
             }
         },
         "tile": {

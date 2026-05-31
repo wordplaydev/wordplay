@@ -4800,7 +4800,10 @@
                 "pick": {
                     "label": "$~pilih warna",
                     "tip": "$~Pilih warna dari layar Anda"
-                }
+                },
+                "field": "$~bidang warna",
+                "instructions": "$~Gunakan tombol panah kiri dan kanan untuk mengubah rona dan tombol panah atas dan bawah untuk mengubah saturasi. Tahan tombol Shift untuk langkah yang lebih halus.",
+                "value": "$~$color , LCH $l , $c , $h"
             }
         },
         "tile": {

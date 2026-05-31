@@ -19130,13 +19130,28 @@
                   "additionalProperties": false,
                   "description": "The color chooser widget",
                   "properties": {
+                    "field": {
+                      "description": "[plain] Screen-reader role description for the 2-D chroma×hue color field",
+                      "type": "string"
+                    },
+                    "instructions": {
+                      "description": "[plain] Screen-reader usage instructions for adjusting the color field with the keyboard",
+                      "type": "string"
+                    },
                     "pick": {
                       "$ref": "#/definitions/ButtonText",
                       "description": "The eyedropper button that picks a color from the screen"
+                    },
+                    "value": {
+                      "$ref": "#/definitions/Template%3C%5B%22color%22%2C%22l%22%2C%22c%22%2C%22h%22%5D%3E",
+                      "description": "[plain] The spoken color readout: the described color name followed by its lightness, chroma, and hue values, e.g. \"dark grey, LCH 50, 117, 90\""
                     }
                   },
                   "required": [
-                    "pick"
+                    "pick",
+                    "field",
+                    "instructions",
+                    "value"
                   ],
                   "type": "object"
                 },
@@ -19767,6 +19782,9 @@
       "type": "string"
     },
     "Template<[\"code\"]>": {
+      "type": "string"
+    },
+    "Template<[\"color\",\"l\",\"c\",\"h\"]>": {
       "type": "string"
     },
     "Template<[\"column\"]>": {

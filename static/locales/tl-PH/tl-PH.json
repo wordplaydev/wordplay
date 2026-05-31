@@ -4798,7 +4798,10 @@
                 "pick": {
                     "label": "$~pumili ng kulay",
                     "tip": "$~pumili ng kulay mula sa iyong screen"
-                }
+                },
+                "field": "$~patlang ng kulay",
+                "instructions": "$~Gamitin ang kaliwa at kanang mga arrow key para baguhin ang hue at ang pataas at pababang mga arrow key para baguhin ang chroma. Pindutin nang matagal ang shift para sa mas pinong mga hakbang.",
+                "value": "$~$color , LCH $l , $c , $h"
             }
         },
         "tile": {

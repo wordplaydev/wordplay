@@ -4798,7 +4798,10 @@
                 "pick": {
                     "label": "$~choisir une couleur",
                     "tip": "$~Sélectionnez une couleur sur votre écran."
-                }
+                },
+                "field": "$~champ de couleur",
+                "instructions": "$~Utilisez les flèches gauche et droite pour modifier la teinte et les flèches haut et bas pour modifier la saturation. Maintenez la touche Maj enfoncée pour des réglages plus précis.",
+                "value": "$~$color , LCH $l , $c , $h"
             }
         },
         "tile": {

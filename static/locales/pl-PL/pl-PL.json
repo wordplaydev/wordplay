@@ -4803,7 +4803,10 @@
                 "pick": {
                     "label": "$~wybierz kolor",
                     "tip": "$~wybierz kolor z ekranu"
-                }
+                },
+                "field": "$~pole kolorów",
+                "instructions": "$~Użyj klawiszy strzałek w lewo i w prawo, aby zmienić odcień, oraz klawiszy strzałek w górę i w dół, aby zmienić nasycenie. Przytrzymaj klawisz Shift, aby uzyskać dokładniejsze zmiany.",
+                "value": "$~$color , LCH $l , $c , $h"
             }
         },
         "tile": {

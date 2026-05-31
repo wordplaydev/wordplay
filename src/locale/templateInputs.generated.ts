@@ -446,6 +446,7 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'ui.source.empty': ['symbol'],
     'ui.source.options.locale.all': ['count'],
     'ui.template.unparsable': ['template'],
+    'ui.widget.color.value': ['color', 'l', 'c', 'h'],
 };
 
 /** Names valid in `$name` mentions as terminology references. */

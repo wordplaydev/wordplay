@@ -131,6 +131,12 @@ type UITexts = {
         color: {
             /** The eyedropper button that picks a color from the screen */
             pick: ButtonText;
+            /** [plain] Screen-reader role description for the 2-D chroma×hue color field */
+            field: string;
+            /** [plain] Screen-reader usage instructions for adjusting the color field with the keyboard */
+            instructions: string;
+            /** [plain] The spoken color readout: the described color name followed by its lightness, chroma, and hue values, e.g. "dark grey, LCH 50, 117, 90" */
+            value: Template<['color', 'l', 'c', 'h']>;
         };
         /** [plain] The back to top link label */
         backtotop: string;

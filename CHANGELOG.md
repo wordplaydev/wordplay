@@ -31,6 +31,7 @@ This week focused on improving many aspects of the Guide, including speed, usabi
 
 - 🤫 We made really long types in the guide a little shorter for readability.
 - 🔗 Some concept links in the guide weren't working, but they are now!
+- 🎨 The color picker's color band is now keyboard accessible for our friends that keyboards and screen readers.
 
 ## 0.19.2 - 2026-05-27
 

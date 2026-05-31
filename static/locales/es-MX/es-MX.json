@@ -4777,7 +4777,10 @@
                 "pick": {
                     "label": "$~elige color",
                     "tip": "$~Seleccione un color en su pantalla."
-                }
+                },
+                "field": "$~campo de color",
+                "instructions": "$~Usa las teclas de flecha izquierda y derecha para cambiar el tono y las teclas de flecha arriba y abajo para cambiar la saturación. Mantén pulsada la tecla Mayús para ajustes más precisos.",
+                "value": "$~$color , LCH $l , $c , $h"
             }
         },
         "tile": {

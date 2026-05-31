@@ -4795,7 +4795,10 @@
                 "pick": {
                     "label": "$~chọn màu",
                     "tip": "$~Chọn một màu từ màn hình của bạn"
-                }
+                },
+                "field": "$~trường màu",
+                "instructions": "$~Sử dụng các phím mũi tên trái và phải để thay đổi sắc độ, và các phím mũi tên lên và xuống để thay đổi độ bão hòa màu. Giữ phím Shift để điều chỉnh chính xác hơn.",
+                "value": "$~$color , LCH $l , $c , $h"
             }
         },
         "tile": {

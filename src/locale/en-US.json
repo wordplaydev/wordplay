@@ -4793,7 +4793,10 @@
                 "pick": {
                     "label": "pick color",
                     "tip": "select a color from your screen"
-                }
+                },
+                "field": "color field",
+                "instructions": "Use the left and right arrow keys to change hue and the up and down arrow keys to change chroma. Hold shift for finer steps.",
+                "value": "$color, LCH $l, $c, $h"
             },
             "backtotop": "back to top",
             "overflow": {

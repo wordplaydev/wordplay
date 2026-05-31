@@ -4795,7 +4795,10 @@
                 "pick": {
                     "label": "$~escolha a cor",
                     "tip": "$~Selecione uma cor no seu ecrã."
-                }
+                },
+                "field": "$~campo de cor",
+                "instructions": "$~Utilize as setas esquerda e direita para alterar a tonalidade e as setas para cima e para baixo para alterar a saturação. Mantenha a tecla Shift pressionada para ajustes mais precisos.",
+                "value": "$~$color , LCH $l , $c , $h"
             }
         },
         "tile": {

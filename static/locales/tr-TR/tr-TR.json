@@ -4795,7 +4795,10 @@
                 "pick": {
                     "label": "$~renk seçin",
                     "tip": "$~Ekranınızdan bir renk seçin."
-                }
+                },
+                "field": "$~renk alanı",
+                "instructions": "$~Renk tonunu değiştirmek için sol ve sağ ok tuşlarını, doygunluğu değiştirmek için yukarı ve aşağı ok tuşlarını kullanın. Daha ince ayarlar için Shift tuşunu basılı tutun.",
+                "value": "$~$color , LCH $l , $c , $h"
             }
         },
         "tile": {

@@ -4800,7 +4800,10 @@
                 "pick": {
                     "label": "$~alege culoarea",
                     "tip": "$~selectați o culoare de pe ecran"
-                }
+                },
+                "field": "$~câmp de culoare",
+                "instructions": "$~Folosește tastele săgeată stânga și dreapta pentru a schimba nuanța și tastele săgeată sus și jos pentru a schimba croma. Ține apăsată tasta Shift pentru pași mai fini.",
+                "value": "$~$color , LCH $l , $c , $h"
             }
         },
         "tile": {
