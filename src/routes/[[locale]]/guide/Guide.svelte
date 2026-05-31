@@ -45,27 +45,35 @@
     // The search query, initialized from the URL so a shared/refreshed link
     // restores results. Two-way bound to Documentation; a debounced copy is what
     // we write back to the URL, so typing doesn't spam navigation history.
-    let searchQuery = $state(getQueryFromURL(page.url.searchParams));
+    // Reading url.searchParams during prerendering throws, so fall back to
+    // defaults at build time and read the real params during browser hydration.
+    let searchQuery = $state(
+        browser ? getQueryFromURL(page.url.searchParams) : '',
+    );
     const debouncedSearch = debounced(() => searchQuery, 400);
 
     // The browsing location (section + code subsection), restored from the URL
     // and two-way bound to Documentation, so a refresh/share keeps the location.
     const sectionFallback = () => ($blocks ? 'language' : 'howto');
     let guideSection = $state(
-        getEnumFromURL(
-            page.url.searchParams,
-            PARAM_SECTION,
-            Modes,
-            sectionFallback(),
-        ),
+        browser
+            ? getEnumFromURL(
+                  page.url.searchParams,
+                  PARAM_SECTION,
+                  Modes,
+                  sectionFallback(),
+              )
+            : sectionFallback(),
     );
     let guidePurpose = $state(
-        getEnumFromURL(
-            page.url.searchParams,
-            PARAM_PURPOSE,
-            Object.values(Purpose),
-            Purpose.Outputs,
-        ),
+        browser
+            ? getEnumFromURL(
+                  page.url.searchParams,
+                  PARAM_PURPOSE,
+                  Object.values(Purpose),
+                  Purpose.Outputs,
+              )
+            : Purpose.Outputs,
     );
 
     // Create the navigation history for children, initialized empty (home).
