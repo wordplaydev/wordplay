@@ -41,3 +41,10 @@ export function setInternalClipboard(text: string): void {
 export function getInternalClipboard(): string | undefined {
     return fresh && cell !== undefined ? cell.text : undefined;
 }
+
+/** True if this exact text was the last thing copied from within Wordplay,
+ *  regardless of clipboard freshness. Used to skip re-interpreting our own
+ *  copied code as foreign data (e.g. CSV) on paste. */
+export function wasCopiedHere(text: string): boolean {
+    return cell !== undefined && cell.text === text;
+}

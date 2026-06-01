@@ -38,6 +38,7 @@ import {
 import { moveVisualVertical } from '@components/editor/caret/CaretView.svelte';
 import { copyNode, toClipboard } from '@components/editor/commands/Clipboard';
 import interpret from '@components/editor/commands/interpret';
+import { wasCopiedHere } from '@components/editor/commands/InternalClipboard';
 import { TileKind } from '@components/project/TileKind';
 import { Settings, type Database } from '@db/Database';
 import type Project from '@db/projects/Project';
@@ -1577,9 +1578,11 @@ const Commands: Command[] = [
                     if (type === 'text/plain') {
                         const blob = await item.getType(type);
                         const text = await blob.text();
-                        // Insert the text, b ut since it's a paste, dont' insert.
+                        // If this text was copied from within Wordplay, paste it
+                        // verbatim instead of reinterpreting it as foreign data
+                        // (e.g. CSV).
                         return caret.insert(
-                            interpret(text),
+                            wasCopiedHere(text) ? text : interpret(text),
                             blocks,
                             project,
                             false,

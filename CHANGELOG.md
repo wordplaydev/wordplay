@@ -39,6 +39,7 @@ This week focused on improving many aspects of the Guide, including speed, usabi
 - 📖 We fixed the how-to space so it shows a loading spinner while it connects, instead of wrongly saying the space doesn't exist. (#1171)
 - 📷 Small how-to and [Guide](https://wordplay.dev/guide) previews no longer turn on your camera or microphone; they only start when you press play.
 - 🤝 We fixed a bug that stopped teachers who are in lots of [galleries](https://wordplay.dev/galleries) from seeing their projects.
+- 📋 When you copy and paste your own code, we now keep it just as it is. Before, lines of text could get turned into a table by mistake.
 
 ## 0.19.2 - 2026-05-27
 

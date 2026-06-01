@@ -24,7 +24,6 @@
         handleKeyCommand,
     } from '@components/editor/commands/Commands';
     import { getInternalClipboard } from '@components/editor/commands/InternalClipboard';
-    import interpret from '@components/editor/commands/interpret';
     import Highlight from '@components/editor/highlights/Highlight.svelte';
     import {
         type HighlightSpec,
@@ -1435,12 +1434,10 @@
             const internal = getInternalClipboard();
             if (internal === undefined) return;
 
-            const edit = $caret.insert(
-                interpret(internal),
-                $blocks,
-                project,
-                false,
-            );
+            // The in-app clipboard only ever holds text copied from within
+            // Wordplay, so paste it verbatim — never reinterpret our own code
+            // as foreign data (e.g. CSV).
+            const edit = $caret.insert(internal, $blocks, project, false);
             event.preventDefault();
             event.stopPropagation();
             if (typeof edit === 'function') setIgnored(edit);
