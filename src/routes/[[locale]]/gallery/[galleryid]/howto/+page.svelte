@@ -48,6 +48,11 @@
             return;
         }
 
+        // The accessible/expanded-scope maps are populated asynchronously by the
+        // galleries realtime query, which needs a Firebase connection. Read the
+        // loading status so this effect re-runs once that query resolves.
+        const status = Galleries.getStatus();
+
         // check if the user has permission to read the gallery. if not, don't try to get it.
         if (
             Galleries.accessibleGalleries.has(galleryID) ||
@@ -59,6 +64,11 @@
                 // Not found? No gallery.
                 else gallery = undefined;
             });
+        } else if (status === 'loading') {
+            // Still loading the user's accessible galleries — stay in the loading
+            // state rather than flashing "this how-to space doesn't exist" before
+            // we've established a connection.
+            gallery = null;
         } else {
             gallery = undefined;
         }
