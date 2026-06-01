@@ -1280,6 +1280,13 @@ type UITexts = {
         invalidConceptLinks: string;
     };
     page: {
+        /** Breadcrumb navigation trail shown above page headers */
+        breadcrumb: {
+            /** [plain] ARIA label for the breadcrumb navigation trail */
+            label: string;
+            /** [plain] Accessible name and tooltip for the home breadcrumb link */
+            home: string;
+        };
         /** The unknown route page */
         unknown: ErrorText;
         /** Landing page text */

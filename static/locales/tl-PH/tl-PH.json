@@ -7049,6 +7049,10 @@
                 "singletonWordsWarning": "$~Ang ilang salita sa iyong draft ay lumilitaw nang isang beses lamang sa buong wika. Sigurado ka bang tama ang baybay ng mga ito at naaayon sa ibang teksto?",
                 "viewPR": "$~Tingnan ang kahilingan sa paghila",
                 "oneLocaleNote": "$~Ang bawat pagsusumite ay sumasaklaw sa isang wika sa bawat pagkakataon. Ang batch na ito ay isusumite bilang mga pag-edit sa $locale . Kung gusto mong mag-ambag sa ibang wika, magpalit muna ng wika; ang mga pag-edit na iyong sine-save sa ilalim ng bawat wika ay itatago nang hiwalay."
+            },
+            "breadcrumb": {
+                "label": "$~Mga breadcrumb",
+                "home": "$~Tahanan"
             }
         },
         "edit": {

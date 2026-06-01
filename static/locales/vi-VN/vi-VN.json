@@ -6991,6 +6991,10 @@
                 "singletonWordsWarning": "$~Một số từ trong bản nháp của bạn chỉ xuất hiện một lần duy nhất trong toàn bộ văn bản. Bạn có chắc chắn rằng chúng được viết đúng chính tả và nhất quán với các đoạn văn khác không?",
                 "viewPR": "$~Xem yêu cầu kéo (pull request)",
                 "oneLocaleNote": "$~Mỗi lần đóng góp chỉ dành cho một ngôn ngữ. Những đóng góp này sẽ được gửi dưới dạng chỉnh sửa cho biến $locale . Nếu bạn muốn đóng góp cho một ngôn ngữ khác, hãy chuyển đổi ngôn ngữ trước; các chỉnh sửa bạn lưu dưới mỗi ngôn ngữ sẽ được giữ riêng biệt."
+            },
+            "breadcrumb": {
+                "label": "$~Vụn bánh mì",
+                "home": "$~Trang chủ"
             }
         },
         "edit": {

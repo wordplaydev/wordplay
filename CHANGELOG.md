@@ -17,6 +17,7 @@ This week focused on improving many aspects of the Guide, including speed, usabi
 - 🎨 @Color now also has @Color.lighter and @Color.darker, which give you a brighter or dimmer version of a color. They change the lightness by 5%, or by any percent you give them, like `Color.blue.lighter(20%)`.
 - 🔎 We added a search and replace feature to the code editor.
 - 🖱️ Now you can click click click in the editor to expand the selection. (Just like pressing escape, escape, escape does).
+- 🔙 We added navigation breadcrumbs to the top of pages, for easier navigation back (#790).
 
 ### Changed
 

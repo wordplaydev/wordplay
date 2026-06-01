@@ -7055,6 +7055,10 @@
                 "intro": "$~Mulțumim contribuitorilor noștri, * $count *, pentru contribuțiile la designul, dezvoltarea, localizarea și conținutul Wordplay! Și mulțumim numeroșilor profesori și tineri care ne-au ghidat designul în cadrul grupurilor de focus, sesiunilor de design și sălilor de clasă, pe care nu îi enumerăm aici pentru a le păstra confidențialitatea. Acest proiect a fost susținut de Fundația Națională pentru Știință prin premiile 2318257, 2031265, 2100296 și 2122950, de Universitatea din Washington și de o generoasă finanțare.<gifts@://donate> de la oameni ca tine.",
                 "teachers": "$~Profesori",
                 "contributors": "$~Contribuitori"
+            },
+            "breadcrumb": {
+                "label": "$~Pesmet",
+                "home": "$~Acasă"
             }
         },
         "edit": {

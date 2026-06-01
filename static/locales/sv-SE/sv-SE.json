@@ -6753,6 +6753,10 @@
                 "singletonWordsWarning": "$~Vissa ord i ditt utkast förekommer bara en gång i hela språket. Är du säker på att de är korrekt stavade och överensstämmer med annan text?",
                 "viewPR": "$~Visa pull-förfrågan",
                 "oneLocaleNote": "$~Varje bidrag täcker ett språk i taget. Denna bunt kommer att skickas in som redigeringar till $locale . Om du vill bidra till ett annat språk, byt språk först; redigeringar du sparar under varje språk sparas separat."
+            },
+            "breadcrumb": {
+                "label": "$~Ströbröd",
+                "home": "$~Hem"
             }
         },
         "edit": {

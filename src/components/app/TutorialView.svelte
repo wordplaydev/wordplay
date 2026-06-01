@@ -49,6 +49,7 @@
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
     import TextField from '@components/widgets/TextField.svelte';
+    import Breadcrumbs from '@components/app/Breadcrumbs.svelte';
     import Header from '@components/app/Header.svelte';
     import PlayView from '@components/app/PlayView.svelte';
     import TutorialHighlight from '@components/app/TutorialHighlight.svelte';
@@ -445,6 +446,7 @@
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <section class="tutorial" onkeydown={handleKey}>
+    <Breadcrumbs />
     <div class="header">
         <Header block={false}>
             <LocalizedText path={(l) => l.ui.page.learn.header} /></Header

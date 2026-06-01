@@ -7046,6 +7046,10 @@
                 "singletonWordsWarning": "$~Algumas palavras do seu rascunho aparecem apenas uma vez em todo o texto. Tem a certeza de que a ortografia está correta e consistente com o resto do texto?",
                 "viewPR": "$~Veja a solicitação de pull request",
                 "oneLocaleNote": "$~Cada contribuição abrange um idioma de cada vez. Este lote será enviado como edições para $locale . Se quiser contribuir com um idioma diferente, mude primeiro de idioma; as edições guardadas em cada idioma são guardadas separadamente."
+            },
+            "breadcrumb": {
+                "label": "$~Migalhas de pão",
+                "home": "$~Casa"
             }
         },
         "edit": {

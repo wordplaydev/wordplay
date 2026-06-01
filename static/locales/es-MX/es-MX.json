@@ -6646,6 +6646,10 @@
                 "singletonWordsWarning": "$~Algunas palabras de tu borrador aparecen solo una vez en todo el texto. ¿Estás seguro de que están escritas correctamente y son coherentes con el resto del texto?",
                 "viewPR": "$~Ver la solicitud de extracción",
                 "oneLocaleNote": "$~Cada envío abarca un idioma a la vez. Este lote se enviará como ediciones a $locale . Si desea contribuir a un idioma diferente, cambie de idioma primero; las ediciones que guarde en cada idioma se conservarán por separado."
+            },
+            "breadcrumb": {
+                "label": "$~Pan rallado",
+                "home": "$~Hogar"
             }
         },
         "edit": {

@@ -2,10 +2,13 @@
     import { browser } from '$app/environment';
     import { afterNavigate } from '$app/navigation';
     import { page } from '$app/state';
+    import Breadcrumbs from '@components/app/Breadcrumbs.svelte';
+    import type { Crumb } from '@components/app/getBreadcrumbs';
     import Header from '@components/app/Header.svelte';
     import Documentation, {
         Modes,
     } from '@components/concepts/Documentation.svelte';
+    import placeLabel from '@components/concepts/placeLabel';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import {
         getUser,
@@ -17,6 +20,7 @@
     import ConceptIndex from '@concepts/ConceptIndex';
     import {
         currentConcept,
+        popTo,
         type GuideHistory,
         type GuidePlace,
     } from '@components/concepts/GuideHistory';
@@ -31,6 +35,7 @@
         setQueryInURL,
     } from '@concepts/ConceptParams';
     import { Purpose } from '@concepts/Purpose';
+    import { DOCUMENTATION_SYMBOL } from '@parser/Symbols';
     import { blocks, HowTos, Locales, locales } from '@db/Database';
     import Project from '@db/projects/Project';
     import Source from '@nodes/Source';
@@ -173,6 +178,28 @@
         concept = currentConcept($path);
     });
 
+    // The guide's concept path, appended to the route breadcrumbs as a single
+    // unified trail: 🏠 Home / 📕 Guide / <concept> / … The 📕 Guide crumb links
+    // back to the guide landing (resetting the concept path). At the landing
+    // itself there's nothing to navigate back to, so it's omitted (the page
+    // header already says "Guide").
+    let extra = $derived.by<Crumb[]>(() => {
+        if ($path.length <= 1) return [];
+        const guide: Crumb = {
+            emoji: DOCUMENTATION_SYMBOL,
+            label: (l) => l.ui.page.guide.header,
+            action: () => path.set(popTo($path, 0)),
+        };
+        const rest = $path.slice(1).map((place, i): Crumb => {
+            const index = i + 1;
+            const body = { text: placeLabel(place, $locales) };
+            return index === $path.length - 1
+                ? { ...body, current: true }
+                : { ...body, action: () => path.set(popTo($path, index)) };
+        });
+        return [guide, ...rest];
+    });
+
     // When the concept path or (debounced) search query changes, navigate to the
     // corresponding URL so the guide is shareable and survives a refresh.
     $effect(() => {
@@ -211,6 +238,7 @@
 
 <section class="guide">
     <div class="header">
+        <Breadcrumbs {extra} />
         <Header block={false} text={(l) => l.ui.page.guide.header} />
         <MarkupHTMLView markup={(l) => l.ui.page.guide.description} />
     </div>

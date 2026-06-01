@@ -22,8 +22,8 @@
         reconcileSearch,
         sameHistory,
         currentConcept as topConcept,
-        type GuideMode,
     } from '@components/concepts/GuideHistory';
+    import placeLabel from '@components/concepts/placeLabel';
     import HowConceptView from '@components/concepts/HowConceptView.svelte';
     import NodeConceptView from '@components/concepts/NodeConceptView.svelte';
     import StreamConceptView from '@components/concepts/StreamConceptView.svelte';
@@ -467,16 +467,6 @@
         path.set(navigateSection($path, m, newPurpose));
     }
 
-    /** A short label for a section breadcrumb: the how-to label, or the code
-     *  subsection (purpose) name. */
-    function sectionLabel(sectionMode: GuideMode, sectionPurpose: PurposeType) {
-        return sectionMode === 'howto'
-            ? $locales.getPlainText((l) => l.ui.docs.mode.browse.labels[1])
-            : $locales.getPlainText(
-                  (l) => l.ui.docs.purposes[sectionPurpose].header,
-              );
-    }
-
     // history → section filters. When the top of the history is a section (we navigated
     // back/over to a browse page), restore the section + subsection it captured into the
     // live mode/purpose (clamped to language while in blocks mode). Reads mode/purpose
@@ -553,7 +543,7 @@
         </div>
     {/if}
 
-    {#if $path.length > 1}
+    {#if !standalone && $path.length > 1}
         <nav
             class="path"
             aria-label={$locales.getPlainText(
@@ -564,7 +554,7 @@
             ></Button>
             {#each $path as place, index}
                 {@const isLast = index === $path.length - 1}
-                {#if index > 0}<span class="sep" aria-hidden="true">›</span
+                {#if index > 0}<span class="sep" aria-hidden="true">/</span
                     >{/if}{#if index === 0}<button
                         type="button"
                         class="crumb home"
@@ -575,19 +565,10 @@
                             (l) => l.ui.docs.breadcrumb.home,
                         )}
                         onclick={home}>{withMonoEmoji(HOME_SYMBOL)}</button
-                    >{:else}{@const label =
-                        place.kind === 'concept'
-                            ? place.concept.getName($locales, false)
-                            : place.kind === 'search'
-                              ? `${SEARCH_SYMBOL} ${getLanguageQuoteOpen(
-                                    $locales.getLocale().language,
-                                )}${place.query}${getLanguageQuoteClose(
-                                    $locales.getLocale().language,
-                                )}`
-                              : sectionLabel(
-                                    place.mode,
-                                    place.purpose,
-                                )}{#if isLast}<span
+                    >{:else}{@const label = placeLabel(
+                        place,
+                        $locales,
+                    )}{#if isLast}<span
                             class="crumb current"
                             aria-current="page">{label}</span
                         >{:else}<button

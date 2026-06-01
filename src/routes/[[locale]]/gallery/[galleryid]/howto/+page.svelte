@@ -1,7 +1,7 @@
 <script lang="ts">
     import { page } from '$app/state';
+    import Breadcrumbs from '@components/app/Breadcrumbs.svelte';
     import Header from '@components/app/Header.svelte';
-    import Link from '@components/app/Link.svelte';
     import Loading from '@components/app/Loading.svelte';
     import Notice from '@components/app/Notice.svelte';
     import Page from '@components/app/Page.svelte';
@@ -414,18 +414,8 @@
     <Page footer={true}>
         <div class="howtospace">
             <div class="howtospaceheader">
+                <Breadcrumbs name={galleryName} />
                 <Header text={(l) => l.ui.howto.galleryView.header}></Header>
-                <Subheader>
-                    {#if ($user && gallery && (gallery.hasCurator($user.uid) || gallery.hasCreator($user.uid))) || (gallery && gallery.isPublic())}
-                        <Link
-                            to="/gallery/{galleryID}"
-                            tip={(l) => l.ui.howto.headerTooltip}
-                            >{galleryName}</Link
-                        >
-                    {:else if gallery && galleryName.length > 0}
-                        {galleryName}
-                    {/if}
-                </Subheader>
 
                 <MarkupHTMLView markup={(l) => l.ui.howto.galleryView.prompt} />
 

@@ -7058,6 +7058,10 @@
                 "intro": "$~Terima kasih kepada * $count * kontributor kami yang telah berkontribusi pada desain, pengembangan, lokalisasi, dan konten Wordplay! Dan terima kasih kepada banyak guru dan kaum muda yang telah membimbing desain kami dalam kelompok fokus, sesi desain, dan ruang kelas, yang tidak kami sebutkan di sini untuk menjaga privasi mereka. Proyek ini telah didukung oleh National Science Foundation di bawah penghargaan 2318257, 2031265, 2100296, dan 2122950, Universitas Washington, dan donatur yang murah hati.<gifts@://donate> dari orang-orang seperti Anda.",
                 "teachers": "$~Guru",
                 "contributors": "$~Kontributor"
+            },
+            "breadcrumb": {
+                "label": "$~Tepung roti",
+                "home": "$~Rumah"
             }
         },
         "edit": {

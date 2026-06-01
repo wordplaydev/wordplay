@@ -1,6 +1,7 @@
 <script lang="ts">
     import { page } from '$app/state';
     import { Basis } from '@basis/Basis';
+    import Breadcrumbs from '@components/app/Breadcrumbs.svelte';
     import Header from '@components/app/Header.svelte';
     import Link from '@components/app/Link.svelte';
     import Notice from '@components/app/Notice.svelte';
@@ -2287,6 +2288,7 @@
 <Page>
     <section>
         <div class="header">
+            <Breadcrumbs />
             <Header block={false} text={(l) => l.ui.page.character.header} />
             <p><LocalizedText path={(l) => l.ui.page.character.prompt} /></p>
         </div>

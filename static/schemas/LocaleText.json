@@ -15060,6 +15060,25 @@
                   ],
                   "type": "object"
                 },
+                "breadcrumb": {
+                  "additionalProperties": false,
+                  "description": "Breadcrumb navigation trail shown above page headers",
+                  "properties": {
+                    "home": {
+                      "description": "[plain] Accessible name and tooltip for the home breadcrumb link",
+                      "type": "string"
+                    },
+                    "label": {
+                      "description": "[plain] ARIA label for the breadcrumb navigation trail",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "label",
+                    "home"
+                  ],
+                  "type": "object"
+                },
                 "character": {
                   "additionalProperties": false,
                   "description": "The character editor page",
@@ -17401,6 +17420,7 @@
                 }
               },
               "required": [
+                "breadcrumb",
                 "unknown",
                 "landing",
                 "learn",

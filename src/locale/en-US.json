@@ -6294,6 +6294,10 @@
             "invalidConceptLinks": "These concept links don't resolve in the current language. Did you misspell one, or remove it on purpose?"
         },
         "page": {
+            "breadcrumb": {
+                "label": "Breadcrumbs",
+                "home": "Home"
+            },
             "unknown": {
                 "header": "Eep!",
                 "message": "Where is this place? Can we go home?"

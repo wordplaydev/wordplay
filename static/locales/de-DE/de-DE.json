@@ -6667,6 +6667,10 @@
                 "singletonWordsWarning": "$~Einige Wörter in Ihrem Entwurf kommen im gesamten Text nur einmal vor. Sind Sie sicher, dass sie korrekt geschrieben sind und mit dem übrigen Text übereinstimmen?",
                 "viewPR": "$~Pull-Anfrage ansehen",
                 "oneLocaleNote": "$~Jeder Beitrag bezieht sich jeweils auf eine Sprache. Diese Bearbeitungen werden in der Datei $locale gespeichert. Wenn Sie zu einer anderen Sprache beitragen möchten, wechseln Sie bitte zuerst die Sprache. Die unter jeder Sprache gespeicherten Änderungen werden separat verwaltet."
+            },
+            "breadcrumb": {
+                "label": "$~Paniermehl",
+                "home": "$~Heim"
             }
         },
         "edit": {
