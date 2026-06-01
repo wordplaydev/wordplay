@@ -329,8 +329,8 @@ export class CharactersDatabase {
         try {
             let match: Character | null = null;
             // Check the database by ID.
-            const onlineMatchByID = await getDoc(
-                doc(firestore, CharactersCollection, id),
+            const onlineMatchByID = await this.db.read(
+                getDoc(doc(firestore, CharactersCollection, id)),
             );
             if (onlineMatchByID.exists()) {
                 const character = onlineMatchByID.data();
@@ -378,15 +378,21 @@ export class CharactersDatabase {
             let match: Character | null = null;
 
             // Check the database by name.
-            const onlineMatchByName = await getDocs(
-                query(
-                    collection(firestore, CharactersCollection),
-                    and(
-                        where('name', '==', name),
-                        or(
-                            where('public', '==', true),
-                            where('owner', '==', user.uid),
-                            where('collaborators', 'array-contains', user.uid),
+            const onlineMatchByName = await this.db.read(
+                getDocs(
+                    query(
+                        collection(firestore, CharactersCollection),
+                        and(
+                            where('name', '==', name),
+                            or(
+                                where('public', '==', true),
+                                where('owner', '==', user.uid),
+                                where(
+                                    'collaborators',
+                                    'array-contains',
+                                    user.uid,
+                                ),
+                            ),
                         ),
                     ),
                 ),

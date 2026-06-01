@@ -1,4 +1,5 @@
 import { auth, firestore } from '@db/firebase';
+import { FirebaseError } from 'firebase/app';
 import concretize from '@locale/concretize';
 import { getBestSupportedLocales } from '@locale/getBestSupportedLocales';
 import { type SupportedLocale } from '@locale/SupportedLocales';
@@ -128,6 +129,10 @@ export class Database {
      *  Concurrent writes share a single check rather than spawning their own. */
     private writeCheckInFlight = false;
     private static WRITE_CHECK_TIMEOUT_MS = 8_000;
+    /** Maximum time a one-time read may take before we give up and treat the
+     *  backend as unreachable. Without it, an unreachable backend makes
+     *  `getDoc`/`getDocs` hang for minutes instead of failing fast. */
+    private static READ_TIMEOUT_MS = 8_000;
     /** Number of consecutive probe failures. Only marks Firebase unreachable
      *  after two in a row, suppressing false positives under classroom load. */
     private writeCheckConsecutiveFailures = 0;
@@ -209,13 +214,68 @@ export class Database {
         });
     }
 
+    /** Speculative disconnect signal (e.g. Firestore serving from cache). Only
+     *  shows the banner once we've previously connected this session — see the
+     *  `firebaseEverConnected` gate in the `disconnected` derived. */
     markFirebaseDisconnected() {
         firebaseReachable.set(false);
+    }
+
+    /** Definitive connectivity failure (a read/write timed out, or a listener
+     *  errored with a connectivity code). Surfaces the banner immediately, even
+     *  if we never successfully connected this session — that's exactly the
+     *  case the `firebaseEverConnected` gate would otherwise hide. */
+    markFirebaseFailed() {
+        firebaseReachable.set(false);
+        firebaseFailed.set(true);
     }
 
     markFirebaseReachable() {
         firebaseReachable.set(true);
         firebaseEverConnected.set(true);
+        firebaseFailed.set(false);
+    }
+
+    /** Whether an error reflects a connectivity problem (so it should trip the
+     *  unreachable banner) versus an expected outcome like a permission denial
+     *  or missing doc (which must not). Also true for our own timeout Errors. */
+    isConnectivityError(error: unknown): boolean {
+        if (error instanceof FirebaseError)
+            return [
+                'unavailable',
+                'deadline-exceeded',
+                'cancelled',
+                'internal',
+                'aborted',
+                'resource-exhausted',
+            ].includes(error.code);
+        // Our timeout rejection, or any non-Firebase network error.
+        return error instanceof Error;
+    }
+
+    /** Wrap a one-time Firebase read (`getDoc`/`getDocs`) so it fails fast
+     *  instead of hanging when the backend is unreachable, and so reads — not
+     *  just writes — feed the reachability banner. Races the read against a
+     *  timeout: on success we mark reachable; on a connectivity failure we mark
+     *  failed. The error is rethrown either way, so callers' existing try/catch
+     *  keep returning their usual `undefined`/`false`. */
+    async read<T>(read: Promise<T>): Promise<T> {
+        try {
+            const value = await Promise.race([
+                read,
+                new Promise<never>((_, reject) =>
+                    setTimeout(
+                        () => reject(new Error('read-timeout')),
+                        Database.READ_TIMEOUT_MS,
+                    ),
+                ),
+            ]);
+            this.markFirebaseReachable();
+            return value;
+        } catch (error) {
+            if (this.isConnectivityError(error)) this.markFirebaseFailed();
+            throw error;
+        }
     }
 
     /** Wrap a Firebase write to detect network failures. Use this around every
@@ -267,7 +327,7 @@ export class Database {
                 () => {
                     this.writeCheckConsecutiveFailures++;
                     if (this.writeCheckConsecutiveFailures >= 2)
-                        this.markFirebaseDisconnected();
+                        this.markFirebaseFailed();
                 },
             )
             .finally(() => {
@@ -528,13 +588,29 @@ export const firebaseEverConnected: Writable<boolean> = writable(false);
  *  persistence) before showing any connection feedback. */
 export const authAttempted: Writable<boolean> = writable(false);
 
+/** True once a Firebase op has *definitively* failed for a connectivity reason
+ *  (a read/write timed out, or a listener errored with a connectivity code).
+ *  Unlike the speculative `firebaseReachable=false`, this surfaces the banner
+ *  even when we never successfully connected this session — a user whose live
+ *  connection is broken from the start would otherwise never see it (the
+ *  `firebaseEverConnected` gate below hides speculative disconnects). Cleared
+ *  by `markFirebaseReachable()` on any success. */
+export const firebaseFailed: Writable<boolean> = writable(false);
+
 /** Derived: true when we should warn the user the page is non-functional —
- *  either the browser reports offline (definitive once auth attempted), or
- *  Firebase has failed AFTER having successfully connected at least once. */
+ *  the browser reports offline, OR a Firebase op definitively failed, OR
+ *  Firebase fell back to cache AFTER having successfully connected at least
+ *  once (the speculative case, still gated on a prior success). */
 export const disconnected: Readable<boolean> = derived(
-    [onlineStatus, firebaseReachable, firebaseEverConnected, authAttempted],
-    ([online, fb, ever, attempted]) =>
-        attempted && (!online || (!fb && ever)),
+    [
+        onlineStatus,
+        firebaseReachable,
+        firebaseEverConnected,
+        authAttempted,
+        firebaseFailed,
+    ],
+    ([online, fb, ever, attempted, failed]) =>
+        attempted && (!online || failed || (!fb && ever)),
 );
 
 if (import.meta.hot) {

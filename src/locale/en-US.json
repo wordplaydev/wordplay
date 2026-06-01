@@ -6232,7 +6232,7 @@
         },
         "connection": {
             "offline": "You're offline. Some things won't work until you are online.",
-            "unreachable": "We can't reach the database. Some things won't work until we can.",
+            "unreachable": "We can't reach the database, so some things won't work. A VPN, browser extension, or network filter may be blocking it.",
             "label": "Connection status"
         },
         "update": {

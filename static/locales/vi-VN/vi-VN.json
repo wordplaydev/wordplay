@@ -7124,7 +7124,7 @@
         },
         "connection": {
             "offline": "$~Bạn đang ngoại tuyến. Một số tính năng sẽ không hoạt động cho đến khi bạn kết nối lại mạng.",
-            "unreachable": "$~Chúng tôi không thể truy cập vào cơ sở dữ liệu Wordplay. Một số tính năng sẽ không hoạt động cho đến khi kết nối được khôi phục.",
+            "unreachable": "$~Chúng tôi không thể truy cập cơ sở dữ liệu, vì vậy một số chức năng sẽ không hoạt động. Có thể do VPN, tiện ích mở rộng trình duyệt hoặc bộ lọc mạng đang chặn truy cập.",
             "label": "$~Trạng thái kết nối"
         },
         "presence": {

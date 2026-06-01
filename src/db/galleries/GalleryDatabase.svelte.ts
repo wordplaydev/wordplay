@@ -180,6 +180,11 @@ export default class GalleryDatabase {
             },
             (error) => {
                 this.status = 'noaccess';
+                // A connectivity failure on this read-only-browsing listener
+                // should surface the site-wide connection banner; a permission
+                // or index error should not.
+                if (this.database.isConnectivityError(error))
+                    this.database.markFirebaseFailed();
                 if (error instanceof FirebaseError) {
                     console.error(error.code);
                     console.error(error.message);
@@ -281,8 +286,8 @@ export default class GalleryDatabase {
         // Didn't find it locally? See if we get read it from the database.
         if (firestore) {
             try {
-                const galDoc = await getDoc(
-                    doc(firestore, GalleriesCollection, id),
+                const galDoc = await this.database.read(
+                    getDoc(doc(firestore, GalleriesCollection, id)),
                 );
                 if (galDoc.exists()) {
                     const gallery = deserializeGallery(galDoc.data());

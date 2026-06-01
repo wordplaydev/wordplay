@@ -521,7 +521,11 @@ export default class ProjectsDatabase {
                 if (error instanceof FirebaseError) {
                     console.error(error.message);
                 }
-                this.database.markFirebaseDisconnected();
+                // Definitive failure when it's a connectivity error, so the
+                // banner shows even if we never connected this session.
+                if (this.database.isConnectivityError(error))
+                    this.database.markFirebaseFailed();
+                else this.database.markFirebaseDisconnected();
                 this.database.setStatus(
                     SaveStatus.Error,
                     (l) => l.ui.project.save.projectsNotLoadingOnline,
@@ -1293,8 +1297,8 @@ export default class ProjectsDatabase {
         // Not there? See if Firebase has it.
         if (firestore) {
             try {
-                const projectDoc = await getDoc(
-                    doc(firestore, ProjectsCollection, id),
+                const projectDoc = await this.database.read(
+                    getDoc(doc(firestore, ProjectsCollection, id)),
                 );
                 if (projectDoc.exists()) {
                     const user = this.database.getUser();

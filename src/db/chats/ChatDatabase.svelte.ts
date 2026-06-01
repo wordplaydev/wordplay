@@ -736,8 +736,8 @@ export class ChatDatabase {
         // If not, see if it's in the database.
         if (firestore === undefined) return undefined;
         try {
-            const chatDoc = await getDoc(
-                doc(firestore, ChatsCollection, chatID),
+            const chatDoc = await this.db.read(
+                getDoc(doc(firestore, ChatsCollection, chatID)),
             );
             if (chatDoc.exists()) {
                 const remoteChat = chatDoc.data();

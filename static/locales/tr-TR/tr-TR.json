@@ -7121,7 +7121,7 @@
         },
         "connection": {
             "offline": "$~Çevrimdışı durumdasınız. Çevrimiçi olana kadar bazı özellikler çalışmayacaktır.",
-            "unreachable": "$~Wordplay veritabanına erişemiyoruz. Bağlantı yeniden kurulana kadar bazı özellikler çalışmayacaktır.",
+            "unreachable": "$~Veritabanına erişemiyoruz, bu nedenle bazı şeyler çalışmayacak. VPN, tarayıcı eklentisi veya ağ filtresi bunu engelliyor olabilir.",
             "label": "$~Bağlantı durumu"
         },
         "presence": {

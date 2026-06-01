@@ -7128,7 +7128,7 @@
         },
         "connection": {
             "offline": "$~Está offline. Algumas funcionalidades só funcionarão quando estiver online.",
-            "unreachable": "$~Não conseguimos aceder à base de dados do Wordplay. Algumas funcionalidades não estarão disponíveis até que a ligação seja restabelecida.",
+            "unreachable": "$~Não conseguimos aceder à base de dados, então algumas coisas não funcionarão. Uma VPN, extensão de browser ou filtro de rede pode estar a bloquear o acesso.",
             "label": "$~Estado da conexão"
         },
         "presence": {

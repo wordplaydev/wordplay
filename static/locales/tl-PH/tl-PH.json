@@ -7131,7 +7131,7 @@
         },
         "connection": {
             "offline": "$~Naka-offline ka. Hindi gagana ang ilang feature hangga't hindi ka online.",
-            "unreachable": "$~Hindi namin makontak ang database ng Wordplay. Hindi gagana ang ilang feature hangga't hindi bumabalik ang koneksyon.",
+            "unreachable": "$~Hindi namin ma-access ang database, kaya may ilang bagay na hindi gagana. Maaaring hinaharangan ito ng VPN, browser extension, o network filter.",
             "label": "$~Katayuan ng koneksyon"
         },
         "presence": {

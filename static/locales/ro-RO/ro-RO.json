@@ -7130,7 +7130,7 @@
         },
         "connection": {
             "offline": "$~Ești offline. Unele funcții nu vor funcționa până când nu ești online.",
-            "unreachable": "$~Nu putem accesa baza de date Wordplay. Unele funcții nu vor funcționa până nu se restabilește conexiunea.",
+            "unreachable": "$~Nu putem accesa baza de date, așa că unele lucruri nu vor funcționa. Este posibil ca o rețea VPN, o extensie de browser sau un filtru de rețea să o blocheze.",
             "label": "$~Starea conexiunii"
         },
         "presence": {

@@ -8,7 +8,7 @@
     import { getUser } from '@components/project/Contexts';
     import Title from '@components/widgets/Title.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import { Galleries, Projects, locales } from '@db/Database';
+    import { DB, Galleries, Projects, locales } from '@db/Database';
     import type Project from '@db/projects/Project';
     import { searchProjects, type ProjectMatch } from '../projects/search';
     import { debounced } from '@util/debounce.svelte';
@@ -77,7 +77,15 @@
                   orderBy('id'),
                   limit(5),
               );
-        const documentSnapshots = await getDocs(first);
+        // Wrap in DB.read so a broken connection fails fast (rather than
+        // hanging for minutes) and trips the site-wide connection banner.
+        let documentSnapshots;
+        try {
+            documentSnapshots = await DB.read(getDocs(first));
+        } catch (_) {
+            // The banner (via DB.read) carries the message; leave the list as-is.
+            return;
+        }
 
         // Remember the last document.
         lastBatch = documentSnapshots.docs[documentSnapshots.docs.length - 1];

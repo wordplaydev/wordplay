@@ -7122,7 +7122,7 @@
         },
         "connection": {
             "offline": "$~Du är offline. Vissa funktioner fungerar inte förrän du är online.",
-            "unreachable": "$~Vi kan inte nå Wordplay-databasen. Vissa funktioner fungerar inte förrän anslutningen är tillbaka.",
+            "unreachable": "$~Vi kan inte nå databasen, så vissa saker kommer inte att fungera. Ett VPN, ett webbläsartillägg eller ett nätverksfilter kan blockera det.",
             "label": "$~Anslutningsstatus"
         },
         "presence": {

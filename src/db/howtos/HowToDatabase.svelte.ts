@@ -613,8 +613,8 @@ export class HowToDatabase {
         // if not, see if it's in the database
         if (firestore === undefined) return undefined;
         try {
-            const howToDoc = await getDoc(
-                doc(firestore, HowTosCollection, howToId),
+            const howToDoc = await this.db.read(
+                getDoc(doc(firestore, HowTosCollection, howToId)),
             );
 
             if (howToDoc.exists()) {
