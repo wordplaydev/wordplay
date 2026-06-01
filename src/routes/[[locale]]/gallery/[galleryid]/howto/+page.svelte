@@ -20,7 +20,13 @@
     import Button from '@components/widgets/Button.svelte';
     import Options, { type Option } from '@components/widgets/Options.svelte';
     import ConceptIndex from '@concepts/ConceptIndex';
-    import { Galleries, HowTos, Locales, locales } from '@db/Database';
+    import {
+        authAttempted,
+        Galleries,
+        HowTos,
+        Locales,
+        locales,
+    } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
     import Project from '@db/projects/Project';
@@ -50,8 +56,12 @@
 
         // The accessible/expanded-scope maps are populated asynchronously by the
         // galleries realtime query, which needs a Firebase connection. Read the
-        // loading status so this effect re-runs once that query resolves.
+        // loading status so this effect re-runs once that query resolves, and
+        // read authAttempted so it re-runs once Firebase Auth resolves: the
+        // gallery database is constructed before auth, so its status starts at
+        // 'loggedout' until the user is known.
         const status = Galleries.getStatus();
+        const authResolved = $authAttempted;
 
         // check if the user has permission to read the gallery. if not, don't try to get it.
         if (
@@ -64,10 +74,11 @@
                 // Not found? No gallery.
                 else gallery = undefined;
             });
-        } else if (status === 'loading') {
-            // Still loading the user's accessible galleries — stay in the loading
-            // state rather than flashing "this how-to space doesn't exist" before
-            // we've established a connection.
+        } else if (!authResolved || status === 'loading') {
+            // Auth hasn't resolved yet, or we're still loading the user's
+            // accessible galleries — stay in the loading state rather than
+            // flashing "this how-to space doesn't exist" before we know who the
+            // user is and what they can access.
             gallery = null;
         } else {
             gallery = undefined;
