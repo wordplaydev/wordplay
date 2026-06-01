@@ -99,6 +99,10 @@
     let canvasWidth: number = $state(0);
     let canvasHeight: number = $state(0);
 
+    // Tiles mount this many pixels before entering the visible viewport so
+    // the component-creation cost is paid off-screen, not on first visibility.
+    let PRELOAD_MARGIN = $derived(Math.max(canvasWidth, canvasHeight) / 2);
+
     // determine if the user can add a new how-to
     let canUserEdit = $derived(
         gallery
@@ -122,6 +126,7 @@
     let cameraX = $state(0);
     let cameraY = $state(0);
 
+
     function panTo(x: number, y: number) {
         cameraX = -x + 10;
         cameraY = -y + 10;
@@ -141,16 +146,47 @@
         whichMoving = 'canvas';
     }
 
+    // Accumulated pointer deltas waiting for the next animation frame.
+    // Batching multiple pointermove events into a single rAF update caps
+    // the Svelte reactive cascade (transform update + inCanvasArea checks)
+    // at the display's paint rate rather than the raw pointer event rate.
+    let pendingDX = 0;
+    let pendingDY = 0;
+    let panRafID: number | undefined;
+
+    function flushPan() {
+        if (panRafID !== undefined) {
+            cancelAnimationFrame(panRafID);
+            panRafID = undefined;
+        }
+        if (pendingDX !== 0 || pendingDY !== 0) {
+            cameraX += pendingDX;
+            cameraY += pendingDY;
+            pendingDX = 0;
+            pendingDY = 0;
+        }
+    }
+
     function onpointerup() {
         if (whichMoving !== 'canvas' || whichDialogOpen) return;
+        flushPan();
         whichMoving = undefined;
     }
 
     function onpointermove(e: PointerEvent) {
         if (whichMoving !== 'canvas' || whichDialogOpen) return;
 
-        cameraX += e.movementX;
-        cameraY += e.movementY;
+        pendingDX += e.movementX;
+        pendingDY += e.movementY;
+        if (panRafID === undefined) {
+            panRafID = requestAnimationFrame(() => {
+                panRafID = undefined;
+                cameraX += pendingDX;
+                cameraY += pendingDY;
+                pendingDX = 0;
+                pendingDY = 0;
+            });
+        }
     }
 
     let keyboardFocused: boolean = $state(false);
@@ -510,7 +546,7 @@
                         style:transform="translate({cameraX}px, {cameraY}px)"
                     >
                         {#each howTos as howTo, i (howTo.getHowToId())}
-                            {#if howTo.isPublished() && howTo.inCanvasArea(-cameraX, -cameraX + canvasWidth, -cameraY, -cameraY + canvasHeight)}
+                            {#if howTo.isPublished() && howTo.inCanvasArea(-cameraX - PRELOAD_MARGIN, -cameraX + canvasWidth + PRELOAD_MARGIN, -cameraY - PRELOAD_MARGIN, -cameraY + canvasHeight + PRELOAD_MARGIN)}
                                 <HowToPreview
                                     bind:howTo={howTos[i]}
                                     bind:this={howToComponents[i]}
