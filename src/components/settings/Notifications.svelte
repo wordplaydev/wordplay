@@ -80,7 +80,11 @@
     const user = getUser();
 
     $effect(() => {
-        if (!$user) return;
+        // Capture the uid up front: the per-chat work below awaits, and on
+        // logout `$user` goes null mid-flight — reading `$user.uid` after an
+        // await would then throw once per cached chat.
+        const uid = $user?.uid;
+        if (uid === undefined) return;
 
         [...Chats.chats.values()].forEach(async (chat) => {
             let galleryID: string | null = null;
@@ -104,7 +108,7 @@
                 return;
 
             const gallery = await Galleries.get(galleryID);
-            chat.getMessagesPendingModeration($user.uid, gallery).forEach(
+            chat.getMessagesPendingModeration(uid, gallery).forEach(
                 (message) => {
                     modNeeded.set(message.id, [message, chat, galleryID!]);
                     let type =

@@ -514,9 +514,13 @@ export class HowToDatabase {
         // if there is no firestore access, do nothing
         if (firestore === undefined) return;
 
-        // if there is no user, do nothing
+        // No user (logout)? Tear the listeners down — otherwise they keep
+        // running after auth clears and error with permission-denied.
         const user = this.db.getUser();
-        if (!user) return;
+        if (!user) {
+            this.ignore();
+            return;
+        }
 
         this.listen(firestore, user.uid);
     }

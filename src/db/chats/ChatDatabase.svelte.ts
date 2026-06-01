@@ -497,7 +497,10 @@ export class ChatDatabase {
     syncUser() {
         if (firestore === undefined) return;
         const user = this.db.getUser();
+        // Tear the listener down on logout — otherwise it keeps running after
+        // auth clears and errors with permission-denied.
         if (user) this.listen(firestore, user);
+        else this.ignore();
     }
 
     private getAllParticipants(
