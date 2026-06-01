@@ -15,7 +15,7 @@
         TEXT_EDITING_SYMBOL,
     } from '@parser/Symbols';
     import Evaluator from '@runtime/Evaluator';
-    import { onMount } from 'svelte';
+    import { onMount, untrack } from 'svelte';
     import { writable } from 'svelte/store';
     import { blocks, DB, locales, Settings } from '@db/Database';
     import Annotations from '@components/annotations/Annotations.svelte';
@@ -62,8 +62,9 @@
     // svelte-ignore state_referenced_locally
     let lastExample = $state(example);
 
-    // Derive a project from the example.
-    let project = $derived<Project | undefined>(
+    // Derive a project from the example. Project.make always returns a
+    // Project, so this is never undefined.
+    let project = $derived<Project>(
         Project.make(
             null,
             'example',
@@ -89,13 +90,21 @@
         conflictsStore.set(project ? project.analyze().conflicts : []);
     });
 
+    // Build the evaluator in the given reactivity mode. It starts
+    // **non-reactive** so the static first frame (getInitialValue) evaluates
+    // without starting any streams — crucially without claiming the mic/camera
+    // (CameraFeed/AudioStream only call getUserMedia when reactive). It's
+    // recreated reactive only when the creator presses play (see the $effect
+    // below), mirroring OutputPreview's self-contained behavior.
+    function makeEvaluator(reactive: boolean): Evaluator {
+        return new Evaluator(project, DB, $locales.getLocales(), reactive);
+    }
+
     // Eagerly construct the evaluator so we can populate the evaluation
     // context at script init, before child components mount. project is a
     // $derived that returns a Project synchronously here.
     // svelte-ignore state_referenced_locally
-    let evaluator = $state<Evaluator>(
-        new Evaluator(project as Project, DB, $locales.getLocales()),
-    );
+    let evaluator = $state<Evaluator>(makeEvaluator(false));
 
     // Isolate the evaluation and animating-nodes contexts from the parent
     // ProjectView. Without this, parent broadcasts (~60Hz while playing) and
@@ -132,7 +141,7 @@
     let exampleCommandContext = $derived<CommandContext>({
         caret: currentCaret,
         editor: false,
-        project: project as Project,
+        project,
         locales: $locales,
         evaluator,
         database: DB,
@@ -191,7 +200,7 @@
 
         if (project) {
             playing = false;
-            evaluator = new Evaluator(project, DB, $locales.getLocales());
+            evaluator = makeEvaluator(false);
             evaluator.observe(updateEvaluatorStores);
             evaluator.getInitialValue();
             updateEvaluatorStores();
@@ -201,6 +210,28 @@
     /** Reset when the project changes */
     $effect(() => {
         if (project) reset(false);
+    });
+
+    /** Switch the evaluator's reactivity to match play state. The evaluator's
+     *  `reactive` flag is immutable, so we recreate it: non-reactive shows the
+     *  static first frame without starting streams (no mic/camera claim);
+     *  reactive starts streams — and so claims native inputs like the camera —
+     *  only once the creator presses play. Mirrors OutputPreview.recreateOwn.
+     *  The body is untracked so broadcasting to observers (which touch reactive
+     *  state) can't re-invalidate this effect; only `playing` is a dependency. */
+    $effect(() => {
+        const p = playing;
+        untrack(() => {
+            if (!project || evaluator.reactive === p) return;
+            evaluator.ignore(updateEvaluatorStores);
+            evaluator.stop();
+            evaluator = makeEvaluator(p);
+            evaluator.observe(updateEvaluatorStores);
+            // Reactive: evaluate and start streams. Non-reactive: static frame.
+            if (p) evaluator.start();
+            else evaluator.getInitialValue();
+            updateEvaluatorStores();
+        });
     });
 
     /** Add the example to the index when it changes so it can be dragged */
