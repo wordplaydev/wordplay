@@ -1914,9 +1914,18 @@ export default class ProjectsDatabase {
         }
     }
 
-    /** When a gallery changes, ensure that we respect access, tracking any projects that we aren't tracking yet, and stopping tracking projects we were tracking. */
+    /** When a gallery changes, stop tracking any of its projects we were
+     *  tracking that are no longer in it.
+     *
+     *  We deliberately do NOT fetch newly-added gallery projects here. The
+     *  realtime projects query (the `gallery in` chunk listeners in `syncUser`)
+     *  already streams every project in the user's accessible galleries, so
+     *  fetching them here too meant one `getDoc` per gallery project on every
+     *  galleries snapshot — a redundant read burst on login that scaled with
+     *  galleries × projects-per-gallery (e.g. ~180 reads for a teacher in 10
+     *  galleries of ~18 projects). The realtime listener supplies them instead. */
     async refreshGallery(gallery: Gallery) {
-        // Find all projects we're tracking that are no longer in the gallery, and remove them.
+        // Drop locally-tracked projects that are no longer in this gallery.
         for (const [projectID, history] of this.projectHistories.entries()) {
             const current = history.getCurrent();
             if (
@@ -1924,22 +1933,6 @@ export default class ProjectsDatabase {
                 !gallery.getProjects().includes(projectID)
             ) {
                 this.deleteLocalProject(projectID);
-            }
-        }
-
-        // Find all of the projects in the gallery that we're not tracking, and track them.
-        for (const projectID of gallery.getProjects()) {
-            if (!this.projectHistories.has(projectID)) {
-                try {
-                    const project = await this.get(projectID);
-                    if (project) {
-                        this.track(project, true, PersistenceType.Online, true);
-                    }
-                } catch (err) {
-                    console.error(
-                        'Unable to get the project in the gallery, even though the gallery was listed as containing the project.',
-                    );
-                }
             }
         }
     }
