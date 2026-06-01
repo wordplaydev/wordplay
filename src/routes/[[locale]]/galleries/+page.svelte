@@ -25,7 +25,6 @@
     } from 'firebase/firestore';
     import { onMount } from 'svelte';
     import GalleryPreview from '@components/app/GalleryPreview.svelte';
-    import Loading from '@components/app/Loading.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
@@ -195,10 +194,11 @@
             {/each}
         {/if}
     {:else if $user === undefined}
-        <!-- Firebase auth hasn't resolved yet. Show a placeholder so the
-             "logged out" notice doesn't flash for users who turn out to be
-             logged in (same pattern used by /profile). -->
-        <Loading />
+        <!-- Auth hasn't resolved yet. Show an inline spinner so the "logged
+             out" notice doesn't flash for users who turn out to be logged in.
+             Spinning (not Loading) because the header and prompt above are
+             already rendered — same as /characters and /localize. -->
+        <Spinning label={(l) => l.ui.widget.loading.message} />
     {:else}
         <Notice text={(l) => l.ui.page.galleries.error.nogalleryedits} />
     {/if}

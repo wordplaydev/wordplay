@@ -2326,7 +2326,9 @@
             </Notice>
         {/if}
 
-        {#if !isAuthenticated($user)}
+        {#if $user === undefined}
+            <Spinning></Spinning>
+        {:else if !isAuthenticated($user)}
             <Notice
                 text={(l) => l.ui.page.character.feedback.unauthenticated}
             />

@@ -2,6 +2,7 @@
     import Header from '@components/app/Header.svelte';
     import Link from '@components/app/Link.svelte';
     import Notice from '@components/app/Notice.svelte';
+    import Spinning from '@components/app/Spinning.svelte';
     import Writing from '@components/app/Writing.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import TemplateInputsPanel from '@components/localization/TemplateInputsPanel.svelte';
@@ -831,7 +832,9 @@
     <Header text={(l) => l.ui.page.localize.header} />
     <MarkupHTMLView markup={(l) => l.ui.page.localize.description} />
 
-    {#if !isAuthenticated($user)}
+    {#if $user === undefined}
+        <Spinning></Spinning>
+    {:else if !isAuthenticated($user)}
         <Notice text={(l) => l.ui.page.localize.requireLogin} />
     {:else}
         <section class="workspace" bind:this={workspaceTop}>

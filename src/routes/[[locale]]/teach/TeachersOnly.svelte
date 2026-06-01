@@ -13,7 +13,9 @@
     let user = getUser();
 </script>
 
-{#if !isAuthenticated($user)}
+{#if $user === undefined}
+    <Spinning />
+{:else if !isAuthenticated($user)}
     <Header text={(l) => l.ui.page.teach.header} />
     <MarkupHTMLView markup={(l) => l.ui.page.teach.error.login} />
 {:else}
