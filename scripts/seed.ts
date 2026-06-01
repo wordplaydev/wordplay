@@ -471,7 +471,7 @@ async function seedCreatorHowTos(): Promise<void> {
             guidingQuestions: HOWTO_GUIDING_QUESTIONS,
             text: HOWTO_GUIDING_QUESTIONS.map(
                 (_, qi) =>
-                    `¶Example answer ${qi + 1} for "${title}". (Seeded content — edit me!)¶/en-US`,
+                    `¶Example answer ${qi + 1} for "${title}". (Seeded content — edit me!) \n\n\\Phrase("hello world")\\¶/en-US`,
             ),
             creator: creator.uid,
             collaborators: [],

@@ -1,30 +1,30 @@
 <script lang="ts">
     import Fonts from '@basis/Fonts';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Spinning from '@components/app/Spinning.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import {
         getAnnouncer,
         getTip,
         getUser,
         isAuthenticated,
     } from '@components/project/Contexts';
+    import { pickPreviewExample } from '@concepts/pickPreviewExample';
     import { characterToSVG, type Character } from '@db/characters/Character';
     import { CharactersDB, DB, HowTos, locales } from '@db/Database';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
-    import Project from '@db/projects/Project';
     import { enqueuePreviewCompute } from '@db/projects/previewQueue';
+    import Project from '@db/projects/Project';
     import Source from '@nodes/Source';
     import { toMarkup } from '@parser/toMarkup';
+    import UnicodeString from '@unicode/UnicodeString';
     import { untrack } from 'svelte';
     import type { SvelteMap } from 'svelte/reactivity';
-    import UnicodeString from '@unicode/UnicodeString';
     import HowToForm from './HowToForm.svelte';
     import {
         findHowToPlacement,
         movePermitted,
         snapToNearestEdge,
     } from './HowToMovement';
-    import { pickPreviewExample } from '@concepts/pickPreviewExample';
 
     interface Props {
         howTo: HowTo;
@@ -145,7 +145,7 @@
             [],
             $locales.getLocales(),
         );
-        enqueuePreviewCompute(project, $locales, DB)
+        enqueuePreviewCompute(project, $locales, DB, howTo.getHowToId())
             .then((extracted) => {
                 if (cancelled) return;
                 if (extracted.face) Fonts.loadFace(extracted.face);
@@ -211,9 +211,6 @@
         isAuthenticated($user) && allWriters.includes($user.uid),
     );
 
-    let renderX: number = $derived(xcoord + (isPublished ? cameraX : 0));
-    let renderY: number = $derived(ycoord + (isPublished ? cameraY : 0));
-
     /** Anchor recorded at drag start: the viewport-space cursor position
      *  and the tile's world-space position. We compute new positions as
      *  origin.xcoord + (e.clientX - origin.clientX) instead of summing
@@ -243,6 +240,8 @@
         if (!isPublished) return;
         if (canvasWidth <= 0 || canvasHeight <= 0) return;
 
+        const renderX = xcoord + cameraX;
+        const renderY = ycoord + cameraY;
         let panX = 0;
         let panY = 0;
 
@@ -260,6 +259,31 @@
 
         if (panX !== 0) cameraX += panX;
         if (panY !== 0) cameraY += panY;
+    }
+
+    // Latest pointer position waiting for the next animation frame.
+    // Storing absolute clientX/Y (not deltas) means we only need the
+    // most recent event — earlier ones in the same frame are redundant.
+    let pendingClientX: number | null = null;
+    let pendingClientY: number | null = null;
+    let dragRafID: number | undefined;
+
+    function flushDrag() {
+        if (dragRafID !== undefined) {
+            cancelAnimationFrame(dragRafID);
+            dragRafID = undefined;
+        }
+        if (
+            dragOrigin !== null &&
+            pendingClientX !== null &&
+            pendingClientY !== null
+        ) {
+            xcoord = dragOrigin.xcoord + (pendingClientX - dragOrigin.clientX);
+            ycoord = dragOrigin.ycoord + (pendingClientY - dragOrigin.clientY);
+            autoPanToShowTile();
+            pendingClientX = null;
+            pendingClientY = null;
+        }
     }
 
     function onpointerdown(e: PointerEvent) {
@@ -286,6 +310,7 @@
     function onpointerup() {
         if (whichMoving !== howToId || !canEdit || whichDialogOpen) return;
 
+        flushDrag();
         dragOrigin = null;
         whichMoving = undefined;
 
@@ -303,9 +328,14 @@
             dragOrigin === null
         )
             return;
-        xcoord = dragOrigin.xcoord + (e.clientX - dragOrigin.clientX);
-        ycoord = dragOrigin.ycoord + (e.clientY - dragOrigin.clientY);
-        autoPanToShowTile();
+        pendingClientX = e.clientX;
+        pendingClientY = e.clientY;
+        if (dragRafID === undefined) {
+            dragRafID = requestAnimationFrame(() => {
+                dragRafID = undefined;
+                flushDrag();
+            });
+        }
     }
 
     let keyboardFocused: boolean = $state(false);
@@ -323,7 +353,10 @@
         if (!canEdit || whichDialogOpen) return;
 
         keyboardFocused = false;
-        if (whichMoving === howToId) whichMoving = undefined;
+        if (whichMoving === howToId) {
+            flushDrag();
+            whichMoving = undefined;
+        }
 
         onDropHowTo();
     }
@@ -495,8 +528,8 @@
 <div
     class="howto"
     class:moving={whichMoving === howToId}
-    style:left={`${renderX}px`}
-    style:top={`${renderY}px`}
+    style:left={`${xcoord}px`}
+    style:top={`${ycoord}px`}
     id="howto-{howToId}"
     tabindex="0"
     bind:clientWidth={width}
