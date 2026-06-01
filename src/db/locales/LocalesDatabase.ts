@@ -18,6 +18,7 @@ import {
 import { get, writable, type Writable } from 'svelte/store';
 import type Tutorial from '../../tutorial/Tutorial';
 import type Setting from '@db/settings/Setting';
+import versioned from '@db/locales/versioned';
 
 /** Per-locale emoji translations, keyed by the codepoint hex (e.g. "1F600",
  * "0023 FE0F 20E3") used in static/unicode/codes.txt. Each value is an
@@ -145,7 +146,7 @@ export default class LocalesDatabase {
     }
 
     async loadHowTo(path: string): Promise<string | undefined> {
-        return await fetch(path)
+        return await fetch(versioned(path))
             .then(async (response) =>
                 response.ok ? await response.text() : undefined,
             )
@@ -243,7 +244,7 @@ export default class LocalesDatabase {
                 const path = `/locales/${lang}/${lang}.json`;
                 const promise =
                     // First, see if the locale exists
-                    fetch(path)
+                    fetch(versioned(path))
                         .then(async (response) =>
                             response.ok ? await response.json() : undefined,
                         )
@@ -369,11 +370,15 @@ export default class LocalesDatabase {
         let tutorial: Tutorial | undefined;
         try {
             // Load the locale's tutorial, if it exists.
-            const response = await fetch(this.getTutorialURL(localeString));
+            const response = await fetch(
+                versioned(this.getTutorialURL(localeString)),
+            );
             tutorial = await response.json();
         } catch (err) {
             // Couldn't load it? Fallback to english.
-            tutorial = await (await fetch(this.getTutorialURL('en-US'))).json();
+            tutorial = await (
+                await fetch(versioned(this.getTutorialURL('en-US')))
+            ).json();
         }
 
         this.tutorialsLoaded[localeString] = tutorial;
