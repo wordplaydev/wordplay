@@ -18,6 +18,8 @@ import {
 } from '@db/settings/BlockDensitySetting';
 import { BlocksSetting } from '@db/settings/BlocksSetting';
 import { CameraSetting } from '@db/settings/CameraSetting';
+import { CaretsSetting } from '@db/settings/CaretsSetting';
+import type { SerializedCaret } from '@db/projects/ProjectSchemas';
 import { DarkSetting } from '@db/settings/DarkSetting';
 import { FaceSetting } from '@db/settings/FaceSetting';
 import { HowToNotificationsSetting } from '@db/settings/HowToNotificationsSetting';
@@ -86,6 +88,7 @@ export default class SettingsDatabase {
     /** The current settings */
     readonly settings = {
         layouts: LayoutsSetting,
+        carets: CaretsSetting,
         arrangement: ArrangementSetting,
         animationFactor: AnimationFactorSetting,
         locales: LocalesSetting,
@@ -166,6 +169,43 @@ export default class SettingsDatabase {
 
     setLayout(layouts: Record<string, SerializedLayout>) {
         this.settings.layouts.set(this.database, layouts);
+    }
+
+    /** The persisted caret (offset, range, or node path) for a project source,
+     *  or undefined if none. The setting validator has already checked the
+     *  stored shape against the project's caret schema. */
+    getProjectCaret(
+        projectID: string,
+        sourceIndex: number,
+    ): SerializedCaret | undefined {
+        return this.settings.carets.get()[projectID]?.[sourceIndex];
+    }
+
+    setProjectCaret(
+        projectID: string,
+        sourceIndex: number,
+        caret: SerializedCaret,
+    ) {
+        // Skip redundant writes when the caret hasn't changed. Compare by value
+        // so all caret forms (offset, range, node path) are handled uniformly.
+        const current = this.settings.carets.get()[projectID]?.[sourceIndex];
+        if (current !== undefined && JSON.stringify(current) === JSON.stringify(caret))
+            return;
+
+        const all = this.settings.carets.get();
+        this.settings.carets.set(this.database, {
+            ...all,
+            [projectID]: { ...all[projectID], [sourceIndex]: caret },
+        });
+    }
+
+    /** Drop a project's persisted carets (on local deletion). */
+    removeProjectCarets(projectID: string) {
+        const all = this.settings.carets.get();
+        if (!(projectID in all)) return;
+        const next = { ...all };
+        delete next[projectID];
+        this.settings.carets.set(this.database, next);
     }
 
     setArrangement(arrangement: ArrangementType) {

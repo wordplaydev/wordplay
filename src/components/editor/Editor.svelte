@@ -77,6 +77,7 @@
     import {
         DB,
         Projects,
+        Settings,
         animationFactor,
         blockDensity,
         blocks,
@@ -88,6 +89,8 @@
         type CaretPosition,
         NegligibleConflicts,
         isCaretPosition,
+        resolveCaretPosition,
+        serializeCaretPosition,
     } from '@edit/caret/Caret';
     import {
         AssignmentPoint,
@@ -114,6 +117,7 @@
     import ExceptionValue from '@values/ExceptionValue';
     import { onMount, tick, untrack } from 'svelte';
     import { get, writable } from 'svelte/store';
+    import { debounced } from '@util/debounce.svelte';
 
     interface Props {
         /** The evaluator evaluating the source being edited. */
@@ -169,12 +173,31 @@
         caretSnapshot = $bindable(undefined),
     }: Props = $props();
 
+    // The locally-persisted caret for this source, resolved to a live position
+    // (a stored node path becomes the node it points to). Undefined if none is
+    // stored or it no longer resolves against the current source.
+    function localCaret(): CaretPosition | undefined {
+        const stored = Settings.getProjectCaret(
+            project.getID(),
+            project.getIndexOfSource(source),
+        );
+        return stored !== undefined
+            ? resolveCaretPosition(source, stored)
+            : undefined;
+    }
+
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
     // We start at the saved caret position or 0. We also share it with parents through a bind.
+    // For an editable editor, prefer the locally-persisted caret (updated on every
+    // move, see the effect below) over the project document's per-edit caret, so a
+    // refresh restores where the caret was actually left. Read-only editors (e.g.
+    // embedded examples) don't persist, so they just use the document's caret.
     const caret = writable<Caret>(
         new Caret(
             source,
-            project.getCaretPosition(source) ?? 0,
+            (editable ? localCaret() : undefined) ??
+                project.getCaretPosition(source) ??
+                0,
             undefined,
             undefined,
             undefined,
@@ -207,6 +230,26 @@
     // Expose caret value to parent via bindable prop.
     $effect(() => {
         caretSnapshot = $caret;
+    });
+
+    // Persist caret-only moves (clicks, arrow keys) to localStorage, debounced,
+    // so a refresh restores where the caret was left. Edits already persist the
+    // caret to the project document via handleEdit; this covers pure moves, which
+    // otherwise never save. We keep this out of the project document on purpose:
+    // routing a caret move through the reactive project would force a re-analysis
+    // and concept-index rebuild on every pause (see ProjectView). Only editable
+    // editors persist. Node selections are stored as their source path.
+    const debouncedCaret = debounced(() => $caret, 1000);
+    $effect(() => {
+        const position = debouncedCaret.current.position;
+        untrack(() => {
+            if (!editable) return;
+            Settings.setProjectCaret(
+                project.getID(),
+                project.getIndexOfSource(source),
+                serializeCaretPosition(source, position),
+            );
+        });
     });
 
     /** Narrowing helper: distinguishes a text-mode selection range
