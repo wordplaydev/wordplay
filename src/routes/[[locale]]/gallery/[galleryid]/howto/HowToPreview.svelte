@@ -145,7 +145,7 @@
             [],
             $locales.getLocales(),
         );
-        enqueuePreviewCompute(project, $locales, DB)
+        enqueuePreviewCompute(project, $locales, DB, howTo.getHowToId())
             .then((extracted) => {
                 if (cancelled) return;
                 if (extracted.face) Fonts.loadFace(extracted.face);
@@ -211,8 +211,6 @@
         isAuthenticated($user) && allWriters.includes($user.uid),
     );
 
-    let renderX: number = $derived(xcoord + (isPublished ? cameraX : 0));
-    let renderY: number = $derived(ycoord + (isPublished ? cameraY : 0));
 
     /** Anchor recorded at drag start: the viewport-space cursor position
      *  and the tile's world-space position. We compute new positions as
@@ -243,6 +241,8 @@
         if (!isPublished) return;
         if (canvasWidth <= 0 || canvasHeight <= 0) return;
 
+        const renderX = xcoord + cameraX;
+        const renderY = ycoord + cameraY;
         let panX = 0;
         let panY = 0;
 
@@ -495,8 +495,8 @@
 <div
     class="howto"
     class:moving={whichMoving === howToId}
-    style:left={`${renderX}px`}
-    style:top={`${renderY}px`}
+    style:left={`${xcoord}px`}
+    style:top={`${ycoord}px`}
     id="howto-{howToId}"
     tabindex="0"
     bind:clientWidth={width}

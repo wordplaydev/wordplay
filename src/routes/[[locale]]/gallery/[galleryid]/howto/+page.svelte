@@ -505,26 +505,31 @@
                     {onblur}
                     {onkeydown}
                 >
-                    {#each howTos as howTo, i (howTo.getHowToId())}
-                        {#if howTo.isPublished() && howTo.inCanvasArea(-cameraX, -cameraX + canvasWidth, -cameraY, -cameraY + canvasHeight)}
-                            <HowToPreview
-                                bind:howTo={howTos[i]}
-                                bind:this={howToComponents[i]}
-                                bind:cameraX
-                                bind:cameraY
-                                {canvasWidth}
-                                {canvasHeight}
-                                bind:whichMoving
-                                bind:notPermittedAreas
-                                galleryCuratorCollaborators={gallery
-                                    ? gallery
-                                          .getCurators()
-                                          .concat(gallery.getCreators())
-                                    : []}
-                                bind:whichDialogOpen
-                            />
-                        {/if}
-                    {/each}
+                    <div
+                        class="world"
+                        style:transform="translate({cameraX}px, {cameraY}px)"
+                    >
+                        {#each howTos as howTo, i (howTo.getHowToId())}
+                            {#if howTo.isPublished() && howTo.inCanvasArea(-cameraX, -cameraX + canvasWidth, -cameraY, -cameraY + canvasHeight)}
+                                <HowToPreview
+                                    bind:howTo={howTos[i]}
+                                    bind:this={howToComponents[i]}
+                                    bind:cameraX
+                                    bind:cameraY
+                                    {canvasWidth}
+                                    {canvasHeight}
+                                    bind:whichMoving
+                                    bind:notPermittedAreas
+                                    galleryCuratorCollaborators={gallery
+                                        ? gallery
+                                              .getCurators()
+                                              .concat(gallery.getCreators())
+                                        : []}
+                                    bind:whichDialogOpen
+                                />
+                            {/if}
+                        {/each}
+                    </div>
                 </div>
             </div>
         </div>
@@ -586,5 +591,10 @@
         overflow: hidden;
         position: relative;
         touch-action: none;
+    }
+
+    .world {
+        position: absolute;
+        inset: 0;
     }
 </style>
