@@ -5027,7 +5027,8 @@
                 }
             },
             "error": {
-                "unknown": "$~Galeri ini tidak ada atau tidak bersifat publik."
+                "unknown": "$~Galeri ini tidak ada atau tidak bersifat publik.",
+                "unreachable": "$~Kami tidak dapat memuat galeri ini. Jika Anda berharap dapat mengaksesnya, periksa koneksi Anda; VPN, ekstensi peramban, atau filter jaringan mungkin memblokirnya."
             },
             "field": {
                 "name": {

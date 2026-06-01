@@ -5027,7 +5027,8 @@
                 }
             },
             "error": {
-                "unknown": "$~Această galerie nu există sau nu este publică."
+                "unknown": "$~Această galerie nu există sau nu este publică.",
+                "unreachable": "$~Nu am putut încărca această galerie. Dacă te aștepți să ai acces, verifică-ți conexiunea; o rețea VPN, o extensie de browser sau un filtru de rețea ar putea să o blocheze."
             },
             "field": {
                 "name": {

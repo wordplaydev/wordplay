@@ -5022,7 +5022,8 @@
                 }
             },
             "error": {
-                "unknown": "$~Phòng trưng bày này không tồn tại hoặc không công khai."
+                "unknown": "$~Phòng trưng bày này không tồn tại hoặc không công khai.",
+                "unreachable": "$~Chúng tôi không thể tải thư viện ảnh này. Nếu bạn muốn truy cập, hãy kiểm tra kết nối của mình; VPN, tiện ích mở rộng trình duyệt hoặc bộ lọc mạng có thể đang chặn nó."
             },
             "field": {
                 "name": {

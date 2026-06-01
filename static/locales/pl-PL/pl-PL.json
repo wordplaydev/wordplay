@@ -5027,7 +5027,8 @@
                 }
             },
             "error": {
-                "unknown": "$~Ta galeria nie istnieje lub nie jest publiczna."
+                "unknown": "$~Ta galeria nie istnieje lub nie jest publiczna.",
+                "unreachable": "$~Nie udało się załadować tej galerii. Jeśli chcesz mieć do niej dostęp, sprawdź połączenie. VPN, rozszerzenie przeglądarki lub filtr sieciowy mogą je blokować."
             },
             "field": {
                 "name": {

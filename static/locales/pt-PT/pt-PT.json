@@ -5022,7 +5022,8 @@
                 }
             },
             "error": {
-                "unknown": "$~Esta galeria não existe ou não é pública."
+                "unknown": "$~Esta galeria não existe ou não é pública.",
+                "unreachable": "$~Não foi possível carregar esta galeria. Se esperava ter acesso, verifique a sua ligação; uma VPN, extensão do browser ou filtro de rede pode estar a bloquear o acesso."
             },
             "field": {
                 "name": {

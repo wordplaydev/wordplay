@@ -17,7 +17,7 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import TextBox from '@components/widgets/TextBox.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import { Galleries, Projects, locales } from '@db/Database';
+    import { disconnected, Galleries, Projects, locales } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
     import {
         getClasses,
@@ -120,7 +120,16 @@
 {:else}
     <Writing>
         {#if gallery === undefined}
-            <Notice text={(l) => l.ui.gallery.error.unknown} />
+            <!-- Distinguish "couldn't reach the database" (the read timed out /
+                 we're disconnected) from a gallery that genuinely doesn't exist —
+                 otherwise a timed-out load misreports an accessible gallery as
+                 missing. -->
+            <Notice
+                text={(l) =>
+                    $disconnected
+                        ? l.ui.gallery.error.unreachable
+                        : l.ui.gallery.error.unknown}
+            />
         {:else}
             <Header
                 >{#if editable}<TextField

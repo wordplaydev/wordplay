@@ -5025,7 +5025,8 @@
                 }
             },
             "error": {
-                "unknown": "$~Hindi umiiral o hindi pampubliko ang gallery na ito."
+                "unknown": "$~Hindi umiiral o hindi pampubliko ang gallery na ito.",
+                "unreachable": "$~Hindi namin ma-load ang gallery na ito. Kung inaasahan mong magkaroon ng access, suriin ang iyong koneksyon; maaaring hinaharangan ito ng isang VPN, extension ng browser, o filter ng network."
             },
             "field": {
                 "name": {

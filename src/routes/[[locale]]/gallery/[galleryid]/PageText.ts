@@ -30,6 +30,8 @@ type PageText = {
     error: {
         /** [plain] When the gallery is not known or is not public */
         unknown: string;
+        /** [plain] When we couldn't load the gallery because the database was unreachable (vs. it not existing) */
+        unreachable: string;
     };
     field: { name: FieldText; description: FieldText };
 };

@@ -5028,7 +5028,8 @@
                 }
             },
             "error": {
-                "unknown": "This gallery doesn't exist or isn't public."
+                "unknown": "This gallery doesn't exist or isn't public.",
+                "unreachable": "We couldn't load this gallery. If you expect to have access, check your connection; a VPN, browser extension, or network filter may be blocking it."
             },
             "field": {
                 "name": {

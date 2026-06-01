@@ -14019,10 +14019,15 @@
                     "unknown": {
                       "description": "[plain] When the gallery is not known or is not public",
                       "type": "string"
+                    },
+                    "unreachable": {
+                      "description": "[plain] When we couldn't load the gallery because the database was unreachable (vs. it not existing)",
+                      "type": "string"
                     }
                   },
                   "required": [
-                    "unknown"
+                    "unknown",
+                    "unreachable"
                   ],
                   "type": "object"
                 },

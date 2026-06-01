@@ -5019,7 +5019,8 @@
                 }
             },
             "error": {
-                "unknown": "$~Bu galeri mevcut değil veya herkese açık değil."
+                "unknown": "$~Bu galeri mevcut değil veya herkese açık değil.",
+                "unreachable": "$~Bu galeri yüklenemedi. Erişim sağlamayı bekliyorsanız, bağlantınızı kontrol edin; bir VPN, tarayıcı uzantısı veya ağ filtresi erişimi engelliyor olabilir."
             },
             "field": {
                 "name": {

@@ -5019,7 +5019,8 @@
                 }
             },
             "error": {
-                "unknown": "$~Det här galleriet finns inte eller är inte offentligt."
+                "unknown": "$~Det här galleriet finns inte eller är inte offentligt.",
+                "unreachable": "$~Vi kunde inte ladda det här galleriet. Om du förväntar dig åtkomst, kontrollera din anslutning; ett VPN, ett webbläsartillägg eller ett nätverksfilter kan blockera det."
             },
             "field": {
                 "name": {

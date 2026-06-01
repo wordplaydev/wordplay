@@ -5005,7 +5005,8 @@
                 }
             },
             "error": {
-                "unknown": "$~Diese Galerie existiert nicht oder ist nicht öffentlich."
+                "unknown": "$~Diese Galerie existiert nicht oder ist nicht öffentlich.",
+                "unreachable": "$~Diese Galerie konnte nicht geladen werden. Falls Sie darauf zugreifen möchten, überprüfen Sie Ihre Internetverbindung; möglicherweise blockiert ein VPN, eine Browsererweiterung oder ein Netzwerkfilter den Zugriff."
             },
             "field": {
                 "name": {
