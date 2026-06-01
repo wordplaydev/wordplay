@@ -74,6 +74,12 @@ export default class GalleryDatabase {
     /** The unsubscribe function for the real time query for galleries this user has access to. */
     private galleriesQueryUnsubscribe: Unsubscribe | undefined;
 
+    /** A sorted, comma-joined key of the accessible-gallery IDs the projects
+     *  query was last subscribed for. We only re-subscribe the projects query
+     *  when this set actually changes — re-subscribing on every galleries
+     *  snapshot needlessly tore down and rebuilt all project listeners. */
+    private watchedGalleryKey: string | undefined = undefined;
+
     /** A list of projects on which listeners for gallery updates to keep data in sync. */
     private listeners: Map<ProjectID, Set<(gallery: Gallery) => void>> =
         new Map();
@@ -122,6 +128,10 @@ export default class GalleryDatabase {
         }
 
         this.status = 'loading';
+
+        // Reset so the first snapshot for this (re)subscription always syncs the
+        // projects query for the new user/access.
+        this.watchedGalleryKey = undefined;
 
         this.galleriesQueryUnsubscribe = onSnapshot(
             // Listen for any changes to galleries for which this user is a curator or creator.
@@ -172,8 +182,19 @@ export default class GalleryDatabase {
                     }
                 });
 
-                // Make a new realtime query based on the access.
-                this.database.Projects.syncUser(false);
+                // Re-subscribe the projects query only when the SET of accessible
+                // galleries changed — its `gallery in [...]` filter depends on
+                // that set. Re-subscribing on every gallery content/metadata
+                // change churned the whole projects query for nothing; project
+                // updates *within* already-watched galleries keep streaming on
+                // the live listeners regardless.
+                const watchedKey = Array.from(this.accessibleGalleries.keys())
+                    .sort()
+                    .join(',');
+                if (watchedKey !== this.watchedGalleryKey) {
+                    this.watchedGalleryKey = watchedKey;
+                    this.database.Projects.syncUser(false);
+                }
 
                 // Mark the database loaded.
                 this.status = 'loaded';

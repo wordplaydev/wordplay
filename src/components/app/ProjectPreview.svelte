@@ -2,7 +2,6 @@
 <script lang="ts">
     import { navigating } from '$app/state';
     import Fonts from '@basis/Fonts';
-    import type Chat from '@db/chats/ChatDatabase.svelte';
     import type Project from '@db/projects/Project';
     import type { SerializedPreview } from '@db/projects/ProjectSchemas';
     import { PHRASE_SYMBOL } from '@parser/Symbols';
@@ -143,13 +142,16 @@
             ($user.uid === owner || collaborators.includes($user.uid)),
     );
 
-    let chat = $state<Chat | undefined>(undefined);
-    $effect(() => {
-        // When the project changes, get the chat, and mark read if it was unread.
-        Chats.getChat(project).then((retrievedChat) => {
-            if (retrievedChat) chat = retrievedChat;
-        });
-    });
+    // Read the chat from the global chats cache (kept current by the single
+    // `participants array-contains` listener) rather than fetching it per tile.
+    // Fetching here did a getDoc per preview — and again on every 4s rotation in
+    // GalleryPreview — which under long-polling became a storm of transient chat
+    // listen targets. The unread badge only matters for chats the user takes part
+    // in, which the global listener already streams into this reactive cache.
+    let projectID = $derived(project.getID());
+    let chat = $derived(
+        projectID !== null ? Chats.chats.get(projectID) : undefined,
+    );
 
     let unread = $derived(
         chat !== undefined &&
