@@ -8,6 +8,7 @@ import type LocaleText from '@locale/LocaleText';
 import { toDocString, type NameAndDoc } from '@locale/LocaleText';
 import { localeToLanguage } from '@locale/localeToLanguage';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
+import selectTranslation from '@locale/selectTranslation';
 
 export function getInputLocales(
     locales: Locales,
@@ -19,7 +20,9 @@ export function getInputLocales(
     // Convert each translation into names and docs for each input.
     for (const [translation, inputs] of locales
         .getLocales()
-        .map((locale) => [locale, select(locale)] as const)) {
+        .map(
+            (locale) => [locale, selectTranslation(locale, select)] as const,
+        )) {
         inputs.forEach((input, index) => {
             if (binds[index] === undefined)
                 binds[index] = { docs: [], names: [] };
