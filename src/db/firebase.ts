@@ -53,10 +53,21 @@ if (typeof process === 'undefined') {
         auth = getAuth(app);
 
         firestore = initializeFirestore(app, {
-            // There are some network proxies and anti-virus software that require long polling to correctly
-            // transmit data. This slows down the entire persistence layer, but may be necessary for some school settings.
-            // See https://github.com/firebase/firebase-js-sdk/issues/1674
-            experimentalForceLongPolling: true,
+            // Auto-detect long polling instead of forcing it. Forcing long
+            // polling cycles many discrete HTTP requests instead of one
+            // streaming WebChannel connection, and under heavy concurrent load
+            // that starves/churns the session — producing "Unknown SID" 400s
+            // and a reconnect storm on large accounts. Auto-detect uses the
+            // efficient streaming transport when the network allows and falls
+            // back to long polling only when an intermediary (school proxy /
+            // anti-virus) requires it. See
+            // https://github.com/firebase/firebase-js-sdk/issues/1674
+            //
+            // NOTE: validate on a proxied/filtered (school) network before
+            // relying on this — fall back to experimentalForceLongPolling if
+            // auto-detection misbehaves there.
+            experimentalAutoDetectLongPolling: true,
+            //experimentalForceLongPolling: false,
         });
         // firestore = getFirestore(app);
         functions = getFunctions(app);
