@@ -35,6 +35,7 @@ import Source from '@nodes/Source';
 import { COPY_SYMBOL } from '@parser/Symbols';
 import { type Observable } from 'dexie';
 import { FirebaseError } from 'firebase/app';
+import type { User } from 'firebase/auth';
 import {
     collection,
     deleteDoc,
@@ -46,6 +47,8 @@ import {
     setDoc,
     where,
     writeBatch,
+    type DocumentData,
+    type QuerySnapshot,
     type Unsubscribe,
 } from 'firebase/firestore';
 import { SvelteMap } from 'svelte/reactivity';
@@ -115,8 +118,24 @@ export default class ProjectsDatabase {
     readonly readonlyProjects: SvelteMap<string, Project | undefined> =
         new SvelteMap();
 
-    /** Remember how to unsubscribe from the user's realtime query. */
-    private projectsQueryUnsubscribe: Unsubscribe | undefined = undefined;
+    /** Unsubscribers for the user's realtime project listeners. The query is
+     *  split across listeners — one "base" listener for owned/shared projects,
+     *  plus one per 30-gallery chunk — because Firestore caps both `in` (≤ 30
+     *  values) and `or` (≤ 30 disjunctions), so a single `or(... gallery in
+     *  [all galleries])` query is rejected once a user belongs to ~27+
+     *  galleries. (HowToDatabase chunks the same way.) */
+    private projectsQueryUnsubscribes: Unsubscribe[] = [];
+
+    /** The set of project IDs each project listener currently matches, keyed by
+     *  listener id ('base' + one per gallery chunk). Because no single listener
+     *  sees the full set, the not-in-snapshot deletion sweep unions these. */
+    private listenerProjectIDs: Map<string, Set<string>> = new Map();
+
+    /** How many project listeners we expect to hear from (1 base + one per
+     *  gallery chunk). The deletion sweep waits until all have reported, so an
+     *  early-firing chunk listener can't delete the user's owned projects
+     *  before the base listener has loaded them. */
+    private expectedProjectListeners = 0;
 
     /** Pending "Firestore is serving from cache" disconnect timer. Cleared if
      *  a fresh server snapshot arrives during the debounce window. */
@@ -326,16 +345,22 @@ export default class ProjectsDatabase {
         if (current) current.delete(listener);
     }
 
-    /** Stop listening to this user's realtime project query. Safe to call when no query is active. */
-    unmount() {
-        if (this.projectsQueryUnsubscribe) {
-            this.projectsQueryUnsubscribe();
-            this.projectsQueryUnsubscribe = undefined;
-        }
+    /** Tear down all realtime project listeners and reset their bookkeeping.
+     *  Safe to call when none are active. */
+    private stopProjectsQuery() {
+        for (const unsubscribe of this.projectsQueryUnsubscribes) unsubscribe();
+        this.projectsQueryUnsubscribes = [];
+        this.listenerProjectIDs.clear();
+        this.expectedProjectListeners = 0;
         if (this.fromCacheTimer !== undefined) {
             clearTimeout(this.fromCacheTimer);
             this.fromCacheTimer = undefined;
         }
+    }
+
+    /** Stop listening to this user's realtime project query. Safe to call when no query is active. */
+    unmount() {
+        this.stopProjectsQuery();
     }
 
     async deserializeAll(
@@ -378,164 +403,187 @@ export default class ProjectsDatabase {
         // If there's no firestore access, do nothing.
         if (firestore === undefined) return;
 
-        // Unsubscribe from the old user's realtime project query
-        if (this.projectsQueryUnsubscribe) {
-            this.projectsQueryUnsubscribe();
-            this.projectsQueryUnsubscribe = undefined;
-        }
-        if (this.fromCacheTimer !== undefined) {
-            clearTimeout(this.fromCacheTimer);
-            this.fromCacheTimer = undefined;
-        }
+        // Tear down any previous listeners before re-subscribing.
+        this.stopProjectsQuery();
 
         // If there's no more user, do nothing.
         if (user === null) return;
 
-        // Get the current list of galleries to watch.
+        // Capture firestore so the narrowing survives into the listener closures.
+        const fs = firestore;
+
+        // Galleries the user curates/creates — their projects are visible too.
         const galleryIDsToWatch = Array.from(
             Galleries.accessibleGalleries.keys(),
         );
 
-        // Construct the query constraints. Visible projects are either owned by the user or shared with the user.
-        const constraints = [
-            where('owner', '==', user.uid),
-            where('collaborators', 'array-contains', user.uid),
-            where('commenters', 'array-contains', user.uid),
-            where('viewers', 'array-contains', user.uid),
-        ];
+        // Chunk gallery membership across listeners: Firestore caps both `in`
+        // (≤ 30 values) and `or` (≤ 30 disjunctions), so a single
+        // `or(owner, ..., gallery in [all galleries])` query is rejected once a
+        // user belongs to ~27+ galleries. A base listener covers owned/shared
+        // projects; one listener per 30-gallery chunk covers gallery projects.
+        const galleryChunks: string[][] = [];
+        for (let i = 0; i < galleryIDsToWatch.length; i += 30)
+            galleryChunks.push(galleryIDsToWatch.slice(i, i + 30));
+        this.expectedProjectListeners = 1 + galleryChunks.length;
 
-        // If the user has any gallery IDs it has access to, include those in the project query.
-        if (galleryIDsToWatch.length > 0)
-            constraints.push(where('gallery', 'in', galleryIDsToWatch));
-
-        // Set up the realtime projects query for the user, tracking any projects from the cloud,
-        // and deleting any tracked locally that didn't appear in the snapshot.
         // `includeMetadataChanges: true` lets us observe Firestore's connection
         // state passively via snapshot.metadata.fromCache.
-        this.projectsQueryUnsubscribe = onSnapshot(
-            query(
-                collection(firestore, ProjectsCollection),
-                or(...constraints),
+        const options = { includeMetadataChanges: true };
+        const onError = (error: unknown) => {
+            if (error instanceof FirebaseError) console.error(error.message);
+            // Definitive failure when it's a connectivity error, so the banner
+            // shows even if we never connected this session.
+            if (this.database.isConnectivityError(error))
+                this.database.markFirebaseFailed();
+            else this.database.markFirebaseDisconnected();
+            this.database.setStatus(
+                SaveStatus.Error,
+                (l) => l.ui.project.save.projectsNotLoadingOnline,
+            );
+        };
+
+        // Base listener: projects owned by or shared with the user.
+        this.projectsQueryUnsubscribes.push(
+            onSnapshot(
+                query(
+                    collection(fs, ProjectsCollection),
+                    or(
+                        where('owner', '==', user.uid),
+                        where('collaborators', 'array-contains', user.uid),
+                        where('commenters', 'array-contains', user.uid),
+                        where('viewers', 'array-contains', user.uid),
+                    ),
+                ),
+                options,
+                (snapshot) =>
+                    this.handleProjectsSnapshot('base', user, snapshot),
+                onError,
             ),
-            { includeMetadataChanges: true },
-            async (snapshot) => {
-                // Passive Firebase reachability detection. Server-fresh data
-                // is the definitive "connected" signal. Cache fallback is only
-                // a disconnect signal when there are NO pending local writes —
-                // Firestore's latency compensation briefly serves cache during
-                // any setDoc(), which would otherwise flash the banner. Even
-                // then, debounce 2s so transient sync gaps don't trigger it.
-                if (!snapshot.metadata.fromCache) {
-                    if (this.fromCacheTimer !== undefined) {
-                        clearTimeout(this.fromCacheTimer);
-                        this.fromCacheTimer = undefined;
-                    }
-                    this.database.markFirebaseReachable();
-                } else if (
-                    !snapshot.metadata.hasPendingWrites &&
-                    this.fromCacheTimer === undefined
-                ) {
-                    this.fromCacheTimer = setTimeout(() => {
-                        this.database.markFirebaseDisconnected();
-                        this.fromCacheTimer = undefined;
-                    }, 2000);
-                }
-
-                // Metadata-only updates carry no doc changes; nothing else to do.
-                if (snapshot.docChanges().length === 0) return;
-
-                const serialized: unknown[] = [];
-                const deleted: string[] = [];
-                const projectIDs: Set<string> = new Set();
-
-                // First, go through the entire set, gathering the latest versions and remembering what project IDs we know
-                // so we can delete ones that are gone from the server.
-                snapshot.forEach((doc) => {
-                    const project = doc.data();
-                    serialized.push(project);
-                    projectIDs.add(project.id);
-                });
-
-                // Next, go through the changes and see if any were explicitly removed, and if so, delete them.
-                snapshot.docChanges().forEach((change) => {
-                    // Removed? Delete the local cache of the project.
-                    if (change.type === 'removed') deleted.push(change.doc.id);
-                });
-
-                // Deserialize the projects and track them, if they're not already tracked.
-                // Ensure the project is only tracked as editable if the user is the owner, collaborator, or curator.
-                for (const { project, upgraded } of await this.deserializeAll(
-                    serialized,
-                )) {
-                    // The project is ediable i they are an owner, collaborator, or it is in a gallery for which they are curator.
-                    const gallery = project.getGallery();
-                    const editable =
-                        project.isOwner(user.uid) ||
-                        project.hasCollaborator(user.uid) ||
-                        (gallery !== null &&
-                            Galleries.accessibleGalleries
-                                .get(gallery)
-                                ?.hasCurator(user.uid) === true);
-
-                    // If the Firestore doc was at an older schema version,
-                    // mark the history as unsaved so persist() backfills
-                    // the upgraded shape on the next saveSoon tick. Only
-                    // valid for editable projects — a read-only viewer
-                    // doesn't have permission to rewrite the doc.
-                    const history = this.track(
-                        project,
-                        editable,
-                        PersistenceType.Online,
-                        editable ? !upgraded : true,
-                    );
-                    if (editable && upgraded) {
-                        // track() may have merged into a pre-existing
-                        // history (one we'd already tracked this session)
-                        // whose `saved=true` wouldn't have been touched
-                        // by the `saved` arg above — that arg only seeds
-                        // the *new-history* path. Force the bit here so
-                        // persist() picks the row up on the next round
-                        // and rewrites the doc at the latest schema.
-                        history?.markUnsaved();
-                        this.saveSoon();
-                    }
-                }
-
-                // Find all projects 1) known locally, 2) that didn't appear in latest update
-                // 3) were previously marked as cloud persisted, and 4) aren't pending
-                for (const [
-                    projectID,
-                    history,
-                ] of this.projectHistories.entries())
-                    if (
-                        history.getCurrent().isPersisted() &&
-                        !projectIDs.has(projectID)
-                    )
-                        deleted.push(projectID);
-
-                // Delete the deleted if the data was from the server.
-                if (!snapshot.metadata.fromCache)
-                    for (const id of deleted) await this.deleteLocalProject(id);
-            },
-            (error) => {
-                if (error instanceof FirebaseError) {
-                    console.error(error.message);
-                }
-                // Definitive failure when it's a connectivity error, so the
-                // banner shows even if we never connected this session.
-                if (this.database.isConnectivityError(error))
-                    this.database.markFirebaseFailed();
-                else this.database.markFirebaseDisconnected();
-                this.database.setStatus(
-                    SaveStatus.Error,
-                    (l) => l.ui.project.save.projectsNotLoadingOnline,
-                );
-            },
         );
+
+        // One listener per gallery chunk: projects in galleries the user accesses.
+        galleryChunks.forEach((chunk, index) => {
+            this.projectsQueryUnsubscribes.push(
+                onSnapshot(
+                    query(
+                        collection(fs, ProjectsCollection),
+                        where('gallery', 'in', chunk),
+                    ),
+                    options,
+                    (snapshot) =>
+                        this.handleProjectsSnapshot(
+                            `gallery:${index}`,
+                            user,
+                            snapshot,
+                        ),
+                    onError,
+                ),
+            );
+        });
 
         // If we have a user, save the current database to the cloud, in case there
         // were any local edits.
         this.saveSoon();
+    }
+
+    /** Shared handler for every project listener set up by `syncUser` (the base
+     *  owned/shared listener plus one per gallery chunk). `key` identifies the
+     *  listener so the deletion sweep can union each listener's matched IDs. */
+    private async handleProjectsSnapshot(
+        key: string,
+        user: User,
+        snapshot: QuerySnapshot<DocumentData>,
+    ) {
+        // Passive Firebase reachability detection. Server-fresh data is the
+        // definitive "connected" signal. Cache fallback is only a disconnect
+        // signal when there are NO pending local writes — Firestore's latency
+        // compensation briefly serves cache during any setDoc(), which would
+        // otherwise flash the banner. Even then, debounce 2s so transient sync
+        // gaps don't trigger it.
+        if (!snapshot.metadata.fromCache) {
+            if (this.fromCacheTimer !== undefined) {
+                clearTimeout(this.fromCacheTimer);
+                this.fromCacheTimer = undefined;
+            }
+            this.database.markFirebaseReachable();
+        } else if (
+            !snapshot.metadata.hasPendingWrites &&
+            this.fromCacheTimer === undefined
+        ) {
+            this.fromCacheTimer = setTimeout(() => {
+                this.database.markFirebaseDisconnected();
+                this.fromCacheTimer = undefined;
+            }, 2000);
+        }
+
+        // Record the full set this listener currently matches, for the
+        // cross-listener deletion sweep below.
+        const seen = new Set<string>();
+        snapshot.forEach((doc) => seen.add(doc.data().id));
+        this.listenerProjectIDs.set(key, seen);
+
+        // Metadata-only updates carry no doc changes; nothing else to do.
+        if (snapshot.docChanges().length === 0) return;
+
+        // Gather the latest versions of every project this listener matched.
+        const serialized: unknown[] = [];
+        snapshot.forEach((doc) => serialized.push(doc.data()));
+
+        // Deserialize and track them. A project is editable if the user owns it,
+        // collaborates on it, or curates a gallery it belongs to.
+        for (const { project, upgraded } of await this.deserializeAll(
+            serialized,
+        )) {
+            const gallery = project.getGallery();
+            const editable =
+                project.isOwner(user.uid) ||
+                project.hasCollaborator(user.uid) ||
+                (gallery !== null &&
+                    Galleries.accessibleGalleries
+                        .get(gallery)
+                        ?.hasCurator(user.uid) === true);
+
+            // If the Firestore doc was at an older schema version, mark the
+            // history as unsaved so persist() backfills the upgraded shape on
+            // the next saveSoon tick. Only valid for editable projects — a
+            // read-only viewer doesn't have permission to rewrite the doc.
+            const history = this.track(
+                project,
+                editable,
+                PersistenceType.Online,
+                editable ? !upgraded : true,
+            );
+            if (editable && upgraded) {
+                // track() may have merged into a pre-existing history whose
+                // `saved=true` wasn't touched by the `saved` arg above (that
+                // only seeds the new-history path). Force the bit so persist()
+                // rewrites the doc at the latest schema.
+                history?.markUnsaved();
+                this.saveSoon();
+            }
+        }
+
+        // Cross-listener cleanup: a locally-known, cloud-persisted project that
+        // NO listener still matches has been removed server-side. Only sweep
+        // against server-fresh data, and only once every listener has reported —
+        // otherwise an early-firing chunk listener would delete the user's owned
+        // projects before the base listener has loaded them.
+        if (
+            !snapshot.metadata.fromCache &&
+            this.listenerProjectIDs.size === this.expectedProjectListeners
+        ) {
+            const union = new Set<string>();
+            for (const ids of this.listenerProjectIDs.values())
+                for (const id of ids) union.add(id);
+
+            for (const [
+                projectID,
+                history,
+            ] of this.projectHistories.entries())
+                if (history.getCurrent().isPersisted() && !union.has(projectID))
+                    await this.deleteLocalProject(projectID);
+        }
     }
 
     /**
