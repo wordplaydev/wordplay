@@ -360,9 +360,16 @@ export class Database {
     async updateUser(user: User | null) {
         if (firestore === undefined) return;
 
-        // Delete if the user changed if a different account was logged in, or logged out.
+        // Wipe the local project cache only when a DIFFERENT account takes over
+        // this device — that's a real privacy boundary. We intentionally do NOT
+        // wipe when `user` is null: a null can be an involuntary auth drop (e.g.
+        // a flaky connection that can't refresh the ID token), and erasing a
+        // creator's local projects on a transient blip is data loss. A deliberate
+        // sign-out clears local data explicitly via Database.logout().
         const remove =
-            this.user !== null && (user === null || user.uid !== this.user.uid);
+            this.user !== null &&
+            user !== null &&
+            user.uid !== this.user.uid;
 
         // Update the user ID
         this.user = user;
@@ -384,6 +391,16 @@ export class Database {
 
         // Tell the how-to database.
         this.HowTos.syncUser();
+    }
+
+    /** Explicit, user-initiated sign-out. Clears the local project cache for
+     *  privacy (this device may be shared) BEFORE signing out. This is the only
+     *  path that wipes local data on logout — `updateUser` no longer deletes on
+     *  a null user, so an involuntary auth drop (a flaky connection that can't
+     *  refresh the token) can't erase a creator's local projects. */
+    async logout() {
+        await this.Projects.deleteLocal();
+        if (auth) await auth.signOut();
     }
 
     /** Clean up listeners */

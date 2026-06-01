@@ -9,8 +9,7 @@
     import EmojiChooser from '@components/widgets/GlyphChooser.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { Creator } from '@db/creators/CreatorDatabase';
-    import { SaveStatus, status } from '@db/Database';
-    import { auth } from '@db/firebase';
+    import { DB, SaveStatus, status } from '@db/Database';
     import { isModerator } from '@db/projects/Moderation';
     import { localeGoto } from '@util/localeGoto';
     import { updateProfile, type User } from 'firebase/auth';
@@ -49,11 +48,12 @@
     }
 
     async function logout() {
-        // Then sign out. (Projects will be deleted locally by the project database when user updates.)
-        if (auth) {
-            await auth.signOut();
-            localeGoto('/login');
-        }
+        // Deliberate sign-out: clear local data for privacy, then sign out.
+        // The wipe happens here (not on every auth-null) so an involuntary auth
+        // drop from a flaky connection doesn't erase local projects — see
+        // Database.logout / updateUser.
+        await DB.logout();
+        localeGoto('/login');
     }
 </script>
 
