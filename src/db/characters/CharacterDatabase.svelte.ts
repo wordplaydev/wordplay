@@ -26,6 +26,7 @@ import {
     type Unsubscribe,
 } from 'firebase/firestore';
 import { SvelteMap } from 'svelte/reactivity';
+import deferToIdle from '@util/deferToIdle';
 import { v4 as uuidv4 } from 'uuid';
 
 const CharactersCollection = 'characters';
@@ -55,6 +56,9 @@ export class CharactersDatabase {
     /** The realtime listener unsubscriber */
     private unsubscribe: Unsubscribe | undefined = undefined;
 
+    /** Cancels a pending idle-deferred `listen()` (see `listen`/`ignore`). */
+    private listenDefer: (() => void) | undefined = undefined;
+
     /** The map of characters needing to be saved */
     private unsaved = new Map<string, Character>();
 
@@ -72,11 +76,30 @@ export class CharactersDatabase {
     }
 
     ignore() {
-        if (this.unsubscribe) this.unsubscribe();
+        if (this.listenDefer) {
+            this.listenDefer();
+            this.listenDefer = undefined;
+        }
+        if (this.unsubscribe) {
+            this.unsubscribe();
+            this.unsubscribe = undefined;
+        }
     }
 
     listen(firestore: Firestore, user: User) {
         this.ignore();
+
+        // Defer this background listener until the browser is idle so it doesn't
+        // compete with the critical galleries/projects load on login.
+        this.listenDefer = deferToIdle(() => {
+            this.listenDefer = undefined;
+            // The user may have signed out or switched during the idle gap.
+            if (this.db.getUser()?.uid !== user.uid) return;
+            this.startListening(firestore, user);
+        });
+    }
+
+    private startListening(firestore: Firestore, user: User) {
         this.unsubscribe = onSnapshot(
             query(
                 collection(firestore, CharactersCollection),

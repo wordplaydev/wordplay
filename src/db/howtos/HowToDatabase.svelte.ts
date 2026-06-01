@@ -26,6 +26,7 @@ import {
     type Unsubscribe,
 } from 'firebase/firestore';
 import { SvelteMap } from 'svelte/reactivity';
+import deferToIdle from '@util/deferToIdle';
 import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
 import { notifications } from '../../routes/+layout.svelte';
@@ -432,6 +433,9 @@ export class HowToDatabase {
 
     private unsubscribes: Unsubscribe[] = [];
 
+    /** Cancels a pending idle-deferred `listen()` (see `listen`/`ignore`). */
+    private listenDefer: (() => void) | undefined = undefined;
+
     /** Per-listener tracking of how-to IDs currently visible to that listener.
      *  Key is the listener identity ("own", "scope", or `gallery:<chunkIndex>`).
      *  Used to garbage-collect cache entries that no listener sees anymore. */
@@ -638,6 +642,10 @@ export class HowToDatabase {
     }
 
     ignore() {
+        if (this.listenDefer) {
+            this.listenDefer();
+            this.listenDefer = undefined;
+        }
         this.unsubscribes.forEach((u) => u());
         this.unsubscribes = [];
         this.listenerDocIds.clear();
@@ -647,6 +655,17 @@ export class HowToDatabase {
     listen(firestore: Firestore, userId: string) {
         this.ignore();
 
+        // Defer these background listeners until the browser is idle so they
+        // don't compete with the critical galleries/projects load on login.
+        this.listenDefer = deferToIdle(() => {
+            this.listenDefer = undefined;
+            // The user may have signed out or switched during the idle gap.
+            if (this.db.getUser()?.uid !== userId) return;
+            this.startListening(firestore, userId);
+        });
+    }
+
+    private startListening(firestore: Firestore, userId: string) {
         // Notifications only fire for how-tos published after this point in time.
         const startTime: number = Date.now();
 

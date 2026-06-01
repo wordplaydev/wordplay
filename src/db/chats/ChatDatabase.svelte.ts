@@ -23,6 +23,7 @@ import {
     type Firestore,
 } from 'firebase/firestore';
 import { SvelteMap } from 'svelte/reactivity';
+import deferToIdle from '@util/deferToIdle';
 import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
 import { notifications } from '../../routes/+layout.svelte';
@@ -296,6 +297,9 @@ export class ChatDatabase {
     >();
 
     private unsubscribe: Unsubscribe | undefined = undefined;
+
+    /** Cancels a pending idle-deferred `listen()` (see `listen`/`ignore`). */
+    private listenDefer: (() => void) | undefined = undefined;
 
     private projectsListener: (project: Project) => void;
     private galleryListener: (gallery: Gallery) => void;
@@ -791,12 +795,30 @@ export class ChatDatabase {
     }
 
     ignore() {
-        if (this.unsubscribe) this.unsubscribe();
+        if (this.listenDefer) {
+            this.listenDefer();
+            this.listenDefer = undefined;
+        }
+        if (this.unsubscribe) {
+            this.unsubscribe();
+            this.unsubscribe = undefined;
+        }
     }
 
     listen(firestore: Firestore, user: User) {
         this.ignore();
 
+        // Defer this background listener until the browser is idle so it doesn't
+        // compete with the critical galleries/projects load on login.
+        this.listenDefer = deferToIdle(() => {
+            this.listenDefer = undefined;
+            // The user may have signed out or switched during the idle gap.
+            if (this.db.getUser()?.uid !== user.uid) return;
+            this.startListening(firestore, user);
+        });
+    }
+
+    private startListening(firestore: Firestore, user: User) {
         const startTime: number = Date.now();
 
         this.unsubscribe = onSnapshot(
