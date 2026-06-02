@@ -4939,7 +4939,7 @@
                 "failureReason": {
                     "indexedDBWriteFailed": "Your browser couldn't save these projects on this device.",
                     "indexedDBUnsupported": "Your browser won't let Wordplay save projects on this device.",
-                    "firestoreBatchFailed": "We couldn't send these projects to the cloud. They're still safe on this device.",
+                    "firestoreBatchFailed": "We couldn't send these to the cloud. They're still safe on this device.",
                     "projectContainsPII": "These projects look like they have personal information, so we didn't save them online. Open each one to check what looks personal."
                 },
                 "failuresHeader": "$count project(s) didn't save:"
@@ -6229,7 +6229,34 @@
             "saving": "saving",
             "saved": "saved",
             "local": "saved",
-            "unsaved": "unsaved"
+            "unsaved": "unsaved",
+            "sync": {
+                "header": "Syncing with the cloud",
+                "projects": "Projects",
+                "galleries": "Galleries",
+                "characters": "Characters",
+                "howtos": "How-tos",
+                "chats": "Chats"
+            },
+            "status": {
+                "header": "Save status",
+                "intro": "Your work is kept on this device and saved in the cloud.",
+                "columns": {
+                    "device": "on this device",
+                    "cloud": "in the cloud",
+                    "unsaved": "unsaved"
+                },
+                "state": {
+                    "synced": "synced",
+                    "loading": "loading",
+                    "syncing": "saving",
+                    "offline": "offline",
+                    "failed": "failed"
+                },
+                "conversation": "a conversation",
+                "legend": "Unsaved means saved here but not online yet. It will save when you're back online.",
+                "errorsHeader": "Some things couldn't be saved online:"
+            }
         },
         "connection": {
             "offline": "You're offline. Some things won't work until you are online.",
@@ -6928,7 +6955,8 @@
                     "invalidPassword": "Passwords must be at least 6 characters long.",
                     "wrongPassword": "Not a valid username and password. Either your password is wrong, or someone else has this username.",
                     "mismatched": "The passwords don't match.",
-                    "tooMany": "You've tried and failed to log in too many times. You'll have to wait to try again."
+                    "tooMany": "You've tried and failed to log in too many times. You'll have to wait to try again.",
+                    "unsaved": "You have changes that aren't saved online yet. Reconnect and wait for them to save first, or they'll be lost from this device."
                 },
                 "feedback": {
                     "changing": "Submitting new email...",

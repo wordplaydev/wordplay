@@ -54,13 +54,13 @@
             return;
         }
 
-        // The accessible/expanded-scope maps are populated asynchronously by the
-        // galleries realtime query, which needs a Firebase connection. Read the
-        // loading status so this effect re-runs once that query resolves, and
-        // read authAttempted so it re-runs once Firebase Auth resolves: the
-        // gallery database is constructed before auth, so its status starts at
-        // 'loggedout' until the user is known.
-        const status = Galleries.getStatus();
+        // The accessible/expanded-scope maps are populated from the local cache
+        // on hydration (works offline) and refreshed by the galleries realtime
+        // query. Read `hydrated` so this effect re-runs once the cache loads, and
+        // `authAttempted` so it re-runs once Firebase Auth resolves: the gallery
+        // database is constructed before auth, so the maps are empty until the
+        // user is known.
+        const hydrated = Galleries.hydrated;
         const authResolved = $authAttempted;
 
         // check if the user has permission to read the gallery. if not, don't try to get it.
@@ -74,11 +74,11 @@
                 // Not found? No gallery.
                 else gallery = undefined;
             });
-        } else if (!authResolved || status === 'loading') {
-            // Auth hasn't resolved yet, or we're still loading the user's
-            // accessible galleries — stay in the loading state rather than
-            // flashing "this how-to space doesn't exist" before we know who the
-            // user is and what they can access.
+        } else if (!authResolved || !hydrated) {
+            // Auth hasn't resolved yet, or the local cache hasn't hydrated —
+            // stay in the loading state rather than flashing "this how-to space
+            // doesn't exist" before we know who the user is and what they can
+            // access. This resolves offline (hydration doesn't need a network).
             gallery = null;
         } else {
             gallery = undefined;
@@ -146,7 +146,6 @@
     // infinite canvas functionality
     let cameraX = $state(0);
     let cameraY = $state(0);
-
 
     function panTo(x: number, y: number) {
         cameraX = -x + 10;

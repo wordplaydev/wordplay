@@ -5970,7 +5970,34 @@
             "saving": "$~tasarruf",
             "saved": "$~çevrimiçi kaydedildi",
             "local": "$~tarayıcıda kaydedildi",
-            "unsaved": "$~kaydedilmemiş"
+            "unsaved": "$~kaydedilmemiş",
+            "sync": {
+                "header": "$~Bulutla senkronizasyon",
+                "projects": "$~Projeler",
+                "galleries": "$~Galeriler",
+                "characters": "$~Karakterler",
+                "howtos": "$~Nasıl yapılır",
+                "chats": "$~Sohbetler"
+            },
+            "status": {
+                "header": "$~Kaydetme durumu",
+                "intro": "$~Çalışmalarınız bu cihazda saklanır ve buluta kaydedilir.",
+                "columns": {
+                    "device": "$~bu cihazda",
+                    "cloud": "$~bulutta",
+                    "unsaved": "$~kaydedilmemiş"
+                },
+                "state": {
+                    "synced": "$~senkronize edildi",
+                    "loading": "$~yükleniyor",
+                    "syncing": "$~tasarruf",
+                    "offline": "$~çevrimdışı",
+                    "failed": "$~arızalı"
+                },
+                "conversation": "$~bir konuşma",
+                "legend": "$~Kaydedilmemiş, buraya kaydedilmiş ancak henüz çevrimiçi değil anlamına gelir. Çevrimiçi olduğunuzda kaydedilecektir.",
+                "errorsHeader": "$~Bazı şeyler çevrimiçi olarak kaydedilemedi:"
+            }
         },
         "page": {
             "unknown": {
@@ -6270,7 +6297,8 @@
                     "invalidUsername": "$~Kullanıcı adları e-posta veya 5 harften fazla olmamalı ve boşluk içermemelidir.",
                     "invalidPassword": "$~Şifreler en az 6 karakter uzunluğunda olmalıdır.",
                     "mismatched": "$~Şifreler uyuşmuyor.",
-                    "usernameTaken": "$~Bu kullanıcı adı zaten alınmış."
+                    "usernameTaken": "$~Bu kullanıcı adı zaten alınmış.",
+                    "unsaved": "$~Henüz çevrimiçi olarak kaydedilmemiş değişiklikleriniz var. Yeniden bağlanın ve önce kaydedilmelerini bekleyin, aksi takdirde bu cihazdan kaybolacaklar."
                 },
                 "feedback": {
                     "changing": "$~Yeni e-posta gönderiliyor...",

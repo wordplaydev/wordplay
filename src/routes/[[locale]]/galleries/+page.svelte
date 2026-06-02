@@ -166,7 +166,11 @@
         {#if newGalleryError}
             <Notice text={(l) => l.ui.page.projects.error.newgallery} />
         {/if}
-        {#if Galleries.getStatus() === 'loading'}
+        {#if Galleries.getStatus() === 'loading' && !Galleries.hydrated}
+            <!-- Only block on the realtime query before the local cache has
+                 hydrated. Once hydrated, render the user's cached galleries even
+                 if the cloud query is still pending (e.g. offline), rather than
+                 spinning forever. -->
             <Spinning label={(l) => l.ui.widget.loading.message} />
         {:else if Galleries.getStatus() === 'noaccess'}
             <Notice text={(l) => l.ui.page.projects.error.noaccess} />

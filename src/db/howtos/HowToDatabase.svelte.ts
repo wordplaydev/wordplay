@@ -1,7 +1,10 @@
 /** This file encapsulates all Firebase how-to functionality and relies on Svelte state to cache how-to documents. */
 import type { NotificationData } from '@components/settings/Notifications.svelte';
-import { type Database } from '@db/Database';
+import { type Database, type SaveCounts, type SaveError } from '@db/Database';
 import { firestore } from '@db/firebase';
+import { Domain } from '@db/Domains';
+import SaveTracker from '@db/SaveTracker.svelte';
+import supportsIndexedDB from '@db/supportsIndexedDB';
 import type Gallery from '@db/galleries/Gallery';
 import { GalleriesCollection } from '@db/galleries/GalleryDatabase.svelte';
 import { localeToString } from '@locale/Locale';
@@ -234,10 +237,18 @@ export default class HowTo {
 
     /** Get the title of the how-to in the specified locale. If there is no title written in that language, fall back to the first title */
     getTitleInLocale(locale: string): string {
-        return HowTo.titleInLocale(this.data.title, locale, this.getLocales()[0]);
+        return HowTo.titleInLocale(
+            this.data.title,
+            locale,
+            this.getLocales()[0],
+        );
     }
 
-    static titleInLocale(title: string, locale: string, backupLocale: string): string {
+    static titleInLocale(
+        title: string,
+        locale: string,
+        backupLocale: string,
+    ): string {
         const titleMap = HowTo.markupToMapHelper(title);
         let nameInLocale: string | undefined = titleMap.get(locale);
         if (nameInLocale) return nameInLocale;
@@ -272,15 +283,13 @@ export default class HowTo {
     static markupToMapHelper(markup: string): SvelteMap<string, string> {
         // input format: '¶hello¶/en-US¶hola¶/es-MX'
         // output format: {'en-US': 'hello', 'es-MX': 'hola'}
-        let map: SvelteMap<string, string> = new SvelteMap<
-            string,
-            string
-        >();
+        let map: SvelteMap<string, string> = new SvelteMap<string, string>();
 
         // should match strings in the format of "¶some text¶/locale", where the locale is one of the supported locales
         // necessary, since not all locales match the {2,3}-{2,3} format (e.g., ta-IN-LK-SG)
-        let regexString: string = "¶(.*?)¶\/(" + SupportedLocales.join("|") + ")";
-        let regex: RegExp = new RegExp(regexString, "gs");
+        let regexString: string =
+            '¶(.*?)¶\/(' + SupportedLocales.join('|') + ')';
+        let regex: RegExp = new RegExp(regexString, 'gs');
 
         let stringAndLocale: RegExpExecArray[] = [...markup.matchAll(regex)];
 
@@ -406,7 +415,7 @@ export default class HowTo {
 // CACHE
 ////////////////////////////////
 
-export const HowTosCollection = 'howtos';
+export const HowTosCollection = Domain.HowTos;
 
 export class HowToDatabase {
     private readonly db: Database;
@@ -444,8 +453,147 @@ export class HowToDatabase {
     /** Dedup set so a how-to surfaced by multiple listeners only notifies once. */
     private notifiedHowToIds: Set<string> = new Set();
 
+    /** Whether this is a browser with IndexedDB support. */
+    readonly IndexedDBSupported = supportsIndexedDB();
+
+    /** Flips true once `howtos` has been populated from the local cache (or
+     *  immediately, when there's no IndexedDB). */
+    hydrated: boolean = $state(false);
+
+    /** Per-item cloud-save tracking (unsaved set, errors, counts, durable dirty
+     *  rows), shared with the other domain facades. See {@link SaveTracker}. */
+    private readonly saves = new SaveTracker({
+        domain: Domain.HowTos,
+        localDB: () => this.db.localDB,
+        track: (write) => this.db.track(write),
+        deviceCount: () => this.allEditableHowTos.length,
+        supported: () => this.IndexedDBSupported,
+        isHydrated: () => this.hydrated,
+    });
+
+    /** IDs of the user's how-tos whose latest local edit hasn't been confirmed
+     *  saved in the cloud (write pending or failed). */
+    get unsavedIDs() {
+        return this.saves.unsavedIDs;
+    }
+
+    /** Save failures for the save-status dialog. */
+    get saveErrors(): SaveError[] {
+        return this.saves.saveErrors;
+    }
+
+    /** How many of the user's editable how-tos are saved on this device, in the
+     *  cloud, and unsaved. */
+    get saveCounts(): SaveCounts {
+        return this.saves.saveCounts;
+    }
+
     constructor(db: Database) {
         this.db = db;
+
+        // Warm `howtos` from the local cache before any cloud sync.
+        this.hydrate();
+    }
+
+    /** Wrap a cloud write so the save-status dialog reflects it; see
+     *  {@link SaveTracker.trackSave}. */
+    private trackSave(
+        id: string,
+        name: string | undefined,
+        write: Promise<unknown>,
+    ): Promise<boolean> {
+        return this.saves.trackSave(id, name, write);
+    }
+
+    /** Re-attempt the cloud write for every how-to still marked unsaved (e.g.
+     *  edits made offline before a reload). Called once the user is known
+     *  (startSync) and on reconnect. A no-op when nothing is unsaved. */
+    async flushUnsaved() {
+        if (firestore === undefined) return;
+        const db = firestore;
+        await this.saves.flushUnsaved((id) => {
+            const howTo = this.howtos.get(id);
+            if (howTo === undefined) return undefined;
+            // Replay as a create-or-overwrite, mirroring addHowTo: the original
+            // write may never have reached the server (its doc is `not-found`),
+            // so updateDoc would fail forever. set() creates-or-overwrites, and
+            // the idempotent arrayUnion re-links it to its gallery's `howTos`
+            // (a no-op when it's already linked, as on a plain edit replay).
+            const batch = writeBatch(db);
+            batch.set(doc(db, HowTosCollection, id), howTo.getData());
+            batch.update(
+                doc(db, GalleriesCollection, howTo.getHowToGalleryId()),
+                { howTos: arrayUnion(id) },
+            );
+            return { name: howTo.getTitle(), write: batch.commit() };
+        });
+    }
+
+    /** Populate `howtos` from the shared local cache, ONCE. Unlike the other
+     *  domains we do NOT keep a live subscription: the three cloud listeners
+     *  garbage-collect `howtos` (an entry survives only while some listener sees
+     *  it), and a permanent cache subscription would fight that GC — re-adding
+     *  entries the GC just pruned. After this one-shot read the cloud listeners
+     *  own how-to state for the rest of the session; the cache is written for
+     *  the NEXT cold start. Offline (no listeners fire, no GC) the hydrated
+     *  entries simply remain. */
+    async hydrate() {
+        if (!this.IndexedDBSupported) {
+            this.hydrated = true;
+            return;
+        }
+        // Seed the in-memory unsaved set from the durable dirty table BEFORE the
+        // cloud listeners run, so the skip-dirty guard preserves local edits
+        // that haven't reached the cloud yet.
+        await this.saves.seedDirty();
+        let done = false;
+        const subscription = this.db.localDB
+            .getAllHowTos()
+            .subscribe((howtos) => {
+                if (done) return;
+                done = true;
+                for (const howto of howtos) this.loadHowToIntoMemory(howto);
+                // Reconcile the dirty set against what actually loaded: a dirty
+                // id with no cached content can't be replayed (e.g. a how-to
+                // whose content never got cached), so clear the stale flag
+                // rather than leave it perpetually "unsaved" and unflushable.
+                for (const id of Array.from(this.unsavedIDs))
+                    if (!this.howtos.has(id)) this.saves.forget(id);
+                this.hydrated = true;
+                subscription.unsubscribe();
+            });
+    }
+
+    /** Insert a cached how-to into the in-memory map without persisting or
+     *  writing back to the cache. */
+    private loadHowToIntoMemory(serialized: HowToDocument) {
+        this.howtos.set(serialized.id, new HowTo(serialized));
+    }
+
+    /** Mirror authoritative how-tos into the local cache for cold-start
+     *  hydration. Never prunes (the snapshot GC manages in-memory coherence;
+     *  explicit deletes remove from the cache) and is never called from the
+     *  hydrate path. */
+    private cacheHowTosLocally(howtos: HowTo[]) {
+        if (!this.IndexedDBSupported || howtos.length === 0) return;
+        try {
+            // $state.snapshot strips any Svelte reactive proxies (e.g. arrays
+            // passed in from the how-to form's state) to plain values —
+            // IndexedDB's structured clone throws DataCloneError on a proxy.
+            this.db.localDB.saveHowTos(
+                howtos.map((h) => $state.snapshot(h.getData())),
+            );
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    /** Clear the local how-to cache and in-memory map. Used on account-switch
+     *  and explicit sign-out, mirroring Projects' local wipe. */
+    async clearLocal() {
+        this.howtos.clear();
+        await this.saves.clearTracking();
+        if (this.IndexedDBSupported) await this.db.localDB.deleteAllHowTos();
     }
 
     async updateHowTo(howTo: HowTo, persist: boolean) {
@@ -467,9 +615,12 @@ export class HowToDatabase {
             listener(howTo);
         });
 
-        // if asked to persist, update remotely
+        // if asked to persist, mirror to the local cache and update remotely
         if (persist && firestore) {
-            await this.db.track(
+            this.cacheHowTosLocally([howTo]);
+            await this.trackSave(
+                howToID,
+                howTo.getTitle(),
                 updateDoc(
                     doc(firestore, HowTosCollection, howToID),
                     howTo.getData(),
@@ -478,18 +629,27 @@ export class HowToDatabase {
         }
     }
 
-    async setAutoPreview(howToId: string, preview: HowToPreview): Promise<void> {
+    async setAutoPreview(
+        howToId: string,
+        preview: HowToPreview,
+    ): Promise<void> {
         if (!firestore) return;
         const howTo = this.howtos.get(howToId);
         if (!howTo) return;
         this.howtos.set(howToId, howTo.withPreview(preview));
-        await this.db.track(
+        await this.trackSave(
+            howToId,
+            howTo.getTitle(),
             updateDoc(doc(firestore, HowTosCollection, howToId), { preview }),
         );
     }
 
     async deleteHowTo(howToId: string, gallery: Gallery) {
         this.howtos.delete(howToId);
+        // Drops the unsaved/error state AND the durable dirty row, so a how-to
+        // deleted while dirty can't re-seed unsavedIDs on reload.
+        this.saves.forget(howToId);
+        if (this.IndexedDBSupported) void this.db.localDB.deleteHowTo(howToId);
 
         if (firestore) {
             try {
@@ -591,20 +751,24 @@ export class HowToDatabase {
             // concurrent curators add how-tos to the same gallery without
             // overwriting each other.
             const batch = writeBatch(firestore);
-            batch.set(
-                doc(firestore, HowTosCollection, newHowTo.id),
-                newHowTo,
-            );
-            batch.update(
-                doc(firestore, GalleriesCollection, gallery.getID()),
-                { howTos: arrayUnion(newHowTo.id) },
-            );
-            await this.db.track(batch.commit());
+            batch.set(doc(firestore, HowTosCollection, newHowTo.id), newHowTo);
+            batch.update(doc(firestore, GalleriesCollection, gallery.getID()), {
+                howTos: arrayUnion(newHowTo.id),
+            });
 
-            // Mirror the new how-to in the local cache so the UI sees it right
-            // away rather than waiting for the realtime listener.
+            // Mirror the new how-to in the local cache first so the UI sees it
+            // right away, then save to the cloud, tracking save state.
             const howTo = new HowTo(newHowTo);
             await this.updateHowTo(howTo, false);
+            this.cacheHowTosLocally([howTo]);
+            // Fire-and-forget the cloud write. The local mirror above already
+            // holds the how-to, and trackSave's durable dirty flag replays the
+            // create on reconnect — so awaiting batch.commit() here buys no
+            // durability and would hang the create form on a poor/offline
+            // connection (a Firestore write promise resolves only on server
+            // ack, never while offline). Matches projects/characters, whose
+            // editors never block on the cloud write.
+            void this.trackSave(newHowTo.id, howTo.getTitle(), batch.commit());
         } catch (error) {
             console.error(error);
             return undefined;
@@ -629,7 +793,9 @@ export class HowToDatabase {
                 const remoteHowTo = howToDoc.data();
                 if (remoteHowTo === undefined) return undefined;
 
-                const newHowTo = new HowTo(upgradeHowTo(remoteHowTo as HowToUnknownVersion));
+                const newHowTo = new HowTo(
+                    upgradeHowTo(remoteHowTo as HowToUnknownVersion),
+                );
                 // Update the doc locally but do not persist, we already know it's in the database
                 this.updateHowTo(newHowTo, false);
 
@@ -641,8 +807,12 @@ export class HowToDatabase {
     }
 
     async getHowTos(howToIds: string[]): Promise<HowTo[]> {
-        const results = await Promise.all(howToIds.map((id) => this.getHowTo(id)));
-        return results.filter((ht): ht is HowTo => ht !== undefined && ht !== false);
+        const results = await Promise.all(
+            howToIds.map((id) => this.getHowTo(id)),
+        );
+        return results.filter(
+            (ht): ht is HowTo => ht !== undefined && ht !== false,
+        );
     }
 
     ignore() {
@@ -670,6 +840,8 @@ export class HowToDatabase {
     }
 
     private startListening(firestore: Firestore, userId: string) {
+        this.db.markSyncing(Domain.HowTos);
+
         // Notifications only fire for how-tos published after this point in time.
         const startTime: number = Date.now();
 
@@ -743,20 +915,32 @@ export class HowToDatabase {
         // (a) Parse, upgrade, and cache every doc this listener saw.
         //     Track the IDs so we can garbage-collect later.
         const seen = new Set<string>();
+        const synced: HowTo[] = [];
         snapshot.forEach((doc) => {
             const howto = doc.data();
             seen.add(doc.id);
+            // Keep it in `seen` (so GC doesn't prune our own how-to), but skip
+            // applying/caching it while it has unsaved local edits not yet
+            // pushed — our local copy is authoritative until flushUnsaved
+            // replays it.
+            if (this.unsavedIDs.has(doc.id)) return;
             try {
                 const upgraded: HowToDocument = upgradeHowTo(
                     howto as HowToUnknownVersion,
                 );
                 HowToSchema.parse(upgraded);
-                this.updateHowTo(new HowTo(upgraded), false);
+                const howTo = new HowTo(upgraded);
+                this.updateHowTo(howTo, false);
+                synced.push(howTo);
             } catch (error) {
                 console.error(error);
             }
         });
         this.listenerDocIds.set(key, seen);
+
+        // Mirror this listener's cloud truth into the local cache for next cold
+        // start. (We intentionally don't prune the cache here — see hydrate.)
+        this.cacheHowTosLocally(synced);
 
         // (b) Notifications for newly-added published how-tos, deduped across listeners.
         snapshot.docChanges().forEach((change) => {
@@ -793,11 +977,22 @@ export class HowToDatabase {
             for (const id of ids) union.add(id);
 
         for (const cachedId of this.howtos.keys()) {
-            if (!union.has(cachedId)) this.howtos.delete(cachedId);
+            // Keep how-tos with unsaved local edits even if no listener sees
+            // them (they aren't on the server yet) — pruning them would drop the
+            // only copy and leave nothing for flushUnsaved to replay.
+            if (!union.has(cachedId) && !this.unsavedIDs.has(cachedId))
+                this.howtos.delete(cachedId);
         }
+
+        this.db.markSynced(Domain.HowTos, this.howtos.size);
     }
 
     private logFirebaseError(error: unknown) {
+        // Always terminal so the save-status button stops spinning and the
+        // dialog shows "failed" (incl. permission/index errors); only
+        // connectivity errors flip the offline/unreachable state.
+        this.db.markSyncFailed(Domain.HowTos);
+        if (this.db.isConnectivityError(error)) this.db.markFirebaseFailed();
         if (error instanceof FirebaseError) {
             console.error(error.code);
             console.error(error.message);

@@ -22,8 +22,11 @@ import { v4 as uuidv4 } from 'uuid';
 import { getExampleGalleries } from '../../examples/examples';
 import { localeToString } from '@locale/Locale';
 import type Locales from '@locale/Locales';
-import { type Database } from '@db/Database';
+import { type Database, type SaveCounts, type SaveError } from '@db/Database';
 import { firestore } from '@db/firebase';
+import { Domain } from '@db/Domains';
+import SaveTracker from '@db/SaveTracker.svelte';
+import supportsIndexedDB from '@db/supportsIndexedDB';
 import type Project from '@db/projects/Project';
 import { ProjectsCollection } from '@db/projects/ProjectsDatabase.svelte';
 import {
@@ -39,7 +42,7 @@ import Gallery, {
 } from '@db/galleries/Gallery';
 
 /** The name of the galleries collection in Firebase */
-export const GalleriesCollection = 'galleries';
+export const GalleriesCollection = Domain.Galleries;
 
 /** The in-memory representation of a Gallery, for type safe manipulation and analysis. */
 export default class GalleryDatabase {
@@ -70,6 +73,48 @@ export default class GalleryDatabase {
 
     /** Public galleries that have been loaded individually, by gallery ID. */
     readonly publicGalleries: SvelteMap<string, Gallery> = new SvelteMap();
+
+    /** Whether this is a browser with IndexedDB support. */
+    readonly IndexedDBSupported = supportsIndexedDB();
+
+    /** Flips true once the accessible/expanded-scope maps have been populated
+     *  from the local cache (or immediately, when there's no IndexedDB). */
+    hydrated: boolean = $state(false);
+
+    /** The galleries last read from the local cache. Held separately from the
+     *  role-split maps because the accessible/expanded-scope assignment depends
+     *  on the current user, which may not be known yet when the cache first
+     *  emits — `applySplit` re-derives the maps from this whenever either the
+     *  cache or the user changes. */
+    private cachedGalleries: Gallery[] = [];
+
+    /** Per-item cloud-save tracking (unsaved set, errors, counts, durable dirty
+     *  rows), shared with the other domain facades. See {@link SaveTracker}. */
+    private readonly saves = new SaveTracker({
+        domain: Domain.Galleries,
+        localDB: () => this.database.localDB,
+        track: (write) => this.database.track(write),
+        deviceCount: () => this.accessibleGalleries.size,
+        supported: () => this.IndexedDBSupported,
+        isHydrated: () => this.hydrated,
+    });
+
+    /** IDs of the user's galleries whose latest edit hasn't been confirmed
+     *  saved in the cloud (write pending or failed). */
+    get unsavedIDs() {
+        return this.saves.unsavedIDs;
+    }
+
+    /** Save failures for the save-status dialog. */
+    get saveErrors(): SaveError[] {
+        return this.saves.saveErrors;
+    }
+
+    /** How many of the user's galleries (those they curate or create) are saved
+     *  on this device, in the cloud, and unsaved. */
+    get saveCounts(): SaveCounts {
+        return this.saves.saveCounts;
+    }
 
     /** The unsubscribe function for the real time query for galleries this user has access to. */
     private galleriesQueryUnsubscribe: Unsubscribe | undefined;
@@ -105,11 +150,98 @@ export default class GalleryDatabase {
             this.exampleGalleries = localizedExamples;
         });
 
+        // Warm the accessible/expanded-scope maps from the local cache before
+        // (and independently of) the cloud listener.
+        this.hydrate();
+
         this.registerRealtimeUpdates();
     }
 
     getExampleGalleries() {
         return this.exampleGalleries;
+    }
+
+    /** Populate the role-split maps from the shared local cache, then keep them
+     *  in sync with local writes (including cross-tab). The first emission flips
+     *  `hydrated`. */
+    async hydrate() {
+        if (!this.IndexedDBSupported) {
+            this.hydrated = true;
+            return;
+        }
+        // Seed the in-memory unsaved set from the durable dirty table BEFORE the
+        // cloud listener runs, so its skip-dirty guard preserves local edits
+        // that haven't reached the cloud yet.
+        await this.saves.seedDirty();
+        let firstEmission = true;
+        this.database.localDB.getAllGalleries().subscribe((galleries) => {
+            // Defend against a malformed or unknown-version cached doc: drop it
+            // rather than letting one bad gallery throw and abort hydration.
+            this.cachedGalleries = galleries
+                .map((g) => {
+                    try {
+                        return deserializeGallery(g);
+                    } catch (error) {
+                        console.error(error);
+                        return undefined;
+                    }
+                })
+                .filter((g): g is Gallery => g !== undefined);
+            this.applySplit();
+            if (firstEmission) {
+                firstEmission = false;
+                this.hydrated = true;
+            }
+        });
+    }
+
+    /** Re-derive the accessible/expanded-scope maps from the cached galleries
+     *  using the current user. Additive and corrective (moves a gallery between
+     *  maps if the user's role changed) but never blanket-clears, so it coexists
+     *  with the cloud listener's incremental updates. No-op until the user is
+     *  known. Never writes to the cache, so the hydrate subscription can't loop. */
+    private applySplit() {
+        const uid = this.database.getUser()?.uid;
+        if (uid === undefined) return;
+        for (const gallery of this.cachedGalleries) {
+            const id = gallery.getID();
+            if (
+                gallery.getCreators().includes(uid) ||
+                gallery.getCurators().includes(uid)
+            ) {
+                this.accessibleGalleries.set(id, gallery);
+                this.expandedScopeGalleries.delete(id);
+            } else {
+                this.expandedScopeGalleries.set(id, gallery);
+                this.accessibleGalleries.delete(id);
+            }
+        }
+    }
+
+    /** Mirror authoritative galleries into the local cache for cold-start
+     *  hydration. Never called from the hydrate path, to avoid a write/emit
+     *  loop. */
+    private cacheGalleriesLocally(galleries: Gallery[]) {
+        if (!this.IndexedDBSupported || galleries.length === 0) return;
+        try {
+            this.database.localDB.saveGalleries(
+                galleries.map((g) => g.getData()),
+            );
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    /** Clear the local gallery cache and the cloud-sourced maps. Used on
+     *  account-switch and explicit sign-out, mirroring Projects' local wipe.
+     *  Leaves example/public galleries (not user-scoped) untouched. */
+    async clearLocal() {
+        this.cachedGalleries = [];
+        this.accessibleGalleries.clear();
+        this.expandedScopeGalleries.clear();
+        await this.saves.clearTracking();
+        if (this.IndexedDBSupported)
+            await this.database.localDB.deleteAllGalleries();
     }
 
     /** Find all galleries that this user has access to */
@@ -128,6 +260,12 @@ export default class GalleryDatabase {
         }
 
         this.status = 'loading';
+        this.database.markSyncing(Domain.Galleries);
+
+        // The user is now known, so derive the maps from whatever the local
+        // cache already holds — galleries appear immediately (and offline),
+        // before the cloud snapshot arrives.
+        this.applySplit();
 
         // Reset so the first snapshot for this (re)subscription always syncs the
         // projects query for the new user/access.
@@ -149,9 +287,26 @@ export default class GalleryDatabase {
             ),
             async (snapshot) => {
                 // Go through all of the galleries and update them.
+                const synced: Gallery[] = [];
                 snapshot.forEach((galleryDoc) => {
-                    // Wrap it in a gallery.
-                    const gallery = deserializeGallery(galleryDoc.data());
+                    // Wrap it in a gallery. Defend against a malformed or
+                    // unknown-version doc: skip it rather than letting one bad
+                    // gallery throw and abort the whole snapshot.
+                    let gallery: Gallery;
+                    try {
+                        gallery = deserializeGallery(galleryDoc.data());
+                    } catch (error) {
+                        console.error(error);
+                        return;
+                    }
+
+                    // Skip galleries with unsaved local edits not yet pushed:
+                    // our local copy is authoritative until flushUnsaved replays
+                    // it, so don't let an older cloud version overwrite it in
+                    // memory or the cache.
+                    if (this.unsavedIDs.has(gallery.getID())) return;
+
+                    synced.push(gallery);
 
                     if (
                         gallery.getCreators().includes(user.uid) ||
@@ -172,6 +327,9 @@ export default class GalleryDatabase {
                     }
                 });
 
+                // Mirror the cloud truth into the local cache for next cold start.
+                this.cacheGalleriesLocally(synced);
+
                 // Remove the galleries that were removed from this query.
                 snapshot.docChanges().forEach((change) => {
                     // Removed? Delete the local cache of the project.
@@ -179,6 +337,10 @@ export default class GalleryDatabase {
                     if (change.type === 'removed') {
                         this.accessibleGalleries.delete(change.doc.id);
                         this.expandedScopeGalleries.delete(change.doc.id);
+                        if (this.IndexedDBSupported)
+                            void this.database.localDB.deleteGallery(
+                                change.doc.id,
+                            );
                     }
                 });
 
@@ -198,12 +360,18 @@ export default class GalleryDatabase {
 
                 // Mark the database loaded.
                 this.status = 'loaded';
+                this.database.markSynced(
+                    'galleries',
+                    this.accessibleGalleries.size,
+                );
             },
             (error) => {
                 this.status = 'noaccess';
-                // A connectivity failure on this read-only-browsing listener
-                // should surface the site-wide connection banner; a permission
-                // or index error should not.
+                // Always terminal so the save-status button stops its "loading"
+                // spinner and the dialog shows "failed" — even for a permission
+                // or index error. Only a connectivity error additionally flips
+                // the offline/unreachable state.
+                this.database.markSyncFailed(Domain.Galleries);
                 if (this.database.isConnectivityError(error))
                     this.database.markFirebaseFailed();
                 if (error instanceof FirebaseError) {
@@ -326,21 +494,69 @@ export default class GalleryDatabase {
     }
 
     /** Update the given gallery in the cloud. */
+    /** Wrap a cloud write so the save-status dialog reflects it; see
+     *  {@link SaveTracker.trackSave}. */
+    private trackSave(
+        id: string,
+        name: string | undefined,
+        write: Promise<unknown>,
+    ): Promise<boolean> {
+        return this.saves.trackSave(id, name, write);
+    }
+
+    /** Re-attempt the cloud write for every gallery still marked unsaved (e.g.
+     *  edits made offline before a reload). Called once the user is known
+     *  (startSync) and on reconnect. A no-op when nothing is unsaved. */
+    async flushUnsaved() {
+        if (firestore === undefined) return;
+        const db = firestore;
+        await this.saves.flushUnsaved((id) => {
+            const gallery = this.accessibleGalleries.get(id);
+            return gallery
+                ? {
+                      name: gallery.getName(
+                          this.database.Locales.getLocaleSet(),
+                      ),
+                      write: setDoc(
+                          doc(db, GalleriesCollection, id),
+                          gallery.data,
+                      ),
+                  }
+                : undefined;
+        });
+    }
+
     async edit(gallery: Gallery) {
         if (firestore === undefined) return undefined;
-        await this.database.track(
+
+        // Write FIRST, then reflect it locally. We must not add the gallery to
+        // `accessibleGalleries` before its doc exists server-side: that map
+        // feeds the projects `where('gallery', 'in', ...)` query, whose security
+        // rule does `get(/galleries/<id>)` — referencing a not-yet-written
+        // gallery makes the rule error and fails the whole projects query.
+        await this.trackSave(
+            gallery.getID(),
+            gallery.getName(this.database.Locales.getLocaleSet()),
             setDoc(
                 doc(firestore, GalleriesCollection, gallery.getID()),
                 gallery.data,
             ),
         );
 
-        // Update the gallery store for this gallery.
-        if (this.accessibleGalleries.has(gallery.getID())) {
-            this.accessibleGalleries.set(gallery.getID(), gallery);
-        } else if (this.expandedScopeGalleries.has(gallery.getID())) {
-            this.expandedScopeGalleries.set(gallery.getID(), gallery);
-        }
+        // Now add/update it in the accessible map (a user can only edit
+        // galleries they curate/create, so it belongs there). We do this
+        // explicitly rather than waiting for the realtime listener, because the
+        // listener skips galleries with unsaved local edits — a brand-new
+        // gallery would otherwise never appear (e.g. empty gallery chooser).
+        this.accessibleGalleries.set(gallery.getID(), gallery);
+        this.expandedScopeGalleries.delete(gallery.getID());
+
+        // Mirror to the local cache so the gallery survives a reload even while
+        // its dirty flag is pending: the realtime listener skips dirty galleries
+        // (and so doesn't cache them), so without this a just-created gallery
+        // could vanish on reload — not in the cache to hydrate, skipped by the
+        // listener, and unrecoverable by flushUnsaved.
+        this.cacheGalleriesLocally([gallery]);
 
         // Notify all project listeners about the gallery updated.
         for (const project of gallery.getProjects()) {
@@ -381,7 +597,10 @@ export default class GalleryDatabase {
             });
         });
 
-        // Delete the gallery document now that the projects are removed.
+        // Delete the gallery document now that the projects are removed. forget
+        // drops the unsaved/error state AND the durable dirty row, so a gallery
+        // deleted while dirty can't re-seed unsavedIDs on reload.
+        this.saves.forget(gallery.getID());
         await this.database.track(
             deleteDoc(doc(firestore, GalleriesCollection, gallery.getID())),
         );
@@ -438,14 +657,29 @@ export default class GalleryDatabase {
                 projects: arrayRemove(projectID),
             });
         }
-        await this.database.track(batch.commit());
-
-        // Mark the project history saved since we just persisted it.
-        this.database.Projects.getHistory(projectID)?.markSaved();
-
-        // Mirror the gallery changes in the local cache so the UI updates immediately
-        // without waiting for the realtime listener to fire.
+        // Mirror the membership locally so the UI updates immediately and the
+        // (now dirty) gallery doc carries the change on replay.
         this.applyLocalProjectMembership(projectID, galleryID, oldGalleryID);
+
+        // Route the commit through trackSave (fire-and-forget): it catches a
+        // failure, surfaces a SaveError in the save-status dialog, and marks the
+        // gallery dirty so flushUnsaved replays it. The old bare
+        // `await track(commit())` could hang offline (a commit resolves only on
+        // server ack), reject unhandled, and silently drop the share. The
+        // project doc is the source of truth for membership, so mark its history
+        // saved on success or re-persist it on failure. (A failed *move* doesn't
+        // replay the old gallery's array-remove, but project.gallery — the
+        // source of truth — stays correct.)
+        const galleryName = this.accessibleGalleries
+            .get(galleryID)
+            ?.getName(this.database.Locales.getLocaleSet());
+        void this.trackSave(galleryID, galleryName, batch.commit()).then(
+            (ok) => {
+                if (ok)
+                    this.database.Projects.getHistory(projectID)?.markSaved();
+                else this.database.Projects.saveSoon();
+            },
+        );
     }
 
     // Remove the project from the gallery that it's in.
@@ -481,17 +715,36 @@ export default class GalleryDatabase {
             updated.asPersisted().serialize(),
         );
         if (targetGalleryID !== null) {
-            batch.update(
-                doc(firestore, GalleriesCollection, targetGalleryID),
-                { projects: arrayRemove(projectID) },
-            );
+            batch.update(doc(firestore, GalleriesCollection, targetGalleryID), {
+                projects: arrayRemove(projectID),
+            });
         }
-        await this.database.track(batch.commit());
-
-        this.database.Projects.getHistory(projectID)?.markSaved();
-
+        // See addProject. Fire-and-forget through trackSave so a failed/offline
+        // removal is caught, surfaced, and replayable rather than hanging or
+        // silently lost.
         if (targetGalleryID !== null) {
             this.applyLocalProjectMembership(projectID, null, targetGalleryID);
+            const galleryName = this.accessibleGalleries
+                .get(targetGalleryID)
+                ?.getName(this.database.Locales.getLocaleSet());
+            void this.trackSave(
+                targetGalleryID,
+                galleryName,
+                batch.commit(),
+            ).then((ok) => {
+                if (ok)
+                    this.database.Projects.getHistory(projectID)?.markSaved();
+                else this.database.Projects.saveSoon();
+            });
+        } else {
+            // No gallery doc in the batch — it's just the project write; let the
+            // project's own persistence replay it on failure.
+            void this.database
+                .track(batch.commit())
+                .then(() =>
+                    this.database.Projects.getHistory(projectID)?.markSaved(),
+                )
+                .catch(() => this.database.Projects.saveSoon());
         }
     }
 

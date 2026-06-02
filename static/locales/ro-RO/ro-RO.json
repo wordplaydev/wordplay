@@ -6225,7 +6225,34 @@
             "saving": "$~economisire",
             "saved": "$~salvat",
             "local": "$~salvat",
-            "unsaved": "$~nesalvat"
+            "unsaved": "$~nesalvat",
+            "sync": {
+                "header": "$~Sincronizarea cu cloud-ul",
+                "projects": "$~Proiecte",
+                "galleries": "$~Galerii",
+                "characters": "$~Personaje",
+                "howtos": "$~Ghiduri",
+                "chats": "$~Chat-uri"
+            },
+            "status": {
+                "header": "$~Salvați starea",
+                "intro": "$~Munca ta este păstrată pe acest dispozitiv și salvată în cloud.",
+                "columns": {
+                    "device": "$~pe acest dispozitiv",
+                    "cloud": "$~în nor",
+                    "unsaved": "$~nesalvat"
+                },
+                "state": {
+                    "synced": "$~sincronizat",
+                    "loading": "$~încărcare",
+                    "syncing": "$~economisire",
+                    "offline": "$~offline",
+                    "failed": "$~eșuat"
+                },
+                "conversation": "$~o conversație",
+                "legend": "$~Nesalvat înseamnă salvat aici, dar încă nu este online. Se va salva când te vei întoarce online.",
+                "errorsHeader": "$~Unele lucruri nu au putut fi salvate online:"
+            }
         },
         "localize": {
             "header": "$~Localiza",
@@ -6908,7 +6935,8 @@
                     "invalidPassword": "$~Parolele trebuie să aibă cel puțin 6 caractere.",
                     "wrongPassword": "$~Nume de utilizator și parolă nevalide. Fie parola este greșită, fie altcineva are acest nume de utilizator.",
                     "mismatched": "$~Parolele nu se potrivesc.",
-                    "tooMany": "$~Ai încercat să te conectezi de prea multe ori și ai eșuat. Va trebui să aștepți înainte să încerci din nou."
+                    "tooMany": "$~Ai încercat să te conectezi de prea multe ori și ai eșuat. Va trebui să aștepți înainte să încerci din nou.",
+                    "unsaved": "$~Aveți modificări care nu sunt încă salvate online. Reconectați-vă și așteptați ca acestea să fie salvate mai întâi, altfel se vor pierde de pe acest dispozitiv."
                 },
                 "feedback": {
                     "changing": "$~Se trimite un e-mail nou...",

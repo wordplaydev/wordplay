@@ -75,7 +75,7 @@ vi.mock('@db/Database', () => ({
     Projects: {},
 }));
 
-import { ChatDatabase } from './ChatDatabase.svelte';
+import { ChatDatabase, upgradeChat } from './ChatDatabase.svelte';
 import Chat from './ChatDatabase.svelte';
 import { updateDoc } from 'firebase/firestore';
 
@@ -149,7 +149,7 @@ describe('ChatDatabase granular message operations', () => {
     });
 
     describe('markChatRead', () => {
-        it('arrayRemoves the uid from the chat\'s unread list', async () => {
+        it("arrayRemoves the uid from the chat's unread list", async () => {
             const chat = makeChat({ unread: ['user-1', 'user-2'] });
 
             await db.markChatRead(chat, 'user-1');
@@ -296,5 +296,48 @@ describe('ChatDatabase granular message operations', () => {
                 text: null,
             });
         });
+    });
+});
+
+/**
+ * Upgrade-on-load coverage for chats. Old chat docs are upgraded when a snapshot
+ * arrives (upgradeChat), so a regression silently corrupts every pre-v2 chat on
+ * load. v1 → v2 adds the `type` discriminator (project vs how-to).
+ */
+describe('upgradeChat (upgrade-on-load)', () => {
+    it('upgrades a v1 doc to v2, defaulting type to project', () => {
+        const v1 = {
+            v: 1 as const,
+            project: 'p1',
+            participants: ['u1', 'u2'],
+            messages: [{ id: 'm1', time: 1, creator: 'u1', text: 'hi' }],
+            unread: ['u2'],
+        };
+        const upgraded = upgradeChat(v1);
+        expect(upgraded.v).toBe(2);
+        expect(upgraded.type).toBe('project');
+        // v1 user data is preserved across the upgrade.
+        expect(upgraded.project).toBe('p1');
+        expect(upgraded.participants).toEqual(['u1', 'u2']);
+        expect(upgraded.messages).toHaveLength(1);
+        expect(upgraded.messages[0]).toMatchObject({ id: 'm1', text: 'hi' });
+        expect(upgraded.unread).toEqual(['u2']);
+    });
+
+    it('an already-latest v2 doc upgrades to itself', () => {
+        const v2: SerializedChat = {
+            v: 2,
+            project: 'p1',
+            participants: ['u1'],
+            messages: [],
+            unread: [],
+            type: 'howto',
+        };
+        expect(upgradeChat(v2)).toEqual(v2);
+    });
+
+    it('throws on an unknown version', () => {
+        // @ts-expect-error — deliberately invalid version for the test.
+        expect(() => upgradeChat({ v: 999, project: 'p1' })).toThrow();
     });
 });

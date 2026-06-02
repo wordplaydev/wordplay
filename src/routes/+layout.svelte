@@ -20,7 +20,6 @@
 
     import { browser } from '$app/environment';
     import { page } from '$app/state';
-    import ConnectionBanner from '@components/app/ConnectionBanner.svelte';
     import Loading from '@components/app/Loading.svelte';
     import UpdateNotification from '@components/app/UpdateNotification.svelte';
     import Announcer from '@components/project/Announcer.svelte';
@@ -47,7 +46,6 @@
         animationFactor,
         dark,
         DB,
-        disconnected,
         howToNotifications,
         HowTos,
         locales,
@@ -55,7 +53,6 @@
         Settings,
     } from '@db/Database';
     import { getLanguageDirection } from '@locale/LanguageCode';
-    import { routeRequiresFirebase } from './routeRequiresFirebase';
 
     interface Props {
         children: Snippet;
@@ -116,8 +113,20 @@
         // beats saveSoon's debounce. See
         // ProjectsDatabase.installSaveOnUnloadListeners for what it
         // catches and what it can't.
-        const cleanupSaveOnUnload =
-            DB.Projects.installSaveOnUnloadListeners();
+        const cleanupSaveOnUnload = DB.Projects.installSaveOnUnloadListeners();
+
+        // Warn before closing/reloading the tab when there are edits not yet
+        // saved online (e.g. made offline). The save-on-unload handlers above
+        // flush to the LOCAL cache, but local-only edits would still be lost on
+        // a different device or if this device's cache is cleared, so prompt.
+        const warnUnsaved = (event: BeforeUnloadEvent) => {
+            if (DB.getUnsavedCount() > 0) {
+                event.preventDefault();
+                // Legacy browsers need returnValue set to trigger the prompt.
+                event.returnValue = '';
+            }
+        };
+        window.addEventListener('beforeunload', warnUnsaved);
 
         // Wait a second before showing loading
         setTimeout(() => (lag = true), 1000);
@@ -126,6 +135,7 @@
         return () => {
             cleanupNetworkListeners();
             cleanupSaveOnUnload();
+            window.removeEventListener('beforeunload', warnUnsaved);
             DB.clean();
         };
     });
@@ -229,13 +239,6 @@
             if (valid.length > 0) DB.Locales.setLocales(valid);
         }
     });
-
-    // Lock down the page when disconnected AND the current route requires Firebase.
-    // The editor (/project/[id]) and static pages stay interactive while offline;
-    // the existing per-page Status indicator surfaces save failures.
-    const locked = $derived(
-        $disconnected && routeRequiresFirebase(page.url.pathname),
-    );
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -248,8 +251,7 @@
     lang={$locales.getLocale().language}
     ontouchstart={() => hint.hide()}
 >
-    <ConnectionBanner />
-    <div class="content" class:locked inert={locked}>
+    <div class="content">
         <!-- Always render children, even before the user's preferred locale
              finishes loading. The server renders with the default locale,
              and so must the client during hydration — otherwise gating on
@@ -293,15 +295,5 @@
         min-height: 0;
         display: flex;
         flex-direction: column;
-    }
-
-    /* When the connection is lost on a Firebase-dependent route, grey out the
-       page content. `inert` (set on the element directly) handles focus and
-       a11y exclusion; this style is purely visual. */
-    .content.locked {
-        filter: grayscale(1);
-        opacity: 0.5;
-        pointer-events: none;
-        user-select: none;
     }
 </style>

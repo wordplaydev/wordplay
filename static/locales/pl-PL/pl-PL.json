@@ -5986,7 +5986,34 @@
             "saving": "$~oszczędność",
             "saved": "$~zapisane online",
             "local": "$~zapisano w przeglądarce",
-            "unsaved": "$~niezapisany"
+            "unsaved": "$~niezapisany",
+            "sync": {
+                "header": "$~Synchronizacja z chmurą",
+                "projects": "$~Projektowanie",
+                "galleries": "$~Galerie",
+                "characters": "$~Pismo",
+                "howtos": "$~Instrukcje",
+                "chats": "$~Czat"
+            },
+            "status": {
+                "header": "$~Zapisz status",
+                "intro": "$~Twoja praca jest przechowywana na tym urządzeniu i zapisywana w chmurze.",
+                "columns": {
+                    "device": "$~na tym urządzeniu",
+                    "cloud": "$~w chmurze",
+                    "unsaved": "$~niezapisany"
+                },
+                "state": {
+                    "synced": "$~zsynchronizowany",
+                    "loading": "$~załadunek",
+                    "syncing": "$~oszczędność",
+                    "offline": "$~nieaktywny",
+                    "failed": "$~przegrany"
+                },
+                "conversation": "$~rozmowa",
+                "legend": "$~Niezapisane oznacza zapisane tutaj, ale jeszcze niedostępne online. Zostanie zapisane, gdy znów będziesz online.",
+                "errorsHeader": "$~Niektórych rzeczy nie dało się zapisać online:"
+            }
         },
         "page": {
             "unknown": {
@@ -6286,7 +6313,8 @@
                     "invalidUsername": "$~Nazwa użytkownika musi być adresem e-mail lub większą liczbą liter, bez spacji.",
                     "invalidPassword": "$~Hasło musi mieć co najmniej 6 znaków.",
                     "mismatched": "$~Hasła nie są takie same.",
-                    "usernameTaken": "$~Ta nazwa użytkownika jest już zajęta."
+                    "usernameTaken": "$~Ta nazwa użytkownika jest już zajęta.",
+                    "unsaved": "$~Masz zmiany, które nie zostały jeszcze zapisane online. Połącz się ponownie i poczekaj, aż zostaną zapisane, w przeciwnym razie zostaną utracone z tego urządzenia."
                 },
                 "feedback": {
                     "changing": "$~Wysyłanie nowego e-maila...",

@@ -6225,7 +6225,34 @@
             "saving": "$~penghematan",
             "saved": "$~tersimpan",
             "local": "$~tersimpan",
-            "unsaved": "$~belum disimpan"
+            "unsaved": "$~belum disimpan",
+            "sync": {
+                "header": "$~Sinkronisasi dengan cloud",
+                "projects": "$~Proyek",
+                "galleries": "$~Galeri",
+                "characters": "$~Karakter",
+                "howtos": "$~Cara-cara",
+                "chats": "$~Obrolan"
+            },
+            "status": {
+                "header": "$~Simpan status",
+                "intro": "$~Pekerjaan Anda disimpan di perangkat ini dan diarsipkan di cloud.",
+                "columns": {
+                    "device": "$~pada perangkat ini",
+                    "cloud": "$~di awan",
+                    "unsaved": "$~belum disimpan"
+                },
+                "state": {
+                    "synced": "$~disinkronkan",
+                    "loading": "$~memuat",
+                    "syncing": "$~penghematan",
+                    "offline": "$~offline",
+                    "failed": "$~gagal"
+                },
+                "conversation": "$~percakapan",
+                "legend": "$~\"Belum tersimpan\" berarti sudah tersimpan di sini tetapi belum online. Perubahan akan tersimpan saat Anda kembali online.",
+                "errorsHeader": "$~Beberapa hal tidak dapat disimpan secara online:"
+            }
         },
         "localize": {
             "header": "$~Melokalisir",
@@ -6911,7 +6938,8 @@
                     "invalidPassword": "$~Kata sandi harus memiliki panjang minimal 6 karakter.",
                     "wrongPassword": "$~Nama pengguna dan kata sandi tidak valid. Kata sandi Anda salah, atau orang lain sudah menggunakan nama pengguna ini.",
                     "mismatched": "$~Kata sandinya tidak cocok.",
-                    "tooMany": "$~Anda telah mencoba masuk dan gagal terlalu banyak kali. Anda harus menunggu untuk mencoba lagi."
+                    "tooMany": "$~Anda telah mencoba masuk dan gagal terlalu banyak kali. Anda harus menunggu untuk mencoba lagi.",
+                    "unsaved": "$~Anda memiliki perubahan yang belum tersimpan secara online. Sambungkan kembali dan tunggu hingga perubahan tersebut tersimpan terlebih dahulu, jika tidak, perubahan tersebut akan hilang dari perangkat ini."
                 },
                 "feedback": {
                     "changing": "$~Mengirim email baru...",

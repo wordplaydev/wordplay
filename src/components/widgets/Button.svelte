@@ -43,6 +43,9 @@
         testid?: string | undefined;
         /** An optional icon to place before the children, in monochrome */
         icon?: string | undefined;
+        /** Whether to continuously spin the icon, e.g. to show ongoing work.
+         *  Respects prefers-reduced-motion via --animation-factor. */
+        spinIcon?: boolean;
         /** An optional shortcut string for ARIA */
         shortcut?: string;
         /** Whether to wrap the text in the button */
@@ -70,6 +73,7 @@
         shortcut = undefined,
         wrap = false,
         icon,
+        spinIcon = false,
         children,
     }: Props = $props();
 
@@ -173,7 +177,9 @@
               !event.metaKey
                   ? doAction(event)
                   : undefined}
-    >{#if loading}<Spinning />{:else}{#if icon}{withMonoEmoji(icon)}{/if}
+    >{#if loading}<Spinning />{:else}{#if icon}{#if spinIcon}<span
+                    class="spin-icon">{withMonoEmoji(icon)}</span
+                >{:else}{withMonoEmoji(icon)}{/if}{/if}
         {#if children}{@render children()}{:else if label && !tipEditing}<LocalizedText
                 path={label}
                 onEditingChange={(e) => (labelEditing = e)}
@@ -185,6 +191,24 @@
 </button>
 
 <style>
+    .spin-icon {
+        display: inline-block;
+        transform-origin: center;
+        /* Multiplying by --animation-factor makes this a no-op under
+           prefers-reduced-motion (factor 0), matching Spinning.svelte. */
+        animation: spin-icon infinite linear;
+        animation-duration: calc(var(--animation-factor) * 1s);
+    }
+
+    @keyframes spin-icon {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
     button {
         background-color: var(--wordplay-chrome);
         font-family: var(--wordplay-app-font);

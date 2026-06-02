@@ -4,6 +4,16 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.21.0 - 2026-06-01
+
+### Added
+
+- 🔄 We added a "syncing with the cloud" list to the save status dialog, so you can check if projects, galleries, characters, how-tos, and chats finish loading — or see if something didn't.
+
+### Fixed
+
+- 🔄 We made loading and saving much less intensive for slow internet connections and people with lots of projects, galleries, and chats. Saving should be much more reliable overall now, especially if you temporarily lose your internet connection.
+
 ## 0.20.0 - 2026-05-30
 
 This week focused on improving many aspects of the Guide, including speed, usability, and bug fixes. We also added a new stream called @Contour that lets you get the shape of a glyph as a list of points, letting you do neat things to celebrate your favorite letters and symbols!
@@ -29,6 +39,7 @@ This week focused on improving many aspects of the Guide, including speed, usabi
 - ⌨️ When pressing up on the first line or down on the last line, you go the beginning and end of the source.
 - 🚦 When you divide `÷` or take a remainder `%` by a number that might be zero, Wordplay now warns you and offers to fix it with `??` so you can pick a backup value. Before, dividing by zero could quietly give a broken number or stop your program with a confusing message.
 - 🎨 The color picker now has an eyedropper button you can use to grab any color from your screen. It works everywhere you choose a color, not just when drawing characters. (#1156)
+- 💾 Wordplay now keeps a copy of your projects, galleries, characters, and how-tos on your device, so they show up right away and keep working even when you're offline. Losing your connection no longer grays out the page; it just shows in the save status.
 
 ### Fixed
 

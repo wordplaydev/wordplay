@@ -16600,6 +16600,10 @@
                           "description": "[plain] When there are too mant failed attempts",
                           "type": "string"
                         },
+                        "unsaved": {
+                          "description": "[plain] Warning shown when logout or account deletion is blocked because there are edits not yet saved online (e.g. made offline); leaving would discard them from this device.",
+                          "type": "string"
+                        },
                         "usernameTaken": {
                           "description": "[plain] Username taken",
                           "type": "string"
@@ -16621,7 +16625,8 @@
                         "wrongPassword",
                         "invalidPassword",
                         "mismatched",
-                        "tooMany"
+                        "tooMany",
+                        "unsaved"
                       ],
                       "type": "object"
                     },
@@ -18230,6 +18235,139 @@
                   "description": "[plain] Shown when saving has started",
                   "type": "string"
                 },
+                "status": {
+                  "additionalProperties": false,
+                  "description": "The save-status dialog that breaks down, per kind of thing, how much is saved on this device, in the cloud, and not yet saved online.",
+                  "properties": {
+                    "columns": {
+                      "additionalProperties": false,
+                      "description": "Column headers for the per-kind save-status table",
+                      "properties": {
+                        "cloud": {
+                          "description": "[plain] Column header: how many are saved in the cloud",
+                          "type": "string"
+                        },
+                        "device": {
+                          "description": "[plain] Column header: how many are saved on this device",
+                          "type": "string"
+                        },
+                        "unsaved": {
+                          "description": "[plain] Column header: how many are not yet saved online",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "device",
+                        "cloud",
+                        "unsaved"
+                      ],
+                      "type": "object"
+                    },
+                    "conversation": {
+                      "description": "[plain] Name for a conversation with no title, in the error list",
+                      "type": "string"
+                    },
+                    "errorsHeader": {
+                      "description": "[plain] Header above the list of things that couldn't be saved",
+                      "type": "string"
+                    },
+                    "header": {
+                      "description": "[plain] Header of the save-status dialog",
+                      "type": "string"
+                    },
+                    "intro": {
+                      "description": "[plain] One-line explanation at the top of the save-status dialog",
+                      "type": "string"
+                    },
+                    "legend": {
+                      "description": "[plain] Explains what the unsaved column means",
+                      "type": "string"
+                    },
+                    "state": {
+                      "additionalProperties": false,
+                      "description": "Words describing how a kind of thing is syncing with the cloud.",
+                      "properties": {
+                        "failed": {
+                          "description": "[plain] A save or sync failed",
+                          "type": "string"
+                        },
+                        "loading": {
+                          "description": "[plain] Still loading from the cloud",
+                          "type": "string"
+                        },
+                        "offline": {
+                          "description": "[plain] Not connected to the cloud right now",
+                          "type": "string"
+                        },
+                        "synced": {
+                          "description": "[plain] Saved on this device and in the cloud",
+                          "type": "string"
+                        },
+                        "syncing": {
+                          "description": "[plain] Saving changes to the cloud",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "synced",
+                        "loading",
+                        "syncing",
+                        "offline",
+                        "failed"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "intro",
+                    "columns",
+                    "state",
+                    "conversation",
+                    "legend",
+                    "errorsHeader"
+                  ],
+                  "type": "object"
+                },
+                "sync": {
+                  "additionalProperties": false,
+                  "description": "Per-domain cloud-sync status shown in the save-status dialog.",
+                  "properties": {
+                    "characters": {
+                      "description": "[plain] Label for the characters sync row",
+                      "type": "string"
+                    },
+                    "chats": {
+                      "description": "[plain] Label for the chats sync row",
+                      "type": "string"
+                    },
+                    "galleries": {
+                      "description": "[plain] Label for the galleries sync row",
+                      "type": "string"
+                    },
+                    "header": {
+                      "description": "[plain] Header for the cloud-sync status section",
+                      "type": "string"
+                    },
+                    "howtos": {
+                      "description": "[plain] Label for the how-tos sync row",
+                      "type": "string"
+                    },
+                    "projects": {
+                      "description": "[plain] Label for the projects sync row",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "projects",
+                    "galleries",
+                    "characters",
+                    "howtos",
+                    "chats"
+                  ],
+                  "type": "object"
+                },
                 "unsaved": {
                   "description": "[plain] Shown when there was a problem saving",
                   "type": "string"
@@ -18239,7 +18377,9 @@
                 "saving",
                 "saved",
                 "local",
-                "unsaved"
+                "unsaved",
+                "sync",
+                "status"
               ],
               "type": "object"
             },

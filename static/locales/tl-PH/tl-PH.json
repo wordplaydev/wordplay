@@ -6216,7 +6216,34 @@
             "saving": "$~pagtitipid",
             "saved": "$~na-save",
             "local": "$~na-save",
-            "unsaved": "$~hindi na-save"
+            "unsaved": "$~hindi na-save",
+            "sync": {
+                "header": "$~Pag-sync sa cloud",
+                "projects": "$~Mga Proyekto",
+                "galleries": "$~Mga Galeriya",
+                "characters": "$~Mga Karakter",
+                "howtos": "$~Mga Paano-Gawin",
+                "chats": "$~Mga Chat"
+            },
+            "status": {
+                "header": "$~I-save ang katayuan",
+                "intro": "$~Ang iyong trabaho ay iniingatan sa device na ito at sine-save sa cloud.",
+                "columns": {
+                    "device": "$~sa aparatong ito",
+                    "cloud": "$~sa ulap",
+                    "unsaved": "$~hindi na-save"
+                },
+                "state": {
+                    "synced": "$~naka-sync",
+                    "loading": "$~pagkarga",
+                    "syncing": "$~pagtitipid",
+                    "offline": "$~offline",
+                    "failed": "$~nabigo"
+                },
+                "conversation": "$~isang pag-uusap",
+                "legend": "$~Ang ibig sabihin ng hindi na-save ay naka-save na rito pero hindi pa online. Mase-save ito kapag online ka na ulit.",
+                "errorsHeader": "$~May ilang bagay na hindi ma-save online:"
+            }
         },
         "localize": {
             "header": "$~I-localize",
@@ -6815,7 +6842,8 @@
                     "invalidPassword": "$~Ang mga password ay dapat na hindi bababa sa 6 na karakter ang haba.",
                     "wrongPassword": "$~Hindi wastong username at password. Maaaring mali ang iyong password, o may ibang gumagamit nito.",
                     "mismatched": "$~Hindi magkatugma ang mga password.",
-                    "tooMany": "$~Napakaraming beses mo nang sinubukang mag-log in at nabigo. Kailangan mong maghintay para subukan muli."
+                    "tooMany": "$~Napakaraming beses mo nang sinubukang mag-log in at nabigo. Kailangan mong maghintay para subukan muli.",
+                    "unsaved": "$~Mayroon kang mga pagbabago na hindi pa nase-save online. Kumonekta muli at hintaying ma-save muna ang mga ito, kung hindi ay mawawala ang mga ito sa device na ito."
                 },
                 "feedback": {
                     "changing": "$~Nagsusumite ng bagong email...",

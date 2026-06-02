@@ -5974,7 +5974,34 @@
             "saving": "$~sparande",
             "saved": "$~sparat online",
             "local": "$~sparas i webbläsaren",
-            "unsaved": "$~osparade"
+            "unsaved": "$~osparade",
+            "sync": {
+                "header": "$~Synkronisera med molnet",
+                "projects": "$~Projekt",
+                "galleries": "$~Gallerier",
+                "characters": "$~Tecken",
+                "howtos": "$~Instruktioner",
+                "chats": "$~Chattar"
+            },
+            "status": {
+                "header": "$~Spara status",
+                "intro": "$~Ditt arbete lagras på den här enheten och i molnet.",
+                "columns": {
+                    "device": "$~på den här enheten",
+                    "cloud": "$~i molnet",
+                    "unsaved": "$~osparad"
+                },
+                "state": {
+                    "synced": "$~synkroniserad",
+                    "loading": "$~belastning",
+                    "syncing": "$~sparande",
+                    "offline": "$~off-line",
+                    "failed": "$~misslyckades"
+                },
+                "conversation": "$~en konversation",
+                "legend": "$~Osparad betyder att den är sparad här men inte online än. Den sparas när du är online igen.",
+                "errorsHeader": "$~Vissa saker kunde inte sparas online:"
+            }
         },
         "page": {
             "unknown": {
@@ -6274,7 +6301,8 @@
                     "invalidUsername": "$~Användarnamn måste vara e-postmeddelanden eller >5 bokstäver utan mellanslag.",
                     "invalidPassword": "$~Lösenord måste vara minst 6 tecken långa.",
                     "mismatched": "$~Lösenorden stämmer inte överens.",
-                    "usernameTaken": "$~Detta användarnamn är redan upptaget."
+                    "usernameTaken": "$~Detta användarnamn är redan upptaget.",
+                    "unsaved": "$~Du har ändringar som inte är sparade online än. Återanslut och vänta tills de sparas först, annars försvinner de från den här enheten."
                 },
                 "feedback": {
                     "changing": "$~Skickar nytt e-postmeddelande...",

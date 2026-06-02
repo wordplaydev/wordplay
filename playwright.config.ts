@@ -64,6 +64,9 @@ export default defineConfig({
         stderr: 'pipe',
     },
 
+    /* Seed the emulator with the full fixture set before tests run. */
+    globalSetup: './tests/setup.ts',
+
     /* Clean stuff up after tests */
     globalTeardown: './tests/teardown.ts',
 });

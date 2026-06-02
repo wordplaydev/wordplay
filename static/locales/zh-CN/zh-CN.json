@@ -5818,7 +5818,34 @@
             "saving": "保存",
             "saved": "在线保存",
             "local": "本地保存",
-            "unsaved": "未保存"
+            "unsaved": "未保存",
+            "sync": {
+                "header": "$~与云端同步",
+                "projects": "$~项目",
+                "galleries": "$~画廊",
+                "characters": "$~人物",
+                "howtos": "$~操作指南",
+                "chats": "$~聊天"
+            },
+            "status": {
+                "header": "$~保存状态",
+                "intro": "$~您的工作内容将保存在此设备上，并同时保存到云端。",
+                "columns": {
+                    "device": "$~在本设备上",
+                    "cloud": "$~在云端",
+                    "unsaved": "$~未保存"
+                },
+                "state": {
+                    "synced": "$~同步",
+                    "loading": "$~加载中",
+                    "syncing": "$~保存",
+                    "offline": "$~离线",
+                    "failed": "$~失败的"
+                },
+                "conversation": "$~一段对话",
+                "legend": "$~未保存表示已保存在此处，但尚未联网。联网后会自动保存。",
+                "errorsHeader": "$~有些内容无法在线保存："
+            }
         },
         "page": {
             "unknown": {
@@ -6007,7 +6034,8 @@
                     "invalidUsername": "$~用户名必须至少包含 5 个字母且不包含空格。",
                     "invalidPassword": "$~密码长度必须至少为 6 个字符。",
                     "mismatched": "$~密码不匹配。",
-                    "usernameTaken": "$~这个用户名已被占用。"
+                    "usernameTaken": "$~这个用户名已被占用。",
+                    "unsaved": "$~您所做的更改尚未在线保存。请重新连接并等待保存，否则这些更改将从此设备上丢失。"
                 },
                 "feedback": {
                     "changing": "正在提交新的电子邮件地址……",

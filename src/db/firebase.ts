@@ -53,6 +53,15 @@ if (typeof process === 'undefined') {
         auth = getAuth(app);
 
         firestore = initializeFirestore(app, {
+            // Deliberately NO `localCache` option: Firestore keeps the default
+            // in-memory cache only. Our own Dexie store (WordplayDexie) is the
+            // durable local mirror of all Firebase data, so enabling Firestore's
+            // persistentLocalCache would duplicate that store in a second
+            // IndexedDB and add a competing offline write queue. Firestore's
+            // in-memory queue still flushes queued writes on reconnect within a
+            // session; cross-reload durability for projects comes from the Dexie
+            // cache + the unsaved flag (see ProjectsDatabase / ARCHITECTURE.md).
+            //
             // Auto-detect long polling instead of forcing it. Forcing long
             // polling cycles many discrete HTTP requests instead of one
             // streaming WebChannel connection, and under heavy concurrent load
@@ -90,23 +99,30 @@ if (typeof process === 'undefined') {
 
             // Dev convenience: auto-login as the seeded `creator` account on
             // first page load if no user is cached. Saves the manual login
-            // step every time the dev server reloads. Only runs against the
-            // emulator (gated by `emulating`), never in production.
-            const stopAutoLogin = onAuthStateChanged(auth, (user) => {
-                stopAutoLogin();
-                if (user === null && auth !== undefined) {
-                    signInWithEmailAndPassword(
-                        auth,
-                        'creator@u.wordplay.dev',
-                        'password',
-                    ).catch((err) => {
-                        console.warn(
-                            '[dev] Auto-login as creator failed:',
-                            err,
-                        );
-                    });
-                }
-            });
+            // step every time the dev server reloads.
+            //
+            // Gated on `import.meta.hot` so it runs ONLY under `vite dev`, not
+            // in the production/preview build the e2e suite serves — `emulating`
+            // alone is also true in e2e, where this would race every
+            // loginNewContext() call (signing in as creator) and break the
+            // multi-user specs.
+            if (import.meta.hot) {
+                const stopAutoLogin = onAuthStateChanged(auth, (user) => {
+                    stopAutoLogin();
+                    if (user === null && auth !== undefined) {
+                        signInWithEmailAndPassword(
+                            auth,
+                            'creator@u.wordplay.dev',
+                            'password',
+                        ).catch((err) => {
+                            console.warn(
+                                '[dev] Auto-login as creator failed:',
+                                err,
+                            );
+                        });
+                    }
+                });
+            }
         }
     } catch (err) {
         console.error('*** NO ACCESS TO FIREBASE ***');

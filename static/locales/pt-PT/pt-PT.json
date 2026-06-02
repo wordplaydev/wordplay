@@ -6213,7 +6213,34 @@
             "saving": "$~economia",
             "saved": "$~salvo",
             "local": "$~salvo",
-            "unsaved": "$~não salvo"
+            "unsaved": "$~não salvo",
+            "sync": {
+                "header": "$~Sincronizando com a nuvem",
+                "projects": "$~Projetos",
+                "galleries": "$~Galerias",
+                "characters": "$~Personagens",
+                "howtos": "$~Tutoriais",
+                "chats": "$~Bate-papos"
+            },
+            "status": {
+                "header": "$~Guardar status",
+                "intro": "$~O seu trabalho fica armazenado neste dispositivo e guardado na nuvem.",
+                "columns": {
+                    "device": "$~neste dispositivo",
+                    "cloud": "$~na nuvem",
+                    "unsaved": "$~não salvo"
+                },
+                "state": {
+                    "synced": "$~sincronizado",
+                    "loading": "$~carregando",
+                    "syncing": "$~economia",
+                    "offline": "$~offline",
+                    "failed": "$~falhou"
+                },
+                "conversation": "$~uma conversa",
+                "legend": "$~\"Não guardado\" significa que está guardado aqui, mas ainda não está online. Será guardado quando se conectar novamente.",
+                "errorsHeader": "$~Algumas coisas não puderam ser guardadas online:"
+            }
         },
         "localize": {
             "header": "$~Localizar",
@@ -6812,7 +6839,8 @@
                     "invalidPassword": "$~As palavras-passe devem ter no mínimo 6 caracteres.",
                     "wrongPassword": "$~Nome de utilizador e palavra-passe inválidos. Ou a sua palavra-passe está incorreta, ou outra pessoa já está a utilizar este nome de utilizador.",
                     "mismatched": "$~As palavras-passe não coincidem.",
-                    "tooMany": "$~Tentou fazer login muitas vezes sem sucesso. Terá que esperar para tentar novamente."
+                    "tooMany": "$~Tentou fazer login muitas vezes sem sucesso. Terá que esperar para tentar novamente.",
+                    "unsaved": "$~Tem alterações que ainda não foram guardadas online. Volte a ligar-se e aguarde até que sejam guardadas primeiro, ou serão perdidas deste dispositivo."
                 },
                 "feedback": {
                     "changing": "$~Envio de novo e-mail...",

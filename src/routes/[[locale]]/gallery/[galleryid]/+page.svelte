@@ -17,7 +17,13 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import TextBox from '@components/widgets/TextBox.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import { disconnected, Galleries, Projects, locales } from '@db/Database';
+    import {
+        authAttempted,
+        disconnected,
+        Galleries,
+        Projects,
+        locales,
+    } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
     import {
         getClasses,
@@ -42,12 +48,31 @@
             gallery = undefined;
             return;
         }
-        Galleries.get(galleryID).then((gal) => {
-            // Found a store? Subscribe to it, updating the gallery when it changes.
-            if (gal) gallery = gal;
-            // Not found? No gallery.
-            else gallery = undefined;
-        });
+
+        // Re-run when the local cache hydrates, auth resolves, or the user's
+        // gallery maps populate, so a gallery the user has access to resolves
+        // from the cache (even offline) instead of flashing "not found".
+        const hydrated = Galleries.hydrated;
+        const authResolved = $authAttempted;
+        const known =
+            Galleries.accessibleGalleries.has(galleryID) ||
+            Galleries.expandedScopeGalleries.has(galleryID);
+
+        if (known) {
+            // In the user's galleries — resolves from the local cache.
+            Galleries.get(galleryID).then((gal) => {
+                gallery = gal ?? undefined;
+            });
+        } else if (!hydrated || !authResolved) {
+            // Still hydrating the cache or resolving auth — stay loading.
+            gallery = null;
+        } else {
+            // Not one of the user's galleries; it may be a public gallery, which
+            // requires a network read (returns undefined offline).
+            Galleries.get(galleryID).then((gal) => {
+                gallery = gal ?? undefined;
+            });
+        }
     });
 
     let classes = $state<Class[] | undefined>(undefined);

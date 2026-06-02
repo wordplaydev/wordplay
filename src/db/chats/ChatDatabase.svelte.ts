@@ -1,10 +1,20 @@
 /** This file encapsulates all Firebase chat functionality and relies on Svelte state to cache chat documents. */
 import type { NotificationData } from '@components/settings/Notifications.svelte';
-import { HowTos, Projects, type Database } from '@db/Database';
+import {
+    HowTos,
+    Projects,
+    type Database,
+    type SaveCounts,
+    type SaveError,
+} from '@db/Database';
+import { Domain } from '@db/Domains';
+import SaveTracker from '@db/SaveTracker.svelte';
 import { firestore } from '@db/firebase';
 import type Gallery from '@db/galleries/Gallery';
 import HowTo from '@db/howtos/HowToDatabase.svelte';
 import type Project from '@db/projects/Project';
+import supportsIndexedDB from '@db/supportsIndexedDB';
+import deferToIdle from '@util/deferToIdle';
 import { FirebaseError } from 'firebase/app';
 import type { Unsubscribe, User } from 'firebase/auth';
 import {
@@ -23,7 +33,6 @@ import {
     type Firestore,
 } from 'firebase/firestore';
 import { SvelteMap } from 'svelte/reactivity';
-import deferToIdle from '@util/deferToIdle';
 import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
 import { notifications } from '../../routes/+layout.svelte';
@@ -282,7 +291,7 @@ export default class Chat {
 // CACHE
 ////////////////////////////////
 
-const ChatsCollection = 'chats';
+const ChatsCollection = Domain.Chats;
 
 export class ChatDatabase {
     private readonly db: Database;
@@ -305,11 +314,107 @@ export class ChatDatabase {
     private galleryListener: (gallery: Gallery) => void;
     private howToListener: (howto: HowTo) => void;
 
+    /** Whether this is a browser with IndexedDB support. */
+    readonly IndexedDBSupported = supportsIndexedDB();
+
+    /** Flips true once `chats` has been populated from the local cache (or
+     *  immediately, when there's no IndexedDB). */
+    hydrated: boolean = $state(false);
+
+    /** Per-item cloud-save tracking (unsaved set, errors, counts, durable dirty
+     *  rows), shared with the other domain facades. See {@link SaveTracker}. */
+    private readonly saves = new SaveTracker({
+        domain: Domain.Chats,
+        localDB: () => this.db.localDB,
+        track: (write) => this.db.track(write),
+        deviceCount: () => this.chats.size,
+        supported: () => this.IndexedDBSupported,
+        isHydrated: () => this.hydrated,
+    });
+
+    /** Project/how-to ids of conversations whose latest local change hasn't been
+     *  confirmed saved in the cloud (write pending or failed). */
+    get unsavedIDs() {
+        return this.saves.unsavedIDs;
+    }
+
+    /** Save failures for the save-status dialog. */
+    get saveErrors(): SaveError[] {
+        return this.saves.saveErrors;
+    }
+
+    /** How many conversations are saved on this device, in the cloud, and
+     *  unsaved. */
+    get saveCounts(): SaveCounts {
+        return this.saves.saveCounts;
+    }
+
     constructor(db: Database) {
         this.db = db;
         this.projectsListener = this.handleRevisedProject.bind(this);
         this.galleryListener = this.handleRevisedGallery.bind(this);
         this.howToListener = this.handleRevisedHowTo.bind(this);
+
+        // Warm `chats` from the local cache before any cloud sync.
+        this.hydrate();
+    }
+
+    /** Populate `chats` from the shared local cache, then keep it in sync with
+     *  local writes (including cross-tab). The first emission flips `hydrated`. */
+    async hydrate() {
+        if (!this.IndexedDBSupported) {
+            this.hydrated = true;
+            return;
+        }
+        // Seed the in-memory unsaved set from the durable dirty table so a
+        // message sent offline before a reload is replayed by flushUnsaved.
+        await this.saves.seedDirty();
+        let firstEmission = true;
+        this.db.localDB.getAllChats().subscribe((chats) => {
+            for (const chat of chats) this.loadChatIntoMemory(chat);
+            if (firstEmission) {
+                firstEmission = false;
+                this.hydrated = true;
+            }
+        });
+    }
+
+    /** Merge a cached chat into the in-memory map without persisting, writing
+     *  back to the cache, or registering the project/gallery listeners that
+     *  `updateChat` would. Kept Dexie-write-free so the hydrate subscription
+     *  can't loop. */
+    private loadChatIntoMemory(serialized: SerializedChat) {
+        const projectID = serialized.project;
+        const existingMessages = this.chats.get(projectID)?.getMessages() ?? [];
+        this.chats.set(
+            projectID,
+            new Chat(serialized).withMergedMessages(existingMessages),
+        );
+    }
+
+    /** Mirror authoritative chats into the local cache for cold-start
+     *  hydration. Caches the MERGED in-memory chat (not the raw doc) so local
+     *  optimistic messages survive. Never called from the hydrate path. */
+    private cacheChatsLocally(projectIDs: string[]) {
+        if (!this.IndexedDBSupported || projectIDs.length === 0) return;
+        const data: SerializedChat[] = [];
+        for (const projectID of projectIDs) {
+            const chat = this.chats.get(projectID);
+            if (chat) data.push(chat.getData());
+        }
+        try {
+            this.db.localDB.saveChats(data);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    /** Clear the local chat cache and in-memory map. Used on account-switch and
+     *  explicit sign-out, mirroring Projects' local wipe. */
+    async clearLocal() {
+        this.chats.clear();
+        await this.saves.clearTracking();
+        if (this.IndexedDBSupported) await this.db.localDB.deleteAllChats();
     }
 
     /**
@@ -361,15 +466,48 @@ export class ChatDatabase {
         // Make sure we're listening to the gallery of the project.
         this.db.Galleries.listen(projectID, this.galleryListener);
 
-        // If asked to persist, update remotely.
+        // If asked to persist, mirror to the local cache and update remotely.
         if (persist && firestore) {
-            await this.db.track(
+            this.cacheChatsLocally([projectID]);
+            await this.trackSave(
+                projectID,
                 updateDoc(
                     doc(firestore, ChatsCollection, chat.getProjectID()),
                     chat.getData(),
                 ),
             );
         }
+    }
+
+    /** Wrap a cloud write so the save-status dialog reflects it; see
+     *  {@link SaveTracker.trackSave}. Conversations have no title, so failures
+     *  surface with a generic name in the dialog (no `name`). */
+    private trackSave(id: string, write: Promise<unknown>): Promise<boolean> {
+        return this.saves.trackSave(id, undefined, write);
+    }
+
+    /** Re-attempt the cloud write for every conversation still marked unsaved
+     *  (e.g. a message sent offline before a reload). Called once the user is
+     *  known (startSync) and on reconnect. No-op when nothing is unsaved. */
+    async flushUnsaved() {
+        if (firestore === undefined) return;
+        const db = firestore;
+        await this.saves.flushUnsaved((id) => {
+            const chat = this.chats.get(id);
+            // setDoc (not updateDoc): a chat created offline may never have
+            // reached the server, so updateDoc would fail forever with
+            // not-found. getData() is the full SerializedChat and `this.chats`
+            // already holds the locally-merged messages, so this pushes the same
+            // merged view updateDoc would — just create-capable.
+            return chat
+                ? {
+                      write: setDoc(
+                          doc(db, ChatsCollection, id),
+                          chat.getData(),
+                      ),
+                  }
+                : undefined;
+        });
     }
 
     /**
@@ -384,7 +522,8 @@ export class ChatDatabase {
         updates: Record<string, unknown>,
     ) {
         if (firestore === undefined) return;
-        await this.db.track(
+        await this.trackSave(
+            chatID,
             updateDoc(doc(firestore, ChatsCollection, chatID), updates),
         );
     }
@@ -402,7 +541,8 @@ export class ChatDatabase {
     ) {
         if (firestore === undefined) return;
         const chatRef = doc(firestore, ChatsCollection, chatID);
-        await this.db.track(
+        await this.trackSave(
+            chatID,
             runTransaction(firestore, async (tx) => {
                 const snap = await tx.get(chatRef);
                 if (!snap.exists()) return;
@@ -481,8 +621,17 @@ export class ChatDatabase {
         }));
     }
 
-    async deleteChat(projectID: string) {
+    /** Drop a chat from in-memory state and clear its save tracking + durable
+     *  dirty row. Does NOT delete the Firestore doc or the cached row — callers
+     *  handle those (the cloud listener owns cache eviction). Shared by the
+     *  explicit delete and the listener's "removed" handler. */
+    private forgetChat(projectID: string) {
         this.chats.delete(projectID);
+        this.saves.forget(projectID);
+    }
+
+    async deleteChat(projectID: string) {
+        this.forgetChat(projectID);
         if (firestore) {
             try {
                 await this.db.track(
@@ -514,16 +663,44 @@ export class ChatDatabase {
         ]);
     }
 
+    /** Write a freshly-built chat to the cloud and mirror it locally, relying on
+     *  the realtime listener for the rest. `link` runs inside the same try to
+     *  attach the new chat to its parent project/how-to. Returns the chat id, or
+     *  undefined if the write failed (logged). Shared by the project and how-to
+     *  chat creators, which differ only in how they link the parent. */
+    private async createChat(
+        newChat: SerializedChat,
+        link: () => void,
+    ): Promise<string | undefined> {
+        if (firestore === undefined) return undefined;
+        try {
+            // Create the document, tracking its save state.
+            await this.trackSave(
+                newChat.project,
+                setDoc(
+                    doc(firestore, ChatsCollection, newChat.project),
+                    newChat,
+                ),
+            );
+            // Mirror the chat in the cache, but not remotely; we just created it.
+            this.updateChat(new Chat(newChat), false);
+            // Attach it to its parent now that it's in the database.
+            link();
+            return newChat.project;
+        } catch (err) {
+            console.error(err);
+            return undefined;
+        }
+    }
+
     /** Create a chat, if the project is owned and doesn't already have one. */
     async addChat(
         project: Project,
         gallery: Gallery | undefined,
     ): Promise<string | undefined> {
         if (firestore === undefined) return undefined;
-        const owner = project.getOwner();
-        if (owner === null) return undefined;
+        if (project.getOwner() === null) return undefined;
 
-        // Create a new chat.
         const newChat: SerializedChat = {
             v: 2,
             project: project.getID(),
@@ -534,35 +711,15 @@ export class ChatDatabase {
             type: 'project',
         };
 
-        // Add the chat to Firebase, relying on the realtime listener to update the local cache.
-        try {
-            // Create the document.
-            await this.db.track(
-                setDoc(
-                    doc(firestore, ChatsCollection, newChat.project),
-                    newChat,
-                ),
-            );
-
-            // Add the chat to the chats cache, but not remotely; we just created it.
-            this.updateChat(new Chat(newChat), false);
-
-            // Add the chat to the project once we've added it to the database.
-            Projects.reviseProject(project.withChat(newChat.project));
-        } catch (err) {
-            console.error(err);
-            return undefined;
-        }
-
-        return newChat.project;
+        return this.createChat(newChat, () =>
+            Projects.reviseProject(project.withChat(newChat.project)),
+        );
     }
 
     async addChatToHowTo(howTo: HowTo, gallery: Gallery | undefined) {
         if (firestore === undefined) return undefined;
-        const creator = howTo.getCreator();
-        if (creator === null) return undefined;
+        if (howTo.getCreator() === null) return undefined;
 
-        // Create a new chat.
         const newChat: SerializedChat = {
             v: 2,
             project: howTo.getHowToId(),
@@ -582,34 +739,15 @@ export class ChatDatabase {
             type: 'howto',
         };
 
-        // Add the chat to Firebase, relying on the realtime listener to update the local cache.
-        try {
-            // Create the document.
-            await this.db.track(
-                setDoc(
-                    doc(firestore, ChatsCollection, newChat.project),
-                    newChat,
-                ),
-            );
-
-            // Add the chat to the chats cache, but not remotely; we just created it.
-            this.updateChat(new Chat(newChat), false);
-
-            // Add the chat to the project once we've added it to the database.
-            // Projects.reviseProject(project.withChat(newChat.project));
+        return this.createChat(newChat, () =>
             HowTos.updateHowTo(
                 new HowTo({
                     ...howTo.getData(),
                     social: { ...howTo.getSocial(), chat: newChat.project },
                 }),
                 true,
-            );
-        } catch (err) {
-            console.error(err);
-            return undefined;
-        }
-
-        return newChat.project;
+            ),
+        );
     }
 
     /** Should be called when a project updates, to synchronize chat participants. */
@@ -789,9 +927,7 @@ export class ChatDatabase {
         // will re-derive unread correctly.
         this.writeAtomicChat(chat.getProjectID(), {
             messages: arrayUnion(newMessage),
-            unread: chat
-                .getEligibleParticipants()
-                .filter((p) => p !== user),
+            unread: chat.getEligibleParticipants().filter((p) => p !== user),
         });
 
         return newMessage;
@@ -822,6 +958,7 @@ export class ChatDatabase {
     }
 
     private startListening(firestore: Firestore, user: User) {
+        this.db.markSyncing(Domain.Chats);
         const startTime: number = Date.now();
 
         this.unsubscribe = onSnapshot(
@@ -832,6 +969,7 @@ export class ChatDatabase {
             async (snapshot) => {
                 // First, go through the entire set, gathering the latest versions and remembering what project IDs we know
                 // so we can delete ones that are gone from the server.
+                const synced: string[] = [];
                 snapshot.forEach((doc) => {
                     const chat = doc.data();
 
@@ -844,19 +982,27 @@ export class ChatDatabase {
                         // Update the chat in the local cache, but do not persist; we just got it from the DB.
                         // assume it's a chat of unknown version and upgrade it
                         this.updateChat(new Chat(upgraded), false);
+                        synced.push(upgraded.project);
                     } catch (error) {
                         // If the chat doesn't succeed, then we don't save it.
                         console.error(error);
                     }
                 });
 
+                // Mirror the cloud truth into the local cache for next cold start.
+                this.cacheChatsLocally(synced);
+
                 // Next, go through the changes and see if any were explicitly removed, and if so, delete them.
                 snapshot.docChanges().forEach(async (change) => {
                     // Removed? Delete the local cache of the project.
-                    // Stop litening to the project's changes.
+                    // Stop listening to the project's changes.
                     if (change.type === 'removed') {
                         const projectID = change.doc.id;
-                        this.chats.delete(projectID);
+                        this.forgetChat(projectID);
+                        // Evict the cached row too — the listener owns cache
+                        // eviction (the explicit delete leaves it to us).
+                        if (this.IndexedDBSupported)
+                            void this.db.localDB.deleteChat(projectID);
                         if (
                             change.doc.data().type === 'project' &&
                             this.projectsListener
@@ -925,8 +1071,16 @@ export class ChatDatabase {
                         }
                     }
                 });
+
+                this.db.markSynced(Domain.Chats, this.chats.size);
             },
             (error) => {
+                // Always terminal so the save-status button stops spinning and
+                // the dialog shows "failed" (incl. permission/index errors);
+                // only connectivity errors flip the offline/unreachable state.
+                this.db.markSyncFailed(Domain.Chats);
+                if (this.db.isConnectivityError(error))
+                    this.db.markFirebaseFailed();
                 if (error instanceof FirebaseError) {
                     console.error(error.code);
                     console.error(error.message);

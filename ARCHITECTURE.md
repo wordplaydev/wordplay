@@ -32,6 +32,27 @@ The database also relies heavily on [Svelte stores](https://svelte.dev/docs/svel
 
 The database should generally be fairly opaque; it shouldn't matter to code using the Database's methods how or where data is stored. It's currently backed by Firebase, but that could change, and no other part of the application should have to care.
 
+#### Local-first data layer
+
+Account-specific data is **local-first**: a single IndexedDB store ([WordplayDexie.ts](https://github.com/wordplaydev/wordplay/blob/main/src/db/WordplayDexie.ts), DB name `wordplay`, one table per domain — projects, galleries, characters, how-tos, chats) is the durable local mirror of all Firebase data, and Firebase realtime queries are treated as a **sync mechanism into that mirror**, not as the place pages read from. Firestore itself is configured **memory-only** (no `persistentLocalCache`) so it doesn't duplicate the Dexie store or run a competing offline write queue; the Dexie store is the one local source of truth. The Dexie schema version (`WordplayDBVersion`) is deliberately decoupled from the project _document_ schema version (`ProjectSchemaLatestVersion`): the former versions table structure, the latter versions document content (handled at deserialize time).
+
+Each domain database ([src/db/{projects,galleries,characters,howtos,chats}](https://github.com/wordplaydev/wordplay/tree/main/src/db)) follows the same pattern, with projects as the reference implementation:
+
+- **Hydrate.** On construction, the domain reads its Dexie table (via a `liveQuery`) into its in-memory reactive surface (a `SvelteMap`/`$state`) and flips a `hydrated` flag. This is what makes cold start and offline work — the UI has data before any network call. (How-tos hydrate once rather than subscribing live, because their three realtime listeners garbage-collect the in-memory map and a live cache subscription would fight that GC.)
+- **Dual-write.** The realtime listener writes each cloud snapshot into both the in-memory surface and the Dexie table; local edits do the same. The in-memory surface — not the raw Dexie rows — stays the authority for live behavior (it carries semantics rows don't: "confirmed-absent" sentinels, chat message merge, gallery role split), so writes go to it directly and Dexie is mirrored alongside.
+- **Single-item reads are local-first.** `Projects.get`, `Galleries.get`, `Characters.getByID/getByName`, `HowTos.getHowTo`, `Chats.getChat` check the in-memory surface (i.e. the hydrated local cache) before any Firestore read; `Database.read()` wraps every fallback network read in an 8s timeout so an unreachable backend fails fast instead of hanging a page.
+- **Clear on identity change.** `clearLocal()` wipes a domain's cache + in-memory surface on explicit sign-out and when a different account takes over the device (privacy), mirroring `Projects.deleteLocal()`.
+
+#### Serial sync + the local↔cloud state machine
+
+On login, `Database.startSync()` brings the domains online **serially in priority order** (projects → galleries → characters → how-tos → chats), advancing to the next once the current reports its first snapshot or a timeout elapses. Serializing the listener setup avoids the concurrent-subscription burst that churned the Firestore WebChannel session ("Unknown SID" 400s) on large accounts. Each domain reports a per-domain sync status — `initializing` → `syncing` → `updated` (with a synced count) or `failed` — exposed via the `syncState` store and surfaced in the save-status dialog ([Status.svelte](https://github.com/wordplaydev/wordplay/blob/main/src/components/app/Status.svelte)).
+
+The write/connectivity state machine:
+
+- **Read:** in-memory (hydrated cache) → Dexie → Firestore (timeout-guarded). Offline, the first two suffice for anything previously synced.
+- **Write:** update the in-memory surface + Dexie immediately (the user sees the change at once), then attempt the Firestore write. Offline, Firestore queues the write in memory and flushes on reconnect; projects additionally survive a reload-while-offline because the Dexie cache keeps an `unsaved` flag that `persist()` backfills, and the browser `online` event nudges a flush.
+- **Connectivity is never a page gate.** Pages gate only on **auth** and on each domain's `hydrated` flag, never on Firebase reachability. Losing the connection shows only in the connection banner / save-status UI ([ConnectionBanner.svelte](https://github.com/wordplaydev/wordplay/blob/main/src/components/app/ConnectionBanner.svelte)) — it never deactivates the site.
+
 ### Abstract Syntax Trees (ASTs)
 
 All Wordplay code starts as strings and is converted to an _abstract syntax tree_ by [parseProgram](https://github.com/wordplaydev/wordplay/blob/main/src/parser/parseProgram.ts). Parser first tokenizes the strings using [Tokenizer.ts](https://github.com/wordplaydev/wordplay/blob/main/src/parser/Tokenizer.ts) to segment the text into a sequence of [Token](https://github.com/wordplaydev/wordplay/blob/main/src/nodes/Token.ts) nodes. Parser then translates the sequence of `Token` nodes into a tree. Root nodes of programs are [Source](https://github.com/wordplaydev/wordplay/blob/main/src/nodes/Source.ts) nodes, and then inside [/src/nodes](https://github.com/wordplaydev/wordplay/tree/main/src/nodes) are all of the different types of abstract syntax tree nodes that can appear in a Wordplay program.

@@ -42,7 +42,7 @@
         type LocaleText,
     } from '@locale/LocaleText';
     import type { ButtonText } from '@locale/UITexts';
-    import { onDestroy, onMount, type Snippet } from 'svelte';
+    import { onDestroy, onMount, untrack, type Snippet } from 'svelte';
     import { SvelteMap, SvelteSet } from 'svelte/reactivity';
     import { findHowToPlacement } from './HowToMovement';
     import HowToPrompt from './HowToPrompt.svelte';
@@ -150,8 +150,7 @@
                     return;
                 }
             }
-            localeName =
-                howTo.getLocales()[0] ?? $locales.getLocaleString();
+            localeName = howTo.getLocales()[0] ?? $locales.getLocaleString();
             localeNameInitialized = true;
         } else {
             localeName = $locales.getLocaleString();
@@ -329,7 +328,12 @@
         for (const [, v] of titles) void v;
         for (const l of usedLocales) void l;
 
-        if (!autosaveArmed || !howTo) return;
+        // `howTo` is only an existence guard here — read it UNTRACKED so this
+        // effect fires on content edits, not when persistChanges() reassigns
+        // `howTo` after a save. Tracking it caused an infinite autosave loop
+        // (save → new howTo object → effect re-runs → reschedules → save …),
+        // which also spammed the local-cache write.
+        if (!autosaveArmed || !untrack(() => howTo)) return;
         scheduleAutosave();
     });
 
@@ -424,8 +428,10 @@
 
         if (!howTo) {
             // Creating a brand-new how-to from the "+" form.
-            const title: string =
-                await generateTitleStringWithPlaceholders(usedLocales, titles);
+            const title: string = await generateTitleStringWithPlaceholders(
+                usedLocales,
+                titles,
+            );
             let writeX = 0;
             let writeY = 0;
             if (publish) [writeX, writeY] = findPlaceToWrite();
@@ -466,8 +472,10 @@
         if (autosaveTimer !== undefined) clearTimeout(autosaveTimer);
         autosaveTimer = undefined;
 
-        const title: string =
-            await generateTitleStringWithPlaceholders(usedLocales, titles);
+        const title: string = await generateTitleStringWithPlaceholders(
+            usedLocales,
+            titles,
+        );
         let [writeX, writeY] = howTo.getCoordinates();
         // Only reposition (and pan to) the how-to when it's transitioning
         // from draft to published. Drafts don't render on the canvas, so

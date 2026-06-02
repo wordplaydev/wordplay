@@ -5885,7 +5885,34 @@
             "saving": "Speichern",
             "saved": "Online gespeichert",
             "local": "Im Browser gespeichert",
-            "unsaved": "Ungespeichert"
+            "unsaved": "Ungespeichert",
+            "sync": {
+                "header": "$~Synchronisierung mit der Cloud",
+                "projects": "$~Projekte",
+                "galleries": "$~Galerien",
+                "characters": "$~Charaktere",
+                "howtos": "$~Anleitungen",
+                "chats": "$~Chats"
+            },
+            "status": {
+                "header": "$~Status speichern",
+                "intro": "$~Ihre Arbeit wird auf diesem Gerät gespeichert und in der Cloud gesichert.",
+                "columns": {
+                    "device": "$~auf diesem Gerät",
+                    "cloud": "$~in der Wolke",
+                    "unsaved": "$~nicht gespeichert"
+                },
+                "state": {
+                    "synced": "$~synchronisiert",
+                    "loading": "$~Laden",
+                    "syncing": "$~sparen",
+                    "offline": "$~offline",
+                    "failed": "$~fehlgeschlagen"
+                },
+                "conversation": "$~ein Gespräch",
+                "legend": "$~„Nicht gespeichert“ bedeutet, dass die Daten hier gespeichert sind, Sie aber noch nicht online sind. Die Daten werden gespeichert, sobald Sie wieder online sind.",
+                "errorsHeader": "$~Manche Dinge konnten nicht online gespeichert werden:"
+            }
         },
         "page": {
             "unknown": {
@@ -6070,7 +6097,8 @@
                     "invalidUsername": "$~Benutzernamen müssen E-Mail-Adressen oder >5 Buchstaben ohne Leerzeichen sein.",
                     "invalidPassword": "$~Passwörter müssen mindestens 6 Zeichen lang sein.",
                     "mismatched": "$~Die Passwörter stimmen nicht überein.",
-                    "usernameTaken": "$~Dieser Benutzername ist bereits vergeben."
+                    "usernameTaken": "$~Dieser Benutzername ist bereits vergeben.",
+                    "unsaved": "$~Ihre Änderungen wurden noch nicht online gespeichert. Stellen Sie die Verbindung erneut her und warten Sie, bis die Änderungen gespeichert sind, sonst gehen sie auf diesem Gerät verloren."
                 },
                 "feedback": {
                     "changing": "$~Neue E-Mail wird gesendet …",

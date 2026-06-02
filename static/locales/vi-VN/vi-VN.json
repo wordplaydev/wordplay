@@ -6209,7 +6209,34 @@
             "saving": "$~tiết kiệm",
             "saved": "$~đã lưu",
             "local": "$~đã lưu",
-            "unsaved": "$~chưa được lưu"
+            "unsaved": "$~chưa được lưu",
+            "sync": {
+                "header": "$~Đồng bộ hóa với đám mây",
+                "projects": "$~Dự án",
+                "galleries": "$~Phòng trưng bày",
+                "characters": "$~Nhân vật",
+                "howtos": "$~Hướng dẫn",
+                "chats": "$~Trò chuyện"
+            },
+            "status": {
+                "header": "$~Lưu trạng thái",
+                "intro": "$~Công việc của bạn được lưu trữ trên thiết bị này và được sao lưu trên đám mây.",
+                "columns": {
+                    "device": "$~trên thiết bị này",
+                    "cloud": "$~trên đám mây",
+                    "unsaved": "$~chưa được lưu"
+                },
+                "state": {
+                    "synced": "$~đã đồng bộ",
+                    "loading": "$~đang tải",
+                    "syncing": "$~tiết kiệm",
+                    "offline": "$~ngoại tuyến",
+                    "failed": "$~thất bại"
+                },
+                "conversation": "$~một cuộc trò chuyện",
+                "legend": "$~\"Chưa lưu\" nghĩa là đã được lưu ở đây nhưng chưa kết nối internet. Nó sẽ được lưu khi bạn kết nối lại mạng.",
+                "errorsHeader": "$~Một số thứ không thể lưu trữ trực tuyến:"
+            }
         },
         "page": {
             "unknown": {
@@ -6757,7 +6784,8 @@
                     "invalidPassword": "$~Mật khẩu phải có ít nhất 6 ký tự.",
                     "wrongPassword": "$~Tên người dùng và mật khẩu không hợp lệ. Có thể mật khẩu của bạn sai hoặc người khác đã sử dụng tên người dùng này.",
                     "mismatched": "$~Mật khẩu không khớp.",
-                    "tooMany": "$~Bạn đã đăng nhập không thành công quá nhiều lần. Bạn phải đợi để thử lại."
+                    "tooMany": "$~Bạn đã đăng nhập không thành công quá nhiều lần. Bạn phải đợi để thử lại.",
+                    "unsaved": "$~Bạn có những thay đổi chưa được lưu trực tuyến. Hãy kết nối lại và đợi cho đến khi các thay đổi được lưu xong, nếu không chúng sẽ bị mất khỏi thiết bị này."
                 },
                 "feedback": {
                     "changing": "$~Đang gửi email mới...",

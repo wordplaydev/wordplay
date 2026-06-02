@@ -5829,7 +5829,34 @@
             "saving": "保存",
             "saved": "線上儲存",
             "local": "本地儲存",
-            "unsaved": "未儲存"
+            "unsaved": "未儲存",
+            "sync": {
+                "header": "$~與雲端同步",
+                "projects": "$~專案",
+                "galleries": "$~畫廊",
+                "characters": "$~人物",
+                "howtos": "$~操作指南",
+                "chats": "$~聊天"
+            },
+            "status": {
+                "header": "$~保存狀態",
+                "intro": "$~您的工作內容將保存在此裝置上，並同時儲存到雲端。",
+                "columns": {
+                    "device": "$~在本設備上",
+                    "cloud": "$~在雲端",
+                    "unsaved": "$~未保存"
+                },
+                "state": {
+                    "synced": "$~同步",
+                    "loading": "$~載入中",
+                    "syncing": "$~儲存",
+                    "offline": "$~離線",
+                    "failed": "$~失敗的"
+                },
+                "conversation": "$~一段對話",
+                "legend": "$~未儲存表示已保存在此處，但尚未連網。連網後會自動儲存。",
+                "errorsHeader": "$~有些內容無法在線上保存："
+            }
         },
         "page": {
             "unknown": {
@@ -6018,7 +6045,8 @@
                     "invalidUsername": "$~使用者名稱必須至少包含 5 個字母且不包含空格。",
                     "invalidPassword": "密碼長度至少為六個字元。",
                     "mismatched": "密碼不匹配。",
-                    "usernameTaken": "$~這個使用者名稱已被佔用。"
+                    "usernameTaken": "$~這個使用者名稱已被佔用。",
+                    "unsaved": "$~您所做的更改尚未在線保存。請重新連線並等待儲存，否則這些變更將從此裝置上遺失。"
                 },
                 "feedback": {
                     "changing": "正在提交新的電子郵件地址…",

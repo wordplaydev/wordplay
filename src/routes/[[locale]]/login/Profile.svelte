@@ -3,6 +3,7 @@
     import CreatorCharacterView from '@components/app/CreatorCharacterView.svelte';
     import Header from '@components/app/Header.svelte';
     import Link from '@components/app/Link.svelte';
+    import Notice from '@components/app/Notice.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
@@ -26,6 +27,11 @@
     let creator = $derived(Creator.from(user));
 
     let moderator = $state(false);
+
+    // Items (across every domain) with edits not yet saved online. Logout and
+    // account deletion wipe the local cache, so doing either with unsaved work
+    // would discard it permanently — guard both on this.
+    let unsaved = $derived(DB.getUnsavedCount());
 
     /** Writable holding the current Firebase user. We need a handle on the
      *  store (not just the unwrapped value via props) so we can republish
@@ -81,11 +87,14 @@
     </Action>
     <Action>
         <MarkupHTMLView markup={(l) => l.ui.page.login.prompt.logout} />
+        {#if unsaved > 0}
+            <Notice text={(l) => l.ui.page.login.error.unsaved} />
+        {/if}
         <ConfirmButton
             background
             tip={(l) => l.ui.page.login.button.logout.tip}
             action={logout}
-            enabled={$status.status === SaveStatus.Saved}
+            enabled={$status.status === SaveStatus.Saved && unsaved === 0}
             prompt={(l) => l.ui.page.login.button.logout.label}
             label={(l) => l.ui.page.login.button.logout.label}
             testid="logout"

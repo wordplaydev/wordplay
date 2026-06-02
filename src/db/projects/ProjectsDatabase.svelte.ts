@@ -5,9 +5,13 @@ import {
     SaveFailureReason,
     SaveStatus,
     type Database,
+    type SaveCounts,
     type SaveFailure,
 } from '@db/Database';
 import { auth, firestore } from '@db/firebase';
+import { Domain } from '@db/Domains';
+import firebaseErrorDetail from '@db/firebaseErrorDetail';
+import supportsIndexedDB from '@db/supportsIndexedDB';
 import type Gallery from '@db/galleries/Gallery';
 import { EditFailure } from '@db/projects/EditFailure';
 import { unknownFlags } from '@db/projects/Moderation';
@@ -27,7 +31,7 @@ import {
     type SerializedProject,
     type SerializedProjectUnknownVersion,
 } from '@db/projects/ProjectSchemas';
-import { ProjectsDexie } from '@db/projects/ProjectsDexie';
+import { WordplayDexie } from '@db/WordplayDexie';
 import YjsFirestoreProvider from '@db/projects/YjsFirestoreProvider';
 import type LocaleText from '@locale/LocaleText';
 import type Node from '@nodes/Node';
@@ -55,7 +59,7 @@ import { SvelteMap } from 'svelte/reactivity';
 import { ExamplePrefix, getExample } from '../../examples/examples';
 
 /** The name of the projects collection in Firebase */
-export const ProjectsCollection = 'projects';
+export const ProjectsCollection = Domain.Projects;
 
 /**
  * Projects shouldn't be larger than 1,048,576 bytes, the Firestore document limit.
@@ -75,12 +79,11 @@ export default class ProjectsDatabase {
     /** The database that manages this */
     readonly database: Database;
 
-    /** An IndexedDB backed database of projects, allowing for scalability of local persistence. */
-    readonly localDB = new ProjectsDexie();
+    /** The shared IndexedDB local store, owned by `Database`. */
+    readonly localDB: WordplayDexie;
 
     /** Wether this is in a browser with indexed db support */
-    readonly IndexedDBSupported =
-        typeof window !== 'undefined' && 'indexedDB' in window;
+    readonly IndexedDBSupported = supportsIndexedDB();
 
     /** The local live query that we listen to for cross-tab local changes */
     private editableProjects: Observable<SerializedProject[]> | undefined =
@@ -89,6 +92,26 @@ export default class ProjectsDatabase {
     /** An in-memory index of project histories by project ID. Populated on load, synced with local IndexedDB and cloud Firestore, when available. */
     private projectHistories: SvelteMap<string, ProjectHistory> =
         new SvelteMap();
+
+    /** Save-state counts for the save-status dialog, over the user's
+     *  cloud-bound (Online) projects only. We deliberately exclude
+     *  PersistenceType.Local projects — those are tutorial scratch that lives
+     *  only on this device and never syncs, so counting them would inflate "on
+     *  this device" past "in the cloud" with projects that intentionally never
+     *  upload (the confusing 69-vs-61 discrepancy). `device` is every Online
+     *  project held locally, `cloud` those confirmed saved online, `unsaved`
+     *  those with edits not yet saved; device = cloud + unsaved. Reactive via
+     *  the SvelteMap + `$state` save flags on each ProjectHistory. */
+    readonly saveCounts: SaveCounts = $derived.by(() => {
+        const online = Array.from(this.projectHistories.values()).filter(
+            (h) => h.getPersisted() === PersistenceType.Online,
+        );
+        return {
+            device: online.length,
+            cloud: online.filter((h) => !h.isUnsaved()).length,
+            unsaved: online.filter((h) => h.isUnsaved()).length,
+        };
+    });
 
     /** The latest versions of all projects */
     readonly currentProjects: Project[] = $derived(
@@ -222,8 +245,7 @@ export default class ProjectsDatabase {
      * deduplication, and two tabs as the same user really do share
      * the same authorship for stamping purposes.
      */
-    private readonly sessionID: string =
-        ProjectsDatabase.resolveSessionID();
+    private readonly sessionID: string = ProjectsDatabase.resolveSessionID();
 
     /** Generate a fresh session id using the best available randomness,
      *  falling back gracefully when `crypto` is unavailable. */
@@ -267,6 +289,7 @@ export default class ProjectsDatabase {
 
     constructor(database: Database) {
         this.database = database;
+        this.localDB = database.localDB;
 
         // Hydrate the editable projects from disk
         this.hydrate();
@@ -310,6 +333,14 @@ export default class ProjectsDatabase {
         // Get all the projects from disk, deserialize them.
         const projects = await this.deserializeAll(serialized);
 
+        // Projects whose last cloud write didn't confirm before the page
+        // unloaded — replay them so the edit isn't stranded locally.
+        const dirty = new Set(
+            this.IndexedDBSupported
+                ? await this.localDB.getDirty(Domain.Projects)
+                : [],
+        );
+
         // Don't persist back to the local database, since we just read them from disk.
         // If it's a tutorial project, mark it as local saves only.
         // fromCloud=false: this is our own IndexedDB cache rehydrating,
@@ -322,11 +353,12 @@ export default class ProjectsDatabase {
                 project.isTutorial()
                     ? PersistenceType.Local
                     : PersistenceType.Online,
-                // Mark as unsaved when the on-disk shape was older than
-                // the current schema, so the next persist() round writes
-                // the migrated doc back. Cached IndexedDB entries from a
-                // pre-upgrade session would otherwise never get bumped.
-                !upgraded,
+                // Mark as unsaved when the on-disk shape was older than the
+                // current schema (so persist() backfills the migrated doc) OR
+                // when the durable dirty flag says its last cloud write never
+                // confirmed (so the offline edit is re-pushed). saved = the
+                // negation: only "saved" when neither applies.
+                !upgraded && !dirty.has(project.getID()),
                 false,
             );
         }
@@ -409,6 +441,9 @@ export default class ProjectsDatabase {
         // If there's no more user, do nothing.
         if (user === null) return;
 
+        // Report sync status for the save-status dialog.
+        this.database.markSyncing(Domain.Projects);
+
         // Capture firestore so the narrowing survives into the listener closures.
         const fs = firestore;
 
@@ -437,6 +472,7 @@ export default class ProjectsDatabase {
             if (this.database.isConnectivityError(error))
                 this.database.markFirebaseFailed();
             else this.database.markFirebaseDisconnected();
+            this.database.markSyncFailed(Domain.Projects);
             this.database.setStatus(
                 SaveStatus.Error,
                 (l) => l.ui.project.save.projectsNotLoadingOnline,
@@ -517,6 +553,9 @@ export default class ProjectsDatabase {
             }, 2000);
         }
 
+        // A snapshot arrived → projects are synced. Report the tracked count.
+        this.database.markSynced(Domain.Projects, this.projectHistories.size);
+
         // Record the full set this listener currently matches, for the
         // cross-listener deletion sweep below.
         const seen = new Set<string>();
@@ -577,10 +616,7 @@ export default class ProjectsDatabase {
             for (const ids of this.listenerProjectIDs.values())
                 for (const id of ids) union.add(id);
 
-            for (const [
-                projectID,
-                history,
-            ] of this.projectHistories.entries())
+            for (const [projectID, history] of this.projectHistories.entries())
                 if (history.getCurrent().isPersisted() && !union.has(projectID))
                     await this.deleteLocalProject(projectID);
         }
@@ -883,8 +919,11 @@ export default class ProjectsDatabase {
         // would filter out the other tab's updates as its own, and the
         // presence tracker would write to a single shared presence doc
         // that both tabs treat as self. Per-tab IDs fix both.
-        if (firestore !== undefined &&
-            this.projectHistories.get(projectID)?.getPersisted() === PersistenceType.Online) {
+        if (
+            firestore !== undefined &&
+            this.projectHistories.get(projectID)?.getPersisted() ===
+                PersistenceType.Online
+        ) {
             // Only owners and collaborators are allowed to write to the
             // `/updates` subcollection (see firestore.rules). For
             // viewers, commenters, or any session that doesn't pass
@@ -912,6 +951,28 @@ export default class ProjectsDatabase {
                         await auth.currentUser.getIdToken(true);
                     }
                 },
+                // A dropped live-sync stream from a connectivity error should
+                // flip the shared offline/save-status indicator, not fail
+                // silently.
+                (error) => {
+                    if (this.database.isConnectivityError(error))
+                        this.database.markFirebaseFailed();
+                },
+                // Publishing became terminally write-forbidden (rules denied
+                // it this session) — surface a save failure so the user learns
+                // their live edits have stopped reaching collaborators.
+                () =>
+                    this.database.setSaveFailures([
+                        {
+                            projectId: projectID,
+                            projectName:
+                                this.getHistory(projectID)
+                                    ?.getCurrent()
+                                    .getName() ?? projectID,
+                            reason: SaveFailureReason.FirestoreBatchFailed,
+                            detail: 'permission-denied',
+                        },
+                    ]),
             );
             this.crdtProviders.set(projectID, provider);
 
@@ -1444,12 +1505,28 @@ export default class ProjectsDatabase {
         // No history? Directly edit the project in the database, if connected and asked to save the edit.
         // This is likely an edit by a curator of a gallery, e.g., removing a project from a collection.
         else if (firestore && persist) {
-            await this.database.track(
-                setDoc(
-                    doc(firestore, ProjectsCollection, project.getID()),
-                    project.serialize(),
-                ),
-            );
+            // Curator editing a project they have no local history for (e.g.
+            // removing it from a gallery). There's no CRDT history to replay, so
+            // fire-and-forget (a setDoc resolves only on server ack and would
+            // otherwise hang the action offline) and surface a SaveFailure on
+            // rejection instead of dropping the edit silently with no feedback.
+            void this.database
+                .track(
+                    setDoc(
+                        doc(firestore, ProjectsCollection, project.getID()),
+                        project.serialize(),
+                    ),
+                )
+                .catch((error) =>
+                    this.database.setSaveFailures([
+                        {
+                            projectId: project.getID(),
+                            projectName: project.getName(),
+                            reason: SaveFailureReason.FirestoreBatchFailed,
+                            detail: firebaseErrorDetail(error),
+                        },
+                    ]),
+                );
             return undefined;
         }
         // Not editable? Return false.
@@ -1587,6 +1664,7 @@ export default class ProjectsDatabase {
     async deleteLocalProject(id: string) {
         // Delete from the local cache.
         await this.localDB.deleteProject(id);
+        void this.localDB.markClean(Domain.Projects, id);
 
         // Drop the project's persisted caret positions.
         this.database.Settings.removeProjectCarets(id);
@@ -1729,6 +1807,16 @@ export default class ProjectsDatabase {
                 for (const history of sendable)
                     sentVersions.set(history, history.getCurrent());
 
+                // Persist a dirty flag for each project we're about to push, so
+                // an edit whose commit doesn't confirm before a reload is
+                // replayed on the next load (see trackLocal).
+                if (this.IndexedDBSupported)
+                    for (const sentVersion of sentVersions.values())
+                        this.localDB.markDirty(
+                            Domain.Projects,
+                            sentVersion.getID(),
+                        );
+
                 // Capture into a local so the type narrowing from the
                 // enclosing `if (firestore && userID)` carries into the
                 // arrow function below.
@@ -1784,17 +1872,22 @@ export default class ProjectsDatabase {
                     // (history.edit always assigns a fresh Project), and we leave
                     // saved=false so the next saveSoon round picks up the change.
                     for (const [history, sentVersion] of sentVersions)
-                        if (history.getCurrent() === sentVersion)
+                        if (history.getCurrent() === sentVersion) {
                             history.markSaved();
+                            // Confirmed in the cloud — clear the durable dirty
+                            // flag so it isn't replayed on the next load.
+                            if (this.IndexedDBSupported)
+                                void this.localDB.markClean(
+                                    'projects',
+                                    sentVersion.getID(),
+                                );
+                        }
                 } else {
                     if (commitError instanceof FirebaseError) {
                         console.error(commitError.code);
                         console.error(commitError.message);
                     }
-                    const detail =
-                        commitError instanceof FirebaseError
-                            ? commitError.code
-                            : undefined;
+                    const detail = firebaseErrorDetail(commitError);
                     // Firestore batch.commit is atomic: nothing wrote, so every
                     // project in the batch needs a failure entry.
                     for (const sentVersion of sentVersions.values())
@@ -1893,6 +1986,7 @@ export default class ProjectsDatabase {
     /** Deletes the local database (usually on logout, for privacy), and removes any projects from memory. */
     async deleteLocal() {
         this.localDB.deleteAllProjects();
+        void this.localDB.clearDirty(Domain.Projects);
         this.projectHistories.clear();
     }
 

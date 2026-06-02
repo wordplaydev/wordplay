@@ -5885,7 +5885,34 @@
             "saving": "$~économie",
             "saved": "$~enregistré en ligne",
             "local": "$~enregistré dans le navigateur",
-            "unsaved": "$~non enregistré"
+            "unsaved": "$~non enregistré",
+            "sync": {
+                "header": "$~Synchronisation avec le cloud",
+                "projects": "$~Projets",
+                "galleries": "$~Galeries",
+                "characters": "$~Personnages",
+                "howtos": "$~Tutoriels",
+                "chats": "$~Discussions"
+            },
+            "status": {
+                "header": "$~Statut de l'enregistrement",
+                "intro": "$~Votre travail est conservé sur cet appareil et sauvegardé dans le cloud.",
+                "columns": {
+                    "device": "$~sur cet appareil",
+                    "cloud": "$~dans le nuage",
+                    "unsaved": "$~non sauvegardé"
+                },
+                "state": {
+                    "synced": "$~synchronisé",
+                    "loading": "$~chargement",
+                    "syncing": "$~économie",
+                    "offline": "$~hors ligne",
+                    "failed": "$~échoué"
+                },
+                "conversation": "$~une conversation",
+                "legend": "$~« Non enregistré » signifie que le fichier est enregistré ici mais pas encore en ligne. Il sera enregistré dès que vous serez de nouveau connecté(e).",
+                "errorsHeader": "$~Certaines données n'ont pas pu être sauvegardées en ligne :"
+            }
         },
         "page": {
             "unknown": {
@@ -6074,7 +6101,8 @@
                     "invalidUsername": "$~Les noms d'utilisateur doivent être des e-mails ou >5 lettres sans espaces.",
                     "invalidPassword": "$~Les mots de passe doivent comporter au moins 6 caractères.",
                     "mismatched": "$~Les mots de passe ne correspondent pas.",
-                    "usernameTaken": "$~Ce nom d'utilisateur est déjà pris."
+                    "usernameTaken": "$~Ce nom d'utilisateur est déjà pris.",
+                    "unsaved": "$~Vos modifications ne sont pas encore enregistrées en ligne. Veuillez vous reconnecter et patienter jusqu'à ce qu'elles soient enregistrées, sinon elles seront perdues sur cet appareil."
                 },
                 "feedback": {
                     "changing": "$~Envoi d'un nouvel e-mail...",

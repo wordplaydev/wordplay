@@ -10,14 +10,10 @@ import {
     type Unsubscribe,
     type User,
 } from 'firebase/auth';
-import {
-    deleteDoc,
-    doc,
-    getDocFromServer,
-    setDoc,
-} from 'firebase/firestore';
+import { deleteDoc, doc, getDocFromServer, setDoc } from 'firebase/firestore';
 import {
     derived,
+    get,
     writable,
     type Readable,
     type Writable,
@@ -28,11 +24,15 @@ import type LocaleText from '@locale/LocaleText';
 import { type FormattedText } from '@locale/LocaleText';
 import { CharactersDatabase } from '@db/characters/CharacterDatabase.svelte';
 import { ChatDatabase } from '@db/chats/ChatDatabase.svelte';
-import CreatorDatabase, { CreatorCollection } from '@db/creators/CreatorDatabase';
+import CreatorDatabase, {
+    CreatorCollection,
+} from '@db/creators/CreatorDatabase';
 import GalleryDatabase from '@db/galleries/GalleryDatabase.svelte';
 import { HowToDatabase } from '@db/howtos/HowToDatabase.svelte';
 import LocalesDatabase from '@db/locales/LocalesDatabase';
 import ProjectsDatabase from '@db/projects/ProjectsDatabase.svelte';
+import { Domain, SyncDomains, type SyncDomain } from '@db/Domains';
+import { WordplayDexie } from '@db/WordplayDexie';
 import SettingsDatabase from '@db/settings/SettingsDatabase';
 
 // Intercept console.log and console.error
@@ -80,12 +80,51 @@ export type SaveFailure = {
     detail?: string | undefined;
 };
 
+/** A domain-agnostic save failure, used by the non-project domains (galleries,
+ *  characters, how-tos, chats) to surface a write that didn't reach the cloud.
+ *  Same shape as the project `SaveFailure` but with a generic item `name`, so
+ *  the save-status dialog can render failures from every document type
+ *  uniformly. `reason` reuses the project `SaveFailureReason` enum —
+ *  `FirestoreBatchFailed` ("couldn't send to the cloud; still safe on this
+ *  device") fits any document type. */
+export type SaveError = {
+    id: string;
+    name?: string | undefined;
+    reason: SaveFailureReason;
+    /** Raw technical hint (e.g. the Firestore error code) shown dimmed. */
+    detail?: string | undefined;
+};
+
+/** A per-domain count of items saved on this device, confirmed saved in the
+ *  cloud, and unsaved (local edits not yet confirmed online). These are
+ *  independent facts, not a partition: an item can be on-device-only (neither
+ *  in the cloud nor unsaved, e.g. a local-only tutorial project). */
+export type SaveCounts = { device: number; cloud: number; unsaved: number };
+
+// Re-exported (imported at the top) from the single source of truth so existing
+// `@db/Database` importers (Status.svelte, tests) keep working; new code may
+// import from `@db/Domains` directly.
+export { Domain, SyncDomains, type SyncDomain };
+
+/** A domain's cloud-sync state for the save-status UI: `initializing` (not yet
+ *  subscribed), `syncing` (subscribed, awaiting first snapshot), `updated`
+ *  (first snapshot received; `count` items synced), or `failed` (connectivity
+ *  error). */
+export type SyncStatus = 'initializing' | 'syncing' | 'updated' | 'failed';
+export type SyncDomainState = { status: SyncStatus; count: number };
+
 export class Database {
     /** The database of local persisted settings */
     readonly Settings: SettingsDatabase;
 
     /** The database of loaded locales and settings. Encapsuled to avoid cluttering this central interface to persistence and caches. */
     readonly Locales: LocalesDatabase;
+
+    /** The shared IndexedDB local store mirroring all Firebase data, one table
+     *  per domain. A single instance is owned here and shared with every domain
+     *  database; never construct a second (Dexie instances declaring different
+     *  schemas for the same DB name conflict). */
+    readonly localDB = new WordplayDexie();
 
     /** An IndexedDB backed database of projects, allowing for scalability of local persistence. */
     readonly Projects: ProjectsDatabase;
@@ -157,6 +196,22 @@ export class Database {
 
     getUser() {
         return this.user;
+    }
+
+    /** Total items across every domain with edits not yet confirmed saved in
+     *  the cloud. Reads each domain's reactive `saveCounts`, so it's both
+     *  reactive (when read in a component `$derived`) and safe to read
+     *  synchronously (e.g. from a `beforeunload` handler). Used to warn/guard
+     *  before destructive actions (logout, account delete, leaving the page)
+     *  that would discard local-only edits. */
+    getUnsavedCount(): number {
+        return (
+            this.Projects.saveCounts.unsaved +
+            this.Galleries.saveCounts.unsaved +
+            this.Characters.saveCounts.unsaved +
+            this.HowTos.saveCounts.unsaved +
+            this.Chats.saveCounts.unsaved
+        );
     }
 
     getUserID() {
@@ -231,9 +286,51 @@ export class Database {
     }
 
     markFirebaseReachable() {
+        // Was the cloud unreachable before this success? If so, this is a
+        // recovery — replay any edits that didn't reach the server. We can't
+        // rely on the browser `online` event for this: Firebase often goes
+        // unreachable while the browser stays online (proxy/AV churn, transient
+        // Firestore outages), so recovery has no `online` event.
+        const recovered = get(firebaseFailed) || !get(firebaseReachable);
         firebaseReachable.set(true);
         firebaseEverConnected.set(true);
         firebaseFailed.set(false);
+        if (recovered) this.flushUnsavedWork();
+    }
+
+    /** Re-push every domain's unsaved edits to the cloud. Each call is a no-op
+     *  when that domain has nothing unsaved, so it's safe to fire on any
+     *  reconnect signal (browser `online` or Firebase reachability recovery). */
+    private flushUnsavedWork() {
+        this.Projects.saveSoon();
+        void this.Galleries.flushUnsaved();
+        void this.Characters.flushUnsaved();
+        void this.HowTos.flushUnsaved();
+        void this.Chats.flushUnsaved();
+    }
+
+    /** Per-domain cloud-sync status, surfaced in the save-status dialog as
+     *  "syncing with the cloud" with granular progress. A domain's realtime
+     *  listener reports `syncing` when it subscribes, `updated` (with a synced
+     *  item count) when its first snapshot lands, and `failed` on a
+     *  connectivity error. */
+    private updateSync(domain: SyncDomain, partial: Partial<SyncDomainState>) {
+        syncState.update((state) => ({
+            ...state,
+            [domain]: { ...state[domain], ...partial },
+        }));
+    }
+
+    markSyncing(domain: SyncDomain) {
+        this.updateSync(domain, { status: 'syncing' });
+    }
+
+    markSynced(domain: SyncDomain, count: number) {
+        this.updateSync(domain, { status: 'updated', count });
+    }
+
+    markSyncFailed(domain: SyncDomain) {
+        this.updateSync(domain, { status: 'failed' });
     }
 
     /** Whether an error reflects a connectivity problem (so it should trip the
@@ -339,7 +436,14 @@ export class Database {
     installNetworkListeners(): () => void {
         if (typeof window === 'undefined') return () => {};
 
-        const handleOnline = () => onlineStatus.set(true);
+        const handleOnline = () => {
+            onlineStatus.set(true);
+            // Flush any edits whose cloud write didn't complete while offline.
+            // (Firebase reachability recovery flushes too — see
+            // markFirebaseReachable — covering the case where the browser was
+            // never "offline" but the cloud was unreachable.)
+            this.flushUnsavedWork();
+        };
         const handleOffline = () => onlineStatus.set(false);
         const handleVisibility = () => {
             // When the tab becomes visible and the browser believes we're
@@ -368,25 +472,31 @@ export class Database {
     /** Saves settings to user's firestore record, if available. */
     uploadSettings() {
         this.setStatus(SaveStatus.Saving, undefined);
-        try {
-            // Try to save settings in the cloud.
-            if (firestore && this.user) {
-                // Save in firestore
-                this.track(
-                    setDoc(
-                        doc(firestore, CreatorCollection, this.user.uid),
-                        this.Settings.toObject(),
-                    ),
-                );
-            }
 
+        // No cloud target (logged out / no Firestore): settings live in local
+        // storage only, so report saved.
+        if (!firestore || !this.user) {
             this.setStatus(SaveStatus.Saved, undefined);
-        } catch (_) {
-            this.setStatus(
-                SaveStatus.Error,
-                (l) => l.ui.project.save.settingsUnsaved,
-            );
+            return;
         }
+
+        // Drive the status off the actual write outcome. Fire-and-forget so a
+        // poor connection can't hang; the previous code set Saved synchronously
+        // (before the write resolved) and left a rejected setDoc as an unhandled
+        // rejection — reporting success even on failure.
+        this.track(
+            setDoc(
+                doc(firestore, CreatorCollection, this.user.uid),
+                this.Settings.toObject(),
+            ),
+        )
+            .then(() => this.setStatus(SaveStatus.Saved, undefined))
+            .catch(() =>
+                this.setStatus(
+                    SaveStatus.Error,
+                    (l) => l.ui.project.save.settingsUnsaved,
+                ),
+            );
     }
 
     /** Start listening to the Firebase Auth user changes */
@@ -402,11 +512,10 @@ export class Database {
             // First Auth resolution releases the connection-banner gate.
             authAttempted.set(true);
             callback(newUser);
-            // Update the Projects with the new user, syncing with the database.
+            // Update every domain with the new user. updateUser now owns the
+            // galleries listener too, bringing each domain online serially in
+            // priority order (see startSync) rather than firing them all at once.
             this.updateUser(newUser);
-
-            // Update the galleries query with the new user.
-            this.Galleries.registerRealtimeUpdates();
         });
         this.authRefreshUnsubscribe = onIdTokenChanged(
             auth,
@@ -427,30 +536,126 @@ export class Database {
         // creator's local projects on a transient blip is data loss. A deliberate
         // sign-out clears local data explicitly via Database.logout().
         const remove =
-            this.user !== null &&
-            user !== null &&
-            user.uid !== this.user.uid;
+            this.user !== null && user !== null && user.uid !== this.user.uid;
 
         // Update the user ID
         this.user = user;
 
-        // Tell the projects cache.
-        this.Projects.syncUser(remove);
-
-        // Tell the gallery about the new user
+        // Always tear down the prior galleries listener before re-evaluating.
         this.Galleries.clean();
 
-        // Tell the settings cache.
+        // Settings is a one-off read, not a realtime listener it doesn't
+        // contribute to the WebChannel session churn, so sync it immediately
+        // regardless of login/logout.
         this.Settings.syncUser();
 
-        // Tell the chat cache.
-        this.Chats.syncUser();
+        if (user === null) {
+            // Logout (or an involuntary auth drop): tear down every realtime
+            // listener and reset the per-domain sync status. These syncUser
+            // calls are no-ops/ignores when the user is null.
+            this.Projects.syncUser(remove);
+            this.Characters.syncUser();
+            this.HowTos.syncUser();
+            this.Chats.syncUser();
+            this.resetSync();
+            return;
+        }
 
-        // Tell the characters database.
+        // Signed in: bring each domain online serially, in priority order.
+        this.startSync(remove);
+    }
+
+    /** Monotonic token identifying the current serial-sync run. A new run (a
+     *  subsequent auth change) invalidates any in-flight run so a stale
+     *  sequence can't keep subscribing listeners after the user changed. */
+    private syncSequence = 0;
+
+    /** Reset every domain's sync status back to "initializing". */
+    resetSync() {
+        syncState.set(freshSyncState());
+    }
+
+    /** Bring each domain's realtime sync online one at a time, in priority
+     *  order (projects → galleries → characters → how-tos → chats), advancing
+     *  to the next only once the current domain reports its first snapshot
+     *  ("updated") or an error ("failed") — or a timeout elapses, so a single
+     *  slow/offline domain can't stall the rest. Serializing the listener
+     *  setup avoids the concurrent-subscription burst that churned the
+     *  Firestore WebChannel session ("Unknown SID") on heavy accounts. */
+    private async startSync(remove: boolean) {
+        const sequence = ++this.syncSequence;
+        this.resetSync();
+
+        // Stop issuing further listeners if a newer run superseded this one or
+        // the user signed out mid-sequence.
+        const superseded = () =>
+            sequence !== this.syncSequence || this.user === null;
+
+        this.Projects.syncUser(remove);
+        // Now that the user is known, flush any project edits whose cloud write
+        // didn't confirm before the last reload (durable dirty flag → unsaved on
+        // hydrate). persist() only writes unsaved histories, so this is a no-op
+        // when everything is saved.
+        this.Projects.saveSoon();
+        await this.domainSettled(Domain.Projects);
+        if (superseded()) return;
+
+        if (remove) await this.Galleries.clearLocal();
+        this.Galleries.registerRealtimeUpdates();
+        void this.Galleries.flushUnsaved();
+        await this.domainSettled(Domain.Galleries);
+        if (superseded()) return;
+
+        // A different account is taking over this device: wipe the previous
+        // user's locally cached data before syncing, so a cold start can't
+        // briefly show it (mirrors Projects' account-switch wipe).
+        if (remove) await this.Characters.clearLocal();
         this.Characters.syncUser();
+        void this.Characters.flushUnsaved();
+        await this.domainSettled(Domain.Characters);
+        if (superseded()) return;
 
-        // Tell the how-to database.
+        if (remove) await this.HowTos.clearLocal();
         this.HowTos.syncUser();
+        void this.HowTos.flushUnsaved();
+        await this.domainSettled(Domain.HowTos);
+        if (superseded()) return;
+
+        if (remove) await this.Chats.clearLocal();
+        this.Chats.syncUser();
+        void this.Chats.flushUnsaved();
+    }
+
+    /** Resolve once the given domain reaches a terminal first-load status
+     *  ("updated" or "failed"), or after a timeout so an offline/slow domain
+     *  doesn't stall the serial init indefinitely. */
+    private domainSettled(domain: SyncDomain): Promise<void> {
+        return new Promise((resolve) => {
+            let settled = false;
+            // `let` (not `const`) + optional call: svelte's subscribe fires
+            // synchronously with the current value, so if the domain is already
+            // terminal (e.g. it failed fast), finish() runs DURING subscribe,
+            // before `unsubscribe` is assigned. A `const` would throw a
+            // temporal-dead-zone ReferenceError there (and abort startSync,
+            // stalling every later domain); this stays undefined and we
+            // unsubscribe right after assignment instead.
+            let unsubscribe: (() => void) | undefined;
+            const finish = () => {
+                if (settled) return;
+                settled = true;
+                clearTimeout(timer);
+                unsubscribe?.();
+                resolve();
+            };
+            const timer = setTimeout(finish, DOMAIN_SETTLE_TIMEOUT_MS);
+            unsubscribe = syncState.subscribe((state) => {
+                const status = state[domain].status;
+                if (status === 'updated' || status === 'failed') finish();
+            });
+            // If the subscribe callback already finished synchronously,
+            // `unsubscribe` was assigned after finish ran — tear it down now.
+            if (settled) unsubscribe();
+        });
     }
 
     /** Explicit, user-initiated sign-out. Clears the local project cache for
@@ -460,6 +665,10 @@ export class Database {
      *  refresh the token) can't erase a creator's local projects. */
     async logout() {
         await this.Projects.deleteLocal();
+        await this.Characters.clearLocal();
+        await this.Chats.clearLocal();
+        await this.Galleries.clearLocal();
+        await this.HowTos.clearLocal();
         if (auth) await auth.signOut();
     }
 
@@ -565,6 +774,25 @@ export const blocks = Settings.settings.blocks.value;
 export const blockDensity = Settings.settings.blockDensity.value;
 export const howToNotifications = Settings.settings.howToNotifications.value;
 export const status = DB.Status;
+
+/** Per-domain cloud-sync state, updated by each domain's realtime listener via
+ *  Database.markSyncing/markSynced/markSyncFailed and surfaced in the
+ *  save-status dialog. Starts `initializing` for every domain. */
+/** How long the serial init waits for one domain's first snapshot before
+ *  moving on, so a single slow or offline domain can't stall the rest. */
+const DOMAIN_SETTLE_TIMEOUT_MS = 8_000;
+
+function freshSyncState(): Record<SyncDomain, SyncDomainState> {
+    return {
+        projects: { status: 'initializing', count: 0 },
+        galleries: { status: 'initializing', count: 0 },
+        characters: { status: 'initializing', count: 0 },
+        howtos: { status: 'initializing', count: 0 },
+        chats: { status: 'initializing', count: 0 },
+    };
+}
+export const syncState: Writable<Record<SyncDomain, SyncDomainState>> =
+    writable(freshSyncState());
 
 /** True when the browser reports online; defaults to true on the server. */
 export const onlineStatus: Writable<boolean> = writable(

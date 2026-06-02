@@ -1186,6 +1186,57 @@ type UITexts = {
         local: string;
         /** [plain] Shown when there was a problem saving */
         unsaved: string;
+        /** Per-domain cloud-sync status shown in the save-status dialog. */
+        sync: {
+            /** [plain] Header for the cloud-sync status section */
+            header: string;
+            /** [plain] Label for the projects sync row */
+            projects: string;
+            /** [plain] Label for the galleries sync row */
+            galleries: string;
+            /** [plain] Label for the characters sync row */
+            characters: string;
+            /** [plain] Label for the how-tos sync row */
+            howtos: string;
+            /** [plain] Label for the chats sync row */
+            chats: string;
+        };
+        /** The save-status dialog that breaks down, per kind of thing, how much
+         *  is saved on this device, in the cloud, and not yet saved online. */
+        status: {
+            /** [plain] Header of the save-status dialog */
+            header: string;
+            /** [plain] One-line explanation at the top of the save-status dialog */
+            intro: string;
+            /** Column headers for the per-kind save-status table */
+            columns: {
+                /** [plain] Column header: how many are saved on this device */
+                device: string;
+                /** [plain] Column header: how many are saved in the cloud */
+                cloud: string;
+                /** [plain] Column header: how many are not yet saved online */
+                unsaved: string;
+            };
+            /** Words describing how a kind of thing is syncing with the cloud. */
+            state: {
+                /** [plain] Saved on this device and in the cloud */
+                synced: string;
+                /** [plain] Still loading from the cloud */
+                loading: string;
+                /** [plain] Saving changes to the cloud */
+                syncing: string;
+                /** [plain] Not connected to the cloud right now */
+                offline: string;
+                /** [plain] A save or sync failed */
+                failed: string;
+            };
+            /** [plain] Name for a conversation with no title, in the error list */
+            conversation: string;
+            /** [plain] Explains what the unsaved column means */
+            legend: string;
+            /** [plain] Header above the list of things that couldn't be saved */
+            errorsHeader: string;
+        };
     };
     /** Banner shown when the device is offline or Firebase is unreachable. */
     connection: {

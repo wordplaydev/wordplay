@@ -112,6 +112,10 @@
         <Notice text={(l) => l.ui.page.characters.error.offline} />
     {:else if $user === null}
         <Notice markup text={(l) => l.ui.page.characters.error.noauth} />
+    {:else if !CharactersDB.hydrated}
+        <!-- Wait for the local cache to hydrate so we show the user's
+             characters (available offline) rather than an empty list. -->
+        <Spinning></Spinning>
     {:else}
         <NewCharacterButton></NewCharacterButton>
 

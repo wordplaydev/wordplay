@@ -5864,7 +5864,34 @@
             "saving": "guardando",
             "saved": "guardado en línea",
             "local": "guardado localmente",
-            "unsaved": "no guardado"
+            "unsaved": "no guardado",
+            "sync": {
+                "header": "$~Sincronización con la nube",
+                "projects": "$~Proyectos",
+                "galleries": "$~Galerías",
+                "characters": "$~Personajes",
+                "howtos": "$~Cómo hacerlo",
+                "chats": "$~Chats"
+            },
+            "status": {
+                "header": "$~Guardar estado",
+                "intro": "$~Tu trabajo se guarda en este dispositivo y en la nube.",
+                "columns": {
+                    "device": "$~en este dispositivo",
+                    "cloud": "$~en la nube",
+                    "unsaved": "$~no guardado"
+                },
+                "state": {
+                    "synced": "$~sincronizado",
+                    "loading": "$~cargando",
+                    "syncing": "$~ahorro",
+                    "offline": "$~desconectado",
+                    "failed": "$~fallido"
+                },
+                "conversation": "$~una conversación",
+                "legend": "$~\"Sin guardar\" significa que está guardado aquí, pero aún no está en línea. Se guardará cuando vuelvas a conectarte.",
+                "errorsHeader": "$~Algunas cosas no se pudieron guardar en línea:"
+            }
         },
         "page": {
             "unknown": {
@@ -6053,7 +6080,8 @@
                     "invalidUsername": "$~Los nombres de usuario deben ser correos electrónicos o más de 5 letras sin espacios.",
                     "invalidPassword": "$~Las contraseñas deben tener al menos 6 caracteres.",
                     "mismatched": "$~Las contraseñas no coinciden.",
-                    "usernameTaken": "$~Este nombre de usuario ya está tomado."
+                    "usernameTaken": "$~Este nombre de usuario ya está tomado.",
+                    "unsaved": "$~Tienes cambios que aún no se han guardado en línea. Vuelve a conectarte y espera a que se guarden, o se perderán de este dispositivo."
                 },
                 "feedback": {
                     "changing": "Enviando nuevo correo electrónico...",
