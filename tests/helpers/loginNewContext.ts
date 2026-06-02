@@ -116,9 +116,15 @@ export async function loginNewContext(
 
     // Persist auth so a retry in the same CI run can skip the UI flow.
     // indexedDB:true is required — Firebase Auth keeps tokens there, not
-    // in cookies.
+    // in cookies. Two workers running different spec files can call this
+    // concurrently with the same shared username (e.g. 'creator'), so write
+    // to a per-process temp file and rename into place — rename is atomic on
+    // the same filesystem, avoiding a half-written file a parallel reader
+    // would fail to parse.
     fs.mkdirSync(cacheDir, { recursive: true });
-    await context.storageState({ path: cacheFile, indexedDB: true });
+    const tmpFile = path.resolve(cacheDir, `${username}.${process.pid}.tmp.json`);
+    await context.storageState({ path: tmpFile, indexedDB: true });
+    fs.renameSync(tmpFile, cacheFile);
 
     const uid = await uidForUsername(username);
     return { context, page, uid };

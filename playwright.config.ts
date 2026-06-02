@@ -16,8 +16,14 @@ export default defineConfig({
     fullyParallel: !process.env.CI,
     /* Fail the build on CI if you accidentally left test.only in the source code. */
     forbidOnly: !!process.env.CI,
-    /** GitHub currently permits 2 workers, so we use 2. */
-    workers: process.env.CI ? 1 : 1,
+    /**
+     * Run spec files in parallel on CI. Two workers roughly halves wall-clock
+     * here: the long files (collaborative-editing, offline-replay, seeded-load,
+     * howto-form) distribute across workers. Kept at 2 to limit contention on
+     * the single Firebase emulator each worker shares. Locally, let Playwright
+     * pick based on CPU count.
+     */
+    workers: 2,
     /* Retry once on CI, never locally */
     retries: process.env.CI ? 1 : 0,
     /* Reporter to use. See https://playwright.dev/docs/test-reporters */
@@ -41,8 +47,10 @@ export default defineConfig({
         baseURL: 'http://127.0.0.1:5002',
         viewport: { width: 1280, height: 720 },
         screenshot: 'only-on-failure',
-        /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-        trace: 'on',
+        /* Collect a trace only when a test fails and is retried (retries:1 on
+         * CI), so passing tests don't pay the per-action instrumentation and
+         * per-test zip I/O. See https://playwright.dev/docs/trace-viewer */
+        trace: 'on-first-retry',
     },
 
     /* Configure projects for major browsers */

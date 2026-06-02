@@ -19,7 +19,18 @@ jobs:
                   cache: 'npm'
             - name: Install dependencies
               run: npm ci
+            - name: Resolve Playwright version
+              id: playwright-version
+              run: echo "version=$(npx playwright --version | tr ' ' '-')" >> "$GITHUB_OUTPUT"
+            - name: Cache Playwright browsers
+              uses: actions/cache@v5
+              with:
+                  path: ~/.cache/ms-playwright
+                  key: ${{ runner.os }}-ms-playwright-${{ matrix.browser }}-${{ steps.playwright-version.outputs.version }}
             - name: Install Playwright browsers
+              # On a cache hit the browser binary is already present, so this
+              # mainly installs the apt system deps (they live outside the
+              # cached dir); on a miss it downloads the binary too.
               run: npx playwright install --with-deps ${{ matrix.browser }}
             - run: echo "${{ secrets.ENV_DEMO }}" > .env
             - run: echo "${{ secrets.FUNCTIONS_ENV_DEMO }}" > functions/.env && echo "SMTP_PASSWORD=" >> functions/.env
@@ -32,9 +43,12 @@ jobs:
               uses: actions/cache@v5
               with:
                   path: ~/.cache/firebase/emulators
-                  key: ${{ runner.os }}-firebase-emulators
+                  # Include the lockfile hash so a firebase-tools bump invalidates
+                  # the cached emulator jars instead of reusing stale ones.
+                  key: ${{ runner.os }}-firebase-emulators-${{ hashFiles('package-lock.json') }}
+                  restore-keys: ${{ runner.os }}-firebase-emulators-
             - name: Build project
-              run: npm run build
+              run: npm run build:ci
             - name: Run end-to-end tests with emulator
               run: npx firebase emulators:exec "npx playwright test --project=${{ matrix.browser }} --reporter=list" --project=demo-wordplay --log-verbosity QUIET
             - uses: actions/upload-artifact@v6
