@@ -1,16 +1,21 @@
 name: Playwright - run all end-to-end tests
 on:
     workflow_call:
+        inputs:
+            browser:
+                description: 'Playwright project to run (chromium, webkit, ...)'
+                type: string
+                default: chromium
+            runner:
+                description: 'GitHub runner to run on (ubuntu-latest, macos-latest, ...)'
+                type: string
+                default: ubuntu-latest
 
 jobs:
     test:
-        name: test (${{ matrix.browser }})
+        name: test (${{ inputs.browser }})
         timeout-minutes: 60
-        runs-on: ubuntu-latest
-        strategy:
-            fail-fast: false
-            matrix:
-                browser: [chromium, webkit]
+        runs-on: ${{ inputs.runner }}
         steps:
             - uses: actions/checkout@v5
             - uses: actions/setup-node@v5
@@ -25,13 +30,18 @@ jobs:
             - name: Cache Playwright browsers
               uses: actions/cache@v5
               with:
-                  path: ~/.cache/ms-playwright
-                  key: ${{ runner.os }}-ms-playwright-${{ matrix.browser }}-${{ steps.playwright-version.outputs.version }}
+                  # The browser cache lives at a different path on Linux vs macOS;
+                  # list both so the same step works on either runner (the key
+                  # includes runner.os, so each OS keeps a separate entry).
+                  path: |
+                      ~/.cache/ms-playwright
+                      ~/Library/Caches/ms-playwright
+                  key: ${{ runner.os }}-ms-playwright-${{ inputs.browser }}-${{ steps.playwright-version.outputs.version }}
             - name: Install Playwright browsers
               # On a cache hit the browser binary is already present, so this
-              # mainly installs the apt system deps (they live outside the
-              # cached dir); on a miss it downloads the binary too.
-              run: npx playwright install --with-deps ${{ matrix.browser }}
+              # mainly installs the system deps (they live outside the cached
+              # dir); on a miss it downloads the binary too.
+              run: npx playwright install --with-deps ${{ inputs.browser }}
             - run: echo "${{ secrets.ENV_DEMO }}" > .env
             - run: echo "${{ secrets.FUNCTIONS_ENV_DEMO }}" > functions/.env && echo "SMTP_PASSWORD=" >> functions/.env
             - name: Set up JDK 21 # Firebase emulator requires >=21
@@ -50,10 +60,10 @@ jobs:
             - name: Build project
               run: npm run build:ci
             - name: Run end-to-end tests with emulator
-              run: npx firebase emulators:exec "npx playwright test --project=${{ matrix.browser }} --reporter=list" --project=demo-wordplay --log-verbosity QUIET
+              run: npx firebase emulators:exec "npx playwright test --project=${{ inputs.browser }} --reporter=list" --project=demo-wordplay --log-verbosity QUIET
             - uses: actions/upload-artifact@v6
               if: always()
               with:
-                  name: playwright-report-${{ matrix.browser }}
+                  name: playwright-report-${{ inputs.browser }}
                   path: test-results/
                   retention-days: 30

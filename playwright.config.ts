@@ -56,12 +56,14 @@ export default defineConfig({
     /* Configure projects for major browsers */
     projects: [
         { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
-        // WebKit (Safari engine) is the higher-value second engine here: the app
-        // carries a lot of Safari-specific handling (emoji/font fallbacks, editor
-        // IME/key handling, Hand-tracking GC tuning) and serves an iPad/education
-        // audience. The auth fixture's storageState({ indexedDB: true }) once
-        // misbehaved on WebKit, which is why it was disabled; current Playwright
-        // handles it (full suite passes). Firefox was retired in favor of WebKit.
+        // WebKit (Safari engine) is worth covering: the app carries a lot of
+        // Safari-specific handling (emoji/font fallbacks, editor IME/key
+        // handling, Hand-tracking GC tuning) and serves an iPad/education
+        // audience. It passes on real WebKit (macOS, ~4 min) but is unusable on
+        // the Linux GitHub runners — Playwright's element-stability check never
+        // settles against the app's animated typography, so every click times
+        // out. So it does NOT run on PRs; the webkit-nightly workflow runs it on
+        // a macOS runner, and developers can run it locally. Firefox was retired.
         { name: 'webkit', use: { ...devices['Desktop Safari'] } },
     ],
 
