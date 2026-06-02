@@ -56,9 +56,13 @@ export default defineConfig({
     /* Configure projects for major browsers */
     projects: [
         { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
-        { name: 'firefox', use: { ...devices['Desktop Firefox'] } },
-        // Temporarily broken.
-        // { name: 'webkit', use: { ...devices['Desktop Safari'] } },
+        // WebKit (Safari engine) is the higher-value second engine here: the app
+        // carries a lot of Safari-specific handling (emoji/font fallbacks, editor
+        // IME/key handling, Hand-tracking GC tuning) and serves an iPad/education
+        // audience. The auth fixture's storageState({ indexedDB: true }) once
+        // misbehaved on WebKit, which is why it was disabled; current Playwright
+        // handles it (full suite passes). Firefox was retired in favor of WebKit.
+        { name: 'webkit', use: { ...devices['Desktop Safari'] } },
     ],
 
     /* Remove any lingering authentication state before starting the tests */

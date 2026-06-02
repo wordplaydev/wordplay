@@ -47,10 +47,10 @@ export async function uidForUsername(username: string): Promise<string> {
  *
  * # Storage-state caching
  *
- * The full login flow takes ~7s on Firefox CI (longer than Chromium —
- * the login button has stability-retry stalls), so doing it twice
- * per test eats most of the 30s test timeout before assertions even
- * begin. To keep retries cheap, we persist Firebase Auth state to
+ * The full login flow takes several seconds on the slower CI engines
+ * (WebKit on the Linux runner especially), so doing it twice per test
+ * eats much of the test timeout before assertions even begin. To keep
+ * retries cheap, we persist Firebase Auth state to
  * `playwright/.auth/${username}.json` after a successful login and
  * load it directly on subsequent calls with the same username.
  *
