@@ -31,7 +31,11 @@ export async function readDirtyKeys(page: Page): Promise<string[]> {
                 open.onerror = () => resolve([]);
                 open.onsuccess = () => {
                     const db = open.result;
+                    // Close the connection in every path: a leaked handle per
+                    // poll piles up dozens of open connections that contend with
+                    // the app's own Dexie writes (e.g. markDirty).
                     if (!db.objectStoreNames.contains('dirty')) {
+                        db.close();
                         resolve([]);
                         return;
                     }
@@ -39,11 +43,17 @@ export async function readDirtyKeys(page: Page): Promise<string[]> {
                         .transaction('dirty', 'readonly')
                         .objectStore('dirty')
                         .getAll();
-                    all.onerror = () => resolve([]);
-                    all.onsuccess = () =>
-                        resolve(
-                            (all.result as { key: string }[]).map((r) => r.key),
+                    all.onerror = () => {
+                        db.close();
+                        resolve([]);
+                    };
+                    all.onsuccess = () => {
+                        const keys = (all.result as { key: string }[]).map(
+                            (r) => r.key,
                         );
+                        db.close();
+                        resolve(keys);
+                    };
                 };
             }),
     );
@@ -78,5 +88,62 @@ export async function waitForDirty(
     }
     throw new Error(
         `dirty key "${keyOrPrefix}" never appeared within ${timeout}ms`,
+    );
+}
+
+/**
+ * Wait until the cached (Dexie) project has the given name. `waitForDirty`
+ * alone is insufficient before a reload: persist() writes the project cache
+ * (saveProjects) and the dirty row (markDirty) as *separate* async Dexie
+ * writes, and on slow IndexedDB (Firefox CI) the dirty row can land first — so
+ * a reload then re-hydrates the pre-edit project. Gating on the cached name
+ * guarantees the edit is durable before we reload.
+ */
+export async function waitForCachedProjectName(
+    page: Page,
+    projectId: string,
+    name: string,
+    timeout = 15000,
+): Promise<void> {
+    const start = Date.now();
+    while (Date.now() - start < timeout) {
+        const cached = await page.evaluate(
+            (id) =>
+                new Promise<string | null>((resolve) => {
+                    const open = indexedDB.open('wordplay');
+                    open.onerror = () => resolve(null);
+                    open.onsuccess = () => {
+                        const db = open.result;
+                        // Close in every path; a leaked handle per poll contends
+                        // with the app's Dexie writes.
+                        if (!db.objectStoreNames.contains('projects')) {
+                            db.close();
+                            resolve(null);
+                            return;
+                        }
+                        const req = db
+                            .transaction('projects', 'readonly')
+                            .objectStore('projects')
+                            .get(id);
+                        req.onerror = () => {
+                            db.close();
+                            resolve(null);
+                        };
+                        req.onsuccess = () => {
+                            const name =
+                                (req.result as { name?: string } | undefined)
+                                    ?.name ?? null;
+                            db.close();
+                            resolve(name);
+                        };
+                    };
+                }),
+            projectId,
+        );
+        if (cached === name) return;
+        await page.waitForTimeout(100);
+    }
+    throw new Error(
+        `cached project "${projectId}" name never became "${name}" within ${timeout}ms`,
     );
 }

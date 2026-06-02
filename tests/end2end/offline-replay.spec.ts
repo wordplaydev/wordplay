@@ -6,6 +6,7 @@ import {
     cutFirestore,
     restoreFirestore,
     waitForDirty,
+    waitForCachedProjectName,
 } from '../helpers/firestoreOffline';
 
 /**
@@ -54,9 +55,18 @@ test.describe('offline edits replay after reload + reconnect', () => {
         await nameField.fill(offlineName);
         await expect(nameField).toHaveValue(offlineName);
 
-        // Wait until persist() has durably recorded the dirty row (deterministic,
-        // vs a fixed sleep that races the debounce on slower browsers).
+        // Wait until persist() has durably recorded BOTH the dirty row AND the
+        // edited project in the cache before reloading. saveProjects and
+        // markDirty are separate async Dexie writes, and on slow IndexedDB
+        // (Firefox CI) the dirty row can land first, so a bare waitForDirty +
+        // reload re-hydrates the pre-edit (empty-name) project and the edit is
+        // lost. Order matters: wait for the dirty row FIRST (it polls the
+        // `dirty` store, which doesn't contend with persist's `projects`
+        // write); only then poll the `projects` cache — by which point persist
+        // is done, so the poll resolves immediately without starving the
+        // in-flight saveProjects write.
         await waitForDirty(page, `projects:${projectId}`);
+        await waitForCachedProjectName(page, projectId, offlineName);
 
         // Reload while still cut: destroys the in-memory write queue; the edit
         // must now survive purely via the Dexie cache + dirty row. The editor
