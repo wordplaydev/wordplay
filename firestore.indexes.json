@@ -46,6 +46,14 @@
             ]
         },
         {
+            "collectionGroup": "projects",
+            "queryScope": "COLLECTION",
+            "fields": [
+                { "fieldPath": "restrictedGallery", "order": "ASCENDING" },
+                { "fieldPath": "gallery", "order": "ASCENDING" }
+            ]
+        },
+        {
             "collectionGroup": "howtos",
             "queryScope": "COLLECTION",
             "fields": [

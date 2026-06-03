@@ -8,10 +8,9 @@ import {
     type SaveCounts,
     type SaveFailure,
 } from '@db/Database';
-import { auth, firestore } from '@db/firebase';
 import { Domain } from '@db/Domains';
+import { auth, firestore } from '@db/firebase';
 import firebaseErrorDetail from '@db/firebaseErrorDetail';
-import supportsIndexedDB from '@db/supportsIndexedDB';
 import type Gallery from '@db/galleries/Gallery';
 import { EditFailure } from '@db/projects/EditFailure';
 import { unknownFlags } from '@db/projects/Moderation';
@@ -31,8 +30,9 @@ import {
     type SerializedProject,
     type SerializedProjectUnknownVersion,
 } from '@db/projects/ProjectSchemas';
-import { WordplayDexie } from '@db/WordplayDexie';
 import YjsFirestoreProvider from '@db/projects/YjsFirestoreProvider';
+import supportsIndexedDB from '@db/supportsIndexedDB';
+import { WordplayDexie } from '@db/WordplayDexie';
 import type LocaleText from '@locale/LocaleText';
 import type Node from '@nodes/Node';
 import Source from '@nodes/Source';
@@ -448,19 +448,35 @@ export default class ProjectsDatabase {
         const fs = firestore;
 
         // Galleries the user curates/creates — their projects are visible too.
-        const galleryIDsToWatch = Array.from(
-            Galleries.accessibleGalleries.keys(),
-        );
+        // Partition by role: curators may read restricted projects, but creators
+        // (e.g. students) may not. Firestore denies an entire query if it matches
+        // any unreadable doc, so a creator's gallery query must exclude restricted
+        // projects — otherwise one classmate restricting a project denies the whole
+        // gallery's projects to the creator. Curators query unfiltered. (This
+        // mirrors HowToDatabase, which filters its gallery query to published.)
+        const curatorGalleryIDs: string[] = [];
+        const creatorGalleryIDs: string[] = [];
+        for (const [id, gallery] of Galleries.accessibleGalleries)
+            if (gallery.hasCurator(user.uid)) curatorGalleryIDs.push(id);
+            // Unknown/absent gallery falls here too — the safer, filtered path.
+            else creatorGalleryIDs.push(id);
 
         // Chunk gallery membership across listeners: Firestore caps both `in`
         // (≤ 30 values) and `or` (≤ 30 disjunctions), so a single
         // `or(owner, ..., gallery in [all galleries])` query is rejected once a
         // user belongs to ~27+ galleries. A base listener covers owned/shared
-        // projects; one listener per 30-gallery chunk covers gallery projects.
-        const galleryChunks: string[][] = [];
-        for (let i = 0; i < galleryIDsToWatch.length; i += 30)
-            galleryChunks.push(galleryIDsToWatch.slice(i, i + 30));
-        this.expectedProjectListeners = 1 + galleryChunks.length;
+        // projects; one listener per 30-gallery chunk covers gallery projects,
+        // split into curator (unfiltered) and creator (restricted excluded) sets.
+        const chunk = (ids: string[]) => {
+            const chunks: string[][] = [];
+            for (let i = 0; i < ids.length; i += 30)
+                chunks.push(ids.slice(i, i + 30));
+            return chunks;
+        };
+        const curatorChunks = chunk(curatorGalleryIDs);
+        const creatorChunks = chunk(creatorGalleryIDs);
+        this.expectedProjectListeners =
+            1 + curatorChunks.length + creatorChunks.length;
 
         // `includeMetadataChanges: true` lets us observe Firestore's connection
         // state passively via snapshot.metadata.fromCache.
@@ -498,18 +514,41 @@ export default class ProjectsDatabase {
             ),
         );
 
-        // One listener per gallery chunk: projects in galleries the user accesses.
-        galleryChunks.forEach((chunk, index) => {
+        // Curator galleries: every project (curators may read restricted ones).
+        curatorChunks.forEach((galleryIDs, index) => {
             this.projectsQueryUnsubscribes.push(
                 onSnapshot(
                     query(
                         collection(fs, ProjectsCollection),
-                        where('gallery', 'in', chunk),
+                        where('gallery', 'in', galleryIDs),
                     ),
                     options,
                     (snapshot) =>
                         this.handleProjectsSnapshot(
-                            `gallery:${index}`,
+                            `gallery-curator:${index}`,
+                            user,
+                            snapshot,
+                        ),
+                    onError,
+                ),
+            );
+        });
+
+        // Creator-only galleries: exclude restricted projects, which the security
+        // rules forbid creators from reading (and which would otherwise deny the
+        // whole query). Needs the (restrictedGallery, gallery) composite index.
+        creatorChunks.forEach((galleryIDs, index) => {
+            this.projectsQueryUnsubscribes.push(
+                onSnapshot(
+                    query(
+                        collection(fs, ProjectsCollection),
+                        where('gallery', 'in', galleryIDs),
+                        where('restrictedGallery', '==', false),
+                    ),
+                    options,
+                    (snapshot) =>
+                        this.handleProjectsSnapshot(
+                            `gallery-creator:${index}`,
                             user,
                             snapshot,
                         ),
