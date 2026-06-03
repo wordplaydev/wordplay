@@ -7185,7 +7185,8 @@
             "submitFailed": "$~Hindi namin maisumite iyon",
             "loadFailed": "$~Hindi namin ma-load iyon.",
             "storageFull": "$~Puno na ang storage ng device na ito, kaya hindi kami makapag-save ng kopya rito. Nasa cloud pa rin ang gawa mo.",
-            "storageNearFull": "$~Halos wala nang storage ang device na ito, kaya maaaring hindi na makapag-save ang Wordplay dito. Ligtas ang mga gawaing naka-save sa cloud; ang pagbabakante ng espasyo sa iyong device o browser ay nagbibigay-daan dito upang patuloy itong mag-save dito."
+            "storageNearFull": "$~Halos wala nang storage ang device na ito, kaya maaaring hindi na makapag-save ang Wordplay dito. Ligtas ang mga gawaing naka-save sa cloud; ang pagbabakante ng espasyo sa iyong device o browser ay nagbibigay-daan dito upang patuloy itong mag-save dito.",
+            "saveTooLarge": "$~Masyado itong malaki para i-save. Subukang mag-alis ng ilang nilalaman."
         }
     },
     "moderation": {

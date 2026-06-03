@@ -4,6 +4,10 @@ import { getFirestore } from 'firebase-admin/firestore';
 const PurgeDayDelay = 30;
 const MillisecondsPerDay = 24 * 60 * 60 * 1000;
 
+/** Cap each scheduled run so a large backlog doesn't load every archived
+ *  project into one invocation; successive ticks drain the rest. */
+const PurgePerRun = 300;
+
 export default async function purgeArchivedProjects(): Promise<void> {
     const db = getFirestore();
     const projectsRef = db.collection('projects');
@@ -14,6 +18,7 @@ export default async function purgeArchivedProjects(): Promise<void> {
             '<',
             Date.now() - PurgeDayDelay * MillisecondsPerDay,
         )
+        .limit(PurgePerRun)
         .get();
 
     const projectIDs: string[] = [];

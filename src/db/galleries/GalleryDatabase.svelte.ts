@@ -23,6 +23,7 @@ import { getExampleGalleries } from '../../examples/examples';
 import { localeToString } from '@locale/Locale';
 import type Locales from '@locale/Locales';
 import { type Database, type SaveCounts, type SaveError } from '@db/Database';
+import exceedsDocLimit from '@db/exceedsDocLimit';
 import { firestore } from '@db/firebase';
 import { Domain } from '@db/Domains';
 import isQuotaError from '@db/isQuotaError';
@@ -538,6 +539,13 @@ export default class GalleryDatabase {
 
     async edit(gallery: Gallery) {
         if (firestore === undefined) return undefined;
+
+        // Refuse a write that would exceed Firestore's 1 MiB document limit,
+        // surfacing a banner rather than an opaque cloud rejection.
+        if (exceedsDocLimit(gallery.data)) {
+            this.database.reportBanner((l) => l.ui.banner.saveTooLarge);
+            return undefined;
+        }
 
         // Write FIRST, then reflect it locally. We must not add the gallery to
         // `accessibleGalleries` before its doc exists server-side: that map

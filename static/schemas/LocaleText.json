@@ -12313,6 +12313,10 @@
                   "description": "[plain] Shown when saving a change didn't reach the cloud",
                   "type": "string"
                 },
+                "saveTooLarge": {
+                  "description": "[plain] Shown when a change is too large to save (exceeds the cloud document size limit)",
+                  "type": "string"
+                },
                 "storageFull": {
                   "description": "[plain] Shown when a local (this-device) save failed because storage is full, but the data is still safe in the cloud",
                   "type": "string"
@@ -12332,7 +12336,8 @@
                 "submitFailed",
                 "loadFailed",
                 "storageFull",
-                "storageNearFull"
+                "storageNearFull",
+                "saveTooLarge"
               ],
               "type": "object"
             },

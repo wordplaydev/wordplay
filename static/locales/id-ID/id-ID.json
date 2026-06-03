@@ -7187,7 +7187,8 @@
             "submitFailed": "$~Kami tidak bisa mengirimkan itu",
             "loadFailed": "$~Kami tidak dapat memuatnya.",
             "storageFull": "$~Penyimpanan perangkat ini penuh, jadi kami tidak dapat menyimpan salinan di sini. Pekerjaan Anda masih tersimpan di cloud.",
-            "storageNearFull": "$~Penyimpanan di perangkat ini hampir penuh, jadi Wordplay mungkin sebentar lagi tidak dapat menyimpan data. Pekerjaan yang disimpan di cloud aman; mengosongkan ruang di perangkat atau browser Anda memungkinkan Wordplay untuk terus menyimpan data di sini."
+            "storageNearFull": "$~Penyimpanan di perangkat ini hampir penuh, jadi Wordplay mungkin sebentar lagi tidak dapat menyimpan data. Pekerjaan yang disimpan di cloud aman; mengosongkan ruang di perangkat atau browser Anda memungkinkan Wordplay untuk terus menyimpan data di sini.",
+            "saveTooLarge": "$~Ukuran file ini terlalu besar untuk disimpan. Coba hapus beberapa konten."
         }
     },
     "moderation": {

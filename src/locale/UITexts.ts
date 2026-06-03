@@ -1263,6 +1263,9 @@ type UITexts = {
         storageFull: string;
         /** [plain] Shown proactively when this device's storage is nearly full */
         storageNearFull: string;
+        /** [plain] Shown when a change is too large to save (exceeds the cloud
+         *  document size limit) */
+        saveTooLarge: string;
     };
     /** Notification shown when a newer version of the app has been deployed while the tab was open. */
     update: {
