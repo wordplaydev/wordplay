@@ -90,8 +90,10 @@ export async function createCredentials(
             const username = Creator.getUsername(email);
             let revisedUsername = username;
             // Keep adding a number to the end until we find a unique username.
+            // Check the revised candidate, not the original `username` — the
+            // original is known to exist, so testing it would loop forever.
             let usernameCount = 0;
-            while (await usernameAccountExists(username)) {
+            while (await usernameAccountExists(revisedUsername)) {
                 usernameCount++;
                 revisedUsername = username + usernameCount;
             }

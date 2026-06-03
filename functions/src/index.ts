@@ -44,7 +44,7 @@ const cors = {
 
 export const getCreators = onCall<UserIdentifier[]>(cors, getCreatorsHandler);
 
-/** Given a list of email addresses, return a map email => boolean indicating whether there is a corresponding account exists. Maximum of 100.*/
+/** Given a list of email addresses, return a map email => boolean indicating whether a corresponding account exists. Malformed emails resolve to false; the list is chunked into batches of 100 internally, so any number of emails is accepted. */
 export const emailExists = onCall<
     EmailExistsInputs,
     Promise<EmailExistsOutput>
