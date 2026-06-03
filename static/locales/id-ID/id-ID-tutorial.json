@@ -653,14 +653,14 @@
                             "Evaluate",
                             "neutral",
                             "$~Izinkan saya menunjukkan salah satu tombolnya. Bisakah Anda menemukan tombol pengalih *palet* kecil @UI/paletteExpand? Pilih tombol tersebut untuk memperluas palet, lalu pilih frasa yang ada di panggung.",
-                            "$~Setelah Anda melakukannya, Anda akan melihat banyak input yang diterima oleh @Phrase. Misalnya, coba tekan tombol pensil untuk @Phrase/size, yang akan menampilkan slider.",
+                            "$~Setelah Anda melakukannya, Anda akan melihat banyak input yang diterima oleh @Phrase. Misalnya, coba tekan tombol pensil untuk @Phrase.size, yang akan menampilkan slider.",
                             "$~Anda dapat menggunakan penggeser ini untuk mengubah ukuran frasa, yang juga akan mengubah kode @Evaluate dengan ukuran yang Anda pilih."
                         ],
                         null,
                         [
                             "Evaluate",
                             "serious",
-                            "$~Lihat bagaimana ketika Anda melakukan itu, sekarang saya memiliki input baru di dalam program? Itu adalah input @Phrase/size. Fungsi memiliki urutan input tertentu, tetapi jika suatu fungsi memiliki daftar input opsional, Anda dapat menggunakan namanya untuk menentukan input mana yang ingin Anda berikan. Di sini kita memberikan @Phrase/size, tetapi bukan input opsional lainnya. Coba ubah input lain dengan palet, misalnya jenis huruf."
+                            "$~Lihat bagaimana ketika Anda melakukan itu, sekarang saya memiliki input baru di dalam program? Itu adalah input @Phrase.size. Fungsi memiliki urutan input tertentu, tetapi jika suatu fungsi memiliki daftar input opsional, Anda dapat menggunakan namanya untuk menentukan input mana yang ingin Anda berikan. Di sini kita memberikan @Phrase.size, tetapi bukan input opsional lainnya. Coba ubah input lain dengan palet, misalnya jenis huruf."
                         ],
                         null,
                         ["conflict", "'hi'(1 2)"],
@@ -927,14 +927,14 @@
                         [
                             "Text",
                             "curious",
-                            "$~Dan apakah teman kita @FunctionDefinition di sini sudah memberi tahu Anda tentang semua fungsi luar biasa yang telah mereka definisikan untuk saya? Mereka memungkinkan saya melakukan berbagai macam hal. Salah satunya cukup sederhana: namanya @Text/length, dan fungsinya hanya untuk mendapatkan panjang suatu teks. Misalnya, jika kita bekerja sama dengan @Evaluate di sini dan teman kecil kita @PropertyReference, kita dapat mengevaluasi fungsi length tanpa input dan mendapatkan nilai panjangnya kembali. Cobalah mengubah teks dan perhatikan perubahan panjang yang ditampilkan oleh Program, dari yang semakin pendek hingga yang semakin panjang."
+                            "$~Dan apakah teman kita @FunctionDefinition di sini sudah memberi tahu Anda tentang semua fungsi luar biasa yang telah mereka definisikan untuk saya? Mereka memungkinkan saya melakukan berbagai macam hal. Salah satunya cukup sederhana: namanya @Text.length, dan fungsinya hanya untuk mendapatkan panjang suatu teks. Misalnya, jika kita bekerja sama dengan @Evaluate di sini dan teman kecil kita @PropertyReference, kita dapat mengevaluasi fungsi length tanpa input dan mendapatkan nilai panjangnya kembali. Cobalah mengubah teks dan perhatikan perubahan panjang yang ditampilkan oleh Program, dari yang semakin pendek hingga yang semakin panjang."
                         ],
                         ["edit", "'hello'.length()"],
                         null,
                         [
                             "Text",
                             "happy",
-                            "$~Ini dia satu lagi yang keren. Ini membuatku terkekeh. Namanya @Text/repeat dan ketika dievaluasi, ia mengambil teks apa pun yang dievaluasi dan mengulanginya sebanyak yang Anda tentukan. Coba ubah angkanya dan lihat apa yang dihasilkan."
+                            "$~Ini dia satu lagi yang keren. Ini membuatku terkekeh. Namanya @Text.repeat dan ketika dievaluasi, ia mengambil teks apa pun yang dievaluasi dan mengulanginya sebanyak yang Anda tentukan. Coba ubah angkanya dan lihat apa yang dihasilkan."
                         ],
                         ["edit", "'hello '.repeat(5)"],
                         null,
@@ -1112,7 +1112,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Salah satunya adalah @Boolean/and, kan? Fungsinya menerima salah satu dari Anda dan satu input lainnya? Dan menghasilkan \\⊤\\ jika keduanya adalah \\⊤\\?"
+                            "$~Salah satunya adalah @Boolean.and, kan? Fungsinya menerima salah satu dari Anda dan satu input lainnya? Dan menghasilkan \\⊤\\ jika keduanya adalah \\⊤\\?"
                         ],
                         [
                             "⊤",
@@ -1134,7 +1134,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Dan yang satunya lagi adalah @Boolean/or, kan? Itu juga menerima satu input? Tapi hasilnya adalah \\⊤\\ jika salah satu nilainya benar?"
+                            "$~Dan yang satunya lagi adalah @Boolean.or, kan? Itu juga menerima satu input? Tapi hasilnya adalah \\⊤\\ jika salah satu nilainya benar?"
                         ],
                         [
                             "⊤",
@@ -1156,7 +1156,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Tapi yang satunya lagi adalah @Boolean/not?"
+                            "$~Tapi yang satunya lagi adalah @Boolean.not?"
                         ],
                         ["⊤", "precise", "$~Benar. \\~⊤ = ⊥\\."],
                         ["⊥", "precise", "$~Tidak salah. \\~⊥ = ⊤\\."],
@@ -1705,21 +1705,21 @@
                         [
                             "List",
                             "neutral",
-                            "$~Ya, tapi @FunctionDefinition, semua itu adalah hasil karyamu. Kamu mewakili semua fungsi indah ini untukku yang memungkinkanku melakukan berbagai hal! Seperti @List/reverse — oh, yang ini luar biasa dan sederhana. Fungsinya hanya mengambil nilai-nilai yang kuberikan dan membalikkannya."
+                            "$~Ya, tapi @FunctionDefinition, semua itu adalah hasil karyamu. Kamu mewakili semua fungsi indah ini untukku yang memungkinkanku melakukan berbagai hal! Seperti @List.reverse — oh, yang ini luar biasa dan sederhana. Fungsinya hanya mengambil nilai-nilai yang kuberikan dan membalikkannya."
                         ],
                         ["edit", "[ 1 2 3 4 5 ].reverse()"],
                         null,
                         [
                             "List",
                             "excited",
-                            "$~Dan yang ini menarik: @List/sans hanya menghapus semua nilai yang sama dengan nilai yang diberikan. Lihat bagaimana tidak ada angka nol yang tersisa dalam daftar hasilnya?"
+                            "$~Dan yang ini menarik: @List.sans hanya menghapus semua nilai yang sama dengan nilai yang diberikan. Lihat bagaimana tidak ada angka nol yang tersisa dalam daftar hasilnya?"
                         ],
                         ["edit", "[ 1 0 1 0 1 ].sans(0)"],
                         null,
                         [
                             "List",
                             "serious",
-                            "$~Astaga, aku tidak percaya aku lupa menjelaskan aturan keempat! Oke, aturan nomor empat: Aku tidak pernah mengubah daftar. Aku hanya membuat daftar baru. Tidak peduli fungsi apa pun yang kamu evaluasi padaku, aku selalu membuat daftar baru; aku tidak pernah mengubahnya. Jadi contoh @List/reverse di atas? Itu tidak mengubah daftar; itu membuat daftar baru. Dan contoh sans? Itu tidak menghapus angka nol dari daftar asli; itu membuat daftar baru tanpa angka nol. Itu sebenarnya berlaku untuk semua hal dalam Verse: begitu nilai dibuat, nilai tersebut tetap seperti itu dan tidak berubah."
+                            "$~Astaga, aku tidak percaya aku lupa menjelaskan aturan keempat! Oke, aturan nomor empat: Aku tidak pernah mengubah daftar. Aku hanya membuat daftar baru. Tidak peduli fungsi apa pun yang kamu evaluasi padaku, aku selalu membuat daftar baru; aku tidak pernah mengubahnya. Jadi contoh @List.reverse di atas? Itu tidak mengubah daftar; itu membuat daftar baru. Dan contoh sans? Itu tidak menghapus angka nol dari daftar asli; itu membuat daftar baru tanpa angka nol. Itu sebenarnya berlaku untuk semua hal dalam Verse: begitu nilai dibuat, nilai tersebut tetap seperti itu dan tidak berubah."
                         ],
                         null,
                         [
@@ -1737,7 +1737,7 @@
                         [
                             "List",
                             "serious",
-                            "$~Oke, mungkin satu fungsi daftar, karena ini favorit saya. Fungsi ini bernama @List/random dan akan memberikan nilai acak dalam daftar. Ini sangat menyenangkan karena Anda tidak pernah tahu apa yang akan Anda dapatkan! Apa yang Anda dapatkan? Coba tambahkan hewan Anda sendiri dan lihat apa yang Anda dapatkan."
+                            "$~Oke, mungkin satu fungsi daftar, karena ini favorit saya. Fungsi ini bernama @List.random dan akan memberikan nilai acak dalam daftar. Ini sangat menyenangkan karena Anda tidak pernah tahu apa yang akan Anda dapatkan! Apa yang Anda dapatkan? Coba tambahkan hewan Anda sendiri dan lihat apa yang Anda dapatkan."
                         ],
                         [
                             "edit",
@@ -1831,12 +1831,12 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Mungkin, @Set/difference?"
+                            "$~Mungkin, @Set.difference?"
                         ],
                         [
                             "Set",
                             "neutral",
-                            "$~Ya, @Set/difference.",
+                            "$~Ya, @Set.difference.",
                             "$~Ketika dievaluasi pada suatu himpunan dan diberikan himpunan lain, ia akan menghapus semua item dari himpunan yang diberikan dari himpunan yang dievaluasi (Hmm, itu beberapa kata yang canggung, tetapi itulah yang saya maksud). Berikut contohnya. Lihat bagaimana hasilnya hanya himpunan {3}? Itulah satu-satunya nilai yang tersisa setelah menghapus nilai-nilai dalam {1, 2}."
                         ],
                         ["edit", "{ 1 2 3 }.difference({ 1 2 })"],
@@ -2446,7 +2446,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Lihat \\1000ms\\ itu? Itu adalah @Time/frequency yang memberi tahu @Time untuk berdetik setiap 1000 milidetik, bukan setiap 33 milidetik seperti pengaturan default-nya. Sekarang, @Time seperti penghitung yang berdetik setiap detik. Input yang diterima @Time ini seperti konfigurasi: input ini memberi tahu stream bagaimana harus berperilaku."
+                            "$~Lihat \\1000ms\\ itu? Itu adalah @Time.frequency yang memberi tahu @Time untuk berdetik setiap 1000 milidetik, bukan setiap 33 milidetik seperti pengaturan default-nya. Sekarang, @Time seperti penghitung yang berdetik setiap detik. Input yang diterima @Time ini seperti konfigurasi: input ini memberi tahu stream bagaimana harus berperilaku."
                         ],
                         ["Time", "neutral", "$~tik… tik… tik… tik… tik…"],
                         ["edit", "Time(1000ms)"],
@@ -2454,7 +2454,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Namun, kita dapat menggunakan semua karakter luar biasa yang telah kita temui untuk mengubah waktu lebih jauh. Misalnya, bagaimana jika kita ingin mengetahui apakah waktu merupakan kelipatan dari 2? Kita dapat menggunakan @Number/remainder, yang mendapatkan sisa pembagian. Jika sisanya nol, kita akan mendapatkan ⊤, dan ⊥ jika sebaliknya. Lihat bagaimana nilainya berubah bolak-balik antara ⊤ dan ⊥? Sungguh ajaib."
+                            "$~Namun, kita dapat menggunakan semua karakter luar biasa yang telah kita temui untuk mengubah waktu lebih jauh. Misalnya, bagaimana jika kita ingin mengetahui apakah waktu merupakan kelipatan dari 2? Kita dapat menggunakan @Number.remainder, yang mendapatkan sisa pembagian. Jika sisanya nol, kita akan mendapatkan ⊤, dan ⊥ jika sebaliknya. Lihat bagaimana nilainya berubah bolak-balik antara ⊤ dan ⊥? Sungguh ajaib."
                         ],
                         ["Time", "neutral", "$~tik… tik… tik… tik… tik…"],
                         ["edit", "(Time(1000ms) % 5) = 2ms"],
@@ -2618,7 +2618,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~@Volume dapat digunakan untuk membuat pertunjukan merespons suara dari penonton. Misalnya, di sini kita dapat membuat visualisasi amplitudo kecil dengan mengubah angka amplitudo dari aliran data menjadi sejumlah karakter 'o'. Lihat bagaimana ketika Anda membuat suara, ada lebih banyak karakter 'o'? Amplitudo @Volume dibagi dengan 10, sehingga berada dalam rentang 0 hingga 10. Kemudian, nilai tersebut diberikan ke fungsi @Text/repeat, yang mengulang karakter 'o' sebanyak jumlah yang diberikan."
+                            "$~@Volume dapat digunakan untuk membuat pertunjukan merespons suara dari penonton. Misalnya, di sini kita dapat membuat visualisasi amplitudo kecil dengan mengubah angka amplitudo dari aliran data menjadi sejumlah karakter 'o'. Lihat bagaimana ketika Anda membuat suara, ada lebih banyak karakter 'o'? Amplitudo @Volume dibagi dengan 10, sehingga berada dalam rentang 0 hingga 10. Kemudian, nilai tersebut diberikan ke fungsi @Text.repeat, yang mengulang karakter 'o' sebanyak jumlah yang diberikan."
                         ],
                         ["Volume", "neutral", "$~bzzzZZZZZzzzzzZZZZ…"],
                         ["edit", "'o'.repeat(Volume() × 10)"]
@@ -2771,7 +2771,7 @@
                             "FunctionDefinition",
                             "excited",
                             "$~Namun @Motion memiliki banyak trik lainnya.",
-                            "$~Sebagai contoh, kita bisa memulainya dengan @Motion/velocity.",
+                            "$~Sebagai contoh, kita bisa memulainya dengan @Motion.velocity.",
                             "$~Contoh ini membuat bola bergerak ke kanan dan ke atas serta berputar sedikit pada awalnya."
                         ],
                         ["Motion", "excited", "$~Woooosh…"],
@@ -2789,9 +2789,9 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Anda bahkan dapat mengubah @Stage/gravity menjadi sangat ekstrem.",
+                            "$~Anda bahkan dapat mengubah @Stage.gravity menjadi sangat ekstrem.",
                             "$~Cobalah mengubahnya agar seperti di bulan, di mana gravitasinya sangat rendah!",
-                            "$~Atau coba ubah @Matter/mass atau @Matter/bounciness, yang memengaruhi bagaimana @Phrase memantul."
+                            "$~Atau coba ubah @Matter.mass atau @Matter.bounciness, yang memengaruhi bagaimana @Phrase memantul."
                         ],
                         ["Motion", "excited", "$~Semoga…"],
                         null,
@@ -2963,7 +2963,7 @@
                             "serious",
                             "$~Berikut contohnya. Lihat aliran @Key? Dengan meletakkan ∆ sebelum pertanyaan, /Apakah aliran ini berubah?/ Sebelum berubah, saya mengevaluasi ke nilai awal, \\1m\\. Tetapi ketika tombol spasi ditekan, @Program mengevaluasi ulang, dan saya mengevaluasi ke ekspresi *berikutnya*, yaitu \\1m\\ ditambah nilai aliran sebelumnya; itu diwakili oleh \\.\\. Ini menambahkan \\1m\\ ke ukuran frasa, membuat kata menjadi semakin besar."
                         ],
-                        ["fix", "Phrase('hi' size: 1m … ∆ Key(' ') … 1m + .)"],
+                        ["fix", "Phrase('hi' size: 1m … ∆ Key(' ') … 1m + ⬚)"],
                         null,
                         [
                             "FunctionDefinition",
@@ -3010,7 +3010,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' size: 1m … Key(' ') = ' ' … 1m + .)"
+                            "Phrase('hi' size: 1m … Key(' ') = ' ' … 1m + ⬚)"
                         ],
                         null,
                         [
@@ -3170,7 +3170,7 @@
                         [
                             "Phrase",
                             "excited",
-                            "$~Tapi saya bisa melakukan lebih dari sekadar menata teks. Misalnya, saya bisa mengambil @Phrase/size yang diukur dalam meter \\m\\. Cobalah mengubah ukurannya menjadi ukuran apa pun yang Anda suka!"
+                            "$~Tapi saya bisa melakukan lebih dari sekadar menata teks. Misalnya, saya bisa mengambil @Phrase.size yang diukur dalam meter \\m\\. Cobalah mengubah ukurannya menjadi ukuran apa pun yang Anda suka!"
                         ],
                         ["edit", "Phrase('hi' 2m)"],
                         null,
@@ -3184,7 +3184,7 @@
                         [
                             "Phrase",
                             "excited",
-                            "$~Apakah kamu suka kostum? Aku sangat suka kostum. @Phrase/face-ku adalah kostum. Pilih salah satu wajah yang didukung untuk mempercantik kata yang telah kamu pilih."
+                            "$~Apakah kamu suka kostum? Aku sangat suka kostum. @Phrase.face-ku adalah kostum. Pilih salah satu wajah yang didukung untuk mempercantik kata yang telah kamu pilih."
                         ],
                         [
                             "use",
@@ -3206,7 +3206,7 @@
                         [
                             "Phrase",
                             "curious",
-                            "$~Apakah Anda pernah merasa sedikit tidak seimbang? Mungkin Anda memberi dunia sedikit @Pose/rotation dengan rotasi. Coba ubah nilai rotasi untuk memutar saya!"
+                            "$~Apakah Anda pernah merasa sedikit tidak seimbang? Mungkin Anda memberi dunia sedikit @Pose.rotation dengan rotasi. Coba ubah nilai rotasi untuk memutar saya!"
                         ],
                         [
                             "fit",
@@ -3241,7 +3241,7 @@
                         [
                             "Phrase",
                             "kind",
-                            "$~Hanya ingin memberikan properti tertentu? Cukup sebutkan properti yang Anda inginkan. Di sini, kita menggunakan @Phrase/size dan @Phrase/rotation."
+                            "$~Hanya ingin memberikan properti tertentu? Cukup sebutkan properti yang Anda inginkan. Di sini, kita menggunakan @Phrase.size dan @Phrase.rotation."
                         ],
                         [
                             "edit",
@@ -3251,7 +3251,7 @@
                         [
                             "Phrase",
                             "neutral",
-                            "$~Nah, setelah semua itu selesai, kita bisa bicara tentang menari, sayang! Menari adalah salah satu hal favoritku. Ada *empat* cara aku bergerak. Pertama, aku bisa @Phrase/entering. Enter adalah caraku memasuki panggung. Jika kamu tidak memberitahuku cara masuk, aku akan tiba-tiba muncul di panggung seperti berteleportasi. Tapi jika kamu memberiku @Pose, aku akan mulai dengan pose yang kamu berikan, lalu beralih ke pose istirahatku. Misalnya, mari kita buat aku muncul perlahan dari tak terlihat menjadi sangat jelas di depanmu."
+                            "$~Nah, setelah semua itu selesai, kita bisa bicara tentang menari, sayang! Menari adalah salah satu hal favoritku. Ada *empat* cara aku bergerak. Pertama, aku bisa @Phrase.entering. Enter adalah caraku memasuki panggung. Jika kamu tidak memberitahuku cara masuk, aku akan tiba-tiba muncul di panggung seperti berteleportasi. Tapi jika kamu memberiku @Pose, aku akan mulai dengan pose yang kamu berikan, lalu beralih ke pose istirahatku. Misalnya, mari kita buat aku muncul perlahan dari tak terlihat menjadi sangat jelas di depanmu."
                         ],
                         ["edit", "Phrase('hi' entering: Pose(opacity: 0))"],
                         null,
@@ -3268,7 +3268,7 @@
                         [
                             "Phrase",
                             "neutral",
-                            "$~Sekarang, anggaplah saya sedang bergerak. Kita akan mengatur posisi saya berdasarkan waktu, sehingga saya bergerak sedikit ke kanan setiap detik. Tetapi jika kita mengatur @Phrase/moving @Pose dan memiliki @Pose/rotation \\5°\\ dan mungkin sedikit warna, setiap kali posisi saya berubah, saya akan meluncur melintasi panggung dengan kemiringan kecil yang menggemaskan."
+                            "$~Sekarang, anggaplah saya sedang bergerak. Kita akan mengatur posisi saya berdasarkan waktu, sehingga saya bergerak sedikit ke kanan setiap detik. Tetapi jika kita mengatur @Phrase.moving @Pose dan memiliki @Pose.rotation \\5°\\ dan mungkin sedikit warna, setiap kali posisi saya berubah, saya akan meluncur melintasi panggung dengan kemiringan kecil yang menggemaskan."
                         ],
                         [
                             "fit",
@@ -3278,7 +3278,7 @@
                         [
                             "Phrase",
                             "curious",
-                            "$~Sedang tidak ingin terlihat imut? Bagaimana kalau kamu membuatku sedikit serius dengan mengubah @Phrase/style-ku? Ini memang sangat halus, tetapi gaya benar-benar dapat mengubah /emosi/ suatu gerakan."
+                            "$~Sedang tidak ingin terlihat imut? Bagaimana kalau kamu membuatku sedikit serius dengan mengubah @Phrase.style-ku? Ini memang sangat halus, tetapi gaya benar-benar dapat mengubah /emosi/ suatu gerakan."
                         ],
                         [
                             "fit",
@@ -3288,7 +3288,7 @@
                         [
                             "Phrase",
                             "excited",
-                            "$~Dan sebagai pukulan pamungkas, mari kita buat saya @Phrase/exiting dengan gaya. Kita bisa bermain dengan @Conditional dan membuat saya keluar dari panggung setelah 3 detik."
+                            "$~Dan sebagai pukulan pamungkas, mari kita buat saya @Phrase.exiting dengan gaya. Kita bisa bermain dengan @Conditional dan membuat saya keluar dari panggung setelah 3 detik."
                         ],
                         [
                             "fit",
@@ -3300,7 +3300,7 @@
                         [
                             "Phrase",
                             "surprised",
-                            "$~Bukan jalan keluar yang Anda harapkan? Aksi menghilang ini agak kasar, bukan? Beri saya @Phrase/exiting @Pose, dan saya akan meluncur ke atas panggung menuju pose apa pun yang Anda inginkan. Di sini, kita akan membuat saya menjadi lebih besar dari ukuran sebenarnya, jatuh terbalik, dan memudar menjadi @Pose/opacity \\0\\."
+                            "$~Bukan jalan keluar yang Anda harapkan? Aksi menghilang ini agak kasar, bukan? Beri saya @Phrase.exiting @Pose, dan saya akan meluncur ke atas panggung menuju pose apa pun yang Anda inginkan. Di sini, kita akan membuat saya menjadi lebih besar dari ukuran sebenarnya, jatuh terbalik, dan memudar menjadi @Pose.opacity \\0\\."
                         ],
                         [
                             "fit",
@@ -3347,8 +3347,8 @@
                             "Phrase",
                             "sad",
                             "$~Ya ampun, ya ampun, ya ampun, aku TIDAK PERCAYA aku lupa soal warna. Oke, jadi setiap @Pose bisa punya warna, kan? Tapi @Color terdiri dari tiga bagian. Pertama, @Pose antara 0 dan 100%, yang bisa kamu bayangkan sebagai seberapa terang sebuah ruangan, dari hitam ke putih dengan warna di tengahnya yaitu 50%.",
-                            "$~Kemudian, sebuah @Color/chroma antara 0 dan ∞, yang dapat Anda bayangkan memiliki seberapa banyak warna yang ada, dari abu-abu tanpa warna hingga warna penuh.",
-                            "$~Dan terakhir, @Color/hue, yang bisa Anda bayangkan seperti roda warna, dari merah ke hijau ke biru dalam derajat. Jadi Anda ingin saya berwarna merah terang? Atur warna pose istirahat saya ke \\Color(50% 300 30°)\\."
+                            "$~Kemudian, sebuah @Color.chroma antara 0 dan ∞, yang dapat Anda bayangkan memiliki seberapa banyak warna yang ada, dari abu-abu tanpa warna hingga warna penuh.",
+                            "$~Dan terakhir, @Color.hue, yang bisa Anda bayangkan seperti roda warna, dari merah ke hijau ke biru dalam derajat. Jadi Anda ingin saya berwarna merah terang? Atur warna pose istirahat saya ke \\Color(50% 300 30°)\\."
                         ],
                         ["edit", "Phrase('red' color: 🌈(50% 300 30°))"],
                         null,
@@ -3499,7 +3499,7 @@
                         [
                             "Sequence",
                             "curious",
-                            "$~Tapi, Anda bertanya, bagaimana jika kita ingin melakukannya selamanya? Anda bisa mengatur @Phrase/resting untuk saya. Selama @Phrase berada di atas panggung dan beristirahat, mereka akan mengulang urutan tersebut. Goyangan tak terbatas!"
+                            "$~Tapi, Anda bertanya, bagaimana jika kita ingin melakukannya selamanya? Anda bisa mengatur @Phrase.resting untuk saya. Selama @Phrase berada di atas panggung dan beristirahat, mereka akan mengulang urutan tersebut. Goyangan tak terbatas!"
                         ],
                         [
                             "edit",
@@ -3967,7 +3967,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Dan sekarang, Anda mungkin berpikir, bagaimana dengan transisi di antara mereka? Kita dapat mengontrolnya dengan @Phrase/entering dan @Phrase/exiting, dengan mengatur @Pose untuk memulai dan mengakhiri. Di sini, misalnya, kita memulai dan mengakhiri setiap @Phrase sebagai tidak terlihat, sehingga memudar masuk dan keluar."
+                            "$~Dan sekarang, Anda mungkin berpikir, bagaimana dengan transisi di antara mereka? Kita dapat mengontrolnya dengan @Phrase.entering dan @Phrase.exiting, dengan mengatur @Pose untuk memulai dan mengakhiri. Di sini, misalnya, kita memulai dan mengakhiri setiap @Phrase sebagai tidak terlihat, sehingga memudar masuk dan keluar."
                         ],
                         [
                             "edit",
@@ -4218,7 +4218,7 @@
                         [
                             "Bind",
                             "serious",
-                            "$~Sekarang, mari kita buat frasanya. Kita masukkan ekspresi @List/has ke dalam teks dan mengubahnya menjadi teks. Sekarang, kita mendapatkan @Phrase di panggung sebagai \\⊤\\ atau \\⊥\\. Bagus!"
+                            "$~Sekarang, mari kita buat frasanya. Kita masukkan ekspresi @List.has ke dalam teks dan mengubahnya menjadi teks. Sekarang, kita mendapatkan @Phrase di panggung sebagai \\⊤\\ atau \\⊥\\. Bagus!"
                         ],
                         [
                             "edit",
@@ -4524,7 +4524,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Kurasa mari kita mulai dengan apa yang sudah Anda lihat. Anda tahu bagaimana setiap nilai memiliki fungsi berbeda yang dapat Anda evaluasi? Seperti angka tahu cara @Number/add, dan nilai teks tahu cara memeriksa apakah ia @Text/has some text, atau @Set tahu cara memeriksa apakah ia memiliki nilai tertentu? Nah, sayalah yang mendefinisikan fungsi-fungsi tersebut. Maksud saya, saya tidak memiliki inspirasi untuk membuatnya sendiri — itu adalah tugas sutradara seperti Anda — tetapi saya mendefinisikan input yang diterima fungsi, nama-nama yang dimilikinya, dan ekspresi yang menggunakan input tersebut untuk mengevaluasi nilai output."
+                            "$~Kurasa mari kita mulai dengan apa yang sudah Anda lihat. Anda tahu bagaimana setiap nilai memiliki fungsi berbeda yang dapat Anda evaluasi? Seperti angka tahu cara @Number.add, dan nilai teks tahu cara memeriksa apakah ia @Text.has some text, atau @Set tahu cara memeriksa apakah ia memiliki nilai tertentu? Nah, sayalah yang mendefinisikan fungsi-fungsi tersebut. Maksud saya, saya tidak memiliki inspirasi untuk membuatnya sendiri — itu adalah tugas sutradara seperti Anda — tetapi saya mendefinisikan input yang diterima fungsi, nama-nama yang dimilikinya, dan ekspresi yang menggunakan input tersebut untuk mengevaluasi nilai output."
                         ],
                         null,
                         [
@@ -4538,7 +4538,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Jadi, berikut contoh yang lebih bermanfaat. Anda tahu bilangan ganjil dan genap? Saya pernah punya sutradara yang ingin memeriksa apakah suatu bilangan genap (habis dibagi 2, saya rasa begitu maksudnya?), jadi mereka menulis ini. Ini adalah fungsi bernama \\even\\ yang menerima satu angka bernama… \\number\\. Anda perlu memberi tahu saya jenis nilai apa yang diberikan oleh setiap input, sehingga @Evaluate dapat memastikan bahwa apa pun yang mengevaluasi fungsi tersebut mengirimkan jenis nilai yang tepat. Kemudian, fungsi tersebut mengambil angka, membaginya dengan dua, mendapatkan sisanya (dengan @Number/remainder), dan kemudian memeriksa apakah sisanya sama dengan \\0\\ dengan @Number/equal. Jadi, seluruh fungsi akhirnya dievaluasi menjadi \\⊤\\ atau \\⊥\\. Misalnya, evaluasi even ini dievaluasi menjadi \\⊥\\ karena \\3\\ adalah bilangan ganjil. Cobalah menggunakan tombol putar ulang untuk melihat cara kerjanya."
+                            "$~Jadi, berikut contoh yang lebih bermanfaat. Anda tahu bilangan ganjil dan genap? Saya pernah punya sutradara yang ingin memeriksa apakah suatu bilangan genap (habis dibagi 2, saya rasa begitu maksudnya?), jadi mereka menulis ini. Ini adalah fungsi bernama \\even\\ yang menerima satu angka bernama… \\number\\. Anda perlu memberi tahu saya jenis nilai apa yang diberikan oleh setiap input, sehingga @Evaluate dapat memastikan bahwa apa pun yang mengevaluasi fungsi tersebut mengirimkan jenis nilai yang tepat. Kemudian, fungsi tersebut mengambil angka, membaginya dengan dua, mendapatkan sisanya (dengan @Number.remainder), dan kemudian memeriksa apakah sisanya sama dengan \\0\\ dengan @Number.equal. Jadi, seluruh fungsi akhirnya dievaluasi menjadi \\⊤\\ atau \\⊥\\. Misalnya, evaluasi even ini dievaluasi menjadi \\⊥\\ karena \\3\\ adalah bilangan ganjil. Cobalah menggunakan tombol putar ulang untuk melihat cara kerjanya."
                         ],
                         [
                             "edit",
@@ -4575,7 +4575,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Ada satu hal lagi yang ingin saya tunjukkan. Saya rasa ini penting karena semua orang sangat antusias! Anda tahu bagaimana cara membuat fungsi dan kemudian mengevaluasinya? Nah, karena fungsi yang saya buat adalah nilai, Anda juga dapat memberikannya sebagai input ke fungsi lain. Berikut contohnya. Katakanlah Anda memiliki daftar angka dan Anda hanya menginginkan angka genap di dalamnya. @List memiliki fungsi bernama @List/filter yang menerima fungsi sebagai input dan menggunakan fungsi tersebut pada setiap nilai dalam daftar untuk memutuskan apakah akan mempertahankannya atau tidak. Mari kita buat daftar angka dan berikan fungsi \\even\\ yang kita buat sebelumnya sebagai input ke @List/filter. Lihat apa yang terjadi? Kita hanya mendapatkan angka genap. Ingin mencoba mengubahnya agar menghasilkan angka ganjil? Mungkin coba ubah fungsinya dengan cara tertentu?"
+                            "$~Ada satu hal lagi yang ingin saya tunjukkan. Saya rasa ini penting karena semua orang sangat antusias! Anda tahu bagaimana cara membuat fungsi dan kemudian mengevaluasinya? Nah, karena fungsi yang saya buat adalah nilai, Anda juga dapat memberikannya sebagai input ke fungsi lain. Berikut contohnya. Katakanlah Anda memiliki daftar angka dan Anda hanya menginginkan angka genap di dalamnya. @List memiliki fungsi bernama @List.filter yang menerima fungsi sebagai input dan menggunakan fungsi tersebut pada setiap nilai dalam daftar untuk memutuskan apakah akan mempertahankannya atau tidak. Mari kita buat daftar angka dan berikan fungsi \\even\\ yang kita buat sebelumnya sebagai input ke @List.filter. Lihat apa yang terjadi? Kita hanya mendapatkan angka genap. Ingin mencoba mengubahnya agar menghasilkan angka ganjil? Mungkin coba ubah fungsinya dengan cara tertentu?"
                         ],
                         [
                             "edit",
@@ -5549,7 +5549,7 @@
                         [
                             "Evaluate",
                             "excited",
-                            "$~Oh ya, tentu saja! Bagaimana kalau kita biarkan mereka yang membuat musiknya? @Phrase, bisakah kamu mendengarkan @Volume dan menghubungkannya ke @Color/lightness dan @Color/chroma di warna kamu? Dengan begitu, kita akan menjadi sangat terang saat sutradara kita membuat suara!"
+                            "$~Oh ya, tentu saja! Bagaimana kalau kita biarkan mereka yang membuat musiknya? @Phrase, bisakah kamu mendengarkan @Volume dan menghubungkannya ke @Color.lightness dan @Color.chroma di warna kamu? Dengan begitu, kita akan menjadi sangat terang saat sutradara kita membuat suara!"
                         ],
                         ["Phrase", "kind", "$~Ide yang bagus!"],
                         ["use", "edit", "EvaluateDance14"],

@@ -5,6 +5,7 @@
 <!-- svelte-ignore state_referenced_locally -->
 <script lang="ts">
     import Emoji from '@components/app/Emoji.svelte';
+    import EditorSearch from '@components/editor/EditorSearch.svelte';
     import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
     import CaretView, {
         type CaretBounds,
@@ -23,7 +24,6 @@
         handleKeyCommand,
     } from '@components/editor/commands/Commands';
     import { getInternalClipboard } from '@components/editor/commands/InternalClipboard';
-    import interpret from '@components/editor/commands/interpret';
     import Highlight from '@components/editor/highlights/Highlight.svelte';
     import {
         type HighlightSpec,
@@ -32,6 +32,7 @@
         getDragHighlights,
         getProjectHighlights,
         getRangeOutline,
+        getSearchMatches,
         updateOutlines,
     } from '@components/editor/highlights/Highlights';
     import {
@@ -75,6 +76,7 @@
     import {
         DB,
         Projects,
+        Settings,
         animationFactor,
         blockDensity,
         blocks,
@@ -86,6 +88,8 @@
         type CaretPosition,
         NegligibleConflicts,
         isCaretPosition,
+        resolveCaretPosition,
+        serializeCaretPosition,
     } from '@edit/caret/Caret';
     import {
         AssignmentPoint,
@@ -112,6 +116,7 @@
     import ExceptionValue from '@values/ExceptionValue';
     import { onMount, tick, untrack } from 'svelte';
     import { get, writable } from 'svelte/store';
+    import { debounced } from '@util/debounce.svelte';
 
     interface Props {
         /** The evaluator evaluating the source being edited. */
@@ -128,6 +133,9 @@
         autofocus?: boolean;
         /** Whether the editor is editable */
         editable: boolean;
+        /** Whether to offer the search-and-replace field (Cmd/Ctrl+F). Only the
+         *  ProjectView editor enables this; embedded editors (e.g. ExampleUI) don't. */
+        searchable?: boolean;
         /** The locale to use for rending code */
         locale: Locale | null;
         /** The bindable menu the ProjectView displaying this editor should show. */
@@ -154,6 +162,7 @@
         selected = false,
         autofocus = true,
         editable,
+        searchable = false,
         locale,
         menu = $bindable(undefined),
         conflictsOfInterest = $bindable([]),
@@ -163,12 +172,31 @@
         caretSnapshot = $bindable(undefined),
     }: Props = $props();
 
+    // The locally-persisted caret for this source, resolved to a live position
+    // (a stored node path becomes the node it points to). Undefined if none is
+    // stored or it no longer resolves against the current source.
+    function localCaret(): CaretPosition | undefined {
+        const stored = Settings.getProjectCaret(
+            project.getID(),
+            project.getIndexOfSource(source),
+        );
+        return stored !== undefined
+            ? resolveCaretPosition(source, stored)
+            : undefined;
+    }
+
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
     // We start at the saved caret position or 0. We also share it with parents through a bind.
+    // For an editable editor, prefer the locally-persisted caret (updated on every
+    // move, see the effect below) over the project document's per-edit caret, so a
+    // refresh restores where the caret was actually left. Read-only editors (e.g.
+    // embedded examples) don't persist, so they just use the document's caret.
     const caret = writable<Caret>(
         new Caret(
             source,
-            project.getCaretPosition(source) ?? 0,
+            (editable ? localCaret() : undefined) ??
+                project.getCaretPosition(source) ??
+                0,
             undefined,
             undefined,
             undefined,
@@ -201,6 +229,26 @@
     // Expose caret value to parent via bindable prop.
     $effect(() => {
         caretSnapshot = $caret;
+    });
+
+    // Persist caret-only moves (clicks, arrow keys) to localStorage, debounced,
+    // so a refresh restores where the caret was left. Edits already persist the
+    // caret to the project document via handleEdit; this covers pure moves, which
+    // otherwise never save. We keep this out of the project document on purpose:
+    // routing a caret move through the reactive project would force a re-analysis
+    // and concept-index rebuild on every pause (see ProjectView). Only editable
+    // editors persist. Node selections are stored as their source path.
+    const debouncedCaret = debounced(() => $caret, 1000);
+    $effect(() => {
+        const position = debouncedCaret.current.position;
+        untrack(() => {
+            if (!editable) return;
+            Settings.setProjectCaret(
+                project.getID(),
+                project.getIndexOfSource(source),
+                serializeCaretPosition(source, position),
+            );
+        });
     });
 
     /** Narrowing helper: distinguishes a text-mode selection range
@@ -981,6 +1029,7 @@
             $caret,
             isFieldPosition(anchor) ? anchor : undefined,
             $locales,
+            concepts,
         );
 
         // If in blocks mode, filter edits that would create conflicts.
@@ -1029,6 +1078,58 @@
 
     function toggleMenu() {
         return menu === undefined ? showMenu($caret.position) : hideMenu();
+    }
+
+    // Toggle the search field (Cmd/Ctrl+F). EditorSearch focuses the field on
+    // open and clears the query on close, so flipping the flag is enough.
+    function toggleSearch() {
+        if (!searchable) return;
+        searchActive = !searchActive;
+    }
+
+    // Move the caret to the next match after the current position, cycling back
+    // to the first after the last (Cmd/Ctrl+G, or Enter in the search field).
+    // Returns whether it handled the keystroke.
+    function goToNextMatch(): boolean {
+        if (!searchActive) return false;
+        const matches = searchMatches;
+        if (matches.length === 0) return true;
+        const position = $caret.isPosition() ? $caret.position : undefined;
+        const next =
+            (position !== undefined
+                ? matches.find((match) => match.start > position)
+                : undefined) ?? matches[0];
+        caret.set($caret.withPosition(next.start));
+        return true;
+    }
+
+    // Replace every search match with the given replacement text, as a single
+    // source edit. Afterward there are typically no matches left, so the search
+    // highlights and the replace UI disappear on their own.
+    function replace(replacement: string) {
+        const matches = searchMatches;
+        if (matches.length === 0) return;
+        // Splice the replacement into each match range (grapheme coordinates).
+        // Matches are non-overlapping and in document order.
+        const code = source.code;
+        let newCode = '';
+        let cursor = 0;
+        for (const match of matches) {
+            newCode += code.substring(cursor, match.start).toString();
+            newCode += replacement;
+            cursor = match.end;
+        }
+        newCode += code.substring(cursor).toString();
+
+        const newSource = source.reparse(newCode);
+        // Place the caret just after the first replacement.
+        const newPosition =
+            matches[0].start + new UnicodeString(replacement).getLength();
+        handleEdit(
+            [newSource, $caret.withSource(newSource).withPosition(newPosition)],
+            IdleKind.Typed,
+            true,
+        );
     }
 
     function handleMenuItem(
@@ -1333,12 +1434,10 @@
             const internal = getInternalClipboard();
             if (internal === undefined) return;
 
-            const edit = $caret.insert(
-                interpret(internal),
-                $blocks,
-                project,
-                false,
-            );
+            // The in-app clipboard only ever holds text copied from within
+            // Wordplay, so paste it verbatim — never reinterpret our own code
+            // as foreign data (e.g. CSV).
+            const edit = $caret.insert(internal, $blocks, project, false);
             event.preventDefault();
             event.stopPropagation();
             if (typeof edit === 'function') setIgnored(edit);
@@ -1354,6 +1453,8 @@
             dragging: $dragged !== undefined,
             database: DB,
             toggleMenu,
+            toggleSearch,
+            nextSearchMatch: goToNextMatch,
             blocks: $blocks,
             locales: $locales,
             view: editor,
@@ -1838,6 +1939,13 @@
     // them rather than leave misleading outlines hovering over moved code.
     // They repopulate when the flurry settles and analysis runs.
     let projectHighlights = $state<Highlights>(new Highlights());
+
+    // Editor search state: whether the search field is open, and the current
+    // query. Per-editor and ephemeral, so it lives as local state here, bound
+    // to the EditorSearch component that renders the toggle and field.
+    let searchActive = $state(false);
+    let searchQuery = $state('');
+
     $effect(() => {
         // Track every input but bail before recomputing if typing.
         const stepNode = projectStepNode;
@@ -2036,6 +2144,84 @@
             : undefined,
     );
 
+    // The current search match ranges (grapheme [start, end) in source text),
+    // or empty when search is closed or the query is blank. A pure model
+    // computation shared by the highlight outlines, match navigation, and the
+    // replace UI.
+    let searchMatches = $derived(
+        searchActive && searchQuery.trim().length > 0
+            ? getSearchMatches(source, searchQuery, $locales.getLanguages())
+            : [],
+    );
+
+    // Outlines for the editor search: one clipped range outline per matched
+    // substring, using the same getRangeOutline machinery as the range
+    // selection above so it highlights just the matched text and works in
+    // blocks mode. Recomputed after render (tick) and on the same
+    // layout-affecting state as the node outlines, so matches track reflows
+    // (zoom, resize, blocks toggle, sequence expand/collapse).
+    let searchOutlines = $state<Outline[]>([]);
+    $effect(() => {
+        // Track the matches and layout-affecting state.
+        const matches = searchMatches;
+        $blocks;
+        editorWidth;
+        editorHeight;
+        zoom;
+        outlineRevision;
+        const rtl = $locales.getDirection() === 'rtl';
+        if (matches.length === 0) {
+            searchOutlines = [];
+            return;
+        }
+        tick().then(() => {
+            searchOutlines = matches
+                .map((match) =>
+                    getRangeOutline(
+                        source,
+                        match.start,
+                        match.end,
+                        getNodeView,
+                        true,
+                        rtl,
+                        $blocks,
+                    ),
+                )
+                .filter((outline): outline is Outline => outline !== undefined);
+        });
+    });
+
+    // When the query changes, move the caret to the first match so the user
+    // lands on a result; the caret's own scroll-into-view (CaretView) brings it
+    // on screen if it was scrolled off. Tracks only the query/active — not the
+    // caret — so navigating with the next-match command doesn't re-trigger this
+    // and snap back to the first.
+    $effect(() => {
+        const active = searchActive;
+        const query = searchQuery.trim();
+        if (!active || query.length === 0) return;
+        untrack(() => {
+            if (searchMatches.length > 0)
+                caret.set($caret.withPosition(searchMatches[0].start));
+        });
+    });
+
+    // When search closes, return focus to the editor — closing always comes
+    // from an explicit toggle (button, command, or Cmd/Ctrl+F in the field),
+    // and the field or toggle button held focus, so without this it would fall
+    // to the body. Track the previous value with a plain (non-reactive) flag so
+    // this only fires on a true→false transition, not on mount.
+    let searchWasActive = false;
+    $effect(() => {
+        const active = searchActive;
+        if (searchWasActive && !active)
+            // Wait for the field to unmount before refocusing.
+            tick().then(() =>
+                grabFocus('Returning focus to editor after closing search.'),
+            );
+        searchWasActive = active;
+    });
+
     // When the caret changes in block mode and the editor is focused, see if we need to focus a token widget.
     $effect(() => {
         if ($blocks && $caret && focused) {
@@ -2214,6 +2400,16 @@
             ignored={shakeCaret}
         />
     {/if}
+    <!-- Render search match outlines above the code so they stay visible
+         over opaque token blocks in blocks mode. -->
+    {#each searchOutlines as outline}
+        <Highlight
+            {outline}
+            underline={outline}
+            types={['search']}
+            above={true}
+        />
+    {/each}
 
     <!-- Render the caret on top of the program -->
     <CaretView
@@ -2339,6 +2535,18 @@
                 </div>
             </Button>
         </div>
+    {/if}
+    <!-- Floating search: a magnifying-glass toggle pinned top-right that
+         reveals a query field. Matched substrings are highlighted via
+         searchOutlines above the code. Only shown for the ProjectView editor. -->
+    {#if searchable}
+        <EditorSearch
+            bind:active={searchActive}
+            bind:query={searchQuery}
+            matchCount={searchMatches.length}
+            next={goToNextMatch}
+            {replace}
+        />
     {/if}
 </div>
 

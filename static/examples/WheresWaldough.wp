@@ -7,7 +7,7 @@
 name: Choice()
 caught: ⊥ … ∆ (name) … (name = 'Waldough') & ~caught
 reset: ⊥ … ∆ (name) … (name = 'ResetButton') & ~reset
-score: 0 … caught … 1 + .
+score: 0 … caught … 1 + score
 
 
 Stage([

@@ -55,6 +55,8 @@ import Type from '@nodes/Type';
 import TypeVariable from '@nodes/TypeVariable';
 import UnicodeString from '@unicode/UnicodeString';
 import { completeInsertion } from '@edit/caret/Complete';
+import type { Path } from '@nodes/Root';
+import type { SerializedCaret } from '@db/projects/ProjectSchemas';
 
 /**
  * Conflicts that are permitted on insertion. We permit these to allow for some
@@ -95,6 +97,39 @@ export function isRange(position: CaretPosition): position is [number, number] {
 }
 export function isNode(position: CaretPosition): position is Node {
     return position instanceof Node;
+}
+
+/** A serialized selection range is a 2-element array of numbers; any other
+ *  array form of a {@link SerializedCaret} is a node {@link Path}. */
+function isSerializedRange(position: Path | number[]): position is number[] {
+    return (
+        position.length === 2 && position.every((n) => typeof n === 'number')
+    );
+}
+
+/** Convert a {@link CaretPosition} to a {@link SerializedCaret} for persistence,
+ *  encoding a node selection as its {@link Path} in the source. */
+export function serializeCaretPosition(
+    source: Source,
+    position: CaretPosition,
+): SerializedCaret {
+    return position instanceof Node
+        ? source.root.getPath(position)
+        : position;
+}
+
+/** Resolve a persisted {@link SerializedCaret} against a source, decoding a
+ *  {@link Path} back into the node it points to (undefined if it no longer
+ *  resolves). The inverse of {@link serializeCaretPosition}. */
+export function resolveCaretPosition(
+    source: Source,
+    position: SerializedCaret,
+): CaretPosition | undefined {
+    return typeof position === 'number'
+        ? position
+        : isSerializedRange(position)
+          ? [position[0], position[1]]
+          : source.root.resolvePath(position);
 }
 
 export default class Caret {

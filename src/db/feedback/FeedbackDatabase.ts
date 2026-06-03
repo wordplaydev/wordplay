@@ -117,10 +117,15 @@ export async function createFeedback(
         comments: [],
     };
 
+    // write() (not track()) so a failure is definitive and fast rather than
+    // hanging: the caller acts on the null result to show an error and KEEP the
+    // user's draft so they can retry.
     try {
-        await DB.track(setDoc(doc(firestore, FeedbackCollection, id), feedback));
+        await DB.write(
+            setDoc(doc(firestore, FeedbackCollection, id), feedback),
+        );
     } catch (err) {
-        console.error('Error creating feedback', err);
+        DB.reportBanner((l) => l.ui.banner.submitFailed, err);
         return null;
     }
 
@@ -131,9 +136,9 @@ export async function deleteFeedback(id: string) {
     if (firestore === undefined) return null;
 
     try {
-        await DB.track(deleteDoc(doc(firestore, FeedbackCollection, id)));
+        await DB.write(deleteDoc(doc(firestore, FeedbackCollection, id)));
     } catch (err) {
-        console.error('Error deleting feedback', err);
+        DB.reportBanner((l) => l.ui.banner.deleteFailed, err);
         return null;
     }
 
@@ -143,12 +148,13 @@ export async function deleteFeedback(id: string) {
 export async function updateFeedback(feedback: Feedback) {
     if (firestore === undefined) return null;
 
+    // write() so a failure is fast + definitive; the caller surfaces it.
     try {
-        await DB.track(
+        await DB.write(
             setDoc(doc(firestore, FeedbackCollection, feedback.id), feedback),
         );
     } catch (err) {
-        console.error('Error updating feedback', err);
+        DB.reportBanner((l) => l.ui.banner.saveFailed, err);
         return null;
     }
 
@@ -163,14 +169,14 @@ export async function updateFeedback(feedback: Feedback) {
 export async function voteFeedback(id: string) {
     if (firestore === undefined) return null;
     try {
-        await DB.track(
+        await DB.write(
             updateDoc(doc(firestore, FeedbackCollection, id), {
                 votes: increment(1),
             }),
         );
         return true;
     } catch (err) {
-        console.error('Error voting on feedback', err);
+        DB.reportBanner((l) => l.ui.banner.saveFailed, err);
         return null;
     }
 }
@@ -181,15 +187,16 @@ export async function voteFeedback(id: string) {
  */
 export async function addFeedbackComment(id: string, comment: FeedbackComment) {
     if (firestore === undefined) return null;
+    // write() so a failure is fast + definitive; the caller surfaces it.
     try {
-        await DB.track(
+        await DB.write(
             updateDoc(doc(firestore, FeedbackCollection, id), {
                 comments: arrayUnion(comment),
             }),
         );
         return true;
     } catch (err) {
-        console.error('Error adding comment', err);
+        DB.reportBanner((l) => l.ui.banner.submitFailed, err);
         return null;
     }
 }
@@ -206,14 +213,14 @@ export async function removeFeedbackComment(
 ) {
     if (firestore === undefined) return null;
     try {
-        await DB.track(
+        await DB.write(
             updateDoc(doc(firestore, FeedbackCollection, id), {
                 comments: arrayRemove(comment),
             }),
         );
         return true;
     } catch (err) {
-        console.error('Error removing comment', err);
+        DB.reportBanner((l) => l.ui.banner.deleteFailed, err);
         return null;
     }
 }
@@ -221,12 +228,23 @@ export async function removeFeedbackComment(
 export async function getFeedback(): Promise<Feedback[] | null> {
     if (firestore === undefined) return null;
 
-    const querySnapshot = await getDocs(
-        query(
-            collection(firestore, FeedbackCollection),
-            where('status', '==', 'open'),
-        ),
-    );
+    // Wrap in read() so an unreachable backend fails fast (and trips the
+    // connection banner) instead of hanging; on failure return null so the
+    // caller can show its "couldn't load" state.
+    let querySnapshot;
+    try {
+        querySnapshot = await DB.read(
+            getDocs(
+                query(
+                    collection(firestore, FeedbackCollection),
+                    where('status', '==', 'open'),
+                ),
+            ),
+        );
+    } catch (err) {
+        DB.reportBanner((l) => l.ui.banner.loadFailed, err);
+        return null;
+    }
 
     return querySnapshot.docs
         .map((doc) => {

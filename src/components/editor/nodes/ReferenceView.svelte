@@ -1,6 +1,6 @@
 <script lang="ts">
     import Evaluate from '@nodes/Evaluate';
-    import type Reference from '@nodes/Reference';
+    import Reference from '@nodes/Reference';
     import Source from '@nodes/Source';
     import type StreamValue from '@values/StreamValue';
     import { animationFactor } from '@db/Database';
@@ -26,7 +26,14 @@
             ? project?.getContext(root.root)
             : undefined,
     );
-    let definition = $derived(node.resolve(context));
+    // Guard against a stale, mismatched `node`: when the program is edited or
+    // re-analyzed, NodeView re-derives both `node` and the dynamic component to
+    // render it. The updated `node` prop can reach this still-mounted view
+    // before Svelte swaps in the correct component, so `node` may briefly not
+    // be a Reference. Calling resolve() on it would throw.
+    let definition = $derived(
+        node instanceof Reference ? node.resolve(context) : undefined,
+    );
 
     let stream: StreamValue<Value, unknown> | undefined = $derived.by(() => {
         if ($evaluation) {

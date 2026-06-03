@@ -22,6 +22,7 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'node.Bind.conflict.DuplicateShare.explanation': ['duplicate'],
     'node.Bind.conflict.DuplicateShare.resolution': [],
     'node.Bind.conflict.IncompatibleType.explanation': ['expected', 'given'],
+    'node.Bind.conflict.IncompatibleType.explanationDivideByZero': ['source'],
     'node.Bind.conflict.IncompatibleType.resolution': ['expected'],
     'node.Bind.conflict.IncompatibleType.resolutionDeclaration': ['expected'],
     'node.Bind.conflict.IncompatibleType.resolutionDefault': ['expected'],
@@ -105,6 +106,7 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'node.DocumentedExpression.description': [],
     'node.DocumentedExpression.start': [],
     'node.Evaluate.conflict.IncompatibleInput.explanation': ['expected', 'given'],
+    'node.Evaluate.conflict.IncompatibleInput.explanationDivideByZero': ['source'],
     'node.Evaluate.conflict.IncompatibleInput.resolution': ['expected'],
     'node.Evaluate.conflict.IncompatibleInput.resolutionDeclaration': ['expected'],
     'node.Evaluate.conflict.IncompatibleInput.resolutionDefault': ['expected'],
@@ -331,6 +333,12 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'node.This.description': [],
     'node.This.start': ['value'],
     'node.Token.description': ['label'],
+    'node.Translate.conflict.ExpectedCollection.explanation': ['type'],
+    'node.Translate.conflict.ExpectedThis.explanation': [],
+    'node.Translate.description': [],
+    'node.Translate.finish': ['value'],
+    'node.Translate.next': ['value'],
+    'node.Translate.start': ['expression'],
     'node.Translation.conflict.address.explanation': ['text', 'reminder'],
     'node.Translation.conflict.character.explanation': [],
     'node.Translation.conflict.character.resolutionStrip': [],
@@ -438,6 +446,7 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'ui.source.empty': ['symbol'],
     'ui.source.options.locale.all': ['count'],
     'ui.template.unparsable': ['template'],
+    'ui.widget.color.value': ['color', 'l', 'c', 'h'],
 };
 
 /** Names valid in `$name` mentions as terminology references. */

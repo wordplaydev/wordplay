@@ -133,6 +133,8 @@
         "KannadaNumeral": "numeral canarês",
         "TamilNumeral": "numeral tâmil",
         "TeluguNumeral": "numeral telugu"
+        "LanguageJoin": "conector de idiomas",
+        "Translate": "traduzir"
     },
     "node": {
         "Dimension": {
@@ -521,6 +523,8 @@
                     "resolutionWiden": "Permita o tipo do valor para esta ligação, uma vez que $expected é muito restrito para o que está realmente armazenado.",
                     "resolutionReorder": "Troque as entradas, uma vez que os seus tipos se ajustam melhor à outra ordem — $expected pertence ao outro slot.",
                     "resolutionPlaceholder": "Por enquanto, substitua por um valor de exemplo, uma vez que $expected é obrigatório — depois, escolha um valor no menu de autocompletar."
+                    "explanationDivideByZero": "Isto pode ser ø porque $source pode ser divisível por zero, e é necessário um número aqui."
+
                 },
                 "MisplacedShare": {
                     "name": "partilha malposicionada",
@@ -682,7 +686,7 @@
             },
             "doc": [
                 "Pá, eu defino conversões de um tipo para outro! Entro no @Block, algo do género:",
-                "\\→ #gatinho #gato . ÷ 2\n6gatinho→#gato\\",
+                "\\→ #gatinho #gato ⬚ ÷ 2\n6gatinho→#gato\\",
                 "Viram como transformei gatinhos em gatos? Que maldade!",
                 "Deve estar a perguntar-se o que aquele \\.\\ está ali a fazer. Representa o valor que está a ser convertido. Utilizo-o porque o valor não tem nome de outra forma."
             ],
@@ -787,6 +791,8 @@
                     "resolutionWiden": "Permita o tipo do valor para esta ligação, uma vez que $expected é muito restrito para o que está realmente armazenado.",
                     "resolutionReorder": "Troque as entradas, uma vez que os seus tipos se ajustam melhor à outra ordem — $expected pertence ao outro slot.",
                     "resolutionPlaceholder": "Por enquanto, substitua por um valor de exemplo, uma vez que $expected é obrigatório — depois, escolha um valor no menu de autocompletar."
+                    "explanationDivideByZero": "Isto pode ser ø porque $source pode ser divisível por zero, e é necessário um número aqui."
+
                 },
                 "UnexpectedTypeInput": {
                     "name": "entrada de tipo inesperado",
@@ -888,13 +894,13 @@
                 "Olá novamente! Recebo algumas entradas, avalio uma expressão utilizando-as e produzo uma saída.",
                 "Eis um exemplo simples:",
                 "\\ƒ repetir(mensagem•'') mensagem × 5\nrepetir('oi')\\",
-                "Esta função recebe uma entrada, \\message\\, e utiliza a função @Text/repeat para repetir a mensagem cinco vezes.",
+                "Esta função recebe uma entrada, \\message\\, e utiliza a função @Text.repeat para repetir a mensagem cinco vezes.",
                 "Sou muito útil se quiser avaliar algo repetidamente, mas com diferentes pontos de vista!",
                 "Tenho vários outros truques. Por exemplo, não preciso de um nome. Aqui, estou simplesmente a usar `@Evaluate` como valor.",
                 "\\(ƒ(mensagem•'') mensagem × 5)('oi')\\",
                 "Ou, então, aqui está uma função que aceita qualquer número de entradas, usando o caractere \\…\\ após o nome da entrada.",
                 "\\ƒ sim(mensagens…•'') mensagens.sem('não')\nsim('sim' 'sim' 'não' 'sim' 'não')\\",
-                "Vê como ele removeu todos os \"nãos\"? Isto acontece porque `messages` é uma `@List`, e por isso podemos utilizar `@List/sansAll`.",
+                "Vê como ele removeu todos os \"nãos\"? Isto acontece porque `messages` é uma `@List`, e por isso podemos utilizar `@List.sansAll`.",
                 "Por vezes, pode querer deixar claro que tipo de valor produzo. Para tal, adicione um @Is após a lista de entradas:",
                 "\\ƒ adicionar(x•# y•#)•'' x + y\\",
                 "Pode notar um problema com este: diz que avalia para @Text, mas recebe dois @Number. Consigo identificar quando as coisas estão inconsistentes!",
@@ -912,13 +918,12 @@
         "Iteration": {
             "name": "função de ordem superior",
             "emotion": "kind",
-            "doc": "Sou um tipo muito especial de @FunctionDefinition que opera sobre listas de coisas. Não precisa de saber nada sobre mim, para além de que eu torno possíveis funções como @List/translate.",
+            "doc": "Sou um tipo muito especial de @FunctionDefinition que opera sobre listas de coisas. Não precisa de saber nada sobre mim, para além de que eu torno possíveis funções como @List.translate.",
             "start": "Avaliando a função dada",
             "initialize": "Preparar-se para passar pelos itens",
             "next": "passando para o item seguinte",
-            "check": "decidindo se deve continuar",
-            "finish": "Avaliei em US$ 1.",
-            "description": "iterar internamente sobre os valores da lista"
+            "check": "decidir se deve continuar",
+            "finish": "Eu avaliei para $value"
         },
         "Initial": {
             "name": "iniciar",
@@ -1478,20 +1483,22 @@
             "name": "isto",
             "emotion": "serious",
             "doc": [
-                "Por vezes, é útil referir um valor implicitamente, em vez de ter de o nomear.",
-                "Por exemplo, suponha que pretende criar uma nova `@ConversionDefinition` que não especifique o valor que está a ser convertido. Pode simplesmente referir-se a ela usando `@ConversionDefinition`:",
-                "\\→ #arco-íris #alegrias . × 1000000alegrias\n2arco-íris → #alegrias\\",
-                "Estás a ver-me ali, representando o número de arco-íris?",
-                "Ou imagine que queria criar uma @Reaction, mas sem ter de especificar o valor mais recente:",
-                "\\2 … ∆ Tempo (1000 ms) … . × 2\\",
-                "Verifique, representando o valor da reação anterior.",
-                "Não apareço com frequência, mas quando apareço, consigo realmente ajudar a extrair um valor de um @Bind!"
+                "Por vezes, é útil referir um valor implicitamente, em vez de ter de o nomear. É o meu caso — \\⬚\\ , um pequeno quadrado que representa qualquer valor com que o código circundante esteja a trabalhar.",
+                "Dentro de uma @ConversionDefinition , sou o valor que está a ser convertido:",
+                "\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
+                "Dentro de uma @Reaction , sou o valor mais recente:",
+                "\\2 … ∆ Time(1000ms) … ⬚ × 2\\",
+                "Dentro de um @Translate , sou o item atual que está a ser mapeado, pelo que isto adiciona um a cada valor:",
+                "\\[1 2 3] ↦ ⬚ + 1\\",
+                "E dentro de uma @StructureDefinition , sou o próprio valor atual, pelo que posso aceder às minhas próprias partes com \\⬚.rank\\ , tal como acedo às partes de outro valor com \\other.rank\\ :",
+                "\\•Card(rank•#) (\n\tƒ beats(other•Card) ⬚.rank > other.rank\n)\n\nCard(10).beats(Card(7))\\",
+                "Não apareço com frequência, mas quando apareço, posso realmente ajudar a extrair um valor de um @Bind !"
             ],
             "start": "Avaliado em 1 USD",
             "conflict": {
                 "MisplacedThis": {
                     "name": "referência malposicionada",
-                    "explanation": "Só me é permitido participar numa estrutura, conversão ou reação.",
+                    "explanation": "Só me é permitido participar em estruturas, conversões,reação ou traduções.",
                     "resolution": "Substitua por um espaço reservado"
                 }
             },
@@ -1590,6 +1597,7 @@
         },
         "AnyType": {
             "name": "qualquer",
+            "description": "qualquer",
             "emotion": "curious",
             "doc": "Eu represento qualquer tipo possível. Por vezes apareço porque não sei que tipo de valor algo tem, por isso pode ser qualquer coisa.",
             "description": "combinar com qualquer tipo possível"
@@ -1609,9 +1617,8 @@
             "emotion": "serious",
             "doc": [
                 "Utilizo a anotação `@Bind` para indicar que um nome é uma `@ConversionDefinition`. Provavelmente não precisa de me usar, pois poucas pessoas me passam como valor, mas se precisasse, eu teria este aspeto:",
-                "\\magic•?→'': → ? '' . ? 'sim' 'não'\\"
-            ],
-            "description": "introduza uma definição de conversão"
+                "\\magic•?→'': → ? '' ⬚ ? 'sim' 'não'\\"
+            ]
         },
         "FormattedType": {
             "name": "formatado",
@@ -1840,6 +1847,32 @@
             "description": "não é de tipo funçâo",
             "emotion": "confused",
             "doc": "Alguns de nós esperávamos eventos; apareço quando não temos nenhum."
+        },
+        "Translate": {
+            "name": "traduzir",
+            "description": "mapear uma coleção numa nova.",
+            "emotion": "excited",
+            "doc": [
+                "OH OH OH! Tens uma COLEÇÃO INTEIRA de coisas e queres fazer a MESMA coisa com TODAS elas?? Esta sou EU! É exactamente isso que eu FAÇO!!",
+                "Coloque uma coleção à minha esquerda, desenhe a minha seta \\↦\\ , e à minha direita escreva em que cada item DEVE TRANSFORMAR-SE — use @This para indicar o item que estou a segurar AGORA!",
+                "\\[1 2 3] ↦ ⬚ + 1\\ resulta em \\[2 3 4]\\ . BOOM! Todos os números, mais um, sem loops, sem @FunctionDefinition , sem complicação!",
+                "Sou INCRÍVEL por gerar @Phrase a partir de dados! Tem uma lista de nomes? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ e agora existe uma frase para CADA nome!!",
+                "Trabalho com @List , @Set , @Map (altero os VALORES do mapa — as chaves permanecem exatamente onde estão!), e até @Table !",
+                "Quer algo mais sofisticado — como o índice de cada item ou uma função que possa reutilizar em vários locais? Visitem os meus primos mais calmos e adultos, como @List.translate . Mas para mapeamentos rápidos do dia a dia, estou aqui!"
+            ],
+            "start": "Aguarde um momento, deixe-me apanhar tudo em $expression !",
+            "finish": "TA-DA! Aqui está a sua nova coleção: $value",
+            "next": "Próximo item: $value !",
+            "conflict": {
+                "ExpectedCollection": {
+                    "name": "coleçã oesperada",
+                    "explanation": "Eu esperava que o lado esquerdo de uma conversão de coleção tivesse de ser uma coleção, mas recebi $type"
+                },
+                "ExpectedThis": {
+                    "name": "que era esperado",
+                    "explanation": "$~Pretendia usar @This para se referir a um item desta coleção?"
+                }
+            }
         }
     },
     "basis": {
@@ -3310,7 +3343,7 @@
             "doc": [
                 "/clique-toque!/",
                 "/@FunctionDefinition aqui, vou explicar esta./",
-                "Considere o @Choice como um fluxo de @Choice selecionados pelo seu público. Se alguém clicar, tocar ou selecionar premindo /Enter/ num @Phrase/name com um nome, o @Choice terá um novo valor correspondente ao nome.",
+                "Considere o @Choice como um fluxo de @Choice selecionados pelo seu público. Se alguém clicar, tocar ou selecionar premindo /Enter/ num @Phrase.name com um nome, o @Choice terá um novo valor correspondente ao nome.",
                 "Assim, a melhor forma de o utilizar é criar uma performance com frases selecionáveis nomeadas @Phrase e, em seguida, utilizar uma @Reaction para decidir o que fazer quando esse nome for escolhido.",
                 "Eis o exemplo mais simples:",
                 "\\Grupo(\nStack() \n[\nPhrase('one' selectable:⊤ name:'1') \nPhrase('two' selectable:⊤ name:'2') \nPhrase(Choice())\n]\n)\\",
@@ -3432,7 +3465,7 @@
                 "Cada vez que isto acontece, o @Program reavalia com o novo valor de tempo.",
                 "Por exemplo:",
                 "\\Hora()\\",
-                "Se fornecer um parâmetro de tempo @Time/frequency, este será atualizado a essa taxa. Por exemplo:",
+                "Se fornecer um parâmetro de tempo @Time.frequency, este será atualizado a essa taxa. Por exemplo:",
                 "Tempo (1000 ms)",
                 "No entanto, há limites para o quão pequeno pode ser, uma vez que o @Program precisa de tempo para avaliar antes de poder responder ao próximo tick.",
                 "O valor mais baixo provavelmente ronda os 20 ms."
@@ -3538,7 +3571,7 @@
                 "/Boop boop boop/",
                 "Olá, aqui é a @FunctionDefinition! Vejo que encontrou @Scene.",
                 "Acho o @Scene particularmente interessante. A ideia básica é que fornece uma lista de @Scene ou @Phrase e ele exibe-os em sequência, parando no último.",
-                "Para controlar o tempo, pode definir a duração de cada frase (@Phrase/duration) em cada saída, e será apresentada durante esse período antes de passar para a seguinte, e utilizar quaisquer transições de entrada (@Phrase/entering) ou de saída (@Phrase/exiting) que tenha configurado. Se as definir numa sequência (@Sequence), a duração será a mesma da sequência definida.",
+                "Para controlar o tempo, pode definir a duração de cada frase (@Phrase.duration) em cada saída, e será apresentada durante esse período antes de passar para a seguinte, e utilizar quaisquer transições de entrada (@Phrase.entering) ou de saída (@Phrase.exiting) que tenha configurado. Se as definir numa sequência (@Sequence), a duração será a mesma da sequência definida.",
                 "Tudo isto permite fazer coisas como esta pequena @Scene, que mostra estas três frases em sequência:",
                 "\\Cena([\nPhrase('Olá' duração: 1s)\nPhrase('Como está?' duration: 2s rotation: 5° entering: Pose(rotation: 0°))\nPhrase('Estou bem')\n])\\",
                 "Vê como a primeira imagem é apresentada durante um segundo, a seguinte durante dois segundos, mas animada com uma rotação de cinco graus, e depois a última é apresentada?",
@@ -3821,7 +3854,7 @@
                 "names": "local"
             },
             "name": {
-                "doc": ["O mesmo que @Phrase/name!"],
+                "doc": ["O mesmo que @Phrase.name!"],
                 "names": "nome"
             },
             "description": {
@@ -3831,7 +3864,7 @@
                 "names": "descrição"
             },
             "selectable": {
-                "doc": "O mesmo que @Phrase/selectable!",
+                "doc": "O mesmo que @Phrase/.selectable!",
                 "names": "selecionável"
             },
             "color": {
@@ -3859,47 +3892,47 @@
                 "names": "escala"
             },
             "flipx": {
-                "doc": "Igual ao @Phrase/flipx!",
+                "doc": "Igual ao @Phrase.flipx!",
                 "names": "invertirx"
             },
             "flipy": {
-                "doc": "Igual ao @Phrase/flipy",
+                "doc": "Igual ao @Phrase.flipy",
                 "names": "invertiry"
             },
             "entering": {
-                "doc": "Igual ao @Phrase/entering entrar!",
+                "doc": "Igual ao @Phrase.entering entrar!",
                 "names": "entrar"
             },
             "resting": {
-                "doc": "Igual ao @Phrase/resting!",
+                "doc": "Igual ao @Phrase.resting!",
                 "names": "descansar"
             },
             "moving": {
-                "doc": "Igual ao @Phrase/moving!",
+                "doc": "Igual ao @Phrase.moving!",
                 "names": "mudança"
             },
             "exiting": {
-                "doc": "Igual ao @Phrase/exiting!",
+                "doc": "Igual ao @Phrase.exiting!",
                 "names": "sair"
             },
             "duration": {
-                "doc": "Igual à @Phrase/duration!",
+                "doc": "Igual à @Phrase.duration!",
                 "names": ["⏳", "duração"]
             },
             "style": {
-                "doc": "Igual ao @Phrase/style!",
+                "doc": "Igual ao @Phrase.style!",
                 "names": "estilo"
             },
             "defaultDescription": "$name [ $name |] $layout $pose $color [ $color |]"
         },
         "Phrase": {
             "doc": [
-                "Olá, olá! Lembram-se de mim? Como é que alguém me poderia esquecer? É isso mesmo, sou a magnífica @Phrase, pronta para representar o mais adorável dos @Text no @Stage.",
-                "Faz-me assim e eu apareço no @Stage:",
-                "\\Frase('magnífico!')\\",
-                "Preciso que @TextLiteral ou @FormattedLiteral sejam apresentados. Com @FormattedLiteral, posso utilizar coisas como \\`*negrito*` e `/itálico/`\\ ou fazer referência a um @ConceptLink personalizado que crie.",
-                "Também pode, opcionalmente, dar-me tudo o que um @Output pode fazer, incluindo alterar o meu tamanho, tipo de letra, rotação e fazer todas as minhas incríveis danças com @Pose e @Sequence.",
-                "Também me pode selecionar no @Stage e editar-me na paleta ao lado."
+                "Olá, olá! Lembram-se de mim? Como é que alguém poderia esquecer /mim/? É isso mesmo, eu sou a magnífica @Phrase , pronta para representar o mais adorável dos @Text no @Stage .",
+                "Faz-me assim e eu apareço no @Stage :",
+                "\\Phrase('magnificent!')\\",
+                "Preciso @TextLiteral ou @FormattedLiteral sejam apresentados. Com @FormattedLiteral , posso utilizar coisas como \\`*bold* and /italic/`\\ ou fazer referência a @ConceptLink personalizado que crie.",
+                "Também pode, opcionalmente, dar-me tudo o que um @Output pode fazer, incluindo alterar o meu tamanho, tipo de letra, rotação e fazer todas as minhas incríveis danças com @Pose e @Sequence .",
+                "Também me pode selecionar no @Stage e editar-me com a paleta 🎨 ao lado — é uma ótima forma de experimentar diferentes tipos de letra e escolher a /cara/ certa para o seu @Text ."
             ],
             "names": ["💬", "Frase"],
             "text": {
@@ -3911,8 +3944,8 @@
                 "names": "tamanho"
             },
             "face": {
-                "doc": "Qual o nome do tipo de fonte que devo utilizar?",
-                "names": "rosto"
+                "doc": "O nome da fonte que devo utilizar. A forma mais fácil de escolher uma é selecionar-me e abrir a paleta 🎨 ao lado, onde pode visualizar as fontes e escolher uma sem ter de digitar o nome.",
+                "names": "tipo de letra"
             },
             "place": {
                 "doc": "O lugar no palco onde eu deveria estar.",
@@ -3923,11 +3956,11 @@
                 "names": ["↵", "envolver"]
             },
             "alignment": {
-                "doc": "Se houver um limite definido por @Phrase/wrap, devo alinhar os símbolos ao início, ao centro ou ao fim da borda?",
+                "doc": "Se houver um limite definido por @Phrase.wrap, devo alinhar os símbolos ao início, ao centro ou ao fim da borda?",
                 "names": "alinhamento"
             },
             "direction": {
-                "doc": "Indica se os símbolos são escritos na horizontal ou na vertical e, no caso de a opção vertical e @Phrase/wrap estarem definidas, se o texto é quebrado para a esquerda ou para a direita.",
+                "doc": "Indica se os símbolos são escritos na horizontal ou na vertical e, no caso de a opção vertical e @Phrase.wrap estarem definidas, se o texto é quebrado para a esquerda ou para a direita.",
                 "names": "direção"
             },
             "matter": {
@@ -4369,6 +4402,56 @@
                 "mix": "$first - $second",
                 "light": "luz",
                 "dark": "escuro"
+            },
+            "random": {
+                "doc": [
+                    "Dê uma cor aleatória.",
+                    "Sem cores disponíveis, escolho uma das cores básicas de forma aleatória:",
+                    "\\Color.random()\\",
+                    "Com uma cor, mantenho a sua luminosidade e croma, mas escolho uma tonalidade aleatória:",
+                    "\\Color.random(Color.blue)\\",
+                    "Com duas cores, escolho aleatoriamente um valor de luminosidade, croma e tonalidade entre as duas:",
+                    "\\Color.random(Color.black Color.white)\\"
+                ],
+                "names": "aleatório",
+                "inputs": [
+                    {
+                        "doc": "Uma cor opcional. Sozinha, mantenho a sua luminosidade e croma, e aleatorizo a tonalidade. Com uma segunda cor, fica numa das extremidades do espectro de cores.",
+                        "names": "um"
+                    },
+                    {
+                        "doc": "Uma segunda cor opcional. Quando fornecida, escolho aleatoriamente um valor de luminosidade, croma e matiz entre as duas cores.",
+                        "names": "b"
+                    }
+                ]
+            },
+            "lighter": {
+                "doc": [
+                    "Crie uma versão mais leve de mim, aumentando a minha leveza em percentagem (5% por defeito).",
+                    "\\Color.blue.lighter()\\",
+                    "\\Color.blue.lighter(20%)\\"
+                ],
+                "names": "$~isqueiro",
+                "inputs": [
+                    {
+                        "doc": "O quanto aumentar a luminosidade, em percentagem. O predefinido é 5%.",
+                        "names": "por"
+                    }
+                ]
+            },
+            "darker": {
+                "doc": [
+                    "Crie uma versão mais escura de mim, reduzindo o meu brilho em percentagem (5% por defeito).",
+                    "\\Color.blue.darker()\\",
+                    "\\Color.blue.darker(20%)\\"
+                ],
+                "names": "$~maisescuro",
+                "inputs": [
+                    {
+                        "doc": "O quanto diminuir o brilho, em percentagem. O predefinido é 5%.",
+                        "names": "por"
+                    }
+                ]
             }
         },
         "Sequence": {
@@ -4508,19 +4591,19 @@
                 "names": "moldura"
             },
             "size": {
-                "doc": "COMO @Group/size",
+                "doc": "COMO @Group.size",
                 "names": "tamanho"
             },
             "face": {
-                "doc": "COMO @Group/face",
-                "names": "rosto"
+                "doc": "COMO @Group.face",
+                "names": "tipo de letra"
             },
             "place": {
                 "doc": "SE EU FOSSE UMA CÂMARA, É PARA LÁ QUE ESTARIA A OLHAR.",
                 "names": "local"
             },
             "name": {
-                "doc": ["IGUAL A @Phrase/name!"],
+                "doc": ["IGUAL A @Phrase.name!"],
                 "names": "nome"
             },
             "description": {
@@ -4530,63 +4613,63 @@
                 "names": "descrição"
             },
             "selectable": {
-                "doc": "IGUAL A @Phrase/selectable!",
+                "doc": "IGUAL A @Phrase.selectable!",
                 "names": "selecionável"
             },
             "color": {
-                "doc": "IGUAL A @Group/color",
+                "doc": "IGUAL A @Group.color",
                 "names": "cor"
             },
             "background": {
-                "doc": "IGUAL A @Group/background",
+                "doc": "IGUAL A @Group.background",
                 "names": "fundo"
             },
             "opacity": {
-                "doc": "IGUAL A @Group/opacity",
+                "doc": "IGUAL A @Group.opacity",
                 "names": "opacidade"
             },
             "offset": {
-                "doc": "IGUAL A @Group/offset",
+                "doc": "IGUAL A @Group.offset",
                 "names": "desvio"
             },
             "rotation": {
-                "doc": "IGUAL A @Group/rotation",
+                "doc": "IGUAL A @Group.rotation",
                 "names": ["📐", "rotação"]
             },
             "scale": {
-                "doc": "IGUAL A @Group/scale",
+                "doc": "IGUAL A @Group.scale",
                 "names": "balança"
             },
             "flipx": {
-                "doc": "IGUAL A @Group/flipx",
+                "doc": "IGUAL A @Group.flipx",
                 "names": "invertirx"
             },
             "flipy": {
-                "doc": "IGUAL A @Group/flipy",
+                "doc": "IGUAL A @Group.flipy",
                 "names": "invertiry"
             },
             "entering": {
-                "doc": "IGUAL A @Group/entering",
+                "doc": "IGUAL A @Group.entering",
                 "names": "entrando"
             },
             "resting": {
-                "doc": "IGUAL A @Group/resting!",
+                "doc": "IGUAL A @Group.resting!",
                 "names": "descansando"
             },
             "moving": {
-                "doc": "IGUAL AO @Group/moving!",
+                "doc": "IGUAL AO @Group.moving!",
                 "names": "mudança"
             },
             "exiting": {
-                "doc": "IGUAL A @Group/exiting sair!",
+                "doc": "IGUAL A @Group.exiting sair!",
                 "names": "saindo"
             },
             "duration": {
-                "doc": "IGUAL A @Phrase/duration!",
+                "doc": "IGUAL A @Phrase.duration!",
                 "names": ["⏳", "duração"]
             },
             "style": {
-                "doc": "IGUAL A @Phrase/style!",
+                "doc": "IGUAL A @Phrase.style!",
                 "names": "estilo"
             },
             "gravity": {
@@ -4755,6 +4838,15 @@
                     "off": "mostrar controlos adicionais"
                 },
                 "popup": "Controles adicionais"
+            },
+            "color": {
+                "pick": {
+                    "label": "escolha a cor",
+                    "tip": "Selecione uma cor no seu ecrã."
+                },
+                "field": "campo de cor",
+                "instructions": "Utilize as setas esquerda e direita para alterar a tonalidade e as setas para cima e para baixo para alterar a saturação. Mantenha a tecla Shift pressionada para ajustes mais precisos.",
+                "value": "$color , LCH $l , $c , $h"
             }
         },
         "tile": {
@@ -4928,7 +5020,8 @@
                 }
             },
             "error": {
-                "unknown": "Esta galeria não existe ou não é pública."
+                "unknown": "Esta galeria não existe ou não é pública.",
+                "unreachable": "Não foi possível carregar esta galeria. Se esperava ter acesso, verifique a sua ligação; uma VPN, extensão do browser ou filtro de rede pode estar a bloquear o acesso."
             },
             "field": {
                 "name": {
@@ -5206,6 +5299,10 @@
                 "expandSequence": {
                     "on": "itens de recolha",
                     "off": "expandir itens"
+                },
+                "search": {
+                    "on": "ocultar pesquisa",
+                    "off": "pesquisar o código"
                 }
             },
             "options": {
@@ -5219,13 +5316,16 @@
                 "expandControls": "Mostrar comandos de edição adicionais",
                 "collapseControls": "ocultar comandos de edição adicionais",
                 "zoomIn": "Aumente o tamanho do código.",
-                "zoomOut": "Reduza o tamanho do código."
+                "zoomOut": "Reduza o tamanho do código.",
+                "replace": "substituir todas as correspondências"
             },
             "field": {
                 "name": {
                     "description": "editar nome da fonte",
                     "placeholder": "nome"
-                }
+                },
+                "search": "texto",
+                "replace": "substituir"
             },
             "menu": {
                 "label": "menu de preenchimento automático",
@@ -5298,7 +5398,10 @@
                     "noClipboardItem": "Nada na área de transferência",
                     "noSelection": "Nada selecionado",
                     "noMove": "Não consigo avançar mais."
-                }
+                },
+                "nextMatch": "ir para o próximo resultado da pesquisa",
+                "insertTranslate": "inserir símbolo de tradução",
+                "insertThis": "Insira este símbolo"
             },
             "error": {
                 "invalidName": "Este deve ser um nome válido para um jogo de palavras.",
@@ -5526,7 +5629,9 @@
                 }
             },
             "note": {
-                "empty": "Os nomes que definir no seu projeto aparecerão aqui."
+                "empty": "Os nomes que definir no seu projeto aparecerão aqui.",
+                "keepTyping": "Continue a digitar para pesquisar…",
+                "noMatches": "Nenhuma correspondência"
             },
             "purposes": {
                 "Project": {
@@ -5615,15 +5720,23 @@
                 "howToGalleryButton": {
                     "label": "Veja o passo a passo no espaço",
                     "tip": "Veja o passo a passo no espaço"
+                },
+                "explain": {
+                    "header": "Tutoriais",
+                    "explanation": "Exemplos curtos que mostram como fazer coisas no Wordplay. Clique em reproduzir em qualquer pré-visualização para ver o exemplo em execução e, em seguida, abra-o para ler como funciona."
                 }
             },
             "tour": {
                 "launch": "Faça um tour pelo guia.",
                 "guide": "O /guia/ contém *documentação* para todos os conceitos e *recursos* da *linguagem de programação* Wordplay.",
-                "code": "Esta é a secção /código/. Contém a documentação da *linguagem de programação* — os blocos de construção que pode combinar para criar programas.",
-                "howto": "Esta é a secção /como fazer/. Contém *padrões úteis* para alcançar comportamentos específicos nos seus projetos.",
                 "mode": "Utilize este botão /toggle/ para alternar entre as secções de *código* e *instruções*.",
-                "search": "A caixa de pesquisa é útil para *descobrir* funcionalidades ou encontrar uma rapidamente *pelo nome*."
+                "search": "A caixa de pesquisa é útil para *descobrir* funcionalidades ou encontrar uma rapidamente *pelo nome*.",
+                "code": "Esta é a secção /código/. Contém a documentação da *linguagem de programação* — os blocos de construção que pode combinar para criar programas.",
+                "howto": "Esta é a secção /como fazer/. Contém *padrões úteis* para alcançar comportamentos específicos nos seus projetos."
+            },
+            "breadcrumb": {
+                "label": "histórico de navegação",
+                "home": "tela inicial"
             }
         },
         "dialog": {
@@ -5939,9 +6052,7 @@
                     "idea": "Não encontrou a ideia que estava a pensar? Sugira uma."
                 },
                 "error": {
-                    "login": "É preciso estar <logado@://login> para enviar feedback.",
-                    "submit": "Não foi possível enviar feedback.",
-                    "load": "Não foi possível carregar o feedback.",
+                    "login": "Necessita de estar <logado@://login> para enviar feedback.",
                     "empty": "Não há comentários a exibir.",
                     "url": "Este não é um URL válido do GitHub."
                 }
@@ -6095,10 +6206,37 @@
             }
         },
         "save": {
-            "saving": "economia",
+            "saving": "guardar",
             "saved": "salvo",
             "local": "salvo",
-            "unsaved": "não salvo"
+            "unsaved": "não salvo",
+            "sync": {
+                "header": "Sincronizando com a nuvem",
+                "projects": "Projetos",
+                "galleries": "Galerias",
+                "characters": "Carateres",
+                "howtos": "Tutoriais",
+                "chats": "Conversas"
+            },
+            "status": {
+                "header": "Guardar status",
+                "intro": "O seu trabalho fica armazenado neste dispositivo e guardado na nuvem.",
+                "columns": {
+                    "device": "neste dispositivo",
+                    "cloud": "na nuvem",
+                    "unsaved": "não salvo"
+                },
+                "state": {
+                    "synced": "sincronizado",
+                    "loading": "carregando",
+                    "syncing": "sincronização",
+                    "offline": "offline",
+                    "failed": "falhou"
+                },
+                "conversation": "uma conversa",
+                "legend": "\"Não guardado\" significa que está guardado aqui, mas ainda não está online. Será guardado quando se conectar novamente.",
+                "errorsHeader": "Algumas coisas não puderam ser guardadas online:"
+            }
         },
         "localize": {
             "header": "Localizar",
@@ -6589,10 +6727,6 @@
                         "label": "todas as cores",
                         "tip": "Selecione todas as formas com a mesma cor da seleção."
                     },
-                    "pick": {
-                        "label": "escolha a cor",
-                        "tip": "Selecione uma cor do seu ecrã para utilizar no desenho de pixéis e formas."
-                    },
                     "saturationUp": {
                         "label": "saturação",
                         "tip": "aumentar a saturação"
@@ -6697,11 +6831,12 @@
                     "usernameTaken": "Este nome de utilizador já está em utilização.",
                     "failure": "Não foi possível fazer login :(",
                     "offline": "Não conseguimos alcançar a cloud ☁️.",
-                    "delete": "Não foi possível eliminar a sua conta, mas não sabemos o motivo.",
                     "invalidPassword": "As palavras-passe devem ter no mínimo 6 caracteres.",
                     "wrongPassword": "Nome de utilizador e palavra-passe inválidos. Ou a sua palavra-passe está incorreta, ou outra pessoa já está a utilizar este nome de utilizador.",
                     "mismatched": "As palavras-passe não coincidem.",
-                    "tooMany": "Tentou fazer login muitas vezes sem sucesso. Terá que esperar para tentar novamente."
+                    "tooMany": "Tentou fazer login muitas vezes sem sucesso. Terá que esperar para tentar novamente.",
+                    "unsaved": "Tem alterações que ainda não foram guardadas online. Volte a ligar-se e aguarde até que sejam guardadas primeiro, ou serão perdidas deste dispositivo.",
+                    "deletePartial": "Removemos os dados da sua conta, mas não conseguimos concluir a remoção. Tente novamente ou contacte-nos se o problema persistir."
                 },
                 "feedback": {
                     "changing": "Envio de novo e-mail...",
@@ -6919,7 +7054,7 @@
                     ]
                 },
                 "section": {
-                    "wordplay": "Plataforma",
+                    "wordplay": "$Plataforma",
                     "term": "Terminologia",
                     "token": "Fichas",
                     "node": "construções da linguagem",
@@ -6929,13 +7064,14 @@
                     "ui": "Interface do utilizador",
                     "gallery": "Galeria",
                     "moderation": "Moderação"
-                }
+                },
+                "singletonWordsWarning": "Algumas palavras do seu rascunho aparecem apenas uma vez em todo o texto. Tem a certeza de que a ortografia está correta e consistente com o resto do texto?",
+                "viewPR": "Veja a solicitação de pull request",
+                "oneLocaleNote": "Cada contribuição abrange um idioma de cada vez. Este lote será enviado como edições para $locale . Se quiser contribuir com um idioma diferente, mude primeiro de idioma; as edições guardadas em cada idioma são guardadas separadamente."
             },
-            "thanks": {
-                "header": "Obrigado",
-                "intro": "Agradecemos aos nossos * $count * colaboradores por contribuírem para o design, desenvolvimento, localização e conteúdo do Wordplay! E agradecemos também aos muitos professores e jovens que orientaram o nosso design em grupos de foco, sessões de design e salas de aula, cujos nomes não listamos aqui para preservar a sua privacidade. Este projeto foi financiado pela National Science Foundation sob os números de subvenção 2318257, 2031265, 2100296 e 2122950, pela Universidade de Washington e por generosas doações.<gifts@://donate> De pessoas como você.",
-                "teachers": "Professores",
-                "contributors": "Colaboradores"
+            "breadcrumb": {
+                "label": "Migalhas de pão",
+                "home": "tela inicial"
             }
         },
         "edit": {
@@ -7018,7 +7154,7 @@
         },
         "connection": {
             "offline": "Está offline. Algumas funcionalidades só funcionarão quando estiver online.",
-            "unreachable": "Não conseguimos aceder à base de dados do Wordplay. Algumas funcionalidades não estarão disponíveis até que a ligação seja restabelecida.",
+            "unreachable": "Não conseguimos aceder à base de dados, então algumas coisas não funcionarão. Uma VPN, extensão de browser ou filtro de rede pode estar a bloquear o acesso.",
             "label": "Estado da conexão"
         },
         "presence": {
@@ -7033,6 +7169,12 @@
             "refresh": "Atualizar",
             "updates": "Veja as atualizações",
             "dismiss": "Dispensar"
+        },
+        "banner": {
+            "deleteFailed": "Não foi possível apagar isto.",
+            "saveFailed": "Não conseguimos guardar isso.",
+            "submitFailed": "Não conseguimos submeter isso.",
+            "loadFailed": "Não foi possível carregar isso."
         }
     },
     "moderation": {

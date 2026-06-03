@@ -44,6 +44,39 @@
                 { "fieldPath": "public", "order": "ASCENDING" },
                 { "fieldPath": "timestamp", "order": "ASCENDING" }
             ]
+        },
+        {
+            "collectionGroup": "projects",
+            "queryScope": "COLLECTION",
+            "fields": [
+                { "fieldPath": "restrictedGallery", "order": "ASCENDING" },
+                { "fieldPath": "gallery", "order": "ASCENDING" }
+            ]
+        },
+        {
+            "collectionGroup": "projects",
+            "queryScope": "COLLECTION",
+            "fields": [
+                { "fieldPath": "archived", "order": "ASCENDING" },
+                { "fieldPath": "timestamp", "order": "ASCENDING" }
+            ]
+        },
+        {
+            "collectionGroup": "howtos",
+            "queryScope": "COLLECTION",
+            "fields": [
+                { "fieldPath": "published", "order": "ASCENDING" },
+                { "fieldPath": "galleryId", "order": "ASCENDING" }
+            ]
+        },
+        {
+            "collectionGroup": "howtos",
+            "queryScope": "COLLECTION",
+            "fields": [
+                { "fieldPath": "published", "order": "ASCENDING" },
+                { "fieldPath": "scopeOverwrite", "order": "ASCENDING" },
+                { "fieldPath": "viewersFlat", "arrayConfig": "CONTAINS" }
+            ]
         }
     ],
     "fieldOverrides": []

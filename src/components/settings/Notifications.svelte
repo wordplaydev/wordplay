@@ -51,16 +51,17 @@
     import { localeGoto } from '@util/localeGoto';
 
     let showDialog: boolean = $state(false);
-    let showPopup: boolean = $state(false);
 
     const announce = getAnnouncer();
 
+    // The unread state is shown by making the toolbar button salient (see the
+    // Dialog button below); there's no popup. We still announce new
+    // notifications to screen readers, since a color change alone isn't
+    // perceivable to them.
     $effect(() => {
-        notifications;
+        const hasUnread = notifications.size > 0;
 
-        showPopup = notifications.size > 0;
-
-        if (announce) {
+        if (hasUnread && announce) {
             untrack(() => {
                 if ($announce) {
                     $announce(
@@ -80,7 +81,11 @@
     const user = getUser();
 
     $effect(() => {
-        if (!$user) return;
+        // Capture the uid up front: the per-chat work below awaits, and on
+        // logout `$user` goes null mid-flight — reading `$user.uid` after an
+        // await would then throw once per cached chat.
+        const uid = $user?.uid;
+        if (uid === undefined) return;
 
         [...Chats.chats.values()].forEach(async (chat) => {
             let galleryID: string | null = null;
@@ -104,7 +109,7 @@
                 return;
 
             const gallery = await Galleries.get(galleryID);
-            chat.getMessagesPendingModeration($user.uid, gallery).forEach(
+            chat.getMessagesPendingModeration(uid, gallery).forEach(
                 (message) => {
                     modNeeded.set(message.id, [message, chat, galleryID!]);
                     let type =
@@ -163,24 +168,6 @@
     }
 </script>
 
-{#if showPopup}
-    <div class="popup">
-        <Button
-            action={() => {
-                showDialog = true;
-                showPopup = false;
-            }}
-            tip={(l) => l.ui.dialog.notifications.open}
-            label={(l) => l.ui.dialog.notifications.popup}
-        />
-        <Button
-            icon={CANCEL_SYMBOL}
-            action={() => (showPopup = false)}
-            tip={(l) => l.ui.dialog.notifications.delete}
-        />
-    </div>
-{/if}
-
 <Dialog
     bind:show={showDialog}
     header={(l) => l.ui.dialog.notifications.header}
@@ -188,7 +175,7 @@
     button={{
         tip: (l) => l.ui.dialog.notifications.open,
         icon: `🔔 ${notifications.size}`,
-        background: true,
+        background: notifications.size > 0 ? 'salient' : true,
     }}
 >
     <Mode
@@ -268,16 +255,5 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-    }
-
-    .popup {
-        border: solid var(--wordplay-border-width) var(--wordplay-border-color);
-        border-radius: var(--wordplay-border-radius);
-        padding: var(--wordplay-spacing);
-        margin-bottom: var(--wordplay-spacing);
-        position: absolute;
-        top: var(--wordplay-spacing);
-        right: var(--wordplay-spacing);
-        background-color: var(--wordplay-background);
     }
 </style>

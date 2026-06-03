@@ -5,16 +5,25 @@
 
 <script lang="ts">
     import HeaderAndExplanation from '@components/app/HeaderAndExplanation.svelte';
+    import Notice from '@components/app/Notice.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import TutorialHighlight from '@components/app/TutorialHighlight.svelte';
-    import CodeView from '@components/concepts/CodeView.svelte';
-    import { summarizeUnionTypes } from '@components/concepts/elideNode';
     import ConceptGroupView from '@components/concepts/ConceptGroupView.svelte';
-    import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
+    import ConceptPreview from '@components/concepts/ConceptPreview.svelte';
     import ConceptsView from '@components/concepts/ConceptsView.svelte';
     import ConceptView from '@components/concepts/ConceptView.svelte';
+    import { summarizeUnionTypes } from '@components/concepts/elideNode';
     import FunctionConceptView from '@components/concepts/FunctionConceptView.svelte';
+    import {
+        currentSearch,
+        navigateSection,
+        popTo,
+        reconcileSearch,
+        sameHistory,
+        currentConcept as topConcept,
+    } from '@components/concepts/GuideHistory';
+    import placeLabel from '@components/concepts/placeLabel';
     import HowConceptView from '@components/concepts/HowConceptView.svelte';
     import NodeConceptView from '@components/concepts/NodeConceptView.svelte';
     import StreamConceptView from '@components/concepts/StreamConceptView.svelte';
@@ -70,6 +79,7 @@
         BIND_SYMBOL,
         DOCUMENTATION_SYMBOL,
         FORMATTED_SYMBOL,
+        HOME_SYMBOL,
         IDEA_SYMBOL,
         LIST_CLOSE_SYMBOL,
         LIST_OPEN_SYMBOL,
@@ -83,16 +93,36 @@
         TRUE_SYMBOL,
         TYPE_SYMBOL,
     } from '@parser/Symbols';
-    import { onDestroy, tick } from 'svelte';
+    import { withMonoEmoji } from '@unicode/emoji';
+    import { debounced } from '@util/debounce.svelte';
+    import { tick, untrack } from 'svelte';
+    import { get } from 'svelte/store';
     import HowToConceptView from './HowToConceptView.svelte';
 
     interface Props {
         project: Project;
         standalone: boolean;
         collapse?: boolean;
+        /** Two-way bound search query. The standalone guide binds this to sync it
+         *  to the URL; embedded uses leave it unbound (it's local state). */
+        query?: string;
+        /** Two-way bound browsing location, bound by hosts that persist it to the
+         *  URL: the section (code vs how-to), the code section's concept type, and
+         *  the how-to filter. Unbound uses keep them as local state. */
+        mode?: (typeof Modes)[number];
+        purpose?: PurposeType;
+        galleryOnly?: boolean;
     }
 
-    let { project, standalone, collapse = false }: Props = $props();
+    let {
+        project,
+        standalone,
+        collapse = false,
+        query = $bindable(''),
+        mode = $bindable($blocks ? 'language' : 'howto'),
+        purpose = $bindable(Purpose.Outputs),
+        galleryOnly = $bindable(false),
+    }: Props = $props();
 
     let view: HTMLElement | undefined = $state();
 
@@ -125,17 +155,21 @@
     let path = getConceptPath();
     let dragged = getDragged();
 
-    /** The current search string */
-    let query = $state('');
+    /** A debounced copy of {@link query} that the search runs against, so fast
+     *  typing doesn't trigger a full search on every keystroke. */
+    const debouncedQuery = debounced(() => query);
 
-    /** The browsing mode (programming language or how to) */
-    let mode = $state<(typeof Modes)[number]>($blocks ? 'language' : 'howto');
+    /** Fewest characters that actually run a search; shorter queries show a
+     *  "keep typing" prompt instead. */
+    const MIN_QUERY_LENGTH = 3;
 
-    /** The purpose selected for browsing */
-    let purpose = $state<PurposeType>(Purpose.Outputs);
+    /** True when the top of the navigation history is a search location: we show the
+     *  search results and hide the browsing controls. The search box and the search
+     *  location are kept in sync by the two effects below. */
+    let searchActive = $derived(currentSearch($path) !== undefined);
 
-    /** The current concept is always the one at the end of the list. */
-    let currentConcept = $derived($path[$path.length - 1]);
+    /** The current concept, when the top of the history is a concept. */
+    let currentConcept = $derived(topConcept($path));
 
     let viewWidth: number = $state(0);
     let viewHeight: number = $state(0);
@@ -151,6 +185,51 @@
         }
     }
 
+    /** How many search results to render per page. Results are lazily revealed
+     *  as the user scrolls so a large result set doesn't cause rendering lag. */
+    const RESULTS_PAGE = 25;
+    let resultLimit = $state(RESULTS_PAGE);
+    /** Sentinel at the end of the rendered results; when it scrolls into view we
+     *  reveal another page. */
+    let resultsSentinel = $state<HTMLElement>();
+
+    // Reset the visible window whenever the result set changes (a new query).
+    $effect(() => {
+        void results;
+        resultLimit = RESULTS_PAGE;
+    });
+
+    // Reveal more results as the sentinel approaches the viewport.
+    $effect(() => {
+        const sentinel = resultsSentinel;
+        // Guard on `instanceof HTMLElement`, not `=== undefined`: Svelte sets a
+        // `bind:this` to null (not undefined) when its element unmounts, which can
+        // happen mid-layout in the embedded guide. getScrollParent/observe would
+        // then throw "parameter 1 is not of type 'Element'".
+        if (
+            !(sentinel instanceof HTMLElement) ||
+            !(view instanceof HTMLElement) ||
+            results === undefined
+        )
+            return;
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (
+                    entries.some((e) => e.isIntersecting) &&
+                    results !== undefined &&
+                    resultLimit < results.length
+                )
+                    resultLimit = Math.min(
+                        resultLimit + RESULTS_PAGE,
+                        results.length,
+                    );
+            },
+            { root: getScrollParent(view) ?? null, rootMargin: '400px' },
+        );
+        observer.observe(sentinel);
+        return () => observer.disconnect();
+    });
+
     // Keep a cache of the how tos for the current language.
     let howTos = $state<HowTo[] | undefined>(undefined);
     $effect(() => {
@@ -161,15 +240,27 @@
     });
 
     // get the user generated how-tos that are in a gallery, if the gallery exists
-
-    // determine if the guide will only show how-tos from the project's gallery
-    // or if it will show all how-tos that the user has access to
-    let galleryOnly: boolean = $state(false);
-    $effect(() => {
-        galleryOnly = project.getGallery() == null && !standalone;
-    });
+    // `galleryOnly` (whether to show only the project gallery's how-tos) is a
+    // bound prop so hosts can restore it from the URL; the toggle only appears in
+    // the embedded guide with a gallery, so unbound (standalone) uses keep false.
 
     let galleryID: string | null = $derived(project.getGallery());
+
+    // Re-derive the how-to filter default when the project's gallery actually
+    // changes while the guide is open. The first run only records the gallery (no
+    // re-derive), so a value the host restored from the URL survives load.
+    let lastGallery: string | null | undefined;
+    let galleryTracked = false;
+    $effect(() => {
+        const currentGallery = project.getGallery();
+        if (!galleryTracked) {
+            galleryTracked = true;
+            lastGallery = currentGallery;
+        } else if (currentGallery !== lastGallery) {
+            lastGallery = currentGallery;
+            galleryOnly = currentGallery == null && !standalone;
+        }
+    });
     let gallery: Gallery | undefined = $state(undefined);
     let galleryHowTos: GalleryHowTo[] = $state([]);
     $effect(() => {
@@ -244,36 +335,51 @@
             : [],
     );
 
-    // When the path changes, reset the query
-    const queryResetUnsub = path.subscribe(() => {
-        query = '';
-    });
-    onDestroy(() => queryResetUnsub());
+    // Keep the search box and the navigation history in sync. The box (`query`) and
+    // the top search location are two views of the same thing; these two guarded,
+    // convergent effects maintain the invariant "query non-empty ⇔ top of history is a
+    // search with that query" without looping:
+    //  - typing pushes/refines/pops a search location;
+    //  - navigating (push concept, back, home, go-to crumb) updates the history, and
+    //    the box follows — cleared on a concept/home, restored on a search.
 
-    /** Remember the previous path we visited */
+    // query → history. Reads the store untracked so this depends only on `query`;
+    // reconcileSearch returns the same reference when nothing changes, so we skip
+    // redundant writes (and avoid a feedback loop with the effect below).
+    $effect(() => {
+        const q = query;
+        const history = get(path);
+        const next = reconcileSearch(history, q);
+        if (next !== history) path.set(next);
+    });
+
+    // history → query. Depends only on the history (query is read untracked); clears
+    // the box on a concept/home location and restores it on a search location.
+    $effect(() => {
+        const top = $path.at(-1);
+        const desired = top?.kind === 'search' ? top.query : '';
+        if (untrack(() => query) !== desired) query = desired;
+    });
+
+    /** Remember the previous history we visited */
     let previousPath: ConceptPath = $state([]);
 
-    /** When the path changes to a different concept, scroll to top. */
+    /** When the history changes to a different location, scroll to top. */
     $effect(() => {
-        if (
-            previousPath.map((c) => c.getName($locales, false)).join() !==
-            $path.map((c) => c.getName($locales, false)).join()
-        ) {
+        if (!sameHistory(previousPath, $path)) {
             scrollToTop();
             previousPath = $path.slice();
         }
     });
 
-    // If the query changes to non-empty, compute matches
-    let results: [Concept, [string, number, number]][] | undefined = $derived(
-        query.length > 1
-            ? index?.getQuery($locales, query)?.sort((a, b) => {
-                  const [, aMatches] = a;
-                  const [, bMatches] = b;
-                  return aMatches[2] - bMatches[2];
-              })
-            : undefined,
-    );
+    // If the query changes to non-empty, compute matches. getQuery already
+    // returns results ordered name-matches-first, then by match quality.
+    let results: [Concept, [string, number, number, number]][] | undefined =
+        $derived(
+            debouncedQuery.current.trim().length >= MIN_QUERY_LENGTH
+                ? index?.getQuery(debouncedQuery.current)
+                : undefined,
+        );
 
     // Find all the highlights in the current documentation so we can render them.
     let highlights = $derived(
@@ -329,20 +435,54 @@
         );
     }
 
+    // Navigation: the history → query effect keeps the search box in sync with each of
+    // these, so they only need to update the history.
+
+    /** Pop the current location, returning to the previous concept or search results. */
     function back() {
-        $path.pop();
-        path.set([...$path]);
+        path.set($path.slice(0, -1));
     }
 
+    /** Return to home: the bottom of the history, which is always a browse section. */
     function home() {
-        path.set([]);
+        path.set(popTo($path, 0));
     }
 
-    // If blocks mode is on, switch language mode.
+    /** Jump to the location at `index` in the breadcrumb, dropping everything after it. */
+    function goTo(index: number) {
+        path.set(popTo($path, index));
+    }
+
+    /** Choose a browse section/subsection. Moving between sections modifies the current
+     *  location; from a concept/search it adds a new section location (see
+     *  {@link navigateSection}). Also updates the live mode/purpose the browse view and
+     *  toggles read (kept in sync with the active section by the effect below). */
+    function chooseSection(
+        newMode: (typeof Modes)[number],
+        newPurpose: PurposeType,
+    ) {
+        const m = $blocks ? 'language' : newMode;
+        mode = m;
+        purpose = newPurpose;
+        path.set(navigateSection($path, m, newPurpose));
+    }
+
+    // history → section filters. When the top of the history is a section (we navigated
+    // back/over to a browse page), restore the section + subsection it captured into the
+    // live mode/purpose (clamped to language while in blocks mode). Reads mode/purpose
+    // untracked so this depends only on the history and blocks state.
     $effect(() => {
-        if ($blocks) {
-            mode = 'language';
+        const top = $path.at(-1);
+        if (top?.kind === 'section') {
+            const m = $blocks ? 'language' : top.mode;
+            if (untrack(() => mode) !== m) mode = m;
+            if (untrack(() => purpose) !== top.purpose) purpose = top.purpose;
         }
+    });
+
+    // If blocks mode is on, the guide only shows language (code) concepts.
+    $effect(() => {
+        if ($blocks && mode !== 'language') mode = 'language';
     });
 </script>
 
@@ -359,29 +499,26 @@
             fill
         />
     </span>
-    {#if query.length === 0}
-        <span data-uiid="docsModeToggle">
+    {#if !searchActive}
+        <!-- The section + subsection switchers form a filter grid: their labels share a
+             right-aligned column and their option groups a left-aligned column. Each Mode
+             uses `display: contents` (the `grid` prop) so its label/group are items here. -->
+        <div class="filters">
             <Mode
+                grid
+                uiid="docsModeToggle"
                 modes={(l) => l.ui.docs.mode.browse}
                 icons={[DOCUMENTATION_SYMBOL, IDEA_SYMBOL]}
                 choice={Modes.indexOf(mode)}
-                select={(choice) => {
-                    const newMode = Modes[choice];
-                    if (mode !== newMode) {
-                        mode = newMode;
-                        path.set([]);
-                    }
-                }}
+                select={(choice) => chooseSection(Modes[choice], purpose)}
             />
-        </span>
-        {#if mode === 'language'}
-            <Mode
-                modes={(l) => l.ui.docs.mode.purpose}
+            {#if mode === 'language'}
+                <Mode
+                    grid
+                    modes={(l) => l.ui.docs.mode.purpose}
                 choice={Object.keys(Purpose).indexOf(purpose)}
-                select={(choice) => {
-                    purpose = Object.values(Purpose)[choice];
-                    path.set([]);
-                }}
+                select={(choice) =>
+                    chooseSection(mode, Object.values(Purpose)[choice])}
                 icons={[
                     '👤',
                     '🖥️',
@@ -399,30 +536,48 @@
                     TYPE_SYMBOL,
                     '',
                 ]}
-                wrap
-                omit={standalone ? [0] : []}
-            />
-        {/if}
+                    wrap
+                    omit={standalone ? [0] : []}
+                />
+            {/if}
+        </div>
     {/if}
 
-    {#if currentConcept}
-        <span class="path">
-            {#if $path.length > 1}
-                <Button
-                    tip={(l) => l.ui.docs.button.home}
-                    icon="⇤"
-                    action={home}
-                ></Button>{/if}
+    {#if !standalone && $path.length > 1}
+        <nav
+            class="path"
+            aria-label={$locales.getPlainText(
+                (l) => l.ui.docs.breadcrumb.label,
+            )}
+        >
             <Button tip={(l) => l.ui.docs.button.back} icon="←" action={back}
             ></Button>
-            {#each $path as concept, index}{#if index > 0}
-                    ·
-                {/if}{#if index === $path.length - 1}<ConceptLinkUI
-                        link={concept}
-                        symbolic={false}
-                    />{/if}
+            {#each $path as place, index}
+                {@const isLast = index === $path.length - 1}
+                {#if index > 0}<span class="sep" aria-hidden="true">/</span
+                    >{/if}{#if index === 0}<button
+                        type="button"
+                        class="crumb home"
+                        title={$locales.getPlainText(
+                            (l) => l.ui.docs.button.home,
+                        )}
+                        aria-label={$locales.getPlainText(
+                            (l) => l.ui.docs.breadcrumb.home,
+                        )}
+                        onclick={home}>{withMonoEmoji(HOME_SYMBOL)}</button
+                    >{:else}{@const label = placeLabel(
+                        place,
+                        $locales,
+                    )}{#if isLast}<span
+                            class="crumb current"
+                            aria-current="page">{label}</span
+                        >{:else}<button
+                            type="button"
+                            class="crumb"
+                            onclick={() => goTo(index)}>{label}</button
+                        >{/if}{/if}
             {/each}
-        </span>
+        </nav>
     {/if}
 </div>
 <section
@@ -436,35 +591,43 @@
     bind:clientHeight={viewHeight}
 >
     <div class="content">
-        <!-- Search results are prioritized over a selected concept -->
-        {#if results}
-            {#each results as [concept, text]}
-                <div class="result">
-                    <CodeView
-                        {concept}
-                        node={summarizeUnionTypes(
-                            concept.getRepresentation($locales),
-                        )}
-                    />
-                    <!-- Show the matching text -->
-                    {#if text.length > 1 || concept.getName($locales, false) !== text[0]}
-                        {@const match = text[0]}
-                        {@const index = text[1]}
+        <!-- Search mode is prioritized over a selected concept or the home page -->
+        {#if searchActive}
+            {#if results}
+                {#each results.slice(0, resultLimit) as [concept, text]}
+                    {@const match = text[0]}
+                    {@const start = text[1]}
+                    {@const end = text[2]}
+                    <div class="result">
+                        <ConceptPreview
+                            {concept}
+                            elide
+                            node={summarizeUnionTypes(
+                                concept.getRepresentation($locales),
+                            )}
+                        />
+                        <!-- Show the matching text, highlighting the matched range. -->
                         <div class="matches">
                             <Note
-                                >{match.substring(0, index)}<span class="match"
-                                    >{match.substring(
-                                        index,
-                                        index + query.length,
-                                    )}</span
-                                >{match.substring(index + query.length)}</Note
+                                >{match.substring(0, start)}<span class="match"
+                                    >{match.substring(start, end)}</span
+                                >{match.substring(end)}</Note
                             >
                         </div>
-                    {/if}
-                </div>
+                    </div>
+                {:else}
+                    <Notice text={(l) => l.ui.docs.note.noMatches} />
+                {/each}
+                <!-- Infinite-scroll sentinel: reveals another page when reached. -->
+                <div bind:this={resultsSentinel} aria-hidden="true"></div>
             {:else}
-                <div class="empty">😞</div>
-            {/each}
+                <!-- Query too short to search yet: prompt to keep typing. -->
+                <Note
+                    ><LocalizedText
+                        path={(l) => l.ui.docs.note.keepTyping}
+                    /></Note
+                >
+            {/if}
         {:else}
             <!-- A selected concept is prioritized over the home page -->
             {#if currentConcept}
@@ -502,7 +665,7 @@
                 {:else if currentConcept instanceof GalleryHowConcept}
                     <HowToConceptView concept={currentConcept} />
                 {:else}
-                    <CodeView
+                    <ConceptPreview
                         node={currentConcept.getRepresentation($locales)}
                         concept={currentConcept}
                     />
@@ -513,6 +676,10 @@
                     {#if howTos === undefined}
                         <Spinning></Spinning>
                     {:else}
+                        <HeaderAndExplanation
+                            text={(l) => l.ui.docs.how.explain}
+                            sub
+                        />
                         {#if !standalone && gallery}
                             <Mode
                                 modes={(l) => l.ui.docs.mode.howToFilter}
@@ -527,10 +694,10 @@
                                 text={(l) => l.ui.docs.how.category.gallery}
                             />
                             <div class="howtos">
-                                {#each galleryHowConcepts as how}
-                                    <CodeView
-                                        node={how.getRepresentation()}
+                                {#each galleryHowConcepts as how (how.getHowToId())}
+                                    <ConceptPreview
                                         concept={how}
+                                        node={how.getRepresentation()}
                                         elide
                                     />
                                 {/each}
@@ -552,10 +719,10 @@
                                         ]}
                                 />
                                 <div class="howtos">
-                                    {#each categoryHowTos as how}
-                                        <CodeView
-                                            node={how.getRepresentation()}
+                                    {#each categoryHowTos as how (how.how.id)}
+                                        <ConceptPreview
                                             concept={how}
+                                            node={how.getRepresentation()}
                                             elide
                                         />
                                     {/each}
@@ -637,7 +804,7 @@
                     />
                     <ConceptGroupView concepts={appearance} {collapse} {row} />
                     <HeaderAndExplanation
-                        text={(l) => l.ui.docs.header.appearance}
+                        text={(l) => l.ui.docs.header.animation}
                         sub
                     />
                     <ConceptGroupView concepts={styles} {collapse} {row} />
@@ -752,7 +919,7 @@
         padding: calc(2 * var(--wordplay-spacing));
         display: flex;
         flex-direction: column;
-        gap: var(--wordplay-spacing);
+        gap: calc(3 * var(--wordplay-spacing));
     }
 
     .content:focus {
@@ -774,6 +941,17 @@
         margin-right: var(--wordplay-spacing-half);
     }
 
+    /* Filter grid: the section + subsection Modes (each `display: contents`) drop their
+       labels into a right-aligned first column and their option groups into a left-aligned
+       second column. */
+    .filters {
+        display: grid;
+        grid-template-columns: max-content minmax(0, 1fr);
+        column-gap: var(--wordplay-spacing);
+        row-gap: var(--wordplay-spacing-half);
+        align-items: baseline;
+    }
+
     /* The search field's parent needs to be block so the field fills width. */
     .search-wrap {
         display: block;
@@ -785,13 +963,52 @@
         flex-wrap: nowrap;
         overflow-x: auto;
         font-size: var(--wordplay-small-font-size);
-        gap: var(--wordplay-spacing);
+        gap: var(--wordplay-spacing-half);
         padding-left: var(--wordplay-spacing);
         align-items: center;
     }
 
+    /* A breadcrumb crumb, styled like a plain text link. */
+    .crumb {
+        flex-shrink: 0;
+        font: inherit;
+        background: none;
+        border: none;
+        padding: 0;
+        margin: 0;
+        white-space: nowrap;
+        color: var(--wordplay-highlight-color);
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .crumb:focus,
+    .crumb:hover {
+        outline: none;
+        text-decoration: underline;
+        text-decoration-thickness: var(--wordplay-focus-width);
+        text-decoration-color: var(--wordplay-focus-color);
+    }
+
+    /* The current location: inactive — greyed, no underline. */
+    .crumb.current {
+        color: var(--wordplay-inactive-color);
+        cursor: default;
+    }
+
+    .sep {
+        flex-shrink: 0;
+        color: var(--wordplay-relation-color);
+        user-select: none;
+    }
+
     .result {
         margin-top: var(--wordplay-spacing);
+    }
+
+    /* Cap how-to output previews in search results so they don't fill the full result row. */
+    .result :global(.view.how) {
+        max-width: 10em;
     }
 
     .matches {
@@ -801,14 +1018,10 @@
         color: var(--wordplay-highlight-color);
     }
 
-    .empty {
-        font-size: calc(2 * var(--wordplay-font-size));
-        text-align: center;
-    }
-
     .howtos {
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(10em, 1fr));
         gap: 1em;
+        align-items: start;
     }
 </style>

@@ -2,6 +2,7 @@ import type Bind from '@nodes/Bind';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 import Reference from '@nodes/Reference';
+import type StructureDefinition from '@nodes/StructureDefinition';
 import { COMMA_SYMBOL } from '@parser/Symbols';
 import type Locales from '@locale/Locales';
 import { Emotion } from '../lore/Emotion';
@@ -17,15 +18,21 @@ export default class BindConcept extends Concept {
     /** A derived reference to the bind */
     readonly reference: Reference;
 
+    /** The structure this is a static member of, if any. When set, the bind
+     *  is rendered with its structure-name prefix (e.g. `Color.pink`). */
+    readonly owner: StructureDefinition | undefined;
+
     constructor(
         purpose: PurposeType,
         bind: Bind,
         locales: Locales,
         context: Context,
+        owner?: StructureDefinition,
     ) {
         super(purpose, undefined, context);
 
         this.bind = bind;
+        this.owner = owner;
         this.reference = Reference.make(
             locales.getName(this.bind.names),
             this.bind,
@@ -33,8 +40,14 @@ export default class BindConcept extends Concept {
     }
 
     getCharacter(locales: Locales) {
+        const name = this.bind.names.getLocaleNames(locales).join(COMMA_SYMBOL);
         return {
-            symbols: this.bind.names.getLocaleNames(locales).join(COMMA_SYMBOL),
+            // Static members are prefixed with their structure name so the
+            // access form (e.g. `Color.pink`) is clear.
+            symbols:
+                this.owner === undefined
+                    ? name
+                    : `${locales.getName(this.owner.names)}.${name}`,
         };
     }
 

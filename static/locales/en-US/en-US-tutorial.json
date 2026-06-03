@@ -645,14 +645,14 @@
                             "Evaluate",
                             "neutral",
                             "Let me show you one of the knobs. Can you find the little *palette* toggle button @UI/paletteExpand? Select it to expand the palette and then select the phrase on stage.",
-                            "Once you do, you'll see the many inputs that @Phrase accepts. For example, try pressing the pencil button for @Phrase/size, which will reveal a slider.",
+                            "Once you do, you'll see the many inputs that @Phrase accepts. For example, try pressing the pencil button for @Phrase.size, which will reveal a slider.",
                             "You can use this slider to modify the size of the phrase, which will also modify the @Evaluate code with the size you choose."
                         ],
                         null,
                         [
                             "Evaluate",
                             "serious",
-                            "See how when you do that, now I have a new input in me in the program? It's the @Phrase/size input. Functions have a certain order of inputs, but if a function has a list of optional inputs, you can use their name to specify which one you want to give. We give @Phrase/size here, but not any of the other optional inputs. Try changing another input with the palette, like maybe the font face."
+                            "See how when you do that, now I have a new input in me in the program? It's the @Phrase.size input. Functions have a certain order of inputs, but if a function has a list of optional inputs, you can use their name to specify which one you want to give. We give @Phrase.size here, but not any of the other optional inputs. Try changing another input with the palette, like maybe the font face."
                         ],
                         null,
                         ["conflict", "'hi'(1 2)"],
@@ -919,14 +919,14 @@
                         [
                             "Text",
                             "curious",
-                            "And did our friend @FunctionDefinition here tell you about all of the wonderful functions they defined for me? They've allowed me to do all kinds of things. One is pretty simple: it's called @Text/length, and all it does is get the length of some text. For example, if we team up with @Evaluate here and our little friend @PropertyReference, we can evaluate the length function with no inputs and get the length value back. Try changing the text and watch the length that Program shows change as it gets shorter and longer."
+                            "And did our friend @FunctionDefinition here tell you about all of the wonderful functions they defined for me? They've allowed me to do all kinds of things. One is pretty simple: it's called @Text.length, and all it does is get the length of some text. For example, if we team up with @Evaluate here and our little friend @PropertyReference, we can evaluate the length function with no inputs and get the length value back. Try changing the text and watch the length that Program shows change as it gets shorter and longer."
                         ],
                         ["edit", "'hello'.length()"],
                         null,
                         [
                             "Text",
                             "happy",
-                            "Here is another grand one. It makes me chuckle. It's called @Text/repeat and when it's evaluated, it takes whatever text it was evaluated on and repeats it however many times you say. Try changing the number and seeing what it evaluates to."
+                            "Here is another grand one. It makes me chuckle. It's called @Text.repeat and when it's evaluated, it takes whatever text it was evaluated on and repeats it however many times you say. Try changing the number and seeing what it evaluates to."
                         ],
                         ["edit", "'hello '.repeat(5)"],
                         null,
@@ -1100,7 +1100,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "One was @Boolean/and, right? It takes one of you and one other input? And evaluates to \\⊤\\ if both are \\⊤\\?"
+                            "One was @Boolean.and, right? It takes one of you and one other input? And evaluates to \\⊤\\ if both are \\⊤\\?"
                         ],
                         [
                             "⊤",
@@ -1122,7 +1122,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "And the other one was @Boolean/or, right? It also takes one input? But it evaluates to \\⊤\\ if either is true?"
+                            "And the other one was @Boolean.or, right? It also takes one input? But it evaluates to \\⊤\\ if either is true?"
                         ],
                         [
                             "⊤",
@@ -1144,7 +1144,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "But the other was @Boolean/not?"
+                            "But the other was @Boolean.not?"
                         ],
                         ["⊤", "precise", "Correct. \\~⊤ = ⊥\\."],
                         ["⊥", "precise", "Not wrong. \\~⊥ = ⊤\\."],
@@ -1685,21 +1685,21 @@
                         [
                             "List",
                             "neutral",
-                            "Yes, but @FunctionDefinition, those are all your doing. You represent all these beautiful functions for me that enable me to do all kinds of things! Like @List/reverse — oh, this one is wonderful and simple. It just takes my values and puts them in the opposite order."
+                            "Yes, but @FunctionDefinition, those are all your doing. You represent all these beautiful functions for me that enable me to do all kinds of things! Like @List.reverse — oh, this one is wonderful and simple. It just takes my values and puts them in the opposite order."
                         ],
                         ["edit", "[ 1 2 3 4 5 ].reverse()"],
                         null,
                         [
                             "List",
                             "excited",
-                            "And this one is fun: @List/sans just removes all of the values equal to the given value. See how there are no zeros left in the resulting list?"
+                            "And this one is fun: @List.sans just removes all of the values equal to the given value. See how there are no zeros left in the resulting list?"
                         ],
                         ["edit", "[ 1 0 1 0 1 ].sans(0)"],
                         null,
                         [
                             "List",
                             "serious",
-                            "Ack, I can't believe I forgot to explain the fourth rule! Okay, rule number four: I never change a list. I only ever make new ones. No matter what function you evaluate on me, I always make a new list; I never change one. So the @List/reverse example above? That didn't change the list; it made a new list. And the sans example? That didn't remove the zeros from the original list; it made a new list without zeros. That's actually true for everything in the Verse: once values are made, they are who they are and do not change."
+                            "Ack, I can't believe I forgot to explain the fourth rule! Okay, rule number four: I never change a list. I only ever make new ones. No matter what function you evaluate on me, I always make a new list; I never change one. So the @List.reverse example above? That didn't change the list; it made a new list. And the sans example? That didn't remove the zeros from the original list; it made a new list without zeros. That's actually true for everything in the Verse: once values are made, they are who they are and do not change."
                         ],
                         null,
                         [
@@ -1717,7 +1717,7 @@
                         [
                             "List",
                             "serious",
-                            "Okay, maybe one list function, because this is my favorite. This one is called @List/random and will give a random value in the list. It's great fun because you never know what you're going to get! What did you get, what did you get? Try adding your own animal and see what you get."
+                            "Okay, maybe one list function, because this is my favorite. This one is called @List.random and will give a random value in the list. It's great fun because you never know what you're going to get! What did you get, what did you get? Try adding your own animal and see what you get."
                         ],
                         [
                             "edit",
@@ -1811,12 +1811,12 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "Maybe, @Set/difference?"
+                            "Maybe, @Set.difference?"
                         ],
                         [
                             "Set",
                             "neutral",
-                            "Yes, @Set/difference.",
+                            "Yes, @Set.difference.",
                             "When evaluated on a set and given another set, it removes all of the items from the given set from the set evaluated on (Hm, those were some clumsy words, but that was what I meant). Here's an example. See how the result is just the set of \\{3}\\? That's the only value that remains after removing the values in \\{ 1 2 }\\."
                         ],
                         ["edit", "{ 1 2 3 }.difference({ 1 2 })"],
@@ -2422,7 +2422,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "See that \\1000ms\\? It's a @Time/frequency that tells @Time to tick every 1000 milliseconds instead of the default of every 33 milliseconds, its default. Now it's like a counter that ticks every second. These inputs that @Time takes are like a configuration: they tell the stream how to behave."
+                            "See that \\1000ms\\? It's a @Time.frequency that tells @Time to tick every 1000 milliseconds instead of the default of every 33 milliseconds, its default. Now it's like a counter that ticks every second. These inputs that @Time takes are like a configuration: they tell the stream how to behave."
                         ],
                         ["Time", "neutral", "tick… tick… tick… tick… tick…"],
                         ["edit", "Time(1000ms)"],
@@ -2430,7 +2430,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "But we can use all of the wonderful characters we've met to transform time further. For example, what if we wanted to know if time was a multiple of \\2\\? We could use @Number/remainder, which gets the remainder of a division. If the remainder is zero, we'll evaluate to \\⊤\\ and \\⊥\\ otherwise. See how it changes back and forth between \\⊤\\ and \\⊥\\? It's so magical."
+                            "But we can use all of the wonderful characters we've met to transform time further. For example, what if we wanted to know if time was a multiple of \\2\\? We could use @Number.remainder, which gets the remainder of a division. If the remainder is zero, we'll evaluate to \\⊤\\ and \\⊥\\ otherwise. See how it changes back and forth between \\⊤\\ and \\⊥\\? It's so magical."
                         ],
                         ["Time", "neutral", "tick… tick… tick… tick… tick…"],
                         ["edit", "(Time(1000ms) % 5) = 2ms"],
@@ -2594,7 +2594,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "@Volume can be used to make performances respond to sound from the audience. For example, here we could make a little amplitude visualization by converting the amplitude number from the stream to a certain number of \\'o'\\ characters. See how when you make noise, there are more \\'o'\\s? The @Volume amplitude is divided by \\10\\, putting it in the \\0\\ to \\10\\ range. Then, that value is given to @Text/repeat function, which repeats the \\'o'\\ the given number of times."
+                            "@Volume can be used to make performances respond to sound from the audience. For example, here we could make a little amplitude visualization by converting the amplitude number from the stream to a certain number of \\'o'\\ characters. See how when you make noise, there are more \\'o'\\s? The @Volume amplitude is divided by \\10\\, putting it in the \\0\\ to \\10\\ range. Then, that value is given to @Text.repeat function, which repeats the \\'o'\\ the given number of times."
                         ],
                         ["Volume", "neutral", "bzzzZZZZZzzzzzZZZZ…"],
                         ["edit", "'o'.repeat(Volume() × 10)"]
@@ -2747,7 +2747,7 @@
                             "FunctionDefinition",
                             "excited",
                             "But @Motion has many other tricks.",
-                            "For example, we can give it a start @Motion/velocity.",
+                            "For example, we can give it a start @Motion.velocity.",
                             "This example makes the ball move right and up and spin a bit initially."
                         ],
                         ["Motion", "excited", "Woooosh…"],
@@ -2765,9 +2765,9 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "You can even change @Stage/gravity to be really extreme.",
+                            "You can even change @Stage.gravity to be really extreme.",
                             "Try changing it to be like the moon, where gravity is really low!",
-                            "Or try changing @Matter/mass or @Matter/bounciness, which affects how @Phrase bounce."
+                            "Or try changing @Matter.mass or @Matter.bounciness, which affects how @Phrase bounce."
                         ],
                         ["Motion", "excited", "Wsh…"],
                         null,
@@ -2939,7 +2939,7 @@
                             "serious",
                             "Here's an example. See the @Key stream? Putting ∆ before it asks, /Did this stream change?/ Before it changes, I evaluate to the initial value, \\1m\\. But when the space key is pressed, @Program reevaluates, and I evaluate to the *next* expression, which is \\1m\\ plus whatever the previous stream value was; that's represented by \\.\\. This adds \\1m\\ to the size of the phrase, making the word get bigger and bigger."
                         ],
-                        ["fix", "Phrase('hi' size: 1m … ∆ Key(' ') … 1m + .)"],
+                        ["fix", "Phrase('hi' size: 1m … ∆ Key(' ') … 1m + ⬚)"],
                         null,
                         [
                             "FunctionDefinition",
@@ -2986,7 +2986,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' size: 1m … Key(' ') = ' ' … 1m + .)"
+                            "Phrase('hi' size: 1m … Key(' ') = ' ' … 1m + ⬚)"
                         ],
                         null,
                         [
@@ -3146,7 +3146,7 @@
                         [
                             "Phrase",
                             "excited",
-                            "But I can do more than just style text. For example, I can take a @Phrase/size measured in meters \\m\\. Try changing the size to any size you like!"
+                            "But I can do more than just style text. For example, I can take a @Phrase.size measured in meters \\m\\. Try changing the size to any size you like!"
                         ],
                         ["edit", "Phrase('hi' 2m)"],
                         null,
@@ -3160,7 +3160,7 @@
                         [
                             "Phrase",
                             "excited",
-                            "Do you like costumes? I loooooove costumes. My @Phrase/face is a costume. Pick any of the supported faces to spice up the word you've chosen."
+                            "Do you like costumes? I loooooove costumes. My @Phrase.face is a costume. Pick any of the supported faces to spice up the word you've chosen."
                         ],
                         [
                             "use",
@@ -3182,7 +3182,7 @@
                         [
                             "Phrase",
                             "curious",
-                            "Do you ever feel a little off-axis? Maybe you give the world a little @Pose/rotation with rotation. Try changing the rotation value to twist me around!"
+                            "Do you ever feel a little off-axis? Maybe you give the world a little @Pose.rotation with rotation. Try changing the rotation value to twist me around!"
                         ],
                         [
                             "fit",
@@ -3217,7 +3217,7 @@
                         [
                             "Phrase",
                             "kind",
-                            "Only want to give a particular property? Just name the one you want. Here, we name @Phrase/size and @Phrase/rotation."
+                            "Only want to give a particular property? Just name the one you want. Here, we name @Phrase.size and @Phrase.rotation."
                         ],
                         [
                             "edit",
@@ -3227,7 +3227,7 @@
                         [
                             "Phrase",
                             "neutral",
-                            "Now that we have all those out of the way, we can talk about dancing, darling! Dancing is one of my favorite things to do. There are *four* ways I move. First, I can @Phrase/entering. Enter is my way of entering the stage. If you don't tell me how to enter, I'll just BLIP appear on stage like I teleported there. But if you give me @Pose, I'll start with the pose you give me, then move to my resting pose. For example, let's make me fade in from invisible to oh-so-in-your face visible."
+                            "Now that we have all those out of the way, we can talk about dancing, darling! Dancing is one of my favorite things to do. There are *four* ways I move. First, I can @Phrase.entering. Enter is my way of entering the stage. If you don't tell me how to enter, I'll just BLIP appear on stage like I teleported there. But if you give me @Pose, I'll start with the pose you give me, then move to my resting pose. For example, let's make me fade in from invisible to oh-so-in-your face visible."
                         ],
                         ["edit", "Phrase('hi' entering: Pose(opacity: 0))"],
                         null,
@@ -3244,7 +3244,7 @@
                         [
                             "Phrase",
                             "neutral",
-                            "Now, say I was moving. We'll set my place to time, so I move to the right a bit every second. But if we set a @Phrase/moving @Pose and have the @Pose/rotation \\5°\\ and maybe a little color, every time my place changes, I'll glide across the stage with the cutest little tilt."
+                            "Now, say I was moving. We'll set my place to time, so I move to the right a bit every second. But if we set a @Phrase.moving @Pose and have the @Pose.rotation \\5°\\ and maybe a little color, every time my place changes, I'll glide across the stage with the cutest little tilt."
                         ],
                         [
                             "fit",
@@ -3254,7 +3254,7 @@
                         [
                             "Phrase",
                             "curious",
-                            "Not in the mood for cute? How about you make me a little serious by having me slide across straight by changing my @Phrase/style? It's really subtle, but styles can really change the /emotion/ of a movement."
+                            "Not in the mood for cute? How about you make me a little serious by having me slide across straight by changing my @Phrase.style? It's really subtle, but styles can really change the /emotion/ of a movement."
                         ],
                         [
                             "fit",
@@ -3264,7 +3264,7 @@
                         [
                             "Phrase",
                             "excited",
-                            "And for the coup de grâce, let's have me @Phrase/exiting in style. We can play with @Conditional and have me exit stage after 3 seconds."
+                            "And for the coup de grâce, let's have me @Phrase.exiting in style. We can play with @Conditional and have me exit stage after 3 seconds."
                         ],
                         [
                             "fit",
@@ -3276,7 +3276,7 @@
                         [
                             "Phrase",
                             "surprised",
-                            "Not the exit you were hoping for? The disappearing act is a bit harsh, ain't it? Give me an @Phrase/exiting @Pose, and I'll glide off on stage toward whatever pose you want. Here, we'll have me get large than life, fall upside-down, and fade out to @Pose/opacity \\0\\."
+                            "Not the exit you were hoping for? The disappearing act is a bit harsh, ain't it? Give me an @Phrase.exiting @Pose, and I'll glide off on stage toward whatever pose you want. Here, we'll have me get large than life, fall upside-down, and fade out to @Pose.opacity \\0\\."
                         ],
                         [
                             "fit",
@@ -3322,9 +3322,9 @@
                         [
                             "Phrase",
                             "sad",
-                            "Omigod omigod omigod, I CANNOT believe I forgot about color. Okay, so any @Pose can have a color, right? But @Color comes in three parts. First, a @Color/lightness between 0 and 100%, which you can think of as how bright a room is, from black to white with color in the middle at 50%.",
-                            "Then, a @Color/chroma between 0 and ∞, which you can think of has how much color there is, from no color gray to full color.",
-                            "And finally, a @Color/hue, which you can think of like a color wheel, from red to green to blue in degrees. So you want me to be bright red? Set my rest pose color to \\Color(50% 300 30°)\\."
+                            "Omigod omigod omigod, I CANNOT believe I forgot about color. Okay, so any @Pose can have a color, right? But @Color comes in three parts. First, a @Color.lightness between 0 and 100%, which you can think of as how bright a room is, from black to white with color in the middle at 50%.",
+                            "Then, a @Color.chroma between 0 and ∞, which you can think of has how much color there is, from no color gray to full color.",
+                            "And finally, a @Color.hue, which you can think of like a color wheel, from red to green to blue in degrees. So you want me to be bright red? Set my rest pose color to \\Color(50% 300 30°)\\."
                         ],
                         ["edit", "Phrase('red' color: 🌈(50% 300 30°))"],
                         null,
@@ -3475,7 +3475,7 @@
                         [
                             "Sequence",
                             "curious",
-                            "But, you say, what if we wanted to do it forever? You can set a @Phrase/resting to me. For as long as @Phrase is on stage and resting, they'll repeat a sequence. Infinite wobbles!"
+                            "But, you say, what if we wanted to do it forever? You can set a @Phrase.resting to me. For as long as @Phrase is on stage and resting, they'll repeat a sequence. Infinite wobbles!"
                         ],
                         [
                             "edit",
@@ -3943,7 +3943,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "And now, you might be thinking, what about transitions between them? We can control that with @Phrase/entering and @Phrase/exiting, setting @Pose to start and end on. Here, for example, we start and end each @Phrase as invisible, so it fades in and out."
+                            "And now, you might be thinking, what about transitions between them? We can control that with @Phrase.entering and @Phrase.exiting, setting @Pose to start and end on. Here, for example, we start and end each @Phrase as invisible, so it fades in and out."
                         ],
                         [
                             "edit",
@@ -4039,7 +4039,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "Here's a simple example. See how it has three phrases? The first two have two important details. First, they're set to be selectable. This tells @Stage that if they are clicked or if the keyboard is used to select them, they are chosen. The second detail is that they have a @Phrase/name. That gives @Stage a unique name for the phrase that was chosen. It's important that it's unique so that @Stage knows what was chosen. The third phrase is set to a @Choice stream, which is a series of @Phrase or @Group names that are selected. Here, we're just giving the name to another phrase so that it shows what name is selected. Try clicking the cat or dog or using the keyboard to select one. See how the third @Phrase shows the name selected?"
+                            "Here's a simple example. See how it has three phrases? The first two have two important details. First, they're set to be selectable. This tells @Stage that if they are clicked or if the keyboard is used to select them, they are chosen. The second detail is that they have a @Phrase.name. That gives @Stage a unique name for the phrase that was chosen. It's important that it's unique so that @Stage knows what was chosen. The third phrase is set to a @Choice stream, which is a series of @Phrase or @Group names that are selected. Here, we're just giving the name to another phrase so that it shows what name is selected. Try clicking the cat or dog or using the keyboard to select one. See how the third @Phrase shows the name selected?"
                         ],
                         [
                             "Choice",
@@ -4159,7 +4159,7 @@
                         [
                             "Bind",
                             "excited",
-                            "Right! So like, values, when we make them, they just kind of get passed around by us like a ball, from expression to expression, until @Program makes the final value it gives to @Stage to show. But sometimes, rather than passing a value around, it's helpful to set it aside and save it for later for some other expression. That's what a @Phrase/name is for. I name things so we can use them later."
+                            "Right! So like, values, when we make them, they just kind of get passed around by us like a ball, from expression to expression, until @Program makes the final value it gives to @Stage to show. But sometimes, rather than passing a value around, it's helpful to set it aside and save it for later for some other expression. That's what a @Phrase.name is for. I name things so we can use them later."
                         ],
                         null,
                         [
@@ -4194,7 +4194,7 @@
                         [
                             "Bind",
                             "serious",
-                            "Now, let's make the phrase. We put that @List/has expression in for the text and convert it to text. Now, we get @Phrase on stage as \\⊤\\ or \\⊥\\. Good!"
+                            "Now, let's make the phrase. We put that @List.has expression in for the text and convert it to text. Now, we get @Phrase on stage as \\⊤\\ or \\⊥\\. Good!"
                         ],
                         [
                             "edit",
@@ -4496,7 +4496,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "I guess let's start with what you've already seen. You know how every value has different functions that you can evaluate on them? Like numbers know how to @Number/add, and a text value knows how to check if it @Text/has some text, or @Set knows how to check if it has a certain value? Well, I'm the one that defines those functions. I mean, I don't have the inspiration to create them myself — that's what directors like you do — but I define the inputs a function accepts, the names it has, and the expression that uses the inputs to evaluate to an output value."
+                            "I guess let's start with what you've already seen. You know how every value has different functions that you can evaluate on them? Like numbers know how to @Number.add, and a text value knows how to check if it @Text.has some text, or @Set knows how to check if it has a certain value? Well, I'm the one that defines those functions. I mean, I don't have the inspiration to create them myself — that's what directors like you do — but I define the inputs a function accepts, the names it has, and the expression that uses the inputs to evaluate to an output value."
                         ],
                         null,
                         [
@@ -4510,7 +4510,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "So here's a more useful example. You know odd and even numbers? I once had a director that wanted to check if a number was even (divisible by 2, I think that means?), so they wrote this. This is a function called \\even\\ that takes a single number called… \\number\\. You need to tell me what kind of value each input is, so @Evaluate can make sure that anything evaluating the function is sending the right kind of value. Then, it takes the number, divides it by two, gets the remainder (with the @Number/remainder), and then checks if the remainder is equal to \\0\\ with @Number/equal. So the whole function ends up either evaluating to \\⊤\\ or \\⊥\\. For example, this evaluation of even evaluated to \\⊥\\ because \\3\\ is odd. Try using the rewind buttons to see how it works."
+                            "So here's a more useful example. You know odd and even numbers? I once had a director that wanted to check if a number was even (divisible by 2, I think that means?), so they wrote this. This is a function called \\even\\ that takes a single number called… \\number\\. You need to tell me what kind of value each input is, so @Evaluate can make sure that anything evaluating the function is sending the right kind of value. Then, it takes the number, divides it by two, gets the remainder (with the @Number.remainder), and then checks if the remainder is equal to \\0\\ with @Number.equal. So the whole function ends up either evaluating to \\⊤\\ or \\⊥\\. For example, this evaluation of even evaluated to \\⊥\\ because \\3\\ is odd. Try using the rewind buttons to see how it works."
                         ],
                         [
                             "edit",
@@ -4547,7 +4547,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "There's one more thing to show. I guess it's important because everyone is so excited about it! You know how you can make a function and then evaluate it? Well, since the functions I make are values, you can also give them as an input to another function. Here's an example. Say you had a list of numbers and you just wanted the even numbers in it. @List has this function called @List/filter that takes a function as an input and uses the function on each value in the list to decide whether to keep it. Let's make a list of numbers and give @List/filter the \\even\\ function we made earlier as an input. See what happens? We just get the even numbers. Want to try changing it so that it gives odd numbers instead? Maybe try changing the function somehow?"
+                            "There's one more thing to show. I guess it's important because everyone is so excited about it! You know how you can make a function and then evaluate it? Well, since the functions I make are values, you can also give them as an input to another function. Here's an example. Say you had a list of numbers and you just wanted the even numbers in it. @List has this function called @List.filter that takes a function as an input and uses the function on each value in the list to decide whether to keep it. Let's make a list of numbers and give @List.filter the \\even\\ function we made earlier as an input. See what happens? We just get the even numbers. Want to try changing it so that it gives odd numbers instead? Maybe try changing the function somehow?"
                         ],
                         [
                             "edit",
@@ -5477,7 +5477,7 @@
                         [
                             "Evaluate",
                             "excited",
-                            "Oh yes, of course! How about we let them make the music? @Phrase, can you listen to @Volume and hook it up to @Color/lightness and @Color/chroma in your color? That way, we'll turn white hot when our director makes noise!"
+                            "Oh yes, of course! How about we let them make the music? @Phrase, can you listen to @Volume and hook it up to @Color.lightness and @Color.chroma in your color? That way, we'll turn white hot when our director makes noise!"
                         ],
                         ["Phrase", "kind", "Excellent idea!"],
                         ["use", "edit", "EvaluateDance14"],

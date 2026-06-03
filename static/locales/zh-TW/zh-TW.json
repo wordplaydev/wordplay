@@ -132,7 +132,8 @@
         "KannadaNumeral": "$~卡納達數字",
         "TamilNumeral": "$~泰米爾數字",
         "TeluguNumeral": "$~泰盧固語數字",
-        "LanguageJoin": "$~語言連接詞"
+        "LanguageJoin": "$~語言連接詞",
+        "Translate": "$~翻譯"
     },
     "node": {
         "Dimension": {
@@ -516,7 +517,8 @@
                     "resolutionDefault": "$~請為綁定指定一個初始值，因為$expected。",
                     "resolutionWiden": "$~允許此綁定使用值的類型，因為$expected，無法容納實際儲存的內容。",
                     "resolutionReorder": "$~交換輸入框，因為它們的類型在另一個順序下更合適—— $expected。",
-                    "resolutionPlaceholder": "$~暫時用佔位符代替，因為$expected－然後從自動完成選單中選擇一個值。"
+                    "resolutionPlaceholder": "$~暫時用佔位符代替，因為$expected－然後從自動完成選單中選擇一個值。",
+                    "explanationDivideByZero": "$~這可能是 ø，因為$source，而這裡需要一個數字。"
                 },
                 "MisplacedShare": {
                     "name": "$~放錯位置的份額",
@@ -681,7 +683,7 @@
             "emotion": "excited",
             "doc": [
                 "哥們兒，我定義了從一種類型到另一種類型的轉換！我在 @Block 中執行，就像這樣：",
-                "\\→ #貓咪 #貓 . ÷ 2\n6貓咪→#貓\\",
+                "\\→ #貓咪 #貓 ⬚ ÷ 2\n6貓咪→#貓\\",
                 "看我是如何將貓咪變成貓的？酷了！",
                 "你可能想知道那個 \\.\\ 是乾嘛的。那代表了正在轉換的值。我用它是因為這個值不然會沒有名字。"
             ],
@@ -785,7 +787,8 @@
                     "resolutionDefault": "$~請為綁定指定一個初始值，因為$expected。",
                     "resolutionWiden": "$~允許此綁定使用值的類型，因為$expected，無法容納實際儲存的內容。",
                     "resolutionReorder": "$~交換輸入框，因為它們的類型在另一個順序下更合適—— $expected。",
-                    "resolutionPlaceholder": "$~暫時用佔位符代替，因為$expected－然後從自動完成選單中選擇一個值。"
+                    "resolutionPlaceholder": "$~暫時用佔位符代替，因為$expected－然後從自動完成選單中選擇一個值。",
+                    "explanationDivideByZero": "$~這可能是 ø，因為$source，而這裡需要一個數字。"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~意外的類型輸入",
@@ -887,13 +890,13 @@
                 "嗨又見面了！我接受一些輸入，然後使用它們來評估一個表達式，產生一個輸出。",
                 "這裡有一個簡單的例子：",
                 "\\ƒ 重複(訊息•'') 訊息 × 5\n重複('你好')\\",
-                "函數接受一個輸入，\\訊息\\，並使用 @Text/repeat 函數將訊息重複五次。",
+                "函數接受一個輸入，\\訊息\\，並使用 @Text.repeat 函數將訊息重複五次。",
                 "如果你想一遍又一遍地評估某些東西，但使用不同的輸入，我非常有用！",
                 "我還有許多其他小技巧。例如，我不一定要有一個名字。在這裡，我直接轉到 @Evaluate 作為一個值。",
                 "\\(ƒ(訊息•'') 訊息 × 5)('你好')\\",
                 "或者，這是一個接受任意數量輸入的函數，在輸入名稱後加上 \\…\\ 字元。",
                 "\\ƒ 是的(訊息…•'') 訊息.排除('不')\n是的('是' '是' '不' '是' '不')\\",
-                "看看它是如何取出所有的 '不' 並將它們去掉的？這是因為消息是一個 @List，所以我們可以使用 @List/sansAll.",
+                "看看它是如何取出所有的 '不' 並將它們去掉的？這是因為消息是一個 @List，所以我們可以使用 @List.sansAll.",
                 "有時你可能想要明確我產生的值是什麼類型的。為此，在輸入列表之後添加一個 @Is 即可：",
                 "\\ƒ 加(x•# y•#)•'' x + y\\",
                 "你可能會注意到這個例子有一個問題：它說它評估為 @Text，但它接受兩個 @Number。我可以告訴你什麼時候事情不一致！",
@@ -917,7 +920,7 @@
             "name": "高階函數",
             "description": "迭代清單",
             "emotion": "kind",
-            "doc": "我是一種非常特殊的 @FunctionDefinition，用於操作物品列表。除了我使得像 @List/translate 這樣的函數成為可能之外，你不需要了解太多關於我。",
+            "doc": "我是一種非常特殊的 @FunctionDefinition，用於操作物品列表。除了我使得像 @List.translate 這樣的函數成為可能之外，你不需要了解太多關於我。",
             "start": "評估給定的函數",
             "initialize": "準備逐一遍歷項目",
             "next": "移動到下一個專案",
@@ -1483,20 +1486,22 @@
             "description": "目前結構",
             "emotion": "serious",
             "doc": [
-                "有時候，隱含地引用值比命名它更有幫助。",
-                "例如，假設您想要建立一個新的 @ConversionDefinition，它不命名正在轉換的值。您可以使用我來引用它：",
-                "\\→ #彩虹 #歡樂 . × 1000000歡樂\n2彩虹 → #歡樂\\",
-                "看看這裡，代表彩虹數量的部分？",
-                "或者，假設您想要建立一個 @Reaction，但不想為最近的值命名：",
-                "\\2 … ∆ 時間(1000毫秒) … . × 2\\",
-                "看看我，代表前一個反應值。",
-                "我不常出現，但當出現時，我可以幫助值擺脫 @Bind！"
+                "$~有時候，隱式地引用某個值比直接命名它更方便。我就是其中之一—— \\⬚\\ ，一個代表周圍程式碼正在處理的任何值的小方塊。",
+                "$~在@ConversionDefinition，我是要轉換的值：",
+                "$~\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
+                "$~在@Reaction，我是最新值：",
+                "$~\\2 … ∆ Time(1000ms) … ⬚ × 2\\",
+                "$~在@Translate，我是目前正在映射的項，因此它會將每個值加一：",
+                "$~\\[1 2 3] ↦ ⬚ + 1\\",
+                "$~在@StructureDefinition，我就是當前值本身，所以我可以使用\\⬚.rank\\訪問我自己的部分，就像我可以使用\\other.rank\\訪問另一個值的部分一樣：",
+                "$~\\•Card(rank•#) (\n\tƒ beats(other•Card) ⬚.rank > other.rank\n)\n\nCard(10).beats(Card(7))\\",
+                "$~我並不經常出現，但當我出現時，我真的可以幫助一個值從@Bind！"
             ],
             "start": "評估為 $value",
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~放錯了這個參考",
-                    "explanation": "$~我只能進入結構、轉化或反應。",
+                    "explanation": "$~我只能參與結構、轉換、反應或翻譯。",
                     "resolution": "$~替換為佔位符"
                 }
             }
@@ -1594,7 +1599,7 @@
         },
         "AnyType": {
             "name": "任意",
-            "description": "任意型態",
+            "description": "$~任何",
             "emotion": "curious",
             "doc": "我代表任何可能的類型。有時我會出現，因為不知道某些東西是什麼類型，所以它可以是任何類型。"
         },
@@ -1614,7 +1619,7 @@
             "emotion": "serious",
             "doc": [
                 "我與 @Bind 一起工作，指示名稱是 @ConversionDefinition。您可能不需要使用我，因為沒有多少人將我作為值傳遞，但如果您這樣做，我將如下所示：",
-                "\\魔法•？→''：→ ? '' . ? '是' '不'\\"
+                "\\魔法•？→''：→ ? '' ⬚ ? '是' '不'\\"
             ]
         },
         "FormattedType": {
@@ -1844,6 +1849,32 @@
             "description": "$~表示未知類型的變數",
             "emotion": "curious",
             "doc": "有時我們試著猜測某種值的類型；當我們不知道時，我會出現。"
+        },
+        "Translate": {
+            "name": "$~翻譯",
+            "description": "$~將一個集合映射到一個新的集合中",
+            "emotion": "excited",
+            "doc": [
+                "$~哦哦哦！你是不是也有一大堆東西，然後想對每一件都做同樣的事情？我就是這樣！我真的就是這麼做的！ ！",
+                "$~在我的左邊放一個集合，畫一個箭頭\\↦\\ ，然後在我的右邊寫出每個物品應該變成什麼——用@This！",
+                "$~\\[1 2 3] ↦ ⬚ + 1\\得到\\[2 3 4]\\ 。 BOOM！每個數字加一，無需循環，無需@FunctionDefinition ，輕鬆搞定！",
+                "$~我簡直太棒了，能從數據中生成@Phrase！有一份姓名清單嗎？ \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\現在每個名字都有一個對應的短語了！ ！",
+                "$~我使用@List 、 @Set 、 @Map （我更改映射的值——鍵保持不變！），甚至@Table ！",
+                "$~想要更進階的功能－例如每個項目的索引，或是可以在很多地方重複使用的函數？那就去看看我那些更成熟、更強大的工具，像是@List.translate 。但如果是日常快速映射，我就是你要找的！"
+            ],
+            "start": "$~稍等，讓我把$expression！",
+            "finish": "$~鏘鏘！你的全新系列到啦： $value",
+            "next": "$~下一項： $value ！",
+            "conflict": {
+                "ExpectedCollection": {
+                    "name": "$~預計收款",
+                    "explanation": "$~我原本以為集合轉換的左側必須是集合，但我得到的是$type"
+                },
+                "ExpectedThis": {
+                    "name": "$~意料之中",
+                    "explanation": "$~您是否想使用@This？"
+                }
+            }
         }
     },
     "basis": {
@@ -3301,7 +3332,7 @@
             "doc": [
                 "/點擊一下！/",
                 "/@FunctionDefinition, 我來解釋下這個吧！/",
-                "將@Choice 視為由受眾選擇的@Phrase/name 流。如果有人在帶有名稱的@Phrase 上單擊、敲擊或按/Enter/ 進行鍵盤選擇,@Choice 將有一個與名稱匹配的新值。",
+                "將@Choice 視為由受眾選擇的@Phrase.name 流。如果有人在帶有名稱的@Phrase 上單擊、敲擊或按/Enter/ 進行鍵盤選擇,@Choice 將有一個與名稱匹配的新值。",
                 "因此,使用它的最佳方法是使用命名的可選短語@Phrase 創建一個表演,然後使用@Reaction 來決定選擇該名稱時要執行的操作。",
                 "這裡有一個簡單的例子：",
                 "\\Group(\nStack() \n[\nPhrase('一個'可選:⊤名稱:'1') \nPhrase('兩個'可選:⊤名稱:'2') \nPhrase(Choice( ))\n ]\n)\\",
@@ -3423,7 +3454,7 @@
                 "每次執行時,@Program 用新的時間值重新求值。",
                 "比如說：",
                 "\\時間（）\\",
-                "如果您為時間提供@Time/frequency,它將以該速率滴答。例如:",
+                "如果您為時間提供@Time.frequency,它將以該速率滴答。例如:",
                 "\\時間(1000ms)\\",
                 "然而,它可以有多小是有限的,因為@Program 需要時間來評估,然後才能回應下一個tick。",
                 "最小的可能在\\20ms\\左右."
@@ -3522,7 +3553,7 @@
                 "$~/嘟嘟嘟/",
                 "$~/你好，我是@FunctionDefinition！我看到你找到了@Scene。",
                 "$~我認為@Scene 特別酷。基本思想是，您給它一個@Scene@Phrase，然後它將按順序顯示它們並在最後一個停止。",
-                "$~為了控制時間，您可以設定每個輸出上的@Phrase/duration，它會在移動到下一個輸出之前顯示該時間，並使用您可能設定的任何@Phrase/entering 或@Phrase/exiting 轉換。如果將它們設為@Sequence，它將使用其持續時間。",
+                "$~為了控制時間，您可以設定每個輸出上的@Phrase.duration，它會在移動到下一個輸出之前顯示該時間，並使用您可能設定的任何@Phrase.entering 或@Phrase.exiting 轉換。如果將它們設為@Sequence，它將使用其持續時間。",
                 "$~所有這些讓你可以做類似這個小@Scene，它按順序顯示這三個短語：",
                 "$~\\場景（[\n\t短語（'Hello' 持續時間：1s）\n\t短語（'你好嗎？'持續時間：2秒旋轉：5°輸入：姿勢（旋轉：0°））\n\t短語（‘我很好’）\n])\\",
                 "$~看看第一個輸出如何顯示一秒鐘，然後下一個輸出顯示兩秒鐘，但動畫旋轉五度，然後顯示最後一個？",
@@ -3795,11 +3826,11 @@
                 "names": "邊框"
             },
             "size": {
-                "doc": "類似@Group/size",
+                "doc": "類似@Group.size",
                 "names": "大小"
             },
             "face": {
-                "doc": "類似@Group/face",
+                "doc": "類似@Group.face",
                 "names": ["字体", "朝向"]
             },
             "place": {
@@ -3807,7 +3838,7 @@
                 "names": "位置"
             },
             "name": {
-                "doc": ["與@Phrase/name!相同"],
+                "doc": ["與@Phrase.name!相同"],
                 "names": "名稱"
             },
             "description": {
@@ -3815,59 +3846,59 @@
                 "names": "$~描述"
             },
             "selectable": {
-                "doc": "與@Phrase/selectable!相同",
+                "doc": "與@Phrase.selectable!相同",
                 "names": "可選擇性"
             },
             "color": {
-                "doc": "與@Group/color 相同",
+                "doc": "與@Group.color 相同",
                 "names": "顏色"
             },
             "background": {
-                "doc": "與@Group/background 相同",
+                "doc": "與@Group.background 相同",
                 "names": "背景"
             },
             "opacity": {
-                "doc": "與@Group/opacity 相同",
+                "doc": "與@Group.opacity 相同",
                 "names": "透明"
             },
             "offset": {
-                "doc": "與@Group/offset 相同",
+                "doc": "與@Group.offset 相同",
                 "names": "偏移"
             },
             "rotation": {
-                "doc": "與@Group/rotation 相同",
+                "doc": "與@Group.rotation 相同",
                 "names": ["📐", "旋轉"]
             },
             "scale": {
-                "doc": "與@Group/scale 相同",
+                "doc": "與@Group.scale 相同",
                 "names": "縮放"
             },
             "flipx": {
-                "doc": "與@Group/flipx 相同",
+                "doc": "與@Group.flipx 相同",
                 "names": "水平翻轉"
             },
             "flipy": {
-                "doc": "與@Group/flipy 相同",
+                "doc": "與@Group.flipy 相同",
                 "names": "垂直翻轉"
             },
             "entering": {
-                "doc": "與@Group/entering 相同",
+                "doc": "與@Group.entering 相同",
                 "names": "進入時"
             },
             "resting": {
-                "doc": "與@Group/resting!相同",
+                "doc": "與@Group.resting!相同",
                 "names": "休息時"
             },
             "moving": {
-                "doc": "與@Group/moving!相同",
+                "doc": "與@Group.moving!相同",
                 "names": "移動時"
             },
             "exiting": {
-                "doc": "與@Group/exiting!相同",
+                "doc": "與@Group.exiting!相同",
                 "names": "離開時"
             },
             "duration": {
-                "doc": "與@Phrase/duration!相同",
+                "doc": "與@Phrase.duration!相同",
                 "names": ["⏳", "持續時間"]
             },
             "style": {
@@ -3908,7 +3939,7 @@
                 "names": "位置"
             },
             "name": {
-                "doc": "與 @Phrase/name 相同！",
+                "doc": "與 @Phrase.name 相同！",
                 "names": "名稱"
             },
             "description": {
@@ -3916,7 +3947,7 @@
                 "names": "$~描述"
             },
             "selectable": {
-                "doc": "與 @Phrase/selectable 的相同! ",
+                "doc": "與 @Phrase.selectable 的相同! ",
                 "names": "可選擇的"
             },
             "color": {
@@ -3944,41 +3975,48 @@
                 "names": "比例"
             },
             "flipx": {
-                "doc": "與 @Phrase/flipx 翻轉相同！",
+                "doc": "與 @Phrase.flipx 翻轉相同！",
                 "names": "水平翻轉"
             },
             "flipy": {
-                "doc": "與 @Phrase/flipy 相同！",
+                "doc": "與 @Phrase.flipy 相同！",
                 "names": "垂直翻轉"
             },
             "entering": {
-                "doc": "與 @Phrase/entering 相同！",
+                "doc": "與 @Phrase.entering 相同！",
                 "names": "進入"
             },
             "resting": {
-                "doc": "與 @Phrase/resting 相同！",
+                "doc": "與 @Phrase.resting 相同！",
                 "names": "休息"
             },
             "moving": {
-                "doc": "與 @Phrase/moving 相同！",
+                "doc": "與 @Phrase.moving 相同！",
                 "names": "移動"
             },
             "exiting": {
-                "doc": "與 @Phrase/exiting 相同！",
+                "doc": "與 @Phrase.exiting 相同！",
                 "names": "退出"
             },
             "duration": {
-                "doc": "與 @Phrase/duration 相同！",
+                "doc": "與 @Phrase.duration 相同！",
                 "names": ["⏳", "持續時間"]
             },
             "style": {
-                "doc": "與 @Phrase/style 相同！",
+                "doc": "與 @Phrase.style 相同！",
                 "names": "風格"
             }
         },
         "Phrase": {
             "names": ["短語"],
-            "doc": "你好,你好！還記得我嗎？怎麼會有人忘記/我/。沒錯,我就是偉大的@Phrase,準備好在@Stage 上表達最可愛的@Text。\n 只要讓我這樣,我就會出現在@Stage ：\n \\短語('太棒了！')\\ \n 顯然,我需要一些@Text,但除此之外,我可以做任何@Output 可以做的所有事情,包括更改我的大小、字體、旋轉,以及使用@Pose 和@Sequence 進行所有令人難以置信的舞蹈。上編輯我。",
+            "doc": [
+                "$~哈嘍，哈嘍！還記得我嗎？誰會忘記我呢？沒錯，我就是魅力四射的@Phrase ，準備在@Phrase@Text 。",
+                "$~只要你讓我這樣，我就會出現在@Stage：",
+                "$~\\Phrase('magnificent!')\\",
+                "$~我需要顯示@TextLiteral@FormattedLiteral 。使用@FormattedLiteral ，我可以使用諸如\\`*bold* and /italic/`\\之類的屬性，或引用您創建的自訂@ConceptLink 。",
+                "$~您還可以選擇給我@Output，包括更改我的大小、字體、旋轉，以及使用@Pose@Sequence。",
+                "$~您也可以在@Stage，並使用旁邊的調色板 🎨 編輯我——這是嘗試不同字體並為您的@Text。"
+            ],
             "defaultDescription": "$~$size [ $size meter |]phrase $text $name [named $name |] $face [ $face |] $animation $color [ $color |]",
             "text": {
                 "doc": "在 @Stage 上展示的角色。",
@@ -3989,7 +4027,7 @@
                 "names": "尺寸"
             },
             "face": {
-                "doc": "我應該使用的字體名稱。",
+                "doc": "$~我應該使用的字體名稱是什麼？最簡單的選擇方法是選中我，然後打開旁邊的調色板🎨，在那裡您可以預覽字體並直接選擇字體，而無需輸入其名稱。",
                 "names": "表面"
             },
             "place": {
@@ -4001,11 +4039,11 @@
                 "names": ["↵", "包裹"]
             },
             "alignment": {
-                "doc": "如果有 @Phrase/wrap 的邊界集,我是否應該將符號與邊緣的開始、中心或結束對齊。",
+                "doc": "如果有 @Phrase.wrap 的邊界集,我是否應該將符號與邊緣的開始、中心或結束對齊。",
                 "names": "對齊"
             },
             "direction": {
-                "doc": "$~符號是水平書寫還是垂直書寫，如果設定了垂直和@Phrase/wrap，則文字是左換行還是右換行。",
+                "doc": "$~符號是水平書寫還是垂直書寫，如果設定了垂直和@Phrase.wrap，則文字是左換行還是右換行。",
                 "names": "方向"
             },
             "matter": {
@@ -4421,6 +4459,56 @@
                 "mix": "$~$first - $second",
                 "light": "$~光",
                 "dark": "$~黑暗的"
+            },
+            "random": {
+                "doc": [
+                    "$~隨機選擇一種顏色。",
+                    "$~如果沒有顏色，我隨機選擇一種基本顏色：",
+                    "$~\\Color.random()\\",
+                    "$~我用一種顏色，保持它的明度和飽和度，但隨機選擇一個色調：",
+                    "$~\\Color.random(Color.blue)\\",
+                    "$~如果使用兩種顏色，我會隨機選擇介於兩者之間的亮度、飽和度和色相：",
+                    "$~\\Color.random(Color.black Color.white)\\"
+                ],
+                "names": "$~隨機的",
+                "inputs": [
+                    {
+                        "doc": "$~可選顏色。單獨使用時，我保持其亮度和飽和度不變，並隨機調整色調。如果使用第二種顏色，則只能從色調範圍的一端選擇。",
+                        "names": "$~a"
+                    },
+                    {
+                        "doc": "$~可選的第二種顏色。如果指定了第二種顏色，我會從兩種顏色中隨機選擇一種亮度、飽和度和色相。",
+                        "names": "$~b"
+                    }
+                ]
+            },
+            "lighter": {
+                "doc": [
+                    "$~給我一個更輕盈的版本，將我的輕盈度提高百分之一（預設為 5%）。",
+                    "$~\\Color.blue.lighter()\\",
+                    "$~\\Color.blue.lighter(20%)\\"
+                ],
+                "names": "$~打火機",
+                "inputs": [
+                    {
+                        "doc": "$~亮度提升百分比。預設值為 5%。",
+                        "names": "$~經過"
+                    }
+                ]
+            },
+            "darker": {
+                "doc": [
+                    "$~給我一個顏色較深的版本，將我的亮度降低百分之一（預設降低 5%）。",
+                    "$~\\Color.blue.darker()\\",
+                    "$~\\Color.blue.darker(20%)\\"
+                ],
+                "names": "$~較暗",
+                "inputs": [
+                    {
+                        "doc": "$~降低亮度的百分比。預設值為 5%。",
+                        "names": "$~經過"
+                    }
+                ]
             }
         },
         "Sequence": {
@@ -4716,6 +4804,15 @@
                     "off": "$~顯示額外控件"
                 },
                 "popup": "$~附加控制項"
+            },
+            "color": {
+                "pick": {
+                    "label": "$~選擇顏色",
+                    "tip": "$~從螢幕上選擇一種顏色"
+                },
+                "field": "$~顏色場",
+                "instructions": "$~使用左右箭頭鍵改變色相，使用上下箭頭鍵改變色度。按住Shift鍵可進行更精細的調節。",
+                "value": "$~$color 、LCH $l 、 $c 、 $h"
             }
         },
         "tile": {
@@ -4869,7 +4966,8 @@
                 }
             },
             "error": {
-                "unknown": "此畫廊不存在或不是公開的。"
+                "unknown": "此畫廊不存在或不是公開的。",
+                "unreachable": "$~我們無法載入此圖庫。如果您希望存取此圖庫，請檢查您的網路連線；VPN、瀏覽器擴充功能或網路過濾器可能封鎖了存取。"
             },
             "field": {
                 "name": {
@@ -4910,6 +5008,10 @@
                 "expandSequence": {
                     "on": "$~折疊項目",
                     "off": "$~展開專案"
+                },
+                "search": {
+                    "on": "$~隱藏搜尋",
+                    "off": "$~搜尋代碼"
                 }
             },
             "button": {
@@ -4917,13 +5019,16 @@
                 "expandControls": "$~显示附加编辑命令",
                 "collapseControls": "$~隐藏附加编辑命令",
                 "zoomIn": "$~增加程式碼量",
-                "zoomOut": "$~縮小程式碼體積"
+                "zoomOut": "$~縮小程式碼體積",
+                "replace": "$~替換所有匹配項"
             },
             "field": {
                 "name": {
                     "description": "編輯來源名稱",
                     "placeholder": "姓名"
-                }
+                },
+                "search": "$~文字",
+                "replace": "$~代替"
             },
             "menu": {
                 "label": "自動完成選單",
@@ -4996,7 +5101,10 @@
                     "noClipboardItem": "$~剪貼簿沒有任何內容",
                     "noSelection": "$~未選擇任何內容",
                     "noMove": "$~無法再繼續前進了。"
-                }
+                },
+                "nextMatch": "$~轉到下一個搜尋結果",
+                "insertTranslate": "$~插入翻譯符號",
+                "insertThis": "$~插入此符號"
             },
             "options": {
                 "locale": {
@@ -5194,6 +5302,10 @@
                 "howToGalleryButton": {
                     "label": "$~請查看空間中的操作方法",
                     "tip": "$~請查看空間中的操作方法"
+                },
+                "explain": {
+                    "header": "$~操作指南",
+                    "explanation": "$~/簡短範例，展示如何在 Wordplay 中進行操作。點擊任何預覽即可觀看運行，然後打開查看其工作原理。 /"
                 }
             },
             "mode": {
@@ -5317,7 +5429,9 @@
                 }
             },
             "note": {
-                "empty": "$~您在專案中定義的名稱將顯示在此。"
+                "empty": "$~您在專案中定義的名稱將顯示在此。",
+                "keepTyping": "$~繼續輸入搜尋…",
+                "noMatches": "$~沒有匹配項"
             },
             "tour": {
                 "launch": "$~跟隨導遊參觀",
@@ -5326,6 +5440,10 @@
                 "search": "$~/search/ 框有助於*發現*功能，或*按名稱*快速尋找功能。",
                 "code": "$~這是程式碼部分。它包含程式語言文件——也就是你可以組合起來編寫程式的基本模組。",
                 "howto": "$~這是操作指南部分。它包含在專案中實現特定行為的*實用模式*。"
+            },
+            "breadcrumb": {
+                "label": "$~導航歷史記錄",
+                "home": "$~家"
             }
         },
         "dialog": {
@@ -5605,8 +5723,6 @@
                 },
                 "error": {
                     "login": "您必須登錄才能提供反饋",
-                    "submit": "$無法提交反饋",
-                    "load": "無法下載反饋",
                     "empty": "目前沒有可顯示的反饋",
                     "url": "$~这不是有效的 GitHub URL。"
                 }
@@ -5711,7 +5827,34 @@
             "saving": "保存",
             "saved": "線上儲存",
             "local": "本地儲存",
-            "unsaved": "未儲存"
+            "unsaved": "未儲存",
+            "sync": {
+                "header": "$~與雲端同步",
+                "projects": "$~專案",
+                "galleries": "$~畫廊",
+                "characters": "$~人物",
+                "howtos": "$~操作指南",
+                "chats": "$~聊天"
+            },
+            "status": {
+                "header": "$~保存狀態",
+                "intro": "$~您的工作內容將保存在此裝置上，並同時儲存到雲端。",
+                "columns": {
+                    "device": "$~在本設備上",
+                    "cloud": "$~在雲端",
+                    "unsaved": "$~未保存"
+                },
+                "state": {
+                    "synced": "$~同步",
+                    "loading": "$~載入中",
+                    "syncing": "$~儲存",
+                    "offline": "$~離線",
+                    "failed": "$~失敗的"
+                },
+                "conversation": "$~一段對話",
+                "legend": "$~未儲存表示已保存在此處，但尚未連網。連網後會自動儲存。",
+                "errorsHeader": "$~有些內容無法在線上保存："
+            }
         },
         "page": {
             "unknown": {
@@ -5894,13 +6037,14 @@
                     "email": "此電子郵件地址無效。",
                     "failure": "無法登入:(",
                     "offline": "您似乎處於離線狀態。",
-                    "delete": "我們無法刪除您的帳戶，但我們不知道原因。",
                     "wrongPassword": "無效的使用者名稱和密碼。可能是密碼錯誤，或者其他人已經使用了這個使用者名稱。",
                     "tooMany": "您嘗試密碼的次數過多，需要等一段時間後再嘗試。",
                     "invalidUsername": "$~使用者名稱必須至少包含 5 個字母且不包含空格。",
                     "invalidPassword": "密碼長度至少為六個字元。",
                     "mismatched": "密碼不匹配。",
-                    "usernameTaken": "$~這個使用者名稱已被佔用。"
+                    "usernameTaken": "$~這個使用者名稱已被佔用。",
+                    "unsaved": "$~您所做的更改尚未在線保存。請重新連線並等待儲存，否則這些變更將從此裝置上遺失。",
+                    "deletePartial": "$~我們已刪除您的帳戶數據，但未能完成帳戶刪除。請重試，如果問題仍然存在，請與我們聯絡。"
                 },
                 "feedback": {
                     "changing": "正在提交新的電子郵件地址…",
@@ -6300,10 +6444,6 @@
                         "label": "$~五彩繽紛",
                         "tip": "$~選擇所有與所選區域顏色相同的形狀"
                     },
-                    "pick": {
-                        "label": "$~選擇顏色",
-                        "tip": "$~從螢幕上選擇一種顏色，用於繪製像素和形狀。"
-                    },
                     "saturationUp": {
                         "label": "$~飽和",
                         "tip": "$~增加飽和度"
@@ -6492,6 +6632,10 @@
                 "singletonWordsWarning": "$~你草稿中有些字在整個文本中只出現過一次。你確定它們的拼字正確，並且與其他文本保持一致嗎？",
                 "viewPR": "$~查看拉取請求",
                 "oneLocaleNote": "$~每次提交只能針對一種語言。這批修改將以編輯的形式提交到$locale 。如果您想為其他語言做出貢獻，請先切換到該語言；您在每種語言下儲存的修改將分別儲存。"
+            },
+            "breadcrumb": {
+                "label": "$~麵包屑",
+                "home": "$~家"
             }
         },
         "edit": {
@@ -6951,7 +7095,7 @@
         },
         "connection": {
             "offline": "$~您目前處於離線狀態。部分功能需要連網後才能使用。",
-            "unreachable": "$~我們無法連接到 Wordplay 資料庫。連線恢復後，部分功能將無法使用。",
+            "unreachable": "$~我們無法存取資料庫，因此某些功能將無法使用。可能是 VPN、瀏覽器擴充功能或網路過濾器阻止了存取。",
             "label": "$~連線狀態"
         },
         "presence": {
@@ -6966,6 +7110,12 @@
             "refresh": "$~重新整理",
             "updates": "$~查看更新",
             "dismiss": "$~解僱"
+        },
+        "banner": {
+            "deleteFailed": "$~我們無法刪除它。",
+            "saveFailed": "$~我們沒能挽救它。",
+            "submitFailed": "$~我們無法提交那份文件。",
+            "loadFailed": "$~我們無法載入該文件。"
         }
     },
     "moderation": {

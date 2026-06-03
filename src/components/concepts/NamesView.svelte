@@ -1,7 +1,7 @@
 <script lang="ts">
     import HeaderAndExplanation from '@components/app/HeaderAndExplanation.svelte';
     import Reference from '@nodes/Reference';
-    import CodeView from '@components/concepts/CodeView.svelte';
+    import ConceptPreview from '@components/concepts/ConceptPreview.svelte';
 
     interface Props {
         names: string[];
@@ -16,7 +16,7 @@
     <HeaderAndExplanation text={(l) => l.ui.docs.header.names} sub />
     <div class="names"
         >{#each unique as name}
-            <CodeView localize={false} node={Reference.make(name)}></CodeView>
+            <ConceptPreview localize={false} node={Reference.make(name)}></ConceptPreview>
         {/each}
     </div>
 {/if}

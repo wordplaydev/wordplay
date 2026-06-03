@@ -1,4 +1,5 @@
 import type LocaleText from '@locale/LocaleText';
+import FunctionDefinition from '@nodes/FunctionDefinition';
 import type Names from '@nodes/Names';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import StructureType from '@nodes/StructureType';
@@ -114,6 +115,12 @@ export default class StructureValue extends Value {
 
     resolve(name: string | Names, evaluator?: Evaluator): Value | undefined {
         const value = this.context.resolve(name);
+        // Re-bind a method to this instance so that `⬚` (This) inside the
+        // method resolves to the instance it was called on, rather than the
+        // scope in which the structure was constructed. Name resolution still
+        // works because this StructureValue delegates to its context.
+        if (value instanceof FunctionValue)
+            return new FunctionValue(value.definition, this);
         if (value !== undefined) return value;
         // Fall through to static members on the definition (e.g. `m.PI` on
         // an instance of `Math`, or `someColor.red` on a `Color` instance).
@@ -132,6 +139,16 @@ export default class StructureValue extends Value {
                     break;
                 }
             }
+        }
+        // Instance functions declared in the structure's block aren't bound
+        // into the Evaluation of structures built directly via
+        // `StructureValue.make` (which skips block evaluation — e.g. Color's
+        // basic-color statics). Reach them through the definition, binding
+        // `this` as the instance so `⬚` resolves to it.
+        if (typeof name === 'string') {
+            const instanceFunction = this.type.getDefinition(name);
+            if (instanceFunction instanceof FunctionDefinition)
+                return new FunctionValue(instanceFunction, this);
         }
         const basisFun =
             evaluator && typeof name === 'string'

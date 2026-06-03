@@ -153,27 +153,18 @@ export default class Markup extends Content {
             : new Markup(concrete as Paragraph[], newSpaces);
     }
 
-    getMatchingText(
-        text: string,
-        locales: Locales,
-    ): [string, number] | undefined {
-        const wordsWithText = this.paragraphs
+    /**
+     * Returns the text of every Words token in this markup, in document order.
+     * Used to build the searchable text index for concept documentation.
+     */
+    getWordsTexts(): string[] {
+        return this.paragraphs
             .map((p) => p.nodes())
             .flat()
             .filter(
                 (n): n is Token => n instanceof Token && n.isSymbol(Sym.Words),
             )
-            .filter((w) => w.getText().indexOf(text) >= 0);
-
-        return wordsWithText.length === 0
-            ? undefined
-            : [
-                  wordsWithText[0].getText(),
-                  wordsWithText[0]
-                      .getText()
-                      .toLocaleLowerCase(locales.getLanguages())
-                      .indexOf(text),
-              ];
+            .map((w) => w.getText());
     }
 
     asFirstParagraph() {

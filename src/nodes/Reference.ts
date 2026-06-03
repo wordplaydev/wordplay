@@ -464,6 +464,16 @@ export default class Reference extends SimpleExpression {
         return false;
     }
 
+    isProvablyNonZero(context: Context, depth = 0): boolean {
+        // Follow the bound value upstream, bounding how far so mutually
+        // recursive binds can't loop forever.
+        if (depth >= 4) return false;
+        const definition = this.resolve(context);
+        return definition instanceof Bind && definition.value !== undefined
+            ? definition.value.isProvablyNonZero(context, depth + 1)
+            : false;
+    }
+
     compile(): Step[] {
         return [new StartFinish(this)];
     }

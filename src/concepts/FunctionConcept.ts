@@ -1,6 +1,8 @@
 import type Context from '@nodes/Context';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type Node from '@nodes/Node';
+import PropertyReference from '@nodes/PropertyReference';
+import Reference from '@nodes/Reference';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import { COMMA_SYMBOL } from '@parser/Symbols';
 import type Locales from '@locale/Locales';
@@ -32,18 +34,36 @@ export default class FunctionConcept extends Concept {
         structure: StructureConcept | undefined,
         locales: Locales,
         context: Context,
+        /** When set, this is a static function of the given structure, rendered
+         *  as `Structure.fn(...)` rather than as a call on an instance. */
+        staticOwner?: StructureDefinition,
     ) {
         super(purpose, affiliation, context);
 
         this.definition = definition;
         this.structure = structure;
 
+        // Static functions are called on the structure itself, so use a
+        // `Structure.fn` property reference as the call subject. A bare
+        // Reference would render `Structure(...)`, and the structure type
+        // would render a call on an instance placeholder.
+        const subject =
+            staticOwner !== undefined
+                ? PropertyReference.make(
+                      Reference.make(
+                          locales.getName(staticOwner.names),
+                          staticOwner,
+                      ),
+                      Reference.make(locales.getName(this.definition.names)),
+                  )
+                : this.structure?.type;
+
         this.example = this.definition.getEvaluateTemplate(
             locales,
             context,
             false,
             true,
-            this.structure?.type,
+            subject,
         );
 
         this.inputs = this.definition.inputs.map(

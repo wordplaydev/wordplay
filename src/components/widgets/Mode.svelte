@@ -31,6 +31,12 @@
         /** Optional annotation text appended after each mode's label (e.g. a count).
          *  Use `undefined` at a given index to skip annotating that button. */
         annotations?: readonly (string | undefined)[];
+        /** When true, the label and button group are laid out via `display: contents`
+         *  so they become items of a parent grid (the label right-aligns, the group
+         *  left-aligns). Lets multiple Modes align into a filter grid. */
+        grid?: boolean;
+        /** An optional data-uiid placed on the button group, for tutorial highlighting. */
+        uiid?: string;
     }
 
     let {
@@ -44,6 +50,8 @@
         wrap = false,
         omit = [],
         annotations,
+        grid = false,
+        uiid = undefined,
     }: Props = $props();
 
     let modeText = $derived($locales.getTextStructure(modes));
@@ -63,7 +71,7 @@
     }
 </script>
 
-<div class="mode">
+<div class="mode" class:grid>
     {#if labeled}
         <label class="label" for={label}>{label}</label>
     {/if}
@@ -73,6 +81,7 @@
         role="radiogroup"
         id={label}
         aria-labelledby={label}
+        data-uiid={uiid}
     >
         {#each modeText.labels, index}
             {#if !omit.includes(index)}
@@ -161,6 +170,17 @@
         gap: var(--wordplay-spacing);
         white-space: nowrap;
         align-items: baseline;
+    }
+
+    /* Dissolve the Mode's own box so its label and group become items of a parent grid
+       (used to align several Modes into a filter grid). */
+    .mode.grid {
+        display: contents;
+    }
+
+    .mode.grid .label {
+        justify-self: end;
+        text-align: end;
     }
 
     .label {

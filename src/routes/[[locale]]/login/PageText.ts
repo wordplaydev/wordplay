@@ -79,8 +79,9 @@ type PageText = {
         failure: string;
         /** [plain] When there's no connection to Firebase */
         offline: string;
-        /** [plain] When account deletion failed */
-        delete: string;
+        /** [plain] When account deletion removed the account's data but couldn't
+         *  finish removing the account itself (partial deletion) */
+        deletePartial: string;
         /** [plain] When a password is wrong */
         wrongPassword: string;
         /** [plain] When the password is invalid */
@@ -89,6 +90,10 @@ type PageText = {
         mismatched: string;
         /** [plain] When there are too mant failed attempts */
         tooMany: string;
+        /** [plain] Warning shown when logout or account deletion is blocked
+         *  because there are edits not yet saved online (e.g. made offline);
+         *  leaving would discard them from this device. */
+        unsaved: string;
     };
     button: {
         /** Log out of the account */

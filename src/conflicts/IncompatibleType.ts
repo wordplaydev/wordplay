@@ -6,6 +6,7 @@ import type Type from '@nodes/Type';
 import type Locales from '@locale/Locales';
 import type Node from '@nodes/Node';
 import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import findDivideByZeroSource from '@conflicts/findDivideByZeroSource';
 
 export default class IncompatibleType extends Conflict {
     readonly receiver: Node;
@@ -33,8 +34,18 @@ export default class IncompatibleType extends Conflict {
     getMessage() {
         return {
             node: this.receiver,
-            explanation: (locales: Locales, context: Context) =>
-                locales.concretize(
+            explanation: (locales: Locales, context: Context) => {
+                // If the incompatible ø traces to a possible divide-by-zero,
+                // explain that specifically instead of a generic type mismatch.
+                const source = findDivideByZeroSource(this.expression, context);
+                if (source !== undefined)
+                    return locales.concretize(
+                        (l) =>
+                            IncompatibleType.LocalePath(l)
+                                .explanationDivideByZero,
+                        { source: new NodeRef(source, locales, context) },
+                    );
+                return locales.concretize(
                     (l) => IncompatibleType.LocalePath(l).explanation,
                     {
                         expected: new NodeRef(
@@ -44,7 +55,8 @@ export default class IncompatibleType extends Conflict {
                         ),
                         given: new NodeRef(this.givenType, locales, context),
                     },
-                ),
+                );
+            },
         };
     }
 

@@ -15,20 +15,20 @@ count: points.length()
 trail: count ÷ 2
 
 ¶ A head index that advances one point every tick and wraps around the word. ¶
-head: 0 … ∆ Time(10ms) … (head + 1) % count
+head: 0 … ∆ Time(10ms) … ((head + 1) % count) ?? 0
 
 Stage(
 	points.translate(
 		ƒ(point•Place index•#)
 			(
 				¶ How many points behind the head this one is, wrapping around. ¶
-				age: (((head - index) + 1) + count) % count
+				age: ((((head - index) + 1) + count) % count) ?? 0
 				Phrase(
 					"•"
 					size: 1m
 					place: point
-					color: Color(90% 100 (index ÷ count) × 360°)
-					opacity: age < trail ? 1 - (age ÷ trail) 0
+					color: Color(90% 100 ((index ÷ count) ?? 0) × 360°)
+					opacity: age < trail ? 1 - ((age ÷ trail) ?? 0) 0
 					duration: 0s
 				))
 	)

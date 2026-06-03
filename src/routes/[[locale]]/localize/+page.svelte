@@ -2,6 +2,7 @@
     import Header from '@components/app/Header.svelte';
     import Link from '@components/app/Link.svelte';
     import Notice from '@components/app/Notice.svelte';
+    import Spinning from '@components/app/Spinning.svelte';
     import Writing from '@components/app/Writing.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import TemplateInputsPanel from '@components/localization/TemplateInputsPanel.svelte';
@@ -42,6 +43,9 @@
     } from '@parser/Symbols';
     import { isName } from '@parser/Tokenizer';
     import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
+    import { searchItems } from '@util/search';
+    import { debounced } from '@util/debounce.svelte';
+    import { localizeFields } from './localizeSearch';
     import { httpsCallable } from 'firebase/functions';
     import { onMount } from 'svelte';
     import { Emotion } from '../../../lore/Emotion';
@@ -275,9 +279,7 @@
             return {
                 pair: p,
                 pathStr,
-                pathLower: pathStr.toLowerCase(),
                 description: getDescription(pathStr),
-                descLower: getDescription(pathStr)?.toLowerCase() ?? '',
                 section: sectionOf(pathStr),
                 needsWork: needsWork(p),
                 isMT: isMT(p),
@@ -287,16 +289,48 @@
 
     type EditableEntry = (typeof editablePaths)[number];
 
-    /** Lowercased trimmed search query. */
-    const queryLower = $derived(filterQuery.trim().toLowerCase());
+    /** The languages to fold search text and queries with. */
+    const searchLanguages = $derived($locales.getLanguages());
+
+    /** Searchable records (path, description, value), rebuilt only when the
+     *  editable paths or active locale change — not per keystroke. */
+    const searchRecords = $derived(
+        editablePaths.map((e) => ({
+            ref: e,
+            fields: localizeFields(
+                e.pathStr,
+                e.description,
+                e.pair.value,
+                searchLanguages,
+            ),
+        })),
+    );
+
+    /** A debounced copy of the query so the list doesn't re-search per keystroke. */
+    const debouncedFilter = debounced(() => filterQuery);
+
+    /** The search results for the current query, or null when there's no query
+     *  (meaning "everything matches, in the default order"). */
+    const searchMatched = $derived.by(() => {
+        const q = debouncedFilter.current.trim();
+        return q === '' ? null : searchItems(searchRecords, q, searchLanguages);
+    });
+
+    /** Set of matching entries, for the filter predicate. */
+    const matchedSet = $derived(
+        searchMatched === null ? null : new Set(searchMatched.map(([e]) => e)),
+    );
+
+    /** Rank of each matching entry (search order), for sorting the list. */
+    const matchRank = $derived(
+        searchMatched === null
+            ? null
+            : new Map(searchMatched.map(([e], i) => [e, i])),
+    );
 
     /** True if the entry matches the current text filter (or no filter is set). */
     function matchesQuery(e: EditableEntry): boolean {
-        return (
-            queryLower === '' ||
-            e.pathLower.includes(queryLower) ||
-            e.descLower.includes(queryLower)
-        );
+        return matchedSet === null || matchedSet.has(e);
     }
 
     /** True if the entry passes the current quality filter. */
@@ -357,6 +391,13 @@
                     matchesQuality(e) && matchesSection(e) && matchesQuery(e),
             )
             .sort((a, b) => {
+                // When searching, order by match relevance first.
+                if (matchRank !== null) {
+                    const delta =
+                        (matchRank.get(a) ?? 0) - (matchRank.get(b) ?? 0);
+                    if (delta !== 0) return delta;
+                }
+                // Otherwise (or to break ties), machine-translated entries first.
                 if (a.isMT === b.isMT) return 0;
                 return a.isMT ? -1 : 1;
             })
@@ -791,7 +832,9 @@
     <Header text={(l) => l.ui.page.localize.header} />
     <MarkupHTMLView markup={(l) => l.ui.page.localize.description} />
 
-    {#if !isAuthenticated($user)}
+    {#if $user === undefined}
+        <Spinning></Spinning>
+    {:else if !isAuthenticated($user)}
         <Notice text={(l) => l.ui.page.localize.requireLogin} />
     {:else}
         <section class="workspace" bind:this={workspaceTop}>

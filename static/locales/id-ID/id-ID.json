@@ -132,7 +132,8 @@
         "Unknown": "$~tidak dikenal",
         "End": "$~akhir",
         "Highlight": "$~contoh yang disorot",
-        "LanguageJoin": "$~penyambung bahasa"
+        "LanguageJoin": "$~penyambung bahasa",
+        "Translate": "$~menerjemahkan"
     },
     "node": {
         "Dimension": {
@@ -524,7 +525,8 @@
                     "resolutionDefault": "$~Berikan nilai awal pada binding, karena $expected tidak boleh hilang di sini.",
                     "resolutionWiden": "$~Izinkan tipe nilai untuk pengikatan ini, karena $expected terlalu sempit untuk apa yang sebenarnya disimpan.",
                     "resolutionReorder": "$~Tukar posisi inputnya, karena tipe datanya lebih cocok jika diurutkan sebaliknya — $expected seharusnya berada di posisi lain.",
-                    "resolutionPlaceholder": "$~Untuk sementara, gantilah dengan nilai sementara, karena $expected wajib diisi — lalu pilih nilai dari menu pelengkapan otomatis."
+                    "resolutionPlaceholder": "$~Untuk sementara, gantilah dengan nilai sementara, karena $expected wajib diisi — lalu pilih nilai dari menu pelengkapan otomatis.",
+                    "explanationDivideByZero": "$~Ini bisa jadi ø karena $source mungkin dibagi nol, dan angka diperlukan di sini."
                 },
                 "MisplacedShare": {
                     "name": "$~sahamyangsalahtempat",
@@ -689,7 +691,7 @@
             },
             "doc": [
                 "$~Bro, aku yang menentukan konversi dari satu tipe ke tipe lainnya! Aku masuk ke @Block, kira-kira seperti ini:",
-                "$~\\→ #kucing #kucing . ÷ 2 6kucing→#kucing\\",
+                "$~\\→ #kucing #kucing ⬚ ÷ 2 6kucing→#kucing\\",
                 "$~Lihat bagaimana aku mengubah anak kucing menjadi kucing dewasa? Keren!",
                 "$~Anda mungkin bertanya-tanya apa fungsi \\.\\ di situ. Itu mewakili nilai yang sedang dikonversi. Saya menggunakannya karena nilai tersebut tidak memiliki nama lain."
             ],
@@ -795,7 +797,8 @@
                     "resolutionDefault": "$~Berikan nilai awal pada binding, karena $expected tidak boleh hilang di sini.",
                     "resolutionWiden": "$~Izinkan tipe nilai untuk pengikatan ini, karena $expected terlalu sempit untuk apa yang sebenarnya disimpan.",
                     "resolutionReorder": "$~Tukar posisi inputnya, karena tipe datanya lebih cocok jika diurutkan sebaliknya — $expected seharusnya berada di posisi lain.",
-                    "resolutionPlaceholder": "$~Untuk sementara, gantilah dengan nilai sementara, karena $expected wajib diisi — lalu pilih nilai dari menu pelengkapan otomatis."
+                    "resolutionPlaceholder": "$~Untuk sementara, gantilah dengan nilai sementara, karena $expected wajib diisi — lalu pilih nilai dari menu pelengkapan otomatis.",
+                    "explanationDivideByZero": "$~Ini bisa jadi ø karena $source mungkin dibagi nol, dan angka diperlukan di sini."
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~inputtipeyangtidakterduga",
@@ -897,13 +900,13 @@
                 "$~Halo lagi! Saya menerima beberapa input, kemudian mengevaluasi sebuah ekspresi menggunakan input tersebut, dan menghasilkan sebuah output.",
                 "$~Berikut contoh sederhananya:",
                 "$~\\ƒ ulangi(pesan•'') pesan × 5 ulangi('hai')\\",
-                "$~Fungsi tersebut menerima satu input, \\message\\, dan menggunakan fungsi @Text/repeat untuk mengulang pesan tersebut sebanyak lima kali.",
+                "$~Fungsi tersebut menerima satu input, \\message\\, dan menggunakan fungsi @Text.repeat untuk mengulang pesan tersebut sebanyak lima kali.",
                 "$~Saya sangat membantu jika Anda ingin mengevaluasi sesuatu berulang kali, tetapi dengan masukan yang berbeda!",
                 "$~Saya memang punya banyak trik kecil lainnya. Misalnya, saya tidak perlu memiliki nama. Di sini, saya langsung menuju ke @Evaluate sebagai sebuah nilai.",
                 "$~\\(ƒ(pesan•'') pesan × 5)('hai')\\",
                 "$~Atau, berikut adalah fungsi yang menerima sejumlah input, menggunakan karakter \\…\\ setelah nama input.",
                 "$~\\ƒ ya(pesan…•'') pesan.sans('tidak') ya('ya' 'ya' 'tidak' 'ya' 'tidak')\\",
-                "$~Lihat bagaimana semua 'tidak' dihilangkan? Itu karena messages adalah @List, jadi kita bisa menggunakan @List/sansAll.",
+                "$~Lihat bagaimana semua 'tidak' dihilangkan? Itu karena messages adalah @List, jadi kita bisa menggunakan @List.sansAll.",
                 "$~Terkadang Anda mungkin ingin memperjelas jenis nilai apa yang saya hasilkan. Untuk melakukan itu, tambahkan @Is setelah daftar input:",
                 "$~\\ƒ add(x•# y•#)•'' x + y\\",
                 "$~Anda mungkin akan menemukan masalah pada contoh ini: tertulis bahwa hasilnya adalah @Text, tetapi ternyata membutuhkan dua @Number. Saya bisa memberi tahu Anda jika ada ketidakkonsistenan!",
@@ -922,7 +925,7 @@
             "name": "$~fungsitingkattinggi",
             "description": "$~mengulang nilai-nilai daftar secara internal",
             "emotion": "kind",
-            "doc": "$~Saya adalah @FunctionDefinition yang sangat istimewa yang beroperasi pada daftar hal-hal. Anda tidak perlu tahu apa pun tentang saya, selain bahwa saya memungkinkan fungsi seperti @List/translate.",
+            "doc": "$~Saya adalah @FunctionDefinition yang sangat istimewa yang beroperasi pada daftar hal-hal. Anda tidak perlu tahu apa pun tentang saya, selain bahwa saya memungkinkan fungsi seperti @List.translate.",
             "start": "$~Mengevaluasi fungsi yang diberikan",
             "initialize": "$~bersiap untuk menelusuri item-item tersebut",
             "next": "$~beralih ke item berikutnya",
@@ -1488,20 +1491,22 @@
             "description": "$~mengacu pada nilai struktur saat ini",
             "emotion": "serious",
             "doc": [
-                "$~Terkadang, lebih bermanfaat untuk merujuk pada suatu nilai secara implisit, daripada harus menyebutkannya secara eksplisit.",
-                "$~Misalnya, anggaplah Anda ingin membuat @ConversionDefinition baru, yang tidak menyebutkan nilai yang sedang dikonversi. Anda cukup merujuknya bersama saya:",
-                "$~\\→ #pelangi #kebahagiaan . × 1000000kebahagiaan 2pelangi → #kebahagiaan\\",
-                "$~Lihat aku di sana, mewakili jumlah pelangi?",
-                "$~Atau misalkan Anda ingin membuat @Reaction, tetapi tidak perlu menyebutkan nilai terbaru:",
-                "$~\\2 … ∆ Waktu(1000ms) … . × 2\\",
-                "$~Lihat saya, yang mewakili nilai reaksi sebelumnya.",
-                "$~Saya jarang muncul, tetapi ketika saya muncul, saya benar-benar dapat membantu sebuah nilai keluar dari @Bind!"
+                "$~Terkadang, akan lebih mudah untuk merujuk pada suatu nilai secara implisit, daripada harus menyebutkannya. Itulah saya — \\⬚\\ , sebuah kotak kecil yang mewakili nilai apa pun yang sedang dikerjakan oleh kode di sekitarnya.",
+                "$~Di dalam @ConversionDefinition , saya adalah nilai yang sedang dikonversi:",
+                "$~\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
+                "$~Di dalam @Reaction , saya adalah nilai terbaru:",
+                "$~\\2 … ∆ Time(1000ms) … ⬚ × 2\\",
+                "$~Di dalam @Translate , saya adalah item yang sedang dipetakan, jadi ini menambahkan satu ke setiap nilai:",
+                "$~\\[1 2 3] ↦ ⬚ + 1\\",
+                "$~Dan di dalam @StructureDefinition , saya adalah nilai saat ini itu sendiri, jadi saya dapat mengakses bagian saya sendiri dengan \\⬚.rank\\ , sama seperti saya mengakses bagian nilai lain dengan \\other.rank\\ :",
+                "$~\\•Card(rank•#) (\n\tƒ beats(other•Card) ⬚.rank > other.rank\n)\n\nCard(10).beats(Card(7))\\",
+                "$~Saya jarang muncul, tetapi ketika saya muncul, saya benar-benar dapat membantu mendapatkan nilai dari @Bind !"
             ],
             "start": "$~Dievaluasi menjadi $value",
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~referensiinisalahtempat",
-                    "explanation": "$~Saya hanya diperbolehkan berada dalam struktur, konversi, atau reaksi.",
+                    "explanation": "$~Saya hanya diperbolehkan dalam struktur, konversi, reaksi, atau penerjemahan.",
                     "resolution": "$~Ganti dengan tempat penampung"
                 }
             }
@@ -1599,7 +1604,7 @@
         },
         "AnyType": {
             "name": "$~setiap",
-            "description": "$~cocok dengan semua jenis yang mungkin",
+            "description": "$~setiap",
             "emotion": "curious",
             "doc": "$~Saya mewakili semua kemungkinan tipe. Terkadang saya muncul karena saya tidak tahu nilai apa yang dimiliki sesuatu, jadi bisa apa saja."
         },
@@ -1619,7 +1624,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Saya bekerja dengan @Bind untuk menunjukkan bahwa sebuah nama adalah @ConversionDefinition. Anda mungkin tidak perlu menggunakan saya, karena tidak banyak orang yang meneruskan saya sebagai nilai, tetapi jika Anda membutuhkannya, tampilan saya akan seperti ini:",
-                "$~\\magic•?→'': → ? '' . ? 'ya' 'tidak'\\"
+                "$~\\magic•?→'': → ? '' ⬚ ? 'ya' 'tidak'\\"
             ]
         },
         "FormattedType": {
@@ -1849,6 +1854,32 @@
             "description": "$~menandai $type sebagai bukan fungsi",
             "emotion": "confused",
             "doc": "$~Sebagian dari kita mengharapkan adanya acara; saya hadir ketika acara tersebut tidak diadakan."
+        },
+        "Translate": {
+            "name": "$~menerjemahkan",
+            "description": "$~memetakan koleksi ke koleksi baru",
+            "emotion": "excited",
+            "doc": [
+                "$~OH OH OH! Apakah kamu punya BANYAK koleksi barang dan ingin melakukan hal yang SAMA pada SETIAP barangnya?? Itulah AKU! Itulah yang benar-benar aku lakukan!!",
+                "$~Letakkan koleksi di sebelah kiri saya, gambar panah saya \\↦\\ , lalu di sebelah kanan saya tuliskan apa yang seharusnya menjadi hasil akhir dari setiap item — gunakan @This untuk menunjukkan item yang sedang saya pegang SAAT INI!",
+                "$~\\[1 2 3] ↦ ⬚ + 1\\ menghasilkan \\[2 3 4]\\ . BOOM! Setiap angka, ditambah satu, tanpa perulangan, tanpa @FunctionDefinition , tanpa ribet!",
+                "$~Saya SANGAT hebat dalam membuat output @Phrase dari data! Punya daftar nama? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ dan sekarang ada frasa untuk SETIAP nama!!",
+                "$~Saya mengerjakan @List , @Set , @Map (saya mengubah VALUES map — kunci tetap di tempatnya!), dan bahkan @Table !",
+                "$~Ingin sesuatu yang lebih canggih — seperti indeks setiap item, atau fungsi yang dapat Anda gunakan kembali di banyak tempat? Kunjungi saja sepupu saya yang lebih tenang dan dewasa seperti @List.translate . Tapi untuk pemetaan sehari-hari yang cepat, saya di sini!!"
+            ],
+            "start": "$~Tunggu sebentar, izinkan saya mengambil semua yang ada di $expression !",
+            "finish": "$~TA-DA! Ini dia koleksi terbaru Anda: $value",
+            "next": "$~Item berikutnya: $value !",
+            "conflict": {
+                "ExpectedCollection": {
+                    "name": "$~koleksiyangdiharapkan",
+                    "explanation": "$~Saya mengharapkan sisi kiri dari konversi koleksi harus berupa koleksi, tetapi yang saya dapatkan $type"
+                },
+                "ExpectedThis": {
+                    "name": "$~mengharapkanini",
+                    "explanation": "$~Apakah Anda bermaksud menggunakan @This untuk merujuk pada item dalam koleksi ini?"
+                }
+            }
         }
     },
     "basis": {
@@ -3441,7 +3472,7 @@
                 "$~Setiap kali hal itu terjadi, @Program mengevaluasi ulang dengan nilai waktu yang baru.",
                 "$~Misalnya:",
                 "$~\\Waktu()\\",
-                "$~Jika Anda memberikan waktu dengan format @Time/frequency, maka waktu akan berjalan sesuai dengan frekuensi tersebut. Misalnya:",
+                "$~Jika Anda memberikan waktu dengan format @Time.frequency, maka waktu akan berjalan sesuai dengan frekuensi tersebut. Misalnya:",
                 "$~Waktu (1000ms)",
                 "$~Namun, ada batasan seberapa kecil ukurannya, karena @Program membutuhkan waktu untuk mengevaluasi sebelum dapat merespons pada tick berikutnya.",
                 "$~Yang terkecil mungkin sekitar 20ms."
@@ -3567,7 +3598,7 @@
                 "$~/Boop boop boop/",
                 "$~Halo, @FunctionDefinition di sini! Saya lihat Anda menemukan @Scene.",
                 "$~Menurut saya, @Scene sangat keren. Ide dasarnya adalah Anda memberikan daftar @Phrase atau @Group, lalu program akan menampilkannya secara berurutan dan berhenti pada yang terakhir.",
-                "$~Untuk mengontrol pengaturan waktu, Anda dapat mengatur @Phrase/duration pada setiap output, dan output tersebut akan ditampilkan selama durasi tersebut sebelum beralih ke output berikutnya, dan menggunakan transisi @Phrase/entering atau @Phrase/exiting apa pun yang telah Anda atur. Jika Anda mengaturnya ke @Sequence, maka akan menggunakan durasi @Sequence tersebut.",
+                "$~Untuk mengontrol pengaturan waktu, Anda dapat mengatur @Phrase.duration pada setiap output, dan output tersebut akan ditampilkan selama durasi tersebut sebelum beralih ke output berikutnya, dan menggunakan transisi @Phrase.entering atau @Phrase.exiting apa pun yang telah Anda atur. Jika Anda mengaturnya ke @Sequence, maka akan menggunakan durasi @Sequence tersebut.",
                 "$~Semua itu memungkinkan Anda melakukan hal-hal seperti @Scene kecil ini, yang menampilkan tiga frasa ini secara berurutan:",
                 "$~\\Scene([ Phrase('Halo' duration: 1s) Phrase('Apa kabar?' duration: 2s rotation: 5° entering: Pose(rotation: 0°)) Phrase('Saya baik-baik saja') ])\\",
                 "$~Perhatikan bagaimana output pertama ditampilkan selama satu detik, kemudian output berikutnya selama dua detik, tetapi dianimasikan dengan rotasi lima derajat, dan kemudian menampilkan output terakhir?",
@@ -3830,7 +3861,7 @@
                 "names": "$~tempat"
             },
             "name": {
-                "doc": ["$~Sama seperti @Phrase/name!"],
+                "doc": ["$~Sama seperti @Phrase.name!"],
                 "names": "$~nama"
             },
             "description": {
@@ -3840,7 +3871,7 @@
                 "names": "$~keterangan"
             },
             "selectable": {
-                "doc": "$~Sama seperti @Phrase/selectable!",
+                "doc": "$~Sama seperti @Phrase.selectable!",
                 "names": "$~dapatdipilih"
             },
             "color": {
@@ -3868,47 +3899,47 @@
                 "names": "$~skala"
             },
             "flipx": {
-                "doc": "$~Sama seperti @Phrase/flipx!",
+                "doc": "$~Sama seperti @Phrase.flipx!",
                 "names": "$~flipx"
             },
             "flipy": {
-                "doc": "$~Sama seperti @Phrase/flipy",
+                "doc": "$~Sama seperti @Phrase.flipy",
                 "names": "$~membalik"
             },
             "entering": {
-                "doc": "$~Sama seperti @Phrase/entering!",
+                "doc": "$~Sama seperti @Phrase.entering!",
                 "names": "$~memasuki"
             },
             "resting": {
-                "doc": "$~Sama seperti @Phrase/resting!",
+                "doc": "$~Sama seperti @Phrase.resting!",
                 "names": "$~beristirahat"
             },
             "moving": {
-                "doc": "$~Sama seperti @Phrase/moving!",
+                "doc": "$~Sama seperti @Phrase.moving!",
                 "names": "$~pindah"
             },
             "exiting": {
-                "doc": "$~Sama seperti @Phrase/exiting!",
+                "doc": "$~Sama seperti @Phrase.exiting!",
                 "names": "$~keluar"
             },
             "duration": {
-                "doc": "$~Sama seperti @Phrase/duration!",
+                "doc": "$~Sama seperti @Phrase.duration!",
                 "names": ["$~⏳", "$~lamanya"]
             },
             "style": {
-                "doc": "$~Sama seperti @Phrase/style!",
+                "doc": "$~Sama seperti @Phrase.style!",
                 "names": "$~gaya"
             },
             "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
         },
         "Phrase": {
             "doc": [
-                "$~Halo, halo! Masih ingat aku? Bagaimana mungkin ada yang melupakan aku? Benar sekali, aku adalah @Phrase yang luar biasa, siap mewakili @Text terindah di @Stage.",
-                "$~Buat saja aku seperti ini, dan aku akan muncul di @Stage:",
-                "$~Frasa('luar biasa!')",
-                "$~Saya membutuhkan @TextLiteral atau @FormattedLiteral untuk ditampilkan. Dengan @FormattedLiteral, saya dapat menggunakan hal-hal seperti \\`*tebal* dan /miring/`\\ atau merujuk ke @ConceptLink kustom yang Anda buat.",
-                "$~Anda juga dapat secara opsional memberi saya semua yang dapat dilakukan oleh @Output, termasuk mengubah ukuran, font, rotasi, dan melakukan semua tarian luar biasa saya dengan @Pose dan @Sequence.",
-                "$~Anda juga dapat memilih saya di @Stage dan mengedit saya di palet di sebelahnya."
+                "$~Halo, halo! Ingat aku? Bagaimana mungkin ada yang melupakanku? Benar sekali, aku adalah @Phrase yang luar biasa, siap mewakili @Text terindah di @Stage .",
+                "$~Buat saja aku seperti ini, dan aku akan muncul di @Stage :",
+                "$~\\Phrase('magnificent!')\\",
+                "$~Saya membutuhkan @TextLiteral atau @FormattedLiteral untuk ditampilkan. Dengan @FormattedLiteral , saya dapat menggunakan hal-hal seperti \\`*bold* and /italic/`\\ atau merujuk ke @ConceptLink kustom yang Anda buat.",
+                "$~Anda juga dapat secara opsional memberi saya semua yang dapat dilakukan oleh @Output , termasuk mengubah ukuran, font, rotasi, dan melakukan semua tarian luar biasa saya dengan @Pose dan @Sequence .",
+                "$~Anda juga dapat memilih saya di @Stage dan mengedit saya dengan palet 🎨 di sebelahnya — ini adalah cara yang bagus untuk mencoba berbagai font dan memilih /face/ yang tepat untuk @Text Anda."
             ],
             "names": ["$~💬", "$~Frasa"],
             "text": {
@@ -3920,7 +3951,7 @@
                 "names": "$~ukuran"
             },
             "face": {
-                "doc": "$~Nama jenis huruf yang harus saya cantumkan.",
+                "doc": "$~Nama jenis huruf yang harus saya gunakan. Cara termudah untuk memilihnya adalah dengan memilih saya dan membuka palet 🎨 di sebelahnya, di mana Anda dapat melihat pratinjau font dan memilih jenis huruf tanpa mengetik namanya.",
                 "names": "$~menghadapi"
             },
             "place": {
@@ -3932,11 +3963,11 @@
                 "names": ["$~↵", "$~membungkus"]
             },
             "alignment": {
-                "doc": "$~Jika ada batasan @Phrase/wrap yang ditetapkan, apakah saya harus menyelaraskan simbol ke awal, tengah, atau akhir tepi.",
+                "doc": "$~Jika ada batasan @Phrase.wrap yang ditetapkan, apakah saya harus menyelaraskan simbol ke awal, tengah, atau akhir tepi.",
                 "names": "$~penyelarasan"
             },
             "direction": {
-                "doc": "$~Apakah simbol ditulis secara horizontal atau vertikal, dan jika vertikal dan @Phrase/wrap diatur, apakah teks dibungkus ke kiri atau ke kanan.",
+                "doc": "$~Apakah simbol ditulis secara horizontal atau vertikal, dan jika vertikal dan @Phrase.wrap diatur, apakah teks dibungkus ke kiri atau ke kanan.",
                 "names": "$~arah"
             },
             "matter": {
@@ -4378,6 +4409,56 @@
                 "mix": "$~$first - $second",
                 "light": "$~lampu",
                 "dark": "$~gelap"
+            },
+            "random": {
+                "doc": [
+                    "$~Berikan warna secara acak.",
+                    "$~Karena tidak ada warna lain, saya memilih salah satu warna dasar secara acak:",
+                    "$~\\Color.random()\\",
+                    "$~Dengan satu warna, saya mempertahankan kecerahan dan kroma-nya tetapi memilih corak secara acak:",
+                    "$~\\Color.random(Color.blue)\\",
+                    "$~Dengan dua warna, saya memilih tingkat kecerahan, kroma, dan corak secara acak di antara keduanya:",
+                    "$~\\Color.random(Color.black Color.white)\\"
+                ],
+                "names": "$~acak",
+                "inputs": [
+                    {
+                        "doc": "$~Warna opsional. Jika berdiri sendiri, saya mempertahankan kecerahan dan kroma warnanya, lalu mengacak coraknya. Dengan warna kedua, itu menjadi salah satu ujung rentang warna yang dapat dipilih.",
+                        "names": "$~A"
+                    },
+                    {
+                        "doc": "$~Warna kedua opsional. Jika diberikan, saya akan memilih kecerahan, kroma, dan corak secara acak di antara kedua warna tersebut.",
+                        "names": "$~B"
+                    }
+                ]
+            },
+            "lighter": {
+                "doc": [
+                    "$~Berikan versi diriku yang lebih ringan, dengan meningkatkan keringananku sebesar satu persen (5% secara default).",
+                    "$~\\Color.blue.lighter()\\",
+                    "$~\\Color.blue.lighter(20%)\\"
+                ],
+                "names": "$~lebihringan",
+                "inputs": [
+                    {
+                        "doc": "$~Besarnya peningkatan kecerahan, dalam persentase. Nilai default adalah 5%.",
+                        "names": "$~oleh"
+                    }
+                ]
+            },
+            "darker": {
+                "doc": [
+                    "$~Berikan versi diriku yang lebih gelap, dengan menurunkan tingkat kecerahanku sebesar satu persen (5% secara default).",
+                    "$~\\Color.blue.darker()\\",
+                    "$~\\Color.blue.darker(20%)\\"
+                ],
+                "names": "$~lebihgelap",
+                "inputs": [
+                    {
+                        "doc": "$~Seberapa besar penurunan kecerahan, dalam persentase. Nilai default adalah 5%.",
+                        "names": "$~oleh"
+                    }
+                ]
             }
         },
         "Sequence": {
@@ -4557,11 +4638,11 @@
                 "names": "$~bingkai"
             },
             "size": {
-                "doc": "$~SUKA @Group/size",
+                "doc": "$~SUKA @Group.size",
                 "names": "$~ukuran"
             },
             "face": {
-                "doc": "$~SUKAI @Group/face",
+                "doc": "$~SUKAI @Group.face",
                 "names": "$~menghadapi"
             },
             "place": {
@@ -4569,7 +4650,7 @@
                 "names": "$~tempat"
             },
             "name": {
-                "doc": ["$~SAMA SEPERTI @Phrase/name!"],
+                "doc": ["$~SAMA SEPERTI @Phrase.name!"],
                 "names": "$~nama"
             },
             "description": {
@@ -4579,63 +4660,63 @@
                 "names": "$~keterangan"
             },
             "selectable": {
-                "doc": "$~SAMA SEPERTI @Phrase/selectable!",
+                "doc": "$~SAMA SEPERTI @Phrase.selectable!",
                 "names": "$~dapatdipilih"
             },
             "color": {
-                "doc": "$~SAMA DENGAN @Group/color",
+                "doc": "$~SAMA DENGAN @Group.color",
                 "names": "$~warna"
             },
             "background": {
-                "doc": "$~SAMA SEPERTI @Group/background",
+                "doc": "$~SAMA SEPERTI @Group.background",
                 "names": "$~latarbelakang"
             },
             "opacity": {
-                "doc": "$~SAMA DENGAN @Group/opacity",
+                "doc": "$~SAMA DENGAN @Group.opacity",
                 "names": "$~kegelapan"
             },
             "offset": {
-                "doc": "$~SAMA DENGAN @Group/offset",
+                "doc": "$~SAMA DENGAN @Group.offset",
                 "names": "$~mengimbangi"
             },
             "rotation": {
-                "doc": "$~SAMA SEPERTI @Group/rotation",
+                "doc": "$~SAMA SEPERTI @Group.rotation",
                 "names": ["$~📐", "$~rotasi"]
             },
             "scale": {
-                "doc": "$~SAMA SEPERTI @Group/scale",
+                "doc": "$~SAMA SEPERTI @Group.scale",
                 "names": "$~skala"
             },
             "flipx": {
-                "doc": "$~SAMA SEPERTI @Group/flipx",
+                "doc": "$~SAMA SEPERTI @Group.flipx",
                 "names": "$~flipx"
             },
             "flipy": {
-                "doc": "$~SAMA SEPERTI @Group/flipy",
+                "doc": "$~SAMA SEPERTI @Group.flipy",
                 "names": "$~membalik"
             },
             "entering": {
-                "doc": "$~SAMA DENGAN @Group/entering",
+                "doc": "$~SAMA DENGAN @Group.entering",
                 "names": "$~memasuki"
             },
             "resting": {
-                "doc": "$~SAMA SEPERTI @Group/resting!",
+                "doc": "$~SAMA SEPERTI @Group.resting!",
                 "names": "$~beristirahat"
             },
             "moving": {
-                "doc": "$~SAMA SEPERTI @Group/moving!",
+                "doc": "$~SAMA SEPERTI @Group.moving!",
                 "names": "$~pindah"
             },
             "exiting": {
-                "doc": "$~SAMA SEPERTI @Group/exiting!",
+                "doc": "$~SAMA SEPERTI @Group.exiting!",
                 "names": "$~keluar"
             },
             "duration": {
-                "doc": "$~SAMA SEPERTI @Phrase/duration!",
+                "doc": "$~SAMA SEPERTI @Phrase.duration!",
                 "names": ["$~⏳", "$~lamanya"]
             },
             "style": {
-                "doc": "$~SAMA SEPERTI @Phrase/style!",
+                "doc": "$~SAMA SEPERTI @Phrase.style!",
                 "names": "$~gaya"
             },
             "gravity": {
@@ -4764,6 +4845,15 @@
                     "off": "$~Tampilkan kontrol tambahan"
                 },
                 "popup": "$~Kontrol tambahan"
+            },
+            "color": {
+                "pick": {
+                    "label": "$~pilih warna",
+                    "tip": "$~Pilih warna dari layar Anda"
+                },
+                "field": "$~bidang warna",
+                "instructions": "$~Gunakan tombol panah kiri dan kanan untuk mengubah rona dan tombol panah atas dan bawah untuk mengubah saturasi. Tahan tombol Shift untuk langkah yang lebih halus.",
+                "value": "$~$color , LCH $l , $c , $h"
             }
         },
         "tile": {
@@ -4937,7 +5027,8 @@
                 }
             },
             "error": {
-                "unknown": "$~Galeri ini tidak ada atau tidak bersifat publik."
+                "unknown": "$~Galeri ini tidak ada atau tidak bersifat publik.",
+                "unreachable": "$~Kami tidak dapat memuat galeri ini. Jika Anda berharap dapat mengaksesnya, periksa koneksi Anda; VPN, ekstensi peramban, atau filter jaringan mungkin memblokirnya."
             },
             "field": {
                 "name": {
@@ -5215,6 +5306,10 @@
                 "expandSequence": {
                     "on": "$~barang-barang yang runtuh",
                     "off": "$~perluas item"
+                },
+                "search": {
+                    "on": "$~sembunyikan pencarian",
+                    "off": "$~cari kodenya"
                 }
             },
             "options": {
@@ -5228,13 +5323,16 @@
                 "expandControls": "$~Tampilkan perintah pengeditan tambahan",
                 "collapseControls": "$~sembunyikan perintah pengeditan tambahan",
                 "zoomIn": "$~Perbesar kodenya",
-                "zoomOut": "$~Perkecil ukuran kode."
+                "zoomOut": "$~Perkecil ukuran kode.",
+                "replace": "$~ganti semua kecocokan"
             },
             "field": {
                 "name": {
                     "description": "$~edit nama sumber",
                     "placeholder": "$~nama"
-                }
+                },
+                "search": "$~teks",
+                "replace": "$~mengganti"
             },
             "menu": {
                 "label": "$~menu pelengkap otomatis",
@@ -5307,7 +5405,10 @@
                     "noClipboardItem": "$~Tidak ada apa pun di papan klip.",
                     "noSelection": "$~Tidak ada yang dipilih",
                     "noMove": "$~Tidak bisa bergerak lebih jauh lagi"
-                }
+                },
+                "nextMatch": "$~Lanjutkan ke hasil pencarian berikutnya",
+                "insertTranslate": "$~sisipkan simbol terjemahan",
+                "insertThis": "$~sisipkan simbol ini"
             },
             "error": {
                 "invalidName": "$~Ini harus berupa nama Wordplay yang valid.",
@@ -5542,7 +5643,9 @@
                 }
             },
             "note": {
-                "empty": "$~Nama yang Anda tentukan dalam proyek Anda akan muncul di sini."
+                "empty": "$~Nama yang Anda tentukan dalam proyek Anda akan muncul di sini.",
+                "keepTyping": "$~Terus ketik untuk mencari…",
+                "noMatches": "$~Tidak ada kecocokan"
             },
             "purposes": {
                 "Project": {
@@ -5631,6 +5734,10 @@
                 "howToGalleryButton": {
                     "label": "$~lihat petunjuk cara melakukannya di ruang tersebut",
                     "tip": "$~lihat petunjuk cara melakukannya di ruang tersebut"
+                },
+                "explain": {
+                    "header": "$~Cara-cara",
+                    "explanation": "$~Contoh singkat yang menunjukkan cara melakukan berbagai hal di Wordplay. Tekan putar pada pratinjau mana pun untuk melihatnya berjalan, lalu buka untuk membaca cara kerjanya."
                 }
             },
             "tour": {
@@ -5640,6 +5747,10 @@
                 "howto": "$~Ini adalah bagian /cara-cara/. Bagian ini berisi *pola-pola bermanfaat* untuk mencapai perilaku tertentu dalam proyek Anda.",
                 "mode": "$~Gunakan tombol ini untuk beralih sendiri antara bagian *kode* dan *cara*.",
                 "search": "$~Kotak /pencarian/ berguna untuk *menemukan* fitur, atau menemukan fitur dengan cepat *berdasarkan nama*."
+            },
+            "breadcrumb": {
+                "label": "$~riwayat navigasi",
+                "home": "$~Rumah"
             }
         },
         "dialog": {
@@ -5956,8 +6067,6 @@
                 },
                 "error": {
                     "login": "$~Anda pasti<logged in@://login> untuk mengirimkan umpan balik",
-                    "submit": "$~Tidak dapat mengirimkan umpan balik.",
-                    "load": "$~Tidak dapat memuat umpan balik",
                     "empty": "$~Tidak ada umpan balik yang dapat ditampilkan.",
                     "url": "$~Ini bukan URL GitHub yang valid."
                 }
@@ -6114,7 +6223,34 @@
             "saving": "$~penghematan",
             "saved": "$~tersimpan",
             "local": "$~tersimpan",
-            "unsaved": "$~belum disimpan"
+            "unsaved": "$~belum disimpan",
+            "sync": {
+                "header": "$~Sinkronisasi dengan cloud",
+                "projects": "$~Proyek",
+                "galleries": "$~Galeri",
+                "characters": "$~Karakter",
+                "howtos": "$~Cara-cara",
+                "chats": "$~Obrolan"
+            },
+            "status": {
+                "header": "$~Simpan status",
+                "intro": "$~Pekerjaan Anda disimpan di perangkat ini dan diarsipkan di cloud.",
+                "columns": {
+                    "device": "$~pada perangkat ini",
+                    "cloud": "$~di awan",
+                    "unsaved": "$~belum disimpan"
+                },
+                "state": {
+                    "synced": "$~disinkronkan",
+                    "loading": "$~memuat",
+                    "syncing": "$~penghematan",
+                    "offline": "$~offline",
+                    "failed": "$~gagal"
+                },
+                "conversation": "$~percakapan",
+                "legend": "$~\"Belum tersimpan\" berarti sudah tersimpan di sini tetapi belum online. Perubahan akan tersimpan saat Anda kembali online.",
+                "errorsHeader": "$~Beberapa hal tidak dapat disimpan secara online:"
+            }
         },
         "localize": {
             "header": "$~Melokalisir",
@@ -6692,10 +6828,6 @@
                         "label": "$~semua warna",
                         "tip": "$~Pilih semua bentuk dengan warna yang sama dengan yang dipilih."
                     },
-                    "pick": {
-                        "label": "$~pilih warna",
-                        "tip": "$~Pilih warna dari layar Anda untuk digunakan saat menggambar piksel dan bentuk."
-                    },
                     "saturationUp": {
                         "label": "$~kejenuhan",
                         "tip": "$~meningkatkan saturasi"
@@ -6800,11 +6932,12 @@
                     "usernameTaken": "$~Nama pengguna ini sudah digunakan.",
                     "failure": "$~Tidak bisa login :(",
                     "offline": "$~Kami tidak bisa meraih awan itu ☁️.",
-                    "delete": "$~Kami tidak dapat menghapus akun Anda, tetapi kami tidak tahu alasannya.",
                     "invalidPassword": "$~Kata sandi harus memiliki panjang minimal 6 karakter.",
                     "wrongPassword": "$~Nama pengguna dan kata sandi tidak valid. Kata sandi Anda salah, atau orang lain sudah menggunakan nama pengguna ini.",
                     "mismatched": "$~Kata sandinya tidak cocok.",
-                    "tooMany": "$~Anda telah mencoba masuk dan gagal terlalu banyak kali. Anda harus menunggu untuk mencoba lagi."
+                    "tooMany": "$~Anda telah mencoba masuk dan gagal terlalu banyak kali. Anda harus menunggu untuk mencoba lagi.",
+                    "unsaved": "$~Anda memiliki perubahan yang belum tersimpan secara online. Sambungkan kembali dan tunggu hingga perubahan tersebut tersimpan terlebih dahulu, jika tidak, perubahan tersebut akan hilang dari perangkat ini.",
+                    "deletePartial": "$~Kami telah menghapus data akun Anda, tetapi tidak dapat menyelesaikan penghapusan akun Anda. Silakan coba lagi, atau hubungi kami jika hal ini terus terjadi."
                 },
                 "feedback": {
                     "changing": "$~Mengirim email baru...",
@@ -6952,6 +7085,10 @@
                 "intro": "$~Terima kasih kepada * $count * kontributor kami yang telah berkontribusi pada desain, pengembangan, lokalisasi, dan konten Wordplay! Dan terima kasih kepada banyak guru dan kaum muda yang telah membimbing desain kami dalam kelompok fokus, sesi desain, dan ruang kelas, yang tidak kami sebutkan di sini untuk menjaga privasi mereka. Proyek ini telah didukung oleh National Science Foundation di bawah penghargaan 2318257, 2031265, 2100296, dan 2122950, Universitas Washington, dan donatur yang murah hati.<gifts@://donate> dari orang-orang seperti Anda.",
                 "teachers": "$~Guru",
                 "contributors": "$~Kontributor"
+            },
+            "breadcrumb": {
+                "label": "$~Tepung roti",
+                "home": "$~Rumah"
             }
         },
         "edit": {
@@ -7027,7 +7164,7 @@
         },
         "connection": {
             "offline": "$~Anda sedang offline. Beberapa fitur tidak akan berfungsi sampai Anda online.",
-            "unreachable": "$~Kami tidak dapat mengakses basis data Wordplay. Beberapa fitur tidak akan berfungsi sampai koneksi pulih.",
+            "unreachable": "$~Kami tidak dapat mengakses basis data, jadi beberapa hal tidak akan berfungsi. VPN, ekstensi peramban, atau filter jaringan mungkin memblokirnya.",
             "label": "$~Status koneksi"
         },
         "presence": {
@@ -7042,6 +7179,12 @@
             "refresh": "$~Menyegarkan",
             "updates": "$~lihat pembaruan",
             "dismiss": "$~Membubarkan"
+        },
+        "banner": {
+            "deleteFailed": "$~Kami tidak bisa menghapusnya.",
+            "saveFailed": "$~Kita tidak bisa menyelamatkan itu.",
+            "submitFailed": "$~Kami tidak bisa mengirimkan itu",
+            "loadFailed": "$~Kami tidak dapat memuatnya."
         }
     },
     "moderation": {

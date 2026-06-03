@@ -84,6 +84,7 @@ vi.mock('@db/firebase', () => ({
 vi.mock('@db/Database', () => ({
     DB: {
         track: vi.fn(<T>(p: Promise<T>) => p),
+        write: vi.fn(<T>(p: Promise<T>) => p),
     },
     Galleries: {
         get: vi.fn(async () => undefined),

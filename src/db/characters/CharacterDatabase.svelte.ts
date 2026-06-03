@@ -3,11 +3,20 @@
 ////////////////////////////////
 
 import { CharacterSchema, type Character } from '@db/characters/Character';
-import { SaveStatus, type Database } from '@db/Database';
+import {
+    SaveStatus,
+    type Database,
+    type SaveCounts,
+    type SaveError,
+} from '@db/Database';
+import { Domain } from '@db/Domains';
 import { firestore } from '@db/firebase';
 import type Project from '@db/projects/Project';
+import SaveTracker from '@db/SaveTracker.svelte';
+import supportsIndexedDB from '@db/supportsIndexedDB';
 import ConceptLink, { CharacterName } from '@nodes/ConceptLink';
 import type Node from '@nodes/Node';
+import deferToIdle from '@util/deferToIdle';
 import { FirebaseError } from 'firebase/app';
 import type { User } from 'firebase/auth';
 import {
@@ -28,7 +37,7 @@ import {
 import { SvelteMap } from 'svelte/reactivity';
 import { v4 as uuidv4 } from 'uuid';
 
-const CharactersCollection = 'characters';
+const CharactersCollection = Domain.Characters;
 
 /**
  * Cap on a character name
@@ -55,28 +64,184 @@ export class CharactersDatabase {
     /** The realtime listener unsubscriber */
     private unsubscribe: Unsubscribe | undefined = undefined;
 
+    /** Cancels a pending idle-deferred `listen()` (see `listen`/`ignore`). */
+    private listenDefer: (() => void) | undefined = undefined;
+
     /** The map of characters needing to be saved */
     private unsaved = new Map<string, Character>();
 
     /** The timeout we use to debounce saves */
     private saveTimeout: NodeJS.Timeout | undefined = undefined;
 
+    /** Whether this is a browser with IndexedDB support. */
+    readonly IndexedDBSupported = supportsIndexedDB();
+
+    /** Flips true once the in-memory indexes have been populated from the
+     *  local cache (or immediately, when there's no IndexedDB). Pages can gate
+     *  on this rather than on the cloud listener. */
+    hydrated: boolean = $state(false);
+
+    /** Per-item cloud-save tracking (unsaved set, errors, counts, durable dirty
+     *  rows), shared with the other domain facades. See {@link SaveTracker}. */
+    private readonly saves = new SaveTracker({
+        domain: Domain.Characters,
+        localDB: () => this.db.localDB,
+        track: (write) => this.db.track(write),
+        deviceCount: () => this.getEditableCharacters().length,
+        supported: () => this.IndexedDBSupported,
+        isHydrated: () => this.hydrated,
+    });
+
+    /** IDs of the user's characters whose latest local edit hasn't been
+     *  confirmed saved in the cloud (write pending or failed). */
+    get unsavedIDs() {
+        return this.saves.unsavedIDs;
+    }
+
+    /** Save failures for the save-status dialog. */
+    get saveErrors(): SaveError[] {
+        return this.saves.saveErrors;
+    }
+
+    /** How many of the user's characters are saved on this device, in the
+     *  cloud, and unsaved, for the save-status dialog. */
+    get saveCounts(): SaveCounts {
+        return this.saves.saveCounts;
+    }
+
     constructor(db: Database) {
         this.db = db;
+
+        // Warm the in-memory indexes from the local cache before any cloud
+        // sync, so characters are available offline / on cold start.
+        this.hydrate();
+    }
+
+    /** Wrap a cloud write so the save-status dialog reflects it; see
+     *  {@link SaveTracker.trackSave}. */
+    private trackSave(
+        id: string,
+        name: string | undefined,
+        write: Promise<unknown>,
+    ): Promise<boolean> {
+        return this.saves.trackSave(id, name, write);
+    }
+
+    /** Re-attempt the cloud write for every character still marked unsaved
+     *  (e.g. edits made offline before a reload). Called once the user is known
+     *  (startSync) and on reconnect. A no-op when nothing is unsaved. */
+    async flushUnsaved() {
+        if (firestore === undefined) return;
+        const db = firestore;
+        await this.saves.flushUnsaved((id) => {
+            const character = this.byID.get(id);
+            return character
+                ? {
+                      name: character.name,
+                      write: setDoc(
+                          doc(db, CharactersCollection, id),
+                          character,
+                      ),
+                  }
+                : undefined;
+        });
+    }
+
+    /** Populate the in-memory indexes from the shared local cache, then keep
+     *  them in sync with local writes (including cross-tab). The first emission
+     *  flips `hydrated`. */
+    async hydrate() {
+        if (!this.IndexedDBSupported) {
+            this.hydrated = true;
+            return;
+        }
+        // Seed the in-memory unsaved set from the durable dirty table BEFORE the
+        // cloud listener can run, so the listener's skip-dirty guard preserves
+        // local edits that haven't reached the cloud yet.
+        await this.saves.seedDirty();
+        let firstEmission = true;
+        this.db.localDB.getAllCharacters().subscribe((characters) => {
+            for (const character of characters)
+                this.loadCharacterIntoMemory(character);
+            if (firstEmission) {
+                firstEmission = false;
+                this.hydrated = true;
+            }
+        });
+    }
+
+    /** Insert a character read from the local cache into the in-memory indexes,
+     *  without persisting or running update side-effects. Skips characters the
+     *  in-memory copy already holds at an equal-or-newer version, so a stale
+     *  cache read can't clobber a fresh in-memory edit. Never writes back to
+     *  the cache, so the hydrate subscription can't loop. */
+    private loadCharacterIntoMemory(character: Character) {
+        const existing = this.byID.get(character.id);
+        if (existing && existing.updated >= character.updated) return;
+        if (existing) this.byName.delete(existing.name);
+        this.byID.set(character.id, character);
+        this.byName.set(character.name, character);
+    }
+
+    /** Mirror authoritative character data (cloud snapshots, local edits) into
+     *  the local cache for cold-start hydration. Never called from the hydrate
+     *  path, to avoid a write/emit loop. */
+    private cacheCharactersLocally(characters: Character[]) {
+        if (!this.IndexedDBSupported || characters.length === 0) return;
+        try {
+            this.db.localDB.saveCharacters(characters);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    /** Clear the local character cache and in-memory indexes. Used when a
+     *  different account takes over this device (privacy) and on explicit
+     *  sign-out, mirroring Projects' local wipe. */
+    async clearLocal() {
+        this.byID.clear();
+        this.byName.clear();
+        this.unsaved.clear();
+        await this.saves.clearTracking();
+        if (this.IndexedDBSupported)
+            await this.db.localDB.deleteAllCharacters();
     }
 
     syncUser() {
         if (firestore === undefined) return;
         const user = this.db.getUser();
+        // Tear the listener down on logout — otherwise it keeps running after
+        // auth clears and errors with permission-denied.
         if (user) this.listen(firestore, user);
+        else this.ignore();
     }
 
     ignore() {
-        if (this.unsubscribe) this.unsubscribe();
+        if (this.listenDefer) {
+            this.listenDefer();
+            this.listenDefer = undefined;
+        }
+        if (this.unsubscribe) {
+            this.unsubscribe();
+            this.unsubscribe = undefined;
+        }
     }
 
     listen(firestore: Firestore, user: User) {
         this.ignore();
+
+        // Defer this background listener until the browser is idle so it doesn't
+        // compete with the critical galleries/projects load on login.
+        this.listenDefer = deferToIdle(() => {
+            this.listenDefer = undefined;
+            // The user may have signed out or switched during the idle gap.
+            if (this.db.getUser()?.uid !== user.uid) return;
+            this.startListening(firestore, user);
+        });
+    }
+
+    private startListening(firestore: Firestore, user: User) {
+        this.db.markSyncing(Domain.Characters);
         this.unsubscribe = onSnapshot(
             query(
                 collection(firestore, CharactersCollection),
@@ -88,12 +253,21 @@ export class CharactersDatabase {
             async (snapshot) => {
                 // First, go through the entire set, gathering the latest versions and remembering what project IDs we know
                 // so we can delete ones that are gone from the server.
+                const synced: Character[] = [];
                 snapshot.forEach((doc) => {
                     const character = doc.data();
 
                     // Try to parse the chat and save on success.
                     try {
                         const parsed = CharacterSchema.parse(character);
+
+                        // Skip characters with unsaved local edits not yet
+                        // pushed: our local copy is authoritative until
+                        // flushUnsaved replays it, so don't let an older cloud
+                        // version overwrite it in memory or the cache.
+                        if (this.unsavedIDs.has(parsed.id)) return;
+
+                        synced.push(parsed);
 
                         // If the character's update time is greater than the cached one, or there is no cached one, update.
                         // Update the chat in the local cache, but do not persist; we just got it from the DB.
@@ -111,6 +285,9 @@ export class CharactersDatabase {
                     }
                 });
 
+                // Mirror the cloud truth into the local cache for next cold start.
+                this.cacheCharactersLocally(synced);
+
                 // Next, go through the changes and see if any were explicitly removed, and if so, delete them.
                 snapshot.docChanges().forEach((change) => {
                     // Removed? Delete the local cache of the project.
@@ -120,8 +297,16 @@ export class CharactersDatabase {
                         this.deleteCharacterLocally(data as Character);
                     }
                 });
+
+                this.db.markSynced(Domain.Characters, this.byID.size);
             },
             (error) => {
+                // Always terminal so the save-status button stops spinning and
+                // the dialog shows "failed" (incl. permission/index errors);
+                // only connectivity errors flip the offline/unreachable state.
+                this.db.markSyncFailed(Domain.Characters);
+                if (this.db.isConnectivityError(error))
+                    this.db.markFirebaseFailed();
                 if (error instanceof FirebaseError) {
                     console.error(error.code);
                     console.error(error.message);
@@ -161,20 +346,18 @@ export class CharactersDatabase {
             };
         }
 
-        try {
-            await this.db.track(
-                setDoc(
-                    doc(firestore, CharactersCollection, character.id),
-                    character,
-                ),
-            );
-        } catch (err) {
-            console.error(err);
-            return;
-        }
-
-        // Cache locally.
+        // Cache locally first (in memory and on disk) so the new character is
+        // usable immediately, then save to the cloud, tracking save state.
         this.updateCharacter(character, false);
+        this.cacheCharactersLocally([character]);
+        await this.trackSave(
+            character.id,
+            character.name,
+            setDoc(
+                doc(firestore, CharactersCollection, character.id),
+                character,
+            ),
+        );
 
         // Return the id to confirm we created it.
         return character.id;
@@ -272,8 +455,12 @@ export class CharactersDatabase {
             this.byName.set(character.name, character);
         }
 
-        // Are we to persist? Defer a save.
+        // Are we to persist? Mirror to the local cache and defer a cloud save.
         if (persist) {
+            this.cacheCharactersLocally([character]);
+            // Mark unsaved right away so the save-status count reflects the edit
+            // before the debounced cloud write runs.
+            this.unsavedIDs.add(character.id);
             this.unsaved.set(character.id, character);
             if (this.saveTimeout) clearTimeout(this.saveTimeout);
             this.saveTimeout = setTimeout(
@@ -286,28 +473,25 @@ export class CharactersDatabase {
     async persistUnsavedCharacters() {
         this.db.setStatus(SaveStatus.Saving, undefined);
         if (firestore === undefined) return;
-        try {
-            await Promise.all(
-                Array.from(this.unsaved.values()).map((character) => {
-                    if (firestore)
-                        return this.db.track(
-                            setDoc(
-                                doc(
-                                    firestore,
-                                    CharactersCollection,
-                                    character.id,
-                                ),
-                                character,
-                            ),
-                        );
-                    return undefined;
-                }),
-            );
-            this.db.setStatus(SaveStatus.Saved, undefined);
-        } catch (err) {
-            this.db.setStatus(SaveStatus.Error, undefined);
-            console.log(err);
-        }
+        const db = firestore;
+        // Each write tracks its own save state (unsaved / saved / failed) via
+        // trackSave, so one failure doesn't hide the others.
+        const results = await Promise.all(
+            Array.from(this.unsaved.values()).map((character) =>
+                this.trackSave(
+                    character.id,
+                    character.name,
+                    setDoc(
+                        doc(db, CharactersCollection, character.id),
+                        character,
+                    ),
+                ),
+            ),
+        );
+        this.db.setStatus(
+            results.every((ok) => ok) ? SaveStatus.Saved : SaveStatus.Error,
+            undefined,
+        );
     }
 
     /** Get the character by ID
@@ -329,8 +513,8 @@ export class CharactersDatabase {
         try {
             let match: Character | null = null;
             // Check the database by ID.
-            const onlineMatchByID = await getDoc(
-                doc(firestore, CharactersCollection, id),
+            const onlineMatchByID = await this.db.read(
+                getDoc(doc(firestore, CharactersCollection, id)),
             );
             if (onlineMatchByID.exists()) {
                 const character = onlineMatchByID.data();
@@ -378,15 +562,21 @@ export class CharactersDatabase {
             let match: Character | null = null;
 
             // Check the database by name.
-            const onlineMatchByName = await getDocs(
-                query(
-                    collection(firestore, CharactersCollection),
-                    and(
-                        where('name', '==', name),
-                        or(
-                            where('public', '==', true),
-                            where('owner', '==', user.uid),
-                            where('collaborators', 'array-contains', user.uid),
+            const onlineMatchByName = await this.db.read(
+                getDocs(
+                    query(
+                        collection(firestore, CharactersCollection),
+                        and(
+                            where('name', '==', name),
+                            or(
+                                where('public', '==', true),
+                                where('owner', '==', user.uid),
+                                where(
+                                    'collaborators',
+                                    'array-contains',
+                                    user.uid,
+                                ),
+                            ),
                         ),
                     ),
                 ),
@@ -418,23 +608,28 @@ export class CharactersDatabase {
         }
     }
 
-    /** Delete a character, if the owner */
-    async deleteCharacter(id: string) {
+    /** Delete a character, if the owner. Returns whether the delete reached the
+     *  cloud, so callers (e.g. the editor) can gate navigation on success rather
+     *  than redirecting away as if it worked. */
+    async deleteCharacter(id: string): Promise<boolean> {
         const user = this.db.getUser();
-        if (user === null) return;
+        if (user === null) return false;
         const char = await this.getByID(id);
-        if (char === null || char === undefined) return;
-        if (user.uid === char.owner) {
-            if (firestore === undefined) return;
-            try {
-                await this.db.track(
-                    deleteDoc(doc(firestore, CharactersCollection, id)),
-                );
-                this.deleteCharacterLocally(char);
-            } catch (err) {
-                console.error(err);
-                return;
-            }
+        if (char === null || char === undefined) return false;
+        if (user.uid !== char.owner) return false;
+        if (firestore === undefined) return false;
+        // Confirm-then-remove: only drop local state once the cloud delete
+        // lands, so a failed/offline delete can't strand a cloud copy the
+        // user can no longer see. write() fails fast instead of hanging.
+        try {
+            await this.db.write(
+                deleteDoc(doc(firestore, CharactersCollection, id)),
+            );
+            this.deleteCharacterLocally(char);
+            return true;
+        } catch (err) {
+            this.db.reportBanner((l) => l.ui.banner.deleteFailed, err);
+            return false;
         }
     }
 
@@ -442,6 +637,11 @@ export class CharactersDatabase {
         this.byName.delete(character.name);
         this.byID.delete(character.id);
         this.unsaved.delete(character.id);
+        // Drops the unsaved/error state AND the durable dirty row, so a
+        // character deleted while dirty can't re-seed unsavedIDs on reload.
+        this.saves.forget(character.id);
+        if (this.IndexedDBSupported)
+            void this.db.localDB.deleteCharacter(character.id);
     }
 
     /** Get all cached characters owned by the user */

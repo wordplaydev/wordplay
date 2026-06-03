@@ -127,6 +127,8 @@ describe('HowToDatabase atomic how-to + gallery updates', () => {
         mockDatabase = {
             getUser: vi.fn(() => ({ uid: 'user-1' })),
             track: vi.fn(<T,>(p: Promise<T>) => p),
+            write: vi.fn(<T,>(p: Promise<T>) => p),
+            reportBanner: vi.fn(),
         };
 
         db = new HowToDatabase(mockDatabase);
@@ -200,6 +202,30 @@ describe('HowToDatabase atomic how-to + gallery updates', () => {
             expect(galleryUpdate!.data).toMatchObject({
                 howTos: { _op: 'arrayRemove', elements: ['ht-1'] },
             });
+        });
+
+        it('removes the how-to from the local cache only after the cloud delete succeeds', async () => {
+            const gallery = makeGallery('g1', ['ht-1']);
+            db['howtos'].set('ht-1', new HowTo(makeHowToDoc({ id: 'ht-1' })));
+
+            await db.deleteHowTo('ht-1', gallery);
+
+            expect(db['howtos'].has('ht-1')).toBe(false);
+            expect(mockDatabase.reportBanner).not.toHaveBeenCalled();
+        });
+
+        it('keeps the how-to locally and reports a banner when the cloud delete fails', async () => {
+            const gallery = makeGallery('g1', ['ht-1']);
+            db['howtos'].set('ht-1', new HowTo(makeHowToDoc({ id: 'ht-1' })));
+            // Confirm-then-remove: a failed cloud delete must NOT strand the
+            // how-to (removed locally but still in the cloud with nothing to
+            // retry). It stays cached so the user can try again.
+            mockDatabase.write.mockRejectedValueOnce(new Error('offline'));
+
+            await db.deleteHowTo('ht-1', gallery);
+
+            expect(db['howtos'].has('ht-1')).toBe(true);
+            expect(mockDatabase.reportBanner).toHaveBeenCalledTimes(1);
         });
     });
 

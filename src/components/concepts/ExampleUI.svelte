@@ -15,14 +15,12 @@
         TEXT_EDITING_SYMBOL,
     } from '@parser/Symbols';
     import Evaluator from '@runtime/Evaluator';
-    import { onMount } from 'svelte';
+    import { onMount, untrack } from 'svelte';
     import { writable } from 'svelte/store';
     import { blocks, DB, locales, Settings } from '@db/Database';
-    import Stage, { NameGenerator, toStage } from '@output/Stage';
-    import type Value from '@values/Value';
     import Annotations from '@components/annotations/Annotations.svelte';
     import Editor from '@components/editor/Editor.svelte';
-    import OutputView from '@components/output/OutputView.svelte';
+    import OutputPreview from '@components/concepts/OutputPreview.svelte';
     import {
         getConceptIndex,
         IdleKind,
@@ -41,7 +39,6 @@
     import SelectedOutput from '@components/project/SelectedOutput.svelte';
     import type { CommandContext } from '@components/editor/commands/Commands';
     import type Node from '@nodes/Node';
-    import ValueView from '@components/values/ValueView.svelte';
 
     interface Props {
         example: Example;
@@ -52,8 +49,8 @@
 
     let { example, spaces, evaluated }: Props = $props();
 
-    let value: Value | undefined = $state(undefined);
-    let stage: Stage | undefined = $state(undefined);
+    /** Whether the output preview is currently playing (vs. showing the static first frame). */
+    let playing = $state(false);
     let copied = $state(false);
     let currentCaret: Caret | undefined = $state(undefined);
     let annotationsExpanded = $state(false);
@@ -65,8 +62,9 @@
     // svelte-ignore state_referenced_locally
     let lastExample = $state(example);
 
-    // Derive a project from the example.
-    let project = $derived<Project | undefined>(
+    // Derive a project from the example. Project.make always returns a
+    // Project, so this is never undefined.
+    let project = $derived<Project>(
         Project.make(
             null,
             'example',
@@ -92,13 +90,21 @@
         conflictsStore.set(project ? project.analyze().conflicts : []);
     });
 
+    // Build the evaluator in the given reactivity mode. It starts
+    // **non-reactive** so the static first frame (getInitialValue) evaluates
+    // without starting any streams — crucially without claiming the mic/camera
+    // (CameraFeed/AudioStream only call getUserMedia when reactive). It's
+    // recreated reactive only when the creator presses play (see the $effect
+    // below), mirroring OutputPreview's self-contained behavior.
+    function makeEvaluator(reactive: boolean): Evaluator {
+        return new Evaluator(project, DB, $locales.getLocales(), reactive);
+    }
+
     // Eagerly construct the evaluator so we can populate the evaluation
     // context at script init, before child components mount. project is a
     // $derived that returns a Project synchronously here.
     // svelte-ignore state_referenced_locally
-    let evaluator = $state<Evaluator>(
-        new Evaluator(project as Project, DB, $locales.getLocales()),
-    );
+    let evaluator = $state<Evaluator>(makeEvaluator(false));
 
     // Isolate the evaluation and animating-nodes contexts from the parent
     // ProjectView. Without this, parent broadcasts (~60Hz while playing) and
@@ -135,7 +141,7 @@
     let exampleCommandContext = $derived<CommandContext>({
         caret: currentCaret,
         editor: false,
-        project: project as Project,
+        project,
         locales: $locales,
         evaluator,
         database: DB,
@@ -165,23 +171,13 @@
         evaluation.set(getEvalContext());
     }
 
-    function update() {
-        if (evaluator && project) {
-            value = evaluator.getLatestSourceValue(project.getMain());
-            stage = value
-                ? toStage(evaluator, value, new NameGenerator())
-                : undefined;
-        }
-    }
-
-    // Wire the eager evaluator's observers and start it. reset() handles
-    // subsequent project changes.
-    // svelte-ignore state_referenced_locally
-    if (evaluated) evaluator.observe(update);
+    // Wire the eager evaluator's store observer and seed the static first frame (no
+    // auto-play). When `evaluated`, the OutputPreview below drives play/stop on this same
+    // evaluator, so the Editor reflects play state. reset() handles project changes.
     // svelte-ignore state_referenced_locally
     evaluator.observe(updateEvaluatorStores);
     // svelte-ignore state_referenced_locally
-    evaluator.start();
+    evaluator.getInitialValue();
 
     onMount(() => {
         return () => {
@@ -190,7 +186,6 @@
                 index?.removeExample(example.program.expression);
             if (evaluator) {
                 evaluator.stop();
-                evaluator.ignore(update);
                 evaluator.ignore(updateEvaluatorStores);
             }
         };
@@ -200,15 +195,14 @@
         // Don't create a new evaluator if the project is the same.
         if (!hard && evaluator && evaluator.project === project) return;
 
-        evaluator?.ignore(update);
         evaluator?.ignore(updateEvaluatorStores);
         evaluator?.stop();
 
         if (project) {
-            evaluator = new Evaluator(project, DB, $locales.getLocales());
-            if (evaluated) evaluator.observe(update);
+            playing = false;
+            evaluator = makeEvaluator(false);
             evaluator.observe(updateEvaluatorStores);
-            evaluator.start();
+            evaluator.getInitialValue();
             updateEvaluatorStores();
         }
     }
@@ -216,6 +210,28 @@
     /** Reset when the project changes */
     $effect(() => {
         if (project) reset(false);
+    });
+
+    /** Switch the evaluator's reactivity to match play state. The evaluator's
+     *  `reactive` flag is immutable, so we recreate it: non-reactive shows the
+     *  static first frame without starting streams (no mic/camera claim);
+     *  reactive starts streams — and so claims native inputs like the camera —
+     *  only once the creator presses play. Mirrors OutputPreview.recreateOwn.
+     *  The body is untracked so broadcasting to observers (which touch reactive
+     *  state) can't re-invalidate this effect; only `playing` is a dependency. */
+    $effect(() => {
+        const p = playing;
+        untrack(() => {
+            if (!project || evaluator.reactive === p) return;
+            evaluator.ignore(updateEvaluatorStores);
+            evaluator.stop();
+            evaluator = makeEvaluator(p);
+            evaluator.observe(updateEvaluatorStores);
+            // Reactive: evaluate and start streams. Non-reactive: static frame.
+            if (p) evaluator.start();
+            else evaluator.getInitialValue();
+            updateEvaluatorStores();
+        });
     });
 
     /** Add the example to the index when it changes so it can be dragged */
@@ -287,34 +303,17 @@
                     labeled={false}
                     modeLabels={false}
                 />
-
-                {#if evaluated && value}
-                    <div class="reset">
-                        <Button
-                            tip={(l) => l.ui.timeline.button.reset}
-                            icon="↻"
-                            background={true}
-                            action={() => reset(true)}
-                        ></Button>
-                    </div>
-                {/if}
             </div>
         </div>
-        {#if evaluated && value}
+        {#if evaluated && project && evaluator}
             <div class="value">
-                {#if stage && evaluator && project}
-                    <div class="stage">
-                        <OutputView
-                            {project}
-                            {evaluator}
-                            {value}
-                            grid
-                            editable={false}
-                            wheel={false}
-                            blurOnTyping={false}
-                        />
-                    </div>
-                {:else}<ValueView {value} inline={false} />{/if}
+                <OutputPreview
+                    {project}
+                    {evaluator}
+                    {playing}
+                    onPlay={() => (playing = true)}
+                    onStop={() => (playing = false)}
+                />
             </div>
         {/if}
     </div>
@@ -337,11 +336,6 @@
         display: flex;
         flex-direction: column;
         gap: var(--wordplay-spacing);
-    }
-
-    .reset {
-        display: flex;
-        margin-inline-start: auto;
     }
 
     .example {
@@ -404,19 +398,10 @@
         white-space: nowrap;
     }
 
-    /* Allow iOS horizontal scroll by overriding the touch-action: none set deep in CodeView */
+    /* Allow iOS horizontal scroll by overriding the touch-action: none set deep in ConceptPreview */
     .code-panel.evaluated :global(.view),
     .code-panel.evaluated :global(.node) {
         touch-action: pan-x;
-    }
-
-    .stage {
-        display: flex;
-        min-width: 10em;
-        width: 100%;
-        aspect-ratio: 4/3;
-        border-radius: var(--wordplay-border-radius);
-        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
     }
 
     .tools {

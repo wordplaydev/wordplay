@@ -596,8 +596,10 @@
             });
         }
 
-        // If there's a focus, start dragging.
-        if (valueView && renderedFocus) {
+        // If there's a focus, start dragging — but only when editable. Dragging to pan the
+        // view (or move a selected output) is an editing affordance; read-only stages like
+        // how-to previews shouldn't pan on drag.
+        if (editable && valueView && renderedFocus) {
             const output = selection?.getOutput(project) ?? [];
 
             // Start dragging.
@@ -1115,7 +1117,7 @@
     data-uiid="stage"
     aria-label={$locales.getPlainText((l) => l.ui.output.label)}
     class:mini
-    class:editing={$evaluation?.playing === false && !painting}
+    class:editing={$evaluation?.playing === false && !painting && editable}
     class:selected={stageValue &&
         stageValue.explicit &&
         stageValue.value.creator instanceof Evaluate &&

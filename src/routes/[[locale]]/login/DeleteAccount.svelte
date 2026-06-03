@@ -24,11 +24,16 @@
 
     let creator = $derived(Creator.from(user));
 
+    // Edits not yet saved online (across every domain). Deleting the account
+    // wipes the local cache, so block it while there's unsaved work.
+    let unsaved = $derived(DB.getUnsavedCount());
+
     let deleteRequested = $state(false);
     let confirmEmail: string = $state('');
     let password = $state('');
     let deleteSubmitted = $state(false);
-    let successfullyDeleted: boolean | undefined = $state(undefined);
+    let deleteResult: 'deleted' | 'failed' | 'partial' | undefined =
+        $state(undefined);
     let deleteFeedback: LocaleTextAccessor | undefined = $state(undefined);
 
     async function deleteAccount() {
@@ -41,11 +46,15 @@
             : Creator.usernameEmail(confirmEmail);
         try {
             await signInWithEmailAndPassword(auth, email, password);
-            successfullyDeleted = await DB.deleteAccount();
+            deleteResult = await DB.deleteAccount();
+            // On anything but a clean delete, DB.deleteAccount has already
+            // raised the top banner; drop back to the form so the user can
+            // retry. On success the auth state change navigates away.
+            if (deleteResult !== 'deleted') deleteSubmitted = false;
         } catch (error) {
             deleteFeedback = (l) => l.ui.page.login.error.wrongPassword;
+            deleteSubmitted = false;
         }
-        deleteSubmitted = false;
     }
 
     function readyToDeleteAccount(email: string, pass: string) {
@@ -62,12 +71,15 @@
 
 {#if !deleteSubmitted}
     <p><LocalizedText path={(l) => l.ui.page.login.prompt.delete} /></p>
+    {#if unsaved > 0}
+        <Notice text={(l) => l.ui.page.login.error.unsaved} />
+    {/if}
     <p
         ><Button
             background
             tip={(l) => l.ui.page.login.button.delete.tip}
             action={() => (deleteRequested = !deleteRequested)}
-            active={!deleteRequested}
+            active={!deleteRequested && unsaved === 0}
             label={(l) => l.ui.page.login.button.delete.label}
         />
     </p>
@@ -124,13 +136,9 @@
             {/if}
         </form>
     {/if}
-{:else if successfullyDeleted === undefined}
+{:else if deleteResult === undefined}
     <p><LocalizedText path={(l) => l.ui.page.login.feedback.deleting} /></p>
-    <p><Spinning label={(l) => l.ui.page.login.feedback.deleting} /></p
-    >{:else if successfullyDeleted === false}
-    <p aria-live="assertive"
-        ><LocalizedText path={(l) => l.ui.page.login.error.delete} /></p
-    >
+    <p><Spinning label={(l) => l.ui.page.login.feedback.deleting} /></p>
 {/if}
 
 {#if deleteFeedback}

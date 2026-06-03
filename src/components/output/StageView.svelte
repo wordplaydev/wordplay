@@ -433,7 +433,7 @@
         class="output stage {interactive && !editing ? 'live' : 'inert'}"
         class:interactive
         class:changed
-        class:editing={$evaluation?.playing === false && !painting}
+        class:editing={$evaluation?.playing === false && !painting && editable}
         aria-label={stage.description?.text ?? stage.getDescription($locales)}
         data-id={stage.getHTMLID()}
         // Only add a node ID if a stage value created it. Stages are implicitly created when the project evalutes to just a phrase

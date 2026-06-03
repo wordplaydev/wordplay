@@ -2,13 +2,16 @@ import { get } from 'svelte/store';
 import { beforeEach, expect, test } from 'vitest';
 import {
     DB,
+    Domain,
     SaveStatus,
+    SyncDomains,
     authAttempted,
     disconnected,
     firebaseEverConnected,
     firebaseReachable,
     onlineStatus,
     status,
+    syncState,
 } from './Database';
 
 const noopMessage = () => '';
@@ -90,6 +93,36 @@ test('firebaseEverConnected is sticky — markFirebaseDisconnected does not clea
     DB.markFirebaseReachable();
     DB.markFirebaseDisconnected();
     expect(get(firebaseEverConnected)).toBe(true);
+});
+
+test('resetSync returns every domain to initializing with a zero count', () => {
+    DB.markSynced(Domain.Projects, 7);
+    DB.markSyncFailed(Domain.Chats);
+    DB.resetSync();
+    const state = get(syncState);
+    for (const domain of SyncDomains) {
+        expect(state[domain].status).toBe('initializing');
+        expect(state[domain].count).toBe(0);
+    }
+});
+
+test('mark* transition only the targeted domain through the sync lifecycle', () => {
+    DB.resetSync();
+
+    DB.markSyncing(Domain.Projects);
+    expect(get(syncState).projects.status).toBe('syncing');
+    // Other domains are untouched.
+    expect(get(syncState).galleries.status).toBe('initializing');
+
+    DB.markSynced(Domain.Projects, 12);
+    expect(get(syncState).projects.status).toBe('updated');
+    expect(get(syncState).projects.count).toBe(12);
+
+    DB.markSyncFailed(Domain.Galleries);
+    expect(get(syncState).galleries.status).toBe('failed');
+    // The earlier domain's terminal state is preserved.
+    expect(get(syncState).projects.status).toBe('updated');
+    expect(get(syncState).projects.count).toBe(12);
 });
 
 test('banner is fully suppressed before authAttempted, even when offline', () => {

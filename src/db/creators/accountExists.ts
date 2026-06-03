@@ -20,8 +20,8 @@ export async function emailAccountExists(email: string) {
         firebaseReachable.set(true);
         return data !== undefined && data[email] === true;
     } catch (error) {
-        firebaseReachable.set(false);
-        throw error;
+        // firebaseReachable.set(false);
+        console.error(error);
     }
 }
 
@@ -39,7 +39,7 @@ export async function usernamesExist(usernames: string[]) {
         firebaseReachable.set(true);
         return data;
     } catch (error) {
-        firebaseReachable.set(false);
-        throw error;
+        // firebaseReachable.set(false);
+        console.error(error);
     }
 }

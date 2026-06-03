@@ -5,6 +5,7 @@ import type Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
 import { toDocString, type DocText } from '@locale/LocaleText';
 import { localeToLanguage } from '@locale/localeToLanguage';
+import selectTranslation from '@locale/selectTranslation';
 
 export function getDocLocales(
     locales: Locales,
@@ -14,9 +15,9 @@ export function getDocLocales(
         locales
             .getLocales()
             .map((locale) =>
-                parseLocaleDoc(toDocString(select(locale))).withLanguage(
-                    localeToLanguage(locale),
-                ),
+                parseLocaleDoc(
+                    toDocString(selectTranslation(locale, select)),
+                ).withLanguage(localeToLanguage(locale)),
             ) as [Doc, ...Doc[]],
     );
 }

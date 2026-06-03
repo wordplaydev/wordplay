@@ -133,6 +133,25 @@
       ],
       "type": "object"
     },
+    "ConflictText<[\"type\"]>": {
+      "additionalProperties": false,
+      "description": "The text that describes this conflict type.",
+      "properties": {
+        "explanation": {
+          "$ref": "#/definitions/Template%3C%5B%22type%22%5D%3E",
+          "description": "[formatted] The text that describes this conflict on the node which generated it."
+        },
+        "name": {
+          "description": "[name] The short header to describe the conflict",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "explanation"
+      ],
+      "type": "object"
+    },
     "DescriptiveNodeText": {
       "additionalProperties": false,
       "properties": {
@@ -4051,6 +4070,10 @@
                           "$ref": "#/definitions/Template%3C%5B%22expected%22%2C%22given%22%5D%3E",
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
+                        "explanationDivideByZero": {
+                          "$ref": "#/definitions/Template%3C%5B%22source%22%5D%3E",
+                          "description": "[formatted] Explanation shown when the incompatible none value comes from a `÷`/`%` that could divide by zero."
+                        },
                         "name": {
                           "description": "[name] The short header to describe the conflict",
                           "type": "string"
@@ -4102,6 +4125,7 @@
                       },
                       "required": [
                         "explanation",
+                        "explanationDivideByZero",
                         "name",
                         "resolution",
                         "resolutionDeclaration",
@@ -5335,6 +5359,10 @@
                           "$ref": "#/definitions/Template%3C%5B%22expected%22%2C%22given%22%5D%3E",
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
+                        "explanationDivideByZero": {
+                          "$ref": "#/definitions/Template%3C%5B%22source%22%5D%3E",
+                          "description": "[formatted] Explanation shown when the incompatible none value comes from a `÷`/`%` that could divide by zero."
+                        },
                         "name": {
                           "description": "[name] The short header to describe the conflict",
                           "type": "string"
@@ -5386,6 +5414,7 @@
                       },
                       "required": [
                         "explanation",
+                        "explanationDivideByZero",
                         "name",
                         "resolution",
                         "resolutionDeclaration",
@@ -9052,6 +9081,91 @@
               "$ref": "#/definitions/DescriptiveNodeText%3C%5B%22label%22%5D%3E",
               "description": "Any token in a Wordplay program. Description inputs: $1 = token label, $2 = token text"
             },
+            "Translate": {
+              "additionalProperties": false,
+              "description": "A translate expression that maps a collection, e.g., `[1 2 3] ↦ . + 1` Start inputs: $expression = collection being translated Finish inputs: $value = resulting collection",
+              "properties": {
+                "conflict": {
+                  "additionalProperties": false,
+                  "description": "Conflicts that this node can generate",
+                  "properties": {
+                    "ExpectedCollection": {
+                      "$ref": "#/definitions/ConflictText%3C%5B%22type%22%5D%3E",
+                      "description": "When the left side of a translate is not a List, Set, Map, or Table."
+                    },
+                    "ExpectedThis": {
+                      "$ref": "#/definitions/ConflictText",
+                      "description": "A warning that the body has no `.` referring to the current item."
+                    }
+                  },
+                  "required": [
+                    "ExpectedCollection",
+                    "ExpectedThis"
+                  ],
+                  "type": "object"
+                },
+                "description": {
+                  "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation text that appears in the documentation view"
+                },
+                "emotion": {
+                  "description": "[emotion] The emotion that should be conveyed in animations of the node type",
+                  "enum": [
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
+                  "type": "string"
+                },
+                "finish": {
+                  "$ref": "#/definitions/Template%3C%5B%22value%22%5D%3E",
+                  "description": "[formatted] The text shown when this expression type finishes evaluating and has a value."
+                },
+                "name": {
+                  "description": "[name] The name that should be used to refer to the node type",
+                  "type": "string"
+                },
+                "next": {
+                  "$ref": "#/definitions/Template%3C%5B%22value%22%5D%3E",
+                  "description": "[formatted] The text shown each time the next item is bound to `.` during iteration. $value = the current item"
+                },
+                "start": {
+                  "$ref": "#/definitions/Template%3C%5B%22expression%22%5D%3E",
+                  "description": "[formatted] The text shown when this expression type first begins evaluating."
+                }
+              },
+              "required": [
+                "conflict",
+                "description",
+                "doc",
+                "emotion",
+                "finish",
+                "name",
+                "next",
+                "start"
+              ],
+              "type": "object"
+            },
             "Translation": {
               "additionalProperties": false,
               "description": "One alternate translation of a text literal, e.g., the `'hola/es`' of `'hi'/en'hola'/es` Description inputs: $1 = the text",
@@ -9910,6 +10024,7 @@
             "Match",
             "ConversionDefinition",
             "Convert",
+            "Translate",
             "Delete",
             "DocumentedExpression",
             "Evaluate",
@@ -10143,6 +10258,10 @@
                   ],
                   "type": "object"
                 },
+                "darker": {
+                  "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3562-3827-1170802340-0-8673%5D%3E",
+                  "description": "`darker()` — a new color with lightness decreased by a percent (5% by default)."
+                },
                 "description": {
                   "additionalProperties": false,
                   "description": "Templates for assembling color descriptions from the BCT names plus optional light/dark modifier and boundary-color mix.",
@@ -10180,6 +10299,10 @@
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "0-360, a color wheel"
                 },
+                "lighter": {
+                  "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3562-3827-1170802340-0-8673%5D%3E",
+                  "description": "`lighter()` — a new color with lightness increased by a percent (5% by default)."
+                },
                 "lightness": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "0-100%, with 0 as black and 100 as white"
@@ -10187,16 +10310,23 @@
                 "names": {
                   "$ref": "#/definitions/NameText",
                   "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "random": {
+                  "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3562-3827-1170802340-0-8673%2Cdef-alias-1170802340-3562-3827-1170802340-0-8673%5D%3E",
+                  "description": "The static `Color.random()` function that produces a random color. With no inputs it picks a random basic color; with one color it keeps that color's lightness and chroma but randomizes the hue; with two colors it randomizes each LCH value within their range."
                 }
               },
               "required": [
                 "chroma",
                 "colors",
+                "darker",
                 "description",
                 "doc",
                 "hue",
+                "lighter",
                 "lightness",
-                "names"
+                "names",
+                "random"
               ],
               "type": "object"
             },
@@ -11980,6 +12110,9 @@
             "This": {
               "type": "string"
             },
+            "Translate": {
+              "type": "string"
+            },
             "Type": {
               "type": "string"
             },
@@ -12023,6 +12156,7 @@
             "Borrow",
             "Share",
             "Convert",
+            "Translate",
             "Placeholder",
             "Doc",
             "Formatted",
@@ -12160,6 +12294,35 @@
                 "space",
                 "nodeDescription",
                 "button"
+              ],
+              "type": "object"
+            },
+            "banner": {
+              "additionalProperties": false,
+              "description": "Transient top-of-page banner messages for one-off action failures that aren't tied to a form field (e.g. a delete that couldn't reach the cloud). Also reused for inline notices on form actions.",
+              "properties": {
+                "deleteFailed": {
+                  "description": "[plain] Shown when deleting something didn't reach the cloud",
+                  "type": "string"
+                },
+                "loadFailed": {
+                  "description": "[plain] Shown when loading/reading something from the cloud failed",
+                  "type": "string"
+                },
+                "saveFailed": {
+                  "description": "[plain] Shown when saving a change didn't reach the cloud",
+                  "type": "string"
+                },
+                "submitFailed": {
+                  "description": "[plain] Shown when submitting something (e.g. feedback) didn't reach the cloud",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "deleteFailed",
+                "saveFailed",
+                "submitFailed",
+                "loadFailed"
               ],
               "type": "object"
             },
@@ -12583,16 +12746,8 @@
                           "description": "[plain] No feedback yet",
                           "type": "string"
                         },
-                        "load": {
-                          "description": "[plain] Unable to laod feedback",
-                          "type": "string"
-                        },
                         "login": {
                           "description": "[plain] Must be logged in to submit",
-                          "type": "string"
-                        },
-                        "submit": {
-                          "description": "[plain] The error shown when the feedback was not submitted",
                           "type": "string"
                         },
                         "url": {
@@ -12602,8 +12757,6 @@
                       },
                       "required": [
                         "login",
-                        "submit",
-                        "load",
                         "empty",
                         "url"
                       ],
@@ -13323,6 +13476,25 @@
               "additionalProperties": false,
               "description": "The documentation browser",
               "properties": {
+                "breadcrumb": {
+                  "additionalProperties": false,
+                  "description": "The navigation breadcrumbs in the documentation tile",
+                  "properties": {
+                    "home": {
+                      "description": "[plain] The first breadcrumb, returning to the browsing page",
+                      "type": "string"
+                    },
+                    "label": {
+                      "description": "[plain] The ARIA label for the breadcrumb navigation",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "label",
+                    "home"
+                  ],
+                  "type": "object"
+                },
                 "button": {
                   "additionalProperties": false,
                   "description": "Buttons in the documentation tile",
@@ -13482,6 +13654,10 @@
                       ],
                       "type": "object"
                     },
+                    "explain": {
+                      "$ref": "#/definitions/HeaderAndExplanationText",
+                      "description": "Header and explanation of what how-tos are, shown atop the how-to section"
+                    },
                     "howToGalleryButton": {
                       "$ref": "#/definitions/ButtonText",
                       "description": "Button text to go to the how-to in the space"
@@ -13492,6 +13668,7 @@
                     }
                   },
                   "required": [
+                    "explain",
                     "category",
                     "related",
                     "howToGalleryButton"
@@ -13545,10 +13722,20 @@
                     "empty": {
                       "description": "[plain] The project has no concepts.",
                       "type": "string"
+                    },
+                    "keepTyping": {
+                      "description": "[plain] Prompt shown in search mode when the query is too short to search yet.",
+                      "type": "string"
+                    },
+                    "noMatches": {
+                      "description": "[plain] Shown in search mode when a query matches no concepts.",
+                      "type": "string"
                     }
                   },
                   "required": [
-                    "empty"
+                    "empty",
+                    "keepTyping",
+                    "noMatches"
                   ],
                   "type": "object"
                 },
@@ -13676,6 +13863,7 @@
                 "nodoc",
                 "button",
                 "field",
+                "breadcrumb",
                 "note",
                 "mode",
                 "header",
@@ -13850,10 +14038,15 @@
                     "unknown": {
                       "description": "[plain] When the gallery is not known or is not public",
                       "type": "string"
+                    },
+                    "unreachable": {
+                      "description": "[plain] When we couldn't load the gallery because the database was unreachable (vs. it not existing)",
+                      "type": "string"
                     }
                   },
                   "required": [
-                    "unknown"
+                    "unknown",
+                    "unreachable"
                   ],
                   "type": "object"
                 },
@@ -14891,6 +15084,25 @@
                   ],
                   "type": "object"
                 },
+                "breadcrumb": {
+                  "additionalProperties": false,
+                  "description": "Breadcrumb navigation trail shown above page headers",
+                  "properties": {
+                    "home": {
+                      "description": "[plain] Accessible name and tooltip for the home breadcrumb link",
+                      "type": "string"
+                    },
+                    "label": {
+                      "description": "[plain] ARIA label for the breadcrumb navigation trail",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "label",
+                    "home"
+                  ],
+                  "type": "object"
+                },
                 "character": {
                   "additionalProperties": false,
                   "description": "The character editor page",
@@ -14964,10 +15176,6 @@
                           "$ref": "#/definitions/ButtonText",
                           "description": "Paste button text"
                         },
-                        "pick": {
-                          "$ref": "#/definitions/ButtonText",
-                          "description": "The color picker button"
-                        },
                         "redo": {
                           "$ref": "#/definitions/ButtonText",
                           "description": "The redo tooltip"
@@ -15010,7 +15218,6 @@
                         "redo",
                         "all",
                         "allColor",
-                        "pick",
                         "saturationUp",
                         "saturationDown",
                         "end",
@@ -16372,8 +16579,8 @@
                     "error": {
                       "additionalProperties": false,
                       "properties": {
-                        "delete": {
-                          "description": "[plain] When account deletion failed",
+                        "deletePartial": {
+                          "description": "[plain] When account deletion removed the account's data but couldn't finish removing the account itself (partial deletion)",
                           "type": "string"
                         },
                         "email": {
@@ -16412,6 +16619,10 @@
                           "description": "[plain] When there are too mant failed attempts",
                           "type": "string"
                         },
+                        "unsaved": {
+                          "description": "[plain] Warning shown when logout or account deletion is blocked because there are edits not yet saved online (e.g. made offline); leaving would discard them from this device.",
+                          "type": "string"
+                        },
                         "usernameTaken": {
                           "description": "[plain] Username taken",
                           "type": "string"
@@ -16429,11 +16640,12 @@
                         "usernameTaken",
                         "failure",
                         "offline",
-                        "delete",
+                        "deletePartial",
                         "wrongPassword",
                         "invalidPassword",
                         "mismatched",
-                        "tooMany"
+                        "tooMany",
+                        "unsaved"
                       ],
                       "type": "object"
                     },
@@ -17237,6 +17449,7 @@
                 }
               },
               "required": [
+                "breadcrumb",
                 "unknown",
                 "landing",
                 "learn",
@@ -18041,6 +18254,139 @@
                   "description": "[plain] Shown when saving has started",
                   "type": "string"
                 },
+                "status": {
+                  "additionalProperties": false,
+                  "description": "The save-status dialog that breaks down, per kind of thing, how much is saved on this device, in the cloud, and not yet saved online.",
+                  "properties": {
+                    "columns": {
+                      "additionalProperties": false,
+                      "description": "Column headers for the per-kind save-status table",
+                      "properties": {
+                        "cloud": {
+                          "description": "[plain] Column header: how many are saved in the cloud",
+                          "type": "string"
+                        },
+                        "device": {
+                          "description": "[plain] Column header: how many are saved on this device",
+                          "type": "string"
+                        },
+                        "unsaved": {
+                          "description": "[plain] Column header: how many are not yet saved online",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "device",
+                        "cloud",
+                        "unsaved"
+                      ],
+                      "type": "object"
+                    },
+                    "conversation": {
+                      "description": "[plain] Name for a conversation with no title, in the error list",
+                      "type": "string"
+                    },
+                    "errorsHeader": {
+                      "description": "[plain] Header above the list of things that couldn't be saved",
+                      "type": "string"
+                    },
+                    "header": {
+                      "description": "[plain] Header of the save-status dialog",
+                      "type": "string"
+                    },
+                    "intro": {
+                      "description": "[plain] One-line explanation at the top of the save-status dialog",
+                      "type": "string"
+                    },
+                    "legend": {
+                      "description": "[plain] Explains what the unsaved column means",
+                      "type": "string"
+                    },
+                    "state": {
+                      "additionalProperties": false,
+                      "description": "Words describing how a kind of thing is syncing with the cloud.",
+                      "properties": {
+                        "failed": {
+                          "description": "[plain] A save or sync failed",
+                          "type": "string"
+                        },
+                        "loading": {
+                          "description": "[plain] Still loading from the cloud",
+                          "type": "string"
+                        },
+                        "offline": {
+                          "description": "[plain] Not connected to the cloud right now",
+                          "type": "string"
+                        },
+                        "synced": {
+                          "description": "[plain] Saved on this device and in the cloud",
+                          "type": "string"
+                        },
+                        "syncing": {
+                          "description": "[plain] Saving changes to the cloud",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "synced",
+                        "loading",
+                        "syncing",
+                        "offline",
+                        "failed"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "intro",
+                    "columns",
+                    "state",
+                    "conversation",
+                    "legend",
+                    "errorsHeader"
+                  ],
+                  "type": "object"
+                },
+                "sync": {
+                  "additionalProperties": false,
+                  "description": "Per-domain cloud-sync status shown in the save-status dialog.",
+                  "properties": {
+                    "characters": {
+                      "description": "[plain] Label for the characters sync row",
+                      "type": "string"
+                    },
+                    "chats": {
+                      "description": "[plain] Label for the chats sync row",
+                      "type": "string"
+                    },
+                    "galleries": {
+                      "description": "[plain] Label for the galleries sync row",
+                      "type": "string"
+                    },
+                    "header": {
+                      "description": "[plain] Header for the cloud-sync status section",
+                      "type": "string"
+                    },
+                    "howtos": {
+                      "description": "[plain] Label for the how-tos sync row",
+                      "type": "string"
+                    },
+                    "projects": {
+                      "description": "[plain] Label for the projects sync row",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "projects",
+                    "galleries",
+                    "characters",
+                    "howtos",
+                    "chats"
+                  ],
+                  "type": "object"
+                },
                 "unsaved": {
                   "description": "[plain] Shown when there was a problem saving",
                   "type": "string"
@@ -18050,7 +18396,9 @@
                 "saving",
                 "saved",
                 "local",
-                "unsaved"
+                "unsaved",
+                "sync",
+                "status"
               ],
               "type": "object"
             },
@@ -18067,6 +18415,10 @@
                     },
                     "expandControls": {
                       "description": "[plain] The button tooltip for expanding the controls accordion",
+                      "type": "string"
+                    },
+                    "replace": {
+                      "description": "[plain] The button that replaces all search matches with the replacement text",
                       "type": "string"
                     },
                     "selectOutput": {
@@ -18087,7 +18439,8 @@
                     "expandControls",
                     "collapseControls",
                     "zoomIn",
-                    "zoomOut"
+                    "zoomOut",
+                    "replace"
                   ],
                   "type": "object"
                 },
@@ -18294,6 +18647,14 @@
                       "description": "[plain] Insert table symbol",
                       "type": "string"
                     },
+                    "insertThis": {
+                      "description": "[plain] Insert ⬚ this symbol",
+                      "type": "string"
+                    },
+                    "insertTranslate": {
+                      "description": "[plain] Insert ↦ translate symbol",
+                      "type": "string"
+                    },
                     "insertTrue": {
                       "description": "[plain] Insert true symbol",
                       "type": "string"
@@ -18320,6 +18681,10 @@
                     },
                     "nextLine": {
                       "description": "[plain] Move caret to the line after",
+                      "type": "string"
+                    },
+                    "nextMatch": {
+                      "description": "[plain] Move cursor to the next search match",
                       "type": "string"
                     },
                     "nextNode": {
@@ -18400,6 +18765,7 @@
                     "nextNode",
                     "parent",
                     "selectAll",
+                    "nextMatch",
                     "incrementLiteral",
                     "decrementLiteral",
                     "insertTab",
@@ -18420,6 +18786,8 @@
                     "insertChange",
                     "insertPrevious",
                     "insertConvert",
+                    "insertTranslate",
+                    "insertThis",
                     "insertTable",
                     "insertBorrow",
                     "insertShare",
@@ -18473,10 +18841,20 @@
                     "name": {
                       "$ref": "#/definitions/FieldText",
                       "description": "[name] The name of the source file"
+                    },
+                    "replace": {
+                      "description": "[plain] The placeholder and ARIA description for the editor replace field",
+                      "type": "string"
+                    },
+                    "search": {
+                      "description": "[plain] The placeholder and ARIA description for the editor token search field",
+                      "type": "string"
                     }
                   },
                   "required": [
-                    "name"
+                    "name",
+                    "search",
+                    "replace"
                   ],
                   "type": "object"
                 },
@@ -18553,12 +18931,17 @@
                     "expandSequence": {
                       "$ref": "#/definitions/ToggleText",
                       "description": "[plain] The toggle for expanding and collapsing a long list of items in the editor"
+                    },
+                    "search": {
+                      "$ref": "#/definitions/ToggleText",
+                      "description": "[plain] The toggle that shows or hides the editor search field"
                     }
                   },
                   "required": [
                     "blocks",
                     "characters",
-                    "expandSequence"
+                    "expandSequence",
+                    "search"
                   ],
                   "type": "object"
                 },
@@ -18942,6 +19325,35 @@
                   "description": "[plain] The back to top link label",
                   "type": "string"
                 },
+                "color": {
+                  "additionalProperties": false,
+                  "description": "The color chooser widget",
+                  "properties": {
+                    "field": {
+                      "description": "[plain] Screen-reader role description for the 2-D chroma×hue color field",
+                      "type": "string"
+                    },
+                    "instructions": {
+                      "description": "[plain] Screen-reader usage instructions for adjusting the color field with the keyboard",
+                      "type": "string"
+                    },
+                    "pick": {
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "The eyedropper button that picks a color from the screen"
+                    },
+                    "value": {
+                      "$ref": "#/definitions/Template%3C%5B%22color%22%2C%22l%22%2C%22c%22%2C%22h%22%5D%3E",
+                      "description": "[plain] The spoken color readout: the described color name followed by its lightness, chroma, and hue values, e.g. \"dark grey, LCH 50, 117, 90\""
+                    }
+                  },
+                  "required": [
+                    "pick",
+                    "field",
+                    "instructions",
+                    "value"
+                  ],
+                  "type": "object"
+                },
                 "confirm": {
                   "additionalProperties": false,
                   "description": "A confirm button",
@@ -19073,6 +19485,7 @@
                 "home",
                 "table",
                 "formatted",
+                "color",
                 "backtotop",
                 "overflow"
               ],
@@ -19101,6 +19514,7 @@
             "dialog",
             "save",
             "connection",
+            "banner",
             "update",
             "localize",
             "page",
@@ -19570,6 +19984,9 @@
     "Template<[\"code\"]>": {
       "type": "string"
     },
+    "Template<[\"color\",\"l\",\"c\",\"h\"]>": {
+      "type": "string"
+    },
     "Template<[\"column\"]>": {
       "type": "string"
     },
@@ -19709,6 +20126,9 @@
       "type": "string"
     },
     "Template<[\"source\",\"name\"]>": {
+      "type": "string"
+    },
+    "Template<[\"source\"]>": {
       "type": "string"
     },
     "Template<[\"start\",\"end\"]>": {

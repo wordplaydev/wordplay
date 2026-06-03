@@ -3,14 +3,25 @@ import { SHARE_SYMBOL, TYPE_SYMBOL } from '@parser/Symbols';
 import type Value from '@values/Value';
 import Decimal from 'decimal.js';
 import toStructure from '@basis/toStructure';
+import { createBasisFunction } from '@basis/Basis';
 import type Project from '@db/projects/Project';
 import type Locales from '@locale/Locales';
 import Bind from '@nodes/Bind';
 import Evaluate from '@nodes/Evaluate';
+import type Expression from '@nodes/Expression';
+import FunctionDefinition from '@nodes/FunctionDefinition';
+import NameType from '@nodes/NameType';
+import NoneLiteral from '@nodes/NoneLiteral';
+import NoneType from '@nodes/NoneType';
 import NumberLiteral from '@nodes/NumberLiteral';
+import NumberType from '@nodes/NumberType';
 import Reference from '@nodes/Reference';
 import type StructureDefinition from '@nodes/StructureDefinition';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
+import UnionType from '@nodes/UnionType';
 import Unit from '@nodes/Unit';
+import type Evaluation from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
 import NumberValue from '@values/NumberValue';
 import StructureValue from '@values/StructureValue';
@@ -45,6 +56,164 @@ export function createColorType(locales: Locales) {
     )
 `);
 
+    // Add a static `random()` function that returns a random Color using the
+    // evaluator's recoverable RNG. We build it as a normal basis function (TS
+    // body) and then mark it static by giving it a `↑` share token and adding
+    // it to the structure's block — `FunctionDefinition.isStatic` recognizes a
+    // shared function that's a direct statement of a structure block, making
+    // it callable as `Color.random()`.
+    // Reference Color by name (not bound to this `colorDef` instance): we
+    // inject the function and clone the definition below, so the registered
+    // structure ends up being a different instance. A name-resolved type
+    // resolves to that registered structure, so argument values (typed
+    // against it) match these input/output types. StructureType comparison is
+    // by definition identity, so a bound reference to the stale instance would
+    // raise a TypeException.
+    const colorName = colorDef.getNames()[0];
+    const optionalColor = () =>
+        UnionType.make(NameType.make(colorName), NoneType.make());
+    const randomFun = createBasisFunction(
+        locales,
+        (locale) => locale.output.Color.random,
+        undefined,
+        [
+            [optionalColor(), NoneLiteral.make()],
+            [optionalColor(), NoneLiteral.make()],
+        ],
+        NameType.make(colorName),
+        (requestor: Expression, evaluation: Evaluation) => {
+            const evaluator = evaluation.getEvaluator();
+            // The registered Color definition (the instance in shares), used
+            // to construct the resulting StructureValue.
+            const def = evaluator.project.shares.output.Color;
+            const a = toColor(evaluation.getInput(0));
+            const b = toColor(evaluation.getInput(1));
+
+            let l: number;
+            let c: number;
+            let h: number;
+            if (a === undefined) {
+                // No inputs: pick one of the basic colors at random.
+                const key =
+                    BCTKeys[Math.floor(evaluator.getRandom() * BCTKeys.length)];
+                const focal = Focals[key];
+                l = focal.l;
+                c = focal.c;
+                h = focal.h;
+            } else if (b === undefined) {
+                // One input: keep its lightness and chroma, randomize hue.
+                l = a.lightness.toNumber();
+                c = a.chroma.toNumber();
+                h = evaluator.getRandom() * 360;
+            } else {
+                // Two inputs: randomize each channel within the range they
+                // define (order-independent).
+                const between = (x: Decimal, y: Decimal) => {
+                    const lo = x.toNumber();
+                    const hi = y.toNumber();
+                    return lo + evaluator.getRandom() * (hi - lo);
+                };
+                l = between(a.lightness, b.lightness);
+                c = between(a.chroma, b.chroma);
+                h = between(a.hue, b.hue);
+            }
+
+            // Mirror the BCT staticBuilder's value construction: lightness as
+            // a 0–1 decimal, chroma plain, hue in degrees. `getMain()` is the
+            // tracking identity for the resulting StructureValue (same as the
+            // staticBuilder), since a static call has no instance creator.
+            const creator = evaluator.project.getMain();
+            return StructureValue.make(
+                evaluator,
+                creator,
+                def,
+                new NumberValue(requestor, new Decimal(l)),
+                new NumberValue(requestor, new Decimal(c)),
+                new NumberValue(requestor, new Decimal(h), Unit.reuse(['°'])),
+            );
+        },
+    );
+
+    // Wrap with a `↑` share token so it reads as static within the block.
+    const staticRandom = new FunctionDefinition(
+        randomFun.docs,
+        new Token(SHARE_SYMBOL, Sym.Share),
+        randomFun.fun,
+        randomFun.names,
+        randomFun.types,
+        randomFun.open,
+        randomFun.inputs,
+        randomFun.close,
+        randomFun.dot,
+        randomFun.output,
+        randomFun.expression,
+    );
+
+    // Instance functions `lighter()`/`darker()` that adjust the color's
+    // lightness, defaulting to 5%. They reuse the lightness input's own `•%`
+    // type so the `by` amount is a percent (e.g. `Color.blue.lighter(10%)`),
+    // and read the receiving color through the closure. Lightness is 0–1
+    // internally, and a `%` value's `.toNumber()` is already in that scale
+    // (so `5%` → 0.05); the result is clamped to [0, 1].
+    const lightnessType = colorDef.inputs[0]?.type ?? NumberType.make();
+    const adjustLightness =
+        (sign: number) =>
+        (requestor: Expression, evaluation: Evaluation): Value => {
+            const evaluator = evaluation.getEvaluator();
+            const def = evaluator.project.shares.output.Color;
+            const closure = evaluation.getClosure();
+            const color =
+                closure instanceof StructureValue ? toColor(closure) : undefined;
+            if (color === undefined)
+                return evaluation.getValueOrTypeException(
+                    requestor,
+                    NameType.make(colorName),
+                    closure instanceof StructureValue ? closure : undefined,
+                );
+            const by = evaluation.getInput(0);
+            const amount = by instanceof NumberValue ? by.toNumber() : 0.05;
+            const newLightness = Math.max(
+                0,
+                Math.min(1, color.lightness.toNumber() + sign * amount),
+            );
+            return StructureValue.make(
+                evaluator,
+                evaluator.project.getMain(),
+                def,
+                new NumberValue(requestor, new Decimal(newLightness)),
+                new NumberValue(requestor, color.chroma),
+                new NumberValue(requestor, color.hue, Unit.reuse(['°'])),
+            );
+        };
+    const lighterFun = createBasisFunction(
+        locales,
+        (locale) => locale.output.Color.lighter,
+        undefined,
+        [[lightnessType, NumberLiteral.make('5%')]],
+        NameType.make(colorName),
+        adjustLightness(1),
+    );
+    const darkerFun = createBasisFunction(
+        locales,
+        (locale) => locale.output.Color.darker,
+        undefined,
+        [[lightnessType, NumberLiteral.make('5%')]],
+        NameType.make(colorName),
+        adjustLightness(-1),
+    );
+
+    // Inject the functions into the structure's block, preserving the existing
+    // BCT static binds and block formatting. The parsed Color always has a
+    // block (the second parenthesized group), so this is defined.
+    const oldBlock = colorDef.expression;
+    if (oldBlock === undefined)
+        throw new Error('Color structure definition is missing its block');
+    const block = oldBlock
+        .withStatement(staticRandom)
+        .withStatement(lighterFun)
+        .withStatement(darkerFun);
+    const finalDef = colorDef.replace(oldBlock, block);
+
     // Register a native builder for the BCT static bind values. Color is a
     // basis structure: it's looked up via `Evaluation.resolveDefault`, which
     // wraps the definition in a fresh `StructureDefinitionValue(def)` with
@@ -54,7 +223,7 @@ export function createColorType(locales: Locales) {
     // a step (which trips the evaluator's "already stepping" guard), we
     // construct each Color `StructureValue` directly from `Focals` — no
     // wordplay evaluation required, just direct value construction.
-    colorDef.staticBuilder = (
+    finalDef.staticBuilder = (
         evaluator: Evaluator,
         def: StructureDefinition,
     ): Map<Bind, Value> => {
@@ -94,7 +263,7 @@ export function createColorType(locales: Locales) {
         return map;
     };
 
-    return colorDef;
+    return finalDef;
 }
 
 export default class Color extends Valued {

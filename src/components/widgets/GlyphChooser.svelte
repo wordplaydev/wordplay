@@ -72,6 +72,9 @@
         getCodepoints,
         type Codepoint,
     } from '@unicode/Unicode';
+    import { buildGlyphSearch } from '@unicode/glyphSearch';
+    import { searchItems } from '@util/search';
+    import { debounced } from '@util/debounce.svelte';
     import { Scripts, type Script } from '@locale/Scripts';
     import {
         getLanguagesForScript,
@@ -82,7 +85,6 @@
     import Mode from '@components/widgets/Mode.svelte';
     import Options, { type Option } from '@components/widgets/Options.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import type { EmojiMap } from '@db/locales/LocalesDatabase';
     import { toLocaleString } from '@locale/LocaleText';
     import type { SupportedLocale } from '@locale/SupportedLocales';
 
@@ -223,23 +225,6 @@
         return VisibleCategories.findIndex((cat) => cat.endsWith(`-${group}`));
     }
 
-    /** True if any localized name or keyword for `code` (across the currently
-     * selected locales) contains the query. Case-insensitive. */
-    function matchesLocalizedKeywords(
-        code: Codepoint,
-        normalizedQuery: string,
-        maps: Partial<Record<SupportedLocale, EmojiMap>>,
-    ): boolean {
-        const key = codepointKey(code.hex);
-        for (const localeCode of selectedLocaleCodes) {
-            const entry = maps[localeCode]?.[key];
-            if (!entry) continue;
-            for (const term of entry)
-                if (term.toLowerCase().includes(normalizedQuery)) return true;
-        }
-        return false;
-    }
-
     /** Display name for a codepoint, preferring the user's primary selected
      * locale's CLDR translation, then any other selected locale that has
      * loaded data. Returns an empty string when no locale has an entry —
@@ -255,26 +240,42 @@
         return '';
     }
 
-    /** The filtered codepoints. Search now relies entirely on localized
-     * emoji translations and the emoji-group tooltip text from the active
-     * locale; codes.txt no longer carries English names to fall back to. */
-    let results = $derived.by(() => {
-        if (query.length < 3 || codepoints === null) return [];
-        const normalized = query.toLowerCase();
+    /** A debounced copy of the query, so search runs after typing settles. */
+    const debouncedQuery = debounced(() => query);
+
+    /** Precomputed searchable records, rebuilt when codepoints, selected
+     * locales, or their emoji translations change (not per keystroke). Search
+     * relies entirely on localized emoji translations and the emoji-group label
+     * text from the active locale; codes.txt no longer carries English names. */
+    let searchRecords = $derived.by(() => {
+        if (codepoints === null) return [];
+        const maps = $emojiMaps;
         const groupTips = $locales.getTextStructure(
             (l) => l.ui.emoji.groups.tips,
         );
-        const maps = $emojiMaps;
-        return codepoints.filter(
+        return buildGlyphSearch(
+            codepoints,
+            selectedLocaleCodes,
+            maps,
             (code) =>
-                // If a script is active, search is scoped to that script.
-                (script === undefined || code.script === script) &&
-                ((code.emoji &&
-                    groupTips[getEmojiGroupIndex(code.emoji.group)].includes(
-                        normalized,
-                    )) ||
-                    matchesLocalizedKeywords(code, normalized, maps)),
+                code.emoji
+                    ? groupTips[getEmojiGroupIndex(code.emoji.group)]
+                    : undefined,
+            $locales.getLanguages(),
         );
+    });
+
+    /** The matched codepoints for the current query, scoped to the active
+     * script, ordered by the shared search policy (name over keyword over group). */
+    let results = $derived.by(() => {
+        if (debouncedQuery.current.length < 3 || codepoints === null) return [];
+        return searchItems(
+            searchRecords,
+            debouncedQuery.current,
+            $locales.getLanguages(),
+        )
+            .map(([code]) => code)
+            .filter((code) => script === undefined || code.script === script);
     });
 </script>
 

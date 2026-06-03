@@ -23,6 +23,7 @@ import Paragraph, { type Segment } from '@nodes/Paragraph';
 import Program from '@nodes/Program';
 import PropertyReference from '@nodes/PropertyReference';
 import Reference from '@nodes/Reference';
+import This from '@nodes/This';
 import SetOrMapAccess from '@nodes/SetOrMapAccess';
 import SetType from '@nodes/SetType';
 import Source from '@nodes/Source';
@@ -459,8 +460,13 @@ function completeBinaryEvaluate({
             ) !== undefined
     ) {
         const binary = new BinaryEvaluate(
+            // Atomic left operands (literals, references, placeholders, and the
+            // `⬚` This reference) never need parentheses; only wrap compound
+            // expressions for clarity.
             precedingExpression instanceof Literal ||
-                precedingExpression instanceof Reference
+                precedingExpression instanceof Reference ||
+                precedingExpression instanceof ExpressionPlaceholder ||
+                precedingExpression instanceof This
                 ? precedingExpression
                 : Block.make([precedingExpression]),
             new Reference(tokens(text)[0]),

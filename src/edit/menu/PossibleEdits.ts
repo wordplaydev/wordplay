@@ -26,6 +26,7 @@ import SetOrMapAccess from '@nodes/SetOrMapAccess';
 import Spread from '@nodes/Spread';
 import TableType from '@nodes/TableType';
 import Translation from '@nodes/Translation';
+import type ConceptIndex from '@concepts/ConceptIndex';
 import type Project from '@db/projects/Project';
 import type Locales from '@locale/Locales';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
@@ -33,6 +34,7 @@ import Bind from '@nodes/Bind';
 import Block from '@nodes/Block';
 import BooleanType from '@nodes/BooleanType';
 import Changed from '@nodes/Changed';
+import ConceptLink from '@nodes/ConceptLink';
 import Conditional from '@nodes/Conditional';
 import ConversionDefinition from '@nodes/ConversionDefinition';
 import Convert from '@nodes/Convert';
@@ -78,6 +80,7 @@ import TableLiteral from '@nodes/TableLiteral';
 import TextLiteral from '@nodes/TextLiteral';
 import TextType from '@nodes/TextType';
 import This from '@nodes/This';
+import Translate from '@nodes/Translate';
 import Token from '@nodes/Token';
 import TypeInputs from '@nodes/TypeInputs';
 import TypePlaceholder from '@nodes/TypePlaceholder';
@@ -112,6 +115,8 @@ export function getEditsAt(
     caret: Caret,
     field: FieldPosition | undefined,
     locales: Locales,
+    /** When provided, enables completing concept links (`@Phrase`, `@Color.random`) in markup. */
+    concepts?: ConceptIndex,
 ): Revision[] {
     const source = caret.source;
     const context = project.getContext(source);
@@ -125,7 +130,9 @@ export function getEditsAt(
             1,
         );
 
-        return removeDuplicates(getFieldAssignments(field, context, locales));
+        return removeDuplicates(
+            getFieldAssignments(field, context, locales, concepts),
+        );
     }
     // If we have a node selected, find possible replacements or removals.
     else if (caret.position instanceof Node) {
@@ -135,7 +142,7 @@ export function getEditsAt(
         );
 
         return removeDuplicates(
-            getNodeRevisions(caret.position, context, locales),
+            getNodeRevisions(caret.position, context, locales, concepts),
         );
     }
     // If the token is a position rather than a node, find edits for the nodes between.
@@ -155,6 +162,7 @@ export function getEditsAt(
                 caret.tokenExcludingSpace,
                 context,
                 locales,
+                concepts,
             );
         }
 
@@ -178,6 +186,7 @@ export function getEditsAt(
                     isEmptyLine,
                     context,
                     locales,
+                    concepts,
                 ),
             ];
         }
@@ -195,6 +204,7 @@ export function getEditsAt(
                     isEmptyLine,
                     context,
                     locales,
+                    concepts,
                 ),
             ];
         }
@@ -220,6 +230,7 @@ export function getEditsAt(
                                 field: 'statements',
                                 index: 0,
                                 locales,
+                                concepts,
                             })
                                 .filter(
                                     (kind): kind is Node | Refer =>
@@ -253,6 +264,7 @@ function getFieldAssignments(
     fieldPosition: FieldPosition,
     context: Context,
     locales: Locales,
+    concepts: ConceptIndex | undefined,
 ) {
     const { parent, field, index } = fieldPosition;
     // Get the field of the parent node's grammar.
@@ -298,6 +310,7 @@ function getFieldAssignments(
                         parent,
                         index,
                         locales,
+                        concepts,
                     })
                         .filter((r) => r !== undefined)
                         .map((replacement) =>
@@ -330,7 +343,12 @@ function getFieldAssignments(
 }
 
 /** Given a node, get possible replacements */
-function getNodeRevisions(anchor: Node, context: Context, locales: Locales) {
+function getNodeRevisions(
+    anchor: Node,
+    context: Context,
+    locales: Locales,
+    concepts: ConceptIndex | undefined,
+) {
     let edits: Revision[] = [];
 
     // Get the allowed kinds on this node and then translate them into replacement edits.
@@ -362,6 +380,7 @@ function getNodeRevisions(anchor: Node, context: Context, locales: Locales) {
                         node,
                         context,
                         locales,
+                        concepts,
                     }).map((replacement) =>
                         replacement === undefined
                             ? new Remove(context, parent, node)
@@ -463,6 +482,7 @@ function getRelativeFieldEdits(
     empty: boolean,
     context: Context,
     locales: Locales,
+    concepts: ConceptIndex | undefined,
 ): Revision[] {
     let edits: Revision[] = [];
 
@@ -514,6 +534,23 @@ function getRelativeFieldEdits(
                     anchorNode,
                     context,
                 ).map(
+                    (replacement) =>
+                        new Replace(context, parent, anchorNode, replacement),
+                ),
+            ];
+        } else if (anchorNode instanceof ConceptLink) {
+            // Completing a concept link being typed in markup (e.g. `@Col`,
+            // `@Color.ra`): offer concept/subconcept links filtered by the
+            // partial text, replacing the in-progress link.
+            edits = [
+                ...edits,
+                ...ConceptLink.getPossibleReplacements({
+                    type: expectedType,
+                    node: anchorNode,
+                    context,
+                    locales,
+                    concepts,
+                }).map(
                     (replacement) =>
                         new Replace(context, parent, anchorNode, replacement),
                 ),
@@ -579,6 +616,7 @@ function getRelativeFieldEdits(
                                     type: expectedType,
                                     context,
                                     locales,
+                                    concepts,
                                     parent,
                                     field: relativeField.name,
                                     index: spliceIndex,
@@ -626,6 +664,7 @@ function getRelativeFieldEdits(
                                 field: relativeField.name,
                                 context,
                                 locales,
+                                concepts,
                                 index: undefined,
                             })
                                 // Filter out any undefined values, since the field is already undefined.
@@ -732,6 +771,7 @@ const PossibleNodes = [
     IsLocale,
     Otherwise,
     Match,
+    Translate,
     This,
     // Streams
     Reaction,
@@ -746,6 +786,7 @@ const PossibleNodes = [
     Markup,
     Paragraph,
     WebLink,
+    ConceptLink,
     // Tables
     TableLiteral,
     Insert,

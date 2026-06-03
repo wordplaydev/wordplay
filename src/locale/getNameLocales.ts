@@ -7,6 +7,7 @@ import type LocaleText from '@locale/LocaleText';
 import { type NameText } from '@locale/LocaleText';
 import { localeToLanguage } from '@locale/localeToLanguage';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
+import selectTranslation from '@locale/selectTranslation';
 
 export function getNameLocales(
     locales: Locales,
@@ -17,7 +18,9 @@ export function getNameLocales(
         .getLocales()
         .reduce((names: Name[], locale) => {
             const name =
-                nameText instanceof Function ? nameText(locale) : nameText;
+                nameText instanceof Function
+                    ? selectTranslation(locale, nameText)
+                    : nameText;
             return names.concat(
                 (Array.isArray(name) ? name : [name])
                     .map((n) => {

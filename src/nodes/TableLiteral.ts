@@ -242,6 +242,10 @@ export default class TableLiteral extends CompositeLiteral {
         return conflicts;
     }
 
+    getConstantLength(): number {
+        return this.rows.length;
+    }
+
     computeType(): TableType {
         return this.type;
     }

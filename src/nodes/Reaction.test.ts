@@ -102,4 +102,4 @@ test.each([
     },
 );
 
-testConflict('1 … ∆ Time() … 1 + .', '1 … ⊤ … 1 + .', Reaction, ExpectedStream);
+testConflict('1 … ∆ Time() … 1 + ⬚', '1 … ⊤ … 1 + ⬚', Reaction, ExpectedStream);

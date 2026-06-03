@@ -12,6 +12,7 @@
     import Writing from '@components/app/Writing.svelte';
     import Speech from '@components/lore/Speech.svelte';
     import { Locales, Settings, locales, tutorialProgress } from '@db/Database';
+    import { HOME_SYMBOL } from '@parser/Symbols';
     import Characters from '../../../lore/BasisCharacters';
     import Progress from '../../../tutorial/Progress';
     import type Tutorial from '../../../tutorial/Tutorial';
@@ -86,7 +87,7 @@
         <Speech character={Characters.FunctionDefinition}
             >{#snippet content()}
                 <MarkupHTMLView markup={(l) => l.ui.page.learn.error} />
-                <Link to="/">🏠</Link>
+                <Link to="/">{HOME_SYMBOL}</Link>
             {/snippet}</Speech
         ></Writing
     >

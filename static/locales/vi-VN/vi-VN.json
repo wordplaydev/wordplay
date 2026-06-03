@@ -132,7 +132,8 @@
         "KannadaNumeral": "$~chữ số kannada",
         "TamilNumeral": "$~chữ số Tamil",
         "TeluguNumeral": "$~số telugu",
-        "LanguageJoin": "$~người tham gia ngôn ngữ"
+        "LanguageJoin": "$~người tham gia ngôn ngữ",
+        "Translate": "$~dịch"
     },
     "node": {
         "Dimension": {
@@ -521,7 +522,8 @@
                     "resolutionDefault": "$~Hãy cung cấp giá trị khởi tạo cho liên kết, vì $expected không được phép thiếu ở đây.",
                     "resolutionWiden": "$~Cho phép sử dụng kiểu dữ liệu của giá trị cho liên kết này, vì $expected quá hẹp so với những gì thực sự được lưu trữ.",
                     "resolutionReorder": "$~Hãy hoán đổi thứ tự các biến đầu vào, vì kiểu dữ liệu của chúng phù hợp hơn khi được sắp xếp theo thứ tự khác — $expected thuộc về vị trí kia.",
-                    "resolutionPlaceholder": "$~Hãy tạm thời thay thế nó bằng một ký tự giữ chỗ, vì $expected là bắt buộc — sau đó chọn một giá trị từ menu tự động hoàn thành."
+                    "resolutionPlaceholder": "$~Hãy tạm thời thay thế nó bằng một ký tự giữ chỗ, vì $expected là bắt buộc — sau đó chọn một giá trị từ menu tự động hoàn thành.",
+                    "explanationDivideByZero": "$~Đây có thể là ø vì $source có thể chia cho 0, và ở đây cần một số."
                 },
                 "MisplacedShare": {
                     "name": "$~cổphầnbịthấtlạc",
@@ -686,7 +688,7 @@
             },
             "doc": [
                 "$~Này anh bạn, tôi định nghĩa các chuyển đổi từ kiểu dữ liệu này sang kiểu dữ liệu khác! Tôi vào @Block, đại loại như thế này:",
-                "$~\\→ #mèo con #mèo . ÷ 2\n6mèo con→#mèo\\",
+                "$~\\→ #mèo con #mèo ⬚ ÷ 2\n6mèo con→#mèo\\",
                 "$~Các bạn thấy tôi đã biến những chú mèo con thành mèo trưởng thành như thế nào chưa? Tuyệt vời!",
                 "$~Có thể bạn đang thắc mắc dấu chấm \\.\\ ở đó có ý nghĩa gì. Nó đại diện cho giá trị đang được chuyển đổi. Tôi sử dụng nó vì nếu không thì giá trị đó không có tên."
             ],
@@ -790,7 +792,8 @@
                     "resolutionDefault": "$~Hãy cung cấp giá trị khởi tạo cho liên kết, vì $expected không được phép thiếu ở đây.",
                     "resolutionWiden": "$~Cho phép sử dụng kiểu dữ liệu của giá trị cho liên kết này, vì $expected quá hẹp so với những gì thực sự được lưu trữ.",
                     "resolutionReorder": "$~Hãy hoán đổi thứ tự các biến đầu vào, vì kiểu dữ liệu của chúng phù hợp hơn khi được sắp xếp theo thứ tự khác — $expected thuộc về vị trí kia.",
-                    "resolutionPlaceholder": "$~Hãy tạm thời thay thế nó bằng một ký tự giữ chỗ, vì $expected là bắt buộc — sau đó chọn một giá trị từ menu tự động hoàn thành."
+                    "resolutionPlaceholder": "$~Hãy tạm thời thay thế nó bằng một ký tự giữ chỗ, vì $expected là bắt buộc — sau đó chọn một giá trị từ menu tự động hoàn thành.",
+                    "explanationDivideByZero": "$~Đây có thể là ø vì $source có thể chia cho 0, và ở đây cần một số."
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~đầuvàokiểukhôngmongđợi",
@@ -892,13 +895,13 @@
                 "$~Chào lại! Tôi nhận một số dữ liệu đầu vào, sau đó đánh giá một biểu thức sử dụng các dữ liệu đó để tạo ra kết quả đầu ra.",
                 "$~Đây là một ví dụ đơn giản:",
                 "$~\\ƒ lặp lại(thông báo•'') thông báo × 5\nlặp lại('xin chào')\\",
-                "$~Hàm đó nhận một đầu vào là `\\message\\` và sử dụng hàm `@Text/repeat` để lặp lại thông báo năm lần.",
+                "$~Hàm đó nhận một đầu vào là `\\message\\` và sử dụng hàm `@Text.repeat` để lặp lại thông báo năm lần.",
                 "$~Tôi rất hữu ích nếu bạn muốn đánh giá một thứ gì đó nhiều lần nhưng với các dữ liệu đầu vào khác nhau!",
                 "$~Tôi còn có rất nhiều thủ thuật nhỏ khác nữa. Ví dụ, tôi không cần phải có tên. Ở đây, tôi chỉ cần trực tiếp sử dụng @Evaluate làm giá trị.",
                 "$~\\(ƒ(message•'') message × 5)('hi')\\",
                 "$~Hoặc, đây là một hàm nhận bất kỳ số lượng đầu vào nào, sử dụng ký tự \\…\\ sau tên đầu vào.",
                 "$~\\ƒ yes(messages…•'') messages.sans('no')\nyes('yes' 'yes' 'no' 'yes' 'no')\\",
-                "$~Bạn thấy đấy, nó đã loại bỏ tất cả các giá trị 'không' rồi. Đó là vì messages là một @List, và vì vậy chúng ta có thể sử dụng @List/sansAll.",
+                "$~Bạn thấy đấy, nó đã loại bỏ tất cả các giá trị 'không' rồi. Đó là vì messages là một @List, và vì vậy chúng ta có thể sử dụng @List.sansAll.",
                 "$~Đôi khi bạn có thể muốn làm rõ loại giá trị mà tôi tạo ra. Để làm điều đó, hãy thêm @Is sau danh sách các đầu vào:",
                 "$~\\ƒ add(x•# y•#)•'' x + y\\",
                 "$~Bạn có thể nhận thấy một vấn đề với đoạn mã này: nó báo là trả về @Text, nhưng lại nhận hai tham số @Number. Tôi có thể cho bạn biết khi nào mọi thứ không nhất quán!",
@@ -917,7 +920,7 @@
             "name": "$~hàmbậccaohơn",
             "description": "$~lặp qua các giá trị danh sách nội bộ",
             "emotion": "kind",
-            "doc": "$~Tôi là một loại @FunctionDefinition rất đặc biệt, hoạt động trên các danh sách đối tượng. Bạn không cần biết gì về tôi, ngoài việc tôi giúp cho các hàm như `@List/translate` trở nên khả thi.",
+            "doc": "$~Tôi là một loại @FunctionDefinition rất đặc biệt, hoạt động trên các danh sách đối tượng. Bạn không cần biết gì về tôi, ngoài việc tôi giúp cho các hàm như `@List.translate` trở nên khả thi.",
             "start": "$~Đánh giá hàm số đã cho",
             "initialize": "$~chuẩn bị bước qua các vật phẩm",
             "next": "$~chuyển sang mục tiếp theo",
@@ -1483,20 +1486,22 @@
             "description": "$~tham chiếu đến giá trị cấu trúc hiện tại",
             "emotion": "serious",
             "doc": [
-                "$~Đôi khi, việc đề cập đến một giá trị một cách ngầm định sẽ hữu ích hơn là phải gọi tên nó.",
-                "$~Ví dụ, giả sử bạn muốn tạo một @ConversionDefinition mới, mà không cần đặt tên cho giá trị được chuyển đổi. Bạn chỉ cần tham chiếu đến nó bằng @ConversionDefinition:",
-                "$~\\→ #cầuvồng #niềmvui . × 1000000niềmvui\n2cầuvồng → #niềmvui\\",
-                "$~Bạn thấy tôi ở đó, tượng trưng cho số lượng cầu vồng chứ?",
-                "$~Hoặc giả sử bạn muốn tạo một @Reaction, nhưng không cần phải đặt tên cho giá trị gần nhất:",
-                "$~\\2 … ∆ Thời gian (1000ms) … . × 2\\",
-                "$~Hãy xem tôi này, đại diện cho giá trị phản ứng trước đó.",
-                "$~Tôi không thường xuyên xuất hiện, nhưng mỗi khi xuất hiện, tôi đều có thể giúp tận dụng tối đa giá trị từ @Bind!"
+                "$~Đôi khi, việc tham chiếu ngầm đến một giá trị sẽ hữu ích hơn là phải đặt tên cho nó. Đó là tôi — \\⬚\\ , một hình vuông nhỏ đại diện cho bất kỳ giá trị nào mà đoạn mã xung quanh đang xử lý.",
+                "$~Bên trong một @ConversionDefinition , tôi là giá trị đang được chuyển đổi:",
+                "$~\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
+                "$~Bên trong một @Reaction , tôi là giá trị gần nhất:",
+                "$~\\2 … ∆ Time(1000ms) … ⬚ × 2\\",
+                "$~Bên trong @Translate , tôi là mục hiện đang được ánh xạ, vì vậy điều này sẽ cộng thêm một vào mỗi giá trị:",
+                "$~\\[1 2 3] ↦ ⬚ + 1\\",
+                "$~Và bên trong một @StructureDefinition , tôi chính là giá trị hiện tại, vì vậy tôi có thể truy cập các phần của chính mình bằng \\⬚.rank\\ , giống như tôi truy cập các phần của giá trị khác bằng \\other.rank\\ :",
+                "$~\\•Card(rank•#) (\n\tƒ beats(other•Card) ⬚.rank > other.rank\n)\n\nCard(10).beats(Card(7))\\",
+                "$~Tôi không thường xuyên xuất hiện, nhưng mỗi khi xuất hiện, tôi đều có thể giúp khai thác tối đa giá trị từ @Bind !"
             ],
             "start": "$~Được định giá thành $value",
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~Tôiđãđểlạcmấttàiliệuthamkhảonày.",
-                    "explanation": "$~Tôi chỉ được phép tham gia vào cấu trúc, quá trình chuyển đổi hoặc phản ứng.",
+                    "explanation": "$~Tôi chỉ được phép tham gia vào các thao tác cấu trúc, chuyển đổi, phản ứng hoặc dịch thuật.",
                     "resolution": "$~Thay thế bằng một chỗ giữ chỗ"
                 }
             }
@@ -1594,7 +1599,7 @@
         },
         "AnyType": {
             "name": "$~bấtkì",
-            "description": "$~khớp với bất kỳ kiểu có thể",
+            "description": "$~bất kì",
             "emotion": "curious",
             "doc": "$~Tôi đại diện cho mọi loại hình có thể. Đôi khi tôi xuất hiện vì tôi không biết giá trị của một thứ gì đó là gì, vì vậy nó có thể là bất cứ thứ gì."
         },
@@ -1614,7 +1619,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Tôi sử dụng chú thích @Bind để chỉ ra rằng một tên là @ConversionDefinition. Có lẽ bạn không cần dùng đến tôi, vì không nhiều người truyền tôi như một giá trị, nhưng nếu bạn cần, tôi sẽ trông như thế này:",
-                "$~\\magic•?→'': → ? '' . ? 'vâng' 'không'\\"
+                "$~\\magic•?→'': → ? '' ⬚ ? 'vâng' 'không'\\"
             ]
         },
         "FormattedType": {
@@ -1844,6 +1849,32 @@
             "description": "$~đánh dấu $type là không phải hàm",
             "emotion": "confused",
             "doc": "$~Một số người trong chúng ta mong đợi các hoạt động; tôi xuất hiện khi chúng ta không có hoạt động nào cả."
+        },
+        "Translate": {
+            "name": "$~dịch",
+            "description": "$~ánh xạ một bộ sưu tập vào một bộ sưu tập mới.",
+            "emotion": "excited",
+            "doc": [
+                "$~Ôi trời ơi! Bạn có cả một bộ sưu tập đồ vật và muốn làm cùng một việc với TẤT CẢ chúng không?? Đó chính là tôi! Đó đúng nghĩa đen là những gì tôi làm!!",
+                "$~Đặt một bộ sưu tập ở bên trái, vẽ mũi tên \\↦\\ , sau đó ở bên phải viết mỗi mục nên BIẾN THÀNH cái gì — sử dụng @This để chỉ mục tôi đang cầm NGAY BÂY GIỜ!",
+                "$~\\[1 2 3] ↦ ⬚ + 1\\ cho bạn \\[2 3 4]\\ . BÙM! Mọi số cộng thêm một, không vòng lặp, không @FunctionDefinition , không rắc rối!",
+                "$~Tôi thật TUYỆT VỜI khi tạo ra hàm @Phrase từ dữ liệu! Bạn có danh sách tên không? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ và giờ thì đã có một cụm từ cho MỌI tên rồi!!",
+                "$~Tôi làm việc với @List , @Set , @Map (tôi thay đổi GIÁ TRỊ của map — các khóa vẫn giữ nguyên vị trí!), và thậm chí cả @Table !",
+                "$~Bạn muốn thứ gì đó cầu kỳ hơn — như chỉ mục của từng mục, hay một hàm bạn có thể tái sử dụng ở nhiều nơi? Hãy ghé thăm những người anh em họ trưởng thành và điềm tĩnh hơn của tôi như @List.translate . Nhưng đối với việc lập bản đồ nhanh chóng hàng ngày, tôi luôn sẵn sàng!!"
+            ],
+            "start": "$~Chờ chút, để tôi lấy hết mọi thứ trong $expression !",
+            "finish": "$~TA-DA! Đây là bộ sưu tập hoàn toàn mới của bạn: $value",
+            "next": "$~Mục tiếp theo: $value !",
+            "conflict": {
+                "ExpectedCollection": {
+                    "name": "$~bộsưutậpdựkiến",
+                    "explanation": "$~Tôi tưởng rằng phía bên trái của phép chuyển đổi tập hợp phải là một tập hợp, nhưng tôi lại nhận được $type"
+                },
+                "ExpectedThis": {
+                    "name": "$~Tôiđãdựđoánđiềunày",
+                    "explanation": "$~Bạn có ý định sử dụng @This để tham chiếu đến một mục trong bộ sưu tập này không?"
+                }
+            }
         }
     },
     "basis": {
@@ -3436,7 +3467,7 @@
                 "$~Mỗi lần như vậy, @Program sẽ đánh giá lại với giá trị thời gian mới.",
                 "$~Ví dụ:",
                 "$~\\Thời gian()\\",
-                "$~Nếu bạn cung cấp thời gian dưới dạng @Time/frequency, nó sẽ hoạt động theo tần số đó. Ví dụ:",
+                "$~Nếu bạn cung cấp thời gian dưới dạng @Time.frequency, nó sẽ hoạt động theo tần số đó. Ví dụ:",
                 "$~\\Thời gian (1000ms)\\",
                 "$~Tuy nhiên, kích thước đó có thể bị giới hạn, vì @Program cần thời gian để đánh giá trước khi có thể phản hồi lại tick tiếp theo.",
                 "$~Giá trị nhỏ nhất có lẽ vào khoảng 20ms."
@@ -3507,7 +3538,7 @@
                 "$~/Boop boop boop/",
                 "$~Chào, @FunctionDefinition đây! Tôi thấy bạn đã tìm thấy @Scene.",
                 "$~Tôi nghĩ @Scene đặc biệt thú vị. Ý tưởng cơ bản là bạn cung cấp cho nó một danh sách các @Phrase hoặc @Group, sau đó nó sẽ hiển thị chúng theo trình tự và dừng lại ở mục cuối cùng.",
-                "$~Để điều khiển thời gian, bạn có thể đặt @Phrase/duration cho mỗi đầu ra, và nó sẽ hiển thị trong khoảng thời gian đó trước khi chuyển sang đầu ra tiếp theo, và sử dụng bất kỳ hiệu ứng chuyển tiếp @Phrase/entering hoặc @Phrase/exiting nào bạn đã thiết lập. Nếu bạn đặt chúng thành @Sequence, nó sẽ sử dụng thời lượng của chuỗi đó.",
+                "$~Để điều khiển thời gian, bạn có thể đặt @Phrase.duration cho mỗi đầu ra, và nó sẽ hiển thị trong khoảng thời gian đó trước khi chuyển sang đầu ra tiếp theo, và sử dụng bất kỳ hiệu ứng chuyển tiếp @Phrase.entering hoặc @Phrase.exiting nào bạn đã thiết lập. Nếu bạn đặt chúng thành @Sequence, nó sẽ sử dụng thời lượng của chuỗi đó.",
                 "$~Tất cả những điều đó cho phép bạn làm những việc như @Scene nhỏ này, hiển thị ba cụm từ này theo trình tự:",
                 "$~\\Scene([\n\nCâu thoại('Xin chào' thời lượng: 1s)\n\nCâu thoại('Bạn khỏe không?' thời lượng: 2s xoay: 5° vào: Tư thế(xoay: 0°))\n\nCâu thoại('Tôi khỏe')\n])\\",
                 "$~Bạn thấy đấy, hình ảnh đầu tiên được hiển thị trong một giây, sau đó hình tiếp theo trong hai giây, nhưng được xoay một góc năm độ, rồi cuối cùng mới hiển thị hình ảnh cuối cùng?",
@@ -3825,7 +3856,7 @@
                 "names": "$~địađiểm"
             },
             "name": {
-                "doc": ["$~Giống như @Phrase/name!"],
+                "doc": ["$~Giống như @Phrase.name!"],
                 "names": "$~tên"
             },
             "description": {
@@ -3835,7 +3866,7 @@
                 "names": "$~Sựmiêutả"
             },
             "selectable": {
-                "doc": "$~Tương tự như @Phrase/selectable!",
+                "doc": "$~Tương tự như @Phrase.selectable!",
                 "names": "$~cóthểlựachọn"
             },
             "color": {
@@ -3863,47 +3894,47 @@
                 "names": "$~tỉlệ"
             },
             "flipx": {
-                "doc": "$~Giống như @Phrase/flipx!",
+                "doc": "$~Giống như @Phrase.flipx!",
                 "names": "$~lậtngược"
             },
             "flipy": {
-                "doc": "$~Tương tự như @Phrase/flipy",
+                "doc": "$~Tương tự như @Phrase.flipy",
                 "names": "$~lật"
             },
             "entering": {
-                "doc": "$~Tương tự như @Phrase/entering!",
+                "doc": "$~Tương tự như @Phrase.entering!",
                 "names": "$~vào"
             },
             "resting": {
-                "doc": "$~Giống như @Phrase/resting!",
+                "doc": "$~Giống như @Phrase.resting!",
                 "names": "$~nghỉngơi"
             },
             "moving": {
-                "doc": "$~Giống như @Phrase/moving!",
+                "doc": "$~Giống như @Phrase.moving!",
                 "names": "$~dichuyển"
             },
             "exiting": {
-                "doc": "$~Tương tự như @Phrase/exiting!",
+                "doc": "$~Tương tự như @Phrase.exiting!",
                 "names": "$~thoátra"
             },
             "duration": {
-                "doc": "$~Tương tự như @Phrase/duration!",
+                "doc": "$~Tương tự như @Phrase.duration!",
                 "names": ["$~⏳", "$~khoảngthờigian"]
             },
             "style": {
-                "doc": "$~Giống như @Phrase/style!",
+                "doc": "$~Giống như @Phrase.style!",
                 "names": "$~phongcách"
             },
             "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
         },
         "Phrase": {
             "doc": [
-                "$~Xin chào, xin chào! Mọi người còn nhớ tôi không? Làm sao ai có thể quên tôi được chứ. Đúng vậy, tôi chính là @Phrase tuyệt vời, sẵn sàng đại diện cho những @Text đáng yêu nhất trên @Stage.",
-                "$~Hãy tạo hình tôi như thế này, và tôi sẽ xuất hiện trên @Stage:",
-                "$~\\Phrase('tuyệt vời!')\\",
-                "$~Tôi cần hiển thị @TextLiteral hoặc @FormattedLiteral. Với @FormattedLiteral, tôi có thể sử dụng các kiểu chữ như \\`*in đậm* và /in nghiêng/`\\ hoặc tham chiếu đến @ConceptLink tùy chỉnh mà bạn tạo.",
-                "$~Bạn cũng có thể tùy chọn cung cấp cho tôi tất cả những gì mà @Output có thể làm, bao gồm thay đổi kích thước, phông chữ, xoay và thực hiện tất cả các điệu nhảy tuyệt vời của tôi với @Pose và @Sequence.",
-                "$~Bạn cũng có thể chọn tôi trên @Stage và chỉnh sửa tôi trên bảng công cụ bên cạnh."
+                "$~Xin chào, xin chào! Mọi người còn nhớ tôi không? Làm sao ai có thể quên tôi được chứ. Đúng vậy, tôi là @Phrase tuyệt vời, sẵn sàng đại diện cho @Text đáng yêu nhất trên @Stage .",
+                "$~Hãy tạo hình tôi như thế này, và tôi sẽ xuất hiện trên @Stage :",
+                "$~\\Phrase('magnificent!')\\",
+                "$~Tôi cần sử dụng @TextLiteral hoặc @FormattedLiteral để hiển thị. Với @FormattedLiteral , tôi có thể sử dụng các kiểu chữ như \\`*bold* and /italic/`\\ hoặc tham chiếu đến @ConceptLink tùy chỉnh mà bạn tạo.",
+                "$~Bạn cũng có thể tùy chọn cung cấp cho tôi tất cả những gì mà @Output có thể làm, bao gồm thay đổi kích thước, phông chữ, xoay và thực hiện tất cả các điệu nhảy tuyệt vời của tôi với @Pose và @Sequence .",
+                "$~Bạn cũng có thể chọn tôi trên @Stage và chỉnh sửa tôi bằng bảng màu 🎨 bên cạnh — đó là một cách tuyệt vời để thử các phông chữ khác nhau và chọn kiểu chữ phù hợp cho @Text của bạn."
             ],
             "names": ["$~Cụmtừ"],
             "text": {
@@ -3915,7 +3946,7 @@
                 "names": "$~kíchcỡ"
             },
             "face": {
-                "doc": "$~Tên kiểu chữ tôi nên dùng.",
+                "doc": "$~Tên của kiểu chữ mà tôi nên dùng. Cách dễ nhất để chọn một kiểu chữ là chọn tôi và mở bảng màu 🎨 bên cạnh, nơi bạn có thể xem trước các kiểu chữ và chọn một kiểu mà không cần gõ tên của nó.",
                 "names": "$~khuônmặt"
             },
             "place": {
@@ -3927,11 +3958,11 @@
                 "names": ["$~↵", "$~bọc"]
             },
             "alignment": {
-                "doc": "$~Nếu có thiết lập ranh giới @Phrase/wrap, tôi nên căn chỉnh các ký hiệu vào đầu, giữa hay cuối cạnh?",
+                "doc": "$~Nếu có thiết lập ranh giới @Phrase.wrap, tôi nên căn chỉnh các ký hiệu vào đầu, giữa hay cuối cạnh?",
                 "names": "$~sựcănchỉnh"
             },
             "direction": {
-                "doc": "$~Cho biết các ký hiệu được viết theo chiều ngang hay chiều dọc, và nếu viết theo chiều dọc và @Phrase/wrap được thiết lập, thì văn bản sẽ xuống dòng bên trái hay bên phải.",
+                "doc": "$~Cho biết các ký hiệu được viết theo chiều ngang hay chiều dọc, và nếu viết theo chiều dọc và @Phrase.wrap được thiết lập, thì văn bản sẽ xuống dòng bên trái hay bên phải.",
                 "names": "$~phươnghướng"
             },
             "matter": {
@@ -4358,6 +4389,56 @@
                 "mix": "$~$first - $second",
                 "light": "$~ánh sáng",
                 "dark": "$~tối tăm"
+            },
+            "random": {
+                "doc": [
+                    "$~Chọn một màu ngẫu nhiên.",
+                    "$~Nếu không có màu nào cụ thể, tôi sẽ chọn ngẫu nhiên một trong những màu cơ bản:",
+                    "$~\\Color.random()\\",
+                    "$~Với một màu duy nhất, tôi giữ nguyên độ sáng và độ bão hòa nhưng chọn một sắc độ ngẫu nhiên:",
+                    "$~\\Color.random(Color.blue)\\",
+                    "$~Với hai màu, tôi chọn ngẫu nhiên độ sáng, độ bão hòa và sắc độ giữa hai màu đó:",
+                    "$~\\Color.random(Color.black Color.white)\\"
+                ],
+                "names": "$~ngẫunhiên",
+                "inputs": [
+                    {
+                        "doc": "$~Một màu tùy chọn. Khi chỉ dùng một màu, tôi giữ nguyên độ sáng và độ bão hòa của nó và chọn ngẫu nhiên sắc độ. Khi dùng thêm màu thứ hai, bạn có thể chọn một trong các sắc độ nằm ở đầu kia của dải màu.",
+                        "names": "$~Một"
+                    },
+                    {
+                        "doc": "$~Màu thứ hai là tùy chọn. Khi được cung cấp, tôi sẽ chọn ngẫu nhiên độ sáng, độ bão hòa và sắc độ giữa hai màu đó.",
+                        "names": "$~b"
+                    }
+                ]
+            },
+            "lighter": {
+                "doc": [
+                    "$~Hãy cho tôi một phiên bản nhẹ hơn, tăng độ sáng của tôi lên một tỷ lệ phần trăm (mặc định là 5%).",
+                    "$~\\Color.blue.lighter()\\",
+                    "$~\\Color.blue.lighter(20%)\\"
+                ],
+                "names": "$~nhẹhơn",
+                "inputs": [
+                    {
+                        "doc": "$~Mức độ tăng độ sáng, tính theo phần trăm. Mặc định là 5%.",
+                        "names": "$~qua"
+                    }
+                ]
+            },
+            "darker": {
+                "doc": [
+                    "$~Hãy cho tôi một phiên bản tối hơn, giảm độ sáng của tôi đi một phần trăm (mặc định là 5%).",
+                    "$~\\Color.blue.darker()\\",
+                    "$~\\Color.blue.darker(20%)\\"
+                ],
+                "names": "$~tốihơn",
+                "inputs": [
+                    {
+                        "doc": "$~Mức độ giảm độ sáng, tính theo phần trăm. Mặc định là 5%.",
+                        "names": "$~qua"
+                    }
+                ]
             }
         },
         "Sequence": {
@@ -4483,7 +4564,7 @@
                 "$~Chào. Sân khấu đây. Hãy nói cho tôi biết cần trình diễn cái gì và tôi sẽ trình diễn.",
                 "$~\\Stage([Phrase('stufffffff')])\\",
                 "$~NẾU BẠN MUỐN, HÃY CHO TÔI BIẾT PHÔNG NỀN @Color VÀ TÔI SẼ CHIẾU SÁNG SÂN KHẤU CHO PHÙ HỢP.",
-                "$~\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°)\\",
+                "$~\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°))\\",
                 "$~Bạn cũng có thể cung cấp cho tôi khung viền và tôi sẽ cắt ảnh.",
                 "$~\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°) frame: Rectangle(-1m -1m 1m 1m))\\"
             ],
@@ -4497,11 +4578,11 @@
                 "names": "$~khung"
             },
             "size": {
-                "doc": "$~THÍCH @Group/size thước",
+                "doc": "$~THÍCH @Group.size thước",
                 "names": "$~kíchcỡ"
             },
             "face": {
-                "doc": "$~LIKE @Group/face",
+                "doc": "$~LIKE @Group.face",
                 "names": "$~khuônmặt"
             },
             "place": {
@@ -4509,7 +4590,7 @@
                 "names": "$~địađiểm"
             },
             "name": {
-                "doc": ["$~GIỐNG VỚI @Phrase/name!"],
+                "doc": ["$~GIỐNG VỚI @Phrase.name!"],
                 "names": "$~tên"
             },
             "description": {
@@ -4519,63 +4600,63 @@
                 "names": "$~Sựmiêutả"
             },
             "selectable": {
-                "doc": "$~Tương tự như @Phrase/selectable!",
+                "doc": "$~Tương tự như @Phrase.selectable!",
                 "names": "$~cóthểlựachọn"
             },
             "color": {
-                "doc": "$~Tương tự như @Group/color",
+                "doc": "$~Tương tự như @Group.color",
                 "names": "$~màusắc"
             },
             "background": {
-                "doc": "$~Tương tự như @Group/background",
+                "doc": "$~Tương tự như @Group.background",
                 "names": "$~lýlịch"
             },
             "opacity": {
-                "doc": "$~Tương tự như @Group/opacity",
+                "doc": "$~Tương tự như @Group.opacity",
                 "names": "$~độmờđục"
             },
             "offset": {
-                "doc": "$~Tương tự như @Group/offset",
+                "doc": "$~Tương tự như @Group.offset",
                 "names": "$~bùlại"
             },
             "rotation": {
-                "doc": "$~Tương tự như @Group/rotation",
+                "doc": "$~Tương tự như @Group.rotation",
                 "names": ["$~📐", "$~xoay"]
             },
             "scale": {
-                "doc": "$~Tương tự như @Group/scale",
+                "doc": "$~Tương tự như @Group.scale",
                 "names": "$~tỉlệ"
             },
             "flipx": {
-                "doc": "$~Tương tự như @Group/flipx",
+                "doc": "$~Tương tự như @Group.flipx",
                 "names": "$~lậtngược"
             },
             "flipy": {
-                "doc": "$~Tương tự như @Group/flipy",
+                "doc": "$~Tương tự như @Group.flipy",
                 "names": "$~lật"
             },
             "entering": {
-                "doc": "$~Tương tự như @Group/entering",
+                "doc": "$~Tương tự như @Group.entering",
                 "names": "$~vào"
             },
             "resting": {
-                "doc": "$~Tương tự như @Group/resting!",
+                "doc": "$~Tương tự như @Group.resting!",
                 "names": "$~nghỉngơi"
             },
             "moving": {
-                "doc": "$~Tương tự như @Group/moving!",
+                "doc": "$~Tương tự như @Group.moving!",
                 "names": "$~dichuyển"
             },
             "exiting": {
-                "doc": "$~Tương tự như @Group/exiting!",
+                "doc": "$~Tương tự như @Group.exiting!",
                 "names": "$~thoátra"
             },
             "duration": {
-                "doc": "$~Tương tự như @Phrase/duration!",
+                "doc": "$~Tương tự như @Phrase.duration!",
                 "names": ["$~⏳", "$~khoảngthờigian"]
             },
             "style": {
-                "doc": "$~Tương tự như @Phrase/style!",
+                "doc": "$~Tương tự như @Phrase.style!",
                 "names": "$~phongcách"
             },
             "gravity": {
@@ -4759,6 +4840,15 @@
                     "off": "$~hiển thị các điều khiển bổ sung"
                 },
                 "popup": "$~Các điều khiển bổ sung"
+            },
+            "color": {
+                "pick": {
+                    "label": "$~chọn màu",
+                    "tip": "$~Chọn một màu từ màn hình của bạn"
+                },
+                "field": "$~trường màu",
+                "instructions": "$~Sử dụng các phím mũi tên trái và phải để thay đổi sắc độ, và các phím mũi tên lên và xuống để thay đổi độ bão hòa màu. Giữ phím Shift để điều chỉnh chính xác hơn.",
+                "value": "$~$color , LCH $l , $c , $h"
             }
         },
         "tile": {
@@ -4932,7 +5022,8 @@
                 }
             },
             "error": {
-                "unknown": "$~Phòng trưng bày này không tồn tại hoặc không công khai."
+                "unknown": "$~Phòng trưng bày này không tồn tại hoặc không công khai.",
+                "unreachable": "$~Chúng tôi không thể tải thư viện ảnh này. Nếu bạn muốn truy cập, hãy kiểm tra kết nối của mình; VPN, tiện ích mở rộng trình duyệt hoặc bộ lọc mạng có thể đang chặn nó."
             },
             "field": {
                 "name": {
@@ -5209,6 +5300,10 @@
                 "expandSequence": {
                     "on": "$~thu gọn các mục",
                     "off": "$~mở rộng các mục"
+                },
+                "search": {
+                    "on": "$~tìm kiếm ẩn",
+                    "off": "$~tìm kiếm mã"
                 }
             },
             "options": {
@@ -5222,13 +5317,16 @@
                 "expandControls": "$~Hiển thị các lệnh chỉnh sửa bổ sung",
                 "collapseControls": "$~ẩn các lệnh chỉnh sửa bổ sung",
                 "zoomIn": "$~Làm cho mã lớn hơn",
-                "zoomOut": "$~Thu nhỏ mã nguồn"
+                "zoomOut": "$~Thu nhỏ mã nguồn",
+                "replace": "$~thay thế tất cả các kết quả khớp"
             },
             "field": {
                 "name": {
                     "description": "$~chỉnh sửa tên nguồn",
                     "placeholder": "$~tên"
-                }
+                },
+                "search": "$~chữ",
+                "replace": "$~thay thế"
             },
             "menu": {
                 "label": "$~menu tự động hoàn thành",
@@ -5301,7 +5399,10 @@
                     "noClipboardItem": "$~Không có gì trên bảng nhớ tạm",
                     "noSelection": "$~Chưa có gì được chọn",
                     "noMove": "$~Không thể tiến xa hơn nữa"
-                }
+                },
+                "nextMatch": "$~chuyển đến kết quả tìm kiếm phù hợp tiếp theo",
+                "insertTranslate": "$~chèn ký hiệu dịch",
+                "insertThis": "$~chèn biểu tượng này"
             },
             "error": {
                 "invalidName": "$~Đây phải là một tên chơi chữ hợp lệ.",
@@ -5530,7 +5631,9 @@
                 }
             },
             "note": {
-                "empty": "$~Các tên bạn định nghĩa trong dự án của mình sẽ hiển thị ở đây."
+                "empty": "$~Các tên bạn định nghĩa trong dự án của mình sẽ hiển thị ở đây.",
+                "keepTyping": "$~Tiếp tục gõ để tìm kiếm…",
+                "noMatches": "$~Không có kết quả phù hợp"
             },
             "purposes": {
                 "Project": {
@@ -5619,6 +5722,10 @@
                 "howToGalleryButton": {
                     "label": "$~Hãy xem hướng dẫn chi tiết ở phần tiếp theo.",
                     "tip": "$~Hãy xem hướng dẫn chi tiết ở phần tiếp theo."
+                },
+                "explain": {
+                    "header": "$~Hướng dẫn",
+                    "explanation": "$~/Các ví dụ ngắn minh họa cách thực hiện các thao tác trong Wordplay. Bấm nút phát trên bất kỳ bản xem trước nào để xem nó hoạt động, sau đó mở nó ra để đọc hướng dẫn./"
                 }
             },
             "tour": {
@@ -5628,6 +5735,10 @@
                 "search": "$~Hộp tìm kiếm rất hữu ích để *khám phá* các tính năng, hoặc tìm kiếm nhanh một tính năng *theo tên*.",
                 "code": "$~Đây là phần /code/. Nó chứa tài liệu về *ngôn ngữ lập trình* — những khối xây dựng mà bạn có thể kết hợp để tạo ra các chương trình.",
                 "howto": "$~Đây là phần hướng dẫn. Nó chứa các *mẫu hữu ích* để đạt được các hành vi cụ thể trong dự án của bạn."
+            },
+            "breadcrumb": {
+                "label": "$~lịch sử điều hướng",
+                "home": "$~Trang chủ"
             }
         },
         "dialog": {
@@ -5940,8 +6051,6 @@
                 },
                 "error": {
                     "login": "$~Bạn phải đăng nhập vào <địa chỉ email> để gửi phản hồi",
-                    "submit": "$~Không thể gửi phản hồi.",
-                    "load": "$~Không thể tải phản hồi",
                     "empty": "$~Hiện không có phản hồi nào.",
                     "url": "$~Đây không phải là URL GitHub hợp lệ."
                 }
@@ -6098,7 +6207,34 @@
             "saving": "$~tiết kiệm",
             "saved": "$~đã lưu",
             "local": "$~đã lưu",
-            "unsaved": "$~chưa được lưu"
+            "unsaved": "$~chưa được lưu",
+            "sync": {
+                "header": "$~Đồng bộ hóa với đám mây",
+                "projects": "$~Dự án",
+                "galleries": "$~Phòng trưng bày",
+                "characters": "$~Nhân vật",
+                "howtos": "$~Hướng dẫn",
+                "chats": "$~Trò chuyện"
+            },
+            "status": {
+                "header": "$~Lưu trạng thái",
+                "intro": "$~Công việc của bạn được lưu trữ trên thiết bị này và được sao lưu trên đám mây.",
+                "columns": {
+                    "device": "$~trên thiết bị này",
+                    "cloud": "$~trên đám mây",
+                    "unsaved": "$~chưa được lưu"
+                },
+                "state": {
+                    "synced": "$~đã đồng bộ",
+                    "loading": "$~đang tải",
+                    "syncing": "$~tiết kiệm",
+                    "offline": "$~ngoại tuyến",
+                    "failed": "$~thất bại"
+                },
+                "conversation": "$~một cuộc trò chuyện",
+                "legend": "$~\"Chưa lưu\" nghĩa là đã được lưu ở đây nhưng chưa kết nối internet. Nó sẽ được lưu khi bạn kết nối lại mạng.",
+                "errorsHeader": "$~Một số thứ không thể lưu trữ trực tuyến:"
+            }
         },
         "page": {
             "unknown": {
@@ -6558,10 +6694,6 @@
                         "label": "$~tất cả màu sắc",
                         "tip": "$~Chọn tất cả các hình có cùng màu với hình đã chọn."
                     },
-                    "pick": {
-                        "label": "$~chọn màu",
-                        "tip": "$~Chọn một màu từ màn hình của bạn để sử dụng cho việc vẽ các điểm ảnh và hình dạng."
-                    },
                     "saturationUp": {
                         "label": "$~độ bão hòa",
                         "tip": "$~tăng độ bão hòa"
@@ -6646,11 +6778,12 @@
                     "usernameTaken": "$~Tên người dùng này đã được sử dụng.",
                     "failure": "$~Không thể đăng nhập :(",
                     "offline": "$~Chúng tôi không thể với tới mây ☁️.",
-                    "delete": "$~Chúng tôi không thể xóa tài khoản của bạn, nhưng chúng tôi không biết lý do tại sao.",
                     "invalidPassword": "$~Mật khẩu phải có ít nhất 6 ký tự.",
                     "wrongPassword": "$~Tên người dùng và mật khẩu không hợp lệ. Có thể mật khẩu của bạn sai hoặc người khác đã sử dụng tên người dùng này.",
                     "mismatched": "$~Mật khẩu không khớp.",
-                    "tooMany": "$~Bạn đã đăng nhập không thành công quá nhiều lần. Bạn phải đợi để thử lại."
+                    "tooMany": "$~Bạn đã đăng nhập không thành công quá nhiều lần. Bạn phải đợi để thử lại.",
+                    "unsaved": "$~Bạn có những thay đổi chưa được lưu trực tuyến. Hãy kết nối lại và đợi cho đến khi các thay đổi được lưu xong, nếu không chúng sẽ bị mất khỏi thiết bị này.",
+                    "deletePartial": "$~Chúng tôi đã xóa dữ liệu tài khoản của bạn, nhưng không thể hoàn tất việc xóa tài khoản. Vui lòng thử lại hoặc liên hệ với chúng tôi nếu sự việc vẫn tiếp diễn."
                 },
                 "feedback": {
                     "changing": "$~Đang gửi email mới...",
@@ -6885,6 +7018,10 @@
                 "singletonWordsWarning": "$~Một số từ trong bản nháp của bạn chỉ xuất hiện một lần duy nhất trong toàn bộ văn bản. Bạn có chắc chắn rằng chúng được viết đúng chính tả và nhất quán với các đoạn văn khác không?",
                 "viewPR": "$~Xem yêu cầu kéo (pull request)",
                 "oneLocaleNote": "$~Mỗi lần đóng góp chỉ dành cho một ngôn ngữ. Những đóng góp này sẽ được gửi dưới dạng chỉnh sửa cho biến $locale . Nếu bạn muốn đóng góp cho một ngôn ngữ khác, hãy chuyển đổi ngôn ngữ trước; các chỉnh sửa bạn lưu dưới mỗi ngôn ngữ sẽ được giữ riêng biệt."
+            },
+            "breadcrumb": {
+                "label": "$~Vụn bánh mì",
+                "home": "$~Trang chủ"
             }
         },
         "edit": {
@@ -7018,7 +7155,7 @@
         },
         "connection": {
             "offline": "$~Bạn đang ngoại tuyến. Một số tính năng sẽ không hoạt động cho đến khi bạn kết nối lại mạng.",
-            "unreachable": "$~Chúng tôi không thể truy cập vào cơ sở dữ liệu Wordplay. Một số tính năng sẽ không hoạt động cho đến khi kết nối được khôi phục.",
+            "unreachable": "$~Chúng tôi không thể truy cập cơ sở dữ liệu, vì vậy một số chức năng sẽ không hoạt động. Có thể do VPN, tiện ích mở rộng trình duyệt hoặc bộ lọc mạng đang chặn truy cập.",
             "label": "$~Trạng thái kết nối"
         },
         "presence": {
@@ -7033,6 +7170,12 @@
             "refresh": "$~Làm cho khỏe lại",
             "updates": "$~xem các bản cập nhật",
             "dismiss": "$~Miễn nhiệm"
+        },
+        "banner": {
+            "deleteFailed": "$~Chúng tôi không thể xóa nó.",
+            "saveFailed": "$~Chúng tôi không thể cứu vãn được điều đó.",
+            "submitFailed": "$~Chúng tôi không thể gửi tài liệu đó.",
+            "loadFailed": "$~Chúng tôi không thể tải được dữ liệu đó."
         }
     },
     "moderation": {

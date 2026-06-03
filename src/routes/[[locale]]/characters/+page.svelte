@@ -1,7 +1,9 @@
 <script lang="ts">
+    import { browser } from '$app/environment';
     import Header from '@components/app/Header.svelte';
     import Link from '@components/app/Link.svelte';
     import Notice from '@components/app/Notice.svelte';
+    import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import Writing from '@components/app/Writing.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
@@ -9,7 +11,7 @@
     import Button from '@components/widgets/Button.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import Title from '@components/widgets/Title.svelte';
-    import { CharactersDB } from '@db/Database';
+    import { CharactersDB, disconnected } from '@db/Database';
     import { firestore } from '@db/firebase';
     import { CANCEL_SYMBOL, COPY_SYMBOL } from '@parser/Symbols';
     import { characterToSVG, type Character } from '@db/characters/Character';
@@ -65,6 +67,7 @@
                 tip={(l) => l.ui.page.characters.button.remove.tip}
                 prompt={(l) => l.ui.page.characters.button.remove.prompt}
                 icon={CANCEL_SYMBOL}
+                enabled={!$disconnected}
                 action={async () => {
                     await CharactersDB.deleteCharacter(character.id);
                 }}
@@ -99,10 +102,21 @@
     <Header text={(l) => l.ui.page.characters.header} />
     <MarkupHTMLView markup={(l) => l.ui.page.characters.prompt} />
 
-    {#if firestore === undefined}
+    {#if !browser || $user === undefined}
+        <!-- Firebase only initializes in the browser, so `firestore` is
+             undefined in the prerendered static shell and until hydration;
+             `$user` is undefined until auth resolves. Show a spinner rather
+             than baking the offline or "logged out" notice into the prerender
+             before we actually know. -->
+        <Spinning></Spinning>
+    {:else if firestore === undefined}
         <Notice text={(l) => l.ui.page.characters.error.offline} />
     {:else if $user === null}
         <Notice markup text={(l) => l.ui.page.characters.error.noauth} />
+    {:else if !CharactersDB.hydrated}
+        <!-- Wait for the local cache to hydrate so we show the user's
+             characters (available offline) rather than an empty list. -->
+        <Spinning></Spinning>
     {:else}
         <NewCharacterButton></NewCharacterButton>
 

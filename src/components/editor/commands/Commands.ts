@@ -28,6 +28,8 @@ import {
     STREAM_SYMBOL,
     TABLE_CLOSE_SYMBOL,
     TABLE_OPEN_SYMBOL,
+    THIS_SYMBOL,
+    TRANSLATE_SYMBOL,
     TRUE_SYMBOL,
     TYPE_SYMBOL,
     UNDO_SYMBOL,
@@ -36,6 +38,7 @@ import {
 import { moveVisualVertical } from '@components/editor/caret/CaretView.svelte';
 import { copyNode, toClipboard } from '@components/editor/commands/Clipboard';
 import interpret from '@components/editor/commands/interpret';
+import { wasCopiedHere } from '@components/editor/commands/InternalClipboard';
 import { TileKind } from '@components/project/TileKind';
 import { Settings, type Database } from '@db/Database';
 import type Project from '@db/projects/Project';
@@ -114,6 +117,11 @@ export type CommandContext = {
     /** The HTMLElement rendering the editor */
     view: HTMLElement | undefined;
     toggleMenu?: () => void;
+    /** Toggle the focused editor's search field. */
+    toggleSearch?: () => void;
+    /** Move the caret to the next search match, cycling back to the first.
+     *  Returns true if it was handled (consuming the keystroke). */
+    nextSearchMatch?: () => boolean;
     toggleBlocks?: (on: boolean) => void;
     setFullscreen?: (on: boolean) => void;
     focusOrCycleTile?: (content?: TileKind) => void;
@@ -238,6 +246,44 @@ export const ShowKeyboardHelp: Command = {
             return true;
         } else return false;
     },
+};
+
+export const ToggleSearch: Command = {
+    symbol: '🔍',
+    description: (l) => l.ui.source.field.search,
+    visible: Visibility.Invisible,
+    category: Category.Cursor,
+    shift: false,
+    alt: false,
+    control: true,
+    key: 'KeyF',
+    keySymbol: 'F',
+    // When an editor is handling this, consume Cmd/Ctrl+F (overriding the
+    // browser's find shortcut) and toggle the editor's search field. Returns
+    // false when no editor provides toggleSearch, so the browser shortcut still
+    // works when no editor is focused.
+    execute: ({ toggleSearch }) => {
+        if (toggleSearch) {
+            toggleSearch();
+            return true;
+        } else return false;
+    },
+};
+
+export const GoToNextMatch: Command = {
+    symbol: '🔍',
+    description: (l) => l.ui.source.cursor.nextMatch,
+    visible: Visibility.Invisible,
+    category: Category.Cursor,
+    shift: false,
+    alt: false,
+    control: true,
+    key: 'KeyG',
+    keySymbol: 'G',
+    // Move to the next match (overriding the browser's find-next) when an
+    // editor is searching. Returns false otherwise so the browser shortcut
+    // still works when no editor is searching.
+    execute: ({ nextSearchMatch }) => nextSearchMatch?.() ?? false,
 };
 
 export const IncrementLiteral: Command = {
@@ -1260,6 +1306,31 @@ const Commands: Command[] = [
         execute: (context) => handleInsert(context, CONVERT_SYMBOL),
     },
     {
+        // Mirrors the Convert insert shortcut (Alt+→), with Shift for the "bar" arrow ↦.
+        symbol: TRANSLATE_SYMBOL,
+        description: (l) => l.ui.source.cursor.insertTranslate,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        alt: true,
+        shift: true,
+        control: false,
+        key: 'ArrowRight',
+        keySymbol: TRANSLATE_SYMBOL,
+        execute: (context) => handleInsert(context, TRANSLATE_SYMBOL),
+    },
+    {
+        symbol: THIS_SYMBOL,
+        description: (l) => l.ui.source.cursor.insertThis,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        alt: true,
+        shift: false,
+        control: false,
+        key: 'Minus',
+        keySymbol: '-',
+        execute: (context) => handleInsert(context, THIS_SYMBOL),
+    },
+    {
         symbol: TABLE_OPEN_SYMBOL,
         description: (l) => l.ui.source.cursor.insertTable,
         visible: Visibility.Visible,
@@ -1507,9 +1578,11 @@ const Commands: Command[] = [
                     if (type === 'text/plain') {
                         const blob = await item.getType(type);
                         const text = await blob.text();
-                        // Insert the text, b ut since it's a paste, dont' insert.
+                        // If this text was copied from within Wordplay, paste it
+                        // verbatim instead of reinterpreting it as foreign data
+                        // (e.g. CSV).
                         return caret.insert(
-                            interpret(text),
+                            wasCopiedHere(text) ? text : interpret(text),
                             blocks,
                             project,
                             false,
@@ -1619,6 +1692,9 @@ const Commands: Command[] = [
             return false;
         },
     },
+
+    ToggleSearch,
+    GoToNextMatch,
 
     // The catch all
     InsertSymbol,

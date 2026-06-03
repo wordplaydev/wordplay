@@ -28,15 +28,30 @@ import { loginNewContext, uidForUsername } from '../helpers/loginNewContext';
  * content.
  */
 
-/** How long we'll wait for a typed string to round-trip:
- *   - Editor → applyCRDTDiff: synchronous on keystroke
- *   - YjsFirestoreProvider flush debounce: ~200ms
- *   - addDoc to Firestore + emulator round-trip: ~50–200ms
- *   - Peer's onSnapshot fires: ~50ms
- *   - applyRemoteUpdate → onChange → history.edit → re-render: synchronous
+/**
+ * How long we'll wait for a typed string to round-trip. Edits converge on a
+ * peer through *two* independent channels, so this is the worst-case ceiling
+ * for the slower one — not the expected latency:
  *
- * 8s is comfortable headroom for emulator latency variability under CI load. */
-const PROPAGATION_TIMEOUT = 8_000;
+ *   1. Realtime delta (the fast path): editor → applyCRDTDiff (sync) →
+ *      YjsFirestoreProvider flush (~200ms debounce) → addDoc + emulator RTT →
+ *      peer's `updates` onSnapshot → applyRemoteUpdate → onChange → re-render.
+ *      Normally a few hundred ms.
+ *   2. Snapshot fold (the backstop): typing schedules `saveSoon` (~1s
+ *      debounce); persist() writes the project doc's `crdt` snapshot; the
+ *      peer's project-doc onSnapshot runs `foldRemoteCRDT`, which merges the
+ *      full Yjs state (commutative + idempotent) and re-materializes the
+ *      editor. This heals anything channel 1 dropped, within ~1–2s of the
+ *      last keystroke.
+ *
+ * Because `toContainText` is a web-first assertion it polls and returns the
+ * instant the text appears, so a generous ceiling costs nothing on a healthy
+ * run — it only buys headroom when a loaded CI box stalls *both* channels.
+ * The 8s ceiling was occasionally too tight under Firefox CI load (the box is
+ * single-worker and I/O-bound during these runs); 20s gives real margin while
+ * still failing in bounded time if propagation is genuinely broken.
+ */
+const PROPAGATION_TIMEOUT = 20_000;
 
 /** Open a project and wait for its editor to be visible and ready. */
 async function openProject(
@@ -67,6 +82,13 @@ test('same browser context, two tabs, same user — edits propagate both ways', 
     page,
     loggedInUsername,
 }) => {
+    // Each test makes two back-to-back propagation assertions (A→B then B→A),
+    // each with a PROPAGATION_TIMEOUT ceiling. On a healthy run both return in
+    // well under a second, but the per-test timeout has to be able to absorb
+    // two near-ceiling waits plus setup so the widened headroom is actually
+    // usable instead of being cut short by the default 30s.
+    test.setTimeout(75_000);
+
     // Two pages inside one context = shared localStorage / IndexedDB / auth.
     // This is the path where the per-session sessionID matters: without it,
     // both tabs would use the same per-device writer for CRDT updates and
@@ -105,6 +127,13 @@ test('same browser context, two tabs, same user — edits propagate both ways', 
 test('two browser contexts, two users — edits propagate both ways', async ({
     browser,
 }) => {
+    // Two logins (~7s each on Firefox CI) plus two near-ceiling propagation
+    // waits (PROPAGATION_TIMEOUT each, worst case) have to fit inside the
+    // per-test budget, so give this one extra room beyond the default 30s —
+    // otherwise the widened propagation headroom gets cut short by the test
+    // timeout before the slower convergence channel can land.
+    test.setTimeout(90_000);
+
     // Two contexts each with their own storage = the canonical multi-user
     // scenario. Different per-device writer IDs, different Firebase Auth
     // sessions, different presence docs. The CRDT update stream and the

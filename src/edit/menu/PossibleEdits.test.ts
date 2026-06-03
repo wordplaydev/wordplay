@@ -25,6 +25,7 @@ import Token from '@nodes/Token';
 import { Sym } from '@nodes/Sym';
 import Dimension from '@nodes/Dimension';
 import Reference from '@nodes/Reference';
+import ListLiteral from '@nodes/ListLiteral';
 
 test.each([
     ['blank programs suggest numbers', '**', undefined, Append, '0'],
@@ -90,8 +91,7 @@ test.each([
     [
         'suggest sibling property when property reference is selected',
         `•Fun(a•# b•#)\nFun(1).a + 1`,
-        (node: Node) =>
-            node instanceof Reference && node.getName() === 'a',
+        (node: Node) => node instanceof Reference && node.getName() === 'a',
         Replace,
         'b',
     ],
@@ -147,6 +147,27 @@ test.each([
         (node) => node instanceof NumberLiteral,
         Replace,
         '-5',
+    ],
+    [
+        'suggest translate (↦) on a collection',
+        '[1 2 3]',
+        (node) => node instanceof ListLiteral,
+        Replace,
+        '[1 2 3] ↦ _•#',
+    ],
+    [
+        'suggest this (⬚) in a translate body',
+        '[1 2 3] ↦ _',
+        (node) => node instanceof ExpressionPlaceholder,
+        Replace,
+        '⬚',
+    ],
+    [
+        'suggest this (⬚) in a reaction',
+        '1 … ∆ Time() … _',
+        (node) => node instanceof ExpressionPlaceholder,
+        Replace,
+        '⬚',
     ],
     [
         'suggest locale with region when Language is selected',
@@ -295,7 +316,7 @@ test('default-value suggestions for an input only include values of its declared
     expect(replacementCodes).not.toContain("''");
 });
 
-test("default-value suggestions for a struct input do not include sibling inputs", () => {
+test('default-value suggestions for a struct input do not include sibling inputs', () => {
     // In •Fun(a•# b•#), the default for b should not be allowed to reference
     // a — struct inputs aren't bound until after the object is constructed,
     // so a default-value expression can't resolve sibling inputs at runtime.
@@ -318,8 +339,9 @@ test("default-value suggestions for a struct input do not include sibling inputs
         DefaultLocales,
     );
 
-    const replacementCodes = transforms
-        .map((t) => t.getNewNode(DefaultLocales)?.toWordplay() ?? '');
+    const replacementCodes = transforms.map(
+        (t) => t.getNewNode(DefaultLocales)?.toWordplay() ?? '',
+    );
     expect(replacementCodes).not.toContain('a');
 });
 
@@ -353,7 +375,10 @@ test('selecting a typed Bind with no default value suggests adding one', () => {
             b.type !== undefined &&
             b.value !== undefined,
     );
-    expect(withDefault, 'expected a Bind suggestion with a default value').toBeDefined();
+    expect(
+        withDefault,
+        'expected a Bind suggestion with a default value',
+    ).toBeDefined();
 });
 
 test('appending an input to a struct in use suggests a Bind with a default value', () => {
@@ -367,7 +392,9 @@ test('appending an input to a struct in use suggests a Bind with a default value
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     const struct = source
         .nodes()
-        .find((n): n is StructureDefinition => n instanceof StructureDefinition);
+        .find(
+            (n): n is StructureDefinition => n instanceof StructureDefinition,
+        );
     expect(struct).toBeDefined();
     if (!struct) return;
 
@@ -387,6 +414,9 @@ test('appending an input to a struct in use suggests a Bind with a default value
     // Every suggested Bind for a struct input must have a default value so
     // existing call sites don't get a MissingInput conflict.
     for (const bind of newBinds) {
-        expect(bind.value, 'suggested input should have a default').toBeDefined();
+        expect(
+            bind.value,
+            'suggested input should have a default',
+        ).toBeDefined();
     }
 });

@@ -9,7 +9,7 @@
 ƒ division(num1•# num2•#) num1 ÷ num2
 
 choice: Choice()
-frame: 1 … ∆ (choice) … 1 + .
+frame: 1 … ∆ (choice) … 1 + frame
 
 ¶ Booleans to keep track of whether each value has been selected ¶
 num1picked: ⊥ … ∆ (choice) … (choice.starts("num1")) & ~num1picked

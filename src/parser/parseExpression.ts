@@ -51,6 +51,7 @@ import Spread from '@nodes/Spread';
 import StructureDefinition from '@nodes/StructureDefinition';
 import { Sym, type SymType } from '@nodes/Sym';
 import This from '@nodes/This';
+import Translate from '@nodes/Translate';
 import Translation, { type TranslationSegment } from '@nodes/Translation';
 import type Type from '@nodes/Type';
 import UnaryEvaluate from '@nodes/UnaryEvaluate';
@@ -82,6 +83,8 @@ export function parseDocs(tokens: Tokens): Docs {
 export default function parseExpression(tokens: Tokens): Expression {
     let left = parseBinaryEvaluate(tokens);
 
+    // Is it a translate expression?
+    if (tokens.nextIs(Sym.Translate)) left = parseTranslate(left, tokens);
     // Is it a match expression?
     if (tokens.nextIs(Sym.Match)) left = parseMatch(left, tokens);
     // Is it an otherwise expression?
@@ -904,6 +907,14 @@ function parseConvert(expression: Expression, tokens: Tokens): Convert {
     const type = parseType(tokens, true);
 
     return new Convert(expression, convert, type);
+}
+
+/** TRANSLATE :: EXPRESSION ↦ EXPRESSION — the right side is a body evaluated against each item. */
+function parseTranslate(expression: Expression, tokens: Tokens): Translate {
+    const translate = tokens.read(Sym.Translate);
+    const translation = parseExpression(tokens);
+
+    return new Translate(expression, translate, translation);
 }
 
 export function parseTypeVariables(tokens: Tokens): TypeVariables {

@@ -72,9 +72,10 @@ export function enqueuePreviewCompute(
     project: Project,
     locales: Locales,
     db: Database,
+    howToId?: string,
 ): Promise<ExtractedPreview> {
-    const id = project.getID();
-    const existing = pending.get(id);
+    const cacheID = howToId ?? project.getID();
+    const existing = pending.get(cacheID);
     if (existing) return existing;
 
     const job = workerChain.then(async () => {
@@ -93,14 +94,14 @@ export function enqueuePreviewCompute(
         }
     });
 
-    pending.set(id, job);
+    pending.set(cacheID, job);
     // Chain the next job to wait for this one, but swallow this job's
     // errors here so a single failure doesn't poison the whole queue.
     workerChain = job.catch(() => undefined);
     // Clear the dedupe slot once the job is fully settled so a subsequent
     // call recomputes (the project's sources may have changed since).
     void job.finally(() => {
-        if (pending.get(id) === job) pending.delete(id);
+        if (pending.get(cacheID) === job) pending.delete(cacheID);
     });
     return job;
 }

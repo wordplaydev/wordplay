@@ -2,6 +2,7 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type BindConcept from '@concepts/BindConcept';
     import { blocks, locales } from '@db/Database';
+    import AnyType from '@nodes/AnyType';
     import Speech from '@components/lore/Speech.svelte';
     import RootView from '@components/project/RootView.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
@@ -23,7 +24,7 @@
         {/if}
     {/snippet}
     {#snippet aside()}
-        {#if concept.bind.type}•<RootView
+        {#if concept.bind.type && !(concept.bind.type instanceof AnyType)}•<RootView
                 node={concept.bind.type}
                 inline
                 locale="symbolic"

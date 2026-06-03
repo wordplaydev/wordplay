@@ -67,7 +67,9 @@
                 padding={false}
                 background="circular"
                 action={more}>+{remaining}</Button
-            >{/if}{#if canCollapse}<Button
+            >{/if}
+        {#if canCollapse}
+            <Button
                 tip={(l) => l.ui.source.toggle.expandSequence.on}
                 padding={false}
                 background="circular"

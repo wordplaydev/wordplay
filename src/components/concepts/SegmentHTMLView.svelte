@@ -14,7 +14,7 @@
     import { BULLET_SYMBOL } from '@parser/Symbols';
     import RootView from '@components/project/RootView.svelte';
     import ValueView from '@components/values/ValueView.svelte';
-    import CodeView from '@components/concepts/CodeView.svelte';
+    import ConceptPreview from '@components/concepts/ConceptPreview.svelte';
     import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
     import elideNode from '@components/concepts/elideNode';
     import ExampleUI from '@components/concepts/ExampleUI.svelte';
@@ -68,7 +68,7 @@
             {spaces}
             evaluated={alone}
         />
-    {:else}<CodeView
+    {:else}<ConceptPreview
             node={segment.program}
             inline={true}
             {spaces}

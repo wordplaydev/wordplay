@@ -47,10 +47,10 @@ export async function uidForUsername(username: string): Promise<string> {
  *
  * # Storage-state caching
  *
- * The full login flow takes ~7s on Firefox CI (longer than Chromium —
- * the login button has stability-retry stalls), so doing it twice
- * per test eats most of the 30s test timeout before assertions even
- * begin. To keep retries cheap, we persist Firebase Auth state to
+ * The full login flow takes several seconds on the slower CI engines
+ * (WebKit on the Linux runner especially), so doing it twice per test
+ * eats much of the test timeout before assertions even begin. To keep
+ * retries cheap, we persist Firebase Auth state to
  * `playwright/.auth/${username}.json` after a successful login and
  * load it directly on subsequent calls with the same username.
  *
@@ -116,9 +116,15 @@ export async function loginNewContext(
 
     // Persist auth so a retry in the same CI run can skip the UI flow.
     // indexedDB:true is required — Firebase Auth keeps tokens there, not
-    // in cookies.
+    // in cookies. Two workers running different spec files can call this
+    // concurrently with the same shared username (e.g. 'creator'), so write
+    // to a per-process temp file and rename into place — rename is atomic on
+    // the same filesystem, avoiding a half-written file a parallel reader
+    // would fail to parse.
     fs.mkdirSync(cacheDir, { recursive: true });
-    await context.storageState({ path: cacheFile, indexedDB: true });
+    const tmpFile = path.resolve(cacheDir, `${username}.${process.pid}.tmp.json`);
+    await context.storageState({ path: tmpFile, indexedDB: true });
+    fs.renameSync(tmpFile, cacheFile);
 
     const uid = await uidForUsername(username);
     return { context, page, uid };

@@ -2,8 +2,13 @@
     import { browser } from '$app/environment';
     import { afterNavigate } from '$app/navigation';
     import { page } from '$app/state';
+    import Breadcrumbs from '@components/app/Breadcrumbs.svelte';
+    import type { Crumb } from '@components/app/getBreadcrumbs';
     import Header from '@components/app/Header.svelte';
-    import Documentation from '@components/concepts/Documentation.svelte';
+    import Documentation, {
+        Modes,
+    } from '@components/concepts/Documentation.svelte';
+    import placeLabel from '@components/concepts/placeLabel';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import {
         getUser,
@@ -14,50 +19,119 @@
     import type Concept from '@concepts/Concept';
     import ConceptIndex from '@concepts/ConceptIndex';
     import {
+        currentConcept,
+        popTo,
+        type GuideHistory,
+        type GuidePlace,
+    } from '@components/concepts/GuideHistory';
+    import {
         getConceptFromURL,
+        getEnumFromURL,
+        getQueryFromURL,
+        PARAM_PURPOSE,
+        PARAM_SECTION,
         setConceptInURL,
+        setEnumInURL,
+        setQueryInURL,
     } from '@concepts/ConceptParams';
-    import { HowTos, Locales, locales } from '@db/Database';
+    import { Purpose } from '@concepts/Purpose';
+    import { DOCUMENTATION_SYMBOL } from '@parser/Symbols';
+    import { blocks, HowTos, Locales, locales } from '@db/Database';
     import Project from '@db/projects/Project';
     import Source from '@nodes/Source';
     import { onMount } from 'svelte';
     import { writable } from 'svelte/store';
     import { localeGoto } from '@util/localeGoto';
+    import { debounced } from '@util/debounce.svelte';
 
     // Initialize concept with URL.
     let concept: Concept | undefined = $state(undefined);
 
-    // Create a concept path for children, initialized
-    let path = writable<Concept[]>([]);
+    // The search query, initialized from the URL so a shared/refreshed link
+    // restores results. Two-way bound to Documentation; a debounced copy is what
+    // we write back to the URL, so typing doesn't spam navigation history.
+    // Reading url.searchParams during prerendering throws, so fall back to
+    // defaults at build time and read the real params during browser hydration.
+    let searchQuery = $state(
+        browser ? getQueryFromURL(page.url.searchParams) : '',
+    );
+    const debouncedSearch = debounced(() => searchQuery, 400);
+
+    // The browsing location (section + code subsection), restored from the URL
+    // and two-way bound to Documentation, so a refresh/share keeps the location.
+    const sectionFallback = () => ($blocks ? 'language' : 'howto');
+    let guideSection = $state(
+        browser
+            ? getEnumFromURL(
+                  page.url.searchParams,
+                  PARAM_SECTION,
+                  Modes,
+                  sectionFallback(),
+              )
+            : sectionFallback(),
+    );
+    let guidePurpose = $state(
+        browser
+            ? getEnumFromURL(
+                  page.url.searchParams,
+                  PARAM_PURPOSE,
+                  Object.values(Purpose),
+                  Purpose.Outputs,
+              )
+            : Purpose.Outputs,
+    );
+
+    // Create the navigation history for children, initialized empty (home).
+    let path = writable<GuideHistory>([]);
     setConceptPath(path);
+
+    /** Build a (shallow) history from the URL: a browse section (the bottom/home of the
+     *  history), with the named concept or search on top of it. The URL only records the
+     *  current location + section filters; the deeper in-app stack lives in the path
+     *  store and is navigated with the breadcrumb's back/home/crumb controls. */
+    function historyFromURL(): GuideHistory {
+        const section: GuidePlace = {
+            kind: 'section',
+            mode: guideSection,
+            purpose: guidePurpose,
+        };
+        const c = getConceptFromURL(index, page.url.searchParams);
+        if (c) return [section, { kind: 'concept', concept: c }];
+        const q = getQueryFromURL(page.url.searchParams);
+        return q.trim().length > 0
+            ? [section, { kind: 'search', query: q }]
+            : [section];
+    }
 
     let mounted = $state(false);
     onMount(() => {
         // Before showing, wait for how tos to load.
         Locales.loadHowTos($locales.getLocaleString()).then(() => {
-            concept = getConceptFromURL(index, page.url.searchParams);
-            path.set(concept ? [concept] : []);
+            path.set(historyFromURL());
             mounted = true;
         });
     });
 
-    // After any navigation, extract the concept from the URL and
-    // ensure the concept path is set to match it.
-    afterNavigate(() => {
-        concept = getConceptFromURL(index, page.url.searchParams);
-        // Only update the path if the concept exists and is not already in the path.
-        if (
-            concept !== undefined &&
-            ($path.length === 0 ||
-                concept.getCharacterName($locales) !==
-                    $path.at(-1)?.getCharacterName($locales))
-        ) {
-            path.set([concept]);
-        }
-        // Only update if the path isn't already empty.
-        else if (!concept) {
-            path.set([]);
-        }
+    // On browser back/forward, restore the location and filters from the URL. Our own
+    // (programmatic) navigations already updated the stack, so we ignore non-popstate
+    // navigations — re-deriving from the URL would flatten the in-app history.
+    afterNavigate(({ type }) => {
+        if (type !== 'popstate') return;
+        const urlQuery = getQueryFromURL(page.url.searchParams);
+        if (searchQuery !== urlQuery) searchQuery = urlQuery;
+        guideSection = getEnumFromURL(
+            page.url.searchParams,
+            PARAM_SECTION,
+            Modes,
+            sectionFallback(),
+        );
+        guidePurpose = getEnumFromURL(
+            page.url.searchParams,
+            PARAM_PURPOSE,
+            Object.values(Purpose),
+            Purpose.Outputs,
+        );
+        path.set(historyFromURL());
     });
 
     // There's no actual project; the documentation component just relies on one to have contexts.
@@ -101,14 +175,50 @@
     });
 
     $effect(() => {
-        concept = $path.at(-1);
+        concept = currentConcept($path);
     });
 
-    // When the concept path changes, navigate to the corresponding URL.
+    // The guide's concept path, appended to the route breadcrumbs as a single
+    // unified trail: 🏠 Home / 📕 Guide / <concept> / … The 📕 Guide crumb links
+    // back to the guide landing (resetting the concept path). At the landing
+    // itself there's nothing to navigate back to, so it's omitted (the page
+    // header already says "Guide").
+    let extra = $derived.by<Crumb[]>(() => {
+        if ($path.length <= 1) return [];
+        const guide: Crumb = {
+            emoji: DOCUMENTATION_SYMBOL,
+            label: (l) => l.ui.page.guide.header,
+            action: () => path.set(popTo($path, 0)),
+        };
+        const rest = $path.slice(1).map((place, i): Crumb => {
+            const index = i + 1;
+            const body = { text: placeLabel(place, $locales) };
+            return index === $path.length - 1
+                ? { ...body, current: true }
+                : { ...body, action: () => path.set(popTo($path, index)) };
+        });
+        return [guide, ...rest];
+    });
+
+    // When the concept path or (debounced) search query changes, navigate to the
+    // corresponding URL so the guide is shareable and survives a refresh.
     $effect(() => {
         if (browser && $path && mounted) {
             const newParams = new URLSearchParams();
-            setConceptInURL($locales, concept ?? undefined, index, newParams);
+            setConceptInURL(concept ?? undefined, index, newParams);
+            setQueryInURL(debouncedSearch.current, newParams);
+            setEnumInURL(
+                newParams,
+                PARAM_SECTION,
+                guideSection,
+                sectionFallback(),
+            );
+            setEnumInURL(
+                newParams,
+                PARAM_PURPOSE,
+                guidePurpose,
+                Purpose.Outputs,
+            );
 
             const newSearch = newParams.toString()
                 ? `?${newParams.toString()}`
@@ -116,6 +226,10 @@
             if (window.location.search !== newSearch) {
                 localeGoto(`/guide${newSearch}`, {
                     replaceState: window.location.search === '',
+                    // Keep focus (and scroll) so syncing the URL while the creator
+                    // is typing in the search field doesn't steal focus from it.
+                    keepFocus: true,
+                    noScroll: true,
                 });
             }
         }
@@ -124,11 +238,19 @@
 
 <section class="guide">
     <div class="header">
+        <Breadcrumbs {extra} />
         <Header block={false} text={(l) => l.ui.page.guide.header} />
         <MarkupHTMLView markup={(l) => l.ui.page.guide.description} />
     </div>
 
-    <Documentation {project} standalone collapse={false}></Documentation>
+    <Documentation
+        {project}
+        standalone
+        collapse={false}
+        bind:query={searchQuery}
+        bind:mode={guideSection}
+        bind:purpose={guidePurpose}
+    ></Documentation>
 </section>
 
 <style>

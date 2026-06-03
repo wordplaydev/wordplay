@@ -198,7 +198,7 @@ export default class NumberValue extends SimpleValue {
         divisor: NumberValue,
     ): NumberValue | NoneValue {
         return divisor.num.isZero()
-            ? new NumberValue(requestor, new Decimal(NaN))
+            ? new NoneValue(requestor)
             : new NumberValue(
                   requestor,
                   this.num.dividedBy(divisor.num),

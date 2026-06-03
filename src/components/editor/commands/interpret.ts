@@ -13,8 +13,13 @@ export default function interpret(text: string): string {
     if (isCSV(text)) {
         const data = parseCSV(text.trim());
 
-        const table = TableLiteral.from(data);
-        if (table) return table.toWordplay(getPreferredSpaces(table));
+        // Only treat this as a table if at least one line actually has commas
+        // separating two or more values. Otherwise a column of newline-separated
+        // text literals (with no commas) would be misread as CSV.
+        if (data.some((row) => row.length >= 2)) {
+            const table = TableLiteral.from(data);
+            if (table) return table.toWordplay(getPreferredSpaces(table));
+        }
     }
 
     return text;

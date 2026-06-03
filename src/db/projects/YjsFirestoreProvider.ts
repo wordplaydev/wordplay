@@ -88,6 +88,14 @@ export default class YjsFirestoreProvider {
      *  test stubs and read-only sessions can omit it. */
     private readonly refreshAuth: (() => Promise<void>) | undefined;
 
+    /** Surface otherwise-silent live-sync failures to the owner. Called when the
+     *  remote-update listener errors (so a connectivity drop can flip the
+     *  offline/save-status indicator) and when publishing becomes terminally
+     *  write-forbidden (so the user learns their live edits aren't reaching
+     *  peers). Optional so test stubs / read-only sessions can omit them. */
+    private readonly onSyncError: ((error: unknown) => void) | undefined;
+    private readonly onWriteForbidden: (() => void) | undefined;
+
     /** Latch: only the first permission-denied of the session triggers
      *  a token refresh. If the retry also fails, or a later flush hits
      *  a second permission-denied, we accept the verdict and stop. */
@@ -100,6 +108,8 @@ export default class YjsFirestoreProvider {
         writer: string,
         writable: boolean = true,
         refreshAuth?: () => Promise<void>,
+        onSyncError?: (error: unknown) => void,
+        onWriteForbidden?: () => void,
     ) {
         this.db = db;
         this.projectID = projectID;
@@ -107,6 +117,8 @@ export default class YjsFirestoreProvider {
         this.writer = writer;
         this.writable = writable;
         this.refreshAuth = refreshAuth;
+        this.onSyncError = onSyncError;
+        this.onWriteForbidden = onWriteForbidden;
         this.attach();
     }
 
@@ -138,12 +150,7 @@ export default class YjsFirestoreProvider {
 
         // Remote → local: subscribe to the updates subcollection.
         this.unsubscribe = onSnapshot(
-            collection(
-                this.db,
-                ProjectsCollection,
-                this.projectID,
-                'updates',
-            ),
+            collection(this.db, ProjectsCollection, this.projectID, 'updates'),
             (snapshot) => {
                 for (const change of snapshot.docChanges()) {
                     if (change.type !== 'added') continue;
@@ -157,15 +164,15 @@ export default class YjsFirestoreProvider {
                     try {
                         this.crdt.applyRemoteUpdate(base64ToBytes(data.bytes));
                     } catch (err) {
-                        console.error(
-                            'Failed to apply remote Yjs update',
-                            err,
-                        );
+                        console.error('Failed to apply remote Yjs update', err);
                     }
                 }
             },
             (err) => {
                 console.error('YjsFirestoreProvider snapshot error', err);
+                // Surface the dropped live-sync stream (e.g. flip the offline
+                // indicator on a connectivity error) instead of failing silently.
+                this.onSyncError?.(err);
             },
         );
     }
@@ -303,6 +310,9 @@ export default class YjsFirestoreProvider {
                     'YjsFirestoreProvider: write denied by Firestore rules; ' +
                         'further local edits will not publish for this session.',
                 );
+                // Tell the owner so the user learns their live edits have
+                // stopped reaching peers (otherwise this is console-only).
+                this.onWriteForbidden?.();
                 return;
             }
             console.error('YjsFirestoreProvider publish failed', err);

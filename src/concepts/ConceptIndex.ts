@@ -28,6 +28,8 @@ import StructureDefinition from '@nodes/StructureDefinition';
 import type Type from '@nodes/Type';
 import type TypeSet from '@nodes/TypeSet';
 import UnaryEvaluate from '@nodes/UnaryEvaluate';
+import { makeSearchable, searchConcepts } from '@concepts/conceptSearch';
+import type { Searchable, SearchMatch } from '@util/search';
 
 export default class ConceptIndex {
     readonly project: Project;
@@ -35,6 +37,9 @@ export default class ConceptIndex {
     readonly primaryConcepts: Concept[];
     readonly subConcepts: Map<Concept, Set<Concept>> = new Map();
     readonly locales: Locales;
+
+    /** Precomputed searchable text for every concept, aligned to {@link concepts}. */
+    readonly searchable: Searchable<Concept>[];
 
     /** A mapping of node ids to nodes, registered by examples that are generated. */
     readonly examples: Map<number, Node> = new Map();
@@ -58,6 +63,22 @@ export default class ConceptIndex {
 
         // Remember the preferred locales.
         this.locales = locales;
+
+        // Precompute searchable text ONCE. This moves the expensive work —
+        // concretizing each concept's documentation markup — out of the
+        // per-keystroke search path. It's rebuilt whenever a new ConceptIndex is
+        // constructed (project/howtos/gallery/locale change).
+        const languages = locales.getLanguages();
+        this.searchable = this.concepts.map((concept) =>
+            makeSearchable(
+                concept,
+                concept.getNames(locales, false),
+                concept
+                    .getDocs(locales)
+                    .flatMap((markup) => markup.getWordsTexts()),
+                languages,
+            ),
+        );
     }
 
     // Make a concept index with a project and some preferreed languages.
@@ -299,14 +320,21 @@ export default class ConceptIndex {
         return this.concepts.find((c) => c.getSubConcepts().has(concept));
     }
 
-    /** Finds a subconcept by owner name and concept name */
+    /** Finds a subconcept by owner token and concept token */
     getSubConcept(owner: string, concept: string) {
-        const subconcepts = this.getConceptByName(owner)?.getSubConcepts();
+        const subconcepts = this.getConceptByToken(owner)?.getSubConcepts();
         return subconcepts
             ? Array.from(subconcepts).find((c) =>
-                  c.hasName(concept, this.locales),
+                  this.conceptMatchesToken(c, concept),
               )
             : undefined;
+    }
+
+    /** Finds a subconcept of the given concept by name. */
+    getSubConceptByName(owner: Concept, name: string): Concept | undefined {
+        return Array.from(owner.getSubConcepts()).find((sub) =>
+            sub.hasName(name, this.locales),
+        );
     }
 
     getConceptsOfTypes(types: TypeSet): StructureConcept[] {
@@ -320,10 +348,29 @@ export default class ConceptIndex {
         return this.concepts.find((c) => c.hasName(name, this.locales));
     }
 
-    getConceptByCharacterName(name: string): Concept | undefined {
-        return this.concepts.find(
-            (c) => c.getCharacterName(this.locales) === name,
+    /**
+     * The token used to identify a concept in a URL: its character name if it has
+     * one, otherwise its plain name. This is the inverse of {@link conceptMatchesToken}
+     * and {@link getConceptByToken}; keep all three in sync so that a concept written
+     * to a URL can always be read back.
+     */
+    getConceptToken(concept: Concept): string {
+        return (
+            concept.getCharacterName(this.locales) ??
+            concept.getName(this.locales, false)
         );
+    }
+
+    /** True if the concept is the one identified by the given URL token. */
+    conceptMatchesToken(concept: Concept, token: string): boolean {
+        return (
+            concept.getCharacterName(this.locales) === token ||
+            concept.hasName(token, this.locales)
+        );
+    }
+
+    getConceptByToken(token: string): Concept | undefined {
+        return this.concepts.find((c) => this.conceptMatchesToken(c, token));
     }
 
     addExample(node: Node) {
@@ -339,26 +386,16 @@ export default class ConceptIndex {
         return this;
     }
 
-    getQuery(
-        locales: Locales,
-        query: string,
-    ): [Concept, [string, number, number]][] {
-        // Find matching concepts for each locale and the string that matched.
-        const results = this.concepts.reduce(
-            (matches: [Concept, [string, number, number]][], concept) => {
-                const lowerQuery = query.toLocaleLowerCase(
-                    locales.getLocale().language,
-                );
-                const match = concept.getTextMatching(locales, lowerQuery);
-                if (match !== undefined)
-                    return [
-                        ...matches,
-                        [concept, match] as [Concept, [string, number, number]],
-                    ];
-                else return matches;
-            },
-            [],
+    /**
+     * Searches all concepts (and subconcepts) for the query. Returns
+     * `[concept, [display, start, end, priority]]` tuples ordered name-matches
+     * first, then by how closely each matched (see src/util/search.ts).
+     */
+    getQuery(query: string): [Concept, SearchMatch][] {
+        return searchConcepts(
+            this.searchable,
+            query,
+            this.locales.getLanguages(),
         );
-        return results;
     }
 }

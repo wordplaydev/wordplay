@@ -3,7 +3,7 @@
 === start
 click: ∆ Button()
 
-clickCount: 0 … click … 1 + .
+clickCount: 0 … click … 1 + ⬚
 
 ¶ Capture pointer x at the moment of shooting, so the ball drops from where the player aimed instead of jumping back to x = 0 ¶
 shotX: 0m … (click & ((clickCount % 2) = 1)) … Pointer().x
@@ -28,7 +28,7 @@ attempt: (clickCount ÷ 2).roundUp()
 
 ¶ inBin is true whenever the ball is inside the bin's interior. The score reaction only fires when inBin transitions to true AND the current attempt is ahead of the score, so any second entry during the same shot — bounces inside the bin, or the bin sliding back over the ball — is a no-op until the next shot bumps the attempt counter ¶
 inBin: (ballX < (basketXPlace + 0.9m)) & (ballX > (basketXPlace - 0.9m)) & (ballY < 2.9m) & (ballY > 0.3m)
-score: 0 … inBin & (attempt > score) … 1 + .
+score: 0 … inBin & (attempt > score) … 1 + score
 
 basketballStar: Group(Stack('|' 0.5m) [
 			Phrase(`*Basketball Star*` .8m)

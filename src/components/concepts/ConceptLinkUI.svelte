@@ -7,8 +7,8 @@
         getConceptPath,
         getUser,
     } from '@components/project/Contexts';
-    import Button from '@components/widgets/Button.svelte';
     import Concept from '@concepts/Concept';
+    import { currentConcept, pushConcept } from '@components/concepts/GuideHistory';
     import GalleryHowConcept from '@concepts/GalleryHowConcept';
     import { locales } from '@db/Database';
     import ConceptRef from '@locale/ConceptRef';
@@ -51,6 +51,10 @@
         | HowToName
         // A custom character name
         | CharacterName
+        // A concept name (with optional subconcept property) that we couldn't
+        // resolve to a Concept — e.g. on pages without a concept index, like
+        // /updates. We render a guide link for it, preserving the property.
+        | ConceptName
         // A concept name that we couldn't resolve to a Concept. We'll make a link for it.
         | string
         | undefined;
@@ -97,10 +101,11 @@
                     const property = id.property;
                     if (property === undefined) return { concept };
 
-                    // Otherwise, s
-                    const subConcept = Array.from(
-                        concept.getSubConcepts(),
-                    ).find((sub) => sub.hasName(property, $locales));
+                    // Otherwise, resolve the named subconcept on the concept itself.
+                    const subConcept = index.getSubConceptByName(
+                        concept,
+                        property,
+                    );
                     if (subConcept !== undefined)
                         return { container: concept, concept: subConcept };
                     else if (concept.affiliation !== undefined) {
@@ -108,9 +113,10 @@
                             concept.affiliation,
                         );
                         if (structure) {
-                            const subConcept = Array.from(
-                                structure.getSubConcepts(),
-                            ).find((sub) => sub.hasName(property, $locales));
+                            const subConcept = index.getSubConceptByName(
+                                structure,
+                                property,
+                            );
                             if (subConcept) {
                                 return {
                                     container: concept,
@@ -123,7 +129,11 @@
                             concept,
                         };
                 }
-            } else if (id instanceof ConceptName) return id.name;
+            } else if (id instanceof ConceptName)
+                // No index at all (e.g. /updates): render a guide link, keeping
+                // the subconcept property so `@Color.random` links to the
+                // member rather than degrading to `@Color`.
+                return id;
 
             return undefined;
         }
@@ -150,30 +160,21 @@
     let longName: string = $derived(concept?.getName($locales, false) ?? '');
     let symbolicName: string = $derived(concept?.getName($locales, true) ?? '');
 
+    /** True when this link points to the concept currently being viewed. Such a link
+     *  is rendered inactive (grey thick underline) — it's the only revisitation case
+     *  we account for: clicking it does nothing. */
+    let isCurrent = $derived(
+        concept !== undefined &&
+            path !== undefined &&
+            currentConcept($path)?.isEqualTo(concept) === true,
+    );
+
     function navigate() {
-        // If we have a concept and the last concept isn't it, navigate
-        if (match) {
-            if (typeof match !== 'string' && 'concept' in match) {
-                const concept = match.concept;
-                if (path) {
-                    // Already at this concept? Make a new path anyway to ensure that tile is shown if collapsed.
-                    const alreadyHere = $path.at(-1) === concept;
-                    if (alreadyHere)
-                        path.set([
-                            ...$path.slice(0, $path.length - 1),
-                            concept,
-                        ]);
-                    // If the concept before the last is the concept, just go back
-                    else if (
-                        $path.length >= 2 &&
-                        $path[$path.length - 2] === concept
-                    )
-                        path.set($path.slice(0, $path.length - 1));
-                    // Otherwise, append the concept.
-                    else path.set([...$path, concept]);
-                }
-            }
-        }
+        // Inactive (already-here) links do nothing; otherwise push the concept onto
+        // the navigation history as a new location.
+        if (isCurrent) return;
+        if (match && typeof match !== 'string' && 'concept' in match && path)
+            path.set(pushConcept($path, match.concept));
     }
 </script>
 
@@ -181,27 +182,23 @@
     {#if isConceptGalleryHow && (concept as GalleryHowConcept).howTo.hasBookmarker($user?.uid ?? '')}
         <MarkupHTMLView inline markup={'🔖'} />
     {/if}
-    <Button
-        padding={false}
-        action={navigate}
-        wrap={true}
-        tip={() =>
-            $locales
-                .concretize((l) => l.ui.docs.link, { name: longName })
-                .toText()}
-        ><span class="conceptlink interactive">
-            {#if label}
-                {withMonoEmoji(label)}
-            {:else}
-                {#if ownerConcept}
-                    <span class="long"
-                        >{ownerConcept.getName($locales, false)}</span
-                    >.{/if}<span class="long">{longName}</span
-                >{#if symbolicName.toLocaleLowerCase($locales.getLocaleString()) !== longName.toLocaleLowerCase($locales.getLocaleString())}
-                    <sub>{withMonoEmoji(symbolicName)}</sub>{/if}
-            {/if}
-        </span>
-    </Button>
+    <button
+        type="button"
+        class="conceptlink"
+        class:interactive={!isCurrent}
+        class:inactive={isCurrent}
+        aria-disabled={isCurrent}
+        title={$locales
+            .concretize((l) => l.ui.docs.link, { name: longName })
+            .toText()}
+        onclick={navigate}
+        >{#if label}{withMonoEmoji(label)}{:else}{#if ownerConcept}<span
+                    class="long">{ownerConcept.getName($locales, false)}</span
+                >.{/if}<span class="long">{longName}</span
+            >{#if symbolicName.toLocaleLowerCase($locales.getLocaleString()) !== longName.toLocaleLowerCase($locales.getLocaleString())}<sub
+                    >{withMonoEmoji(symbolicName)}</sub
+                >{/if}{/if}</button
+    >
 {:else if match}
     {#if match instanceof UIName}
         <TutorialHighlight id={match.id} source />
@@ -209,6 +206,18 @@
         {match.codepoint}
     {:else if match instanceof CharacterName}
         <CharacterView name={match} />
+    {:else if match instanceof ConceptName}
+        <!-- No index available to resolve the concept (e.g. /updates). Link to
+             the guide, displaying a subconcept as `Owner.member` and encoding
+             it as `Owner/member` so the guide's concept param resolves it. -->
+        <Link
+            to={`/guide?concept=${encodeURIComponent(
+                match.property ? `${match.name}/${match.property}` : match.name,
+            )}`}
+            >{match.property
+                ? `${match.name}.${match.property}`
+                : match.name}</Link
+        >
     {:else if typeof match === 'string'}
         <Link to={`/guide?concept=${encodeURIComponent(match)}`}>{match}</Link>
     {/if}
@@ -223,28 +232,34 @@
 {/if}
 
 <style>
+    /* Render concept links exactly like a plain text <Link> (a bare <a>):
+       no button chrome, highlight-colored, underline only on hover/focus. */
     .conceptlink {
-        display: inline-block;
-        font-style: var(--wordplay-font-size);
+        display: inline;
+        font: inherit;
         text-align: start;
-    }
-
-    .conceptlink.interactive {
-        text-decoration: underline;
-        text-decoration-color: var(--wordplay-highlight-color);
-        text-decoration-thickness: calc(var(--wordplay-focus-width) / 2);
-    }
-
-    :global(button):focus .conceptlink,
-    .conceptlink.interactive:hover {
+        color: var(--wordplay-highlight-color);
+        background: none;
+        border: none;
+        padding: 0;
+        margin: 0;
+        text-decoration: none;
         cursor: pointer;
+    }
+
+    .conceptlink.interactive:focus,
+    .conceptlink.interactive:hover {
+        outline: none;
+        text-decoration: underline;
         text-decoration-thickness: var(--wordplay-focus-width);
         text-decoration-color: var(--wordplay-focus-color);
     }
 
-    :global(button):focus .conceptlink {
-        background: var(--wordplay-focus-color);
-        color: var(--wordplay-background);
-        border-radius: var(--wordplay-border-radius);
+    /* A link to the concept you're already on: greyed, no underline, to signal
+       it's inactive. */
+    .conceptlink.inactive {
+        color: var(--wordplay-inactive-color);
+        text-decoration: none;
+        cursor: default;
     }
 </style>

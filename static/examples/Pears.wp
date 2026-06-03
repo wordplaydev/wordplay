@@ -85,7 +85,7 @@ chosePear: Choice() = 'pear'
 ¶Change the segment based on the current segment¶
 segment•#:
 	1 …
-	. ???
+	segment ???
 		1: click
 		2: click
 		3: atPauPau

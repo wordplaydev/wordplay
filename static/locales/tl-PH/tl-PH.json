@@ -132,7 +132,8 @@
         "KannadaNumeral": "$~numeral na Kannada",
         "TamilNumeral": "$~numeral na Tamil",
         "TeluguNumeral": "$~numeral na Telugu",
-        "LanguageJoin": "$~tagapagdugtong ng wika"
+        "LanguageJoin": "$~tagapagdugtong ng wika",
+        "Translate": "$~isalin"
     },
     "node": {
         "Dimension": {
@@ -524,7 +525,8 @@
                     "resolutionDefault": "$~Bigyan ang binding ng panimulang halaga, dahil hindi maaaring mawala $expected dito",
                     "resolutionWiden": "$~Payagan ang uri ng halaga para sa pagbubuklod na ito, dahil $expected ay masyadong makitid para sa kung ano talaga ang nakaimbak",
                     "resolutionReorder": "$~Palitan ang mga input, dahil mas akma ang mga uri nito sa kabilang pagkakasunud-sunod — $expected ay kabilang sa kabilang puwang",
-                    "resolutionPlaceholder": "$~Palitan ito ng placeholder sa ngayon, dahil kinakailangan ang $expected — pagkatapos ay pumili ng value mula sa autocomplete menu"
+                    "resolutionPlaceholder": "$~Palitan ito ng placeholder sa ngayon, dahil kinakailangan ang $expected — pagkatapos ay pumili ng value mula sa autocomplete menu",
+                    "explanationDivideByZero": "$~Maaaring ito ay ø dahil $source ay maaaring hatiin sa zero, at kinakailangan ang isang numero dito"
                 },
                 "MisplacedShare": {
                     "name": "$~malingnailagaynabahagi",
@@ -689,7 +691,7 @@
             },
             "doc": [
                 "$~Dude, binibigyang-kahulugan ko ang mga conversion mula sa isang uri patungo sa isa pa! Pupunta ako sa @Block, parang ganito:",
-                "$~\\→ #kuting #pusa . ÷ 2\n6kuting→#pusa\\",
+                "$~\\→ #kuting #pusa ⬚ ÷ 2\n6kuting→#pusa\\",
                 "$~Kita mo kung paano ko ginawang pusa ang mga kuting? Grabe!",
                 "$~Maaaring nagtataka ka kung ano ang ginagawa ng \\.\\ doon. Kinakatawan nito ang value na kino-convert. Ginagamit ko iyon dahil wala namang pangalan ang value kung hindi."
             ],
@@ -793,7 +795,8 @@
                     "resolutionDefault": "$~Bigyan ang binding ng panimulang halaga, dahil hindi maaaring mawala $expected dito",
                     "resolutionWiden": "$~Payagan ang uri ng halaga para sa pagbubuklod na ito, dahil $expected ay masyadong makitid para sa kung ano talaga ang nakaimbak",
                     "resolutionReorder": "$~Palitan ang mga input, dahil mas akma ang mga uri nito sa kabilang pagkakasunud-sunod — $expected ay kabilang sa kabilang puwang",
-                    "resolutionPlaceholder": "$~Palitan ito ng placeholder sa ngayon, dahil kinakailangan ang $expected — pagkatapos ay pumili ng value mula sa autocomplete menu"
+                    "resolutionPlaceholder": "$~Palitan ito ng placeholder sa ngayon, dahil kinakailangan ang $expected — pagkatapos ay pumili ng value mula sa autocomplete menu",
+                    "explanationDivideByZero": "$~Maaaring ito ay ø dahil $source ay maaaring hatiin sa zero, at kinakailangan ang isang numero dito"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~hindiinaasahanguringinput",
@@ -895,13 +898,13 @@
                 "$~Kumusta ulit! Kumukuha ako ng ilang input, pagkatapos ay sinusuri ko ang isang expression gamit ang mga ito, at lumilikha ng output.",
                 "$~Narito ang isang simpleng halimbawa:",
                 "$~\\ƒ ulitin(mensahe•'') mensahe × 5\nulitin('hi')\\",
-                "$~Ang function na iyon ay kumukuha ng isang input, ang \\message\\, at ginagamit ang function na @Text/repeat upang ulitin ang mensahe nang limang beses.",
+                "$~Ang function na iyon ay kumukuha ng isang input, ang \\message\\, at ginagamit ang function na @Text.repeat upang ulitin ang mensahe nang limang beses.",
                 "$~Malaking tulong talaga ako kung gusto mong suriin ang isang bagay nang paulit-ulit, pero iba-iba ang input mo!",
                 "$~Marami pa akong ibang maliliit na trick. Halimbawa, hindi ko kailangang magkaroon ng pangalan. Dito, diretso lang ako sa @Evaluate bilang isang value.",
                 "$~\\(ƒ(mensahe•'') mensahe × 5)('hi')\\",
                 "$~O, narito ang isang function na tumatanggap ng kahit anong bilang ng mga input, gamit ang karakter na \\…\\ pagkatapos ng pangalan ng input.",
                 "$~\\ƒ oo(mga mensahe…•'') mga mensahe.sans('hindi')\noo('oo' 'oo' 'hindi' 'oo' 'hindi')\\",
-                "$~Nakita mo kung paano nito tinanggal lahat ng 'hindi'? Iyon ay dahil ang messages ay isang @List, kaya maaari nating gamitin ang @List/sansAll.",
+                "$~Nakita mo kung paano nito tinanggal lahat ng 'hindi'? Iyon ay dahil ang messages ay isang @List, kaya maaari nating gamitin ang @List.sansAll.",
                 "$~Minsan, maaaring gusto mong linawin kung anong uri ng halaga ang aking nalilikha. Para magawa iyon, magdagdag ng @Is pagkatapos ng listahan ng mga input:",
                 "$~\\ƒ idagdag(x•# y•#)•'' x + y\\",
                 "$~Maaaring may mapansin kang problema rito: sinasabi nitong nag-e-evaluate ito sa @Text, pero kailangan nito ng dalawang @Number. Masasabi ko sa iyo kapag may mga bagay na hindi pare-pareho!",
@@ -920,7 +923,7 @@
             "name": "$~masmataasnatungkulin",
             "description": "$~ulitin ang mga halaga ng listahan sa loob",
             "emotion": "kind",
-            "doc": "$~Isa akong napaka-espesyal na uri ng @FunctionDefinition na gumagana sa mga listahan ng mga bagay. Hindi mo kailangang malaman ang tungkol sa akin, maliban na lang kung ginagawang posible ko ang mga function tulad ng @List/translate.",
+            "doc": "$~Isa akong napaka-espesyal na uri ng @FunctionDefinition na gumagana sa mga listahan ng mga bagay. Hindi mo kailangang malaman ang tungkol sa akin, maliban na lang kung ginagawang posible ko ang mga function tulad ng @List.translate.",
             "start": "$~Pagsusuri sa ibinigay na tungkulin",
             "initialize": "$~paghahanda para sa pagtalakay sa mga bagay",
             "next": "$~paglipat sa susunod na aytem",
@@ -1486,20 +1489,22 @@
             "description": "$~sumangguni sa kasalukuyang halaga ng istruktura",
             "emotion": "serious",
             "doc": [
-                "$~Minsan, makakatulong na tukuyin ang isang halaga nang hindi ipinahihiwatig, sa halip na pangalanan ito.",
-                "$~Halimbawa, ipagpalagay na gusto mong gumawa ng bagong @ConversionDefinition, na hindi nagpapangalan sa value na kino-convert. Maaari mo na lang itong i-refer sa akin:",
-                "$~\\→ #bahaghari #mga kagalakan . × 1000000mga kagalakan\n2bahaghari → #mga kagalakan\\",
-                "$~Nakikita mo ba ako roon, na kumakatawan sa bilang ng mga bahaghari?",
-                "$~O ipagpalagay na gusto mong gumawa ng @Reaction, ngunit hindi mo kailangang pangalanan ang pinakabagong halaga:",
-                "$~\\2 … ∆ Oras(1000ms) … . × 2\\",
-                "$~Tingnan mo ako, na kumakatawan sa nakaraang halaga ng reaksyon.",
-                "$~Hindi ako madalas sumipot, pero kapag sumipot ako, malaki ang maitutulong ko para makuha ang halaga ng isang @Bind!"
+                "$~Minsan, makakatulong na tukuyin ang isang halaga nang hindi sinasabi, sa halip na pangalanan ito. Ako iyon — \\⬚\\ , isang maliit na parisukat na kumakatawan sa anumang halaga na pinagtatrabahuhan ng nakapalibot na code.",
+                "$~Sa loob ng isang @ConversionDefinition , ako ang halagang kino-convert:",
+                "$~\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
+                "$~Sa loob ng isang @Reaction , ako ang pinakabagong halaga:",
+                "$~\\2 … ∆ Time(1000ms) … ⬚ × 2\\",
+                "$~Sa loob ng isang @Translate , ako ang kasalukuyang item na mina-map, kaya nagdaragdag ito ng isa sa bawat halaga:",
+                "$~\\[1 2 3] ↦ ⬚ + 1\\",
+                "$~At sa loob ng isang @StructureDefinition , ako ang kasalukuyang halaga mismo, para maabot ko ang sarili kong mga bahagi gamit ang \\⬚.rank\\ , tulad ng pag-abot ko sa mga bahagi ng ibang halaga gamit ang \\other.rank\\ :",
+                "$~\\•Card(rank•#) (\n\tƒ beats(other•Card) ⬚.rank > other.rank\n)\n\nCard(10).beats(Card(7))\\",
+                "$~Hindi ako madalas sumipot, pero kapag sumipot ako, malaki ang maitutulong ko para makuha ang halaga ng isang @Bind !"
             ],
             "start": "$~Nasuri sa $value",
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~nailagayangsangguniangitosamalinglugar",
-                    "explanation": "$~Pinapayagan lamang ako sa isang istruktura, pagbabagong-anyo, o reaksyon.",
+                    "explanation": "$~Pinapayagan lamang ako sa isang istruktura, pagbabagong-anyo, reaksyon, o pagsasalin.",
                     "resolution": "$~Palitan ng placeholder"
                 }
             }
@@ -1597,7 +1602,7 @@
         },
         "AnyType": {
             "name": "$~kahitano",
-            "description": "$~itugma ang anumang posibleng uri",
+            "description": "$~kahit ano",
             "emotion": "curious",
             "doc": "$~Kinakatawan ko ang kahit anong posibleng uri. Minsan lumalabas ako dahil hindi ko alam kung anong uri ng halaga ang isang bagay, kaya puwede itong maging kahit ano."
         },
@@ -1617,7 +1622,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Gumagamit ako ng @Bind para ipahiwatig na ang isang pangalan ay isang @ConversionDefinition. Malamang hindi mo na ako kailangang gamitin, dahil hindi maraming tao ang nagpapasa sa akin bilang isang halaga, ngunit kung ginawa mo, ganito ang magiging hitsura ko:",
-                "$~\\mahika•?→'': → ? '' . ? 'oo' 'hindi'\\"
+                "$~\\mahika•?→'': → ? '' ⬚ ? 'oo' 'hindi'\\"
             ]
         },
         "FormattedType": {
@@ -1847,6 +1852,32 @@
             "description": "$~markahan ang $type bilang isang hindi tungkulin",
             "emotion": "confused",
             "doc": "$~Ang ilan sa amin ay umaasa ng mga pagtitipon; ako naman ay pumupunta kapag wala."
+        },
+        "Translate": {
+            "name": "$~isalin",
+            "description": "$~i-map ang isang koleksyon sa isang bago",
+            "emotion": "excited",
+            "doc": [
+                "$~OH OH OH! Mayroon ka bang BUONG KOLEKSYON ng mga bagay at gusto mong gawin ang PAREHONG bagay sa LAHAT?? AKO 'yan! Iyon talaga ang GINAGAWA KO!!",
+                "$~Maglagay ng koleksyon sa kaliwa ko, iguhit ang arrow ko na \\↦\\ , pagkatapos sa kanan ko isulat kung ano ang dapat MAGING GAMIT ng bawat item — gamitin @This para tukuyin ang item na hawak ko NGAYON!",
+                "$~Ang \\[1 2 3] ↦ ⬚ + 1\\ ay magbibigay sa iyo ng \\[2 3 4]\\ . BOOM! Bawat numero, dagdagan ng isa, walang mga loop, walang @FunctionDefinition , walang abala!",
+                "$~Ang galing ko sa paggawa ng @Phrase output mula sa data! May listahan ka ba ng mga pangalan? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ at ngayon ay may parirala na para sa BAWAT pangalan!!",
+                "$~Nagtatrabaho ako sa @List , @Set , @Map (binabago ko ang mga VALUES ng mapa — nananatili ang mga key kung nasaan sila!), at maging @Table !",
+                "$~Gusto mo ba ng mas elegante — tulad ng index ng bawat item, o isang function na maaari mong gamitin muli sa maraming lugar? Bisitahin ang aking mas kalmado at malalaki nang mga pinsan tulad ni @List.translate . Pero para sa mabilis na pang-araw-araw na pagmamapa, narito ako!!"
+            ],
+            "start": "$~Teka, kunin natin ang lahat gamit ang $expression !",
+            "finish": "$~TA-DA! Narito ang iyong bagong koleksyon: $value",
+            "next": "$~Susunod na aytem: $value !",
+            "conflict": {
+                "ExpectedCollection": {
+                    "name": "$~inaasahangkoleksyon",
+                    "explanation": "$~Inaasahan kong ang kaliwang bahagi ng conversion ng koleksyon ay dapat na isang koleksyon, ngunit ang nakuha ko ay $type"
+                },
+                "ExpectedThis": {
+                    "name": "$~inaasahanito",
+                    "explanation": "$~Ibig mo bang gamitin @This para tumukoy sa isang item sa koleksyon na ito?"
+                }
+            }
         }
     },
     "basis": {
@@ -3317,7 +3348,7 @@
             "doc": [
                 "$~/clickety tap!/",
                 "$~/@FunctionDefinition dito, ipapaliwanag ko ito./",
-                "$~Isipin ang @Choice na parang isang stream ng @Phrase/name na pinipili ng iyong audience. Kung may mag-click, mag-tap, o pipili ng keyboard sa pamamagitan ng pagpindot sa /Enter/ sa isang @Phrase na may pangalan -- magkakaroon ng bagong value ang @Choice na tumutugma sa pangalan.",
+                "$~Isipin ang @Choice na parang isang stream ng @Phrase.name na pinipili ng iyong audience. Kung may mag-click, mag-tap, o pipili ng keyboard sa pamamagitan ng pagpindot sa /Enter/ sa isang @Phrase na may pangalan -- magkakaroon ng bagong value ang @Choice na tumutugma sa pangalan.",
                 "$~Kaya ang pinakamahusay na paraan upang gamitin ito ay ang lumikha ng isang pagtatanghal na may pinangalanang mapipiling mga pariralang @Phrase, at pagkatapos ay gumamit ng @Reaction upang magpasya kung ano ang gagawin kapag napili ang pangalang iyon.",
                 "$~Narito ang pinakasimpleng halimbawa:",
                 "$~\\Group(\nStack() \n[\nParirala('isa' mapipili:⊤ pangalan:'1') \nParirala('dalawa' mapipili:⊤ pangalan:'2') \nParirala(Pagpili())\n]\n)\\",
@@ -3439,7 +3470,7 @@
                 "$~Sa bawat pagkakataong mangyari ito, muling susuriin ng @Program gamit ang bagong halaga ng oras.",
                 "$~Halimbawa:",
                 "$~\\Oras()\\",
-                "$~Kung magbibigay ka ng oras na @Time/frequency, titiktik ito sa bilis na iyon. Halimbawa:",
+                "$~Kung magbibigay ka ng oras na @Time.frequency, titiktik ito sa bilis na iyon. Halimbawa:",
                 "$~Oras(1000ms)",
                 "$~Gayunpaman, may mga limitasyon kung gaano ito kaliit, dahil ang @Program ay nangangailangan ng oras upang masuri bago sila makatugon sa susunod na tik.",
                 "$~Ang pinakamaliit ay malamang nasa bandang \\20ms\\."
@@ -3545,7 +3576,7 @@
                 "$~/Uy uy uy uy/",
                 "$~/Kumusta, @FunctionDefinition nandito na! Nakita kong natagpuan mo na ang @Scene.",
                 "$~Sa tingin ko, ang @Scene ay partikular na astig. Ang pangunahing ideya ay bibigyan mo ito ng listahan ng @Phrase o @Group at pagkatapos ay ipapakita nito ang mga ito nang sunod-sunod at hihinto sa huli.",
-                "$~Para makontrol ang timing, maaari mong itakda ang @Phrase/duration sa bawat output, at ipapakita nito ito nang matagal bago lumipat sa susunod, at gamitin ang anumang @Phrase/entering o @Phrase/exiting transitions na maaaring naitakda mo. Kung itatakda mo ang mga ito sa isang @Sequence, gagamitin nito ang duration nito.",
+                "$~Para makontrol ang timing, maaari mong itakda ang @Phrase.duration sa bawat output, at ipapakita nito ito nang matagal bago lumipat sa susunod, at gamitin ang anumang @Phrase.entering o @Phrase.exiting transitions na maaaring naitakda mo. Kung itatakda mo ang mga ito sa isang @Sequence, gagamitin nito ang duration nito.",
                 "$~Ang lahat ng iyan ay nagbibigay-daan sa iyo na gawin ang mga bagay tulad ng maliit na @Scene na ito, na nagpapakita ng tatlong pariralang ito nang magkakasunod:",
                 "$~\\Scene([\nParira('Kumusta' tagal: 1 segundo)\nParira('Kumusta ka?' tagal: 2 segundo pag-ikot: 5° pagpasok: Pose(pag-ikot: 0°))\nParira('Ayos lang ako')\n])\\",
                 "$~Nakikita mo ba kung paano ipinapakita ang unang output sa loob ng isang segundo, pagkatapos ay ang susunod sa loob ng dalawang segundo, ngunit ina-animate sa limang digri na pag-ikot, at pagkatapos ay ipinapakita nito ang huli?",
@@ -3828,7 +3859,7 @@
                 "names": "$~lugar"
             },
             "name": {
-                "doc": ["$~Pareho ng @Phrase/name!"],
+                "doc": ["$~Pareho ng @Phrase.name!"],
                 "names": "$~pangalan"
             },
             "description": {
@@ -3838,7 +3869,7 @@
                 "names": "$~paglalarawan"
             },
             "selectable": {
-                "doc": "$~Pareho ng @Phrase/selectable piliin!",
+                "doc": "$~Pareho ng @Phrase.selectable piliin!",
                 "names": "$~mapipili"
             },
             "color": {
@@ -3866,47 +3897,47 @@
                 "names": "$~sukat"
             },
             "flipx": {
-                "doc": "$~Pareho ng kay @Phrase/flipx!",
+                "doc": "$~Pareho ng kay @Phrase.flipx!",
                 "names": "$~flipx"
             },
             "flipy": {
-                "doc": "$~Pareho ng @Phrase/flipy",
+                "doc": "$~Pareho ng @Phrase.flipy",
                 "names": "$~mabaliw"
             },
             "entering": {
-                "doc": "$~Pareho ng @Phrase/entering!",
+                "doc": "$~Pareho ng @Phrase.entering!",
                 "names": "$~pagpasok"
             },
             "resting": {
-                "doc": "$~Pareho ng @Phrase/resting!",
+                "doc": "$~Pareho ng @Phrase.resting!",
                 "names": "$~nagpapahinga"
             },
             "moving": {
-                "doc": "$~Pareho ng @Phrase/moving!",
+                "doc": "$~Pareho ng @Phrase.moving!",
                 "names": "$~gumagalaw"
             },
             "exiting": {
-                "doc": "$~Pareho ng @Phrase/exiting!",
+                "doc": "$~Pareho ng @Phrase.exiting!",
                 "names": "$~palabas"
             },
             "duration": {
-                "doc": "$~Pareho ng @Phrase/duration!",
+                "doc": "$~Pareho ng @Phrase.duration!",
                 "names": ["$~⏳", "$~tagal"]
             },
             "style": {
-                "doc": "$~Pareho ng @Phrase/style!",
+                "doc": "$~Pareho ng @Phrase.style!",
                 "names": "$~estilo"
             },
             "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
         },
         "Phrase": {
             "doc": [
-                "$~Kumusta, kumusta! Natatandaan mo ba ako? Paano naman makakalimutan ng sinuman ang /ako/. Tama, ako ang kahanga-hangang @Phrase, handang kumatawan sa pinakamaganda sa @Text sa @Stage.",
-                "$~Gawin mo lang akong ganito, at lalabas ako sa @Stage:",
-                "$~\\Parirala('kahanga-hanga!')\\",
-                "$~Kailangan ko ang @TextLiteral o @FormattedLiteral para maipakita. Gamit ang @FormattedLiteral, magagamit ko ang mga bagay tulad ng \\`*bold* at /italic/`\\ o kaya'y sumangguni sa custom na @ConceptLink na iyong ginawa.",
-                "$~Maaari mo ring ibigay sa akin ang lahat ng kayang gawin ng isang @Output, kabilang ang pagpapalit ng aking laki, font, rotation, at gawin ang lahat ng aking mga kahanga-hangang sayaw gamit ang @Pose at @Sequence.",
-                "$~Maaari mo rin akong piliin sa @Stage at i-edit sa palette sa tabi."
+                "$~Kumusta, kumusta! Natatandaan mo ba ako? Paano naman makakalimutan ng sinuman ang /ako/. Tama, ako ang kahanga-hangang @Phrase , handang kumatawan sa pinakamaganda sa @Text sa @Stage .",
+                "$~Gawin mo lang akong ganito, at lalabas ako sa @Stage :",
+                "$~\\Phrase('magnificent!')\\",
+                "$~Kailangan ko @TextLiteral o @FormattedLiteral para maipakita. Gamit ang @FormattedLiteral , magagamit ko ang mga bagay tulad ng \\`*bold* and /italic/`\\ o kaya'y sumangguni sa custom @ConceptLink na iyong ginawa.",
+                "$~Maaari mo ring opsyonal na ibigay sa akin ang lahat ng kayang gawin ng isang @Output , kabilang ang pagpapalit ng aking laki, font, rotation, at gawin ang lahat ng aking mga hindi kapani-paniwalang sayaw gamit ang @Pose at @Sequence .",
+                "$~Maaari mo rin akong piliin sa @Stage at i-edit gamit ang palette 🎨 sa tabi ko — isa itong magandang paraan para subukan ang iba't ibang font at piliin ang tamang /face/ para sa iyong @Text ."
             ],
             "names": ["$~💬", "$~Parirala"],
             "text": {
@@ -3918,7 +3949,7 @@
                 "names": "$~laki"
             },
             "face": {
-                "doc": "$~Ang pangalan ng font face na dapat kong ilagay.",
+                "doc": "$~Ang pangalan ng font face na dapat kong ilagay. Ang pinakamadaling paraan para pumili ng isa ay ang piliin ang \"ako\" at buksan ang palette 🎨 sa tabi, kung saan maaari mong i-preview ang mga font at pumili ng /face/ nang hindi tina-type ang pangalan nito.",
                 "names": "$~mukha"
             },
             "place": {
@@ -3930,11 +3961,11 @@
                 "names": ["$~↵", "$~pambalot"]
             },
             "alignment": {
-                "doc": "$~Kung mayroong nakatakdang hangganan na @Phrase/wrap, dapat ko bang ihanay ang mga simbolo sa simula, gitna, o dulo ng gilid.",
+                "doc": "$~Kung mayroong nakatakdang hangganan na @Phrase.wrap, dapat ko bang ihanay ang mga simbolo sa simula, gitna, o dulo ng gilid.",
                 "names": "$~pagkakahanay"
             },
             "direction": {
-                "doc": "$~Kung ang mga simbolo ay nakasulat nang pahalang o patayo, at kung patayo at nakatakda ang @Phrase/wrap, kung ang teksto ay nakabalot pakaliwa o pakanan.",
+                "doc": "$~Kung ang mga simbolo ay nakasulat nang pahalang o patayo, at kung patayo at nakatakda ang @Phrase.wrap, kung ang teksto ay nakabalot pakaliwa o pakanan.",
                 "names": "$~direksyon"
             },
             "matter": {
@@ -4376,6 +4407,56 @@
                 "mix": "$~$first - $second",
                 "light": "$~liwanag",
                 "dark": "$~madilim"
+            },
+            "random": {
+                "doc": [
+                    "$~Magbigay ng kulay na walang kapareha.",
+                    "$~Dahil walang kulay, pipili ako ng isa sa mga pangunahing kulay nang random:",
+                    "$~\\Color.random()\\",
+                    "$~Sa isang kulay, pinapanatili ko ang gaan at kroma nito ngunit pumipili ng iba't ibang kulay:",
+                    "$~\\Color.random(Color.blue)\\",
+                    "$~Gamit ang dalawang kulay, pipili ako ng random na gaan, kroma, at kulay sa pagitan ng dalawa:",
+                    "$~\\Color.random(Color.black Color.white)\\"
+                ],
+                "names": "$~random",
+                "inputs": [
+                    {
+                        "doc": "$~Isang opsyonal na kulay. Ako lang ang may hawak ng lightness at chroma nito at pinipili ko ang hue. Kapag may pangalawang kulay, isa lang itong pagpipilian.",
+                        "names": "$~isang"
+                    },
+                    {
+                        "doc": "$~Opsyonal na pangalawang kulay. Kapag ibinigay, pipili ako ng random na liwanag, kroma, at kulay sa pagitan ng dalawang kulay.",
+                        "names": "$~b"
+                    }
+                ]
+            },
+            "lighter": {
+                "doc": [
+                    "$~Magbigay ng mas magaan na bersyon ko, na pinapataas ang aking gaan ng isang porsyento (5% bilang default).",
+                    "$~\\Color.blue.lighter()\\",
+                    "$~\\Color.blue.lighter(20%)\\"
+                ],
+                "names": "$~masmagaan",
+                "inputs": [
+                    {
+                        "doc": "$~Gaano kalaki ang dapat itaas ang gaan, bilang porsyento. Nakatakda sa 5% ayon sa default.",
+                        "names": "$~ni"
+                    }
+                ]
+            },
+            "darker": {
+                "doc": [
+                    "$~Bigyan ng mas madilim na bersyon ko, na binabawasan ang aking kagaanan ng isang porsyento (5% bilang default).",
+                    "$~\\Color.blue.darker()\\",
+                    "$~\\Color.blue.darker(20%)\\"
+                ],
+                "names": "$~masmadilim",
+                "inputs": [
+                    {
+                        "doc": "$~Gaano karami ang babawasan ang kagaanan, bilang porsyento. Nakatakda sa 5% ayon sa default.",
+                        "names": "$~ni"
+                    }
+                ]
             }
         },
         "Sequence": {
@@ -4515,11 +4596,11 @@
                 "names": "$~balangkas"
             },
             "size": {
-                "doc": "$~I-LIKE @Group/size",
+                "doc": "$~I-LIKE @Group.size",
                 "names": "$~laki"
             },
             "face": {
-                "doc": "$~I-LIKE @Group/face",
+                "doc": "$~I-LIKE @Group.face",
                 "names": "$~mukha"
             },
             "place": {
@@ -4527,7 +4608,7 @@
                 "names": "$~lugar"
             },
             "name": {
-                "doc": ["$~PAREHO NG @Phrase/name!"],
+                "doc": ["$~PAREHO NG @Phrase.name!"],
                 "names": "$~pangalan"
             },
             "description": {
@@ -4537,63 +4618,63 @@
                 "names": "$~paglalarawan"
             },
             "selectable": {
-                "doc": "$~PAREHO NG @Phrase/selectable!",
+                "doc": "$~PAREHO NG @Phrase.selectable!",
                 "names": "$~mapipili"
             },
             "color": {
-                "doc": "$~PAREHO NG @Group/color",
+                "doc": "$~PAREHO NG @Group.color",
                 "names": "$~kulay"
             },
             "background": {
-                "doc": "$~PAREHO NG @Group/background",
+                "doc": "$~PAREHO NG @Group.background",
                 "names": "$~background"
             },
             "opacity": {
-                "doc": "$~PAREHO NG @Group/opacity",
+                "doc": "$~PAREHO NG @Group.opacity",
                 "names": "$~kalabuan"
             },
             "offset": {
-                "doc": "$~PAREHO NG @Group/offset",
+                "doc": "$~PAREHO NG @Group.offset",
                 "names": "$~offset"
             },
             "rotation": {
-                "doc": "$~PAREHO NG @Group/rotation",
+                "doc": "$~PAREHO NG @Group.rotation",
                 "names": ["$~📐", "$~pagikot"]
             },
             "scale": {
-                "doc": "$~PAREHO NG @Group/scale",
+                "doc": "$~PAREHO NG @Group.scale",
                 "names": "$~sukat"
             },
             "flipx": {
-                "doc": "$~PAREHO NG @Group/flipx",
+                "doc": "$~PAREHO NG @Group.flipx",
                 "names": "$~flipx"
             },
             "flipy": {
-                "doc": "$~PAREHO NG @Group/flipy",
+                "doc": "$~PAREHO NG @Group.flipy",
                 "names": "$~mabaliw"
             },
             "entering": {
-                "doc": "$~PAREHO NG @Group/entering",
+                "doc": "$~PAREHO NG @Group.entering",
                 "names": "$~pagpasok"
             },
             "resting": {
-                "doc": "$~PAREHO NG @Group/resting!",
+                "doc": "$~PAREHO NG @Group.resting!",
                 "names": "$~nagpapahinga"
             },
             "moving": {
-                "doc": "$~PAREHO NG @Group/moving!",
+                "doc": "$~PAREHO NG @Group.moving!",
                 "names": "$~gumagalaw"
             },
             "exiting": {
-                "doc": "$~PAREHO NG @Group/exiting!",
+                "doc": "$~PAREHO NG @Group.exiting!",
                 "names": "$~palabas"
             },
             "duration": {
-                "doc": "$~PAREHO NG @Phrase/duration!",
+                "doc": "$~PAREHO NG @Phrase.duration!",
                 "names": ["$~⏳", "$~tagal"]
             },
             "style": {
-                "doc": "$~PAREHO NG @Phrase/style!",
+                "doc": "$~PAREHO NG @Phrase.style!",
                 "names": "$~estilo"
             },
             "gravity": {
@@ -4762,6 +4843,15 @@
                     "off": "$~magpakita ng mga karagdagang kontrol"
                 },
                 "popup": "$~Mga karagdagang kontrol"
+            },
+            "color": {
+                "pick": {
+                    "label": "$~pumili ng kulay",
+                    "tip": "$~pumili ng kulay mula sa iyong screen"
+                },
+                "field": "$~patlang ng kulay",
+                "instructions": "$~Gamitin ang kaliwa at kanang mga arrow key para baguhin ang hue at ang pataas at pababang mga arrow key para baguhin ang chroma. Pindutin nang matagal ang shift para sa mas pinong mga hakbang.",
+                "value": "$~$color , LCH $l , $c , $h"
             }
         },
         "tile": {
@@ -4935,7 +5025,8 @@
                 }
             },
             "error": {
-                "unknown": "$~Hindi umiiral o hindi pampubliko ang gallery na ito."
+                "unknown": "$~Hindi umiiral o hindi pampubliko ang gallery na ito.",
+                "unreachable": "$~Hindi namin ma-load ang gallery na ito. Kung inaasahan mong magkaroon ng access, suriin ang iyong koneksyon; maaaring hinaharangan ito ng isang VPN, extension ng browser, o filter ng network."
             },
             "field": {
                 "name": {
@@ -5213,6 +5304,10 @@
                 "expandSequence": {
                     "on": "$~mga item na tiklupin",
                     "off": "$~palawakin ang mga item"
+                },
+                "search": {
+                    "on": "$~itago ang paghahanap",
+                    "off": "$~hanapin ang code"
                 }
             },
             "options": {
@@ -5226,13 +5321,16 @@
                 "expandControls": "$~magpakita ng mga karagdagang utos sa pag-edit",
                 "collapseControls": "$~itago ang mga karagdagang utos sa pag-edit",
                 "zoomIn": "$~Gawing mas malaki ang code",
-                "zoomOut": "$~Gawing mas maliit ang code"
+                "zoomOut": "$~Gawing mas maliit ang code",
+                "replace": "$~palitan ang lahat ng tugma"
             },
             "field": {
                 "name": {
                     "description": "$~i-edit ang pangalan ng pinagmulan",
                     "placeholder": "$~pangalan"
-                }
+                },
+                "search": "$~teksto",
+                "replace": "$~palitan"
             },
             "menu": {
                 "label": "$~awtomatikong pagkumpleto ng menu",
@@ -5305,7 +5403,10 @@
                     "noClipboardItem": "$~Walang nakalagay sa clipboard",
                     "noSelection": "$~Walang napili",
                     "noMove": "$~Hindi na makagalaw pa"
-                }
+                },
+                "nextMatch": "$~pumunta sa susunod na tugma sa paghahanap",
+                "insertTranslate": "$~ipasok ang simbolo ng pagsasalin",
+                "insertThis": "$~ilagay ang simbolong ito"
             },
             "error": {
                 "invalidName": "$~Dapat itong isang wastong pangalan ng Wordplay.",
@@ -5533,7 +5634,9 @@
                 }
             },
             "note": {
-                "empty": "$~Lalabas dito ang mga pangalang tinukoy mo sa iyong proyekto."
+                "empty": "$~Lalabas dito ang mga pangalang tinukoy mo sa iyong proyekto.",
+                "keepTyping": "$~Patuloy na mag-type para maghanap…",
+                "noMatches": "$~Walang mga tugma"
             },
             "purposes": {
                 "Project": {
@@ -5622,6 +5725,10 @@
                 "howToGalleryButton": {
                     "label": "$~tingnan ang mga paraan sa espasyo",
                     "tip": "$~tingnan ang mga paraan sa espasyo"
+                },
+                "explain": {
+                    "header": "$~Mga Paano-Gawin",
+                    "explanation": "$~/Maikling halimbawa na nagpapakita kung paano gawin ang mga bagay sa Wordplay. Pindutin ang play sa anumang preview para makita itong tumakbo, pagkatapos ay buksan ito para mabasa kung paano ito gumagana./"
                 }
             },
             "tour": {
@@ -5631,6 +5738,10 @@
                 "search": "$~Ang kahon na /search/ ay nakakatulong para sa *pagtuklas* ng mga tampok, o mabilis na paghahanap ng isa *ayon sa pangalan*.",
                 "code": "$~Ito ang seksyong /code/. Naglalaman ito ng dokumentasyon ng *programming language* — ang mga building block na maaari mong pagsamahin upang makagawa ng mga programa.",
                 "howto": "$~Ito ang seksyong /paano-gawin/. Naglalaman ito ng *mga kapaki-pakinabang na pattern* para sa pagkamit ng mga partikular na gawi sa iyong mga proyekto."
+            },
+            "breadcrumb": {
+                "label": "$~kasaysayan ng nabigasyon",
+                "home": "$~Tahanan"
             }
         },
         "dialog": {
@@ -5947,8 +6058,6 @@
                 },
                 "error": {
                     "login": "$~Dapat ay <naka-log in@://login> ka para makapagsumite ng feedback",
-                    "submit": "$~Hindi makapagsumite ng feedback.",
-                    "load": "$~Hindi ma-load ang feedback",
                     "empty": "$~Walang maipapakitang feedback.",
                     "url": "$~Hindi ito isang wastong URL ng GitHub."
                 }
@@ -6105,7 +6214,34 @@
             "saving": "$~pagtitipid",
             "saved": "$~na-save",
             "local": "$~na-save",
-            "unsaved": "$~hindi na-save"
+            "unsaved": "$~hindi na-save",
+            "sync": {
+                "header": "$~Pag-sync sa cloud",
+                "projects": "$~Mga Proyekto",
+                "galleries": "$~Mga Galeriya",
+                "characters": "$~Mga Karakter",
+                "howtos": "$~Mga Paano-Gawin",
+                "chats": "$~Mga Chat"
+            },
+            "status": {
+                "header": "$~I-save ang katayuan",
+                "intro": "$~Ang iyong trabaho ay iniingatan sa device na ito at sine-save sa cloud.",
+                "columns": {
+                    "device": "$~sa aparatong ito",
+                    "cloud": "$~sa ulap",
+                    "unsaved": "$~hindi na-save"
+                },
+                "state": {
+                    "synced": "$~naka-sync",
+                    "loading": "$~pagkarga",
+                    "syncing": "$~pagtitipid",
+                    "offline": "$~offline",
+                    "failed": "$~nabigo"
+                },
+                "conversation": "$~isang pag-uusap",
+                "legend": "$~Ang ibig sabihin ng hindi na-save ay naka-save na rito pero hindi pa online. Mase-save ito kapag online ka na ulit.",
+                "errorsHeader": "$~May ilang bagay na hindi ma-save online:"
+            }
         },
         "localize": {
             "header": "$~I-localize",
@@ -6596,10 +6732,6 @@
                         "label": "$~lahat ng kulay",
                         "tip": "$~piliin ang lahat ng hugis na may parehong kulay gaya ng napili"
                     },
-                    "pick": {
-                        "label": "$~pumili ng kulay",
-                        "tip": "$~pumili ng kulay mula sa iyong screen na gagamitin para sa pagguhit ng mga pixel at hugis"
-                    },
                     "saturationUp": {
                         "label": "$~saturation",
                         "tip": "$~dagdagan ang saturation"
@@ -6704,11 +6836,12 @@
                     "usernameTaken": "$~Ginagamit na ang username na ito.",
                     "failure": "$~Hindi makapag-login :(",
                     "offline": "$~Hindi namin maabot ang ulap ☁️.",
-                    "delete": "$~Hindi namin mabura ang iyong account, ngunit hindi namin alam kung bakit.",
                     "invalidPassword": "$~Ang mga password ay dapat na hindi bababa sa 6 na karakter ang haba.",
                     "wrongPassword": "$~Hindi wastong username at password. Maaaring mali ang iyong password, o may ibang gumagamit nito.",
                     "mismatched": "$~Hindi magkatugma ang mga password.",
-                    "tooMany": "$~Napakaraming beses mo nang sinubukang mag-log in at nabigo. Kailangan mong maghintay para subukan muli."
+                    "tooMany": "$~Napakaraming beses mo nang sinubukang mag-log in at nabigo. Kailangan mong maghintay para subukan muli.",
+                    "unsaved": "$~Mayroon kang mga pagbabago na hindi pa nase-save online. Kumonekta muli at hintaying ma-save muna ang mga ito, kung hindi ay mawawala ang mga ito sa device na ito.",
+                    "deletePartial": "$~Inalis namin ang data ng iyong account, ngunit hindi namin matapos ang pag-alis nito. Pakisubukang muli, o makipag-ugnayan sa amin kung patuloy itong nangyayari."
                 },
                 "feedback": {
                     "changing": "$~Nagsusumite ng bagong email...",
@@ -6943,6 +7076,10 @@
                 "singletonWordsWarning": "$~Ang ilang salita sa iyong draft ay lumilitaw nang isang beses lamang sa buong wika. Sigurado ka bang tama ang baybay ng mga ito at naaayon sa ibang teksto?",
                 "viewPR": "$~Tingnan ang kahilingan sa paghila",
                 "oneLocaleNote": "$~Ang bawat pagsusumite ay sumasaklaw sa isang wika sa bawat pagkakataon. Ang batch na ito ay isusumite bilang mga pag-edit sa $locale . Kung gusto mong mag-ambag sa ibang wika, magpalit muna ng wika; ang mga pag-edit na iyong sine-save sa ilalim ng bawat wika ay itatago nang hiwalay."
+            },
+            "breadcrumb": {
+                "label": "$~Mga breadcrumb",
+                "home": "$~Tahanan"
             }
         },
         "edit": {
@@ -7025,7 +7162,7 @@
         },
         "connection": {
             "offline": "$~Naka-offline ka. Hindi gagana ang ilang feature hangga't hindi ka online.",
-            "unreachable": "$~Hindi namin makontak ang database ng Wordplay. Hindi gagana ang ilang feature hangga't hindi bumabalik ang koneksyon.",
+            "unreachable": "$~Hindi namin ma-access ang database, kaya may ilang bagay na hindi gagana. Maaaring hinaharangan ito ng VPN, browser extension, o network filter.",
             "label": "$~Katayuan ng koneksyon"
         },
         "presence": {
@@ -7040,6 +7177,12 @@
             "refresh": "$~I-refresh",
             "updates": "$~tingnan ang mga update",
             "dismiss": "$~I-dismiss"
+        },
+        "banner": {
+            "deleteFailed": "$~Hindi namin mabura iyon.",
+            "saveFailed": "$~Hindi namin nailigtas iyon",
+            "submitFailed": "$~Hindi namin maisumite iyon",
+            "loadFailed": "$~Hindi namin ma-load iyon."
         }
     },
     "moderation": {

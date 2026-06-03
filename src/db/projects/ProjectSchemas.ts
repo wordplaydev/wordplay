@@ -18,7 +18,7 @@ const PathSchema = z.array(
 );
 
 /** Schema for a cursor position */
-const CaretSchema = z.union([
+export const CaretSchema = z.union([
     z.number().min(0),
     PathSchema,
     z.array(z.number()).length(2),

@@ -148,6 +148,10 @@ export default class MapLiteral extends CompositeLiteral {
         return conflicts;
     }
 
+    getConstantLength(): number {
+        return this.values.length;
+    }
+
     computeType(context: Context): Type {
         const keyType =
             this.values.length === 0

@@ -1,6 +1,7 @@
 <script lang="ts">
     import { page } from '$app/state';
     import { Basis } from '@basis/Basis';
+    import Breadcrumbs from '@components/app/Breadcrumbs.svelte';
     import Header from '@components/app/Header.svelte';
     import Link from '@components/app/Link.svelte';
     import Notice from '@components/app/Notice.svelte';
@@ -45,7 +46,7 @@
     } from '@db/characters/Character';
     import { MAX_CHARACTER_NAME_LENGTH } from '@db/characters/CharacterDatabase.svelte';
     import { Creator } from '@db/creators/CreatorDatabase';
-    import { CharactersDB, locales } from '@db/Database';
+    import { CharactersDB, disconnected, locales } from '@db/Database';
     import type Project from '@db/projects/Project';
     import Locales from '@locale/Locales';
     import type LocaleText from '@locale/LocaleText';
@@ -910,35 +911,6 @@
                 s.fill.c === fill.c &&
                 s.fill.h === fill.h,
         );
-    }
-
-    async function pickColor() {
-        if (window.EyeDropper === undefined) return;
-
-        const dropper = new window.EyeDropper();
-        const result = await dropper.open();
-        // Do something with the selected color
-        const match = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(
-            result.sRGBHex,
-        );
-        const rgb = match
-            ? {
-                  r: parseInt(match[1], 16), // Convert the hex pair to a decimal number
-                  g: parseInt(match[2], 16),
-                  b: parseInt(match[3], 16),
-              }
-            : null;
-        if (rgb === null) return;
-
-        const lch = RGBtoLCH(rgb.r / 255, rgb.g / 255, rgb.b / 255);
-
-        currentFill = {
-            l: Math.round(lch.coords[0] ?? 0) / 100,
-            c: Math.round(lch.coords[1] ?? 0),
-            h: Math.round(lch.coords[2] ?? 0),
-        };
-        currentFillSetting = 'set';
-        mode = DrawingMode.Pixel;
     }
 
     async function saturation(delta: number) {
@@ -2205,14 +2177,6 @@
             icon={SELECTION_SYMBOL}
             label={(l) => l.ui.page.character.button.allColor.label}
         />
-        {#if 'EyeDropper' in window}
-            <Button
-                tip={(l) => l.ui.page.character.button.pick.tip}
-                action={() => pickColor()}
-                icon="🌓"
-                label={(l) => l.ui.page.character.button.pick.label}
-            />
-        {/if}
         <Button
             tip={(l) => l.ui.page.character.button.saturationUp.tip}
             action={() => saturation(5)}
@@ -2324,6 +2288,7 @@
 <Page>
     <section>
         <div class="header">
+            <Breadcrumbs />
             <Header block={false} text={(l) => l.ui.page.character.header} />
             <p><LocalizedText path={(l) => l.ui.page.character.prompt} /></p>
         </div>
@@ -2363,7 +2328,9 @@
             </Notice>
         {/if}
 
-        {#if !isAuthenticated($user)}
+        {#if $user === undefined}
+            <Spinning></Spinning>
+        {:else if !isAuthenticated($user)}
             <Notice
                 text={(l) => l.ui.page.character.feedback.unauthenticated}
             />
@@ -2404,6 +2371,7 @@
                     explanation={(l) =>
                         l.ui.page.character.share.dialog.explanation}
                     button={{
+                        background: true,
                         tip: (l) => l.ui.page.character.share.button.tip,
                         icon: isPublic ? GLOBE1_SYMBOL : '🤫',
                         label: isPublic
@@ -2437,16 +2405,17 @@
                 {#if isAuthenticated($user) && editedCharacter !== null && $user.uid === editedCharacter.owner}
                     <ConfirmButton
                         tip={(l) => l.ui.page.character.share.delete.tip}
-                        action={() => {
-                            if (editedCharacter) {
-                                CharactersDB.deleteCharacter(
+                        action={async () => {
+                            if (
+                                editedCharacter &&
+                                (await CharactersDB.deleteCharacter(
                                     editedCharacter.id,
-                                );
+                                ))
+                            )
                                 localeGoto('/characters');
-                            }
                         }}
                         prompt={(l) => l.ui.page.character.share.delete.tip}
-                        enabled={editedCharacter !== null}
+                        enabled={editedCharacter !== null && !$disconnected}
                         >{CANCEL_SYMBOL}
                         <LocalizedText
                             path={(l) => l.ui.page.character.share.delete.label}

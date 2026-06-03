@@ -12,6 +12,7 @@ import type Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
 import { toDocString, type NameAndDoc } from '@locale/LocaleText';
 import { localeToLanguage } from '@locale/localeToLanguage';
+import selectTranslation from '@locale/selectTranslation';
 
 export function getBind(
     locales: Locales,
@@ -36,7 +37,9 @@ export function getBind(
 
     const names = locales
         .getLocales()
-        .map((locale) => [locale, select(locale)] as const);
+        .map(
+            (locale) => [locale, selectTranslation(locale, select)] as const,
+        );
     return (
         getFormattedWordplay(
             new Docs(

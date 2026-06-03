@@ -649,14 +649,14 @@
                             "Evaluate",
                             "neutral",
                             "$~Permite-mi să-ți arăt unul dintre butoane. Poți găsi micul buton de comutare *paletă* @UI/paletteExpand? Selectează-l pentru a extinde paleta și apoi selectează fraza de pe scenă.",
-                            "$~După ce faci asta, vei vedea numeroasele intrări pe care le acceptă @Phrase. De exemplu, încearcă să apeși butonul creion pentru @Phrase/size, ceea ce va dezvălui un cursor.",
+                            "$~După ce faci asta, vei vedea numeroasele intrări pe care le acceptă @Phrase. De exemplu, încearcă să apeși butonul creion pentru @Phrase.size, ceea ce va dezvălui un cursor.",
                             "$~Puteți folosi acest cursor pentru a modifica dimensiunea frazei, ceea ce va modifica și codul @Evaluate cu dimensiunea aleasă."
                         ],
                         null,
                         [
                             "Evaluate",
                             "serious",
-                            "$~Vezi cum, atunci când faci asta, acum am o nouă intrare în program? Este intrarea @Phrase/size. Funcțiile au o anumită ordine de intrări, dar dacă o funcție are o listă de intrări opționale, poți folosi numele lor pentru a specifica pe care vrei să o oferi. Aici oferim @Phrase/size, dar nu și alte intrări opționale. Încearcă să schimbi o altă intrare cu paleta, cum ar fi poate fontul."
+                            "$~Vezi cum, atunci când faci asta, acum am o nouă intrare în program? Este intrarea @Phrase.size. Funcțiile au o anumită ordine de intrări, dar dacă o funcție are o listă de intrări opționale, poți folosi numele lor pentru a specifica pe care vrei să o oferi. Aici oferim @Phrase.size, dar nu și alte intrări opționale. Încearcă să schimbi o altă intrare cu paleta, cum ar fi poate fontul."
                         ],
                         null,
                         ["conflict", "'hi'(1 2)"],
@@ -923,14 +923,14 @@
                         [
                             "Text",
                             "curious",
-                            "$~Și v-a povestit prietenul nostru @FunctionDefinition despre toate funcțiile minunate pe care mi le-au definit? Mi-au permis să fac tot felul de lucruri. Una este destul de simplă: se numește @Text/length și tot ce face este să obțină lungimea unui text. De exemplu, dacă facem echipă cu @Evaluate și micuța noastră prietenă @PropertyReference, putem evalua funcția length fără intrări de date și putem obține înapoi valoarea lungimii. Încercați să modificați textul și urmăriți cum se schimbă lungimea afișată de Program pe măsură ce devine mai scurtă și mai lungă."
+                            "$~Și v-a povestit prietenul nostru @FunctionDefinition despre toate funcțiile minunate pe care mi le-au definit? Mi-au permis să fac tot felul de lucruri. Una este destul de simplă: se numește @Text.length și tot ce face este să obțină lungimea unui text. De exemplu, dacă facem echipă cu @Evaluate și micuța noastră prietenă @PropertyReference, putem evalua funcția length fără intrări de date și putem obține înapoi valoarea lungimii. Încercați să modificați textul și urmăriți cum se schimbă lungimea afișată de Program pe măsură ce devine mai scurtă și mai lungă."
                         ],
                         ["edit", "'hello'.length()"],
                         null,
                         [
                             "Text",
                             "happy",
-                            "$~Iată încă una extraordinară. Mă face să chicotesc. Se numește @Text/repeat și, când este evaluată, preia textul pe baza căruia a fost evaluată și îl repetă de câte ori spui. Încearcă să schimbi numărul și să vezi la ce se ridică rezultatul."
+                            "$~Iată încă una extraordinară. Mă face să chicotesc. Se numește @Text.repeat și, când este evaluată, preia textul pe baza căruia a fost evaluată și îl repetă de câte ori spui. Încearcă să schimbi numărul și să vezi la ce se ridică rezultatul."
                         ],
                         ["edit", "'hello '.repeat(5)"],
                         null,
@@ -1100,7 +1100,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Una a fost @Boolean/and, corect? Preia una dintre intrările tale și încă una? Și se evaluează ca \\⊤\\ dacă ambele sunt \\⊤\\?"
+                            "$~Una a fost @Boolean.and, corect? Preia una dintre intrările tale și încă una? Și se evaluează ca \\⊤\\ dacă ambele sunt \\⊤\\?"
                         ],
                         [
                             "⊤",
@@ -1122,7 +1122,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Și celălalt a fost @Boolean/or, corect? Preia și o singură intrare? Dar se evaluează ca \\⊤\\ dacă oricare dintre acestea este adevărată?"
+                            "$~Și celălalt a fost @Boolean.or, corect? Preia și o singură intrare? Dar se evaluează ca \\⊤\\ dacă oricare dintre acestea este adevărată?"
                         ],
                         [
                             "⊤",
@@ -1144,7 +1144,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Dar celălalt a fost @Boolean/not?"
+                            "$~Dar celălalt a fost @Boolean.not?"
                         ],
                         ["⊤", "precise", "$~Corect. \\~⊤ = ⊥\\."],
                         ["⊥", "precise", "$~Nu greșit. \\~⊥ = ⊤\\."],
@@ -1681,21 +1681,21 @@
                         [
                             "List",
                             "neutral",
-                            "$~Da, dar @FunctionDefinition, toate astea sunt opera ta. Tu reprezinți pentru mine toate aceste funcții frumoase care îmi permit să fac tot felul de lucruri! Gen @List/reverse — oh, aceasta este minunată și simplă. Pur și simplu ia valorile mele și le pune în ordine inversă."
+                            "$~Da, dar @FunctionDefinition, toate astea sunt opera ta. Tu reprezinți pentru mine toate aceste funcții frumoase care îmi permit să fac tot felul de lucruri! Gen @List.reverse — oh, aceasta este minunată și simplă. Pur și simplu ia valorile mele și le pune în ordine inversă."
                         ],
                         ["edit", "[ 1 2 3 4 5 ].reverse()"],
                         null,
                         [
                             "List",
                             "excited",
-                            "$~Și asta e amuzantă: @List/sans elimină pur și simplu toate valorile egale cu valoarea dată. Vezi cum nu au mai rămas zerouri în lista rezultată?"
+                            "$~Și asta e amuzantă: @List.sans elimină pur și simplu toate valorile egale cu valoarea dată. Vezi cum nu au mai rămas zerouri în lista rezultată?"
                         ],
                         ["edit", "[ 1 0 1 0 1 ].sans(0)"],
                         null,
                         [
                             "List",
                             "serious",
-                            "$~Vai, nu-mi vine să cred că am uitat să explic a patra regulă! Ok, regula numărul patru: Nu schimb niciodată o listă. Creez doar listă nouă. Indiferent de funcția pe care o evaluezi pentru mine, creez întotdeauna o listă nouă; nu schimb niciodată una. Deci exemplul @List/reverse de mai sus? Nu a schimbat lista; a creat o listă nouă. Și exemplul sans? Nu a eliminat zerourile din lista originală; a creat o listă nouă fără zerouri. De fapt, asta e valabil pentru tot ce se află în Verset: odată ce valorile sunt create, ele sunt ceea ce sunt și nu se schimbă."
+                            "$~Vai, nu-mi vine să cred că am uitat să explic a patra regulă! Ok, regula numărul patru: Nu schimb niciodată o listă. Creez doar listă nouă. Indiferent de funcția pe care o evaluezi pentru mine, creez întotdeauna o listă nouă; nu schimb niciodată una. Deci exemplul @List.reverse de mai sus? Nu a schimbat lista; a creat o listă nouă. Și exemplul sans? Nu a eliminat zerourile din lista originală; a creat o listă nouă fără zerouri. De fapt, asta e valabil pentru tot ce se află în Verset: odată ce valorile sunt create, ele sunt ceea ce sunt și nu se schimbă."
                         ],
                         null,
                         [
@@ -1713,7 +1713,7 @@
                         [
                             "List",
                             "serious",
-                            "$~Bine, poate o funcție de listă, pentru că aceasta este preferata mea. Aceasta se numește @List/random și va da o valoare aleatorie în listă. E foarte distractiv pentru că nu știi niciodată ce vei obține! Ce ai obținut, ce ai obținut? Încearcă să adaugi propriul tău animal și vezi ce obții."
+                            "$~Bine, poate o funcție de listă, pentru că aceasta este preferata mea. Aceasta se numește @List.random și va da o valoare aleatorie în listă. E foarte distractiv pentru că nu știi niciodată ce vei obține! Ce ai obținut, ce ai obținut? Încearcă să adaugi propriul tău animal și vezi ce obții."
                         ],
                         [
                             "edit",
@@ -1807,12 +1807,12 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Poate, @Set/difference?"
+                            "$~Poate, @Set.difference?"
                         ],
                         [
                             "Set",
                             "neutral",
-                            "$~Da, @Set/difference.",
+                            "$~Da, @Set.difference.",
                             "$~Când este evaluată pe baza unei mulțimi și i se dă o altă mulțime, elimină toate elementele din mulțimea dată din mulțimea pe care a fost evaluată (Hm, acelea au fost niște cuvinte stângace, dar asta am vrut să spun). Iată un exemplu. Vedeți cum rezultatul este doar mulțimea \\{3}\\? Aceasta este singura valoare care rămâne după eliminarea valorilor din \\{ 1 2 }\\."
                         ],
                         ["edit", "{ 1 2 3 }.difference({ 1 2 })"],
@@ -2418,7 +2418,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Vezi acel \\1000ms\\? Este o @Time/frequency care îi spune lui @Time să ticcheteze la fiecare 1000 de milisecunde în loc de valoarea implicită de 33 de milisecunde. Acum este ca un contor care ticchetează în fiecare secundă. Aceste intrări pe care le primește @Time sunt ca o configurație: îi spun fluxului cum să se comporte."
+                            "$~Vezi acel \\1000ms\\? Este o @Time.frequency care îi spune lui @Time să ticcheteze la fiecare 1000 de milisecunde în loc de valoarea implicită de 33 de milisecunde. Acum este ca un contor care ticchetează în fiecare secundă. Aceste intrări pe care le primește @Time sunt ca o configurație: îi spun fluxului cum să se comporte."
                         ],
                         [
                             "Time",
@@ -2430,7 +2430,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Dar putem folosi toate personajele minunate pe care le-am întâlnit pentru a transforma timpul și mai mult. De exemplu, ce-ar fi dacă am vrea să știm dacă timpul este un multiplu de \\2\\? Am putea folosi @Number/remainder, care obține restul unei împărțiri. Dacă restul este zero, vom evalua la \\⊤\\ și \\⊥\\ altfel. Vedeți cum se schimbă între \\⊤\\ și \\⊥\\? Este atât de magic."
+                            "$~Dar putem folosi toate personajele minunate pe care le-am întâlnit pentru a transforma timpul și mai mult. De exemplu, ce-ar fi dacă am vrea să știm dacă timpul este un multiplu de \\2\\? Am putea folosi @Number.remainder, care obține restul unei împărțiri. Dacă restul este zero, vom evalua la \\⊤\\ și \\⊥\\ altfel. Vedeți cum se schimbă între \\⊤\\ și \\⊥\\? Este atât de magic."
                         ],
                         [
                             "Time",
@@ -2606,7 +2606,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~@Volume poate fi folosit pentru a face ca spectacolele să răspundă la sunetul din public. De exemplu, aici am putea realiza o mică vizualizare a amplitudinii prin convertirea numărului de amplitudine din flux într-un anumit număr de caractere \\'o'\\. Vedeți cum atunci când faceți zgomot, există mai multe \\'o'\\? Amplitudinea @Volume este împărțită la \\10\\, plasând-o în intervalul \\0\\ până la \\10\\. Apoi, acea valoare este dată funcției @Text/repeat, care repetă \\'o'\\ de numărul dat de ori."
+                            "$~@Volume poate fi folosit pentru a face ca spectacolele să răspundă la sunetul din public. De exemplu, aici am putea realiza o mică vizualizare a amplitudinii prin convertirea numărului de amplitudine din flux într-un anumit număr de caractere \\'o'\\. Vedeți cum atunci când faceți zgomot, există mai multe \\'o'\\? Amplitudinea @Volume este împărțită la \\10\\, plasând-o în intervalul \\0\\ până la \\10\\. Apoi, acea valoare este dată funcției @Text.repeat, care repetă \\'o'\\ de numărul dat de ori."
                         ],
                         ["Volume", "neutral", "$~bzzzZZZZZZzzzzzzZZZZ…"],
                         ["edit", "'o'.repeat(Volume() × 10)"]
@@ -2759,7 +2759,7 @@
                             "FunctionDefinition",
                             "excited",
                             "$~Dar @Motion are multe alte trucuri.",
-                            "$~De exemplu, îi putem da un start @Motion/velocity.",
+                            "$~De exemplu, îi putem da un start @Motion.velocity.",
                             "$~Acest exemplu face ca mingea să se miște la dreapta și în sus și să se rotească puțin inițial."
                         ],
                         ["Motion", "excited", "$~Uauuș…"],
@@ -2777,9 +2777,9 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Poți chiar schimba @Stage/gravity pentru a fi cu adevărat extrem.",
+                            "$~Poți chiar schimba @Stage.gravity pentru a fi cu adevărat extrem.",
                             "$~Încearcă să-l schimbi ca pe lună, unde gravitația este foarte scăzută!",
-                            "$~Sau încearcă să schimbi @Matter/mass sau @Matter/bounciness, ceea ce afectează modul în care @Phrase respinge mesajul."
+                            "$~Sau încearcă să schimbi @Matter.mass sau @Matter.bounciness, ceea ce afectează modul în care @Phrase respinge mesajul."
                         ],
                         ["Motion", "excited", "$~Wsh…"],
                         null,
@@ -2951,7 +2951,7 @@
                             "serious",
                             "$~Iată un exemplu. Vedeți fluxul @Key? Punând ∆ înainte de a întreba /A fost modificat acest flux?/ Înainte de a se schimba, evaluez la valoarea inițială, \\1m\\. Dar când este apăsată tasta spațiu, @Program reevaluează, iar eu evaluez la *următoarea* expresie, care este \\1m\\ plus oricare dintre valorile anterioare ale fluxului; aceasta este reprezentată de \\.\\. Aceasta adaugă \\1m\\ la dimensiunea frazei, făcând cuvântul să devină din ce în ce mai mare."
                         ],
-                        ["fix", "Phrase('hi' size: 1m … ∆ Key(' ') … 1m + .)"],
+                        ["fix", "Phrase('hi' size: 1m … ∆ Key(' ') … 1m + ⬚)"],
                         null,
                         [
                             "FunctionDefinition",
@@ -2998,7 +2998,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' size: 1m … Key(' ') = ' ' … 1m + .)"
+                            "Phrase('hi' size: 1m … Key(' ') = ' ' … 1m + ⬚)"
                         ],
                         null,
                         [
@@ -3158,7 +3158,7 @@
                         [
                             "Phrase",
                             "excited",
-                            "$~Dar pot face mai mult decât să stilizez textul. De exemplu, pot lua o @Phrase/size măsurată în metri \\m\\. Încercați să schimbați dimensiunea la orice dimensiune doriți!"
+                            "$~Dar pot face mai mult decât să stilizez textul. De exemplu, pot lua o @Phrase.size măsurată în metri \\m\\. Încercați să schimbați dimensiunea la orice dimensiune doriți!"
                         ],
                         ["edit", "Phrase('hi' 2m)"],
                         null,
@@ -3172,7 +3172,7 @@
                         [
                             "Phrase",
                             "excited",
-                            "$~Îți plac costumele? A-d-o-resc costumele. @Phrase/face-ul meu este un costum. Alege oricare dintre fețele acceptate pentru a da un plus de savoare cuvântului ales."
+                            "$~Îți plac costumele? A-d-o-resc costumele. @Phrase.face-ul meu este un costum. Alege oricare dintre fețele acceptate pentru a da un plus de savoare cuvântului ales."
                         ],
                         [
                             "use",
@@ -3194,7 +3194,7 @@
                         [
                             "Phrase",
                             "curious",
-                            "$~Te simți vreodată puțin deplasat? Poate îi dai lumii puțină @Pose/rotation cu ajutorul rotației. Încearcă să schimbi valoarea rotației ca să mă răsucești!"
+                            "$~Te simți vreodată puțin deplasat? Poate îi dai lumii puțină @Pose.rotation cu ajutorul rotației. Încearcă să schimbi valoarea rotației ca să mă răsucești!"
                         ],
                         [
                             "fit",
@@ -3229,7 +3229,7 @@
                         [
                             "Phrase",
                             "kind",
-                            "$~Doriți să atribuiți doar o anumită proprietate? Denumiți-o pe cea dorită. Aici, numim @Phrase/size și @Phrase/rotation."
+                            "$~Doriți să atribuiți doar o anumită proprietate? Denumiți-o pe cea dorită. Aici, numim @Phrase.size și @Phrase.rotation."
                         ],
                         [
                             "edit",
@@ -3239,7 +3239,7 @@
                         [
                             "Phrase",
                             "neutral",
-                            "$~Acum că am spus toate astea, putem vorbi despre dans, dragă! Dansul este unul dintre lucrurile mele preferate. Există *patru* moduri în care mă mișc. În primul rând, pot folosi @Phrase/entering. Enter este modul meu de a intra pe scenă. Dacă nu-mi spui cum să intru, voi apărea pur și simplu pe scenă, ca și cum m-aș fi teleportat acolo. Dar dacă îmi dai @Pose, voi începe cu poza pe care mi-o dai, apoi voi trece la poza de odihnă. De exemplu, hai să mă facem să trec de la invizibil la vizibil, care-ți arată atât de bine."
+                            "$~Acum că am spus toate astea, putem vorbi despre dans, dragă! Dansul este unul dintre lucrurile mele preferate. Există *patru* moduri în care mă mișc. În primul rând, pot folosi @Phrase.entering. Enter este modul meu de a intra pe scenă. Dacă nu-mi spui cum să intru, voi apărea pur și simplu pe scenă, ca și cum m-aș fi teleportat acolo. Dar dacă îmi dai @Pose, voi începe cu poza pe care mi-o dai, apoi voi trece la poza de odihnă. De exemplu, hai să mă facem să trec de la invizibil la vizibil, care-ți arată atât de bine."
                         ],
                         ["edit", "Phrase('hi' entering: Pose(opacity: 0))"],
                         null,
@@ -3256,7 +3256,7 @@
                         [
                             "Phrase",
                             "neutral",
-                            "$~Acum, să presupunem că mă mișc. Vom seta locul meu în funcție de timp, deci mă mișc puțin spre dreapta în fiecare secundă. Dar dacă setăm o @Phrase/moving @Pose și avem @Pose/rotation \\5°\\ și poate puțină culoare, de fiecare dată când locul meu se schimbă, voi aluneca pe scenă cu o înclinare drăguță."
+                            "$~Acum, să presupunem că mă mișc. Vom seta locul meu în funcție de timp, deci mă mișc puțin spre dreapta în fiecare secundă. Dar dacă setăm o @Phrase.moving @Pose și avem @Pose.rotation \\5°\\ și poate puțină culoare, de fiecare dată când locul meu se schimbă, voi aluneca pe scenă cu o înclinare drăguță."
                         ],
                         [
                             "fit",
@@ -3276,7 +3276,7 @@
                         [
                             "Phrase",
                             "excited",
-                            "$~Și pentru o lovitură de grație, hai să folosesc @Phrase/exiting în stil. Putem folosi @Conditional și să ies din scenă după 3 secunde."
+                            "$~Și pentru o lovitură de grație, hai să folosesc @Phrase.exiting în stil. Putem folosi @Conditional și să ies din scenă după 3 secunde."
                         ],
                         [
                             "fit",
@@ -3288,7 +3288,7 @@
                         [
                             "Phrase",
                             "surprised",
-                            "$~Nu e ieșirea la care sperai? Numărul de dispariție e cam dur, nu-i așa? Dă-mi o @Phrase/exiting @Pose și voi aluneca pe scenă în orice poză dorești. Aici, mă voi face să devin extrem de mare, să cad cu susul în jos și să dispar în @Pose/opacity \\0\\."
+                            "$~Nu e ieșirea la care sperai? Numărul de dispariție e cam dur, nu-i așa? Dă-mi o @Phrase.exiting @Pose și voi aluneca pe scenă în orice poză dorești. Aici, mă voi face să devin extrem de mare, să cad cu susul în jos și să dispar în @Pose.opacity \\0\\."
                         ],
                         [
                             "fit",
@@ -3335,8 +3335,8 @@
                             "Phrase",
                             "sad",
                             "$~Doamne, Doamne, Doamne, Doamne, NU-MI POATE să cred că am uitat de culoare. Bine, deci orice @Pose poate avea o culoare, nu? Dar @Color vine în trei părți. Mai întâi, o @Pose între 0 și 100%, pe care o poți considera cât de luminoasă este o cameră, de la negru la alb, cu culoarea la mijloc la 50%.",
-                            "$~Apoi, o @Color/chroma între 0 și ∞, la care vă puteți gândi, are cantitatea de culoare existentă, de la gri fără culoare la culoare completă.",
-                            "$~Și în final, o @Color/hue, pe care o puteți considera ca o roată de culori, de la roșu la verde și apoi la albastru în grade. Deci vreți să fiu roșu aprins? Setați culoarea pentru poziția de repaus la \\Color(50% 300 30°)\\."
+                            "$~Apoi, o @Color.chroma între 0 și ∞, la care vă puteți gândi, are cantitatea de culoare existentă, de la gri fără culoare la culoare completă.",
+                            "$~Și în final, o @Color.hue, pe care o puteți considera ca o roată de culori, de la roșu la verde și apoi la albastru în grade. Deci vreți să fiu roșu aprins? Setați culoarea pentru poziția de repaus la \\Color(50% 300 30°)\\."
                         ],
                         ["edit", "Phrase('red' color: 🌈(50% 300 30°))"],
                         null,
@@ -3487,7 +3487,7 @@
                         [
                             "Sequence",
                             "curious",
-                            "$~Dar, spui tu, ce-ar fi dacă am vrea să facem asta la nesfârșit? Poți să-mi setezi o @Phrase/resting. Atâta timp cât @Phrase este pe scenă și se odihnește, vor repeta o secvență. Oscilații infinite!"
+                            "$~Dar, spui tu, ce-ar fi dacă am vrea să facem asta la nesfârșit? Poți să-mi setezi o @Phrase.resting. Atâta timp cât @Phrase este pe scenă și se odihnește, vor repeta o secvență. Oscilații infinite!"
                         ],
                         [
                             "edit",
@@ -3955,7 +3955,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Și acum, probabil vă întrebați, ce se întâmplă cu tranzițiile dintre ele? Putem controla asta cu @Phrase/entering și @Phrase/exiting, setând @Pose să înceapă și să se termine la. Aici, de exemplu, începem și terminăm fiecare @Phrase ca fiind invizibilă, deci se estompează între apăsare și dispariție."
+                            "$~Și acum, probabil vă întrebați, ce se întâmplă cu tranzițiile dintre ele? Putem controla asta cu @Phrase.entering și @Phrase.exiting, setând @Pose să înceapă și să se termine la. Aici, de exemplu, începem și terminăm fiecare @Phrase ca fiind invizibilă, deci se estompează între apăsare și dispariție."
                         ],
                         [
                             "edit",
@@ -4171,7 +4171,7 @@
                         [
                             "Bind",
                             "excited",
-                            "$~Corect! Deci, valorile, atunci când le creăm, sunt pur și simplu transmise de noi ca o minge, de la o expresie la alta, până când @Program creează valoarea finală pe care o dă lui @Stage pentru a o afișa. Dar uneori, în loc să transmitem o valoare, este util să o punem deoparte și să o salvăm pentru mai târziu, pentru o altă expresie. Pentru asta există un @Phrase/name. Denumesc lucrurile ca să le putem folosi mai târziu."
+                            "$~Corect! Deci, valorile, atunci când le creăm, sunt pur și simplu transmise de noi ca o minge, de la o expresie la alta, până când @Program creează valoarea finală pe care o dă lui @Stage pentru a o afișa. Dar uneori, în loc să transmitem o valoare, este util să o punem deoparte și să o salvăm pentru mai târziu, pentru o altă expresie. Pentru asta există un @Phrase.name. Denumesc lucrurile ca să le putem folosi mai târziu."
                         ],
                         null,
                         [
@@ -4206,7 +4206,7 @@
                         [
                             "Bind",
                             "serious",
-                            "$~Acum, haideți să creăm fraza. Introducem expresia @List/has pentru text și o convertim în text. Acum, obținem @Phrase pe scenă ca \\⊤\\ sau \\⊥\\. Bun!"
+                            "$~Acum, haideți să creăm fraza. Introducem expresia @List.has pentru text și o convertim în text. Acum, obținem @Phrase pe scenă ca \\⊤\\ sau \\⊥\\. Bun!"
                         ],
                         [
                             "edit",
@@ -4508,7 +4508,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Hai să începem cu ce ai văzut deja. Știi cum fiecare valoare are funcții diferite pe care le poți evalua? De exemplu, numerele știu cum să adune/să @Number/add, iar o valoare text știe cum să verifice dacă @Text/has are text sau @Set știe cum să verifice dacă are o anumită valoare? Ei bine, eu sunt cel care definește acele funcții. Adică, nu am inspirația să le creez eu însumi - asta fac directorii ca tine - dar eu definesc intrările pe care le acceptă o funcție, numele pe care le are și expresia care folosește intrările pentru a evalua la o valoare de ieșire."
+                            "$~Hai să începem cu ce ai văzut deja. Știi cum fiecare valoare are funcții diferite pe care le poți evalua? De exemplu, numerele știu cum să adune/să @Number.add, iar o valoare text știe cum să verifice dacă @Text.has are text sau @Set știe cum să verifice dacă are o anumită valoare? Ei bine, eu sunt cel care definește acele funcții. Adică, nu am inspirația să le creez eu însumi - asta fac directorii ca tine - dar eu definesc intrările pe care le acceptă o funcție, numele pe care le are și expresia care folosește intrările pentru a evalua la o valoare de ieșire."
                         ],
                         null,
                         [
@@ -4522,7 +4522,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Iată un exemplu mai util. Știți numerele pare și impare? Am avut odată un director care voia să verifice dacă un număr era par (divizibil la 2, cred că asta înseamnă?), așa că a scris asta. Aceasta este o funcție numită \\even\\ care primește un singur număr numit… \\number\\. Trebuie să-mi spui ce fel de valoare are fiecare intrare, astfel încât @Evaluate să se poată asigura că orice evaluează funcția trimite valoarea corectă. Apoi, ia numărul, îl împarte la doi, obține restul (cu @Evaluate) și apoi verifică dacă restul este egal cu \\0\\ cu @Number/equal. Deci întreaga funcție ajunge fie să fie evaluată ca \\⊤\\, fie ca \\⊥\\. De exemplu, această evaluare a numerelor par a fost evaluată ca \\⊥\\ deoarece \\3\\ este impar. Încercați să utilizați butoanele de derulare înapoi pentru a vedea cum funcționează."
+                            "$~Iată un exemplu mai util. Știți numerele pare și impare? Am avut odată un director care voia să verifice dacă un număr era par (divizibil la 2, cred că asta înseamnă?), așa că a scris asta. Aceasta este o funcție numită \\even\\ care primește un singur număr numit… \\number\\. Trebuie să-mi spui ce fel de valoare are fiecare intrare, astfel încât @Evaluate să se poată asigura că orice evaluează funcția trimite valoarea corectă. Apoi, ia numărul, îl împarte la doi, obține restul (cu @Evaluate) și apoi verifică dacă restul este egal cu \\0\\ cu @Number.equal. Deci întreaga funcție ajunge fie să fie evaluată ca \\⊤\\, fie ca \\⊥\\. De exemplu, această evaluare a numerelor par a fost evaluată ca \\⊥\\ deoarece \\3\\ este impar. Încercați să utilizați butoanele de derulare înapoi pentru a vedea cum funcționează."
                         ],
                         [
                             "edit",
@@ -4559,7 +4559,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Mai este un lucru de arătat. Cred că este important pentru că toată lumea este atât de entuziasmată de asta! Știți cum puteți crea o funcție și apoi să o evaluați? Ei bine, din moment ce funcțiile pe care le creez sunt valori, le puteți da și ca intrare unei alte funcții. Iată un exemplu. Să presupunem că aveți o listă de numere și doriți doar numerele pare în ea. @List are această funcție numită @List/filter care ia o funcție ca intrare și folosește funcția pentru fiecare valoare din listă pentru a decide dacă o păstrează. Să facem o listă de numere și să dăm lui @List/filter funcția \\even\\ pe care am creat-o mai devreme ca intrare. Vedeți ce se întâmplă? Obținem doar numerele pare. Vreți să încercați să o modificați astfel încât să dea în schimb numere impare? Poate încercați să schimbați funcția cumva?"
+                            "$~Mai este un lucru de arătat. Cred că este important pentru că toată lumea este atât de entuziasmată de asta! Știți cum puteți crea o funcție și apoi să o evaluați? Ei bine, din moment ce funcțiile pe care le creez sunt valori, le puteți da și ca intrare unei alte funcții. Iată un exemplu. Să presupunem că aveți o listă de numere și doriți doar numerele pare în ea. @List are această funcție numită @List.filter care ia o funcție ca intrare și folosește funcția pentru fiecare valoare din listă pentru a decide dacă o păstrează. Să facem o listă de numere și să dăm lui @List.filter funcția \\even\\ pe care am creat-o mai devreme ca intrare. Vedeți ce se întâmplă? Obținem doar numerele pare. Vreți să încercați să o modificați astfel încât să dea în schimb numere impare? Poate încercați să schimbați funcția cumva?"
                         ],
                         [
                             "edit",
@@ -5513,7 +5513,7 @@
                         [
                             "Evaluate",
                             "excited",
-                            "$~A, da, desigur! Ce-ar fi să-i lăsăm pe ei să facă muzica? @Phrase, poți asculta @Volume și să-l conectezi la @Color/lightness și @Color/chroma în culoarea ta? În felul acesta, ne vom încinge când regizorul nostru va face zgomot!"
+                            "$~A, da, desigur! Ce-ar fi să-i lăsăm pe ei să facă muzica? @Phrase, poți asculta @Volume și să-l conectezi la @Color.lightness și @Color.chroma în culoarea ta? În felul acesta, ne vom încinge când regizorul nostru va face zgomot!"
                         ],
                         ["Phrase", "kind", "$~Excelentă idee!"],
                         ["use", "edit", "EvaluateDance14"],

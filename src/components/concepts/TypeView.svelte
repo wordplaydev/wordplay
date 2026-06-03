@@ -9,6 +9,7 @@
         getConceptIndex,
         getConceptPath,
     } from '@components/project/Contexts';
+    import { pushConcept } from '@components/concepts/GuideHistory';
     import RootView from '@components/project/RootView.svelte';
 
     interface Props {
@@ -31,7 +32,7 @@
     );
 
     function navigate(type: StructureConcept | FunctionConcept) {
-        path.set([...$path, type]);
+        path.set(pushConcept($path, type));
     }
 </script>
 

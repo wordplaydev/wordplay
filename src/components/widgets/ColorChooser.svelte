@@ -43,10 +43,15 @@
         Focals[key].c,
         Focals[key].h,
     ]);
+
+    /** Per-instance counter so each chooser's screen-reader instructions
+     *  element gets a unique id for aria-describedby, even when several
+     *  choosers share a page. */
+    let idCounter = 0;
 </script>
 
 <script lang="ts">
-    import { LCHtoCSS } from '@output/ColorJS';
+    import { LCHtoCSS, RGBtoLCH } from '@output/ColorJS';
     import { describeColorLocalized } from '@output/BasicColors';
     import { getFirstText } from '@locale/LocaleText';
     import { locales } from '@db/Database';
@@ -81,6 +86,10 @@
         id = undefined,
         palette = [],
     }: Props = $props();
+
+    /** Unique id for the band's visually-hidden instructions, referenced by
+     *  the band's aria-describedby. */
+    const instructionsId = `color-instructions-${idCounter++}`;
 
     let color = $derived(LCHtoCSS(lightness * 100, chroma, hue));
 
@@ -117,15 +126,95 @@
     /** Localized description of the current color, recomputed reactively
      *  on each lightness/chroma/hue change. Used for the focus-time
      *  `aria-label` on the preview/picker, and pushed into the central
-     *  Announcer on each broadcast. */
+     *  Announcer on each broadcast. The LCH values follow the color name so
+     *  the text changes on every arrow-key step — otherwise small steps that
+     *  stay within the same named color produce identical text and screen
+     *  readers stay silent. */
     let currentDescription = $derived(
-        describeColorLocalized(
-            $locales,
-            lightness,
-            chroma,
-            hue,
-        ),
+        $locales
+            .concretize((l) => l.ui.widget.color.value, {
+                color: describeColorLocalized($locales, lightness, chroma, hue),
+                l: Math.round(lightness * 100),
+                c: Math.round(chroma),
+                h: Math.round(hue),
+            })
+            .toText(),
     );
+
+    /** Whether the browser supports the EyeDropper API, gating the picker button. */
+    const canPick = typeof window !== 'undefined' && 'EyeDropper' in window;
+
+    /** Open the OS color picker (eyedropper) and set the chooser to the
+     *  selected screen color, converting from sRGB to the LCH space the
+     *  chooser uses. */
+    async function pickColor() {
+        if (window.EyeDropper === undefined) return;
+
+        const dropper = new window.EyeDropper();
+        const result = await dropper.open();
+        const match = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(
+            result.sRGBHex,
+        );
+        const rgb = match
+            ? {
+                  r: parseInt(match[1], 16), // Convert the hex pair to a decimal number
+                  g: parseInt(match[2], 16),
+                  b: parseInt(match[3], 16),
+              }
+            : null;
+        if (rgb === null) return;
+
+        const lch = RGBtoLCH(rgb.r / 255, rgb.g / 255, rgb.b / 255);
+
+        lightness = Math.round(lch.coords[0] ?? 0) / 100;
+        chroma = Math.round(lch.coords[1] ?? 0);
+        hue = Math.round(lch.coords[2] ?? 0);
+        broadcast();
+    }
+
+    /** Keyboard step sizes for the chroma×hue band. Left/right move hue by
+     *  degrees; up/down move chroma by a fraction of the vertical band so
+     *  each press travels the same visual distance. Shift gives finer steps.
+     *  Mirrors the approved design in issue #937. */
+    const HueStep = 5;
+    const FineHueStep = 1;
+    const ChromaStep = 0.05;
+    const FineChromaStep = 0.01;
+
+    /** Move the band selection with the arrow keys so the picker is usable
+     *  without a pointer. Each change broadcasts, which also announces the
+     *  new color through the central Announcer. */
+    function handleKey(event: KeyboardEvent) {
+        if (!editable) return;
+        const fine = event.shiftKey;
+        let handled = true;
+        switch (event.key) {
+            case 'ArrowLeft':
+                hue = Math.max(0, hue - (fine ? FineHueStep : HueStep));
+                break;
+            case 'ArrowRight':
+                hue = Math.min(360, hue + (fine ? FineHueStep : HueStep));
+                break;
+            case 'ArrowUp':
+            case 'ArrowDown': {
+                const delta =
+                    (event.key === 'ArrowUp' ? 1 : -1) *
+                    (fine ? FineChromaStep : ChromaStep);
+                const percent = Math.max(
+                    0,
+                    Math.min(1, chromaToPercent(chroma) + delta),
+                );
+                chroma = Math.round(percentToChroma(percent));
+                break;
+            }
+            default:
+                handled = false;
+        }
+        if (handled) {
+            event.preventDefault();
+            broadcast();
+        }
+    }
 </script>
 
 <div class="component" {id}>
@@ -135,13 +224,19 @@
         aria-label={currentDescription}
     ></div>
     <!-- The chroma×hue picker is a 2-D draggable region. role="application"
-         lets it accept pointer gestures while exposing a meaningful label
-         to assistive tech. -->
-    <!-- svelte-ignore a11y_no_static_element_interactions -->
+         lets it accept pointer gestures and arrow-key navigation while
+         exposing a meaningful label to assistive tech. When editable it joins
+         the tab order so it's reachable and adjustable without a pointer. -->
+    <!-- svelte-ignore a11y_no_static_element_interactions, a11y_no_noninteractive_tabindex, a11y_no_noninteractive_element_interactions -->
     <div
         class="bands"
         role="application"
         aria-label={currentDescription}
+        aria-roledescription={$locales.getPlainText(
+            (l) => l.ui.widget.color.field,
+        )}
+        aria-describedby={editable ? instructionsId : null}
+        tabindex={editable ? 0 : -1}
         onpointerdown={editable
             ? (e) => {
                   start?.();
@@ -150,6 +245,7 @@
             : null}
         onpointermove={editable ? handleMouseMove : null}
         onpointerup={editable ? () => release?.() : null}
+        onkeydown={editable ? handleKey : null}
         bind:clientWidth={hueWidth}
         bind:clientHeight={hueHeight}
     >
@@ -169,7 +265,26 @@
             style:left="{hueToPercent(hue) * hueWidth}px"
             style:top="{(1 - chromaToPercent(chroma)) * hueHeight}px"
         ></div>
+
+        <!-- Visually-hidden usage instructions. Doubles as the
+             aria-describedby target and as real subtree content so the
+             application isn't announced as "empty". -->
+        {#if editable}
+            <span id={instructionsId} class="instructions"
+                >{$locales.getPlainText(
+                    (l) => l.ui.widget.color.instructions,
+                )}</span
+            >
+        {/if}
     </div>
+    {#if editable && canPick}
+        <Button
+            tip={(l) => l.ui.widget.color.pick.tip}
+            padding={false}
+            icon="💧"
+            action={() => pickColor()}
+        ></Button>
+    {/if}
     <div class="primary">
         {#each [...palette, ...Primary] as primary}{@const swatchLabel =
                 describeColorLocalized(
@@ -292,6 +407,18 @@
         background: var(--wordplay-background);
         pointer-events: none;
         touch-action: none;
+    }
+
+    /* Visually hidden, but present in the accessibility tree (mirrors the
+       recipe in Announcer.svelte). */
+    .instructions {
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        height: 1px;
+        width: 1px;
+        overflow: hidden;
+        position: absolute;
+        white-space: nowrap;
     }
 
     .primary {

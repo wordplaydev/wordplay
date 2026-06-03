@@ -1,7 +1,7 @@
 <script lang="ts">
     import { page } from '$app/state';
+    import Breadcrumbs from '@components/app/Breadcrumbs.svelte';
     import Header from '@components/app/Header.svelte';
-    import Link from '@components/app/Link.svelte';
     import Loading from '@components/app/Loading.svelte';
     import Notice from '@components/app/Notice.svelte';
     import Page from '@components/app/Page.svelte';
@@ -15,12 +15,18 @@
         setConceptIndex,
         setConceptPath,
         setProject,
+        type ConceptPath,
     } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
     import Options, { type Option } from '@components/widgets/Options.svelte';
-    import type Concept from '@concepts/Concept';
     import ConceptIndex from '@concepts/ConceptIndex';
-    import { Galleries, HowTos, Locales, locales } from '@db/Database';
+    import {
+        authAttempted,
+        Galleries,
+        HowTos,
+        Locales,
+        locales,
+    } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
     import Project from '@db/projects/Project';
@@ -48,6 +54,15 @@
             return;
         }
 
+        // The accessible/expanded-scope maps are populated from the local cache
+        // on hydration (works offline) and refreshed by the galleries realtime
+        // query. Read `hydrated` so this effect re-runs once the cache loads, and
+        // `authAttempted` so it re-runs once Firebase Auth resolves: the gallery
+        // database is constructed before auth, so the maps are empty until the
+        // user is known.
+        const hydrated = Galleries.hydrated;
+        const authResolved = $authAttempted;
+
         // check if the user has permission to read the gallery. if not, don't try to get it.
         if (
             Galleries.accessibleGalleries.has(galleryID) ||
@@ -59,6 +74,12 @@
                 // Not found? No gallery.
                 else gallery = undefined;
             });
+        } else if (!authResolved || !hydrated) {
+            // Auth hasn't resolved yet, or the local cache hasn't hydrated —
+            // stay in the loading state rather than flashing "this how-to space
+            // doesn't exist" before we know who the user is and what they can
+            // access. This resolves offline (hydration doesn't need a network).
+            gallery = null;
         } else {
             gallery = undefined;
         }
@@ -98,6 +119,10 @@
     // used for calculating if we should render the how-to
     let canvasWidth: number = $state(0);
     let canvasHeight: number = $state(0);
+
+    // Tiles mount this many pixels before entering the visible viewport so
+    // the component-creation cost is paid off-screen, not on first visibility.
+    let PRELOAD_MARGIN = $derived(Math.max(canvasWidth, canvasHeight) / 2);
 
     // determine if the user can add a new how-to
     let canUserEdit = $derived(
@@ -141,16 +166,47 @@
         whichMoving = 'canvas';
     }
 
+    // Accumulated pointer deltas waiting for the next animation frame.
+    // Batching multiple pointermove events into a single rAF update caps
+    // the Svelte reactive cascade (transform update + inCanvasArea checks)
+    // at the display's paint rate rather than the raw pointer event rate.
+    let pendingDX = 0;
+    let pendingDY = 0;
+    let panRafID: number | undefined;
+
+    function flushPan() {
+        if (panRafID !== undefined) {
+            cancelAnimationFrame(panRafID);
+            panRafID = undefined;
+        }
+        if (pendingDX !== 0 || pendingDY !== 0) {
+            cameraX += pendingDX;
+            cameraY += pendingDY;
+            pendingDX = 0;
+            pendingDY = 0;
+        }
+    }
+
     function onpointerup() {
         if (whichMoving !== 'canvas' || whichDialogOpen) return;
+        flushPan();
         whichMoving = undefined;
     }
 
     function onpointermove(e: PointerEvent) {
         if (whichMoving !== 'canvas' || whichDialogOpen) return;
 
-        cameraX += e.movementX;
-        cameraY += e.movementY;
+        pendingDX += e.movementX;
+        pendingDY += e.movementY;
+        if (panRafID === undefined) {
+            panRafID = requestAnimationFrame(() => {
+                panRafID = undefined;
+                cameraX += pendingDX;
+                cameraY += pendingDY;
+                pendingDX = 0;
+                pendingDY = 0;
+            });
+        }
     }
 
     let keyboardFocused: boolean = $state(false);
@@ -312,7 +368,7 @@
     // Provide a placeholder concept index, path, and project so that
     // Any ConceptLinkUI inside how-to markup (and example annotations) can resolve.
     // Mirrors the standalone guide setup in Guide.svelte.
-    setConceptPath(writable<Concept[]>([]));
+    setConceptPath(writable<ConceptPath>([]));
 
     let placeholderProject = $derived(
         Project.make(null, 'howto', Source.make(''), [], $locales.getLocales()),
@@ -357,18 +413,8 @@
     <Page footer={true}>
         <div class="howtospace">
             <div class="howtospaceheader">
+                <Breadcrumbs name={galleryName} />
                 <Header text={(l) => l.ui.howto.galleryView.header}></Header>
-                <Subheader>
-                    {#if ($user && gallery && (gallery.hasCurator($user.uid) || gallery.hasCreator($user.uid))) || (gallery && gallery.isPublic())}
-                        <Link
-                            to="/gallery/{galleryID}"
-                            tip={(l) => l.ui.howto.headerTooltip}
-                            >{galleryName}</Link
-                        >
-                    {:else if gallery && galleryName.length > 0}
-                        {galleryName}
-                    {/if}
-                </Subheader>
 
                 <MarkupHTMLView markup={(l) => l.ui.howto.galleryView.prompt} />
 
@@ -505,26 +551,31 @@
                     {onblur}
                     {onkeydown}
                 >
-                    {#each howTos as howTo, i (howTo.getHowToId())}
-                        {#if howTo.isPublished() && howTo.inCanvasArea(-cameraX, -cameraX + canvasWidth, -cameraY, -cameraY + canvasHeight)}
-                            <HowToPreview
-                                bind:howTo={howTos[i]}
-                                bind:this={howToComponents[i]}
-                                bind:cameraX
-                                bind:cameraY
-                                {canvasWidth}
-                                {canvasHeight}
-                                bind:whichMoving
-                                bind:notPermittedAreas
-                                galleryCuratorCollaborators={gallery
-                                    ? gallery
-                                          .getCurators()
-                                          .concat(gallery.getCreators())
-                                    : []}
-                                bind:whichDialogOpen
-                            />
-                        {/if}
-                    {/each}
+                    <div
+                        class="world"
+                        style:transform="translate({cameraX}px, {cameraY}px)"
+                    >
+                        {#each howTos as howTo, i (howTo.getHowToId())}
+                            {#if howTo.isPublished() && howTo.inCanvasArea(-cameraX - PRELOAD_MARGIN, -cameraX + canvasWidth + PRELOAD_MARGIN, -cameraY - PRELOAD_MARGIN, -cameraY + canvasHeight + PRELOAD_MARGIN)}
+                                <HowToPreview
+                                    bind:howTo={howTos[i]}
+                                    bind:this={howToComponents[i]}
+                                    bind:cameraX
+                                    bind:cameraY
+                                    {canvasWidth}
+                                    {canvasHeight}
+                                    bind:whichMoving
+                                    bind:notPermittedAreas
+                                    galleryCuratorCollaborators={gallery
+                                        ? gallery
+                                              .getCurators()
+                                              .concat(gallery.getCreators())
+                                        : []}
+                                    bind:whichDialogOpen
+                                />
+                            {/if}
+                        {/each}
+                    </div>
                 </div>
             </div>
         </div>
@@ -586,5 +637,10 @@
         overflow: hidden;
         position: relative;
         touch-action: none;
+    }
+
+    .world {
+        position: absolute;
+        inset: 0;
     }
 </style>

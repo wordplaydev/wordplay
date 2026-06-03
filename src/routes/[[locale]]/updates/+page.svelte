@@ -3,10 +3,12 @@
     import Subheader from '@components/app/Subheader.svelte';
     import Writing from '@components/app/Writing.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { setConceptPath } from '@components/project/Contexts';
+    import {
+        setConceptPath,
+        type ConceptPath,
+    } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import type Concept from '@concepts/Concept';
     import { Settings } from '@db/Database';
     import { writable } from 'svelte/store';
     import updates from './updates.json';
@@ -27,7 +29,7 @@
         datedUpdates.map((_, index) => index > 1),
     );
 
-    let path = writable<Concept[]>([]);
+    let path = writable<ConceptPath>([]);
     setConceptPath(path);
 
     Settings.setUpdatesLastChecked(datedUpdates[0].date.split('T')[0]);

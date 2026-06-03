@@ -33,6 +33,12 @@ describe('completeBinaryEvaluate skips characters with non-operator meanings', (
         // literal, not a modulo BinaryEvaluate.
         expect(insert('50', 2, '%')).toBe('50%');
     });
+
+    test('typing × after a ⬚ This reference does not wrap it in parentheses', () => {
+        // Inside a translate, `⬚` parses as the atomic This reference, so it
+        // should become `⬚ × _`, not `(⬚) × _`.
+        expect(insert('5 → [] ↦ ⬚', 10, '×')).toBe('5 → [] ↦ ⬚ × _');
+    });
 });
 
 describe('completeBindOrKeyValue respects content on the same line', () => {

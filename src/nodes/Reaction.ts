@@ -21,7 +21,7 @@ import ValueException from '@values/ValueException';
 import Bind from '@nodes/Bind';
 import BooleanType from '@nodes/BooleanType';
 import Changed from '@nodes/Changed';
-import type Context from '@nodes/Context';
+import Context from '@nodes/Context';
 import Expression, { ExpressionKind, type GuardContext } from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import { node, type Grammar, type Replacement } from '@nodes/Node';
@@ -180,10 +180,23 @@ export default class Reaction extends Expression {
     }
 
     computeType(context: Context): Type {
+        const initialType = this.initial.getType(context);
+
+        // The `next` expression usually refers to the reaction's own name (a
+        // recurrence like `head: 0 … ∆ Time() … (head + 1) % count`), which
+        // makes its type depend on this reaction's type — a cycle. Compute it
+        // in a fresh context seeded with the initial type, so the self-reference
+        // resolves to a concrete lower bound (and `÷`/`%` can contribute a
+        // possible ø) without the cycle collapsing the type to unknown, and
+        // without polluting `context` with order-dependent intermediate types.
+        const seeded = new Context(context.project, context.source);
+        seeded.types.set(this, initialType);
+        const nextType = this.next.getType(seeded);
+
         // Get the union of all of the types in the initial and next expressions.
         const type = UnionType.getPossibleUnion(context, [
-            this.initial.getType(context),
-            this.next.getType(context),
+            initialType,
+            nextType,
         ]).generalize(context);
 
         // If the type includes an unknown type because of a cycle or some other unknown type,

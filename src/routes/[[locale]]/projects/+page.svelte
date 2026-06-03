@@ -16,14 +16,17 @@
     import { searchProjects, type ProjectMatch } from './search';
     import { CANCEL_SYMBOL, COPY_SYMBOL, EDIT_SYMBOL } from '@parser/Symbols';
     import { localeGoto } from '@util/localeGoto';
+    import { debounced } from '@util/debounce.svelte';
 
     const user = getUser();
 
     // Whether to show an error
     let deleteError = $state(false);
 
-    // Search functionality
+    // Search functionality. The input updates `searchTerm` immediately; the
+    // actual (AST-walking) search runs against a debounced copy.
     let searchTerm = $state('');
+    const debouncedTerm = debounced(() => searchTerm);
 
     let allOwnedProjects = $derived(
         Projects.allEditableProjects.filter(
@@ -63,7 +66,7 @@
     );
 
     let ownedMatches: ProjectMatch[] = $derived(
-        searchProjects(allOwnedProjects, searchTerm, $locales),
+        searchProjects(allOwnedProjects, debouncedTerm.current, $locales),
     );
     let owned: Project[] = $derived(ownedMatches.map((m) => m.project));
     let ownedMatchTexts = $derived(
@@ -75,7 +78,7 @@
     );
 
     let sharedMatches: ProjectMatch[] = $derived(
-        searchProjects(allSharedProjects, searchTerm, $locales),
+        searchProjects(allSharedProjects, debouncedTerm.current, $locales),
     );
     let shared: Project[] = $derived(sharedMatches.map((m) => m.project));
     let sharedMatchTexts = $derived(
@@ -88,7 +91,7 @@
 
     // Include archived projects in search results
     let archivedMatches: ProjectMatch[] = $derived(
-        searchProjects(allArchivedProjects, searchTerm, $locales),
+        searchProjects(allArchivedProjects, debouncedTerm.current, $locales),
     );
     let archived: Project[] = $derived(archivedMatches.map((m) => m.project));
     let archivedMatchTexts = $derived(
@@ -135,13 +138,10 @@
              will appear so the user has feedback instead of staring
              at an empty page. -->
         <div class="loading" role="status">
-            <Spinning
-                size={2}
-                label={(l) => l.ui.widget.loading.message}
-            />
+            <Spinning size={2} label={(l) => l.ui.widget.loading.message} />
             <LocalizedText path={(l) => l.ui.widget.loading.message} />
         </div>
-    {:else if searchTerm.trim() && owned.length === 0 && shared.length === 0 && archived.length === 0}
+    {:else if debouncedTerm.current.trim() && owned.length === 0 && shared.length === 0 && archived.length === 0}
         <Notice
             testid="no-results-message"
             text={(l) => l.ui.page.projects.search.noResults}
@@ -149,7 +149,7 @@
     {:else}
         <ProjectPreviewSet
             set={owned}
-            {searchTerm}
+            searchTerm={debouncedTerm.current}
             matchTexts={ownedMatchTexts}
             edit={{
                 description: (l) => l.ui.page.projects.button.editproject,
@@ -182,7 +182,7 @@
         <Subheader text={(l) => l.ui.page.projects.subheader.shared} />
         <ProjectPreviewSet
             set={shared.concat(commenterViewerProjects)}
-            {searchTerm}
+            searchTerm={debouncedTerm.current}
             matchTexts={sharedMatchTexts}
             edit={{
                 description: (l) => l.ui.page.projects.button.editproject,
@@ -202,11 +202,11 @@
     {/if}
 
     <!-- If there are archived projects in search results, show them -->
-    {#if Projects.hydrated && searchTerm.trim() && archived.length > 0}
+    {#if Projects.hydrated && debouncedTerm.current.trim() && archived.length > 0}
         <Subheader text={(l) => l.ui.page.projects.subheader.archived} />
         <ProjectPreviewSet
             set={archived}
-            {searchTerm}
+            searchTerm={debouncedTerm.current}
             matchTexts={archivedMatchTexts}
             edit={{
                 description: (l) => l.ui.page.projects.button.unarchive,

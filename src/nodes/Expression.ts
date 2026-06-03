@@ -52,6 +52,36 @@ export default abstract class Expression extends Node {
         return context.getType(this);
     }
 
+    /**
+     * Whether this expression's value can be proven non-zero statically, so
+     * that `÷`/`%` by it can never yield ø. Conservative: anything not provable
+     * (division results, stream values, runtime lengths) returns false and
+     * keeps the `# | ø` type. Overridden by NumberLiteral, Reference, and
+     * Evaluate (for `.length()` of literal collections). `depth` bounds how far
+     * references are followed upstream through binds.
+     */
+    isProvablyNonZero(_: Context, _depth = 0): boolean {
+        return false;
+    }
+
+    /**
+     * The statically-known element count of this expression if it's a literal
+     * collection (list, set, map, or table) whose size is fixed, otherwise
+     * undefined. Used to prove a `.length()` divisor is non-zero.
+     */
+    getConstantLength(): number | undefined {
+        return undefined;
+    }
+
+    /**
+     * Whether this expression is a `÷`/`%` whose divisor could be zero, so it
+     * can evaluate to ø. Overridden by BinaryEvaluate; used to explain an
+     * unhandled ø as a possible divide-by-zero.
+     */
+    isPossibleDivideByZero(_: Context): boolean {
+        return false;
+    }
+
     abstract getDependencies(_: Context): Expression[];
 
     getAllDependencies(

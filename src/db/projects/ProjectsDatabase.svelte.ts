@@ -5,9 +5,12 @@ import {
     SaveFailureReason,
     SaveStatus,
     type Database,
+    type SaveCounts,
     type SaveFailure,
 } from '@db/Database';
+import { Domain } from '@db/Domains';
 import { auth, firestore } from '@db/firebase';
+import firebaseErrorDetail from '@db/firebaseErrorDetail';
 import type Gallery from '@db/galleries/Gallery';
 import { EditFailure } from '@db/projects/EditFailure';
 import { unknownFlags } from '@db/projects/Moderation';
@@ -27,14 +30,16 @@ import {
     type SerializedProject,
     type SerializedProjectUnknownVersion,
 } from '@db/projects/ProjectSchemas';
-import { ProjectsDexie } from '@db/projects/ProjectsDexie';
 import YjsFirestoreProvider from '@db/projects/YjsFirestoreProvider';
+import supportsIndexedDB from '@db/supportsIndexedDB';
+import { WordplayDexie } from '@db/WordplayDexie';
 import type LocaleText from '@locale/LocaleText';
 import type Node from '@nodes/Node';
 import Source from '@nodes/Source';
 import { COPY_SYMBOL } from '@parser/Symbols';
 import { type Observable } from 'dexie';
 import { FirebaseError } from 'firebase/app';
+import type { User } from 'firebase/auth';
 import {
     collection,
     deleteDoc,
@@ -46,13 +51,15 @@ import {
     setDoc,
     where,
     writeBatch,
+    type DocumentData,
+    type QuerySnapshot,
     type Unsubscribe,
 } from 'firebase/firestore';
 import { SvelteMap } from 'svelte/reactivity';
 import { ExamplePrefix, getExample } from '../../examples/examples';
 
 /** The name of the projects collection in Firebase */
-export const ProjectsCollection = 'projects';
+export const ProjectsCollection = Domain.Projects;
 
 /**
  * Projects shouldn't be larger than 1,048,576 bytes, the Firestore document limit.
@@ -64,16 +71,19 @@ export const MAX_PROJECT_BYTE_SIZE = 1048576;
  */
 export const MAX_PROJECT_NAME_LENGTH = 64;
 
+/** `sessionStorage` key under which the per-tab session id is persisted so
+ *  it survives reloads of the same tab. See {@link ProjectsDatabase.sessionID}. */
+const SessionIDStorageKey = 'wordplay.sessionID';
+
 export default class ProjectsDatabase {
     /** The database that manages this */
     readonly database: Database;
 
-    /** An IndexedDB backed database of projects, allowing for scalability of local persistence. */
-    readonly localDB = new ProjectsDexie();
+    /** The shared IndexedDB local store, owned by `Database`. */
+    readonly localDB: WordplayDexie;
 
     /** Wether this is in a browser with indexed db support */
-    readonly IndexedDBSupported =
-        typeof window !== 'undefined' && 'indexedDB' in window;
+    readonly IndexedDBSupported = supportsIndexedDB();
 
     /** The local live query that we listen to for cross-tab local changes */
     private editableProjects: Observable<SerializedProject[]> | undefined =
@@ -82,6 +92,26 @@ export default class ProjectsDatabase {
     /** An in-memory index of project histories by project ID. Populated on load, synced with local IndexedDB and cloud Firestore, when available. */
     private projectHistories: SvelteMap<string, ProjectHistory> =
         new SvelteMap();
+
+    /** Save-state counts for the save-status dialog, over the user's
+     *  cloud-bound (Online) projects only. We deliberately exclude
+     *  PersistenceType.Local projects — those are tutorial scratch that lives
+     *  only on this device and never syncs, so counting them would inflate "on
+     *  this device" past "in the cloud" with projects that intentionally never
+     *  upload (the confusing 69-vs-61 discrepancy). `device` is every Online
+     *  project held locally, `cloud` those confirmed saved online, `unsaved`
+     *  those with edits not yet saved; device = cloud + unsaved. Reactive via
+     *  the SvelteMap + `$state` save flags on each ProjectHistory. */
+    readonly saveCounts: SaveCounts = $derived.by(() => {
+        const online = Array.from(this.projectHistories.values()).filter(
+            (h) => h.getPersisted() === PersistenceType.Online,
+        );
+        return {
+            device: online.length,
+            cloud: online.filter((h) => !h.isUnsaved()).length,
+            unsaved: online.filter((h) => h.isUnsaved()).length,
+        };
+    });
 
     /** The latest versions of all projects */
     readonly currentProjects: Project[] = $derived(
@@ -111,8 +141,24 @@ export default class ProjectsDatabase {
     readonly readonlyProjects: SvelteMap<string, Project | undefined> =
         new SvelteMap();
 
-    /** Remember how to unsubscribe from the user's realtime query. */
-    private projectsQueryUnsubscribe: Unsubscribe | undefined = undefined;
+    /** Unsubscribers for the user's realtime project listeners. The query is
+     *  split across listeners — one "base" listener for owned/shared projects,
+     *  plus one per 30-gallery chunk — because Firestore caps both `in` (≤ 30
+     *  values) and `or` (≤ 30 disjunctions), so a single `or(... gallery in
+     *  [all galleries])` query is rejected once a user belongs to ~27+
+     *  galleries. (HowToDatabase chunks the same way.) */
+    private projectsQueryUnsubscribes: Unsubscribe[] = [];
+
+    /** The set of project IDs each project listener currently matches, keyed by
+     *  listener id ('base' + one per gallery chunk). Because no single listener
+     *  sees the full set, the not-in-snapshot deletion sweep unions these. */
+    private listenerProjectIDs: Map<string, Set<string>> = new Map();
+
+    /** How many project listeners we expect to hear from (1 base + one per
+     *  gallery chunk). The deletion sweep waits until all have reported, so an
+     *  early-firing chunk listener can't delete the user's owned projects
+     *  before the base listener has loaded them. */
+    private expectedProjectListeners = 0;
 
     /** Pending "Firestore is serving from cache" disconnect timer. Cleared if
      *  a fresh server snapshot arrives during the debounce window. */
@@ -162,8 +208,10 @@ export default class ProjectsDatabase {
     private lastCRDTCodes: Map<string, string[]> = new Map();
 
     /**
-     * Per-tab session identifier. Stable for the lifetime of this
-     * ProjectsDatabase instance (i.e., one tab). Distinct from
+     * Per-tab session identifier. Persisted in `sessionStorage` (key
+     * {@link SessionIDStorageKey}) so it is **stable across reloads of the
+     * same tab** while remaining **isolated per tab** — exactly the
+     * semantics `sessionStorage` provides. Distinct from
      * {@link Database.getWriterID} which is stored in localStorage and
      * therefore *shared* across tabs in the same browser.
      *
@@ -176,13 +224,34 @@ export default class ProjectsDatabase {
      *     (so each tab gets its own presence doc and color, rather
      *     than two tabs overwriting one shared doc)
      *
+     * Persisting across reloads is what prevents the *phantom
+     * collaborator* on refresh: a reloaded tab reuses the same presence
+     * doc key, so the new tracker self-filters it and overwrites its
+     * stale `lastSeen` rather than seeing the orphaned old doc as a
+     * second editor. Generating a fresh id each load would make every
+     * refresh look like a departing-then-arriving peer for ~10s (until
+     * the old doc ages out via the stale sweep).
+     *
+     * Known trade-off: browser "Duplicate Tab" copies `sessionStorage`,
+     * so a duplicated tab inherits this id and the two tabs share one
+     * presence doc (appearing as a single collaborator). That's a rare,
+     * cosmetic degradation — far less disruptive than a phantom on every
+     * refresh. Opening a fresh tab/window gets its own empty
+     * `sessionStorage` and therefore its own id, so normal multi-tab
+     * co-editing is unaffected.
+     *
      * Stamps in ProjectsDatabase.edit() keep using the per-device
      * writer — that's about authorship identity, not session
      * deduplication, and two tabs as the same user really do share
      * the same authorship for stamping purposes.
      */
-    private readonly sessionID: string =
-        typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
+    private readonly sessionID: string = ProjectsDatabase.resolveSessionID();
+
+    /** Generate a fresh session id using the best available randomness,
+     *  falling back gracefully when `crypto` is unavailable. */
+    private static newSessionID(): string {
+        return typeof crypto !== 'undefined' &&
+            typeof crypto.randomUUID === 'function'
             ? crypto.randomUUID()
             : typeof crypto !== 'undefined' &&
                 typeof crypto.getRandomValues === 'function'
@@ -190,6 +259,27 @@ export default class ProjectsDatabase {
                     .map((byte) => byte.toString(16).padStart(2, '0'))
                     .join('')}-${Date.now().toString(36)}`
               : `s-${Date.now().toString(36)}`;
+    }
+
+    /** Read the per-tab session id from `sessionStorage`, creating and
+     *  persisting one on first use. Falls back to a non-persisted id when
+     *  `sessionStorage` is unavailable (SSR, disabled, or private-mode
+     *  quota) — behavior there is no worse than a freshly generated id. */
+    private static resolveSessionID(): string {
+        if (typeof sessionStorage === 'undefined')
+            return ProjectsDatabase.newSessionID();
+        try {
+            const existing = sessionStorage.getItem(SessionIDStorageKey);
+            if (existing !== null) return existing;
+            const fresh = ProjectsDatabase.newSessionID();
+            sessionStorage.setItem(SessionIDStorageKey, fresh);
+            return fresh;
+        } catch {
+            // sessionStorage present but read/write threw (private mode,
+            // quota, or blocked) — degrade to a non-persisted id.
+            return ProjectsDatabase.newSessionID();
+        }
+    }
 
     /** True once the initial local-IndexedDB hydration has produced its
      *  first batch of projects (or determined there are none). Reactive
@@ -199,6 +289,7 @@ export default class ProjectsDatabase {
 
     constructor(database: Database) {
         this.database = database;
+        this.localDB = database.localDB;
 
         // Hydrate the editable projects from disk
         this.hydrate();
@@ -242,6 +333,14 @@ export default class ProjectsDatabase {
         // Get all the projects from disk, deserialize them.
         const projects = await this.deserializeAll(serialized);
 
+        // Projects whose last cloud write didn't confirm before the page
+        // unloaded — replay them so the edit isn't stranded locally.
+        const dirty = new Set(
+            this.IndexedDBSupported
+                ? await this.localDB.getDirty(Domain.Projects)
+                : [],
+        );
+
         // Don't persist back to the local database, since we just read them from disk.
         // If it's a tutorial project, mark it as local saves only.
         // fromCloud=false: this is our own IndexedDB cache rehydrating,
@@ -254,11 +353,12 @@ export default class ProjectsDatabase {
                 project.isTutorial()
                     ? PersistenceType.Local
                     : PersistenceType.Online,
-                // Mark as unsaved when the on-disk shape was older than
-                // the current schema, so the next persist() round writes
-                // the migrated doc back. Cached IndexedDB entries from a
-                // pre-upgrade session would otherwise never get bumped.
-                !upgraded,
+                // Mark as unsaved when the on-disk shape was older than the
+                // current schema (so persist() backfills the migrated doc) OR
+                // when the durable dirty flag says its last cloud write never
+                // confirmed (so the offline edit is re-pushed). saved = the
+                // negation: only "saved" when neither applies.
+                !upgraded && !dirty.has(project.getID()),
                 false,
             );
         }
@@ -277,16 +377,22 @@ export default class ProjectsDatabase {
         if (current) current.delete(listener);
     }
 
-    /** Stop listening to this user's realtime project query. Safe to call when no query is active. */
-    unmount() {
-        if (this.projectsQueryUnsubscribe) {
-            this.projectsQueryUnsubscribe();
-            this.projectsQueryUnsubscribe = undefined;
-        }
+    /** Tear down all realtime project listeners and reset their bookkeeping.
+     *  Safe to call when none are active. */
+    private stopProjectsQuery() {
+        for (const unsubscribe of this.projectsQueryUnsubscribes) unsubscribe();
+        this.projectsQueryUnsubscribes = [];
+        this.listenerProjectIDs.clear();
+        this.expectedProjectListeners = 0;
         if (this.fromCacheTimer !== undefined) {
             clearTimeout(this.fromCacheTimer);
             this.fromCacheTimer = undefined;
         }
+    }
+
+    /** Stop listening to this user's realtime project query. Safe to call when no query is active. */
+    unmount() {
+        this.stopProjectsQuery();
     }
 
     async deserializeAll(
@@ -329,160 +435,230 @@ export default class ProjectsDatabase {
         // If there's no firestore access, do nothing.
         if (firestore === undefined) return;
 
-        // Unsubscribe from the old user's realtime project query
-        if (this.projectsQueryUnsubscribe) {
-            this.projectsQueryUnsubscribe();
-            this.projectsQueryUnsubscribe = undefined;
-        }
-        if (this.fromCacheTimer !== undefined) {
-            clearTimeout(this.fromCacheTimer);
-            this.fromCacheTimer = undefined;
-        }
+        // Tear down any previous listeners before re-subscribing.
+        this.stopProjectsQuery();
 
         // If there's no more user, do nothing.
         if (user === null) return;
 
-        // Get the current list of galleries to watch.
-        const galleryIDsToWatch = Array.from(
-            Galleries.accessibleGalleries.keys(),
-        );
+        // Report sync status for the save-status dialog.
+        this.database.markSyncing(Domain.Projects);
 
-        // Construct the query constraints. Visible projects are either owned by the user or shared with the user.
-        const constraints = [
-            where('owner', '==', user.uid),
-            where('collaborators', 'array-contains', user.uid),
-            where('commenters', 'array-contains', user.uid),
-            where('viewers', 'array-contains', user.uid),
-        ];
+        // Capture firestore so the narrowing survives into the listener closures.
+        const fs = firestore;
 
-        // If the user has any gallery IDs it has access to, include those in the project query.
-        if (galleryIDsToWatch.length > 0)
-            constraints.push(where('gallery', 'in', galleryIDsToWatch));
+        // Galleries the user curates/creates — their projects are visible too.
+        // Partition by role: curators may read restricted projects, but creators
+        // (e.g. students) may not. Firestore denies an entire query if it matches
+        // any unreadable doc, so a creator's gallery query must exclude restricted
+        // projects — otherwise one classmate restricting a project denies the whole
+        // gallery's projects to the creator. Curators query unfiltered. (This
+        // mirrors HowToDatabase, which filters its gallery query to published.)
+        const curatorGalleryIDs: string[] = [];
+        const creatorGalleryIDs: string[] = [];
+        for (const [id, gallery] of Galleries.accessibleGalleries)
+            if (gallery.hasCurator(user.uid)) curatorGalleryIDs.push(id);
+            // Unknown/absent gallery falls here too — the safer, filtered path.
+            else creatorGalleryIDs.push(id);
 
-        // Set up the realtime projects query for the user, tracking any projects from the cloud,
-        // and deleting any tracked locally that didn't appear in the snapshot.
+        // Chunk gallery membership across listeners: Firestore caps both `in`
+        // (≤ 30 values) and `or` (≤ 30 disjunctions), so a single
+        // `or(owner, ..., gallery in [all galleries])` query is rejected once a
+        // user belongs to ~27+ galleries. A base listener covers owned/shared
+        // projects; one listener per 30-gallery chunk covers gallery projects,
+        // split into curator (unfiltered) and creator (restricted excluded) sets.
+        const chunk = (ids: string[]) => {
+            const chunks: string[][] = [];
+            for (let i = 0; i < ids.length; i += 30)
+                chunks.push(ids.slice(i, i + 30));
+            return chunks;
+        };
+        const curatorChunks = chunk(curatorGalleryIDs);
+        const creatorChunks = chunk(creatorGalleryIDs);
+        this.expectedProjectListeners =
+            1 + curatorChunks.length + creatorChunks.length;
+
         // `includeMetadataChanges: true` lets us observe Firestore's connection
         // state passively via snapshot.metadata.fromCache.
-        this.projectsQueryUnsubscribe = onSnapshot(
-            query(
-                collection(firestore, ProjectsCollection),
-                or(...constraints),
+        const options = { includeMetadataChanges: true };
+        const onError = (error: unknown) => {
+            if (error instanceof FirebaseError) console.error(error.message);
+            // Definitive failure when it's a connectivity error, so the banner
+            // shows even if we never connected this session.
+            if (this.database.isConnectivityError(error))
+                this.database.markFirebaseFailed();
+            else this.database.markFirebaseDisconnected();
+            this.database.markSyncFailed(Domain.Projects);
+            this.database.setStatus(
+                SaveStatus.Error,
+                (l) => l.ui.project.save.projectsNotLoadingOnline,
+            );
+        };
+
+        // Base listener: projects owned by or shared with the user.
+        this.projectsQueryUnsubscribes.push(
+            onSnapshot(
+                query(
+                    collection(fs, ProjectsCollection),
+                    or(
+                        where('owner', '==', user.uid),
+                        where('collaborators', 'array-contains', user.uid),
+                        where('commenters', 'array-contains', user.uid),
+                        where('viewers', 'array-contains', user.uid),
+                    ),
+                ),
+                options,
+                (snapshot) =>
+                    this.handleProjectsSnapshot('base', user, snapshot),
+                onError,
             ),
-            { includeMetadataChanges: true },
-            async (snapshot) => {
-                // Passive Firebase reachability detection. Server-fresh data
-                // is the definitive "connected" signal. Cache fallback is only
-                // a disconnect signal when there are NO pending local writes —
-                // Firestore's latency compensation briefly serves cache during
-                // any setDoc(), which would otherwise flash the banner. Even
-                // then, debounce 2s so transient sync gaps don't trigger it.
-                if (!snapshot.metadata.fromCache) {
-                    if (this.fromCacheTimer !== undefined) {
-                        clearTimeout(this.fromCacheTimer);
-                        this.fromCacheTimer = undefined;
-                    }
-                    this.database.markFirebaseReachable();
-                } else if (
-                    !snapshot.metadata.hasPendingWrites &&
-                    this.fromCacheTimer === undefined
-                ) {
-                    this.fromCacheTimer = setTimeout(() => {
-                        this.database.markFirebaseDisconnected();
-                        this.fromCacheTimer = undefined;
-                    }, 2000);
-                }
-
-                // Metadata-only updates carry no doc changes; nothing else to do.
-                if (snapshot.docChanges().length === 0) return;
-
-                const serialized: unknown[] = [];
-                const deleted: string[] = [];
-                const projectIDs: Set<string> = new Set();
-
-                // First, go through the entire set, gathering the latest versions and remembering what project IDs we know
-                // so we can delete ones that are gone from the server.
-                snapshot.forEach((doc) => {
-                    const project = doc.data();
-                    serialized.push(project);
-                    projectIDs.add(project.id);
-                });
-
-                // Next, go through the changes and see if any were explicitly removed, and if so, delete them.
-                snapshot.docChanges().forEach((change) => {
-                    // Removed? Delete the local cache of the project.
-                    if (change.type === 'removed') deleted.push(change.doc.id);
-                });
-
-                // Deserialize the projects and track them, if they're not already tracked.
-                // Ensure the project is only tracked as editable if the user is the owner, collaborator, or curator.
-                for (const { project, upgraded } of await this.deserializeAll(
-                    serialized,
-                )) {
-                    // The project is ediable i they are an owner, collaborator, or it is in a gallery for which they are curator.
-                    const gallery = project.getGallery();
-                    const editable =
-                        project.isOwner(user.uid) ||
-                        project.hasCollaborator(user.uid) ||
-                        (gallery !== null &&
-                            Galleries.accessibleGalleries
-                                .get(gallery)
-                                ?.hasCurator(user.uid) === true);
-
-                    // If the Firestore doc was at an older schema version,
-                    // mark the history as unsaved so persist() backfills
-                    // the upgraded shape on the next saveSoon tick. Only
-                    // valid for editable projects — a read-only viewer
-                    // doesn't have permission to rewrite the doc.
-                    const history = this.track(
-                        project,
-                        editable,
-                        PersistenceType.Online,
-                        editable ? !upgraded : true,
-                    );
-                    if (editable && upgraded) {
-                        // track() may have merged into a pre-existing
-                        // history (one we'd already tracked this session)
-                        // whose `saved=true` wouldn't have been touched
-                        // by the `saved` arg above — that arg only seeds
-                        // the *new-history* path. Force the bit here so
-                        // persist() picks the row up on the next round
-                        // and rewrites the doc at the latest schema.
-                        history?.markUnsaved();
-                        this.saveSoon();
-                    }
-                }
-
-                // Find all projects 1) known locally, 2) that didn't appear in latest update
-                // 3) were previously marked as cloud persisted, and 4) aren't pending
-                for (const [
-                    projectID,
-                    history,
-                ] of this.projectHistories.entries())
-                    if (
-                        history.getCurrent().isPersisted() &&
-                        !projectIDs.has(projectID)
-                    )
-                        deleted.push(projectID);
-
-                // Delete the deleted if the data was from the server.
-                if (!snapshot.metadata.fromCache)
-                    for (const id of deleted) await this.deleteLocalProject(id);
-            },
-            (error) => {
-                if (error instanceof FirebaseError) {
-                    console.error(error.message);
-                }
-                this.database.markFirebaseDisconnected();
-                this.database.setStatus(
-                    SaveStatus.Error,
-                    (l) => l.ui.project.save.projectsNotLoadingOnline,
-                );
-            },
         );
+
+        // Curator galleries: every project (curators may read restricted ones).
+        curatorChunks.forEach((galleryIDs, index) => {
+            this.projectsQueryUnsubscribes.push(
+                onSnapshot(
+                    query(
+                        collection(fs, ProjectsCollection),
+                        where('gallery', 'in', galleryIDs),
+                    ),
+                    options,
+                    (snapshot) =>
+                        this.handleProjectsSnapshot(
+                            `gallery-curator:${index}`,
+                            user,
+                            snapshot,
+                        ),
+                    onError,
+                ),
+            );
+        });
+
+        // Creator-only galleries: exclude restricted projects, which the security
+        // rules forbid creators from reading (and which would otherwise deny the
+        // whole query). Needs the (restrictedGallery, gallery) composite index.
+        creatorChunks.forEach((galleryIDs, index) => {
+            this.projectsQueryUnsubscribes.push(
+                onSnapshot(
+                    query(
+                        collection(fs, ProjectsCollection),
+                        where('gallery', 'in', galleryIDs),
+                        where('restrictedGallery', '==', false),
+                    ),
+                    options,
+                    (snapshot) =>
+                        this.handleProjectsSnapshot(
+                            `gallery-creator:${index}`,
+                            user,
+                            snapshot,
+                        ),
+                    onError,
+                ),
+            );
+        });
 
         // If we have a user, save the current database to the cloud, in case there
         // were any local edits.
         this.saveSoon();
+    }
+
+    /** Shared handler for every project listener set up by `syncUser` (the base
+     *  owned/shared listener plus one per gallery chunk). `key` identifies the
+     *  listener so the deletion sweep can union each listener's matched IDs. */
+    private async handleProjectsSnapshot(
+        key: string,
+        user: User,
+        snapshot: QuerySnapshot<DocumentData>,
+    ) {
+        // Passive Firebase reachability detection. Server-fresh data is the
+        // definitive "connected" signal. Cache fallback is only a disconnect
+        // signal when there are NO pending local writes — Firestore's latency
+        // compensation briefly serves cache during any setDoc(), which would
+        // otherwise flash the banner. Even then, debounce 2s so transient sync
+        // gaps don't trigger it.
+        if (!snapshot.metadata.fromCache) {
+            if (this.fromCacheTimer !== undefined) {
+                clearTimeout(this.fromCacheTimer);
+                this.fromCacheTimer = undefined;
+            }
+            this.database.markFirebaseReachable();
+        } else if (
+            !snapshot.metadata.hasPendingWrites &&
+            this.fromCacheTimer === undefined
+        ) {
+            this.fromCacheTimer = setTimeout(() => {
+                this.database.markFirebaseDisconnected();
+                this.fromCacheTimer = undefined;
+            }, 2000);
+        }
+
+        // A snapshot arrived → projects are synced. Report the tracked count.
+        this.database.markSynced(Domain.Projects, this.projectHistories.size);
+
+        // Record the full set this listener currently matches, for the
+        // cross-listener deletion sweep below.
+        const seen = new Set<string>();
+        snapshot.forEach((doc) => seen.add(doc.data().id));
+        this.listenerProjectIDs.set(key, seen);
+
+        // Metadata-only updates carry no doc changes; nothing else to do.
+        if (snapshot.docChanges().length === 0) return;
+
+        // Gather the latest versions of every project this listener matched.
+        const serialized: unknown[] = [];
+        snapshot.forEach((doc) => serialized.push(doc.data()));
+
+        // Deserialize and track them. A project is editable if the user owns it,
+        // collaborates on it, or curates a gallery it belongs to.
+        for (const { project, upgraded } of await this.deserializeAll(
+            serialized,
+        )) {
+            const gallery = project.getGallery();
+            const editable =
+                project.isOwner(user.uid) ||
+                project.hasCollaborator(user.uid) ||
+                (gallery !== null &&
+                    Galleries.accessibleGalleries
+                        .get(gallery)
+                        ?.hasCurator(user.uid) === true);
+
+            // If the Firestore doc was at an older schema version, mark the
+            // history as unsaved so persist() backfills the upgraded shape on
+            // the next saveSoon tick. Only valid for editable projects — a
+            // read-only viewer doesn't have permission to rewrite the doc.
+            const history = this.track(
+                project,
+                editable,
+                PersistenceType.Online,
+                editable ? !upgraded : true,
+            );
+            if (editable && upgraded) {
+                // track() may have merged into a pre-existing history whose
+                // `saved=true` wasn't touched by the `saved` arg above (that
+                // only seeds the new-history path). Force the bit so persist()
+                // rewrites the doc at the latest schema.
+                history?.markUnsaved();
+                this.saveSoon();
+            }
+        }
+
+        // Cross-listener cleanup: a locally-known, cloud-persisted project that
+        // NO listener still matches has been removed server-side. Only sweep
+        // against server-fresh data, and only once every listener has reported —
+        // otherwise an early-firing chunk listener would delete the user's owned
+        // projects before the base listener has loaded them.
+        if (
+            !snapshot.metadata.fromCache &&
+            this.listenerProjectIDs.size === this.expectedProjectListeners
+        ) {
+            const union = new Set<string>();
+            for (const ids of this.listenerProjectIDs.values())
+                for (const id of ids) union.add(id);
+
+            for (const [projectID, history] of this.projectHistories.entries())
+                if (history.getCurrent().isPersisted() && !union.has(projectID))
+                    await this.deleteLocalProject(projectID);
+        }
     }
 
     /**
@@ -782,8 +958,11 @@ export default class ProjectsDatabase {
         // would filter out the other tab's updates as its own, and the
         // presence tracker would write to a single shared presence doc
         // that both tabs treat as self. Per-tab IDs fix both.
-        if (firestore !== undefined &&
-            this.projectHistories.get(projectID)?.getPersisted() === PersistenceType.Online) {
+        if (
+            firestore !== undefined &&
+            this.projectHistories.get(projectID)?.getPersisted() ===
+                PersistenceType.Online
+        ) {
             // Only owners and collaborators are allowed to write to the
             // `/updates` subcollection (see firestore.rules). For
             // viewers, commenters, or any session that doesn't pass
@@ -811,6 +990,28 @@ export default class ProjectsDatabase {
                         await auth.currentUser.getIdToken(true);
                     }
                 },
+                // A dropped live-sync stream from a connectivity error should
+                // flip the shared offline/save-status indicator, not fail
+                // silently.
+                (error) => {
+                    if (this.database.isConnectivityError(error))
+                        this.database.markFirebaseFailed();
+                },
+                // Publishing became terminally write-forbidden (rules denied
+                // it this session) — surface a save failure so the user learns
+                // their live edits have stopped reaching collaborators.
+                () =>
+                    this.database.setSaveFailures([
+                        {
+                            projectId: projectID,
+                            projectName:
+                                this.getHistory(projectID)
+                                    ?.getCurrent()
+                                    .getName() ?? projectID,
+                            reason: SaveFailureReason.FirestoreBatchFailed,
+                            detail: 'permission-denied',
+                        },
+                    ]),
             );
             this.crdtProviders.set(projectID, provider);
 
@@ -1244,8 +1445,8 @@ export default class ProjectsDatabase {
         // Not there? See if Firebase has it.
         if (firestore) {
             try {
-                const projectDoc = await getDoc(
-                    doc(firestore, ProjectsCollection, id),
+                const projectDoc = await this.database.read(
+                    getDoc(doc(firestore, ProjectsCollection, id)),
                 );
                 if (projectDoc.exists()) {
                     const user = this.database.getUser();
@@ -1343,12 +1544,28 @@ export default class ProjectsDatabase {
         // No history? Directly edit the project in the database, if connected and asked to save the edit.
         // This is likely an edit by a curator of a gallery, e.g., removing a project from a collection.
         else if (firestore && persist) {
-            await this.database.track(
-                setDoc(
-                    doc(firestore, ProjectsCollection, project.getID()),
-                    project.serialize(),
-                ),
-            );
+            // Curator editing a project they have no local history for (e.g.
+            // removing it from a gallery). There's no CRDT history to replay, so
+            // fire-and-forget (a setDoc resolves only on server ack and would
+            // otherwise hang the action offline) and surface a SaveFailure on
+            // rejection instead of dropping the edit silently with no feedback.
+            void this.database
+                .track(
+                    setDoc(
+                        doc(firestore, ProjectsCollection, project.getID()),
+                        project.serialize(),
+                    ),
+                )
+                .catch((error) =>
+                    this.database.setSaveFailures([
+                        {
+                            projectId: project.getID(),
+                            projectName: project.getName(),
+                            reason: SaveFailureReason.FirestoreBatchFailed,
+                            detail: firebaseErrorDetail(error),
+                        },
+                    ]),
+                );
             return undefined;
         }
         // Not editable? Return false.
@@ -1486,6 +1703,10 @@ export default class ProjectsDatabase {
     async deleteLocalProject(id: string) {
         // Delete from the local cache.
         await this.localDB.deleteProject(id);
+        void this.localDB.markClean(Domain.Projects, id);
+
+        // Drop the project's persisted caret positions.
+        this.database.Settings.removeProjectCarets(id);
 
         // Untrack the project from both editable and read-only caches.
         this.projectHistories.delete(id);
@@ -1625,6 +1846,16 @@ export default class ProjectsDatabase {
                 for (const history of sendable)
                     sentVersions.set(history, history.getCurrent());
 
+                // Persist a dirty flag for each project we're about to push, so
+                // an edit whose commit doesn't confirm before a reload is
+                // replayed on the next load (see trackLocal).
+                if (this.IndexedDBSupported)
+                    for (const sentVersion of sentVersions.values())
+                        this.localDB.markDirty(
+                            Domain.Projects,
+                            sentVersion.getID(),
+                        );
+
                 // Capture into a local so the type narrowing from the
                 // enclosing `if (firestore && userID)` carries into the
                 // arrow function below.
@@ -1680,17 +1911,22 @@ export default class ProjectsDatabase {
                     // (history.edit always assigns a fresh Project), and we leave
                     // saved=false so the next saveSoon round picks up the change.
                     for (const [history, sentVersion] of sentVersions)
-                        if (history.getCurrent() === sentVersion)
+                        if (history.getCurrent() === sentVersion) {
                             history.markSaved();
+                            // Confirmed in the cloud — clear the durable dirty
+                            // flag so it isn't replayed on the next load.
+                            if (this.IndexedDBSupported)
+                                void this.localDB.markClean(
+                                    'projects',
+                                    sentVersion.getID(),
+                                );
+                        }
                 } else {
                     if (commitError instanceof FirebaseError) {
                         console.error(commitError.code);
                         console.error(commitError.message);
                     }
-                    const detail =
-                        commitError instanceof FirebaseError
-                            ? commitError.code
-                            : undefined;
+                    const detail = firebaseErrorDetail(commitError);
                     // Firestore batch.commit is atomic: nothing wrote, so every
                     // project in the batch needs a failure entry.
                     for (const sentVersion of sentVersions.values())
@@ -1789,6 +2025,7 @@ export default class ProjectsDatabase {
     /** Deletes the local database (usually on logout, for privacy), and removes any projects from memory. */
     async deleteLocal() {
         this.localDB.deleteAllProjects();
+        void this.localDB.clearDirty(Domain.Projects);
         this.projectHistories.clear();
     }
 
@@ -1810,9 +2047,18 @@ export default class ProjectsDatabase {
         }
     }
 
-    /** When a gallery changes, ensure that we respect access, tracking any projects that we aren't tracking yet, and stopping tracking projects we were tracking. */
+    /** When a gallery changes, stop tracking any of its projects we were
+     *  tracking that are no longer in it.
+     *
+     *  We deliberately do NOT fetch newly-added gallery projects here. The
+     *  realtime projects query (the `gallery in` chunk listeners in `syncUser`)
+     *  already streams every project in the user's accessible galleries, so
+     *  fetching them here too meant one `getDoc` per gallery project on every
+     *  galleries snapshot — a redundant read burst on login that scaled with
+     *  galleries × projects-per-gallery (e.g. ~180 reads for a teacher in 10
+     *  galleries of ~18 projects). The realtime listener supplies them instead. */
     async refreshGallery(gallery: Gallery) {
-        // Find all projects we're tracking that are no longer in the gallery, and remove them.
+        // Drop locally-tracked projects that are no longer in this gallery.
         for (const [projectID, history] of this.projectHistories.entries()) {
             const current = history.getCurrent();
             if (
@@ -1820,22 +2066,6 @@ export default class ProjectsDatabase {
                 !gallery.getProjects().includes(projectID)
             ) {
                 this.deleteLocalProject(projectID);
-            }
-        }
-
-        // Find all of the projects in the gallery that we're not tracking, and track them.
-        for (const projectID of gallery.getProjects()) {
-            if (!this.projectHistories.has(projectID)) {
-                try {
-                    const project = await this.get(projectID);
-                    if (project) {
-                        this.track(project, true, PersistenceType.Online, true);
-                    }
-                } catch (err) {
-                    console.error(
-                        'Unable to get the project in the gallery, even though the gallery was listed as containing the project.',
-                    );
-                }
             }
         }
     }

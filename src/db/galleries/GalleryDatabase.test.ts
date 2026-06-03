@@ -146,7 +146,9 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
             getUser: vi.fn(() => null),
             track: vi.fn(<T>(p: Promise<T>) => p),
             Locales: {
-                getLocaleSet: () => [],
+                // getLocaleSet() returns a Locales with getUnannotatedText,
+                // which Gallery.getName() uses for the save-status SaveError.
+                getLocaleSet: () => ({ getUnannotatedText: () => 'Test' }),
                 locales: { subscribe: () => () => {} },
             },
             Projects: {
@@ -198,7 +200,11 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
                 projects: { _op: 'arrayRemove', elements: ['p1'] },
             });
 
-            expect(markSavedMock).toHaveBeenCalledTimes(1);
+            // markSaved now runs after the (fire-and-forget) commit resolves via
+            // trackSave, so flush microtasks before asserting it.
+            await vi.waitFor(() =>
+                expect(markSavedMock).toHaveBeenCalledTimes(1),
+            );
         });
 
         it('omits the arrayRemove when the project was not previously in a gallery', async () => {
@@ -216,8 +222,7 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
                 lastBatchOps.find(
                     (o) =>
                         o.kind === 'update' &&
-                        (o.ref as { _ref: { id: string } })._ref.id ===
-                            'g-new',
+                        (o.ref as { _ref: { id: string } })._ref.id === 'g-new',
                 )!.data,
             ).toEqual({
                 projects: { _op: 'arrayUnion', elements: ['p1'] },
@@ -260,9 +265,7 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
                 _ref: { collection: 'projects', id: 'p1' },
             });
 
-            const galleryUpdate = lastBatchOps.find(
-                (o) => o.kind === 'update',
-            );
+            const galleryUpdate = lastBatchOps.find((o) => o.kind === 'update');
             expect(galleryUpdate!.ref).toMatchObject({
                 _ref: { collection: 'galleries', id: 'g1' },
             });

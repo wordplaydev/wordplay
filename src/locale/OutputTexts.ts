@@ -1,4 +1,9 @@
-import type { NameAndDoc, NameText, Template } from '@locale/LocaleText';
+import type {
+    FunctionText,
+    NameAndDoc,
+    NameText,
+    Template,
+} from '@locale/LocaleText';
 import type { ExceptionText } from '@locale/NodeTexts';
 
 export type TypeTexts = {
@@ -266,6 +271,17 @@ type OutputTexts = {
             /** [plain] Word used when lightness is below the matched focal */
             dark: string;
         };
+        /** The static `Color.random()` function that produces a random color.
+         *  With no inputs it picks a random basic color; with one color it
+         *  keeps that color's lightness and chroma but randomizes the hue;
+         *  with two colors it randomizes each LCH value within their range. */
+        random: FunctionText<[NameAndDoc, NameAndDoc]>;
+        /** `lighter()` — a new color with lightness increased by a percent
+         *  (5% by default). */
+        lighter: FunctionText<[NameAndDoc]>;
+        /** `darker()` — a new color with lightness decreased by a percent
+         *  (5% by default). */
+        darker: FunctionText<[NameAndDoc]>;
     };
     /** A place on stage */
     Place: NameAndDoc & {

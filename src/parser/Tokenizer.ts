@@ -17,6 +17,8 @@ import {
     CONVERT_SYMBOL,
     CONVERT_SYMBOL2,
     CONVERT_SYMBOL3,
+    TRANSLATE_SYMBOL,
+    TRANSLATE_SYMBOL_RTL,
     DELETE_SYMBOL,
     DIFFERENCE_SYMBOL,
     DOCS_SYMBOL,
@@ -58,6 +60,7 @@ import {
     PRODUCT_SYMBOL,
     PROPERTY_SYMBOL,
     PROPERTY_SYMBOL_FULL,
+    THIS_SYMBOL,
     QUESTION_SYMBOL,
     QUESTION_SYMBOL_FULL,
     SELECT_SYMBOL,
@@ -259,6 +262,8 @@ const CodeTokenPatterns: TokenPattern[] = [
     { pattern: CONVERT_SYMBOL, types: [Sym.Convert] },
     { pattern: CONVERT_SYMBOL2, types: [Sym.Convert] },
     { pattern: CONVERT_SYMBOL3, types: [Sym.Convert] },
+    { pattern: TRANSLATE_SYMBOL, types: [Sym.Translate] },
+    { pattern: TRANSLATE_SYMBOL_RTL, types: [Sym.Translate] },
     { pattern: NONE_SYMBOL, types: [Sym.None, Sym.None] },
     { pattern: TYPE_SYMBOL, types: [Sym.Type] },
     { pattern: /^!#/, types: [Sym.Number] },
@@ -363,8 +368,9 @@ const CodeTokenPatterns: TokenPattern[] = [
             `^[${PROPERTY_SYMBOL}${PROPERTY_SYMBOL_FULL}]`,
             'u',
         ),
-        types: [Sym.Access, Sym.This],
+        types: [Sym.Access],
     },
+    { pattern: THIS_SYMBOL, types: [Sym.This] },
     { pattern: TRUE_SYMBOL, types: [Sym.Boolean] },
     { pattern: FALSE_SYMBOL, types: [Sym.Boolean] },
     // Match all possible text open and close tokens
@@ -465,7 +471,14 @@ export const LiteralMultiCharTokens: ReadonlyArray<{
  * 3) a Wordplay type or function (e.g., @Stage, @Stage/color)
  * 4) the globally unique name of a creator-defined character
  */
-export const ConceptRegExPattern = `${LINK_SYMBOL}(?!(https?)?://)([0-9a-fA-F]{2,6}(?!${NameRegExPattern})|${NameRegExPattern}(/${NameRegExPattern})?)`;
+// A concept link is `@` followed by either a hex codepoint or a name with an
+// optional second segment. The separator between the two segments is `.` for a
+// concept and its member/subconcept (e.g. `@Color.random`, mirroring property
+// access), or `/` for non-concepts: UI references (`@UI/toolbar`), how-tos
+// (`@How/...`), and character references (`@username/charactername`). The
+// separator must be followed by at least one name character, so a sentence
+// period after a link (e.g. `see @Color.`) is left as punctuation.
+export const ConceptRegExPattern = `${LINK_SYMBOL}(?!(https?)?://)([0-9a-fA-F]{2,6}(?!${NameRegExPattern})|${NameRegExPattern}([./]${NameRegExPattern})?)`;
 
 /** Valid tokens inside of markup. */
 const MarkupTokenPatterns = [

@@ -132,7 +132,8 @@
         "KannadaNumeral": "$~kannadasiffra",
         "TamilNumeral": "$~tamilska siffror",
         "TeluguNumeral": "$~telugu-siffra",
-        "LanguageJoin": "$~språkförbindare"
+        "LanguageJoin": "$~språkförbindare",
+        "Translate": "$~översätta"
     },
     "node": {
         "Dimension": {
@@ -516,7 +517,8 @@
                     "resolutionDefault": "$~Ge bindningen ett startvärde, eftersom $expected inte får saknas här",
                     "resolutionWiden": "$~Tillåt värdets typ för denna bindning, eftersom $expected är för smalt för vad som faktiskt lagras.",
                     "resolutionReorder": "$~Byt ingångarna, eftersom deras typer passar bättre i den andra ordningen — $expected hör hemma i den andra platsen",
-                    "resolutionPlaceholder": "$~Ersätt det med en platshållare för tillfället, eftersom $expected är obligatoriskt – välj sedan ett värde från autokompletteringsmenyn"
+                    "resolutionPlaceholder": "$~Ersätt det med en platshållare för tillfället, eftersom $expected är obligatoriskt – välj sedan ett värde från autokompletteringsmenyn",
+                    "explanationDivideByZero": "$~Detta kan vara ø eftersom $source kan dividera med noll, och ett tal krävs här"
                 },
                 "MisplacedShare": {
                     "name": "$~felplaceraddelning",
@@ -681,7 +683,7 @@
             "emotion": "excited",
             "doc": [
                 "$~Dude, jag definierar konverteringar från en typ till en annan! Jag går in på @Block, ungefär så här:",
-                "$~\\→ #kisse #katt . ÷ 2\n6kitty→#katt\\",
+                "$~\\→ #kisse #katt ⬚ ÷ 2\n6kitty→#katt\\",
                 "$~Ser du hur jag förvandlade kattungar till katter? Ond!",
                 "$~Du kanske undrar vad den där \\.\\ gör där. Det representerar värdet som konverteras. Jag använder det eftersom värdet inte har något namn annars."
             ],
@@ -785,7 +787,8 @@
                     "resolutionDefault": "$~Ge bindningen ett startvärde, eftersom $expected inte får saknas här",
                     "resolutionWiden": "$~Tillåt värdets typ för denna bindning, eftersom $expected är för smalt för vad som faktiskt lagras.",
                     "resolutionReorder": "$~Byt ingångarna, eftersom deras typer passar bättre i den andra ordningen — $expected hör hemma i den andra platsen",
-                    "resolutionPlaceholder": "$~Ersätt det med en platshållare för tillfället, eftersom $expected är obligatoriskt – välj sedan ett värde från autokompletteringsmenyn"
+                    "resolutionPlaceholder": "$~Ersätt det med en platshållare för tillfället, eftersom $expected är obligatoriskt – välj sedan ett värde från autokompletteringsmenyn",
+                    "explanationDivideByZero": "$~Detta kan vara ø eftersom $source kan dividera med noll, och ett tal krävs här"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~oväntadtypinmatning",
@@ -887,13 +890,13 @@
                 "$~Hej igen! Jag tar några ingångar, utvärderar sedan ett uttryck med hjälp av dem och producerar en utdata.",
                 "$~Här är ett enkelt exempel:",
                 "$~\\ƒ upprepa(meddelande•'') meddelande × 5\nrepeat('hej')\\",
-                "$~Den funktionen tar en ingång, \\meddelande\\, och använder @Text/repeat-funktionen för att upprepa meddelandet fem gånger.",
+                "$~Den funktionen tar en ingång, \\meddelande\\, och använder @Text.repeat-funktionen för att upprepa meddelandet fem gånger.",
                 "$~Jag är verkligen behjälplig om du vill utvärdera något om och om igen, men med olika input!",
                 "$~Jag har många andra små knep. Jag behöver till exempel inte ha ett namn. Här går jag bara direkt till @Evaluate som ett värde.",
                 "$~\\(ƒ(meddelande•'') meddelande × 5)('hej')\\",
                 "$~Eller här är en funktion som tar valfritt antal ingångar, med tecknet \\...\\ efter ett ingångsnamn.",
                 "$~\\ƒ yes(meddelanden...•'') messages.sans('no')\nyes('yes' 'yes' 'no' 'yes' 'no')\\",
-                "$~Se hur det tog alla nej och blev av med dem? Det beror på att meddelanden är en @List, och därför skulle vi kunna använda @List/sansAll.",
+                "$~Se hur det tog alla nej och blev av med dem? Det beror på att meddelanden är en @List, och därför skulle vi kunna använda @List.sansAll.",
                 "$~Ibland kanske du vill göra det tydligt vilken typ av värde jag producerar. För att göra det, lägg till ett @Is efter listan med ingångar:",
                 "$~\\ƒ add(x•# y•#)•'' x + y\\",
                 "$~Du kanske märker ett problem med den här: den säger att den utvärderas till @Text, men det tar två @Number. Jag kan berätta när saker och ting är inkonsekventa!",
@@ -917,7 +920,7 @@
             "name": "$~högreordningsfunktion",
             "description": "$~itererar internt över listvärden",
             "emotion": "kind",
-            "doc": "$~Jag är en väldigt speciell sorts @FunctionDefinition som fungerar på listor med saker. Du behöver inte veta något om mig, förutom att jag gör funktioner som @List/translate möjliga.",
+            "doc": "$~Jag är en väldigt speciell sorts @FunctionDefinition som fungerar på listor med saker. Du behöver inte veta något om mig, förutom att jag gör funktioner som @List.translate möjliga.",
             "start": "$~Utvärdera den angivna funktionen",
             "initialize": "$~förbereder sig för att gå igenom objekt",
             "next": "$~gå vidare till nästa punkt",
@@ -1483,20 +1486,22 @@
             "description": "$~refererar till aktuellt strukturvärde",
             "emotion": "serious",
             "doc": [
-                "$~Ibland är det bra att hänvisa till ett värde implicit, snarare än att behöva namnge det.",
-                "$~Anta till exempel att du ville skapa en ny @ConversionDefinition, som inte namnger värdet som konverteras. Du kan bara hänvisa till det med mig:",
-                "$~\\→ #regnbågar #glädje . × 1000000 glädjeämnen\n2regnbågar → #glädje\\",
-                "$~Se mig där, representerar antalet regnbågar?",
-                "$~Eller anta att du ville göra en @Reaction, men inte behöver nämna det senaste värdet:",
-                "$~\\2 … ∆ Tid(1000ms) … . × 2\\",
-                "$~Kolla in mig, som representerar det tidigare reaktionsvärdet.",
-                "$~Jag dyker inte upp ofta, men när jag gör det kan jag verkligen hjälpa ett värde att ta sig ur en @Bind!"
+                "$~Ibland är det bra att referera till ett värde implicit, snarare än att behöva namnge det. Det är jag — \\⬚\\ , en liten fyrkant som står för det värde som den omgivande koden arbetar med.",
+                "$~Inuti en @ConversionDefinition är jag värdet som konverteras:",
+                "$~\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
+                "$~Inuti en @Reaction är jag det senaste värdet:",
+                "$~\\2 … ∆ Time(1000ms) … ⬚ × 2\\",
+                "$~Inuti en @Translate är jag det objekt som mappas för närvarande, så detta lägger till ett till varje värde:",
+                "$~\\[1 2 3] ↦ ⬚ + 1\\",
+                "$~Och inuti en @StructureDefinition är jag själva det aktuella värdet, så jag kan nå mina egna delar med \\⬚.rank\\ , precis som jag når ett annat värdes delar med \\other.rank\\ :",
+                "$~\\•Card(rank•#) (\n\tƒ beats(other•Card) ⬚.rank > other.rank\n)\n\nCard(10).beats(Card(7))\\",
+                "$~Jag dyker inte upp ofta, men när jag väl gör det kan jag verkligen bidra till att ett värde kommer ut ur en @Bind !"
             ],
             "start": "$~Värderad till $value",
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~felplaceradedennareferens",
-                    "explanation": "$~Jag är bara tillåten i en struktur, konvertering eller reaktion.",
+                    "explanation": "$~Jag är bara tillåten i en struktur, konvertering, reaktion eller översättning.",
                     "resolution": "$~Ersätt med en platshållare"
                 }
             }
@@ -1594,7 +1599,7 @@
         },
         "AnyType": {
             "name": "$~några",
-            "description": "$~matchar vilken typ som helst",
+            "description": "$~några",
             "emotion": "curious",
             "doc": "$~Jag representerar vilken typ som helst. Ibland dyker jag upp för att jag inte vet vad något är för värde, så det kan vara vad som helst."
         },
@@ -1614,7 +1619,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Jag arbetar med @Bind för att indikera att ett namn är en @ConversionDefinition. Du behöver förmodligen inte använda mig, för det är inte många som förmedlar mig som ett värde, men om du gjorde det skulle jag se ut så här:",
-                "$~\\magic•?→'': → ? '' . ? 'jepp' 'nej'\\"
+                "$~\\magic•?→'': → ? '' ⬚ ? 'jepp' 'nej'\\"
             ]
         },
         "FormattedType": {
@@ -1844,6 +1849,32 @@
             "description": "$~markera $type som en icke-funktion",
             "emotion": "confused",
             "doc": "$~Några av oss förväntade sig funktioner; Jag dyker upp när vi inte får någon."
+        },
+        "Translate": {
+            "name": "$~översätta",
+            "description": "$~mappa en samling till en ny",
+            "emotion": "excited",
+            "doc": [
+                "$~ÅH ÅH ÅH! Har du en HEL SAMLING saker och vill göra SAMMA sak med ALLA?? Det är JAG! Det är bokstavligen vad JAG GÖR!!",
+                "$~Placera en samling till vänster om mig, rita min pil \\↦\\ och skriv sedan till höger vad varje föremål ska FÖRVANDLAS TILL — använd @This för att betyda föremålet jag håller JUST NU!",
+                "$~\\[1 2 3] ↦ ⬚ + 1\\ ger dig \\[2 3 4]\\ . BOOM! Varje tal, plus ett, inga loopar, ingen @FunctionDefinition , inget krångel!",
+                "$~Jag är FANTASTISK som gör @Phrase utdata från data! Har du en lista med namn? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ och nu finns det en fras för VARJE namn!!",
+                "$~Jag arbetar med @List , @Set , @Map (jag ändrar kartans VÄRDEN — nycklarna stannar precis där de är!), och till och med @Table !",
+                "$~Vill du ha något mer avancerade – som indexet för varje objekt, eller en funktion som du kan återanvända på många ställen? Besök mina lugnare, vuxna kusiner som @List.translate . Men för snabb vardagsmappning finns jag här!!"
+            ],
+            "start": "$~Vänta, låt mig hämta allt i $expression !",
+            "finish": "$~TA-DA! Här är din helt nya kollektion: $value",
+            "next": "$~Nästa punkt: $value !",
+            "conflict": {
+                "ExpectedCollection": {
+                    "name": "$~förväntadinsamling",
+                    "explanation": "$~Jag förväntade mig att vänster sida av en samlingskonvertering måste vara en samling, men jag fick $type"
+                },
+                "ExpectedThis": {
+                    "name": "$~förväntadesigdetta",
+                    "explanation": "$~Menade du att använda @This för att referera till ett objekt i den här samlingen?"
+                }
+            }
         }
     },
     "basis": {
@@ -3314,7 +3345,7 @@
             "doc": [
                 "$~/klicktryck!/",
                 "$~/@FunctionDefinition här, jag ska förklara den här./",
-                "$~Tänk på @Choice som en ström av @Choice som väljs ut av din publik. Om någon klickar, trycker eller tangentbordet väljer genom att trycka på /Enter/ på en @Phrase/name med ett namn -- kommer @Choice att ha ett nytt värde som matchar namnet.",
+                "$~Tänk på @Choice som en ström av @Choice som väljs ut av din publik. Om någon klickar, trycker eller tangentbordet väljer genom att trycka på /Enter/ på en @Phrase.name med ett namn -- kommer @Choice att ha ett nytt värde som matchar namnet.",
                 "$~Så det bästa sättet att använda det är att skapa en föreställning med namngivna valbara fraser @Phrase, och sedan använda en @Reaction för att bestämma vad som ska göras när det namnet väljs.",
                 "$~Här är det enklaste exemplet:",
                 "$~\\Grupp(\nStack() \n[\nFras('en' valbar:⊤ namn:'1') \nFras('två' valbar:⊤ namn:'2') \nFras(Choice())\n]\n)\\",
@@ -3436,7 +3467,7 @@
                 "$~Varje gång det gör det, omvärderar @Program med det nya tidsvärdet.",
                 "$~Till exempel:",
                 "$~\\Tid()\\",
-                "$~Om du anger tid en @Time/frequency, kommer den att bocka i den takten. Till exempel:",
+                "$~Om du anger tid en @Time.frequency, kommer den att bocka i den takten. Till exempel:",
                 "$~\\Tid(1000ms)\\",
                 "$~Det finns dock gränser för hur liten den kan vara, eftersom @Program behöver tid att utvärdera innan de kan svara på nästa bock.",
                 "$~Den minsta är förmodligen runt \\20ms\\."
@@ -3507,7 +3538,7 @@
                 "$~/boop boop boop/",
                 "$~/Hej, @FunctionDefinition här! Jag ser att du hittade @Scene.",
                 "$~Jag tycker @Scene är särskilt cool. Grundidén är att du ger den en lista med @Scene eller @Phrase och sedan kommer den att visa dem i sekvens och stanna vid den sista.",
-                "$~För att kontrollera timing kan du antingen ställa in @Phrase/duration på varje utgång, och den kommer att visa den så länge innan du går vidare till nästa, och använda vilken @Phrase/entering eller @Phrase/exiting övergångar du kan ha ställt in . Om du ställer in dem på en @Sequence kommer den att använda dess varaktighet.",
+                "$~För att kontrollera timing kan du antingen ställa in @Phrase.duration på varje utgång, och den kommer att visa den så länge innan du går vidare till nästa, och använda vilken @Phrase.entering eller @Phrase.exiting övergångar du kan ha ställt in . Om du ställer in dem på en @Sequence kommer den att använda dess varaktighet.",
                 "$~Allt detta låter dig göra saker som den här lilla @Scene, som visar dessa tre fraser i följd:",
                 "$~\\Scen([\n\tFras('Hej' varaktighet: 1s)\n\tFras('Hur mår du?' varaktighet: 2s rotation: 5° inträde: Pose(rotation: 0°))\n\tFras('Jag mår bra')\n])\\",
                 "$~Se hur den första utgången visas i en sekund, sedan den nästa i två sekunder, men animerad till en fem graders rotation, och sedan visar den den sista?",
@@ -3825,7 +3856,7 @@
                 "names": "$~plats"
             },
             "name": {
-                "doc": ["$~Samma som @Phrase/name!"],
+                "doc": ["$~Samma som @Phrase.name!"],
                 "names": "$~namn"
             },
             "description": {
@@ -3835,7 +3866,7 @@
                 "names": "$~beskrivning"
             },
             "selectable": {
-                "doc": "$~Samma som @Phrase/selectable!",
+                "doc": "$~Samma som @Phrase.selectable!",
                 "names": "$~valbara"
             },
             "color": {
@@ -3863,46 +3894,47 @@
                 "names": "$~skala"
             },
             "flipx": {
-                "doc": "$~Samma som @Phrase/flipx!",
+                "doc": "$~Samma som @Phrase.flipx!",
                 "names": "$~flipx"
             },
             "flipy": {
-                "doc": "$~Samma som @Phrase/flipy",
+                "doc": "$~Samma som @Phrase.flipy",
                 "names": "$~flipy"
             },
             "entering": {
-                "doc": "$~Samma som @Phrase/entering!",
+                "doc": "$~Samma som @Phrase.entering!",
                 "names": "$~gårin"
             },
             "resting": {
-                "doc": "$~Samma som @Phrase/resting!",
+                "doc": "$~Samma som @Phrase.resting!",
                 "names": "$~vilande"
             },
             "moving": {
-                "doc": "$~Samma som @Phrase/moving!",
+                "doc": "$~Samma som @Phrase.moving!",
                 "names": "$~rörlig"
             },
             "exiting": {
-                "doc": "$~Samma som @Phrase/exiting!",
+                "doc": "$~Samma som @Phrase.exiting!",
                 "names": "$~avslutar"
             },
             "duration": {
-                "doc": "$~Samma som @Phrase/duration!",
+                "doc": "$~Samma som @Phrase.duration!",
                 "names": ["$~⏳", "$~varaktighet"]
             },
             "style": {
-                "doc": "$~Samma som @Phrase/style!",
+                "doc": "$~Samma som @Phrase.style!",
                 "names": "$~stil"
             },
             "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
         },
         "Phrase": {
             "doc": [
-                "$~Hej, hej! Kommer du ihåg mig? Hur kunde någon glömma /mig/. Det stämmer, jag är den mäktiga @Phrase, redo att representera den vackraste av @Text på @Stage.",
-                "$~Gör mig bara så här, så kommer jag att dyka upp på @Stage:",
+                "$~Hallå, hallå! Kommer du ihåg mig? Hur kan någon glömma /mig/. Just det, jag är den magnifika @Phrase , redo att representera det vackraste av @Text på @Stage .",
+                "$~Få mig bara att gilla det här, så dyker jag upp på @Stage :",
                 "$~\\Phrase('magnificent!')\\",
-                "$~Jag behöver naturligtvis lite @Text, men annars kan jag göra allt en @Output kan göra, inklusive att ändra min storlek, typsnitt, rotation och göra alla mina otroliga danser med @Pose och @Sequence.",
-                "$~Du kan också välja mig på @Stage och redigera mig på paletten bredvid."
+                "$~Jag behöver @TextLiteral eller @FormattedLiteral för att visa. Med @FormattedLiteral kan jag använda saker som \\`*bold* and /italic/`\\ eller referera till en anpassad @ConceptLink som du skapar.",
+                "$~Du kan också valfritt ge mig allt en @Output kan göra, inklusive att ändra min storlek, teckensnitt, rotation och göra alla mina otroliga danser med @Pose och @Sequence .",
+                "$~Du kan också välja mig på @Stage och redigera mig med paletten 🎨 bredvid — det är ett bra sätt att testa olika typsnitt och välja rätt /face/ till din @Text ."
             ],
             "names": ["$~💬", "$~Fras"],
             "text": {
@@ -3914,7 +3946,7 @@
                 "names": "$~storlek"
             },
             "face": {
-                "doc": "$~Namnet på typsnittet jag ska sätta på.",
+                "doc": "$~Namnet på typsnittet jag ska använda. Det enklaste sättet att välja ett är att välja mig och öppna paletten 🎨 bredvid, där du kan förhandsgranska typsnitt och välja ett /typsnitt/ utan att skriva dess namn.",
                 "names": "$~ansikte"
             },
             "place": {
@@ -3926,11 +3958,11 @@
                 "names": ["$~↵", "$~sjal"]
             },
             "alignment": {
-                "doc": "$~Om det finns en @Phrase/wrap, om jag ska justera symboler till början, mitten eller slutet av kanten.",
+                "doc": "$~Om det finns en @Phrase.wrap, om jag ska justera symboler till början, mitten eller slutet av kanten.",
                 "names": "$~inriktning"
             },
             "direction": {
-                "doc": "$~Huruvida symboler skrivs horisontellt eller vertikalt, och om vertikal och @Phrase/wrap är inställda, om texten radbryts åt vänster eller höger.",
+                "doc": "$~Huruvida symboler skrivs horisontellt eller vertikalt, och om vertikal och @Phrase.wrap är inställda, om texten radbryts åt vänster eller höger.",
                 "names": "$~riktning"
             },
             "matter": {
@@ -4357,6 +4389,56 @@
                 "mix": "$~$first - $second",
                 "light": "$~ljus",
                 "dark": "$~mörk"
+            },
+            "random": {
+                "doc": [
+                    "$~Ge en slumpmässig färg.",
+                    "$~Utan färger väljer jag en av grundfärgerna slumpmässigt:",
+                    "$~\\Color.random()\\",
+                    "$~Med en färg behåller jag dess ljushet och kroma men väljer en slumpmässig nyans:",
+                    "$~\\Color.random(Color.blue)\\",
+                    "$~Med två färger väljer jag en slumpmässig ljusstyrka, kroma och nyans mellan de två:",
+                    "$~\\Color.random(Color.black Color.white)\\"
+                ],
+                "names": "$~slumpmässig",
+                "inputs": [
+                    {
+                        "doc": "$~En valfri färg. Jag behåller dess ljushet och kroma och slumpmässigt väljer nyans. Med en andra färg är det ena änden av skalan att välja mellan.",
+                        "names": "$~en"
+                    },
+                    {
+                        "doc": "$~En valfri andra färg. När den ges väljer jag en slumpmässig ljusstyrka, kroma och nyans mellan de två färgerna.",
+                        "names": "$~b"
+                    }
+                ]
+            },
+            "lighter": {
+                "doc": [
+                    "$~Ge en ljusare version av mig, och öka min ljushet med en procentandel (5 % som standard).",
+                    "$~\\Color.blue.lighter()\\",
+                    "$~\\Color.blue.lighter(20%)\\"
+                ],
+                "names": "$~tändare",
+                "inputs": [
+                    {
+                        "doc": "$~Hur mycket ljusstyrkan ska höjas, i procent. Standardinställningen är 5 %.",
+                        "names": "$~av"
+                    }
+                ]
+            },
+            "darker": {
+                "doc": [
+                    "$~Ge en mörkare version av mig, sänk min ljusstyrka med en procentandel (5 % som standard).",
+                    "$~\\Color.blue.darker()\\",
+                    "$~\\Color.blue.darker(20%)\\"
+                ],
+                "names": "$~mörkare",
+                "inputs": [
+                    {
+                        "doc": "$~Hur mycket ljusstyrkan ska sänkas, i procent. Standardinställningen är 5 %.",
+                        "names": "$~av"
+                    }
+                ]
             }
         },
         "Sequence": {
@@ -4496,11 +4578,11 @@
                 "names": "$~ram"
             },
             "size": {
-                "doc": "$~GILLA @Group/size",
+                "doc": "$~GILLA @Group.size",
                 "names": "$~storlek"
             },
             "face": {
-                "doc": "$~GILLA @Group/face",
+                "doc": "$~GILLA @Group.face",
                 "names": "$~ansikte"
             },
             "place": {
@@ -4508,7 +4590,7 @@
                 "names": "$~plats"
             },
             "name": {
-                "doc": ["$~SAMMA SOM @Phrase/name!"],
+                "doc": ["$~SAMMA SOM @Phrase.name!"],
                 "names": "$~namn"
             },
             "description": {
@@ -4518,63 +4600,63 @@
                 "names": "$~beskrivning"
             },
             "selectable": {
-                "doc": "$~SAMMA SOM @Phrase/selectable!",
+                "doc": "$~SAMMA SOM @Phrase.selectable!",
                 "names": "$~valbara"
             },
             "color": {
-                "doc": "$~SAMMA SOM @Group/color",
+                "doc": "$~SAMMA SOM @Group.color",
                 "names": "$~färg"
             },
             "background": {
-                "doc": "$~SAMMA SOM @Group/background",
+                "doc": "$~SAMMA SOM @Group.background",
                 "names": "$~bakgrund"
             },
             "opacity": {
-                "doc": "$~SAMMA SOM @Group/opacity",
+                "doc": "$~SAMMA SOM @Group.opacity",
                 "names": "$~opacitet"
             },
             "offset": {
-                "doc": "$~SAMMA SOM @Group/offset",
+                "doc": "$~SAMMA SOM @Group.offset",
                 "names": "$~offset"
             },
             "rotation": {
-                "doc": "$~SAMMA SOM @Group/rotation",
+                "doc": "$~SAMMA SOM @Group.rotation",
                 "names": ["$~📐", "$~rotation"]
             },
             "scale": {
-                "doc": "$~SAMMA SOM @Group/scale",
+                "doc": "$~SAMMA SOM @Group.scale",
                 "names": "$~skala"
             },
             "flipx": {
-                "doc": "$~SAMMA SOM @Group/flipx",
+                "doc": "$~SAMMA SOM @Group.flipx",
                 "names": "$~flipx"
             },
             "flipy": {
-                "doc": "$~SAMMA SOM @Group/flipy",
+                "doc": "$~SAMMA SOM @Group.flipy",
                 "names": "$~flipy"
             },
             "entering": {
-                "doc": "$~SAMMA SOM @Group/entering in",
+                "doc": "$~SAMMA SOM @Group.entering in",
                 "names": "$~gårin"
             },
             "resting": {
-                "doc": "$~SAMMA SOM @Group/resting!",
+                "doc": "$~SAMMA SOM @Group.resting!",
                 "names": "$~vilande"
             },
             "moving": {
-                "doc": "$~SAMMA SOM @Group/moving!",
+                "doc": "$~SAMMA SOM @Group.moving!",
                 "names": "$~rörlig"
             },
             "exiting": {
-                "doc": "$~SAMMA SOM @Group/exiting!",
+                "doc": "$~SAMMA SOM @Group.exiting!",
                 "names": "$~avslutar"
             },
             "duration": {
-                "doc": "$~SAMMA SOM @Phrase/duration!",
+                "doc": "$~SAMMA SOM @Phrase.duration!",
                 "names": ["$~⏳", "$~varaktighet"]
             },
             "style": {
-                "doc": "$~SAMMA SOM @Phrase/style!",
+                "doc": "$~SAMMA SOM @Phrase.style!",
                 "names": "$~stil"
             },
             "gravity": {
@@ -4758,6 +4840,15 @@
                     "off": "$~visa extra kontroller"
                 },
                 "popup": "$~Ytterligare kontroller"
+            },
+            "color": {
+                "pick": {
+                    "label": "$~välj färg",
+                    "tip": "$~välj en färg från din skärm"
+                },
+                "field": "$~färgfält",
+                "instructions": "$~Använd vänster- och högerpiltangenterna för att ändra nyans och upp- och nedpiltangenterna för att ändra färgåtergivning. Håll shift-tangenten nedtryckt för finare steg.",
+                "value": "$~$color , LCH $l , $c , $h"
             }
         },
         "tile": {
@@ -4928,7 +5019,8 @@
                 }
             },
             "error": {
-                "unknown": "$~Det här galleriet finns inte eller är inte offentligt."
+                "unknown": "$~Det här galleriet finns inte eller är inte offentligt.",
+                "unreachable": "$~Vi kunde inte ladda det här galleriet. Om du förväntar dig åtkomst, kontrollera din anslutning; ett VPN, ett webbläsartillägg eller ett nätverksfilter kan blockera det."
             },
             "field": {
                 "name": {
@@ -4969,6 +5061,10 @@
                 "expandSequence": {
                     "on": "$~komprimera objekt",
                     "off": "$~expandera objekt"
+                },
+                "search": {
+                    "on": "$~dölj sökning",
+                    "off": "$~sök efter koden"
                 }
             },
             "button": {
@@ -4976,13 +5072,16 @@
                 "expandControls": "$~visa ytterligare redigeringskommandon",
                 "collapseControls": "$~dölj ytterligare redigeringskommandon",
                 "zoomIn": "$~Gör koden större",
-                "zoomOut": "$~Gör koden mindre"
+                "zoomOut": "$~Gör koden mindre",
+                "replace": "$~ersätt alla träffar"
             },
             "field": {
                 "name": {
                     "description": "$~redigera källnamnet",
                     "placeholder": "$~namn"
-                }
+                },
+                "search": "$~text",
+                "replace": "$~ersätta"
             },
             "menu": {
                 "label": "$~autoslutförande-menyn",
@@ -5055,7 +5154,10 @@
                     "noClipboardItem": "$~Ingenting på urklippet",
                     "noSelection": "$~Inget valt",
                     "noMove": "$~Kan inte röra mig längre"
-                }
+                },
+                "nextMatch": "$~gå till nästa sökträff",
+                "insertTranslate": "$~infoga översättningssymbol",
+                "insertThis": "$~infoga den här symbolen"
             },
             "options": {
                 "locale": {
@@ -5253,6 +5355,10 @@
                 "howToGalleryButton": {
                     "label": "$~se hur man gör i utrymmet",
                     "tip": "$~se hur man gör i utrymmet"
+                },
+                "explain": {
+                    "header": "$~Instruktioner",
+                    "explanation": "$~/Korta exempel som visar hur man gör saker i Wordplay. Tryck på play i valfri förhandsgranskning för att se den köras, öppna den sedan för att läsa hur den fungerar./"
                 }
             },
             "mode": {
@@ -5379,7 +5485,9 @@
                 }
             },
             "note": {
-                "empty": "$~Namn som du definierar i ditt projekt kommer att visas här."
+                "empty": "$~Namn som du definierar i ditt projekt kommer att visas här.",
+                "keepTyping": "$~Fortsätt skriva för att söka…",
+                "noMatches": "$~Inga träffar"
             },
             "tour": {
                 "launch": "$~ta en rundtur med guiden",
@@ -5388,6 +5496,10 @@
                 "search": "$~Sökrutan är användbar för att *upptäcka* funktioner, eller för att snabbt hitta en *med namn*.",
                 "code": "$~Detta är /code/-avsnittet. Det innehåller dokumentation för *programmeringsspråk* — byggstenarna du kan kombinera för att skapa program.",
                 "howto": "$~Detta är avsnittet /hur-gör-det-själv/. Det innehåller *användbara mönster* för att uppnå specifika beteenden i dina projekt."
+            },
+            "breadcrumb": {
+                "label": "$~navigeringshistorik",
+                "home": "$~Hem"
             }
         },
         "dialog": {
@@ -5678,8 +5790,6 @@
                 },
                 "error": {
                     "login": "$~Du måste vara <inloggad@://login> för att skicka feedback",
-                    "submit": "$~Det gick inte att skicka feedback.",
-                    "load": "$~Det gick inte att ladda feedback",
                     "empty": "$~Det finns ingen feedback att visa.",
                     "url": "$~Detta är inte en giltig GitHub-URL."
                 }
@@ -5862,7 +5972,34 @@
             "saving": "$~sparande",
             "saved": "$~sparat online",
             "local": "$~sparas i webbläsaren",
-            "unsaved": "$~osparade"
+            "unsaved": "$~osparade",
+            "sync": {
+                "header": "$~Synkronisera med molnet",
+                "projects": "$~Projekt",
+                "galleries": "$~Gallerier",
+                "characters": "$~Tecken",
+                "howtos": "$~Instruktioner",
+                "chats": "$~Chattar"
+            },
+            "status": {
+                "header": "$~Spara status",
+                "intro": "$~Ditt arbete lagras på den här enheten och i molnet.",
+                "columns": {
+                    "device": "$~på den här enheten",
+                    "cloud": "$~i molnet",
+                    "unsaved": "$~osparad"
+                },
+                "state": {
+                    "synced": "$~synkroniserad",
+                    "loading": "$~belastning",
+                    "syncing": "$~sparande",
+                    "offline": "$~off-line",
+                    "failed": "$~misslyckades"
+                },
+                "conversation": "$~en konversation",
+                "legend": "$~Osparad betyder att den är sparad här men inte online än. Den sparas när du är online igen.",
+                "errorsHeader": "$~Vissa saker kunde inte sparas online:"
+            }
         },
         "page": {
             "unknown": {
@@ -6156,13 +6293,14 @@
                     "email": "$~Det här e-postmeddelandet var inte giltigt.",
                     "failure": "$~Kan inte logga in :(",
                     "offline": "$~Vi kunde inte nå molnet ☁️.",
-                    "delete": "$~Vi kunde inte ta bort ditt konto, men vi vet inte varför.",
                     "wrongPassword": "$~Inte ett giltigt användarnamn och lösenord. Antingen är ditt lösenord fel eller så har någon annan det här användarnamnet.",
                     "tooMany": "$~Du har försökt och misslyckats med att logga in för många gånger. Du måste vänta med att försöka igen.",
                     "invalidUsername": "$~Användarnamn måste vara e-postmeddelanden eller >5 bokstäver utan mellanslag.",
                     "invalidPassword": "$~Lösenord måste vara minst 6 tecken långa.",
                     "mismatched": "$~Lösenorden stämmer inte överens.",
-                    "usernameTaken": "$~Detta användarnamn är redan upptaget."
+                    "usernameTaken": "$~Detta användarnamn är redan upptaget.",
+                    "unsaved": "$~Du har ändringar som inte är sparade online än. Återanslut och vänta tills de sparas först, annars försvinner de från den här enheten.",
+                    "deletePartial": "$~Vi tog bort dina kontouppgifter, men det gick inte att slutföra borttagningen av ditt konto. Försök igen eller kontakta oss om det fortsätter att hända."
                 },
                 "feedback": {
                     "changing": "$~Skickar nytt e-postmeddelande...",
@@ -6451,10 +6589,6 @@
                         "label": "$~alla i färg",
                         "tip": "$~markera alla former med samma färg som markeringen"
                     },
-                    "pick": {
-                        "label": "$~välj färg",
-                        "tip": "$~välj en färg från skärmen som ska användas för att rita pixlar och former"
-                    },
                     "saturationUp": {
                         "label": "$~mättnad",
                         "tip": "$~öka mättnaden"
@@ -6646,6 +6780,10 @@
                 "singletonWordsWarning": "$~Vissa ord i ditt utkast förekommer bara en gång i hela språket. Är du säker på att de är korrekt stavade och överensstämmer med annan text?",
                 "viewPR": "$~Visa pull-förfrågan",
                 "oneLocaleNote": "$~Varje bidrag täcker ett språk i taget. Denna bunt kommer att skickas in som redigeringar till $locale . Om du vill bidra till ett annat språk, byt språk först; redigeringar du sparar under varje språk sparas separat."
+            },
+            "breadcrumb": {
+                "label": "$~Ströbröd",
+                "home": "$~Hem"
             }
         },
         "edit": {
@@ -7015,7 +7153,7 @@
         },
         "connection": {
             "offline": "$~Du är offline. Vissa funktioner fungerar inte förrän du är online.",
-            "unreachable": "$~Vi kan inte nå Wordplay-databasen. Vissa funktioner fungerar inte förrän anslutningen är tillbaka.",
+            "unreachable": "$~Vi kan inte nå databasen, så vissa saker kommer inte att fungera. Ett VPN, ett webbläsartillägg eller ett nätverksfilter kan blockera det.",
             "label": "$~Anslutningsstatus"
         },
         "presence": {
@@ -7030,6 +7168,12 @@
             "refresh": "$~Uppdatera",
             "updates": "$~se uppdateringarna",
             "dismiss": "$~Avfärda"
+        },
+        "banner": {
+            "deleteFailed": "$~Vi kunde inte radera det.",
+            "saveFailed": "$~Vi kunde inte spara det",
+            "submitFailed": "$~Vi kunde inte skicka in det",
+            "loadFailed": "$~Vi kunde inte ladda det."
         }
     },
     "moderation": {

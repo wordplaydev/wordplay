@@ -1,6 +1,9 @@
+import type ConceptIndex from '@concepts/ConceptIndex';
 import { HowToIDs, type HowToID } from '@concepts/HowTo';
 import type Conflict from '@conflicts/Conflict';
+import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import DefaultLocale from '@locale/DefaultLocale';
+import type Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { Purpose } from '@concepts/Purpose';
@@ -86,6 +89,26 @@ export default class ConceptLink extends Content {
         );
     }
 
+    /** Complete the concept link being edited (e.g. `@Col`, `@Color.ra`) against
+     *  the concept index, filtered by what's already typed — mirroring how
+     *  reference completion narrows by prefix. */
+    static getPossibleReplacements({
+        node,
+        concepts,
+        locales,
+    }: ReplaceContext) {
+        return concepts && node instanceof ConceptLink
+            ? getConceptLinkCompletions(concepts, locales, node.getName())
+            : [];
+    }
+
+    static getPossibleInsertions(_: InsertContext) {
+        // Concept links complete an existing `@…` token (handled as a
+        // replacement above); they aren't offered as fresh insertions, so the
+        // markup menu isn't flooded with every concept when no link is typed.
+        return [];
+    }
+
     getDescriptor(): NodeDescriptor {
         return 'ConceptLink';
     }
@@ -107,7 +130,12 @@ export default class ConceptLink extends Content {
                 ? undefined
                 : new CodepointName(codepoint);
         }
-        const [concept, property] = name.split('/');
+        // Split on either separator: `.` introduces a concept's member/
+        // subconcept (e.g. `@Color.random`), while `/` introduces a UI
+        // reference, how-to, or character name (e.g. `@username/charactername`).
+        // Classification below is by the first segment, not the separator, so
+        // either separator resolves; authored content uses `.` for concepts.
+        const [concept, property] = name.split(/[./]/);
         if (concept.toLowerCase() === 'ui') return new UIName(property);
         if (concept.toLowerCase() === 'how') return new HowToName(property);
         else if (ReservedConceptIDs.has(concept))
@@ -189,4 +217,58 @@ export default class ConceptLink extends Content {
     toText() {
         return this.toWordplay();
     }
+}
+
+/** Build concept-link completions that match the partial link `prefix` (the
+ *  text after `@`, e.g. `Col` or `Color.ra`):
+ *
+ *   - No `.` in the prefix → complete a top-level concept whose reserved id
+ *     starts with the prefix (`@Col` → `@Color`).
+ *   - A `.` in the prefix → complete a member of the concept named before the
+ *     `.`, by the text after it (`@Color.ra` → `@Color.random`).
+ *
+ *  A subconcept renders as `Owner.member` (the `.` marks a concept member); the
+ *  owner (or a top-level concept) must be referable by a reserved concept id so
+ *  {@link ConceptLink.parse} classifies the link as a concept and it resolves
+ *  regardless of the active locale. */
+function getConceptLinkCompletions(
+    concepts: ConceptIndex,
+    locales: Locales,
+    prefix: string,
+): ConceptLink[] {
+    const dot = prefix.indexOf('.');
+    const ownerText = (dot >= 0 ? prefix.slice(0, dot) : prefix).toLowerCase();
+    const memberPrefix =
+        dot >= 0 ? prefix.slice(dot + 1).toLowerCase() : undefined;
+
+    const seen = new Set<string>();
+    const links: ConceptLink[] = [];
+    for (const concept of concepts.concepts) {
+        const owner = concepts.getConceptOwner(concept);
+        const id = (owner ?? concept)
+            .getNames(locales, false)
+            .find((name) => ReservedConceptIDs.has(name));
+        if (id === undefined) continue;
+        let token: string;
+        if (memberPrefix !== undefined) {
+            // Completing a member: the owner must match exactly, the member by prefix.
+            if (owner === undefined || id.toLowerCase() !== ownerText) continue;
+            const member = concept.getName(locales, false);
+            if (
+                member.length === 0 ||
+                !member.toLowerCase().startsWith(memberPrefix)
+            )
+                continue;
+            token = `${id}.${member}`;
+        } else {
+            // Completing a top-level concept by prefix.
+            if (owner !== undefined || !id.toLowerCase().startsWith(ownerText))
+                continue;
+            token = id;
+        }
+        if (seen.has(token)) continue;
+        seen.add(token);
+        links.push(ConceptLink.make(token));
+    }
+    return links;
 }

@@ -11,7 +11,7 @@
     import Link from '@components/app/Link.svelte';
     import Speech from '@components/lore/Speech.svelte';
     import RootView from '@components/project/RootView.svelte';
-    import CodeView from '@components/concepts/CodeView.svelte';
+    import ConceptPreview from '@components/concepts/ConceptPreview.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { summarizeUnionTypes } from '@components/concepts/elideNode';
 
@@ -72,7 +72,7 @@
 
 <div class="concept" transition:slide|local={{ duration: $animationDuration }}>
     {#if header}
-        <CodeView {concept} {type} {node} describe={false} />
+        <ConceptPreview {concept} {type} {node} describe={false} />
         {#if tutorialURL}
             <Link external to={tutorialURL}
                 ><LocalizedText path={(l) => l.ui.docs.learn} /></Link

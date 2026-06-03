@@ -132,7 +132,8 @@
         "KannadaNumeral": "$~卡纳达数字",
         "TamilNumeral": "$~泰米尔数字",
         "TeluguNumeral": "$~泰卢固语数字",
-        "LanguageJoin": "$~语言连接词"
+        "LanguageJoin": "$~语言连接词",
+        "Translate": "$~翻译"
     },
     "node": {
         "Dimension": {
@@ -516,7 +517,8 @@
                     "resolutionDefault": "$~请为绑定指定一个初始值，因为$expected。",
                     "resolutionWiden": "$~允许此绑定使用值的类型，因为$expected，无法容纳实际存储的内容。",
                     "resolutionReorder": "$~交换输入框，因为它们的类型在另一种顺序下更合适—— $expected。",
-                    "resolutionPlaceholder": "$~暂时用占位符代替，因为$expected——然后从自动完成菜单中选择一个值。"
+                    "resolutionPlaceholder": "$~暂时用占位符代替，因为$expected——然后从自动完成菜单中选择一个值。",
+                    "explanationDivideByZero": "$~这可能是 ø，因为$source，而这里需要一个数字。"
                 },
                 "MisplacedShare": {
                     "name": "放错位置的共享",
@@ -681,7 +683,7 @@
             "emotion": "excited",
             "doc": [
                 "哥们儿，我定义了从一种类型到另一种类型的转换！我在 @Block 中执行，就像这样：",
-                "\\→ #猫咪 #猫 . ÷ 2\n6猫咪→#猫\\",
+                "\\→ #猫咪 #猫 ⬚ ÷ 2\n6猫咪→#猫\\",
                 "看我是如何将猫咪变成猫的？酷毙了！",
                 "你可能想知道那个 \\.\\ 是干嘛的。那代表了正在转换的值。我用它是因为这个值不然会没有名字。"
             ],
@@ -785,7 +787,8 @@
                     "resolutionDefault": "$~请为绑定指定一个初始值，因为$expected。",
                     "resolutionWiden": "$~允许此绑定使用值的类型，因为$expected，无法容纳实际存储的内容。",
                     "resolutionReorder": "$~交换输入框，因为它们的类型在另一种顺序下更合适—— $expected。",
-                    "resolutionPlaceholder": "$~暂时用占位符代替，因为$expected——然后从自动完成菜单中选择一个值。"
+                    "resolutionPlaceholder": "$~暂时用占位符代替，因为$expected——然后从自动完成菜单中选择一个值。",
+                    "explanationDivideByZero": "$~这可能是 ø，因为$source，而这里需要一个数字。"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~意外的类型输入",
@@ -887,13 +890,13 @@
                 "嗨又见面了！我接受一些输入，然后使用它们来评估一个表达式，产生一个输出。",
                 "这里有一个简单的例子：",
                 "\\ƒ 重复(消息•'') 消息 × 5\n重复('你好')\\",
-                "该函数接受一个输入，\\消息\\，并使用 @Text/repeat 函数将消息重复五次。",
+                "该函数接受一个输入，\\消息\\，并使用 @Text.repeat 函数将消息重复五次。",
                 "如果你想一遍又一遍地评估某些东西，但使用不同的输入，我非常有用！",
                 "我还有许多其他小技巧。例如，我不一定要有一个名字。在这里，我直接转到 @Evaluate 作为一个值。",
                 "\\(ƒ(消息•'') 消息 × 5)('你好')\\",
                 "或者，这是一个接受任意数量输入的函数，在输入名称后加上 \\…\\ 字符。",
                 "\\ƒ 是的(消息…•'') 消息.排除('不')\n是的('是' '是' '不' '是' '不')\\",
-                "看看它是如何取出所有的 '不' 并将它们去掉的？这是因为消息是一个 @List，所以我们可以使用 @List/sansAll.",
+                "看看它是如何取出所有的 '不' 并将它们去掉的？这是因为消息是一个 @List，所以我们可以使用 @List.sansAll.",
                 "有时你可能想要明确我产生的值是什么类型的。为此，在输入列表之后添加一个 @Is 即可：",
                 "\\ƒ 添加(x•# y•#)•'' x + y\\",
                 "你可能会注意到这个例子有一个问题：它说它评估为 @Text，但它接受两个 @Number。我可以告诉你什么时候事情不一致！",
@@ -917,7 +920,7 @@
             "name": "高阶函数",
             "description": "迭代列表",
             "emotion": "kind",
-            "doc": "我是一种非常特殊的 @FunctionDefinition，用于操作物品列表。除了我使得像 @List/translate 这样的函数成为可能之外，你不需要了解太多关于我。",
+            "doc": "我是一种非常特殊的 @FunctionDefinition，用于操作物品列表。除了我使得像 @List.translate 这样的函数成为可能之外，你不需要了解太多关于我。",
             "start": "评估给定的函数",
             "initialize": "准备逐个遍历项目",
             "next": "移动到下一个项目",
@@ -1481,20 +1484,22 @@
             "description": "当前结构",
             "emotion": "serious",
             "doc": [
-                "有时候，隐含地引用值比命名它更有帮助。",
-                "例如，假设你想创建一个新的 @ConversionDefinition，它不命名正在转换的值。你可以使用我来引用它：",
-                "\\→ #彩虹 #欢乐 . × 1000000欢乐\n2彩虹 → #欢乐\\",
-                "看看这里，代表彩虹数量的部分？",
-                "或者，假设你想创建一个 @Reaction，但不想为最近的值命名：",
-                "\\2 … ∆ 时间(1000毫秒) … . × 2\\",
-                "看看我，代表前一个反应值。",
-                "我不经常出现，但当出现时，我可以帮助值摆脱 @Bind ！"
+                "$~有时候，隐式地引用某个值比直接命名它更方便。我就是其中之一—— \\⬚\\ ，一个代表周围代码正在处理的任何值的小方块。",
+                "$~在@ConversionDefinition，我是要转换的值：",
+                "$~\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
+                "$~在@Reaction，我是最新值：",
+                "$~\\2 … ∆ Time(1000ms) … ⬚ × 2\\",
+                "$~在@Translate，我是当前正在映射的项，因此它会将每个值加一：",
+                "$~\\[1 2 3] ↦ ⬚ + 1\\",
+                "$~在@StructureDefinition，我就是当前值本身，所以我可以使用\\⬚.rank\\访问我自己的部分，就像我可以使用\\other.rank\\访问另一个值的部分一样：",
+                "$~\\•Card(rank•#) (\n\tƒ beats(other•Card) ⬚.rank > other.rank\n)\n\nCard(10).beats(Card(7))\\",
+                "$~我并不经常出现，但当我出现时，我真的可以帮助一个值从@Bind！"
             ],
             "start": "评估为 $value",
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~放错了这个参考",
-                    "explanation": "$~我只能进入结构、转化或反应中。",
+                    "explanation": "$~我只能参与结构、转换、反应或翻译。",
                     "resolution": "$~替换为占位符"
                 }
             }
@@ -1592,7 +1597,7 @@
         },
         "AnyType": {
             "name": "任意",
-            "description": "任意类型",
+            "description": "$~任何",
             "emotion": "curious",
             "doc": "我代表任何可能的类型。有时我会出现，因为不知道某些东西是什么类型，所以它可以是任何类型。"
         },
@@ -1612,7 +1617,7 @@
             "emotion": "serious",
             "doc": [
                 "我与 @Bind 一起工作，指示名称是 @ConversionDefinition。你可能不需要使用我，因为没有多少人将我作为值传递，但如果你这样做，我将如下所示：",
-                "\\magic•?→'': → ? '' . ? 'yep' 'nope'\\"
+                "\\magic•?→'': → ? '' ⬚ ? 'yep' 'nope'\\"
             ]
         },
         "FormattedType": {
@@ -1842,6 +1847,32 @@
             "description": "$~将 $type 标记为非函数",
             "emotion": "confused",
             "doc": "有些人期望函数；当我们没有得到函数时，我就会出现。"
+        },
+        "Translate": {
+            "name": "$~翻译",
+            "description": "$~将一个集合映射到一个新的集合中",
+            "emotion": "excited",
+            "doc": [
+                "$~哦哦哦！你是不是也有一大堆东西，然后想对每一件都做同样的事情？我就是这样！我真的就是这么做的！！",
+                "$~在我的左边放一个集合，画一个箭头\\↦\\ ，然后在我的右边写出每个物品应该变成什么——用@This！",
+                "$~\\[1 2 3] ↦ ⬚ + 1\\得到\\[2 3 4]\\ 。 BOOM！每个数字加一，无需循环，无需@FunctionDefinition ，轻松搞定！",
+                "$~我简直太棒了，能从数据中生成@Phrase！有一份姓名列表吗？ \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\现在每个名字都有一个对应的短语了！！",
+                "$~我使用@List 、 @Set 、 @Map （我更改映射的值——键保持不变！），甚至@Table ！",
+                "$~想要更高级的功能——比如每个项目的索引，或者可以在很多地方复用的函数？那就去看看我那些更成熟、更强大的工具，比如@List.translate 。但如果是日常快速映射，我就是你要找的！"
+            ],
+            "start": "$~稍等，让我把$expression！",
+            "finish": "$~锵锵！你的全新系列到啦： $value",
+            "next": "$~下一项： $value ！",
+            "conflict": {
+                "ExpectedCollection": {
+                    "name": "$~预计收款",
+                    "explanation": "$~我原本以为集合转换的左侧必须是一个集合，但我得到的是$type"
+                },
+                "ExpectedThis": {
+                    "name": "$~预料之中",
+                    "explanation": "$~您是不是想使用@This？"
+                }
+            }
         }
     },
     "basis": {
@@ -3299,7 +3330,7 @@
             "doc": [
                 "/clickety tap!/",
                 "/@FunctionDefinition, 我来解释下这个吧！/",
-                "将 @Choice 视为由受众选择的 @Phrase/name 流。如果有人在带有名称的 @Phrase 上单击、敲击或按 /Enter/ 进行键盘选择，@Choice 将有一个与名称匹配的新值。",
+                "将 @Choice 视为由受众选择的 @Phrase.name 流。如果有人在带有名称的 @Phrase 上单击、敲击或按 /Enter/ 进行键盘选择，@Choice 将有一个与名称匹配的新值。",
                 "因此，使用它的最佳方法是使用命名的可选短语@Phrase 创建一个表演，然后使用@Reaction 来决定选择该名称时要执行的操作。",
                 "这里有一个简单的例子：",
                 "\\Group(\nStack() \n[\nPhrase('一个'可选:⊤名称:'1') \nPhrase('两个'可选:⊤名称:'2') \nPhrase(Choice())\n ]\n)\\",
@@ -3421,7 +3452,7 @@
                 "每次执行时，@Program 用新的时间值重新求值。",
                 "比如说：",
                 "\\Time()\\",
-                "如果你为时间提供@Time/frequency，它将以该速率滴答。例如:",
+                "如果你为时间提供@Time.frequency，它将以该速率滴答。例如:",
                 "\\Time(1000ms)\\",
                 "然而，它可以有多小是有限的，因为@Program 需要时间来评估，然后才能响应下一个tick。",
                 "最小的可能在\\20ms\\左右."
@@ -3492,7 +3523,7 @@
                 "/嘟嘟嘟/",
                 "你好，我是@FunctionDefinition ！我看到你找到了@Scene。",
                 "我认为 @Scene 特别酷。基本思路是，你给它一个 @Phrase 或 @Group 列表，然后它会按顺序显示它们，并在最后一个停止。",
-                "要控制时间，你可以设置每个输出的 @Phrase/duration，它会显示该时间，然后再转到下一个输出，并使用你可能设置的任何 @Phrase/entering 或 @Phrase/exiting 转换。如果你将它们设置为 @Sequence，它将使用其持续时间。",
+                "要控制时间，你可以设置每个输出的 @Phrase.duration，它会显示该时间，然后再转到下一个输出，并使用你可能设置的任何 @Phrase.entering 或 @Phrase.exiting 转换。如果你将它们设置为 @Sequence，它将使用其持续时间。",
                 "所有这些让你可以做类似这个小@Scene 的事情，它按顺序显示这三个短语：",
                 "\\Scene([\nPhrase('你好' 持续时间：1 秒)\nPhrase('你好吗？' 持续时间：2 秒 旋转：5° 输入：姿势（旋转：0°）)\nPhrase('我很好')\n])\\",
                 "看看第一个输出如何显示一秒，然后下一个输出显示两秒，但动画旋转五度，然后显示最后一个？",
@@ -3801,7 +3832,7 @@
                 "names": "位置"
             },
             "name": {
-                "doc": "与 @Phrase/name 相同！",
+                "doc": "与 @Phrase.name 相同！",
                 "names": "名称"
             },
             "description": {
@@ -3809,7 +3840,7 @@
                 "names": "$~描述"
             },
             "selectable": {
-                "doc": "与 @Phrase/selectable 的相同! ",
+                "doc": "与 @Phrase.selectable 的相同! ",
                 "names": "可选择的"
             },
             "color": {
@@ -3837,46 +3868,47 @@
                 "names": "缩放"
             },
             "flipx": {
-                "doc": "与 @Phrase/flipx 翻转相同！",
+                "doc": "与 @Phrase.flipx 翻转相同！",
                 "names": "水平翻转"
             },
             "flipy": {
-                "doc": "与 @Phrase/flipy 相同！",
+                "doc": "与 @Phrase.flipy 相同！",
                 "names": "垂直翻转"
             },
             "entering": {
-                "doc": "与 @Phrase/entering 相同！",
+                "doc": "与 @Phrase.entering 相同！",
                 "names": "进入"
             },
             "resting": {
-                "doc": "与 @Phrase/resting 相同！",
+                "doc": "与 @Phrase.resting 相同！",
                 "names": "休息"
             },
             "moving": {
-                "doc": "与 @Phrase/moving 相同！",
+                "doc": "与 @Phrase.moving 相同！",
                 "names": "移动"
             },
             "exiting": {
-                "doc": "与 @Phrase/exiting 相同！",
+                "doc": "与 @Phrase.exiting 相同！",
                 "names": "退出"
             },
             "duration": {
-                "doc": "与 @Phrase/duration 相同！",
+                "doc": "与 @Phrase.duration 相同！",
                 "names": ["⏳", "持续时间"]
             },
             "style": {
-                "doc": "与 @Phrase/style 相同！",
+                "doc": "与 @Phrase.style 相同！",
                 "names": "风格"
             },
             "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
         },
         "Phrase": {
             "doc": [
-                "你好，你好！还记得我吗？怎么会有人忘记/我/。没错，我就是伟大的 @Phrase，准备好在 @Stage 上表达最可爱的 @Text.",
-                "只要让我这样，我就会出现在 @Stage ：",
-                "\\Phrase('magnificient!')\\",
-                "显然，我需要一些 @Text，但除此之外，我可以做任何 @Output 可以做的所有事情，包括更改我的大小、字体、旋转，以及使用 @Pose 和 @Sequence 进行所有令人难以置信的舞蹈.",
-                "你也可以在 @Stage 上选择我，然后在隔壁的调色板上编辑我。"
+                "$~哈喽，哈喽！还记得我吗？谁会忘记我呢？没错，我就是魅力四射的@Phrase ，准备在@Phrase@Text 。",
+                "$~只要你让我这样，我就会出现在@Stage：",
+                "$~\\Phrase('magnificent!')\\",
+                "$~我需要显示@TextLiteral@FormattedLiteral 。使用@FormattedLiteral ，我可以使用诸如\\`*bold* and /italic/`\\之类的属性，或者引用您创建的自定义@ConceptLink 。",
+                "$~您还可以选择给我@Output，包括更改我的大小、字体、旋转，以及使用@Pose@Sequence。",
+                "$~您也可以在@Stage，并使用旁边的调色板 🎨 编辑我——这是尝试不同字体并为您的@Text。"
             ],
             "names": ["💬", "短语"],
             "text": {
@@ -3888,7 +3920,7 @@
                 "names": "尺寸"
             },
             "face": {
-                "doc": "我应该使用的字体名称。",
+                "doc": "$~我应该使用的字体名称是什么？最简单的选择方法是选中我，然后打开旁边的调色板🎨，在那里您可以预览字体并直接选择字体，而无需输入其名称。",
                 "names": "表面"
             },
             "place": {
@@ -3900,11 +3932,11 @@
                 "names": ["↵", "包裹"]
             },
             "alignment": {
-                "doc": "如果有 @Phrase/wrap 的边界集，我是否应该将符号与边缘的开始、中心或结束对齐。",
+                "doc": "如果有 @Phrase.wrap 的边界集，我是否应该将符号与边缘的开始、中心或结束对齐。",
                 "names": "对齐"
             },
             "direction": {
-                "doc": "符号是水平书写还是垂直书写，如果设置了垂直和 @Phrase/wrap，则文本是左换行还是右换行。",
+                "doc": "符号是水平书写还是垂直书写，如果设置了垂直和 @Phrase.wrap，则文本是左换行还是右换行。",
                 "names": "方向"
             },
             "matter": {
@@ -4321,6 +4353,56 @@
                 "mix": "$~$first - $second",
                 "light": "$~光",
                 "dark": "$~黑暗的"
+            },
+            "random": {
+                "doc": [
+                    "$~随机选择一种颜色。",
+                    "$~如果没有颜色，我随机选择一种基本颜色：",
+                    "$~\\Color.random()\\",
+                    "$~我用一种颜色，保持它的明度和饱和度，但随机选择一个色调：",
+                    "$~\\Color.random(Color.blue)\\",
+                    "$~如果使用两种颜色，我会随机选择介于两者之间的亮度、饱和度和色相：",
+                    "$~\\Color.random(Color.black Color.white)\\"
+                ],
+                "names": "$~随机的",
+                "inputs": [
+                    {
+                        "doc": "$~可选颜色。单独使用时，我保持其亮度和饱和度不变，并随机调整色调。如果使用第二种颜色，则只能从色调范围的一端选择。",
+                        "names": "$~a"
+                    },
+                    {
+                        "doc": "$~可选的第二种颜色。如果指定了第二种颜色，我会从两种颜色中随机选择一种亮度、饱和度和色相。",
+                        "names": "$~b"
+                    }
+                ]
+            },
+            "lighter": {
+                "doc": [
+                    "$~给我一个更轻盈的版本，将我的轻盈度提高百分之一（默认 5%）。",
+                    "$~\\Color.blue.lighter()\\",
+                    "$~\\Color.blue.lighter(20%)\\"
+                ],
+                "names": "$~打火机",
+                "inputs": [
+                    {
+                        "doc": "$~亮度提升百分比。默认值为 5%。",
+                        "names": "$~经过"
+                    }
+                ]
+            },
+            "darker": {
+                "doc": [
+                    "$~给我一个颜色更深的版本，将我的亮度降低百分之一（默认降低 5%）。",
+                    "$~\\Color.blue.darker()\\",
+                    "$~\\Color.blue.darker(20%)\\"
+                ],
+                "names": "$~较暗",
+                "inputs": [
+                    {
+                        "doc": "$~降低亮度的百分比。默认值为 5%。",
+                        "names": "$~经过"
+                    }
+                ]
             }
         },
         "Sequence": {
@@ -4460,11 +4542,11 @@
                 "names": "边框"
             },
             "size": {
-                "doc": "类似于@Group/size",
+                "doc": "类似于@Group.size",
                 "names": "大小"
             },
             "face": {
-                "doc": "类似于@Group/face",
+                "doc": "类似于@Group.face",
                 "names": "朝向"
             },
             "place": {
@@ -4472,7 +4554,7 @@
                 "names": "位置"
             },
             "name": {
-                "doc": ["与@Phrase/name !相同"],
+                "doc": ["与@Phrase.name !相同"],
                 "names": "名称"
             },
             "description": {
@@ -4480,59 +4562,59 @@
                 "names": "$~描述"
             },
             "selectable": {
-                "doc": "与@Phrase/selectable !相同",
+                "doc": "与@Phrase.selectable !相同",
                 "names": "可选择性"
             },
             "color": {
-                "doc": "与@Group/color 相同",
+                "doc": "与@Group.color 相同",
                 "names": "颜色"
             },
             "background": {
-                "doc": "与@Group/background 相同",
+                "doc": "与@Group.background 相同",
                 "names": "背景"
             },
             "opacity": {
-                "doc": "与@Group/opacity 相同",
+                "doc": "与@Group.opacity 相同",
                 "names": "不透明度"
             },
             "offset": {
-                "doc": "与@Group/offset 相同",
+                "doc": "与@Group.offset 相同",
                 "names": "偏移"
             },
             "rotation": {
-                "doc": "与@Group/rotation 相同",
+                "doc": "与@Group.rotation 相同",
                 "names": ["📐", "旋转"]
             },
             "scale": {
-                "doc": "与@Group/scale 相同",
+                "doc": "与@Group.scale 相同",
                 "names": "缩放"
             },
             "flipx": {
-                "doc": "与@Group/flipx 相同",
+                "doc": "与@Group.flipx 相同",
                 "names": "水平翻转"
             },
             "flipy": {
-                "doc": "与@Group/flipy 相同",
+                "doc": "与@Group.flipy 相同",
                 "names": "垂直翻转"
             },
             "entering": {
-                "doc": "与@Group/entering 相同",
+                "doc": "与@Group.entering 相同",
                 "names": "进入时"
             },
             "resting": {
-                "doc": "与@Group/resting !相同",
+                "doc": "与@Group.resting !相同",
                 "names": "休息时"
             },
             "moving": {
-                "doc": "与@Group/moving !相同",
+                "doc": "与@Group.moving !相同",
                 "names": "移动时"
             },
             "exiting": {
-                "doc": "与@Group/exiting !相同",
+                "doc": "与@Group.exiting !相同",
                 "names": "离开时"
             },
             "duration": {
-                "doc": "与@Phrase/duration !相同",
+                "doc": "与@Phrase.duration !相同",
                 "names": ["⏳", "持续时间"]
             },
             "style": {
@@ -4720,6 +4802,15 @@
                     "off": "$~显示额外控件"
                 },
                 "popup": "$~附加控件"
+            },
+            "color": {
+                "pick": {
+                    "label": "$~选择颜色",
+                    "tip": "$~从屏幕上选择一种颜色"
+                },
+                "field": "$~颜色场",
+                "instructions": "$~使用左右箭头键改变色相，使用上下箭头键改变色度。按住Shift键可进行更精细的调节。",
+                "value": "$~$color 、LCH $l 、 $c 、 $h"
             }
         },
         "tile": {
@@ -4873,7 +4964,8 @@
                 }
             },
             "error": {
-                "unknown": "此画廊不存在或不是公开的。"
+                "unknown": "此画廊不存在或不是公开的。",
+                "unreachable": "$~我们无法加载此图库。如果您希望访问此图库，请检查您的网络连接；VPN、浏览器扩展程序或网络过滤器可能阻止了访问。"
             },
             "field": {
                 "name": {
@@ -4914,6 +5006,10 @@
                 "expandSequence": {
                     "on": "$~折叠项目",
                     "off": "$~展开项目"
+                },
+                "search": {
+                    "on": "$~隐藏搜索",
+                    "off": "$~搜索代码"
                 }
             },
             "button": {
@@ -4921,13 +5017,16 @@
                 "expandControls": "$~显示附加编辑命令",
                 "collapseControls": "$~隐藏附加编辑命令",
                 "zoomIn": "$~增加代码量",
-                "zoomOut": "$~缩小代码体积"
+                "zoomOut": "$~缩小代码体积",
+                "replace": "$~替换所有匹配项"
             },
             "field": {
                 "name": {
                     "description": "编辑源名称",
                     "placeholder": "名称"
-                }
+                },
+                "search": "$~文本",
+                "replace": "$~代替"
             },
             "menu": {
                 "label": "自动完成菜单",
@@ -5000,7 +5099,10 @@
                     "noClipboardItem": "$~剪贴板上没有任何内容",
                     "noSelection": "$~未选择任何内容",
                     "noMove": "$~无法再继续前进了。"
-                }
+                },
+                "nextMatch": "$~转到下一个搜索结果",
+                "insertTranslate": "$~插入翻译符号",
+                "insertThis": "$~插入此符号"
             },
             "options": {
                 "locale": {
@@ -5198,6 +5300,10 @@
                 "howToGalleryButton": {
                     "label": "在作品空间中查看这个操作指南",
                     "tip": "在作品空间中查看这个操作指南"
+                },
+                "explain": {
+                    "header": "$~操作指南",
+                    "explanation": "$~/简短示例，展示如何在 Wordplay 中进行操作。点击任意预览即可观看运行，然后打开查看其工作原理。/"
                 }
             },
             "mode": {
@@ -5321,7 +5427,9 @@
                 }
             },
             "note": {
-                "empty": "你在项目中定义的名称会显示在这里。"
+                "empty": "你在项目中定义的名称会显示在这里。",
+                "keepTyping": "$~继续输入进行搜索……",
+                "noMatches": "$~没有匹配项"
             },
             "tour": {
                 "launch": "查看指南导览",
@@ -5330,6 +5438,10 @@
                 "search": "/搜索/框可以帮助你*发现*功能，也可以*按名称*快速查找某个功能。",
                 "code": "这里是/代码/区域，包含*编程语言*文档，也就是你可以组合起来编写程序的基本模块。",
                 "howto": "这里是/操作指南/区域，包含在项目中实现特定行为的*实用模式*。"
+            },
+            "breadcrumb": {
+                "label": "$~导航历史记录",
+                "home": "$~家"
             }
         },
         "dialog": {
@@ -5600,8 +5712,6 @@
                 },
                 "error": {
                     "login": "$~您必须登录才能提交反馈",
-                    "submit": "$~无法提交反馈。",
-                    "load": "$~无法加载反馈",
                     "empty": "$~沒有可显示的反饋。",
                     "url": "$~这不是有效的 GitHub URL。"
                 }
@@ -5706,7 +5816,34 @@
             "saving": "保存",
             "saved": "在线保存",
             "local": "本地保存",
-            "unsaved": "未保存"
+            "unsaved": "未保存",
+            "sync": {
+                "header": "$~与云端同步",
+                "projects": "$~项目",
+                "galleries": "$~画廊",
+                "characters": "$~人物",
+                "howtos": "$~操作指南",
+                "chats": "$~聊天"
+            },
+            "status": {
+                "header": "$~保存状态",
+                "intro": "$~您的工作内容将保存在此设备上，并同时保存到云端。",
+                "columns": {
+                    "device": "$~在本设备上",
+                    "cloud": "$~在云端",
+                    "unsaved": "$~未保存"
+                },
+                "state": {
+                    "synced": "$~同步",
+                    "loading": "$~加载中",
+                    "syncing": "$~保存",
+                    "offline": "$~离线",
+                    "failed": "$~失败的"
+                },
+                "conversation": "$~一段对话",
+                "legend": "$~未保存表示已保存在此处，但尚未联网。联网后会自动保存。",
+                "errorsHeader": "$~有些内容无法在线保存："
+            }
         },
         "page": {
             "unknown": {
@@ -5889,13 +6026,14 @@
                     "email": "此电子邮件地址无效。",
                     "failure": "无法登录 :(",
                     "offline": "你似乎处于离线状态。",
-                    "delete": "我们无法删除你的帐户，但我们不知道原因。",
                     "wrongPassword": "无效的用户名和密码。可能是密码错误，或者其他人已经使用了这个用户名。",
                     "tooMany": "你尝试登录失败的次数过多。你必须等待一段时间才能重试。",
                     "invalidUsername": "$~用户名必须至少包含 5 个字母且不包含空格。",
                     "invalidPassword": "$~密码长度必须至少为 6 个字符。",
                     "mismatched": "$~密码不匹配。",
-                    "usernameTaken": "$~这个用户名已被占用。"
+                    "usernameTaken": "$~这个用户名已被占用。",
+                    "unsaved": "$~您所做的更改尚未在线保存。请重新连接并等待保存，否则这些更改将从此设备上丢失。",
+                    "deletePartial": "$~我们已删除您的帐户数据，但未能完成帐户删除。请重试，如果问题仍然存在，请联系我们。"
                 },
                 "feedback": {
                     "changing": "正在提交新的电子邮件地址……",
@@ -6295,10 +6433,6 @@
                         "label": "同色全选",
                         "tip": "选择所有颜色与当前选区相同的形状"
                     },
-                    "pick": {
-                        "label": "取色",
-                        "tip": "从屏幕上选取一种颜色，用于绘制像素和形状"
-                    },
                     "saturationUp": {
                         "label": "饱和度",
                         "tip": "提高饱和度"
@@ -6490,6 +6624,10 @@
                 "singletonWordsWarning": "$~你草稿中有些词在整个文本中只出现过一次。你确定它们的拼写正确，并且与其他文本保持一致吗？",
                 "viewPR": "$~查看拉取请求",
                 "oneLocaleNote": "$~每次提交只能针对一种语言。这批修改将以编辑的形式提交到$locale 。如果您想为其他语言做出贡献，请先切换到其他语言；您在每种语言下保存的修改将分别保存。"
+            },
+            "breadcrumb": {
+                "label": "$~面包屑",
+                "home": "$~家"
             }
         },
         "edit": {
@@ -6949,7 +7087,7 @@
         },
         "connection": {
             "offline": "$~您目前处于离线状态。部分功能需要联网后才能使用。",
-            "unreachable": "$~我们无法连接到 Wordplay 数据库。连接恢复后，部分功能将无法使用。",
+            "unreachable": "$~我们无法访问数据库，因此某些功能将无法使用。可能是 VPN、浏览器扩展程序或网络过滤器阻止了访问。",
             "label": "$~连接状态"
         },
         "presence": {
@@ -6964,6 +7102,12 @@
             "refresh": "$~刷新",
             "updates": "$~查看更新",
             "dismiss": "$~解雇"
+        },
+        "banner": {
+            "deleteFailed": "$~我们无法删除它。",
+            "saveFailed": "$~我们没能挽救它。",
+            "submitFailed": "$~我们无法提交那份文件。",
+            "loadFailed": "$~我们无法加载该文件。"
         }
     },
     "moderation": {

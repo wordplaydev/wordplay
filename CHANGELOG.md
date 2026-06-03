@@ -4,21 +4,58 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
-## 0.20.0 - 2026-05-29
+## 0.21.0 - 2026-06-01
 
 ### Added
 
-- 🔣 We added `@Contour`, a new built-in input stream that traces the outline of letters in a font as a list of `@Place` values, so you can dot, trace, or animate the shape of any glyph. You can read about it in the [Guide](https://wordplay.dev/guide?concept=Contour). (#1167)
-- 🖱️ Now you can click click click in the editor to expand the selection. (Just like pressing escape, escape, escape does).
+- 🔄 We added a "syncing with the cloud" list to the save status dialog, so you can check if projects, galleries, characters, how-tos, and chats finish loading — or see if something didn't.
 
 ### Changed
 
-- ⚡️ We made it easier to expand and collapse really big values.
+- 🔄 We made loading, updating, and saving errors display more consistently and reliably.
+
+### Fixed
+
+- 🔄 We made loading and saving much less intensive for slow internet connections and people with lots of projects, galleries, and chats. Saving should be much more reliable overall now, especially if you temporarily lose your internet connection (#812).
+
+## 0.20.0 - 2026-05-30
+
+This week focused on improving many aspects of the Guide, including speed, usability, and bug fixes. We also added a new stream called @Contour that lets you get the shape of a glyph as a list of points, letting you do neat things to celebrate your favorite letters and symbols!
+
+### Added
+
+- 🔣 We added @Contour, a new built-in input stream that traces the outline of letters in a font as a list of @Place values, so you can dot, trace, or animate the shape of any glyph. You can read about it in the [Guide](https://wordplay.dev/guide?concept=Contour). (#1167)
+- 🔁 There's a new feature in the programming language called @Translate! It lets you convert the items in a list, set, map, or table into a new list, set, map, or table. Put a collection on the left, the new `↦` arrow in the middle, and what each item should become on the right, using `⬚` to mean the current item. So `[1 2 3] ↦ ⬚ + 1` makes `[2 3 4]`.
+- 🔗 We made the guide remember the query and sections you were viewing, in case you need to refresh the page or share a link.
+- 🎨 @Color has a function called @Color.random, which lets you pick a random basic color, a random color of a particular lightness and chrome, or a random color between two colors.
+- 🎨 @Color now also has @Color.lighter and @Color.darker, which give you a brighter or dimmer version of a color. They change the lightness by 5%, or by any percent you give them, like `Color.blue.lighter(20%)`.
+- 🔎 We added a search and replace feature to the code editor.
+- 🖱️ Now you can click click click in the editor to expand the selection. (Just like pressing escape, escape, escape does).
+- 🔙 We added navigation breadcrumbs to the top of pages, for easier navigation back (#790).
+
+### Changed
+
+- 🔲 We changed the symbol for "this" — the unnamed value inside conversions, reactions, structures, and the new `↦` map — from `.` to `⬚` (a little dotted square). Now you can reach its parts cleanly, like `⬚.x`, instead of the confusing `..x`.
+- ⚡️ We made search faster and more forgiving across the platform, including in the guide, tutorial, projects, glyph chooser, and localization mode.
+- ▶️ We made how-to previews more useful, showing behavior instead of code. Click into the how-to to see and copy code (#1039).
+- 📚 We redesigned navigation in the guide to make it more like a web browser, with a home and back button, a browsing history, and links that become inactive.
+- ➕ We made it easier to expand and collapse really big values.
 - ⌨️ When pressing up on the first line or down on the last line, you go the beginning and end of the source.
+- 🚦 When you divide `÷` or take a remainder `%` by a number that might be zero, Wordplay now warns you and offers to fix it with `??` so you can pick a backup value. Before, dividing by zero could quietly give a broken number or stop your program with a confusing message.
+- 🎨 The color picker now has an eyedropper button you can use to grab any color from your screen. It works everywhere you choose a color, not just when drawing characters. (#1156)
+- 💾 Wordplay now keeps a copy of your projects, galleries, characters, and how-tos on your device, so they show up right away and keep working even when you're offline. Losing your connection no longer grays out the page; it just shows in the save status.
 
 ### Fixed
 
 - 🤫 We made really long types in the guide a little shorter for readability.
+- 🔗 Some concept links in the guide weren't working, but they are now!
+- 🎨 The color picker's color band is now keyboard accessible for our friends that keyboards and screen readers.
+- ✏️ We made it so that your text cursor positions are saved and restored correctly.
+- 📡 When Wordplay can't reach the database, it now shows a clear message instead of freezing, and a shaky connection no longer logs you out or erases your saved work. The message also hints that a VPN, browser add-on, or network filter might be blocking it.
+- 📖 We fixed the how-to space so it shows a loading spinner while it connects, instead of wrongly saying the space doesn't exist. (#1171)
+- 📷 Small how-to and [Guide](https://wordplay.dev/guide) previews no longer turn on your camera or microphone; they only start when you press play.
+- 🤝 We fixed a bug that stopped teachers who are in lots of [galleries](https://wordplay.dev/galleries) from seeing their projects.
+- 📋 When you copy and paste your own code, we now keep it just as it is. Before, lines of text could get turned into a table by mistake.
 
 ## 0.19.2 - 2026-05-27
 

@@ -8,9 +8,16 @@
     import { getUser } from '@components/project/Contexts';
     import Title from '@components/widgets/Title.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import { Galleries, Projects, locales } from '@db/Database';
+    import {
+        authAttempted,
+        DB,
+        Galleries,
+        Projects,
+        locales,
+    } from '@db/Database';
     import type Project from '@db/projects/Project';
     import { searchProjects, type ProjectMatch } from '../projects/search';
+    import { debounced } from '@util/debounce.svelte';
     import {
         collection,
         getDocs,
@@ -24,7 +31,6 @@
     } from 'firebase/firestore';
     import { onMount } from 'svelte';
     import GalleryPreview from '@components/app/GalleryPreview.svelte';
-    import Loading from '@components/app/Loading.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
@@ -77,7 +83,15 @@
                   orderBy('id'),
                   limit(5),
               );
-        const documentSnapshots = await getDocs(first);
+        // Wrap in DB.read so a broken connection fails fast (rather than
+        // hanging for minutes) and trips the site-wide connection banner.
+        let documentSnapshots;
+        try {
+            documentSnapshots = await DB.read(getDocs(first));
+        } catch (_) {
+            // The banner (via DB.read) carries the message; leave the list as-is.
+            return;
+        }
 
         // Remember the last document.
         lastBatch = documentSnapshots.docs[documentSnapshots.docs.length - 1];
@@ -96,8 +110,11 @@
 
     let galleries = $derived([...loadedGalleries]);
 
-    // Search functionality for example gallery projects
+    // Search functionality for example gallery projects. The input updates
+    // `searchTerm` immediately (so loading can start promptly); the search runs
+    // against a debounced copy.
     let searchTerm = $state('');
+    const debouncedTerm = debounced(() => searchTerm);
 
     /** All example projects, loaded lazily when search is first used */
     let allExampleProjects: Project[] = $state([]);
@@ -127,7 +144,7 @@
     });
 
     let searchResults: ProjectMatch[] = $derived(
-        searchProjects(allExampleProjects, searchTerm, $locales),
+        searchProjects(allExampleProjects, debouncedTerm.current, $locales),
     );
 </script>
 
@@ -155,12 +172,21 @@
         {#if newGalleryError}
             <Notice text={(l) => l.ui.page.projects.error.newgallery} />
         {/if}
-        {#if Galleries.getStatus() === 'loading'}
+        {#if (Galleries.getStatus() === 'loading' || Galleries.getStatus() === 'loggedout') && !Galleries.hydrated}
+            <!-- Only block on the realtime query before the local cache has
+                 hydrated. Once hydrated, render the user's cached galleries even
+                 if the cloud query is still pending (e.g. offline), rather than
+                 spinning forever.
+
+                 We also treat 'loggedout' as "still loading" here: the gallery
+                 listener is created once at startup (before auth), so it starts
+                 'loggedout', and stays that way until startSync re-runs it for
+                 this user. Since we're inside `{#if $user}` the user IS logged
+                 in, so a 'loggedout' status is stale, not real — showing the
+                 "you must be logged in" notice here flashes it spuriously. -->
             <Spinning label={(l) => l.ui.widget.loading.message} />
         {:else if Galleries.getStatus() === 'noaccess'}
             <Notice text={(l) => l.ui.page.projects.error.noaccess} />
-        {:else if Galleries.getStatus() === 'loggedout'}
-            <Notice text={(l) => l.ui.page.galleries.error.nogalleryedits} />
         {:else}
             {#each Galleries.accessibleGalleries.values() as gallery}
                 <GalleryPreview {gallery} />
@@ -190,11 +216,16 @@
                 >
             {/each}
         {/if}
-    {:else if $user === undefined}
-        <!-- Firebase auth hasn't resolved yet. Show a placeholder so the
-             "logged out" notice doesn't flash for users who turn out to be
-             logged in (same pattern used by /profile). -->
-        <Loading />
+    {:else if $user === undefined || !$authAttempted}
+        <!-- Auth hasn't resolved yet. Show an inline spinner so the "logged
+             out" notice doesn't flash for users who turn out to be logged in.
+             We gate on `authAttempted` (not just `$user === undefined`) because
+             the auth listeners can briefly push a `null` before the restored
+             user lands; until Firebase Auth has reported in at least once, a
+             null is "still pending", not "logged out". Spinning (not Loading)
+             because the header and prompt above are already rendered — same as
+             /characters and /localize. -->
+        <Spinning label={(l) => l.ui.widget.loading.message} />
     {:else}
         <Notice text={(l) => l.ui.page.galleries.error.nogalleryedits} />
     {/if}
@@ -212,7 +243,7 @@
         max="10em"
     />
 
-    {#if searchTerm.trim()}
+    {#if debouncedTerm.current.trim()}
         {#if loadingExamples}
             <Spinning label={(l) => l.ui.widget.loading.message} />
         {:else if searchResults.length === 0}
@@ -222,7 +253,7 @@
                 {#each searchResults as { project, matchText } (project.getID())}
                     <ProjectPreview
                         {project}
-                        {searchTerm}
+                        searchTerm={debouncedTerm.current}
                         {...matchText !== undefined ? { matchText } : {}}
                         anonymize={false}
                     />

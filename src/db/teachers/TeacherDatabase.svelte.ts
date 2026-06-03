@@ -60,12 +60,22 @@ export const ClassesCollection = 'classes';
 export async function getClasses(galleryID: string) {
     if (db === undefined) return [];
 
-    const querySnapshot = await getDocs(
-        query(
-            collection(db, ClassesCollection),
-            where('galleries', 'array-contains', galleryID),
-        ),
-    );
+    // Wrap in read() so an unreachable backend fails fast (and trips the
+    // connection banner) instead of hanging; on failure return no classes.
+    let querySnapshot;
+    try {
+        querySnapshot = await DB.read(
+            getDocs(
+                query(
+                    collection(db, ClassesCollection),
+                    where('galleries', 'array-contains', galleryID),
+                ),
+            ),
+        );
+    } catch (err) {
+        DB.reportBanner((l) => l.ui.banner.loadFailed, err);
+        return [];
+    }
 
     return querySnapshot.docs
         .map((doc) => {
@@ -83,7 +93,15 @@ export async function getClasses(galleryID: string) {
 export async function getClass(id: string) {
     if (db === undefined) return undefined;
 
-    const ref = await getDoc(doc(db, ClassesCollection, id));
+    // Wrap in read() so an unreachable backend fails fast (and trips the
+    // connection banner) instead of hanging; on failure return undefined.
+    let ref;
+    try {
+        ref = await DB.read(getDoc(doc(db, ClassesCollection, id)));
+    } catch (err) {
+        DB.reportBanner((l) => l.ui.banner.loadFailed, err);
+        return undefined;
+    }
 
     if (ref.exists()) {
         try {
@@ -95,16 +113,26 @@ export async function getClass(id: string) {
     } else return undefined;
 }
 
-/** Update the class document with the given class, using its ID. */
-export async function setClass(group: Class) {
-    if (db === undefined) return undefined;
+/** Update the class document with the given class, using its ID. Returns
+ *  whether the write reached the cloud, so callers can surface an inline error
+ *  and keep the teacher's edit instead of dropping it silently. write() (not
+ *  track()) makes the outcome definitive and fail-fast. */
+export async function setClass(group: Class): Promise<boolean> {
+    if (db === undefined) return false;
 
-    await DB.track(setDoc(doc(db, ClassesCollection, group.id), group));
+    try {
+        await DB.write(setDoc(doc(db, ClassesCollection, group.id), group));
+        return true;
+    } catch (err) {
+        DB.reportBanner((l) => l.ui.banner.saveFailed, err);
+        return false;
+    }
 }
 
-/** Add the teacher to the class and all associated galleries. */
-export async function addTeacher(classy: Class, uid: string) {
-    if (db === undefined) return;
+/** Add the teacher to the class and all associated galleries. Returns whether
+ *  the write reached the cloud so the caller can surface a failure. */
+export async function addTeacher(classy: Class, uid: string): Promise<boolean> {
+    if (db === undefined) return false;
     // Atomic batch: add the teacher to the class's `teachers` array and to every
     // associated gallery's `curators` array. arrayUnion is a server-side atomic
     // operation, so two teachers adding members concurrently don't clobber each
@@ -118,28 +146,50 @@ export async function addTeacher(classy: Class, uid: string) {
             curators: arrayUnion(uid),
         });
     }
-    await DB.track(batch.commit());
+    try {
+        await DB.write(batch.commit());
+        return true;
+    } catch (err) {
+        DB.reportBanner((l) => l.ui.banner.saveFailed, err);
+        return false;
+    }
 }
 
-/** Remove the teacher from the class and all associated galleries. */
-export async function removeTeacher(classy: Class, uid: string) {
-    if (db === undefined) return;
-    await DB.track(
-        updateDoc(doc(db, ClassesCollection, classy.id), {
-            teachers: arrayRemove(uid),
-        }),
-    );
+/** Remove the teacher from the class and all associated galleries. Returns
+ *  whether the class write reached the cloud (the gallery side surfaces its own
+ *  failures). Bails before touching galleries if the class write failed. */
+export async function removeTeacher(
+    classy: Class,
+    uid: string,
+): Promise<boolean> {
+    if (db === undefined) return false;
+    try {
+        await DB.write(
+            updateDoc(doc(db, ClassesCollection, classy.id), {
+                teachers: arrayRemove(uid),
+            }),
+        );
+    } catch (err) {
+        DB.reportBanner((l) => l.ui.banner.saveFailed, err);
+        return false;
+    }
     // Gallery side: keep Galleries.removeCurator because it also reassigns the
     // departing curator's projects (not a simple field operation).
     for (const galleryID of classy.galleries) {
         const galleryData = await Galleries.get(galleryID);
         if (galleryData) await Galleries.removeCurator(galleryData, uid);
     }
+    return true;
 }
 
-/** Add the learner to the class document and all galleries associated with the class. */
-export async function addStudent(classy: Class, uid: string, username: string) {
-    if (db === undefined) return;
+/** Add the learner to the class document and all galleries associated with the
+ *  class. Returns whether the write reached the cloud. */
+export async function addStudent(
+    classy: Class,
+    uid: string,
+    username: string,
+): Promise<boolean> {
+    if (db === undefined) return false;
 
     // Match the existing meta-column shape so the row aligns with the teacher's
     // chosen columns. Falls back to [] if no learners exist yet.
@@ -156,39 +206,64 @@ export async function addStudent(classy: Class, uid: string, username: string) {
             creators: arrayUnion(uid),
         });
     }
-    await DB.track(batch.commit());
+    try {
+        await DB.write(batch.commit());
+        return true;
+    } catch (err) {
+        DB.reportBanner((l) => l.ui.banner.saveFailed, err);
+        return false;
+    }
 }
 
-/** Remove the learner from the class document and all galleries associated with the class. */
-export async function removeStudent(classy: Class, uid: string) {
-    if (db === undefined) return;
+/** Remove the learner from the class document and all galleries associated with
+ *  the class. Returns whether the class write reached the cloud; bails before
+ *  touching galleries if it failed. */
+export async function removeStudent(
+    classy: Class,
+    uid: string,
+): Promise<boolean> {
+    if (db === undefined) return false;
     const classRef = doc(db, ClassesCollection, classy.id);
 
     // The info array contains learner objects whose `meta` can be edited by
     // teachers, so arrayRemove on a stale local copy might fail to match the
     // server's record. A transaction reads the server's current value and
     // filters by uid, which is the stable identifier.
-    await DB.track(
-        runTransaction(db, async (tx) => {
-            const snap = await tx.get(classRef);
-            if (!snap.exists()) return;
-            const current = ClassSchema.parse(snap.data());
-            tx.update(classRef, {
-                learners: current.learners.filter((l) => l !== uid),
-                info: current.info.filter((i) => i.uid !== uid),
-            });
-        }),
-    );
+    try {
+        await DB.write(
+            runTransaction(db, async (tx) => {
+                const snap = await tx.get(classRef);
+                if (!snap.exists()) return;
+                const current = ClassSchema.parse(snap.data());
+                tx.update(classRef, {
+                    learners: current.learners.filter((l) => l !== uid),
+                    info: current.info.filter((i) => i.uid !== uid),
+                });
+            }),
+        );
+    } catch (err) {
+        DB.reportBanner((l) => l.ui.banner.saveFailed, err);
+        return false;
+    }
 
     // Remove the student from all galleries associated with the class.
     for (const galleryID of classy.galleries) {
         const galleryData = await Galleries.get(galleryID);
         if (galleryData) await Galleries.removeCreator(galleryData, uid);
     }
+    return true;
 }
 
-/** Delete this class document */
-export async function deleteClass(classy: Class) {
-    if (db === undefined) return;
-    await DB.track(deleteDoc(doc(db, ClassesCollection, classy.id)));
+/** Delete this class document. Returns whether the delete reached the cloud so
+ *  the caller can keep the class on screen and surface a failure rather than
+ *  navigating away as if it succeeded. */
+export async function deleteClass(classy: Class): Promise<boolean> {
+    if (db === undefined) return false;
+    try {
+        await DB.write(deleteDoc(doc(db, ClassesCollection, classy.id)));
+        return true;
+    } catch (err) {
+        DB.reportBanner((l) => l.ui.banner.deleteFailed, err);
+        return false;
+    }
 }

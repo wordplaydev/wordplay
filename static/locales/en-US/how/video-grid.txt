@@ -12,7 +12,7 @@ colors: Camera(width × 1px height × 1px 33ms)
 Stage([
 		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
 						:phrases
-						:row.translate(ƒ(color) Phrase("⬤" color: color duration: 0s))
+						:row ↦ Phrase("⬤" color: . duration: 0s)
 					]))
 	])
 \

@@ -38,9 +38,10 @@
     let description = $state('');
     let show = $state(false);
     let submitting = $state(false);
-    let error = $state(false);
 
-    let feedback = $state<Feedback[] | undefined | null>(undefined);
+    // undefined = not loaded yet. A load failure leaves it as-is and raises the
+    // top banner (see getFeedback), so we don't track a separate error state.
+    let feedback = $state<Feedback[] | undefined>(undefined);
     let defects = $derived(feedback?.filter((f) => f.type === 'defect'));
     let ideas = $derived(feedback?.filter((f) => f.type === 'idea'));
     let currentFeedback = $derived(mode === 'defect' ? defects : ideas);
@@ -92,8 +93,9 @@
             window.location.href,
             mode === 'defect' ? Logs.join('\n') : '',
         );
+        // On failure the createFeedback layer raises the top banner; keep the
+        // user's draft (don't clear title/description) so they can retry.
         if (newFeedback === null) {
-            error = true;
             submitting = false;
             return;
         }
@@ -102,11 +104,11 @@
         submitting = false;
         title = '';
         description = '';
-        error = false;
     }
 
     async function vote(feed: Feedback) {
         const success = await voteFeedback(feed.id);
+        // Failures raise the top banner from the voteFeedback layer.
         if (success && feedback) {
             votes.add(feed.id);
             // Optimistic +1 in the local view; the actual server value is the
@@ -115,15 +117,15 @@
             feedback = feedback.map((f) =>
                 f.id === feed.id ? { ...f, votes: f.votes + 1 } : f,
             );
-        } else error = true;
+        }
     }
 
     async function close(feed: Feedback) {
         const newFeedback: Feedback = { ...feed, status: 'resolved' };
         const success = await updateFeedback(newFeedback);
+        // Failures raise the top banner from the updateFeedback layer.
         if (success && feedback)
             feedback = feedback.filter((f) => f.id !== feed.id);
-        else error = true;
     }
 </script>
 
@@ -459,8 +461,6 @@
 
     {#if currentFeedback === undefined}
         <Spinning />
-    {:else if currentFeedback === null}
-        <Notice text={(l) => l.ui.dialog.feedback.error.load}></Notice>
     {:else}
         <div class="feedback-list">
             {#if currentFeedback.length === 0}
@@ -477,7 +477,7 @@
     {#if $user === null}
         <Notice text={(l) => l.ui.dialog.feedback.error.login}></Notice>
     {:else}
-        {#if currentFeedback !== undefined && currentFeedback !== null && currentFeedback.length > 0}
+        {#if currentFeedback !== undefined && currentFeedback.length > 0}
             {#if mode === 'defect'}
                 <MarkupHtmlView
                     markup={(l) => l.ui.dialog.feedback.prompt.defect}
@@ -535,10 +535,6 @@
             label={(l) => l.ui.dialog.feedback.button.submit.label}
             action={submit}
         ></Button>
-
-        {#if error}
-            <Notice text={(l) => l.ui.dialog.feedback.error.submit}></Notice>
-        {/if}
     {/if}
 </Dialog>
 

@@ -1,6 +1,9 @@
 /**
- * Shared search utility for searching Wordplay projects by name, source file
- * name, text literals, formatted literal segments, and documentation.
+ * Search Wordplay projects by name, source file name, text literals, formatted
+ * literal segments, and documentation, using the shared search policy in
+ * src/util/search.ts. The project name ranks above source file names, which rank
+ * above source code text; a match inside source text comes back with a short
+ * excerpt snippet.
  */
 
 import type Project from '@db/projects/Project';
@@ -11,20 +14,14 @@ import Doc from '@nodes/Doc';
 import FormattedTranslation from '@nodes/FormattedTranslation';
 import Translation from '@nodes/Translation';
 import Words from '@nodes/Words';
-import Fuse, { type FuseResult, type IFuseOptions } from 'fuse.js';
-
-export type SearchableSource = {
-    /** The preferred display name of the source file */
-    name: string;
-    /** Flat concatenation of text literals, formatted text segments, and doc text */
-    code: string;
-};
-
-export type SearchableProject = {
-    project: Project;
-    name: string;
-    sources: SearchableSource[];
-};
+import {
+    excerpt,
+    foldEntry,
+    searchItems,
+    type Searchable,
+    type SearchField,
+    type SearchLanguages,
+} from '@util/search';
 
 /** A project returned from search, with an optional snippet when the match was in source code. */
 export type ProjectMatch = {
@@ -37,13 +34,10 @@ export type ProjectMatch = {
     matchText?: string;
 };
 
-export const FUSE_OPTIONS: IFuseOptions<SearchableProject> = {
-    includeScore: true,
-    includeMatches: true,
-    threshold: 0.4,
-    ignoreLocation: true,
-    keys: ['name', 'sources.name', 'sources.code'],
-};
+/** Priority tiers: project name beats file names beats source code text. */
+const NAME = 1;
+const FILE = 2;
+const CODE = 3;
 
 /**
  * Extracts searchable text from a source's AST:
@@ -86,70 +80,58 @@ export function extractSourceText(source: Source): string {
     return parts.join(' ');
 }
 
-/** Creates a Fuse.js-searchable representation of a project. */
+/** Builds the prioritized search fields for a project. */
+export function projectSearchFields(
+    name: string,
+    fileNames: string[],
+    codeBlobs: string[],
+    languages: SearchLanguages,
+): SearchField[] {
+    const fields: SearchField[] = [
+        { entries: [foldEntry(name, languages)], priority: NAME },
+    ];
+    const files = fileNames
+        .filter((n) => n.length > 0)
+        .map((n) => foldEntry(n, languages));
+    if (files.length > 0) fields.push({ entries: files, priority: FILE });
+    const codes = codeBlobs
+        .filter((c) => c.trim().length > 0)
+        .map((c) => foldEntry(c, languages));
+    if (codes.length > 0) fields.push({ entries: codes, priority: CODE });
+    return fields;
+}
+
+/** Creates a searchable record for a project. */
 export function toSearchable(
     project: Project,
-    locales: Locales,
-): SearchableProject {
+    languages: SearchLanguages,
+): Searchable<Project> {
     // For multilingual project names (Wordplay TextLiteral source, e.g.
-    // `"hi"/en"hola"/es`), flatten every translation into the searchable
-    // string so a user typing "hola" still matches the project even when
-    // the active locale is English. Plain names search as-is (#456).
+    // `"hi"/en"hola"/es`), flatten every translation into the searchable string
+    // so a user typing "hola" still matches even when the active locale is
+    // English. Plain names search as-is (#456).
     const raw = project.getName();
     const parsed = parseAsMultilingualName(raw);
     const name = parsed ? parsed.texts.map((t) => t.getText()).join(' ') : raw;
+    const sources = project.getSources();
     return {
-        project,
-        name,
-        sources: project.getSources().map((source) => ({
-            name: source.getPreferredName(locales.getLocales()),
-            code: extractSourceText(source),
-        })),
+        ref: project,
+        fields: projectSearchFields(
+            name,
+            // All language variants of each source's name, so a multilingual
+            // file name matches in any selected locale (not just the preferred).
+            sources.flatMap((s) => s.getNames()),
+            sources.map((s) => extractSourceText(s)),
+            languages,
+        ),
     };
 }
 
 /**
- * Characters of context to show on each side of a matched range in source code.
- * Chosen to fit comfortably within a single line in the UI.
- */
-const SNIPPET_CONTEXT = 40;
-
-/**
- * Given a Fuse result, extracts a short excerpt around the best non-name match.
- * Returns undefined when the match was on the project name (already highlighted in the UI).
- * Returns the source file name verbatim when the match was on a file name.
- * Returns a clipped excerpt with ellipsis for matches inside source code text.
- */
-function matchSnippet(
-    result: FuseResult<SearchableProject>,
-): string | undefined {
-    // Skip if Fuse didn't report match details or every match was on the name
-    const sourceMatch = result.matches?.find(
-        (m) => m.key !== 'name' && m.value && m.indices?.length,
-    );
-    if (!sourceMatch) return undefined;
-
-    const value = sourceMatch.value!;
-    const [start, end] = sourceMatch.indices[0];
-
-    // For a source file name match, just return the name as-is
-    if (sourceMatch.key === 'sources.name') return value;
-
-    // For a source code match, clip a window around the matched range
-    const snippetStart = Math.max(0, start - SNIPPET_CONTEXT);
-    const snippetEnd = Math.min(value.length, end + SNIPPET_CONTEXT + 1);
-    const prefix = snippetStart > 0 ? '…' : '';
-    const suffix = snippetEnd < value.length ? '…' : '';
-    return prefix + value.slice(snippetStart, snippetEnd).trim() + suffix;
-}
-
-/**
- * Searches a list of projects using Fuse.js fuzzy matching against:
- * project name, source file names, text literals, formatted text, and docs.
- *
- * Returns `ProjectMatch[]` in match-quality order, each with an optional
- * `matchText` snippet when the match was inside the source code rather than
- * the project name. Returns the full list (no snippets) when term is empty.
+ * Searches a list of projects, returning `ProjectMatch[]` in match-quality
+ * order. Each match carries an optional `matchText` snippet when the match was
+ * inside source text rather than the project name. Returns the full list (no
+ * snippets) when the term is empty.
  */
 export function searchProjects(
     projects: Project[],
@@ -157,12 +139,12 @@ export function searchProjects(
     locales: Locales,
 ): ProjectMatch[] {
     if (!term.trim()) return projects.map((project) => ({ project }));
-    const searchable = projects.map((p) => toSearchable(p, locales));
-    const fuse = new Fuse(searchable, FUSE_OPTIONS);
-    return fuse.search(term).map((result) => {
-        const matchText = matchSnippet(result);
-        return matchText !== undefined
-            ? { project: result.item.project, matchText }
-            : { project: result.item.project };
-    });
+    const languages = locales.getLanguages();
+    const records = projects.map((p) => toSearchable(p, languages));
+    return searchItems(records, term, languages).map(
+        ([project, [display, start, end, priority]]) =>
+            priority === NAME
+                ? { project }
+                : { project, matchText: excerpt(display, start, end) },
+    );
 }

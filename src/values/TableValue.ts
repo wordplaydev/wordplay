@@ -2,7 +2,7 @@ import type LocaleText from '@locale/LocaleText';
 import TableType from '@nodes/TableType';
 import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '@parser/Symbols';
 import type ExceptionValue from '@values/ExceptionValue';
-import type StructureValue from '@values/StructureValue';
+import StructureValue from '@values/StructureValue';
 import type Value from '@values/Value';
 import type { BasisTypeName } from '@basis/BasisConstants';
 import type Locales from '@locale/Locales';
@@ -69,5 +69,24 @@ export default class TableValue extends SimpleValue {
         let sum = 0;
         for (const row of this.rows) sum += row.getSize();
         return sum;
+    }
+
+    isCollection() {
+        return true;
+    }
+
+    /** A translate (↦) over a table binds `.` to each row Structure. */
+    getTranslationItems(): Value[] {
+        return this.rows;
+    }
+
+    /** Build a new table from the translated rows, deriving the table type from the revised row structure. */
+    createTranslation(creator: Expression, results: Value[]): Value {
+        const rows = results.filter(
+            (row): row is StructureValue => row instanceof StructureValue,
+        );
+        const type =
+            rows.length > 0 ? TableType.make(rows[0].type.inputs) : this.type;
+        return new TableValue(creator, type, rows);
     }
 }

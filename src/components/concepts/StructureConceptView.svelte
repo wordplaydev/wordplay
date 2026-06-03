@@ -5,7 +5,7 @@
     import { locales } from '@db/Database';
     import { onMount } from 'svelte';
     import BindConceptView from '@components/concepts/BindConceptView.svelte';
-    import CodeView from '@components/concepts/CodeView.svelte';
+    import ConceptPreview from '@components/concepts/ConceptPreview.svelte';
     import ConceptView from '@components/concepts/ConceptView.svelte';
     import Names from '@components/concepts/NamesView.svelte';
 
@@ -20,12 +20,15 @@
         if (sub) {
             const inputIndex = concept.inputs.indexOf(sub);
             const propertyIndex = concept.properties.indexOf(sub);
+            const staticIndex = concept.staticProperties.indexOf(sub);
             const [kind, index] =
                 inputIndex >= 0
                     ? ['input', inputIndex]
                     : propertyIndex >= 0
-                      ? ['property', propertyIndex]
-                      : [undefined, undefined];
+                      ? ['property', propertyIndex + concept.inputs.length]
+                      : staticIndex >= 0
+                        ? ['static-property', staticIndex]
+                        : [undefined, undefined];
             if (kind) {
                 // We have to wait for a bit of animation.
                 setTimeout(() =>
@@ -57,7 +60,7 @@
     {#if concept.inter.length > 0}
         <HeaderAndExplanation text={(l) => l.ui.docs.header.interfaces} sub />
         {#each concept.inter as inter}
-            <CodeView concept={inter} node={inter.getRepresentation()} />
+            <ConceptPreview concept={inter} node={inter.getRepresentation()} />
         {/each}
     {/if}
 
@@ -70,7 +73,7 @@
         {/each}
     {/if}
 
-    {#if concept.properties.length > 0}
+    {#if concept.properties.length > 0 || concept.staticProperties.length > 0}
         <HeaderAndExplanation text={(l) => l.ui.docs.header.properties} sub />
         {#each concept.properties as bind, index}
             <div
@@ -80,19 +83,27 @@
                 <BindConceptView concept={bind} />
             </div>
         {/each}
+        {#each concept.staticProperties as bind, index}
+            <div id="static-property-{index}" class:selected={bind === subconcept}>
+                <BindConceptView concept={bind} />
+            </div>
+        {/each}
     {/if}
 
-    {#if concept.functions.length > 0}
+    {#if concept.functions.length > 0 || concept.staticFunctions.length > 0}
         <HeaderAndExplanation text={(l) => l.ui.docs.header.functions} sub />
         {#each concept.functions as fun}
-            <CodeView node={fun.getRepresentation()} concept={fun} />
+            <ConceptPreview node={fun.getRepresentation()} concept={fun} />
+        {/each}
+        {#each concept.staticFunctions as fun}
+            <ConceptPreview node={fun.getRepresentation()} concept={fun} />
         {/each}
     {/if}
 
     {#if concept.conversions.length > 0}
         <HeaderAndExplanation text={(l) => l.ui.docs.header.conversions} sub />
         {#each concept.conversions as conversion}
-            <CodeView
+            <ConceptPreview
                 node={conversion.getRepresentation()}
                 concept={conversion}
             />

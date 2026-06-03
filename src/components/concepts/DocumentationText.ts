@@ -1,7 +1,11 @@
 import type { HowToCategories } from '@concepts/HowTo';
 import { Purpose } from '@concepts/Purpose';
 import type { FormattedText, Template } from '@locale/LocaleText';
-import type { ButtonText, HeaderAndExplanationText, ModeText } from '@locale/UITexts';
+import type {
+    ButtonText,
+    HeaderAndExplanationText,
+    ModeText,
+} from '@locale/UITexts';
 
 type DocumentationText = {
     /** [plain] The ARIA label for the palette section. */
@@ -26,10 +30,21 @@ type DocumentationText = {
         /** [plain] The search text field */
         search: string;
     };
+    /** The navigation breadcrumbs in the documentation tile */
+    breadcrumb: {
+        /** [plain] The ARIA label for the breadcrumb navigation */
+        label: string;
+        /** [plain] The first breadcrumb, returning to the browsing page */
+        home: string;
+    };
     /** Notes shown in the documentation tile */
     note: {
         /** [plain] The project has no concepts. */
         empty: string;
+        /** [plain] Prompt shown in search mode when the query is too short to search yet. */
+        keepTyping: string;
+        /** [plain] Shown in search mode when a query matches no concepts. */
+        noMatches: string;
     };
     /** Modes in the guide */
     mode: {
@@ -89,6 +104,8 @@ type DocumentationText = {
     };
     /** Everything related to how to content */
     how: {
+        /** Header and explanation of what how-tos are, shown atop the how-to section */
+        explain: HeaderAndExplanationText;
         /** The category names */
         category: Record<keyof typeof HowToCategories, string>;
         /** [plain] The subheader for related how to's */

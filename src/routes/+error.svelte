@@ -4,6 +4,7 @@
     import Link from '@components/app/Link.svelte';
     import Writing from '@components/app/Writing.svelte';
     import Speech from '@components/lore/Speech.svelte';
+    import { HOME_SYMBOL } from '@parser/Symbols';
     import Characters from '../lore/BasisCharacters';
 </script>
 
@@ -13,7 +14,7 @@
         >{#snippet content()}
             <p>
                 <LocalizedText path={(l) => l.ui.page.unknown.message} />
-                <Link to="/">🏠</Link></p
+                <Link to="/">{HOME_SYMBOL}</Link></p
             >
         {/snippet}</Speech
     >

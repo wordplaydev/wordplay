@@ -1,0 +1,20 @@
+name: Nightly WebKit e2e (macOS)
+# WebKit/Safari coverage runs on a macOS runner, where real WebKit passes the
+# suite quickly. It is NOT run on PRs: WebKit on the Linux runners hangs on
+# Playwright's element-stability check against the app's animated typography
+# (every click times out), so it is impractically slow and red there. Nightly
+# on macOS catches Safari-only regressions within a day; trigger manually
+# (workflow_dispatch) before a release for an on-demand check.
+on:
+    schedule:
+        # 08:00 UTC daily (off-peak for macOS runner availability).
+        - cron: '0 8 * * *'
+    workflow_dispatch:
+
+jobs:
+    webkit:
+        uses: ./.github/workflows/playwright.yml
+        with:
+            browser: webkit
+            runner: macos-latest
+        secrets: inherit

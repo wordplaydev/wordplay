@@ -24,7 +24,6 @@
     import Color from '@output/Color';
     import {
         DOCUMENTATION_SYMBOL,
-        HELP_SYMBOL,
         LEARN_SYMBOL,
         LOGO_SYMBOL,
         PROJECT_SYMBOL,
@@ -219,20 +218,6 @@
                     </Link>
                 {/if}
             {/snippet}
-            {#snippet navDiscord()}
-                {#if footer}
-                    <Link
-                        nowrap
-                        external
-                        tip={(l) => l.term.help}
-                        to="https://discord.gg/Jh2Qq9husy"
-                    >
-                        <Emoji>{HELP_SYMBOL}</Emoji><span class="nav-label"
-                            ><LocalizedText path={(l) => l.term.help} /></span
-                        >
-                    </Link>
-                {/if}
-            {/snippet}
             {#snippet navLocalizationToggle()}
                 {#if isAuthenticated($user)}
                     <Toggle
@@ -258,6 +243,7 @@
                         anonymize={false}
                         creator={$user ? Creator.from($user) : null}
                         chrome={$user !== null}
+                        loading={$user === undefined}
                         prompt
                     />
                 </Link>
@@ -274,7 +260,6 @@
                     navLearn,
                     navGuide,
                     navTeach,
-                    navDiscord,
                 ]}
                 items={[
                     navSettings,

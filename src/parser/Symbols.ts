@@ -20,6 +20,8 @@ export const TAG_CLOSE_SYMBOL_FULL = '＞';
 export const CONVERT_SYMBOL = '→';
 export const CONVERT_SYMBOL2 = '->';
 export const CONVERT_SYMBOL3 = '=>';
+export const TRANSLATE_SYMBOL = '↦';
+export const TRANSLATE_SYMBOL_RTL = '↤';
 export const FUNCTION_SYMBOL = 'ƒ';
 export const EVAL_OPEN_SYMBOL = '(';
 export const EVAL_CLOSE_SYMBOL = ')';
@@ -58,6 +60,8 @@ export const TRUE_SYMBOL = '⊤';
 export const FALSE_SYMBOL = '⊥';
 export const PROPERTY_SYMBOL = '.';
 export const PROPERTY_SYMBOL_FULL = '。';
+/** The "this" reference: a dotted square, symbolizing a value to be filled in. */
+export const THIS_SYMBOL = '⬚';
 export const BORROW_SYMBOL = '↓';
 export const SHARE_SYMBOL = '↑';
 export const DOCS_SYMBOL = '¶';
@@ -81,6 +85,7 @@ export const NOT_SYMBOL = '~';
 export const PRODUCT_SYMBOL = '×';
 export const DOT_SYMBOL = '·';
 export const QUOTIENT_SYMBOL = '÷';
+export const REMAINDER_SYMBOL = '%';
 export const SUM_SYMBOL = '+';
 export const DIFFERENCE_SYMBOL = '-';
 
@@ -142,6 +147,8 @@ export const IDEA_SYMBOL = '💡';
 export const DEFECT_SYMBOL = '🪲';
 
 export const SEARCH_SYMBOL = '🔍';
+
+export const HOME_SYMBOL = '🏠';
 
 export const BLOCK_EDITING_SYMBOL = withMonoEmoji('🖱️');
 export const TEXT_EDITING_SYMBOL = withMonoEmoji('⌨️');

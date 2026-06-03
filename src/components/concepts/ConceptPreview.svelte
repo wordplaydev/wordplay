@@ -1,10 +1,13 @@
 <script lang="ts">
     import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
+    import OutputPreview from '@components/concepts/OutputPreview.svelte';
     import TypeView from '@components/concepts/TypeView.svelte';
     import { copyNode } from '@components/editor/commands/Clipboard';
     import { getConceptIndex, getDragged } from '@components/project/Contexts';
     import RootView from '@components/project/RootView.svelte';
     import type Concept from '@concepts/Concept';
+    import GalleryHowConcept from '@concepts/GalleryHowConcept';
+    import HowConcept from '@concepts/HowConcept';
     import { blocks, locales } from '@db/Database';
     import Expression, { ExpressionKind } from '@nodes/Expression';
     import type Node from '@nodes/Node';
@@ -21,7 +24,6 @@
         inline?: boolean;
         outline?: boolean;
         elide?: boolean;
-        flip?: boolean;
         localize?: boolean;
     }
 
@@ -34,7 +36,6 @@
         inline = false,
         outline = true,
         elide = false,
-        flip = false,
         // Examples and concept-code views default to *not* filtering by the
         // current locale — they are samples of code, so every translation
         // should be visible. Callers that want locale-aware filtering can
@@ -65,6 +66,42 @@
         // Copy node needs a source to manage spacing, so we make one.
         copyNode(node, getPreferredSpaces(node));
     }
+
+    // How-to concepts preview the *output* of their starred/first example (playable on
+    // demand) instead of code, falling back to the code (the {@render code()} snippet) when
+    // the output isn't a Stage. This is bundled here so every place that renders a concept
+    // (the how-to grid, search results, …) gets it automatically.
+    let isHowTo = $derived(
+        concept instanceof HowConcept || concept instanceof GalleryHowConcept,
+    );
+    let example = $derived(
+        concept instanceof HowConcept || concept instanceof GalleryHowConcept
+            ? concept.getPreviewExample()
+            : undefined,
+    );
+
+    // The output preview mounts lazily when the tile first scrolls into view, so a long list
+    // of how-tos doesn't spin up dozens of evaluators at once. Latch visible (don't toggle
+    // back) to avoid layout thrash. `playing` is local; OutputPreview's registry enforces
+    // one-playing-at-a-time globally.
+    let view = $state<HTMLElement>();
+    let visible = $state(false);
+    let playing = $state(false);
+    $effect(() => {
+        const el = view;
+        if (!isHowTo || !(el instanceof HTMLElement) || visible) return;
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries.some((entry) => entry.isIntersecting)) {
+                    visible = true;
+                    observer.disconnect();
+                }
+            },
+            { rootMargin: '200px' },
+        );
+        observer.observe(el);
+        return () => observer.disconnect();
+    });
 </script>
 
 {#snippet code()}
@@ -124,14 +161,26 @@
     {/if}
 {/snippet}
 
-<span class="view">
-    {#if flip}
-        {@render link()}
-        {@render code()}
+<span class="view" class:how={isHowTo} bind:this={view}>
+    {#if isHowTo && !inline}
+        {#if !visible}
+            <div class="placeholder"></div>
+        {:else if example}
+            <OutputPreview
+                {example}
+                {playing}
+                onPlay={() => (playing = true)}
+                onStop={() => (playing = false)}
+            >
+                {#snippet fallback()}{@render code()}{/snippet}
+            </OutputPreview>
+        {:else}
+            {@render code()}
+        {/if}
     {:else}
         {@render code()}
-        {@render link()}
     {/if}
+    {@render link()}
 </span>
 
 <style>
@@ -139,7 +188,29 @@
         display: inline-flex;
         flex-direction: column;
         touch-action: pan-y;
-        gap: var(--wordplay-spacing);
+        /* Half spacing inside a preview (between code and its concept link) so the
+           larger gap *between* previews reads as the segmentation boundary. */
+        gap: var(--wordplay-spacing-half);
+    }
+
+    /* How-to previews show a full-width output stage, so they fill their column. */
+    .view.how {
+        display: flex;
+        width: 100%;
+    }
+
+    /* Placeholder reserves the stage's box until the tile scrolls into view. */
+    .placeholder {
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        border-radius: var(--wordplay-border-radius);
+        background: var(--wordplay-alternating-color);
+    }
+
+    /* Indent the concept link to match the code's inset (the outline padding, or the
+       inline node's left padding), so the link text aligns with the code text. */
+    .link {
+        padding-inline-start: var(--wordplay-spacing);
     }
 
     .node {
@@ -162,13 +233,17 @@
         cursor: grab;
     }
 
+    /* Elided previews are clipped to a 2:1 box (max-width is twice max-height) so
+       both tall and long samples stay compact. */
     .node.elide {
         max-height: 10ex;
+        max-width: 20ex;
         overflow: hidden;
     }
 
     .node.elide.blocks {
         max-height: 20ex;
+        max-width: 40ex;
     }
 
     .code {

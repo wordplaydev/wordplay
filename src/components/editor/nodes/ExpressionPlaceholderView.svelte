@@ -1,4 +1,5 @@
 <script lang="ts">
+    import AnyType from '@nodes/AnyType';
     import type ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
     import { locales } from '@db/Database';
     import { getProject, getRoot } from '@components/project/Contexts';
@@ -41,14 +42,16 @@
         node={[node, 'placeholder']}
         {format}
     />{/if}{#if placeholder}<span class="label">{placeholder}</span
-    >{/if}<NodeView
-    node={[node, 'dot']}
-    empty="hide"
-    format={{ ...format, editable: false }}
-/><NodeView
-    node={[node, 'type']}
-    format={{ ...format, editable: false }}
-/>{#if format.editable && format.block}<MenuTrigger anchor={node} />{/if}
+    >{/if}{#if !(node.type instanceof AnyType)}<NodeView
+        node={[node, 'dot']}
+        empty="hide"
+        format={{ ...format, editable: false }}
+    /><NodeView
+        node={[node, 'type']}
+        format={{ ...format, editable: false }}
+    />{/if}{#if format.editable && format.block}<MenuTrigger
+        anchor={node}
+    />{/if}
 
 <style>
     .label {

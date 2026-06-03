@@ -3,14 +3,14 @@
     import CreatorCharacterView from '@components/app/CreatorCharacterView.svelte';
     import Header from '@components/app/Header.svelte';
     import Link from '@components/app/Link.svelte';
+    import Notice from '@components/app/Notice.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import EmojiChooser from '@components/widgets/GlyphChooser.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { Creator } from '@db/creators/CreatorDatabase';
-    import { SaveStatus, status } from '@db/Database';
-    import { auth } from '@db/firebase';
+    import { DB, SaveStatus, status } from '@db/Database';
     import { isModerator } from '@db/projects/Moderation';
     import { localeGoto } from '@util/localeGoto';
     import { updateProfile, type User } from 'firebase/auth';
@@ -27,6 +27,11 @@
     let creator = $derived(Creator.from(user));
 
     let moderator = $state(false);
+
+    // Items (across every domain) with edits not yet saved online. Logout and
+    // account deletion wipe the local cache, so doing either with unsaved work
+    // would discard it permanently — guard both on this.
+    let unsaved = $derived(DB.getUnsavedCount());
 
     /** Writable holding the current Firebase user. We need a handle on the
      *  store (not just the unwrapped value via props) so we can republish
@@ -49,11 +54,12 @@
     }
 
     async function logout() {
-        // Then sign out. (Projects will be deleted locally by the project database when user updates.)
-        if (auth) {
-            await auth.signOut();
-            localeGoto('/login');
-        }
+        // Deliberate sign-out: clear local data for privacy, then sign out.
+        // The wipe happens here (not on every auth-null) so an involuntary auth
+        // drop from a flaky connection doesn't erase local projects — see
+        // Database.logout / updateUser.
+        await DB.logout();
+        localeGoto('/login');
     }
 </script>
 
@@ -81,11 +87,14 @@
     </Action>
     <Action>
         <MarkupHTMLView markup={(l) => l.ui.page.login.prompt.logout} />
+        {#if unsaved > 0}
+            <Notice text={(l) => l.ui.page.login.error.unsaved} />
+        {/if}
         <ConfirmButton
             background
             tip={(l) => l.ui.page.login.button.logout.tip}
             action={logout}
-            enabled={$status.status === SaveStatus.Saved}
+            enabled={$status.status === SaveStatus.Saved && unsaved === 0}
             prompt={(l) => l.ui.page.login.button.logout.label}
             label={(l) => l.ui.page.login.button.logout.label}
             testid="logout"

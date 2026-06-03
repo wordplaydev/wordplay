@@ -77,6 +77,16 @@ export type TypeResolutionTemplates = {
     resolutionPlaceholder: Template<['expected']>;
 };
 
+/**
+ * Extends a type-mismatch conflict with a dedicated explanation used when the
+ * offending none value comes from a `÷` or `%` that could divide by zero. Used
+ * by {@link IncompatibleInput} and {@link IncompatibleType}.
+ */
+export type DivideByZeroConflictText = {
+    /** [formatted] Explanation shown when the incompatible none value comes from a `÷`/`%` that could divide by zero. */
+    explanationDivideByZero: Template<['source']>;
+};
+
 export interface Exceptions<Kinds> {
     /** The set of exception values that this node can evaluate to. */
     exception: Kinds;
@@ -291,7 +301,8 @@ type NodeTexts = {
             };
             /** When a bind and it's value type are incompatible. */
             IncompatibleType: ConflictText<['expected', 'given']> &
-                TypeResolutionTemplates;
+                TypeResolutionTemplates &
+                DivideByZeroConflictText;
             /**
              * When a bind is marked as share, but not at the top level.
              */
@@ -478,6 +489,21 @@ type NodeTexts = {
             ConversionException: ExceptionText<[], ['from', 'to']>;
         }>;
     /**
+     * A translate expression that maps a collection, e.g., `[1 2 3] ↦ . + 1`
+     * Start inputs: $expression = collection being translated
+     * Finish inputs: $value = resulting collection
+     */
+    Translate: DescriptiveNodeText &
+        ExpressionText<['expression'], ['value']> & {
+            /** [formatted] The text shown each time the next item is bound to `.` during iteration. $value = the current item */
+            next: Template<['value']>;
+        } & Conflicts<{
+            /** When the left side of a translate is not a List, Set, Map, or Table. */
+            ExpectedCollection: ConflictText<['type']>;
+            /** A warning that the body has no `.` referring to the current item. */
+            ExpectedThis: ConflictText;
+        }>;
+    /**
      * A row delete expression, e.g., `table ⎡- 1 < 2`
      * Start inputs: $1 = table expression
      * Finish inputs: $1 = resulting value
@@ -510,7 +536,8 @@ type NodeTexts = {
              * Description inputs: $1 = expected type, $2 = given type
              * */
             IncompatibleInput: ConflictText<['expected', 'given']> &
-                TypeResolutionTemplates;
+                TypeResolutionTemplates &
+                DivideByZeroConflictText;
             /**
              * When a type input given is not expected.
              * Description inputs: $1 = definition given, $2: type given

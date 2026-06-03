@@ -197,7 +197,7 @@ service cloud.firestore {
     match /howtos/{id} {
       function isGalleryPublic(galleryID) {
         let gallery = get(/databases/$(database)/documents/galleries/$(galleryID)).data;
-        return gallery != null && gallery.public;
+        return gallery != null && "public" in gallery && gallery.public;
       }
 
       function isRequestorOwnerCollaborator(uid) {
@@ -206,12 +206,12 @@ service cloud.firestore {
 
       function isRequestorCuratorCollaborator(uid, galleryID) {
         let gallery = get(/databases/$(database)/documents/galleries/$(galleryID)).data;
-        return gallery != null && (uid in gallery.curators || uid in gallery.creators);
+        return gallery != null && (("curators" in gallery && uid in gallery.curators) || ("creators" in gallery && uid in gallery.creators));
       }
 
       function isRequestorCurator(uid, galleryID) {
         let gallery = get(/databases/$(database)/documents/galleries/$(galleryID)).data;
-        return gallery != null && (uid in gallery.curators);
+        return gallery != null && "curators" in gallery && uid in gallery.curators;
       }
 
       function isRequestorViewer(uid) {
@@ -231,7 +231,7 @@ service cloud.firestore {
       // Unpublished how-tos (drafts) are only readable by the creator and collaborators
       allow read: 
         if resource.data != null && (
-          ("mod" in request.auth.token && request.auth.token.mod) ||
+          (request.auth != null && "mod" in request.auth.token && request.auth.token.mod) ||
           ('isPublic' in resource.data && resource.data.isPublic) ||
           isRequestorOwnerCollaborator(request.auth.uid) ||
           ('galleryId' in resource.data && isGalleryPublic(resource.data.galleryId)) ||
