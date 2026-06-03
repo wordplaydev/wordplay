@@ -14,7 +14,7 @@
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import TextBox from '@components/widgets/TextBox.svelte';
-    import { Galleries, locales } from '@db/Database';
+    import { disconnected, Galleries, locales } from '@db/Database';
     import {
         addStudent,
         addTeacher,
@@ -56,6 +56,8 @@
         }
     }
 
+    // Class writes raise the top banner on failure from the TeacherDatabase
+    // layer, so these handlers don't need their own error UI.
     function updateName(name: string) {
         if (classData) setClass({ ...classData, name: name });
     }
@@ -202,12 +204,14 @@
     <p>
         <ConfirmButton
             background
+            enabled={!$disconnected}
             tip={(l) => l.ui.page.class.field.delete.tip}
             prompt={(l) => l.ui.page.class.field.delete.label}
             action={async () => {
                 if (classData) {
-                    await deleteClass(classData);
-                    localeGoto('/teach');
+                    // deleteClass raises the top banner on failure; only
+                    // navigate away once it actually succeeded.
+                    if (await deleteClass(classData)) localeGoto('/teach');
                 }
             }}
             >{CANCEL_SYMBOL}

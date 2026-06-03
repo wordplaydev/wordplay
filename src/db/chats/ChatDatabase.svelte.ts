@@ -631,16 +631,22 @@ export class ChatDatabase {
     }
 
     async deleteChat(projectID: string) {
-        this.forgetChat(projectID);
+        // Confirm-then-remove: delete the cloud doc FIRST and only forget local
+        // state (memory + durable dirty row) once it lands. Forgetting first —
+        // as this used to — meant a failed/offline delete cleared the dirty row
+        // while the cloud copy survived, with nothing left to retry. write()
+        // fails fast instead of hanging.
         if (firestore) {
             try {
-                await this.db.track(
+                await this.db.write(
                     deleteDoc(doc(firestore, ChatsCollection, projectID)),
                 );
             } catch (err) {
-                console.error(err);
+                this.db.reportBanner((l) => l.ui.banner.deleteFailed, err);
+                return;
             }
         }
+        this.forgetChat(projectID);
     }
 
     syncUser() {

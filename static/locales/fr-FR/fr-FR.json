@@ -5776,8 +5776,6 @@
                 },
                 "error": {
                     "login": "$~Vous devez être connecté pour soumettre des commentaires.",
-                    "submit": "$~Impossible de soumettre des commentaires.",
-                    "load": "$~Impossible de charger les commentaires",
                     "empty": "$~Il n'y a aucun commentaire à afficher.",
                     "url": "$~Ce n'est pas une URL GitHub valide."
                 }
@@ -6095,14 +6093,14 @@
                     "email": "$~Cet email n'était pas valide.",
                     "offline": "$~Nous n'avons pas pu atteindre le nuage ☁️.",
                     "failure": "$~Impossible de se connecter :(",
-                    "delete": "$~Nous n'avons pas pu supprimer votre compte, mais nous ne savons pas pourquoi.",
                     "wrongPassword": "$~Nom d'utilisateur et mot de passe non valides. Soit votre mot de passe est erroné, soit quelqu'un d'autre possède ce nom d'utilisateur.",
                     "tooMany": "$~Vous avez essayé de vous connecter à plusieurs reprises sans succès. Vous devrez attendre avant de réessayer.",
                     "invalidUsername": "$~Les noms d'utilisateur doivent être des e-mails ou >5 lettres sans espaces.",
                     "invalidPassword": "$~Les mots de passe doivent comporter au moins 6 caractères.",
                     "mismatched": "$~Les mots de passe ne correspondent pas.",
                     "usernameTaken": "$~Ce nom d'utilisateur est déjà pris.",
-                    "unsaved": "$~Vos modifications ne sont pas encore enregistrées en ligne. Veuillez vous reconnecter et patienter jusqu'à ce qu'elles soient enregistrées, sinon elles seront perdues sur cet appareil."
+                    "unsaved": "$~Vos modifications ne sont pas encore enregistrées en ligne. Veuillez vous reconnecter et patienter jusqu'à ce qu'elles soient enregistrées, sinon elles seront perdues sur cet appareil.",
+                    "deletePartial": "$?"
                 },
                 "feedback": {
                     "changing": "$~Envoi d'un nouvel e-mail...",
@@ -7176,6 +7174,12 @@
             "refresh": "$~Rafraîchir",
             "updates": "$~Consultez les mises à jour",
             "dismiss": "$~Rejeter"
+        },
+        "banner": {
+            "deleteFailed": "$?",
+            "saveFailed": "$?",
+            "submitFailed": "$?",
+            "loadFailed": "$?"
         }
     },
     "moderation": {

@@ -22,6 +22,7 @@
     import { page } from '$app/state';
     import Loading from '@components/app/Loading.svelte';
     import UpdateNotification from '@components/app/UpdateNotification.svelte';
+    import Banner from '@components/app/Banner.svelte';
     import Announcer from '@components/project/Announcer.svelte';
     import Hint, { ActiveHint } from '@components/widgets/Hint.svelte';
     import { firestore } from '@db/firebase';
@@ -251,6 +252,10 @@
     lang={$locales.getLocale().language}
     ontouchstart={() => hint.hide()}
 >
+    <!-- App-wide transient banner for one-off action failures (e.g. a delete
+         that couldn't reach the cloud). In normal flow at the top so the page
+         content shrinks to fit; auto-dismisses via Database.reportBanner. -->
+    <Banner />
     <div class="content">
         <!-- Always render children, even before the user's preferred locale
              finishes loading. The server renders with the default locale,

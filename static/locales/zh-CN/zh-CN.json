@@ -5712,8 +5712,6 @@
                 },
                 "error": {
                     "login": "$~您必须登录才能提交反馈",
-                    "submit": "$~无法提交反馈。",
-                    "load": "$~无法加载反馈",
                     "empty": "$~沒有可显示的反饋。",
                     "url": "$~这不是有效的 GitHub URL。"
                 }
@@ -6028,14 +6026,14 @@
                     "email": "此电子邮件地址无效。",
                     "failure": "无法登录 :(",
                     "offline": "你似乎处于离线状态。",
-                    "delete": "我们无法删除你的帐户，但我们不知道原因。",
                     "wrongPassword": "无效的用户名和密码。可能是密码错误，或者其他人已经使用了这个用户名。",
                     "tooMany": "你尝试登录失败的次数过多。你必须等待一段时间才能重试。",
                     "invalidUsername": "$~用户名必须至少包含 5 个字母且不包含空格。",
                     "invalidPassword": "$~密码长度必须至少为 6 个字符。",
                     "mismatched": "$~密码不匹配。",
                     "usernameTaken": "$~这个用户名已被占用。",
-                    "unsaved": "$~您所做的更改尚未在线保存。请重新连接并等待保存，否则这些更改将从此设备上丢失。"
+                    "unsaved": "$~您所做的更改尚未在线保存。请重新连接并等待保存，否则这些更改将从此设备上丢失。",
+                    "deletePartial": "$?"
                 },
                 "feedback": {
                     "changing": "正在提交新的电子邮件地址……",
@@ -7104,6 +7102,12 @@
             "refresh": "$~刷新",
             "updates": "$~查看更新",
             "dismiss": "$~解雇"
+        },
+        "banner": {
+            "deleteFailed": "$?",
+            "saveFailed": "$?",
+            "submitFailed": "$?",
+            "loadFailed": "$?"
         }
     },
     "moderation": {

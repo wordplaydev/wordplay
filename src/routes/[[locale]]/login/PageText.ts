@@ -79,8 +79,9 @@ type PageText = {
         failure: string;
         /** [plain] When there's no connection to Firebase */
         offline: string;
-        /** [plain] When account deletion failed */
-        delete: string;
+        /** [plain] When account deletion removed the account's data but couldn't
+         *  finish removing the account itself (partial deletion) */
+        deletePartial: string;
         /** [plain] When a password is wrong */
         wrongPassword: string;
         /** [plain] When the password is invalid */

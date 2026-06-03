@@ -644,13 +644,14 @@ export class HowToDatabase {
         );
     }
 
-    async deleteHowTo(howToId: string, gallery: Gallery) {
-        this.howtos.delete(howToId);
-        // Drops the unsaved/error state AND the durable dirty row, so a how-to
-        // deleted while dirty can't re-seed unsavedIDs on reload.
-        this.saves.forget(howToId);
-        if (this.IndexedDBSupported) void this.db.localDB.deleteHowTo(howToId);
-
+    /** Delete a how-to. Returns whether it succeeded so callers can gate UI
+     *  (e.g. closing the editor) on a confirmed delete rather than assuming it
+     *  worked. Confirm-then-remove: do the cloud delete FIRST and only drop
+     *  local state (memory, cache, and the durable dirty row via forget) once it
+     *  lands. Removing local state first — as this used to — meant a
+     *  failed/offline delete left a stranded cloud copy with the dirty row
+     *  already cleared, so nothing could retry it. write() fails fast. */
+    async deleteHowTo(howToId: string, gallery: Gallery): Promise<boolean> {
         if (firestore) {
             try {
                 // Atomic batch: delete the how-to doc AND remove its ID from
@@ -663,11 +664,19 @@ export class HowToDatabase {
                     doc(firestore, GalleriesCollection, gallery.getID()),
                     { howTos: arrayRemove(howToId) },
                 );
-                await this.db.track(batch.commit());
+                await this.db.write(batch.commit());
             } catch (err) {
-                console.error(err);
+                this.db.reportBanner((l) => l.ui.banner.deleteFailed, err);
+                return false;
             }
         }
+
+        // Cloud delete succeeded (or we're in local-only mode with no
+        // firestore): now remove locally.
+        this.howtos.delete(howToId);
+        this.saves.forget(howToId);
+        if (this.IndexedDBSupported) void this.db.localDB.deleteHowTo(howToId);
+        return true;
     }
 
     syncUser() {

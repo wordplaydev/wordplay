@@ -9,13 +9,14 @@ import {
     type SaveCounts,
     type SaveError,
 } from '@db/Database';
-import { firestore } from '@db/firebase';
 import { Domain } from '@db/Domains';
+import { firestore } from '@db/firebase';
+import type Project from '@db/projects/Project';
 import SaveTracker from '@db/SaveTracker.svelte';
 import supportsIndexedDB from '@db/supportsIndexedDB';
-import type Project from '@db/projects/Project';
 import ConceptLink, { CharacterName } from '@nodes/ConceptLink';
 import type Node from '@nodes/Node';
+import deferToIdle from '@util/deferToIdle';
 import { FirebaseError } from 'firebase/app';
 import type { User } from 'firebase/auth';
 import {
@@ -34,7 +35,6 @@ import {
     type Unsubscribe,
 } from 'firebase/firestore';
 import { SvelteMap } from 'svelte/reactivity';
-import deferToIdle from '@util/deferToIdle';
 import { v4 as uuidv4 } from 'uuid';
 
 const CharactersCollection = Domain.Characters;
@@ -608,23 +608,28 @@ export class CharactersDatabase {
         }
     }
 
-    /** Delete a character, if the owner */
-    async deleteCharacter(id: string) {
+    /** Delete a character, if the owner. Returns whether the delete reached the
+     *  cloud, so callers (e.g. the editor) can gate navigation on success rather
+     *  than redirecting away as if it worked. */
+    async deleteCharacter(id: string): Promise<boolean> {
         const user = this.db.getUser();
-        if (user === null) return;
+        if (user === null) return false;
         const char = await this.getByID(id);
-        if (char === null || char === undefined) return;
-        if (user.uid === char.owner) {
-            if (firestore === undefined) return;
-            try {
-                await this.db.track(
-                    deleteDoc(doc(firestore, CharactersCollection, id)),
-                );
-                this.deleteCharacterLocally(char);
-            } catch (err) {
-                console.error(err);
-                return;
-            }
+        if (char === null || char === undefined) return false;
+        if (user.uid !== char.owner) return false;
+        if (firestore === undefined) return false;
+        // Confirm-then-remove: only drop local state once the cloud delete
+        // lands, so a failed/offline delete can't strand a cloud copy the
+        // user can no longer see. write() fails fast instead of hanging.
+        try {
+            await this.db.write(
+                deleteDoc(doc(firestore, CharactersCollection, id)),
+            );
+            this.deleteCharacterLocally(char);
+            return true;
+        } catch (err) {
+            this.db.reportBanner((l) => l.ui.banner.deleteFailed, err);
+            return false;
         }
     }
 

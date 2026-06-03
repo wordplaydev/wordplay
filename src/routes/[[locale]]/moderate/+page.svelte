@@ -9,12 +9,14 @@
         FieldPath,
         and,
         collection,
+        doc,
         getDocs,
         limit,
         or,
         orderBy,
         query,
         startAfter,
+        updateDoc,
         where,
         type DocumentData,
         type QueryDocumentSnapshot,
@@ -24,9 +26,9 @@
     import Spinning from '@components/app/Spinning.svelte';
     import { getUser, setConceptPath } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
-    import { Projects, locales } from '@db/Database';
+    import { DB, disconnected, Projects, locales } from '@db/Database';
     import { firestore } from '@db/firebase';
-    import type { Flag, ModerationState } from '@db/projects/Moderation';
+    import type { ModerationState } from '@db/projects/Moderation';
     import {
         Flags,
         getFlagDescription,
@@ -60,6 +62,9 @@
 
     let moderatedCount = $state(0);
     let unmoderatedCount = $state(0);
+    // True while a flag write is in flight, to disable the controls so a
+    // moderator can't double-submit or skip past an unsaved decision.
+    let saving = $state(false);
     onMount(async () => {
         try {
             await nextBatch();
@@ -92,7 +97,15 @@
             ...(lastBatch ? [startAfter(lastBatch)] : []),
             limit(1),
         );
-        const documentSnapshots = await getDocs(unmoderated);
+        // Wrap in read() so an unreachable backend fails fast (and trips the
+        // connection banner) instead of hanging the moderation queue.
+        let documentSnapshots;
+        try {
+            documentSnapshots = await DB.read(getDocs(unmoderated));
+        } catch (error) {
+            DB.reportBanner((l) => l.ui.banner.loadFailed, error);
+            return;
+        }
 
         if (!lastBatch) {
             //add to total projects if there was not a last batch detected
@@ -103,20 +116,40 @@
         lastBatch = documentSnapshots.docs[documentSnapshots.docs.length - 1];
 
         // Convert the docs to galleries
-        const doc = documentSnapshots.docs.map((snap) => snap.data())[0];
+        const projectData = documentSnapshots.docs.map((snap) => snap.data())[0];
 
-        project = await Projects.parseProject(doc);
+        project = await Projects.parseProject(projectData);
 
         if (project) newFlags = project.getFlags();
     }
 
-    function save() {
-        if (newFlags === undefined) return;
+    async function save() {
+        if (newFlags === undefined || project === undefined) return;
+        if (firestore === undefined) return;
+        // Treat any still-undecided (null) flag as "not flagged" before saving.
+        let flags = newFlags;
         for (const [flag, state] of Object.entries(newFlags))
-            if (state === null) newFlags[flag as Flag] = false;
+            if (state === null) flags = withFlag(flags, flag, false);
+        newFlags = flags;
 
-        // Save the project with the new flags.
-        if (project) Projects.edit(project.withFlags(newFlags), false, true);
+        // Write the flags with write() so the result is definitive: only
+        // advance the queue (count + next project) once the write actually
+        // lands. The old fire-and-forget edit advanced optimistically even when
+        // the write failed, so a moderator could believe a project was handled
+        // when it wasn't. On failure we surface a banner and stay put.
+        saving = true;
+        try {
+            await DB.write(
+                updateDoc(doc(firestore, ProjectsCollection, project.getID()), {
+                    flags,
+                }),
+            );
+        } catch (error) {
+            DB.reportBanner((l) => l.ui.banner.saveFailed, error);
+            saving = false;
+            return;
+        }
+        saving = false;
 
         moderatedCount += 1; //increment the moderated count when saved with new flags.
         skip();
@@ -178,12 +211,14 @@
                 <div class="controls">
                     <Button
                         background
+                        active={!$disconnected && !saving}
                         tip={(l) => l.moderation.button.submit.tip}
                         action={save}
                         label={(l) => l.moderation.button.submit.label}
                     />
                     <Button
                         background
+                        active={!$disconnected && !saving}
                         tip={(l) => l.moderation.button.skip.tip}
                         action={skip}
                         label={(l) => l.moderation.button.skip.label}

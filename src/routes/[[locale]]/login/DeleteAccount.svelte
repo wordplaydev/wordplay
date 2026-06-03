@@ -32,7 +32,8 @@
     let confirmEmail: string = $state('');
     let password = $state('');
     let deleteSubmitted = $state(false);
-    let successfullyDeleted: boolean | undefined = $state(undefined);
+    let deleteResult: 'deleted' | 'failed' | 'partial' | undefined =
+        $state(undefined);
     let deleteFeedback: LocaleTextAccessor | undefined = $state(undefined);
 
     async function deleteAccount() {
@@ -45,11 +46,15 @@
             : Creator.usernameEmail(confirmEmail);
         try {
             await signInWithEmailAndPassword(auth, email, password);
-            successfullyDeleted = await DB.deleteAccount();
+            deleteResult = await DB.deleteAccount();
+            // On anything but a clean delete, DB.deleteAccount has already
+            // raised the top banner; drop back to the form so the user can
+            // retry. On success the auth state change navigates away.
+            if (deleteResult !== 'deleted') deleteSubmitted = false;
         } catch (error) {
             deleteFeedback = (l) => l.ui.page.login.error.wrongPassword;
+            deleteSubmitted = false;
         }
-        deleteSubmitted = false;
     }
 
     function readyToDeleteAccount(email: string, pass: string) {
@@ -131,13 +136,9 @@
             {/if}
         </form>
     {/if}
-{:else if successfullyDeleted === undefined}
+{:else if deleteResult === undefined}
     <p><LocalizedText path={(l) => l.ui.page.login.feedback.deleting} /></p>
-    <p><Spinning label={(l) => l.ui.page.login.feedback.deleting} /></p
-    >{:else if successfullyDeleted === false}
-    <p aria-live="assertive"
-        ><LocalizedText path={(l) => l.ui.page.login.error.delete} /></p
-    >
+    <p><Spinning label={(l) => l.ui.page.login.feedback.deleting} /></p>
 {/if}
 
 {#if deleteFeedback}

@@ -122,10 +122,18 @@ export default class SettingsDatabase {
         const user = this.database.getUser();
         if (user === null) return;
 
-        // Get the config from the database
-        const config = await getDoc(
-            doc(firestore, CreatorCollection, user.uid),
-        );
+        // Get the config from the database. Wrap in read() so an unreachable
+        // backend fails fast (and trips the connection banner) instead of
+        // hanging the user's settings sync indefinitely.
+        let config;
+        try {
+            config = await this.database.read(
+                getDoc(doc(firestore, CreatorCollection, user.uid)),
+            );
+        } catch (err) {
+            this.database.reportBanner((l) => l.ui.banner.loadFailed, err);
+            return;
+        }
         if (config.exists()) {
             const data = upgradeSettings(
                 config.data() as SettingsSchemaUnknown,

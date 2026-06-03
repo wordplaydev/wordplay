@@ -46,14 +46,14 @@
     } from '@db/characters/Character';
     import { MAX_CHARACTER_NAME_LENGTH } from '@db/characters/CharacterDatabase.svelte';
     import { Creator } from '@db/creators/CreatorDatabase';
-    import { CharactersDB, locales } from '@db/Database';
+    import { CharactersDB, disconnected, locales } from '@db/Database';
     import type Project from '@db/projects/Project';
     import Locales from '@locale/Locales';
     import type LocaleText from '@locale/LocaleText';
     import { type ModeText } from '@locale/UITexts';
     import ConceptLink, { CharacterName } from '@nodes/ConceptLink';
-    import { toProgram } from '@parser/parseProgram';
     import { RGBtoLCH } from '@output/ColorJS';
+    import { toProgram } from '@parser/parseProgram';
     import {
         BORROW_SYMBOL,
         CANCEL_SYMBOL,
@@ -2371,6 +2371,7 @@
                     explanation={(l) =>
                         l.ui.page.character.share.dialog.explanation}
                     button={{
+                        background: true,
                         tip: (l) => l.ui.page.character.share.button.tip,
                         icon: isPublic ? GLOBE1_SYMBOL : '🤫',
                         label: isPublic
@@ -2404,16 +2405,17 @@
                 {#if isAuthenticated($user) && editedCharacter !== null && $user.uid === editedCharacter.owner}
                     <ConfirmButton
                         tip={(l) => l.ui.page.character.share.delete.tip}
-                        action={() => {
-                            if (editedCharacter) {
-                                CharactersDB.deleteCharacter(
+                        action={async () => {
+                            if (
+                                editedCharacter &&
+                                (await CharactersDB.deleteCharacter(
                                     editedCharacter.id,
-                                );
+                                ))
+                            )
                                 localeGoto('/characters');
-                            }
                         }}
                         prompt={(l) => l.ui.page.character.share.delete.tip}
-                        enabled={editedCharacter !== null}
+                        enabled={editedCharacter !== null && !$disconnected}
                         >{CANCEL_SYMBOL}
                         <LocalizedText
                             path={(l) => l.ui.page.character.share.delete.label}

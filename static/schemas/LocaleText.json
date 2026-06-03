@@ -12297,6 +12297,35 @@
               ],
               "type": "object"
             },
+            "banner": {
+              "additionalProperties": false,
+              "description": "Transient top-of-page banner messages for one-off action failures that aren't tied to a form field (e.g. a delete that couldn't reach the cloud). Also reused for inline notices on form actions.",
+              "properties": {
+                "deleteFailed": {
+                  "description": "[plain] Shown when deleting something didn't reach the cloud",
+                  "type": "string"
+                },
+                "loadFailed": {
+                  "description": "[plain] Shown when loading/reading something from the cloud failed",
+                  "type": "string"
+                },
+                "saveFailed": {
+                  "description": "[plain] Shown when saving a change didn't reach the cloud",
+                  "type": "string"
+                },
+                "submitFailed": {
+                  "description": "[plain] Shown when submitting something (e.g. feedback) didn't reach the cloud",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "deleteFailed",
+                "saveFailed",
+                "submitFailed",
+                "loadFailed"
+              ],
+              "type": "object"
+            },
             "checkpoints": {
               "additionalProperties": false,
               "description": "Checkpoints text",
@@ -12717,16 +12746,8 @@
                           "description": "[plain] No feedback yet",
                           "type": "string"
                         },
-                        "load": {
-                          "description": "[plain] Unable to laod feedback",
-                          "type": "string"
-                        },
                         "login": {
                           "description": "[plain] Must be logged in to submit",
-                          "type": "string"
-                        },
-                        "submit": {
-                          "description": "[plain] The error shown when the feedback was not submitted",
                           "type": "string"
                         },
                         "url": {
@@ -12736,8 +12757,6 @@
                       },
                       "required": [
                         "login",
-                        "submit",
-                        "load",
                         "empty",
                         "url"
                       ],
@@ -16560,8 +16579,8 @@
                     "error": {
                       "additionalProperties": false,
                       "properties": {
-                        "delete": {
-                          "description": "[plain] When account deletion failed",
+                        "deletePartial": {
+                          "description": "[plain] When account deletion removed the account's data but couldn't finish removing the account itself (partial deletion)",
                           "type": "string"
                         },
                         "email": {
@@ -16621,7 +16640,7 @@
                         "usernameTaken",
                         "failure",
                         "offline",
-                        "delete",
+                        "deletePartial",
                         "wrongPassword",
                         "invalidPassword",
                         "mismatched",
@@ -19495,6 +19514,7 @@
             "dialog",
             "save",
             "connection",
+            "banner",
             "update",
             "localize",
             "page",

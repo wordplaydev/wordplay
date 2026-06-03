@@ -570,40 +570,62 @@ export default class GalleryDatabase {
         const user = this.database.getUser();
         if (user === null) return undefined;
 
+        // This compound delete isn't a single transaction; each step surfaces
+        // its own failure (removeProjectFromGallery / deleteHowTo show their own
+        // banners). The UI disables the delete button while offline, so the
+        // common offline case never reaches here; the guards below are for a
+        // connection that drops mid-operation. We await every step (the how-to
+        // deletes used to run un-awaited via forEach(async)) so they actually
+        // complete in order before we remove the gallery doc itself.
+
         // Remove all projects from the gallery.
         for (const projectID of gallery.getProjects()) {
             const project = await this.database.Projects.get(projectID);
             if (project) await this.removeProjectFromGallery(project);
         }
 
-        // Delete all how-tos in the gallery
-        gallery.getHowTos().forEach(async (howToID) => {
+        // Delete all how-tos in the gallery.
+        for (const howToID of gallery.getHowTos())
             await this.database.HowTos.deleteHowTo(howToID, gallery);
-        });
 
-        // Remove the gallery from any classes it is in.
-        const classes = await getDocs(
-            query(
-                collection(firestore, ClassesCollection),
-                where('galleries', 'array-contains', gallery.getID()),
-            ),
-        );
-        // Don't wait for each removal, just async request it.
-        classes.forEach((doc) => {
-            const group = ClassSchema.parse(doc.data());
-            setClass({
+        // Remove the gallery from any classes it is in. Wrap the read so it
+        // fails fast instead of hanging; if we can't read the classes, abort
+        // before deleting the gallery doc rather than leaving dangling links.
+        let classes;
+        try {
+            classes = await this.database.read(
+                getDocs(
+                    query(
+                        collection(firestore, ClassesCollection),
+                        where('galleries', 'array-contains', gallery.getID()),
+                    ),
+                ),
+            );
+        } catch (err) {
+            this.database.reportBanner((l) => l.ui.banner.deleteFailed, err);
+            return undefined;
+        }
+        for (const classDoc of classes.docs) {
+            const group = ClassSchema.parse(classDoc.data());
+            await setClass({
                 ...group,
                 galleries: group.galleries.filter((g) => g !== gallery.getID()),
             });
-        });
+        }
 
-        // Delete the gallery document now that the projects are removed. forget
-        // drops the unsaved/error state AND the durable dirty row, so a gallery
-        // deleted while dirty can't re-seed unsavedIDs on reload.
+        // Delete the gallery document now that the projects are removed.
+        // Confirm-then-remove: only forget local tracking (incl. the durable
+        // dirty row) once the cloud delete lands; on failure surface a banner
+        // and keep the gallery so the user can retry.
+        try {
+            await this.database.write(
+                deleteDoc(doc(firestore, GalleriesCollection, gallery.getID())),
+            );
+        } catch (err) {
+            this.database.reportBanner((l) => l.ui.banner.deleteFailed, err);
+            return undefined;
+        }
         this.saves.forget(gallery.getID());
-        await this.database.track(
-            deleteDoc(doc(firestore, GalleriesCollection, gallery.getID())),
-        );
     }
 
     // Add the given project to the given gallery ID, or remove it if the gallery ID is undefined.

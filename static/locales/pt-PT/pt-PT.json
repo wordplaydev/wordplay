@@ -6055,8 +6055,6 @@
                 },
                 "error": {
                     "login": "$~Necessita de estar <logado@://login> para enviar feedback.",
-                    "submit": "$~Não foi possível enviar feedback.",
-                    "load": "$~Não foi possível carregar o feedback.",
                     "empty": "$~Não há comentários a exibir.",
                     "url": "$~Este não é um URL válido do GitHub."
                 }
@@ -6835,12 +6833,12 @@
                     "usernameTaken": "$~Este nome de utilizador já está em utilização.",
                     "failure": "$~Não foi possível fazer login :(",
                     "offline": "$~Não conseguimos alcançar a cloud ☁️.",
-                    "delete": "$~Não foi possível eliminar a sua conta, mas não sabemos o motivo.",
                     "invalidPassword": "$~As palavras-passe devem ter no mínimo 6 caracteres.",
                     "wrongPassword": "$~Nome de utilizador e palavra-passe inválidos. Ou a sua palavra-passe está incorreta, ou outra pessoa já está a utilizar este nome de utilizador.",
                     "mismatched": "$~As palavras-passe não coincidem.",
                     "tooMany": "$~Tentou fazer login muitas vezes sem sucesso. Terá que esperar para tentar novamente.",
-                    "unsaved": "$~Tem alterações que ainda não foram guardadas online. Volte a ligar-se e aguarde até que sejam guardadas primeiro, ou serão perdidas deste dispositivo."
+                    "unsaved": "$~Tem alterações que ainda não foram guardadas online. Volte a ligar-se e aguarde até que sejam guardadas primeiro, ou serão perdidas deste dispositivo.",
+                    "deletePartial": "$?"
                 },
                 "feedback": {
                     "changing": "$~Envio de novo e-mail...",
@@ -7176,6 +7174,12 @@
             "refresh": "$~Atualizar",
             "updates": "$~Veja as atualizações",
             "dismiss": "$~Dispensar"
+        },
+        "banner": {
+            "deleteFailed": "$?",
+            "saveFailed": "$?",
+            "submitFailed": "$?",
+            "loadFailed": "$?"
         }
     },
     "moderation": {

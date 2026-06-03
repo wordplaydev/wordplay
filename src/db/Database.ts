@@ -1,6 +1,7 @@
 import { auth, firestore } from '@db/firebase';
 import { FirebaseError } from 'firebase/app';
 import concretize from '@locale/concretize';
+import { type LocaleTextAccessor } from '@locale/Locales';
 import { getBestSupportedLocales } from '@locale/getBestSupportedLocales';
 import { type SupportedLocale } from '@locale/SupportedLocales';
 import {
@@ -172,9 +173,20 @@ export class Database {
      *  backend as unreachable. Without it, an unreachable backend makes
      *  `getDoc`/`getDocs` hang for minutes instead of failing fast. */
     private static READ_TIMEOUT_MS = 8_000;
+    /** Maximum time an *awaited* one-off write (delete/teacher edit/moderation/
+     *  feedback) may take before we give up. The memory-only cache means a
+     *  write to an unreachable backend never resolves *or* rejects — it just
+     *  hangs — so {@link write} races it against this timeout to fail fast. */
+    private static WRITE_TIMEOUT_MS = 8_000;
+    /** How long the top-of-page banner ({@link reportBanner}) stays up before it
+     *  auto-dismisses. Long enough to read a short failure message. */
+    private static BANNER_TIMEOUT_MS = 8_000;
     /** Number of consecutive probe failures. Only marks Firebase unreachable
      *  after two in a row, suppressing false positives under classroom load. */
     private writeCheckConsecutiveFailures = 0;
+
+    /** Auto-dismiss timer for the top-of-page banner ({@link reportBanner}). */
+    private bannerTimer: ReturnType<typeof setTimeout> | undefined = undefined;
 
     constructor(locales: SupportedLocale[], defaultLocale: LocaleText) {
         // Set up in-memory stores of configuration settings and locale caches.
@@ -267,6 +279,31 @@ export class Database {
             message: undefined,
             failures,
         });
+    }
+
+    /** Surface a transient message in the app-wide top-of-page banner (rendered
+     *  once in +layout.svelte). Use for one-off action failures the user should
+     *  see immediately but that aren't tied to a form field — a delete that
+     *  couldn't reach the cloud, a moderation flag that didn't save. Auto-
+     *  dismisses after a few seconds; a newer message replaces an older one.
+     *  Screen-reader announcement happens in Banner.svelte via the centralized
+     *  Announcer, so this stays a plain store write.
+     *
+     *  Pass the originating `error` (when there is one) and it's logged here, so
+     *  failure call sites don't each repeat a `console.error` before calling
+     *  this — one consistent place logs and surfaces. */
+    reportBanner(message: LocaleTextAccessor, error?: unknown) {
+        if (error !== undefined) console.error(error);
+        appBanner.set(message);
+        if (this.bannerTimer !== undefined) clearTimeout(this.bannerTimer);
+        this.bannerTimer = setTimeout(() => {
+            this.bannerTimer = undefined;
+            // Only clear if this is still the message we set — a later
+            // reportBanner may have replaced it with its own timer.
+            appBanner.update((current) =>
+                current === message ? undefined : current,
+            );
+        }, Database.BANNER_TIMEOUT_MS);
     }
 
     /** Speculative disconnect signal (e.g. Firestore serving from cache). Only
@@ -364,6 +401,39 @@ export class Database {
                     setTimeout(
                         () => reject(new Error('read-timeout')),
                         Database.READ_TIMEOUT_MS,
+                    ),
+                ),
+            ]);
+            this.markFirebaseReachable();
+            return value;
+        } catch (error) {
+            if (this.isConnectivityError(error)) this.markFirebaseFailed();
+            throw error;
+        }
+    }
+
+    /** Wrap an *awaited* one-off write (a `deleteDoc`, `batch.commit()`, or a
+     *  one-shot `setDoc`/`updateDoc` whose result the caller acts on) so it
+     *  fails fast instead of hanging, and feeds the reachability banner. Unlike
+     *  {@link track} — which returns immediately and probes connectivity in the
+     *  background for the fire-and-forget per-item *save* path — this races the
+     *  write against a timeout and resolves/rejects with a definitive outcome:
+     *  on success we mark reachable; on a connectivity failure (including our
+     *  own timeout) we mark failed. The error is rethrown either way, so callers
+     *  must `try/catch` and surface the failure (e.g. a banner or inline
+     *  notice) rather than silently dropping the user's action.
+     *
+     *  Use this for actions where the user is waiting on confirmation and a
+     *  silent hang or swallowed error would lose their intent — not for the
+     *  high-frequency edit path, which stays on {@link track}/`trackSave`. */
+    async write<T>(write: Promise<T>): Promise<T> {
+        try {
+            const value = await Promise.race([
+                write,
+                new Promise<never>((_, reject) =>
+                    setTimeout(
+                        () => reject(new Error('write-timeout')),
+                        Database.WRITE_TIMEOUT_MS,
                     ),
                 ),
             ]);
@@ -669,7 +739,15 @@ export class Database {
         await this.Chats.clearLocal();
         await this.Galleries.clearLocal();
         await this.HowTos.clearLocal();
-        if (auth) await auth.signOut();
+        // The local wipe above is the privacy-critical part and is already
+        // done; a failing signOut (rare — token refresh hiccup) must not throw
+        // out of logout and leave the caller hanging. Worst case the Firebase
+        // session lingers until it expires, but this device holds no local data.
+        try {
+            if (auth) await auth.signOut();
+        } catch (err) {
+            console.error('signOut failed after local wipe', err);
+        }
     }
 
     /** Clean up listeners */
@@ -684,34 +762,62 @@ export class Database {
         this.HowTos.ignore();
     }
 
-    /** Delete account, including all projects, settings, and user. */
-    async deleteAccount(): Promise<boolean> {
+    /** Delete account, including all projects, settings, and user.
+     *
+     *  Returns a three-way outcome rather than a boolean because there's an
+     *  inherent partial-failure window: the creator doc MUST be deleted while
+     *  still authenticated (the security rules require it), so it goes before
+     *  `deleteUser`. If the creator doc delete succeeds but `deleteUser` then
+     *  fails, the user's data is gone but their auth account remains — a state
+     *  the caller must explain differently from a clean failure (where nothing
+     *  irreversible happened and a retry is safe). The durable cleanup for an
+     *  orphaned auth account is a server-side Cloud Function sweep (out of scope
+     *  here); this just reports the situation honestly.
+     *
+     *  - `'deleted'` — everything removed.
+     *  - `'failed'`  — failed before the creator doc was deleted; safe to retry.
+     *  - `'partial'` — data removed but account removal didn't finish. */
+    async deleteAccount(): Promise<'deleted' | 'failed' | 'partial'> {
         // Not logged in? Do nothing.
         const user = this.getUser();
-        if (user === null) return false;
+        if (user === null) return 'failed';
 
         // No firestore? Do nothing.
-        if (firestore === undefined) return false;
+        if (firestore === undefined) return 'failed';
 
         try {
             await this.Projects.deleteOwnedProjects();
         } catch (err) {
-            console.error(err);
-            return false;
+            this.reportBanner((l) => l.ui.banner.deleteFailed, err);
+            return 'failed';
         }
 
-        // Archiving was successful, delete the user's settings and then the user.
+        // Projects gone; delete the creator doc (while still authed), then the
+        // auth user. Use write() so neither call can hang on an unreachable
+        // backend. Track whether the creator doc landed so we can tell apart a
+        // clean failure from the data-gone-but-account-remains partial window.
+        let creatorDocDeleted = false;
         try {
-            await this.track(
+            await this.write(
                 deleteDoc(doc(firestore, CreatorCollection, user.uid)),
             );
-            await deleteUser(user);
+            creatorDocDeleted = true;
+            await this.write(deleteUser(user));
         } catch (err) {
-            console.error(err);
-            return false;
+            // Partial: data gone but the account remains — surface the specific
+            // explanation; otherwise a generic delete-failed banner.
+            if (creatorDocDeleted) {
+                this.reportBanner(
+                    (l) => l.ui.page.login.error.deletePartial,
+                    err,
+                );
+                return 'partial';
+            }
+            this.reportBanner((l) => l.ui.banner.deleteFailed, err);
+            return 'failed';
         }
 
-        return true;
+        return 'deleted';
     }
 
     /** Utility function for getting URL from server */
@@ -793,6 +899,13 @@ function freshSyncState(): Record<SyncDomain, SyncDomainState> {
 }
 export const syncState: Writable<Record<SyncDomain, SyncDomainState>> =
     writable(freshSyncState());
+
+/** The current top-of-page banner message, or undefined when none. Set via
+ *  {@link Database.reportBanner} (auto-dismissing) and rendered once by
+ *  Banner.svelte in +layout.svelte. A plain message store, separate from the
+ *  sticky connection state and the per-item save errors. */
+export const appBanner: Writable<LocaleTextAccessor | undefined> =
+    writable(undefined);
 
 /** True when the browser reports online; defaults to true on the server. */
 export const onlineStatus: Writable<boolean> = writable(

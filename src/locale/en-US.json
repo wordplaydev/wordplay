@@ -6065,8 +6065,6 @@
                 },
                 "error": {
                     "login": "You must be <logged in@://login> to submit feedback",
-                    "submit": "Unable to submit feedback.",
-                    "load": "Unable to load feedback",
                     "empty": "There is no feedback to show.",
                     "url": "This is not a valid GitHub URL."
                 }
@@ -6262,6 +6260,12 @@
             "offline": "You're offline. Some things won't work until you are online.",
             "unreachable": "We can't reach the database, so some things won't work. A VPN, browser extension, or network filter may be blocking it.",
             "label": "Connection status"
+        },
+        "banner": {
+            "deleteFailed": "We couldn't delete that.",
+            "saveFailed": "We couldn't save that",
+            "submitFailed": "We couldn't submit that",
+            "loadFailed": "We couldn't load that."
         },
         "update": {
             "label": "New version available",
@@ -6951,7 +6955,7 @@
                     "usernameTaken": "This username is already taken.",
                     "failure": "Unable to login :(",
                     "offline": "We couldn't reach the cloud ☁️.",
-                    "delete": "We couldn't delete your account, but we don't know why.",
+                    "deletePartial": "We removed your account's data, but couldn't finish removing your account. Please try again, or contact us if it keeps happening.",
                     "invalidPassword": "Passwords must be at least 6 characters long.",
                     "wrongPassword": "Not a valid username and password. Either your password is wrong, or someone else has this username.",
                     "mismatched": "The passwords don't match.",

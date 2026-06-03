@@ -11,7 +11,7 @@
     import Button from '@components/widgets/Button.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import Title from '@components/widgets/Title.svelte';
-    import { CharactersDB } from '@db/Database';
+    import { CharactersDB, disconnected } from '@db/Database';
     import { firestore } from '@db/firebase';
     import { CANCEL_SYMBOL, COPY_SYMBOL } from '@parser/Symbols';
     import { characterToSVG, type Character } from '@db/characters/Character';
@@ -67,6 +67,7 @@
                 tip={(l) => l.ui.page.characters.button.remove.tip}
                 prompt={(l) => l.ui.page.characters.button.remove.prompt}
                 icon={CANCEL_SYMBOL}
+                enabled={!$disconnected}
                 action={async () => {
                     await CharactersDB.deleteCharacter(character.id);
                 }}

@@ -6051,8 +6051,6 @@
                 },
                 "error": {
                     "login": "$~Bạn phải đăng nhập vào <địa chỉ email> để gửi phản hồi",
-                    "submit": "$~Không thể gửi phản hồi.",
-                    "load": "$~Không thể tải phản hồi",
                     "empty": "$~Hiện không có phản hồi nào.",
                     "url": "$~Đây không phải là URL GitHub hợp lệ."
                 }
@@ -6780,12 +6778,12 @@
                     "usernameTaken": "$~Tên người dùng này đã được sử dụng.",
                     "failure": "$~Không thể đăng nhập :(",
                     "offline": "$~Chúng tôi không thể với tới mây ☁️.",
-                    "delete": "$~Chúng tôi không thể xóa tài khoản của bạn, nhưng chúng tôi không biết lý do tại sao.",
                     "invalidPassword": "$~Mật khẩu phải có ít nhất 6 ký tự.",
                     "wrongPassword": "$~Tên người dùng và mật khẩu không hợp lệ. Có thể mật khẩu của bạn sai hoặc người khác đã sử dụng tên người dùng này.",
                     "mismatched": "$~Mật khẩu không khớp.",
                     "tooMany": "$~Bạn đã đăng nhập không thành công quá nhiều lần. Bạn phải đợi để thử lại.",
-                    "unsaved": "$~Bạn có những thay đổi chưa được lưu trực tuyến. Hãy kết nối lại và đợi cho đến khi các thay đổi được lưu xong, nếu không chúng sẽ bị mất khỏi thiết bị này."
+                    "unsaved": "$~Bạn có những thay đổi chưa được lưu trực tuyến. Hãy kết nối lại và đợi cho đến khi các thay đổi được lưu xong, nếu không chúng sẽ bị mất khỏi thiết bị này.",
+                    "deletePartial": "$?"
                 },
                 "feedback": {
                     "changing": "$~Đang gửi email mới...",
@@ -7172,6 +7170,12 @@
             "refresh": "$~Làm cho khỏe lại",
             "updates": "$~xem các bản cập nhật",
             "dismiss": "$~Miễn nhiệm"
+        },
+        "banner": {
+            "deleteFailed": "$?",
+            "saveFailed": "$?",
+            "submitFailed": "$?",
+            "loadFailed": "$?"
         }
     },
     "moderation": {

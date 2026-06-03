@@ -22,6 +22,7 @@
         Chats,
         Creators,
         DB,
+        disconnected,
         Galleries,
         HowTos,
         Locales,
@@ -901,11 +902,17 @@
                 <ConfirmButton
                     tip={(l) => l.ui.howto.viewer.delete.description}
                     prompt={(l) => l.ui.howto.viewer.delete.prompt}
+                    enabled={!$disconnected}
                     action={async () => {
-                        if (gallery && howTo) {
-                            await HowTos.deleteHowTo(howToId, gallery);
+                        // Only close the editor once the delete actually
+                        // succeeded; on failure deleteHowTo raises the banner
+                        // and the how-to stays open so the user can retry.
+                        if (
+                            gallery &&
+                            howTo &&
+                            (await HowTos.deleteHowTo(howToId, gallery))
+                        )
                             show = false;
-                        }
                     }}
                     label={(l) => l.ui.howto.viewer.delete.prompt}
                 />
@@ -1038,11 +1045,15 @@
             <ConfirmButton
                 tip={(l) => l.ui.howto.viewer.delete.description}
                 prompt={(l) => l.ui.howto.viewer.delete.prompt}
+                enabled={!$disconnected}
                 action={async () => {
-                    if (gallery && howTo) {
-                        await HowTos.deleteHowTo(howToId, gallery);
+                    // Only close once the delete actually succeeded.
+                    if (
+                        gallery &&
+                        howTo &&
+                        (await HowTos.deleteHowTo(howToId, gallery))
+                    )
                         show = false;
-                    }
                 }}
                 label={(l) => l.ui.howto.viewer.delete.prompt}
             />

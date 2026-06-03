@@ -5723,8 +5723,6 @@
                 },
                 "error": {
                     "login": "您必須登錄才能提供反饋",
-                    "submit": "$無法提交反饋",
-                    "load": "無法下載反饋",
                     "empty": "目前沒有可顯示的反饋",
                     "url": "$~这不是有效的 GitHub URL。"
                 }
@@ -6039,14 +6037,14 @@
                     "email": "此電子郵件地址無效。",
                     "failure": "無法登入:(",
                     "offline": "您似乎處於離線狀態。",
-                    "delete": "我們無法刪除您的帳戶，但我們不知道原因。",
                     "wrongPassword": "無效的使用者名稱和密碼。可能是密碼錯誤，或者其他人已經使用了這個使用者名稱。",
                     "tooMany": "您嘗試密碼的次數過多，需要等一段時間後再嘗試。",
                     "invalidUsername": "$~使用者名稱必須至少包含 5 個字母且不包含空格。",
                     "invalidPassword": "密碼長度至少為六個字元。",
                     "mismatched": "密碼不匹配。",
                     "usernameTaken": "$~這個使用者名稱已被佔用。",
-                    "unsaved": "$~您所做的更改尚未在線保存。請重新連線並等待儲存，否則這些變更將從此裝置上遺失。"
+                    "unsaved": "$~您所做的更改尚未在線保存。請重新連線並等待儲存，否則這些變更將從此裝置上遺失。",
+                    "deletePartial": "$?"
                 },
                 "feedback": {
                     "changing": "正在提交新的電子郵件地址…",
@@ -7112,6 +7110,12 @@
             "refresh": "$~重新整理",
             "updates": "$~查看更新",
             "dismiss": "$~解僱"
+        },
+        "banner": {
+            "deleteFailed": "$?",
+            "saveFailed": "$?",
+            "submitFailed": "$?",
+            "loadFailed": "$?"
         }
     },
     "moderation": {

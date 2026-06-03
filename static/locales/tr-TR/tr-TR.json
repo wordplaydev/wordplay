@@ -5786,8 +5786,6 @@
                 },
                 "error": {
                     "login": "$~$!Geri bildirim göndermek için <giriş yapmalısınız@://login>",
-                    "submit": "$~Geri bildirim gönderilemedi.",
-                    "load": "$~Geri bildirim yüklenemiyor",
                     "empty": "$~Gösterilecek geri bildirim yok.",
                     "url": "$~Bu geçerli bir GitHub URL'si değil."
                 }
@@ -6291,14 +6289,14 @@
                     "email": "$~Bu e-posta geçerli değil.",
                     "failure": "$~Giriş yapılamıyor :(",
                     "offline": "$~Buluta ulaşamadık ☁️.",
-                    "delete": "$~Hesabınızı silemedik, ancak nedenini bilmiyoruz.",
                     "wrongPassword": "$~Geçerli bir kullanıcı adı ve şifre değil. Ya şifreniz yanlış ya da başka biri bu kullanıcı adına sahip.",
                     "tooMany": "$~Çok fazla kez giriş yapmayı denediniz ve başarısız oldunuz. Tekrar denemek için beklemeniz gerekecek.",
                     "invalidUsername": "$~Kullanıcı adları e-posta veya 5 harften fazla olmamalı ve boşluk içermemelidir.",
                     "invalidPassword": "$~Şifreler en az 6 karakter uzunluğunda olmalıdır.",
                     "mismatched": "$~Şifreler uyuşmuyor.",
                     "usernameTaken": "$~Bu kullanıcı adı zaten alınmış.",
-                    "unsaved": "$~Henüz çevrimiçi olarak kaydedilmemiş değişiklikleriniz var. Yeniden bağlanın ve önce kaydedilmelerini bekleyin, aksi takdirde bu cihazdan kaybolacaklar."
+                    "unsaved": "$~Henüz çevrimiçi olarak kaydedilmemiş değişiklikleriniz var. Yeniden bağlanın ve önce kaydedilmelerini bekleyin, aksi takdirde bu cihazdan kaybolacaklar.",
+                    "deletePartial": "$?"
                 },
                 "feedback": {
                     "changing": "$~Yeni e-posta gönderiliyor...",
@@ -7169,6 +7167,12 @@
             "refresh": "$~Yenile",
             "updates": "$~Güncellemeleri görün",
             "dismiss": "$~Azletmek"
+        },
+        "banner": {
+            "deleteFailed": "$?",
+            "saveFailed": "$?",
+            "submitFailed": "$?",
+            "loadFailed": "$?"
         }
     },
     "moderation": {

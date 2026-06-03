@@ -5755,8 +5755,6 @@
                 },
                 "error": {
                     "login": "Debes <iniciar sesión@://login> para enviar comentarios!",
-                    "submit": "$~No es posible enviar comentarios.",
-                    "load": "$~No se pueden cargar los comentarios",
                     "empty": "$~No hay comentarios para mostrar.",
                     "url": "$~Esta no es una URL de GitHub válida."
                 }
@@ -6074,14 +6072,14 @@
                     "email": "Este correo electrónico no era válido.",
                     "failure": "No se puede iniciar sesión :(",
                     "offline": "Pareces estar desconectado.",
-                    "delete": "No pudimos borrar tu cuenta, pero no sabemos por qué.",
                     "wrongPassword": "Nombre de usuario y contraseña no son válidos. O tu contraseña es incorrecta o alguien más tiene este nombre de usuario.",
                     "tooMany": "$~Has intentado y no has podido iniciar sesión demasiadas veces. Tendrás que esperar para volver a intentarlo.",
                     "invalidUsername": "$~Los nombres de usuario deben ser correos electrónicos o más de 5 letras sin espacios.",
                     "invalidPassword": "$~Las contraseñas deben tener al menos 6 caracteres.",
                     "mismatched": "$~Las contraseñas no coinciden.",
                     "usernameTaken": "$~Este nombre de usuario ya está tomado.",
-                    "unsaved": "$~Tienes cambios que aún no se han guardado en línea. Vuelve a conectarte y espera a que se guarden, o se perderán de este dispositivo."
+                    "unsaved": "$~Tienes cambios que aún no se han guardado en línea. Vuelve a conectarte y espera a que se guarden, o se perderán de este dispositivo.",
+                    "deletePartial": "$?"
                 },
                 "feedback": {
                     "changing": "Enviando nuevo correo electrónico...",
@@ -7155,6 +7153,12 @@
             "refresh": "$~Refrescar",
             "updates": "$~ver las actualizaciones",
             "dismiss": "$~Despedir"
+        },
+        "banner": {
+            "deleteFailed": "$?",
+            "saveFailed": "$?",
+            "submitFailed": "$?",
+            "loadFailed": "$?"
         }
     },
     "moderation": {

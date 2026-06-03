@@ -5802,8 +5802,6 @@
                 },
                 "error": {
                     "login": "$~$!Musisz być <zalogowany@://login>, aby przesłać opinię",
-                    "submit": "$~Nie można przesłać opinii.",
-                    "load": "$~Nie można załadować opinii",
                     "empty": "$~Brak opinii do wyświetlenia.",
                     "url": "$~To nie jest prawidłowy adres URL GitHub."
                 }
@@ -6307,14 +6305,14 @@
                     "email": "$~Ten adres e-mail jest nieprawidłowy.",
                     "failure": "$~Nie można się zalogować :(",
                     "offline": "$~Nie udało nam się dosięgnąć chmury ☁️.",
-                    "delete": "$~Nie mogliśmy usunąć Twojego konta, ale nie wiemy dlaczego.",
                     "wrongPassword": "$~Nieprawidłowa nazwa użytkownika i hasło. Albo twoje hasło jest nieprawidłowe, albo ktoś inny ma tę nazwę użytkownika.",
                     "tooMany": "$~Próbowałeś i nie udało Ci się zalogować zbyt wiele razy. Będziesz musiał poczekać, aby spróbować ponownie.",
                     "invalidUsername": "$~Nazwa użytkownika musi być adresem e-mail lub większą liczbą liter, bez spacji.",
                     "invalidPassword": "$~Hasło musi mieć co najmniej 6 znaków.",
                     "mismatched": "$~Hasła nie są takie same.",
                     "usernameTaken": "$~Ta nazwa użytkownika jest już zajęta.",
-                    "unsaved": "$~Masz zmiany, które nie zostały jeszcze zapisane online. Połącz się ponownie i poczekaj, aż zostaną zapisane, w przeciwnym razie zostaną utracone z tego urządzenia."
+                    "unsaved": "$~Masz zmiany, które nie zostały jeszcze zapisane online. Połącz się ponownie i poczekaj, aż zostaną zapisane, w przeciwnym razie zostaną utracone z tego urządzenia.",
+                    "deletePartial": "$?"
                 },
                 "feedback": {
                     "changing": "$~Wysyłanie nowego e-maila...",
@@ -7185,6 +7183,12 @@
             "refresh": "$~Odświeżać",
             "updates": "$~zobacz aktualizacje",
             "dismiss": "$~Odrzucać"
+        },
+        "banner": {
+            "deleteFailed": "$?",
+            "saveFailed": "$?",
+            "submitFailed": "$?",
+            "loadFailed": "$?"
         }
     },
     "moderation": {

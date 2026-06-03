@@ -364,6 +364,7 @@
                         background
                         tip={(l) => l.ui.gallery.confirm.delete.description}
                         prompt={(l) => l.ui.gallery.confirm.delete.prompt}
+                        enabled={!$disconnected}
                         action={async () => {
                             if (gallery) {
                                 await Galleries.delete(gallery);

@@ -1165,10 +1165,6 @@ type UITexts = {
             error: {
                 /** [plain] Must be logged in to submit */
                 login: string;
-                /** [plain] The error shown when the feedback was not submitted */
-                submit: string;
-                /** [plain] Unable to laod feedback */
-                load: string;
                 /** [plain] No feedback yet */
                 empty: string;
                 /** [plain] Not a valid URL */
@@ -1246,6 +1242,19 @@ type UITexts = {
         unreachable: string;
         /** [plain] ARIA label for the connection banner live region */
         label: string;
+    };
+    /** Transient top-of-page banner messages for one-off action failures that
+     *  aren't tied to a form field (e.g. a delete that couldn't reach the
+     *  cloud). Also reused for inline notices on form actions. */
+    banner: {
+        /** [plain] Shown when deleting something didn't reach the cloud */
+        deleteFailed: string;
+        /** [plain] Shown when saving a change didn't reach the cloud */
+        saveFailed: string;
+        /** [plain] Shown when submitting something (e.g. feedback) didn't reach the cloud */
+        submitFailed: string;
+        /** [plain] Shown when loading/reading something from the cloud failed */
+        loadFailed: string;
     };
     /** Notification shown when a newer version of the app has been deployed while the tab was open. */
     update: {

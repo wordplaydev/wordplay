@@ -5776,8 +5776,6 @@
                 },
                 "error": {
                     "login": "$~$!Sie müssen <angemeldet@://login> sein, um Feedback abzugeben",
-                    "submit": "$~Feedback kann nicht übermittelt werden.",
-                    "load": "$~Feedback konnte nicht geladen werden",
                     "empty": "$~Es ist kein Feedback vorhanden.",
                     "url": "$~Dies ist keine gültige GitHub-URL."
                 }
@@ -6091,14 +6089,14 @@
                     "email": "$~Diese E-Mail war ungültig.",
                     "offline": "$~Wir konnten die Cloud ☁️ nicht erreichen.",
                     "failure": "$~Anmeldung nicht möglich :(",
-                    "delete": "$~Wir konnten Ihr Konto nicht löschen, wissen aber nicht, warum.",
                     "wrongPassword": "$~Kein gültiger Benutzername und Passwort. Entweder ist Ihr Passwort falsch oder jemand anderes hat diesen Benutzernamen.",
                     "tooMany": "$~Sie haben zu oft erfolglos versucht, sich anzumelden. Sie müssen warten, bevor Sie es erneut versuchen können.",
                     "invalidUsername": "$~Benutzernamen müssen E-Mail-Adressen oder >5 Buchstaben ohne Leerzeichen sein.",
                     "invalidPassword": "$~Passwörter müssen mindestens 6 Zeichen lang sein.",
                     "mismatched": "$~Die Passwörter stimmen nicht überein.",
                     "usernameTaken": "$~Dieser Benutzername ist bereits vergeben.",
-                    "unsaved": "$~Ihre Änderungen wurden noch nicht online gespeichert. Stellen Sie die Verbindung erneut her und warten Sie, bis die Änderungen gespeichert sind, sonst gehen sie auf diesem Gerät verloren."
+                    "unsaved": "$~Ihre Änderungen wurden noch nicht online gespeichert. Stellen Sie die Verbindung erneut her und warten Sie, bis die Änderungen gespeichert sind, sonst gehen sie auf diesem Gerät verloren.",
+                    "deletePartial": "$?"
                 },
                 "feedback": {
                     "changing": "$~Neue E-Mail wird gesendet …",
@@ -7176,6 +7174,12 @@
             "refresh": "$~Aktualisieren",
             "updates": "$~Siehe die Aktualisierungen",
             "dismiss": "$~Zurückweisen"
+        },
+        "banner": {
+            "deleteFailed": "$?",
+            "saveFailed": "$?",
+            "submitFailed": "$?",
+            "loadFailed": "$?"
         }
     },
     "moderation": {
