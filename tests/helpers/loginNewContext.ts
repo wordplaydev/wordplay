@@ -79,6 +79,11 @@ export async function loginNewContext(
         const context = await browser.newContext({
             baseURL: 'http://127.0.0.1:5002',
             storageState: cacheFile,
+            // Manually-created contexts don't inherit the config's
+            // use.contextOptions, so set reduced motion here too — keeps the
+            // animated typography from stalling clicks (WebKit) and lightens
+            // the app's per-frame work on a contended runner.
+            reducedMotion: 'reduce',
         });
         const page = await context.newPage();
         const uid = await uidForUsername(username);
@@ -88,6 +93,7 @@ export async function loginNewContext(
     const context = await browser.newContext({
         baseURL: 'http://127.0.0.1:5002',
         storageState: { cookies: [], origins: [] },
+        reducedMotion: 'reduce',
     });
     const page = await context.newPage();
 

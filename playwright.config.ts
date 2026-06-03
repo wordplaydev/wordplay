@@ -46,6 +46,14 @@ export default defineConfig({
         /* Base URL to use in actions like `await page.goto('/')`. */
         baseURL: 'http://127.0.0.1:5002',
         viewport: { width: 1280, height: 720 },
+        /* Run every context with prefers-reduced-motion. The app's default
+         * animationFactor is `null` ("follow the device"), so this turns
+         * animations off (factor 0) — which keeps the animated typography from
+         * defeating Playwright's click "stability" wait. That stall is what made
+         * WebKit clicks time out (see the webkit project note below); it also
+         * de-flakes Chromium. Set via contextOptions because this Playwright
+         * version exposes reducedMotion there, not as a top-level use option. */
+        contextOptions: { reducedMotion: 'reduce' },
         screenshot: 'only-on-failure',
         /* Collect a trace only when a test fails and is retried (retries:1 on
          * CI), so passing tests don't pay the per-action instrumentation and
