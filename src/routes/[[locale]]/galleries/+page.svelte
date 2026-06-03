@@ -8,7 +8,13 @@
     import { getUser } from '@components/project/Contexts';
     import Title from '@components/widgets/Title.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import { DB, Galleries, Projects, locales } from '@db/Database';
+    import {
+        authAttempted,
+        DB,
+        Galleries,
+        Projects,
+        locales,
+    } from '@db/Database';
     import type Project from '@db/projects/Project';
     import { searchProjects, type ProjectMatch } from '../projects/search';
     import { debounced } from '@util/debounce.svelte';
@@ -166,16 +172,21 @@
         {#if newGalleryError}
             <Notice text={(l) => l.ui.page.projects.error.newgallery} />
         {/if}
-        {#if Galleries.getStatus() === 'loading' && !Galleries.hydrated}
+        {#if (Galleries.getStatus() === 'loading' || Galleries.getStatus() === 'loggedout') && !Galleries.hydrated}
             <!-- Only block on the realtime query before the local cache has
                  hydrated. Once hydrated, render the user's cached galleries even
                  if the cloud query is still pending (e.g. offline), rather than
-                 spinning forever. -->
+                 spinning forever.
+
+                 We also treat 'loggedout' as "still loading" here: the gallery
+                 listener is created once at startup (before auth), so it starts
+                 'loggedout', and stays that way until startSync re-runs it for
+                 this user. Since we're inside `{#if $user}` the user IS logged
+                 in, so a 'loggedout' status is stale, not real — showing the
+                 "you must be logged in" notice here flashes it spuriously. -->
             <Spinning label={(l) => l.ui.widget.loading.message} />
         {:else if Galleries.getStatus() === 'noaccess'}
             <Notice text={(l) => l.ui.page.projects.error.noaccess} />
-        {:else if Galleries.getStatus() === 'loggedout'}
-            <Notice text={(l) => l.ui.page.galleries.error.nogalleryedits} />
         {:else}
             {#each Galleries.accessibleGalleries.values() as gallery}
                 <GalleryPreview {gallery} />
@@ -205,11 +216,15 @@
                 >
             {/each}
         {/if}
-    {:else if $user === undefined}
+    {:else if $user === undefined || !$authAttempted}
         <!-- Auth hasn't resolved yet. Show an inline spinner so the "logged
              out" notice doesn't flash for users who turn out to be logged in.
-             Spinning (not Loading) because the header and prompt above are
-             already rendered — same as /characters and /localize. -->
+             We gate on `authAttempted` (not just `$user === undefined`) because
+             the auth listeners can briefly push a `null` before the restored
+             user lands; until Firebase Auth has reported in at least once, a
+             null is "still pending", not "logged out". Spinning (not Loading)
+             because the header and prompt above are already rendered — same as
+             /characters and /localize. -->
         <Spinning label={(l) => l.ui.widget.loading.message} />
     {:else}
         <Notice text={(l) => l.ui.page.galleries.error.nogalleryedits} />
