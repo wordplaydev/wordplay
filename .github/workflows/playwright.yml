@@ -67,3 +67,7 @@ jobs:
                   name: playwright-report-${{ inputs.browser }}
                   path: test-results/
                   retention-days: 30
+                  # A fully green run writes nothing to test-results/ (traces are
+                  # on-first-retry, screenshots only-on-failure), so don't warn
+                  # when there's nothing to upload.
+                  if-no-files-found: ignore
