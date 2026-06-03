@@ -790,7 +790,7 @@
                     "resolutionDefault": "Atribua um valor inicial à ligação, uma vez que $expected não pode estar aqui ausente.",
                     "resolutionWiden": "Permita o tipo do valor para esta ligação, uma vez que $expected é muito restrito para o que está realmente armazenado.",
                     "resolutionReorder": "Troque as entradas, uma vez que os seus tipos se ajustam melhor à outra ordem — $expected pertence ao outro slot.",
-                    "resolutionPlaceholder": "Por enquanto, substitua por um valor de exemplo, uma vez que $expected é obrigatório — depois, escolha um valor no menu de autocompletar."
+                    "resolutionPlaceholder": "Por enquanto, substitua por um valor de exemplo, uma vez que $expected é obrigatório — depois, escolha um valor no menu de autocompletar.",
                     "explanationDivideByZero": "Isto pode ser ø porque $source pode ser divisível por zero, e é necessário um número aqui."
 
                 },
