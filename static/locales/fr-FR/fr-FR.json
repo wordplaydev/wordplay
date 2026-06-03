@@ -4933,7 +4933,8 @@
                     "indexedDBWriteFailed": "$~Votre navigateur n'a pas pu enregistrer ces projets sur cet appareil.",
                     "indexedDBUnsupported": "$~Votre navigateur ne permet pas à Wordplay d'enregistrer les projets sur cet appareil.",
                     "firestoreBatchFailed": "$~Nous n'avons pas pu transférer ces projets vers le cloud. Ils sont toujours en sécurité sur cet appareil.",
-                    "projectContainsPII": "$~Ces fichiers semblent contenir des informations personnelles, nous ne les avons donc pas sauvegardés en ligne. Ouvrez-les un par un pour vérifier quelles informations semblent personnelles."
+                    "projectContainsPII": "$~Ces fichiers semblent contenir des informations personnelles, nous ne les avons donc pas sauvegardés en ligne. Ouvrez-les un par un pour vérifier quelles informations semblent personnelles.",
+                    "localProjectStorageFailed": "$~Cet appareil n'a plus d'espace de stockage et ces projets ne sont pas encore dans le cloud, ils sont donc menacés.<Sign in@/login> , ce qui permet de les enregistrer en ligne et non seulement sur cet appareil."
                 },
                 "failuresHeader": "$~$count projets n'ont pas été enregistrés :"
             },
@@ -7179,7 +7180,9 @@
             "deleteFailed": "$~Nous ne pouvions pas supprimer cela.",
             "saveFailed": "$~Nous n'avons pas pu sauver ça",
             "submitFailed": "$~Nous n'avons pas pu soumettre cela",
-            "loadFailed": "$~Nous n'avons pas pu charger ceci."
+            "loadFailed": "$~Nous n'avons pas pu charger ceci.",
+            "storageFull": "$~L'espace de stockage de cet appareil est plein, nous n'avons donc pas pu enregistrer de copie ici. Votre travail est toujours dans le cloud.",
+            "storageNearFull": "$~Cet appareil est presque plein ; Wordplay risque donc de ne plus pouvoir y enregistrer de données. Votre travail enregistré dans le cloud est en sécurité ; libérer de l’espace sur votre appareil ou votre navigateur permettra à Wordplay de continuer à l’enregistrer."
         }
     },
     "moderation": {

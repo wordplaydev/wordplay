@@ -39,7 +39,9 @@ import {
 test.describe('offline edits replay after reload + reconnect', () => {
     // Multiple reloads + a debounced save + a cloud-poll; comfortably past the
     // default 30s.
-    test.describe.configure({ timeout: 90000 });
+    // Generous budget: these do multiple reloads + offline→reconnect cloud
+    // round-trips, which are markedly slower on the WebKit nightly runner.
+    test.describe.configure({ timeout: 120000 });
 
     test('a project edited while offline is replayed to the cloud', async ({
         page,
@@ -87,7 +89,7 @@ test.describe('offline edits replay after reload + reconnect', () => {
             'projects',
             projectId,
             (d) => d?.name === offlineName,
-            30000,
+            50000,
         );
         expect(updated?.name).toBe(offlineName);
     });
@@ -130,7 +132,7 @@ test.describe('offline edits replay after reload + reconnect', () => {
             'characters',
             characterId,
             (d) => d?.name === expectedName,
-            30000,
+            50000,
         );
         expect(updated?.name).toBe(expectedName);
     });
@@ -184,7 +186,7 @@ test.describe('offline edits replay after reload + reconnect', () => {
                 d.messages.some(
                     (m: { text?: string }) => m?.text === 'Offline hello',
                 ),
-            30000,
+            50000,
         );
         expect(chat).not.toBeNull();
         const msg = (chat?.messages as { text: string }[]).find(

@@ -12313,6 +12313,14 @@
                   "description": "[plain] Shown when saving a change didn't reach the cloud",
                   "type": "string"
                 },
+                "storageFull": {
+                  "description": "[plain] Shown when a local (this-device) save failed because storage is full, but the data is still safe in the cloud",
+                  "type": "string"
+                },
+                "storageNearFull": {
+                  "description": "[plain] Shown proactively when this device's storage is nearly full",
+                  "type": "string"
+                },
                 "submitFailed": {
                   "description": "[plain] Shown when submitting something (e.g. feedback) didn't reach the cloud",
                   "type": "string"
@@ -12322,7 +12330,9 @@
                 "deleteFailed",
                 "saveFailed",
                 "submitFailed",
-                "loadFailed"
+                "loadFailed",
+                "storageFull",
+                "storageNearFull"
               ],
               "type": "object"
             },
@@ -18087,6 +18097,10 @@
                           "$ref": "#/definitions/FormattedText",
                           "description": "[formatted] Browser local save failed (IndexedDB write error)"
                         },
+                        "localProjectStorageFailed": {
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "[formatted] Local save failed for a project with NO cloud copy (signed out / not synced) — real data loss; nudges sign-in"
+                        },
                         "projectContainsPII": {
                           "$ref": "#/definitions/FormattedText",
                           "description": "[formatted] Project contained personal info so wasn't sent online"
@@ -18094,6 +18108,7 @@
                       },
                       "required": [
                         "indexedDBWriteFailed",
+                        "localProjectStorageFailed",
                         "indexedDBUnsupported",
                         "firestoreBatchFailed",
                         "projectContainsPII"

@@ -7,6 +7,7 @@ import {
 } from '@db/Database';
 import type { WordplayDexie } from '@db/WordplayDexie';
 import firebaseErrorDetail from '@db/firebaseErrorDetail';
+import isQuotaError from '@db/isQuotaError';
 
 /** Build the standard {@link SaveError} for a failed Firestore write. The one
  *  place the shape of a cloud-write failure is defined for the per-item domains. */
@@ -44,6 +45,10 @@ export type SaveTrackerHost = {
     supported: () => boolean;
     /** Whether the cache has finished loading (gates stale-flag healing). */
     isHydrated: () => boolean;
+    /** Surface a "this device's storage is full" warning. Called when the
+     *  durable dirty-row write fails for lack of space — the offline-replay
+     *  safety net is then compromised, so the user must know. */
+    onStorageFull: () => void;
 };
 
 /**
@@ -98,9 +103,17 @@ export default class SaveTracker {
         write: Promise<unknown>,
     ): Promise<boolean> {
         this.unsavedIDs.add(id);
-        // Persist the dirty bit so the pending write survives a reload.
-        if (this.host.supported())
-            this.host.localDB().markDirty(this.host.domain, id);
+        // Persist the dirty bit so the pending write survives a reload. Await
+        // it so a full-storage rejection is caught: if the dirty row can't be
+        // written, an offline edit won't replay on reload, so warn the user.
+        if (this.host.supported()) {
+            try {
+                await this.host.localDB().markDirty(this.host.domain, id);
+            } catch (error) {
+                if (isQuotaError(error)) this.host.onStorageFull();
+                else console.error(error);
+            }
+        }
         this.saveErrorMap.delete(id);
         try {
             await this.host.track(write);

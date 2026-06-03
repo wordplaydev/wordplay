@@ -4912,7 +4912,8 @@
                     "indexedDBWriteFailed": "$~Tu navegador no pudo guardar estos proyectos en este dispositivo.",
                     "indexedDBUnsupported": "$~Tu navegador no permite que Wordplay guarde proyectos en este dispositivo.",
                     "firestoreBatchFailed": "$~No pudimos enviar estos proyectos a la nube. Todavía están a salvo en este dispositivo.",
-                    "projectContainsPII": "$~Estos proyectos parecen contener información personal, por lo que no los guardamos en línea. Ábrelos para comprobar si hay información personal."
+                    "projectContainsPII": "$~Estos proyectos parecen contener información personal, por lo que no los guardamos en línea. Ábrelos para comprobar si hay información personal.",
+                    "localProjectStorageFailed": "$~Este dispositivo se quedó sin espacio para guardar y estos proyectos aún no están en la nube, por lo que corren riesgo.<Sign in@/login> , lo que los guarda en línea en lugar de solo en este dispositivo."
                 },
                 "failuresHeader": "$~$count proyectos no se guardaron:"
             },
@@ -7158,7 +7159,9 @@
             "deleteFailed": "$~No pudimos borrar eso.",
             "saveFailed": "$~No pudimos salvar eso",
             "submitFailed": "$~No pudimos presentar eso",
-            "loadFailed": "$~No pudimos cargar eso."
+            "loadFailed": "$~No pudimos cargar eso.",
+            "storageFull": "$~El almacenamiento de este dispositivo está lleno, por lo que no pudimos guardar una copia aquí. Tu trabajo sigue en la nube.",
+            "storageNearFull": "$~Este dispositivo casi no tiene espacio de almacenamiento, por lo que Wordplay pronto podría dejar de guardar archivos en él. El trabajo guardado en la nube está a salvo; liberar espacio en tu dispositivo o navegador permitirá que siga guardándose aquí."
         }
     },
     "moderation": {

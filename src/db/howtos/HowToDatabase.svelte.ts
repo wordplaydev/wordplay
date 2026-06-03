@@ -1,14 +1,16 @@
 /** This file encapsulates all Firebase how-to functionality and relies on Svelte state to cache how-to documents. */
 import type { NotificationData } from '@components/settings/Notifications.svelte';
 import { type Database, type SaveCounts, type SaveError } from '@db/Database';
-import { firestore } from '@db/firebase';
 import { Domain } from '@db/Domains';
-import SaveTracker from '@db/SaveTracker.svelte';
-import supportsIndexedDB from '@db/supportsIndexedDB';
+import { firestore } from '@db/firebase';
 import type Gallery from '@db/galleries/Gallery';
 import { GalleriesCollection } from '@db/galleries/GalleryDatabase.svelte';
+import isQuotaError from '@db/isQuotaError';
+import SaveTracker from '@db/SaveTracker.svelte';
+import supportsIndexedDB from '@db/supportsIndexedDB';
 import { localeToString } from '@locale/Locale';
 import { SupportedLocales } from '@locale/SupportedLocales';
+import deferToIdle from '@util/deferToIdle';
 import { FirebaseError } from 'firebase/app';
 import {
     and,
@@ -29,7 +31,6 @@ import {
     type Unsubscribe,
 } from 'firebase/firestore';
 import { SvelteMap } from 'svelte/reactivity';
-import deferToIdle from '@util/deferToIdle';
 import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
 import { notifications } from '../../routes/+layout.svelte';
@@ -469,6 +470,8 @@ export class HowToDatabase {
         deviceCount: () => this.allEditableHowTos.length,
         supported: () => this.IndexedDBSupported,
         isHydrated: () => this.hydrated,
+        onStorageFull: () =>
+            this.db.reportBanner((l) => l.ui.banner.storageFull),
     });
 
     /** IDs of the user's how-tos whose latest local edit hasn't been confirmed
@@ -574,17 +577,21 @@ export class HowToDatabase {
      *  hydration. Never prunes (the snapshot GC manages in-memory coherence;
      *  explicit deletes remove from the cache) and is never called from the
      *  hydrate path. */
-    private cacheHowTosLocally(howtos: HowTo[]) {
+    private async cacheHowTosLocally(howtos: HowTo[]) {
         if (!this.IndexedDBSupported || howtos.length === 0) return;
         try {
             // $state.snapshot strips any Svelte reactive proxies (e.g. arrays
             // passed in from the how-to form's state) to plain values —
             // IndexedDB's structured clone throws DataCloneError on a proxy.
-            this.db.localDB.saveHowTos(
+            // Await so a rejected write (e.g. full storage) is caught; this
+            // mirrors cloud data, so surface a transient banner, not data loss.
+            await this.db.localDB.saveHowTos(
                 howtos.map((h) => $state.snapshot(h.getData())),
             );
         } catch (error) {
-            console.error(error);
+            if (isQuotaError(error))
+                this.db.reportBanner((l) => l.ui.banner.storageFull, error);
+            else console.error(error);
         }
     }
 

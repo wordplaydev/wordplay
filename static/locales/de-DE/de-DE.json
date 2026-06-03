@@ -4933,7 +4933,8 @@
                     "indexedDBWriteFailed": "$~Ihr Browser konnte diese Projekte auf diesem Gerät nicht speichern.",
                     "indexedDBUnsupported": "$~Ihr Browser erlaubt Wordplay nicht, Projekte auf diesem Gerät zu speichern.",
                     "firestoreBatchFailed": "$~Wir konnten diese Projekte nicht in die Cloud hochladen. Sie sind aber weiterhin auf diesem Gerät sicher.",
-                    "projectContainsPII": "$~Diese Projekte scheinen persönliche Informationen zu enthalten, daher haben wir sie nicht online gespeichert. Öffnen Sie jedes Projekt, um zu prüfen, welche Informationen persönlich erscheinen."
+                    "projectContainsPII": "$~Diese Projekte scheinen persönliche Informationen zu enthalten, daher haben wir sie nicht online gespeichert. Öffnen Sie jedes Projekt, um zu prüfen, welche Informationen persönlich erscheinen.",
+                    "localProjectStorageFailed": "$~Auf diesem Gerät war kein Speicherplatz mehr verfügbar, und diese Projekte befinden sich noch nicht in der Cloud, daher sind sie gefährdet.<Sign in@/login> Dadurch werden sie online gespeichert, anstatt nur auf diesem Gerät."
                 },
                 "failuresHeader": "$~$count Projekte wurden nicht gespeichert:"
             },
@@ -7179,7 +7180,9 @@
             "deleteFailed": "$~Das konnten wir nicht löschen.",
             "saveFailed": "$~Das konnten wir nicht retten.",
             "submitFailed": "$~Wir konnten das nicht einreichen.",
-            "loadFailed": "$~Das konnten wir nicht laden."
+            "loadFailed": "$~Das konnten wir nicht laden.",
+            "storageFull": "$~Der Speicher dieses Geräts ist voll, daher konnten wir hier keine Kopie speichern. Ihre Arbeit befindet sich weiterhin in der Cloud.",
+            "storageNearFull": "$~Der Speicherplatz auf diesem Gerät ist fast voll, daher kann Wordplay möglicherweise bald keine Daten mehr darauf speichern. Ihre in der Cloud gespeicherten Daten sind sicher; wenn Sie Speicherplatz auf Ihrem Gerät oder Browser freigeben, können Sie weiterhin Daten hier speichern."
         }
     },
     "moderation": {

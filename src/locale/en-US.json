@@ -4938,6 +4938,7 @@
                 "settingsUnsaved": "Unable to save settings online.",
                 "failureReason": {
                     "indexedDBWriteFailed": "Your browser couldn't save these projects on this device.",
+                    "localProjectStorageFailed": "This device ran out of room to save, and these projects aren't in the cloud yet, so they're at risk. <Sign in@/login>, which saves them online instead of only on this device.",
                     "indexedDBUnsupported": "Your browser won't let Wordplay save projects on this device.",
                     "firestoreBatchFailed": "We couldn't send these to the cloud. They're still safe on this device.",
                     "projectContainsPII": "These projects look like they have personal information, so we didn't save them online. Open each one to check what looks personal."
@@ -6265,7 +6266,9 @@
             "deleteFailed": "We couldn't delete that.",
             "saveFailed": "We couldn't save that",
             "submitFailed": "We couldn't submit that",
-            "loadFailed": "We couldn't load that."
+            "loadFailed": "We couldn't load that.",
+            "storageFull": "This device's storage is full, so we couldn't save a copy here. Your work is still in the cloud.",
+            "storageNearFull": "This device is almost out of storage, so Wordplay may soon be unable to save on it. Work saved in the cloud is safe; freeing up space on your device or browser lets it keep saving here."
         },
         "update": {
             "label": "New version available",

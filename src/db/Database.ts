@@ -60,6 +60,11 @@ export type SaveStatus = (typeof SaveStatus)[keyof typeof SaveStatus];
 export const SaveFailureReason = {
     /** Writing to the local IndexedDB-backed cache threw. */
     IndexedDBWriteFailed: 'indexed-db-write-failed',
+    /** Like IndexedDBWriteFailed, but for a project with NO cloud copy
+     *  (PersistenceType.Local — not signed in / not synced). The local write is
+     *  the only copy, so this is real data loss: the message is louder and
+     *  nudges sign-in. */
+    LocalProjectStorageFailed: 'local-project-storage-failed',
     /** The browser doesn't expose IndexedDB at all. */
     IndexedDBUnsupported: 'indexed-db-unsupported',
     /** A Firestore writeBatch.commit() rejected (whole batch lost). */
@@ -188,6 +193,12 @@ export class Database {
     /** Auto-dismiss timer for the top-of-page banner ({@link reportBanner}). */
     private bannerTimer: ReturnType<typeof setTimeout> | undefined = undefined;
 
+    /** Latch so the near-quota storage warning ({@link checkStorageHeadroom})
+     *  fires at most once per session instead of on every save. */
+    private storageWarned = false;
+    /** Fraction of the storage quota at/above which we warn the user. */
+    private static STORAGE_WARN_THRESHOLD = 0.9;
+
     constructor(locales: SupportedLocale[], defaultLocale: LocaleText) {
         // Set up in-memory stores of configuration settings and locale caches.
         this.Settings = new SettingsDatabase(this, locales);
@@ -304,6 +315,48 @@ export class Database {
                 current === message ? undefined : current,
             );
         }, Database.BANNER_TIMEOUT_MS);
+    }
+
+    /** Ask the browser to make this origin's storage persistent, so it's exempt
+     *  from automatic eviction under disk pressure (best-effort → persistent).
+     *  Idempotent and browser-only: no-ops on the server, when the API is
+     *  missing, or when already persisted. Chrome/Safari grant by engagement
+     *  heuristics; Firefox may show a one-time "store data" permission prompt.
+     *  Fire-and-forget — failure just leaves us in best-effort mode. */
+    async requestPersistentStorage(): Promise<void> {
+        if (typeof navigator === 'undefined') return;
+        const storage = navigator.storage;
+        if (storage?.persist === undefined || storage.persisted === undefined)
+            return;
+        try {
+            if (await storage.persisted()) return;
+            await storage.persist();
+        } catch (error) {
+            console.error('Persistent storage request failed', error);
+        }
+    }
+
+    /** Warn the user (once per session) when this device's storage is nearly
+     *  full, before writes start failing. Browser-only and best-effort: no-ops
+     *  without the Storage estimate API. */
+    async checkStorageHeadroom(): Promise<void> {
+        if (this.storageWarned || typeof navigator === 'undefined') return;
+        const storage = navigator.storage;
+        if (storage?.estimate === undefined) return;
+        try {
+            const { usage, quota } = await storage.estimate();
+            if (
+                usage !== undefined &&
+                quota !== undefined &&
+                quota > 0 &&
+                usage / quota >= Database.STORAGE_WARN_THRESHOLD
+            ) {
+                this.storageWarned = true;
+                this.reportBanner((l) => l.ui.banner.storageNearFull);
+            }
+        } catch (error) {
+            console.error('Storage estimate failed', error);
+        }
     }
 
     /** Speculative disconnect signal (e.g. Firestore serving from cache). Only

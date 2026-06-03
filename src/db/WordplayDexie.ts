@@ -81,8 +81,10 @@ export class WordplayDexie extends Dexie {
         return `${domain}:${id}`;
     }
 
-    markDirty(domain: SyncDomain, id: string) {
-        this.dirty.put({ key: this.dirtyKey(domain, id), domain, id });
+    /** Returns the Dexie promise so callers can await/catch a rejected write
+     *  (e.g. QuotaExceededError when this device's storage is full). */
+    markDirty(domain: SyncDomain, id: string): Promise<unknown> {
+        return this.dirty.put({ key: this.dirtyKey(domain, id), domain, id });
     }
 
     async markClean(domain: SyncDomain, id: string): Promise<void> {
@@ -115,8 +117,9 @@ export class WordplayDexie extends Dexie {
         return await this.projects.delete(id);
     }
 
-    saveProjects(projects: SerializedProject[]) {
-        this.projects.bulkPut(projects);
+    /** Returns the Dexie promise so callers can await/catch a rejected write. */
+    saveProjects(projects: SerializedProject[]): Promise<unknown> {
+        return this.projects.bulkPut(projects);
     }
 
     async getAllProjects(): Promise<Observable<SerializedProject[]>> {
@@ -125,8 +128,9 @@ export class WordplayDexie extends Dexie {
 
     // --- Characters ---
 
-    saveCharacters(characters: Character[]) {
-        this.characters.bulkPut(characters);
+    /** Returns the Dexie promise so callers can await/catch a rejected write. */
+    saveCharacters(characters: Character[]): Promise<unknown> {
+        return this.characters.bulkPut(characters);
     }
 
     async deleteCharacter(id: string): Promise<void> {
@@ -143,8 +147,9 @@ export class WordplayDexie extends Dexie {
 
     // --- Chats (keyed by project/how-to id) ---
 
-    saveChats(chats: SerializedChat[]) {
-        this.chats.bulkPut(chats);
+    /** Returns the Dexie promise so callers can await/catch a rejected write. */
+    saveChats(chats: SerializedChat[]): Promise<unknown> {
+        return this.chats.bulkPut(chats);
     }
 
     async deleteChat(projectID: string): Promise<void> {
@@ -161,8 +166,9 @@ export class WordplayDexie extends Dexie {
 
     // --- Galleries ---
 
-    saveGalleries(galleries: SerializedGallery[]) {
-        this.galleries.bulkPut(galleries);
+    /** Returns the Dexie promise so callers can await/catch a rejected write. */
+    saveGalleries(galleries: SerializedGallery[]): Promise<unknown> {
+        return this.galleries.bulkPut(galleries);
     }
 
     async deleteGallery(id: string): Promise<void> {
@@ -179,8 +185,9 @@ export class WordplayDexie extends Dexie {
 
     // --- How-tos ---
 
-    saveHowTos(howtos: HowToDocument[]) {
-        this.howtos.bulkPut(howtos);
+    /** Returns the Dexie promise so callers can await/catch a rejected write. */
+    saveHowTos(howtos: HowToDocument[]): Promise<unknown> {
+        return this.howtos.bulkPut(howtos);
     }
 
     async deleteHowTo(id: string): Promise<void> {

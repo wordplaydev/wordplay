@@ -33,6 +33,7 @@ describe('CharactersDatabase', () => {
         mockDatabase = {
             getUser: vi.fn(() => mockUser),
             setStatus: vi.fn(),
+            reportBanner: vi.fn(),
             track: vi.fn((write) => write),
             Projects: {
                 allEditableProjects: [],
@@ -216,6 +217,32 @@ describe('CharactersDatabase', () => {
             expect(localDB.markClean).not.toHaveBeenCalled();
             // Still in the in-memory unsaved set for replay.
             expect(charactersDb.unsavedIDs.has('c1')).toBe(true);
+        });
+
+        it('warns about full storage when the dirty-row write hits the quota', async () => {
+            charactersDb.IndexedDBSupported = true;
+            const localDB = {
+                // The durable dirty row can't be written because the device is
+                // out of space — the offline-replay net is compromised, so the
+                // user must be told (it used to fail silently).
+                markDirty: vi.fn(() =>
+                    Promise.reject(
+                        new DOMException('full', 'QuotaExceededError'),
+                    ),
+                ),
+                markClean: vi.fn(() => Promise.resolve()),
+            };
+            mockDatabase.localDB = localDB;
+
+            // The cloud write itself still succeeds; only the local dirty row failed.
+            const ok = await charactersDb.trackSave(
+                'c1',
+                'user/A',
+                Promise.resolve(),
+            );
+
+            expect(ok).toBe(true);
+            expect(mockDatabase.reportBanner).toHaveBeenCalledTimes(1);
         });
 
         it('clears the durable dirty row when a dirty item is deleted (phantom-unsaved regression)', () => {

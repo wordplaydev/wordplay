@@ -4930,7 +4930,8 @@
                     "indexedDBWriteFailed": "$~Din webbläsare kunde inte spara dessa projekt på den här enheten.",
                     "indexedDBUnsupported": "$~Din webbläsare tillåter inte Wordplay att spara projekt på den här enheten.",
                     "firestoreBatchFailed": "$~Vi kunde inte skicka dessa projekt till molnet. De är fortfarande säkra på den här enheten.",
-                    "projectContainsPII": "$~Dessa projekt ser ut att innehålla personlig information, så vi har inte sparat dem online. Öppna vart och ett för att kontrollera vad som ser personligt ut."
+                    "projectContainsPII": "$~Dessa projekt ser ut att innehålla personlig information, så vi har inte sparat dem online. Öppna vart och ett för att kontrollera vad som ser personligt ut.",
+                    "localProjectStorageFailed": "$~Den här enheten har slut på utrymme att spara, och dessa projekt finns inte i molnet än, så de är i riskzonen.<Sign in@/login> , vilket sparar dem online istället för bara på den här enheten."
                 },
                 "failuresHeader": "$~$count projekt sparades inte:"
             },
@@ -7173,7 +7174,9 @@
             "deleteFailed": "$~Vi kunde inte radera det.",
             "saveFailed": "$~Vi kunde inte spara det",
             "submitFailed": "$~Vi kunde inte skicka in det",
-            "loadFailed": "$~Vi kunde inte ladda det."
+            "loadFailed": "$~Vi kunde inte ladda det.",
+            "storageFull": "$~Den här enhetens lagringsutrymme är fullt, så vi kunde inte spara en kopia här. Ditt arbete finns fortfarande i molnet.",
+            "storageNearFull": "$~Den här enheten har nästan slut på lagringsutrymme, så Wordplay kanske snart inte kan spara på den. Arbete som sparas i molnet är säkert; att frigöra utrymme på din enhet eller webbläsare låter det fortsätta spara här."
         }
     },
     "moderation": {

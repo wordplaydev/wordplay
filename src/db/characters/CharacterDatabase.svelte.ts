@@ -11,6 +11,7 @@ import {
 } from '@db/Database';
 import { Domain } from '@db/Domains';
 import { firestore } from '@db/firebase';
+import isQuotaError from '@db/isQuotaError';
 import type Project from '@db/projects/Project';
 import SaveTracker from '@db/SaveTracker.svelte';
 import supportsIndexedDB from '@db/supportsIndexedDB';
@@ -90,6 +91,8 @@ export class CharactersDatabase {
         deviceCount: () => this.getEditableCharacters().length,
         supported: () => this.IndexedDBSupported,
         isHydrated: () => this.hydrated,
+        onStorageFull: () =>
+            this.db.reportBanner((l) => l.ui.banner.storageFull),
     });
 
     /** IDs of the user's characters whose latest local edit hasn't been
@@ -186,12 +189,17 @@ export class CharactersDatabase {
     /** Mirror authoritative character data (cloud snapshots, local edits) into
      *  the local cache for cold-start hydration. Never called from the hydrate
      *  path, to avoid a write/emit loop. */
-    private cacheCharactersLocally(characters: Character[]) {
+    private async cacheCharactersLocally(characters: Character[]) {
         if (!this.IndexedDBSupported || characters.length === 0) return;
         try {
-            this.db.localDB.saveCharacters(characters);
+            // Await so a rejected write (e.g. full storage) is caught. This
+            // mirrors cloud data, so a failure here isn't data loss — surface a
+            // transient banner rather than the persistent save-status error.
+            await this.db.localDB.saveCharacters(characters);
         } catch (error) {
-            console.error(error);
+            if (isQuotaError(error))
+                this.db.reportBanner((l) => l.ui.banner.storageFull, error);
+            else console.error(error);
         }
     }
 

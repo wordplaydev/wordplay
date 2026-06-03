@@ -4938,7 +4938,8 @@
                     "indexedDBWriteFailed": "$~Twoja przeglądarka nie mogła zapisać tych projektów na tym urządzeniu.",
                     "indexedDBUnsupported": "$~Twoja przeglądarka nie pozwoli aplikacji Wordplay na zapisywanie projektów na tym urządzeniu.",
                     "firestoreBatchFailed": "$~Nie mogliśmy wysłać tych projektów do chmury. Nadal są bezpieczne na tym urządzeniu.",
-                    "projectContainsPII": "$~Te projekty wyglądają, jakby zawierały dane osobowe, więc nie zapisaliśmy ich online. Otwórz każdy z nich, aby sprawdzić, co wygląda na osobiste."
+                    "projectContainsPII": "$~Te projekty wyglądają, jakby zawierały dane osobowe, więc nie zapisaliśmy ich online. Otwórz każdy z nich, aby sprawdzić, co wygląda na osobiste.",
+                    "localProjectStorageFailed": "$~Na tym urządzeniu zabrakło miejsca do zapisania, a te projekty nie znajdują się jeszcze w chmurze, więc są zagrożone.<Sign in@/login> , co pozwala na ich zapisywanie online, a nie tylko na tym urządzeniu."
                 },
                 "failuresHeader": "$~Projekt(y) $count nie zostały zapisane:"
             },
@@ -7188,7 +7189,9 @@
             "deleteFailed": "$~Nie mogliśmy tego usunąć.",
             "saveFailed": "$~Nie mogliśmy tego uratować",
             "submitFailed": "$~Nie mogliśmy tego przesłać",
-            "loadFailed": "$~Nie mogliśmy tego załadować."
+            "loadFailed": "$~Nie mogliśmy tego załadować.",
+            "storageFull": "$~Pamięć tego urządzenia jest pełna, więc nie mogliśmy zapisać tutaj kopii. Twoja praca nadal znajduje się w chmurze.",
+            "storageNearFull": "$~Pamięć na tym urządzeniu jest prawie pusta, więc aplikacja Wordplay może wkrótce nie być w stanie jej zapisać. Praca zapisana w chmurze jest bezpieczna; zwolnienie miejsca na urządzeniu lub w przeglądarce pozwoli na jej dalsze zapisywanie."
         }
     },
     "moderation": {
