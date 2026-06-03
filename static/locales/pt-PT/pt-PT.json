@@ -6838,7 +6838,7 @@
                     "mismatched": "$~As palavras-passe não coincidem.",
                     "tooMany": "$~Tentou fazer login muitas vezes sem sucesso. Terá que esperar para tentar novamente.",
                     "unsaved": "$~Tem alterações que ainda não foram guardadas online. Volte a ligar-se e aguarde até que sejam guardadas primeiro, ou serão perdidas deste dispositivo.",
-                    "deletePartial": "$?"
+                    "deletePartial": "$~Removemos os dados da sua conta, mas não conseguimos concluir a remoção. Tente novamente ou contacte-nos se o problema persistir."
                 },
                 "feedback": {
                     "changing": "$~Envio de novo e-mail...",
@@ -7176,10 +7176,10 @@
             "dismiss": "$~Dispensar"
         },
         "banner": {
-            "deleteFailed": "$?",
-            "saveFailed": "$?",
-            "submitFailed": "$?",
-            "loadFailed": "$?"
+            "deleteFailed": "$~Não foi possível apagar isto.",
+            "saveFailed": "$~Não conseguimos guardar isso.",
+            "submitFailed": "$~Não conseguimos submeter isso.",
+            "loadFailed": "$~Não foi possível carregar isso."
         }
     },
     "moderation": {

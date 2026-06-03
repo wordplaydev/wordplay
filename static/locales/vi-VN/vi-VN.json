@@ -6783,7 +6783,7 @@
                     "mismatched": "$~Mật khẩu không khớp.",
                     "tooMany": "$~Bạn đã đăng nhập không thành công quá nhiều lần. Bạn phải đợi để thử lại.",
                     "unsaved": "$~Bạn có những thay đổi chưa được lưu trực tuyến. Hãy kết nối lại và đợi cho đến khi các thay đổi được lưu xong, nếu không chúng sẽ bị mất khỏi thiết bị này.",
-                    "deletePartial": "$?"
+                    "deletePartial": "$~Chúng tôi đã xóa dữ liệu tài khoản của bạn, nhưng không thể hoàn tất việc xóa tài khoản. Vui lòng thử lại hoặc liên hệ với chúng tôi nếu sự việc vẫn tiếp diễn."
                 },
                 "feedback": {
                     "changing": "$~Đang gửi email mới...",
@@ -7172,10 +7172,10 @@
             "dismiss": "$~Miễn nhiệm"
         },
         "banner": {
-            "deleteFailed": "$?",
-            "saveFailed": "$?",
-            "submitFailed": "$?",
-            "loadFailed": "$?"
+            "deleteFailed": "$~Chúng tôi không thể xóa nó.",
+            "saveFailed": "$~Chúng tôi không thể cứu vãn được điều đó.",
+            "submitFailed": "$~Chúng tôi không thể gửi tài liệu đó.",
+            "loadFailed": "$~Chúng tôi không thể tải được dữ liệu đó."
         }
     },
     "moderation": {

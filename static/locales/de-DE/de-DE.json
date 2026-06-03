@@ -6096,7 +6096,7 @@
                     "mismatched": "$~Die Passwörter stimmen nicht überein.",
                     "usernameTaken": "$~Dieser Benutzername ist bereits vergeben.",
                     "unsaved": "$~Ihre Änderungen wurden noch nicht online gespeichert. Stellen Sie die Verbindung erneut her und warten Sie, bis die Änderungen gespeichert sind, sonst gehen sie auf diesem Gerät verloren.",
-                    "deletePartial": "$?"
+                    "deletePartial": "$~Wir haben Ihre Kontodaten entfernt, konnten Ihr Konto aber nicht vollständig löschen. Bitte versuchen Sie es erneut oder kontaktieren Sie uns, falls das Problem weiterhin besteht."
                 },
                 "feedback": {
                     "changing": "$~Neue E-Mail wird gesendet …",
@@ -7176,10 +7176,10 @@
             "dismiss": "$~Zurückweisen"
         },
         "banner": {
-            "deleteFailed": "$?",
-            "saveFailed": "$?",
-            "submitFailed": "$?",
-            "loadFailed": "$?"
+            "deleteFailed": "$~Das konnten wir nicht löschen.",
+            "saveFailed": "$~Das konnten wir nicht retten.",
+            "submitFailed": "$~Wir konnten das nicht einreichen.",
+            "loadFailed": "$~Das konnten wir nicht laden."
         }
     },
     "moderation": {

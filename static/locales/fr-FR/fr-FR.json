@@ -6100,7 +6100,7 @@
                     "mismatched": "$~Les mots de passe ne correspondent pas.",
                     "usernameTaken": "$~Ce nom d'utilisateur est déjà pris.",
                     "unsaved": "$~Vos modifications ne sont pas encore enregistrées en ligne. Veuillez vous reconnecter et patienter jusqu'à ce qu'elles soient enregistrées, sinon elles seront perdues sur cet appareil.",
-                    "deletePartial": "$?"
+                    "deletePartial": "$~Nous avons supprimé les données de votre compte, mais la suppression n'a pas pu être finalisée. Veuillez réessayer ou nous contacter si le problème persiste."
                 },
                 "feedback": {
                     "changing": "$~Envoi d'un nouvel e-mail...",
@@ -7176,10 +7176,10 @@
             "dismiss": "$~Rejeter"
         },
         "banner": {
-            "deleteFailed": "$?",
-            "saveFailed": "$?",
-            "submitFailed": "$?",
-            "loadFailed": "$?"
+            "deleteFailed": "$~Nous ne pouvions pas supprimer cela.",
+            "saveFailed": "$~Nous n'avons pas pu sauver ça",
+            "submitFailed": "$~Nous n'avons pas pu soumettre cela",
+            "loadFailed": "$~Nous n'avons pas pu charger ceci."
         }
     },
     "moderation": {

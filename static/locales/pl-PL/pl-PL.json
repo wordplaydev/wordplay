@@ -6312,7 +6312,7 @@
                     "mismatched": "$~Hasła nie są takie same.",
                     "usernameTaken": "$~Ta nazwa użytkownika jest już zajęta.",
                     "unsaved": "$~Masz zmiany, które nie zostały jeszcze zapisane online. Połącz się ponownie i poczekaj, aż zostaną zapisane, w przeciwnym razie zostaną utracone z tego urządzenia.",
-                    "deletePartial": "$?"
+                    "deletePartial": "$~Usunęliśmy dane Twojego konta, ale nie udało nam się go dokończyć. Spróbuj ponownie lub skontaktuj się z nami, jeśli problem będzie się powtarzał."
                 },
                 "feedback": {
                     "changing": "$~Wysyłanie nowego e-maila...",
@@ -7185,10 +7185,10 @@
             "dismiss": "$~Odrzucać"
         },
         "banner": {
-            "deleteFailed": "$?",
-            "saveFailed": "$?",
-            "submitFailed": "$?",
-            "loadFailed": "$?"
+            "deleteFailed": "$~Nie mogliśmy tego usunąć.",
+            "saveFailed": "$~Nie mogliśmy tego uratować",
+            "submitFailed": "$~Nie mogliśmy tego przesłać",
+            "loadFailed": "$~Nie mogliśmy tego załadować."
         }
     },
     "moderation": {

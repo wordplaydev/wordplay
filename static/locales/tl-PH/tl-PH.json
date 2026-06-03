@@ -6841,7 +6841,7 @@
                     "mismatched": "$~Hindi magkatugma ang mga password.",
                     "tooMany": "$~Napakaraming beses mo nang sinubukang mag-log in at nabigo. Kailangan mong maghintay para subukan muli.",
                     "unsaved": "$~Mayroon kang mga pagbabago na hindi pa nase-save online. Kumonekta muli at hintaying ma-save muna ang mga ito, kung hindi ay mawawala ang mga ito sa device na ito.",
-                    "deletePartial": "$?"
+                    "deletePartial": "$~Inalis namin ang data ng iyong account, ngunit hindi namin matapos ang pag-alis nito. Pakisubukang muli, o makipag-ugnayan sa amin kung patuloy itong nangyayari."
                 },
                 "feedback": {
                     "changing": "$~Nagsusumite ng bagong email...",
@@ -7179,10 +7179,10 @@
             "dismiss": "$~I-dismiss"
         },
         "banner": {
-            "deleteFailed": "$?",
-            "saveFailed": "$?",
-            "submitFailed": "$?",
-            "loadFailed": "$?"
+            "deleteFailed": "$~Hindi namin mabura iyon.",
+            "saveFailed": "$~Hindi namin nailigtas iyon",
+            "submitFailed": "$~Hindi namin maisumite iyon",
+            "loadFailed": "$~Hindi namin ma-load iyon."
         }
     },
     "moderation": {

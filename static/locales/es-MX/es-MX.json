@@ -6079,7 +6079,7 @@
                     "mismatched": "$~Las contraseñas no coinciden.",
                     "usernameTaken": "$~Este nombre de usuario ya está tomado.",
                     "unsaved": "$~Tienes cambios que aún no se han guardado en línea. Vuelve a conectarte y espera a que se guarden, o se perderán de este dispositivo.",
-                    "deletePartial": "$?"
+                    "deletePartial": "$~Hemos eliminado los datos de tu cuenta, pero no pudimos completar el proceso. Inténtalo de nuevo o contáctanos si el problema persiste."
                 },
                 "feedback": {
                     "changing": "Enviando nuevo correo electrónico...",
@@ -7155,10 +7155,10 @@
             "dismiss": "$~Despedir"
         },
         "banner": {
-            "deleteFailed": "$?",
-            "saveFailed": "$?",
-            "submitFailed": "$?",
-            "loadFailed": "$?"
+            "deleteFailed": "$~No pudimos borrar eso.",
+            "saveFailed": "$~No pudimos salvar eso",
+            "submitFailed": "$~No pudimos presentar eso",
+            "loadFailed": "$~No pudimos cargar eso."
         }
     },
     "moderation": {

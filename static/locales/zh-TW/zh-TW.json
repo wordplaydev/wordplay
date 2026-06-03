@@ -6044,7 +6044,7 @@
                     "mismatched": "密碼不匹配。",
                     "usernameTaken": "$~這個使用者名稱已被佔用。",
                     "unsaved": "$~您所做的更改尚未在線保存。請重新連線並等待儲存，否則這些變更將從此裝置上遺失。",
-                    "deletePartial": "$?"
+                    "deletePartial": "$~我們已刪除您的帳戶數據，但未能完成帳戶刪除。請重試，如果問題仍然存在，請與我們聯絡。"
                 },
                 "feedback": {
                     "changing": "正在提交新的電子郵件地址…",
@@ -7112,10 +7112,10 @@
             "dismiss": "$~解僱"
         },
         "banner": {
-            "deleteFailed": "$?",
-            "saveFailed": "$?",
-            "submitFailed": "$?",
-            "loadFailed": "$?"
+            "deleteFailed": "$~我們無法刪除它。",
+            "saveFailed": "$~我們沒能挽救它。",
+            "submitFailed": "$~我們無法提交那份文件。",
+            "loadFailed": "$~我們無法載入該文件。"
         }
     },
     "moderation": {

@@ -6937,7 +6937,7 @@
                     "mismatched": "$~Kata sandinya tidak cocok.",
                     "tooMany": "$~Anda telah mencoba masuk dan gagal terlalu banyak kali. Anda harus menunggu untuk mencoba lagi.",
                     "unsaved": "$~Anda memiliki perubahan yang belum tersimpan secara online. Sambungkan kembali dan tunggu hingga perubahan tersebut tersimpan terlebih dahulu, jika tidak, perubahan tersebut akan hilang dari perangkat ini.",
-                    "deletePartial": "$?"
+                    "deletePartial": "$~Kami telah menghapus data akun Anda, tetapi tidak dapat menyelesaikan penghapusan akun Anda. Silakan coba lagi, atau hubungi kami jika hal ini terus terjadi."
                 },
                 "feedback": {
                     "changing": "$~Mengirim email baru...",
@@ -7181,10 +7181,10 @@
             "dismiss": "$~Membubarkan"
         },
         "banner": {
-            "deleteFailed": "$?",
-            "saveFailed": "$?",
-            "submitFailed": "$?",
-            "loadFailed": "$?"
+            "deleteFailed": "$~Kami tidak bisa menghapusnya.",
+            "saveFailed": "$~Kita tidak bisa menyelamatkan itu.",
+            "submitFailed": "$~Kami tidak bisa mengirimkan itu",
+            "loadFailed": "$~Kami tidak dapat memuatnya."
         }
     },
     "moderation": {

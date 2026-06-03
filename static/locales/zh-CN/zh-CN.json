@@ -6033,7 +6033,7 @@
                     "mismatched": "$~密码不匹配。",
                     "usernameTaken": "$~这个用户名已被占用。",
                     "unsaved": "$~您所做的更改尚未在线保存。请重新连接并等待保存，否则这些更改将从此设备上丢失。",
-                    "deletePartial": "$?"
+                    "deletePartial": "$~我们已删除您的帐户数据，但未能完成帐户删除。请重试，如果问题仍然存在，请联系我们。"
                 },
                 "feedback": {
                     "changing": "正在提交新的电子邮件地址……",
@@ -7104,10 +7104,10 @@
             "dismiss": "$~解雇"
         },
         "banner": {
-            "deleteFailed": "$?",
-            "saveFailed": "$?",
-            "submitFailed": "$?",
-            "loadFailed": "$?"
+            "deleteFailed": "$~我们无法删除它。",
+            "saveFailed": "$~我们没能挽救它。",
+            "submitFailed": "$~我们无法提交那份文件。",
+            "loadFailed": "$~我们无法加载该文件。"
         }
     },
     "moderation": {

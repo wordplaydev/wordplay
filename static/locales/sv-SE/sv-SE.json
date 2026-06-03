@@ -6300,7 +6300,7 @@
                     "mismatched": "$~Lösenorden stämmer inte överens.",
                     "usernameTaken": "$~Detta användarnamn är redan upptaget.",
                     "unsaved": "$~Du har ändringar som inte är sparade online än. Återanslut och vänta tills de sparas först, annars försvinner de från den här enheten.",
-                    "deletePartial": "$?"
+                    "deletePartial": "$~Vi tog bort dina kontouppgifter, men det gick inte att slutföra borttagningen av ditt konto. Försök igen eller kontakta oss om det fortsätter att hända."
                 },
                 "feedback": {
                     "changing": "$~Skickar nytt e-postmeddelande...",
@@ -7170,10 +7170,10 @@
             "dismiss": "$~Avfärda"
         },
         "banner": {
-            "deleteFailed": "$?",
-            "saveFailed": "$?",
-            "submitFailed": "$?",
-            "loadFailed": "$?"
+            "deleteFailed": "$~Vi kunde inte radera det.",
+            "saveFailed": "$~Vi kunde inte spara det",
+            "submitFailed": "$~Vi kunde inte skicka in det",
+            "loadFailed": "$~Vi kunde inte ladda det."
         }
     },
     "moderation": {
