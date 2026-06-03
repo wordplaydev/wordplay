@@ -9,6 +9,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Added
 
 - 🔄 We added a "syncing with the cloud" list to the save status dialog, so you can check if projects, galleries, characters, how-tos, and chats finish loading — or see if something didn't.
+- 🔄 When your browser or device is low on storage, we warn you, and when its out, we give an error. Sign in to save your work!
 
 ### Changed
 

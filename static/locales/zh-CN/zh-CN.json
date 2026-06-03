@@ -4892,7 +4892,8 @@
                     "indexedDBWriteFailed": "$~您的浏览器无法将这些项目保存到此设备上。",
                     "indexedDBUnsupported": "$~您的浏览器不允许 Wordplay 在此设备上保存项目。",
                     "firestoreBatchFailed": "$~我们无法将这些项目上传到云端。它们仍然安全地保存在这台设备上。",
-                    "projectContainsPII": "$~这些项目看起来包含个人信息，所以我们没有将它们保存到网上。请打开每个项目，查看哪些内容可能涉及个人信息。"
+                    "projectContainsPII": "$~这些项目看起来包含个人信息，所以我们没有将它们保存到网上。请打开每个项目，查看哪些内容可能涉及个人信息。",
+                    "localProjectStorageFailed": "$~该设备存储空间不足，而这些项目尚未上传到云端，因此存在丢失的风险。<Sign in@/login>这样一来，它们就会保存到云端，而不仅仅是保存在这个设备上。"
                 },
                 "failuresHeader": "$~$count："
             },
@@ -7107,7 +7108,9 @@
             "deleteFailed": "$~我们无法删除它。",
             "saveFailed": "$~我们没能挽救它。",
             "submitFailed": "$~我们无法提交那份文件。",
-            "loadFailed": "$~我们无法加载该文件。"
+            "loadFailed": "$~我们无法加载该文件。",
+            "storageFull": "$~此设备存储空间已满，因此我们无法在此处保存副本。您的工作内容仍保存在云端。",
+            "storageNearFull": "$~此设备的存储空间即将用完，因此 Wordplay 可能很快就无法保存文件。保存在云端的内容是安全的；释放设备或浏览器上的空间即可使其继续保存到云端。"
         }
     },
     "moderation": {

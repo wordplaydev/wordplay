@@ -103,8 +103,18 @@
         // Show only after fonts are loaded, to prevent font jiggle.
         document.fonts.ready.then(() => (loaded = true));
 
-        // Listen for logged in users.
-        DB.login((newUser) => user.set(newUser));
+        // Listen for logged in users. On sign-in, (re-)request persistent
+        // storage — Chrome grants it based on engagement, so asking once a
+        // real user is present succeeds more often than at first paint.
+        DB.login((newUser) => {
+            user.set(newUser);
+            if (newUser) void DB.requestPersistentStorage();
+        });
+
+        // Ask the browser to keep our IndexedDB cache from being silently
+        // evicted under disk pressure, and warn once if storage is near full.
+        void DB.requestPersistentStorage();
+        void DB.checkStorageHeadroom();
 
         // Install browser online/offline + visibilitychange listeners.
         const cleanupNetworkListeners = DB.installNetworkListeners();

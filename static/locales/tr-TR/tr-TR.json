@@ -4930,7 +4930,8 @@
                     "indexedDBWriteFailed": "$~Tarayıcınız bu projeleri bu cihaza kaydedemedi.",
                     "indexedDBUnsupported": "$~Tarayıcınız Wordplay'in bu cihazda proje kaydetmesine izin vermiyor.",
                     "firestoreBatchFailed": "$~Bu projeleri buluta gönderemedik. Hala bu cihazda güvendeler.",
-                    "projectContainsPII": "$~Bu projelerde kişisel bilgiler bulunuyor gibi göründüğü için bunları çevrimiçi olarak kaydetmedik. Kişisel bilgi içerip içermediğini kontrol etmek için her birini açın."
+                    "projectContainsPII": "$~Bu projelerde kişisel bilgiler bulunuyor gibi göründüğü için bunları çevrimiçi olarak kaydetmedik. Kişisel bilgi içerip içermediğini kontrol etmek için her birini açın.",
+                    "localProjectStorageFailed": "$~Bu cihazda kaydedilecek yer kalmadı ve bu projeler henüz bulutta değil, bu yüzden risk altındalar.<Sign in@/login> Bu sayede veriler yalnızca bu cihazda değil, çevrimiçi olarak da kaydedilir."
                 },
                 "failuresHeader": "$~$count proje kaydedilmedi:"
             },
@@ -7172,7 +7173,9 @@
             "deleteFailed": "$~Bunu silemedik.",
             "saveFailed": "$~Onu kurtaramadık",
             "submitFailed": "$~Bunu gönderemedik.",
-            "loadFailed": "$~Bunu yükleyemedik."
+            "loadFailed": "$~Bunu yükleyemedik.",
+            "storageFull": "$~Bu cihazın depolama alanı dolu, bu nedenle buraya bir kopya kaydedemedik. Çalışmanız hala bulutta.",
+            "storageNearFull": "$~Bu cihazın depolama alanı neredeyse doldu, bu nedenle Wordplay yakında kaydedemeyebilir. Buluta kaydedilen çalışmalar güvendedir; cihazınızda veya tarayıcınızda yer açmak, Wordplay'in buraya kaydetmeye devam etmesini sağlar."
         }
     },
     "moderation": {

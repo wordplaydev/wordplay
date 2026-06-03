@@ -4939,7 +4939,8 @@
                     "indexedDBWriteFailed": "$~Browserul dvs. nu a putut salva aceste proiecte pe acest dispozitiv.",
                     "indexedDBUnsupported": "$~Browserul tău nu permite Wordplay să salveze proiecte pe acest dispozitiv.",
                     "firestoreBatchFailed": "$~Nu am putut trimite aceste proiecte în cloud. Sunt încă în siguranță pe acest dispozitiv.",
-                    "projectContainsPII": "$~Aceste proiecte par să conțină informații personale, așa că nu le-am salvat online. Deschideți fiecare proiect pentru a vedea ce pare personal."
+                    "projectContainsPII": "$~Aceste proiecte par să conțină informații personale, așa că nu le-am salvat online. Deschideți fiecare proiect pentru a vedea ce pare personal.",
+                    "localProjectStorageFailed": "$~Acest dispozitiv a rămas fără spațiu pentru salvare, iar aceste proiecte nu sunt încă în cloud, așa că sunt în pericol.<Sign in@/login> , ceea ce le salvează online în loc să fie doar pe acest dispozitiv."
                 },
                 "failuresHeader": "$~$count proiect(e) nu a(u) fost salvat(e):"
             },
@@ -7181,7 +7182,9 @@
             "deleteFailed": "$~Nu am putut șterge asta.",
             "saveFailed": "$~Nu am putut salva asta",
             "submitFailed": "$~Nu am putut trimite asta",
-            "loadFailed": "$~Nu am putut încărca asta."
+            "loadFailed": "$~Nu am putut încărca asta.",
+            "storageFull": "$~Spațiul de stocare al acestui dispozitiv este plin, așa că nu am putut salva o copie aici. Lucrările tale sunt încă în cloud.",
+            "storageNearFull": "$~Spațiul de stocare pe acest dispozitiv este aproape epuizat, așa că este posibil ca Wordplay să nu mai poată salva pe el în curând. Lucrările salvate în cloud sunt în siguranță; eliberarea spațiului pe dispozitiv sau browser permite salvarea continuă aici."
         }
     },
     "moderation": {

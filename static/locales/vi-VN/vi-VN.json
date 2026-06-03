@@ -4933,7 +4933,8 @@
                     "indexedDBWriteFailed": "$~Trình duyệt của bạn không thể lưu các dự án này trên thiết bị này.",
                     "indexedDBUnsupported": "$~Trình duyệt của bạn không cho phép Wordplay lưu dự án trên thiết bị này.",
                     "firestoreBatchFailed": "$~Chúng tôi không thể chuyển các dự án này lên đám mây. Chúng vẫn được lưu trữ an toàn trên thiết bị này.",
-                    "projectContainsPII": "$~Những dự án này có vẻ chứa thông tin cá nhân, vì vậy chúng tôi không lưu chúng trực tuyến. Hãy mở từng dự án để kiểm tra xem thông tin nào có vẻ là thông tin cá nhân."
+                    "projectContainsPII": "$~Những dự án này có vẻ chứa thông tin cá nhân, vì vậy chúng tôi không lưu chúng trực tuyến. Hãy mở từng dự án để kiểm tra xem thông tin nào có vẻ là thông tin cá nhân.",
+                    "localProjectStorageFailed": "$~Thiết bị này đã hết dung lượng lưu trữ, và các dự án này chưa được lưu lên đám mây, vì vậy chúng đang gặp rủi ro.<Sign in@/login> , giúp lưu trữ chúng trực tuyến thay vì chỉ trên thiết bị này."
                 },
                 "failuresHeader": "$~$count dự án không được lưu:"
             },
@@ -7175,7 +7176,9 @@
             "deleteFailed": "$~Chúng tôi không thể xóa nó.",
             "saveFailed": "$~Chúng tôi không thể cứu vãn được điều đó.",
             "submitFailed": "$~Chúng tôi không thể gửi tài liệu đó.",
-            "loadFailed": "$~Chúng tôi không thể tải được dữ liệu đó."
+            "loadFailed": "$~Chúng tôi không thể tải được dữ liệu đó.",
+            "storageFull": "$~Bộ nhớ của thiết bị này đã đầy, vì vậy chúng tôi không thể lưu bản sao ở đây. Công việc của bạn vẫn được lưu trữ trên đám mây.",
+            "storageNearFull": "$~Thiết bị này gần hết dung lượng lưu trữ, vì vậy Wordplay có thể sớm không thể lưu được nữa. Công việc đã lưu trên đám mây thì an toàn; việc giải phóng dung lượng trên thiết bị hoặc trình duyệt của bạn cho phép nó tiếp tục được lưu ở đây."
         }
     },
     "moderation": {

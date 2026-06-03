@@ -10,6 +10,7 @@ import {
 import { Domain } from '@db/Domains';
 import SaveTracker from '@db/SaveTracker.svelte';
 import { firestore } from '@db/firebase';
+import isQuotaError from '@db/isQuotaError';
 import type Gallery from '@db/galleries/Gallery';
 import HowTo from '@db/howtos/HowToDatabase.svelte';
 import type Project from '@db/projects/Project';
@@ -330,6 +331,8 @@ export class ChatDatabase {
         deviceCount: () => this.chats.size,
         supported: () => this.IndexedDBSupported,
         isHydrated: () => this.hydrated,
+        onStorageFull: () =>
+            this.db.reportBanner((l) => l.ui.banner.storageFull),
     });
 
     /** Project/how-to ids of conversations whose latest local change hasn't been
@@ -395,7 +398,7 @@ export class ChatDatabase {
     /** Mirror authoritative chats into the local cache for cold-start
      *  hydration. Caches the MERGED in-memory chat (not the raw doc) so local
      *  optimistic messages survive. Never called from the hydrate path. */
-    private cacheChatsLocally(projectIDs: string[]) {
+    private async cacheChatsLocally(projectIDs: string[]) {
         if (!this.IndexedDBSupported || projectIDs.length === 0) return;
         const data: SerializedChat[] = [];
         for (const projectID of projectIDs) {
@@ -403,9 +406,13 @@ export class ChatDatabase {
             if (chat) data.push(chat.getData());
         }
         try {
-            this.db.localDB.saveChats(data);
+            // Await so a rejected write (e.g. full storage) is caught; this
+            // mirrors cloud data, so surface a transient banner, not data loss.
+            await this.db.localDB.saveChats(data);
         } catch (error) {
-            console.error(error);
+            if (isQuotaError(error))
+                this.db.reportBanner((l) => l.ui.banner.storageFull, error);
+            else console.error(error);
         }
     }
 
@@ -905,6 +912,15 @@ export class ChatDatabase {
                 return newChat;
             } else return undefined;
         } catch (err) {
+            // A connectivity failure (offline / unreachable backend) must not
+            // block starting a chat: treat it like "no chat yet" so the start
+            // button shows and a chat created offline is queued locally and
+            // replayed on reconnect (the offline-create path). Without this the
+            // panel shows the "couldn't load" error tile instead — and which
+            // branch we hit was browser-dependent (Firestore's offline getDoc
+            // resolves-as-nonexistent on some engines but rejects on WebKit).
+            // Only a genuine error (e.g. permission-denied) returns false.
+            if (this.db.isConnectivityError(err)) return undefined;
             return false;
         }
     }

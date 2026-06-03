@@ -4894,7 +4894,8 @@
                     "indexedDBWriteFailed": "$~您的瀏覽器無法將這些項目儲存到此裝置上。",
                     "indexedDBUnsupported": "$~您的瀏覽器不允許 Wordplay 在此裝置上儲存項目。",
                     "firestoreBatchFailed": "$~我們無法將這些項目上傳到雲端。它們仍然安全地保存在這台設備上。",
-                    "projectContainsPII": "$~這些項目看起來包含個人訊息，所以我們沒有將它們保存到網路上。請開啟每個項目，查看哪些內容可能涉及個人資訊。"
+                    "projectContainsPII": "$~這些項目看起來包含個人訊息，所以我們沒有將它們保存到網路上。請開啟每個項目，查看哪些內容可能涉及個人資訊。",
+                    "localProjectStorageFailed": "$~該設備儲存空間不足，而這些項目尚未上傳到雲端，因此存在遺失的風險。<Sign in@/login>這樣一來，它們就會保存到雲端，而不僅僅是保存在這個裝置上。"
                 },
                 "failuresHeader": "$~$count："
             },
@@ -7115,7 +7116,9 @@
             "deleteFailed": "$~我們無法刪除它。",
             "saveFailed": "$~我們沒能挽救它。",
             "submitFailed": "$~我們無法提交那份文件。",
-            "loadFailed": "$~我們無法載入該文件。"
+            "loadFailed": "$~我們無法載入該文件。",
+            "storageFull": "$~此裝置儲存空間已滿，因此我們無法在此處儲存副本。您的工作內容仍保存在雲端。",
+            "storageNearFull": "$~此裝置的儲存空間即將用完，因此 Wordplay 可能很快就無法儲存檔案。保存在雲端的內容是安全的；釋放設備或瀏覽器上的空間即可使其繼續保存到雲端。"
         }
     },
     "moderation": {

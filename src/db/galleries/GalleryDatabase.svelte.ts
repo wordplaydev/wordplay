@@ -25,6 +25,7 @@ import type Locales from '@locale/Locales';
 import { type Database, type SaveCounts, type SaveError } from '@db/Database';
 import { firestore } from '@db/firebase';
 import { Domain } from '@db/Domains';
+import isQuotaError from '@db/isQuotaError';
 import SaveTracker from '@db/SaveTracker.svelte';
 import supportsIndexedDB from '@db/supportsIndexedDB';
 import type Project from '@db/projects/Project';
@@ -97,6 +98,8 @@ export default class GalleryDatabase {
         deviceCount: () => this.accessibleGalleries.size,
         supported: () => this.IndexedDBSupported,
         isHydrated: () => this.hydrated,
+        onStorageFull: () =>
+            this.database.reportBanner((l) => l.ui.banner.storageFull),
     });
 
     /** IDs of the user's galleries whose latest edit hasn't been confirmed
@@ -221,14 +224,21 @@ export default class GalleryDatabase {
     /** Mirror authoritative galleries into the local cache for cold-start
      *  hydration. Never called from the hydrate path, to avoid a write/emit
      *  loop. */
-    private cacheGalleriesLocally(galleries: Gallery[]) {
+    private async cacheGalleriesLocally(galleries: Gallery[]) {
         if (!this.IndexedDBSupported || galleries.length === 0) return;
         try {
-            this.database.localDB.saveGalleries(
+            // Await so a rejected write (e.g. full storage) is caught; this
+            // mirrors cloud data, so surface a transient banner, not data loss.
+            await this.database.localDB.saveGalleries(
                 galleries.map((g) => g.getData()),
             );
         } catch (error) {
-            console.error(error);
+            if (isQuotaError(error))
+                this.database.reportBanner(
+                    (l) => l.ui.banner.storageFull,
+                    error,
+                );
+            else console.error(error);
         }
     }
 

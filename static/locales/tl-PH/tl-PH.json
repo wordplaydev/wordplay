@@ -4936,7 +4936,8 @@
                     "indexedDBWriteFailed": "$~Hindi ma-save ng iyong browser ang mga proyektong ito sa device na ito.",
                     "indexedDBUnsupported": "$~Hindi papayagan ng iyong browser ang Wordplay na mag-save ng mga proyekto sa device na ito.",
                     "firestoreBatchFailed": "$~Hindi namin maipadala ang mga proyektong ito sa cloud. Ligtas pa rin ang mga ito sa device na ito.",
-                    "projectContainsPII": "$~Mukhang may personal na impormasyon ang mga proyektong ito, kaya hindi namin na-save online. Buksan ang bawat isa para tingnan kung ano ang mukhang personal."
+                    "projectContainsPII": "$~Mukhang may personal na impormasyon ang mga proyektong ito, kaya hindi namin na-save online. Buksan ang bawat isa para tingnan kung ano ang mukhang personal.",
+                    "localProjectStorageFailed": "$~Naubusan na ng espasyo para i-save ang device na ito, at wala pa sa cloud ang mga proyektong ito, kaya nasa panganib ang mga ito.<Sign in@/login> , na nagse-save sa mga ito online sa halip na sa device na ito lang."
                 },
                 "failuresHeader": "$~Hindi na-save ng proyektong $count :"
             },
@@ -7182,7 +7183,9 @@
             "deleteFailed": "$~Hindi namin mabura iyon.",
             "saveFailed": "$~Hindi namin nailigtas iyon",
             "submitFailed": "$~Hindi namin maisumite iyon",
-            "loadFailed": "$~Hindi namin ma-load iyon."
+            "loadFailed": "$~Hindi namin ma-load iyon.",
+            "storageFull": "$~Puno na ang storage ng device na ito, kaya hindi kami makapag-save ng kopya rito. Nasa cloud pa rin ang gawa mo.",
+            "storageNearFull": "$~Halos wala nang storage ang device na ito, kaya maaaring hindi na makapag-save ang Wordplay dito. Ligtas ang mga gawaing naka-save sa cloud; ang pagbabakante ng espasyo sa iyong device o browser ay nagbibigay-daan dito upang patuloy itong mag-save dito."
         }
     },
     "moderation": {

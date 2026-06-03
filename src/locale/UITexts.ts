@@ -249,6 +249,9 @@ type UITexts = {
             failureReason: {
                 /** [formatted] Browser local save failed (IndexedDB write error) */
                 indexedDBWriteFailed: FormattedText;
+                /** [formatted] Local save failed for a project with NO cloud copy
+                 *  (signed out / not synced) — real data loss; nudges sign-in */
+                localProjectStorageFailed: FormattedText;
                 /** [formatted] Browser doesn't support saving projects locally */
                 indexedDBUnsupported: FormattedText;
                 /** [formatted] Sending projects to the cloud failed */
@@ -1255,6 +1258,11 @@ type UITexts = {
         submitFailed: string;
         /** [plain] Shown when loading/reading something from the cloud failed */
         loadFailed: string;
+        /** [plain] Shown when a local (this-device) save failed because storage
+         *  is full, but the data is still safe in the cloud */
+        storageFull: string;
+        /** [plain] Shown proactively when this device's storage is nearly full */
+        storageNearFull: string;
     };
     /** Notification shown when a newer version of the app has been deployed while the tab was open. */
     update: {

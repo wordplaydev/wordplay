@@ -52,6 +52,8 @@
     const REASON_TEXT: Record<SaveFailureReason, (l: LocaleText) => string> = {
         'indexed-db-write-failed': (l) =>
             l.ui.project.save.failureReason.indexedDBWriteFailed,
+        'local-project-storage-failed': (l) =>
+            l.ui.project.save.failureReason.localProjectStorageFailed,
         'indexed-db-unsupported': (l) =>
             l.ui.project.save.failureReason.indexedDBUnsupported,
         'firestore-batch-failed': (l) =>

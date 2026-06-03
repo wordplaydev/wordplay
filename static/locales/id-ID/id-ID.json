@@ -4939,7 +4939,8 @@
                     "indexedDBWriteFailed": "$~Browser Anda tidak dapat menyimpan proyek-proyek ini di perangkat ini.",
                     "indexedDBUnsupported": "$~Browser Anda tidak mengizinkan Wordplay untuk menyimpan proyek di perangkat ini.",
                     "firestoreBatchFailed": "$~Kami tidak dapat mengirim proyek-proyek ini ke cloud. Proyek-proyek tersebut masih aman di perangkat ini.",
-                    "projectContainsPII": "$~Proyek-proyek ini tampaknya berisi informasi pribadi, jadi kami tidak menyimpannya secara online. Buka setiap proyek untuk memeriksa apa yang tampak bersifat pribadi."
+                    "projectContainsPII": "$~Proyek-proyek ini tampaknya berisi informasi pribadi, jadi kami tidak menyimpannya secara online. Buka setiap proyek untuk memeriksa apa yang tampak bersifat pribadi.",
+                    "localProjectStorageFailed": "$~Perangkat ini kehabisan ruang penyimpanan, dan proyek-proyek ini belum ada di cloud, jadi berisiko.<Sign in@/login> yang menyimpannya secara online, bukan hanya di perangkat ini."
                 },
                 "failuresHeader": "$~$count proyek yang tidak tersimpan:"
             },
@@ -7184,7 +7185,9 @@
             "deleteFailed": "$~Kami tidak bisa menghapusnya.",
             "saveFailed": "$~Kita tidak bisa menyelamatkan itu.",
             "submitFailed": "$~Kami tidak bisa mengirimkan itu",
-            "loadFailed": "$~Kami tidak dapat memuatnya."
+            "loadFailed": "$~Kami tidak dapat memuatnya.",
+            "storageFull": "$~Penyimpanan perangkat ini penuh, jadi kami tidak dapat menyimpan salinan di sini. Pekerjaan Anda masih tersimpan di cloud.",
+            "storageNearFull": "$~Penyimpanan di perangkat ini hampir penuh, jadi Wordplay mungkin sebentar lagi tidak dapat menyimpan data. Pekerjaan yang disimpan di cloud aman; mengosongkan ruang di perangkat atau browser Anda memungkinkan Wordplay untuk terus menyimpan data di sini."
         }
     },
     "moderation": {

@@ -11,6 +11,7 @@ import {
 import { Domain } from '@db/Domains';
 import { auth, firestore } from '@db/firebase';
 import firebaseErrorDetail from '@db/firebaseErrorDetail';
+import isQuotaError from '@db/isQuotaError';
 import type Gallery from '@db/galleries/Gallery';
 import { EditFailure } from '@db/projects/EditFailure';
 import { unknownFlags } from '@db/projects/Moderation';
@@ -1779,24 +1780,40 @@ export default class ProjectsDatabase {
         // First, save all projects to the local DB, including the user ID if they don't have it already.
         if (this.IndexedDBSupported) {
             try {
-                this.localDB.saveProjects(
+                // Await so a rejected write (e.g. QuotaExceededError when the
+                // device is full) is actually caught here — saveProjects used to
+                // be fire-and-forget, so the catch never ran and we'd report
+                // "Saved" despite the local write failing.
+                await this.localDB.saveProjects(
                     local.map((history) =>
                         this.withCRDTSnapshot(history.getCurrent()).serialize(),
                     ),
                 );
             } catch (err) {
                 console.error(err);
-                const detail =
-                    err instanceof DOMException ? err.name : String(err);
+                const detail = isQuotaError(err)
+                    ? 'QuotaExceededError'
+                    : err instanceof DOMException
+                      ? err.name
+                      : String(err);
                 for (const history of local)
                     failures.push(
                         projectFailure(
                             history.getCurrent(),
-                            SaveFailureReason.IndexedDBWriteFailed,
+                            // A local-only project (no cloud copy) that fails to
+                            // write is real data loss → the louder reason that
+                            // nudges sign-in; an Online project still has the
+                            // cloud, so the gentler "not on this device" reason.
+                            history.getPersisted() === PersistenceType.Local
+                                ? SaveFailureReason.LocalProjectStorageFailed
+                                : SaveFailureReason.IndexedDBWriteFailed,
                             detail,
                         ),
                     );
             }
+            // After a (successful or failed) local write, warn once if storage
+            // is nearly full — before the next write actually fails.
+            void this.database.checkStorageHeadroom();
         } else {
             for (const history of local)
                 failures.push(
@@ -1848,13 +1865,29 @@ export default class ProjectsDatabase {
 
                 // Persist a dirty flag for each project we're about to push, so
                 // an edit whose commit doesn't confirm before a reload is
-                // replayed on the next load (see trackLocal).
+                // replayed on the next load (see trackLocal). Await + catch so a
+                // full-storage rejection is surfaced (the storageFull banner,
+                // consistent with the other dirty-row writes) instead of an
+                // unhandled rejection; the cloud commit below still proceeds.
                 if (this.IndexedDBSupported)
-                    for (const sentVersion of sentVersions.values())
-                        this.localDB.markDirty(
-                            Domain.Projects,
-                            sentVersion.getID(),
+                    try {
+                        await Promise.all(
+                            Array.from(sentVersions.values()).map(
+                                (sentVersion) =>
+                                    this.localDB.markDirty(
+                                        Domain.Projects,
+                                        sentVersion.getID(),
+                                    ),
+                            ),
                         );
+                    } catch (err) {
+                        if (isQuotaError(err))
+                            this.database.reportBanner(
+                                (l) => l.ui.banner.storageFull,
+                                err,
+                            );
+                        else console.error(err);
+                    }
 
                 // Capture into a local so the type narrowing from the
                 // enclosing `if (firestore && userID)` carries into the
