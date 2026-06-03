@@ -54,6 +54,14 @@
             ]
         },
         {
+            "collectionGroup": "projects",
+            "queryScope": "COLLECTION",
+            "fields": [
+                { "fieldPath": "archived", "order": "ASCENDING" },
+                { "fieldPath": "timestamp", "order": "ASCENDING" }
+            ]
+        },
+        {
             "collectionGroup": "howtos",
             "queryScope": "COLLECTION",
             "fields": [
