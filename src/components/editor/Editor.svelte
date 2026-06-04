@@ -75,6 +75,7 @@
     import type Conflict from '@conflicts/Conflict';
     import {
         DB,
+        CharactersDB,
         Projects,
         Settings,
         animationFactor,
@@ -1030,6 +1031,7 @@
             isFieldPosition(anchor) ? anchor : undefined,
             $locales,
             concepts,
+            CharactersDB.getAvailableCharacterNamesForAutocomplete(),
         );
 
         // If in blocks mode, filter edits that would create conflicts.

@@ -54,24 +54,27 @@ export default class Markup extends Content {
         return markup;
     }
 
-    static getPossibleReplacements({ locales }: ReplaceContext) {
+    /** Markup placeholder text, plus markup linking to each available custom
+     *  character. These replace an empty markup placeholder (e.g. inside a
+     *  formatted translation), so each must be a Markup to apply. We build them
+     *  with Markup.words so they carry spaces — markup with no spaces can't be
+     *  rendered as output (it shows "unable to render markup without spaces"). */
+    static getPossibilities(
+        locales: Locales,
+        characters: string[] | undefined,
+    ): Markup[] {
         return [
-            new Paragraph([
-                Words.make(
-                    locales.getUnannotatedText((l) => l.node.Markup.name),
-                ),
-            ]),
+            Markup.words(locales.getUnannotatedText((l) => l.node.Markup.name)),
+            ...(characters?.map((name) => Markup.words(`@${name}`)) ?? []),
         ];
     }
 
-    static getPossibleInsertions({ locales }: InsertContext) {
-        return [
-            new Paragraph([
-                Words.make(
-                    locales.getUnannotatedText((l) => l.node.Markup.name),
-                ),
-            ]),
-        ];
+    static getPossibleReplacements({ locales, characters }: ReplaceContext) {
+        return Markup.getPossibilities(locales, characters);
+    }
+
+    static getPossibleInsertions({ locales, characters }: InsertContext) {
+        return Markup.getPossibilities(locales, characters);
     }
 
     getDescriptor(): NodeDescriptor {

@@ -1,5 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import { PossiblePII } from '@conflicts/PossiblePII';
+import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { FORMATTED_SYMBOL } from '@parser/Symbols';
@@ -52,12 +53,35 @@ export default class FormattedTranslation extends LanguageTagged {
         );
     }
 
-    static getPossibleReplacements() {
-        return [FormattedTranslation.make()];
+    /** A formatted translation whose markup is a single link to the named custom
+     *  character. Built with Markup.words so the markup carries spaces and can
+     *  render as output. */
+    static makeWithLink(name: string) {
+        return new FormattedTranslation(
+            new Token(FORMATTED_SYMBOL, Sym.Formatted),
+            Markup.words(`@${name}`),
+            new Token(FORMATTED_SYMBOL, Sym.Formatted),
+            undefined,
+            undefined,
+        );
     }
 
-    static getPossibleInsertions() {
-        return this.getPossibleReplacements();
+    /** The empty translation, plus one linking to each available custom character. */
+    static getPossibilities(characters: string[] | undefined) {
+        return [
+            FormattedTranslation.make(),
+            ...(characters?.map((name) =>
+                FormattedTranslation.makeWithLink(name),
+            ) ?? []),
+        ];
+    }
+
+    static getPossibleReplacements({ characters }: ReplaceContext) {
+        return FormattedTranslation.getPossibilities(characters);
+    }
+
+    static getPossibleInsertions({ characters }: InsertContext) {
+        return FormattedTranslation.getPossibilities(characters);
     }
 
     getDescriptor(): NodeDescriptor {

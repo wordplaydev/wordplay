@@ -90,23 +90,31 @@ export default class ConceptLink extends Content {
     }
 
     /** Complete the concept link being edited (e.g. `@Col`, `@Color.ra`) against
-     *  the concept index, filtered by what's already typed — mirroring how
-     *  reference completion narrows by prefix. */
+     *  the concept index and the available custom characters, filtered by what's
+     *  already typed — mirroring how reference completion narrows by prefix. */
     static getPossibleReplacements({
         node,
         concepts,
+        characters,
         locales,
     }: ReplaceContext) {
-        return concepts && node instanceof ConceptLink
-            ? getConceptLinkCompletions(concepts, locales, node.getName())
-            : [];
+        if (!(node instanceof ConceptLink)) return [];
+        const prefix = node.getName();
+        return [
+            ...(concepts
+                ? getConceptLinkCompletions(concepts, locales, prefix)
+                : []),
+            ...getCharacterLinkCompletions(characters, prefix),
+        ];
     }
 
-    static getPossibleInsertions(_: InsertContext) {
+    static getPossibleInsertions({ characters }: InsertContext) {
         // Concept links complete an existing `@…` token (handled as a
-        // replacement above); they aren't offered as fresh insertions, so the
+        // replacement above); concepts aren't offered as fresh insertions, so the
         // markup menu isn't flooded with every concept when no link is typed.
-        return [];
+        // Custom characters are a bounded, user-relevant set, so they are offered
+        // as fresh insertions wherever markup accepts a concept link.
+        return characters?.map((name) => ConceptLink.make(name)) ?? [];
     }
 
     getDescriptor(): NodeDescriptor {
@@ -271,4 +279,17 @@ function getConceptLinkCompletions(
         links.push(ConceptLink.make(token));
     }
     return links;
+}
+
+/** Build character-link completions whose name (`username/charactername`)
+ *  starts with the partial link `prefix` (the text after `@`). */
+function getCharacterLinkCompletions(
+    characters: string[] | undefined,
+    prefix: string,
+): ConceptLink[] {
+    if (characters === undefined) return [];
+    const lower = prefix.toLowerCase();
+    return characters
+        .filter((name) => name.toLowerCase().startsWith(lower))
+        .map((name) => ConceptLink.make(name));
 }
