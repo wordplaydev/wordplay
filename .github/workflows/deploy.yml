@@ -38,17 +38,18 @@ jobs:
             - run: echo "${{ secrets.ENV_PROD }}" > .env.wordplay-prod
               name: Copy environment variables
 
-            # Deploy Firebase functions first, so they are ready for source to invoke.
-            - run: npx firebase deploy --only functions --project wordplay-prod
-
-            # Deploy Firestore rules and indexes so they match the hosted client.
-            - run: npx firebase deploy --only firestore --project wordplay-prod
-
-            # Deploy to Firebase hosting (live channel). Uses the firebase CLI
-            # rather than FirebaseExtended/action-hosting-deploy, which had no
-            # Node 24 release (deprecated Node 20). This mirrors the functions
-            # and firestore steps above and authenticates via the same
-            # google-github-actions/auth step. firebase.json's hosting predeploy
-            # hook runs `npm run build:web`, so the site is built before upload.
-            - run: npx firebase deploy --only hosting --project wordplay-prod
-              name: Deploy to Firebase hosting
+            # Deploy functions, Firestore rules/indexes, and hosting in a single
+            # command. Uses the firebase CLI rather than
+            # FirebaseExtended/action-hosting-deploy, which had no Node 24
+            # release (deprecated Node 20), and authenticates via the
+            # google-github-actions/auth step above. One invocation lets the CLI
+            # overlap the release phases; the predeploy hooks still build
+            # functions (tsc) and the site (`npm run build:web`) before upload.
+            #
+            # Note: a combined deploy gives no ordering guarantee that functions
+            # finish before hosting goes live, so there is a brief window where a
+            # freshly deployed client could call not-yet-updated functions. This
+            # is acceptable as long as function changes are backward-compatible;
+            # if that stops holding, split functions into its own prior step.
+            - run: npx firebase deploy --project wordplay-prod
+              name: Deploy to Firebase
