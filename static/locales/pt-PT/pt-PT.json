@@ -133,7 +133,6 @@
         "KannadaNumeral": "numeral canarês",
         "TamilNumeral": "numeral tâmil",
         "TeluguNumeral": "numeral telugu",
-        "LanguageJoin": "conector de idiomas",
         "Translate": "traduzir"
     },
     "node": {
@@ -524,7 +523,6 @@
                     "resolutionReorder": "Troque as entradas, uma vez que os seus tipos se ajustam melhor à outra ordem — $expected pertence ao outro slot.",
                     "resolutionPlaceholder": "Por enquanto, substitua por um valor de exemplo, uma vez que $expected é obrigatório — depois, escolha um valor no menu de autocompletar.",
                     "explanationDivideByZero": "Isto pode ser ø porque $source pode ser divisível por zero, e é necessário um número aqui."
-
                 },
                 "MisplacedShare": {
                     "name": "partilha malposicionada",
@@ -792,7 +790,6 @@
                     "resolutionReorder": "Troque as entradas, uma vez que os seus tipos se ajustam melhor à outra ordem — $expected pertence ao outro slot.",
                     "resolutionPlaceholder": "Por enquanto, substitua por um valor de exemplo, uma vez que $expected é obrigatório — depois, escolha um valor no menu de autocompletar.",
                     "explanationDivideByZero": "Isto pode ser ø porque $source pode ser divisível por zero, e é necessário um número aqui."
-
                 },
                 "UnexpectedTypeInput": {
                     "name": "entrada de tipo inesperado",
@@ -923,7 +920,8 @@
             "initialize": "Preparar-se para passar pelos itens",
             "next": "passando para o item seguinte",
             "check": "decidir se deve continuar",
-            "finish": "Eu avaliei para $value"
+            "finish": "Eu avaliei para $value",
+            "description": "$~iterar internamente sobre os valores da lista"
         },
         "Initial": {
             "name": "iniciar",
@@ -1597,10 +1595,9 @@
         },
         "AnyType": {
             "name": "qualquer",
-            "description": "qualquer",
+            "description": "combinar com qualquer tipo possível",
             "emotion": "curious",
-            "doc": "Eu represento qualquer tipo possível. Por vezes apareço porque não sei que tipo de valor algo tem, por isso pode ser qualquer coisa.",
-            "description": "combinar com qualquer tipo possível"
+            "doc": "Eu represento qualquer tipo possível. Por vezes apareço porque não sei que tipo de valor algo tem, por isso pode ser qualquer coisa."
         },
         "BooleanType": {
             "name": "booleano",
@@ -1618,7 +1615,8 @@
             "doc": [
                 "Utilizo a anotação `@Bind` para indicar que um nome é uma `@ConversionDefinition`. Provavelmente não precisa de me usar, pois poucas pessoas me passam como valor, mas se precisasse, eu teria este aspeto:",
                 "\\magic•?→'': → ? '' ⬚ ? 'sim' 'não'\\"
-            ]
+            ],
+            "description": "$~introduza uma definição de conversão"
         },
         "FormattedType": {
             "name": "formatado",
@@ -5233,9 +5231,7 @@
                         "explanation": "Configure as perguntas orientadoras apresentadas ao criar um novo tutorial. Separe as questões orientadoras com uma quebra de linha."
                     },
                     "descriptor": "Uma caixa de texto para escrever as suas questões orientadoras, separadas por uma quebra de linha.",
-                    "default": [
-                        "O que aprendeu? Dê exemplos de como o fazer."
-                    ]
+                    "default": ["O que aprendeu? Dê exemplos de como o fazer."]
                 },
                 "reactions": {
                     "subheader": {
@@ -7016,10 +7012,7 @@
                 "nextEntry": "Edite a sequência de caracteres seguinte.",
                 "qualityMode": {
                     "label": "espetáculo",
-                    "labels": [
-                        "tudo",
-                        "traduzido por máquina ou não escrito"
-                    ],
+                    "labels": ["tudo", "traduzido por máquina ou não escrito"],
                     "tips": [
                         "mostrar todas as strings",
                         "Mostrar apenas strings traduzidas automaticamente ou não escritas."
@@ -7065,14 +7058,17 @@
                     "ui": "Interface do utilizador",
                     "gallery": "Galeria",
                     "moderation": "Moderação"
-                },
-                "singletonWordsWarning": "Algumas palavras do seu rascunho aparecem apenas uma vez em todo o texto. Tem a certeza de que a ortografia está correta e consistente com o resto do texto?",
-                "viewPR": "Veja a solicitação de pull request",
-                "oneLocaleNote": "Cada contribuição abrange um idioma de cada vez. Este lote será enviado como edições para $locale . Se quiser contribuir com um idioma diferente, mude primeiro de idioma; as edições guardadas em cada idioma são guardadas separadamente."
+                }
             },
             "breadcrumb": {
                 "label": "Migalhas de pão",
                 "home": "tela inicial"
+            },
+            "thanks": {
+                "header": "$~Obrigado",
+                "intro": "$~Agradecemos aos nossos * $count * colaboradores por contribuírem para o design, desenvolvimento, localização e conteúdo do Wordplay! E agradecemos também aos muitos professores e jovens que orientaram o nosso design em grupos de foco, sessões de design e salas de aula, cujos nomes não listamos aqui para preservar a sua privacidade. Este projeto foi financiado pela National Science Foundation sob os números de subvenção 2318257, 2031265, 2100296 e 2122950, pela Universidade de Washington e por generosas doações.<gifts@://donate> De pessoas como você.",
+                "teachers": "$~Professores",
+                "contributors": "$~Colaboradores"
             }
         },
         "edit": {
