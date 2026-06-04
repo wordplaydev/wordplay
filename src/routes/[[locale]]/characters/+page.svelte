@@ -10,10 +10,11 @@
     import Button from '@components/widgets/Button.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import Title from '@components/widgets/Title.svelte';
+    import { characterToSVG, type Character } from '@db/characters/Character';
     import { CharactersDB, disconnected } from '@db/Database';
     import { firestore } from '@db/firebase';
     import { CANCEL_SYMBOL, COPY_SYMBOL } from '@parser/Symbols';
-    import { characterToSVG, type Character } from '@db/characters/Character';
+    import { localeGoto } from '@util/localeGoto';
     import NewCharacterButton from './NewCharacterButton.svelte';
 
     const user = getUser();
@@ -44,7 +45,7 @@
     <div class="preview">
         <Link to="/character/{character.id}">
             <div class="character">
-                {@html characterToSVG(character, 64)}
+                {@html characterToSVG(character, 128)}
             </div>
         </Link>
         <Link to="/character/{character.id}">
@@ -58,8 +59,10 @@
             <Button
                 tip={(l) => l.ui.page.characters.button.copy}
                 icon={COPY_SYMBOL}
+                background
                 action={async () => {
-                    await CharactersDB.copy(character);
+                    const id = await CharactersDB.copy(character);
+                    if (id) localeGoto(`/character/${id}`);
                 }}
             ></Button>
             <ConfirmButton
@@ -77,13 +80,17 @@
         .preview {
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: start;
+            gap: var(--wordplay-spacing);
         }
 
         .character {
-            display: inline-block;
-            width: 64px;
-            height: 64px;
+            /* Block (not inline-block) so the preview box doesn't sit on the
+               link's text baseline — inline-block left ~5px of descender space
+               below the 64px box from the line-height strut. */
+            display: block;
+            width: 128px;
+            height: 128px;
             border: var(--wordplay-border-color) solid
                 var(--wordplay-border-width);
         }
@@ -91,7 +98,7 @@
         .tools {
             display: flex;
             flex-direction: row;
-            align-items: center;
+            align-items: start;
             gap: var(--wordplay-spacing);
         }
     </style>
@@ -148,8 +155,12 @@
     .characters {
         display: flex;
         flex-wrap: wrap;
-        gap: var(--wordplay-spacing);
-        row-gap: var(--wordplay-spacing);
+        gap: calc(var(--wordplay-spacing) * 2);
+        row-gap: calc(var(--wordplay-spacing) * 2);
         justify-content: start;
+        /* Don't stretch each card to the row's tallest card (which a long,
+           wrapping name would set) — that leaves blank space below shorter
+           cards. Size each to its own content. */
+        align-items: start;
     }
 </style>

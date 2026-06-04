@@ -11,6 +11,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 💡 When you write formatted text, auto-complete now suggests your [custom characters](https://wordplay.dev/characters), so you can drop them into your words without typing their names — even to fill an empty spot. (#664)
 - 🔄 We added a "syncing with the cloud" list to the save status dialog, so you can check if projects, galleries, characters, how-tos, and chats finish loading — or see if something didn't.
 - 🔄 When your browser or device is low on storage, we warn you, and when its out, we give an error. Sign in to save your work!
+- 😊 Now you can duplicate characters.
 
 ### Changed
 
