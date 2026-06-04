@@ -24,6 +24,7 @@
         Projects,
         locales,
     } from '@db/Database';
+    import { MAX_DESCRIPTION_LENGTH, MAX_NAME_LENGTH } from '@db/limits';
     import type Gallery from '@db/galleries/Gallery';
     import {
         getClasses,
@@ -157,7 +158,7 @@
                         : l.ui.gallery.error.unknown}
             />
         {:else}
-            <PageHeader
+            <PageHeader wrap
                 >{#snippet title()}{#if editable}<TextField
                             id="gallery-name"
                             text={name ?? ''}
@@ -165,6 +166,8 @@
                                 l.ui.gallery.field.name.description}
                             placeholder={(l) =>
                                 l.ui.gallery.field.name.placeholder}
+                            max="8em"
+                            maxlength={MAX_NAME_LENGTH}
                             done={(text) =>
                                 gallery
                                     ? Galleries.edit(
@@ -187,6 +190,7 @@
                     <TextBox
                         id="gallery-description"
                         text={description ?? ''}
+                        maxlength={MAX_DESCRIPTION_LENGTH}
                         description={(l) =>
                             l.ui.gallery.field.description.description}
                         placeholder={(l) =>

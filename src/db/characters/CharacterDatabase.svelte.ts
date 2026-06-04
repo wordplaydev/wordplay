@@ -40,11 +40,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 const CharactersCollection = Domain.Characters;
 
-/**
- * Cap on a character name
- */
-export const MAX_CHARACTER_NAME_LENGTH = 32;
-
 export class CharactersDatabase {
     private readonly db: Database;
 

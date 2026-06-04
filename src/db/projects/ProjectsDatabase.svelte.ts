@@ -74,11 +74,6 @@ export const MAX_PROJECT_BYTE_SIZE = 1048576;
  */
 export const MAX_BATCH_WRITES = 450;
 
-/**
- * Cap on a project name.
- */
-export const MAX_PROJECT_NAME_LENGTH = 64;
-
 /** `sessionStorage` key under which the per-tab session id is persisted so
  *  it survives reloads of the same tab. See {@link ProjectsDatabase.sessionID}. */
 const SessionIDStorageKey = 'wordplay.sessionID';

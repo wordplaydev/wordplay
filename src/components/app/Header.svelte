@@ -28,7 +28,11 @@
     }
 
     .wrap {
-        word-break: break-all;
+        /* Break long words/tokens so a long header (e.g. a user-entered gallery
+           name) wraps within its container instead of overflowing. `anywhere`
+           prefers breaking at spaces and only splits a word when it alone is
+           too wide. */
+        overflow-wrap: anywhere;
     }
 
     .block {

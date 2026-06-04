@@ -326,6 +326,13 @@
         gap: var(--wordplay-spacing);
     }
 
+    /* Let long gallery names wrap instead of overflowing — Subheader is
+       `white-space: nowrap` by default. */
+    .howtoonlypreview > :global(h2) {
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+
     .search-results {
         display: flex;
         flex-direction: column;

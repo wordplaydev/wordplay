@@ -19,6 +19,10 @@
         /** Cap the visible height at this many lines, scrolling beyond it,
          *  so a growing value can't stretch its surrounding layout. */
         maxrows?: number | undefined;
+        /** Hard cap on input length, in UTF-16 code units, wired to the
+         *  underlying `<textarea maxlength>` so the browser blocks further
+         *  keystrokes and truncates pastes. */
+        maxlength?: number | undefined;
         onkeydown?: (event: KeyboardEvent) => void;
         /** Suppress the auto-injected description tip-edit badge in localizing mode.
          *  Set to true when embedded inside another localization editor. */
@@ -37,6 +41,7 @@
         id,
         view = $bindable(undefined),
         maxrows = undefined,
+        maxlength = undefined,
         onkeydown = undefined,
         noTipBadge = false,
     }: Props = $props();
@@ -90,6 +95,7 @@
             bind:value={text}
             bind:this={view}
             aria-disabled={!active}
+            {maxlength}
             rows={text.split('\n').length}
             disabled={!active}
             onblur={async () => {
