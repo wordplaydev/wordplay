@@ -246,6 +246,20 @@ async function checkTutorial(
             `Tutorial: ${automated.length} machine translated ("${MachineTranslated}") strings to review.`,
         );
 
+    // Unwritten ("$?") strings fall back to English at runtime. Fail in CI so
+    // they never reach production — they should be machine translated first.
+    const unwritten = pairs.filter(({ value }) =>
+        typeof value === 'string'
+            ? isUnwritten(value)
+            : value.some((s) => isUnwritten(s)),
+    );
+
+    if (unwritten.length > 0)
+        log.bad(
+            2,
+            `Tutorial: ${unwritten.length} unwritten ("${Unwritten}") string(s) would fall back to English. Run "npm run locales-translate" to fill them.`,
+        );
+
     return revised;
 }
 

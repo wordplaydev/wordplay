@@ -1,0 +1,54 @@
+name: Translate locales
+on:
+    workflow_dispatch:
+        inputs:
+            mode:
+                description: 'translate = fill unwritten ($?) strings; override = re-translate machine ($~) strings'
+                type: choice
+                options: [translate, override]
+                default: translate
+
+permissions:
+    contents: write # allow pushing translations back to the selected branch
+
+jobs:
+    translate:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v5
+              with:
+                  ref: ${{ github.ref }} # the branch chosen in the Run-workflow dropdown (the PR branch)
+            - uses: actions/setup-node@v5
+              with:
+                  node-version: 22.x
+                  cache: 'npm'
+
+            # Same auth step deploy.yml uses. It exports GOOGLE_APPLICATION_CREDENTIALS,
+            # which @google-cloud/translate reads as ADC — no code change required.
+            - uses: google-github-actions/auth@v3
+              with:
+                  credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_WORDPLAY_PROD }}
+
+            - run: npm ci
+              name: Install dependencies
+
+            # Add missing keys as "$?" placeholders + repair structure, so newly
+            # added en-US keys exist in every locale for the translate step to fill.
+            - run: npm run locales-fix
+              name: Repair locale structure
+
+            # translate -> npm run locales-translate; override -> npm run override
+            - run: npm run ${{ inputs.mode == 'override' && 'override' || 'locales-translate' }}
+              name: Generate machine translations
+
+            - name: Commit translations to the PR branch
+              run: |
+                  git config user.name "github-actions[bot]"
+                  git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+                  git add static/locales src/locale/en-US.json
+                  if git diff --staged --quiet; then
+                    echo "No translation changes to commit."
+                  else
+                    git commit -m "Generate machine translations"
+                    git push
+                  fi

@@ -400,6 +400,25 @@ async function checkLocale(
             `Locale: ${automated.length} machine translated ("${MachineTranslated}") strings to review.`,
         );
 
+    // Unwritten ("$?") strings fall back to English at runtime. Fail in CI so
+    // they never reach production — they should be machine translated first
+    // (npm run locales-translate, which converts "$?" to "$~"). Machine
+    // translated strings are only warned about above, since they don't fall back.
+    const unwritten = pairs.filter(({ value }) =>
+        typeof value === 'string'
+            ? isUnwritten(value)
+            : value.some((s) => isUnwritten(s)),
+    );
+
+    if (unwritten.length > 0)
+        log.bad(
+            2,
+            `Locale: ${unwritten.length} unwritten ("${Unwritten}") string(s) would fall back to English. Run "npm run locales-translate" to fill them: ${unwritten
+                .slice(0, 10)
+                .map((p) => p.toString())
+                .join(', ')}${unwritten.length > 10 ? ', …' : ''}`,
+        );
+
     return revised;
 }
 
