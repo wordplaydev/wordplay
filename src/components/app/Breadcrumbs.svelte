@@ -11,10 +11,10 @@
     interface Props {
         /** Display name for the gallery crumb on the how-to page, where the
          * gallery is an ancestor rather than the current page. */
-        name?: string;
+        name?: string | undefined;
         /** Extra crumbs appended after the route trail — used by the guide to
          * append its concept path to the page breadcrumbs. */
-        extra?: Crumb[];
+        extra?: Crumb[] | undefined;
     }
 
     let { name, extra }: Props = $props();

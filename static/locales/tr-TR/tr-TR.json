@@ -6424,7 +6424,6 @@
             },
             "character": {
                 "header": "$~Karakter",
-                "prompt": "$~Şekiller ve piksellerle bir emoji veya sembol oluşturun.",
                 "instructions": {
                     "empty": "$~Şekilleri oluşturmak için paletten bir çizim modu seçin.",
                     "unselected": "$~Bir çizim modu seçin veya şekilleri seçip düzenleyin.",
@@ -7020,7 +7019,7 @@
             }
         },
         "gallerymoderation": {
-            "header": "$~Galeri Moderasyon Kontrol Paneli",
+            "header": "$~Galeri Moderasyonu",
             "description": "$~Yönettiğiniz galerilerde yer alan aşağıdaki mesajlar, kullanıcılar tarafından moderasyon için bildirilmiştir.",
             "labels": {
                 "message": "$~mesaj",

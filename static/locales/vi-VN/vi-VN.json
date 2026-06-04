@@ -5038,7 +5038,7 @@
             }
         },
         "gallerymoderation": {
-            "header": "$~Bảng điều khiển kiểm duyệt thư viện",
+            "header": "$~Kiểm duyệt thư viện ảnh",
             "description": "$~Các tin nhắn sau đây trong các thư viện ảnh mà bạn quản lý đã được người dùng báo cáo để yêu cầu kiểm duyệt.",
             "labels": {
                 "message": "$~tin nhắn",
@@ -6510,7 +6510,6 @@
             },
             "character": {
                 "header": "$~Tính cách",
-                "prompt": "$~Tạo biểu tượng cảm xúc hoặc ký hiệu bằng các hình dạng và điểm ảnh.",
                 "instructions": {
                     "empty": "$~Chọn chế độ vẽ trong bảng công cụ để tạo hình.",
                     "unselected": "$~Chọn chế độ vẽ hoặc chọn và chỉnh sửa các hình dạng.",

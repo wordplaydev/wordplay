@@ -5043,7 +5043,7 @@
             }
         },
         "gallerymoderation": {
-            "header": "$~Tablou de bord pentru moderarea galeriei",
+            "header": "$~Moderare galerie",
             "description": "$~Următoarele mesaje din galeriile pe care le gestionați au fost raportate de utilizatori pentru moderare.",
             "labels": {
                 "message": "$~mesaj",
@@ -6661,7 +6661,6 @@
             },
             "character": {
                 "header": "$~Caracter",
-                "prompt": "$~Creează un emoji sau un simbol cu forme și pixeli.",
                 "instructions": {
                     "empty": "$~Alegeți un mod de desenare din paletă pentru a crea forme.",
                     "unselected": "$~Alegeți un mod de desenare sau selectați și editați forme.",

@@ -1,10 +1,10 @@
 <script lang="ts">
     import { page } from '$app/state';
     import AddProject from '@components/app/AddProject.svelte';
-    import Header from '@components/app/Header.svelte';
     import Link from '@components/app/Link.svelte';
     import Loading from '@components/app/Loading.svelte';
     import Notice from '@components/app/Notice.svelte';
+    import PageHeader from '@components/app/PageHeader.svelte';
     import ProjectPreviewSet from '@components/app/ProjectPreviewSet.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
@@ -149,6 +149,7 @@
                  we're disconnected) from a gallery that genuinely doesn't exist —
                  otherwise a timed-out load misreports an accessible gallery as
                  missing. -->
+            <PageHeader />
             <Notice
                 text={(l) =>
                     $disconnected
@@ -156,24 +157,26 @@
                         : l.ui.gallery.error.unknown}
             />
         {:else}
-            <Header
-                >{#if editable}<TextField
-                        id="gallery-name"
-                        text={name ?? ''}
-                        description={(l) => l.ui.gallery.field.name.description}
-                        placeholder={(l) => l.ui.gallery.field.name.placeholder}
-                        done={(text) =>
-                            gallery
-                                ? Galleries.edit(
-                                      gallery.withName(
-                                          text,
-                                          $locales.getLocale(),
-                                      ),
-                                  )
-                                : undefined}
-                    />{:else if name}{name}{:else}<LocalizedText
-                        path={(l) => l.ui.gallery.field.name.placeholder}
-                    />{/if}</Header
+            <PageHeader
+                >{#snippet title()}{#if editable}<TextField
+                            id="gallery-name"
+                            text={name ?? ''}
+                            description={(l) =>
+                                l.ui.gallery.field.name.description}
+                            placeholder={(l) =>
+                                l.ui.gallery.field.name.placeholder}
+                            done={(text) =>
+                                gallery
+                                    ? Galleries.edit(
+                                          gallery.withName(
+                                              text,
+                                              $locales.getLocale(),
+                                          ),
+                                      )
+                                    : undefined}
+                        />{:else if name}{name}{:else}<LocalizedText
+                            path={(l) => l.ui.gallery.field.name.placeholder}
+                        />{/if}{/snippet}</PageHeader
             >
             <div class="collection">
                 {#if !editable}<MarkupHTMLView

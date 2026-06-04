@@ -5041,7 +5041,7 @@
             }
         },
         "gallerymoderation": {
-            "header": "$~Dashboard ng Pagmo-moderate ng Gallery",
+            "header": "$~Pagmo-moderate ng Gallery",
             "description": "$~Ang mga sumusunod na mensahe sa mga gallery na iyong pinangangasiwaan ay iniulat na ng mga user para sa moderasyon.",
             "labels": {
                 "message": "$~mensahe",
@@ -6568,7 +6568,6 @@
             },
             "character": {
                 "header": "$~Karakter",
-                "prompt": "$~Gumawa ng emoji o simbolo na may mga hugis at pixel.",
                 "instructions": {
                     "empty": "$~Pumili ng drawing mode sa palette para lumikha ng mga hugis.",
                     "unselected": "$~Pumili ng drawing mode o pumili at mag-edit ng mga hugis.",

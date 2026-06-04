@@ -5044,7 +5044,7 @@
             }
         },
         "gallerymoderation": {
-            "header": "Gallery Moderation Dashboard",
+            "header": "Gallery Moderation",
             "description": "The following messages in galleries that you curate have been reported by users for moderation.",
             "labels": {
                 "message": "message",
@@ -6690,7 +6690,6 @@
             },
             "character": {
                 "header": "Character",
-                "prompt": "Create an emoji or symbol with shapes and pixels.",
                 "instructions": {
                     "empty": "Choose a drawing mode in the palette to create shapes.",
                     "unselected": "Choose a drawing mode or select and edit shapes.",

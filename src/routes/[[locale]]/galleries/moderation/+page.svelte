@@ -1,7 +1,7 @@
 <script lang="ts">
-    import Header from '@components/app/Header.svelte';
     import Loading from '@components/app/Loading.svelte';
     import Notice from '@components/app/Notice.svelte';
+    import PageHeader from '@components/app/PageHeader.svelte';
     import Writing from '@components/app/Writing.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
@@ -35,12 +35,16 @@
 
 <Writing>
     {#if $user === null}
+        <PageHeader />
         <Notice text={(l) => l.ui.gallerymoderation.error} />
     {:else if $user === undefined}
+        <PageHeader />
         <Loading />
     {:else}
-        <Header text={(l) => l.ui.gallerymoderation.header} />
-        <MarkupHTMLView markup={(l) => l.ui.gallerymoderation.description} />
+        <PageHeader
+            header={(l) => l.ui.gallerymoderation.header}
+            description={(l) => l.ui.gallerymoderation.description}
+        />
 
         {#if modNeeded.size > 0}
             {#each modNeeded.values() as [message, chat, galleryID]}

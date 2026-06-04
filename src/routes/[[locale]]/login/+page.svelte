@@ -3,6 +3,7 @@
     import { getUser, isAuthenticated } from '@components/project/Contexts';
     import { auth } from '@db/firebase';
     import Feedback from '@components/app/Notice.svelte';
+    import PageHeader from '@components/app/PageHeader.svelte';
     import Writing from '@components/app/Writing.svelte';
     import Login from './Login.svelte';
     import { localeGoto } from '@util/localeGoto';
@@ -16,6 +17,7 @@
 </script>
 
 <Writing>
+    <PageHeader />
     <!-- Do we have a connection to the servers? -->
     {#if $user === null}
         {#if auth}

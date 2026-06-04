@@ -83,8 +83,13 @@
 
     let hint = getTip();
     let localizing = getLocalizing();
+
+    /** Whether the select's picker (dropdown) is open. While it's open we
+     *  suppress the tooltip — it overlaps the open list and is distracting. */
+    let open = $state(false);
+
     function showTip() {
-        if (view) hint.show(title, view);
+        if (view && !open) hint.show(title, view);
     }
     function hideTip() {
         hint.hide();
@@ -110,6 +115,11 @@
         class:code
         class:placeholder={value === undefined}
         onchange={(e) => commitChange((e.target as HTMLSelectElement).value)}
+        ontoggle={(e: ToggleEvent) => {
+            open = e.newState === 'open';
+            // Hide immediately on open in case a focus/hover already showed it.
+            if (open) hideTip();
+        }}
         onpointerenter={showTip}
         onpointerleave={hideTip}
         ontouchstart={showTip}

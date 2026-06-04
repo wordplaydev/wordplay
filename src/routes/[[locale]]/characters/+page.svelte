@@ -1,12 +1,11 @@
 <script lang="ts">
     import { browser } from '$app/environment';
-    import Header from '@components/app/Header.svelte';
     import Link from '@components/app/Link.svelte';
     import Notice from '@components/app/Notice.svelte';
+    import PageHeader from '@components/app/PageHeader.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import Writing from '@components/app/Writing.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser, isAuthenticated } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
@@ -99,8 +98,10 @@
 {/snippet}
 
 <Writing>
-    <Header text={(l) => l.ui.page.characters.header} />
-    <MarkupHTMLView markup={(l) => l.ui.page.characters.prompt} />
+    <PageHeader
+        header={(l) => l.ui.page.characters.header}
+        description={(l) => l.ui.page.characters.prompt}
+    />
 
     {#if !browser || $user === undefined}
         <!-- Firebase only initializes in the browser, so `firestore` is

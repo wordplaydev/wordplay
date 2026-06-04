@@ -7,7 +7,7 @@
     import TutorialView from '@components/app/TutorialView.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { untrack } from 'svelte';
-    import Header from '@components/app/Header.svelte';
+    import PageHeader from '@components/app/PageHeader.svelte';
     import Link from '@components/app/Link.svelte';
     import Writing from '@components/app/Writing.svelte';
     import Speech from '@components/lore/Speech.svelte';
@@ -83,7 +83,7 @@
     </Page>
 {:else if tutorial === null}
     <Writing>
-        <Header>:(</Header>
+        <PageHeader>{#snippet title()}:({/snippet}</PageHeader>
         <Speech character={Characters.FunctionDefinition}
             >{#snippet content()}
                 <MarkupHTMLView markup={(l) => l.ui.page.learn.error} />

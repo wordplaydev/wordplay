@@ -6339,7 +6339,6 @@
             },
             "character": {
                 "header": "$~Charakter",
-                "prompt": "$~Erstellen Sie ein Emoji oder Symbol mit Formen und Pixeln.",
                 "instructions": {
                     "empty": "$~Wählen Sie einen Zeichenmodus in der Palette, um Formen zu erstellen.",
                     "unselected": "$~Wählen Sie einen Zeichenmodus oder wählen und bearbeiten Sie Formen.",
@@ -7027,7 +7026,7 @@
             }
         },
         "gallerymoderation": {
-            "header": "$~Galerie-Moderations-Dashboard",
+            "header": "$~Galerie-Moderation",
             "description": "$~Die folgenden Beiträge in Ihren Galerien wurden von Nutzern zur Moderation gemeldet.",
             "labels": {
                 "message": "$~Nachricht",

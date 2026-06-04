@@ -1,10 +1,9 @@
 <script lang="ts">
     import { page } from '$app/state';
-    import Breadcrumbs from '@components/app/Breadcrumbs.svelte';
-    import Header from '@components/app/Header.svelte';
     import Loading from '@components/app/Loading.svelte';
     import Notice from '@components/app/Notice.svelte';
     import Page from '@components/app/Page.svelte';
+    import PageHeader from '@components/app/PageHeader.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import Writing from '@components/app/Writing.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
@@ -407,16 +406,18 @@
     <Loading />
 {:else if gallery === undefined && (galleryID === undefined || urlID === null || urlLoaded === false)}
     <Writing>
+        <PageHeader />
         <Notice text={(l) => l.ui.howto.error.unknown} />
     </Writing>
 {:else}
     <Page footer={true}>
         <div class="howtospace">
             <div class="howtospaceheader">
-                <Breadcrumbs name={galleryName} />
-                <Header text={(l) => l.ui.howto.galleryView.header}></Header>
-
-                <MarkupHTMLView markup={(l) => l.ui.howto.galleryView.prompt} />
+                <PageHeader
+                    name={galleryName}
+                    header={(l) => l.ui.howto.galleryView.header}
+                    description={(l) => l.ui.howto.galleryView.prompt}
+                />
 
                 <div class="howtospacetoolbar">
                     {#if canUserEdit}

@@ -3,6 +3,7 @@
     import Header from '@components/app/Header.svelte';
     import Link from '@components/app/Link.svelte';
     import Notice from '@components/app/Notice.svelte';
+    import PageHeader from '@components/app/PageHeader.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import Writing from '@components/app/Writing.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
@@ -239,7 +240,7 @@
 </script>
 
 <Writing>
-    <Header text={(l) => l.ui.page.design.header} />
+    <PageHeader header={(l) => l.ui.page.design.header} />
     <div class="section-content">
         <MarkupHTMLView markup={(l) => l.ui.page.design.description} />
     </div>

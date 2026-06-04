@@ -1,11 +1,11 @@
 <script lang="ts">
-    import Header from '@components/app/Header.svelte';
+    import PageHeader from '@components/app/PageHeader.svelte';
     import Writing from '@components/app/Writing.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
 </script>
 
 <Writing>
-    <Header text={(l) => l.ui.page.about.header}></Header>
-
-    <MarkupHTMLView markup={(l) => l.ui.page.about.content} />
+    <PageHeader
+        header={(l) => l.ui.page.about.header}
+        description={(l) => l.ui.page.about.content}
+    />
 </Writing>

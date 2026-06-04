@@ -6272,7 +6272,6 @@
             },
             "character": {
                 "header": "角色",
-                "prompt": "用形状和像素创建表情符号或符号。",
                 "instructions": {
                     "empty": "在工具面板中选择一种绘图模式来创建形状。",
                     "unselected": "选择绘图模式，或选中形状后进行编辑。",
@@ -6955,7 +6954,7 @@
             }
         },
         "gallerymoderation": {
-            "header": "画廊审核面板",
+            "header": "$~画廊审核",
             "description": "你管理的画廊中，以下消息已被用户举报，需要你审核。",
             "labels": {
                 "message": "消息",

@@ -5043,7 +5043,7 @@
             }
         },
         "gallerymoderation": {
-            "header": "$~Dasbor Moderasi Galeri",
+            "header": "$~Moderasi Galeri",
             "description": "$~Pesan-pesan berikut di galeri yang Anda kurasi telah dilaporkan oleh pengguna untuk dimoderasi.",
             "labels": {
                 "message": "$~pesan",
@@ -6664,7 +6664,6 @@
             },
             "character": {
                 "header": "$~Karakter",
-                "prompt": "$~Buat emoji atau simbol dengan bentuk dan piksel.",
                 "instructions": {
                     "empty": "$~Pilih mode menggambar di palet untuk membuat bentuk.",
                     "unselected": "$~Pilih mode menggambar atau pilih dan edit bentuk.",

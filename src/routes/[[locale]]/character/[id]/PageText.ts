@@ -8,7 +8,6 @@ import type {
 
 type PageText = {
     header: string;
-    prompt: string;
     instructions: {
         empty: string;
         unselected: string;

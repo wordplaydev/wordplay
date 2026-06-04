@@ -2,6 +2,7 @@
     import { browser } from '$app/environment';
     import Header from '@components/app/Header.svelte';
     import Loading from '@components/app/Loading.svelte';
+    import PageHeader from '@components/app/PageHeader.svelte';
     import Writing from '@components/app/Writing.svelte';
     import { getUser } from '@components/project/Contexts';
     import { authAttempted } from '@db/Database';
@@ -21,6 +22,7 @@
 
 <!-- Is the user logged in?  -->
 <Writing>
+    <PageHeader />
     {#if $user}
         <!-- Show their profile. -->
         <Profile user={$user} />

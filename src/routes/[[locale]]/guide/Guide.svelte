@@ -2,14 +2,12 @@
     import { browser } from '$app/environment';
     import { afterNavigate } from '$app/navigation';
     import { page } from '$app/state';
-    import Breadcrumbs from '@components/app/Breadcrumbs.svelte';
     import type { Crumb } from '@components/app/getBreadcrumbs';
-    import Header from '@components/app/Header.svelte';
+    import PageHeader from '@components/app/PageHeader.svelte';
     import Documentation, {
         Modes,
     } from '@components/concepts/Documentation.svelte';
     import placeLabel from '@components/concepts/placeLabel';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import {
         getUser,
         setConceptIndex,
@@ -238,9 +236,11 @@
 
 <section class="guide">
     <div class="header">
-        <Breadcrumbs {extra} />
-        <Header block={false} text={(l) => l.ui.page.guide.header} />
-        <MarkupHTMLView markup={(l) => l.ui.page.guide.description} />
+        <PageHeader
+            {extra}
+            header={(l) => l.ui.page.guide.header}
+            description={(l) => l.ui.page.guide.description}
+        />
     </div>
 
     <Documentation

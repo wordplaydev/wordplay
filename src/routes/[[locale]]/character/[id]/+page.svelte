@@ -1,11 +1,10 @@
 <script lang="ts">
     import { page } from '$app/state';
     import { Basis } from '@basis/Basis';
-    import Breadcrumbs from '@components/app/Breadcrumbs.svelte';
-    import Header from '@components/app/Header.svelte';
     import Link from '@components/app/Link.svelte';
     import Notice from '@components/app/Notice.svelte';
     import Page from '@components/app/Page.svelte';
+    import PageHeaderRow from '@components/app/PageHeaderRow.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import {
@@ -217,6 +216,16 @@
                   collaborators: collaborators,
                   public: isPublic,
               },
+    );
+
+    /** Whether the character has finished loading and the editor (and its
+     * controls) should be shown — mirrors the final branch of the template. */
+    let loaded = $derived(
+        $user !== undefined &&
+            isAuthenticated($user) &&
+            persisted !== 'loading' &&
+            persisted !== 'failed' &&
+            persisted !== 'unknown',
     );
 
     /** The colors used by the current shapes */
@@ -2287,11 +2296,120 @@
 
 <Page>
     <section>
-        <div class="header">
-            <Breadcrumbs />
-            <Header block={false} text={(l) => l.ui.page.character.header} />
-            <p><LocalizedText path={(l) => l.ui.page.character.prompt} /></p>
-        </div>
+        <PageHeaderRow header={(l) => l.ui.page.character.header}>
+            {#snippet controls()}
+                {#if loaded}
+                    <div class="meta">
+                        <div class="preview">
+                            {#if editedCharacter}
+                                {@html characterToSVG(editedCharacter, '32px')}
+                            {/if}
+                        </div>
+                        <h1 style:z-index="2" style:margin="0">
+                            <TextField
+                                id="character-name"
+                                bind:text={name}
+                                placeholder={(l) =>
+                                    l.ui.page.character.field.name.placeholder}
+                                description={(l) =>
+                                    l.ui.page.character.field.name.description}
+                                validator={isValidName}
+                                max="8em"
+                                maxlength={MAX_CHARACTER_NAME_LENGTH}
+                            ></TextField>
+                        </h1>
+                        <RootView
+                            node={toProgram(
+                                `${Basis.getLocalizedBasis($locales).shares.output.Phrase.names.getNames()[0]}(\`@${Creator.getUsername($user?.email ?? '')}/${name}\`)`,
+                            )}
+                            blocks={false}
+                        />
+                        <Dialog
+                            header={(l) =>
+                                l.ui.page.character.share.dialog.header}
+                            explanation={(l) =>
+                                l.ui.page.character.share.dialog.explanation}
+                            button={{
+                                background: true,
+                                tip: (l) => l.ui.page.character.share.button.tip,
+                                icon: isPublic ? GLOBE1_SYMBOL : '🤫',
+                                label: isPublic
+                                    ? (l) =>
+                                          l.ui.page.character.share.public
+                                              .labels[0]
+                                    : (l) =>
+                                          l.ui.page.character.share.public
+                                              .labels[1],
+                            }}
+                        >
+                            <Mode
+                                modes={(l) => l.ui.page.character.share.public}
+                                choice={isPublic ? 0 : 1}
+                                select={(mode) => (isPublic = mode === 0)}
+                                icons={[GLOBE1_SYMBOL, '🤫']}
+                            />
+                            <Labeled
+                                label={(l) =>
+                                    l.ui.page.character.share.collaborators}
+                            >
+                                <CreatorList
+                                    uids={collaborators}
+                                    editable
+                                    anonymize={false}
+                                    add={(userID) =>
+                                        (collaborators = [
+                                            ...collaborators,
+                                            userID,
+                                        ])}
+                                    remove={(userID) =>
+                                        (collaborators = collaborators.filter(
+                                            (c) => c !== userID,
+                                        ))}
+                                    removable={() => true}
+                                />
+                            </Labeled>
+                        </Dialog>
+                        {#if isAuthenticated($user) && editedCharacter !== null && $user.uid === editedCharacter.owner}
+                            <ConfirmButton
+                                tip={(l) =>
+                                    l.ui.page.character.share.delete.tip}
+                                action={async () => {
+                                    if (
+                                        editedCharacter &&
+                                        (await CharactersDB.deleteCharacter(
+                                            editedCharacter.id,
+                                        ))
+                                    )
+                                        localeGoto('/characters');
+                                }}
+                                prompt={(l) =>
+                                    l.ui.page.character.share.delete.tip}
+                                enabled={editedCharacter !== null &&
+                                    !$disconnected}
+                                >{CANCEL_SYMBOL}
+                                <LocalizedText
+                                    path={(l) =>
+                                        l.ui.page.character.share.delete
+                                            .label}
+                                /></ConfirmButton
+                            >
+                        {/if}
+                        <TextBox
+                            id="character-description"
+                            bind:text={description}
+                            maxrows={3}
+                            placeholder={(l) =>
+                                l.ui.page.character.field.description
+                                    .placeholder}
+                            description={(l) =>
+                                l.ui.page.character.field.description
+                                    .description}
+                            validator={isValidDescription}
+                        ></TextBox>
+                    </div>
+                {/if}
+            {/snippet}
+        </PageHeaderRow>
 
         {#if showError && failedProjects.length > 0}
             <Notice>
@@ -2341,97 +2459,6 @@
         {:else if persisted === 'unknown'}
             <Notice text={(l) => l.ui.page.character.feedback.notfound} />
         {:else}
-            <div class="meta">
-                <div class="preview">
-                    {#if editedCharacter}
-                        {@html characterToSVG(editedCharacter, '32px')}
-                    {/if}
-                </div>
-                <h1 style:z-index="2" style:margin="0">
-                    <TextField
-                        id="character-name"
-                        bind:text={name}
-                        placeholder={(l) =>
-                            l.ui.page.character.field.name.placeholder}
-                        description={(l) =>
-                            l.ui.page.character.field.name.description}
-                        validator={isValidName}
-                        max="8em"
-                        maxlength={MAX_CHARACTER_NAME_LENGTH}
-                    ></TextField>
-                </h1>
-                <RootView
-                    node={toProgram(
-                        `${Basis.getLocalizedBasis($locales).shares.output.Phrase.names.getNames()[0]}(\`@${Creator.getUsername($user.email ?? '')}/${name}\`)`,
-                    )}
-                    blocks={false}
-                />
-                <Dialog
-                    header={(l) => l.ui.page.character.share.dialog.header}
-                    explanation={(l) =>
-                        l.ui.page.character.share.dialog.explanation}
-                    button={{
-                        background: true,
-                        tip: (l) => l.ui.page.character.share.button.tip,
-                        icon: isPublic ? GLOBE1_SYMBOL : '🤫',
-                        label: isPublic
-                            ? (l) => l.ui.page.character.share.public.labels[0]
-                            : (l) => l.ui.page.character.share.public.labels[1],
-                    }}
-                >
-                    <Mode
-                        modes={(l) => l.ui.page.character.share.public}
-                        choice={isPublic ? 0 : 1}
-                        select={(mode) => (isPublic = mode === 0)}
-                        icons={[GLOBE1_SYMBOL, '🤫']}
-                    />
-                    <Labeled
-                        label={(l) => l.ui.page.character.share.collaborators}
-                    >
-                        <CreatorList
-                            uids={collaborators}
-                            editable
-                            anonymize={false}
-                            add={(userID) =>
-                                (collaborators = [...collaborators, userID])}
-                            remove={(userID) =>
-                                (collaborators = collaborators.filter(
-                                    (c) => c !== userID,
-                                ))}
-                            removable={() => true}
-                        />
-                    </Labeled>
-                </Dialog>
-                {#if isAuthenticated($user) && editedCharacter !== null && $user.uid === editedCharacter.owner}
-                    <ConfirmButton
-                        tip={(l) => l.ui.page.character.share.delete.tip}
-                        action={async () => {
-                            if (
-                                editedCharacter &&
-                                (await CharactersDB.deleteCharacter(
-                                    editedCharacter.id,
-                                ))
-                            )
-                                localeGoto('/characters');
-                        }}
-                        prompt={(l) => l.ui.page.character.share.delete.tip}
-                        enabled={editedCharacter !== null && !$disconnected}
-                        >{CANCEL_SYMBOL}
-                        <LocalizedText
-                            path={(l) => l.ui.page.character.share.delete.label}
-                        /></ConfirmButton
-                    >
-                {/if}
-                <TextBox
-                    id="character-description"
-                    bind:text={description}
-                    placeholder={(l) =>
-                        l.ui.page.character.field.description.placeholder}
-                    description={(l) =>
-                        l.ui.page.character.field.description.description}
-                    validator={isValidDescription}
-                ></TextBox>
-            </div>
             {#if !nameAvailable}
                 <Notice text={(l) => l.ui.page.character.feedback.taken} />
             {/if}
@@ -2518,13 +2545,6 @@
         padding: var(--wordplay-spacing);
     }
 
-    .header {
-        display: flex;
-        flex-direction: row;
-        gap: 1em;
-        align-items: center;
-    }
-
     .editor {
         display: flex;
         flex-direction: row;
@@ -2544,7 +2564,9 @@
         width: 32px;
         height: 32px;
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
-        align-self: baseline;
+        /* Stay vertically centered in the group; baseline alignment made the
+           preview drift upward as the description field grew taller. */
+        align-self: center;
     }
 
     h2,
@@ -2602,9 +2624,6 @@
         flex-wrap: wrap;
         gap: var(--wordplay-spacing);
         align-items: center;
-        border-bottom: var(--wordplay-border-color) solid
-            var(--wordplay-border-width);
-        padding-bottom: var(--wordplay-spacing);
     }
 
     .rect,

@@ -5034,7 +5034,7 @@
             }
         },
         "gallerymoderation": {
-            "header": "Painel de Moderação da Galeria",
+            "header": "$~Moderação de Galeria",
             "description": "As seguintes mensagens nas galerias que gere foram denunciadas pelos utilizadores para moderação.",
             "labels": {
                 "message": "mensagem",
@@ -6559,7 +6559,6 @@
             },
             "character": {
                 "header": "Personagem",
-                "prompt": "Crie um emoji ou símbolo com formas e pixéis.",
                 "instructions": {
                     "empty": "Escolha um modo de desenho na paleta para criar formas.",
                     "unselected": "Escolha um modo de desenho ou seleccione e edite formas.",

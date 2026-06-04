@@ -1,7 +1,6 @@
 <script lang="ts">
     import { type Snippet } from 'svelte';
     import Page from '@components/app/Page.svelte';
-    import Breadcrumbs from '@components/app/Breadcrumbs.svelte';
 
     interface Props {
         children: Snippet;
@@ -13,7 +12,6 @@
 
 <Page {footer}>
     <div class="writing">
-        <Breadcrumbs />
         {@render children()}
     </div>
 </Page>

@@ -6440,7 +6440,6 @@
             },
             "character": {
                 "header": "$~Charakter",
-                "prompt": "$~Utwórz emoji lub symbol przy użyciu kształtów i pikseli.",
                 "instructions": {
                     "empty": "$~Wybierz tryb rysowania na palecie, aby utworzyć kształty.",
                     "unselected": "$~Wybierz tryb rysowania lub zaznacz i edytuj kształty.",
@@ -7036,7 +7035,7 @@
             }
         },
         "gallerymoderation": {
-            "header": "$~Panel moderacji galerii",
+            "header": "$~Moderacja galerii",
             "description": "$~Następujące wiadomości w galeriach, które zarządzasz, zostały zgłoszone przez użytkowników do moderacji.",
             "labels": {
                 "message": "$~wiadomość",

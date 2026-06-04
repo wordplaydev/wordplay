@@ -49,8 +49,7 @@
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import Breadcrumbs from '@components/app/Breadcrumbs.svelte';
-    import Header from '@components/app/Header.svelte';
+    import PageHeaderRow from '@components/app/PageHeaderRow.svelte';
     import PlayView from '@components/app/PlayView.svelte';
     import TutorialHighlight from '@components/app/TutorialHighlight.svelte';
     import { localeGoto } from '@util/localeGoto';
@@ -446,41 +445,39 @@
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <section class="tutorial" onkeydown={handleKey}>
-    <Breadcrumbs />
-    <div class="header">
-        <Header block={false}>
-            <LocalizedText path={(l) => l.ui.page.learn.header} /></Header
-        >
-        <nav>
-            {#if act !== undefined}
-                <Note>
-                    {withoutAnnotations(act.title)}
-                    <sub
-                        >{progress.tutorial.acts.findIndex(
-                            (candidate) => candidate === act,
-                        ) + 1}/{progress.tutorial.acts.length}</sub
-                    ></Note
-                >{/if}
-            <!-- A select component tutorial lessons, grouped by unit. The value is always line zero so that the label is selected correctly.  -->
-            <div class="nav-controls">
-                <Options
-                    label={(l) => l.ui.page.learn.options.lesson}
-                    value={withoutAnnotations(
-                        JSON.stringify(progress.withLine(0).serialize()),
-                    )}
-                    change={handleSelect}
-                    id="current-lesson"
-                    options={lessons}
-                ></Options>
-                <TextField
-                    id="tutorial-search"
-                    placeholder={(l) => l.ui.page.learn.search.placeholder}
-                    description={(l) => l.ui.page.learn.search.placeholder}
-                    bind:text={searchQuery}
-                />
-            </div>
-        </nav>
-    </div>
+    <PageHeaderRow header={(l) => l.ui.page.learn.header}>
+        {#snippet controls()}
+            <nav>
+                {#if act !== undefined}
+                    <Note>
+                        {withoutAnnotations(act.title)}
+                        <sub
+                            >{progress.tutorial.acts.findIndex(
+                                (candidate) => candidate === act,
+                            ) + 1}/{progress.tutorial.acts.length}</sub
+                        ></Note
+                    >{/if}
+                <!-- A select component tutorial lessons, grouped by unit. The value is always line zero so that the label is selected correctly.  -->
+                <div class="nav-controls">
+                    <Options
+                        label={(l) => l.ui.page.learn.options.lesson}
+                        value={withoutAnnotations(
+                            JSON.stringify(progress.withLine(0).serialize()),
+                        )}
+                        change={handleSelect}
+                        id="current-lesson"
+                        options={lessons}
+                    ></Options>
+                    <TextField
+                        id="tutorial-search"
+                        placeholder={(l) => l.ui.page.learn.search.placeholder}
+                        description={(l) => l.ui.page.learn.search.placeholder}
+                        bind:text={searchQuery}
+                    />
+                </div>
+            </nav>
+        {/snippet}
+    </PageHeaderRow>
     {#if searchQuery.length > 0}
         <div class="search-results">
             {#if searchResults.length > 0}
@@ -680,15 +677,6 @@
         height: 100%;
         background: var(--wordplay-background);
         padding: var(--wordplay-spacing);
-    }
-
-    .header {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: var(--wordplay-spacing);
-        border-bottom: var(--wordplay-border-color) solid
-            var(--wordplay-border-width);
     }
 
     .content {

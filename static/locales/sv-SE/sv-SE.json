@@ -6428,7 +6428,6 @@
             },
             "character": {
                 "header": "$~Karaktär",
-                "prompt": "$~Skapa en emoji eller symbol med former och pixlar.",
                 "instructions": {
                     "empty": "$~Välj ett ritläge i paletten för att skapa former.",
                     "unselected": "$~Välj ett ritläge eller välj och redigera former.",
@@ -7021,7 +7020,7 @@
             }
         },
         "gallerymoderation": {
-            "header": "$~Översikt för gallerimoderering",
+            "header": "$~Gallerimoderering",
             "description": "$~Följande meddelanden i gallerier som du hanterar har rapporterats av användare för moderering.",
             "labels": {
                 "message": "$~meddelande",

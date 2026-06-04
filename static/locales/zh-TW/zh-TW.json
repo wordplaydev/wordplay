@@ -6283,7 +6283,6 @@
             },
             "character": {
                 "header": "$~特點",
-                "prompt": "$~使用形狀和像素建立表情符號或符號。",
                 "instructions": {
                     "empty": "$~在調色盤中選擇一種繪圖模式來建立形狀。",
                     "unselected": "$~選擇繪圖模式或選擇並編輯形狀。",
@@ -6963,7 +6962,7 @@
             }
         },
         "gallerymoderation": {
-            "header": "畫廊審核面板",
+            "header": "$~畫廊審核",
             "description": "你管理的畫廊中，以下訊息已被使用者舉報，需要你審核。",
             "labels": {
                 "message": "訊息",
