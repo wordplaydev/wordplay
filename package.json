@@ -20,6 +20,7 @@
         "env:windows": "copy .env.template .env",
         "build": "npm upgrade shared-types && npm run env && npm run updates && npm run mediapipe && vite build && (cd functions && npm run build)",
         "build:ci": "npm run env && npm run updates && npm run mediapipe && vite build && (cd functions && npm run build)",
+        "build:web": "npm run env && npm run updates && npm run mediapipe && vite build",
         "preview": "vite preview",
         "stage": "firebase use dev && firebase deploy && npm run env",
         "release": "firebase use prod && firebase deploy && firebase use dev && npm run env",
