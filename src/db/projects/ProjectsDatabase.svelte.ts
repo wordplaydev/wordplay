@@ -68,6 +68,13 @@ export const ProjectsCollection = Domain.Projects;
 export const MAX_PROJECT_BYTE_SIZE = 1048576;
 
 /**
+ * Firestore caps a batched write at 500 operations. Stay below that so large
+ * batches (e.g. a power user's first cloud sync of many local projects) commit
+ * in chunks rather than being rejected.
+ */
+export const MAX_BATCH_WRITES = 450;
+
+/**
  * Cap on a project name.
  */
 export const MAX_PROJECT_NAME_LENGTH = 64;
@@ -1893,83 +1900,98 @@ export default class ProjectsDatabase {
                 // enclosing `if (firestore && userID)` carries into the
                 // arrow function below.
                 const db = firestore;
-                const buildBatch = () => {
-                    const batch = writeBatch(db);
-                    for (const [, sentVersion] of sentVersions) {
-                        // Mark it as persisted, since we're about to save it that way.
-                        const serialized = this.withCRDTSnapshot(
-                            sentVersion.asPersisted(),
-                        ).serialize();
-                        batch.set(
-                            doc(db, ProjectsCollection, serialized.id),
-                            serialized,
-                        );
-                    }
-                    return batch;
-                };
 
-                let commitError: unknown = undefined;
-                try {
-                    await this.database.track(buildBatch().commit());
-                } catch (error) {
-                    commitError = error;
-                }
+                // Firestore caps a batched write at 500 operations, so split
+                // the sendable projects into chunks and commit each in its own
+                // batch. Each chunk is committed independently: one chunk
+                // failing leaves the others' saved/dirty bookkeeping intact.
+                const entries = Array.from(sentVersions.entries());
+                const chunks: (typeof entries)[] = [];
+                for (let i = 0; i < entries.length; i += MAX_BATCH_WRITES)
+                    chunks.push(entries.slice(i, i + MAX_BATCH_WRITES));
 
-                // If the only thing wrong is a stale auth token (the
-                // common case for a long editing session where the
-                // event loop has been starved enough to skip the
-                // 55-minute refresh), force a refresh and try once
-                // more. The Firestore rule allows owner/collaborator
-                // writes; a real permission-denied here is rare and
-                // the retry will just fail the same way.
-                if (
-                    commitError instanceof FirebaseError &&
-                    commitError.code === 'permission-denied' &&
-                    auth?.currentUser !== undefined &&
-                    auth?.currentUser !== null
-                ) {
-                    try {
-                        await auth.currentUser.getIdToken(true);
-                        await this.database.track(buildBatch().commit());
-                        commitError = undefined;
-                    } catch (retryError) {
-                        commitError = retryError;
-                    }
-                }
-
-                if (commitError === undefined) {
-                    // Only mark a history as saved if its current version is still
-                    // the exact one we just sent. If reviseProject() ran during the
-                    // await above, history.getCurrent() will point to a new object
-                    // (history.edit always assigns a fresh Project), and we leave
-                    // saved=false so the next saveSoon round picks up the change.
-                    for (const [history, sentVersion] of sentVersions)
-                        if (history.getCurrent() === sentVersion) {
-                            history.markSaved();
-                            // Confirmed in the cloud — clear the durable dirty
-                            // flag so it isn't replayed on the next load.
-                            if (this.IndexedDBSupported)
-                                void this.localDB.markClean(
-                                    'projects',
-                                    sentVersion.getID(),
-                                );
+                for (const chunk of chunks) {
+                    // Build a fresh write batch for each commit attempt — a
+                    // Firestore WriteBatch is single-use, so the
+                    // permission-denied retry below has to rebuild it.
+                    const buildBatch = () => {
+                        const batch = writeBatch(db);
+                        for (const [, sentVersion] of chunk) {
+                            // Mark it as persisted, since we're about to save it that way.
+                            const serialized = this.withCRDTSnapshot(
+                                sentVersion.asPersisted(),
+                            ).serialize();
+                            batch.set(
+                                doc(db, ProjectsCollection, serialized.id),
+                                serialized,
+                            );
                         }
-                } else {
-                    if (commitError instanceof FirebaseError) {
-                        console.error(commitError.code);
-                        console.error(commitError.message);
+                        return batch;
+                    };
+
+                    let commitError: unknown = undefined;
+                    try {
+                        await this.database.track(buildBatch().commit());
+                    } catch (error) {
+                        commitError = error;
                     }
-                    const detail = firebaseErrorDetail(commitError);
-                    // Firestore batch.commit is atomic: nothing wrote, so every
-                    // project in the batch needs a failure entry.
-                    for (const sentVersion of sentVersions.values())
-                        failures.push(
-                            projectFailure(
-                                sentVersion,
-                                SaveFailureReason.FirestoreBatchFailed,
-                                detail,
-                            ),
-                        );
+
+                    // If the only thing wrong is a stale auth token (the
+                    // common case for a long editing session where the
+                    // event loop has been starved enough to skip the
+                    // 55-minute refresh), force a refresh and try once
+                    // more. The Firestore rule allows owner/collaborator
+                    // writes; a real permission-denied here is rare and
+                    // the retry will just fail the same way.
+                    if (
+                        commitError instanceof FirebaseError &&
+                        commitError.code === 'permission-denied' &&
+                        auth?.currentUser !== undefined &&
+                        auth?.currentUser !== null
+                    ) {
+                        try {
+                            await auth.currentUser.getIdToken(true);
+                            await this.database.track(buildBatch().commit());
+                            commitError = undefined;
+                        } catch (retryError) {
+                            commitError = retryError;
+                        }
+                    }
+
+                    if (commitError === undefined) {
+                        // Only mark a history as saved if its current version is still
+                        // the exact one we just sent. If reviseProject() ran during the
+                        // await above, history.getCurrent() will point to a new object
+                        // (history.edit always assigns a fresh Project), and we leave
+                        // saved=false so the next saveSoon round picks up the change.
+                        for (const [history, sentVersion] of chunk)
+                            if (history.getCurrent() === sentVersion) {
+                                history.markSaved();
+                                // Confirmed in the cloud — clear the durable dirty
+                                // flag so it isn't replayed on the next load.
+                                if (this.IndexedDBSupported)
+                                    void this.localDB.markClean(
+                                        'projects',
+                                        sentVersion.getID(),
+                                    );
+                            }
+                    } else {
+                        if (commitError instanceof FirebaseError) {
+                            console.error(commitError.code);
+                            console.error(commitError.message);
+                        }
+                        const detail = firebaseErrorDetail(commitError);
+                        // Firestore batch.commit is atomic: nothing in this
+                        // chunk wrote, so every project in it needs a failure entry.
+                        for (const [, sentVersion] of chunk)
+                            failures.push(
+                                projectFailure(
+                                    sentVersion,
+                                    SaveFailureReason.FirestoreBatchFailed,
+                                    detail,
+                                ),
+                            );
+                    }
                 }
             }
         }

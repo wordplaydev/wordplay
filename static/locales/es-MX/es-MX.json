@@ -7161,7 +7161,8 @@
             "submitFailed": "$~No pudimos presentar eso",
             "loadFailed": "$~No pudimos cargar eso.",
             "storageFull": "$~El almacenamiento de este dispositivo está lleno, por lo que no pudimos guardar una copia aquí. Tu trabajo sigue en la nube.",
-            "storageNearFull": "$~Este dispositivo casi no tiene espacio de almacenamiento, por lo que Wordplay pronto podría dejar de guardar archivos en él. El trabajo guardado en la nube está a salvo; liberar espacio en tu dispositivo o navegador permitirá que siga guardándose aquí."
+            "storageNearFull": "$~Este dispositivo casi no tiene espacio de almacenamiento, por lo que Wordplay pronto podría dejar de guardar archivos en él. El trabajo guardado en la nube está a salvo; liberar espacio en tu dispositivo o navegador permitirá que siga guardándose aquí.",
+            "saveTooLarge": "$~Esto es demasiado grande para guardarlo. Intenta eliminar parte del contenido."
         }
     },
     "moderation": {

@@ -1,7 +1,4 @@
-import type {
-    InsertContext,
-    ReplaceContext,
-} from '@edit/revision/EditContext';
+import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LanguageCode from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
 import type LocaleText from '@locale/LocaleText';
@@ -47,13 +44,33 @@ export default class FormattedLiteral extends Literal {
         this.computeChildren();
     }
 
-    static getPossibleReplacements({ node }: ReplaceContext) {
+    /** A formatted literal linking to each available custom character. */
+    static getCharacterLiterals(
+        characters: string[] | undefined,
+    ): FormattedLiteral[] {
+        return (
+            characters?.map(
+                (name) =>
+                    new FormattedLiteral([
+                        FormattedTranslation.makeWithLink(name),
+                    ]),
+            ) ?? []
+        );
+    }
+
+    static getPossibleReplacements({
+        node,
+        type,
+        context,
+        characters,
+    }: ReplaceContext) {
+        const edits: FormattedLiteral[] = [];
         // Offer "convert to formatted text" when replacing a plain TextLiteral.
         // Each translation becomes a single-paragraph FormattedTranslation,
         // preserving the language tag and any \…\ Example template segments.
         // Plain-text runs are merged into Words; Examples are kept verbatim.
         if (node instanceof TextLiteral) {
-            return [
+            edits.push(
                 new FormattedLiteral(
                     node.texts.map((t) => {
                         const segments: Segment[] = [];
@@ -79,14 +96,23 @@ export default class FormattedLiteral extends Literal {
                         );
                     }),
                 ),
-            ];
+            );
         }
-        return [];
+        // Wherever formatted text is expected (e.g. a selected placeholder in
+        // Phrase(_)), recommend a literal linking to each custom character.
+        if (type !== undefined && type.accepts(FormattedType.make(), context))
+            edits.push(...FormattedLiteral.getCharacterLiterals(characters));
+        return edits;
     }
 
-    static getPossibleInsertions({ type, context }: InsertContext) {
+    static getPossibleInsertions({ type, context, characters }: InsertContext) {
+        // Offer an empty formatted literal, plus one wrapping a link to each
+        // available custom character, wherever formatted text is expected.
         return type !== undefined && type.accepts(FormattedType.make(), context)
-            ? [new FormattedLiteral([FormattedTranslation.make()])]
+            ? [
+                  new FormattedLiteral([FormattedTranslation.make()]),
+                  ...FormattedLiteral.getCharacterLiterals(characters),
+              ]
             : [];
     }
 

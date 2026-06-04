@@ -7182,7 +7182,8 @@
             "submitFailed": "$~Nous n'avons pas pu soumettre cela",
             "loadFailed": "$~Nous n'avons pas pu charger ceci.",
             "storageFull": "$~L'espace de stockage de cet appareil est plein, nous n'avons donc pas pu enregistrer de copie ici. Votre travail est toujours dans le cloud.",
-            "storageNearFull": "$~Cet appareil est presque plein ; Wordplay risque donc de ne plus pouvoir y enregistrer de données. Votre travail enregistré dans le cloud est en sécurité ; libérer de l’espace sur votre appareil ou votre navigateur permettra à Wordplay de continuer à l’enregistrer."
+            "storageNearFull": "$~Cet appareil est presque plein ; Wordplay risque donc de ne plus pouvoir y enregistrer de données. Votre travail enregistré dans le cloud est en sécurité ; libérer de l’espace sur votre appareil ou votre navigateur permettra à Wordplay de continuer à l’enregistrer.",
+            "saveTooLarge": "$~Ce fichier est trop volumineux pour être enregistré. Essayez de supprimer du contenu."
         }
     },
     "moderation": {

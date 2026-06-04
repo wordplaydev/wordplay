@@ -7184,7 +7184,8 @@
             "submitFailed": "$~Nu am putut trimite asta",
             "loadFailed": "$~Nu am putut încărca asta.",
             "storageFull": "$~Spațiul de stocare al acestui dispozitiv este plin, așa că nu am putut salva o copie aici. Lucrările tale sunt încă în cloud.",
-            "storageNearFull": "$~Spațiul de stocare pe acest dispozitiv este aproape epuizat, așa că este posibil ca Wordplay să nu mai poată salva pe el în curând. Lucrările salvate în cloud sunt în siguranță; eliberarea spațiului pe dispozitiv sau browser permite salvarea continuă aici."
+            "storageNearFull": "$~Spațiul de stocare pe acest dispozitiv este aproape epuizat, așa că este posibil ca Wordplay să nu mai poată salva pe el în curând. Lucrările salvate în cloud sunt în siguranță; eliberarea spațiului pe dispozitiv sau browser permite salvarea continuă aici.",
+            "saveTooLarge": "$~Acest conținut este prea mare pentru a fi salvat. Încearcă să elimini o parte din acesta."
         }
     },
     "moderation": {

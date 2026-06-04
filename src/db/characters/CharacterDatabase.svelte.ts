@@ -685,4 +685,19 @@ export class CharactersDatabase {
                         character.collaborators.includes(user.uid)),
             );
     }
+
+    /** Available character names for autocomplete, sorted owned → collaborator → other. */
+    getAvailableCharacterNamesForAutocomplete(): string[] {
+        const uid = this.db.getUser()?.uid;
+        const rank = (character: Character) =>
+            character.owner === uid
+                ? 0
+                : uid !== undefined && character.collaborators.includes(uid)
+                  ? 1
+                  : 2;
+        return this.getAvailableCharacters()
+            .map((character) => ({ character, rank: rank(character) }))
+            .sort((a, b) => a.rank - b.rank)
+            .map(({ character }) => character.name);
+    }
 }

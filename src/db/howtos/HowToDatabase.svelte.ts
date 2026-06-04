@@ -2,6 +2,7 @@
 import type { NotificationData } from '@components/settings/Notifications.svelte';
 import { type Database, type SaveCounts, type SaveError } from '@db/Database';
 import { Domain } from '@db/Domains';
+import exceedsDocLimit from '@db/exceedsDocLimit';
 import { firestore } from '@db/firebase';
 import type Gallery from '@db/galleries/Gallery';
 import { GalleriesCollection } from '@db/galleries/GalleryDatabase.svelte';
@@ -624,6 +625,12 @@ export class HowToDatabase {
 
         // if asked to persist, mirror to the local cache and update remotely
         if (persist && firestore) {
+            // Refuse a write that would exceed Firestore's 1 MiB document
+            // limit, surfacing a banner rather than an opaque cloud rejection.
+            if (exceedsDocLimit(howTo.getData())) {
+                this.db.reportBanner((l) => l.ui.banner.saveTooLarge);
+                return;
+            }
             this.cacheHowTosLocally([howTo]);
             await this.trackSave(
                 howToID,
@@ -759,6 +766,12 @@ export class HowToDatabase {
             isPublic: isPublic,
             social: newHowToSocial,
         };
+
+        // Refuse a how-to that would exceed Firestore's 1 MiB document limit.
+        if (exceedsDocLimit(newHowTo)) {
+            this.db.reportBanner((l) => l.ui.banner.saveTooLarge);
+            return undefined;
+        }
 
         // Add the how-to to Firebase, relying on the realtime listener to update the local cache.
         try {

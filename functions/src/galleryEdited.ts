@@ -1,9 +1,16 @@
-import type { DocumentSnapshot } from 'firebase-admin/firestore';
+import type {
+    DocumentReference,
+    DocumentSnapshot,
+} from 'firebase-admin/firestore';
 import { getFirestore } from 'firebase-admin/firestore';
 import type {
     Change,
     FirestoreEvent,
 } from 'firebase-functions/v2/firestore';
+
+/** Firestore caps a batched write at 500 operations. Flush below that so a
+ *  gallery referenced by many others doesn't overflow a single commit. */
+const BATCH_LIMIT = 450;
 
 export default async function galleryEdited(
     event: FirestoreEvent<
@@ -15,7 +22,21 @@ export default async function galleryEdited(
     const after = event.data?.after.data();
     const db = getFirestore();
     const galleryStore = db.collection('galleries');
-    const batch = db.batch();
+
+    // Accumulate updates and flush in ≤BATCH_LIMIT-op batches, since the
+    // referencing-gallery query below is unbounded.
+    const updates: { ref: DocumentReference; data: Record<string, unknown> }[] =
+        [];
+    const flush = async () => {
+        const promises: Promise<unknown>[] = [];
+        for (let i = 0; i < updates.length; i += BATCH_LIMIT) {
+            const batch = db.batch();
+            for (const { ref, data } of updates.slice(i, i + BATCH_LIMIT))
+                batch.update(ref, data);
+            promises.push(batch.commit());
+        }
+        return Promise.all(promises);
+    };
 
     const listEq = (a: string[], b: string[]): boolean => {
         if (a.length !== b.length) return false;
@@ -51,10 +72,13 @@ export default async function galleryEdited(
             const howToViewersFlat: string[] =
                 Object.values(howToViewers).flat();
 
-            batch.update(galleryStore.doc(expandedGallery.id), {
-                howToExpandedGalleries: howToExpandedGalleries,
-                howToViewers: howToViewers,
-                howToViewersFlat: howToViewersFlat,
+            updates.push({
+                ref: galleryStore.doc(expandedGallery.id),
+                data: {
+                    howToExpandedGalleries: howToExpandedGalleries,
+                    howToViewers: howToViewers,
+                    howToViewersFlat: howToViewersFlat,
+                },
             });
         });
     } else if (
@@ -81,12 +105,15 @@ export default async function galleryEdited(
             const howToViewersFlat: string[] =
                 Object.values(howToViewers).flat();
 
-            batch.update(galleryStore.doc(expandedGallery.id), {
-                howToViewers: howToViewers,
-                howToViewersFlat: howToViewersFlat,
+            updates.push({
+                ref: galleryStore.doc(expandedGallery.id),
+                data: {
+                    howToViewers: howToViewers,
+                    howToViewersFlat: howToViewersFlat,
+                },
             });
         });
     }
 
-    return batch.commit();
+    return flush();
 }

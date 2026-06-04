@@ -6268,7 +6268,8 @@
             "submitFailed": "We couldn't submit that",
             "loadFailed": "We couldn't load that.",
             "storageFull": "This device's storage is full, so we couldn't save a copy here. Your work is still in the cloud.",
-            "storageNearFull": "This device is almost out of storage, so Wordplay may soon be unable to save on it. Work saved in the cloud is safe; freeing up space on your device or browser lets it keep saving here."
+            "storageNearFull": "This device is almost out of storage, so Wordplay may soon be unable to save on it. Work saved in the cloud is safe; freeing up space on your device or browser lets it keep saving here.",
+            "saveTooLarge": "This is too big to save. Try removing some content."
         },
         "update": {
             "label": "New version available",

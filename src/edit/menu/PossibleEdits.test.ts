@@ -26,6 +26,10 @@ import { Sym } from '@nodes/Sym';
 import Dimension from '@nodes/Dimension';
 import Reference from '@nodes/Reference';
 import ListLiteral from '@nodes/ListLiteral';
+import ConceptLink from '@nodes/ConceptLink';
+import FormattedLiteral from '@nodes/FormattedLiteral';
+import FormattedTranslation from '@nodes/FormattedTranslation';
+import Markup from '@nodes/Markup';
 
 test.each([
     ['blank programs suggest numbers', '**', undefined, Append, '0'],
@@ -419,4 +423,208 @@ test('appending an input to a struct in use suggests a Bind with a default value
             'suggested input should have a default',
         ).toBeDefined();
     }
+});
+
+test('any markup position recommends available custom characters as concept links', () => {
+    // A formatted literal with the caret inside its markup. The menu should
+    // offer to insert a concept link to each available custom character.
+    let code = '`hello**`';
+    const insertionPoint = code.indexOf('**');
+    code =
+        code.substring(0, insertionPoint) + code.substring(insertionPoint + 2);
+    const source = new Source('test', code);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const caret = new Caret(
+        source,
+        insertionPoint,
+        undefined,
+        undefined,
+        undefined,
+    );
+    const transforms = getEditsAt(
+        project,
+        caret,
+        undefined,
+        DefaultLocales,
+        undefined,
+        ['me/Star'],
+    );
+    const link = transforms
+        .map((t) => t.getNewNode(DefaultLocales))
+        .find(
+            (n): n is ConceptLink =>
+                n instanceof ConceptLink && n.toWordplay() === '@me/Star',
+        );
+    expect(link, 'expected a @me/Star concept link insertion').toBeDefined();
+});
+
+test('a partially typed link completes to a matching custom character', () => {
+    // Typing `@me` inside markup should complete to the available `me/Star`
+    // custom character, just as it would complete a concept.
+    let code = '`@me**`';
+    const insertionPoint = code.indexOf('**');
+    code =
+        code.substring(0, insertionPoint) + code.substring(insertionPoint + 2);
+    const source = new Source('test', code);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const caret = new Caret(
+        source,
+        insertionPoint,
+        undefined,
+        undefined,
+        undefined,
+    );
+    const transforms = getEditsAt(
+        project,
+        caret,
+        undefined,
+        DefaultLocales,
+        undefined,
+        ['me/Star'],
+    );
+    const link = transforms
+        .filter((t) => t instanceof Replace)
+        .map((t) => t.getNewNode(DefaultLocales))
+        .find(
+            (n): n is ConceptLink =>
+                n instanceof ConceptLink && n.toWordplay() === '@me/Star',
+        );
+    expect(link, 'expected @me to complete to @me/Star').toBeDefined();
+});
+
+test('a position expecting a formatted translation recommends custom characters', () => {
+    // Adding a translation to a formatted literal's `texts` list should offer,
+    // alongside an empty translation, one linking to each available character.
+    const code = '`hello`';
+    const source = new Source('test', code);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const literal = source
+        .nodes()
+        .find((n): n is FormattedLiteral => n instanceof FormattedLiteral);
+    expect(literal).toBeDefined();
+    if (!literal) return;
+
+    const transforms = getEditsAt(
+        project,
+        new Caret(source, 0, undefined, undefined, undefined),
+        { parent: literal, field: 'texts', index: literal.texts.length },
+        DefaultLocales,
+        undefined,
+        ['me/Star'],
+    );
+    const translation = transforms
+        .map((t) => t.getNewNode(DefaultLocales))
+        .find((n) => n?.toWordplay().includes('@me/Star'));
+    expect(
+        translation,
+        'expected a formatted translation linking to @me/Star',
+    ).toBeDefined();
+});
+
+test('an empty markup placeholder can be replaced with a custom character', () => {
+    // Selecting the empty markup placeholder inside a formatted literal (``)
+    // should offer replacing it with markup linking to each custom character.
+    const code = '``';
+    const source = new Source('test', code);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const markup = source.nodes().find((n): n is Markup => n instanceof Markup);
+    expect(markup).toBeDefined();
+    if (!markup) return;
+
+    const transforms = getEditsAt(
+        project,
+        new Caret(source, markup, undefined, undefined, undefined),
+        undefined,
+        DefaultLocales,
+        undefined,
+        ['me/Star'],
+    );
+    // The replacement must both be offered and actually apply to the source.
+    const applied = transforms
+        .filter((t) => t instanceof Replace)
+        .map((t) => {
+            const edit = t.getEdit(DefaultLocales);
+            return Array.isArray(edit)
+                ? edit[0].getCode().toString()
+                : undefined;
+        })
+        .find((wp) => wp === '`@me/Star`');
+    expect(
+        applied,
+        'expected replacing the markup placeholder to yield `@me/Star`',
+    ).toBeDefined();
+});
+
+test('markup built for a custom character carries spaces so it can render', () => {
+    // Markup with no spaces fails to render as output ("unable to render markup
+    // without spaces"), so the markup we build for a character must have them.
+    const literal = new FormattedLiteral([
+        FormattedTranslation.makeWithLink('creator/Star'),
+    ]);
+    expect(literal.texts[0].markup.spaces).toBeDefined();
+});
+
+test('a selected placeholder expecting formatted text recommends custom characters', () => {
+    // Phrase's text input accepts `""|`…``, so a selected placeholder in
+    // Phrase(_) should offer a formatted literal linking to each character.
+    const code = 'Phrase(_)';
+    const source = new Source('test', code);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const placeholder = source
+        .nodes()
+        .find(
+            (n): n is ExpressionPlaceholder =>
+                n instanceof ExpressionPlaceholder,
+        );
+    expect(placeholder).toBeDefined();
+    if (!placeholder) return;
+
+    const transforms = getEditsAt(
+        project,
+        new Caret(source, placeholder, undefined, undefined, undefined),
+        undefined,
+        DefaultLocales,
+        undefined,
+        ['creator/Star'],
+    );
+    const literal = transforms
+        .map((t) => t.getNewNode(DefaultLocales))
+        .find(
+            (n): n is FormattedLiteral =>
+                n instanceof FormattedLiteral &&
+                n.toWordplay() === '`@creator/Star`',
+        );
+    expect(
+        literal,
+        'expected a `@creator/Star` formatted literal at the placeholder',
+    ).toBeDefined();
+});
+
+test('a caret inside an empty formatted literal recommends custom characters', () => {
+    // The caret between the ticks of an empty formatted literal (``) should
+    // offer filling it with a custom character, and the edit must apply.
+    const code = '``';
+    const source = new Source('test', code);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+
+    const transforms = getEditsAt(
+        project,
+        new Caret(source, 1, undefined, undefined, undefined),
+        undefined,
+        DefaultLocales,
+        undefined,
+        ['creator/Star'],
+    );
+    const applied = transforms
+        .map((t) => {
+            const edit = t.getEdit(DefaultLocales);
+            return Array.isArray(edit)
+                ? edit[0].getCode().toString()
+                : undefined;
+        })
+        .find((wp) => wp === '`@creator/Star`');
+    expect(
+        applied,
+        'expected filling the empty literal to yield `@creator/Star`',
+    ).toBeDefined();
 });

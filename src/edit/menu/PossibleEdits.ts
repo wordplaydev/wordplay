@@ -91,7 +91,11 @@ import Unit from '@nodes/Unit';
 import UnparsableExpression from '@nodes/UnparsableExpression';
 import Update from '@nodes/Update';
 import WebLink from '@nodes/WebLink';
-import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
+import type {
+    EditContext,
+    InsertContext,
+    ReplaceContext,
+} from '@edit/revision/EditContext';
 import Remove from '@edit/revision/Remove';
 
 /** A logging flag, helpful for analyzing the control flow of autocomplete when debugging. */
@@ -117,9 +121,15 @@ export function getEditsAt(
     locales: Locales,
     /** When provided, enables completing concept links (`@Phrase`, `@Color.random`) in markup. */
     concepts?: ConceptIndex,
+    /** When provided, enables recommending custom characters in markup and formatted text. */
+    characters?: string[],
 ): Revision[] {
     const source = caret.source;
     const context = project.getContext(source);
+
+    // Bundle the values that are constant for this whole invocation, so the
+    // helpers below can thread one object instead of many arguments.
+    const edit: EditContext = { context, locales, concepts, characters };
 
     const isEmptyLine = caret.isEmptyLine();
 
@@ -130,9 +140,7 @@ export function getEditsAt(
             1,
         );
 
-        return removeDuplicates(
-            getFieldAssignments(field, context, locales, concepts),
-        );
+        return removeDuplicates(getFieldAssignments(field, edit));
     }
     // If we have a node selected, find possible replacements or removals.
     else if (caret.position instanceof Node) {
@@ -141,9 +149,7 @@ export function getEditsAt(
             1,
         );
 
-        return removeDuplicates(
-            getNodeRevisions(caret.position, context, locales, concepts),
-        );
+        return removeDuplicates(getNodeRevisions(caret.position, edit));
     }
     // If the token is a position rather than a node, find edits for the nodes between.
     else if (caret.isPosition()) {
@@ -158,12 +164,7 @@ export function getEditsAt(
                 1,
             );
 
-            edits = getNodeRevisions(
-                caret.tokenExcludingSpace,
-                context,
-                locales,
-                concepts,
-            );
+            edits = getNodeRevisions(caret.tokenExcludingSpace, edit);
         }
 
         // What's before and after the caret?
@@ -184,9 +185,7 @@ export function getEditsAt(
                     caret.position,
                     adjacent && caretLine === caret.source.getLine(node),
                     isEmptyLine,
-                    context,
-                    locales,
-                    concepts,
+                    edit,
                 ),
             ];
         }
@@ -202,9 +201,7 @@ export function getEditsAt(
                     caret.position,
                     adjacent && caretLine === caret.source.getLine(node),
                     isEmptyLine,
-                    context,
-                    locales,
-                    concepts,
+                    edit,
                 ),
             ];
         }
@@ -224,13 +221,11 @@ export function getEditsAt(
                         .enumerate()
                         .map((kind) =>
                             getPossibleNodes(programField, kind, {
+                                ...edit,
                                 type: undefined,
-                                context,
                                 parent: source.expression.expression,
                                 field: 'statements',
                                 index: 0,
-                                locales,
-                                concepts,
                             })
                                 .filter(
                                     (kind): kind is Node | Refer =>
@@ -260,12 +255,8 @@ export function getEditsAt(
 }
 
 /** Given a field position, get possible values for the field */
-function getFieldAssignments(
-    fieldPosition: FieldPosition,
-    context: Context,
-    locales: Locales,
-    concepts: ConceptIndex | undefined,
-) {
+function getFieldAssignments(fieldPosition: FieldPosition, edit: EditContext) {
+    const { context, locales } = edit;
     const { parent, field, index } = fieldPosition;
     // Get the field of the parent node's grammar.
     const fieldInfo = parent.getFieldNamed(field);
@@ -304,13 +295,11 @@ function getFieldAssignments(
                 edits = [
                     ...edits,
                     ...getPossibleNodes(fieldInfo, kind, {
+                        ...edit,
                         type: expectedType,
-                        context,
                         field,
                         parent,
                         index,
-                        locales,
-                        concepts,
                     })
                         .filter((r) => r !== undefined)
                         .map((replacement) =>
@@ -343,12 +332,8 @@ function getFieldAssignments(
 }
 
 /** Given a node, get possible replacements */
-function getNodeRevisions(
-    anchor: Node,
-    context: Context,
-    locales: Locales,
-    concepts: ConceptIndex | undefined,
-) {
+function getNodeRevisions(anchor: Node, edit: EditContext) {
+    const { context } = edit;
     let edits: Revision[] = [];
 
     // Get the allowed kinds on this node and then translate them into replacement edits.
@@ -376,11 +361,9 @@ function getNodeRevisions(
                 .enumerate()
                 .map((kind) =>
                     getPossibleNodes(field, kind, {
+                        ...edit,
                         type: expectedType,
                         node,
-                        context,
-                        locales,
-                        concepts,
                     }).map((replacement) =>
                         replacement === undefined
                             ? new Remove(context, parent, node)
@@ -480,10 +463,9 @@ function getRelativeFieldEdits(
     adjacent: boolean,
     /** True if the line the caret is on is empty */
     empty: boolean,
-    context: Context,
-    locales: Locales,
-    concepts: ConceptIndex | undefined,
+    edit: EditContext,
 ): Revision[] {
+    const { context, locales } = edit;
     let edits: Revision[] = [];
 
     const parent = anchorNode.getParent(context);
@@ -545,11 +527,9 @@ function getRelativeFieldEdits(
             edits = [
                 ...edits,
                 ...ConceptLink.getPossibleReplacements({
+                    ...edit,
                     type: expectedType,
                     node: anchorNode,
-                    context,
-                    locales,
-                    concepts,
                 }).map(
                     (replacement) =>
                         new Replace(context, parent, anchorNode, replacement),
@@ -578,7 +558,11 @@ function getRelativeFieldEdits(
             fieldValue instanceof ExpressionPlaceholder ||
             (fieldValue instanceof UnparsableExpression &&
                 fieldValue.isEmpty()) ||
-            (fieldValue instanceof Unit && fieldValue.isUnitless());
+            (fieldValue instanceof Unit && fieldValue.isUnitless()) ||
+            // An empty markup (e.g. inside an empty formatted literal `` `` ``)
+            // is a placeholder we can fill, so offer setting it.
+            (fieldValue instanceof Markup &&
+                fieldValue.paragraphs.length === 0);
 
         // If the field is a list, and it's not a block, or we're on an empty line in a block, get possible insertions for all allowable node kinds.
         if (
@@ -613,10 +597,8 @@ function getRelativeFieldEdits(
                             .enumerate()
                             .map((kind) =>
                                 getPossibleNodes(relativeField, kind, {
+                                    ...edit,
                                     type: expectedType,
-                                    context,
-                                    locales,
-                                    concepts,
                                     parent,
                                     field: relativeField.name,
                                     index: spliceIndex,
@@ -659,12 +641,10 @@ function getRelativeFieldEdits(
                         .enumerate()
                         .map((kind) =>
                             getPossibleNodes(relativeField, kind, {
+                                ...edit,
                                 type: expectedType,
                                 parent: anchorNode,
                                 field: relativeField.name,
-                                context,
-                                locales,
-                                concepts,
                                 index: undefined,
                             })
                                 // Filter out any undefined values, since the field is already undefined.
