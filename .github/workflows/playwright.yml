@@ -13,9 +13,19 @@ on:
 
 jobs:
     test:
-        name: test (${{ inputs.browser }})
+        name: test (${{ inputs.browser }} ${{ matrix.shard }}/2)
         timeout-minutes: 60
         runs-on: ${{ inputs.runner }}
+        # Split the spec files into two parallel shards. Each shard pays the
+        # same setup cost (npm ci, build, browser install, emulator) but only
+        # runs half the tests, so the wall-clock of the e2e step roughly halves
+        # — the main lever for keeping the deploy pipeline under 5 minutes.
+        # fail-fast is off so one shard's failure doesn't cancel the other's
+        # report (the deploy gate already fails if any shard fails).
+        strategy:
+            fail-fast: false
+            matrix:
+                shard: [1, 2]
         steps:
             - uses: actions/checkout@v5
             - uses: actions/setup-node@v5
@@ -38,10 +48,13 @@ jobs:
                       ~/Library/Caches/ms-playwright
                   key: ${{ runner.os }}-ms-playwright-${{ inputs.browser }}-${{ steps.playwright-version.outputs.version }}
             - name: Install Playwright browsers
-              # On a cache hit the browser binary is already present, so this
-              # mainly installs the system deps (they live outside the cached
-              # dir); on a miss it downloads the binary too.
-              run: npx playwright install --with-deps ${{ inputs.browser }}
+              # On a cache hit the browser binary is already present, so this is
+              # a near-no-op; on a miss it downloads the binary. We omit
+              # --with-deps: the ubuntu-latest image already ships the system
+              # libraries Chromium needs, and reinstalling them via apt every run
+              # cost ~15s. If a future runner image drops a dependency, add
+              # --with-deps back (or `npx playwright install-deps`).
+              run: npx playwright install ${{ inputs.browser }}
             - run: echo "${{ secrets.ENV_DEMO }}" > .env
             - run: echo "${{ secrets.FUNCTIONS_ENV_DEMO }}" > functions/.env && echo "SMTP_PASSWORD=" >> functions/.env
             - name: Set up JDK 21 # Firebase emulator requires >=21
@@ -60,11 +73,11 @@ jobs:
             - name: Build project
               run: npm run build:ci
             - name: Run end-to-end tests with emulator
-              run: npx firebase emulators:exec "npx playwright test --project=${{ inputs.browser }} --reporter=list" --project=demo-wordplay --log-verbosity QUIET
+              run: npx firebase emulators:exec "npx playwright test --project=${{ inputs.browser }} --shard=${{ matrix.shard }}/2 --reporter=list" --project=demo-wordplay --log-verbosity QUIET
             - uses: actions/upload-artifact@v6
               if: always()
               with:
-                  name: playwright-report-${{ inputs.browser }}
+                  name: playwright-report-${{ inputs.browser }}-shard${{ matrix.shard }}
                   path: test-results/
                   retention-days: 30
                   # A fully green run writes nothing to test-results/ (traces are
