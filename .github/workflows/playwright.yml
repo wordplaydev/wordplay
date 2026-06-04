@@ -13,19 +13,22 @@ on:
 
 jobs:
     test:
-        name: test (${{ inputs.browser }} ${{ matrix.shard }}/2)
+        name: test (${{ inputs.browser }} ${{ matrix.shard }}/3)
         timeout-minutes: 60
         runs-on: ${{ inputs.runner }}
-        # Split the spec files into two parallel shards. Each shard pays the
-        # same setup cost (npm ci, build, browser install, emulator) but only
-        # runs half the tests, so the wall-clock of the e2e step roughly halves
-        # — the main lever for keeping the deploy pipeline under 5 minutes.
-        # fail-fast is off so one shard's failure doesn't cancel the other's
-        # report (the deploy gate already fails if any shard fails).
+        # Split the spec files into three parallel shards. Each shard pays the
+        # same fixed setup cost (~75s: npm ci, build, browser install, emulator
+        # startup) but only runs a third of the tests, so the e2e step shrinks
+        # while setup overlaps — the main lever for keeping the deploy pipeline
+        # under 5 minutes. Three is the practical limit: that fixed per-shard
+        # floor means more shards stop helping (the gate can't drop below ~90s
+        # no matter how many). fail-fast is off so one shard's failure doesn't
+        # cancel the others' reports (the deploy gate already fails if any
+        # shard fails).
         strategy:
             fail-fast: false
             matrix:
-                shard: [1, 2]
+                shard: [1, 2, 3]
         steps:
             - uses: actions/checkout@v5
             - uses: actions/setup-node@v5
@@ -73,7 +76,7 @@ jobs:
             - name: Build project
               run: npm run build:ci
             - name: Run end-to-end tests with emulator
-              run: npx firebase emulators:exec "npx playwright test --project=${{ inputs.browser }} --shard=${{ matrix.shard }}/2 --reporter=list" --project=demo-wordplay --log-verbosity QUIET
+              run: npx firebase emulators:exec "npx playwright test --project=${{ inputs.browser }} --shard=${{ matrix.shard }}/3 --reporter=list" --project=demo-wordplay --log-verbosity QUIET
             - uses: actions/upload-artifact@v6
               if: always()
               with:
