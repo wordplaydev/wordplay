@@ -2573,7 +2573,7 @@
                 "last": {
                     "doc": [
                         "The last item in me, or @None if I'm empty.",
-                        "\\['apple' 'banana' 'mango'].first()\\"
+                        "\\['apple' 'banana' 'mango'].last()\\"
                     ],
                     "names": "last",
                     "inputs": []
