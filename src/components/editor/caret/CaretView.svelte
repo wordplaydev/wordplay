@@ -272,6 +272,34 @@
         };
     });
 
+    // Recompute once an ancestor's CSS animation finishes. The guide renders
+    // embedded examples (ExampleUI) inside markup blocks that "pop" in with a
+    // scaleY(0)→scaleY(1) animation (MarkupHTMLView). While that transform runs,
+    // getBoundingClientRect returns vertically-scaled geometry, so a caret
+    // measured mid-animation (e.g. position 0, anchored to the first token's
+    // top) lands a few pixels off and nothing re-measures it once the transform
+    // settles — until the next caret change (a click). A CSS transform doesn't
+    // change layout size, so ResizeObserver/clientHeight never fire; the
+    // animation's end is the only reliable signal. animationend bubbles to the
+    // document, so we listen there and re-measure when the finished animation
+    // was on an ancestor of this caret (the scaled subtree we live in).
+    $effect(() => {
+        if (element === null) return;
+        const caretElement = element;
+        function onAnimationEnd(event: AnimationEvent) {
+            // Note: `Node` is shadowed by the Wordplay AST Node import, so test
+            // against the DOM `Element` to narrow event.target correctly.
+            if (
+                event.target instanceof Element &&
+                event.target.contains(caretElement)
+            )
+                location = computeLocation();
+        }
+        document.addEventListener('animationend', onAnimationEnd);
+        return () =>
+            document.removeEventListener('animationend', onAnimationEnd);
+    });
+
     // When caret location or view changes and not playing, tick, then scroll to it.
     let lastScroll = 0;
     $effect(() => {
@@ -829,15 +857,31 @@
                     ? editorHorizontalStart - (!horizontal ? lineHeight : 0)
                     : priorTokenViewRect.left + viewportXOffset;
 
-            // When there's no prior token (the caret is at the very start of
-            // the source), align the caret's top with the current (first)
-            // token's top. Using editorVerticalStart here would add a few
-            // pixels of vertical offset, making position 0 sit lower than
-            // position 1+, which renders at the token's top.
-            let priorTokenTop =
-                priorTokenViewRect === undefined
-                    ? tokenTop
-                    : priorTokenViewRect.top + viewportYOffset;
+            // When there's no prior token, the caret is in the first token's
+            // space, which begins at the very top of the source. priorTokenTop
+            // anchors to where that space starts (line 1). When the space has
+            // leading newlines the token renders one or more lines below that
+            // start, so tokenTop is too low; measure the .space element's top
+            // instead (the same anchor Case 2 uses). We measure rather than
+            // subtract lineHeight because lineHeight is cached and, in a
+            // single-line or not-yet-font-loaded editor, falls back to the
+            // token's rect height — leaving the caret a few pixels off. A
+            // DOM measurement reflows correctly across the font-load recompute
+            // that read-only editors (e.g. ExampleUI) depend on. With no
+            // leading newlines we keep tokenTop, preserving the few-pixel
+            // alignment tuned by prior fixes.
+            let priorTokenTop: number;
+            if (priorTokenViewRect !== undefined)
+                priorTokenTop = priorTokenViewRect.top + viewportYOffset;
+            else if (explicitSpace.indexOfCharacter('\n') >= 0) {
+                const spaceRect = viewport
+                    .querySelector(`.space[data-id='${token.id}']`)
+                    ?.getBoundingClientRect();
+                priorTokenTop =
+                    spaceRect !== undefined
+                        ? spaceRect.top + viewportYOffset
+                        : tokenTop;
+            } else priorTokenTop = tokenTop;
 
             // 1) Trailing space (the caret is before the first newline)
             if (spaceBefore.indexOfCharacter('\n') < 0) {
