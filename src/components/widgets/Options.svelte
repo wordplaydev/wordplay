@@ -286,6 +286,19 @@
         translate: 0 3px;
     }
 
+    /* Disabled select: flat, muted, no shadow — mirrors the disabled styles of
+       Toggle and the other bordered widgets. Placed after :hover/:focus/:open
+       so it overrides their background/transform at equal specificity. */
+    select:disabled {
+        cursor: default;
+        color: var(--wordplay-inactive-color);
+        background: var(--wordplay-background);
+        border-color: var(--wordplay-border-color);
+        box-shadow: none;
+        opacity: 0.55;
+        transform: none;
+    }
+
     ::picker(select) {
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
         border-top-left-radius: 0;
