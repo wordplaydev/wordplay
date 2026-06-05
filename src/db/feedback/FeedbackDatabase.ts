@@ -242,7 +242,7 @@ export async function getFeedback(): Promise<Feedback[] | null> {
             ),
         );
     } catch (err) {
-        DB.reportBanner((l) => l.ui.banner.loadFailed, err);
+        DB.reportLoadFailure(err);
         return null;
     }
 

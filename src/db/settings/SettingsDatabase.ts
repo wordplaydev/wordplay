@@ -131,7 +131,7 @@ export default class SettingsDatabase {
                 getDoc(doc(firestore, CreatorCollection, user.uid)),
             );
         } catch (err) {
-            this.database.reportBanner((l) => l.ui.banner.loadFailed, err);
+            this.database.reportLoadFailure(err);
             return;
         }
         if (config.exists()) {

@@ -317,6 +317,21 @@ export class Database {
         }, Database.BANNER_TIMEOUT_MS);
     }
 
+    /** Surface an automatic (non-user-action) load failure as a banner. When the
+     *  cause is a connectivity problem (backend unreachable, offline, our own
+     *  read/write timeout) show the "can't reach the database" message; otherwise
+     *  the generic "couldn't load that". Centralizes the branch shared by every
+     *  background-load call site so a failed read on page load doesn't imply the
+     *  user tried to load something. */
+    reportLoadFailure(error: unknown) {
+        this.reportBanner(
+            this.isConnectivityError(error)
+                ? (l) => l.ui.connection.unreachable
+                : (l) => l.ui.banner.loadFailed,
+            error,
+        );
+    }
+
     /** Ask the browser to make this origin's storage persistent, so it's exempt
      *  from automatic eviction under disk pressure (best-effort → persistent).
      *  Idempotent and browser-only: no-ops on the server, when the API is
