@@ -1,5 +1,6 @@
 import Evaluate from '@nodes/Evaluate';
 import type Expression from '@nodes/Expression';
+import type Node from '@nodes/Node';
 import BoolValue from '@values/BoolValue';
 import MarkupValue from '@values/MarkupValue';
 import NumberValue from '@values/NumberValue';
@@ -151,6 +152,31 @@ export default class OutputPropertyValueSet {
 
     getExpressions(): Evaluate[] {
         return this.values.map((value) => value.evaluate);
+    }
+
+    /**
+     * The node replacements for setting this property to a new value, routing edits of a
+     * value that came through a reference chain to the upstream leaf (so the source literal
+     * is modified), and otherwise setting the bind on the output Evaluate as usual.
+     */
+    getEditReplacements(
+        project: Project,
+        newValue: Expression | undefined,
+    ): [Node, Node | undefined][] {
+        return this.values.map((value) => {
+            // Transitive value edit → replace the upstream leaf directly.
+            if (value.resolved !== undefined && newValue !== undefined)
+                return [value.resolved, newValue.clone()];
+            // Direct/default (or unset) → set the bind on the output Evaluate, as before.
+            return [
+                value.evaluate,
+                value.evaluate.withBindAs(
+                    value.bind,
+                    newValue?.clone(),
+                    project.getNodeContext(value.evaluate),
+                ),
+            ];
+        });
     }
 
     isEmpty() {

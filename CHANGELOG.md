@@ -17,6 +17,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Changed
 
 - 🔄 We made loading, updating, and saving errors display more consistently and reliably.
+- 🎨 You can now edit `@Phrase`'s inputs if they are a `@Bind` that refers to some other value.
 
 ### Fixed
 

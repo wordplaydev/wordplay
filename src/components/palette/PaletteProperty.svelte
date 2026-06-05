@@ -40,9 +40,17 @@
         property: OutputProperty;
         values: OutputPropertyValueSet;
         editable: boolean;
+        /** True when the code caret is inside this property's input. */
+        highlighted?: boolean;
     }
 
-    let { project, property, values, editable }: Props = $props();
+    let {
+        project,
+        property,
+        values,
+        editable,
+        highlighted = false,
+    }: Props = $props();
 
     let indexContext = getConceptIndex();
     let index = $derived(indexContext?.index);
@@ -64,7 +72,7 @@
     }
 </script>
 
-<NamedControl>
+<NamedControl {highlighted}>
     {#snippet name()}
         {#if bindConcept}<small
                 ><ConceptLinkUI

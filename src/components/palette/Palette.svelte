@@ -118,55 +118,36 @@
     // the text style editor's weight/italic options to what the face supports.
     let sharedFaceName = $derived(phraseFaceValues?.getText());
 
-    /** The localized name of the output input the caret is inside, used to scroll to and
-     *  highlight the matching palette property. */
-    let caretBind = $state<string | undefined>(undefined);
-
-    /** When the caret changes, see if it is inside an editable output, and select it if so.
-     *  Also figure out which of the output's inputs the caret is within, so we can scroll
-     *  to and highlight the corresponding palette property. */
-    $effect(() => {
-        const currentCaret = editors.find((editor) => editor.focused)?.caret;
-        if (currentCaret === undefined) return;
-        if (currentCaret.getExpressionAt() === undefined) return;
+    /** The localized name of the output input the caret is inside — a pure function of the
+     *  caret, so it always reflects the current position (undefined when the caret isn't in
+     *  a property). Used to reactively highlight and scroll to the matching palette property. */
+    let caretBind = $derived.by(() => {
+        const caret = editors.find((editor) => editor.focused)?.caret;
+        if (caret === undefined) return undefined;
         // Walk up from the token at the caret (not getExpressionAt(), which jumps to the
         // value and skips an input's NAME token), so the caret being in either the name or
         // the value of an input maps to that input.
-        const node = currentCaret.getToken() ?? currentCaret.getExpressionAt();
-        if (node === undefined) return;
-        const ancestors = [
-            node,
-            ...currentCaret.source.root.getAncestors(node),
-        ];
-
-        untrack(() => {
-            if (selection === undefined) return;
-
-            const output = ancestors.find(
-                (node): node is Evaluate =>
-                    node instanceof Evaluate &&
-                    node.isOneOf(
-                        project.getNodeContext(node),
-                        project.shares.output.Phrase,
-                        project.shares.output.Group,
-                        project.shares.output.Stage,
-                    ),
-            );
-            if (output === undefined) {
-                selection.empty();
-                caretBind = undefined;
-                return;
-            }
-            selection.setPaths(project, [output], 'editor');
-
-            // The output's direct child on the path to the caret is the input the caret is
-            // within; map it to its bind to highlight the matching palette property.
-            const childOnPath = ancestors[ancestors.indexOf(output) - 1];
-            const mapping =
-                childOnPath === undefined
-                    ? undefined
-                    : output.getInputMapping(project.getNodeContext(output));
-            const match = mapping?.inputs.find(
+        const node = caret.getToken() ?? caret.getExpressionAt();
+        if (node === undefined) return undefined;
+        const ancestors = [node, ...caret.source.root.getAncestors(node)];
+        const output = ancestors.find(
+            (n): n is Evaluate =>
+                n instanceof Evaluate &&
+                n.isOneOf(
+                    project.getNodeContext(n),
+                    project.shares.output.Phrase,
+                    project.shares.output.Group,
+                    project.shares.output.Stage,
+                ),
+        );
+        if (output === undefined) return undefined;
+        // The output's direct child on the path to the caret is the input the caret is
+        // within; map it to its bind name to match a palette property.
+        const childOnPath = ancestors[ancestors.indexOf(output) - 1];
+        if (childOnPath === undefined) return undefined;
+        const match = output
+            .getInputMapping(project.getNodeContext(output))
+            ?.inputs.find(
                 (input) =>
                     input.given !== undefined &&
                     (input.given === childOnPath ||
@@ -175,33 +156,47 @@
                                 (given) => given === childOnPath,
                             ))),
             );
-            caretBind = match
-                ? $locales.getName(match.expected.names)
-                : undefined;
+        return match ? $locales.getName(match.expected.names) : undefined;
+    });
+
+    /** When the caret is inside an editable output, select it so its palette shows. */
+    $effect(() => {
+        const caret = editors.find((editor) => editor.focused)?.caret;
+        if (caret === undefined || caret.getExpressionAt() === undefined)
+            return;
+        const node = caret.getToken() ?? caret.getExpressionAt();
+        if (node === undefined) return;
+        const ancestors = [node, ...caret.source.root.getAncestors(node)];
+        untrack(() => {
+            if (selection === undefined) return;
+            const output = ancestors.find(
+                (n): n is Evaluate =>
+                    n instanceof Evaluate &&
+                    n.isOneOf(
+                        project.getNodeContext(n),
+                        project.shares.output.Phrase,
+                        project.shares.output.Group,
+                        project.shares.output.Stage,
+                    ),
+            );
+            if (output === undefined) selection.empty();
+            else selection.setPaths(project, [output], 'editor');
         });
     });
 
     let section = $state<HTMLElement | undefined>(undefined);
 
-    /** When the caret moves into a property's input, scroll that property into view and
-     *  highlight it (clearing any previous highlight), so the code caret makes the matching
-     *  palette control easy to find. */
+    /** Scroll the caret's property into view (the highlight itself is applied reactively
+     *  via the `highlighted` prop on each property). */
     $effect(() => {
         const name = caretBind;
         const view = section;
-        if (view === undefined) return;
-        tick().then(() => {
-            // Clear the previous highlight so only the caret's current property is marked.
-            for (const previous of view.querySelectorAll('.caret-highlight'))
-                previous.classList.remove('caret-highlight');
-            if (name === undefined) return;
-            const control = view.querySelector(`#property-${CSS.escape(name)}`);
-            const row = control?.closest('.property') ?? control;
-            if (row instanceof HTMLElement) {
-                row.scrollIntoView({ block: 'nearest' });
-                row.classList.add('caret-highlight');
-            }
-        });
+        if (name === undefined || view === undefined) return;
+        tick().then(() =>
+            view
+                .querySelector('.property.caret-highlight')
+                ?.scrollIntoView({ block: 'nearest' }),
+        );
     });
 </script>
 
@@ -232,7 +227,13 @@
 
         <!-- Something selected? Show the property values. -->
         {#each Array.from(propertyValues.entries()) as [property, values]}
-            <PaletteProperty {project} {property} {values} {editable} />
+            <PaletteProperty
+                {project}
+                {property}
+                {values}
+                {editable}
+                highlighted={property.getName($locales) === caretBind}
+            />
             <!-- Add the text style editor just below the face chooser. -->
             {#if property.isName($locales, (l) => l.output.Phrase.face.names) && phraseTextValues}
                 <TextStyleEditor

@@ -464,14 +464,25 @@ export default class Reference extends SimpleExpression {
         return false;
     }
 
-    isProvablyNonZero(context: Context, depth = 0): boolean {
-        // Follow the bound value upstream, bounding how far so mutually
-        // recursive binds can't loop forever.
-        if (depth >= 4) return false;
+    /**
+     * Follow this reference — and any further reference chain through `Bind.value` — to the
+     * non-reference expression it ultimately resolves to, or undefined if it doesn't resolve
+     * to a bind with a value. Bounded so mutually recursive binds can't loop forever.
+     */
+    resolveToLeaf(context: Context, depth = 0): Expression | undefined {
+        if (depth >= 16) return undefined;
         const definition = this.resolve(context);
-        return definition instanceof Bind && definition.value !== undefined
-            ? definition.value.isProvablyNonZero(context, depth + 1)
-            : false;
+        if (!(definition instanceof Bind) || definition.value === undefined)
+            return undefined;
+        return definition.value instanceof Reference
+            ? definition.value.resolveToLeaf(context, depth + 1)
+            : definition.value;
+    }
+
+    isProvablyNonZero(context: Context): boolean {
+        // Follow the bound value upstream to its leaf and check that.
+        const leaf = this.resolveToLeaf(context);
+        return leaf !== undefined && leaf.isProvablyNonZero(context);
     }
 
     compile(): Step[] {
@@ -502,12 +513,9 @@ export default class Reference extends SimpleExpression {
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return locales.concretize(
-            (l) => l.node.Reference.start,
-            {
-                name: new NodeRef(this.name, locales, context),
-            },
-        );
+        return locales.concretize((l) => l.node.Reference.start, {
+            name: new NodeRef(this.name, locales, context),
+        });
     }
 
     getDescriptionInputs(): Record<string, TemplateInput> {

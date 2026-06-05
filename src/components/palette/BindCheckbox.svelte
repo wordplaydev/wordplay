@@ -22,9 +22,8 @@
         if ($project === undefined) return;
         Projects.revise(
             $project,
-            $project.getBindReplacements(
-                values.getExpressions(),
-                property.getName($locales),
+            values.getEditReplacements(
+                $project,
                 newValue !== undefined
                     ? BooleanLiteral.make(newValue)
                     : undefined,
