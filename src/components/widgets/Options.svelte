@@ -36,6 +36,18 @@
                 localized: Snippet<[label: string | LocaleTextAccessor]>,
             ]
         >;
+        /** Called when an option receives focus (e.g. during keyboard navigation). */
+        focusoption?: (value: string | undefined) => void;
+        /** Called when an option loses focus. */
+        bluroption?: (value: string | undefined) => void;
+        /** Called when the pointer enters an option (covers the whole option, not just its text). */
+        enteroption?: (value: string | undefined) => void;
+        /** Called when the pointer leaves an option. */
+        leaveoption?: (value: string | undefined) => void;
+        /** Custom content for the closed button, in place of the cloned `<selectedcontent>`.
+         *  Use when the selected display needs live content (e.g. an animation) that a
+         *  static clone can't render. */
+        selection?: Snippet;
     }
 
     let {
@@ -48,6 +60,11 @@
         editable = true,
         code = false,
         item,
+        focusoption,
+        bluroption,
+        enteroption,
+        leaveoption,
+        selection,
     }: Props = $props();
 
     let title = $derived(
@@ -88,8 +105,19 @@
      *  suppress the tooltip — it overlaps the open list and is distracting. */
     let open = $state(false);
 
+    /** Whether the picker is currently open. Prefers the live `:open` DOM state, since
+     *  the `toggle` event isn't reliably dispatched for a customizable <select>; falls
+     *  back to the tracked `open` flag where `:open` isn't supported. */
+    function pickerOpen() {
+        try {
+            return view !== undefined && view.matches(':open');
+        } catch {
+            return open;
+        }
+    }
+
     function showTip() {
-        if (view && !open) hint.show(title, view);
+        if (view && !pickerOpen()) hint.show(title, view);
     }
     function hideTip() {
         hint.hide();
@@ -115,6 +143,7 @@
         class:code
         class:placeholder={value === undefined}
         onchange={(e) => commitChange((e.target as HTMLSelectElement).value)}
+        onpointerdown={hideTip}
         ontoggle={(e: ToggleEvent) => {
             open = e.newState === 'open';
             // Hide immediately on open in case a focus/hover already showed it.
@@ -128,7 +157,10 @@
         onfocus={showTip}
         onblur={hideTip}
     >
-        <button><selectedcontent></selectedcontent></button>
+        <button
+            >{#if selection}{@render selection()}{:else}<selectedcontent
+                ></selectedcontent>{/if}</button
+        >
         {#each options as option}
             {#if 'options' in option}
                 <optgroup label={$locales.getPlainText(option.label)}>
@@ -138,6 +170,12 @@
                             value={groupoption.value}
                             onpointerdown={() =>
                                 commitChange(groupoption.value)}
+                            onpointerenter={() =>
+                                enteroption?.(groupoption.value)}
+                            onpointerleave={() =>
+                                leaveoption?.(groupoption.value)}
+                            onfocus={() => focusoption?.(groupoption.value)}
+                            onblur={() => bluroption?.(groupoption.value)}
                             onkeydown={(e) => {
                                 if (e.key === 'Enter' || e.key === ' ') {
                                     commitChange(groupoption.value);
@@ -157,6 +195,10 @@
                     selected={option.value === value}
                     value={option.value}
                     onpointerdown={() => commitChange(option.value)}
+                    onpointerenter={() => enteroption?.(option.value)}
+                    onpointerleave={() => leaveoption?.(option.value)}
+                    onfocus={() => focusoption?.(option.value)}
+                    onblur={() => bluroption?.(option.value)}
                     onkeydown={(e) => {
                         if (e.key === 'Enter' || e.key === ' ') {
                             commitChange(option.value);

@@ -4767,6 +4767,134 @@
             "shake": {
                 "doc": "$~Creez o @Sequence care face să pară că un @Output este speriat.",
                 "names": ["$~scutura"]
+            },
+            "pulse": {
+                "doc": "$~Creez o @Sequence care scalează ușor @Output în sus și în jos pentru a atrage atenția.",
+                "names": ["$~puls"],
+                "amount": {
+                    "doc": "$~Cât de mult să scalezi în punctul culminant.",
+                    "names": ["$~cantitate"]
+                }
+            },
+            "heartbeat": {
+                "doc": "$~Creez o @Sequence care scalează @Output cu două bătăi rapide, ca o bătaie a inimii.",
+                "names": ["$~bătaiainimii"],
+                "amount": {
+                    "doc": "$~Cât de mult să se scaleze pe fiecare bătaie.",
+                    "names": ["$~cantitate"]
+                }
+            },
+            "tada": {
+                "doc": "$~Creez o @Sequence care face ca @Output sărbătorească cu o scală și o mișcare.",
+                "names": ["$~tada"],
+                "amount": {
+                    "doc": "$~Cât de mult să se scaleze în timpul sărbătorii.",
+                    "names": ["$~cantitate"]
+                }
+            },
+            "wiggle": {
+                "doc": "$~Creez o @Sequence care se înclină și glisează @Output dintr-o parte în alta.",
+                "names": ["$~semișcă"],
+                "angle": {
+                    "doc": "$~Cât de mult să se încline în mișcare.",
+                    "names": ["$~unghi"]
+                }
+            },
+            "flash": {
+                "doc": "$~Creez o @Sequence care clipește @Output pornit și oprit.",
+                "names": ["$~bliț"]
+            },
+            "zoomin": {
+                "doc": "$~Creez o @Sequence care scalează @Output de la zero la dimensiune completă. Încearcă-mă într-o @Sequence care intră!",
+                "names": ["$~mărire"]
+            },
+            "fadeinup": {
+                "doc": "$~Creez o @Sequence care face ca @Output să intre treptat în timp ce o glisez în sus la locul ei. Încearcă-mă într-o @Sequence care intră!",
+                "names": ["$~estompare"],
+                "distance": {
+                    "doc": "$~Cât de departe să aluneci.",
+                    "names": ["$~distanţă"]
+                }
+            },
+            "fadeindown": {
+                "doc": "$~Creez o @Sequence care face ca @Output să intre treptat în timp ce o glisez în jos la locul ei. Încearcă-mă într-o @Sequence care intră!",
+                "names": ["$~estompare"],
+                "distance": {
+                    "doc": "$~Cât de departe să aluneci.",
+                    "names": ["$~distanţă"]
+                }
+            },
+            "fadeinleft": {
+                "doc": "$~Creez o @Sequence care face ca @Output să intre treptat în timp ce o glisez la locul ei dinspre stânga. Încearcă-mă într-o @Sequence care intră!",
+                "names": ["$~fadeinleft"],
+                "distance": {
+                    "doc": "$~Cât de departe să aluneci.",
+                    "names": ["$~distanţă"]
+                }
+            },
+            "fadeinright": {
+                "doc": "$~Creez o @Sequence care face ca @Output să intre treptat în timp ce o glisez la locul ei dinspre dreapta. Încearcă-mă într-o @Sequence care intră!",
+                "names": ["$~fadeinright"],
+                "distance": {
+                    "doc": "$~Cât de departe să aluneci.",
+                    "names": ["$~distanţă"]
+                }
+            },
+            "rotatein": {
+                "doc": "$~Creez o @Sequence care rotește @Output la locul ei în timp ce o fac să apară în mod estompat. Încearcă-mă într-o @Sequence care intră!",
+                "names": ["$~rotație"],
+                "angle": {
+                    "doc": "$~Cât de departe să se rotească.",
+                    "names": ["$~unghi"]
+                }
+            },
+            "zoomout": {
+                "doc": "$~Creez o @Sequence care scalează @Output la zero. Încearcă-mă într-o @Sequence existentă!",
+                "names": ["$~micșorare"]
+            },
+            "fadeoutup": {
+                "doc": "$~Creez o @Sequence care estompează @Output în timp ce o glisez în sus. Încearcă-mă într-o @Sequence existentă!",
+                "names": ["$~estompare"],
+                "distance": {
+                    "doc": "$~Cât de departe să aluneci.",
+                    "names": ["$~distanţă"]
+                }
+            },
+            "fadeoutdown": {
+                "doc": "$~Creez o @Sequence care estompează @Output în timp ce o glisez în jos. Încearcă-mă într-o @Sequence existentă!",
+                "names": ["$~fadeoutdown"],
+                "distance": {
+                    "doc": "$~Cât de departe să aluneci.",
+                    "names": ["$~distanţă"]
+                }
+            },
+            "fadeoutleft": {
+                "doc": "$~Creez o @Sequence care estompează @Output în timp ce o glisez spre stânga. Încearcă-mă într-o @Sequence care începe!",
+                "names": ["$~estomparelastânga"],
+                "distance": {
+                    "doc": "$~Cât de departe să aluneci.",
+                    "names": ["$~distanţă"]
+                }
+            },
+            "fadeoutright": {
+                "doc": "$~Creez o @Sequence care estompează @Output în timp ce o glisez spre dreapta. Încearcă-mă într-o @Sequence care începe!",
+                "names": ["$~estompeazăcomplet"],
+                "distance": {
+                    "doc": "$~Cât de departe să aluneci.",
+                    "names": ["$~distanţă"]
+                }
+            },
+            "rotateout": {
+                "doc": "$~Creez o @Sequence care rotește @Output în timp ce o estompează. Încearcă-mă într-o @Sequence existentă!",
+                "names": ["$~rotire"],
+                "angle": {
+                    "doc": "$~Cât de departe să se rotească.",
+                    "names": ["$~unghi"]
+                }
+            },
+            "rainbow": {
+                "doc": "$~Creez o @Sequence care parcurge ciclul @Output prin culorile curcubeului.",
+                "names": ["$~curcubeu"]
             }
         },
         "Source": {
@@ -6202,6 +6330,10 @@
                 },
                 "field": {
                     "percent": "$~editați procentul"
+                },
+                "preset": {
+                    "label": "$~secvență predefinită",
+                    "custom": "$~personalizat"
                 }
             },
             "error": {

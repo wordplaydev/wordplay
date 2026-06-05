@@ -63,10 +63,16 @@
                         project.shares.output.Sequence,
                     ),
                     [
+                        // Start with two keyframes (the pose at 0% and a copy at 100%); a
+                        // single-pose sequence has nothing to animate between.
                         MapLiteral.make([
                             KeyValue.make(
                                 NumberLiteral.make('0%'),
                                 output.node,
+                            ),
+                            KeyValue.make(
+                                NumberLiteral.make('100%'),
+                                output.node.clone(),
                             ),
                         ]),
                     ],

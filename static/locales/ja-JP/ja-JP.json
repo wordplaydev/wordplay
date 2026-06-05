@@ -4707,6 +4707,134 @@
             "shake": {
                 "doc": "$~@Output が怖いように見える @Sequence を作成します。",
                 "names": ["$~振る"]
+            },
+            "pulse": {
+                "doc": "$~私は、 @Sequence@Output。",
+                "names": ["$~脈"],
+                "amount": {
+                    "doc": "$~ピーク時にどれだけ規模を拡大すべきか。",
+                    "names": ["$~額"]
+                }
+            },
+            "heartbeat": {
+                "doc": "$~私は、心臓の鼓動のように、2つの短い拍子で@Sequence@Output。",
+                "names": ["$~心拍"],
+                "amount": {
+                    "doc": "$~各拍ごとにどれくらいスケールするか。",
+                    "names": ["$~額"]
+                }
+            },
+            "tada": {
+                "doc": "$~私は、 @Sequence@Output。",
+                "names": ["$~タダ"],
+                "amount": {
+                    "doc": "$~祝賀行事の際にどれくらい規模を拡大するか。",
+                    "names": ["$~額"]
+                }
+            },
+            "wiggle": {
+                "doc": "$~@Sequence@Output。",
+                "names": ["$~くねくね"],
+                "angle": {
+                    "doc": "$~どれくらい傾けるべきか。",
+                    "names": ["$~角度"]
+                }
+            },
+            "flash": {
+                "doc": "$~@Sequence@Output。",
+                "names": ["$~フラッシュ"]
+            },
+            "zoomin": {
+                "doc": "$~@Sequenceを作成し、 @Output。入力中の@Sequence。",
+                "names": ["$~ズームイン"]
+            },
+            "fadeinup": {
+                "doc": "$~@Outputをフェードインさせながらスライドアップさせる@Output。エントリー中の@Sequence！",
+                "names": ["$~フェードインアップ"],
+                "distance": {
+                    "doc": "$~どれくらい滑るか。",
+                    "names": ["$~距離"]
+                }
+            },
+            "fadeindown": {
+                "doc": "$~@Outputをフェードインさせながらスライドダウンさせる@Output。入力中の@Sequence！",
+                "names": ["$~フェードインダウン"],
+                "distance": {
+                    "doc": "$~どれくらい滑るか。",
+                    "names": ["$~距離"]
+                }
+            },
+            "fadeinleft": {
+                "doc": "$~左側からスライドインしながら@Outputフェードインさせる@Output。インタラクションする@Sequence！",
+                "names": ["$~左へフェードイン"],
+                "distance": {
+                    "doc": "$~どれくらい滑るか。",
+                    "names": ["$~距離"]
+                }
+            },
+            "fadeinright": {
+                "doc": "$~@Outputを右からスライドさせながらフェードインさせる@Output。入力中の@Sequence！",
+                "names": ["$~フェードインライト"],
+                "distance": {
+                    "doc": "$~どれくらい滑るか。",
+                    "names": ["$~距離"]
+                }
+            },
+            "rotatein": {
+                "doc": "$~@Output回転させながらフェードインさせる@Output。入力中の@Sequence！",
+                "names": ["$~回転"],
+                "angle": {
+                    "doc": "$~どれくらい回転させるか。",
+                    "names": ["$~角度"]
+                }
+            },
+            "zoomout": {
+                "doc": "$~@Outputゼロにスケールアウトする@Output。既存の@Sequence。",
+                "names": ["$~ズームアウト"]
+            },
+            "fadeoutup": {
+                "doc": "$~@Outputをフェードアウトさせながらスライドアップさせる@Output。既存の@Sequence！",
+                "names": ["$~フェードアウトアップ"],
+                "distance": {
+                    "doc": "$~どれくらい滑るか。",
+                    "names": ["$~距離"]
+                }
+            },
+            "fadeoutdown": {
+                "doc": "$~@Outputをスライドダウンしながらフェードアウトさせる@Output。既存の@Sequence！",
+                "names": ["$~フェードアウトダウン"],
+                "distance": {
+                    "doc": "$~どれくらい滑るか。",
+                    "names": ["$~距離"]
+                }
+            },
+            "fadeoutleft": {
+                "doc": "$~@Output左にスライドさせながらフェードアウトさせる@Output。既存の@Sequence！",
+                "names": ["$~左へフェードアウト"],
+                "distance": {
+                    "doc": "$~どれくらい滑るか。",
+                    "names": ["$~距離"]
+                }
+            },
+            "fadeoutright": {
+                "doc": "$~@Outputを右にスライドさせながらフェードアウトさせる@Output。既存の@Sequence！",
+                "names": ["$~完全に消え去る"],
+                "distance": {
+                    "doc": "$~どれくらい滑るか。",
+                    "names": ["$~距離"]
+                }
+            },
+            "rotateout": {
+                "doc": "$~@Outputをフェードアウトさせながら回転させる@Output。既存の@Sequence！",
+                "names": ["$~回転アウト"],
+                "angle": {
+                    "doc": "$~どれくらい回転させるか。",
+                    "names": ["$~角度"]
+                }
+            },
+            "rainbow": {
+                "doc": "$~私は、 @Sequence@Output。",
+                "names": ["$~虹"]
             }
         },
         "Source": {
@@ -5947,6 +6075,10 @@
                 },
                 "field": {
                     "percent": "$~編集パーセント"
+                },
+                "preset": {
+                    "label": "$~事前定義されたシーケンス",
+                    "custom": "$~カスタム"
                 }
             },
             "error": {

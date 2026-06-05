@@ -11216,13 +11216,261 @@
                                     "$ref": "#/definitions/NameAndDoc",
                                     "description": "Fades in from purely transparent to purely opaque"
                                 },
+                                "fadeindown": {
+                                    "additionalProperties": false,
+                                    "description": "Fades in while sliding down into place",
+                                    "properties": {
+                                        "distance": {
+                                            "$ref": "#/definitions/NameAndDoc",
+                                            "description": "How far to slide"
+                                        },
+                                        "doc": {
+                                            "$ref": "#/definitions/DocText",
+                                            "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                                        },
+                                        "names": {
+                                            "$ref": "#/definitions/NameText",
+                                            "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                                        }
+                                    },
+                                    "required": ["distance", "doc", "names"],
+                                    "type": "object"
+                                },
+                                "fadeinleft": {
+                                    "additionalProperties": false,
+                                    "description": "Fades in while sliding right into place from the left",
+                                    "properties": {
+                                        "distance": {
+                                            "$ref": "#/definitions/NameAndDoc",
+                                            "description": "How far to slide"
+                                        },
+                                        "doc": {
+                                            "$ref": "#/definitions/DocText",
+                                            "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                                        },
+                                        "names": {
+                                            "$ref": "#/definitions/NameText",
+                                            "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                                        }
+                                    },
+                                    "required": ["distance", "doc", "names"],
+                                    "type": "object"
+                                },
+                                "fadeinright": {
+                                    "additionalProperties": false,
+                                    "description": "Fades in while sliding left into place from the right",
+                                    "properties": {
+                                        "distance": {
+                                            "$ref": "#/definitions/NameAndDoc",
+                                            "description": "How far to slide"
+                                        },
+                                        "doc": {
+                                            "$ref": "#/definitions/DocText",
+                                            "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                                        },
+                                        "names": {
+                                            "$ref": "#/definitions/NameText",
+                                            "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                                        }
+                                    },
+                                    "required": ["distance", "doc", "names"],
+                                    "type": "object"
+                                },
+                                "fadeinup": {
+                                    "additionalProperties": false,
+                                    "description": "Fades in while sliding up into place",
+                                    "properties": {
+                                        "distance": {
+                                            "$ref": "#/definitions/NameAndDoc",
+                                            "description": "How far to slide"
+                                        },
+                                        "doc": {
+                                            "$ref": "#/definitions/DocText",
+                                            "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                                        },
+                                        "names": {
+                                            "$ref": "#/definitions/NameText",
+                                            "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                                        }
+                                    },
+                                    "required": ["distance", "doc", "names"],
+                                    "type": "object"
+                                },
                                 "fadeout": {
                                     "$ref": "#/definitions/NameAndDoc",
                                     "description": "Fades out from purely opaque to purely transprent"
                                 },
+                                "fadeoutdown": {
+                                    "additionalProperties": false,
+                                    "description": "Fades out while sliding down",
+                                    "properties": {
+                                        "distance": {
+                                            "$ref": "#/definitions/NameAndDoc",
+                                            "description": "How far to slide"
+                                        },
+                                        "doc": {
+                                            "$ref": "#/definitions/DocText",
+                                            "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                                        },
+                                        "names": {
+                                            "$ref": "#/definitions/NameText",
+                                            "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                                        }
+                                    },
+                                    "required": ["distance", "doc", "names"],
+                                    "type": "object"
+                                },
+                                "fadeoutleft": {
+                                    "additionalProperties": false,
+                                    "description": "Fades out while sliding left",
+                                    "properties": {
+                                        "distance": {
+                                            "$ref": "#/definitions/NameAndDoc",
+                                            "description": "How far to slide"
+                                        },
+                                        "doc": {
+                                            "$ref": "#/definitions/DocText",
+                                            "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                                        },
+                                        "names": {
+                                            "$ref": "#/definitions/NameText",
+                                            "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                                        }
+                                    },
+                                    "required": ["distance", "doc", "names"],
+                                    "type": "object"
+                                },
+                                "fadeoutright": {
+                                    "additionalProperties": false,
+                                    "description": "Fades out while sliding right",
+                                    "properties": {
+                                        "distance": {
+                                            "$ref": "#/definitions/NameAndDoc",
+                                            "description": "How far to slide"
+                                        },
+                                        "doc": {
+                                            "$ref": "#/definitions/DocText",
+                                            "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                                        },
+                                        "names": {
+                                            "$ref": "#/definitions/NameText",
+                                            "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                                        }
+                                    },
+                                    "required": ["distance", "doc", "names"],
+                                    "type": "object"
+                                },
+                                "fadeoutup": {
+                                    "additionalProperties": false,
+                                    "description": "Fades out while sliding up",
+                                    "properties": {
+                                        "distance": {
+                                            "$ref": "#/definitions/NameAndDoc",
+                                            "description": "How far to slide"
+                                        },
+                                        "doc": {
+                                            "$ref": "#/definitions/DocText",
+                                            "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                                        },
+                                        "names": {
+                                            "$ref": "#/definitions/NameText",
+                                            "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                                        }
+                                    },
+                                    "required": ["distance", "doc", "names"],
+                                    "type": "object"
+                                },
+                                "flash": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "Blinks opacity on and off"
+                                },
+                                "heartbeat": {
+                                    "additionalProperties": false,
+                                    "description": "Two quick scale beats, like a heartbeat",
+                                    "properties": {
+                                        "amount": {
+                                            "$ref": "#/definitions/NameAndDoc",
+                                            "description": "How much to scale on each beat"
+                                        },
+                                        "doc": {
+                                            "$ref": "#/definitions/DocText",
+                                            "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                                        },
+                                        "names": {
+                                            "$ref": "#/definitions/NameText",
+                                            "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                                        }
+                                    },
+                                    "required": ["amount", "doc", "names"],
+                                    "type": "object"
+                                },
                                 "popup": {
                                     "$ref": "#/definitions/NameAndDoc",
                                     "description": "Scales from 0 to larger than its size, then back to scale of 1"
+                                },
+                                "pulse": {
+                                    "additionalProperties": false,
+                                    "description": "Gently scales up and back down to draw attention",
+                                    "properties": {
+                                        "amount": {
+                                            "$ref": "#/definitions/NameAndDoc",
+                                            "description": "How much to scale at the peak"
+                                        },
+                                        "doc": {
+                                            "$ref": "#/definitions/DocText",
+                                            "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                                        },
+                                        "names": {
+                                            "$ref": "#/definitions/NameText",
+                                            "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                                        }
+                                    },
+                                    "required": ["amount", "doc", "names"],
+                                    "type": "object"
+                                },
+                                "rainbow": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "Cycles through the colors of the rainbow"
+                                },
+                                "rotatein": {
+                                    "additionalProperties": false,
+                                    "description": "Spins into place while fading in",
+                                    "properties": {
+                                        "angle": {
+                                            "$ref": "#/definitions/NameAndDoc",
+                                            "description": "How far to spin"
+                                        },
+                                        "doc": {
+                                            "$ref": "#/definitions/DocText",
+                                            "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                                        },
+                                        "names": {
+                                            "$ref": "#/definitions/NameText",
+                                            "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                                        }
+                                    },
+                                    "required": ["angle", "doc", "names"],
+                                    "type": "object"
+                                },
+                                "rotateout": {
+                                    "additionalProperties": false,
+                                    "description": "Spins away while fading out",
+                                    "properties": {
+                                        "angle": {
+                                            "$ref": "#/definitions/NameAndDoc",
+                                            "description": "How far to spin"
+                                        },
+                                        "doc": {
+                                            "$ref": "#/definitions/DocText",
+                                            "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                                        },
+                                        "names": {
+                                            "$ref": "#/definitions/NameText",
+                                            "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                                        }
+                                    },
+                                    "required": ["angle", "doc", "names"],
+                                    "type": "object"
                                 },
                                 "shake": {
                                     "$ref": "#/definitions/NameAndDoc",
@@ -11251,6 +11499,54 @@
                                     },
                                     "required": ["angle", "doc", "names"],
                                     "type": "object"
+                                },
+                                "tada": {
+                                    "additionalProperties": false,
+                                    "description": "A celebratory scale and wiggle",
+                                    "properties": {
+                                        "amount": {
+                                            "$ref": "#/definitions/NameAndDoc",
+                                            "description": "How much to scale during the celebration"
+                                        },
+                                        "doc": {
+                                            "$ref": "#/definitions/DocText",
+                                            "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                                        },
+                                        "names": {
+                                            "$ref": "#/definitions/NameText",
+                                            "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                                        }
+                                    },
+                                    "required": ["amount", "doc", "names"],
+                                    "type": "object"
+                                },
+                                "wiggle": {
+                                    "additionalProperties": false,
+                                    "description": "Tilts and slides side to side",
+                                    "properties": {
+                                        "angle": {
+                                            "$ref": "#/definitions/NameAndDoc",
+                                            "description": "How much to tilt in the wiggle"
+                                        },
+                                        "doc": {
+                                            "$ref": "#/definitions/DocText",
+                                            "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                                        },
+                                        "names": {
+                                            "$ref": "#/definitions/NameText",
+                                            "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                                        }
+                                    },
+                                    "required": ["angle", "doc", "names"],
+                                    "type": "object"
+                                },
+                                "zoomin": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "Scales in from nothing to full size"
+                                },
+                                "zoomout": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "Scales out to nothing"
                                 }
                             },
                             "required": [
@@ -11260,7 +11556,25 @@
                                 "fadein",
                                 "fadeout",
                                 "popup",
-                                "shake"
+                                "shake",
+                                "pulse",
+                                "heartbeat",
+                                "tada",
+                                "wiggle",
+                                "flash",
+                                "zoomin",
+                                "fadeinup",
+                                "fadeindown",
+                                "fadeinleft",
+                                "fadeinright",
+                                "rotatein",
+                                "zoomout",
+                                "fadeoutup",
+                                "fadeoutdown",
+                                "fadeoutleft",
+                                "fadeoutright",
+                                "rotateout",
+                                "rainbow"
                             ],
                             "type": "object"
                         }
@@ -17335,9 +17649,25 @@
                                             },
                                             "required": ["percent"],
                                             "type": "object"
+                                        },
+                                        "preset": {
+                                            "additionalProperties": false,
+                                            "description": "The pre-defined sequence picker",
+                                            "properties": {
+                                                "custom": {
+                                                    "description": "[plain] The option for a hand-written sequence of poses",
+                                                    "type": "string"
+                                                },
+                                                "label": {
+                                                    "description": "[plain] Label for the pre-defined sequence dropdown",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": ["label", "custom"],
+                                            "type": "object"
                                         }
                                     },
-                                    "required": ["button", "field"],
+                                    "required": ["button", "field", "preset"],
                                     "type": "object"
                                 },
                                 "tour": {

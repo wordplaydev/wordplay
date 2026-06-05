@@ -4715,6 +4715,134 @@
             "shake": {
                 "doc": "$~Tworzę @Sequence, który sprawia wrażenie, że @Output jest przestraszony.",
                 "names": ["$~potrząsnąć"]
+            },
+            "pulse": {
+                "doc": "$~Tworzę @Sequence , która delikatnie skaluje @Output w górę i w dół, aby przyciągnąć uwagę.",
+                "names": ["$~puls"],
+                "amount": {
+                    "doc": "$~Ile należy przeskalować na szczycie.",
+                    "names": ["$~kwota"]
+                }
+            },
+            "heartbeat": {
+                "doc": "$~Tworzę @Sequence , która skaluje @Output za pomocą dwóch szybkich uderzeń, jak bicie serca.",
+                "names": ["$~bicieserca"],
+                "amount": {
+                    "doc": "$~O ile skalować na każdym uderzeniu.",
+                    "names": ["$~kwota"]
+                }
+            },
+            "tada": {
+                "doc": "$~Tworzę @Sequence , która sprawia, że @Output świętuje za pomocą skali i drgań.",
+                "names": ["$~tada"],
+                "amount": {
+                    "doc": "$~W jakim stopniu należy zachować skalę podczas uroczystości.",
+                    "names": ["$~kwota"]
+                }
+            },
+            "wiggle": {
+                "doc": "$~Tworzę @Sequence , która przechyla i przesuwa @Output na boki.",
+                "names": ["$~kręcićsię"],
+                "angle": {
+                    "doc": "$~O ile przechylić się w ruchu.",
+                    "names": ["$~kąt"]
+                }
+            },
+            "flash": {
+                "doc": "$~Tworzę @Sequence , który włącza i wyłącza @Output .",
+                "names": ["$~błysk"]
+            },
+            "zoomin": {
+                "doc": "$~Tworzę @Sequence , która skaluje @Output od zera do pełnego rozmiaru. Wypróbuj mnie, wpisując @Sequence !",
+                "names": ["$~powiększanie"]
+            },
+            "fadeinup": {
+                "doc": "$~Tworzę @Sequence , która stopniowo zanika, przesuwając @Output w górę. Wypróbuj mnie, wpisując @Sequence !",
+                "names": ["$~zanikanie"],
+                "distance": {
+                    "doc": "$~Jak daleko się zsunąć.",
+                    "names": ["$~dystans"]
+                }
+            },
+            "fadeindown": {
+                "doc": "$~Tworzę @Sequence , która stopniowo zanika, przesuwając @Output w dół. Wypróbuj mnie, wpisując @Sequence !",
+                "names": ["$~wyciszanie"],
+                "distance": {
+                    "doc": "$~Jak daleko się zsunąć.",
+                    "names": ["$~dystans"]
+                }
+            },
+            "fadeinleft": {
+                "doc": "$~Tworzę @Sequence , która stopniowo wprowadza @Output , przesuwając ją na miejsce od lewej. Wypróbuj mnie, wpisując @Sequence !",
+                "names": ["$~zanikaniewlewo"],
+                "distance": {
+                    "doc": "$~Jak daleko się zsunąć.",
+                    "names": ["$~dystans"]
+                }
+            },
+            "fadeinright": {
+                "doc": "$~Tworzę @Sequence , która stopniowo wprowadza @Output , przesuwając go na miejsce od prawej. Wypróbuj mnie, wpisując @Sequence !",
+                "names": ["$~zanikaćwprawo"],
+                "distance": {
+                    "doc": "$~Jak daleko się zsunąć.",
+                    "names": ["$~dystans"]
+                }
+            },
+            "rotatein": {
+                "doc": "$~Tworzę @Sequence , która obraca @Output w miejscu, jednocześnie go stopniowo wprowadzając. Wypróbuj mnie przy wprowadzaniu @Sequence !",
+                "names": ["$~obracać"],
+                "angle": {
+                    "doc": "$~Jak daleko się kręcić.",
+                    "names": ["$~kąt"]
+                }
+            },
+            "zoomout": {
+                "doc": "$~Tworzę @Sequence , która skaluje @Output do zera. Wypróbuj mnie w @Sequence !",
+                "names": ["$~pomniejsz"]
+            },
+            "fadeoutup": {
+                "doc": "$~Tworzę @Sequence , która wycisza @Output podczas przesuwania go w górę. Wypróbuj mnie w @Sequence z efektami!",
+                "names": ["$~zanikanie"],
+                "distance": {
+                    "doc": "$~Jak daleko się zsunąć.",
+                    "names": ["$~dystans"]
+                }
+            },
+            "fadeoutdown": {
+                "doc": "$~Tworzę @Sequence , która wycisza @Output podczas przesuwania w dół. Wypróbuj mnie w @Sequence !",
+                "names": ["$~wyciszanie"],
+                "distance": {
+                    "doc": "$~Jak daleko się zsunąć.",
+                    "names": ["$~dystans"]
+                }
+            },
+            "fadeoutleft": {
+                "doc": "$~Tworzę @Sequence , która wycisza @Output , przesuwając go w lewo. Wypróbuj mnie w @Sequence !",
+                "names": ["$~zanikaniewlewo"],
+                "distance": {
+                    "doc": "$~Jak daleko się zsunąć.",
+                    "names": ["$~dystans"]
+                }
+            },
+            "fadeoutright": {
+                "doc": "$~Tworzę @Sequence , która wycisza @Output , przesuwając go w prawo. Wypróbuj mnie w @Sequence !",
+                "names": ["$~całkowiciezniknąć"],
+                "distance": {
+                    "doc": "$~Jak daleko się zsunąć.",
+                    "names": ["$~dystans"]
+                }
+            },
+            "rotateout": {
+                "doc": "$~Tworzę @Sequence , która obraca @Output i jednocześnie go wycisza. Wypróbuj mnie w @Sequence !",
+                "names": ["$~wykręcić"],
+                "angle": {
+                    "doc": "$~Jak daleko się kręcić.",
+                    "names": ["$~kąt"]
+                }
+            },
+            "rainbow": {
+                "doc": "$~Tworzę @Sequence , która cyklicznie wyświetla @Output w kolorach tęczy.",
+                "names": ["$~tęcza"]
             }
         },
         "Source": {
@@ -5963,6 +6091,10 @@
                 },
                 "field": {
                     "percent": "$~edytuj procent"
+                },
+                "preset": {
+                    "label": "$~zdefiniowana sekwencja",
+                    "custom": "$~zwyczaj"
                 }
             },
             "error": {

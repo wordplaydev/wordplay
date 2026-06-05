@@ -4718,6 +4718,134 @@
             "shake": {
                 "doc": "Crio uma @Sequence que faz parecer que um @Output está assustado.",
                 "names": ["agitar"]
+            },
+            "pulse": {
+                "doc": "$~Crio uma @Sequence que aumenta e diminui gradualmente a escala @Output para chamar a atenção.",
+                "names": ["$~pulso"],
+                "amount": {
+                    "doc": "$~Quanto escalar no pico.",
+                    "names": ["$~montante"]
+                }
+            },
+            "heartbeat": {
+                "doc": "$~Crio uma @Sequence que dimensiona @Output com duas batidas rápidas, como uma batida cardíaca.",
+                "names": ["$~batimentocardíaco"],
+                "amount": {
+                    "doc": "$~Quanto escalar em cada batida.",
+                    "names": ["$~montante"]
+                }
+            },
+            "tada": {
+                "doc": "$~Crio uma @Sequence que faz @Output celebrar com uma escala e um movimento oscilante.",
+                "names": ["$~tada"],
+                "amount": {
+                    "doc": "$~Qual a escala ideal para a celebração?",
+                    "names": ["$~montante"]
+                }
+            },
+            "wiggle": {
+                "doc": "$~Crio uma @Sequence que inclina e desliza @Output de um lado para o outro.",
+                "names": ["$~mexer"],
+                "angle": {
+                    "doc": "$~O quanto inclinar durante o movimento de balanço.",
+                    "names": ["$~ângulo"]
+                }
+            },
+            "flash": {
+                "doc": "$~Crio uma @Sequence que pisca @Output ligando-o e desligando-o.",
+                "names": ["$~clarão"]
+            },
+            "zoomin": {
+                "doc": "$~Crio uma @Sequence que escala @Output de zero até ao tamanho máximo. Experimente numa @Sequence de entrada!",
+                "names": ["$~zoomin"]
+            },
+            "fadeinup": {
+                "doc": "$~Crio uma @Sequence que faz com que @Output apareça gradualmente enquanto desliza para cima até à sua posição correta. Experimente numa @Sequence de entrada!",
+                "names": ["$~fadeinup"],
+                "distance": {
+                    "doc": "$~Até onde deslizar.",
+                    "names": ["$~distância"]
+                }
+            },
+            "fadeindown": {
+                "doc": "$~Crio uma @Sequence que faz com que @Output apareça gradualmente enquanto desliza para baixo até se posicionar corretamente. Experimente numa @Sequence de entrada!",
+                "names": ["$~fadeindown"],
+                "distance": {
+                    "doc": "$~Até onde deslizar.",
+                    "names": ["$~distância"]
+                }
+            },
+            "fadeinleft": {
+                "doc": "$~Crio uma @Sequence que faz com que @Output apareça gradualmente enquanto desliza para a posição correta a partir da esquerda. Experimente numa @Sequence de entrada!",
+                "names": ["$~fadeinleft"],
+                "distance": {
+                    "doc": "$~Até onde deslizar.",
+                    "names": ["$~distância"]
+                }
+            },
+            "fadeinright": {
+                "doc": "$~Crio uma @Sequence que faz com que @Output apareça gradualmente enquanto desliza para o lugar a partir da direita. Experimente numa @Sequence de entrada!",
+                "names": ["$~fadeinright"],
+                "distance": {
+                    "doc": "$~Até onde deslizar.",
+                    "names": ["$~distância"]
+                }
+            },
+            "rotatein": {
+                "doc": "$~Crio uma @Sequence que posiciona @Output no lugar enquanto o ilumina gradualmente. Experimente-me numa @Sequence de entrada!",
+                "names": ["$~girando"],
+                "angle": {
+                    "doc": "$~Até que ponto rodar.",
+                    "names": ["$~ângulo"]
+                }
+            },
+            "zoomout": {
+                "doc": "$~Crio uma @Sequence que reduz @Output a zero. Experimente numa @Sequence existente!",
+                "names": ["$~zoomout"]
+            },
+            "fadeoutup": {
+                "doc": "$~Crio uma @Sequence que diminui @Output enquanto o desliza para cima. Experimente numa @Sequence existente!",
+                "names": ["$~fadeoutup"],
+                "distance": {
+                    "doc": "$~Até onde deslizar.",
+                    "names": ["$~distância"]
+                }
+            },
+            "fadeoutdown": {
+                "doc": "$~Crio uma @Sequence que diminui @Output enquanto o desliza para baixo. Experimente numa @Sequence existente!",
+                "names": ["$~fadeoutdown"],
+                "distance": {
+                    "doc": "$~Até onde deslizar.",
+                    "names": ["$~distância"]
+                }
+            },
+            "fadeoutleft": {
+                "doc": "$~Crio uma @Sequence que diminui @Output enquanto o desliza para a esquerda. Experimente numa @Sequence existente!",
+                "names": ["$~fadeoutesquerda"],
+                "distance": {
+                    "doc": "$~Até onde deslizar.",
+                    "names": ["$~distância"]
+                }
+            },
+            "fadeoutright": {
+                "doc": "$~Crio uma @Sequence que diminui @Output enquanto o desliza para a direita. Experimente numa @Sequence existente!",
+                "names": ["$~desaparecendocompletamente"],
+                "distance": {
+                    "doc": "$~Até onde deslizar.",
+                    "names": ["$~distância"]
+                }
+            },
+            "rotateout": {
+                "doc": "$~Crio uma @Sequence que faz com que @Output desapareça gradualmente. Experimente numa @Sequence existente!",
+                "names": ["$~rotacionar"],
+                "angle": {
+                    "doc": "$~Até que ponto rodar.",
+                    "names": ["$~ângulo"]
+                }
+            },
+            "rainbow": {
+                "doc": "$~Crio uma @Sequence que percorre @Output com as cores do arco-íris.",
+                "names": ["$~arcoíris"]
             }
         },
         "Source": {
@@ -6184,6 +6312,10 @@
                 },
                 "field": {
                     "percent": "editar percentagem"
+                },
+                "preset": {
+                    "label": "$~sequência predefinida",
+                    "custom": "$~personalizado"
                 }
             },
             "error": {

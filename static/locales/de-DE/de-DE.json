@@ -4710,6 +4710,134 @@
             "fadeout": {
                 "doc": "$~Ich erstelle eine @Sequence, die @Output von sichtbar auf unsichtbar blendet. Probieren Sie mich in einer aufregenden @Sequence aus!",
                 "names": ["$~ausblenden"]
+            },
+            "pulse": {
+                "doc": "$~Ich erstelle eine @Sequence , die @Output sanft skaliert, um Aufmerksamkeit zu erregen.",
+                "names": ["$~Impuls"],
+                "amount": {
+                    "doc": "$~Wie stark sollte die Skalierung am Gipfel ausfallen?",
+                    "names": ["$~Menge"]
+                }
+            },
+            "heartbeat": {
+                "doc": "$~Ich erstelle eine @Sequence , die @Output mit zwei schnellen Takten skaliert, ähnlich einem Herzschlag.",
+                "names": ["$~Herzschlag"],
+                "amount": {
+                    "doc": "$~Wie stark soll bei jedem Takt skaliert werden?",
+                    "names": ["$~Menge"]
+                }
+            },
+            "tada": {
+                "doc": "$~Ich erstelle eine @Sequence , die @Output dazu bringt, mit einer Skalierung und einem Wackeln zu feiern.",
+                "names": ["$~Tada"],
+                "amount": {
+                    "doc": "$~Wie viel sollte man während der Feierlichkeiten skalieren?",
+                    "names": ["$~Menge"]
+                }
+            },
+            "wiggle": {
+                "doc": "$~Ich erstelle eine @Sequence , die @Output neigt und seitlich verschiebt.",
+                "names": ["$~wackeln"],
+                "angle": {
+                    "doc": "$~Wie stark muss man beim Wackeln neigen?",
+                    "names": ["$~Winkel"]
+                }
+            },
+            "flash": {
+                "doc": "$~Ich erstelle eine @Sequence , die @Output ein- und ausschaltet.",
+                "names": ["$~Blitz"]
+            },
+            "zoomin": {
+                "doc": "$~Ich erstelle eine @Sequence , die @Output von Null auf die volle Größe skaliert. Probieren Sie mich in einer einlaufenden @Sequence aus!",
+                "names": ["$~zoomen"]
+            },
+            "fadeinup": {
+                "doc": "$~Ich erstelle eine @Sequence , die @Output einblendet und gleichzeitig an die richtige Position schiebt. Probier mich in einer einlaufenden @Sequence aus!",
+                "names": ["$~Einblenden"],
+                "distance": {
+                    "doc": "$~Wie weit soll man rutschen?",
+                    "names": ["$~Distanz"]
+                }
+            },
+            "fadeindown": {
+                "doc": "$~Ich erstelle eine @Sequence , die @Output einblendet und es dabei an seinen Platz schiebt. Probier mich in einer einlaufenden @Sequence aus!",
+                "names": ["$~Ausblenden"],
+                "distance": {
+                    "doc": "$~Wie weit soll man rutschen?",
+                    "names": ["$~Distanz"]
+                }
+            },
+            "fadeinleft": {
+                "doc": "$~Ich erstelle eine @Sequence , die @Output einblendet und es dabei von links an die richtige Position schiebt. Probieren Sie mich in einer einlaufenden @Sequence aus!",
+                "names": ["$~fadeinleft"],
+                "distance": {
+                    "doc": "$~Wie weit soll man rutschen?",
+                    "names": ["$~Distanz"]
+                }
+            },
+            "fadeinright": {
+                "doc": "$~Ich erstelle eine @Sequence , die @Output einblendet und es dabei von rechts an die richtige Position schiebt. Probieren Sie mich in einer einlaufenden @Sequence aus!",
+                "names": ["$~fadeinright"],
+                "distance": {
+                    "doc": "$~Wie weit soll man rutschen?",
+                    "names": ["$~Distanz"]
+                }
+            },
+            "rotatein": {
+                "doc": "$~Ich erstelle eine @Sequence , die @Output an die richtige Position dreht und dabei einblendet. Probier mich in einer einlaufenden @Sequence aus!",
+                "names": ["$~Drehung"],
+                "angle": {
+                    "doc": "$~Wie weit soll man sich drehen?",
+                    "names": ["$~Winkel"]
+                }
+            },
+            "zoomout": {
+                "doc": "$~Ich erstelle eine @Sequence , die @Output auf Null skaliert. Probieren Sie mich in einer bestehenden @Sequence aus!",
+                "names": ["$~Herauszoomen"]
+            },
+            "fadeoutup": {
+                "doc": "$~Ich erstelle eine @Sequence , die @Output ausblendet und gleichzeitig einblendet. Probier mich in einer beendeten @Sequence aus!",
+                "names": ["$~Ausblenden"],
+                "distance": {
+                    "doc": "$~Wie weit soll man rutschen?",
+                    "names": ["$~Distanz"]
+                }
+            },
+            "fadeoutdown": {
+                "doc": "$~Ich erstelle eine @Sequence , die @Output beim Herunterschieben ausblendet. Probier mich in einer beendenden @Sequence aus!",
+                "names": ["$~Ausblenden"],
+                "distance": {
+                    "doc": "$~Wie weit soll man rutschen?",
+                    "names": ["$~Distanz"]
+                }
+            },
+            "fadeoutleft": {
+                "doc": "$~Ich erstelle eine @Sequence , die @Output ausblendet, während sie nach links verschoben wird. Probieren Sie mich in einer beendeten @Sequence aus!",
+                "names": ["$~Ausblendennachlinks"],
+                "distance": {
+                    "doc": "$~Wie weit soll man rutschen?",
+                    "names": ["$~Distanz"]
+                }
+            },
+            "fadeoutright": {
+                "doc": "$~Ich erstelle eine @Sequence , die @Output ausblendet, während sie nach rechts gleitet. Probier mich in einer beendenden @Sequence aus!",
+                "names": ["$~ausblenden"],
+                "distance": {
+                    "doc": "$~Wie weit soll man rutschen?",
+                    "names": ["$~Distanz"]
+                }
+            },
+            "rotateout": {
+                "doc": "$~Ich erstelle eine @Sequence , die @Output ausblendet und dabei dreht. Probier mich in einer beendenden @Sequence aus!",
+                "names": ["$~ausdrehen"],
+                "angle": {
+                    "doc": "$~Wie weit soll man sich drehen?",
+                    "names": ["$~Winkel"]
+                }
+            },
+            "rainbow": {
+                "doc": "$~Ich erstelle eine @Sequence , die @Output durch die Farben des Regenbogens schleift.",
+                "names": ["$~Regenbogen"]
             }
         },
         "Source": {
@@ -5862,6 +5990,10 @@
                 },
                 "field": {
                     "percent": "$~Prozent bearbeiten"
+                },
+                "preset": {
+                    "label": "$~vordefinierte Sequenz",
+                    "custom": "$~Brauch"
                 }
             },
             "error": {

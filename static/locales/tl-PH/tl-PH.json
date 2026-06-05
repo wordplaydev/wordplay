@@ -4725,6 +4725,134 @@
             "shake": {
                 "doc": "$~Gumagawa ako ng @Sequence na nagpapakitang parang natatakot ang isang @Output.",
                 "names": ["$~iling"]
+            },
+            "pulse": {
+                "doc": "$~Lumilikha ako ng isang @Sequence na dahan-dahang nag-i-scale @Output pataas at pababa upang makaakit ng atensyon.",
+                "names": ["$~pulso"],
+                "amount": {
+                    "doc": "$~Magkano ang isusukat sa tugatog.",
+                    "names": ["$~halaga"]
+                }
+            },
+            "heartbeat": {
+                "doc": "$~Gumagawa ako ng @Sequence na nag-i-scale ng @Output gamit ang dalawang mabilis na tibok, tulad ng tibok ng puso.",
+                "names": ["$~tibokngpuso"],
+                "amount": {
+                    "doc": "$~Gaano kalaki ang i-scale sa bawat kumpas.",
+                    "names": ["$~halaga"]
+                }
+            },
+            "tada": {
+                "doc": "$~Gumagawa ako ng @Sequence na nagpapasaya @Output gamit ang isang scale at paggalaw.",
+                "names": ["$~tada"],
+                "amount": {
+                    "doc": "$~Magkano ang isusukat habang may pagdiriwang.",
+                    "names": ["$~halaga"]
+                }
+            },
+            "wiggle": {
+                "doc": "$~Gumagawa ako ng @Sequence na ikiling at idudulas @Output nang magkatabi.",
+                "names": ["$~kiloskilos"],
+                "angle": {
+                    "doc": "$~Gaano kalaking dapat ikiling habang kumakaway.",
+                    "names": ["$~anggulo"]
+                }
+            },
+            "flash": {
+                "doc": "$~Gumagawa ako ng @Sequence na kumikislap @Output nang naka-on at naka-off.",
+                "names": ["$~kislap"]
+            },
+            "zoomin": {
+                "doc": "$~Gumagawa ako ng @Sequence na nag-i-scale ng @Output mula wala hanggang sa buong laki. Subukan mo ako sa pagpasok @Sequence !",
+                "names": ["$~zoomin"]
+            },
+            "fadeinup": {
+                "doc": "$~Gumagawa ako ng @Sequence na nagfa-fade @Output habang ini-slide ito pataas sa lugar. Subukan mo ako sa pagpasok @Sequence !",
+                "names": ["$~fadeinup"],
+                "distance": {
+                    "doc": "$~Gaano kalayo ang dapat dumulas.",
+                    "names": ["$~distansya"]
+                }
+            },
+            "fadeindown": {
+                "doc": "$~Gumagawa ako ng @Sequence na nagfa-fade @Output habang ini-slide ito pababa sa lugar. Subukan mo ako sa pagpasok @Sequence !",
+                "names": ["$~fadeindown"],
+                "distance": {
+                    "doc": "$~Gaano kalayo ang dapat dumulas.",
+                    "names": ["$~distansya"]
+                }
+            },
+            "fadeinleft": {
+                "doc": "$~Gumagawa ako ng @Sequence na nagfa-fade @Output habang ini-slide ito sa lugar mula sa kaliwa. Subukan mo ako sa pagpasok @Sequence !",
+                "names": ["$~fadeinleft"],
+                "distance": {
+                    "doc": "$~Gaano kalayo ang dapat dumulas.",
+                    "names": ["$~distansya"]
+                }
+            },
+            "fadeinright": {
+                "doc": "$~Gumagawa ako ng @Sequence na nagfa-fade @Output habang ini-slide ito sa lugar mula sa kanan. Subukan mo ako sa pagpasok @Sequence !",
+                "names": ["$~fadeinright"],
+                "distance": {
+                    "doc": "$~Gaano kalayo ang dapat dumulas.",
+                    "names": ["$~distansya"]
+                }
+            },
+            "rotatein": {
+                "doc": "$~Gumagawa ako ng @Sequence na nagpapaikot sa @Output sa lugar habang pinapalitan ito. Subukan mo ako sa pagpasok @Sequence !",
+                "names": ["$~paikutin"],
+                "angle": {
+                    "doc": "$~Gaano kalayo ang iikot.",
+                    "names": ["$~anggulo"]
+                }
+            },
+            "zoomout": {
+                "doc": "$~Gumagawa ako ng @Sequence na nag-i-scale ng @Output palabas sa wala. Subukan mo ako sa isang palabas @Sequence !",
+                "names": ["$~magzoomout"]
+            },
+            "fadeoutup": {
+                "doc": "$~Gumagawa ako ng @Sequence na nagfa-fade @Output habang ini-slide ito pataas. Subukan mo ako sa isang lalabas @Sequence !",
+                "names": ["$~fadeoutup"],
+                "distance": {
+                    "doc": "$~Gaano kalayo ang dapat dumulas.",
+                    "names": ["$~distansya"]
+                }
+            },
+            "fadeoutdown": {
+                "doc": "$~Gumagawa ako ng @Sequence na nagfa-fade @Output palabas habang ini-slide ito pababa. Subukan mo ako sa isang lalabas @Sequence !",
+                "names": ["$~fadeoutdown"],
+                "distance": {
+                    "doc": "$~Gaano kalayo ang dapat dumulas.",
+                    "names": ["$~distansya"]
+                }
+            },
+            "fadeoutleft": {
+                "doc": "$~Gumagawa ako ng @Sequence na nagfa-fade @Output palabas habang ini-slide ito pakaliwa. Subukan mo ako sa isang lalabas @Sequence !",
+                "names": ["$~fadeoutleft"],
+                "distance": {
+                    "doc": "$~Gaano kalayo ang dapat dumulas.",
+                    "names": ["$~distansya"]
+                }
+            },
+            "fadeoutright": {
+                "doc": "$~Gumagawa ako ng @Sequence na nagfa-fade palabas @Output habang ini-slide ito pakanan. Subukan mo ako sa isang lalabas @Sequence !",
+                "names": ["$~tuluyangkumupas"],
+                "distance": {
+                    "doc": "$~Gaano kalayo ang dapat dumulas.",
+                    "names": ["$~distansya"]
+                }
+            },
+            "rotateout": {
+                "doc": "$~Gumagawa ako ng @Sequence na nagpapaikot sa @Output habang pinapawi ito. Subukan mo ako sa isang palabas @Sequence !",
+                "names": ["$~pagikot"],
+                "angle": {
+                    "doc": "$~Gaano kalayo ang iikot.",
+                    "names": ["$~anggulo"]
+                }
+            },
+            "rainbow": {
+                "doc": "$~Lumilikha ako ng isang @Sequence na umiikot sa @Output sa mga kulay ng bahaghari.",
+                "names": ["$~bahaghari"]
             }
         },
         "Source": {
@@ -6193,6 +6321,10 @@
                 },
                 "field": {
                     "percent": "$~i-edit ang porsyento"
+                },
+                "preset": {
+                    "label": "$~paunang natukoy na pagkakasunod-sunod",
+                    "custom": "$~pasadyang"
                 }
             },
             "error": {

@@ -4707,6 +4707,134 @@
             "shake": {
                 "doc": "$~Tôi tạo một @Sequence khiến cho @Output trông như đang sợ hãi.",
                 "names": ["$~lắc"]
+            },
+            "pulse": {
+                "doc": "$~Tôi tạo một @Sequence để nhẹ nhàng tăng giảm kích thước @Output nhằm thu hút sự chú ý.",
+                "names": ["$~xung"],
+                "amount": {
+                    "doc": "$~Cần điều chỉnh tỷ lệ bao nhiêu ở điểm cao nhất?",
+                    "names": ["$~sốlượng"]
+                }
+            },
+            "heartbeat": {
+                "doc": "$~Tôi tạo một @Sequence để điều chỉnh @Output theo hai nhịp nhanh, giống như nhịp tim.",
+                "names": ["$~nhịptim"],
+                "amount": {
+                    "doc": "$~Cần điều chỉnh tỷ lệ bao nhiêu cho mỗi nhịp?",
+                    "names": ["$~sốlượng"]
+                }
+            },
+            "tada": {
+                "doc": "$~Tôi tạo một @Sequence khiến @Output thể hiện sự phấn khích bằng cách phóng to và lắc lư.",
+                "names": ["$~tada"],
+                "amount": {
+                    "doc": "$~Nên mở rộng quy mô đến mức nào trong suốt buổi lễ?",
+                    "names": ["$~sốlượng"]
+                }
+            },
+            "wiggle": {
+                "doc": "$~Tôi tạo một @Sequence để làm nghiêng và trượt @Output sang hai bên.",
+                "names": ["$~lắclư"],
+                "angle": {
+                    "doc": "$~Cần nghiêng bao nhiêu khi lắc lư?",
+                    "names": ["$~góc"]
+                }
+            },
+            "flash": {
+                "doc": "$~Tôi tạo một @Sequence để nhấp nháy @Output bật tắt liên tục.",
+                "names": ["$~đènflash"]
+            },
+            "zoomin": {
+                "doc": "$~Tôi tạo một @Sequence để mở rộng @Output từ 0 đến kích thước đầy đủ. Hãy thử tôi trong một @Sequence đầu vào!",
+                "names": ["$~phóngto"]
+            },
+            "fadeinup": {
+                "doc": "$~Tôi tạo một @Sequence làm cho @Output hiện lên mờ dần trong khi trượt nó vào đúng vị trí. Hãy thử tôi với một @Sequence đang vào nhé!",
+                "names": ["$~mờdầnlên"],
+                "distance": {
+                    "doc": "$~Trượt bao xa?",
+                    "names": ["$~khoảngcách"]
+                }
+            },
+            "fadeindown": {
+                "doc": "$~Tôi tạo một @Sequence làm cho @Output hiện lên mờ dần trong khi trượt nó xuống đúng vị trí. Hãy thử tôi với một @Sequence đang vào nhé!",
+                "names": ["$~mờdần"],
+                "distance": {
+                    "doc": "$~Trượt bao xa?",
+                    "names": ["$~khoảngcách"]
+                }
+            },
+            "fadeinleft": {
+                "doc": "$~Tôi tạo một @Sequence làm cho @Output hiện lên mờ dần trong khi trượt nó vào vị trí từ bên trái. Hãy thử tôi với một @Sequence đang vào vị trí nhé!",
+                "names": ["$~mờdầnbêntrái"],
+                "distance": {
+                    "doc": "$~Trượt bao xa?",
+                    "names": ["$~khoảngcách"]
+                }
+            },
+            "fadeinright": {
+                "doc": "$~Tôi tạo một @Sequence làm cho @Output hiện lên mờ dần trong khi trượt nó vào vị trí từ bên phải. Hãy thử tôi với một @Sequence đang vào vị trí nhé!",
+                "names": ["$~mờdầnbênphải"],
+                "distance": {
+                    "doc": "$~Trượt bao xa?",
+                    "names": ["$~khoảngcách"]
+                }
+            },
+            "rotatein": {
+                "doc": "$~Tôi tạo một @Sequence xoay @Output vào vị trí trong khi hiệu ứng mờ dần hiện ra. Hãy thử tôi với một @Sequence đang vào!",
+                "names": ["$~xoaytrong"],
+                "angle": {
+                    "doc": "$~Quay bao xa?",
+                    "names": ["$~góc"]
+                }
+            },
+            "zoomout": {
+                "doc": "$~Tôi tạo một @Sequence để mở rộng @Output về 0. Hãy thử tôi trong một @Sequence hiện có!",
+                "names": ["$~thunhỏ"]
+            },
+            "fadeoutup": {
+                "doc": "$~Tôi tạo một @Sequence làm mờ dần @Output trong khi trượt nó lên. Hãy thử tôi trong một @Sequence thú vị!",
+                "names": ["$~mờdầnlên"],
+                "distance": {
+                    "doc": "$~Trượt bao xa?",
+                    "names": ["$~khoảngcách"]
+                }
+            },
+            "fadeoutdown": {
+                "doc": "$~Tôi tạo một @Sequence làm mờ dần @Output trong khi trượt xuống. Hãy thử tôi trong một @Sequence thú vị nhé!",
+                "names": ["$~mờdầnxuống"],
+                "distance": {
+                    "doc": "$~Trượt bao xa?",
+                    "names": ["$~khoảngcách"]
+                }
+            },
+            "fadeoutleft": {
+                "doc": "$~Tôi tạo một @Sequence làm mờ dần @Output đồng thời trượt nó sang trái. Hãy thử tôi trong một @Sequence thú vị nhé!",
+                "names": ["$~mờdầnbêntrái"],
+                "distance": {
+                    "doc": "$~Trượt bao xa?",
+                    "names": ["$~khoảngcách"]
+                }
+            },
+            "fadeoutright": {
+                "doc": "$~Tôi tạo một @Sequence làm mờ dần @Output trong khi trượt sang phải. Hãy thử tôi trong một @Sequence thú vị nhé!",
+                "names": ["$~mờdầnhoàntoàn"],
+                "distance": {
+                    "doc": "$~Trượt bao xa?",
+                    "names": ["$~khoảngcách"]
+                }
+            },
+            "rotateout": {
+                "doc": "$~Tôi tạo một @Sequence xoay @Output dần dần biến mất. Hãy thử tôi trong một @Sequence thú vị nhé!",
+                "names": ["$~xoayvòng"],
+                "angle": {
+                    "doc": "$~Quay bao xa?",
+                    "names": ["$~góc"]
+                }
+            },
+            "rainbow": {
+                "doc": "$~Tôi tạo một @Sequence để luân chuyển @Output qua các màu sắc của cầu vồng.",
+                "names": ["$~cầuvồng"]
             }
         },
         "Source": {
@@ -6186,6 +6314,10 @@
                 },
                 "field": {
                     "percent": "$~chỉnh sửa phần trăm"
+                },
+                "preset": {
+                    "label": "$~trình tự được xác định trước",
+                    "custom": "$~phong tục"
                 }
             },
             "error": {

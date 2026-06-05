@@ -1,24 +1,6 @@
 <script lang="ts">
-    import type Project from '@db/projects/Project';
-    import OutputExpression from '@edit/output/OutputExpression';
-    import type OutputProperty from '@edit/output/OutputProperty';
-    import OutputPropertyValueSet from '@edit/output/OutputPropertyValueSet';
-    import Evaluate from '@nodes/Evaluate';
-    import { untrack } from 'svelte';
-    import { DB, locales } from '@db/Database';
-    import {
-        GROUP_SYMBOL,
-        PALETTE_SYMBOL,
-        PHRASE_SYMBOL,
-        STAGE_SYMBOL,
-    } from '@parser/Symbols';
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
     import Speech from '@components/lore/Speech.svelte';
-    import {
-        getConceptIndex,
-        getSelectedOutput,
-        type EditorState,
-    } from '@components/project/Contexts';
     import EditOffer from '@components/palette/EditOffer.svelte';
     import {
         addGroup,
@@ -30,6 +12,24 @@
     } from '@components/palette/editOutput';
     import PaletteProperty from '@components/palette/PaletteProperty.svelte';
     import TextStyleEditor from '@components/palette/TextStyleEditor.svelte';
+    import {
+        getConceptIndex,
+        getSelectedOutput,
+        type EditorState,
+    } from '@components/project/Contexts';
+    import { DB, locales } from '@db/Database';
+    import type Project from '@db/projects/Project';
+    import OutputExpression from '@edit/output/OutputExpression';
+    import type OutputProperty from '@edit/output/OutputProperty';
+    import OutputPropertyValueSet from '@edit/output/OutputPropertyValueSet';
+    import Evaluate from '@nodes/Evaluate';
+    import {
+        GROUP_SYMBOL,
+        PALETTE_SYMBOL,
+        PHRASE_SYMBOL,
+        STAGE_SYMBOL,
+    } from '@parser/Symbols';
+    import { tick, untrack } from 'svelte';
 
     interface Props {
         project: Project;
@@ -118,11 +118,21 @@
     // the text style editor's weight/italic options to what the face supports.
     let sharedFaceName = $derived(phraseFaceValues?.getText());
 
-    /** When the caret changes, see if it is inside an editable output, and select it if so. */
+    /** The localized name of the output input the caret is inside, used to scroll to and
+     *  highlight the matching palette property. */
+    let caretBind = $state<string | undefined>(undefined);
+
+    /** When the caret changes, see if it is inside an editable output, and select it if so.
+     *  Also figure out which of the output's inputs the caret is within, so we can scroll
+     *  to and highlight the corresponding palette property. */
     $effect(() => {
         const currentCaret = editors.find((editor) => editor.focused)?.caret;
         if (currentCaret === undefined) return;
-        const node = currentCaret.getExpressionAt();
+        if (currentCaret.getExpressionAt() === undefined) return;
+        // Walk up from the token at the caret (not getExpressionAt(), which jumps to the
+        // value and skips an input's NAME token), so the caret being in either the name or
+        // the value of an input maps to that input.
+        const node = currentCaret.getToken() ?? currentCaret.getExpressionAt();
         if (node === undefined) return;
         const ancestors = [
             node,
@@ -144,7 +154,53 @@
             );
             if (output === undefined) {
                 selection.empty();
-            } else selection.setPaths(project, [output], 'editor');
+                caretBind = undefined;
+                return;
+            }
+            selection.setPaths(project, [output], 'editor');
+
+            // The output's direct child on the path to the caret is the input the caret is
+            // within; map it to its bind to highlight the matching palette property.
+            const childOnPath = ancestors[ancestors.indexOf(output) - 1];
+            const mapping =
+                childOnPath === undefined
+                    ? undefined
+                    : output.getInputMapping(project.getNodeContext(output));
+            const match = mapping?.inputs.find(
+                (input) =>
+                    input.given !== undefined &&
+                    (input.given === childOnPath ||
+                        (Array.isArray(input.given) &&
+                            input.given.some(
+                                (given) => given === childOnPath,
+                            ))),
+            );
+            caretBind = match
+                ? $locales.getName(match.expected.names)
+                : undefined;
+        });
+    });
+
+    let section = $state<HTMLElement | undefined>(undefined);
+
+    /** When the caret moves into a property's input, scroll that property into view and
+     *  highlight it (clearing any previous highlight), so the code caret makes the matching
+     *  palette control easy to find. */
+    $effect(() => {
+        const name = caretBind;
+        const view = section;
+        if (view === undefined) return;
+        tick().then(() => {
+            // Clear the previous highlight so only the caret's current property is marked.
+            for (const previous of view.querySelectorAll('.caret-highlight'))
+                previous.classList.remove('caret-highlight');
+            if (name === undefined) return;
+            const control = view.querySelector(`#property-${CSS.escape(name)}`);
+            const row = control?.closest('.property') ?? control;
+            if (row instanceof HTMLElement) {
+                row.scrollIntoView({ block: 'nearest' });
+                row.classList.add('caret-highlight');
+            }
         });
     });
 </script>
@@ -154,6 +210,7 @@
     data-testid="palette"
     data-uiid="palette"
     aria-label={$locales.getPlainText((l) => l.ui.palette.label)}
+    bind:this={section}
 >
     {#if propertyValues.size > 0}
         <Speech
@@ -244,5 +301,11 @@
 
     .palette:focus {
         outline: none;
+    }
+
+    /* Highlight the property whose input the code caret is in. */
+    :global(.property.caret-highlight) {
+        background-color: var(--wordplay-hover-light);
+        border-radius: var(--wordplay-border-radius);
     }
 </style>

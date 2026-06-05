@@ -7,6 +7,7 @@
     import getSequenceProperties from '@edit/output/SequenceProperties';
     import { untrack } from 'svelte';
     import PaletteProperty from '@components/palette/PaletteProperty.svelte';
+    import SequencePresetEditor from '@components/palette/SequencePresetEditor.svelte';
 
     interface Props {
         project: Project;
@@ -41,6 +42,7 @@
 </script>
 
 <div class="sequence-properties" {id}>
+    <SequencePresetEditor {project} {outputs} {editable} />
     {#each Array.from(propertyValues.entries()) as [property, values]}
         <PaletteProperty {project} {property} {values} {editable} />
     {/each}

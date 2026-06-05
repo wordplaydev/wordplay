@@ -4707,6 +4707,134 @@
             "shake": {
                 "doc": "$~@Output 이 겁나는 것처럼 보이게 만드는 @Sequence 를 만듭니다.",
                 "names": ["agitar"]
+            },
+            "pulse": {
+                "doc": "$~저는 @Output 서서히 늘렸다가 줄이는 @Sequence 만들어서 관심을 끌려고 합니다.",
+                "names": ["$~맥박"],
+                "amount": {
+                    "doc": "$~정점에서 얼마나 확장해야 할까요?",
+                    "names": ["$~양"]
+                }
+            },
+            "heartbeat": {
+                "doc": "$~저는 심장 박동처럼 두 번의 빠른 박자로 @Output 값을 확대하는 @Sequence 만듭니다.",
+                "names": ["$~심장박동"],
+                "amount": {
+                    "doc": "$~각 박자에 맞춰 얼마나 스케일을 조절할 것인가?",
+                    "names": ["$~양"]
+                }
+            },
+            "tada": {
+                "doc": "$~@Output 크기를 키우고 흔들면서 축하하도록 하는 @Sequence 만듭니다.",
+                "names": ["$~짜잔"],
+                "amount": {
+                    "doc": "$~축하 행사 기간 동안 규모를 얼마나 확대해야 할까요?",
+                    "names": ["$~양"]
+                }
+            },
+            "wiggle": {
+                "doc": "$~@Output 좌우로 기울이고 움직이는 @Sequence 생성합니다.",
+                "names": ["$~뒤흔들다"],
+                "angle": {
+                    "doc": "$~흔들림을 얼마나 기울여야 할까요?",
+                    "names": ["$~각도"]
+                }
+            },
+            "flash": {
+                "doc": "$~@Output 깜빡이게 하는 @Sequence 생성합니다.",
+                "names": ["$~플래시"]
+            },
+            "zoomin": {
+                "doc": "$~저는 @Output 0에서 최대 크기까지 확장하는 @Sequence 생성합니다. 새로운 @Sequence 에서 저를 사용해 보세요!",
+                "names": ["$~확대"]
+            },
+            "fadeinup": {
+                "doc": "$~@Output 서서히 나타나면서 제자리로 슬라이드되는 @Sequence 만들었습니다. @Sequence 에 넣어 사용해 보세요!",
+                "names": ["$~페이드인업"],
+                "distance": {
+                    "doc": "$~얼마나 미끄러져 내려가야 할까요?",
+                    "names": ["$~거리"]
+                }
+            },
+            "fadeindown": {
+                "doc": "$~@Output 서서히 나타나면서 제자리에 고정되는 @Sequence 만들었습니다. @Sequence 의 시작 부분에 사용해 보세요!",
+                "names": ["$~페이드인다운"],
+                "distance": {
+                    "doc": "$~얼마나 미끄러져 내려가야 할까요?",
+                    "names": ["$~거리"]
+                }
+            },
+            "fadeinleft": {
+                "doc": "$~왼쪽에서부터 서서히 나타나도록 @Output 페이드인하는 @Sequence 만들었습니다. @Sequence 에 넣어서 사용해 보세요!",
+                "names": ["$~fadeinleft"],
+                "distance": {
+                    "doc": "$~얼마나 미끄러져 내려가야 할까요?",
+                    "names": ["$~거리"]
+                }
+            },
+            "fadeinright": {
+                "doc": "$~오른쪽에서 서서히 나타나도록 @Output 페이드인하는 @Sequence 만들었습니다. @Sequence 에 넣어서 사용해 보세요!",
+                "names": ["$~페이드인라이트"],
+                "distance": {
+                    "doc": "$~얼마나 미끄러져 내려가야 할까요?",
+                    "names": ["$~거리"]
+                }
+            },
+            "rotatein": {
+                "doc": "$~@Output 서서히 나타나게 하면서 회전시키는 @Sequence 생성합니다. @Sequence 의 시작 부분에서 사용해 보세요!",
+                "names": ["$~회전"],
+                "angle": {
+                    "doc": "$~얼마나 돌려야 할까요?",
+                    "names": ["$~각도"]
+                }
+            },
+            "zoomout": {
+                "doc": "$~@Output 0으로 줄이는 @Sequence 만들었습니다. 기존 @Sequence 에서 저를 사용해 보세요!",
+                "names": ["$~축소"]
+            },
+            "fadeoutup": {
+                "doc": "$~@Output 을 위로 슬라이드하면서 서서히 사라지게 하는 @Sequence 만들었습니다. 기존 @Sequence 에서 저를 사용해 보세요!",
+                "names": ["$~페이드아웃"],
+                "distance": {
+                    "doc": "$~얼마나 미끄러져 내려가야 할까요?",
+                    "names": ["$~거리"]
+                }
+            },
+            "fadeoutdown": {
+                "doc": "$~@Output 아래로 슬라이드하면서 서서히 사라지게 하는 @Sequence 만들었습니다. 기존 @Sequence 에서 사용해 보세요!",
+                "names": ["$~페이드아웃다운"],
+                "distance": {
+                    "doc": "$~얼마나 미끄러져 내려가야 할까요?",
+                    "names": ["$~거리"]
+                }
+            },
+            "fadeoutleft": {
+                "doc": "$~왼쪽으로 슬라이드하면서 @Output 서서히 사라지는 @Sequence 만들었습니다. 기존 @Sequence 에서 사용해 보세요!",
+                "names": ["$~fadeoutleft"],
+                "distance": {
+                    "doc": "$~얼마나 미끄러져 내려가야 할까요?",
+                    "names": ["$~거리"]
+                }
+            },
+            "fadeoutright": {
+                "doc": "$~오른쪽으로 슬라이드하면서 @Output 서서히 사라지는 @Sequence 만들었습니다. 기존 @Sequence 에서 저를 사용해 보세요!",
+                "names": ["$~페이드아웃라이트"],
+                "distance": {
+                    "doc": "$~얼마나 미끄러져 내려가야 할까요?",
+                    "names": ["$~거리"]
+                }
+            },
+            "rotateout": {
+                "doc": "$~@Output 서서히 사라지게 하면서 회전시키는 @Sequence 만들었습니다. 흥미로운 @Sequence 에서 저를 사용해 보세요!",
+                "names": ["$~회전"],
+                "angle": {
+                    "doc": "$~얼마나 돌려야 할까요?",
+                    "names": ["$~각도"]
+                }
+            },
+            "rainbow": {
+                "doc": "$~저는 @Output 에 무지개 색깔을 순환적으로 출력하는 @Sequence 만듭니다.",
+                "names": ["$~무지개"]
             }
         },
         "Source": {
@@ -5855,6 +5983,10 @@
                 },
                 "field": {
                     "percent": "$~퍼센트 편집"
+                },
+                "preset": {
+                    "label": "$~미리 정의된 순서",
+                    "custom": "$~관습"
                 }
             },
             "error": {

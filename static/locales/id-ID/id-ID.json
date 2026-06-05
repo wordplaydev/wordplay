@@ -4767,6 +4767,134 @@
             "shake": {
                 "doc": "$~Saya membuat @Sequence yang membuatnya tampak seolah-olah @Output sedang ketakutan.",
                 "names": ["$~menggoyang"]
+            },
+            "pulse": {
+                "doc": "$~Saya membuat @Sequence yang secara perlahan mengubah skala @Output naik dan turun untuk menarik perhatian.",
+                "names": ["$~detak"],
+                "amount": {
+                    "doc": "$~Seberapa besar pendakian yang harus dilakukan di puncaknya.",
+                    "names": ["$~jumlah"]
+                }
+            },
+            "heartbeat": {
+                "doc": "$~Saya membuat @Sequence yang menskalakan @Output dengan dua ketukan cepat, seperti detak jantung.",
+                "names": ["$~denyutjantung"],
+                "amount": {
+                    "doc": "$~Seberapa besar skala yang harus ditambahkan pada setiap ketukan.",
+                    "names": ["$~jumlah"]
+                }
+            },
+            "tada": {
+                "doc": "$~Saya membuat @Sequence yang membuat @Output merayakan dengan skala dan goyangan.",
+                "names": ["$~tada"],
+                "amount": {
+                    "doc": "$~Seberapa besar skala yang dibutuhkan selama perayaan tersebut.",
+                    "names": ["$~jumlah"]
+                }
+            },
+            "wiggle": {
+                "doc": "$~Saya membuat @Sequence yang memiringkan dan menggeser @Output dari sisi ke sisi.",
+                "names": ["$~menggoyangkan"],
+                "angle": {
+                    "doc": "$~Seberapa banyak kemiringan yang diperlukan saat menggoyangkan.",
+                    "names": ["$~sudut"]
+                }
+            },
+            "flash": {
+                "doc": "$~Saya membuat @Sequence yang membuat @Output berkedip menyala dan mati.",
+                "names": ["$~kilatan"]
+            },
+            "zoomin": {
+                "doc": "$~Saya membuat @Sequence yang mengubah ukuran @Output dari nol hingga ukuran penuh. Cobalah saya dalam sebuah @Sequence yang sedang berjalan!",
+                "names": ["$~perbesar"]
+            },
+            "fadeinup": {
+                "doc": "$~Saya membuat @Sequence yang memudarkan @Output saat menggesernya ke atas ke tempatnya. Cobalah saya di dalam @Sequence yang sedang masuk!",
+                "names": ["$~memudar"],
+                "distance": {
+                    "doc": "$~Seberapa jauh harus digeser.",
+                    "names": ["$~jarak"]
+                }
+            },
+            "fadeindown": {
+                "doc": "$~Saya membuat @Sequence yang memudarkan @Output saat menggesernya ke bawah hingga berada di tempatnya. Cobalah saya di dalam @Sequence yang sedang masuk!",
+                "names": ["$~memudar"],
+                "distance": {
+                    "doc": "$~Seberapa jauh harus digeser.",
+                    "names": ["$~jarak"]
+                }
+            },
+            "fadeinleft": {
+                "doc": "$~Saya membuat @Sequence yang memudarkan @Output saat menggesernya ke tempatnya dari kiri. Coba saya di dalam @Sequence yang sedang masuk!",
+                "names": ["$~memudarkekiri"],
+                "distance": {
+                    "doc": "$~Seberapa jauh harus digeser.",
+                    "names": ["$~jarak"]
+                }
+            },
+            "fadeinright": {
+                "doc": "$~Saya membuat @Sequence yang memudarkan @Output saat menggesernya ke tempatnya dari kanan. Coba saya di dalam @Sequence yang sedang masuk!",
+                "names": ["$~memudarkekanan"],
+                "distance": {
+                    "doc": "$~Seberapa jauh harus digeser.",
+                    "names": ["$~jarak"]
+                }
+            },
+            "rotatein": {
+                "doc": "$~Saya membuat @Sequence yang memutar @Output ke tempatnya sambil memudarkannya. Cobalah saya dalam sebuah @Sequence yang sedang berlangsung!",
+                "names": ["$~berputar"],
+                "angle": {
+                    "doc": "$~Seberapa jauh harus diputar.",
+                    "names": ["$~sudut"]
+                }
+            },
+            "zoomout": {
+                "doc": "$~Saya membuat @Sequence yang mengurangi @Output hingga nol. Coba saya di @Sequence yang sudah ada!",
+                "names": ["$~perkeciltampilan"]
+            },
+            "fadeoutup": {
+                "doc": "$~Saya membuat @Sequence yang memudarkan @Output sambil menggesernya ke atas. Cobalah saya di @Sequence yang sudah ada!",
+                "names": ["$~memudarkeatas"],
+                "distance": {
+                    "doc": "$~Seberapa jauh harus digeser.",
+                    "names": ["$~jarak"]
+                }
+            },
+            "fadeoutdown": {
+                "doc": "$~Saya membuat @Sequence yang memudarkan @Output sambil menggesernya ke bawah. Cobalah saya di @Sequence yang sudah ada!",
+                "names": ["$~memudar"],
+                "distance": {
+                    "doc": "$~Seberapa jauh harus digeser.",
+                    "names": ["$~jarak"]
+                }
+            },
+            "fadeoutleft": {
+                "doc": "$~Saya membuat @Sequence yang memudarkan @Output sambil menggesernya ke kiri. Coba saya di @Sequence yang sudah ada!",
+                "names": ["$~memudarkekiri"],
+                "distance": {
+                    "doc": "$~Seberapa jauh harus digeser.",
+                    "names": ["$~jarak"]
+                }
+            },
+            "fadeoutright": {
+                "doc": "$~Saya membuat @Sequence yang memudarkan @Output sambil menggesernya ke kanan. Cobalah saya di @Sequence yang sudah ada!",
+                "names": ["$~memudarsepenuhnya"],
+                "distance": {
+                    "doc": "$~Seberapa jauh harus digeser.",
+                    "names": ["$~jarak"]
+                }
+            },
+            "rotateout": {
+                "doc": "$~Saya membuat @Sequence yang memutar @Output hingga hilang sambil memudarkannya. Cobalah saya dalam @Sequence yang sudah ada!",
+                "names": ["$~putarkeluar"],
+                "angle": {
+                    "doc": "$~Seberapa jauh harus diputar.",
+                    "names": ["$~sudut"]
+                }
+            },
+            "rainbow": {
+                "doc": "$~Saya membuat @Sequence yang meng循环kan @Output melalui warna-warna pelangi.",
+                "names": ["$~pelangi"]
             }
         },
         "Source": {
@@ -6202,6 +6330,10 @@
                 },
                 "field": {
                     "percent": "$~sunting persentase"
+                },
+                "preset": {
+                    "label": "$~urutan yang telah ditentukan sebelumnya",
+                    "custom": "$~kebiasaan"
                 }
             },
             "error": {

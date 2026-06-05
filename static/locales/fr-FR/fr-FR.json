@@ -4710,6 +4710,134 @@
             "shake": {
                 "doc": "$~Je crée une @Sequence qui donne l'impression qu'une @Output a peur.",
                 "names": ["agitar"]
+            },
+            "pulse": {
+                "doc": "$~Je crée une @Sequence qui fait varier progressivement la taille @Output pour attirer l'attention.",
+                "names": ["$~impulsion"],
+                "amount": {
+                    "doc": "$~Quelle ampleur adopter au sommet ?",
+                    "names": ["$~montant"]
+                }
+            },
+            "heartbeat": {
+                "doc": "$~Je crée une @Sequence qui fait varier @Output avec deux pulsations rapides, comme un battement de cœur.",
+                "names": ["$~pulsation"],
+                "amount": {
+                    "doc": "$~Quelle amplitude appliquer à chaque temps ?",
+                    "names": ["$~montant"]
+                }
+            },
+            "tada": {
+                "doc": "$~Je crée une @Sequence qui fait en sorte que @Output célèbre avec une mise à l'échelle et un mouvement.",
+                "names": ["$~tada"],
+                "amount": {
+                    "doc": "$~Quelle mesure prendre lors de la célébration ?",
+                    "names": ["$~montant"]
+                }
+            },
+            "wiggle": {
+                "doc": "$~Je crée une @Sequence qui incline et fait glisser @Output d'un côté à l'autre.",
+                "names": ["$~remuer"],
+                "angle": {
+                    "doc": "$~De combien incliner le mouvement de va-et-vient.",
+                    "names": ["$~angle"]
+                }
+            },
+            "flash": {
+                "doc": "$~Je crée une @Sequence qui fait clignoter @Output .",
+                "names": ["$~éclair"]
+            },
+            "zoomin": {
+                "doc": "$~Je crée une @Sequence qui fait évoluer @Output de zéro à sa taille maximale. Essayez-moi dans une @Sequence d'entrée !",
+                "names": ["$~zoomer"]
+            },
+            "fadeinup": {
+                "doc": "$~Je crée une @Sequence qui fait apparaître progressivement @Output tout en la faisant glisser vers le haut pour la mettre en place. Essayez-moi dans une @Sequence d'entrée !",
+                "names": ["$~fonduenchaîné"],
+                "distance": {
+                    "doc": "$~Jusqu'où glisser.",
+                    "names": ["$~distance"]
+                }
+            },
+            "fadeindown": {
+                "doc": "$~Je crée une @Sequence qui fait apparaître progressivement @Output tout en la faisant glisser vers le bas pour la mettre en place. Essayez-moi dans une @Sequence d'entrée !",
+                "names": ["$~fonduenchaîné"],
+                "distance": {
+                    "doc": "$~Jusqu'où glisser.",
+                    "names": ["$~distance"]
+                }
+            },
+            "fadeinleft": {
+                "doc": "$~Je crée une @Sequence qui fait apparaître progressivement @Output tout en la faisant glisser en place depuis la gauche. Essayez-moi dans une @Sequence d'entrée !",
+                "names": ["$~fadeinleft"],
+                "distance": {
+                    "doc": "$~Jusqu'où glisser.",
+                    "names": ["$~distance"]
+                }
+            },
+            "fadeinright": {
+                "doc": "$~Je crée une @Sequence qui fait apparaître progressivement @Output tout en la faisant glisser en place depuis la droite. Essayez-moi dans une @Sequence d'entrée !",
+                "names": ["$~fadeinright"],
+                "distance": {
+                    "doc": "$~Jusqu'où glisser.",
+                    "names": ["$~distance"]
+                }
+            },
+            "rotatein": {
+                "doc": "$~Je crée une @Sequence qui fait apparaître @Output en fondu. Essayez-moi dans une @Sequence d'entrée !",
+                "names": ["$~rotation"],
+                "angle": {
+                    "doc": "$~Jusqu'où faire tourner.",
+                    "names": ["$~angle"]
+                }
+            },
+            "zoomout": {
+                "doc": "$~Je crée une @Sequence qui met à l'échelle @Output jusqu'à zéro. Testez-moi dans une @Sequence existante !",
+                "names": ["$~dézoomarrière"]
+            },
+            "fadeoutup": {
+                "doc": "$~Je crée une @Sequence qui fait disparaître progressivement @Output tout en la faisant glisser vers le haut. Essayez-moi dans une @Sequence sortante !",
+                "names": ["$~fonduenchaîné"],
+                "distance": {
+                    "doc": "$~Jusqu'où glisser.",
+                    "names": ["$~distance"]
+                }
+            },
+            "fadeoutdown": {
+                "doc": "$~Je crée une @Sequence qui fait disparaître progressivement @Output tout en la faisant glisser vers le bas. Essayez-moi dans une @Sequence sortante !",
+                "names": ["$~fonduenchaîné"],
+                "distance": {
+                    "doc": "$~Jusqu'où glisser.",
+                    "names": ["$~distance"]
+                }
+            },
+            "fadeoutleft": {
+                "doc": "$~Je crée une @Sequence qui fait disparaître progressivement @Output tout en la faisant glisser vers la gauche. Essayez-moi dans une @Sequence sortante !",
+                "names": ["$~fadeoutleft"],
+                "distance": {
+                    "doc": "$~Jusqu'où glisser.",
+                    "names": ["$~distance"]
+                }
+            },
+            "fadeoutright": {
+                "doc": "$~Je crée une @Sequence qui fait disparaître progressivement @Output tout en la faisant glisser vers la droite. Essayez-moi dans une @Sequence sortante !",
+                "names": ["$~fadeoutright"],
+                "distance": {
+                    "doc": "$~Jusqu'où glisser.",
+                    "names": ["$~distance"]
+                }
+            },
+            "rotateout": {
+                "doc": "$~Je crée une @Sequence qui fait défiler @Output tout en l'estompant. Essayez-moi dans une @Sequence de sortie !",
+                "names": ["$~rotation"],
+                "angle": {
+                    "doc": "$~Jusqu'où faire tourner.",
+                    "names": ["$~angle"]
+                }
+            },
+            "rainbow": {
+                "doc": "$~Je crée une @Sequence qui fait défiler @Output à travers les couleurs de l'arc-en-ciel.",
+                "names": ["$~arcenciel"]
             }
         },
         "Source": {
@@ -5862,6 +5990,10 @@
                 },
                 "field": {
                     "percent": "$~modifier le pourcentage"
+                },
+                "preset": {
+                    "label": "$~séquence prédéfinie",
+                    "custom": "$~coutume"
                 }
             },
             "error": {

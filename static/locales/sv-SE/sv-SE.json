@@ -4707,6 +4707,134 @@
             "shake": {
                 "doc": "$~Jag skapar en @Sequence som får det att se ut som om en @Output är rädd.",
                 "names": ["$~skaka"]
+            },
+            "pulse": {
+                "doc": "$~Jag skapar en @Sequence som försiktigt skalar @Output upp och ner igen för att dra till sig uppmärksamhet.",
+                "names": ["$~puls"],
+                "amount": {
+                    "doc": "$~Hur mycket man ska skala upp på toppen.",
+                    "names": ["$~belopp"]
+                }
+            },
+            "heartbeat": {
+                "doc": "$~Jag skapar en @Sequence som skalar @Output med två snabba slag, som ett hjärtslag.",
+                "names": ["$~hjärtslag"],
+                "amount": {
+                    "doc": "$~Hur mycket som ska skalas på varje slag.",
+                    "names": ["$~belopp"]
+                }
+            },
+            "tada": {
+                "doc": "$~Jag skapar en @Sequence som får @Output att fira med en skala och vicka.",
+                "names": ["$~tada"],
+                "amount": {
+                    "doc": "$~Hur mycket man ska skala upp under firandet.",
+                    "names": ["$~belopp"]
+                }
+            },
+            "wiggle": {
+                "doc": "$~Jag skapar en @Sequence som lutar och glider @Output från sida till sida.",
+                "names": ["$~vicka"],
+                "angle": {
+                    "doc": "$~Hur mycket man ska luta i wiggle.",
+                    "names": ["$~vinkel"]
+                }
+            },
+            "flash": {
+                "doc": "$~Jag skapar en @Sequence som blinkar @Output på och av.",
+                "names": ["$~flash"]
+            },
+            "zoomin": {
+                "doc": "$~Jag skapar en @Sequence som skalar @Output från ingenting till full storlek. Testa mig i en inmatnings- @Sequence !",
+                "names": ["$~zoomain"]
+            },
+            "fadeinup": {
+                "doc": "$~Jag skapar en @Sequence som tonar in @Output medan jag skjuter upp den på plats. Testa mig i en inkommande @Sequence !",
+                "names": ["$~fadeinup"],
+                "distance": {
+                    "doc": "$~Hur långt man ska glida.",
+                    "names": ["$~avstånd"]
+                }
+            },
+            "fadeindown": {
+                "doc": "$~Jag skapar en @Sequence som tonar in @Output medan jag skjuter den ner på plats. Testa mig i en inkommande @Sequence !",
+                "names": ["$~fadeindown"],
+                "distance": {
+                    "doc": "$~Hur långt man ska glida.",
+                    "names": ["$~avstånd"]
+                }
+            },
+            "fadeinleft": {
+                "doc": "$~Jag skapar en @Sequence som tonar in @Output medan jag skjuter den på plats från vänster. Testa mig i en inkommande @Sequence !",
+                "names": ["$~fadeinleft"],
+                "distance": {
+                    "doc": "$~Hur långt man ska glida.",
+                    "names": ["$~avstånd"]
+                }
+            },
+            "fadeinright": {
+                "doc": "$~Jag skapar en @Sequence som tonar in @Output medan jag skjuter den på plats från höger. Testa mig i en inkommande @Sequence !",
+                "names": ["$~fadeinright"],
+                "distance": {
+                    "doc": "$~Hur långt man ska glida.",
+                    "names": ["$~avstånd"]
+                }
+            },
+            "rotatein": {
+                "doc": "$~Jag skapar en @Sequence som snurrar @Output på plats samtidigt som den tonas in. Testa mig i en inkommande @Sequence !",
+                "names": ["$~rotera"],
+                "angle": {
+                    "doc": "$~Hur långt man ska snurra.",
+                    "names": ["$~vinkel"]
+                }
+            },
+            "zoomout": {
+                "doc": "$~Jag skapar en @Sequence som skalar @Output ut till ingenting. Testa mig i en existerande @Sequence !",
+                "names": ["$~zoomaut"]
+            },
+            "fadeoutup": {
+                "doc": "$~Jag skapar en @Sequence som tonar ut @Output medan jag skjuter upp den. Testa mig i en exiting @Sequence !",
+                "names": ["$~fadeoutup"],
+                "distance": {
+                    "doc": "$~Hur långt man ska glida.",
+                    "names": ["$~avstånd"]
+                }
+            },
+            "fadeoutdown": {
+                "doc": "$~Jag skapar en @Sequence som tonar ut @Output medan jag skjuter den nedåt. Testa mig i en exiting @Sequence !",
+                "names": ["$~fadeoutdown"],
+                "distance": {
+                    "doc": "$~Hur långt man ska glida.",
+                    "names": ["$~avstånd"]
+                }
+            },
+            "fadeoutleft": {
+                "doc": "$~Jag skapar en @Sequence som tonar ut @Output när jag skjuter den åt vänster. Testa mig i en avslutande @Sequence !",
+                "names": ["$~tonautvänster"],
+                "distance": {
+                    "doc": "$~Hur långt man ska glida.",
+                    "names": ["$~avstånd"]
+                }
+            },
+            "fadeoutright": {
+                "doc": "$~Jag skapar en @Sequence som tonar ut @Output när jag skjuter den åt höger. Testa mig i en exiting @Sequence !",
+                "names": ["$~fadeout"],
+                "distance": {
+                    "doc": "$~Hur långt man ska glida.",
+                    "names": ["$~avstånd"]
+                }
+            },
+            "rotateout": {
+                "doc": "$~Jag skapar en @Sequence som spinner bort @Output samtidigt som den tonas ut. Testa mig i en existerande @Sequence !",
+                "names": ["$~roteraut"],
+                "angle": {
+                    "doc": "$~Hur långt man ska snurra.",
+                    "names": ["$~vinkel"]
+                }
+            },
+            "rainbow": {
+                "doc": "$~Jag skapar en @Sequence som cyklar @Output genom regnbågens färger.",
+                "names": ["$~regnbåge"]
             }
         },
         "Source": {
@@ -5951,6 +6079,10 @@
                 },
                 "field": {
                     "percent": "$~redigera procent"
+                },
+                "preset": {
+                    "label": "$~fördefinierad sekvens",
+                    "custom": "$~beställnings-"
                 }
             },
             "error": {

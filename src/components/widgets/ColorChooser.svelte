@@ -51,12 +51,12 @@
 </script>
 
 <script lang="ts">
-    import { LCHtoCSS, RGBtoLCH } from '@output/ColorJS';
-    import { describeColorLocalized } from '@output/BasicColors';
-    import { getFirstText } from '@locale/LocaleText';
-    import { locales } from '@db/Database';
     import { getAnnouncer } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
+    import { locales } from '@db/Database';
+    import { getFirstText } from '@locale/LocaleText';
+    import { describeColorLocalized } from '@output/BasicColors';
+    import { LCHtoCSS, RGBtoLCH } from '@output/ColorJS';
 
     interface Props {
         /** a degree (any number remainder 360) */
@@ -115,11 +115,7 @@
         // screen-reader users hear it. Falls back silently when no
         // announcer is in context (e.g., outside ProjectView).
         if (announce && $announce) {
-            $announce(
-                'color',
-                $locales.getLanguages()[0],
-                currentDescription,
-            );
+            $announce('color', $locales.getLanguages()[0], currentDescription);
         }
     }
 
@@ -369,6 +365,7 @@
 <style>
     .component {
         width: 100%;
+        max-width: 12em;
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
@@ -377,7 +374,7 @@
     }
 
     .bands {
-        min-width: 4em;
+        min-width: 2em;
         height: 2rem;
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         display: flex;

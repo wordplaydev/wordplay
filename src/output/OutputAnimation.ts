@@ -628,7 +628,7 @@ const StyleToCSSMapping = {
 // A cache of values to keys for each locale.
 const styleValueToKeyByLocale: Map<LocaleText, Map<string, string>> = new Map();
 
-function styleToCSSEasing(locales: Locales, name: string | undefined) {
+export function styleToCSSEasing(locales: Locales, name: string | undefined) {
     // No name given? Default to ease out.
     if (name === undefined) return 'ease-out';
 

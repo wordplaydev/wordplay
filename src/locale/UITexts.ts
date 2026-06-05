@@ -829,6 +829,13 @@ type UITexts = {
                 /** [plain] Edit percent for pose */
                 percent: string;
             };
+            /** The pre-defined sequence picker */
+            preset: {
+                /** [plain] Label for the pre-defined sequence dropdown */
+                label: string;
+                /** [plain] The option for a hand-written sequence of poses */
+                custom: string;
+            };
         };
         /** Errors for the palette */
         error: {

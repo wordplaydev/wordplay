@@ -11,7 +11,6 @@
     import CollaborateView from '@components/app/chat/CollaborateView.svelte';
     import Emoji from '@components/app/Emoji.svelte';
     import { extractPreview } from '@components/app/extractPreview';
-    import { getLocalizedProjectName } from '@db/projects/getLocalizedProjectName';
     import Documentation, {
         Modes,
     } from '@components/concepts/Documentation.svelte';
@@ -46,7 +45,6 @@
         setQueryInURL,
     } from '@concepts/ConceptParams';
     import { Purpose } from '@concepts/Purpose';
-    import { debounced } from '@util/debounce.svelte';
     import type Conflict from '@conflicts/Conflict';
     import type Chat from '@db/chats/ChatDatabase.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
@@ -65,6 +63,7 @@
         Projects,
         Settings,
     } from '@db/Database';
+    import { getLocalizedProjectName } from '@db/projects/getLocalizedProjectName';
     import type Project from '@db/projects/Project';
     import Arrangement, {
         isResizeable,
@@ -83,6 +82,7 @@
     } from '@parser/Symbols';
     import { isName } from '@parser/Tokenizer';
     import Evaluator from '@runtime/Evaluator';
+    import { debounced } from '@util/debounce.svelte';
     import type Value from '@values/Value';
     import { onDestroy, onMount, tick, untrack } from 'svelte';
     import { writable, type Writable } from 'svelte/store';
@@ -92,13 +92,19 @@
         PROJECT_PARAM_PLAY,
     } from '../../routes/[[locale]]/project/constants';
 
+    import {
+        currentConcept,
+        remapConcepts,
+        sameHistory,
+        type GuidePlace,
+    } from '@components/concepts/GuideHistory';
     import Toolbar from '@components/editor/commands/Toolbar.svelte';
-    import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
     import Editor from '@components/editor/Editor.svelte';
     import type { HighlightSpec } from '@components/editor/highlights/Highlights';
     import getOutlineOf, {
         getUnderlineOf,
     } from '@components/editor/highlights/outline';
+    import RemoteCarets from '@components/editor/RemoteCarets.svelte';
     import Timeline from '@components/evaluator/Timeline.svelte';
     import OutputView from '@components/output/OutputView.svelte';
     import type PaintingConfiguration from '@components/output/PaintingConfiguration';
@@ -123,12 +129,6 @@
         type EditorState,
         type KeyModifierState,
     } from '@components/project/Contexts';
-    import {
-        currentConcept,
-        remapConcepts,
-        sameHistory,
-        type GuidePlace,
-    } from '@components/concepts/GuideHistory';
     import CopyButton from '@components/project/CopyButton.svelte';
     import Layout from '@components/project/Layout';
     import Moderation from '@components/project/Moderation.svelte';
@@ -145,6 +145,7 @@
     import Button from '@components/widgets/Button.svelte';
     import CommandButton from '@components/widgets/CommandButton.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
+    import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
     import Switch from '@components/widgets/Switch.svelte';
     import Toggle from '@components/widgets/Toggle.svelte';
     import type Gallery from '@db/galleries/Gallery';
@@ -157,7 +158,6 @@
     } from '@db/settings/AnimationFactorSetting';
     import type MenuInfo from '@edit/menu/Menu';
     import type { LocaleTextAccessor } from '@locale/Locales';
-    import RemoteCarets from '@components/editor/RemoteCarets.svelte';
 
     interface Props {
         project: Project;
@@ -1358,17 +1358,6 @@
         }
     });
 
-    /** Clear output selection when evaluation resumes, so stale handles don't linger. */
-    $effect(() => {
-        if ($evaluation.playing === true) {
-            selectedOutput.empty();
-            // Close the palette when playing resumes, since content can't be edited while playing.
-            const palette = untrack(() => layout).getPalette();
-            if (palette && palette.mode === TileMode.Expanded)
-                untrack(() => setMode(palette, TileMode.Collapsed));
-        }
-    });
-
     /** When output selection changes, make the palette visible. */
     $effect(() => {
         const palette = untrack(() => layout).getPalette();
@@ -1719,13 +1708,11 @@
 
     /** Update the mode and move the tile last to bring it to the front. */
     function setMode(tile: Tile, mode: TileMode) {
-        // Special case selected output and the palette, removing the selection of collapsing.
+        // Special case selected output and the palette, removing the selection on collapse.
+        // The palette may stay open while the program plays, so opening it no longer pauses.
         if (tile === layout.getPalette()) {
             if (tile.mode === TileMode.Expanded)
                 selectedOutput.setPaths(project, [], 'editor');
-            // Pause the evaluator when the palette opens, so content can be edited.
-            if (mode === TileMode.Expanded && $evaluator.isPlaying())
-                $evaluator.pause();
         }
 
         layout = layout
@@ -1904,6 +1891,23 @@
 
         if (dragged !== undefined && event.key === 'Escape')
             dragged = undefined;
+
+        // Let native form controls (a <select> dropdown, range sliders, text fields) and
+        // editable regions handle their own keys, so editor commands don't consume e.g.
+        // arrow-key option navigation in a dropdown. Only defer UNMODIFIED keys — the ones
+        // those controls use (arrows, typing, Enter); command shortcuts like ⌘S still run,
+        // so they aren't swallowed by a focused control that ignores them. Use closest() so
+        // a focused <option> (whose event target is the option, not the <select>) is
+        // covered. The code editor handles its own keys via its local handler.
+        const target = event.target;
+        if (
+            !event.metaKey &&
+            !event.ctrlKey &&
+            target instanceof HTMLElement &&
+            (target.closest('select, input, textarea') !== null ||
+                target.isContentEditable)
+        )
+            return;
 
         // See if there's a command that matches...
         const [, result] = handleKeyCommand(event, commandContext);

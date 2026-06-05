@@ -4768,6 +4768,134 @@
             "shake": {
                 "doc": "I create a @Sequence that makes it look like a @Output is scared.",
                 "names": ["shake"]
+            },
+            "pulse": {
+                "doc": "I create a @Sequence that gently scales @Output up and back down to draw attention.",
+                "names": ["pulse"],
+                "amount": {
+                    "doc": "How much to scale at the peak.",
+                    "names": ["amount"]
+                }
+            },
+            "heartbeat": {
+                "doc": "I create a @Sequence that scales @Output with two quick beats, like a heartbeat.",
+                "names": ["heartbeat"],
+                "amount": {
+                    "doc": "How much to scale on each beat.",
+                    "names": ["amount"]
+                }
+            },
+            "tada": {
+                "doc": "I create a @Sequence that makes @Output celebrate with a scale and wiggle.",
+                "names": ["tada"],
+                "amount": {
+                    "doc": "How much to scale during the celebration.",
+                    "names": ["amount"]
+                }
+            },
+            "wiggle": {
+                "doc": "I create a @Sequence that tilts and slides @Output side to side.",
+                "names": ["wiggle"],
+                "angle": {
+                    "doc": "How much to tilt in the wiggle.",
+                    "names": ["angle"]
+                }
+            },
+            "flash": {
+                "doc": "I create a @Sequence that blinks @Output on and off.",
+                "names": ["flash"]
+            },
+            "zoomin": {
+                "doc": "I create a @Sequence that scales @Output in from nothing to full size. Try me in an entering @Sequence!",
+                "names": ["zoomin"]
+            },
+            "fadeinup": {
+                "doc": "I create a @Sequence that fades @Output in while sliding it up into place. Try me in an entering @Sequence!",
+                "names": ["fadeinup"],
+                "distance": {
+                    "doc": "How far to slide.",
+                    "names": ["distance"]
+                }
+            },
+            "fadeindown": {
+                "doc": "I create a @Sequence that fades @Output in while sliding it down into place. Try me in an entering @Sequence!",
+                "names": ["fadeindown"],
+                "distance": {
+                    "doc": "How far to slide.",
+                    "names": ["distance"]
+                }
+            },
+            "fadeinleft": {
+                "doc": "I create a @Sequence that fades @Output in while sliding it into place from the left. Try me in an entering @Sequence!",
+                "names": ["fadeinleft"],
+                "distance": {
+                    "doc": "How far to slide.",
+                    "names": ["distance"]
+                }
+            },
+            "fadeinright": {
+                "doc": "I create a @Sequence that fades @Output in while sliding it into place from the right. Try me in an entering @Sequence!",
+                "names": ["fadeinright"],
+                "distance": {
+                    "doc": "How far to slide.",
+                    "names": ["distance"]
+                }
+            },
+            "rotatein": {
+                "doc": "I create a @Sequence that spins @Output into place while fading it in. Try me in an entering @Sequence!",
+                "names": ["rotatein"],
+                "angle": {
+                    "doc": "How far to spin.",
+                    "names": ["angle"]
+                }
+            },
+            "zoomout": {
+                "doc": "I create a @Sequence that scales @Output out to nothing. Try me in an exiting @Sequence!",
+                "names": ["zoomout"]
+            },
+            "fadeoutup": {
+                "doc": "I create a @Sequence that fades @Output out while sliding it up. Try me in an exiting @Sequence!",
+                "names": ["fadeoutup"],
+                "distance": {
+                    "doc": "How far to slide.",
+                    "names": ["distance"]
+                }
+            },
+            "fadeoutdown": {
+                "doc": "I create a @Sequence that fades @Output out while sliding it down. Try me in an exiting @Sequence!",
+                "names": ["fadeoutdown"],
+                "distance": {
+                    "doc": "How far to slide.",
+                    "names": ["distance"]
+                }
+            },
+            "fadeoutleft": {
+                "doc": "I create a @Sequence that fades @Output out while sliding it left. Try me in an exiting @Sequence!",
+                "names": ["fadeoutleft"],
+                "distance": {
+                    "doc": "How far to slide.",
+                    "names": ["distance"]
+                }
+            },
+            "fadeoutright": {
+                "doc": "I create a @Sequence that fades @Output out while sliding it right. Try me in an exiting @Sequence!",
+                "names": ["fadeoutright"],
+                "distance": {
+                    "doc": "How far to slide.",
+                    "names": ["distance"]
+                }
+            },
+            "rotateout": {
+                "doc": "I create a @Sequence that spins @Output away while fading it out. Try me in an exiting @Sequence!",
+                "names": ["rotateout"],
+                "angle": {
+                    "doc": "How far to spin.",
+                    "names": ["angle"]
+                }
+            },
+            "rainbow": {
+                "doc": "I create a @Sequence that cycles @Output through the colors of the rainbow.",
+                "names": ["rainbow"]
             }
         },
         "Source": {
@@ -6206,6 +6334,10 @@
                 },
                 "field": {
                     "percent": "edit percent"
+                },
+                "preset": {
+                    "label": "pre-defined sequence",
+                    "custom": "custom"
                 }
             },
             "error": {

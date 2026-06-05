@@ -4707,6 +4707,134 @@
             "shake": {
                 "doc": "$~@Output'un korkmuş gibi görünmesini sağlayan bir @Sequence oluşturuyorum.",
                 "names": ["$~sallamak"]
+            },
+            "pulse": {
+                "doc": "$~Dikkat çekmek için @Output yavaşça artırıp tekrar azaltan bir @Sequence oluşturuyorum.",
+                "names": ["$~nabız"],
+                "amount": {
+                    "doc": "$~Zirvede ne kadar ölçeklendirme yapılmalı?",
+                    "names": ["$~miktar"]
+                }
+            },
+            "heartbeat": {
+                "doc": "$~Kalp atışı gibi iki hızlı vuruşla @Output ölçeklendiren bir @Sequence oluşturuyorum.",
+                "names": ["$~kalpatışı"],
+                "amount": {
+                    "doc": "$~Her vuruşta ne kadar ölçeklendirme yapılmalı?",
+                    "names": ["$~miktar"]
+                }
+            },
+            "tada": {
+                "doc": "$~@Output ölçeklendirme ve sallanma hareketleriyle kutlama yapmasını sağlayan bir @Sequence oluşturuyorum.",
+                "names": ["$~tada"],
+                "amount": {
+                    "doc": "$~Kutlama sırasında ne kadar ölçeklendirme yapılmalı?",
+                    "names": ["$~miktar"]
+                }
+            },
+            "wiggle": {
+                "doc": "$~@Output yanlara doğru eğen ve kaydıran bir @Sequence oluşturuyorum.",
+                "names": ["$~kıpırdamak"],
+                "angle": {
+                    "doc": "$~Sallanırken ne kadar eğim verilmeli?",
+                    "names": ["$~açı"]
+                }
+            },
+            "flash": {
+                "doc": "$~@Output açıp kapatan bir @Sequence oluşturuyorum.",
+                "names": ["$~flaş"]
+            },
+            "zoomin": {
+                "doc": "$~Sıfırdan tam boyuta kadar @Output ölçeklendiren bir @Sequence oluşturuyorum. Beni bir @Sequence girerek deneyin!",
+                "names": ["$~yakınlaştırma"]
+            },
+            "fadeinup": {
+                "doc": "$~@Output yavaşça görünür hale getirirken yukarı doğru kaydırarak yerine yerleştiren bir @Sequence oluşturuyorum. Beni giriş yapan bir @Sequence deneyin!",
+                "names": ["$~yavaşçayukarı"],
+                "distance": {
+                    "doc": "$~Ne kadar kaymalı?",
+                    "names": ["$~mesafe"]
+                }
+            },
+            "fadeindown": {
+                "doc": "$~@Output yavaşça görünür hale getirirken aynı zamanda yerine kaydıran bir @Sequence oluşturuyorum. Beni giriş yapan bir @Sequence deneyin!",
+                "names": ["$~solma"],
+                "distance": {
+                    "doc": "$~Ne kadar kaymalı?",
+                    "names": ["$~mesafe"]
+                }
+            },
+            "fadeinleft": {
+                "doc": "$~@Output nesnesini soldan kaydırarak yerine yerleştirirken, nesnenin yavaşça belirmesini sağlayan bir @Sequence oluşturuyorum. Beni giriş yapan bir @Sequence deneyin!",
+                "names": ["$~sol"],
+                "distance": {
+                    "doc": "$~Ne kadar kaymalı?",
+                    "names": ["$~mesafe"]
+                }
+            },
+            "fadeinright": {
+                "doc": "$~Sağdan kaydırarak yerine yerleştirirken @Output yavaşça görünür hale getiren bir @Sequence oluşturuyorum. Beni giriş yapan bir @Sequence deneyin!",
+                "names": ["$~sağadoğrusolma"],
+                "distance": {
+                    "doc": "$~Ne kadar kaymalı?",
+                    "names": ["$~mesafe"]
+                }
+            },
+            "rotatein": {
+                "doc": "$~@Output yavaşça görünür hale getirirken aynı zamanda döndüren bir @Sequence oluşturuyorum. Beni giriş yapan bir @Sequence deneyin!",
+                "names": ["$~dönen"],
+                "angle": {
+                    "doc": "$~Ne kadar dönmeli?",
+                    "names": ["$~açı"]
+                }
+            },
+            "zoomout": {
+                "doc": "$~@Output sıfıra indirgeyen bir @Sequence oluşturuyorum. Mevcut bir @Sequence içinde deneyin!",
+                "names": ["$~uzaklaştırma"]
+            },
+            "fadeoutup": {
+                "doc": "$~Yukarı doğru kaydırırken @Output kademeli olarak azaltan bir @Sequence oluşturuyorum. Mevcut bir @Sequence içinde deneyin!",
+                "names": ["$~fadeoutup"],
+                "distance": {
+                    "doc": "$~Ne kadar kaymalı?",
+                    "names": ["$~mesafe"]
+                }
+            },
+            "fadeoutdown": {
+                "doc": "$~Aşağı doğru kaydırırken @Output kademeli olarak yok eden bir @Sequence oluşturuyorum. Mevcut bir @Sequence içinde deneyin!",
+                "names": ["$~solmaaşağı"],
+                "distance": {
+                    "doc": "$~Ne kadar kaymalı?",
+                    "names": ["$~mesafe"]
+                }
+            },
+            "fadeoutleft": {
+                "doc": "$~@Output sola kaydırırken kademeli olarak kaybolmasını sağlayan bir @Sequence oluşturuyorum. Mevcut bir @Sequence içinde deneyin!",
+                "names": ["$~soldankaybol"],
+                "distance": {
+                    "doc": "$~Ne kadar kaymalı?",
+                    "names": ["$~mesafe"]
+                }
+            },
+            "fadeoutright": {
+                "doc": "$~@Output sağa kaydırırken kademeli olarak kaybolmasını sağlayan bir @Sequence oluşturuyorum. Mevcut bir @Sequence içinde deneyin!",
+                "names": ["$~solupgitmek"],
+                "distance": {
+                    "doc": "$~Ne kadar kaymalı?",
+                    "names": ["$~mesafe"]
+                }
+            },
+            "rotateout": {
+                "doc": "$~@Output döndürerek ve yavaşça yok ederek bir @Sequence oluşturuyorum. Beni mevcut bir @Sequence içinde deneyin!",
+                "names": ["$~döndürmek"],
+                "angle": {
+                    "doc": "$~Ne kadar dönmeli?",
+                    "names": ["$~açı"]
+                }
+            },
+            "rainbow": {
+                "doc": "$~Gökkuşağının renkleri arasında @Output sırayla döndüren bir @Sequence oluşturuyorum.",
+                "names": ["$~gökkuşağı"]
             }
         },
         "Source": {
@@ -5947,6 +6075,10 @@
                 },
                 "field": {
                     "percent": "$~düzenleme yüzdesi"
+                },
+                "preset": {
+                    "label": "$~önceden tanımlanmış sıra",
+                    "custom": "$~gelenek"
                 }
             },
             "error": {

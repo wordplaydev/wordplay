@@ -77,9 +77,12 @@
     // The text field, if being edited.
     let input: HTMLInputElement | undefined = $state();
 
-    // Selected if this phrase's value creator is selected
+    // Selected if this phrase's value creator is selected. Gated on `editing` (paused) so
+    // the rotate/size handles and focus only appear when stopped — while the program plays
+    // the palette can stay open editing this phrase, but its on-stage handles stay hidden.
     let selected = $derived(
-        phrase.value.creator instanceof Evaluate &&
+        editing &&
+            phrase.value.creator instanceof Evaluate &&
             $project !== undefined &&
             selection?.includes(phrase.value.creator, $project),
     );
