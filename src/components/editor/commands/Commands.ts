@@ -37,8 +37,8 @@ import {
 
 import { moveVisualVertical } from '@components/editor/caret/CaretView.svelte';
 import { copyNode, toClipboard } from '@components/editor/commands/Clipboard';
-import interpret from '@components/editor/commands/interpret';
 import { wasCopiedHere } from '@components/editor/commands/InternalClipboard';
+import interpret from '@components/editor/commands/interpret';
 import { TileKind } from '@components/project/TileKind';
 import { Settings, type Database } from '@db/Database';
 import type Project from '@db/projects/Project';
@@ -1013,11 +1013,21 @@ const Commands: Command[] = [
             // Find the node corresponding to the position.
             // And if it's parent only has the one child, select it.
             else {
-                const token =
+                let token =
                     (caret.atTokenEnd() && caret.hasSpaceAfter()) ||
                     caret.atEnd()
                         ? caret.tokenPrior
                         : caret.getToken();
+                // Never select the program's end token (it's the last token in
+                // the source, and at the end of the source tokenPrior can resolve
+                // to it via its leading space). Instead consider the last token of
+                // the program before the end token.
+                const tokens = caret.source.tokens;
+                if (token !== undefined && token === tokens[tokens.length - 1])
+                    token =
+                        tokens.length > 1
+                            ? tokens[tokens.length - 2]
+                            : undefined;
                 if (token !== undefined) {
                     const parent = caret.source.root.getParent(token);
                     if (parent === undefined) return false;
@@ -1635,13 +1645,14 @@ const Commands: Command[] = [
         shift: false,
         alt: false,
         key: 's',
-        execute: ({ caret }) => {
-            if (caret) {
+        execute: ({ caret, editor }) => {
+            if (caret && editor) {
                 const length = caret.source.code.getLength();
                 const position = caret.getTextPosition(true) ?? 0;
                 const tidySource = caret.source.withSpaces(
                     getPreferredSpaces(caret.source.root, caret.source.spaces),
                 );
+                if (tidySource.code.getLength() === length) return false;
                 return [
                     tidySource,
                     caret

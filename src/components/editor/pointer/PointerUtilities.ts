@@ -293,6 +293,8 @@ export function getTextInsertionPointsAt(
     event: PointerEvent,
     getTokenViews: () => HTMLElement[],
     blocks: boolean,
+    /** True if the editor's writing direction is right-to-left */
+    rtl: boolean,
 ): InsertionPoint[] {
     const source = caret.source;
 
@@ -303,6 +305,7 @@ export function getTextInsertionPointsAt(
         event,
         getTokenViews,
         blocks,
+        rtl,
     );
 
     // If we found a position, find what's between.
@@ -372,6 +375,8 @@ export function getCaretPositionAt(
     getTokenViews: () => HTMLElement[],
     /** True if in blocks editing mode */
     blocks: boolean,
+    /** True if the editor's writing direction is right-to-left */
+    rtl: boolean,
 ): number | undefined {
     const source = caret.source;
 
@@ -399,6 +404,7 @@ export function getCaretPositionAt(
             source,
             getTokenViews,
             caret,
+            rtl,
         );
         if (endOfLinePosition !== undefined) return endOfLinePosition;
     }
@@ -514,6 +520,8 @@ function getEndOfLinePosition(
     source: Source,
     getTokenViews: () => Iterable<HTMLElement>,
     caret: Caret,
+    /** True if the editor's writing direction is right-to-left */
+    rtl: boolean,
 ): number | undefined {
     // Otherwise, the pointer is over the editor. We only place the caret
     // in text mode, where there is a predictable grid layout.
@@ -577,7 +585,13 @@ function getEndOfLinePosition(
         const [token] = getTokenFromElement(caret, closestToken.view) ?? [];
         if (token === undefined) return undefined;
 
-        return closestToken.textRight < event.clientX
+        // Whether the pointer is in the empty space *after* the line's content
+        // depends on writing direction: to the right of the content in LTR, to
+        // the left of it in RTL.
+        const afterLine = rtl
+            ? event.clientX < closestToken.textLeft
+            : closestToken.textRight < event.clientX;
+        return afterLine
             ? source.getEndOfTokenLine(token)
             : source.getTokenSpacePosition(token) ??
               source.getStartOfTokenLine(token);

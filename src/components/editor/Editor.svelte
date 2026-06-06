@@ -730,11 +730,37 @@
             event,
             getTokenViews,
             $blocks,
+            $locales.getDirection() === 'rtl',
         );
-        const clickToken =
+        let clickToken =
             clickIndex === undefined
                 ? undefined
                 : source.getTokenAt(clickIndex, true);
+        // If the click landed in the empty space after a line (the resolved
+        // position is the line's terminating newline, or the very end of the
+        // source), getTokenAt maps it to the *next* line's first token via that
+        // token's leading space. For selection, prefer the last token of the
+        // clicked line, so step back one token in the source's token stream.
+        if (
+            clickToken !== undefined &&
+            clickIndex !== undefined &&
+            (clickIndex >= source.getCode().getLength() ||
+                source.getCode().at(clickIndex) === '\n')
+        ) {
+            const index = source.tokens.indexOf(clickToken);
+            if (index > 0) clickToken = source.tokens[index - 1];
+        }
+        // Never select the program's end token (the last token in the source);
+        // clicking at or after the last token can resolve to it via its leading
+        // space. Use the last token of the program before the end token instead.
+        if (
+            clickToken !== undefined &&
+            clickToken === source.tokens[source.tokens.length - 1]
+        )
+            clickToken =
+                source.tokens.length > 1
+                    ? source.tokens[source.tokens.length - 2]
+                    : undefined;
         const sameLocation =
             clickToken !== undefined &&
             clickToken === lastClickToken &&
@@ -758,6 +784,12 @@
                 node = parent;
             }
             caret.set($caret.withPosition(node));
+            // Remember where the drag started so a subsequent drag can extend
+            // the selected node into a range (see handlePointerMove). Unlike
+            // placeCaretAt, there's no numeric position to anchor on yet; the
+            // anchor is derived from the node's token boundaries when the drag
+            // actually begins.
+            dragPoint = { x: event.clientX, y: event.clientY };
         }
 
         // After we handle the click, focus on keyboard input, in case it's not focused.
@@ -782,7 +814,13 @@
                         tokenUnderPointer,
                         source.root.getParent(tokenUnderPointer),
                     )
-                  ? getCaretPositionAt($caret, event, getTokenViews, $blocks)
+                  ? getCaretPositionAt(
+                        $caret,
+                        event,
+                        getTokenViews,
+                        $blocks,
+                        $locales.getDirection() === 'rtl',
+                    )
                   : // If shift is down or in blocks mode and not over an editable text token, select the non-token node at the position.
                     (event.shiftKey || $blocks) &&
                       nonTokenNodeUnderPointer !== undefined
@@ -799,6 +837,7 @@
                             event,
                             getTokenViews,
                             $blocks,
+                            $locales.getDirection() === 'rtl',
                         );
         // If we found a position, set it and reset the ignore feedback.
         if (newPosition !== undefined) {
@@ -896,7 +935,7 @@
             event.buttons === 1 &&
             $dragged === undefined &&
             dragPoint !== undefined &&
-            dragStartPosition !== undefined &&
+            !$blocks &&
             exceededDragThreshold(event)
         ) {
             // Dragging to select. What's under the pointer?
@@ -905,15 +944,33 @@
                 event,
                 getTokenViews,
                 $blocks,
+                $locales.getDirection() === 'rtl',
             );
-            // Only create a range if the pointer resolved to a different numeric character position.
-            if (
-                typeof position === 'number' &&
-                !$blocks &&
-                typeof dragStartPosition === 'number' &&
-                position !== dragStartPosition
-            ) {
-                caret.set($caret.withPosition([dragStartPosition, position]));
+            if (typeof position === 'number') {
+                // If a node is currently selected (e.g. via double-click), there's
+                // no numeric anchor yet. Convert the node selection into a range
+                // anchor: the node's token start or end position, whichever is
+                // nearest the pointer.
+                if (
+                    dragStartPosition === undefined &&
+                    $caret.position instanceof Node
+                ) {
+                    const start = source.getNodeFirstPosition($caret.position);
+                    const end = source.getNodeLastPosition($caret.position);
+                    if (start !== undefined && end !== undefined)
+                        dragStartPosition =
+                            Math.abs(position - start) <=
+                            Math.abs(position - end)
+                                ? start
+                                : end;
+                }
+
+                // Only create a range if the pointer resolved to a different numeric character position.
+                if (
+                    typeof dragStartPosition === 'number' &&
+                    position !== dragStartPosition
+                )
+                    caret.set($caret.withPosition([dragStartPosition, position]));
             }
         }
 
@@ -976,6 +1033,7 @@
                     event,
                     getTokenViews,
                     $blocks,
+                    $locales.getDirection() === 'rtl',
                 ).filter((insertion) => {
                     const kind = insertion.node.getFieldKind(insertion.field);
                     return (

@@ -298,7 +298,6 @@
                             path={(l) => l.ui.save.status.columns.unsaved}
                         />
                     </th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
