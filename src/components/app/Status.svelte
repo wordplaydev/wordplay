@@ -1,8 +1,7 @@
 <script lang="ts">
+    import { getUser } from '@components/project/Contexts';
     import Dialog from '@components/widgets/Dialog.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import type LocaleText from '@locale/LocaleText';
-    import { CANCEL_SYMBOL } from '@parser/Symbols';
     import {
         DB,
         disconnected,
@@ -10,15 +9,16 @@
         onlineStatus,
         SaveStatus,
         status,
-        syncState,
         SyncDomains,
+        syncState,
         type SaveCounts,
         type SaveFailureReason,
         type SyncDomain,
     } from '@db/Database';
     import type { LocaleTextAccessor } from '@locale/Locales';
+    import type LocaleText from '@locale/LocaleText';
+    import { CANCEL_SYMBOL } from '@parser/Symbols';
     import { withMonoEmoji } from '@unicode/emoji';
-    import { getUser } from '@components/project/Contexts';
 
     const user = getUser();
     let device = $derived($user === null);
@@ -401,7 +401,7 @@
     }
 
     .save-counts td.state {
-        text-align: start;
+        text-align: end;
     }
 
     .save-counts td.state.failed,
