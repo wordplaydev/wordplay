@@ -5348,8 +5348,8 @@
                 "submit": "$~bu sohbet mesajını gönder",
                 "zoomIn": "$~sahneye yakınlaştır",
                 "zoomOut": "$~sahneden uzaklaşarak yakınlaştırma yapın.",
-                "rotate": "$~ifadeyi döndür",
-                "resize": "$~ifadeyi yeniden boyutlandır",
+                "rotate": "$~döndür $name",
+                "resize": "$~$name yeniden boyutlandır",
                 "resetZoom": "$~Yakınlaştırmayı sahnenin yerine sıfırla"
             },
             "options": {

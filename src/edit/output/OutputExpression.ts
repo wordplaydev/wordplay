@@ -3,6 +3,7 @@ import Expression from '@nodes/Expression';
 import Input from '@nodes/Input';
 import Literal from '@nodes/Literal';
 import Reference from '@nodes/Reference';
+import StreamDefinition from '@nodes/StreamDefinition';
 import StructureDefinition from '@nodes/StructureDefinition';
 import NumberValue from '@values/NumberValue';
 import TextValue from '@values/TextValue';
@@ -108,9 +109,18 @@ export default class OutputExpression {
      * If there is no property by this name, return undefined.
      */
     getPropertyValue(name: string): OutputPropertyValue | undefined {
-        // What type is this evaluate creating?
-        const type = this.getType();
-        if (type === undefined) return undefined;
+        // Only read inputs of an Evaluate of a structure or stream (e.g. an output type, but
+        // also nested types like Matter, Rectangle, Placement, or an Arrangement that the
+        // palette's nested editors edit). Not the output-type allowlist of getType().
+        const context = this.project.getNodeContext(this.node);
+        const fun = this.node.getFunction(context);
+        if (
+            !(
+                fun instanceof StructureDefinition ||
+                fun instanceof StreamDefinition
+            )
+        )
+            return undefined;
 
         // What binding does this name refer to?
         const binding = this.node

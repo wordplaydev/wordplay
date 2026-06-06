@@ -5313,8 +5313,8 @@
                 "submit": "enviar este mensaje de chat",
                 "zoomIn": "$~acercarse al escenario",
                 "zoomOut": "$~alejarse del escenario",
-                "rotate": "$~frase de rotación",
-                "resize": "$~redimensionar frase",
+                "rotate": "$~rotar $name",
+                "resize": "$~redimensionar $name",
                 "resetZoom": "$~restablecer el zoom a la posición del escenario"
             },
             "options": {

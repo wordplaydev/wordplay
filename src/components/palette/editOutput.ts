@@ -19,11 +19,8 @@ import TextLiteral from '@nodes/TextLiteral';
 import TextType from '@nodes/TextType';
 import UnaryEvaluate from '@nodes/UnaryEvaluate';
 import { getPlaceExpression } from '@output/getOrCreatePlace';
-import {
-    GROUP_SYMBOL,
-    PHRASE_SYMBOL,
-    STAGE_SYMBOL,
-} from '@parser/Symbols';
+import { getFormAnchor, translateFormTo } from '@edit/output/editShape';
+import { GROUP_SYMBOL, PHRASE_SYMBOL, STAGE_SYMBOL } from '@parser/Symbols';
 import { toExpression } from '@parser/parseExpression';
 
 export function getNumber(given: Expression): number | undefined {
@@ -58,6 +55,33 @@ export default function moveOutput(
         project,
         evaluates.map((evaluate) => {
             const ctx = project.getNodeContext(evaluate);
+
+            // Shapes have no place; move them by translating their form's anchor (its
+            // Rectangle edges or Circle/Polygon center) to the target stage position.
+            const ShapeType = project.shares.output.Shape;
+            if (evaluate.is(ShapeType, ctx)) {
+                const form = evaluate.getInput(ShapeType.inputs[0], ctx);
+                const anchor =
+                    form instanceof Evaluate
+                        ? getFormAnchor(project, form, ctx)
+                        : undefined;
+                const newForm =
+                    form instanceof Evaluate && anchor
+                        ? translateFormTo(
+                              project,
+                              form,
+                              ctx,
+                              relative ? anchor.x + horizontal : horizontal,
+                              relative ? anchor.y + vertical : vertical,
+                          )
+                        : undefined;
+                return [
+                    evaluate,
+                    newForm
+                        ? evaluate.withBindAs(ShapeType.inputs[0], newForm, ctx)
+                        : evaluate,
+                ];
+            }
 
             const given = getPlaceExpression(project, evaluate, ctx);
             const place =

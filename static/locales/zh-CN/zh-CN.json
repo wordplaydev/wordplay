@@ -5293,8 +5293,8 @@
                 "submit": "提交此聊天消息",
                 "zoomIn": "$~镜头拉近舞台",
                 "zoomOut": "$~镜头从舞台拉远。",
-                "rotate": "$~旋转短语",
-                "resize": "$~调整短语大小",
+                "rotate": "$~旋转$name",
+                "resize": "$~调整$name",
                 "resetZoom": "$~将缩放重置到舞台位置"
             },
             "options": {

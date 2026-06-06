@@ -5581,8 +5581,8 @@
                 "submit": "enviar esta mensagem de chat",
                 "zoomIn": "fazer zoom no palco",
                 "zoomOut": "zoom out do palco",
-                "rotate": "frase rotativa",
-                "resize": "frase de redimensionamento",
+                "rotate": "$~rodar $name",
+                "resize": "$~redimensionar $name",
                 "resetZoom": "repor o zoom para o local do palco"
             },
             "options": {

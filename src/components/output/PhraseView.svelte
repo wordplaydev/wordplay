@@ -8,11 +8,10 @@
 
 <script lang="ts">
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import OutputHandles from '@components/output/OutputHandles.svelte';
     import { HorizontalLayout, layoutToCSS } from '@locale/Scripts';
     import Evaluate from '@nodes/Evaluate';
-    import NumberLiteral from '@nodes/NumberLiteral';
     import TextLiteral from '@nodes/TextLiteral';
-    import Unit from '@nodes/Unit';
     import {
         getColorCSS,
         getFaceCSS,
@@ -31,6 +30,7 @@
     import moveOutput from '@components/palette/editOutput';
     import {
         getProject,
+        getRevealPalette,
         getSelectedOutput,
     } from '@components/project/Contexts';
 
@@ -60,6 +60,7 @@
 
     const selection = getSelectedOutput();
     const project = getProject();
+    const revealPalette = getRevealPalette();
 
     // Compute a local context based on size and font.
     let localContext = $derived(phrase.getRenderContext(context));
@@ -77,11 +78,12 @@
     // The text field, if being edited.
     let input: HTMLInputElement | undefined = $state();
 
-    // Selected if this phrase's value creator is selected. Gated on `editing` (paused) so
-    // the rotate/size handles and focus only appear when stopped — while the program plays
-    // the palette can stay open editing this phrase, but its on-stage handles stay hidden.
+    // Selected if this phrase's value creator is selected. Gated on `editable && editing`
+    // (paused) so the rotate/size handles, drag-move, and highlight only appear when the
+    // view is editable and stopped — consistent with ShapeView and GroupView.
     let selected = $derived(
-        editing &&
+        editable &&
+            editing &&
             phrase.value.creator instanceof Evaluate &&
             $project !== undefined &&
             selection?.includes(phrase.value.creator, $project),
@@ -111,199 +113,12 @@
     let description: string | null = $state(null);
     let lastFrame = $state(0);
 
-    // The rotation handle button, bound so focus can be restored after re-mount.
-    let handle = $state<HTMLButtonElement | undefined>(undefined);
-
-    // The size handle button, bound so focus can be restored after re-mount.
-    let sizeHandle = $state<HTMLButtonElement | undefined>(undefined);
-
-    function setRotation(degrees: number) {
-        if (
-            $project === undefined ||
-            !(phrase.value.creator instanceof Evaluate)
-        )
-            return;
-        const ctx = $project.getNodeContext(phrase.value.creator);
-        const rotationBind = $project.shares.output.Phrase.inputs[11];
-        const rounded = Math.round(((degrees % 360) + 360) % 360);
-        Projects.revise($project, [
-            [
-                phrase.value.creator,
-                phrase.value.creator.withBindAs(
-                    rotationBind,
-                    NumberLiteral.make(rounded, Unit.create(['°'])),
-                    ctx,
-                ),
-            ],
-        ]);
-    }
-
-    function setSize(sizeInMeters: number) {
-        if (
-            $project === undefined ||
-            !(phrase.value.creator instanceof Evaluate)
-        )
-            return;
-        const ctx = $project.getNodeContext(phrase.value.creator);
-        const sizeBind = $project.shares.output.Phrase.inputs[1];
-        const clamped = Math.max(0.1, Math.round(sizeInMeters * 10) / 10);
-        Projects.revise($project, [
-            [
-                phrase.value.creator,
-                phrase.value.creator.withBindAs(
-                    sizeBind,
-                    NumberLiteral.make(clamped, Unit.meters()),
-                    ctx,
-                ),
-            ],
-        ]);
-    }
-
-    // Attach window-level drag handlers while a size drag is in progress.
-    $effect(() => {
-        const drag = selection?.sizeDragging;
-        if (!drag || !selected) return;
-
-        const { startDistance, startSize } = drag;
-        function onMove(e: PointerEvent) {
-            if (!view || startDistance === 0) return;
-            const rect = view.getBoundingClientRect();
-            const cx = rect.left + rect.width / 2;
-            const cy = rect.top + rect.height / 2;
-            const currentDistance = Math.hypot(e.clientY - cy, e.clientX - cx);
-            setSize(startSize * (currentDistance / startDistance));
-        }
-
-        function onUp() {
-            selection?.stopSizing();
-        }
-
-        window.addEventListener('pointermove', onMove);
-        window.addEventListener('pointerup', onUp);
-        window.addEventListener('pointercancel', onUp);
-        return () => {
-            window.removeEventListener('pointermove', onMove);
-            window.removeEventListener('pointerup', onUp);
-            window.removeEventListener('pointercancel', onUp);
-        };
-    });
-
-    // Restore focus to the size handle after re-mount when it was focused.
-    $effect(() => {
-        if (
-            selected &&
-            editable &&
-            !entered &&
-            selection?.sizeFocused &&
-            sizeHandle
-        )
-            setKeyboardFocus(sizeHandle, 'Restoring size handle focus.');
-    });
-
-    function handleSizePointerDown(event: PointerEvent) {
-        if (!view) return;
-        event.stopPropagation();
-        event.preventDefault();
-        const rect = view.getBoundingClientRect();
-        const cx = rect.left + rect.width / 2;
-        const cy = rect.top + rect.height / 2;
-        const startDistance = Math.hypot(
-            event.clientY - cy,
-            event.clientX - cx,
-        );
-        selection?.startSizing(startDistance, phrase.size ?? localContext.size);
-        if (sizeHandle)
-            setKeyboardFocus(sizeHandle, 'Focusing size handle on click.');
-    }
-
-    async function handleSizeKeyDown(event: KeyboardEvent) {
-        event.stopPropagation();
-        const current = phrase.size ?? localContext.size;
-        const increment = 1;
-        if (event.key === 'ArrowRight' || event.key === 'ArrowUp')
-            setSize(current + increment);
-        else if (event.key === 'ArrowLeft' || event.key === 'ArrowDown')
-            setSize(current - increment);
-        else return;
-        await tick();
-        selection?.setSizeFocused(true);
-    }
-
-    // Attach window-level drag handlers while a rotation drag is in progress.
-    // Using window listeners (instead of pointer capture) lets the drag survive
-    // the component re-mount that Projects.revise() triggers.
-    $effect(() => {
-        const drag = selection?.rotationDragging;
-        if (!drag || !selected) return;
-
-        const { startAngle, startDegrees } = drag;
-        function onMove(e: PointerEvent) {
-            if (!view) return;
-            const rect = view.getBoundingClientRect();
-            const cx = rect.left + rect.width / 2;
-            const cy = rect.top + rect.height / 2;
-            const currentAngle =
-                Math.atan2(e.clientY - cy, e.clientX - cx) * (180 / Math.PI);
-            setRotation(startDegrees + (currentAngle - startAngle));
-        }
-
-        function onUp() {
-            selection?.stopRotating();
-        }
-
-        window.addEventListener('pointermove', onMove);
-        window.addEventListener('pointerup', onUp);
-        window.addEventListener('pointercancel', onUp);
-        return () => {
-            window.removeEventListener('pointermove', onMove);
-            window.removeEventListener('pointerup', onUp);
-            window.removeEventListener('pointercancel', onUp);
-        };
-    });
-
-    // Restore focus to the rotation handle after re-mount when it was focused.
-    $effect(() => {
-        if (
-            selected &&
-            editable &&
-            !entered &&
-            selection?.rotationFocused &&
-            handle
-        )
-            setKeyboardFocus(handle, 'Restoring rotation handle focus.');
-    });
-
-    function handleRotatePointerDown(event: PointerEvent) {
-        if (!view) return;
-        event.stopPropagation();
-        event.preventDefault();
-        const rect = view.getBoundingClientRect();
-        const cx = rect.left + rect.width / 2;
-        const cy = rect.top + rect.height / 2;
-        const startAngle =
-            Math.atan2(event.clientY - cy, event.clientX - cx) *
-            (180 / Math.PI);
-        selection?.startRotating(startAngle, phrase.pose.rotation ?? 0);
-        if (handle)
-            setKeyboardFocus(handle, 'Focusing rotation handle on click.');
-    }
-
-    async function handleRotateKeyDown(event: KeyboardEvent) {
-        event.stopPropagation();
-        const current = phrase.pose.rotation ?? 0;
-        const increment = 5;
-        if (event.key === 'ArrowRight' || event.key === 'ArrowUp')
-            setRotation(current + increment);
-        else if (event.key === 'ArrowLeft' || event.key === 'ArrowDown')
-            setRotation(current - increment);
-        else return;
-        // The revision destroys and re-mounts this component (GroupView keys by
-        // creator ID). The re-mount triggers blur on the old handle, clearing
-        // rotationFocused. Waiting for the DOM to settle then re-setting it lets
-        // the restoration effect on the new instance refocus the handle.
-        await tick();
-        selection?.setRotationFocused(true);
-    }
+    // The creator Evaluate (narrowed), passed to the shared handles + caret selection.
+    let creator = $derived(
+        phrase.value.creator instanceof Evaluate
+            ? phrase.value.creator
+            : undefined,
+    );
 
     $effect(() => {
         if (phrase.description) description = phrase.description.text;
@@ -349,6 +164,14 @@
         // Wait for the input to render, then focus it.
         await tick();
         if (input) setKeyboardFocus(input, 'Entering phrase text editor.');
+    }
+
+    /** Double-clicking a phrase both edits its text AND opens the palette for it — matching how
+     *  double-click opens the palette for shapes/groups/the stage. The phrase is already the
+     *  selected output (chosen on the first pointer-down), so the palette shows its properties. */
+    function handleDoubleClick(event: MouseEvent) {
+        enter(event);
+        revealPalette?.();
     }
 
     function select(index: number | null) {
@@ -470,7 +293,7 @@
         data-name={phrase.getName()}
         data-selectable={selectable}
         class:entered
-        ondblclick={editable && interactive ? enter : null}
+        ondblclick={editable && interactive ? handleDoubleClick : null}
         onkeydown={editable && interactive ? handleKeyDown : null}
         style:font-family={getFaceCSS(localContext.face)}
         style:font-size={getSizeCSS(localContext.size)}
@@ -506,29 +329,15 @@
             ? null
             : CSSAlignments[phrase.alignment]}
     >
-        {#if selected && editable && !entered}
-            <button
-                bind:this={handle}
-                class="rotation-handle"
-                aria-label={$locales.getPlainText(
-                    (l) => l.ui.output.button.rotate,
-                )}
-                onpointerdown={handleRotatePointerDown}
-                onkeydown={handleRotateKeyDown}
-                onfocus={() => selection?.setRotationFocused(true)}
-                onblur={() => selection?.setRotationFocused(false)}>⟳</button
-            >
-            <button
-                bind:this={sizeHandle}
-                class="size-handle"
-                aria-label={$locales.getPlainText(
-                    (l) => l.ui.output.button.resize,
-                )}
-                onpointerdown={handleSizePointerDown}
-                onkeydown={handleSizeKeyDown}
-                onfocus={() => selection?.setSizeFocused(true)}
-                onblur={() => selection?.setSizeFocused(false)}>⤢</button
-            >
+        {#if selected && editable && !entered && creator}
+            <OutputHandles
+                {creator}
+                {view}
+                {selected}
+                name={$locales.getPlainText((l) => l.term.phrase)}
+                rotation={phrase.pose.rotation ?? 0}
+                size={phrase.size ?? localContext.size}
+            />
         {/if}
         {#if entered}
             <!-- Stop propagation on key down so that only the input handles it when focused. -->
@@ -593,21 +402,6 @@
         font-weight: 900;
     }
 
-    :global(.stage.editing.interactive) .selected {
-        outline: var(--wordplay-focus-width) dotted
-            var(--wordplay-highlight-color);
-    }
-
-    /* In selected-but-not-editing mode, show a move cursor to signal draggability. */
-    :global(.stage.editing.interactive) .selected:not(.entered) {
-        cursor: move;
-    }
-
-    :global(.stage.editing.interactive) :not(:global(.selected)) {
-        outline: var(--wordplay-focus-width) dotted
-            var(--wordplay-inactive-color);
-    }
-
     input {
         font-family: inherit;
         font-weight: inherit;
@@ -628,63 +422,5 @@
 
     input:focus {
         color: inherit;
-    }
-
-    .rotation-handle {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        transform: translate(50%, 50%);
-        width: 1em;
-        height: 1em;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: none;
-        border: none;
-        padding: 0;
-        font-size: 0.85em;
-        line-height: 1;
-        color: var(--wordplay-highlight-color);
-        cursor: grab;
-        pointer-events: all;
-        touch-action: none;
-        /* Suppress the dotted inactive-outline that the global editing rule
-           applies to any descendant without .selected. */
-        outline: none !important;
-    }
-
-    .rotation-handle:active {
-        cursor: grabbing;
-    }
-
-    .rotation-handle:focus-visible {
-        color: var(--wordplay-focus-color);
-    }
-
-    .size-handle {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        transform: translate(-50%, 50%);
-        width: 1em;
-        height: 1em;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: none;
-        border: none;
-        padding: 0;
-        font-size: 0.85em;
-        line-height: 1;
-        color: var(--wordplay-highlight-color);
-        cursor: nwse-resize;
-        pointer-events: all;
-        touch-action: none;
-        outline: none !important;
-    }
-
-    .size-handle:focus-visible {
-        color: var(--wordplay-focus-color);
     }
 </style>

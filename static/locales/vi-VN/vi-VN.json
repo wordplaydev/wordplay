@@ -5587,8 +5587,8 @@
                 "submit": "$~gửi tin nhắn trò chuyện này",
                 "zoomIn": "$~phóng to sân khấu",
                 "zoomOut": "$~thu nhỏ tầm nhìn sân khấu",
-                "rotate": "$~xoay cụm từ",
-                "resize": "$~cụm từ thay đổi kích thước",
+                "rotate": "$~xoay $name",
+                "resize": "$~thay đổi kích thước $name",
                 "resetZoom": "$~Đặt lại mức thu phóng về vị trí của sân khấu."
             },
             "options": {

@@ -13,11 +13,13 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🔄 When your browser or device is low on storage, we warn you, and when its out, we give an error. Sign in to save your work!
 - 😊 Now you can duplicate characters.
 - 🎨 We added many new pre-defined animations and a fancy new palette editor to preview them!
+- 🔶 We add support for editing, moving, rotating, and scaling all @Shape output!
+- ⚡️ We made it possible to edit all aspects of output in the palette (#172, #173, #174).
 
 ### Changed
 
 - 🔄 We made loading, updating, and saving errors display more consistently and reliably.
-- 🎨 You can now edit `@Phrase`'s inputs if they are a `@Bind` that refers to some other value.
+- 🎨 You can now edit @Phrase's inputs if they are a @Bind that refers to some other value.
 
 ### Fixed
 

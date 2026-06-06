@@ -5593,8 +5593,8 @@
                 "zoomIn": "$~memperbesar tampilan panggung",
                 "zoomOut": "$~menjauh dari panggung",
                 "resetZoom": "$~Atur ulang zoom ke posisi panggung.",
-                "rotate": "$~putar frasa",
-                "resize": "$~ubah ukuran frasa"
+                "rotate": "$~putar $name",
+                "resize": "$~ubah ukuran $name"
             },
             "options": {
                 "locale": "$~bahasa pilihan untuk output",

@@ -5295,8 +5295,8 @@
                 "submit": "提交此聊天訊息",
                 "zoomIn": "$~鏡頭拉近舞台",
                 "zoomOut": "$~鏡頭從舞台拉遠。",
-                "rotate": "$~旋轉短語",
-                "resize": "$~調整短語大小",
+                "rotate": "$~旋轉$name",
+                "resize": "$~調整$name",
                 "resetZoom": "$~將縮放重置到舞台位置"
             },
             "options": {

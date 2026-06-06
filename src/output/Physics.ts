@@ -7,12 +7,12 @@ import Motion from '@input/Motion';
 import type Evaluator from '@runtime/Evaluator';
 import type Value from '@values/Value';
 import type { OutputInfo, OutputInfoSet } from '@output/Animator';
-import { Circle, Polygon, Rectangle } from '@output/Form';
+import { Circle, type Form, Polygon, Rectangle } from '@output/Form';
 import Group from '@output/Group';
 import type Matter from '@output/Matter';
 import { PX_PER_METER } from '@output/outputToCSS';
 import Phrase from '@output/Phrase';
-import type Shape from '@output/Shape';
+import Shape from '@output/Shape';
 import Stage, { DefaultGravity } from '@output/Stage';
 
 const TextCategory = 0b0001;
@@ -517,6 +517,10 @@ export default class Physics {
             (matter?.roundedness ?? 0.1) *
                 (info.output.size ?? info.context.size),
             matter,
+            // A Shape's collision body matches its form (circle/polygon); everything else (Phrase,
+            // Group, a Rectangle Shape) uses its bounding box. width/height stay the bounding box so
+            // the position/place math is form-agnostic.
+            info.output instanceof Shape ? info.output.form : undefined,
         );
     }
 
@@ -562,25 +566,49 @@ export class OutputBody {
         angle: number,
         corner: number,
         matter: Matter | undefined,
+        form: Form | undefined,
     ) {
         const position = this.getPosition(left, bottom, width, height);
 
-        this.body = MatterJS.Bodies.rectangle(
-            position.x,
-            position.y,
-            PX_PER_METER * width,
-            PX_PER_METER * height,
-            // Round corners by a fraction of their size
-            {
-                chamfer: { radius: corner * PX_PER_METER },
-                restitution: matter?.bounciness ?? 0,
-                friction: matter?.friction ?? 0,
-                mass: (matter?.mass ?? 1) * 10,
-                angle,
-                sleepThreshold: 500,
-                label: name,
-            },
-        );
+        // Options shared by every body kind. The body's SHAPE depends on the Shape's form (below);
+        // its position is always the bounding-box center, so getPlace()/getPosition() stay
+        // form-agnostic.
+        const options = {
+            restitution: matter?.bounciness ?? 0,
+            friction: matter?.friction ?? 0,
+            mass: (matter?.mass ?? 1) * 10,
+            angle,
+            sleepThreshold: 500,
+            label: name,
+        };
+
+        // Match the collision body to the form: a Circle collides as a circle, a Polygon as its
+        // regular polygon (both centered, with the form's radius). Everything else — a Phrase, a
+        // Group, or a Rectangle Shape — collides as its bounding box, with rounded corners.
+        this.body =
+            form instanceof Circle
+                ? MatterJS.Bodies.circle(
+                      position.x,
+                      position.y,
+                      form.radius * PX_PER_METER,
+                      options,
+                  )
+                : form instanceof Polygon
+                  ? MatterJS.Bodies.polygon(
+                        position.x,
+                        position.y,
+                        form.sides,
+                        form.radius * PX_PER_METER,
+                        options,
+                    )
+                  : MatterJS.Bodies.rectangle(
+                        position.x,
+                        position.y,
+                        PX_PER_METER * width,
+                        PX_PER_METER * height,
+                        // Round corners by a fraction of their size.
+                        { ...options, chamfer: { radius: corner * PX_PER_METER } },
+                    );
 
         this.body.collisionFilter = getCollisionFilter(matter);
 

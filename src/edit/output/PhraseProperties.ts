@@ -77,7 +77,7 @@ export default function getPhraseProperties(
         ),
         new OutputProperty(
             (l) => l.output.Phrase.aura.names,
-            'aura',
+            'structure',
             false,
             false,
             (expr, context) =>

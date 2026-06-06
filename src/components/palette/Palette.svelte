@@ -137,6 +137,7 @@
                     project.getNodeContext(n),
                     project.shares.output.Phrase,
                     project.shares.output.Group,
+                    project.shares.output.Shape,
                     project.shares.output.Stage,
                 ),
         );
@@ -169,6 +170,9 @@
         const ancestors = [node, ...caret.source.root.getAncestors(node)];
         untrack(() => {
             if (selection === undefined) return;
+            // Don't re-derive the selection from the caret mid-drag — a handle drag's revises
+            // shift the caret, and clearing/re-selecting here would drop the dragged output.
+            if (selection.dragging) return;
             const output = ancestors.find(
                 (n): n is Evaluate =>
                     n instanceof Evaluate &&
@@ -176,6 +180,7 @@
                         project.getNodeContext(n),
                         project.shares.output.Phrase,
                         project.shares.output.Group,
+                        project.shares.output.Shape,
                         project.shares.output.Stage,
                     ),
             );

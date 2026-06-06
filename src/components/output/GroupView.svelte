@@ -16,7 +16,8 @@
     import type Place from '@output/Place';
     import type RenderContext from '@output/RenderContext';
     import { untrack } from 'svelte';
-    import { locales } from '@db/Database';
+    import { DB, locales } from '@db/Database';
+    import moveOutput from '@components/palette/editOutput';
     import type { Form } from '@output/Form';
     import Shape from '@output/Shape';
     import Stage from '@output/Stage';
@@ -24,8 +25,10 @@
         getProject,
         getSelectedOutput,
     } from '@components/project/Contexts';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import PhraseView from '@components/output/PhraseView.svelte';
     import ShapeView from '@components/output/ShapeView.svelte';
+    import OutputHandles from '@components/output/OutputHandles.svelte';
 
     interface Props {
         group: Group | Stage;
@@ -78,11 +81,61 @@
     // into this view's coordinate system so that the perspective rendering is in the right coordinates.
     let offsetFocus = $derived(focus.offset(place));
 
+    // Gated on `editable && editing` (paused) so handles/highlight only show when stopped,
+    // consistent with PhraseView and ShapeView.
     let selected = $derived(
-        group.value.creator instanceof Evaluate &&
+        editable &&
+            editing &&
+            group.value.creator instanceof Evaluate &&
             $project !== undefined &&
             selection?.includes(group.value.creator, $project),
     );
+
+    // The group element, bound so handle drags can measure its center.
+    let view = $state<HTMLDivElement | undefined>(undefined);
+
+    // The creator Evaluate (narrowed), passed to the shared handles.
+    let creator = $derived(
+        group.value.creator instanceof Evaluate
+            ? group.value.creator
+            : undefined,
+    );
+
+    // Focus the group div when selected (so keyboard handle navigation works).
+    $effect(() => {
+        if (selected && !root && view)
+            setKeyboardFocus(view, 'Focused on selected group.');
+    });
+
+    // Move the selected group with the arrow keys (paused-only, since `selected` requires it),
+    // so it can be repositioned with the keyboard alone — mirroring PhraseView/ShapeView. The
+    // root group (the Stage) is never `selected`, so it won't move. Alt+arrow is left for the
+    // stage's output-to-output focus navigation.
+    function handleKeyDown(event: KeyboardEvent) {
+        if (
+            !selected ||
+            event.altKey ||
+            $project === undefined ||
+            creator === undefined ||
+            !event.key.startsWith('Arrow')
+        )
+            return;
+        const increment = 0.5;
+        const horizontal =
+            event.key === 'ArrowLeft'
+                ? -increment
+                : event.key === 'ArrowRight'
+                  ? increment
+                  : 0;
+        const vertical =
+            event.key === 'ArrowUp'
+                ? increment
+                : event.key === 'ArrowDown'
+                  ? -increment
+                  : 0;
+        event.stopPropagation();
+        moveOutput(DB, $project, [creator], $locales, horizontal, vertical, true);
+    }
 
     let description: string | null = $state(null);
     let lastFrame = $state(0);
@@ -95,6 +148,7 @@
 </script>
 
 <div
+    bind:this={view}
     role={!group.selectable ? null : 'group'}
     aria-label={description}
     aria-roledescription={group instanceof Group
@@ -106,6 +160,7 @@
     class:background={group instanceof Group && group.background !== undefined}
     class:root
     tabIndex={!root && interactive && (group.selectable || editing) ? 0 : null}
+    onkeydown={!root && interactive ? handleKeyDown : null}
     data-id={group.getHTMLID()}
     data-node-id={group.value.creator.id}
     data-name={group.getName()}
@@ -158,6 +213,7 @@
                 {interactive}
                 parentAscent={root ? 0 : layout.height}
                 context={localContext}
+                {editable}
                 {editing}
                 {frame}
             />
@@ -187,6 +243,17 @@
         >
             <path class="border" d={clip.toSVGPath(0, 0)} />
         </svg>
+    {/if}
+    <!-- Rotate/resize handles for a selected (non-root) group. -->
+    {#if selected && !root && creator}
+        <OutputHandles
+            {creator}
+            {view}
+            {selected}
+            name={$locales.getPlainText((l) => l.term.group)}
+            rotation={group.pose.rotation ?? 0}
+            size={group.pose.scale ?? 1}
+        />
     {/if}
 </div>
 
@@ -218,17 +285,6 @@
 
     .group[data-selectable='true'] {
         cursor: pointer;
-    }
-
-    :global(.stage.editing.interactive)
-        .group:not(:global(.selected)):not(:global(.root)) {
-        outline: var(--wordplay-border-width) dotted
-            var(--wordplay-inactive-color);
-    }
-
-    :global(.stage.editing.interactive) .group.selected {
-        outline: var(--wordplay-border-width) dotted
-            var(--wordplay-highlight-color);
     }
 
     .group:not(:global(.selected)):focus {

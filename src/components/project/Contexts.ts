@@ -197,6 +197,12 @@ export const [getSelectedOutput, setSelectedOutput] = createOptionalContext<
     SelectedOutput | undefined
 >();
 
+/** Reveal the palette tile. Changing the output selection no longer auto-shows the palette
+ *  (that was jarring on drag/stage-select); showing it is now an explicit gesture. A stage
+ *  output invokes this on double-click or Enter to open the palette for the selected content. */
+export const [getRevealPalette, setRevealPalette] =
+    createOptionalContext<() => void>();
+
 // EDITOR-WIDE CONTEXTS
 
 /** The current caret position, if there is one, in an Editor. */

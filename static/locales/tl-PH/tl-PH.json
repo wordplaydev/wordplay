@@ -5591,8 +5591,8 @@
                 "zoomIn": "$~mag-zoom in sa entablado",
                 "zoomOut": "$~lumayo mula sa entablado",
                 "resetZoom": "$~i-reset ang zoom sa lugar ng entablado",
-                "rotate": "$~pariralang paikutin",
-                "resize": "$~baguhin ang laki ng parirala"
+                "rotate": "$~paikutin $name",
+                "resize": "$~baguhin ang laki $name"
             },
             "options": {
                 "locale": "$~ginustong wika para sa output",

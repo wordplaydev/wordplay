@@ -124,6 +124,7 @@
         setKeyboardModifiers,
         setProjectCommandContext,
         setResetKeyboardIdle,
+        setRevealPalette,
         setSelectedOutput,
         type ConceptPath,
         type EditorState,
@@ -1048,6 +1049,8 @@
                 break;
             }
         }
+        // Selection no longer auto-opens the palette, so open it explicitly for the tour.
+        revealPalette();
         openTour = 'palette';
     }
 
@@ -1169,6 +1172,10 @@
         // source for StructureDefinition/FunctionDefinition/Bind concepts
         // is expensive and the result would be discarded on the next key.
         const notTyping = $keyboardEditIdle !== IdleKind.Typing;
+        // Also skip the rebuild during an on-stage drag (move/rotate/resize). Read in the tracked
+        // outer scope so ending the gesture (interacting → false) re-fires this effect and rebuilds
+        // once against the final project.
+        const notInteracting = !selectedOutput.interacting;
         const currentProject = project;
 
         // Wrap the rebuild logic in untrack() so that reads and writes of
@@ -1177,7 +1184,9 @@
         untrack(() => {
             if (
                 index === undefined ||
-                (notTyping && latestProject !== currentProject) ||
+                (notTyping &&
+                    notInteracting &&
+                    latestProject !== currentProject) ||
                 resolvedHowTos !== latestHowTos ||
                 currentGalleryHowTos !== latestGalleryHowTos
             ) {
@@ -1314,6 +1323,11 @@
         // $keyboardEditIdle leaves Typing, at which point we'll catch up.
         if ($keyboardEditIdle === IdleKind.Typing) return;
 
+        // Likewise skip during an on-stage drag (move/rotate/resize) — re-analyzing every frame is
+        // the same wasted cost. The effect below tracks `selectedOutput.interacting`, so releasing
+        // the gesture re-fires this and analyzes once against the final project.
+        if (selectedOutput.interacting) return;
+
         // Analyzed? Update the conflicts immediately.
         if (project.analyzed === 'analyzed') {
             conflicts.set(project.getConflicts());
@@ -1337,6 +1351,8 @@
         // pauses.
         project;
         $keyboardEditIdle;
+        // Tracked so ending an on-stage drag (interacting → false) re-runs analysis once.
+        selectedOutput.interacting;
         updateConflicts();
         return () => {
             if (updateTimer) clearTimeout(updateTimer);
@@ -1358,16 +1374,16 @@
         }
     });
 
-    /** When output selection changes, make the palette visible. */
-    $effect(() => {
-        const palette = untrack(() => layout).getPalette();
-        if (palette) {
-            if (!selectedOutput.isEmpty()) {
-                if (palette.mode === TileMode.Collapsed)
-                    untrack(() => setMode(palette, TileMode.Expanded));
-            }
-        }
-    });
+    /** Reveal the palette tile on demand. Selection changes deliberately do NOT call this — the
+     *  palette follows the selection only while it's already open, so dragging or selecting the
+     *  stage no longer makes the tile pop in. A stage output invokes this (via context) on a
+     *  double-click or Enter to explicitly open the palette for the selected content. */
+    function revealPalette() {
+        const palette = layout.getPalette();
+        if (palette && palette.mode === TileMode.Collapsed)
+            setMode(palette, TileMode.Expanded);
+    }
+    setRevealPalette(revealPalette);
 
     /** When the canvas size changes, resize the layout */
     $effect(() => {

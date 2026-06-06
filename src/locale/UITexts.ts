@@ -577,10 +577,10 @@ type UITexts = {
             zoomOut: string;
             /** [plain] Reset the zoom to the stage's computed place when one is set */
             resetZoom: string;
-            /** [plain] The rotation handle on a selected phrase */
-            rotate: string;
-            /** [plain] The size handle on a selected phrase */
-            resize: string;
+            /** [plain] The rotation handle on a selected output. $name is the kind of output (e.g. phrase, rectangle). */
+            rotate: Template<['name']>;
+            /** [plain] The size handle on a selected output. $name is the kind of output (e.g. phrase, rectangle). */
+            resize: Template<['name']>;
         };
         options: {
             /** [plain] The label for the locale chooser in output */

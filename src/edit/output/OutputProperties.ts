@@ -133,6 +133,23 @@ export function getTypeOutputProperties(
                     ],
                 ),
         ),
+        new OutputProperty(
+            (l) => l.output.Phrase.matter.names,
+            'structure',
+            false,
+            false,
+            (expr, context) =>
+                expr instanceof Evaluate &&
+                expr.is(project.shares.output.Matter, context),
+            (locales) =>
+                Evaluate.make(
+                    Reference.make(
+                        locales.getName(project.shares.output.Matter.names),
+                        project.shares.output.Matter,
+                    ),
+                    [],
+                ),
+        ),
         ...getOutputProperties(project, locales),
     ];
 }

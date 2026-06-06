@@ -5593,8 +5593,8 @@
                 "zoomIn": "$~măriți scena",
                 "zoomOut": "$~micșorați imaginea de pe scenă",
                 "resetZoom": "$~resetează zoom-ul la poziția scenei",
-                "rotate": "$~rotește fraza",
-                "resize": "$~redimensionează fraza"
+                "rotate": "$~rotește $name",
+                "resize": "$~redimensionează $name"
             },
             "options": {
                 "locale": "$~limba preferată pentru ieșire",

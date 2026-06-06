@@ -5334,8 +5334,8 @@
                 "submit": "$~diese Chat-Nachricht senden",
                 "zoomIn": "$~Zoomen Sie auf die Bühne",
                 "zoomOut": "$~Zoomen Sie von der Bühne heraus.",
-                "rotate": "$~Phrase drehen",
-                "resize": "$~Phrase „Größe ändern“",
+                "rotate": "$~rotate $name",
+                "resize": "$~resize $name",
                 "resetZoom": "$~Zoom auf die Bühne zurücksetzen"
             },
             "options": {

@@ -5594,8 +5594,8 @@
                 "zoomIn": "zoom into the stage",
                 "zoomOut": "zoom out from the stage",
                 "resetZoom": "reset zoom to the stage's place",
-                "rotate": "rotate phrase",
-                "resize": "resize phrase"
+                "rotate": "rotate $name",
+                "resize": "resize $name"
             },
             "options": {
                 "locale": "preferred language for output",

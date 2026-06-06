@@ -5334,8 +5334,8 @@
                 "submit": "$~soumettre ce message de discussion",
                 "zoomIn": "$~zoom sur la scène",
                 "zoomOut": "$~Dézoom arrière depuis la scène",
-                "rotate": "$~rotation de la phrase",
-                "resize": "$~phrase de redimensionnement",
+                "rotate": "$~rotation $name",
+                "resize": "$~redimensionner $name",
                 "resetZoom": "$~Réinitialiser le zoom sur la scène"
             },
             "options": {

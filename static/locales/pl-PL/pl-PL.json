@@ -5356,8 +5356,8 @@
                 "submit": "$~wyślij tę wiadomość czatu",
                 "zoomIn": "$~przybliż scenę",
                 "zoomOut": "$~oddalić się od sceny",
-                "rotate": "$~obróć frazę",
-                "resize": "$~zmień rozmiar frazy",
+                "rotate": "$~obróć $name",
+                "resize": "$~zmień rozmiar $name",
                 "resetZoom": "$~zresetuj zoom do miejsca sceny"
             },
             "options": {
