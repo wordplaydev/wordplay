@@ -36,6 +36,17 @@ function has(
         .some((n) => n instanceof Evaluate && is(n, project));
 }
 
+/** How many nodes in a project match the predicate. */
+function count(
+    project: Project,
+    is: (e: Evaluate, project: Project) => boolean,
+): number {
+    return project
+        .getMain()
+        .expression.nodes()
+        .filter((n) => n instanceof Evaluate && is(n, project)).length;
+}
+
 const isPhrase = (e: Evaluate, p: Project) =>
     e.is(p.shares.output.Phrase, p.getContext(p.getMain()));
 const isShape = (e: Evaluate, p: Project) =>
@@ -73,6 +84,80 @@ test('classifyOutput: a reference that evaluates to an output is that output, no
     expect(kindOf('s: Shape(Rectangle(0m 0m 1m 1m))\ns')).toBe('shape');
     expect(kindOf(`p: Phrase('a')\np`)).toBe('phrase');
     expect(kindOf(`g: Group(Stack() [Phrase('a')])\ng`)).toBe('group');
+});
+
+test('classifyOutput: a list of outputs is classified by element kind and marked isList', () => {
+    const c = classifyOutput(make(`[Phrase('a') Phrase('b')]`));
+    expect(c.kind).toBe('phrase');
+    expect(c.isList).toBe(true);
+});
+
+test('classifyOutput: a list containing a Shape is shape-kind (Stage-only, no Group)', () => {
+    const c = classifyOutput(
+        make(`[Phrase('a') Shape(Rectangle(1m 2m 3m 4m))]`),
+    );
+    expect(c.kind).toBe('shape');
+    expect(c.isList).toBe(true);
+    expect(offersFor(c.kind, false)).toEqual(['stage']);
+});
+
+test('addStage: wraps a WHOLE list of outputs as the stage content', () => {
+    const revised = addStage(DB, make(`[Phrase('a') Phrase('b')]`));
+    expect(revised).toBeDefined();
+    expect(classifyOutput(revised!).kind).toBe('stage');
+    // Both phrases are inside the new Stage — the whole list was wrapped, not just the last.
+    expect(count(revised!, isPhrase)).toBe(2);
+});
+
+test('addGroup: wraps a WHOLE list of phrases as the group content', () => {
+    const revised = addGroup(DB, make(`[Phrase('a') Phrase('b')]`));
+    expect(revised).toBeDefined();
+    expect(classifyOutput(revised!).kind).toBe('group');
+    expect(count(revised!, isPhrase)).toBe(2);
+});
+
+test('classifyOutput: multiple top-level output statements are a list of outputs', () => {
+    // A block with 2+ result statements evaluates to a list, so the output is all of them.
+    const c = classifyOutput(make(`Phrase('a')\nPhrase('b')\nPhrase('c')`));
+    expect(c.kind).toBe('phrase');
+    expect(c.isList).toBe(true);
+});
+
+test('addGroup: wraps ALL top-level phrase statements into one Group', () => {
+    const code = `Phrase('hi')\nPhrase('hi')\nPhrase('hi')\nPhrase('hi')`;
+    const revised = addGroup(DB, make(code));
+    expect(revised).toBeDefined();
+    expect(classifyOutput(revised!).kind).toBe('group');
+    // All four phrases end up inside the single Group...
+    expect(count(revised!, isPhrase)).toBe(4);
+    // ...and the four statements became one result statement (the Group).
+    expect(
+        revised!.getMain().expression.expression.getResultStatements().length,
+    ).toBe(1);
+});
+
+test('addStage: wraps ALL top-level output statements (mixed) into one Stage', () => {
+    const revised = addStage(
+        DB,
+        make(`Phrase('a')\nShape(Rectangle(1m 2m 3m 4m))`),
+    );
+    expect(revised).toBeDefined();
+    expect(classifyOutput(revised!).kind).toBe('stage');
+    expect(count(revised!, isPhrase)).toBe(1);
+    expect(count(revised!, isShape)).toBe(1);
+    expect(
+        revised!.getMain().expression.expression.getResultStatements().length,
+    ).toBe(1);
+});
+
+test('a list with a Shape offers Stage but not Group (Shape cannot go in a Group)', () => {
+    expect(
+        offersFor(
+            classifyOutput(make(`Phrase('a')\nShape(Rectangle(1m 2m 3m 4m))`))
+                .kind,
+            false,
+        ),
+    ).toEqual(['stage']);
 });
 
 test('classifyOutput: an optional (Group|ø) output is a group, never a text-convertible value', () => {

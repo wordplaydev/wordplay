@@ -1,5 +1,4 @@
 import type Project from '@db/projects/Project';
-import Bind from '@nodes/Bind';
 import Block from '@nodes/Block';
 import type Context from '@nodes/Context';
 import Evaluate from '@nodes/Evaluate';
@@ -19,6 +18,7 @@ import type Locales from '@locale/Locales';
 import Convert from '@nodes/Convert';
 import FormattedLiteral from '@nodes/FormattedLiteral';
 import ListLiteral from '@nodes/ListLiteral';
+import ListType from '@nodes/ListType';
 import type Spread from '@nodes/Spread';
 import TextLiteral from '@nodes/TextLiteral';
 import TextType from '@nodes/TextType';
@@ -346,17 +346,16 @@ export type OutputKind =
     | 'stage'
     | 'say';
 
-/** The main block and its last non-Bind statement — the program's rendered output expression. Only
- *  the last statement's value renders, so earlier output statements are intentionally ignored. */
+/** The program's root block and its result statements — the statements whose values make up the
+ *  rendered output (1 → that value, 2+ → a list of them). */
 function getOutputExpression(project: Project): {
     block: Block;
-    last: Expression | undefined;
+    results: Expression[];
 } {
     const block = project.getMain().expression.expression;
-    const last = block.statements
-        .filter((node) => !(node instanceof Bind))
-        .at(-1);
-    return { block, last };
+    // The statements whose values make up the program's output: 0 → nothing, 1 → that value, 2+ → a
+    // LIST of those values (see Block.collect/computeType). Binds and definitions are excluded.
+    return { block, results: block.getResultStatements() };
 }
 
 /** Map a computed type to an OutputKind when it is (or is a union of) output structure types, a bare
@@ -413,17 +412,51 @@ function outputKindOfType(
     return 'phrase';
 }
 
+/** If a type is a LIST whose elements are outputs, the element output kind; otherwise undefined. Used
+ *  to treat an expression that evaluates to a list of outputs (e.g. `[Phrase('a') Phrase('b')]`) as a
+ *  wrappable group — the whole list becomes a container's content. Forms/values lists don't count. */
+function listElementOutputKind(
+    type: Type,
+    project: Project,
+): OutputKind | undefined {
+    if (!(type instanceof ListType) || type.type === undefined)
+        return undefined;
+    const elementKind = outputKindOfType(type.type, project);
+    return elementKind === 'phrase' ||
+        elementKind === 'group' ||
+        elementKind === 'shape' ||
+        elementKind === 'say' ||
+        elementKind === 'stage'
+        ? elementKind
+        : undefined;
+}
+
 /** Classify the program's rendered output expression so the palette can offer only type-correct
- *  transformations. */
+ *  transformations. `isList` is true when the expression is a LIST of outputs — wraps then use the
+ *  whole list as the container's content rather than wrapping a single output. */
 export function classifyOutput(project: Project): {
     kind: OutputKind;
     expression: Expression | undefined;
+    isList: boolean;
 } {
-    const { last } = getOutputExpression(project);
-    if (last === undefined) return { kind: 'none', expression: undefined };
+    const { block, results } = getOutputExpression(project);
+    if (results.length === 0)
+        return { kind: 'none', expression: undefined, isList: false };
 
+    // Two or more result statements: the block's value is a LIST of them. Classify by the list's
+    // element kind and treat it as a list (wraps collect them all).
+    if (results.length > 1) {
+        const kind =
+            listElementOutputKind(
+                block.getType(project.getNodeContext(block)),
+                project,
+            ) ?? 'value';
+        return { kind, expression: undefined, isList: true };
+    }
+
+    const last = results[0];
     if (last instanceof TextLiteral || last instanceof FormattedLiteral)
-        return { kind: 'text', expression: last };
+        return { kind: 'text', expression: last, isList: false };
 
     const context = project.getNodeContext(last);
     const output = project.shares.output;
@@ -431,32 +464,88 @@ export function classifyOutput(project: Project): {
     // Fast path: a directly-written output or form Evaluate.
     if (last instanceof Evaluate) {
         if (last.is(output.Stage, context))
-            return { kind: 'stage', expression: last };
+            return { kind: 'stage', expression: last, isList: false };
         if (last.is(output.Group, context))
-            return { kind: 'group', expression: last };
+            return { kind: 'group', expression: last, isList: false };
         if (last.is(output.Phrase, context))
-            return { kind: 'phrase', expression: last };
+            return { kind: 'phrase', expression: last, isList: false };
         if (last.is(output.Shape, context))
-            return { kind: 'shape', expression: last };
+            return { kind: 'shape', expression: last, isList: false };
         if (last.is(output.Say, context))
-            return { kind: 'say', expression: last };
+            return { kind: 'say', expression: last, isList: false };
         if (
             last.is(output.Rectangle, context) ||
             last.is(output.Circle, context) ||
             last.is(output.Polygon, context)
         )
-            return { kind: 'form', expression: last };
+            return { kind: 'form', expression: last, isList: false };
     }
 
+    const type = last.getType(context);
+
+    // A single expression that is itself a list of outputs: classify by element kind, wrap the list.
+    const listKind = listElementOutputKind(type, project);
+    if (listKind !== undefined)
+        return { kind: listKind, expression: last, isList: true };
+
     // Otherwise classify by the computed type (handles references/calls that evaluate to an output).
-    const kind = outputKindOfType(last.getType(context), project) ?? 'value';
-    return { kind, expression: last };
+    const kind = outputKindOfType(type, project) ?? 'value';
+    return { kind, expression: last, isList: false };
+}
+
+/** The content list a container (Group/Stage) should wrap, and the revision that installs the built
+ *  container into the program. Handles three shapes of output: multiple result statements (collect
+ *  them all into a new list and replace them in the block), a single list-of-outputs expression (use
+ *  it directly as content), and a single output (wrap it in a new one-element list). Returns
+ *  undefined when there's nothing to wrap. */
+function wrapTarget(project: Project):
+    | {
+          content: Expression;
+          replace: (container: Evaluate) => [Node, Node | undefined][];
+      }
+    | undefined {
+    const { block, results } = getOutputExpression(project);
+    if (results.length === 0) return undefined;
+
+    if (results.length === 1) {
+        const expr = results[0];
+        const { isList } = classifyOutput(project);
+        return {
+            content: isList ? expr : ListLiteral.make([expr]),
+            replace: (container) => [[expr, container]],
+        };
+    }
+
+    // Multiple result statements → collect them into the container's content, and rebuild the block
+    // with the single container in place of the run of result statements (keeping Binds in place).
+    const resultSet = new Set<Node>(results);
+    return {
+        content: ListLiteral.make([...results]),
+        replace: (container) => {
+            let inserted = false;
+            const newStatements: Expression[] = [];
+            for (const statement of block.statements) {
+                if (resultSet.has(statement)) {
+                    if (!inserted) {
+                        newStatements.push(container);
+                        inserted = true;
+                    }
+                } else newStatements.push(statement);
+            }
+            return [[block, block.replace(block.statements, newStatements)]];
+        },
+    };
 }
 
 /** The output-creation actions the no-selection palette offers for a given output state. Pure, so
  *  it can be unit-tested without mounting the component. `placeholder` is the distinct "start from
  *  nothing" action (add a placeholder Phrase); the others transform existing output/text. */
-export type OutputOffer = 'placeholder' | 'phrase' | 'shape' | 'group' | 'stage';
+export type OutputOffer =
+    | 'placeholder'
+    | 'phrase'
+    | 'shape'
+    | 'group'
+    | 'stage';
 
 export function offersFor(
     kind: OutputKind,
@@ -492,10 +581,13 @@ export function addSoloPhrase(
     db: Database,
     project: Project,
 ): Project | undefined {
-    const { block, last } = getOutputExpression(project);
+    const { block, results } = getOutputExpression(project);
     const { kind } = classifyOutput(project);
     if (kind !== 'none' && kind !== 'text' && kind !== 'value') return;
+    // Only the empty or single-value cases make a sensible single Phrase.
+    if (results.length > 1) return;
 
+    const last = results[0];
     const text =
         last === undefined
             ? TextLiteral.make(db.Locales.getLocale().ui.phrases.welcome)
@@ -536,11 +628,14 @@ export function addShape(db: Database, project: Project): Project | undefined {
     return revised;
 }
 
-/** Wrap a Phrase/Say output in a Group (with a Stack layout). Group content excludes Shape/Stage. */
+/** Wrap a Phrase/Say output (or a whole list of them) in a Group with a Stack layout. Group content
+ *  excludes Shape/Stage. */
 export function addGroup(db: Database, project: Project): Project | undefined {
-    const { kind, expression } = classifyOutput(project);
-    if (expression === undefined || (kind !== 'phrase' && kind !== 'say'))
-        return;
+    const { kind } = classifyOutput(project);
+    if (kind !== 'phrase' && kind !== 'say') return;
+
+    const target = wrapTarget(project);
+    if (target === undefined) return;
 
     const locales = db.Locales.getLocaleSet();
     const group = Evaluate.make(
@@ -550,11 +645,11 @@ export function addGroup(db: Database, project: Project): Project | undefined {
                 project.shares.output.Stack.getReference(locales),
                 [],
             ),
-            ListLiteral.make([expression]),
+            target.content,
         ],
     );
 
-    const revised = project.withRevisedNodes([[expression, group]]);
+    const revised = project.withRevisedNodes(target.replace(group));
     db.Projects.reviseProject(revised);
     return revised;
 }
@@ -564,8 +659,7 @@ export function addGroup(db: Database, project: Project): Project | undefined {
 export function addStage(db: Database, project: Project): Project | undefined {
     if (getStage(project) !== undefined) return;
 
-    const { block } = getOutputExpression(project);
-    const { kind, expression } = classifyOutput(project);
+    const { kind } = classifyOutput(project);
     const eligible =
         kind === 'phrase' ||
         kind === 'group' ||
@@ -575,20 +669,28 @@ export function addStage(db: Database, project: Project): Project | undefined {
     if (!eligible && kind !== 'none') return;
 
     const locales = db.Locales.getLocaleSet();
-    const content =
-        eligible && expression !== undefined
-            ? expression
-            : createPlaceholderPhrase(project, locales);
-    const stage = Evaluate.make(
-        project.shares.output.Stage.getReference(locales),
-        [ListLiteral.make([content])],
-    );
+    const Stage = project.shares.output.Stage;
 
-    const revised = project.withRevisedNodes([
-        eligible && expression !== undefined
-            ? [expression, stage]
-            : [block, block.withStatement(stage)],
-    ]);
+    let revised: Project | undefined;
+    if (eligible) {
+        // Wrap the existing output(s) — a single output, a list of outputs, or several output
+        // statements — as the stage's content.
+        const target = wrapTarget(project);
+        if (target === undefined) return;
+        const stage = Evaluate.make(Stage.getReference(locales), [
+            target.content,
+        ]);
+        revised = project.withRevisedNodes(target.replace(stage));
+    } else {
+        // Empty program: create a Stage seeded with a placeholder Phrase, appended to the block.
+        const { block } = getOutputExpression(project);
+        const stage = Evaluate.make(Stage.getReference(locales), [
+            ListLiteral.make([createPlaceholderPhrase(project, locales)]),
+        ]);
+        revised = project.withRevisedNodes([
+            [block, block.withStatement(stage)],
+        ]);
+    }
     db.Projects.reviseProject(revised);
     return revised;
 }
