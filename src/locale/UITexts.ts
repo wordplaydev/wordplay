@@ -800,6 +800,10 @@ type UITexts = {
             offerGroup: FormattedText;
             /** [formatted] The text offering to create a stage in the palette without a stage */
             offerStage: FormattedText;
+            /** [formatted] The text offering to wrap a form in a shape, or create a shape, in the palette */
+            offerShape: FormattedText;
+            /** [formatted] The text offering to add a placeholder phrase when the program has no output */
+            offerNothing: FormattedText;
             /** [formatted] Prompt if no selection */
             select: FormattedText;
             /** [formatted] The text prompting the creator to edit the selected output */

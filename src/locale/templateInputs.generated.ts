@@ -435,6 +435,8 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'ui.howto.announce.moveActivated': ['target'],
     'ui.howto.galleryView.subheader': ['total', 'new'],
     'ui.howto.viewer.usedBy.countDisplay': ['count'],
+    'ui.output.button.resize': ['name'],
+    'ui.output.button.rotate': ['name'],
     'ui.output.options.default': ['count'],
     'ui.page.character.announce.position': ['x', 'y'],
     'ui.page.character.announce.selection': ['shapes'],

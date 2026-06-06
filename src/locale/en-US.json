@@ -6315,10 +6315,12 @@
                 "createStage": "create a Stage, wrapping any existing Group or Phrase"
             },
             "prompt": {
-                "offerPhrase": "What a gorgeous value you made! Shall I show it on @Stage?",
-                "offerGroup": "What a wonderful @Phrase you made. Do you want to bring them together into a @Group, to get them arranged?",
-                "offerStage": "VERY GOOD @Program. ADD ME TO CONTROL LIGHTING. COLORS. FRAMES.",
-                "select": "To edit, select a 💬, 🔳, or 🎭 in code, or ⏸️ the stage and select output.",
+                "offerPhrase": "Shall I wrap this value in a @Phrase?",
+                "offerGroup": "Shall I wrap this content in a @Group, so you can arrange them?",
+                "offerStage": "Shall I wrap this content in a @Stage, so you can control lighting, color, and frames?",
+                "offerShape": "Shall I wrap this @Form in @Shape to show it on @Stage?",
+                "offerNothing": "Nothing here yet! Shall I add a @Phrase to get started?",
+                "select": "To edit, select a 💬, 🔳, ⬟, or 🎭 in code, or ⏸️ the @Stage and select output.",
                 "editing": "Edit me!"
             },
             "field": {

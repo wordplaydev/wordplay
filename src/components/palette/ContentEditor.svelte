@@ -19,10 +19,19 @@
         project: Project;
         list: ListLiteral | undefined;
         editable: boolean;
+        /** Whether a Shape may be added to this content list. Stage content is `[Phrase|Shape|Group|Say]`,
+         *  but Group content is `[Phrase|Group|Say]` (no Shape), so the +Shape button is hidden for groups. */
+        allowShape: boolean;
         id?: string | undefined;
     }
 
-    let { project, list, editable, id = undefined }: Props = $props();
+    let {
+        project,
+        list,
+        editable,
+        allowShape,
+        id = undefined,
+    }: Props = $props();
 
     const selection = getSelectedOutput();
 
@@ -127,22 +136,24 @@
                         : undefined}
                 >+{project.shares.output.Group.getNames()[0]}</Button
             >
-            <Button
-                tip={(l) => l.ui.palette.button.addShape}
-                active={editable}
-                action={() =>
-                    list
-                        ? addContent(
-                              DB,
-                              project,
-                              list,
-                              list?.values.length ?? 1 - 1,
-                              'shape',
-                          )
-                        : undefined}
-                >+{project.shares.output.Shape.getNames()[0]}</Button
-            ></div
-        >
+            {#if allowShape}
+                <Button
+                    tip={(l) => l.ui.palette.button.addShape}
+                    active={editable}
+                    action={() =>
+                        list
+                            ? addContent(
+                                  DB,
+                                  project,
+                                  list,
+                                  list?.values.length ?? 1 - 1,
+                                  'shape',
+                              )
+                            : undefined}
+                    >+{project.shares.output.Shape.getNames()[0]}</Button
+                >
+            {/if}
+        </div>
     {:else}
         <Note><LocalizedText path={(l) => l.ui.palette.labels.computed} /></Note
         >

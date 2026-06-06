@@ -6,6 +6,8 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ## 0.21.0 - 2026-06-01
 
+This week we made the palette much more fast and complete, and make saving much more fast and reliable.
+
 ### Added
 
 - 💡 When you write formatted text, auto-complete now suggests your [custom characters](https://wordplay.dev/characters), so you can drop them into your words without typing their names — even to fill an empty spot. (#664)
@@ -23,6 +25,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Fixed
 
+- 🚦 When nothing is selected, the palette's buttons for adding output now only make changes that fit — like wrapping a @Phrase in a @Group, or a @Form in a @Shape — instead of odd ones like putting a @Shape inside a @Phrase. When your program is empty, we offer to add a @Phrase to get you started.
 - 🖱️ We fixed pop-up tips in scrolled dialogs. (#1177)
 - 🔄 We made loading and saving much less intensive for slow internet connections and people with lots of projects, galleries, and chats. Saving should be much more reliable overall now, especially if you temporarily lose your internet connection (#812).
 

@@ -6060,11 +6060,13 @@
                 "createStage": "$~skapa en scen, linda en befintlig grupp eller fras"
             },
             "prompt": {
-                "offerPhrase": "$~Vilket fantastiskt värde du gjort! Ska jag visa den på @Stage?",
-                "offerGroup": "$~Vilken underbar @Phrase du gjorde. Vill du sammanföra dem till en @Group, för att få dem ordnade?",
-                "offerStage": "$~MYCKET BRA @Program. LÄGG TILL MIG FÖR ATT STYRA LJUS. FÄRGER. RAMAR.",
+                "offerPhrase": "$~Ska jag slå in det här värdet i en @Phrase ?",
+                "offerGroup": "$~Ska jag slå in det här innehållet i en @Group så att du kan ordna det?",
+                "offerStage": "$~Ska jag lägga in det här innehållet i en @Stage så att du kan styra ljussättning, färg och ramar?",
                 "editing": "$~Redigera mig!",
-                "select": "$~För att redigera, välj en 💬, 🔳 eller 🎭 i kod, eller ⏸️ scenen och välj utgång."
+                "select": "$~För att redigera, välj en 💬, 🔳, ⬟ eller 🎭 i koden, eller ⏸️ @Stage och välj utdata.",
+                "offerShape": "$~Ska jag linda in denna @Form i @Shape för att visa den på @Stage ?",
+                "offerNothing": "$~Inget här än! Ska jag lägga till en @Phrase för att komma igång?"
             },
             "field": {
                 "coordinate": "$~redigera koordinat",

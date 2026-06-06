@@ -5971,11 +5971,13 @@
                 "createStage": "$~Erstellen Sie eine Bühne, die eine vorhandene Gruppe oder Phrase umschließt"
             },
             "prompt": {
-                "offerPhrase": "$~Was für einen tollen Wert Sie geschaffen haben! Soll ich es auf @Stage zeigen?",
-                "offerGroup": "$~Was für eine wunderbare @Phrase du erstellt hast. Möchtest du sie in einer @Gruppe zusammenführen, um sie zu ordnen?",
-                "offerStage": "$~SEHR GUT @Programm. FÜGEN SIE MICH HINZU, UM BELEUCHTUNG, FARBEN UND RAHMEN ZU STEUERN.",
+                "offerPhrase": "$~Soll ich diesen Wert in eine @Phrase einbetten?",
+                "offerGroup": "$~Soll ich diesen Inhalt in eine @Group einbetten, damit Sie ihn anordnen können?",
+                "offerStage": "$~Soll ich diesen Inhalt in ein @Stage einbetten, damit Sie Beleuchtung, Farbe und Frames steuern können?",
                 "editing": "$~Bearbeite mich!",
-                "select": "$~Wählen Sie zum Bearbeiten ein 💬, 🔳 oder 🎭 im Code aus oder ⏸️ die Phase und wählen Sie „Ausgabe“ aus."
+                "select": "$~Zum Bearbeiten wählen Sie ein 💬, 🔳, ⬟ oder 🎭 im Code aus oder klicken Sie auf ⏸️ auf die @Stage und wählen Sie Ausgabe.",
+                "offerShape": "$~Soll ich dieses @Form in @Shape einbetten, um es auf @Stage anzuzeigen?",
+                "offerNothing": "$~Hier ist noch nichts! Soll ich eine @Phrase hinzufügen, um loszulegen?"
             },
             "field": {
                 "coordinate": "$~Koordinate bearbeiten",

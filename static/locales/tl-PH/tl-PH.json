@@ -6302,11 +6302,13 @@
                 "createStage": "$~lumikha ng isang Entablado, na binabalot ang anumang umiiral na Grupo o Parirala"
             },
             "prompt": {
-                "offerPhrase": "$~Ang ganda ng ginawa mo! Ipapakita ko ba sa @Stage?",
-                "offerGroup": "$~Ang ganda ng @Phrase na ginawa mo. Gusto mo ba silang pagsama-samahin sa isang @Group, para maayos sila?",
-                "offerStage": "$~Napakagandang @Program. Idagdag mo ako para kontrolin ang ilaw. Mga kulay. Mga frame.",
-                "select": "$~Para mag-edit, pumili ng 💬, 🔳, o 🎭 sa code, o ⏸️ ang stage at piliin ang output.",
-                "editing": "$~I-edit mo ako!"
+                "offerPhrase": "$~Ibabalot ko ba ang halagang ito sa isang @Phrase ?",
+                "offerGroup": "$~Ilalagay ko ba ang nilalamang ito sa isang @Group , para maisaayos mo ang mga ito?",
+                "offerStage": "$~Ibabalot ko ba ang nilalamang ito sa isang @Stage , para makontrol mo ang ilaw, kulay, at mga frame?",
+                "select": "$~Para mag-edit, pumili ng 💬, 🔳, ⬟, o 🎭 sa code, o ⏸️ ang @Stage at piliin ang output.",
+                "editing": "$~I-edit mo ako!",
+                "offerShape": "$~Ibabalot ko ba itong @Form sa @Shape para maipakita sa @Stage ?",
+                "offerNothing": "$~Wala pa rito! Magdaragdag ba ako ng @Phrase para makapagsimula?"
             },
             "field": {
                 "coordinate": "$~i-edit ang coordinate",

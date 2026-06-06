@@ -6295,11 +6295,13 @@
                 "createStage": "$~Tạo một Giai đoạn, bao bọc bất kỳ Nhóm hoặc Cụm từ hiện có nào."
             },
             "prompt": {
-                "offerPhrase": "$~Bạn đã tạo ra một tác phẩm tuyệt vời! Tôi có nên chia sẻ nó trên @Stage không?",
-                "offerGroup": "$~Bạn đã tạo ra một cụm từ @Phrase tuyệt vời quá! Bạn có muốn tập hợp chúng lại thành một @Group để sắp xếp không?",
-                "offerStage": "$~Rất tốt @Program. Thêm tôi vào để điều khiển ánh sáng, màu sắc và khung hình.",
-                "select": "$~Để chỉnh sửa, hãy chọn 💬, 🔳 hoặc 🎭 trong mã, hoặc ⏸️ vùng làm việc và chọn đầu ra.",
-                "editing": "$~Hãy chỉnh sửa tôi!"
+                "offerPhrase": "$~Tôi có nên bọc giá trị này trong @Phrase không?",
+                "offerGroup": "$~Tôi có nên đặt nội dung này vào trong @Group để bạn sắp xếp không?",
+                "offerStage": "$~Tôi có nên bọc nội dung này trong thẻ @Stage để bạn có thể điều khiển ánh sáng, màu sắc và khung hình không?",
+                "select": "$~Để chỉnh sửa, hãy chọn 💬, 🔳, ⬟ hoặc 🎭 trong mã, hoặc ⏸️ @Stage và chọn xuất.",
+                "editing": "$~Hãy chỉnh sửa tôi!",
+                "offerShape": "$~Tôi có nên bọc @Form này trong @Shape để hiển thị nó trên @Stage không?",
+                "offerNothing": "$~Chưa có gì ở đây cả! Tôi có nên thêm @Phrase để bắt đầu không?"
             },
             "field": {
                 "coordinate": "$~chỉnh sửa tọa độ",

@@ -5915,11 +5915,13 @@
                 "createStage": "創建一個舞台，將任何現有的群組或短語包括起來"
             },
             "prompt": {
-                "offerPhrase": "你創造了一個漂亮的值！我應該在@Stage 上展示嗎？",
-                "offerGroup": "你做了一個很棒的@Phrase。你想將它們組合到@Group 中，以便進行排列嗎？",
-                "offerStage": "非常好的@Program。將我加到控制燈光、顏色和幀數的項目中。",
+                "offerPhrase": "$~我應該把這個值用@Phrase？",
+                "offerGroup": "$~我是否應該將這些內容放在@Group，以便您可以進行排列？",
+                "offerStage": "$~我是否應該將此內容包裹在@Stage，以便您可以控制燈光、顏色和畫面？",
                 "editing": "編輯我！",
-                "select": "如果要編輯，請在代碼中選擇💬、🔳或🎭，或⏸️階段並輸出。"
+                "select": "$~若要進行編輯，請在程式碼中選擇 💬、🔳、⬟ 或 🎭，或 ⏸️ 選擇@Stage。",
+                "offerShape": "$~我是否應該將這個@Form@Shape，以便在@Stage？",
+                "offerNothing": "$~這裡目前還沒有任何內容！要不要我加一個@Phrase？"
             },
             "field": {
                 "coordinate": "編輯座標",

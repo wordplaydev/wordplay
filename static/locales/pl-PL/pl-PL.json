@@ -6072,11 +6072,13 @@
                 "createStage": "$~utwórz scenę, obejmując dowolną istniejącą grupę lub frazę"
             },
             "prompt": {
-                "offerPhrase": "$~Jaką wspaniałą wartość stworzyłeś! Czy mam to pokazać na @Stage?",
-                "offerGroup": "$~Jakie cudowne @Phrase stworzyłeś. Czy chcesz zebrać je razem w @Group, żeby je uporządkować?",
-                "offerStage": "$~BARDZO DOBRE @Program. DODAJ MNIE DO KONTROLI OŚWIETLENIA. KOLORÓW. RAMEK.",
+                "offerPhrase": "$~Czy powinienem ująć tę wartość w @Phrase ?",
+                "offerGroup": "$~Czy mam umieścić tę treść w @Group , aby można ją było uporządkować?",
+                "offerStage": "$~Czy mam zawinąć tę zawartość w @Stage , aby można było sterować oświetleniem, kolorami i ramkami?",
                 "editing": "$~Edytuj mnie!",
-                "select": "$~Aby edytować, zaznacz 💬, 🔳 lub 🎭 w kodzie albo ⏸️ scenę i wybierz wyjście."
+                "select": "$~Aby edytować, zaznacz 💬, 🔳, ⬟ lub 🎭 w kodzie albo ⏸️ @Stage i wybierz wyjście.",
+                "offerShape": "$~Czy mam owinąć ten @Form w @Shape , aby pokazać go na @Stage ?",
+                "offerNothing": "$~Nic tu jeszcze nie ma! Czy mam dodać @Phrase , żeby zacząć?"
             },
             "field": {
                 "coordinate": "$~edytuj współrzędne",

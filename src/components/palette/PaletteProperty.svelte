@@ -193,11 +193,15 @@
                 {editable}
             />
         {:else if property.type === 'content'}
+            {@const allowShape = values.outputs.every(
+                (o) => o.getType() === project.shares.output.Stage,
+            )}
             <ContentEditor
                 id={propertyID}
                 {project}
                 list={values.getList()}
                 {editable}
+                {allowShape}
             />
         {:else if property.type === 'place'}
             {@const place = values.getEvaluationOf(

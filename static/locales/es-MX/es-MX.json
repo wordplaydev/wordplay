@@ -5950,11 +5950,13 @@
                 "createStage": "crear un Escenario, envolviendo cualquier Grupo o Frase existente"
             },
             "prompt": {
-                "offerPhrase": "¡Qué valor tan hermoso has creado! ¿Debería mostrarlo en @Stage?",
-                "offerGroup": "¡Qué maravillosa @Phrase has creado! ¿Quieres juntarlas en un @Group para organizarlas?",
-                "offerStage": "MUY BIEN @Program. AGRÉGAME PARA CONTROLAR ILUMINACIÓN. COLORES. CUADROS.",
+                "offerPhrase": "$~¿Debo incluir este valor en una @Phrase ?",
+                "offerGroup": "$~¿Debo incluir este contenido en un @Group para que puedas organizarlo?",
+                "offerStage": "$~¿Debo incluir este contenido en un @Stage para que puedas controlar la iluminación, el color y los fotogramas?",
                 "editing": "¡Edítame!",
-                "select": "$~Para editar, seleccione 💬, 🔳 o 🎭 en el código, o ⏸️ en el escenario y seleccione salida."
+                "select": "$~Para editar, seleccione un 💬, 🔳, ⬟ o 🎭 en el código, o ⏸️ el @Stage y seleccione salida.",
+                "offerShape": "$~¿Debo envolver este @Form en @Shape para mostrarlo en @Stage ?",
+                "offerNothing": "$~¡Aún no hay nada aquí! ¿Agrego una @Phrase para empezar?"
             },
             "field": {
                 "coordinate": "editar coordenada",

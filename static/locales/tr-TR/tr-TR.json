@@ -6056,11 +6056,13 @@
                 "createStage": "$~herhangi bir mevcut Grup veya İfadeyi saran bir Sahne oluşturun"
             },
             "prompt": {
-                "offerPhrase": "$~Ne güzel bir değer yaratmışsınız! @Stage'de göstereyim mi?",
-                "offerGroup": "$~Ne harika bir @Phrase yapmışsın. Bunları bir @Phrase'ta bir araya getirip düzenlemek ister misin?",
-                "offerStage": "$~ÇOK İYİ @Program. AYDINLATMAYI, RENKLERİ, ÇERÇEVELERİ KONTROL ETMEK İÇİN BENİ EKLEYİN.",
+                "offerPhrase": "$~Bu değeri bir @Phrase içine mi sarmalıyım?",
+                "offerGroup": "$~Bu içeriği @Group etiketi içine alayım mı, böylece siz düzenleyebilirsiniz?",
+                "offerStage": "$~Bu içeriği @Stage etiketiyle sarmalayayım mı, böylece ışıklandırmayı, rengi ve çerçeveleri kontrol edebilirsiniz?",
                 "editing": "$~Beni düzenle!",
-                "select": "$~Düzenlemek için kodda 💬, 🔳 veya 🎭 işaretini seçin ya da sahneyi ⏸️ seçip çıktıyı seçin."
+                "select": "$~Düzenlemek için kodda 💬, 🔳, ⬟ veya 🎭 simgelerinden birini seçin veya @Stage ⏸️ seçip çıktıyı seçin.",
+                "offerShape": "$~@Form @Shape içine alıp @Stage Stage'de göstermeli miyim?",
+                "offerNothing": "$~Henüz burada bir şey yok! Başlamak için bir @Phrase ekleyeyim mi?"
             },
             "field": {
                 "coordinate": "$~Koordinatı düzenle",

@@ -5971,11 +5971,13 @@
                 "createStage": "$~créer une scène, en enveloppant n'importe quel groupe ou phrase existant"
             },
             "prompt": {
-                "offerPhrase": "$~Quelle belle valeur tu as faite ! Dois-je la montrer sur @Stage ?",
-                "offerGroup": "$~Quelle merveilleuse @Phrase tu as créée. Veux-tu les rassembler dans un @Group, pour les organiser ?",
-                "offerStage": "$~TRÈS BIEN @Program. AJOUTEZ-MOI POUR CONTRÔLER L'ÉCLAIRAGE. LES COULEURS. LES CADRES.",
+                "offerPhrase": "$~Dois-je encapsuler cette valeur dans une @Phrase ?",
+                "offerGroup": "$~Dois-je encapsuler ce contenu dans un @Group , afin que vous puissiez les organiser ?",
+                "offerStage": "$~Dois-je encapsuler ce contenu dans un @Stage , afin que vous puissiez contrôler l'éclairage, la couleur et les cadres ?",
                 "editing": "$~Modifiez-moi !",
-                "select": "$~Pour modifier, sélectionnez un 💬, 🔳 ou 🎭 dans le code, ou ⏸️ l'étape et sélectionnez la sortie."
+                "select": "$~Pour modifier, sélectionnez un 💬, 🔳, ⬟ ou 🎭 dans le code, ou ⏸️ le @Stage et sélectionnez la sortie.",
+                "offerShape": "$~Dois-je envelopper ce @Form dans @Shape pour l'afficher sur @Stage ?",
+                "offerNothing": "$~Rien ici pour l'instant ! Dois-je ajouter une @Phrase pour commencer ?"
             },
             "field": {
                 "coordinate": "$~modifier les coordonnées",

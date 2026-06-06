@@ -6311,11 +6311,13 @@
                 "createStage": "$~Buat Tahap, yang membungkus Grup atau Frasa yang sudah ada."
             },
             "prompt": {
-                "offerPhrase": "$~Nilai yang kamu buat sangat bagus! Bolehkah aku menampilkannya di @Stage?",
-                "offerGroup": "$~Frasa yang kamu buat sungguh luar biasa. Apakah kamu ingin menggabungkannya menjadi sebuah @Phrase, agar bisa diatur dengan rapi?",
-                "offerStage": "$~SANGAT BAGUS @Program. TAMBAHKAN SAYA UNTUK MENGONTROL PENCAHAYAAN. WARNA. FRAME.",
-                "select": "$~Untuk mengedit, pilih 💬, 🔳, atau 🎭 di kode, atau ⏸️ panggung dan pilih output.",
-                "editing": "$~Edit saya!"
+                "offerPhrase": "$~Apakah saya perlu membungkus nilai ini dengan @Phrase ?",
+                "offerGroup": "$~Apakah saya perlu membungkus konten ini dalam @Group , agar Anda dapat mengaturnya?",
+                "offerStage": "$~Apakah saya perlu membungkus konten ini dalam @Stage , agar Anda dapat mengontrol pencahayaan, warna, dan frame?",
+                "select": "$~Untuk mengedit, pilih 💬, 🔳, ⬟, atau 🎭 dalam kode, atau ⏸️ @Stage dan pilih output.",
+                "editing": "$~Edit saya!",
+                "offerShape": "$~Apakah saya perlu membungkus @Form ini dengan @Shape agar dapat ditampilkan di @Stage ?",
+                "offerNothing": "$~Belum ada apa-apa di sini! Haruskah saya menambahkan @Phrase untuk memulainya?"
             },
             "field": {
                 "coordinate": "$~edit koordinat",

@@ -6293,11 +6293,13 @@
                 "createStage": "Criar um Palco, envolvendo qualquer Grupo ou Frase existente."
             },
             "prompt": {
-                "offerPhrase": "Que peça incrível que fez! Devo mostrá-la no @Stage?",
-                "offerGroup": "Que frase maravilhosa criou! Gostaria de as reunir em grupo para as organizar melhor?",
-                "offerStage": "MUITO BOM @Program. ADICIONE-ME PARA CONTROLAR A ILUMINAÇÃO, AS CORES E OS ENQUADRAMENTOS.",
-                "select": "Para editar, selecione um 💬, 🔳 ou 🎭 no código, ou clique ⏸️ no palco e selecione a saída.",
-                "editing": "Edite-me!"
+                "offerPhrase": "$~Devo envolver este valor numa @Phrase ?",
+                "offerGroup": "$~Devo envolver este conteúdo num @Group para que o possa organizar?",
+                "offerStage": "$~Devo envolver este conteúdo num @Stage para que possa controlar a iluminação, a cor e os enquadramentos?",
+                "select": "$~Para editar, selecione um 💬, 🔳, ⬟ ou 🎭 no código, ou ⏸️ o @Stage e selecione a saída.",
+                "editing": "Edite-me!",
+                "offerShape": "$~Devo envolver este @Form num @Shape para o exibir no @Stage ?",
+                "offerNothing": "$~Ainda não há nada aqui! Devo adicionar uma @Phrase para começar?"
             },
             "field": {
                 "coordinate": "editar coordenadas",

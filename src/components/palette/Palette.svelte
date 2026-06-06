@@ -4,11 +4,12 @@
     import EditOffer from '@components/palette/EditOffer.svelte';
     import {
         addGroup,
+        addShape,
         addSoloPhrase,
         addStage,
-        getSoloGroup,
-        getSoloPhrase,
+        classifyOutput,
         getStage,
+        offersFor,
     } from '@components/palette/editOutput';
     import PaletteProperty from '@components/palette/PaletteProperty.svelte';
     import TextStyleEditor from '@components/palette/TextStyleEditor.svelte';
@@ -61,9 +62,11 @@
         outputs[0]?.node.getFunction(project.getNodeContext(outputs[0].node)),
     );
 
-    let phrase = $derived(getSoloPhrase(project));
-    let group = $derived(getSoloGroup(project));
-    let stage = $derived(getStage(project));
+    // The kind of the program's rendered output, and whether a Stage already exists anywhere — used
+    // to offer only type-correct output-creation actions when nothing is selected.
+    let outputKind = $derived(classifyOutput(project).kind);
+    let stageExists = $derived(getStage(project) !== undefined);
+    let offers = $derived(offersFor(outputKind, stageExists));
 
     // Keep a reference to the text, since we need to pass that to the text style.
     let phraseTextValues: OutputPropertyValueSet | undefined =
@@ -257,7 +260,17 @@
                     />{/snippet}</Speech
             >
         {/if}
-        {#if stage === undefined && phrase === undefined}
+        {#if offers.includes('placeholder')}
+            <EditOffer
+                symbols={PHRASE_SYMBOL}
+                locales={$locales}
+                message={(l) => l.ui.palette.prompt.offerNothing}
+                tip={(l) => l.ui.palette.button.createPhrase}
+                action={() => addSoloPhrase(DB, project)}
+                command={`+${PHRASE_SYMBOL}`}
+            />
+        {/if}
+        {#if offers.includes('phrase')}
             <EditOffer
                 symbols={PHRASE_SYMBOL}
                 locales={$locales}
@@ -267,7 +280,18 @@
                 command={`+${PHRASE_SYMBOL}`}
             />
         {/if}
-        {#if phrase !== undefined && stage === undefined}
+        {#if offers.includes('shape')}
+            {@const shapeName = project.shares.output.Shape.getNames()[0]}
+            <EditOffer
+                symbols={shapeName}
+                locales={$locales}
+                message={(l) => l.ui.palette.prompt.offerShape}
+                tip={(l) => l.ui.palette.button.addShape}
+                action={() => addShape(DB, project)}
+                command={`+${shapeName}`}
+            />
+        {/if}
+        {#if offers.includes('group')}
             <EditOffer
                 symbols={GROUP_SYMBOL}
                 locales={$locales}
@@ -277,13 +301,13 @@
                 command={`+${GROUP_SYMBOL}`}
             />
         {/if}
-        {#if stage === undefined}
+        {#if offers.includes('stage')}
             <EditOffer
                 symbols={STAGE_SYMBOL}
                 locales={$locales}
                 message={(l) => l.ui.palette.prompt.offerStage}
                 tip={(l) => l.ui.palette.button.createStage}
-                action={() => addStage(DB, project, group ?? phrase)}
+                action={() => addStage(DB, project)}
                 command={`+${STAGE_SYMBOL}`}
             />
         {/if}

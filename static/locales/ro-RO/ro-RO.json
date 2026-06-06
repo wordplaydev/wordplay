@@ -6311,11 +6311,13 @@
                 "createStage": "$~creați o Scenă, încadrând orice Grup sau Frază existentă"
             },
             "prompt": {
-                "offerPhrase": "$~Ce valoare superbă ai creat! Să ți-o arăt pe @Stage?",
-                "offerGroup": "$~Ce expresie minunată ai creat. Vrei să-i aduni într-un grup, ca să-i aranjezi?",
-                "offerStage": "$~FOARTE BUN @Program. ADĂUGAȚI-MĂ PENTRU A CONTROLA ILUMINAREA. CULORILE. CADRELE.",
-                "select": "$~Pentru a edita, selectați un 💬, 🔳 sau 🎭 în cod sau ⏸️ scena și selectați ieșirea.",
-                "editing": "$~Editează-mă!"
+                "offerPhrase": "$~Ar trebui să includ această valoare într-o frază @Phrase ?",
+                "offerGroup": "$~Ar trebui să încadrez acest conținut într-un @Group , ca să îl poți aranja?",
+                "offerStage": "$~Ar trebui să încadrez acest conținut într-un @Stage , astfel încât să poți controla iluminarea, culoarea și cadrele?",
+                "select": "$~Pentru a edita, selectați un 💬, 🔳, ⬟ sau 🎭 în cod sau ⏸️ @Stage și selectați ieșirea.",
+                "editing": "$~Editează-mă!",
+                "offerShape": "$~Ar trebui să încapăl acest @Form în @Shape pentru a-l afișa pe @Stage ?",
+                "offerNothing": "$~Nimic aici încă! Ar trebui să adaug o @Phrase pentru a începe?"
             },
             "field": {
                 "coordinate": "$~editați coordonatele",
