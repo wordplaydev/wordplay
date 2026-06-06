@@ -1,7 +1,10 @@
-const REPO_OWNER = 'wordplaydev';
-const REPO_NAME = 'wordplay';
-
-type GitHubUser = { login: string; avatar_url: string; html_url: string };
+import {
+    githubFetch,
+    isBot,
+    paginate,
+    REPO_BASE,
+    type GitHubUser,
+} from './github.js';
 
 type GitHubCommit = {
     html_url: string;
@@ -28,7 +31,12 @@ type GitHubComment = {
 type GitHubReview = {
     html_url: string;
     body: string;
-    state: 'APPROVED' | 'CHANGES_REQUESTED' | 'COMMENTED' | 'DISMISSED' | 'PENDING';
+    state:
+        | 'APPROVED'
+        | 'CHANGES_REQUESTED'
+        | 'COMMENTED'
+        | 'DISMISSED'
+        | 'PENDING';
     submitted_at: string | null;
     user: GitHubUser | null;
 };
@@ -54,47 +62,6 @@ export type ContributorsData = {
     created: string;
     contributors: Contributor[];
 };
-
-async function githubFetch(
-    token: string,
-    url: string,
-    options?: RequestInit,
-): Promise<unknown> {
-    const response = await fetch(url, {
-        ...options,
-        headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: 'application/vnd.github+json',
-            'X-GitHub-Api-Version': '2022-11-28',
-            'Content-Type': 'application/json',
-            ...(options?.headers as Record<string, string> | undefined),
-        },
-    });
-    if (!response.ok) {
-        const text = await response.text();
-        throw new Error(`GitHub API ${response.status} at ${url}: ${text}`);
-    }
-    return response.json();
-}
-
-async function paginate<T>(token: string, url: string): Promise<T[]> {
-    const all: T[] = [];
-    for (let page = 1; ; page++) {
-        const sep = url.includes('?') ? '&' : '?';
-        const chunk = (await githubFetch(
-            token,
-            `${url}${sep}per_page=100&page=${page}`,
-        )) as T[];
-        if (!Array.isArray(chunk) || chunk.length === 0) break;
-        all.push(...chunk);
-        if (chunk.length < 100) break;
-    }
-    return all;
-}
-
-function isBot(user: GitHubUser): boolean {
-    return user.login.endsWith('[bot]');
-}
 
 function getOrAdd(
     map: Map<string, Contributor>,
@@ -135,7 +102,7 @@ export async function fetchContributorsData(
     onProgress?: (msg: string) => void,
 ): Promise<ContributorsData> {
     const log = onProgress ?? (() => undefined);
-    const base = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}`;
+    const base = REPO_BASE;
     const byLogin = new Map<string, Contributor>();
 
     log('Fetching commits...');
@@ -166,11 +133,7 @@ export async function fetchContributorsData(
     log(`  ${prs.length} pull requests fetched.`);
     for (const pr of prs) {
         if (!pr.user || isBot(pr.user)) continue;
-        record(
-            getOrAdd(byLogin, pr.user, null),
-            'pull_request',
-            pr.created_at,
-        );
+        record(getOrAdd(byLogin, pr.user, null), 'pull_request', pr.created_at);
     }
 
     log('Fetching issue comments...');
@@ -239,7 +202,7 @@ export async function createContributorsPR(
     token: string,
     data: ContributorsData,
 ): Promise<void> {
-    const base = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}`;
+    const base = REPO_BASE;
     const branch = `contributors-update-${Date.now()}`;
     const filePath = 'src/routes/[[locale]]/thanks/contributors.json';
     const content = Buffer.from(JSON.stringify(data, null, 2)).toString(

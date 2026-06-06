@@ -17,6 +17,7 @@ This week we made the palette much more fast and complete, and make saving much 
 - 🎨 We added many new pre-defined animations and a fancy new palette editor to preview them!
 - 🔶 We add support for editing, moving, rotating, and scaling all @Shape output!
 - ⚡️ We made it possible to edit all aspects of output in the palette (#172, #173, #174).
+- 📍 To keep GitHub tidy, we now have a bot that asks inactive assignees on GitHub for an update after 3 weeks of silence, and unassign them if they are silent a week later.
 
 ### Changed
 
