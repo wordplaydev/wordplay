@@ -24,6 +24,7 @@ This week we made the palette much more fast and complete, and make saving much 
 - 🔄 We made loading, updating, and saving errors display more consistently and reliably.
 - 🎨 You can now edit @Phrase's inputs if they are a @Bind that refers to some other value.
 - ✏️ We made the editor's double click selection behavior make more sense.
+- 🛠️ We upgraded internal tooling for stability.
 
 ### Fixed
 
