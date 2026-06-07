@@ -4976,7 +4976,13 @@
                 },
                 "field": "$~カラーフィールド",
                 "instructions": "$~左右の矢印キーで色相を、上下の矢印キーで彩度を変更できます。Shiftキーを押しながら操作すると、より細かい調整が可能です。",
-                "value": "$~$color 、LCH $l 、 $c 、 $h"
+                "value": "$~$color 、LCH $l 、 $c 、 $h",
+                "input": {
+                    "description": "$~任意のウェブ形式で色を入力してください",
+                    "placeholder": "$~#f00、rgb()、hsl()、赤",
+                    "invalid": "$~認識されていない色",
+                    "format": "$~検出されたフォーマット"
+                }
             }
         },
         "tile": {

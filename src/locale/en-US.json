@@ -4974,7 +4974,13 @@
                 },
                 "field": "color field",
                 "instructions": "Use the left and right arrow keys to change hue and the up and down arrow keys to change chroma. Hold shift for finer steps.",
-                "value": "$color, LCH $l, $c, $h"
+                "value": "$color, LCH $l, $c, $h",
+                "input": {
+                    "description": "enter a color in any web format",
+                    "placeholder": "#f00, rgb(), hsl(), red",
+                    "invalid": "not a recognized color",
+                    "format": "detected format"
+                }
             },
             "backtotop": "back to top",
             "overflow": {

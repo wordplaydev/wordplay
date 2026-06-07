@@ -4976,7 +4976,13 @@
                 },
                 "field": "$~컬러 필드",
                 "instructions": "$~왼쪽 및 오른쪽 화살표 키를 사용하여 색조를 변경하고 위 및 아래 화살표 키를 사용하여 채도를 변경하세요. Shift 키를 누른 상태에서 변경하면 더 세밀한 조정이 가능합니다.",
-                "value": "$~$color , LCH $l , $c , $h"
+                "value": "$~$color , LCH $l , $c , $h",
+                "input": {
+                    "description": "$~원하는 웹 형식으로 색상을 입력하세요.",
+                    "placeholder": "$~#f00, rgb(), hsl(), 빨간색",
+                    "invalid": "$~인식되지 않는 색상",
+                    "format": "$~감지된 형식"
+                }
             }
         },
         "tile": {

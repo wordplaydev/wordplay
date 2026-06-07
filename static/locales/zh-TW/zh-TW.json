@@ -4940,7 +4940,13 @@
                 },
                 "field": "$~顏色場",
                 "instructions": "$~使用左右箭頭鍵改變色相，使用上下箭頭鍵改變色度。按住Shift鍵可進行更精細的調節。",
-                "value": "$~$color 、LCH $l 、 $c 、 $h"
+                "value": "$~$color 、LCH $l 、 $c 、 $h",
+                "input": {
+                    "description": "$~以任何網頁格式輸入顏色",
+                    "placeholder": "$~#f00、rgb()、hsl()、紅色",
+                    "invalid": "$~未識別的顏色",
+                    "format": "$~偵測到的格式"
+                }
             }
         },
         "tile": {

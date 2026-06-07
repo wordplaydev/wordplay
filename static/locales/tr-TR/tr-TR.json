@@ -4976,7 +4976,13 @@
                 },
                 "field": "$~renk alanı",
                 "instructions": "$~Renk tonunu değiştirmek için sol ve sağ ok tuşlarını, doygunluğu değiştirmek için yukarı ve aşağı ok tuşlarını kullanın. Daha ince ayarlar için Shift tuşunu basılı tutun.",
-                "value": "$~$color , LCH $l , $c , $h"
+                "value": "$~$color , LCH $l , $c , $h",
+                "input": {
+                    "description": "$~Herhangi bir web formatında bir renk girin",
+                    "placeholder": "$~#f00, rgb(), hsl(), kırmızı",
+                    "invalid": "$~tanınmış bir renk değil",
+                    "format": "$~algılanan format"
+                }
             }
         },
         "tile": {

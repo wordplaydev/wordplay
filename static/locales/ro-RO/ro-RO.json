@@ -4981,7 +4981,13 @@
                 },
                 "field": "$~câmp de culoare",
                 "instructions": "$~Folosește tastele săgeată stânga și dreapta pentru a schimba nuanța și tastele săgeată sus și jos pentru a schimba croma. Ține apăsată tasta Shift pentru pași mai fini.",
-                "value": "$~$color , LCH $l , $c , $h"
+                "value": "$~$color , LCH $l , $c , $h",
+                "input": {
+                    "description": "$~introduceți o culoare în orice format web",
+                    "placeholder": "$~#f00, rgb(), hsl(), roșu",
+                    "invalid": "$~nu este o culoare recunoscută",
+                    "format": "$~format detectat"
+                }
             }
         },
         "tile": {

@@ -4976,7 +4976,13 @@
                 },
                 "field": "$~färgfält",
                 "instructions": "$~Använd vänster- och högerpiltangenterna för att ändra nyans och upp- och nedpiltangenterna för att ändra färgåtergivning. Håll shift-tangenten nedtryckt för finare steg.",
-                "value": "$~$color , LCH $l , $c , $h"
+                "value": "$~$color , LCH $l , $c , $h",
+                "input": {
+                    "description": "$~ange en färg i valfritt webbformat",
+                    "placeholder": "$~#f00, rgb(), hsl(), röd",
+                    "invalid": "$~inte en igenkänd färg",
+                    "format": "$~upptäckt format"
+                }
             }
         },
         "tile": {

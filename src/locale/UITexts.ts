@@ -137,6 +137,17 @@ type UITexts = {
             instructions: string;
             /** [plain] The spoken color readout: the described color name followed by its lightness, chroma, and hue values, e.g. "dark grey, LCH 50, 117, 90" */
             value: Template<['color', 'l', 'c', 'h']>;
+            /** The text field for entering a color in any web format */
+            input: {
+                /** [plain] Tooltip and ARIA label for the color text field */
+                description: string;
+                /** [plain] Placeholder showing example formats, e.g. "#f00, rgb(), hsl(), red" */
+                placeholder: string;
+                /** [plain] Validation message shown when the typed value isn't a recognized color */
+                invalid: string;
+                /** [plain] Tooltip on the small chip that shows the inferred color format */
+                format: string;
+            };
         };
         /** [plain] The back to top link label */
         backtotop: string;

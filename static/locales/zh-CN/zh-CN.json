@@ -4938,7 +4938,13 @@
                 },
                 "field": "$~颜色场",
                 "instructions": "$~使用左右箭头键改变色相，使用上下箭头键改变色度。按住Shift键可进行更精细的调节。",
-                "value": "$~$color 、LCH $l 、 $c 、 $h"
+                "value": "$~$color 、LCH $l 、 $c 、 $h",
+                "input": {
+                    "description": "$~以任何网页格式输入颜色",
+                    "placeholder": "$~#f00、rgb()、hsl()、红色",
+                    "invalid": "$~未识别的颜色",
+                    "format": "$~检测到的格式"
+                }
             }
         },
         "tile": {

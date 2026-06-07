@@ -4981,7 +4981,13 @@
                 },
                 "field": "$~bidang warna",
                 "instructions": "$~Gunakan tombol panah kiri dan kanan untuk mengubah rona dan tombol panah atas dan bawah untuk mengubah saturasi. Tahan tombol Shift untuk langkah yang lebih halus.",
-                "value": "$~$color , LCH $l , $c , $h"
+                "value": "$~$color , LCH $l , $c , $h",
+                "input": {
+                    "description": "$~Masukkan warna dalam format web apa pun.",
+                    "placeholder": "$~#f00, rgb(), hsl(), merah",
+                    "invalid": "$~bukan warna yang diakui",
+                    "format": "$~format terdeteksi"
+                }
             }
         },
         "tile": {

@@ -4979,7 +4979,13 @@
                 },
                 "field": "$~patlang ng kulay",
                 "instructions": "$~Gamitin ang kaliwa at kanang mga arrow key para baguhin ang hue at ang pataas at pababang mga arrow key para baguhin ang chroma. Pindutin nang matagal ang shift para sa mas pinong mga hakbang.",
-                "value": "$~$color , LCH $l , $c , $h"
+                "value": "$~$color , LCH $l , $c , $h",
+                "input": {
+                    "description": "$~maglagay ng kulay sa anumang format ng web",
+                    "placeholder": "$~#f00, rgb(), hsl(), pula",
+                    "invalid": "$~hindi isang kinikilalang kulay",
+                    "format": "$~natukoy na format"
+                }
             }
         },
         "tile": {

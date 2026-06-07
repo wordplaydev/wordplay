@@ -4979,7 +4979,13 @@
                 },
                 "field": "$~Farbfeld",
                 "instructions": "$~Verwenden Sie die Pfeiltasten links und rechts, um den Farbton zu ändern, und die Pfeiltasten oben und unten, um die Farbsättigung zu ändern. Halten Sie die Umschalttaste gedrückt, um feinere Abstufungen vorzunehmen.",
-                "value": "$~$color , LCH $l , $c , $h"
+                "value": "$~$color , LCH $l , $c , $h",
+                "input": {
+                    "description": "$~Geben Sie eine Farbe in einem beliebigen Webformat ein",
+                    "placeholder": "$~#f00, rgb(), hsl(), red",
+                    "invalid": "$~keine anerkannte Farbe",
+                    "format": "$~erkanntes Format"
+                }
             }
         },
         "tile": {
