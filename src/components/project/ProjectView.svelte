@@ -1172,10 +1172,13 @@
         // source for StructureDefinition/FunctionDefinition/Bind concepts
         // is expensive and the result would be discarded on the next key.
         const notTyping = $keyboardEditIdle !== IdleKind.Typing;
-        // Also skip the rebuild during an on-stage drag (move/rotate/resize). Read in the tracked
-        // outer scope so ending the gesture (interacting → false) re-fires this effect and rebuilds
-        // once against the final project.
-        const notInteracting = !selectedOutput.interacting;
+        // Also skip the rebuild during an on-stage drag (move/rotate/resize) or
+        // a palette gesture (color/number slider drag, color picker, focused
+        // number/text field). Read both flags in the tracked outer scope so
+        // ending the gesture (interacting/adjusting → false) re-fires this
+        // effect and rebuilds once against the final project.
+        const notInteracting =
+            !selectedOutput.interacting && !selectedOutput.adjusting;
         const currentProject = project;
 
         // Wrap the rebuild logic in untrack() so that reads and writes of
@@ -1323,10 +1326,13 @@
         // $keyboardEditIdle leaves Typing, at which point we'll catch up.
         if ($keyboardEditIdle === IdleKind.Typing) return;
 
-        // Likewise skip during an on-stage drag (move/rotate/resize) — re-analyzing every frame is
-        // the same wasted cost. The effect below tracks `selectedOutput.interacting`, so releasing
-        // the gesture re-fires this and analyzes once against the final project.
-        if (selectedOutput.interacting) return;
+        // Likewise skip during an on-stage drag (move/rotate/resize) or a
+        // palette gesture (color/number slider drag, color picker, focused
+        // number/text field) — re-analyzing every frame or keystroke is the
+        // same wasted cost. The effect below tracks both flags, so ending the
+        // gesture (interacting/adjusting → false) re-fires this and analyzes
+        // once against the final project.
+        if (selectedOutput.interacting || selectedOutput.adjusting) return;
 
         // Analyzed? Update the conflicts immediately.
         if (project.analyzed === 'analyzed') {
@@ -1351,8 +1357,10 @@
         // pauses.
         project;
         $keyboardEditIdle;
-        // Tracked so ending an on-stage drag (interacting → false) re-runs analysis once.
+        // Tracked so ending an on-stage drag or palette gesture
+        // (interacting/adjusting → false) re-runs analysis once.
         selectedOutput.interacting;
+        selectedOutput.adjusting;
         updateConflicts();
         return () => {
             if (updateTimer) clearTimeout(updateTimer);

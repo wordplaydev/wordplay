@@ -463,6 +463,9 @@
         flex-direction: column;
         align-items: stretch;
         gap: var(--wordplay-spacing);
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
+        border-radius: var(--wordplay-border-radius);
+        padding-bottom: var(--wordplay-spacing);
     }
 
     /* The preview/band/presets unit. Its border color fills the background and
@@ -473,7 +476,10 @@
         flex-direction: column;
         gap: var(--wordplay-border-width);
         background: var(--wordplay-border-color);
-        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
+        border-top-left-radius: var(--wordplay-border-radius);
+        border-top-right-radius: var(--wordplay-border-radius);
+        border-bottom: var(--wordplay-border-width) solid
+            var(--wordplay-border-color);
     }
 
     .top {
@@ -486,6 +492,7 @@
     .preview {
         width: 2rem;
         flex: 0 0 auto;
+        border-top-left-radius: var(--wordplay-border-radius);
     }
 
     .bands {
@@ -495,6 +502,8 @@
         display: flex;
         flex-direction: column;
         position: relative;
+        border-top-right-radius: var(--wordplay-border-radius);
+        overflow: hidden;
     }
 
     .band {
@@ -559,6 +568,8 @@
         align-items: center;
         gap: var(--wordplay-spacing);
         font-size: var(--wordplay-small-font-size);
+        padding-inline-start: var(--wordplay-spacing);
+        padding-inline-end: var(--wordplay-spacing);
     }
 
     /* Let the text field grow and the chip take its content width. */
