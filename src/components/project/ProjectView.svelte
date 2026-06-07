@@ -119,6 +119,7 @@
         setConflicts,
         setDragged,
         setEditors,
+        setEmphasizedConflict,
         setEvaluation,
         setKeyboardEditIdle,
         setKeyboardModifiers,
@@ -128,6 +129,7 @@
         setSelectedOutput,
         type ConceptPath,
         type EditorState,
+        type EmphasizedConflict,
         type KeyModifierState,
     } from '@components/project/Contexts';
     import CopyButton from '@components/project/CopyButton.svelte';
@@ -630,6 +632,12 @@
     /** A store for tracking editor state for all Sources */
     const editors = writable(new Map<string, EditorState>());
     setEditors(editors);
+
+    /** The conflict currently emphasized via the editor↔sidebar attention link. */
+    const emphasizedConflict = writable<EmphasizedConflict | undefined>(
+        undefined,
+    );
+    setEmphasizedConflict(emphasizedConflict);
 
     /** The currently focused editor state */
     const focusedEditorState = $derived(

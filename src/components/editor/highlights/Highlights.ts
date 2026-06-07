@@ -60,6 +60,8 @@ export const HighlightTypes = {
     major: true,
     // Minor conflict
     minor: true,
+    // A conflict being emphasized from the Annotations sidebar (transient wiggle)
+    attention: true,
     // A node that is animated
     animating: false,
     // Output that is active on stage

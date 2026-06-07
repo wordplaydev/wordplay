@@ -58,6 +58,7 @@
         getConflicts,
         getDragged,
         getEditors,
+        getEmphasizedConflict,
         getEvaluation,
         getKeyboardEditIdle,
         getResetKeyboardIdle,
@@ -359,6 +360,7 @@
     const keyboardEditIdle = getKeyboardEditIdle();
     const resetKeyboardIdle = getResetKeyboardIdle();
     const editors = getEditors();
+    const emphasizedConflict = getEmphasizedConflict();
 
     /** Get the concept index context */
     const indexContext = getConceptIndex();
@@ -1759,6 +1761,32 @@
           }
         | undefined;
 
+    /** The node we last told the sidebar to emphasize from the caret, so we only
+     * publish on change. */
+    let lastEmittedConflictNode: Node | undefined = undefined;
+    /**
+     * Publish an editor-origin emphasis for the conflict the caret is over (or
+     * clear our own emphasis when the caret leaves all conflicts). Reads/writes
+     * the store untracked so it never re-triggers the surrounding effect.
+     */
+    function emitEmphasis(node: Node | undefined) {
+        if (emphasizedConflict === undefined) return;
+        if (node === lastEmittedConflictNode) return;
+        lastEmittedConflictNode = node;
+        untrack(() => {
+            const current = get(emphasizedConflict);
+            if (node !== undefined)
+                emphasizedConflict.set({
+                    node,
+                    origin: 'editor',
+                    nonce: (current?.nonce ?? 0) + 1,
+                });
+            // Only clear our own (editor-origin) emphasis; leave sidebar emphasis alone.
+            else if (current?.origin === 'editor')
+                emphasizedConflict.set(undefined);
+        });
+    }
+
     $effect(() => {
         // The project and source can update at different times, so we only do this if the current source is in the project.
         if (!project.contains(source)) return;
@@ -1894,6 +1922,16 @@
                     );
             // If we didn't find a selection, just get all conflicts in the project.
             else newConflictsOfInterest = $nodeConflicts;
+
+            // Emphasize the conflict the *caret* landed on (not a hover) so the
+            // Annotations sidebar wiggles + scrolls to the matching row. Only
+            // emit on change to avoid churning the store on every keystroke.
+            const caretDerived =
+                conflictSelection !== undefined &&
+                conflictSelection !== conflictedHover
+                    ? conflictSelection
+                    : undefined;
+            emitEmphasis(caretDerived);
         }
         untrack(() => updateConflicts?.(source, newConflictsOfInterest));
 
@@ -2015,6 +2053,12 @@
         const inBlocks = $blocks;
         const _src = source;
         const _project = project;
+        // Track the published conflicts so the underlines refresh when analysis
+        // (re)publishes them — e.g. on load the project is analyzed slightly
+        // after first render, and without this dependency the conflict
+        // underlines computed from project.getConflictedNodes() would vanish
+        // until some other tracked input (like a caret move) re-ran this effect.
+        $nodeConflicts;
         if ($keyboardEditIdle === IdleKind.Typing) {
             projectHighlights = new Highlights();
             return;
@@ -2071,6 +2115,38 @@
         return new Highlights();
     });
 
+    // Emphasis slice: when the Annotations sidebar emphasizes a conflict, wiggle
+    // its underline here. Only react to sidebar-origin emphasis (editor-origin
+    // emphasis is the editor telling the sidebar, so reacting to it would loop).
+    let attentionHighlights = $derived.by(() => {
+        const emphasis = $emphasizedConflict;
+        const slice = new Highlights();
+        if (
+            emphasis !== undefined &&
+            emphasis.origin === 'sidebar' &&
+            source.has(emphasis.node)
+        )
+            slice.add(source, emphasis.node, 'attention');
+        return slice;
+    });
+
+    // Scroll the emphasized conflict's node into view when the sidebar emphasizes
+    // it. Keyed on nonce so re-emphasizing the same node still scrolls.
+    let lastScrolledEmphasisNonce: number | undefined = undefined;
+    $effect(() => {
+        const emphasis = $emphasizedConflict;
+        if (
+            emphasis === undefined ||
+            emphasis.origin !== 'sidebar' ||
+            !source.has(emphasis.node) ||
+            emphasis.nonce === lastScrolledEmphasisNonce
+        )
+            return;
+        lastScrolledEmphasisNonce = emphasis.nonce;
+        const view = untrack(() => getNodeView(emphasis.node));
+        if (view) ensureElementIsVisible(view);
+    });
+
     // Merge the slices and publish only when the result actually changed.
     // Skipping the store set on no-op caret moves prevents updateOutlines, the
     // scroll effect, and every NodeView's highlight derived from re-running.
@@ -2079,6 +2155,7 @@
             projectHighlights,
             caretHighlights,
             dragHighlights,
+            attentionHighlights,
         );
         const current = untrack(() => get(highlights));
         if (!current.equals(newHighlights)) highlights.set(newHighlights);

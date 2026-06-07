@@ -66,7 +66,9 @@
     import {
         getConceptIndex,
         getEditors,
+        getEmphasizedConflict,
         getEvaluation,
+        getTip,
     } from '@components/project/Contexts';
     import Annotation from '@components/annotations/Annotation.svelte';
 
@@ -117,12 +119,32 @@
     let indexContext = getConceptIndex();
     let index = $derived(indexContext?.index);
 
-    let annotations: AnnotationInfo[] = $state([]);
-    let annotationsByNode: Map<Node, AnnotationInfo[]> = $state(new Map());
+    /** Conflicts (and the optional evaluation step), each with a stable key,
+     *  sorted by order of appearance in the source. */
+    let annotations: { info: AnnotationInfo; key: string }[] = $state([]);
+    /** Per-conflict expanded state, keyed by a stable per-node key. Preserved
+     *  across re-analysis; a newly-seen conflict defaults to expanded only when
+     *  it's the sole conflict in this source. */
+    let expandedByKey: Map<string, boolean> = $state(new Map());
+
+    /** Whether any real conflicts (not just the evaluation step) are showing. */
+    let hasConflicts = $derived(
+        annotations.some(({ info }) => info.kind !== 'step'),
+    );
+
+    function toggleExpanded(key: string) {
+        const next = new Map(expandedByKey);
+        next.set(key, !(next.get(key) ?? false));
+        expandedByKey = next;
+    }
 
     // Get the editor this corresponds to.
     const editors = getEditors();
     let editor = $derived($editors?.get(sourceID));
+
+    // Drives the wiggle on collapsed-sidebar conflict bars (the expanded rows
+    // wiggle via Annotation.svelte's own subscription).
+    const emphasizedConflict = getEmphasizedConflict();
 
     async function updateAnnotations() {
         // Wait for DOM updates so that everything is in position before we layout annotations.
@@ -142,44 +164,57 @@
             }
         }
 
-        // Reset the annotation list to active annotations.
-        annotations = sourceConflicts
-            .map((conflict: Conflict) => {
+        // Map source conflicts to annotation infos.
+        const infos: AnnotationInfo[] = sourceConflicts.map(
+            (conflict: Conflict) => {
                 // getMessage is cheap (no inference) — explanation needed eagerly for the speech bubble.
                 // Resolutions are wrapped in a thunk and only computed when the annotation renders.
                 const nodes = conflict.getMessage(context, Templates);
-                return [
-                    {
-                        node: nodes.node,
-                        element: getNodeView(nodes.node),
-                        messages: [
-                            nodes.explanation(
-                                $locales,
-                                project.getNodeContext(nodes.node) ??
-                                    project.getContext(project.getMain()),
-                            ),
-                        ],
-                        kind: conflict.isMinor()
-                            ? ('minor' as const)
-                            : ('major' as const),
-                        context,
-                        resolutions: () =>
-                            conflict.getResolutions(context, Templates),
-                        conflict: conflict.getLocalePath(),
-                    },
-                ];
-            })
-            .flat();
+                return {
+                    node: nodes.node,
+                    element: getNodeView(nodes.node),
+                    messages: [
+                        nodes.explanation(
+                            $locales,
+                            project.getNodeContext(nodes.node) ??
+                                project.getContext(project.getMain()),
+                        ),
+                    ],
+                    kind: conflict.isMinor()
+                        ? ('minor' as const)
+                        : ('major' as const),
+                    context,
+                    resolutions: () =>
+                        conflict.getResolutions(context, Templates),
+                    conflict: conflict.getLocalePath(),
+                };
+            },
+        );
 
-        // If stepping, add the current evaluation.
+        // Sort by order of appearance in the source (the conflict node's first
+        // position). Analysis order is usually but not always source order.
+        const positions = new Map<AnnotationInfo, number>();
+        for (const info of infos)
+            positions.set(info, source.getNodeFirstPosition(info.node) ?? 0);
+        infos.sort(
+            (a, b) => (positions.get(a) ?? 0) - (positions.get(b) ?? 0),
+        );
+
+        // Assign a stable key per conflict (node id + per-node occurrence) so
+        // expanded state survives re-analysis.
+        const perNodeCount = new Map<number, number>();
+        const keyed = infos.map((info) => {
+            const n = perNodeCount.get(info.node.id) ?? 0;
+            perNodeCount.set(info.node.id, n + 1);
+            return { info, key: `${info.node.id}#${n}` };
+        });
+
+        // If stepping, add the current evaluation as a non-collapsible step.
         if (stepping && evaluator) {
             const [node, view] = getStepView();
-
-            // Return a single annotation for the step.
             if (node && source.contains(node))
-                annotations = [
-                    ...annotations,
-                    {
+                keyed.push({
+                    info: {
                         node: node,
                         element: view,
                         messages: [
@@ -201,16 +236,21 @@
                         context,
                         resolutions: () => [],
                     },
-                ];
+                    key: 'step',
+                });
         }
 
-        // Now organize by node.
-        annotationsByNode = new Map();
-        for (const annotation of annotations)
-            annotationsByNode.set(annotation.node, [
-                annotation,
-                ...(annotationsByNode.get(annotation.node) ?? []),
-            ]);
+        // Recompute expanded state: preserve existing toggles; a newly-seen
+        // conflict defaults to expanded only when it's the sole conflict.
+        const soleConflict = infos.length === 1;
+        const nextExpanded = new Map<string, boolean>();
+        for (const { info, key } of keyed) {
+            if (info.kind === 'step') continue;
+            nextExpanded.set(key, expandedByKey.get(key) ?? soleConflict);
+        }
+        expandedByKey = nextExpanded;
+
+        annotations = keyed;
     }
 
     function getStepView(): [Node | null, Element | null] {
@@ -355,6 +395,64 @@
         );
         Settings.setAnnotationsWidth(newWidth);
     }
+
+    // Reuse the shared Tip infrastructure (same as the expand/collapse arrow)
+    // for the whole-bar tooltip, rather than a plain title attribute.
+    const hint = getTip();
+    /** A small element near the arrow to anchor the tip to, so it's placed and
+     *  sized like every other tip (anchoring to the whole wide section would
+     *  position it oddly). */
+    let tipAnchor = $state<HTMLElement | undefined>(undefined);
+    /** The expanded content container, used to detect "directly over the panel
+     *  background" (vs. over a conflict, button, or the arrow). */
+    let annotationsEl = $state<HTMLElement | undefined>(undefined);
+    /**
+     * Show the toggle tip only when the panel's own background is directly under
+     * the pointer — not when over a conflict, a button, or the arrow. We use
+     * `pointerover` (fires per element entered, and bubbles) so the tip updates
+     * as the pointer moves between the background and content.
+     */
+    function handleSectionOver(event: PointerEvent) {
+        if (
+            (event.target === sectionEl || event.target === annotationsEl) &&
+            tipAnchor
+        )
+            hint.show(
+                $locales.getPlainText((l) => l.ui.annotations.button.toggle),
+                tipAnchor,
+            );
+        else hint.hide();
+    }
+    function hideSectionTip() {
+        hint.hide();
+    }
+
+    /**
+     * Toggle the whole sidebar when empty space is pressed. We use `pointerdown`
+     * (not `click`) because clicking the arrow changes the layout — the panel
+     * expands — so `click`'s target becomes the common ancestor of pointerdown
+     * and pointerup (the section), defeating a click-target guard and toggling a
+     * second time. pointerdown's target is the precise element pressed.
+     * Interactive children (the expander, conflict rows/dots, resolution
+     * buttons, links) handle their own press, so we ignore presses on them.
+     */
+    function handleSectionPointerDown(event: PointerEvent) {
+        if (
+            event.target instanceof Element &&
+            event.target.closest('button, a, input, [role="button"]')
+        )
+            return;
+        toggle();
+    }
+
+    /** Expand the sidebar (if collapsed) and expand a specific conflict. */
+    function expandConflict(key: string, node: Node) {
+        if (!isExpanded) toggle();
+        const next = new Map(expandedByKey);
+        next.set(key, true);
+        expandedByKey = next;
+        editor?.setCaretPosition(node);
+    }
 </script>
 
 <!-- Render annotations by node -->
@@ -373,7 +471,9 @@
             onnudge={handleKnobNudge}
         />
     {/if}
-<!-- svelte-ignore a11y_no_static_element_interactions -->
+<!-- The Expander button provides the keyboard-accessible toggle; this click
+     handler is a redundant convenience so empty space toggles the sidebar too. -->
+<!-- svelte-ignore a11y_no_static_element_interactions, a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions -->
 <section
     bind:this={sectionEl}
     aria-label={$locales.getPlainText((l) => l.ui.annotations.label)}
@@ -383,15 +483,27 @@
     style:width={isExpanded ? `${renderedWidth}px` : null}
     style:min-width={isExpanded ? `${renderedWidth}px` : null}
     style:max-width={isExpanded ? `${renderedWidth}px` : null}
+    onpointerdown={handleSectionPointerDown}
+    onpointerover={handleSectionOver}
+    onpointerleave={hideSectionTip}
 >
-    <Expander
-        expanded={isExpanded}
-        {toggle}
-        vertical={false}
-        label={(l) => l.ui.annotations.button.toggle}
-    />
+    <span class="tip-anchor" bind:this={tipAnchor}>
+        <Expander
+            expanded={isExpanded}
+            {toggle}
+            vertical={false}
+            label={(l) => l.ui.annotations.button.toggle}
+        />
+    </span>
     {#if isExpanded}
-        <div class="annotations">
+        <!-- Pin the content to its final (expanded) width so it lays out once;
+             the section's width transition then just reveals it (overflow-x is
+             hidden) instead of reflowing/rewrapping the text mid-animation. -->
+        <div
+            bind:this={annotationsEl}
+            class="annotations"
+            style:width={`calc(${renderedWidth}px - 2 * var(--wordplay-spacing) - var(--wordplay-border-width))`}
+        >
             {#if source.isEmpty()}
                 <Speech
                     character={Characters.FunctionDefinition}
@@ -407,7 +519,9 @@
                         />
                     {/snippet}
                 </Speech>
-            {:else}
+            {:else if !hasConflicts}
+                <!-- Hide the caret description while conflicts are showing so the
+                     list stays scannable. -->
                 <Speech
                     character={Characters.FunctionDefinition}
                     scroll={false}
@@ -544,15 +658,21 @@
                     {/snippet}
                 </Speech>
             {/if}
-            {#if annotationsByNode.size > 0}
+            {#if !hasConflicts && annotations.length > 0}
                 <hr />
             {/if}
-            {#each Array.from(annotationsByNode.values()) as annotations, index}
-                <Annotation id={index} {annotations} {sourceID} />
+            {#each annotations as { info, key } (key)}
+                <Annotation
+                    annotation={info}
+                    expanded={info.kind === 'step' ||
+                        (expandedByKey.get(key) ?? false)}
+                    onToggle={() => toggleExpanded(key)}
+                    {sourceID}
+                />
             {/each}
         </div>
     {:else}
-        {#each annotations as annotation}
+        {#each annotations as { info, key } (key)}
             <div
                 role="button"
                 tabindex="0"
@@ -562,11 +682,16 @@
                 aria-label={$locales.getPlainText(
                     (l) => l.ui.annotations.button.highlight,
                 )}
-                onpointerdown={() =>
-                    editor
-                        ? editor.setCaretPosition(annotation.node)
-                        : undefined}
-                class="annotation {annotation.kind}"
+                onclick={() => expandConflict(key, info.node)}
+                onkeydown={(event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        expandConflict(key, info.node);
+                    }
+                }}
+                class="annotation {info.kind}"
+                class:wiggle={$emphasizedConflict?.origin === 'editor' &&
+                    $emphasizedConflict?.node === info.node}
             ></div>
         {/each}
     {/if}
@@ -586,6 +711,8 @@
         overflow-x: hidden;
         overflow-y: auto;
         height: 100%;
+        /* The whole bar toggles expand/collapse, so show the hand cursor over it. */
+        cursor: pointer;
         border-inline-start: solid var(--wordplay-border-width)
             var(--wordplay-border-color);
         max-width: 2em;
@@ -613,6 +740,12 @@
         gap: var(--wordplay-spacing);
     }
 
+    /* Tight wrapper so the panel tip anchors to the arrow's box, not the whole bar. */
+    .tip-anchor {
+        display: inline-block;
+        width: fit-content;
+    }
+
     .who {
         display: flex;
         flex-direction: column;
@@ -624,6 +757,8 @@
         display: flex;
         flex-direction: column;
         gap: var(--wordplay-spacing);
+        /* Spacing after the expand/collapse arrow above. */
+        margin-block-start: var(--wordplay-spacing);
     }
 
     .annotation {
@@ -633,6 +768,18 @@
         background: var(--wordplay-error);
         animation: spin ease-out calc(var(--animation-factor) * 100ms);
         cursor: pointer;
+    }
+
+    /* Hover feedback on the collapsed-sidebar conflict bars. */
+    .annotation:hover {
+        outline: var(--wordplay-focus-width) solid var(--wordplay-focus-color);
+    }
+
+    /* Wiggle a collapsed conflict bar while the caret is over its conflict,
+       mirroring the expanded rows and the editor underline. Reuses the global
+       `shake` keyframe for a sharper motion. */
+    .annotation.wiggle {
+        animation: shake calc(var(--animation-factor) * 500ms) linear infinite;
     }
 
     @keyframes spin {

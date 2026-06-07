@@ -187,6 +187,23 @@ export type EditorState = {
 export const [getEditors, setEditors] =
     createOptionalContext<Writable<Map<string, EditorState>>>();
 
+/**
+ * The conflict currently being emphasized, shared between the editor and the
+ * Annotations sidebar to drive the two-way "draw attention" link. Each side
+ * only reacts to the *other* side's origin, preventing feedback loops:
+ * - `origin: 'sidebar'` → the editor scrolls to + wiggles the conflict's underline.
+ * - `origin: 'editor'`  → the sidebar scrolls to + wiggles the conflict's row.
+ * `nonce` is bumped on every emphasis so consumers can re-fire even when the
+ * emphasized node is unchanged.
+ */
+export type EmphasizedConflict = {
+    node: Node;
+    origin: 'editor' | 'sidebar';
+    nonce: number;
+};
+export const [getEmphasizedConflict, setEmphasizedConflict] =
+    createOptionalContext<Writable<EmphasizedConflict | undefined>>();
+
 /** The latest conflicts computed for a project. */
 export const [getConflicts, setConflicts] = createOptionalContext<
     Writable<Conflict[]> | undefined
