@@ -567,6 +567,20 @@ type UITexts = {
     output: {
         /** [plain] The ARIA label for the output section */
         label: string;
+        /** [plain] Screen-reader instructions for selecting multiple outputs on stage with the keyboard */
+        multiselect: string;
+        /** [plain] Announced when an output is added to the selection. $name is the output, $count is the number now selected. */
+        selected: Template<['name', 'count']>;
+        /** [plain] Announced when an output is removed from the selection. $name is the output, $count is the number now selected. */
+        deselected: Template<['name', 'count']>;
+        /** [plain] Announced when all outputs are selected. $count is the number now selected. */
+        allSelected: Template<['count']>;
+        /** [plain] Announced when the selection is cleared */
+        cleared: string;
+        /** [plain] Announced when selecting one output and opening the palette. $name is the output. */
+        selectedOnly: Template<['name']>;
+        /** [plain] Suffix appended to a selected group's accessible name, since a group cannot use aria-pressed */
+        selectedSuffix: string;
         toggle: {
             /** Toggle whether grid is shown */
             grid: ToggleText;

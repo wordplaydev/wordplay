@@ -5361,7 +5361,14 @@
                 "note": "$~공유하기 전에 브라우저에서 확인 메시지를 표시합니다.",
                 "start": "$~시작",
                 "retry": "$~다시 해 보다"
-            }
+            },
+            "multiselect": "$~탭 키와 Alt 키, 화살표 키를 사용하여 출력 간에 이동할 수 있습니다. 스페이스 키를 누르면 선택된 출력을 선택 항목에 추가하거나 제거할 수 있습니다. Enter 키를 누르면 해당 출력만 선택되고 팔레트가 열립니다. Esc 키를 누르면 선택 항목이 모두 해제됩니다. Control 또는 Command 키와 A 키를 누르면 모든 출력이 선택됩니다.",
+            "selected": "$~$name 선택됨, $count 선택됨",
+            "deselected": "$~$name 선택 해제됨, $count 선택됨",
+            "allSelected": "$~모든 출력 선택됨, $count 선택됨",
+            "cleared": "$~선택이 완료되었습니다",
+            "selectedOnly": "$~$name 선택되었습니다. 팔레트를 엽니다.",
+            "selectedSuffix": "$~선택된"
         },
         "timeline": {
             "label": "$~타임라인",

@@ -32,6 +32,7 @@ This week we made the palette much more fast and complete, and make saving much 
 - 🚦 When nothing is selected, the palette's buttons for adding output now only make changes that fit — like wrapping a @Phrase in a @Group, or a @Form in a @Shape — instead of odd ones like putting a @Shape inside a @Phrase. When your program is empty, we offer to add a @Phrase to get you started.
 - 🖱️ We fixed pop-up tips in scrolled dialogs. (#1177)
 - 🔄 We made loading and saving much less intensive for slow internet connections and people with lots of projects, galleries, and chats. Saving should be much more reliable overall now, especially if you temporarily lose your internet connection (#812).
+- ⌨️ Multiple selections on stage only worked by pointer; now keyboards are supported too (#118).
 
 ## 0.20.0 - 2026-05-30
 

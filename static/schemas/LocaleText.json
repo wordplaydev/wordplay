@@ -15253,6 +15253,10 @@
             "output": {
               "additionalProperties": false,
               "properties": {
+                "allSelected": {
+                  "$ref": "#/definitions/Template%3C%5B%22count%22%5D%3E",
+                  "description": "[plain] Announced when all outputs are selected. $count is the number now selected."
+                },
                 "button": {
                   "additionalProperties": false,
                   "properties": {
@@ -15291,6 +15295,14 @@
                   ],
                   "type": "object"
                 },
+                "cleared": {
+                  "description": "[plain] Announced when the selection is cleared",
+                  "type": "string"
+                },
+                "deselected": {
+                  "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22count%22%5D%3E",
+                  "description": "[plain] Announced when an output is removed from the selection. $name is the output, $count is the number now selected."
+                },
                 "field": {
                   "additionalProperties": false,
                   "properties": {
@@ -15306,6 +15318,10 @@
                 },
                 "label": {
                   "description": "[plain] The ARIA label for the output section",
+                  "type": "string"
+                },
+                "multiselect": {
+                  "description": "[plain] Screen-reader instructions for selecting multiple outputs on stage with the keyboard",
                   "type": "string"
                 },
                 "options": {
@@ -15364,6 +15380,18 @@
                     "retry"
                   ],
                   "type": "object"
+                },
+                "selected": {
+                  "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22count%22%5D%3E",
+                  "description": "[plain] Announced when an output is added to the selection. $name is the output, $count is the number now selected."
+                },
+                "selectedOnly": {
+                  "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                  "description": "[plain] Announced when selecting one output and opening the palette. $name is the output."
+                },
+                "selectedSuffix": {
+                  "description": "[plain] Suffix appended to a selected group's accessible name, since a group cannot use aria-pressed",
+                  "type": "string"
                 },
                 "toggle": {
                   "additionalProperties": false,
@@ -15435,6 +15463,13 @@
               },
               "required": [
                 "label",
+                "multiselect",
+                "selected",
+                "deselected",
+                "allSelected",
+                "cleared",
+                "selectedOnly",
+                "selectedSuffix",
                 "toggle",
                 "field",
                 "button",
@@ -20515,6 +20550,9 @@
       "type": "string"
     },
     "Template<[\"modifier\",\"color\"]>": {
+      "type": "string"
+    },
+    "Template<[\"name\",\"count\"]>": {
       "type": "string"
     },
     "Template<[\"name\",\"input\"]>": {

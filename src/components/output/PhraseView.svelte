@@ -89,6 +89,16 @@
             selection?.includes(phrase.value.creator, $project),
     );
 
+    // True only when this is the SOLE selected output. The rotate/resize handles and keyboard focus
+    // apply to a single output — rendering handles for every output in a multi-selection makes their
+    // shared focus state fight (an infinite effect loop), and multi-output rotate/resize isn't a
+    // thing. Multi-selection is edited through the palette instead.
+    let soleSelected = $derived(
+        selected === true &&
+            $project !== undefined &&
+            selection?.getOutput($project).length === 1,
+    );
+
     let view = $state<HTMLDivElement | undefined>(undefined);
 
     // Text-editing mode is derived from the external SelectedOutput store, NOT local state.
@@ -127,9 +137,9 @@
         lastFrame = frame;
     });
 
-    // Focus the phrase div when selected but not in text-editing mode.
+    // Focus the phrase div when it's the SOLE selection and not in text-editing mode.
     $effect(() => {
-        if (selected && !entered && view)
+        if (soleSelected && !entered && view)
             setKeyboardFocus(view, 'focused on selected phrase');
     });
 
@@ -285,6 +295,7 @@
         aria-roledescription={!selectable
             ? $locales.getPlainText((l) => l.term.phrase)
             : null}
+        aria-pressed={selectable && editing && editable ? selected : null}
         class="output phrase"
         class:selected
         tabIndex={interactive && ((!empty && selectable) || editing) ? 0 : null}
@@ -329,11 +340,11 @@
             ? null
             : CSSAlignments[phrase.alignment]}
     >
-        {#if selected && editable && !entered && creator}
+        {#if soleSelected && editable && !entered && creator}
             <OutputHandles
                 {creator}
                 {view}
-                {selected}
+                selected={soleSelected}
                 name={$locales.getPlainText((l) => l.term.phrase)}
                 rotation={phrase.pose.rotation ?? 0}
                 size={phrase.size ?? localContext.size}

@@ -5575,6 +5575,13 @@
         },
         "output": {
             "label": "stage",
+            "multiselect": "Use tab and the alt and arrow keys to move between outputs. Press space to add or remove the focused output from your selection. Press enter to select just that output and open the palette. Press escape to clear your selection. Press control or command and A to select all outputs.",
+            "selected": "$name selected, $count selected",
+            "deselected": "$name deselected, $count selected",
+            "allSelected": "all outputs selected, $count selected",
+            "cleared": "selection cleared",
+            "selectedOnly": "$name selected, opening palette",
+            "selectedSuffix": "selected",
             "toggle": {
                 "grid": {
                     "on": "hide grid lines",

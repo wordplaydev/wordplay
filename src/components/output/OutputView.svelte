@@ -522,21 +522,113 @@
             }
         }
 
-        // Keyboard actions on the focused output. Selection itself is driven by focus (see
-        // handleFocusIn), so tabbing to an output already selects it and shows its handles —
-        // this adds Enter/Space to explicitly OPEN the palette for it, and Cmd/Ctrl+Backspace
-        // to delete it. (A focused phrase consumes Enter for text editing before it reaches
-        // here, so this Enter-to-reveal applies to shapes, groups, and the stage.)
-        if (!evaluator.isPlaying() && editable && selection) {
-            const evaluate = getOutputNodeFromID(getOutputNodeIDFromFocus());
-            if (evaluate !== undefined) {
-                // Enter/Space opens the palette for the focused (already-selected) output.
-                if (select) {
-                    revealPalette?.();
+        // Keyboard multi-select of outputs (paused + editable), a decoupled "toggle" model: moving
+        // focus (Tab / Alt+Arrow) never changes the selection; Space toggles the focused output in or
+        // out; Enter selects ONLY the focused output and opens the palette; Escape clears; Cmd/Ctrl+A
+        // selects all. Never mutate the selection mid handle-drag (mirrors selectPointerOutput).
+        if (!evaluator.isPlaying() && editable && selection && !selection.dragging) {
+            const lang = $locales.getLanguages()[0];
+
+            // Escape clears the whole selection (works even when focus is on the stage container).
+            if (event.key === 'Escape' && !command && !shift) {
+                if (!selection.isEmpty()) {
+                    selection.empty();
+                    if ($announce)
+                        $announce(
+                            'selection',
+                            lang,
+                            $locales.getPlainText((l) => l.ui.output.cleared),
+                        );
                     event.stopPropagation();
                     return;
                 }
-                // Remove the node that created this output.
+            }
+
+            // Cmd/Ctrl+A selects every selectable output on stage.
+            if (event.key === 'a' && command && !shift) {
+                const all = getFocusableOutput()
+                    .map((el) =>
+                        getOutputNodeFromID(getOutputNodeIDFromElement(el)),
+                    )
+                    .filter((e): e is Evaluate => e !== undefined);
+                if (all.length > 0) {
+                    selection.selectAll(project, all);
+                    if ($announce)
+                        $announce(
+                            'selection',
+                            lang,
+                            $locales
+                                .concretize((l) => l.ui.output.allSelected, {
+                                    count: all.length,
+                                })
+                                .toText(),
+                        );
+                    event.preventDefault();
+                    event.stopPropagation();
+                    return;
+                }
+            }
+
+            const evaluate = getOutputNodeFromID(getOutputNodeIDFromFocus());
+            if (evaluate !== undefined) {
+                // Use the output's description (its aria-label) for recognizability — data-name is an
+                // internal id. Read before any toggle so a group's "selected" name suffix isn't echoed.
+                const name =
+                    document.activeElement instanceof HTMLElement
+                        ? (document.activeElement.getAttribute('aria-label') ??
+                          '')
+                        : '';
+
+                // Space toggles the focused output's membership in the selection.
+                if (event.key === ' ' && !command && !shift) {
+                    selection.toggle(project, evaluate);
+                    const nowSelected = selection.includes(evaluate, project);
+                    const count = selection.getOutput(project).length;
+                    if ($announce)
+                        $announce(
+                            'selection',
+                            lang,
+                            nowSelected
+                                ? $locales
+                                      .concretize((l) => l.ui.output.selected, {
+                                          name,
+                                          count,
+                                      })
+                                      .toText()
+                                : $locales
+                                      .concretize(
+                                          (l) => l.ui.output.deselected,
+                                          { name, count },
+                                      )
+                                      .toText(),
+                        );
+                    // Suppress page scroll AND the role=button activation the leaf would otherwise fire.
+                    event.preventDefault();
+                    event.stopPropagation();
+                    return;
+                }
+
+                // Enter selects only the focused output and opens the palette. (A sole-selected phrase
+                // consumes Enter for text editing in PhraseView before it reaches here.)
+                if (event.key === 'Enter' && !command && !shift) {
+                    selection.setPaths(project, [evaluate], 'output');
+                    selection.setPhrase(null);
+                    revealPalette?.();
+                    if ($announce)
+                        $announce(
+                            'selection',
+                            lang,
+                            $locales
+                                .concretize((l) => l.ui.output.selectedOnly, {
+                                    name,
+                                })
+                                .toText(),
+                        );
+                    event.stopPropagation();
+                    return;
+                }
+
+                // Cmd/Ctrl+Backspace deletes the focused output.
                 if (event.key === 'Backspace' && command) {
                     Projects.revise(project, [[evaluate, undefined]]);
                     event.stopPropagation();
@@ -1081,21 +1173,6 @@
         return true;
     }
 
-    /** When a stage output receives keyboard focus (e.g. via Tab) while paused and editable,
-     *  select it — so its rotate/resize handles appear and arrow keys move it, matching what a
-     *  click does. focusin bubbles, so this fires for any focused descendant; a handle button
-     *  has no data-node-id and resolves to nothing, so focusing a handle leaves the selection
-     *  intact. No-op during play (read-only) or when the output is already selected. */
-    function handleFocusIn() {
-        if (evaluator.isPlaying() || !editable || selection === undefined)
-            return;
-        const evaluate = getOutputNodeFromID(getOutputNodeIDFromFocus());
-        if (evaluate === undefined || selection.includes(evaluate, project))
-            return;
-        selection.setPaths(project, [evaluate], 'output');
-        selection.setPhrase(null);
-    }
-
     /** Double-click selects the output under the pointer and explicitly opens the palette for it.
      *  (A phrase consumes dblclick for text editing before this fires, so this applies to shapes,
      *  groups, and the stage.) Read-only during play. */
@@ -1297,7 +1374,11 @@
     class="output"
     data-testid="output"
     data-uiid="stage"
+    role="group"
     aria-label={$locales.getPlainText((l) => l.ui.output.label)}
+    aria-describedby={$evaluation?.playing === false && !painting && editable
+        ? 'output-multiselect-help'
+        : null}
     class:mini
     class:editing={$evaluation?.playing === false && !painting && editable}
     class:selected={stageValue &&
@@ -1306,6 +1387,11 @@
         selection !== undefined &&
         selection.includes(stageValue.value.creator, project)}
 >
+    {#if $evaluation?.playing === false && !painting && editable}
+        <span id="output-multiselect-help" class="multiselect-help"
+            >{$locales.getPlainText((l) => l.ui.output.multiselect)}</span
+        >
+    {/if}
     <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div
         class="value"
@@ -1315,7 +1401,6 @@
         bind:this={valueView}
         onkeydown={interactive ? handleKeyDown : null}
         onkeyup={interactive ? handleKeyUp : null}
-        onfocusin={interactive ? handleFocusIn : null}
         ondblclick={interactive ? handleDoubleClick : null}
         onwheel={interactive ? handleWheel : null}
         onpointerdown={(event) => {
@@ -1472,6 +1557,17 @@
         flex-grow: 1;
     }
 
+    /* Visually-hidden screen-reader instructions for keyboard multi-select. */
+    .multiselect-help {
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        height: 1px;
+        width: 1px;
+        overflow: hidden;
+        position: absolute;
+        white-space: nowrap;
+    }
+
     .output:focus-within {
         outline: var(--wordplay-focus-width) solid var(--wordplay-focus-color);
         outline-offset: calc(-1 * var(--wordplay-focus-width));
@@ -1499,6 +1595,20 @@
     :global(.stage.editing.interactive .group:not(.selected):not(.root)) {
         outline: var(--wordplay-focus-width) dotted
             var(--wordplay-inactive-color);
+    }
+
+    /* A keyboard-focused output shows a SOLID focus ring drawn with box-shadow (a different property
+       than the selection/selectable dotted `outline` above) so the two coexist — a focused AND
+       selected output shows both. The focus ring sits just outside the outline, separated by a thin
+       background-colored gap, so they read as distinct concentric rings. box-shadow (like the
+       outline) draws outside the box, so an opaque Shape fill can't paint over it. */
+    :global(.stage.editing.interactive .phrase:focus-visible),
+    :global(.stage.editing.interactive .shape:focus-visible),
+    :global(.stage.editing.interactive .group:focus-visible:not(.root)) {
+        box-shadow:
+            0 0 0 var(--wordplay-focus-width) var(--wordplay-background),
+            0 0 0 calc(2 * var(--wordplay-focus-width))
+                var(--wordplay-focus-color);
     }
 
     /* Move cursor signals draggability (but not while editing a phrase's text). */

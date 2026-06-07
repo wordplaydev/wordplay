@@ -91,6 +91,15 @@
             selection?.includes(group.value.creator, $project),
     );
 
+    // True only when this is the SOLE selected output (see PhraseView): handles and keyboard focus
+    // apply to one output, and rendering handles for every output in a multi-selection makes their
+    // shared focus state fight (infinite effect loop).
+    let soleSelected = $derived(
+        selected === true &&
+            $project !== undefined &&
+            selection?.getOutput($project).length === 1,
+    );
+
     // The group element, bound so handle drags can measure its center.
     let view = $state<HTMLDivElement | undefined>(undefined);
 
@@ -101,9 +110,11 @@
             : undefined,
     );
 
-    // Focus the group div when selected (so keyboard handle navigation works).
+    // Focus the group div when it's the SOLE selection (so keyboard handle navigation works). Gated
+    // on a single selection so a multi-select (e.g. Cmd/Ctrl+A) doesn't make every selected view race
+    // to grab focus.
     $effect(() => {
-        if (selected && !root && view)
+        if (soleSelected && !root && view)
             setKeyboardFocus(view, 'Focused on selected group.');
     });
 
@@ -150,7 +161,11 @@
 <div
     bind:this={view}
     role={!group.selectable ? null : 'group'}
-    aria-label={description}
+    aria-label={selected && !root
+        ? `${description ?? ''} ${$locales.getPlainText(
+              (l) => l.ui.output.selectedSuffix,
+          )}`.trim()
+        : description}
     aria-roledescription={group instanceof Group
         ? $locales.getPlainText((l) => l.term.group)
         : $locales.getPlainText((l) => l.term.stage)}
@@ -245,11 +260,11 @@
         </svg>
     {/if}
     <!-- Rotate/resize handles for a selected (non-root) group. -->
-    {#if selected && !root && creator}
+    {#if soleSelected && !root && creator}
         <OutputHandles
             {creator}
             {view}
-            {selected}
+            selected={soleSelected}
             name={$locales.getPlainText((l) => l.term.group)}
             rotation={group.pose.rotation ?? 0}
             size={group.pose.scale ?? 1}

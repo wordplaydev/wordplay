@@ -5323,7 +5323,14 @@
                 "note": "$~分享前，您的浏览器会询问。",
                 "start": "$~开始",
                 "retry": "$~重试"
-            }
+            },
+            "multiselect": "$~使用 Tab 键、Alt 键和方向键可在输出之间移动。按空格键可将当前选中的输出添加到选择范围或从选择范围中移除。按 Enter 键可仅选中该输出并打开调色板。按 Esc 键可清除选择。按 Ctrl 键或 Command 键加 A 键可选择所有输出。",
+            "selected": "$~已选择$name ， $count",
+            "deselected": "$~已取消选择$name ，已选择$count",
+            "allSelected": "$~已选择所有输出，已选择$count",
+            "cleared": "$~选择已清除",
+            "selectedOnly": "$~已选中$name ，打开调色板",
+            "selectedSuffix": "$~选定"
         },
         "timeline": {
             "label": "时间轴",

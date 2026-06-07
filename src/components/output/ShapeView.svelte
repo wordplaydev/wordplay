@@ -76,6 +76,15 @@
             selection?.includes(shape.value.creator, $project),
     );
 
+    // True only when this is the SOLE selected output (see PhraseView): handles and keyboard focus
+    // apply to one output, and rendering handles for every output in a multi-selection makes their
+    // shared focus state fight (infinite effect loop).
+    let soleSelected = $derived(
+        selected === true &&
+            $project !== undefined &&
+            selection?.getOutput($project).length === 1,
+    );
+
     let width = $derived(shape.form.getWidth() * PX_PER_METER);
     let height = $derived(shape.form.getHeight() * PX_PER_METER);
 
@@ -89,9 +98,9 @@
             : undefined,
     );
 
-    // Focus the shape div when selected (so keyboard handle navigation works).
+    // Focus the shape div when it's the SOLE selection (so keyboard handle navigation works).
     $effect(() => {
-        if (selected && view)
+        if (soleSelected && view)
             setKeyboardFocus(view, 'Focused on selected shape.');
     });
 
@@ -141,6 +150,7 @@
         aria-disabled={!selectable}
         aria-label={description}
         aria-roledescription={!selectable ? shapeKindName : null}
+        aria-pressed={selectable && editing && editable ? selected : null}
         class="output shape {shape.form instanceof Rectangle
             ? 'rectangle'
             : shape.form instanceof Circle
@@ -191,11 +201,11 @@
             />
         </svg>
         <!-- Handles render after the SVG so the (opaque) form fill doesn't paint over them. -->
-        {#if selected && creator}
+        {#if soleSelected && creator}
             <OutputHandles
                 {creator}
                 {view}
-                {selected}
+                selected={soleSelected}
                 name={shapeKindName}
                 rotation={shape.pose.rotation ?? 0}
                 size={1}

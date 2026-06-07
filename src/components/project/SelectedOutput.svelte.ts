@@ -142,6 +142,26 @@ export default class SelectedOutput {
         this.origin = 'output';
     }
 
+    /** Add the given output to the selection if absent, or remove it if present. Used for keyboard
+     *  (Space) and shift-click multi-select. Clears any phrase text-edit, since the acted-on set
+     *  changed. */
+    toggle(project: Project, evaluate: Evaluate) {
+        const current = this.getOutput(project);
+        const index = current.indexOf(evaluate);
+        const next =
+            index >= 0
+                ? [...current.slice(0, index), ...current.slice(index + 1)]
+                : [...current, evaluate];
+        this.setPaths(project, next, 'output');
+        this.setPhrase(null);
+    }
+
+    /** Select exactly the given set of outputs (e.g. keyboard Cmd/Ctrl+A "select all"). */
+    selectAll(project: Project, evaluates: Evaluate[]) {
+        this.setPaths(project, evaluates, 'output');
+        this.setPhrase(null);
+    }
+
     setRotationFocused(focused: boolean) {
         this.rotationFocused = focused;
     }

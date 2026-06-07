@@ -5378,7 +5378,14 @@
                 "note": "$~Paylaşmadan önce tarayıcınız size soracaktır.",
                 "start": "$~Başlangıç",
                 "retry": "$~Tekrar dene"
-            }
+            },
+            "multiselect": "$~Çıktılar arasında geçiş yapmak için Tab, Alt ve ok tuşlarını kullanın. Odaklanmış çıktıyı seçime eklemek veya seçimden kaldırmak için Boşluk tuşuna basın. Yalnızca o çıktıyı seçmek ve paleti açmak için Enter tuşuna basın. Seçimi temizlemek için Escape tuşuna basın. Tüm çıktıları seçmek için Control veya Command ve A tuşlarına basın.",
+            "selected": "$~$name seçildi, $count seçildi",
+            "deselected": "$~$name seçimi kaldırıldı, $count seçildi",
+            "allSelected": "$~Seçilen tüm çıktılar, $count seçildi.",
+            "cleared": "$~seçim temizlendi",
+            "selectedOnly": "$~$name seçildi, palet açılıyor",
+            "selectedSuffix": "$~seçildi"
         },
         "timeline": {
             "label": "$~zaman çizelgesi",

@@ -5378,7 +5378,14 @@
                 "note": "$~Din webbläsare kommer att fråga innan delning.",
                 "start": "$~Start",
                 "retry": "$~Försöka igen"
-            }
+            },
+            "multiselect": "$~Använd tabbtangenten, alt- och piltangenterna för att flytta mellan utdata. Tryck på mellanslag för att lägga till eller ta bort den fokuserade utdatan från ditt val. Tryck på enter för att välja endast den utdatan och öppna paletten. Tryck på escape för att rensa ditt val. Tryck på ctrl eller command och A för att välja alla utdata.",
+            "selected": "$~$name valt, $count valt",
+            "deselected": "$~$name avmarkerad, $count vald",
+            "allSelected": "$~alla utdata valda, $count vald",
+            "cleared": "$~valet rensat",
+            "selectedOnly": "$~$name valt, öppnar paletten",
+            "selectedSuffix": "$~vald"
         },
         "timeline": {
             "label": "$~tidslinjen",

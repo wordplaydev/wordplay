@@ -5622,7 +5622,14 @@
                 "note": "$~Browserul tău te va întreba înainte de partajare.",
                 "start": "$~Început",
                 "retry": "$~Reîncercați"
-            }
+            },
+            "multiselect": "$~Folosește Tab și tastele Alt și săgeată pentru a te deplasa între ieșiri. Apăsă Space pentru a adăuga sau elimina ieșirea focalizată din selecție. Apăsă Enter pentru a selecta doar acea ieșire și a deschide paleta. Apăsă Escape pentru a șterge selecția. Apăsă Control sau Command și A pentru a selecta toate ieșirile.",
+            "selected": "$~$name selectat, $count selectat",
+            "deselected": "$~$name deselectat, $count selectat",
+            "allSelected": "$~toate ieșirile selectate, $count selectat",
+            "cleared": "$~selecție ștersă",
+            "selectedOnly": "$~$name selectat, se deschide paleta",
+            "selectedSuffix": "$~selectat"
         },
         "timeline": {
             "label": "$~cronologie",

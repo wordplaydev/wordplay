@@ -5378,7 +5378,14 @@
                 "note": "$~共有する前に、ブラウザが確認を求めます。",
                 "start": "$~始める",
                 "retry": "$~リトライ"
-            }
+            },
+            "multiselect": "$~Tabキー、Altキー、矢印キーを使って出力間を移動します。スペースキーを押すと、選択範囲からフォーカスされている出力を追加または削除できます。Enterキーを押すと、その出力のみが選択され、パレットが開きます。Escキーを押すと、選択範囲がクリアされます。ControlキーまたはCommandキーとAキーを同時に押すと、すべての出力を選択できます。",
+            "selected": "$~$name、 $count",
+            "deselected": "$~$name、 $count。",
+            "allSelected": "$~すべての出力が選択されました、 $count",
+            "cleared": "$~選択が解除されました",
+            "selectedOnly": "$~$name。パレットを開きます。",
+            "selectedSuffix": "$~選択済み"
         },
         "timeline": {
             "label": "$~タイムライン",

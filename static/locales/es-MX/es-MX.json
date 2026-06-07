@@ -5343,7 +5343,14 @@
                 "note": "$~Tu navegador te preguntará antes de compartir.",
                 "start": "$~Comenzar",
                 "retry": "$~Rever"
-            }
+            },
+            "multiselect": "$~Usa la tecla Tab y las teclas Alt y flecha para moverte entre las salidas. Pulsa la barra espaciadora para añadir o eliminar la salida seleccionada. Pulsa Intro para seleccionar solo esa salida y abrir la paleta. Pulsa Escape para borrar la selección. Pulsa Control o Comando y A para seleccionar todas las salidas.",
+            "selected": "$~$name seleccionado, $count seleccionada",
+            "deselected": "$~$name deseleccionado, $count seleccionada",
+            "allSelected": "$~Todas las salidas seleccionadas, $count seleccionado",
+            "cleared": "$~selección aprobada",
+            "selectedOnly": "$~$name seleccionado, abriendo paleta",
+            "selectedSuffix": "$~seleccionado"
         },
         "timeline": {
             "label": "línea de tiempo",

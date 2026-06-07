@@ -5386,7 +5386,14 @@
                 "note": "$~Przed udostępnieniem Twoja przeglądarka zapyta.",
                 "start": "$~Start",
                 "retry": "$~Spróbować ponownie"
-            }
+            },
+            "multiselect": "$~Użyj klawisza Tab oraz klawiszy Alt i strzałek, aby poruszać się między wyjściami. Naciśnij spację, aby dodać lub usunąć zaznaczone wyjście z zaznaczenia. Naciśnij Enter, aby zaznaczyć tylko to wyjście i otworzyć paletę. Naciśnij Esc, aby wyczyścić zaznaczenie. Naciśnij Ctrl lub Command i A, aby zaznaczyć wszystkie wyjścia.",
+            "selected": "$~Wybrano $name , wybrano $count",
+            "deselected": "$~$name odznaczono, $count wybrano",
+            "allSelected": "$~wybrano wszystkie wyjścia, wybrano $count",
+            "cleared": "$~wybór wyczyszczony",
+            "selectedOnly": "$~$name wybrano, otwieranie palety",
+            "selectedSuffix": "$~wybrany"
         },
         "timeline": {
             "label": "$~oś czasu",
