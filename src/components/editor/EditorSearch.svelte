@@ -120,7 +120,7 @@
             tips={(l) => l.ui.source.toggle.search}
             on={active}
             toggle={() => (active = !active)}
-            command={ToggleSearch}><Emoji>🔍</Emoji></Toggle
+            command={ToggleSearch}><Emoji text="🔍" /></Toggle
         >
     </div>
     <!-- The replace row only appears when there are matches to replace.

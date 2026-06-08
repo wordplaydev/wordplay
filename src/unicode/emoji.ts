@@ -40,6 +40,76 @@ export function isEmoji(text: string) {
     return EmojiRegex.test(text);
 }
 
+/**
+ * Matches emoji sequences whose base is a text-default codepoint that was
+ * intentionally removed from the 'Noto Emoji'/'Noto Color Emoji' unicode-ranges
+ * (so those fonts don't shadow plain digits/text). Two kinds:
+ *
+ *   - Keycaps: a base of #, * or 0-9 followed by an optional U+FE0F and a
+ *     required U+20E3 (e.g. 2️⃣, #️⃣). The U+20E3 is what makes it a keycap;
+ *     a bare digit is left untouched.
+ *   - Legacy color symbols: ©, ®, ‼, ⁉, ™, ℹ followed by U+FE0F requesting
+ *     color presentation (e.g. ©️). Without U+FE0F these stay text.
+ *
+ * Such sequences only render in color when wrapped in the .emoji-keycap class
+ * (see segmentColorEmoji and static/fonts.css' 'Noto Emoji Keycap' face).
+ */
+export const ColorComboRegex =
+    /[#*0-9]\uFE0F?\u20E3|[\u00A9\u00AE\u203C\u2049\u2122\u2139]\uFE0F/gu;
+
+/** The legacy text-default symbols that render in color when followed by U+FE0F. */
+const LegacyColorBaseRegex = /[\u00A9\u00AE\u203C\u2049\u2122\u2139]/u;
+
+/**
+ * Cheap test for whether `segmentColorEmoji` would find anything to wrap, so
+ * EmojisRepaired can skip segmentation entirely (rendering the text directly)
+ * for the overwhelmingly common case of text with no keycap/legacy sequence.
+ * Native single-char scans short-circuit before any regex: every keycap carries
+ * U+20E3, and every legacy color symbol carries U+FE0F, so the regex only runs
+ * when an FE0F is actually present.
+ */
+export function hasColorCombo(text: string): boolean {
+    if (text.includes('\u20E3')) return true;
+    if (!text.includes('\uFE0F')) return false;
+    return LegacyColorBaseRegex.test(text);
+}
+
+/** Non-global so .test() has no lastIndex state (unlike EmojiRegex). */
+const ExtendedPictographicRegex = /\p{Extended_Pictographic}/u;
+
+/**
+ * True if the text contains any emoji \u2014 pictographs plus keycap/legacy combos.
+ * Used by <Emoji> to decide whether to apply the emoji font at all, so non-emoji
+ * content renders in the inherited font. Note: flags (regional-indicator pairs)
+ * aren't Extended_Pictographic and so aren't detected here; none appear in UI
+ * chrome today, and a missed one still renders via the app font cascade.
+ */
+export function hasEmoji(text: string): boolean {
+    return ExtendedPictographicRegex.test(text) || hasColorCombo(text);
+}
+
+/**
+ * Splits text into ordered runs, flagging which runs are color-combo emoji
+ * sequences (see ColorComboRegex). Callers render plain runs as text and emoji
+ * runs inside a <span class="emoji-keycap"> so the dedicated keycap font shapes
+ * them in color without shadowing plain text elsewhere.
+ */
+export function segmentColorEmoji(
+    text: string,
+): { text: string; emoji: boolean }[] {
+    const runs: { text: string; emoji: boolean }[] = [];
+    let last = 0;
+    for (const match of text.matchAll(ColorComboRegex)) {
+        const start = match.index ?? 0;
+        if (start > last)
+            runs.push({ text: text.slice(last, start), emoji: false });
+        runs.push({ text: match[0], emoji: true });
+        last = start + match[0].length;
+    }
+    if (last < text.length) runs.push({ text: text.slice(last), emoji: false });
+    return runs;
+}
+
 /** Converts a code point in a string to a JavaScript unicode escape string. */
 function toCodepoint(text: string, index: number) {
     const codepoint = text.codePointAt(index);

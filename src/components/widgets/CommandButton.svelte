@@ -120,6 +120,6 @@
                 editable: false,
             }}
         />{:else if /\p{Extended_Pictographic}$/u.test(command.symbol)}<Emoji
-            >{command.symbol}</Emoji
-        >{:else}{command.symbol}{/if}</Button
+            text={command.symbol}
+        />{:else}{command.symbol}{/if}</Button
 >

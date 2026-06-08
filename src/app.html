@@ -169,6 +169,13 @@
                 --wordplay-code-font:
                     'Noto Sans Mono', 'Noto Sans', 'Noto Color Emoji',
                     'Noto Emoji', monospace;
+                /* Canonical emoji font cascades, shared by Emoji.svelte and
+                   EmojisRepaired.svelte. The color cascade leads with the keycap face
+                   (it only claims keycap codepoints; see static/fonts.css) so
+                   keycaps assemble while ordinary emoji fall to Noto Color Emoji. */
+                --wordplay-emoji-mono-font: 'Noto Emoji', 'Noto Sans';
+                --wordplay-emoji-color-font:
+                    'Noto Emoji Keycap', 'Noto Color Emoji', 'Noto Sans';
 
                 /* Spacing */
                 --wordplay-editor-indent: 3em;

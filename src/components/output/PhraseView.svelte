@@ -33,6 +33,7 @@
     import { getMarkupTransition } from '@output/markupTransition';
     import { styleToEasingFunction } from '@output/OutputAnimation';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import EmojisRepaired from '@components/widgets/EmojisRepaired.svelte';
     import moveOutput from '@components/palette/editOutput';
     import {
         getProject,
@@ -479,10 +480,9 @@
                 style:height="{metrics.height}px"
                 style:line-height="{metrics.height}px"
             />
-        {:else if typeof displayed === 'string'}{displayed}{:else}<MarkupHTMLView
-                markup={displayed}
-                inline
-            />{/if}
+        {:else if typeof displayed === 'string'}<EmojisRepaired
+                text={displayed}
+            />{:else}<MarkupHTMLView markup={displayed} inline />{/if}
     </div>
 {/if}
 

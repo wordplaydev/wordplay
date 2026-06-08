@@ -28,8 +28,9 @@
 </script>
 
 {#snippet crumbBody(crumb: Crumb)}
-    {#if crumb.emoji}<Emoji>{crumb.emoji}</Emoji
-        >&nbsp;{/if}{#if 'label' in crumb}<LocalizedText
+    {#if crumb.emoji}<Emoji
+            text={crumb.emoji}
+        />&nbsp;{/if}{#if 'label' in crumb}<LocalizedText
             path={crumb.label}
         />{:else}{crumb.text}{/if}
 {/snippet}

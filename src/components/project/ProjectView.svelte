@@ -2338,7 +2338,7 @@
                                                     outputView?.adjustZoom(-1)}
                                                 tip={(l) =>
                                                     l.ui.output.button.zoomOut}
-                                                ><Emoji>–🔎</Emoji></Button
+                                                ><Emoji text="–🔎" /></Button
                                             >
                                             <Button
                                                 background
@@ -2346,7 +2346,7 @@
                                                     outputView?.adjustZoom(1)}
                                                 tip={(l) =>
                                                     l.ui.output.button.zoomIn}
-                                                ><Emoji>+🔎</Emoji></Button
+                                                ><Emoji text="+🔎" /></Button
                                             >
                                             {#if hasStagePlace}
                                                 <Button
@@ -2357,7 +2357,9 @@
                                                             .resetZoom}
                                                     background
                                                     active={focusOverridden}
-                                                    ><Emoji>⟲🔎</Emoji></Button
+                                                    ><Emoji
+                                                        text="⟲🔎"
+                                                    /></Button
                                                 >
                                             {/if}
                                         </span>
@@ -2370,7 +2372,7 @@
                                                     l.ui.output.toggle.grid}
                                                 on={grid}
                                                 toggle={() => (grid = !grid)}
-                                                ><Emoji>▦</Emoji></Toggle
+                                                ><Emoji text="▦" /></Toggle
                                             ><Toggle
                                                 uiid="stageLock"
                                                 tips={(l) =>
@@ -2378,8 +2380,8 @@
                                                 on={fit}
                                                 toggle={() => (fit = !fit)}
                                                 ><Emoji
-                                                    >{#if fit}🔒{:else}🔓{/if}</Emoji
-                                                ></Toggle
+                                                    text={fit ? '🔒' : '🔓'}
+                                                /></Toggle
                                             >
                                         </span>
                                     {/snippet}

@@ -21,6 +21,7 @@
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import WebLinkHTMLView from '@components/concepts/WebLinkHTMLView.svelte';
     import WordsHTMLView from '@components/concepts/WordsHTMLView.svelte';
+    import EmojisRepaired from '@components/widgets/EmojisRepaired.svelte';
 
     interface Props {
         segment: Segment;
@@ -110,6 +111,6 @@
         ><ValueView value={segment.value} /></strong
     >
     <!-- Remove the bullet if the words start with one. -->
-{:else if segment instanceof Token}{#if isTokenSpaced(segment)}&nbsp;{/if}{getTokenText(
-        segment,
-    )}{/if}
+{:else if segment instanceof Token}{#if isTokenSpaced(segment)}&nbsp;{/if}<EmojisRepaired
+        text={getTokenText(segment)}
+    />{/if}

@@ -82,7 +82,7 @@
 <Writing footer={false}>
     <Beta />
     <Header
-        ><Emoji>{LOGO_SYMBOL}</Emoji><LocalizedText
+        ><Emoji text={LOGO_SYMBOL} /><LocalizedText
             path={(l) => l.wordplay}
         /></Header
     >

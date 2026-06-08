@@ -259,10 +259,8 @@
 >
     {#snippet timelineHeader()}
         <Subheader compact
-            ><Emoji>{DEFECT_SYMBOL}</Emoji>
-            {$locales.getUnannotatedText(
-                (l) => l.ui.timeline.debug,
-            )}</Subheader
+            ><Emoji text={DEFECT_SYMBOL} />
+            {$locales.getUnannotatedText((l) => l.ui.timeline.debug)}</Subheader
         >
         <ButtonWidget
             tip={(l) => l.ui.timeline.tour.launch}
@@ -294,9 +292,7 @@
                 class="timeline"
                 tabindex={0}
                 data-uiid="timeline"
-                aria-label={$locales.getPlainText(
-                    (l) => l.ui.timeline.slider,
-                )}
+                aria-label={$locales.getPlainText((l) => l.ui.timeline.slider)}
                 aria-valuemin={0}
                 aria-valuemax={$evaluation.evaluator.getStepCount()}
                 aria-valuenow={$evaluation.stepIndex}
@@ -403,14 +399,22 @@
 
     <!-- Individual step buttons — each is its own item so they overflow one by one. -->
     {#snippet stepToStart()}<CommandButton command={StepToStart} />{/snippet}
-    {#snippet stepBackInput()}<CommandButton command={StepBackInput} />{/snippet}
+    {#snippet stepBackInput()}<CommandButton
+            command={StepBackInput}
+        />{/snippet}
     {#snippet stepBackNode()}<CommandButton command={StepBackNode} />{/snippet}
     {#snippet stepBack()}<CommandButton command={StepBack} />{/snippet}
     {#snippet stepOut()}<CommandButton command={StepOut} />{/snippet}
     {#snippet stepForward()}<CommandButton command={StepForward} />{/snippet}
-    {#snippet stepForwardNode()}<CommandButton command={StepForwardNode} />{/snippet}
-    {#snippet stepForwardInput()}<CommandButton command={StepForwardInput} />{/snippet}
-    {#snippet stepToPresent()}<CommandButton command={StepToPresent} />{/snippet}
+    {#snippet stepForwardNode()}<CommandButton
+            command={StepForwardNode}
+        />{/snippet}
+    {#snippet stepForwardInput()}<CommandButton
+            command={StepForwardInput}
+        />{/snippet}
+    {#snippet stepToPresent()}<CommandButton
+            command={StepToPresent}
+        />{/snippet}
 
     <OverflowToolbar
         items={[

@@ -19,16 +19,15 @@
     }
 </script>
 
-<Emoji color={false}
-    ><span
-        role="tooltip"
-        bind:this={annotation}
-        aria-label={tip}
-        onfocus={showTip}
-        onblur={hideTip}
-        onpointerenter={showTip}
-        onpointerleave={hideTip}>{LOCALLY_REVISED_SYMBOL}</span
-    ></Emoji
+<span
+    role="tooltip"
+    bind:this={annotation}
+    aria-label={tip}
+    onfocus={showTip}
+    onblur={hideTip}
+    onpointerenter={showTip}
+    onpointerleave={hideTip}
+    ><Emoji text={LOCALLY_REVISED_SYMBOL} color={false} /></span
 >
 
 <style>

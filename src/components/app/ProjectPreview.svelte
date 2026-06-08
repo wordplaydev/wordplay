@@ -16,6 +16,7 @@
     import CreatorView from '@components/app/CreatorView.svelte';
     import Link from '@components/app/Link.svelte';
     import Spinning from '@components/app/Spinning.svelte';
+    import EmojisRepaired from '@components/widgets/EmojisRepaired.svelte';
 
     interface Props {
         project: Project;
@@ -190,7 +191,7 @@
             {:else if character}
                 {@html characterToSVG(character, '100%')}
             {:else}
-                {representativeText}
+                <EmojisRepaired text={representativeText} />
             {/if}
         </div>
     </a>

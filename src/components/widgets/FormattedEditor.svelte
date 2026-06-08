@@ -330,7 +330,7 @@
                 l.ui.widget.formatted.highlight +
                 ` (${toShortcut({ control: true, alt: undefined, shift: true, key: '8' })})`}
             action={formatHighlight}
-            active={!preview && cursorInExample}><Emoji>⭐</Emoji></Button
+            active={!preview && cursorInExample}><Emoji text="⭐" /></Button
         >
         <Button
             tip={(l: LocaleText) =>
@@ -346,13 +346,14 @@
                 l.ui.widget.formatted.attention +
                 ` (${toShortcut({ control: true, alt: undefined, shift: true, key: '.' })})`}
             action={formatAttention}
-            active={!preview && cursorInDocInExample}><Emoji>👀</Emoji></Button
+            active={!preview && cursorInDocInExample}
+            ><Emoji text="👀" /></Button
         >
         <Button
             tip={() =>
                 $locales.getPlainText((l) => l.token.Link) +
                 ` (${toShortcut({ control: true, alt: undefined, shift: undefined, key: 'k' })})`}
-            action={() => format('@')}><Emoji>🔗</Emoji></Button
+            action={() => format('@')}><Emoji text="🔗" /></Button
         >
         <Button
             tip={(l: LocaleText) =>

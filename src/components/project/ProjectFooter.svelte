@@ -150,9 +150,7 @@
 
     const showSecondRow = $derived(editable && !narrow);
     const appendSecondRow = $derived(editable && narrow);
-    const toggleItemCount = $derived(
-        nonSourcesEnd + (appendSecondRow ? 4 : 0),
-    );
+    const toggleItemCount = $derived(nonSourcesEnd + (appendSecondRow ? 4 : 0));
 </script>
 
 {#snippet creatorItem()}
@@ -211,7 +209,7 @@
                 ></Button>{/if}
             <Subheader compact>
                 <span class="project-meta">
-                    <Emoji>{PROJECT_SYMBOL}</Emoji>
+                    <Emoji text={PROJECT_SYMBOL} />
                     <span class="project-label"
                         ><LocalizedText
                             path={(l) => l.ui.project.label}
@@ -347,12 +345,7 @@
     {#if showSecondRow}
         <div class="footer-row second-row">
             <OverflowToolbar
-                items={[
-                    creatorItem,
-                    shareItem,
-                    translateItem,
-                    checkpointsItem,
-                ]}
+                items={[creatorItem, shareItem, translateItem, checkpointsItem]}
             />
         </div>
     {/if}

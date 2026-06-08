@@ -291,8 +291,7 @@
         const encoded = encodeRemoteCaret(yText, source, c.position);
         localCaretEncoded = encoded;
         const tracker = Projects.getPresenceTracker(project.getID());
-        if (tracker !== undefined)
-            tracker.updateCaret(sourceIndex, encoded);
+        if (tracker !== undefined) tracker.updateCaret(sourceIndex, encoded);
     });
 
     // When a remote peer's edit lands, the local user's caret index
@@ -972,7 +971,9 @@
                     typeof dragStartPosition === 'number' &&
                     position !== dragStartPosition
                 )
-                    caret.set($caret.withPosition([dragStartPosition, position]));
+                    caret.set(
+                        $caret.withPosition([dragStartPosition, position]),
+                    );
             }
         }
 
@@ -2642,7 +2643,7 @@
         >
     {/key}
     {#if !editable}<span class="readonly-indicator" aria-hidden="true"
-            ><Emoji>🔒</Emoji></span
+            ><Emoji text="🔒" /></span
         >{/if}
     {#if project.getSupplements().length > 0 && setOutputPreview}
         <div class="output-preview-container">
@@ -2659,7 +2660,7 @@
                             ExceptionValue}
                 >
                     {#if selected}
-                        <span style="font-size:200%"><Emoji>🎭</Emoji></span>
+                        <span style="font-size:200%"><Emoji text="🎭" /></span>
                     {:else}
                         <OutputView
                             {project}
@@ -2801,5 +2802,4 @@
         align-items: center;
         justify-content: center;
     }
-
 </style>

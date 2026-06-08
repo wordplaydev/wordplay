@@ -229,7 +229,7 @@
     >
         <header class="header">
             <Subheader compact
-                ><Emoji>{QUESTION_SYMBOL}</Emoji>
+                ><Emoji text={QUESTION_SYMBOL} />
                 <LocalizedText path={subheader} /></Subheader
             >
             <Button

@@ -117,9 +117,8 @@
             {#snippet navHome()}
                 {#if footer}
                     <Link nowrap tip={(l) => l.ui.widget.home} to="/"
-                        ><Emoji
-                            ><span style:font-size="150%">{LOGO_SYMBOL}</span
-                            ></Emoji
+                        ><span style:font-size="150%"
+                            ><Emoji text={LOGO_SYMBOL} /></span
                         ></Link
                     >
                 {/if}
@@ -134,7 +133,7 @@
                         tip={(l) => l.ui.page.projects.header}
                         to="/projects"
                     >
-                        <Emoji>{PROJECT_SYMBOL}</Emoji><span class="nav-label"
+                        <Emoji text={PROJECT_SYMBOL} /><span class="nav-label"
                             ><LocalizedText
                                 path={(l) => l.ui.page.projects.header}
                             /></span
@@ -149,7 +148,7 @@
                         tip={(l) => l.ui.page.galleries.header}
                         to="/galleries"
                     >
-                        <Emoji>{STAGE_SYMBOL}</Emoji><span class="nav-label"
+                        <Emoji text={STAGE_SYMBOL} /><span class="nav-label"
                             ><LocalizedText
                                 path={(l) => l.ui.page.galleries.header}
                             /></span
@@ -164,7 +163,7 @@
                         tip={(l) => l.ui.page.characters.header}
                         to="/characters"
                     >
-                        <Emoji>{SYMBOL_SYMBOL}</Emoji><span class="nav-label"
+                        <Emoji text={SYMBOL_SYMBOL} /><span class="nav-label"
                             ><LocalizedText
                                 path={(l) => l.ui.page.characters.header}
                             /></span
@@ -179,7 +178,7 @@
                         tip={(l) => l.ui.page.learn.header}
                         to="/learn"
                     >
-                        <Emoji>{LEARN_SYMBOL}</Emoji><span class="nav-label"
+                        <Emoji text={LEARN_SYMBOL} /><span class="nav-label"
                             ><LocalizedText
                                 path={(l) => l.ui.page.learn.header}
                             /></span
@@ -194,7 +193,7 @@
                         tip={(l) => l.ui.page.guide.header}
                         to="/guide"
                     >
-                        <Emoji>{DOCUMENTATION_SYMBOL}</Emoji><span
+                        <Emoji text={DOCUMENTATION_SYMBOL} /><span
                             class="nav-label"
                             ><LocalizedText
                                 path={(l) => l.ui.page.guide.header}
@@ -210,7 +209,7 @@
                         tip={(l) => l.ui.page.teach.header}
                         to="/teach"
                     >
-                        <Emoji>{TEACH_SYMBOL}</Emoji><span class="nav-label"
+                        <Emoji text={TEACH_SYMBOL} /><span class="nav-label"
                             ><LocalizedText
                                 path={(l) => l.ui.page.teach.header}
                             /></span
