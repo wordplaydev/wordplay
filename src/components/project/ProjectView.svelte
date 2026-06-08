@@ -2607,8 +2607,8 @@
                         </TileView>
                     {/if}
                 {/each}
-                <!-- If in a layout that supports resizing, create an adjuster for each axis split in the current layout that isn't the first in the axis -->
-                {#if isResizeable(currentArrangement)}
+                <!-- If in a layout that supports resizing, create an adjuster for each axis split in the current layout that isn't the first in the axis. Skip when a tile is fullscreen, since there's nothing to resize. -->
+                {#if isResizeable(currentArrangement) && !layout.isFullscreen()}
                     {#each layout.getSplits(currentArrangement, canvasWidth, canvasHeight) ?? [] as axis, axisIndex}
                         {#each axis.positions as _, groupIndex}
                             {#if groupIndex > 0}
