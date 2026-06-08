@@ -1,5 +1,6 @@
 import type Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
+import { Easings, type EasingName } from '@output/easing';
 import type Animator from '@output/Animator';
 import type { Orientation, OutputName } from '@output/Animator';
 import type Output from '@output/Output';
@@ -19,7 +20,8 @@ export const AnimationState = {
     Exiting: 'exiting',
     Done: 'done',
 } as const;
-export type AnimationState = (typeof AnimationState)[keyof typeof AnimationState];
+export type AnimationState =
+    (typeof AnimationState)[keyof typeof AnimationState];
 
 export type TransitionSequence = [Transition, Transition, ...Transition[]];
 
@@ -640,6 +642,19 @@ export function styleToCSSEasing(locales: Locales, name: string | undefined) {
     }
 
     return 'ease-out';
+}
+
+/**
+ * Resolve an animation style name to a JS easing function, mirroring
+ * styleToCSSEasing exactly so JS-driven animations (e.g. the Phrase text
+ * typewriter) ease identically to Web Animation API animations.
+ */
+export function styleToEasingFunction(
+    locales: Locales,
+    name: string | undefined,
+): (x: number) => number {
+    const css = styleToCSSEasing(locales, name);
+    return Easings[css as EasingName] ?? Easings['ease-out'];
 }
 
 function getStyleValueToKey(locale: LocaleText) {

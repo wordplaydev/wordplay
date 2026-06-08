@@ -215,6 +215,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'Christmas',
                 'Easing',
                 'Lyrics',
+                'Echo',
             ],
             locales,
         ),

@@ -26,6 +26,12 @@
     import { DB, Projects, locales } from '@db/Database';
     import Markup from '@nodes/Markup';
     import TextLang from '@output/TextLang';
+    import {
+        getTextTransition,
+        getTransitionIndex,
+    } from '@output/getTextTransition';
+    import { getMarkupTransition } from '@output/markupTransition';
+    import { styleToEasingFunction } from '@output/OutputAnimation';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import moveOutput from '@components/palette/editOutput';
     import {
@@ -74,6 +80,31 @@
     let text = $derived(phrase.getLocalizedTextOrDoc());
     let empty = $derived(phrase.isEmpty());
     let selectable = $derived(phrase.selectable && !empty);
+
+    // The renderable form of a phrase's text: a plain string for TextLang, or a
+    // single-line Markup for formatted text (matching how the markup is rendered
+    // at rest). The typewriter morphs between these.
+    function reprOf(value: TextLang | Markup): string | Markup {
+        return value instanceof TextLang ? value.text : value.asLine();
+    }
+    // The plain-text key used to detect a real text change (ignoring formatting).
+    function keyOf(repr: string | Markup): string {
+        return typeof repr === 'string' ? repr : repr.toText();
+    }
+    // Whether two reprs are the same kind (both plain or both markup).
+    function sameKind(a: string | Markup, b: string | Markup): boolean {
+        return (typeof a === 'string') === (typeof b === 'string');
+    }
+
+    // What's currently shown. While text is morphing this holds an intermediate
+    // step (a truncated string or Markup); otherwise it equals reprOf(text).
+    // Driven reactively so Svelte owns the DOM (the old engine mutated innerHTML,
+    // which broke Svelte).
+    let displayed = $state<string | Markup>(untrack(() => reprOf(text)));
+    // The last text value we committed to (null on first render).
+    let prev: TextLang | Markup | null = untrack(() => text);
+    // The in-flight requestAnimationFrame handle, if a transition is animating.
+    let rafHandle: number | undefined;
 
     // The text field, if being edited.
     let input: HTMLInputElement | undefined = $state();
@@ -162,6 +193,88 @@
             }
             setKeyboardFocus(input, 'Restoring phrase text editor focus.');
         }
+    });
+
+    // Animate the displayed text when the phrase's text changes between evaluations
+    // (the "typewriter" transition for issue #74). We step through the intermediate
+    // states over the phrase's duration, eased by its style — consistent with how
+    // every other animation reads `style`. Plain text morphs character-by-character
+    // (getTextTransition); formatted text truncates while preserving formatting
+    // (getMarkupTransition). Reactive `displayed` state keeps Svelte in control of
+    // the DOM; we never touch text nodes directly.
+    $effect(() => {
+        // Re-run whenever the phrase's text changes.
+        const current = text;
+
+        untrack(() => {
+            // Cancel any transition already in flight (its loop will be replaced below).
+            if (rafHandle !== undefined) {
+                cancelAnimationFrame(rafHandle);
+                rafHandle = undefined;
+            }
+
+            const target = reprOf(current);
+            const committed = prev === null ? null : reprOf(prev);
+            prev = current;
+
+            const factor = localContext.animationFactor;
+            // Only morph a real same-kind text change while playing and not editing.
+            // Cross-kind (plain↔markup) and formatting-only changes swap instantly.
+            if (
+                committed === null ||
+                !sameKind(committed, target) ||
+                keyOf(committed) === keyOf(target) ||
+                factor <= 0 ||
+                phrase.duration <= 0 ||
+                entered
+            ) {
+                displayed = target;
+                return;
+            }
+
+            // Where to morph from: continue from what's on screen if it's the same
+            // kind (a transition was mid-flight), otherwise from the last committed text.
+            const from = sameKind(displayed, target) ? displayed : committed;
+
+            // Build the step sequence for whichever kind of text this is.
+            let length: number;
+            let stepAt: (index: number) => string | Markup;
+            if (typeof target === 'string') {
+                const fromString = typeof from === 'string' ? from : '';
+                const steps = getTextTransition(fromString, target);
+                length = steps.length;
+                stepAt = (index) => steps[index];
+            } else {
+                const fromMarkup = from instanceof Markup ? from : target;
+                const steps = getMarkupTransition(fromMarkup, target);
+                length = steps.length;
+                stepAt = (index) => steps[index];
+            }
+
+            const totalMs = phrase.duration * factor * 1000;
+            const easing = styleToEasingFunction($locales, phrase.style);
+            const start = performance.now();
+
+            const step = (now: number) => {
+                const progress = Math.min(1, (now - start) / totalMs);
+                const index = getTransitionIndex(length, easing(progress));
+                displayed = index < 0 ? target : stepAt(index);
+                if (progress < 1) rafHandle = requestAnimationFrame(step);
+                else {
+                    displayed = target;
+                    rafHandle = undefined;
+                }
+            };
+            rafHandle = requestAnimationFrame(step);
+        });
+
+        // Cancel any in-flight transition on destroy.
+        return () => {
+            if (rafHandle !== undefined) {
+                cancelAnimationFrame(rafHandle);
+                rafHandle = undefined;
+            }
+        };
     });
 
     async function enter(event: MouseEvent | KeyboardEvent) {
@@ -366,8 +479,8 @@
                 style:height="{metrics.height}px"
                 style:line-height="{metrics.height}px"
             />
-        {:else if text instanceof TextLang}{text.text}{:else if text instanceof Markup}<MarkupHTMLView
-                markup={text.asLine()}
+        {:else if typeof displayed === 'string'}{displayed}{:else}<MarkupHTMLView
+                markup={displayed}
                 inline
             />{/if}
     </div>

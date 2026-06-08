@@ -1,0 +1,21 @@
+💬
+"Echo"/en
+=== start
+¶ Whatever the audience types in the chat bar becomes this phrase. ¶
+message: Chat()
+
+¶ Start with a prompt, then echo each new message. The text morphs from the old words to the new ones, one letter at a time. ¶
+words: 'say something!' … ∆ message … message
+
+¶ Re-roll a random size, tilt, and color every time a new message arrives. ¶
+size: 2m … ∆ message … Random(1m 4m)
+tilt: 0° … ∆ message … Random(-30 30) × 1°
+hue: 200° … ∆ message … Random(360) × 1°
+
+Phrase(
+	words
+	size: size
+	resting: Pose(rotation: tilt color: 🌈(25% 100 hue))
+	duration: .5s
+	wrap: 20m
+)
