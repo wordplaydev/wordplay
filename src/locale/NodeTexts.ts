@@ -218,10 +218,23 @@ type NodeTexts = {
      */
     WebLink: DescriptiveNodeText<['url']>;
     /**
-     * A link to a Wordplay concept in `Markup`, e.g., ` ¶Check out @WebLink¶ `
-     * Description inputs: $1: the concept name
+     * A link in `Markup` or plain text, e.g., ` ¶Check out @WebLink¶ `. The base
+     * `description` covers a documented concept; `kind` holds the description for
+     * each other thing a reference can resolve to. Description input: $concept.
      */
-    ConceptLink: DescriptiveNodeText<['concept']>;
+    ConceptLink: DescriptiveNodeText<['concept']> & {
+        /** Per-reference-kind descriptions, chosen by what the @ reference resolves to. */
+        kind: {
+            /** [formatted] Description when the reference is a Unicode codepoint (e.g. @1F600). */
+            codepoint: Template<['concept']>;
+            /** [formatted] Description when the reference is a UI element (e.g. @UI/toolbar). */
+            ui: Template<['concept']>;
+            /** [formatted] Description when the reference is a how-to (e.g. @How/...). */
+            how: Template<['concept']>;
+            /** [formatted] Description when the reference is a creator's custom character (e.g. @amy/cat). */
+            character: Template<['concept']>;
+        };
+    };
     /** A sequence of characters in `Markup` that aren't other markup content, e.g., ` ¶These are just words.¶ ` */
     Words: DescriptiveNodeText &
         Conflicts<{

@@ -378,7 +378,13 @@
                 "如果您创建了自己的角色，您可以用您赋予的名字来引用它们。",
                 "`@coolbeans`",
                 "哦……我猜那个角色不存在，所以你得到了一个小方块。但如果它们存在，它们就会出现在这里！"
-            ]
+            ],
+            "kind": {
+                "codepoint": "$~Unicode 字符$concept",
+                "ui": "$~指向$concept",
+                "how": "$~指向$concept",
+                "character": "$~自定义角色$concept"
+            }
         },
         "Words": {
             "name": "文字",

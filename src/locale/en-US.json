@@ -367,7 +367,13 @@
         },
         "ConceptLink": {
             "name": "character",
-            "description": "link to $concept concept in docs",
+            "description": "a link to the $concept concept",
+            "kind": {
+                "codepoint": "the Unicode character $concept",
+                "ui": "a link to the $concept interface element",
+                "how": "a link to the $concept how-to",
+                "character": "the custom character $concept"
+            },
             "emotion": "serious",
             "doc": [
                 "I'm a link to Verse character. I'm helpful when you want to write a @Doc and refer to one of us.",

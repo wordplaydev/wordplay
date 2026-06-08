@@ -298,7 +298,7 @@ Numbers are only equal to other numbers that have identical decimal values and e
 ### Text
 
 > TEXT → TRANSLATION＊  
-> TRANSLATION → textopen text textclose LOCALE  
+> TRANSLATION → textopen （text ｜ CODE ｜ concept）＊ textclose LOCALE  
 > LOCALE → LANGUAGE （`-` REGION）？  
 > LANGUAGE → _any valid ISO 639 language code_  
 > REGION → _any valid ISO 3166 country code_
@@ -308,6 +308,7 @@ Text values, unlike in other programming languages, are not a single sequence of
 - They are interpreted as a sequence of graphemes, using a grapheme segmentation algorithm. That means that emojis comprised of multiple Unicode code points are treated as a single symbol when indexing text.
 - They can be language tagged, indicating what language and optional region they are written in
 - They can have multiple translations, allowing for one to be selected at runtime using the environment's list of preferred locales.
+- They can contain `concept` references (the same `@…` tokens used in markup), so that codepoints (e.g. `@1F600`) and creator-defined characters (e.g. `@username/charactername`) can be written in plain text and rendered. A codepoint reference evaluates to its character; a custom-character reference is kept in the text as-is and rendered as a glyph by the output. To avoid mistaking an email's domain for a reference, an `@` that directly follows an ASCII email-local-part character (`A–Z a–z 0–9 . _ % + -`) is treated as literal text rather than a reference — _unless_ the reference uses a `/` separator (e.g. `@username/charactername`), which an email domain never does. So references are recognized at the start of the text, after whitespace, after non-ASCII text (making the rule work in scripts without inter-word spaces), and — for the `/` form — even mid-word in Latin text (e.g. `hi@amy/cat`); only `.`-style references that follow an email-local-part character (e.g. the `@example.com` in `jdoe@example.com`) stay literal.
 - Language tags are a language
 
 For example, these are all valid text values:

@@ -378,7 +378,13 @@
                 "$~Và nếu bạn tự tạo nhân vật của riêng mình, bạn có thể gọi nhân vật đó bằng cái tên mà bạn đã đặt cho họ.",
                 "$~\\@coolbeans\\",
                 "$~Ồ... chắc nhân vật đó không tồn tại, nên bạn chỉ nhận được một ô vuông nhỏ. Nhưng nếu họ có tồn tại, họ sẽ xuất hiện ở đây!"
-            ]
+            ],
+            "kind": {
+                "codepoint": "$~ký tự Unicode $concept",
+                "ui": "$~một liên kết đến phần tử giao diện $concept",
+                "how": "$~một liên kết đến hướng dẫn sử dụng $concept",
+                "character": "$~nhân vật tùy chỉnh $concept"
+            }
         },
         "Words": {
             "name": "$~từ",

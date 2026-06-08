@@ -378,7 +378,13 @@
                 "And if you make your own character, you can refer to them by the name you gave them.",
                 "\\`@coolbeans`\\",
                 "Oh... I guess that character doesn't exist, so you get a little square. But if they did, they would show up here!"
-            ]
+            ],
+            "kind": {
+                "codepoint": "$~caracterul Unicode $concept",
+                "ui": "$~o legătură către elementul de interfață $concept",
+                "how": "$~un link către instrucțiunile de la $concept",
+                "character": "$~$concept"
+            }
         },
         "Words": {
             "name": "$~cuvinte",

@@ -378,7 +378,13 @@
                 "$~A jeśli stworzysz własną postać, możesz zwracać się do niej, używając imienia, które jej nadałeś.",
                 "$~\\`@coolbeans`\\",
                 "$~Och... Chyba ta postać nie istnieje, więc dostajesz mały kwadrat. Ale gdyby istniała, to by się tu pojawiła!"
-            ]
+            ],
+            "kind": {
+                "codepoint": "$~$concept znaku Unicode",
+                "ui": "$~link do elementu interfejsu $concept",
+                "how": "$~link do instrukcji $concept",
+                "character": "$~niestandardowy znak $concept"
+            }
         },
         "Words": {
             "name": "$~słowa",

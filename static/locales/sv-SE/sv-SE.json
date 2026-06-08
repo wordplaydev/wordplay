@@ -378,7 +378,13 @@
                 "$~Och om du gör din egen karaktär kan du referera till dem med det namn du gav dem.",
                 "$~\\`@coolbeans`\\",
                 "$~Åh... Jag antar att den karaktären inte existerar, så man blir lite fyrkantig. Men om de gjorde det skulle de dyka upp här!"
-            ]
+            ],
+            "kind": {
+                "codepoint": "$~Unicode-tecknet $concept",
+                "ui": "$~en länk till gränssnittselementet $concept",
+                "how": "$~en länk till $concept -instruktionerna",
+                "character": "$~det anpassade $concept"
+            }
         },
         "Words": {
             "name": "$~ord",

@@ -16,6 +16,7 @@ import { Emotion } from '../lore/Emotion';
 import { getCodepointFromString } from '@unicode/getCodepoint';
 import type Value from '@values/Value';
 import type Context from '@nodes/Context';
+import ConceptLink from '@nodes/ConceptLink';
 import Example from '@nodes/Example';
 import type Expression from '@nodes/Expression';
 import FormattedLiteral from '@nodes/FormattedLiteral';
@@ -216,6 +217,11 @@ export default class TextLiteral extends Literal {
             let next: string;
             if (segment instanceof Token) {
                 next = this.getUnescapedToken(segment);
+            } else if (segment instanceof ConceptLink) {
+                // A character/codepoint reference (#773). Resolve a codepoint to
+                // its actual character; keep a custom-character reference (e.g.
+                // @amy/cat) as literal text for the view to render.
+                next = segment.getCodepoint() ?? segment.concept.getText();
             } else {
                 const value = evaluator.popValue(this);
                 next =

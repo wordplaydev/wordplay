@@ -480,6 +480,43 @@ export const LiteralMultiCharTokens: ReadonlyArray<{
 // period after a link (e.g. `see @Color.`) is left as punctuation.
 export const ConceptRegExPattern = `${LINK_SYMBOL}(?!(https?)?://)([0-9a-fA-F]{2,6}(?!${NameRegExPattern})|${NameRegExPattern}([./]${NameRegExPattern})?)`;
 
+/** A global matcher for finding character references inside plain text, so
+ *  references (e.g. @amy/cat or @1F600) are tokenized as concept tokens there
+ *  too (see #773). */
+const ConceptInTextRegEx = new RegExp(ConceptRegExPattern, 'gu');
+
+/** Characters that make up an email local part. An `@` that directly follows
+ *  one of these looks like the boundary in an email address (e.g. the `@` in
+ *  jdoe@example.com), so we don't treat such an `@` as a reference unless the
+ *  reference is unambiguous (see below). This set is deliberately ASCII-only so
+ *  the rule works across all scripts: in languages that don't separate words
+ *  with spaces (e.g. Chinese, Japanese, Thai), a reference can directly follow
+ *  text — only an ASCII email-like prefix is treated specially. */
+const EmailLocalPartChar = /[A-Za-z0-9._%+-]/;
+
+/** Find the next character reference in plain text. Returns its start index and
+ *  matched text, or undefined if there is none. A reference is recognized when
+ *  it is at a boundary (start of text, after whitespace, after punctuation, or
+ *  after non-ASCII text) OR when it uses a `/` separator (e.g. @username/char,
+ *  @UI/x). The `/` form disambiguates from email addresses — whose domain never
+ *  contains a `/` — so character references work mid-word in Latin scripts too
+ *  (e.g. `hi@amy/cat`), while emails like jdoe@example.com stay literal text. */
+function findCharacterReference(
+    source: string,
+): { index: number; text: string } | undefined {
+    for (const match of source.matchAll(ConceptInTextRegEx)) {
+        const index = match.index ?? 0;
+        const preceding = index === 0 ? undefined : source[index - 1];
+        if (
+            preceding === undefined ||
+            !EmailLocalPartChar.test(preceding) ||
+            match[0].includes('/')
+        )
+            return { index, text: match[0] };
+    }
+    return undefined;
+}
+
 /** Valid tokens inside of markup. */
 const MarkupTokenPatterns = [
     DocPattern,
@@ -726,23 +763,31 @@ function getNextToken(
         // If we're in text, keep reading until the next code open, text close, end of line, or end of source,
         // then make a words token.
         if (container.isSymbol(Sym.Text)) {
-            // Find the closest code, text close, or end of line
+            // Find the closest code, text close, end of line, or character reference.
             // For code, we want a standalone code open not preceded or followed by another.
             const codeIndex = source.match(/(?<!\\)\\(?!\\)/)?.index ?? -1;
             const closeIndex = source.indexOf(
                 TextCloseByTextOpen[container.getText()],
             );
             const lineIndex = source.indexOf('\n');
+            // Custom-character references (e.g. @amy/cat or @1F600) are tokenized as
+            // concept tokens inside plain text too (#773), so the parser can build a
+            // ConceptLink. We only treat a reference at a word boundary as one (see
+            // findCharacterReference). Stop the words token at the next reference, and
+            // emit a concept token when the text begins with one.
+            const conceptRef = findCharacterReference(source);
+            const conceptIndex = conceptRef?.index ?? -1;
             const stopIndex = Math.min(
                 codeIndex < 0 ? Number.POSITIVE_INFINITY : codeIndex,
                 closeIndex < 0 ? Number.POSITIVE_INFINITY : closeIndex,
                 lineIndex < 0 ? Number.POSITIVE_INFINITY : lineIndex,
+                conceptIndex < 0 ? Number.POSITIVE_INFINITY : conceptIndex,
             );
 
             // If we ended this text with a newline, then shift out of the context.
             if (stopIndex === lineIndex) context.shift();
 
-            // If we found more than one words characters, make a word token for the text.
+            // If we found some words characters before the next stop, make a words token.
             if (stopIndex > 0)
                 return new Token(
                     source.substring(
@@ -753,6 +798,9 @@ function getNextToken(
                     ),
                     Sym.Words,
                 );
+            // If the text begins with a character reference, emit a concept token.
+            else if (conceptIndex === 0 && conceptRef)
+                return new Token(conceptRef.text, Sym.Concept);
             // Otherwise, read any preceding space for the next token, and tokenize whatever comes next.
             else {
                 space = getNextSpace(source);

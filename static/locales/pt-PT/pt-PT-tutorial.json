@@ -298,11 +298,7 @@
                         ],
                         ["ExpressionPlaceholder", "curious", "…"],
                         null,
-                        [
-                            "FunctionDefinition",
-                            "kind",
-                            "Quer dizer o que faz?"
-                        ],
+                        ["FunctionDefinition", "kind", "Quer dizer o que faz?"],
                         ["ExpressionPlaceholder", "scared", "Pode?"],
                         null,
                         [
@@ -1273,11 +1269,7 @@
                         ],
                         ["Number", "kind", "Apenas a 3 passos de distância!"],
                         null,
-                        [
-                            "FunctionDefinition",
-                            "scared",
-                            "Ai, assustaste-me!!"
-                        ],
+                        ["FunctionDefinition", "scared", "Ai, assustaste-me!!"],
                         [
                             "Number",
                             "kind",
@@ -1886,11 +1878,7 @@
                             "curious",
                             "Interrupção? Alguma vez houve silêncio a sério? Que bom ver-te, @FunctionDefinition. Uau, já falou com o @Evaluate? Não estavam bem da última vez que falámos. Precisa de falar com eles."
                         ],
-                        [
-                            "FunctionDefinition",
-                            "sad",
-                            "Sim, falei com eles..."
-                        ],
+                        ["FunctionDefinition", "sad", "Sim, falei com eles..."],
                         null,
                         [
                             "Map",
@@ -5230,11 +5218,7 @@
                         ["fit", "Stage([] background: Color(10% 0 0°))"],
                         ["List", "kind", "Isso não é verdade, @Evaluate."],
                         ["Boolean", "precise", "Não é verdade."],
-                        [
-                            "Text",
-                            "happy",
-                            "Isso não é verdade, nem um pouco!"
-                        ],
+                        ["Text", "happy", "Isso não é verdade, nem um pouco!"],
                         ["Changed", "happy", "Totalmente mentira!"],
                         [
                             "Number",
@@ -5493,11 +5477,7 @@
                         ["List", "excited", "1, 2, 3, 1, 2, 3"],
                         ["Boolean", "excited", "Mover!"],
                         ["Text", "excited", "Euforia!"],
-                        [
-                            "Conditional",
-                            "excited",
-                            "O que é, afinal, dançar?"
-                        ],
+                        ["Conditional", "excited", "O que é, afinal, dançar?"],
                         ["Changed", "excited", "Pum, pum, pum"],
                         [
                             "Number",

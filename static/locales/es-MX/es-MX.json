@@ -350,7 +350,13 @@
                 "$~Y si creas tu propio personaje, puedes referirte a él por el nombre que le hayas dado.",
                 "$~@coolbeans",
                 "$~Ah... Supongo que ese personaje no existe, así que te toca un cuadradito. Pero si existiera, ¡aparecería aquí!"
-            ]
+            ],
+            "kind": {
+                "codepoint": "$~el $concept de carácter Unicode",
+                "ui": "$~un enlace al elemento de interfaz $concept",
+                "how": "$~un enlace al manual de $concept",
+                "character": "$~el $concept personaje personalizado"
+            }
         },
         "Words": {
             "name": "palabras",

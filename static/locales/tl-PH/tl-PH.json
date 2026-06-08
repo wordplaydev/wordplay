@@ -378,7 +378,13 @@
                 "$~At kung gagawa ka ng sarili mong karakter, puwede mo silang tawagin gamit ang pangalang ibinigay mo sa kanila.",
                 "$~@coolbeans",
                 "$~Ah... Mukhang wala naman ang karakter na 'yan, kaya medyo parisukat ang itsura. Pero kung meron man, lalabas sila rito!"
-            ]
+            ],
+            "kind": {
+                "codepoint": "$~ang $concept",
+                "ui": "$~isang link papunta sa elementong interface $concept",
+                "how": "$~isang link sa kung paano gawin ang $concept",
+                "character": "$~ang $concept"
+            }
         },
         "Words": {
             "name": "$~mgasalita",

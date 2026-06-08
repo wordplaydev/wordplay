@@ -61,12 +61,12 @@ function parseSegment(tokens: Tokens) {
     return tokens.nextIs(Sym.TagOpen)
         ? parseWebLink(tokens)
         : tokens.nextIs(Sym.Concept)
-            ? parseConceptLink(tokens)
-            : tokens.nextIs(Sym.Code)
-                ? parseExample(tokens)
-                : tokens.nextIs(Sym.Mention)
-                    ? parseMention(tokens)
-                    : parseWords(tokens);
+          ? parseConceptLink(tokens)
+          : tokens.nextIs(Sym.Code)
+            ? parseExample(tokens)
+            : tokens.nextIs(Sym.Mention)
+              ? parseMention(tokens)
+              : parseWords(tokens);
 }
 
 function parseWebLink(tokens: Tokens): WebLink {
@@ -79,7 +79,7 @@ function parseWebLink(tokens: Tokens): WebLink {
     return new WebLink(open, description, at, url, close);
 }
 
-function parseConceptLink(tokens: Tokens): ConceptLink {
+export function parseConceptLink(tokens: Tokens): ConceptLink {
     const concept = tokens.read(Sym.Concept);
     return new ConceptLink(concept);
 }
@@ -150,7 +150,8 @@ export function parseExample(tokens: Tokens): Example {
                 : 'highlight';
             highlight = new Token(HIGHLIGHT_SYMBOL, Sym.Highlight);
             const remaining = text.slice(prefix.length);
-            if (remaining.length > 0) tokens.injectNext(new Token(remaining, Sym.Words));
+            if (remaining.length > 0)
+                tokens.injectNext(new Token(remaining, Sym.Words));
         }
     }
 

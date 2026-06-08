@@ -56,10 +56,17 @@ import Translation, { type TranslationSegment } from '@nodes/Translation';
 import type Type from '@nodes/Type';
 import UnaryEvaluate from '@nodes/UnaryEvaluate';
 import UnparsableExpression from '@nodes/UnparsableExpression';
-import parseBind, { nextIsBind, nextIsInput, parseNames } from '@parser/parseBind';
+import parseBind, {
+    nextIsBind,
+    nextIsInput,
+    parseNames,
+} from '@parser/parseBind';
 import parseDoc from '@parser/parseDoc';
 import parseLanguage from '@parser/parseLanguage';
-import parseMarkup, { parseExample } from '@parser/parseMarkup';
+import parseMarkup, {
+    parseConceptLink,
+    parseExample,
+} from '@parser/parseMarkup';
 import parseType, { parseTableType } from '@parser/parseType';
 import { DOT_SYMBOL, EXPONENT_SYMBOL } from '@parser/Symbols';
 import type Tokens from '@parser/Tokens';
@@ -479,11 +486,16 @@ function parseTranslation(tokens: Tokens): Translation {
     const text = tokens.read(Sym.Text);
     const segments: TranslationSegment[] = [];
     tokens.whileDo(
-        () => tokens.nextIs(Sym.Words) || tokens.nextIs(Sym.Code),
+        () =>
+            tokens.nextIs(Sym.Words) ||
+            tokens.nextIs(Sym.Code) ||
+            tokens.nextIs(Sym.Concept),
         () => {
             if (tokens.nextIs(Sym.Words)) segments.push(tokens.read(Sym.Words));
             else if (tokens.nextIs(Sym.Code))
                 segments.push(parseExample(tokens));
+            else if (tokens.nextIs(Sym.Concept))
+                segments.push(parseConceptLink(tokens));
         },
     );
     const close = tokens.nextIs(Sym.Text) ? tokens.read(Sym.Text) : undefined;

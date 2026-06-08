@@ -378,7 +378,13 @@
                 "$~Dan jika Anda membuat karakter sendiri, Anda dapat menyebutnya dengan nama yang Anda berikan.",
                 "$~\\`@coolbeans`\\",
                 "$~Oh... sepertinya karakter itu tidak ada, jadi yang muncul hanya kotak kecil. Tapi kalau ada, pasti akan muncul di sini!"
-            ]
+            ],
+            "kind": {
+                "codepoint": "$~$concept karakter Unicode",
+                "ui": "$~tautan ke elemen antarmuka $concept",
+                "how": "$~tautan ke panduan $concept",
+                "character": "$~karakter kustom $concept"
+            }
         },
         "Words": {
             "name": "$~kata-kata",

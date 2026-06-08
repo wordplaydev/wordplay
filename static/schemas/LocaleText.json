@@ -201,55 +201,6 @@
       ],
       "type": "object"
     },
-    "DescriptiveNodeText<[\"concept\"]>": {
-      "additionalProperties": false,
-      "properties": {
-        "description": {
-          "$ref": "#/definitions/Template%3C%5B%22concept%22%5D%3E",
-          "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
-        },
-        "doc": {
-          "$ref": "#/definitions/DocText",
-          "description": "Documentation text that appears in the documentation view"
-        },
-        "emotion": {
-          "description": "[emotion] The emotion that should be conveyed in animations of the node type",
-          "enum": [
-            "angry",
-            "arrogant",
-            "bored",
-            "cheerful",
-            "curious",
-            "confused",
-            "eager",
-            "excited",
-            "grumpy",
-            "happy",
-            "insecure",
-            "kind",
-            "neutral",
-            "sad",
-            "scared",
-            "serious",
-            "shy",
-            "surprised",
-            "precise"
-          ],
-          "type": "string"
-        },
-        "name": {
-          "description": "[name] The name that should be used to refer to the node type",
-          "type": "string"
-        }
-      },
-      "required": [
-        "description",
-        "doc",
-        "emotion",
-        "name"
-      ],
-      "type": "object"
-    },
     "DescriptiveNodeText<[\"inputs\"]>": {
       "additionalProperties": false,
       "properties": {
@@ -4751,8 +4702,84 @@
               "type": "object"
             },
             "ConceptLink": {
-              "$ref": "#/definitions/DescriptiveNodeText%3C%5B%22concept%22%5D%3E",
-              "description": "A link to a Wordplay concept in `Markup`, e.g., ` ¶Check out"
+              "additionalProperties": false,
+              "description": "A link in `Markup` or plain text, e.g., ` ¶Check out",
+              "properties": {
+                "description": {
+                  "$ref": "#/definitions/Template%3C%5B%22concept%22%5D%3E",
+                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation text that appears in the documentation view"
+                },
+                "emotion": {
+                  "description": "[emotion] The emotion that should be conveyed in animations of the node type",
+                  "enum": [
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
+                  "type": "string"
+                },
+                "kind": {
+                  "additionalProperties": false,
+                  "description": "Per-reference-kind descriptions, chosen by what the @ reference resolves to.",
+                  "properties": {
+                    "character": {
+                      "$ref": "#/definitions/Template%3C%5B%22concept%22%5D%3E",
+                      "description": "[formatted] Description when the reference is a creator's custom character (e.g."
+                    },
+                    "codepoint": {
+                      "$ref": "#/definitions/Template%3C%5B%22concept%22%5D%3E",
+                      "description": "[formatted] Description when the reference is a Unicode codepoint (e.g."
+                    },
+                    "how": {
+                      "$ref": "#/definitions/Template%3C%5B%22concept%22%5D%3E",
+                      "description": "[formatted] Description when the reference is a how-to (e.g."
+                    },
+                    "ui": {
+                      "$ref": "#/definitions/Template%3C%5B%22concept%22%5D%3E",
+                      "description": "[formatted] Description when the reference is a UI element (e.g."
+                    }
+                  },
+                  "required": [
+                    "codepoint",
+                    "ui",
+                    "how",
+                    "character"
+                  ],
+                  "type": "object"
+                },
+                "name": {
+                  "description": "[name] The name that should be used to refer to the node type",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "description",
+                "doc",
+                "emotion",
+                "kind",
+                "name"
+              ],
+              "type": "object"
             },
             "Conditional": {
               "additionalProperties": false,

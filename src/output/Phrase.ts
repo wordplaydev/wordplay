@@ -34,6 +34,7 @@ import type RenderContext from '@output/RenderContext';
 import Sequence from '@output/Sequence';
 import { CSSFallbackFaces, toNumber, type NameGenerator } from '@output/Stage';
 import TextLang from '@output/TextLang';
+import { splitCharacterRefs } from '@output/splitCharacterRefs';
 import { getOutputInput } from '@output/Valued';
 import getTextMetrics from '@output/getTextMetrics';
 import { PX_PER_METER, sizeToPx } from '@output/outputToCSS';
@@ -218,9 +219,15 @@ export default class Phrase extends Output {
         let totalHeight = 0;
 
         const formats: FormattedText[] | undefined =
-            // Is it plain text? Make a list of unformatted text.
+            // Is it plain text? Split out any custom-character references (#773)
+            // so each is measured as one '@' (see isCharacter below), then make
+            // a list of unformatted segments.
             text instanceof TextLang
-                ? [{ text: text.text, italic: false, weight: undefined }]
+                ? splitCharacterRefs(text.text).map((chunk) => ({
+                      text: chunk.kind === 'character' ? chunk.ref : chunk.text,
+                      italic: false,
+                      weight: undefined,
+                  }))
                 : // Otherwise, get the list of formatted segments.
                   text?.getFormats();
 
@@ -386,17 +393,17 @@ export default class Phrase extends Output {
                   )
                 : undefined;
             this._description = locales
-                .concretize(
-                    (l) => l.output.Phrase.defaultDescription,
-                    {
-                        text: text,
-                        name: this.name instanceof TextLang ? this.name.text : undefined,
-                        size: this.size,
-                        face: this.face,
-                        animation: animationDescription,
-                        color: colorDescription,
-                    },
-                )
+                .concretize((l) => l.output.Phrase.defaultDescription, {
+                    text: text,
+                    name:
+                        this.name instanceof TextLang
+                            ? this.name.text
+                            : undefined,
+                    size: this.size,
+                    face: this.face,
+                    animation: animationDescription,
+                    color: colorDescription,
+                })
                 .toText()
                 .trim();
         }

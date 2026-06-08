@@ -12,6 +12,7 @@ This week we made the palette much more fast and complete, and make saving much 
 
 - 💡 When you write formatted text, auto-complete now suggests your [custom characters](https://wordplay.dev/characters), so you can drop them into your words without typing their names — even to fill an empty spot. (#664)
 - 🔄 We added a "syncing with the cloud" list to the save status dialog, so you can check if projects, galleries, characters, how-tos, and chats finish loading — or see if something didn't.
+- 🖼️ We now render custom characters in a regular @TextLiteral, in addition to a @FormattedLiteral.
 - 🔄 When your browser or device is low on storage, we warn you, and when its out, we give an error. Sign in to save your work!
 - 😊 Now you can duplicate characters.
 - 🎨 We added many new pre-defined animations and a fancy new palette editor to preview them!

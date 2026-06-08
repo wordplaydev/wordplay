@@ -4,13 +4,16 @@ import type Conflict from '@conflicts/Conflict';
 import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import DefaultLocale from '@locale/DefaultLocale';
 import type Locales from '@locale/Locales';
+import type { TemplateInput } from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { Purpose } from '@concepts/Purpose';
 import Characters from '../lore/BasisCharacters';
 import { LINK_SYMBOL } from '@parser/Symbols';
 import { getCodepointFromString } from '@unicode/getCodepoint';
+import type Context from '@nodes/Context';
 import Content from '@nodes/Content';
+import type Markup from '@nodes/Markup';
 import { node, type Field, type Replacement } from '@nodes/Node';
 import Symbol from '@nodes/Sym';
 import Token from '@nodes/Token';
@@ -212,6 +215,53 @@ export default class ConceptLink extends Content {
     static readonly LocalePath = (l: LocaleText) => l.node.ConceptLink;
     getLocalePath() {
         return ConceptLink.LocalePath;
+    }
+
+    getDescriptionInputs(): Record<string, TemplateInput> {
+        return { concept: this.getName() };
+    }
+
+    /**
+     * A reference can resolve to several different things (see ConceptLink.parse),
+     * so describe it according to what it is: a documented concept, a Unicode
+     * codepoint, a UI element, a how-to, or a creator's custom character.
+     */
+    getDescription(locales: Locales, _: Context): Markup {
+        const parsed = ConceptLink.parse(this.getName());
+        if (parsed instanceof CodepointName)
+            return locales.concretize(
+                (l) => l.node.ConceptLink.kind.codepoint,
+                {
+                    concept: this.getCodepoint() ?? this.getName(),
+                },
+            );
+        if (parsed instanceof UIName)
+            return locales.concretize((l) => l.node.ConceptLink.kind.ui, {
+                concept: parsed.id ?? this.getName(),
+            });
+        if (parsed instanceof HowToName)
+            return locales.concretize((l) => l.node.ConceptLink.kind.how, {
+                concept: parsed.name ?? this.getName(),
+            });
+        if (parsed instanceof CharacterName)
+            return locales.concretize(
+                (l) => l.node.ConceptLink.kind.character,
+                {
+                    concept: parsed.name
+                        ? `${parsed.username}/${parsed.name}`
+                        : parsed.username,
+                },
+            );
+        // A documented concept (with an optional member), or an unparseable
+        // reference: use the default concept description.
+        return locales.concretize((l) => l.node.ConceptLink.description, {
+            concept:
+                parsed instanceof ConceptName
+                    ? parsed.property
+                        ? `${parsed.name}.${parsed.property}`
+                        : parsed.name
+                    : this.getName(),
+        });
     }
 
     getCharacter() {

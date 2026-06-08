@@ -378,7 +378,13 @@
                 "$~Ve eğer kendi karakterinizi yaratırsanız, onlara verdiğiniz isimle hitap edebilirsiniz.",
                 "$~\\`@coolbeans`\\",
                 "$~Oh... Sanırım o karakter yok, bu yüzden küçük bir kare elde ediyorsunuz. Ama olsaydı, burada görünürdüler!"
-            ]
+            ],
+            "kind": {
+                "codepoint": "$~Unicode karakteri $concept",
+                "ui": "$~$concept arayüz öğesine bir bağlantı",
+                "how": "$~$concept kullanım kılavuzuna bağlantı",
+                "character": "$~özel karakter $concept"
+            }
         },
         "Words": {
             "name": "$~kelimeler",

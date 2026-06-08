@@ -5,23 +5,26 @@ import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { Purpose } from '@concepts/Purpose';
 import { Emotion } from '../lore/Emotion';
-import {
-    ConceptRegExPattern,
-    TextCloseByTextOpen,
-    TextDelimiters,
-} from '@parser/Tokenizer';
+import { TextCloseByTextOpen, TextDelimiters } from '@parser/Tokenizer';
 import type Context from '@nodes/Context';
+import ConceptLink, { CharacterName, CodepointName } from '@nodes/ConceptLink';
 import Example from '@nodes/Example';
 import type Expression from '@nodes/Expression';
 import Language from '@nodes/Language';
 import { LanguageTagged } from '@nodes/LanguageTagged';
-import { list, node, optional, type Grammar, type Replacement } from '@nodes/Node';
+import {
+    list,
+    node,
+    optional,
+    type Grammar,
+    type Replacement,
+} from '@nodes/Node';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 
 export const ESCAPE_REGEX = /\\(.)/g;
 
-export type TranslationSegment = Token | Example;
+export type TranslationSegment = Token | Example | ConceptLink;
 
 export default class Translation extends LanguageTagged {
     readonly open: Token;
@@ -73,7 +76,12 @@ export default class Translation extends LanguageTagged {
             { name: 'open', kind: node(Sym.Text), label: undefined },
             {
                 name: 'segments',
-                kind: list(true, node(Sym.Words), node(Example)),
+                kind: list(
+                    true,
+                    node(Sym.Words),
+                    node(Example),
+                    node(ConceptLink),
+                ),
                 label: () => (l) => l.node.Translation.label.segments,
             },
             { name: 'close', kind: node(Sym.Text), label: undefined },
@@ -104,23 +112,42 @@ export default class Translation extends LanguageTagged {
         return Purpose.Text;
     }
 
-    static ConceptRegExPattern = new RegExp(ConceptRegExPattern, 'ug');
-
     computeConflicts(context: Context): Conflict[] {
         const conflicts: Conflict[] = PossiblePII.analyze(this, context);
 
-        if (Translation.ConceptRegExPattern.test(this.getText())) {
+        // Custom characters (CharacterName) and codepoints (CodepointName) now
+        // render in plain text (#773). Other references (concept/UI/how doc
+        // links) still can't render as output, so warn about those.
+        if (
+            this.segments.some(
+                (segment) =>
+                    segment instanceof ConceptLink &&
+                    !Translation.rendersInText(segment),
+            )
+        )
             conflicts.push(new CharacterWarning(this));
-        }
 
         return conflicts;
     }
 
-    /** Get the text, with any escape characters processed. */
+    /** Whether a reference resolves to something renderable in plain text output. */
+    static rendersInText(link: ConceptLink): boolean {
+        const parsed = ConceptLink.parse(link.getName());
+        return (
+            parsed instanceof CharacterName || parsed instanceof CodepointName
+        );
+    }
+
+    /** Get the text, with any escape characters processed and references kept as-is. */
     getText(): string {
         return this.segments
-            .filter((segment): segment is Token => segment instanceof Token)
-            .map((token) => unescaped(token.getText()))
+            .map((segment) =>
+                segment instanceof Token
+                    ? unescaped(segment.getText())
+                    : segment instanceof ConceptLink
+                      ? segment.concept.getText()
+                      : '',
+            )
             .join('');
     }
 
