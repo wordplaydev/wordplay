@@ -31,7 +31,7 @@
     } from '@components/editor/commands/Commands';
     import Speech from '@components/lore/Speech.svelte';
     import CommandButton from '@components/widgets/CommandButton.svelte';
-    import Expander from '@components/widgets/Expander.svelte';
+    import Sidebar from '@components/widgets/Sidebar.svelte';
     import Templates from '@concepts/Templates';
     import type Conflict from '@conflicts/Conflict';
     import type {
@@ -57,8 +57,7 @@
     import {
         ANNOTATIONS_MIN_WIDTH,
         ANNOTATIONS_MAX_WIDTH,
-    } from '@db/settings/AnnotationsWidthSetting';
-    import ResizeKnob from '@components/widgets/ResizeKnob.svelte';
+    } from '@db/settings/AnnotationsSetting';
     import type Project from '@db/projects/Project';
     import Characters from '../../lore/BasisCharacters';
     import type Markup from '@nodes/Markup';
@@ -68,7 +67,6 @@
         getEditors,
         getEmphasizedConflict,
         getEvaluation,
-        getTip,
     } from '@components/project/Contexts';
     import Annotation from '@components/annotations/Annotation.svelte';
 
@@ -317,134 +315,6 @@
         updateAnnotations();
     });
 
-    // --- Resize gesture -----------------------------------------------------
-    // The knob is the only resize affordance: it carries the pointer events
-    // directly (no edge-band detection on the section), so the user must be
-    // hovered over it to start a resize. Persistent so users see it any time
-    // the sidebar is expanded.
-    let dragging = $state(false);
-    let sectionEl: HTMLElement | undefined = $state();
-    let dragStartX = 0;
-    let dragStartWidth = 0;
-    /**
-     * Live width during a drag. We don't mutate the setting's store directly
-     * during the drag because `Setting.set` no-ops when the new value already
-     * equals `store.get()` — which would skip persisting to localStorage on
-     * pointerup if the store was already advanced by the drag loop.
-     */
-    let draggingWidth: number | undefined = $state(undefined);
-    /** The element that captured the drag; cleared in the up handler. */
-    let captureEl: Element | undefined;
-
-    let renderedWidth = $derived(draggingWidth ?? $annotationsWidth);
-
-    function handleKnobPointerDown(event: PointerEvent) {
-        if (sectionEl === undefined) return;
-        const target = event.currentTarget;
-        if (!(target instanceof Element)) return;
-        dragging = true;
-        dragStartX = event.clientX;
-        dragStartWidth = sectionEl.getBoundingClientRect().width;
-        draggingWidth = dragStartWidth;
-        target.setPointerCapture(event.pointerId);
-        captureEl = target;
-        event.stopPropagation();
-        event.preventDefault();
-    }
-
-    function handleKnobPointerMove(event: PointerEvent) {
-        if (!dragging) return;
-        // Sidebar sits on the right edge of the viewport. Moving the pointer
-        // leftward grows the sidebar; rightward shrinks it. Update only the
-        // local component state during the drag — `Settings.setAnnotationsWidth`
-        // is called once on pointerup so the persistence path runs exactly
-        // once with a value that differs from the store's current value.
-        draggingWidth = Math.max(
-            ANNOTATIONS_MIN_WIDTH,
-            Math.min(
-                ANNOTATIONS_MAX_WIDTH,
-                dragStartWidth + (dragStartX - event.clientX),
-            ),
-        );
-    }
-
-    function handleKnobPointerUp(event: PointerEvent) {
-        if (!dragging) return;
-        dragging = false;
-        if (captureEl?.hasPointerCapture(event.pointerId))
-            captureEl.releasePointerCapture(event.pointerId);
-        captureEl = undefined;
-        // Persist the final width once the drag ends. The store still holds
-        // the pre-drag value, so `Setting.set` sees a change and writes
-        // through to localStorage.
-        const final = draggingWidth;
-        draggingWidth = undefined;
-        if (final !== undefined) Settings.setAnnotationsWidth(final);
-    }
-
-    /**
-     * Keyboard nudge from the knob. Sidebar grows leftward (the knob is on
-     * the inline-start edge), so we subtract dx from the current width. dy
-     * is ignored — the sidebar only resizes horizontally.
-     */
-    function handleKnobNudge(dx: number, _dy: number) {
-        const current = $annotationsWidth;
-        const newWidth = Math.max(
-            ANNOTATIONS_MIN_WIDTH,
-            Math.min(ANNOTATIONS_MAX_WIDTH, current - dx),
-        );
-        Settings.setAnnotationsWidth(newWidth);
-    }
-
-    // Reuse the shared Tip infrastructure (same as the expand/collapse arrow)
-    // for the whole-bar tooltip, rather than a plain title attribute.
-    const hint = getTip();
-    /** A small element near the arrow to anchor the tip to, so it's placed and
-     *  sized like every other tip (anchoring to the whole wide section would
-     *  position it oddly). */
-    let tipAnchor = $state<HTMLElement | undefined>(undefined);
-    /** The expanded content container, used to detect "directly over the panel
-     *  background" (vs. over a conflict, button, or the arrow). */
-    let annotationsEl = $state<HTMLElement | undefined>(undefined);
-    /**
-     * Show the toggle tip only when the panel's own background is directly under
-     * the pointer — not when over a conflict, a button, or the arrow. We use
-     * `pointerover` (fires per element entered, and bubbles) so the tip updates
-     * as the pointer moves between the background and content.
-     */
-    function handleSectionOver(event: PointerEvent) {
-        if (
-            (event.target === sectionEl || event.target === annotationsEl) &&
-            tipAnchor
-        )
-            hint.show(
-                $locales.getPlainText((l) => l.ui.annotations.button.toggle),
-                tipAnchor,
-            );
-        else hint.hide();
-    }
-    function hideSectionTip() {
-        hint.hide();
-    }
-
-    /**
-     * Toggle the whole sidebar when empty space is pressed. We use `pointerdown`
-     * (not `click`) because clicking the arrow changes the layout — the panel
-     * expands — so `click`'s target becomes the common ancestor of pointerdown
-     * and pointerup (the section), defeating a click-target guard and toggling a
-     * second time. pointerdown's target is the precise element pressed.
-     * Interactive children (the expander, conflict rows/dots, resolution
-     * buttons, links) handle their own press, so we ignore presses on them.
-     */
-    function handleSectionPointerDown(event: PointerEvent) {
-        if (
-            event.target instanceof Element &&
-            event.target.closest('button, a, input, [role="button"]')
-        )
-            return;
-        toggle();
-    }
-
     /** Expand the sidebar (if collapsed) and expand a specific conflict. */
     function expandConflict(key: string, node: Node) {
         if (!isExpanded) toggle();
@@ -455,55 +325,22 @@
     }
 </script>
 
-<!-- Render annotations by node -->
-<!-- Wrapper provides the positioning context for the resize knob outside the
-     section's overflow-x:hidden clip. The knob is a sibling of the section
-     rather than a child, so its half that sits past the section's left edge
-     stays visible. -->
-<div class="annotations-frame" class:expanded={isExpanded}>
-    {#if isExpanded}
-        <ResizeKnob
-            edge="left"
-            active={dragging}
-            onpointerdown={handleKnobPointerDown}
-            onpointermove={handleKnobPointerMove}
-            onpointerup={handleKnobPointerUp}
-            onnudge={handleKnobNudge}
-        />
-    {/if}
-<!-- The Expander button provides the keyboard-accessible toggle; this click
-     handler is a redundant convenience so empty space toggles the sidebar too. -->
-<!-- svelte-ignore a11y_no_static_element_interactions, a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions -->
-<section
-    bind:this={sectionEl}
-    aria-label={$locales.getPlainText((l) => l.ui.annotations.label)}
-    class:expanded={isExpanded}
-    class:dragging
-    data-uiid="conflict"
-    style:width={isExpanded ? `${renderedWidth}px` : null}
-    style:min-width={isExpanded ? `${renderedWidth}px` : null}
-    style:max-width={isExpanded ? `${renderedWidth}px` : null}
-    onpointerdown={handleSectionPointerDown}
-    onpointerover={handleSectionOver}
-    onpointerleave={hideSectionTip}
+<!-- The shared sidebar shell owns the frame, resize, toggle, and tooltip; the
+     conflict/caret content lives in the snippets below. -->
+<Sidebar
+    side="end"
+    expanded={isExpanded}
+    {toggle}
+    width={$annotationsWidth}
+    min={ANNOTATIONS_MIN_WIDTH}
+    max={ANNOTATIONS_MAX_WIDTH}
+    commit={(width) => Settings.setAnnotationsWidth(width)}
+    label={(l) => l.ui.annotations.label}
+    toggleLabel={(l) => l.ui.annotations.button.toggle}
+    uiid="conflict"
 >
-    <span class="tip-anchor" bind:this={tipAnchor}>
-        <Expander
-            expanded={isExpanded}
-            {toggle}
-            vertical={false}
-            label={(l) => l.ui.annotations.button.toggle}
-        />
-    </span>
-    {#if isExpanded}
-        <!-- Pin the content to its final (expanded) width so it lays out once;
-             the section's width transition then just reveals it (overflow-x is
-             hidden) instead of reflowing/rewrapping the text mid-animation. -->
-        <div
-            bind:this={annotationsEl}
-            class="annotations"
-            style:width={`calc(${renderedWidth}px - 2 * var(--wordplay-spacing) - var(--wordplay-border-width))`}
-        >
+    {#snippet expandedContent()}
+        <div class="annotations">
             {#if source.isEmpty()}
                 <Speech
                     character={Characters.FunctionDefinition}
@@ -671,7 +508,8 @@
                 />
             {/each}
         </div>
-    {:else}
+    {/snippet}
+    {#snippet collapsedContent()}
         {#each annotations as { info, key } (key)}
             <div
                 role="button"
@@ -694,58 +532,10 @@
                     $emphasizedConflict?.node === info.node}
             ></div>
         {/each}
-    {/if}
-</section>
-</div>
+    {/snippet}
+</Sidebar>
 
 <style>
-    .annotations-frame {
-        position: relative;
-        height: 100%;
-        display: flex;
-    }
-
-    section {
-        position: relative;
-        padding: var(--wordplay-spacing);
-        overflow-x: hidden;
-        overflow-y: auto;
-        height: 100%;
-        /* The whole bar toggles expand/collapse, so show the hand cursor over it. */
-        cursor: pointer;
-        border-inline-start: solid var(--wordplay-border-width)
-            var(--wordplay-border-color);
-        max-width: 2em;
-        min-width: 2em;
-        /* Long resolution text wraps onto multiple lines rather than getting
-           hidden by overflow-x; long unbreakable runs (e.g. literal text in
-           a union enumeration) break at any character. */
-        word-wrap: break-word;
-        overflow-wrap: anywhere;
-        transition:
-            max-width calc(var(--animation-factor) * 100ms),
-            min-width calc(var(--animation-factor) * 100ms);
-    }
-
-    /* During the drag itself, suppress the width transition for responsive
-       feedback. */
-    section.expanded.dragging {
-        transition: none;
-    }
-
-    section:not(:global(.expanded)) {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: var(--wordplay-spacing);
-    }
-
-    /* Tight wrapper so the panel tip anchors to the arrow's box, not the whole bar. */
-    .tip-anchor {
-        display: inline-block;
-        width: fit-content;
-    }
-
     .who {
         display: flex;
         flex-direction: column;
@@ -759,6 +549,10 @@
         gap: var(--wordplay-spacing);
         /* Spacing after the expand/collapse arrow above. */
         margin-block-start: var(--wordplay-spacing);
+        /* Long resolution text wraps onto multiple lines; long unbreakable runs
+           (e.g. literal text in a union enumeration) break at any character. */
+        word-wrap: break-word;
+        overflow-wrap: anywhere;
     }
 
     .annotation {

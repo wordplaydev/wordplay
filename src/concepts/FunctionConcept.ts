@@ -21,8 +21,15 @@ export default class FunctionConcept extends Concept {
     /** The structure concept on which this function is defined, if any */
     readonly structure: StructureConcept | undefined;
 
-    /** A derived example */
+    /** The structure this is a static function of, if any. Kept so the textual
+     *  example can rebuild the `Structure.fn` subject non-symbolically. */
+    private readonly staticOwner: StructureDefinition | undefined;
+
+    /** A derived example (symbolic names). */
     readonly example: Node;
+
+    /** A lazily-built example preferring textual names (see getRepresentation). */
+    private exampleTextual: Node | undefined;
 
     /** A derived list of BindConcepts */
     readonly inputs: BindConcept[];
@@ -42,33 +49,39 @@ export default class FunctionConcept extends Concept {
 
         this.definition = definition;
         this.structure = structure;
-
-        // Static functions are called on the structure itself, so use a
-        // `Structure.fn` property reference as the call subject. A bare
-        // Reference would render `Structure(...)`, and the structure type
-        // would render a call on an instance placeholder.
-        const subject =
-            staticOwner !== undefined
-                ? PropertyReference.make(
-                      Reference.make(
-                          locales.getName(staticOwner.names),
-                          staticOwner,
-                      ),
-                      Reference.make(locales.getName(this.definition.names)),
-                  )
-                : this.structure?.type;
+        this.staticOwner = staticOwner;
 
         this.example = this.definition.getEvaluateTemplate(
             locales,
             context,
             false,
             true,
-            subject,
+            this.makeSubject(locales, true),
         );
 
         this.inputs = this.definition.inputs.map(
             (bind) => new BindConcept(purpose, bind, locales, context),
         );
+    }
+
+    /**
+     * The call subject. Static functions are called on the structure itself, so
+     * use a `Structure.fn` property reference. A bare Reference would render
+     * `Structure(...)`, and the structure type would render a call on an
+     * instance placeholder.
+     */
+    private makeSubject(locales: Locales, symbolic: boolean) {
+        return this.staticOwner !== undefined
+            ? PropertyReference.make(
+                  Reference.make(
+                      locales.getName(this.staticOwner.names, symbolic),
+                      this.staticOwner,
+                  ),
+                  Reference.make(
+                      locales.getName(this.definition.names, symbolic),
+                  ),
+              )
+            : this.structure?.type;
     }
 
     getCharacter(locales: Locales) {
@@ -104,8 +117,19 @@ export default class FunctionConcept extends Concept {
         return locales.getName(this.definition.names, false);
     }
 
-    getRepresentation() {
-        return this.example;
+    getRepresentation(locales?: Locales, textual = false) {
+        if (!textual || locales === undefined) return this.example;
+        // Built lazily — the textual variant is only needed by drag palettes,
+        // and the concept (with this cache) is rebuilt on locale change.
+        if (this.exampleTextual === undefined)
+            this.exampleTextual = this.definition.getEvaluateTemplate(
+                locales,
+                this.context,
+                false,
+                false,
+                this.makeSubject(locales, false),
+            );
+        return this.exampleTextual;
     }
 
     getNodes(): Set<Node> {

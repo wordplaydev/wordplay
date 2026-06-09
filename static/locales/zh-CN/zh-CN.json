@@ -7264,6 +7264,18 @@
             "storageFull": "$~此设备存储空间已满，因此我们无法在此处保存副本。您的工作内容仍保存在云端。",
             "storageNearFull": "$~此设备的存储空间即将用完，因此 Wordplay 可能很快就无法保存文件。保存在云端的内容是安全的；释放设备或浏览器上的空间即可使其继续保存到云端。",
             "saveTooLarge": "$~文件太大，无法保存。请尝试删除一些内容。"
+        },
+        "wellspring": {
+            "label": "$?",
+            "recycle": "$?",
+            "empty": "$?",
+            "field": {
+                "search": "$?"
+            },
+            "button": {
+                "toggle": "$?",
+                "clear": "$?"
+            }
         }
     },
     "moderation": {

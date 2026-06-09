@@ -7336,6 +7336,18 @@
             "storageFull": "$~Der Speicher dieses Geräts ist voll, daher konnten wir hier keine Kopie speichern. Ihre Arbeit befindet sich weiterhin in der Cloud.",
             "storageNearFull": "$~Der Speicherplatz auf diesem Gerät ist fast voll, daher kann Wordplay möglicherweise bald keine Daten mehr darauf speichern. Ihre in der Cloud gespeicherten Daten sind sicher; wenn Sie Speicherplatz auf Ihrem Gerät oder Browser freigeben, können Sie weiterhin Daten hier speichern.",
             "saveTooLarge": "$~Diese Datei ist zu groß zum Speichern. Versuchen Sie, etwas Inhalt zu entfernen."
+        },
+        "wellspring": {
+            "label": "$?",
+            "recycle": "$?",
+            "empty": "$?",
+            "field": {
+                "search": "$?"
+            },
+            "button": {
+                "toggle": "$?",
+                "clear": "$?"
+            }
         }
     },
     "moderation": {

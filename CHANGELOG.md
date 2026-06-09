@@ -4,21 +4,38 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
-## 0.21.0 - 2026-06-01
+## 0.22.0 - 2026-06-06
 
-This week we made the palette much more fast and complete, and make saving much more fast and reliable.
+This week we made improvements to the output palette, output editing on stage, and added a block-based editing palette.
 
-### Added
+# Added
 
+- 🖱️ There's a new block-based editing palette sidebar for quicker dragging and dropping.
 - 💡 When you write formatted text, auto-complete now suggests your [custom characters](https://wordplay.dev/characters), so you can drop them into your words without typing their names — even to fill an empty spot. (#664)
-- 🔄 We added a "syncing with the cloud" list to the save status dialog, so you can check if projects, galleries, characters, how-tos, and chats finish loading — or see if something didn't.
 - 🖼️ We now render custom characters in a regular @TextLiteral, in addition to a @FormattedLiteral.
-- 🔄 When your browser or device is low on storage, we warn you, and when its out, we give an error. Sign in to save your work!
 - 😊 Now you can duplicate characters.
 - 🎨 We added many new pre-defined animations and a fancy new palette editor to preview them!
 - 🔶 We add support for editing, moving, rotating, and scaling all @Shape output!
 - ⚡️ We made it possible to edit all aspects of output in the palette (#172, #173, #174).
 - 💨 We made changes to a @Phrase's text animate too, in addition to rotate, scale, color, and other properties.
+
+# Changed
+
+- ✏️ We made the editor's double click selection behavior make more sense.
+
+# Fixed
+
+- 🚦 When nothing is selected, the palette's buttons for adding output now only make changes that fit — like wrapping a @Phrase in a @Group, or a @Form in a @Shape — instead of odd ones like putting a @Shape inside a @Phrase. When your program is empty, we offer to add a @Phrase to get you started.
+- ⌨️ Multiple selections on stage only worked by pointer; now keyboards are supported too (#118).
+
+## 0.21.0 - 2026-06-01
+
+This week we made saving much more fast and reliable.
+
+### Added
+
+- 🔄 We added a "syncing with the cloud" list to the save status dialog, so you can check if projects, galleries, characters, how-tos, and chats finish loading — or see if something didn't.
+- 🔄 When your browser or device is low on storage, we warn you, and when its out, we give an error. Sign in to save your work!
 - 📍 To keep GitHub tidy, we now have a bot that asks inactive assignees on GitHub for an update after 3 weeks of silence, and unassign them if they are silent a week later.
 
 ### Changed
@@ -26,15 +43,12 @@ This week we made the palette much more fast and complete, and make saving much 
 - 🔄 We made loading, updating, and saving errors display more consistently and reliably.
 - ⚠️ We made it easier to navigate conflicts in the editor when there are many.
 - 🎨 You can now edit @Phrase's inputs if they are a @Bind that refers to some other value.
-- ✏️ We made the editor's double click selection behavior make more sense.
 - 🛠️ We upgraded internal tooling for stability.
 
 ### Fixed
 
-- 🚦 When nothing is selected, the palette's buttons for adding output now only make changes that fit — like wrapping a @Phrase in a @Group, or a @Form in a @Shape — instead of odd ones like putting a @Shape inside a @Phrase. When your program is empty, we offer to add a @Phrase to get you started.
 - 🖱️ We fixed pop-up tips in scrolled dialogs. (#1177)
 - 🔄 We made loading and saving much less intensive for slow internet connections and people with lots of projects, galleries, and chats. Saving should be much more reliable overall now, especially if you temporarily lose your internet connection (#812).
-- ⌨️ Multiple selections on stage only worked by pointer; now keyboards are supported too (#118).
 
 ## 0.20.0 - 2026-05-30
 

@@ -7330,6 +7330,18 @@
             "storageFull": "$~Den här enhetens lagringsutrymme är fullt, så vi kunde inte spara en kopia här. Ditt arbete finns fortfarande i molnet.",
             "storageNearFull": "$~Den här enheten har nästan slut på lagringsutrymme, så Wordplay kanske snart inte kan spara på den. Arbete som sparas i molnet är säkert; att frigöra utrymme på din enhet eller webbläsare låter det fortsätta spara här.",
             "saveTooLarge": "$~Detta är för stort för att spara. Försök att ta bort lite innehåll."
+        },
+        "wellspring": {
+            "label": "$?",
+            "recycle": "$?",
+            "empty": "$?",
+            "field": {
+                "search": "$?"
+            },
+            "button": {
+                "toggle": "$?",
+                "clear": "$?"
+            }
         }
     },
     "moderation": {

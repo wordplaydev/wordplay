@@ -7345,6 +7345,18 @@
             "storageFull": "$~Pamięć tego urządzenia jest pełna, więc nie mogliśmy zapisać tutaj kopii. Twoja praca nadal znajduje się w chmurze.",
             "storageNearFull": "$~Pamięć na tym urządzeniu jest prawie pusta, więc aplikacja Wordplay może wkrótce nie być w stanie jej zapisać. Praca zapisana w chmurze jest bezpieczna; zwolnienie miejsca na urządzeniu lub w przeglądarce pozwoli na jej dalsze zapisywanie.",
             "saveTooLarge": "$~Plik jest za duży, aby go zapisać. Spróbuj usunąć część treści."
+        },
+        "wellspring": {
+            "label": "$?",
+            "recycle": "$?",
+            "empty": "$?",
+            "field": {
+                "search": "$?"
+            },
+            "button": {
+                "toggle": "$?",
+                "clear": "$?"
+            }
         }
     },
     "moderation": {

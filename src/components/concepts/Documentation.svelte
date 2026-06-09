@@ -54,44 +54,21 @@
     import StreamConcept from '@concepts/StreamConcept';
     import StructureConcept from '@concepts/StructureConcept';
     import {
-        Galleries,
-        HowTos,
-        Locales,
-        Projects,
-        blocks,
-        locales,
-    } from '@db/Database';
+        getConceptGroups,
+        getPurposeIcons,
+        recycleDraggedNode,
+    } from '@components/concepts/conceptGroups';
+    import { Galleries, HowTos, Locales, blocks, locales } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
     import GalleryHowTo from '@db/howtos/HowToDatabase.svelte';
     import type Project from '@db/projects/Project';
-    import {
-        getLanguageQuoteClose,
-        getLanguageQuoteOpen,
-    } from '@locale/LanguageCode';
-    import CompositeLiteral from '@nodes/CompositeLiteral';
     import ConceptLink from '@nodes/ConceptLink';
-    import Expression from '@nodes/Expression';
-    import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-    import Literal from '@nodes/Literal';
     import type Node from '@nodes/Node';
-    import Source from '@nodes/Source';
     import {
-        BIND_SYMBOL,
         DOCUMENTATION_SYMBOL,
-        FORMATTED_SYMBOL,
         HOME_SYMBOL,
         IDEA_SYMBOL,
-        LIST_CLOSE_SYMBOL,
-        LIST_OPEN_SYMBOL,
-        MEASUREMENT_SYMBOL,
-        NONE_SYMBOL,
         SEARCH_SYMBOL,
-        SET_CLOSE_SYMBOL,
-        SET_OPEN_SYMBOL,
-        TABLE_CLOSE_SYMBOL,
-        TABLE_OPEN_SYMBOL,
-        TRUE_SYMBOL,
-        TYPE_SYMBOL,
     } from '@parser/Symbols';
     import { withMonoEmoji } from '@unicode/emoji';
     import { debounced } from '@util/debounce.svelte';
@@ -125,21 +102,6 @@
     }: Props = $props();
 
     let view: HTMLElement | undefined = $state();
-
-    const contentPurposes = [
-        Purpose.Text,
-        Purpose.Numbers,
-        Purpose.Truth,
-        Purpose.Lists,
-        Purpose.Maps,
-        Purpose.Tables,
-    ] as const;
-
-    type ContentPurpose = (typeof contentPurposes)[number];
-
-    function isContentPurpose(p: PurposeType): p is ContentPurpose {
-        return (contentPurposes as readonly PurposeType[]).includes(p);
-    }
 
     const user = getUser();
 
@@ -408,31 +370,7 @@
         // No node released? We're done.
         if (node === undefined) return;
 
-        // See if we can remove the node from it's root.
-        const source = project.getRoot(node)?.root;
-        if (source === undefined || !(source instanceof Source)) return;
-
-        // Figure out what to replace the dragged node with. By default, we remove it.
-        const type =
-            node instanceof Expression
-                ? node.getType(project.getContext(source))
-                : undefined;
-        let replacement =
-            node instanceof Expression && !source.root.inList(node)
-                ? ExpressionPlaceholder.make(type)
-                : undefined;
-
-        const newSource = source.withProgram(
-            source.expression.replace(node, replacement),
-            source.spaces.withReplacement(node, replacement),
-        );
-
-        // Update the project with the new source files
-        Projects.reviseProject(
-            project
-                .withSource(source, newSource)
-                .withCaret(newSource, source.getNodeFirstPosition(node) ?? 0),
-        );
+        recycleDraggedNode(project, node);
     }
 
     // Navigation: the history → query effect keeps the search box in sync with each of
@@ -516,26 +454,10 @@
                 <Mode
                     grid
                     modes={(l) => l.ui.docs.mode.purpose}
-                choice={Object.keys(Purpose).indexOf(purpose)}
-                select={(choice) =>
-                    chooseSection(mode, Object.values(Purpose)[choice])}
-                icons={[
-                    '👤',
-                    '🖥️',
-                    '🖱️',
-                    '?',
-                    BIND_SYMBOL,
-                    getLanguageQuoteOpen($locales.getLocale().language) +
-                        getLanguageQuoteClose($locales.getLocale().language),
-                    MEASUREMENT_SYMBOL,
-                    TRUE_SYMBOL + NONE_SYMBOL,
-                    LIST_OPEN_SYMBOL + LIST_CLOSE_SYMBOL,
-                    SET_OPEN_SYMBOL + SET_CLOSE_SYMBOL,
-                    TABLE_OPEN_SYMBOL + TABLE_CLOSE_SYMBOL,
-                    FORMATTED_SYMBOL + FORMATTED_SYMBOL,
-                    TYPE_SYMBOL,
-                    '',
-                ]}
+                    choice={Object.keys(Purpose).indexOf(purpose)}
+                    select={(choice) =>
+                        chooseSection(mode, Object.values(Purpose)[choice])}
+                    icons={getPurposeIcons($locales.getLocale().language)}
                     wrap
                     omit={standalone ? [0] : []}
                 />
@@ -751,142 +673,17 @@
                             /></em
                         >
                     {/if}
-                {:else if purpose === Purpose.Outputs}
-                    {@const concepts =
-                        index.getPrimaryConceptsWithPurpose(purpose)}
-                    {@const sourceConcept = index.getStructureConcept(
-                        project.shares.output.Data,
-                    )}
-                    {@const outputs: Concept[] = [...index.getInterfaceImplementers(
-                        project.shares.output.Output,
-                    ), ...(sourceConcept ? [ sourceConcept] : [])]}
-                    {@const arrangements: Concept[] = index.getInterfaceImplementers(
-                        project.shares.output.Arrangement,
-                    )}
-                    {@const forms: Concept[] = index.getInterfaceImplementers(
-                        project.shares.output.Form,
-                    )}
-                    {@const styles: Concept[] = concepts.filter(
-                        (c) => c instanceof FunctionConcept || (c instanceof StructureConcept && c.definition === project.shares.output.Sequence)
-                    )}
-                    {@const appearance: Concept[] = concepts.filter((c) => c instanceof StructureConcept && (c.definition === project.shares.output.Color || c.definition === project.shares.output.Aura || c.definition === project.shares.output.Pose))}
-                    {@const other: Concept[] = concepts.filter(
-                        (c) =>
-                            !outputs.includes(c) &&
-                            !arrangements.includes(c) &&
-                            !forms.includes(c) &&
-                            !styles.includes(c) &&
-                            !appearance.includes(c) && !((c instanceof StructureConcept) && (c.definition === project.shares.output.Form || c.definition === project.shares.output.Arrangement))
-
-                    )}
-                    <HeaderAndExplanation
-                        text={(l) => l.ui.docs.purposes.Outputs}
-                        sub
-                    />
-                    <ConceptGroupView concepts={outputs} {collapse} {row} />
-                    <HeaderAndExplanation
-                        text={(l) => l.ui.docs.header.arrangements}
-                        sub
-                    />
-                    <ConceptGroupView
-                        concepts={arrangements}
-                        {collapse}
-                        {row}
-                    />
-                    <HeaderAndExplanation
-                        text={(l) => l.ui.docs.header.forms}
-                        sub
-                    />
-                    <ConceptGroupView concepts={forms} {collapse} {row} />
-                    <HeaderAndExplanation
-                        text={(l) => l.ui.docs.header.appearance}
-                        sub
-                    />
-                    <ConceptGroupView concepts={appearance} {collapse} {row} />
-                    <HeaderAndExplanation
-                        text={(l) => l.ui.docs.header.animation}
-                        sub
-                    />
-                    <ConceptGroupView concepts={styles} {collapse} {row} />
-                    <HeaderAndExplanation
-                        text={(l) => l.ui.docs.header.location}
-                        sub
-                    />
-                    <ConceptGroupView concepts={other} {collapse} {row} />
-                {:else if purpose === Purpose.Inputs}
-                    {@const concepts =
-                        index.getPrimaryConceptsWithPurpose(purpose)}
-                    {@const controls: Concept[] = concepts.filter(
-                        (c) => c instanceof NodeConcept,
-                    )}
-                    {@const streams = concepts.filter(
-                        (c) => !controls.includes(c),
-                    )}
-                    <HeaderAndExplanation
-                        text={(l) => l.ui.docs.purposes.Inputs}
-                        sub
-                    />
-                    <ConceptGroupView concepts={streams} {collapse} {row} />
-                    <HeaderAndExplanation
-                        text={(l) => l.ui.docs.header.reactions}
-                        sub
-                    />
-                    <ConceptGroupView concepts={controls} {collapse} {row} />
-                {:else if isContentPurpose(purpose)}
-                    <!-- purpose is now narrowed to ContentPurpose -->
-                    {@const primary = index
-                        .getPrimaryConceptsWithPurpose(purpose)
-                        .filter(
-                            (s) =>
-                                !(
-                                    s instanceof NodeConcept &&
-                                    (s.template instanceof Literal ||
-                                        s.template instanceof CompositeLiteral)
-                                ),
-                        )}
-                    {@const functions = primary
-                        .map((p) =>
-                            Array.from(p.getSubConcepts()).filter(
-                                (c) => c instanceof FunctionConcept,
-                            ),
-                        )
-                        .flat()}
-                    {@const conversions = primary
-                        .map((p) =>
-                            Array.from(p.getSubConcepts()).filter(
-                                (c) => c instanceof ConversionConcept,
-                            ),
-                        )
-                        .flat()}
-                    <HeaderAndExplanation
-                        text={(l) => l.ui.docs.purposes[purpose]}
-                        sub
-                    />
-                    <ConceptGroupView
-                        concepts={[...primary]}
-                        {collapse}
-                        {row}
-                    />
-                    <HeaderAndExplanation
-                        text={(l) => l.ui.docs.header.functions}
-                        sub
-                    />
-                    <ConceptGroupView concepts={functions} {collapse} {row} />
-                    <HeaderAndExplanation
-                        text={(l) => l.ui.docs.header.conversions}
-                        sub
-                    />
-                    <ConceptGroupView concepts={conversions} {collapse} {row} />
                 {:else}
-                    <HeaderAndExplanation
-                        text={(l) => l.ui.docs.purposes[purpose]}
-                        sub
-                    />
-                    <ConceptGroupView
-                        concepts={index.getPrimaryConceptsWithPurpose(purpose)}
-                        {collapse}
-                        {row}
-                    />
+                    <!-- All other purposes render as labeled groups (shared with
+                         the Wellspring sidebar via getConceptGroups). -->
+                    {#each getConceptGroups(purpose, index, project) as group}
+                        <HeaderAndExplanation text={group.header} sub />
+                        <ConceptGroupView
+                            concepts={group.concepts}
+                            {collapse}
+                            {row}
+                        />
+                    {/each}
                 {/if}
             {:else}
                 No index.

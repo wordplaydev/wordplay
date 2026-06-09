@@ -9,7 +9,6 @@ import type { Database } from '@db/Database';
 import { firestore } from '@db/firebase';
 import { AnimationFactorSetting } from '@db/settings/AnimationFactorSetting';
 import { AnnotationsSetting } from '@db/settings/AnnotationsSetting';
-import { AnnotationsWidthSetting } from '@db/settings/AnnotationsWidthSetting';
 import type { ArrangementType } from '@db/settings/Arrangement';
 import { ArrangementSetting } from '@db/settings/ArrangementSetting';
 import {
@@ -34,7 +33,10 @@ import {
     type TutorialProgress,
 } from '@db/settings/TutorialProgressSetting';
 import { UpdatesSetting } from '@db/settings/UpdatesSetting';
+import { WellspringSetting } from '@db/settings/WellspringSetting';
 import { WritingLayoutSetting } from '@db/settings/WritingLayoutSetting';
+import type { SidebarState } from '@db/settings/SidebarSetting';
+import type Setting from '@db/settings/Setting';
 
 /** The schema of the record written to the creators collection. */
 export type SettingsSchemaV1 = {
@@ -103,7 +105,7 @@ export default class SettingsDatabase {
         space: SpaceSetting,
         lines: LineSetting,
         annotations: AnnotationsSetting,
-        annotationsWidth: AnnotationsWidthSetting,
+        wellspring: WellspringSetting,
         howToNotifications: HowToNotificationsSetting,
         updates: UpdatesSetting,
         say: SaySetting,
@@ -115,6 +117,33 @@ export default class SettingsDatabase {
         // Initialize default languages if none are set
         if (this.settings.locales.get().length === 0 && locales.length > 0)
             this.settings.locales.set(database, locales);
+
+        // Migrate the legacy standalone width settings into the combined
+        // sidebar settings, then drop the old keys.
+        this.migrateSidebarWidth('annotationsWidth', this.settings.annotations);
+        this.migrateSidebarWidth('wellspringWidth', this.settings.wellspring);
+    }
+
+    /**
+     * One-time migration: an earlier version stored each sidebar's width in its
+     * own `<name>Width` localStorage key. Fold a present, valid legacy width
+     * into the combined `{ shown, width }` setting and remove the old key.
+     */
+    private migrateSidebarWidth(
+        legacyKey: string,
+        setting: Setting<SidebarState>,
+    ) {
+        if (typeof window === 'undefined' || !window.localStorage) return;
+        const raw = window.localStorage.getItem(legacyKey);
+        if (raw === null) return;
+        try {
+            const width = JSON.parse(raw);
+            if (typeof width === 'number' && Number.isFinite(width))
+                setting.set(this.database, { ...setting.get(), width });
+        } catch {
+            // Ignore an unparseable legacy value.
+        }
+        window.localStorage.removeItem(legacyKey);
     }
 
     async syncUser() {
@@ -277,11 +306,23 @@ export default class SettingsDatabase {
     }
 
     setShowAnnotations(on: boolean) {
-        this.settings.annotations.set(this.database, on);
+        const current = this.settings.annotations.get();
+        this.settings.annotations.set(this.database, { ...current, shown: on });
     }
 
     setAnnotationsWidth(width: number) {
-        this.settings.annotationsWidth.set(this.database, width);
+        const current = this.settings.annotations.get();
+        this.settings.annotations.set(this.database, { ...current, width });
+    }
+
+    setShowWellspring(on: boolean) {
+        const current = this.settings.wellspring.get();
+        this.settings.wellspring.set(this.database, { ...current, shown: on });
+    }
+
+    setWellspringWidth(width: number) {
+        const current = this.settings.wellspring.get();
+        this.settings.wellspring.set(this.database, { ...current, width });
     }
 
     getDark() {

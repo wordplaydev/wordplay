@@ -7327,6 +7327,18 @@
             "storageFull": "O armazenamento deste dispositivo está cheio, pelo que não foi possível guardar aqui uma cópia. O seu trabalho ainda está na nuvem.",
             "storageNearFull": "Este dispositivo está quase sem espaço de armazenamento, pelo que o Wordplay poderá em breve deixar de conseguir guardar ficheiros nele. O trabalho guardado na nuvem está seguro; libertar espaço no seu dispositivo ou browser permite que este continue a guardar aqui.",
             "saveTooLarge": "$~Este ficheiro é demasiado grande para ser guardado. Tente remover parte do conteúdo."
+        },
+        "wellspring": {
+            "label": "$?",
+            "recycle": "$?",
+            "empty": "$?",
+            "field": {
+                "search": "$?"
+            },
+            "button": {
+                "toggle": "$?",
+                "clear": "$?"
+            }
         }
     },
     "moderation": {

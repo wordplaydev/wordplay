@@ -19795,6 +19795,62 @@
               ],
               "type": "object"
             },
+            "wellspring": {
+              "additionalProperties": false,
+              "properties": {
+                "button": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "clear": {
+                      "description": "[plain] The button that clears the Wellspring's search field",
+                      "type": "string"
+                    },
+                    "toggle": {
+                      "description": "[plain] The button to expand or collapse the Wellspring",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "toggle",
+                    "clear"
+                  ],
+                  "type": "object"
+                },
+                "empty": {
+                  "description": "[plain] Shown in the code-view area when the selected category has no concepts (e.g. an empty project filter)",
+                  "type": "string"
+                },
+                "field": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "search": {
+                      "description": "[plain] The description of the Wellspring's concept search field",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "search"
+                  ],
+                  "type": "object"
+                },
+                "label": {
+                  "description": "[plain] The ARIA label for the blocks-mode Wellspring drag-and-drop sidebar",
+                  "type": "string"
+                },
+                "recycle": {
+                  "description": "[plain] The ARIA label and tooltip for the recycle bin that deletes a dropped node",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "label",
+                "recycle",
+                "empty",
+                "field",
+                "button"
+              ],
+              "type": "object"
+            },
             "widget": {
               "additionalProperties": false,
               "description": "Generic reusable widgets and their generic labels.",
@@ -20012,6 +20068,7 @@
             "howto",
             "source",
             "annotations",
+            "wellspring",
             "output",
             "docs",
             "collaborate",

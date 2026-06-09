@@ -7332,6 +7332,18 @@
             "storageFull": "$~Bộ nhớ của thiết bị này đã đầy, vì vậy chúng tôi không thể lưu bản sao ở đây. Công việc của bạn vẫn được lưu trữ trên đám mây.",
             "storageNearFull": "$~Thiết bị này gần hết dung lượng lưu trữ, vì vậy Wordplay có thể sớm không thể lưu được nữa. Công việc đã lưu trên đám mây thì an toàn; việc giải phóng dung lượng trên thiết bị hoặc trình duyệt của bạn cho phép nó tiếp tục được lưu ở đây.",
             "saveTooLarge": "$~Tệp này quá lớn để lưu. Hãy thử xóa bớt nội dung."
+        },
+        "wellspring": {
+            "label": "$?",
+            "recycle": "$?",
+            "empty": "$?",
+            "field": {
+                "search": "$?"
+            },
+            "button": {
+                "toggle": "$?",
+                "clear": "$?"
+            }
         }
     },
     "moderation": {

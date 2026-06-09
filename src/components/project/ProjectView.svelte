@@ -8,6 +8,7 @@
     import { goto } from '$app/navigation';
     import { page } from '$app/state';
     import Annotations from '@components/annotations/Annotations.svelte';
+    import Wellspring from '@components/wellspring/Wellspring.svelte';
     import CollaborateView from '@components/app/chat/CollaborateView.svelte';
     import Emoji from '@components/app/Emoji.svelte';
     import { extractPreview } from '@components/app/extractPreview';
@@ -2586,6 +2587,14 @@
                                     {/if}
                                 {:else if tile.kind === TileKind.Output && !requestedPlay && !showOutput}
                                     <Timeline evaluator={$evaluator} />{/if}
+                            {/snippet}
+                            {#snippet startMargin()}
+                                {#if tile.kind === TileKind.Source && editable && $blocks}
+                                    {@const source = getSourceByTileID(tile.id)}
+                                    {#if source}
+                                        <Wellspring {project} />
+                                    {/if}
+                                {/if}
                             {/snippet}
                             {#snippet margin()}
                                 {#if tile.kind === TileKind.Source && editable}

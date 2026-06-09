@@ -54,8 +54,10 @@ export default abstract class Concept {
 
     /**
      * Return a node to represent the concept. Usually an example or template.
+     * When `textual` is true, prefer non-symbolic (textual) names — used by drag
+     * palettes (the Wellspring) where there are no concept links for clarity.
      */
-    abstract getRepresentation(locales: Locales): Node;
+    abstract getRepresentation(locales: Locales, textual?: boolean): Node;
 
     /**
      * Returns a localized creator-facing name or description to represent the concept.

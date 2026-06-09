@@ -35,6 +35,9 @@
          *  so they become items of a parent grid (the label right-aligns, the group
          *  left-aligns). Lets multiple Modes align into a filter grid. */
         grid?: boolean;
+        /** When true, stack the buttons vertically (column) instead of in a row.
+         *  Used by the blocks-mode Wellspring's icon-only category chooser. */
+        vertical?: boolean;
         /** An optional data-uiid placed on the button group, for tutorial highlighting. */
         uiid?: string;
     }
@@ -51,6 +54,7 @@
         omit = [],
         annotations,
         grid = false,
+        vertical = false,
         uiid = undefined,
     }: Props = $props();
 
@@ -71,13 +75,14 @@
     }
 </script>
 
-<div class="mode" class:grid>
+<div class="mode" class:grid class:vertical>
     {#if labeled}
         <label class="label" for={label}>{label}</label>
     {/if}
     <div
         class="group"
         class:wrap
+        class:vertical
         role="radiogroup"
         id={label}
         aria-labelledby={label}
@@ -172,6 +177,11 @@
         align-items: baseline;
     }
 
+    .mode.vertical {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
     /* Dissolve the Mode's own box so its label and group become items of a parent grid
        (used to align several Modes into a filter grid). */
     .mode.grid {
@@ -232,6 +242,17 @@
         border-bottom-right-radius: var(--wordplay-border-radius);
     }
 
+    /* In a vertical group, round the top/bottom corners instead of left/right. */
+    .group.vertical button:first-child {
+        border-radius: var(--wordplay-border-radius) var(--wordplay-border-radius)
+            0 0;
+    }
+
+    .group.vertical button:last-child {
+        border-radius: 0 0 var(--wordplay-border-radius)
+            var(--wordplay-border-radius);
+    }
+
     button:not(:global(.selected)):hover {
         background: var(--wordplay-hover);
         box-shadow: var(--wordplay-border-width) var(--wordplay-border-width) 0
@@ -248,6 +269,17 @@
         /* border: 1px solid var(--wordplay-chrome); */
         border-radius: var(--wordplay-border-radius);
         user-select: none;
+    }
+
+    .group.vertical {
+        flex-direction: column;
+    }
+
+    /* Vertical buttons share one uniform width (the widest button) instead of
+       each sizing to its own content. */
+    .group.vertical button {
+        width: 100%;
+        text-align: center;
     }
 
     .group.wrap {

@@ -58,6 +58,10 @@
          * the tile name rather than mixed in with the toolbar. */
         help?: Snippet;
         extra?: Snippet;
+        /** Optional content rendered on the inline-start side of the tile's
+         *  main area (e.g. the blocks-mode Wellspring). Symmetric to `margin`,
+         *  which renders on the inline-end side. */
+        startMargin?: Snippet;
         margin?: Snippet;
         footer?: Snippet;
         position: (position: Bounds) => void;
@@ -88,6 +92,7 @@
         help,
         extra,
         content,
+        startMargin,
         margin,
         footer,
         position,
@@ -404,6 +409,9 @@
             </div>
             <!-- Render the content -->
             <div class="main" class:rtl={$locales.getDirection() === 'rtl'}>
+                {#if startMargin}
+                    <div class="start-margin">{@render startMargin()}</div>
+                {/if}
                 <div
                     class="content"
                     onscroll={() => scroll()}
@@ -494,7 +502,8 @@
         /* scroll-behavior: smooth; */
     }
 
-    .margin {
+    .margin,
+    .start-margin {
         width: auto;
         height: 100%;
     }

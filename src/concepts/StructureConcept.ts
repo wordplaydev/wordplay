@@ -25,6 +25,12 @@ export default class StructureConcept extends Concept {
     /** A list of examples for creating the structure. For basis types, likely literals, but for custom types, other useful examples. */
     readonly examples: Node[];
 
+    /** Whether {@link examples} was synthesized (vs. creator-provided). */
+    private readonly autoExample: boolean;
+
+    /** A lazily-built example preferring textual names (see getRepresentation). */
+    private exampleTextual: Node | undefined;
+
     /** A derived list of interfaces */
     readonly inter: StructureConcept[];
 
@@ -64,17 +70,19 @@ export default class StructureConcept extends Concept {
                 locales.getName(this.definition.names),
                 this.definition,
             );
-        this.examples =
-            examples === undefined || examples.length === 0
-                ? [
-                      this.definition.getEvaluateTemplate(
-                          locales,
-                          context,
-                          false,
-                          true,
-                      ),
-                  ]
-                : examples;
+        // True when we synthesized the example (vs. creator-provided ones) — only
+        // then is there a baked symbolic name to swap for a textual variant.
+        this.autoExample = examples === undefined || examples.length === 0;
+        this.examples = this.autoExample
+            ? [
+                  this.definition.getEvaluateTemplate(
+                      locales,
+                      context,
+                      false,
+                      true,
+                  ),
+              ]
+            : (examples ?? []);
 
         const allFunctions = this.definition.getFunctions();
         this.functions = allFunctions
@@ -178,8 +186,17 @@ export default class StructureConcept extends Concept {
         return locales.getName(this.definition.names, symbolic);
     }
 
-    getRepresentation() {
-        return this.examples[0];
+    getRepresentation(locales?: Locales, textual = false) {
+        if (!textual || !this.autoExample || locales === undefined)
+            return this.examples[0];
+        if (this.exampleTextual === undefined)
+            this.exampleTextual = this.definition.getEvaluateTemplate(
+                locales,
+                this.context,
+                false,
+                false,
+            );
+        return this.exampleTextual;
     }
 
     getNodes(): Set<Node> {

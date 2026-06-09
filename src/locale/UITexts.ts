@@ -564,6 +564,24 @@ type UITexts = {
             highlight: string;
         };
     };
+    wellspring: {
+        /** [plain] The ARIA label for the blocks-mode Wellspring drag-and-drop sidebar */
+        label: string;
+        /** [plain] The ARIA label and tooltip for the recycle bin that deletes a dropped node */
+        recycle: string;
+        /** [plain] Shown in the code-view area when the selected category has no concepts (e.g. an empty project filter) */
+        empty: string;
+        field: {
+            /** [plain] The description of the Wellspring's concept search field */
+            search: string;
+        };
+        button: {
+            /** [plain] The button to expand or collapse the Wellspring */
+            toggle: string;
+            /** [plain] The button that clears the Wellspring's search field */
+            clear: string;
+        };
+    };
     output: {
         /** [plain] The ARIA label for the output section */
         label: string;

@@ -940,8 +940,22 @@ export const camera = Settings.settings.camera.value;
 export const dark = Settings.settings.dark.value;
 export const spaceIndicator = Settings.settings.space.value;
 export const showLines = Settings.settings.lines.value;
-export const showAnnotations = Settings.settings.annotations.value;
-export const annotationsWidth = Settings.settings.annotationsWidth.value;
+export const showAnnotations = derived(
+    Settings.settings.annotations.value,
+    ($a) => $a.shown,
+);
+export const annotationsWidth = derived(
+    Settings.settings.annotations.value,
+    ($a) => $a.width,
+);
+export const showWellspring = derived(
+    Settings.settings.wellspring.value,
+    ($w) => $w.shown,
+);
+export const wellspringWidth = derived(
+    Settings.settings.wellspring.value,
+    ($w) => $w.width,
+);
 export const mic = Settings.settings.mic.value;
 export const voice = Settings.settings.say.value;
 export const blocks = Settings.settings.blocks.value;
