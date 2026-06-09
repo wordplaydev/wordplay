@@ -223,15 +223,19 @@ export function getPurposeIcons(language: LanguageCode): string[] {
 }
 
 /**
- * Remove a node that was dragged out of the editor from its source, revising
- * the project. Shared by the guide (drop-on-documentation) and the Wellspring's
- * recycle bin. Replaces a standalone expression with an
- * {@link ExpressionPlaceholder}; removes list items outright.
+ * Compute the source that recycling `node` would produce, without committing it.
+ * Replaces a standalone expression with an {@link ExpressionPlaceholder} and
+ * removes list items outright. Returns `[oldSource, newSource]`, or `undefined`
+ * when the node isn't rooted in a {@link Source} (e.g. a palette concept), which
+ * means there's nothing to remove.
  */
-export function recycleDraggedNode(project: Project, node: Node): void {
+function getRecycledSource(
+    project: Project,
+    node: Node,
+): [Source, Source] | undefined {
     // See if we can remove the node from its root.
     const source = project.getRoot(node)?.root;
-    if (source === undefined || !(source instanceof Source)) return;
+    if (source === undefined || !(source instanceof Source)) return undefined;
 
     // Figure out what to replace the dragged node with. By default, we remove it.
     const type =
@@ -247,6 +251,37 @@ export function recycleDraggedNode(project: Project, node: Node): void {
         source.expression.replace(node, replacement),
         source.spaces.withReplacement(node, replacement),
     );
+
+    return [source, newSource];
+}
+
+/**
+ * True if dragging `node` to a recycle target (the Wellspring bin or the Guide
+ * documentation) would actually remove it. Rejected — and so `false` — when the
+ * node isn't in a source (nothing to remove), or when the removal would
+ * introduce a new blocking (Error) conflict / unparsable code. A required node
+ * that blanks to an {@link ExpressionPlaceholder} (a Minor conflict) is fine.
+ */
+export function canRecycleDraggedNode(project: Project, node: Node): boolean {
+    const result = getRecycledSource(project, node);
+    if (result === undefined) return false;
+    const [source, newSource] = result;
+    // A recycle that doesn't change the source removes nothing — e.g. the root block, which
+    // descendant-replacement can't target. Treat it as not removable.
+    if (source.isEqualTo(newSource)) return false;
+    return project.getNewConflicts(source, newSource).length === 0;
+}
+
+/**
+ * Remove a node that was dragged out of the editor from its source, revising
+ * the project. Shared by the guide (drop-on-documentation) and the Wellspring's
+ * recycle bin. Replaces a standalone expression with an
+ * {@link ExpressionPlaceholder}; removes list items outright.
+ */
+export function recycleDraggedNode(project: Project, node: Node): void {
+    const result = getRecycledSource(project, node);
+    if (result === undefined) return;
+    const [source, newSource] = result;
 
     // Update the project with the new source files.
     Projects.reviseProject(

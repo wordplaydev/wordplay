@@ -54,6 +54,7 @@
     import StreamConcept from '@concepts/StreamConcept';
     import StructureConcept from '@concepts/StructureConcept';
     import {
+        canRecycleDraggedNode,
         getConceptGroups,
         getPurposeIcons,
         recycleDraggedNode,
@@ -360,6 +361,13 @@
                   ),
     );
 
+    /** True while dragging a node the documentation can't remove (a palette concept, or a removal that
+     *  would be rejected for breaking the program). Computed once per drag, since the check runs
+     *  analysis. Drives the no-drop cursor and gates the drop. */
+    let cannotRecycle = $derived(
+        $dragged !== undefined && !canRecycleDraggedNode(project, $dragged),
+    );
+
     // When a creator drops on the palette, remove the dragged node from the source it was dragged from.
     function handleDrop() {
         const node: Node | undefined = $dragged;
@@ -367,8 +375,8 @@
         // Release the dragged node.
         if (dragged) dragged.set(undefined);
 
-        // No node released? We're done.
-        if (node === undefined) return;
+        // No node released, or its removal would be rejected? We're done.
+        if (node === undefined || !canRecycleDraggedNode(project, node)) return;
 
         recycleDraggedNode(project, node);
     }
@@ -504,6 +512,7 @@
 </div>
 <section
     class="documentation"
+    class:rejected={cannotRecycle}
     data-testid="documentation"
     data-uiid="documentation"
     aria-label={$locales.getPlainText((l) => l.ui.docs.label)}
@@ -709,6 +718,11 @@
             visibility ease-out,
             opacity ease-out;
         transition-duration: calc(var(--animation-factor) * 200ms);
+    }
+
+    /* Dragging a node the documentation can't remove: show that dropping here won't do anything. */
+    .documentation.rejected {
+        cursor: no-drop;
     }
 
     .content {

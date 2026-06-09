@@ -3,6 +3,7 @@
     import Subheader from '@components/app/Subheader.svelte';
     import ConceptPreview from '@components/concepts/ConceptPreview.svelte';
     import {
+        canRecycleDraggedNode,
         getConceptGroups,
         getPurposeIcons,
         recycleDraggedNode,
@@ -75,12 +76,19 @@
 
     // --- Recycle bin --------------------------------------------------------
     let dragOverBin = $state(false);
+    /** True while dragging a node the bin can't actually remove (a palette concept, or a removal that
+     *  would be rejected for breaking the program). Computed once per drag, since the check runs
+     *  analysis. Drives the no-drop cursor and suppresses the wiggle/highlight. */
+    let cannotRecycle = $derived(
+        $dragged !== undefined && !canRecycleDraggedNode(project, $dragged),
+    );
 
     function handleBinPointerUp() {
         const node = $dragged;
         if (dragged) dragged.set(undefined);
         dragOverBin = false;
-        if (node) recycleDraggedNode(project, node);
+        if (node && canRecycleDraggedNode(project, node))
+            recycleDraggedNode(project, node);
     }
 
     /**
@@ -224,12 +232,13 @@
              emoji inside reacts (wiggle + highlight). -->
         <div
             class="recycle-footer"
+            class:rejected={cannotRecycle}
             role="button"
             tabindex="0"
             aria-label={$locales.getPlainText((l) => l.ui.wellspring.recycle)}
             title={$locales.getPlainText((l) => l.ui.wellspring.recycle)}
             onpointerenter={() => {
-                if ($dragged) dragOverBin = true;
+                if ($dragged && !cannotRecycle) dragOverBin = true;
             }}
             onpointerleave={() => (dragOverBin = false)}
             onpointerup={handleBinPointerUp}
@@ -333,6 +342,11 @@
     .recycle-footer:focus {
         outline: var(--wordplay-focus-width) solid var(--wordplay-focus-color);
         outline-offset: calc(-1 * var(--wordplay-focus-width));
+    }
+
+    /* Dragging a node the bin can't remove: show that dropping here won't do anything. */
+    .recycle-footer.rejected {
+        cursor: no-drop;
     }
 
     /* Only the bin emoji reacts to a drag over the footer. */
