@@ -5306,8 +5306,14 @@
                 "shortcuts": "$~Über die Schaltfläche „Tastenkombinationen“ wird eine Liste mit *Tastenkombinationen* geöffnet, mit denen Sie schneller bearbeiten können."
             },
             "feedback": {
-                "cantDrop": "$?",
-                "cantPaste": "$?"
+                "cantDrop": "$~Kann dort nicht landen:",
+                "cantPaste": "$~Kann dort nicht einfügen:"
+            },
+            "clipboard": {
+                "label": "$~Klemmbrett"
+            },
+            "notice": {
+                "dismiss": "$~Diese Benachrichtigung ausblenden"
             }
         },
         "annotations": {
@@ -7342,15 +7348,15 @@
             "saveTooLarge": "$~Diese Datei ist zu groß zum Speichern. Versuchen Sie, etwas Inhalt zu entfernen."
         },
         "wellspring": {
-            "label": "$?",
-            "recycle": "$?",
-            "empty": "$?",
+            "label": "$~Codepalette",
+            "recycle": "$~Hier einfügen zum Löschen",
+            "empty": "$~Keine Projektkonzepte",
             "field": {
-                "search": "$?"
+                "search": "$~Suche nach Code zum Hineinziehen"
             },
             "button": {
-                "toggle": "$?",
-                "clear": "$?"
+                "toggle": "$~Codepalette ein- und ausblenden",
+                "clear": "$~Suche löschen"
             }
         }
     },

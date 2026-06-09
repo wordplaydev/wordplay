@@ -5564,8 +5564,14 @@
                 "shortcuts": "$~Tombol /shortcuts/ membuka daftar *pintasan keyboard* yang dapat Anda gunakan untuk mengedit lebih cepat."
             },
             "feedback": {
-                "cantDrop": "$?",
-                "cantPaste": "$?"
+                "cantDrop": "$~Tidak bisa dijatuhkan di sana:",
+                "cantPaste": "$~Tidak bisa menempelkan teks di sana:"
+            },
+            "clipboard": {
+                "label": "$~papan klip"
+            },
+            "notice": {
+                "dismiss": "$~Abaikan pemberitahuan ini"
             }
         },
         "annotations": {
@@ -7347,15 +7353,15 @@
             "saveTooLarge": "$~Ukuran file ini terlalu besar untuk disimpan. Coba hapus beberapa konten."
         },
         "wellspring": {
-            "label": "$?",
-            "recycle": "$?",
-            "empty": "$?",
+            "label": "$~palet kode",
+            "recycle": "$~jatuhkan di sini untuk menghapus",
+            "empty": "$~Tidak ada konsep proyek",
             "field": {
-                "search": "$?"
+                "search": "$~cari kode untuk diseret masuk"
             },
             "button": {
-                "toggle": "$?",
-                "clear": "$?"
+                "toggle": "$~menampilkan dan menyembunyikan palet kode",
+                "clear": "$~hapus pencarian"
             }
         }
     },

@@ -5320,8 +5320,14 @@
                 "shortcuts": "$~Knappen /genvägar/ öppnar en lista med *kortkommandon* som du kan använda för att redigera snabbare."
             },
             "feedback": {
-                "cantDrop": "$?",
-                "cantPaste": "$?"
+                "cantDrop": "$~Kan inte släppa dit:",
+                "cantPaste": "$~Kan inte klistra in där:"
+            },
+            "clipboard": {
+                "label": "$~urklipp"
+            },
+            "notice": {
+                "dismiss": "$~Avfärda detta meddelande"
             }
         },
         "annotations": {
@@ -7336,15 +7342,15 @@
             "saveTooLarge": "$~Detta är för stort för att spara. Försök att ta bort lite innehåll."
         },
         "wellspring": {
-            "label": "$?",
-            "recycle": "$?",
-            "empty": "$?",
+            "label": "$~kodpalett",
+            "recycle": "$~släpp här för att radera",
+            "empty": "$~Inga projektkoncept",
             "field": {
-                "search": "$?"
+                "search": "$~sök efter kod att dra in"
             },
             "button": {
-                "toggle": "$?",
-                "clear": "$?"
+                "toggle": "$~visa och dölj kodpaletten",
+                "clear": "$~rensa sökningen"
             }
         }
     },

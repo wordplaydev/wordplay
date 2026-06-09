@@ -1500,8 +1500,20 @@
         if (composing && event instanceof InputEvent && !event.isComposing)
             handleCompositionEnd();
 
-        // Blocks mode? No text input support. It's all handled by text fields.
-        if ($blocks) return;
+        // Blocks mode? There's no free text input — typing is handled by per-token text fields. But a
+        // paste still lands on the hidden input here, so route it through pasteWithFeedback: it inserts
+        // when valid, or shows the usual paste-not-allowed feedback instead of dropping silently. We must
+        // also clear the hidden input; otherwise repeated blocks-mode pastes accumulate in it and leak
+        // into the next text-mode paste.
+        if ($blocks) {
+            if (pasted && input !== null) {
+                const text = input.value;
+                input.value = '';
+                pasted = false;
+                if (text.length > 0) pasteWithFeedback(text);
+            }
+            return;
+        }
 
         // Text input is treated as a flurry: every typed character calls
         // handleEdit which would otherwise update displayedCaret + publish

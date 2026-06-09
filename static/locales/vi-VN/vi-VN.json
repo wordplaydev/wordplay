@@ -5559,8 +5559,14 @@
                 "shortcuts": "$~Nút /phím tắt/ sẽ mở ra danh sách các phím tắt mà bạn có thể sử dụng để chỉnh sửa nhanh hơn."
             },
             "feedback": {
-                "cantDrop": "$?",
-                "cantPaste": "$?"
+                "cantDrop": "$~Không thể thả đồ ở đó:",
+                "cantPaste": "$~Không thể dán vào đây:"
+            },
+            "clipboard": {
+                "label": "$~bảng nhớ tạm"
+            },
+            "notice": {
+                "dismiss": "$~Hãy bỏ qua thông báo này."
             }
         },
         "annotations": {
@@ -7338,15 +7344,15 @@
             "saveTooLarge": "$~Tệp này quá lớn để lưu. Hãy thử xóa bớt nội dung."
         },
         "wellspring": {
-            "label": "$?",
-            "recycle": "$?",
-            "empty": "$?",
+            "label": "$~bảng mã",
+            "recycle": "$~kéo thả vào đây để xóa",
+            "empty": "$~Không có ý tưởng dự án nào.",
             "field": {
-                "search": "$?"
+                "search": "$~tìm kiếm mã để kéo vào"
             },
             "button": {
-                "toggle": "$?",
-                "clear": "$?"
+                "toggle": "$~Hiển thị và ẩn bảng mã",
+                "clear": "$~tìm kiếm rõ ràng"
             }
         }
     },

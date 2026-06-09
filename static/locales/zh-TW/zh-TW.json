@@ -5267,8 +5267,14 @@
                 "shortcuts": "$~「快捷鍵」按鈕會開啟一個*鍵盤快速鍵*列表，您可以使用這些快捷鍵更快地進行編輯。"
             },
             "feedback": {
-                "cantDrop": "$?",
-                "cantPaste": "$?"
+                "cantDrop": "$~不能掉到那裡：",
+                "cantPaste": "$~無法貼到那裡："
+            },
+            "clipboard": {
+                "label": "$~剪貼簿"
+            },
+            "notice": {
+                "dismiss": "$~忽略此通知"
             }
         },
         "annotations": {
@@ -7278,15 +7284,15 @@
             "saveTooLarge": "$~文件太大，無法儲存。請嘗試刪除一些內容。"
         },
         "wellspring": {
-            "label": "$?",
-            "recycle": "$?",
-            "empty": "$?",
+            "label": "$~程式碼調色板",
+            "recycle": "$~在此處刪除",
+            "empty": "$~沒有專案概念",
             "field": {
-                "search": "$?"
+                "search": "$~尋找要拖入的程式碼"
             },
             "button": {
-                "toggle": "$?",
-                "clear": "$?"
+                "toggle": "$~顯示和隱藏代碼面板",
+                "clear": "$~清除搜尋"
             }
         }
     },

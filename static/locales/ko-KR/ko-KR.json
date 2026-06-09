@@ -5303,8 +5303,14 @@
                 "shortcuts": "$~'/단축키/' 버튼을 누르면 더 빠르게 편집할 수 있는 키보드 단축키 목록이 나타납니다."
             },
             "feedback": {
-                "cantDrop": "$?",
-                "cantPaste": "$?"
+                "cantDrop": "$~거기엔 내려놓을 수 없어:",
+                "cantPaste": "$~거기에 붙여넣을 수 없습니다:"
+            },
+            "clipboard": {
+                "label": "$~클립보드"
+            },
+            "notice": {
+                "dismiss": "$~이 알림을 닫으세요"
             }
         },
         "annotations": {
@@ -7332,15 +7338,15 @@
             "saveTooLarge": "$~파일 크기가 너무 커서 저장할 수 없습니다. 일부 내용을 삭제해 보세요."
         },
         "wellspring": {
-            "label": "$?",
-            "recycle": "$?",
-            "empty": "$?",
+            "label": "$~코드 팔레트",
+            "recycle": "$~여기에 드롭하여 삭제하세요",
+            "empty": "$~프로젝트 컨셉 없음",
             "field": {
-                "search": "$?"
+                "search": "$~드래그할 코드를 검색하세요"
             },
             "button": {
-                "toggle": "$?",
-                "clear": "$?"
+                "toggle": "$~코드 팔레트 표시 및 숨기기",
+                "clear": "$~검색 지우기"
             }
         }
     },

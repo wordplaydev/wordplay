@@ -5328,8 +5328,14 @@
                 "shortcuts": "$~Przycisk /skróty/ otwiera listę *skrótów klawiaturowych*, dzięki którym możesz szybciej edytować."
             },
             "feedback": {
-                "cantDrop": "$?",
-                "cantPaste": "$?"
+                "cantDrop": "$~Nie można tam upuścić:",
+                "cantPaste": "$~Nie można tam wkleić:"
+            },
+            "clipboard": {
+                "label": "$~schowek"
+            },
+            "notice": {
+                "dismiss": "$~Odrzuć to powiadomienie"
             }
         },
         "annotations": {
@@ -7351,15 +7357,15 @@
             "saveTooLarge": "$~Plik jest za duży, aby go zapisać. Spróbuj usunąć część treści."
         },
         "wellspring": {
-            "label": "$?",
-            "recycle": "$?",
-            "empty": "$?",
+            "label": "$~paleta kodów",
+            "recycle": "$~upuść tutaj, aby usunąć",
+            "empty": "$~Brak koncepcji projektu",
             "field": {
-                "search": "$?"
+                "search": "$~wyszukaj kod do przeciągnięcia"
             },
             "button": {
-                "toggle": "$?",
-                "clear": "$?"
+                "toggle": "$~pokaż i ukryj paletę kodów",
+                "clear": "$~wyczyść wyszukiwanie"
             }
         }
     },

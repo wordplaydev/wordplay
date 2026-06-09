@@ -5562,8 +5562,14 @@
                 "shortcuts": "$~Ang button na /shortcuts/ ay magbubukas ng listahan ng mga *keyboard shortcut* na maaari mong gamitin para mas mabilis na mag-edit."
             },
             "feedback": {
-                "cantDrop": "$?",
-                "cantPaste": "$?"
+                "cantDrop": "$~Hindi pwedeng ihulog doon:",
+                "cantPaste": "$~Hindi ma-paste doon:"
+            },
+            "clipboard": {
+                "label": "$~clipboard"
+            },
+            "notice": {
+                "dismiss": "$~I-dismiss ang abisong ito"
             }
         },
         "annotations": {
@@ -7345,15 +7351,15 @@
             "saveTooLarge": "$~Masyado itong malaki para i-save. Subukang mag-alis ng ilang nilalaman."
         },
         "wellspring": {
-            "label": "$?",
-            "recycle": "$?",
-            "empty": "$?",
+            "label": "$~paleta ng kodigo",
+            "recycle": "$~i-drop dito para burahin",
+            "empty": "$~Walang mga konsepto ng proyekto",
             "field": {
-                "search": "$?"
+                "search": "$~maghanap ng code na ida-drag papasok"
             },
             "button": {
-                "toggle": "$?",
-                "clear": "$?"
+                "toggle": "$~ipakita at itago ang code palette",
+                "clear": "$~i-clear ang paghahanap"
             }
         }
     },

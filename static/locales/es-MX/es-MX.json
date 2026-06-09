@@ -5285,8 +5285,14 @@
                 "shortcuts": "$~El botón /atajos/ abre una lista de *atajos de teclado* que puedes usar para editar más rápidamente."
             },
             "feedback": {
-                "cantDrop": "$?",
-                "cantPaste": "$?"
+                "cantDrop": "$~No se puede dejar allí:",
+                "cantPaste": "$~No se puede pegar aquí:"
+            },
+            "clipboard": {
+                "label": "$~portapapeles"
+            },
+            "notice": {
+                "dismiss": "$~Descartar este aviso"
             }
         },
         "annotations": {
@@ -7321,15 +7327,15 @@
             "saveTooLarge": "$~Esto es demasiado grande para guardarlo. Intenta eliminar parte del contenido."
         },
         "wellspring": {
-            "label": "$?",
-            "recycle": "$?",
-            "empty": "$?",
+            "label": "$~paleta de códigos",
+            "recycle": "$~arrastrar aquí para eliminar",
+            "empty": "$~No hay conceptos de proyecto",
             "field": {
-                "search": "$?"
+                "search": "$~buscar código para arrastrar en"
             },
             "button": {
-                "toggle": "$?",
-                "clear": "$?"
+                "toggle": "$~mostrar y ocultar la paleta de código",
+                "clear": "$~borrar búsqueda"
             }
         }
     },

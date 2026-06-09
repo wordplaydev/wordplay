@@ -5320,8 +5320,14 @@
                 "shortcuts": "$~/Kısayollar/ düğmesi, daha hızlı düzenleme yapmanızı sağlayan *klavye kısayollarının* bir listesini açar."
             },
             "feedback": {
-                "cantDrop": "$?",
-                "cantPaste": "$?"
+                "cantDrop": "$~Oraya bırakamam:",
+                "cantPaste": "$~Oraya yapıştıramıyorum:"
+            },
+            "clipboard": {
+                "label": "$~pano"
+            },
+            "notice": {
+                "dismiss": "$~Bu bildirimi kapat"
             }
         },
         "annotations": {
@@ -7335,15 +7341,15 @@
             "saveTooLarge": "$~Bu dosya kaydedilemeyecek kadar büyük. Bazı içerikleri silmeyi deneyin."
         },
         "wellspring": {
-            "label": "$?",
-            "recycle": "$?",
-            "empty": "$?",
+            "label": "$~kod paleti",
+            "recycle": "$~Silmek için buraya sürükleyin",
+            "empty": "$~Proje konsepti yok.",
             "field": {
-                "search": "$?"
+                "search": "$~Sürüklemek için kod arayın"
             },
             "button": {
-                "toggle": "$?",
-                "clear": "$?"
+                "toggle": "$~Kod paletini göster ve gizle",
+                "clear": "$~aramayı temizle"
             }
         }
     },

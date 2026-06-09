@@ -5306,8 +5306,14 @@
                 "shortcuts": "$~Le bouton /raccourcis/ ouvre une liste de *raccourcis clavier* que vous pouvez utiliser pour éditer plus rapidement."
             },
             "feedback": {
-                "cantDrop": "$?",
-                "cantPaste": "$?"
+                "cantDrop": "$~Impossible de déposer à cet endroit :",
+                "cantPaste": "$~Impossible de coller ici :"
+            },
+            "clipboard": {
+                "label": "$~presse-papiers"
+            },
+            "notice": {
+                "dismiss": "$~Ignorer cet avis"
             }
         },
         "annotations": {
@@ -7342,15 +7348,15 @@
             "saveTooLarge": "$~Ce fichier est trop volumineux pour être enregistré. Essayez de supprimer du contenu."
         },
         "wellspring": {
-            "label": "$?",
-            "recycle": "$?",
-            "empty": "$?",
+            "label": "$~palette de code",
+            "recycle": "$~Déposez ici pour supprimer",
+            "empty": "$~Aucun concept de projet",
             "field": {
-                "search": "$?"
+                "search": "$~rechercher le code à glisser dans"
             },
             "button": {
-                "toggle": "$?",
-                "clear": "$?"
+                "toggle": "$~afficher et masquer la palette de code",
+                "clear": "$~recherche claire"
             }
         }
     },

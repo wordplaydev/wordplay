@@ -107,6 +107,11 @@
     } from '@components/editor/highlights/outline';
     import RemoteCarets from '@components/editor/RemoteCarets.svelte';
     import EditorNotice from '@components/editor/EditorNotice.svelte';
+    import ClipboardNotice from '@components/editor/ClipboardNotice.svelte';
+    import {
+        ClipboardContents,
+        clearInternalClipboard,
+    } from '@components/editor/commands/InternalClipboard';
     import Timeline from '@components/evaluator/Timeline.svelte';
     import OutputView from '@components/output/OutputView.svelte';
     import type PaintingConfiguration from '@components/output/PaintingConfiguration';
@@ -2560,6 +2565,12 @@
                                                 <div class="editor-notifications">
                                                     {#each notifications as notification (notification.id)}
                                                         <EditorNotice
+                                                            dismiss={() =>
+                                                                getEditorNotifier(
+                                                                    tile.id,
+                                                                ).clear(
+                                                                    notification.id,
+                                                                )}
                                                             >{#if 'markup' in notification.content}{#if notification.content.prefix}<strong
                                                                         ><LocalizedText
                                                                             path={notification
@@ -2578,6 +2589,15 @@
                                                                 />{/if}</EditorNotice
                                                         >
                                                     {/each}
+                                                    <!-- The clipboard's current contents, shown on the
+                                                         selected editor so it appears once. The close
+                                                         button clears Wordplay's clipboard. -->
+                                                    {#if $ClipboardContents !== undefined && getSourceIndexByID(tile.id) === selectedSourceIndex}
+                                                        <ClipboardNotice
+                                                            text={$ClipboardContents}
+                                                            dismiss={clearInternalClipboard}
+                                                        />
+                                                    {/if}
                                                     <!-- "Viewing an older checkpoint — Restore" banner.
                                                          Lives in the band (within editor bounds) rather
                                                          than dangling in the footer; interactive (it has

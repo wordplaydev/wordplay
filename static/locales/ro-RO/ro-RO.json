@@ -5564,8 +5564,14 @@
                 "shortcuts": "$~Butonul /comenzi rapide/ deschide o listă de *comenzi rapide de la tastatură* pe care le puteți utiliza pentru a edita mai rapid."
             },
             "feedback": {
-                "cantDrop": "$?",
-                "cantPaste": "$?"
+                "cantDrop": "$~Nu pot să cobor acolo:",
+                "cantPaste": "$~Nu se poate lipi acolo:"
+            },
+            "clipboard": {
+                "label": "$~clipboard"
+            },
+            "notice": {
+                "dismiss": "$~Închideți această notificare"
             }
         },
         "annotations": {
@@ -7344,15 +7350,15 @@
             "saveTooLarge": "$~Acest conținut este prea mare pentru a fi salvat. Încearcă să elimini o parte din acesta."
         },
         "wellspring": {
-            "label": "$?",
-            "recycle": "$?",
-            "empty": "$?",
+            "label": "$~paletă de cod",
+            "recycle": "$~plasați aici pentru a șterge",
+            "empty": "$~Niciun concept de proiect",
             "field": {
-                "search": "$?"
+                "search": "$~căutarea codului de introdus"
             },
             "button": {
-                "toggle": "$?",
-                "clear": "$?"
+                "toggle": "$~afișarea și ascunderea paletei de cod",
+                "clear": "$~căutare clară"
             }
         }
     },

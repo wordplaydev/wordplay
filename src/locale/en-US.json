@@ -5464,6 +5464,12 @@
                 "cantDrop": "Can't drop there:",
                 "cantPaste": "Can't paste there:"
             },
+            "clipboard": {
+                "label": "clipboard"
+            },
+            "notice": {
+                "dismiss": "Dismiss this notice"
+            },
             "button": {
                 "selectOutput": "show this output on stage",
                 "expandControls": "show additional editing commands",

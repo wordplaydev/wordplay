@@ -385,6 +385,16 @@ type UITexts = {
             /** [plain] Precedes the conflict explanation when a paste can't be applied at the caret */
             cantPaste: string;
         };
+        /** The clipboard contents shown in the editor footer. */
+        clipboard: {
+            /** [plain] Label shown before the clipboard's contents in the editor footer */
+            label: string;
+        };
+        /** Editor footer notices. */
+        notice: {
+            /** [plain] Tooltip for the button that dismisses an editor footer notice */
+            dismiss: string;
+        };
         cursor: {
             /** [plain] Move caret to the line before */
             priorLine: string;

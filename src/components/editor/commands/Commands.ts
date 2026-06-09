@@ -36,7 +36,11 @@ import {
 } from '@parser/Symbols';
 
 import { moveVisualVertical } from '@components/editor/caret/CaretView.svelte';
-import { copyNode, toClipboard } from '@components/editor/commands/Clipboard';
+import {
+    copyNode,
+    toClipboard,
+    WORDPLAY_CLIPBOARD_FORMAT,
+} from '@components/editor/commands/Clipboard';
 import { wasCopiedHere } from '@components/editor/commands/InternalClipboard';
 import interpret from '@components/editor/commands/interpret';
 import type { EditorNotifier } from '@components/editor/EditorNotification';
@@ -1576,7 +1580,14 @@ const Commands: Command[] = [
             editor &&
             typeof navigator.clipboard !== 'undefined' &&
             navigator.clipboard.read !== undefined,
-        execute: async ({ editor, caret, blocks, project, locales, notify }) => {
+        execute: async ({
+            editor,
+            caret,
+            blocks,
+            project,
+            locales,
+            notify,
+        }) => {
             if (!editor) return (l) => l.ui.source.cursor.ignored.noEditor;
             // Make sure clipboard is supported.
             if (
@@ -1587,6 +1598,28 @@ const Commands: Command[] = [
                 return (l) => l.ui.source.cursor.ignored.noClipboard;
 
             const items = await navigator.clipboard.read();
+            // First, prefer our custom Wordplay format if present: it was copied as Wordplay (possibly
+            // from another tab/window/instance), so paste it verbatim without reinterpreting it.
+            for (const item of items) {
+                if (item.types.includes(WORDPLAY_CLIPBOARD_FORMAT)) {
+                    try {
+                        const blob = await item.getType(
+                            WORDPLAY_CLIPBOARD_FORMAT,
+                        );
+                        const text = await blob.text();
+                        return pasteText(
+                            text,
+                            caret,
+                            project,
+                            blocks,
+                            locales,
+                            notify,
+                        );
+                    } catch (err) {
+                        // Couldn't read the custom format; fall back to text/plain below.
+                    }
+                }
+            }
             for (const item of items) {
                 for (const type of item.types) {
                     if (type === 'text/plain') {

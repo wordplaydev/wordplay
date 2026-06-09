@@ -5265,8 +5265,14 @@
                 "shortcuts": "$~“快捷键”按钮会打开一个*键盘快捷键*列表，您可以使用这些快捷键更快地进行编辑。"
             },
             "feedback": {
-                "cantDrop": "$?",
-                "cantPaste": "$?"
+                "cantDrop": "$~不能掉到那里：",
+                "cantPaste": "$~无法粘贴到那里："
+            },
+            "clipboard": {
+                "label": "$~剪贴板"
+            },
+            "notice": {
+                "dismiss": "$~忽略此通知"
             }
         },
         "annotations": {
@@ -7270,15 +7276,15 @@
             "saveTooLarge": "$~文件太大，无法保存。请尝试删除一些内容。"
         },
         "wellspring": {
-            "label": "$?",
-            "recycle": "$?",
-            "empty": "$?",
+            "label": "$~代码调色板",
+            "recycle": "$~在此处删除",
+            "empty": "$~没有项目概念",
             "field": {
-                "search": "$?"
+                "search": "$~查找要拖入的代码"
             },
             "button": {
-                "toggle": "$?",
-                "clear": "$?"
+                "toggle": "$~显示和隐藏代码面板",
+                "clear": "$~清除搜索"
             }
         }
     },
