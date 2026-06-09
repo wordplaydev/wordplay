@@ -82,6 +82,9 @@ export function pasteText(
                 explained = true;
             }
         },
+        // In blocks mode, fill placeholders in the pasted code with typed defaults so it evaluates
+        // immediately, matching palette drag-and-drop.
+        true,
     );
     // A successful paste dismisses any stale paste-rejection notification.
     if (typeof result !== 'function') notify?.clear(PasteFeedbackNotification);

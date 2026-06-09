@@ -103,12 +103,15 @@ test.each([
         '[1 2 3 4 5]',
         '',
     ],
-    // Drop reaction with placeholders onto a typed bind.
+    // Drop reaction with placeholders onto a typed bind. The dragged node is rootless (a palette
+    // drop), so placeholders with a known type are filled with their default: the explicitly
+    // boolean-typed condition `_•?` becomes `⊤`. The value placeholders' type can't be inferred
+    // through Reaction, so they have no default and are left for the creator.
     [
         ['a•#: _'],
         () => parseExpression(toTokens('_ … _•? … _')),
         (sources) => sources[0].find(ExpressionPlaceholder),
-        'a•#: _ … _•? … _',
+        'a•#: _ … ⊤ … _',
     ],
     // Drop list onto typed list
     [
@@ -254,6 +257,110 @@ test('a type-mismatch drop is blocked (Error severity)', () => {
         ),
     ).toContain('IncompatibleType');
 });
+
+test('a palette drop fills typed placeholders with their defaults', () => {
+    // A rootless dragged node = a Wellspring/Guide (palette) drop.
+    const source = new Source('test', '_');
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const dragged = parseExpression(toTokens('Phrase(_)'));
+    const target = source.find(ExpressionPlaceholder);
+    const [newProject] = dropNodeOnSource(project, source, dragged, target);
+    // Phrase's text input default is an empty text literal, so no placeholder remains.
+    expect(
+        newProject
+            .getMain()
+            .nodes(
+                (n): n is ExpressionPlaceholder =>
+                    n instanceof ExpressionPlaceholder,
+            ),
+    ).toHaveLength(0);
+});
+
+test('a palette drop resolves an ambiguous slot to the first autocomplete pick', () => {
+    // Group's layout slot is an abstract Arrangement; getDefaultExpression deterministically picks
+    // the first concrete arrangement in basis order (Stack), matching the autocomplete top pick.
+    const source = new Source('test', '_');
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const dragged = parseExpression(toTokens('Group(_ _)'));
+    const target = source.find(ExpressionPlaceholder);
+    const [newProject] = dropNodeOnSource(project, source, dragged, target);
+    // ⬇ is Stack (the first concrete arrangement in basis order); content is an empty list.
+    expect(newProject.getMain().toWordplay()).toBe('Group(⬇() [])');
+    expect(
+        newProject
+            .getMain()
+            .nodes(
+                (n): n is ExpressionPlaceholder =>
+                    n instanceof ExpressionPlaceholder,
+            ),
+    ).toHaveLength(0);
+});
+
+test('an editor-internal move does not fill placeholders', () => {
+    // The dragged Phrase is rooted in a source (not a palette drop), so its inner placeholder is
+    // preserved when moved, rather than filled.
+    const main = new Source('test', '_');
+    const supplement = new Source('other', 'Phrase(_)');
+    const project = Project.make(
+        null,
+        'test',
+        main,
+        [supplement],
+        DefaultLocale,
+    );
+    const dragged = supplement.find<Evaluate>(Evaluate);
+    const target = main.find(ExpressionPlaceholder);
+    const [newProject] = dropNodeOnSource(project, main, dragged, target);
+    expect(newProject.getMain().toWordplay()).toBe('Phrase(_)');
+});
+
+test('a palette drop leaves placeholders with no default alone', () => {
+    // A bare placeholder dropped at the program root has an un-inferable AnyType, which has no
+    // default, so it is left for the creator to fill.
+    const source = new Source('test', '_');
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const dragged = parseExpression(toTokens('_'));
+    const target = source.find(ExpressionPlaceholder);
+    const [newProject] = dropNodeOnSource(project, source, dragged, target);
+    expect(newProject.getMain().toWordplay()).toBe('_');
+});
+
+test.each([
+    // [type annotation, whether the default should also strictly type-check]
+    // Empty map/structure defaults are intentionally loosely typed (e.g. `{:}` is `{_:_}`, which a
+    // concrete `{#:#}` doesn't strictly accept), so we only require that a default *exists* there.
+    ['_•#', true],
+    ["_•''", true],
+    ['_•?', true],
+    ['_•ø', true],
+    ['_•[#]', true],
+    ['_•{#}', true],
+    ['_•{#:#}', false],
+    ['_•#|#m', true],
+    ['_•Phrase', false],
+    ['_•Group', false],
+])(
+    'a %s placeholder has a default expression that is reasonably typed',
+    (code: string, strict: boolean) => {
+        const source = new Source('test', code);
+        const project = Project.make(null, 'test', source, [], DefaultLocale);
+        const context = project.getContext(source);
+        const placeholder = source.find<ExpressionPlaceholder>(
+            ExpressionPlaceholder,
+        );
+        const type = placeholder.computeType(context);
+        const def = ExpressionPlaceholder.getDefaultExpressions(
+            placeholder,
+            context,
+            project.getLocales(),
+        )[0];
+        // A default must exist (this guards the structure-type resolution that lets named slots
+        // like a Group's layout fill on drop).
+        expect(def).toBeDefined();
+        if (strict)
+            expect(type.accepts(def.getType(context), context)).toBe(true);
+    },
+);
 
 test('dropping a structure into a wrong-typed function input is blocked', () => {
     // The reported defect: Group is not valid for Phrase's text input, so `'a'` must not be a drop target.

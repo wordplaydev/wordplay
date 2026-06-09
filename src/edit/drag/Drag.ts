@@ -227,6 +227,72 @@ export function dropNodeOnSource(
         }
     }
 
+    // For palette drops (the dragged node came from the Wellspring/Guide rather than from a source),
+    // replace any placeholders inside the dropped subtree with reasonable typed defaults, so the
+    // dropped concept evaluates immediately instead of throwing a placeholder exception. We scope
+    // strictly to the dropped subtree (draggedClone's descendants), leaving placeholders elsewhere in
+    // the program untouched, and leave placeholders whose type has no default for the creator to fill.
+    let droppedNode: Node = draggedClone;
+    if (!draggedInSource) {
+        // Build a provisional source and project so each placeholder's computeType() has a context to
+        // walk up to its parent Evaluate/Bind and resolve its expected input type.
+        const provisionalSource = source.withProgram(
+            editedProgram,
+            editedSpace,
+        );
+        const provisionalProject = project.withSources([
+            ...sourceReplacements,
+            [source, provisionalSource],
+        ]);
+        const context = provisionalProject.getContext(provisionalSource);
+        const locales = project.getLocales();
+
+        // Pair each placeholder in the dropped subtree with its first default, skipping any with none.
+        const pairs = draggedClone
+            .nodes(
+                (n): n is ExpressionPlaceholder =>
+                    n instanceof ExpressionPlaceholder,
+            )
+            .map((placeholder) => {
+                const def = ExpressionPlaceholder.getDefaultExpressions(
+                    placeholder,
+                    context,
+                    locales,
+                )[0];
+                return def ? ([placeholder, def] as const) : undefined;
+            })
+            .filter(
+                (pair): pair is readonly [ExpressionPlaceholder, Expression] =>
+                    pair !== undefined,
+            );
+
+        if (pairs.length > 0) {
+            // Build the resolved subtree. Successive replace() is valid: each untouched sibling
+            // placeholder keeps its identity (clone only rebuilds the path to the replaced node)
+            // until it is itself replaced.
+            let resolvedClone: Node = draggedClone;
+            for (const [placeholder, def] of pairs)
+                resolvedClone = resolvedClone.replace(placeholder, def);
+
+            // Swap the live draggedClone for the resolved subtree in the program and its spacing.
+            editedProgram = editedProgram.replace(draggedClone, resolvedClone);
+            editedSpace = editedSpace.withReplacement(
+                draggedClone,
+                resolvedClone,
+            );
+
+            // Re-point the node to format and the returned node to the live resolved subtree.
+            nodeToFormat =
+                nodeToFormat === draggedClone
+                    ? resolvedClone
+                    : (editedProgram
+                          .nodes()
+                          .find((n) => n.containsChild(resolvedClone)) ??
+                      resolvedClone);
+            droppedNode = resolvedClone;
+        }
+    }
+
     // Make a new source
     let newSource = source.withProgram(editedProgram, editedSpace);
     newSource = nodeToFormat
@@ -236,7 +302,7 @@ export function dropNodeOnSource(
     // Finally, add this editor's updated source to the list of sources to replace in the project.
     sourceReplacements.push([source, newSource]);
 
-    return [project.withSources(sourceReplacements), newSource, draggedClone];
+    return [project.withSources(sourceReplacements), newSource, droppedNode];
 }
 
 export function getInsertionPoint(

@@ -1189,6 +1189,10 @@ export default class Caret {
         // Called when a blocks-mode insertion is rejected because it would introduce conflicts, with
         // those conflicts and the source that would have resulted. Lets callers (e.g. paste) explain why.
         onBlockReject?: (conflicts: Conflict[], source: Source) => void,
+        // When true (used by paste in blocks mode), replace any placeholders in the inserted region
+        // with their type's default expression, so pasted code evaluates without a placeholder
+        // exception — the same behavior as dropping a concept from the palette.
+        fillPlaceholders = false,
     ): Edit | ProjectRevision | LocaleTextAccessor {
         // Normalize the mystery string, ensuring it follows Unicode normalization form.
         text = text.normalize();
@@ -1341,6 +1345,79 @@ export default class Caret {
             newPosition =
                 newPosition +
                 (newSource.getCode().getLength() - lengthBeforeInsert);
+
+            // When pasting Wordplay code in blocks mode, fill any placeholders in the just-inserted
+            // region with reasonable typed defaults — the same behavior as dropping a concept from the
+            // palette — so the pasted code evaluates immediately instead of throwing a placeholder
+            // exception. We scope to the inserted character range so placeholders elsewhere in the
+            // source are untouched, and leave placeholders whose type has no default for the creator.
+            if (blocks && fillPlaceholders) {
+                const insertedEnd = newPosition;
+                const insertedSource = newSource;
+                const context = project
+                    .withSource(this.source, insertedSource)
+                    .getContext(insertedSource);
+                const locales = project.getLocales();
+                const pairs = insertedSource.expression
+                    .nodes(
+                        (n): n is ExpressionPlaceholder =>
+                            n instanceof ExpressionPlaceholder,
+                    )
+                    .filter((placeholder) => {
+                        const pos =
+                            insertedSource.getNodeFirstPosition(placeholder);
+                        return (
+                            pos !== undefined &&
+                            pos >= originalPosition &&
+                            pos < insertedEnd
+                        );
+                    })
+                    .map((placeholder) => {
+                        const def = ExpressionPlaceholder.getDefaultExpressions(
+                            placeholder,
+                            context,
+                            locales,
+                        )[0];
+                        return def ? ([placeholder, def] as const) : undefined;
+                    })
+                    .filter(
+                        (
+                            pair,
+                        ): pair is readonly [
+                            ExpressionPlaceholder,
+                            Expression,
+                        ] => pair !== undefined,
+                    );
+                if (pairs.length > 0) {
+                    let filled = insertedSource;
+                    // Successive replace() is valid: each untouched placeholder keeps its identity
+                    // until it is itself replaced (clone only rebuilds the path to the replaced node).
+                    for (const [placeholder, def] of pairs)
+                        filled = filled.replace(placeholder, def);
+                    // Land the caret on the first still-empty placeholder in the pasted region, or just
+                    // past the paste if all were filled. Filling changes the source length, so adjust.
+                    const regionEnd =
+                        insertedEnd +
+                        (filled.getCode().getLength() -
+                            insertedSource.getCode().getLength());
+                    const remaining = filled.expression
+                        .nodes(
+                            (n): n is ExpressionPlaceholder =>
+                                n instanceof ExpressionPlaceholder,
+                        )
+                        .find((placeholder) => {
+                            const pos =
+                                filled.getNodeFirstPosition(placeholder);
+                            return (
+                                pos !== undefined &&
+                                pos >= originalPosition &&
+                                pos <= regionEnd
+                            );
+                        });
+                    newSource = filled;
+                    newPosition = remaining ?? regionEnd;
+                }
+            }
 
             // Finally, if we're in blocks mode, verify that the insertion was valid.
             if (blocks) {

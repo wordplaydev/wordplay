@@ -177,7 +177,7 @@ The subdirectories:
 
 - [revision/](https://github.com/wordplaydev/wordplay/tree/main/src/edit/revision) — `Revision` is the base type for one AST transformation. Subclasses include `Replace`, `Remove`, `Append`, `Assign`, and `Refer`. Each exposes `getEditedNode()` (the new node and its revised parent) and `getEdit()` (an `Edit` for the command system to apply).
 
-- [drag/Drag.ts](https://github.com/wordplaydev/wordplay/blob/main/src/edit/drag/Drag.ts) — drag-and-drop. `InsertionPoint` and `AssignmentPoint` describe where a dragged node would land; `isValidDropTarget()` and `dropNodeOnSource()` validate and produce the revised source.
+- [drag/Drag.ts](https://github.com/wordplaydev/wordplay/blob/main/src/edit/drag/Drag.ts) — drag-and-drop. `InsertionPoint` and `AssignmentPoint` describe where a dragged node would land; `isValidDropTarget()` and `dropNodeOnSource()` validate and produce the revised source. On a palette drop (from the Wellspring/Guide, where the dragged node isn't rooted in a source), `dropNodeOnSource()` also replaces each placeholder in the dropped subtree with its type's default expression (`Type.getDefaultExpression()`), so dropped concepts evaluate immediately instead of throwing a placeholder exception.
 
 - [output/](https://github.com/wordplaydev/wordplay/tree/main/src/edit/output) — the palette's bridge to AST edits. `OutputExpression` wraps an `Evaluate` representing a `Stage`, `Phrase`, `Group`, `Shape`, etc., and exposes `OutputProperty` accessors that the palette uses to read and revise individual inputs (color, place, rotation, …).
 

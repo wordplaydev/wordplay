@@ -176,14 +176,18 @@ export default class StructureType extends BasisType {
     }
 
     getDefaultExpression(context: Context): Expression | undefined {
-        const def = context
-            .getBasis()
-            .shares.all.find(
-                (share) =>
-                    share instanceof StructureDefinition &&
-                    !share.isInterface() &&
-                    this.accepts(share.getType(context), context),
-            );
+        const def = context.getBasis().shares.all.find(
+            (share) =>
+                share instanceof StructureDefinition &&
+                !share.isInterface() &&
+                // Compare against an *instance* type of the candidate, not
+                // share.getType() — that returns a StructureDefinitionType
+                // (the type of a reference to the definition), which an input
+                // StructureType never accepts. This is how we find a concrete
+                // structure (e.g. Stack) that refines an abstract one (e.g.
+                // Arrangement), or the structure itself for a concrete type.
+                this.accepts(new StructureType(share), context),
+        );
 
         if (def === undefined) return undefined;
         else

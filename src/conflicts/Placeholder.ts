@@ -10,7 +10,6 @@ import Conflict, {
 } from '@conflicts/Conflict';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
-import UnionType from '@nodes/UnionType';
 
 export default class Placeholder extends Conflict {
     readonly placeholder: ExpressionPlaceholder | TypePlaceholder;
@@ -39,14 +38,11 @@ export default class Placeholder extends Conflict {
         // member type for its default expression.
         if (!(this.placeholder instanceof ExpressionPlaceholder))
             return Conflict.fallbackExplainer(this, context, concepts);
-        const type = this.placeholder.computeType(context);
-        const types =
-            type instanceof UnionType
-                ? type.getLocalizedTypes(context.project.getLocales(), context)
-                : [type];
-        const defaults = types
-            .map((t) => t.getDefaultExpression(context))
-            .filter((e): e is Exclude<typeof e, undefined> => e !== undefined);
+        const defaults = ExpressionPlaceholder.getDefaultExpressions(
+            this.placeholder,
+            context,
+            context.project.getLocales(),
+        );
         if (defaults.length === 0)
             return Conflict.fallbackExplainer(this, context, concepts);
         const placeholder = this.placeholder;
