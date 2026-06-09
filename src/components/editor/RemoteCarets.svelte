@@ -12,7 +12,8 @@
 -->
 <script lang="ts">
     import CreatorView from '@components/app/CreatorView.svelte';
-    import Notice from '@components/app/Notice.svelte';
+    import EditorNotice from '@components/editor/EditorNotice.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { getAnnouncer } from '@components/project/Contexts';
     import { Creators, locales, Projects } from '@db/Database';
     import type { Creator } from '@db/creators/CreatorDatabase';
@@ -128,37 +129,41 @@
 </script>
 
 {#if tracker?.isAtCap}
-    <!-- Notice matches the rest of the app's user-facing warnings: same
-         color (error background), same padding, same slide-in transition.
-         It also draws the eye where a plain styled <div> would blend in
-         with the editor's chrome. -->
-    <Notice text={(l) => l.ui.presence.waitingForSlot} />
-{:else if peers.length > 0}
-    <ul
-        class="remote-carets"
-        aria-label={$locales.getPlainText((l) => l.ui.presence.peersLabel)}
+    <!-- The "waiting for a slot" message shares the editor's notice motif so the presence bar reads as
+         part of the editor footer band, not a separate web-form warning. -->
+    <EditorNotice
+        ><LocalizedText path={(l) => l.ui.presence.waitingForSlot} /></EditorNotice
     >
-        {#each peers as peer (peer.clientID)}
-            <li
-                class="peer"
-                style:--peer-color={cssColor(
-                    colorByClient.get(peer.clientID) ?? peer.color,
-                )}
-                title={nameFor(peer.userID)}
-            >
-                <CreatorView
-                    creator={peer.userID === null
-                        ? null
-                        : (creators[peer.userID] ?? null)}
-                    anonymize={false}
-                    chrome={true}
-                />
-            </li>
-        {/each}
-    </ul>
+{:else if peers.length > 0}
+    <EditorNotice>
+        <ul
+            class="remote-carets"
+            aria-label={$locales.getPlainText((l) => l.ui.presence.peersLabel)}
+        >
+            {#each peers as peer (peer.clientID)}
+                <li
+                    class="peer"
+                    style:--peer-color={cssColor(
+                        colorByClient.get(peer.clientID) ?? peer.color,
+                    )}
+                    title={nameFor(peer.userID)}
+                >
+                    <CreatorView
+                        creator={peer.userID === null
+                            ? null
+                            : (creators[peer.userID] ?? null)}
+                        anonymize={false}
+                        chrome={true}
+                    />
+                </li>
+            {/each}
+        </ul>
+    </EditorNotice>
 {/if}
 
 <style>
+    /* Chrome (border-top, padding, background) comes from the EditorNotice wrapper; the list only lays
+       out the chips. */
     .remote-carets {
         display: flex;
         flex-direction: row;
@@ -166,15 +171,8 @@
         gap: var(--wordplay-spacing);
         list-style: none;
         margin: 0;
-        padding: calc(var(--wordplay-spacing) / 2) var(--wordplay-spacing);
+        padding: 0;
         font-size: var(--wordplay-small-font-size);
-        /* A border-top visually anchors the presence row to the editor
-           above it; without it the chips appear to float in the gap
-           between the source tile and any siblings below. Same width
-           and color as the rest of the editor chrome so it reads as
-           part of the tile, not a separate band. */
-        border-top: var(--wordplay-border-width) solid
-            var(--wordplay-border-color);
     }
 
     /* Tint the chip's chrome border to match the floating caret color.

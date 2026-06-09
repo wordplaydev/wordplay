@@ -8,7 +8,11 @@ import type Type from '@nodes/Type';
 import type Locales from '@locale/Locales';
 import type NameType from '@nodes/NameType';
 import Reference from '@nodes/Reference';
-import Conflict, { type Repair, type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Repair,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import levenshtein from '@util/levenshtein';
 
 export class UnknownName extends Conflict {
@@ -16,7 +20,7 @@ export class UnknownName extends Conflict {
     readonly type: Type | undefined;
 
     constructor(name: Reference | NameType | Token, type: Type | undefined) {
-        super(false);
+        super(ConflictSeverity.Error);
         this.name = name;
         this.type = type;
     }

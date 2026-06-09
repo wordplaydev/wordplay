@@ -1,7 +1,10 @@
 import type LocaleText from '@locale/LocaleText';
 import type ConversionDefinition from '@nodes/ConversionDefinition';
 import type Locales from '@locale/Locales';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
@@ -11,7 +14,7 @@ export class MisplacedConversion extends Conflict {
     readonly conversion: ConversionDefinition;
 
     constructor(conversion: ConversionDefinition) {
-        super(false);
+        super(ConflictSeverity.Error);
 
         this.conversion = conversion;
     }
@@ -29,10 +32,7 @@ export class MisplacedConversion extends Conflict {
         };
     }
 
-    override getResolutions(
-        context: Context,
-        _concepts: Node[],
-    ): Resolutions {
+    override getResolutions(context: Context, _concepts: Node[]): Resolutions {
         // Remove the misplaced ConversionDefinition. If its parent is a
         // Block (top-level position), just drop it; otherwise it occupies an
         // expression slot, so replace with a placeholder.
@@ -48,10 +48,7 @@ export class MisplacedConversion extends Conflict {
                     ),
                 mediator: (ctx) => ({
                     newProject: ctx.project.withRevisedNodes([
-                        [
-                            this.conversion,
-                            inBlock ? undefined : placeholder,
-                        ],
+                        [this.conversion, inBlock ? undefined : placeholder],
                     ]),
                     ...(inBlock ? {} : { newNode: placeholder }),
                 }),

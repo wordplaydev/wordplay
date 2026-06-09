@@ -4,7 +4,10 @@ import type Context from '@nodes/Context';
 import type Definition from '@nodes/Definition';
 import type NameType from '@nodes/NameType';
 import type Locales from '@locale/Locales';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import type Node from '@nodes/Node';
 import TypePlaceholder from '@nodes/TypePlaceholder';
 
@@ -13,7 +16,7 @@ export class UnknownTypeName extends Conflict {
     readonly definition: Definition;
 
     constructor(name: NameType, definition: Definition) {
-        super(false);
+        super(ConflictSeverity.Error);
         this.name = name;
         this.definition = definition;
     }
@@ -34,10 +37,7 @@ export class UnknownTypeName extends Conflict {
         };
     }
 
-    override getResolutions(
-        _context: Context,
-        _concepts: Node[],
-    ): Resolutions {
+    override getResolutions(_context: Context, _concepts: Node[]): Resolutions {
         // Replace the unresolved NameType with a type placeholder so the
         // learner can pick a real type. The conflict fires when a definition
         // is found but isn't a type, so renaming would be a no-op.

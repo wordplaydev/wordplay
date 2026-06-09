@@ -6,11 +6,19 @@ import ListLiteral from '@nodes/ListLiteral';
 import type Node from '@nodes/Node';
 import NumberLiteral from '@nodes/NumberLiteral';
 import Source from '@nodes/Source';
+import TextLiteral from '@nodes/TextLiteral';
 import Token from '@nodes/Token';
 import parseExpression from '@parser/parseExpression';
 import { toTokens } from '@parser/toTokens';
 import { expect, test } from 'vitest';
-import { dropNodeOnSource, InsertionPoint, isValidDropTarget } from '@edit/drag/Drag';
+import {
+    dropNodeOnSource,
+    getBlockingDropConflicts,
+    getDropConflicts,
+    InsertionPoint,
+    isDropPermitted,
+    isValidDropTarget,
+} from '@edit/drag/Drag';
 
 test.each([
     // Replace placeholder with rootless expression
@@ -147,18 +155,12 @@ test.each([
         const draggedNode: Node = dragged(sources);
         const targetNode: Node | InsertionPoint = target(sources);
 
-        // Assert that the drop target is valid.
-        expect(
-            isValidDropTarget(
-                project,
-                draggedNode,
-                targetNode instanceof InsertionPoint
-                    ? targetNode.node
-                    : targetNode,
-                targetNode instanceof InsertionPoint ? targetNode : undefined,
+        // Node targets must be structurally valid drop targets. (Insertion points carry their own
+        // structural validity from detection, so isValidDropTarget doesn't apply to them.)
+        if (!(targetNode instanceof InsertionPoint))
+            expect(isValidDropTarget(project, draggedNode, targetNode)).toBe(
                 true,
-            ),
-        ).toBe(true);
+            );
 
         const [newProject] = dropNodeOnSource(
             project,
@@ -176,3 +178,93 @@ test.each([
             );
     },
 );
+
+test('getDropConflicts returns [] for a clean placeholder replacement', () => {
+    const source = new Source('test', '1 + _');
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const dragged = parseExpression(toTokens('1'));
+    const target = source.find(ExpressionPlaceholder);
+    expect(
+        getDropConflicts(project, source, dragged, target).conflicts,
+    ).toHaveLength(0);
+});
+
+test('getDropConflicts returns [] when a drop only leaves a placeholder behind (cross-source)', () => {
+    const main = new Source('test', '1 + _');
+    const supplement = new Source('other', '2');
+    const project = Project.make(
+        null,
+        'test',
+        main,
+        [supplement],
+        DefaultLocale,
+    );
+    // Drag the 2 from the other source onto the placeholder; the donor source is left with a
+    // placeholder (a minor conflict), which must not count as a new conflict.
+    const dragged = supplement.find<Node>(NumberLiteral);
+    const target = main.find(ExpressionPlaceholder);
+    expect(
+        getDropConflicts(project, main, dragged, target).conflicts,
+    ).toHaveLength(0);
+});
+
+test('getDropConflicts reports the conflict a type-erroring drop would introduce', () => {
+    const source = new Source('test', 'Place()');
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const dragged = parseExpression(toTokens('1'));
+    const node = source.find<Evaluate>(Evaluate);
+    const target = new InsertionPoint(
+        node,
+        'inputs',
+        node.inputs,
+        node.find<Token>(Token, 2),
+        0,
+        0,
+    );
+    // The drop is permitted (Place(1) is produced) but introduces a major conflict we can explain.
+    expect(
+        getDropConflicts(project, source, dragged, target).conflicts.length,
+    ).toBeGreaterThan(0);
+});
+
+test('a drop that creates an unknown name is blocked (Error severity)', () => {
+    const source = new Source('test', '1 + _');
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    // Dragging a reference to an undefined name onto the placeholder → `1 + saddf` → unknown name.
+    const dragged = parseExpression(toTokens('saddf'));
+    const target = source.find(ExpressionPlaceholder);
+    expect(
+        getBlockingDropConflicts(project, source, dragged, target).map(
+            (c) => c.constructor.name,
+        ),
+    ).toContain('UnknownName');
+    expect(isDropPermitted(project, source, dragged, target)).toBe(false);
+});
+
+test('a type-mismatch drop is blocked (Error severity)', () => {
+    const source = new Source('test', 'a•#: _');
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    // Dropping text into a number-typed bind is a type mismatch — a blocking error.
+    const dragged = parseExpression(toTokens('"hi"'));
+    const target = source.find(ExpressionPlaceholder);
+    expect(isDropPermitted(project, source, dragged, target)).toBe(false);
+    expect(
+        getBlockingDropConflicts(project, source, dragged, target).map(
+            (c) => c.constructor.name,
+        ),
+    ).toContain('IncompatibleType');
+});
+
+test('dropping a structure into a wrong-typed function input is blocked', () => {
+    // The reported defect: Group is not valid for Phrase's text input, so `'a'` must not be a drop target.
+    const source = new Source('test', "Phrase('a')");
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const dragged = parseExpression(toTokens('Group(_ _)'));
+    const target = source.find(TextLiteral);
+    expect(isDropPermitted(project, source, dragged, target)).toBe(false);
+    expect(
+        getBlockingDropConflicts(project, source, dragged, target).map(
+            (c) => c.constructor.name,
+        ),
+    ).toContain('IncompatibleInput');
+});

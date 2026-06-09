@@ -88,7 +88,6 @@
     import Project from '@db/projects/Project';
     import Caret, {
         type CaretPosition,
-        NegligibleConflicts,
         isCaretPosition,
         resolveCaretPosition,
         serializeCaretPosition,
@@ -97,8 +96,18 @@
         AssignmentPoint,
         InsertionPoint,
         dropNodeOnSource,
+        getDropConflicts,
+        isDropPermitted,
         isValidDropTarget,
     } from '@edit/drag/Drag';
+    import {
+        type EditorNotifier,
+        DragFeedbackNotification,
+        LargeDeletionNotification,
+        PasteFeedbackNotification,
+    } from '@components/editor/EditorNotification';
+    import { pasteText } from '@components/editor/Paste';
+    import Templates from '@concepts/Templates';
     import Menu, { RevisionSet } from '@edit/menu/Menu';
     import { getEditsAt } from '@edit/menu/PossibleEdits';
     import type Revision from '@edit/revision/Revision';
@@ -148,10 +157,8 @@
         setOutputPreview?: () => void;
         /** A function for updating conflicts of interest */
         updateConflicts?: (source: Source, conflicts: Conflict[]) => void;
-        /** Function to set large deletion notification for this editor */
-        setLargeDeletionNotification?: (
-            message: LocaleTextAccessor | null,
-        ) => void;
+        /** Controller for this editor's footer notifications (large deletions, drag feedback, etc.) */
+        notify?: EditorNotifier;
         /** Bindable snapshot of the current caret, for parents that need to observe it */
         caretSnapshot?: Caret | undefined;
     }
@@ -170,7 +177,7 @@
         conflictsOfInterest = $bindable([]),
         setOutputPreview,
         updateConflicts,
-        setLargeDeletionNotification,
+        notify,
         caretSnapshot = $bindable(undefined),
     }: Props = $props();
 
@@ -412,11 +419,20 @@
     // A store of what node is hovered over, including tokens.
     const hoveredAny = writable<Node | undefined>(undefined);
 
-    // A store of current insertion points in a drag.
+    // A store of the current structural insertion point in a drag — used internally for drop feedback
+    // and the release decision. It's set whenever the dragged node *fits* a list/field, even if the drop
+    // would be blocked by a conflict.
     const insertion = writable<InsertionPoint | AssignmentPoint | undefined>(
         undefined,
     );
-    setDragTarget(insertion);
+
+    // The drag target exposed to descendant views to render the drop indicator. Unlike `insertion`, it's
+    // only set when the drop is actually PERMITTED, so a blocked target (e.g. a type-mismatched input)
+    // doesn't show a misleading insertion indicator. Kept in sync below.
+    const visibleDragTarget = writable<
+        InsertionPoint | AssignmentPoint | undefined
+    >(undefined);
+    setDragTarget(visibleDragTarget);
 
     let zoom = $state(0);
 
@@ -509,6 +525,25 @@
 
     // The possible candidate for dragging
     let dragCandidate: Node | undefined = $state(undefined);
+
+    // The identity of the drop target the drag-feedback notification was last computed for, so we
+    // only re-simulate the drop (and re-render the explanation) when the pointer moves to a new target.
+    let lastDragTargetKey: string | undefined = undefined;
+
+    // Whether dropping on the current under-pointer target is permitted (no blocking conflict). Computed
+    // once per target by updateDragFeedback and read by the highlight pass to gate the 'match' highlight.
+    let currentTargetPermitted = $state(true);
+
+    // Whether the current pointer location is a valid drop (a structural candidate that's also permitted).
+    // Drives the cursor: a drag over anything else shows `no-drop`. False unless actively over a good target.
+    let validDropTarget = $state(false);
+
+    // Expose the insertion point to descendant views' drop indicators only when the drop is permitted, so
+    // a blocked target never shows a misleading indicator. The structural `insertion` still drives feedback
+    // and the (permission-checked) release.
+    $effect(() => {
+        visibleDragTarget.set(validDropTarget ? $insertion : undefined);
+    });
 
     // Tracks consecutive clicks on the same token so that double, triple,
     // quadruple, … clicks select that token and then climb to its ancestors. We
@@ -639,26 +674,28 @@
     }
 
     function handleRelease() {
-        // Is the creator hovering over a valid drop target? If so, execute the edit.
+        // Drop only if the editor is editable (drag-and-drop is disabled when viewing a read-only
+        // checkpoint) and the target is PERMITTED: structurally valid AND introducing no blocking (Error)
+        // conflict — the same predicate getDragHighlights uses to highlight, so what's highlighted is
+        // exactly what will drop. A blocked target does nothing; the footer feedback already explains why.
+        const releaseTarget = $hovered ?? $insertion;
         if (
+            editable &&
             $dragged &&
-            (($hovered &&
-                isValidDropTarget(
-                    project,
-                    $dragged,
-                    $hovered,
-                    $insertion,
-                    true,
-                )) ||
-                $insertion)
+            releaseTarget !== undefined &&
+            isDropPermitted(project, source, $dragged, releaseTarget)
         )
             drop();
+
+        // Clear any drag feedback now that the drag is ending.
+        notify?.clear(DragFeedbackNotification);
 
         // Release the dragged node.
         if (dragged) dragged.set(undefined);
         dragCandidate = undefined;
         dragPoint = undefined;
         dragStartPosition = undefined;
+        lastDragTargetKey = undefined;
 
         // Cancel any pending touch long-press.
         clearDragLongPress();
@@ -705,6 +742,107 @@
         grabFocus('Focusing editor on node drop.');
     }
 
+    /**
+     * Paste `text` at the caret. In blocks mode, if the paste would introduce a conflict it's rejected
+     * (by Caret.insert) and we explain why at the bottom of the editor — the same "explain, don't just
+     * block" feedback drag-and-drop gives — instead of the generic "would create an error" message.
+     */
+    function pasteWithFeedback(text: string) {
+        const result = pasteText(text, $caret, project, $blocks, $locales, notify);
+        // `true` means a specific conflict explanation was shown, so there's nothing more to do.
+        // Otherwise handleEdit applies the edit, or shows the generic ignored reason for a rejection.
+        if (result !== true) handleEdit(result, IdleKind.Typed, true);
+    }
+
+    /** A stable string identity for a drop target, so we only recompute feedback when it changes. */
+    function dropTargetKey(
+        target: Node | InsertionPoint | AssignmentPoint,
+    ): string {
+        if (target instanceof InsertionPoint)
+            return `i:${target.node.id}:${target.field}:${target.index}`;
+        if (target instanceof AssignmentPoint)
+            return `a:${target.parent.id}:${target.field}`;
+        return `n:${target.id}`;
+    }
+
+    /**
+     * While dragging, explain at the bottom of the editor what dropping on the target under the pointer
+     * would do: a red rejection if it would introduce a blocking (Error) conflict (the drop is then
+     * disallowed), or an amber warning if it would only introduce a permitted type-mismatch (Warning).
+     * Also records `currentTargetPermitted` so the highlight pass can gate the 'match' highlight without
+     * re-simulating. Only re-simulates when the pointer moves to a new target, since dragged + source are
+     * constant during a drag.
+     */
+    function updateDragFeedback() {
+        // No feedback (and no valid drop) when there's no drag, or in a read-only editor where
+        // drag-and-drop is disabled.
+        if (!editable || $dragged === undefined) {
+            lastDragTargetKey = undefined;
+            currentTargetPermitted = true;
+            validDropTarget = false;
+            return;
+        }
+
+        // The target that would receive the drop right now (insertion and hovered are mutually exclusive).
+        // Only give feedback for actual drop candidates: an insertion/assignment point, or a hovered node
+        // that is a structurally valid drop target.
+        const target = $hovered ?? $insertion;
+        const isCandidate =
+            target instanceof InsertionPoint ||
+            target instanceof AssignmentPoint ||
+            (target instanceof Node &&
+                isValidDropTarget(project, $dragged, target));
+        if (target === undefined || !isCandidate) {
+            currentTargetPermitted = true;
+            validDropTarget = false;
+            if (lastDragTargetKey !== undefined) {
+                lastDragTargetKey = undefined;
+                notify?.clear(DragFeedbackNotification);
+            }
+            return;
+        }
+
+        // Same target as last move? Nothing to recompute (currentTargetPermitted already set for it).
+        const key = dropTargetKey(target);
+        if (key === lastDragTargetKey) return;
+        lastDragTargetKey = key;
+
+        // Simulate the drop. Blocking (Error) conflicts make the drop invalid; Warning conflicts are
+        // permitted but worth flagging. Explain the blocker first if there is one.
+        const { conflicts, project: dropped } = getDropConflicts(
+            project,
+            source,
+            $dragged,
+            target,
+        );
+        const blocking = conflicts.filter((c) => c.isBlocking());
+        currentTargetPermitted = blocking.length === 0;
+        validDropTarget = blocking.length === 0;
+        const relevant = blocking.length > 0 ? blocking : conflicts;
+        const conflict = relevant[0];
+        if (conflict === undefined) {
+            // Clean drop: no feedback.
+            notify?.clear(DragFeedbackNotification);
+            return;
+        }
+        // The conflict's nodes live in the simulated project, so resolve its message against that context.
+        const droppedContext = dropped.getContext(dropped.getMain());
+        const nodes = conflict.getMessage(droppedContext, Templates);
+        notify?.set({
+            id: DragFeedbackNotification,
+            content: {
+                // Frame the conflict message so it's clear what it's about.
+                prefix: (l) => l.ui.source.feedback.cantDrop,
+                markup: nodes.explanation(
+                    $locales,
+                    dropped.getNodeContext(nodes.node) ?? droppedContext,
+                ),
+            },
+            // Red when the drop is blocked, amber when it's a permitted type-mismatch.
+            variant: blocking.length > 0 ? 'error' : 'warning',
+        });
+    }
+
     function handlePointerDown(event: PointerEvent) {
         if (event.button !== 0) return;
 
@@ -715,7 +853,11 @@
         deferDisplayUpdate = false;
 
         // Clear any existing large deletion notification when user clicks to clear selection
-        setLargeDeletionNotification?.(null);
+        notify?.clear(LargeDeletionNotification);
+        // Clear any stale drag/paste feedback as a new gesture begins.
+        notify?.clear(DragFeedbackNotification);
+        notify?.clear(PasteFeedbackNotification);
+        lastDragTargetKey = undefined;
         event.preventDefault();
         event.stopPropagation();
 
@@ -1009,8 +1151,11 @@
             if (editor) editor.style.touchAction = 'none';
         }
 
-        // Update insertion points if something is dragged and hovered isn't a placeholder.
+        // Update insertion points if something is dragged and hovered isn't a placeholder. Drag-and-drop
+        // is disabled in a read-only editor, so it ignores the dragged node entirely (no insertion
+        // points, no drop feedback).
         if (
+            editable &&
             $dragged &&
             !($hovered instanceof ExpressionPlaceholder) &&
             !($hovered instanceof TypePlaceholder)
@@ -1053,6 +1198,9 @@
             // If we found one, unset the hovered. We don't do both at the same time.
             if (insertionPoint) hovered.set(undefined);
         } else insertion.set(undefined);
+
+        // Explain the target under the pointer if dropping there would produce a conflict.
+        updateDragFeedback();
     }
 
     function handleDebugHover(event: PointerEvent) {
@@ -1108,7 +1256,6 @@
             const newConflicts = project.getNewConflictsBatch(
                 source,
                 Array.from(revisionToSource.values()),
-                NegligibleConflicts,
             );
             // Filter the revisions by those that don't create conflicts.
             revisions = revisions.filter((revision) => {
@@ -1234,8 +1381,9 @@
             return;
         }
 
-        // Clear any existing large deletion notification since a new edit has started
-        setLargeDeletionNotification?.(null);
+        // Clear any existing large deletion or paste-rejection notification since a new edit has started
+        notify?.clear(LargeDeletionNotification);
+        notify?.clear(PasteFeedbackNotification);
         const previousSource = source;
 
         const navigation = edit instanceof Caret;
@@ -1315,9 +1463,11 @@
                 newSource.getCode().getLength() >=
                 40
         ) {
-            setLargeDeletionNotification?.(
-                (l) => l.ui.source.cursor.largeDelete,
-            );
+            notify?.set({
+                id: LargeDeletionNotification,
+                content: { path: (l) => l.ui.source.cursor.largeDelete },
+                variant: 'info',
+            });
         }
 
         // After everything is updated, if we were asked to focus the editor, focus it.
@@ -1497,14 +1647,12 @@
             const internal = getInternalClipboard();
             if (internal === undefined) return;
 
+            event.preventDefault();
+            event.stopPropagation();
             // The in-app clipboard only ever holds text copied from within
             // Wordplay, so paste it verbatim — never reinterpret our own code
             // as foreign data (e.g. CSV).
-            const edit = $caret.insert(internal, $blocks, project, false);
-            event.preventDefault();
-            event.stopPropagation();
-            if (typeof edit === 'function') setIgnored(edit);
-            else handleEdit(edit, IdleKind.Typed, true);
+            pasteWithFeedback(internal);
             return;
         }
 
@@ -1523,7 +1671,8 @@
             view: editor,
             getTokenViews,
             clearLargeDeletionNotification: () =>
-                setLargeDeletionNotification?.(null),
+                notify?.clear(LargeDeletionNotification),
+            notify,
             zoom,
             setZoom,
         });
@@ -2101,17 +2250,21 @@
     });
 
     // Drag-derived slice. Skip when there is no drag/hover-select to avoid the
-    // O(n) drop-target walk in getDragHighlights.
+    // O(n) drop-target walk in getDragHighlights. Drag-and-drop is disabled in a
+    // read-only editor (e.g. viewing an older checkpoint), so ignore the dragged
+    // node there — only shift-drag text selection still highlights.
     let dragHighlights = $derived.by(() => {
-        if ($dragged !== undefined || (selectingWithShift && !$blocks))
+        const activeDragged = editable ? $dragged : undefined;
+        if (activeDragged !== undefined || (selectingWithShift && !$blocks))
             return getDragHighlights(
                 source,
                 project,
-                $dragged,
+                activeDragged,
                 $hovered,
                 $insertion,
                 $blocks,
                 selectingWithShift,
+                currentTargetPermitted,
             );
         return new Highlights();
     });
@@ -2412,6 +2565,8 @@
     class:readonly={!editable}
     class:focused
     class:dragging={dragCandidate !== undefined || $dragged !== undefined}
+    class:invalid-drop={$dragged !== undefined &&
+        (!editable || !validDropTarget)}
     class:density-compact={$blockDensity === 'compact'}
     class:density-spacious={$blockDensity === 'spacious'}
     data-uiid="editor"
@@ -2718,6 +2873,20 @@
     .editor.dragging {
         touch-action: none;
         cursor: grabbing;
+    }
+
+    /* During a drag, force one cursor across the whole editor subtree. Without this, per-node cursors
+       (e.g. NodeView's `grab` on hover, which has high specificity) override the editor's drag cursor,
+       so the affordance — especially no-drop over an invalid target — never appears. */
+    .editor.dragging :global(*) {
+        cursor: grabbing !important;
+    }
+
+    /* Over an invalid drop location — a blocked target, empty space, or a read-only editor — show that
+       releasing here won't drop. */
+    .editor.dragging.invalid-drop,
+    .editor.dragging.invalid-drop :global(*) {
+        cursor: no-drop !important;
     }
 
     .keyboard-input {

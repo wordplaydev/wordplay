@@ -5,7 +5,10 @@ import type Type from '@nodes/Type';
 import type Locales from '@locale/Locales';
 import type Node from '@nodes/Node';
 import Expression from '@nodes/Expression';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import findDivideByZeroSource from '@conflicts/findDivideByZeroSource';
 
 export default class IncompatibleInput extends Conflict {
@@ -14,7 +17,7 @@ export default class IncompatibleInput extends Conflict {
     readonly expectedType: Type;
 
     constructor(givenInput: Node, givenType: Type, expectedType: Type) {
-        super(false);
+        super(ConflictSeverity.Error);
         this.givenNode = givenInput;
         this.givenType = givenType;
         this.expectedType = expectedType;
@@ -59,10 +62,7 @@ export default class IncompatibleInput extends Conflict {
         };
     }
 
-    override getResolutions(
-        context: Context,
-        concepts: Node[],
-    ): Resolutions {
+    override getResolutions(context: Context, concepts: Node[]): Resolutions {
         return Conflict.fromRegistry(this, context, concepts);
     }
 

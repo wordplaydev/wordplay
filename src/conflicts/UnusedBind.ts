@@ -3,14 +3,17 @@ import NodeRef from '@locale/NodeRef';
 import type Bind from '@nodes/Bind';
 import type Context from '@nodes/Context';
 import type Locales from '@locale/Locales';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import type Node from '@nodes/Node';
 
 export default class UnusedBind extends Conflict {
     readonly bind: Bind;
 
     constructor(bind: Bind) {
-        super(true);
+        super(ConflictSeverity.Minor);
 
         this.bind = bind;
     }
@@ -31,10 +34,7 @@ export default class UnusedBind extends Conflict {
         };
     }
 
-    override getResolutions(
-        _context: Context,
-        _concepts: Node[],
-    ): Resolutions {
+    override getResolutions(_context: Context, _concepts: Node[]): Resolutions {
         // Delete the unused bind entirely.
         return [
             {

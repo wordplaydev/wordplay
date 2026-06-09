@@ -3,7 +3,10 @@ import Bind from '@nodes/Bind';
 import TypePlaceholder from '@nodes/TypePlaceholder';
 import type Locales from '@locale/Locales';
 import type TableType from '@nodes/TableType';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 
@@ -12,7 +15,7 @@ export default class ExpectedColumnType extends Conflict {
     readonly column: Bind;
 
     constructor(table: TableType, column: Bind) {
-        super(false);
+        super(ConflictSeverity.Error);
         this.table = table;
         this.column = column;
     }
@@ -30,10 +33,7 @@ export default class ExpectedColumnType extends Conflict {
         };
     }
 
-    override getResolutions(
-        _context: Context,
-        _concepts: Node[],
-    ): Resolutions {
+    override getResolutions(_context: Context, _concepts: Node[]): Resolutions {
         // Add a type placeholder to the column bind.
         const c = this.column;
         const typed = new Bind(

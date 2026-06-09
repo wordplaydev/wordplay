@@ -2,7 +2,10 @@ import type LocaleText from '@locale/LocaleText';
 import type Locales from '@locale/Locales';
 import type Bind from '@nodes/Bind';
 import type TableLiteral from '@nodes/TableLiteral';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 
@@ -11,7 +14,7 @@ export default class UnexpectedColumnBind extends Conflict {
     readonly cell: Bind;
 
     constructor(literal: TableLiteral, cell: Bind) {
-        super(false);
+        super(ConflictSeverity.Error);
         this.expression = literal;
         this.cell = cell;
     }
@@ -29,10 +32,7 @@ export default class UnexpectedColumnBind extends Conflict {
         };
     }
 
-    override getResolutions(
-        _context: Context,
-        _concepts: Node[],
-    ): Resolutions {
+    override getResolutions(_context: Context, _concepts: Node[]): Resolutions {
         // Replace the bind cell with just its value side.
         return [
             {

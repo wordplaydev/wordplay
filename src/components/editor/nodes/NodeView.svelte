@@ -204,10 +204,10 @@
                     aria-label="elided">…</span
                 >{:else}{#if value && node.isUndelimited()}<span class="eval"
                         >{EVAL_OPEN_SYMBOL}</span
-                    >{/if}<ComponentView
-                    {node}
-                    {format}
-                />{#if value}{#if node.isUndelimited()}<span class="eval"
+                    >{/if}{#key ComponentView}<ComponentView
+                        {node}
+                        {format}
+                    />{/key}{#if value}{#if node.isUndelimited()}<span class="eval"
                             >{EVAL_CLOSE_SYMBOL}</span
                         >{/if}<div class="value"
                         ><ValueView {value} {node} interactive /></div

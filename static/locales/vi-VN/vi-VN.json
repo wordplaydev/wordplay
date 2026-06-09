@@ -5557,6 +5557,10 @@
                 "toolbar": "$~Các điều khiển trên thanh công cụ này cho phép bạn *chọn tất cả*, *phóng to* và *thu nhỏ*, *hoàn tác*, *làm lại*, *cắt*, *sao chép* và *dán*.",
                 "expand": "$~Nút chuyển đổi /expand/ sẽ hiển thị thêm các công cụ chỉnh sửa *nâng cao*.",
                 "shortcuts": "$~Nút /phím tắt/ sẽ mở ra danh sách các phím tắt mà bạn có thể sử dụng để chỉnh sửa nhanh hơn."
+            },
+            "feedback": {
+                "cantDrop": "$?",
+                "cantPaste": "$?"
             }
         },
         "annotations": {

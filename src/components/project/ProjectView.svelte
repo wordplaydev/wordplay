@@ -106,6 +106,7 @@
         getUnderlineOf,
     } from '@components/editor/highlights/outline';
     import RemoteCarets from '@components/editor/RemoteCarets.svelte';
+    import EditorNotice from '@components/editor/EditorNotice.svelte';
     import Timeline from '@components/evaluator/Timeline.svelte';
     import OutputView from '@components/output/OutputView.svelte';
     import type PaintingConfiguration from '@components/output/PaintingConfiguration';
@@ -161,7 +162,11 @@
         AnimationIcon,
     } from '@db/settings/AnimationFactorSetting';
     import type MenuInfo from '@edit/menu/Menu';
-    import type { LocaleTextAccessor } from '@locale/Locales';
+    import type {
+        EditorNotification,
+        EditorNotifier,
+    } from '@components/editor/EditorNotification';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
 
     interface Props {
         project: Project;
@@ -218,16 +223,30 @@
     // The conflicts of interest in each editor, used to generate annotations.
     let conflictsOfInterest = $state<Map<Source, Conflict[]>>(new Map());
 
-    /** Per-editor large deletion notifications */
-    let largeDeletionNotifications = $state<
-        Map<string, LocaleTextAccessor | null>
-    >(new Map());
+    /** Per-editor footer notifications (large deletions, drag feedback, etc.), stacked when multiple are active. */
+    let editorNotifications = $state<Map<string, EditorNotification[]>>(
+        new Map(),
+    );
 
-    /** Function to set large deletion notification for a specific editor */
-    function setLargeDeletionNotification(sourceID: string) {
-        return (message: LocaleTextAccessor | null) => {
-            largeDeletionNotifications.set(sourceID, message);
-            largeDeletionNotifications = new Map(largeDeletionNotifications);
+    /** A controller a given editor uses to add and remove its footer notifications. */
+    function getEditorNotifier(sourceID: string): EditorNotifier {
+        const update = (
+            fn: (list: EditorNotification[]) => EditorNotification[],
+        ) => {
+            editorNotifications.set(
+                sourceID,
+                fn(editorNotifications.get(sourceID) ?? []),
+            );
+            editorNotifications = new Map(editorNotifications);
+        };
+        return {
+            set: (notification) =>
+                update((list) => [
+                    ...list.filter((n) => n.id !== notification.id),
+                    notification,
+                ]),
+            clear: (id) => update((list) => list.filter((n) => n.id !== id)),
+            clearAll: () => update(() => []),
         };
     }
 
@@ -2487,6 +2506,9 @@
                                 {:else if tile.kind === TileKind.Source}
                                     {@const source = getSourceByTileID(tile.id)}
                                     {#if source}
+                                        {@const notifications =
+                                            editorNotifications.get(tile.id) ??
+                                            []}
                                         <div class="annotated-editor">
                                             <Editor
                                                 bind:this={editorViews[tile.id]}
@@ -2524,67 +2546,99 @@
                                                         getSourceIndexByID(
                                                             tile.id,
                                                         ))}
-                                                setLargeDeletionNotification={setLargeDeletionNotification(
+                                                notify={getEditorNotifier(
                                                     tile.id,
                                                 )}
                                             />
+                                            <!-- Footer notifications (large deletions, drag/paste
+                                                 feedback) and the collaborator presence row overlay
+                                                 the bottom of the editor itself, within its bounds —
+                                                 close to the action and aligned with the Wellspring's
+                                                 recycle bar, rather than spanning the full tile footer
+                                                 below both margins. -->
+                                            {#if editable}
+                                                <div class="editor-notifications">
+                                                    {#each notifications as notification (notification.id)}
+                                                        <EditorNotice
+                                                            >{#if 'markup' in notification.content}{#if notification.content.prefix}<strong
+                                                                        ><LocalizedText
+                                                                            path={notification
+                                                                                .content
+                                                                                .prefix}
+                                                                        /></strong
+                                                                    >&nbsp;{/if}<MarkupHTMLView
+                                                                    markup={notification
+                                                                        .content
+                                                                        .markup}
+                                                                    inline
+                                                                />{:else}<LocalizedText
+                                                                    path={notification
+                                                                        .content
+                                                                        .path}
+                                                                />{/if}</EditorNotice
+                                                        >
+                                                    {/each}
+                                                    <!-- "Viewing an older checkpoint — Restore" banner.
+                                                         Lives in the band (within editor bounds) rather
+                                                         than dangling in the footer; interactive (it has
+                                                         a Restore button), so pointer-events are enabled. -->
+                                                    {#if checkpoint > -1}
+                                                        <div class="interactive">
+                                                            <EditorNotice
+                                                                ><LocalizedText
+                                                                    path={(l) =>
+                                                                        l.ui
+                                                                            .checkpoints
+                                                                            .label
+                                                                            .restore}
+                                                                />
+                                                                <Button
+                                                                    background
+                                                                    tip={(l) =>
+                                                                        l.ui
+                                                                            .checkpoints
+                                                                            .button
+                                                                            .restore}
+                                                                    active={checkpoint >
+                                                                        -1}
+                                                                    action={() => {
+                                                                        // Save a version of the project with the current source in the history and the new source the old source.
+                                                                        Projects.reviseProject(
+                                                                            getCheckpointProject(
+                                                                                project.withCheckpoint(),
+                                                                            ),
+                                                                        );
+                                                                        checkpoint = -1;
+                                                                    }}
+                                                                    label={(l) =>
+                                                                        l.ui
+                                                                            .checkpoints
+                                                                            .button
+                                                                            .restore}
+                                                                /></EditorNotice
+                                                            >
+                                                        </div>
+                                                    {/if}
+                                                    <!-- Collaborator presence bar uses the same
+                                                         EditorNotice motif (see RemoteCarets), anchored
+                                                         to the bottom edge. Renders nothing when the
+                                                         local user is the only editor. -->
+                                                    <div class="interactive">
+                                                        <RemoteCarets
+                                                            projectID={project.getID()}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            {/if}
                                         </div>
                                     {/if}
                                 {/if}
                             {/snippet}
                             {#snippet footer()}
-                                {@const notification =
-                                    largeDeletionNotifications.get(tile.id)}
                                 {#if tile.kind === TileKind.Source && editable}
-                                    <!-- Collaborator chip row sits above
-                                         the glyph-insertion area, in the
-                                         same band the large-deletion
-                                         overlay uses. Renders nothing
-                                         when the local user is the only
-                                         editor. -->
-                                    <RemoteCarets projectID={project.getID()} />
-
                                     {#if editableAndCurrent}<GlyphInserter
                                             sourceID={tile.id}
                                         />{/if}
-                                    {#if checkpoint > -1}
-                                        <div class="editor-warning"
-                                            ><LocalizedText
-                                                path={(l) =>
-                                                    l.ui.checkpoints.label
-                                                        .restore}
-                                            />
-                                            <Button
-                                                background
-                                                tip={(l) =>
-                                                    l.ui.checkpoints.button
-                                                        .restore}
-                                                active={checkpoint > -1}
-                                                action={() => {
-                                                    // Save a version of the project with the current source in the history and the new source the old source.
-                                                    Projects.reviseProject(
-                                                        getCheckpointProject(
-                                                            project.withCheckpoint(),
-                                                        ),
-                                                    );
-                                                    checkpoint = -1;
-                                                }}
-                                                label={(l) =>
-                                                    l.ui.checkpoints.button
-                                                        .restore}
-                                            />
-                                        </div>
-                                    {/if}
-
-                                    {#if notification}
-                                        <div
-                                            class="large-deletion-notification"
-                                        >
-                                            <LocalizedText
-                                                path={notification}
-                                            />
-                                        </div>
-                                    {/if}
                                 {:else if tile.kind === TileKind.Output && !requestedPlay && !showOutput}
                                     <Timeline evaluator={$evaluator} />{/if}
                             {/snippet}
@@ -2822,36 +2876,28 @@
         flex-direction: column;
         width: 100%;
         height: 100%;
+        /* Positioning context for the footer-notification overlay below. */
+        position: relative;
     }
 
-    .editor-warning {
-        width: 100%;
-        padding: var(--wordplay-spacing);
-        background: var(--wordplay-error);
-        color: var(--wordplay-background);
+    .editor-notifications {
+        /* Pin to the bottom of the editor, within its bounds (not the full tile footer). Every item is
+           an EditorNotice (or contains one), so they share one rectangular, integrated visual design and
+           stack contiguously, delineated by their top borders. */
+        position: absolute;
+        inset-inline: 0;
+        bottom: 0;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        /* Purely informational — don't intercept drops or clicks at the bottom of the editor. */
+        pointer-events: none;
     }
 
-    .large-deletion-notification {
-        width: 100%;
-        padding: var(--wordplay-spacing);
-        background: black;
-        color: white;
-        border: 1px solid black;
-        animation: popUp 0.6s ease-out;
-    }
-
-    @keyframes popUp {
-        0% {
-            transform: scale(0.8);
-            opacity: 0;
-        }
-        50% {
-            transform: scale(1.05);
-            opacity: 1;
-        }
-        100% {
-            transform: scale(1);
-        }
+    /* Items that need interaction (the checkpoint banner's Restore button, the collaborator presence
+       chips' tooltips) opt back in, since the band itself is click-through. */
+    .interactive {
+        pointer-events: auto;
     }
 
     /* Group the two zoom buttons so the Tour can highlight them together. */

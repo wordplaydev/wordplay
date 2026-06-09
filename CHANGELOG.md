@@ -11,6 +11,7 @@ This week we made improvements to the output palette, output editing on stage, a
 # Added
 
 - 🖱️ There's a new block-based editing palette sidebar for quicker dragging and dropping.
+- 🖱️ Block-based editing with drag and copy and paste is now much more consistent. And when something can't be dragged or paste, we explain why in a new editor footer message.
 - 💡 When you write formatted text, auto-complete now suggests your [custom characters](https://wordplay.dev/characters), so you can drop them into your words without typing their names — even to fill an empty spot. (#664)
 - 🖼️ We now render custom characters in a regular @TextLiteral, in addition to a @FormattedLiteral.
 - 😊 Now you can duplicate characters.

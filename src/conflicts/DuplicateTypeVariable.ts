@@ -3,7 +3,10 @@ import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import type TypeVariable from '@nodes/TypeVariable';
 import type Locales from '@locale/Locales';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import type Node from '@nodes/Node';
 import TypeVariables from '@nodes/TypeVariables';
 
@@ -12,7 +15,7 @@ export default class DuplicateTypeVariable extends Conflict {
     readonly duplicate: TypeVariable;
 
     constructor(typeVar: TypeVariable, duplicate: TypeVariable) {
-        super(false);
+        super(ConflictSeverity.Error);
 
         this.typeVar = typeVar;
         this.duplicate = duplicate;
@@ -29,20 +32,17 @@ export default class DuplicateTypeVariable extends Conflict {
                     (l) => DuplicateTypeVariable.LocalePath(l).explanation,
                     {
                         duplicate: new NodeRef(
-                        this.duplicate,
-                        locales,
-                        context,
-                        locales.getName(this.duplicate.names),
-                    ),
+                            this.duplicate,
+                            locales,
+                            context,
+                            locales.getName(this.duplicate.names),
+                        ),
                     },
                 ),
         };
     }
 
-    override getResolutions(
-        context: Context,
-        concepts: Node[],
-    ): Resolutions {
+    override getResolutions(context: Context, concepts: Node[]): Resolutions {
         // Replace the parent TypeVariables list with one that omits the
         // duplicate. Removing via `[duplicate, undefined]` alone leaves the
         // parent's array slot in an inconsistent state.

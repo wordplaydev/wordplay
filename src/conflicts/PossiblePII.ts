@@ -6,7 +6,10 @@ import Token from '@nodes/Token';
 import type Locales from '@locale/Locales';
 import type { PII } from '../pii/getPII';
 import getPII from '../pii/getPII';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 
 export class PossiblePII extends Conflict {
     /** The node containing text */
@@ -15,7 +18,7 @@ export class PossiblePII extends Conflict {
     readonly pii: PII;
 
     constructor(text: Token, pii: PII) {
-        super(true);
+        super(ConflictSeverity.Minor);
 
         this.text = text;
         this.pii = pii;

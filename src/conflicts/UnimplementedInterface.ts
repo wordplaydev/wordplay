@@ -4,7 +4,10 @@ import type Context from '@nodes/Context';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import type Locales from '@locale/Locales';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import type Node from '@nodes/Node';
 import Block, { BlockKind } from '@nodes/Block';
 import EvalOpenToken from '@nodes/EvalOpenToken';
@@ -21,7 +24,7 @@ export class UnimplementedInterface extends Conflict {
         interfaceStructure: StructureDefinition,
         fun: FunctionDefinition,
     ) {
-        super(false);
+        super(ConflictSeverity.Error);
         this.structure = structure;
         this.interfaceStructure = interfaceStructure;
         this.fun = fun;
@@ -38,26 +41,23 @@ export class UnimplementedInterface extends Conflict {
                     (l) => UnimplementedInterface.LocalePath(l).explanation,
                     {
                         interface: new NodeRef(
-                        this.interfaceStructure,
-                        locales,
-                        context,
-                        locales.getName(this.interfaceStructure.names),
-                    ),
+                            this.interfaceStructure,
+                            locales,
+                            context,
+                            locales.getName(this.interfaceStructure.names),
+                        ),
                         function: new NodeRef(
-                        this.fun,
-                        locales,
-                        context,
-                        locales.getName(this.fun.names),
-                    ),
+                            this.fun,
+                            locales,
+                            context,
+                            locales.getName(this.fun.names),
+                        ),
                     },
                 ),
         };
     }
 
-    override getResolutions(
-        context: Context,
-        _concepts: Node[],
-    ): Resolutions {
+    override getResolutions(context: Context, _concepts: Node[]): Resolutions {
         // Scaffold a CONCRETE stub of `this.fun` on `this.structure`. The
         // body must not be an ExpressionPlaceholder — that'd leave the new
         // function abstract, so the implements check still fails. Use the

@@ -109,12 +109,7 @@ export function makeTypeResolutions(
     );
     pushIf(
         candidates,
-        generateReorderResolution(
-            givenNode,
-            expectedType,
-            context,
-            templates,
-        ),
+        generateReorderResolution(givenNode, expectedType, context, templates),
     );
 
     // 3. Walk dependencies and try the candidate-needs-validation generators.
@@ -122,8 +117,15 @@ export function makeTypeResolutions(
         // Literal annotation (`!`) on a list/set/map; requires forward
         // validation because the candidate is usually a dependency of the
         // symptom (e.g. a ListLiteral whose access produces the symptom).
-        const literal = generateLiteralResolution(node, expectedType, templates);
-        if (literal && forwardValidates(literal, givenNode, expectedType, context))
+        const literal = generateLiteralResolution(
+            node,
+            expectedType,
+            templates,
+        );
+        if (
+            literal &&
+            forwardValidates(literal, givenNode, expectedType, context)
+        )
             candidates.push(literal);
 
         // Bind default fix at the source binding rather than at every use.
@@ -445,7 +447,8 @@ function generateBindDefaultResolution(
     // (or the bind has no value at all).
     const members = candidateType.getPossibleTypes(context);
     const hasNone =
-        members.some((m) => m instanceof NoneType) || candidate.value === undefined;
+        members.some((m) => m instanceof NoneType) ||
+        candidate.value === undefined;
     if (!hasNone) return undefined;
 
     const defaultExpr = expectedType.getDefaultExpression?.(context);

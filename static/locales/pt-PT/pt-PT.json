@@ -5551,6 +5551,10 @@
                 "toolbar": "Estes controlos da /barra de ferramentas/ permitem *selecionar tudo*, *aumentar e *diminuir o zoom*, *desfazer*, *refazer*, *recortar*, *copiar* e *colar*.",
                 "expand": "A opção /expandir/ revela ferramentas de edição mais *avançadas*.",
                 "shortcuts": "O botão /atalhos/ abre uma lista de *atalhos de teclado* que pode utilizar para editar mais rapidamente."
+            },
+            "feedback": {
+                "cantDrop": "$?",
+                "cantPaste": "$?"
             }
         },
         "annotations": {

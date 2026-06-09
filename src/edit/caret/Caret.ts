@@ -1,8 +1,3 @@
-import IncompatibleCellType from '@conflicts/IncompatibleCellType';
-import IncompatibleInput from '@conflicts/IncompatibleInput';
-import IncompatibleType from '@conflicts/IncompatibleType';
-import { UnknownName } from '@conflicts/UnknownName';
-import { UnknownTypeName } from '@conflicts/UnknownTypeName';
 import type { LocaleTextAccessor } from '@locale/Locales';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import Block from '@nodes/Block';
@@ -58,18 +53,6 @@ import { completeInsertion } from '@edit/caret/Complete';
 import type { Path } from '@nodes/Root';
 import type { SerializedCaret } from '@db/projects/ProjectSchemas';
 
-/**
- * Conflicts that are permitted on insertion. We permit these to allow for some
- * flexibility in typing names and for thinking through types.
- */
-export const NegligibleConflicts: (new (...args: any[]) => Conflict)[] = [
-    UnknownName,
-    UnknownTypeName,
-    IncompatibleCellType,
-    IncompatibleType,
-    IncompatibleInput,
-];
-
 export type InsertionContext = { before: Node[]; after: Node[] };
 
 /**
@@ -113,9 +96,7 @@ export function serializeCaretPosition(
     source: Source,
     position: CaretPosition,
 ): SerializedCaret {
-    return position instanceof Node
-        ? source.root.getPath(position)
-        : position;
+    return position instanceof Node ? source.root.getPath(position) : position;
 }
 
 /** Resolve a persisted {@link SerializedCaret} against a source, decoding a
@@ -1205,6 +1186,9 @@ export default class Caret {
         blocks: boolean,
         project: Project,
         complete = true,
+        // Called when a blocks-mode insertion is rejected because it would introduce conflicts, with
+        // those conflicts and the source that would have resulted. Lets callers (e.g. paste) explain why.
+        onBlockReject?: (conflicts: Conflict[], source: Source) => void,
     ): Edit | ProjectRevision | LocaleTextAccessor {
         // Normalize the mystery string, ensuring it follows Unicode normalization form.
         text = text.normalize();
@@ -1323,14 +1307,14 @@ export default class Caret {
 
             // Finally, if we're in blocks mode, verify that the insertion was valid.
             if (blocks) {
-                if (
-                    project.getNewConflicts(
-                        this.source,
-                        newSource,
-                        NegligibleConflicts,
-                    ).length > 0
-                )
+                const conflicts = project.getNewConflicts(
+                    this.source,
+                    newSource,
+                );
+                if (conflicts.length > 0) {
+                    onBlockReject?.(conflicts, newSource);
                     return (l) => l.ui.source.cursor.ignored.noError;
+                }
             }
 
             return [
@@ -1360,14 +1344,14 @@ export default class Caret {
 
             // Finally, if we're in blocks mode, verify that the insertion was valid.
             if (blocks) {
-                if (
-                    project.getNewConflicts(
-                        this.source,
-                        newSource,
-                        NegligibleConflicts,
-                    ).length > 0
-                )
+                const conflicts = project.getNewConflicts(
+                    this.source,
+                    newSource,
+                );
+                if (conflicts.length > 0) {
+                    onBlockReject?.(conflicts, newSource);
                     return (l) => l.ui.source.cursor.ignored.noError;
+                }
             }
 
             return [
@@ -1984,8 +1968,7 @@ export default class Caret {
         // If only valid, ensure the edit is valid.
         if (
             validOnly &&
-            project.getNewConflicts(this.source, newSource, NegligibleConflicts)
-                .length > 0
+            project.getNewConflicts(this.source, newSource).length > 0
         )
             return (l) => l.ui.source.cursor.ignored.noError;
 
@@ -2135,12 +2118,9 @@ export default class Caret {
         const conflictDescription =
             conflicts.length > 0
                 ? locales
-                      .concretize(
-                          (l) => l.ui.edit.conflicts,
-                          {
-                              count: conflicts.length,
-                          },
-                      )
+                      .concretize((l) => l.ui.edit.conflicts, {
+                          count: conflicts.length,
+                      })
                       .toText()
                 : undefined;
 
@@ -2155,26 +2135,24 @@ export default class Caret {
         /** If a node was added, describe the addition. */
         if (this.addition) {
             return locales
-                .concretize(
-                    (l) => l.ui.edit.node,
-                    {
-                        node: new NodeRef(this.addition, locales, context),
-                        type: type ? new NodeRef(type, locales, context) : undefined,
-                    },
-                )
+                .concretize((l) => l.ui.edit.node, {
+                    node: new NodeRef(this.addition, locales, context),
+                    type: type
+                        ? new NodeRef(type, locales, context)
+                        : undefined,
+                })
                 .toText();
         }
 
         /** If the caret is a node, describe the node. */
         if (isNode(this.position)) {
             return locales
-                .concretize(
-                    (l) => l.ui.edit.node,
-                    {
-                        node: new NodeRef(this.position, locales, context),
-                        type: type ? new NodeRef(type, locales, context) : undefined,
-                    },
-                )
+                .concretize((l) => l.ui.edit.node, {
+                    node: new NodeRef(this.position, locales, context),
+                    type: type
+                        ? new NodeRef(type, locales, context)
+                        : undefined,
+                })
                 .toText();
         }
 
@@ -2182,13 +2160,10 @@ export default class Caret {
         if (isRange(this.position)) {
             const [start, end] = this.position;
             return locales
-                .concretize(
-                    (l) => l.ui.edit.range,
-                    {
-                        start: start,
-                        end: end,
-                    },
-                )
+                .concretize((l) => l.ui.edit.range, {
+                    start: start,
+                    end: end,
+                })
                 .toText();
         }
 
@@ -2207,64 +2182,56 @@ export default class Caret {
                     ? undefined
                     : this.position - tokenPosition;
             return locales
-                .concretize(
-                    (l) => l.ui.edit.inside,
-                    {
-                        token: new NodeRef(this.tokenExcludingSpace, locales, context),
-                        before: // Character before cursor, if there is one
-                    relativeIndex
+                .concretize((l) => l.ui.edit.inside, {
+                    token: new NodeRef(
+                        this.tokenExcludingSpace,
+                        locales,
+                        context,
+                    ),
+                    // Character before cursor, if there is one
+                    before: relativeIndex
                         ? this.tokenExcludingSpace.text.at(relativeIndex - 1)
                         : undefined,
-                        after: // Character after cursor, if there is one
-                    relativeIndex
+                    // Character after cursor, if there is one
+                    after: relativeIndex
                         ? this.tokenExcludingSpace.text.at(relativeIndex)
                         : undefined,
-                    },
-                )
+                })
                 .toText();
         }
         // Describe the empty line
         else if (this.isEmptyLine()) {
             return locales
-                .concretize(
-                    (l) => l.ui.edit.line,
-                    {
-                        before: beforeNode
+                .concretize((l) => l.ui.edit.line, {
+                    before: beforeNode
                         ? new NodeRef(beforeNode, locales, context)
                         : undefined,
-                        after: afterNode
+                    after: afterNode
                         ? new NodeRef(afterNode, locales, context)
                         : undefined,
-                    },
-                )
+                })
                 .toText();
         }
         // Describe the tokens we're between or before.
         else if (this.tokenIncludingSpace) {
             if (this.tokenPrior && this.tokenPrior !== this.tokenIncludingSpace)
                 return locales
-                    .concretize(
-                        (l) => l.ui.edit.between,
-                        {
-                            before: beforeNode
+                    .concretize((l) => l.ui.edit.between, {
+                        before: beforeNode
                             ? new NodeRef(beforeNode, locales, context)
                             : undefined,
-                            after: afterNode
+                        after: afterNode
                             ? new NodeRef(afterNode, locales, context)
                             : undefined,
-                        },
-                    )
+                    })
                     .toText();
             else
                 return locales
-                    .concretize(
-                        (l) => l.ui.edit.before,
-                        {
-                            after: afterNode
+                    .concretize((l) => l.ui.edit.before, {
+                        after: afterNode
                             ? new NodeRef(afterNode, locales, context)
                             : undefined,
-                        },
-                    )
+                    })
                     .toText();
         }
     }

@@ -5283,6 +5283,10 @@
                 "toolbar": "$~Estos controles de la barra de herramientas le permiten *seleccionar todo*, *acercar* y *alejar*, *deshacer*, *rehacer*, *cortar*, *copiar* y *pegar*.",
                 "expand": "$~El botón /expand/ muestra herramientas de edición más *avanzadas*.",
                 "shortcuts": "$~El botón /atajos/ abre una lista de *atajos de teclado* que puedes usar para editar más rápidamente."
+            },
+            "feedback": {
+                "cantDrop": "$?",
+                "cantPaste": "$?"
             }
         },
         "annotations": {

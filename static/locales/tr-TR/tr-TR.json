@@ -5318,6 +5318,10 @@
                 "toolbar": "$~Bu /araç çubuğu/ kontrolleri, *tümünü seç*, *yakınlaştır* ve *uzaklaştır*, *geri al*, *yeniden yap*, *kes*, *kopyala* ve *yapıştır* işlemlerini yapmanıza olanak tanır.",
                 "expand": "$~/Genişlet/ seçeneği daha *gelişmiş* düzenleme araçlarını ortaya çıkarır.",
                 "shortcuts": "$~/Kısayollar/ düğmesi, daha hızlı düzenleme yapmanızı sağlayan *klavye kısayollarının* bir listesini açar."
+            },
+            "feedback": {
+                "cantDrop": "$?",
+                "cantPaste": "$?"
             }
         },
         "annotations": {

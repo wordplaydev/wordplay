@@ -314,8 +314,12 @@
         display: block;
     }
 
+    /* Hovering an editable token uses the same subtle 1px border in both text and blocks mode, so it
+       reads as "you can edit this text" — not as a drop target. (Previously the blocks-mode hover used a
+       loud --wordplay-hover outline + lifted shadow that looked like a drag/drop highlight.) */
     .text.editable:hover,
-    .active {
+    .active,
+    .token-view.editable.blocks.blockText:hover {
         outline: 1px solid var(--wordplay-border-color);
     }
 
@@ -325,8 +329,6 @@
     }
 
     .token-view.editable.blocks.blockText:hover {
-        outline: var(--wordplay-focus-width) solid var(--wordplay-hover);
-        box-shadow: var(--color-shadow) 4px 4px 4px;
         cursor: text;
     }
 

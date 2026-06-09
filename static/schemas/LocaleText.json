@@ -19313,6 +19313,25 @@
                   ],
                   "type": "object"
                 },
+                "feedback": {
+                  "additionalProperties": false,
+                  "description": "Prefixes shown before a conflict explanation when an edit is rejected in blocks mode.",
+                  "properties": {
+                    "cantDrop": {
+                      "description": "[plain] Precedes the conflict explanation when a dragged block can't be dropped on a target",
+                      "type": "string"
+                    },
+                    "cantPaste": {
+                      "description": "[plain] Precedes the conflict explanation when a paste can't be applied at the caret",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "cantDrop",
+                    "cantPaste"
+                  ],
+                  "type": "object"
+                },
                 "field": {
                   "additionalProperties": false,
                   "properties": {
@@ -19473,6 +19492,7 @@
                 "menu",
                 "field",
                 "options",
+                "feedback",
                 "cursor",
                 "error",
                 "tour"

@@ -5326,6 +5326,10 @@
                 "toolbar": "$~Te elementy sterujące /paska narzędzi/ umożliwiają *zaznaczenie wszystkiego*, *powiększanie* i *pomniejszanie*, *cofanie*, *ponawianie*, *wycinanie*, *kopiowanie* i *wklejanie*.",
                 "expand": "$~Przełącznik /rozwiń/ pokazuje bardziej *zaawansowane* narzędzia do edycji.",
                 "shortcuts": "$~Przycisk /skróty/ otwiera listę *skrótów klawiaturowych*, dzięki którym możesz szybciej edytować."
+            },
+            "feedback": {
+                "cantDrop": "$?",
+                "cantPaste": "$?"
             }
         },
         "annotations": {

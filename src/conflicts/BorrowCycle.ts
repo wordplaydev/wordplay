@@ -5,7 +5,10 @@ import type Context from '@nodes/Context';
 import type Program from '@nodes/Program';
 import type Source from '@nodes/Source';
 import type Locales from '@locale/Locales';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import type Node from '@nodes/Node';
 
 export class BorrowCycle extends Conflict {
@@ -14,7 +17,7 @@ export class BorrowCycle extends Conflict {
     readonly cycle: Source[];
 
     constructor(program: Program, borrow: Borrow, cycle: Source[]) {
-        super(false);
+        super(ConflictSeverity.Error);
         this.program = program;
         this.borrow = borrow;
         this.cycle = cycle;
@@ -31,20 +34,17 @@ export class BorrowCycle extends Conflict {
                     (l) => BorrowCycle.LocalePath(l).explanation,
                     {
                         borrow: new NodeRef(
-                        this.borrow,
-                        locales,
-                        context,
-                        locales.getName(this.cycle[0].names),
-                    ),
+                            this.borrow,
+                            locales,
+                            context,
+                            locales.getName(this.cycle[0].names),
+                        ),
                     },
                 ),
         };
     }
 
-    override getResolutions(
-        _context: Context,
-        _concepts: Node[],
-    ): Resolutions {
+    override getResolutions(_context: Context, _concepts: Node[]): Resolutions {
         // Break the borrow cycle by removing the offending borrow. The
         // learner can re-add it after restructuring shared definitions.
         return [

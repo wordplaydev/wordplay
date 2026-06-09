@@ -5562,6 +5562,10 @@
                 "toolbar": "$~Kontrol pada bilah alat ini memungkinkan Anda untuk *memilih semua*, *memperbesar* dan *memperkecil*, *membatalkan*, *mengulang*, *memotong*, *menyalin*, dan *menempel*.",
                 "expand": "$~Tombol /expand/ akan menampilkan alat pengeditan yang lebih *canggih*.",
                 "shortcuts": "$~Tombol /shortcuts/ membuka daftar *pintasan keyboard* yang dapat Anda gunakan untuk mengedit lebih cepat."
+            },
+            "feedback": {
+                "cantDrop": "$?",
+                "cantPaste": "$?"
             }
         },
         "annotations": {

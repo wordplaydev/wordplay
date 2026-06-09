@@ -378,6 +378,13 @@ type UITexts = {
                 all: Template<['count']>;
             };
         };
+        /** Prefixes shown before a conflict explanation when an edit is rejected in blocks mode. */
+        feedback: {
+            /** [plain] Precedes the conflict explanation when a dragged block can't be dropped on a target */
+            cantDrop: string;
+            /** [plain] Precedes the conflict explanation when a paste can't be applied at the caret */
+            cantPaste: string;
+        };
         cursor: {
             /** [plain] Move caret to the line before */
             priorLine: string;

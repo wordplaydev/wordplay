@@ -3,14 +3,17 @@ import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import type Locales from '@locale/Locales';
 import type Reaction from '@nodes/Reaction';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import type Node from '@nodes/Node';
 
 export default class ExpectedStream extends Conflict {
     readonly reaction: Reaction;
 
     constructor(reaction: Reaction) {
-        super(true);
+        super(ConflictSeverity.Minor);
 
         this.reaction = reaction;
     }
@@ -25,16 +28,17 @@ export default class ExpectedStream extends Conflict {
                 locales.concretize(
                     (l) => ExpectedStream.LocalePath(l).explanation,
                     {
-                        condition: new NodeRef(this.reaction.condition, locales, context),
+                        condition: new NodeRef(
+                            this.reaction.condition,
+                            locales,
+                            context,
+                        ),
                     },
                 ),
         };
     }
 
-    override getResolutions(
-        _context: Context,
-        _concepts: Node[],
-    ): Resolutions {
+    override getResolutions(_context: Context, _concepts: Node[]): Resolutions {
         // Replace the broken Reaction with just its initial value — the
         // learner can rebuild the reaction with a real stream-driven
         // condition. (Suggesting a specific stream construct would require

@@ -44,14 +44,16 @@ export const DistinctiveSymbols: ReadonlySet<SymType> = new Set([
  * are common variable names whose mention shouldn't be over-interpreted as
  * structure-definition intent.
  */
-export const MisconceptionSubstitutions: ReadonlyMap<string, SymType> = new Map([
-    ['fn', Sym.Function],
-    ['def', Sym.Function],
-    ['function', Sym.Function],
-    ['if', Sym.Conditional],
-    ['->', Sym.Convert],
-    ['=>', Sym.Convert],
-]);
+export const MisconceptionSubstitutions: ReadonlyMap<string, SymType> = new Map(
+    [
+        ['fn', Sym.Function],
+        ['def', Sym.Function],
+        ['function', Sym.Function],
+        ['if', Sym.Conditional],
+        ['->', Sym.Convert],
+        ['=>', Sym.Convert],
+    ],
+);
 
 /**
  * Collect the set of "intent anchor" SymTypes present in a sequence of tokens.

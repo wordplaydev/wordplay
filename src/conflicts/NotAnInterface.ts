@@ -2,7 +2,10 @@ import type LocaleText from '@locale/LocaleText';
 import type Definition from '@nodes/Definition';
 import type Reference from '@nodes/Reference';
 import type Locales from '@locale/Locales';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 import StructureDefinition from '@nodes/StructureDefinition';
@@ -12,7 +15,7 @@ export default class NotAnInterface extends Conflict {
     readonly ref: Reference;
 
     constructor(def: Definition, ref: Reference) {
-        super(false);
+        super(ConflictSeverity.Error);
         this.def = def;
         this.ref = ref;
     }
@@ -30,10 +33,7 @@ export default class NotAnInterface extends Conflict {
         };
     }
 
-    override getResolutions(
-        context: Context,
-        concepts: Node[],
-    ): Resolutions {
+    override getResolutions(context: Context, concepts: Node[]): Resolutions {
         // Drop the non-interface reference from the parent's `interfaces`
         // list. The conflict fires inside a StructureDefinition's interface
         // check.

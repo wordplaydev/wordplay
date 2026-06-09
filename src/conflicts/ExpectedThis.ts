@@ -2,7 +2,10 @@ import type LocaleText from '@locale/LocaleText';
 import type Context from '@nodes/Context';
 import type Translate from '@nodes/Translate';
 import type Locales from '@locale/Locales';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import type Node from '@nodes/Node';
 
 /** A warning that a translate (↦) body has no `.` referring to the current item. */
@@ -10,7 +13,7 @@ export class ExpectedThis extends Conflict {
     readonly translate: Translate;
 
     constructor(translate: Translate) {
-        super(true);
+        super(ConflictSeverity.Minor);
         this.translate = translate;
     }
 

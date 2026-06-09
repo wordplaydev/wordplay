@@ -615,25 +615,23 @@ export default class Project {
         return this.getAnalysis().conflicts;
     }
 
+    /**
+     * For each revised source, the new BLOCKING (Error-severity) conflicts it would introduce versus the
+     * project's current conflicts. Only Error conflicts gate an edit in blocks mode — Warning (type
+     * mismatches) and Minor (placeholders, etc.) are permitted.
+     */
     getNewConflictsBatch(
         oldSource: Source,
         newSources: Source[],
-        // Any conflict types to ignore
-        negligibleConflicts: (new () => Conflict)[],
     ): Map<Source, Conflict[]> {
         // Get the current conflicts.
         const currentConflicts = this.getMajorConflictsNow();
         const newConflictsBySource = new Map<Source, Conflict[]>();
         // For all of the new sources, get the new conflicts caused by the revision.
         for (const newSource of newSources) {
-            let newConflicts = this.withSource(oldSource, newSource)
+            const newConflicts = this.withSource(oldSource, newSource)
                 .getMajorConflictsNow()
-                .filter(
-                    (conflict) =>
-                        !negligibleConflicts.some(
-                            (neglibile) => conflict instanceof neglibile,
-                        ),
-                );
+                .filter((conflict) => conflict.isBlocking());
 
             // Remove all current conflicts that are in the new conflicts.
             newConflictsBySource.set(
@@ -649,16 +647,8 @@ export default class Project {
         return newConflictsBySource;
     }
 
-    getNewConflicts(
-        oldSource: Source,
-        newSource: Source,
-        negligibleConflicts: (new () => Conflict)[],
-    ): Conflict[] {
-        const newConflicts = this.getNewConflictsBatch(
-            oldSource,
-            [newSource],
-            negligibleConflicts,
-        );
+    getNewConflicts(oldSource: Source, newSource: Source): Conflict[] {
+        const newConflicts = this.getNewConflictsBatch(oldSource, [newSource]);
         return Array.from(newConflicts.values())[0];
     }
 

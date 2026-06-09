@@ -3,7 +3,10 @@ import type Expression from '@nodes/Expression';
 import Input from '@nodes/Input';
 import type Locales from '@locale/Locales';
 import type Update from '@nodes/Update';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 import TableType from '@nodes/TableType';
@@ -13,7 +16,7 @@ export default class ExpectedColumnBind extends Conflict {
     readonly cell: Expression;
 
     constructor(update: Update, cell: Expression) {
-        super(false);
+        super(ConflictSeverity.Error);
         this.update = update;
         this.cell = cell;
     }
@@ -31,16 +34,12 @@ export default class ExpectedColumnBind extends Conflict {
         };
     }
 
-    override getResolutions(
-        context: Context,
-        _concepts: Node[],
-    ): Resolutions {
+    override getResolutions(context: Context, _concepts: Node[]): Resolutions {
         // Wrap the cell as `<column>: value`. We need a column name from the
         // Update's underlying table type to make the new Input refer to a
         // real column; otherwise the rename leaves an UnknownColumn behind.
         const tableType = this.update.table.getType(context);
-        const columns =
-            tableType instanceof TableType ? tableType.columns : [];
+        const columns = tableType instanceof TableType ? tableType.columns : [];
         const usedNames = new Set(
             this.update.row.cells
                 .filter((c) => c instanceof Input)

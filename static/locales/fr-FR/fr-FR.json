@@ -5304,6 +5304,10 @@
                 "toolbar": "$~Ces commandes de la barre d'outils vous permettent de *tout sélectionner*, de *zoomer* et *dézoomer*, d'*annuler*, de *rétablir*, de *couper*, de *copier* et de *coller*.",
                 "expand": "$~Le bouton /expand/ affiche des outils d'édition plus *avancés*.",
                 "shortcuts": "$~Le bouton /raccourcis/ ouvre une liste de *raccourcis clavier* que vous pouvez utiliser pour éditer plus rapidement."
+            },
+            "feedback": {
+                "cantDrop": "$?",
+                "cantPaste": "$?"
             }
         },
         "annotations": {

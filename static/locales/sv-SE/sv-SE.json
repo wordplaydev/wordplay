@@ -5318,6 +5318,10 @@
                 "toolbar": "$~Dessa /toolbar/-kontroller låter dig *markera alla*, *zooma in* och *ut*, *ångra*, *göra om*, *klipp ut*, *kopiera* och *klistra in*.",
                 "expand": "$~/expand/-knappen visar fler *avancerade* redigeringsverktyg.",
                 "shortcuts": "$~Knappen /genvägar/ öppnar en lista med *kortkommandon* som du kan använda för att redigera snabbare."
+            },
+            "feedback": {
+                "cantDrop": "$?",
+                "cantPaste": "$?"
             }
         },
         "annotations": {

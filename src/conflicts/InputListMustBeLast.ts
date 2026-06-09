@@ -1,7 +1,10 @@
 import type LocaleText from '@locale/LocaleText';
 import type Bind from '@nodes/Bind';
 import type Locales from '@locale/Locales';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 import FunctionDefinition from '@nodes/FunctionDefinition';
@@ -12,7 +15,7 @@ export default class InputListMustBeLast extends Conflict {
     readonly bind: Bind;
 
     constructor(rest: Bind) {
-        super(false);
+        super(ConflictSeverity.Error);
 
         this.bind = rest;
     }
@@ -30,10 +33,7 @@ export default class InputListMustBeLast extends Conflict {
         };
     }
 
-    override getResolutions(
-        context: Context,
-        concepts: Node[],
-    ): Resolutions {
+    override getResolutions(context: Context, concepts: Node[]): Resolutions {
         // Find the function/structure/stream definition this bind sits in and
         // move the variadic bind to the end of its inputs.
         const parent = context.source.root.getParent(this.bind);
@@ -52,8 +52,7 @@ export default class InputListMustBeLast extends Conflict {
                     kind: 'repair',
                     description: (locales: Locales) =>
                         locales.concretize(
-                            (l) =>
-                                InputListMustBeLast.LocalePath(l).resolution,
+                            (l) => InputListMustBeLast.LocalePath(l).resolution,
                         ),
                     mediator: (ctx) => ({
                         newProject: ctx.project.withRevisedNodes([

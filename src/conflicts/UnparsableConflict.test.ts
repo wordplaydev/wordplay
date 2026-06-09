@@ -31,8 +31,9 @@ function getRepairs(code: string): Expression[] {
     }
     const resolutions = conflict.getResolutions(context, Templates);
     return resolutions
-        .filter((r): r is Extract<typeof r, { kind: 'repair' }> =>
-            r.kind === 'repair',
+        .filter(
+            (r): r is Extract<typeof r, { kind: 'repair' }> =>
+                r.kind === 'repair',
         )
         .map((r) => {
             const { newNode } = r.mediator(context, project.getLocales());
@@ -59,8 +60,9 @@ function getRevisedSources(code: string): string[] {
         throw new Error(`No UnparsableConflict for "${code}"`);
     const resolutions = conflict.getResolutions(context, Templates);
     return resolutions
-        .filter((r): r is Extract<typeof r, { kind: 'repair' }> =>
-            r.kind === 'repair',
+        .filter(
+            (r): r is Extract<typeof r, { kind: 'repair' }> =>
+                r.kind === 'repair',
         )
         .map(
             (r) =>
@@ -95,9 +97,7 @@ describe('UnparsableConflict.getResolutions — anchor symbols', () => {
     });
 
     test('?? suggests an Otherwise', () => {
-        expect(getRepairs('??').some((r) => r instanceof Otherwise)).toBe(
-            true,
-        );
+        expect(getRepairs('??').some((r) => r instanceof Otherwise)).toBe(true);
     });
 
     test('… suggests a Reaction', () => {
@@ -116,9 +116,9 @@ describe('UnparsableConflict.getResolutions — anchor symbols', () => {
         // Plain `→` lands in a ConversionDefinition.input slot (which wants a
         // Type), so the Expression-shaped Convert gets filtered out. Putting
         // it after a literal puts it in an Expression slot where Convert fits.
-        expect(
-            getRepairs('5 → ø ?').some((r) => r instanceof Convert),
-        ).toBe(true);
+        expect(getRepairs('5 → ø ?').some((r) => r instanceof Convert)).toBe(
+            true,
+        );
     });
 });
 
@@ -128,9 +128,7 @@ describe('UnparsableConflict.getResolutions — adjacent-token absorption', () =
         // The repair should propose FunctionDefinition (from the ƒ anchor on the parent)
         // alongside the Conditional candidate from the `?` itself.
         const repairs = getRepairs('(ƒ ?');
-        expect(repairs.some((r) => r instanceof FunctionDefinition)).toBe(
-            true,
-        );
+        expect(repairs.some((r) => r instanceof FunctionDefinition)).toBe(true);
         expect(repairs.some((r) => r instanceof Conditional)).toBe(true);
     });
 });
@@ -141,22 +139,14 @@ describe('UnparsableConflict.getResolutions — misconception substitution', () 
         // tokens, anchoring the FunctionDefinition skeleton via the `fn → ƒ`
         // misconception mapping.
         const repairs = getRepairs('fn :)');
-        expect(repairs.some((r) => r instanceof FunctionDefinition)).toBe(
-            true,
-        );
+        expect(repairs.some((r) => r instanceof FunctionDefinition)).toBe(true);
     });
 });
 
 describe('UnparsableConflict — duplicate suppression', () => {
     function countUnparsableConflicts(code: string): number {
         const source = new Source('test', code);
-        const project = Project.make(
-            null,
-            'test',
-            source,
-            [],
-            DefaultLocale,
-        );
+        const project = Project.make(null, 'test', source, [], DefaultLocale);
         const context = project.getContext(source);
         return source.expression
             .getAllConflicts(context)
@@ -203,8 +193,7 @@ describe('UnparsableConflict.getResolutions — guardrails', () => {
         const conflict = source.expression
             .getAllConflicts(context)
             .find(
-                (c): c is UnparsableConflict =>
-                    c instanceof UnparsableConflict,
+                (c): c is UnparsableConflict => c instanceof UnparsableConflict,
             );
         if (conflict !== undefined) {
             const resolutions = conflict.getResolutions(context, Templates);

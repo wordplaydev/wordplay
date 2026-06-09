@@ -6,6 +6,24 @@ import Node from '@nodes/Node';
 import type Locales from '@locale/Locales';
 import type Markup from '@nodes/Markup';
 
+/**
+ * How severe a conflict is, and — for blocks mode — whether it blocks an edit. Defined with the
+ * codebase's enum-replacement pattern (an `as const` object + companion type) rather than a TS `enum`,
+ * so there's no runtime reverse-mapping baggage, just type safety.
+ */
+const ConflictSeverity = {
+    /** Cosmetic / in-progress; never blocks. Rendered as a minor annotation. (placeholders, unused binds, PII…) */
+    Minor: 'minor',
+    /** A real (major/red) issue we permit while editing so learners can work through it — type mismatches. Never blocks. */
+    Warning: 'warning',
+    /** A structural/error-level problem. Rendered as a major annotation AND blocks blocks-mode edits
+     *  (typing, paste, drop): unparsable code, missing input, unknown name, … */
+    Error: 'error',
+} as const;
+export type ConflictSeverity =
+    (typeof ConflictSeverity)[keyof typeof ConflictSeverity];
+export { ConflictSeverity };
+
 type ConflictingNode = {
     node: Node;
     explanation: (locales: Locales, context: Context) => Markup;
@@ -106,10 +124,10 @@ export function registerResolver<C extends Conflict>(
 }
 
 export default abstract class Conflict {
-    readonly #minor: boolean;
+    readonly #severity: ConflictSeverity;
 
-    constructor(minor: boolean) {
-        this.#minor = minor;
+    constructor(severity: ConflictSeverity) {
+        this.#severity = severity;
     }
 
     /**
@@ -188,8 +206,20 @@ export default abstract class Conflict {
         return Conflict.fallbackExplainer(conflict, context, concepts);
     }
 
+    /** True only for Minor-severity conflicts. Preserved for annotation coloring, the error-count badge,
+     *  and highlight code — Warning and Error both remain "major". */
     isMinor() {
-        return this.#minor;
+        return this.#severity === ConflictSeverity.Minor;
+    }
+
+    /** True only for Error-severity conflicts: blocks-mode edits (typing, paste, drop) are rejected
+     *  when they introduce one of these. Warning and Minor are permitted. */
+    isBlocking() {
+        return this.#severity === ConflictSeverity.Error;
+    }
+
+    getSeverity() {
+        return this.#severity;
     }
 
     toString() {

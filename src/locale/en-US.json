@@ -5460,6 +5460,10 @@
                     "all": "$count languages"
                 }
             },
+            "feedback": {
+                "cantDrop": "Can't drop there:",
+                "cantPaste": "Can't paste there:"
+            },
             "button": {
                 "selectOutput": "show this output on stage",
                 "expandControls": "show additional editing commands",
@@ -5546,7 +5550,7 @@
                     "noInsert": "Unable to insert here",
                     "noError": "This edit would create a conflict",
                     "noEditor": "No editor active",
-                    "noClipboard": "No clipboard not available",
+                    "noClipboard": "No clipboard available",
                     "noClipboardItem": "Nothing on the clipboard",
                     "noSelection": "Nothing selected",
                     "noMove": "Can't move any further"

@@ -2,7 +2,10 @@ import type LocaleText from '@locale/LocaleText';
 import type Bind from '@nodes/Bind';
 import type Token from '@nodes/Token';
 import type Locales from '@locale/Locales';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 
@@ -10,7 +13,7 @@ export class MisplacedShare extends Conflict {
     readonly bind: Bind;
     readonly share: Token;
     constructor(bind: Bind, share: Token) {
-        super(false);
+        super(ConflictSeverity.Error);
 
         this.bind = bind;
         this.share = share;
@@ -29,10 +32,7 @@ export class MisplacedShare extends Conflict {
         };
     }
 
-    override getResolutions(
-        _context: Context,
-        _concepts: Node[],
-    ): Resolutions {
+    override getResolutions(_context: Context, _concepts: Node[]): Resolutions {
         // Remove the misplaced ↑ token from the bind.
         return [
             {

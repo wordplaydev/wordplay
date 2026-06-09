@@ -5562,6 +5562,10 @@
                 "toolbar": "$~Aceste controale din /bara de instrumente/ vă permit să *selectați tot*, *măriți* și *micșorați*, *anulați*, *refaceți*, *tăiați*, *copiați* și *lipiți*.",
                 "expand": "$~Comutatorul /expand/ dezvăluie instrumente de editare mai *avansate*.",
                 "shortcuts": "$~Butonul /comenzi rapide/ deschide o listă de *comenzi rapide de la tastatură* pe care le puteți utiliza pentru a edita mai rapid."
+            },
+            "feedback": {
+                "cantDrop": "$?",
+                "cantPaste": "$?"
             }
         },
         "annotations": {

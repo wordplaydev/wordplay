@@ -259,6 +259,9 @@
        so more fits in a narrow sidebar (blocks size in em, so this scales them). */
     .code-views {
         font-size: 80%;
+        /* The sidebar's scroll region clips horizontal overflow, so a code view flush against the
+           inline-end edge loses its 1px border. Reserve one pixel so the border stays visible. */
+        padding-inline-end: var(--wordplay-border-width);
     }
 
     .results,

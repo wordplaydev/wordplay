@@ -3,10 +3,10 @@ import {
     AssignmentPoint,
     getInsertionPoint,
     InsertionPoint,
+    kindAcceptsDrop,
 } from '@edit/drag/Drag';
 import Block from '@nodes/Block';
 import type Context from '@nodes/Context';
-import Expression from '@nodes/Expression';
 import type Node from '@nodes/Node';
 import { ListOf } from '@nodes/Node';
 import type Program from '@nodes/Program';
@@ -100,7 +100,6 @@ export function getBlockInsertionPoint(
             nodeUnderPointer,
             event,
             candidate,
-            context,
         );
         return point;
     }
@@ -117,18 +116,14 @@ function getEmptyInsertionPoint(
     const kind = fieldInfo?.kind;
 
     // If it's a list and it allows the node kind being inserted, return an insertion point.
+    // We don't gate on types here: type-erroring drops are permitted and explained, not blocked,
+    // so insertion-point detection uses the same structural rule as node-replacement.
     if (
         fieldInfo !== undefined &&
         kind !== undefined &&
         Array.isArray(fieldValue) &&
         kind instanceof ListOf &&
-        kind.allowsItem(candidate) &&
-        // No type expected, or candidate isn't an expression, or candidate is accepted by the field type.
-        (fieldInfo.getType === undefined ||
-            !(candidate instanceof Expression) ||
-            fieldInfo
-                .getType(context, 0)
-                .accepts(candidate.getType(context), context))
+        kindAcceptsDrop(kind, candidate)
     ) {
         // Special case a root block being dragged onto a root block's statements, replacing it with a replacement of the root block.
         // Makes it easier to drag onto an empty program.
@@ -166,7 +161,6 @@ function getListInsertionPoint(
     nodeUnderPointer: Node,
     event: PointerEvent,
     candidate: Node,
-    context: Context,
 ): InsertionPoint | undefined {
     // Get the relevant metadata.
     const fieldName = list.dataset.field;
@@ -267,15 +261,9 @@ function getListInsertionPoint(
     )
         index += 1;
 
-    if (
-        kind.allowsItem(candidate) &&
-        // No type expected, or candidate isn't an expression, or candidate is accepted by the field type.
-        (field.getType === undefined ||
-            !(candidate instanceof Expression) ||
-            field
-                .getType(context, index)
-                .accepts(candidate.getType(context), context))
-    ) {
+    // We don't gate on types here: type-erroring drops are permitted and explained, not blocked,
+    // so insertion-point detection uses the same structural rule as node-replacement.
+    if (kindAcceptsDrop(kind, candidate)) {
         return new InsertionPoint(
             nodeUnderPointer,
             fieldName,

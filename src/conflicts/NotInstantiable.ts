@@ -3,7 +3,10 @@ import type Evaluate from '@nodes/Evaluate';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import Locales from '@locale/Locales';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 import Block, { BlockKind } from '@nodes/Block';
@@ -22,7 +25,7 @@ export default class NotInstantiable extends Conflict {
         definition: StructureDefinition,
         abstractFunctions: FunctionDefinition[],
     ) {
-        super(false);
+        super(ConflictSeverity.Error);
 
         this.evaluate = evaluate;
         this.definition = definition;
@@ -42,10 +45,7 @@ export default class NotInstantiable extends Conflict {
         };
     }
 
-    override getResolutions(
-        context: Context,
-        _concepts: Node[],
-    ): Resolutions {
+    override getResolutions(context: Context, _concepts: Node[]): Resolutions {
         // Scaffold a CONCRETE body for every abstract function on the
         // structure. An `ExpressionPlaceholder` body would still be
         // abstract; the structure stays uninstantiable. Use the output

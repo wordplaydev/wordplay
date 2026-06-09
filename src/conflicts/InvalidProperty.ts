@@ -4,7 +4,11 @@ import type Context from '@nodes/Context';
 import type PropertyBind from '@nodes/PropertyBind';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import type Locales from '@locale/Locales';
-import Conflict, { type Repair, type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Repair,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import type Node from '@nodes/Node';
 import Reference from '@nodes/Reference';
 import levenshtein from '@util/levenshtein';
@@ -14,7 +18,7 @@ export default class InvalidProperty extends Conflict {
     readonly refine: PropertyBind;
 
     constructor(definition: StructureDefinition, refine: PropertyBind) {
-        super(false);
+        super(ConflictSeverity.Error);
 
         this.definition = definition;
         this.refine = refine;
@@ -31,19 +35,16 @@ export default class InvalidProperty extends Conflict {
                     (l) => InvalidProperty.LocalePath(l).explanation,
                     {
                         structure: new NodeRef(
-                        this.refine.reference.name ?? this.refine.reference,
-                        locales,
-                        context,
-                    ),
+                            this.refine.reference.name ?? this.refine.reference,
+                            locales,
+                            context,
+                        ),
                     },
                 ),
         };
     }
 
-    override getResolutions(
-        context: Context,
-        concepts: Node[],
-    ): Resolutions {
+    override getResolutions(context: Context, concepts: Node[]): Resolutions {
         // Suggest property names on the structure that are Levenshtein-close
         // to the unresolved reference's name.
         const ref = this.refine.reference.name;

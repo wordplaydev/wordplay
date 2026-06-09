@@ -77,9 +77,7 @@ const Skeletons: readonly Skeleton[] = [
  * and its adjacent line tokens. Each candidate is parsed eagerly so we can drop
  * any that fail to fully consume the token stream.
  */
-export function generateAnchorCandidates(
-    rc: RepairContext,
-): RepairCandidate[] {
+export function generateAnchorCandidates(rc: RepairContext): RepairCandidate[] {
     const candidates: RepairCandidate[] = [];
 
     const userText = rc.unparsableTokens
@@ -268,9 +266,7 @@ function collectMergeAnchors(text: string): Set<SymType> {
  * substituted — so the resulting suggestion swaps the whole broken construct in
  * one go, not a sub-fragment inside an outer shell.
  */
-export function generateMergeCandidates(
-    rc: RepairContext,
-): RepairCandidate[] {
+export function generateMergeCandidates(rc: RepairContext): RepairCandidate[] {
     const candidates: RepairCandidate[] = [];
     const source = rc.context.source;
 
@@ -446,4 +442,3 @@ function symToText(sym: SymType): string | undefined {
     ];
     return fixed.includes(sym) ? sym : undefined;
 }
-

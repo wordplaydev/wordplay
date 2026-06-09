@@ -14,6 +14,7 @@
     import type Type from '@nodes/Type';
     import getPreferredSpaces from '@parser/getPreferredSpaces';
     import Spaces from '@parser/Spaces';
+    import { CONFIRM_SYMBOL } from '@parser/Symbols';
 
     interface Props {
         node: Node;
@@ -62,9 +63,16 @@
         if (dragged) dragged.set(node.clone());
     }
 
+    // Briefly shows a confirmation after copying, so the code views give feedback that they were copied.
+    let copied = $state(false);
+    let copiedTimeout: ReturnType<typeof setTimeout> | undefined;
+
     function copy() {
         // Copy node needs a source to manage spacing, so we make one.
         copyNode(node, getPreferredSpaces(node));
+        copied = true;
+        if (copiedTimeout) clearTimeout(copiedTimeout);
+        copiedTimeout = setTimeout(() => (copied = false), 1000);
     }
 
     // How-to concepts preview the *output* of their starred/first example (playable on
@@ -145,7 +153,9 @@
                 locale={localize ? $locales.getLocale() : null}
                 inert={!draggable}
             /></span
-        >{#if type && concept}&nbsp;<TypeView
+        >{#if copied}<span class="copied" aria-hidden="true"
+                >{CONFIRM_SYMBOL}</span
+            >{/if}{#if type && concept}&nbsp;<TypeView
                 {type}
                 context={concept.context}
             />
@@ -251,6 +261,24 @@
         flex-direction: row;
         flex-wrap: nowrap;
         align-items: baseline;
+    }
+
+    /* Brief confirmation that the code view was copied. */
+    .copied {
+        margin-inline-start: var(--wordplay-spacing-half);
+        color: var(--wordplay-highlight-color);
+        animation: popUp 0.3s ease-out;
+    }
+
+    @keyframes popUp {
+        0% {
+            transform: scale(0.5);
+            opacity: 0;
+        }
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
     }
 
     .node:focus,

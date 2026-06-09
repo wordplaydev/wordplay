@@ -1,7 +1,10 @@
 import type LocaleText from '@locale/LocaleText';
 import StructureDefinition from '@nodes/StructureDefinition';
 import type Locales from '@locale/Locales';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 
@@ -9,7 +12,7 @@ export class IncompleteImplementation extends Conflict {
     readonly structure: StructureDefinition;
 
     constructor(structure: StructureDefinition) {
-        super(false);
+        super(ConflictSeverity.Error);
         this.structure = structure;
     }
 
@@ -26,10 +29,7 @@ export class IncompleteImplementation extends Conflict {
         };
     }
 
-    override getResolutions(
-        _context: Context,
-        _concepts: Node[],
-    ): Resolutions {
+    override getResolutions(_context: Context, _concepts: Node[]): Resolutions {
         // Remove inputs to make this an interface (one valid resolution of
         // "this can't have inputs because it has abstract members").
         const s = this.structure;

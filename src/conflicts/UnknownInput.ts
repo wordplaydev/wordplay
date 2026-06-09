@@ -7,7 +7,11 @@ import type StructureDefinition from '@nodes/StructureDefinition';
 import type Locales from '@locale/Locales';
 import type BinaryEvaluate from '@nodes/BinaryEvaluate';
 import type StreamDefinition from '@nodes/StreamDefinition';
-import Conflict, { type Repair, type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Repair,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import type Node from '@nodes/Node';
 import levenshtein from '@util/levenshtein';
 
@@ -21,7 +25,7 @@ export default class UnknownInput extends Conflict {
         evaluate: Evaluate | BinaryEvaluate,
         given: Input,
     ) {
-        super(false);
+        super(ConflictSeverity.Error);
 
         this.func = func;
         this.evaluate = evaluate;
@@ -44,10 +48,7 @@ export default class UnknownInput extends Conflict {
         };
     }
 
-    override getResolutions(
-        context: Context,
-        concepts: Node[],
-    ): Resolutions {
+    override getResolutions(context: Context, concepts: Node[]): Resolutions {
         // Suggest input names in the called function's signature that are
         // within Levenshtein distance 2 of the given (typo) name.
         const givenName = this.given.getName();

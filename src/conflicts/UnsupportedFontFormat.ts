@@ -1,4 +1,7 @@
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 import type LocaleText from '@locale/LocaleText';
@@ -17,7 +20,7 @@ export default class UnsupportedFontFormat extends Conflict {
     readonly format: string;
 
     constructor(words: Words, face: string, format: string) {
-        super(true);
+        super(ConflictSeverity.Minor);
         this.words = words;
         this.face = face;
         this.format = format;
@@ -37,10 +40,7 @@ export default class UnsupportedFontFormat extends Conflict {
         };
     }
 
-    override getResolutions(
-        _context: Context,
-        _concepts: Node[],
-    ): Resolutions {
+    override getResolutions(_context: Context, _concepts: Node[]): Resolutions {
         // Strip the formatting markers (open/close tokens) so the words
         // render plain, without the missing format.
         const plain = new Words(undefined, this.words.segments, undefined);

@@ -39,6 +39,8 @@ import { moveVisualVertical } from '@components/editor/caret/CaretView.svelte';
 import { copyNode, toClipboard } from '@components/editor/commands/Clipboard';
 import { wasCopiedHere } from '@components/editor/commands/InternalClipboard';
 import interpret from '@components/editor/commands/interpret';
+import type { EditorNotifier } from '@components/editor/EditorNotification';
+import { pasteText } from '@components/editor/Paste';
 import { TileKind } from '@components/project/TileKind';
 import { Settings, type Database } from '@db/Database';
 import type Project from '@db/projects/Project';
@@ -130,6 +132,8 @@ export type CommandContext = {
     getTokenViews?: () => HTMLElement[];
     /** Function to clear large deletion notification */
     clearLargeDeletionNotification?: () => void;
+    /** The focused editor's footer notification controller */
+    notify?: EditorNotifier | undefined;
     /** The editor zoom level */
     zoom: number | undefined;
     setZoom?: undefined | ((z: number) => void);
@@ -1572,7 +1576,7 @@ const Commands: Command[] = [
             editor &&
             typeof navigator.clipboard !== 'undefined' &&
             navigator.clipboard.read !== undefined,
-        execute: async ({ editor, caret, blocks, project }) => {
+        execute: async ({ editor, caret, blocks, project, locales, notify }) => {
             if (!editor) return (l) => l.ui.source.cursor.ignored.noEditor;
             // Make sure clipboard is supported.
             if (
@@ -1590,12 +1594,14 @@ const Commands: Command[] = [
                         const text = await blob.text();
                         // If this text was copied from within Wordplay, paste it
                         // verbatim instead of reinterpreting it as foreign data
-                        // (e.g. CSV).
-                        return caret.insert(
+                        // (e.g. CSV). pasteText handles the blocks-mode conflict feedback.
+                        return pasteText(
                             wasCopiedHere(text) ? text : interpret(text),
-                            blocks,
+                            caret,
                             project,
-                            false,
+                            blocks,
+                            locales,
+                            notify,
                         );
                     }
                 }

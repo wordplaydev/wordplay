@@ -1,7 +1,10 @@
 import type LocaleText from '@locale/LocaleText';
 import Translation from '@nodes/Translation';
 import type Locales from '@locale/Locales';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 import { ConceptRegExPattern } from '@parser/Tokenizer';
@@ -11,7 +14,7 @@ export class CharacterWarning extends Conflict {
     readonly text: Translation;
 
     constructor(text: Translation) {
-        super(true);
+        super(ConflictSeverity.Minor);
 
         this.text = text;
     }
@@ -29,10 +32,7 @@ export class CharacterWarning extends Conflict {
         };
     }
 
-    override getResolutions(
-        _context: Context,
-        _concepts: Node[],
-    ): Resolutions {
+    override getResolutions(_context: Context, _concepts: Node[]): Resolutions {
         // Strip the concept-link sequences (e.g. `@Phrase`) out of the
         // translation's text — they're the characters the warning is about.
         const pattern = new RegExp(ConceptRegExPattern, 'ug');

@@ -4,7 +4,10 @@ import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 import type Token from '@nodes/Token';
 import type Locales from '@locale/Locales';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 
 export default class UnclosedDelimiter extends Conflict {
     readonly open: Token;
@@ -12,7 +15,7 @@ export default class UnclosedDelimiter extends Conflict {
     readonly expected: Token;
 
     constructor(node: Node, open: Token, expected: Token) {
-        super(true);
+        super(ConflictSeverity.Minor);
 
         this.open = open;
         this.node = node;
@@ -30,26 +33,23 @@ export default class UnclosedDelimiter extends Conflict {
                     (l) => UnclosedDelimiter.LocalePath(l).explanation,
                     {
                         unclosed: new NodeRef(
-                        this.open,
-                        locales,
-                        context,
-                        this.open.getText(),
-                    ),
+                            this.open,
+                            locales,
+                            context,
+                            this.open.getText(),
+                        ),
                         expected: new NodeRef(
-                        this.expected,
-                        locales,
-                        context,
-                        this.expected.getText(),
-                    ),
+                            this.expected,
+                            locales,
+                            context,
+                            this.expected.getText(),
+                        ),
                     },
                 ),
         };
     }
 
-    override getResolutions(
-        context: Context,
-        concepts: Node[],
-    ): Resolutions {
+    override getResolutions(context: Context, concepts: Node[]): Resolutions {
         // Append the expected close token to the unclosed parent. Most
         // delimiter-bearing nodes (ListLiteral, SetLiteral, MapLiteral,
         // Evaluate, FunctionDefinition, StructureDefinition, Block, Row,

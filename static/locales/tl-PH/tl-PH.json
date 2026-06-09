@@ -5560,6 +5560,10 @@
                 "toolbar": "$~Ang mga kontrol na ito sa /toolbar/ ay nagbibigay-daan sa iyong *piliin lahat*, *mag-zoom in* at *mag-zoom out*, *mag-undo*, *mag-redo*, *mag-cut*, *magkopya*, at *mag-paste*.",
                 "expand": "$~Ipinapakita ng toggle na /expand/ ang mas *advanced* na mga tool sa pag-eedit.",
                 "shortcuts": "$~Ang button na /shortcuts/ ay magbubukas ng listahan ng mga *keyboard shortcut* na maaari mong gamitin para mas mabilis na mag-edit."
+            },
+            "feedback": {
+                "cantDrop": "$?",
+                "cantPaste": "$?"
             }
         },
         "annotations": {

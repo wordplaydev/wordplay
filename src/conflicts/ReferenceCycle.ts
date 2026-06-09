@@ -3,7 +3,10 @@ import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import type Reference from '@nodes/Reference';
 import type Locales from '@locale/Locales';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import type Node from '@nodes/Node';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import Bind from '@nodes/Bind';
@@ -13,7 +16,7 @@ export default class ReferenceCycle extends Conflict {
     readonly name: Reference;
 
     constructor(name: Reference) {
-        super(true);
+        super(ConflictSeverity.Minor);
 
         this.name = name;
     }
@@ -29,20 +32,17 @@ export default class ReferenceCycle extends Conflict {
                     (l) => ReferenceCycle.LocalePath(l).explanation,
                     {
                         name: new NodeRef(
-                        this.name,
-                        locales,
-                        context,
-                        this.name.getName(),
-                    ),
+                            this.name,
+                            locales,
+                            context,
+                            this.name.getName(),
+                        ),
                     },
                 ),
         };
     }
 
-    override getResolutions(
-        context: Context,
-        _concepts: Node[],
-    ): Resolutions {
+    override getResolutions(context: Context, _concepts: Node[]): Resolutions {
         // Break the cycle by replacing the offending self-reference with a
         // typed expression placeholder. The Reference's expected type comes
         // from walking up to the enclosing Bind's declared type — if any.

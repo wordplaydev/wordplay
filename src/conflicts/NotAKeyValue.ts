@@ -4,7 +4,10 @@ import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import KeyValue from '@nodes/KeyValue';
 import type MapLiteral from '@nodes/MapLiteral';
 import type Locales from '@locale/Locales';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 
@@ -13,7 +16,7 @@ export class NotAKeyValue extends Conflict {
     readonly expression: Expression;
 
     constructor(map: MapLiteral, expression: Expression) {
-        super(false);
+        super(ConflictSeverity.Error);
         this.map = map;
         this.expression = expression;
     }
@@ -31,16 +34,10 @@ export class NotAKeyValue extends Conflict {
         };
     }
 
-    override getResolutions(
-        _context: Context,
-        _concepts: Node[],
-    ): Resolutions {
+    override getResolutions(_context: Context, _concepts: Node[]): Resolutions {
         // Wrap the malformed expression as a key-value pair, treating the
         // existing expression as the key and adding a placeholder value.
-        const kv = KeyValue.make(
-            this.expression,
-            ExpressionPlaceholder.make(),
-        );
+        const kv = KeyValue.make(this.expression, ExpressionPlaceholder.make());
         return [
             {
                 kind: 'repair',

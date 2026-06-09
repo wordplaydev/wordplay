@@ -3,14 +3,17 @@ import NodeRef from '@locale/NodeRef';
 import type Bind from '@nodes/Bind';
 import type Context from '@nodes/Context';
 import type Locales from '@locale/Locales';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import type Node from '@nodes/Node';
 
 export class DuplicateShare extends Conflict {
     readonly share: Bind;
     readonly other: Bind;
     constructor(share: Bind, other: Bind) {
-        super(false);
+        super(ConflictSeverity.Error);
         this.share = share;
         this.other = other;
     }
@@ -31,10 +34,7 @@ export class DuplicateShare extends Conflict {
         };
     }
 
-    override getResolutions(
-        _context: Context,
-        _concepts: Node[],
-    ): Resolutions {
+    override getResolutions(_context: Context, _concepts: Node[]): Resolutions {
         return [
             {
                 kind: 'repair',

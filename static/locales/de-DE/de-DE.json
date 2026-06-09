@@ -5304,6 +5304,10 @@
                 "toolbar": "$~Mit diesen Steuerelementen in der Symbolleiste können Sie *alles auswählen*, *vergrößern* und *verkleinern*, *rückgängig machen*, *wiederherstellen*, *ausschneiden*, *kopieren* und *einfügen*.",
                 "expand": "$~Über den Schalter /expand/ werden weitere *erweiterte* Bearbeitungswerkzeuge angezeigt.",
                 "shortcuts": "$~Über die Schaltfläche „Tastenkombinationen“ wird eine Liste mit *Tastenkombinationen* geöffnet, mit denen Sie schneller bearbeiten können."
+            },
+            "feedback": {
+                "cantDrop": "$?",
+                "cantPaste": "$?"
             }
         },
         "annotations": {
