@@ -1,16 +1,16 @@
 <script lang="ts">
+    import type { Command } from '@components/editor/commands/Commands';
+    import EditorLocaleChooser from '@components/project/EditorLocaleChooser.svelte';
+    import CommandButton from '@components/widgets/CommandButton.svelte';
     import Mode from '@components/widgets/Mode.svelte';
     import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
-    import { blocks, Settings } from '@db/Database';
+    import { blocks, Settings, wrap } from '@db/Database';
     import type Locale from '@locale/Locale';
     import {
         BLOCK_EDITING_SYMBOL,
         LOCALE_SYMBOL,
         TEXT_EDITING_SYMBOL,
     } from '@parser/Symbols';
-    import EditorLocaleChooser from '@components/project/EditorLocaleChooser.svelte';
-    import CommandButton from '@components/widgets/CommandButton.svelte';
-    import type { Command } from '@components/editor/commands/Commands';
 
     interface Props {
         sourceID: string;
@@ -53,7 +53,12 @@
     //   1           : locale chooser (only when hasLocale)
     //   1+|2+ ..    : individual command buttons
     const localeOffset = $derived(hasLocale ? 1 : 0);
-    const itemCount = $derived(1 + localeOffset + commands.length);
+    // The soft-wrap toggle is a final item, shown only in text mode (blocks mode
+    // manages its own layout and is out of scope for wrapping).
+    const showWrap = $derived(!$blocks);
+    const itemCount = $derived(
+        1 + localeOffset + commands.length + (showWrap ? 1 : 0),
+    );
 </script>
 
 {#snippet renderItem(i: number)}
@@ -77,11 +82,19 @@
                 change={(locale) => onChangeLocale(locale)}
             />
         </span>
+    {:else if showWrap && i === itemCount - 1}
+        <span data-uiid="wrapToggle">
+            <Mode
+                icons={['↔', '↩']}
+                modes={(l) => l.ui.dialog.settings.mode.wrap}
+                choice={$wrap ? 1 : 0}
+                select={(mode) => Settings.setWrap(mode === 1)}
+                labeled={false}
+                modeLabels={false}
+            />
+        </span>
     {:else}
-        <CommandButton
-            command={commands[i - 1 - localeOffset]}
-            {sourceID}
-        />
+        <CommandButton command={commands[i - 1 - localeOffset]} {sourceID} />
     {/if}
 {/snippet}
 

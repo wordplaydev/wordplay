@@ -6099,6 +6099,14 @@
                             "$~Tab mută focalizarea tastaturii la următorul control",
                             "$~tab inserează un tab în editor"
                         ]
+                    },
+                    "wrap": {
+                        "label": "$~linii de înfășurare",
+                        "labels": ["$~oprit", "$~pe"],
+                        "tips": [
+                            "$~linii lungi se derulează pe orizontală în modul text",
+                            "$~liniile lungi se încadrează în fereastra editorului în modul text"
+                        ]
                     }
                 },
                 "options": {

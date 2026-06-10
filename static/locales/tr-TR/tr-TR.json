@@ -5841,6 +5841,14 @@
                             "$~Tab tuşu, klavye odağını bir sonraki kontrole taşır.",
                             "$~tab, düzenleyiciye bir sekme ekler."
                         ]
+                    },
+                    "wrap": {
+                        "label": "$~sarma çizgileri",
+                        "labels": ["$~kapalı", "$~Açık"],
+                        "tips": [
+                            "$~Metin modunda uzun satırlar yatay olarak kaydırılır.",
+                            "$~Uzun satırlar metin modunda düzenleyici penceresine kaydırılır."
+                        ]
                     }
                 },
                 "options": {

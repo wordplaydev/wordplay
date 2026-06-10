@@ -35,6 +35,7 @@ import {
 } from '@db/settings/TutorialProgressSetting';
 import { UpdatesSetting } from '@db/settings/UpdatesSetting';
 import { WellspringSetting } from '@db/settings/WellspringSetting';
+import { WrapSetting } from '@db/settings/WrapSetting';
 import { WritingLayoutSetting } from '@db/settings/WritingLayoutSetting';
 import type { SidebarState } from '@db/settings/SidebarSetting';
 import type Setting from '@db/settings/Setting';
@@ -105,6 +106,7 @@ export default class SettingsDatabase {
         dark: DarkSetting,
         space: SpaceSetting,
         lines: LineSetting,
+        wrap: WrapSetting,
         annotations: AnnotationsSetting,
         wellspring: WellspringSetting,
         howToNotifications: HowToNotificationsSetting,
@@ -305,6 +307,14 @@ export default class SettingsDatabase {
 
     setLines(on: boolean) {
         this.settings.lines.set(this.database, on);
+    }
+
+    setWrap(on: boolean) {
+        this.settings.wrap.set(this.database, on);
+    }
+
+    getWrap() {
+        return this.settings.wrap.get();
     }
 
     setShowAnnotations(on: boolean) {

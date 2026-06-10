@@ -13649,6 +13649,10 @@
                           "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
                           "description": "The tab key behavior mode (switch focus/insert tab)"
                         },
+                        "wrap": {
+                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                          "description": "The soft-wrap on/off mode for the editor's text mode"
+                        },
                         "writing": {
                           "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E",
                           "description": "The writing layout direction"
@@ -13663,6 +13667,7 @@
                         "blockDensity",
                         "space",
                         "lines",
+                        "wrap",
                         "tab"
                       ],
                       "type": "object"

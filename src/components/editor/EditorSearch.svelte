@@ -150,6 +150,11 @@
     .search-container {
         position: sticky;
         top: var(--wordplay-spacing);
+        /* Stick to the scroll viewport's right edge, not the (potentially much
+           wider, horizontally-scrolled) editor content. Without this, in no-wrap
+           mode the toggle sits at the far right of the longest line, off-screen.
+           `right` pins it horizontally the same way `top` pins it vertically. */
+        right: var(--wordplay-spacing);
         align-self: flex-end;
         /* Two columns: fields | controls. Each row is field + control; the
            replace row's cells land in the same columns as the search row's,

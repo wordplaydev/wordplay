@@ -37,6 +37,10 @@ import {
 
 import { moveVisualVertical } from '@components/editor/caret/CaretView.svelte';
 import {
+    expandCaretVisualVertical,
+    moveCaretVisualVertical,
+} from '@components/editor/pointer/PointerUtilities';
+import {
     copyNode,
     toClipboard,
     WORDPLAY_CLIPBOARD_FORMAT,
@@ -199,7 +203,11 @@ export function toShortcut(
 ) {
     const mac = onMacOS();
     return `${command.control && !hideControl ? (mac ? controlKeyLabel() : controlKeyLabel() + '+') : ''}${
-        command.alt && !hideAlt ? (mac ? altKeyLabel() : altKeyLabel() + ' + ') : ''
+        command.alt && !hideAlt
+            ? mac
+                ? altKeyLabel()
+                : altKeyLabel() + ' + '
+            : ''
     }${command.shift && !hideShift ? (mac ? shiftKeyLabel() : shiftKeyLabel() + ' + ') : ''}${
         command.keySymbol ?? command.key ?? '-'
     }`;
@@ -245,6 +253,25 @@ export function handleKeyCommand(
     // Didn't execute? Return false if we didn't match anything and let the shortcut travel to the browser.
     // If we did match something, return undefined, so we consume the shortcut and don't default to a browser shortcut.
     return [undefined, false, matchedShortcut];
+}
+
+/** Before committing a command's caret result, reset the visual goal column
+ *  unless the command was one of the VerticalMovementCommands (identified by
+ *  reference, not a key string). This way every horizontal or other caret move —
+ *  left/right, home/end, and even no-op moves at a boundary that return the caret
+ *  unchanged — updates the goal column, while the vertical commands keep it.
+ *  Applied at every dispatch site (keyboard and command buttons), so the rule
+ *  holds regardless of how the command was triggered. Non-Caret results (edits)
+ *  are returned unchanged; they build their own caret with the column reset. */
+export function resetVisualColumnAfter(
+    command: Command | undefined,
+    result: Edit | ProjectRevision | LocaleTextAccessor,
+): Edit | ProjectRevision | LocaleTextAccessor {
+    const verticalMove =
+        command !== undefined && VerticalMovementCommands.includes(command);
+    return result instanceof Caret && !verticalMove
+        ? result.withoutVisualColumn()
+        : result;
 }
 
 function handleInsert(context: CommandContext, symbol: string) {
@@ -806,75 +833,132 @@ export const Redo: Command = {
     },
 };
 
+// The vertical caret-movement commands are named so resetVisualColumnAfter can
+// identify them by reference (they own the caret's visual goal column) rather
+// than by matching fragile key strings. See VerticalMovementCommands below.
+
+const MovePriorLine: Command = {
+    symbol: '↑',
+    description: (l) => l.ui.source.cursor.priorLine,
+    visible: Visibility.Touch,
+    category: Category.Cursor,
+    alt: false,
+    control: false,
+    shift: false,
+    key: 'ArrowUp',
+    keySymbol: '↑',
+    // Move one visual row up: between block tokens in blocks mode, or by the
+    // rendered row in text mode (respects proportional glyphs, tabs, and
+    // soft-wrapped rows). `?? true` swallows the event at the document edge.
+    execute: ({ caret, blocks, view, getTokenViews, locales }) =>
+        caret && view && getTokenViews
+            ? blocks
+                ? (moveVisualVertical(-1, view, caret, getTokenViews) ?? false)
+                : (moveCaretVisualVertical(
+                      -1,
+                      view,
+                      caret,
+                      getTokenViews,
+                      locales.getDirection() === 'rtl',
+                  ) ?? true)
+            : false,
+};
+
+const ExpandPriorLine: Command = {
+    symbol: '↑☐',
+    description: (l) => l.ui.source.cursor.expandPriorLine,
+    visible: Visibility.Invisible,
+    category: Category.Cursor,
+    alt: false,
+    control: false,
+    shift: true,
+    key: 'ArrowUp',
+    keySymbol: '↑',
+    // Expand the selection by one visual row up in text mode (matching
+    // ArrowUp's movement). No vertical expansion in blocks mode.
+    execute: ({ caret, blocks, view, getTokenViews, locales }) =>
+        caret && view && getTokenViews
+            ? blocks
+                ? false
+                : (expandCaretVisualVertical(
+                      -1,
+                      view,
+                      caret,
+                      getTokenViews,
+                      locales.getDirection() === 'rtl',
+                  ) ?? true)
+            : false,
+};
+
+const MoveNextLine: Command = {
+    symbol: '↓',
+    description: (l) => l.ui.source.cursor.nextLine,
+    visible: Visibility.Touch,
+    category: Category.Cursor,
+    alt: false,
+    control: false,
+    shift: false,
+    key: 'ArrowDown',
+    keySymbol: '↓',
+    // Move one visual row down: between block tokens in blocks mode, or by the
+    // rendered row in text mode (respects proportional glyphs, tabs, and
+    // soft-wrapped rows). `?? true` swallows the event at the document edge.
+    execute: ({ caret, blocks, view, getTokenViews, locales }) =>
+        caret && view && getTokenViews
+            ? blocks
+                ? (moveVisualVertical(1, view, caret, getTokenViews) ?? false)
+                : (moveCaretVisualVertical(
+                      1,
+                      view,
+                      caret,
+                      getTokenViews,
+                      locales.getDirection() === 'rtl',
+                  ) ?? true)
+            : false,
+};
+
+const ExpandNextLine: Command = {
+    symbol: '↓☐',
+    description: (l) => l.ui.source.cursor.expandNextLine,
+    visible: Visibility.Invisible,
+    category: Category.Cursor,
+    alt: false,
+    control: false,
+    shift: true,
+    key: 'ArrowDown',
+    keySymbol: '↓',
+    // Expand the selection by one visual row down in text mode (matching
+    // ArrowDown's movement). No vertical expansion in blocks mode.
+    execute: ({ caret, blocks, view, getTokenViews, locales }) =>
+        caret && view && getTokenViews
+            ? blocks
+                ? false
+                : (expandCaretVisualVertical(
+                      1,
+                      view,
+                      caret,
+                      getTokenViews,
+                      locales.getDirection() === 'rtl',
+                  ) ?? true)
+            : false,
+};
+
+/** The vertical caret-movement commands, which own the caret's visual goal
+ *  column (set/preserved by moveCaretVisualVertical / expandCaretVisualVertical);
+ *  every other command resets it. resetVisualColumnAfter checks membership here
+ *  by reference, so the rule isn't tied to fragile key strings. */
+const VerticalMovementCommands: Command[] = [
+    MovePriorLine,
+    ExpandPriorLine,
+    MoveNextLine,
+    ExpandNextLine,
+];
+
 const Commands: Command[] = [
-    {
-        symbol: '↑',
-        description: (l) => l.ui.source.cursor.priorLine,
-        visible: Visibility.Touch,
-        category: Category.Cursor,
-        alt: false,
-        control: false,
-        shift: false,
-        key: 'ArrowUp',
-        keySymbol: '↑',
-        execute: ({ caret, blocks, view, getTokenViews }) =>
-            caret
-                ? // Return true to swallow the event even if we can't move further.
-                  blocks
-                    ? view && getTokenViews
-                        ? (moveVisualVertical(-1, view, caret, getTokenViews) ??
-                          false)
-                        : false
-                    : (caret.moveVertical(-1) ?? true)
-                : false,
-    },
-    {
-        symbol: '↑☐',
-        description: (l) => l.ui.source.cursor.expandPriorLine,
-        visible: Visibility.Invisible,
-        category: Category.Cursor,
-        alt: false,
-        control: false,
-        shift: true,
-        key: 'ArrowUp',
-        keySymbol: '↑',
-        execute: ({ caret, blocks }) =>
-            caret ? (blocks ? false : caret.expandVertically(-1)) : false,
-    },
-    {
-        symbol: '↓',
-        description: (l) => l.ui.source.cursor.nextLine,
-        visible: Visibility.Touch,
-        category: Category.Cursor,
-        alt: false,
-        control: false,
-        shift: false,
-        key: 'ArrowDown',
-        keySymbol: '↓',
-        execute: ({ caret, blocks, view, getTokenViews }) =>
-            caret
-                ? // Return true to swallow the event even if we can't move further.
-                  blocks
-                    ? view && getTokenViews
-                        ? (moveVisualVertical(1, view, caret, getTokenViews) ??
-                          false)
-                        : false
-                    : (caret.moveVertical(1) ?? true)
-                : false,
-    },
-    {
-        symbol: '↓☐',
-        description: (l) => l.ui.source.cursor.expandNextLine,
-        visible: Visibility.Invisible,
-        category: Category.Cursor,
-        alt: false,
-        control: false,
-        shift: true,
-        key: 'ArrowDown',
-        keySymbol: '↓',
-        execute: ({ caret, blocks }) =>
-            caret ? (blocks ? false : caret.expandVertically(1)) : false,
-    },
+    MovePriorLine,
+    ExpandPriorLine,
+    MoveNextLine,
+    ExpandNextLine,
     {
         symbol: '←',
         description: (l) => l.ui.source.cursor.priorInline,

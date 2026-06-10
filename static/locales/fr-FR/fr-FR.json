@@ -5834,6 +5834,14 @@
                             "$~La touche Tab déplace le focus clavier vers le contrôle suivant.",
                             "$~La touche tab insère une tabulation dans l'éditeur."
                         ]
+                    },
+                    "wrap": {
+                        "label": "$~lignes d'enroulement",
+                        "labels": ["$~désactivé", "$~sur"],
+                        "tips": [
+                            "$~Les lignes longues défilent horizontalement en mode texte",
+                            "$~En mode texte, les lignes longues sont renvoyées à la fenêtre de l'éditeur."
+                        ]
                     }
                 },
                 "options": {

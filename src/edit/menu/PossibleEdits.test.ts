@@ -246,7 +246,6 @@ test.each([
                 resolvedPosition,
                 undefined,
                 undefined,
-                undefined,
             );
             const transforms = getEditsAt(
                 project,
@@ -306,7 +305,6 @@ test('default-value suggestions for an input only include values of its declared
         placeholder,
         undefined,
         undefined,
-        undefined,
     );
     const transforms = getEditsAt(project, caret, undefined, DefaultLocales);
 
@@ -338,7 +336,7 @@ test('default-value suggestions for a struct input do not include sibling inputs
 
     const transforms = getEditsAt(
         project,
-        new Caret(source, 0, undefined, undefined, undefined),
+        new Caret(source, 0, undefined, undefined),
         { parent: b, field: 'value', index: undefined },
         DefaultLocales,
     );
@@ -363,7 +361,7 @@ test('selecting a typed Bind with no default value suggests adding one', () => {
         );
     expect(bind).toBeDefined();
     if (!bind) return;
-    const caret = new Caret(source, bind, undefined, undefined, undefined);
+    const caret = new Caret(source, bind, undefined, undefined);
     const transforms = getEditsAt(project, caret, undefined, DefaultLocales);
 
     const replacements = transforms
@@ -402,7 +400,7 @@ test('appending an input to a struct in use suggests a Bind with a default value
     expect(struct).toBeDefined();
     if (!struct) return;
 
-    const caret = new Caret(source, 0, undefined, undefined, undefined);
+    const caret = new Caret(source, 0, undefined, undefined);
     const transforms = getEditsAt(
         project,
         caret,
@@ -439,7 +437,6 @@ test('any markup position recommends available custom characters as concept link
         insertionPoint,
         undefined,
         undefined,
-        undefined,
     );
     const transforms = getEditsAt(
         project,
@@ -470,7 +467,6 @@ test('a partially typed link completes to a matching custom character', () => {
     const caret = new Caret(
         source,
         insertionPoint,
-        undefined,
         undefined,
         undefined,
     );
@@ -506,7 +502,7 @@ test('a position expecting a formatted translation recommends custom characters'
 
     const transforms = getEditsAt(
         project,
-        new Caret(source, 0, undefined, undefined, undefined),
+        new Caret(source, 0, undefined, undefined),
         { parent: literal, field: 'texts', index: literal.texts.length },
         DefaultLocales,
         undefined,
@@ -533,7 +529,7 @@ test('an empty markup placeholder can be replaced with a custom character', () =
 
     const transforms = getEditsAt(
         project,
-        new Caret(source, markup, undefined, undefined, undefined),
+        new Caret(source, markup, undefined, undefined),
         undefined,
         DefaultLocales,
         undefined,
@@ -581,7 +577,7 @@ test('a selected placeholder expecting formatted text recommends custom characte
 
     const transforms = getEditsAt(
         project,
-        new Caret(source, placeholder, undefined, undefined, undefined),
+        new Caret(source, placeholder, undefined, undefined),
         undefined,
         DefaultLocales,
         undefined,
@@ -609,7 +605,7 @@ test('a caret inside an empty formatted literal recommends custom characters', (
 
     const transforms = getEditsAt(
         project,
-        new Caret(source, 1, undefined, undefined, undefined),
+        new Caret(source, 1, undefined, undefined),
         undefined,
         DefaultLocales,
         undefined,

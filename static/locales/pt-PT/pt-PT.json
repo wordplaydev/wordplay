@@ -6078,6 +6078,14 @@
                             "$~A tecla Tab move o foco do teclado para o comando seguinte.",
                             "$~A tecla Tab insere um separador no editor."
                         ]
+                    },
+                    "wrap": {
+                        "label": "$~linhas de enrolamento",
+                        "labels": ["$~desligado", "$~em"],
+                        "tips": [
+                            "$~As linhas longas percorrem horizontalmente no modo de texto.",
+                            "$~As linhas longas são automaticamente quebradas na janela do editor em modo de texto."
+                        ]
                     }
                 },
                 "options": {

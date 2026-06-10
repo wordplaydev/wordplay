@@ -6087,6 +6087,14 @@
                             "$~Inililipat ng tab ang focus ng keyboard sa susunod na kontrol",
                             "$~Naglalagay ang tab ng tab sa editor"
                         ]
+                    },
+                    "wrap": {
+                        "label": "$~mga linya ng pambalot",
+                        "labels": ["$~patay", "$~sa"],
+                        "tips": [
+                            "$~mahahabang linya ay nag-i-scroll nang pahalang sa text mode",
+                            "$~mahahabang linya ang bumabalot papunta sa editor window sa text mode"
+                        ]
                     }
                 },
                 "options": {

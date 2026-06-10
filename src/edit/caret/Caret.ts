@@ -116,8 +116,11 @@ export function resolveCaretPosition(
 export default class Caret {
     readonly source: Source;
     readonly position: CaretPosition;
-    /** The latest column of the caret in the code with preferred spacing */
-    readonly column: number;
+    /** The remembered horizontal pixel position ("goal column") for visual
+     *  vertical movement, so moving through a short line and back to a longer one
+     *  returns to the original column. Undefined except during a run of
+     *  consecutive visual vertical moves; any other caret operation clears it. */
+    readonly visualColumn: number | undefined;
     readonly entry: Entry;
     // The node recently added.
     readonly addition: Node | undefined;
@@ -137,19 +140,16 @@ export default class Caret {
     constructor(
         source: Source,
         position: CaretPosition,
-        column: number | undefined,
         entry: Entry,
         addition: Node | undefined,
+        /** Remembered goal pixel-x for visual vertical movement. Defaults to
+         *  cleared, so any caret operation that doesn't explicitly carry it forward
+         *  resets the goal column. */
+        visualColumn: number | undefined = undefined,
     ) {
         this.source = source;
         this.position = position;
-        // No column provided? Compute it from the position. Otherwise set it.
-        this.column =
-            column === undefined
-                ? typeof position === 'number'
-                    ? (this.source.getColumn(position) ?? 0)
-                    : 0
-                : column;
+        this.visualColumn = visualColumn;
 
         this.entry = entry;
         this.addition = addition;
@@ -542,9 +542,7 @@ export default class Caret {
                 if (children === undefined) return this;
                 const sibling =
                     children[children.indexOf(this.position) + direction];
-                return sibling
-                    ? this.withPosition(sibling, this.column, entry)
-                    : this;
+                return sibling ? this.withPosition(sibling, entry) : this;
             }
             // If requesting the non-sibling, get the token after/before the current selection
             // in the depth first traversal of the search.
@@ -576,7 +574,7 @@ export default class Caret {
 
                 const index = this.getTextPosition(start, offset);
                 return index !== undefined
-                    ? this.withPosition(index, this.column, entry)
+                    ? this.withPosition(index, entry)
                     : this;
             }
         } else if (this.isPosition() || this.isRange()) {
@@ -607,7 +605,6 @@ export default class Caret {
             )
                 return this.withPosition(
                     this.getParentOfOnlyChild(token),
-                    this.column,
                     entry,
                 );
             // If we found a token before and we're moving before and we're at the token's end, choose the token or its parent if it's an only child or a child of a placeholder
@@ -618,15 +615,10 @@ export default class Caret {
             )
                 return this.withPosition(
                     this.getParentOfOnlyChild(tokenBefore),
-                    this.column,
                     entry,
                 );
 
-            return this.withPosition(
-                currentPosition + direction,
-                this.source.getColumn(currentPosition + direction),
-                entry,
-            );
+            return this.withPosition(currentPosition + direction, entry);
         }
         // Some other mystery selection type? Do nothing.
         else return this;
@@ -953,28 +945,6 @@ export default class Caret {
         else return this;
     }
 
-    expandVertically(amount: -1 | 1) {
-        if (isPosition(this.position)) {
-            const verticalPosition = this.getVertical(amount, this.position);
-            if (verticalPosition && verticalPosition.isPosition())
-                return this.withPosition([
-                    this.position,
-                    verticalPosition.position,
-                ]);
-            else return this;
-        }
-        // Already a range? Expand the end.
-        else if (this.isRange()) {
-            const [start, end] = this.position;
-            const verticalPosition = this.getVertical(amount, end);
-            if (verticalPosition && verticalPosition.isPosition())
-                return this.withPosition([start, verticalPosition.position]);
-            else return this;
-        }
-        // Node? Don't do anything.
-        else return this;
-    }
-
     atLineBoundary(start: boolean): Caret {
         let position = isNode(this.position)
             ? this.source.getNodeFirstPosition(this.position)
@@ -1052,8 +1022,10 @@ export default class Caret {
 
     withPosition(
         position: CaretPosition,
-        column?: number,
         entry?: Entry,
+        /** Goal pixel-x to remember for visual vertical movement. Omitted by all
+         *  non-vertical callers, which clears it (the desired reset). */
+        visualColumn?: number,
     ): Caret {
         if (
             (typeof position === 'number' && isNaN(position)) ||
@@ -1072,20 +1044,25 @@ export default class Caret {
                       Math.min(position, this.source.getCode().getLength()),
                   )
                 : position,
-            // If given a column set it, otherwise keep the old one.
-            column ?? this.column,
             entry ?? this.entry,
             this.addition,
+            visualColumn,
         );
     }
+
+    // The with* transforms below all preserve visualColumn (the visual goal
+    // column). Only withPosition (an explicit reposition) and the edit
+    // constructors reset it, so it survives the incidental transforms applied
+    // when committing a caret (e.g. Editor.handleEdit) yet still clears the
+    // moment a non-vertical command repositions the caret. See visualColumn.
 
     withSource(source: Source) {
         return new Caret(
             source,
             this.position,
-            this.column,
             this.entry,
             this.addition,
+            this.visualColumn,
         );
     }
 
@@ -1093,9 +1070,9 @@ export default class Caret {
         return new Caret(
             this.source,
             this.position,
-            this.column,
             entry,
             this.addition,
+            this.visualColumn,
         );
     }
 
@@ -1103,9 +1080,9 @@ export default class Caret {
         return new Caret(
             this.source,
             this.position,
-            this.column,
             this.entry,
             addition,
+            this.visualColumn,
         );
     }
 
@@ -1113,10 +1090,20 @@ export default class Caret {
         return new Caret(
             this.source,
             this.position,
-            this.column,
             this.entry,
             undefined,
+            this.visualColumn,
         );
+    }
+
+    /** Clear the visual goal column, so the next vertical move recomputes it from
+     *  the current position. Applied to the result of every non-vertical command
+     *  (e.g. left/right/home/end), so any horizontal move updates the goal column
+     *  — including no-op moves at a boundary that return the caret unchanged. */
+    withoutVisualColumn(): Caret {
+        return this.visualColumn === undefined
+            ? this
+            : new Caret(this.source, this.position, this.entry, this.addition);
     }
 
     insertNode(node: Node, offset: number): Edit | undefined {
@@ -1130,7 +1117,6 @@ export default class Caret {
                 new Caret(
                     newSource,
                     position + offset,
-                    this.column,
                     undefined,
                     node,
                 ),
@@ -1152,7 +1138,6 @@ export default class Caret {
                 new Caret(
                     newSource,
                     start + offset,
-                    this.column,
                     undefined,
                     node,
                 ),
@@ -1171,7 +1156,6 @@ export default class Caret {
                 new Caret(
                     newSource,
                     position + offset,
-                    this.column,
                     undefined,
                     newSource.getTokenAt(position),
                 ),
@@ -1433,13 +1417,7 @@ export default class Caret {
 
             return [
                 newSource,
-                new Caret(
-                    newSource,
-                    newPosition,
-                    undefined,
-                    undefined,
-                    newToken,
-                ),
+                new Caret(newSource, newPosition, undefined, newToken),
             ];
         }
     }
@@ -1586,7 +1564,6 @@ export default class Caret {
             new Caret(
                 newSource,
                 newPosition,
-                undefined,
                 undefined,
                 newSource.getTokenAt(newPosition),
             ),
@@ -2059,44 +2036,6 @@ export default class Caret {
                 undefined,
             ),
         ];
-    }
-
-    moveVertical(direction: 1 | -1): Edit | undefined {
-        if (isNode(this.position)) {
-            const position = this.source.getNodeFirstPosition(this.position);
-            if (position === undefined) return;
-            return this.getVertical(direction, position);
-        } else
-            return this.getVertical(
-                direction,
-                isPosition(this.position) ? this.position : this.position[0],
-            );
-    }
-
-    getVertical(direction: 1 | -1, position: number): Caret | undefined {
-        // Use the line-only variant — we don't need the column for this caret;
-        // we use this.column (the caret's "remembered" column from the last
-        // horizontal move) to land at the same visual offset on the new line.
-        const line = this.source.getLineFromPhysicalPosition(position);
-        if (line === undefined) return;
-        const newLine = line + direction;
-
-        const newPosition = this.source.getPhysicalPositionFromLineAndColumn(
-            newLine,
-            this.column,
-        );
-
-        if (newPosition !== undefined)
-            return this.withPosition(newPosition, this.column);
-
-        // There's no line in the requested direction: pressing ArrowDown on the
-        // last line moves the caret to the very end of the source, and ArrowUp
-        // on the first line moves it to the very beginning.
-        const boundary =
-            direction === 1 ? this.source.getCode().getLength() : 0;
-        return boundary === position
-            ? undefined
-            : this.withPosition(boundary, this.source.getColumn(boundary) ?? 0);
     }
 
     wrap(project: Project, key: string): Revision | undefined {

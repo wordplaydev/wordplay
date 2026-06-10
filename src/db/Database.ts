@@ -941,6 +941,7 @@ export const dark = Settings.settings.dark.value;
 export const spaceIndicator = Settings.settings.space.value;
 export const insertTab = Settings.settings.tab.value;
 export const showLines = Settings.settings.lines.value;
+export const wrap = Settings.settings.wrap.value;
 export const showAnnotations = derived(
     Settings.settings.annotations.value,
     ($a) => $a.shown,

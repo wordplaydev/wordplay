@@ -2,7 +2,7 @@
     import { getShowLines } from '@components/project/Contexts';
     import type { InsertionPoint } from '@edit/drag/Drag';
     import type Token from '@nodes/Token';
-    import { spaceIndicator } from '@db/Database';
+    import { spaceIndicator, wrap } from '@db/Database';
     import {
         EXPLICIT_SPACE_TEXT,
         EXPLICIT_TAB_TEXT,
@@ -151,7 +151,7 @@
                         data-space={afterSourceByLine[index]}
                         data-line={beforeSpacesByLine.length + index}>{s}</span
                     >{/each}</span
-            >
+            >{#if $wrap}<wbr />{/if}
         {/if}</span
     >
 {/key}

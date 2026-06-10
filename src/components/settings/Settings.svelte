@@ -24,6 +24,7 @@
         showLines,
         spaceIndicator,
         voice,
+        wrap,
     } from '@db/Database';
     import {
         AnimationFactorIcons,
@@ -309,6 +310,15 @@
                     choice={$showLines ? 1 : 0}
                     select={(choice) =>
                         Settings.setLines(choice === 1 ? true : false)}
+                    icons={[CANCEL_SYMBOL, CONFIRM_SYMBOL]}
+                />
+            </div>
+            <div class="indented">
+                <Mode
+                    modes={(l) => l.ui.dialog.settings.mode.wrap}
+                    choice={$wrap ? 1 : 0}
+                    select={(choice) =>
+                        Settings.setWrap(choice === 1 ? true : false)}
                     icons={[CANCEL_SYMBOL, CONFIRM_SYMBOL]}
                 />
             </div>

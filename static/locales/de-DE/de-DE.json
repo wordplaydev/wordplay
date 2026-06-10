@@ -5834,6 +5834,14 @@
                             "$~Die Tabulatortaste verschiebt den Tastaturfokus zum nächsten Steuerelement.",
                             "$~Mit dem Befehl „tab“ wird ein Tabulator im Editor eingefügt."
                         ]
+                    },
+                    "wrap": {
+                        "label": "$~Wickellinien",
+                        "labels": ["$~aus", "$~An"],
+                        "tips": [
+                            "$~Lange Zeilen scrollen im Textmodus horizontal.",
+                            "$~Im Textmodus werden lange Zeilen in das Editorfenster umgebrochen."
+                        ]
                     }
                 },
                 "options": {

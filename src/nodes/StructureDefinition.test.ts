@@ -256,7 +256,6 @@ test('autocomplete on Definition.| suggests static members only', () => {
         code.length,
         undefined,
         undefined,
-        undefined,
     );
     const transforms = getEditsAt(project, caret, undefined, DefaultLocales);
     const suggested = transforms
@@ -272,7 +271,6 @@ test('autocomplete on instance.| also suggests static members', () => {
     const caret = new Caret(
         source,
         code.length,
-        undefined,
         undefined,
         undefined,
     );
@@ -292,7 +290,6 @@ test('autocomplete on Definition.| does not suggest a non-static instance bind',
     const caret = new Caret(
         source,
         code.length,
-        undefined,
         undefined,
         undefined,
     );

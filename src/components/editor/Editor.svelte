@@ -23,6 +23,7 @@
         type ProjectRevision,
         altKeyLabel,
         handleKeyCommand,
+        resetVisualColumnAfter,
     } from '@components/editor/commands/Commands';
     import { getInternalClipboard } from '@components/editor/commands/InternalClipboard';
     import Highlight from '@components/editor/highlights/Highlight.svelte';
@@ -86,6 +87,7 @@
         insertTab,
         locales,
         showLines,
+        wrap,
     } from '@db/Database';
     import Project from '@db/projects/Project';
     import Caret, {
@@ -1434,10 +1436,17 @@
                 .filter((val) => val.value !== undefined);
             const expressionValue = valued.at(-1);
 
-            // If we found a value being rendered
+            // If we found a value being rendered, select its expression. Carry
+            // the visual goal column through this reposition so an up/down move
+            // that lands on an inline-valued expression still remembers it
+            // (withPosition otherwise resets it).
             if (expressionValue && expressionValue.value)
                 newCaret = newCaret
-                    .withPosition(expressionValue.expression)
+                    .withPosition(
+                        expressionValue.expression,
+                        undefined,
+                        newCaret.visualColumn,
+                    )
                     .withEntry(undefined);
         }
 
@@ -1603,7 +1612,6 @@
                         new Caret(
                             newSource,
                             newCaret.position,
-                            undefined,
                             undefined,
                             newSource.getTokenAt(newCaret.position),
                         ),
@@ -1807,7 +1815,13 @@
                     else if (edit !== true) handleEdit(edit, idle, true);
                 });
             } else if (result !== undefined && result !== true) {
-                handleEdit(result, idle, true);
+                // Reset the visual goal column unless this was a vertical move,
+                // so left/right/home/end (etc.) update it. See resetVisualColumnAfter.
+                handleEdit(
+                    resetVisualColumnAfter(command, result),
+                    idle,
+                    true,
+                );
             }
 
             // Consume the event so that nothing else handles it.
@@ -2664,6 +2678,7 @@
         (!editable || !validDropTarget)}
     class:density-compact={$blockDensity === 'compact'}
     class:density-spacious={$blockDensity === 'spacious'}
+    class:wrap={$wrap && !$blocks}
     data-uiid="editor"
     role="application"
     style:--zoom={`${zoom}pt`}
@@ -2954,6 +2969,15 @@
         flex-direction: column;
         gap: var(--wordplay-spacing);
         font-size: calc(var(--wordplay-font-size) + var(--zoom));
+    }
+
+    /* Soft-wrap (text mode): break long lines at the token boundaries marked by
+       <wbr> in Space.svelte, constraining the editor to the tile width instead of
+       overflowing horizontally. pre-wrap preserves the explicit <br> newlines and
+       leading-whitespace indentation. */
+    .editor.wrap {
+        white-space: pre-wrap;
+        min-width: 0;
     }
 
     .readonly-indicator {

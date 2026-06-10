@@ -7,7 +7,7 @@ import { describe, expect, test } from 'vitest';
 function insert(code: string, position: number, text: string): string {
     const source = new Source('test', code);
     const project = Project.make(null, 'test', source, [], DefaultLocale);
-    const caret = new Caret(source, position, undefined, undefined, undefined);
+    const caret = new Caret(source, position, undefined, undefined);
     const result = caret.insert(text, false, project, true);
     if (Array.isArray(result) && result[0] instanceof Source)
         return result[0].getCode().toString();

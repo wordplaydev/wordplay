@@ -5857,6 +5857,14 @@
                             "$~Tab przenosi fokus klawiatury do następnego elementu sterującego",
                             "$~tabulator wstawia tabulator do edytora"
                         ]
+                    },
+                    "wrap": {
+                        "label": "$~linie zawijania",
+                        "labels": ["$~wyłączony", "$~NA"],
+                        "tips": [
+                            "$~długie linie przewijają się poziomo w trybie tekstowym",
+                            "$~długie linie zawijają się do okna edytora w trybie tekstowym"
+                        ]
                     }
                 },
                 "options": {

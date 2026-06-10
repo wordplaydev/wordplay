@@ -5845,6 +5845,14 @@
                             "$~Tab flyttar tangentbordsfokus till nästa kontroll",
                             "$~tabb infogar en tabb i redigeraren"
                         ]
+                    },
+                    "wrap": {
+                        "label": "$~omslagslinjer",
+                        "labels": ["$~av", "$~på"],
+                        "tips": [
+                            "$~långa rader rullar horisontellt i textläge",
+                            "$~långa rader bryts till redigeringsfönstret i textläge"
+                        ]
                     }
                 },
                 "options": {

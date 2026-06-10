@@ -6086,6 +6086,14 @@
                             "show line numbers in text mode"
                         ]
                     },
+                    "wrap": {
+                        "label": "wrap lines",
+                        "labels": ["off", "on"],
+                        "tips": [
+                            "long lines scroll horizontally in text mode",
+                            "long lines wrap to the editor window in text mode"
+                        ]
+                    },
                     "tab": {
                         "label": "tab key",
                         "labels": ["switch focus", "insert tab"],

@@ -21,6 +21,7 @@ This week we made improvements to the output palette, output editing on stage, a
 - ⚡️ We made it possible to edit all aspects of output in the palette (#172, #173, #174).
 - 💨 We made changes to a @Phrase's text animate too, in addition to rotate, scale, color, and other properties.
 - ⌨️ We added a setting to change the behavior of the tab key (#758).
+- ⌨️ We added "soft" wrapping to the text editing mode, so long lines are easier to read (#1173).
 
 # Changed
 

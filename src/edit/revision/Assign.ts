@@ -120,7 +120,6 @@ export default class Assign extends Revision {
                       newSource,
                       newCaretPosition,
                       undefined,
-                      undefined,
                       newNode,
                   ),
               ];

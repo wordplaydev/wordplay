@@ -93,7 +93,6 @@ export default class Append<NodeType extends Node> extends Revision {
                 newSource,
                 newCaretPosition ?? this.position,
                 undefined,
-                undefined,
                 newChild,
             ),
         ];

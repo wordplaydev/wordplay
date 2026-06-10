@@ -1093,6 +1093,8 @@ type UITexts = {
                 space: ModeText<[string, string]>;
                 /** The line number on/off mode */
                 lines: ModeText<[string, string]>;
+                /** The soft-wrap on/off mode for the editor's text mode */
+                wrap: ModeText<[string, string]>;
                 /** The tab key behavior mode (switch focus/insert tab) */
                 tab: ModeText<[string, string]>;
             };

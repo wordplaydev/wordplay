@@ -13,7 +13,7 @@ import { pasteText } from './Paste';
 function paste(code: string, position: number, text: string, blocks: boolean) {
     const source = new Source('test', code);
     const project = Project.make(null, 'test', source, [], DefaultLocale);
-    const caret = new Caret(source, position, undefined, undefined, undefined);
+    const caret = new Caret(source, position, undefined, undefined);
     const result = pasteText(
         text,
         caret,

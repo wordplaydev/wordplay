@@ -6096,6 +6096,14 @@
                             "$~tombol tab memindahkan fokus keyboard ke kontrol berikutnya",
                             "$~tab menyisipkan tab di editor"
                         ]
+                    },
+                    "wrap": {
+                        "label": "$~garis pembungkus",
+                        "labels": ["$~mati", "$~pada"],
+                        "tips": [
+                            "$~Baris panjang bergulir secara horizontal dalam mode teks.",
+                            "$~Baris panjang akan membungkus ke jendela editor dalam mode teks."
+                        ]
                     }
                 },
                 "options": {

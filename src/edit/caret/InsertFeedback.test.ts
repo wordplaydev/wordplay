@@ -9,7 +9,7 @@ import { expect, test } from 'vitest';
 function insert(code: string, position: number, text: string, blocks: boolean) {
     const source = new Source('test', code);
     const project = Project.make(null, 'test', source, [], DefaultLocale);
-    const caret = new Caret(source, position, undefined, undefined, undefined);
+    const caret = new Caret(source, position, undefined, undefined);
     let rejected: { conflicts: Conflict[]; source: Source } | undefined;
     const result = caret.insert(
         text,

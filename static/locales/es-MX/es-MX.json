@@ -5813,6 +5813,14 @@
                             "$~La tecla Tab mueve el foco del teclado al siguiente control.",
                             "$~tab inserta una pestaña en el editor"
                         ]
+                    },
+                    "wrap": {
+                        "label": "$~líneas envolventes",
+                        "labels": ["$~apagado", "$~en"],
+                        "tips": [
+                            "$~Las líneas largas se desplazan horizontalmente en modo texto.",
+                            "$~Las líneas largas se ajustan a la ventana del editor en modo texto."
+                        ]
                     }
                 },
                 "options": {

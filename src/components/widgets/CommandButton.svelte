@@ -5,6 +5,7 @@
     import { locales } from '@db/Database';
     import { tokenize } from '@parser/Tokenizer';
     import {
+        resetVisualColumnAfter,
         toShortcut,
         type Command,
     } from '@components/editor/commands/Commands';
@@ -99,7 +100,11 @@
                     : undefined,
             );
         else if (typeof result !== 'boolean' && result !== undefined)
-            editor?.edit(result, IdleKind.Typed, focusAfter);
+            editor?.edit(
+                resetVisualColumnAfter(command, result),
+                IdleKind.Typed,
+                focusAfter,
+            );
 
         // If we didn't ask the editor to focus, restore focus on button after update.
         if (!focusAfter && hadFocus) {

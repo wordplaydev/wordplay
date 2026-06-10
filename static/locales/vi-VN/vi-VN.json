@@ -6080,6 +6080,14 @@
                             "$~Phím Tab di chuyển con trỏ bàn phím đến điều khiển tiếp theo.",
                             "$~tab chèn một tab vào trình soạn thảo"
                         ]
+                    },
+                    "wrap": {
+                        "label": "$~các dòng bao bọc",
+                        "labels": ["$~tắt", "$~TRÊN"],
+                        "tips": [
+                            "$~Các dòng dài sẽ cuộn ngang ở chế độ văn bản.",
+                            "$~Các dòng dài sẽ tự động xuống dòng trong cửa sổ trình soạn thảo ở chế độ văn bản."
+                        ]
                     }
                 },
                 "options": {

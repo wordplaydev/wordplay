@@ -57,13 +57,6 @@ export default class Source extends Expression {
     /** An index of token positions in the source file. */
     readonly tokenPositions: Map<Token, number> = new Map();
 
-    /** Lazily-built array where lineStarts[L] is the grapheme position at the
-     * start of line L. Lines are 0-indexed; lineStarts[0] is always 0. Built
-     * once per Source instance from this.code; immutable for the lifetime of
-     * this Source. Used to make position↔(line, column) lookups O(log N) /
-     * O(1) instead of O(N) scans through every token. */
-    private _lineStarts: number[] | undefined = undefined;
-
     /** An index of this tree for analyzing structure */
     readonly root: Root;
 
@@ -735,73 +728,6 @@ export default class Source extends Expression {
 
         // Nothing matched? Return undefined.
         return undefined;
-    }
-
-    /** Build/return the lazy line-start index — one O(N) grapheme walk of
-     * this.code, amortized to O(1) per subsequent call for the lifetime of
-     * this Source. Replaces the per-call O(N) token walks that
-     * getRenderedLineAndColumnFromPhysicalPosition and
-     * getPhysicalPositionFromLineAndColumn used to do via scanLines. */
-    private getLineStarts(): number[] {
-        if (this._lineStarts === undefined) {
-            const graphemes = this.code.getGraphemes();
-            const starts = [0];
-            for (let i = 0; i < graphemes.length; i++)
-                if (graphemes[i] === '\n') starts.push(i + 1);
-            this._lineStarts = starts;
-        }
-        return this._lineStarts;
-    }
-
-    /** Just the line for a physical position, no column — O(log N) binary
-     * search on the cached lineStarts. Use this in preference to
-     * getRenderedLineAndColumnFromPhysicalPosition when the caller (e.g.
-     * Caret.moveVertical) only needs the line, since the line+column
-     * variant additionally builds and discards a substring representing
-     * "everything on this line up to position". */
-    getLineFromPhysicalPosition(position: number): number | undefined {
-        const len = this.code.getLength();
-        if (position < 0 || position > len) return undefined;
-        const lineStarts = this.getLineStarts();
-        // Largest index whose lineStarts value is <= position.
-        let lo = 0;
-        let hi = lineStarts.length - 1;
-        while (lo < hi) {
-            const mid = (lo + hi + 1) >>> 1;
-            if (lineStarts[mid] <= position) lo = mid;
-            else hi = mid - 1;
-        }
-        return lo;
-    }
-
-    getRenderedLineAndColumnFromPhysicalPosition(
-        position: number,
-    ): [number, number] | undefined {
-        const line = this.getLineFromPhysicalPosition(position);
-        if (line === undefined) return undefined;
-        return [line, position - this.getLineStarts()[line]];
-    }
-
-    getColumn(position: number) {
-        const match =
-            this.getRenderedLineAndColumnFromPhysicalPosition(position);
-        return match ? match[1] : undefined;
-    }
-
-    getPhysicalPositionFromLineAndColumn(
-        preferredLine: number,
-        preferredColumn: number,
-    ): number | undefined {
-        const lineStarts = this.getLineStarts();
-        if (preferredLine < 0 || preferredLine >= lineStarts.length)
-            return undefined;
-        const lineStart = lineStarts[preferredLine];
-        const lineEnd =
-            preferredLine + 1 < lineStarts.length
-                ? // -1 for the '\n' that separates this line from the next.
-                  lineStarts[preferredLine + 1] - 1
-                : this.code.getLength();
-        return lineStart + Math.min(preferredColumn, lineEnd - lineStart);
     }
 
     getTokenAt(position: number, includingWhitespace = true) {
