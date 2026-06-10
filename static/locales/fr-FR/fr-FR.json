@@ -5284,7 +5284,8 @@
                 },
                 "nextMatch": "$~passer au résultat de recherche suivant",
                 "insertTranslate": "$~insérer le symbole de traduction",
-                "insertThis": "$~insérer ce symbole"
+                "insertThis": "$~insérer ce symbole",
+                "tab": "$~La touche Tabulation permet de déplacer le focus clavier. Pour insérer une tabulation, appuyez sur Ctrl+ $alt +Tab, utilisez le bouton Insérer ci-dessous ou modifiez ce paramètre."
             },
             "options": {
                 "locale": {
@@ -5821,6 +5822,17 @@
                             "$~Des blocs plus serrés pour afficher plus de code à l'écran",
                             "$~espacement par défaut des blocs",
                             "$~Des blocs plus lâches pour faciliter la sélection et le déplacement."
+                        ]
+                    },
+                    "tab": {
+                        "label": "$~touche tab",
+                        "labels": [
+                            "$~changement de focus",
+                            "$~insérer un onglet"
+                        ],
+                        "tips": [
+                            "$~La touche Tab déplace le focus clavier vers le contrôle suivant.",
+                            "$~La touche tab insère une tabulation dans l'éditeur."
                         ]
                     }
                 },

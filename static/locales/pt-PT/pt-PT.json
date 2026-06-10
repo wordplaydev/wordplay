@@ -5538,7 +5538,8 @@
                 },
                 "nextMatch": "ir para o próximo resultado da pesquisa",
                 "insertTranslate": "inserir símbolo de tradução",
-                "insertThis": "Insira este símbolo"
+                "insertThis": "Insira este símbolo",
+                "tab": "$?"
             },
             "error": {
                 "invalidName": "Este deve ser um nome válido para um jogo de palavras.",
@@ -6069,6 +6070,11 @@
                             "espaçamento padrão entre blocos",
                             "Blocos mais soltos para facilitar a seleção e o arrastamento."
                         ]
+                    },
+                    "tab": {
+                        "label": "$?",
+                        "labels": ["$?", "$?"],
+                        "tips": ["$?", "$?"]
                     }
                 },
                 "options": {

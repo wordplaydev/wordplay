@@ -5263,7 +5263,8 @@
                 },
                 "nextMatch": "$~pasar a la siguiente coincidencia de búsqueda",
                 "insertTranslate": "$~insertar símbolo de traslación",
-                "insertThis": "$~inserte este símbolo"
+                "insertThis": "$~inserte este símbolo",
+                "tab": "$~La tecla Tab mueve el foco del teclado. Para insertar una tabulación, pulse Ctrl + $alt + Tab, utilice el botón de inserción que aparece a continuación o modifique esta configuración."
             },
             "options": {
                 "locale": {
@@ -5800,6 +5801,17 @@
                             "$~Bloques más ajustados para que quepa más código en la pantalla.",
                             "$~espaciado de bloques predeterminado",
                             "$~Bloques más sueltos para facilitar la selección y el arrastre."
+                        ]
+                    },
+                    "tab": {
+                        "label": "$~tecla tabulador",
+                        "labels": [
+                            "$~cambiar el enfoque",
+                            "$~insertar pestaña"
+                        ],
+                        "tips": [
+                            "$~La tecla Tab mueve el foco del teclado al siguiente control.",
+                            "$~tab inserta una pestaña en el editor"
                         ]
                     }
                 },

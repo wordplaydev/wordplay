@@ -22,6 +22,7 @@ export type EditorNotification = {
 export const LargeDeletionNotification = 'large-deletion';
 export const DragFeedbackNotification = 'drag-feedback';
 export const PasteFeedbackNotification = 'paste-feedback';
+export const TabNotification = 'tab';
 
 /** A controller an editor uses to add and remove its footer notifications. */
 export type EditorNotifier = {

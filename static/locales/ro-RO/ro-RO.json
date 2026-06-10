@@ -5549,7 +5549,8 @@
                 },
                 "nextMatch": "$~treceți la următoarea potrivire de căutare",
                 "insertTranslate": "$~inserați simbolul de traducere",
-                "insertThis": "$~introduceți acest simbol"
+                "insertThis": "$~introduceți acest simbol",
+                "tab": "$?"
             },
             "error": {
                 "invalidName": "$~Acesta trebuie să fie un nume valid de joc de cuvinte.",
@@ -6087,6 +6088,11 @@
                             "$~text vertical, citit de la dreapta la stânga",
                             "$~text vertical, citit de la stânga la dreapta"
                         ]
+                    },
+                    "tab": {
+                        "label": "$?",
+                        "labels": ["$?", "$?"],
+                        "tips": ["$?", "$?"]
                     }
                 },
                 "options": {

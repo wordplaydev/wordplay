@@ -73,6 +73,24 @@
             invisible ? false : $spaceIndicator,
         ),
     );
+    // The original (un-rendered) source for each line, index-aligned with the
+    // rendered arrays above. render() only substitutes individual space/tab
+    // characters and never adds or removes newlines, so splitting the source on
+    // '\n' yields the same number of lines. CaretView.computeSpaceDimensions reads
+    // these via data-space to map source offsets (tab = 1 char) onto the rendered
+    // text node (tab = TAB_WIDTH chars); it must see the raw '\t', not the
+    // already-expanded rendering.
+    let beforeSourceByLine = $derived(
+        insertionIndex === undefined
+            ? []
+            : space.substring(0, insertionIndex).split('\n'),
+    );
+    let afterSourceByLine = $derived(
+        (insertionIndex === undefined
+            ? space
+            : space.substring(insertionIndex)
+        ).split('\n'),
+    );
     let firstLine = $derived(
         line !== undefined && $showLines
             ? line - beforeSpacesByLine.length - afterSpacesByLine.length + 1
@@ -113,7 +131,7 @@
                                 >{/if}</span
                         >{/if}{#if s === ''}&ZeroWidthSpace;{:else}<span
                             class="space-text"
-                            data-space={s}
+                            data-space={beforeSourceByLine[index]}
                             data-uiid="space-text">{s}</span
                         >{/if}{:else}&ZeroWidthSpace;{/each}{#if insertion}<InsertionPointView
                     />{/if}</span
@@ -130,7 +148,7 @@
                         >{/if}<span
                         class="space-text"
                         data-uiid="space-text"
-                        data-space={s}
+                        data-space={afterSourceByLine[index]}
                         data-line={beforeSpacesByLine.length + index}>{s}</span
                     >{/each}</span
             >

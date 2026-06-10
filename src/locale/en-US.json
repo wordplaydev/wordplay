@@ -5549,6 +5549,7 @@
                 "tidy": "tidy spacing",
                 "elide": "toggle elision",
                 "largeDelete": "Are you sure you want to delete this selection? You can use the undo button (↺) if you change your mind.",
+                "tab": "Tab moves keyboard focus. To insert a tab, press Ctrl+$alt+Tab, use the insert button below, or change this in settings.",
                 "ignored": {
                     "readOnly": "Source is read only",
                     "blockSpace": "No tabs allowed here",
@@ -6083,6 +6084,14 @@
                         "tips": [
                             "do not show line numbers in text mode",
                             "show line numbers in text mode"
+                        ]
+                    },
+                    "tab": {
+                        "label": "tab key",
+                        "labels": ["switch focus", "insert tab"],
+                        "tips": [
+                            "tab moves keyboard focus to the next control",
+                            "tab inserts a tab in the editor"
                         ]
                     },
                     "writing": {

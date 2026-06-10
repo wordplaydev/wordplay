@@ -21,6 +21,7 @@
         type Edit,
         InsertSymbol,
         type ProjectRevision,
+        altKeyLabel,
         handleKeyCommand,
     } from '@components/editor/commands/Commands';
     import { getInternalClipboard } from '@components/editor/commands/InternalClipboard';
@@ -82,6 +83,7 @@
         animationFactor,
         blockDensity,
         blocks,
+        insertTab,
         locales,
         showLines,
     } from '@db/Database';
@@ -105,6 +107,7 @@
         DragFeedbackNotification,
         LargeDeletionNotification,
         PasteFeedbackNotification,
+        TabNotification,
     } from '@components/editor/EditorNotification';
     import { pasteText } from '@components/editor/Paste';
     import Templates from '@concepts/Templates';
@@ -125,7 +128,7 @@
     import type Evaluator from '@runtime/Evaluator';
     import UnicodeString from '@unicode/UnicodeString';
     import ExceptionValue from '@values/ExceptionValue';
-    import { onMount, tick, untrack } from 'svelte';
+    import { onDestroy, onMount, tick, untrack } from 'svelte';
     import { get, writable } from 'svelte/store';
     import { debounced } from '@util/debounce.svelte';
 
@@ -405,6 +408,10 @@
     /** True if something in the editor is focused. */
     let focused: boolean = $state(false);
 
+    /** Timer that auto-dismisses the "how to insert a tab" notice shown when Tab
+     *  is pressed and the tab-inserts-tab setting is off. */
+    let tabNoticeTimeout: ReturnType<typeof setTimeout> | undefined = undefined;
+
     /** True if the editor was focused before the menu was shown, so we can know whether to restore it after hiding menu. */
     let wasFocusedBeforeMenu = $state(false);
 
@@ -593,6 +600,8 @@
     onMount(() =>
         autofocus ? grabFocus('Auto-focusing editor on mount.') : undefined,
     );
+
+    onDestroy(() => clearTimeout(tabNoticeTimeout));
 
     /** Called when the program evaluates another step. */
     async function evalUpdate() {
@@ -1479,6 +1488,26 @@
         if (input) setKeyboardFocus(input, message);
     }
 
+    /** Move keyboard focus to the next tabbable element after `from` in document
+     *  order, emulating what plain Tab normally does. Used when the
+     *  tab-inserts-tab setting has reassigned plain Tab to inserting a tab, so the
+     *  insert-tab shortcut (Ctrl/Alt+Tab) can still move focus out of the editor. */
+    function focusNextTabbable(from: HTMLElement) {
+        const tabbable = Array.from(
+            document.querySelectorAll<HTMLElement>(
+                'a[href], button, input, textarea, select, [tabindex]',
+            ),
+        ).filter(
+            (el) =>
+                !el.hasAttribute('disabled') &&
+                el.getAttribute('tabindex') !== '-1' &&
+                el.getClientRects().length > 0,
+        );
+        const index = tabbable.indexOf(from);
+        const next = index >= 0 ? tabbable[index + 1] : undefined;
+        if (next) setKeyboardFocus(next, 'Switching focus on the insert-tab shortcut.');
+    }
+
     /** True if the last symbol was a dead key*/
     let keyWasDead = false;
     let replacePreviousWithNext = false;
@@ -1666,6 +1695,60 @@
             // as foreign data (e.g. CSV).
             pasteWithFeedback(internal);
             return;
+        }
+
+        // Tab handling depends on the tab-inserts-tab setting. We handle it here
+        // rather than as a Command because a Command always consumes the
+        // keystroke, which would break the case where Tab must keep its default
+        // focus switch. Shift+Tab is left alone so reverse focus navigation
+        // always works.
+        if (event.key === 'Tab' && !event.shiftKey) {
+            const plain = !event.ctrlKey && !event.metaKey && !event.altKey;
+            // The insert-tab shortcut: Ctrl/Cmd+Alt+Tab (see Commands.ts).
+            const shortcut = (event.ctrlKey || event.metaKey) && event.altKey;
+            if ($insertTab) {
+                // Setting on: plain Tab inserts a tab, and the shortcut — which
+                // would otherwise insert — instead moves focus to the next
+                // control, since Tab can no longer do that.
+                if (plain && $caret) {
+                    handleEdit(
+                        $caret.insert('\t', $blocks, project),
+                        IdleKind.Typed,
+                        true,
+                    );
+                    event.preventDefault();
+                    event.stopPropagation();
+                    return;
+                } else if (shortcut && input) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    focusNextTabbable(input);
+                    return;
+                }
+            } else if (plain) {
+                // Setting off: plain Tab keeps its default focus switch; explain
+                // how to insert a tab instead, auto-dismissing the notice after a
+                // few seconds. Don't preventDefault, so focus still moves. The
+                // Ctrl/Alt+Tab insert shortcut falls through to its command below.
+                notify?.set({
+                    id: TabNotification,
+                    // Concretize so the Alt/Option label matches the platform,
+                    // reusing the same modifier label as keyboard-shortcut hints.
+                    content: {
+                        markup: $locales.concretize(
+                            (l) => l.ui.source.cursor.tab,
+                            { alt: altKeyLabel() },
+                        ),
+                    },
+                    variant: 'info',
+                });
+                clearTimeout(tabNoticeTimeout);
+                tabNoticeTimeout = setTimeout(
+                    () => notify?.clear(TabNotification),
+                    6000,
+                );
+                return;
+            }
         }
 
         const [command, result] = handleKeyCommand(event, {

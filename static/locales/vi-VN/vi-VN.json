@@ -5543,7 +5543,8 @@
                 },
                 "nextMatch": "$~chuyển đến kết quả tìm kiếm phù hợp tiếp theo",
                 "insertTranslate": "$~chèn ký hiệu dịch",
-                "insertThis": "$~chèn biểu tượng này"
+                "insertThis": "$~chèn biểu tượng này",
+                "tab": "$?"
             },
             "error": {
                 "invalidName": "$~Đây phải là một tên chơi chữ hợp lệ.",
@@ -6071,6 +6072,11 @@
                             "$~khoảng cách khối mặc định",
                             "$~các khối rời rạc hơn để dễ dàng chọn và kéo"
                         ]
+                    },
+                    "tab": {
+                        "label": "$?",
+                        "labels": ["$?", "$?"],
+                        "tips": ["$?", "$?"]
                     }
                 },
                 "options": {

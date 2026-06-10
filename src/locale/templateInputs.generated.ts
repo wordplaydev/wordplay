@@ -453,6 +453,7 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'ui.presence.joined': ['name'],
     'ui.presence.left': ['name'],
     'ui.project.save.failuresHeader': ['count'],
+    'ui.source.cursor.tab': ['alt'],
     'ui.source.empty': ['symbol'],
     'ui.source.options.locale.all': ['count'],
     'ui.template.unparsable': ['template'],

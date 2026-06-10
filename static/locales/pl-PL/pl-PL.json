@@ -5306,7 +5306,8 @@
                 },
                 "nextMatch": "$~przejdź do następnego wyniku wyszukiwania",
                 "insertTranslate": "$~wstaw symbol tłumaczenia",
-                "insertThis": "$~wstaw ten symbol"
+                "insertThis": "$~wstaw ten symbol",
+                "tab": "$?"
             },
             "options": {
                 "locale": {
@@ -5848,6 +5849,11 @@
                             "$~domyślne odstępy między blokami",
                             "$~luźniejsze bloki ułatwiające zaznaczanie i przeciąganie"
                         ]
+                    },
+                    "tab": {
+                        "label": "$?",
+                        "labels": ["$?", "$?"],
+                        "tips": ["$?", "$?"]
                     }
                 },
                 "options": {

@@ -12,7 +12,7 @@ This week we made improvements to the output palette, output editing on stage, a
 
 - 🖱️ There's a new block-based editing palette sidebar for quicker dragging and dropping.
 - 🖱️ Block-based editing with drag and copy and paste is now much more consistent. And when something can't be dragged or paste, we explain why in a new editor footer message.
-- 📋 There's now a visual clipboard to show what's copied.
+- 📋 There's now a visual clipboard to show what's copied (#10).
 - 💡 When you write formatted text, auto-complete now suggests your [custom characters](https://wordplay.dev/characters), so you can drop them into your words without typing their names — even to fill an empty spot. (#664)
 - 🖼️ We now render custom characters in a regular @TextLiteral, in addition to a @FormattedLiteral.
 - 😊 Now you can duplicate characters.
@@ -20,6 +20,7 @@ This week we made improvements to the output palette, output editing on stage, a
 - 🔶 We add support for editing, moving, rotating, and scaling all @Shape output!
 - ⚡️ We made it possible to edit all aspects of output in the palette (#172, #173, #174).
 - 💨 We made changes to a @Phrase's text animate too, in addition to rotate, scale, color, and other properties.
+- ⌨️ We added a setting to change the behavior of the tab key (#758).
 
 # Changed
 

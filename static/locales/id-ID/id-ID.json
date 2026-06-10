@@ -5549,7 +5549,8 @@
                 },
                 "nextMatch": "$~Lanjutkan ke hasil pencarian berikutnya",
                 "insertTranslate": "$~sisipkan simbol terjemahan",
-                "insertThis": "$~sisipkan simbol ini"
+                "insertThis": "$~sisipkan simbol ini",
+                "tab": "$~Tombol Tab memindahkan fokus keyboard. Untuk menyisipkan tab, tekan Ctrl + $alt + Tab, gunakan tombol sisipkan di bawah, atau ubah ini di pengaturan."
             },
             "error": {
                 "invalidName": "$~Ini harus berupa nama Wordplay yang valid.",
@@ -6086,6 +6087,14 @@
                             "$~Teks horizontal, dibaca dari kiri ke kanan",
                             "$~Teks vertikal, dibaca dari kanan ke kiri.",
                             "$~Teks vertikal, dibaca dari kiri ke kanan"
+                        ]
+                    },
+                    "tab": {
+                        "label": "$~tombol tab",
+                        "labels": ["$~alihkan fokus", "$~sisipkan tab"],
+                        "tips": [
+                            "$~tombol tab memindahkan fokus keyboard ke kontrol berikutnya",
+                            "$~tab menyisipkan tab di editor"
                         ]
                     }
                 },

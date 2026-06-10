@@ -55,8 +55,8 @@ import FunctionDefinition from '@nodes/FunctionDefinition';
 import Names from '@nodes/Names';
 import Source from '@nodes/Source';
 import { Sym } from '@nodes/Sym';
-import { TAB_SYMBOL } from '@parser/Spaces';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
+import { TAB_SYMBOL } from '@parser/Spaces';
 import type Evaluator from '@runtime/Evaluator';
 
 export type Command = {
@@ -164,6 +164,27 @@ export const Category = {
 } as const;
 export type Category = (typeof Category)[keyof typeof Category];
 
+/** Whether the current device uses macOS/iOS modifier-key conventions, which
+ *  label modifiers with symbols rather than words. */
+export function onMacOS() {
+    return (
+        typeof navigator !== 'undefined' &&
+        navigator.userAgent.indexOf('Mac') !== -1
+    );
+}
+
+/** Platform-specific labels for the modifier keys, reused wherever we summarize a
+ *  keyboard shortcut (toShortcut and in-editor instructions like the Tab notice). */
+export function controlKeyLabel() {
+    return onMacOS() ? '⌘' : 'Ctrl';
+}
+export function altKeyLabel() {
+    return onMacOS() ? '⎇' : 'Alt';
+}
+export function shiftKeyLabel() {
+    return onMacOS() ? '⇧' : 'Shift';
+}
+
 export function toShortcut(
     command: {
         control: boolean | undefined;
@@ -176,12 +197,10 @@ export function toShortcut(
     hideShift = false,
     hideAlt = false,
 ) {
-    const mac =
-        typeof navigator !== 'undefined' &&
-        navigator.userAgent.indexOf('Mac') !== -1;
-    return `${command.control && !hideControl ? (mac ? '⌘' : 'Ctrl+') : ''}${
-        command.alt && !hideAlt ? (mac ? '⎇' : 'Alt + ') : ''
-    }${command.shift && !hideShift ? (mac ? '⇧' : 'Shift + ') : ''}${
+    const mac = onMacOS();
+    return `${command.control && !hideControl ? (mac ? controlKeyLabel() : controlKeyLabel() + '+') : ''}${
+        command.alt && !hideAlt ? (mac ? altKeyLabel() : altKeyLabel() + ' + ') : ''
+    }${command.shift && !hideShift ? (mac ? shiftKeyLabel() : shiftKeyLabel() + ' + ') : ''}${
         command.keySymbol ?? command.key ?? '-'
     }`;
 }

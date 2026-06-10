@@ -939,6 +939,7 @@ export const writingLayout = Settings.settings.writingLayout.value;
 export const camera = Settings.settings.camera.value;
 export const dark = Settings.settings.dark.value;
 export const spaceIndicator = Settings.settings.space.value;
+export const insertTab = Settings.settings.tab.value;
 export const showLines = Settings.settings.lines.value;
 export const showAnnotations = derived(
     Settings.settings.annotations.value,

@@ -28,6 +28,7 @@ import { LocalesSetting } from '@db/settings/LocalesSetting';
 import { MicSetting } from '@db/settings/MicSetting';
 import { SaySetting } from '@db/settings/SaySetting';
 import { SpaceSetting } from '@db/settings/SpaceSetting';
+import { TabSetting } from '@db/settings/TabSetting';
 import {
     TutorialProgressSetting,
     type TutorialProgress,
@@ -109,6 +110,7 @@ export default class SettingsDatabase {
         howToNotifications: HowToNotificationsSetting,
         updates: UpdatesSetting,
         say: SaySetting,
+        tab: TabSetting,
     };
 
     constructor(database: Database, locales: SupportedLocale[]) {
@@ -331,6 +333,14 @@ export default class SettingsDatabase {
 
     getSpace() {
         return this.settings.space.get();
+    }
+
+    setTab(on: boolean) {
+        this.settings.tab.set(this.database, on);
+    }
+
+    getTab() {
+        return this.settings.tab.get();
     }
 
     setBlocks(on: boolean) {

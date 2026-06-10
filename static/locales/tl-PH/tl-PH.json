@@ -5547,7 +5547,8 @@
                 },
                 "nextMatch": "$~pumunta sa susunod na tugma sa paghahanap",
                 "insertTranslate": "$~ipasok ang simbolo ng pagsasalin",
-                "insertThis": "$~ilagay ang simbolong ito"
+                "insertThis": "$~ilagay ang simbolong ito",
+                "tab": "$?"
             },
             "error": {
                 "invalidName": "$~Dapat itong isang wastong pangalan ng Wordplay.",
@@ -6078,6 +6079,11 @@
                             "$~default na espasyo sa bloke",
                             "$~mas maluwag na mga bloke para sa mas madaling pagpili at pag-drag"
                         ]
+                    },
+                    "tab": {
+                        "label": "$?",
+                        "labels": ["$?", "$?"],
+                        "tips": ["$?", "$?"]
                     }
                 },
                 "options": {

@@ -510,6 +510,8 @@ type UITexts = {
             elide: string;
             /** [plain] Large deletion notification */
             largeDelete: string;
+            /** [plain] Notice shown when Tab is pressed and tab-inserts-tab is off, explaining how to insert a tab. $alt is the platform-specific Alt/Option modifier label. */
+            tab: Template<['alt']>;
             /** Explanations for why something isn't editable */
             ignored: {
                 /** [plain] The source is not editable */
@@ -1091,6 +1093,8 @@ type UITexts = {
                 space: ModeText<[string, string]>;
                 /** The line number on/off mode */
                 lines: ModeText<[string, string]>;
+                /** The tab key behavior mode (switch focus/insert tab) */
+                tab: ModeText<[string, string]>;
             };
             options: {
                 /** [plain] The label for the font face chooser */

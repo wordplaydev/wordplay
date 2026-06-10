@@ -5284,7 +5284,8 @@
                 },
                 "nextMatch": "$~Zum nächsten Suchtreffer gehen",
                 "insertTranslate": "$~Übersetzungssymbol einfügen",
-                "insertThis": "$~Fügen Sie dieses Symbol ein"
+                "insertThis": "$~Fügen Sie dieses Symbol ein",
+                "tab": "$~Mit der Tabulatortaste verschieben Sie den Tastaturfokus. Um einen Tabulator einzufügen, drücken Sie Strg + $alt + Tab, verwenden Sie die Schaltfläche „Einfügen“ unten oder ändern Sie dies in den Einstellungen."
             },
             "options": {
                 "locale": {
@@ -5821,6 +5822,17 @@
                             "$~engere Blöcke, um mehr Code auf dem Bildschirm anzuzeigen",
                             "$~Standard-Blockabstand",
                             "$~Lose Blöcke für einfachere Auswahl und Verschiebung"
+                        ]
+                    },
+                    "tab": {
+                        "label": "$~Tabulatortaste",
+                        "labels": [
+                            "$~Fokus wechseln",
+                            "$~Registerkarte einfügen"
+                        ],
+                        "tips": [
+                            "$~Die Tabulatortaste verschiebt den Tastaturfokus zum nächsten Steuerelement.",
+                            "$~Mit dem Befehl „tab“ wird ein Tabulator im Editor eingefügt."
                         ]
                     }
                 },

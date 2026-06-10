@@ -5243,7 +5243,8 @@
                 },
                 "nextMatch": "$~转到下一个搜索结果",
                 "insertTranslate": "$~插入翻译符号",
-                "insertThis": "$~插入此符号"
+                "insertThis": "$~插入此符号",
+                "tab": "$?"
             },
             "options": {
                 "locale": {
@@ -5761,6 +5762,11 @@
                             "默认块间距",
                             "更宽松的图块，便于选择和拖动"
                         ]
+                    },
+                    "tab": {
+                        "label": "$?",
+                        "labels": ["$?", "$?"],
+                        "tips": ["$?", "$?"]
                     }
                 },
                 "options": {
