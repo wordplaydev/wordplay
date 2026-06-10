@@ -115,3 +115,7 @@ if (announce && $announce) {
 5. After every code change, run `npm run check:now` and `npm test`. Both must pass before declaring a change done — IDE-reported diagnostics are not a substitute for a clean full type-check, and unit tests catch regressions in branches that hand-testing misses (especially environment-sensitive code like UA sniffing, where JSDOM and the locale verifier's tsx runtime differ from the browser).
 6. Always resolve all TypeScript errors, and never use `as`.
 7. When you finish a user-visible change (anything touching `src/components/**`, `src/routes/**`, `src/output/**`, or a new built-in feature/dialog/output type), ask the user once at the end: "Want me to draft a CHANGELOG entry via `/changelog`?" Skip the prompt for refactors, test-only edits, doc-only edits, comment edits, and dependency bumps. Never invoke `/changelog` without the user's confirmation.
+
+### Comments
+
+When writing comments, focus on rationale for a behavior, but keep it to 1-2 sentences.
