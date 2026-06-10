@@ -12,6 +12,7 @@
     } from '@components/editor/caret/CaretView.svelte';
     import RemoteCaretOverlay from '@components/editor/RemoteCaretOverlay.svelte';
     import { computeCaretDescriptionPosition } from '@components/editor/caretDescriptionPosition';
+    import isComposingKeyDown from '@components/editor/isComposingKeyDown';
     import {
         decodeRemoteCaret,
         encodeRemoteCaret,
@@ -1652,8 +1653,13 @@
     }
 
     function handleKeyDown(event: KeyboardEvent) {
-        // If we receive a keyboard event that says
-        if (composing && !event.isComposing) handleCompositionEnd();
+        // Some platforms (e.g. the Windows emoji picker) drop the compositionend
+        // event, leaving us stuck composing; a keydown that is not part of a
+        // composition is our cue to recover and commit. We must exclude IME
+        // composition keys, though — on macOS Chrome with 2-Set Korean,
+        // event.isComposing is intermittently false on syllable boundaries, and
+        // ending composition there fragments the word (#1054).
+        if (composing && !isComposingKeyDown(event)) handleCompositionEnd();
 
         // Ignore key down events that come just after composing. They're usually part of selecting the phrase in Safari.
         if (composingJustEnded) {
@@ -1673,6 +1679,14 @@
         if (keyWasDead) {
             return;
         }
+
+        // An IME composition key (keyCode 229) that arrives while we're not yet
+        // composing is the start of a composition (e.g. the first jamo of a Korean
+        // syllable). The browser drives it through composition events, so don't run
+        // it as an editor command — doing so inserts a raw pre-composition character
+        // (a stray leading ㅇ before the composed syllable) that the composition then
+        // duplicates (#1054).
+        if (isComposingKeyDown(event)) return;
 
         // Are we to replace the prior symbol with the next? Don't handle it as a command,
         // just let the character with diacritic remark be typed, and handle it in the input handler above.
@@ -3022,9 +3036,21 @@
         width: 10px; */
     }
 
+    /* While an IME composition is in progress the textarea must be visible so the
+       candidate window anchors to it. Style it to read as inline code at the caret
+       (matching the editor's font, size, and color) instead of the browser's
+       default white box painted over the program (#1054). */
     .keyboard-input.composing {
         opacity: 1;
         width: auto;
+        height: auto;
+        background: var(--wordplay-background);
+        color: var(--wordplay-foreground);
+        caret-color: var(--wordplay-foreground);
+        font-family: var(--wordplay-code-font);
+        font-size: calc(var(--wordplay-font-size) + var(--zoom));
+        line-height: var(--wordplay-code-line-height);
+        z-index: 1;
     }
 
     .caret-description {

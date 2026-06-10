@@ -29,6 +29,7 @@ This week we made improvements to the output palette, output editing on stage, a
 
 # Fixed
 
+- 요 We fixed Korean text entry (#1054).
 - 🚦 When nothing is selected, the palette's buttons for adding output now only make changes that fit — like wrapping a @Phrase in a @Group, or a @Form in a @Shape — instead of odd ones like putting a @Shape inside a @Phrase. When your program is empty, we offer to add a @Phrase to get you started.
 - ⌨️ Multiple selections on stage only worked by pointer; now keyboards are supported too (#118).
 
