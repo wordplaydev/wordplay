@@ -20,6 +20,7 @@ import Project from '@db/projects/Project';
 import ProjectCRDT, {
     base64ToBytes as decodeCRDTSnapshot,
 } from '@db/projects/ProjectCRDT';
+import { shouldReplayRemotePlainCode } from '@db/projects/crdtFold';
 import {
     PersistenceType,
     ProjectHistory,
@@ -1288,7 +1289,8 @@ export default class ProjectsDatabase {
         const beforeApply = remoteSources.map((_, i) => crdt.getCode(i));
 
         const snapshot = remote.getCRDTSnapshot();
-        if (snapshot !== null && snapshot.length > 0) {
+        const remoteHasCRDT = snapshot !== null && snapshot.length > 0;
+        if (remoteHasCRDT) {
             try {
                 const bytes = decodeCRDTSnapshot(snapshot);
                 crdt.applyRemoteUpdate(bytes);
@@ -1298,13 +1300,19 @@ export default class ProjectsDatabase {
         }
 
         // For each source: if applying the snapshot already moved the
-        // Y.Doc, we're in case (a) — trust Yjs. If the Y.Doc is
-        // unchanged AND still doesn't match remote.code, we're in
-        // case (b) — non-CRDT writer (Cloud Function rename,
-        // admin-side write, test helper writing `sources` directly,
-        // pre-v8 client). Apply that text as a 'remote' edit so the
-        // Y.Doc → Source bridge in activateCRDT lands it in history
-        // and the editor re-renders.
+        // Y.Doc, we're in case (a) — trust Yjs. If the remote carries a
+        // CRDT snapshot at all, the merged Y.Doc is the authoritative
+        // converged state and we must never second-guess it with the
+        // plain `code` view: that materialized view can momentarily
+        // trail its own snapshot while a peer is typing, and replaying
+        // it would delete already-converged characters (the live-coediting
+        // "dropped character" bug). If the Y.Doc is unchanged, the remote
+        // carries NO snapshot, AND it still doesn't match remote.code,
+        // we're in case (b) — a genuinely non-CRDT writer (Cloud Function
+        // rename, admin-side write, test helper writing `sources`
+        // directly, pre-v8 client), all of which write crdt=null. Apply
+        // that text as a 'remote' edit so the Y.Doc → Source bridge in
+        // activateCRDT lands it in history and the editor re-renders.
         // Case (b) is only safe when the remote project doc is at least
         // as fresh as our local in-memory project was *before* this
         // snapshot's merge bumped it. Otherwise the snapshot is a stale
@@ -1312,8 +1320,7 @@ export default class ProjectsDatabase {
         // doesn't yet include local typing we've done since — applying
         // it would roll back the Y.Doc to the older code and silently
         // delete those unpublished characters. The legitimate case-(b)
-        // scenarios (Cloud Function rename, admin-SDK rewrite, pre-v8
-        // client) all carry a fresh `timestamp` and pass this gate.
+        // scenarios all carry a fresh `timestamp` and pass this gate.
         const remoteIsFreshEnoughForCaseB =
             remote.getTimestamp() >= localTimestampBeforeMerge;
         const tracked = this.lastCRDTCodes.get(remote.getID()) ?? [];
@@ -1323,8 +1330,14 @@ export default class ProjectsDatabase {
             const remoteCode = remoteSources[i].code.toString();
             if (postApplyCode === remoteCode) continue;
             const snapshotChangedSource = postApplyCode !== beforeApply[i];
-            if (snapshotChangedSource) continue;
-            if (!remoteIsFreshEnoughForCaseB) continue;
+            if (
+                !shouldReplayRemotePlainCode({
+                    remoteHasCRDT,
+                    snapshotChangedSource,
+                    fresh: remoteIsFreshEnoughForCaseB,
+                })
+            )
+                continue;
             crdt.applyLocalEdit(i, postApplyCode, remoteCode, 'remote');
             tracked[i] = remoteCode;
             trackedChanged = true;
