@@ -1,3 +1,16 @@
+import {
+    getOutlineOfRows,
+    getRoundedBlockOutline,
+    getRowsOf,
+    getSpaceRects,
+    getTokenRects,
+    rectsToRows,
+    underlineFromRows,
+    type Outline,
+    type Rect,
+    type SpaceLineClip,
+} from '@components/editor/highlights/outline';
+import type Project from '@db/projects/Project';
 import type Caret from '@edit/caret/Caret';
 import {
     AssignmentPoint,
@@ -7,7 +20,6 @@ import {
     kindAcceptsDrop,
 } from '@edit/drag/Drag';
 import Bind from '@nodes/Bind';
-import Block from '@nodes/Block';
 import DefinitionExpression from '@nodes/DefinitionExpression';
 import type Evaluate from '@nodes/Evaluate';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
@@ -22,23 +34,10 @@ import type Source from '@nodes/Source';
 import StructureDefinition from '@nodes/StructureDefinition';
 import Token from '@nodes/Token';
 import TypePlaceholder from '@nodes/TypePlaceholder';
-import type Project from '@db/projects/Project';
 import type Evaluator from '@runtime/Evaluator';
-import type { SearchLanguages } from '@util/search';
 import UnicodeString from '@unicode/UnicodeString';
+import type { SearchLanguages } from '@util/search';
 import ExceptionValue from '@values/ExceptionValue';
-import {
-    getOutlineOfRows,
-    getRoundedBlockOutline,
-    getRowsOf,
-    getSpaceRects,
-    getTokenRects,
-    rectsToRows,
-    underlineFromRows,
-    type Outline,
-    type Rect,
-    type SpaceLineClip,
-} from '@components/editor/highlights/outline';
 
 /** Highlight types and whether they are rendered above or below the code. True for above. */
 export const HighlightTypes = {
@@ -235,7 +234,6 @@ export function getCaretHighlights(
     project: Project,
     caret: Caret,
     blocks: boolean,
-    animatingNodes: Set<Node> | undefined,
 ): Highlights {
     const highlights = new Highlights();
 
@@ -253,6 +251,10 @@ export function getCaretHighlights(
         if (match) highlights.add(source, match, 'delimiter');
     }
 
+    // The node containing the caret, used below to resolve references/names.
+    // We intentionally do NOT highlight it: the grey 1px border TokenView draws
+    // on the caret's token (its .active class) already marks where the caret is,
+    // so an additional 'hovered' outline on the parent would just be visual noise.
     let caretParent: Node | undefined;
     if (caret.position instanceof Node)
         caretParent = source.root.getParent(caret.position);
@@ -260,19 +262,6 @@ export function getCaretHighlights(
         const token = source.getTokenAt(caret.position);
         if (token) caretParent = source.root.getParent(token);
     }
-
-    if (
-        !blocks &&
-        caretParent &&
-        !caret.isNode() &&
-        (animatingNodes === undefined ||
-            !Array.from(animatingNodes).some((node) =>
-                node.contains(caretParent as Node),
-            )) &&
-        !(caretParent instanceof Program) &&
-        !(caretParent instanceof Block && caretParent.isRoot())
-    )
-        highlights.add(source, caretParent, 'hovered');
 
     const reference =
         caret.position instanceof Reference ||
@@ -565,7 +554,7 @@ export function getHighlights(
             selectedOutput,
             blocks,
         ),
-        getCaretHighlights(source, project, caret, blocks, animatingNodes),
+        getCaretHighlights(source, project, caret, blocks),
         getDragHighlights(
             source,
             project,

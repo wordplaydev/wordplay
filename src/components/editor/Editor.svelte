@@ -2349,13 +2349,7 @@
     let caretHighlights = $derived.by(() => {
         if (deferDisplayUpdate && $keyboardEditIdle !== IdleKind.Idle)
             return new Highlights();
-        return getCaretHighlights(
-            source,
-            project,
-            displayedCaret,
-            $blocks,
-            $animatingNodes,
-        );
+        return getCaretHighlights(source, project, displayedCaret, $blocks);
     });
 
     // Drag-derived slice. Skip when there is no drag/hover-select to avoid the
