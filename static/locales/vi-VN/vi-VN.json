@@ -5544,7 +5544,7 @@
                 "nextMatch": "$~chuyển đến kết quả tìm kiếm phù hợp tiếp theo",
                 "insertTranslate": "$~chèn ký hiệu dịch",
                 "insertThis": "$~chèn biểu tượng này",
-                "tab": "$?"
+                "tab": "$~Phím Tab di chuyển con trỏ bàn phím. Để chèn tab, nhấn Ctrl + $alt + Tab, sử dụng nút chèn bên dưới hoặc thay đổi trong cài đặt."
             },
             "error": {
                 "invalidName": "$~Đây phải là một tên chơi chữ hợp lệ.",
@@ -6074,9 +6074,12 @@
                         ]
                     },
                     "tab": {
-                        "label": "$?",
-                        "labels": ["$?", "$?"],
-                        "tips": ["$?", "$?"]
+                        "label": "$~phím tab",
+                        "labels": ["$~chuyển tiêu điểm", "$~chèn tab"],
+                        "tips": [
+                            "$~Phím Tab di chuyển con trỏ bàn phím đến điều khiển tiếp theo.",
+                            "$~tab chèn một tab vào trình soạn thảo"
+                        ]
                     }
                 },
                 "options": {

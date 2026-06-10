@@ -5299,7 +5299,7 @@
                 "nextMatch": "$~gå till nästa sökträff",
                 "insertTranslate": "$~infoga översättningssymbol",
                 "insertThis": "$~infoga den här symbolen",
-                "tab": "$?"
+                "tab": "$~Tabb flyttar tangentbordsfokus. För att infoga en tabb, tryck Ctrl+ $alt +Tab, använd infoga-knappen nedan eller ändra detta i inställningarna."
             },
             "options": {
                 "locale": {
@@ -5839,9 +5839,12 @@
                         ]
                     },
                     "tab": {
-                        "label": "$?",
-                        "labels": ["$?", "$?"],
-                        "tips": ["$?", "$?"]
+                        "label": "$~tabbtangent",
+                        "labels": ["$~byt fokus", "$~infogningsflik"],
+                        "tips": [
+                            "$~Tab flyttar tangentbordsfokus till nästa kontroll",
+                            "$~tabb infogar en tabb i redigeraren"
+                        ]
                     }
                 },
                 "options": {

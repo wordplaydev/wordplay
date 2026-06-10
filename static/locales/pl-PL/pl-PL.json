@@ -5307,7 +5307,7 @@
                 "nextMatch": "$~przejdź do następnego wyniku wyszukiwania",
                 "insertTranslate": "$~wstaw symbol tłumaczenia",
                 "insertThis": "$~wstaw ten symbol",
-                "tab": "$?"
+                "tab": "$~Klawisz Tab przesuwa fokus klawiatury. Aby wstawić tabulator, naciśnij Ctrl+ $alt +Tab, użyj poniższego przycisku „Wstaw” lub zmień to w ustawieniach."
             },
             "options": {
                 "locale": {
@@ -5851,9 +5851,12 @@
                         ]
                     },
                     "tab": {
-                        "label": "$?",
-                        "labels": ["$?", "$?"],
-                        "tips": ["$?", "$?"]
+                        "label": "$~klawisz Tab",
+                        "labels": ["$~przełącz fokus", "$~wstaw zakładkę"],
+                        "tips": [
+                            "$~Tab przenosi fokus klawiatury do następnego elementu sterującego",
+                            "$~tabulator wstawia tabulator do edytora"
+                        ]
                     }
                 },
                 "options": {

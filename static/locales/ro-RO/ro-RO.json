@@ -5550,7 +5550,7 @@
                 "nextMatch": "$~treceți la următoarea potrivire de căutare",
                 "insertTranslate": "$~inserați simbolul de traducere",
                 "insertThis": "$~introduceți acest simbol",
-                "tab": "$?"
+                "tab": "$~Tab mută focalizarea tastaturii. Pentru a insera un tabulator, apăsați Ctrl+ $alt +Tab, utilizați butonul Inserare de mai jos sau modificați această opțiune în setări."
             },
             "error": {
                 "invalidName": "$~Acesta trebuie să fie un nume valid de joc de cuvinte.",
@@ -6090,9 +6090,15 @@
                         ]
                     },
                     "tab": {
-                        "label": "$?",
-                        "labels": ["$?", "$?"],
-                        "tips": ["$?", "$?"]
+                        "label": "$~tasta Tab",
+                        "labels": [
+                            "$~schimbă focalizarea",
+                            "$~inserează o filă"
+                        ],
+                        "tips": [
+                            "$~Tab mută focalizarea tastaturii la următorul control",
+                            "$~tab inserează un tab în editor"
+                        ]
                     }
                 },
                 "options": {

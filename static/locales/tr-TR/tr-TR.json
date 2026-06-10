@@ -5299,7 +5299,7 @@
                 "nextMatch": "$~Sonraki arama sonucuna git",
                 "insertTranslate": "$~çeviri sembolünü ekle",
                 "insertThis": "$~Bu sembolü ekleyin",
-                "tab": "$?"
+                "tab": "$~Tab tuşu klavye odağını değiştirir. Bir sekme eklemek için Ctrl + $alt + Tab tuşlarına basın, aşağıdaki ekleme düğmesini kullanın veya bunu ayarlardan değiştirin."
             },
             "options": {
                 "locale": {
@@ -5835,9 +5835,12 @@
                         ]
                     },
                     "tab": {
-                        "label": "$?",
-                        "labels": ["$?", "$?"],
-                        "tips": ["$?", "$?"]
+                        "label": "$~sekme tuşu",
+                        "labels": ["$~odak değiştir", "$~sekme ekle"],
+                        "tips": [
+                            "$~Tab tuşu, klavye odağını bir sonraki kontrole taşır.",
+                            "$~tab, düzenleyiciye bir sekme ekler."
+                        ]
                     }
                 },
                 "options": {

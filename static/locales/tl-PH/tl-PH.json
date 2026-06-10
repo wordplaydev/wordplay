@@ -5548,7 +5548,7 @@
                 "nextMatch": "$~pumunta sa susunod na tugma sa paghahanap",
                 "insertTranslate": "$~ipasok ang simbolo ng pagsasalin",
                 "insertThis": "$~ilagay ang simbolong ito",
-                "tab": "$?"
+                "tab": "$~Inililipat ng Tab ang pokus ng keyboard. Para maglagay ng tab, pindutin ang Ctrl+ $alt +Tab, gamitin ang button na insert sa ibaba, o baguhin ito sa mga setting."
             },
             "error": {
                 "invalidName": "$~Dapat itong isang wastong pangalan ng Wordplay.",
@@ -6081,9 +6081,12 @@
                         ]
                     },
                     "tab": {
-                        "label": "$?",
-                        "labels": ["$?", "$?"],
-                        "tips": ["$?", "$?"]
+                        "label": "$~pindutan ng tab",
+                        "labels": ["$~magpalit ng pokus", "$~ipasok ang tab"],
+                        "tips": [
+                            "$~Inililipat ng tab ang focus ng keyboard sa susunod na kontrol",
+                            "$~Naglalagay ang tab ng tab sa editor"
+                        ]
                     }
                 },
                 "options": {

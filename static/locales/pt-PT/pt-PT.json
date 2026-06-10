@@ -5539,7 +5539,7 @@
                 "nextMatch": "ir para o próximo resultado da pesquisa",
                 "insertTranslate": "inserir símbolo de tradução",
                 "insertThis": "Insira este símbolo",
-                "tab": "$?"
+                "tab": "$~A tecla Tab move o foco do teclado. Para introduzir uma tabulação, prima Ctrl+ $alt +Tab, utilize o botão de inserção abaixo ou altere esta definição."
             },
             "error": {
                 "invalidName": "Este deve ser um nome válido para um jogo de palavras.",
@@ -6072,9 +6072,12 @@
                         ]
                     },
                     "tab": {
-                        "label": "$?",
-                        "labels": ["$?", "$?"],
-                        "tips": ["$?", "$?"]
+                        "label": "$~tecla tab",
+                        "labels": ["$~mudar o foco", "$~inserir guia"],
+                        "tips": [
+                            "$~A tecla Tab move o foco do teclado para o comando seguinte.",
+                            "$~A tecla Tab insere um separador no editor."
+                        ]
                     }
                 },
                 "options": {
