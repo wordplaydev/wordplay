@@ -130,6 +130,21 @@
 
     const user = getUser();
 
+    // This is a component to extract description from the code and then display it on games 
+    // It adapt to the primary language it is written 
+
+    const DESCRIPTION_REGEX = /^¶([^¶]*)¶(?:\/[a-zA-Z-]+)?(?:\n|$)/s;
+
+    let description = $derived.by(() => {
+        const code = project.getMain().getCode().toString();
+        const match = DESCRIPTION_REGEX.exec(code);
+        if (!match) return null;
+        const lang = project.getPrimaryLanguage();
+        const segmenter = new Intl.Segmenter(lang, { granularity: 'grapheme' });
+        const raw = match[1].replace(/\n+/g, ' ').trim();
+        return Array.from(segmenter.segment(raw), (s) => s.segment).join('');
+    });
+
     let path = $derived(link ?? project.getLink(true));
 
     /** See if this is a public project being viewed by someone who isn't a creator or collaborator */
@@ -225,7 +240,20 @@
                         {@render highlighted(localizedName)}{/if}</Link
                 >
                 {#if navigating && `${navigating.to?.url.pathname}${navigating.to?.url.search}` === path}
-                    <Spinning />{:else}{@render children?.()}
+                    <Spinning />
+                {:else}
+                    <div class="controls-and-description">
+                        {@render children?.()}
+                        {#if description !== null}
+                            <div class="description">
+                                <span class="description-text">{description}</span>
+                            </div>
+                        {:else}
+                            <div class="description">
+                                <span class="description-text placeholder">Description to be added</span>
+                            </div>
+                        {/if}
+                    </div>
                 {/if}
             {/if}
 
@@ -359,6 +387,38 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+    }
+
+    .controls-and-description {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: var(--wordplay-spacing);
+    }
+
+    .description {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: var(--wordplay-spacing);
+        font-size: var(--wordplay-small-font-size);
+        color: var(--wordplay-inactive-color);
+        max-width: 20em;
+    }
+
+    .description-text {
+        font-size: 16px;
+        font-family: 'Noto Color Emoji', 'Noto Sans', sans-serif;
+        color: white;
+        white-space: normal;
+        overflow-wrap: break-word;
+        word-break: break-word;
+        flex: 1;
+    }
+
+    .description-text.placeholder {
+        opacity: 0.5;
     }
 
     .search-highlight {
