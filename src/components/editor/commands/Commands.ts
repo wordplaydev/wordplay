@@ -59,6 +59,7 @@ import FunctionDefinition from '@nodes/FunctionDefinition';
 import Names from '@nodes/Names';
 import Source from '@nodes/Source';
 import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
 import { TAB_SYMBOL } from '@parser/Spaces';
 import type Evaluator from '@runtime/Evaluator';
@@ -1148,6 +1149,30 @@ const Commands: Command[] = [
                 }
             }
             return false;
+        },
+    },
+    {
+        symbol: '⇄',
+        description: (l) => l.ui.source.cursor.matchDelimiter,
+        visible: Visibility.Invisible,
+        category: Category.Cursor,
+        alt: false,
+        shift: true,
+        control: true,
+        key: 'Backslash',
+        keySymbol: '\\',
+        execute: ({ caret }) => {
+            if (caret === undefined) return false;
+            // Resolve the delimiter token under the caret: either selected as a
+            // node, or the token the caret is within.
+            const token =
+                caret.position instanceof Token
+                    ? caret.position
+                    : (caret.tokenExcludingSpace ?? undefined);
+            if (token === undefined) return false;
+            const match = caret.source.getMatchedDelimiter(token);
+            if (match === undefined) return false;
+            return caret.withPosition(match).withEntry(undefined);
         },
     },
     {

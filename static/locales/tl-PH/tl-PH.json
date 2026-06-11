@@ -5548,7 +5548,8 @@
                 "nextMatch": "$~pumunta sa susunod na tugma sa paghahanap",
                 "insertTranslate": "$~ipasok ang simbolo ng pagsasalin",
                 "insertThis": "$~ilagay ang simbolong ito",
-                "tab": "$~Inililipat ng Tab ang pokus ng keyboard. Para maglagay ng tab, pindutin ang Ctrl+ $alt +Tab, gamitin ang button na insert sa ibaba, o baguhin ito sa mga setting."
+                "tab": "$~Inililipat ng Tab ang pokus ng keyboard. Para maglagay ng tab, pindutin ang Ctrl+ $alt +Tab, gamitin ang button na insert sa ibaba, o baguhin ito sa mga setting.",
+                "matchDelimiter": "$~ilipat ang cursor sa katugmang delimiter"
             },
             "error": {
                 "invalidName": "$~Dapat itong isang wastong pangalan ng Wordplay.",
@@ -7274,7 +7275,11 @@
             "append": "$~/Sabik na ipasok…/",
             "remove": "$~/Isinasaalang-alang ang pag-alis…/",
             "replace": "$~/Gustong makialam…/",
-            "area": "$~uri ng kodigo"
+            "area": "$~uri ng kodigo",
+            "delimiterMatchedSameLine": "$~pagtutugma ng $name sa parehong linya",
+            "delimiterMatchedBelow": "$~tumutugmang mga linya $name $lines lines sa ibaba",
+            "delimiterMatchedAbove": "$~tumutugmang mga linya $name $lines lines sa itaas",
+            "delimiterUnmatched": "$~walang tumutugmang delimiter"
         },
         "template": {
             "unwritten": "$~Ipapaalam na",

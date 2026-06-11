@@ -5282,7 +5282,8 @@
                 "nextMatch": "$~다음 검색 결과로 이동",
                 "insertTranslate": "$~번역 기호 삽입",
                 "insertThis": "$~이 기호를 삽입하세요",
-                "tab": "$~Tab 키를 누르면 키보드 포커스가 이동합니다. 탭을 삽입하려면 Ctrl + $alt + Tab 키를 누르거나, 아래의 삽입 버튼을 사용하거나, 설정에서 이 설정을 변경하세요."
+                "tab": "$~Tab 키를 누르면 키보드 포커스가 이동합니다. 탭을 삽입하려면 Ctrl + $alt + Tab 키를 누르거나, 아래의 삽입 버튼을 사용하거나, 설정에서 이 설정을 변경하세요.",
+                "matchDelimiter": "$~커서를 일치하는 구분 기호로 이동합니다."
             },
             "options": {
                 "locale": {
@@ -6882,7 +6883,11 @@
             "remove": "$~/퇴사를 고려 중…/",
             "replace": "$~/참여하고 싶다…/",
             "range": "$~$start $end 선택 가능",
-            "area": "$~유형 코드"
+            "area": "$~유형 코드",
+            "delimiterMatchedSameLine": "$~같은 줄에 $name 과 일치",
+            "delimiterMatchedBelow": "$~아래 $name $lines 줄과 일치합니다.",
+            "delimiterMatchedAbove": "$~위의 $name $lines 줄과 일치합니다.",
+            "delimiterUnmatched": "$~일치하는 구분 기호가 없습니다"
         },
         "template": {
             "unwritten": "$~미정",

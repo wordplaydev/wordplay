@@ -5299,7 +5299,8 @@
                 "nextMatch": "$~次の検索結果へ進む",
                 "insertTranslate": "$~翻訳記号を挿入",
                 "insertThis": "$~この記号を挿入してください",
-                "tab": "$~Tab キーはキーボードのフォーカスを移動します。タブを挿入するには、Ctrl + $alt + Tab キーを押すか、下の挿入ボタンを使用するか、設定で変更してください。"
+                "tab": "$~Tab キーはキーボードのフォーカスを移動します。タブを挿入するには、Ctrl + $alt + Tab キーを押すか、下の挿入ボタンを使用するか、設定で変更してください。",
+                "matchDelimiter": "$~カーソルを対応する区切り文字に移動します"
             },
             "options": {
                 "locale": {
@@ -6974,7 +6975,11 @@
             "remove": "$~/退職を検討中…/",
             "replace": "$~/介入したい…/",
             "range": "$~$start$end",
-            "area": "$~タイプコード"
+            "area": "$~タイプコード",
+            "delimiterMatchedSameLine": "$~同じ行の$name",
+            "delimiterMatchedBelow": "$~一致する$name $lines",
+            "delimiterMatchedAbove": "$~一致する$name $lines",
+            "delimiterUnmatched": "$~一致する区切り文字がありません"
         },
         "template": {
             "unwritten": "$~未定",

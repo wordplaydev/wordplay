@@ -5542,7 +5542,8 @@
                 "nextMatch": "$~עבור אל התאמת החיפוש הבאה",
                 "insertTranslate": "$~הכנס סמל תרגום",
                 "insertThis": "$~הכנס את הסמל הזה",
-                "tab": "$~Tab מזיז את המיקוד במקלדת. כדי להוסיף Tab, לחצו Ctrl+ $alt +Tab, השתמשו בלחצן הוספה למטה, או שנו זאת בהגדרות."
+                "tab": "$~Tab מזיז את המיקוד במקלדת. כדי להוסיף Tab, לחצו Ctrl+ $alt +Tab, השתמשו בלחצן הוספה למטה, או שנו זאת בהגדרות.",
+                "matchDelimiter": "$~הזזת הסמן למפריד התואם"
             },
             "error": {
                 "invalidName": "$~זה חייב להיות שם חוקי של משחק מילים.",
@@ -7212,7 +7213,11 @@
             "append": "$~/להוט להכניס…/",
             "remove": "$~/שוקל לעזוב…/",
             "replace": "$~/רוצה להתערב…/",
-            "area": "$~קוד הקלדה"
+            "area": "$~קוד הקלדה",
+            "delimiterMatchedSameLine": "$~$name תואם באותה שורה",
+            "delimiterMatchedBelow": "$~שורות $name $lines תואמות למטה",
+            "delimiterMatchedAbove": "$~שורות תואמות של $name $lines מעל",
+            "delimiterUnmatched": "$~אין מפריד תואם"
         },
         "template": {
             "unwritten": "$~ייקבע בהמשך",

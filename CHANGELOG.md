@@ -26,6 +26,7 @@ This week we made improvements to the output palette, output editing on stage, a
 # Changed
 
 - ✏️ We made the editor's double click selection behavior make more sense.
+- We added alternating colors and different sizes to parentheses and brackets so they're easier to match in text mode (#1170). We also made the screen reader descriptions easier to understand.
 
 # Fixed
 

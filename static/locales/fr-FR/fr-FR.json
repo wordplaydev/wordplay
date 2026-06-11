@@ -5285,7 +5285,8 @@
                 "nextMatch": "$~passer au résultat de recherche suivant",
                 "insertTranslate": "$~insérer le symbole de traduction",
                 "insertThis": "$~insérer ce symbole",
-                "tab": "$~La touche Tabulation permet de déplacer le focus clavier. Pour insérer une tabulation, appuyez sur Ctrl+ $alt +Tab, utilisez le bouton Insérer ci-dessous ou modifiez ce paramètre."
+                "tab": "$~La touche Tabulation permet de déplacer le focus clavier. Pour insérer une tabulation, appuyez sur Ctrl+ $alt +Tab, utilisez le bouton Insérer ci-dessous ou modifiez ce paramètre.",
+                "matchDelimiter": "$~Déplacer le curseur jusqu'au délimiteur correspondant"
             },
             "options": {
                 "locale": {
@@ -6895,7 +6896,11 @@
             "remove": "$~/Envisage de partir…/",
             "replace": "$~/Veut intervenir…/",
             "range": "$~sélection de $start à $end",
-            "area": "$~code de type"
+            "area": "$~code de type",
+            "delimiterMatchedSameLine": "$~correspondance $name sur la même ligne",
+            "delimiterMatchedBelow": "$~lignes correspondant à $name $lines lines ci-dessous",
+            "delimiterMatchedAbove": "$~lignes correspondant à $name $lines lines ci-dessus",
+            "delimiterUnmatched": "$~aucun délimiteur correspondant"
         },
         "template": {
             "unwritten": "$~À déterminer",

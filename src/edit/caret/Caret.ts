@@ -1,4 +1,4 @@
-import type { LocaleTextAccessor } from '@locale/Locales';
+import type { LocaleTextAccessor, default as Locales } from '@locale/Locales';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import Block from '@nodes/Block';
 import Expression from '@nodes/Expression';
@@ -2140,9 +2140,60 @@ export default class Caret {
                       .toText()
                 : undefined;
 
+        /** If on a delimiter, say where its match is (or that it's unmatched). */
+        const delimiterDescription = this.getDelimiterMatchDescription(locales);
+
         return `${this.getPositionDescription(type, context)}${
-            conflictDescription ? `, ${conflictDescription}` : ''
-        }`;
+            delimiterDescription ? `, ${delimiterDescription}` : ''
+        }${conflictDescription ? `, ${conflictDescription}` : ''}`;
+    }
+
+    /**
+     * If the caret has selected a structural bracket, describe where its match
+     * is using line-relative phrasing (line numbers are optional and columns
+     * are grapheme-fuzzy, so relative is more reliable than absolute). Mirrors
+     * the visual match highlight, which also fires when the position is a Token.
+     */
+    getDelimiterMatchDescription(locales: Locales): string | undefined {
+        const token = this.position;
+        if (
+            !(token instanceof Token) ||
+            !this.source.getDelimiterDepths().has(token)
+        )
+            return undefined;
+
+        const match = this.source.getMatchedDelimiter(token);
+        if (match === undefined)
+            return locales
+                .concretize((l) => l.ui.edit.delimiterUnmatched)
+                .toText();
+
+        const name = match.getLabel(locales);
+        const tokenLine = this.source.getLine(token);
+        const matchLine = this.source.getLine(match);
+        if (
+            tokenLine === undefined ||
+            matchLine === undefined ||
+            tokenLine === matchLine
+        )
+            return locales
+                .concretize((l) => l.ui.edit.delimiterMatchedSameLine, { name })
+                .toText();
+
+        const delta = matchLine - tokenLine;
+        return delta > 0
+            ? locales
+                  .concretize((l) => l.ui.edit.delimiterMatchedBelow, {
+                      name,
+                      lines: delta,
+                  })
+                  .toText()
+            : locales
+                  .concretize((l) => l.ui.edit.delimiterMatchedAbove, {
+                      name,
+                      lines: -delta,
+                  })
+                  .toText();
     }
 
     getPositionDescription(type: Type | undefined, context: Context) {

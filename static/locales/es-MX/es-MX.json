@@ -5264,7 +5264,8 @@
                 "nextMatch": "$~pasar a la siguiente coincidencia de búsqueda",
                 "insertTranslate": "$~insertar símbolo de traslación",
                 "insertThis": "$~inserte este símbolo",
-                "tab": "$~La tecla Tab mueve el foco del teclado. Para insertar una tabulación, pulse Ctrl + $alt + Tab, utilice el botón de inserción que aparece a continuación o modifique esta configuración."
+                "tab": "$~La tecla Tab mueve el foco del teclado. Para insertar una tabulación, pulse Ctrl + $alt + Tab, utilice el botón de inserción que aparece a continuación o modifique esta configuración.",
+                "matchDelimiter": "$~mover el cursor al delimitador correspondiente"
             },
             "options": {
                 "locale": {
@@ -6874,7 +6875,11 @@
             "remove": "/Considera irse…/",
             "replace": "/Quiere intervenir…/",
             "range": "$~Selección desde $start a $end",
-            "area": "$~código de tipo"
+            "area": "$~código de tipo",
+            "delimiterMatchedSameLine": "$~que coincida con $name en la misma línea",
+            "delimiterMatchedBelow": "$~líneas que coinciden con $name $lines lines a continuación",
+            "delimiterMatchedAbove": "$~líneas que coinciden con $name $lines lines arriba",
+            "delimiterUnmatched": "$~ningún delimitador coincidente"
         },
         "template": {
             "unwritten": "Por determinar",

@@ -5544,7 +5544,8 @@
                 "nextMatch": "$~chuyển đến kết quả tìm kiếm phù hợp tiếp theo",
                 "insertTranslate": "$~chèn ký hiệu dịch",
                 "insertThis": "$~chèn biểu tượng này",
-                "tab": "$~Phím Tab di chuyển con trỏ bàn phím. Để chèn tab, nhấn Ctrl + $alt + Tab, sử dụng nút chèn bên dưới hoặc thay đổi trong cài đặt."
+                "tab": "$~Phím Tab di chuyển con trỏ bàn phím. Để chèn tab, nhấn Ctrl + $alt + Tab, sử dụng nút chèn bên dưới hoặc thay đổi trong cài đặt.",
+                "matchDelimiter": "$~Di chuyển con trỏ đến dấu phân cách phù hợp."
             },
             "error": {
                 "invalidName": "$~Đây phải là một tên chơi chữ hợp lệ.",
@@ -7216,7 +7217,11 @@
             "append": "$~/Rất muốn chèn…/",
             "remove": "$~/Đang cân nhắc việc rời đi…/",
             "replace": "$~/Muốn can thiệp…/",
-            "area": "$~mã loại"
+            "area": "$~mã loại",
+            "delimiterMatchedSameLine": "$~khớp với $name trên cùng một dòng",
+            "delimiterMatchedBelow": "$~khớp với $name $lines dòng bên dưới",
+            "delimiterMatchedAbove": "$~khớp với $name $lines dòng ở trên",
+            "delimiterUnmatched": "$~không có dấu phân cách phù hợp"
         },
         "template": {
             "unwritten": "$~Sẽ được xác định sau.",

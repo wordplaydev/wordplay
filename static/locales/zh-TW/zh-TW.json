@@ -5246,7 +5246,8 @@
                 "nextMatch": "$~轉到下一個搜尋結果",
                 "insertTranslate": "$~插入翻譯符號",
                 "insertThis": "$~插入此符號",
-                "tab": "$~Tab 鍵用於移動鍵盤焦點。若要插入製表符，請按 Ctrl + $alt + Tab，或使用下方的插入按鈕，或在設定中變更此設定。"
+                "tab": "$~Tab 鍵用於移動鍵盤焦點。若要插入製表符，請按 Ctrl + $alt + Tab，或使用下方的插入按鈕，或在設定中變更此設定。",
+                "matchDelimiter": "$~將遊標移至匹配的分隔符"
             },
             "options": {
                 "locale": {
@@ -6830,7 +6831,11 @@
             "remove": "/考慮離開…/",
             "replace": "/想要介入…/",
             "range": "$~選擇範圍從 $start 到 $end",
-            "area": "$~類型代碼"
+            "area": "$~類型代碼",
+            "delimiterMatchedSameLine": "$~在同一行中匹配$name",
+            "delimiterMatchedBelow": "$~匹配以下$name $lines",
+            "delimiterMatchedAbove": "$~匹配以上$name $lines",
+            "delimiterUnmatched": "$~沒有符合的分隔符"
         },
         "template": {
             "unwritten": "待定",

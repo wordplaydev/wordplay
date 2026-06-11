@@ -5299,7 +5299,8 @@
                 "nextMatch": "$~gå till nästa sökträff",
                 "insertTranslate": "$~infoga översättningssymbol",
                 "insertThis": "$~infoga den här symbolen",
-                "tab": "$~Tabb flyttar tangentbordsfokus. För att infoga en tabb, tryck Ctrl+ $alt +Tab, använd infoga-knappen nedan eller ändra detta i inställningarna."
+                "tab": "$~Tabb flyttar tangentbordsfokus. För att infoga en tabb, tryck Ctrl+ $alt +Tab, använd infoga-knappen nedan eller ändra detta i inställningarna.",
+                "matchDelimiter": "$~flytta markören till matchande avgränsare"
             },
             "options": {
                 "locale": {
@@ -6978,7 +6979,11 @@
             "remove": "$~/Överväger att lämna.../",
             "replace": "$~/Vill kliva in.../",
             "range": "$~urval från $start till $end",
-            "area": "$~typkod"
+            "area": "$~typkod",
+            "delimiterMatchedSameLine": "$~matchande $name på samma rad",
+            "delimiterMatchedBelow": "$~matchande $name $lines rader nedan",
+            "delimiterMatchedAbove": "$~matchande $name $lines rader ovanför",
+            "delimiterUnmatched": "$~ingen matchande avgränsare"
         },
         "template": {
             "unwritten": "$~TBD",

@@ -5550,7 +5550,8 @@
                 "nextMatch": "$~treceți la următoarea potrivire de căutare",
                 "insertTranslate": "$~inserați simbolul de traducere",
                 "insertThis": "$~introduceți acest simbol",
-                "tab": "$~Tab mută focalizarea tastaturii. Pentru a insera un tabulator, apăsați Ctrl+ $alt +Tab, utilizați butonul Inserare de mai jos sau modificați această opțiune în setări."
+                "tab": "$~Tab mută focalizarea tastaturii. Pentru a insera un tabulator, apăsați Ctrl+ $alt +Tab, utilizați butonul Inserare de mai jos sau modificați această opțiune în setări.",
+                "matchDelimiter": "$~mutați cursorul la delimitatorul corespunzător"
             },
             "error": {
                 "invalidName": "$~Acesta trebuie să fie un nume valid de joc de cuvinte.",
@@ -7283,7 +7284,11 @@
             "append": "$~/Nerăbdător să inserez…/",
             "remove": "$~/Se gândește să plece…/",
             "replace": "$~/Vrea să intervină…/",
-            "area": "$~cod de tip"
+            "area": "$~cod de tip",
+            "delimiterMatchedSameLine": "$~$name care se potrivește pe aceeași linie",
+            "delimiterMatchedBelow": "$~liniile $name $lines de mai jos se potrivesc",
+            "delimiterMatchedAbove": "$~liniile de mai sus care corespund cu $name $lines",
+            "delimiterUnmatched": "$~niciun delimitator potrivit"
         },
         "template": {
             "unwritten": "$~De stabilit",

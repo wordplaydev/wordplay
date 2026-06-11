@@ -14323,6 +14323,22 @@
                   "$ref": "#/definitions/Template%3C%5B%22count%22%5D%3E",
                   "description": "[formatted] A description of how many conflicts are at this position"
                 },
+                "delimiterMatchedAbove": {
+                  "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22lines%22%5D%3E",
+                  "description": "[plain] Says the selected delimiter's matching partner is some lines above. $name: partner label, $lines: number of lines"
+                },
+                "delimiterMatchedBelow": {
+                  "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22lines%22%5D%3E",
+                  "description": "[plain] Says the selected delimiter's matching partner is some lines below. $name: partner label, $lines: number of lines"
+                },
+                "delimiterMatchedSameLine": {
+                  "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                  "description": "[plain] Says the selected delimiter's matching partner is on the same line. $name: the partner delimiter's label"
+                },
+                "delimiterUnmatched": {
+                  "description": "[plain] Says the selected delimiter has no matching partner",
+                  "type": "string"
+                },
                 "inside": {
                   "$ref": "#/definitions/Template%3C%5B%22token%22%2C%22before%22%2C%22after%22%5D%3E",
                   "description": "[formatted] A way to say \"inside [description], between character [before|start] and [after|end]\""
@@ -14356,6 +14372,10 @@
                 "between",
                 "line",
                 "conflicts",
+                "delimiterMatchedSameLine",
+                "delimiterMatchedBelow",
+                "delimiterMatchedAbove",
+                "delimiterUnmatched",
                 "assign",
                 "append",
                 "remove",
@@ -19177,6 +19197,10 @@
                       "description": "[plain] Move cursor to line start",
                       "type": "string"
                     },
+                    "matchDelimiter": {
+                      "description": "[plain] Move cursor to the matching delimiter",
+                      "type": "string"
+                    },
                     "nextInline": {
                       "description": "[plain] Move cursor inline one position after",
                       "type": "string"
@@ -19270,6 +19294,7 @@
                     "priorNode",
                     "nextNode",
                     "parent",
+                    "matchDelimiter",
                     "selectAll",
                     "nextMatch",
                     "incrementLiteral",
@@ -20711,6 +20736,9 @@
       "type": "string"
     },
     "Template<[\"name\",\"layout\",\"pose\",\"color\"]>": {
+      "type": "string"
+    },
+    "Template<[\"name\",\"lines\"]>": {
       "type": "string"
     },
     "Template<[\"name\",\"scope\"]>": {

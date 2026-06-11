@@ -5,19 +5,11 @@
 <!-- svelte-ignore state_referenced_locally -->
 <script lang="ts">
     import Emoji from '@components/app/Emoji.svelte';
-    import EditorSearch from '@components/editor/EditorSearch.svelte';
     import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
     import CaretView, {
         type CaretBounds,
     } from '@components/editor/caret/CaretView.svelte';
-    import RemoteCaretOverlay from '@components/editor/RemoteCaretOverlay.svelte';
     import { computeCaretDescriptionPosition } from '@components/editor/caretDescriptionPosition';
-    import isComposingKeyDown from '@components/editor/isComposingKeyDown';
-    import {
-        decodeRemoteCaret,
-        encodeRemoteCaret,
-        type RemoteCaret,
-    } from '@db/projects/caretEncoding';
     import {
         type Edit,
         InsertSymbol,
@@ -27,6 +19,14 @@
         resetVisualColumnAfter,
     } from '@components/editor/commands/Commands';
     import { getInternalClipboard } from '@components/editor/commands/InternalClipboard';
+    import {
+        DragFeedbackNotification,
+        type EditorNotifier,
+        LargeDeletionNotification,
+        PasteFeedbackNotification,
+        TabNotification,
+    } from '@components/editor/EditorNotification';
+    import EditorSearch from '@components/editor/EditorSearch.svelte';
     import Highlight from '@components/editor/highlights/Highlight.svelte';
     import {
         type HighlightSpec,
@@ -43,7 +43,9 @@
         OutlinePadding,
         type Rect,
     } from '@components/editor/highlights/outline';
+    import isComposingKeyDown from '@components/editor/isComposingKeyDown';
     import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
+    import { pasteText } from '@components/editor/Paste';
     import {
         getBlockInsertionPoint,
         getCaretPositionAt,
@@ -51,6 +53,7 @@
         getNodeAt,
         getTextInsertionPointsAt,
     } from '@components/editor/pointer/PointerUtilities';
+    import RemoteCaretOverlay from '@components/editor/RemoteCaretOverlay.svelte';
     import OutputView from '@components/output/OutputView.svelte';
     import {
         type EditorState,
@@ -76,10 +79,11 @@
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import Templates from '@concepts/Templates';
     import type Conflict from '@conflicts/Conflict';
     import {
-        DB,
         CharactersDB,
+        DB,
         Projects,
         Settings,
         animationFactor,
@@ -90,6 +94,11 @@
         showLines,
         wrap,
     } from '@db/Database';
+    import {
+        type RemoteCaret,
+        decodeRemoteCaret,
+        encodeRemoteCaret,
+    } from '@db/projects/caretEncoding';
     import Project from '@db/projects/Project';
     import Caret, {
         type CaretPosition,
@@ -105,15 +114,6 @@
         isDropPermitted,
         isValidDropTarget,
     } from '@edit/drag/Drag';
-    import {
-        type EditorNotifier,
-        DragFeedbackNotification,
-        LargeDeletionNotification,
-        PasteFeedbackNotification,
-        TabNotification,
-    } from '@components/editor/EditorNotification';
-    import { pasteText } from '@components/editor/Paste';
-    import Templates from '@concepts/Templates';
     import Menu, { RevisionSet } from '@edit/menu/Menu';
     import { getEditsAt } from '@edit/menu/PossibleEdits';
     import type Revision from '@edit/revision/Revision';
@@ -130,10 +130,10 @@
     import { DOCUMENTATION_SYMBOL, TYPE_SYMBOL } from '@parser/Symbols';
     import type Evaluator from '@runtime/Evaluator';
     import UnicodeString from '@unicode/UnicodeString';
+    import { debounced } from '@util/debounce.svelte';
     import ExceptionValue from '@values/ExceptionValue';
     import { onDestroy, onMount, tick, untrack } from 'svelte';
     import { get, writable } from 'svelte/store';
-    import { debounced } from '@util/debounce.svelte';
 
     interface Props {
         /** The evaluator evaluating the source being edited. */
@@ -760,7 +760,14 @@
      * block" feedback drag-and-drop gives — instead of the generic "would create an error" message.
      */
     function pasteWithFeedback(text: string) {
-        const result = pasteText(text, $caret, project, $blocks, $locales, notify);
+        const result = pasteText(
+            text,
+            $caret,
+            project,
+            $blocks,
+            $locales,
+            notify,
+        );
         // `true` means a specific conflict explanation was shown, so there's nothing more to do.
         // Otherwise handleEdit applies the edit, or shows the generic ignored reason for a rejection.
         if (result !== true) handleEdit(result, IdleKind.Typed, true);
@@ -1515,7 +1522,11 @@
         );
         const index = tabbable.indexOf(from);
         const next = index >= 0 ? tabbable[index + 1] : undefined;
-        if (next) setKeyboardFocus(next, 'Switching focus on the insert-tab shortcut.');
+        if (next)
+            setKeyboardFocus(
+                next,
+                'Switching focus on the insert-tab shortcut.',
+            );
     }
 
     /** True if the last symbol was a dead key*/
@@ -1831,11 +1842,7 @@
             } else if (result !== undefined && result !== true) {
                 // Reset the visual goal column unless this was a vertical move,
                 // so left/right/home/end (etc.) update it. See resetVisualColumnAfter.
-                handleEdit(
-                    resetVisualColumnAfter(command, result),
-                    idle,
-                    true,
-                );
+                handleEdit(resetVisualColumnAfter(command, result), idle, true);
             }
 
             // Consume the event so that nothing else handles it.
@@ -2457,18 +2464,23 @@
         outlineRevision++;
     }
 
-    // While paused/stepping, each step can add or change the value rendered
-    // inline next to an expression in NodeView, which shifts the layout.
-    // Neither the source nor the highlight set changes, so the conflict
-    // underline outlines would otherwise stay at their pre-step positions.
-    // Refresh on every evaluator broadcast (it fires once per step) while not
-    // playing. During play the !playing guard keeps this cheap.
+    // The inline values rendered next to expressions while stepping shift the
+    // layout when they appear, and shift it back when they disappear on play.
+    // Neither the source nor the highlight set changes, so the caret/delimiter
+    // and conflict outlines would otherwise stick to the previous layout — most
+    // visibly, the matching-delimiter highlight ends up out of place after
+    // pausing/playing. Refresh (which drops the cached node rects and bumps the
+    // outline revision so the outlines remeasure) on every evaluator broadcast.
+    // We refresh on ALL broadcasts, not just the play/pause transition or step
+    // advances, because the values that reflow the editor can appear on a later
+    // broadcast than the one that flips the state — so a single
+    // transition-time remeasure can read the pre-reflow layout. The per-frame
+    // cost during play is the accepted tradeoff for outlines that stay put.
     // Untrack the call: refreshHighlights does `outlineRevision++`, whose
     // implicit read would otherwise register outlineRevision as a dep of this
     // effect and the subsequent write would re-trigger us — infinite loop.
     $effect(() => {
-        if ($evaluation !== undefined && !$evaluation.playing)
-            untrack(refreshHighlights);
+        if ($evaluation !== undefined) untrack(refreshHighlights);
     });
 
     // Re-measure outlines when an ancestor of the editor finishes a CSS

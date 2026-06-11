@@ -426,6 +426,8 @@ type UITexts = {
             nextNode: string;
             /** [plain] Select parent of node */
             parent: string;
+            /** [plain] Move cursor to the matching delimiter */
+            matchDelimiter: string;
             /** [plain] Select the whole program */
             selectAll: string;
             /** [plain] Move cursor to the next search match */

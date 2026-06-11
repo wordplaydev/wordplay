@@ -5244,7 +5244,8 @@
                 "nextMatch": "$~转到下一个搜索结果",
                 "insertTranslate": "$~插入翻译符号",
                 "insertThis": "$~插入此符号",
-                "tab": "$~Tab 键用于移动键盘焦点。要插入制表符，请按 Ctrl + $alt + Tab，或使用下方的插入按钮，或在设置中更改此设置。"
+                "tab": "$~Tab 键用于移动键盘焦点。要插入制表符，请按 Ctrl + $alt + Tab，或使用下方的插入按钮，或在设置中更改此设置。",
+                "matchDelimiter": "$~将光标移至匹配的分隔符"
             },
             "options": {
                 "locale": {
@@ -6822,7 +6823,11 @@
             "remove": "/考虑离开……/",
             "replace": "/想要介入……/",
             "range": "$~选择从 $start 美元到 $end 美元",
-            "area": "$~类型代码"
+            "area": "$~类型代码",
+            "delimiterMatchedSameLine": "$~在同一行中匹配$name",
+            "delimiterMatchedBelow": "$~匹配以下$name $lines",
+            "delimiterMatchedAbove": "$~匹配以上$name $lines",
+            "delimiterUnmatched": "$~没有匹配的分隔符"
         },
         "template": {
             "unwritten": "待定",

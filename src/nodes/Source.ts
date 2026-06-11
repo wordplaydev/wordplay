@@ -31,9 +31,34 @@ import Node, { node, type Grammar, type Replacement } from '@nodes/Node';
 import Program from '@nodes/Program';
 import Root from '@nodes/Root';
 import StructureDefinition from '@nodes/StructureDefinition';
+import { Sym, type SymType } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import type Type from '@nodes/Type';
 import type TypeSet from '@nodes/TypeSet';
+
+/** The structural bracket pairs whose nesting depth we visualize, each mapped to
+ * its pair group so depth is counted independently per delimiter type. Excludes
+ * separators, language tags, markup tags, and text delimiters — same set as
+ * TokenView's isBracket. */
+const StructuralDelimiterGroups = new Map<SymType, string>([
+    [Sym.EvalOpen, 'eval'],
+    [Sym.EvalClose, 'eval'],
+    [Sym.ListOpen, 'list'],
+    [Sym.ListClose, 'list'],
+    [Sym.SetOpen, 'set'],
+    [Sym.SetClose, 'set'],
+    [Sym.TableOpen, 'table'],
+    [Sym.TableClose, 'table'],
+    [Sym.TypeOpen, 'type'],
+    [Sym.TypeClose, 'type'],
+]);
+const StructuralOpenDelimiters = new Set<SymType>([
+    Sym.EvalOpen,
+    Sym.SetOpen,
+    Sym.ListOpen,
+    Sym.TableOpen,
+    Sym.TypeOpen,
+]);
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source extends Expression {
@@ -59,6 +84,9 @@ export default class Source extends Expression {
 
     /** An index of this tree for analyzing structure */
     readonly root: Root;
+
+    /** Lazily-computed nesting depth of each structural bracket token; see getDelimiterDepths(). */
+    private delimiterDepths: Map<Token, number> | undefined = undefined;
 
     constructor(
         names: string | Names,
@@ -248,6 +276,42 @@ export default class Source extends Expression {
         }
 
         return undefined;
+    }
+
+    /**
+     * Returns the nesting depth of every structural bracket token, counted
+     * independently per delimiter type (outermost of each type is 0), so a
+     * matching open/close pair share a depth and an inner delimiter of a
+     * different type starts its own type's count rather than inheriting an
+     * enclosing type's depth. Computed with a single linear scan over the
+     * tokens, so it degrades gracefully on unmatched brackets, and memoized
+     * since Source is immutable.
+     */
+    getDelimiterDepths(): Map<Token, number> {
+        if (this.delimiterDepths !== undefined) return this.delimiterDepths;
+        const depths = new Map<Token, number>();
+        // The number of currently-open delimiters of each type group.
+        const openCounts = new Map<string, number>();
+        for (const token of this.tokens) {
+            const types = token.getTypes();
+            const group = types
+                .map((type) => StructuralDelimiterGroups.get(type))
+                .find((g) => g !== undefined);
+            if (group === undefined) continue;
+            if (types.some((type) => StructuralOpenDelimiters.has(type))) {
+                const depth = openCounts.get(group) ?? 0;
+                depths.set(token, depth);
+                openCounts.set(group, depth + 1);
+            } else {
+                // Pop first so the close shares its matching open's depth;
+                // clamp at 0 for unmatched closes.
+                const depth = Math.max(0, (openCounts.get(group) ?? 0) - 1);
+                depths.set(token, depth);
+                openCounts.set(group, depth);
+            }
+        }
+        this.delimiterDepths = depths;
+        return depths;
     }
 
     withName(name: string, locale: LocaleText) {

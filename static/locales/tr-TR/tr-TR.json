@@ -5299,7 +5299,8 @@
                 "nextMatch": "$~Sonraki arama sonucuna git",
                 "insertTranslate": "$~çeviri sembolünü ekle",
                 "insertThis": "$~Bu sembolü ekleyin",
-                "tab": "$~Tab tuşu klavye odağını değiştirir. Bir sekme eklemek için Ctrl + $alt + Tab tuşlarına basın, aşağıdaki ekleme düğmesini kullanın veya bunu ayarlardan değiştirin."
+                "tab": "$~Tab tuşu klavye odağını değiştirir. Bir sekme eklemek için Ctrl + $alt + Tab tuşlarına basın, aşağıdaki ekleme düğmesini kullanın veya bunu ayarlardan değiştirin.",
+                "matchDelimiter": "$~İmleci eşleşen sınırlayıcıya taşı"
             },
             "options": {
                 "locale": {
@@ -6977,7 +6978,11 @@
             "remove": "$~/Ayrılmayı düşünüyor…/",
             "replace": "$~/İçeri girmek istiyor…/",
             "range": "$~$start $end'a kadar seçim",
-            "area": "$~tip kodu"
+            "area": "$~tip kodu",
+            "delimiterMatchedSameLine": "$~Aynı satırda $name ile eşleşen",
+            "delimiterMatchedBelow": "$~$name ile eşleşen $lines aşağıdaki satırlar",
+            "delimiterMatchedAbove": "$~$name eşleşen $lines satırları yukarıdaki satırlar",
+            "delimiterUnmatched": "$~eşleşen ayırıcı yok"
         },
         "template": {
             "unwritten": "$~Belirsiz",

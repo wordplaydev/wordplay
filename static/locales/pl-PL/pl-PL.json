@@ -5307,7 +5307,8 @@
                 "nextMatch": "$~przejdź do następnego wyniku wyszukiwania",
                 "insertTranslate": "$~wstaw symbol tłumaczenia",
                 "insertThis": "$~wstaw ten symbol",
-                "tab": "$~Klawisz Tab przesuwa fokus klawiatury. Aby wstawić tabulator, naciśnij Ctrl+ $alt +Tab, użyj poniższego przycisku „Wstaw” lub zmień to w ustawieniach."
+                "tab": "$~Klawisz Tab przesuwa fokus klawiatury. Aby wstawić tabulator, naciśnij Ctrl+ $alt +Tab, użyj poniższego przycisku „Wstaw” lub zmień to w ustawieniach.",
+                "matchDelimiter": "$~przesuń kursor do pasującego ogranicznika"
             },
             "options": {
                 "locale": {
@@ -6993,7 +6994,11 @@
             "remove": "$~/Rozważa opuszczenie…/",
             "replace": "$~/Chce wkroczyć…/",
             "range": "$~wybór od $start do $end dolarów",
-            "area": "$~wpisz kod"
+            "area": "$~wpisz kod",
+            "delimiterMatchedSameLine": "$~dopasowując $name w tym samym wierszu",
+            "delimiterMatchedBelow": "$~pasujące do $name $lines wiersze poniżej",
+            "delimiterMatchedAbove": "$~pasujące do $name $lines wiersze powyżej",
+            "delimiterUnmatched": "$~brak pasującego ogranicznika"
         },
         "template": {
             "unwritten": "$~Do ustalenia",

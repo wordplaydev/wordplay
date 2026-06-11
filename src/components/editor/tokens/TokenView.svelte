@@ -1,16 +1,9 @@
 <script lang="ts">
-    import Caret from '@edit/caret/Caret';
-    import Convert from '@nodes/Convert';
-    import Dimension from '@nodes/Dimension';
-    import Evaluate from '@nodes/Evaluate';
-    import Input from '@nodes/Input';
-    import Language from '@nodes/Language';
-    import Reference from '@nodes/Reference';
-    import { Sym } from '@nodes/Sym';
-    import Unit from '@nodes/Unit';
-    import Token from '@nodes/Token';
-    import { locales } from '@db/Database';
-    import { withColorEmoji } from '@unicode/emoji';
+    import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
+    import type { Format } from '@components/editor/nodes/NodeView.svelte';
+    import BooleanTokenEditor from '@components/editor/tokens/BooleanTokenEditor.svelte';
+    import TextOrPlaceholder from '@components/editor/tokens/TextOrPlaceholder.svelte';
+    import TokenCategories from '@components/editor/tokens/TokenCategories';
     import {
         getCaret,
         getHidden,
@@ -18,11 +11,19 @@
         getProject,
         getRoot,
     } from '@components/project/Contexts';
-    import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
-    import type { Format } from '@components/editor/nodes/NodeView.svelte';
-    import BooleanTokenEditor from '@components/editor/tokens/BooleanTokenEditor.svelte';
-    import TextOrPlaceholder from '@components/editor/tokens/TextOrPlaceholder.svelte';
-    import TokenCategories from '@components/editor/tokens/TokenCategories';
+    import { locales } from '@db/Database';
+    import Caret from '@edit/caret/Caret';
+    import Convert from '@nodes/Convert';
+    import Dimension from '@nodes/Dimension';
+    import Evaluate from '@nodes/Evaluate';
+    import Input from '@nodes/Input';
+    import Language from '@nodes/Language';
+    import Reference from '@nodes/Reference';
+    import Source from '@nodes/Source';
+    import { Sym } from '@nodes/Sym';
+    import Token from '@nodes/Token';
+    import Unit from '@nodes/Unit';
+    import { withColorEmoji } from '@unicode/emoji';
 
     interface TokenProps {
         node: Token;
@@ -96,6 +97,23 @@
             node.isSymbol(Sym.TypeClose),
     );
 
+    // Nesting depth of this bracket (matching pairs share a depth, counted per
+    // delimiter type), cycled across 4 palette colors so nesting is
+    // distinguishable. Reuses `context` (already derived above for
+    // placeholders/localization) to get the Source, so this adds no extra
+    // getSourceOf work; the depth map itself is memoized on the Source and
+    // built at most once per edit.
+    let bracketDepth = $derived.by(() => {
+        if (!isBracket) return undefined;
+        const source =
+            context?.source ??
+            (root?.root instanceof Source ? root.root : undefined);
+        return source?.getDelimiterDepths().get(node);
+    });
+    let bracketDepthClass = $derived(
+        bracketDepth === undefined ? '' : `bracket-depth-${bracketDepth % 6}`,
+    );
+
     // If requesed, localize the token's text.
     // Don't localize the name if the caret is in the name.
     let text = $derived(
@@ -129,7 +147,7 @@
             Array.isArray(node.types)
                 ? (node.types[0] ?? 'default')
                 : node.types,
-        )} {format.definition?.getDescriptor() || ''}"
+        )} {format.definition?.getDescriptor() || ''} {bracketDepthClass}"
         class:hide
         class:active
         class:editable
@@ -173,12 +191,13 @@
             Array.isArray(node.types)
                 ? (node.types[0] ?? 'default')
                 : node.types,
-        )}"
+        )} {bracketDepthClass}"
         class:hide
         class:active
         class:editable
         class:placeholder={placeholder !== undefined}
         class:added
+        class:bracket={isBracket}
         data-id={node.id}
         role="presentation"
     >
@@ -254,14 +273,42 @@
         color: var(--color-dark-grey);
     }
 
-    /* Structural brackets pop in blocks mode to make group boundaries
-       visually obvious. Text mode keeps the existing token sizing.
-       Uses rem (not em) so deeply-nested brackets don't compound to ever-
-       larger sizes — every bracket is the same fixed size. */
+    /* Structural brackets get a fixed size bump in blocks mode so group
+       boundaries are obvious. Fixed (not em) so deep nesting doesn't compound
+       to ever-larger brackets. Weight, style, and tone come from the depth
+       classes below. */
     .token-view.blocks.bracket {
-        font-weight: bold;
         font-size: calc(var(--wordplay-font-size) * 1.2);
     }
+
+    /* Nesting depth is conveyed by cycling four palette colors (counted per
+       delimiter type), so a delimiter's color tells you its nesting level.
+       Applies in text and blocks mode. */
+    .token-view.bracket.bracket-depth-0 {
+        color: var(--color-black);
+        transform: scale(1.3);
+    }
+    .token-view.bracket.bracket-depth-1 {
+        color: var(--color-orange);
+        transform: scale(1.15);
+    }
+    .token-view.bracket.bracket-depth-2 {
+        color: var(--color-black);
+        transform: scale(1);
+    }
+    .token-view.bracket.bracket-depth-3 {
+        color: var(--color-orange);
+        transform: scale(0.85);
+    }
+    .token-view.bracket.bracket-depth-4 {
+        color: var(--color-black);
+        transform: scale(0.6);
+    }
+    .token-view.bracket.bracket-depth-5 {
+        color: var(--color-orange);
+        transform: scale(0.45);
+    }
+
     .token-category-relation,
     :global(.Example) .token-category-relation {
         color: var(--wordplay-relation-color);

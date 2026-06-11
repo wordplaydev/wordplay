@@ -5285,7 +5285,8 @@
                 "nextMatch": "$~Zum nächsten Suchtreffer gehen",
                 "insertTranslate": "$~Übersetzungssymbol einfügen",
                 "insertThis": "$~Fügen Sie dieses Symbol ein",
-                "tab": "$~Mit der Tabulatortaste verschieben Sie den Tastaturfokus. Um einen Tabulator einzufügen, drücken Sie Strg + $alt + Tab, verwenden Sie die Schaltfläche „Einfügen“ unten oder ändern Sie dies in den Einstellungen."
+                "tab": "$~Mit der Tabulatortaste verschieben Sie den Tastaturfokus. Um einen Tabulator einzufügen, drücken Sie Strg + $alt + Tab, verwenden Sie die Schaltfläche „Einfügen“ unten oder ändern Sie dies in den Einstellungen.",
+                "matchDelimiter": "$~Cursor zum passenden Trennzeichen bewegen"
             },
             "options": {
                 "locale": {
@@ -6895,7 +6896,11 @@
             "remove": "$~/Erwägt, zu gehen…/",
             "replace": "$~/Will eingreifen…/",
             "range": "$~Auswahl von $start bis $end",
-            "area": "$~Typenschlüssel"
+            "area": "$~Typenschlüssel",
+            "delimiterMatchedSameLine": "$~Übereinstimmung von $name in derselben Zeile",
+            "delimiterMatchedBelow": "$~Passende Zeilen mit $name $lines unten",
+            "delimiterMatchedAbove": "$~übereinstimmende Zeilen mit $name $lines lines oben",
+            "delimiterUnmatched": "$~Kein passendes Trennzeichen"
         },
         "template": {
             "unwritten": "$~Wird noch bekannt gegeben",
