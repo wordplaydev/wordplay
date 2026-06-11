@@ -705,7 +705,14 @@ function getSpacePosition(
     const allSpace = source.spaces.getSpace(token);
     const lineSpace = spaceTextView.textContent;
     const lines = allSpace.split('\n');
-    const spaceBefore = lines.slice(0, parseInt(spaceLine)).join('\n');
+    // Source offset from the start of this token's space to the start of the
+    // target line's segment: each preceding segment's length plus its newline.
+    // (slice(0,n).join('\n') dropped the newline right before this segment, so
+    // blank/continuation lines resolved one char too early — which made
+    // Arrow-Down onto a blank line land on the current position and do nothing.)
+    const offsetToLine = lines
+        .slice(0, parseInt(spaceLine))
+        .reduce((sum, segment) => sum + segment.length + 1, 0);
 
     // Get the percent within the bounds of the space text that the pointer is.
     const spaceTextViewBounds = spaceTextView.getBoundingClientRect();
@@ -714,7 +721,7 @@ function getSpacePosition(
     // measure against — return the position at the start of this space line,
     // which is the end of the previous line's content.
     if (spaceTextViewBounds.width === 0)
-        return spaceStartPosition + spaceBefore.length;
+        return spaceStartPosition + offsetToLine;
 
     const proportion =
         (point.clientX - spaceTextViewBounds.left) / spaceTextViewBounds.width;
@@ -722,7 +729,7 @@ function getSpacePosition(
     // Map the proportion to a text buffer position.
     return (
         spaceStartPosition +
-        spaceBefore.length +
+        offsetToLine +
         Math.round(proportion * lineSpace.length)
     );
 }
