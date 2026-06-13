@@ -19,6 +19,7 @@ This week we improved the editor, fixed a few bugs, and added a new shorter tuto
 ### Fixed
 
 - ¶ We fixed many inconsistencies with the editor cursor in blocks and text mode.
+- 💨 We made the editor's drop down menus faster to display, especially big ones and especially in blocks mode.
 - 🐜 Debug timeline dragging was broken. It's fixed now!
 - 🔦 The little output chooser that appears when there are more than two source files was overlapping notifications. We moved it to avoid overlap.
 

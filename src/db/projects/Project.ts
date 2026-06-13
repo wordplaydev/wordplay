@@ -627,11 +627,20 @@ export default class Project {
         // Get the current conflicts.
         const currentConflicts = this.getMajorConflictsNow();
         const newConflictsBySource = new Map<Source, Conflict[]>();
+        // Each candidate replaces only one source; unchanged sources reproduce
+        // conflicts already in currentConflicts, so they can never contribute a
+        // NEW conflict. We can therefore recompute conflicts for just the changed
+        // source — unless some source borrows from another, the one channel by
+        // which a single-source edit can change another source's conflicts.
+        const crossSource = this.hasCrossSourceDependencies();
         // For all of the new sources, get the new conflicts caused by the revision.
         for (const newSource of newSources) {
-            const newConflicts = this.withSource(oldSource, newSource)
-                .getMajorConflictsNow()
-                .filter((conflict) => conflict.isBlocking());
+            const revised = this.withSource(oldSource, newSource);
+            const newConflicts = (
+                crossSource
+                    ? revised.getMajorConflictsNow()
+                    : revised.getMajorConflictsInSource(newSource)
+            ).filter((conflict) => conflict.isBlocking());
 
             // Remove all current conflicts that are in the new conflicts.
             newConflictsBySource.set(
@@ -654,13 +663,25 @@ export default class Project {
 
     getMajorConflictsNow() {
         let conflicts: Conflict[] = [];
-        for (const source of this.getSources()) {
-            const context = this.getContext(source);
-            for (const node of source.nodes()) {
-                conflicts = [...conflicts, ...node.computeConflicts(context)];
-            }
-        }
+        for (const source of this.getSources())
+            conflicts = [...conflicts, ...this.getMajorConflictsInSource(source)];
+        return conflicts;
+    }
+
+    /** Major (non-minor) conflicts for a single source, using that source's context. */
+    getMajorConflictsInSource(source: Source): Conflict[] {
+        const context = this.getContext(source);
+        let conflicts: Conflict[] = [];
+        for (const node of source.nodes())
+            conflicts = [...conflicts, ...node.computeConflicts(context)];
         return conflicts.filter((conflict) => !conflict.isMinor());
+    }
+
+    /** True if any source borrows from another, making source scopes interdependent. */
+    hasCrossSourceDependencies(): boolean {
+        return this.getSources().some(
+            (source) => source.expression.borrows.length > 0,
+        );
     }
 
     hasMajorConflictsNow() {

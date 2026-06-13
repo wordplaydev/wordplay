@@ -71,9 +71,12 @@ export default class Language extends Node {
     static getPossibleLanguages(context?: {
         context: { project: { getSources(): readonly { expression: Node }[] } };
     }): Language[] {
-        const bare = Object.keys(Languages).map((language) =>
-            Language.make(language),
-        );
+        // Suggest only the languages Wordplay has content for (those in
+        // SupportedLocales), not all ~500 ISO codes — a menu of every code is
+        // both slow to build and unusable. Any code is still typable directly.
+        const bare = Array.from(
+            new Set(SupportedLocales.map((locale) => locale.split('-')[0])),
+        ).map((language) => Language.make(language));
         const localized = SupportedLocales.map((locale) => {
             const [language, region] = locale.split('-');
             return Language.make(language, region);

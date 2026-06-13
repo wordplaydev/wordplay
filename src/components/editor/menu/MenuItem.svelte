@@ -20,6 +20,11 @@
 
     let view: HTMLDivElement | undefined = $state(undefined);
 
+    /** The selected item is always rendered/labeled (see `visible` below) so a
+     *  screen reader reading the menu's active descendant never races the
+     *  intersection observer. */
+    let isSelected = $derived(menu.getSelection() === entry);
+
     /** Is removal */
     let isRemoval = $derived(entry.isRemoval());
 
@@ -56,6 +61,30 @@
         walk(newNode);
         return result;
     });
+
+    /** Lazily mount the (expensive) RootView preview only once this item scrolls
+     *  into the menu's scroll container. A long candidate list (e.g. a Language
+     *  node's ~50 locale options) would otherwise mount dozens of node-view
+     *  trees up front — slow to show, and slow to tear down on dismiss. Both
+     *  the `.revisions` list and a `.submenu` carry role="menu", so that's the
+     *  right intersection root for top-level and submenu items alike. Latch
+     *  visible so scrolling back and forth doesn't thrash mount/unmount. */
+    let visible = $state(false);
+    $effect(() => {
+        const el = view;
+        if (!(el instanceof HTMLElement) || visible) return;
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries.some((entry) => entry.isIntersecting)) {
+                    visible = true;
+                    observer.disconnect();
+                }
+            },
+            { root: el.closest('[role="menu"]'), rootMargin: '100px' },
+        );
+        observer.observe(el);
+        return () => observer.disconnect();
+    });
 </script>
 
 <div
@@ -63,10 +92,12 @@
     tabindex="-1"
     bind:this={view}
     {id}
-    aria-label={entry
-        .getEditedNode($locales)[0]
-        .getDescription($locales, entry.context)
-        .toText()}
+    aria-label={visible || isSelected
+        ? entry
+              .getEditedNode($locales)[0]
+              .getDescription($locales, entry.context)
+              .toText()
+        : undefined}
     onpointerdown={(event) => {
         if (event.button !== 0) return;
         event.preventDefault();
@@ -83,17 +114,23 @@
         if (index) menu = menu.withSelection(index);
     }}
 >
-    {#if newNode !== undefined}
-        <RootView
-            node={isRemoval ? parent : newNode}
-            locale="symbolic"
-            blocks={$blocks}
-            inline={true}
-            removed={isRemoval ? removed : []}
-            {elided}
-        />
+    {#if visible || isSelected}
+        {#if newNode !== undefined}
+            <RootView
+                node={isRemoval ? parent : newNode}
+                locale="symbolic"
+                blocks={$blocks}
+                inline={true}
+                removed={isRemoval ? removed : []}
+                {elided}
+            />
+        {:else}
+            <MarkupHTMLView markup={entry.getDescription($locales)} />
+        {/if}
     {:else}
-        <MarkupHTMLView markup={entry.getDescription($locales)} />
+        <!-- Reserve a line of height until the preview mounts, so the scrollbar
+             and intersection bounds stay stable. -->
+        <span class="placeholder" aria-hidden="true"></span>
     {/if}
 </div>
 
@@ -107,6 +144,21 @@
 
     .revision:first-child {
         border-top: none;
+    }
+
+    /* Preview nodes are static samples, not editor content, so they shouldn't
+       play the block "pop" entry animation. Dozens fire at once when the menu
+       opens (and again as items lazily scroll in), adding paint churn and a
+       ~200ms settle that reads as lag. */
+    .revision :global(.node-view) {
+        animation: none;
+    }
+
+    /* Approximate one line of a rendered preview so off-screen items still
+       occupy space before they lazily mount. */
+    .placeholder {
+        display: block;
+        min-height: 1.3em;
     }
 
     .revision:last-child {

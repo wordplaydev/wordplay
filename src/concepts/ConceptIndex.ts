@@ -44,6 +44,12 @@ export default class ConceptIndex {
     /** A mapping of node ids to nodes, registered by examples that are generated. */
     readonly examples: Map<number, Node> = new Map();
 
+    /** Caches getNodeConcept by node kind. The result depends only on the node's
+     *  class and the concepts array is immutable for this index's lifetime, so
+     *  this collapses the per-call linear concept scan to O(1) after the first
+     *  lookup — hot when building a menu's revisions (one lookup per candidate). */
+    private readonly nodeConceptByKind = new Map<string, NodeConcept | undefined>();
+
     constructor(project: Project, concepts: Concept[], locales: Locales) {
         this.project = project;
 
@@ -214,14 +220,16 @@ export default class ConceptIndex {
 
     /** Given a node, get the most relevant concept to represent. Generally prefers functions, structures, binds, and streams over nodes. */
     getRelevantConcept(node: Node): Concept | undefined {
-        const context = this.project.getNodeContext(node);
+        // Only Evaluate/Reference nodes need a context to resolve their
+        // definition; compute it lazily so other nodes (e.g. Language) skip the
+        // per-call getNodeContext tree walk.
         const definition =
             node instanceof Evaluate ||
             node instanceof BinaryEvaluate ||
             node instanceof UnaryEvaluate
-                ? node.getFunction(context)
+                ? node.getFunction(this.project.getNodeContext(node))
                 : node instanceof Reference
-                  ? node.resolve(context)
+                  ? node.resolve(this.project.getNodeContext(node))
                   : node instanceof Bind
                     ? node
                     : undefined;
@@ -277,12 +285,18 @@ export default class ConceptIndex {
         );
     }
 
-    getNodeConcept(node: Node) {
-        return this.concepts.find(
-            (concept) =>
+    getNodeConcept(node: Node): NodeConcept | undefined {
+        const kind = node.getDescriptor();
+        const cached = this.nodeConceptByKind.get(kind);
+        if (cached !== undefined || this.nodeConceptByKind.has(kind))
+            return cached;
+        const found = this.concepts.find(
+            (concept): concept is NodeConcept =>
                 concept instanceof NodeConcept &&
                 concept.template.constructor === node.constructor,
         );
+        this.nodeConceptByKind.set(kind, found);
+        return found;
     }
 
     getGalleryHowConcept(howToId: string): GalleryHowConcept | undefined {
