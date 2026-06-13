@@ -151,53 +151,25 @@
 </div>
 
 <style>
-    /* Zero-height positioning shell: pins to the scroll viewport's top-right and
-       reserves no flex track, so the form floats above the code rather than
-       pushing it down. The visible chrome lives on .search-form so a background
-       can actually paint (a zero-height box can't). */
-    .search-container {
-        position: sticky;
-        top: var(--wordplay-spacing);
-        /* Stick to the scroll viewport's right edge, not the (potentially much
-           wider, horizontally-scrolled) editor content. Without this, in no-wrap
-           mode the toggle sits at the far right of the longest line, off-screen.
-           `right` pins it horizontally the same way `top` pins it vertically. */
-        right: var(--wordplay-spacing);
-        align-self: flex-end;
-        /* Don't reserve a flex track at the top, so the code isn't pushed
-           down; the form renders above the code via overflow. */
-        height: 0;
-        overflow: visible;
-        z-index: 1;
-        /* Place visually first (top) while staying last in DOM/tab order. */
-        order: -1;
-    }
+    /* .search-container only carries the pointer/keyboard handlers that isolate
+       search interaction from the editor caret. Positioning and the visible
+       bordered card are owned by the parent .editor-controls panel (in
+       Editor.svelte), so this wrapper needs no styles of its own. */
 
     /* Two columns: fields | controls. Each row is field + control; the replace
        row's cells land in the same columns as the search row's, so the two
-       fields right-align and the toggle/button right-align. */
+       fields right-align and the toggle/button right-align. The form grows down
+       and to the left as the fields appear; the surrounding card grows with it. */
     .search-form {
         display: grid;
         grid-template-columns: auto auto;
         justify-content: end;
         align-items: center;
-        gap: var(--wordplay-spacing-half);
+        gap: 0;
     }
 
-    /* When open, read as a panel hanging from the viewport's top-right corner:
-       the top and right edges are flush (no border, no padding) so the toggle
-       stays exactly where it was when closed, and the form grows down and to the
-       left with a left/bottom border and a single rounded inner corner. Inactive
-       (just the magnifier toggle), no chrome so it stays a bare floating button. */
     .search-form.active {
-        background: var(--wordplay-background);
-        border-left: var(--wordplay-border-width) solid
-            var(--wordplay-border-color);
-        border-bottom: var(--wordplay-border-width) solid
-            var(--wordplay-border-color);
-        border-bottom-left-radius: var(--wordplay-border-radius);
-        padding-left: var(--wordplay-spacing);
-        padding-bottom: var(--wordplay-spacing);
+        gap: var(--wordplay-spacing);
     }
 
     /* Fields fill the left column; controls the right. justify-self: end

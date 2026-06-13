@@ -2555,6 +2555,8 @@
                                                         getSourceIndexByID(
                                                             tile.id,
                                                         ))}
+                                                multipleSourcesVisible={layout.getVisibleSourceCount() >=
+                                                    2}
                                                 notify={getEditorNotifier(
                                                     tile.id,
                                                 )}

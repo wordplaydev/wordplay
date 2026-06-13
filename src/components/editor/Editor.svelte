@@ -27,14 +27,6 @@
         TabNotification,
     } from '@components/editor/EditorNotification';
     import EditorSearch from '@components/editor/EditorSearch.svelte';
-    import { isFoldableNode } from '@components/editor/util/folding';
-    import {
-        isNodeHidden,
-        isStrictlyHidden,
-        nearestRenderedAncestor,
-        nearestVisibleBoundary,
-        renderedTokenIds,
-    } from '@components/editor/util/foldedCaret';
     import Highlight from '@components/editor/highlights/Highlight.svelte';
     import {
         type HighlightSpec,
@@ -63,7 +55,15 @@
         getTextInsertionPointsAt,
     } from '@components/editor/pointer/PointerUtilities';
     import RemoteCaretOverlay from '@components/editor/RemoteCaretOverlay.svelte';
-    import OutputView from '@components/output/OutputView.svelte';
+    import {
+        isNodeHidden,
+        isStrictlyHidden,
+        nearestRenderedAncestor,
+        nearestVisibleBoundary,
+        renderedTokenIds,
+    } from '@components/editor/util/foldedCaret';
+    import { isFoldableNode } from '@components/editor/util/folding';
+    import OutputPreview from '@components/editor/OutputPreview.svelte';
     import {
         type EditorState,
         IdleKind,
@@ -81,14 +81,13 @@
         setCaret,
         setDragTarget,
         setEditor,
-        setFolded,
         setEffectiveFolded,
+        setFolded,
         setHighlights,
         setSetMenuAnchor,
     } from '@components/project/Contexts';
     import RootView from '@components/project/RootView.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Templates from '@concepts/Templates';
     import type Conflict from '@conflicts/Conflict';
@@ -144,7 +143,7 @@
     import { debounced } from '@util/debounce.svelte';
     import ExceptionValue from '@values/ExceptionValue';
     import { onDestroy, onMount, tick, untrack } from 'svelte';
-    import { get, writable, type Writable } from 'svelte/store';
+    import { type Writable, get, writable } from 'svelte/store';
 
     interface Props {
         /** The evaluator evaluating the source being edited. */
@@ -172,6 +171,10 @@
         conflictsOfInterest?: Conflict[];
         /** An preview function that shows this editor */
         setOutputPreview?: () => void;
+        /** Whether 2+ source editors are currently expanded/visible. The
+         *  output-preview toggle only makes sense when more than one source's
+         *  output could be shown on the stage. */
+        multipleSourcesVisible?: boolean;
         /** A function for updating conflicts of interest */
         updateConflicts?: (source: Source, conflicts: Conflict[]) => void;
         /** Controller for this editor's footer notifications (large deletions, drag feedback, etc.) */
@@ -193,6 +196,7 @@
         menu = $bindable(undefined),
         conflictsOfInterest = $bindable([]),
         setOutputPreview,
+        multipleSourcesVisible = false,
         updateConflicts,
         notify,
         caretSnapshot = $bindable(undefined),
@@ -233,9 +237,7 @@
             .map((path) => source.root.resolvePath(path))
             .filter((n): n is Node => n !== undefined);
     }
-    const folded = writable<Set<Node>>(
-        new Set(editable ? localFolded() : []),
-    );
+    const folded = writable<Set<Node>>(new Set(editable ? localFolded() : []));
     setFolded(folded);
 
     // The set actually used for rendering and caret behavior: `folded` minus the
@@ -1147,39 +1149,39 @@
                   breakPosition !== undefined
                   ? breakPosition
                   : // If in blocks mode and over an editable text token, get the caret position
-                  $blocks &&
-                    tokenUnderPointer instanceof Token &&
-                    Caret.isTokenTextBlockEditable(
-                        tokenUnderPointer,
-                        source.root.getParent(tokenUnderPointer),
-                    )
-                  ? getCaretPositionAt(
-                        $caret,
-                        event,
-                        getTokenViews,
-                        editor,
-                        $blocks,
-                        $locales.getDirection() === 'rtl',
-                    )
-                  : // If shift is down or in blocks mode and not over an editable text token, select the non-token node at the position.
-                    (event.shiftKey || $blocks) &&
-                      nonTokenNodeUnderPointer !== undefined
-                    ? nonTokenNodeUnderPointer
-                    : // If the node is a placeholder token, select it's placeholder ancestor
+                    $blocks &&
                       tokenUnderPointer instanceof Token &&
-                        tokenUnderPointer.isSymbol(Sym.Placeholder)
-                      ? source.root
-                            .getAncestors(tokenUnderPointer)
-                            .find((a) => a.isPlaceholder())
-                      : // Otherwise choose an index position under the mouse
-                        getCaretPositionAt(
-                            $caret,
-                            event,
-                            getTokenViews,
-                            editor,
-                            $blocks,
-                            $locales.getDirection() === 'rtl',
-                        );
+                      Caret.isTokenTextBlockEditable(
+                          tokenUnderPointer,
+                          source.root.getParent(tokenUnderPointer),
+                      )
+                    ? getCaretPositionAt(
+                          $caret,
+                          event,
+                          getTokenViews,
+                          editor,
+                          $blocks,
+                          $locales.getDirection() === 'rtl',
+                      )
+                    : // If shift is down or in blocks mode and not over an editable text token, select the non-token node at the position.
+                      (event.shiftKey || $blocks) &&
+                        nonTokenNodeUnderPointer !== undefined
+                      ? nonTokenNodeUnderPointer
+                      : // If the node is a placeholder token, select it's placeholder ancestor
+                        tokenUnderPointer instanceof Token &&
+                          tokenUnderPointer.isSymbol(Sym.Placeholder)
+                        ? source.root
+                              .getAncestors(tokenUnderPointer)
+                              .find((a) => a.isPlaceholder())
+                        : // Otherwise choose an index position under the mouse
+                          getCaretPositionAt(
+                              $caret,
+                              event,
+                              getTokenViews,
+                              editor,
+                              $blocks,
+                              $locales.getDirection() === 'rtl',
+                          );
         // If we found a position, set it and reset the ignore feedback.
         if (newPosition !== undefined) {
             caret.set($caret.withPosition(newPosition));
@@ -1655,7 +1657,6 @@
         // produces a fanout cascade across the project per keystroke.
         if (keyboardEditIdle && get(keyboardEditIdle) !== idle)
             keyboardEditIdle.set(idle);
-
 
         // Update the caret and project.
         if (newSource) {
@@ -2874,10 +2875,7 @@
                 next.add(node);
             }
             const cur = get(effectiveFolded);
-            if (
-                next.size !== cur.size ||
-                [...next].some((n) => !cur.has(n))
-            )
+            if (next.size !== cur.size || [...next].some((n) => !cur.has(n)))
                 effectiveFolded.set(next);
         });
     });
@@ -3238,46 +3236,38 @@
     {#if !editable}<span class="readonly-indicator" aria-hidden="true"
             ><Emoji text="🔒" /></span
         >{/if}
-    {#if project.getSupplements().length > 0 && setOutputPreview}
-        <div class="output-preview-container">
-            <Button
-                tip={(l) => l.ui.source.button.selectOutput}
-                active={!selected}
-                action={setOutputPreview}
-                scale={false}
-            >
-                <div
-                    class="output-preview"
-                    class:error={!selected &&
-                        evaluator.getLatestSourceValue(source) instanceof
-                            ExceptionValue}
-                >
-                    {#if selected}
-                        <span style="font-size:200%"><Emoji text="🎭" /></span>
-                    {:else}
-                        <OutputView
-                            {project}
-                            {evaluator}
-                            value={evaluator.getLatestSourceValue(source)}
-                            mini
-                            editable={false}
-                        />
-                    {/if}
-                </div>
-            </Button>
+    <!-- Editor controls cluster: a single container pinned to the editor's
+         top-right corner that stacks floating controls vertically (search on
+         top, optional output preview below). A flex column means controls
+         reflow rather than overlap, and new controls are just more children.
+         The inner panel paints an always-visible bordered card that grows as
+         controls appear or the search field expands. -->
+    {#if searchable || (multipleSourcesVisible && setOutputPreview)}
+        <div class="editor-controls">
+            <div class="editor-controls-panel">
+                <!-- Floating search: a magnifying-glass toggle that reveals a
+                     query field. Matched substrings are highlighted via
+                     searchOutlines above the code. Only the ProjectView editor. -->
+                {#if searchable}
+                    <EditorSearch
+                        bind:active={searchActive}
+                        bind:query={searchQuery}
+                        matchCount={searchMatches.length}
+                        next={goToNextMatch}
+                        {replace}
+                    />
+                {/if}
+                {#if multipleSourcesVisible && setOutputPreview}
+                    <OutputPreview
+                        {project}
+                        {evaluator}
+                        {source}
+                        {selected}
+                        select={setOutputPreview}
+                    />
+                {/if}
+            </div>
         </div>
-    {/if}
-    <!-- Floating search: a magnifying-glass toggle pinned top-right that
-         reveals a query field. Matched substrings are highlighted via
-         searchOutlines above the code. Only shown for the ProjectView editor. -->
-    {#if searchable}
-        <EditorSearch
-            bind:active={searchActive}
-            bind:query={searchQuery}
-            matchCount={searchMatches.length}
-            next={goToNextMatch}
-            {replace}
-        />
     {/if}
 </div>
 
@@ -3295,7 +3285,7 @@
         min-height: fit-content;
         display: flex;
         flex-direction: column;
-        gap: var(--wordplay-spacing);
+        gap: 0;
         font-size: calc(var(--wordplay-font-size) + var(--zoom));
     }
 
@@ -3406,28 +3396,44 @@
         opacity: 0.75;
     }
 
-    .output-preview-container {
+    /* Zero-height positioning shell pinned to the editor's top-right corner. It
+       reserves no flex track (the code isn't pushed down) while its child panel
+       overflows downward and paints above the code. */
+    .editor-controls {
         position: sticky;
-        bottom: var(--wordplay-spacing);
-        right: var(--wordplay-spacing);
-        display: inline-block;
+        top: 0;
+        right: 0;
         align-self: flex-end;
+        height: 0;
+        overflow: visible;
+        z-index: 1;
+        /* Visually first (top) while staying last in DOM/tab order. */
+        order: -1;
+        /* Pull the card up through the editor's top padding so its top edge meets
+           the editor viewport's top border (the tile header's lower border) at
+           scroll-top, instead of floating one spacing below it. The matching
+           positive margin-bottom cancels this in flex layout (net height 0), so
+           the code's own top padding is unchanged. */
+        margin-top: calc(-1 * var(--wordplay-spacing));
+        margin-bottom: var(--wordplay-spacing);
     }
 
-    .output-preview.error {
-        background: var(--wordplay-error);
-    }
-
-    .output-preview {
-        width: 5em;
-        height: 5em;
-        border: var(--wordplay-border-color) solid var(--wordplay-border-width);
-        border-radius: var(--wordplay-border-radius);
-        background: var(--wordplay-background);
-        overflow: hidden;
-        cursor: pointer;
+    /* The visible card: an always-on panel hanging from the top-right corner
+       (top and right edges flush, a left/bottom border and rounded bottom-left
+       inner corner). Controls stack top-to-bottom, right-aligned, with a gap, so
+       they reflow as the search field expands rather than overlapping. */
+    .editor-controls-panel {
         display: flex;
-        align-items: center;
-        justify-content: center;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: var(--wordplay-spacing);
+        padding: var(--wordplay-spacing);
+        background: var(--wordplay-background);
+        border-left: var(--wordplay-border-width) solid
+            var(--wordplay-border-color);
+        border-bottom: var(--wordplay-border-width) solid
+            var(--wordplay-border-color);
+        border-bottom-left-radius: var(--wordplay-border-radius);
     }
+
 </style>
