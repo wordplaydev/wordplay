@@ -4,6 +4,18 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.23.0 - 2026-06-13
+
+This week we improved the editor, fixed a few bugs, and added a new shorter tutorial for learners who already know another programming language.
+
+### Added
+
+- › You can now "fold" multi-line blocks of code to make it easier to navigate larger programs (#806, #833).
+
+### Fixed
+
+- ¶ We fixed many inconsistencies with the editor cursor in blocks and text mode.
+
 ## 0.22.0 - 2026-06-06
 
 This week we made improvements to the output palette, output editing on stage, and added a block-based editing palette.

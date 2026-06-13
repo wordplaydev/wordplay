@@ -419,6 +419,9 @@
                     bind:clientWidth={tileWidth}
                     bind:clientHeight={tileHeight}
                     onpointermove={handleContentPointerMove}
+                    style:--tile-viewport-width={tileWidth > 0
+                        ? `${tileWidth}px`
+                        : undefined}
                 >
                     {@render content()}
                 </div>

@@ -5546,6 +5546,14 @@
             },
             "notice": {
                 "dismiss": "$~ఈ నోటీసును కొట్టివేయండి"
+            },
+            "fold": {
+                "collapse": "$?",
+                "expand": "$?",
+                "all": "$?",
+                "none": "$?",
+                "collapsed": "$?",
+                "expanded": "$?"
             }
         },
         "annotations": {

@@ -5330,6 +5330,14 @@
             },
             "notice": {
                 "dismiss": "$~Avfärda detta meddelande"
+            },
+            "fold": {
+                "collapse": "$?",
+                "expand": "$?",
+                "all": "$?",
+                "none": "$?",
+                "collapsed": "$?",
+                "expanded": "$?"
             }
         },
         "annotations": {

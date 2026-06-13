@@ -88,6 +88,18 @@ export default class Source extends Expression {
     /** Lazily-computed nesting depth of each structural bracket token; see getDelimiterDepths(). */
     private delimiterDepths: Map<Token, number> | undefined = undefined;
 
+    /** Cache of the navigable blocks-mode caret positions (Caret.getBlockPositions).
+     * That list is a pure function of this immutable Source but is recomputed on
+     * every horizontal blocks-mode arrow press, so Caret stores its result here
+     * once and reuses it for this Source's lifetime. */
+    private blockPositions: (Node | number)[] | undefined = undefined;
+    getCachedBlockPositions(): (Node | number)[] | undefined {
+        return this.blockPositions;
+    }
+    setCachedBlockPositions(positions: (Node | number)[]): void {
+        this.blockPositions = positions;
+    }
+
     constructor(
         names: string | Names,
         code: string | UnicodeString | [Program, Spaces],
@@ -857,7 +869,9 @@ export default class Source extends Expression {
 
     getTokenBeforeNode(node: Node): Token | undefined {
         let found = false;
-        for (const next of this.nodes().reverse()) {
+        // Copy before reversing: nodes() now returns a cached array, and
+        // reverse() mutates in place, which would corrupt the cache.
+        for (const next of [...this.nodes()].reverse()) {
             if (found && next instanceof Token) return next;
             if (next === node) found = true;
         }

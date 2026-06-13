@@ -5330,6 +5330,14 @@
             },
             "notice": {
                 "dismiss": "$~Одбаци ово обавештење"
+            },
+            "fold": {
+                "collapse": "$?",
+                "expand": "$?",
+                "all": "$?",
+                "none": "$?",
+                "collapsed": "$?",
+                "expanded": "$?"
             }
         },
         "annotations": {

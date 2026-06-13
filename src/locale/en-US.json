@@ -5454,6 +5454,14 @@
                     "off": "search the code"
                 }
             },
+            "fold": {
+                "collapse": "collapse $name",
+                "expand": "expand $name",
+                "all": "fold all",
+                "none": "unfold all",
+                "collapsed": "$name collapsed",
+                "expanded": "$name expanded"
+            },
             "options": {
                 "locale": {
                     "tip": "preferred language for source",

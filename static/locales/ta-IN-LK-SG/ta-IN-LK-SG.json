@@ -5335,6 +5335,14 @@
             },
             "notice": {
                 "dismiss": "$~இந்த அறிவிப்பை நிராகரிக்கவும்"
+            },
+            "fold": {
+                "collapse": "$?",
+                "expand": "$?",
+                "all": "$?",
+                "none": "$?",
+                "collapsed": "$?",
+                "expanded": "$?"
             }
         },
         "annotations": {

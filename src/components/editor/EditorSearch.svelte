@@ -102,51 +102,59 @@
 >
     <!-- Two-column grid: the two fields share the left column (right-aligned
          with each other), the toggle and button share the right column
-         (right-aligned with each other). -->
-    {#if active}
-        <div class="field">
-            <TextField
-                id="editor-search"
-                max="12em"
-                placeholder={(l) => l.ui.source.field.search}
-                description={(l) => l.ui.source.field.search}
-                bind:view={field}
-                bind:text={query}
-            />
-        </div>
-    {/if}
-    <div class="control">
-        <Toggle
-            tips={(l) => l.ui.source.toggle.search}
-            on={active}
-            toggle={() => (active = !active)}
-            command={ToggleSearch}><Emoji text="🔍" /></Toggle
-        >
-    </div>
-    <!-- The replace row only appears when there are matches to replace.
-         Replacing typically removes all matches, so it disappears again. -->
-    {#if active && matchCount > 0}
-        <div class="field">
-            <TextField
-                id="editor-replace"
-                max="12em"
-                placeholder={(l) => l.ui.source.field.replace}
-                description={(l) => l.ui.source.field.replace}
-                bind:view={replaceField}
-                bind:text={replacement}
-            />
-        </div>
+         (right-aligned with each other). When active, the grid reads as a
+         floating form (background, border, padding); inactive, it's just the
+         bare magnifier toggle. -->
+    <div class="search-form" class:active>
+        {#if active}
+            <div class="field">
+                <TextField
+                    id="editor-search"
+                    max="12em"
+                    placeholder={(l) => l.ui.source.field.search}
+                    description={(l) => l.ui.source.field.search}
+                    bind:view={field}
+                    bind:text={query}
+                />
+            </div>
+        {/if}
         <div class="control">
-            <Button
-                tip={(l) => l.ui.source.button.replace}
-                background
-                action={doReplace}>{CONFIRM_SYMBOL}</Button
+            <Toggle
+                tips={(l) => l.ui.source.toggle.search}
+                on={active}
+                toggle={() => (active = !active)}
+                command={ToggleSearch}><Emoji text="🔍" /></Toggle
             >
         </div>
-    {/if}
+        <!-- The replace row only appears when there are matches to replace.
+             Replacing typically removes all matches, so it disappears again. -->
+        {#if active && matchCount > 0}
+            <div class="field">
+                <TextField
+                    id="editor-replace"
+                    max="12em"
+                    placeholder={(l) => l.ui.source.field.replace}
+                    description={(l) => l.ui.source.field.replace}
+                    bind:view={replaceField}
+                    bind:text={replacement}
+                />
+            </div>
+            <div class="control">
+                <Button
+                    tip={(l) => l.ui.source.button.replace}
+                    background
+                    action={doReplace}>{CONFIRM_SYMBOL}</Button
+                >
+            </div>
+        {/if}
+    </div>
 </div>
 
 <style>
+    /* Zero-height positioning shell: pins to the scroll viewport's top-right and
+       reserves no flex track, so the form floats above the code rather than
+       pushing it down. The visible chrome lives on .search-form so a background
+       can actually paint (a zero-height box can't). */
     .search-container {
         position: sticky;
         top: var(--wordplay-spacing);
@@ -156,21 +164,40 @@
            `right` pins it horizontally the same way `top` pins it vertically. */
         right: var(--wordplay-spacing);
         align-self: flex-end;
-        /* Two columns: fields | controls. Each row is field + control; the
-           replace row's cells land in the same columns as the search row's,
-           so the two fields right-align and the toggle/button right-align. */
-        display: grid;
-        grid-template-columns: auto auto;
-        justify-content: end;
-        align-items: center;
-        gap: var(--wordplay-spacing-half);
         /* Don't reserve a flex track at the top, so the code isn't pushed
-           down; the rows render above the code via overflow. */
+           down; the form renders above the code via overflow. */
         height: 0;
         overflow: visible;
         z-index: 1;
         /* Place visually first (top) while staying last in DOM/tab order. */
         order: -1;
+    }
+
+    /* Two columns: fields | controls. Each row is field + control; the replace
+       row's cells land in the same columns as the search row's, so the two
+       fields right-align and the toggle/button right-align. */
+    .search-form {
+        display: grid;
+        grid-template-columns: auto auto;
+        justify-content: end;
+        align-items: center;
+        gap: var(--wordplay-spacing-half);
+    }
+
+    /* When open, read as a panel hanging from the viewport's top-right corner:
+       the top and right edges are flush (no border, no padding) so the toggle
+       stays exactly where it was when closed, and the form grows down and to the
+       left with a left/bottom border and a single rounded inner corner. Inactive
+       (just the magnifier toggle), no chrome so it stays a bare floating button. */
+    .search-form.active {
+        background: var(--wordplay-background);
+        border-left: var(--wordplay-border-width) solid
+            var(--wordplay-border-color);
+        border-bottom: var(--wordplay-border-width) solid
+            var(--wordplay-border-color);
+        border-bottom-left-radius: var(--wordplay-border-radius);
+        padding-left: var(--wordplay-spacing);
+        padding-bottom: var(--wordplay-spacing);
     }
 
     /* Fields fill the left column; controls the right. justify-self: end

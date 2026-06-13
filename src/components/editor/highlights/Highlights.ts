@@ -626,7 +626,13 @@ export function updateOutlines(
                     types.includes('match') ||
                     types.includes('empty') ||
                     types.includes('dragged') ||
-                    types.includes('dragging'));
+                    types.includes('dragging') ||
+                    // The caret's selected-node highlight: a block node is laid
+                    // out contiguously, so a single rounded rect is both correct
+                    // (the rows path looks jagged here) and far cheaper — one
+                    // getBoundingClientRect instead of one per leaf token, which
+                    // is the dominant per-keypress cost of caret movement.
+                    types.includes('blockselected'));
             // If this node has empty fields to highlight, add outlines for those too.
             const emptyFields = highlights.getEmpty(node);
             if (emptyFields && emptyFields.length > 0) {

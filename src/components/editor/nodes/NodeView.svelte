@@ -12,12 +12,14 @@
 
 <script lang="ts" generics="NodeType extends Node">
     import EmptyView from '@components/editor/blocks/EmptyView.svelte';
+    import FoldToggle from '@components/editor/util/FoldToggle.svelte';
     import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
     import getNodeView from '@components/editor/nodes/nodeToView';
     import Space from '@components/editor/nodes/Space.svelte';
     import {
         getDragTarget,
         getEvaluation,
+        getEffectiveFolded,
         getHidden,
         getHighlights,
         getRoot,
@@ -50,6 +52,16 @@
         replaceable?: boolean;
         /** The index of the node in the list, if it's in one */
         index?: number | undefined;
+        /** Suppress this node's leading space. Used in folded headers so a
+         *  closing delimiter doesn't drag the hidden body's blank lines along
+         *  with it (e.g. so a folded block reads as a clean "(…)"). */
+        noSpace?: boolean;
+        /** If set, render a fold toggle for the given node immediately AFTER this
+         *  node's leading space and before its content. Foldable views use this
+         *  for their first token so that, in text mode, the toggle lands on the
+         *  same line as the content rather than at the end of the previous line
+         *  (the leading newline renders as a <br> within this node's space). */
+        foldToggleFor?: Node | undefined;
     }
 
     let {
@@ -58,6 +70,8 @@
         empty = 'menu',
         replaceable = false,
         index = undefined,
+        noSpace = false,
+        foldToggleFor = undefined,
     }: Props = $props();
 
     /** Get the value of the node, possibly undefined. */
@@ -118,6 +132,14 @@
         node && rootContext ? rootContext.elided.has(node) : false,
     );
 
+    // Code folding (#806/#883): whether this node is currently folded. The fold
+    // control and the collapsed appearance live in the individual node views
+    // that support folding (each gates on isFoldable); NodeView just reads the
+    // state and passes it down via the `folded` prop so those views can render
+    // their collapsed header.
+    const folded = getEffectiveFolded();
+    let isFolded = $derived(node !== undefined && ($folded?.has(node) ?? false));
+
     // Get the insertion point
     let dragTarget = getDragTarget();
 
@@ -136,7 +158,7 @@
 </script>
 
 {#snippet textSpace()}
-    {#if !hide && firstToken !== undefined && spaceRoot === node}
+    {#if !hide && !noSpace && firstToken !== undefined && spaceRoot === node}
         <Space
             token={firstToken}
             first={$spaces?.isFirst(firstToken) ?? false}
@@ -154,7 +176,7 @@
 
 {#snippet blockSpace()}
     <!-- Render space if not hidden, and this is the token with the space -->
-    {#if !hide && firstToken !== undefined && spaceRoot === node && root !== undefined}
+    {#if !hide && !noSpace && firstToken !== undefined && spaceRoot === node && root !== undefined}
         {@const tokenPrefersPrecedingSpace =
             space.length === 0 &&
             spaceRoot !== undefined &&
@@ -177,7 +199,10 @@
 {#if node !== undefined}
     {#if ComponentView !== undefined}
         <!-- In text mode, render space before the node view. -->
-        {#if !format.block}{@render textSpace()}{:else}{@render blockSpace()}{/if}<!-- Render the node view wrapper, but no extra whitespace! --><div
+        {#if !format.block}{@render textSpace()}{:else}{@render blockSpace()}{/if}{#if foldToggleFor !== undefined}<FoldToggle
+                node={foldToggleFor}
+                lineStart={!format.block && space.includes('\n')}
+            />{/if}<!-- Render the node view wrapper, but no extra whitespace! --><div
             class={[
                 'node-view',
                 node.getDescriptor(),
@@ -207,6 +232,7 @@
                     >{/if}{#key ComponentView}<ComponentView
                         {node}
                         {format}
+                        folded={isFolded}
                     />{/key}{#if value}{#if node.isUndelimited()}<span class="eval"
                             >{EVAL_CLOSE_SYMBOL}</span
                         >{/if}<div class="value"

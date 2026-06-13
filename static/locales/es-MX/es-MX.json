@@ -5295,6 +5295,14 @@
             },
             "notice": {
                 "dismiss": "$~Descartar este aviso"
+            },
+            "fold": {
+                "collapse": "$?",
+                "expand": "$?",
+                "all": "$?",
+                "none": "$?",
+                "collapsed": "$?",
+                "expanded": "$?"
             }
         },
         "annotations": {

@@ -181,6 +181,9 @@ import VariableTypeView from '@components/editor/nodes/VariableTypeView.svelte';
 type NodeViewComponent = Component<{
     node: any;
     format: Format;
+    /** Whether this node is folded; views that support code folding render a
+     *  collapsed header when true. Ignored by views that don't. */
+    folded?: boolean;
 }>;
 
 // Block styling for each view

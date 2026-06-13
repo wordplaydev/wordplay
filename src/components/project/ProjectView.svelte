@@ -1587,6 +1587,10 @@
         focusOrCycleTile,
         resetInputs,
         toggleBlocks,
+        foldAll: focusedEditorState?.foldAll,
+        unfoldAll: focusedEditorState?.unfoldAll,
+        canFoldAll: focusedEditorState?.canFoldAll,
+        canUnfoldAll: focusedEditorState?.canUnfoldAll,
         blocks: $blocks,
         view: undefined,
         help: () => (showHelpDialog = !showHelpDialog),
@@ -2894,19 +2898,32 @@
     .annotated-editor {
         display: flex;
         flex-direction: column;
+        /* Grow with the code in BOTH axes (at least filling the scroll viewport)
+           so the sticky notifications below have room to stay pinned across the
+           whole scroll range — not just vertically at scroll-top, but also
+           horizontally so they don't slide off when the code is scrolled right.
+           `min-width: fit-content` widens to the code only when it actually
+           overflows (no-wrap mode); in soft-wrap mode fit-content collapses to
+           the viewport so the editor still wraps instead of growing unbounded. */
         width: 100%;
-        height: 100%;
+        min-width: fit-content;
+        min-height: 100%;
         /* Positioning context for the footer-notification overlay below. */
         position: relative;
     }
 
     .editor-notifications {
-        /* Pin to the bottom of the editor, within its bounds (not the full tile footer). Every item is
-           an EditorNotice (or contains one), so they share one rectangular, integrated visual design and
-           stack contiguously, delineated by their top borders. */
-        position: absolute;
-        inset-inline: 0;
+        /* Pin to the bottom-left of the editor's scroll viewport (not the full tile footer). `sticky`
+           with bottom:0 + left:0 keeps the band glued to the viewport footer as the code scrolls in
+           either axis; `absolute` would anchor it to the content box and scroll away. The band is sized
+           to the viewport width (fed from TileView's measured content width) so it spans the footer and
+           its inline-end dismiss button stays on-screen rather than off the right of the wide content.
+           Every item is an EditorNotice (or contains one), so they share one rectangular, integrated
+           visual design and stack contiguously via their top borders. */
+        position: sticky;
         bottom: 0;
+        left: 0;
+        width: var(--tile-viewport-width, 100%);
         z-index: 2;
         display: flex;
         flex-direction: column;

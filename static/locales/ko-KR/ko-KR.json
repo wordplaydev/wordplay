@@ -5313,6 +5313,14 @@
             },
             "notice": {
                 "dismiss": "$~이 알림을 닫으세요"
+            },
+            "fold": {
+                "collapse": "$?",
+                "expand": "$?",
+                "all": "$?",
+                "none": "$?",
+                "collapsed": "$?",
+                "expanded": "$?"
             }
         },
         "annotations": {

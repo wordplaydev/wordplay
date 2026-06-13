@@ -5580,6 +5580,14 @@
             },
             "notice": {
                 "dismiss": "$~এই বিজ্ঞপ্তিটি খারিজ করুন"
+            },
+            "fold": {
+                "collapse": "$?",
+                "expand": "$?",
+                "all": "$?",
+                "none": "$?",
+                "collapsed": "$?",
+                "expanded": "$?"
             }
         },
         "annotations": {

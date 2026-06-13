@@ -339,6 +339,20 @@ type UITexts = {
             /** [plain] The toggle that shows or hides the editor search field */
             search: ToggleText;
         };
+        fold: {
+            /** [plain] The fold control's label when activating it will collapse the code; $name is the kind of code (e.g. function, list) */
+            collapse: Template<['name']>;
+            /** [plain] The fold control's label when activating it will expand collapsed code; $name is the kind of code (e.g. function, list) */
+            expand: Template<['name']>;
+            /** [plain] The command/button that folds all foldable code */
+            all: string;
+            /** [plain] The command/button that unfolds all collapsed code */
+            none: string;
+            /** [plain] Screen-reader announcement when code is collapsed; $name is the kind of code (e.g. function, list) */
+            collapsed: Template<['name']>;
+            /** [plain] Screen-reader announcement when code is expanded; $name is the kind of code (e.g. function, list) */
+            expanded: Template<['name']>;
+        };
         button: {
             /** [plain] Output preview button for selecting output for display in output tile */
             selectOutput: string;

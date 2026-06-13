@@ -5548,6 +5548,14 @@
             },
             "notice": {
                 "dismiss": "$~এই জাননী খাৰিজ কৰক"
+            },
+            "fold": {
+                "collapse": "$?",
+                "expand": "$?",
+                "all": "$?",
+                "none": "$?",
+                "collapsed": "$?",
+                "expanded": "$?"
             }
         },
         "annotations": {

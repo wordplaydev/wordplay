@@ -21,6 +21,33 @@
     let { text, dismiss }: Props = $props();
 
     let parsed = $derived(parseClipboardCode(text));
+
+    /** The fixed-height window the content is clipped to. */
+    let clip = $state<HTMLDivElement | undefined>(undefined);
+    /** The content wrapper we measure (unscaled) and visually scale to fit. */
+    let scaler = $state<HTMLDivElement | undefined>(undefined);
+    /** Uniform scale (<= 1) that shrinks oversized clipboard content — a large
+     *  pasted node — down to the clip's fixed height so it stays readable. */
+    let scale = $state(1);
+
+    // Re-fit whenever the content or window changes size. A CSS transform is
+    // paint-only, so `scrollHeight` always reports the natural (unscaled) height,
+    // letting us derive the scale without toggling the transform off first.
+    $effect(() => {
+        const clipEl = clip;
+        const scalerEl = scaler;
+        if (clipEl === undefined || scalerEl === undefined) return;
+        const fit = () => {
+            const available = clipEl.clientHeight;
+            const natural = scalerEl.scrollHeight;
+            scale = natural > available && natural > 0 ? available / natural : 1;
+        };
+        fit();
+        const observer = new ResizeObserver(fit);
+        observer.observe(scalerEl);
+        observer.observe(clipEl);
+        return () => observer.disconnect();
+    });
 </script>
 
 <EditorNotice {dismiss}>
@@ -28,17 +55,23 @@
         <Note inline
             ><LocalizedText path={(l) => l.ui.source.clipboard.label} /></Note
         >
-        <div class="content">
-            {#if parsed.isCode}
-                <RootView
-                    node={parsed.source}
-                    spaces={parsed.source.spaces}
-                    blocks={$blocks}
-                    inline
-                    inert
-                    editable={false}
-                />
-            {:else}{text}{/if}
+        <div class="clip" bind:this={clip}>
+            <div
+                class="scaler"
+                bind:this={scaler}
+                style:transform="scale({scale})"
+            >
+                {#if parsed.isCode}
+                    <RootView
+                        node={parsed.source}
+                        spaces={parsed.source.spaces}
+                        blocks={$blocks}
+                        inline
+                        inert
+                        editable={false}
+                    />
+                {:else}{text}{/if}
+            </div>
         </div>
     </div>
 </EditorNotice>
@@ -47,14 +80,23 @@
     .clipboard {
         display: flex;
         flex-direction: row;
-        align-items: baseline;
+        align-items: center;
         gap: var(--wordplay-spacing);
-        /* Clip the line */
-        max-height: 3em;
-        /* overflow-y: hidden; */
+        min-width: 0;
     }
 
-    .content {
+    /* The fixed-height window the content is clipped and scaled to fit. */
+    .clip {
+        flex: 1;
         min-width: 0;
+        height: 2em;
+        overflow: hidden;
+    }
+
+    /* Scaled from the top-left so the shrunk content stays anchored to the start
+       of the clip window rather than drifting toward its center. */
+    .scaler {
+        width: max-content;
+        transform-origin: top left;
     }
 </style>

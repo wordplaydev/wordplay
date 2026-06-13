@@ -36,6 +36,13 @@ export default abstract class Node {
     /** A cache of leaves in this node */
     _leaves: Token[] | undefined = undefined;
 
+    /** A cache of this node and all descendants in depth-first order (the
+     * unfiltered nodes() result). Nodes are immutable, so this never changes.
+     * nodes() rebuilds this array on every call otherwise, and it's called per
+     * node in hot paths (e.g. Caret.getBlockPositions, Source position lookups),
+     * so caching avoids repeated full-subtree traversals. */
+    _nodes: Node[] | undefined = undefined;
+
     /** A cache of this node's structural hash. hash() is recursive — without
      * caching, computing it for one node is O(subtree size), and Source.reparse
      * calls hash() once per new node plus once per old candidate it inspects,
@@ -181,12 +188,23 @@ export default abstract class Node {
 
     /** Returns all this and all descendants in depth first order. Optionally uses the given function to decide whether to include a node. */
     nodes<Kind extends Node>(include?: (node: Node) => node is Kind): Kind[] {
-        const nodes: Node[] = [];
-        this.traverse((node) => {
-            if (include === undefined || include(node)) nodes.push(node);
-            return true;
-        });
-        return nodes as Kind[];
+        // Cache the full depth-first list (immutable), then filter from it when
+        // an include predicate is given. traverse() visits children before the
+        // node itself, so we preserve that order by building the cache the same
+        // way.
+        if (this._nodes === undefined) {
+            const nodes: Node[] = [];
+            this.traverse((node) => {
+                nodes.push(node);
+                return true;
+            });
+            this._nodes = nodes;
+        }
+        return (
+            include === undefined
+                ? this._nodes
+                : this._nodes.filter(include)
+        ) as Kind[];
     }
 
     find<NodeType extends Node>(type: new (...params: any[]) => Node, nth = 0) {

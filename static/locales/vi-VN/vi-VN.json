@@ -5569,6 +5569,14 @@
             },
             "notice": {
                 "dismiss": "$~Hãy bỏ qua thông báo này."
+            },
+            "fold": {
+                "collapse": "$?",
+                "expand": "$?",
+                "all": "$?",
+                "none": "$?",
+                "collapsed": "$?",
+                "expanded": "$?"
             }
         },
         "annotations": {

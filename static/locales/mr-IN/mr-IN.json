@@ -5330,6 +5330,14 @@
             },
             "notice": {
                 "dismiss": "$~ही सूचना रद्द करा"
+            },
+            "fold": {
+                "collapse": "$?",
+                "expand": "$?",
+                "all": "$?",
+                "none": "$?",
+                "collapsed": "$?",
+                "expanded": "$?"
             }
         },
         "annotations": {

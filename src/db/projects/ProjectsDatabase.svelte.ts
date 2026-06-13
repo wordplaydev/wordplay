@@ -1721,8 +1721,9 @@ export default class ProjectsDatabase {
         await this.localDB.deleteProject(id);
         void this.localDB.markClean(Domain.Projects, id);
 
-        // Drop the project's persisted caret positions.
+        // Drop the project's persisted caret positions and fold state.
         this.database.Settings.removeProjectCarets(id);
+        this.database.Settings.removeProjectFolds(id);
 
         // Untrack the project from both editable and read-only caches.
         this.projectHistories.delete(id);

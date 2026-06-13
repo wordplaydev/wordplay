@@ -5275,6 +5275,14 @@
             },
             "notice": {
                 "dismiss": "$~忽略此通知"
+            },
+            "fold": {
+                "collapse": "$?",
+                "expand": "$?",
+                "all": "$?",
+                "none": "$?",
+                "collapsed": "$?",
+                "expanded": "$?"
             }
         },
         "annotations": {

@@ -656,6 +656,12 @@ export default class Caret {
     }
 
     getBlockPositions(): (Node | number)[] {
+        // This is a pure function of the (immutable) source, but horizontal
+        // blocks-mode moves call it on every arrow press — so reuse the result
+        // cached on the Source rather than recomputing the whole-program scan.
+        const cached = this.source.getCachedBlockPositions();
+        if (cached !== undefined) return cached;
+
         // Find all the tokens in a series of fields, for identifying positions before and after lists.
         function getFieldTokens(node: Node, fields: Field[]) {
             return fields
@@ -674,13 +680,22 @@ export default class Caret {
         for (const node of nodes) {
             if (node instanceof Token) {
                 const tokenParent = this.source.root.getParent(node);
-                // Include all preceding spaces, since we render them.
+                // In blocks mode, inline whitespace is not rendered — only blank
+                // lines render (as .break divs). So the only navigable space
+                // position is the BEGINNING of each empty line (the position just
+                // after a newline whose line is blank or spaces/tabs only).
+                // Trailing space, indentation, and tabs before a token have no
+                // visual anchor and are excluded, so the caret never lands where
+                // CaretView would draw it far from the code.
                 const space = this.source.spaces.getSpace(node);
                 const position = this.source.getTokenTextPosition(node);
                 if (position !== undefined) {
+                    const spaceStart = position - space.length;
                     for (let index = 0; index < space.length; index++) {
-                        if (this.isSpace(space.charAt(index))) {
-                            points.push(position - space.length + index);
+                        if (space.charAt(index) === '\n') {
+                            const lineStart = spaceStart + index + 1;
+                            if (this.source.isEmptyLine(lineStart))
+                                points.push(lineStart);
                         }
                     }
                 }
@@ -841,24 +856,28 @@ export default class Caret {
             }
         }
 
-        // Remove duplicates and sort.
-        return Array.from(new Set(points)).sort((a, b) => {
-            const aPosition =
-                a instanceof Node
-                    ? a instanceof Token
-                        ? (this.source.getTokenTextPosition(a) ?? 0)
-                        : (this.source.getNodeFirstPosition(a) ?? 0)
-                    : a;
-            const bPosition =
-                b instanceof Node
-                    ? b instanceof Token
-                        ? (this.source.getTokenTextPosition(b) ?? 0)
-                        : (this.source.getNodeFirstPosition(b) ?? 0)
-                    : b;
+        // Remove duplicates, then sort by source position. Precompute each
+        // point's position ONCE into a map so the comparator is O(1): the old
+        // comparator called getNodeFirstPosition per comparison (O(N) each),
+        // making the sort O(N · P log P) per call.
+        const unique = Array.from(new Set(points));
+        const positionOf = (point: Node | number) =>
+            point instanceof Node
+                ? point instanceof Token
+                    ? (this.source.getTokenTextPosition(point) ?? 0)
+                    : (this.source.getNodeFirstPosition(point) ?? 0)
+                : point;
+        const positions = new Map<Node | number, number>();
+        for (const point of unique) positions.set(point, positionOf(point));
+        const sorted = unique.sort((a, b) => {
+            const aPosition = positions.get(a) ?? 0;
+            const bPosition = positions.get(b) ?? 0;
             return aPosition === bPosition && typeof a === 'number'
                 ? -1
                 : aPosition - bPosition;
         });
+        this.source.setCachedBlockPositions(sorted);
+        return sorted;
     }
 
     /** Move to the next node or position in blocks mode. */
@@ -876,9 +895,14 @@ export default class Caret {
         if (currentPosition === undefined)
             return (l) => l.ui.source.cursor.ignored.noMove;
 
-        // Get all eligible caret positions in blocks mode, in the order in which we'll search for the next position.
-        const positions = this.getBlockPositions();
-        if (direction < 0) positions.reverse();
+        // Get all eligible caret positions in blocks mode, in the order in which
+        // we'll search for the next position. getBlockPositions() returns a
+        // cached array, so copy before reversing — reverse() mutates in place and
+        // would corrupt the cache (sending later left-moves to the program start).
+        const positions =
+            direction < 0
+                ? [...this.getBlockPositions()].reverse()
+                : this.getBlockPositions();
 
         // Go through all of the eligible positions
         const onNode = this.isNode();

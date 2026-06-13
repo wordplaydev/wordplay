@@ -5338,6 +5338,14 @@
             },
             "notice": {
                 "dismiss": "$~Odrzuć to powiadomienie"
+            },
+            "fold": {
+                "collapse": "$?",
+                "expand": "$?",
+                "all": "$?",
+                "none": "$?",
+                "collapsed": "$?",
+                "expanded": "$?"
             }
         },
         "annotations": {

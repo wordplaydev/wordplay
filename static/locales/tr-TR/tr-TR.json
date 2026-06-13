@@ -5330,6 +5330,14 @@
             },
             "notice": {
                 "dismiss": "$~Bu bildirimi kapat"
+            },
+            "fold": {
+                "collapse": "$?",
+                "expand": "$?",
+                "all": "$?",
+                "none": "$?",
+                "collapsed": "$?",
+                "expanded": "$?"
             }
         },
         "annotations": {

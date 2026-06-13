@@ -5572,6 +5572,14 @@
             },
             "notice": {
                 "dismiss": "$~I-dismiss ang abisong ito"
+            },
+            "fold": {
+                "collapse": "$?",
+                "expand": "$?",
+                "all": "$?",
+                "none": "$?",
+                "collapsed": "$?",
+                "expanded": "$?"
             }
         },
         "annotations": {

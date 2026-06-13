@@ -5316,6 +5316,14 @@
             },
             "notice": {
                 "dismiss": "$~Ignorer cet avis"
+            },
+            "fold": {
+                "collapse": "$?",
+                "expand": "$?",
+                "all": "$?",
+                "none": "$?",
+                "collapsed": "$?",
+                "expanded": "$?"
             }
         },
         "annotations": {

@@ -181,6 +181,14 @@ export type EditorState = {
      * Call after a descendant changes its rendered shape (e.g. an elided
      * sequence expanded/collapsed) so selection outlines don't go stale. */
     refreshHighlights: () => void;
+    /** Fold every foldable node in the source. */
+    foldAll: () => void;
+    /** Unfold everything in the source. */
+    unfoldAll: () => void;
+    /** Whether anything is currently unfolded (so "fold all" would do something). */
+    canFoldAll: () => boolean;
+    /** Whether anything is currently folded (so "unfold all" would do something). */
+    canUnfoldAll: () => boolean;
     zoom: number;
     setZoom: (z: number) => void;
 };
@@ -267,6 +275,19 @@ export const [getSpaces, setSpaces] = createOptionalContext<Writable<Spaces>>();
 
 /** Hidden nodes in the root */
 export const [getHidden, setHidden] =
+    createOptionalContext<Writable<Set<Node>>>();
+
+/** Folded nodes in the root: each renders collapsed to a single line with a
+ *  trailing "…", instead of its full multi-line subtree (code folding). This is
+ *  the persistent set the fold controls toggle. */
+export const [getFolded, setFolded] =
+    createOptionalContext<Writable<Set<Node>>>();
+
+/** The folded set MINUS nodes that are temporarily force-expanded (because the
+ *  debugger stepped into them, a search match or highlight is inside, etc.).
+ *  Rendering and the caret use this so those auto-expand and re-fold on their
+ *  own; the toggle still reflects the persistent `folded` set. */
+export const [getEffectiveFolded, setEffectiveFolded] =
     createOptionalContext<Writable<Set<Node>>>();
 
 /** Whether to localize the code */

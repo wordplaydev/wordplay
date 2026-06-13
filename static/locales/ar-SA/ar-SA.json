@@ -5543,6 +5543,14 @@
             },
             "notice": {
                 "dismiss": "$~تجاهل هذا الإشعار"
+            },
+            "fold": {
+                "collapse": "$?",
+                "expand": "$?",
+                "all": "$?",
+                "none": "$?",
+                "collapsed": "$?",
+                "expanded": "$?"
             }
         },
         "annotations": {

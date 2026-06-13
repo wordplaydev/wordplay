@@ -27,6 +27,14 @@
         TabNotification,
     } from '@components/editor/EditorNotification';
     import EditorSearch from '@components/editor/EditorSearch.svelte';
+    import { isFoldableNode } from '@components/editor/util/folding';
+    import {
+        isNodeHidden,
+        isStrictlyHidden,
+        nearestRenderedAncestor,
+        nearestVisibleBoundary,
+        renderedTokenIds,
+    } from '@components/editor/util/foldedCaret';
     import Highlight from '@components/editor/highlights/Highlight.svelte';
     import {
         type HighlightSpec,
@@ -48,6 +56,7 @@
     import { pasteText } from '@components/editor/Paste';
     import {
         getBlockInsertionPoint,
+        getBreakPosition,
         getCaretPositionAt,
         getEmptyList,
         getNodeAt,
@@ -72,6 +81,8 @@
         setCaret,
         setDragTarget,
         setEditor,
+        setFolded,
+        setEffectiveFolded,
         setHighlights,
         setSetMenuAnchor,
     } from '@components/project/Contexts';
@@ -133,7 +144,7 @@
     import { debounced } from '@util/debounce.svelte';
     import ExceptionValue from '@values/ExceptionValue';
     import { onDestroy, onMount, tick, untrack } from 'svelte';
-    import { get, writable } from 'svelte/store';
+    import { get, writable, type Writable } from 'svelte/store';
 
     interface Props {
         /** The evaluator evaluating the source being edited. */
@@ -206,7 +217,76 @@
     // move, see the effect below) over the project document's per-edit caret, so a
     // refresh restores where the caret was actually left. Read-only editors (e.g.
     // embedded examples) don't persist, so they just use the document's caret.
-    const caret = writable<Caret>(
+    // Folded nodes (code folding). Owned by the Editor so the rendered code, the
+    // CaretView/highlight logic, and the caret store's fold-aware normalization
+    // below can all react to it. Declared before the caret store so its wrapper
+    // can read it.
+    // Persisted per project+source as node paths (like the caret); resolve the
+    // stored paths against the current AST, dropping any that no longer resolve.
+    function localFolded(): Node[] {
+        const stored = Settings.getProjectFolds(
+            project.getID(),
+            project.getIndexOfSource(source),
+        );
+        if (stored === undefined) return [];
+        return stored
+            .map((path) => source.root.resolvePath(path))
+            .filter((n): n is Node => n !== undefined);
+    }
+    const folded = writable<Set<Node>>(
+        new Set(editable ? localFolded() : []),
+    );
+    setFolded(folded);
+
+    // The set actually used for rendering and caret behavior: `folded` minus the
+    // nodes temporarily force-expanded (debug step-in, search/highlight inside).
+    // Populated by an effect below; the fold controls still read `folded`.
+    const effectiveFolded = writable<Set<Node>>(get(folded));
+    setEffectiveFolded(effectiveFolded);
+
+    /** Fold every foldable node in the source (the "fold all" command). */
+    function foldAll() {
+        if (!editable) return;
+        const all = new Set<Node>();
+        for (const n of source.nodes())
+            if (isFoldableNode(n, source.spaces)) all.add(n);
+        folded.set(all);
+    }
+    /** Unfold everything (the "unfold all" command). */
+    function unfoldAll() {
+        folded.set(new Set());
+    }
+
+    // Whether the fold-all / unfold-all commands would do anything, so the
+    // toolbar can disable them (and the shortcuts no-op) at the extremes. This
+    // only drives a button's enabled state, so it's computed OFF the synchronous
+    // keystroke/render path (settling a tick later is imperceptible) — the
+    // per-edit node walk never adds to keystroke latency. isFoldableNode is
+    // memoized, so the walk reuses the foldable views' computations.
+    let canFoldAllValue = $state(false);
+    $effect(() => {
+        // Re-evaluate when the source or folded set changes.
+        source;
+        $folded;
+        if (!editable) {
+            canFoldAllValue = false;
+            return;
+        }
+        const handle = setTimeout(() => {
+            const f = get(folded);
+            let result = false;
+            for (const n of source.nodes())
+                if (isFoldableNode(n, source.spaces) && !f.has(n)) {
+                    result = true;
+                    break;
+                }
+            canFoldAllValue = result;
+        }, 0);
+        return () => clearTimeout(handle);
+    });
+    let canUnfoldAllValue = $derived($folded.size > 0);
+
+    const baseCaret = writable<Caret>(
         new Caret(
             source,
             (editable ? localCaret() : undefined) ??
@@ -217,6 +297,68 @@
             undefined,
         ),
     );
+
+    // Fold-aware caret normalization, the single chokepoint every caret change
+    // flows through (commands, clicks, Escape, Home/End, edits, restore,
+    // search, remote). It keeps the caret out of a fold's HIDDEN content while
+    // leaving its visible header/docs fully placeable:
+    //  - a numeric position strictly inside a hidden run snaps to the nearest
+    //    visible boundary (a fold boundary like a colon's end, with a rendered
+    //    neighbour, is NOT snapped — it stays placeable);
+    //  - a node selection that is wholly folded out (e.g. Escape selecting a
+    //    hidden node) snaps to the nearest rendered ancestor (the fold node);
+    //  - a range's active end is normalized the same way.
+    // Direction-aware skipping for arrows lives in skipFolded; this is the
+    // direction-agnostic safety net for every other producer.
+    function normalizeFolded(c: Caret): Caret {
+        // No folds, or token views not yet available (pre-mount restore): leave
+        // it; the re-normalize effect re-checks once tokens render.
+        if (get(effectiveFolded).size === 0) return c;
+        const rendered = renderedTokenIds(getTokenViews);
+        if (rendered.size === 0) return c;
+        // The rendered set reflects the LAST render. If none of this caret's
+        // source tokens are in it, the DOM is for a different/stale source — an
+        // edit just reparsed the tokens (all-new ids) before re-render, or an
+        // eval re-render is mid-flight — so the id comparison is meaningless and
+        // would flag every token as hidden, snapping the caret to a bogus
+        // boundary (e.g. the source end after a backspace, which reads as
+        // "everything after the fold was deleted"). Bail; the post-render
+        // re-normalize effect re-checks once the DOM matches the source.
+        const tokens = c.source.tokens;
+        if (tokens.length > 0 && !tokens.some((t) => rendered.has(t.id)))
+            return c;
+        const pos = c.position;
+        if (typeof pos === 'number') {
+            if (!isStrictlyHidden(c.source, pos, rendered)) return c;
+            const snapped = nearestVisibleBoundary(c.source, pos, rendered);
+            return snapped === pos
+                ? c
+                : c.withPosition(snapped, c.entry, c.visualColumn);
+        }
+        if (pos instanceof Node) {
+            if (!isNodeHidden(pos, rendered)) return c;
+            const ancestor = nearestRenderedAncestor(c.source, pos, rendered);
+            return ancestor === undefined
+                ? c
+                : c.withPosition(ancestor, c.entry, c.visualColumn);
+        }
+        if (Array.isArray(pos)) {
+            const [anchor, active] = pos;
+            if (!isStrictlyHidden(c.source, active, rendered)) return c;
+            const snapped = nearestVisibleBoundary(c.source, active, rendered);
+            if (snapped === active) return c;
+            return snapped === anchor
+                ? c.withPosition(snapped, c.entry, c.visualColumn)
+                : c.withPosition([anchor, snapped], c.entry, c.visualColumn);
+        }
+        return c;
+    }
+
+    const caret: Writable<Caret> = {
+        subscribe: baseCaret.subscribe,
+        set: (c) => baseCaret.set(normalizeFolded(c)),
+        update: (fn) => baseCaret.update((c) => normalizeFolded(fn(c))),
+    };
 
     export function setCaretPosition(position: CaretPosition) {
         // Programmatic placement is a discrete action — clear any defer flag
@@ -405,6 +547,14 @@
     }
 
     $effect(() => {
+        // Refresh the cache when the source OR the fold state changes: folding
+        // removes/re-adds rendered tokens, and a stale cache leaves the caret
+        // geometry (vertical movement, pointer hit-testing) measuring detached
+        // token elements from a node's now-hidden body. Also refresh on the
+        // play↔pause transition: pausing shows value views and can re-render
+        // token elements, so the cached set must reflect the paused DOM.
+        $effectiveFolded;
+        $evaluation?.playing;
         if (source) tokenViews = undefined;
     });
 
@@ -463,6 +613,10 @@
         grabFocus,
         setCaretPosition,
         refreshHighlights,
+        foldAll,
+        unfoldAll,
+        canFoldAll: () => canFoldAllValue,
+        canUnfoldAll: () => canUnfoldAllValue,
         zoom,
         setZoom,
     });
@@ -891,6 +1045,7 @@
             $caret,
             event,
             getTokenViews,
+            editor,
             $blocks,
             $locales.getDirection() === 'rtl',
         );
@@ -923,6 +1078,20 @@
                 source.tokens.length > 1
                     ? source.tokens[source.tokens.length - 2]
                     : undefined;
+        // If the resolved token was folded out of the DOM (a click at a folded
+        // header's end resolves to the boundary that getTokenAt maps to the
+        // hidden value's first token), step back to the nearest visible token so
+        // multi-click selection climbs from the visible header, not a collapsed
+        // node. Use the rendered-id set (the shared source of truth) rather than
+        // a per-token DOM query. An empty set means the editor isn't mounted yet
+        // (or the DOM is stale mid-render); skip rather than unwind to nothing.
+        const renderedForClick = renderedTokenIds(getTokenViews);
+        if (renderedForClick.size > 0)
+            while (
+                clickToken !== undefined &&
+                !renderedForClick.has(clickToken.id)
+            )
+                clickToken = source.getTokenBefore(clickToken);
         const sameLocation =
             clickToken !== undefined &&
             clickToken === lastClickToken &&
@@ -963,13 +1132,21 @@
 
         // If the token is over an empty list, insertion point for that list.
         const empty = $blocks ? getEmptyList(source, event) : undefined;
+        // In blocks mode, a click on a blank line's `.break` div places the caret
+        // at that line's beginning (the only navigable blocks-mode whitespace).
+        const breakPosition = $blocks
+            ? getBreakPosition(source, event)
+            : undefined;
         const tokenUnderPointer = getNodeAt(source, event, true);
         const nonTokenNodeUnderPointer = getNodeAt(source, event, false);
         const newPosition =
             // If there's an ampty position, use that.
             empty !== undefined
                 ? empty
-                : // If in blocks mode and over an editable text token, get the caret position
+                : // If over a blank line's break in blocks mode, use its beginning.
+                  breakPosition !== undefined
+                  ? breakPosition
+                  : // If in blocks mode and over an editable text token, get the caret position
                   $blocks &&
                     tokenUnderPointer instanceof Token &&
                     Caret.isTokenTextBlockEditable(
@@ -980,6 +1157,7 @@
                         $caret,
                         event,
                         getTokenViews,
+                        editor,
                         $blocks,
                         $locales.getDirection() === 'rtl',
                     )
@@ -998,6 +1176,7 @@
                             $caret,
                             event,
                             getTokenViews,
+                            editor,
                             $blocks,
                             $locales.getDirection() === 'rtl',
                         );
@@ -1105,6 +1284,7 @@
                 $caret,
                 event,
                 getTokenViews,
+                editor,
                 $blocks,
                 $locales.getDirection() === 'rtl',
             );
@@ -1199,6 +1379,7 @@
                     $caret,
                     event,
                     getTokenViews,
+                    editor,
                     $blocks,
                     $locales.getDirection() === 'rtl',
                 ).filter((insertion) => {
@@ -1411,6 +1592,61 @@
         let newCaret = navigation ? edit : edit[1];
         const newSource = navigation ? undefined : edit[0];
 
+        // Editing a folded node that's currently selected expands it permanently,
+        // so the change the creator is making is actually visible.
+        if (newSource !== undefined && $caret.position instanceof Node) {
+            const selected = $caret.position;
+            if (get(folded).has(selected))
+                folded.update((set) => {
+                    const next = new Set(set);
+                    next.delete(selected);
+                    return next;
+                });
+        }
+
+        // Deleting folded content: if a deletion removes any of a folded node's
+        // HIDDEN tokens, unfold that node so it's visible what's being deleted.
+        // The deleted range [delStart, delEnd) is in the OLD source, where the
+        // folded set's nodes and getTokenViews still live (the DOM hasn't
+        // re-rendered yet), so the ids line up.
+        if (
+            newSource !== undefined &&
+            !(newSource instanceof Project) &&
+            typeof newCaret.position === 'number' &&
+            get(folded).size > 0
+        ) {
+            const removed =
+                source.getCode().getLength() - newSource.getCode().getLength();
+            if (removed > 0) {
+                const delStart = newCaret.position;
+                const delEnd = delStart + removed;
+                const rendered = renderedTokenIds(getTokenViews);
+                folded.update((set) => {
+                    let changed = false;
+                    const next = new Set(set);
+                    for (const node of set) {
+                        const deletesHidden = node.leaves().some((leaf) => {
+                            if (!(leaf instanceof Token)) return false;
+                            const s = source.getTokenTextPosition(leaf);
+                            const e = source.getTokenLastPosition(leaf);
+                            return (
+                                s !== undefined &&
+                                e !== undefined &&
+                                s < delEnd &&
+                                e > delStart &&
+                                !rendered.has(leaf.id)
+                            );
+                        });
+                        if (deletesHidden) {
+                            next.delete(node);
+                            changed = true;
+                        }
+                    }
+                    return changed ? next : set;
+                });
+            }
+        }
+
         // Always reset the 1s idle timer, even when the store value isn't
         // changing — the timer is what debounces "is the user still typing?".
         if (resetKeyboardIdle) resetKeyboardIdle();
@@ -1420,43 +1656,6 @@
         if (keyboardEditIdle && get(keyboardEditIdle) !== idle)
             keyboardEditIdle.set(idle);
 
-        // See if the caret is inside a node that's currently being displayed as a value, and if
-        // so, select the expression who's value is being displayed instead.
-        // This coordinates with logic in NodeView.svelte, which decides when to render a value instead of a node.
-        if ($evaluation && !$evaluation.playing) {
-            const node = newCaret.getNodeInside();
-            const parents = node
-                ? [node, ...(project.getRoot(node)?.getAncestors(node) ?? [])]
-                : [];
-            const expressions = parents.filter(
-                (n): n is Expression =>
-                    n instanceof Expression && !n.isEvaluationInvolved(),
-            );
-            const valued = expressions
-                .map((expr) => {
-                    return {
-                        expression: expr,
-                        value: $evaluation.evaluator.getLatestExpressionValue(
-                            expr,
-                        ),
-                    };
-                })
-                .filter((val) => val.value !== undefined);
-            const expressionValue = valued.at(-1);
-
-            // If we found a value being rendered, select its expression. Carry
-            // the visual goal column through this reposition so an up/down move
-            // that lands on an inline-valued expression still remembers it
-            // (withPosition otherwise resets it).
-            if (expressionValue && expressionValue.value)
-                newCaret = newCaret
-                    .withPosition(
-                        expressionValue.expression,
-                        undefined,
-                        newCaret.visualColumn,
-                    )
-                    .withEntry(undefined);
-        }
 
         // Update the caret and project.
         if (newSource) {
@@ -1794,6 +1993,11 @@
             toggleMenu,
             toggleSearch,
             nextSearchMatch: goToNextMatch,
+            foldAll,
+            unfoldAll,
+            canFoldAll: () => canFoldAllValue,
+            canUnfoldAll: () => canUnfoldAllValue,
+            folded: get(effectiveFolded),
             blocks: $blocks,
             locales: $locales,
             view: editor,
@@ -1988,6 +2192,10 @@
         const z = zoom;
         const defer = deferDisplayUpdate;
         const idle = $keyboardEditIdle;
+        // Track fold state so the toolbar's fold/unfold buttons re-evaluate
+        // their active state when the user folds or unfolds.
+        const canFold = canFoldAllValue;
+        const canUnfold = canUnfoldAllValue;
 
         if (defer && idle !== IdleKind.Idle) return;
 
@@ -2005,6 +2213,10 @@
                 grabFocus,
                 setCaretPosition,
                 refreshHighlights,
+                foldAll,
+                unfoldAll,
+                canFoldAll: () => canFold,
+                canUnfoldAll: () => canUnfold,
                 zoom: z,
                 setZoom,
             };
@@ -2483,6 +2695,66 @@
         if ($evaluation !== undefined) untrack(refreshHighlights);
     });
 
+    // Folding/unfolding (including auto-expand/re-fold) collapses or expands code,
+    // moving the highlighted tokens, so re-measure the outlines when the EFFECTIVE
+    // folded set changes. Untracked for the same reason as the effect above.
+    $effect(() => {
+        $effectiveFolded;
+        untrack(refreshHighlights);
+    });
+
+    // When the effective folds change, re-run the caret through the store's
+    // fold normalization (normalizeFolded): folding a node the caret is inside
+    // snaps an interior text position to the fold boundary, and a wholly-hidden
+    // node selection to the fold node. This also fires post-render, so it
+    // corrects any caret set in the same tick as a fold toggle (before the DOM
+    // reflected it) and re-checks a restored caret once tokens render. Note: it
+    // re-pushes the already-normalized baseCaret, so unfolding leaves the caret
+    // at the boundary it snapped to rather than teleporting back into the
+    // newly-revealed content.
+    $effect(() => {
+        $effectiveFolded;
+        untrack(() => caret.set(get(baseCaret)));
+    });
+
+    // Persist folds (as node paths) whenever the set CHANGES. The re-resolve
+    // effect rebuilds `folded` with fresh node refs on every edit, firing this
+    // even when the folds are structurally unchanged; comparing the serialized
+    // paths skips the (synchronous localStorage) write in that common case, so a
+    // write only happens on an actual fold/unfold — never on the keystroke path.
+    let lastPersistedFolds: string | undefined = undefined;
+    $effect(() => {
+        const set = $folded;
+        untrack(() => {
+            if (!editable) return;
+            const paths = [...set]
+                .filter((n) => source.root.has(n))
+                .map((n) => source.root.getPath(n));
+            const key = JSON.stringify(paths);
+            if (key === lastPersistedFolds) return;
+            lastPersistedFolds = key;
+            Settings.setProjectFolds(
+                project.getID(),
+                project.getIndexOfSource(source),
+                paths,
+            );
+        });
+    });
+
+    // After an edit (new AST), re-resolve the persisted fold paths against the
+    // new tree so the folded set tracks live nodes; paths that no longer resolve
+    // are dropped. Skipped when there are no folds so plain editing pays nothing.
+    $effect(() => {
+        source;
+        untrack(() => {
+            if (!editable) return;
+            const resolved = new Set(localFolded());
+            const current = get(folded);
+            if (resolved.size === 0 && current.size === 0) return;
+            folded.set(resolved);
+        });
+    });
+
     // Re-measure outlines when an ancestor of the editor finishes a CSS
     // animation. Matters for the editor inside ExampleUI: its container
     // paragraph in MarkupHTMLView animates from transform: scaleY(0) to
@@ -2573,6 +2845,42 @@
             ? getSearchMatches(source, searchQuery, $locales.getLanguages())
             : [],
     );
+
+    // Auto-expand: compute the effective folded set as `folded` minus nodes that
+    // should temporarily render expanded — because the debugger stepped into
+    // them, or a search match is inside them. They re-fold once the trigger
+    // moves away. Caret placement and highlights deliberately do NOT auto-expand
+    // (folding is manual); only stepping and search reveal folded code.
+    $effect(() => {
+        const f = $folded;
+        const step = projectStepNode;
+        const matches = searchMatches;
+        untrack(() => {
+            const next = new Set<Node>();
+            for (const node of f) {
+                // Stepped into?
+                if (step && (node === step || node.contains(step))) continue;
+                // A search match inside the node's text range?
+                if (matches.length > 0) {
+                    const start = source.getNodeFirstPosition(node);
+                    const end = source.getNodeLastPosition(node);
+                    if (
+                        start !== undefined &&
+                        end !== undefined &&
+                        matches.some((m) => m.start < end && m.end > start)
+                    )
+                        continue;
+                }
+                next.add(node);
+            }
+            const cur = get(effectiveFolded);
+            if (
+                next.size !== cur.size ||
+                [...next].some((n) => !cur.has(n))
+            )
+                effectiveFolded.set(next);
+        });
+    });
 
     // Outlines for the editor search: one clipped range outline per matched
     // substring, using the same getRangeOutline machinery as the range

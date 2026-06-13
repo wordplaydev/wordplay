@@ -18,6 +18,8 @@ import {
 import { BlocksSetting } from '@db/settings/BlocksSetting';
 import { CameraSetting } from '@db/settings/CameraSetting';
 import { CaretsSetting } from '@db/settings/CaretsSetting';
+import { FoldsSetting } from '@db/settings/FoldsSetting';
+import type { Path } from '@nodes/Root';
 import type { SerializedCaret } from '@db/projects/ProjectSchemas';
 import { DarkSetting } from '@db/settings/DarkSetting';
 import { FaceSetting } from '@db/settings/FaceSetting';
@@ -54,7 +56,10 @@ export type SettingsSchemaV2 = Omit<SettingsSchemaV1, 'v'> & {
     newHowToNotifications: boolean;
 };
 
-export type SettingsSchemaV3 = Omit<SettingsSchemaV2, 'v' | 'animationFactor'> & {
+export type SettingsSchemaV3 = Omit<
+    SettingsSchemaV2,
+    'v' | 'animationFactor'
+> & {
     v: 3;
     /** `null` means "follow the device's prefers-reduced-motion setting". */
     animationFactor: number | null;
@@ -93,6 +98,7 @@ export default class SettingsDatabase {
     readonly settings = {
         layouts: LayoutsSetting,
         carets: CaretsSetting,
+        folds: FoldsSetting,
         arrangement: ArrangementSetting,
         animationFactor: AnimationFactorSetting,
         locales: LocalesSetting,
@@ -230,7 +236,10 @@ export default class SettingsDatabase {
         // Skip redundant writes when the caret hasn't changed. Compare by value
         // so all caret forms (offset, range, node path) are handled uniformly.
         const current = this.settings.carets.get()[projectID]?.[sourceIndex];
-        if (current !== undefined && JSON.stringify(current) === JSON.stringify(caret))
+        if (
+            current !== undefined &&
+            JSON.stringify(current) === JSON.stringify(caret)
+        )
             return;
 
         const all = this.settings.carets.get();
@@ -247,6 +256,37 @@ export default class SettingsDatabase {
         const next = { ...all };
         delete next[projectID];
         this.settings.carets.set(this.database, next);
+    }
+
+    /** The persisted folded-node paths for a project source, or undefined. */
+    getProjectFolds(
+        projectID: string,
+        sourceIndex: number,
+    ): Path[] | undefined {
+        return this.settings.folds.get()[projectID]?.[sourceIndex];
+    }
+
+    setProjectFolds(projectID: string, sourceIndex: number, paths: Path[]) {
+        const current = this.settings.folds.get()[projectID]?.[sourceIndex];
+        if (
+            current !== undefined &&
+            JSON.stringify(current) === JSON.stringify(paths)
+        )
+            return;
+        const all = this.settings.folds.get();
+        this.settings.folds.set(this.database, {
+            ...all,
+            [projectID]: { ...all[projectID], [sourceIndex]: paths },
+        });
+    }
+
+    /** Drop a project's persisted folds (on local deletion). */
+    removeProjectFolds(projectID: string) {
+        const all = this.settings.folds.get();
+        if (!(projectID in all)) return;
+        const next = { ...all };
+        delete next[projectID];
+        this.settings.folds.set(this.database, next);
     }
 
     setArrangement(arrangement: ArrangementType) {

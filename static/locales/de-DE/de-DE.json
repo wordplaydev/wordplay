@@ -5316,6 +5316,14 @@
             },
             "notice": {
                 "dismiss": "$~Diese Benachrichtigung ausblenden"
+            },
+            "fold": {
+                "collapse": "$?",
+                "expand": "$?",
+                "all": "$?",
+                "none": "$?",
+                "collapsed": "$?",
+                "expanded": "$?"
             }
         },
         "annotations": {

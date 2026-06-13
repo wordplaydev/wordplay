@@ -5543,6 +5543,14 @@
             },
             "notice": {
                 "dismiss": "$~ಈ ಸೂಚನೆಯನ್ನು ವಜಾಗೊಳಿಸಿ"
+            },
+            "fold": {
+                "collapse": "$?",
+                "expand": "$?",
+                "all": "$?",
+                "none": "$?",
+                "collapsed": "$?",
+                "expanded": "$?"
             }
         },
         "annotations": {
