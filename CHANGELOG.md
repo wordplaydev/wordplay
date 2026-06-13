@@ -12,6 +12,10 @@ This week we improved the editor, fixed a few bugs, and added a new shorter tuto
 
 - › You can now "fold" multi-line blocks of code to make it easier to navigate larger programs (#806, #833).
 
+### Changed
+
+- 🛠️ We upgraded internal tooling for stability.
+
 ### Fixed
 
 - ¶ We fixed many inconsistencies with the editor cursor in blocks and text mode.
