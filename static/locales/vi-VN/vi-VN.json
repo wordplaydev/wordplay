@@ -5571,12 +5571,12 @@
                 "dismiss": "$~Hãy bỏ qua thông báo này."
             },
             "fold": {
-                "collapse": "$?",
-                "expand": "$?",
-                "all": "$?",
-                "none": "$?",
-                "collapsed": "$?",
-                "expanded": "$?"
+                "collapse": "$~thu gọn $name",
+                "expand": "$~mở rộng $name",
+                "all": "$~gấp tất cả",
+                "none": "$~mở ra tất cả",
+                "collapsed": "$~$name đã bị thu gọn",
+                "expanded": "$~$name đã mở rộng"
             }
         },
         "annotations": {

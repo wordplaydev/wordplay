@@ -5553,12 +5553,12 @@
                 "dismiss": "$~Απόρριψη αυτής της ειδοποίησης"
             },
             "fold": {
-                "collapse": "$?",
-                "expand": "$?",
-                "all": "$?",
-                "none": "$?",
-                "collapsed": "$?",
-                "expanded": "$?"
+                "collapse": "$~σύμπτυξη $name",
+                "expand": "$~επέκταση $name",
+                "all": "$~διπλώστε όλα",
+                "none": "$~ξεδιπλώστε τα όλα",
+                "collapsed": "$~$name συμπτυγμένο",
+                "expanded": "$~$name αναπτύχθηκε"
             }
         },
         "annotations": {

@@ -5565,12 +5565,12 @@
                 "dismiss": "$~Descartar este aviso"
             },
             "fold": {
-                "collapse": "$?",
-                "expand": "$?",
-                "all": "$?",
-                "none": "$?",
-                "collapsed": "$?",
-                "expanded": "$?"
+                "collapse": "$~colapsar $name",
+                "expand": "$~expandir $name",
+                "all": "$~dobre tudo",
+                "none": "$~revelar tudo",
+                "collapsed": "$~$name colapsou",
+                "expanded": "$~$name expandido"
             }
         },
         "annotations": {

@@ -5576,12 +5576,12 @@
                 "dismiss": "$~Închideți această notificare"
             },
             "fold": {
-                "collapse": "$?",
-                "expand": "$?",
-                "all": "$?",
-                "none": "$?",
-                "collapsed": "$?",
-                "expanded": "$?"
+                "collapse": "$~restrânge $name",
+                "expand": "$~extinde $name",
+                "all": "$~pliază tot",
+                "none": "$~desfășura totul",
+                "collapsed": "$~$name restrâns",
+                "expanded": "$~$name extins"
             }
         },
         "annotations": {

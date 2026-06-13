@@ -5550,12 +5550,12 @@
                 "dismiss": "$~এই জাননী খাৰিজ কৰক"
             },
             "fold": {
-                "collapse": "$?",
-                "expand": "$?",
-                "all": "$?",
-                "none": "$?",
-                "collapsed": "$?",
-                "expanded": "$?"
+                "collapse": "$~collapse $name",
+                "expand": "$~$name প্ৰসাৰিত কৰক",
+                "all": "$~সকলো ভাঁজ কৰক",
+                "none": "$~সকলো উন্মোচন কৰক",
+                "collapsed": "$~$name ভাঙি গ'ল",
+                "expanded": "$~$name সম্প্ৰসাৰিত কৰা হৈছে"
             }
         },
         "annotations": {

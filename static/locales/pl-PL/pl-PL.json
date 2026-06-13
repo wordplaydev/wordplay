@@ -5340,12 +5340,12 @@
                 "dismiss": "$~Odrzuć to powiadomienie"
             },
             "fold": {
-                "collapse": "$?",
-                "expand": "$?",
-                "all": "$?",
-                "none": "$?",
-                "collapsed": "$?",
-                "expanded": "$?"
+                "collapse": "$~zawiń $name",
+                "expand": "$~rozwiń $name",
+                "all": "$~złóż wszystko",
+                "none": "$~rozwiń wszystko",
+                "collapsed": "$~$name zostało zwinięte",
+                "expanded": "$~$name rozszerzono"
             }
         },
         "annotations": {

@@ -5318,12 +5318,12 @@
                 "dismiss": "$~Ignorer cet avis"
             },
             "fold": {
-                "collapse": "$?",
-                "expand": "$?",
-                "all": "$?",
-                "none": "$?",
-                "collapsed": "$?",
-                "expanded": "$?"
+                "collapse": "$~réduire $name",
+                "expand": "$~développer $name",
+                "all": "$~plier tout",
+                "none": "$~dévoiler tout",
+                "collapsed": "$~$name s'est effondré",
+                "expanded": "$~$name développé"
             }
         },
         "annotations": {

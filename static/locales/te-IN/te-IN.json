@@ -5548,12 +5548,12 @@
                 "dismiss": "$~ఈ నోటీసును కొట్టివేయండి"
             },
             "fold": {
-                "collapse": "$?",
-                "expand": "$?",
-                "all": "$?",
-                "none": "$?",
-                "collapsed": "$?",
-                "expanded": "$?"
+                "collapse": "$~కుప్పకూలడం $name",
+                "expand": "$~$name విస్తరించండి",
+                "all": "$~అన్నింటినీ మడవండి",
+                "none": "$~అన్నింటినీ విప్పండి",
+                "collapsed": "$~$name కుప్పకూలింది",
+                "expanded": "$~$name విస్తరించబడింది"
             }
         },
         "annotations": {

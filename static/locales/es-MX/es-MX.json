@@ -5297,12 +5297,12 @@
                 "dismiss": "$~Descartar este aviso"
             },
             "fold": {
-                "collapse": "$?",
-                "expand": "$?",
-                "all": "$?",
-                "none": "$?",
-                "collapsed": "$?",
-                "expanded": "$?"
+                "collapse": "$~colapso $name",
+                "expand": "$~expandir $name",
+                "all": "$~doblar todo",
+                "none": "$~desplegar todo",
+                "collapsed": "$~$name colapsó",
+                "expanded": "$~$name expandido"
             }
         },
         "annotations": {

@@ -5337,12 +5337,12 @@
                 "dismiss": "$~இந்த அறிவிப்பை நிராகரிக்கவும்"
             },
             "fold": {
-                "collapse": "$?",
-                "expand": "$?",
-                "all": "$?",
-                "none": "$?",
-                "collapsed": "$?",
-                "expanded": "$?"
+                "collapse": "$~சரிவு $name",
+                "expand": "$~விரிவாக்கு $name",
+                "all": "$~அனைத்தையும் மடிக்கவும்",
+                "none": "$~அனைத்தையும் விரிக்கவும்",
+                "collapsed": "$~$name சரிந்தது",
+                "expanded": "$~$name விரிவாக்கப்பட்டது"
             }
         },
         "annotations": {

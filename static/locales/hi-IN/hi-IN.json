@@ -5315,12 +5315,12 @@
                 "dismiss": "$~इस सूचना को खारिज करें"
             },
             "fold": {
-                "collapse": "$?",
-                "expand": "$?",
-                "all": "$?",
-                "none": "$?",
-                "collapsed": "$?",
-                "expanded": "$?"
+                "collapse": "$~$name ढहाएँ",
+                "expand": "$~$name विस्तार करें",
+                "all": "$~सभी को मोड़ें",
+                "none": "$~सभी को खोलें",
+                "collapsed": "$~$name ध्वस्त हो गया",
+                "expanded": "$~$name विस्तारित"
             }
         },
         "annotations": {

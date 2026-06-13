@@ -5576,12 +5576,12 @@
                 "dismiss": "$~Abaikan pemberitahuan ini"
             },
             "fold": {
-                "collapse": "$?",
-                "expand": "$?",
-                "all": "$?",
-                "none": "$?",
-                "collapsed": "$?",
-                "expanded": "$?"
+                "collapse": "$~runtuhkan $name",
+                "expand": "$~perluas $name",
+                "all": "$~lipat semua",
+                "none": "$~buka semuanya",
+                "collapsed": "$~$name menyusut",
+                "expanded": "$~$name diperluas"
             }
         },
         "annotations": {

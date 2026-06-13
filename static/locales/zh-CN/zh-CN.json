@@ -5277,12 +5277,12 @@
                 "dismiss": "$~忽略此通知"
             },
             "fold": {
-                "collapse": "$?",
-                "expand": "$?",
-                "all": "$?",
-                "none": "$?",
-                "collapsed": "$?",
-                "expanded": "$?"
+                "collapse": "$~折叠$name",
+                "expand": "$~展开$name",
+                "all": "$~全部折叠",
+                "none": "$~展开所有",
+                "collapsed": "$~$name",
+                "expanded": "$~$name"
             }
         },
         "annotations": {

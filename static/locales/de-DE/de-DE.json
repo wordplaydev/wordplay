@@ -5318,12 +5318,12 @@
                 "dismiss": "$~Diese Benachrichtigung ausblenden"
             },
             "fold": {
-                "collapse": "$?",
-                "expand": "$?",
-                "all": "$?",
-                "none": "$?",
-                "collapsed": "$?",
-                "expanded": "$?"
+                "collapse": "$~Zusammenbruch $name",
+                "expand": "$~expand $name",
+                "all": "$~Alle falten",
+                "none": "$~Alles ausklappen",
+                "collapsed": "$~$name ausgeblendet",
+                "expanded": "$~$name erweitert"
             }
         },
         "annotations": {

@@ -5582,12 +5582,12 @@
                 "dismiss": "$~এই বিজ্ঞপ্তিটি খারিজ করুন"
             },
             "fold": {
-                "collapse": "$?",
-                "expand": "$?",
-                "all": "$?",
-                "none": "$?",
-                "collapsed": "$?",
-                "expanded": "$?"
+                "collapse": "$~ধস $name",
+                "expand": "$~$name প্রসারিত করুন",
+                "all": "$~সব ভাঁজ করুন",
+                "none": "$~সব উন্মোচন করুন",
+                "collapsed": "$~$name ধসে পড়েছে",
+                "expanded": "$~$name প্রসারিত"
             }
         },
         "annotations": {

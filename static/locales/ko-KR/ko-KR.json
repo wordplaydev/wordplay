@@ -5315,12 +5315,12 @@
                 "dismiss": "$~이 알림을 닫으세요"
             },
             "fold": {
-                "collapse": "$?",
-                "expand": "$?",
-                "all": "$?",
-                "none": "$?",
-                "collapsed": "$?",
-                "expanded": "$?"
+                "collapse": "$~$name 접으세요",
+                "expand": "$~$name 확장하세요",
+                "all": "$~모두 접으세요",
+                "none": "$~모두 펼쳐보세요",
+                "collapsed": "$~$name 접혔습니다",
+                "expanded": "$~$name 확장됨"
             }
         },
         "annotations": {

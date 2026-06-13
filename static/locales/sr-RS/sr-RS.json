@@ -5332,12 +5332,12 @@
                 "dismiss": "$~Одбаци ово обавештење"
             },
             "fold": {
-                "collapse": "$?",
-                "expand": "$?",
-                "all": "$?",
-                "none": "$?",
-                "collapsed": "$?",
-                "expanded": "$?"
+                "collapse": "$~сакриј $name",
+                "expand": "$~прошири $name",
+                "all": "$~пресавиј све",
+                "none": "$~расклопити све",
+                "collapsed": "$~$name је сажет",
+                "expanded": "$~$name је проширен"
             }
         },
         "annotations": {

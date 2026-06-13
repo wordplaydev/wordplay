@@ -5332,12 +5332,12 @@
                 "dismiss": "$~ही सूचना रद्द करा"
             },
             "fold": {
-                "collapse": "$?",
-                "expand": "$?",
-                "all": "$?",
-                "none": "$?",
-                "collapsed": "$?",
-                "expanded": "$?"
+                "collapse": "$~$name कोसळले",
+                "expand": "$~$name विस्तार करा",
+                "all": "$~सर्व दुमडा",
+                "none": "$~सर्व उलगडा",
+                "collapsed": "$~$name collapsed",
+                "expanded": "$~$name विस्तारित"
             }
         },
         "annotations": {

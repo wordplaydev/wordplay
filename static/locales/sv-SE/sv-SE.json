@@ -5332,12 +5332,12 @@
                 "dismiss": "$~Avfärda detta meddelande"
             },
             "fold": {
-                "collapse": "$?",
-                "expand": "$?",
-                "all": "$?",
-                "none": "$?",
-                "collapsed": "$?",
-                "expanded": "$?"
+                "collapse": "$~komprimera $name",
+                "expand": "$~expandera $name",
+                "all": "$~vik alla",
+                "none": "$~utveckla allt",
+                "collapsed": "$~$name hopfälld",
+                "expanded": "$~$name expanderad"
             }
         },
         "annotations": {

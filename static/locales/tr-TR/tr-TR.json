@@ -5332,12 +5332,12 @@
                 "dismiss": "$~Bu bildirimi kapat"
             },
             "fold": {
-                "collapse": "$?",
-                "expand": "$?",
-                "all": "$?",
-                "none": "$?",
-                "collapsed": "$?",
-                "expanded": "$?"
+                "collapse": "$~$name çökert",
+                "expand": "$~$name genişlet",
+                "all": "$~tümünü katla",
+                "none": "$~tümünü aç",
+                "collapsed": "$~$name çöktü",
+                "expanded": "$~$name genişletildi"
             }
         },
         "annotations": {

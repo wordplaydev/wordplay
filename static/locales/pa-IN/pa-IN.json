@@ -5332,12 +5332,12 @@
                 "dismiss": "$~ਇਸ ਨੋਟਿਸ ਨੂੰ ਖਾਰਜ ਕਰੋ"
             },
             "fold": {
-                "collapse": "$?",
-                "expand": "$?",
-                "all": "$?",
-                "none": "$?",
-                "collapsed": "$?",
-                "expanded": "$?"
+                "collapse": "$~$name ਨੂੰ ਸਮੇਟ ਦਿਓ",
+                "expand": "$~$name ਵਿਸਤਾਰ ਕਰੋ",
+                "all": "$~ਸਭ ਨੂੰ ਫੋਲਡ ਕਰੋ",
+                "none": "$~ਸਭ ਕੁਝ ਖੋਲ੍ਹੋ",
+                "collapsed": "$~$name ਸਮੇਟਿਆ ਗਿਆ",
+                "expanded": "$~$name ਵਿਸਤਾਰ ਕੀਤਾ ਗਿਆ"
             }
         },
         "annotations": {

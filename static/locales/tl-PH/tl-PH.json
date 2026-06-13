@@ -5574,12 +5574,12 @@
                 "dismiss": "$~I-dismiss ang abisong ito"
             },
             "fold": {
-                "collapse": "$?",
-                "expand": "$?",
-                "all": "$?",
-                "none": "$?",
-                "collapsed": "$?",
-                "expanded": "$?"
+                "collapse": "$~tiklupin ang $name",
+                "expand": "$~palawakin ang $name",
+                "all": "$~tiklupin lahat",
+                "none": "$~ibuka ang lahat",
+                "collapsed": "$~Naka-collapse $name",
+                "expanded": "$~Pinalawak $name"
             }
         },
         "annotations": {

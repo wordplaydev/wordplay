@@ -5279,12 +5279,12 @@
                 "dismiss": "$~忽略此通知"
             },
             "fold": {
-                "collapse": "$?",
-                "expand": "$?",
-                "all": "$?",
-                "none": "$?",
-                "collapsed": "$?",
-                "expanded": "$?"
+                "collapse": "$~折$name",
+                "expand": "$~展開$name",
+                "all": "$~全部折疊",
+                "none": "$~展開所有",
+                "collapsed": "$~$name",
+                "expanded": "$~$name"
             }
         },
         "annotations": {

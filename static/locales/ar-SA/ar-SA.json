@@ -5545,12 +5545,12 @@
                 "dismiss": "$~تجاهل هذا الإشعار"
             },
             "fold": {
-                "collapse": "$?",
-                "expand": "$?",
-                "all": "$?",
-                "none": "$?",
-                "collapsed": "$?",
-                "expanded": "$?"
+                "collapse": "$~انهيار $name",
+                "expand": "$~توسيع $name",
+                "all": "$~اطوِ الكل",
+                "none": "$~اكشف كل شيء",
+                "collapsed": "$~تم طي $name",
+                "expanded": "$~تم توسيع $name"
             }
         },
         "annotations": {

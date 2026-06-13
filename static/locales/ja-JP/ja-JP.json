@@ -5332,12 +5332,12 @@
                 "dismiss": "$~この通知を閉じる"
             },
             "fold": {
-                "collapse": "$?",
-                "expand": "$?",
-                "all": "$?",
-                "none": "$?",
-                "collapsed": "$?",
-                "expanded": "$?"
+                "collapse": "$~折りたたむ$name",
+                "expand": "$~$name",
+                "all": "$~すべて折りたたむ",
+                "none": "$~すべてを展開する",
+                "collapsed": "$~$name",
+                "expanded": "$~$name"
             }
         },
         "annotations": {

@@ -5332,12 +5332,12 @@
                 "dismiss": "$~આ સૂચના કાઢી નાખો"
             },
             "fold": {
-                "collapse": "$?",
-                "expand": "$?",
-                "all": "$?",
-                "none": "$?",
-                "collapsed": "$?",
-                "expanded": "$?"
+                "collapse": "$~$name સંકુચિત કરો",
+                "expand": "$~$name વિસ્તૃત કરો",
+                "all": "$~બધું ફોલ્ડ કરો",
+                "none": "$~બધું ખોલો",
+                "collapsed": "$~$name સંકુચિત કર્યું",
+                "expanded": "$~$name વિસ્તૃત કર્યું"
             }
         },
         "annotations": {

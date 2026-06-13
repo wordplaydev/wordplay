@@ -5569,12 +5569,12 @@
                 "dismiss": "$~סגור את ההודעה הזו"
             },
             "fold": {
-                "collapse": "$?",
-                "expand": "$?",
-                "all": "$?",
-                "none": "$?",
-                "collapsed": "$?",
-                "expanded": "$?"
+                "collapse": "$~כווץ את $name",
+                "expand": "$~הרחב את $name",
+                "all": "$~לקפל את הכל",
+                "none": "$~לפתוח את הכל",
+                "collapsed": "$~$name מכווץ",
+                "expanded": "$~$name הורחב"
             }
         },
         "annotations": {

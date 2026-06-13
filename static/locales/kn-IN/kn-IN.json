@@ -5545,12 +5545,12 @@
                 "dismiss": "$~ಈ ಸೂಚನೆಯನ್ನು ವಜಾಗೊಳಿಸಿ"
             },
             "fold": {
-                "collapse": "$?",
-                "expand": "$?",
-                "all": "$?",
-                "none": "$?",
-                "collapsed": "$?",
-                "expanded": "$?"
+                "collapse": "$~$name ಕುಗ್ಗಿಸಿ",
+                "expand": "$~$name ವಿಸ್ತರಿಸಿ",
+                "all": "$~ಎಲ್ಲವನ್ನೂ ಮಡಿಸಿ",
+                "none": "$~ಎಲ್ಲವನ್ನೂ ಬಿಚ್ಚಿಡಿ",
+                "collapsed": "$~$name ಕುಗ್ಗಿಸಲಾಗಿದೆ",
+                "expanded": "$~$name ವಿಸ್ತರಿಸಲಾಗಿದೆ"
             }
         },
         "annotations": {
