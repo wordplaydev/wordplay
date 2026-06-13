@@ -189,12 +189,12 @@
         if ($evaluation?.streams === undefined) return;
         if (timeline === undefined) return;
 
-        // Map the pointer's x position to the closest event.
+        // Map the pointer's x position to the closest event. Use viewport
+        // coordinates from getBoundingClientRect, since elementFromPoint expects
+        // them and offsetTop is relative to the offset parent, not the viewport.
+        const rect = timeline.getBoundingClientRect();
         const view = document
-            .elementFromPoint(
-                event.clientX,
-                timeline.offsetTop + timeline.clientHeight / 2,
-            )
+            .elementFromPoint(event.clientX, rect.top + rect.height / 2)
             ?.closest('.event');
         if (view instanceof HTMLElement) {
             // Is this a stream input? Get it's index and step to it.
@@ -217,8 +217,9 @@
             ) {
                 const start = parseInt(view.dataset.startindex);
                 const end = parseInt(view.dataset.endindex);
+                const viewRect = view.getBoundingClientRect();
                 const percent =
-                    (event.offsetX - view.offsetLeft) / view.offsetWidth;
+                    (event.clientX - viewRect.left) / viewRect.width;
                 const step = Math.min(
                     end,
                     Math.max(0, Math.round(percent * (end - start) + start)),
@@ -230,7 +231,6 @@
         // If we're on the edge, autoscroll.
         if (timeline) {
             dragging = true;
-            const rect = timeline.getBoundingClientRect();
             const offset = event.clientX - rect.left;
             const width = rect.width;
             if (offset < 50) timeline.scrollLeft = timeline.scrollLeft - 10;

@@ -19,6 +19,7 @@ This week we improved the editor, fixed a few bugs, and added a new shorter tuto
 ### Fixed
 
 - ¶ We fixed many inconsistencies with the editor cursor in blocks and text mode.
+- 🐜 Debug timeline dragging was broken. It's fixed now!
 
 ## 0.22.0 - 2026-06-06
 
