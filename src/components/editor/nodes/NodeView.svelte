@@ -22,6 +22,7 @@
         getEffectiveFolded,
         getHidden,
         getHighlights,
+        getProject,
         getRoot,
         getSpaces,
     } from '@components/project/Contexts';
@@ -80,17 +81,25 @@
     );
 
     const evaluation = getEvaluation();
+    const project = getProject();
     const rootContext = getRoot();
     let root = $derived(rootContext?.root);
 
+    // Source the description's Context from the project store, which only
+    // changes on edits, rather than the evaluation store, which emits a new
+    // object on every evaluator broadcast (i.e. every animation frame while a
+    // program runs). Descriptions don't change between steps, so reading
+    // $evaluation here would recompute every node's localized aria-label each
+    // frame. Fall back to the evaluator's project for non-route render
+    // contexts (e.g. previews) where the project store isn't set.
+    let descriptionContext = $derived(
+        node
+            ? ($project ?? $evaluation?.evaluator.project)?.getNodeContext(node)
+            : undefined,
+    );
     let description = $derived(
-        node && $evaluation
-            ? node
-                  .getDescription(
-                      $locales,
-                      $evaluation.evaluator.project.getNodeContext(node),
-                  )
-                  .toText()
+        node && descriptionContext
+            ? node.getDescription($locales, descriptionContext).toText()
             : null,
     );
 
