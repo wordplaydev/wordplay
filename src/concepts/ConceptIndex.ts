@@ -38,8 +38,11 @@ export default class ConceptIndex {
     readonly subConcepts: Map<Concept, Set<Concept>> = new Map();
     readonly locales: Locales;
 
-    /** Precomputed searchable text for every concept, aligned to {@link concepts}. */
-    readonly searchable: Searchable<Concept>[];
+    /** Lazily-computed searchable text for every concept, aligned to {@link concepts}. Built on the
+     *  first concept search (see {@link searchable}) rather than at construction: concretizing every
+     *  basis concept's docs is ~20ms and is only needed when the user actually searches the guide —
+     *  building a fresh index per project/tutorial-step otherwise pays that cost for nothing. */
+    private cachedSearchable: Searchable<Concept>[] | undefined;
 
     /** A mapping of node ids to nodes, registered by examples that are generated. */
     readonly examples: Map<number, Node> = new Map();
@@ -69,22 +72,27 @@ export default class ConceptIndex {
 
         // Remember the preferred locales.
         this.locales = locales;
+    }
 
-        // Precompute searchable text ONCE. This moves the expensive work —
-        // concretizing each concept's documentation markup — out of the
-        // per-keystroke search path. It's rebuilt whenever a new ConceptIndex is
-        // constructed (project/howtos/gallery/locale change).
-        const languages = locales.getLanguages();
-        this.searchable = this.concepts.map((concept) =>
-            makeSearchable(
-                concept,
-                concept.getNames(locales, false),
-                concept
-                    .getDocs(locales)
-                    .flatMap((markup) => markup.getWordsTexts()),
-                languages,
-            ),
-        );
+    /** Searchable text for every concept, computed once on first use and cached. Concretizing each
+     *  concept's docs markup is expensive (~20ms for the basis concepts), so we keep it off the
+     *  index-construction path (every project open / tutorial step) and off the per-keystroke search
+     *  path, paying it only when the guide is first searched. */
+    private get searchable(): Searchable<Concept>[] {
+        if (this.cachedSearchable === undefined) {
+            const languages = this.locales.getLanguages();
+            this.cachedSearchable = this.concepts.map((concept) =>
+                makeSearchable(
+                    concept,
+                    concept.getNames(this.locales, false),
+                    concept
+                        .getDocs(this.locales)
+                        .flatMap((markup) => markup.getWordsTexts()),
+                    languages,
+                ),
+            );
+        }
+        return this.cachedSearchable;
     }
 
     // Make a concept index with a project and some preferreed languages.
