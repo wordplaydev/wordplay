@@ -181,6 +181,9 @@
         editable?: boolean;
         /** If true, only the output is shown in the initial layout. */
         showOutput?: boolean;
+        /** Force the editor's annotation panel expanded (true) or collapsed (false); undefined uses
+         * the creator's global annotation setting. Used by the tutorial to show or hide conflicts. */
+        annotationsExpanded?: boolean | undefined;
         /** True if the output should be fit to content */
         fit?: boolean;
         /** True if the project should focus the main editor source on mount */
@@ -206,6 +209,7 @@
         original = undefined,
         editable = true,
         showOutput = false,
+        annotationsExpanded = undefined,
         fit = true,
         autofocus = true,
         guide = true,
@@ -216,6 +220,13 @@
         persistLayout = true,
         isCommenter = false,
     }: Props = $props();
+
+    /** When the parent supplies an initial annotations-expanded state (e.g. the tutorial expands the
+     * panel for a step with expected conflicts), seed a local, user-toggleable state from it — so it
+     * sets the *initial* state rather than forcing the panel open or closed permanently. Left
+     * undefined when the parent doesn't supply one, so Annotations falls back to the global setting.
+     * Re-seeds whenever the parent recreates this view (e.g. the tutorial keys on the project). */
+    let localAnnotationsExpanded = $state(annotationsExpanded);
 
     /** The raw user-chosen animation factor (number or null for "auto"); used
      * by the animation-speed picker so it reflects the actual choice rather
@@ -2690,6 +2701,13 @@
                                                 false}
                                             caret={$editors.get(tile.id)
                                                 ?.displayedCaret}
+                                            expanded={localAnnotationsExpanded}
+                                            onToggle={annotationsExpanded !==
+                                            undefined
+                                                ? () =>
+                                                      (localAnnotationsExpanded =
+                                                          !localAnnotationsExpanded)
+                                                : undefined}
                                         />{/if}
                                 {/if}
                             {/snippet}

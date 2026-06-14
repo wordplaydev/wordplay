@@ -11,10 +11,12 @@ This week we improved the editor, fixed a few bugs, and added a new shorter tuto
 ### Added
 
 - › You can now "fold" multi-line blocks of code to make it easier to navigate larger programs (#806, #833).
+- ❓ We added a new quick tutorial for creators who know another common programming language and want a quick way to understand how Wordplay compares. We're starting in English for now until we get feedback on it, then we'll work on translations later (#1034).
 
 ### Changed
 
 - 🛠️ We upgraded internal tooling for stability.
+- 🎨 We gave tutorial markers colors and numbers to help distinguish them (#1014).
 
 ### Fixed
 
@@ -22,6 +24,7 @@ This week we improved the editor, fixed a few bugs, and added a new shorter tuto
 - 💨 We made the editor's drop down menus faster to display, especially big ones and especially in blocks mode.
 - 🐜 Debug timeline dragging was broken. It's fixed now!
 - 🔦 The little output chooser that appears when there are more than two source files was overlapping notifications. We moved it to avoid overlap.
+- 🚨 We made tutorial highlights more reliable (#902).
 
 ## 0.22.0 - 2026-06-06
 

@@ -109,6 +109,7 @@ const CharactersSet = {
     Union: { symbols: OR_SYMBOL },
     VariableType: { symbols: TYPE_OPEN_SYMBOL + TYPE_CLOSE_SYMBOL },
     Example: { symbols: CODE_SYMBOL + CODE_SYMBOL },
+    ExternalExample: { symbols: CODE_SYMBOL + OR_SYMBOL },
     Exception: { symbols: EXCEPTION_SYMBOL },
     // Input
     Stream: { symbols: STREAM_SYMBOL },

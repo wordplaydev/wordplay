@@ -1,6 +1,7 @@
 import Branch from '@nodes/Branch';
 import ConceptLink from '@nodes/ConceptLink';
 import Example from '@nodes/Example';
+import ExternalExample from '@nodes/ExternalExample';
 import Markup from '@nodes/Markup';
 import Mention from '@nodes/Mention';
 import type { Segment } from '@nodes/Paragraph';
@@ -62,11 +63,17 @@ function parseSegment(tokens: Tokens) {
         ? parseWebLink(tokens)
         : tokens.nextIs(Sym.Concept)
           ? parseConceptLink(tokens)
+          : tokens.nextIs(Sym.ExternalExample)
+          ? parseExternalExample(tokens)
           : tokens.nextIs(Sym.Code)
             ? parseExample(tokens)
             : tokens.nextIs(Sym.Mention)
               ? parseMention(tokens)
               : parseWords(tokens);
+}
+
+export function parseExternalExample(tokens: Tokens): ExternalExample {
+    return new ExternalExample(tokens.read(Sym.ExternalExample));
 }
 
 function parseWebLink(tokens: Tokens): WebLink {
@@ -183,6 +190,7 @@ function nextIsContent(tokens: Tokens) {
         Sym.TagOpen,
         Sym.Concept,
         Sym.Code,
+        Sym.ExternalExample,
         Sym.Mention,
         Sym.Italic,
         Sym.Light,

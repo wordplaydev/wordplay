@@ -15,6 +15,7 @@ import Branch from '@nodes/Branch';
 import ConceptLink from '@nodes/ConceptLink';
 import Content from '@nodes/Content';
 import Example from '@nodes/Example';
+import ExternalExample from '@nodes/ExternalExample';
 import Mention from '@nodes/Mention';
 import type { Grammar, Replacement } from '@nodes/Node';
 import { Sym } from '@nodes/Sym';
@@ -28,6 +29,7 @@ export type NodeSegment =
     | WebLink
     | ConceptLink
     | Example
+    | ExternalExample
     | Mention
     | Branch;
 
@@ -73,6 +75,7 @@ export default class Paragraph extends Content {
                     node(WebLink),
                     node(ConceptLink),
                     node(Example),
+                    node(ExternalExample),
                     node(Branch),
                     node(Mention),
                     node(Branch),

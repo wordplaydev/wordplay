@@ -133,7 +133,8 @@
         "TamilNumeral": "$~tamilska siffror",
         "TeluguNumeral": "$~telugu-siffra",
         "LanguageJoin": "$~språkförbindare",
-        "Translate": "$~översätta"
+        "Translate": "$~översätta",
+        "ExternalExample": "$~exempel på ett annat språk"
     },
     "node": {
         "Dimension": {
@@ -1881,6 +1882,15 @@
                     "explanation": "$~Menade du att använda @This för att referera till ett objekt i den här samlingen?"
                 }
             }
+        },
+        "ExternalExample": {
+            "name": "$~externtexempel",
+            "description": "$~visa kod från ett annat programmeringsspråk i dokumentationen",
+            "emotion": "serious",
+            "doc": [
+                "$~Jag visar syntaxmarkerad kod skriven i andra programmeringsspråk, så att skapare som redan kodar kan jämföra.",
+                "$~Skriv en variant per språk som en tvåbokstavstagg, en stapel och koden, som \\py| a = 5\\ js| låt a = 5; \\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
+            ]
         }
     },
     "basis": {
@@ -6248,7 +6258,27 @@
                 "search": {
                     "placeholder": "$~söka",
                     "noResults": "$~Inga resultat hittades"
-                }
+                },
+                "choice": {
+                    "prompt": "$~Hur skulle du vilja lära dig?",
+                    "quick": {
+                        "title": "$~Snabbt",
+                        "description": "$~För skapare som är bekanta med andra programmeringsspråk och som vill förstå hur Wordplay skiljer sig"
+                    },
+                    "complete": {
+                        "title": "$~Omfattande",
+                        "description": "$~För skapare som är nya inom programmering och vill ha en detaljerad introduktion"
+                    }
+                },
+                "mode": {
+                    "label": "$~handledning",
+                    "labels": ["$~snabbt", "$~komplett"],
+                    "tips": [
+                        "$~en kort rundtur för skapare som kan ett annat programmeringsspråk",
+                        "$~den fullständiga, dramatiska introduktionen för skapare som är nya inom programmering"
+                    ]
+                },
+                "contrast": "$~jämför med"
             },
             "teach": {
                 "header": "$~Lära",

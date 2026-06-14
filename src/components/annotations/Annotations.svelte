@@ -47,7 +47,7 @@
     import { DOCUMENTATION_SYMBOL } from '@parser/Symbols';
     import type Evaluator from '@runtime/Evaluator';
     import type Step from '@runtime/Step';
-    import { tick } from 'svelte';
+    import { onDestroy, tick } from 'svelte';
     import {
         locales,
         Settings,
@@ -144,9 +144,16 @@
     // wiggle via Annotation.svelte's own subscription).
     const emphasizedConflict = getEmphasizedConflict();
 
+    // Set when the component is destroyed, so the async updateAnnotations below can bail out after
+    // its `await` instead of reading now-destroyed reactive props (e.g. when the tutorial recreates
+    // its ProjectView on navigation), which triggers Svelte's derived_inert warning.
+    let destroyed = false;
+    onDestroy(() => (destroyed = true));
+
     async function updateAnnotations() {
         // Wait for DOM updates so that everything is in position before we layout annotations.
         await tick();
+        if (destroyed) return;
 
         // Filter conflicts to those relevant to the source.
         const sourceConflicts: Conflict[] = [];

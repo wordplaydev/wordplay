@@ -125,6 +125,7 @@
         "Conditional": "conditional",
         "Text": "text",
         "Code": "code",
+        "ExternalExample": "other-language example",
         "Number": "number",
         "Decimal": "decimal numeral",
         "Base": "base numeral",
@@ -415,6 +416,15 @@
                 "If you are using Examples in your how-tos, you can tag one Example as a highlight.",
                 "\\¶Here's a highlighted example: \\1 + 2\\⭐¶3 + 4\\",
                 "The highlighted example is shown as the preview in the how-to space and the Guide."
+            ]
+        },
+        "ExternalExample": {
+            "name": "external example",
+            "description": "show code from another programming language in documentation",
+            "emotion": "serious",
+            "doc": [
+                "I show syntax-highlighted code written in other programming languages, so creators who already code can compare.",
+                "Write one variant per language as a two-letter tag, a bar, and the code, like \\py| a = 5\\js| let a = 5;\\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
             ]
         },
         "Mention": {
@@ -6581,6 +6591,26 @@
             "learn": {
                 "header": "Learn",
                 "error": "We weren't able to find a tutorial for this language.",
+                "choice": {
+                    "prompt": "How would you like to learn?",
+                    "quick": {
+                        "title": "Quick",
+                        "description": "For creators familiar with other programming languages who want to understand how Wordplay is different"
+                    },
+                    "complete": {
+                        "title": "Comprehensive",
+                        "description": "For creators new to programming who want a detailed introduction"
+                    }
+                },
+                "mode": {
+                    "label": "tutorial",
+                    "labels": ["quick", "complete"],
+                    "tips": [
+                        "a short tour for creators who know another programming language",
+                        "the full, dramatic introduction for creators new to programming"
+                    ]
+                },
+                "contrast": "compare with",
                 "button": {
                     "next": "next pause in dialog",
                     "previous": "previous pause in dialog"

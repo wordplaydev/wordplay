@@ -133,7 +133,8 @@
         "TamilNumeral": "$~타밀 숫자",
         "TeluguNumeral": "$~텔루구어 숫자",
         "LanguageJoin": "$~언어 결합기",
-        "Translate": "$~번역하다"
+        "Translate": "$~번역하다",
+        "ExternalExample": "$~다른 언어 예시"
     },
     "node": {
         "Dimension": {
@@ -1881,6 +1882,15 @@
                     "explanation": "$~@This 사용하여 이 컬렉션의 항목을 참조하려고 하셨나요?"
                 }
             }
+        },
+        "ExternalExample": {
+            "name": "$~외부예시",
+            "description": "$~문서에 다른 프로그래밍 언어의 코드를 표시합니다.",
+            "emotion": "serious",
+            "doc": [
+                "$~저는 다른 프로그래밍 언어로 작성된 구문 강조 표시 코드를 보여주어, 이미 코딩 경험이 있는 사람들이 비교해 볼 수 있도록 합니다.",
+                "$~각 언어별로 두 글자 태그, 막대그래프(\\b) 및 코드로 구성된 변형을 하나씩 작성하세요. 예: \\py| a = 5\\ js| let a = 5; \\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
+            ]
         }
     },
     "basis": {
@@ -6152,7 +6162,27 @@
                 "search": {
                     "placeholder": "$~찾다",
                     "noResults": "$~검색 결과가 없습니다."
-                }
+                },
+                "choice": {
+                    "prompt": "$~어떻게 배우고 싶으세요?",
+                    "quick": {
+                        "title": "$~빠른",
+                        "description": "$~다른 프로그래밍 언어에 익숙한 창작자분들이 워드플레이의 차이점을 이해하고자 하시는 분들을 위해"
+                    },
+                    "complete": {
+                        "title": "$~포괄적인",
+                        "description": "$~프로그래밍을 처음 접하는 크리에이터를 위한 자세한 소개입니다."
+                    }
+                },
+                "mode": {
+                    "label": "$~지도 시간",
+                    "labels": ["$~빠른", "$~완벽한"],
+                    "tips": [
+                        "$~다른 프로그래밍 언어를 아는 크리에이터를 위한 간단한 투어",
+                        "$~프로그래밍을 처음 접하는 제작자들을 위한 완벽하고 극적인 소개"
+                    ]
+                },
+                "contrast": "$~~와 비교하다"
             },
             "guide": {
                 "header": "$~가이드",

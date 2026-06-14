@@ -133,7 +133,8 @@
         "TamilNumeral": "$~tamilische Zahl",
         "TeluguNumeral": "$~Telugu-Zahlen",
         "LanguageJoin": "$~Sprachverbinder",
-        "Translate": "$~übersetzen"
+        "Translate": "$~übersetzen",
+        "ExternalExample": "$~Beispiel in einer anderen Sprache"
     },
     "node": {
         "Dimension": {
@@ -1881,6 +1882,15 @@
                     "explanation": "$~Wollten Sie mit @This auf ein Element in dieser Sammlung verweisen?"
                 }
             }
+        },
+        "ExternalExample": {
+            "name": "$~externesBeispiel",
+            "description": "$~Code aus einer anderen Programmiersprache in der Dokumentation anzeigen",
+            "emotion": "serious",
+            "doc": [
+                "$~Ich zeige syntaxhervorgehobenen Code, der in anderen Programmiersprachen geschrieben ist, damit Entwickler, die bereits programmieren, vergleichen können.",
+                "$~Schreiben Sie für jede Sprache eine Variante als zweibuchstabiges Tag, einen Strich und den Code, z. B. \\py| a = 5\\ js| let a = 5; \\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
+            ]
         }
     },
     "basis": {
@@ -6162,7 +6172,27 @@
                 "search": {
                     "placeholder": "$~suchen",
                     "noResults": "$~Keine Ergebnisse gefunden"
-                }
+                },
+                "choice": {
+                    "prompt": "$~Wie möchten Sie lernen?",
+                    "quick": {
+                        "title": "$~Schnell",
+                        "description": "$~Für Entwickler, die mit anderen Programmiersprachen vertraut sind und verstehen möchten, wie sich Wordplay von anderen Sprachen unterscheidet."
+                    },
+                    "complete": {
+                        "title": "$~Umfassend",
+                        "description": "$~Für Entwickler, die neu in der Programmierung sind und eine detaillierte Einführung wünschen"
+                    }
+                },
+                "mode": {
+                    "label": "$~Tutorial",
+                    "labels": ["$~schnell", "$~vollständig"],
+                    "tips": [
+                        "$~Eine kurze Tour für Entwickler, die eine andere Programmiersprache beherrschen",
+                        "$~Die vollständige, dramatische Einführung für Kreative, die neu im Bereich Programmierung sind."
+                    ]
+                },
+                "contrast": "$~vergleichen mit"
             },
             "projects": {
                 "header": "Projekte",

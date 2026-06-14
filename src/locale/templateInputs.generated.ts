@@ -197,6 +197,7 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'node.ExpressionPlaceholder.exception.UnimplementedException.explanation':
         [],
     'node.ExpressionPlaceholder.start': [],
+    'node.ExternalExample.description': [],
     'node.FormattedLiteral.description': ['text'],
     'node.FormattedLiteral.start': [],
     'node.FormattedTranslation.description': ['language'],

@@ -249,6 +249,8 @@ type NodeTexts = {
         }>;
     /** Code inside `Markup`, e.g., ` ¶This is how you add: \1 + 1\¶ ` */
     Example: DescriptiveNodeText;
+    /** Foreign-language code inside `Markup`, e.g., ` ¶In Python: \py| a = 5\¶ ` */
+    ExternalExample: DescriptiveNodeText;
     /**
      * A placeholder for some template input or terminology name in a localization string, e.g., the `$1` in  ` ¶My value is $1¶ or `$bind` in ` ¶I am a $bind¶ `
      * Description inputs: $1 = the name or number mentioned

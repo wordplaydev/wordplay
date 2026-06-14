@@ -3,8 +3,8 @@
     import { animationFactor } from '@db/Database';
     import { Emotion } from '../../lore/Emotion';
     import { withColorEmoji } from '@unicode/emoji';
-    import UnicodeString from '@unicode/UnicodeString';
     import Eyes from '@components/lore/Eyes.svelte';
+    import { getWorldSymbols, pickRandom } from './backgroundUtils';
 
     type Character = {
         symbol: string;
@@ -24,9 +24,7 @@
         windowHeight: number = $state(0);
 
     const bounds = 0.2;
-    const symbols = new UnicodeString(
-        '😀മAあ韓नेئبअขማঅবাংབོދިεفગુע中رšՀꆈᓄქ',
-    ).getGraphemes();
+    const symbols = getWorldSymbols();
 
     let mounted = $state(false);
     let previousTime: DOMHighResTimeStamp | undefined = undefined;
@@ -83,10 +81,7 @@
                 20,
                 Math.round(windowWidth * windowHeight) / 100000,
             );
-            for (let i = 0; i < count; i++)
-                random.push(
-                    symbols[Math.floor(Math.random() * symbols.length)],
-                );
+            for (let i = 0; i < count; i++) random.push(pickRandom(symbols));
 
             scene = random.map((symbol, index) => {
                 return {

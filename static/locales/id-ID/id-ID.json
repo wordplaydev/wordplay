@@ -133,7 +133,8 @@
         "End": "$~akhir",
         "Highlight": "$~contoh yang disorot",
         "LanguageJoin": "$~penyambung bahasa",
-        "Translate": "$~menerjemahkan"
+        "Translate": "$~menerjemahkan",
+        "ExternalExample": "$~contoh bahasa lain"
     },
     "node": {
         "Dimension": {
@@ -1886,6 +1887,15 @@
                     "explanation": "$~Apakah Anda bermaksud menggunakan @This untuk merujuk pada item dalam koleksi ini?"
                 }
             }
+        },
+        "ExternalExample": {
+            "name": "$~contoheksternal",
+            "description": "$~Tampilkan kode dari bahasa pemrograman lain dalam dokumentasi.",
+            "emotion": "serious",
+            "doc": [
+                "$~Saya menampilkan kode dengan penyorotan sintaks yang ditulis dalam bahasa pemrograman lain, sehingga para kreator yang sudah mahir dalam pemrograman dapat membandingkannya.",
+                "$~Tulis satu varian per bahasa sebagai tag dua huruf, sebuah bar, dan kode, seperti \\py| a = 5\\ js| let a = 5; \\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
+            ]
         }
     },
     "basis": {
@@ -6550,7 +6560,27 @@
                 "search": {
                     "placeholder": "$~mencari",
                     "noResults": "$~Tidak ada hasil yang ditemukan"
-                }
+                },
+                "choice": {
+                    "prompt": "$~Bagaimana Anda ingin belajar?",
+                    "quick": {
+                        "title": "$~Cepat",
+                        "description": "$~Bagi para kreator yang terbiasa dengan bahasa pemrograman lain dan ingin memahami perbedaan Wordplay."
+                    },
+                    "complete": {
+                        "title": "$~Luas",
+                        "description": "$~Untuk para kreator yang baru mengenal pemrograman dan menginginkan pengantar yang detail."
+                    }
+                },
+                "mode": {
+                    "label": "$~tutorial",
+                    "labels": ["$~cepat", "$~menyelesaikan"],
+                    "tips": [
+                        "$~tur singkat untuk para kreator yang mengetahui bahasa pemrograman lain",
+                        "$~pengantar lengkap dan dramatis untuk para kreator yang baru mengenal pemrograman."
+                    ]
+                },
+                "contrast": "$~bandingkan dengan"
             },
             "localize": {
                 "header": "$~Melokalisir",

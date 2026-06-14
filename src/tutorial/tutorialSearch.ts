@@ -7,7 +7,6 @@
 
 import { withoutAnnotations } from '@locale/withoutAnnotations';
 import { foldEntry, type Searchable, type SearchLanguages } from '@util/search';
-import { PerformanceMode } from './Tutorial';
 
 /** Where in the tutorial a search result points (1-based, like Progress). */
 export type TutorialTarget = {
@@ -19,9 +18,9 @@ export type TutorialTarget = {
 };
 
 /**
- * The structural slice of a Tutorial this builder reads. A real `Tutorial` (with
- * its fixed-size act/scene tuples and Dialog/Performance line tuples) satisfies
- * this, and it lets tests build fixtures without the full strict shape.
+ * The structural slice of a Tutorial this builder reads. A real `Tutorial` satisfies this, and it
+ * lets tests build fixtures without the full strict shape. A line is a Dialog (array), a Performance
+ * (object), or a pause (null); the builder reads only dialog.
  */
 export type SearchableTutorial = {
     acts: readonly {
@@ -29,12 +28,14 @@ export type SearchableTutorial = {
         scenes: readonly {
             title: string;
             subtitle: string | null;
-            lines: readonly (readonly string[] | null)[];
+            lines: readonly (
+                | readonly string[]
+                | { [key: string]: unknown }
+                | null
+            )[];
         }[];
     }[];
 };
-
-const performanceModes = new Set<string>(PerformanceMode);
 
 /** Builds searchable records for every scene title and dialog line. */
 export function buildTutorialSearch(
@@ -76,8 +77,8 @@ export function buildTutorialSearch(
                     pauseCount++;
                     continue;
                 }
-                // Skip performance lines (line[0] is a performance mode, not a speaker).
-                if (performanceModes.has(line[0])) continue;
+                // Skip performance lines (objects); only dialog (arrays) is searchable.
+                if (!Array.isArray(line)) continue;
                 // Dialog is [speaker, emotion, ...text]; drop the first two.
                 const text = line.slice(2).join('\n\n');
                 records.push({

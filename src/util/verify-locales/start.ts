@@ -35,6 +35,11 @@ import {
     verifyTutorial,
 } from '@util/verify-locales/verifyTutorial';
 import { findUnusedKeys } from '@util/verify-locales/findUnusedKeys';
+import {
+    DEFAULT_TUTORIAL_MODE,
+    TutorialModes,
+    type TutorialMode,
+} from '../../tutorial/TutorialMode';
 import fs from 'fs';
 import path from 'path';
 import * as prettier from 'prettier';
@@ -45,6 +50,12 @@ const TranslationRequested =
 const OverrideMachineTranslations = process.argv[2] === 'override';
 const FailOnInvalid = process.argv[2] === 'ci';
 const FixRequested = process.argv[2] === 'fix';
+
+/** Tutorial modes given the full translation pipeline (per-locale file creation + machine
+ * translation). Modes NOT listed are still VERIFIED — their en-US source is schema- and
+ * conflict-checked — but never translated or created for other locales, so the English can be
+ * refined first. Add 'quick' here to roll quick-tutorial translations out to all locales. */
+const TranslatedTutorialModes: TutorialMode[] = [DEFAULT_TUTORIAL_MODE];
 
 // Make a logger so we can pretty print feedback. It bails on bad or exit with a failure exit code if we're in continuous integration mode.
 const log = new Log(FailOnInvalid);
@@ -157,57 +168,75 @@ async function handleLocale(
         fs.writeFileSync(getLocalePath(locale), prettyLocale);
     }
 
-    // If there's a locale, let's see if there's a tutorial.
-    let currentTutorial = getTutorialJSON(log, locale);
+    // Verify (and, for translate-enabled modes, optionally translate) each tutorial mode's file.
+    for (const mode of TutorialModes) {
+        // Modes not in the translation pipeline are still verified, but never created or translated
+        // for non-en-US locales (see TranslatedTutorialModes).
+        const modeTranslates = TranslatedTutorialModes.includes(mode);
 
-    // Remember whether we created one so we can write it below.
-    let tutorialIsNew = false;
+        // See if there's a tutorial for this mode.
+        let currentTutorial = getTutorialJSON(log, locale, mode);
 
-    // Validate, repair, and optionally translate the tutorial file.
-    if (currentTutorial === undefined) {
-        // No translation requested? Just warn.
-        if (!TranslationRequested)
-            log.bad(1, "This locale doesn't have a tutorial file.");
-        // If a translation was requested and it was a valid langauge and region,
-        // copy the default tutorial, mark all of its text unwritten, and then translate it.
-        else if (FocalLanguage && FocalRegion) {
-            log.say(
-                1,
-                'Creating a new tutorial for this locale based on en-US...',
-            );
-            currentTutorial = createUnwrittenTutorial();
-            currentTutorial.regions = [FocalRegion];
-            currentTutorial.language = FocalLanguage;
-            tutorialIsNew = true;
+        // Remember whether we created one so we can write it below.
+        let tutorialIsNew = false;
+
+        // Validate, repair, and optionally translate the tutorial file.
+        if (currentTutorial === undefined) {
+            // A mode not yet in the translation pipeline is intentionally en-US-only for now, so
+            // don't warn about or create per-locale files for it.
+            if (modeTranslates) {
+                // No translation requested? Just warn.
+                if (!TranslationRequested)
+                    log.bad(
+                        1,
+                        `This locale doesn't have a ${mode} tutorial file.`,
+                    );
+                // If a translation was requested and it was a valid langauge and region,
+                // copy the default tutorial, mark all of its text unwritten, and then translate it.
+                else if (FocalLanguage && FocalRegion) {
+                    log.say(
+                        1,
+                        `Creating a new ${mode} tutorial for this locale based on en-US...`,
+                    );
+                    currentTutorial = createUnwrittenTutorial(mode);
+                    currentTutorial.regions = [FocalRegion];
+                    currentTutorial.language = FocalLanguage;
+                    tutorialIsNew = true;
+                }
+            }
         }
-    }
 
-    // If there is a tutorial file, verify it, and optionally translate it.
-    if (currentTutorial) {
-        const revisedTutorial = await verifyTutorial(
-            log,
-            revisedLocale,
-            currentTutorial,
-            TranslationRequested,
-            OverrideMachineTranslations,
-        );
-
-        // If the tutorial was revised, write the results.
-        if (
-            tutorialIsNew ||
-            (revisedTutorial &&
-                JSON.stringify(currentTutorial) !==
-                    JSON.stringify(revisedTutorial))
-        ) {
-            // Write a formatted version of the revised tutorial file.
-            const prettyTutorial = await prettier.format(
-                JSON.stringify(revisedTutorial, null, 4),
-                { ...prettierOptions, parser: 'json' },
+        // If there is a tutorial file, verify it, and optionally translate it.
+        if (currentTutorial) {
+            const revisedTutorial = await verifyTutorial(
+                log,
+                revisedLocale,
+                currentTutorial,
+                // Verification always runs; only translate-enabled modes are machine-translated.
+                TranslationRequested && modeTranslates,
+                OverrideMachineTranslations,
             );
 
-            if (JSON.stringify(revisedTutorial) !== prettyTutorial) {
-                log.good(1, 'Writing revised ' + locale + ' tutorial');
-                fs.writeFileSync(getTutorialPath(locale), prettyTutorial);
+            // If the tutorial was revised, write the results.
+            if (
+                tutorialIsNew ||
+                (revisedTutorial &&
+                    JSON.stringify(currentTutorial) !==
+                        JSON.stringify(revisedTutorial))
+            ) {
+                // Write a formatted version of the revised tutorial file.
+                const prettyTutorial = await prettier.format(
+                    JSON.stringify(revisedTutorial, null, 4),
+                    { ...prettierOptions, parser: 'json' },
+                );
+
+                if (JSON.stringify(revisedTutorial) !== prettyTutorial) {
+                    log.good(1, `Writing revised ${locale} ${mode} tutorial`);
+                    fs.writeFileSync(
+                        getTutorialPath(locale, mode),
+                        prettyTutorial,
+                    );
+                }
             }
         }
     }

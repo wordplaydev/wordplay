@@ -133,7 +133,8 @@
         "TamilNumeral": "$~numeral na Tamil",
         "TeluguNumeral": "$~numeral na Telugu",
         "LanguageJoin": "$~tagapagdugtong ng wika",
-        "Translate": "$~isalin"
+        "Translate": "$~isalin",
+        "ExternalExample": "$~halimbawa sa ibang wika"
     },
     "node": {
         "Dimension": {
@@ -1884,6 +1885,15 @@
                     "explanation": "$~Ibig mo bang gamitin @This para tumukoy sa isang item sa koleksyon na ito?"
                 }
             }
+        },
+        "ExternalExample": {
+            "name": "$~panlabasnahalimbawa",
+            "description": "$~ipakita ang code mula sa ibang programming language sa dokumentasyon",
+            "emotion": "serious",
+            "doc": [
+                "$~Ipinapakita ko ang syntax-highlighted code na nakasulat sa ibang mga programming language, para makapagkumpara ang mga creator na nakapag-code na.",
+                "$~Sumulat ng isang variant bawat wika bilang tag na may dalawang letra, isang bar, at ang code, tulad ng \\py| a = 5\\ js| let a = 5; \\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
+            ]
         }
     },
     "basis": {
@@ -6541,7 +6551,27 @@
                 "search": {
                     "placeholder": "$~paghahanap",
                     "noResults": "$~Walang nakitang resulta"
-                }
+                },
+                "choice": {
+                    "prompt": "$~Paano mo gustong matuto?",
+                    "quick": {
+                        "title": "$~Mabilis",
+                        "description": "$~Para sa mga tagalikha na pamilyar sa ibang mga lengguwahe ng programming na gustong maunawaan kung paano naiiba ang Wordplay"
+                    },
+                    "complete": {
+                        "title": "$~Komprehensibo",
+                        "description": "$~Para sa mga tagalikha na bago sa programming na gusto ng detalyadong panimula"
+                    }
+                },
+                "mode": {
+                    "label": "$~pagtuturo",
+                    "labels": ["$~mabilis", "$~kumpleto"],
+                    "tips": [
+                        "$~isang maikling paglilibot para sa mga tagalikha na may alam na ibang lengguwahe ng programming",
+                        "$~ang kumpleto at dramatikong panimula para sa mga tagalikha na bago sa programming"
+                    ]
+                },
+                "contrast": "$~ihambing sa"
             },
             "teach": {
                 "header": "$~Magturo",

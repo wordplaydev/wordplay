@@ -80,6 +80,8 @@ const Sym = {
     // Text literals can also come in multiple formats, to encode multilingual apps in place.
     Text: 'text',
     Code: '\\',
+    /** A markup block of foreign-language code, e.g. `\py| a = 5\js| let a = 5;\` */
+    ExternalExample: '@ext',
     Highlight: '⭐',
     // The optional negative sign allows for negative number literals.
     // The optional dash allows for a random number range.
@@ -106,6 +108,7 @@ export const WildcardSymbols = new Set([
     Sym.Text,
     Sym.Words,
     Sym.Concept,
+    Sym.ExternalExample,
     Sym.End,
 ]);
 

@@ -201,6 +201,14 @@ function escapeRegexCharacter(c: string) {
 type TokenPattern = { pattern: string | RegExp; types: SymType[] };
 
 const CodePattern = { pattern: CODE_SYMBOL, types: [Sym.Code] };
+/** A foreign-language code block in markup: one or more `\<tag>| <code>` variants terminated by a
+ * final `\`, e.g. `\py| a = 5\js| let a = 5;\`. The `<tag>|` lead distinguishes it from a Wordplay
+ * Example (`\code\`); any lowercase tag is accepted. Captured verbatim, so foreign code never
+ * enters the Wordplay tokenizer (it cannot itself contain a `\`). */
+const ExternalExamplePattern = {
+    pattern: /^\\[a-z]+\|[^\\]*(?:\\[a-z]+\|[^\\]*)*\\/,
+    types: [Sym.ExternalExample],
+};
 const FormattedPattern = {
     pattern: new RegExp(`^[${FORMATTED_SYMBOL}${FORMATTED_SYMBOL_FULL}]`, 'u'),
     types: [Sym.Formatted],
@@ -521,6 +529,8 @@ function findCharacterReference(
 const MarkupTokenPatterns = [
     DocPattern,
     FormattedPattern,
+    // Must precede CodePattern so `\tag| …\` matches as one token rather than a bare `\` Code token.
+    ExternalExamplePattern,
     CodePattern,
     ListOpenPattern,
     ListClosePattern,

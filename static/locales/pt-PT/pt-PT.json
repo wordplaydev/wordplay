@@ -133,7 +133,8 @@
         "KannadaNumeral": "numeral canarês",
         "TamilNumeral": "numeral tâmil",
         "TeluguNumeral": "numeral telugu",
-        "Translate": "traduzir"
+        "Translate": "traduzir",
+        "ExternalExample": "$~exemplo noutro idioma"
     },
     "node": {
         "Dimension": {
@@ -1877,6 +1878,15 @@
                     "explanation": "$~Pretendia usar @This para se referir a um item desta coleção?"
                 }
             }
+        },
+        "ExternalExample": {
+            "name": "$~exemploexterno",
+            "description": "$~Visualizar código de outra linguagem de programação na documentação",
+            "emotion": "serious",
+            "doc": [
+                "$~Mostro código com destaque de sintaxe escrito noutras linguagens de programação, para que os criadores que já programam possam comparar.",
+                "$~Escreva uma variante por idioma como uma etiqueta de duas letras, uma barra e o código, como \\py| a = 5\\ js| let a = 5; \\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
+            ]
         }
     },
     "basis": {
@@ -6532,7 +6542,27 @@
                 "search": {
                     "placeholder": "pesquisa",
                     "noResults": "Nenhum resultado encontrado"
-                }
+                },
+                "choice": {
+                    "prompt": "$~Como gostaria de aprender?",
+                    "quick": {
+                        "title": "$~Rápido",
+                        "description": "$~Para criadores familiarizados com outras linguagens de programação que pretendam compreender como o Wordplay é diferente."
+                    },
+                    "complete": {
+                        "title": "$~Abrangente",
+                        "description": "$~Para criadores iniciantes em programação que pretendam uma introdução detalhada."
+                    }
+                },
+                "mode": {
+                    "label": "$~tutorial",
+                    "labels": ["$~rápido", "$~concluir"],
+                    "tips": [
+                        "$~Um breve guia para criadores que conhecem outra linguagem de programação.",
+                        "$~Uma introdução completa e impactante para criadores iniciantes em programação."
+                    ]
+                },
+                "contrast": "$~comparar com"
             },
             "teach": {
                 "header": "Ensinar",

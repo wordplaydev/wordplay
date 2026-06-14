@@ -17,6 +17,10 @@ import {
 } from '@locale/SupportedLocales';
 import { get, writable, type Writable } from 'svelte/store';
 import type Tutorial from '../../tutorial/Tutorial';
+import {
+    DEFAULT_TUTORIAL_MODE,
+    type TutorialMode,
+} from '../../tutorial/TutorialMode';
 import type Setting from '@db/settings/Setting';
 import versioned from '@db/locales/versioned';
 
@@ -354,34 +358,41 @@ export default class LocalesDatabase {
         await Promise.all(codes.map((locale) => this.loadEmojis(locale)));
     }
 
-    getTutorialURL(locale: string) {
-        return `/locales/${locale}/${locale}-tutorial.json`;
+    getTutorialURL(locale: string, mode: TutorialMode = DEFAULT_TUTORIAL_MODE) {
+        // The "complete" tutorial keeps its original filename for back-compat; other modes get
+        // a suffix (e.g. en-US-tutorial-quick.json).
+        const suffix = mode === DEFAULT_TUTORIAL_MODE ? '' : `-${mode}`;
+        return `/locales/${locale}/${locale}-tutorial${suffix}.json`;
     }
 
     async getTutorial(
         language: LanguageCode,
         regions: RegionCode[],
+        mode: TutorialMode = DEFAULT_TUTORIAL_MODE,
+        /** Bypass and refresh the cache; used by tutorial-file hot reloading in dev. */
+        refresh = false,
     ): Promise<Tutorial | undefined> {
         const localeString = `${language}${regions.map((r) => `-${r}`).join('')}`;
+        const cacheKey = `${localeString}:${mode}`;
 
-        if (localeString in this.tutorialsLoaded)
-            return this.tutorialsLoaded[localeString];
+        if (!refresh && cacheKey in this.tutorialsLoaded)
+            return this.tutorialsLoaded[cacheKey];
 
         let tutorial: Tutorial | undefined;
         try {
             // Load the locale's tutorial, if it exists.
             const response = await fetch(
-                versioned(this.getTutorialURL(localeString)),
+                versioned(this.getTutorialURL(localeString, mode)),
             );
             tutorial = await response.json();
         } catch (err) {
             // Couldn't load it? Fallback to english.
             tutorial = await (
-                await fetch(versioned(this.getTutorialURL('en-US')))
+                await fetch(versioned(this.getTutorialURL('en-US', mode)))
             ).json();
         }
 
-        this.tutorialsLoaded[localeString] = tutorial;
+        this.tutorialsLoaded[cacheKey] = tutorial;
 
         return tutorial;
     }

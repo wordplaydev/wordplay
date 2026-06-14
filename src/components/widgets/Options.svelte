@@ -73,20 +73,25 @@
 
     let view: HTMLSelectElement | undefined = $state(undefined);
 
-    // Tracks the last value commitChange actually fired the change handler
-    // for. We can't dedup against `value` itself: a programmatic selectOption
-    // (used by tests and accessibility tools) flows through Svelte's bind:value
-    // which updates `value` BEFORE the change event reaches us, so a naive
-    // `newValue === value` check would suppress every such call.
-    let lastCommitted: string | undefined = $state(undefined);
+    // A single user action can fire multiple handlers for the same value within a few milliseconds
+    // (onpointerdown on the option AND onchange on the select in Chrome; onchange alone in Safari;
+    // onkeydown for Enter/Space). We collapse that burst into one change() by ignoring a repeat of
+    // the same value within a short window. We can't instead dedup against the live `value` prop
+    // (which would let us reset on navigation): with the parent passing `value` one-way while the
+    // <select> drives it via bind:value, parent-side changes don't reliably reach this component, so
+    // a value-based guard would wrongly suppress re-selecting a value chosen earlier. The time
+    // window is short enough that a deliberate re-selection (always slower than one click's burst)
+    // still goes through.
+    const BURST_MS = 500;
+    let lastCommitted: string | undefined = undefined;
+    let lastCommittedAt = 0;
 
     function commitChange(newValue: string | undefined) {
-        // A single user action can trigger multiple handlers (onpointerdown on
-        // the option AND onchange on the select in Chrome; onchange alone in
-        // Safari; onkeydown for Enter/Space). They all funnel here, so collapse
-        // redundant calls to the same value into a single change() invocation.
-        if (newValue === lastCommitted) return;
+        const now = performance.now();
+        if (newValue === lastCommitted && now - lastCommittedAt < BURST_MS)
+            return;
         lastCommitted = newValue;
+        lastCommittedAt = now;
         value = newValue;
         change(newValue);
         tick().then(() => {

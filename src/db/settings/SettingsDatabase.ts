@@ -32,9 +32,13 @@ import { SaySetting } from '@db/settings/SaySetting';
 import { SpaceSetting } from '@db/settings/SpaceSetting';
 import { TabSetting } from '@db/settings/TabSetting';
 import {
-    TutorialProgressSetting,
+    TutorialSetting,
     type TutorialProgress,
+    type TutorialState,
 } from '@db/settings/TutorialProgressSetting';
+import { DefaultProgress } from '@db/settings/TutorialProgressSetting';
+import { ContrastLanguageSetting } from '@db/settings/ContrastLanguageSetting';
+import type { TutorialMode } from '../../tutorial/TutorialMode';
 import { UpdatesSetting } from '@db/settings/UpdatesSetting';
 import { WellspringSetting } from '@db/settings/WellspringSetting';
 import { WrapSetting } from '@db/settings/WrapSetting';
@@ -65,12 +69,19 @@ export type SettingsSchemaV3 = Omit<
     animationFactor: number | null;
 };
 
-export type SettingsSchema = SettingsSchemaV3;
-const SettingsSchemaLatestVersion = 3;
+export type SettingsSchemaV4 = Omit<SettingsSchemaV3, 'v' | 'tutorial'> & {
+    v: 4;
+    /** All tutorial state (chosen mode + per-tutorial progress), consolidated under one key. */
+    tutorial: TutorialState;
+};
+
+export type SettingsSchema = SettingsSchemaV4;
+const SettingsSchemaLatestVersion = 4;
 
 type SettingsSchemaUnknown =
     | SettingsSchemaV1
     | SettingsSchemaV2
+    | SettingsSchemaV3
     | SettingsSchema;
 
 function upgradeSettings(settings: SettingsSchemaUnknown): SettingsSchema {
@@ -83,6 +94,17 @@ function upgradeSettings(settings: SettingsSchemaUnknown): SettingsSchema {
             });
         case 2:
             return upgradeSettings({ ...settings, v: 3 });
+        case 3:
+            // Consolidate the old flat tutorial progress into the new state shape, defaulting the
+            // chosen mode to the complete tutorial since the creator already had progress.
+            return upgradeSettings({
+                ...settings,
+                v: 4,
+                tutorial: {
+                    mode: 'complete',
+                    progress: { complete: settings.tutorial },
+                },
+            });
         case SettingsSchemaLatestVersion:
             return settings;
         default:
@@ -103,7 +125,8 @@ export default class SettingsDatabase {
         animationFactor: AnimationFactorSetting,
         locales: LocalesSetting,
         writingLayout: WritingLayoutSetting,
-        tutorial: TutorialProgressSetting,
+        tutorial: TutorialSetting,
+        contrastLanguage: ContrastLanguageSetting,
         face: FaceSetting,
         camera: CameraSetting,
         mic: MicSetting,
@@ -302,7 +325,36 @@ export default class SettingsDatabase {
     }
 
     setTutorialProgress(progress: Progress) {
-        this.settings.tutorial.set(this.database, progress.serialize());
+        // Patch the single tutorial setting, keeping each tutorial's place under its own id.
+        const current = this.settings.tutorial.get();
+        this.settings.tutorial.set(this.database, {
+            ...current,
+            progress: {
+                ...current.progress,
+                [progress.mode]: progress.serialize(),
+            },
+        });
+    }
+
+    getTutorialProgress(mode: TutorialMode): TutorialProgress {
+        return this.settings.tutorial.get().progress[mode] ?? DefaultProgress;
+    }
+
+    setTutorialMode(mode: TutorialMode | null) {
+        const current = this.settings.tutorial.get();
+        this.settings.tutorial.set(this.database, { ...current, mode });
+    }
+
+    getTutorialMode(): TutorialMode | null {
+        return this.settings.tutorial.get().mode;
+    }
+
+    setContrastLanguage(tag: string) {
+        this.settings.contrastLanguage.set(this.database, tag);
+    }
+
+    getContrastLanguage(): string {
+        return this.settings.contrastLanguage.get();
     }
 
     setFace(face: string | null) {

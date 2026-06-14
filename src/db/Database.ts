@@ -931,7 +931,9 @@ export const animationDuration = derived(
     animationFactor,
     (factor) => factor * 200,
 );
-export const tutorialProgress = Settings.settings.tutorial.value;
+export const tutorialState = Settings.settings.tutorial.value;
+export const tutorialMode = derived(tutorialState, (state) => state.mode);
+export const contrastLanguage = Settings.settings.contrastLanguage.value;
 export const arrangement = Settings.settings.arrangement.value;
 export const locales = DB.Locales.locales;
 export const localesReady = DB.Locales.localesReady;

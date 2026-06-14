@@ -1,15 +1,6 @@
 <script lang="ts">
     import Emoji from '@components/app/Emoji.svelte';
     import Subheader from '@components/app/Subheader.svelte';
-    import Controls from '@components/evaluator/Controls.svelte';
-    import { getEvaluation } from '@components/project/Contexts';
-    import ButtonWidget from '@components/widgets/Button.svelte';
-    import CommandButton from '@components/widgets/CommandButton.svelte';
-    import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
-    import Tour, { type UIExplanation } from '@components/widgets/Tour.svelte';
-    import { animationDuration, locales, Settings } from '@db/Database';
-    import Button from '@input/Button';
-    import Key from '@input/Key';
     import {
         StepBack,
         StepBackInput,
@@ -21,6 +12,15 @@
         StepToPresent,
         StepToStart,
     } from '@components/editor/commands/Commands';
+    import Controls from '@components/evaluator/Controls.svelte';
+    import { getEvaluation } from '@components/project/Contexts';
+    import ButtonWidget from '@components/widgets/Button.svelte';
+    import CommandButton from '@components/widgets/CommandButton.svelte';
+    import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
+    import Tour, { type UIExplanation } from '@components/widgets/Tour.svelte';
+    import { animationDuration, locales, Settings } from '@db/Database';
+    import Button from '@input/Button';
+    import Key from '@input/Key';
     import { DEFECT_SYMBOL, INFO_SYMBOL } from '@parser/Symbols';
     import type Evaluator from '@runtime/Evaluator';
     import BoolValue from '@values/BoolValue';
@@ -266,6 +266,7 @@
             tip={(l) => l.ui.timeline.tour.launch}
             background="circular"
             padding={false}
+            uiid="debugtour"
             icon={INFO_SYMBOL}
             action={() => (touring = true)}
         ></ButtonWidget>
@@ -398,7 +399,13 @@
     {/snippet}
 
     <!-- Individual step buttons — each is its own item so they overflow one by one. -->
-    {#snippet stepToStart()}<CommandButton command={StepToStart} />{/snippet}
+    <!-- Anchor the `stepControls` UI reference (tutorial highlight + debug tour) on the leftmost,
+         most overflow-stable step button, since the step buttons are separate toolbar items with no
+         group wrapper to carry the data-uiid. -->
+    {#snippet stepToStart()}<CommandButton
+            command={StepToStart}
+            uiid="stepControls"
+        />{/snippet}
     {#snippet stepBackInput()}<CommandButton
             command={StepBackInput}
         />{/snippet}

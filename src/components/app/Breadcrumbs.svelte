@@ -7,6 +7,7 @@
     import Link from '@components/app/Link.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { locales } from '@db/Database';
+    import type { Snippet } from 'svelte';
 
     interface Props {
         /** Display name for the gallery crumb on the how-to page, where the
@@ -15,9 +16,12 @@
         /** Extra crumbs appended after the route trail — used by the guide to
          * append its concept path to the page breadcrumbs. */
         extra?: Crumb[] | undefined;
+        /** Optional controls rendered inline at the end of the breadcrumb row
+         * (e.g. the tutorial's mode/contrast selectors). */
+        controls?: Snippet | undefined;
     }
 
-    let { name, extra }: Props = $props();
+    let { name, extra, controls }: Props = $props();
 
     // The route trail of ancestors, plus any caller-supplied extra crumbs.
     // Renders nothing for the landing page and the project route.
@@ -35,7 +39,7 @@
         />{:else}{crumb.text}{/if}
 {/snippet}
 
-{#if crumbs.length > 0}
+{#if crumbs.length > 0 || controls}
     <nav
         class="breadcrumbs"
         aria-label={$locales.getPlainText((l) => l.ui.page.breadcrumb.label)}
@@ -52,6 +56,7 @@
                     >{@render crumbBody(crumb)}</span
                 >{/if}
         {/each}
+        {#if controls}<span class="controls">{@render controls()}</span>{/if}
     </nav>
 {/if}
 
@@ -94,6 +99,22 @@
 
     .separator {
         color: var(--wordplay-inactive-color);
+    }
+
+    /* Inline controls (e.g. tutorial selectors) sit at the end of the breadcrumb row. */
+    .controls {
+        margin-inline-start: auto;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: var(--wordplay-spacing);
+    }
+
+    /* Link crumbs default to align-self: flex-start; when a taller control shares the row, that
+       pins the link text to the top. Center them so links and controls share a vertical center. */
+    .breadcrumbs :global(.link) {
+        align-self: center;
     }
 
     /* Clickable crumbs (the guide's concept-path jumps) are buttons, but should

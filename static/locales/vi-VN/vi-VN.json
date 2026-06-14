@@ -133,7 +133,8 @@
         "TamilNumeral": "$~chữ số Tamil",
         "TeluguNumeral": "$~số telugu",
         "LanguageJoin": "$~người tham gia ngôn ngữ",
-        "Translate": "$~dịch"
+        "Translate": "$~dịch",
+        "ExternalExample": "$~ví dụ ngôn ngữ khác"
     },
     "node": {
         "Dimension": {
@@ -1881,6 +1882,15 @@
                     "explanation": "$~Bạn có ý định sử dụng @This để tham chiếu đến một mục trong bộ sưu tập này không?"
                 }
             }
+        },
+        "ExternalExample": {
+            "name": "$~vídụbênngoài",
+            "description": "$~Hiển thị mã từ một ngôn ngữ lập trình khác trong tài liệu",
+            "emotion": "serious",
+            "doc": [
+                "$~Tôi hiển thị mã được tô sáng cú pháp, được viết bằng các ngôn ngữ lập trình khác, để những người sáng tạo đã biết lập trình có thể so sánh.",
+                "$~Viết một biến thể cho mỗi ngôn ngữ dưới dạng thẻ hai chữ cái, dấu gạch ngang và mã, ví dụ: \\py| a = 5\\ js| let a = 5; \\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
+            ]
         }
     },
     "basis": {
@@ -6483,7 +6493,27 @@
                 "search": {
                     "placeholder": "$~tìm kiếm",
                     "noResults": "$~Không tìm thấy kết quả nào."
-                }
+                },
+                "choice": {
+                    "prompt": "$~Bạn muốn học theo cách nào?",
+                    "quick": {
+                        "title": "$~Nhanh",
+                        "description": "$~Dành cho những người sáng tạo đã quen thuộc với các ngôn ngữ lập trình khác và muốn hiểu Wordplay khác biệt như thế nào."
+                    },
+                    "complete": {
+                        "title": "$~Toàn diện",
+                        "description": "$~Dành cho những người sáng tạo mới bắt đầu lập trình và muốn có một giới thiệu chi tiết."
+                    }
+                },
+                "mode": {
+                    "label": "$~hướng dẫn",
+                    "labels": ["$~nhanh", "$~hoàn thành"],
+                    "tips": [
+                        "$~Một chuyến tham quan ngắn dành cho những nhà sáng tạo biết một ngôn ngữ lập trình khác.",
+                        "$~phần giới thiệu đầy đủ và ấn tượng dành cho những nhà sáng tạo mới bước chân vào lĩnh vực lập trình."
+                    ]
+                },
+                "contrast": "$~so sánh với"
             },
             "teach": {
                 "header": "$~Dạy bảo",

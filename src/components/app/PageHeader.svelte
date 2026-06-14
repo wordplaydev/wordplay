@@ -29,6 +29,8 @@
         description?: LocaleTextsAccessor | undefined;
         /** Custom description content; takes precedence over `description`. */
         extraDescription?: Snippet;
+        /** Optional controls rendered inline at the end of the breadcrumb row. */
+        breadcrumbControls?: Snippet | undefined;
     }
 
     let {
@@ -40,6 +42,7 @@
         wrap = false,
         description,
         extraDescription,
+        breadcrumbControls,
     }: Props = $props();
 </script>
 
@@ -49,7 +52,9 @@
      flex column guarantees the trio stacks vertically regardless of the parent
      page's layout. -->
 <div class="page-header">
-    <Breadcrumbs {name} {extra} />{#if title}<Header {block} {wrap}
+    <Breadcrumbs {name} {extra} controls={breadcrumbControls} />{#if title}<Header
+            {block}
+            {wrap}
             >{@render title()}</Header
         >{:else if header}<Header {block} {wrap} text={header} />{/if}
     {#if extraDescription}{@render extraDescription()}{:else if description}<MarkupHTMLView

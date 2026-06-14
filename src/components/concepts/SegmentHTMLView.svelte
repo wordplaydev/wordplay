@@ -4,6 +4,7 @@
     import ValueRef from '@locale/ValueRef';
     import ConceptLink from '@nodes/ConceptLink';
     import Example from '@nodes/Example';
+    import ExternalExample from '@nodes/ExternalExample';
     import type { Segment } from '@nodes/Paragraph';
     import Token from '@nodes/Token';
     import UnknownType from '@nodes/UnknownType';
@@ -18,6 +19,7 @@
     import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
     import elideNode from '@components/concepts/elideNode';
     import ExampleUI from '@components/concepts/ExampleUI.svelte';
+    import ExternalExampleView from '@components/concepts/ExternalExampleView.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import WebLinkHTMLView from '@components/concepts/WebLinkHTMLView.svelte';
     import WordsHTMLView from '@components/concepts/WordsHTMLView.svelte';
@@ -76,6 +78,9 @@
             outline={false}
             describe={false}
         />{/if}
+{:else if segment instanceof ExternalExample}<ExternalExampleView
+        example={segment}
+    />
 {:else if segment instanceof ConceptLink || segment instanceof ConceptRef}<ConceptLinkUI
         link={segment}
         symbolic={false}

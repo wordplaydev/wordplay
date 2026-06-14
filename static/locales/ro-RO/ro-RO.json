@@ -133,7 +133,8 @@
         "End": "$~Sfârşit",
         "Highlight": "$~exemplu evidențiat",
         "LanguageJoin": "$~unitor de limbi",
-        "Translate": "$~traduce"
+        "Translate": "$~traduce",
+        "ExternalExample": "$~exemplu în altă limbă"
     },
     "node": {
         "Dimension": {
@@ -1886,6 +1887,15 @@
                     "explanation": "$~Ai vrut să folosești @This pentru a te referi la un element din această colecție?"
                 }
             }
+        },
+        "ExternalExample": {
+            "name": "$~exempluextern",
+            "description": "$~afișarea codului dintr-un alt limbaj de programare în documentație",
+            "emotion": "serious",
+            "doc": [
+                "$~Afișez cod evidențiat prin sintaxă, scris în alte limbaje de programare, astfel încât creatorii care deja programează să poată compara.",
+                "$~Scrieți câte o variantă pentru fiecare limbă sub forma unei etichete de două litere, a unei bare și a codului, de exemplu \\py| a = 5\\ js| let a = 5; \\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
+            ]
         }
     },
     "basis": {
@@ -6553,7 +6563,27 @@
                 "search": {
                     "placeholder": "$~căutare",
                     "noResults": "$~Nu s-au găsit rezultate"
-                }
+                },
+                "choice": {
+                    "prompt": "$~Cum ți-ar plăcea să înveți?",
+                    "quick": {
+                        "title": "$~Rapid",
+                        "description": "$~Pentru creatorii familiarizați cu alte limbaje de programare care vor să înțeleagă prin ce Wordplay este diferit"
+                    },
+                    "complete": {
+                        "title": "$~Cuprinzător",
+                        "description": "$~Pentru creatorii noi în programare care doresc o introducere detaliată"
+                    }
+                },
+                "mode": {
+                    "label": "$~tutorial",
+                    "labels": ["$~rapid", "$~complet"],
+                    "tips": [
+                        "$~un scurt tur pentru creatorii care cunosc un alt limbaj de programare",
+                        "$~introducerea completă și dramatică pentru creatorii noi în programare"
+                    ]
+                },
+                "contrast": "$~compara cu"
             },
             "localize": {
                 "header": "$~Localiza",

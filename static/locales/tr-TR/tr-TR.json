@@ -133,7 +133,8 @@
         "TamilNumeral": "$~tamil rakamı",
         "TeluguNumeral": "$~Telugu rakamı",
         "LanguageJoin": "$~dil birleştirici",
-        "Translate": "$~çevir"
+        "Translate": "$~çevir",
+        "ExternalExample": "$~diğer dil örneği"
     },
     "node": {
         "Dimension": {
@@ -1881,6 +1882,15 @@
                     "explanation": "$~@This ifadesini bu koleksiyondaki bir öğeye atıfta bulunmak için mi kullandınız?"
                 }
             }
+        },
+        "ExternalExample": {
+            "name": "$~hariciörnek",
+            "description": "$~Belgelemede başka bir programlama dilinden kod göster",
+            "emotion": "serious",
+            "doc": [
+                "$~Diğer programlama dillerinde yazılmış, sözdizimi vurgulanmış kodları gösteriyorum, böylece zaten kod yazan içerik oluşturucular karşılaştırma yapabilirler.",
+                "$~Her dil için iki harfli bir etiket, bir çubuk ve koddan oluşan bir varyant yazın, örneğin: \\py| a = 5\\ js| let a = 5; \\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
+            ]
         }
     },
     "basis": {
@@ -6244,7 +6254,27 @@
                 "search": {
                     "placeholder": "$~aramak",
                     "noResults": "$~Hiçbir sonuç bulunamadı."
-                }
+                },
+                "choice": {
+                    "prompt": "$~Nasıl öğrenmek istersiniz?",
+                    "quick": {
+                        "title": "$~Hızlı",
+                        "description": "$~Diğer programlama dillerine aşina olan ve Wordplay'in nasıl farklı olduğunu anlamak isteyen içerik oluşturucular için."
+                    },
+                    "complete": {
+                        "title": "$~Kapsayıcı",
+                        "description": "$~Programlamaya yeni başlayan ve detaylı bir giriş isteyen içerik oluşturucular için."
+                    }
+                },
+                "mode": {
+                    "label": "$~öğretici",
+                    "labels": ["$~hızlı", "$~tamamlamak"],
+                    "tips": [
+                        "$~Başka bir programlama dili bilen içerik oluşturucular için kısa bir tur.",
+                        "$~Programlamaya yeni başlayan içerik oluşturucular için eksiksiz ve etkileyici bir giriş."
+                    ]
+                },
+                "contrast": "$~ile karşılaştırın"
             },
             "teach": {
                 "header": "$~Öğretmek",

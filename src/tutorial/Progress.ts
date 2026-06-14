@@ -1,16 +1,22 @@
 import type { TutorialProgress } from '@db/settings/TutorialProgressSetting';
 import type Tutorial from './Tutorial';
 import {
-    PerformanceMode,
+    DEFAULT_TUTORIAL_MODE,
+    parseTutorialMode,
+    type TutorialMode,
+} from './TutorialMode';
+import {
+    isPerformance,
     type Act,
     type Dialog,
-    type PeformanceModeType,
     type Performance,
     type Scene,
 } from './Tutorial';
 
 export default class Progress {
     readonly tutorial: Tutorial;
+    /** Which tutorial variant this progress is within. */
+    readonly mode: TutorialMode;
     /** The act number, 0-indexed, with 0 presenting the play title screen */
     readonly act: number;
     /** The scene number, 0-indexed, with 0 representing act title screen */
@@ -18,8 +24,15 @@ export default class Progress {
     /** The nth pause in the scene, but 0-indexed, with 0 representing the scene title screen */
     readonly pause: number;
 
-    constructor(tutorial: Tutorial, act: number, scene: number, pause: number) {
+    constructor(
+        tutorial: Tutorial,
+        act: number,
+        scene: number,
+        pause: number,
+        mode: TutorialMode = DEFAULT_TUTORIAL_MODE,
+    ) {
         this.tutorial = tutorial;
+        this.mode = mode;
         const acts = tutorial.acts;
 
         // Account for invalid acts, scenes, and pauses.
@@ -62,11 +75,7 @@ export default class Progress {
         for (let i = 0; i < scene.lines.length && pause < this.pause; i++) {
             const line = scene.lines[i];
             if (line === null) pause++;
-            else if (
-                line !== null &&
-                PerformanceMode.includes(line[0] as PeformanceModeType)
-            )
-                code = i;
+            else if (isPerformance(line)) code = i;
         }
         return code;
     }
@@ -79,10 +88,7 @@ export default class Progress {
             scene && line !== undefined
                 ? scene.lines[line]
                 : (scene?.performance ?? act?.performance ?? undefined);
-        return Array.isArray(code) &&
-            PerformanceMode.includes(code[0] as PeformanceModeType)
-            ? (code as Performance)
-            : undefined;
+        return code !== undefined && isPerformance(code) ? code : undefined;
     }
 
     /** Get the dialog before the current pause */
@@ -106,12 +112,8 @@ export default class Progress {
             const line = scene.lines[i];
             if (line === null) pause++;
 
-            if (
-                pause === this.pause &&
-                line !== null &&
-                !PerformanceMode.includes(line[0] as PeformanceModeType)
-            )
-                dialog.push({ dialog: line as Dialog, lineIndex: i });
+            if (pause === this.pause && Array.isArray(line))
+                dialog.push({ dialog: line, lineIndex: i });
         }
         return dialog;
     }
@@ -163,6 +165,7 @@ export default class Progress {
                 this.act,
                 this.scene,
                 this.pause + direction,
+                this.mode,
             );
         else return undefined;
     }
@@ -180,15 +183,16 @@ export default class Progress {
                 direction < 0
                     ? newScene.lines.filter((line) => line === null).length + 1
                     : 0,
+                this.mode,
             );
         } else if (sceneIndex === -1) {
-            return new Progress(this.tutorial, this.act, 0, 0);
+            return new Progress(this.tutorial, this.act, 0, 0, this.mode);
         } else return undefined;
     }
 
     moveAct(direction: -1 | 1): Progress | undefined {
         if (this.act + direction === 0)
-            return new Progress(this.tutorial, 0, 0, 0);
+            return new Progress(this.tutorial, 0, 0, 0, this.mode);
         const actIndex = this.act - 1 + direction;
         const nextAct = this.tutorial.acts[actIndex];
         if (nextAct === undefined) return undefined;
@@ -202,17 +206,28 @@ export default class Progress {
                           (line) => line === null,
                       ).length + 1
                     : 0,
+                this.mode,
             );
     }
 
     withLine(line: number) {
-        return new Progress(this.tutorial, this.act, this.scene, line);
+        return new Progress(
+            this.tutorial,
+            this.act,
+            this.scene,
+            line,
+            this.mode,
+        );
     }
 
     getURL(): string {
+        // Omit the tutorial parameter for the default mode so pre-existing /learn URLs (which
+        // have no tutorial parameter) remain canonical.
+        const modeParam =
+            this.mode === DEFAULT_TUTORIAL_MODE ? '' : `&tutorial=${this.mode}`;
         return `/learn?locale=${this.getLocale()}&act=${this.act}&scene=${
             this.scene
-        }&pause=${this.pause}`;
+        }&pause=${this.pause}${modeParam}`;
     }
 
     static fromURL(
@@ -223,6 +238,7 @@ export default class Progress {
         const act = params.get('act');
         const scene = params.get('scene');
         const pause = params.get('pause');
+        const mode = parseTutorialMode(params.get('tutorial'));
         if (
             tutorial &&
             act !== null &&
@@ -237,6 +253,7 @@ export default class Progress {
                 parseInt(act),
                 parseInt(scene),
                 parseInt(pause),
+                mode ?? DEFAULT_TUTORIAL_MODE,
             );
         else return undefined;
     }

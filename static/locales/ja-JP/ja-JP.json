@@ -133,7 +133,8 @@
         "TamilNumeral": "$~タミル数字",
         "TeluguNumeral": "$~テルグ語の数字",
         "LanguageJoin": "$~言語結合ツール",
-        "Translate": "$~翻訳する"
+        "Translate": "$~翻訳する",
+        "ExternalExample": "$~他の言語の例"
     },
     "node": {
         "Dimension": {
@@ -1881,6 +1882,15 @@
                     "explanation": "$~@This、このコレクション内のアイテムを参照しようとしたのですか？"
                 }
             }
+        },
+        "ExternalExample": {
+            "name": "$~外部の例",
+            "description": "$~ドキュメントに別のプログラミング言語のコードを表示する",
+            "emotion": "serious",
+            "doc": [
+                "$~他のプログラミング言語で書かれた構文強調表示付きのコードを表示することで、既にプログラミング経験のある開発者が比較できるようにしています。",
+                "$~各言語ごとに、2文字のタグ、バー、コードの形式で1つのバリアントを記述してください。例： \\py| a = 5\\ js| let a = 5; \\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
+            ]
         }
     },
     "basis": {
@@ -6244,7 +6254,27 @@
                 "search": {
                     "placeholder": "$~検索",
                     "noResults": "$~検索結果が見つかりませんでした"
-                }
+                },
+                "choice": {
+                    "prompt": "$~どのような学習方法をご希望ですか？",
+                    "quick": {
+                        "title": "$~素早い",
+                        "description": "$~他のプログラミング言語に精通しているクリエイターで、Wordplayがどのように異なるかを理解したい方へ"
+                    },
+                    "complete": {
+                        "title": "$~包括的な",
+                        "description": "$~プログラミング初心者で、詳細な入門書を求めているクリエイター向け"
+                    }
+                },
+                "mode": {
+                    "label": "$~チュートリアル",
+                    "labels": ["$~素早い", "$~完了"],
+                    "tips": [
+                        "$~別のプログラミング言語を知っているクリエイター向けの短いツアー",
+                        "$~プログラミング初心者向けの、完全かつ劇的な入門編"
+                    ]
+                },
+                "contrast": "$~比較する"
             },
             "teach": {
                 "header": "$~教える",

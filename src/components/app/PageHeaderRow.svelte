@@ -18,14 +18,32 @@
         /** Page controls rendered to the right of the header. They wrap to
          * below the header on narrow viewports. */
         controls?: Snippet;
+        /** Optional controls rendered inline at the end of the breadcrumb row. */
+        breadcrumbControls?: Snippet;
     }
 
-    let { name, extra, header, block, wrap, description, controls }: Props =
-        $props();
+    let {
+        name,
+        extra,
+        header,
+        block,
+        wrap,
+        description,
+        controls,
+        breadcrumbControls,
+    }: Props = $props();
 </script>
 
 <div class="page-header-row">
-    <PageHeader {name} {extra} {header} {block} {wrap} {description} />
+    <PageHeader
+        {name}
+        {extra}
+        {header}
+        {block}
+        {wrap}
+        {description}
+        {breadcrumbControls}
+    />
     {@render controls?.()}
 </div>
 

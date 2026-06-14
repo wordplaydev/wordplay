@@ -133,7 +133,8 @@
         "TamilNumeral": "$~泰米尔数字",
         "TeluguNumeral": "$~泰卢固语数字",
         "LanguageJoin": "$~语言连接词",
-        "Translate": "$~翻译"
+        "Translate": "$~翻译",
+        "ExternalExample": "$~其他语言示例"
     },
     "node": {
         "Dimension": {
@@ -1879,6 +1880,15 @@
                     "explanation": "$~您是不是想使用@This？"
                 }
             }
+        },
+        "ExternalExample": {
+            "name": "$~外部示例",
+            "description": "$~在文档中显示其他编程语言的代码",
+            "emotion": "serious",
+            "doc": [
+                "$~我展示用其他编程语言编写的语法高亮代码，以便已经会编写代码的创作者可以进行比较。",
+                "$~每种语言编写一个变体，格式为：一个双字母标签、一个竖线和代码，例如\\py| a = 5\\ js| let a = 5; \\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
+            ]
         }
     },
     "basis": {
@@ -6092,7 +6102,27 @@
                 "search": {
                     "placeholder": "$~搜索",
                     "noResults": "未找到结果。"
-                }
+                },
+                "choice": {
+                    "prompt": "$~你想以哪种方式学习？",
+                    "quick": {
+                        "title": "$~快的",
+                        "description": "$~对于熟悉其他编程语言并希望了解 Wordplay 与其他编程语言有何不同之处的创作者来说，Wordplay 与其他编程语言有何不同？"
+                    },
+                    "complete": {
+                        "title": "$~综合的",
+                        "description": "$~面向希望深入了解编程的新手创作者"
+                    }
+                },
+                "mode": {
+                    "label": "$~教程",
+                    "labels": ["$~快的", "$~完全的"],
+                    "tips": [
+                        "$~面向了解其他编程语言的创作者的简短导览",
+                        "$~为编程新手创作者提供完整、引人入胜的入门介绍"
+                    ]
+                },
+                "contrast": "$~与……相比"
             },
             "guide": {
                 "header": "指南",

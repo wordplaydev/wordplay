@@ -133,7 +133,8 @@
         "TamilNumeral": "$~cyfra tamilska",
         "TeluguNumeral": "$~cyfra telugu",
         "LanguageJoin": "$~łącznik językowy",
-        "Translate": "$~tłumaczyć"
+        "Translate": "$~tłumaczyć",
+        "ExternalExample": "$~przykład w innym języku"
     },
     "node": {
         "Dimension": {
@@ -1881,6 +1882,15 @@
                     "explanation": "$~Czy miałeś na myśli użycie @This w celu odwołania się do elementu w tej kolekcji?"
                 }
             }
+        },
+        "ExternalExample": {
+            "name": "$~przykładzewnętrzny",
+            "description": "$~pokaż kod z innego języka programowania w dokumentacji",
+            "emotion": "serious",
+            "doc": [
+                "$~Pokazuję kod napisany w innych językach programowania z wyróżnioną składnią, aby twórcy, którzy już kodują, mogli porównać swoje wyniki.",
+                "$~Zapisz jeden wariant dla każdego języka jako dwuliterowy znacznik, pasek i kod, na przykład \\py| a = 5\\ js| let a = 5; \\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
+            ]
         }
     },
     "basis": {
@@ -6260,7 +6270,27 @@
                 "search": {
                     "placeholder": "$~szukaj",
                     "noResults": "$~Nie znaleziono wyników"
-                }
+                },
+                "choice": {
+                    "prompt": "$~Jak chcesz się uczyć?",
+                    "quick": {
+                        "title": "$~Szybki",
+                        "description": "$~Dla twórców znających inne języki programowania, którzy chcą zrozumieć, czym różni się Wordplay"
+                    },
+                    "complete": {
+                        "title": "$~Wyczerpujący",
+                        "description": "$~Dla twórców, którzy dopiero zaczynają przygodę z programowaniem i chcą uzyskać szczegółowe wprowadzenie"
+                    }
+                },
+                "mode": {
+                    "label": "$~seminarium",
+                    "labels": ["$~szybki", "$~kompletny"],
+                    "tips": [
+                        "$~krótka wycieczka dla twórców znających inny język programowania",
+                        "$~pełne, dramatyczne wprowadzenie dla twórców, którzy dopiero zaczynają przygodę z programowaniem"
+                    ]
+                },
+                "contrast": "$~porównać z"
             },
             "teach": {
                 "header": "$~Uczyć",
