@@ -1,4 +1,6 @@
-import admin from 'firebase-admin';
+import { initializeApp } from 'firebase-admin/app';
+import { getAuth } from 'firebase-admin/auth';
+import { getFirestore } from 'firebase-admin/firestore';
 import Gallery from '../src/db/galleries/Gallery';
 import Project from '../src/db/projects/Project';
 import DefaultLocale from '../src/locale/DefaultLocale';
@@ -7,7 +9,10 @@ import Source from '../src/nodes/Source';
 process.env.FIREBASE_AUTH_EMULATOR_HOST = '127.0.0.1:9099';
 process.env.FIRESTORE_EMULATOR_HOST = '127.0.0.1:8080';
 
-admin.initializeApp({ projectId: 'demo-wordplay' });
+// Use the modular API (getAuth/getFirestore), not the legacy `admin.auth()`
+// namespace accessor — firebase-admin v14 removed it, and calling it threw on
+// every seed run (masked by the probe loop as "emulator never came up").
+initializeApp({ projectId: 'demo-wordplay' });
 
 /**
  * The seed sets up:
@@ -139,15 +144,22 @@ const isAlreadyExists = (err: unknown): boolean => {
     );
 };
 
-/** Wait for the auth emulator to come up, then create the seeded users. */
-async function seedUsers(): Promise<boolean> {
-    for (let attempt = 0; attempt < 60; attempt++) {
+/** How long to wait for the auth emulator before giving up. CI runners under
+ *  load can be slow to bind the auth port, so this is generous (~2 min); it's
+ *  well within the e2e job's 60-minute timeout. */
+const MAX_PROBE_ATTEMPTS = 120;
+
+/** Wait for the auth emulator to come up, then create the seeded users. Throws
+ *  if the emulator never responds, so the caller can fail the whole run loudly
+ *  instead of letting tests run against an unseeded (empty) emulator. */
+async function seedUsers(): Promise<void> {
+    for (let attempt = 0; attempt < MAX_PROBE_ATTEMPTS; attempt++) {
         try {
             // Probe the emulator with the first user; if it succeeds (or that
             // user already exists) the emulator is up and we can seed the rest.
             const first = SEEDED_USERS[0];
             try {
-                await admin.auth().createUser({
+                await getAuth().createUser({
                     uid: first.uid,
                     email: `${first.username}@u.wordplay.dev`,
                     displayName: first.displayName,
@@ -159,18 +171,24 @@ async function seedUsers(): Promise<boolean> {
                 if (!isAlreadyExists(err)) throw err;
             }
             break;
-        } catch {
-            await new Promise((r) => setTimeout(r, 1000));
-            if (attempt === 59) {
-                console.error('[seed] Auth emulator never came up');
-                return false;
+        } catch (err) {
+            // Surface the underlying error instead of silently retrying — a
+            // non-connection failure (e.g. a firebase-admin API change) would
+            // otherwise be misreported as a timeout after every attempt.
+            if (attempt === 0)
+                console.error('[seed] Auth probe failed, retrying:', err);
+            if (attempt === MAX_PROBE_ATTEMPTS - 1) {
+                throw new Error(
+                    `[seed] Auth emulator never came up after ${MAX_PROBE_ATTEMPTS} attempts; last error: ${err instanceof Error ? err.message : String(err)}`,
+                );
             }
+            await new Promise((r) => setTimeout(r, 1000));
         }
     }
 
     for (const user of SEEDED_USERS.slice(1)) {
         try {
-            await admin.auth().createUser({
+            await getAuth().createUser({
                 uid: user.uid,
                 email: `${user.username}@u.wordplay.dev`,
                 displayName: user.displayName,
@@ -191,19 +209,17 @@ async function seedUsers(): Promise<boolean> {
     // existence check.
     for (const user of SEEDED_USERS) {
         if (user.claims) {
-            await admin.auth().setCustomUserClaims(user.uid, user.claims);
+            await getAuth().setCustomUserClaims(user.uid, user.claims);
             console.log(
                 `[seed] Set claims on "${user.username}": ${JSON.stringify(user.claims)}`,
             );
         }
     }
-
-    return true;
 }
 
 /** Seed a class document and a class-associated gallery. */
 async function seedClassAndGallery(): Promise<void> {
-    const firestore = admin.firestore();
+    const firestore = getFirestore();
 
     const teacher = SEEDED_USERS.find((u) => u.username === 'teacher');
     const students = SEEDED_USERS.filter((u) =>
@@ -317,7 +333,7 @@ function makePublicGallery(
  * `crdt` snapshot.
  */
 async function seedCollaborativeProject(): Promise<void> {
-    const firestore = admin.firestore();
+    const firestore = getFirestore();
     const creator = SEEDED_USERS.find((u) => u.username === 'creator');
     const creator2 = SEEDED_USERS.find((u) => u.username === 'creator2');
     if (!creator || !creator2)
@@ -395,7 +411,7 @@ const HOWTO_REACTIONS: Record<string, string> = {
  * preview.
  */
 async function seedCreatorHowTos(): Promise<void> {
-    const firestore = admin.firestore();
+    const firestore = getFirestore();
     const creator = SEEDED_USERS.find((u) => u.username === 'creator');
     if (!creator) throw new Error('Creator user missing from SEEDED_USERS');
 
@@ -509,7 +525,7 @@ async function seedCreatorHowTos(): Promise<void> {
  * gallery directory, back-to-top button).
  */
 async function seedPublicProjectsAndGalleries(): Promise<void> {
-    const firestore = admin.firestore();
+    const firestore = getFirestore();
     const creator = SEEDED_USERS.find((u) => u.username === 'creator');
     if (!creator) throw new Error('Creator user missing from SEEDED_USERS');
 
@@ -546,7 +562,7 @@ const seedUUID = (n: number): string =>
  *  `creator2`) so the characters page / glyph picker and the character
  *  realtime listener have content. Empty `shapes` is schema-valid. */
 async function seedCharacters(): Promise<void> {
-    const firestore = admin.firestore();
+    const firestore = getFirestore();
     const creator = SEEDED_USERS.find((u) => u.username === 'creator');
     const creator2 = SEEDED_USERS.find((u) => u.username === 'creator2');
     if (!creator || !creator2) throw new Error('creator/creator2 missing');
@@ -568,7 +584,7 @@ async function seedCharacters(): Promise<void> {
  *  item), a project chat with an unread message (unread badge), and a how-to
  *  chat. Chat doc id == the project/how-to id (see getChat/getChatHowTo). */
 async function seedChats(): Promise<void> {
-    const firestore = admin.firestore();
+    const firestore = getFirestore();
     const creator = SEEDED_USERS.find((u) => u.username === 'creator');
     const creator2 = SEEDED_USERS.find((u) => u.username === 'creator2');
     if (!creator || !creator2) throw new Error('creator/creator2 missing');
@@ -621,7 +637,7 @@ async function seedChats(): Promise<void> {
  *  link them into the class gallery's `howTos`. Exercises the gallery how-to
  *  listener seeing content the viewing user didn't author. */
 async function seedOtherUserHowTos(): Promise<void> {
-    const firestore = admin.firestore();
+    const firestore = getFirestore();
     const creator2 = SEEDED_USERS.find((u) => u.username === 'creator2');
     const student1 = SEEDED_USERS.find((u) => u.username === 'student1');
     if (!creator2 || !student1) throw new Error('creator2/student1 missing');
@@ -677,7 +693,7 @@ async function seedOtherUserHowTos(): Promise<void> {
  *  `creator` listed as a viewer, plus a published how-to in it — so `creator`
  *  gets read-only expanded-scope access (the expandedScopeGalleries path). */
 async function seedExpandedScopeGallery(): Promise<void> {
-    const firestore = admin.firestore();
+    const firestore = getFirestore();
     const teacher = SEEDED_USERS.find((u) => u.username === 'teacher');
     const creator = SEEDED_USERS.find((u) => u.username === 'creator');
     if (!teacher || !creator) throw new Error('teacher/creator missing');
@@ -736,7 +752,7 @@ async function seedExpandedScopeGallery(): Promise<void> {
 /** Make `creator` a deliberately heavy account: many private owned projects,
  *  to reproduce the heavy-account load path (lots of concurrent sync). */
 async function seedHeavyCreatorData(): Promise<void> {
-    const firestore = admin.firestore();
+    const firestore = getFirestore();
     const creator = SEEDED_USERS.find((u) => u.username === 'creator');
     if (!creator) throw new Error('Creator user missing from SEEDED_USERS');
 
@@ -766,8 +782,9 @@ async function seedHeavyCreatorData(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-    const ok = await seedUsers();
-    if (!ok) return;
+    // Throws if the auth emulator never comes up; we let it propagate so the
+    // run fails loudly instead of seeding nothing and running tests on empty.
+    await seedUsers();
     try {
         await seedClassAndGallery();
     } catch (err) {
@@ -828,4 +845,7 @@ async function main(): Promise<void> {
     );
 }
 
-await main();
+main().catch((err) => {
+    console.error(err);
+    process.exitCode = 1;
+});
