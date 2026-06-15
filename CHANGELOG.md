@@ -10,7 +10,7 @@ This week we improved the editor, fixed a few bugs, and added a new shorter tuto
 
 ### Added
 
-- › You can now "fold" multi-line blocks of code to make it easier to navigate larger programs (#806, #833).
+- › You can now "fold" multi-line blocks of code to make it easier to navigate larger programs (#806, #883).
 - ❓ We added a new quick tutorial for creators who know another common programming language and want a quick way to understand how Wordplay compares. We're starting in English for now until we get feedback on it, then we'll work on translations later (#1034).
 
 ### Changed
