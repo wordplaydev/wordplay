@@ -12,6 +12,7 @@
     import { isFlagged } from '@db/projects/Moderation';
     import { isAudience } from '@db/projects/ModerationUtils';
     import { enqueuePreviewCompute } from '@db/projects/previewQueue';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser, isAuthenticated } from '@components/project/Contexts';
     import CreatorView from '@components/app/CreatorView.svelte';
     import Link from '@components/app/Link.svelte';
@@ -131,147 +132,15 @@
     const user = getUser();
 
     // ——— Descriptions ———————————————————————————————————————————————
-    // A project's description is the main source file's leading documentation.
-    // It can be multilingual: a sequence of ¶…¶/lang blocks at the top of the
-    //
-    // We parse all leading blocks, then display the  one that is segmented 
+    // A project's description comes from the parsed AST on the main source's
+    // Program node. Documentation is Wordplay markup, so render the first Doc's
+    // markup directly 
 
-
-    type DescriptionDoc = { text: string; lang: string | null };
-
-    /** Matches one leading documentation block: ¶text¶ with an optional /lang tag. */
-    const DOC_BLOCK_REGEX = /^\s*¶([^¶]*)¶(?:\/([a-zA-Z-]+))?/;
-
-    /** Parse all consecutive documentation blocks at the start of the code. */
-    function parseLeadingDocs(code: string): {
-        docs: DescriptionDoc[];
-        rest: string;
-    } {
-        const docs: DescriptionDoc[] = [];
-        let rest = code;
-        for (;;) {
-            const match = DOC_BLOCK_REGEX.exec(rest);
-            if (match === null) break;
-            docs.push({ text: match[1], lang: match[2] ?? null });
-            rest = rest.slice(match[0].length);
-        }
-        return { docs, rest };
-    }
-
-    let descriptionDocs = $derived(
-        parseLeadingDocs(project.getMain().getCode().toString()).docs,
+    let descriptionDoc = $derived(
+        project.getMain().expression.docs.docs[0] ?? null,
     );
 
-    /** Choose the doc that best matches the viewer's languages. */
-    let descriptionDoc = $derived.by(() => {
-        const docs = descriptionDocs;
-        if (docs.length === 0) return null;
-
-        // Viewer's preferred languages, in priority order.
-        const preferred: string[] = $locales.getLanguages();
-        for (const lang of preferred) {
-            const match = docs.find((doc) => doc.lang === lang);
-            if (match) return match;
-        }
-
-        // Fall back to the project's primary language, then an untagged
-        // block, then whatever came first.
-        const primary = project.getPrimaryLanguage();
-        return (
-            docs.find((doc) => doc.lang === primary) ??
-            docs.find((doc) => doc.lang === null) ??
-            docs[0]
-        );
-    });
-
-    let description = $derived.by(() => {
-        const doc = descriptionDoc;
-        if (doc === null) return null;
-        const raw = doc.text.replace(/\n+/g, ' ').trim();
-        if (raw.length === 0) return null;
-        const lang = doc.lang ?? project.getPrimaryLanguage();
-        const segmenter = new Intl.Segmenter(lang, {
-            granularity: 'grapheme',
-        });
-        return Array.from(segmenter.segment(raw), (s) => s.segment).join('');
-    });
-
-    // ——— Description editing ————————————————————————————————————————
-    // Anyone who can edit the project can edit its description, since the
-    // description *is* the main source's first documentation. Saving rewrites
-    // the leading doc block for the currently displayed language and revises
-    // the project. Built-in/example projects are maintained by contributors
-    // via pull requests to the source files, and descriptions are extracted
-    // from those same leading documentation blocks.
-
-    let editingDescription = $state(false);
-    let draftDescription = $state('');
-
-    function startEditingDescription(event: Event) {
-        event.preventDefault();
-        event.stopPropagation();
-        if (!editable) return;
-        draftDescription =
-            descriptionDoc?.text.replace(/\n+/g, ' ').trim() ?? '';
-        editingDescription = true;
-    }
-
-    function cancelEditingDescription() {
-        editingDescription = false;
-    }
-
-    function saveDescription() {
-        if (!editable) return;
-        const main = project.getMain();
-        const code = main.getCode().toString();
-        const { docs, rest } = parseLeadingDocs(code);
-
-        // The language we're editing: the displayed doc's language, or the
-        // project's primary language if there's no description yet.
-        const targetLang =
-            descriptionDoc !== null
-                ? descriptionDoc.lang
-                : (project.getPrimaryLanguage() ?? null);
-
-        // Documentation delimiters can't appear inside the text.
-        const cleaned = draftDescription
-            .replaceAll('¶', '')
-            .replace(/\n+/g, ' ')
-            .trim();
-
-        const index = docs.findIndex((doc) => doc.lang === targetLang);
-        if (cleaned.length === 0) {
-            // Empty draft removes this language's description.
-            if (index >= 0) docs.splice(index, 1);
-        } else if (index >= 0) {
-            docs[index] = { text: cleaned, lang: targetLang };
-        } else {
-            docs.push({ text: cleaned, lang: targetLang });
-        }
-
-        const prefix = docs
-            .map(
-                (doc) =>
-                    `¶${doc.text}¶${doc.lang !== null ? `/${doc.lang}` : ''}`,
-            )
-            .join('\n');
-        const body = rest.replace(/^\n+/, '');
-        const newCode =
-            prefix.length > 0 ? `${prefix}\n${body}` : body;
-
-        Projects.reviseProject(project.withSource(main, main.withCode(newCode)));
-        editingDescription = false;
-    }
-
-    function handleEditorKey(event: KeyboardEvent) {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-            saveDescription();
-        } else if (event.key === 'Escape') {
-            event.preventDefault();
-            cancelEditingDescription();
-        }
-    }
+    let descriptionMarkup = $derived(descriptionDoc?.markup ?? null);
 
     let path = $derived(link ?? project.getLink(true));
 
@@ -370,47 +239,16 @@
                     <div class="controls-and-description">
                         {@render children?.()}
                         <div class="description">
-                            {#if editingDescription}
-                                <!-- svelte-ignore a11y_autofocus -->
-                                <input
-                                    class="description-editor"
-                                    type="text"
-                                    bind:value={draftDescription}
-                                    onkeydown={handleEditorKey}
-                                    autofocus
-                                />
-                                <button
-                                    class="description-button"
-                                    title="Save description"
-                                    aria-label="Save description"
-                                    onclick={saveDescription}>✓</button
-                                >
-                                <button
-                                    class="description-button"
-                                    title="Cancel"
-                                    aria-label="Cancel editing description"
-                                    onclick={cancelEditingDescription}
-                                    >✕</button
-                                >
+                            {#if descriptionMarkup !== null}
+                                <div class="description-text">
+                                    <MarkupHTMLView
+                                        markup={descriptionMarkup}
+                                        inline
+                                    />
+                                </div>
                             {:else}
-                                {#if description !== null}
-                                    <span class="description-text"
-                                        >{description}</span
-                                    >
-                                {:else}
-                                    <span
-                                        class="description-text placeholder"
-                                    ></span>
-                                {/if}
-                                {#if editable}
-                                    <button
-                                        class="description-button edit"
-                                        title="Edit description"
-                                        aria-label="Edit description"
-                                        onclick={startEditingDescription}
-                                        >✏️</button
-                                    >
-                                {/if}
+                                <span class="description-text placeholder"
+                                ></span>
                             {/if}
                         </div>
                     </div>
@@ -579,42 +417,6 @@
 
     .description-text.placeholder {
         opacity: 0.5;
-    }
-
-    .description-button {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        background: none;
-        border: none;
-        padding: 0;
-        cursor: pointer;
-        color: var(--wordplay-inactive-color);
-        font-size: inherit;
-        line-height: 1;
-        flex-shrink: 0;
-    }
-
-    .description-button:hover,
-    .description-button:focus {
-        color: var(--wordplay-highlight-color);
-    }
-
-    .description-button.edit {
-        opacity: 1;
-    }
-
-    .description-editor {
-        flex: 1;
-        min-width: 8em;
-        font-size: var(--wordplay-small-font-size);
-        font-family: inherit;
-        color: var(--wordplay-foreground);
-        background: var(--wordplay-background);
-        border: var(--wordplay-border-color) solid
-            var(--wordplay-border-width);
-        border-radius: var(--wordplay-border-radius);
-        padding: calc(var(--wordplay-spacing) / 2);
     }
 
     .search-highlight {
