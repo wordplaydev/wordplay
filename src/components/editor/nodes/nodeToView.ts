@@ -32,6 +32,7 @@ import InitialView from '@components/editor/nodes/InitialView.svelte';
 import InputView from '@components/editor/nodes/InputView.svelte';
 import InsertView from '@components/editor/nodes/InsertView.svelte';
 import IsLocaleView from '@components/editor/nodes/IsLocaleView.svelte';
+import LocalizedView from '@components/editor/nodes/LocalizedView.svelte';
 import IsView from '@components/editor/nodes/IsView.svelte';
 import KeyValueView from '@components/editor/nodes/KeyValueView.svelte';
 import LanguageView from '@components/editor/nodes/LanguageView.svelte';
@@ -118,6 +119,7 @@ import Input from '@nodes/Input';
 import Insert from '@nodes/Insert';
 import Is from '@nodes/Is';
 import IsLocale from '@nodes/IsLocale';
+import Localized from '@nodes/Localized';
 import KeyValue from '@nodes/KeyValue';
 import Language from '@nodes/Language';
 import ListAccess from '@nodes/ListAccess';
@@ -585,6 +587,11 @@ map(Previous, PreviousView, {
 });
 map(Changed, ChangedView, {
     kind: 'predicate',
+    direction: 'inline',
+    size: 'normal',
+});
+map(Localized, LocalizedView, {
+    kind: 'evaluate',
     direction: 'inline',
     size: 'normal',
 });

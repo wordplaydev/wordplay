@@ -33,7 +33,6 @@ import Pose from '@output/Pose';
 import type RenderContext from '@output/RenderContext';
 import Sequence from '@output/Sequence';
 import { CSSFallbackFaces, toNumber, type NameGenerator } from '@output/Stage';
-import TextLang from '@output/TextLang';
 import { splitCharacterRefs } from '@output/splitCharacterRefs';
 import { getOutputInput } from '@output/Valued';
 import getTextMetrics from '@output/getTextMetrics';
@@ -117,7 +116,7 @@ export type Metrics = {
 };
 
 export default class Phrase extends Output {
-    readonly text: TextLang | MarkupValue;
+    readonly text: TextValue | MarkupValue;
     readonly wrap: number | undefined;
     readonly alignment: string | undefined;
     readonly direction: WritingLayoutSymbol;
@@ -130,12 +129,12 @@ export default class Phrase extends Output {
 
     constructor(
         value: StructureValue,
-        text: TextLang | MarkupValue,
+        text: TextValue | MarkupValue,
         size: number | undefined = undefined,
         face: SupportedFace | undefined = undefined,
         place: Place | undefined = undefined,
-        name: TextLang | string,
-        description: TextLang | undefined = undefined,
+        name: TextValue | string,
+        description: TextValue | undefined = undefined,
         selectable: boolean,
         background: Color | undefined,
         pose: DefinitePose,
@@ -222,7 +221,7 @@ export default class Phrase extends Output {
             // Is it plain text? Split out any custom-character references (#773)
             // so each is measured as one '@' (see isCharacter below), then make
             // a list of unformatted segments.
-            text instanceof TextLang
+            text instanceof TextValue
                 ? splitCharacterRefs(text.text).map((chunk) => ({
                       text: chunk.kind === 'character' ? chunk.ref : chunk.text,
                       italic: false,
@@ -339,16 +338,15 @@ export default class Phrase extends Output {
         return undefined;
     }
 
-    getLocalizedTextOrDoc(): TextLang | Markup {
-        // Get the list of text lang and doc and find the one with the best matching language.
-        if (this.text instanceof TextLang) {
+    getLocalizedTextOrDoc(): TextValue | Markup {
+        if (this.text instanceof TextValue) {
             return this.text;
         } else return this.text.markup;
     }
 
     getShortDescription() {
         const textOrDoc = this.getLocalizedTextOrDoc();
-        return textOrDoc instanceof TextLang
+        return textOrDoc instanceof TextValue
             ? textOrDoc.text
             : (textOrDoc?.toText() ?? '');
     }
@@ -396,7 +394,7 @@ export default class Phrase extends Output {
                 .concretize((l) => l.output.Phrase.defaultDescription, {
                     text: text,
                     name:
-                        this.name instanceof TextLang
+                        this.name instanceof TextValue
                             ? this.name.text
                             : undefined,
                     size: this.size,
@@ -431,8 +429,8 @@ export default class Phrase extends Output {
     }
 
     toString() {
-        return this.text instanceof TextLang
-            ? this.text
+        return this.text instanceof TextValue
+            ? this.text.text
             : this.text.markup.toText();
     }
 }
@@ -509,20 +507,13 @@ export function toPhrase(
 }
 
 export function toText(value: Value | undefined) {
-    return value instanceof TextValue
-        ? new TextLang(value, value.text, value.format)
-        : undefined;
+    return value instanceof TextValue ? value : undefined;
 }
 
 export function toTextLang(value: Value | undefined) {
-    const texts =
-        value instanceof TextValue
-            ? new TextLang(value, value.text, value.format)
-            : value instanceof MarkupValue
-              ? value
-              : undefined;
-
-    return texts;
+    return value instanceof TextValue || value instanceof MarkupValue
+        ? value
+        : undefined;
 }
 
 export type FormattedText = {

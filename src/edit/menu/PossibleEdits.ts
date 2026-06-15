@@ -52,6 +52,7 @@ import Initial from '@nodes/Initial';
 import Insert from '@nodes/Insert';
 import Is from '@nodes/Is';
 import IsLocale from '@nodes/IsLocale';
+import Localized from '@nodes/Localized';
 import KeyValue from '@nodes/KeyValue';
 import Language from '@nodes/Language';
 import ListAccess from '@nodes/ListAccess';
@@ -749,6 +750,7 @@ const PossibleNodes = [
     Conditional,
     Is,
     IsLocale,
+    Localized,
     Otherwise,
     Match,
     Translate,

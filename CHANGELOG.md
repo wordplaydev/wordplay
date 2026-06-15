@@ -4,6 +4,18 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.24.0 - 2026-06-18
+
+This abbreviated week we fleshed out the multilingual and text processing part of the programming language.
+
+### Added
+
+- 🌎 When text is sliced up or combined, we now preserve and combine locales (e.g., `"hello and"/en + "hola"/es"` now produces `"hello and hola"/en_es`) (#526).
+- 🌍 We added an operation to apply a locale to plain and formatted text (e.g., `("hello" + "world")/en` applies the `/en` locale to the computed text) (#1189).
+- 🌏 We added several operations to formatted text to mirror text operations (e.g., `\`/hi/\`.repeat(2)` now works) (#1190).
+- 🌐 All locale information on plain and formatted text is now reflected in program output, so all text-to-speech functionality is properly localized and language writing directions are respected.
+- 🌐 Autocomplete menus now suggest extra languages and regions, in case you want bilingual, trilingual, or radically multlingual text! (#884).
+
 ## 0.23.0 - 2026-06-13
 
 This week we improved the editor, fixed a few bugs, and added a new shorter tutorial for learners who already know another programming language.

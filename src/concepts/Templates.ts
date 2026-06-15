@@ -49,6 +49,7 @@ import Initial from '@nodes/Initial';
 import Insert from '@nodes/Insert';
 import Is from '@nodes/Is';
 import IsLocale from '@nodes/IsLocale';
+import Localized from '@nodes/Localized';
 import KeyValue from '@nodes/KeyValue';
 import Language from '@nodes/Language';
 import ListAccess from '@nodes/ListAccess';
@@ -175,6 +176,10 @@ const Templates: Node[] = [
     FormattedTranslation.make([]),
     Language.make('en'),
     IsLocale.make(Language.make('en')),
+    Localized.make(
+        ExpressionPlaceholder.make(TextType.make()),
+        Language.make('en'),
+    ),
 
     // Sets and Maps
     KeyValue.make(ExpressionPlaceholder.make(), ExpressionPlaceholder.make()),

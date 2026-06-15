@@ -82,6 +82,16 @@ export default abstract class Expression extends Node {
         return false;
     }
 
+    /**
+     * The type of the value this expression is accessed on, if it's a property
+     * or method reference (e.g. the `x` in `x.f`). Undefined for everything
+     * else. Overridden by PropertyReference; lets callers find a method call's
+     * receiver type without importing PropertyReference.
+     */
+    getSubjectType(_: Context): Type | undefined {
+        return undefined;
+    }
+
     abstract getDependencies(_: Context): Expression[];
 
     getAllDependencies(

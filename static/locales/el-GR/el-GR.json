@@ -1891,6 +1891,16 @@
                 "$~Παρουσιάζω κώδικα με επισήμανση σύνταξης γραμμένο σε άλλες γλώσσες προγραμματισμού, ώστε οι δημιουργοί που ήδη γράφουν κώδικα να μπορούν να συγκρίνουν.",
                 "$~Γράψτε μία παραλλαγή ανά γλώσσα ως ετικέτα δύο γραμμάτων, μια γραμμή και τον κώδικα, όπως \\py| a = 5\\ js| let a = 5; \\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
             ]
+        },
+        "Localized": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "serious",
+            "label": {
+                "value": "$?"
+            },
+            "doc": ["$?"],
+            "start": "$?"
         }
     },
     "basis": {
@@ -2140,7 +2150,8 @@
             },
             "conversion": {
                 "list": "$~Διαχωρίζει το κείμενο σε μια λίστα μεμονωμένων χαρακτήρων.",
-                "number": "$~Μετατρέπει το κείμενο σε @Number και, αν δεν είναι αριθμός, δεν είναι αριθμητική τιμή."
+                "number": "$~Μετατρέπει το κείμενο σε @Number και, αν δεν είναι αριθμός, δεν είναι αριθμητική τιμή.",
+                "formatted": "$?"
             }
         },
         "Number": {
@@ -3332,6 +3343,90 @@
             },
             "conversion": {
                 "text": "$~Μετατρέπω τον εαυτό μου σε @Text."
+            }
+        },
+        "Formatted": {
+            "doc": ["$?"],
+            "name": ["$?"],
+            "function": {
+                "length": {
+                    "doc": "$?",
+                    "names": ["$?"],
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": "$?",
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": "$?",
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "starts": {
+                    "doc": "$?",
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "ends": {
+                    "doc": "$?",
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "repeat": {
+                    "doc": "$?",
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "combine": {
+                    "doc": "$?",
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$?"
             }
         }
     },

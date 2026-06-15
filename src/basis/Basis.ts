@@ -35,6 +35,7 @@ import bootstrapSet from '@basis/SetBasis';
 import bootstrapStructure from '@basis/StructureBasis';
 import bootstrapTable from '@basis/TableBasis';
 import bootstrapText from '@basis/TextBasis';
+import bootstrapFormatted from '@basis/FormattedBasis';
 
 export class Basis {
     readonly locales: Locales;
@@ -64,6 +65,7 @@ export class Basis {
         this.addStructure('none', bootstrapNone(locales));
         this.addStructure('boolean', bootstrapBool(locales));
         this.addStructure('text', bootstrapText(locales));
+        this.addStructure('formatted', bootstrapFormatted(locales));
         this.addStructure('list', bootstrapList(locales));
         this.addStructure('measurement', bootstrapNumber(locales));
         this.addStructure('set', bootstrapSet(locales));

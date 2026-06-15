@@ -4,7 +4,13 @@ import { TEXT_SYMBOL } from '@parser/Symbols';
 import type { BasisTypeName } from '@basis/BasisConstants';
 import { Emotion } from '../lore/Emotion';
 import BasisType from '@nodes/BasisType';
+import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import type Context from '@nodes/Context';
+import {
+    concreteLanguageOf,
+    type LanguageDeriver,
+} from '@nodes/DerivedLanguage';
+import Evaluate from '@nodes/Evaluate';
 import Language from '@nodes/Language';
 import { node, optional, type Grammar, type Replacement } from '@nodes/Node';
 import { Sym } from '@nodes/Sym';
@@ -19,13 +25,20 @@ export default class TextType extends BasisType {
     readonly open: Token;
     readonly text: Token | undefined;
     readonly close: Token | undefined;
-    readonly language: Language | undefined;
+    /** A concrete locale, a deriver that computes one from operand locales, or
+     *  none. A deriver is never a child node (guarded in clone/computeChildren),
+     *  mirroring NumberType's `Unit | UnitDeriver`. */
+    readonly language: Language | LanguageDeriver | undefined;
+
+    /** The operation whose operands feed a language deriver; set when concretizing. */
+    readonly op: BinaryEvaluate | Evaluate | undefined;
 
     constructor(
         open: Token,
         text: Token | undefined,
         close: Token | undefined,
-        language?: Language,
+        language?: Language | LanguageDeriver,
+        op?: BinaryEvaluate | Evaluate,
     ) {
         super();
 
@@ -33,11 +46,12 @@ export default class TextType extends BasisType {
         this.text = text;
         this.close = close;
         this.language = language;
+        this.op = op;
 
         this.computeChildren();
     }
 
-    static make(text?: string, format?: Language) {
+    static make(text?: string, format?: Language | LanguageDeriver) {
         return new TextType(
             new Token(TEXT_SYMBOL, Sym.Text),
             text ? new Token(text, Sym.Words) : undefined,
@@ -76,8 +90,36 @@ export default class TextType extends BasisType {
             this.replaceChild('open', this.open, replace),
             this.replaceChild('text', this.text, replace),
             this.replaceChild('close', this.close, replace),
-            this.replaceChild('language', this.language, replace),
+            // A deriver isn't a child node, so pass it through untouched.
+            this.language instanceof Function
+                ? this.language
+                : this.replaceChild('language', this.language, replace),
         ) as this;
+    }
+
+    /** True if the locale is derived from an operation's operands. */
+    hasDerivedLanguage() {
+        return this.language instanceof Function;
+    }
+
+    withOp(op: BinaryEvaluate | Evaluate) {
+        return new TextType(
+            this.open,
+            this.text,
+            this.close,
+            this.language,
+            op,
+        );
+    }
+
+    withLanguage(language: Language | undefined) {
+        return new TextType(this.open, this.text, this.close, language);
+    }
+
+    /** Resolve the concrete locale, evaluating a deriver against the operands'
+     *  locales if necessary. Mirrors NumberType.concreteUnit. */
+    concreteLanguage(context: Context): Language | undefined {
+        return concreteLanguageOf(this.language, this.op, context);
     }
 
     computeConflicts() {
@@ -85,6 +127,7 @@ export default class TextType extends BasisType {
     }
 
     acceptsAll(types: TypeSet, context: Context): boolean {
+        const thisLanguage = this.concreteLanguage(context);
         // For this to accept the given type, it must accept all possible types.
         return types.list().every((type) => {
             // If the type is a union, get its type set and see if this accepts all of them.
@@ -104,11 +147,12 @@ export default class TextType extends BasisType {
                     this.text !== undefined &&
                     type.text !== undefined &&
                     this.text.getText() === type.text.getText();
+                const thatLanguage = type.concreteLanguage(context);
                 const languageOk =
                     literalMatch ||
-                    this.language === undefined ||
-                    (type.language !== undefined &&
-                        this.language.isEqualTo(type.language));
+                    thisLanguage === undefined ||
+                    (thatLanguage !== undefined &&
+                        thisLanguage.isEqualTo(thatLanguage));
                 return textOk && languageOk;
             }
         });

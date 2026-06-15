@@ -243,6 +243,8 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'node.ListLiteral.finish': ['value'],
     'node.ListLiteral.start': [],
     'node.ListType.description': ['type'],
+    'node.Localized.description': [],
+    'node.Localized.start': ['value'],
     'node.MapLiteral.conflict.NotAKeyValue.explanation': [],
     'node.MapLiteral.conflict.NotAKeyValue.resolution': [],
     'node.MapLiteral.description': ['count'],

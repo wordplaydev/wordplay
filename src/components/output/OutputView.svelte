@@ -1342,7 +1342,7 @@
         // Build all utterances up front so onend closures can reference them.
         const utterances = currentSays.map((say, i) => {
             const u = new SpeechSynthesisUtterance(say.text.text);
-            u.lang = say.text.lang ?? lang;
+            u.lang = say.text.language?.getBCP47() ?? lang;
             if (currentVoiceURI) {
                 const v = speechSynthesis
                     .getVoices()

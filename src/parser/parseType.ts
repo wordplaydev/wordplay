@@ -210,6 +210,11 @@ function parseConversionType(tokens: Tokens): ConversionType {
     return new ConversionType(convert, from, to);
 }
 
+/** FORMATTED_TYPE :: `…` LANGUAGE? */
 function parseFormattedType(tokens: Tokens): FormattedType {
-    return new FormattedType(tokens.read(Sym.FormattedType));
+    const tick = tokens.read(Sym.FormattedType);
+    const format = tokens.nextIs(Sym.Language)
+        ? parseLanguage(tokens)
+        : undefined;
+    return new FormattedType(tick, format);
 }

@@ -24,7 +24,6 @@ import Say from '@output/Say';
 import type Sequence from '@output/Sequence';
 import Shape from '@output/Shape';
 import { Stack } from '@output/Stack';
-import TextLang from '@output/TextLang';
 import { getTypeStyle, toOutput, toOutputList } from '@output/toOutput';
 import { getOutputInput } from '@output/Valued';
 
@@ -106,8 +105,8 @@ export default class Stage extends Output {
         size: number,
         face: SupportedFace,
         place: Place | undefined = undefined,
-        name: TextLang | string,
-        description: TextLang | undefined,
+        name: TextValue | string,
+        description: TextValue | undefined,
         selectable: boolean,
         pose: DefinitePose,
         entering: Pose | Sequence | undefined = undefined,
@@ -224,7 +223,7 @@ export default class Stage extends Output {
     }
 
     getShortDescription(locales: Locales) {
-        return this.name instanceof TextLang
+        return this.name instanceof TextValue
             ? this.name.text
             : locales.getUnannotatedText((l) =>
                   getFirstText(l.output.Group.names),
@@ -247,7 +246,7 @@ export default class Stage extends Output {
                     (l) => l.output.Stage.defaultDescription,
                     {
                         count: this.content.length,
-                        name: this.name instanceof TextLang ? this.name.text : undefined,
+                        name: this.name instanceof TextValue ? this.name.text : undefined,
                         frame: this.frame?.getDescription(locales),
                         pose: this.pose.getDescription(locales).trim(),
                         color: colorDescription,

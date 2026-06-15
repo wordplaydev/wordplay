@@ -1891,6 +1891,16 @@
                 "$~אני מציג קוד מודגש בתחביר שנכתב בשפות תכנות אחרות, כך שיוצרים שכבר כותבים קוד יוכלו להשוות.",
                 "$~כתבו גרסה אחת לכל שפה כתגית בת שתי אותיות, סרגל וקוד, כמו \\py| a = 5\\ js| תן ל- a = 5; \\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
             ]
+        },
+        "Localized": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "serious",
+            "label": {
+                "value": "$?"
+            },
+            "doc": ["$?"],
+            "start": "$?"
         }
     },
     "basis": {
@@ -2135,7 +2145,8 @@
             },
             "conversion": {
                 "list": "$~מפצל את הטקסט לרשימה של תווים בודדים.",
-                "number": "$~ממיר טקסט ל-@Number, ואם הוא אינו מספר, ערך שאינו מספרי."
+                "number": "$~ממיר טקסט ל-@Number, ואם הוא אינו מספר, ערך שאינו מספרי.",
+                "formatted": "$?"
             }
         },
         "Number": {
@@ -3324,6 +3335,90 @@
             },
             "conversion": {
                 "text": "$~אני ממיר את עצמי ל-@Text."
+            }
+        },
+        "Formatted": {
+            "doc": ["$?"],
+            "name": ["$?"],
+            "function": {
+                "length": {
+                    "doc": "$?",
+                    "names": ["$?"],
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": "$?",
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": "$?",
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "starts": {
+                    "doc": "$?",
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "ends": {
+                    "doc": "$?",
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "repeat": {
+                    "doc": "$?",
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "combine": {
+                    "doc": "$?",
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$?"
             }
         }
     },

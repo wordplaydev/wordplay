@@ -13,7 +13,7 @@ import Place from '@output/Place';
 import { DefinitePose } from '@output/Pose';
 import type RenderContext from '@output/RenderContext';
 import type { NameGenerator } from '@output/Stage';
-import TextLang from '@output/TextLang';
+import type TextValue from '@values/TextValue';
 import { getOutputInput } from '@output/Valued';
 
 export function createSayType(locales: Locales) {
@@ -24,11 +24,11 @@ export function createSayType(locales: Locales) {
 }
 
 export default class Say extends Output {
-    readonly text: TextLang;
+    readonly text: TextValue;
 
     private _description: string | undefined = undefined;
 
-    constructor(value: Value, text: TextLang) {
+    constructor(value: Value, text: TextValue) {
         super(
             value,
             undefined,

@@ -19,6 +19,19 @@ import Node, { list, node, optional } from '@nodes/Node';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 
+/** The distinct language and region codes Wordplay ships content for, derived
+ *  once from SupportedLocales and reused by tag-extension autocomplete. */
+const SupportedLanguageCodes = Array.from(
+    new Set(SupportedLocales.map((locale) => locale.split('-')[0])),
+);
+const SupportedRegionCodes = Array.from(
+    new Set(
+        SupportedLocales.map((locale) => locale.split('-')[1]).filter(
+            (region): region is string => region !== undefined,
+        ),
+    ),
+);
+
 export default class Language extends Node {
     readonly slash: Token;
     /** The primary language code token (the first one in the tag). */
@@ -29,7 +42,12 @@ export default class Language extends Node {
      *  helpers below filter to the relevant token type. */
     readonly extras: Token[];
     readonly dash: Token | undefined;
+    /** The primary region code token (the first one after the dash). */
     readonly region: Token | undefined;
+    /** Additional regions joined with underscores, interleaved as
+     *  [`_` Sym.LanguageJoin, `name` Sym.Name, ...], mirroring `extras` for
+     *  languages. Empty for single-region (or region-less) tags. */
+    readonly regionExtras: Token[];
 
     constructor(
         slash: Token,
@@ -37,6 +55,7 @@ export default class Language extends Node {
         extras: Token[] = [],
         dash?: Token,
         region?: Token,
+        regionExtras: Token[] = [],
     ) {
         super();
 
@@ -45,15 +64,26 @@ export default class Language extends Node {
         this.extras = extras;
         this.dash = dash;
         this.region = region;
+        this.regionExtras = regionExtras;
 
         this.computeChildren();
     }
 
-    static make(lang: string | undefined, region?: string, extras?: string[]) {
+    static make(
+        lang: string | undefined,
+        region?: string,
+        extras?: string[],
+        regionExtras?: string[],
+    ) {
         const extraTokens: Token[] = [];
         for (const extra of extras ?? []) {
             extraTokens.push(new Token('_', Sym.LanguageJoin));
             extraTokens.push(new NameToken(extra));
+        }
+        const regionExtraTokens: Token[] = [];
+        for (const extra of regionExtras ?? []) {
+            regionExtraTokens.push(new Token('_', Sym.LanguageJoin));
+            regionExtraTokens.push(new NameToken(extra));
         }
         return new Language(
             new LanguageToken(),
@@ -61,6 +91,30 @@ export default class Language extends Node {
             extraTokens,
             region ? new Token('-', Sym.Region) : undefined,
             region ? new NameToken(region) : undefined,
+            regionExtraTokens,
+        );
+    }
+
+    /** Union two languages: if either is undefined, inherit the other; otherwise
+     *  union their languages and regions (left-first order, deduplicated). The
+     *  single source of truth for how text operations combine locales. */
+    static union(
+        a: Language | undefined,
+        b: Language | undefined,
+    ): Language | undefined {
+        if (a === undefined) return b;
+        if (b === undefined) return a;
+        const langs = [
+            ...new Set([...a.getLanguageTexts(), ...b.getLanguageTexts()]),
+        ];
+        const regions = [
+            ...new Set([...a.getRegionTexts(), ...b.getRegionTexts()]),
+        ];
+        return Language.make(
+            langs[0],
+            regions[0],
+            langs.slice(1),
+            regions.slice(1),
         );
     }
 
@@ -100,8 +154,9 @@ export default class Language extends Node {
                     multilingual.push(
                         Language.make(
                             node.getLanguageTexts()[0],
-                            node.getRegionText(),
+                            node.getRegionTexts()[0],
                             node.getLanguageTexts().slice(1),
+                            node.getRegionTexts().slice(1),
                         ),
                     );
                 }
@@ -119,9 +174,48 @@ export default class Language extends Node {
     }
 
     /** A Language is just slash + name + dash + name, so selecting any of its
-     *  tokens should still surface locale options as parent-level replacements. */
+     *  tokens should still surface locale options as parent-level replacements:
+     *  first variants that extend this tag with another language/region, then
+     *  the full set of whole-locale replacements. */
     getReplacementsForTokenAnchor(): Language[] {
-        return Language.getPossibleLanguages();
+        return [...this.getPossibleExtensions(), ...Language.getPossibleLanguages()];
+    }
+
+    /** Variants of this tag with one more language or region added, drawn from
+     *  supported locales (skipping codes already present). Lets autocomplete
+     *  grow a tag into a multilingual / multi-region one. Empty for an
+     *  empty tag — whole-locale suggestions cover that case. */
+    getPossibleExtensions(): Language[] {
+        const langs = this.getLanguageTexts();
+        if (langs.length === 0) return [];
+        const regions = this.getRegionTexts();
+
+        const extensions: Language[] = [];
+        // Add another language as an extra.
+        for (const language of SupportedLanguageCodes)
+            if (!langs.includes(language))
+                extensions.push(
+                    Language.make(
+                        langs[0],
+                        regions[0],
+                        [...langs.slice(1), language],
+                        regions.slice(1),
+                    ),
+                );
+        // Add another region (becomes the primary region if there is none).
+        for (const region of SupportedRegionCodes)
+            if (!regions.includes(region))
+                extensions.push(
+                    Language.make(
+                        langs[0],
+                        regions[0] ?? region,
+                        langs.slice(1),
+                        regions.length === 0
+                            ? []
+                            : [...regions.slice(1), region],
+                    ),
+                );
+        return extensions;
     }
 
     getDescriptor(): NodeDescriptor {
@@ -151,6 +245,11 @@ export default class Language extends Node {
                 kind: optional(node(Sym.Name)),
                 label: () => (l) => l.term.region,
             },
+            {
+                name: 'regionExtras',
+                kind: list(true, node(Sym.LanguageJoin), node(Sym.Name)),
+                label: undefined,
+            },
         ];
     }
 
@@ -161,6 +260,11 @@ export default class Language extends Node {
             this.replaceChild<Token[]>('extras', this.extras, replace),
             this.replaceChild('dash', this.dash, replace),
             this.replaceChild('region', this.region, replace),
+            this.replaceChild<Token[]>(
+                'regionExtras',
+                this.regionExtras,
+                replace,
+            ),
         ) as this;
     }
 
@@ -194,6 +298,18 @@ export default class Language extends Node {
                 conflicts.push(new DuplicateLanguage(this, prior, token));
             } else {
                 seen.set(text, token);
+            }
+        }
+
+        // Duplicate-region conflict: same region appearing twice in the tag.
+        const seenRegions = new Map<string, Token>();
+        for (const token of this.getRegionTokens()) {
+            const text = token.getText();
+            const prior = seenRegions.get(text);
+            if (prior !== undefined) {
+                conflicts.push(new DuplicateLanguage(this, prior, token));
+            } else {
+                seenRegions.set(text, token);
             }
         }
 
@@ -235,10 +351,39 @@ export default class Language extends Node {
     getTagString(): string | undefined {
         const langs = this.getLanguageTexts();
         if (langs.length === 0) return undefined;
-        const region = this.getRegionText();
-        return region ? `${langs.join('_')}-${region}` : langs.join('_');
+        const regions = this.getRegionTexts();
+        return regions.length > 0
+            ? `${langs.join('_')}-${regions.join('_')}`
+            : langs.join('_');
     }
 
+    /** A BCP-47 language tag using only the primary language and region (e.g.
+     *  `en` or `en-US`). Unlike `getTagString`, this is a valid value for an
+     *  HTML `lang` attribute or a SpeechSynthesisUtterance — it never includes
+     *  the multilingual `_` joins or multiple regions. Undefined for an empty tag. */
+    getBCP47(): string | undefined {
+        const language = this.getLanguageText();
+        if (language === undefined) return undefined;
+        const region = this.getRegionText();
+        return region ? `${language}-${region}` : language;
+    }
+
+    /** All region-name tokens in source order: primary first, then extras. */
+    getRegionTokens(): Token[] {
+        const tokens: Token[] = [];
+        if (this.language && this.region) tokens.push(this.region);
+        for (const token of this.regionExtras) {
+            if (token.isSymbol(Sym.Name)) tokens.push(token);
+        }
+        return tokens;
+    }
+
+    /** All region-code texts in source order. */
+    getRegionTexts(): string[] {
+        return this.getRegionTokens().map((t) => t.getText());
+    }
+
+    /** Primary (first) region code text, if any. */
     getRegionText(): string | undefined {
         return this.language ? this.region?.getText() : undefined;
     }
@@ -265,21 +410,22 @@ export default class Language extends Node {
         );
     }
 
-    /** True if these this language and the given locale region match, where match means both are undefined or both are the same region. */
+    /** True if this tag's regions and the given locale's regions match, where
+     *  match means both are empty or they share at least one region. */
     isLocaleRegion(locale: Locale) {
+        const regions = this.getRegionTexts();
         return (
-            (this.region === undefined && locale.regions.length === 0) ||
-            (this.region !== undefined &&
-                locale.regions.includes(this.region.getText()))
+            (regions.length === 0 && locale.regions.length === 0) ||
+            regions.some((region) => locale.regions.includes(region))
         );
     }
 
-    /** One Locale per language in the tag, all sharing this tag's region. */
+    /** One Locale per language in the tag, all sharing this tag's regions. */
     getLocaleIDs(): Locale[] {
-        const region = this.getRegionText();
+        const regions = this.getRegionTexts() as RegionCode[];
         return this.getLanguageTexts().map((language) => ({
             language: language as LanguageCode,
-            regions: region ? [region as RegionCode] : [],
+            regions,
         }));
     }
 
@@ -288,8 +434,7 @@ export default class Language extends Node {
      *  combination Locale carrying the full language list. Lets pickers
      *  surface each language on its own AND the multilingual combo. */
     getPickerLocaleIDs(): Locale[] {
-        const region = this.getRegionText();
-        const regions = region ? [region as RegionCode] : [];
+        const regions = this.getRegionTexts() as RegionCode[];
         const languages = this.getLanguageTexts() as LanguageCode[];
         if (languages.length === 0) return [];
         const result: Locale[] = languages.map((language) => ({
@@ -317,16 +462,12 @@ export default class Language extends Node {
         const b = lang.getLanguageTexts();
         if (a.length !== b.length) return false;
         for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return false;
-        return (
-            ((this.dash === undefined && lang.dash === undefined) ||
-                (this.dash !== undefined &&
-                    lang.dash !== undefined &&
-                    this.dash.isEqualTo(lang.dash))) &&
-            ((this.region === undefined && lang.region === undefined) ||
-                (this.region !== undefined &&
-                    lang.region !== undefined &&
-                    this.region.isEqualTo(lang.region)))
-        );
+        const aRegions = this.getRegionTexts();
+        const bRegions = lang.getRegionTexts();
+        if (aRegions.length !== bRegions.length) return false;
+        for (let i = 0; i < aRegions.length; i++)
+            if (aRegions[i] !== bRegions[i]) return false;
+        return true;
     }
 
     static readonly LocalePath = (l: LocaleText) => l.node.Language;

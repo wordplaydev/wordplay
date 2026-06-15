@@ -26,6 +26,11 @@
         node={[node, 'region']}
         {format}
         empty="hide"
+    /><NodeSequenceView
+        {node}
+        field="regionExtras"
+        {format}
+        empty="hide"
     /></em
 >
 

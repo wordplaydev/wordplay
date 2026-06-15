@@ -260,6 +260,38 @@ export default class Markup extends Content {
         return new Markup([new Paragraph(segments)], spaces);
     }
 
+    /** Concatenate two markups, preserving paragraph structure. The seam — this
+     *  markup's last paragraph and the other's first — is merged into one, so
+     *  joining two single-paragraph markups stays single-paragraph, while any
+     *  internal paragraph breaks on either side are kept. Unlike `append`, which
+     *  flattens everything into one paragraph. */
+    concat(other: Markup): Markup {
+        const spaces = this.spaces
+            ? other.spaces
+                ? this.spaces.withSpaces(other.spaces)
+                : this.spaces
+            : other.spaces;
+        if (this.paragraphs.length === 0)
+            return new Markup(other.paragraphs, spaces);
+        if (other.paragraphs.length === 0)
+            return new Markup(this.paragraphs, spaces);
+        const last = this.paragraphs[this.paragraphs.length - 1];
+        const first = other.paragraphs[0];
+        const merged = new Paragraph([...last.segments, ...first.segments]);
+        return new Markup(
+            [...this.paragraphs.slice(0, -1), merged, ...other.paragraphs.slice(1)],
+            spaces,
+        );
+    }
+
+    /** The plain text content, with no formatting, paragraph breaks, or
+     *  machine-translation marker — for programmatic queries (length/has/…).
+     *  Unlike `toText`, which joins paragraphs with blank lines and appends the
+     *  machine-translation marker for display. */
+    getPlainText(): string {
+        return this.paragraphs.map((p) => p.toText()).join('');
+    }
+
     withMetadata(metadata: MarkupMetadata) {
         return new Markup(this.paragraphs, this.spaces, metadata);
     }

@@ -25,7 +25,8 @@
     import { tick, untrack } from 'svelte';
     import { DB, Projects, locales } from '@db/Database';
     import Markup from '@nodes/Markup';
-    import TextLang from '@output/TextLang';
+    import TextValue from '@values/TextValue';
+    import { getLanguageDirection } from '@locale/LanguageCode';
     import {
         getTextTransition,
         getTransitionIndex,
@@ -82,11 +83,21 @@
     let empty = $derived(phrase.isEmpty());
     let selectable = $derived(phrase.selectable && !empty);
 
-    // The renderable form of a phrase's text: a plain string for TextLang, or a
-    // single-line Markup for formatted text (matching how the markup is rendered
-    // at rest). The typewriter morphs between these.
-    function reprOf(value: TextLang | Markup): string | Markup {
-        return value instanceof TextLang ? value.text : value.asLine();
+    // The locale carried by the phrase's text/markup value, surfaced to the DOM
+    // as `lang` (a11y, font fallback, hyphenation) and `dir` (inline direction
+    // from the language's dominant script). Null when the value is untagged.
+    let textLanguage = $derived(phrase.text.language);
+    let textLang = $derived(textLanguage?.getBCP47() ?? null);
+    let textDir = $derived.by(() => {
+        const code = textLanguage?.getLanguageCode();
+        return code ? getLanguageDirection(code) : null;
+    });
+
+    // The renderable form of a phrase's text: a plain string for plain text, or
+    // a single-line Markup for formatted text (matching how the markup is
+    // rendered at rest). The typewriter morphs between these.
+    function reprOf(value: TextValue | Markup): string | Markup {
+        return value instanceof TextValue ? value.text : value.asLine();
     }
     // The plain-text key used to detect a real text change (ignoring formatting).
     function keyOf(repr: string | Markup): string {
@@ -103,7 +114,7 @@
     // which broke Svelte).
     let displayed = $state<string | Markup>(untrack(() => reprOf(text)));
     // The last text value we committed to (null on first render).
-    let prev: TextLang | Markup | null = untrack(() => text);
+    let prev: TextValue | Markup | null = untrack(() => text);
     // The in-flight requestAnimationFrame handle, if a transition is animating.
     let rafHandle: number | undefined;
 
@@ -417,6 +428,8 @@
         data-node-id={phrase.value.creator.id}
         data-name={phrase.getName()}
         data-selectable={selectable}
+        lang={textLang}
+        dir={textDir}
         class:entered
         ondblclick={editable && interactive ? handleDoubleClick : null}
         onkeydown={editable && interactive ? handleKeyDown : null}

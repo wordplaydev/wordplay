@@ -34,6 +34,7 @@
     import Expression from '@nodes/Expression';
     import Node from '@nodes/Node';
     import type { UnitDeriver } from '@nodes/NumberType';
+    import type { LanguageDeriver } from '@nodes/DerivedLanguage';
     import type Root from '@nodes/Root';
     import Source from '@nodes/Source';
     import Token from '@nodes/Token';
@@ -43,7 +44,13 @@
     interface Props {
         /** The parent node containing the field to render. We take this instead of the field value so we can render a placeholder for empty values in blocks mode. */
         node:
-            | [NodeType, KeysOfType<NodeType, Node | UnitDeriver | undefined>]
+            | [
+                  NodeType,
+                  KeysOfType<
+                      NodeType,
+                      Node | UnitDeriver | LanguageDeriver | undefined
+                  >,
+              ]
             | Node;
         /** The format to use when rendering */
         format: Format;

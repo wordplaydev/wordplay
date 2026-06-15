@@ -261,8 +261,10 @@ export default class UnionType extends Type {
         const all = this.getPossibleTypes(context);
         const preferred = locales.getLanguages();
         const filtered = all.filter((type) => {
-            if (type instanceof TextType && type.language !== undefined) {
-                const code = type.language.getLanguageCode();
+            if (type instanceof TextType) {
+                const language = type.concreteLanguage(context);
+                if (language === undefined) return true;
+                const code = language.getLanguageCode();
                 return code === undefined || preferred.includes(code);
             }
             return true;

@@ -76,6 +76,35 @@ type BasisTexts = {
             list: DocText;
             /** See `en-US.json` for documentation  */
             number: DocText;
+            /** See `en-US.json` for documentation  */
+            formatted: DocText;
+        };
+    };
+    /** A formatted (markup) value, e.g., `` `**hi**` `` */
+    Formatted: BasisNameAndDoc & {
+        /** Functions in the type */
+        function: {
+            /** See `en-US.json` for documentation  */
+            length: FunctionText<EmptyInputs>;
+            /** See `en-US.json` for documentation  */
+            equals: FunctionText<[NameAndDoc]>;
+            /** See `en-US.json` for documentation  */
+            notequals: FunctionText<[NameAndDoc]>;
+            /** See `en-US.json` for documentation  */
+            has: FunctionText<[NameAndDoc]>;
+            /** See `en-US.json` for documentation  */
+            starts: FunctionText<[NameAndDoc]>;
+            /** See `en-US.json` for documentation  */
+            ends: FunctionText<[NameAndDoc]>;
+            /** See `en-US.json` for documentation  */
+            repeat: FunctionText<[NameAndDoc]>;
+            /** See `en-US.json` for documentation  */
+            combine: FunctionText<[NameAndDoc]>;
+        };
+        /** Conversions in the type */
+        conversion: {
+            /** See `en-US.json` for documentation  */
+            text: DocText;
         };
     };
     /** A number value, e.g., `5` or `-23.3` */

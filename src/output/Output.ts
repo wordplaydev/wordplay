@@ -10,7 +10,7 @@ import type Pose from '@output/Pose';
 import type { DefinitePose } from '@output/Pose';
 import type RenderContext from '@output/RenderContext';
 import Sequence from '@output/Sequence';
-import TextLang from '@output/TextLang';
+import TextValue from '@values/TextValue';
 import Valued from '@output/Valued';
 
 export function createOutputType(locales: Locales) {
@@ -26,8 +26,8 @@ export default abstract class Output extends Valued {
     readonly size: number | undefined;
     readonly face: SupportedFace | undefined;
     readonly place: Place | undefined;
-    readonly name: TextLang | string;
-    readonly description: TextLang | undefined;
+    readonly name: TextValue | string;
+    readonly description: TextValue | undefined;
     readonly selectable: boolean;
     readonly background: Color | undefined;
     readonly pose: DefinitePose;
@@ -43,8 +43,8 @@ export default abstract class Output extends Valued {
         size: number | undefined = undefined,
         font: SupportedFace | undefined = undefined,
         place: Place | undefined = undefined,
-        name: TextLang | string,
-        description: TextLang | undefined = undefined,
+        name: TextValue | string,
+        description: TextValue | undefined = undefined,
         selectable: boolean,
         background: Color | undefined,
         pose: DefinitePose,
@@ -131,7 +131,7 @@ export default abstract class Output extends Valued {
      * By default, a group's name for the purpose of animations is the ID of the node that created it.
      * */
     getName(): string {
-        return this.name instanceof TextLang ? this.name.text : this.name;
+        return this.name instanceof TextValue ? this.name.text : this.name;
     }
 
     isAnimated() {

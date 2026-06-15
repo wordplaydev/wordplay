@@ -46,6 +46,7 @@ import FormattedTranslation from '@nodes/FormattedTranslation';
 import Initial from '@nodes/Initial';
 import Is from '@nodes/Is';
 import IsLocale from '@nodes/IsLocale';
+import Localized from '@nodes/Localized';
 import PropertyBind from '@nodes/PropertyBind';
 import Spread from '@nodes/Spread';
 import StructureDefinition from '@nodes/StructureDefinition';
@@ -348,6 +349,15 @@ function parseAtomicExpression(tokens: Tokens): Expression {
                 left = parseUpdate(left, tokens);
             else if (tokens.nextIs(Sym.Delete))
                 left = parseDelete(left, tokens);
+            // A locale tag applied to a computed expression, e.g. `(a + b)/en`.
+            // Binds tightly to the atomic expression (use parens to tag a whole
+            // binary expression). Literals consume their own tag in
+            // parseTranslation, so this only sees computed expressions.
+            else if (
+                tokens.nextIs(Sym.Language) &&
+                tokens.nextLacksPrecedingSpace()
+            )
+                left = new Localized(left, parseLanguage(tokens));
             else match = false;
         },
         () => match,

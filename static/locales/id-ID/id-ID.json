@@ -1896,6 +1896,16 @@
                 "$~Saya menampilkan kode dengan penyorotan sintaks yang ditulis dalam bahasa pemrograman lain, sehingga para kreator yang sudah mahir dalam pemrograman dapat membandingkannya.",
                 "$~Tulis satu varian per bahasa sebagai tag dua huruf, sebuah bar, dan kode, seperti \\py| a = 5\\ js| let a = 5; \\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
             ]
+        },
+        "Localized": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "serious",
+            "label": {
+                "value": "$?"
+            },
+            "doc": ["$?"],
+            "start": "$?"
         }
     },
     "basis": {
@@ -2140,7 +2150,8 @@
             },
             "conversion": {
                 "list": "$~Memisahkan teks menjadi daftar karakter individual.",
-                "number": "$~Mengonversi teks menjadi @Number, dan jika bukan angka, maka akan menghasilkan nilai bukan angka."
+                "number": "$~Mengonversi teks menjadi @Number, dan jika bukan angka, maka akan menghasilkan nilai bukan angka.",
+                "formatted": "$?"
             }
         },
         "Number": {
@@ -3329,6 +3340,90 @@
             },
             "conversion": {
                 "text": "$~Saya mengubah diri saya menjadi @Text."
+            }
+        },
+        "Formatted": {
+            "doc": ["$?"],
+            "name": ["$?"],
+            "function": {
+                "length": {
+                    "doc": "$?",
+                    "names": ["$?"],
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": "$?",
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": "$?",
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "starts": {
+                    "doc": "$?",
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "ends": {
+                    "doc": "$?",
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "repeat": {
+                    "doc": "$?",
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "combine": {
+                    "doc": "$?",
+                    "names": ["$?"],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$?"
             }
         }
     },

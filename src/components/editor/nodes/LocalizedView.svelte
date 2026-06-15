@@ -1,19 +1,18 @@
 <script lang="ts">
-    import type FormattedType from '@nodes/FormattedType';
+    import type Localized from '@nodes/Localized';
     import NodeView, {
         type Format,
     } from '@components/editor/nodes/NodeView.svelte';
 
     interface Props {
-        node: FormattedType;
+        node: Localized;
         format: Format;
     }
 
     let { node, format }: Props = $props();
 </script>
 
-<NodeView node={[node, 'tick']} {format} /><NodeView
+<NodeView node={[node, 'expression']} {format} /><NodeView
     node={[node, 'language']}
     {format}
-    empty="hide"
 />

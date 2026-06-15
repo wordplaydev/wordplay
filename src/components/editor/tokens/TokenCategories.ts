@@ -67,6 +67,8 @@ TokenCategories.set(Sym.Conditional, TokenCategoryOperator);
 TokenCategories.set(Sym.Otherwise, TokenCategoryOperator);
 TokenCategories.set(Sym.Match, TokenCategoryOperator);
 TokenCategories.set(Sym.Text, TokenCategoryLiteral);
+// Formatted text is a text type, so color its `…` delimiter like Text.
+TokenCategories.set(Sym.FormattedType, TokenCategoryLiteral);
 TokenCategories.set(Sym.Code, TokenCategoryDocs);
 TokenCategories.set(Sym.Number, TokenCategoryLiteral);
 TokenCategories.set(Sym.Decimal, TokenCategoryLiteral);

@@ -317,9 +317,11 @@ Numbers are only equal to other numbers that have identical decimal values and e
 
 > TEXT → TRANSLATION＊  
 > TRANSLATION → textopen （text ｜ CODE ｜ concept）＊ textclose LOCALE  
-> LOCALE → LANGUAGE （`-` REGION）？  
+> LOCALE → LANGUAGE （`_` LANGUAGE）＊ （`-` REGION （`_` REGION）＊）？  
 > LANGUAGE → _any valid ISO 639 language code_  
 > REGION → _any valid ISO 3166 country code_
+
+A locale tag may list multiple languages joined by `_` (e.g. `/es_en` for mixed Spanish and English) and, after the `-`, multiple regions joined by `_` (e.g. `/en-US_CA`). The full tag serializes as `lang1_lang2-region1_region2`. Operations that combine text union the languages and regions of their inputs (see _Text_ below).
 
 Text values, unlike in other programming languages, are not a single sequence of Unicode code points. Rather, they are unique in a few ways:
 
@@ -402,7 +404,11 @@ These three values are 1) a link, 2) a hello world with underscores, italics, an
 
 #### _evaluation_
 
-Formatted literals first get the environment's list of preferred locales and then select the first translation in the list of translations that match the exact language and region, and if there isn't one, then the first translation that matches the language, and if there isn't one, then the first translation.
+Formatted literals first get the environment's list of preferred locales and then select the first translation in the list of translations that match the exact language and region, and if there isn't one, then the first translation that matches the language, and if there isn't one, then the first translation. The selected translation's locale travels with the resulting markup value (just as a text value carries its locale), so operations and output rendering can localize it.
+
+#### _operations_
+
+Markup values support the same locale-aware operations as text, via the `` `…` `` type: `length`, `=`/`≠`, `has`, `starts`, `ends`, `repeat`, and `+` (combine, which concatenates the markup and unions the operands' locales). They also convert to and from @Text (`` `…` `` → `''` drops formatting; `''` → `` `…` `` interprets any markup in the text). Like text, combining markup with differing locales unions them, and the `/` locale operator overrides a computed markup's locale.
 
 #### _equality_
 
@@ -1162,13 +1168,16 @@ The combined set of all of the expressions above mean that most of Wordplay is e
 > PROGRAM → BORROW＊ （BIND ｜ EXPRESSION）＊  
 > BORROW → `↓` name （`.` name）？ numeral？  
 > EXPRESSION → REACTION ｜ CONDITIONAL ｜ MATCH ｜ OTHERWISE ｜ BINARYEVALUATE ｜ ATOMIC  
-> ATOMIC → LITERAL ｜ REF ｜ `_` ｜ EVAL ｜ DEFINITION ｜ PROPERTYBIND ｜ CONVERT ｜ CHECK ｜ QUERY ｜ DOCUMENTED ｜ PREVIOUS ｜ INITIAL ｜ ISLOCALE  
+> ATOMIC → LITERAL ｜ REF ｜ `_` ｜ EVAL ｜ DEFINITION ｜ PROPERTYBIND ｜ CONVERT ｜ CHECK ｜ QUERY ｜ DOCUMENTED ｜ PREVIOUS ｜ INITIAL ｜ ISLOCALE ｜ LOCALIZED  
 > LITERAL → NONE ｜ NUMBER ｜ BOOLEAN ｜ TEXT ｜ MARKUP ｜ LIST ｜ SET ｜ MAP ｜ TABLE  
 > REF → REFERENCE ｜ PROPERTY  
 > EVAL → EVALUATE ｜ UNARYEVALUATE ｜ BLOCK  
 > DEFINITION → FUNCTION ｜ STRUCTURE ｜ CONVERSION  
 > CHECK → CHANGED ｜ IS  
-> QUERY → INSERT ｜ UPDATE ｜ SELECT ｜ DELETE
+> QUERY → INSERT ｜ UPDATE ｜ SELECT ｜ DELETE  
+> LOCALIZED → ATOMIC LANGUAGE
+
+A `LOCALIZED` expression is an atomic expression immediately followed (no space) by a `LANGUAGE` tag, e.g. `(greeting + name)/en`. It applies the locale to the computed text value, overriding any locale the text would otherwise carry. The tag binds tightly to the atomic expression, so `a + b/en` tags only `b`; wrap a binary expression in parentheses to tag the whole. It is only valid on `Text` or formatted (`Markup`) values; applying it to any other type is a conflict. (Text and number literals consume their own trailing `/` tag and unit, so `LOCALIZED` applies only to computed expressions.)
 
 If any sequences of tokens cannot be parsed according to this grammar, all of the tokens on the line are converted into an `UNPARSABLE` node.
 
@@ -1216,7 +1225,7 @@ Documented expressions simply evaluate to their expression's value.
 > CONVERSIONTYPE → TYPE `→` TYPE  
 > NAMETYPE → name  
 > FUNCTIONTYPE → `ƒ` TYPEVARIABLES？ `(` BIND＊ `)` TYPE  
-> FORMATTEDTYPE → `\…\` ｜ `\...\`  
+> FORMATTEDTYPE → （`\…\` ｜ `\...\`） LANGUAGE？  
 > UNION → TYPE `|` TYPE
 
 The final part of the language is type declarations. These mostly mirror the syntax of the rest of the langauge, with the exception of numbers. Here are binds with type declarations demonstrating all of the above:

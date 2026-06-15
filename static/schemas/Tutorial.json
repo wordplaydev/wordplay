@@ -208,6 +208,10 @@
                     "type": "string"
                 },
                 {
+                    "const": "Localized",
+                    "type": "string"
+                },
+                {
                     "const": "Spread",
                     "type": "string"
                 },
@@ -629,6 +633,10 @@
                 },
                 {
                     "const": "Text",
+                    "type": "string"
+                },
+                {
+                    "const": "Formatted",
                     "type": "string"
                 },
                 {

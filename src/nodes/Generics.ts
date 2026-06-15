@@ -8,7 +8,9 @@ import Expression from '@nodes/Expression';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
 import FunctionType from '@nodes/FunctionType';
 import NameType from '@nodes/NameType';
+import FormattedType from '@nodes/FormattedType';
 import NumberType from '@nodes/NumberType';
+import TextType from '@nodes/TextType';
 import PropertyReference from '@nodes/PropertyReference';
 import StreamDefinition from '@nodes/StreamDefinition';
 import StructureDefinition from '@nodes/StructureDefinition';
@@ -71,6 +73,13 @@ export default function getConcreteExpectedType(
     if (type instanceof NumberType && type.hasDerivedUnit())
         return getConcreteNumberInput(type, evaluation, context);
 
+    // If the type itself is text or formatted with a derived locale, concretize it.
+    if (
+        (type instanceof TextType || type instanceof FormattedType) &&
+        type.hasDerivedLanguage()
+    )
+        return getConcreteTextInput(type, evaluation, context);
+
     return concretizeType(type, definition, evaluation, context);
 }
 
@@ -90,10 +99,17 @@ export function concretizeType(
     // are cloned too, so we can't just get a list and loop through it.
     let moreAbstractTypes = true;
     do {
-        const abstractTypes: (NameType | NumberType)[] = type.nodes(
-            (n): n is NameType | NumberType =>
+        const abstractTypes: (
+            | NameType
+            | NumberType
+            | TextType
+            | FormattedType
+        )[] = type.nodes(
+            (n): n is NameType | NumberType | TextType | FormattedType =>
                 (n instanceof NameType && n.isTypeVariable(context)) ||
-                (n instanceof NumberType && n.hasDerivedUnit()),
+                (n instanceof NumberType && n.hasDerivedUnit()) ||
+                ((n instanceof TextType || n instanceof FormattedType) &&
+                    n.hasDerivedLanguage()),
         );
         moreAbstractTypes = abstractTypes.length > 0;
         const nextAbstractType = abstractTypes[0];
@@ -107,11 +123,18 @@ export function concretizeType(
                           evaluation,
                           context,
                       )
-                    : getConcreteNumberInput(
-                          nextAbstractType,
-                          evaluation,
-                          context,
-                      );
+                    : nextAbstractType instanceof TextType ||
+                        nextAbstractType instanceof FormattedType
+                      ? getConcreteTextInput(
+                            nextAbstractType,
+                            evaluation,
+                            context,
+                        )
+                      : getConcreteNumberInput(
+                            nextAbstractType,
+                            evaluation,
+                            context,
+                        );
             // If the abstract type *is* the root, replace it directly — Node.replace only walks
             // children, so it can't replace `this`. Otherwise clone, swapping the descendant.
             type =
@@ -143,6 +166,23 @@ function getConcreteNumberInput(
         ? // Annotate the type with the evaluate so it can resolve its abstract unit.
           type.withUnit(type.withOp(evaluation).concreteUnit(context))
         : type;
+}
+
+/**
+ * Convert the given text type into a concrete type if it has a derived locale,
+ * resolving the deriver against the evaluation's operand locales.
+ */
+function getConcreteTextInput(
+    type: TextType | FormattedType,
+    evaluation: EvaluationType,
+    context: Context,
+) {
+    if (!type.hasDerivedLanguage()) return type;
+    // Only binary operations and evaluates supply operand locales; otherwise
+    // leave the locale unresolved (undefined) rather than guessing.
+    return evaluation instanceof BinaryEvaluate || evaluation instanceof Evaluate
+        ? type.withLanguage(type.withOp(evaluation).concreteLanguage(context))
+        : type.withLanguage(undefined);
 }
 
 /**

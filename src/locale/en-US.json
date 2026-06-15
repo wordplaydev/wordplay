@@ -1059,6 +1059,21 @@
             "start": "Let's evaluate the items first",
             "finish": "I made a me! $value"
         },
+        "Localized": {
+            "name": "localized",
+            "description": "tag computed text with a locale",
+            "emotion": "serious",
+            "label": {
+                "value": "value"
+            },
+            "doc": [
+                "I apply a locale to some text you compute, so it keeps its language even after you change it. Like this:",
+                "\\(\"hello\" + \"!\")/en\\",
+                "Most text operations already keep locales, but I let you set one yourself when you want to override them.",
+                "I only work on text, so make sure you give me some!"
+            ],
+            "start": "Let's evaluate $value, then tag it with a locale…"
+        },
         "Spread": {
             "name": "spread",
             "description": "expand list into another list",
@@ -2140,7 +2155,96 @@
             },
             "conversion": {
                 "list": "Splits the text into a list of individual characters.",
-                "number": "Converts text into a @Number, and if it's not a number, a not a number value."
+                "number": "Converts text into a @Number, and if it's not a number, a not a number value.",
+                "formatted": "Converts text into formatted text, interpreting any markup it contains."
+            }
+        },
+        "Formatted": {
+            "doc": [
+                "I'm formatted text: words with style, like bold, italics, and links. Put me between backticks:",
+                "\\`I am **bold** and /italic/`\\",
+                "I work a lot like @Text, but I can carry formatting. You can combine me, repeat me, check what I contain, and convert me to plain @Text."
+            ],
+            "name": ["`…`", "Formatted"],
+            "function": {
+                "length": {
+                    "doc": "I evaluate to the number of legible characters in my text, ignoring formatting and paragraph breaks.",
+                    "names": ["📏", "length"],
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": "\\⊤\\ if I am the same formatted text as the given value.",
+                    "names": ["=", "equals"],
+                    "inputs": [
+                        {
+                            "doc": "The formatted text to compare.",
+                            "names": "value"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": "\\⊤\\ if I am /not/ the same formatted text as the given value.",
+                    "names": "≠",
+                    "inputs": [
+                        {
+                            "doc": "The formatted text to compare.",
+                            "names": "value"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": "\\⊤\\ if my plain text contains the given @Text. I ignore formatting and paragraph breaks when I look.",
+                    "names": ["has"],
+                    "inputs": [
+                        {
+                            "doc": "The @Text to look for in my text.",
+                            "names": "text"
+                        }
+                    ]
+                },
+                "starts": {
+                    "doc": "\\⊤\\ if my plain text starts with the given @Text. I ignore formatting and paragraph breaks when I check.",
+                    "names": ["starts"],
+                    "inputs": [
+                        {
+                            "doc": "The @Text to check for at the start of my text.",
+                            "names": "text"
+                        }
+                    ]
+                },
+                "ends": {
+                    "doc": "\\⊤\\ if my plain text ends with the given @Text. I ignore formatting and paragraph breaks when I check.",
+                    "names": ["ends"],
+                    "inputs": [
+                        {
+                            "doc": "The @Text to check for at the end of my text.",
+                            "names": "text"
+                        }
+                    ]
+                },
+                "repeat": {
+                    "doc": "I make new formatted text that's me, repeated the given number of times. If I have more than one paragraph, the breaks are kept between copies.",
+                    "names": ["×", "·", "🔁", "repeated", "repeat"],
+                    "inputs": [
+                        {
+                            "doc": "The number of times to repeat myself.",
+                            "names": "count"
+                        }
+                    ]
+                },
+                "combine": {
+                    "doc": "Give me another formatted text and I'll join us together into one. If either of us has more than one paragraph, the paragraph breaks are kept.",
+                    "names": ["+", "combined", "combine"],
+                    "inputs": [
+                        {
+                            "doc": "The formatted text to append.",
+                            "names": "formatted"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "Converts formatted text into plain @Text, removing all formatting."
             }
         },
         "Number": {

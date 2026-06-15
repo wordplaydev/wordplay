@@ -19,7 +19,7 @@ import type RenderContext from '@output/RenderContext';
 import Say from '@output/Say';
 import type Sequence from '@output/Sequence';
 import type { NameGenerator } from '@output/Stage';
-import TextLang from '@output/TextLang';
+import TextValue from '@values/TextValue';
 import { getTypeStyle, toArrangement, toOutputList } from '@output/toOutput';
 import { getOutputInput } from '@output/Valued';
 
@@ -84,8 +84,8 @@ export default class Group extends Output {
         size: number | undefined = undefined,
         face: SupportedFace | undefined = undefined,
         place: Place | undefined = undefined,
-        name: TextLang | string,
-        description: TextLang | undefined,
+        name: TextValue | string,
+        description: TextValue | undefined,
         selectable: boolean,
         background: Color | undefined,
         pose: DefinitePose,
@@ -162,7 +162,7 @@ export default class Group extends Output {
     }
 
     getShortDescription(locales: Locales) {
-        return this.name instanceof TextLang
+        return this.name instanceof TextValue
             ? this.name.text
             : locales.getPlainText((l) => getFirstText(l.output.Group.names));
     }
@@ -182,7 +182,7 @@ export default class Group extends Output {
                 .concretize(
                     (l) => l.output.Group.defaultDescription,
                     {
-                        name: this.name instanceof TextLang ? this.name.text : undefined,
+                        name: this.name instanceof TextValue ? this.name.text : undefined,
                         layout: this.layout.getDescription(this.content, locales),
                         pose: this.pose.getDescription(locales),
                         color: colorDescription,

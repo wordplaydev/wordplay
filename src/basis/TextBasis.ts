@@ -1,10 +1,13 @@
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
+import { textToFormatted } from '@basis/FormattedBasis';
 import Block, { BlockKind } from '@nodes/Block';
 import BooleanType from '@nodes/BooleanType';
 import type Expression from '@nodes/Expression';
+import FormattedType from '@nodes/FormattedType';
 import NumberType from '@nodes/NumberType';
 import StructureDefinition from '@nodes/StructureDefinition';
+import Language from '@nodes/Language';
 import TextType from '@nodes/TextType';
 import type Type from '@nodes/Type';
 import type BoolValue from '@values/BoolValue';
@@ -142,7 +145,11 @@ export default function bootstrapText(locales: Locales) {
                     (locale) => locale.basis.Text.function.combine,
                     undefined,
                     [TextType.make()],
-                    TextType.make(),
+                    // The result's locale is the union of the operands' locales,
+                    // mirroring how numeric operators derive their unit.
+                    TextType.make(undefined, (left, right) =>
+                        Language.union(left, right),
+                    ),
                     (requestor, evaluation) => {
                         const text = evaluation.getClosure() as TextValue;
                         const other = evaluation.getInput(0);
@@ -177,6 +184,16 @@ export default function bootstrapText(locales: Locales) {
                     '#',
                     (requestor: Expression, val: TextValue) =>
                         new NumberValue(requestor, val.text),
+                ),
+                createBasisConversion(
+                    getDocLocales(
+                        locales,
+                        (locale) => locale.basis.Text.conversion.formatted,
+                    ),
+                    TextType.make(),
+                    FormattedType.make(),
+                    (requestor: Expression, val: TextValue) =>
+                        textToFormatted(requestor, val),
                 ),
             ],
             BlockKind.Structure,

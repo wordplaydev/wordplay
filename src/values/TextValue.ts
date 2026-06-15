@@ -12,22 +12,24 @@ import SimpleValue from '@values/SimpleValue';
 
 export default class TextValue extends SimpleValue {
     readonly text: string;
-    readonly format: string | undefined;
+    /** The locale of this text, held as a Language node (not a string) to avoid
+     *  drift with the node-level locale semantics. Undefined when untagged. */
+    readonly language: Language | undefined;
 
-    constructor(creator: Expression, text: string, format?: string) {
+    constructor(creator: Expression, text: string, language?: Language) {
         super(creator);
 
         // We normalize all strings to ensure they are comparable.
         this.text = text.normalize();
-        this.format =
-            format === undefined || format === '' ? undefined : format;
+        // A language tag with no codes (e.g. a bare `/`) is no tag at all.
+        this.language =
+            language !== undefined && language.getTagString() !== undefined
+                ? language
+                : undefined;
     }
 
     getType() {
-        return TextType.make(
-            undefined,
-            this.format === undefined ? undefined : Language.make(this.format),
-        );
+        return TextType.make(undefined, this.language);
     }
 
     getBasisTypeName(): BasisTypeName {
@@ -40,7 +42,7 @@ export default class TextValue extends SimpleValue {
     }
 
     repeat(requestor: Expression, count: number) {
-        return new TextValue(requestor, this.text.repeat(count), this.format);
+        return new TextValue(requestor, this.text.repeat(count), this.language);
     }
 
     segment(requestor: Expression, delimiter: TextValue | string) {
@@ -50,12 +52,19 @@ export default class TextValue extends SimpleValue {
                 .split(
                     typeof delimiter === 'string' ? delimiter : delimiter.text,
                 )
-                .map((s) => new TextValue(requestor, s)),
+                // Each fragment inherits the source text's locale.
+                .map((s) => new TextValue(requestor, s, this.language)),
         );
     }
 
     combine(requestor: Expression, text: TextValue) {
-        return new TextValue(requestor, this.text + text.text);
+        // Union the operands' locales: an untagged side inherits the other,
+        // and differing tags merge into a multilingual/multi-region tag.
+        return new TextValue(
+            requestor,
+            this.text + text.text,
+            Language.union(this.language, text.language),
+        );
     }
 
     has(requestor: Expression, text: TextValue) {
@@ -71,14 +80,18 @@ export default class TextValue extends SimpleValue {
     }
 
     toWordplay(): string {
-        return `"${this.text}"${this.format ? `/${this.format}` : ''}`;
+        // Language renders its own leading slash (e.g. `/en`).
+        return `"${this.text}"${this.language ? this.language.toWordplay() : ''}`;
     }
 
     isEqualTo(text: Value) {
         return (
             text instanceof TextValue &&
             this.text === text.text &&
-            this.format === text.format
+            ((this.language === undefined && text.language === undefined) ||
+                (this.language !== undefined &&
+                    text.language !== undefined &&
+                    this.language.isEqualTo(text.language)))
         );
     }
 

@@ -722,6 +722,17 @@ type NodeTexts = {
      */
     ListLiteral: DescriptiveNodeText<['count']> & ExpressionText<[], ['value']>;
     /**
+     * Applies a locale tag to a computed text value, e.g., `(greeting + name)/en`
+     * Start inputs: $1 = the expression being tagged
+     */
+    Localized: DescriptiveNodeText &
+        SimpleExpressionText<['value']> & {
+            label: {
+                /** [plain] The placeholder label for the expression being tagged */
+                value: string;
+            };
+        };
+    /**
      * A way of spreading a list's values into a list literal, e.g., `[ [ 1 2 3]… 4 5]`
      * Description inputs: none
      */

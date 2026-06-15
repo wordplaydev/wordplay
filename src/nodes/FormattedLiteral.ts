@@ -30,6 +30,7 @@ import Token from '@nodes/Token';
 import TextLiteral from '@nodes/TextLiteral';
 import type Type from '@nodes/Type';
 import type TypeSet from '@nodes/TypeSet';
+import UnionType from '@nodes/UnionType';
 import { unescaped } from '@nodes/Translation';
 import Words from '@nodes/Words';
 
@@ -239,7 +240,7 @@ export default class FormattedLiteral extends Literal {
             }
         }
 
-        return new MarkupValue(this, concrete);
+        return new MarkupValue(this, concrete, translation.language);
     }
 
     getTagged(): FormattedTranslation[] {
@@ -264,11 +265,16 @@ export default class FormattedLiteral extends Literal {
 
     getValue(locales: Locale[]): Value {
         const preferred = this.getPreferredText(locales);
-        return new MarkupValue(this, preferred.markup);
+        return new MarkupValue(this, preferred.markup, preferred.language);
     }
 
-    computeType(): Type {
-        return FormattedType.make();
+    computeType(context: Context): Type {
+        // A union of the formatted type of each alternative, each carrying its
+        // own locale (mirrors TextLiteral.computeType).
+        return UnionType.getPossibleUnion(
+            context,
+            this.texts.map((text) => FormattedType.make(text.language)),
+        );
     }
 
     evaluateTypeGuards(current: TypeSet): TypeSet {

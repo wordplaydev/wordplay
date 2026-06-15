@@ -1,6 +1,7 @@
 import type Context from '@nodes/Context';
 import ListType from '@nodes/ListType';
 import NumberType from '@nodes/NumberType';
+import Language from '@nodes/Language';
 import TextType from '@nodes/TextType';
 import type Type from '@nodes/Type';
 import UnionType from '@nodes/UnionType';
@@ -22,8 +23,8 @@ export default function generalize(types: Type, context: Context) {
                                 type2 instanceof TextType &&
                                 ((type.language === undefined &&
                                     type2.language === undefined) ||
-                                    (type.language !== undefined &&
-                                        type2.language !== undefined &&
+                                    (type.language instanceof Language &&
+                                        type2.language instanceof Language &&
                                         type.language.isEqualTo(
                                             type2.language,
                                         )))),
