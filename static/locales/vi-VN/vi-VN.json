@@ -1893,14 +1893,19 @@
             ]
         },
         "Localized": {
-            "name": "$?",
-            "description": "$?",
+            "name": "$~cụcbộ",
+            "description": "$~gắn thẻ văn bản được tính toán với một ngôn ngữ địa phương",
             "emotion": "serious",
             "label": {
-                "value": "$?"
+                "value": "$~giá trị"
             },
-            "doc": ["$?"],
-            "start": "$?"
+            "doc": [
+                "$~Tôi áp dụng một ngôn ngữ địa phương cho một đoạn văn bản bạn tính toán, để nó giữ nguyên ngôn ngữ ngay cả sau khi bạn thay đổi nó. Ví dụ như thế này:",
+                "$~\\(\"hello\" + \"!\")/en\\",
+                "$~Hầu hết các thao tác xử lý văn bản đều đã lưu trữ ngôn ngữ địa phương, nhưng tôi cho phép bạn tự thiết lập ngôn ngữ địa phương khi muốn ghi đè lên các thiết lập mặc định.",
+                "$~Tôi chỉ làm việc với văn bản, vì vậy hãy nhớ cung cấp cho tôi một số văn bản nhé!"
+            ],
+            "start": "$~Hãy đánh giá biến $value , sau đó gắn thẻ ngôn ngữ cho nó…"
         }
     },
     "basis": {
@@ -2146,7 +2151,7 @@
             "conversion": {
                 "list": "$~Chia văn bản thành một danh sách các ký tự riêng lẻ.",
                 "number": "$~Chuyển đổi văn bản thành một đối tượng @Number, và nếu nó không phải là số thì trả về giá trị không phải là số.",
-                "formatted": "$?"
+                "formatted": "$~Chuyển đổi văn bản thành văn bản được định dạng, bao gồm cả việc diễn giải mọi định dạng đánh dấu có trong đó."
             }
         },
         "Number": {
@@ -3338,87 +3343,91 @@
             }
         },
         "Formatted": {
-            "doc": ["$?"],
-            "name": ["$?"],
+            "doc": [
+                "$~Tôi là văn bản được định dạng: các từ có kiểu dáng, như in đậm, in nghiêng và liên kết. Hãy đặt tôi giữa dấu ngoặc kép ngược:",
+                "$~\\`I am **bold** and /italic/`\\",
+                "$~Tôi hoạt động khá giống với @Text , nhưng tôi có thể mang theo định dạng. Bạn có thể kết hợp tôi, lặp lại tôi, kiểm tra nội dung của tôi và chuyển đổi tôi thành @Text thuần túy."
+            ],
+            "name": ["$~`…`", "$~Đãđịnhdạng"],
             "function": {
                 "length": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~Tôi đánh giá dựa trên số lượng ký tự dễ đọc trong văn bản của mình, bỏ qua định dạng và ngắt đoạn.",
+                    "names": ["$~📏", "$~chiềudài"],
                     "inputs": []
                 },
                 "equals": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ nếu tôi có cùng định dạng văn bản với giá trị đã cho.",
+                    "names": ["$~=", "$~bằng"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Văn bản được định dạng để so sánh.",
+                            "names": "$~giátrị"
                         }
                     ]
                 },
                 "notequals": {
-                    "doc": "$?",
-                    "names": "$?",
+                    "doc": "$~\\⊤\\ nếu tôi /không/ có cùng định dạng văn bản với giá trị đã cho.",
+                    "names": "$~≠",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Văn bản được định dạng để so sánh.",
+                            "names": "$~giátrị"
                         }
                     ]
                 },
                 "has": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ nếu văn bản thuần túy của tôi chứa @Text đã cho. Tôi sẽ bỏ qua định dạng và ngắt đoạn khi xem.",
+                    "names": ["$~có"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~@Text cần tìm trong văn bản của tôi.",
+                            "names": "$~chữ"
                         }
                     ]
                 },
                 "starts": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ nếu văn bản thuần túy của tôi bắt đầu bằng @Text đã cho. Tôi bỏ qua định dạng và ngắt đoạn khi kiểm tra.",
+                    "names": ["$~bắtđầu"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Đoạn mã @Text cần kiểm tra ở đầu văn bản.",
+                            "names": "$~chữ"
                         }
                     ]
                 },
                 "ends": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ nếu văn bản thuần túy của tôi kết thúc bằng @Text đã cho. Tôi bỏ qua định dạng và ngắt đoạn khi kiểm tra.",
+                    "names": ["$~kếtthúc"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Thuộc @Text cần kiểm tra ở cuối văn bản của tôi.",
+                            "names": "$~chữ"
                         }
                     ]
                 },
                 "repeat": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~Tôi tạo ra một đoạn văn bản mới được định dạng theo đúng định dạng của tôi, được lặp lại số lần đã cho. Nếu tôi có nhiều hơn một đoạn văn, các dấu ngắt câu sẽ được giữ nguyên giữa các bản sao.",
+                    "names": ["$~×", "$~·", "$~🔁", "$~lặplại", "$~lặplại"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Số lần phải lặp lại lời nói.",
+                            "names": "$~đếm"
                         }
                     ]
                 },
                 "combine": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~Hãy đưa cho tôi một đoạn văn bản khác đã được định dạng và tôi sẽ ghép chúng lại thành một. Nếu một trong hai bên có nhiều hơn một đoạn văn, các dấu ngắt đoạn sẽ được giữ nguyên.",
+                    "names": ["$~+", "$~kếthợp", "$~kếthợp"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Văn bản được định dạng để thêm vào.",
+                            "names": "$~đãđịnhdạng"
                         }
                     ]
                 }
             },
             "conversion": {
-                "text": "$?"
+                "text": "$~Chuyển đổi văn bản có định dạng thành văn bản thuần @Text , loại bỏ tất cả định dạng."
             }
         }
     },

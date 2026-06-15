@@ -1889,14 +1889,19 @@
             ]
         },
         "Localized": {
-            "name": "$?",
-            "description": "$?",
+            "name": "$~localizado",
+            "description": "$~texto computado marcado com uma localidade",
             "emotion": "serious",
             "label": {
-                "value": "$?"
+                "value": "$~valor"
             },
-            "doc": ["$?"],
-            "start": "$?"
+            "doc": [
+                "$~Aplico uma configuração regional a um texto que computa, para que mantenha o idioma mesmo depois de o ter alterado. Assim:",
+                "$~\\(\"hello\" + \"!\")/en\\",
+                "$~A maioria das operações de texto já mantém as definições regionais, mas permito que defina uma por si próprio quando quiser substituí-las.",
+                "$~Eu só trabalho com texto, por isso não se esqueça de me dar um!"
+            ],
+            "start": "$~Vamos avaliar $value e, em seguida, marcá-lo com uma localidade…"
         }
     },
     "basis": {
@@ -2142,7 +2147,7 @@
             "conversion": {
                 "list": "Divide o texto numa lista de caracteres individuais.",
                 "number": "Converte o texto num @Number e, se não for um número, devolve um valor \"não numérico\".",
-                "formatted": "$?"
+                "formatted": "$~Converte texto em texto formatado, interpretando qualquer marcação que este contenha."
             }
         },
         "Number": {
@@ -3334,87 +3339,91 @@
             }
         },
         "Formatted": {
-            "doc": ["$?"],
-            "name": ["$?"],
+            "doc": [
+                "$~Sou um texto formatado: palavras com estilo, como negrito, itálico e links. Coloquem-me entre crases:",
+                "$~\\`I am **bold** and /italic/`\\",
+                "$~Funciono de forma muito semelhante @Text , mas consigo manter a formatação. Pode combinar-me, repetir-me, verificar o que eu contenha e converter-me num @Text simples."
+            ],
+            "name": ["$~`…`", "$~Formatado"],
             "function": {
                 "length": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~Avalio o número de caracteres legíveis no meu texto, ignorando a formatação e as quebras de parágrafo.",
+                    "names": ["$~📏", "$~comprimento"],
                     "inputs": []
                 },
                 "equals": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ se eu for o mesmo texto formatado que o valor fornecido.",
+                    "names": ["$~=", "$~iguala"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~O texto formatado para comparação.",
+                            "names": "$~valor"
                         }
                     ]
                 },
                 "notequals": {
-                    "doc": "$?",
-                    "names": "$?",
+                    "doc": "$~\\⊤\\ se eu /não/ for o mesmo texto formatado que o valor fornecido.",
+                    "names": "$~≠",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~O texto formatado para comparação.",
+                            "names": "$~valor"
                         }
                     ]
                 },
                 "has": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ se o meu texto simples contiver o @Text fornecido. Ignoro a formatação e as quebras de parágrafo ao verificar.",
+                    "names": ["$~tem"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~O @Text a pesquisar no meu texto.",
+                            "names": "$~texto"
                         }
                     ]
                 },
                 "starts": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ se o meu texto simples começar com o @Text fornecido. Ignoro a formatação e as quebras de parágrafo ao verificar.",
+                    "names": ["$~começa"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~O @Text a verificar no início do meu texto.",
+                            "names": "$~texto"
                         }
                     ]
                 },
                 "ends": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ se o meu texto simples terminar com o @Text fornecido. Ignoro a formatação e as quebras de parágrafo ao verificar.",
+                    "names": ["$~termina"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~O @Text a verificar no final do meu texto.",
+                            "names": "$~texto"
                         }
                     ]
                 },
                 "repeat": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~Crio um novo texto formatado que sou eu, repetido o número de vezes especificado. Se existir mais do que um parágrafo, as quebras de linha são mantidas entre cópias.",
+                    "names": ["$~×", "$~·", "$~🔁", "$~repetido", "$~repetir"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~O número de vezes que me devo repetir.",
+                            "names": "$~contagem"
                         }
                     ]
                 },
                 "combine": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~Dê-me outro texto formatado e eu juntá-los-ei num só. Se algum de nós tiver mais do que um parágrafo, as quebras de parágrafo serão mantidas.",
+                    "names": ["$~+", "$~combinado", "$~combinar"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~O texto formatado a anexar.",
+                            "names": "$~formatado"
                         }
                     ]
                 }
             },
             "conversion": {
-                "text": "$?"
+                "text": "$~Converte texto formatado em texto simples @Text , removendo toda a formatação."
             }
         }
     },

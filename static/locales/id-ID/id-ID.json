@@ -1898,14 +1898,19 @@
             ]
         },
         "Localized": {
-            "name": "$?",
-            "description": "$?",
+            "name": "$~terlokalisasi",
+            "description": "$~memberi tag pada teks hasil komputasi dengan lokal.",
             "emotion": "serious",
             "label": {
-                "value": "$?"
+                "value": "$~nilai"
             },
-            "doc": ["$?"],
-            "start": "$?"
+            "doc": [
+                "$~Saya menerapkan pengaturan bahasa (locale) pada teks yang Anda olah, sehingga bahasanya tetap sama meskipun Anda mengubahnya. Seperti ini:",
+                "$~\\(\"hello\" + \"!\")/en\\",
+                "$~Sebagian besar operasi teks sudah menyimpan pengaturan lokal, tetapi saya mengizinkan Anda untuk mengaturnya sendiri jika ingin menggantinya.",
+                "$~Saya hanya menerima input berupa teks, jadi pastikan Anda memberi saya teks!"
+            ],
+            "start": "$~Mari kita evaluasi $value , lalu beri tag dengan locale…"
         }
     },
     "basis": {
@@ -2151,7 +2156,7 @@
             "conversion": {
                 "list": "$~Memisahkan teks menjadi daftar karakter individual.",
                 "number": "$~Mengonversi teks menjadi @Number, dan jika bukan angka, maka akan menghasilkan nilai bukan angka.",
-                "formatted": "$?"
+                "formatted": "$~Mengonversi teks menjadi teks berformat, dengan menginterpretasikan setiap markup yang terdapat di dalamnya."
             }
         },
         "Number": {
@@ -3343,87 +3348,91 @@
             }
         },
         "Formatted": {
-            "doc": ["$?"],
-            "name": ["$?"],
+            "doc": [
+                "$~Saya adalah teks yang diformat: kata-kata dengan gaya, seperti tebal, miring, dan tautan. Letakkan saya di antara tanda backtick:",
+                "$~\\`I am **bold** and /italic/`\\",
+                "$~Saya bekerja mirip dengan @Text , tetapi saya dapat membawa format. Anda dapat menggabungkan saya, mengulang saya, memeriksa apa yang saya masukkan, dan mengubah saya menjadi @Text biasa."
+            ],
+            "name": ["$~`…`", "$~Diformat"],
             "function": {
                 "length": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~Saya menilai berdasarkan jumlah karakter yang dapat dibaca dalam teks saya, mengabaikan format dan pemisah paragraf.",
+                    "names": ["$~📏", "$~panjang"],
                     "inputs": []
                 },
                 "equals": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ jika saya adalah teks berformat sama dengan nilai yang diberikan.",
+                    "names": ["$~=", "$~samadengan"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Teks yang diformat untuk dibandingkan.",
+                            "names": "$~nilai"
                         }
                     ]
                 },
                 "notequals": {
-                    "doc": "$?",
-                    "names": "$?",
+                    "doc": "$~\\⊤\\ jika saya bukan teks berformat yang sama dengan nilai yang diberikan.",
+                    "names": "$~≠",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Teks yang diformat untuk dibandingkan.",
+                            "names": "$~nilai"
                         }
                     ]
                 },
                 "has": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ jika teks biasa saya berisi @Text yang diberikan. Saya mengabaikan format dan pemisah paragraf saat memeriksanya.",
+                    "names": ["$~memiliki"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~@Text yang harus dicari dalam teks saya.",
+                            "names": "$~teks"
                         }
                     ]
                 },
                 "starts": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ jika teks biasa saya diawali dengan @Text yang diberikan. Saya mengabaikan format dan pemisah paragraf saat memeriksa.",
+                    "names": ["$~mulai"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~@Text yang perlu diperiksa di awal teks saya.",
+                            "names": "$~teks"
                         }
                     ]
                 },
                 "ends": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ jika teks biasa saya diakhiri dengan @Text yang diberikan. Saya mengabaikan format dan pemisah paragraf saat memeriksa.",
+                    "names": ["$~berakhir"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~@Text yang perlu diperiksa di akhir teks saya.",
+                            "names": "$~teks"
                         }
                     ]
                 },
                 "repeat": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~Saya membuat teks baru yang diformat sesuai dengan diri saya, diulang sebanyak jumlah yang diberikan. Jika saya memiliki lebih dari satu paragraf, pemisah antar salinan akan dipertahankan.",
+                    "names": ["$~×", "$~·", "$~🔁", "$~ulang", "$~mengulang"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Jumlah kali saya harus mengulanginya.",
+                            "names": "$~menghitung"
                         }
                     ]
                 },
                 "combine": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~Berikan saya teks lain yang sudah diformat dan saya akan menggabungkannya menjadi satu. Jika salah satu dari kita memiliki lebih dari satu paragraf, pemisah paragraf akan tetap dipertahankan.",
+                    "names": ["$~+", "$~gabungan", "$~menggabungkan"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Teks yang diformat untuk ditambahkan.",
+                            "names": "$~diformat"
                         }
                     ]
                 }
             },
             "conversion": {
-                "text": "$?"
+                "text": "$~Mengubah teks berformat menjadi teks biasa @Text , dengan menghapus semua format."
             }
         }
     },

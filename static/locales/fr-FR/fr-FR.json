@@ -1893,14 +1893,19 @@
             ]
         },
         "Localized": {
-            "name": "$?",
-            "description": "$?",
+            "name": "$~localisé",
+            "description": "$~balise texte calculé avec une locale",
             "emotion": "serious",
             "label": {
-                "value": "$?"
+                "value": "$~valeur"
             },
-            "doc": ["$?"],
-            "start": "$?"
+            "doc": [
+                "$~J'applique des paramètres régionaux à un texte que vous calculez, afin qu'il conserve sa langue même après modification. Par exemple :",
+                "$~\\(\"hello\" + \"!\")/en\\",
+                "$~La plupart des opérations sur le texte conservent déjà les paramètres régionaux, mais je vous permets d'en définir un vous-même si vous souhaitez les remplacer.",
+                "$~Je ne travaille que sur du texte, alors assurez-vous de m'en fournir !"
+            ],
+            "start": "$~Évaluons $value , puis attribuons-lui une étiquette régionale…"
         }
     },
     "basis": {
@@ -2146,7 +2151,7 @@
             "conversion": {
                 "list": "$~Divise le texte en une liste de caractères individuels.",
                 "number": "$~Convertit le texte en un @Number, et si ce n'est pas un nombre, en une valeur non numérique.",
-                "formatted": "$?"
+                "formatted": "$~Convertit le texte en texte formaté, en interprétant tout balisage qu'il contient."
             }
         },
         "Number": {
@@ -3338,87 +3343,91 @@
             }
         },
         "Formatted": {
-            "doc": ["$?"],
-            "name": ["$?"],
+            "doc": [
+                "$~Je suis du texte formaté : des mots avec du style, comme le gras, l’italique et les liens. Encadrez-moi avec des guillemets obliques :",
+                "$~\\`I am **bold** and /italic/`\\",
+                "$~Je fonctionne de manière très similaire @Text , mais je peux conserver la mise en forme. Vous pouvez me combiner, me répéter, vérifier mon contenu et me convertir en @Text simple."
+            ],
+            "name": ["$~`…`", "$~Formaté"],
             "function": {
                 "length": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~J'évalue le nombre de caractères lisibles dans mon texte, en ignorant la mise en forme et les sauts de paragraphe.",
+                    "names": ["$~📏", "$~longueur"],
                     "inputs": []
                 },
                 "equals": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ si je suis le même texte formaté que la valeur donnée.",
+                    "names": ["$~=", "$~égale"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Le texte formaté à comparer.",
+                            "names": "$~valeur"
                         }
                     ]
                 },
                 "notequals": {
-                    "doc": "$?",
-                    "names": "$?",
+                    "doc": "$~\\⊤\\ si je ne suis pas le même texte formaté que la valeur donnée.",
+                    "names": "$~≠",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Le texte formaté à comparer.",
+                            "names": "$~valeur"
                         }
                     ]
                 },
                 "has": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ si mon texte brut contient le @Text donné. Je ne tiens pas compte de la mise en forme ni des sauts de paragraphe lors de la consultation.",
+                    "names": ["$~a"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Le @Text à rechercher dans mon texte.",
+                            "names": "$~texte"
                         }
                     ]
                 },
                 "starts": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ si mon texte brut commence par le @Text donné. Je ne tiens pas compte de la mise en forme ni des sauts de paragraphe lors de la vérification.",
+                    "names": ["$~débuts"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Le @Text à rechercher au début de mon texte.",
+                            "names": "$~texte"
                         }
                     ]
                 },
                 "ends": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ si mon texte brut se termine par le @Text donné. Je ne tiens pas compte de la mise en forme ni des sauts de paragraphe lors de la vérification.",
+                    "names": ["$~extrémités"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Le @Text à vérifier à la fin de mon texte.",
+                            "names": "$~texte"
                         }
                     ]
                 },
                 "repeat": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~Je crée un nouveau texte formaté qui me ressemble, répété le nombre de fois indiqué. S'il y a plusieurs paragraphes, les sauts de ligne sont conservés entre les copies.",
+                    "names": ["$~×", "$~·", "$~🔁", "$~répété", "$~répéter"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Le nombre de fois où je dois me répéter.",
+                            "names": "$~compter"
                         }
                     ]
                 },
                 "combine": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~Fournissez-moi un autre texte formaté et je fusionnerai nos textes en un seul. Si l'un de nous a plus d'un paragraphe, les sauts de paragraphe seront conservés.",
+                    "names": ["$~+", "$~combiné", "$~combiner"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Le texte formaté à ajouter.",
+                            "names": "$~formaté"
                         }
                     ]
                 }
             },
             "conversion": {
-                "text": "$?"
+                "text": "$~Convertit le texte formaté en texte brut @Text , en supprimant toute mise en forme."
             }
         }
     },

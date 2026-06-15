@@ -1893,14 +1893,19 @@
             ]
         },
         "Localized": {
-            "name": "$?",
-            "description": "$?",
+            "name": "$~lokaliserad",
+            "description": "$~tagga beräknad text med en språkinställning",
             "emotion": "serious",
             "label": {
-                "value": "$?"
+                "value": "$~värde"
             },
-            "doc": ["$?"],
-            "start": "$?"
+            "doc": [
+                "$~Jag tillämpar en språkinställning på text du beräknar, så att den behåller sitt språk även efter att du ändrar den. Så här:",
+                "$~\\(\"hello\" + \"!\")/en\\",
+                "$~De flesta textåtgärder behåller redan språkinställningar, men jag låter dig ställa in en själv när du vill åsidosätta dem.",
+                "$~Jag jobbar bara med text, så se till att ge mig lite!"
+            ],
+            "start": "$~Låt oss utvärdera $value och sedan tagga det med en språkinställning…"
         }
     },
     "basis": {
@@ -2146,7 +2151,7 @@
             "conversion": {
                 "list": "$~Delar upp texten i en lista med enskilda tecken.",
                 "number": "$~Konverterar text till ett @Number, och om det inte är ett tal, ett inte ett talvärde.",
-                "formatted": "$?"
+                "formatted": "$~Konverterar text till formaterad text och tolkar eventuell markup den innehåller."
             }
         },
         "Number": {
@@ -3338,87 +3343,91 @@
             }
         },
         "Formatted": {
-            "doc": ["$?"],
-            "name": ["$?"],
+            "doc": [
+                "$~Jag har formaterad text: ord med stil, som fetstil, kursiv stil och länkar. Placera mig mellan bakåttecknen:",
+                "$~\\`I am **bold** and /italic/`\\",
+                "$~Jag fungerar ungefär som @Text , men jag kan hantera formatering. Du kan kombinera mig, upprepa mig, kontrollera vad jag innehåller och konvertera mig till vanlig @Text ."
+            ],
+            "name": ["$~`…`", "$~Formaterad"],
             "function": {
                 "length": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~Jag utvärderar till antalet läsbara tecken i min text, utan att ta hänsyn till formatering och styckebrytningar.",
+                    "names": ["$~📏", "$~längd"],
                     "inputs": []
                 },
                 "equals": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ om jag har samma formaterade text som det givna värdet.",
+                    "names": ["$~=", "$~likamed"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Den formaterade texten som ska jämföras.",
+                            "names": "$~värde"
                         }
                     ]
                 },
                 "notequals": {
-                    "doc": "$?",
-                    "names": "$?",
+                    "doc": "$~\\⊤\\ om jag /inte/ har samma formaterade text som det givna värdet.",
+                    "names": "$~≠",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Den formaterade texten som ska jämföras.",
+                            "names": "$~värde"
                         }
                     ]
                 },
                 "has": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ om min vanliga text innehåller den givna @Text . Jag ignorerar formatering och styckebrytningar när jag tittar.",
+                    "names": ["$~har"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~@Text att leta efter i min text.",
+                            "names": "$~text"
                         }
                     ]
                 },
                 "starts": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ om min vanliga text börjar med den givna @Text . Jag ignorerar formatering och styckebrytningar när jag kontrollerar.",
+                    "names": ["$~börjar"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~@Text att kontrollera i början av min text.",
+                            "names": "$~text"
                         }
                     ]
                 },
                 "ends": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ om min vanliga text slutar med den givna @Text . Jag ignorerar formatering och styckebrytningar när jag kontrollerar.",
+                    "names": ["$~slutar"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~@Text att kontrollera efter i slutet av min text.",
+                            "names": "$~text"
                         }
                     ]
                 },
                 "repeat": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~Jag skapar ny formaterad text som är jag, upprepad det angivna antalet gånger. Om jag har mer än ett stycke behålls pauserna mellan kopiorna.",
+                    "names": ["$~×", "$~·", "$~🔁", "$~upprepade", "$~upprepa"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Antalet gånger jag ska upprepa mig.",
+                            "names": "$~räkna"
                         }
                     ]
                 },
                 "combine": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~Ge mig en annan formaterad text så sammanfogar jag oss till en. Om någon av oss har mer än ett stycke behålls styckebrytningarna.",
+                    "names": ["$~+", "$~kombinerad", "$~kombinera"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Den formaterade texten som ska läggas till.",
+                            "names": "$~formaterad"
                         }
                     ]
                 }
             },
             "conversion": {
-                "text": "$?"
+                "text": "$~Konverterar formaterad text till vanlig @Text och tar bort all formatering."
             }
         }
     },

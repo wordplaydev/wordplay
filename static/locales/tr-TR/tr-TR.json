@@ -1893,14 +1893,19 @@
             ]
         },
         "Localized": {
-            "name": "$?",
-            "description": "$?",
+            "name": "$~yerelleştirilmiş",
+            "description": "$~Hesaplanan metni bir yerel ayarla etiketle",
             "emotion": "serious",
             "label": {
-                "value": "$?"
+                "value": "$~değer"
             },
-            "doc": ["$?"],
-            "start": "$?"
+            "doc": [
+                "$~Hesapladığınız bazı metinlere yerel ayar uyguluyorum, böylece siz değiştirdikten sonra bile dili korunuyor. Şöyle:",
+                "$~\\(\"hello\" + \"!\")/en\\",
+                "$~Metin işlemlerinin çoğu zaten yerel ayarları koruyor, ancak isterseniz bunları geçersiz kılmak için kendiniz bir yerel ayar belirleyebilirsiniz.",
+                "$~Sadece metin üzerinde çalışıyorum, bu yüzden bana mutlaka metin gönderin!"
+            ],
+            "start": "$~Önce $value değerlendirelim, sonra da ona bir yerel ayar etiketi ekleyelim…"
         }
     },
     "basis": {
@@ -2146,7 +2151,7 @@
             "conversion": {
                 "list": "$~Metni ayrı karakterlerden oluşan bir listeye böler.",
                 "number": "$~Metni @Number'a dönüştürür ve eğer bir sayı değilse, bir sayı değeri değildir.",
-                "formatted": "$?"
+                "formatted": "$~Metni, içerdiği biçimlendirme kurallarını yorumlayarak biçimlendirilmiş metne dönüştürür."
             }
         },
         "Number": {
@@ -3338,87 +3343,97 @@
             }
         },
         "Formatted": {
-            "doc": ["$?"],
-            "name": ["$?"],
+            "doc": [
+                "$~Ben biçimlendirilmiş metnim: kalın, italik ve bağlantılar gibi stil verilmiş kelimeler. Beni ters tırnak işaretleri arasına koyun:",
+                "$~\\`I am **bold** and /italic/`\\",
+                "$~Ben de @Text gibi çalışıyorum, ancak biçimlendirme de taşıyabiliyorum. Beni birleştirebilir, tekrarlayabilir, içeriğimi kontrol edebilir ve düz @Text dönüştürebilirsiniz."
+            ],
+            "name": ["$~`…`", "$~Biçimlendirilmiş"],
             "function": {
                 "length": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~Metnimdeki okunabilir karakter sayısını, biçimlendirme ve paragraf sonlarını dikkate almadan değerlendiriyorum.",
+                    "names": ["$~📏", "$~uzunluk"],
                     "inputs": []
                 },
                 "equals": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ Eğer verilen değerle aynı biçimlendirilmiş metin isem.",
+                    "names": ["$~=", "$~eşittir"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Karşılaştırılacak biçimlendirilmiş metin.",
+                            "names": "$~değer"
                         }
                     ]
                 },
                 "notequals": {
-                    "doc": "$?",
-                    "names": "$?",
+                    "doc": "$~\\⊤\\ eğer verilen değerle aynı biçimlendirilmiş metin değilsem.",
+                    "names": "$~≠",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Karşılaştırılacak biçimlendirilmiş metin.",
+                            "names": "$~değer"
                         }
                     ]
                 },
                 "has": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ düz metnim verilen @Text içeriyorsa, biçimlendirmeyi ve paragraf sonlarını dikkate almıyorum.",
+                    "names": ["$~sahipolmak"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Metnimde aranacak @Text ifadesi.",
+                            "names": "$~metin"
                         }
                     ]
                 },
                 "starts": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ Eğer düz metnim verilen @Text ile başlıyorsa. Kontrol ederken biçimlendirmeyi ve paragraf sonlarını dikkate almıyorum.",
+                    "names": ["$~başlar"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Metnimin başında kontrol edilecek @Text ifadesi.",
+                            "names": "$~metin"
                         }
                     ]
                 },
                 "ends": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~Düz metnim verilen @Text ile bitiyorsa \\⊤\\ kullanıyorum. Kontrol ederken biçimlendirmeyi ve paragraf sonlarını dikkate almıyorum.",
+                    "names": ["$~son"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Metnimin sonunda kontrol edilecek @Text ifadesi.",
+                            "names": "$~metin"
                         }
                     ]
                 },
                 "repeat": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~Kendim olan yeni, biçimlendirilmiş bir metni, belirtilen sayıda tekrarlıyorum. Birden fazla paragrafım varsa, kopyalar arasındaki satır sonları korunuyor.",
+                    "names": [
+                        "$~×",
+                        "$~·",
+                        "$~🔁",
+                        "$~tekrarlandı",
+                        "$~tekrarlamak"
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Kendimi tekrar etme sayısı.",
+                            "names": "$~saymak"
                         }
                     ]
                 },
                 "combine": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~Bana biçimlendirilmiş başka bir metin verin, ikisini birleştireyim. İkimizden birinin birden fazla paragrafı varsa, paragraf araları korunur.",
+                    "names": ["$~+", "$~birleşik", "$~birleştirmek"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Eklenecek biçimlendirilmiş metin.",
+                            "names": "$~biçimlendirilmiş"
                         }
                     ]
                 }
             },
             "conversion": {
-                "text": "$?"
+                "text": "$~Biçimlendirilmiş metni, tüm biçimlendirmeyi kaldırarak düz @Text Text'e dönüştürür."
             }
         }
     },

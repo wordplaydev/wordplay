@@ -1896,14 +1896,19 @@
             ]
         },
         "Localized": {
-            "name": "$?",
-            "description": "$?",
+            "name": "$~naisalokal",
+            "description": "$~tekstong nakalkula gamit ang tag na may lokal",
             "emotion": "serious",
             "label": {
-                "value": "$?"
+                "value": "$~halaga"
             },
-            "doc": ["$?"],
-            "start": "$?"
+            "doc": [
+                "$~Naglalapat ako ng locale sa ilang tekstong kino-compute mo, para mapanatili nito ang wika nito kahit na binago mo na ito. Ganito:",
+                "$~\\(\"hello\" + \"!\")/en\\",
+                "$~Karamihan sa mga operasyon sa teksto ay nagpapanatili na ng mga lokal, ngunit hinahayaan kitang magtakda ng isa kung gusto mong i-override ang mga ito.",
+                "$~Text lang ang ginagawa ko, kaya siguraduhin mong bibigyan mo ako!"
+            ],
+            "start": "$~Suriin natin ang $value , pagkatapos ay i-tag ito gamit ang isang locale…"
         }
     },
     "basis": {
@@ -2149,7 +2154,7 @@
             "conversion": {
                 "list": "$~Hinahati ang teksto sa isang listahan ng mga indibidwal na karakter.",
                 "number": "$~Kino-convert ang teksto sa isang @Number, at kung hindi ito numero, isang value na hindi numero.",
-                "formatted": "$?"
+                "formatted": "$~Kino-convert ang teksto sa naka-format na teksto, binibigyang-kahulugan ang anumang markup na nilalaman nito."
             }
         },
         "Number": {
@@ -3341,87 +3346,97 @@
             }
         },
         "Formatted": {
-            "doc": ["$?"],
-            "name": ["$?"],
+            "doc": [
+                "$~Naka-format ako ng teksto: mga salitang may istilo, tulad ng naka-bold, naka-italic, at mga link. Ilagay ako sa pagitan ng mga backtick:",
+                "$~\\`I am **bold** and /italic/`\\",
+                "$~Gumagana ako nang halos katulad @Text , pero kaya ko ang pag-format. Maaari mo akong pagsamahin, ulitin, tingnan kung ano ang nilalaman ko, at i-convert ako sa plain @Text ."
+            ],
+            "name": ["$~`…`", "$~Naka-format"],
             "function": {
                 "length": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~Sinusuri ko ang bilang ng mga nababasang karakter sa aking teksto, hindi pinapansin ang pag-format at mga break sa talata.",
+                    "names": ["$~📏", "$~haba"],
                     "inputs": []
                 },
                 "equals": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ kung ako ay ang parehong naka-format na teksto gaya ng ibinigay na halaga.",
+                    "names": ["$~=", "$~katumbas"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Ang naka-format na teksto na ihahambing.",
+                            "names": "$~halaga"
                         }
                     ]
                 },
                 "notequals": {
-                    "doc": "$?",
-                    "names": "$?",
+                    "doc": "$~\\⊤\\ kung ako ay /hindi/ ang parehong format ng teksto gaya ng ibinigay na halaga.",
+                    "names": "$~≠",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Ang naka-format na teksto na ihahambing.",
+                            "names": "$~halaga"
                         }
                     ]
                 },
                 "has": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ kung ang aking plain text ay naglalaman ng ibinigay na @Text . Hindi ko pinapansin ang formatting at mga paragraph break kapag tinitingnan ko.",
+                    "names": ["$~aymay"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Ang @Text na dapat hanapin sa aking teksto.",
+                            "names": "$~teksto"
                         }
                     ]
                 },
                 "starts": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ kung ang aking plain text ay nagsisimula sa ibinigay na @Text . Hindi ko pinapansin ang formatting at mga paragraph break kapag tinitingnan ko.",
+                    "names": ["$~nagsisimula"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Ang @Text na dapat tingnan sa simula ng aking teksto.",
+                            "names": "$~teksto"
                         }
                     ]
                 },
                 "ends": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ kung ang aking plain text ay nagtatapos sa ibinigay na @Text . Hindi ko pinapansin ang formatting at mga paragraph break kapag tinitingnan ko.",
+                    "names": ["$~mgadulo"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Ang @Text na dapat tingnan sa dulo ng aking teksto.",
+                            "names": "$~teksto"
                         }
                     ]
                 },
                 "repeat": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~Gumagawa ako ng bagong format na teksto, ako mismo, inuulit ko ito nang ilang beses. Kung mayroon akong higit sa isang talata, ang mga pahinga ay pinapanatili sa pagitan ng mga kopya.",
+                    "names": [
+                        "$~×",
+                        "$~·",
+                        "$~🔁",
+                        "$~paulit-ulit",
+                        "$~ulitin"
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Ang dami ng beses na inuulit ko ang sarili ko.",
+                            "names": "$~bilangin"
                         }
                     ]
                 },
                 "combine": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~Bigyan mo ako ng isa pang naka-format na teksto at pagsasamahin kita. Kung ang isa sa atin ay may higit sa isang talata, mananatili ang mga break ng talata.",
+                    "names": ["$~+", "$~pinagsama", "$~pagsamahin"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Ang naka-format na teksto na idadagdag.",
+                            "names": "$~naka-format"
                         }
                     ]
                 }
             },
             "conversion": {
-                "text": "$?"
+                "text": "$~Kino-convert ang naka-format na teksto sa plain @Text , at inaalis ang lahat ng formatting."
             }
         }
     },

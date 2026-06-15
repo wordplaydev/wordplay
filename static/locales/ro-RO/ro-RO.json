@@ -1898,14 +1898,19 @@
             ]
         },
         "Localized": {
-            "name": "$?",
-            "description": "$?",
+            "name": "$~localizat",
+            "description": "$~etichetează textul calculat cu o setare regională",
             "emotion": "serious",
             "label": {
-                "value": "$?"
+                "value": "$~valoare"
             },
-            "doc": ["$?"],
-            "start": "$?"
+            "doc": [
+                "$~Aplic o setare regională unui text pe care îl calculezi, astfel încât să își păstreze limba chiar și după ce îl modifici. Astfel:",
+                "$~\\(\"hello\" + \"!\")/en\\",
+                "$~Majoritatea operațiunilor text păstrează deja setările regionale, dar vă las să setați una singuri atunci când doriți să le suprascrieți.",
+                "$~Lucrez doar cu text, așa că asigură-te că-mi dai și mie!"
+            ],
+            "start": "$~Să evaluăm $value , apoi să o etichetăm cu o localizare…"
         }
     },
     "basis": {
@@ -2151,7 +2156,7 @@
             "conversion": {
                 "list": "$~Împarte textul într-o listă de caractere individuale.",
                 "number": "$~Convertește textul într-un @Number și, dacă nu este un număr, într-o valoare care nu este un număr.",
-                "formatted": "$?"
+                "formatted": "$~Convertește textul în text formatat, interpretând orice markup pe care îl conține."
             }
         },
         "Number": {
@@ -3343,87 +3348,91 @@
             }
         },
         "Formatted": {
-            "doc": ["$?"],
-            "name": ["$?"],
+            "doc": [
+                "$~Sunt text formatat: cuvinte cu stil, cum ar fi caractere aldine, italice și linkuri. Pune-mă între apicioare inversate:",
+                "$~\\`I am **bold** and /italic/`\\",
+                "$~Lucrez foarte asemănător cu @Text , dar pot folosi formatare. Poți să mă combini, să mă repeți, să verifici ce conțin și să mă convertești în @Text simplu."
+            ],
+            "name": ["$~„…”", "$~Formatat"],
             "function": {
                 "length": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~Evaluez în funcție de numărul de caractere lizibile din textul meu, ignorând formatarea și pauzele de paragraf.",
+                    "names": ["$~📏", "$~lungime"],
                     "inputs": []
                 },
                 "equals": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ dacă sunt același text formatat ca valoarea dată.",
+                    "names": ["$~=", "$~egal"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Textul formatat de comparat.",
+                            "names": "$~valoare"
                         }
                     ]
                 },
                 "notequals": {
-                    "doc": "$?",
-                    "names": "$?",
+                    "doc": "$~\\⊤\\ dacă /nu/ sunt același text formatat ca valoarea dată.",
+                    "names": "$~≠",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Textul formatat de comparat.",
+                            "names": "$~valoare"
                         }
                     ]
                 },
                 "has": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ dacă textul meu simplu conține @Text dat. Ignor formatarea și sfârșiturile de paragraf atunci când verific.",
+                    "names": ["$~are"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~@Text de căutat în textul meu.",
+                            "names": "$~text"
                         }
                     ]
                 },
                 "starts": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ dacă textul meu simplu începe cu @Text dat. Ignor formatarea și sfârșiturile de paragraf când verific.",
+                    "names": ["$~începe"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~@Text de verificat la începutul textului meu.",
+                            "names": "$~text"
                         }
                     ]
                 },
                 "ends": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ dacă textul meu simplu se termină cu @Text dat. Ignor formatarea și sfârșiturile de paragraf când verific.",
+                    "names": ["$~setermină"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~@Text de verificat la sfârșitul textului meu.",
+                            "names": "$~text"
                         }
                     ]
                 },
                 "repeat": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~Creez text nou, formatat, care este al meu, repetat de numărul dat de ori. Dacă am mai mult de un paragraf, pauzele sunt păstrate între copii.",
+                    "names": ["$~×", "$~·", "$~🔁", "$~repetat", "$~repeta"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Numărul de ori în care mă repet.",
+                            "names": "$~conta"
                         }
                     ]
                 },
                 "combine": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~Dă-mi un alt text formatat și ne voi uni într-unul singur. Dacă oricare dintre noi are mai mult de un paragraf, se păstrează pauzele de paragraf.",
+                    "names": ["$~+", "$~combinate", "$~combina"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Textul formatat de adăugat.",
+                            "names": "$~formatat"
                         }
                     ]
                 }
             },
             "conversion": {
-                "text": "$?"
+                "text": "$~Convertește textul formatat în @Text simplu, eliminând toată formatarea."
             }
         }
     },

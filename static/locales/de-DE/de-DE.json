@@ -1893,14 +1893,19 @@
             ]
         },
         "Localized": {
-            "name": "$?",
-            "description": "$?",
+            "name": "$~lokalisiert",
+            "description": "$~mit einem Gebietsschema versehenen Text als Tag kennzeichnen",
             "emotion": "serious",
             "label": {
-                "value": "$?"
+                "value": "$~Wert"
             },
-            "doc": ["$?"],
-            "start": "$?"
+            "doc": [
+                "$~Ich weise einem von Ihnen berechneten Text ein Gebietsschema zu, sodass die Sprache auch nach einer Änderung erhalten bleibt. Zum Beispiel so:",
+                "$~\\(\"hello\" + \"!\")/en\\",
+                "$~Die meisten Textverarbeitungsprozesse berücksichtigen bereits die Gebietsschemaeinstellungen, aber Sie können diese selbst festlegen, wenn Sie sie überschreiben möchten.",
+                "$~Ich arbeite ausschließlich mit Texten, also geben Sie mir bitte welche!"
+            ],
+            "start": "$~Lass uns $value auswerten und ihn dann mit einem Gebietsschema versehen…"
         }
     },
     "basis": {
@@ -2146,7 +2151,7 @@
             "conversion": {
                 "list": "$~Teilt den Text in eine Liste einzelner Zeichen auf.",
                 "number": "$~Wandelt Text in eine @Number um, und wenn es keine Zahl ist, in einen Nicht-Zahlenwert.",
-                "formatted": "$?"
+                "formatted": "$~Wandelt Text in formatierten Text um und interpretiert dabei jegliche darin enthaltene Auszeichnungssprache."
             }
         },
         "Number": {
@@ -3341,87 +3346,97 @@
             }
         },
         "Formatted": {
-            "doc": ["$?"],
-            "name": ["$?"],
+            "doc": [
+                "$~Ich bin formatierter Text: Wörter mit Formatierungen wie Fettdruck, Kursivschrift und Links. Setzen Sie mich in Backticks:",
+                "$~\\`I am **bold** and /italic/`\\",
+                "$~Ich funktioniere ähnlich wie @Text , kann aber Formatierungen übertragen. Sie können mich kombinieren, wiederholen, meinen Inhalt überprüfen und mich in einfachen @Text umwandeln."
+            ],
+            "name": ["$~`…`", "$~Formatiert"],
             "function": {
                 "length": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~Ich bewerte die Anzahl der lesbaren Zeichen in meinem Text, wobei Formatierungen und Absatzumbrüche außer Acht gelassen werden.",
+                    "names": ["$~📏", "$~Länge"],
                     "inputs": []
                 },
                 "equals": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ wenn ich den gleichen formatierten Text wie der angegebene Wert habe.",
+                    "names": ["$~=", "$~gleich"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Der formatierte Text zum Vergleichen.",
+                            "names": "$~Wert"
                         }
                     ]
                 },
                 "notequals": {
-                    "doc": "$?",
-                    "names": "$?",
+                    "doc": "$~\\⊤\\ wenn ich nicht der gleiche formatierte Text wie der angegebene Wert bin.",
+                    "names": "$~≠",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Der formatierte Text zum Vergleichen.",
+                            "names": "$~Wert"
                         }
                     ]
                 },
                 "has": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ Wenn mein Klartext den angegebenen @Text enthält, ignoriere ich Formatierungen und Absatzumbrüche.",
+                    "names": ["$~hat"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Der @Text , nach dem in meinem Text gesucht werden soll.",
+                            "names": "$~Text"
                         }
                     ]
                 },
                 "starts": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ Wenn mein Klartext mit dem angegebenen @Text beginnt, ignoriere ich Formatierungen und Absatzumbrüche bei der Überprüfung.",
+                    "names": ["$~beginnt"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Der @Text nach dem am Anfang meines Textes gesucht werden soll.",
+                            "names": "$~Text"
                         }
                     ]
                 },
                 "ends": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ Wenn mein Klartext mit dem angegebenen @Text endet, ignoriere ich Formatierungen und Absatzumbrüche bei der Überprüfung.",
+                    "names": ["$~Ende"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Der @Text nach dem am Ende meines Textes gesucht werden soll.",
+                            "names": "$~Text"
                         }
                     ]
                 },
                 "repeat": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~Ich erstelle einen neuen formatierten Text, der meinen Text enthält und die angegebene Anzahl an Malen wiederholt wird. Bei mehreren Absätzen bleiben die Absätze zwischen den Kopien erhalten.",
+                    "names": [
+                        "$~×",
+                        "$~·",
+                        "$~🔁",
+                        "$~wiederholt",
+                        "$~wiederholen"
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Wie oft ich mich wiederholen muss.",
+                            "names": "$~zählen"
                         }
                     ]
                 },
                 "combine": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~Gib mir einen weiteren formatierten Text, und ich füge unsere beiden zusammen. Falls einer von uns mehr als einen Absatz hat, bleiben die Absatzumbrüche erhalten.",
+                    "names": ["$~+", "$~kombiniert", "$~kombinieren"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Der formatierte Text, der angehängt werden soll.",
+                            "names": "$~formatiert"
                         }
                     ]
                 }
             },
             "conversion": {
-                "text": "$?"
+                "text": "$~Konvertiert formatierten Text in einfachen @Text und entfernt dabei jegliche Formatierung."
             }
         }
     },

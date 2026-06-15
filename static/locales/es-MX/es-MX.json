@@ -1893,14 +1893,19 @@
             ]
         },
         "Localized": {
-            "name": "$?",
-            "description": "$?",
+            "name": "$~localizado",
+            "description": "$~etiquetar texto calculado con una configuración regional",
             "emotion": "serious",
             "label": {
-                "value": "$?"
+                "value": "$~valor"
             },
-            "doc": ["$?"],
-            "start": "$?"
+            "doc": [
+                "$~Aplico una configuración regional a un texto que tú procesas, de modo que conserve su idioma incluso después de que lo cambies. Así:",
+                "$~\\(\"hello\" + \"!\")/en\\",
+                "$~La mayoría de las operaciones de texto ya conservan la configuración regional, pero te permito configurar una tú mismo cuando quieras anularla.",
+                "$~Solo trabajo con texto, ¡así que asegúrate de darme algo!"
+            ],
+            "start": "$~Vamos a evaluar $value y luego etiquetarlo con una configuración regional…"
         }
     },
     "basis": {
@@ -2138,7 +2143,7 @@
             "conversion": {
                 "list": "Divide el @Text en una isto con los caracteres individuales",
                 "number": "Convierte el @Text en un @Number, y si no es un numero, resultara en un valor no numeral",
-                "formatted": "$?"
+                "formatted": "$~Convierte el texto en texto formateado, interpretando cualquier marcado que contenga."
             }
         },
         "Number": {
@@ -3319,87 +3324,91 @@
             }
         },
         "Formatted": {
-            "doc": ["$?"],
-            "name": ["$?"],
+            "doc": [
+                "$~Soy texto formateado: palabras con estilo, como negrita, cursiva y enlaces. Colócame entre comillas invertidas:",
+                "$~\\`I am **bold** and /italic/`\\",
+                "$~Funciona de forma muy parecida @Text , pero puedo llevar formato. Puedes combinarme, repetirme, comprobar mi contenido y convertirme a texto plano @Text ."
+            ],
+            "name": ["$~`…`", "$~Formateado"],
             "function": {
                 "length": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~Evalúo la calidad en función del número de caracteres legibles en mi texto, sin tener en cuenta el formato ni los saltos de párrafo.",
+                    "names": ["$~📏", "$~longitud"],
                     "inputs": []
                 },
                 "equals": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ si soy el mismo texto formateado que el valor dado.",
+                    "names": ["$~=", "$~igual"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~El texto formateado para comparar.",
+                            "names": "$~valor"
                         }
                     ]
                 },
                 "notequals": {
-                    "doc": "$?",
-                    "names": "$?",
+                    "doc": "$~\\⊤\\ si no soy el mismo texto formateado que el valor dado.",
+                    "names": "$~≠",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~El texto formateado para comparar.",
+                            "names": "$~valor"
                         }
                     ]
                 },
                 "has": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ si mi texto plano contiene el @Text dado. Ignoro el formato y los saltos de párrafo cuando lo miro.",
+                    "names": ["$~tiene"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~El @Text que debo buscar en mi texto.",
+                            "names": "$~texto"
                         }
                     ]
                 },
                 "starts": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ si mi texto plano comienza con el @Text dado. Ignoro el formato y los saltos de párrafo cuando lo verifico.",
+                    "names": ["$~comienza"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~El @Text que debo comprobar al principio de mi texto.",
+                            "names": "$~texto"
                         }
                     ]
                 },
                 "ends": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ si mi texto plano termina con el @Text dado. Ignoro el formato y los saltos de párrafo cuando lo verifico.",
+                    "names": ["$~termina"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~El @Text que debo comprobar al final de mi texto.",
+                            "names": "$~texto"
                         }
                     ]
                 },
                 "repeat": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~Creo un nuevo texto formateado que me representa, repetido el número de veces indicado. Si tengo más de un párrafo, se mantienen los saltos de línea entre las copias.",
+                    "names": ["$~×", "$~·", "$~🔁", "$~repetido", "$~repetir"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~El número de veces que tengo que repetirme.",
+                            "names": "$~contar"
                         }
                     ]
                 },
                 "combine": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~Dame otro texto formateado y los uniré en uno solo. Si alguno de nosotros tiene más de un párrafo, se conservarán los saltos de párrafo.",
+                    "names": ["$~+", "$~conjunto", "$~combinar"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~El texto formateado que se adjuntará.",
+                            "names": "$~formateado"
                         }
                     ]
                 }
             },
             "conversion": {
-                "text": "$?"
+                "text": "$~Convierte texto formateado en texto plano @Text , eliminando todo el formato."
             }
         }
     },

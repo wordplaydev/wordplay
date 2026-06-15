@@ -1893,14 +1893,19 @@
             ]
         },
         "Localized": {
-            "name": "$?",
-            "description": "$?",
+            "name": "$~zlokalizowany",
+            "description": "$~oznaczyć obliczony tekst ustawieniem regionalnym",
             "emotion": "serious",
             "label": {
-                "value": "$?"
+                "value": "$~wartość"
             },
-            "doc": ["$?"],
-            "start": "$?"
+            "doc": [
+                "$~Stosuję ustawienia regionalne do tekstu, który obliczasz, aby zachował on swój język nawet po zmianie. Na przykład:",
+                "$~\\(\"hello\" + \"!\")/en\\",
+                "$~Większość operacji tekstowych już zachowuje ustawienia regionalne, ale pozwalam Ci samodzielnie je ustawić, jeśli chcesz je zastąpić.",
+                "$~Pracuję wyłącznie nad tekstem, więc koniecznie mi go przekaż!"
+            ],
+            "start": "$~Oceńmy $value , a następnie oznaczmy ją ustawieniem regionalnym…"
         }
     },
     "basis": {
@@ -2151,7 +2156,7 @@
             "conversion": {
                 "list": "$~Dzieli tekst na listę pojedynczych znaków.",
                 "number": "$~Konwertuje tekst na @Number, a jeśli nie jest liczbą, na wartość nieliczbową.",
-                "formatted": "$?"
+                "formatted": "$~Konwertuje tekst na tekst sformatowany, interpretując wszelkie zawarte w nim znaczniki."
             }
         },
         "Number": {
@@ -3343,87 +3348,97 @@
             }
         },
         "Formatted": {
-            "doc": ["$?"],
-            "name": ["$?"],
+            "doc": [
+                "$~Jestem sformatowanym tekstem: słowa z klasą, takie jak pogrubienie, kursywa i linki. Umieść mnie między znakami odwrotnego apostrofu:",
+                "$~\\`I am **bold** and /italic/`\\",
+                "$~Działam bardzo podobnie @Text , ale mogę obsługiwać formatowanie. Możesz mnie łączyć, powtarzać, sprawdzać, co zawieram, i konwertować na zwykły @Text ."
+            ],
+            "name": ["$~`…`", "$~Sformatowany"],
             "function": {
                 "length": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~Oceniam na podstawie liczby czytelnych znaków w tekście, ignorując formatowanie i podziały akapitów.",
+                    "names": ["$~📏", "$~długość"],
                     "inputs": []
                 },
                 "equals": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ jeśli mam taki sam sformatowany tekst jak podana wartość.",
+                    "names": ["$~=", "$~równasię"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Sformatowany tekst do porównania.",
+                            "names": "$~wartość"
                         }
                     ]
                 },
                 "notequals": {
-                    "doc": "$?",
-                    "names": "$?",
+                    "doc": "$~\\⊤\\ jeśli nie jestem/jestem/tym samym sformatowanym tekstem, co podana wartość.",
+                    "names": "$~≠",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Sformatowany tekst do porównania.",
+                            "names": "$~wartość"
                         }
                     ]
                 },
                 "has": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ jeśli mój zwykły tekst zawiera podany @Text . Ignoruję formatowanie i podziały akapitów podczas przeglądania.",
+                    "names": ["$~ma"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~@Text , którego należy szukać w tekście.",
+                            "names": "$~tekst"
                         }
                     ]
                 },
                 "starts": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ jeśli mój zwykły tekst zaczyna się od podanego @Text . Ignoruję formatowanie i podziały akapitów podczas sprawdzania.",
+                    "names": ["$~zaczynasię"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~@Text należy sprawdzić na początku tekstu.",
+                            "names": "$~tekst"
                         }
                     ]
                 },
                 "ends": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~\\⊤\\ jeśli mój zwykły tekst kończy się podanym @Text . Ignoruję formatowanie i podziały akapitów podczas sprawdzania.",
+                    "names": ["$~kończysię"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~@Text należy sprawdzić na końcu tekstu.",
+                            "names": "$~tekst"
                         }
                     ]
                 },
                 "repeat": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~Tworzę nowy, sformatowany tekst, który jest moim autorem, powtarzany określoną liczbę razy. Jeśli mam więcej niż jeden akapit, przerwy między kopiami są zachowane.",
+                    "names": [
+                        "$~×",
+                        "$~·",
+                        "$~🔁",
+                        "$~powtarzającysię",
+                        "$~powtarzać"
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Liczba powtórzeń.",
+                            "names": "$~liczyć"
                         }
                     ]
                 },
                 "combine": {
-                    "doc": "$?",
-                    "names": ["$?"],
+                    "doc": "$~Daj mi inny sformatowany tekst, a połączę nas w jeden. Jeśli któryś z nas ma więcej niż jeden akapit, podziały akapitów zostają zachowane.",
+                    "names": ["$~+", "$~łączny", "$~łączyć"],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "$~Sformatowany tekst do dołączenia.",
+                            "names": "$~sformatowany"
                         }
                     ]
                 }
             },
             "conversion": {
-                "text": "$?"
+                "text": "$~Konwertuje sformatowany tekst na zwykły @Text , usuwając całe formatowanie."
             }
         }
     },
