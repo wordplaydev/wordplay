@@ -288,6 +288,21 @@ But this is a type error, because the units aren't compatible:
 
 The unit type system is not arbitrarily sophisticated: when mathematical operators go beyond the semantics of products, sums, and powers, units are dropped.
 
+A number _type_ distinguishes three unit cases:
+
+- `#` means **any unit** — it accepts a number with any unit (or none), and a value typed `#` is accepted anywhere a number is expected. It is a wildcard, intended for type declarations where the unit doesn't matter.
+- `#!` means **no unit** — it accepts only a unitless number, so `x•#!: 1` is fine but `x•#!: 1s` is a type error.
+- `#unit` (e.g. `#m`, `#m/s`) means a **specific unit** — it accepts only a number with that exact unit.
+
+A concrete number value always has either no unit (e.g. `1`) or a specific unit (e.g. `1m`); it is never the `#` wildcard. Because `1` is unitless rather than "any unit", adding a unitless number to one with a unit is a type error in both directions:
+
+```
+1 + 1s
+1s + 1
+```
+
+The same matching rule applies to `-` and the inequality comparisons (`<`, `≤`, `≥`, `>`): the two operands must have the same unit. Products (`·`), quotients (`÷`), and powers combine units instead, so they accept operands with any units (e.g. `1 · 1m` is `#m` and `2m ÷ 2s` is `#m/s`).
+
 Divide `÷` and remainder `%` evaluate to `ø` when the divisor is zero (never a silent `NaN`), so their output type is `# | ø`. To keep ordinary arithmetic concise, the type is narrowed back to `#` when the divisor is provably non-zero — a non-zero number literal, the `.length()` of a non-empty literal list, set, map, or table, or a name bound (transitively) to one of those. Otherwise the result is `# | ø`, and using it where a number is required is a conflict that suggests handling the possible zero with `??` (e.g. `total ÷ count ?? 0`).
 
 #### _evaluation_
@@ -1191,7 +1206,7 @@ Documented expressions simply evaluate to their expression's value.
 
 > TYPE → `_` ｜ BOOLEANTYPE ｜ NUMBERTYPE ｜ TEXTTYPE ｜ NONETYPE ｜ LISTTYPE ｜ SETTYPE ｜ MAPTYPE ｜ TABLETYPE ｜ NAMETYPE ｜ FUNCTIONTYPE ｜ STREAMTYPE ｜ FORMATTEDTYPE ｜ CONVERSIONTYPE ｜ UNION  
 > BOOLEANTYPE → `?`  
-> NUMBERTYPE → （`#` UNIT？） ｜ numeral  
+> NUMBERTYPE → （`#` （`!` ｜ UNIT）？） ｜ numeral  
 > TEXTTYPE → （textopen textclose LANGUAGE？） ｜ TEXT  
 > NONETYPE → `ø`  
 > LISTTYPE → `[` TYPE `]`  

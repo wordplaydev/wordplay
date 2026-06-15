@@ -35,13 +35,24 @@ export default class Unit extends Node {
      */
     readonly exponents: Map<string, number> | undefined;
 
+    /**
+     * True only for the singleton "any unit" wildcard ({@link Unit.Any}), which represents a type
+     * declaration that accepts a number with any unit (e.g. a bare `#`). It is distinct from a
+     * unitless unit ({@link Unit.Empty}, e.g. `#!`), which accepts only numbers with no unit. A
+     * concrete number value is never a wildcard.
+     */
+    readonly wildcard: boolean;
+
     constructor(
         exponents: undefined | Map<string, number> = undefined,
         numerator?: Dimension[],
         slash?: Token,
         denominator?: Dimension[],
+        wildcard = false,
     ) {
         super();
+
+        this.wildcard = wildcard;
 
         // Did we parse it? Convert to exponents.
         if (numerator !== undefined || denominator !== undefined) {
@@ -171,6 +182,9 @@ export default class Unit extends Node {
 
     static Empty = new Unit();
 
+    /** The "any unit" wildcard: a type declaration (e.g. a bare `#`) that accepts any unit. */
+    static Any = new Unit(undefined, undefined, undefined, undefined, true);
+
     getDescriptor(): NodeDescriptor {
         return 'Unit';
     }
@@ -256,8 +270,15 @@ export default class Unit extends Node {
         return this.numerator.length === 0 && this.denominator.length === 0;
     }
 
+    /** True for a unit with no dimensions, including the "any unit" wildcard. Use {@link isAny}
+     * to distinguish the wildcard from a strictly unitless unit. */
     isUnitless() {
         return this.size() === 0;
+    }
+
+    /** True only for the "any unit" wildcard ({@link Unit.Any}). */
+    isAny() {
+        return this.wildcard;
     }
 
     size() {
@@ -266,6 +287,8 @@ export default class Unit extends Node {
 
     isEqualTo(unit: Unit) {
         if (!(unit instanceof Unit)) return false;
+        // A wildcard is only equal to another wildcard.
+        if (this.wildcard !== unit.wildcard) return false;
         if (this.size() !== unit.size()) return false;
         if (this.exponents !== undefined && unit.exponents !== undefined)
             for (const key of this.exponents.keys()) {
@@ -311,16 +334,13 @@ export default class Unit extends Node {
     }
 
     accepts(unit: Unit): boolean {
-        // Every key in this exists in the given unit and they have the same exponents.
-        return (
-            // Is this a unit?
-            unit instanceof Unit &&
-            // And...
-            // The units are equal
-            (this.isEqualTo(unit) ||
-                // Or this is unitless
-                this.isUnitless())
-        );
+        if (!(unit instanceof Unit)) return false;
+        // The "any unit" wildcard is compatible in both directions: a `#` declaration accepts
+        // any unit, and an "any unit" value is accepted anywhere. (The wildcard only arises from
+        // a `#` type declaration; concrete values are always unitless or a specific unit.)
+        if (this.isAny() || unit.isAny()) return true;
+        // Otherwise the units must match exactly (unitless accepts only unitless).
+        return this.isEqualTo(unit);
     }
 
     acceptsAll(types: TypeSet): boolean {
