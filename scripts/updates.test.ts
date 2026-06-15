@@ -16,6 +16,24 @@ describe('parseEntry', () => {
         expect(entry.text).toBe('Upgraded internal tooling.');
     });
 
+    test('extracts non-pictographic symbol markers (› and ¶)', () => {
+        expect(parseEntry('› You can now fold code (#806).')).toEqual({
+            text: 'You can now fold code (#806).',
+            emoji: '›',
+        });
+        expect(parseEntry('¶ We fixed the cursor in blocks.')).toEqual({
+            text: 'We fixed the cursor in blocks.',
+            emoji: '¶',
+        });
+    });
+
+    test('extracts a non-Latin letter used as a marker (요)', () => {
+        expect(parseEntry('요 We fixed Korean text entry (#1054).')).toEqual({
+            text: 'We fixed Korean text entry (#1054).',
+            emoji: '요',
+        });
+    });
+
     test('leaves plain text alone', () => {
         expect(
             parseEntry('We added a back-to-top button on long pages.'),
@@ -25,7 +43,7 @@ describe('parseEntry', () => {
         });
     });
 
-    test('does not treat a leading non-pictographic glyph as emoji', () => {
+    test('does not treat a leading ASCII word as a marker', () => {
         expect(parseEntry('A new feature.')).toEqual({
             text: 'A new feature.',
             emoji: null,
@@ -102,6 +120,27 @@ describe('parseChangelog', () => {
         const [update] = parseChangelog(md);
         expect(update.summary).toBe('');
         expect(update.summaries.added).toBe('');
+    });
+
+    test('tolerates mistyped single-hash section headings', () => {
+        const md = [
+            '## 0.22.0 - 2026-06-06',
+            '',
+            'Intro.',
+            '',
+            '# Added',
+            '',
+            '- 🖱️ A palette.',
+            '',
+            '# Fixed',
+            '',
+            '- 요 Korean text entry.',
+        ].join('\n');
+        const [update] = parseChangelog(md);
+        expect(update.summary).toBe('Intro.');
+        expect(update.changes.added).toHaveLength(1);
+        expect(update.changes.fixed).toHaveLength(1);
+        expect(update.changes.fixed[0].emoji).toBe('요');
     });
 
     test('attributes prose between two sections to the preceding section', () => {

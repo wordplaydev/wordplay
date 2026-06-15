@@ -31,7 +31,7 @@ This week we improved the editor, fixed a few bugs, and added a new shorter tuto
 
 This week we made improvements to the output palette, output editing on stage, and added a block-based editing palette.
 
-# Added
+### Added
 
 - 🖱️ There's a new block-based editing palette sidebar for quicker dragging and dropping.
 - 🖱️ Block-based editing with drag and copy and paste is now much more consistent. And when something can't be dragged or paste, we explain why in a new editor footer message.
@@ -46,12 +46,12 @@ This week we made improvements to the output palette, output editing on stage, a
 - ⌨️ We added a setting to change the behavior of the tab key (#758).
 - ⌨️ We added "soft" wrapping to the text editing mode, so long lines are easier to read (#1173).
 
-# Changed
+### Changed
 
 - ✏️ We made the editor's double click selection behavior make more sense.
-- We added alternating colors and different sizes to parentheses and brackets so they're easier to match in text mode (#1170). We also made the screen reader descriptions easier to understand.
+- 🌈 We added alternating colors and different sizes to parentheses and brackets so they're easier to match in text mode (#1170). We also made the screen reader descriptions easier to understand.
 
-# Fixed
+### Fixed
 
 - 요 We fixed Korean text entry (#1054).
 - 🚦 When nothing is selected, the palette's buttons for adding output now only make changes that fit — like wrapping a @Phrase in a @Group, or a @Form in a @Shape — instead of odd ones like putting a @Shape inside a @Phrase. When your program is empty, we offer to add a @Phrase to get you started.

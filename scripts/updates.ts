@@ -41,22 +41,28 @@ export type Update = {
 };
 
 // Splits a bullet body into { text, emoji }.
-// - `<emoji> text` (single extended pictographic grapheme + space) -> emoji entry
+// - `<marker> text` (a single marker grapheme + space) -> emoji entry
 // - otherwise -> plain text (legacy)
-const emojiGrapheme =
-    /^\p{Extended_Pictographic}(\u{FE0F}|\u{200D}\p{Extended_Pictographic})*$/u;
+//
+// A "marker" is the first grapheme cluster when it is immediately followed by a
+// space and is not an ordinary word character. We can't restrict markers to
+// emoji (e.g. \p{Extended_Pictographic}), because the changelog also uses
+// symbols (`›`, `¶`) and even letters from other scripts (`요`) as icons. So we
+// instead exclude only ASCII word characters, which is what ordinary prose
+// bullets start with (e.g. "We added…", "A new feature…").
 const segmenter = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
 
 export function parseEntry(body: string): Entry {
     const [first] = segmenter.segment(body);
-    if (first && emojiGrapheme.test(first.segment)) {
-        const rest = body.slice(first.segment.length);
-        if (rest.startsWith(' ')) {
-            return {
-                text: rest.trim(),
-                emoji: first.segment,
-            };
-        }
+    if (
+        first &&
+        body.charAt(first.segment.length) === ' ' &&
+        !/^[A-Za-z0-9]/.test(first.segment)
+    ) {
+        return {
+            text: body.slice(first.segment.length).trim(),
+            emoji: first.segment,
+        };
     }
     return { text: body, emoji: null };
 }
@@ -100,8 +106,12 @@ export function parseChangelog(changelog: string): Update[] {
             line.match(/^## (\d+\.\d+\.\d+) - (\d{4}-\d{2}-\d{2})$/) ??
             line.match(/^## (\d+\.\d+\.\d+)$/);
 
+        // Accept 1–3 leading `#` so a mistyped heading (e.g. `# Added` instead
+        // of `### Added`) still registers as a section rather than silently
+        // becoming prose. The four reserved words can't collide with the
+        // `# Change Log` title or a `## version` line.
         const typeofChangeMatch = line.match(
-            /^### (Added|Fixed|Changed|Removed)$/,
+            /^#{1,3} (Added|Fixed|Changed|Removed)$/,
         );
         if (typeofChangeMatch) {
             flushProse();
