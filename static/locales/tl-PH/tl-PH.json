@@ -3410,13 +3410,7 @@
                 },
                 "repeat": {
                     "doc": "$~Gumagawa ako ng bagong format na teksto, ako mismo, inuulit ko ito nang ilang beses. Kung mayroon akong higit sa isang talata, ang mga pahinga ay pinapanatili sa pagitan ng mga kopya.",
-                    "names": [
-                        "$~×",
-                        "$~·",
-                        "$~🔁",
-                        "$~paulit-ulit",
-                        "$~ulitin"
-                    ],
+                    "names": ["$~×", "$~·", "$~🔁", "$~paulitulit", "$~ulitin"],
                     "inputs": [
                         {
                             "doc": "$~Ang dami ng beses na inuulit ko ang sarili ko.",
@@ -3430,7 +3424,7 @@
                     "inputs": [
                         {
                             "doc": "$~Ang naka-format na teksto na idadagdag.",
-                            "names": "$~naka-format"
+                            "names": "$~nakaformat"
                         }
                     ]
                 }
