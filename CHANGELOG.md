@@ -10,9 +10,9 @@ This abbreviated week we fleshed out the multilingual and text processing part o
 
 ### Added
 
-- 🌎 When text is sliced up or combined, we now preserve and combine locales (e.g., `"hello and"/en + "hola"/es"` now produces `"hello and hola"/en_es`) (#526).
+- 🌎 When text is sliced up or combined, we now preserve and combine locales (e.g., `"hello and"/en + "hola"/es` now produces `"hello and hola"/en_es`) (#526).
 - 🌍 We added an operation to apply a locale to plain and formatted text (e.g., `("hello" + "world")/en` applies the `/en` locale to the computed text) (#1189).
-- 🌏 We added several operations to formatted text to mirror text operations (e.g., `\`/hi/\`.repeat(2)` now works) (#1190).
+- 🌏 We added several operations to formatted text to mirror text operations (#1190).
 - 🌐 All locale information on plain and formatted text is now reflected in program output, so all text-to-speech functionality is properly localized and language writing directions are respected.
 - 🌐 Autocomplete menus now suggest extra languages and regions, in case you want bilingual, trilingual, or radically multlingual text! (#884).
 
