@@ -1,0 +1,24 @@
+Encontre e verifique textos com padrões.
+
+Um padrão descreve o formato de um texto, permitindo verificar se este se ajusta a um determinado formato ou pesquisar todos os locais onde aparece. Os padrões ficam dentro de um texto. \⣿⣿\ e leia da esquerda para a direita, uma parte de cada vez. \_\ é uma carta, \#\ é um dígito, \␣\ é um espaço, e texto citado como \"-"\ Combina exatamente.
+
+Para verificar se um excerto de texto inteiro se ajusta a um padrão, utilize \≈\, que lhe dá um \?\:
+
+\'555-1234' ≈ ⣿ 3 # "-" 4 #⣿\
+
+A questão é: “três dígitos, um hífen e depois quatro dígitos?” — e a resposta é \⊤\.
+
+As contagens vêm antes daquilo que repetem: \3
+#\ Significa três dígitos. Também pode dizer \>0
+#\ (um ou mais), \≥0
+#\ (zero ou mais), \≤1
+#\ (opcional), ou um intervalo como \2–4
+#\.
+
+Para encontrar todos os locais onde um padrão aparece, utilize \⌕\, que lhe dá uma lista de  @Structure  resultados. Nomeie uma peça com \name: (…)\ para o capturar:
+
+\'Nascido em 15/06/2026' ⌕ ⣿ y: (4 #) "-" m: (2 #) "-" d: (2 #)⣿\
+
+Cada resultado indica a correspondência. \text\, onde é \start\areia \end\s, e os capturados \groups\ - aqui \y\, \m\, e \d\Como os padrões correspondem por grafema, funcionam da mesma forma em todas as línguas e alfabetos.
+
+mix-languages-in-text

@@ -6,14 +6,26 @@ import BooleanType from '@nodes/BooleanType';
 import type Expression from '@nodes/Expression';
 import FormattedType from '@nodes/FormattedType';
 import NumberType from '@nodes/NumberType';
+import NameType from '@nodes/NameType';
 import StructureDefinition from '@nodes/StructureDefinition';
+import { getResultTypeNames } from '@output/Result';
 import Language from '@nodes/Language';
 import TextType from '@nodes/TextType';
 import type Type from '@nodes/Type';
-import type BoolValue from '@values/BoolValue';
+import BoolValue from '@values/BoolValue';
+import ListValue from '@values/ListValue';
+import MapValue from '@values/MapValue';
 import NumberValue from '@values/NumberValue';
+import { createStructure } from '@values/StructureValue';
 import TextValue from '@values/TextValue';
 import type Value from '@values/Value';
+import type Names from '@nodes/Names';
+import PatternType from '@nodes/PatternType';
+import type { PatternMatch } from '@runtime/pattern/match';
+import {
+    getMatchLoop,
+    matchStepBuilder,
+} from '@runtime/pattern/matchSteps';
 import type Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
 import type { FunctionText, NameAndDoc } from '@locale/LocaleText';
@@ -164,6 +176,102 @@ export default function bootstrapText(locales: Locales) {
                             );
                         return text.combine(requestor, other);
                     },
+                ),
+                // ≈ : whole-text test against a pattern (LANGUAGE.md). The match
+                // runs stepwise via matchStepBuilder; this finishes by reading
+                // the result the steps produced.
+                createBasisFunction(
+                    locales,
+                    (locale) => locale.basis.Text.function.matches,
+                    undefined,
+                    [PatternType.make()],
+                    BooleanType.make(),
+                    (requestor, evaluation) => {
+                        const state = getMatchLoop(evaluation.getEvaluator());
+                        evaluation.unscope();
+                        return new BoolValue(
+                            requestor,
+                            (state?.result as boolean) ?? false,
+                        );
+                    },
+                    matchStepBuilder(false),
+                ),
+                // ⌕ : stepwise search, returning a list of Result structures.
+                // The return type names `Result` (resolved against scope to the
+                // shared structure, like Color.ts), rather than binding the def
+                // here — `Result` is registered after the Text basis bootstraps.
+                createBasisFunction(
+                    locales,
+                    (locale) => locale.basis.Text.function.search,
+                    undefined,
+                    [PatternType.make()],
+                    ListType.make(
+                        NameType.make(getResultTypeNames(locales).getNames()[0]),
+                    ),
+                    (requestor, evaluation) => {
+                        const evaluator = evaluation.getEvaluator();
+                        const state = getMatchLoop(evaluator);
+                        evaluation.unscope();
+                        const matches = (state?.result as PatternMatch[]) ?? [];
+                        const ResultType =
+                            evaluator.project.shares.output.Result;
+                        const results = matches.map((m) => {
+                                const bindings = new Map<Names, Value>();
+                                bindings.set(
+                                    ResultType.inputs[0].names,
+                                    new TextValue(requestor, m.text),
+                                );
+                                bindings.set(
+                                    ResultType.inputs[1].names,
+                                    new NumberValue(requestor, m.start + 1),
+                                );
+                                bindings.set(
+                                    ResultType.inputs[2].names,
+                                    new NumberValue(requestor, m.end),
+                                );
+                                const caps = [...m.caps];
+                                bindings.set(
+                                    ResultType.inputs[3].names,
+                                    new MapValue(
+                                        requestor,
+                                        caps.map(([name, c]) => [
+                                            new TextValue(requestor, name),
+                                            new TextValue(requestor, c.text),
+                                        ]),
+                                    ),
+                                );
+                                bindings.set(
+                                    ResultType.inputs[4].names,
+                                    new MapValue(
+                                        requestor,
+                                        caps.map(([name, c]) => [
+                                            new TextValue(requestor, name),
+                                            new NumberValue(
+                                                requestor,
+                                                c.start + 1,
+                                            ),
+                                        ]),
+                                    ),
+                                );
+                                bindings.set(
+                                    ResultType.inputs[5].names,
+                                    new MapValue(
+                                        requestor,
+                                        caps.map(([name, c]) => [
+                                            new TextValue(requestor, name),
+                                            new NumberValue(requestor, c.end),
+                                        ]),
+                                    ),
+                                );
+                                return createStructure(
+                                    evaluator,
+                                    ResultType,
+                                    bindings,
+                                );
+                            });
+                        return new ListValue(requestor, results);
+                    },
+                    matchStepBuilder(true),
                 ),
                 createBasisConversion(
                     getDocLocales(

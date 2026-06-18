@@ -33,6 +33,10 @@ import StructureView from '@components/values/StructureView.svelte';
 import TableView from '@components/values/TableView.svelte';
 import TextView from '@components/values/TextView.svelte';
 import UnknownView from '@components/values/UnknownView.svelte';
+import MatchValue from '@values/MatchValue';
+import PatternMatchView from '@components/values/PatternMatchView.svelte';
+import PatternValue from '@values/PatternValue';
+import PatternValueView from '@components/values/PatternValueView.svelte';
 
 const mapping = new Map<Function, unknown>();
 
@@ -52,6 +56,12 @@ mapping.set(StreamValue, StreamView);
 mapping.set(TextValue, TextView);
 mapping.set(ExceptionValue, ExceptionView);
 mapping.set(MarkupValue, MarkupView);
+// The pattern matcher's scoped state renders as a position-in-text match
+// visualization while stepping (LANGUAGE.md). Other Internal values (e.g.
+// iteration state) have no creator-facing view and fall through to UnknownView.
+mapping.set(MatchValue, PatternMatchView);
+// A compiled pattern renders as its source (e.g. `⣿>0 #⣿`) in the code font.
+mapping.set(PatternValue, PatternValueView);
 
 export default function valueToView(type: Function): Component {
     let prototype = type;

@@ -1,8 +1,11 @@
+import Log from '@util/verify-locales/Log';
 import { describe, expect, test } from 'vitest';
 import {
     ConceptPattern,
     MentionPattern,
     decodeHtmlEntities,
+    describeApiError,
+    preserveBalancedDelimiters,
     repairMentionsPositional,
     restoreReferences,
     unwrapMentions,
@@ -155,5 +158,53 @@ describe('repairMentionsPositional', () => {
 
     test('is a no-op when the source has no mentions', () => {
         expect(repairMentionsPositional('plain', 'plano')).toBe('plano');
+    });
+});
+
+describe('describeApiError', () => {
+    const err = (code: number, reason: string, message = '') => ({
+        code,
+        message,
+        errors: [{ reason }],
+    });
+
+    test('names the daily character cap and how to proceed', () => {
+        const text = describeApiError(err(403, 'dailyLimitExceeded'));
+        expect(text).toContain('403');
+        expect(text).toContain('dailyLimitExceeded');
+        expect(text).toContain('daily character cap');
+    });
+
+    test('names the per-user rate limit', () => {
+        expect(describeApiError(err(403, 'userRateLimitExceeded'))).toContain(
+            'per-user rate limit',
+        );
+    });
+
+    test('flags a billing/config problem', () => {
+        expect(
+            describeApiError(err(403, 'SERVICE_DISABLED', 'API disabled')),
+        ).toContain('not enabled');
+    });
+
+    test('falls back to the raw value when shapeless', () => {
+        expect(describeApiError('boom')).toContain('boom');
+    });
+});
+
+describe('preserveBalancedDelimiters', () => {
+    const log = new Log(false);
+
+    test('keeps a translation whose delimiters balance', () => {
+        expect(
+            preserveBalancedDelimiters(log, 'src', 'aaa \\x\\ bbb', 'he-IL'),
+        ).toBe('aaa \\x\\ bbb');
+    });
+
+    test('falls back to the source when a delimiter is orphaned', () => {
+        // An odd number of `\` means Google left an unclosed example.
+        expect(
+            preserveBalancedDelimiters(log, 'src', 'aaa \\x\\ \\ bbb', 'he-IL'),
+        ).toBe('src');
     });
 });

@@ -255,6 +255,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'Headlines',
                 'SentenceLength',
                 'StudyModeMeter',
+                'Patterns',
             ],
             locales,
         ),

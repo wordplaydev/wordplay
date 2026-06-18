@@ -1,5 +1,8 @@
 import type { LocaleTextAccessor } from '@locale/Locales';
 import type Node from '@nodes/Node';
+import PatternLiteral from '@nodes/PatternLiteral';
+import PatternNode from '@nodes/PatternNode';
+import { PATTERN_DELIMITER_SYMBOL } from '@parser/Symbols';
 import type Spaces from '@parser/Spaces';
 import { setInternalClipboard } from '@components/editor/commands/InternalClipboard';
 
@@ -14,7 +17,17 @@ export function copyNode(
     node: Node,
     spaces: Spaces,
 ): Promise<true | LocaleTextAccessor> {
-    return toClipboard(node.toWordplay(spaces).trim());
+    const text = node.toWordplay(spaces).trim();
+    // A pattern atom (e.g. `_`, `>0 #`, `name:(…)`) only means what it means
+    // inside `⣿…⣿`; serialized bare it would re-tokenize as ordinary code (e.g.
+    // `_` → a placeholder). Wrap a copied pattern fragment so the clipboard text
+    // is a self-contained, valid pattern. Pasting it back INTO a pattern strips
+    // the wrapper again (see pasteText), since patterns can't nest.
+    const wrapped =
+        node instanceof PatternNode && !(node instanceof PatternLiteral)
+            ? `${PATTERN_DELIMITER_SYMBOL}${text}${PATTERN_DELIMITER_SYMBOL}`
+            : text;
+    return toClipboard(wrapped);
 }
 
 export async function toClipboard(

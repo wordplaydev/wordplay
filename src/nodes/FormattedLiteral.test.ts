@@ -43,3 +43,14 @@ test.each([
 ])('%s -> %s', (code, value) => {
     expect(evaluateCode(code)?.toWordplay(DefaultLocales)).toBe(value);
 });
+
+// Markup → text (the `→ ''` conversion) must unescape doubled markup symbols the
+// same way rendering does (Finding A).
+test.each([
+    ["(`a**b`) → ''", '"a*b"'],
+    ["(`a@@b`) → ''", '"a@b"'],
+    ["(`a__b`) → ''", '"a_b"'],
+    ["(`a\\\\b`) → ''", '"a\\b"'],
+])('%s value -> %s', (code, value) => {
+    expect(evaluateCode(code)?.toString()).toBe(value);
+});

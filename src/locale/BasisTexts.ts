@@ -69,6 +69,10 @@ type BasisTexts = {
             segment: FunctionText<[NameAndDoc]>;
             /** See `en-US.json` for documentation  */
             combine: FunctionText<[NameAndDoc]>;
+            /** `≈` — whether a pattern matches the whole text. See LANGUAGE.md. */
+            matches: FunctionText<[NameAndDoc]>;
+            /** `⌕` — search the text for a pattern, returning a list of Result. */
+            search: FunctionText<[NameAndDoc]>;
         };
         /** Conversions in the type */
         conversion: {

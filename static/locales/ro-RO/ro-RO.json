@@ -51,7 +51,8 @@
         "feedback": "$~feedback",
         "documentation": "$~documentare",
         "language": "$~limbă",
-        "region": "$~regiune"
+        "region": "$~regiune",
+        "pattern": "$~model"
     },
     "token": {
         "EvalOpen": "$~evaluare deschisă",
@@ -134,7 +135,30 @@
         "Highlight": "$~exemplu evidențiat",
         "LanguageJoin": "$~unitor de limbi",
         "Translate": "$~traduce",
-        "ExternalExample": "$~exemplu în altă limbă"
+        "ExternalExample": "$~exemplu în altă limbă",
+        "PatternAny": "$~modelează orice caracter",
+        "PatternLetter": "$~literă model",
+        "PatternDigit": "$~cifră de model",
+        "PatternSpace": "$~spațiul modelului",
+        "PatternRest": "$~repaus de model",
+        "PatternWord": "$~cuvânt model",
+        "PatternWordEdge": "$~marginea cuvântului model",
+        "PatternStart": "$~început de model",
+        "PatternEnd": "$~sfârșit de model",
+        "PatternAhead": "$~anticiparea modelului",
+        "PatternBehind": "$~modelul privește în urmă",
+        "PatternFold": "$~model pliat caz",
+        "PatternRange": "$~interval de modele",
+        "PatternComplement": "$~model nu",
+        "PatternAlternation": "$~model sau",
+        "PatternSlash": "$~etichetă de model",
+        "PatternEqual": "$~model exact",
+        "PatternGreater": "$~model mai mult decât",
+        "PatternGreaterEqual": "$~cel puțin model",
+        "PatternLess": "$~model mai puțin decât",
+        "PatternLessEqual": "$~model cel mult",
+        "PatternText": "$~text literal al modelului",
+        "PatternDelimiter": "$~model"
     },
     "node": {
         "Dimension": {
@@ -1911,6 +1935,298 @@
                 "$~Lucrez doar cu text, așa că asigură-te că-mi dai și mie!"
             ],
             "start": "$~Să evaluăm $value , apoi să o etichetăm cu o localizare…"
+        },
+        "PatternLiteral": {
+            "name": "$~model",
+            "description": "$~un model cu părți $count",
+            "emotion": "curious",
+            "doc": [
+                "$~Sunt un model! Descriu *forma* textului în loc de cuvinte exacte, astfel încât să poți verifica textul cu \\≈\\ — se potrivește întregul text? — sau să-l cauți cu \\⌕\\ pentru a găsi fiecare loc în care apare forma. Căutarea returnează o listă de @Result .",
+                "$~Iată o căutare în acțiune — găsirea cuvintelor cheie legate de mâncare într-o propoziție despre micul dejun:",
+                "$~\\breakfast: 'For breakfast I had eggs, toast, and orange juice'\nbreakfast ⌕ ⣿\"eggs\" | \"toast\" | \"juice\" | \"pancakes\"⣿\\",
+                "$~Citește-mă de la stânga la dreapta. O @PatternClass se potrivește cu un caracter de un anumit tip: \\⣿◌⣿\\ orice, \\⣿_⣿\\ o literă, \\⣿#⣿\\ o cifră, \\⣿␣⣿\\ un spațiu. Textul citat este un @PatternLiteralText care se potrivește exact, cum ar fi \\⣿\"-\"⣿\\ . Restul \\⣿…⣿\\ — un @PatternRest — se potrivește cu orice număr de caractere.",
+                "$~Numărătoarea este prima. Un @PatternQuantified repetă următoarea parte printr-un @PatternQuantifier : \\⣿3 #⣿\\ este trei cifre, \\⣿3–5 #⣿\\ trei până la cinci, \\⣿>0 #⣿\\ una sau mai multe, \\⣿≥0 #⣿\\ zero sau mai multe, \\⣿≤1 #⣿\\ opțional.",
+                "$~Grupați părțile cu un @PatternGroup și oferiți opțiuni într-un @PatternSequence , cum ar fi \\⣿(◌ | #)⣿\\ . Cea mai lungă opțiune potrivită câștigă.",
+                "$~Un @PatternSet se potrivește cu un caracter dintr-un set, iar un @PatternRange se întinde pe intervale de caractere, cum ar fi \\⣿{\"a\"–\"z\" #}⣿\\ . Negați o parte cu un @PatternComplement , cum ar fi \\⣿~#⣿\\ .",
+                "$~Rafinează o clasă cu o @PatternProperty , cum ar fi \\⣿_/greek⣿\\ pentru o literă grecească sau \\⣿◌/emoji⣿\\ .",
+                "$~Denumiți o piesă cu un @PatternCapture , cum ar fi \\⣿year:(4 #)⣿\\ , apoi reutilizați-o mai târziu cu un @PatternBackref scriind numele său simplu. Fiecare @Result raportează piesele capturate după nume.",
+                "$~Ancorează-te la margini cu un @PatternAnchor : \\⣿⊢⣿\\ start, \\⣿⊣⣿\\ end. Afișează o privire fără a consuma informații folosind un @PatternLook : \\⣿▸(#)⣿\\ ahead, \\⣿◂(#)⣿\\ behind.",
+                "$~Potrivește cuvinte întregi cu un @PatternWord \\⣿▭/en⣿\\ sau limitele cuvintelor cu un @PatternWordEdge \\⣿┊/en⣿\\ , segmentat pentru o limbă. Ignoră majusculele/minusculele în interiorul unui @PatternCaseFold \\⣿⇕(\"hi\")⣿\\ .",
+                "$~Tipul meu este @PatternType — adnotați un nume cu acesta, cum ar fi \\p•⣿⣿: ⣿◌⣿\\ — astfel încât să mă puteți stoca într-un nume și să mă reutilizați în mai multe texte."
+            ],
+            "start": "$~Stai să văd cum arată acest text.",
+            "conflict": {
+                "EmptyPattern": {
+                    "name": "$~modelgol",
+                    "explanation": "$~Nu am piese, deci nu găsesc nimic util. Poți adăuga o piesă?",
+                    "resolution": "$~Adăugați un \\◌\\ pentru a se potrivi cu orice caracter"
+                }
+            },
+            "step": {
+                "search": "$~Să găsim fiecare loc în text în care apare acest model.",
+                "test": "$~Să verificăm dacă întregul text se încadrează în model.",
+                "scan": "$~Se caută modelul care începe la poziția $position .",
+                "match": "$~$pattern se potrivește cu $glyph la poziția $position .",
+                "miss": "$~$pattern nu se potrivește cu $glyph la poziția $position .",
+                "end": "$~$pattern mai are nevoie de un caracter, dar am ajuns la sfârșitul textului la poziția $position .",
+                "repeat": "$~$pattern s-a potrivit cu $count — suficient pentru a continua.",
+                "short": "$~$pattern s-a potrivit doar cu $count — nu este suficient.",
+                "here": "$~$pattern se menține la poziția $position .",
+                "nothere": "$~$pattern nu se menține la poziția $position ."
+            }
+        },
+        "PatternSequence": {
+            "name": "$~secvenţă",
+            "description": "$~o secvență de părți ale modelului",
+            "emotion": "curious",
+            "doc": [
+                "$~Sunt un rând de părți ale modelului, potrivite una după alta, de la stânga la dreapta.",
+                "$~De exemplu, verificați forma unui număr de telefon — trei cifre, o liniuță, apoi patru:",
+                "$~\\phone: '555-1234'\nphone ≈ ⣿3 # \"-\" 4 #⣿\\",
+                "$~Oferă-mi opțiuni și le aleg pe cele care se potrivesc, preferând-o pe cea mai lungă, cum ar fi \\⣿\"cat\" | \"dog\"⣿\\ ."
+            ],
+            "conflict": {
+                "OverlappingAlternatives": {
+                    "name": "$~alegerisuprapuse",
+                    "explanation": "$~$shorter este începutul lui $longer , iar cea mai lungă opțiune câștigă întotdeauna, așa că $shorter se potrivește doar atunci când $longer nu poate. Ai vrut să spui asta?"
+                }
+            }
+        },
+        "PatternClass": {
+            "name": "$~clasădepersonaje",
+            "description": "$~potrivește un tip de personaj",
+            "emotion": "curious",
+            "doc": [
+                "$~Potrivește un singur caracter de un anumit tip: \\⣿◌⣿\\ orice grafem, \\⣿_⣿\\ o literă, \\⣿#⣿\\ o cifră, \\⣿␣⣿\\ un spațiu.",
+                "$~De exemplu, extrageți fiecare cod format din literă și apoi din cifră dintr-o listă:",
+                "$~\\codes: 'a1 b2 c3'\ncodes ⌕ ⣿_ #⣿\\",
+                "$~Numără-mă cu un cuantificator precum \\⣿>0 #⣿\\ (una sau mai multe cifre) sau restrânge-mă cu o proprietate precum \\⣿_/greek⣿\\ (o literă grecească)."
+            ]
+        },
+        "PatternProperty": {
+            "name": "$~proprietate",
+            "description": "$~potrivește o proprietate Unicode",
+            "emotion": "curious",
+            "doc": [
+                "$~Restrâng o clasă de caractere la o proprietate Unicode. Folosesc un sistem de scriere, cum ar fi \\⣿_/greek⣿\\ , \\⣿_/han⣿\\ sau \\⣿_/arabic⣿\\ .",
+                "$~De exemplu, găsiți seria literelor grecești într-un text mixt:",
+                "$~\\text: 'hello αβγ world'\ntext ⌕ ⣿>0 _/greek⣿\\",
+                "$~Sau o categorie, cum ar fi \\⣿◌/punctuation⣿\\ , \\⣿◌/currency⣿\\ , \\⣿◌/Nd⣿\\ (o cifră) sau \\⣿_/Lu⣿\\ (o literă majusculă).",
+                "$~Sau o proprietate de tip da-sau-nu, cum ar fi \\⣿◌/emoji⣿\\ sau \\⣿_/uppercase⣿\\ — și poți scrie una ca nume și valoare, cum ar fi \\⣿◌/Script=Greek⣿\\ .",
+                "$~Excludeți o proprietate cu @PatternComplement , cum ar fi \\⣿~◌/emoji⣿\\ (orice nu este un emoji)."
+            ],
+            "conflict": {
+                "UnrecognizedPatternProperty": {
+                    "name": "$~proprietatenecunoscută",
+                    "explanation": "$~Nu recunosc proprietatea $name . Încercați o categorie, un script sau un ID Unicode.",
+                    "resolution": "$~Schimbă-l în $suggestion"
+                }
+            }
+        },
+        "PatternQuantifier": {
+            "name": "$~cuantificator",
+            "description": "$~de câte ori să se potrivească",
+            "emotion": "curious",
+            "doc": [
+                "$~Indic de câte ori se potrivește: un număr exact \\⣿3 #⣿\\ , un interval \\⣿3–5 #⣿\\ , \\⣿=3 #⣿\\ (exact trei), \\⣿>0 #⣿\\ (unu sau mai multe), \\⣿≥0 #⣿\\ (zero sau mai multe), \\⣿<5 #⣿\\ (mai puțin de cinci), \\⣿≤1 #⣿\\ (opțional).",
+                "$~De exemplu, găsiți fiecare serie de cifre dintr-o propoziție:",
+                "$~\\text: 'I have 3 cats and 12 fish'\ntext ⌕ ⣿>0 #⣿\\",
+                "$~Întotdeauna vin înaintea părții pe care o număr, cum ar fi \\⣿3 #⣿\\ sau \\⣿>0 _⣿\\ ."
+            ],
+            "conflict": {
+                "MalformedQuantifier": {
+                    "name": "$~numărătoareimposibilă",
+                    "explanation": "$~Numărul meu mic este mai mare decât numărul meu mare, așa că nu pot niciodată să egalez.",
+                    "resolution": "$~Schimb numerele mele, astfel încât cele mai mici să fie primele"
+                }
+            }
+        },
+        "PatternQuantified": {
+            "name": "$~repetiţie",
+            "description": "$~potrivește un atom de mai multe ori",
+            "emotion": "curious",
+            "doc": [
+                "$~Potrivesc următoarea parte de câteva ori.",
+                "$~De exemplu, verificați dacă un cod poștal are exact cinci cifre:",
+                "$~\\zip: '98101'\nzip ≈ ⣿5 #⣿\\",
+                "$~Numără o clasă precum \\⣿3 #⣿\\ (trei cifre), un grup precum \\⣿2 (\"ab\")⣿\\ (două „ab”-uri) sau un complement precum \\⣿2 ~#⣿\\ (două numere care nu sunt cifre). Cu \\⣿>0 #⣿\\ sunt lacom — iau cât mai multe pot."
+            ]
+        },
+        "PatternCapture": {
+            "name": "$~capta",
+            "description": "$~reține textul potrivit după nume",
+            "emotion": "curious",
+            "doc": [
+                "$~Denumesc o parte a unui meci, astfel încât să o puteți citi din fiecare @Result .",
+                "$~De exemplu, extrageți anul, luna și ziua dintr-o dată:",
+                "$~\\date: '2026-06-17'\ndate ⌕ ⣿y:(4 #) \"-\" m:(2 #) \"-\" d:(2 #)⣿\\",
+                "$~Refolosește ceea ce am capturat ulterior scriindu-mi din nou numele — vezi @PatternBackref — de exemplu \\⣿w:(>0 _) ␣ w⣿\\ pentru a găsi un cuvânt dublat."
+            ],
+            "conflict": {
+                "DuplicateCaptureName": {
+                    "name": "$~capturăduplicată",
+                    "explanation": "$~O altă captură folosește deja numele $name , deci aceasta îl va suprascrie.",
+                    "resolution": "$~Redenumiți această captură în $replacement"
+                }
+            }
+        },
+        "PatternComplement": {
+            "name": "$~nu",
+            "description": "$~se potrivește cu orice, cu excepția",
+            "emotion": "curious",
+            "doc": [
+                "$~Potrivesc un singur grafem care NU este ceea ce urmează. Neg o clasă precum \\⣿~#⣿\\ (nu o cifră) sau o mulțime precum \\⣿~{\":\" ␣}⣿\\ (nu două puncte sau spațiu).",
+                "$~De exemplu, obțineți cheia și valoarea din jurul două puncte prin potrivirea unor secvențe care nu sunt două puncte sau spațiu:",
+                "$~\\pair: 'color: blue'\npair ⌕ ⣿>0 ~{\":\" ␣}⣿\\",
+                "$~Negați un grup precum \\⣿~(◌ | #)⣿\\ sau o proprietate precum \\⣿~◌/emoji⣿\\ (nu un emoji).",
+                "$~Pune-mă înaintea unui @PatternLook pentru a-l inversa: \\⣿~▸(#)⣿\\ înseamnă „nu este urmat de o cifră”, iar \\⣿~◂(\"$\")⣿\\ înseamnă „nu este precedat de semnul dolar”."
+            ]
+        },
+        "PatternGroup": {
+            "name": "$~grup",
+            "description": "$~părți ale modelului de grup",
+            "emotion": "curious",
+            "doc": [
+                "$~Grupez părțile împreună, astfel încât un număr sau o opțiune se aplică tuturor. Nu capturez niciodată; denumesc o piesă cu @PatternCapture pentru asta.",
+                "$~De exemplu, verificați dacă în anumite texte se repetă silaba „ab”:",
+                "$~\\chant: 'ababab'\nchant ≈ ⣿>0 (\"ab\")⣿\\",
+                "$~Numără un grup precum \\⣿2 (\"ab\")⣿\\ (două „ab”) sau oferă o opțiune precum \\⣿(◌ | #)⣿\\ (o literă sau o cifră)."
+            ]
+        },
+        "PatternSet": {
+            "name": "$~setdeglife",
+            "description": "$~potrivește unul dintre aceste grafeme",
+            "emotion": "curious",
+            "doc": [
+                "$~Potrivesc orice grafemă dintr-un set de opțiuni.",
+                "$~De exemplu, găsiți vocalele dintr-un cuvânt:",
+                "$~\\word: 'hello'\nword ⌕ ⣿{\"a\" \"e\" \"i\" \"o\" \"u\"}⣿\\",
+                "$~Amestecă intervale și clase, cum ar fi \\⣿{\"a\"–\"z\" #}⣿\\ sau \\⣿{# \"a\"–\"f\"}⣿\\ (o cifră hexadecimală). Neagă-mă cu un @PatternComplement , cum ar fi \\⣿~{\"!\" \"?\"}⣿\\ ."
+            ]
+        },
+        "PatternRange": {
+            "name": "$~gamă",
+            "description": "$~potrivește o gamă de grafeme",
+            "emotion": "curious",
+            "doc": [
+                "$~Potrivesc un grafem între două puncte finale prin ordine scalară și mă aflu în interiorul unui @PatternSet .",
+                "$~De exemplu, extrageți cuvintele scrise cu litere mici dintr-un text:",
+                "$~\\text: 'hello world 2026'\ntext ⌕ ⣿>0 {\"a\"–\"z\"}⣿\\",
+                "$~Litere de tip „span”, cum ar fi \\⣿{\"a\"–\"z\" \"A\"–\"Z\"}⣿\\ sau cifre, cum ar fi \\⣿{\"0\"–\"9\"}⣿\\ , în orice alfabet, cum ar fi \\⣿{\"あ\"–\"ん\"}⣿\\ ."
+            ]
+        },
+        "PatternLiteralText": {
+            "name": "$~literal",
+            "description": "$~potrivește textul exact",
+            "emotion": "curious",
+            "doc": [
+                "$~Corespund exact textului din ghilimele, fără nicio semnificație specială.",
+                "$~De exemplu, găsiți suma în dolari într-o propoziție:",
+                "$~\\receipt: 'It costs $5 today'\nreceipt ⌕ ⣿\"$\" >0 #⣿\\",
+                "$~Folosește-mă pentru biți ficși precum \\⣿\"-\"⣿\\ , \\⣿\"@\"⣿\\ , sau un cuvânt întreg \\⣿\"cat\"⣿\\ , legat împreună cu alte părți, cum ar fi \\⣿3 # \"-\" 4 #⣿\\ pentru un număr de telefon."
+            ]
+        },
+        "PatternAnchor": {
+            "name": "$~ancoră",
+            "description": "$~potrivește o margine de text",
+            "emotion": "curious",
+            "doc": [
+                "$~Potrivesc o margine a textului fără a consuma nimic: \\⣿⊢⣿\\ începutul, \\⣿⊣⣿\\ sfârșitul.",
+                "$~De exemplu, verificați dacă un mesaj de salut începe cu „Salut”:",
+                "$~\\greeting: 'Hello world'\ngreeting ≈ ⣿⊢ \"Hello\" …⣿\\",
+                "$~Poziția pinului, cum ar fi \\⣿⊢ \"Hi\"⣿\\ (începe cu „Salut”), \\⣿\".\" ⊣⣿\\ (se termină cu punct) sau \\⣿⊢ _ ⊣⣿\\ (întregul text are exact o singură literă)."
+            ]
+        },
+        "PatternWord": {
+            "name": "$~cuvânt",
+            "description": "$~potrivește un cuvânt întreg",
+            "emotion": "curious",
+            "doc": [
+                "$~Potrivesc un cuvânt întreg, găsit după regulile proprii ale unei limbi.",
+                "$~De exemplu, enumerați cuvintele dintr-o propoziție:",
+                "$~\\sentence: 'the cat sat'\nsentence ⌕ ⣿▭/en⣿\\",
+                "$~Denumiți limba, cum ar fi \\⣿▭/en⣿\\ pentru engleză sau \\⣿▭/zh⣿\\ pentru chineză și legați un anumit cuvânt cu margini, cum ar fi \\⣿┊/en \"cat\" ┊/en⣿\\ ."
+            ],
+            "conflict": {
+                "MissingPatternLocale": {
+                    "name": "$~limbălipsă",
+                    "explanation": "$~Am nevoie de o limbă ca să știu cum să găsesc cuvinte. Poți adăuga una, cum ar fi \\/en\\ ?"
+                }
+            }
+        },
+        "PatternWordEdge": {
+            "name": "$~margineacuvântului",
+            "description": "$~potrivește o limită de cuvinte",
+            "emotion": "curious",
+            "doc": [
+                "$~Potrivesc o limită de cuvinte pentru o limbă fără a consuma nimic.",
+                "$~De exemplu, găsiți „pisică” ca un cuvânt întreg, nu în interiorul „categoriei”:",
+                "$~\\text: 'a cat in a category'\ntext ⌕ ⣿┊/en \"cat\" ┊/en⣿\\",
+                "$~Încadrează un cuvânt cu „me”, cum ar fi \\⣿┊/en \"cat\" ┊/en⣿\\ , astfel încât să se potrivească doar cu întregul."
+            ]
+        },
+        "PatternLook": {
+            "name": "$~uită-teînjur",
+            "description": "$~verificați înainte sau în urmă",
+            "emotion": "curious",
+            "doc": [
+                "$~Verific ce este chiar înainte \\⣿▸(#)⣿\\ sau în spate \\⣿◂(#)⣿\\ fără a-l consuma, astfel încât următoarea parte se potrivește tot din același loc.",
+                "$~De exemplu, găsiți fiecare literă urmată imediat de o cifră:",
+                "$~\\text: 'a1 b2 cc'\ntext ⌕ ⣿_ ▸(#)⣿\\",
+                "$~Necesită context, cum ar fi \\⣿_ ▸(#)⣿\\ (o literă urmată de o cifră) sau \\⣿◂(\"$\") >0 #⣿\\ (cifre imediat după un \"$\").",
+                "$~Întoarce-mă cu un @PatternComplement pentru a interzice contextul, cum ar fi \\⣿~▸(#)⣿\\ (neurmat de o cifră)."
+            ]
+        },
+        "PatternBackref": {
+            "name": "$~referințăinversă",
+            "description": "$~potrivește din nou același text",
+            "emotion": "curious",
+            "doc": [
+                "$~Potrivesc același text cu un @PatternCapture deja potrivit - scriu doar numele simplu al capturii.",
+                "$~De exemplu, găsiți un cuvânt care se repetă imediat:",
+                "$~\\text: 'the the cat sat sat'\ntext ⌕ ⣿w:(>0 _) ␣ w⣿\\",
+                "$~Un nume simplu care nu este o captură este în schimb o clasă denumită, cum ar fi \\⣿linebreak⣿\\ ."
+            ],
+            "conflict": {
+                "UndefinedBackreference": {
+                    "name": "$~numenecunoscut",
+                    "explanation": "$~Nu există nicio captură sau clasă numită $name , deci nu am nimic care să se potrivească.",
+                    "resolution": "$~Schimbă-l în $suggestion"
+                }
+            }
+        },
+        "PatternRest": {
+            "name": "$~odihnă",
+            "description": "$~potrivește cu restul datelor de intrare",
+            "emotion": "curious",
+            "doc": [
+                "$~Potrivesc restul textului, pe cât posibil. Sunt îndemânatic la sfârșitul unui model.",
+                "$~De exemplu, verifică dacă un text este un hashtag — un „#” apoi orice altceva:",
+                "$~\\tag: '#breakfast'\ntag ≈ ⣿\"#\" …⣿\\",
+                "$~Folosește-mă după un început fix, cum ar fi \\⣿\"#\" …⣿\\ (un \"#\" apoi orice) sau \\⣿\"Hi \" …⣿\\ („Salut \" apoi tot ce urmează)."
+            ]
+        },
+        "PatternCaseFold": {
+            "name": "$~ignorămajusculele/minusculele",
+            "description": "$~potrivire ignorând majusculele/minusculele",
+            "emotion": "curious",
+            "doc": [
+                "$~Îmi pot potrivi părțile, ignorând majusculele și minusculele.",
+                "$~De exemplu, verificați un cuvânt ignorând scrierea cu majuscule:",
+                "$~\\shout: 'HELLO'\nshout ≈ ⣿⇕(\"hello\")⣿\\",
+                "$~Încadrez părțile mele ca \\⣿⇕(\"hi\")⣿\\ (se potrivește cu \"HI\", \"Hi\" sau \"hi\"). Adaug un limbaj pentru regulile sale, cum ar fi \\⣿⇕/tr(\"i\")⣿\\ (turcă i), și definesc și un @PatternBackref , cum ar fi \\⣿⇕(w:(2 _) w)⣿\\ ."
+            ]
+        },
+        "PatternType": {
+            "name": "$~tipdemodel",
+            "description": "$~tipul unui model",
+            "emotion": "curious",
+            "doc": [
+                "$~Sunt tipul unei valori de model, adnotată astfel \\p•⣿⣿: ⣿◌⣿\\ .",
+                "$~De exemplu, stocați un model într-un nume și reutilizați-l în mai multe texte:",
+                "$~\\digits: ⣿>0 #⣿\n'I have 3 cats and 12 fish' ⌕ digits\\",
+                "$~Odată stocat, folosește-mă oriunde se potrivește un model, cum ar fi \\text ⌕ digits\\ sau \\text ≈ digits\\ ."
+            ]
         }
     },
     "basis": {
@@ -2149,6 +2465,32 @@
                         {
                             "doc": "$~@Text de adăugat.",
                             "names": "$~text"
+                        }
+                    ]
+                },
+                "matches": {
+                    "doc": [
+                        "$~\\⊤\\ dacă întregul text corespunde modelului dat.",
+                        "$~\\'555-1234' ≈ ⣿3 # \"-\" 4 #⣿\\"
+                    ],
+                    "names": ["$~≈", "$~meciuri"],
+                    "inputs": [
+                        {
+                            "doc": "$~Modelul cu care să se potrivească.",
+                            "names": "$~model"
+                        }
+                    ]
+                },
+                "search": {
+                    "doc": [
+                        "$~Găsește fiecare loc în care se potrivește modelul dat, ca o listă de @Result .",
+                        "$~\\'a1 b2' ⌕ ⣿_ #⣿\\"
+                    ],
+                    "names": ["$~⌕", "$~căutare"],
+                    "inputs": [
+                        {
+                            "doc": "$~Modelul de căutat.",
+                            "names": "$~model"
                         }
                     ]
                 }
@@ -5049,6 +5391,34 @@
                 "description": "$~limita de dimensiune a proiectului",
                 "explanation": "$~Acest proiect are prea mult text, așa că nu îl putem salva."
             }
+        },
+        "Result": {
+            "doc": "$~Sunt o potrivire dintr-o căutare de modele cu \\⌕\\ : textul potrivit, unde se află și orice capturi.",
+            "names": ["$~Rezultat"],
+            "text": {
+                "doc": "$~Întregul text potrivit.",
+                "names": "$~text"
+            },
+            "start": {
+                "doc": "$~Unde începe meciul, numărând de la 1.",
+                "names": "$~început"
+            },
+            "end": {
+                "doc": "$~Unde se termină meciul, numărând de la 1.",
+                "names": "$~Sfârşit"
+            },
+            "groups": {
+                "doc": "$~Numele fiecărei capturi corespunde textului cu care se potrivea.",
+                "names": "$~grupuri"
+            },
+            "starts": {
+                "doc": "$~Numele fiecărei capturi până la punctul de plecare.",
+                "names": "$~începe"
+            },
+            "ends": {
+                "doc": "$~De la numele fiecărei capturi până la punctul în care se termină.",
+                "names": "$~setermină"
+            }
         }
     },
     "ui": {
@@ -5665,7 +6035,18 @@
                 "insertTranslate": "$~inserați simbolul de traducere",
                 "insertThis": "$~introduceți acest simbol",
                 "tab": "$~Tab mută focalizarea tastaturii. Pentru a insera un tabulator, apăsați Ctrl+ $alt +Tab, utilizați butonul Inserare de mai jos sau modificați această opțiune în setări.",
-                "matchDelimiter": "$~mutați cursorul la delimitatorul corespunzător"
+                "matchDelimiter": "$~mutați cursorul la delimitatorul corespunzător",
+                "insertPattern": "$~inserați modelul",
+                "insertSearch": "$~inserați simbolul de căutare a modelului",
+                "insertPatternAny": "$~inserează orice simbol de model grafem",
+                "insertPatternSpace": "$~inserați simbolul modelului de spațiu",
+                "insertPatternStart": "$~inserați simbolul de început al modelului",
+                "insertPatternEnd": "$~inserați simbolul de sfârșit al modelului",
+                "insertPatternFold": "$~inserați modelul simbol de pliere tip majusculă",
+                "insertPatternAhead": "$~inserează modelul de simbol anticipat",
+                "insertPatternBehind": "$~inserează modelul, simbolul de căutare în spate",
+                "insertPatternWord": "$~inserați modelul cuvânt simbol",
+                "insertPatternWordEdge": "$~inserează modelul simbolul marginii cuvântului"
             },
             "error": {
                 "invalidName": "$~Acesta trebuie să fie un nume valid de joc de cuvinte.",
@@ -5889,6 +6270,7 @@
                         "$~decide",
                         "$~nume",
                         "$~text",
+                        "$~model",
                         "$~numere",
                         "$~adevăr",
                         "$~liste",
@@ -5904,14 +6286,15 @@
                         "$~timp, butoane, taste, scene și multe altele",
                         "$~alege valori pe baza altor valori",
                         "$~nume, valori, funcții și structuri de date pentru utilizare ulterioară",
-                        "$~valori adevărat, fals și niciuna",
-                        "$~numere și operații matematice",
                         "$~text simplu și formatat",
+                        "$~descrie forma textului pentru a o testa sau a o găsi",
+                        "$~numere și operații matematice",
+                        "$~valori adevărat, fals și niciuna",
                         "$~liste și operații cu liste",
                         "$~seturi, hărți și operații",
                         "$~tabele și operații cu tabele",
-                        "$~tipuri de date, conversii și verificări de tip",
                         "$~documentație și comentarii",
+                        "$~tipuri de date, conversii și verificări de tip",
                         "$~concepte avansate de limbaj"
                     ]
                 },
@@ -5997,6 +6380,10 @@
                 "GalleryHow": {
                     "header": "$~Ghiduri pentru galerie",
                     "explanation": "$~/Modele comune pentru crearea diferitelor tipuri de proiecte, din galeriile dvs./"
+                },
+                "Patterns": {
+                    "header": "$~Modele",
+                    "explanation": "$~Descrieți forma textului cu un model, delimitat de \\⣿\\ , apoi testați dacă textul se potrivește formei ( \\≈\\ ) sau găsiți fiecare loc în care apare ( \\⌕\\ )./"
                 }
             },
             "how": {

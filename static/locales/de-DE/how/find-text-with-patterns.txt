@@ -1,0 +1,24 @@
+Texte mit Mustern suchen und überprüfen
+
+Ein Muster beschreibt die Form eines Textes, sodass Sie prüfen können, ob ein Text einer bestimmten Form entspricht, oder nach allen Stellen suchen können, an denen er vorkommt. Muster werden im Inneren gespeichert. \⣿⣿\ und lesen Sie von links nach rechts, ein Stück nach dem anderen. \_\ ist ein Buchstabe \#\ ist eine Ziffer, \␣\ ist ein Leerzeichen, und zitierter Text wie \"-"\ Stimmt exakt überein.
+
+Um zu überprüfen, ob ein ganzer Textabschnitt einem Muster entspricht, verwenden Sie \≈\, was Ihnen ein \?\:
+
+\'555-1234' ≈ ⣿ 3 # "-" 4 #⣿\
+
+Die Frage lautet: „Drei Ziffern, ein Bindestrich, dann vier Ziffern?“ – und die Antwort lautet: \⊤\Die
+
+Zählwerte gehen dem voraus, was sie wiederholen: \3
+#\ bedeutet dreistellig. Man kann auch sagen \>0
+#\ (ein oder mehrere), \≥0
+#\ (null oder mehr), \≤1
+#\ (optional) oder eine Spanne wie \2–4
+#\Die
+
+Um alle Stellen zu finden, an denen ein Muster auftritt, verwenden Sie \⌕\, wodurch Sie eine Liste erhalten  @Structure  Ergebnisse. Benennen Sie ein Stück mit \name: (…)\ um es einzufangen:
+
+\'geboren am 15.06.2026' ⌕ ⣿ y: (4 #) "-" m: (2 #) "-" d: (2 #)⣿\
+
+Jedes Ergebnis zeigt Ihnen die übereinstimmenden \text\, wo es \start\s und \end\s und die Gefangenen \groups\ - Hier \y\, \m\, Und \d\Da Muster anhand von Graphemen übereinstimmen, funktionieren sie in jeder Sprache und Schrift gleich.
+
+mix-languages-in-text

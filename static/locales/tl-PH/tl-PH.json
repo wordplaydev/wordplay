@@ -51,7 +51,8 @@
         "feedback": "$~puna",
         "documentation": "$~dokumentasyon",
         "language": "$~wika",
-        "region": "$~rehiyon"
+        "region": "$~rehiyon",
+        "pattern": "$~padron"
     },
     "token": {
         "EvalOpen": "$~bukas na pagsusuri",
@@ -134,7 +135,30 @@
         "TeluguNumeral": "$~numeral na Telugu",
         "LanguageJoin": "$~tagapagdugtong ng wika",
         "Translate": "$~isalin",
-        "ExternalExample": "$~halimbawa sa ibang wika"
+        "ExternalExample": "$~halimbawa sa ibang wika",
+        "PatternAny": "$~hulmahan ang anumang karakter",
+        "PatternLetter": "$~pattern na titik",
+        "PatternDigit": "$~pattern digit",
+        "PatternSpace": "$~espasyo ng pattern",
+        "PatternRest": "$~pahinga ng pattern",
+        "PatternWord": "$~salitang paterno",
+        "PatternWordEdge": "$~gilid ng salita na pattern",
+        "PatternStart": "$~simula ng pattern",
+        "PatternEnd": "$~dulo ng disenyo",
+        "PatternAhead": "$~pattern lookfront",
+        "PatternBehind": "$~pattern lookbehind",
+        "PatternFold": "$~disenyo ng fold ng kaso",
+        "PatternRange": "$~saklaw ng pattern",
+        "PatternComplement": "$~hindi pattern",
+        "PatternAlternation": "$~pattern o",
+        "PatternSlash": "$~tag ng disenyo",
+        "PatternEqual": "$~eksaktong padron",
+        "PatternGreater": "$~huwaran na higit sa",
+        "PatternGreaterEqual": "$~pattern kahit man lang",
+        "PatternLess": "$~pattern na mas kaunti kaysa sa",
+        "PatternLessEqual": "$~pattern sa pinakamaraming",
+        "PatternText": "$~literal na teksto na huwaran",
+        "PatternDelimiter": "$~padron"
     },
     "node": {
         "Dimension": {
@@ -1909,6 +1933,298 @@
                 "$~Text lang ang ginagawa ko, kaya siguraduhin mong bibigyan mo ako!"
             ],
             "start": "$~Suriin natin ang $value , pagkatapos ay i-tag ito gamit ang isang locale…"
+        },
+        "PatternLiteral": {
+            "name": "$~padron",
+            "description": "$~isang pattern na may mga bahaging $count",
+            "emotion": "curious",
+            "doc": [
+                "$~Isa akong huwaran! Inilalarawan ko ang *hugis* ng teksto sa halip na eksaktong mga salita, para masuri mo ang teksto gamit ang \\≈\\ — kasya ba ang buong teksto? — o hanapin ito gamit ang \\⌕\\ para mahanap ang bawat lugar kung saan lumalabas ang hugis. Ang paghahanap ay nagbibigay ng listahan ng @Result .",
+                "$~Narito ang isang paghahanap na isinasagawa — paghahanap ng mga salitang pagkain sa isang pangungusap tungkol sa almusal:",
+                "$~\\breakfast: 'For breakfast I had eggs, toast, and orange juice'\nbreakfast ⌕ ⣿\"eggs\" | \"toast\" | \"juice\" | \"pancakes\"⣿\\",
+                "$~Basahin ako mula kaliwa pakanan. Ang isang @PatternClass ay tumutugma sa isang karakter na katulad nito: \\⣿◌⣿\\ kahit ano, \\⣿_⣿\\ isang letra, \\⣿#⣿\\ isang digit, \\⣿␣⣿\\ isang espasyo. Ang siniping teksto ay isang @PatternLiteralText na eksaktong tumutugma, tulad ng \\⣿\"-\"⣿\\ . Ang natitirang \\⣿…⣿\\ — isang @PatternRest — ay tumutugma sa anumang bilang ng mga karakter.",
+                "$~Nauuna ang mga bilang. Inuulit ng isang @PatternQuantified ang susunod na bahagi gamit ang isang @PatternQuantifier : \\⣿3 #⣿\\ ay tatlong digit, \\⣿3–5 #⣿\\ tatlo hanggang lima, \\⣿>0 #⣿\\ isa o higit pa, \\⣿≥0 #⣿\\ sero o higit pa, \\⣿≤1 #⣿\\ opsyonal.",
+                "$~Pagsamahin ang mga bahagi gamit ang isang @PatternGroup , at mag-alok ng mga pagpipilian sa isang @PatternSequence , tulad ng \\⣿(◌ | #)⣿\\ . Ang pinakamahabang tumutugmang pagpipilian ang siyang mananalo.",
+                "$~Ang isang @PatternSet ay tumutugma sa isang karakter mula sa isang set, at ang isang @PatternRange ay sumasaklaw sa mga hanay ng mga karakter, tulad ng \\⣿{\"a\"–\"z\" #}⣿\\ . I-negate ang isang bahagi gamit ang isang @PatternComplement , tulad ng \\⣿~#⣿\\ .",
+                "$~Pinuhin ang isang klase gamit ang isang @PatternProperty , tulad ng \\⣿_/greek⣿\\ para sa isang Griyegong letra o \\⣿◌/emoji⣿\\ .",
+                "$~Pangalanan ang isang piraso gamit ang @PatternCapture , tulad ng \\⣿year:(4 #)⣿\\ , pagkatapos ay gamitin itong muli sa ibang pagkakataon gamit ang @PatternBackref sa pamamagitan ng pagsulat ng hubad nitong pangalan. Ang bawat @Result ay nag-uulat ng mga nakuhang piraso ayon sa pangalan.",
+                "$~I-angkla sa mga gilid gamit ang isang @PatternAnchor : \\⣿⊢⣿\\ simula, \\⣿⊣⣿\\ dulo. Sumilip nang hindi kumukunsumo gamit ang isang @PatternLook : \\⣿▸(#)⣿\\ unahan, \\⣿◂(#)⣿\\ likuran.",
+                "$~Pagtugmain ang mga buong salita gamit ang @PatternWord \\⣿▭/en⣿\\ o mga hangganan ng salita gamit ang @PatternWordEdge \\⣿┊/en⣿\\ , na naka-segment para sa isang wika. Balewalain ang malalaking titik sa loob ng @PatternCaseFold \\⣿⇕(\"hi\")⣿\\ .",
+                "$~Ang tipo ko ay isang @PatternType — lagyan ng anotasyon ang isang pangalan gamit ito, tulad ng \\p•⣿⣿: ⣿◌⣿\\ — para maiimbak mo ako sa isang pangalan at magamit muli sa maraming teksto."
+            ],
+            "start": "$~Tingnan ko kung ano ang hitsura ng tekstong ito.",
+            "conflict": {
+                "EmptyPattern": {
+                    "name": "$~walanglamannapattern",
+                    "explanation": "$~Wala akong mga piyesa, kaya wala akong maitutugmang anumang kapaki-pakinabang. Maaari ka bang magdagdag ng piyesa?",
+                    "resolution": "$~Magdagdag ng \\◌\\ para tumugma sa kahit anong karakter"
+                }
+            },
+            "step": {
+                "search": "$~Hanapin natin ang bawat lugar kung saan lumalabas ang padron na ito sa teksto.",
+                "test": "$~Suriin natin kung ang buong tekstong ito ay akma sa padron.",
+                "scan": "$~Hinahanap ang pattern na nagsisimula sa posisyong $position .",
+                "match": "$~$pattern ay tumutugma sa $glyph sa posisyong $position .",
+                "miss": "$~Hindi tumutugma $pattern sa $glyph sa posisyong $position .",
+                "end": "$~Kailangan pa rin $pattern ng isang karakter, ngunit narating na natin ang dulo ng teksto sa posisyong $position .",
+                "repeat": "$~Tumugma $pattern sa $count — sapat na para magpatuloy.",
+                "short": "$~$pattern lang ang tugma $count — hindi sapat.",
+                "here": "$~$pattern ay mananatili sa posisyong $position .",
+                "nothere": "$~$pattern ay hindi nagtatagal sa posisyong $position ."
+            }
+        },
+        "PatternSequence": {
+            "name": "$~pagkakasunod-sunod",
+            "description": "$~isang pagkakasunod-sunod ng mga bahagi ng pattern",
+            "emotion": "curious",
+            "doc": [
+                "$~Ako ay isang hanay ng mga bahaging padron, na pinagtugma-tugma, mula kaliwa pakanan.",
+                "$~Halimbawa, tingnan ang hugis ng isang numero ng telepono — tatlong digit, isang gitling, pagkatapos ay apat:",
+                "$~\\phone: '555-1234'\nphone ≈ ⣿3 # \"-\" 4 #⣿\\",
+                "$~Mag-alok ng mga pagpipilian at pinipili ko kung alin ang mas angkop, mas gusto ang pinakamahaba, tulad ng \\⣿\"cat\" | \"dog\"⣿\\ ."
+            ],
+            "conflict": {
+                "OverlappingAlternatives": {
+                    "name": "$~magkakapatongnamgapagpipilian",
+                    "explanation": "$~$shorter ay ang simula ng $longer , at ang pinakamahabang pagpipilian ay palaging nananalo, kaya $shorter ay tumutugma lamang kapag hindi kaya $longer . Ibig mo bang sabihin iyon?"
+                }
+            }
+        },
+        "PatternClass": {
+            "name": "$~klasengkarakter",
+            "description": "$~itugma ang isang uri ng karakter",
+            "emotion": "curious",
+            "doc": [
+                "$~Tinutugma ko ang isang karakter na may parehong uri: \\⣿◌⣿\\ anumang grapema, \\⣿_⣿\\ isang letra, \\⣿#⣿\\ isang digit, \\⣿␣⣿\\ isang espasyo.",
+                "$~Halimbawa, hilahin ang bawat letra-pagkatapos-digit na code mula sa isang listahan:",
+                "$~\\codes: 'a1 b2 c3'\ncodes ⌕ ⣿_ #⣿\\",
+                "$~Bilangin ako gamit ang isang quantifier tulad ng \\⣿>0 #⣿\\ (isa o higit pang mga digit), o paliitin ako gamit ang isang katangian tulad ng \\⣿_/greek⣿\\ (isang letrang Griyego)."
+            ]
+        },
+        "PatternProperty": {
+            "name": "$~ari-arian",
+            "description": "$~tumugma sa isang katangian ng Unicode",
+            "emotion": "curious",
+            "doc": [
+                "$~Pinaliliit ko ang isang klase ng karakter sa isang Unicode property. Gumamit ng script, tulad ng \\⣿_/greek⣿\\ , \\⣿_/han⣿\\ , o \\⣿_/arabic⣿\\ .",
+                "$~Halimbawa, hanapin ang takbo ng mga letrang Griyego sa ilang magkahalong teksto:",
+                "$~\\text: 'hello αβγ world'\ntext ⌕ ⣿>0 _/greek⣿\\",
+                "$~O isang kategorya, tulad ng \\⣿◌/punctuation⣿\\ , \\⣿◌/currency⣿\\ , \\⣿◌/Nd⣿\\ (isang digit), o \\⣿_/Lu⣿\\ (isang malaking titik).",
+                "$~O isang katangiang oo-hindi, tulad ng \\⣿◌/emoji⣿\\ o \\⣿_/uppercase⣿\\ — at maaari mo itong baybayin bilang pangalan at halaga, tulad ng \\⣿◌/Script=Greek⣿\\ .",
+                "$~Ibukod ang isang property na may @PatternComplement , tulad ng \\⣿~◌/emoji⣿\\ (anumang bagay na hindi emoji)."
+            ],
+            "conflict": {
+                "UnrecognizedPatternProperty": {
+                    "name": "$~hindikilalangari-arian",
+                    "explanation": "$~Hindi ko kilala ang property $name . Subukan ang isang kategorya, script, o Unicode id.",
+                    "resolution": "$~Baguhin ito sa $suggestion"
+                }
+            }
+        },
+        "PatternQuantifier": {
+            "name": "$~tagabilang",
+            "description": "$~ilang beses dapat itugma",
+            "emotion": "curious",
+            "doc": [
+                "$~Sinasabi ko kung ilang beses dapat itugma: isang eksaktong \\⣿3 #⣿\\ , isang saklaw na \\⣿3–5 #⣿\\ , \\⣿=3 #⣿\\ (eksaktong tatlo), \\⣿>0 #⣿\\ (isa o higit pa), \\⣿≥0 #⣿\\ (zero o higit pa), \\⣿<5 #⣿\\ (mas mababa sa lima), \\⣿≤1 #⣿\\ (opsyonal).",
+                "$~Halimbawa, hanapin ang bawat sunod-sunod na numero sa isang pangungusap:",
+                "$~\\text: 'I have 3 cats and 12 fish'\ntext ⌕ ⣿>0 #⣿\\",
+                "$~Palagi akong nauuna sa bahaging binibilang ko, tulad ng \\⣿3 #⣿\\ o \\⣿>0 _⣿\\ ."
+            ],
+            "conflict": {
+                "MalformedQuantifier": {
+                    "name": "$~imposiblengbilangin",
+                    "explanation": "$~Mas malaki ang pinakamababa kong bilang kaysa sa mataas kong bilang, kaya hindi ko kailanman mapapantayan.",
+                    "resolution": "$~Palitan ang bilang ko para mauna ang mas maliit"
+                }
+            }
+        },
+        "PatternQuantified": {
+            "name": "$~pag-uulit",
+            "description": "$~itugma ang isang atom nang ilang beses",
+            "emotion": "curious",
+            "doc": [
+                "$~Ilang beses kong pinagtugma ang susunod na bahagi.",
+                "$~Halimbawa, tiyaking eksaktong limang digit ang isang ZIP code:",
+                "$~\\zip: '98101'\nzip ≈ ⣿5 #⣿\\",
+                "$~Magbilang ng klase tulad ng \\⣿3 #⣿\\ (tatlong digit), isang grupo tulad ng \\⣿2 (\"ab\")⣿\\ (dalawang \"ab\"), o isang komplemento tulad ng \\⣿2 ~#⣿\\ (dalawang hindi digit). Kapag ang \\⣿>0 #⣿\\ ay sakim ako — kumukuha ako ng pinakamarami hangga't maaari."
+            ]
+        },
+        "PatternCapture": {
+            "name": "$~paghuli",
+            "description": "$~tandaan ang katugmang teksto ayon sa pangalan",
+            "emotion": "curious",
+            "doc": [
+                "$~Pinapangalanan ko ang isang piraso ng posporo para mabasa mo ito pabalik mula sa bawat @Result .",
+                "$~Halimbawa, alisin ang taon, buwan, at araw sa isang petsa:",
+                "$~\\date: '2026-06-17'\ndate ⌕ ⣿y:(4 #) \"-\" m:(2 #) \"-\" d:(2 #)⣿\\",
+                "$~Gamitin muli ang nakuha ko sa ibang pagkakataon sa pamamagitan ng pagsulat muli ng aking pangalan — tingnan @PatternBackref — tulad ng \\⣿w:(>0 _) ␣ w⣿\\ para mahanap ang salitang nadoble."
+            ],
+            "conflict": {
+                "DuplicateCaptureName": {
+                    "name": "$~doblengpagkuha",
+                    "explanation": "$~May isa pang capture na gumagamit na ng pangalang $name , kaya papatungan ito ng isang ito.",
+                    "resolution": "$~Palitan ang pangalan ng capture na ito ng $replacement"
+                }
+            }
+        },
+        "PatternComplement": {
+            "name": "$~hindi",
+            "description": "$~tumugma sa kahit ano maliban sa",
+            "emotion": "curious",
+            "doc": [
+                "$~Itinugma ko ang isang grapheme na HINDI ang sumusunod. I-negatibo ang isang klase tulad ng \\⣿~#⣿\\ (hindi isang digit), o isang set tulad ng \\⣿~{\":\" ␣}⣿\\ (hindi isang tutuldok o espasyo).",
+                "$~Halimbawa, kunin ang key at value sa paligid ng isang colon sa pamamagitan ng pagtutugma ng mga run na hindi colon o space:",
+                "$~\\pair: 'color: blue'\npair ⌕ ⣿>0 ~{\":\" ␣}⣿\\",
+                "$~Magpawalang-bisa ng grupo tulad ng \\⣿~(◌ | #)⣿\\ , o isang katangian tulad ng \\⣿~◌/emoji⣿\\ (hindi emoji).",
+                "$~Ilagay ako sa harap ng @PatternLook para i-flip ito: Ang ibig sabihin ng \\⣿~▸(#)⣿\\ ay \"hindi sinusundan ng digit\", at ang ibig sabihin ng \\⣿~◂(\"$\")⣿\\ ay \"hindi sinusundan ng dollar sign\"."
+            ]
+        },
+        "PatternGroup": {
+            "name": "$~grupo",
+            "description": "$~mga bahagi ng pattern ng grupo",
+            "emotion": "curious",
+            "doc": [
+                "$~Pinagsasama-sama ko ang mga bahagi para may bilang o pagpipilian na naaangkop sa lahat ng mga ito. Hindi ako kumukuha ng litrato; pangalanan ang isang piraso gamit ang @PatternCapture para diyan.",
+                "$~Halimbawa, tiyaking inuulit ang pantig na \"ab\" sa ilang teksto:",
+                "$~\\chant: 'ababab'\nchant ≈ ⣿>0 (\"ab\")⣿\\",
+                "$~Magbilang ng grupo tulad ng \\⣿2 (\"ab\")⣿\\ (dalawang \"ab\") o mag-alok ng pagpipilian tulad ng \\⣿(◌ | #)⣿\\ (isang letra o isang digit)."
+            ]
+        },
+        "PatternSet": {
+            "name": "$~setnggliph",
+            "description": "$~itugma ang isa sa mga grapemang ito",
+            "emotion": "curious",
+            "doc": [
+                "$~Tinutugma ko ang kahit anong grapheme mula sa isang hanay ng mga opsyon.",
+                "$~Halimbawa, hanapin ang mga patinig sa isang salita:",
+                "$~\\word: 'hello'\nword ⌕ ⣿{\"a\" \"e\" \"i\" \"o\" \"u\"}⣿\\",
+                "$~Paghaluin ang mga saklaw at klase, tulad ng \\⣿{\"a\"–\"z\" #}⣿\\ o \\⣿{# \"a\"–\"f\"}⣿\\ (isang hex digit). I-negatibo ako gamit ang isang @PatternComplement , tulad ng \\⣿~{\"!\" \"?\"}⣿\\ ."
+            ]
+        },
+        "PatternRange": {
+            "name": "$~saklaw",
+            "description": "$~pagtutugma ng isang hanay ng mga grapema",
+            "emotion": "curious",
+            "doc": [
+                "$~Tinutugma ko ang isang grapheme sa pagitan ng dalawang endpoint ayon sa scalar order, at nakatira ako sa loob ng isang @PatternSet .",
+                "$~Halimbawa, alisin ang maliliit na titik na salita mula sa ilang teksto:",
+                "$~\\text: 'hello world 2026'\ntext ⌕ ⣿>0 {\"a\"–\"z\"}⣿\\",
+                "$~Sumasaklaw sa mga letrang tulad ng \\⣿{\"a\"–\"z\" \"A\"–\"Z\"}⣿\\ o mga digit na tulad ng \\⣿{\"0\"–\"9\"}⣿\\ , sa anumang script, tulad ng \\⣿{\"あ\"–\"ん\"}⣿\\ ."
+            ]
+        },
+        "PatternLiteralText": {
+            "name": "$~literal",
+            "description": "$~eksaktong teksto",
+            "emotion": "curious",
+            "doc": [
+                "$~Eksaktong tugma ang teksto sa loob ng aking mga panipi, nang walang espesyal na kahulugan.",
+                "$~Halimbawa, hanapin ang halaga ng dolyar sa isang pangungusap:",
+                "$~\\receipt: 'It costs $5 today'\nreceipt ⌕ ⣿\"$\" >0 #⣿\\",
+                "$~Gamitin ang \"me\" para sa mga nakapirming bahagi tulad ng \\⣿\"-\"⣿\\ , \\⣿\"@\"⣿\\ , o isang buong salitang \\⣿\"cat\"⣿\\ , na pinagdugtong-dugtong kasama ng ibang mga bahagi, tulad ng \\⣿3 # \"-\" 4 #⣿\\ para sa numero ng telepono."
+            ]
+        },
+        "PatternAnchor": {
+            "name": "$~angkla",
+            "description": "$~itugma ang gilid ng teksto",
+            "emotion": "curious",
+            "doc": [
+                "$~Tinutugma ko ang isang gilid ng teksto nang hindi kumukuha ng kahit ano: \\⣿⊢⣿\\ ang simula, \\⣿⊣⣿\\ ang katapusan.",
+                "$~Halimbawa, siguraduhing nagsisimula sa \"Hello\" ang isang pagbati:",
+                "$~\\greeting: 'Hello world'\ngreeting ≈ ⣿⊢ \"Hello\" …⣿\\",
+                "$~Posisyon ng pin, tulad ng \\⣿⊢ \"Hi\"⣿\\ (nagsisimula sa \"Hi\"), \\⣿\".\" ⊣⣿\\ (nagtatapos sa tuldok), o \\⣿⊢ _ ⊣⣿\\ (ang buong teksto ay eksaktong isang letra)."
+            ]
+        },
+        "PatternWord": {
+            "name": "$~salita",
+            "description": "$~tugmain ang isang buong salita",
+            "emotion": "curious",
+            "doc": [
+                "$~Tinutugma ko ang isang buong salita, na matatagpuan sa pamamagitan ng sariling mga tuntunin ng isang wika.",
+                "$~Halimbawa, ilista ang mga salita sa isang pangungusap:",
+                "$~\\sentence: 'the cat sat'\nsentence ⌕ ⣿▭/en⣿\\",
+                "$~Pangalanan ang wika, tulad ng \\⣿▭/en⣿\\ para sa Ingles o \\⣿▭/zh⣿\\ para sa Tsino, at lagyan ng mga gilid ang isang partikular na salita, tulad ng \\⣿┊/en \"cat\" ┊/en⣿\\ ."
+            ],
+            "conflict": {
+                "MissingPatternLocale": {
+                    "name": "$~nawawalangwika",
+                    "explanation": "$~Kailangan ko ng wika para malaman kung paano maghanap ng mga salita. Maaari ka bang magdagdag ng isa, tulad ng \\/en\\ ?"
+                }
+            }
+        },
+        "PatternWordEdge": {
+            "name": "$~gilidngsalita",
+            "description": "$~itugma ang hangganan ng salita",
+            "emotion": "curious",
+            "doc": [
+                "$~Tinutugma ko ang hangganan ng salita para sa isang wika nang hindi kumukuha ng kahit ano.",
+                "$~Halimbawa, hanapin ang \"cat\" bilang isang buong salita, hindi sa loob ng \"category\":",
+                "$~\\text: 'a cat in a category'\ntext ⌕ ⣿┊/en \"cat\" ┊/en⣿\\",
+                "$~I-wrap ang isang salita gamit ang \"me\", tulad ng \\⣿┊/en \"cat\" ┊/en⣿\\ , para buo lang ang katugma nito."
+            ]
+        },
+        "PatternLook": {
+            "name": "$~tumingin-tingin",
+            "description": "$~suriin sa unahan o sa likuran",
+            "emotion": "curious",
+            "doc": [
+                "$~Tinitingnan ko kung ano ang nasa unahan \\⣿▸(#)⣿\\ o nasa likod \\⣿◂(#)⣿\\ nang hindi ito kinokonsumo, para magkatugma pa rin ang susunod na bahagi mula sa parehong lugar.",
+                "$~Halimbawa, hanapin ang bawat letra na sinusundan agad ng isang digit:",
+                "$~\\text: 'a1 b2 cc'\ntext ⌕ ⣿_ ▸(#)⣿\\",
+                "$~Kinakailangan ang konteksto, tulad ng \\⣿_ ▸(#)⣿\\ (isang letra na sinusundan ng isang digit) o \\⣿◂(\"$\") >0 #⣿\\ (mga digit pagkatapos ng \"$\").",
+                "$~I-flip ako gamit ang @PatternComplement para ipagbawal ang konteksto, tulad ng \\⣿~▸(#)⣿\\ (hindi sinusundan ng digit)."
+            ]
+        },
+        "PatternBackref": {
+            "name": "$~sanggunianpabalik",
+            "description": "$~itugma muli ang parehong teksto",
+            "emotion": "curious",
+            "doc": [
+                "$~Tinutugma ko ang parehong teksto na nagngangalang @PatternCapture na naitugma na — isulat lang ang hubad na pangalan ng nakuhanan.",
+                "$~Halimbawa, maghanap ng salitang agad na inuulit:",
+                "$~\\text: 'the the cat sat sat'\ntext ⌕ ⣿w:(>0 _) ␣ w⣿\\",
+                "$~Ang isang hubad na pangalan na hindi isang capture ay isang pinangalanang klase, tulad ng \\⣿linebreak⣿\\ ."
+            ],
+            "conflict": {
+                "UndefinedBackreference": {
+                    "name": "$~hindikilalangpangalan",
+                    "explanation": "$~Walang capture o class na pinangalanang $name , kaya wala akong maitutugma.",
+                    "resolution": "$~Baguhin ito sa $suggestion"
+                }
+            }
+        },
+        "PatternRest": {
+            "name": "$~pahinga",
+            "description": "$~itugma ang natitirang input",
+            "emotion": "curious",
+            "doc": [
+                "$~Tinutugma ko ang natitirang bahagi ng teksto, hangga't maaari. Madali akong gamitin sa dulo ng isang pattern.",
+                "$~Halimbawa, siguraduhing ang ilang teksto ay isang hashtag — isang \"#\" pagkatapos ay kahit ano:",
+                "$~\\tag: '#breakfast'\ntag ≈ ⣿\"#\" …⣿\\",
+                "$~Gamitin ang \"ako\" pagkatapos ng isang nakapirming simula, tulad ng \\⣿\"#\" …⣿\\ (isang \"#\" pagkatapos ay kahit ano) o \\⣿\"Hi \" …⣿\\ (\"Hi \" pagkatapos ay lahat pagkatapos)."
+            ]
+        },
+        "PatternCaseFold": {
+            "name": "$~balewalainangkaso",
+            "description": "$~pagtutugma na hindi pinapansin ang malaki/maliit na titik",
+            "emotion": "curious",
+            "doc": [
+                "$~Pinagtugma ko ang mga bahagi ko nang hindi pinapansin ang malaki at maliit na titik.",
+                "$~Halimbawa, lagyan ng tsek ang isang salita na hindi pinapansin ang malaking titik nito:",
+                "$~\\shout: 'HELLO'\nshout ≈ ⣿⇕(\"hello\")⣿\\",
+                "$~I-wrap ang aking mga bahagi tulad ng \\⣿⇕(\"hi\")⣿\\ (tumutugma sa \"HI\", \"Hi\", o \"hi\"). Magdagdag ng wika para sa mga panuntunan nito, tulad ng \\⣿⇕/tr(\"i\")⣿\\ (Turkic i), at susuriin ko rin ang isang @PatternBackref , tulad ng \\⣿⇕(w:(2 _) w)⣿\\ ."
+            ]
+        },
+        "PatternType": {
+            "name": "$~uringpattern",
+            "description": "$~ang uri ng isang pattern",
+            "emotion": "curious",
+            "doc": [
+                "$~Ako ang tipo ng halaga ng pattern, na may anotasyon tulad ng \\p•⣿⣿: ⣿◌⣿\\ .",
+                "$~Halimbawa, mag-imbak ng isang pattern sa isang pangalan at gamitin itong muli sa maraming teksto:",
+                "$~\\digits: ⣿>0 #⣿\n'I have 3 cats and 12 fish' ⌕ digits\\",
+                "$~Kapag nakaimbak na, gamitin ang \"me\" kahit saan naaangkop ang isang pattern, tulad ng \\text ⌕ digits\\ o \\text ≈ digits\\ ."
+            ]
         }
     },
     "basis": {
@@ -2147,6 +2463,32 @@
                         {
                             "doc": "$~Ang @Text na idadagdag.",
                             "names": "$~teksto"
+                        }
+                    ]
+                },
+                "matches": {
+                    "doc": [
+                        "$~\\⊤\\ kung ang buong teksto ay tumutugma sa ibinigay na padron.",
+                        "$~\\'555-1234' ≈ ⣿3 # \"-\" 4 #⣿\\"
+                    ],
+                    "names": ["$~≈", "$~mgatugma"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang padron na dapat pagtumbasan.",
+                            "names": "$~padron"
+                        }
+                    ]
+                },
+                "search": {
+                    "doc": [
+                        "$~Hanapin ang bawat lugar kung saan tumutugma ang ibinigay na pattern sa akin, bilang isang listahan ng @Result .",
+                        "$~\\'a1 b2' ⌕ ⣿_ #⣿\\"
+                    ],
+                    "names": ["$~⌕", "$~paghahanap"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang padron na hahanapin.",
+                            "names": "$~padron"
                         }
                     ]
                 }
@@ -5047,6 +5389,34 @@
                 "doc": "$~@True kung ang palad ay nakaharap sa kamera, @False kung ang likod ng kamay ay nakaharap.",
                 "names": ["$~palad"]
             }
+        },
+        "Result": {
+            "doc": "$~Isang tugma ako mula sa isang paghahanap ng pattern gamit ang \\⌕\\ : ang katugmang teksto, kung nasaan ito, at anumang mga nakuha.",
+            "names": ["$~Resulta"],
+            "text": {
+                "doc": "$~Ang buong tugmang teksto.",
+                "names": "$~teksto"
+            },
+            "start": {
+                "doc": "$~Kung saan magsisimula ang laban, bibilang mula 1.",
+                "names": "$~simulan"
+            },
+            "end": {
+                "doc": "$~Kung saan nagtatapos ang laban, binibilang mula 1.",
+                "names": "$~katapusan"
+            },
+            "groups": {
+                "doc": "$~Pangalan ng bawat nakuhanan sa tekstong tumutugma dito.",
+                "names": "$~mgagrupo"
+            },
+            "starts": {
+                "doc": "$~Pangalan ng bawat kuha kung saan ito nagsisimula.",
+                "names": "$~nagsisimula"
+            },
+            "ends": {
+                "doc": "$~Pangalan ng bawat kuha kung saan ito nagtatapos.",
+                "names": "$~mgadulo"
+            }
         }
     },
     "ui": {
@@ -5663,7 +6033,18 @@
                 "insertTranslate": "$~ipasok ang simbolo ng pagsasalin",
                 "insertThis": "$~ilagay ang simbolong ito",
                 "tab": "$~Inililipat ng Tab ang pokus ng keyboard. Para maglagay ng tab, pindutin ang Ctrl+ $alt +Tab, gamitin ang button na insert sa ibaba, o baguhin ito sa mga setting.",
-                "matchDelimiter": "$~ilipat ang cursor sa katugmang delimiter"
+                "matchDelimiter": "$~ilipat ang cursor sa katugmang delimiter",
+                "insertPattern": "$~ipasok ang pattern",
+                "insertSearch": "$~simbolo ng paghahanap ng pattern na isingit",
+                "insertPatternAny": "$~maglagay ng simbolo ng anumang-grapheme na pattern",
+                "insertPatternSpace": "$~simbolo ng pattern ng espasyo",
+                "insertPatternStart": "$~simbolo ng pagsisimula ng pattern",
+                "insertPatternEnd": "$~simbolo ng pagtatapos ng pattern",
+                "insertPatternFold": "$~ipasok ang pattern na simbolo ng case-fold",
+                "insertPatternAhead": "$~maglagay ng simbolo ng lookahead na pattern",
+                "insertPatternBehind": "$~maglagay ng pattern na simbolo ng lookbehind",
+                "insertPatternWord": "$~simbolo ng salita na may pattern",
+                "insertPatternWordEdge": "$~simbolo ng word-edge na pattern na isingit"
             },
             "error": {
                 "invalidName": "$~Dapat itong isang wastong pangalan ng Wordplay.",
@@ -5880,6 +6261,7 @@
                         "$~magdesisyon",
                         "$~pangalan",
                         "$~teksto",
+                        "$~padron",
                         "$~mga numero",
                         "$~katotohanan",
                         "$~mga listahan",
@@ -5895,14 +6277,15 @@
                         "$~oras, mga butones, mga susi, mga eksena, at higit pa",
                         "$~pumili ng mga halaga batay sa iba pang mga halaga",
                         "$~mga halaga ng pangalan, mga tungkulin, at mga istruktura ng datos para magamit sa ibang pagkakataon",
-                        "$~mga halagang totoo, mali, at wala",
-                        "$~mga numero at operasyon sa matematika",
                         "$~payak at naka-format na teksto",
+                        "$~ilarawan ang hugis ng teksto upang subukan o hanapin ito",
+                        "$~mga numero at operasyon sa matematika",
+                        "$~mga halagang totoo, mali, at wala",
                         "$~mga listahan at mga operasyon sa listahan",
                         "$~mga set, mapa, at operasyon",
                         "$~mga talahanayan at mga operasyon sa talahanayan",
-                        "$~mga uri ng data, mga conversion, at mga pagsusuri ng uri",
                         "$~dokumentasyon at mga komento",
+                        "$~mga uri ng data, mga conversion, at mga pagsusuri ng uri",
                         "$~mga konsepto ng wika na mas mataas ang antas"
                     ]
                 },
@@ -5988,6 +6371,10 @@
                 "GalleryHow": {
                     "header": "$~Paano gawin sa gallery",
                     "explanation": "$~/Mga karaniwang padron para sa paglikha ng iba't ibang uri ng proyekto, mula sa iyong mga gallery./"
+                },
+                "Patterns": {
+                    "header": "$~Mga Pattern",
+                    "explanation": "$~/Ilarawan ang hugis ng teksto gamit ang isang padron, na pinaghihiwalay ng \\⣿\\ , pagkatapos ay subukan kung ang teksto ay akma sa hugis ( \\≈\\ ) o hanapin ang bawat lugar kung saan ito lumilitaw ( \\⌕\\ )./"
                 }
             },
             "how": {

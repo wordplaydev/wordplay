@@ -1,5 +1,6 @@
 import type Bind from '@nodes/Bind';
 import BooleanType from '@nodes/BooleanType';
+import PatternType from '@nodes/PatternType';
 import ConversionType from '@nodes/ConversionType';
 import FormattedType from '@nodes/FormattedType';
 import FunctionType from '@nodes/FunctionType';
@@ -47,7 +48,12 @@ export default function parseType(tokens: Tokens, isExpression = false): Type {
                       ? parseSetOrMapType(tokens)
                       : tokens.nextIs(Sym.TableOpen)
                         ? parseTableType(tokens)
-                        : tokens.nextIs(Sym.Function)
+                        : tokens.nextIs(Sym.PatternDelimiter)
+                          ? new PatternType(
+                                tokens.read(Sym.PatternDelimiter),
+                                tokens.read(Sym.PatternDelimiter),
+                            )
+                          : tokens.nextIs(Sym.Function)
                           ? parseFunctionType(tokens)
                           : tokens.nextIs(Sym.Stream)
                             ? parseStreamType(tokens)

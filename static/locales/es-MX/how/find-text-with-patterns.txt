@@ -1,0 +1,24 @@
+Encuentra y verifica textos con patrones
+
+Un patrón describe la forma de un texto, por lo que puedes comprobar si el texto se ajusta a una forma o buscar todos los lugares donde aparece. Los patrones se colocan dentro \⣿⣿\ y leer de izquierda a derecha, una pieza a la vez. \_\ es una carta, \#\ es un dígito, \␣\ es un espacio y texto citado como \"-"\ coincide exactamente.
+
+Para comprobar si un texto completo se ajusta a un patrón, utilice \≈\, lo que te da un \?\:
+
+\'555-1234' ≈ ⣿ 3 # "-" 4 #⣿\
+
+La pregunta es "¿tres dígitos, un guion y luego cuatro dígitos?" y la respuesta es \⊤\.
+
+Los conteos van antes de lo que repiten: \3
+#\ significa tres dígitos. También puedes decir \>0
+#\ (uno o más), \≥0
+#\ (cero o más), \≤1
+#\ (opcional), o un rango como \2–4
+#\.
+
+Para encontrar todos los lugares donde aparece un patrón, utilice \⌕\, que te da una lista de  @Structure  resultados. Nombra una pieza con \name: (…)\ para capturarlo:
+
+\'nacido el 15 de junio de 2026' ⌕ ⣿ y: (4 #) "-" m: (2 #) "-" d: (2 #)⣿\
+
+Cada resultado te indica la coincidencia \text\, donde \start\arena \end\s, y los capturados \groups\ - aquí \y\, \m\, y \d\Dado que los patrones coinciden por grafema, funcionan igual en todos los idiomas y sistemas de escritura.
+
+mix-languages-in-text

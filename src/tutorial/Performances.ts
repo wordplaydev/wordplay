@@ -29,6 +29,19 @@ Group(
   ] background: Color(0% 0 0°)
 )`,
     TakeTheMic: () => `Phrase("🎤" size: Volume() × 1m)`,
+    PatternSearch: () => `phrase: 'a1 b22 c333 d4444'
+matches: phrase ⌕ ⣿>0 #⣿
+Group(
+    Stack()
+    matches.translate(
+        ƒ(match•Result)
+            Phrase(
+                match.text
+                size: match.text.length() · 1m
+                resting: Sequence(sway() duration: 1s)
+            )
+    )
+)`,
     RainingEmoji: () => `count: 50
 size: 30
 

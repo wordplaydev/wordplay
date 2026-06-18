@@ -10,6 +10,7 @@ This abbreviated week we fleshed out the multilingual and text processing part o
 
 ### Added
 
+- ⌕ We added a major new element to the programming language: patterns! Also known as "regular expressions", these help you test whether some text matches a particular pattern `"@amyjko" ≈ ⣿"@" >0 {_ #}⣿` ("does this text match an at symbol followed by 1 or more letters or numbers?"), and help you search text for particular patterns `"does my mystery string have a secret code 123456abc?" ⌕ ⣿6 # 3 _⣿` (find all sequences of 6 numbers followed by 3 letters) (#121). Matching is fully steppable, so you can single-step a match and watch the position advance and captures fill in, just like the rest of evaluation.
 - 🌎 When text is sliced up or combined, we now preserve and combine locales (e.g., `"hello and"/en + "hola"/es` now produces `"hello and hola"/en_es`) (#526).
 - 🌍 We added an operation to apply a locale to plain and formatted text (e.g., `("hello" + "world")/en` applies the `/en` locale to the computed text) (#1189).
 - 🌏 We added several operations to formatted text to mirror text operations (#1190).

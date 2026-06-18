@@ -75,6 +75,11 @@ import { UnknownTypeName } from '@conflicts/UnknownTypeName';
 import UnsupportedFontFormat from '@conflicts/UnsupportedFontFormat';
 import UnusedBind from '@conflicts/UnusedBind';
 import { UnparsableConflict } from '@conflicts/UnparsableConflict';
+import EmptyPattern from '@conflicts/EmptyPattern';
+import MalformedQuantifier from '@conflicts/MalformedQuantifier';
+import DuplicateCaptureName from '@conflicts/DuplicateCaptureName';
+import UndefinedBackreference from '@conflicts/UndefinedBackreference';
+import UnrecognizedPatternProperty from '@conflicts/UnrecognizedPatternProperty';
 import Templates from '@concepts/Templates';
 
 function locate<C extends Conflict>(
@@ -652,5 +657,29 @@ describe.skip('UnsupportedFontFormat', () => {
         // analysis depends on font metadata that isn't available in this
         // test harness — covered by manual UX review.
         expectRepair("Phrase('hi')", UnsupportedFontFormat);
+    });
+});
+
+// ====================================================================
+// Pattern sublanguage
+// ====================================================================
+
+describe('Pattern resolutions', () => {
+    test('EmptyPattern → repair (fill with ◌)', () => {
+        expectRepair("'x' ≈ ⣿⣿", EmptyPattern);
+    });
+    test('MalformedQuantifier → repair (swap bounds)', () => {
+        expectRepair("'x' ≈ ⣿5–2 #⣿", MalformedQuantifier);
+    });
+    test('DuplicateCaptureName → repair (rename uniquely)', () => {
+        expectRepair("'x' ≈ ⣿a:(_) a:(#)⣿", DuplicateCaptureName);
+    });
+    test('UndefinedBackreference → repair (nearest defined name)', () => {
+        // `nam` is one edit from the capture `name`.
+        expectRepair("'x' ≈ ⣿name:(_) nam⣿", UndefinedBackreference);
+    });
+    test('UnrecognizedPatternProperty → repair (nearest known name)', () => {
+        // `greak` is one edit from the script `greek`.
+        expectRepair("'x' ≈ ⣿_/greak⣿", UnrecognizedPatternProperty);
     });
 });
