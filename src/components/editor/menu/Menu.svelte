@@ -289,8 +289,10 @@
         max-width: 100dvw;
         max-height: 30vh;
 
-        /** Position above tiles */
-        z-index: 2;
+        /* Position above tiles (z-index 1) and the sidebar resize knob
+           (ResizeKnob, z-index 3), which shares this stacking context and
+           would otherwise cover the autocomplete menu at the editor edge. */
+        z-index: 4;
     }
 
     .revisions {
