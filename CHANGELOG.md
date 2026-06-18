@@ -16,6 +16,10 @@ This abbreviated week we fleshed out the multilingual and text processing part o
 - 🌐 All locale information on plain and formatted text is now reflected in program output, so all text-to-speech functionality is properly localized and language writing directions are respected.
 - 🌐 Autocomplete menus now suggest extra languages and regions, in case you want bilingual, trilingual, or radically multlingual text! (#884).
 
+### Fixed
+
+- 📕 We made the navigation breadcrumbs on the guide more consistent with the page section selection.
+
 ## 0.23.0 - 2026-06-13
 
 This week we improved the editor, fixed a few bugs, and added a new shorter tutorial for learners who already know another programming language.
