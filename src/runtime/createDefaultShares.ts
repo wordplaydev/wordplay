@@ -45,6 +45,7 @@ import { createRowType } from '@output/Row';
 import { createSequenceType } from '@output/Sequence';
 import { createShapeType } from '@output/Shape';
 import { createSayType } from '@output/Say';
+import { createResultType } from '@output/Result';
 import { createStackType } from '@output/Stack';
 import { createStageType } from '@output/Stage';
 import { createVelocityType } from '@output/Velocity';
@@ -92,6 +93,7 @@ export default function createDefaultShares(locales: Locales) {
         Free: createFreeType(locales),
         Data: createSourceType(locales),
         Say: createSayType(locales),
+        Result: createResultType(locales),
     };
 
     const InputTypes = {

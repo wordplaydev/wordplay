@@ -178,6 +178,13 @@ Some are associated with type declarations:
 > typevariableopen → `⸨`  
 > typevariableclose → `⸩`
 
+Some delimit a pattern, and the operations on text that use one (see the **Pattern** section below). The matcher's atom and quantifier glyphs (`◌ _ # ␣ … ⊢ ⊣ ▸ ◂ ⇕ ▭ ┊` and the inequalities) are only lexed specially _inside_ `⣿ ⣿`; outside, those glyphs — and `_` — keep their ordinary meaning:
+
+> patternopen → `⣿`  
+> patternclose → `⣿`  
+> match → `≈`  
+> search → `⌕`
+
 Some are associated with importing and exporting values from source:
 
 > borrow → `↓`  
@@ -413,6 +420,59 @@ Markup values support the same locale-aware operations as text, via the `` `…`
 #### _equality_
 
 Markup values follow the same equality rules as text: but also must have the exact same markup structure.
+
+### Pattern
+
+Regular expressions are empirically hard to read, write, and learn: developers over-constrain patterns roughly 3× more than they over-relax them, incorrect escaping and invisible greedy/lazy choices are dominant bug sources, and dense unstructured notation overwhelms comprehension (Wang, Brown, Jennings & Stolee, _An Empirical Study on Regular Expression Bugs_, MSR 2020 / EMSE 2022; Chapman, Wang & Stolee, _Exploring Regular Expression Comprehension_, ASE 2017; Michael, Donohue, Davis, Lee & Servant, [_Regexes are Hard_](https://fservant.github.io/papers/Michael_Donohue_Davis_Lee_Servant_ASE19.pdf), ASE 2019).
+
+A pattern is Wordplay's take on regular expressions: a symbol-only, multilingual, grapheme-based description of the _shape_ of text. Patterns address these problems with three structural commitments: (1) the match boundary _is_ the operation (`≈` whole-text vs `⌕` search), so an anchor can't be forgotten; (2) quoted = literal, so there is no escaping; and (3) one matching semantics — greedy, possessive, and longest-match everywhere — so there is no greedy/lazy distinction to learn, no silent default, and no dependence on the order branches are written. Matching over NFC extended grapheme clusters makes a pattern behave the same across languages and scripts. The syntax converges deliberately with the readable-regex DSL family — [Rosie](https://rosie-lang.org/) (whose PEG-style possessive, linear-time matching this adopts directly), [Pomsky](https://pomsky-lang.org/), [Melody](https://github.com/yoav-lavi/melody), and SRL — favouring usability by _subtracting_ from full regex power. Two extensions are deliberately deferred: a localized-keyword layer (so property and operator names can be written as localized words, not only symbols), and a bare `@<hex>` codepoint atom for matching invisible or hard-to-type scalars without re-introducing escaping into raw literals.
+
+A pattern literal is delimited by `⣿ ⣿` and contains a small sub-grammar; its type is written `•⣿⣿`.
+
+> PATTERN → `⣿` SEQUENCE? `⣿`  
+> SEQUENCE → ITEM (`|`? ITEM)\*  
+> ITEM → CAPTURE | COMPLEMENT | QUANTIFIED | ATOM  
+> CAPTURE → name `:` ATOM  
+> COMPLEMENT → `~` ATOM  
+> QUANTIFIED → QUANTIFIER (COMPLEMENT | ATOM)  
+> QUANTIFIER → (`>` | `≥` | `<` | `≤` | `=`)? number ((`–` | `-`) number)?  
+> ATOM → CLASS | LITERAL | SET | GROUP | ANCHOR | LOOK | WORD | WORDEDGE | CASEFOLD | REST | name  
+> CLASS → (`◌` | `_` | `#` | `␣`) (`/` PROPERTY)?  
+> LITERAL → `'…'` | `"…"`  
+> SET → `{` MEMBER\* `}` where MEMBER is a class, range `'a'–'z'`, literal, or named class  
+> GROUP → `(` SEQUENCE `)` — groups only; never captures  
+> ANCHOR → `⊢` | `⊣`  
+> LOOK → (`▸` | `◂`) `(` SEQUENCE `)`  
+> WORD → `▭` `/` lang, WORDEDGE → `┊` `/` lang (locale-segmented via `Intl.Segmenter`)  
+> CASEFOLD → `⇕` (`/` lang)? `(` SEQUENCE `)`  
+> REST → `…`
+
+The base classes are `◌` (any grapheme), `_` (a letter), `#` (a digit), and `␣` (a space, horizontal whitespace only); `…` matches the rest of the input (a possessive `≥0 ◌`). A `/property` narrows a class to a Unicode category, binary property, script, or `Property=Value` (e.g. `_/greek`, `◌/emoji`, `◌/Script=Greek`), tested against the grapheme cluster's base (first) scalar. Property names come from a curated, **localizable** registry (`letter`, `digit`, `emoji`, `linebreak`, scripts like `greek`/`han`, …), with the canonical Unicode id (`Lu`, `Nd`, `Script=Greek`) always available as a fallback; an unrecognized name is a conflict, not a silent match. Quantifier counts precede the atom they repeat (`3 #`, `>0 #`, `≤1 #`, `2–4 #`); the range dash is written `–` but a typed hyphen `-` is accepted as an alias (so `2-4 #` and `'a'-'z'` work without the en-dash). A bare name is a backreference to an earlier capture, or — if no such capture exists — a named class (e.g. `linebreak`).
+
+A literal `"…"` is **raw**: the whole quoted span is one token, matched grapheme-exact with no escaping, markup, embedded expressions, codepoint resolution, `/lang` tag, or multiple translations — so `⣿"@foo"⣿` matches the characters `@foo` and `⣿"1+1"⣿` matches `1+1`. Any Wordplay text delimiter works (`'…'`, `"…"`, `«…»`, …); choose one the text doesn't contain, since there is no escape. To match a specific character, write it (`⣿"✓"⣿`). `⇕(…)` folds case over its subpattern — bare `⇕` uses Unicode's default folding, `⇕/lang` applies locale-specific casing (e.g. Turkic `i`/`İ`), and a backreference inside the scope folds too. `▭`/`┊` (word and word-edge) **require** a `/lang` tag, since word segmentation has no locale-independent answer. Case is sensitive, lines have no special mode (`◌` matches a line break; compose line anchors from `⊢`/`⊣`, lookaround, and `linebreak`), and `⣿⣿` empties match only empty text.
+
+Matching is a **possessive parsing expression grammar (PEG)**: greedy with no backtracking, so it runs in linear time and is immune to catastrophic backtracking. Alternation is **longest-match** and order-independent — of the `|` branches that fit, the longest wins (`"cat" | "cats"` ≡ `"cats" | "cat"`) — consistent with the language's "match as much as you can" rule. It is still possessive: a shorter branch that would leave room for what follows is not reconsidered, so `⣿("aa" | "a") "ab"⣿` fails on `"aab"`. Sequences read strictly left to right with no precedence; group with `(…)`. Text is compared as NFC extended grapheme clusters, so a pattern behaves the same across languages and scripts.
+
+#### _operations_
+
+Two optionally infix operations on @Text take a pattern (they are functions on the Text basis, resolved against the left operand's type):
+
+- `text ≈ pattern` → `?` — does the _whole_ text match (as if wrapped in `⊢ … ⊣`)?
+- `text ⌕ pattern` → `[Result]` — the list of leftmost, non-overlapping matches.
+
+A `Result` is a built-in @Structure with the matched `text`, its 1-based inclusive `start` and `end`, and `groups`/`starts`/`ends` maps from each capture name to its text and positions.
+
+#### _evaluation_
+
+A pattern literal evaluates to a pattern value carrying the literal. `≈` and `⌕` compile the match into Evaluator steps that advance a scoped match state one grapheme-atom at a time, so a match is observable and reversible step by step like the rest of evaluation, rather than an opaque call.
+
+#### _conflicts_
+
+`EmptyPattern` (a `⣿⣿` with no atoms), `MalformedQuantifier` (a range whose minimum exceeds its maximum), `UnrecognizedPatternProperty` (an unknown `/property`), `MissingPatternLocale` (a `▭`/`┊` with no locale tag), `UndefinedBackreference` (a bare name that is neither a capture nor a known class), `DuplicateCaptureName` (two captures sharing a name), and `OverlappingAlternatives` (a warning when one literal `|` branch is a prefix of another, since longest-match always prefers the longer).
+
+#### _equality_
+
+Two pattern values are equal when their source literals are equal.
 
 ## Compound Values
 

@@ -492,6 +492,28 @@ type UITexts = {
             insertThis: string;
             /** [plain] Insert table symbol */
             insertTable: string;
+            /** [plain] Insert ⣿⣿ pattern symbol */
+            insertPattern: string;
+            /** [plain] Insert ⌕ pattern search symbol */
+            insertSearch: string;
+            /** [plain] Insert ◌ any-grapheme pattern symbol */
+            insertPatternAny: string;
+            /** [plain] Insert ␣ space pattern symbol */
+            insertPatternSpace: string;
+            /** [plain] Insert ⊢ pattern start symbol */
+            insertPatternStart: string;
+            /** [plain] Insert ⊣ pattern end symbol */
+            insertPatternEnd: string;
+            /** [plain] Insert ⇕ pattern case-fold symbol */
+            insertPatternFold: string;
+            /** [plain] Insert ▸ pattern lookahead symbol */
+            insertPatternAhead: string;
+            /** [plain] Insert ◂ pattern lookbehind symbol */
+            insertPatternBehind: string;
+            /** [plain] Insert ▭ pattern word symbol */
+            insertPatternWord: string;
+            /** [plain] Insert ┊ pattern word-edge symbol */
+            insertPatternWordEdge: string;
             /** [plain] Insert borrow symbol */
             insertBorrow: string;
             /** [plain] Insert share symbol */

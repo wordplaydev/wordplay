@@ -77,6 +77,12 @@ import SetLiteral from '@nodes/SetLiteral';
 import SetType from '@nodes/SetType';
 import StructureDefinition from '@nodes/StructureDefinition';
 import { WildcardSymbols, type SymType } from '@nodes/Sym';
+import PatternNode from '@nodes/PatternNode';
+import { PatternSymbolGlyphs } from '@parser/Tokenizer';
+import {
+    getPatternSuggestions,
+    isPatternKind,
+} from '@edit/menu/patternSuggestions';
 import TableLiteral from '@nodes/TableLiteral';
 import TextLiteral from '@nodes/TextLiteral';
 import TextType from '@nodes/TextType';
@@ -105,13 +111,34 @@ function note(message: string, level: number) {
     if (LOG) console.log(`${'  '.repeat(level)}Autocomplete: ${message}`);
 }
 
-function removeDuplicates(edits: Revision[]): Revision[] {
-    return edits.filter(
+function removeDuplicates(edits: Revision[], locales: Locales): Revision[] {
+    const structural = edits.filter(
         (edit1, index1) =>
             !edits.some(
                 (edit2, index2) => index2 > index1 && edit1.equals(edit2),
             ),
     );
+    // Collapse pattern suggestions that produce the same result via different
+    // structural paths — e.g. swapping a class's base glyph (a bare `◌` token)
+    // vs. replacing the whole class (a `◌` PatternClass), or the same atom
+    // offered at the sequence and the literal level by the ancestor-replacement
+    // walk. They read as duplicate menu items; keep the first. Scoped to pattern
+    // nodes and pattern-glyph tokens so non-pattern edits are untouched.
+    const patternSyms = [...PatternSymbolGlyphs.keys()];
+    const isPatternSuggestion = (
+        node: Node | undefined,
+    ): node is PatternNode | Token =>
+        node instanceof PatternNode ||
+        (node instanceof Token && patternSyms.some((s) => node.isSymbol(s)));
+    const seen = new Set<string>();
+    return structural.filter((edit) => {
+        const node = edit.getNewNode(locales);
+        if (!isPatternSuggestion(node)) return true;
+        const key = node.toWordplay();
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+    });
 }
 
 /** Given a project and a caret, generate a set of transforms that can be applied at the location. */
@@ -141,7 +168,7 @@ export function getEditsAt(
             1,
         );
 
-        return removeDuplicates(getFieldAssignments(field, edit));
+        return removeDuplicates(getFieldAssignments(field, edit), locales);
     }
     // If we have a node selected, find possible replacements or removals.
     else if (caret.position instanceof Node) {
@@ -150,7 +177,7 @@ export function getEditsAt(
             1,
         );
 
-        return removeDuplicates(getNodeRevisions(caret.position, edit));
+        return removeDuplicates(getNodeRevisions(caret.position, edit), locales);
     }
     // If the token is a position rather than a node, find edits for the nodes between.
     else if (caret.isPosition()) {
@@ -250,7 +277,7 @@ export function getEditsAt(
             }
         }
 
-        return removeDuplicates(edits);
+        return removeDuplicates(edits, locales);
     }
     return [];
 }
@@ -563,7 +590,11 @@ function getRelativeFieldEdits(
             // An empty markup (e.g. inside an empty formatted literal `` `` ``)
             // is a placeholder we can fill, so offer setting it.
             (fieldValue instanceof Markup &&
-                fieldValue.paragraphs.length === 0);
+                fieldValue.paragraphs.length === 0) ||
+            // The parser fills a missing pattern atom with a placeholder backref
+            // (e.g. the atom of `>0` before one is typed); treat it as fillable
+            // so the caret there offers the atom menu.
+            (fieldValue instanceof PatternNode && fieldValue.isPlaceholder());
 
         // If the field is a list, and it's not a block, or we're on an empty line in a block, get possible insertions for all allowable node kinds.
         if (
@@ -805,9 +836,17 @@ function getPossibleNodes(
     // Looking for a node kind that is undefined? That's just undefined.
     if (kind === undefined) return [undefined];
 
-    // Symbol? That represents a token. We use the symbol's string as the text. Don't recommend it if it's already that.
+    // Symbol? That represents a token. Insert its canonical glyph as the text.
+    // For most Syms that's the Sym value itself, but pattern glyphs are
+    // reinterpreted inside `⣿ ⣿` and carry placeholder Sym values (e.g.
+    // `Sym.PatternAlternation = 'pattern.or'`), so consult the glyph map first —
+    // otherwise we'd insert the unparsable literal `pattern.or`. Don't recommend
+    // it if it's already that.
     if (!(kind instanceof Function)) {
-        const newToken = new Token(kind.toString(), kind);
+        const newToken = new Token(
+            PatternSymbolGlyphs.get(kind) ?? kind.toString(),
+            kind,
+        );
         return field.uncompletable ||
             ('node' in action &&
                 action.node !== undefined &&
@@ -822,19 +861,25 @@ function getPossibleNodes(
     // Otherwise, it's a non-terminal. Let's find all the nodes that we can make that satisify the node kind,
     // creating nodes or node references that are compatible with the requested kind.
 
-    const possible = PossibleNodes.filter(
-        (possibleKind) =>
-            possibleKind.prototype instanceof kind || kind === possibleKind,
-    )
-        // Convert each node type to possible nodes. Each node implements a static function that generates possibilities
-        // from the context given.
-        .map((possibleKind) =>
-            'node' in action
-                ? possibleKind.getPossibleReplacements(action)
-                : possibleKind.getPossibleInsertions(action),
-        )
-        // Flatten the list of possible nodes.
-        .flat();
+    // Pattern atoms aren't in the generic PossibleNodes list (and the abstract
+    // PatternNode kind has no single default), so build their defaults directly —
+    // otherwise a caret inside `⣿ ⣿` or after a quantifier suggests nothing.
+    const possible = isPatternKind(kind)
+        ? getPatternSuggestions(kind, action)
+        : PossibleNodes.filter(
+              (possibleKind) =>
+                  possibleKind.prototype instanceof kind ||
+                  kind === possibleKind,
+          )
+              // Convert each node type to possible nodes. Each node implements a static function that generates possibilities
+              // from the context given.
+              .map((possibleKind) =>
+                  'node' in action
+                      ? possibleKind.getPossibleReplacements(action)
+                      : possibleKind.getPossibleInsertions(action),
+              )
+              // Flatten the list of possible nodes.
+              .flat();
 
     const filtered = possible.filter(
         (node) =>

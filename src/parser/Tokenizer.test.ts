@@ -97,6 +97,27 @@ test.each([
     ['`@11`', '`|@11|`|'],
     ['`@2222`', '`|@2222|`|'],
     ['`@ABCDEF`', '`|@ABCDEF|`|'],
+    // Pattern literals: the body reinterprets glyphs (see LANGUAGE.md), and a
+    // quoted literal is one raw token (no markup/concept/code segmentation).
+    ['⣿3 # "-" 4 #⣿', '⣿|3|#|"-"|4|#|⣿|'],
+    ['⣿◌ _ # ␣ …⣿', '⣿|◌|_|#|␣|…|⣿|'],
+    ["'a1' ⌕ ⣿◌⣿", "'|a1|'|⌕|⣿|◌|⣿|"],
+    ['⣿w: ▭/en >0 ␣ w⣿', '⣿|w|:|▭|/|en|>|0|␣|w|⣿|'],
+    ['⣿~# | ⊢ ⊣⣿', '⣿|~|#|||⊢|⊣|⣿|'],
+    ['⣿_/greek "a"–"z"⣿', '⣿|_|/|greek|"a"|–|"z"|⣿|'],
+    // A raw pattern literal: `@foo` is characters, not a concept/code segment.
+    ['⣿"@foo"⣿', '⣿|"@foo"|⣿|'],
+    ['⣿▸(#) ◂(#)⣿', '⣿|▸|(|#|)|◂|(|#|)|⣿|'],
+    ['⣿≤1 ≥0⣿', '⣿|≤|1|≥|0|⣿|'],
+    ['•⣿⣿', '•|⣿|⣿|'],
+    // An Example span's closing `\` ends the example even when a pattern inside
+    // it is left unclosed (so docs can SHOW a malformed pattern). The `\` is not
+    // swallowed as pattern content; it pops the pattern + example contexts.
+    ['¶\\⣿\\¶', '¶|\\|⣿|\\|¶|'],
+    ['¶\\⣿>0 #\\¶', '¶|\\|⣿|>|0|#|\\|¶|'],
+    ['`\\⣿\\`', '`|\\|⣿|\\|`|'],
+    // Outside a pattern, the same glyphs keep their normal meanings.
+    ['_ ⬚ … |', '_|⬚|…|||'],
 ])('%s -> %s', (code: string, segments: string) => {
     expect(
         tokens(code)

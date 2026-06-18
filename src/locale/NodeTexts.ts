@@ -738,6 +738,116 @@ type NodeTexts = {
      */
     Spread: DescriptiveNodeText;
     /**
+     * A pattern literal, a regular-expression replacement, e.g., `⣿3 # "-" 4 #⣿`. See LANGUAGE.md.
+     * Description inputs: $count = number of parts in the pattern
+     */
+    PatternLiteral: DescriptiveNodeText<['count']> &
+        SimpleExpressionText & {
+            /** The play-by-play narration shown while single-stepping a match. */
+            step: {
+                /** [formatted] Said once when a search (`⌕`) begins. */
+                search: Template<[]>;
+                /** [formatted] Said once when a whole-text test (`≈`) begins. */
+                test: Template<[]>;
+                /** [formatted] When the search tries the pattern from a new spot. $position = 1-based grapheme position */
+                scan: Template<['position']>;
+                /** [formatted] When an atom matches the grapheme there. $pattern = the construct, $glyph = the grapheme, $position = 1-based position */
+                match: Template<['pattern', 'glyph', 'position']>;
+                /** [formatted] When an atom does not match the grapheme there. $pattern = the construct, $glyph = the grapheme, $position = 1-based position */
+                miss: Template<['pattern', 'glyph', 'position']>;
+                /** [formatted] When an atom needs a grapheme but the text has ended. $pattern = the construct, $position = 1-based position */
+                end: Template<['pattern', 'position']>;
+                /** [formatted] When a zero-width atom (an anchor or word edge) holds at a position. $pattern = the construct, $position = 1-based position */
+                here: Template<['pattern', 'position']>;
+                /** [formatted] When a zero-width atom (an anchor or word edge) does not hold at a position. $pattern = the construct, $position = 1-based position */
+                nothere: Template<['pattern', 'position']>;
+                /** [formatted] When a quantifier repeated enough times to satisfy its bounds. $pattern = the quantified construct, $count = times matched */
+                repeat: Template<['pattern', 'count']>;
+                /** [formatted] When a quantifier did not repeat enough times. $pattern = the quantified construct, $count = times matched */
+                short: Template<['pattern', 'count']>;
+            };
+        } & Conflicts<{
+            /** When a pattern `⣿⣿` has no atoms. */
+            EmptyPattern: ConflictText & {
+                /** [formatted] Suggested fix that fills an empty pattern with a single any-grapheme atom `◌`. */
+                resolution: Template<[]>;
+            };
+        }>;
+    /** A sequence of pattern items inside a pattern literal, e.g., `3 # "-" 4 #`. */
+    PatternSequence: DescriptiveNodeText &
+        Conflicts<{
+            /** When two literal alternatives overlap (one is a prefix of another). */
+            OverlappingAlternatives: ConflictText<['shorter', 'longer']>;
+        }>;
+    /** A character class atom in a pattern, e.g., `◌` (any), `_` (letter), `#` (digit), `␣` (space). */
+    PatternClass: DescriptiveNodeText;
+    /** A Unicode-property qualifier on a class, e.g., `/greek` in `_/greek`. */
+    PatternProperty: DescriptiveNodeText &
+        Conflicts<{
+            /** When a `/property` name is not a known registry name, script, or Unicode id. */
+            UnrecognizedPatternProperty: ConflictText<['name']> & {
+                /** [formatted] Suggested fix that replaces the unknown property with the nearest known name. */
+                resolution: Template<['suggestion']>;
+            };
+        }>;
+    /** A quantifier count in a pattern, e.g., `3`, `3–5`, `>0`, `≤1`. */
+    PatternQuantifier: DescriptiveNodeText &
+        Conflicts<{
+            /** When a quantifier's bounds can never be satisfied (min > max). */
+            MalformedQuantifier: ConflictText & {
+                /** [formatted] Suggested fix that swaps the bounds so the smaller comes first. */
+                resolution: Template<[]>;
+            };
+        }>;
+    /** A quantified atom in a pattern, e.g., `3 #` or `>0 (◌ | #)`. */
+    PatternQuantified: DescriptiveNodeText;
+    /** A named capture in a pattern, e.g., `y:(4 #)`. */
+    PatternCapture: DescriptiveNodeText &
+        Conflicts<{
+            /** When two captures in the same pattern share a name. */
+            DuplicateCaptureName: ConflictText<['name']> & {
+                /** [formatted] Suggested fix that renames this capture to a unique name. */
+                resolution: Template<['replacement']>;
+            };
+        }>;
+    /** A complement/negation in a pattern, e.g., `~#` or `~▸(…)`. */
+    PatternComplement: DescriptiveNodeText;
+    /** A grouping `( … )` in a pattern (grouping only, never captures). */
+    PatternGroup: DescriptiveNodeText;
+    /** A glyph set `{ … }` in a pattern, matching one of the listed graphemes. */
+    PatternSet: DescriptiveNodeText;
+    /** A range inside a glyph set, e.g., `"a"–"z"`. */
+    PatternRange: DescriptiveNodeText;
+    /** A literal text atom in a pattern, e.g., `"-"`. */
+    PatternLiteralText: DescriptiveNodeText;
+    /** A text anchor in a pattern: `⊢` (start) or `⊣` (end). */
+    PatternAnchor: DescriptiveNodeText;
+    /** A whole-word atom `▭/‹lang›`, segmented by a locale's word segmenter. */
+    PatternWord: DescriptiveNodeText &
+        Conflicts<{
+            /** When a word `▭` or word-edge `┊` atom has no required locale tag. */
+            MissingPatternLocale: ConflictText;
+        }>;
+    /** A word-boundary atom `┊/‹lang›`. */
+    PatternWordEdge: DescriptiveNodeText;
+    /** A lookaround in a pattern: `▸(…)` ahead or `◂(…)` behind. */
+    PatternLook: DescriptiveNodeText;
+    /** A backreference in a pattern — a bare capture name. */
+    PatternBackref: DescriptiveNodeText &
+        Conflicts<{
+            /** When a bare name is neither a capture nor a known class. */
+            UndefinedBackreference: ConflictText<['name']> & {
+                /** [formatted] Suggested fix that replaces the unknown name with the nearest defined capture or class. */
+                resolution: Template<['suggestion']>;
+            };
+        }>;
+    /** The rest-of-input atom `…` in a pattern. */
+    PatternRest: DescriptiveNodeText;
+    /** A case-folding scope `⇕(…)` in a pattern. */
+    PatternCaseFold: DescriptiveNodeText;
+    /** The pattern type, `•⣿⣿`. */
+    PatternType: DescriptiveNodeText;
+    /**
      * A map literal, e.g., `{1:1 2:2 3:3}`
      * Finish inputs: $1 = resulting value
      */

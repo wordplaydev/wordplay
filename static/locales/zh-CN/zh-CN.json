@@ -51,7 +51,8 @@
         "cell": "单元格",
         "documentation": "文档",
         "language": "语言",
-        "region": "地区"
+        "region": "地区",
+        "pattern": "$~图案"
     },
     "token": {
         "EvalOpen": "评估打开",
@@ -134,7 +135,30 @@
         "TeluguNumeral": "$~泰卢固语数字",
         "LanguageJoin": "$~语言连接词",
         "Translate": "$~翻译",
-        "ExternalExample": "$~其他语言示例"
+        "ExternalExample": "$~其他语言示例",
+        "PatternAny": "$~任意字符",
+        "PatternLetter": "$~图案字母",
+        "PatternDigit": "$~模式数字",
+        "PatternSpace": "$~模式空间",
+        "PatternRest": "$~休止符",
+        "PatternWord": "$~模式词",
+        "PatternWordEdge": "$~图案词边缘",
+        "PatternStart": "$~模式开始",
+        "PatternEnd": "$~图案结束",
+        "PatternAhead": "$~模式前瞻",
+        "PatternBehind": "$~图案后视",
+        "PatternFold": "$~图案折叠",
+        "PatternRange": "$~图案范围",
+        "PatternComplement": "$~模式并非",
+        "PatternAlternation": "$~图案或",
+        "PatternSlash": "$~图案标签",
+        "PatternEqual": "$~图案完全一致",
+        "PatternGreater": "$~模式不止",
+        "PatternGreaterEqual": "$~至少有规律可循",
+        "PatternLess": "$~模式少于",
+        "PatternLessEqual": "$~最多",
+        "PatternText": "$~模式字面文本",
+        "PatternDelimiter": "$~图案"
     },
     "node": {
         "Dimension": {
@@ -1904,6 +1928,298 @@
                 "$~我只处理文字，所以请务必给我一些内容！"
             ],
             "start": "$~让我们评估$value ，然后给它添加一个区域设置标签……"
+        },
+        "PatternLiteral": {
+            "name": "$~图案",
+            "description": "$~一个包含$count",
+            "emotion": "curious",
+            "doc": [
+                "$~我是一个模式！我描述的是文本的*形状*，而不是确切的词语，因此您可以使用\\≈\\检查文本——整个文本是否符合形状？——或者使用\\⌕\\搜索文本，找到形状出现的所有位置。搜索会返回一个@Result。",
+                "$~以下是一个搜索示例——在关于早餐的句子中查找与食物相关的词语：",
+                "$~\\breakfast: 'For breakfast I had eggs, toast, and orange juice'\nbreakfast ⌕ ⣿\"eggs\" | \"toast\" | \"juice\" | \"pancakes\"⣿\\",
+                "$~从左到右阅读。` @PatternClass： \\⣿◌⣿\\匹配任意字符， \\⣿_⣿\\匹配字母， \\⣿#⣿\\匹配数字， \\⣿␣⣿\\匹配空格。带引号的文本是@PatternLiteralText ，它匹配精确匹配，例如\\⣿\"-\"⣿\\ 。其余部分\\⣿…⣿\\ `（ @PatternRest ）匹配任意数量的字符。",
+                "$~计数优先。 @PatternQuantified@PatternQuantifier： \\⣿3 #⣿\\表示三个数字， \\⣿3–5 #⣿\\三到五个数字， \\⣿>0 #⣿\\一个或多个数字， \\⣿≥0 #⣿\\零个或多个数字， \\⣿≤1 #⣿\\表示可选。",
+                "$~使用@PatternGroup，并在@PatternSequence，例如\\⣿(◌ | #)⣿\\ 。最长的匹配选项获胜。",
+                "$~@PatternSet，而@PatternRange，例如\\⣿{\"a\"–\"z\" #}⣿\\ 。使用@PatternComplement，例如\\⣿~#⣿\\ 。",
+                "$~使用@PatternProperty，例如\\⣿_/greek⣿\\表示希腊字母，或\\⣿◌/emoji⣿\\表示表情符号。",
+                "$~使用@PatternCapture，例如\\⣿year:(4 #)⣿\\ ，然后稍后可以通过@PatternBackref，只需写出图案名称即可。每个@Result。",
+                "$~使用@PatternAnchor： \\⣿⊢⣿\\开始， \\⣿⊣⣿\\结束。使用@PatternLook： \\⣿▸(#)⣿\\前方， \\⣿◂(#)⣿\\后方。",
+                "$~使用@PatternWord \\⣿▭/en⣿\\匹配整个单词，或使用@PatternWordEdge \\⣿┊/en⣿\\单词边界，并针对特定语言进行分段。忽略@PatternCaseFold \\⣿⇕(\"hi\")⣿\\内的字母大小写。",
+                "$~我的类型是@PatternType — 用它给一个名称添加注释，例如\\p•⣿⣿: ⣿◌⣿\\ — 这样你就可以把我存储在一个名称中，并在多个文本中重复使用我。"
+            ],
+            "start": "$~让我看看这段文字长什么样。",
+            "conflict": {
+                "EmptyPattern": {
+                    "name": "$~空白图案",
+                    "explanation": "$~我没有零件，所以匹配不到任何有用的信息。你能添加一个零件吗？",
+                    "resolution": "$~添加\\◌\\即可匹配任意一个字符"
+                }
+            },
+            "step": {
+                "search": "$~让我们找出文本中所有出现这种模式的地方。",
+                "test": "$~我们来检查一下这段文字是否符合这种模式。",
+                "scan": "$~查找从位置$position。",
+                "match": "$~$pattern$glyph$position。",
+                "miss": "$~$pattern$glyph$position。",
+                "end": "$~$pattern，但我们已经到达了位置$position。",
+                "repeat": "$~$pattern$count ——足以继续进行。",
+                "short": "$~$pattern$count ，这远远不够。",
+                "here": "$~$pattern$position 。",
+                "nothere": "$~$pattern$position。"
+            }
+        },
+        "PatternSequence": {
+            "name": "$~顺序",
+            "description": "$~一系列图案部分",
+            "emotion": "curious",
+            "doc": [
+                "$~我是一排图案部件，从左到右一个接一个地匹配在一起。",
+                "$~例如，检查一下电话号码的形状——三个数字，一个短横线，然后是四个数字：",
+                "$~\\phone: '555-1234'\nphone ≈ ⣿3 # \"-\" 4 #⣿\\",
+                "$~提供选择，我选择最合适的，最好是最长的，例如\\⣿\"cat\" | \"dog\"⣿\\ 。"
+            ],
+            "conflict": {
+                "OverlappingAlternatives": {
+                    "name": "$~重叠的选择",
+                    "explanation": "$~$shorter$longer，而最长的选项总是优先匹配，所以$shorter$longer。你是这个意思吗？"
+                }
+            }
+        },
+        "PatternClass": {
+            "name": "$~角色类别",
+            "description": "$~匹配一种类型的字符",
+            "emotion": "curious",
+            "doc": [
+                "$~我匹配一种类型的单个字符： \\⣿◌⣿\\任何字形， \\⣿_⣿\\一个字母， \\⣿#⣿\\一个数字， \\⣿␣⣿\\一个空格。",
+                "$~例如，从列表中提取每个字母-数字组合的代码：",
+                "$~\\codes: 'a1 b2 c3'\ncodes ⌕ ⣿_ #⣿\\",
+                "$~请用量词（例如\\⣿>0 #⣿\\ （一个或多个数字））来计数，或者用属性（例如\\⣿_/greek⣿\\ （一个希腊字母））来缩小范围。"
+            ]
+        },
+        "PatternProperty": {
+            "name": "$~财产",
+            "description": "$~匹配 Unicode 属性",
+            "emotion": "curious",
+            "doc": [
+                "$~我将字符类缩小到 Unicode 属性。使用脚本，例如\\⣿_/greek⣿\\ 、 \\⣿_/han⣿\\或\\⣿_/arabic⣿\\ 。",
+                "$~例如，找出混合文本中希腊字母的序列：",
+                "$~\\text: 'hello αβγ world'\ntext ⌕ ⣿>0 _/greek⣿\\",
+                "$~或者一个类别，例如\\⣿◌/punctuation⣿\\ 、 \\⣿◌/currency⣿\\ 、 \\⣿◌/Nd⣿\\ （一个数字），或\\⣿_/Lu⣿\\ （一个大写字母）。",
+                "$~或者像\\⣿◌/emoji⣿\\或\\⣿_/uppercase⣿\\这样的是或否属性——你可以用名称和值来拼写一个，例如\\⣿◌/Script=Greek⣿\\ 。",
+                "$~使用@PatternComplement，例如\\⣿~◌/emoji⣿\\ （任何非表情符号的内容）。"
+            ],
+            "conflict": {
+                "UnrecognizedPatternProperty": {
+                    "name": "$~未知属性",
+                    "explanation": "$~我无法识别属性$name 。请尝试使用类别、脚本或 Unicode ID。",
+                    "resolution": "$~将其改为$suggestion"
+                }
+            }
+        },
+        "PatternQuantifier": {
+            "name": "$~量词",
+            "description": "$~匹配多少次",
+            "emotion": "curious",
+            "doc": [
+                "$~我指定匹配次数：精确匹配\\⣿3 #⣿\\ ，范围\\⣿3–5 #⣿\\ ， \\⣿=3 #⣿\\ （正好三个）， \\⣿>0 #⣿\\ （一个或多个）， \\⣿≥0 #⣿\\ （零个或更多）， \\⣿<5 #⣿\\ （少于五个）， \\⣿≤1 #⣿\\ （可选）。",
+                "$~例如，找出句子中所有连续的数字：",
+                "$~\\text: 'I have 3 cats and 12 fish'\ntext ⌕ ⣿>0 #⣿\\",
+                "$~我总是出现在我计数的部分之前，例如\\⣿3 #⣿\\或\\⣿>0 _⣿\\ 。"
+            ],
+            "conflict": {
+                "MalformedQuantifier": {
+                    "name": "$~不可能计数",
+                    "explanation": "$~我的低计数比高计数大，所以我永远无法匹配。",
+                    "resolution": "$~交换一下计数顺序，让较小的计数在前。"
+                }
+            }
+        },
+        "PatternQuantified": {
+            "name": "$~重复",
+            "description": "$~多次匹配原子",
+            "emotion": "curious",
+            "doc": [
+                "$~我多次匹配了下一部分。",
+                "$~例如，检查邮政编码是否正好是五位数：",
+                "$~\\zip: '98101'\nzip ≈ ⣿5 #⣿\\",
+                "$~计算类似\\⣿3 #⣿\\ （三个数字）这样的类别，类似\\⣿2 (\"ab\")⣿\\ （两个 \"ab\"）这样的组，或者类似\\⣿2 ~#⣿\\ （两个非数字）这样的补集。对于\\⣿>0 #⣿\\我贪婪地取尽可能多的数字。"
+            ]
+        },
+        "PatternCapture": {
+            "name": "$~捕获",
+            "description": "$~按名称记住匹配的文本",
+            "emotion": "curious",
+            "doc": [
+                "$~我给比赛的一部分命名，这样你就可以从每个@Result。",
+                "$~例如，从日期中提取年、月和日：",
+                "$~\\date: '2026-06-17'\ndate ⌕ ⣿y:(4 #) \"-\" m:(2 #) \"-\" d:(2 #)⣿\\",
+                "$~稍后通过再次输入我的名字来重用我捕获的内容——参见@PatternBackref\\⣿w:(>0 _) ␣ w⣿\\来查找重复的单词。"
+            ],
+            "conflict": {
+                "DuplicateCaptureName": {
+                    "name": "$~重复捕获",
+                    "explanation": "$~另一个捕获已经使用了名称$name ，所以这个捕获会覆盖它。",
+                    "resolution": "$~将此捕获重命名为$replacement"
+                }
+            }
+        },
+        "PatternComplement": {
+            "name": "$~不是",
+            "description": "$~除了以下任何一项之外，匹配任何内容",
+            "emotion": "curious",
+            "doc": [
+                "$~我匹配一个与后面内容不匹配的单个字形。否定一个类，例如\\⣿~#⣿\\ （不是数字），或者一个集合，例如\\⣿~{\":\" ␣}⣿\\ （不是冒号或空格）。",
+                "$~例如，通过匹配除冒号或空格以外的任何字符，获取冒号周围的键和值：",
+                "$~\\pair: 'color: blue'\npair ⌕ ⣿>0 ~{\":\" ␣}⣿\\",
+                "$~对类似\\⣿~(◌ | #)⣿\\的组或类似\\⣿~◌/emoji⣿\\的属性（非表情符号）进行否定。",
+                "$~将我放在@PatternLook： \\⣿~▸(#)⣿\\表示“后面不跟数字”，而\\⣿~◂(\"$\")⣿\\表示“前面不跟美元符号”。"
+            ]
+        },
+        "PatternGroup": {
+            "name": "$~团体",
+            "description": "$~组图案部分",
+            "emotion": "curious",
+            "doc": [
+                "$~我将各个部件捆绑在一起，以便计数或选择适用于所有部件。我从不进行图案捕获；如果需要捕获图案，请在部件名称中添加@PatternCapture。",
+                "$~例如，检查某些文本是否由重复的音节“ab”组成：",
+                "$~\\chant: 'ababab'\nchant ≈ ⣿>0 (\"ab\")⣿\\",
+                "$~计数一组，例如\\⣿2 (\"ab\")⣿\\ （两个“ab”），或者提供一个选择，例如\\⣿(◌ | #)⣿\\ （一个字母或一个数字）。"
+            ]
+        },
+        "PatternSet": {
+            "name": "$~字形集",
+            "description": "$~请匹配以下字形之一",
+            "emotion": "curious",
+            "doc": [
+                "$~我从一组选项中匹配任何一个字形。",
+                "$~例如，找出单词中的元音字母：",
+                "$~\\word: 'hello'\nword ⌕ ⣿{\"a\" \"e\" \"i\" \"o\" \"u\"}⣿\\",
+                "$~混合范围和类，例如\\⣿{\"a\"–\"z\" #}⣿\\或\\⣿{# \"a\"–\"f\"}⣿\\ （十六进制数字）。使用@PatternComplement，例如\\⣿~{\"!\" \"?\"}⣿\\ 。"
+            ]
+        },
+        "PatternRange": {
+            "name": "$~范围",
+            "description": "$~匹配一系列字形",
+            "emotion": "curious",
+            "doc": [
+                "$~我按标量顺序匹配两个端点之间的字形，并且我生活在一个@PatternSet。",
+                "$~例如，从一段文本中提取出所有小写字母单词：",
+                "$~\\text: 'hello world 2026'\ntext ⌕ ⣿>0 {\"a\"–\"z\"}⣿\\",
+                "$~跨越字母，如\\⣿{\"a\"–\"z\" \"A\"–\"Z\"}⣿\\或数字，如\\⣿{\"0\"–\"9\"}⣿\\ ，在任何脚本中，如\\⣿{\"あ\"–\"ん\"}⣿\\ 。"
+            ]
+        },
+        "PatternLiteralText": {
+            "name": "$~文字",
+            "description": "$~匹配完全文本",
+            "emotion": "curious",
+            "doc": [
+                "$~我引用的内容与原文完全一致，没有任何特殊含义。",
+                "$~例如，找出句子中的美元金额：",
+                "$~\\receipt: 'It costs $5 today'\nreceipt ⌕ ⣿\"$\" >0 #⣿\\",
+                "$~请使用我来表示固定部分，例如\\⣿\"-\"⣿\\ 、 \\⣿\"@\"⣿\\或整个单词\\⣿\"cat\"⣿\\ ，与其他部分连接在一起，例如\\⣿3 # \"-\" 4 #⣿\\表示电话号码。"
+            ]
+        },
+        "PatternAnchor": {
+            "name": "$~锚",
+            "description": "$~匹配文本边缘",
+            "emotion": "curious",
+            "doc": [
+                "$~我匹配文本的边缘而不消耗任何东西： \\⣿⊢⣿\\开头， \\⣿⊣⣿\\结尾。",
+                "$~例如，检查问候语是否以“Hello”开头：",
+                "$~\\greeting: 'Hello world'\ngreeting ≈ ⣿⊢ \"Hello\" …⣿\\",
+                "$~别针位置，例如\\⣿⊢ \"Hi\"⣿\\ （以“Hi”) 开头）、 \\⣿\".\" ⊣⣿\\ （以句点结尾）或\\⣿⊢ _ ⊣⣿\\ （整个文本恰好是一个字母）。"
+            ]
+        },
+        "PatternWord": {
+            "name": "$~单词",
+            "description": "$~匹配整个单词",
+            "emotion": "curious",
+            "doc": [
+                "$~我匹配的是一个完整的单词，这是由该语言自身的规则决定的。",
+                "$~例如，列出句子中的单词：",
+                "$~\\sentence: 'the cat sat'\nsentence ⌕ ⣿▭/en⣿\\",
+                "$~说出语言，例如\\⣿▭/en⣿\\表示英语，或\\⣿▭/zh⣿\\表示中文，并用边连接一个特定的词，例如\\⣿┊/en \"cat\" ┊/en⣿\\ 。"
+            ],
+            "conflict": {
+                "MissingPatternLocale": {
+                    "name": "$~缺失语言",
+                    "explanation": "$~我需要一种语言来知道如何查找单词。你能添加一种吗，比如\\/en\\ ？"
+                }
+            }
+        },
+        "PatternWordEdge": {
+            "name": "$~词边",
+            "description": "$~匹配单词边界",
+            "emotion": "curious",
+            "doc": [
+                "$~我无需消耗任何资源就能匹配一种语言的词语边界。",
+                "$~例如，查找包含“cat”的完整单词，而不是在“category”这个词组里查找：",
+                "$~\\text: 'a cat in a category'\ntext ⌕ ⣿┊/en \"cat\" ┊/en⣿\\",
+                "$~用 me 包裹一个单词，例如\\⣿┊/en \"cat\" ┊/en⣿\\ ，这样它就只能匹配整个单词。"
+            ]
+        },
+        "PatternLook": {
+            "name": "$~环顾四周",
+            "description": "$~检查前方或后方",
+            "emotion": "curious",
+            "doc": [
+                "$~我检查前面\\⣿▸(#)⣿\\或后面\\⣿◂(#)⣿\\的内容，但不消耗它，所以下一部分仍然从同一个位置匹配。",
+                "$~例如，找出所有后面紧跟数字的字母：",
+                "$~\\text: 'a1 b2 cc'\ntext ⌕ ⣿_ ▸(#)⣿\\",
+                "$~需要上下文，例如\\⣿_ ▸(#)⣿\\ （一个字母后跟一个数字）或\\⣿◂(\"$\") >0 #⣿\\ （\"$\") 后面紧跟数字）。",
+                "$~使用@PatternComplement，例如\\⣿~▸(#)⣿\\ （后面不跟数字）。"
+            ]
+        },
+        "PatternBackref": {
+            "name": "$~反向引用",
+            "description": "$~再次匹配相同的文本",
+            "emotion": "curious",
+            "doc": [
+                "$~我匹配到的文本与名为@PatternCapture。",
+                "$~例如，找出一个立即重复出现的单词：",
+                "$~\\text: 'the the cat sat sat'\ntext ⌕ ⣿w:(>0 _) ␣ w⣿\\",
+                "$~裸名（不是捕获名）则是一个命名类，例如\\⣿linebreak⣿\\ 。"
+            ],
+            "conflict": {
+                "UndefinedBackreference": {
+                    "name": "$~未知姓名",
+                    "explanation": "$~没有名为$name，所以我找不到匹配项。",
+                    "resolution": "$~将其改为$suggestion"
+                }
+            }
+        },
+        "PatternRest": {
+            "name": "$~休息",
+            "description": "$~与其余输入内容匹配",
+            "emotion": "curious",
+            "doc": [
+                "$~我尽可能地与其余文本保持一致。我擅长处理模式的结尾部分。",
+                "$~例如，检查某些文本是否为井号标签（# 开头，后面跟着任何内容）：",
+                "$~\\tag: '#breakfast'\ntag ≈ ⣿\"#\" …⣿\\",
+                "$~在固定开头之后使用我，例如\\⣿\"#\" …⣿\\ （一个“#”后面是任何内容）或\\⣿\"Hi \" …⣿\\ （“Hi”后面是所有内容）。"
+            ]
+        },
+        "PatternCaseFold": {
+            "name": "$~忽略大小写",
+            "description": "$~匹配时忽略大小写",
+            "emotion": "curious",
+            "doc": [
+                "$~我匹配零件时忽略大小写。",
+                "$~例如，检查一个单词，忽略其大小写：",
+                "$~\\shout: 'HELLO'\nshout ≈ ⣿⇕(\"hello\")⣿\\",
+                "$~将我的部分包装成\\⣿⇕(\"hi\")⣿\\ （匹配 \"HI\", \"Hi\", 或 \"hi\")。为其规则添加语言，例如\\⣿⇕/tr(\"i\")⣿\\ （土耳其语 i），我还对@PatternBackref，例如\\⣿⇕(w:(2 _) w)⣿\\ 。"
+            ]
+        },
+        "PatternType": {
+            "name": "$~图案类型",
+            "description": "$~图案的类型",
+            "emotion": "curious",
+            "doc": [
+                "$~我是模式值的类型，注释如下\\p•⣿⣿: ⣿◌⣿\\ 。",
+                "$~例如，将某种模式存储在名称中，并在多个文本中重复使用：",
+                "$~\\digits: ⣿>0 #⣿\n'I have 3 cats and 12 fish' ⌕ digits\\",
+                "$~一旦存储，即可在任何适合模式的地方使用我，例如\\text ⌕ digits\\或\\text ≈ digits\\ 。"
+            ]
         }
     },
     "basis": {
@@ -2142,6 +2458,32 @@
                         {
                             "doc": "要附加的 @Text。",
                             "names": "文本"
+                        }
+                    ]
+                },
+                "matches": {
+                    "doc": [
+                        "$~如果整个文本与给定的模式匹配，则\\⊤\\ 。",
+                        "$~\\'555-1234' ≈ ⣿3 # \"-\" 4 #⣿\\"
+                    ],
+                    "names": ["$~≈", "$~比赛"],
+                    "inputs": [
+                        {
+                            "doc": "$~要比对的图案。",
+                            "names": "$~图案"
+                        }
+                    ]
+                },
+                "search": {
+                    "doc": [
+                        "$~找到我身上所有与给定模式匹配的地方，作为@Result。",
+                        "$~\\'a1 b2' ⌕ ⣿_ #⣿\\"
+                    ],
+                    "names": ["$~⌕", "$~搜索"],
+                    "inputs": [
+                        {
+                            "doc": "$~要寻找的模式。",
+                            "names": "$~图案"
                         }
                     ]
                 }
@@ -5006,6 +5348,34 @@
                 "doc": "$~如果手掌朝向摄像头，则返回 True；如果手背朝向摄像头，则返回 False。",
                 "names": ["$~棕榈"]
             }
+        },
+        "Result": {
+            "doc": "$~我通过模式搜索找到了一个匹配项\\⌕\\ ：匹配的文本、它的位置以及任何捕获。",
+            "names": ["$~结果"],
+            "text": {
+                "doc": "$~匹配的全部文本。",
+                "names": "$~文本"
+            },
+            "start": {
+                "doc": "$~比赛从第 1 秒开始。",
+                "names": "$~开始"
+            },
+            "end": {
+                "doc": "$~比赛结束的地方，从 1 开始计数。",
+                "names": "$~结尾"
+            },
+            "groups": {
+                "doc": "$~将每次捕获的名称与其匹配的文本对应起来。",
+                "names": "$~团体"
+            },
+            "starts": {
+                "doc": "$~每次捕获的名称到其起始位置。",
+                "names": "$~开始"
+            },
+            "ends": {
+                "doc": "$~每次捕获的名称，直到结束。",
+                "names": "$~结束"
+            }
         }
     },
     "ui": {
@@ -5359,7 +5729,18 @@
                 "insertTranslate": "$~插入翻译符号",
                 "insertThis": "$~插入此符号",
                 "tab": "$~Tab 键用于移动键盘焦点。要插入制表符，请按 Ctrl + $alt + Tab，或使用下方的插入按钮，或在设置中更改此设置。",
-                "matchDelimiter": "$~将光标移至匹配的分隔符"
+                "matchDelimiter": "$~将光标移至匹配的分隔符",
+                "insertPattern": "$~插入图案",
+                "insertSearch": "$~插入模式搜索符号",
+                "insertPatternAny": "$~插入任意字形图案符号",
+                "insertPatternSpace": "$~插入空格图案符号",
+                "insertPatternStart": "$~插入图案起始符号",
+                "insertPatternEnd": "$~插入模式结束符号",
+                "insertPatternFold": "$~插入图案折叠符号",
+                "insertPatternAhead": "$~插入模式前瞻符号",
+                "insertPatternBehind": "$~插入图案后视符号",
+                "insertPatternWord": "$~插入模式词符号",
+                "insertPatternWordEdge": "$~插入图案字边符号"
             },
             "options": {
                 "locale": {
@@ -5597,36 +5978,38 @@
                 "purpose": {
                     "label": "代码",
                     "labels": [
-                        "项目",
-                        "输出",
-                        "输入",
-                        "判断",
-                        "命名",
-                        "文本",
-                        "数字",
-                        "真假值",
-                        "列表",
-                        "集合",
-                        "表格",
-                        "文档",
-                        "类型",
-                        "其他"
+                        "$~项目",
+                        "$~输出",
+                        "$~输入",
+                        "$~决定",
+                        "$~姓名",
+                        "$~文本",
+                        "$~图案",
+                        "$~数字",
+                        "$~真相",
+                        "$~列表",
+                        "$~套",
+                        "$~表格",
+                        "$~文档",
+                        "$~类型",
+                        "$~ETC。"
                     ],
                     "tips": [
-                        "项目级概念",
-                        "短语、组、舞台、布局等",
-                        "时间、按钮、按键、场景等",
-                        "根据其他值选择一个值",
-                        "为值、函数和数据结构命名，以便之后使用",
-                        "真、假和无这类值",
-                        "数字和数学运算",
-                        "纯文本和格式化文本",
-                        "列表和列表操作",
-                        "集合、映射及其操作",
-                        "表格和表格操作",
-                        "数据类型、转换和类型检查",
-                        "文档和注释",
-                        "高级语言概念"
+                        "$~项目级概念",
+                        "$~短语、群组、舞台、布局等等",
+                        "$~时间、按钮、按键、场景等等",
+                        "$~根据其他值选择值",
+                        "$~为后续使用命名值、函数和数据结构",
+                        "$~纯文本和格式化文本",
+                        "$~描述文本的形状以进行测试或查找",
+                        "$~数字和数学运算",
+                        "$~真、假和无值",
+                        "$~列表和列表操作",
+                        "$~集合、地图和运算",
+                        "$~表和表操作",
+                        "$~文档和评论",
+                        "$~数据类型、转换和类型检查",
+                        "$~高级语言概念"
                     ]
                 },
                 "howToFilter": {
@@ -5706,6 +6089,10 @@
                 "GalleryHow": {
                     "header": "画廊操作指南",
                     "explanation": "/来自你的画廊、用于创建不同类型项目的常用模式。/"
+                },
+                "Patterns": {
+                    "header": "$~模式",
+                    "explanation": "$~/用一个由\\⣿\\限定的模式描述文本的形状，然后测试文本是否符合该形状（ \\≈\\ ）或找到它出现的所有位置（ \\⌕\\ ）。/"
                 }
             },
             "note": {

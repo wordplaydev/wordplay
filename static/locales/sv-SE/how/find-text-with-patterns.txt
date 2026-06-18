@@ -1,0 +1,24 @@
+Hitta och kontrollera text med mönster
+
+Ett mönster beskriver formen på en text, så du kan kontrollera om texten passar en form eller söka efter varje plats där den förekommer. Mönster placeras inuti \⣿⣿\ och läs från vänster till höger, en bit i taget. \_\ är ett brev, \#\ är en siffra, \␣\ är ett mellanslag och citerad text som \"-"\ matchar exakt.
+
+För att kontrollera om en hel textdel passar in i ett mönster, använd \≈\, vilket ger dig en \?\:
+
+\'555-1234' ≈ ⣿ 3 # "-" 4 #⣿\
+
+Den frågar ”tre siffror, ett bindestreck, sedan fyra siffror?” – och svaret är \⊤\.
+
+Räkningar går före det de upprepar: \3
+#\ betyder tre siffror. Du kan också säga \>0
+#\ (en eller flera), \≥0
+#\ (noll eller mer), \≤1
+#\ (valfritt), eller ett intervall som \2–4
+#\.
+
+För att hitta varje plats där ett mönster förekommer, använd \⌕\, vilket ger dig en lista över  @Structure  resultat. Namnge ett stycke med \name: (…)\ att fånga den:
+
+\'född 2026-06-15' ⌕ ⣿ y: (4 #) "-" m: (2 #) "-" d: (2 #)⣿\
+
+Varje resultat visar den matchande \text\, där det \start\s och \end\s, och de tillfångatagna \groups\ — här \y\, \m\och \d\Eftersom mönster matchar efter grafem fungerar de på samma sätt i alla språk och skrifttyper.
+
+mix-languages-in-text

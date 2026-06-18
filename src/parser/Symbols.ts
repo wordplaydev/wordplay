@@ -40,6 +40,24 @@ export const TYPE_OPEN_SYMBOL = '⸨';
 export const TYPE_CLOSE_SYMBOL = '⸩';
 export const TYPE_OPEN_SYMBOL_FULL = '｟';
 export const TYPE_CLOSE_SYMBOL_FULL = '｠';
+// Pattern (regular-expression replacement) delimiters, operations, and atoms; see LANGUAGE.md.
+// A single ⣿ delimits a pattern on both ends (patterns can't nest), so it toggles
+// open/closed like a text quote rather than being a distinct open/close pair.
+export const PATTERN_DELIMITER_SYMBOL = '⣿';
+export const MATCH_TEST_SYMBOL = '≈';
+export const MATCH_SEARCH_SYMBOL = '⌕';
+export const PATTERN_ANY_SYMBOL = '◌';
+export const PATTERN_LETTER_SYMBOL = '_';
+export const PATTERN_SPACE_SYMBOL = '␣';
+export const PATTERN_REST_SYMBOL = '…';
+export const PATTERN_WORD_SYMBOL = '▭';
+export const PATTERN_WORDEDGE_SYMBOL = '┊';
+export const PATTERN_START_SYMBOL = '⊢';
+export const PATTERN_END_SYMBOL = '⊣';
+export const PATTERN_AHEAD_SYMBOL = '▸';
+export const PATTERN_BEHIND_SYMBOL = '◂';
+export const PATTERN_FOLD_SYMBOL = '⇕';
+export const PATTERN_RANGE_SYMBOL = '–';
 export const BIND_SYMBOL = ':';
 export const BIND_SYMBOL_FULL = '：';
 export const COMMA_SYMBOL = ',';

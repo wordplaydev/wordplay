@@ -1,0 +1,24 @@
+Hanapin at suriin ang teksto na may mga pattern
+
+Inilalarawan ng isang pattern ang hugis ng ilang teksto, para masuri mo kung akma ang teksto sa isang hugis, o mahahanap mo ang bawat lugar kung saan ito lumalabas. Nasa loob ang mga pattern. \⣿⣿\ at basahin mula kaliwa pakanan, isa-isang piraso. \_\ ay isang liham, \#\ ay isang digit, \␣\ ay isang espasyo, at sinipi na teksto tulad ng \"-"\ eksaktong tumutugma.
+
+Para masuri kung ang isang buong piraso ng teksto ay akma sa isang padron, gamitin ang \≈\, na nagbibigay sa iyo ng \?\:
+
+\'555-1234' ≈ ⣿ 3 # "-" 4 #⣿\
+
+Iyan ang tanong na "tatlong digit, isang gitling, tapos apat na digit?" — at ang sagot ay \⊤\.
+
+Ang mga bilang ay nauuna sa bagay na inuulit nila: \3
+#\ nangangahulugang tatlong numero. Maaari mo ring sabihin \>0
+#\ (isa o higit pa), \≥0
+#\ (zero o higit pa), \≤1
+#\ (opsyonal), o isang saklaw tulad ng \2–4
+#\.
+
+Para mahanap ang bawat lugar na lumalabas ang isang pattern, gamitin ang \⌕\, na nagbibigay sa iyo ng listahan ng  @Structure  mga resulta. Magpangalan ng isang piraso na may \name: (…)\ para makuha ito:
+
+\'ipinanganak noong 2026-06-15' ⌕ ⣿ y: (4 #) "-" m: (2 #) "-" d: (2 #)⣿\
+
+Ang bawat resulta ay nagsasabi sa iyo ng magkatugmang \text\, kung saan ito \start\at \end\s, at ang mga nabihag \groups\ — dito \y\, \m\, at \d\Dahil ang mga padron ay tumutugma ayon sa grapema, pareho ang paggana ng mga ito sa bawat wika at iskrip.
+
+mix-languages-in-text

@@ -1,6 +1,13 @@
-import { canRecycleDraggedNode } from '@components/concepts/conceptGroups';
+import {
+    canRecycleDraggedNode,
+    getConceptGroups,
+} from '@components/concepts/conceptGroups';
+import ConceptIndex from '@concepts/ConceptIndex';
+import NodeConcept from '@concepts/NodeConcept';
+import { Purpose } from '@concepts/Purpose';
 import Project from '@db/projects/Project';
 import DefaultLocale from '@locale/DefaultLocale';
+import DefaultLocales from '@locale/DefaultLocales';
 import Bind from '@nodes/Bind';
 import NumberLiteral from '@nodes/NumberLiteral';
 import Source from '@nodes/Source';
@@ -49,4 +56,45 @@ test('a node not rooted in a source cannot be recycled', () => {
     // A rootless expression (e.g. a palette concept dragged from the Wellspring/Guide).
     const rootless = parseExpression(toTokens('1'));
     expect(canRecycleDraggedNode(p, rootless)).toBe(false);
+});
+
+// The pattern sublanguage is its own guide section (Purpose.Patterns), next to
+// Text, so it no longer pollutes the Text page with ~20 complex constructs.
+function patternsSetup() {
+    const { project: p } = project('_');
+    const index = ConceptIndex.make(p, DefaultLocales, undefined, undefined);
+    return { p, index };
+}
+
+test('the Patterns section gathers the constructs, the ≈/⌕ operators, and Result', () => {
+    const { p, index } = patternsSetup();
+    // Collect every name form (symbolic `≈`/`⌕` and worded `matches`/`search`).
+    const names = getConceptGroups(Purpose.Patterns, index, p)
+        .flatMap((g) => g.concepts)
+        .flatMap((c) => [
+            c.getName(DefaultLocales, true),
+            c.getName(DefaultLocales, false),
+        ]);
+    // A sample of the pattern constructs.
+    for (const construct of ['pattern', 'sequence', 'character class'])
+        expect(
+            names.some((n) => n.includes(construct)),
+            `Patterns should include ${construct}`,
+        ).toBe(true);
+    // The two operators (pulled from the Text structure) and the Result struct.
+    expect(names).toContain('matches');
+    expect(names).toContain('search');
+    expect(names.some((n) => n.includes('Result'))).toBe(true);
+});
+
+test('the Text section no longer lists pattern constructs', () => {
+    const { index } = patternsSetup();
+    const textPatternNodes = index
+        .getPrimaryConceptsWithPurpose(Purpose.Text)
+        .filter(
+            (c) =>
+                c instanceof NodeConcept &&
+                c.template.getDescriptor().startsWith('Pattern'),
+        );
+    expect(textPatternNodes).toEqual([]);
 });

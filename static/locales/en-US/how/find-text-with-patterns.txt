@@ -1,0 +1,23 @@
+Find and check text with patterns
+
+A pattern describes the shape of some text, so you can check whether text fits a shape, or search for every place it appears. Patterns go inside \⣿ ⣿\ and read left to right, one piece at a time. \_\ is a letter, \#\ is a digit, \␣\ is a space, and quoted text like \"-"\ matches exactly.
+
+To check whether a whole piece of text fits a pattern, use \≈\, which gives you a \?\:
+
+\
+'555-1234' ≈ ⣿3 # "-" 4 #⣿
+\
+
+That asks “three digits, a dash, then four digits?” — and the answer is \⊤\.
+
+Counts go before the thing they repeat: \3 #\ means three digits. You can also say \>0 #\ (one or more), \≥0 #\ (zero or more), \≤1 #\ (optional), or a range like \2–4 #\.
+
+To find every place a pattern appears, use \⌕\, which gives you a list of @Structure results. Name a piece with \name:( … )\ to capture it:
+
+\
+'born 2026-06-15' ⌕ ⣿y:(4 #) "-" m:(2 #) "-" d:(2 #)⣿
+\
+
+Each result tells you the matched \text\, where it \start\s and \end\s, and the captured \groups\ — here \y\, \m\, and \d\. Because patterns match by grapheme, they work the same in every language and script.
+
+mix-languages-in-text

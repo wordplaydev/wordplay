@@ -51,7 +51,8 @@
         "cell": "$~Zelle",
         "documentation": "$~Dokumentation",
         "language": "$~Sprache",
-        "region": "$~Region"
+        "region": "$~Region",
+        "pattern": "$~Muster"
     },
     "token": {
         "EvalOpen": "Auswertung öffnen",
@@ -134,7 +135,30 @@
         "TeluguNumeral": "$~Telugu-Zahlen",
         "LanguageJoin": "$~Sprachverbinder",
         "Translate": "$~übersetzen",
-        "ExternalExample": "$~Beispiel in einer anderen Sprache"
+        "ExternalExample": "$~Beispiel in einer anderen Sprache",
+        "PatternAny": "$~Muster beliebiges Zeichen",
+        "PatternLetter": "$~Musterbuchstabe",
+        "PatternDigit": "$~Muster Ziffer",
+        "PatternSpace": "$~Musterraum",
+        "PatternRest": "$~Musterrest",
+        "PatternWord": "$~Musterwort",
+        "PatternWordEdge": "$~Musterwortkante",
+        "PatternStart": "$~Musterbeginn",
+        "PatternEnd": "$~Musterende",
+        "PatternAhead": "$~Mustervorschau",
+        "PatternBehind": "$~Muster-Lookbehind",
+        "PatternFold": "$~Mustergehäuse falten",
+        "PatternRange": "$~Musterbereich",
+        "PatternComplement": "$~Muster nicht",
+        "PatternAlternation": "$~Muster oder",
+        "PatternSlash": "$~Musteranhänger",
+        "PatternEqual": "$~genau nach Muster",
+        "PatternGreater": "$~Muster mehr als",
+        "PatternGreaterEqual": "$~Mindestens ein Muster",
+        "PatternLess": "$~Muster weniger als",
+        "PatternLessEqual": "$~höchstens ein Muster",
+        "PatternText": "$~Musterliteraltext",
+        "PatternDelimiter": "$~Muster"
     },
     "node": {
         "Dimension": {
@@ -1906,6 +1930,298 @@
                 "$~Ich arbeite ausschließlich mit Texten, also geben Sie mir bitte welche!"
             ],
             "start": "$~Lass uns $value auswerten und ihn dann mit einem Gebietsschema versehen…"
+        },
+        "PatternLiteral": {
+            "name": "$~Muster",
+            "description": "$~ein Muster mit $count Teilen",
+            "emotion": "curious",
+            "doc": [
+                "$~Ich bin ein Muster! Ich beschreibe die *Form* von Text anstatt einzelner Wörter. So können Sie mit \\≈\\ prüfen, ob der gesamte Text passt, oder mit \\⌕\\ danach suchen, um alle Stellen zu finden, an denen die Form vorkommt. Die Suche liefert eine Liste von @Result .",
+                "$~Hier ist eine Suche in Aktion – die Suche nach Wörtern zum Thema Essen in einem Satz über das Frühstück:",
+                "$~\\breakfast: 'For breakfast I had eggs, toast, and orange juice'\nbreakfast ⌕ ⣿\"eggs\" | \"toast\" | \"juice\" | \"pancakes\"⣿\\",
+                "$~Lesen Sie mich von links nach rechts. Ein @PatternClass entspricht einem bestimmten Zeichen: \\⣿◌⣿\\ beliebig, \\⣿_⣿\\ ein Buchstabe, \\⣿#⣿\\ eine Ziffer, \\⣿␣⣿\\ ein Leerzeichen. Zitierter Text ist ein @PatternLiteralText , das exakt übereinstimmt, z. B. \\⣿\"-\"⣿\\ . Der Rest \\⣿…⣿\\ – ein @PatternRest – entspricht einer beliebigen Anzahl von Zeichen.",
+                "$~Zählungen kommen zuerst. Ein @PatternQuantified wiederholt den nächsten Teil durch einen @PatternQuantifier : \\⣿3 #⣿\\ ist dreistellig, \\⣿3–5 #⣿\\ drei bis fünf, \\⣿>0 #⣿\\ eins oder mehr, \\⣿≥0 #⣿\\ null oder mehr, \\⣿≤1 #⣿\\ optional.",
+                "$~Gruppieren Sie Teile mit einer @PatternGroup und bieten Sie Auswahlmöglichkeiten in einer @PatternSequence an, wie z. B. \\⣿(◌ | #)⣿\\ . Die längste übereinstimmende Auswahl gewinnt.",
+                "$~Ein @PatternSet entspricht einem einzelnen Zeichen aus einer Menge, und ein @PatternRange umfasst Zeichenbereiche, wie z. B. \\⣿{\"a\"–\"z\" #}⣿\\ . Ein Teil wird mit einem @PatternComplement negiert, wie z. B. \\⣿~#⣿\\ .",
+                "$~Verfeinern Sie eine Klasse mit einer @PatternProperty , wie z. B. \\⣿_/greek⣿\\ für einen griechischen Buchstaben oder \\⣿◌/emoji⣿\\ .",
+                "$~Benennen Sie ein Teil mit einer @PatternCapture , z. B. \\⣿year:(4 #)⣿\\ , und verwenden Sie es später mit einer @PatternBackref wieder, indem Sie seinen reinen Namen angeben. Jedes @Result Objekt meldet erfasste Teile anhand ihres Namens.",
+                "$~Verankern Sie die Kanten mit einem @PatternAnchor : \\⣿⊢⣿\\ start, \\⣿⊣⣿\\ end. Sehen Sie sich die Ansicht an, ohne sie zu verbrauchen, indem Sie ein @PatternLook : \\⣿▸(#)⣿\\ ahead, \\⣿◂(#)⣿\\ behind verwenden.",
+                "$~Ganze Wörter werden mit einem @PatternWord \\⣿▭/en⣿\\ oder Wortgrenzen mit einem @PatternWordEdge \\⣿┊/en⣿\\ abgeglichen, segmentiert für eine Sprache. Groß- und Kleinschreibung innerhalb eines @PatternCaseFold \\⣿⇕(\"hi\")⣿\\ wird ignoriert.",
+                "$~Mein Typ ist ein @PatternType – damit kann man einen Namen annotieren, wie z. B. \\p•⣿⣿: ⣿◌⣿\\ – sodass man mich in einem Namen speichern und in vielen Texten wiederverwenden kann."
+            ],
+            "start": "$~Mal sehen, wie dieser Text aussieht.",
+            "conflict": {
+                "EmptyPattern": {
+                    "name": "$~leeresMuster",
+                    "explanation": "$~Ich habe keine Teile, daher kann ich nichts Passendes beisteuern. Könnten Sie ein Teil hinzufügen?",
+                    "resolution": "$~Füge ein \\◌\\ hinzu, um ein beliebiges einzelnes Zeichen zu ersetzen."
+                }
+            },
+            "step": {
+                "search": "$~Lasst uns alle Stellen im Text finden, an denen dieses Muster vorkommt.",
+                "test": "$~Lassen Sie uns prüfen, ob der gesamte Text diesem Muster entspricht.",
+                "scan": "$~Suche nach dem Muster, das an Position $position beginnt.",
+                "match": "$~$pattern stimmt mit $glyph an Position $position überein.",
+                "miss": "$~$pattern stimmt nicht mit $glyph an Position $position überein.",
+                "end": "$~$pattern benötigt noch ein Zeichen, aber wir haben das Ende des Textes an Position $position erreicht.",
+                "repeat": "$~$pattern stimmte mit $count überein – genug, um fortzufahren.",
+                "short": "$~$pattern stimmte nur mit $count überein – das reicht nicht.",
+                "here": "$~$pattern hält an Position $position .",
+                "nothere": "$~$pattern gilt nicht an Position $position ."
+            }
+        },
+        "PatternSequence": {
+            "name": "$~Sequenz",
+            "description": "$~eine Abfolge von Schnittmusterteilen",
+            "emotion": "curious",
+            "doc": [
+                "$~Ich bin eine Reihe von Musterteilen, die von links nach rechts nacheinander angeordnet sind.",
+                "$~Prüfen Sie beispielsweise die Form einer Telefonnummer – drei Ziffern, ein Bindestrich, dann vier:",
+                "$~\\phone: '555-1234'\nphone ≈ ⣿3 # \"-\" 4 #⣿\\",
+                "$~Biete mir verschiedene Möglichkeiten an und ich nehme die, die am besten passt, wobei ich die längste bevorzuge, wie z. B. \\⣿\"cat\" | \"dog\"⣿\\ ."
+            ],
+            "conflict": {
+                "OverlappingAlternatives": {
+                    "name": "$~sichüberschneidendeAuswahlmöglichkeiten",
+                    "explanation": "$~$shorter ist der Anfang von $longer , und die längste Option gewinnt immer, daher passt $shorter nur, wenn $longer nicht passt. Meintest du das so?"
+                }
+            }
+        },
+        "PatternClass": {
+            "name": "$~Zeichenklasse",
+            "description": "$~einer Art von Charakter",
+            "emotion": "curious",
+            "doc": [
+                "$~Ich erkenne ein einzelnes Zeichen einer bestimmten Art: \\⣿◌⣿\\ ein beliebiges Graphem, \\⣿_⣿\\ einen Buchstaben, \\⣿#⣿\\ eine Ziffer, \\⣿␣⣿\\ ein Leerzeichen.",
+                "$~Nehmen Sie beispielsweise jeden Buchstaben-Ziffern-Code aus einer Liste heraus:",
+                "$~\\codes: 'a1 b2 c3'\ncodes ⌕ ⣿_ #⣿\\",
+                "$~Zähle mich mit einem Quantor wie \\⣿>0 #⣿\\ (eine oder mehrere Ziffern) oder schränke mich mit einer Eigenschaft wie \\⣿_/greek⣿\\ (ein griechischer Buchstabe) ein."
+            ]
+        },
+        "PatternProperty": {
+            "name": "$~Eigentum",
+            "description": "$~einer Unicode-Eigenschaft entsprechen",
+            "emotion": "curious",
+            "doc": [
+                "$~Ich schränke eine Zeichenklasse auf eine Unicode-Eigenschaft ein. Verwenden Sie ein Skript, wie z. B. \\⣿_/greek⣿\\ , \\⣿_/han⣿\\ , oder \\⣿_/arabic⣿\\ .",
+                "$~Finde beispielsweise die Folge griechischer Buchstaben in einem gemischten Text:",
+                "$~\\text: 'hello αβγ world'\ntext ⌕ ⣿>0 _/greek⣿\\",
+                "$~Oder eine Kategorie, wie z. B. \\⣿◌/punctuation⣿\\ , \\⣿◌/currency⣿\\ , \\⣿◌/Nd⣿\\ (eine Ziffer) oder \\⣿_/Lu⣿\\ (ein Großbuchstabe).",
+                "$~Oder eine Ja/Nein-Eigenschaft, wie \\⣿◌/emoji⣿\\ oder \\⣿_/uppercase⣿\\ — und man kann sie als Namen und Wert ausschreiben, wie \\⣿◌/Script=Greek⣿\\ .",
+                "$~Eine Eigenschaft mit @PatternComplement , wie z. B. \\⣿~◌/emoji⣿\\ (alles, was kein Emoji ist), wird ausgeschlossen."
+            ],
+            "conflict": {
+                "UnrecognizedPatternProperty": {
+                    "name": "$~unbekanntesEigentum",
+                    "explanation": "$~Die Eigenschaft $name ist mir unbekannt. Versuchen Sie es mit einer Kategorie, einem Skript oder einer Unicode-ID.",
+                    "resolution": "$~Ändern Sie es in $suggestion"
+                }
+            }
+        },
+        "PatternQuantifier": {
+            "name": "$~Quantor",
+            "description": "$~wie oft muss man übereinstimmen",
+            "emotion": "curious",
+            "doc": [
+                "$~Ich gebe an, wie oft übereinstimmen soll: exakt \\⣿3 #⣿\\ , ein Bereich \\⣿3–5 #⣿\\ , \\⣿=3 #⣿\\ (genau drei), \\⣿>0 #⣿\\ (ein oder mehrere), \\⣿≥0 #⣿\\ (null oder mehr), \\⣿<5 #⣿\\ (weniger als fünf), \\⣿≤1 #⣿\\ (optional).",
+                "$~Zum Beispiel: Finde jede Ziffernfolge in einem Satz:",
+                "$~\\text: 'I have 3 cats and 12 fish'\ntext ⌕ ⣿>0 #⣿\\",
+                "$~Ich komme immer vor dem Teil, den ich zähle, wie \\⣿3 #⣿\\ oder \\⣿>0 _⣿\\ ."
+            ],
+            "conflict": {
+                "MalformedQuantifier": {
+                    "name": "$~unmöglichzählen",
+                    "explanation": "$~Mein niedrigster Wert ist höher als mein höchster Wert, deshalb kann ich nie ein Match erreichen.",
+                    "resolution": "$~Vertausche meine Zählerstände, sodass der kleinere zuerst kommt."
+                }
+            }
+        },
+        "PatternQuantified": {
+            "name": "$~Wiederholung",
+            "description": "$~ein Atom mehrmals zusammenbringen",
+            "emotion": "curious",
+            "doc": [
+                "$~Ich passe den nächsten Teil mehrmals an.",
+                "$~Prüfen Sie beispielsweise, ob eine Postleitzahl genau fünf Ziffern hat:",
+                "$~\\zip: '98101'\nzip ≈ ⣿5 #⣿\\",
+                "$~Zähle eine Klasse wie \\⣿3 #⣿\\ (drei Ziffern), eine Gruppe wie \\⣿2 (\"ab\")⣿\\ (zwei \"ab\") oder ein Komplement wie \\⣿2 ~#⣿\\ (zwei Nicht-Ziffern). Bei \\⣿>0 #⣿\\ bin ich gierig – ich nehme so viele wie möglich."
+            ]
+        },
+        "PatternCapture": {
+            "name": "$~erfassen",
+            "description": "$~Übereinstimmenden Text anhand des Namens speichern",
+            "emotion": "curious",
+            "doc": [
+                "$~Ich benenne einen Teil eines Treffers, damit Sie ihn von jedem @Result wieder auslesen können.",
+                "$~Beispielsweise kann man Jahr, Monat und Tag aus einem Datum extrahieren:",
+                "$~\\date: '2026-06-17'\ndate ⌕ ⣿y:(4 #) \"-\" m:(2 #) \"-\" d:(2 #)⣿\\",
+                "$~Das, was ich später erfasst habe, indem ich meinen Namen erneut schreibe – siehe @PatternBackref – wie \\⣿w:(>0 _) ␣ w⣿\\ um ein doppeltes Wort zu finden."
+            ],
+            "conflict": {
+                "DuplicateCaptureName": {
+                    "name": "$~Duplikataufnahme",
+                    "explanation": "$~Eine andere Aufzeichnung verwendet bereits den Namen $name , daher würde diese Aufzeichnung ihn überschreiben.",
+                    "resolution": "$~Benennen Sie diese Erfassung in $replacement ."
+                }
+            }
+        },
+        "PatternComplement": {
+            "name": "$~nicht",
+            "description": "$~Alles außer",
+            "emotion": "curious",
+            "doc": [
+                "$~Ich finde ein einzelnes Graphem, das NICHT das Folgende ist. Negiere eine Klasse wie \\⣿~#⣿\\ (keine Ziffer) oder eine Menge wie \\⣿~{\":\" ␣}⣿\\ (kein Doppelpunkt oder Leerzeichen).",
+                "$~Beispielsweise kann man den Schlüssel und den Wert um einen Doppelpunkt herum erfassen, indem man Zeichenfolgen abgleicht, die weder Doppelpunkt noch Leerzeichen sind:",
+                "$~\\pair: 'color: blue'\npair ⌕ ⣿>0 ~{\":\" ␣}⣿\\",
+                "$~Eine Gruppe wie \\⣿~(◌ | #)⣿\\ oder eine Eigenschaft wie \\⣿~◌/emoji⣿\\ (kein Emoji) negieren.",
+                "$~Setze mich vor ein @PatternLook , um es umzukehren: \\⣿~▸(#)⣿\\ bedeutet \"nicht gefolgt von einer Ziffer\", und \\⣿~◂(\"$\")⣿\\ bedeutet \"nicht gefolgt von einem Dollarzeichen\"."
+            ]
+        },
+        "PatternGroup": {
+            "name": "$~Gruppe",
+            "description": "$~Gruppenmusterteile",
+            "emotion": "curious",
+            "doc": [
+                "$~Ich fasse Teile zusammen, sodass eine Zählung oder Auswahl für alle gilt. Ich erfasse niemals Muster; dafür verwende ich die Anführungszeichen @PatternCapture .",
+                "$~Prüfen Sie beispielsweise, ob ein Text die Silbe „ab“ wiederholt enthält:",
+                "$~\\chant: 'ababab'\nchant ≈ ⣿>0 (\"ab\")⣿\\",
+                "$~Zähle eine Gruppe wie \\⣿2 (\"ab\")⣿\\ (zwei \"ab\") oder biete eine Auswahl an wie \\⣿(◌ | #)⣿\\ (ein Buchstabe oder eine Ziffer)."
+            ]
+        },
+        "PatternSet": {
+            "name": "$~Glyphensatz",
+            "description": "$~Ordne eines dieser Grapheme zu",
+            "emotion": "curious",
+            "doc": [
+                "$~Ich wähle ein beliebiges Graphem aus einer Reihe von Optionen aus.",
+                "$~Zum Beispiel: Finde die Vokale in einem Wort:",
+                "$~\\word: 'hello'\nword ⌕ ⣿{\"a\" \"e\" \"i\" \"o\" \"u\"}⣿\\",
+                "$~Mischen Sie Bereiche und Klassen ein, wie z. B. \\⣿{\"a\"–\"z\" #}⣿\\ oder \\⣿{# \"a\"–\"f\"}⣿\\ (eine Hexadezimalziffer). Negieren Sie mich mit einem @PatternComplement , wie z. B. \\⣿~{\"!\" \"?\"}⣿\\ ."
+            ]
+        },
+        "PatternRange": {
+            "name": "$~Reichweite",
+            "description": "$~eine Reihe von Graphemen zuordnen",
+            "emotion": "curious",
+            "doc": [
+                "$~Ich ordne ein Graphem zwischen zwei Endpunkten anhand der Skalarordnung zu und befinde mich innerhalb eines @PatternSet .",
+                "$~Beispielsweise können Sie die Wörter in Kleinbuchstaben aus einem Text extrahieren:",
+                "$~\\text: 'hello world 2026'\ntext ⌕ ⣿>0 {\"a\"–\"z\"}⣿\\",
+                "$~Buchstaben wie \\⣿{\"a\"–\"z\" \"A\"–\"Z\"}⣿\\ oder Ziffern wie \\⣿{\"0\"–\"9\"}⣿\\ , in jeder Schrift, wie \\⣿{\"あ\"–\"ん\"}⣿\\ ."
+            ]
+        },
+        "PatternLiteralText": {
+            "name": "$~wörtlich",
+            "description": "$~exakt übereinstimmenden Text",
+            "emotion": "curious",
+            "doc": [
+                "$~Ich übernehme den Text innerhalb meiner Zitate exakt, ohne dass dieser eine besondere Bedeutung hat.",
+                "$~Zum Beispiel: Ermitteln Sie den Dollarbetrag in einem Satz:",
+                "$~\\receipt: 'It costs $5 today'\nreceipt ⌕ ⣿\"$\" >0 #⣿\\",
+                "$~Verwenden Sie mich für feste Zeichenketten wie \\⣿\"-\"⣿\\ , \\⣿\"@\"⣿\\ , oder ein ganzes Wort \\⣿\"cat\"⣿\\ , das mit anderen Teilen verbunden ist, wie \\⣿3 # \"-\" 4 #⣿\\ für eine Telefonnummer."
+            ]
+        },
+        "PatternAnchor": {
+            "name": "$~Anker",
+            "description": "$~an eine Textkante anpassen",
+            "emotion": "curious",
+            "doc": [
+                "$~Ich passe an eine Kante des Textes an, ohne etwas zu verbrauchen: \\⣿⊢⣿\\ der Anfang, \\⣿⊣⣿\\ das Ende.",
+                "$~Prüfen Sie beispielsweise, ob eine Begrüßung mit „Hallo“ beginnt:",
+                "$~\\greeting: 'Hello world'\ngreeting ≈ ⣿⊢ \"Hello\" …⣿\\",
+                "$~Pin-Position, wie z. B. \\⣿⊢ \"Hi\"⣿\\ (beginnt mit \"Hi\"), \\⣿\".\" ⊣⣿\\ (endet mit einem Punkt) oder \\⣿⊢ _ ⊣⣿\\ (der gesamte Text besteht aus genau einem Buchstaben)."
+            ]
+        },
+        "PatternWord": {
+            "name": "$~Wort",
+            "description": "$~ein ganzes Wort finden",
+            "emotion": "curious",
+            "doc": [
+                "$~Ich suche nach einem vollständigen Wort, das nach den eigenen Regeln der jeweiligen Sprache gefunden wird.",
+                "$~Listen Sie beispielsweise die Wörter in einem Satz auf:",
+                "$~\\sentence: 'the cat sat'\nsentence ⌕ ⣿▭/en⣿\\",
+                "$~Geben Sie die Sprache an, z. B. \\⣿▭/en⣿\\ für Englisch oder \\⣿▭/zh⣿\\ für Chinesisch, und verbinden Sie ein bestimmtes Wort mit Kanten, z. B. \\⣿┊/en \"cat\" ┊/en⣿\\ ."
+            ],
+            "conflict": {
+                "MissingPatternLocale": {
+                    "name": "$~fehlendeSprache",
+                    "explanation": "$~Ich benötige eine Sprache, um Wörter zu finden. Können Sie eine hinzufügen, z \\/en\\ ?"
+                }
+            }
+        },
+        "PatternWordEdge": {
+            "name": "$~Wortkante",
+            "description": "$~eine Wortgrenze abgleichen",
+            "emotion": "curious",
+            "doc": [
+                "$~Ich ermittle eine Wortgrenze für eine Sprache, ohne etwas zu konsumieren.",
+                "$~Zum Beispiel: Suche nach „Katze“ als ganzes Wort, nicht innerhalb von „Kategorie“:",
+                "$~\\text: 'a cat in a category'\ntext ⌕ ⣿┊/en \"cat\" ┊/en⣿\\",
+                "$~Verbinde ein Wort mit mir, wie \\⣿┊/en \"cat\" ┊/en⣿\\ , damit es nur vollständige Übereinstimmungen gibt."
+            ]
+        },
+        "PatternLook": {
+            "name": "$~Umschauen",
+            "description": "$~Vorher oder hinterher prüfen",
+            "emotion": "curious",
+            "doc": [
+                "$~Ich prüfe, was direkt davor \\⣿▸(#)⣿\\ oder dahinter \\⣿◂(#)⣿\\ ohne es zu verbrauchen, damit der nächste Teil immer noch von derselben Stelle aus übereinstimmt.",
+                "$~Finde beispielsweise jeden Buchstaben, dem unmittelbar eine Ziffer folgt:",
+                "$~\\text: 'a1 b2 cc'\ntext ⌕ ⣿_ ▸(#)⣿\\",
+                "$~Erfordert Kontext, wie z. B. \\⣿_ ▸(#)⣿\\ (ein Buchstabe gefolgt von einer Ziffer) oder \\⣿◂(\"$\") >0 #⣿\\ (Ziffern direkt nach einem \"$\").",
+                "$~Verwende @PatternComplement , um den Kontext zu verbieten, z. B. \\⣿~▸(#)⣿\\ (ohne nachfolgende Ziffer)."
+            ]
+        },
+        "PatternBackref": {
+            "name": "$~Rückverweis",
+            "description": "$~Gleichen Text erneut abgleichen",
+            "emotion": "curious",
+            "doc": [
+                "$~Ich suche nach demselben Text, den ein benannter @PatternCapture bereits gefunden hat – ich gebe einfach den Namen der Erfassung an.",
+                "$~Finde beispielsweise ein Wort, das unmittelbar danach wiederholt wird:",
+                "$~\\text: 'the the cat sat sat'\ntext ⌕ ⣿w:(>0 _) ␣ w⣿\\",
+                "$~Ein einfacher Name, der keine Erfassung ist, ist stattdessen eine benannte Klasse, wie z. B. \\⣿linebreak⣿\\ ."
+            ],
+            "conflict": {
+                "UndefinedBackreference": {
+                    "name": "$~unbekannterName",
+                    "explanation": "$~Es gibt keine Erfassung oder Klasse mit dem Namen $name , daher habe ich nichts, womit ich übereinstimmen könnte.",
+                    "resolution": "$~Ändern Sie es in $suggestion"
+                }
+            }
+        },
+        "PatternRest": {
+            "name": "$~ausruhen",
+            "description": "$~Passen Sie den Rest der Eingabe an.",
+            "emotion": "curious",
+            "doc": [
+                "$~Ich passe mich dem restlichen Text so gut wie möglich an. Ich bin geschickt am Ende eines Musters.",
+                "$~Prüfen Sie beispielsweise, ob ein Text ein Hashtag ist – also ein „#“ gefolgt von irgendetwas:",
+                "$~\\tag: '#breakfast'\ntag ≈ ⣿\"#\" …⣿\\",
+                "$~Verwende mich nach einem festen Start, wie \\⣿\"#\" …⣿\\ (ein \"#\" gefolgt von irgendetwas) oder \\⣿\"Hi \" …⣿\\ (\"Hi \" gefolgt von allem, was danach kommt)."
+            ]
+        },
+        "PatternCaseFold": {
+            "name": "$~Fallignorieren",
+            "description": "$~Übereinstimmung unter Berücksichtigung von Groß- und Kleinschreibung",
+            "emotion": "curious",
+            "doc": [
+                "$~Beim Zusammenstellen der Teile wird Groß- und Kleinschreibung ignoriert.",
+                "$~Prüfen Sie beispielsweise ein Wort unabhängig von seiner Groß- und Kleinschreibung:",
+                "$~\\shout: 'HELLO'\nshout ≈ ⣿⇕(\"hello\")⣿\\",
+                "$~Umschließen Sie meine Teile wie \\⣿⇕(\"hi\")⣿\\ (passt zu \"HI\", \"Hi\", oder \"hi\"). Fügen Sie eine Sprache für ihre Regeln hinzu, wie \\⣿⇕/tr(\"i\")⣿\\ (Turkisches i), und ich lege auch einen @PatternBackref fest, wie \\⣿⇕(w:(2 _) w)⣿\\ ."
+            ]
+        },
+        "PatternType": {
+            "name": "$~Mustertyp",
+            "description": "$~die Art eines Musters",
+            "emotion": "curious",
+            "doc": [
+                "$~Ich bin vom Typ eines Musterwerts, annotiert wie \\p•⣿⣿: ⣿◌⣿\\ .",
+                "$~Man kann beispielsweise ein Muster in einem Namen speichern und es in vielen Texten wiederverwenden:",
+                "$~\\digits: ⣿>0 #⣿\n'I have 3 cats and 12 fish' ⌕ digits\\",
+                "$~Einmal gespeichert, kann man mich überall dort verwenden, wo ein Muster passt, wie z. B. \\text ⌕ digits\\ oder \\text ≈ digits\\ ."
+            ]
         }
     },
     "basis": {
@@ -2144,6 +2460,32 @@
                         {
                             "doc": "$~Der @Text, nach dem ich am Ende suchen muss.",
                             "names": "texto"
+                        }
+                    ]
+                },
+                "matches": {
+                    "doc": [
+                        "$~\\⊤\\ wenn der gesamte Text dem vorgegebenen Muster entspricht.",
+                        "$~\\'555-1234' ≈ ⣿3 # \"-\" 4 #⣿\\"
+                    ],
+                    "names": ["$~≈", "$~Spiele"],
+                    "inputs": [
+                        {
+                            "doc": "$~Das Muster, mit dem man es vergleichen kann.",
+                            "names": "$~Muster"
+                        }
+                    ]
+                },
+                "search": {
+                    "doc": [
+                        "$~Finde alle Stellen in mir, an denen das gegebene Muster übereinstimmt, als Liste von @Result .",
+                        "$~\\'a1 b2' ⌕ ⣿_ #⣿\\"
+                    ],
+                    "names": ["$~⌕", "$~suchen"],
+                    "inputs": [
+                        {
+                            "doc": "$~Das zu suchende Muster.",
+                            "names": "$~Muster"
                         }
                     ]
                 }
@@ -5053,6 +5395,34 @@
                 "doc": "$~@True, wenn die Handfläche zur Kamera zeigt, @False, wenn der Handrücken zur Kamera zeigt.",
                 "names": ["$~Palme"]
             }
+        },
+        "Result": {
+            "doc": "$~Ich bin ein Treffer aus einer Mustersuche mit \\⌕\\ : der gefundene Text, seine Position und alle erfassten Elemente.",
+            "names": ["$~Ergebnis"],
+            "text": {
+                "doc": "$~Der gesamte übereinstimmende Text.",
+                "names": "$~Text"
+            },
+            "start": {
+                "doc": "$~Wo das Spiel beginnt, gezählt von 1.",
+                "names": "$~Start"
+            },
+            "end": {
+                "doc": "$~Wo das Spiel endet, gezählt von 1.",
+                "names": "$~Ende"
+            },
+            "groups": {
+                "doc": "$~Jeder erfasste Text wurde dem entsprechenden Text zugeordnet.",
+                "names": "$~Gruppen"
+            },
+            "starts": {
+                "doc": "$~Name jedes Fangs bis zu seinem Startpunkt.",
+                "names": "$~beginnt"
+            },
+            "ends": {
+                "doc": "$~Der Name jedes Fangs bis zu seinem Ende.",
+                "names": "$~Ende"
+            }
         }
     },
     "ui": {
@@ -5406,7 +5776,18 @@
                 "insertTranslate": "$~Übersetzungssymbol einfügen",
                 "insertThis": "$~Fügen Sie dieses Symbol ein",
                 "tab": "$~Mit der Tabulatortaste verschieben Sie den Tastaturfokus. Um einen Tabulator einzufügen, drücken Sie Strg + $alt + Tab, verwenden Sie die Schaltfläche „Einfügen“ unten oder ändern Sie dies in den Einstellungen.",
-                "matchDelimiter": "$~Cursor zum passenden Trennzeichen bewegen"
+                "matchDelimiter": "$~Cursor zum passenden Trennzeichen bewegen",
+                "insertPattern": "$~Einfügenmuster",
+                "insertSearch": "$~Symbol für die Mustersuche einfügen",
+                "insertPatternAny": "$~Fügen Sie ein beliebiges Graphemmustersymbol ein",
+                "insertPatternSpace": "$~Leerzeichen einfügen",
+                "insertPatternStart": "$~Einfügen Sie das Startsymbol des Musters",
+                "insertPatternEnd": "$~Einfügen Musterendesymbol",
+                "insertPatternFold": "$~Einfügemuster-Faltsymbol",
+                "insertPatternAhead": "$~Einfügen des Muster-Vorschausymbols",
+                "insertPatternBehind": "$~Einfügen Sie das Lookbehind-Symbol für das Muster.",
+                "insertPatternWord": "$~Musterwortsymbol einfügen",
+                "insertPatternWordEdge": "$~Einfügen-Musterwortrandsymbol"
             },
             "options": {
                 "locale": {
@@ -5653,12 +6034,13 @@
                         "$~entscheiden",
                         "$~Name",
                         "$~Text",
+                        "$~Muster",
                         "$~Zahlen",
                         "$~Wahrheit",
                         "$~Listen",
                         "$~Sets",
                         "$~Tabellen",
-                        "$~Dokumentation",
+                        "$~Dokumente",
                         "$~Typen",
                         "$~usw."
                     ],
@@ -5668,14 +6050,15 @@
                         "$~Zeit, Schaltflächen, Tasten, Szenen und mehr",
                         "$~Werte basierend auf anderen Werten auswählen",
                         "$~Benennen Sie Werte, Funktionen und Datenstrukturen zur späteren Verwendung.",
-                        "$~Werte: wahr, falsch und keine",
-                        "$~Zahlen und mathematische Operationen",
                         "$~reiner und formatierter Text",
+                        "$~Beschreibe die Form des Textes, um ihn zu testen oder zu finden.",
+                        "$~Zahlen und mathematische Operationen",
+                        "$~Werte: wahr, falsch und keine",
                         "$~Listen und Listenoperationen",
                         "$~Mengen, Karten und Operationen",
                         "$~Tabellen und Tabellenoperationen",
-                        "$~Datentypen, Konvertierungen und Typüberprüfungen",
                         "$~Dokumentation und Kommentare",
+                        "$~Datentypen, Konvertierungen und Typüberprüfungen",
                         "$~fortgeschrittene Sprachkonzepte"
                     ]
                 },
@@ -5756,6 +6139,10 @@
                 "GalleryHow": {
                     "header": "$~Anleitung zur Galerie",
                     "explanation": "$~Gängige Muster für die Erstellung verschiedener Projekttypen aus Ihren Galerien."
+                },
+                "Patterns": {
+                    "header": "$~Muster",
+                    "explanation": "$~Beschreibe die Form eines Textes mit einem Muster, begrenzt durch \\⣿\\ , und prüfe dann, ob der Text in die Form passt ( \\≈\\ ) oder finde alle Stellen, an denen er vorkommt ( \\⌕\\ )./"
                 }
             },
             "note": {

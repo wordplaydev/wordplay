@@ -26,7 +26,7 @@ import Node, {
 } from '@nodes/Node';
 import type { NodeSegment, Segment } from '@nodes/Paragraph';
 import { Sym } from '@nodes/Sym';
-import { unescaped } from '@nodes/TextLiteral';
+import { resolveCodepoints } from '@nodes/TextLiteral';
 import Token from '@nodes/Token';
 import WebLink from '@nodes/WebLink';
 
@@ -227,8 +227,14 @@ export default class Words extends Content {
     }
 
     toText(): string {
-        return unescaped(
-            this.segments.map((segment) => segment.toText()).join(''),
+        // Markup escapes any markup symbol by doubling it (`**`→`*`, `@@`→`@`,
+        // `\\`→`\`), matching what `concretize` does for rendering, then resolves
+        // `@<codepoint>` escapes. (Previously this used the text-literal scheme,
+        // so doubled markup symbols survived into the converted text.)
+        return resolveCodepoints(
+            unescapeMarkupSymbols(
+                this.segments.map((segment) => segment.toText()).join(''),
+            ),
         );
     }
 }

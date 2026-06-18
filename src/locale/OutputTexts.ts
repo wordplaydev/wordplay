@@ -324,6 +324,21 @@ type OutputTexts = {
         /** rotation */
         angle: NameAndDoc;
     };
+    /** One match from a pattern search (`⌕`) */
+    Result: NameAndDoc & {
+        /** the whole matched text */
+        text: NameAndDoc;
+        /** the 1-based start position of the whole match */
+        start: NameAndDoc;
+        /** the 1-based end position of the whole match */
+        end: NameAndDoc;
+        /** each capture name to its matched text */
+        groups: NameAndDoc;
+        /** each capture name to its start position */
+        starts: NameAndDoc;
+        /** each capture name to its end position */
+        ends: NameAndDoc;
+    };
     /** Physical properties of matter */
     Matter: NameAndDoc & {
         /** in kilograms, how much something weighs for the purposes of collisions */

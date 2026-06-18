@@ -1,22 +1,166 @@
-import type Locale from '@locale/Locale';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { Purpose } from '@concepts/Purpose';
+import { Purpose, type PurposeType } from '@concepts/Purpose';
 import {
     getLanguageQuoteOpen,
     getLanguageSecondaryQuote,
 } from '@locale/LanguageCode';
+import type Locale from '@locale/Locale';
 import type Locales from '@locale/Locales';
 import type { LocaleTextAccessor, TemplateInput } from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
-import { Emotion } from '../lore/Emotion';
-import type Spaces from '@parser/Spaces';
-import { TextCloseByTextOpen } from '@parser/Tokenizer';
-import UnicodeString from '@unicode/UnicodeString';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import type Context from '@nodes/Context';
 import type Definition from '@nodes/Definition';
 import Node, { type Grammar, type Replacement } from '@nodes/Node';
 import type Root from '@nodes/Root';
 import { Sym, type SymType } from '@nodes/Sym';
+import type Spaces from '@parser/Spaces';
+import { TextCloseByTextOpen } from '@parser/Tokenizer';
+import UnicodeString from '@unicode/UnicodeString';
+import { Emotion } from '../lore/Emotion';
+
+/**
+ * The concept {@link Purpose} a token belongs to, by its symbol type — so token
+ * suggestions in the autocomplete menu group with the feature they're part of
+ * (e.g. the pattern `|` under Text, `[` under Lists) instead of all landing in
+ * the catch-all "Hidden" group. Symbols with no creator-facing meaning as a
+ * standalone suggestion (a bare name, the End/Unknown markers) are left out and
+ * fall back to {@link Purpose.Hidden}.
+ */
+const TokenPurposes = new Map<SymType, PurposeType>([
+    // Numbers
+    ...[
+        Sym.Number,
+        Sym.Decimal,
+        Sym.Base,
+        Sym.Pi,
+        Sym.Infinity,
+        Sym.NumberType,
+        Sym.HanNumeral,
+        Sym.RomanNumeral,
+        Sym.ThaiNumeral,
+        Sym.BengaliNumeral,
+        Sym.DevanagariNumeral,
+        Sym.GujaratiNumeral,
+        Sym.GurmukhiNumeral,
+        Sym.KannadaNumeral,
+        Sym.TamilNumeral,
+        Sym.TeluguNumeral,
+    ].map((s): [SymType, PurposeType] => [s, Purpose.Numbers]),
+    // Truth
+    ...[Sym.Boolean, Sym.BooleanType, Sym.None].map(
+        (s): [SymType, PurposeType] => [s, Purpose.Truth],
+    ),
+    // Text — text literals, formatted text, and language tags.
+    ...[
+        Sym.Text,
+        Sym.Code,
+        Sym.Language,
+        Sym.LanguageJoin,
+        Sym.Region,
+        Sym.Locale,
+        Sym.Formatted,
+        Sym.FormattedType,
+    ].map((s): [SymType, PurposeType] => [s, Purpose.Text]),
+    // Patterns — the whole pattern sublanguage (`⣿ ⣿` and its constructs).
+    ...[
+        Sym.PatternDelimiter,
+        Sym.PatternAny,
+        Sym.PatternLetter,
+        Sym.PatternDigit,
+        Sym.PatternSpace,
+        Sym.PatternRest,
+        Sym.PatternWord,
+        Sym.PatternWordEdge,
+        Sym.PatternStart,
+        Sym.PatternEnd,
+        Sym.PatternAhead,
+        Sym.PatternBehind,
+        Sym.PatternFold,
+        Sym.PatternRange,
+        Sym.PatternComplement,
+        Sym.PatternAlternation,
+        Sym.PatternSlash,
+        Sym.PatternEqual,
+        Sym.PatternGreater,
+        Sym.PatternGreaterEqual,
+        Sym.PatternLess,
+        Sym.PatternLessEqual,
+        Sym.PatternText,
+    ].map((s): [SymType, PurposeType] => [s, Purpose.Patterns]),
+    // Documentation — docs and markup formatting.
+    ...[
+        Sym.Doc,
+        Sym.Words,
+        Sym.Italic,
+        Sym.Underline,
+        Sym.Light,
+        Sym.Bold,
+        Sym.Extra,
+        Sym.Link,
+        Sym.Concept,
+        Sym.URL,
+        Sym.Mention,
+        Sym.ExternalExample,
+        Sym.Highlight,
+    ].map((s): [SymType, PurposeType] => [s, Purpose.Documentation]),
+    // Lists
+    ...[Sym.ListOpen, Sym.ListClose].map((s): [SymType, PurposeType] => [
+        s,
+        Purpose.Lists,
+    ]),
+    // Sets and maps
+    ...[Sym.SetOpen, Sym.SetClose].map((s): [SymType, PurposeType] => [
+        s,
+        Purpose.Maps,
+    ]),
+    // Tables
+    ...[
+        Sym.TableOpen,
+        Sym.TableClose,
+        Sym.Select,
+        Sym.Insert,
+        Sym.Update,
+        Sym.Delete,
+    ].map((s): [SymType, PurposeType] => [s, Purpose.Tables]),
+    // Types
+    ...[
+        Sym.Type,
+        Sym.TypeOpen,
+        Sym.TypeClose,
+        Sym.Union,
+        Sym.Literal,
+        Sym.Convert,
+    ].map((s): [SymType, PurposeType] => [s, Purpose.Types]),
+    // Decisions
+    ...[Sym.Conditional, Sym.Otherwise, Sym.Match].map(
+        (s): [SymType, PurposeType] => [s, Purpose.Decisions],
+    ),
+    // Definitions
+    ...[
+        Sym.Function,
+        Sym.Bind,
+        Sym.Share,
+        Sym.Borrow,
+        Sym.EvalOpen,
+        Sym.EvalClose,
+        Sym.Access,
+    ].map((s): [SymType, PurposeType] => [s, Purpose.Definitions]),
+    // Inputs — streams and their operators.
+    ...[Sym.Stream, Sym.Change, Sym.Initial, Sym.Previous].map(
+        (s): [SymType, PurposeType] => [s, Purpose.Inputs],
+    ),
+    // Advanced — grouping, access, and other structural/meta symbols.
+    ...[
+        Sym.TagOpen,
+        Sym.TagClose,
+        Sym.Separator,
+        Sym.Placeholder,
+        Sym.This,
+        Sym.Translate,
+        Sym.Operator,
+        Sym.Etc,
+    ].map((s): [SymType, PurposeType] => [s, Purpose.Advanced]),
+]);
 
 export default class Token extends Node {
     /** The one or more types of token this might represent. This is narrowed during parsing to one.*/
@@ -67,7 +211,14 @@ export default class Token extends Node {
     }
 
     getPurpose() {
-        // Purpose depends on the token type.
+        // Categorize by the token's symbol type(s) so suggestions group with the
+        // feature they belong to. A token may carry several candidate types
+        // (e.g. PatternLetter|LanguageJoin); use the first that maps. Symbols
+        // with no creator-facing purpose fall back to Hidden.
+        for (const type of this.types) {
+            const purpose = TokenPurposes.get(type);
+            if (purpose !== undefined) return purpose;
+        }
         return Purpose.Hidden;
     }
 

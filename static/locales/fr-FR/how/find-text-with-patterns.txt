@@ -1,0 +1,24 @@
+Recherchez et vérifiez les textes contenant des motifs.
+
+Un motif décrit la forme d'un texte ; vous pouvez ainsi vérifier si un texte correspond à une forme ou rechercher tous ses emplacements. Les motifs sont placés à l'intérieur \⣿⣿\ et lisez de gauche à droite, un élément à la fois. \_\ est une lettre, \#\ est un chiffre, \␣\ est un espace, et le texte cité comme \"-"\ Correspond exactement.
+
+Pour vérifier si un texte entier correspond à un modèle, utilisez \≈\, ce qui vous donne un \?\:
+
+\'555-1234' ≈ ⣿ 3 # "-" 4 #⣿\
+
+Cela demande « trois chiffres, un tiret, puis quatre chiffres ? » — et la réponse est \⊤\.
+
+Les comptes précèdent ce qu'ils répètent : \3
+#\ signifie trois chiffres. Vous pouvez aussi dire \>0
+#\ (un ou plusieurs), \≥0
+#\ (zéro ou plus), \≤1
+#\ (facultatif), ou une plage comme \2–4
+#\.
+
+Pour trouver tous les endroits où un motif apparaît, utilisez \⌕\, qui vous donne une liste de  @Structure  résultats. Nommez une pièce avec \name: (…)\ pour le capturer :
+
+\'né(e) le 15 juin 2026' ⌕ ⣿ y: (4 #) "-" m: (2 #) "-" d: (2 #)⣿\
+
+Chaque résultat vous indique la correspondance \text\, où il \start\sable \end\s, et les capturés \groups\ - ici \y\, \m\, et \d\. Puisque les modèles correspondent par graphème, ils fonctionnent de la même manière dans toutes les langues et tous les systèmes d'écriture.
+
+mix-languages-in-text

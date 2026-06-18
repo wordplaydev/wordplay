@@ -18,7 +18,7 @@ import Evaluate from '@nodes/Evaluate';
 import Expression from '@nodes/Expression';
 import Input from '@nodes/Input';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import { registerResolver } from '@conflicts/Conflict';
+import { registerResolver, type Repair } from '@conflicts/Conflict';
 import { makeTypeResolutions } from '@conflicts/TypeResolutions';
 import IncompatibleType from '@conflicts/IncompatibleType';
 import IncompatibleInput from '@conflicts/IncompatibleInput';
@@ -27,6 +27,25 @@ import IncompatibleCellType from '@conflicts/IncompatibleCellType';
 import ExpectedBooleanCondition from '@conflicts/ExpectedBooleanCondition';
 import MissingInput from '@conflicts/MissingInput';
 import NodeRef from '@locale/NodeRef';
+import EmptyPattern from '@conflicts/EmptyPattern';
+import MalformedQuantifier from '@conflicts/MalformedQuantifier';
+import DuplicateCaptureName from '@conflicts/DuplicateCaptureName';
+import UndefinedBackreference from '@conflicts/UndefinedBackreference';
+import UnrecognizedPatternProperty from '@conflicts/UnrecognizedPatternProperty';
+import PatternLiteral from '@nodes/PatternLiteral';
+import PatternSequence from '@nodes/PatternSequence';
+import PatternClass from '@nodes/PatternClass';
+import PatternQuantifier from '@nodes/PatternQuantifier';
+import PatternCapture from '@nodes/PatternCapture';
+import Token from '@nodes/Token';
+import Sym from '@nodes/Sym';
+import type Context from '@nodes/Context';
+import type Node from '@nodes/Node';
+import type LocaleText from '@locale/LocaleText';
+import type { Template } from '@locale/LocaleText';
+import { PATTERN_ANY_SYMBOL } from '@parser/Symbols';
+import levenshtein from '@util/levenshtein';
+import { KnownPropertyNames } from '@runtime/pattern/properties';
 
 registerResolver(IncompatibleType, (c, context) =>
     makeTypeResolutions(
@@ -166,4 +185,185 @@ registerResolver(MissingInput, (c, context) => {
             }),
         },
     ];
+});
+
+/* ------------------------------------------------------------------------- *
+ * Pattern-sublanguage resolutions (LANGUAGE.md).
+ *
+ * These conflicts route through the registry via SimplePatternConflict; a
+ * registered resolver here offers concrete repairs, and any pattern conflict
+ * without one falls back to an explainer. Repairs reuse the offending node's
+ * existing tokens where possible and rename via Token.withText so spacing is
+ * preserved.
+ * ------------------------------------------------------------------------- */
+
+/** The pattern literal enclosing a node, for collecting its captures. */
+function enclosingPattern(
+    node: Node,
+    context: Context,
+): PatternLiteral | undefined {
+    return context
+        .getRoot(node)
+        ?.getSelfAndAncestors(node)
+        .find((n): n is PatternLiteral => n instanceof PatternLiteral);
+}
+
+/** The names of every capture defined in a pattern. */
+function captureNames(pattern: PatternLiteral): string[] {
+    return pattern
+        .nodes((n): n is PatternCapture => n instanceof PatternCapture)
+        .map((capture) => capture.name.getText());
+}
+
+/** Up to `limit` candidates closest to `typed` within `max` edits, nearest
+ *  first — for "did you mean" suggestions. Excludes exact matches (distance 0). */
+function nearest(
+    typed: string,
+    candidates: string[],
+    max = 3,
+    limit = 3,
+): string[] {
+    return [...new Set(candidates)]
+        .map((candidate) => ({
+            candidate,
+            distance: levenshtein(typed, candidate, max),
+        }))
+        .filter(({ distance }) => distance > 0 && distance <= max)
+        .sort((a, b) => a.distance - b.distance)
+        .slice(0, limit)
+        .map(({ candidate }) => candidate);
+}
+
+/** A repair that renames a `Sym.Name` token to `suggestion`, described by the
+ *  conflict's `resolution` string (which takes a `suggestion` input). */
+function renameSuggestion(
+    nameToken: Token,
+    suggestion: string,
+    resolutionPath: (locale: LocaleText) => Template<['suggestion']>,
+): Repair {
+    const renamed = nameToken.withText(suggestion);
+    return {
+        kind: 'repair',
+        description: (locales) =>
+            locales.concretize(resolutionPath, { suggestion }),
+        mediator: (ctx) => ({
+            newProject: ctx.project.withRevisedNodes([[nameToken, renamed]]),
+            newNode: renamed,
+        }),
+    };
+}
+
+// Empty pattern → fill it with a single any-grapheme atom `◌`.
+registerResolver(EmptyPattern, (c) => {
+    const pattern = c.node;
+    const anyAtom = new PatternClass(
+        new Token(PATTERN_ANY_SYMBOL, Sym.PatternAny),
+    );
+    const filled = new PatternLiteral(
+        pattern.open,
+        new PatternSequence([anyAtom]),
+        pattern.close,
+    );
+    return [
+        {
+            kind: 'repair',
+            description: (locales) =>
+                locales.concretize(
+                    (l) => EmptyPattern.LocalePath(l).resolution,
+                    {},
+                ),
+            mediator: (ctx) => ({
+                newProject: ctx.project.withRevisedNodes([[pattern, filled]]),
+                newNode: filled,
+            }),
+        },
+    ];
+});
+
+// Impossible count (min > max) → swap the bounds so the smaller comes first.
+registerResolver(MalformedQuantifier, (c) => {
+    const quantifier = c.node;
+    if (quantifier.high === undefined) return [];
+    const swapped = new PatternQuantifier(
+        quantifier.relation,
+        quantifier.high,
+        quantifier.dash,
+        quantifier.low,
+    );
+    return [
+        {
+            kind: 'repair',
+            description: (locales) =>
+                locales.concretize(
+                    (l) => MalformedQuantifier.LocalePath(l).resolution,
+                    {},
+                ),
+            mediator: (ctx) => ({
+                newProject: ctx.project.withRevisedNodes([
+                    [quantifier, swapped],
+                ]),
+                newNode: swapped,
+            }),
+        },
+    ];
+});
+
+// Duplicate capture name → rename to the first numbered variant not in use.
+registerResolver(DuplicateCaptureName, (c, context) => {
+    const capture = c.node;
+    const pattern = enclosingPattern(capture, context);
+    const used = new Set(
+        pattern ? captureNames(pattern) : [capture.name.getText()],
+    );
+    const base = capture.name.getText();
+    let counter = 2;
+    while (used.has(`${base}${counter}`)) counter++;
+    const replacement = `${base}${counter}`;
+    const renamed = capture.name.withText(replacement);
+    return [
+        {
+            kind: 'repair',
+            description: (locales) =>
+                locales.concretize(
+                    (l) => DuplicateCaptureName.LocalePath(l).resolution,
+                    { replacement },
+                ),
+            mediator: (ctx) => ({
+                newProject: ctx.project.withRevisedNodes([
+                    [capture.name, renamed],
+                ]),
+                newNode: renamed,
+            }),
+        },
+    ];
+});
+
+// Undefined backreference → suggest the nearest defined capture or known class.
+registerResolver(UndefinedBackreference, (c, context) => {
+    const backref = c.node;
+    const pattern = enclosingPattern(backref, context);
+    const candidates = [
+        ...(pattern ? captureNames(pattern) : []),
+        ...KnownPropertyNames,
+    ];
+    return nearest(backref.name.getText(), candidates).map((suggestion) =>
+        renameSuggestion(
+            backref.name,
+            suggestion,
+            (l) => UndefinedBackreference.LocalePath(l).resolution,
+        ),
+    );
+});
+
+// Unknown property → suggest the nearest known registry/script name.
+registerResolver(UnrecognizedPatternProperty, (c) => {
+    const property = c.node;
+    return nearest(property.name.getText(), KnownPropertyNames).map(
+        (suggestion) =>
+            renameSuggestion(
+                property.name,
+                suggestion,
+                (l) => UnrecognizedPatternProperty.LocalePath(l).resolution,
+            ),
+    );
 });

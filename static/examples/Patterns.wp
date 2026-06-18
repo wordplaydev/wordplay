@@ -1,0 +1,33 @@
+⌕
+"Patterns"/en
+=== start
+¶Type a sentence with some numbers in it. I'll find every number and show them
+below, growing in as I find them. A pattern describes the shape of text — here,
+\⣿>0 #⣿\ means “one or more digits,” and ⌕ finds every place it appears.¶
+input: Chat()
+text: 'I have 3 cats, 12 fish, and 144 ants' … ∆ input … input
+
+¶Search the text for every run of digits. Each result is a Result with its
+matched text.¶
+numbers: text ⌕ ⣿>0 #⣿
+
+Stage([
+	Group(
+		Stack()
+		[
+			Phrase(text size: 1m)
+			Group(
+				Stack()
+				numbers.translate(
+					ƒ(number•Result)
+						Phrase(
+							number.text
+							size: 1.5m
+							entering: Pose(opacity: 0 scale: 0.5)
+							duration: 0.5s
+						)
+				)
+			)
+		]
+	)
+])

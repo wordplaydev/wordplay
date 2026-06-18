@@ -273,7 +273,11 @@ export default class ConceptLink extends Content {
     }
 
     toText() {
-        return this.toWordplay();
+        // A `@<hex>` reference is a Unicode codepoint escape (a CodepointName),
+        // so converting markup to plain text resolves it to its character, the
+        // same as a text literal does. Other links have no plain-text form, so
+        // they fall back to their source.
+        return this.getCodepoint() ?? this.toWordplay();
     }
 }
 

@@ -78,7 +78,44 @@ import UnparsableExpression from '@nodes/UnparsableExpression';
 import Update from '@nodes/Update';
 import WebLink from '@nodes/WebLink';
 import Words from '@nodes/Words';
+import PatternNode from '@nodes/PatternNode';
+import PatternLiteral from '@nodes/PatternLiteral';
+import PatternType from '@nodes/PatternType';
+import { toExpression } from '@parser/parseExpression';
 import { PLACEHOLDER_SYMBOL } from '@parser/Symbols';
+
+/**
+ * One representative of every pattern construct, harvested by parsing small
+ * example patterns so each pattern node becomes a browsable, `@`-linkable
+ * concept (the `@PatternLiteral` doc links each one). Parsing keeps the tokens
+ * valid without hand-wiring ~20 node constructors. The literal and type aren't
+ * {@link PatternNode}s, so they're seeded explicitly.
+ */
+function patternConcepts(): Node[] {
+    const examples = [
+        '⣿◌ _ # ␣ … "x"⣿', // class atoms, rest, literal text, sequence
+        '⣿_/greek⣿', // property
+        '⣿3–5 #⣿', // quantifier + quantified
+        '⣿name:(_)⣿', // capture
+        '⣿~#⣿', // complement
+        '⣿{"a"–"z" #}⣿', // set + range
+        '⣿(◌ | #)⣿', // group
+        '⣿⊢ ⊣⣿', // anchors
+        '⣿▭/en ┊/en⣿', // word + word-edge
+        '⣿▸(#)⣿', // lookaround
+        '⣿a:(_) a⣿', // backreference
+        '⣿⇕("x")⣿', // case-fold
+    ];
+    const byKind = new Map<string, Node>([
+        ['PatternLiteral', PatternLiteral.make()],
+        ['PatternType', PatternType.make()],
+    ]);
+    for (const source of examples)
+        for (const node of toExpression(source).nodes())
+            if (node instanceof PatternNode && !byKind.has(node.getDescriptor()))
+                byKind.set(node.getDescriptor(), node);
+    return [...byKind.values()];
+}
 
 /** These are ordered by appearance in the guide. */
 const Templates: Node[] = [
@@ -264,6 +301,9 @@ const Templates: Node[] = [
     Program.make([ExpressionPlaceholder.make()]),
     new Source('?', PLACEHOLDER_SYMBOL),
     new Borrow(),
+
+    // Patterns — every pattern construct, so each is a browsable concept.
+    ...patternConcepts(),
 ];
 
 export { Templates as default };

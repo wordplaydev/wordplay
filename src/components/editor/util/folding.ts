@@ -13,6 +13,11 @@ import ListLiteral from '@nodes/ListLiteral';
 import SetLiteral from '@nodes/SetLiteral';
 import MapLiteral from '@nodes/MapLiteral';
 import TableLiteral from '@nodes/TableLiteral';
+import PatternLiteral from '@nodes/PatternLiteral';
+import PatternGroup from '@nodes/PatternGroup';
+import PatternSet from '@nodes/PatternSet';
+import PatternLook from '@nodes/PatternLook';
+import PatternCaseFold from '@nodes/PatternCaseFold';
 
 /** A container (list/set/map/table) is foldable once it has more than this many
  *  items, even on a single line — replacing NodeSequenceView's old "show more"
@@ -129,6 +134,12 @@ function computeFoldableNode(
                 : node.values.length;
         return isFoldable(node, spaces) || count > FOLD_ITEM_THRESHOLD;
     }
+    // A pattern set folds like the other containers: multi-line or many members.
+    if (node instanceof PatternSet)
+        return (
+            isFoldable(node, spaces) ||
+            node.members.length > FOLD_ITEM_THRESHOLD
+        );
     // Docs fold on their own when they span more than one line.
     if (node instanceof Docs) return isFoldable(node, spaces);
     return (
@@ -138,7 +149,12 @@ function computeFoldableNode(
             node instanceof Conditional ||
             node instanceof Bind ||
             node instanceof Reaction ||
-            node instanceof Match)
+            node instanceof Match ||
+            // Pattern containers fold when their body spans multiple lines.
+            node instanceof PatternLiteral ||
+            node instanceof PatternGroup ||
+            node instanceof PatternLook ||
+            node instanceof PatternCaseFold)
     );
 }
 

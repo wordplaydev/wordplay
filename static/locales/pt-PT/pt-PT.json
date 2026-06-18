@@ -51,7 +51,8 @@
         "feedback": "feedback",
         "documentation": "documentação",
         "language": "idioma",
-        "region": "região"
+        "region": "região",
+        "pattern": "$~padrão"
     },
     "token": {
         "EvalOpen": "avaliação aberta",
@@ -134,7 +135,30 @@
         "TamilNumeral": "numeral tâmil",
         "TeluguNumeral": "numeral telugu",
         "Translate": "traduzir",
-        "ExternalExample": "$~exemplo noutro idioma"
+        "ExternalExample": "$~exemplo noutro idioma",
+        "PatternAny": "$~padronizar qualquer caractere",
+        "PatternLetter": "$~letra padrão",
+        "PatternDigit": "$~dígito padrão",
+        "PatternSpace": "$~espaço de padrão",
+        "PatternRest": "$~padrão de descanso",
+        "PatternWord": "$~palavra padrão",
+        "PatternWordEdge": "$~padrão palavra borda",
+        "PatternStart": "$~início do padrão",
+        "PatternEnd": "$~fim do padrão",
+        "PatternAhead": "$~previsão de padrão",
+        "PatternBehind": "$~olhar para trás do padrão",
+        "PatternFold": "$~dobradura de estojo de padrão",
+        "PatternRange": "$~gama de padrões",
+        "PatternComplement": "$~padrão não",
+        "PatternAlternation": "$~padrão ou",
+        "PatternSlash": "$~etiqueta de padrão",
+        "PatternEqual": "$~padrão exatamente",
+        "PatternGreater": "$~padrão mais do que",
+        "PatternGreaterEqual": "$~padrão pelo menos",
+        "PatternLess": "$~padrão menos que",
+        "PatternLessEqual": "$~padrão no máximo",
+        "PatternText": "$~texto literal padrão",
+        "PatternDelimiter": "$~padrão"
     },
     "node": {
         "Dimension": {
@@ -1902,6 +1926,298 @@
                 "$~Eu só trabalho com texto, por isso não se esqueça de me dar um!"
             ],
             "start": "$~Vamos avaliar $value e, em seguida, marcá-lo com uma localidade…"
+        },
+        "PatternLiteral": {
+            "name": "$~padrão",
+            "description": "$~um padrão com $count partes",
+            "emotion": "curious",
+            "doc": [
+                "$~Eu sou um padrão! Descrevo a *forma* do texto em vez de palavras exatas, para que possa verificar o texto com \\≈\\ — cabe o texto inteiro? — ou pesquisá-lo com \\⌕\\ para encontrar todos os locais onde a forma aparece. A pesquisa devolve uma lista de @Result .",
+                "$~Eis um exemplo de investigação em ação — encontrar palavras relacionadas com comida numa frase sobre o pequeno-almoço:",
+                "$~\\breakfast: 'For breakfast I had eggs, toast, and orange juice'\nbreakfast ⌕ ⣿\"eggs\" | \"toast\" | \"juice\" | \"pancakes\"⣿\\",
+                "$~Leia da esquerda para a direita. Um @PatternClass corresponde a um caractere de um determinado tipo: \\⣿◌⣿\\ qualquer, \\⣿_⣿\\ uma letra, \\⣿#⣿\\ um dígito, \\⣿␣⣿\\ um espaço. O texto entre aspas é um @PatternLiteralText que corresponde exatamente, como \\⣿\"-\"⣿\\ . O restante \\⣿…⣿\\ — um @PatternRest — corresponde a qualquer número de caracteres.",
+                "$~As contagens vêm primeiro. Um @PatternQuantified repete a parte seguinte por um @PatternQuantifier : \\⣿3 #⣿\\ são três dígitos, \\⣿3–5 #⣿\\ de três a cinco, \\⣿>0 #⣿\\ um ou mais, \\⣿≥0 #⣿\\ zero ou mais, \\⣿≤1 #⣿\\ opcional.",
+                "$~Agrupe partes com um @PatternGroup e ofereça opções num @PatternSequence , como por exemplo \\⣿(◌ | #)⣿\\ . A opção correspondente mais longa ganha.",
+                "$~Um @PatternSet corresponde a um caractere de um conjunto, e um @PatternRange abrange intervalos de caracteres, como por exemplo \\⣿{\"a\"–\"z\" #}⣿\\ . Negue uma parte com um @PatternComplement , como \\⣿~#⣿\\ .",
+                "$~Refine uma classe com um @PatternProperty , como \\⣿_/greek⣿\\ para uma letra grega ou \\⣿◌/emoji⣿\\ .",
+                "$~Dê um nome a uma peça com um @PatternCapture , como \\⣿year:(4 #)⣿\\ , e reutilize-a mais tarde com um @PatternBackref escrevendo o seu nome puro. Cada @Result reporta as peças capturadas por nome.",
+                "$~Ancore nas bordas com um @PatternAnchor : \\⣿⊢⣿\\ início, \\⣿⊣⣿\\ fim. Espreite sem consumir usando um @PatternLook : \\⣿▸(#)⣿\\ à frente, \\⣿◂(#)⣿\\ atrás.",
+                "$~Combine palavras inteiras com um @PatternWord \\⣿▭/en⣿\\ ou limites de palavras com um @PatternWordEdge \\⣿┊/en⣿\\ , segmentados para um idioma. Ignore maiúsculas e minúsculas dentro de um @PatternCaseFold \\⣿⇕(\"hi\")⣿\\ .",
+                "$~O meu tipo é um @PatternType — anote um nome com ele, como \\p•⣿⣿: ⣿◌⣿\\ — para que me possa armazenar num nome e reutilizar-me em vários textos."
+            ],
+            "start": "$~Deixe-me ver como é este texto.",
+            "conflict": {
+                "EmptyPattern": {
+                    "name": "$~padrãovazio",
+                    "explanation": "$~Não tenho peças, por isso não consigo encontrar nada de útil. Pode adicionar uma peça?",
+                    "resolution": "$~Adicione um \\◌\\ para corresponder a qualquer caractere."
+                }
+            },
+            "step": {
+                "search": "$~Vamos encontrar todos os locais onde este padrão aparece no texto.",
+                "test": "$~Vamos verificar se todo este texto se enquadra no padrão.",
+                "scan": "$~Procurando o padrão que começa na posição $position .",
+                "match": "$~$pattern corresponde $glyph na posição $position .",
+                "miss": "$~$pattern não corresponde ao $glyph na posição $position .",
+                "end": "$~$pattern ainda precisa de um caractere, mas chegamos ao fim do texto na posição $position .",
+                "repeat": "$~$pattern encontrado correspondeu a $count — o suficiente para continuar.",
+                "short": "$~$pattern correspondeu apenas $count — insuficiente.",
+                "here": "$~$pattern permanece na posição $position .",
+                "nothere": "$~$pattern não se aplica na posição $position ."
+            }
+        },
+        "PatternSequence": {
+            "name": "$~sequência",
+            "description": "$~uma sequência de partes de padrão",
+            "emotion": "curious",
+            "doc": [
+                "$~Sou uma fileira de partes padronizadas, combinadas uma após a outra, da esquerda para a direita.",
+                "$~Por exemplo, observe o formato de um número de telefone — três dígitos, um hífen e depois quatro:",
+                "$~\\phone: '555-1234'\nphone ≈ ⣿3 # \"-\" 4 #⣿\\",
+                "$~Ofereço opções e escolho a que melhor se adequa, preferindo a mais longa, como \\⣿\"cat\" | \"dog\"⣿\\ ."
+            ],
+            "conflict": {
+                "OverlappingAlternatives": {
+                    "name": "$~escolhassobrepostas",
+                    "explanation": "$~$shorter é o início de $longer , e a opção mais longa ganha sempre, pelo que $shorter só corresponde quando $longer não consegue. Era isso que queria dizer?"
+                }
+            }
+        },
+        "PatternClass": {
+            "name": "$~classedepersonagem",
+            "description": "$~combine com um tipo de personagem",
+            "emotion": "curious",
+            "doc": [
+                "$~Combino um único caractere de um tipo: \\⣿◌⣿\\ qualquer grafema, \\⣿_⣿\\ uma letra, \\⣿#⣿\\ um dígito, \\⣿␣⣿\\ um espaço.",
+                "$~Por exemplo, extraia cada código letra-dígito de uma lista:",
+                "$~\\codes: 'a1 b2 c3'\ncodes ⌕ ⣿_ #⣿\\",
+                "$~Conte-me com um quantificador como \\⣿>0 #⣿\\ (um ou mais dígitos), ou restrinja-me com uma propriedade como \\⣿_/greek⣿\\ (uma letra grega)."
+            ]
+        },
+        "PatternProperty": {
+            "name": "$~propriedade",
+            "description": "$~corresponder a uma propriedade Unicode",
+            "emotion": "curious",
+            "doc": [
+                "$~Restrinjo uma classe de caracteres a uma propriedade Unicode. Utilize um script, como \\⣿_/greek⣿\\ , \\⣿_/han⣿\\ , ou \\⣿_/arabic⣿\\ .",
+                "$~Por exemplo, encontre a sequência de letras gregas num texto misto:",
+                "$~\\text: 'hello αβγ world'\ntext ⌕ ⣿>0 _/greek⣿\\",
+                "$~Ou uma categoria, como \\⣿◌/punctuation⣿\\ , \\⣿◌/currency⣿\\ , \\⣿◌/Nd⣿\\ (um dígito), ou \\⣿_/Lu⣿\\ (uma letra maiúscula).",
+                "$~Ou uma propriedade sim ou não, como \\⣿◌/emoji⣿\\ ou \\⣿_/uppercase⣿\\ — e pode escrevê-la como um nome e um valor, como \\⣿◌/Script=Greek⣿\\ .",
+                "$~Apague uma propriedade com um @PatternComplement , como \\⣿~◌/emoji⣿\\ (qualquer coisa que não seja um emoji)."
+            ],
+            "conflict": {
+                "UnrecognizedPatternProperty": {
+                    "name": "$~propriedadedesconhecida",
+                    "explanation": "$~Não reconheço a propriedade $name . Experimente uma categoria, um script ou um ID Unicode.",
+                    "resolution": "$~Altere para $suggestion"
+                }
+            }
+        },
+        "PatternQuantifier": {
+            "name": "$~quantificador",
+            "description": "$~Quantas vezes combinar",
+            "emotion": "curious",
+            "doc": [
+                "$~Digo quantas vezes devo corresponder: exatamente \\⣿3 #⣿\\ , um intervalo \\⣿3–5 #⣿\\ , \\⣿=3 #⣿\\ (exatamente três), \\⣿>0 #⣿\\ (um ou mais), \\⣿≥0 #⣿\\ (zero ou mais), \\⣿<5 #⣿\\ (menos de cinco), \\⣿≤1 #⣿\\ (opcional).",
+                "$~Por exemplo, encontre todas as sequências de dígitos numa frase:",
+                "$~\\text: 'I have 3 cats and 12 fish'\ntext ⌕ ⣿>0 #⣿\\",
+                "$~Venho sempre antes da parte que conto, como \\⣿3 #⣿\\ ou \\⣿>0 _⣿\\ ."
+            ],
+            "conflict": {
+                "MalformedQuantifier": {
+                    "name": "$~contagemimpossível",
+                    "explanation": "$~O meu nível de glicose baixo é superior ao meu nível de glicose alto, por isso nunca consigo encontrar um par.",
+                    "resolution": "$~Inverta as minhas contagens para que a mais pequena venha primeiro."
+                }
+            }
+        },
+        "PatternQuantified": {
+            "name": "$~repetição",
+            "description": "$~combinar um átomo várias vezes",
+            "emotion": "curious",
+            "doc": [
+                "$~Combino a parte seguinte várias vezes.",
+                "$~Por exemplo, verifique se um código postal tem exatamente cinco dígitos:",
+                "$~\\zip: '98101'\nzip ≈ ⣿5 #⣿\\",
+                "$~Conto uma classe como \\⣿3 #⣿\\ (três dígitos), um grupo como \\⣿2 (\"ab\")⣿\\ (dois \"ab\") ou um complemento como \\⣿2 ~#⣿\\ (dois não dígitos). Com \\⣿>0 #⣿\\ sou ganancioso — apanho quantos puder."
+            ]
+        },
+        "PatternCapture": {
+            "name": "$~capturar",
+            "description": "$~lembrar o texto correspondente pelo nome",
+            "emotion": "curious",
+            "doc": [
+                "$~Nomeio uma parte de uma correspondência para que possa lê-la de volta a partir de cada @Result .",
+                "$~Por exemplo, extrair o ano, o mês e o dia de uma data:",
+                "$~\\date: '2026-06-17'\ndate ⌕ ⣿y:(4 #) \"-\" m:(2 #) \"-\" d:(2 #)⣿\\",
+                "$~Reutilizar o que capturei mais tarde escrevendo novamente o meu nome — ver @PatternBackref — como \\⣿w:(>0 _) ␣ w⣿\\ para encontrar uma palavra duplicada."
+            ],
+            "conflict": {
+                "DuplicateCaptureName": {
+                    "name": "$~capturaduplicada",
+                    "explanation": "$~Outra captura já utiliza o nome $name , pelo que esta irá sobrescrevê-la.",
+                    "resolution": "$~Renomeie esta captura para $replacement"
+                }
+            }
+        },
+        "PatternComplement": {
+            "name": "$~não",
+            "description": "$~combina com qualquer coisa, exceto",
+            "emotion": "curious",
+            "doc": [
+                "$~Corroboro um único grafema que NÃO o que se segue. Nego uma classe como \\⣿~#⣿\\ (não é um dígito), ou um conjunto como \\⣿~{\":\" ␣}⣿\\ (não é um dois pontos ou espaço).",
+                "$~Por exemplo, extraia a chave e o valor em torno de dois pontos, encontrando correspondências que não sejam dois pontos ou espaços:",
+                "$~\\pair: 'color: blue'\npair ⌕ ⣿>0 ~{\":\" ␣}⣿\\",
+                "$~Negue um grupo como \\⣿~(◌ | #)⣿\\ , ou uma propriedade como \\⣿~◌/emoji⣿\\ (não é um emoji).",
+                "$~Coloquem-me antes de um @PatternLook para inverter: \\⣿~▸(#)⣿\\ significa \"não seguido de um dígito\", e \\⣿~◂(\"$\")⣿\\ significa \"não precedido de um cifrão\"."
+            ]
+        },
+        "PatternGroup": {
+            "name": "$~grupo",
+            "description": "$~partes do padrão do grupo",
+            "emotion": "curious",
+            "doc": [
+                "$~Agrupo as partes para que uma contagem ou escolha se aplique a todas elas. Nunca capturo; para tal, nomeie uma peça com @PatternCapture .",
+                "$~Por exemplo, verifique se algum texto contém a sílaba \"ab\" repetida:",
+                "$~\\chant: 'ababab'\nchant ≈ ⣿>0 (\"ab\")⣿\\",
+                "$~Conte um grupo como \\⣿2 (\"ab\")⣿\\ (dois \"abs\") ou ofereça uma escolha como \\⣿(◌ | #)⣿\\ (uma letra ou um dígito)."
+            ]
+        },
+        "PatternSet": {
+            "name": "$~conjuntodeglifos",
+            "description": "$~Combine um destes grafemas",
+            "emotion": "curious",
+            "doc": [
+                "$~Consigo identificar qualquer grafema de entre um conjunto de opções.",
+                "$~Por exemplo, encontre as vogais numa palavra:",
+                "$~\\word: 'hello'\nword ⌕ ⣿{\"a\" \"e\" \"i\" \"o\" \"u\"}⣿\\",
+                "$~Misture intervalos e classes, como \\⣿{\"a\"–\"z\" #}⣿\\ ou \\⣿{# \"a\"–\"f\"}⣿\\ (um dígito hexadecimal). Negue-me com um @PatternComplement , como \\⣿~{\"!\" \"?\"}⣿\\ ."
+            ]
+        },
+        "PatternRange": {
+            "name": "$~intervalo",
+            "description": "$~combinar um intervalo de grafemas",
+            "emotion": "curious",
+            "doc": [
+                "$~Combino um grafema entre dois pontos finais por ordem escalar e vivo dentro de um @PatternSet .",
+                "$~Por exemplo, extraia as palavras em letras minúsculas de um texto:",
+                "$~\\text: 'hello world 2026'\ntext ⌕ ⣿>0 {\"a\"–\"z\"}⣿\\",
+                "$~Abrange letras como \\⣿{\"a\"–\"z\" \"A\"–\"Z\"}⣿\\ ou dígitos como \\⣿{\"0\"–\"9\"}⣿\\ , em qualquer escrita, como \\⣿{\"あ\"–\"ん\"}⣿\\ ."
+            ]
+        },
+        "PatternLiteralText": {
+            "name": "$~literal",
+            "description": "$~corresponder ao texto exato",
+            "emotion": "curious",
+            "doc": [
+                "$~Reproduzo exatamente o texto entre aspas, sem qualquer significado especial.",
+                "$~Por exemplo, encontre o valor em dólares numa frase:",
+                "$~\\receipt: 'It costs $5 today'\nreceipt ⌕ ⣿\"$\" >0 #⣿\\",
+                "$~Use-me para partes fixas como \\⣿\"-\"⣿\\ , \\⣿\"@\"⣿\\ , ou uma palavra inteira \\⣿\"cat\"⣿\\ , encadeadas com outras partes, como \\⣿3 # \"-\" 4 #⣿\\ para um número de telefone."
+            ]
+        },
+        "PatternAnchor": {
+            "name": "$~âncora",
+            "description": "$~combinar com a borda do texto",
+            "emotion": "curious",
+            "doc": [
+                "$~Encontro uma fronteira do texto sem consumir nada: \\⣿⊢⣿\\ o início, \\⣿⊣⣿\\ o fim.",
+                "$~Por exemplo, verifique se uma saudação começa com \"Olá\":",
+                "$~\\greeting: 'Hello world'\ngreeting ≈ ⣿⊢ \"Hello\" …⣿\\",
+                "$~Posição do alfinete, como \\⣿⊢ \"Hi\"⣿\\ (começa por \"Olá\"), \\⣿\".\" ⊣⣿\\ (termina com um ponto), ou \\⣿⊢ _ ⊣⣿\\ (todo o texto é exactamente uma letra)."
+            ]
+        },
+        "PatternWord": {
+            "name": "$~palavra",
+            "description": "$~combinar uma palavra inteira",
+            "emotion": "curious",
+            "doc": [
+                "$~Encontro correspondência para uma palavra inteira, determinada pelas próprias regras da língua.",
+                "$~Por exemplo, enumere as palavras numa frase:",
+                "$~\\sentence: 'the cat sat'\nsentence ⌕ ⣿▭/en⣿\\",
+                "$~Dê o nome da língua, como \\⣿▭/en⣿\\ para inglês ou \\⣿▭/zh⣿\\ para chinês, e una uma palavra específica com arestas, como \\⣿┊/en \"cat\" ┊/en⣿\\ ."
+            ],
+            "conflict": {
+                "MissingPatternLocale": {
+                    "name": "$~idiomaausente",
+                    "explanation": "$~Preciso de um idioma para saber encontrar palavras. Pode adicionar um, como \\/en\\ ?"
+                }
+            }
+        },
+        "PatternWordEdge": {
+            "name": "$~Bordadapalavra",
+            "description": "$~combinar limite de palavras",
+            "emotion": "curious",
+            "doc": [
+                "$~Consigo identificar um limite de palavras numa língua sem consumir nada.",
+                "$~Por exemplo, encontre \"gato\" como uma palavra inteira, e não dentro de \"categoria\":",
+                "$~\\text: 'a cat in a category'\ntext ⌕ ⣿┊/en \"cat\" ┊/en⣿\\",
+                "$~Envolve uma palavra comigo, como \\⣿┊/en \"cat\" ┊/en⣿\\ , para que corresponda apenas ao número inteiro."
+            ]
+        },
+        "PatternLook": {
+            "name": "$~dêumavistadeolhosaoredor",
+            "description": "$~verificar à frente ou atrás",
+            "emotion": "curious",
+            "doc": [
+                "$~Verifico o que está imediatamente à frente \\⣿▸(#)⣿\\ ou atrás \\⣿◂(#)⣿\\ sem o consumir, pelo que a parte seguinte ainda corresponde ao mesmo local.",
+                "$~Por exemplo, encontre cada letra que é imediatamente seguida de um dígito:",
+                "$~\\text: 'a1 b2 cc'\ntext ⌕ ⣿_ ▸(#)⣿\\",
+                "$~Requer contexto, como \\⣿_ ▸(#)⣿\\ (uma letra seguida de um dígito) ou \\⣿◂(\"$\") >0 #⣿\\ (dígitos imediatamente a seguir a um \"$\").",
+                "$~Vire-me com um @PatternComplement para proibir o contexto, como \\⣿~▸(#)⣿\\ (não seguido de um dígito)."
+            ]
+        },
+        "PatternBackref": {
+            "name": "$~referênciaanterior",
+            "description": "$~voltar a combinar o mesmo texto",
+            "emotion": "curious",
+            "doc": [
+                "$~Procuro correspondência para o mesmo texto que um @PatternCapture nomeado já encontrou — basta escrever o nome da captura.",
+                "$~Por exemplo, encontre uma palavra que se repita imediatamente:",
+                "$~\\text: 'the the cat sat sat'\ntext ⌕ ⣿w:(>0 _) ␣ w⣿\\",
+                "$~Um nome simples que não é uma captura é uma classe com nome, como \\⣿linebreak⣿\\ ."
+            ],
+            "conflict": {
+                "UndefinedBackreference": {
+                    "name": "$~nomedesconhecido",
+                    "explanation": "$~Não existe nenhuma captura ou classe chamada $name , pelo que não tenho nada com que comparar.",
+                    "resolution": "$~Altere para $suggestion"
+                }
+            }
+        },
+        "PatternRest": {
+            "name": "$~descanso",
+            "description": "$~combine com o resto da entrada",
+            "emotion": "curious",
+            "doc": [
+                "$~Sigo o restante texto tanto quanto possível. Sou hábil no final de um padrão.",
+                "$~Por exemplo, verifique se algum texto é um hashtag — um \"#\" seguido de qualquer outra coisa:",
+                "$~\\tag: '#breakfast'\ntag ≈ ⣿\"#\" …⣿\\",
+                "$~Use-me após um início fixo, como \\⣿\"#\" …⣿\\ (um \"#\" seguido de qualquer coisa) ou \\⣿\"Hi \" …⣿\\ (\"Olá \" seguido de tudo o que vier depois)."
+            ]
+        },
+        "PatternCaseFold": {
+            "name": "$~ignorarmaiúsculaseminúsculas",
+            "description": "$~correspondência ignorando maiúsculas/minúsculas",
+            "emotion": "curious",
+            "doc": [
+                "$~Combino as peças, ignorando as letras maiúsculas e minúsculas.",
+                "$~Por exemplo, verifique uma palavra ignorando se está em maiúsculas ou minúsculas:",
+                "$~\\shout: 'HELLO'\nshout ≈ ⣿⇕(\"hello\")⣿\\",
+                "$~Envolva as minhas partes como \\⣿⇕(\"hi\")⣿\\ (corresponde a \"OI\", \"Oi\" ou \"oi\"). Adicione um idioma para as suas regras, como \\⣿⇕/tr(\"i\")⣿\\ (i turco), e eu também escopo um @PatternBackref , como \\⣿⇕(w:(2 _) w)⣿\\ ."
+            ]
+        },
+        "PatternType": {
+            "name": "$~tipodepadrão",
+            "description": "$~o tipo de um padrão",
+            "emotion": "curious",
+            "doc": [
+                "$~Sou o tipo de valor de padrão, anotado como \\p•⣿⣿: ⣿◌⣿\\ .",
+                "$~Por exemplo, armazene um padrão num nome e reutilize-o em vários textos:",
+                "$~\\digits: ⣿>0 #⣿\n'I have 3 cats and 12 fish' ⌕ digits\\",
+                "$~Uma vez armazenado, utilize-me em qualquer lugar onde um padrão se enquadre, como \\text ⌕ digits\\ ou \\text ≈ digits\\ ."
+            ]
         }
     },
     "basis": {
@@ -2140,6 +2456,32 @@
                         {
                             "doc": "O @Text a adicionar.",
                             "names": "texto"
+                        }
+                    ]
+                },
+                "matches": {
+                    "doc": [
+                        "$~\\⊤\\ se todo o texto corresponder ao padrão fornecido.",
+                        "$~\\'555-1234' ≈ ⣿3 # \"-\" 4 #⣿\\"
+                    ],
+                    "names": ["$~≈", "$~partidas"],
+                    "inputs": [
+                        {
+                            "doc": "$~O padrão a comparar.",
+                            "names": "$~padrão"
+                        }
+                    ]
+                },
+                "search": {
+                    "doc": [
+                        "$~Encontre todos os locais em que o padrão fornecido corresponde em mim, como uma lista de @Result .",
+                        "$~\\'a1 b2' ⌕ ⣿_ #⣿\\"
+                    ],
+                    "names": ["$~⌕", "$~pesquisa"],
+                    "inputs": [
+                        {
+                            "doc": "$~O padrão a procurar.",
+                            "names": "$~padrão"
                         }
                     ]
                 }
@@ -5040,6 +5382,34 @@
                 "doc": "@True se a palma da mão estiver virada para a câmara, @False se for o dorso da mão.",
                 "names": ["palma"]
             }
+        },
+        "Result": {
+            "doc": "$~Sou uma correspondência de uma pesquisa de padrão com \\⌕\\ : o texto correspondente, onde está e quaisquer capturas.",
+            "names": ["$~Resultado"],
+            "text": {
+                "doc": "$~Todo o texto correspondente.",
+                "names": "$~texto"
+            },
+            "start": {
+                "doc": "$~Onde começa a partida, contando a partir de 1.",
+                "names": "$~iniciar"
+            },
+            "end": {
+                "doc": "$~Onde termina a partida, contando a partir de 1.",
+                "names": "$~fim"
+            },
+            "groups": {
+                "doc": "$~O nome de cada captura corresponde ao texto com que foi criada.",
+                "names": "$~grupos"
+            },
+            "starts": {
+                "doc": "$~O nome de cada captura indica onde começa.",
+                "names": "$~começa"
+            },
+            "ends": {
+                "doc": "$~O nome de cada captura vai até ao fim.",
+                "names": "$~termina"
+            }
         }
     },
     "ui": {
@@ -5654,7 +6024,18 @@
                 "insertTranslate": "inserir símbolo de tradução",
                 "insertThis": "Insira este símbolo",
                 "tab": "$~A tecla Tab move o foco do teclado. Para introduzir uma tabulação, prima Ctrl+ $alt +Tab, utilize o botão de inserção abaixo ou altere esta definição.",
-                "matchDelimiter": "$~mover o cursor para o delimitador correspondente"
+                "matchDelimiter": "$~mover o cursor para o delimitador correspondente",
+                "insertPattern": "$~inserir padrão",
+                "insertSearch": "$~inserir símbolo de pesquisa de padrão",
+                "insertPatternAny": "$~inserir símbolo de padrão de qualquer grafema",
+                "insertPatternSpace": "$~inserir símbolo de padrão de espaço",
+                "insertPatternStart": "$~inserir símbolo de início de padrão",
+                "insertPatternEnd": "$~inserir símbolo de fim de padrão",
+                "insertPatternFold": "$~inserir padrão de dobra de caixa",
+                "insertPatternAhead": "$~inserir símbolo de previsão de padrão",
+                "insertPatternBehind": "$~inserir padrão de olhar por trás",
+                "insertPatternWord": "$~inserir símbolo de palavra padrão",
+                "insertPatternWordEdge": "$~inserir símbolo de borda de palavra de padrão"
             },
             "error": {
                 "invalidName": "Este deve ser um nome válido para um jogo de palavras.",
@@ -5865,36 +6246,38 @@
                 "purpose": {
                     "label": "código",
                     "labels": [
-                        "projeto",
-                        "saída",
-                        "entrada",
-                        "decidir",
-                        "nome",
-                        "texto",
-                        "números",
-                        "verdade",
-                        "listas",
-                        "conjuntos",
-                        "tabelas",
-                        "documentos",
-                        "tipos",
-                        "etc."
+                        "$~projeto",
+                        "$~saída",
+                        "$~entrada",
+                        "$~decidir",
+                        "$~nome",
+                        "$~texto",
+                        "$~padrão",
+                        "$~números",
+                        "$~verdade",
+                        "$~listas",
+                        "$~conjuntos",
+                        "$~tabelas",
+                        "$~documentos",
+                        "$~tipos",
+                        "$~etc."
                     ],
                     "tips": [
-                        "conceitos de nível de projeto",
-                        "frases, grupos, passos, layouts e muito mais",
-                        "tempo, botões, teclas, cenas e muito mais",
-                        "escolher valores com base noutros valores",
-                        "Nomeie valores, funções e estruturas de dados para utilização posterior.",
-                        "verdadeiro, falso e sem valor",
-                        "números e operações matemáticas",
-                        "texto simples e formatado",
-                        "listas e operações com listas",
-                        "conjuntos, mapas e operações",
-                        "tabelas e operações com tabelas",
-                        "tipos de dados, conversões e verificações de tipo",
-                        "documentação e comentários",
-                        "conceitos avançados de linguagem"
+                        "$~conceitos de nível de projeto",
+                        "$~frases, grupos, passos, layouts e muito mais",
+                        "$~tempo, botões, teclas, cenas e muito mais",
+                        "$~escolher valores com base noutros valores",
+                        "$~Nomeie valores, funções e estruturas de dados para utilização posterior.",
+                        "$~texto simples e formatado",
+                        "$~Descreva o formato do texto para o testar ou encontrar.",
+                        "$~números e operações matemáticas",
+                        "$~verdadeiro, falso e sem valor",
+                        "$~listas e operações com listas",
+                        "$~conjuntos, mapas e operações",
+                        "$~tabelas e operações com tabelas",
+                        "$~documentação e comentários",
+                        "$~tipos de dados, conversões e verificações de tipo",
+                        "$~conceitos avançados de linguagem"
                     ]
                 },
                 "howToFilter": {
@@ -5979,6 +6362,10 @@
                 "GalleryHow": {
                     "header": "Tutorial de galeria",
                     "explanation": "/Padrões comuns para criar diferentes tipos de projetos, a partir das suas galerias./"
+                },
+                "Patterns": {
+                    "header": "$~Padrões",
+                    "explanation": "$~/Descreva o formato do texto com um padrão, delimitado por \\⣿\\ , e depois verifique se o texto se ajusta ao formato ( \\≈\\ ) ou encontre todos os locais onde aparece ( \\⌕\\ )./"
                 }
             },
             "how": {

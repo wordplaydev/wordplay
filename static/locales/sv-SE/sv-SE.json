@@ -51,7 +51,8 @@
         "cell": "$~cell",
         "documentation": "$~dokumentation",
         "language": "$~språk",
-        "region": "$~område"
+        "region": "$~område",
+        "pattern": "$~mönster"
     },
     "token": {
         "EvalOpen": "$~utvärdering öppen",
@@ -134,7 +135,30 @@
         "TeluguNumeral": "$~telugu-siffra",
         "LanguageJoin": "$~språkförbindare",
         "Translate": "$~översätta",
-        "ExternalExample": "$~exempel på ett annat språk"
+        "ExternalExample": "$~exempel på ett annat språk",
+        "PatternAny": "$~mönster valfritt tecken",
+        "PatternLetter": "$~mönsterbokstav",
+        "PatternDigit": "$~mönstersiffra",
+        "PatternSpace": "$~mönsterutrymme",
+        "PatternRest": "$~mönstervila",
+        "PatternWord": "$~mönsterord",
+        "PatternWordEdge": "$~mönsterord kant",
+        "PatternStart": "$~mönsterstart",
+        "PatternEnd": "$~mönsterslut",
+        "PatternAhead": "$~mönster framåtblick",
+        "PatternBehind": "$~mönster titt bakom",
+        "PatternFold": "$~mönsterfodral vik",
+        "PatternRange": "$~mönsterintervall",
+        "PatternComplement": "$~mönster inte",
+        "PatternAlternation": "$~mönster eller",
+        "PatternSlash": "$~mönstertagg",
+        "PatternEqual": "$~mönster exakt",
+        "PatternGreater": "$~mönster mer än",
+        "PatternGreaterEqual": "$~mönster åtminstone",
+        "PatternLess": "$~mönster färre än",
+        "PatternLessEqual": "$~mönster som mest",
+        "PatternText": "$~mönster bokstavlig text",
+        "PatternDelimiter": "$~mönster"
     },
     "node": {
         "Dimension": {
@@ -1906,6 +1930,298 @@
                 "$~Jag jobbar bara med text, så se till att ge mig lite!"
             ],
             "start": "$~Låt oss utvärdera $value och sedan tagga det med en språkinställning…"
+        },
+        "PatternLiteral": {
+            "name": "$~mönster",
+            "description": "$~ett mönster med $count delar",
+            "emotion": "curious",
+            "doc": [
+                "$~Jag är ett mönster! Jag beskriver *formen* på text istället för exakta ord, så du kan kontrollera text med \\≈\\ — passar hela texten in? — eller söka med \\⌕\\ för att hitta alla ställen där formen förekommer. Sökning ger en lista med @Result .",
+                "$~Här är en sökning i praktiken – att hitta matorden i en mening om frukost:",
+                "$~\\breakfast: 'For breakfast I had eggs, toast, and orange juice'\nbreakfast ⌕ ⣿\"eggs\" | \"toast\" | \"juice\" | \"pancakes\"⣿\\",
+                "$~Läs mig från vänster till höger. En @PatternClass matchar ett tecken av ett slag: \\⣿◌⣿\\ valfritt, \\⣿_⣿\\ en bokstav, \\⣿#⣿\\ en siffra, \\⣿␣⣿\\ ett mellanslag. Citattext är en @PatternLiteralText som matchar exakt, som \\⣿\"-\"⣿\\ . Resten \\⣿…⣿\\ — en @PatternRest — matchar valfritt antal tecken.",
+                "$~Antal kommer först. En @PatternQuantified upprepar nästa del med en @PatternQuantifier : \\⣿3 #⣿\\ är tre siffror, \\⣿3–5 #⣿\\ tre till fem, \\⣿>0 #⣿\\ en eller fler, \\⣿≥0 #⣿\\ noll eller fler, \\⣿≤1 #⣿\\ valfritt.",
+                "$~Gruppera delar med en @PatternGroup och erbjud val i en @PatternSequence , som \\⣿(◌ | #)⣿\\ . Det längsta matchande valet vinner.",
+                "$~En @PatternSet matchar ett tecken från en uppsättning, och en @PatternRange spänner över teckenintervall, som \\⣿{\"a\"–\"z\" #}⣿\\ . Negera en del med en @PatternComplement , som \\⣿~#⣿\\ .",
+                "$~Förfina en klass med en @PatternProperty , som \\⣿_/greek⣿\\ för en grekisk bokstav eller \\⣿◌/emoji⣿\\ .",
+                "$~Namnge ett stycke med en @PatternCapture , som \\⣿year:(4 #)⣿\\ , och återanvänd det senare med en @PatternBackref genom att skriva dess namn. Varje @Result rapporterar fångade stycken med namn.",
+                "$~Förankra i kanterna med en @PatternAnchor : \\⣿⊢⣿\\ start, \\⣿⊣⣿\\ slut. Titta utan att konsumera med en @PatternLook : \\⣿▸(#)⣿\\ framåt, \\⣿◂(#)⣿\\ bakom.",
+                "$~Matcha hela ord med en @PatternWord \\⣿▭/en⣿\\ eller ordgränser med en @PatternWordEdge \\⣿┊/en⣿\\ , segmenterade för ett språk. Ignorera skiftläge inuti en @PatternCaseFold \\⣿⇕(\"hi\")⣿\\ .",
+                "$~Min typ är en @PatternType — anteckna ett namn med den, som \\p•⣿⣿: ⣿◌⣿\\ — så att du kan lagra mig i ett namn och återanvända mig i många texter."
+            ],
+            "start": "$~Låt mig se hur den här texten ser ut.",
+            "conflict": {
+                "EmptyPattern": {
+                    "name": "$~tomtmönster",
+                    "explanation": "$~Jag har inga delar, så jag matchar inget användbart. Kan du lägga till en del?",
+                    "resolution": "$~Lägg till en \\◌\\ för att matcha valfritt tecken"
+                }
+            },
+            "step": {
+                "search": "$~Låt oss hitta alla ställen där detta mönster förekommer i texten.",
+                "test": "$~Låt oss kontrollera om hela texten passar in i mönstret.",
+                "scan": "$~Letar efter mönstret som börjar vid position $position .",
+                "match": "$~$pattern matchar $glyph vid position $position .",
+                "miss": "$~$pattern matchar inte $glyph vid position $position .",
+                "end": "$~$pattern behöver fortfarande ett tecken, men vi har nått slutet av texten vid position $position .",
+                "repeat": "$~$pattern matchade $count — tillräckligt för att fortsätta.",
+                "short": "$~$pattern matchade endast $count — inte tillräckligt.",
+                "here": "$~$pattern håller position $position .",
+                "nothere": "$~$pattern håller inte position $position ."
+            }
+        },
+        "PatternSequence": {
+            "name": "$~sekvens",
+            "description": "$~en sekvens av mönsterdelar",
+            "emotion": "curious",
+            "doc": [
+                "$~Jag är en rad av mönsterdelar, matchade efter varandra, från vänster till höger.",
+                "$~Kontrollera till exempel formen på ett telefonnummer – tre siffror, ett bindestreck och sedan fyra:",
+                "$~\\phone: '555-1234'\nphone ≈ ⣿3 # \"-\" 4 #⣿\\",
+                "$~Erbjuder val och jag tar det som passar, och föredrar det längsta, som \\⣿\"cat\" | \"dog\"⣿\\ ."
+            ],
+            "conflict": {
+                "OverlappingAlternatives": {
+                    "name": "$~överlappandeval",
+                    "explanation": "$~$shorter är början på $longer , och det längsta alternativet vinner alltid, så $shorter matchar bara när $longer inte kan. Menade du det?"
+                }
+            }
+        },
+        "PatternClass": {
+            "name": "$~karaktärsklass",
+            "description": "$~matcha en typ av karaktär",
+            "emotion": "curious",
+            "doc": [
+                "$~Jag matchar ett enskilt tecken av en sort: \\⣿◌⣿\\ valfritt grafem, \\⣿_⣿\\ en bokstav, \\⣿#⣿\\ en siffra, \\⣿␣⣿\\ ett mellanslag.",
+                "$~Till exempel, dra ut varje bokstavs-och-siffra-kod ur en lista:",
+                "$~\\codes: 'a1 b2 c3'\ncodes ⌕ ⣿_ #⣿\\",
+                "$~Räkna mig med en kvantifierare som \\⣿>0 #⣿\\ (en eller flera siffror), eller begränsa mig med en egenskap som \\⣿_/greek⣿\\ (en grekisk bokstav)."
+            ]
+        },
+        "PatternProperty": {
+            "name": "$~egendom",
+            "description": "$~matcha en Unicode-egenskap",
+            "emotion": "curious",
+            "doc": [
+                "$~Jag begränsar en teckenklass till en Unicode-egenskap. Använd ett skript, som \\⣿_/greek⣿\\ , \\⣿_/han⣿\\ eller \\⣿_/arabic⣿\\ .",
+                "$~Till exempel, hitta sekvensen av grekiska bokstäver i blandad text:",
+                "$~\\text: 'hello αβγ world'\ntext ⌕ ⣿>0 _/greek⣿\\",
+                "$~Eller en kategori, som \\⣿◌/punctuation⣿\\ , \\⣿◌/currency⣿\\ , \\⣿◌/Nd⣿\\ (en siffra) eller \\⣿_/Lu⣿\\ (en stor bokstav).",
+                "$~Eller en ja-eller-nej-egenskap, som \\⣿◌/emoji⣿\\ eller \\⣿_/uppercase⣿\\ — och du kan stava en ut som ett namn och värde, som \\⣿◌/Script=Greek⣿\\ .",
+                "$~Exkludera en egenskap med ett @PatternComplement , som \\⣿~◌/emoji⣿\\ (allt som inte är en emoji)."
+            ],
+            "conflict": {
+                "UnrecognizedPatternProperty": {
+                    "name": "$~okändegendom",
+                    "explanation": "$~Jag känner inte igen egenskapen $name . Försök med en kategori, ett skript eller ett Unicode-ID.",
+                    "resolution": "$~Ändra det till $suggestion"
+                }
+            }
+        },
+        "PatternQuantifier": {
+            "name": "$~kvantifierare",
+            "description": "$~hur många gånger man ska matcha",
+            "emotion": "curious",
+            "doc": [
+                "$~Jag säger hur många gånger jag ska matcha: en exakt \\⣿3 #⣿\\ , ett intervall \\⣿3–5 #⣿\\ , \\⣿=3 #⣿\\ (exakt tre), \\⣿>0 #⣿\\ (en eller flera), \\⣿≥0 #⣿\\ (noll eller mer), \\⣿<5 #⣿\\ (färre än fem), \\⣿≤1 #⣿\\ (valfritt).",
+                "$~Till exempel, hitta varje sifferserie i en mening:",
+                "$~\\text: 'I have 3 cats and 12 fish'\ntext ⌕ ⣿>0 #⣿\\",
+                "$~Jag kommer alltid före den del jag räknar, som \\⣿3 #⣿\\ eller \\⣿>0 _⣿\\ ."
+            ],
+            "conflict": {
+                "MalformedQuantifier": {
+                    "name": "$~omöjligräkning",
+                    "explanation": "$~Mitt låga antal är större än mitt höga antal, så jag kan aldrig matcha.",
+                    "resolution": "$~Byt ut mina räkningar så att den mindre kommer först"
+                }
+            }
+        },
+        "PatternQuantified": {
+            "name": "$~upprepning",
+            "description": "$~matcha en atom flera gånger",
+            "emotion": "curious",
+            "doc": [
+                "$~Jag matchar nästa del ett antal gånger.",
+                "$~Kontrollera till exempel att ett postnummer är exakt fem siffror:",
+                "$~\\zip: '98101'\nzip ≈ ⣿5 #⣿\\",
+                "$~Räkna en klass som \\⣿3 #⣿\\ (tre siffror), en grupp som \\⣿2 (\"ab\")⣿\\ (två \"ab\"), eller ett komplement som \\⣿2 ~#⣿\\ (två icke-siffriga tal). Med \\⣿>0 #⣿\\ är jag girig — jag tar så många jag kan."
+            ]
+        },
+        "PatternCapture": {
+            "name": "$~fånga",
+            "description": "$~kom ihåg matchande text efter namn",
+            "emotion": "curious",
+            "doc": [
+                "$~Jag namnger en del av en matchning så att du kan läsa den från varje @Result .",
+                "$~Till exempel, dra ut år, månad och dag ur ett datum:",
+                "$~\\date: '2026-06-17'\ndate ⌕ ⣿y:(4 #) \"-\" m:(2 #) \"-\" d:(2 #)⣿\\",
+                "$~Återanvänd det jag fångade senare genom att skriva mitt namn igen — se @PatternBackref — som \\⣿w:(>0 _) ␣ w⣿\\ för att hitta ett fördubblat ord."
+            ],
+            "conflict": {
+                "DuplicateCaptureName": {
+                    "name": "$~dupliceradinspelning",
+                    "explanation": "$~En annan inspelning använder redan namnet $name , så den här skulle skriva över det.",
+                    "resolution": "$~Byt namn på den här inspelningen till $replacement"
+                }
+            }
+        },
+        "PatternComplement": {
+            "name": "$~inte",
+            "description": "$~matcha allt utom",
+            "emotion": "curious",
+            "doc": [
+                "$~Jag matchar ett enda grafem som INTE är det som följer. Negerar en klass som \\⣿~#⣿\\ (inte en siffra), eller en mängd som \\⣿~{\":\" ␣}⣿\\ (inte ett kolon eller mellanslag).",
+                "$~Till exempel, hämta nyckeln och värdet runt ett kolon genom att matcha körningar som inte är ett kolon eller mellanslag:",
+                "$~\\pair: 'color: blue'\npair ⌕ ⣿>0 ~{\":\" ␣}⣿\\",
+                "$~Negera en grupp som \\⣿~(◌ | #)⣿\\ , eller en egenskap som \\⣿~◌/emoji⣿\\ (inte en emoji).",
+                "$~Placera mig före en @PatternLook för att vända den: \\⣿~▸(#)⣿\\ betyder \"inte följt av en siffra\", och \\⣿~◂(\"$\")⣿\\ betyder \"inte föregånget av ett dollartecken\"."
+            ]
+        },
+        "PatternGroup": {
+            "name": "$~grupp",
+            "description": "$~gruppmönsterdelar",
+            "emotion": "curious",
+            "doc": [
+                "$~Jag buntar ihop delar så att ett antal eller val gäller för alla. Jag fångar aldrig; namnge en del med en @PatternCapture för det.",
+                "$~Kontrollera till exempel att en del text innehåller stavelsen \"ab\" upprepad:",
+                "$~\\chant: 'ababab'\nchant ≈ ⣿>0 (\"ab\")⣿\\",
+                "$~Räkna en grupp som \\⣿2 (\"ab\")⣿\\ (två \"ab\") eller erbjud ett alternativ som \\⣿(◌ | #)⣿\\ (en bokstav eller en siffra)."
+            ]
+        },
+        "PatternSet": {
+            "name": "$~glyfuppsättning",
+            "description": "$~matcha ett av dessa grafem",
+            "emotion": "curious",
+            "doc": [
+                "$~Jag matchar valfritt grafem från en uppsättning alternativ.",
+                "$~Till exempel, hitta vokalerna i ett ord:",
+                "$~\\word: 'hello'\nword ⌕ ⣿{\"a\" \"e\" \"i\" \"o\" \"u\"}⣿\\",
+                "$~Blanda in intervall och klasser, som \\⣿{\"a\"–\"z\" #}⣿\\ eller \\⣿{# \"a\"–\"f\"}⣿\\ (en hexagonsiffra). Negera mig med en @PatternComplement , som \\⣿~{\"!\" \"?\"}⣿\\ ."
+            ]
+        },
+        "PatternRange": {
+            "name": "$~räckvidd",
+            "description": "$~matcha en rad grafem",
+            "emotion": "curious",
+            "doc": [
+                "$~Jag matchar ett grafem mellan två ändpunkter med skalär ordning, och jag finns inuti en @PatternSet .",
+                "$~Till exempel, dra ut orden med gemener ur en text:",
+                "$~\\text: 'hello world 2026'\ntext ⌕ ⣿>0 {\"a\"–\"z\"}⣿\\",
+                "$~Använd bokstäver som \\⣿{\"a\"–\"z\" \"A\"–\"Z\"}⣿\\ eller siffror som \\⣿{\"0\"–\"9\"}⣿\\ , i vilket skrifttyp som helst, som \\⣿{\"あ\"–\"ん\"}⣿\\ ."
+            ]
+        },
+        "PatternLiteralText": {
+            "name": "$~bokstavlig",
+            "description": "$~matcha exakt text",
+            "emotion": "curious",
+            "doc": [
+                "$~Jag matchar exakt texten i mina citat, utan någon särskild betydelse.",
+                "$~Till exempel, hitta dollarbeloppet i en mening:",
+                "$~\\receipt: 'It costs $5 today'\nreceipt ⌕ ⣿\"$\" >0 #⣿\\",
+                "$~Använd mig för fasta delar som \\⣿\"-\"⣿\\ , \\⣿\"@\"⣿\\ , eller ett helt ord \\⣿\"cat\"⣿\\ , ihopkopplat med andra delar, som \\⣿3 # \"-\" 4 #⣿\\ för ett telefonnummer."
+            ]
+        },
+        "PatternAnchor": {
+            "name": "$~förankra",
+            "description": "$~matcha en textkant",
+            "emotion": "curious",
+            "doc": [
+                "$~Jag matchar en kant av texten utan att förbruka något: \\⣿⊢⣿\\ början, \\⣿⊣⣿\\ slutet.",
+                "$~Kontrollera till exempel att en hälsning börjar med \"Hej\":",
+                "$~\\greeting: 'Hello world'\ngreeting ≈ ⣿⊢ \"Hello\" …⣿\\",
+                "$~Fäst position, som \\⣿⊢ \"Hi\"⣿\\ (börjar med \"Hej\"), \\⣿\".\" ⊣⣿\\ (slutar med en punkt), eller \\⣿⊢ _ ⊣⣿\\ (hela texten är exakt en bokstav)."
+            ]
+        },
+        "PatternWord": {
+            "name": "$~ord",
+            "description": "$~matcha ett helt ord",
+            "emotion": "curious",
+            "doc": [
+                "$~Jag matchar ett helt ord, hittat enligt språkets egna regler.",
+                "$~Till exempel, lista orden i en mening:",
+                "$~\\sentence: 'the cat sat'\nsentence ⌕ ⣿▭/en⣿\\",
+                "$~Namnge språket, som \\⣿▭/en⣿\\ för engelska eller \\⣿▭/zh⣿\\ för kinesiska, och bind ett specifikt ord med kanter, som \\⣿┊/en \"cat\" ┊/en⣿\\ ."
+            ],
+            "conflict": {
+                "MissingPatternLocale": {
+                    "name": "$~saknatspråk",
+                    "explanation": "$~Jag behöver ett språk för att veta hur man hittar ord. Kan du lägga till ett, som \\/en\\ ?"
+                }
+            }
+        },
+        "PatternWordEdge": {
+            "name": "$~ordkant",
+            "description": "$~matcha en ordgräns",
+            "emotion": "curious",
+            "doc": [
+                "$~Jag matchar en ordgräns för ett språk utan att förbruka någonting.",
+                "$~Till exempel, sök efter \"katt\" som ett helt ord, inte inuti \"kategori\":",
+                "$~\\text: 'a cat in a category'\ntext ⌕ ⣿┊/en \"cat\" ┊/en⣿\\",
+                "$~Linda in ett ord med mig, som \\⣿┊/en \"cat\" ┊/en⣿\\ , så att det bara matchar heltal."
+            ]
+        },
+        "PatternLook": {
+            "name": "$~tittarunt",
+            "description": "$~kolla framåt eller bakåt",
+            "emotion": "curious",
+            "doc": [
+                "$~Jag kontrollerar vad som ligger precis framför \\⣿▸(#)⣿\\ eller bakom \\⣿◂(#)⣿\\ utan att konsumera det, så att nästa del fortfarande matchar från samma plats.",
+                "$~Till exempel, hitta varje bokstav som följs omedelbart av en siffra:",
+                "$~\\text: 'a1 b2 cc'\ntext ⌕ ⣿_ ▸(#)⣿\\",
+                "$~Kräv kontext, som \\⣿_ ▸(#)⣿\\ (en bokstav följt av en siffra) eller \\⣿◂(\"$\") >0 #⣿\\ (siffror direkt efter en \"$\").",
+                "$~Vänd mig med ett @PatternComplement för att förbjuda kontext, som \\⣿~▸(#)⣿\\ (inte följt av en siffra)."
+            ]
+        },
+        "PatternBackref": {
+            "name": "$~bakåtreferens",
+            "description": "$~matcha samma text igen",
+            "emotion": "curious",
+            "doc": [
+                "$~Jag matchar samma text som en med namnet @PatternCapture redan matchat — skriv bara inspelningens bara namn.",
+                "$~Till exempel, hitta ett ord som upprepas omedelbart:",
+                "$~\\text: 'the the cat sat sat'\ntext ⌕ ⣿w:(>0 _) ␣ w⣿\\",
+                "$~Ett rent namn som inte är en capture är istället en namngiven klass, som \\⣿linebreak⣿\\ ."
+            ],
+            "conflict": {
+                "UndefinedBackreference": {
+                    "name": "$~okäntnamn",
+                    "explanation": "$~Det finns ingen capture eller klass med namnet $name , så jag har inget som matchar.",
+                    "resolution": "$~Ändra det till $suggestion"
+                }
+            }
+        },
+        "PatternRest": {
+            "name": "$~vila",
+            "description": "$~matcha resten av inmatningen",
+            "emotion": "curious",
+            "doc": [
+                "$~Jag matchar resten av texten, så mycket som möjligt. Jag är händig i slutet av ett mönster.",
+                "$~Kontrollera till exempel att en del text är en hashtag – ett \"#\" och sedan vad som helst:",
+                "$~\\tag: '#breakfast'\ntag ≈ ⣿\"#\" …⣿\\",
+                "$~Använd mig efter en fast start, som \\⣿\"#\" …⣿\\ (ett \"#\" sedan vad som helst) eller \\⣿\"Hi \" …⣿\\ (\"Hej \" sedan allt efteråt)."
+            ]
+        },
+        "PatternCaseFold": {
+            "name": "$~ignoreraskiftläge",
+            "description": "$~matchning utan att använda stora/små bokstäver",
+            "emotion": "curious",
+            "doc": [
+                "$~Jag matchar mina delar utan att tänka på stora och små bokstäver.",
+                "$~Till exempel kontrollera ett ord utan att använda versaler:",
+                "$~\\shout: 'HELLO'\nshout ≈ ⣿⇕(\"hello\")⣿\\",
+                "$~Radbryt mina delar som \\⣿⇕(\"hi\")⣿\\ (matchar \"HI\", \"Hi\" eller \"hi\"). Lägg till ett språk för dess regler, som \\⣿⇕/tr(\"i\")⣿\\ (turkiskt i), och jag omfamnar även en @PatternBackref , som \\⣿⇕(w:(2 _) w)⣿\\ ."
+            ]
+        },
+        "PatternType": {
+            "name": "$~mönstertyp",
+            "description": "$~typen av ett mönster",
+            "emotion": "curious",
+            "doc": [
+                "$~Jag är den typen av ett mönstervärde, annoterat som \\p•⣿⣿: ⣿◌⣿\\ .",
+                "$~Till exempel, lagra ett mönster i ett namn och återanvänd det i många texter:",
+                "$~\\digits: ⣿>0 #⣿\n'I have 3 cats and 12 fish' ⌕ digits\\",
+                "$~När den är lagrad, använd mig var som helst ett mönster passar, som \\text ⌕ digits\\ eller \\text ≈ digits\\ ."
+            ]
         }
     },
     "basis": {
@@ -2144,6 +2460,32 @@
                         {
                             "doc": "$~@Text som ska läggas till.",
                             "names": "$~text"
+                        }
+                    ]
+                },
+                "matches": {
+                    "doc": [
+                        "$~\\⊤\\ om hela texten matchar det givna mönstret.",
+                        "$~\\'555-1234' ≈ ⣿3 # \"-\" 4 #⣿\\"
+                    ],
+                    "names": ["$~≈", "$~tändstickor"],
+                    "inputs": [
+                        {
+                            "doc": "$~Mönstret att matcha mot.",
+                            "names": "$~mönster"
+                        }
+                    ]
+                },
+                "search": {
+                    "doc": [
+                        "$~Hitta varje plats där det givna mönstret matchar i mig, som en lista med @Result .",
+                        "$~\\'a1 b2' ⌕ ⣿_ #⣿\\"
+                    ],
+                    "names": ["$~⌕", "$~söka"],
+                    "inputs": [
+                        {
+                            "doc": "$~Mönstret att söka efter.",
+                            "names": "$~mönster"
                         }
                     ]
                 }
@@ -5044,6 +5386,34 @@
                 "doc": "$~@True om handflatan är vänd mot kameran, @False om handryggen är vänd mot kameran.",
                 "names": ["$~palm"]
             }
+        },
+        "Result": {
+            "doc": "$~Jag har bara en matchning från en mönstersökning med \\⌕\\ : den matchande texten, var den finns och eventuella fångster.",
+            "names": ["$~Resultat"],
+            "text": {
+                "doc": "$~Hela den matchande texten.",
+                "names": "$~text"
+            },
+            "start": {
+                "doc": "$~Var matchen börjar, räknat från 1.",
+                "names": "$~start"
+            },
+            "end": {
+                "doc": "$~Var matchen slutar, räknat från 1.",
+                "names": "$~avsluta"
+            },
+            "groups": {
+                "doc": "$~Varje skärmdumps namn till den text den matchade.",
+                "names": "$~grupper"
+            },
+            "starts": {
+                "doc": "$~Varje tagnings namn till där den börjar.",
+                "names": "$~börjar"
+            },
+            "ends": {
+                "doc": "$~Varje tagnings namn till där den slutar.",
+                "names": "$~slutar"
+            }
         }
     },
     "ui": {
@@ -5414,7 +5784,18 @@
                 "insertTranslate": "$~infoga översättningssymbol",
                 "insertThis": "$~infoga den här symbolen",
                 "tab": "$~Tabb flyttar tangentbordsfokus. För att infoga en tabb, tryck Ctrl+ $alt +Tab, använd infoga-knappen nedan eller ändra detta i inställningarna.",
-                "matchDelimiter": "$~flytta markören till matchande avgränsare"
+                "matchDelimiter": "$~flytta markören till matchande avgränsare",
+                "insertPattern": "$~insatsmönster",
+                "insertSearch": "$~symbol för sökning efter mönster",
+                "insertPatternAny": "$~infoga symbol för valfritt grafemmönster",
+                "insertPatternSpace": "$~infoga mellanslagsmönstersymbol",
+                "insertPatternStart": "$~infoga mönsterstartsymbol",
+                "insertPatternEnd": "$~infoga mönsterslutssymbol",
+                "insertPatternFold": "$~infoga mönster fodral-vikningssymbol",
+                "insertPatternAhead": "$~infoga mönster framåtblickande symbol",
+                "insertPatternBehind": "$~infoga mönster titt bakom-symbol",
+                "insertPatternWord": "$~infoga mönsterordsymbol",
+                "insertPatternWordEdge": "$~infoga mönster ordkantsymbol"
             },
             "options": {
                 "locale": {
@@ -5661,12 +6042,13 @@
                         "$~besluta",
                         "$~namn",
                         "$~text",
+                        "$~mönster",
                         "$~tal",
                         "$~sanning",
                         "$~listor",
                         "$~uppsättningar",
                         "$~bord",
-                        "$~dokumentation",
+                        "$~dokument",
                         "$~typer",
                         "$~etc."
                     ],
@@ -5676,14 +6058,15 @@
                         "$~tid, knappar, tangenter, scener och mer",
                         "$~välj värden baserat på andra värden",
                         "$~namnge värden, funktioner och datastrukturer för senare användning",
-                        "$~sant, falskt och inget värde",
-                        "$~siffror och matematiska operationer",
                         "$~vanlig och formaterad text",
+                        "$~beskriv textens form för att testa eller hitta den",
+                        "$~siffror och matematiska operationer",
+                        "$~sant, falskt och inget värde",
                         "$~listor och listoperationer",
                         "$~uppsättningar, kartor och operationer",
                         "$~tabeller och tabelloperationer",
-                        "$~datatyper, konverteringar och typkontroller",
                         "$~dokumentation och kommentarer",
+                        "$~datatyper, konverteringar och typkontroller",
                         "$~avancerade språkbegrepp"
                     ]
                 },
@@ -5764,6 +6147,10 @@
                 "GalleryHow": {
                     "header": "$~Galleri-instruktioner",
                     "explanation": "$~/Vanliga mönster för att skapa olika typer av projekt, från dina gallerier./"
+                },
+                "Patterns": {
+                    "header": "$~Mönster",
+                    "explanation": "$~/Beskriv textens form med ett mönster, avgränsat av \\⣿\\ , testa sedan om texten passar formen ( \\≈\\ ) eller hitta varje plats där den förekommer ( \\⌕\\ )./"
                 }
             },
             "note": {

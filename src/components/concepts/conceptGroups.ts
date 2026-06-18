@@ -19,12 +19,14 @@ import Expression from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import Literal from '@nodes/Literal';
 import type Node from '@nodes/Node';
+import PatternType from '@nodes/PatternType';
 import Source from '@nodes/Source';
 import {
     BIND_SYMBOL,
     FORMATTED_SYMBOL,
     LIST_CLOSE_SYMBOL,
     LIST_OPEN_SYMBOL,
+    MATCH_SEARCH_SYMBOL,
     MEASUREMENT_SYMBOL,
     NONE_SYMBOL,
     SET_CLOSE_SYMBOL,
@@ -151,6 +153,35 @@ export function getConceptGroups(
         ];
     }
 
+    if (purpose === Purpose.Patterns) {
+        // The pattern node concepts (the `⣿ ⣿` literal and its constructs, the
+        // `•⣿⣿` type) carry Purpose.Patterns directly. The `≈`/`⌕` operators
+        // live on the Text structure (they're called on a text value), but
+        // conceptually belong here — gather the Text functions that take a
+        // pattern. The search result structure goes with the constructs.
+        const primary = index.getPrimaryConceptsWithPurpose(Purpose.Patterns);
+        const textConcept = index.getStructureConcept(
+            project.basis.getSimpleDefinition('text'),
+        );
+        const operations = textConcept
+            ? Array.from(textConcept.getSubConcepts()).filter(
+                  (c): c is FunctionConcept =>
+                      c instanceof FunctionConcept &&
+                      c.definition.inputs.some(
+                          (input) => input.type instanceof PatternType,
+                      ),
+              )
+            : [];
+        const result = index.getStructureConcept(project.shares.output.Result);
+        return [
+            {
+                header: (l) => l.ui.docs.purposes.Patterns,
+                concepts: [...primary, ...(result ? [result] : [])],
+            },
+            { header: (l) => l.ui.docs.header.functions, concepts: operations },
+        ];
+    }
+
     if (isContentPurpose(purpose)) {
         const primary = index
             .getPrimaryConceptsWithPurpose(purpose)
@@ -211,6 +242,7 @@ export function getPurposeIcons(language: LanguageCode): string[] {
         '?',
         BIND_SYMBOL,
         getLanguageQuoteOpen(language) + getLanguageQuoteClose(language),
+        MATCH_SEARCH_SYMBOL,
         MEASUREMENT_SYMBOL,
         TRUE_SYMBOL + NONE_SYMBOL,
         LIST_OPEN_SYMBOL + LIST_CLOSE_SYMBOL,
