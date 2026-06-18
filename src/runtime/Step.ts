@@ -18,6 +18,18 @@ export default abstract class Step {
 
     abstract getExplanations(locales: Locales, evaluator: Evaluator): Markup;
 
+    /**
+     * The node this step is actively working on right now, when that differs
+     * from the static {@link node} that compiled it. A looping step that drives
+     * a sub-process (e.g. the pattern matcher, which walks many source nodes
+     * from one compiled step) overrides this so the editor highlights and
+     * narrates the construct currently being tried. Returns undefined by
+     * default, meaning "use {@link node}".
+     */
+    getActiveNode(_evaluator: Evaluator): Node | undefined {
+        return undefined;
+    }
+
     toString() {
         return `${this.constructor.name} (${this.node.getDescriptor()}) ${
             this.node instanceof Node

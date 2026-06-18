@@ -28,6 +28,17 @@ import {
     STREAM_SYMBOL,
     TABLE_CLOSE_SYMBOL,
     TABLE_OPEN_SYMBOL,
+    PATTERN_DELIMITER_SYMBOL,
+    MATCH_SEARCH_SYMBOL,
+    PATTERN_ANY_SYMBOL,
+    PATTERN_SPACE_SYMBOL,
+    PATTERN_START_SYMBOL,
+    PATTERN_END_SYMBOL,
+    PATTERN_FOLD_SYMBOL,
+    PATTERN_AHEAD_SYMBOL,
+    PATTERN_BEHIND_SYMBOL,
+    PATTERN_WORD_SYMBOL,
+    PATTERN_WORDEDGE_SYMBOL,
     THIS_SYMBOL,
     TRANSLATE_SYMBOL,
     TRUE_SYMBOL,
@@ -88,7 +99,9 @@ export type Command = {
     category: Category;
     /** If true, the command is always visible and not hidden behind an accordion */
     important?: boolean;
-    /** The key that triggers the command, or if not provided, all keys trigger it */
+    /** The key that triggers the command. If omitted, the command has no keyboard
+     *  shortcut — UNLESS it's also a `typing` catch-all (e.g. InsertSymbol), in
+     *  which case every key triggers it. Palette-only commands omit both. */
     key?: string;
     /** The optional symbol representing the key, for rendering shortcuts */
     keySymbol?: string;
@@ -253,7 +266,12 @@ export function handleKeyCommand(
             (command.control === undefined || command.control === control) &&
             (command.shift === undefined || command.shift === event.shiftKey) &&
             (command.alt === undefined || command.alt === event.altKey) &&
-            (command.key === undefined ||
+            // A command with no `key` is a keyboard wildcard ONLY when it's a
+            // `typing` catch-all (e.g. InsertSymbol, which inserts the typed
+            // character). Palette-only commands (visible toolbar inserts with no
+            // shortcut, like the pattern glyphs) deliberately omit `key`; without
+            // this guard they'd match every unmodified keystroke and clobber it.
+            ((command.key === undefined && command.typing === true) ||
                 command.key === event.code ||
                 command.key === event.key)
         ) {
@@ -1666,6 +1684,118 @@ const Commands: Command[] = [
         keySymbol: 't',
         execute: (context) => handleInsert(context, TABLE_CLOSE_SYMBOL),
     },
+    // Pattern glyphs (LANGUAGE.md). Palette-only (no shortcut) to avoid key
+    // collisions; inserting `⣿` auto-closes to `⣿⣿` via the delimiter machinery.
+    {
+        symbol: PATTERN_DELIMITER_SYMBOL,
+        description: (l) => l.ui.source.cursor.insertPattern,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        shift: false,
+        alt: false,
+        control: false,
+        execute: (context) => handleInsert(context, PATTERN_DELIMITER_SYMBOL),
+    },
+    {
+        symbol: MATCH_SEARCH_SYMBOL,
+        description: (l) => l.ui.source.cursor.insertSearch,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        shift: false,
+        alt: false,
+        control: false,
+        execute: (context) => handleInsert(context, MATCH_SEARCH_SYMBOL),
+    },
+    {
+        symbol: PATTERN_ANY_SYMBOL,
+        description: (l) => l.ui.source.cursor.insertPatternAny,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        shift: false,
+        alt: false,
+        control: false,
+        execute: (context) => handleInsert(context, PATTERN_ANY_SYMBOL),
+    },
+    {
+        symbol: PATTERN_SPACE_SYMBOL,
+        description: (l) => l.ui.source.cursor.insertPatternSpace,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        shift: false,
+        alt: false,
+        control: false,
+        execute: (context) => handleInsert(context, PATTERN_SPACE_SYMBOL),
+    },
+    {
+        symbol: PATTERN_START_SYMBOL,
+        description: (l) => l.ui.source.cursor.insertPatternStart,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        shift: false,
+        alt: false,
+        control: false,
+        execute: (context) => handleInsert(context, PATTERN_START_SYMBOL),
+    },
+    {
+        symbol: PATTERN_END_SYMBOL,
+        description: (l) => l.ui.source.cursor.insertPatternEnd,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        shift: false,
+        alt: false,
+        control: false,
+        execute: (context) => handleInsert(context, PATTERN_END_SYMBOL),
+    },
+    {
+        symbol: PATTERN_FOLD_SYMBOL,
+        description: (l) => l.ui.source.cursor.insertPatternFold,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        shift: false,
+        alt: false,
+        control: false,
+        execute: (context) => handleInsert(context, PATTERN_FOLD_SYMBOL),
+    },
+    {
+        symbol: PATTERN_AHEAD_SYMBOL,
+        description: (l) => l.ui.source.cursor.insertPatternAhead,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        shift: false,
+        alt: false,
+        control: false,
+        execute: (context) => handleInsert(context, PATTERN_AHEAD_SYMBOL),
+    },
+    {
+        symbol: PATTERN_BEHIND_SYMBOL,
+        description: (l) => l.ui.source.cursor.insertPatternBehind,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        shift: false,
+        alt: false,
+        control: false,
+        execute: (context) => handleInsert(context, PATTERN_BEHIND_SYMBOL),
+    },
+    {
+        symbol: PATTERN_WORD_SYMBOL,
+        description: (l) => l.ui.source.cursor.insertPatternWord,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        shift: false,
+        alt: false,
+        control: false,
+        execute: (context) => handleInsert(context, PATTERN_WORD_SYMBOL),
+    },
+    {
+        symbol: PATTERN_WORDEDGE_SYMBOL,
+        description: (l) => l.ui.source.cursor.insertPatternWordEdge,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        shift: false,
+        alt: false,
+        control: false,
+        execute: (context) => handleInsert(context, PATTERN_WORDEDGE_SYMBOL),
+    },
     {
         symbol: BORROW_SYMBOL,
         description: (l) => l.ui.source.cursor.insertBorrow,
@@ -1985,7 +2115,7 @@ const Commands: Command[] = [
     },
 
     {
-        symbol: '+🔎',
+        symbol: '+⌕',
         description: (l) => l.ui.source.button.zoomIn,
         visible: Visibility.Visible,
         category: Category.Cursor,
@@ -2004,7 +2134,7 @@ const Commands: Command[] = [
         },
     },
     {
-        symbol: '–🔎',
+        symbol: '–⌕',
         description: (l) => l.ui.source.button.zoomOut,
         visible: Visibility.Visible,
         category: Category.Cursor,

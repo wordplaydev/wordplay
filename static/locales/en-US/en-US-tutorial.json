@@ -1548,6 +1548,41 @@
                             "They think you're doing great! And I think you're doing great too. You've already met so many of our wonderful players. And there are so many more to meet…"
                         ]
                     ]
+                },
+                {
+                    "title": "Patterns",
+                    "subtitle": null,
+                    "performance": { "fit": "#PatternSearch" },
+                    "lines": [
+                        {
+                            "fit": "Phrase('⌕' resting: Sequence(sway() duration: 2s))"
+                        },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "Sometimes you don't want a *specific* piece of text — you want to know its *shape*. Is this two digits, a colon, then two digits — a clock time? Does this hold a number at all?"
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "That's what a @PatternLiteral is for! You write one inside \\⣿ ⣿\\ and read it beginning to end: \\_\\ is a letter, \\#\\ is a digit, \\␣\\ is a space, and quoted text matches exactly. Counts go first, so \\2 #\\ means two digits."
+                        ],
+                        { "edit": "'12:34' ≈ ⣿2 # \":\" 2 #⣿" },
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "Use \\≈\\ to ask “does this whole text fit the shape?” — you get a \\⊤\\ or \\⊥\\. Try \\⌕\\ to *find* every place a pattern appears, and name the pieces you want to keep with \\name:( … )\\."
+                        ],
+                        {
+                            "edit": "'born 2026-06-15' ⌕ ⣿y:(4 #) \"-\" m:(2 #) \"-\" d:(2 #)⣿"
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "Each result is a @Structure with the matched text, where it starts and ends, and the groups you captured. And because patterns match by grapheme, they behave the same in every language and script."
+                        ]
+                    ]
                 }
             ]
         },

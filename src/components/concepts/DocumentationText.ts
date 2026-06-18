@@ -50,9 +50,12 @@ type DocumentationText = {
     mode: {
         /** Toggle between browsing all concepts and filtering by purpose */
         browse: ModeText<[string, string]>;
-        /** Filter concepts by purpose category */
+        /** Filter concepts by purpose category (aligned with the order of the
+         *  Purpose enum's keys: project, output, input, decide, name, text,
+         *  pattern, numbers, truth, lists, sets, tables, docs, types, etc.) */
         purpose: ModeText<
             [
+                string,
                 string,
                 string,
                 string,

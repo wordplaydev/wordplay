@@ -47,6 +47,8 @@ type TermTexts = {
     value: string;
     /** [plain] What to call a boolean value */
     boolean: string;
+    /** [plain] What to call a pattern value */
+    pattern: string;
     /** [plain] What to call a table value */
     table: string;
     /** [plain] What to call a table column */

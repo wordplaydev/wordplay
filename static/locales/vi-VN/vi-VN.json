@@ -51,7 +51,8 @@
         "feedback": "$~nhận xét",
         "documentation": "$~tài liệu",
         "language": "$~ngôn ngữ",
-        "region": "$~vùng đất"
+        "region": "$~vùng đất",
+        "pattern": "$~mẫu"
     },
     "token": {
         "EvalOpen": "$~đánh giá đang mở",
@@ -134,7 +135,30 @@
         "TeluguNumeral": "$~số telugu",
         "LanguageJoin": "$~người tham gia ngôn ngữ",
         "Translate": "$~dịch",
-        "ExternalExample": "$~ví dụ ngôn ngữ khác"
+        "ExternalExample": "$~ví dụ ngôn ngữ khác",
+        "PatternAny": "$~mẫu bất kỳ ký tự nào",
+        "PatternLetter": "$~mẫu chữ",
+        "PatternDigit": "$~mẫu chữ số",
+        "PatternSpace": "$~không gian mẫu",
+        "PatternRest": "$~mẫu nghỉ ngơi",
+        "PatternWord": "$~từ mẫu",
+        "PatternWordEdge": "$~mẫu chữ cạnh",
+        "PatternStart": "$~mẫu bắt đầu",
+        "PatternEnd": "$~kết thúc mẫu",
+        "PatternAhead": "$~dự đoán mẫu",
+        "PatternBehind": "$~mẫu nhìn phía sau",
+        "PatternFold": "$~mẫu gấp vỏ",
+        "PatternRange": "$~phạm vi mẫu",
+        "PatternComplement": "$~mẫu không",
+        "PatternAlternation": "$~mẫu hoặc",
+        "PatternSlash": "$~thẻ mẫu",
+        "PatternEqual": "$~mẫu chính xác",
+        "PatternGreater": "$~mẫu hơn",
+        "PatternGreaterEqual": "$~ít nhất là mẫu",
+        "PatternLess": "$~mẫu ít hơn",
+        "PatternLessEqual": "$~mẫu ở mức tối đa",
+        "PatternText": "$~mẫu văn bản theo nghĩa đen",
+        "PatternDelimiter": "$~mẫu"
     },
     "node": {
         "Dimension": {
@@ -1906,6 +1930,298 @@
                 "$~Tôi chỉ làm việc với văn bản, vì vậy hãy nhớ cung cấp cho tôi một số văn bản nhé!"
             ],
             "start": "$~Hãy đánh giá biến $value , sau đó gắn thẻ ngôn ngữ cho nó…"
+        },
+        "PatternLiteral": {
+            "name": "$~mẫu",
+            "description": "$~một mẫu với $count phần",
+            "emotion": "curious",
+            "doc": [
+                "$~Tôi là một mẫu! Tôi mô tả *hình dạng* của văn bản thay vì các từ chính xác, vì vậy bạn có thể kiểm tra văn bản bằng \\≈\\ — toàn bộ văn bản có vừa không? — hoặc tìm kiếm nó bằng \\⌕\\ để tìm mọi nơi hình dạng đó xuất hiện. Tìm kiếm sẽ trả về một danh sách @Result .",
+                "$~Đây là một ví dụ về chức năng tìm kiếm — tìm các từ chỉ thực phẩm trong một câu về bữa sáng:",
+                "$~\\breakfast: 'For breakfast I had eggs, toast, and orange juice'\nbreakfast ⌕ ⣿\"eggs\" | \"toast\" | \"juice\" | \"pancakes\"⣿\\",
+                "$~Hãy đọc từ trái sang phải. @PatternClass khớp với một ký tự duy nhất: \\⣿◌⣿\\ bất kỳ, \\⣿_⣿\\ một chữ cái, \\⣿#⣿\\ một chữ số, \\⣿␣⣿\\ một khoảng trắng. Văn bản được trích dẫn là @PatternLiteralText khớp chính xác, ví dụ như \\⣿\"-\"⣿\\ . Phần còn lại \\⣿…⣿\\ — @PatternRest — khớp với bất kỳ số lượng ký tự nào.",
+                "$~Số lượng được ưu tiên trước. @PatternQuantified lặp lại phần tiếp theo bằng @PatternQuantifier : \\⣿3 #⣿\\ là ba chữ số, \\⣿3–5 #⣿\\ từ ba đến năm, \\⣿>0 #⣿\\ một hoặc nhiều hơn, \\⣿≥0 #⣿\\ không hoặc nhiều hơn, \\⣿≤1 #⣿\\ tùy chọn.",
+                "$~Nhóm các phần bằng @PatternGroup và đưa ra các lựa chọn trong @PatternSequence , ví dụ như \\⣿(◌ | #)⣿\\ . Lựa chọn phù hợp dài nhất sẽ thắng.",
+                "$~@PatternSet khớp với một ký tự từ một tập hợp, và @PatternRange bao gồm các phạm vi ký tự, ví dụ như \\⣿{\"a\"–\"z\" #}⣿\\ . Phủ định một phần bằng @PatternComplement , ví dụ như \\⣿~#⣿\\ .",
+                "$~Tinh chỉnh một lớp bằng cách sử dụng @PatternProperty , ví dụ như \\⣿_/greek⣿\\ cho một chữ cái Hy Lạp hoặc \\⣿◌/emoji⣿\\ .",
+                "$~Đặt tên cho một phần bằng @PatternCapture , ví dụ như \\⣿year:(4 #)⣿\\ , sau đó tái sử dụng nó sau này với @PatternBackref bằng cách viết tên gốc của nó. Mỗi @Result báo cáo các phần được bắt giữ theo tên.",
+                "$~Neo vào các cạnh bằng @PatternAnchor : \\⣿⊢⣿\\ bắt đầu, \\⣿⊣⣿\\ kết thúc. Xem trước mà không tiêu thụ bằng cách sử dụng @PatternLook : \\⣿▸(#)⣿\\ phía trước, \\⣿◂(#)⣿\\ phía sau.",
+                "$~Ghép toàn bộ từ với @PatternWord \\⣿▭/en⣿\\ hoặc ranh giới từ với @PatternWordEdge \\⣿┊/en⣿\\ , được phân đoạn theo ngôn ngữ. Bỏ qua chữ hoa/chữ thường bên trong @PatternCaseFold \\⣿⇕(\"hi\")⣿\\ .",
+                "$~Kiểu dữ liệu của tôi là @PatternType — hãy chú thích tên bằng kiểu này, ví dụ như \\p•⣿⣿: ⣿◌⣿\\ — để bạn có thể lưu trữ tôi trong một tên và sử dụng lại tôi trong nhiều văn bản khác nhau."
+            ],
+            "start": "$~Để tôi xem đoạn văn này trông như thế nào.",
+            "conflict": {
+                "EmptyPattern": {
+                    "name": "$~mẫutrống",
+                    "explanation": "$~Tôi không có linh kiện nào nên không thể tìm được bộ phận nào hữu ích. Bạn có thể bổ sung thêm linh kiện được không?",
+                    "resolution": "$~Thêm ký tự \\◌\\ để khớp với bất kỳ ký tự nào."
+                }
+            },
+            "step": {
+                "search": "$~Hãy tìm tất cả những nơi mà mẫu hình này xuất hiện trong văn bản.",
+                "test": "$~Hãy kiểm tra xem toàn bộ đoạn văn này có phù hợp với quy luật hay không.",
+                "scan": "$~Tìm kiếm quy luật bắt đầu từ vị trí $position .",
+                "match": "$~$pattern khớp với $glyph tại vị trí $position .",
+                "miss": "$~$pattern không khớp với $glyph tại vị trí $position .",
+                "end": "$~$pattern vẫn cần một ký tự, nhưng chúng ta đã đến cuối văn bản ở vị trí $position .",
+                "repeat": "$~$pattern khớp với $count — đủ để tiếp tục.",
+                "short": "$~Biến $pattern chỉ khớp với $count — chưa đủ.",
+                "here": "$~Biến $pattern giữ vị trí $position .",
+                "nothere": "$~Biến $pattern không đúng tại vị trí $position ."
+            }
+        },
+        "PatternSequence": {
+            "name": "$~sựliêntiếp",
+            "description": "$~một chuỗi các phần mẫu",
+            "emotion": "curious",
+            "doc": [
+                "$~Tôi là một hàng các mảnh ghép hoa văn, được ghép nối tiếp nhau, từ trái sang phải.",
+                "$~Ví dụ, hãy xem hình dạng của một số điện thoại — ba chữ số, một dấu gạch ngang, rồi bốn chữ số:",
+                "$~\\phone: '555-1234'\nphone ≈ ⣿3 # \"-\" 4 #⣿\\",
+                "$~Đưa ra nhiều lựa chọn và tôi sẽ chọn cái nào phù hợp, ưu tiên cái dài nhất, ví dụ như \\⣿\"cat\" | \"dog\"⣿\\ ."
+            ],
+            "conflict": {
+                "OverlappingAlternatives": {
+                    "name": "$~lựachọnchồngchéo",
+                    "explanation": "$~$shorter là điểm bắt đầu của $longer , và lựa chọn dài hơn luôn thắng, vì vậy $shorter chỉ khớp khi $longer không thể. Có phải ý bạn là vậy không?"
+                }
+            }
+        },
+        "PatternClass": {
+            "name": "$~lớpnhânvật",
+            "description": "$~phù hợp với một loại nhân vật",
+            "emotion": "curious",
+            "doc": [
+                "$~Tôi khớp với một ký tự đơn lẻ thuộc cùng một loại: \\⣿◌⣿\\ bất kỳ ký tự đồ họa nào, \\⣿_⣿\\ một chữ cái, \\⣿#⣿\\ một chữ số, \\⣿␣⣿\\ một khoảng trắng.",
+                "$~Ví dụ, hãy trích xuất từng mã chữ cái-số từ một danh sách:",
+                "$~\\codes: 'a1 b2 c3'\ncodes ⌕ ⣿_ #⣿\\",
+                "$~Hãy đếm tôi bằng một lượng từ như \\⣿>0 #⣿\\ (một hoặc nhiều chữ số), hoặc thu hẹp phạm vi của tôi bằng một thuộc tính như \\⣿_/greek⣿\\ (một chữ cái Hy Lạp)."
+            ]
+        },
+        "PatternProperty": {
+            "name": "$~tàisản",
+            "description": "$~khớp với thuộc tính Unicode",
+            "emotion": "curious",
+            "doc": [
+                "$~Tôi thu hẹp phạm vi của một lớp ký tự xuống một thuộc tính Unicode. Sử dụng một hệ chữ viết, ví dụ như \\⣿_/greek⣿\\ , \\⣿_/han⣿\\ , hoặc \\⣿_/arabic⣿\\ .",
+                "$~Ví dụ, hãy tìm dãy các chữ cái Hy Lạp trong một đoạn văn bản hỗn hợp:",
+                "$~\\text: 'hello αβγ world'\ntext ⌕ ⣿>0 _/greek⣿\\",
+                "$~Hoặc một danh mục, chẳng hạn như \\⣿◌/punctuation⣿\\ , \\⣿◌/currency⣿\\ , \\⣿◌/Nd⣿\\ (một chữ số), hoặc \\⣿_/Lu⣿\\ (một chữ cái viết hoa).",
+                "$~Hoặc một thuộc tính có hoặc không, như \\⣿◌/emoji⣿\\ hoặc \\⣿_/uppercase⣿\\ — và bạn có thể viết đầy đủ tên và giá trị của nó, ví dụ như \\⣿◌/Script=Greek⣿\\ .",
+                "$~Loại trừ một thuộc tính có @PatternComplement , ví dụ như \\⣿~◌/emoji⣿\\ (bất cứ thứ gì không phải là biểu tượng cảm xúc)."
+            ],
+            "conflict": {
+                "UnrecognizedPatternProperty": {
+                    "name": "$~thuộctínhkhôngxácđịnh",
+                    "explanation": "$~Tôi không nhận ra thuộc tính $name . Hãy thử với một danh mục, tập lệnh hoặc ID Unicode.",
+                    "resolution": "$~Hãy đổi nó thành $suggestion"
+                }
+            }
+        },
+        "PatternQuantifier": {
+            "name": "$~lượngtừ",
+            "description": "$~số lần khớp",
+            "emotion": "curious",
+            "doc": [
+                "$~Tôi sẽ chỉ định số lần cần khớp: chính xác \\⣿3 #⣿\\ , trong khoảng \\⣿3–5 #⣿\\ , \\⣿=3 #⣿\\ (chính xác ba), \\⣿>0 #⣿\\ (một hoặc nhiều hơn), \\⣿≥0 #⣿\\ (không hoặc nhiều hơn), \\⣿<5 #⣿\\ (ít hơn năm), \\⣿≤1 #⣿\\ (tùy chọn).",
+                "$~Ví dụ, hãy tìm tất cả các dãy số liên tiếp trong một câu:",
+                "$~\\text: 'I have 3 cats and 12 fish'\ntext ⌕ ⣿>0 #⣿\\",
+                "$~Tôi luôn đứng trước phần tôi đếm, ví dụ như \\⣿3 #⣿\\ hoặc \\⣿>0 _⣿\\ ."
+            ],
+            "conflict": {
+                "MalformedQuantifier": {
+                    "name": "$~sốđếmbấtkhảthi",
+                    "explanation": "$~Số lần đếm thấp của tôi nhiều hơn số lần đếm cao, vì vậy tôi không bao giờ có thể khớp được.",
+                    "resolution": "$~Đổi thứ tự số của tôi để số nhỏ hơn đứng trước."
+                }
+            }
+        },
+        "PatternQuantified": {
+            "name": "$~sựlặplại",
+            "description": "$~khớp một nguyên tử nhiều lần",
+            "emotion": "curious",
+            "doc": [
+                "$~Tôi lặp lại phần tiếp theo nhiều lần.",
+                "$~Ví dụ, hãy kiểm tra xem mã bưu chính có đúng năm chữ số hay không:",
+                "$~\\zip: '98101'\nzip ≈ ⣿5 #⣿\\",
+                "$~Đếm một lớp như \\⣿3 #⣿\\ (ba chữ số), một nhóm như \\⣿2 (\"ab\")⣿\\ (hai \"ab\"), hoặc một phần bù như \\⣿2 ~#⣿\\ (hai ký tự không phải chữ số). Với \\⣿>0 #⣿\\ Tôi tham lam — tôi lấy càng nhiều càng tốt."
+            ]
+        },
+        "PatternCapture": {
+            "name": "$~chiếmlấy",
+            "description": "$~ghi nhớ văn bản khớp theo tên",
+            "emotion": "curious",
+            "doc": [
+                "$~Tôi đặt tên cho một phần của trận đấu để bạn có thể đọc lại từ mỗi @Result .",
+                "$~Ví dụ, trích xuất năm, tháng và ngày từ một ngày tháng:",
+                "$~\\date: '2026-06-17'\ndate ⌕ ⣿y:(4 #) \"-\" m:(2 #) \"-\" d:(2 #)⣿\\",
+                "$~Tái sử dụng những gì tôi đã ghi lại sau đó bằng cách viết lại tên của tôi — xem @PatternBackref — như \\⣿w:(>0 _) ␣ w⣿\\ để tìm một từ được lặp lại."
+            ],
+            "conflict": {
+                "DuplicateCaptureName": {
+                    "name": "$~chụptrùnglặp",
+                    "explanation": "$~Một lần chụp khác đã sử dụng tên $name , vì vậy lần chụp này sẽ ghi đè lên tên đó.",
+                    "resolution": "$~Đổi tên bản ghi này thành $replacement"
+                }
+            }
+        },
+        "PatternComplement": {
+            "name": "$~không",
+            "description": "$~khớp với bất cứ thứ gì ngoại trừ",
+            "emotion": "curious",
+            "doc": [
+                "$~Tôi khớp với một ký tự đơn lẻ KHÔNG phải là ký tự theo sau. Phủ định một lớp như \\⣿~#⣿\\ (không phải là chữ số), hoặc một tập hợp như \\⣿~{\":\" ␣}⣿\\ (không phải là dấu hai chấm hoặc dấu cách).",
+                "$~Ví dụ, lấy khóa và giá trị xung quanh dấu hai chấm bằng cách so khớp các chuỗi không phải là dấu hai chấm hoặc dấu cách:",
+                "$~\\pair: 'color: blue'\npair ⌕ ⣿>0 ~{\":\" ␣}⣿\\",
+                "$~Phủ định một nhóm như \\⣿~(◌ | #)⣿\\ , hoặc một thuộc tính như \\⣿~◌/emoji⣿\\ (không phải là biểu tượng cảm xúc).",
+                "$~Đặt tôi trước @PatternLook để đảo ngược nó: \\⣿~▸(#)⣿\\ có nghĩa là \"không theo sau bởi chữ số\", và \\⣿~◂(\"$\")⣿\\ có nghĩa là \"không đứng trước dấu đô la\"."
+            ]
+        },
+        "PatternGroup": {
+            "name": "$~nhóm",
+            "description": "$~các phần mẫu nhóm",
+            "emotion": "curious",
+            "doc": [
+                "$~Tôi nhóm các phần lại với nhau để số lượng hoặc lựa chọn áp dụng cho tất cả chúng. Tôi không bao giờ ghi lại; hãy đặt tên cho một phần bằng @PatternCapture để làm điều đó.",
+                "$~Ví dụ, hãy kiểm tra xem một đoạn văn bản có chứa âm tiết \"ab\" được lặp lại hay không:",
+                "$~\\chant: 'ababab'\nchant ≈ ⣿>0 (\"ab\")⣿\\",
+                "$~Đếm một nhóm như \\⣿2 (\"ab\")⣿\\ (hai \"ab\") hoặc đưa ra lựa chọn như \\⣿(◌ | #)⣿\\ (một chữ cái hoặc một chữ số)."
+            ]
+        },
+        "PatternSet": {
+            "name": "$~bộkýtự",
+            "description": "$~Hãy ghép một trong những chữ cái này lại với nhau.",
+            "emotion": "curious",
+            "doc": [
+                "$~Tôi khớp với bất kỳ một ký tự nào từ một tập hợp các tùy chọn.",
+                "$~Ví dụ, hãy tìm các nguyên âm trong một từ:",
+                "$~\\word: 'hello'\nword ⌕ ⣿{\"a\" \"e\" \"i\" \"o\" \"u\"}⣿\\",
+                "$~Trộn lẫn các phạm vi và lớp, ví dụ như \\⣿{\"a\"–\"z\" #}⣿\\ hoặc \\⣿{# \"a\"–\"f\"}⣿\\ (một chữ số thập lục phân). Phủ định tôi bằng @PatternComplement , ví dụ như \\⣿~{\"!\" \"?\"}⣿\\ ."
+            ]
+        },
+        "PatternRange": {
+            "name": "$~phạmvi",
+            "description": "$~khớp với một loạt các chữ cái",
+            "emotion": "curious",
+            "doc": [
+                "$~Tôi khớp một ký tự giữa hai điểm cuối bằng thứ tự vô hướng, và tôi nằm bên trong một @PatternSet .",
+                "$~Ví dụ, hãy tách các từ viết thường ra khỏi một đoạn văn bản:",
+                "$~\\text: 'hello world 2026'\ntext ⌕ ⣿>0 {\"a\"–\"z\"}⣿\\",
+                "$~Kéo dài các chữ cái như \\⣿{\"a\"–\"z\" \"A\"–\"Z\"}⣿\\ hoặc các chữ số như \\⣿{\"0\"–\"9\"}⣿\\ , trong bất kỳ hệ chữ nào, ví dụ như \\⣿{\"あ\"–\"ん\"}⣿\\ ."
+            ]
+        },
+        "PatternLiteralText": {
+            "name": "$~nghĩađen",
+            "description": "$~khớp chính xác văn bản",
+            "emotion": "curious",
+            "doc": [
+                "$~Tôi sao chép chính xác nội dung văn bản bên trong các trích dẫn của mình, không có ý nghĩa đặc biệt nào cả.",
+                "$~Ví dụ, hãy tìm số tiền đô la trong một câu:",
+                "$~\\receipt: 'It costs $5 today'\nreceipt ⌕ ⣿\"$\" >0 #⣿\\",
+                "$~Hãy sử dụng tôi cho các phần cố định như \\⣿\"-\"⣿\\ , \\⣿\"@\"⣿\\ , hoặc cả một từ \\⣿\"cat\"⣿\\ , được ghép nối với các phần khác, ví dụ như \\⣿3 # \"-\" 4 #⣿\\ cho một số điện thoại."
+            ]
+        },
+        "PatternAnchor": {
+            "name": "$~neo",
+            "description": "$~khớp với cạnh văn bản",
+            "emotion": "curious",
+            "doc": [
+                "$~Tôi khớp một cạnh của văn bản mà không làm mất đi bất cứ thứ gì: \\⣿⊢⣿\\ điểm bắt đầu, \\⣿⊣⣿\\ điểm kết thúc.",
+                "$~Ví dụ, hãy kiểm tra xem lời chào có bắt đầu bằng \"Xin chào\" hay không:",
+                "$~\\greeting: 'Hello world'\ngreeting ≈ ⣿⊢ \"Hello\" …⣿\\",
+                "$~Vị trí ghim, ví dụ như \\⣿⊢ \"Hi\"⣿\\ (bắt đầu bằng \"Hi\"), \\⣿\".\" ⊣⣿\\ (kết thúc bằng dấu chấm), hoặc \\⣿⊢ _ ⊣⣿\\ (toàn bộ văn bản chỉ gồm đúng một chữ cái)."
+            ]
+        },
+        "PatternWord": {
+            "name": "$~từ",
+            "description": "$~ghép một từ hoàn chỉnh",
+            "emotion": "curious",
+            "doc": [
+                "$~Tôi khớp toàn bộ một từ, được tìm thấy theo các quy tắc riêng của ngôn ngữ đó.",
+                "$~Ví dụ, hãy liệt kê các từ trong một câu:",
+                "$~\\sentence: 'the cat sat'\nsentence ⌕ ⣿▭/en⣿\\",
+                "$~Hãy nêu tên ngôn ngữ, ví dụ như \\⣿▭/en⣿\\ cho tiếng Anh hoặc \\⣿▭/zh⣿\\ cho tiếng Trung, và liên kết một từ cụ thể bằng các cạnh, ví dụ như \\⣿┊/en \"cat\" ┊/en⣿\\ ."
+            ],
+            "conflict": {
+                "MissingPatternLocale": {
+                    "name": "$~ngônngữbịthiếu",
+                    "explanation": "$~Tôi cần một ngôn ngữ để biết cách tìm từ. Bạn có thể thêm một ngôn ngữ như \\/en\\ không?"
+                }
+            }
+        },
+        "PatternWordEdge": {
+            "name": "$~cạnhchữ",
+            "description": "$~khớp với ranh giới từ",
+            "emotion": "curious",
+            "doc": [
+                "$~Tôi khớp với ranh giới từ ngữ của một ngôn ngữ mà không tiêu thụ bất cứ thứ gì.",
+                "$~Ví dụ, hãy tìm từ \"cat\" như một từ nguyên vẹn, chứ không phải nằm trong từ \"category\":",
+                "$~\\text: 'a cat in a category'\ntext ⌕ ⣿┊/en \"cat\" ┊/en⣿\\",
+                "$~Hãy bao bọc một từ bằng tôi, ví dụ như \\⣿┊/en \"cat\" ┊/en⣿\\ , để nó chỉ khớp với toàn bộ từ."
+            ]
+        },
+        "PatternLook": {
+            "name": "$~nhìnxungquanh",
+            "description": "$~kiểm tra phía trước hoặc phía sau",
+            "emotion": "curious",
+            "doc": [
+                "$~Tôi kiểm tra những gì ngay phía trước \\⣿▸(#)⣿\\ hoặc phía sau \\⣿◂(#)⣿\\ mà không tiêu thụ nó, để phần tiếp theo vẫn khớp từ cùng một vị trí.",
+                "$~Ví dụ, hãy tìm mỗi chữ cái đứng ngay sau một chữ số:",
+                "$~\\text: 'a1 b2 cc'\ntext ⌕ ⣿_ ▸(#)⣿\\",
+                "$~Cần có ngữ cảnh, ví dụ như \\⣿_ ▸(#)⣿\\ (một chữ cái theo sau là một chữ số) hoặc \\⣿◂(\"$\") >0 #⣿\\ (các chữ số ngay sau dấu \"$\").",
+                "$~Hãy đảo ngược tôi bằng @PatternComplement để ngăn chặn ngữ cảnh, ví dụ như \\⣿~▸(#)⣿\\ (không theo sau là chữ số)."
+            ]
+        },
+        "PatternBackref": {
+            "name": "$~thamchiếungược",
+            "description": "$~khớp lại văn bản đó",
+            "emotion": "curious",
+            "doc": [
+                "$~Tôi khớp với cùng một văn bản mà @PatternCapture đã khớp trước đó — chỉ cần viết tên gốc của phần tử được chụp.",
+                "$~Ví dụ, hãy tìm một từ được lặp lại ngay sau đó:",
+                "$~\\text: 'the the cat sat sat'\ntext ⌕ ⣿w:(>0 _) ␣ w⣿\\",
+                "$~Một tên đơn thuần không phải là tên bắt giữ thì được gọi là một lớp có tên, ví dụ như \\⣿linebreak⣿\\ ."
+            ],
+            "conflict": {
+                "UndefinedBackreference": {
+                    "name": "$~tênkhôngrõ",
+                    "explanation": "$~Không có phần tử bắt giữ hoặc lớp nào có tên là $name , vì vậy tôi không có gì để khớp.",
+                    "resolution": "$~Hãy đổi nó thành $suggestion"
+                }
+            }
+        },
+        "PatternRest": {
+            "name": "$~nghỉngơi",
+            "description": "$~khớp với phần còn lại của dữ liệu đầu vào",
+            "emotion": "curious",
+            "doc": [
+                "$~Tôi cố gắng khớp với phần còn lại của văn bản càng nhiều càng tốt. Tôi khá giỏi trong việc hoàn thiện các bước cuối cùng của một mẫu.",
+                "$~Ví dụ, hãy kiểm tra xem một đoạn văn bản có phải là hashtag hay không — một dấu \"#\" rồi đến bất kỳ ký tự nào khác:",
+                "$~\\tag: '#breakfast'\ntag ≈ ⣿\"#\" …⣿\\",
+                "$~Sử dụng tôi sau một dấu bắt đầu cố định, ví dụ như \\⣿\"#\" …⣿\\ (dấu \"#\" rồi đến bất cứ thứ gì) hoặc \\⣿\"Hi \" …⣿\\ (\"Hi \" rồi đến mọi thứ sau đó)."
+            ]
+        },
+        "PatternCaseFold": {
+            "name": "$~bỏquachữhoachữthường",
+            "description": "$~khớp mà không phân biệt chữ hoa/chữ thường",
+            "emotion": "curious",
+            "doc": [
+                "$~Tôi ghép các bộ phận lại với nhau mà không cần quan tâm đến chữ hoa hay chữ thường.",
+                "$~Ví dụ, hãy kiểm tra một từ mà không cần quan tâm đến chữ hoa hay chữ thường:",
+                "$~\\shout: 'HELLO'\nshout ≈ ⣿⇕(\"hello\")⣿\\",
+                "$~Tôi bọc các phần của mình như \\⣿⇕(\"hi\")⣿\\ (khớp với \"HI\", \"Hi\" hoặc \"hi\"). Thêm ngôn ngữ cho các quy tắc của nó, ví dụ như \\⣿⇕/tr(\"i\")⣿\\ (tiếng Thổ Nhĩ Kỳ i), và tôi cũng giới hạn phạm vi của @PatternBackref , ví dụ như \\⣿⇕(w:(2 _) w)⣿\\ ."
+            ]
+        },
+        "PatternType": {
+            "name": "$~kiểumẫu",
+            "description": "$~loại hình mẫu",
+            "emotion": "curious",
+            "doc": [
+                "$~Tôi thuộc loại giá trị mẫu, được chú thích như sau: \\p•⣿⣿: ⣿◌⣿\\ .",
+                "$~Ví dụ, lưu trữ một mẫu trong tên và tái sử dụng nó trong nhiều văn bản:",
+                "$~\\digits: ⣿>0 #⣿\n'I have 3 cats and 12 fish' ⌕ digits\\",
+                "$~Sau khi lưu trữ, hãy sử dụng tôi ở bất cứ đâu có mẫu phù hợp, ví dụ như \\text ⌕ digits\\ hoặc \\text ≈ digits\\ ."
+            ]
         }
     },
     "basis": {
@@ -2144,6 +2460,32 @@
                         {
                             "doc": "$~@Text cần thêm vào.",
                             "names": "$~chữ"
+                        }
+                    ]
+                },
+                "matches": {
+                    "doc": [
+                        "$~\\⊤\\ nếu toàn bộ văn bản khớp với mẫu đã cho.",
+                        "$~\\'555-1234' ≈ ⣿3 # \"-\" 4 #⣿\\"
+                    ],
+                    "names": ["$~≈", "$~cáctrậnđấu"],
+                    "inputs": [
+                        {
+                            "doc": "$~Mẫu cần so sánh.",
+                            "names": "$~mẫu"
+                        }
+                    ]
+                },
+                "search": {
+                    "doc": [
+                        "$~Tìm tất cả các vị trí mà mẫu đã cho khớp với tôi, dưới dạng danh sách @Result .",
+                        "$~\\'a1 b2' ⌕ ⣿_ #⣿\\"
+                    ],
+                    "names": ["$~⌕", "$~tìmkiếm"],
+                    "inputs": [
+                        {
+                            "doc": "$~Mẫu hình cần tìm kiếm.",
+                            "names": "$~mẫu"
                         }
                     ]
                 }
@@ -5044,6 +5386,34 @@
                 "doc": "$~@True nếu lòng bàn tay hướng về phía camera, @False nếu mu bàn tay hướng về phía camera.",
                 "names": ["$~câycọ"]
             }
+        },
+        "Result": {
+            "doc": "$~Tôi là kết quả khớp đầu tiên của tìm kiếm mẫu với \\⌕\\ : văn bản khớp, vị trí của nó và bất kỳ phần tử nào được bắt giữ.",
+            "names": ["$~Kếtquả"],
+            "text": {
+                "doc": "$~Toàn bộ văn bản khớp nhau.",
+                "names": "$~chữ"
+            },
+            "start": {
+                "doc": "$~Vị trí trận đấu bắt đầu, tính từ 1.",
+                "names": "$~bắtđầu"
+            },
+            "end": {
+                "doc": "$~Điểm kết thúc trận đấu, tính từ 1.",
+                "names": "$~kếtthúc"
+            },
+            "groups": {
+                "doc": "$~Tên của mỗi hình ảnh được ghép với văn bản tương ứng.",
+                "names": "$~cácnhóm"
+            },
+            "starts": {
+                "doc": "$~Tên của mỗi bức ảnh được ghi rõ nơi nó bắt đầu.",
+                "names": "$~bắtđầu"
+            },
+            "ends": {
+                "doc": "$~Tên của mỗi lần bắt giữ được ghi rõ đến vị trí kết thúc.",
+                "names": "$~kếtthúc"
+            }
         }
     },
     "ui": {
@@ -5659,7 +6029,18 @@
                 "insertTranslate": "$~chèn ký hiệu dịch",
                 "insertThis": "$~chèn biểu tượng này",
                 "tab": "$~Phím Tab di chuyển con trỏ bàn phím. Để chèn tab, nhấn Ctrl + $alt + Tab, sử dụng nút chèn bên dưới hoặc thay đổi trong cài đặt.",
-                "matchDelimiter": "$~Di chuyển con trỏ đến dấu phân cách phù hợp."
+                "matchDelimiter": "$~Di chuyển con trỏ đến dấu phân cách phù hợp.",
+                "insertPattern": "$~chèn mẫu",
+                "insertSearch": "$~chèn biểu tượng tìm kiếm mẫu",
+                "insertPatternAny": "$~chèn bất kỳ ký tự mẫu nào",
+                "insertPatternSpace": "$~chèn ký hiệu mẫu khoảng trắng",
+                "insertPatternStart": "$~chèn ký hiệu bắt đầu mẫu",
+                "insertPatternEnd": "$~chèn ký hiệu kết thúc mẫu",
+                "insertPatternFold": "$~chèn mẫu gấp giấy ký hiệu",
+                "insertPatternAhead": "$~chèn biểu tượng nhìn trước mẫu",
+                "insertPatternBehind": "$~chèn mẫu biểu tượng nhìn phía sau",
+                "insertPatternWord": "$~chèn mẫu ký hiệu từ",
+                "insertPatternWordEdge": "$~chèn mẫu biểu tượng cạnh chữ"
             },
             "error": {
                 "invalidName": "$~Đây phải là một tên chơi chữ hợp lệ.",
@@ -5877,6 +6258,7 @@
                         "$~quyết định",
                         "$~tên",
                         "$~chữ",
+                        "$~mẫu",
                         "$~số",
                         "$~sự thật",
                         "$~danh sách",
@@ -5892,14 +6274,15 @@
                         "$~thời gian, nút bấm, chìa khóa, cảnh và nhiều hơn nữa",
                         "$~Chọn các giá trị dựa trên các giá trị khác",
                         "$~Đặt tên cho các giá trị, hàm và cấu trúc dữ liệu để sử dụng sau này.",
-                        "$~giá trị đúng, sai và không có",
-                        "$~số và phép toán",
                         "$~văn bản thuần túy và được định dạng",
+                        "$~Mô tả hình dạng của văn bản để kiểm tra hoặc tìm ra nó.",
+                        "$~số và phép toán",
+                        "$~giá trị đúng, sai và không có",
                         "$~danh sách và các thao tác trên danh sách",
                         "$~tập hợp, bản đồ và phép toán",
                         "$~bảng và các thao tác trên bảng",
-                        "$~các kiểu dữ liệu, chuyển đổi và kiểm tra kiểu dữ liệu",
                         "$~tài liệu và bình luận",
+                        "$~các kiểu dữ liệu, chuyển đổi và kiểm tra kiểu dữ liệu",
                         "$~các khái niệm ngôn ngữ nâng cao"
                     ]
                 },
@@ -5985,6 +6368,10 @@
                 "GalleryHow": {
                     "header": "$~Hướng dẫn sử dụng thư viện ảnh",
                     "explanation": "$~Các mẫu phổ biến để tạo ra nhiều loại dự án khác nhau, từ bộ sưu tập ảnh của bạn."
+                },
+                "Patterns": {
+                    "header": "$~Các mẫu",
+                    "explanation": "$~/Hãy mô tả hình dạng của văn bản bằng một mẫu, được phân định bởi \\⣿\\ , sau đó kiểm tra xem văn bản có phù hợp với hình dạng đó hay không ( \\≈\\ ) hoặc tìm tất cả các vị trí mà nó xuất hiện ( \\⌕\\ )./"
                 }
             },
             "how": {

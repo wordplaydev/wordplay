@@ -569,17 +569,28 @@ export default class Evaluator {
      * in this project that started an evaluation.
      */
     getStepNode() {
-        // Iterate through the current evaluations until we find one in this project.
+        // Iterate through the current evaluations until we find one in this
+        // project. A step may report an `active` node distinct from the node
+        // that compiled it (e.g. the pattern matcher walks many source nodes
+        // from one step); prefer that so the highlight follows the work.
         let step = undefined;
+        let active = undefined;
         for (const evaluation of this.evaluations) {
             const currentStep = evaluation.currentStep();
-            if (currentStep && this.project.contains(currentStep.node)) {
+            if (currentStep === undefined) continue;
+            const here = currentStep.getActiveNode(this) ?? currentStep.node;
+            if (this.project.contains(here)) {
                 step = currentStep;
+                active = here;
                 break;
             }
         }
 
-        if (step === undefined) return;
+        if (step === undefined || active === undefined) return;
+
+        // An active node (when distinct from the step's node) is the node being
+        // worked on now, so highlight it — its first token, or itself if a leaf.
+        if (active !== step.node) return active.getFirstLeaf() ?? active;
 
         return step instanceof Start
             ? step.node.getStart()
@@ -1208,8 +1219,15 @@ export default class Evaluator {
         do {
             // Step ahead
             this.step();
-            // Get the current step node
-            nextStepNode = this.getCurrentStep()?.node;
+            // Get the node the next step is working on. A step may report an
+            // `active` node distinct from the one that compiled it (e.g. each
+            // pattern-match beat works on a source pattern node from one basis
+            // step), so we stop there too — otherwise a whole match would run in
+            // a single click, invisibly.
+            const step = this.getCurrentStep();
+            nextStepNode = step
+                ? (step.getActiveNode(this) ?? step.node)
+                : undefined;
         } while (
             nextStepNode !== undefined &&
             !this.project.contains(nextStepNode)
@@ -1271,8 +1289,14 @@ export default class Evaluator {
         do {
             // Step back
             this.stepBack();
-            // Get the current step node
-            nextStepNode = this.getCurrentStep()?.node;
+            // Get the node the step is working on, preferring an `active` node
+            // (e.g. each pattern-match beat) so backward stepping stops at the
+            // same beats forward stepping does — otherwise stepping back from
+            // inside a match skips the whole match to the prior program node.
+            const step = this.getCurrentStep();
+            nextStepNode = step
+                ? (step.getActiveNode(this) ?? step.node)
+                : undefined;
         } while (
             nextStepNode !== undefined &&
             !this.project.contains(nextStepNode)

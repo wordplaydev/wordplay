@@ -1,0 +1,24 @@
+Temukan dan periksa teks dengan pola tertentu.
+
+Pola menggambarkan bentuk suatu teks, sehingga Anda dapat memeriksa apakah teks tersebut sesuai dengan suatu bentuk, atau mencari di setiap tempat teks tersebut muncul. Pola ditempatkan di dalam \⣿⣿\ dan bacalah dari kiri ke kanan, satu per satu. \_\ adalah sebuah surat, \#\ adalah sebuah angka, \␣\ adalah sebuah ruang, dan teks yang dikutip seperti \"-"\ cocok persis.
+
+Untuk memeriksa apakah seluruh teks sesuai dengan suatu pola, gunakan \≈\, yang memberi Anda \?\:
+
+\'555-1234' ≈ ⣿ 3 # "-" 4 #⣿\
+
+Pertanyaan itu berbunyi “tiga digit, tanda hubung, lalu empat digit?” — dan jawabannya adalah \⊤\.
+
+Jumlah diletakkan sebelum hal yang diulang: \3
+#\ artinya tiga digit. Anda juga bisa mengatakan \>0
+#\ (satu atau lebih), \≥0
+#\ (nol atau lebih), \≤1
+#\ (opsional), atau rentang seperti \2–4
+#\.
+
+Untuk menemukan setiap tempat pola muncul, gunakan \⌕\, yang memberi Anda daftar  @Structure  hasil. Sebutkan sebuah karya dengan \name: (…)\ untuk menangkapnya:
+
+\'lahir 15 Juni 2026' ⌕ ⣿ y: (4 #) "-" m: (2 #) "-" d: (2 #)⣿\
+
+Setiap hasil memberi tahu Anda yang cocok \text\, di mana itu \start\pasir \end\s, dan yang ditangkap \groups\ - Di Sini \y\, \m\, Dan \d\Karena pola-pola tersebut cocok berdasarkan grafem, maka cara kerjanya sama di setiap bahasa dan aksara.
+
+mix-languages-in-text

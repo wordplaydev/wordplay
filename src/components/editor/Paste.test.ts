@@ -1,9 +1,14 @@
+import { copyNode } from '@components/editor/commands/Clipboard';
+import { getInternalClipboard } from '@components/editor/commands/InternalClipboard';
 import Project from '@db/projects/Project';
 import Caret from '@edit/caret/Caret';
 import DefaultLocale from '@locale/DefaultLocale';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+import PatternClass from '@nodes/PatternClass';
 import Source from '@nodes/Source';
-import { expect, test } from 'vitest';
+import getPreferredSpaces from '@parser/getPreferredSpaces';
+import { PATTERN_DELIMITER_SYMBOL as D } from '@parser/Symbols';
+import { describe, expect, test } from 'vitest';
 import { pasteText } from './Paste';
 
 /**
@@ -65,4 +70,38 @@ test('pasting only fills placeholders in the pasted region, not elsewhere', () =
     const { code, placeholders } = paste('_\n[]', 3, 'Phrase(_)', true);
     expect(code).toBe("_\n[Phrase('')]");
     expect(placeholders).toBe(1);
+});
+
+describe('copied pattern fragments keep their pattern context', () => {
+    const classCount = (code: string) =>
+        new Source('t', code).expression.nodes(
+            (n): n is PatternClass => n instanceof PatternClass,
+        ).length;
+
+    test('copyNode wraps a bare pattern atom in delimiters', async () => {
+        const src = new Source('t', `'a' ≈ ${D}>0 _${D}`);
+        const cls = src.expression
+            .nodes()
+            .find((n): n is PatternClass => n instanceof PatternClass);
+        if (cls === undefined) throw new Error('no PatternClass');
+        await copyNode(cls, getPreferredSpaces(cls));
+        // The clipboard holds a self-contained pattern, not a bare `_` (which
+        // re-tokenizes as a placeholder when pasted outside a pattern).
+        expect(getInternalClipboard()).toBe(`${D}_${D}`);
+    });
+
+    test('the wrapped fragment pasted OUTSIDE a pattern stays a pattern', () => {
+        const { code, placeholders } = paste('', 0, `${D}_${D}`, false);
+        expect(code).toBe(`${D}_${D}`);
+        expect(placeholders).toBe(0); // a letter class, not a placeholder
+        expect(classCount(code ?? '')).toBe(1);
+    });
+
+    test('the wrapped fragment pasted INTO a pattern unwraps (no nesting)', () => {
+        // Index 6 in `_ ≈ ⣿#⣿` sits between `#` and the closing `⣿`.
+        const { code } = paste(`_ ≈ ${D}#${D}`, 6, `${D}_${D}`, false);
+        // Merged into the existing pattern as `⣿#_⣿` — no nested delimiters.
+        expect(code).toBe(`_ ≈ ${D}#_${D}`);
+        expect(classCount(code ?? '')).toBe(2); // both `#` and `_` are classes
+    });
 });

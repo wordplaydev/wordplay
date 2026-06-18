@@ -5,12 +5,49 @@ import type Project from '@db/projects/Project';
 // can't form a cycle with Caret -> Commands.
 import type Caret from '@edit/caret/Caret';
 import type Locales from '@locale/Locales';
+import Node from '@nodes/Node';
+import PatternLiteral from '@nodes/PatternLiteral';
 import type Source from '@nodes/Source';
+import { PATTERN_DELIMITER_SYMBOL } from '@parser/Symbols';
 import {
     type EditorNotification,
     type EditorNotifier,
     PasteFeedbackNotification,
 } from './EditorNotification';
+
+/** Whether the caret sits inside a pattern literal `⣿…⣿`. */
+function caretIsInPattern(caret: Caret): boolean {
+    const position = caret.position;
+    const node =
+        position instanceof Node
+            ? position
+            : caret.source.getTokenAt(
+                  Array.isArray(position) ? position[0] : position,
+              );
+    if (node === undefined) return false;
+    return [node, ...caret.source.root.getAncestors(node)].some(
+        (n) => n instanceof PatternLiteral,
+    );
+}
+
+/**
+ * A copied pattern fragment is wrapped in `⣿…⣿` so it round-trips as a valid
+ * pattern (see copyNode). Pasting it back INTO a pattern would nest delimiters,
+ * which patterns don't allow, so strip the wrapper in that case — the surrounding
+ * pattern context makes the bare atoms tokenize correctly again. Only a single
+ * whole `⣿…⣿` (exactly two delimiters) is unwrapped, so unrelated text is left be.
+ */
+function unwrapPatternForContext(text: string, caret: Caret): string {
+    const delimiter = PATTERN_DELIMITER_SYMBOL;
+    const trimmed = text.trim();
+    const count = [...trimmed].filter((c) => c === delimiter).length;
+    return count === 2 &&
+        trimmed.startsWith(delimiter) &&
+        trimmed.endsWith(delimiter) &&
+        caretIsInPattern(caret)
+        ? trimmed.slice(delimiter.length, trimmed.length - delimiter.length)
+        : text;
+}
 
 /**
  * Build a footer notification explaining the first conflict a blocks-mode paste would introduce, so a
@@ -65,7 +102,7 @@ export function pasteText(
 ): ReturnType<Caret['insert']> | true {
     let explained = false;
     const result = caret.insert(
-        text,
+        unwrapPatternForContext(text, caret),
         blocks,
         project,
         false,

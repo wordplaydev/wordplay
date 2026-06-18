@@ -29,6 +29,7 @@
         "value": "value",
         "text": "text",
         "boolean": "boolean",
+        "pattern": "pattern",
         "map": "map",
         "number": "number",
         "unit": "unit",
@@ -134,7 +135,30 @@
         "Locale": "language",
         "Unknown": "unknown",
         "End": "end",
-        "Highlight": "highlighted example"
+        "Highlight": "highlighted example",
+        "PatternDelimiter": "pattern",
+        "PatternAny": "pattern any character",
+        "PatternLetter": "pattern letter",
+        "PatternDigit": "pattern digit",
+        "PatternSpace": "pattern space",
+        "PatternRest": "pattern rest",
+        "PatternWord": "pattern word",
+        "PatternWordEdge": "pattern word edge",
+        "PatternStart": "pattern start",
+        "PatternEnd": "pattern end",
+        "PatternAhead": "pattern lookahead",
+        "PatternBehind": "pattern lookbehind",
+        "PatternFold": "pattern case fold",
+        "PatternRange": "pattern range",
+        "PatternComplement": "pattern not",
+        "PatternAlternation": "pattern or",
+        "PatternSlash": "pattern tag",
+        "PatternEqual": "pattern exactly",
+        "PatternGreater": "pattern more than",
+        "PatternGreaterEqual": "pattern at least",
+        "PatternLess": "pattern fewer than",
+        "PatternLessEqual": "pattern at most",
+        "PatternText": "pattern literal text"
     },
     "node": {
         "Dimension": {
@@ -1081,6 +1105,298 @@
             "doc": [
                 "A help you make lists with the values of other lists. Like this:",
                 "\\list: [1 2 3]\nfinal: [:list 4 5 6]\\"
+            ]
+        },
+        "PatternLiteral": {
+            "name": "pattern",
+            "description": "a pattern with $count parts",
+            "emotion": "curious",
+            "doc": [
+                "I'm a pattern! I describe the *shape* of text instead of exact words, so you can check text with \\≈\\ — does the whole text fit? — or search it with \\⌕\\ to find every place the shape appears. Searching gives back a list of @Result.",
+                "Here's a search in action — finding the food words in a sentence about breakfast:",
+                "\\breakfast: 'For breakfast I had eggs, toast, and orange juice'\nbreakfast ⌕ ⣿\"eggs\" | \"toast\" | \"juice\" | \"pancakes\"⣿\\",
+                "Read me left to right. A @PatternClass matches one character of a kind: \\⣿◌⣿\\ any, \\⣿_⣿\\ a letter, \\⣿#⣿\\ a digit, \\⣿␣⣿\\ a space. Quoted text is a @PatternLiteralText that matches exactly, like \\⣿\"-\"⣿\\. The rest \\⣿…⣿\\ — a @PatternRest — matches any number of characters.",
+                "Counts come first. A @PatternQuantified repeats the next part by a @PatternQuantifier: \\⣿3 #⣿\\ is three digits, \\⣿3–5 #⣿\\ three to five, \\⣿>0 #⣿\\ one or more, \\⣿≥0 #⣿\\ zero or more, \\⣿≤1 #⣿\\ optional.",
+                "Group parts with a @PatternGroup, and offer choices in a @PatternSequence, like \\⣿(◌ | #)⣿\\. The longest matching choice wins.",
+                "A @PatternSet matches one character from a set, and a @PatternRange spans ranges of characters, like \\⣿{\"a\"–\"z\" #}⣿\\. Negate a part with a @PatternComplement, like \\⣿~#⣿\\.",
+                "Refine a class with a @PatternProperty, like \\⣿_/greek⣿\\ for a Greek letter or \\⣿◌/emoji⣿\\.",
+                "Name a piece with a @PatternCapture, like \\⣿year:(4 #)⣿\\, then reuse it later with a @PatternBackref by writing its bare name. Each @Result reports captured pieces by name.",
+                "Anchor to the edges with a @PatternAnchor: \\⣿⊢⣿\\ start, \\⣿⊣⣿\\ end. Peek without consuming using a @PatternLook: \\⣿▸(#)⣿\\ ahead, \\⣿◂(#)⣿\\ behind.",
+                "Match whole words with a @PatternWord \\⣿▭/en⣿\\ or word boundaries with a @PatternWordEdge \\⣿┊/en⣿\\, segmented for a language. Ignore letter case inside a @PatternCaseFold \\⣿⇕(\"hi\")⣿\\.",
+                "My type is a @PatternType — annotate a name with it, like \\p•⣿⣿: ⣿◌⣿\\ — so you can store me in a name and reuse me across many texts."
+            ],
+            "start": "Let me see what this text looks like.",
+            "step": {
+                "search": "Let's find every place this pattern appears in the text.",
+                "test": "Let's check whether this whole text fits the pattern.",
+                "scan": "Looking for the pattern starting at position $position.",
+                "match": "$pattern matches $glyph at position $position.",
+                "miss": "$pattern doesn't match $glyph at position $position.",
+                "end": "$pattern still needs a character, but we've reached the end of the text at position $position.",
+                "here": "$pattern holds at position $position.",
+                "nothere": "$pattern doesn't hold at position $position.",
+                "repeat": "$pattern matched $count — enough to keep going.",
+                "short": "$pattern matched only $count — not enough."
+            },
+            "conflict": {
+                "EmptyPattern": {
+                    "name": "empty pattern",
+                    "explanation": "I have no parts, so I don't match anything useful. Can you add a part?",
+                    "resolution": "Add a \\◌\\ to match any one character"
+                }
+            }
+        },
+        "PatternSequence": {
+            "name": "sequence",
+            "description": "a sequence of pattern parts",
+            "emotion": "curious",
+            "doc": [
+                "I'm a row of pattern parts, matched one after another, left to right.",
+                "For example, check the shape of a phone number — three digits, a dash, then four:",
+                "\\phone: '555-1234'\nphone ≈ ⣿3 # \"-\" 4 #⣿\\",
+                "Offer choices and I take whichever fits, preferring the longest, like \\⣿\"cat\" | \"dog\"⣿\\."
+            ],
+            "conflict": {
+                "OverlappingAlternatives": {
+                    "name": "overlapping choices",
+                    "explanation": "$shorter is the start of $longer, and the longest choice always wins, so $shorter only matches when $longer can't. Did you mean that?"
+                }
+            }
+        },
+        "PatternClass": {
+            "name": "character class",
+            "description": "match one kind of character",
+            "emotion": "curious",
+            "doc": [
+                "I match a single character of a kind: \\⣿◌⣿\\ any grapheme, \\⣿_⣿\\ a letter, \\⣿#⣿\\ a digit, \\⣿␣⣿\\ a space.",
+                "For example, pull each letter-then-digit code out of a list:",
+                "\\codes: 'a1 b2 c3'\ncodes ⌕ ⣿_ #⣿\\",
+                "Count me with a quantifier like \\⣿>0 #⣿\\ (one or more digits), or narrow me with a property like \\⣿_/greek⣿\\ (a Greek letter)."
+            ]
+        },
+        "PatternProperty": {
+            "name": "property",
+            "description": "match a Unicode property",
+            "emotion": "curious",
+            "doc": [
+                "I narrow a character class to a Unicode property. Use a script, like \\⣿_/greek⣿\\, \\⣿_/han⣿\\, or \\⣿_/arabic⣿\\.",
+                "For example, find the run of Greek letters in some mixed text:",
+                "\\text: 'hello αβγ world'\ntext ⌕ ⣿>0 _/greek⣿\\",
+                "Or a category, like \\⣿◌/punctuation⣿\\, \\⣿◌/currency⣿\\, \\⣿◌/Nd⣿\\ (a digit), or \\⣿_/Lu⣿\\ (an uppercase letter).",
+                "Or a yes-or-no property, like \\⣿◌/emoji⣿\\ or \\⣿_/uppercase⣿\\ — and you can spell one out as a name and value, like \\⣿◌/Script=Greek⣿\\.",
+                "Exclude a property with a @PatternComplement, like \\⣿~◌/emoji⣿\\ (anything that isn't an emoji)."
+            ],
+            "conflict": {
+                "UnrecognizedPatternProperty": {
+                    "name": "unknown property",
+                    "explanation": "I don't recognize the property $name. Try a category, script, or Unicode id.",
+                    "resolution": "Change it to $suggestion"
+                }
+            }
+        },
+        "PatternQuantifier": {
+            "name": "quantifier",
+            "description": "how many times to match",
+            "emotion": "curious",
+            "doc": [
+                "I say how many times to match: an exact \\⣿3 #⣿\\, a range \\⣿3–5 #⣿\\, \\⣿=3 #⣿\\ (exactly three), \\⣿>0 #⣿\\ (one or more), \\⣿≥0 #⣿\\ (zero or more), \\⣿<5 #⣿\\ (fewer than five), \\⣿≤1 #⣿\\ (optional).",
+                "For example, find every run of digits in a sentence:",
+                "\\text: 'I have 3 cats and 12 fish'\ntext ⌕ ⣿>0 #⣿\\",
+                "I always come before the part I count, like \\⣿3 #⣿\\ or \\⣿>0 _⣿\\."
+            ],
+            "conflict": {
+                "MalformedQuantifier": {
+                    "name": "impossible count",
+                    "explanation": "My low count is bigger than my high count, so I can never match.",
+                    "resolution": "Swap my counts so the smaller comes first"
+                }
+            }
+        },
+        "PatternQuantified": {
+            "name": "repetition",
+            "description": "match an atom several times",
+            "emotion": "curious",
+            "doc": [
+                "I match the next part a number of times.",
+                "For example, check that a ZIP code is exactly five digits:",
+                "\\zip: '98101'\nzip ≈ ⣿5 #⣿\\",
+                "Count a class like \\⣿3 #⣿\\ (three digits), a group like \\⣿2 (\"ab\")⣿\\ (two \"ab\"s), or a complement like \\⣿2 ~#⣿\\ (two non-digits). With \\⣿>0 #⣿\\ I'm greedy — I take as many as I can."
+            ]
+        },
+        "PatternCapture": {
+            "name": "capture",
+            "description": "remember matched text by name",
+            "emotion": "curious",
+            "doc": [
+                "I name a piece of a match so you can read it back from each @Result.",
+                "For example, pull the year, month, and day out of a date:",
+                "\\date: '2026-06-17'\ndate ⌕ ⣿y:(4 #) \"-\" m:(2 #) \"-\" d:(2 #)⣿\\",
+                "Reuse what I captured later by writing my name again — see @PatternBackref — like \\⣿w:(>0 _) ␣ w⣿\\ to find a doubled word."
+            ],
+            "conflict": {
+                "DuplicateCaptureName": {
+                    "name": "duplicate capture",
+                    "explanation": "Another capture already uses the name $name, so this one would overwrite it.",
+                    "resolution": "Rename this capture to $replacement"
+                }
+            }
+        },
+        "PatternComplement": {
+            "name": "not",
+            "description": "match anything except",
+            "emotion": "curious",
+            "doc": [
+                "I match a single grapheme that is NOT what follows. Negate a class like \\⣿~#⣿\\ (not a digit), or a set like \\⣿~{\":\" ␣}⣿\\ (not a colon or space).",
+                "For example, grab the key and value around a colon by matching runs that aren't a colon or space:",
+                "\\pair: 'color: blue'\npair ⌕ ⣿>0 ~{\":\" ␣}⣿\\",
+                "Negate a group like \\⣿~(◌ | #)⣿\\, or a property like \\⣿~◌/emoji⣿\\ (not an emoji).",
+                "Put me before a @PatternLook to flip it: \\⣿~▸(#)⣿\\ means \"not followed by a digit\", and \\⣿~◂(\"$\")⣿\\ means \"not preceded by a dollar sign\"."
+            ]
+        },
+        "PatternGroup": {
+            "name": "group",
+            "description": "group pattern parts",
+            "emotion": "curious",
+            "doc": [
+                "I bundle parts together so a count or choice applies to all of them. I never capture; name a piece with a @PatternCapture for that.",
+                "For example, check that some text is the syllable \"ab\" repeated:",
+                "\\chant: 'ababab'\nchant ≈ ⣿>0 (\"ab\")⣿\\",
+                "Count a group like \\⣿2 (\"ab\")⣿\\ (two \"ab\"s) or offer a choice like \\⣿(◌ | #)⣿\\ (a letter or a digit)."
+            ]
+        },
+        "PatternSet": {
+            "name": "glyph set",
+            "description": "match one of these graphemes",
+            "emotion": "curious",
+            "doc": [
+                "I match any one grapheme from a set of options.",
+                "For example, find the vowels in a word:",
+                "\\word: 'hello'\nword ⌕ ⣿{\"a\" \"e\" \"i\" \"o\" \"u\"}⣿\\",
+                "Mix in ranges and classes, like \\⣿{\"a\"–\"z\" #}⣿\\ or \\⣿{# \"a\"–\"f\"}⣿\\ (a hex digit). Negate me with a @PatternComplement, like \\⣿~{\"!\" \"?\"}⣿\\."
+            ]
+        },
+        "PatternRange": {
+            "name": "range",
+            "description": "match a range of graphemes",
+            "emotion": "curious",
+            "doc": [
+                "I match a grapheme between two endpoints by scalar order, and I live inside a @PatternSet.",
+                "For example, pull the lowercase-letter words out of some text:",
+                "\\text: 'hello world 2026'\ntext ⌕ ⣿>0 {\"a\"–\"z\"}⣿\\",
+                "Span letters like \\⣿{\"a\"–\"z\" \"A\"–\"Z\"}⣿\\ or digits like \\⣿{\"0\"–\"9\"}⣿\\, in any script, like \\⣿{\"あ\"–\"ん\"}⣿\\."
+            ]
+        },
+        "PatternLiteralText": {
+            "name": "literal",
+            "description": "match exact text",
+            "emotion": "curious",
+            "doc": [
+                "I match exactly the text inside my quotes, with no special meaning.",
+                "For example, find the dollar amount in a sentence:",
+                "\\receipt: 'It costs $5 today'\nreceipt ⌕ ⣿\"$\" >0 #⣿\\",
+                "Use me for fixed bits like \\⣿\"-\"⣿\\, \\⣿\"@\"⣿\\, or a whole word \\⣿\"cat\"⣿\\, strung together with other parts, like \\⣿3 # \"-\" 4 #⣿\\ for a phone number."
+            ]
+        },
+        "PatternAnchor": {
+            "name": "anchor",
+            "description": "match a text edge",
+            "emotion": "curious",
+            "doc": [
+                "I match an edge of the text without consuming anything: \\⣿⊢⣿\\ the start, \\⣿⊣⣿\\ the end.",
+                "For example, check that a greeting starts with \"Hello\":",
+                "\\greeting: 'Hello world'\ngreeting ≈ ⣿⊢ \"Hello\" …⣿\\",
+                "Pin position, like \\⣿⊢ \"Hi\"⣿\\ (starts with \"Hi\"), \\⣿\".\" ⊣⣿\\ (ends with a period), or \\⣿⊢ _ ⊣⣿\\ (the whole text is exactly one letter)."
+            ]
+        },
+        "PatternWord": {
+            "name": "word",
+            "description": "match a whole word",
+            "emotion": "curious",
+            "doc": [
+                "I match a whole word, found by a language's own rules.",
+                "For example, list the words in a sentence:",
+                "\\sentence: 'the cat sat'\nsentence ⌕ ⣿▭/en⣿\\",
+                "Name the language, like \\⣿▭/en⣿\\ for English or \\⣿▭/zh⣿\\ for Chinese, and bound a specific word with edges, like \\⣿┊/en \"cat\" ┊/en⣿\\."
+            ],
+            "conflict": {
+                "MissingPatternLocale": {
+                    "name": "missing language",
+                    "explanation": "I need a language to know how to find words. Can you add one, like \\/en\\?"
+                }
+            }
+        },
+        "PatternWordEdge": {
+            "name": "word edge",
+            "description": "match a word boundary",
+            "emotion": "curious",
+            "doc": [
+                "I match a word boundary for a language without consuming anything.",
+                "For example, find \"cat\" as a whole word, not inside \"category\":",
+                "\\text: 'a cat in a category'\ntext ⌕ ⣿┊/en \"cat\" ┊/en⣿\\",
+                "Wrap a word with me, like \\⣿┊/en \"cat\" ┊/en⣿\\, so it only matches whole."
+            ]
+        },
+        "PatternLook": {
+            "name": "lookaround",
+            "description": "check ahead or behind",
+            "emotion": "curious",
+            "doc": [
+                "I check what's just ahead \\⣿▸(#)⣿\\ or behind \\⣿◂(#)⣿\\ without consuming it, so the next part still matches from the same spot.",
+                "For example, find each letter that's immediately followed by a digit:",
+                "\\text: 'a1 b2 cc'\ntext ⌕ ⣿_ ▸(#)⣿\\",
+                "Require context, like \\⣿_ ▸(#)⣿\\ (a letter followed by a digit) or \\⣿◂(\"$\") >0 #⣿\\ (digits right after a \"$\").",
+                "Flip me with a @PatternComplement to forbid context, like \\⣿~▸(#)⣿\\ (not followed by a digit)."
+            ]
+        },
+        "PatternBackref": {
+            "name": "backreference",
+            "description": "match the same text again",
+            "emotion": "curious",
+            "doc": [
+                "I match the same text a named @PatternCapture already matched — just write the capture's bare name.",
+                "For example, find a word that's immediately repeated:",
+                "\\text: 'the the cat sat sat'\ntext ⌕ ⣿w:(>0 _) ␣ w⣿\\",
+                "A bare name that isn't a capture is a named class instead, like \\⣿linebreak⣿\\."
+            ],
+            "conflict": {
+                "UndefinedBackreference": {
+                    "name": "unknown name",
+                    "explanation": "There's no capture or class named $name, so I have nothing to match.",
+                    "resolution": "Change it to $suggestion"
+                }
+            }
+        },
+        "PatternRest": {
+            "name": "rest",
+            "description": "match the rest of the input",
+            "emotion": "curious",
+            "doc": [
+                "I match the rest of the text, as much as possible. I'm handy at the end of a pattern.",
+                "For example, check that some text is a hashtag — a \"#\" then anything:",
+                "\\tag: '#breakfast'\ntag ≈ ⣿\"#\" …⣿\\",
+                "Use me after a fixed start, like \\⣿\"#\" …⣿\\ (a \"#\" then anything) or \\⣿\"Hi \" …⣿\\ (\"Hi \" then everything after)."
+            ]
+        },
+        "PatternCaseFold": {
+            "name": "ignore case",
+            "description": "match ignoring upper/lower case",
+            "emotion": "curious",
+            "doc": [
+                "I match my parts ignoring upper and lower case.",
+                "For example, check a word ignoring its capitalization:",
+                "\\shout: 'HELLO'\nshout ≈ ⣿⇕(\"hello\")⣿\\",
+                "Wrap my parts like \\⣿⇕(\"hi\")⣿\\ (matches \"HI\", \"Hi\", or \"hi\"). Add a language for its rules, like \\⣿⇕/tr(\"i\")⣿\\ (Turkic i), and I scope a @PatternBackref too, like \\⣿⇕(w:(2 _) w)⣿\\."
+            ]
+        },
+        "PatternType": {
+            "name": "pattern type",
+            "description": "the type of a pattern",
+            "emotion": "curious",
+            "doc": [
+                "I'm the type of a pattern value, annotated like \\p•⣿⣿: ⣿◌⣿\\.",
+                "For example, store a pattern in a name and reuse it across many texts:",
+                "\\digits: ⣿>0 #⣿\n'I have 3 cats and 12 fish' ⌕ digits\\",
+                "Once stored, use me anywhere a pattern fits, like \\text ⌕ digits\\ or \\text ≈ digits\\."
             ]
         },
         "MapLiteral": {
@@ -2149,6 +2465,32 @@
                         {
                             "doc": "The @Text to append.",
                             "names": "text"
+                        }
+                    ]
+                },
+                "matches": {
+                    "doc": [
+                        "\\⊤\\ if the whole text matches the given pattern.",
+                        "\\'555-1234' ≈ ⣿3 # \"-\" 4 #⣿\\"
+                    ],
+                    "names": ["≈", "matches"],
+                    "inputs": [
+                        {
+                            "doc": "The pattern to match against.",
+                            "names": "pattern"
+                        }
+                    ]
+                },
+                "search": {
+                    "doc": [
+                        "Find every place the given pattern matches in me, as a list of @Result.",
+                        "\\'a1 b2' ⌕ ⣿_ #⣿\\"
+                    ],
+                    "names": ["⌕", "search"],
+                    "inputs": [
+                        {
+                            "doc": "The pattern to search for.",
+                            "names": "pattern"
                         }
                     ]
                 }
@@ -4689,6 +5031,31 @@
                 "names": ["angle", "°"]
             }
         },
+        "Result": {
+            "doc": "I'm one match from a pattern search with \\⌕\\: the matched text, where it is, and any captures.",
+            "names": ["Result"],
+            "text": { "doc": "The whole matched text.", "names": "text" },
+            "start": {
+                "doc": "Where the match starts, counting from 1.",
+                "names": "start"
+            },
+            "end": {
+                "doc": "Where the match ends, counting from 1.",
+                "names": "end"
+            },
+            "groups": {
+                "doc": "Each capture's name to the text it matched.",
+                "names": "groups"
+            },
+            "starts": {
+                "doc": "Each capture's name to where it starts.",
+                "names": "starts"
+            },
+            "ends": {
+                "doc": "Each capture's name to where it ends.",
+                "names": "ends"
+            }
+        },
         "Matter": {
             "doc": "I'm physical properties of output, which influence how I interact with other output on stage.",
             "names": ["⚛️", "Matter"],
@@ -5655,6 +6022,17 @@
                 "insertThis": "insert this symbol",
                 "insertPrevious": "insert previous symbol",
                 "insertTable": "insert table open symbol",
+                "insertPattern": "insert pattern",
+                "insertSearch": "insert pattern search symbol",
+                "insertPatternAny": "insert any-grapheme pattern symbol",
+                "insertPatternSpace": "insert space pattern symbol",
+                "insertPatternStart": "insert pattern start symbol",
+                "insertPatternEnd": "insert pattern end symbol",
+                "insertPatternFold": "insert pattern case-fold symbol",
+                "insertPatternAhead": "insert pattern lookahead symbol",
+                "insertPatternBehind": "insert pattern lookbehind symbol",
+                "insertPatternWord": "insert pattern word symbol",
+                "insertPatternWordEdge": "insert pattern word-edge symbol",
                 "insertBorrow": "insert borrow",
                 "insertShare": "insert share",
                 "insertLine": "insert line break",
@@ -5906,6 +6284,7 @@
                         "decide",
                         "name",
                         "text",
+                        "pattern",
                         "numbers",
                         "truth",
                         "lists",
@@ -5921,14 +6300,15 @@
                         "time, buttons, keys, scenes, and more",
                         "choose values based on other values",
                         "name values, functions, and data structures for later use",
-                        "true, false, and none values",
-                        "numbers and math operations",
                         "plain and formatted text",
+                        "describe the shape of text to test or find it",
+                        "numbers and math operations",
+                        "true, false, and none values",
                         "lists and list operations",
                         "sets, maps, and operations",
                         "tables and table operations",
-                        "data types, conversions, and type checks",
                         "documentation and comments",
+                        "data types, conversions, and type checks",
                         "advanced language concepts"
                     ]
                 },
@@ -5974,6 +6354,10 @@
                 "Text": {
                     "header": "Text",
                     "explanation": "/Plain and formatted text, and ways of manipulating them./"
+                },
+                "Patterns": {
+                    "header": "Patterns",
+                    "explanation": "/Describe the shape of text with a pattern, delimited by \\⣿\\, then test whether text fits the shape (\\≈\\) or find every place it appears (\\⌕\\)./"
                 },
                 "Truth": {
                     "header": "Truth",

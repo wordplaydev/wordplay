@@ -51,7 +51,8 @@
         "cell": "$~hücre",
         "documentation": "$~dokümantasyon",
         "language": "$~dil",
-        "region": "$~bölge"
+        "region": "$~bölge",
+        "pattern": "$~model"
     },
     "token": {
         "EvalOpen": "$~değerlendirme açık",
@@ -134,7 +135,30 @@
         "TeluguNumeral": "$~Telugu rakamı",
         "LanguageJoin": "$~dil birleştirici",
         "Translate": "$~çevir",
-        "ExternalExample": "$~diğer dil örneği"
+        "ExternalExample": "$~diğer dil örneği",
+        "PatternAny": "$~desen herhangi bir karakter",
+        "PatternLetter": "$~desen harf",
+        "PatternDigit": "$~desen rakamı",
+        "PatternSpace": "$~desen alanı",
+        "PatternRest": "$~desen dinlenmesi",
+        "PatternWord": "$~desen kelimesi",
+        "PatternWordEdge": "$~desen kelime kenarı",
+        "PatternStart": "$~desen başlangıcı",
+        "PatternEnd": "$~desen sonu",
+        "PatternAhead": "$~desen ön izleme",
+        "PatternBehind": "$~desen arkaya bakma",
+        "PatternFold": "$~desen kılıfı katlama",
+        "PatternRange": "$~desen aralığı",
+        "PatternComplement": "$~desen değil",
+        "PatternAlternation": "$~desen veya",
+        "PatternSlash": "$~desen etiketi",
+        "PatternEqual": "$~desen tam olarak",
+        "PatternGreater": "$~desenden daha fazla",
+        "PatternGreaterEqual": "$~en azından bir model",
+        "PatternLess": "$~desen daha az",
+        "PatternLessEqual": "$~en fazla desen",
+        "PatternText": "$~desen tam metin",
+        "PatternDelimiter": "$~model"
     },
     "node": {
         "Dimension": {
@@ -1906,6 +1930,298 @@
                 "$~Sadece metin üzerinde çalışıyorum, bu yüzden bana mutlaka metin gönderin!"
             ],
             "start": "$~Önce $value değerlendirelim, sonra da ona bir yerel ayar etiketi ekleyelim…"
+        },
+        "PatternLiteral": {
+            "name": "$~model",
+            "description": "$~$count parçadan oluşan bir desen",
+            "emotion": "curious",
+            "doc": [
+                "$~Ben bir desenim! Tam kelimeler yerine metnin *şeklini* tanımlıyorum, böylece metni \\≈\\ ile kontrol edebilirsiniz — metnin tamamı uyuyor mu? — veya şeklin göründüğü her yeri bulmak için \\⌕\\ ile arama yapabilirsiniz. Arama, @Result türünde bir liste döndürür.",
+                "$~İşte bir arama örneği — kahvaltıyla ilgili bir cümlede yiyecek kelimelerini bulma:",
+                "$~\\breakfast: 'For breakfast I had eggs, toast, and orange juice'\nbreakfast ⌕ ⣿\"eggs\" | \"toast\" | \"juice\" | \"pancakes\"⣿\\",
+                "$~Beni soldan sağa okuyun. Bir @PatternClass tek bir karakterle eşleşir: \\⣿◌⣿\\ herhangi bir karakter, \\⣿_⣿\\ bir harf, \\⣿#⣿\\ bir rakam, \\⣿␣⣿\\ bir boşluk. Tırnak içindeki metin, tam olarak eşleşen bir @PatternLiteralText , örneğin \\⣿\"-\"⣿\\ . Geri kalan \\⣿…⣿\\ — bir @PatternRest — herhangi bir sayıda karakterle eşleşir.",
+                "$~Önce sayılar gelir. Bir @PatternQuantified bir sonraki bölümü bir @PatternQuantifier ile tekrarlar: \\⣿3 #⣿\\ üç basamaklı, \\⣿3–5 #⣿\\ üç ila beş arası, \\⣿>0 #⣿\\ bir veya daha fazla, \\⣿≥0 #⣿\\ sıfır veya daha fazla, \\⣿≤1 #⣿\\ isteğe bağlı.",
+                "$~Parçaları @PatternGroup ile gruplandırın ve \\⣿(◌ | #)⣿\\ gibi @PatternSequence içinde seçenekler sunun. En uzun eşleşen seçenek kazanır.",
+                "$~@PatternSet , bir kümeden tek bir karakterle eşleşir ve @PatternRange \\⣿{\"a\"–\"z\" #}⣿\\ gibi karakter aralıklarını kapsar. Bir parçayı @PatternComplement ile tersine çevirin, örneğin \\⣿~#⣿\\ .",
+                "$~Bir sınıfı @PatternProperty ile özelleştirin; örneğin, bir Yunan harfi için \\⣿_/greek⣿\\ veya \\⣿◌/emoji⣿\\ .",
+                "$~Bir parçayı @PatternCapture ile adlandırın, örneğin \\⣿year:(4 #)⣿\\ gibi, daha sonra @PatternBackref ile çıplak adını yazarak yeniden kullanın. Her @Result yakalanan parçaları adlarıyla rapor eder.",
+                "$~@PatternAnchor kullanarak kenarlara sabitleyin: \\⣿⊢⣿\\ başlangıç, \\⣿⊣⣿\\ bitiş. @PatternLook kullanarak tüketmeden göz atın: \\⣿▸(#)⣿\\ ön, \\⣿◂(#)⣿\\ arka.",
+                "$~@PatternWord \\⣿▭/en⣿\\ ile tam kelimeleri veya @PatternWordEdge \\⣿┊/en⣿\\ ile kelime sınırlarını eşleştirin, dil için bölümlere ayırın. @PatternCaseFold \\⣿⇕(\"hi\")⣿\\ içindeki harf büyük/küçük harf duyarlılığını göz ardı edin.",
+                "$~Benim türüm bir @PatternType — bir isme bu etiketi ekleyin, örneğin \\p•⣿⣿: ⣿◌⣿\\ — böylece beni bir isimde saklayabilir ve birçok metinde yeniden kullanabilirsiniz."
+            ],
+            "start": "$~Metnin nasıl göründüğüne bir bakayım.",
+            "conflict": {
+                "EmptyPattern": {
+                    "name": "$~boşdesen",
+                    "explanation": "$~Elimde hiç parça yok, bu yüzden işime yarayacak hiçbir şeyle eşleştiremiyorum. Bir parça ekleyebilir misiniz?",
+                    "resolution": "$~Herhangi bir karakterle eşleşmesi için \\◌\\ ekleyin."
+                }
+            },
+            "step": {
+                "search": "$~Bu kalıbın metinde geçtiği her yeri bulalım.",
+                "test": "$~Bu metnin tamamının kalıba uyup uymadığını kontrol edelim.",
+                "scan": "$~$position konumundan başlayan deseni arıyoruz.",
+                "match": "$~$pattern $glyph konumundaki $position ile eşleşir.",
+                "miss": "$~$pattern $glyph konumundaki $position ile eşleşmiyor.",
+                "end": "$~$pattern hala bir karakter gerekiyor, ancak $position konumunda metnin sonuna ulaştık.",
+                "repeat": "$~$pattern $count eşleşti; bu da devam etmek için yeterli.",
+                "short": "$~$pattern yalnızca $count eşleşti - yeterli değil.",
+                "here": "$~$pattern $position pozisyonunda geçerlidir.",
+                "nothere": "$~$pattern $position pozisyonunda geçerli değil."
+            }
+        },
+        "PatternSequence": {
+            "name": "$~sekans",
+            "description": "$~bir dizi desen parçası",
+            "emotion": "curious",
+            "doc": [
+                "$~Ben, soldan sağa doğru art arda eşleştirilmiş desen parçalarından oluşan bir sırayım.",
+                "$~Örneğin, bir telefon numarasının yapısına bakın — üç rakam, bir tire, ardından dört rakam:",
+                "$~\\phone: '555-1234'\nphone ≈ ⣿3 # \"-\" 4 #⣿\\",
+                "$~Seçenekler sunuluyor ve ben de en uygun olanı seçiyorum, en uzun olanı tercih ediyorum, tıpkı \\⣿\"cat\" | \"dog\"⣿\\ gibi."
+            ],
+            "conflict": {
+                "OverlappingAlternatives": {
+                    "name": "$~örtüşenseçimler",
+                    "explanation": "$~$shorter , $longer başlangıcıdır ve en uzun seçenek her zaman kazanır, bu nedenle $shorter yalnızca $longer eşleşemediğinde eşleşir. Bunu mu demek istediniz?"
+                }
+            }
+        },
+        "PatternClass": {
+            "name": "$~karaktersınıfı",
+            "description": "$~bir karakter türüyle eşleşin",
+            "emotion": "curious",
+            "doc": [
+                "$~Tek bir karakterle eşleştiriyorum: \\⣿◌⣿\\ herhangi bir harf, \\⣿_⣿\\ bir harf, \\⣿#⣿\\ bir rakam, \\⣿␣⣿\\ bir boşluk.",
+                "$~Örneğin, listeden her harf-rakam kodunu tek tek çıkarın:",
+                "$~\\codes: 'a1 b2 c3'\ncodes ⌕ ⣿_ #⣿\\",
+                "$~Beni \\⣿>0 #⣿\\ (bir veya daha fazla basamaklı) gibi bir nicelik belirleyiciyle sayabilir veya \\⣿_/greek⣿\\ (bir Yunan harfi) gibi bir özellikle daraltabilirsiniz."
+            ]
+        },
+        "PatternProperty": {
+            "name": "$~mülk",
+            "description": "$~bir Unicode özelliğiyle eşleş",
+            "emotion": "curious",
+            "doc": [
+                "$~Bir karakter sınıfını Unicode özelliğine indirgiyorum. \\⣿_/greek⣿\\ , \\⣿_/han⣿\\ veya \\⣿_/arabic⣿\\ gibi bir yazı sistemi kullanın.",
+                "$~Örneğin, karışık bir metin içinde Yunanca harflerin sıralanışını bulun:",
+                "$~\\text: 'hello αβγ world'\ntext ⌕ ⣿>0 _/greek⣿\\",
+                "$~Veya \\⣿◌/punctuation⣿\\ , \\⣿◌/currency⣿\\ , \\⣿◌/Nd⣿\\ (bir rakam) veya \\⣿_/Lu⣿\\ (büyük harf) gibi bir kategori.",
+                "$~Ya da \\⣿◌/emoji⣿\\ veya \\⣿_/uppercase⣿\\ gibi evet-hayır özelliği; ve birini isim ve değer olarak da yazabilirsiniz, örneğin \\⣿◌/Script=Greek⣿\\ .",
+                "$~@PatternComplement içeren bir özelliği hariç tutun, örneğin \\⣿~◌/emoji⣿\\ (emoji olmayan her şey)."
+            ],
+            "conflict": {
+                "UnrecognizedPatternProperty": {
+                    "name": "$~bilinmeyenözellik",
+                    "explanation": "$~$name özelliğini tanımıyorum. Bir kategori, komut dosyası veya Unicode kimliği deneyin.",
+                    "resolution": "$~Bunu $suggestion olarak değiştirin."
+                }
+            }
+        },
+        "PatternQuantifier": {
+            "name": "$~nicelikbelirleyici",
+            "description": "$~kaç kez eşleştirmek",
+            "emotion": "curious",
+            "doc": [
+                "$~Eşleşme sayısını şu şekilde belirtiyorum: tam olarak \\⣿3 #⣿\\ , \\⣿3–5 #⣿\\ aralığı, \\⣿=3 #⣿\\ (tam olarak üç), \\⣿>0 #⣿\\ (bir veya daha fazla), \\⣿≥0 #⣿\\ (sıfır veya daha fazla), \\⣿<5 #⣿\\ (beşten az), \\⣿≤1 #⣿\\ (isteğe bağlı).",
+                "$~Örneğin, bir cümledeki tüm rakam dizilerini bulun:",
+                "$~\\text: 'I have 3 cats and 12 fish'\ntext ⌕ ⣿>0 #⣿\\",
+                "$~Saymaya başladığım kısımdan her zaman önce gelirim, örneğin \\⣿3 #⣿\\ veya \\⣿>0 _⣿\\ ."
+            ],
+            "conflict": {
+                "MalformedQuantifier": {
+                    "name": "$~imkansızsayım",
+                    "explanation": "$~Düşük sayımım yüksek sayımımdan daha büyük, bu yüzden asla eşleşemem.",
+                    "resolution": "$~Sayılarımı değiştir, böylece küçük olan önce gelsin."
+                }
+            }
+        },
+        "PatternQuantified": {
+            "name": "$~tekrarlama",
+            "description": "$~bir atomu birkaç kez eşleştirin",
+            "emotion": "curious",
+            "doc": [
+                "$~Sonraki bölümü birkaç kez eşleştiriyorum.",
+                "$~Örneğin, bir posta kodunun tam olarak beş rakamdan oluştuğunu kontrol edin:",
+                "$~\\zip: '98101'\nzip ≈ ⣿5 #⣿\\",
+                "$~\\⣿3 #⣿\\ gibi bir sınıfı (üç basamaklı), \\⣿2 (\"ab\")⣿\\ gibi bir grubu (iki \"ab\") veya \\⣿2 ~#⣿\\ gibi bir tamamlayıcıyı (iki rakamsız sayı) sayın. \\⣿>0 #⣿\\ olduğunda açgözlüyüm — alabildiğim kadarını alıyorum."
+            ]
+        },
+        "PatternCapture": {
+            "name": "$~esiralmak",
+            "description": "$~İsimle eşleşen metni hatırla",
+            "emotion": "curious",
+            "doc": [
+                "$~Her bir @Result hesabından okuyabilmeniz için eşleşmenin bir parçasını adlandırıyorum.",
+                "$~Örneğin, bir tarihten yılı, ayı ve günü çıkarın:",
+                "$~\\date: '2026-06-17'\ndate ⌕ ⣿y:(4 #) \"-\" m:(2 #) \"-\" d:(2 #)⣿\\",
+                "$~Daha sonra yakaladığım şeyi, adımı tekrar yazarak yeniden kullanın — bkz. @PatternBackref — örneğin \\⣿w:(>0 _) ␣ w⣿\\ şeklinde, çift kelime bulmak için."
+            ],
+            "conflict": {
+                "DuplicateCaptureName": {
+                    "name": "$~kopyayakalama",
+                    "explanation": "$~Başka bir yakalama işlemi zaten $name adını kullanıyor, bu nedenle bu yakalama işlemi onu geçersiz kılacaktır.",
+                    "resolution": "$~Bu yakalamayı $replacement olarak yeniden adlandırın."
+                }
+            }
+        },
+        "PatternComplement": {
+            "name": "$~Olumsuz",
+            "description": "$~her şeyle eşleşebilir, ancak",
+            "emotion": "curious",
+            "doc": [
+                "$~Tek bir harf birimini eşleştiriyorum, ancak bu harf birimi kendisinden sonra gelenle aynı değil. \\⣿~#⣿\\ gibi bir sınıfı (rakam değil) veya \\⣿~{\":\" ␣}⣿\\ gibi bir kümeyi (iki nokta üst üste veya boşluk değil) olumsuzluyorum.",
+                "$~Örneğin, iki nokta üst üste işaretinin etrafındaki anahtar ve değeri, iki nokta üst üste veya boşluk olmayan karakterleri eşleştirerek yakalayabilirsiniz:",
+                "$~\\pair: 'color: blue'\npair ⌕ ⣿>0 ~{\":\" ␣}⣿\\",
+                "$~\\⣿~(◌ | #)⣿\\ gibi bir grubu veya \\⣿~◌/emoji⣿\\ (emoji değil) gibi bir özelliği olumsuzlayın.",
+                "$~Bunu tersine çevirmek için beni @PatternLook önüne koyun: \\⣿~▸(#)⣿\\ \"rakamla takip edilmiyor\" anlamına gelir ve \\⣿~◂(\"$\")⣿\\ \"dolar işaretiyle başlamıyor\" anlamına gelir."
+            ]
+        },
+        "PatternGroup": {
+            "name": "$~grup",
+            "description": "$~grup desen parçaları",
+            "emotion": "curious",
+            "doc": [
+                "$~Parçaları bir araya getiriyorum, böylece bir sayım veya seçim hepsine uygulanıyor. Hiçbir zaman yakalama yapmıyorum; bunun için bir parçayı @PatternCapture etiketiyle adlandırıyorum.",
+                "$~Örneğin, bazı metinlerde \"ab\" hecesinin tekrarlandığını kontrol edin:",
+                "$~\\chant: 'ababab'\nchant ≈ ⣿>0 (\"ab\")⣿\\",
+                "$~\\⣿2 (\"ab\")⣿\\ (iki \"ab\") gibi bir grubu sayın veya \\⣿(◌ | #)⣿\\ (bir harf veya rakam) gibi bir seçenek sunun."
+            ]
+        },
+        "PatternSet": {
+            "name": "$~glifseti",
+            "description": "$~Bu grafemlerden birini eşleştirin",
+            "emotion": "curious",
+            "doc": [
+                "$~Verilen seçenekler arasından herhangi bir harf ögesini eşleştiriyorum.",
+                "$~Örneğin, bir kelimedeki sesli harfleri bulun:",
+                "$~\\word: 'hello'\nword ⌕ ⣿{\"a\" \"e\" \"i\" \"o\" \"u\"}⣿\\",
+                "$~\\⣿{\"a\"–\"z\" #}⣿\\ veya \\⣿{# \"a\"–\"f\"}⣿\\ (onaltılık rakam) gibi aralıkları ve sınıfları karıştırın. Beni bir @PatternComplement ile olumsuzlayın, örneğin \\⣿~{\"!\" \"?\"}⣿\\ ."
+            ]
+        },
+        "PatternRange": {
+            "name": "$~menzil",
+            "description": "$~bir dizi grafemi eşleştirmek",
+            "emotion": "curious",
+            "doc": [
+                "$~İki uç nokta arasında skaler sıraya göre bir grafem eşleştiriyorum ve bir @PatternSet içinde yaşıyorum.",
+                "$~Örneğin, bir metinden küçük harfle başlayan kelimeleri ayıklayın:",
+                "$~\\text: 'hello world 2026'\ntext ⌕ ⣿>0 {\"a\"–\"z\"}⣿\\",
+                "$~\\⣿{\"a\"–\"z\" \"A\"–\"Z\"}⣿\\ gibi harfleri veya \\⣿{\"0\"–\"9\"}⣿\\ gibi rakamları, \\⣿{\"あ\"–\"ん\"}⣿\\ gibi herhangi bir yazı sisteminde kullanın."
+            ]
+        },
+        "PatternLiteralText": {
+            "name": "$~kelimeanlamıyla",
+            "description": "$~tam metni eşleştir",
+            "emotion": "curious",
+            "doc": [
+                "$~Tırnak içindeki metni, özel bir anlam yüklemeden, birebir aynı şekilde kullanıyorum.",
+                "$~Örneğin, bir cümledeki dolar tutarını bulun:",
+                "$~\\receipt: 'It costs $5 today'\nreceipt ⌕ ⣿\"$\" >0 #⣿\\",
+                "$~\\⣿\"-\"⣿\\ , \\⣿\"@\"⣿\\ gibi sabit parçalar veya \\⣿\"cat\"⣿\\ gibi diğer parçalarla bir araya getirilmiş tam bir kelime için beni kullanın; örneğin, bir telefon numarası için \\⣿3 # \"-\" 4 #⣿\\ gibi."
+            ]
+        },
+        "PatternAnchor": {
+            "name": "$~çapa",
+            "description": "$~metin kenarıyla eşleş",
+            "emotion": "curious",
+            "doc": [
+                "$~Metnin bir kenarını, hiçbir şey tüketmeden eşleştiriyorum: \\⣿⊢⣿\\ başlangıç, \\⣿⊣⣿\\ son.",
+                "$~Örneğin, bir selamlamanın \"Merhaba\" ile başlayıp başlamadığını kontrol edin:",
+                "$~\\greeting: 'Hello world'\ngreeting ≈ ⣿⊢ \"Hello\" …⣿\\",
+                "$~Pin konumu, örneğin \\⣿⊢ \"Hi\"⣿\\ ( \"Hi\" ile başlar), \\⣿\".\" ⊣⣿\\ (nokta ile biter) veya \\⣿⊢ _ ⊣⣿\\ (metnin tamamı tek bir harften oluşur)."
+            ]
+        },
+        "PatternWord": {
+            "name": "$~kelime",
+            "description": "$~tam bir kelimeyi eşleştir",
+            "emotion": "curious",
+            "doc": [
+                "$~Bir dilin kendi kurallarına göre bulduğum, kelimenin tamamını eşleştiriyorum.",
+                "$~Örneğin, kelimeleri bir cümle içinde listeleyin:",
+                "$~\\sentence: 'the cat sat'\nsentence ⌕ ⣿▭/en⣿\\",
+                "$~Dilin adını yazın, örneğin İngilizce için \\⣿▭/en⣿\\ veya Çince için \\⣿▭/zh⣿\\ gibi, ve belirli bir kelimeyi kenarlarla çevreleyin, örneğin \\⣿┊/en \"cat\" ┊/en⣿\\ ."
+            ],
+            "conflict": {
+                "MissingPatternLocale": {
+                    "name": "$~eksikdil",
+                    "explanation": "$~Kelimeleri nasıl bulacağımı bilmek için bir dile ihtiyacım var. \\/en\\ gibi bir tane ekleyebilir misiniz?"
+                }
+            }
+        },
+        "PatternWordEdge": {
+            "name": "$~kelimekenarı",
+            "description": "$~kelime sınırına uymak",
+            "emotion": "curious",
+            "doc": [
+                "$~Hiçbir şey tüketmeden bir dil için kelime sınırını eşleştiriyorum.",
+                "$~Örneğin, \"category\" kelimesinin içinde değil, tek başına \"cat\" kelimesini bulun:",
+                "$~\\text: 'a cat in a category'\ntext ⌕ ⣿┊/en \"cat\" ┊/en⣿\\",
+                "$~Bir kelimeyi benimle birlikte, \\⣿┊/en \"cat\" ┊/en⣿\\ gibi, bütünüyle eşleşecek şekilde sarın."
+            ]
+        },
+        "PatternLook": {
+            "name": "$~etrafabakın",
+            "description": "$~önden veya arkadan kontrol edin",
+            "emotion": "curious",
+            "doc": [
+                "$~Tüketmeden hemen önümdeki \\⣿▸(#)⣿\\ veya arkamdaki \\⣿◂(#)⣿\\ şeyleri kontrol ediyorum, böylece bir sonraki parça aynı noktadan eşleşmeye devam ediyor.",
+                "$~Örneğin, hemen ardından bir rakam gelen her harfi bulun:",
+                "$~\\text: 'a1 b2 cc'\ntext ⌕ ⣿_ ▸(#)⣿\\",
+                "$~Bağlam gerektirir, örneğin \\⣿_ ▸(#)⣿\\ (bir harf ve ardından bir rakam) veya \\⣿◂(\"$\") >0 #⣿\\ (bir \"$\") işaretinden hemen sonra rakamlar).",
+                "$~Bağlamı yasaklamak için beni @PatternComplement ile ters çevirin, örneğin \\⣿~▸(#)⣿\\ (rakamla takip edilmeyen)."
+            ]
+        },
+        "PatternBackref": {
+            "name": "$~gerireferans",
+            "description": "$~Aynı metni tekrar eşleştirin",
+            "emotion": "curious",
+            "doc": [
+                "$~Aynı metni, @PatternCapture adlı kullanıcının zaten eşleştirdiği metni eşleştiriyorum; sadece yakalamanın adını yazmanız yeterli.",
+                "$~Örneğin, hemen tekrarlanan bir kelime bulun:",
+                "$~\\text: 'the the cat sat sat'\ntext ⌕ ⣿w:(>0 _) ␣ w⣿\\",
+                "$~Yakalama işlemi içermeyen yalın bir isim, bunun yerine adlandırılmış bir sınıftır, örneğin \\⣿linebreak⣿\\ ."
+            ],
+            "conflict": {
+                "UndefinedBackreference": {
+                    "name": "$~bilinmeyenisim",
+                    "explanation": "$~$name adında bir yakalama veya sınıf yok, bu yüzden eşleştirebileceğim bir şey bulamıyorum.",
+                    "resolution": "$~Bunu $suggestion olarak değiştirin."
+                }
+            }
+        },
+        "PatternRest": {
+            "name": "$~dinlenmek",
+            "description": "$~girdinin geri kalanıyla eşleşin",
+            "emotion": "curious",
+            "doc": [
+                "$~Metnin geri kalanıyla olabildiğince uyumlu yazıyorum. Desenlerin son kısımlarında becerikliyim.",
+                "$~Örneğin, bir metnin hashtag olup olmadığını kontrol edin — \"#\" işaretinden sonra herhangi bir şey:",
+                "$~\\tag: '#breakfast'\ntag ≈ ⣿\"#\" …⣿\\",
+                "$~Beni, \\⣿\"#\" …⣿\\ (bir \"#\" ardından herhangi bir şey) veya \\⣿\"Hi \" …⣿\\ (\"Hi\" ardından her şey) gibi sabit bir başlangıçtan sonra kullanın."
+            ]
+        },
+        "PatternCaseFold": {
+            "name": "$~büyük/küçükharfduyarlılığınıgözardıet",
+            "description": "$~büyük/küçük harf duyarlılığını göz ardı ederek eşleştirme",
+            "emotion": "curious",
+            "doc": [
+                "$~Parçalarımı büyük ve küçük harflere aldırmadan eşleştiriyorum.",
+                "$~Örneğin, bir kelimenin büyük/küçük harf duyarlılığına bakmaksızın kontrolünü yapın:",
+                "$~\\shout: 'HELLO'\nshout ≈ ⣿⇕(\"hello\")⣿\\",
+                "$~Parçalarımı \\⣿⇕(\"hi\")⣿\\ \"HI\", \"Hi\" veya \"hi\" ile eşleşir) şeklinde sarın. Kuralları için \\⣿⇕/tr(\"i\")⣿\\ (Türkçe i) gibi bir dil ekleyin ve ayrıca \\⣿⇕(w:(2 _) w)⣿\\ gibi bir @PatternBackref de kapsam içine alıyorum."
+            ]
+        },
+        "PatternType": {
+            "name": "$~desentürü",
+            "description": "$~bir desenin türü",
+            "emotion": "curious",
+            "doc": [
+                "$~Ben, \\p•⣿⣿: ⣿◌⣿\\ şeklinde işaretlenmiş bir desen değeri türüyüm.",
+                "$~Örneğin, bir kalıbı bir isimde saklayın ve birçok metinde yeniden kullanın:",
+                "$~\\digits: ⣿>0 #⣿\n'I have 3 cats and 12 fish' ⌕ digits\\",
+                "$~Kaydedildikten sonra, beni herhangi bir kalıba uyan herhangi bir yerde kullanabilirsiniz, örneğin \\text ⌕ digits\\ veya \\text ≈ digits\\ gibi."
+            ]
         }
     },
     "basis": {
@@ -2144,6 +2460,32 @@
                         {
                             "doc": "$~Eklenecek @Text.",
                             "names": "$~metin"
+                        }
+                    ]
+                },
+                "matches": {
+                    "doc": [
+                        "$~\\⊤\\ metnin tamamının verilen kalıpla eşleştiği durumlarda kullanılır.",
+                        "$~\\'555-1234' ≈ ⣿3 # \"-\" 4 #⣿\\"
+                    ],
+                    "names": ["$~≈", "$~maçlar"],
+                    "inputs": [
+                        {
+                            "doc": "$~Karşılaştırılacak model.",
+                            "names": "$~model"
+                        }
+                    ]
+                },
+                "search": {
+                    "doc": [
+                        "$~Verilen kalıbın bende eşleştiği her yeri @Result listesi olarak bulun.",
+                        "$~\\'a1 b2' ⌕ ⣿_ #⣿\\"
+                    ],
+                    "names": ["$~⌕", "$~aramak"],
+                    "inputs": [
+                        {
+                            "doc": "$~Aranacak desen.",
+                            "names": "$~model"
                         }
                     ]
                 }
@@ -5050,6 +5392,34 @@
                 "doc": "$~Avuç içi kameraya dönükse @True, elin arkası dönükse @False.",
                 "names": ["$~avuçiçi"]
             }
+        },
+        "Result": {
+            "doc": "$~\\⌕\\ ile yapılan desen aramasında bir eşleşmeye daha yaklaştım: eşleşen metin, bulunduğu yer ve yakalanan veriler.",
+            "names": ["$~Sonuç"],
+            "text": {
+                "doc": "$~Eşleşen metnin tamamı.",
+                "names": "$~metin"
+            },
+            "start": {
+                "doc": "$~Maçın başlangıç noktası, 1'den itibaren sayılıyor.",
+                "names": "$~başlangıç"
+            },
+            "end": {
+                "doc": "$~Maçın bittiği yer, 1'den itibaren sayılıyor.",
+                "names": "$~son"
+            },
+            "groups": {
+                "doc": "$~Her bir yakalamanın adı, eşleştiği metne atanmıştır.",
+                "names": "$~gruplar"
+            },
+            "starts": {
+                "doc": "$~Her bir yakalamanın adı, başladığı yere kadar.",
+                "names": "$~başlar"
+            },
+            "ends": {
+                "doc": "$~Her bir yakalamanın adı, bittiği yere kadar.",
+                "names": "$~son"
+            }
         }
     },
     "ui": {
@@ -5420,7 +5790,18 @@
                 "insertTranslate": "$~çeviri sembolünü ekle",
                 "insertThis": "$~Bu sembolü ekleyin",
                 "tab": "$~Tab tuşu klavye odağını değiştirir. Bir sekme eklemek için Ctrl + $alt + Tab tuşlarına basın, aşağıdaki ekleme düğmesini kullanın veya bunu ayarlardan değiştirin.",
-                "matchDelimiter": "$~İmleci eşleşen sınırlayıcıya taşı"
+                "matchDelimiter": "$~İmleci eşleşen sınırlayıcıya taşı",
+                "insertPattern": "$~desen ekle",
+                "insertSearch": "$~desen arama sembolü ekle",
+                "insertPatternAny": "$~herhangi bir harf deseni sembolü ekle",
+                "insertPatternSpace": "$~boşluk deseni sembolü ekle",
+                "insertPatternStart": "$~desen başlangıç sembolünü ekle",
+                "insertPatternEnd": "$~desen bitiş sembolünü ekle",
+                "insertPatternFold": "$~desen katlama sembolü ekle",
+                "insertPatternAhead": "$~desen ekleme ön izleme sembolü",
+                "insertPatternBehind": "$~desen ekleme, geriye dönük arama sembolü",
+                "insertPatternWord": "$~desen kelime sembolü ekle",
+                "insertPatternWordEdge": "$~desen kelime kenarı sembolü ekle"
             },
             "options": {
                 "locale": {
@@ -5667,12 +6048,13 @@
                         "$~karar vermek",
                         "$~isim",
                         "$~metin",
+                        "$~model",
                         "$~sayılar",
                         "$~gerçek",
                         "$~listeler",
                         "$~setler",
                         "$~tablolar",
-                        "$~dokümantasyon",
+                        "$~belgeler",
                         "$~türleri",
                         "$~vesaire."
                     ],
@@ -5682,14 +6064,15 @@
                         "$~zaman, düğmeler, tuşlar, sahneler ve daha fazlası",
                         "$~Diğer değerlere göre değerler seçin",
                         "$~Daha sonra kullanılmak üzere değerlere, fonksiyonlara ve veri yapılarına isim verin.",
-                        "$~doğru, yanlış ve hiçbiri değerleri",
-                        "$~sayılar ve matematiksel işlemler",
                         "$~düz ve biçimlendirilmiş metin",
+                        "$~Metnin şeklini tanımlayarak onu test edin veya bulun.",
+                        "$~sayılar ve matematiksel işlemler",
+                        "$~doğru, yanlış ve hiçbiri değerleri",
                         "$~listeler ve liste işlemleri",
                         "$~kümeler, haritalar ve işlemler",
                         "$~tablolar ve tablo işlemleri",
-                        "$~veri türleri, dönüşümler ve tür kontrolleri",
                         "$~dokümantasyon ve yorumlar",
+                        "$~veri türleri, dönüşümler ve tür kontrolleri",
                         "$~ileri dil kavramları"
                     ]
                 },
@@ -5770,6 +6153,10 @@
                 "GalleryHow": {
                     "header": "$~Galeri nasıl yapılır",
                     "explanation": "$~/Galerinizden farklı türde projeler oluşturmak için kullanılan yaygın şablonlar./"
+                },
+                "Patterns": {
+                    "header": "$~Desenler",
+                    "explanation": "$~/Metnin şeklini \\⣿\\ ile sınırlandırılmış bir desenle tanımlayın, ardından metnin şekle uyup uymadığını test edin ( \\≈\\ ) veya metnin göründüğü her yeri bulun ( \\⌕\\ )./"
                 }
             },
             "note": {

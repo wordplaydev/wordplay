@@ -51,7 +51,8 @@
         "feedback": "$~masukan",
         "documentation": "$~dokumentasi",
         "language": "$~bahasa",
-        "region": "$~wilayah"
+        "region": "$~wilayah",
+        "pattern": "$~pola"
     },
     "token": {
         "EvalOpen": "$~evaluasi terbuka",
@@ -134,7 +135,30 @@
         "Highlight": "$~contoh yang disorot",
         "LanguageJoin": "$~penyambung bahasa",
         "Translate": "$~menerjemahkan",
-        "ExternalExample": "$~contoh bahasa lain"
+        "ExternalExample": "$~contoh bahasa lain",
+        "PatternAny": "$~pola karakter apa pun",
+        "PatternLetter": "$~huruf pola",
+        "PatternDigit": "$~pola angka",
+        "PatternSpace": "$~ruang pola",
+        "PatternRest": "$~sisa pola",
+        "PatternWord": "$~kata pola",
+        "PatternWordEdge": "$~pola kata tepi",
+        "PatternStart": "$~pola dimulai",
+        "PatternEnd": "$~akhir pola",
+        "PatternAhead": "$~pola pandangan ke depan",
+        "PatternBehind": "$~pola melihat ke belakang",
+        "PatternFold": "$~lipatan kotak pola",
+        "PatternRange": "$~rentang pola",
+        "PatternComplement": "$~pola tidak",
+        "PatternAlternation": "$~pola atau",
+        "PatternSlash": "$~label pola",
+        "PatternEqual": "$~pola persis",
+        "PatternGreater": "$~pola lebih dari",
+        "PatternGreaterEqual": "$~pola setidaknya",
+        "PatternLess": "$~pola kurang dari",
+        "PatternLessEqual": "$~pola paling banyak",
+        "PatternText": "$~pola teks literal",
+        "PatternDelimiter": "$~pola"
     },
     "node": {
         "Dimension": {
@@ -1911,6 +1935,298 @@
                 "$~Saya hanya menerima input berupa teks, jadi pastikan Anda memberi saya teks!"
             ],
             "start": "$~Mari kita evaluasi $value , lalu beri tag dengan locale…"
+        },
+        "PatternLiteral": {
+            "name": "$~pola",
+            "description": "$~pola dengan $count bagian",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya adalah sebuah pola! Saya mendeskripsikan *bentuk* teks, bukan kata-kata persisnya, sehingga Anda dapat memeriksa teks dengan \\≈\\ — apakah seluruh teks sesuai? — atau mencarinya dengan \\⌕\\ untuk menemukan setiap tempat bentuk tersebut muncul. Pencarian akan mengembalikan daftar @Result .",
+                "$~Berikut contoh pencarian — menemukan kata-kata yang berkaitan dengan makanan dalam sebuah kalimat tentang sarapan:",
+                "$~\\breakfast: 'For breakfast I had eggs, toast, and orange juice'\nbreakfast ⌕ ⣿\"eggs\" | \"toast\" | \"juice\" | \"pancakes\"⣿\\",
+                "$~Bacalah dari kiri ke kanan. @PatternClass cocok dengan satu karakter dari jenis tertentu: \\⣿◌⣿\\ apa saja, \\⣿_⣿\\ huruf, \\⣿#⣿\\ angka, \\⣿␣⣿\\ spasi. Teks yang dikutip adalah @PatternLiteralText yang cocok persis, seperti \\⣿\"-\"⣿\\ . Sisanya \\⣿…⣿\\ — sebuah @PatternRest — cocok dengan sejumlah karakter apa pun.",
+                "$~Jumlah didahulukan. @PatternQuantified mengulangi bagian selanjutnya dengan @PatternQuantifier : \\⣿3 #⣿\\ adalah tiga digit, \\⣿3–5 #⣿\\ tiga hingga lima, \\⣿>0 #⣿\\ satu atau lebih, \\⣿≥0 #⣿\\ nol atau lebih, \\⣿≤1 #⣿\\ opsional.",
+                "$~Kelompokkan bagian-bagian dengan @PatternGroup , dan tawarkan pilihan dalam @PatternSequence , seperti \\⣿(◌ | #)⣿\\ . Pilihan yang paling panjang dan cocok akan menang.",
+                "$~@PatternSet mencocokkan satu karakter dari suatu himpunan, dan @PatternRange mencakup rentang karakter, seperti \\⣿{\"a\"–\"z\" #}⣿\\ . Negasikan suatu bagian dengan @PatternComplement , seperti \\⣿~#⣿\\ .",
+                "$~Sempurnakan sebuah kelas dengan @PatternProperty , seperti \\⣿_/greek⣿\\ untuk huruf Yunani atau \\⣿◌/emoji⣿\\ .",
+                "$~Beri nama sebuah bagian dengan @PatternCapture , seperti \\⣿year:(4 #)⣿\\ , lalu gunakan kembali nanti dengan @PatternBackref dengan menuliskan nama aslinya. Setiap @Result melaporkan bagian yang ditangkap berdasarkan namanya.",
+                "$~Berlabuh ke tepi dengan @PatternAnchor : \\⣿⊢⣿\\ mulai, \\⣿⊣⣿\\ akhir. Intip tanpa mengonsumsi menggunakan @PatternLook : \\⣿▸(#)⣿\\ di depan, \\⣿◂(#)⣿\\ di belakang.",
+                "$~Cocokkan seluruh kata dengan @PatternWord \\⣿▭/en⣿\\ atau batas kata dengan @PatternWordEdge \\⣿┊/en⣿\\ , yang disegmentasikan untuk suatu bahasa. Abaikan perbedaan huruf besar dan kecil di dalam @PatternCaseFold \\⣿⇕(\"hi\")⣿\\ .",
+                "$~Tipe saya adalah @PatternType — beri anotasi pada nama dengan tipe ini, seperti \\p•⣿⣿: ⣿◌⣿\\ — sehingga Anda dapat menyimpan saya dalam sebuah nama dan menggunakannya kembali di banyak teks."
+            ],
+            "start": "$~Coba saya lihat seperti apa teks ini.",
+            "conflict": {
+                "EmptyPattern": {
+                    "name": "$~polakosong",
+                    "explanation": "$~Saya tidak punya komponen, jadi saya tidak bisa mencocokkan apa pun yang berguna. Bisakah Anda menambahkan komponen?",
+                    "resolution": "$~Tambahkan \\◌\\ untuk mencocokkan salah satu karakter."
+                }
+            },
+            "step": {
+                "search": "$~Mari kita temukan setiap tempat pola ini muncul dalam teks.",
+                "test": "$~Mari kita periksa apakah keseluruhan teks ini sesuai dengan pola tersebut.",
+                "scan": "$~Mencari pola yang dimulai pada posisi $position .",
+                "match": "$~$pattern cocok dengan $glyph pada posisi $position .",
+                "miss": "$~$pattern tidak cocok dengan $glyph pada posisi $position .",
+                "end": "$~$pattern masih membutuhkan karakter, tetapi kita telah mencapai akhir teks pada posisi $position .",
+                "repeat": "$~$pattern cocok dengan $count — cukup untuk melanjutkan.",
+                "short": "$~$pattern hanya cocok dengan $count — tidak cukup.",
+                "here": "$~$pattern berlaku pada posisi $position .",
+                "nothere": "$~$pattern tidak berlaku pada posisi $position ."
+            }
+        },
+        "PatternSequence": {
+            "name": "$~urutan",
+            "description": "$~urutan bagian pola",
+            "emotion": "curious",
+            "doc": [
+                "$~Aku adalah deretan bagian pola, yang dipasangkan satu demi satu, dari kiri ke kanan.",
+                "$~Sebagai contoh, perhatikan bentuk nomor telepon — tiga digit, tanda hubung, lalu empat:",
+                "$~\\phone: '555-1234'\nphone ≈ ⣿3 # \"-\" 4 #⣿\\",
+                "$~Berikan pilihan dan saya akan mengambil mana pun yang sesuai, lebih menyukai yang terpanjang, seperti \\⣿\"cat\" | \"dog\"⣿\\ ."
+            ],
+            "conflict": {
+                "OverlappingAlternatives": {
+                    "name": "$~pilihanyangtumpangtindih",
+                    "explanation": "$~$shorter adalah awal dari $longer , dan pilihan terpanjang selalu menang, jadi $shorter hanya cocok ketika $longer tidak bisa. Apakah maksudmu begitu?"
+                }
+            }
+        },
+        "PatternClass": {
+            "name": "$~kelaskarakter",
+            "description": "$~cocokkan satu jenis karakter",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya mencocokkan satu karakter dari jenis tertentu: \\⣿◌⣿\\ grafem apa pun, \\⣿_⣿\\ huruf, \\⣿#⣿\\ angka, \\⣿␣⣿\\ spasi.",
+                "$~Sebagai contoh, ambil setiap kode huruf-kemudian-angka dari sebuah daftar:",
+                "$~\\codes: 'a1 b2 c3'\ncodes ⌕ ⣿_ #⣿\\",
+                "$~Hitung saya dengan penentu jumlah seperti \\⣿>0 #⣿\\ (satu digit atau lebih), atau persempit saya dengan properti seperti \\⣿_/greek⣿\\ (huruf Yunani)."
+            ]
+        },
+        "PatternProperty": {
+            "name": "$~milik",
+            "description": "$~mencocokkan properti Unicode",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya mempersempit kelas karakter ke properti Unicode. Gunakan skrip, seperti \\⣿_/greek⣿\\ , \\⣿_/han⣿\\ , atau \\⣿_/arabic⣿\\ .",
+                "$~Sebagai contoh, temukan rangkaian huruf Yunani dalam teks campuran:",
+                "$~\\text: 'hello αβγ world'\ntext ⌕ ⣿>0 _/greek⣿\\",
+                "$~Atau sebuah kategori, seperti \\⣿◌/punctuation⣿\\ , \\⣿◌/currency⣿\\ , \\⣿◌/Nd⣿\\ (angka), atau \\⣿_/Lu⣿\\ (huruf kapital).",
+                "$~Atau properti ya-atau-tidak, seperti \\⣿◌/emoji⣿\\ atau \\⣿_/uppercase⣿\\ — dan Anda dapat mengejanya sebagai nama dan nilai, seperti \\⣿◌/Script=Greek⣿\\ .",
+                "$~Kecualikan properti dengan @PatternComplement , seperti \\⣿~◌/emoji⣿\\ (apa pun yang bukan emoji)."
+            ],
+            "conflict": {
+                "UnrecognizedPatternProperty": {
+                    "name": "$~propertiyangtidakdiketahui",
+                    "explanation": "$~Saya tidak mengenali properti $name . Coba kategori, skrip, atau ID Unicode.",
+                    "resolution": "$~Ubah menjadi $suggestion"
+                }
+            }
+        },
+        "PatternQuantifier": {
+            "name": "$~pembilang",
+            "description": "$~berapa kali harus dicocokkan",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya menentukan berapa kali harus dicocokkan: tepat \\⣿3 #⣿\\ , rentang \\⣿3–5 #⣿\\ , \\⣿=3 #⣿\\ (tepat tiga), \\⣿>0 #⣿\\ (satu atau lebih), \\⣿≥0 #⣿\\ (nol atau lebih), \\⣿<5 #⣿\\ (kurang dari lima), \\⣿≤1 #⣿\\ (opsional).",
+                "$~Sebagai contoh, temukan setiap rangkaian angka dalam sebuah kalimat:",
+                "$~\\text: 'I have 3 cats and 12 fish'\ntext ⌕ ⣿>0 #⣿\\",
+                "$~Saya selalu muncul sebelum bagian yang saya hitung, seperti \\⣿3 #⣿\\ atau \\⣿>0 _⣿\\ ."
+            ],
+            "conflict": {
+                "MalformedQuantifier": {
+                    "name": "$~hitunganyangmustahil",
+                    "explanation": "$~Jumlah terendah saya lebih besar daripada jumlah tertinggi saya, jadi saya tidak akan pernah bisa mencocokkannya.",
+                    "resolution": "$~Tukar urutan saya sehingga yang lebih kecil berada di urutan pertama."
+                }
+            }
+        },
+        "PatternQuantified": {
+            "name": "$~pengulangan",
+            "description": "$~mencocokkan sebuah atom beberapa kali",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya mencocokkan bagian selanjutnya beberapa kali.",
+                "$~Sebagai contoh, periksa apakah kode pos terdiri tepat lima digit:",
+                "$~\\zip: '98101'\nzip ≈ ⣿5 #⣿\\",
+                "$~Hitung kelas seperti \\⣿3 #⣿\\ (tiga digit), grup seperti \\⣿2 (\"ab\")⣿\\ (dua \"ab\"), atau komplemen seperti \\⣿2 ~#⣿\\ (dua bukan digit). Dengan \\⣿>0 #⣿\\ saya serakah — saya mengambil sebanyak yang saya bisa."
+            ]
+        },
+        "PatternCapture": {
+            "name": "$~menangkap",
+            "description": "$~ingat teks yang cocok berdasarkan nama",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya memberi nama pada bagian dari sebuah pertandingan sehingga Anda dapat membacanya kembali dari setiap @Result .",
+                "$~Sebagai contoh, ambil tahun, bulan, dan tanggal dari sebuah data:",
+                "$~\\date: '2026-06-17'\ndate ⌕ ⣿y:(4 #) \"-\" m:(2 #) \"-\" d:(2 #)⣿\\",
+                "$~Gunakan kembali apa yang saya tangkap nanti dengan menulis nama saya lagi — lihat @PatternBackref — seperti \\⣿w:(>0 _) ␣ w⣿\\ untuk menemukan kata yang digandakan."
+            ],
+            "conflict": {
+                "DuplicateCaptureName": {
+                    "name": "$~tangkapanduplikat",
+                    "explanation": "$~Tangkapan data lain sudah menggunakan nama $name , jadi yang ini akan menimpanya.",
+                    "resolution": "$~Ganti nama tangkapan ini menjadi $replacement"
+                }
+            }
+        },
+        "PatternComplement": {
+            "name": "$~bukan",
+            "description": "$~cocok dengan apa pun kecuali",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya mencocokkan satu grafem yang BUKAN yang mengikutinya. Negasikan kelas seperti \\⣿~#⣿\\ (bukan angka), atau himpunan seperti \\⣿~{\":\" ␣}⣿\\ (bukan titik dua atau spasi).",
+                "$~Misalnya, ambil kunci dan nilai di sekitar titik dua dengan mencocokkan rangkaian karakter yang bukan titik dua atau spasi:",
+                "$~\\pair: 'color: blue'\npair ⌕ ⣿>0 ~{\":\" ␣}⣿\\",
+                "$~Negasikan grup seperti \\⣿~(◌ | #)⣿\\ , atau properti seperti \\⣿~◌/emoji⣿\\ (bukan emoji).",
+                "$~Letakkan saya di depan @PatternLook untuk membaliknya: \\⣿~▸(#)⣿\\ berarti \"tidak diikuti oleh angka\", dan \\⣿~◂(\"$\")⣿\\ berarti \"tidak didahului oleh tanda dolar\"."
+            ]
+        },
+        "PatternGroup": {
+            "name": "$~kelompok",
+            "description": "$~bagian pola kelompok",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya menggabungkan beberapa bagian sehingga jumlah atau pilihan yang sama berlaku untuk semuanya. Saya tidak pernah melakukan capture; beri nama bagian tersebut dengan @PatternCapture untuk itu.",
+                "$~Misalnya, periksa apakah suatu teks mengandung suku kata \"ab\" yang diulang:",
+                "$~\\chant: 'ababab'\nchant ≈ ⣿>0 (\"ab\")⣿\\",
+                "$~Hitung sebuah kelompok seperti \\⣿2 (\"ab\")⣿\\ (dua \"ab\") atau tawarkan pilihan seperti \\⣿(◌ | #)⣿\\ (sebuah huruf atau angka)."
+            ]
+        },
+        "PatternSet": {
+            "name": "$~setglif",
+            "description": "$~cocokkan salah satu grafem ini",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya mencocokkan salah satu grafem dari serangkaian pilihan.",
+                "$~Sebagai contoh, temukan huruf vokal dalam sebuah kata:",
+                "$~\\word: 'hello'\nword ⌕ ⣿{\"a\" \"e\" \"i\" \"o\" \"u\"}⣿\\",
+                "$~Campurkan rentang dan kelas, seperti \\⣿{\"a\"–\"z\" #}⣿\\ atau \\⣿{# \"a\"–\"f\"}⣿\\ (angka heksadesimal). Negasikan saya dengan @PatternComplement , seperti \\⣿~{\"!\" \"?\"}⣿\\ ."
+            ]
+        },
+        "PatternRange": {
+            "name": "$~jangkauan",
+            "description": "$~mencocokkan berbagai grafem",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya mencocokkan grafem antara dua titik akhir berdasarkan urutan skalar, dan saya berada di dalam @PatternSet .",
+                "$~Sebagai contoh, pisahkan kata-kata dengan huruf kecil dari sebuah teks:",
+                "$~\\text: 'hello world 2026'\ntext ⌕ ⣿>0 {\"a\"–\"z\"}⣿\\",
+                "$~Rentangkan huruf seperti \\⣿{\"a\"–\"z\" \"A\"–\"Z\"}⣿\\ atau angka seperti \\⣿{\"0\"–\"9\"}⣿\\ , dalam gaya tulisan apa pun, seperti \\⣿{\"あ\"–\"ん\"}⣿\\ ."
+            ]
+        },
+        "PatternLiteralText": {
+            "name": "$~harfiah",
+            "description": "$~cocokkan teks persis",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya mencocokkan persis teks di dalam tanda kutip saya, tanpa makna khusus apa pun.",
+                "$~Misalnya, temukan jumlah uang dalam sebuah kalimat:",
+                "$~\\receipt: 'It costs $5 today'\nreceipt ⌕ ⣿\"$\" >0 #⣿\\",
+                "$~Gunakan saya untuk bagian tetap seperti \\⣿\"-\"⣿\\ , \\⣿\"@\"⣿\\ , atau kata utuh \\⣿\"cat\"⣿\\ , yang dirangkai dengan bagian lain, seperti \\⣿3 # \"-\" 4 #⣿\\ untuk nomor telepon."
+            ]
+        },
+        "PatternAnchor": {
+            "name": "$~jangkar",
+            "description": "$~cocokkan tepi teks",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya mencocokkan tepi teks tanpa mengonsumsi apa pun: \\⣿⊢⣿\\ awal, \\⣿⊣⣿\\ akhir.",
+                "$~Misalnya, periksa apakah sapaan dimulai dengan \"Halo\":",
+                "$~\\greeting: 'Hello world'\ngreeting ≈ ⣿⊢ \"Hello\" …⣿\\",
+                "$~Posisi pin, seperti \\⣿⊢ \"Hi\"⣿\\ (diawali dengan \"Hi\"), \\⣿\".\" ⊣⣿\\ (diakhiri dengan titik), atau \\⣿⊢ _ ⊣⣿\\ (seluruh teks terdiri tepat satu huruf)."
+            ]
+        },
+        "PatternWord": {
+            "name": "$~kata",
+            "description": "$~cocokkan seluruh kata",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya mencocokkan seluruh kata, yang ditemukan berdasarkan aturan bahasa itu sendiri.",
+                "$~Sebagai contoh, sebutkan kata-kata dalam sebuah kalimat:",
+                "$~\\sentence: 'the cat sat'\nsentence ⌕ ⣿▭/en⣿\\",
+                "$~Sebutkan bahasanya, seperti \\⣿▭/en⣿\\ untuk bahasa Inggris atau \\⣿▭/zh⣿\\ untuk bahasa Mandarin, dan ikat kata tertentu dengan garis penghubung, seperti \\⣿┊/en \"cat\" ┊/en⣿\\ ."
+            ],
+            "conflict": {
+                "MissingPatternLocale": {
+                    "name": "$~bahasayanghilang",
+                    "explanation": "$~Saya butuh bahasa untuk mengetahui cara mencari kata. Bisakah Anda menambahkannya, seperti \\/en\\ ?"
+                }
+            }
+        },
+        "PatternWordEdge": {
+            "name": "$~tepikata",
+            "description": "$~cocokkan batas kata",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya mencocokkan batas kata untuk suatu bahasa tanpa mengonsumsi apa pun.",
+                "$~Misalnya, cari kata \"cat\" secara utuh, bukan di dalam \"category\":",
+                "$~\\text: 'a cat in a category'\ntext ⌕ ⣿┊/en \"cat\" ┊/en⣿\\",
+                "$~Bungkus sebuah kata dengan saya, seperti \\⣿┊/en \"cat\" ┊/en⣿\\ , sehingga hanya cocok secara utuh."
+            ]
+        },
+        "PatternLook": {
+            "name": "$~melihatsekeliling",
+            "description": "$~periksa di depan atau di belakang",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya memeriksa apa yang ada di depan \\⣿▸(#)⣿\\ atau di belakang \\⣿◂(#)⣿\\ tanpa mengonsumsinya, sehingga bagian selanjutnya tetap cocok dari tempat yang sama.",
+                "$~Sebagai contoh, temukan setiap huruf yang langsung diikuti oleh sebuah angka:",
+                "$~\\text: 'a1 b2 cc'\ntext ⌕ ⣿_ ▸(#)⣿\\",
+                "$~Membutuhkan konteks, seperti \\⣿_ ▸(#)⣿\\ (huruf diikuti angka) atau \\⣿◂(\"$\") >0 #⣿\\ (angka tepat setelah \"$\").",
+                "$~Balikkan saya dengan @PatternComplement untuk melarang konteks, seperti \\⣿~▸(#)⣿\\ (tidak diikuti oleh angka)."
+            ]
+        },
+        "PatternBackref": {
+            "name": "$~referensibalik",
+            "description": "$~cocokkan teks yang sama lagi",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya mencocokkan teks yang sama dengan yang sudah dicocokkan oleh @PatternCapture bernama — cukup tulis nama tangkapannya saja.",
+                "$~Misalnya, temukan kata yang langsung diulang:",
+                "$~\\text: 'the the cat sat sat'\ntext ⌕ ⣿w:(>0 _) ␣ w⣿\\",
+                "$~Nama polos yang bukan merupakan tangkapan disebut kelas bernama, seperti \\⣿linebreak⣿\\ ."
+            ],
+            "conflict": {
+                "UndefinedBackreference": {
+                    "name": "$~namatidakdiketahui",
+                    "explanation": "$~Tidak ada tangkapan atau kelas bernama $name , jadi saya tidak memiliki apa pun untuk dicocokkan.",
+                    "resolution": "$~Ubah menjadi $suggestion"
+                }
+            }
+        },
+        "PatternRest": {
+            "name": "$~istirahat",
+            "description": "$~cocokkan dengan sisa input",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya mencocokkan bagian teks lainnya sebisa mungkin. Saya mahir di bagian akhir pola.",
+                "$~Misalnya, periksa apakah suatu teks adalah tagar — sebuah \"#\" lalu apa pun:",
+                "$~\\tag: '#breakfast'\ntag ≈ ⣿\"#\" …⣿\\",
+                "$~Gunakan saya setelah awalan tetap, seperti \\⣿\"#\" …⣿\\ (tanda \"#\" lalu apa pun) atau \\⣿\"Hi \" …⣿\\ (\"Hi \" lalu semua yang ada setelahnya)."
+            ]
+        },
+        "PatternCaseFold": {
+            "name": "$~abaikanperbedaanhurufbesardankecil",
+            "description": "$~pencocokan mengabaikan huruf besar/kecil",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya mencocokkan bagian-bagiannya dengan mengabaikan huruf besar dan kecil.",
+                "$~Sebagai contoh, periksa sebuah kata dengan mengabaikan huruf kapitalnya:",
+                "$~\\shout: 'HELLO'\nshout ≈ ⣿⇕(\"hello\")⣿\\",
+                "$~Bungkus bagian saya seperti \\⣿⇕(\"hi\")⣿\\ (cocok dengan \"HI\", \"Hi\", atau \"hi\"). Tambahkan bahasa untuk aturannya, seperti \\⣿⇕/tr(\"i\")⣿\\ (Turki i), dan saya juga menyertakan @PatternBackref , seperti \\⣿⇕(w:(2 _) w)⣿\\ ."
+            ]
+        },
+        "PatternType": {
+            "name": "$~jenispola",
+            "description": "$~jenis pola",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya adalah tipe nilai pola, yang diberi anotasi seperti \\p•⣿⣿: ⣿◌⣿\\ .",
+                "$~Sebagai contoh, simpan pola dalam sebuah nama dan gunakan kembali pola tersebut di banyak teks:",
+                "$~\\digits: ⣿>0 #⣿\n'I have 3 cats and 12 fish' ⌕ digits\\",
+                "$~Setelah disimpan, gunakan saya di mana pun pola tersebut cocok, seperti \\text ⌕ digits\\ atau \\text ≈ digits\\ ."
+            ]
         }
     },
     "basis": {
@@ -2149,6 +2465,32 @@
                         {
                             "doc": "$~@Text yang akan ditambahkan.",
                             "names": "$~teks"
+                        }
+                    ]
+                },
+                "matches": {
+                    "doc": [
+                        "$~\\⊤\\ jika seluruh teks cocok dengan pola yang diberikan.",
+                        "$~\\'555-1234' ≈ ⣿3 # \"-\" 4 #⣿\\"
+                    ],
+                    "names": ["$~≈", "$~pertandingan"],
+                    "inputs": [
+                        {
+                            "doc": "$~Pola yang akan dicocokkan.",
+                            "names": "$~pola"
+                        }
+                    ]
+                },
+                "search": {
+                    "doc": [
+                        "$~Temukan setiap tempat di mana pola yang diberikan cocok di dalam diri saya, sebagai daftar @Result .",
+                        "$~\\'a1 b2' ⌕ ⣿_ #⣿\\"
+                    ],
+                    "names": ["$~⌕", "$~mencari"],
+                    "inputs": [
+                        {
+                            "doc": "$~Pola yang perlu dicari.",
+                            "names": "$~pola"
                         }
                     ]
                 }
@@ -5049,6 +5391,34 @@
                 "description": "$~batas ukuran proyek",
                 "explanation": "$~Proyek ini memiliki terlalu banyak teks, jadi kami tidak dapat menyimpannya."
             }
+        },
+        "Result": {
+            "doc": "$~Saya tinggal satu kecocokan lagi dari pencarian pola dengan \\⌕\\ : teks yang cocok, letaknya, dan tangkapan apa pun.",
+            "names": ["$~Hasil"],
+            "text": {
+                "doc": "$~Seluruh teks cocok.",
+                "names": "$~teks"
+            },
+            "start": {
+                "doc": "$~Titik awal pertandingan, dihitung dari 1.",
+                "names": "$~awal"
+            },
+            "end": {
+                "doc": "$~Di mana pertandingan berakhir, dihitung dari 1.",
+                "names": "$~akhir"
+            },
+            "groups": {
+                "doc": "$~Nama setiap tangkapan dicocokkan dengan teks yang sesuai.",
+                "names": "$~kelompok"
+            },
+            "starts": {
+                "doc": "$~Nama setiap tangkapan diurutkan ke tempat asalnya.",
+                "names": "$~mulai"
+            },
+            "ends": {
+                "doc": "$~Nama setiap tangkapan hingga tempat akhirnya.",
+                "names": "$~berakhir"
+            }
         }
     },
     "ui": {
@@ -5665,7 +6035,18 @@
                 "insertTranslate": "$~sisipkan simbol terjemahan",
                 "insertThis": "$~sisipkan simbol ini",
                 "tab": "$~Tombol Tab memindahkan fokus keyboard. Untuk menyisipkan tab, tekan Ctrl + $alt + Tab, gunakan tombol sisipkan di bawah, atau ubah ini di pengaturan.",
-                "matchDelimiter": "$~Pindahkan kursor ke pembatas yang sesuai."
+                "matchDelimiter": "$~Pindahkan kursor ke pembatas yang sesuai.",
+                "insertPattern": "$~sisipkan pola",
+                "insertSearch": "$~sisipkan simbol pencarian pola",
+                "insertPatternAny": "$~sisipkan simbol pola grafem apa pun",
+                "insertPatternSpace": "$~sisipkan simbol pola spasi",
+                "insertPatternStart": "$~sisipkan simbol awal pola",
+                "insertPatternEnd": "$~sisipkan simbol akhir pola",
+                "insertPatternFold": "$~sisipkan pola simbol lipatan kotak",
+                "insertPatternAhead": "$~sisipkan simbol lookahead pola",
+                "insertPatternBehind": "$~sisipkan simbol lookbehind pola",
+                "insertPatternWord": "$~sisipkan simbol kata pola",
+                "insertPatternWordEdge": "$~sisipkan simbol tepi kata pola"
             },
             "error": {
                 "invalidName": "$~Ini harus berupa nama Wordplay yang valid.",
@@ -5889,6 +6270,7 @@
                         "$~memutuskan",
                         "$~nama",
                         "$~teks",
+                        "$~pola",
                         "$~angka",
                         "$~kebenaran",
                         "$~daftar",
@@ -5904,14 +6286,15 @@
                         "$~waktu, tombol, kunci, adegan, dan banyak lagi",
                         "$~memilih nilai berdasarkan nilai lainnya",
                         "$~Beri nama nilai, fungsi, dan struktur data untuk digunakan di kemudian hari.",
-                        "$~nilai benar, salah, dan tidak ada",
-                        "$~angka dan operasi matematika",
                         "$~teks biasa dan berformat",
+                        "$~mendeskripsikan bentuk teks untuk menguji atau menemukannya",
+                        "$~angka dan operasi matematika",
+                        "$~nilai benar, salah, dan tidak ada",
                         "$~daftar dan operasi daftar",
                         "$~himpunan, peta, dan operasi",
                         "$~tabel dan operasi tabel",
-                        "$~tipe data, konversi, dan pemeriksaan tipe",
                         "$~dokumentasi dan komentar",
+                        "$~tipe data, konversi, dan pemeriksaan tipe",
                         "$~konsep bahasa tingkat lanjut"
                     ]
                 },
@@ -5997,6 +6380,10 @@
                 "GalleryHow": {
                     "header": "$~Galeri cara",
                     "explanation": "$~Pola umum untuk membuat berbagai jenis proyek, dari galeri Anda."
+                },
+                "Patterns": {
+                    "header": "$~Pola",
+                    "explanation": "$~/Deskripsikan bentuk teks dengan pola, dibatasi oleh \\⣿\\ , lalu uji apakah teks sesuai dengan bentuk tersebut ( \\≈\\ ) atau temukan setiap tempat teks tersebut muncul ( \\⌕\\ )./"
                 }
             },
             "how": {

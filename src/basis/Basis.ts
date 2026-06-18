@@ -9,6 +9,7 @@ import type StructureDefinition from '@nodes/StructureDefinition';
 import Type from '@nodes/Type';
 import type TypeVariables from '@nodes/TypeVariables';
 import type Evaluation from '@runtime/Evaluation';
+import type Step from '@runtime/Step';
 import createDefaultShares from '@runtime/createDefaultShares';
 import Value from '@values/Value';
 import type LanguageCode from '@locale/LanguageCode';
@@ -189,13 +190,14 @@ export function createBasisFunction(
     types: (Type | [Type, Expression])[],
     output: Type,
     evaluator: (requestor: Expression, evaluator: Evaluation) => Value,
+    steps: Step[] | ((expr: InternalExpression) => Step[]) = [],
 ) {
     return FunctionDefinition.make(
         getDocLocales(locales, (l) => text(l).doc),
         getNameLocales(locales, (l) => text(l).names),
         typeVars,
         createInputs(locales, (l) => text(l).inputs, types),
-        new InternalExpression(output, [], evaluator),
+        new InternalExpression(output, steps, evaluator),
         output,
     );
 }

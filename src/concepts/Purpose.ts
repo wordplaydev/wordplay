@@ -11,6 +11,8 @@ const Purpose = {
     Definitions: 'Definitions',
     /** Language concepts related to text logic */
     Text: 'Text',
+    /** The pattern sublanguage for describing the shape of text (`⣿ ⣿`, `≈`, `⌕`). */
+    Patterns: 'Patterns',
     /** Language concepts related to number logic */
     Numbers: 'Numbers',
     /** Language concepts related to boolean logic */

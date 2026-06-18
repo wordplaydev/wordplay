@@ -20,6 +20,8 @@ import Assign from '@edit/revision/Assign';
 import Replace from '@edit/revision/Replace';
 import type Revision from '@edit/revision/Revision';
 import { getEditsAt } from '@edit/menu/PossibleEdits';
+import PatternClass from '@nodes/PatternClass';
+import PatternQuantifier from '@nodes/PatternQuantifier';
 import Language from '@nodes/Language';
 import Token from '@nodes/Token';
 import { Sym } from '@nodes/Sym';
@@ -284,6 +286,206 @@ test.each([
         }
     },
 );
+
+test('pattern token suggestions insert real glyphs, not placeholder Sym values', () => {
+    // Inside a pattern, several glyphs are reinterpreted and carry placeholder
+    // Sym values (e.g. Sym.PatternAlternation = 'pattern.or'). Autocomplete must
+    // insert the glyph (`|`), never the placeholder text — which can't tokenize
+    // and corrupts the program. Regression for the "pattern.or" suggestion bug.
+    const code = "'x' ⌕ ⣿ >0 #⣿";
+    const source = new Source('test', code);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    // A caret just after the `#` atom inside the pattern body.
+    const caret = new Caret(source, code.indexOf('#') + 1, undefined, undefined);
+    const transforms = getEditsAt(project, caret, undefined, DefaultLocales);
+    const inserted = transforms
+        .map((t) => t.getNewNode(DefaultLocales)?.toWordplay())
+        .filter((s): s is string => s !== undefined);
+
+    // No suggestion may leak a placeholder Sym value.
+    for (const text of inserted)
+        expect(
+            text.startsWith('pattern.'),
+            `suggestion ${JSON.stringify(text)} leaked a placeholder Sym value`,
+        ).toBe(false);
+    // The alternation atom is offered as the real glyph.
+    expect(inserted).toContain('|');
+});
+
+test('the full pattern atom palette is reachable from the autocomplete menu', () => {
+    // The whole regular-expression grammar must be constructible from the menu
+    // alone (in either mode). Check the three positions that previously offered
+    // nothing/too little: an empty pattern, a quantifier missing its atom, and
+    // after an existing atom.
+    function suggestionsAt(code: string, pos: number): string[] {
+        const source = new Source('test', code);
+        const project = Project.make(null, 'test', source, [], DefaultLocale);
+        return getEditsAt(
+            project,
+            new Caret(source, pos, undefined, undefined),
+            undefined,
+            DefaultLocales,
+        )
+            .map((r) => r.getNewNode(DefaultLocales)?.toWordplay())
+            .filter((s): s is string => s !== undefined);
+    }
+
+    // Inside an empty `⣿⣿`: the whole atom palette (each as a one-item sequence).
+    const empty = suggestionsAt("'x' ≈ ⣿⣿", "'x' ≈ ⣿".length);
+    for (const glyph of ['◌', '#', '""', '(◌)', '{◌}', '…'])
+        expect(empty, `empty pattern should offer ${glyph}`).toContain(glyph);
+
+    // After a quantifier whose atom isn't typed yet (`>0`): the atom palette,
+    // not just the range dash. Regression for "only suggests |".
+    const afterQuant = suggestionsAt("'x' ≈ ⣿>0⣿", "'x' ≈ ⣿>0".length);
+    expect(afterQuant).toContain('◌');
+    expect(afterQuant).toContain('(◌)');
+
+    // After an existing atom: the palette plus the `|` alternation.
+    const afterAtom = suggestionsAt("'x' ≈ ⣿#⣿", "'x' ≈ ⣿#".length);
+    expect(afterAtom).toContain('◌');
+    expect(afterAtom).toContain('|');
+});
+
+test('pattern suggestions are well-formed: no duplicates, anchors only at edges, no bogus backref', () => {
+    function suggestionsAt(code: string, pos: number): string[] {
+        const source = new Source('test', code);
+        const project = Project.make(null, 'test', source, [], DefaultLocale);
+        return getEditsAt(
+            project,
+            new Caret(source, pos, undefined, undefined),
+            undefined,
+            DefaultLocales,
+        )
+            .map((r) => r.getNewNode(DefaultLocales)?.toWordplay())
+            .filter((s): s is string => s !== undefined);
+    }
+
+    // No duplicate menu items, even when selecting a class's base glyph token
+    // (the ancestor walk + base-glyph swaps previously offered ◌/_/␣ three times).
+    const source = new Source('test', "'x' ≈ ⣿#⣿");
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const cls = source
+        .nodes()
+        .find((n): n is PatternClass => n instanceof PatternClass);
+    expect(cls).toBeDefined();
+    if (cls) {
+        const onBase = getEditsAt(
+            project,
+            new Caret(source, cls.base, undefined, undefined),
+            undefined,
+            DefaultLocales,
+        )
+            .map((r) => r.getNewNode(DefaultLocales)?.toWordplay())
+            .filter((s): s is string => s !== undefined);
+        expect(new Set(onBase).size, `duplicates: ${onBase.join(', ')}`).toBe(
+            onBase.length,
+        );
+    }
+
+    // Anchors are position-sensitive: `⊢` only at a sequence's start, `⊣` only at
+    // its end — never a start anchor after an atom, nor an end anchor before one.
+    const beforeAtom = suggestionsAt("'x' ≈ ⣿#⣿", "'x' ≈ ⣿".length);
+    expect(beforeAtom).toContain('⊢');
+    expect(beforeAtom).not.toContain('⊣');
+    const afterAtom = suggestionsAt("'x' ≈ ⣿#⣿", "'x' ≈ ⣿#".length);
+    expect(afterAtom).toContain('⊣');
+    expect(afterAtom).not.toContain('⊢');
+
+    // A bare backref is only offered for a capture that actually exists — never
+    // the confusing `letter` known-class alias that duplicates the `_` class.
+    const withCapture = suggestionsAt("'x' ≈ ⣿y:(#) ⣿", "'x' ≈ ⣿y:(#) ".length);
+    expect(withCapture).toContain('y');
+    expect(withCapture).not.toContain('letter');
+
+    // Every quantity form is reachable: as `‹quantity› ◌` atoms in the palette…
+    const palette = suggestionsAt("'x' ≈ ⣿#⣿", "'x' ≈ ⣿#".length);
+    for (const q of ['3◌', '3–5◌', '>0◌', '≥0◌', '≤1◌'])
+        expect(palette, `palette should offer ${q}`).toContain(q);
+
+    // …and as alternatives when an existing quantifier is selected (previously
+    // empty, because the only default equalled the selection).
+    const quantSource = new Source('test', "'x' ≈ ⣿>0 #⣿");
+    const quantProject = Project.make(
+        null,
+        'test',
+        quantSource,
+        [],
+        DefaultLocale,
+    );
+    const quantifier = quantSource
+        .nodes()
+        .find((n): n is PatternQuantifier => n instanceof PatternQuantifier);
+    expect(quantifier).toBeDefined();
+    if (quantifier) {
+        const forms = getEditsAt(
+            quantProject,
+            new Caret(quantSource, quantifier, undefined, undefined),
+            undefined,
+            DefaultLocales,
+        )
+            .map((r) => r.getNewNode(DefaultLocales)?.toWordplay())
+            .filter((s): s is string => s !== undefined);
+        expect(forms).toContain('3');
+        expect(forms).toContain('3–5');
+        expect(forms).toContain('≤1');
+        expect(forms).not.toContain('>0'); // the selected form is excluded
+    }
+});
+
+test('every pattern suggestion is syntactically valid, and atom-only slots refuse items', () => {
+    function editsAt(code: string, pos: number) {
+        const source = new Source('test', code);
+        const project = Project.make(null, 'test', source, [], DefaultLocale);
+        return {
+            revs: getEditsAt(
+                project,
+                new Caret(source, pos, undefined, undefined),
+                undefined,
+                DefaultLocales,
+            ),
+            source,
+        };
+    }
+
+    // Applying any suggested insertion must produce a pattern that re-parses to
+    // itself with no unparsable nodes. Regression: a capture's atom slot is
+    // `node(PatternNode)` in the grammar but the parser only accepts atoms, so
+    // offering a capture/quantified/complement there made an unparseable tree.
+    for (const [code, pos] of [
+        ["'x' ≈ ⣿name:⣿", "'x' ≈ ⣿name:".length], // a capture's atom
+        ["'x' ≈ ⣿>0⣿", "'x' ≈ ⣿>0".length], // a quantifier's atom
+        ["'x' ≈ ⣿~⣿", "'x' ≈ ⣿~".length], // a complement's atom
+        ["'x' ≈ ⣿#⣿", "'x' ≈ ⣿#".length], // a sequence member
+    ] as const) {
+        const { revs } = editsAt(code, pos);
+        for (const rev of revs) {
+            const edit = rev.getEdit(DefaultLocales);
+            const result = Array.isArray(edit) ? edit[0] : undefined;
+            if (!(result instanceof Source)) continue;
+            const printed = result.code.toString();
+            const reparsed = new Source('test', printed);
+            const unparsable = reparsed
+                .nodes()
+                .some((n) => n.getDescriptor() === 'UnparsableExpression');
+            expect(
+                unparsable,
+                `suggestion ${JSON.stringify(rev.getNewNode(DefaultLocales)?.toWordplay())} made unparseable ${JSON.stringify(printed)}`,
+            ).toBe(false);
+            expect(reparsed.toWordplay(), 'must round-trip').toBe(printed);
+        }
+    }
+
+    // The capture's atom slot offers only the atom subset — never another
+    // capture, a quantified atom, or a complement (which the parser rejects).
+    const captureAtom = editsAt("'x' ≈ ⣿name:⣿", "'x' ≈ ⣿name:".length)
+        .revs.map((r) => r.getNewNode(DefaultLocales)?.toWordplay())
+        .filter((s): s is string => s !== undefined);
+    expect(captureAtom).toContain('◌');
+    expect(captureAtom.some((s) => s.includes(':'))).toBe(false); // no capture
+    expect(captureAtom).not.toContain('~◌'); // no complement
+    expect(captureAtom).not.toContain('>0◌'); // no quantified
+});
 
 test('default-value suggestions for an input only include values of its declared type', () => {
     // For an input typed `#`, the menu opened on its value placeholder should

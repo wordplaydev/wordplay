@@ -1,4 +1,4 @@
-import { Purpose } from '@concepts/Purpose';
+import { Purpose, type PurposeType } from '@concepts/Purpose';
 import type Context from '@nodes/Context';
 import type Definition from '@nodes/Definition';
 import type Node from '@nodes/Node';
@@ -9,7 +9,9 @@ export default abstract class BasisType extends Type {
         super();
     }
 
-    getPurpose() {
+    // Annotated (not inferred) so subtypes like PatternType can return a
+    // different purpose without a literal-type mismatch.
+    getPurpose(): PurposeType {
         return Purpose.Types;
     }
 

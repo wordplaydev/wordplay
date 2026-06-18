@@ -1,0 +1,24 @@
+Desenli metinleri bulun ve kontrol edin.
+
+Bir kalıp, bir metnin şeklini tanımlar; böylece metnin bir şekle uyup uymadığını kontrol edebilir veya metnin geçtiği her yeri arayabilirsiniz. Kalıplar içeriye yerleştirilir. \⣿⣿\ ve soldan sağa, her seferinde bir parça okuyun. \_\ Bu bir mektuptur. \#\ bir rakamdır, \␣\ boşluktur ve alıntılanan metin şöyledir: \"-"\ Tam olarak eşleşiyor.
+
+Bir metnin tamamının bir kalıba uyup uymadığını kontrol etmek için şunu kullanın: \≈\Bu da size bir \?\:
+
+\'555-1234' ≈ ⣿ 3 # "-" 4 #⣿\
+
+Bu, "üç basamaklı, bir tire, sonra dört basamaklı?" diye soruyor ve cevabı şu: \⊤\.
+
+Sayılar, tekrarladıkları şeyden önce gelir: \3
+#\ Üç basamaklı anlamına gelir. Ayrıca şöyle de diyebilirsiniz: \>0
+#\ (bir veya daha fazla), \≥0
+#\ (sıfır veya daha fazla), \≤1
+#\ (isteğe bağlı) veya buna benzer bir aralık \2–4
+#\.
+
+Bir desenin her nerede göründüğünü bulmak için şunu kullanın: \⌕\Bu size bir liste sunar.  @Structure  sonuçlar. Bir parçaya isim verin. \name: (…)\ Bunu yakalamak için:
+
+\'2026-06-15 tarihinde doğdu' ⌕ ⣿ y: (4 #) "-" m: (2 #) "-" d: (2 #)⣿\
+
+Her sonuç size eşleşeni gösterir. \text\, nerede \start\kum \end\ve yakalananlar \groups\ - Burada \y\, \m\, Ve \d\Desenler harf öbeklerine göre eşleştiği için her dilde ve yazı sisteminde aynı şekilde çalışırlar.
+
+mix-languages-in-text

@@ -2378,7 +2378,7 @@
                                                     outputView?.adjustZoom(-1)}
                                                 tip={(l) =>
                                                     l.ui.output.button.zoomOut}
-                                                ><Emoji text="–🔎" /></Button
+                                                ><Emoji text="–⌕" /></Button
                                             >
                                             <Button
                                                 background
@@ -2386,7 +2386,7 @@
                                                     outputView?.adjustZoom(1)}
                                                 tip={(l) =>
                                                     l.ui.output.button.zoomIn}
-                                                ><Emoji text="+🔎" /></Button
+                                                ><Emoji text="+⌕" /></Button
                                             >
                                             {#if hasStagePlace}
                                                 <Button
@@ -2398,7 +2398,7 @@
                                                     background
                                                     active={focusOverridden}
                                                     ><Emoji
-                                                        text="⟲🔎"
+                                                        text="⟲⌕"
                                                     /></Button
                                                 >
                                             {/if}

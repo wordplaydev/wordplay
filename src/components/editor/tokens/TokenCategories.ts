@@ -81,4 +81,33 @@ TokenCategories.set(Sym.TagOpen, TokenCategoryDelimiter);
 TokenCategories.set(Sym.TagClose, TokenCategoryDelimiter);
 TokenCategories.set(Sym.URL, TokenCategoryShare);
 
+// Pattern tokens. The delimiter `⣿` and raw quoted text read like text literals;
+// character classes, quantifiers, anchors, and the other matching operators read
+// like operators. Capture/property names reuse Sym.Name above, so they're already
+// name-colored. (Coloring keys on the token's first Sym type; pattern glyphs that
+// double as other symbols list their Pattern* type first — see PatternTokenPatterns.)
+TokenCategories.set(Sym.PatternDelimiter, TokenCategoryLiteral);
+TokenCategories.set(Sym.PatternText, TokenCategoryLiteral);
+TokenCategories.set(Sym.PatternAny, TokenCategoryOperator);
+TokenCategories.set(Sym.PatternLetter, TokenCategoryOperator);
+TokenCategories.set(Sym.PatternDigit, TokenCategoryOperator);
+TokenCategories.set(Sym.PatternSpace, TokenCategoryOperator);
+TokenCategories.set(Sym.PatternRest, TokenCategoryOperator);
+TokenCategories.set(Sym.PatternWord, TokenCategoryOperator);
+TokenCategories.set(Sym.PatternWordEdge, TokenCategoryOperator);
+TokenCategories.set(Sym.PatternStart, TokenCategoryOperator);
+TokenCategories.set(Sym.PatternEnd, TokenCategoryOperator);
+TokenCategories.set(Sym.PatternAhead, TokenCategoryOperator);
+TokenCategories.set(Sym.PatternBehind, TokenCategoryOperator);
+TokenCategories.set(Sym.PatternFold, TokenCategoryOperator);
+TokenCategories.set(Sym.PatternRange, TokenCategoryOperator);
+TokenCategories.set(Sym.PatternComplement, TokenCategoryOperator);
+TokenCategories.set(Sym.PatternAlternation, TokenCategoryOperator);
+TokenCategories.set(Sym.PatternSlash, TokenCategoryOperator);
+TokenCategories.set(Sym.PatternEqual, TokenCategoryOperator);
+TokenCategories.set(Sym.PatternGreater, TokenCategoryOperator);
+TokenCategories.set(Sym.PatternGreaterEqual, TokenCategoryOperator);
+TokenCategories.set(Sym.PatternLess, TokenCategoryOperator);
+TokenCategories.set(Sym.PatternLessEqual, TokenCategoryOperator);
+
 export default TokenCategories;

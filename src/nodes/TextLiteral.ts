@@ -329,24 +329,54 @@ export default class TextLiteral extends Literal {
     }
 }
 
-export function unescaped(text: string) {
-    // First, replace any \\ with the actual backslash character.
-    text = text.replaceAll('\\\\', '\\');
+const ConceptRegEx = new RegExp(ConceptRegExPattern, 'ug');
+const ConceptAtStart = new RegExp(`^${ConceptRegExPattern}`, 'u');
 
-    // Then, see if there are any Unicode escapes, and replace them with the actual character.
-    for (const { concept, unicode } of getConcepts(text)) {
-        if (unicode) text = text.replace(concept, unicode);
-    }
-
-    return text;
+/**
+ * Resolve `@<codepoint>` references (e.g. `@2713` → ✓) to their characters,
+ * leaving any other `@`-link (`@name`, `@example.com`) as literal text. Shared
+ * by text-literal and markup unescaping, since both render codepoint escapes.
+ */
+export function resolveCodepoints(text: string): string {
+    return text.replace(
+        ConceptRegEx,
+        (ref) => getCodepointFromString(ref.substring(1)) ?? ref,
+    );
 }
 
-const ConceptRegEx = new RegExp(ConceptRegExPattern, 'ug');
-
-function getConcepts(text: string) {
-    return Array.from(text.matchAll(ConceptRegEx)).map((match) => ({
-        concept: match[0],
-        index: match.index,
-        unicode: getCodepointFromString(match[0].substring(1)),
-    }));
+/**
+ * Unescape a text-literal token, scanning left to right so adjacent escapes
+ * don't interfere: `\\`→`\`, `@@`→`@`, and `@<codepoint>`→its character. Because
+ * `@@` is consumed first, `@@2713` is a literal `@` followed by `2713`, not the
+ * codepoint U+2713. (Markup literals use the doubling scheme for every markup
+ * symbol via `unescapeMarkupSymbols`; this is the narrower text-literal scheme.)
+ */
+export function unescaped(text: string): string {
+    let result = '';
+    let index = 0;
+    while (index < text.length) {
+        if (text.startsWith('\\\\', index)) {
+            result += '\\';
+            index += 2;
+        } else if (text.startsWith('@@', index)) {
+            result += '@';
+            index += 2;
+        } else if (text[index] === '@') {
+            const match = ConceptAtStart.exec(text.substring(index));
+            const codepoint = match
+                ? getCodepointFromString(match[0].substring(1))
+                : undefined;
+            if (match !== null && codepoint !== undefined) {
+                result += codepoint;
+                index += match[0].length;
+            } else {
+                result += text[index];
+                index += 1;
+            }
+        } else {
+            result += text[index];
+            index += 1;
+        }
+    }
+    return result;
 }
