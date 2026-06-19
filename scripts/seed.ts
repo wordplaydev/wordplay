@@ -144,6 +144,17 @@ const isAlreadyExists = (err: unknown): boolean => {
     );
 };
 
+/** Whether the error is just the emulator not yet listening on its port. This
+ *  is the expected case while the emulator boots, so we log it quietly rather
+ *  than dumping the whole firebase-admin request object. */
+const isConnectionRefused = (err: unknown): boolean => {
+    const top = err as { code?: string; cause?: { code?: string } } | null;
+    return (
+        top?.code === 'app/network-error' ||
+        top?.cause?.code === 'ECONNREFUSED'
+    );
+};
+
 /** How long to wait for the auth emulator before giving up. CI runners under
  *  load can be slow to bind the auth port, so this is generous (~2 min); it's
  *  well within the e2e job's 60-minute timeout. */
@@ -172,11 +183,16 @@ async function seedUsers(): Promise<void> {
             }
             break;
         } catch (err) {
-            // Surface the underlying error instead of silently retrying — a
-            // non-connection failure (e.g. a firebase-admin API change) would
-            // otherwise be misreported as a timeout after every attempt.
-            if (attempt === 0)
-                console.error('[seed] Auth probe failed, retrying:', err);
+            // A refused connection just means the emulator is still booting, so
+            // note it once on the first attempt as a one-liner. For anything
+            // else (e.g. a firebase-admin API change), surface the full error
+            // instead of misreporting it as a timeout after every attempt.
+            if (attempt === 0) {
+                if (isConnectionRefused(err))
+                    console.log('[seed] Waiting for auth emulator…');
+                else
+                    console.error('[seed] Auth probe failed, retrying:', err);
+            }
             if (attempt === MAX_PROBE_ATTEMPTS - 1) {
                 throw new Error(
                     `[seed] Auth emulator never came up after ${MAX_PROBE_ATTEMPTS} attempts; last error: ${err instanceof Error ? err.message : String(err)}`,
