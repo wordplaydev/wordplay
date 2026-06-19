@@ -123,6 +123,7 @@
         getDropConflicts,
         isDropPermitted,
         isValidDropTarget,
+        resolveReplacementTarget,
     } from '@edit/drag/Drag';
     import Menu, { RevisionSet } from '@edit/menu/Menu';
     import { getEditsAt } from '@edit/menu/PossibleEdits';
@@ -696,6 +697,13 @@
     // only re-simulate the drop (and re-render the explanation) when the pointer moves to a new target.
     let lastDragTargetKey: string | undefined = undefined;
 
+    // Memo for resolveReplacementTarget keyed on (raw node under pointer, dragged node), so the
+    // ancestor walk and its drop simulations run only when the raw node under the pointer changes,
+    // not on every pointer move while parked over a node. Reset on drag end.
+    let lastResolvedTarget:
+        | { underId: number; draggedId: number; resolved: Node }
+        | undefined = undefined;
+
     // Whether dropping on the current under-pointer target is permitted (no blocking conflict). Computed
     // once per target by updateDragFeedback and read by the highlight pass to gate the 'match' highlight.
     let currentTargetPermitted = $state(true);
@@ -864,6 +872,7 @@
         dragPoint = undefined;
         dragStartPosition = undefined;
         lastDragTargetKey = undefined;
+        lastResolvedTarget = undefined;
 
         // Cancel any pending touch long-press.
         clearDragLongPress();
@@ -1324,14 +1333,45 @@
         if (!evaluator.isPlaying()) handleDebugHover(event);
     }
 
+    /** resolveReplacementTarget memoized on (raw node, dragged node) — see lastResolvedTarget. */
+    function resolveReplacementTargetMemoized(under: Node, dragged: Node): Node {
+        if (
+            lastResolvedTarget !== undefined &&
+            lastResolvedTarget.underId === under.id &&
+            lastResolvedTarget.draggedId === dragged.id
+        )
+            return lastResolvedTarget.resolved;
+        const resolved = resolveReplacementTarget(
+            project,
+            source,
+            dragged,
+            under,
+        );
+        lastResolvedTarget = {
+            underId: under.id,
+            draggedId: dragged.id,
+            resolved,
+        };
+        return resolved;
+    }
+
     function handleEditHover(event: PointerEvent) {
         if (editor === null) return;
 
         // Update the selecting state
         selectingWithShift = event.shiftKey && dragCandidate === undefined;
 
-        // By default, set the hovered state to whatever node is under the mouse.
-        hovered.set(getNodeAt(source, event, false));
+        // By default, set the hovered state to whatever node is under the mouse. While dragging,
+        // elevate it to the smallest enclosing node the drop is permitted on, so dropping on a
+        // node whose most-specific view can't accept the drag (e.g. a call's function name) replaces
+        // the enclosing node that can. Memoized so the ancestor walk only runs when the raw node
+        // under the pointer changes.
+        const under = getNodeAt(source, event, false);
+        hovered.set(
+            editable && $dragged !== undefined && under !== undefined
+                ? resolveReplacementTargetMemoized(under, $dragged)
+                : under,
+        );
         hoveredAny.set(getNodeAt(source, event, true));
 
         // If we have a drag candidate and it's past 5 pixels from the start point, set the insertion points to whatever points are under the mouse.

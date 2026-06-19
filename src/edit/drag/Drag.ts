@@ -449,3 +449,25 @@ export function isDropPermitted(
         getBlockingDropConflicts(project, source, dragged, target).length === 0
     );
 }
+
+/**
+ * The node a drop should actually replace when the pointer is over `hovered`. In blocks mode the
+ * most-specific node under the pointer (e.g. a call's function name) often can't accept the dragged
+ * node even though an enclosing node can. Walk from `hovered` outward and return the SMALLEST
+ * enclosing node the drop is permitted on (structurally valid + no blocking conflict). A permitted
+ * `hovered` (including a permitted warning-level mismatch) returns unchanged; if nothing in the chain
+ * is permitted, return `hovered` so the original rejection is still explained.
+ */
+export function resolveReplacementTarget(
+    project: Project,
+    source: Source,
+    dragged: Node,
+    hovered: Node,
+): Node {
+    const root = project.getRoot(hovered);
+    if (root === undefined) return hovered;
+    for (const candidate of root.getSelfAndAncestors(hovered))
+        if (isDropPermitted(project, source, dragged, candidate))
+            return candidate;
+    return hovered;
+}

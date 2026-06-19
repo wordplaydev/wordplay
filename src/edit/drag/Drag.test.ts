@@ -18,6 +18,7 @@ import {
     InsertionPoint,
     isDropPermitted,
     isValidDropTarget,
+    resolveReplacementTarget,
 } from '@edit/drag/Drag';
 
 test.each([
@@ -374,4 +375,56 @@ test('dropping a structure into a wrong-typed function input is blocked', () => 
             (c) => c.constructor.name,
         ),
     ).toContain('IncompatibleInput');
+});
+
+test('resolveReplacementTarget elevates a blocked drop on a function name to the enclosing call', () => {
+    // The reported defect: in blocks mode the pointer over ⬇ resolves to the call's function name
+    // (Evaluate.fun), where dropping Row() is blocked (a non-function in function position). It must
+    // elevate to the whole ⬇() call, which accepts a Row.
+    const source = new Source('test', 'Group(⬇() [])');
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const dragged = parseExpression(toTokens('Row()'));
+    // nodes() is post-order, so the inner ⬇() call is the first Evaluate; Group is the second.
+    const stack = source.find<Evaluate>(Evaluate, 0); // the ⬇() call
+
+    const fun = stack.fun; // the ⬇ Reference
+    expect(isDropPermitted(project, source, dragged, fun)).toBe(false);
+    const resolved = resolveReplacementTarget(project, source, dragged, fun);
+    expect(resolved).toBe(stack);
+    expect(isDropPermitted(project, source, dragged, resolved)).toBe(true);
+    const [newProject] = dropNodeOnSource(project, source, dragged, resolved);
+    expect(newProject.getMain().toWordplay()).toBe('Group(Row() [])');
+});
+
+test('resolveReplacementTarget keeps a permitted direct target', () => {
+    const source = new Source('test', '1 + _');
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const dragged = parseExpression(toTokens('2'));
+    const target = source.find(ExpressionPlaceholder);
+    expect(resolveReplacementTarget(project, source, dragged, target)).toBe(
+        target,
+    );
+});
+
+test('resolveReplacementTarget does not elevate a permitted function-name replacement (rename)', () => {
+    // Dropping a valid function name onto a call's name yields Group(Row() []), which is valid, so
+    // the drop stays on the name and replaces just it — no elevation.
+    const source = new Source('test', 'Group(⬇() [])');
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const dragged = parseExpression(toTokens('Row')); // a bare function name
+    const stack = source.find<Evaluate>(Evaluate, 0); // the ⬇() call
+    const fun = stack.fun;
+    expect(isDropPermitted(project, source, dragged, fun)).toBe(true);
+    expect(resolveReplacementTarget(project, source, dragged, fun)).toBe(fun);
+});
+
+test('resolveReplacementTarget returns the hovered node when no ancestor accepts the drop', () => {
+    // An unknown name is a blocking error at every level of the chain, so there is nothing to
+    // elevate to; the hovered node is returned so the original rejection is still explained.
+    const source = new Source('test', 'Group(⬇() [])');
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const dragged = parseExpression(toTokens('saddf'));
+    const stack = source.find<Evaluate>(Evaluate, 0); // the ⬇() call
+    const fun = stack.fun;
+    expect(resolveReplacementTarget(project, source, dragged, fun)).toBe(fun);
 });
