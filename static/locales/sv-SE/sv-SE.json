@@ -325,8 +325,8 @@
             "description": "$~$label",
             "emotion": "neutral",
             "doc": [
-                "$~Hur hittade du mig?",
-                "$~Jag är den minsta möjliga delen av en föreställning. Jag är substratet från vilket alla karaktärer i Versen är gjorda. Jag är atompartikeln i vår koreografi."
+                "$~Jag är den minsta möjliga delen av en föreställning – atomen som alla karaktärer i Versen är gjorda av. Hur hittade du mig?",
+                "$~Jag är substratet från vilket alla karaktärer i Versen är gjorda. Jag är atompartikeln i vår koreografi."
             ]
         },
         "TypeInputs": {
@@ -435,8 +435,11 @@
             "description": "$~visar körbar kod i dokumentation",
             "emotion": "serious",
             "doc": [
-                "$~Jag är ett exempel på prestanda, användbart för att skriva @Doc som förklarar hur man använder något!",
-                "$~\\¶Här är ett exempel på att lägga till: \\1 + 1\\¶'exempelkod'\\"
+                "$~Jag har ett exempel på en kodbit i ett @Doc , så här:",
+                "$~\\¶Here's an example of adding: \\ 1 + 2 \\¶3 + 4\\",
+                "$~Om du använder exempel i dina instruktionsböcker kan du markera ett exempel som en höjdpunkt.",
+                "$~\\¶Here's a highlighted example: \\ 1 + 2 \\⭐¶3 + 4\\",
+                "$~Det markerade exemplet visas som en förhandsvisning i instruktionsutrymmet och guiden."
             ]
         },
         "Mention": {
@@ -592,22 +595,22 @@
             "description": "$~$count uttalanden",
             "emotion": "shy",
             "doc": [
-                "$~Hej. Jag skapar ett litet tyst, privat utrymme för att utvärdera saker.",
+                "$~Jag skapar ett litet tyst, privat utrymme för att utvärdera saker. Hej!",
                 "$~Så här:",
                 "$~\\(1 - 1) + 2\\",
                 "$~Det hjälper till att förtydliga utvärderingsordningen.",
                 "$~@Bind hjälper också.",
                 "$~\\(count: 10 count ^ count)\\",
-                "$~Se hur @Bind gjorde \\count\\? Det heter bara inom mig. Så det här kommer inte att fungera:",
+                "$~Ser du hur @Bind skapade \\count\\ ? Det heter bara inom mig. Så det här kommer inte att fungera:",
                 "$~\\(count: 10 count ^ count) + count\\",
-                "$~För greven hette bara inom mig.",
-                "Om du ger mig ett uttryck ger jag dig bara tillbaka dess värde:",
-                "\\(1 + 1)\\",
-                "Om du ger mig fler än ett samlar jag dem i en lista, i ordning:",
-                "\\(1 2 3 4 5)\\",
-                "@Bind-satser är sidoeffekter, inte värden, så de visas inte i listan:",
-                "\\(\n  a: 1\n  b: 2\n  a + b\n  a × b\n)\\",
-                "Det ger \\[3 2]\\: bara värdena från de två uttrycken som inte är @Bind."
+                "$~För att greve bara namngavs inom mig.",
+                "$~Om du ger mig ett uttryck, ger jag dig bara tillbaka dess värde:",
+                "$~\\(1 + 1)\\",
+                "$~Om du ger mig fler än en, samlar jag dem i en lista, i ordning:",
+                "$~\\(1 2 3 4 5)\\",
+                "$~@Bind -satser är biverkningar, inte värden, så de visas inte i listan:",
+                "$~\\(\n  a: 1\n  b: 2\n  a + b\n  a × b\n)\\",
+                "$~Det ger \\[3 2]\\ : bara värdena från de två uttrycken som inte är @Bind ."
             ],
             "start": "$~Första uttrycket",
             "finish": "$~Klart, jag fick $value",
@@ -633,7 +636,7 @@
             "name": "$~låna",
             "description": "$~låna $name[$name|namn saknas]",
             "emotion": "excited",
-            "doc": "$~Om du skapar en föreställning med flera @Source, kan du använda mig för att låna @Bind som delas i de andra @Source. Använd bara deras namn så tar jag in deras namn och värde.",
+            "doc": "$~Jag lånar @Bind som delas av andra @Source i ditt framträdande — använd bara deras namn så tar jag med deras namn och värde.",
             "start": "$~Lånar $name från $source",
             "conflict": {
                 "UnknownBorrow": {
@@ -679,11 +682,11 @@
             "description": "$~kontrollerar villkor och utvärderar ett av två uttryck",
             "emotion": "curious",
             "doc": [
-                "$~Jag tror att jag ska fatta beslut? Så här?",
-                "$~\\nummer: -100\nnummer < 0 ? 'negativ' 'positiv'\\",
-                "$~Men har du någonsin tänkt på hur vi bestämmer?",
-                "$~Verkar det inte som att beslut borde vara mer nyanserade än bara ja eller nej? Är det bara att välja mellan \\⊤\\ och \\⊥\\?",
-                "$~Är du inte orolig för att om det här är den enda typen av beslut vi kan fatta, kommer vi att sakna något viktigt sammanhang om världen?"
+                "$~Ska jag ge dig ett värde eller ett annat, beroende på ett visst villkor? Så här?",
+                "$~\\number: -100\nnumber < 0 ? 'negative' 'positive'\\",
+                "$~Men har du någonsin funderat på hur vi bestämmer oss?",
+                "$~Verkar det inte som att beslut borde vara mer nyanserade än bara ja eller nej? Är det allt som finns att välja mellan \\⊤\\ och \\⊥\\ ?",
+                "$~Är du inte orolig att om det här är de enda besluten vi kan fatta, så kommer vi att missa en del viktig information om världen?"
             ],
             "start": "$~Låt oss se om $condition är sant",
             "else": "$~$jumping[hoppa över kod | hoppar inte över koden]",
@@ -741,13 +744,13 @@
             "description": "$~konverterar värde till en annan typ",
             "emotion": "cheerful",
             "doc": [
-                "$~Yo. Jag vänder värden från en typ till en annan. Kolla in det:",
+                "$~Jag omvandlar värden från en typ till en annan. Kolla in det:",
                 "$~\\1 → \"\"\\",
                 "$~\\5s → #ms\\",
-                "$~\\\"hej\" → []\\",
-                "$~Du kan till och med koppla ihop dessa:",
-                "$~\\\"hej\" → [] → {}\\",
-                "$~Värden har en uppsättning @ConversionDefinition som är fördefinierade, men om du gör en @StructureDefinition för en ny typ av värde kan du definiera din egen med @ConversionDefinition."
+                "$~\\\"hello\" → []\\",
+                "$~Du kan till och med kedja ihop dessa:",
+                "$~\\\"hello\" → [] → {}\\",
+                "$~Värden har en uppsättning @ConversionDefinition som är fördefinierade, men om du skapar en @StructureDefinition för en ny typ av värde kan du definiera din egen med @ConversionDefinition ."
             ],
             "start": "$~Få det värdet från $expression!",
             "finish": "$~Fantastiskt, jag tjänade $value",
@@ -770,10 +773,10 @@
             "description": "$~tar bort matchande rader från tabellen",
             "emotion": "angry",
             "doc": [
-                "$~Ibland har man ett bord och det HAR BARA FÖR MYCKET I DET!",
-                "$~Som om du hade några spelare i ett spel och en kvar och du bara ville säga GÅ BORTA SPELAREN, GÅ UT FRÅN MITT BORD!",
-                "$~\\spelare: ⎡namn•'' lag•'' poäng•#⎦\n⎡'jen' 'röd' 8⎦\n⎡'joan' 'blå' 11⎦\n⎡'jeff' 'röd' 9⎦\n⎡'janet' 'blå' 7⎦\nspelare ⎡- namn = 'jeff'\\",
-                "$~Puh, Jeff är borta. HEJJ JEFF. Kom bara ihåg att jag inte ändrar originalbordet, jag gör ett nytt, utan JEFF. Du bestämmer vart det går."
+                "$~Jag tar bort raderna i en @Table som matchar ett villkor. Ibland INNEHÅLLER EN TABELL HELT HELT FÖR MYCKET!",
+                "$~Som om du hade några spelare i ett spel och en kvar och du bara ville säga GÅ BORT SPELARE, GICK FRÅN MITT BORD!",
+                "$~\\players: ⎡name•'' team•'' points•#⎦\n⎡'jen' 'red' 8⎦\n⎡'joan' 'blue' 11⎦\n⎡'jeff' 'red' 9⎦\n⎡'janet' 'blue' 7⎦\nplayers ⎡- name = 'jeff'\\",
+                "$~Puh, Jeff är borta. HEJDÅ JEFF. Kom bara ihåg att jag inte ändrar den ursprungliga tabellen, jag skapar en ny, utan JEFF. Du bestämmer var den ska vara."
             ],
             "start": "$~Låt oss ta bordet först",
             "finish": "$~Jag gjorde ett nytt bord utan de matchande raderna!"
@@ -795,15 +798,15 @@
             "description": "$~$structure[skapa $name[$name|] värde med dessa indata|$stream[skapa $name[$name|] ström med dessa indata|tillämpa $name[$name|funktion] på dessa indata]]",
             "emotion": "shy",
             "doc": [
-                "$~Hej. Jag utvärderar min käraste @FunctionDefinition. Så här:",
-                "$~\\ƒ hälsning(meddelande•'')\nhälsning('kisse')\\",
-                "$~Funktioner kan komma från var som helst. Till exempel har @Text funktioner. Så här:",
+                "$~Jag utvärderar min käraste @FunctionDefinition , ger den input och följer dess steg. Hej! Så här:",
+                "$~\\ƒ greeting(message•'')\ngreeting('kitty')\\",
+                "$~Funktioner kan komma ifrån var som helst. Till exempel har @Text funktioner. Så här:",
                 "$~\\'kitty'.length()\\",
-                "$~Om en funktion har ett enda symbolnamn kan du skriva mig som en @BinaryEvaluate.",
+                "$~Om en funktion har ett enda symbolnamn kan du skriva mig som en @BinaryEvaluate .",
                 "$~\\'kitty' ⊆ 'itty'\\",
                 "$~Det gör samma sak som detta:",
-                "$~\\'kisse'.⊆('itty')\\",
-                "$~Självklart är jag ingenting utan @FunctionDefinition. Allt jag gör är att ge dem input och sedan följa deras steg."
+                "$~\\'kitty'.⊆('itty')\\",
+                "$~Självklart är jag ingenting utan @FunctionDefinition . Allt jag gör är att ge dem input och sedan följa deras steg."
             ],
             "start": "$~Låt oss först utvärdera ingångarna",
             "evaluate": "$~låt oss utvärdera funktionen nu",
@@ -922,20 +925,20 @@
             "description": "$~funktion $name",
             "emotion": "kind",
             "doc": [
-                "$~Hej igen! Jag tar några ingångar, utvärderar sedan ett uttryck med hjälp av dem och producerar en utdata.",
+                "$~Jag tar några indata och utvärderar sedan ett uttryck med hjälp av dem, vilket ger en utdata. Hej igen!",
                 "$~Här är ett enkelt exempel:",
-                "$~\\ƒ upprepa(meddelande•'') meddelande × 5\nrepeat('hej')\\",
-                "$~Den funktionen tar en ingång, \\meddelande\\, och använder @Text.repeat-funktionen för att upprepa meddelandet fem gånger.",
-                "$~Jag är verkligen behjälplig om du vill utvärdera något om och om igen, men med olika input!",
-                "$~Jag har många andra små knep. Jag behöver till exempel inte ha ett namn. Här går jag bara direkt till @Evaluate som ett värde.",
-                "$~\\(ƒ(meddelande•'') meddelande × 5)('hej')\\",
-                "$~Eller här är en funktion som tar valfritt antal ingångar, med tecknet \\...\\ efter ett ingångsnamn.",
-                "$~\\ƒ yes(meddelanden...•'') messages.sans('no')\nyes('yes' 'yes' 'no' 'yes' 'no')\\",
-                "$~Se hur det tog alla nej och blev av med dem? Det beror på att meddelanden är en @List, och därför skulle vi kunna använda @List.sansAll.",
-                "$~Ibland kanske du vill göra det tydligt vilken typ av värde jag producerar. För att göra det, lägg till ett @Is efter listan med ingångar:",
+                "$~\\ƒ repeat(message•'') message × 5\nrepeat('hi')\\",
+                "$~Den funktionen tar en indata, \\message\\ , och använder funktionen @Text.repeat för att upprepa meddelandet fem gånger.",
+                "$~Jag är verkligen till hjälp om du vill utvärdera något om och om igen, men med olika input!",
+                "$~Jag har massor av andra små knep. Till exempel behöver jag inte ha ett namn. Här går jag bara direkt till @Evaluate som ett värde.",
+                "$~\\(ƒ(message•'') message × 5)('hi')\\",
+                "$~Eller, här är en funktion som tar emot valfritt antal indata, med hjälp av tecknet \\…\\ efter ett indatanamn.",
+                "$~\\ƒ yes(messages…•'') messages.sans('no')\nyes('yes' 'yes' 'no' 'yes' 'no')\\",
+                "$~Ser du hur den tog alla 'nej' och gjorde sig av med dem? Det beror på att messages är en @List , och därför skulle vi kunna använda @List.sansAll .",
+                "$~Ibland kanske du vill förtydliga vilken typ av värde jag producerar. För att göra det, lägg till ett @Is efter listan med indata:",
                 "$~\\ƒ add(x•# y•#)•'' x + y\\",
-                "$~Du kanske märker ett problem med den här: den säger att den utvärderas till @Text, men det tar två @Number. Jag kan berätta när saker och ting är inkonsekventa!",
-                "$~Självklart är jag inte alls användbar utan @Evaluate; de ger mig liv."
+                "$~Du kanske märker ett problem med den här: den säger att den utvärderas till @Text , men den tar två @Number . Jag kan säga till dig när saker och ting är inkonsekventa!",
+                "$~Självklart är jag inte alls användbar utan @Evaluate ; de väcker mig till liv."
             ],
             "start": "$~Låt oss göra den här funktionen!",
             "conflict": {
@@ -978,10 +981,10 @@
             "description": "$~lägger till en rad i en tabell",
             "emotion": "kind",
             "doc": [
-                "$~Du vet när du har ett @Table och det bara känns som att det saknas något? Jag kan lägga till det!",
-                "$~Föreställ dig att du hade en tabell med spelare i ett spel och du ville lägga till en ny:",
-                "$~\\spelare: ⎡namn•'' lag•'' poäng•#⎦\n⎡'jen' 'röd' 1⎦\n⎡'joan' 'blå' 0⎦\n⎡'jeff' 'röd' 3⎦\n⎡'janet' 'blå' 2⎦\nspelare ⎡+ 'jason' 'röd' 0⎦\\",
-                "$~Kom bara ihåg, som allt i Versen, jag ändrar inte en tabell, jag reviderar den. Så du måste ta reda på var du vill placera den reviderade tabellen du gör. Med största sannolikhet vill du revidera en tabell i en @Reaction till någon input och lagra den i en @Bind."
+                "$~Jag lägger till en ny rad i en @Table . Du vet när en tabell bara känns som att den saknar något? Jag kan lägga till det!",
+                "$~Tänk dig att du hade en tabell med spelare i ett spel och du ville lägga till en ny:",
+                "$~\\players: ⎡name•'' team•'' points•#⎦\n⎡'jen' 'red' 1⎦\n⎡'joan' 'blue' 0⎦\n⎡'jeff' 'red' 3⎦\n⎡'janet' 'blue' 2⎦\nplayers ⎡+ 'jason' 'red' 0⎦\\",
+                "$~Kom bara ihåg, precis som med allt annat i Verse, så ändrar jag inte en tabell, jag reviderar den. Så du måste lista ut var du vill placera den reviderade tabellen du skapar. Troligtvis vill du revidera en tabell i en @Reaction på någon indata och lagra den i en @Bind ."
             ],
             "start": "$~Låt oss hitta tabellen att uppdatera",
             "finish": "$~Jag gjorde en ny tabell med reviderade rader!"
@@ -991,13 +994,13 @@
             "description": "$~kontrollera om värdet är av typen $type",
             "emotion": "curious",
             "doc": [
-                "$~Vet du vad? Det finns så många sorters värderingar som betyder så många olika saker. Jag hjälper till att ta reda på vad de är.",
-                "$~Anta till exempel att du hade ett mysteriumvärde. Jag kan berätta för dig om det är ett @Number, vilket ger dig ett @Boolean:",
-                "$~\\mystery: 'hemlig!'\nmysterium•#\\",
-                "$~Det är inte ett nummer, så jag gjorde \\⊥\\. Men om vi kollar om det är @TextType?",
-                "$~\\mystery: 'hemlig!'\nmysterium•''\\",
-                "$~Vi får \\⊤\\!",
-                "$~Jag är verkligen till hjälp när du behöver veta om något @Name har ett värde av ett visst slag."
+                "$~Jag kontrollerar om ett värde är av en viss typ, vilket ger dig en @Boolean . Det finns så många typer av värden som betyder så många olika saker – jag hjälper till att lista ut vad de är.",
+                "$~Anta till exempel att du har ett mysterievärde. Jag kan säga om det är ett @Number , vilket ger dig ett @Boolean :",
+                "$~\\mystery: 'secret!'\nmystery•#\\",
+                "$~Det är inte ett tal, så jag gjorde \\⊥\\ . Men om vi kontrollerar om det är @TextType ?",
+                "$~\\mystery: 'secret!'\nmystery•''\\",
+                "$~Vi får \\⊤\\ !",
+                "$~Jag är verkligen hjälpsam när du behöver veta om ett @Name har ett värde av ett visst slag."
             ],
             "start": "$~Låt oss först få värdet på $expression",
             "finish": "$~$value[värdet är $type|värdet är inte $type]",
@@ -1052,8 +1055,8 @@
             "description": "$~expanderar lista till en annan lista",
             "emotion": "serious",
             "doc": [
-                "$~En hjälp för att göra listor med värden från andra listor. Så här:",
-                "$~\\list: [1 2 3]\nfinal: [:lista 4 5 6]\\"
+                "$~Jag hjälper dig att bygga en @List från värdena från andra listor. Så här:",
+                "$~\\list: [1 2 3]\nfinal: [:list 4 5 6]\\"
             ]
         },
         "MapLiteral": {
@@ -1079,12 +1082,12 @@
             "description": "$~jämför värde med flera fall",
             "emotion": "curious",
             "doc": [
-                "$~Jag är den härligaste av alla villkorade kontroller! Jag tar ett värde och jämför det med valfritt antal fall, och utvärderar motsvarande uttryck som matchar.",
-                "$~Om du till exempel hade ett @Number och ville konvertera det till en @Text, kan du göra något så här:",
-                "$~\\nummer: 2\nnummer??? 1: 'en' 2: 'två' 3: 'tre' 'större!'\\",
-                "$~Om ingen matchar, utvärderar jag standarduttrycket du ger mig.",
-                "$~Jag är verkligen till hjälp för att omvandla ett av många möjliga @Number, @Text eller mer komplexa värden till något annat.",
-                "$~Du kan använda det för @Boolean eller @Boolean, men de kan egentligen inte vara så många saker, så jag är inte lika användbar för de enkla värdena."
+                "$~Jag är den mest ärorika av villkorliga kontroller: jag tar ett värde, jämför det med valfritt antal fall och utvärderar det som matchar!",
+                "$~Om du till exempel hade ett @Number och ville konvertera det till en @Text kan du göra något liknande:",
+                "$~\\number: 2\nnumber ??? 1: 'one' 2: 'two' 3: 'three' 'bigger!'\\",
+                "$~Om ingen matchar utvärderar jag standarduttrycket du ger mig.",
+                "$~Jag är verkligen hjälpsam för att konvertera ett av många möjliga @Number , @Text eller mer komplexa värden till något annat.",
+                "$~Du kan använda den för @Boolean eller @None , men de kan egentligen inte vara så många saker, så jag är inte lika användbar för de enkla värdena."
             ],
             "start": "$~Låt oss se vad $value är...",
             "case": "$~Låt oss kontrollera detta tillstånd",
@@ -1112,14 +1115,14 @@
             "name": "$~inreuttryck",
             "description": "$~kör ett inbyggt skaparuttryck",
             "emotion": "neutral",
-            "doc": "$~Hur hittade du mig? Jag är ett uttryck som bara de ursprungliga skaparna använder. För att lära dig mer om mig måste du prata med dem.",
+            "doc": "$~Jag är ett uttryck som bara de ursprungliga skaparna använder. Hur hittade du mig? För att lära dig mer om mig måste du prata med dem.",
             "start": "$~Hemligt uttryck"
         },
         "NoneLiteral": {
             "name": "$~ingenbokstavlig",
             "description": "$~skapar ingenting-värdet",
             "emotion": "neutral",
-            "doc": "$~/@FunctionDefinition här. Det här är bara @FunctionDefinition. De är unika! Se @FunctionDefinition för att lära dig mer om dem.",
+            "doc": "$~Jag skapar @None , det unika ingenting-värdet. Se @None för att lära dig mer om dem.",
             "start": "$~… ø"
         },
         "Otherwise": {
@@ -1127,8 +1130,8 @@
             "description": "$~ger reservvärde om inget finns",
             "emotion": "curious",
             "doc": [
-                "$~/@FunctionDefinition här. Det här är ett praktiskt sätt att kontrollera om ett värde är @FunctionDefinition, och om det är det, ange ett reservvärde./",
-                "$~/Om du till exempel hade ett värde som kan vara ett @Number eller @Number, hjälper @None dig att ge ett standardnummer:",
+                "$~Jag kontrollerar om ett värde är @None , och om det är det ger jag dig ett reservvärde istället.",
+                "$~/Om du till exempel hade ett värde som kunde vara ett @Number eller @None , hjälper @Otherwise dig att ange ett standardnummer:",
                 "$~\\maybeNumber•#|ø: 1 maybeNumber ?? 0\\"
             ],
             "start": "$~ø ??",
@@ -1139,15 +1142,15 @@
             "description": "$~hämtar föregående värde i strömmen",
             "emotion": "serious",
             "doc": [
-                "$~Har du någonsin velat minnas det förflutna?",
-                "$~Jag är Versens officiella rekordhållare. Ge mig en ström och ett nummer för att se bakåt så ska jag berätta vad strömmen hade för värde i historien.",
-                "$~Till exempel, här är vad @Time it was fem ticks sedan:",
-                "$~\\← 5 tid (1000 ms)\\",
-                "$~Se hur det är @None i 5 sekunder, sedan plötsligt en tidigare gång?",
-                "$~Om du vill ha de sista värdena, ge mig till pilar, så tolkar jag siffran som en räkning:",
-                "$~\\←← 5 tid(1000ms)\\",
-                "$~Se hur det är de fem föregående gångerna, istället för bara en gång?",
-                "$~Jag är behjälplig när du vill skapa föreställningar som är beroende av det förflutna."
+                "$~Jag tittar tillbaka på en ströms historia och berättar om ett av dess tidigare värden. Har du någonsin velat minnas det förflutna?",
+                "$~Jag är Versens officiella registerförare!",
+                "$~Till exempel, här är vad @Time var för fem ticks sedan:",
+                "$~\\← 5 Time(1000ms)\\",
+                "$~Ser du hur det är @None i 5 sekunder, och sedan plötsligt en tidigare gång?",
+                "$~Om du vill ha de sista värdena, ge mig två pilar, så tolkar jag talet som ett antal:",
+                "$~\\←← 5 Time(1000ms)\\",
+                "$~Ser du hur det är de fem föregående gångerna, istället för bara en gång?",
+                "$~Jag är till hjälp när du vill skapa föreställningar som är beroende av det förflutna."
             ],
             "start": "$~Få först $stream",
             "finish": "$~Utvärderad till strömvärde $value",
@@ -1209,10 +1212,10 @@
             "description": "$~förfina $name[$name|namn saknas]",
             "emotion": "kind",
             "doc": [
-                "$~Ibland när du gör en @StructureDefinition vill du ändra det minsta med den, utan att behöva göra en ny med samma värden.",
-                "$~Tänk till exempel om du förde ett register över katter, men sedan ville skapa en kopia av en katt med en annan hobby? Jag kan hjälpa dig att ändra det:",
-                "$~\\•Cat(namn•'' färg•'' hobby•'')\n\nkitty: Cat('stänker' 'orange' 'slickar')\nkitty.hobby:'purring'\\",
-                "$~Det är så mycket enklare än att göra en helt ny \\Cat\\ med samma värden förutom hobbyn, eller hur?"
+                "$~Jag gör en kopia av ett @StructureDefinition -värde med bara en egenskap ändrad — inget behov av att bygga om hela saken med samma värden.",
+                "$~Tänk om du till exempel förde register över katter, men sedan ville skapa en kopia av en katt med en annan hobby? Jag kan hjälpa dig att ändra det:",
+                "$~\\•Cat(name•'' color•'' hobby•'')\n\nkitty: Cat('sprinkles' 'orange' 'licking')\nkitty.hobby:'purring'\\",
+                "$~Det är så mycket enklare än att skapa en helt ny \\Cat\\ med samma värderingar förutom hobbyn, eller hur?"
             ],
             "start": "$~Låt oss först ta reda på värdet",
             "finish": "$~Jag kopierade strukturen, men med $property som $value",
@@ -1233,9 +1236,9 @@
             "description": "$~egenskap $name[$name|namn saknas]",
             "emotion": "kind",
             "doc": [
-                "$~När du gör en @StructureDefinition, hur får du en av dess ingångar? Jag är hur",
-                "$~Som om du hade en struktur om städer, skulle du kunna få dess värden hos mig så här:",
-                "$~\\•Stad(namn•'' befolkning•#people)\n\nportland: City('Portland' 800 000 personer)\n\nportland.population\\"
+                "$~Jag får en av egenskaperna för ett @StructureDefinition -värde åt dig.",
+                "$~Om du hade en struktur om städer, skulle du kunna få dess värden med mig så här:",
+                "$~\\•City(name•'' population•#people)\n\nportland: City('Portland' 800000people)\n\nportland.population\\"
             ],
             "start": "$~Låt oss först ta reda på värdet",
             "finish": "$~Hittade egenskapen $property, den är $value",
@@ -1248,11 +1251,11 @@
             "description": "$~skapar ett värde vid strömändring",
             "emotion": "excited",
             "doc": [
-                "$~Strömmar är så fantastiska! Jag kan göra nya baserat på när de ändras, vilket är supercoolt!",
-                "$~Som, om du ville att @Time ska bocka, men som, för att visa ord istället för siffror, kan du göra något så här:",
-                "$~\\time: Time(1000ms)\n'start' … ∆ tid … ((tid % 2) = 0ms) ? 'jämn' 'udda'\\",
-                "$~Det är som att säga \"/börja med ordet 'start' och sedan om tiden ändras, ändra till antingen jämnt eller udda, baserat på tiden./\"",
-                "$~Så jag är som en ström till, men en baserad på andra strömmar. elak, va?"
+                "$~Jag skapar en ny stream som uppdateras när en annan stream ändras. Streams är så grymma!",
+                "$~Om du vill att @Time ska ticka, men visa ord istället för siffror, kan du göra något liknande:",
+                "$~\\time: Time(1000ms)\n'start' … ∆ time … ((time % 2) = 0ms) ? 'even' 'odd'\\",
+                "$~Det är som att säga \"/börjar med ordet 'börjar' och sedan, om tiden ändras, ändras till antingen jämnt eller udda, baserat på tiden.\"",
+                "$~Så jag är liksom en stream också, men en baserad på andra streams. Ond, va?"
             ],
             "start": "$~Låt oss se om vi ska uppdatera strömmen",
             "finish": "$~Det nya streamvärdet är $value",
@@ -1274,10 +1277,10 @@
             "description": "$~$name",
             "emotion": "shy",
             "doc": [
-                "$~Vet du hur @Bind ger saker @Bind? Jag är hur du refererar till dem. Jag ser om någon @Bind har det namnet, om så är fallet, ge dig dess värde. Så här:",
-                "$~\\papegoja: 'polly'\npapegoja\\",
-                "$~Om jag inte hittar namnet så vet jag inte vad jag ska göra.",
-                "$~\\papegoja: 'polly'\npäronvin\\"
+                "$~Jag refererar till ett värde med dess @Name : Jag hittar @Bind med det namnet och ger dig dess värde. Så här:",
+                "$~\\parrot: 'polly'\nparrot\\",
+                "$~Om jag inte hittar namnet, då vet jag inte vad jag ska göra.",
+                "$~\\parrot: 'polly'\nperry\\"
             ],
             "start": "$~Vilket värde har $name?",
             "conflict": {
@@ -1311,10 +1314,10 @@
             "description": "$~filtrerar matchande rader från tabellen",
             "emotion": "excited",
             "doc": [
-                "$~Ibland har man ett bord och vill bara ha en del av det. Jag kan hämta det åt dig!",
-                "$~Tänk om du hade en tabell med spelare i ett spel och du ville hitta de med 10 eller fler poäng för att se vem som vann:",
-                "$~\\spelare: ⎡namn•'' lag•'' poäng•#⎦\n⎡'jen' 'röd' 8⎦\n⎡'joan' 'blå' 11⎦\n⎡'jeff' 'röd' 9⎦\n⎡'janet' 'blå' 7⎦\nspelare ⎡? namn ⎦ poäng ≥ 10\\",
-                "$~Precis så fick jag en lista med rader med vinnare! Kom bara ihåg att jag inte byter bord, jag gör en ny. Du måste bestämma var du ska behålla den."
+                "$~Jag väljer de rader i en @Table som matchar ett villkor. Ibland vill man bara ha en del av en tabell – jag kan ordna det åt dig!",
+                "$~Precis som om du hade en tabell över spelare i ett spel och ville hitta de med 10 eller fler poäng för att se vem som vann:",
+                "$~\\players: ⎡name•'' team•'' points•#⎦\n⎡'jen' 'red' 8⎦\n⎡'joan' 'blue' 11⎦\n⎡'jeff' 'red' 9⎦\n⎡'janet' 'blue' 7⎦\nplayers ⎡? name ⎦ points ≥ 10\\",
+                "$~Bara sådär, jag fick en lista med rader av vinnare! Kom bara ihåg att jag inte ändrar tabellen, jag skapar en ny. Du måste bestämma var du vill ha den."
             ],
             "start": "$~Låt oss ta bordet först",
             "finish": "$~Jag gjorde en ny tabell med bara de valda raderna och kolumnerna!",
@@ -1370,16 +1373,16 @@
             "description": "$~namnger en programkällfil",
             "emotion": "curious",
             "doc": [
-                "$~Åh, du vet @Program? Jag hjälper dig att namnge dem. Tänk på mig som fönstret runt ett @Program och namnet du ger dem.",
-                "$~Du kan också skapa andra @Source @UI/addSource, med andra @Program, och @Source saker från de andra @Program för användning i ett annat program.",
-                "$~Detta kan vara ett bra sätt att organisera en stor föreställning i separata dokument."
+                "$~Jag är det namngivna fönstret runt ett @Program — jag ger det ett namn och lagrar dess kod. Du vet @Program ? Jag hjälper dig att namnge dem.",
+                "$~Du kan också skapa andra @Source @UI/addSource , med andra @Program , och @Borrow saker från de andra @Program för användning i ett annat program.",
+                "$~Detta kan vara ett bra sätt att organisera en stor prestation i separata dokument."
             ]
         },
         "StreamDefinition": {
             "name": "$~strömma",
             "description": "$~definierar en ny strömtyp",
             "emotion": "curious",
-            "doc": "$~Jag /tror/ att jag ska skapa nya strömmar. Men jag vet verkligen inte hur jag ska göra det. För nu antar jag att bara använda de strömmar som finns?",
+            "doc": "$~Jag definierar nya typer av strömmar. Jag /tror/ — ärligt talat håller jag fortfarande på att lista ut hur, så för tillfället använder jag bara de strömmar som finns!",
             "start": "$~Skapa den här nya typen av stream"
         },
         "StructureDefinition": {
@@ -1387,7 +1390,7 @@
             "description": "$~struktur $name",
             "emotion": "kind",
             "doc": [
-                "$~Varför hej, hur mår du? Jag? Jag mår jättebra. Jag älskar att definiera strukturer som lagrar värden och funktioner, så länge jag får göra det hela dagen är jag nöjd.",
+                "$~Jag definierar strukturer som lagrar värden och funktioner. Varför hej, hur mår du? Jag? Jag mår jättebra – jag älskar att göra det här hela dagen.",
                 "$~Jag jobbar så här:",
                 "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tƒ cost() size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost()\\",
                 "$~Ser du hur det fungerar? Jag definierade \\Pizza\\ , som har två indata, \\ingredients\\ (en lista med @Text ) och \\size\\ (ett tal i tum).",
@@ -1521,7 +1524,7 @@
             "description": "$~refererar till aktuellt strukturvärde",
             "emotion": "serious",
             "doc": [
-                "$~Ibland är det bra att referera till ett värde implicit, snarare än att behöva namnge det. Det är jag — \\⬚\\ , en liten fyrkant som står för det värde som den omgivande koden arbetar med.",
+                "$~Jag är \\⬚\\ , en liten fyrkant som står för vilket värde den omgivande koden arbetar med, så du behöver inte namnge det.",
                 "$~Inuti en @ConversionDefinition är jag värdet som konverteras:",
                 "$~\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
                 "$~Inuti en @Reaction är jag det senaste värdet:",
@@ -1546,14 +1549,14 @@
             "description": "$~$operator",
             "emotion": "kind",
             "doc": [
-                "$~Visste du att när jag utvärderar en @FunctionDefinition med bara ett värde, och namnet på @FunctionDefinition bara är en enda symbol, kan du sätta namnet före ingången?",
+                "$~Jag utvärderar en @FunctionDefinition som tar ett enda värde, med dess namn med en symbol skrivet precis före inmatningen — som \\-x\\ eller \\~b\\ . Visste du att du kunde göra det?",
                 "$~Så här:",
                 "$~\\-(1 + 1)\\",
                 "$~Eller detta:",
                 "$~\\~⊥\\",
-                "$~De är mycket lättare att läsa än \\(1 + 1).negate()\\ eller \\⊥.not()\\, eller hur?",
-                "$~Du behöver inte skriva till mig på det sättet, men det kanske är lättare överlag.",
-                "$~Det finns bara en regel: du kan inte sätta något mellanslag mellan namnet och värdet. Annars kanske du gör en @Reference eller @BinaryEvaluate."
+                "$~De är mycket lättare att läsa än \\(1 + 1).negate()\\ eller \\⊥.not()\\ , eller hur?",
+                "$~Du behöver inte skriva till mig så, men det kanske är enklare överlag.",
+                "$~Det finns bara en regel: du får inte ha något mellanslag mellan namnet och värdet. Annars kan du skapa en @Reference eller @BinaryEvaluate ."
             ],
             "start": "$~Vad är värdet?",
             "finish": "$~Jag gjorde det $value",
@@ -1566,14 +1569,14 @@
             "description": "$~markerar ett uttryck som inte kan tolkas",
             "emotion": "excited",
             "doc": [
-                "$~/Hej @FunctionDefinition här. Jag översätter för @UnparsableExpression, eftersom de ofta är svåra att tolka./",
+                "$~Jag är en kodbit som inte är logisk, så ingen vet vad den betyder.",
                 "$~jkwel fjiwojvioao jjiweo jrfe",
-                "$~/Inte alla uttryck har mening på scenen./",
-                "$~s w ieorjwei iojwi jfkdlsfdsk",
-                "$~/Faktum är att det finns alla möjliga saker man kan säga som inte är meningsfulla alls./",
+                "$~/Inte alla uttryck har betydelse på scenen./",
+                "$~sw ieorjwei iojwi jfkdlsfdsk",
+                "$~/Faktum är att det finns alla möjliga saker man kan säga som inte alls är logiska./",
                 "$~dsk sdlk jdkfiewipapweiurb,v kdsfdsf",
                 "$~/När du gör det dyker jag upp, för jag vet inte vad du menade./",
-                "$~Du är trots allt regissören, så bara du vet vad du kan ha menat!"
+                "$~Du är ju trots allt regissören, så bara du vet vad du kan ha menat!"
             ],
             "start": "$~???",
             "conflict": {
@@ -1696,7 +1699,7 @@
             "description": "$~karta från $key[$key|any] till $value[$value|any]",
             "emotion": "kind",
             "doc": [
-                "$~Vet du hur fantastiskt @Map är? Som riktigt häftigt. Jag berättar för @Bind vilken typ av karta de är hela tiden, som den här kartan över siffror till listor:",
+                "$~Jag berättar för @Bind vilken typ av @Map ett namn innehåller – vilka typer dess nycklar och värden är. Vet du hur fantastisk @Map är? Typ, riktigt fantastisk. Här är en karta över siffror till listor:",
                 "$~\\stuff•{'':[]}: {}\\"
             ]
         },
@@ -1705,7 +1708,7 @@
             "description": "$~$unit[$unit | antal]",
             "emotion": "precise",
             "doc": [
-                "$~Vet du vad @Bind borde vara? Ett @Bind. För siffrorna är bäst.",
+                "$~Jag säger till @Bind att ett namn innehåller ett @Number . Vet du vad @Bind borde vara? Ett @Number – för siffror är bäst.",
                 "$~\\count•#: 17\\"
             ]
         },
@@ -1745,8 +1748,8 @@
             "description": "$~$type[$type set|set]",
             "emotion": "kind",
             "doc": [
-                "$~@Set är BÄST, liksom seriöst. Jag säger till @Bind hela tiden, gör saker till en uppsättning av något!",
-                "$~\\unique•{''}: {'något' 'någonting' 'någon'}\\"
+                "$~Jag säger till @Bind att ett namn innehåller en @Set av någon typ. @Set är BÄST, allvarligt talat!",
+                "$~\\unique•{''}: {'something' 'anything' 'someone'}\\"
             ]
         },
         "StreamDefinitionType": {
@@ -1775,7 +1778,7 @@
             "description": "$~okänd",
             "connector": "$~, eftersom",
             "emotion": "curious",
-            "doc": "$~Umm... Jag vet inte vad jag representerar, men jag är verkligen nyfiken. Vet du? Det verkar som att vi borde veta. Du kanske måste berätta för oss om vi inte kan ta reda på det."
+            "doc": "$~Jag är en typ som ingen har listat ut än. Hmm… vet du vad jag representerar? Du kanske borde berätta för oss om vi inte kan lista ut det."
         },
         "TableType": {
             "name": "$~tabell",
@@ -1810,8 +1813,8 @@
             "description": "$~en av $first eller $second",
             "emotion": "curious",
             "doc": [
-                "$~Vem ska jag representera, A eller B eller något annat? Jag kan aldrig bestämma mig!",
-                "$~\\indecision•''|#|{ø}: \"Jag vet inte!\"\\"
+                "$~Jag representerar ett värde som kan vara en av flera typer – A eller B eller något annat? Jag kan aldrig bestämma mig!",
+                "$~\\indecision•''|#|{ø}: \"I don't know!\"\\"
             ],
             "elidedSuffix": "$~eller $omitted andra alternativ"
         },
@@ -1835,13 +1838,13 @@
             "name": "$~variabeltyp",
             "description": "$~representerar en typvariabel i bruk",
             "emotion": "curious",
-            "doc": "$~Känner du till @TypeVariable och hur de representerar någon okänd typ av värde? Jag representerar dem i alla förhandlingar mellan värderingar."
+            "doc": "$~Jag står för en @TypeVariable — en okänd typ av värde — i alla förhandlingar mellan värden."
         },
         "CycleType": {
             "name": "$~cykel",
             "description": "$~beror på sig själv",
             "emotion": "curious",
-            "doc": "$~Ibland beror värderingar på sig själva, och därför vet vi inte vilken typ av värde de är. Jag representerar den situationen."
+            "doc": "$~Jag representerar ett värde vars typ beror på sig själv, så vi kan inte avgöra vilken typ av värde det är."
         },
         "UnknownVariableType": {
             "name": "$~okändvariabel",
@@ -1853,19 +1856,19 @@
             "name": "$~oväntad",
             "description": "$~inte en $type",
             "emotion": "curious",
-            "doc": "$~Ibland vet vi vilket värde något ska vara. Som att @ListAccess behöver ett @Number. Om vi inte får det så representerar jag att något är en annan typ än vad vi förväntade oss."
+            "doc": "$~Jag representerar ett värde vars typ inte är den vi förväntade oss — som när @ListAccess behöver ett @Number men får något annat."
         },
         "NoExpressionType": {
             "name": "$~ingetuttryck",
             "description": "$~typbestämmer ett tomt block",
             "emotion": "angry",
-            "doc": "$~Vet du hur @Block behöver minst ett uttryck? Jag är vad du får när du inte ger en. Så ge en!"
+            "doc": "$~Jag är den typen man får när ett @Block inte har något uttryck i sig. Du vet att det behöver minst ett – så ge ett!"
         },
         "NotEnclosedType": {
             "name": "$~inteistruktur,omvandlingellerreaktion",
             "description": "$~markerar användning utanför en struktur",
             "emotion": "curious",
-            "doc": "$~@This, hur snyggt de än är, hör bara hemma på vissa ställen. Jag dyker upp när de går vilse, så ingen vet vilket värde de representerar."
+            "doc": "$~Jag dyker upp när @This används någonstans där det inte hör hemma, så ingen vet vilket värde det representerar."
         },
         "NotImplementedType": {
             "name": "$~oimplementerad",
@@ -1877,7 +1880,7 @@
             "name": "$~okäntnamn",
             "description": "$~$name [ $name är inte definierat ännu|namnet är inte angivet]",
             "emotion": "curious",
-            "doc": "$~Du vet hur ibland @Reference och @PropertyReference inte känner till namnet du pratar om? Jag är med när det händer, för att visa att vi inte vet vem du pratar om."
+            "doc": "$~Jag representerar ett namn som @Reference eller @PropertyReference inte kunde hitta, när vi inte vet vem du pratar om."
         },
         "NonFunctionType": {
             "name": "$~icke-funktion",
@@ -1890,7 +1893,7 @@
             "description": "$~mappa en samling till en ny",
             "emotion": "excited",
             "doc": [
-                "$~ÅH ÅH ÅH! Har du en HEL SAMLING saker och vill göra SAMMA sak med ALLA?? Det är JAG! Det är bokstavligen vad JAG GÖR!!",
+                "$~Jag gör SAMMA sak med VARJE föremål i en samling! OH OH OH! Det är bokstavligen vad jag GÖR!!",
                 "$~Placera en samling till vänster om mig, rita min pil \\↦\\ och skriv sedan till höger vad varje föremål ska FÖRVANDLAS TILL — använd @This för att betyda föremålet jag håller JUST NU!",
                 "$~\\[1 2 3] ↦ ⬚ + 1\\ ger dig \\[2 3 4]\\ . BOOM! Varje tal, plus ett, inga loopar, ingen @FunctionDefinition , inget krångel!",
                 "$~Jag är FANTASTISK som gör @Phrase utdata från data! Har du en lista med namn? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ och nu finns det en fras för VARJE namn!!",
@@ -2302,8 +2305,8 @@
         },
         "None": {
             "doc": [
-                "$~/Hej, @FunctionDefinition här. @FunctionDefinition gillar inte att säga så mycket, så jag ska tolka./",
-                "$~Jag är @None. Åkalla mig med \\ø\\. Jag är behjälplig när du vill representera frånvaron av något."
+                "$~Jag representerar frånvaron av ett värde, skrivet \\ø\\ .",
+                "$~Jag är @None . Anropa mig med \\ø\\ ."
             ],
             "name": ["$~o", "$~Ingen"],
             "function": {
@@ -3660,7 +3663,7 @@
             }
         },
         "Structure": {
-            "doc": "$~Se @StructureDefinition.",
+            "doc": "$~Jag är ett strukturerat värde med namngivna, typade fält, skapade från en @StructureDefinition . Se @StructureDefinition .",
             "name": ["$~Strukturera"],
             "function": {
                 "equals": {
@@ -3780,20 +3783,19 @@
     "input": {
         "Random": {
             "doc": [
+                "$~Det skapar ett annat tal varje gång du utvärderar det.",
                 "$~17!",
-                "$~/@FunctionDefinition här, jag ska förklara den här./",
-                "$~Så @Random är en nyfiken funktion som skapar slumptal. Det är märkligt för varje gång du utvärderar det skapar det något annat.",
                 "$~Detta skapar ett underbart kaos som kommer med oförutsägbarhet.",
-                "$~Som standard ger den @Number-värden mellan \\0\\ och \\1\\:",
-                "$~\\Slumpmässig()\\",
+                "$~Som standard ger den @Number värden mellan \\0\\ och \\1\\ :",
+                "$~\\Random()\\",
                 "$~Men du kan ge det ett värde, och det kommer att generera värden mellan \\0\\ och värdet:",
                 "$~\\Random(10)\\",
-                "$~Och om du ger den två värden kommer den att generera värden mellan och inklusive de två värdena:",
+                "$~Och om du ger den två värden, kommer den att generera värden mellan och inklusive de två värdena:",
                 "$~\\Random(-10 10)\\",
-                "$~Om dina intervall har enheter kommer de att bevaras (och om de inte stämmer överens kommer minimienheten att användas):",
-                "$~\\Slumpmässig(-10m 10m)\\",
-                "$~Och om du anger siffror med ett visst antal signifikanta siffror efter decimalkomma, kommer den precisionen att bevaras.",
-                "$~\\Slumpmässig(1,00 10,00)\\"
+                "$~Om dina intervall har enheter kommer de att bevaras (och om de inte matchar kommer den minsta enheten att användas):",
+                "$~\\Random(-10m 10m)\\",
+                "$~Och om du anger tal med ett visst antal signifikanta siffror efter decimaltecknet, kommer den precisionen att bevaras.",
+                "$~\\Random(1.00 10.00)\\"
             ],
             "names": ["$~🎲", "$~Slumpmässig"],
             "inputs": [
@@ -3809,25 +3811,24 @@
         },
         "Choice": {
             "doc": [
-                "$~/klicktryck!/",
-                "$~/@FunctionDefinition här, jag ska förklara den här./",
-                "$~Tänk på @Choice som en ström av @Choice som väljs ut av din publik. Om någon klickar, trycker eller tangentbordet väljer genom att trycka på /Enter/ på en @Phrase.name med ett namn -- kommer @Choice att ha ett nytt värde som matchar namnet.",
-                "$~Så det bästa sättet att använda det är att skapa en föreställning med namngivna valbara fraser @Phrase, och sedan använda en @Reaction för att bestämma vad som ska göras när det namnet väljs.",
+                "$~Det är en ström av namn som din publik väljer genom att klicka, trycka på eller trycka på /Enter/ på en namngiven @Phrase .",
+                "$~/klicka, tryck!/",
+                "$~Så det bästa sättet att använda det är att skapa en föreställning med namngivna, valbara fraser @Phrase , och sedan använda en @Reaction för att bestämma vad som ska göras när det namnet är valt.",
                 "$~Här är det enklaste exemplet:",
-                "$~\\Grupp(\nStack() \n[\nFras('en' valbar:⊤ namn:'1') \nFras('två' valbar:⊤ namn:'2') \nFras(Choice())\n]\n)\\",
-                "$~Kopiera detta till editorn och välj sedan en av de två @Phrase. Du kommer att se den tredje @Phrase visar namnet som valdes."
+                "$~\\Group(\nStack() \n[\nPhrase('one' selectable:⊤ name:'1') \nPhrase('two' selectable:⊤ name:'2') \nPhrase(Choice())\n]\n)\\",
+                "$~Kopiera detta till redigeraren och välj sedan en av de två @Phrase . Du kommer att se att den tredje @Phrase visar namnet som valdes."
             ],
             "names": ["$~🔘", "$~Val"]
         },
         "Button": {
             "doc": [
-                "$~/klick klicka klicka/",
-                "$~/@FunctionDefinition här, jag ska förklara den här./",
-                "$~@Button är ett bra sätt att lyssna på en mus eller styrplatta. Naturligtvis är en mus eller styrplatta inte ett idealiskt val för att lyssna på en publik, eftersom inte alla kan använda en. Det mer lättillgängliga valet är @Choice.",
-                "$~Men om du /verkligen/ behöver lyssna på en musknapp är det här sättet att göra det. Det kommer att tillhandahålla en ström av @Boolean, som representerar om den primära knappen är uppåt \\⊥\\ eller ner \\⊤\\.",
+                "$~Den anger om musens eller styrplattans primära knapp trycks ned, som en ström av @Boolean .",
+                "$~/klicka klick klick/",
+                "$~Naturligtvis är en mus eller styrplatta inte ett idealiskt val för att lyssna på en publik, eftersom inte alla kan använda en. Det mer lättillgängliga alternativet är @Choice .",
+                "$~Men om du /verkligen/ behöver lyssna på en musknapp, så här gör du. Det kommer att ge en ström av @Boolean , som representerar om den primära knappen är upp \\⊥\\ eller ner \\⊤\\ .",
                 "$~Här är ett enkelt exempel:",
                 "$~\\Phrase(Button() → '')\\",
-                "$~Detta gör bara en @Phrase som är värdet av strömmen som text. Om du kopierar den till redigeraren och klickar, kommer du att se den växla fram och tillbaka mellan \\⊥\\ och \\⊤\\."
+                "$~Detta skapar bara en @Phrase som är värdet för strömmen som text. Om du kopierar den till redigeraren och klickar, kommer du att se den växla fram och tillbaka mellan \\⊥\\ och \\⊤\\ ."
             ],
             "names": ["$~🖱️", "$~Knapp"],
             "down": {
@@ -3837,29 +3838,27 @@
         },
         "Pointer": {
             "doc": [
-                "$~/whrrrrrr/",
-                "$~/@FunctionDefinition här, jag ska förklara den här./",
-                "$~Känner du till möss, styrplattor och pekskärmar? Ibland vill man veta vart en publik pekar. Det är vad @Pointer tillhandahåller.",
-                "$~Naturligtvis är detta inte ett tillgängligt val: inte alla kan se eller enkelt peka, så var verkligen säker på att du inte utesluter någon från att delta genom att använda den här strömmen.",
-                "$~Om du är säker på att ingen är utesluten är det lika enkelt att använda @Pointer som att bara skapa en stream:",
-                "$~\\Pekare()\\",
-                "$~@Place den tillhandahåller kommer att motsvara var på @Stage pekaren pekar."
+                "$~Den spårar vart din publik pekar på @Stage .",
+                "$~/vrrrrr/",
+                "$~Naturligtvis är detta inte ett tillgängligt alternativ: inte alla kan se eller peka lätt, så se verkligen till att du inte utesluter någon från att delta genom att använda den här strömmen.",
+                "$~Om du är säker på att ingen är utesluten, är det lika enkelt att använda @Pointer som att bara skapa en ström:",
+                "$~\\Pointer()\\",
+                "$~Den @Place som den anger kommer att motsvara var på @Stage pekaren pekar."
             ],
             "names": ["$~👆🏻", "$~Pekare"]
         },
         "Key": {
             "doc": [
-                "$~/klickty/",
-                "$~/@FunctionDefinition här, jag ska förklara den här./",
-                "$~Tangentbord har många tangenter, eller hur? @Key kommer att tala om för dig vilken någon trycker och släpper.",
+                "$~Den visar vilken tangent din publik trycker och släpper.",
+                "$~/klick/",
                 "$~Prova detta",
-                "$~\\Nyckel()\\",
-                "$~Se hur när du skriver en nyckel visas den på @Stage? Varje gång en tangent trycks ned läggs en ny @Text till strömmen, som beskriver tangenten som trycktes.",
-                "$~För en nyckel som representerar ett tecken kommer värdet att vara tecknet som @Text.",
-                "$~För speciella nycklar, som /Escape/-tangenten, kommer det att vara @Text som beskriver nyckeln, med ett <fördefinierat namn@https://developer.mozilla.org/en-US/docs/Web/API/UI_Events /Keyboard_event_key_values>, tyvärr endast tillgänglig på engelska.",
-                "$~Om du bara vill veta om en viss nyckel kan du tillhandahålla den:",
+                "$~\\Key()\\",
+                "$~Ser du hur en tangent visas på @Stage när du skriver? Varje gång en tangent trycks ner läggs en ny @Text till i strömmen som beskriver den tangent som trycktes ner.",
+                "$~För en nyckel som representerar ett tecken kommer värdet att vara tecknet som @Text .",
+                "$~För specialtangenter, som /Escape/-tangenten, kommer det att vara @Text som beskriver tangenten med hjälp av en <pre-defined name@https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values> , tyvärr endast tillgänglig på engelska.",
+                "$~Om du bara vill veta mer om en specifik nyckel kan du ange den:",
                 "$~\\Key('a')\\",
-                "$~Och om du bara vill veta när en @Key släpps istället för att tryckas ned, kan du ge en @Boolean:",
+                "$~Och om du bara vill veta när en @Key släpps istället för att tryckas ned, kan du ange en @Boolean :",
                 "$~\\Key('a' ⊥)\\"
             ],
             "names": ["$~⌨️", "$~Nyckel"],
@@ -3927,16 +3926,15 @@
         },
         "Time": {
             "doc": [
+                "$~Den tickar framåt med en frekvens du väljer.",
                 "$~/tick tick tick/",
-                "$~@FunctionDefinition här, jag ska förklara @Time, eftersom den inte talar.",
-                "$~Tid är en ström som tickar med en viss frekvens.",
-                "$~Varje gång det gör det, omvärderar @Program med det nya tidsvärdet.",
+                "$~Varje gång det gör det omvärderar @Program med det nya tidsvärdet.",
                 "$~Till exempel:",
-                "$~\\Tid()\\",
-                "$~Om du anger tid en @Time.frequency, kommer den att bocka i den takten. Till exempel:",
-                "$~\\Tid(1000ms)\\",
-                "$~Det finns dock gränser för hur liten den kan vara, eftersom @Program behöver tid att utvärdera innan de kan svara på nästa bock.",
-                "$~Den minsta är förmodligen runt \\20ms\\."
+                "$~\\Time()\\",
+                "$~Om du anger time med en @Time.frequency , kommer den att ticka med den hastigheten. Till exempel:",
+                "$~\\Time(1000ms)\\",
+                "$~Det finns dock gränser för hur liten den kan vara, eftersom @Program behöver tid för att utvärdera innan de kan svara på nästa tick.",
+                "$~Den minsta är förmodligen runt \\20ms\\ ."
             ],
             "names": ["$~🕕", "$~Tid"],
             "frequency": {
@@ -3950,11 +3948,11 @@
         },
         "Volume": {
             "doc": [
-                "$~/bzzzzzzz/",
-                "$~@FunctionDefinition här, jag tar mikrofonen.",
-                "$~Denna ström är en serie volymer mellan 0 och 1, samplade med den frekvens du väljer. Som standard är frekvensen \\30hz\\, eller 30 gånger per sekund, men du kan ändra den till något mindre frekvent.",
-                "$~\\Volym()\\",
-                "$~Det här är bra för att lyssna på hur högljudda publiken är!"
+                "$~Det är en ström av mikrofonens ljudstyrka, från 0 till 1.",
+                "$~/bzzzzzzzz/",
+                "$~Den samplas med den frekvens du väljer. Som standard är frekvensen \\30hz\\ , eller 30 gånger per sekund, men du kan ändra den till något mindre frekvent.",
+                "$~\\Volume()\\",
+                "$~Det här är fantastiskt för att lyssna på hur högljudd publiken är!"
             ],
             "names": ["$~🎤", "$~Volym"],
             "frequency": {
@@ -3964,11 +3962,11 @@
         },
         "Pitch": {
             "doc": [
+                "$~Det är en ström av mikrofonens tonhöjd, i hertz.",
                 "$~/hummmmm/",
-                "$~@FunctionDefinition här, låt oss prata pitch!",
-                "$~Denna ström är en serie frekvenser i hertz, som indikerar tonhöjden på ljudet, samplade med den frekvens du väljer. Vi har upptäckt att den mänskliga rösten är mellan 20Hz och 5000Hz, så planera på siffror i det intervallet.",
-                "$~\\Tonhöjd()\\",
-                "$~Detta är bra för att lyssna på tonen som någon talar eller sjunger."
+                "$~Den samplas med den frekvens du väljer. Den mänskliga rösten ligger mellan 20 Hz och 5000 Hz, så planera för tal i det intervallet.",
+                "$~\\Pitch()\\",
+                "$~Detta är utmärkt för att lyssna på tonen när någon talar eller sjunger."
             ],
             "names": ["$~🎵", "$~Tonhöjd"],
             "frequency": {
@@ -3978,12 +3976,12 @@
         },
         "Camera": {
             "doc": [
-                "$~/bzzzzzzz/",
-                "$~@FunctionDefinition här, jag kan förklara @Camera!",
-                "$~Så @Camera tillhandahåller en @Camera med @Color från din värld. Den listan representerar i huvudsak en bild, men det är upp till dig att bestämma vad du ska göra med den.",
-                "$~Du kan försöka representera bilden med ett gäng @Phrase, som kan se ganska coolt ut! Testa att kopiera detta...",
-                "$~\\colors: Kamera (32px 24px 33ms)\n\nEtapp(\ncolors.combine(\n[] \nƒ(fraser•[Fras] rad•[Färg] y•#) \nphrases.append(\nrow.translate(\nƒ(färg•Färg x•#)\nFras('o' plats: Plats((x - 1) × 0,5m y × -0,5m) färg: färgvaraktighet: 0s\n)\n)\n)\n)\n)\\",
-                "$~Men du kan också analysera färgerna för att avgöra om ett ljus var på eller av, eller om en viss färg var vanlig, så att publiken kan påverka en föreställning med de färger de visar."
+                "$~Den ger dig en @List med @Color från din kamera, en per bildruta.",
+                "$~/bzzzzzzzz/",
+                "$~Den @List representerar i huvudsak en bild, men det är upp till dig att bestämma vad du ska göra med den.",
+                "$~Du kan försöka representera bilden med en massa @Phrase , vilket skulle kunna se ganska coolt ut! Försök att kopiera det här...",
+                "$~\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) × 0.5m y × -0.5m) color: color duration: 0s\n)\n)\n)\n)\n)\\",
+                "$~Men man kunde också analysera färgerna för att avgöra om ett ljus var tänt eller släckt, eller om en viss färg var vanlig, och låta publiken påverka en föreställning med de färger de visar."
             ],
             "names": ["$~🎥", "$~Kamera"],
             "width": {
@@ -4001,19 +3999,18 @@
         },
         "Scene": {
             "doc": [
-                "$~/boop boop boop/",
-                "$~/Hej, @FunctionDefinition här! Jag ser att du hittade @Scene.",
-                "$~Jag tycker @Scene är särskilt cool. Grundidén är att du ger den en lista med @Scene eller @Phrase och sedan kommer den att visa dem i sekvens och stanna vid den sista.",
-                "$~För att kontrollera timing kan du antingen ställa in @Phrase.duration på varje utgång, och den kommer att visa den så länge innan du går vidare till nästa, och använda vilken @Phrase.entering eller @Phrase.exiting övergångar du kan ha ställt in . Om du ställer in dem på en @Sequence kommer den att använda dess varaktighet.",
-                "$~Allt detta låter dig göra saker som den här lilla @Scene, som visar dessa tre fraser i följd:",
-                "$~\\Scen([\n\tFras('Hej' varaktighet: 1s)\n\tFras('Hur mår du?' varaktighet: 2s rotation: 5° inträde: Pose(rotation: 0°))\n\tFras('Jag mår bra')\n])\\",
-                "$~Se hur den första utgången visas i en sekund, sedan den nästa i två sekunder, men animerad till en fem graders rotation, och sedan visar den den sista?",
-                "$~Du kan göra mycket utarbetade sekvenser av utdata och animationer med @Scene, och till och med göra delar av dem dynamiska eller interaktiva, som med alla andra @Scene eller @Phrase.",
-                "$~Om du har animerad utdata som är kapslad (en @Group med animerad @Group inuti), väntar @Scene på att allt animerat innehåll i @Group ska avslutas.",
-                "$~Åh, och en sista liten hemlighet! Du kan till och med sätta @Boolean i listan, och om de är \\⊥\\, kommer @Boolean att pausa och vänta på att den blir sann.",
-                "$~Om du till exempel vill göra en sekvens av @Phrase och bara gå framåt när @Button ändras, kan du göra så här:",
-                "$~\\klick: ∆ Knapp()\nScen([\n\tFras('Hej')\n\tklick\n\tFras('Hur mår du?' varaktighet: 0,25s rotation: 5° inträde: Pose(rotation: 0°))\n\tklick\n\tFras('jag mår bra')\n])\\",
-                "$~Se hur den pausar efter varje @Phrase och väntar på att @Button ändras innan den går vidare?"
+                "$~Den visar en @List med @Phrase eller @Group en i taget, och stannar vid den sista.",
+                "$~/Bopp boop boop/",
+                "$~För att kontrollera timingen kan du antingen ställa in @Phrase.duration på varje utgång, så visas den så länge innan den går vidare till nästa, och använda de @Phrase.entering eller @Phrase.exiting övergångar du eventuellt har ställt in. Om du ställer in dem till en @Sequence kommer den att använda dess varaktighet.",
+                "$~Allt detta låter dig göra saker som den här lilla @Scene , som visar dessa tre fraser i följd:",
+                "$~\\Scene([\n\tPhrase('Hello' duration: 1s)\n\tPhrase('How are you?' duration: 2s rotation: 5° entering: Pose(rotation: 0°))\n\tPhrase('I am fine')\n])\\",
+                "$~Ser du hur den första utgången visas i en sekund, sedan nästa i två sekunder, men animerad till en femgraders rotation, och sedan visar den den sista?",
+                "$~Du kan skapa mycket avancerade sekvenser av utdata och animationer med @Scene , och till och med göra delar av dem dynamiska eller interaktiva, precis som med vilken annan @Phrase eller @Group som helst.",
+                "$~Om du har animerad utdata som är kapslad (en @Group med animerad @Phrase inuti), kommer @Scene att vänta tills allt animerat innehåll i @Group är klart.",
+                "$~Och en sista liten hemlighet! Du kan till och med lägga till @Boolean i listan, och om de är \\⊥\\ kommer @Scene att pausa och vänta på att det ska bli sant.",
+                "$~Om du till exempel vill skapa en sekvens av @Phrase och bara gå vidare när @Button ändras, kan du göra så här:",
+                "$~\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' duration: 0.25s rotation: 5° entering: Pose(rotation: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
+                "$~Ser du hur den pausar efter varje @Phrase och väntar på att @Button ska ändras innan den går vidare?"
             ],
             "names": ["$~🎬", "$~Scen"],
             "outputs": {
@@ -4023,13 +4020,13 @@
         },
         "Motion": {
             "doc": [
+                "$~Den flyttar en startande @Phrase med gravitation och fysik.",
                 "$~/boing boing boing/",
-                "$~/Hej! @FunctionDefinition här. Vad sägs om att jag förklarar @Motion?",
-                "$~I grund och botten är @Motion en ström av @Phrase. Du ger den en start @Phrase, och sedan förfinar den den med en ny plats och rotation baserat på gravitationen.",
-                "$~Det här låter dig göra riktigt enkla saker som att skapa studsande emoji:",
-                "$~\\Motion(Phrase('o') startplats: Plats(0m 10m))\\",
-                "$~Ser du hur o:n studsar? Vid den första utvärderingen ger vi den en plats högt upp på @Stage, men sedan efter får den @Stage, vilket gör att @Motion kan ändra den till vilken position gravitationen skulle placera den.",
-                "$~Kolla in de många andra sätten att konfigurera den nedan."
+                "$~Du ger den en start- @Phrase , och sedan förfinar den den med en ny plats och rotation baserat på gravitationen.",
+                "$~Detta låter dig göra riktigt enkla saker som att skapa studsande emoji:",
+                "$~\\Motion(Phrase('o') startplace: Place(0m 10m))\\",
+                "$~Ser du hur o-et studsar? Vid den första utvärderingen ger du det en plats högt upp på @Stage , men därefter får det @None , vilket gör att @Motion kan ändra det till vilken position gravitationen skulle placera det.",
+                "$~Kolla in de många andra sätten att konfigurera det nedan."
             ],
             "names": ["$~⚽️", "$~Rörelse"],
             "place": {
@@ -4051,24 +4048,23 @@
         },
         "Chat": {
             "doc": [
-                "$~/Hej! @FunctionDefinition här. Så du vill chatta?",
-                "$~Grundidén med en chattström är att publiken skriver ett meddelande och sedan programmets svar på det.",
-                "$~Till exempel kontrollerar detta enkla program om meddelandet är \"hej\", och om det är det, utvärderas programmet till \"hej\". Annars utvärderas det till \"va\"?",
-                "$~\\Chat().has('hej') ? 'Hej!' 'va?'\\",
-                "$~Det är det! Du kan göra alla typer av föreställningar med detta, som chattbots, textäventyr eller textbaserade kontrollscheman för andra typer av föreställningar."
+                "$~Det är en ström av @Text -meddelanden som din målgrupp skriver.",
+                "$~Till exempel kontrollerar det här enkla programmet om meddelandet är \"hej\", och om det är det utvärderas programmet till \"hej\". Annars utvärderas det till \"va\"?",
+                "$~\\Chat().has('hello') ? 'hi!' 'huh?'\\",
+                "$~Det var allt! Du kan skapa alla möjliga typer av föreställningar med detta, som chattrobotar, textäventyr eller textbaserade kontrollscheman för andra typer av föreställningar."
             ],
             "names": ["$~🗣️", "$~Chatta"]
         },
         "Placement": {
             "doc": [
-                "$~/Hej, @FunctionDefinition här. Låt oss prata om hur vi får oss att flytta!/",
-                "$~Så det finns många sätt att placera oss på @Stage. Du kan ge oss en tydlig @Place. Du kan använda @Motion och låta gravitationen göra sitt jobb. Du kan också placera oss i en @Group och låta dem arrangera oss på ett speciellt sätt.",
-                "$~Men ibland vill du ge /publiken/ kontroll över var vi är på @Stage. Det är vad @Placement är till för.",
-                "$~Så här fungerar det: du gör bara en @Placement och ger den till vår @Place:",
-                "$~\\Phrase('hej' plats: Placering())\\",
-                "$~Sedan, varje gång publiken använder en piltangent eller klickar eller trycker på scenen, kommer @Placement att skapa en ny @Place som rör sig i önskad riktning.",
-                "$~Försök att kopiera detta till ditt program och flytta oss med pilen med pekaren eller tangentbordet.",
-                "$~Du kan anpassa @Placement, aktivera och inaktivera rörelse på vissa dimensioner, ändra hur långt en @Place rör sig och den initiala @Place strömmen börjar med."
+                "$~Det låter din publik dra @Output till en @Place på @Stage .",
+                "$~Det finns många sätt att placera @Output på @Stage : ge dem en explicit @Place , använd @Motion och låt gravitationen göra sitt arbete, eller placera dem i en @Group för att arrangeras.",
+                "$~Men ibland vill man ge /publiken/ kontroll över var @Output hamnar på @Stage .",
+                "$~Så här fungerar det: skapa en @Placement och ge den till en @Output @Place :",
+                "$~\\Phrase('hi' place: Placement())\\",
+                "$~Sedan, varje gång publiken använder en piltangent eller klickar eller trycker på scenen, skapar @Placement en ny @Place som rör sig i önskad riktning.",
+                "$~Försök att kopiera detta till ditt program och flytta @Output med pekaren eller tangentbordet.",
+                "$~Du kan anpassa @Placement , aktivera och inaktivera rörelse på vissa dimensioner, ändra hur långt en @Place rör sig och den initiala @Place som strömmen börjar med."
             ],
             "names": ["$~✥", "$~Placering"],
             "inputs": [
@@ -4096,13 +4092,13 @@
         },
         "Webpage": {
             "doc": [
-                "$~/Hej, @FunctionDefinition här. Låt oss prata om hur man får webbsidor från internet!/",
-                "$~När vi först hörde talas om ditt internet tyckte vi det var fascinerande. En hel värld full av uppkopplade datorer som delar dokument med varandra? Det är fantastiskt!",
-                "$~Så vi gjorde en stream som ansluter till den. Du ger oss en URL, så får vi all text på den. Så här:",
+                "$~Den hämtar texten på en webbadress du anger.",
+                "$~Internet är fascinerande – en hel värld av uppkopplade datorer som delar dokument med varandra.",
+                "$~Den här strömmen ansluter till den — ge den en URL, så här:",
                 "$~\\Webpage('https://wordplay.dev')\\",
-                "$~Och det finns tydligen det här som heter <CSS@https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/What_is_CSS>, som gillar att du frågar efter saker på en webbsida? Ge oss en CSS-valfråga så får vi bara texten som matchar den frågan. Som det här exemplet, som får nivå ett-rubriker.",
+                "$~Och det finns tydligen en grej som heter<CSS@https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/What_is_CSS> , som låter dig söka efter saker på en webbsida? Ge den en CSS-urvalsfråga så hämtar den bara texten som matchar den frågan. Som i det här exemplet, som hämtar rubrikerna på nivå ett.",
                 "$~\\Webpage('https://wordplay.dev' 'h1')\\",
-                "$~Många saker kan gå fel med den här. Om du tappar din internetanslutning, eller URL:en inte löser sig till någonting, eller URL:en är inte offentlig, eller URL:en inte är en HTML-sida... Alla dessa kan leda till undantag. Om du hittar en sida som fungerar får du ett @Number som indikerar en procentsats och sedan en @Number med orden på sidan."
+                "$~Mycket kan gå fel med det här. Om du förlorar din internetanslutning, eller om URL:en inte leder till något, eller om URL:en inte är offentlig, eller om URL:en inte är en HTML-sida... Allt detta kan leda till undantag. Om du hittar en sida som fungerar får du ett @Number som anger en procentandel färdigställd och sedan en @List med orden på sidan."
             ],
             "names": ["$~🔗", "$~webbsida"],
             "url": {
@@ -4128,11 +4124,11 @@
         "Collision": {
             "names": "$~Kollision",
             "doc": [
-                "$~/Hej! @FunctionDefinition här. Kolla in denna coola input./",
-                "$~Det kan hjälpa dig att ta reda på när @Output stöter på varandra! Det här är ett bra sätt att göra något när vi stöter på varandra, annat än att det normala studsande av varandra @Output kan göra.",
-                "$~Ge mig bara namnet @Output, så skapar jag ett nytt @Rebound-värde när det stöter på ett annat namn. En @Rebound har information om namnen som kolliderade och riktningen för deras kollision.",
-                "$~Och om du ger mig två namn, gör jag bara ett nytt värde när de två namnen stöter på varandra.",
-                "$~Direkt efter att jag har gjort ett nytt värde, kommer jag att göra en \\ø\\ eftersom kollisionen sker efter att den har inträffat. Detta tyder på att det inte finns någon mer kollision."
+                "$~Det är en ström av @Rebound -värden för när de heter @Output stöter på varandra.",
+                "$~Detta är ett bra sätt att göra något när @Output stöter på varandra, förutom den vanliga studsningen de kan göra.",
+                "$~Ge det bara namnet @Output , så skapar det ett nytt @Rebound värde närhelst det namnet stöter på ett annat. En @Rebound har information om namnen som kolliderade och riktningen för deras kollision.",
+                "$~Och om du ger det två namn, kommer det bara att få ett nytt värde när de två namnen stöter på varandra.",
+                "$~Direkt efter att den skapar ett nytt värde, kommer den att skapa ett \\ø\\ eftersom kollisionen sker efter att den inträffat. Detta indikerar att det inte finns någon mer kollision."
             ],
             "subject": {
                 "names": "$~ämne",
@@ -4173,9 +4169,9 @@
         },
         "Speech": {
             "doc": [
+                "$~Den känner igen tal och omvandlar det till @Text .",
                 "$~/hej där!/",
-                "$~@FunctionDefinition här - redo att lyssna!",
-                "$~Den här strömmen känner igen tal och konverterar det till @Text . Den använder din webbläsares taligenkänning för att lyssna på vad du säger och omvandla det till ord (visst är det här coolt?!).",
+                "$~Den använder din webbläsares taligenkänning för att lyssna på vad du säger och omvandla det till ord (visst är det här coolt?!).",
                 "$~\\Speech()\\",
                 "$~Detta är perfekt för de som kan tala ett språk men fortfarande lär sig läsa eller skriva det (och mer)...",
                 "$~Du kan ange en språkkod för att känna igen tal på ett visst språk:",
@@ -4208,9 +4204,9 @@
         },
         "Hand": {
             "doc": [
+                "$~Den spårar en hand som din kamera ser – var den är, vilka fingrar som är uppe och åt vilket håll den är vänd.",
                 "$~/vigla vicka/",
-                "$~@FunctionDefinition här! Låt mig berätta om @Hand .",
-                "$~@Hand tittar på din kamera efter en hand och talar om för dig var den är, vilka fingrar som är utsträckta och om handflatan eller baksidan av din hand är vänd mot kameran. Håll upp handen, vifta med den, räkna på dina fingrar – @Hand följer efter.",
+                "$~Håll upp handen, vifta med den, räkna på fingrarna — @Hand följer.",
                 "$~Bakom kulisserna använder @Hand en maskininlärningsmodell. Första gången du använder den i ett program tar det några sekunder att ladda ner modellen, och en liten snurrande hand visas i det övre högra hörnet av scenen medan den laddas. Därefter förblir den cachad och startar direkt.",
                 "$~Varje bildruta ger @Hand dig en @Gesture — se där för en fullständig lista över indata och vad de betyder.",
                 "$~Prova detta — det visar en emoji som matchar din handposition var din riktiga hand än är:",
@@ -4228,13 +4224,13 @@
         },
         "Contour": {
             "doc": [
-                "$~/Hej! @FunctionDefinition här. Vill du se /formen/ på bokstäver?",
-                "$~Ge mig lite text och ett teckensnitt, så ritar jag konturerna av varje tecken som en @List med @Place -värden, en punkt efter en annan.",
+                "$~Den spårar konturerna av varje bokstavs tecken som en @List över @Place .",
+                "$~Ge den lite text och ett teckensnitt, så kommer den att spåra varje teckens kontur punkt för punkt.",
                 "$~\\Contour('a' \"Noto Sans\")\\",
                 "$~Mata in dessa @Place -värden till en @List med @Phrase för att se konturen ritad som punkter:",
                 "$~\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' place: point)))\\",
                 "$~Du kan skala konturen med ett @Number of meters, flytta dess origo med ett @Place , välja en teckensnittsvikt, aktivera kursiv stil och ställa in `spacing` mellan punkter som ett avstånd i meter. Ett mindre `spacing` följer konturen närmare, med jämnt fördelade punkter längs både linjer och kurvor.",
-                "$~Vissa tecken, som färgemojis, har ingen kontur, så de lägger inte till några punkter. Medan jag hämtar teckensnittet ger jag dig en tom @List och fyller sedan i den när jag är redo."
+                "$~Vissa tecken, som färgemoji, har ingen kontur, så de lägger inte till några punkter. Medan den hämtar teckensnittet ger den dig en tom @List och fyller sedan i den när den är klar."
             ],
             "names": ["$~🖋️", "$~Kontur"],
             "inputs": [
@@ -4289,12 +4285,11 @@
         },
         "Group": {
             "doc": [
-                "$~Hej, hur mår du? Jag mår alltid bra när andra är i närheten, så det är fantastiskt att vara med dig!",
-                "$~Jag grupperar @Phrase och @Group på @Stage och lägger dem i ett @Phrase, så det finns en ordning på var de placeras.",
-                "$~För att fungera behöver jag att du ger mig ett @Arrangement och sedan en @List of @Output att ordna.",
-                "$~Till exempel, här är jag med ett @Stack-arrangemang och några @Phrase att stapla vertikalt:",
-                "$~\\Group(Stack() [Fras('första') Fras('andra')])\\",
-                "$~Exakt hur jag ordnar saker beror på @Arrangement du ger mig."
+                "$~Jag arrangerar @Phrase och @Group tillsammans på @Stage med ett @Arrangement . Åh hej, hur mår du? Jag mår alltid bra när andra är i närheten, så det är kul att vara med dig!",
+                "$~För att det ska fungera behöver du ge mig ett @Arrangement och sedan en @List med @Output att arrangera.",
+                "$~Till exempel, här är jag med ett @Stack -arrangemang och några @Phrase att stapla vertikalt:",
+                "$~\\Group(Stack() [Phrase('first') Phrase('second')])\\",
+                "$~Hur exakt jag ordnar saker beror på det @Arrangement du ger mig."
             ],
             "names": ["$~🔳", "$~Grupp"],
             "layout": {
@@ -4395,7 +4390,7 @@
         },
         "Phrase": {
             "doc": [
-                "$~Hallå, hallå! Kommer du ihåg mig? Hur kan någon glömma /mig/. Just det, jag är den magnifika @Phrase , redo att representera det vackraste av @Text på @Stage .",
+                "$~Jag representerar det vackraste av @Text på @Stage . Hallå, hallå! Kommer ni ihåg mig? Hur kan någon glömma /mig/.",
                 "$~Få mig bara att gilla det här, så dyker jag upp på @Stage :",
                 "$~\\Phrase('magnificent!')\\",
                 "$~Jag behöver @TextLiteral eller @FormattedLiteral för att visa. Med @FormattedLiteral kan jag använda saker som \\`*bold* and /italic/`\\ eller referera till en anpassad @ConceptLink som du skapar.",
@@ -4574,8 +4569,8 @@
         },
         "Free": {
             "doc": [
-                "$~Jag är liksom, vad som helst. Sitt var du vill. Sitt bara någonstans! Se till att alla @Output du ger mig har en @Place, annars vet de inte vart de ska ta vägen.",
-                "$~Åh, och kom ihåg att @Place du ger varje @Output är relativt till @Place @Place! Så om du undrar varför saker och ting inte visas som du förväntar dig, försök ge @Group en plats också."
+                "$~Jag är ett @Arrangement som låter varje @Output sitta var dess @Place säger. Jag säger, vad som helst. Sitt var du vill! Bara sitt någonstans! Se till att all @Output du ger mig har en @Place , annars vet de inte vart de ska ta vägen.",
+                "$~Och kom ihåg att den @Place du ger varje @Output är relativ till @Group @Place ! Så om du undrar varför saker inte visas där du förväntar dig, försök att ge @Group en plats också."
             ],
             "names": ["$~Gratis"],
             "description": "$~fritt format $count"
@@ -4732,8 +4727,8 @@
         },
         "Pose": {
             "doc": [
-                "$~Du vet när någon slår det mest fantastiska sättet att stå, en paus och alla tittar? Det är jag. Jag fångar en pose för @Output att vara i, och är byggstenen i deras rörelser.",
-                "$~Så mycket går in i en pose. Kolla in mina många input för att se vilka typer av poser du kan göra!"
+                "$~Jag fångar en @Pose som @Output kan hålla, och jag är byggstenen i deras rörelser. Du vet när någon gör det mest fantastiska sättet att stå, pausar, och alla tittar? Det är jag.",
+                "$~Så mycket handlar om en pose. Kolla in mina många inlägg för att se vilka typer av poser du kan tänkas göra!"
             ],
             "names": ["$~🤪", "$~Pose"],
             "style": {
@@ -4909,12 +4904,12 @@
         },
         "Sequence": {
             "doc": [
-                "$~Åh. Min. Jisses. Direktör, du ser fantastisk ut idag! Vill du dansa med mig? Det är lätt.",
-                "$~Du behöver bara ge mig en @Map, där varje tangent representerar hur många procent vi är i dansen, och varje värde på dessa tangenter är en @Pose to be.",
-                "$~Det finns /så/ många olika sätt du kan animera med detta! Till exempel, här är en enkel:",
+                "$~Jag animerar @Output genom en serie @Pose över tid! Vill du dansa med mig? Det är enkelt.",
+                "$~Du behöver bara ge mig en @Map , där varje tangent representerar hur många procent vi är i dansen, och varje värde för dessa tangenter är en @Pose att vara.",
+                "$~Det finns /så/ många olika sätt du kan animera med detta! Till exempel, här är ett enkelt:",
                 "$~\\Phrase('hi' resting:Sequence({0%: Pose(rotation: 360°) 100%: Pose(rotation: 0°)})\\",
-                "$~Detta säger, /i början (0%), börja vid tilt 360 och sluta vid tilt 0/. Det kommer att snurra oss i cirklar för alltid, eftersom jag är inställd som @Phrase viloställning!",
-                "$~Prova dina egna kreativa danser genom att spela med andra input."
+                "$~Detta säger, /i början (0%), börjar vid lutning 360 och slutar vid lutning 0/. Det kommer att snurra oss runt i cirklar för alltid, eftersom jag är inställd som @Phrase :s viloposition!",
+                "$~Prova dina egna kreativa danser genom att leka med andra ingångar."
             ],
             "names": ["$~💃", "$~Sekvens"],
             "poses": {
@@ -4959,7 +4954,7 @@
             }
         },
         "Velocity": {
-            "doc": "$~Jag är en plats på @Stage. Alla mina inmatningar är valfria, eftersom jag är i centrum som standard.",
+            "doc": "$~Jag är hur snabbt @Output rör sig på @Stage — meter per sekund längs x och y, och grader per sekund av rotation. Mina indata är valfria; som standard rör sig ingenting.",
             "names": ["$~💨", "$~Hastighet"],
             "x": {
                 "doc": "$~Hur många meter som ska flyttas varje sekund på x-axeln.",
@@ -5004,8 +4999,8 @@
         },
         "Aura": {
             "doc": [
-                "$~Jag är en AURA. Jag gör @Phrase GLOW! Så här:",
-                "$~\\Fras(\n\t\"JAG GLÖDER!\" \n\taura: Aura(Färg(50 % 100 118°) 0,1m 0m 0,1m\n)\\"
+                "$~Jag gör @Phrase GLÖD! Jag är en AURA. Så här:",
+                "$~\\Phrase(\n\t'I am GLOWING!' \n\taura: Aura(Color(50% 100 118°) 0.1m 0m 0.1m\n)\\"
             ],
             "names": ["$~🔮", "$~Aura"],
             "color": {
@@ -5027,12 +5022,12 @@
         },
         "Stage": {
             "doc": [
-                "$~HEJ. SCEN HÄR. BETALA MIG VAD SKA VISA OCH JAG SKA VISA DET.",
+                "$~JAG VISAR DITT @Output FÖR PUBLIKEN. HEJ. SCEN HÄR. BERÄTTA MIG VAD JAG SKA VISA SÅ VISAR JAG DET.",
                 "$~\\Stage([Phrase('stufffffff')])\\",
-                "$~OM DU VILL, GE MIG EN BAKGRUND @Color OCH JAG LÄNSER SCENEN I ENLIGHET.",
-                "$~\\Stage([Fras('stufffffff')] bakgrund: Färg(75% 50 100°)\\",
-                "$~DU KAN OCKSÅ GER MIG EN RAMKANT OCH JAG SKÖRAR.",
-                "$~\\Stage([Phrase('stufffffff')] bakgrund: Färg(75% 50 100°) ram: Rektangel(-1m -1m 1m 1m))\\"
+                "$~OM DU VILL, GE MIG EN BAKGRUND @Color SÅ LJUSAR JAG SCENEN DÄREFTER.",
+                "$~\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°))\\",
+                "$~DU KAN OCKSÅ GE MIG EN RAMKANT SÅ BESKÄR JAG.",
+                "$~\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°) frame: Rectangle(-1m -1m 1m 1m))\\"
             ],
             "names": ["$~🎭", "$~Etapp"],
             "content": {
@@ -5338,7 +5333,7 @@
         },
         "Say": {
             "doc": [
-                "$~Hej! Jag heter @Say , och jag läser upp texten högt istället för att visa den på @Stage .",
+                "$~Jag läser upp texten högt istället för att visa den på @Stage . Hej!",
                 "$~Ge mig bara något att säga, så säger jag det varje gång ditt program utvärderas:",
                 "$~\\Say('blah blah blah')\\",
                 "$~Jag använder @Language för @TextLiteral om det finns ett, annars använder jag det valda språket.",
