@@ -8,6 +8,8 @@ import {
 } from '@locale/LocaleText';
 import type { RegionCode } from '@locale/Regions';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
+import { KeywordIds } from '@parser/Keywords';
+import ReservedSymbols from '@parser/ReservedSymbols';
 import type LocalePath from '@util/verify-locales/LocalePath';
 import {
     DefaultLocale,
@@ -401,6 +403,38 @@ if (FocalLocale === null) {
                 .join(', ')}`,
         );
     } else log.good(0, 'No unused locale keys detected.');
+}
+
+// Verify keyword integrity: each localized keyword must be a single token (no spaces or hyphens) and
+// not collide with a reserved symbol, so it can be tokenized as one keyword. Warning, not error:
+// render-only display tolerates multi-word seeds, and machine-translated seeds are reviewed before a
+// locale's keywords ship. Coverage (every keyword present) is already enforced by the schema.
+{
+    const keywordIssues: string[] = [];
+    for (const [locale, localeText] of Object.entries(textByLocale)) {
+        const block = localeText.keyword;
+        if (block === undefined) continue;
+        for (const id of KeywordIds) {
+            const raw = block[id];
+            if (typeof raw !== 'string') continue;
+            const value = withoutAnnotations(raw).trim();
+            if (value.length === 0) continue; // Unwritten; coverage enforced by schema.
+            if (/[\s-]/.test(value))
+                keywordIssues.push(
+                    `${locale}.keyword.${id} ("${value}") is not a single token`,
+                );
+            else if (ReservedSymbols.includes(value))
+                keywordIssues.push(
+                    `${locale}.keyword.${id} ("${value}") collides with a reserved symbol`,
+                );
+        }
+    }
+    if (keywordIssues.length > 0)
+        log.warning(
+            0,
+            `${keywordIssues.length} keyword(s) to review (must be a single, hyphen-free, non-reserved token): ${keywordIssues.join('; ')}`,
+        );
+    else log.good(0, 'All keywords are single, hyphen-free tokens.');
 }
 
 // If the user asked for a specific locale, and a folder doesn't exist for it yet, create one.

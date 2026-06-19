@@ -575,6 +575,10 @@
                     "name": "$~unbenutzteBindung",
                     "explanation": "$~Ich heiße $name, aber niemand benutzt mich. Vielleicht werde ich nicht gebraucht?",
                     "resolution": "$~Diese Bindung löschen"
+                },
+                "ShadowsKeyword": {
+                    "name": "$~SchatteneinSchlüsselwort",
+                    "explanation": "$~Dieser Name ist gleichzeitig das Schlüsselwort $keyword , daher werde ich ihn hier als Namen lesen; das Schlüsselwort $keyword funktioniert auch an anderer Stelle."
                 }
             },
             "label": {
@@ -1946,7 +1950,7 @@
                 "$~Verfeinern Sie eine Klasse mit einer @PatternProperty , wie z. B. \\⣿_/greek⣿\\ für einen griechischen Buchstaben oder \\⣿◌/emoji⣿\\ .",
                 "$~Benennen Sie ein Teil mit einer @PatternCapture , z. B. \\⣿year:(4 #)⣿\\ , und verwenden Sie es später mit einer @PatternBackref wieder, indem Sie seinen reinen Namen angeben. Jedes @Result Objekt meldet erfasste Teile anhand ihres Namens.",
                 "$~Verankern Sie die Kanten mit einem @PatternAnchor : \\⣿⊢⣿\\ start, \\⣿⊣⣿\\ end. Sehen Sie sich die Ansicht an, ohne sie zu verbrauchen, indem Sie ein @PatternLook : \\⣿▸(#)⣿\\ ahead, \\⣿◂(#)⣿\\ behind verwenden.",
-                "$~Ganze Wörter werden mit einem @PatternWord \\⣿▭/en⣿\\ oder Wortgrenzen mit einem @PatternWordEdge \\⣿┊/en⣿\\ abgeglichen, segmentiert für eine Sprache. Groß- und Kleinschreibung innerhalb eines @PatternCaseFold \\⣿⇕(\"hi\")⣿\\ wird ignoriert.",
+                "$~Ganze Wörter werden mit einem @PatternWord \\⣿▭/en⣿\\ oder Wortgrenzen mit einem @PatternWordEdge \\⣿┊/en⣿\\ abgeglichen, segmentiert für eine Sprache. Groß- und Kleinschreibung innerhalb eines @PatternCaseFold \\⣿Aa(\"hi\")⣿\\ wird ignoriert.",
                 "$~Mein Typ ist ein @PatternType – damit kann man einen Namen annotieren, wie z. B. \\p•⣿⣿: ⣿◌⣿\\ – sodass man mich in einem Namen speichern und in vielen Texten wiederverwenden kann."
             ],
             "start": "$~Mal sehen, wie dieser Text aussieht.",
@@ -2208,8 +2212,8 @@
             "doc": [
                 "$~Beim Zusammenstellen der Teile wird Groß- und Kleinschreibung ignoriert.",
                 "$~Prüfen Sie beispielsweise ein Wort unabhängig von seiner Groß- und Kleinschreibung:",
-                "$~\\shout: 'HELLO'\nshout ≈ ⣿⇕(\"hello\")⣿\\",
-                "$~Umschließen Sie meine Teile wie \\⣿⇕(\"hi\")⣿\\ (passt zu \"HI\", \"Hi\", oder \"hi\"). Fügen Sie eine Sprache für ihre Regeln hinzu, wie \\⣿⇕/tr(\"i\")⣿\\ (Turkisches i), und ich lege auch einen @PatternBackref fest, wie \\⣿⇕(w:(2 _) w)⣿\\ ."
+                "$~\\shout: 'HELLO'\nshout ≈ ⣿Aa(\"hello\")⣿\\",
+                "$~Umschließen Sie meine Teile wie \\⣿Aa(\"hi\")⣿\\ (passt zu \"HI\", \"Hi\", oder \"hi\"). Fügen Sie eine Sprache für ihre Regeln hinzu, wie \\⣿Aa/tr(\"i\")⣿\\ (Turkisches i), und ich lege auch einen @PatternBackref fest, wie \\⣿Aa(w:(2 _) w)⣿\\ ."
             ]
         },
         "PatternType": {
@@ -6358,6 +6362,14 @@
                             "$~Lange Zeilen scrollen im Textmodus horizontal.",
                             "$~Im Textmodus werden lange Zeilen in das Editorfenster umgebrochen."
                         ]
+                    },
+                    "words": {
+                        "label": "$~Schlüsselwörter",
+                        "labels": ["$~Symbole", "$~Wörter"],
+                        "tips": [
+                            "$~Eingebaute Schlüsselwörter als Symbole anzeigen",
+                            "$~Integrierte Schlüsselwörter als Wörter in Ihrer Sprache anzeigen"
+                        ]
                     }
                 },
                 "options": {
@@ -7990,5 +8002,43 @@
         "noscript": "$~Wordplay verwendet JavaScript. Ihr Browser unterstützt es nicht oder es ist deaktiviert.",
         "unsupportedHeading": "$~Nicht unterstützter Browser",
         "unsupportedBody": "$~Ihr Browser unterstützt wichtige Funktionen nicht. Um Wordplay nutzen zu können, müssen Sie auf eine neuere Version aktualisieren."
+    },
+    "keyword": {
+        "function": "Funktion",
+        "type": "Typ",
+        "number": "Zahl",
+        "none": "Nichts",
+        "true": "wahr",
+        "false": "falsch",
+        "borrow": "leihen",
+        "share": "teilen",
+        "convert": "als",
+        "translate": "übersetzen",
+        "conditional": "dann",
+        "booleantype": "Wahrheit",
+        "otherwise": "sonst",
+        "match": "passt",
+        "stream": "Datenstrom",
+        "changed": "geändert",
+        "initial": "erste",
+        "previous": "vorherige",
+        "this": "dies",
+        "and": "und",
+        "or": "oder",
+        "not": "nicht",
+        "letter": "Buchstabe",
+        "digit": "Ziffer",
+        "patternspace": "Leerzeichen",
+        "patternword": "Wort",
+        "any": "beliebig",
+        "start": "Anfang",
+        "end": "Ende",
+        "rest": "Rest",
+        "edge": "Grenze",
+        "ahead": "voraus",
+        "behind": "zurück",
+        "range": "bis",
+        "complement": "nicht",
+        "alternation": "oder"
     }
 }

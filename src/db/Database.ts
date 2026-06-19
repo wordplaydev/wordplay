@@ -963,6 +963,7 @@ export const wellspringWidth = derived(
 export const mic = Settings.settings.mic.value;
 export const voice = Settings.settings.say.value;
 export const blocks = Settings.settings.blocks.value;
+export const words = Settings.settings.words.value;
 export const blockDensity = Settings.settings.blockDensity.value;
 export const howToNotifications = Settings.settings.howToNotifications.value;
 export const status = DB.Status;

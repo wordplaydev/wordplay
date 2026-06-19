@@ -583,6 +583,10 @@
                     "name": "$~pengikatyangtidakterpakai",
                     "explanation": "$~Nama saya $name , tetapi tidak ada yang menggunakan saya. Mungkin saya tidak dibutuhkan?",
                     "resolution": "$~Hapus pengikatan ini"
+                },
+                "ShadowsKeyword": {
+                    "name": "$~bayangansebuahkatakunci",
+                    "explanation": "$~Nama ini juga merupakan kata kunci $keyword , jadi saya akan membacanya sebagai nama di sini; kata kunci $keyword masih berfungsi di tempat lain."
                 }
             }
         },
@@ -1951,7 +1955,7 @@
                 "$~Sempurnakan sebuah kelas dengan @PatternProperty , seperti \\⣿_/greek⣿\\ untuk huruf Yunani atau \\⣿◌/emoji⣿\\ .",
                 "$~Beri nama sebuah bagian dengan @PatternCapture , seperti \\⣿year:(4 #)⣿\\ , lalu gunakan kembali nanti dengan @PatternBackref dengan menuliskan nama aslinya. Setiap @Result melaporkan bagian yang ditangkap berdasarkan namanya.",
                 "$~Berlabuh ke tepi dengan @PatternAnchor : \\⣿⊢⣿\\ mulai, \\⣿⊣⣿\\ akhir. Intip tanpa mengonsumsi menggunakan @PatternLook : \\⣿▸(#)⣿\\ di depan, \\⣿◂(#)⣿\\ di belakang.",
-                "$~Cocokkan seluruh kata dengan @PatternWord \\⣿▭/en⣿\\ atau batas kata dengan @PatternWordEdge \\⣿┊/en⣿\\ , yang disegmentasikan untuk suatu bahasa. Abaikan perbedaan huruf besar dan kecil di dalam @PatternCaseFold \\⣿⇕(\"hi\")⣿\\ .",
+                "$~Cocokkan seluruh kata dengan @PatternWord \\⣿▭/en⣿\\ atau batas kata dengan @PatternWordEdge \\⣿┊/en⣿\\ , yang disegmentasikan untuk suatu bahasa. Abaikan perbedaan huruf besar dan kecil di dalam @PatternCaseFold \\⣿Aa(\"hi\")⣿\\ .",
                 "$~Tipe saya adalah @PatternType — beri anotasi pada nama dengan tipe ini, seperti \\p•⣿⣿: ⣿◌⣿\\ — sehingga Anda dapat menyimpan saya dalam sebuah nama dan menggunakannya kembali di banyak teks."
             ],
             "start": "$~Coba saya lihat seperti apa teks ini.",
@@ -2213,8 +2217,8 @@
             "doc": [
                 "$~Saya mencocokkan bagian-bagiannya dengan mengabaikan huruf besar dan kecil.",
                 "$~Sebagai contoh, periksa sebuah kata dengan mengabaikan huruf kapitalnya:",
-                "$~\\shout: 'HELLO'\nshout ≈ ⣿⇕(\"hello\")⣿\\",
-                "$~Bungkus bagian saya seperti \\⣿⇕(\"hi\")⣿\\ (cocok dengan \"HI\", \"Hi\", atau \"hi\"). Tambahkan bahasa untuk aturannya, seperti \\⣿⇕/tr(\"i\")⣿\\ (Turki i), dan saya juga menyertakan @PatternBackref , seperti \\⣿⇕(w:(2 _) w)⣿\\ ."
+                "$~\\shout: 'HELLO'\nshout ≈ ⣿Aa(\"hello\")⣿\\",
+                "$~Bungkus bagian saya seperti \\⣿Aa(\"hi\")⣿\\ (cocok dengan \"HI\", \"Hi\", atau \"hi\"). Tambahkan bahasa untuk aturannya, seperti \\⣿Aa/tr(\"i\")⣿\\ (Turki i), dan saya juga menyertakan @PatternBackref , seperti \\⣿Aa(w:(2 _) w)⣿\\ ."
             ]
         },
         "PatternType": {
@@ -6614,6 +6618,14 @@
                             "$~Baris panjang bergulir secara horizontal dalam mode teks.",
                             "$~Baris panjang akan membungkus ke jendela editor dalam mode teks."
                         ]
+                    },
+                    "words": {
+                        "label": "$~kata kunci",
+                        "labels": ["$~simbol", "$~kata-kata"],
+                        "tips": [
+                            "$~Tampilkan kata kunci bawaan sebagai simbol.",
+                            "$~Tampilkan kata kunci bawaan sebagai kata-kata dalam bahasa Anda."
+                        ]
                     }
                 },
                 "options": {
@@ -7986,5 +7998,43 @@
         "noscript": "$~Wordplay menggunakan JavaScript. Browser Anda tidak mendukungnya, atau fitur tersebut dinonaktifkan.",
         "unsupportedHeading": "$~Browser yang tidak didukung",
         "unsupportedBody": "$~Browser Anda tidak mendukung fungsi penting. Untuk menggunakan Wordplay, Anda perlu memperbarui ke versi yang lebih baru."
+    },
+    "keyword": {
+        "function": "fungsi",
+        "type": "jenis",
+        "number": "nomor",
+        "none": "kosong",
+        "true": "benar",
+        "false": "salah",
+        "borrow": "pinjam",
+        "share": "bagikan",
+        "convert": "sebagai",
+        "translate": "terjemah",
+        "conditional": "maka",
+        "booleantype": "kebenaran",
+        "otherwise": "selain",
+        "match": "cocok",
+        "stream": "aliran",
+        "changed": "berubah",
+        "initial": "pertama",
+        "previous": "sebelumnya",
+        "this": "ini",
+        "and": "dan",
+        "or": "atau",
+        "not": "bukan",
+        "letter": "huruf",
+        "digit": "angka",
+        "patternspace": "spasi",
+        "patternword": "kata",
+        "any": "apapun",
+        "start": "awal",
+        "end": "akhir",
+        "rest": "sisa",
+        "edge": "batas",
+        "ahead": "depan",
+        "behind": "belakang",
+        "range": "sampai",
+        "complement": "bukan",
+        "alternation": "atau"
     }
 }

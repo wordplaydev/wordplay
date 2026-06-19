@@ -8,7 +8,7 @@
     import FoldEllipsis from '@components/editor/util/FoldEllipsis.svelte';
     import CollapsedHeader from '@components/editor/util/CollapsedHeader.svelte';
 
-    /** A case-folded scope `⇕( … )` (optionally locale-tagged). The fold glyph
+    /** A case-folded scope `Aa( … )` (optionally locale-tagged). The fold glyph
      *  and any language tag stay visible when collapsed. */
     interface Props {
         node: PatternCaseFold;

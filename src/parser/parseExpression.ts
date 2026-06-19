@@ -269,8 +269,18 @@ function parseAtomicExpression(tokens: Tokens): Expression {
                             parseReference(tokens),
                             parseAtomicExpression(tokens),
                         )
-                      : // References can be names or binary operators
-                        tokens.nextIsOneOf(Sym.Name, Sym.Operator)
+                      : // References can be names or binary operators. A dual-typed keyword word
+                        // (carrying both Sym.Name and a construct Sym, from localized-keyword input)
+                        // defers to its construct branch below, so a typed construct keyword parses as
+                        // the construct rather than a reference. Pure tokens never carry both, so this
+                        // is a no-op unless a keyword index is active. See LANGUAGE.md.
+                        tokens.nextIsOneOf(Sym.Name, Sym.Operator) &&
+                        !tokens.nextIsOneOf(
+                            Sym.Function,
+                            Sym.Type,
+                            Sym.Convert,
+                            Sym.Boolean,
+                        )
                         ? parseReference(tokens)
                         : // Booleans
                           tokens.nextIs(Sym.Boolean)

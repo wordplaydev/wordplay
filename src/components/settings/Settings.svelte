@@ -24,6 +24,7 @@
         showLines,
         spaceIndicator,
         voice,
+        words,
         wrap,
     } from '@db/Database';
     import {
@@ -283,6 +284,12 @@
             choice={$blocks ? 1 : 0}
             select={(choice) => Settings.setBlocks(choice === 1 ? true : false)}
             icons={[TEXT_EDITING_SYMBOL, BLOCK_EDITING_SYMBOL]}
+        />
+        <Mode
+            modes={(l) => l.ui.dialog.settings.mode.words}
+            choice={$words ? 1 : 0}
+            select={(choice) => Settings.setWords(choice === 1 ? true : false)}
+            icons={['ƒ', 'Aa']}
         />
         {#if $blocks}
             <div class="indented">

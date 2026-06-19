@@ -11,8 +11,11 @@
         getProject,
         getRoot,
     } from '@components/project/Contexts';
-    import { locales } from '@db/Database';
+    import { locales, words } from '@db/Database';
+    import { getOperatorKeyword, getRenderableKeyword } from '@parser/Keywords';
+    import { getCanonicalGlyph } from '@parser/canonicalizeKeywords';
     import Caret from '@edit/caret/Caret';
+    import BooleanType from '@nodes/BooleanType';
     import Convert from '@nodes/Convert';
     import Dimension from '@nodes/Dimension';
     import Evaluate from '@nodes/Evaluate';
@@ -114,18 +117,64 @@
         bracketDepth === undefined ? '' : `bracket-depth-${bracketDepth % 6}`,
     );
 
+    // In words mode, render a built-in keyword token as its localized word (render-only; the stored
+    // source stays the canonical symbol). Skipped while the caret is in the token so editing shows
+    // the literal source, and when the locale has no word (falls back to the symbol). See LANGUAGE.md.
+    let keywordWord = $derived.by(() => {
+        if (!$words || isInCaret) return undefined;
+        // Construct keywords resolve by their (unambiguous) Sym type and glyph.
+        let id = getRenderableKeyword(node);
+        // The `?` glyph is dual-typed (BooleanType + Conditional). Pick the word by the token's role:
+        // a `?` under a BooleanType parent is the type ("truth"); otherwise it's the conditional ("then").
+        if (
+            root &&
+            node.isSymbol(Sym.BooleanType) &&
+            node.isSymbol(Sym.Conditional)
+        )
+            id =
+                root.getParent(node) instanceof BooleanType
+                    ? 'booleantype'
+                    : 'conditional';
+        // Operators (& | ~) share Sym types with type unions and markup, so only word them when
+        // used as an operator — i.e. the token is the name of a Reference inside a Binary/UnaryEvaluate.
+        if (
+            id === undefined &&
+            root &&
+            node.isSymbol(Sym.Operator) &&
+            root.getParent(node) instanceof Reference
+        )
+            id = getOperatorKeyword(node.getText());
+        if (id === undefined) return undefined;
+        const word = $locales.getUnannotatedText((l) => l.keyword[id]);
+        return word.length > 0 ? word : undefined;
+    });
+
+    // In symbols mode, render a word-TYPED keyword construct as its canonical glyph (the mirror of
+    // keywordWord), so the two display modes are interchangeable regardless of how the source was
+    // typed. Role-aware (a shadow-name like `número` keeps its word). No-op for glyph-typed tokens
+    // (the glyph isn't a keyword word) and when no keyword index is active.
+    let keywordGlyph = $derived.by(() => {
+        if ($words || isInCaret || root === undefined) return undefined;
+        const index = $project?.getKeywordIndex();
+        return index === undefined
+            ? undefined
+            : getCanonicalGlyph(node, root, index);
+    });
+
     // If requesed, localize the token's text.
     // Don't localize the name if the caret is in the name.
     let text = $derived(
-        context && root && localize && $localize
-            ? node.localized(
-                  isInCaret,
-                  node.isSymbol(Sym.Operator),
-                  $localize,
-                  root,
-                  context,
-              )
-            : node.getText(),
+        keywordWord ??
+            keywordGlyph ??
+            (context && root && localize && $localize
+                ? node.localized(
+                      isInCaret,
+                      node.isSymbol(Sym.Operator),
+                      $localize,
+                      root,
+                      context,
+                  )
+                : node.getText()),
     );
 
     // Prepare the text for rendering by replacing spaces with non-breaking spaces
@@ -198,6 +247,7 @@
         class:placeholder={placeholder !== undefined}
         class:added
         class:bracket={isBracket}
+        class:synthesized={keywordWord !== undefined}
         data-id={node.id}
         role="presentation"
     >
@@ -218,6 +268,20 @@
 
         /** This allows us to style things up the the tree. */
         text-decoration: inherit;
+    }
+
+    /* In words mode, a built-in keyword rendered as a word (text mode) is shown as a subtle chip.
+       The chip discloses that the word is a synthesized rendering — the stored source is the symbol —
+       and, because symbols carry no required surrounding space, it also keeps adjacent words from
+       running together (e.g. count•# would otherwise read as "counttypenumber"). Horizontal padding
+       plus a thin margin give each word a visible boundary without injecting whitespace into the
+       text flow; the small margin avoids doubling space when a skinned keyword already had one.
+       Blocks mode is excluded — it already separates tokens with a flex gap. */
+    .token-view.text.synthesized {
+        background: var(--wordplay-alternating-color);
+        border-radius: var(--wordplay-border-radius);
+        padding: 0 0.2em;
+        margin: 0 0.05em;
     }
 
     .hide {

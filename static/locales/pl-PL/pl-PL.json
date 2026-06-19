@@ -575,6 +575,10 @@
                     "name": "$~nieużywanepowiązanie",
                     "explanation": "$~Nazywam się $name, ale nikt mnie nie wykorzystuje. Może nie jestem potrzebny?",
                     "resolution": "$~Usuń to powiązanie"
+                },
+                "ShadowsKeyword": {
+                    "name": "$~cieniesłowakluczowego",
+                    "explanation": "$~Ta nazwa jest również słowem $keyword , więc będę ją tutaj odczytywać jako nazwę; słowo $keyword keyword nadal działa gdzie indziej."
                 }
             },
             "label": {
@@ -1946,7 +1950,7 @@
                 "$~Udoskonal klasę za pomocą @PatternProperty , np. \\⣿_/greek⣿\\ dla litery greckiej lub \\⣿◌/emoji⣿\\ .",
                 "$~Nazwij element atrybutem @PatternCapture , np. \\⣿year:(4 #)⣿\\ , a następnie użyj go ponownie później z atrybutem @PatternBackref , podając jego nazwę. Każdy @Result raportuje przechwycone elementy według nazwy.",
                 "$~Zakotwicz do krawędzi za pomocą @PatternAnchor : \\⣿⊢⣿\\ start, \\⣿⊣⣿\\ end. Podejrzyj bez zużycia za pomocą @PatternLook : \\⣿▸(#)⣿\\ ahead, \\⣿◂(#)⣿\\ behind.",
-                "$~Dopasuj całe słowa za pomocą @PatternWord \\⣿▭/en⣿\\ lub granice słów za pomocą @PatternWordEdge \\⣿┊/en⣿\\ , segmentując je pod kątem języka. Ignoruj wielkość liter wewnątrz @PatternCaseFold \\⣿⇕(\"hi\")⣿\\ .",
+                "$~Dopasuj całe słowa za pomocą @PatternWord \\⣿▭/en⣿\\ lub granice słów za pomocą @PatternWordEdge \\⣿┊/en⣿\\ , segmentując je pod kątem języka. Ignoruj wielkość liter wewnątrz @PatternCaseFold \\⣿Aa(\"hi\")⣿\\ .",
                 "$~Mój typ to @PatternType — opisz nim nazwę, np. \\p•⣿⣿: ⣿◌⣿\\ — dzięki temu możesz mnie zapisać pod nazwą i używać ponownie w wielu tekstach."
             ],
             "start": "$~Pokaż mi jak wygląda ten tekst.",
@@ -2208,8 +2212,8 @@
             "doc": [
                 "$~Dopasowuję części, ignorując wielkie i małe litery.",
                 "$~Na przykład, sprawdź słowo, ignorując wielkość liter:",
-                "$~\\shout: 'HELLO'\nshout ≈ ⣿⇕(\"hello\")⣿\\",
-                "$~Opakowuję moje części w stylu \\⣿⇕(\"hi\")⣿\\ (dopasowuje \"HI\", \"Hi\" lub \"hi\")). Dodaj język dla jego reguł, na przykład \\⣿⇕/tr(\"i\")⣿\\ (tureckie i), a także zakres @PatternBackref , na przykład \\⣿⇕(w:(2 _) w)⣿\\ ."
+                "$~\\shout: 'HELLO'\nshout ≈ ⣿Aa(\"hello\")⣿\\",
+                "$~Opakowuję moje części w stylu \\⣿Aa(\"hi\")⣿\\ (dopasowuje \"HI\", \"Hi\" lub \"hi\")). Dodaj język dla jego reguł, na przykład \\⣿Aa/tr(\"i\")⣿\\ (tureckie i), a także zakres @PatternBackref , na przykład \\⣿Aa(w:(2 _) w)⣿\\ ."
             ]
         },
         "PatternType": {
@@ -6381,6 +6385,14 @@
                             "$~długie linie przewijają się poziomo w trybie tekstowym",
                             "$~długie linie zawijają się do okna edytora w trybie tekstowym"
                         ]
+                    },
+                    "words": {
+                        "label": "$~słowa kluczowe",
+                        "labels": ["$~symbolika", "$~słowa"],
+                        "tips": [
+                            "$~pokaż wbudowane słowa kluczowe jako symbole",
+                            "$~pokaż wbudowane słowa kluczowe jako słowa w swoim języku"
+                        ]
                     }
                 },
                 "options": {
@@ -7996,5 +8008,43 @@
         "noscript": "$~Wordplay korzysta z JavaScript. Twoja przeglądarka go nie obsługuje lub jest wyłączony.",
         "unsupportedHeading": "$~Nieobsługiwana przeglądarka",
         "unsupportedBody": "$~Twoja przeglądarka nie obsługuje kluczowych funkcji. Aby korzystać z Wordplay, musisz zaktualizować ją do nowszej wersji."
+    },
+    "keyword": {
+        "function": "funkcja",
+        "type": "typ",
+        "number": "liczba",
+        "none": "nic",
+        "true": "prawda",
+        "false": "fałsz",
+        "borrow": "pożyczyć",
+        "share": "udostępnij",
+        "convert": "jako",
+        "translate": "tłumacz",
+        "conditional": "wtedy",
+        "booleantype": "prawdziwość",
+        "otherwise": "inaczej",
+        "match": "dopasuj",
+        "stream": "strumień",
+        "changed": "zmienione",
+        "initial": "pierwsza",
+        "previous": "poprzedni",
+        "this": "ten",
+        "and": "i",
+        "or": "lub",
+        "not": "nie",
+        "letter": "litera",
+        "digit": "cyfra",
+        "patternspace": "spacja",
+        "patternword": "słowo",
+        "any": "dowolny",
+        "start": "początek",
+        "end": "koniec",
+        "rest": "reszta",
+        "edge": "granica",
+        "ahead": "przód",
+        "behind": "tył",
+        "range": "do",
+        "complement": "nie",
+        "alternation": "lub"
     }
 }

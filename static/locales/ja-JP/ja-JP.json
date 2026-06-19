@@ -575,6 +575,10 @@
                     "name": "$~未使用のバインド",
                     "explanation": "$~私の名前は$name",
                     "resolution": "$~このバインディングを削除"
+                },
+                "ShadowsKeyword": {
+                    "name": "$~キーワードをシャドウイングする",
+                    "explanation": "$~この名前は$keyword、ここでは名前として読み上げます。 $keyword。"
                 }
             },
             "label": {
@@ -1946,7 +1950,7 @@
                 "$~ギリシャ文字の場合は\\⣿_/greek⣿\\ 、または\\⣿◌/emoji⣿\\のように、 @PatternProperty。",
                 "$~@PatternCapture、 \\⣿year:(4 #)⣿\\のようにパターンに名前を付け、後で@PatternBackref。各@Result 、キャプチャされたパターンを名前で報告します。",
                 "$~@PatternAnchor : \\⣿⊢⣿\\ start, \\⣿⊣⣿\\ end を使用して端に固定します。 @PatternLook : \\⣿▸(#)⣿\\ ahead, \\⣿◂(#)⣿\\ behind を使用して消費せずに覗き見ます。",
-                "$~言語ごとに分割された単語全体を@PatternWord \\⣿▭/en⣿\\でマッチさせるか、単語の境界を@PatternWordEdge \\⣿┊/en⣿\\でマッチさせます。 @PatternCaseFold \\⣿⇕(\"hi\")⣿\\内の文字の大文字小文字は無視します。",
+                "$~言語ごとに分割された単語全体を@PatternWord \\⣿▭/en⣿\\でマッチさせるか、単語の境界を@PatternWordEdge \\⣿┊/en⣿\\でマッチさせます。 @PatternCaseFold \\⣿Aa(\"hi\")⣿\\内の文字の大文字小文字は無視します。",
                 "$~私の型は@PatternType。名前に\\p•⣿⣿: ⣿◌⣿\\のように注釈を付けることで、私を名前に格納し、複数のテキストで再利用できます。"
             ],
             "start": "$~このテキストがどんなものか見てみましょう。",
@@ -2208,8 +2212,8 @@
             "doc": [
                 "$~大文字と小文字を区別せずに部品を照合します。",
                 "$~例えば、大文字と小文字を区別せずに単語をチェックしてみましょう。",
-                "$~\\shout: 'HELLO'\nshout ≈ ⣿⇕(\"hello\")⣿\\",
-                "$~\\⣿⇕(\"hi\")⣿\\ (\"HI\", \"Hi\", \"hi\") に一致) のようにパーツをラップします。 \\⣿⇕/tr(\"i\")⣿\\ (トルコ語の i) のようにルールに言語を追加し、 \\⣿⇕(w:(2 _) w)⣿\\のように@PatternBackref。"
+                "$~\\shout: 'HELLO'\nshout ≈ ⣿Aa(\"hello\")⣿\\",
+                "$~\\⣿Aa(\"hi\")⣿\\ (\"HI\", \"Hi\", \"hi\") に一致) のようにパーツをラップします。 \\⣿Aa/tr(\"i\")⣿\\ (トルコ語の i) のようにルールに言語を追加し、 \\⣿Aa(w:(2 _) w)⣿\\のように@PatternBackref。"
             ]
         },
         "PatternType": {
@@ -6365,6 +6369,14 @@
                             "$~テキストモードでは、長い行は水平方向にスクロールします。",
                             "$~テキストモードで長い行がエディタウィンドウに折り返される"
                         ]
+                    },
+                    "words": {
+                        "label": "$~キーワード",
+                        "labels": ["$~シンボル", "$~言葉"],
+                        "tips": [
+                            "$~組み込みキーワードをシンボルとして表示する",
+                            "$~組み込みキーワードをあなたの言語の単語として表示する"
+                        ]
                     }
                 },
                 "options": {
@@ -7977,5 +7989,43 @@
         "noscript": "$~WordplayはJavaScriptを使用しています。お使いのブラウザはJavaScriptをサポートしていないか、無効になっています。",
         "unsupportedHeading": "$~サポートされていないブラウザ",
         "unsupportedBody": "$~お使いのブラウザは重要な機能をサポートしていません。Wordplayを使用するには、より新しいバージョンにアップグレードする必要があります。"
+    },
+    "keyword": {
+        "function": "関数",
+        "type": "型",
+        "number": "数",
+        "none": "なし",
+        "true": "真",
+        "false": "偽",
+        "borrow": "借りる",
+        "share": "共有",
+        "convert": "として",
+        "translate": "翻訳",
+        "conditional": "なら",
+        "booleantype": "真偽",
+        "otherwise": "さもないと",
+        "match": "一致",
+        "stream": "ストリーム",
+        "changed": "変化",
+        "initial": "最初",
+        "previous": "前",
+        "this": "これ",
+        "and": "かつ",
+        "or": "または",
+        "not": "否",
+        "letter": "文字",
+        "digit": "数字",
+        "patternspace": "空白",
+        "patternword": "単語",
+        "any": "任意",
+        "start": "開始",
+        "end": "終了",
+        "rest": "残り",
+        "edge": "境界",
+        "ahead": "前方",
+        "behind": "後方",
+        "range": "まで",
+        "complement": "否",
+        "alternation": "または"
     }
 }

@@ -583,6 +583,10 @@
                     "name": "$~hindinagamitnabind",
                     "explanation": "$~Ang pangalan ko ay $name, pero walang gumagamit sa akin. Siguro hindi ako kailangan?",
                     "resolution": "$~Burahin ang pagbubuklod na ito"
+                },
+                "ShadowsKeyword": {
+                    "name": "$~inaaninoangisangkeyword",
+                    "explanation": "$~Ang pangalang ito ay ang keyword $keyword din, kaya babasahin ko ito bilang isang pangalan dito; ang keyword $keyword ay gumagana pa rin sa ibang lugar."
                 }
             }
         },
@@ -1949,7 +1953,7 @@
                 "$~Pinuhin ang isang klase gamit ang isang @PatternProperty , tulad ng \\⣿_/greek⣿\\ para sa isang Griyegong letra o \\⣿◌/emoji⣿\\ .",
                 "$~Pangalanan ang isang piraso gamit ang @PatternCapture , tulad ng \\⣿year:(4 #)⣿\\ , pagkatapos ay gamitin itong muli sa ibang pagkakataon gamit ang @PatternBackref sa pamamagitan ng pagsulat ng hubad nitong pangalan. Ang bawat @Result ay nag-uulat ng mga nakuhang piraso ayon sa pangalan.",
                 "$~I-angkla sa mga gilid gamit ang isang @PatternAnchor : \\⣿⊢⣿\\ simula, \\⣿⊣⣿\\ dulo. Sumilip nang hindi kumukunsumo gamit ang isang @PatternLook : \\⣿▸(#)⣿\\ unahan, \\⣿◂(#)⣿\\ likuran.",
-                "$~Pagtugmain ang mga buong salita gamit ang @PatternWord \\⣿▭/en⣿\\ o mga hangganan ng salita gamit ang @PatternWordEdge \\⣿┊/en⣿\\ , na naka-segment para sa isang wika. Balewalain ang malalaking titik sa loob ng @PatternCaseFold \\⣿⇕(\"hi\")⣿\\ .",
+                "$~Pagtugmain ang mga buong salita gamit ang @PatternWord \\⣿▭/en⣿\\ o mga hangganan ng salita gamit ang @PatternWordEdge \\⣿┊/en⣿\\ , na naka-segment para sa isang wika. Balewalain ang malalaking titik sa loob ng @PatternCaseFold \\⣿Aa(\"hi\")⣿\\ .",
                 "$~Ang tipo ko ay isang @PatternType — lagyan ng anotasyon ang isang pangalan gamit ito, tulad ng \\p•⣿⣿: ⣿◌⣿\\ — para maiimbak mo ako sa isang pangalan at magamit muli sa maraming teksto."
             ],
             "start": "$~Tingnan ko kung ano ang hitsura ng tekstong ito.",
@@ -2211,8 +2215,8 @@
             "doc": [
                 "$~Pinagtugma ko ang mga bahagi ko nang hindi pinapansin ang malaki at maliit na titik.",
                 "$~Halimbawa, lagyan ng tsek ang isang salita na hindi pinapansin ang malaking titik nito:",
-                "$~\\shout: 'HELLO'\nshout ≈ ⣿⇕(\"hello\")⣿\\",
-                "$~I-wrap ang aking mga bahagi tulad ng \\⣿⇕(\"hi\")⣿\\ (tumutugma sa \"HI\", \"Hi\", o \"hi\"). Magdagdag ng wika para sa mga panuntunan nito, tulad ng \\⣿⇕/tr(\"i\")⣿\\ (Turkic i), at susuriin ko rin ang isang @PatternBackref , tulad ng \\⣿⇕(w:(2 _) w)⣿\\ ."
+                "$~\\shout: 'HELLO'\nshout ≈ ⣿Aa(\"hello\")⣿\\",
+                "$~I-wrap ang aking mga bahagi tulad ng \\⣿Aa(\"hi\")⣿\\ (tumutugma sa \"HI\", \"Hi\", o \"hi\"). Magdagdag ng wika para sa mga panuntunan nito, tulad ng \\⣿Aa/tr(\"i\")⣿\\ (Turkic i), at susuriin ko rin ang isang @PatternBackref , tulad ng \\⣿Aa(w:(2 _) w)⣿\\ ."
             ]
         },
         "PatternType": {
@@ -6605,6 +6609,14 @@
                             "$~mahahabang linya ay nag-i-scroll nang pahalang sa text mode",
                             "$~mahahabang linya ang bumabalot papunta sa editor window sa text mode"
                         ]
+                    },
+                    "words": {
+                        "label": "$~mga keyword",
+                        "labels": ["$~mga simbolo", "$~mga salita"],
+                        "tips": [
+                            "$~ipakita ang mga built-in na keyword bilang mga simbolo",
+                            "$~ipakita ang mga built-in na keyword bilang mga salita sa iyong wika"
+                        ]
                     }
                 },
                 "options": {
@@ -7984,5 +7996,43 @@
         "noscript": "$~Gumagamit ang Wordplay ng JavaScript. Hindi ito sinusuportahan ng iyong browser, o hindi ito pinagana.",
         "unsupportedHeading": "$~Hindi Sinusuportahang Browser",
         "unsupportedBody": "$~Hindi sinusuportahan ng iyong browser ang mahahalagang functionality. Para magamit ang Wordplay, kakailanganin mong mag-upgrade sa mas bagong bersyon."
+    },
+    "keyword": {
+        "function": "punsyon",
+        "type": "uri",
+        "number": "numero",
+        "none": "wala",
+        "true": "totoo",
+        "false": "mali",
+        "borrow": "humiram",
+        "share": "ibahagi",
+        "convert": "bilang",
+        "translate": "isalin",
+        "conditional": "kung",
+        "booleantype": "katotohanan",
+        "otherwise": "kundi",
+        "match": "tugma",
+        "stream": "agos",
+        "changed": "pagbabago",
+        "initial": "unang",
+        "previous": "nakaraan",
+        "this": "ito",
+        "and": "at",
+        "or": "o",
+        "not": "hindi",
+        "letter": "titik",
+        "digit": "digit",
+        "patternspace": "puwang",
+        "patternword": "salita",
+        "any": "kahit",
+        "start": "simula",
+        "end": "dulo",
+        "rest": "natira",
+        "edge": "gilid",
+        "ahead": "harap",
+        "behind": "likod",
+        "range": "hanggang",
+        "complement": "hindi",
+        "alternation": "o"
     }
 }

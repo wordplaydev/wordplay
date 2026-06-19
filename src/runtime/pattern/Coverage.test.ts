@@ -224,10 +224,10 @@ describe('alternation — longest-match, order-independent, multi-item, residual
 
 describe('case fold — default, locale, with backref', () => {
     test.each([
-        ['\'HELLO\' ≈ ⣿⇕("hello")⣿', '⊤'],
-        ['\'World\' ≈ ⣿⇕("hello")⣿', '⊥'],
-        ['\'İ\' ≈ ⣿⇕/tr("i")⣿', '⊤'], // Turkic dotted-İ
-        ["('AbAB' ⌕ ⣿⇕(w:(2 _) w)⣿).length()", '1'], // fold scopes the backref
+        ['\'HELLO\' ≈ ⣿Aa("hello")⣿', '⊤'],
+        ['\'World\' ≈ ⣿Aa("hello")⣿', '⊥'],
+        ['\'İ\' ≈ ⣿Aa/tr("i")⣿', '⊤'], // Turkic dotted-İ
+        ["('AbAB' ⌕ ⣿Aa(w:(2 _) w)⣿).length()", '1'], // fold scopes the backref
     ])('%s -> %s', (code, expected) => {
         expect(ev(code)).toBe(expected);
     });

@@ -105,7 +105,7 @@ type Matcher = Generator<MatchSnapshot, State | null, void>;
 /**
  * Case-folding mode while matching: `false` = exact; a string = fold on, with
  * that BCP-47 locale for `toLocaleLowerCase` (`''` = the host default, e.g. a
- * bare `⇕`; `'tr'` for Turkic `i`/`İ`).
+ * bare `Aa`; `'tr'` for Turkic `i`/`İ`).
  */
 type Fold = false | string;
 

@@ -547,6 +547,10 @@
                     "name": "$~enlacenoutilizado",
                     "explanation": "$~Me llamo $name, pero nadie me usa. ¿Quizás no me necesitan?",
                     "resolution": "$~Eliminar este enlace"
+                },
+                "ShadowsKeyword": {
+                    "name": "$~sombrasunapalabraclave",
+                    "explanation": "$~Este nombre también es la palabra clave $keyword , así que lo leeré como un nombre aquí; la palabra clave $keyword sigue funcionando en otros lugares."
                 }
             },
             "label": {
@@ -1946,7 +1950,7 @@
                 "$~Refina una clase con una @PatternProperty , como \\⣿_/greek⣿\\ para una letra griega o \\⣿◌/emoji⣿\\ .",
                 "$~Nombra una pieza con @PatternCapture , como \\⣿year:(4 #)⣿\\ , y luego reutilízala con @PatternBackref escribiendo su nombre sin formato. Cada @Result informa las piezas capturadas por su nombre.",
                 "$~Anclaje a los bordes con un @PatternAnchor : \\⣿⊢⣿\\ inicio, \\⣿⊣⣿\\ fin. Eche un vistazo sin consumir usando un @PatternLook : \\⣿▸(#)⣿\\ adelante, \\⣿◂(#)⣿\\ atrás.",
-                "$~Coincidencia de palabras completas con un @PatternWord \\⣿▭/en⣿\\ o límites de palabras con un @PatternWordEdge \\⣿┊/en⣿\\ , segmentado para un idioma. Ignorar mayúsculas y minúsculas dentro de un @PatternCaseFold \\⣿⇕(\"hi\")⣿\\ .",
+                "$~Coincidencia de palabras completas con un @PatternWord \\⣿▭/en⣿\\ o límites de palabras con un @PatternWordEdge \\⣿┊/en⣿\\ , segmentado para un idioma. Ignorar mayúsculas y minúsculas dentro de un @PatternCaseFold \\⣿Aa(\"hi\")⣿\\ .",
                 "$~Mi tipo es un @PatternType — anota un nombre con él, como \\p•⣿⣿: ⣿◌⣿\\ — para que puedas almacenarme en un nombre y reutilizarme en muchos textos."
             ],
             "start": "$~Déjame ver cómo se ve este texto.",
@@ -2208,8 +2212,8 @@
             "doc": [
                 "$~Hago coincidir las piezas sin tener en cuenta las mayúsculas ni las minúsculas.",
                 "$~Por ejemplo, compruebe una palabra sin tener en cuenta las mayúsculas:",
-                "$~\\shout: 'HELLO'\nshout ≈ ⣿⇕(\"hello\")⣿\\",
-                "$~Envuelve mis partes como \\⣿⇕(\"hi\")⣿\\ (coincide con \"HI\", \"Hi\" o \"hi\"). Agrega un idioma para sus reglas, como \\⣿⇕/tr(\"i\")⣿\\ (i turca), y también aplico un @PatternBackref , como \\⣿⇕(w:(2 _) w)⣿\\ ."
+                "$~\\shout: 'HELLO'\nshout ≈ ⣿Aa(\"hello\")⣿\\",
+                "$~Envuelve mis partes como \\⣿Aa(\"hi\")⣿\\ (coincide con \"HI\", \"Hi\" o \"hi\"). Agrega un idioma para sus reglas, como \\⣿Aa/tr(\"i\")⣿\\ (i turca), y también aplico un @PatternBackref , como \\⣿Aa(w:(2 _) w)⣿\\ ."
             ]
         },
         "PatternType": {
@@ -6331,6 +6335,14 @@
                             "$~Las líneas largas se desplazan horizontalmente en modo texto.",
                             "$~Las líneas largas se ajustan a la ventana del editor en modo texto."
                         ]
+                    },
+                    "words": {
+                        "label": "$~palabras clave",
+                        "labels": ["$~símbolos", "$~palabras"],
+                        "tips": [
+                            "$~mostrar palabras clave integradas como símbolos",
+                            "$~mostrar las palabras clave integradas como palabras en tu idioma"
+                        ]
                     }
                 },
                 "options": {
@@ -7963,5 +7975,43 @@
         "noscript": "$~Wordplay utiliza JavaScript. Tu navegador no lo admite o lo tiene desactivado.",
         "unsupportedHeading": "$~Navegador no compatible",
         "unsupportedBody": "$~Tu navegador no es compatible con funciones esenciales. Para usar Wordplay, tendrás que actualizar a una versión más reciente."
+    },
+    "keyword": {
+        "function": "función",
+        "type": "tipo",
+        "number": "número",
+        "none": "nada",
+        "true": "verdadero",
+        "false": "falso",
+        "borrow": "prestar",
+        "share": "compartir",
+        "convert": "como",
+        "translate": "traducir",
+        "conditional": "entonces",
+        "booleantype": "verdad",
+        "otherwise": "sino",
+        "match": "coincide",
+        "stream": "flujo",
+        "changed": "cambió",
+        "initial": "inicial",
+        "previous": "anterior",
+        "this": "esto",
+        "and": "y",
+        "or": "o",
+        "not": "no",
+        "letter": "letra",
+        "digit": "dígito",
+        "patternspace": "espacio",
+        "patternword": "palabra",
+        "any": "cualquiera",
+        "start": "inicio",
+        "end": "fin",
+        "rest": "resto",
+        "edge": "borde",
+        "ahead": "adelante",
+        "behind": "atrás",
+        "range": "a",
+        "complement": "no",
+        "alternation": "o"
     }
 }

@@ -33,6 +33,7 @@ import FunctionType from '@nodes/FunctionType';
 import type { Path } from '@nodes/Root';
 import Root from '@nodes/Root';
 import { parseNames } from '@parser/parseBind';
+import { buildKeywordIndex, type KeywordIndex } from '@parser/Keywords';
 import { toTokens } from '@parser/toTokens';
 import {
     PROJECT_PARAM_EDIT,
@@ -376,6 +377,17 @@ export default class Project {
 
     getLocales() {
         return this.basis.locales;
+    }
+
+    private keywordIndex: KeywordIndex | undefined = undefined;
+    /** The localized-keyword recognizer for this project's declared locales, so creators can type
+     * keyword words in those languages. Memoized; rebuilt per project instance. See LANGUAGE.md. */
+    getKeywordIndex(): KeywordIndex {
+        if (this.keywordIndex === undefined)
+            this.keywordIndex = buildKeywordIndex(
+                this.data.locales.map((l) => l.keyword),
+            );
+        return this.keywordIndex;
     }
 
     getContext(source: Source) {
@@ -1015,7 +1027,7 @@ export default class Project {
     }
 
     withNewSource(name: string, code?: string | undefined) {
-        const newSource = new Source(name, code ?? '');
+        const newSource = new Source(name, code ?? '', this.getKeywordIndex());
         return new Project({
             ...this.data,
             supplements: [...this.data.supplements, newSource],
@@ -1170,7 +1182,10 @@ export default class Project {
             : undefined;
     }
 
-    static deserializeSource(source: SerializedSource): Source {
+    static deserializeSource(
+        source: SerializedSource,
+        keywords?: KeywordIndex,
+    ): Source {
         return new Source(
             parseNames(toTokens(source.names)),
             // We changed the documentation symbol. Automatically convert it when deserializing. by seeing if there are 2 or more `` in the code,
@@ -1179,6 +1194,7 @@ export default class Project {
                 (source.code.match(/¶/g) || []).length === 0
                 ? source.code.replaceAll('``', DOCS_SYMBOL)
                 : source.code,
+            keywords,
         );
     }
 
@@ -1206,8 +1222,12 @@ export default class Project {
             new Set([...dependentLocales, ...localesDB.getLocales()]),
         );
 
+        // Recognize typed keyword words in the project's declared locales. Dual-type tokens (LANGUAGE.md
+        // §3) mean a name that collides with a keyword (e.g. "número") still parses as a name — it
+        // shadows the keyword rather than breaking — so this is safe to activate for declared locales.
+        const keywords = buildKeywordIndex(locales.map((l) => l.keyword));
         const sources = project.sources.map((source) =>
-            Project.deserializeSource(source),
+            Project.deserializeSource(source, keywords),
         );
 
         return new Project({

@@ -1,5 +1,6 @@
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
+import type { KeywordIndex } from '@parser/Keywords';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
 import { parseNames } from '@parser/parseBind';
 import parseProgram from '@parser/parseProgram';
@@ -76,6 +77,10 @@ export default class Source extends Expression {
     /** The spaces preceding each token in the program. */
     readonly spaces: Spaces;
 
+    /** The localized-keyword index used to tokenize this source (from the project's locales), if any.
+     * Carried so reparses/edits keep recognizing typed keyword words; undefined = symbol-only. */
+    readonly keywords: KeywordIndex | undefined;
+
     /** Functions to call when a source's evaluator has an update. */
     readonly observers: Set<() => void> = new Set();
 
@@ -103,8 +108,11 @@ export default class Source extends Expression {
     constructor(
         names: string | Names,
         code: string | UnicodeString | [Program, Spaces],
+        keywords?: KeywordIndex,
     ) {
         super();
+
+        this.keywords = keywords;
 
         this.names =
             names instanceof Names ? names : parseNames(toTokens(names));
@@ -113,6 +121,7 @@ export default class Source extends Expression {
             // Generate the AST from the provided code.
             const tokens = tokenize(
                 code instanceof UnicodeString ? code.getText() : code,
+                keywords,
             );
             this.tokens = tokens.getTokens();
             this.expression = parseProgram(
@@ -327,14 +336,19 @@ export default class Source extends Expression {
     }
 
     withName(name: string, locale: LocaleText) {
-        return new Source(this.names.withName(name, locale.language), [
-            this.expression,
-            this.spaces,
-        ]);
+        return new Source(
+            this.names.withName(name, locale.language),
+            [this.expression, this.spaces],
+            this.keywords,
+        );
     }
 
     withSpaces(spaces: Spaces) {
-        return new Source(this.names, [this.expression, spaces]);
+        return new Source(
+            this.names,
+            [this.expression, spaces],
+            this.keywords,
+        );
     }
 
     withPreviousGraphemeReplaced(char: string, position: number) {
@@ -379,8 +393,8 @@ export default class Source extends Expression {
      * dominated by the UI, not by parsing, since programs are small.
      * */
     reparse(newCode: string): Source {
-        // Tokenize the new text
-        const tokenList = tokenize(newCode);
+        // Tokenize the new text with this source's keyword index so typed keyword words keep parsing.
+        const tokenList = tokenize(newCode, this.keywords);
         const newTokens = tokenList.getTokens();
         const newSpaces = tokenList.getSpaces();
 
@@ -519,7 +533,7 @@ export default class Source extends Expression {
         //     console.log(node.getDescriptor() + ' ' + node.toWordplay());
 
         // Otherwise, reparse the program with the reused tokens and return a new source file
-        return new Source(this.names, [newProgram, newSpaces]);
+        return new Source(this.names, [newProgram, newSpaces], this.keywords);
     }
 
     /**
@@ -572,7 +586,11 @@ export default class Source extends Expression {
 
         // Whitespace-only change: keep the existing AST, swap in the new spaces.
         if (differingIndex === -1)
-            return new Source(this.names, [this.expression, newSpaces]);
+            return new Source(
+                this.names,
+                [this.expression, newSpaces],
+                this.keywords,
+            );
 
         // Single-token text change: clone the path from root to the affected
         // token, replacing the old token with the new one. Everything else in
@@ -581,15 +599,15 @@ export default class Source extends Expression {
             this.tokens[differingIndex],
             newTokens[differingIndex],
         );
-        return new Source(this.names, [newProgram, newSpaces]);
+        return new Source(this.names, [newProgram, newSpaces], this.keywords);
     }
 
     withCode(code: string) {
-        return new Source(this.names, new UnicodeString(code));
+        return new Source(this.names, new UnicodeString(code), this.keywords);
     }
 
     withProgram(program: Program, spaces: Spaces) {
-        return new Source(this.names, [program, spaces]);
+        return new Source(this.names, [program, spaces], this.keywords);
     }
 
     clone(replace?: Replacement) {
@@ -600,13 +618,17 @@ export default class Source extends Expression {
             (replace.replacement instanceof Node ||
                 replace.replacement === undefined)
         ) {
-            const newSource = new Source(this.names, [
-                this.replaceChild('expression', this.expression, replace),
-                this.spaces.withReplacement(
-                    replace.original,
-                    replace.replacement,
-                ),
-            ]);
+            const newSource = new Source(
+                this.names,
+                [
+                    this.replaceChild('expression', this.expression, replace),
+                    this.spaces.withReplacement(
+                        replace.original,
+                        replace.replacement,
+                    ),
+                ],
+                this.keywords,
+            );
 
             // Pretty print the replaced node, if there is one.
             return (
@@ -620,10 +642,11 @@ export default class Source extends Expression {
                     : newSource
             ) as this;
         } else
-            return new Source(this.names, [
-                this.expression,
-                this.spaces,
-            ]) as this;
+            return new Source(
+                this.names,
+                [this.expression, this.spaces],
+                this.keywords,
+            ) as this;
     }
 
     getTokenTextPosition(token: Token): number | undefined {

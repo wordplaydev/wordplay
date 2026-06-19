@@ -76,8 +76,8 @@ describe('≈ whole-text test', () => {
         ['\'-7\' ≈ ⣿≤1 "-" >0 # ≤1 ("." >0 #)⣿', '⊤'],
         ['\'42\' ≈ ⣿≤1 "-" >0 # ≤1 ("." >0 #)⣿', '⊤'],
         // Case fold
-        ['\'HELLO\' ≈ ⣿⇕("hello")⣿', '⊤'],
-        ['\'Hello\' ≈ ⣿⇕("hello")⣿', '⊤'],
+        ['\'HELLO\' ≈ ⣿Aa("hello")⣿', '⊤'],
+        ['\'Hello\' ≈ ⣿Aa("hello")⣿', '⊤'],
         // Lookahead (zero-width)
         ["'a1' ≈ ⣿▸(_) _ #⣿", '⊤'],
         ["'11' ≈ ⣿▸(_) _ #⣿", '⊥'],
@@ -177,12 +177,12 @@ describe('word & word-edge (locale segmentation)', () => {
 
 describe('case folding (locale-aware)', () => {
     test.each([
-        ['\'HELLO\' ≈ ⣿⇕("hello")⣿', '⊤'],
-        ['\'Hello\' ≈ ⣿⇕("hello")⣿', '⊤'],
+        ['\'HELLO\' ≈ ⣿Aa("hello")⣿', '⊤'],
+        ['\'Hello\' ≈ ⣿Aa("hello")⣿', '⊤'],
         // Turkic dotted-İ folds to i with /tr.
-        ['\'İ\' ≈ ⣿⇕/tr("i")⣿', '⊤'],
+        ['\'İ\' ≈ ⣿Aa/tr("i")⣿', '⊤'],
         // Fold scopes a backref too.
-        ["('AbAB' ⌕ ⣿⇕(w:(2 _) w)⣿) ≠ []", '⊤'],
+        ["('AbAB' ⌕ ⣿Aa(w:(2 _) w)⣿) ≠ []", '⊤'],
     ])('%s -> %s', (code, expected) => {
         expect(ev(code)).toBe(expected);
     });
