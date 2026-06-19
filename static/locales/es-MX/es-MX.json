@@ -5563,7 +5563,7 @@
                     "off": "$~Ingrese al navegador en pantalla completa."
                 }
             },
-            "label": "$~controles del proyecto",
+            "label": "$~proyecto",
             "tour": {
                 "launch": "$~Realice un recorrido por los controles del proyecto.",
                 "controls": "$~Estos controles que aparecen en la parte inferior se aplican al *proyecto en su conjunto*, independientemente del mosaico en el que esté trabajando.",
