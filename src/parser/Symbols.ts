@@ -56,7 +56,11 @@ export const PATTERN_START_SYMBOL = '⊢';
 export const PATTERN_END_SYMBOL = '⊣';
 export const PATTERN_AHEAD_SYMBOL = '▸';
 export const PATTERN_BEHIND_SYMBOL = '◂';
-export const PATTERN_FOLD_SYMBOL = '⇕';
+// Case-fold is written `Aa` — the one letter-based pattern token, kept universal and unlocalized
+// because letter case only exists in bicameral scripts (Latin/Greek/Cyrillic). It can't collide with
+// literal text, which is always a quoted span (`"Aa"`), and the tokenizer matches it only when not
+// followed by a name character (so a capture like `Aardvark` stays a name). See LANGUAGE.md.
+export const PATTERN_FOLD_SYMBOL = 'Aa';
 export const PATTERN_RANGE_SYMBOL = '–';
 export const BIND_SYMBOL = ':';
 export const BIND_SYMBOL_FULL = '：';

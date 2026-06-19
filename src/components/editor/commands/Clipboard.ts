@@ -2,6 +2,8 @@ import type { LocaleTextAccessor } from '@locale/Locales';
 import type Node from '@nodes/Node';
 import PatternLiteral from '@nodes/PatternLiteral';
 import PatternNode from '@nodes/PatternNode';
+import canonicalizeKeywords from '@parser/canonicalizeKeywords';
+import type { KeywordIndex } from '@parser/Keywords';
 import { PATTERN_DELIMITER_SYMBOL } from '@parser/Symbols';
 import type Spaces from '@parser/Spaces';
 import { setInternalClipboard } from '@components/editor/commands/InternalClipboard';
@@ -16,8 +18,15 @@ export const WORDPLAY_CLIPBOARD_FORMAT = 'web text/wordplay';
 export function copyNode(
     node: Node,
     spaces: Spaces,
+    keywords?: KeywordIndex,
 ): Promise<true | LocaleTextAccessor> {
-    const text = node.toWordplay(spaces).trim();
+    // Canonicalize localized keyword constructs to symbols so copied code is locale-neutral and pastes
+    // into any project; falls back to verbatim serialization when no keyword index is active.
+    const text = (
+        keywords
+            ? canonicalizeKeywords(node, spaces, keywords)
+            : node.toWordplay(spaces)
+    ).trim();
     // A pattern atom (e.g. `_`, `>0 #`, `name:(…)`) only means what it means
     // inside `⣿…⣿`; serialized bare it would re-tokenize as ordinary code (e.g.
     // `_` → a placeholder). Wrap a copied pattern fragment so the clipboard text

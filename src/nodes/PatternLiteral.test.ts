@@ -19,7 +19,7 @@ test.each([
     '⣿w: ▭/en >0 ␣ w⣿',
     '⣿▸(≥0 (~#) #) ▸(≥0 (~{"!" "?" "#"}) {"!" "?" "#"}) 8–64 ◌⣿',
     'text ⌕ ⣿┊/en "cat" ┊/en⣿',
-    'post ⌕ ⣿⇕("hello")⣿',
+    'post ⌕ ⣿Aa("hello")⣿',
     'text ⌕ ⣿(⊢ | ◂(linebreak)) label:(≥0 (~{":" linebreak})) ":"⣿',
     // Extra atoms.
     '⣿_/greek ◌/Script=Greek …⣿',
@@ -27,7 +27,7 @@ test.each([
     '⣿▭/en-US⣿',
     '⣿▭/es_en⣿',
     '⣿┊/zh-Hant "x"⣿',
-    '⣿⇕/tr("i")⣿',
+    '⣿Aa/tr("i")⣿',
 ])('round-trips %s', (code: string) => {
     expect(new Source('test', code).code.toString()).toBe(code);
 });

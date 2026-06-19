@@ -583,6 +583,10 @@
                     "name": "$~legareneutilizată",
                     "explanation": "$~Mă numesc $name , dar nimeni nu mă folosește. Poate că nu este nevoie de mine?",
                     "resolution": "$~Ștergeți această legătură"
+                },
+                "ShadowsKeyword": {
+                    "name": "$~umbreșteuncuvântcheie",
+                    "explanation": "$~Acest nume este și cuvântul cheie $keyword , așa că îl voi citi aici ca nume; cuvântul $keyword funcționează în continuare în alte locuri."
                 }
             }
         },
@@ -1951,7 +1955,7 @@
                 "$~Rafinează o clasă cu o @PatternProperty , cum ar fi \\⣿_/greek⣿\\ pentru o literă grecească sau \\⣿◌/emoji⣿\\ .",
                 "$~Denumiți o piesă cu un @PatternCapture , cum ar fi \\⣿year:(4 #)⣿\\ , apoi reutilizați-o mai târziu cu un @PatternBackref scriind numele său simplu. Fiecare @Result raportează piesele capturate după nume.",
                 "$~Ancorează-te la margini cu un @PatternAnchor : \\⣿⊢⣿\\ start, \\⣿⊣⣿\\ end. Afișează o privire fără a consuma informații folosind un @PatternLook : \\⣿▸(#)⣿\\ ahead, \\⣿◂(#)⣿\\ behind.",
-                "$~Potrivește cuvinte întregi cu un @PatternWord \\⣿▭/en⣿\\ sau limitele cuvintelor cu un @PatternWordEdge \\⣿┊/en⣿\\ , segmentat pentru o limbă. Ignoră majusculele/minusculele în interiorul unui @PatternCaseFold \\⣿⇕(\"hi\")⣿\\ .",
+                "$~Potrivește cuvinte întregi cu un @PatternWord \\⣿▭/en⣿\\ sau limitele cuvintelor cu un @PatternWordEdge \\⣿┊/en⣿\\ , segmentat pentru o limbă. Ignoră majusculele/minusculele în interiorul unui @PatternCaseFold \\⣿Aa(\"hi\")⣿\\ .",
                 "$~Tipul meu este @PatternType — adnotați un nume cu acesta, cum ar fi \\p•⣿⣿: ⣿◌⣿\\ — astfel încât să mă puteți stoca într-un nume și să mă reutilizați în mai multe texte."
             ],
             "start": "$~Stai să văd cum arată acest text.",
@@ -2213,8 +2217,8 @@
             "doc": [
                 "$~Îmi pot potrivi părțile, ignorând majusculele și minusculele.",
                 "$~De exemplu, verificați un cuvânt ignorând scrierea cu majuscule:",
-                "$~\\shout: 'HELLO'\nshout ≈ ⣿⇕(\"hello\")⣿\\",
-                "$~Încadrez părțile mele ca \\⣿⇕(\"hi\")⣿\\ (se potrivește cu \"HI\", \"Hi\" sau \"hi\"). Adaug un limbaj pentru regulile sale, cum ar fi \\⣿⇕/tr(\"i\")⣿\\ (turcă i), și definesc și un @PatternBackref , cum ar fi \\⣿⇕(w:(2 _) w)⣿\\ ."
+                "$~\\shout: 'HELLO'\nshout ≈ ⣿Aa(\"hello\")⣿\\",
+                "$~Încadrez părțile mele ca \\⣿Aa(\"hi\")⣿\\ (se potrivește cu \"HI\", \"Hi\" sau \"hi\"). Adaug un limbaj pentru regulile sale, cum ar fi \\⣿Aa/tr(\"i\")⣿\\ (turcă i), și definesc și un @PatternBackref , cum ar fi \\⣿Aa(w:(2 _) w)⣿\\ ."
             ]
         },
         "PatternType": {
@@ -6617,6 +6621,14 @@
                             "$~linii lungi se derulează pe orizontală în modul text",
                             "$~liniile lungi se încadrează în fereastra editorului în modul text"
                         ]
+                    },
+                    "words": {
+                        "label": "$~cuvinte cheie",
+                        "labels": ["$~simboluri", "$~cuvinte"],
+                        "tips": [
+                            "$~afișați cuvintele cheie încorporate ca simboluri",
+                            "$~afișați cuvintele cheie încorporate ca și cuvinte în limba dvs."
+                        ]
                     }
                 },
                 "options": {
@@ -7986,5 +7998,43 @@
         "noscript": "$~Jocul de cuvinte folosește JavaScript. Browserul dvs. nu îl acceptă sau este dezactivat.",
         "unsupportedHeading": "$~Browser neacceptat",
         "unsupportedBody": "$~Browserul dvs. nu acceptă funcționalități esențiale. Pentru a utiliza Wordplay, va trebui să faceți upgrade la o versiune mai recentă."
+    },
+    "keyword": {
+        "function": "funcţie",
+        "type": "tip",
+        "number": "număr",
+        "none": "nimic",
+        "true": "adevărat",
+        "false": "fals",
+        "borrow": "împrumută",
+        "share": "partajează",
+        "convert": "ca",
+        "translate": "traduce",
+        "conditional": "atunci",
+        "booleantype": "adevăr",
+        "otherwise": "altfel",
+        "match": "potrivește",
+        "stream": "flux",
+        "changed": "schimbat",
+        "initial": "prima",
+        "previous": "anterior",
+        "this": "acest",
+        "and": "și",
+        "or": "sau",
+        "not": "nu",
+        "letter": "literă",
+        "digit": "cifră",
+        "patternspace": "spațiu",
+        "patternword": "cuvânt",
+        "any": "oricare",
+        "start": "început",
+        "end": "sfârșit",
+        "rest": "rest",
+        "edge": "margine",
+        "ahead": "înainte",
+        "behind": "înapoi",
+        "range": "la",
+        "complement": "nu",
+        "alternation": "sau"
     }
 }

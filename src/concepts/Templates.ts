@@ -104,7 +104,7 @@ function patternConcepts(): Node[] {
         '⣿▭/en ┊/en⣿', // word + word-edge
         '⣿▸(#)⣿', // lookaround
         '⣿a:(_) a⣿', // backreference
-        '⣿⇕("x")⣿', // case-fold
+        '⣿Aa("x")⣿', // case-fold
     ];
     const byKind = new Map<string, Node>([
         ['PatternLiteral', PatternLiteral.make()],

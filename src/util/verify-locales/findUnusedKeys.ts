@@ -37,6 +37,8 @@ const ALWAYS_USED_PREFIXES: readonly string[] = [
     'term',
     // token.<TokenName> is mapped from the Sym enum by TokenCategories.
     'token',
+    // keyword.<KeywordId> is read dynamically (l.keyword[id]) by TokenView from Keywords.ts.
+    'keyword',
     // input.<Type>.* / output.<Type>.* are walked by getInputLocales /
     // getOutputLocales at runtime against the live definition classes.
     'input',

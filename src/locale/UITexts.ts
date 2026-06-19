@@ -504,7 +504,7 @@ type UITexts = {
             insertPatternStart: string;
             /** [plain] Insert ⊣ pattern end symbol */
             insertPatternEnd: string;
-            /** [plain] Insert ⇕ pattern case-fold symbol */
+            /** [plain] Insert Aa pattern case-fold symbol */
             insertPatternFold: string;
             /** [plain] Insert ▸ pattern lookahead symbol */
             insertPatternAhead: string;
@@ -1125,6 +1125,8 @@ type UITexts = {
                 writing: ModeText<[string, string, string]>;
                 /** The blocks on/off mode */
                 blocks: ModeText<[string, string]>;
+                /** The keyword display mode: built-in keywords as symbols or as localized words */
+                words: ModeText<[string, string]>;
                 /** The block-editing density mode (compact/normal/spacious) */
                 blockDensity: ModeText<[string, string, string]>;
                 /** The space_indicator on/off mode */

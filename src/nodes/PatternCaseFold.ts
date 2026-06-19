@@ -13,7 +13,7 @@ import { Sym } from '@nodes/Sym';
 import type Token from '@nodes/Token';
 
 /**
- * A case-folding scope `⇕(…)` (or `⇕/‹lang›(…)`) in a pattern, matching its
+ * A case-folding scope `Aa(…)` (or `Aa/‹lang›(…)`) in a pattern, matching its
  * subpattern case-insensitively. Locale is optional (bare uses Unicode default
  * case folding). See LANGUAGE.md.
  */

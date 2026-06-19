@@ -1924,7 +1924,11 @@ const Commands: Command[] = [
         execute: ({ caret, project, blocks }) => {
             if (caret === undefined) return false;
             if (caret.isNode()) {
-                copyNode(caret.position, getPreferredSpaces(caret.source));
+                copyNode(
+                    caret.position,
+                    getPreferredSpaces(caret.source),
+                    caret.source.keywords,
+                );
                 return caret.delete(project, false, blocks) ?? true;
             } else if (caret.isRange()) {
                 return toClipboard(
@@ -1959,6 +1963,7 @@ const Commands: Command[] = [
                 return copyNode(
                     caret.position,
                     getPreferredSpaces(caret.source),
+                    caret.source.keywords,
                 );
             else if (caret.isRange()) {
                 return toClipboard(

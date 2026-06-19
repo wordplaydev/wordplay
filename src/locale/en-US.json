@@ -592,6 +592,10 @@
                     "name": "unused bind",
                     "explanation": "I'm named $name, but no one is using me. Maybe I'm not needed?",
                     "resolution": "Delete this binding"
+                },
+                "ShadowsKeyword": {
+                    "name": "shadows a keyword",
+                    "explanation": "This name is also the $keyword keyword, so I will read it as a name here; the $keyword keyword still works elsewhere."
                 }
             }
         },
@@ -1122,7 +1126,7 @@
                 "Refine a class with a @PatternProperty, like \\⣿_/greek⣿\\ for a Greek letter or \\⣿◌/emoji⣿\\.",
                 "Name a piece with a @PatternCapture, like \\⣿year:(4 #)⣿\\, then reuse it later with a @PatternBackref by writing its bare name. Each @Result reports captured pieces by name.",
                 "Anchor to the edges with a @PatternAnchor: \\⣿⊢⣿\\ start, \\⣿⊣⣿\\ end. Peek without consuming using a @PatternLook: \\⣿▸(#)⣿\\ ahead, \\⣿◂(#)⣿\\ behind.",
-                "Match whole words with a @PatternWord \\⣿▭/en⣿\\ or word boundaries with a @PatternWordEdge \\⣿┊/en⣿\\, segmented for a language. Ignore letter case inside a @PatternCaseFold \\⣿⇕(\"hi\")⣿\\.",
+                "Match whole words with a @PatternWord \\⣿▭/en⣿\\ or word boundaries with a @PatternWordEdge \\⣿┊/en⣿\\, segmented for a language. Ignore letter case inside a @PatternCaseFold \\⣿Aa(\"hi\")⣿\\.",
                 "My type is a @PatternType — annotate a name with it, like \\p•⣿⣿: ⣿◌⣿\\ — so you can store me in a name and reuse me across many texts."
             ],
             "start": "Let me see what this text looks like.",
@@ -1384,8 +1388,8 @@
             "doc": [
                 "I match my parts ignoring upper and lower case.",
                 "For example, check a word ignoring its capitalization:",
-                "\\shout: 'HELLO'\nshout ≈ ⣿⇕(\"hello\")⣿\\",
-                "Wrap my parts like \\⣿⇕(\"hi\")⣿\\ (matches \"HI\", \"Hi\", or \"hi\"). Add a language for its rules, like \\⣿⇕/tr(\"i\")⣿\\ (Turkic i), and I scope a @PatternBackref too, like \\⣿⇕(w:(2 _) w)⣿\\."
+                "\\shout: 'HELLO'\nshout ≈ ⣿Aa(\"hello\")⣿\\",
+                "Wrap my parts like \\⣿Aa(\"hi\")⣿\\ (matches \"HI\", \"Hi\", or \"hi\"). Add a language for its rules, like \\⣿Aa/tr(\"i\")⣿\\ (Turkic i), and I scope a @PatternBackref too, like \\⣿Aa(w:(2 _) w)⣿\\."
             ]
         },
         "PatternType": {
@@ -5034,7 +5038,10 @@
         "Result": {
             "doc": "I'm one match from a pattern search with \\⌕\\: the matched text, where it is, and any captures.",
             "names": ["Result"],
-            "text": { "doc": "The whole matched text.", "names": "text" },
+            "text": {
+                "doc": "The whole matched text.",
+                "names": "text"
+            },
             "start": {
                 "doc": "Where the match starts, counting from 1.",
                 "names": "start"
@@ -6621,6 +6628,14 @@
                             "vertical text, read right to left",
                             "vertical text, read left to right"
                         ]
+                    },
+                    "words": {
+                        "label": "keywords",
+                        "labels": ["symbols", "words"],
+                        "tips": [
+                            "show built-in keywords as symbols",
+                            "show built-in keywords as words in your language"
+                        ]
                     }
                 },
                 "options": {
@@ -7978,5 +7993,43 @@
         "noscript": "Wordplay uses JavaScript. Your browser doesn't support it, or it is disabled.",
         "unsupportedHeading": "Unsupported Browser",
         "unsupportedBody": "Your browser doesn't support critical functionality. To use Wordplay, you'll need to upgrade to a more recent version."
+    },
+    "keyword": {
+        "function": "function",
+        "type": "type",
+        "number": "number",
+        "none": "none",
+        "true": "true",
+        "false": "false",
+        "borrow": "borrow",
+        "share": "share",
+        "convert": "as",
+        "translate": "to",
+        "conditional": "then",
+        "booleantype": "truth",
+        "otherwise": "otherwise",
+        "match": "match",
+        "stream": "stream",
+        "changed": "changed",
+        "initial": "initial",
+        "previous": "previous",
+        "this": "this",
+        "and": "and",
+        "or": "or",
+        "not": "not",
+        "letter": "letter",
+        "digit": "digit",
+        "patternspace": "space",
+        "patternword": "word",
+        "any": "any",
+        "start": "start",
+        "end": "end",
+        "rest": "rest",
+        "edge": "edge",
+        "ahead": "ahead",
+        "behind": "behind",
+        "range": "to",
+        "complement": "not",
+        "alternation": "or"
     }
 }

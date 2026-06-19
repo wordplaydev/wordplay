@@ -6,6 +6,13 @@
 export const EmojiRegex =
     /(\p{Emoji_Modifier_Base}(\p{Emoji_Modifier}|\u200D)*|\p{Extended_Pictographic})/gu;
 
+/**
+ * A stateless (non-global) version of {@link EmojiRegex} for membership tests. `EmojiRegex` has the
+ * `g` flag, so its `.test()` advances `lastIndex` and returns alternating results across calls; use
+ * this for "does this text contain an emoji?" checks.
+ */
+export const EmojiTestRegex = new RegExp(EmojiRegex.source, 'u');
+
 export function withoutVariationSelectors(text: string) {
     return text.replaceAll(/(\uFE0F|\uFE0E)/gu, '');
 }
