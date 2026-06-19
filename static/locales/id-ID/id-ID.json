@@ -797,7 +797,7 @@
         },
         "Evaluate": {
             "name": "$~mengevaluasi",
-            "description": "$~$structure [create $name [ $name |] value with these inputs| $stream [create $name [ $name |] stream with these inputs|apply $name [ $name |function] to these inputs]]",
+            "description": "$~$structure [create $name [ $name |] value with these inputs| $stream [create $name [ $name |] stream with these inputs|apply $name [ $name |function] to these inputs]",
             "emotion": "shy",
             "label": {
                 "function": "$~fungsi",

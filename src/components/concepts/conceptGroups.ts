@@ -119,7 +119,10 @@ export function getConceptGroups(
                 !(
                     c instanceof StructureConcept &&
                     (c.definition === project.shares.output.Form ||
-                        c.definition === project.shares.output.Arrangement)
+                        c.definition === project.shares.output.Arrangement ||
+                        // Result is a pattern-search element, surfaced under Patterns
+                        // (not output/location); keep it out of this catch-all group.
+                        c.definition === project.shares.output.Result)
                 ),
         );
         return [

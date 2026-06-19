@@ -17,6 +17,7 @@ This abbreviated week we fleshed out the multilingual and text processing part o
 - 🌏 We added several operations to formatted text to mirror text operations (#1190).
 - 🌐 All locale information on plain and formatted text is now reflected in program output, so all text-to-speech functionality is properly localized and language writing directions are respected.
 - 🌐 Autocomplete menus now suggest extra languages and regions, in case you want bilingual, trilingual, or radically multlingual text! (#884).
+- 💡 We added short notes under each suggestion in the autocomplete menu and under code in the [Guide](https://wordplay.dev/guide), so you can see what a concept does without clicking through. We also rewrote many of the built-in explanations so each one starts by saying what it does (#1036).
 
 ### Fixed
 

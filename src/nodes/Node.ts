@@ -716,11 +716,16 @@ export default abstract class Node {
         const text = locales.getTextStructure(this.getLocalePath());
         return locales.concretize(
             // Is there a description? Use that. Otherwise just use the name.
-            'description' in text
+            this.hasDescription(locales)
                 ? (text as DescriptiveNodeText).description
                 : text.name,
             this.getDescriptionInputs(locales, context),
         );
+    }
+
+    /** Whether this node type has a distinct authored description (vs. falling back to its name). */
+    hasDescription(locales: Locales): boolean {
+        return 'description' in locales.getTextStructure(this.getLocalePath());
     }
 
     /**

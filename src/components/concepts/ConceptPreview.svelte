@@ -1,7 +1,9 @@
 <script lang="ts">
     import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import OutputPreview from '@components/concepts/OutputPreview.svelte';
     import TypeView from '@components/concepts/TypeView.svelte';
+    import Note from '@components/widgets/Note.svelte';
     import { copyNode } from '@components/editor/commands/Clipboard';
     import { getConceptIndex, getDragged } from '@components/project/Contexts';
     import RootView from '@components/project/RootView.svelte';
@@ -87,6 +89,10 @@
             ? concept.getPreviewExample()
             : undefined,
     );
+
+    // A short hint describing what the concept does, shown below the concept link
+    // to help creators learn unfamiliar language constructs (see issue #1036).
+    let note = $derived(concept?.getDescription($locales));
 
     // The output preview mounts lazily when the tile first scrolls into view, so a long list
     // of how-tos doesn't spin up dozens of evaluators at once. Latch visible (don't toggle
@@ -191,6 +197,13 @@
         {@render code()}
     {/if}
     {@render link()}
+    {#if note && describe && concept && !inline && !isHowTo}
+        <!-- The code's NodeView already exposes this same text via aria-label, so the
+             visible hint is aria-hidden to avoid a screen reader reading it twice. -->
+        <span class="note-wrap" aria-hidden="true">
+            <Note inline><MarkupHTMLView markup={note} inline /></Note>
+        </span>
+    {/if}
 </span>
 
 <style>
@@ -221,6 +234,21 @@
        inline node's left padding), so the link text aligns with the code text. */
     .link {
         padding-inline-start: var(--wordplay-spacing);
+    }
+
+    /* Bound the hint so a long sentence can't widen the column or run past two lines.
+       Indented to align with the link/code text. The tighter line-height removes the
+       extra leading the prose context would otherwise add above the first line, so the
+       gap above the note matches the code→link gap. */
+    .note-wrap {
+        padding-inline-start: var(--wordplay-spacing);
+        max-width: 20em;
+        line-height: 1.25;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
 
     .node {

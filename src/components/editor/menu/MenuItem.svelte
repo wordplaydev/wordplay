@@ -1,6 +1,8 @@
 <script lang="ts">
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import RootView from '@components/project/RootView.svelte';
+    import Note from '@components/widgets/Note.svelte';
+    import getMenuNoteMarkup from './menuNote';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { blocks, locales } from '@db/Database';
     import Menu, { RevisionSet } from '@edit/menu/Menu';
@@ -33,6 +35,7 @@
 
     /** If a removal, get a duplicated parent node, and list of nodes to be removed */
     let [parent, removed] = $derived(entry.getRemovalContext());
+
 
     /** For a Replace, find descendants of the rendered node that are reused
      *  (reference-equal) from the original being replaced and whose serialized
@@ -124,6 +127,22 @@
                 removed={isRemoval ? removed : []}
                 {elided}
             />
+            {#if !isRemoval}
+                <!-- A doc-derived preview of what this node does. The row's aria-label
+                     already speaks the node's (concise) description, so this visible hint
+                     is aria-hidden to avoid a screen reader reading two summaries. -->
+                <span class="note-wrap" aria-hidden="true">
+                    <Note inline
+                        ><MarkupHTMLView
+                            markup={getMenuNoteMarkup(
+                                newNode,
+                                entry.context,
+                                $locales,
+                            )}
+                            inline
+                    /></Note>
+                </span>
+            {/if}
         {:else}
             <MarkupHTMLView markup={entry.getDescription($locales)} />
         {/if}
@@ -173,6 +192,16 @@
 
     .revision:hover {
         background: var(--wordplay-hover);
+    }
+
+    /* Bound the hint so a long sentence can't widen the menu or run past two lines. */
+    .note-wrap {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        max-width: 20em;
     }
 
     .details {
