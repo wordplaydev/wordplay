@@ -83,7 +83,7 @@ const Sym = {
     PatternEnd: '⊣',
     PatternAhead: '▸',
     PatternBehind: '◂',
-    PatternFold: '⇕',
+    PatternFold: 'Aa',
     PatternRange: '–',
     PatternComplement: 'pattern.not',
     PatternAlternation: 'pattern.or',

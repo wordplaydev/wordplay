@@ -260,7 +260,7 @@ export const PatternLibrary: LibraryEntry[] = [
     {
         name: 'boolean-word',
         description: 'A case-insensitive boolean keyword.',
-        pattern: '⣿⇕("true") | ⇕("false")⣿',
+        pattern: '⣿Aa("true") | Aa("false")⣿',
         matches: ['true', 'TRUE', 'False', 'fAlSe'],
         rejects: ['yes', 'truthy', '1'],
     },

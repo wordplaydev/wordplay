@@ -40,6 +40,7 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'node.Bind.conflict.MissingShareLanguages.resolution': [],
     'node.Bind.conflict.RequiredAfterOptional.explanation': [],
     'node.Bind.conflict.RequiredAfterOptional.resolution': [],
+    'node.Bind.conflict.ShadowsKeyword.explanation': ['keyword'],
     'node.Bind.conflict.UnexpectedEtc.explanation': [],
     'node.Bind.conflict.UnexpectedEtc.resolution': [],
     'node.Bind.conflict.UnusedBind.explanation': ['name'],

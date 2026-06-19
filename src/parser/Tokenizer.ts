@@ -1,5 +1,6 @@
 import { Sym, type SymType } from '@nodes/Sym';
 import Token from '@nodes/Token';
+import type { KeywordIndex } from '@parser/Keywords';
 import { withoutVariationSelectors } from '@unicode/emoji';
 import ReservedSymbols from '@parser/ReservedSymbols';
 import {
@@ -206,10 +207,20 @@ const NameRegEx = new RegExp(`^${NameRegExPattern}`, 'u');
  * in normal code. So this excludes those in addition to the usual reserved
  * symbols, operators, and text separators.
  */
-const PatternNameRegEx = new RegExp(
-    `^[^\n\t ${ReservedSymbols.map((s) => escapeRegexCharacter(s)).join(
-        '',
-    )}${TEXT_SEPARATORS}${OPERATORS}${PATTERN_DELIMITER_SYMBOL}${PATTERN_ANY_SYMBOL}${PATTERN_LETTER_SYMBOL}${MEASUREMENT_SYMBOL}${PATTERN_SPACE_SYMBOL}${PATTERN_REST_SYMBOL}${PATTERN_WORD_SYMBOL}${PATTERN_WORDEDGE_SYMBOL}${PATTERN_START_SYMBOL}${PATTERN_END_SYMBOL}${PATTERN_AHEAD_SYMBOL}${PATTERN_BEHIND_SYMBOL}${PATTERN_FOLD_SYMBOL}${PATTERN_RANGE_SYMBOL}]+`,
+// The character class (without leading `^[`) of everything that ends a pattern name. Note this
+// deliberately excludes PATTERN_FOLD_SYMBOL: fold is written `Aa`, letters which ARE valid name
+// characters, so it can't be a name terminator — it's matched as its own bounded token instead.
+const PatternNameExclusion = `\n\t ${ReservedSymbols.map((s) =>
+    escapeRegexCharacter(s),
+).join(
+    '',
+)}${TEXT_SEPARATORS}${OPERATORS}${PATTERN_DELIMITER_SYMBOL}${PATTERN_ANY_SYMBOL}${PATTERN_LETTER_SYMBOL}${MEASUREMENT_SYMBOL}${PATTERN_SPACE_SYMBOL}${PATTERN_REST_SYMBOL}${PATTERN_WORD_SYMBOL}${PATTERN_WORDEDGE_SYMBOL}${PATTERN_START_SYMBOL}${PATTERN_END_SYMBOL}${PATTERN_AHEAD_SYMBOL}${PATTERN_BEHIND_SYMBOL}${PATTERN_RANGE_SYMBOL}`;
+const PatternNameRegEx = new RegExp(`^[^${PatternNameExclusion}]+`, 'u');
+// `Aa` (the case-fold keyword) only when it is NOT immediately followed by another name character, so
+// a capture/property name like `Aardvark` reads as a single name rather than `Aa` + `rdvark`. Fold is
+// always followed by `(` or `/lang`, both of which are name terminators, so this never rejects valid use.
+const PatternFoldRegEx = new RegExp(
+    `^${PATTERN_FOLD_SYMBOL}(?![^${PatternNameExclusion}])`,
     'u',
 );
 
@@ -555,7 +566,7 @@ const PatternTokenPatterns: TokenPattern[] = [
     { pattern: PATTERN_END_SYMBOL, types: [Sym.PatternEnd] },
     { pattern: PATTERN_AHEAD_SYMBOL, types: [Sym.PatternAhead] },
     { pattern: PATTERN_BEHIND_SYMBOL, types: [Sym.PatternBehind] },
-    { pattern: PATTERN_FOLD_SYMBOL, types: [Sym.PatternFold] },
+    { pattern: PatternFoldRegEx, types: [Sym.PatternFold] },
     { pattern: PATTERN_RANGE_SYMBOL, types: [Sym.PatternRange] },
     { pattern: NOT_SYMBOL, types: [Sym.PatternComplement] },
     { pattern: OR_SYMBOL, types: [Sym.PatternAlternation] },
@@ -797,7 +808,7 @@ export function tokens(source: string): Token[] {
     return tokenize(source).getTokens();
 }
 
-export function tokenize(source: string): TokenList {
+export function tokenize(source: string, keywords?: KeywordIndex): TokenList {
     // First, strip any carriage returns. We only work with line feeds.
     source = source.replaceAll('\r', '');
 
@@ -844,7 +855,7 @@ export function tokenize(source: string): TokenList {
 
         // Tokenize the next token. We tokenize in documentation mode if we're inside a doc and the eval depth
         // has not changed since we've entered.
-        const stuff = getNextToken(source, context);
+        const stuff = getNextToken(source, context, keywords);
 
         // Did the next token pull out some unexpected space? Override the space. Apply the elision.
         const nextToken = Array.isArray(stuff) ? stuff[0] : stuff;
@@ -954,6 +965,7 @@ export function tokenize(source: string): TokenList {
 function getNextToken(
     source: string,
     context: Token[],
+    keywords?: KeywordIndex,
 ): Token | [Token, string | undefined] {
     // If there's nothing left after trimming source, return an end of file token.
     if (source.length === 0) return new Token('', Sym.End);
@@ -1060,15 +1072,37 @@ function getNextToken(
             // 1) It's _not_ a text close, or
             // 2) It is, but there are either no open templates (syntax error!), or
             // 3) There is an open template and it's the closing delimiter matches the current open text delimiter.
-            if (match !== null)
+            if (match !== null) {
+                // Localized keyword input: when a name-run exactly equals an active keyword word for
+                // the current context (code or pattern), lex it as a DUAL-TYPE token carrying both
+                // Sym.Name and the keyword's canonical Sym(s). The recursive-descent parser then picks
+                // by position — the keyword where the grammar expects one (e.g. ƒ), a plain name
+                // elsewhere — so a binding named e.g. `número` still works (it merely shadows the
+                // keyword). The typed word is preserved as the token's text. See LANGUAGE.md.
+                if (
+                    keywords !== undefined &&
+                    !inMarkup &&
+                    pattern.types.length === 1 &&
+                    pattern.types[0] === Sym.Name
+                ) {
+                    const entry = (
+                        inPattern ? keywords.pattern : keywords.code
+                    ).get(match[0]);
+                    if (entry !== undefined)
+                        return [
+                            new Token(match[0], [Sym.Name, ...entry.types]),
+                            space,
+                        ];
+                }
                 return [new Token(match[0], pattern.types), space];
+            }
         }
     }
 
     // Otherwise, we fail and return an error token that contains all of the text until the next recognizable token.
     // This is a recursive call: it tries to tokenize the next character, skipping this one, going all the way to the
     // end of the source if necessary, but stopping at the nearest recognizable token. Consume at least one symbol.
-    const stuff = getNextToken(source.substring(1), context);
+    const stuff = getNextToken(source.substring(1), context, keywords);
     const next = Array.isArray(stuff) ? stuff[0] : stuff;
     const end = next.isSymbol(Sym.End)
         ? source.length

@@ -575,6 +575,10 @@
                     "name": "$~oanvändbindning",
                     "explanation": "$~Jag heter $name, men ingen utnyttjar mig. Kanske behövs jag inte?",
                     "resolution": "$~Ta bort den här bindningen"
+                },
+                "ShadowsKeyword": {
+                    "name": "$~skuggarettnyckelord",
+                    "explanation": "$~Det här namnet är också nyckelordet $keyword , så jag kommer att läsa det som ett namn här; nyckelordet $keyword fungerar fortfarande på andra ställen."
                 }
             },
             "label": {
@@ -1946,7 +1950,7 @@
                 "$~Förfina en klass med en @PatternProperty , som \\⣿_/greek⣿\\ för en grekisk bokstav eller \\⣿◌/emoji⣿\\ .",
                 "$~Namnge ett stycke med en @PatternCapture , som \\⣿year:(4 #)⣿\\ , och återanvänd det senare med en @PatternBackref genom att skriva dess namn. Varje @Result rapporterar fångade stycken med namn.",
                 "$~Förankra i kanterna med en @PatternAnchor : \\⣿⊢⣿\\ start, \\⣿⊣⣿\\ slut. Titta utan att konsumera med en @PatternLook : \\⣿▸(#)⣿\\ framåt, \\⣿◂(#)⣿\\ bakom.",
-                "$~Matcha hela ord med en @PatternWord \\⣿▭/en⣿\\ eller ordgränser med en @PatternWordEdge \\⣿┊/en⣿\\ , segmenterade för ett språk. Ignorera skiftläge inuti en @PatternCaseFold \\⣿⇕(\"hi\")⣿\\ .",
+                "$~Matcha hela ord med en @PatternWord \\⣿▭/en⣿\\ eller ordgränser med en @PatternWordEdge \\⣿┊/en⣿\\ , segmenterade för ett språk. Ignorera skiftläge inuti en @PatternCaseFold \\⣿Aa(\"hi\")⣿\\ .",
                 "$~Min typ är en @PatternType — anteckna ett namn med den, som \\p•⣿⣿: ⣿◌⣿\\ — så att du kan lagra mig i ett namn och återanvända mig i många texter."
             ],
             "start": "$~Låt mig se hur den här texten ser ut.",
@@ -2208,8 +2212,8 @@
             "doc": [
                 "$~Jag matchar mina delar utan att tänka på stora och små bokstäver.",
                 "$~Till exempel kontrollera ett ord utan att använda versaler:",
-                "$~\\shout: 'HELLO'\nshout ≈ ⣿⇕(\"hello\")⣿\\",
-                "$~Radbryt mina delar som \\⣿⇕(\"hi\")⣿\\ (matchar \"HI\", \"Hi\" eller \"hi\"). Lägg till ett språk för dess regler, som \\⣿⇕/tr(\"i\")⣿\\ (turkiskt i), och jag omfamnar även en @PatternBackref , som \\⣿⇕(w:(2 _) w)⣿\\ ."
+                "$~\\shout: 'HELLO'\nshout ≈ ⣿Aa(\"hello\")⣿\\",
+                "$~Radbryt mina delar som \\⣿Aa(\"hi\")⣿\\ (matchar \"HI\", \"Hi\" eller \"hi\"). Lägg till ett språk för dess regler, som \\⣿Aa/tr(\"i\")⣿\\ (turkiskt i), och jag omfamnar även en @PatternBackref , som \\⣿Aa(w:(2 _) w)⣿\\ ."
             ]
         },
         "PatternType": {
@@ -6363,6 +6367,14 @@
                             "$~långa rader rullar horisontellt i textläge",
                             "$~långa rader bryts till redigeringsfönstret i textläge"
                         ]
+                    },
+                    "words": {
+                        "label": "$~nyckelord",
+                        "labels": ["$~symboler", "$~ord"],
+                        "tips": [
+                            "$~visa inbyggda nyckelord som symboler",
+                            "$~visa inbyggda nyckelord som ord på ditt språk"
+                        ]
                     }
                 },
                 "options": {
@@ -7975,5 +7987,43 @@
         "noscript": "$~Wordplay använder JavaScript. Din webbläsare stöder det inte, eller så är det inaktiverat.",
         "unsupportedHeading": "$~Webbläsare som inte stöds",
         "unsupportedBody": "$~Din webbläsare stöder inte viktiga funktioner. För att använda Wordplay måste du uppgradera till en nyare version."
+    },
+    "keyword": {
+        "function": "funktion",
+        "type": "typ",
+        "number": "tal",
+        "none": "ingenting",
+        "true": "sant",
+        "false": "falskt",
+        "borrow": "låna",
+        "share": "dela",
+        "convert": "som",
+        "translate": "översätt",
+        "conditional": "då",
+        "booleantype": "sanning",
+        "otherwise": "annars",
+        "match": "matcha",
+        "stream": "ström",
+        "changed": "ändrad",
+        "initial": "första",
+        "previous": "föregående",
+        "this": "detta",
+        "and": "och",
+        "or": "eller",
+        "not": "inte",
+        "letter": "bokstav",
+        "digit": "siffra",
+        "patternspace": "blanksteg",
+        "patternword": "ord",
+        "any": "vilken",
+        "start": "start",
+        "end": "slut",
+        "rest": "resten",
+        "edge": "kant",
+        "ahead": "framför",
+        "behind": "bakom",
+        "range": "till",
+        "complement": "inte",
+        "alternation": "eller"
     }
 }

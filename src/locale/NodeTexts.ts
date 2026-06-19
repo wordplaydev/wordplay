@@ -309,6 +309,8 @@ type NodeTexts = {
                 /** [formatted] Suggested fix when names conflict */
                 resolution: FormattedText;
             };
+            /** When a name is spelled like a localized keyword that wins over a name (advisory). */
+            ShadowsKeyword: ConflictText<['keyword']>;
             /** When a shared bind has a duplicate name that's shared. */
             DuplicateShare: ConflictText<['duplicate']> & {
                 /** [formatted] Action description for the repair this conflict offers */
@@ -843,7 +845,7 @@ type NodeTexts = {
         }>;
     /** The rest-of-input atom `…` in a pattern. */
     PatternRest: DescriptiveNodeText;
-    /** A case-folding scope `⇕(…)` in a pattern. */
+    /** A case-folding scope `Aa(…)` in a pattern. */
     PatternCaseFold: DescriptiveNodeText;
     /** The pattern type, `•⣿⣿`. */
     PatternType: DescriptiveNodeText;

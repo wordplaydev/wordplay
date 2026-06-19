@@ -16,6 +16,7 @@ import {
     type BlockDensity,
 } from '@db/settings/BlockDensitySetting';
 import { BlocksSetting } from '@db/settings/BlocksSetting';
+import { WordsSetting } from '@db/settings/WordsSetting';
 import { CameraSetting } from '@db/settings/CameraSetting';
 import { CaretsSetting } from '@db/settings/CaretsSetting';
 import { FoldsSetting } from '@db/settings/FoldsSetting';
@@ -131,6 +132,7 @@ export default class SettingsDatabase {
         camera: CameraSetting,
         mic: MicSetting,
         blocks: BlocksSetting,
+        words: WordsSetting,
         blockDensity: BlockDensitySetting,
         dark: DarkSetting,
         space: SpaceSetting,
@@ -451,6 +453,14 @@ export default class SettingsDatabase {
 
     getBlocks() {
         return this.settings.blocks.get();
+    }
+
+    setWords(on: boolean) {
+        this.settings.words.set(this.database, on);
+    }
+
+    getWords() {
+        return this.settings.words.get();
     }
 
     setBlockDensity(density: BlockDensity) {

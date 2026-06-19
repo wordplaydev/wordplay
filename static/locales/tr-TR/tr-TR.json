@@ -575,6 +575,10 @@
                     "name": "$~kullanılmamışbağ",
                     "explanation": "$~Benim adım $name, ama kimse beni kullanmıyor. Belki de bana ihtiyaç yok?",
                     "resolution": "$~Bu bağlantıyı sil"
+                },
+                "ShadowsKeyword": {
+                    "name": "$~gölgelerbiranahtarkelime",
+                    "explanation": "$~Bu isim aynı zamanda $keyword anahtar kelimesi olduğundan, burada bir isim olarak okuyacağım; $keyword anahtar kelimesi başka yerlerde de çalışmaya devam ediyor."
                 }
             },
             "label": {
@@ -1946,7 +1950,7 @@
                 "$~Bir sınıfı @PatternProperty ile özelleştirin; örneğin, bir Yunan harfi için \\⣿_/greek⣿\\ veya \\⣿◌/emoji⣿\\ .",
                 "$~Bir parçayı @PatternCapture ile adlandırın, örneğin \\⣿year:(4 #)⣿\\ gibi, daha sonra @PatternBackref ile çıplak adını yazarak yeniden kullanın. Her @Result yakalanan parçaları adlarıyla rapor eder.",
                 "$~@PatternAnchor kullanarak kenarlara sabitleyin: \\⣿⊢⣿\\ başlangıç, \\⣿⊣⣿\\ bitiş. @PatternLook kullanarak tüketmeden göz atın: \\⣿▸(#)⣿\\ ön, \\⣿◂(#)⣿\\ arka.",
-                "$~@PatternWord \\⣿▭/en⣿\\ ile tam kelimeleri veya @PatternWordEdge \\⣿┊/en⣿\\ ile kelime sınırlarını eşleştirin, dil için bölümlere ayırın. @PatternCaseFold \\⣿⇕(\"hi\")⣿\\ içindeki harf büyük/küçük harf duyarlılığını göz ardı edin.",
+                "$~@PatternWord \\⣿▭/en⣿\\ ile tam kelimeleri veya @PatternWordEdge \\⣿┊/en⣿\\ ile kelime sınırlarını eşleştirin, dil için bölümlere ayırın. @PatternCaseFold \\⣿Aa(\"hi\")⣿\\ içindeki harf büyük/küçük harf duyarlılığını göz ardı edin.",
                 "$~Benim türüm bir @PatternType — bir isme bu etiketi ekleyin, örneğin \\p•⣿⣿: ⣿◌⣿\\ — böylece beni bir isimde saklayabilir ve birçok metinde yeniden kullanabilirsiniz."
             ],
             "start": "$~Metnin nasıl göründüğüne bir bakayım.",
@@ -2208,8 +2212,8 @@
             "doc": [
                 "$~Parçalarımı büyük ve küçük harflere aldırmadan eşleştiriyorum.",
                 "$~Örneğin, bir kelimenin büyük/küçük harf duyarlılığına bakmaksızın kontrolünü yapın:",
-                "$~\\shout: 'HELLO'\nshout ≈ ⣿⇕(\"hello\")⣿\\",
-                "$~Parçalarımı \\⣿⇕(\"hi\")⣿\\ \"HI\", \"Hi\" veya \"hi\" ile eşleşir) şeklinde sarın. Kuralları için \\⣿⇕/tr(\"i\")⣿\\ (Türkçe i) gibi bir dil ekleyin ve ayrıca \\⣿⇕(w:(2 _) w)⣿\\ gibi bir @PatternBackref de kapsam içine alıyorum."
+                "$~\\shout: 'HELLO'\nshout ≈ ⣿Aa(\"hello\")⣿\\",
+                "$~Parçalarımı \\⣿Aa(\"hi\")⣿\\ \"HI\", \"Hi\" veya \"hi\" ile eşleşir) şeklinde sarın. Kuralları için \\⣿Aa/tr(\"i\")⣿\\ (Türkçe i) gibi bir dil ekleyin ve ayrıca \\⣿Aa(w:(2 _) w)⣿\\ gibi bir @PatternBackref de kapsam içine alıyorum."
             ]
         },
         "PatternType": {
@@ -6365,6 +6369,14 @@
                             "$~Metin modunda uzun satırlar yatay olarak kaydırılır.",
                             "$~Uzun satırlar metin modunda düzenleyici penceresine kaydırılır."
                         ]
+                    },
+                    "words": {
+                        "label": "$~anahtar kelimeler",
+                        "labels": ["$~semboller", "$~kelimeler"],
+                        "tips": [
+                            "$~Dahili anahtar kelimeleri sembol olarak göster",
+                            "$~Dahili anahtar kelimeleri dilinizdeki kelimeler olarak göster"
+                        ]
                     }
                 },
                 "options": {
@@ -7980,5 +7992,43 @@
         "noscript": "$~Wordplay JavaScript kullanıyor. Tarayıcınız JavaScript'i desteklemiyor veya devre dışı bırakılmış.",
         "unsupportedHeading": "$~Desteklenmeyen Tarayıcı",
         "unsupportedBody": "$~Tarayıcınız kritik işlevleri desteklemiyor. Wordplay'i kullanmak için daha yeni bir sürüme yükseltmeniz gerekecek."
+    },
+    "keyword": {
+        "function": "işlev",
+        "type": "tip",
+        "number": "sayı",
+        "none": "hiçbiri",
+        "true": "doğru",
+        "false": "yanlış",
+        "borrow": "ödünç",
+        "share": "paylaş",
+        "convert": "olarak",
+        "translate": "çevir",
+        "conditional": "ise",
+        "booleantype": "doğruluk",
+        "otherwise": "aksi",
+        "match": "eşleşme",
+        "stream": "akış",
+        "changed": "değişti",
+        "initial": "ilk",
+        "previous": "öncesi",
+        "this": "bu",
+        "and": "ve",
+        "or": "veya",
+        "not": "değil",
+        "letter": "harf",
+        "digit": "rakam",
+        "patternspace": "boşluk",
+        "patternword": "kelime",
+        "any": "herhangi",
+        "start": "başlangıç",
+        "end": "son",
+        "rest": "kalan",
+        "edge": "sınır",
+        "ahead": "ileri",
+        "behind": "geri",
+        "range": "kadar",
+        "complement": "değil",
+        "alternation": "veya"
     }
 }

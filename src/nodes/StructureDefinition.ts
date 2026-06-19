@@ -1,4 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
+import { getKeywordShadowConflicts } from '@conflicts/ShadowsKeyword';
 import { DisallowedInputs } from '@conflicts/DisallowedInputs';
 import { IncompleteImplementation } from '@conflicts/IncompleteImplementation';
 import NotAnInterface from '@conflicts/NotAnInterface';
@@ -411,6 +412,11 @@ export default class StructureDefinition extends DefinitionExpression {
 
     computeConflicts(context: Context): Conflict[] {
         let conflicts: Conflict[] = [];
+
+        // Advisory if the structure name shadows a localized keyword (no-op without keyword input).
+        conflicts = conflicts.concat(
+            getKeywordShadowConflicts(this, this.names),
+        );
 
         // Inputs must be valid.
         conflicts = conflicts.concat(getEvaluationInputConflicts(this.inputs));

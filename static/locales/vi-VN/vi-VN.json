@@ -580,6 +580,10 @@
                     "name": "$~liênkếtkhôngsửdụng",
                     "explanation": "$~Tôi có tên là $name, nhưng chẳng ai dùng đến tôi cả. Có lẽ tôi không cần thiết chăng?",
                     "resolution": "$~Xóa liên kết này"
+                },
+                "ShadowsKeyword": {
+                    "name": "$~bóngđổmộttừkhóa",
+                    "explanation": "$~Tên này cũng chính là từ khóa $keyword , vì vậy tôi sẽ đọc nó như một tên ở đây; từ khóa $keyword vẫn hoạt động ở những nơi khác."
                 }
             }
         },
@@ -1946,7 +1950,7 @@
                 "$~Tinh chỉnh một lớp bằng cách sử dụng @PatternProperty , ví dụ như \\⣿_/greek⣿\\ cho một chữ cái Hy Lạp hoặc \\⣿◌/emoji⣿\\ .",
                 "$~Đặt tên cho một phần bằng @PatternCapture , ví dụ như \\⣿year:(4 #)⣿\\ , sau đó tái sử dụng nó sau này với @PatternBackref bằng cách viết tên gốc của nó. Mỗi @Result báo cáo các phần được bắt giữ theo tên.",
                 "$~Neo vào các cạnh bằng @PatternAnchor : \\⣿⊢⣿\\ bắt đầu, \\⣿⊣⣿\\ kết thúc. Xem trước mà không tiêu thụ bằng cách sử dụng @PatternLook : \\⣿▸(#)⣿\\ phía trước, \\⣿◂(#)⣿\\ phía sau.",
-                "$~Ghép toàn bộ từ với @PatternWord \\⣿▭/en⣿\\ hoặc ranh giới từ với @PatternWordEdge \\⣿┊/en⣿\\ , được phân đoạn theo ngôn ngữ. Bỏ qua chữ hoa/chữ thường bên trong @PatternCaseFold \\⣿⇕(\"hi\")⣿\\ .",
+                "$~Ghép toàn bộ từ với @PatternWord \\⣿▭/en⣿\\ hoặc ranh giới từ với @PatternWordEdge \\⣿┊/en⣿\\ , được phân đoạn theo ngôn ngữ. Bỏ qua chữ hoa/chữ thường bên trong @PatternCaseFold \\⣿Aa(\"hi\")⣿\\ .",
                 "$~Kiểu dữ liệu của tôi là @PatternType — hãy chú thích tên bằng kiểu này, ví dụ như \\p•⣿⣿: ⣿◌⣿\\ — để bạn có thể lưu trữ tôi trong một tên và sử dụng lại tôi trong nhiều văn bản khác nhau."
             ],
             "start": "$~Để tôi xem đoạn văn này trông như thế nào.",
@@ -2208,8 +2212,8 @@
             "doc": [
                 "$~Tôi ghép các bộ phận lại với nhau mà không cần quan tâm đến chữ hoa hay chữ thường.",
                 "$~Ví dụ, hãy kiểm tra một từ mà không cần quan tâm đến chữ hoa hay chữ thường:",
-                "$~\\shout: 'HELLO'\nshout ≈ ⣿⇕(\"hello\")⣿\\",
-                "$~Tôi bọc các phần của mình như \\⣿⇕(\"hi\")⣿\\ (khớp với \"HI\", \"Hi\" hoặc \"hi\"). Thêm ngôn ngữ cho các quy tắc của nó, ví dụ như \\⣿⇕/tr(\"i\")⣿\\ (tiếng Thổ Nhĩ Kỳ i), và tôi cũng giới hạn phạm vi của @PatternBackref , ví dụ như \\⣿⇕(w:(2 _) w)⣿\\ ."
+                "$~\\shout: 'HELLO'\nshout ≈ ⣿Aa(\"hello\")⣿\\",
+                "$~Tôi bọc các phần của mình như \\⣿Aa(\"hi\")⣿\\ (khớp với \"HI\", \"Hi\" hoặc \"hi\"). Thêm ngôn ngữ cho các quy tắc của nó, ví dụ như \\⣿Aa/tr(\"i\")⣿\\ (tiếng Thổ Nhĩ Kỳ i), và tôi cũng giới hạn phạm vi của @PatternBackref , ví dụ như \\⣿Aa(w:(2 _) w)⣿\\ ."
             ]
         },
         "PatternType": {
@@ -6598,6 +6602,14 @@
                             "$~Các dòng dài sẽ cuộn ngang ở chế độ văn bản.",
                             "$~Các dòng dài sẽ tự động xuống dòng trong cửa sổ trình soạn thảo ở chế độ văn bản."
                         ]
+                    },
+                    "words": {
+                        "label": "$~từ khóa",
+                        "labels": ["$~biểu tượng", "$~từ"],
+                        "tips": [
+                            "$~Hiển thị các từ khóa tích hợp dưới dạng ký hiệu",
+                            "$~Hiển thị các từ khóa tích hợp sẵn dưới dạng từ trong ngôn ngữ của bạn."
+                        ]
                     }
                 },
                 "options": {
@@ -7977,5 +7989,43 @@
         "noscript": "$~Wordplay sử dụng JavaScript. Trình duyệt của bạn không hỗ trợ hoặc đã tắt JavaScript.",
         "unsupportedHeading": "$~Trình duyệt không được hỗ trợ",
         "unsupportedBody": "$~Trình duyệt của bạn không hỗ trợ một số chức năng quan trọng. Để sử dụng Wordplay, bạn cần nâng cấp lên phiên bản mới hơn."
+    },
+    "keyword": {
+        "function": "hàm",
+        "type": "kiểu",
+        "number": "số",
+        "none": "không",
+        "true": "đúng",
+        "false": "sai",
+        "borrow": "mượn",
+        "share": "chia",
+        "convert": "thành",
+        "translate": "dịch",
+        "conditional": "thì",
+        "booleantype": "thật",
+        "otherwise": "ngược",
+        "match": "khớp",
+        "stream": "luồng",
+        "changed": "đổi",
+        "initial": "đầu",
+        "previous": "trước",
+        "this": "này",
+        "and": "và",
+        "or": "hoặc",
+        "not": "không",
+        "letter": "chữ",
+        "digit": "chữsố",
+        "patternspace": "khoảng",
+        "patternword": "từ",
+        "any": "bất",
+        "start": "đầu",
+        "end": "cuối",
+        "rest": "còn",
+        "edge": "biên",
+        "ahead": "trước",
+        "behind": "sau",
+        "range": "đến",
+        "complement": "không",
+        "alternation": "hoặc"
     }
 }

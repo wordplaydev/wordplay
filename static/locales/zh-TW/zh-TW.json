@@ -575,6 +575,10 @@
                     "name": "$~未使用的綁定",
                     "explanation": "$~我的名字是$name",
                     "resolution": "$~刪除此綁定"
+                },
+                "ShadowsKeyword": {
+                    "name": "$~遮蔽關鍵字",
+                    "explanation": "$~這個名稱也是$keyword，所以在這裡我會把它當作一個名稱來讀； $keyword。"
                 }
             },
             "label": {
@@ -1946,7 +1950,7 @@
                 "$~使用@PatternProperty，例如\\⣿_/greek⣿\\表示希臘字母，或\\⣿◌/emoji⣿\\表示表情符號。",
                 "$~使用@PatternCapture，例如\\⣿year:(4 #)⣿\\ ，然後稍後可以透過@PatternBackref，只需寫出圖案名稱即可。每個@Result。",
                 "$~使用@PatternAnchor： \\⣿⊢⣿\\開始， \\⣿⊣⣿\\結束。使用@PatternLook： \\⣿▸(#)⣿\\前方， \\⣿◂(#)⣿\\後方。",
-                "$~使用@PatternWord \\⣿▭/en⣿\\匹配整個單詞，或使用@PatternWordEdge \\⣿┊/en⣿\\單字邊界，並針對特定語言進行分段。忽略@PatternCaseFold \\⣿⇕(\"hi\")⣿\\內的字母大小寫。",
+                "$~使用@PatternWord \\⣿▭/en⣿\\匹配整個單詞，或使用@PatternWordEdge \\⣿┊/en⣿\\單字邊界，並針對特定語言進行分段。忽略@PatternCaseFold \\⣿Aa(\"hi\")⣿\\內的字母大小寫。",
                 "$~我的類型是@PatternType — 用它給一個名稱添加註釋，例如\\p•⣿⣿: ⣿◌⣿\\ — 這樣你就可以把我存儲在一個名稱中，並在多個文本中重複使用我。"
             ],
             "start": "$~讓我看看這段文字長什麼樣子。",
@@ -2208,8 +2212,8 @@
             "doc": [
                 "$~我匹配零件時忽略大小寫。",
                 "$~例如，檢查一個單詞，忽略其大小寫：",
-                "$~\\shout: 'HELLO'\nshout ≈ ⣿⇕(\"hello\")⣿\\",
-                "$~將我的部分包裝成\\⣿⇕(\"hi\")⣿\\ （符合 \"HI\", \"Hi\", 或 \"hi\")。為其規則加入語言，例如\\⣿⇕/tr(\"i\")⣿\\ （土耳其語 i），我還對@PatternBackref，例如\\⣿⇕(w:(2 _) w)⣿\\ 。"
+                "$~\\shout: 'HELLO'\nshout ≈ ⣿Aa(\"hello\")⣿\\",
+                "$~將我的部分包裝成\\⣿Aa(\"hi\")⣿\\ （符合 \"HI\", \"Hi\", 或 \"hi\")。為其規則加入語言，例如\\⣿Aa/tr(\"i\")⣿\\ （土耳其語 i），我還對@PatternBackref，例如\\⣿Aa(w:(2 _) w)⣿\\ 。"
             ]
         },
         "PatternType": {
@@ -6299,6 +6303,14 @@
                             "$~文字模式下長行水平捲動",
                             "$~在文字模式下，長行會自動換行到編輯器視窗。"
                         ]
+                    },
+                    "words": {
+                        "label": "$~關鍵字",
+                        "labels": ["$~符號", "$~字"],
+                        "tips": [
+                            "$~將內建關鍵字顯示為符號",
+                            "$~將內建關鍵字顯示為您語言中的單字"
+                        ]
                     }
                 },
                 "options": {
@@ -7917,5 +7929,43 @@
         "noscript": "$~Wordplay 使用了 JavaScript。您的瀏覽器不支援 JavaScript，或 JavaScript 已停用。",
         "unsupportedHeading": "$~不支援的瀏覽器",
         "unsupportedBody": "$~您的瀏覽器不支援關鍵功能。要使用 Wordplay，您需要升級到更新的版本。"
+    },
+    "keyword": {
+        "function": "函數",
+        "type": "類型",
+        "number": "數字",
+        "none": "無",
+        "true": "真",
+        "false": "假",
+        "borrow": "借",
+        "share": "分享",
+        "convert": "為",
+        "translate": "翻譯",
+        "conditional": "則",
+        "booleantype": "真假",
+        "otherwise": "否則",
+        "match": "比對",
+        "stream": "串流",
+        "changed": "改變",
+        "initial": "初始",
+        "previous": "之前",
+        "this": "這",
+        "and": "和",
+        "or": "或",
+        "not": "非",
+        "letter": "字母",
+        "digit": "數字",
+        "patternspace": "空格",
+        "patternword": "詞",
+        "any": "任意",
+        "start": "開始",
+        "end": "結束",
+        "rest": "其餘",
+        "edge": "邊界",
+        "ahead": "向前",
+        "behind": "向後",
+        "range": "至",
+        "complement": "非",
+        "alternation": "或"
     }
 }
