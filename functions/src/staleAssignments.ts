@@ -30,6 +30,13 @@ const MAINTAINERS: string[] = ['amyjko'];
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
+/** Timeline events that happen *to* a user rather than being an action they
+ * took. The bot's own warning @-mentions the assignee, which makes GitHub emit
+ * `mentioned` and `subscribed` events with the assignee as actor moments after
+ * the warning — so counting them as activity makes every warned assignee look
+ * like they replied instantly, and the bot never unassigns anyone. */
+const PASSIVE_EVENTS = new Set(['mentioned', 'subscribed', 'unsubscribed']);
+
 /** Marker hidden in warning comments so the bot can find its own warnings later,
  * and which assignees each warning covered. Rendered invisibly by GitHub. */
 const MARKER_RE = /<!--\s*wp-stale-bot:warning\s+logins=(\S+)\s*-->/;
@@ -120,8 +127,15 @@ function lastActivityFor(
         if (comment.user?.login === login) times.push(comment.created_at);
 
     // Any timeline change they performed (labels, references, renames, ...).
+    // Skip passive events (mentioned/subscribed) that GitHub attributes to the
+    // user but which they didn't actually do — notably the ones triggered by
+    // the bot's own warning mention.
     for (const event of timeline)
-        if (event.actor?.login === login && event.created_at)
+        if (
+            event.actor?.login === login &&
+            event.created_at &&
+            !PASSIVE_EVENTS.has(event.event)
+        )
             times.push(event.created_at);
 
     return latest(times) ?? issue.created_at;
