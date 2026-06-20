@@ -128,18 +128,14 @@
 </script>
 
 {#if !ready}
-    <Page>
-        <Loading />
-    </Page>
+    <Loading />
 {:else if mode === null}
     <Page>
         <TutorialChooser onChoose={choose} onGuide={() => goto('/guide')} />
     </Page>
 {:else if tutorial === undefined}
     <div class="fading" out:fade={{ duration: $animationDuration }}>
-        <Page>
-            <Loading />
-        </Page>
+        <Loading />
     </div>
 {:else if tutorial === null}
     <Writing>

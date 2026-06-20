@@ -33,35 +33,37 @@
     }
 </script>
 
-<Writing>
-    {#if $user === null}
-        <PageHeader />
-        <Notice text={(l) => l.ui.gallerymoderation.error} />
-    {:else if $user === undefined}
-        <PageHeader />
-        <Loading />
-    {:else}
-        <PageHeader
-            header={(l) => l.ui.gallerymoderation.header}
-            description={(l) => l.ui.gallerymoderation.description}
-        />
-
-        {#if modNeeded.size > 0}
-            {#each modNeeded.values() as [message, chat, galleryID]}
-                <ModerationItem
-                    {message}
-                    {chat}
-                    {galleryID}
-                    {removeMessage}
-                    {approveMessage}
-                />
-            {/each}
+{#if $user === undefined}
+    <!-- Auth hasn't resolved yet: overlay the page with a loader, alone. -->
+    <Loading />
+{:else}
+    <Writing>
+        {#if $user === null}
+            <PageHeader />
+            <Notice text={(l) => l.ui.gallerymoderation.error} />
         {:else}
-            <Notice
-                ><MarkupHTMLView
-                    markup={(l) => l.ui.gallerymoderation.empty}
-                /></Notice
-            >
+            <PageHeader
+                header={(l) => l.ui.gallerymoderation.header}
+                description={(l) => l.ui.gallerymoderation.description}
+            />
+
+            {#if modNeeded.size > 0}
+                {#each modNeeded.values() as [message, chat, galleryID]}
+                    <ModerationItem
+                        {message}
+                        {chat}
+                        {galleryID}
+                        {removeMessage}
+                        {approveMessage}
+                    />
+                {/each}
+            {:else}
+                <Notice
+                    ><MarkupHTMLView
+                        markup={(l) => l.ui.gallerymoderation.empty}
+                    /></Notice
+                >
+            {/if}
         {/if}
-    {/if}
-</Writing>
+    </Writing>
+{/if}

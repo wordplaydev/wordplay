@@ -273,8 +273,15 @@
              $localesReady would skip the page's <svelte:head> on the client
              for non-en-US users while the server already emitted a <title>,
              producing a hydration mismatch (see Title.svelte for the matching
-             locale-pinning during initial render). The body is kept invisible
-             via the `locale-loading` CSS class until $localesReady flips. -->
+             locale-pinning during initial render).
+
+             While fonts/locale are still loading (and after a brief lag), the
+             Loading overlay covers the content area so the partially-rendered,
+             font-jiggling page underneath isn't visible. It's absolutely
+             positioned within .content (position: relative below), so it sits
+             on top of the children rather than pushing them down. The separate
+             non-en-US first-paint case is handled by the `locale-loading` CSS
+             class (see app.html), removed once $localesReady flips. -->
         {#if (!$localesReady || !loaded) && lag}
             <Loading />
         {/if}
@@ -310,5 +317,7 @@
         min-height: 0;
         display: flex;
         flex-direction: column;
+        /* Containing block for the Loading overlay so it covers this area. */
+        position: relative;
     }
 </style>

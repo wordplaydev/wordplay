@@ -1,6 +1,5 @@
 <script lang="ts">
     import { browser } from '$app/environment';
-    import Header from '@components/app/Header.svelte';
     import Loading from '@components/app/Loading.svelte';
     import PageHeader from '@components/app/PageHeader.svelte';
     import Writing from '@components/app/Writing.svelte';
@@ -21,13 +20,15 @@
 </script>
 
 <!-- Is the user logged in?  -->
-<Writing>
-    <PageHeader />
-    {#if $user}
-        <!-- Show their profile. -->
-        <Profile user={$user} />
-    {:else if $user === undefined}
-        <!-- Show a message indicating they are not logged in. -->
-        <Header><Loading></Loading></Header>
-    {/if}
-</Writing>
+{#if $user === undefined}
+    <!-- Auth hasn't resolved yet: overlay the page with a loader, alone. -->
+    <Loading></Loading>
+{:else}
+    <Writing>
+        <PageHeader />
+        {#if $user}
+            <!-- Show their profile. -->
+            <Profile user={$user} />
+        {/if}
+    </Writing>
+{/if}

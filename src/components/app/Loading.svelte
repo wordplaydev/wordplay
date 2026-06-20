@@ -9,11 +9,16 @@
 </div>
 
 <style>
+    /* Overlay the nearest positioned ancestor (the page content area, a chat
+       panel, etc.) rather than taking a row in normal flow — so a loader shown
+       alongside already-rendered content covers it instead of pushing it down.
+       Each host that shows <Loading> beside other content sets position:
+       relative; hosts that render it alone fall back to the layout's .content. */
     .container {
-        width: 100dvw;
-        height: 100%;
-        max-width: 100%;
-        max-height: 100%;
+        position: absolute;
+        inset: 0;
+        background: var(--wordplay-background);
+        z-index: 1;
         display: flex;
         flex-direction: column;
         justify-content: center;

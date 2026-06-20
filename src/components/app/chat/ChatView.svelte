@@ -211,70 +211,89 @@
     </div>
 {/snippet}
 
-{#if chat === null}
-    <Loading></Loading>
-{:else if chat === false}
-    <TileMessage error>
-        <p><LocalizedText path={(l) => l.ui.collaborate.error.offline} /></p>
-    </TileMessage>
-{:else if chat == undefined}
-    <TileMessage>
-        <p
-            ><Button
-                tip={(l) => l.ui.collaborate.button.start.tip}
-                action={startChat}
-                background
-                ><LocalizedText
-                    path={(l) => l.ui.collaborate.button.start.label}
-                /></Button
-            ></p
-        >
-    </TileMessage>
-{:else}
-    {#if galleryID}
-        <MarkupHTMLView markup={(l) => l.ui.collaborate.moderation.inGallery} />
-    {/if}
-    <div class="scroller" bind:this={scrollerView}>
-        <div class="messages">
-            {#each chat.getMessages() as msg}
-                {@render message(chat, msg)}
-            {:else}
-                <Note
-                    ><LocalizedText
-                        path={(l) => l.ui.collaborate.error.empty}
-                    /></Note
-                >
-            {/each}
-        </div>
-    </div>
-    <form class="new" data-sveltekit-keepfocus>
-        <div class="editor">
-            <FormattedEditor
-                id="new-message"
-                placeholder={(l) =>
-                    l.ui.collaborate.field.message.placeholder}
-                description={(l) =>
-                    l.ui.collaborate.field.message.description}
-                bind:view={newMessageView}
-                bind:text={newMessage}
-            />
-        </div>
-        <div class="send">
-            <Button
-                submit
-                active={chat !== undefined && newMessage.trim() !== ''}
-                tip={(l) => l.ui.collaborate.button.submit.tip}
-                action={submitMessage}
-                background
-                ><LocalizedText
-                    path={(l) => l.ui.collaborate.button.submit.label}
-                /></Button
+<!-- Positioned, full-size wrapper so the Loading overlay scopes to this chat
+     panel (a project tile / embedded how-to chat box) rather than the viewport. -->
+<div class="view">
+    {#if chat === null}
+        <Loading></Loading>
+    {:else if chat === false}
+        <TileMessage error>
+            <p><LocalizedText path={(l) => l.ui.collaborate.error.offline} /></p
             >
+        </TileMessage>
+    {:else if chat == undefined}
+        <TileMessage>
+            <p
+                ><Button
+                    tip={(l) => l.ui.collaborate.button.start.tip}
+                    action={startChat}
+                    background
+                    ><LocalizedText
+                        path={(l) => l.ui.collaborate.button.start.label}
+                    /></Button
+                ></p
+            >
+        </TileMessage>
+    {:else}
+        {#if galleryID}
+            <MarkupHTMLView
+                markup={(l) => l.ui.collaborate.moderation.inGallery}
+            />
+        {/if}
+        <div class="scroller" bind:this={scrollerView}>
+            <div class="messages">
+                {#each chat.getMessages() as msg}
+                    {@render message(chat, msg)}
+                {:else}
+                    <Note
+                        ><LocalizedText
+                            path={(l) => l.ui.collaborate.error.empty}
+                        /></Note
+                    >
+                {/each}
+            </div>
         </div>
-    </form>
-{/if}
+        <form class="new" data-sveltekit-keepfocus>
+            <div class="editor">
+                <FormattedEditor
+                    id="new-message"
+                    placeholder={(l) =>
+                        l.ui.collaborate.field.message.placeholder}
+                    description={(l) =>
+                        l.ui.collaborate.field.message.description}
+                    bind:view={newMessageView}
+                    bind:text={newMessage}
+                />
+            </div>
+            <div class="send">
+                <Button
+                    submit
+                    active={chat !== undefined && newMessage.trim() !== ''}
+                    tip={(l) => l.ui.collaborate.button.submit.tip}
+                    action={submitMessage}
+                    background
+                    ><LocalizedText
+                        path={(l) => l.ui.collaborate.button.submit.label}
+                    /></Button
+                >
+            </div>
+        </form>
+    {/if}
+</div>
 
 <style>
+    /* Positioned, full-size column so the Loading overlay covers just this
+       panel, and the chat's scroller/form lay out as before. Fills both a
+       flex-column tile (.collab) and a height-based box (.how-to-chat). */
+    .view {
+        position: relative;
+        flex: 1;
+        min-height: 0;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
     .scroller {
         overflow-y: auto;
         overflow-x: clip;
