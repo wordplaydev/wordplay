@@ -126,7 +126,7 @@
          stack vertically before settling. Spans default to `inline` and
          the CSS below then upgrades them to `inline-flex` / `flex` /
          `inline-block` without a layout shift. -->
-    <span class="code">
+    <span class="code" class:inline>
         <span
             role="textbox"
             aria-label={$locales.getPlainText(
@@ -137,6 +137,7 @@
             class="node"
             class:outline={outline && !$blocks}
             class:draggable={dragged !== undefined && draggable}
+            class:inline
             class:elide
             class:evaluate={node instanceof Expression &&
                 node.getKind() === ExpressionKind.Evaluate}
@@ -177,7 +178,7 @@
     {/if}
 {/snippet}
 
-<span class="view" class:how={isHowTo} bind:this={view}>
+<span class="view" class:how={isHowTo} class:inline bind:this={view}>
     {#if isHowTo && !inline}
         {#if !visible}
             <div class="placeholder"></div>
@@ -258,6 +259,25 @@
 
         /* Allow vertical scroll of parent while still delivering pointer events for drag. */
         touch-action: pan-y;
+    }
+
+    /* Inline-in-prose examples flow as inline code and wrap with the surrounding
+       text at the <wbr> break points the editor emits, instead of sizing to the
+       program's full single-line width and widening the paragraph. baseline (not
+       middle) so they sit on the prose baseline. */
+    .view.inline,
+    .code.inline,
+    .node.inline {
+        display: inline;
+    }
+
+    .node.inline {
+        vertical-align: baseline;
+        /* Multi-token examples break at the <wbr> opportunities between tokens,
+           but a single over-long token (e.g. a long text literal) has none and
+           would still overflow the paragraph. anywhere lets such a token break
+           internally as a last resort, so the example never exceeds its column. */
+        overflow-wrap: anywhere;
     }
 
     .outline {
