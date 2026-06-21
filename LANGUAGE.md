@@ -185,10 +185,13 @@ Some are operators, including arithetmic, inequalities, logical, and unicode mat
 
 > operator → `+` | `-` | `×` | `·` | `÷` | `%` | `^` | `<` | `≤` | `=` | `≠` | `≥` | `>` | `~` | `&` | `|` | `/[\u2200-\u22FF\u2A00-\u2AFF\u2190-\u21FF\u27F0-\u27FF\u2900-\\u297F]/`
 
+Four of these operators are **dual-type** tokens: in addition to `operator`, `|` is also `or`, `·` is also `product`, `^` is also `exponent`, and `%` is also `percent`. Each is lexed carrying both candidate types, and the parser picks by position — the second type only where the grammar expects it (`|` in a union type; `·`/`^` in a unit; `%` as a unitless ratio number type), and a plain `operator` everywhere else (e.g. arithmetic, where `%` is the remainder operator).
+
 Some are associated with type declarations:
 
 > numbertype → `#`  
 > or → `|`  
+> percent → `%`  
 > markuptype → `\…\`, `\...\`  
 > literaltype → `!`  
 > typevariableopen → `⸨`  

@@ -158,7 +158,10 @@
         "PatternLess": "$~דפוס פחות מ",
         "PatternLessEqual": "$~דפוס לכל היותר",
         "PatternText": "$~טקסט מילולי של דפוס",
-        "PatternDelimiter": "$~תַבְנִית"
+        "PatternDelimiter": "$~תַבְנִית",
+        "Exponent": "$~מַעֲרִיך",
+        "Product": "$~מוּצָר",
+        "Percent": "$~אָחוּז"
     },
     "node": {
         "Dimension": {

@@ -158,7 +158,10 @@
         "PatternLess": "$~模式少于",
         "PatternLessEqual": "$~最多",
         "PatternText": "$~模式字面文本",
-        "PatternDelimiter": "$~图案"
+        "PatternDelimiter": "$~图案",
+        "Exponent": "$~指数",
+        "Product": "$~产品",
+        "Percent": "$~百分比"
     },
     "node": {
         "Dimension": {

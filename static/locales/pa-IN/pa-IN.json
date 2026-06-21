@@ -158,7 +158,10 @@
         "PatternLess": "$~ਇਸ ਤੋਂ ਘੱਟ ਪੈਟਰਨ",
         "PatternLessEqual": "$~ਵੱਧ ਤੋਂ ਵੱਧ ਪੈਟਰਨ",
         "PatternText": "$~ਪੈਟਰਨ ਸ਼ਾਬਦਿਕ ਟੈਕਸਟ",
-        "PatternDelimiter": "$~ਪੈਟਰਨ"
+        "PatternDelimiter": "$~ਪੈਟਰਨ",
+        "Exponent": "$~ਘਾਤ ਅੰਕ",
+        "Product": "$~ਉਤਪਾਦ",
+        "Percent": "$~ਪ੍ਰਤੀਸ਼ਤ"
     },
     "node": {
         "Dimension": {

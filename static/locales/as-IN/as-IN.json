@@ -158,7 +158,10 @@
         "PatternLess": "$~তকৈ কম আৰ্হি",
         "PatternLessEqual": "$~পেটাৰ্ণ সৰ্বাধিক",
         "PatternText": "$~আক্ষৰিক লিখনী",
-        "PatternDelimiter": "$~নমুনা"
+        "PatternDelimiter": "$~নমুনা",
+        "Exponent": "$~ঘাতক",
+        "Product": "$~সামগ্ৰী",
+        "Percent": "$~শতাংশ"
     },
     "node": {
         "Dimension": {

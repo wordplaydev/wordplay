@@ -158,6 +158,9 @@ const TokenPurposes = new Map<SymType, PurposeType>([
         Sym.This,
         Sym.Translate,
         Sym.Operator,
+        Sym.Exponent,
+        Sym.Product,
+        Sym.Percent,
         Sym.Etc,
     ].map((s): [SymType, PurposeType] => [s, Purpose.Advanced]),
 ]);

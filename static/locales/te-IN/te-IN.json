@@ -158,7 +158,10 @@
         "PatternLess": "$~నమూనా కంటే తక్కువ",
         "PatternLessEqual": "$~గరిష్టంగా నమూనా",
         "PatternText": "$~నమూనా అక్షర వచనం",
-        "PatternDelimiter": "$~నమూనా"
+        "PatternDelimiter": "$~నమూనా",
+        "Exponent": "$~ఘాతాంకం",
+        "Product": "$~ఉత్పత్తి",
+        "Percent": "$~శాతం"
     },
     "node": {
         "Dimension": {

@@ -158,7 +158,10 @@
         "PatternLess": "$~μοτίβο μικρότερο από",
         "PatternLessEqual": "$~μοτίβο το πολύ",
         "PatternText": "$~κείμενο με βάση το μοτίβο",
-        "PatternDelimiter": "$~πρότυπο"
+        "PatternDelimiter": "$~πρότυπο",
+        "Exponent": "$~εκθέτης",
+        "Product": "$~προϊόν",
+        "Percent": "$~τοις εκατό"
     },
     "node": {
         "Dimension": {

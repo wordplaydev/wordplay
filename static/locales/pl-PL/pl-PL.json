@@ -158,7 +158,10 @@
         "PatternLess": "$~wzór mniejszy niż",
         "PatternLessEqual": "$~wzór co najwyżej",
         "PatternText": "$~wzór tekstu dosłownego",
-        "PatternDelimiter": "$~wzór"
+        "PatternDelimiter": "$~wzór",
+        "Exponent": "$~wykładnik potęgowy",
+        "Product": "$~produkt",
+        "Percent": "$~procent"
     },
     "node": {
         "Dimension": {

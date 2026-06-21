@@ -158,7 +158,10 @@
         "PatternLess": "$~mẫu ít hơn",
         "PatternLessEqual": "$~mẫu ở mức tối đa",
         "PatternText": "$~mẫu văn bản theo nghĩa đen",
-        "PatternDelimiter": "$~mẫu"
+        "PatternDelimiter": "$~mẫu",
+        "Exponent": "$~số mũ",
+        "Product": "$~sản phẩm",
+        "Percent": "$~phần trăm"
     },
     "node": {
         "Dimension": {

@@ -158,7 +158,10 @@
         "PatternLess": "$~パターンはより少ない",
         "PatternLessEqual": "$~パターンは最大",
         "PatternText": "$~パターンリテラルテキスト",
-        "PatternDelimiter": "$~パターン"
+        "PatternDelimiter": "$~パターン",
+        "Exponent": "$~指数",
+        "Product": "$~製品",
+        "Percent": "$~パーセント"
     },
     "node": {
         "Dimension": {

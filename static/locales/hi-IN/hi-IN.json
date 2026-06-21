@@ -158,7 +158,10 @@
         "PatternLess": "$~पैटर्न से कम",
         "PatternLessEqual": "$~पैटर्न अधिकतम",
         "PatternText": "$~पैटर्न शाब्दिक पाठ",
-        "PatternDelimiter": "$~नमूना"
+        "PatternDelimiter": "$~नमूना",
+        "Exponent": "$~प्रतिपादक",
+        "Product": "$~उत्पाद",
+        "Percent": "$~प्रतिशत"
     },
     "node": {
         "Dimension": {

@@ -158,7 +158,10 @@
         "PatternLess": "$~desen daha az",
         "PatternLessEqual": "$~en fazla desen",
         "PatternText": "$~desen tam metin",
-        "PatternDelimiter": "$~model"
+        "PatternDelimiter": "$~model",
+        "Exponent": "$~üs",
+        "Product": "$~ürün",
+        "Percent": "$~yüzde"
     },
     "node": {
         "Dimension": {

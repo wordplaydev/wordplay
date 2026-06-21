@@ -158,7 +158,10 @@
         "PatternLess": "$~குறைவான வடிவங்கள்",
         "PatternLessEqual": "$~அதிகபட்சம்",
         "PatternText": "$~மாதிரி நேரடி உரை",
-        "PatternDelimiter": "$~வடிவம்"
+        "PatternDelimiter": "$~வடிவம்",
+        "Exponent": "$~அடுக்கு",
+        "Product": "$~தயாரிப்பு",
+        "Percent": "$~சதவீதம்"
     },
     "node": {
         "Dimension": {

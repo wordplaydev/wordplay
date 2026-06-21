@@ -29,6 +29,7 @@ import {
     EVAL_CLOSE_SYMBOL_FULL,
     EVAL_OPEN_SYMBOL,
     EVAL_OPEN_SYMBOL_FULL,
+    EXPONENT_SYMBOL,
     EXTRA_SYMBOL,
     FALSE_SYMBOL,
     FORMATTED_SYMBOL,
@@ -77,6 +78,7 @@ import {
     THIS_SYMBOL,
     QUESTION_SYMBOL,
     QUESTION_SYMBOL_FULL,
+    REMAINDER_SYMBOL,
     SELECT_SYMBOL,
     SET_CLOSE_SYMBOL,
     SET_CLOSE_SYMBOL_FULL,
@@ -475,6 +477,12 @@ const CodeTokenPatterns: TokenPattern[] = [
     // - Supplementary operators: U+2A00–U+2AFF
     // - Arrows: U+2190–U+21FF, U+27F0–U+27FF, U+2900–U+297F
     // - Basic latin operators: +-×·÷%^<≤=≠≥>&|
+    // These three are operators (so they keep Sym.Operator first), but also carry a
+    // second candidate type so unit/type parsing can match them by Sym rather than
+    // by operator text. They must precede the generic operator rule to win.
+    { pattern: EXPONENT_SYMBOL, types: [Sym.Operator, Sym.Exponent] },
+    { pattern: DOT_SYMBOL, types: [Sym.Operator, Sym.Product] },
+    { pattern: REMAINDER_SYMBOL, types: [Sym.Operator, Sym.Percent] },
     { pattern: OperatorRegEx, types: [Sym.Operator] },
     { pattern: FORMATTED_TYPE_SYMBOL, types: [Sym.FormattedType] },
     { pattern: '`...`', types: [Sym.FormattedType] },

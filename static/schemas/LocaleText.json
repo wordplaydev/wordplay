@@ -13478,6 +13478,9 @@
             "EvalOpen": {
               "type": "string"
             },
+            "Exponent": {
+              "type": "string"
+            },
             "ExternalExample": {
               "type": "string"
             },
@@ -13637,6 +13640,9 @@
             "PatternWordEdge": {
               "type": "string"
             },
+            "Percent": {
+              "type": "string"
+            },
             "Pi": {
               "type": "string"
             },
@@ -13644,6 +13650,9 @@
               "type": "string"
             },
             "Previous": {
+              "type": "string"
+            },
+            "Product": {
               "type": "string"
             },
             "Region": {
@@ -13788,6 +13797,9 @@
             "Update",
             "Delete",
             "Union",
+            "Exponent",
+            "Product",
+            "Percent",
             "Stream",
             "Change",
             "Initial",

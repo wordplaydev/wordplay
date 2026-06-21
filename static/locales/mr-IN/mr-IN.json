@@ -158,7 +158,10 @@
         "PatternLess": "$~पेक्षा कमी नमुने",
         "PatternLessEqual": "$~जास्तीत जास्त नमुना",
         "PatternText": "$~नमुना शाब्दिक मजकूर",
-        "PatternDelimiter": "$~नमुना"
+        "PatternDelimiter": "$~नमुना",
+        "Exponent": "$~घातांक",
+        "Product": "$~उत्पादन",
+        "Percent": "$~टक्केवारी"
     },
     "node": {
         "Dimension": {

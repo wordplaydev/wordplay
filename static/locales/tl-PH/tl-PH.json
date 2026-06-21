@@ -158,7 +158,10 @@
         "PatternLess": "$~pattern na mas kaunti kaysa sa",
         "PatternLessEqual": "$~pattern sa pinakamaraming",
         "PatternText": "$~literal na teksto na huwaran",
-        "PatternDelimiter": "$~padron"
+        "PatternDelimiter": "$~padron",
+        "Exponent": "$~eksponente",
+        "Product": "$~produkto",
+        "Percent": "$~porsyento"
     },
     "node": {
         "Dimension": {

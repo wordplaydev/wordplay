@@ -35,7 +35,7 @@ export default function parseType(tokens: Tokens, isExpression = false): Type {
           ? parseNameType(tokens)
           : tokens.nextIs(Sym.BooleanType)
             ? new BooleanType(tokens.read(Sym.BooleanType))
-            : tokens.nextIs(Sym.Operator, '%') ||
+            : tokens.nextIs(Sym.Percent) ||
                 tokens.nextIsOneOf(Sym.Number, Sym.NumberType)
               ? parseNumberType(tokens)
               : tokens.nextIs(Sym.Text)
@@ -96,7 +96,7 @@ function parseTextType(tokens: Tokens): TextType {
 
 function parseNumberType(tokens: Tokens): NumberType {
     // A percent (`%`) is a unitless ratio, so its unit is "no unit" rather than "any unit".
-    if (tokens.nextIs(Sym.Operator, '%'))
+    if (tokens.nextIs(Sym.Percent))
         return new NumberType(tokens.read(Sym.Operator), Unit.Empty);
 
     const number = tokens.nextIs(Sym.Number)

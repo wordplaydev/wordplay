@@ -158,7 +158,10 @@
         "PatternLess": "$~model mai puțin decât",
         "PatternLessEqual": "$~model cel mult",
         "PatternText": "$~text literal al modelului",
-        "PatternDelimiter": "$~model"
+        "PatternDelimiter": "$~model",
+        "Exponent": "$~exponent",
+        "Product": "$~produs",
+        "Percent": "$~la sută"
     },
     "node": {
         "Dimension": {

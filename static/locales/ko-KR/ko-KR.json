@@ -158,7 +158,10 @@
         "PatternLess": "$~패턴이 더 적습니다",
         "PatternLessEqual": "$~패턴은 최대",
         "PatternText": "$~패턴 문자 그대로의 텍스트",
-        "PatternDelimiter": "$~무늬"
+        "PatternDelimiter": "$~무늬",
+        "Exponent": "$~멱지수",
+        "Product": "$~제품",
+        "Percent": "$~퍼센트"
     },
     "node": {
         "Dimension": {

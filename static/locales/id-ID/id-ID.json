@@ -158,7 +158,10 @@
         "PatternLess": "$~pola kurang dari",
         "PatternLessEqual": "$~pola paling banyak",
         "PatternText": "$~pola teks literal",
-        "PatternDelimiter": "$~pola"
+        "PatternDelimiter": "$~pola",
+        "Exponent": "$~eksponen",
+        "Product": "$~produk",
+        "Percent": "$~persen"
     },
     "node": {
         "Dimension": {

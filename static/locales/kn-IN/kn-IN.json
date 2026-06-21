@@ -158,7 +158,10 @@
         "PatternLess": "$~ಇದಕ್ಕಿಂತ ಕಡಿಮೆ ಮಾದರಿ",
         "PatternLessEqual": "$~ಹೆಚ್ಚೆಂದರೆ ಮಾದರಿ",
         "PatternText": "$~ಮಾದರಿ ಅಕ್ಷರಶಃ ಪಠ್ಯ",
-        "PatternDelimiter": "$~ಮಾದರಿ"
+        "PatternDelimiter": "$~ಮಾದರಿ",
+        "Exponent": "$~ಘಾತ",
+        "Product": "$~ಉತ್ಪನ್ನ",
+        "Percent": "$~ಶೇಕಡಾ"
     },
     "node": {
         "Dimension": {

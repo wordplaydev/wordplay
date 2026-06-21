@@ -158,7 +158,10 @@
         "PatternLess": "$~Muster weniger als",
         "PatternLessEqual": "$~höchstens ein Muster",
         "PatternText": "$~Musterliteraltext",
-        "PatternDelimiter": "$~Muster"
+        "PatternDelimiter": "$~Muster",
+        "Exponent": "$~Exponent",
+        "Product": "$~Produkt",
+        "Percent": "$~Prozent"
     },
     "node": {
         "Dimension": {

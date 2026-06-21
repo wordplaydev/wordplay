@@ -158,7 +158,10 @@
         "PatternLess": "$~প্যাটার্ন কম",
         "PatternLessEqual": "$~বেশিরভাগ ক্ষেত্রে প্যাটার্ন",
         "PatternText": "$~প্যাটার্ন আক্ষরিক পাঠ্য",
-        "PatternDelimiter": "$~প্যাটার্ন"
+        "PatternDelimiter": "$~প্যাটার্ন",
+        "Exponent": "$~সূচক",
+        "Product": "$~পণ্য",
+        "Percent": "$~শতাংশ"
     },
     "node": {
         "Dimension": {

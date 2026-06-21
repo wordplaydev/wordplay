@@ -158,7 +158,10 @@
         "PatternLess": "$~образац мање од",
         "PatternLessEqual": "$~највише образац",
         "PatternText": "$~дословни текст узорка",
-        "PatternDelimiter": "$~образац"
+        "PatternDelimiter": "$~образац",
+        "Exponent": "$~експонент",
+        "Product": "$~производ",
+        "Percent": "$~проценат"
     },
     "node": {
         "Dimension": {

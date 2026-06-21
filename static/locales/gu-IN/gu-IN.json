@@ -158,7 +158,10 @@
         "PatternLess": "$~કરતાં ઓછી પેટર્ન",
         "PatternLessEqual": "$~વધુમાં વધુ પેટર્ન",
         "PatternText": "$~પેટર્ન શાબ્દિક ટેક્સ્ટ",
-        "PatternDelimiter": "$~પેટર્ન"
+        "PatternDelimiter": "$~પેટર્ન",
+        "Exponent": "$~ઘાતાંક",
+        "Product": "$~ઉત્પાદન",
+        "Percent": "$~ટકા"
     },
     "node": {
         "Dimension": {

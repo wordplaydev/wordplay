@@ -158,7 +158,10 @@
         "PatternLess": "$~نمط أقل من",
         "PatternLessEqual": "$~نمط على الأكثر",
         "PatternText": "$~نص حرفي نمطي",
-        "PatternDelimiter": "$~نمط"
+        "PatternDelimiter": "$~نمط",
+        "Exponent": "$~الأس",
+        "Product": "$~منتج",
+        "Percent": "$~شهادة"
     },
     "node": {
         "Dimension": {
