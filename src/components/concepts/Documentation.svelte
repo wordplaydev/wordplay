@@ -407,28 +407,20 @@
         newMode: (typeof Modes)[number],
         newPurpose: PurposeType,
     ) {
-        const m = $blocks ? 'language' : newMode;
-        mode = m;
+        mode = newMode;
         purpose = newPurpose;
-        path.set(navigateSection($path, m, newPurpose));
+        path.set(navigateSection($path, newMode, newPurpose));
     }
 
     // history → section filters. When the top of the history is a section (we navigated
     // back/over to a browse page), restore the section + subsection it captured into the
-    // live mode/purpose (clamped to language while in blocks mode). Reads mode/purpose
-    // untracked so this depends only on the history and blocks state.
+    // live mode/purpose. Reads mode/purpose untracked so this depends only on the history.
     $effect(() => {
         const top = $path.at(-1);
         if (top?.kind === 'section') {
-            const m = $blocks ? 'language' : top.mode;
-            if (untrack(() => mode) !== m) mode = m;
+            if (untrack(() => mode) !== top.mode) mode = top.mode;
             if (untrack(() => purpose) !== top.purpose) purpose = top.purpose;
         }
-    });
-
-    // If blocks mode is on, the guide only shows language (code) concepts.
-    $effect(() => {
-        if ($blocks && mode !== 'language') mode = 'language';
     });
 </script>
 
