@@ -2,9 +2,12 @@
 <script lang="ts">
     import { navigating } from '$app/state';
     import Fonts from '@basis/Fonts';
-    import type Project from '@db/projects/Project';
-    import type { SerializedPreview } from '@db/projects/ProjectSchemas';
-    import { PHRASE_SYMBOL } from '@parser/Symbols';
+    import CreatorView from '@components/app/CreatorView.svelte';
+    import Link from '@components/app/Link.svelte';
+    import Spinning from '@components/app/Spinning.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import Note from '@components/widgets/Note.svelte';
+    import { getUser, isAuthenticated } from '@components/project/Contexts';
     import type { Character } from '@db/characters/Character';
     import { characterToSVG } from '@db/characters/Character';
     import { Chats, Creators, DB, locales, Projects } from '@db/Database';
@@ -12,6 +15,9 @@
     import { isFlagged } from '@db/projects/Moderation';
     import { isAudience } from '@db/projects/ModerationUtils';
     import { enqueuePreviewCompute } from '@db/projects/previewQueue';
+    import type Project from '@db/projects/Project';
+    import type { SerializedPreview } from '@db/projects/ProjectSchemas';
+    import { PHRASE_SYMBOL } from '@parser/Symbols';
     import { getUser, isAuthenticated } from '@components/project/Contexts';
     import CreatorView from '@components/app/CreatorView.svelte';
     import Link from '@components/app/Link.svelte';
@@ -131,6 +137,17 @@
 
     const user = getUser();
 
+    // ——— Descriptions ———————————————————————————————————————————————
+    // A project's description comes from the parsed AST on the main source's
+    // Program node. Documentation is Wordplay markup; show only the smallest
+    // leading fragment (first sentence) as a short hint of the project's purpose.
+
+    let description = $derived(
+        project
+            .getMain()
+            .expression.docs.docs[0]?.markup.getFirstSentence($locales) ?? null,
+    );
+
     let path = $derived(link ?? project.getLink(true));
 
     /** See if this is a public project being viewed by someone who isn't a creator or collaborator */
@@ -138,10 +155,7 @@
 
     const owner = $derived(project.getOwner());
     const collaborators = $derived(project.getCollaborators());
-    const editable = $derived(
-        isAuthenticated($user) &&
-            ($user.uid === owner || collaborators.includes($user.uid)),
-    );
+    const editable = $derived(Projects.isEditable(project));
 
     // Read the chat from the global chats cache (kept current by the single
     // `participants array-contains` listener) rather than fetching it per tile.
@@ -226,7 +240,16 @@
                         {@render highlighted(localizedName)}{/if}</Link
                 >
                 {#if navigating && `${navigating.to?.url.pathname}${navigating.to?.url.search}` === path}
-                    <Spinning />{:else}{@render children?.()}
+                    <Spinning />
+                {:else}
+                    <div class="controls-and-description">
+                        <div class="controls">{@render children?.()}</div>
+                        {#if description !== null}
+                            <Note inline>
+                                <MarkupHTMLView markup={description} inline />
+                            </Note>
+                        {/if}
+                    </div>
                 {/if}
             {/if}
 
@@ -360,6 +383,22 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+    }
+
+    .controls-and-description {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: var(--wordplay-spacing);
+    }
+
+    .controls {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: var(--wordplay-spacing);
     }
 
     .search-highlight {
