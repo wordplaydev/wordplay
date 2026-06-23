@@ -2,9 +2,12 @@
 <script lang="ts">
     import { navigating } from '$app/state';
     import Fonts from '@basis/Fonts';
-    import type Project from '@db/projects/Project';
-    import type { SerializedPreview } from '@db/projects/ProjectSchemas';
-    import { PHRASE_SYMBOL } from '@parser/Symbols';
+    import CreatorView from '@components/app/CreatorView.svelte';
+    import Link from '@components/app/Link.svelte';
+    import Spinning from '@components/app/Spinning.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import Note from '@components/widgets/Note.svelte';
+    import { getUser, isAuthenticated } from '@components/project/Contexts';
     import type { Character } from '@db/characters/Character';
     import { characterToSVG } from '@db/characters/Character';
     import { Chats, Creators, DB, locales, Projects } from '@db/Database';
@@ -12,11 +15,9 @@
     import { isFlagged } from '@db/projects/Moderation';
     import { isAudience } from '@db/projects/ModerationUtils';
     import { enqueuePreviewCompute } from '@db/projects/previewQueue';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { getUser, isAuthenticated } from '@components/project/Contexts';
-    import CreatorView from '@components/app/CreatorView.svelte';
-    import Link from '@components/app/Link.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
+    import type Project from '@db/projects/Project';
+    import type { SerializedPreview } from '@db/projects/ProjectSchemas';
+    import { PHRASE_SYMBOL } from '@parser/Symbols';
 
     interface Props {
         project: Project;
@@ -133,14 +134,14 @@
 
     // ——— Descriptions ———————————————————————————————————————————————
     // A project's description comes from the parsed AST on the main source's
-    // Program node. Documentation is Wordplay markup, so render the first Doc's
-    // markup directly 
+    // Program node. Documentation is Wordplay markup; show only the smallest
+    // leading fragment (first sentence) as a short hint of the project's purpose.
 
-    let descriptionDoc = $derived(
-        project.getMain().expression.docs.docs[0] ?? null,
+    let description = $derived(
+        project
+            .getMain()
+            .expression.docs.docs[0]?.markup.getFirstSentence($locales) ?? null,
     );
-
-    let descriptionMarkup = $derived(descriptionDoc?.markup ?? null);
 
     let path = $derived(link ?? project.getLink(true));
 
@@ -237,20 +238,12 @@
                     <Spinning />
                 {:else}
                     <div class="controls-and-description">
-                        {@render children?.()}
-                        <div class="description">
-                            {#if descriptionMarkup !== null}
-                                <div class="description-text">
-                                    <MarkupHTMLView
-                                        markup={descriptionMarkup}
-                                        inline
-                                    />
-                                </div>
-                            {:else}
-                                <span class="description-text placeholder"
-                                ></span>
-                            {/if}
-                        </div>
+                        <div class="controls">{@render children?.()}</div>
+                        {#if description !== null}
+                            <Note inline>
+                                <MarkupHTMLView markup={description} inline />
+                            </Note>
+                        {/if}
                     </div>
                 {/if}
             {/if}
@@ -389,34 +382,18 @@
 
     .controls-and-description {
         display: flex;
-        flex-direction: row;
-        align-items: center;
+        flex-direction: column;
+        align-items: flex-start;
         flex-wrap: wrap;
         gap: var(--wordplay-spacing);
     }
 
-    .description {
+    .controls {
         display: flex;
         flex-direction: row;
         align-items: center;
+        flex-wrap: wrap;
         gap: var(--wordplay-spacing);
-        font-size: var(--wordplay-small-font-size);
-        color: var(--wordplay-inactive-color);
-        max-width: 20em;
-    }
-
-    .description-text {
-        font-size: 16px;
-        font-family: 'Noto Color Emoji', 'Noto Sans', sans-serif;
-        color: white;
-        white-space: normal;
-        overflow-wrap: break-word;
-        word-break: break-word;
-        flex: 1;
-    }
-
-    .description-text.placeholder {
-        opacity: 0.5;
     }
 
     .search-highlight {

@@ -1,7 +1,7 @@
 import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
-import { MACHINE_TRANSLATED_SYMBOL } from '@parser/Symbols';
+import { BULLET_SYMBOL, MACHINE_TRANSLATED_SYMBOL } from '@parser/Symbols';
 import type { FontWeight } from '@basis/Fonts';
 import { Purpose } from '@concepts/Purpose';
 import type Locales from '@locale/Locales';
@@ -169,6 +169,68 @@ export default class Markup extends Content {
 
     asFirstParagraph() {
         return new Markup(this.paragraphs.slice(0, 1), this.spaces);
+    }
+
+    /**
+     * Returns the smallest leading fragment of this markup — the first sentence
+     * of the first paragraph (or first bullet, if bulleted) — as a plain-text
+     * Markup, suitable for a short description hint. Returns undefined if there's
+     * no text.
+     */
+    getFirstSentence(locales: Locales): Markup | undefined {
+        const first = this.paragraphs[0];
+        if (first === undefined) return undefined;
+
+        // Don't run a sentence across bullets: use the first bullet if bulleted.
+        const paragraph = first.isBulleted() ? first.getBullets()[0] : first;
+        if (paragraph === undefined) return undefined;
+
+        // AST-derived prose: only the Words content tokens (so markup delimiters
+        // are excluded — the segmenter is not markup-aware), but with their
+        // original inter-token spacing restored from this markup's spaces. Plain
+        // toText() drops that spacing, which would run sentences together
+        // ("One.Two.Three") and defeat sentence segmentation. Any leading bullet
+        // symbol is removed.
+        let prose = this.getParagraphProse(paragraph);
+        if (prose.startsWith(BULLET_SYMBOL))
+            prose = prose.slice(BULLET_SYMBOL.length).trim();
+        if (prose.length === 0) return undefined;
+
+        // Locale-aware ICU sentence segmentation on plain prose only.
+        const segmenter = new Intl.Segmenter(locales.getLocaleString(), {
+            granularity: 'sentence',
+        });
+        const text = (
+            segmenter.segment(prose)[Symbol.iterator]().next().value?.segment ??
+            prose
+        ).trim();
+        if (text.length === 0) return undefined;
+
+        // Re-wrap the plain prose as Markup so it carries the Spaces the renderer
+        // needs. The prose is already de-marked-up, so this is effectively a
+        // single plain paragraph.
+        return Markup.words(text);
+    }
+
+    /**
+     * Reconstructs a paragraph's plain prose: the text of its Words tokens, in
+     * order, separated by a single space wherever the original markup had any
+     * whitespace between them. Whitespace lives in this markup's spaces rather
+     * than the token text, so plain toText() would run the words together.
+     */
+    private getParagraphProse(paragraph: Paragraph): string {
+        const words = paragraph
+            .nodes()
+            .filter(
+                (n): n is Token => n instanceof Token && n.isSymbol(Sym.Words),
+            );
+        let prose = '';
+        for (const word of words) {
+            const space = this.spaces ? this.spaces.getSpace(word) : ' ';
+            if (prose.length > 0 && space.length > 0) prose += ' ';
+            prose += word.getText();
+        }
+        return prose.trim();
     }
 
     toText() {
