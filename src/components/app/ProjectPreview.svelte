@@ -6,8 +6,9 @@
     import Link from '@components/app/Link.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import Note from '@components/widgets/Note.svelte';
     import { getUser, isAuthenticated } from '@components/project/Contexts';
+    import EmojisRepaired from '@components/widgets/EmojisRepaired.svelte';
+    import Note from '@components/widgets/Note.svelte';
     import type { Character } from '@db/characters/Character';
     import { characterToSVG } from '@db/characters/Character';
     import { Chats, Creators, DB, locales, Projects } from '@db/Database';
@@ -18,11 +19,6 @@
     import type Project from '@db/projects/Project';
     import type { SerializedPreview } from '@db/projects/ProjectSchemas';
     import { PHRASE_SYMBOL } from '@parser/Symbols';
-    import { getUser, isAuthenticated } from '@components/project/Contexts';
-    import CreatorView from '@components/app/CreatorView.svelte';
-    import Link from '@components/app/Link.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
-    import EmojisRepaired from '@components/widgets/EmojisRepaired.svelte';
 
     interface Props {
         project: Project;
