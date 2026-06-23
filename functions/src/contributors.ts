@@ -3,6 +3,7 @@ import {
     isBot,
     paginate,
     REPO_BASE,
+    REPO_OWNER,
     type GitHubUser,
 } from './github.js';
 
@@ -198,38 +199,62 @@ export async function fetchContributorsData(
     return { created: new Date().toISOString(), contributors };
 }
 
+/** GitHub returns 422 when a ref/PR already exists; tolerate that so duplicate
+ * scheduled invocations converge instead of erroring (and triggering retries). */
+function alreadyExists(e: unknown): boolean {
+    return e instanceof Error && e.message.includes('GitHub API 422');
+}
+
 export async function createContributorsPR(
     token: string,
     data: ContributorsData,
 ): Promise<void> {
     const base = REPO_BASE;
-    const branch = `contributors-update-${Date.now()}`;
+    // Deterministic, week-stable branch name (one per day the job runs) so that
+    // duplicate scheduled invocations — Pub/Sub delivers at-least-once and may
+    // run the handler concurrently — converge on a single branch and PR rather
+    // than each minting a unique timestamped branch.
+    const branch = `contributors-update-${data.created.slice(0, 10)}`;
     const filePath = 'src/routes/[[locale]]/thanks/contributors.json';
     const content = Buffer.from(JSON.stringify(data, null, 2)).toString(
         'base64',
     );
 
+    // If a PR for this branch is already open, this invocation is a duplicate.
+    const open = await githubFetch(
+        token,
+        `${base}/pulls?head=${REPO_OWNER}:${branch}&state=open`,
+    );
+    if (Array.isArray(open) && open.length > 0) return;
+
     const ref = (await githubFetch(token, `${base}/git/ref/heads/main`)) as {
         object: { sha: string };
     };
 
-    await githubFetch(token, `${base}/git/refs`, {
-        method: 'POST',
-        body: JSON.stringify({
-            ref: `refs/heads/${branch}`,
-            sha: ref.object.sha,
-        }),
-    });
+    // Create the branch, tolerating a concurrent invocation that already made it.
+    try {
+        await githubFetch(token, `${base}/git/refs`, {
+            method: 'POST',
+            body: JSON.stringify({
+                ref: `refs/heads/${branch}`,
+                sha: ref.object.sha,
+            }),
+        });
+    } catch (e) {
+        if (!alreadyExists(e)) throw e;
+    }
 
+    // Read the existing blob SHA from the branch (not main): a concurrent run may
+    // have already committed there, and PUT needs the current SHA to avoid 409.
     let existingSha: string | undefined;
     try {
         const existing = (await githubFetch(
             token,
-            `${base}/contents/${filePath}?ref=main`,
+            `${base}/contents/${filePath}?ref=${branch}`,
         )) as { sha: string };
         existingSha = existing.sha;
     } catch {
-        // File doesn't exist yet
+        // File doesn't exist on the branch yet
     }
 
     await githubFetch(token, `${base}/contents/${filePath}`, {
@@ -242,13 +267,18 @@ export async function createContributorsPR(
         }),
     });
 
-    await githubFetch(token, `${base}/pulls`, {
-        method: 'POST',
-        body: JSON.stringify({
-            title: 'Update contributors data',
-            head: branch,
-            base: 'main',
-            body: `Automated refresh of \`static/contributors.json\` generated on ${data.created}.`,
-        }),
-    });
+    // Create the PR, tolerating a concurrent invocation that already opened one.
+    try {
+        await githubFetch(token, `${base}/pulls`, {
+            method: 'POST',
+            body: JSON.stringify({
+                title: 'Update contributors data',
+                head: branch,
+                base: 'main',
+                body: `Automated refresh of \`static/contributors.json\` generated on ${data.created}.`,
+            }),
+        });
+    } catch (e) {
+        if (!alreadyExists(e)) throw e;
+    }
 }
