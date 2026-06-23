@@ -7632,7 +7632,8 @@
                         "$~Endast ordspelare med direktåtkomst till den här instruktionen kan se den.",
                         "$~alla som har länken kan se den här instruktionen"
                     ]
-                }
+                },
+                "noGuidingQuestions": "$~Det här galleriet har inga vägledande frågor ännu, så det finns inget att skriva om. En kurator måste lägga till minst en vägledande fråga innan instruktioner kan skrivas."
             },
             "viewer": {
                 "view": {

@@ -3,6 +3,7 @@
     import { toClipboard } from '@components/editor/commands/Clipboard';
     import ChatView from '@components/app/chat/ChatView.svelte';
     import Header from '@components/app/Header.svelte';
+    import Notice from '@components/app/Notice.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
@@ -705,6 +706,7 @@
 <!-- how-to form -->
 <Dialog
     bind:show
+    wide
     header={editingMode
         ? (l) =>
               !howTo
@@ -750,15 +752,19 @@
                 id="howto-title"
             />
         </Subheader>
-        {#each prompts as prompt, i (i)}
-            <HowToPrompt text={(l) => prompt} />
-            <HowToTranslationEditor
-                id={i}
-                currentLocale={localeName}
-                bind:usedLocales
-                bind:markupText={multilingualText[i]}
-            />
-        {/each}
+        {#if prompts.length === 0}
+            <Notice text={(l) => l.ui.howto.editor.noGuidingQuestions} />
+        {:else}
+            {#each prompts as prompt, i (i)}
+                <HowToPrompt text={(l) => prompt} />
+                <HowToTranslationEditor
+                    id={i}
+                    currentLocale={localeName}
+                    bind:usedLocales
+                    bind:markupText={multilingualText[i]}
+                />
+            {/each}
+        {/if}
         <div class="optionsarea">
             {#if collabToggle}
                 <div class="optionspanel">
@@ -880,7 +886,7 @@
         </div>
     {:else if howTo && howTo.isPublished() && $user && isCreatorCollaboratorViewer($user.uid)}
         <Header><MarkupHTMLView markup={titleInLocale} /></Header>
-        <div class="creatorlist">
+        <div class="howtometadata">
             <Labeled label={(l) => l.ui.howto.viewer.collaborators}>
                 <CreatorList
                     anonymize={false}
@@ -888,6 +894,29 @@
                     uids={allCollaborators}
                 />
             </Labeled>
+            <Labeled label={(l) => l.ui.howto.viewer.reactionsPrompt} column>
+                <div class="reactions">
+                    {#each reactionButtons as reaction, i (i)}
+                        <Button
+                            tip={(l) => reaction.tip}
+                            label={(l) =>
+                                reaction.label +
+                                ' ' +
+                                (howTo
+                                    ? howTo.getNumReactions(reaction.label)
+                                    : 0)}
+                            active={true}
+                            background={$user && howTo
+                                ? howTo.didUserReact($user.uid, reaction.label)
+                                : false}
+                            action={() => {
+                                addRemoveReaction(reaction.label);
+                            }}
+                        />
+                    {/each}
+                </div>
+            </Labeled>
+            <HowToUsedBy bind:howTo compact />
         </div>
         <div class="toolbar">
             {#if howTo.isCreatorCollaborator($user.uid) || gallery?.hasCurator($user.uid)}
@@ -960,44 +989,21 @@
                 }}
             />
         </div>
-        <div class="howtosplitview">
-            <div class="how-to-text" id="howtoview">
-                {#each howTo.getText() as markup, i (i)}
-                    <HowToPrompt text={(l) => prompts[i]} />
-                    <MarkupHTMLView {markup} />
-                {/each}
-            </div>
-            <div class="how-to-social" id="howtointeractions">
-                <HowToPrompt text={(l) => l.ui.howto.viewer.reactionsPrompt} />
-                {#each reactionButtons as reaction, i (i)}
-                    <Button
-                        tip={(l) => reaction.tip}
-                        label={(l) =>
-                            reaction.label +
-                            ' ' +
-                            (howTo ? howTo.getNumReactions(reaction.label) : 0)}
-                        active={true}
-                        background={$user && howTo
-                            ? howTo.didUserReact($user.uid, reaction.label)
-                            : false}
-                        action={() => {
-                            addRemoveReaction(reaction.label);
-                        }}
-                    />
-                {/each}
-
-                <HowToUsedBy bind:howTo />
-
-                <HowToPrompt text={(l) => l.ui.howto.viewer.chatPrompt} />
-
-                <div class="how-to-chat">
-                    <ChatView
-                        {chat}
-                        creators={chatParticipants}
-                        {galleryID}
-                        {howTo}
-                    />
-                </div>
+        <div class="how-to-text" id="howtoview">
+            {#each howTo.getText() as markup, i (i)}
+                <HowToPrompt text={(l) => prompts[i]} />
+                <MarkupHTMLView {markup} />
+            {/each}
+        </div>
+        <div class="how-to-social" id="howtointeractions">
+            <HowToPrompt text={(l) => l.ui.howto.viewer.chatPrompt} />
+            <div class="how-to-chat">
+                <ChatView
+                    {chat}
+                    creators={chatParticipants}
+                    {galleryID}
+                    {howTo}
+                />
             </div>
         </div>
     {:else if howTo && (!$user || !isCreatorCollaboratorViewer($user.uid))}
@@ -1099,22 +1105,38 @@
         font-style: normal;
     }
 
-    .howtosplitview {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
+    /* Metadata row below the header: written-by, reactions, and used-by,
+       wrapping so the row stays compact and lets the content below use the
+       full dialog width. */
+    .howtometadata {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
         gap: var(--wordplay-spacing);
-        height: 100%;
+        column-gap: calc(2 * var(--wordplay-spacing));
+        align-items: start;
+        margin: var(--wordplay-spacing);
     }
 
+    .reactions {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: var(--wordplay-spacing);
+    }
+
+    /* Full-width content so wide (especially blocks-mode) example code can
+       scroll horizontally inside ExampleUI instead of being clipped by a
+       narrow column. min-width: 0 lets the example's own overflow engage. */
     .how-to-text,
     .how-to-social {
-        height: 100%;
         width: 100%;
+        min-width: 0;
         padding: var(--wordplay-spacing);
     }
 
     .how-to-chat {
-        height: 100%;
+        width: 100%;
         max-height: 50vh;
     }
 

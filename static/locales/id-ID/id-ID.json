@@ -5790,7 +5790,8 @@
                         "$~Hanya pemain Wordplayer yang memiliki akses langsung ke panduan ini yang dapat melihatnya.",
                         "$~Siapa pun yang memiliki tautan dapat melihat panduan ini."
                     ]
-                }
+                },
+                "noGuidingQuestions": "$~Galeri ini belum memiliki pertanyaan panduan, jadi belum ada yang bisa ditulis. Seorang kurator perlu menambahkan setidaknya satu pertanyaan panduan sebelum petunjuk cara berkunjung dapat ditulis."
             },
             "viewer": {
                 "view": {

@@ -5757,6 +5757,7 @@
                     "placeholder": "Title"
                 },
                 "untitledHowToPlaceholder": "Untitled how-to",
+                "noGuidingQuestions": "This gallery has no guiding questions yet, so there's nothing to write about. A curator needs to add at least one guiding question before how-tos can be written.",
                 "collaborators": {
                     "header": "👥 collaborators",
                     "explanation": "Collaborators can edit this how-to and view it in drafts."

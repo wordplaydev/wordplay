@@ -4,6 +4,12 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.24.1 - 2026-06-22
+
+### Fixed
+
+- 📕 We re-organized the how-to editing and viewing panels to offer much more width for viewing.
+
 ## 0.24.0 - 2026-06-18
 
 This abbreviated week we fleshed out the multilingual and text processing part of the programming language.

@@ -16153,6 +16153,10 @@
                       "$ref": "#/definitions/HeaderAndExplanationText",
                       "description": "Dialog text for how-to form (new how-to or edit existing)"
                     },
+                    "noGuidingQuestions": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "[formatted] Shown in the editor when the gallery has no guiding questions to answer"
+                    },
                     "notification": {
                       "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
                       "description": "Checkbox text for opting out of notifying subscribers"
@@ -16191,6 +16195,7 @@
                     "editor",
                     "title",
                     "untitledHowToPlaceholder",
+                    "noGuidingQuestions",
                     "collaborators",
                     "collaboratorsToggle",
                     "access",

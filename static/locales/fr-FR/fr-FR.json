@@ -7641,7 +7641,8 @@
                         "$~Seuls les joueurs de Wordplayers ayant un accès direct à ce tutoriel peuvent le voir.",
                         "$~Toute personne disposant du lien peut consulter ce tutoriel."
                     ]
-                }
+                },
+                "noGuidingQuestions": "$~Cette galerie ne comporte pas encore de questions directrices, il n'y a donc rien à y écrire. Un conservateur doit en ajouter au moins une avant que des instructions puissent être rédigées."
             },
             "viewer": {
                 "view": {

@@ -1,26 +1,9 @@
 <script lang="ts">
-    import { toClipboard } from '@components/editor/commands/Clipboard';
-    import Button from '@components/widgets/Button.svelte';
-    import Mode from '@components/widgets/Mode.svelte';
-    import Project from '@db/projects/Project';
-    import type Caret from '@edit/caret/Caret';
-    import Example from '@nodes/Example';
-    import Source from '@nodes/Source';
-    import getPreferredSpaces from '@parser/getPreferredSpaces';
-    import type Spaces from '@parser/Spaces';
-    import {
-        BLOCK_EDITING_SYMBOL,
-        CONFIRM_SYMBOL,
-        COPY_SYMBOL,
-        TEXT_EDITING_SYMBOL,
-    } from '@parser/Symbols';
-    import Evaluator from '@runtime/Evaluator';
-    import { onMount, untrack } from 'svelte';
-    import { writable } from 'svelte/store';
-    import { blocks, DB, locales, Settings } from '@db/Database';
     import Annotations from '@components/annotations/Annotations.svelte';
-    import Editor from '@components/editor/Editor.svelte';
     import OutputPreview from '@components/concepts/OutputPreview.svelte';
+    import { toClipboard } from '@components/editor/commands/Clipboard';
+    import type { CommandContext } from '@components/editor/commands/Commands';
+    import Editor from '@components/editor/Editor.svelte';
     import {
         getConceptIndex,
         IdleKind,
@@ -37,8 +20,25 @@
         type EditorState,
     } from '@components/project/Contexts';
     import SelectedOutput from '@components/project/SelectedOutput.svelte';
-    import type { CommandContext } from '@components/editor/commands/Commands';
+    import Button from '@components/widgets/Button.svelte';
+    import Mode from '@components/widgets/Mode.svelte';
+    import { blocks, DB, locales, Settings } from '@db/Database';
+    import Project from '@db/projects/Project';
+    import type Caret from '@edit/caret/Caret';
+    import Example from '@nodes/Example';
     import type Node from '@nodes/Node';
+    import Source from '@nodes/Source';
+    import getPreferredSpaces from '@parser/getPreferredSpaces';
+    import type Spaces from '@parser/Spaces';
+    import {
+        BLOCK_EDITING_SYMBOL,
+        CONFIRM_SYMBOL,
+        COPY_SYMBOL,
+        TEXT_EDITING_SYMBOL,
+    } from '@parser/Symbols';
+    import Evaluator from '@runtime/Evaluator';
+    import { onMount, untrack } from 'svelte';
+    import { writable } from 'svelte/store';
 
     interface Props {
         example: Example;
@@ -331,7 +331,11 @@
     }
 
     .value {
-        flex-grow: 1;
+        /* The output preview keeps a 4em floor; when the row can't fit the
+           code plus a 4em-wide preview, it wraps to the next line (full
+           width) instead of shrinking into an unreadable sliver. */
+        flex: 1 1 4em;
+        min-width: 4em;
         max-width: 30em;
         display: flex;
         flex-direction: column;
@@ -341,24 +345,21 @@
     .example {
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
         align-items: stretch;
         gap: var(--wordplay-spacing);
-    }
-
-    @container (max-width: 30em) {
-        .example {
-            flex-direction: column;
-        }
-
-        .value {
-            max-width: none;
-        }
     }
 
     .code-panel {
         display: flex;
         flex-direction: column;
-        min-width: 0;
+        /* Keep the editor readable: it never shrinks below 10em, and once the
+           row can't fit a 10em editor plus the 4em preview, the preview wraps
+           to the next line (full width) so the editor keeps its width. Wide
+           code scrolls inside `.code` (overflow: auto) rather than forcing the
+           panel wider. */
+        flex: 1 1 60%;
+        min-width: 20em;
     }
 
     .code-panel.evaluated {

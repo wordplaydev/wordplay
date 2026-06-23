@@ -331,6 +331,8 @@ function makePublicGallery(
             words: theme.toLowerCase().split(/\s+/),
             projects: [projectId],
             public: true,
+            howToGuidingQuestions: HOWTO_GUIDING_QUESTIONS,
+            howToReactions: HOWTO_REACTIONS,
         },
     ).data;
 }

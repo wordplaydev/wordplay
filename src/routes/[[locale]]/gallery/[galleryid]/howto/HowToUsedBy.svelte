@@ -7,12 +7,15 @@
     import type Project from '@db/projects/Project';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
     import HowToPrompt from './HowToPrompt.svelte';
+    import Labeled from '@components/widgets/Labeled.svelte';
 
     interface Props {
         howTo: HowTo | undefined;
+        /** When true, render the prompt as a compact metadata label rather than a header. */
+        compact?: boolean;
     }
 
-    let { howTo = $bindable(undefined) }: Props = $props();
+    let { howTo = $bindable(undefined), compact = false }: Props = $props();
 
     let howToId = $derived(howTo ? howTo.getHowToId() : '');
 
@@ -123,46 +126,71 @@
     </form>
 {/snippet}
 
-<HowToPrompt text={(l) => l.ui.howto.viewer.usedBy.prompt} />
+{#snippet body()}
+    {#each usedProjects as project (project.getID())}
+        {@render usedItem(project.getName(), project.getID())}
+    {/each}
 
-{#each usedProjects as project (project.getID())}
-    {@render usedItem(project.getName(), project.getID())}
-{/each}
+    {#each usedHowTos as howToItem (howToItem.getHowToId())}
+        {@render usedItem(howToItem.getTitle(), howToItem.getHowToId())}
+    {/each}
 
-{#each usedHowTos as howToItem (howToItem.getHowToId())}
-    {@render usedItem(howToItem.getTitle(), howToItem.getHowToId())}
-{/each}
+    {#if dropdownOptions.length > 1}
+        <form class="form">
+            <Options
+                id="usedBySelector"
+                bind:value={usedByProjectToAdd}
+                label={(l) => l.ui.howto.viewer.usedBy.selector}
+                options={dropdownOptions}
+                change={() => {}}
+            />
+            <Button
+                submit
+                background
+                tip={(l) => l.ui.howto.viewer.usedBy.addButton}
+                active={usedByProjectToAdd !== undefined}
+                action={() => {
+                    addUsedByToList();
+                }}
+                >&gt;
+            </Button>
+        </form>
+    {:else}
+        <MarkupHTMLView inline markup={(l) => l.ui.howto.viewer.usedBy.empty} />
+    {/if}
 
-{#if dropdownOptions.length > 1}
-    <form class="form">
-        <Options
-            id="usedBySelector"
-            bind:value={usedByProjectToAdd}
-            label={(l) => l.ui.howto.viewer.usedBy.selector}
-            options={dropdownOptions}
-            change={() => {}}
+    {#if numOtherUsedBy > 0}
+        <MarkupHTMLView
+            inline
+            markup={[
+                (l) => l.ui.howto.viewer.usedBy.countDisplay,
+                { count: numOtherUsedBy },
+            ]}
         />
-        <Button
-            submit
-            background
-            tip={(l) => l.ui.howto.viewer.usedBy.addButton}
-            active={usedByProjectToAdd !== undefined}
-            action={() => {
-                addUsedByToList();
-            }}
-            >&gt;
-        </Button>
-    </form>
+    {/if}
+{/snippet}
+
+{#if compact}
+    <Labeled label={(l) => l.ui.howto.viewer.usedBy.prompt} column>
+        {@render body()}
+    </Labeled>
 {:else}
-    <MarkupHTMLView inline markup={(l) => l.ui.howto.viewer.usedBy.empty} />
+    <HowToPrompt text={(l) => l.ui.howto.viewer.usedBy.prompt} />
+    {@render body()}
 {/if}
 
-{#if numOtherUsedBy > 0}
-    <MarkupHTMLView
-        inline
-        markup={[
-            (l) => l.ui.howto.viewer.usedBy.countDisplay,
-            { count: numOtherUsedBy },
-        ]}
-    />
-{/if}
+<style>
+    /* Keep the dropdown and its submit button on one row even on narrow
+       windows; the dropdown shrinks (min-width: 0) rather than wrapping the
+       button below it. */
+    .form {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: var(--wordplay-spacing);
+    }
+
+    .form :global(.options-group) {
+        min-width: 0;
+    }
+</style>

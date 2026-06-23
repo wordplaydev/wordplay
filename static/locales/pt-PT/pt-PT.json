@@ -5784,7 +5784,8 @@
                         "apenas os jogadores de Wordplayer com acesso direto a este tutorial podem vê-lo.",
                         "qualquer pessoa com o link pode ver este tutorial."
                     ]
-                }
+                },
+                "noGuidingQuestions": "$~Esta galeria ainda não tem questões orientadoras, pelo que não há nada sobre o que escrever. Um curador precisa de adicionar pelo menos uma questão orientadora antes que as instruções possam ser escritas."
             },
             "viewer": {
                 "view": {

@@ -17,6 +17,10 @@
         header: LocaleTextAccessor | undefined;
         explanation: LocaleTextsAccessor | undefined;
         closeable?: boolean;
+        /** Fill the window width (minus margins) rather than sizing to content.
+         *  Use for dialogs whose content benefits from maximum horizontal space
+         *  (e.g. wide example code in how-tos). */
+        wide?: boolean;
         button?:
             | {
                   tip: LocaleTextAccessor;
@@ -36,6 +40,7 @@
         header,
         explanation,
         closeable = true,
+        wide = false,
         button = undefined,
         children,
     }: Props = $props();
@@ -78,6 +83,7 @@
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <dialog
     bind:this={view}
+    class:wide
     use:clickOutside={() => (show = false)}
     tabindex="-1"
     onkeydown={closeable
@@ -114,6 +120,11 @@
         margin-right: auto;
         max-width: 95vw;
         height: max-content;
+    }
+
+    dialog.wide {
+        /* Fill the window width (minus margins) for maximum horizontal space. */
+        width: 95vw;
         background-color: var(--wordplay-background);
         color: var(--wordplay-foreground);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);

@@ -7653,7 +7653,8 @@
                         "$~Tylko gracze Wordplayer mający bezpośredni dostęp do tego poradnika mogą go zobaczyć",
                         "$~każdy, kto ma link, może zobaczyć tę instrukcję"
                     ]
-                }
+                },
+                "noGuidingQuestions": "$~W tej galerii nie ma jeszcze pytań pomocniczych, więc nie ma o czym pisać. Kurator musi dodać co najmniej jedno pytanie pomocnicze, zanim będzie można napisać poradnik."
             },
             "viewer": {
                 "view": {

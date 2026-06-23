@@ -7647,7 +7647,8 @@
                         "$~Nur Wordplayer mit direktem Zugriff auf diese Anleitung können sie sehen.",
                         "$~Jeder, der den Link hat, kann diese Anleitung sehen."
                     ]
-                }
+                },
+                "noGuidingQuestions": "$~Diese Galerie hat noch keine Leitfragen, daher gibt es nichts zu schreiben. Ein Kurator muss mindestens eine Leitfrage hinzufügen, bevor Anleitungen verfasst werden können."
             },
             "viewer": {
                 "view": {

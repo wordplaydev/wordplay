@@ -5788,7 +5788,8 @@
                         "$~tanging mga Wordplayer na may direktang access sa how-to na ito ang makakakita nito",
                         "$~makikita ng sinumang may link ang how-to na ito"
                     ]
-                }
+                },
+                "noGuidingQuestions": "$~Wala pang mga gabay na tanong ang gallery na ito, kaya wala pang maisusulat. Kailangang magdagdag ang isang curator ng kahit isang gabay na tanong bago maisulat ang mga how-to."
             },
             "viewer": {
                 "view": {

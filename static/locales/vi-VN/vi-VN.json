@@ -5788,7 +5788,8 @@
                         "$~Chỉ những người chơi Word có quyền truy cập trực tiếp vào hướng dẫn này mới có thể xem được.",
                         "$~Bất cứ ai có đường dẫn đều có thể xem hướng dẫn này."
                     ]
-                }
+                },
+                "noGuidingQuestions": "$~Bộ sưu tập này hiện chưa có câu hỏi hướng dẫn nào, vì vậy chưa có gì để viết. Người phụ trách cần thêm ít nhất một câu hỏi hướng dẫn trước khi có thể viết hướng dẫn thực hành."
             },
             "viewer": {
                 "view": {

@@ -5790,7 +5790,8 @@
                         "$~doar jucătorii de Word cu acces direct la acest ghid îl pot vedea",
                         "$~Oricine are linkul poate vedea acest ghid practic"
                     ]
-                }
+                },
+                "noGuidingQuestions": "$~Această galerie nu are încă întrebări îndrumătoare, așa că nu există nimic despre care să scrieți. Un curator trebuie să adauge cel puțin o întrebare îndrumătoare înainte de a putea scrie instrucțiuni practice."
             },
             "viewer": {
                 "view": {

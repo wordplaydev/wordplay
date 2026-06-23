@@ -9,6 +9,7 @@
     import HowTo from '@db/howtos/HowToDatabase.svelte';
     import { onMount } from 'svelte';
     import MarkupHTMLView from './MarkupHTMLView.svelte';
+    import HowToPrompt from '../../routes/[[locale]]/gallery/[galleryid]/howto/HowToPrompt.svelte';
 
     interface Props {
         concept: GalleryHowConcept;
@@ -46,9 +47,15 @@
 
 <Speech below character={concept.getCharacter()}>
     {#snippet content()}
-        {@const markup = concept.howTo.getTextInLocale(preferredLocale)}
-        {#if markup}
-            <MarkupHTMLView {markup} />
+        {@const questions = concept.howTo.getGuidingQuestions()}
+        {@const answers = concept.howTo.getText()}
+        {#if answers.some((a) => a.trim().length > 0)}
+            {#each answers as answer, i (i)}
+                {#if answer.trim().length > 0}
+                    <HowToPrompt text={(l) => questions[i]} compact />
+                    <MarkupHTMLView markup={answer} />
+                {/if}
+            {/each}
         {:else}
             {$locales.concretize((l) => l.ui.docs.nodoc)}
         {/if}

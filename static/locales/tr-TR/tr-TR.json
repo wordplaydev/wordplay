@@ -7637,7 +7637,8 @@
                         "$~Bu kılavuza doğrudan erişimi olan Wordplayer oyuncuları bunu görebilir.",
                         "$~Bağlantıya sahip herkes bu nasıl yapılır videosunu izleyebilir."
                     ]
-                }
+                },
+                "noGuidingQuestions": "$~Bu galeride henüz yol gösterici sorular yok, bu yüzden yazılacak bir şey de yok. Nasıl yapılacağına dair kılavuzlar yazılabilmesi için küratörün en az bir yol gösterici soru eklemesi gerekiyor."
             },
             "viewer": {
                 "view": {

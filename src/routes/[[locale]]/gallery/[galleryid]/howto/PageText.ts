@@ -70,6 +70,8 @@ type PageText = {
         title: FieldText;
         /** [plain] Placeholder for an untitled how-to */
         untitledHowToPlaceholder: string;
+        /** [formatted] Shown in the editor when the gallery has no guiding questions to answer */
+        noGuidingQuestions: FormattedText;
         /** Header for collaborator settings */
         collaborators: HeaderAndExplanationText;
         /** Collaborator toggle text */

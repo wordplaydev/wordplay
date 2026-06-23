@@ -7619,7 +7619,8 @@
                         "$~Solo los jugadores de Word con acceso directo a este tutorial pueden verlo.",
                         "$~Cualquiera que tenga el enlace puede ver este tutorial."
                     ]
-                }
+                },
+                "noGuidingQuestions": "$~Esta galería aún no tiene preguntas guía, así que no hay nada que escribir. Un curador debe agregar al menos una pregunta guía antes de que se puedan escribir las instrucciones."
             },
             "viewer": {
                 "view": {
