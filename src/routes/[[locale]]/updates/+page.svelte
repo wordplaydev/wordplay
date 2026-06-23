@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Header from '@components/app/Header.svelte';
+    import PageHeader from '@components/app/PageHeader.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import Writing from '@components/app/Writing.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
@@ -88,8 +88,10 @@
 {/snippet}
 
 <Writing>
-    <Header text={(l) => l.ui.page.updates.header}></Header>
-    <MarkupHTMLView markup={(l) => l.ui.page.updates.content} />
+    <PageHeader
+        header={(l) => l.ui.page.updates.header}
+        description={(l) => l.ui.page.updates.content}
+    />
 
     {#each datedUpdates as update, index}
         <div class="section">

@@ -5,7 +5,10 @@ import type NameType from '@nodes/NameType';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import type Type from '@nodes/Type';
 import type Locales from '@locale/Locales';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 
@@ -19,7 +22,7 @@ export default class UnexpectedTypeInput extends Conflict {
         type: Type,
         definition: StructureDefinition | FunctionDefinition,
     ) {
-        super(false);
+        super(ConflictSeverity.Error);
         this.evaluate = evaluate;
         this.type = type;
         this.definition = definition;
@@ -38,10 +41,7 @@ export default class UnexpectedTypeInput extends Conflict {
         };
     }
 
-    override getResolutions(
-        _context: Context,
-        _concepts: Node[],
-    ): Resolutions {
+    override getResolutions(_context: Context, _concepts: Node[]): Resolutions {
         return [
             {
                 kind: 'repair',

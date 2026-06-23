@@ -14,10 +14,12 @@ const VERTICAL_WIDTH_THRESHOLD = 40;
       which is a coarse stand-in for "would overflow the editor width."
 */
 export function isVerticalList(
-    items: Node[],
+    items: Node[] | undefined,
     spaces: Spaces | undefined,
 ): boolean {
-    if (spaces === undefined) return false;
+    // `items` can be momentarily undefined while a node view is handed an incompatible node during an
+    // undo/redo AST swap (before the dynamic component remounts); don't crash on that transient state.
+    if (spaces === undefined || items === undefined) return false;
     return items.some(
         (item) =>
             item

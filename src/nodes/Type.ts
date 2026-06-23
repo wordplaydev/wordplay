@@ -4,6 +4,7 @@ import type Context from '@nodes/Context';
 import type ConversionDefinition from '@nodes/ConversionDefinition';
 import type Expression from '@nodes/Expression';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
+import type Language from '@nodes/Language';
 import Node from '@nodes/Node';
 import TypeSet from '@nodes/TypeSet';
 
@@ -40,6 +41,12 @@ export default abstract class Type extends Node {
     /** Subclasses override to abstract away from any literal types specified inside the type. */
     generalize(_: Context): Type {
         return this;
+    }
+
+    /** The concrete locale of this type, if it carries one (text and formatted
+     *  text). Returns undefined for all other types. Used by language derivers. */
+    concreteLanguage(_: Context): Language | undefined {
+        return undefined;
     }
 
     /** Subclasses override to strip away metadata, generating the simplest type possible. */

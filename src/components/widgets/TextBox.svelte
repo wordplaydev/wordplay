@@ -16,6 +16,13 @@
         validator?: undefined | ((text: string) => LocaleTextAccessor | true);
         id: string;
         view?: HTMLTextAreaElement | undefined;
+        /** Cap the visible height at this many lines, scrolling beyond it,
+         *  so a growing value can't stretch its surrounding layout. */
+        maxrows?: number | undefined;
+        /** Hard cap on input length, in UTF-16 code units, wired to the
+         *  underlying `<textarea maxlength>` so the browser blocks further
+         *  keystrokes and truncates pastes. */
+        maxlength?: number | undefined;
         onkeydown?: (event: KeyboardEvent) => void;
         /** Suppress the auto-injected description tip-edit badge in localizing mode.
          *  Set to true when embedded inside another localization editor. */
@@ -33,6 +40,8 @@
         dwelled = undefined,
         id,
         view = $bindable(undefined),
+        maxrows = undefined,
+        maxlength = undefined,
         onkeydown = undefined,
         noTipBadge = false,
     }: Props = $props();
@@ -79,9 +88,14 @@
             aria-describedby="{id}-error"
             placeholder={$locales.getPlainText(placeholder)}
             class={{ inline, error: message !== undefined }}
+            style:max-height={maxrows !== undefined
+                ? `calc(${maxrows} * 1lh)`
+                : null}
+            style:overflow-y={maxrows !== undefined ? 'auto' : null}
             bind:value={text}
             bind:this={view}
             aria-disabled={!active}
+            {maxlength}
             rows={text.split('\n').length}
             disabled={!active}
             onblur={async () => {

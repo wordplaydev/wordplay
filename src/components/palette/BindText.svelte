@@ -32,14 +32,8 @@
         uiid?: string | undefined;
     }
 
-    let {
-        property,
-        values,
-        validator,
-        editable,
-        id,
-        uiid = undefined,
-    }: Props = $props();
+    // `property` is accepted for a uniform call site but unused here.
+    let { values, validator, editable, id, uiid = undefined }: Props = $props();
 
     let project = getProject();
     let selection = getSelectedOutput();
@@ -52,9 +46,8 @@
         if ($project === undefined) return;
         Projects.revise(
             $project,
-            $project.getBindReplacements(
-                values.getExpressions(),
-                property.getName($locales),
+            values.getEditReplacements(
+                $project,
                 isMarkup
                     ? parseFormattedLiteral(
                           toTokens(

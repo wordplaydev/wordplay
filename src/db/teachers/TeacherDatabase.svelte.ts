@@ -73,7 +73,7 @@ export async function getClasses(galleryID: string) {
             ),
         );
     } catch (err) {
-        DB.reportBanner((l) => l.ui.banner.loadFailed, err);
+        DB.reportLoadFailure(err);
         return [];
     }
 
@@ -99,7 +99,7 @@ export async function getClass(id: string) {
     try {
         ref = await DB.read(getDoc(doc(db, ClassesCollection, id)));
     } catch (err) {
-        DB.reportBanner((l) => l.ui.banner.loadFailed, err);
+        DB.reportLoadFailure(err);
         return undefined;
     }
 

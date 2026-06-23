@@ -137,6 +137,17 @@ type UITexts = {
             instructions: string;
             /** [plain] The spoken color readout: the described color name followed by its lightness, chroma, and hue values, e.g. "dark grey, LCH 50, 117, 90" */
             value: Template<['color', 'l', 'c', 'h']>;
+            /** The text field for entering a color in any web format */
+            input: {
+                /** [plain] Tooltip and ARIA label for the color text field */
+                description: string;
+                /** [plain] Placeholder showing example formats, e.g. "#f00, rgb(), hsl(), red" */
+                placeholder: string;
+                /** [plain] Validation message shown when the typed value isn't a recognized color */
+                invalid: string;
+                /** [plain] Tooltip on the small chip that shows the inferred color format */
+                format: string;
+            };
         };
         /** [plain] The back to top link label */
         backtotop: string;
@@ -328,6 +339,20 @@ type UITexts = {
             /** [plain] The toggle that shows or hides the editor search field */
             search: ToggleText;
         };
+        fold: {
+            /** [plain] The fold control's label when activating it will collapse the code; $name is the kind of code (e.g. function, list) */
+            collapse: Template<['name']>;
+            /** [plain] The fold control's label when activating it will expand collapsed code; $name is the kind of code (e.g. function, list) */
+            expand: Template<['name']>;
+            /** [plain] The command/button that folds all foldable code */
+            all: string;
+            /** [plain] The command/button that unfolds all collapsed code */
+            none: string;
+            /** [plain] Screen-reader announcement when code is collapsed; $name is the kind of code (e.g. function, list) */
+            collapsed: Template<['name']>;
+            /** [plain] Screen-reader announcement when code is expanded; $name is the kind of code (e.g. function, list) */
+            expanded: Template<['name']>;
+        };
         button: {
             /** [plain] Output preview button for selecting output for display in output tile */
             selectOutput: string;
@@ -367,6 +392,23 @@ type UITexts = {
                 all: Template<['count']>;
             };
         };
+        /** Prefixes shown before a conflict explanation when an edit is rejected in blocks mode. */
+        feedback: {
+            /** [plain] Precedes the conflict explanation when a dragged block can't be dropped on a target */
+            cantDrop: string;
+            /** [plain] Precedes the conflict explanation when a paste can't be applied at the caret */
+            cantPaste: string;
+        };
+        /** The clipboard contents shown in the editor footer. */
+        clipboard: {
+            /** [plain] Label shown before the clipboard's contents in the editor footer */
+            label: string;
+        };
+        /** Editor footer notices. */
+        notice: {
+            /** [plain] Tooltip for the button that dismisses an editor footer notice */
+            dismiss: string;
+        };
         cursor: {
             /** [plain] Move caret to the line before */
             priorLine: string;
@@ -398,6 +440,8 @@ type UITexts = {
             nextNode: string;
             /** [plain] Select parent of node */
             parent: string;
+            /** [plain] Move cursor to the matching delimiter */
+            matchDelimiter: string;
             /** [plain] Select the whole program */
             selectAll: string;
             /** [plain] Move cursor to the next search match */
@@ -448,6 +492,28 @@ type UITexts = {
             insertThis: string;
             /** [plain] Insert table symbol */
             insertTable: string;
+            /** [plain] Insert ⣿⣿ pattern symbol */
+            insertPattern: string;
+            /** [plain] Insert ⌕ pattern search symbol */
+            insertSearch: string;
+            /** [plain] Insert ◌ any-grapheme pattern symbol */
+            insertPatternAny: string;
+            /** [plain] Insert ␣ space pattern symbol */
+            insertPatternSpace: string;
+            /** [plain] Insert ⊢ pattern start symbol */
+            insertPatternStart: string;
+            /** [plain] Insert ⊣ pattern end symbol */
+            insertPatternEnd: string;
+            /** [plain] Insert Aa pattern case-fold symbol */
+            insertPatternFold: string;
+            /** [plain] Insert ▸ pattern lookahead symbol */
+            insertPatternAhead: string;
+            /** [plain] Insert ◂ pattern lookbehind symbol */
+            insertPatternBehind: string;
+            /** [plain] Insert ▭ pattern word symbol */
+            insertPatternWord: string;
+            /** [plain] Insert ┊ pattern word-edge symbol */
+            insertPatternWordEdge: string;
             /** [plain] Insert borrow symbol */
             insertBorrow: string;
             /** [plain] Insert share symbol */
@@ -482,6 +548,8 @@ type UITexts = {
             elide: string;
             /** [plain] Large deletion notification */
             largeDelete: string;
+            /** [plain] Notice shown when Tab is pressed and tab-inserts-tab is off, explaining how to insert a tab. $alt is the platform-specific Alt/Option modifier label. */
+            tab: Template<['alt']>;
             /** Explanations for why something isn't editable */
             ignored: {
                 /** [plain] The source is not editable */
@@ -553,9 +621,41 @@ type UITexts = {
             highlight: string;
         };
     };
+    wellspring: {
+        /** [plain] The ARIA label for the blocks-mode Wellspring drag-and-drop sidebar */
+        label: string;
+        /** [plain] The ARIA label and tooltip for the recycle bin that deletes a dropped node */
+        recycle: string;
+        /** [plain] Shown in the code-view area when the selected category has no concepts (e.g. an empty project filter) */
+        empty: string;
+        field: {
+            /** [plain] The description of the Wellspring's concept search field */
+            search: string;
+        };
+        button: {
+            /** [plain] The button to expand or collapse the Wellspring */
+            toggle: string;
+            /** [plain] The button that clears the Wellspring's search field */
+            clear: string;
+        };
+    };
     output: {
         /** [plain] The ARIA label for the output section */
         label: string;
+        /** [plain] Screen-reader instructions for selecting multiple outputs on stage with the keyboard */
+        multiselect: string;
+        /** [plain] Announced when an output is added to the selection. $name is the output, $count is the number now selected. */
+        selected: Template<['name', 'count']>;
+        /** [plain] Announced when an output is removed from the selection. $name is the output, $count is the number now selected. */
+        deselected: Template<['name', 'count']>;
+        /** [plain] Announced when all outputs are selected. $count is the number now selected. */
+        allSelected: Template<['count']>;
+        /** [plain] Announced when the selection is cleared */
+        cleared: string;
+        /** [plain] Announced when selecting one output and opening the palette. $name is the output. */
+        selectedOnly: Template<['name']>;
+        /** [plain] Suffix appended to a selected group's accessible name, since a group cannot use aria-pressed */
+        selectedSuffix: string;
         toggle: {
             /** Toggle whether grid is shown */
             grid: ToggleText;
@@ -577,10 +677,10 @@ type UITexts = {
             zoomOut: string;
             /** [plain] Reset the zoom to the stage's computed place when one is set */
             resetZoom: string;
-            /** [plain] The rotation handle on a selected phrase */
-            rotate: string;
-            /** [plain] The size handle on a selected phrase */
-            resize: string;
+            /** [plain] The rotation handle on a selected output. $name is the kind of output (e.g. phrase, rectangle). */
+            rotate: Template<['name']>;
+            /** [plain] The size handle on a selected output. $name is the kind of output (e.g. phrase, rectangle). */
+            resize: Template<['name']>;
         };
         options: {
             /** [plain] The label for the locale chooser in output */
@@ -800,6 +900,10 @@ type UITexts = {
             offerGroup: FormattedText;
             /** [formatted] The text offering to create a stage in the palette without a stage */
             offerStage: FormattedText;
+            /** [formatted] The text offering to wrap a form in a shape, or create a shape, in the palette */
+            offerShape: FormattedText;
+            /** [formatted] The text offering to add a placeholder phrase when the program has no output */
+            offerNothing: FormattedText;
             /** [formatted] Prompt if no selection */
             select: FormattedText;
             /** [formatted] The text prompting the creator to edit the selected output */
@@ -828,6 +932,13 @@ type UITexts = {
             field: {
                 /** [plain] Edit percent for pose */
                 percent: string;
+            };
+            /** The pre-defined sequence picker */
+            preset: {
+                /** [plain] Label for the pre-defined sequence dropdown */
+                label: string;
+                /** [plain] The option for a hand-written sequence of poses */
+                custom: string;
             };
         };
         /** Errors for the palette */
@@ -1014,12 +1125,18 @@ type UITexts = {
                 writing: ModeText<[string, string, string]>;
                 /** The blocks on/off mode */
                 blocks: ModeText<[string, string]>;
+                /** The keyword display mode: built-in keywords as symbols or as localized words */
+                words: ModeText<[string, string]>;
                 /** The block-editing density mode (compact/normal/spacious) */
                 blockDensity: ModeText<[string, string, string]>;
                 /** The space_indicator on/off mode */
                 space: ModeText<[string, string]>;
                 /** The line number on/off mode */
                 lines: ModeText<[string, string]>;
+                /** The soft-wrap on/off mode for the editor's text mode */
+                wrap: ModeText<[string, string]>;
+                /** The tab key behavior mode (switch focus/insert tab) */
+                tab: ModeText<[string, string]>;
             };
             options: {
                 /** [plain] The label for the font face chooser */
@@ -1263,6 +1380,9 @@ type UITexts = {
         storageFull: string;
         /** [plain] Shown proactively when this device's storage is nearly full */
         storageNearFull: string;
+        /** [plain] Shown when a change is too large to save (exceeds the cloud
+         *  document size limit) */
+        saveTooLarge: string;
     };
     /** Notification shown when a newer version of the app has been deployed while the tab was open. */
     update: {

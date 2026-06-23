@@ -32,11 +32,32 @@ import InitialView from '@components/editor/nodes/InitialView.svelte';
 import InputView from '@components/editor/nodes/InputView.svelte';
 import InsertView from '@components/editor/nodes/InsertView.svelte';
 import IsLocaleView from '@components/editor/nodes/IsLocaleView.svelte';
+import LocalizedView from '@components/editor/nodes/LocalizedView.svelte';
 import IsView from '@components/editor/nodes/IsView.svelte';
 import KeyValueView from '@components/editor/nodes/KeyValueView.svelte';
 import LanguageView from '@components/editor/nodes/LanguageView.svelte';
 import ListAccessView from '@components/editor/nodes/ListAccessView.svelte';
 import ListLiteralView from '@components/editor/nodes/ListLiteralView.svelte';
+import PatternLiteralView from '@components/editor/nodes/PatternLiteralView.svelte';
+import PatternTypeView from '@components/editor/nodes/PatternTypeView.svelte';
+import PatternSequenceView from '@components/editor/nodes/PatternSequenceView.svelte';
+import PatternGroupView from '@components/editor/nodes/PatternGroupView.svelte';
+import PatternSetView from '@components/editor/nodes/PatternSetView.svelte';
+import PatternLookView from '@components/editor/nodes/PatternLookView.svelte';
+import PatternCaseFoldView from '@components/editor/nodes/PatternCaseFoldView.svelte';
+import PatternQuantifiedView from '@components/editor/nodes/PatternQuantifiedView.svelte';
+import PatternQuantifierView from '@components/editor/nodes/PatternQuantifierView.svelte';
+import PatternCaptureView from '@components/editor/nodes/PatternCaptureView.svelte';
+import PatternComplementView from '@components/editor/nodes/PatternComplementView.svelte';
+import PatternClassView from '@components/editor/nodes/PatternClassView.svelte';
+import PatternPropertyView from '@components/editor/nodes/PatternPropertyView.svelte';
+import PatternWordView from '@components/editor/nodes/PatternWordView.svelte';
+import PatternWordEdgeView from '@components/editor/nodes/PatternWordEdgeView.svelte';
+import PatternLiteralTextView from '@components/editor/nodes/PatternLiteralTextView.svelte';
+import PatternAnchorView from '@components/editor/nodes/PatternAnchorView.svelte';
+import PatternBackrefView from '@components/editor/nodes/PatternBackrefView.svelte';
+import PatternRestView from '@components/editor/nodes/PatternRestView.svelte';
+import PatternRangeView from '@components/editor/nodes/PatternRangeView.svelte';
 import ListTypeView from '@components/editor/nodes/ListTypeView.svelte';
 import MapLiteralView from '@components/editor/nodes/MapLiteralView.svelte';
 import MapTypeView from '@components/editor/nodes/MapTypeView.svelte';
@@ -118,10 +139,31 @@ import Input from '@nodes/Input';
 import Insert from '@nodes/Insert';
 import Is from '@nodes/Is';
 import IsLocale from '@nodes/IsLocale';
+import Localized from '@nodes/Localized';
 import KeyValue from '@nodes/KeyValue';
 import Language from '@nodes/Language';
 import ListAccess from '@nodes/ListAccess';
 import ListLiteral from '@nodes/ListLiteral';
+import PatternLiteral from '@nodes/PatternLiteral';
+import PatternType from '@nodes/PatternType';
+import PatternSequence from '@nodes/PatternSequence';
+import PatternGroup from '@nodes/PatternGroup';
+import PatternSet from '@nodes/PatternSet';
+import PatternLook from '@nodes/PatternLook';
+import PatternCaseFold from '@nodes/PatternCaseFold';
+import PatternQuantified from '@nodes/PatternQuantified';
+import PatternQuantifier from '@nodes/PatternQuantifier';
+import PatternCapture from '@nodes/PatternCapture';
+import PatternComplement from '@nodes/PatternComplement';
+import PatternClass from '@nodes/PatternClass';
+import PatternProperty from '@nodes/PatternProperty';
+import PatternWord from '@nodes/PatternWord';
+import PatternWordEdge from '@nodes/PatternWordEdge';
+import PatternLiteralText from '@nodes/PatternLiteralText';
+import PatternAnchor from '@nodes/PatternAnchor';
+import PatternBackref from '@nodes/PatternBackref';
+import PatternRest from '@nodes/PatternRest';
+import PatternRange from '@nodes/PatternRange';
 import ListType from '@nodes/ListType';
 import MapLiteral from '@nodes/MapLiteral';
 import MapType from '@nodes/MapType';
@@ -181,6 +223,9 @@ import VariableTypeView from '@components/editor/nodes/VariableTypeView.svelte';
 type NodeViewComponent = Component<{
     node: any;
     format: Format;
+    /** Whether this node is folded; views that support code folding render a
+     *  collapsed header when true. Ignored by views that don't. */
+    folded?: boolean;
 }>;
 
 // Block styling for each view
@@ -513,6 +558,110 @@ map(ListLiteral, ListLiteralView, {
     direction: 'inline',
     size: 'normal',
 });
+// Each pattern node has a bespoke view (LANGUAGE.md), so blocks mode can style
+// constructs distinctly and container nodes (literal/group/set/look/case-fold)
+// support code folding. The literal is the data container; its internals are
+// structural ('plain'), and the type carries the 'type' chrome.
+map(PatternLiteral, PatternLiteralView, {
+    kind: 'data',
+    direction: 'inline',
+    size: 'normal',
+});
+map(PatternType, PatternTypeView, {
+    kind: 'type',
+    direction: 'inline',
+    size: 'small',
+});
+map(PatternSequence, PatternSequenceView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+map(PatternGroup, PatternGroupView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+map(PatternSet, PatternSetView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+map(PatternLook, PatternLookView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+map(PatternCaseFold, PatternCaseFoldView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+map(PatternQuantified, PatternQuantifiedView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+map(PatternQuantifier, PatternQuantifierView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+map(PatternCapture, PatternCaptureView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+map(PatternComplement, PatternComplementView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+map(PatternClass, PatternClassView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+map(PatternProperty, PatternPropertyView, {
+    kind: 'type',
+    direction: 'inline',
+    size: 'small',
+});
+map(PatternWord, PatternWordView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+map(PatternWordEdge, PatternWordEdgeView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+map(PatternLiteralText, PatternLiteralTextView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+map(PatternAnchor, PatternAnchorView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+map(PatternBackref, PatternBackrefView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+map(PatternRest, PatternRestView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+map(PatternRange, PatternRangeView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
 map(Spread, SpreadView, {
     kind: 'plain',
     direction: 'inline',
@@ -582,6 +731,11 @@ map(Previous, PreviousView, {
 });
 map(Changed, ChangedView, {
     kind: 'predicate',
+    direction: 'inline',
+    size: 'normal',
+});
+map(Localized, LocalizedView, {
+    kind: 'evaluate',
     direction: 'inline',
     size: 'normal',
 });

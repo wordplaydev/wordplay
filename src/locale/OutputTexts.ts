@@ -324,6 +324,21 @@ type OutputTexts = {
         /** rotation */
         angle: NameAndDoc;
     };
+    /** One match from a pattern search (`⌕`) */
+    Result: NameAndDoc & {
+        /** the whole matched text */
+        text: NameAndDoc;
+        /** the 1-based start position of the whole match */
+        start: NameAndDoc;
+        /** the 1-based end position of the whole match */
+        end: NameAndDoc;
+        /** each capture name to its matched text */
+        groups: NameAndDoc;
+        /** each capture name to its start position */
+        starts: NameAndDoc;
+        /** each capture name to its end position */
+        ends: NameAndDoc;
+    };
     /** Physical properties of matter */
     Matter: NameAndDoc & {
         /** in kilograms, how much something weighs for the purposes of collisions */
@@ -425,6 +440,84 @@ type OutputTexts = {
         popup: NameAndDoc;
         /** Offsets randomly in multiple directions */
         shake: NameAndDoc;
+        /** Gently scales up and back down to draw attention */
+        pulse: NameAndDoc & {
+            /** How much to scale at the peak */
+            amount: NameAndDoc;
+        };
+        /** Two quick scale beats, like a heartbeat */
+        heartbeat: NameAndDoc & {
+            /** How much to scale on each beat */
+            amount: NameAndDoc;
+        };
+        /** A celebratory scale and wiggle */
+        tada: NameAndDoc & {
+            /** How much to scale during the celebration */
+            amount: NameAndDoc;
+        };
+        /** Tilts and slides side to side */
+        wiggle: NameAndDoc & {
+            /** How much to tilt in the wiggle */
+            angle: NameAndDoc;
+        };
+        /** Blinks opacity on and off */
+        flash: NameAndDoc;
+        /** Scales in from nothing to full size */
+        zoomin: NameAndDoc;
+        /** Fades in while sliding up into place */
+        fadeinup: NameAndDoc & {
+            /** How far to slide */
+            distance: NameAndDoc;
+        };
+        /** Fades in while sliding down into place */
+        fadeindown: NameAndDoc & {
+            /** How far to slide */
+            distance: NameAndDoc;
+        };
+        /** Fades in while sliding right into place from the left */
+        fadeinleft: NameAndDoc & {
+            /** How far to slide */
+            distance: NameAndDoc;
+        };
+        /** Fades in while sliding left into place from the right */
+        fadeinright: NameAndDoc & {
+            /** How far to slide */
+            distance: NameAndDoc;
+        };
+        /** Spins into place while fading in */
+        rotatein: NameAndDoc & {
+            /** How far to spin */
+            angle: NameAndDoc;
+        };
+        /** Scales out to nothing */
+        zoomout: NameAndDoc;
+        /** Fades out while sliding up */
+        fadeoutup: NameAndDoc & {
+            /** How far to slide */
+            distance: NameAndDoc;
+        };
+        /** Fades out while sliding down */
+        fadeoutdown: NameAndDoc & {
+            /** How far to slide */
+            distance: NameAndDoc;
+        };
+        /** Fades out while sliding left */
+        fadeoutleft: NameAndDoc & {
+            /** How far to slide */
+            distance: NameAndDoc;
+        };
+        /** Fades out while sliding right */
+        fadeoutright: NameAndDoc & {
+            /** How far to slide */
+            distance: NameAndDoc;
+        };
+        /** Spins away while fading out */
+        rotateout: NameAndDoc & {
+            /** How far to spin */
+            angle: NameAndDoc;
+        };
+        /** Cycles through the colors of the rainbow */
+        rainbow: NameAndDoc;
     };
     /** A data file structure */
     Source: NameAndDoc & {

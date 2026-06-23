@@ -4,7 +4,15 @@
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Options from '@components/widgets/Options.svelte';
-    import { locales, Projects, Locales } from '@db/Database';
+    import Mode from '@components/widgets/Mode.svelte';
+    import {
+        locales,
+        Projects,
+        Locales,
+        Settings,
+        contrastLanguage,
+    } from '@db/Database';
+    import { ContrastLanguages } from '../../tutorial/ContrastLanguage';
     import Project from '@db/projects/Project';
     import { withoutAnnotations } from '@locale/withoutAnnotations';
     import type Node from '@nodes/Node';
@@ -28,11 +36,17 @@
     import ConceptLink from '@nodes/ConceptLink';
     import type Markup from '@nodes/Markup';
     import Source from '@nodes/Source';
+    import getPreferredSpaces from '@parser/getPreferredSpaces';
     import type Spaces from '@parser/Spaces';
     import { toMarkup } from '@parser/toMarkup';
     import { Performances } from '../../tutorial/Performances';
     import Progress from '../../tutorial/Progress';
     import {
+        DEFAULT_TUTORIAL_MODE,
+        type TutorialMode,
+    } from '../../tutorial/TutorialMode';
+    import {
+        parsePerformance,
         type Dialog,
         type Performance,
         type Tutorial,
@@ -49,8 +63,7 @@
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import Breadcrumbs from '@components/app/Breadcrumbs.svelte';
-    import Header from '@components/app/Header.svelte';
+    import PageHeaderRow from '@components/app/PageHeaderRow.svelte';
     import PlayView from '@components/app/PlayView.svelte';
     import TutorialHighlight from '@components/app/TutorialHighlight.svelte';
     import { localeGoto } from '@util/localeGoto';
@@ -84,16 +97,70 @@
         await navigate(progress);
     }
 
+    /** Switch tutorial modes: persist the choice and route to the mode's tutorial, which the
+     * learn route loads and resumes at the mode's saved place. */
+    async function switchMode(newMode: TutorialMode) {
+        if (newMode === progress.mode) return;
+        Settings.setTutorialMode(newMode);
+        await localeGoto(
+            newMode === DEFAULT_TUTORIAL_MODE
+                ? '/learn'
+                : `/learn?tutorial=${newMode}`,
+        );
+    }
+
+    // Options for the contrast-language chooser (shown in the quick tutorial).
+    const contrastOptions = ContrastLanguages.map((language) => ({
+        value: language.tag,
+        label: language.label,
+    }));
+
     const user = getUser();
 
     let nextButton: HTMLButtonElement | undefined = $state();
     let previousButton: HTMLButtonElement | undefined = $state();
     let focusView: HTMLButtonElement | undefined = $state(undefined);
 
-    // Focus next button on load.
-    onMount(() => {
-        if (nextButton)
-            setKeyboardFocus(nextButton, 'Tutorial focusing next button');
+    /** Focus the navigation button the user is heading toward, falling back to the other when the
+     * preferred one is inactive. At the tutorial's end the next button is inactive (aria-disabled,
+     * but still focusable), so focusing it would leave focus on an inert control — there we focus
+     * the previous button instead. `at` is the position to evaluate (the step being navigated to),
+     * not necessarily the current prop, which may not have updated yet. */
+    function focusNav(at: Progress, prefer: 'next' | 'previous') {
+        const hasNext = at.nextPause() !== undefined;
+        const hasPrevious = at.previousPause() !== undefined;
+        const target =
+            prefer === 'next'
+                ? hasNext
+                    ? nextButton
+                    : hasPrevious
+                      ? previousButton
+                      : undefined
+                : hasPrevious
+                  ? previousButton
+                  : hasNext
+                    ? nextButton
+                    : undefined;
+        focusView = target;
+        if (target)
+            setKeyboardFocus(target, 'Tutorial focusing navigation button');
+    }
+
+    // Focus the next button on load — or the previous button if we're already at the end.
+    onMount(() => focusNav(progress, 'next'));
+
+    // If navigation settles somewhere the focused nav button is inactive — notably the tutorial's
+    // end, where next is disabled, and which a deep link may only reach after the position resolves
+    // post-mount — move focus to the other, active button so focus never rests on an inert control.
+    $effect(() => {
+        const noNext = progress.nextPause() === undefined;
+        const noPrevious = progress.previousPause() === undefined;
+        untrack(() => {
+            if (noNext && document.activeElement === nextButton)
+                focusNav(progress, 'previous');
+            else if (noPrevious && document.activeElement === previousButton)
+                focusNav(progress, 'next');
+        });
     });
 
     /** The current place in the tutorial. Defaults to persisted progress, but overwritten by search parameters. */
@@ -181,34 +248,41 @@
                 performance = newPerformance;
             }
             if (performance === undefined) {
-                performance = ['fit', 'Stage()'];
+                performance = { fit: 'Stage()' };
             }
         });
     });
 
-    let isUse = $derived(performance !== undefined && performance[0] === 'use');
-    let performanceType = $derived(
-        performance === undefined
-            ? ''
-            : isUse
-              ? performance[1]
-              : performance[0],
+    // The current performance, parsed into structured, type-safe parts.
+    let parsed = $derived(
+        performance === undefined ? undefined : parsePerformance(performance),
     );
-    let editable = $derived(
-        performanceType === 'edit' || performanceType === 'conflict',
-    );
-    let fit = $derived(performanceType === 'fit' || performanceType === 'use');
-    // A "use" performance? Find it in Performances.
-    // Anything else? Take all the lines of source and join them together.
+    let editable = $derived(parsed?.mode === 'edit');
+    let fit = $derived(parsed?.mode === 'fit');
+    // Whether ProjectView shows output-only (vs. the editor + output). A component-scoped derived
+    // rather than an inline `{!editable}` prop, so it isn't destroyed with the {#key} block while
+    // ProjectView tears down (which triggers a "now-destroyed derived" warning).
+    let showOutput = $derived(!editable);
+    // Show the editor's annotation panel expanded when the performance asks for it (independent of
+    // whether conflicts are expected).
+    let annotationsExpanded = $derived(parsed?.sidebar ?? false);
+    // Tidy code so performances don't need perfect indentation/spacing: parse it and re-serialize
+    // with the language's preferred spacing.
+    function tidy(code: string): string {
+        const parsedSource = new Source('', code);
+        return parsedSource.toWordplay(getPreferredSpaces(parsedSource));
+    }
+    // Resolve a template reference from Performances, or use the literal code, then tidy it.
     let source = $derived(
-        performance === undefined
+        parsed === undefined
             ? ''
-            : isUse
-              ? Performances[performance[2] as keyof typeof Performances].apply(
-                    undefined,
-                    performance.slice(3) as [string],
-                )
-              : performance.slice(1).join('\n'),
+            : tidy(
+                  typeof parsed.code === 'string'
+                      ? parsed.code
+                      : Performances[
+                            parsed.code.name as keyof typeof Performances
+                        ].apply(undefined, parsed.code.inputs as [string]),
+              ),
     );
 
     // Every time the progress changes, create an initial project for the step.
@@ -236,11 +310,29 @@
     // Keep the current project state.
     let project = $state<Project | undefined>();
 
+    // The project to show: the persisted/edited project if loaded, else the initial one. Kept as a
+    // component-scoped derived (not a block-scoped {@const}) so it isn't destroyed with the
+    // {#key initialProject} block while ProjectView is still tearing down — which would otherwise
+    // trigger Svelte's "reading a derived belonging to a now-destroyed effect" warning.
+    let currentProject = $derived(project ?? initialProject);
+
     // Every time the progress changes, see if there's a revision to the project stored in the database,
-    // and use that instead, and update the project store.
+    // and use that instead, and update the project store. Only editable performances are persisted:
+    // display-only (fit/fix) performances have no editor, so a saved copy could only ever be stale —
+    // and since tutorial projects are cloud-synced, a stale copy would override the current
+    // performance even in a fresh/private session. Those always render the fresh initialProject.
     $effect(() => {
+        const id = progress.getProjectID();
+        if (!editable) {
+            // Drop any project carried over from a previous (editable) step so currentProject
+            // falls back to the fresh initialProject.
+            project = undefined;
+            return;
+        }
         // Check asynchronously if there's a project for this tutorial project ID already.
-        Projects.get(progress.getProjectID()).then((existingProject) => {
+        Projects.get(id).then((existingProject) => {
+            // Ignore if we navigated away or this step became display-only meanwhile.
+            if (progress.getProjectID() !== id || !editable) return;
             // If there is, get it's store.
             if (existingProject) {
                 project = existingProject;
@@ -259,8 +351,9 @@
     });
 
     // When history's current value changes, update the project. This is super important: it enables feedback
-    // after each edit of a project!
+    // after each edit of a project! Only for editable performances (see above).
     $effect(() => {
+        if (!editable) return;
         const history = Projects.getHistory(progress.getProjectID());
         project = history?.getCurrent();
     });
@@ -326,6 +419,8 @@
                 lessonJSON.act,
                 lessonJSON.scene,
                 lessonJSON.line,
+                // Preserve the active mode so navigation stays within this tutorial.
+                progress.mode,
             );
             nav(newProgress);
         }
@@ -349,7 +444,9 @@
         const others = $locales.getLocales().filter((l) => l !== primary);
         let cancelled = false;
         Promise.all(
-            others.map((l) => Locales.getTutorial(l.language, l.regions)),
+            others.map((l) =>
+                Locales.getTutorial(l.language, l.regions, progress.mode),
+            ),
         ).then((loaded) => {
             if (!cancelled)
                 extraTutorials = loaded.filter(
@@ -396,6 +493,7 @@
                 target.act,
                 target.scene,
                 target.pause,
+                progress.mode,
             ),
             label: target.label,
         }));
@@ -405,23 +503,21 @@
         // Ignore any modifiers; thhose are handled by the editor and project view.
         if (event.shiftKey || event.ctrlKey || event.altKey) return;
 
-        focusView = undefined;
         if (event.key === 'ArrowLeft') {
-            focusView = previousButton;
-            nav(progress.previousPause() ?? progress);
+            const previous = progress.previousPause() ?? progress;
+            nav(previous);
+            await tick();
+            focusNav(previous, 'previous');
         } else if (event.key === 'ArrowRight' || event.key === ' ') {
-            focusView = nextButton;
+            // At the tutorial's end there's no next step, so do nothing — consistent with the
+            // inactive next button (previously this navigated away to the projects page).
             const next = progress.nextPause();
-            if (next) nav(next);
-            else localeGoto('/projects');
+            if (next) {
+                nav(next);
+                await tick();
+                focusNav(next, 'next');
+            }
         }
-
-        await tick();
-        if (focusView)
-            setKeyboardFocus(
-                focusView,
-                'Tutorial focusing previously focused navigation button',
-            );
     }
 </script>
 
@@ -431,7 +527,13 @@
         event.preventDefault();
         event.stopPropagation();
         tick().then(() => {
-            const newFocus = focusView ?? nextButton;
+            // Prefer the last-focused nav button; otherwise the next button, or the previous one
+            // when at the end (where next is inactive).
+            const newFocus =
+                focusView ??
+                (progress.nextPause() !== undefined
+                    ? nextButton
+                    : previousButton);
             if (
                 document.activeElement === document.body &&
                 newFocus !== undefined
@@ -446,41 +548,60 @@
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <section class="tutorial" onkeydown={handleKey}>
-    <Breadcrumbs />
-    <div class="header">
-        <Header block={false}>
-            <LocalizedText path={(l) => l.ui.page.learn.header} /></Header
-        >
-        <nav>
-            {#if act !== undefined}
-                <Note>
-                    {withoutAnnotations(act.title)}
-                    <sub
-                        >{progress.tutorial.acts.findIndex(
-                            (candidate) => candidate === act,
-                        ) + 1}/{progress.tutorial.acts.length}</sub
-                    ></Note
-                >{/if}
-            <!-- A select component tutorial lessons, grouped by unit. The value is always line zero so that the label is selected correctly.  -->
-            <div class="nav-controls">
+    <PageHeaderRow header={(l) => l.ui.page.learn.header}>
+        {#snippet breadcrumbControls()}
+            <!-- Page-level navigation (tutorial mode + contrast language), inline with the breadcrumbs. -->
+            <Mode
+                modes={(l) => l.ui.page.learn.mode}
+                choice={progress.mode === 'quick' ? 0 : 1}
+                select={(choice) =>
+                    switchMode(choice === 0 ? 'quick' : 'complete')}
+                labeled={false}
+            />
+            {#if progress.mode === 'quick'}
                 <Options
-                    label={(l) => l.ui.page.learn.options.lesson}
-                    value={withoutAnnotations(
-                        JSON.stringify(progress.withLine(0).serialize()),
-                    )}
-                    change={handleSelect}
-                    id="current-lesson"
-                    options={lessons}
+                    label={(l) => l.ui.page.learn.contrast}
+                    value={$contrastLanguage}
+                    change={(value) => {
+                        if (value) Settings.setContrastLanguage(value);
+                    }}
+                    id="contrast-language"
+                    options={contrastOptions}
                 ></Options>
-                <TextField
-                    id="tutorial-search"
-                    placeholder={(l) => l.ui.page.learn.search.placeholder}
-                    description={(l) => l.ui.page.learn.search.placeholder}
-                    bind:text={searchQuery}
-                />
-            </div>
-        </nav>
-    </div>
+            {/if}
+        {/snippet}
+        {#snippet controls()}
+            <nav>
+                {#if act !== undefined}
+                    <Note>
+                        {withoutAnnotations(act.title)}
+                        <sub
+                            >{progress.tutorial.acts.findIndex(
+                                (candidate) => candidate === act,
+                            ) + 1}/{progress.tutorial.acts.length}</sub
+                        ></Note
+                    >{/if}
+                <!-- A select component tutorial lessons, grouped by unit. The value is always line zero so that the label is selected correctly.  -->
+                <div class="nav-controls">
+                    <Options
+                        label={(l) => l.ui.page.learn.options.lesson}
+                        value={withoutAnnotations(
+                            JSON.stringify(progress.withLine(0).serialize()),
+                        )}
+                        change={handleSelect}
+                        id="current-lesson"
+                        options={lessons}
+                    ></Options>
+                    <TextField
+                        id="tutorial-search"
+                        placeholder={(l) => l.ui.page.learn.search.placeholder}
+                        description={(l) => l.ui.page.learn.search.placeholder}
+                        bind:text={searchQuery}
+                    />
+                </div>
+            </nav>
+        {/snippet}
+    </PageHeaderRow>
     {#if searchQuery.length > 0}
         <div class="search-results">
             {#if searchResults.length > 0}
@@ -527,7 +648,7 @@
                             icon="←"
                             bind:view={previousButton}
                         ></Button>
-                        {#if act !== undefined && scene !== undefined && (scene.subtitle ?? scene.title)}<Note
+                        {#if act !== undefined && scene !== undefined && dialog !== undefined && (scene.subtitle ?? scene.title)}<Note
                                 >{withoutAnnotations(
                                     scene.subtitle ?? scene.title,
                                 )}
@@ -560,6 +681,7 @@
                                 ><em
                                     ><LocalizedText
                                         overrideKey={actTitlePath(
+                                            progress.mode,
                                             progress.act - 1,
                                         )}
                                         sourceText={withoutAnnotations(
@@ -576,6 +698,7 @@
                                 ><em
                                     ><LocalizedText
                                         overrideKey={sceneTitlePath(
+                                            progress.mode,
                                             progress.act - 1,
                                             progress.scene - 1,
                                         )}
@@ -587,6 +710,7 @@
                             >{#if scene.subtitle}<em
                                     ><LocalizedText
                                         overrideKey={sceneSubtitlePath(
+                                            progress.mode,
                                             progress.act - 1,
                                             progress.scene - 1,
                                         )}
@@ -620,6 +744,7 @@
                                         <MarkupHTMLView
                                             markup={turn.speech}
                                             overrideKey={dialogTextPath(
+                                                progress.mode,
                                                 progress.act - 1,
                                                 progress.scene - 1,
                                                 turn.lineIndex,
@@ -637,7 +762,6 @@
             <!-- Autofocus the main editor if it's currently focused -->
             {#key initialProject}
                 {#if scene}
-                    {@const currentProject = project ?? initialProject}
                     {#if currentProject}
                         <div class="project"
                             ><ProjectView
@@ -645,7 +769,8 @@
                                 original={initialProject}
                                 bind:index={projectContext}
                                 bind:dragged
-                                showOutput={!editable}
+                                {showOutput}
+                                {annotationsExpanded}
                                 {fit}
                                 autofocus={false}
                                 guide={false}
@@ -655,11 +780,13 @@
                             /></div
                         >
                     {/if}
-                {:else}
-                    {@const currentProject = project ?? initialProject}
-                    {#if currentProject}
+                {:else if currentProject}
+                    <!-- Same sizing wrapper as ProjectView above, so the act-title output fills the
+                         available space and doesn't collapse to zero height in the column (portrait)
+                         layout, where there's no row to stretch it. -->
+                    <div class="project">
                         <PlayView project={currentProject} {fit} />
-                    {/if}
+                    </div>
                 {/if}
             {/key}
         </div>
@@ -680,15 +807,6 @@
         height: 100%;
         background: var(--wordplay-background);
         padding: var(--wordplay-spacing);
-    }
-
-    .header {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: var(--wordplay-spacing);
-        border-bottom: var(--wordplay-border-color) solid
-            var(--wordplay-border-width);
     }
 
     .content {
@@ -714,6 +832,12 @@
         font-size: 200%;
         /* Prevents long words from overflowing. */
         overflow-wrap: anywhere;
+    }
+
+    /* Keep the scene subtitle directly beneath its title rather than a full line
+       below it (the title <p> otherwise carries a large default block-end margin). */
+    .title.scene p {
+        margin-block-end: 0.25em;
     }
 
     .play {
@@ -765,6 +889,7 @@
         justify-content: center;
         width: 100%;
     }
+
 
     .turns {
         padding: var(--wordplay-spacing);

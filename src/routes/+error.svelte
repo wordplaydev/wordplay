@@ -1,6 +1,6 @@
 <script lang="ts">
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Header from '@components/app/Header.svelte';
+    import PageHeader from '@components/app/PageHeader.svelte';
     import Link from '@components/app/Link.svelte';
     import Writing from '@components/app/Writing.svelte';
     import Speech from '@components/lore/Speech.svelte';
@@ -9,7 +9,7 @@
 </script>
 
 <Writing>
-    <Header text={(l) => l.ui.page.unknown.header}></Header>
+    <PageHeader header={(l) => l.ui.page.unknown.header} />
     <Speech character={Characters.FunctionDefinition}
         >{#snippet content()}
             <p>

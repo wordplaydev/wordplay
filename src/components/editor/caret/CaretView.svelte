@@ -6,71 +6,167 @@
         bottom: number;
     };
 
-    export function getVerticalCenterOfBounds(rect: DOMRect) {
-        return rect.top + rect.height / 2;
+    /** A blocks-mode visual-row member: a blank line (carrying the source index
+     *  it represents) or a block-editable token (carrying its source text range
+     *  so the caret's logical position can be matched to it). */
+    type BlockMember =
+        | { kind: 'break'; position: number }
+        | { kind: 'token'; token: Token; el: HTMLElement; start: number; end: number };
+
+    /** Carve blocks-mode rendered content into visual rows. Members are the only
+     *  navigable things in blocks mode: block-editable token-views and blank
+     *  lines' `.break` divs (resolved to the empty-line index they represent).
+     *  Inline whitespace isn't rendered in blocks mode, so there are no space
+     *  members. Token-views use getClientRects() so a wrapped token contributes
+     *  one member per fragment; excludes folded/zero-height. */
+    function gatherBlockRows(
+        editor: HTMLElement,
+        caret: Caret,
+        getTokenViews: () => HTMLElement[],
+    ): Row<BlockMember>[] {
+        const members: RowMember<BlockMember>[] = [];
+        for (const el of getTokenViews()) {
+            if (el.closest('.hide') !== null) continue;
+            const node = el.dataset.id
+                ? caret.source.getNodeByID(parseInt(el.dataset.id))
+                : undefined;
+            if (!(node instanceof Token) || !Caret.isTokenBlockEditable(node))
+                continue;
+            const start = caret.source.getTokenTextPosition(node);
+            const end = caret.source.getTokenLastPosition(node);
+            if (start === undefined || end === undefined) continue;
+            for (const rect of elementRowRects(el))
+                if (rect.height > 0)
+                    members.push({
+                        data: { kind: 'token', token: node, el, start, end },
+                        rect,
+                    });
+        }
+        for (const el of editor.querySelectorAll('.break[data-node-id]')) {
+            if (!(el instanceof HTMLElement) || el.closest('.hide') !== null)
+                continue;
+            const position = breakElementPosition(caret.source, el);
+            if (position === undefined) continue;
+            const rect = el.getBoundingClientRect();
+            if (rect.height > 0)
+                members.push({ data: { kind: 'break', position }, rect });
+        }
+        return buildRows(members);
     }
 
-    export function getHorizontalCenterOfBounds(rect: DOMRect) {
-        return rect.left + rect.width / 2;
+    /** The row the caret is currently on, plus its horizontal x there — derived
+     *  from the caret's LOGICAL position against the gathered members, NOT the
+     *  rendered bar. In blocks mode the bar is unreliable as a row anchor: it
+     *  draws a full-height placement spot at the program start/end (whose center
+     *  sits on a middle row) and a scroll-placement spot for node selections, so
+     *  trusting it misreads the current row. Returns index -1 when the position
+     *  matches no member (e.g. an unrendered spot), so the caller can bail. */
+    function findCurrentBlockRow(
+        rows: Row<BlockMember>[],
+        position: number,
+    ): { index: number; x: number } {
+        for (let index = 0; index < rows.length; index++) {
+            for (const member of rows[index].members) {
+                const data = member.data;
+                if (data.kind === 'break') {
+                    if (data.position === position)
+                        return { index, x: member.rect.left };
+                } else if (position >= data.start && position <= data.end) {
+                    const length = data.end - data.start;
+                    const x =
+                        length <= 0
+                            ? member.rect.left
+                            : member.rect.left +
+                              ((position - data.start) / length) *
+                                  (member.rect.right - member.rect.left);
+                    return { index, x };
+                }
+            }
+        }
+        return { index: -1, x: 0 };
     }
 
-    /** Move the caret to the nearest vertical token in the given direction and editor. */
+    /** Resolve a chosen blocks-mode row member to a caret position at horizontal
+     *  `x`: a blank line to its beginning, a text-editable token to the precise
+     *  interior position, and any other block-editable token to a node selection
+     *  (mapping only-children and placeholders to their parent, exactly as
+     *  Caret.getBlockPositions does, so keyboard and arrow navigation agree). */
+    function resolveBlockMember(
+        member: RowMember<BlockMember>,
+        x: number,
+        caret: Caret,
+    ): Node | number | undefined {
+        const data = member.data;
+        if (data.kind === 'break') return data.position;
+        const { token, el } = data;
+        const parent = caret.source.root.getParent(token);
+        if (Caret.isTokenTextBlockEditable(token, parent))
+            return getTokenPosition(
+                el,
+                { clientX: x, clientY: (member.rect.top + member.rect.bottom) / 2 },
+                caret,
+            );
+        if (
+            (parent !== undefined && parent.hasOneLeaf()) ||
+            parent instanceof ExpressionPlaceholder
+        )
+            return parent;
+        return token;
+    }
+
+    /** Move the caret one visual row up (-1) or down (1) in blocks mode. Carves
+     *  the editor into a stack of rows (block-editable tokens and blank lines),
+     *  finds the row the caret is on, steps exactly one row, and lands at the
+     *  horizontally nearest navigable position. Fails (no move) only at a
+     *  document edge. */
     export function moveVisualVertical(
         direction: -1 | 1,
         editor: HTMLElement,
         caret: Caret,
         getTokenViews: () => HTMLElement[],
     ): Caret | LocaleTextAccessor {
-        // Find the token view that the caret is in.
-        const currentToken =
-            caret.position instanceof Node ? caret.position : caret.getToken();
-        if (currentToken === undefined)
-            return (l) => l.ui.source.cursor.ignored.noMove;
-        const currentTokenView = getNodeView(editor, currentToken);
-        if (currentTokenView === null)
-            return (l) => l.ui.source.cursor.ignored.noMove;
-        const bounds = currentTokenView.getBoundingClientRect();
-        const vertical = getVerticalCenterOfBounds(bounds);
-        const horizontal = getHorizontalCenterOfBounds(bounds);
-        const verticalThreshold = bounds.height;
+        const noMove: LocaleTextAccessor = (l) =>
+            l.ui.source.cursor.ignored.noMove;
+        const rows = gatherBlockRows(editor, caret, getTokenViews);
 
-        // Find all the token views
-        const nearest = Array.from(getTokenViews())
-            .map((el) => {
-                const elBounds = el.getBoundingClientRect();
-                return {
-                    node:
-                        el instanceof HTMLElement && el.dataset.id
-                            ? (caret.source.getNodeByID(
-                                  parseInt(el.dataset.id),
-                              ) ?? null)
-                            : null,
-                    horizontal:
-                        getHorizontalCenterOfBounds(elBounds) - horizontal,
-                    vertical: getVerticalCenterOfBounds(elBounds) - vertical,
-                };
-            })
-            .filter(
-                (node) =>
-                    node.node instanceof Token &&
-                    Caret.isTokenBlockEditable(node.node) &&
-                    // Filter out nodes in the wrong direction
-                    (direction < 0 ? node.vertical < 0 : node.vertical > 0) &&
-                    // Filter out nodes that are too close vertically
-                    Math.abs(node.vertical) > verticalThreshold,
-            )
-            // Sort by closest distance of remaining
-            .sort(
-                (a, b) =>
-                    Math.pow(a.horizontal, 2) +
-                    Math.pow(a.vertical, 2) -
-                    (Math.pow(b.horizontal, 2) + Math.pow(b.vertical, 2)),
+        let target: { member: RowMember<BlockMember>; x: number } | undefined;
+        let goalX: number;
+        if (caret.position instanceof Node) {
+            // A selected node has no usable bar (CaretView draws a scroll-
+            // placement spot, not the node's location), so anchor on the node's
+            // own box and step to the row just past its full vertical extent.
+            const box = getNodeView(editor, caret.position)?.getBoundingClientRect();
+            if (box === undefined || box.height === 0) return noMove;
+            goalX = caret.visualColumn ?? (box.left + box.right) / 2;
+            target = targetRowPositionFromSpan(
+                rows,
+                box.top,
+                box.bottom,
+                direction,
+                goalX,
             );
-
-        const closest = nearest[0];
-
-        if (closest && closest.node) return caret.withPosition(closest.node);
-        else return (l) => l.ui.source.cursor.ignored.noMove;
+        } else {
+            // A numeric position: find the row from the caret's logical position
+            // (the member whose range/blank-line index it sits in), then step.
+            const position = Array.isArray(caret.position)
+                ? caret.position[1]
+                : caret.position;
+            const current = findCurrentBlockRow(rows, position);
+            if (current.index < 0) return noMove;
+            goalX = caret.visualColumn ?? current.x;
+            const next = current.index + direction;
+            target =
+                next < 0 || next >= rows.length
+                    ? undefined
+                    : nearestInRow(rows[next], goalX);
+        }
+        if (target === undefined) return noMove;
+        const result = resolveBlockMember(target.member, target.x, caret);
+        // Carry the goal column forward so consecutive vertical moves keep the
+        // same column; any non-vertical caret operation clears it.
+        return result === undefined
+            ? noMove
+            : caret.withPosition(result, undefined, goalX);
     }
 
     export function getTokenView(
@@ -93,13 +189,30 @@
     import type { LocaleTextAccessor } from '@locale/Locales';
     import Node from '@nodes/Node';
     import Token from '@nodes/Token';
+    import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
     import { TAB_TEXT } from '@parser/Spaces';
+    import {
+        buildRows,
+        nearestInRow,
+        targetRowPositionFromSpan,
+        type Row,
+        type RowMember,
+    } from '@components/editor/caret/rowModel';
     import { tick, untrack } from 'svelte';
     import { animationDuration, locales } from '@db/Database';
     import UnicodeString from '@unicode/UnicodeString';
-    import { getEditor, getEvaluation } from '@components/project/Contexts';
+    import {
+        getEditor,
+        getEvaluation,
+        getEffectiveFolded,
+    } from '@components/project/Contexts';
     import { measureTokenSegment } from '@components/editor/highlights/measureTokenSegment';
     import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
+    import {
+        breakElementPosition,
+        elementRowRects,
+        getTokenPosition,
+    } from '@components/editor/pointer/PointerUtilities';
 
     interface Props {
         /** The current caret state to render */
@@ -206,6 +319,7 @@
 
     // Get the editor context from the parent
     const editor = getEditor();
+    const folded = getEffectiveFolded();
 
     // Whenever the caret or blocks mode changes, wait for rendering, then update it's location.
     let animationDelayTimeout: NodeJS.Timeout | undefined = undefined;
@@ -213,6 +327,9 @@
         caret;
         blocks;
         zoom;
+        // Folding/unfolding collapses or expands code, moving the caret's token,
+        // so recompute the caret location when the folded set changes.
+        $folded;
         // Not playing? Depend on evaluation $evaluation. Otherwise, only update when caret changes.
         // We do this because when stepping, things hide and show and we need to update the caret
         // position when they do. But we don't want to do it when playing, otherwise the editor
@@ -272,6 +389,34 @@
         };
     });
 
+    // Recompute once an ancestor's CSS animation finishes. The guide renders
+    // embedded examples (ExampleUI) inside markup blocks that "pop" in with a
+    // scaleY(0)→scaleY(1) animation (MarkupHTMLView). While that transform runs,
+    // getBoundingClientRect returns vertically-scaled geometry, so a caret
+    // measured mid-animation (e.g. position 0, anchored to the first token's
+    // top) lands a few pixels off and nothing re-measures it once the transform
+    // settles — until the next caret change (a click). A CSS transform doesn't
+    // change layout size, so ResizeObserver/clientHeight never fire; the
+    // animation's end is the only reliable signal. animationend bubbles to the
+    // document, so we listen there and re-measure when the finished animation
+    // was on an ancestor of this caret (the scaled subtree we live in).
+    $effect(() => {
+        if (element === null) return;
+        const caretElement = element;
+        function onAnimationEnd(event: AnimationEvent) {
+            // Note: `Node` is shadowed by the Wordplay AST Node import, so test
+            // against the DOM `Element` to narrow event.target correctly.
+            if (
+                event.target instanceof Element &&
+                event.target.contains(caretElement)
+            )
+                location = computeLocation();
+        }
+        document.addEventListener('animationend', onAnimationEnd);
+        return () =>
+            document.removeEventListener('animationend', onAnimationEnd);
+    });
+
     // When caret location or view changes and not playing, tick, then scroll to it.
     let lastScroll = 0;
     $effect(() => {
@@ -326,6 +471,33 @@
         return null;
     }
 
+    /** Whether a token was collapsed out of the DOM by a fold. A folded node's
+     *  hidden tokens have no token-view of their own (only the folded wrapper as
+     *  an ancestor), so caret geometry must skip them rather than resolve to the
+     *  wrapper. Ground truth is the absence of the token's own view. */
+    function isTokenHidden(node: Node): boolean {
+        const editorView = element?.parentElement;
+        return (
+            node instanceof Token &&
+            editorView !== null &&
+            editorView !== undefined &&
+            getTokenView(editorView, node) === null
+        );
+    }
+
+    /** The nearest token from `from` (inclusive of the next one) in `direction`
+     *  whose own view is rendered — i.e. not folded away. Used to re-anchor a
+     *  caret that landed on a hidden token onto the fold's visible boundary. */
+    function nearestVisibleToken(
+        from: Token,
+        direction: -1 | 1,
+    ): Token | undefined {
+        let next: Token | undefined = from;
+        while (next !== undefined && isTokenHidden(next))
+            next = caret?.source.getNextToken(next, direction);
+        return next;
+    }
+
     // Line height only depends on the font (fixed per session), zoom, blocks
     // mode, and writing direction — it does NOT change as the caret moves.
     // Without this cache, every caret update would re-run the line-height
@@ -355,7 +527,12 @@
 
         // If the caret height is invisible, try to find a token before and get its height.
         if (caretHeight === 0) {
-            const before = caret.source.getTokenBefore(currentToken);
+            // Skip tokens folded out of the DOM — their view resolves (via the
+            // ancestor fallback) to the tall folded wrapper, which would give the
+            // caret a giant height.
+            let before = caret.source.getTokenBefore(currentToken);
+            while (before !== undefined && isTokenHidden(before))
+                before = caret.source.getTokenBefore(before);
             const beforeView = before ? getNodeView(before) : undefined;
             caretHeight = beforeView?.getBoundingClientRect().height ?? 0;
         }
@@ -687,8 +864,18 @@
                         }
                     }
 
-                    // No trailing newlines: render at the right edge of the last token.
-                    const lastTokenView = getNodeView(lastToken);
+                    // No trailing newlines: render at the right edge of the last
+                    // token. Skip any folded-out trailing tokens so we measure a
+                    // visible token's view rather than the tall folded wrapper.
+                    let visibleLast: Token | undefined = lastToken;
+                    while (
+                        visibleLast !== undefined &&
+                        isTokenHidden(visibleLast)
+                    )
+                        visibleLast = caret.source.getTokenBefore(visibleLast);
+                    const lastTokenView = visibleLast
+                        ? getNodeView(visibleLast)
+                        : null;
                     if (lastTokenView !== null) {
                         const bounds = lastTokenView.getBoundingClientRect();
                         return {
@@ -719,6 +906,40 @@
 
         // No index to render? No caret.
         if (tokenOffset === undefined) return;
+
+        // Mode A: the caret's own token was folded out of the DOM. Its node-view
+        // would resolve (via the ancestor fallback) to the tall folded wrapper,
+        // misplacing the caret. Re-anchor to the collapsed run's visible boundary.
+        // Prefer the prior visible token, rendered at its END edge — the `…` sits
+        // right after the last visible token, so a hidden-region caret reads as
+        // "at the fold marker" rather than jumping to the next content far below.
+        // Fall back to the next visible token's START only when there's no prior
+        // one (a fold at the very start of the source). Reachable via restored
+        // carets, clicks, and vertical moves; arrows already skip hidden tokens.
+        if (isTokenHidden(token)) {
+            const prior = nearestVisibleToken(token, -1);
+            const renderToken = prior ?? nearestVisibleToken(token, 1);
+            const renderView =
+                renderToken !== undefined ? getNodeView(renderToken) : null;
+            if (renderView === null) return;
+            const rect = renderView.getBoundingClientRect();
+            // Prior token → caret at its trailing edge (just before `…`); forward
+            // fallback → leading edge, as before.
+            const atEnd = prior !== undefined;
+            const edge = atEnd
+                ? leftToRight
+                    ? rect.right
+                    : rect.left
+                : leftToRight
+                  ? rect.left
+                  : rect.right;
+            return {
+                left: edge + viewportXOffset,
+                top: rect.top + viewportYOffset,
+                height: rect.height,
+                bottom: rect.bottom + viewportYOffset,
+            };
+        }
 
         const tokenView = getNodeView(token);
         if (tokenView === null) return;
@@ -796,15 +1017,33 @@
             // Find the right side of token just prior to the current one that has this space.
             let priorToken: Token | undefined = token;
             let priorTokenView: Element | null = null;
+            // Whether the walk back to a visible prior token crossed a fold. When
+            // it does, the prior visible token is many collapsed lines away, so
+            // its rect can't anchor this whitespace — we use the rendered .space
+            // element instead (below).
+            let crossedFold = false;
             do {
                 priorToken = caret.source.getNextToken(priorToken, -1);
-                priorTokenView = priorToken ? getNodeView(priorToken) : null;
+                // Reached the start of source with no visible prior token: leave
+                // priorTokenView null so the editor-start fallback is used (as
+                // before).
+                if (priorToken === undefined) {
+                    priorTokenView = null;
+                    break;
+                }
+                // Folded-out tokens have no view of their own; skip past the whole
+                // collapsed run rather than letting getNodeView resolve them to
+                // the (wrong) folded wrapper.
+                if (isTokenHidden(priorToken)) {
+                    crossedFold = true;
+                    continue;
+                }
+                priorTokenView = getNodeView(priorToken);
                 // We need to make sure the prior token is visible. If we found a visible one,
                 // then stop and compute based on that position.
                 if (
-                    priorToken === undefined ||
-                    (priorTokenView !== null &&
-                        priorTokenView.closest('.hide') === null)
+                    priorTokenView !== null &&
+                    priorTokenView.closest('.hide') === null
                 )
                     break;
             } while (true);
@@ -829,21 +1068,53 @@
                     ? editorHorizontalStart - (!horizontal ? lineHeight : 0)
                     : priorTokenViewRect.left + viewportXOffset;
 
-            // When there's no prior token (the caret is at the very start of
-            // the source), align the caret's top with the current (first)
-            // token's top. Using editorVerticalStart here would add a few
-            // pixels of vertical offset, making position 0 sit lower than
-            // position 1+, which renders at the token's top.
-            let priorTokenTop =
-                priorTokenViewRect === undefined
-                    ? tokenTop
-                    : priorTokenViewRect.top + viewportYOffset;
-
             // 1) Trailing space (the caret is before the first newline)
             if (spaceBefore.indexOfCharacter('\n') < 0) {
                 if (horizontal) {
                     const blocksSpace = blocks && spaceBefore.getLength() > 0;
-                    // For horizontal layout, place the caret to the right of the prior token, {spaces} after.
+                    // Across a fold the nearest visible prior token is many
+                    // collapsed lines away, so its rect can't anchor this space;
+                    // use the measured .space element (as blocks mode does).
+                    if (crossedFold && !blocksSpace) {
+                        const spaceTopAnchor = beforeSpaceTop - viewportRect.top;
+                        return {
+                            left:
+                                beforeSpaceLeft -
+                                viewportRect.left +
+                                beforeSpaceWidth,
+                            top: spaceTopAnchor,
+                            height: caretHeight,
+                            bottom: spaceTopAnchor + caretHeight,
+                        };
+                    }
+                    // The top of the prior visible token's line — the right
+                    // anchor in blocks mode, where the `.space-text` measured by
+                    // beforeSpaceTop is display:none (so its rect is ~0, which
+                    // would pin the caret to the viewport top).
+                    let priorTokenTop: number;
+                    if (priorTokenViewRect !== undefined)
+                        priorTokenTop = priorTokenViewRect.top + viewportYOffset;
+                    else if (explicitSpace.indexOfCharacter('\n') >= 0) {
+                        const spaceRect = viewport
+                            .querySelector(`.space[data-id='${token.id}']`)
+                            ?.getBoundingClientRect();
+                        priorTokenTop =
+                            spaceRect !== undefined
+                                ? spaceRect.top + viewportYOffset
+                                : tokenTop;
+                    } else priorTokenTop = tokenTop;
+
+                    // For horizontal layout, place the caret to the right of the
+                    // prior token, {spaces} after. In TEXT mode anchor the top on
+                    // the measured line top (`.space-text`) — aligns the caret with
+                    // the line box (the blank-line fix). In BLOCKS mode that element
+                    // is hidden, so anchor on the prior token's line instead (and on
+                    // the measured space only when there ARE rendered spaces).
+                    const trailingTop = blocks
+                        ? blocksSpace
+                            ? beforeSpaceTop - viewportRect.top
+                            : priorTokenTop
+                        : beforeSpaceTop - viewportRect.top;
                     return {
                         left: blocksSpace
                             ? beforeSpaceLeft -
@@ -851,11 +1122,9 @@
                               beforeSpaceWidth
                             : priorTokenHorizontalEnd +
                               (leftToRight ? 1 : -1) * beforeSpaceWidth,
-                        top: blocksSpace
-                            ? beforeSpaceTop - viewportRect.top
-                            : priorTokenTop,
+                        top: trailingTop,
                         height: caretHeight,
-                        bottom: priorTokenTop + caretHeight,
+                        bottom: trailingTop + caretHeight,
                     };
                 } else {
                     // For vertical layouts, place the caret to below the prior token, {spaces} after.
@@ -950,7 +1219,15 @@
                             spaceTop = spaceViewTop + offset;
                         }
                     } else {
-                        spaceTop = priorTokenTop + offset;
+                        // Anchor on the MEASURED top of the caret's rendered line
+                        // (the `.space-text` element for this line), like block
+                        // mode measures its `.break` divs. The old arithmetic
+                        // `priorTokenTop + offset` used a glyph-box anchor plus a
+                        // cached lineHeight that underestimates the true line
+                        // spacing, drifting the caret several px too high and
+                        // compounding per blank line (which also broke ArrowDown,
+                        // since the mis-placed caret bar fed the next target y).
+                        spaceTop = beforeSpaceTop - viewportRect.top;
                     }
                     return {
                         left:
@@ -1079,6 +1356,12 @@
            still reads as the "you are here" indicator and isn't
            obscured by the peer's flag or line. */
         z-index: 6;
+        /* The caret bar overlays the very position it marks, so without this a
+           click on it would hit the bar instead of the token/space beneath
+           (elementFromPoint returns the bar), and caret placement would fall
+           through to the end of the token/program. The bar is purely visual;
+           only the menu trigger needs to be clickable (re-enabled below). */
+        pointer-events: none;
     }
 
     .focused,
@@ -1113,6 +1396,9 @@
         position: absolute;
         top: 50%;
         margin-left: -0.25em;
+        /* Re-enable pointer events the .caret container disables, so the menu
+           trigger stays clickable. */
+        pointer-events: auto;
     }
 
     @keyframes blink-animation {

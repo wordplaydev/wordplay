@@ -21,11 +21,16 @@ import { toTokens } from '@parser/toTokens';
 export default class InternalExpression extends SimpleExpression {
     readonly type: Type;
     readonly evaluator: (requestor: Expression, evaluator: Evaluation) => Value;
-    readonly steps: Step[];
+    /**
+     * The body's steps — either a fixed list, or a builder that produces them at
+     * compile time given this node, so a step can reference it (e.g. a loop that
+     * single-steps — see the pattern `≈`/`⌕` functions).
+     */
+    readonly steps: Step[] | ((expr: InternalExpression) => Step[]);
 
     constructor(
         type: Type | string,
-        steps: Step[],
+        steps: Step[] | ((expr: InternalExpression) => Step[]),
         evaluator: (requestor: Expression, evaluator: Evaluation) => Value,
     ) {
         super();
@@ -72,9 +77,11 @@ export default class InternalExpression extends SimpleExpression {
     }
 
     compile(): Step[] {
-        return this.steps.length === 0
+        const steps =
+            typeof this.steps === 'function' ? this.steps(this) : this.steps;
+        return steps.length === 0
             ? [new StartFinish(this)]
-            : [new Start(this), ...this.steps, new Finish(this)];
+            : [new Start(this), ...steps, new Finish(this)];
     }
 
     evaluate(evaluator: Evaluator): Value {

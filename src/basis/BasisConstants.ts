@@ -24,6 +24,7 @@ export type BasisTypeName =
     | 'variable'
     | 'name'
     | 'formatted'
+    | 'pattern'
     | 'internal';
 
 export const StructureTypeName = 'structure';

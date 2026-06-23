@@ -25,7 +25,6 @@ import { toSay } from '@output/Say';
 import { toShape } from '@output/Shape';
 import { toStack } from '@output/Stack';
 import { NameGenerator, toBoolean, toNumber, toStage } from '@output/Stage';
-import type TextLang from '@output/TextLang';
 import { getOutputInputs } from '@output/Valued';
 
 export function toOutput(
@@ -95,8 +94,8 @@ export function getTypeStyle(
 ): {
     size: number | undefined;
     face: SupportedFace | undefined;
-    name: TextLang | undefined;
-    description: TextLang | undefined;
+    name: TextValue | undefined;
+    description: TextValue | undefined;
     selectable: boolean | undefined;
     place: Place | undefined;
     background: Color | undefined;

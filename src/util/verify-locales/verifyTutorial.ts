@@ -12,19 +12,22 @@ import type LocalePath from '@util/verify-locales/LocalePath';
 import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
 import type Log from '@util/verify-locales/Log';
 import TutorialSchema, {
-    DefaultTutorial,
+    getDefaultTutorial,
 } from '@util/verify-locales/TutorialSchema';
 import Validator from '@util/verify-locales/Validator';
 import translate, {
     getGoogleTranslateTargetLocale,
 } from '@util/verify-locales/translate';
 import { Performances } from '../../tutorial/Performances';
+import {
+    DEFAULT_TUTORIAL_MODE,
+    type TutorialMode,
+} from '../../tutorial/TutorialMode';
 import type Tutorial from '../../tutorial/Tutorial';
 import {
-    PerformanceMode,
+    isPerformance,
+    parsePerformance,
     type Dialog,
-    type Line,
-    type PeformanceModeType,
     type Performance,
 } from '../../tutorial/Tutorial';
 
@@ -95,13 +98,6 @@ export async function verifyTutorial(
     return tutorial;
 }
 
-function checkTutorialLineType(line: Line): boolean {
-    return (
-        line !== null &&
-        ['fit', 'fix', 'edit', 'use'].includes((line as Performance)[0])
-    );
-}
-
 async function checkTutorial(
     log: Log,
     locale: LocaleText,
@@ -109,75 +105,35 @@ async function checkTutorial(
 ): Promise<Tutorial> {
     let revised = JSON.parse(JSON.stringify(original)) as Tutorial;
 
-    const programs = revised.acts
-        .map((act) => {
-            const programs = [
-                // Verify act programs
-                ...(checkTutorialLineType(act.performance)
-                    ? [
-                          {
-                              kind: act.performance[0],
-                              list: act.performance.slice(1),
-                          },
-                      ]
-                    : []),
-                // Verify scene programs
-                ...act.scenes
-                    .filter((scene) => checkTutorialLineType(scene.performance))
-                    .map((scene) => {
-                        return {
-                            kind: scene.performance[0],
-                            list: scene.performance.slice(1),
-                        };
-                    })
-                    .flat(),
-                // Verify all programs in the scenes
-                ...act.scenes
-                    // Map act's scenes to lines
-                    .map((scene) => scene.lines)
-                    // Flatten them into a list of lines
-                    .flat()
-                    // Filter out anything that's not code, that has an intentional conflict, or is an performance import
-                    .filter((line): line is Performance =>
-                        checkTutorialLineType(line),
-                    )
-                    // Map the code onto their start source code
-                    .map((performance) => {
-                        return {
-                            kind: performance[0],
-                            list: performance.slice(1),
-                        };
-                    })
-                    .flat(),
-            ];
-            return programs;
-        })
-        .flat();
+    // Every performance in the tutorial: act/scene defaults plus any performance lines.
+    const performances: Performance[] = revised.acts.flatMap((act) => [
+        act.performance,
+        ...act.scenes.map((scene) => scene.performance),
+        ...act.scenes.flatMap((scene) => scene.lines).filter(isPerformance),
+    ]);
 
-    for (const { kind, list } of programs) {
+    for (const performance of performances) {
+        const parsed = parsePerformance(performance);
+        // A program expected to have conflicts isn't analyzed.
+        if (parsed.conflicts) continue;
+
         let code: string | undefined = undefined;
-        let conflictsIntentional = false;
-        // If it's a Performance import, get it's code. Otherwise, join lines.
-        if (kind === 'use') {
-            conflictsIntentional = list[0] === 'conflict';
-            const name = list[1];
-            const inputs = list.slice(2);
+        // A template reference resolves to its program; otherwise use the literal code.
+        if (typeof parsed.code === 'string') code = parsed.code;
+        else {
             const fun = (
                 Performances as Record<
                     string,
                     ((...input: string[]) => string) | undefined
                 >
-            )[name];
-
+            )[parsed.code.name];
             if (fun === undefined)
                 log.bad(
                     2,
-                    `use ${name} doesn't exist in Performances. Is it misspelled or missing?`,
+                    `#${parsed.code.name} doesn't exist in Performances. Is it misspelled or missing?`,
                 );
-            else {
-                code = fun(...inputs);
-            }
-        } else code = list.join('\n');
+            else code = fun(...parsed.code.inputs);
+        }
         if (code) {
             const result = analyzeTutorialCode(code, locale);
             if (result.error)
@@ -185,7 +141,7 @@ async function checkTutorial(
                     2,
                     `Unable to create project and check for conflicts tutorial code: ${code}.\n${result.error}`,
                 );
-            else if (!conflictsIntentional && result.conflicts.length > 0)
+            else if (result.conflicts.length > 0)
                 log.bad(
                     2,
                     `Found conflicts ${result.conflicts.join(',')} in program: ${code.substring(0, 100)}...`,
@@ -202,8 +158,8 @@ async function checkTutorial(
                 .map((scene) => scene.lines)
                 // Flatten them into a list of lines
                 .flat()
-                // Keep all dialog that aren't null
-                .filter((line): line is Dialog => line !== null)
+                // Keep dialog lines (arrays); performances are objects, pauses are null.
+                .filter((line): line is Dialog => Array.isArray(line))
                 // Map each line of dialog to a flat list of concepts in the dialog
                 .map((line) => {
                     return parseDoc(
@@ -246,13 +202,31 @@ async function checkTutorial(
             `Tutorial: ${automated.length} machine translated ("${MachineTranslated}") strings to review.`,
         );
 
+    // Unwritten ("$?") strings fall back to English at runtime. Fail in CI so
+    // they never reach production — they should be machine translated first.
+    const unwritten = pairs.filter(({ value }) =>
+        typeof value === 'string'
+            ? isUnwritten(value)
+            : value.some((s) => isUnwritten(s)),
+    );
+
+    if (unwritten.length > 0)
+        log.bad(
+            2,
+            `Tutorial: ${unwritten.length} unwritten ("${Unwritten}") string(s) would fall back to English. Run "npm run locales-translate" to fill them.`,
+        );
+
     return revised;
 }
 
-/** Create a copy of the default tutorial with all dialog marked unwritten */
-export function createUnwrittenTutorial(): Tutorial {
-    // Deep copy default tutorial
-    let tutorial = JSON.parse(JSON.stringify(DefaultTutorial)) as Tutorial;
+/** Create a copy of the default (en-US) tutorial for a mode, with all dialog marked unwritten */
+export function createUnwrittenTutorial(
+    mode: TutorialMode = DEFAULT_TUTORIAL_MODE,
+): Tutorial {
+    // Deep copy default tutorial for this mode
+    let tutorial = JSON.parse(
+        JSON.stringify(getDefaultTutorial(mode)),
+    ) as Tutorial;
 
     // Find the translatable pairs
     const pairs = getTranslatableTutorialPairs(tutorial);
@@ -365,7 +339,8 @@ export function getTranslatableTutorialPairs(tutorial: Tutorial): LocalePath[] {
         // Title or subtitle? We should translate these.
         if (path.endsWith('title') || path.endsWith('subtitle')) return true;
 
-        // The third element of an array in a line array whose first element is not one of the performance mode changes? We should translate these.
+        // A string at index ≥ 2 of a dialog line (a Dialog is an array; performances are objects, so
+        // their code/template strings are never reached here). Translate these.
         const linesIndex = path.path.indexOf('lines');
 
         // If this is a line value, and the next key is an index into its list of lines and the current key is 2, the dialog, then translate it.
@@ -376,11 +351,7 @@ export function getTranslatableTutorialPairs(tutorial: Tutorial): LocalePath[] {
             path.key >= 2
         ) {
             const parent = path.parent().resolve(tutorial);
-            if (
-                Array.isArray(parent) &&
-                !PerformanceMode.includes(parent[0] as PeformanceModeType)
-            )
-                return true;
+            if (Array.isArray(parent)) return true;
         }
 
         return false;

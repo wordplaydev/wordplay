@@ -1,5 +1,6 @@
 import { Sym, type SymType } from '@nodes/Sym';
 import Token from '@nodes/Token';
+import type { KeywordIndex } from '@parser/Keywords';
 import { withoutVariationSelectors } from '@unicode/emoji';
 import ReservedSymbols from '@parser/ReservedSymbols';
 import {
@@ -28,6 +29,7 @@ import {
     EVAL_CLOSE_SYMBOL_FULL,
     EVAL_OPEN_SYMBOL,
     EVAL_OPEN_SYMBOL_FULL,
+    EXPONENT_SYMBOL,
     EXTRA_SYMBOL,
     FALSE_SYMBOL,
     FORMATTED_SYMBOL,
@@ -55,6 +57,19 @@ import {
     NONE_SYMBOL,
     NOT_SYMBOL,
     OR_SYMBOL,
+    PATTERN_AHEAD_SYMBOL,
+    PATTERN_ANY_SYMBOL,
+    PATTERN_BEHIND_SYMBOL,
+    PATTERN_DELIMITER_SYMBOL,
+    PATTERN_END_SYMBOL,
+    PATTERN_FOLD_SYMBOL,
+    PATTERN_LETTER_SYMBOL,
+    PATTERN_RANGE_SYMBOL,
+    PATTERN_REST_SYMBOL,
+    PATTERN_SPACE_SYMBOL,
+    PATTERN_START_SYMBOL,
+    PATTERN_WORD_SYMBOL,
+    PATTERN_WORDEDGE_SYMBOL,
     PLACEHOLDER_SYMBOL,
     PREVIOUS_SYMBOL,
     PRODUCT_SYMBOL,
@@ -63,6 +78,7 @@ import {
     THIS_SYMBOL,
     QUESTION_SYMBOL,
     QUESTION_SYMBOL_FULL,
+    REMAINDER_SYMBOL,
     SELECT_SYMBOL,
     SET_CLOSE_SYMBOL,
     SET_CLOSE_SYMBOL_FULL,
@@ -91,7 +107,7 @@ import TokenList from '@parser/TokenList';
 import { toTokens } from '@parser/toTokens';
 
 const TEXT_SEPARATORS = '\'‘’"“”„«»‹›「」『』';
-const OPERATORS = `${NOT_SYMBOL}\\-\\^${SUM_SYMBOL}\\${DIFFERENCE_SYMBOL}${PRODUCT_SYMBOL}${DOT_SYMBOL}÷%<≤=≠≥>&|~?\\u2200-\\u22FF\\u2A00-\\u2AFF\\u2190-\\u21FF\\u27F0-\\u27FF\\u2900-\\u297F`;
+const OPERATORS = `${NOT_SYMBOL}\\-\\^${SUM_SYMBOL}\\${DIFFERENCE_SYMBOL}${PRODUCT_SYMBOL}${DOT_SYMBOL}÷%<≤=≠≥>&|~?\\u2200-\\u22FF\\u2A00-\\u2AFF\\u2190-\\u21FF\\u27F0-\\u27FF\\u2900-\\u297F\\u2315`;
 
 export const OperatorRegEx = new RegExp(`^[${OPERATORS}]`, 'u');
 export const StrictURLRegEx = new RegExp(
@@ -187,6 +203,29 @@ export const NameRegExPattern = `[^\n\t ${ReservedSymbols.map((s) =>
 /** The regex expression prepends a start of string modifier. */
 const NameRegEx = new RegExp(`^${NameRegExPattern}`, 'u');
 
+/**
+ * Names inside a pattern literal (captures, backrefs, property values) must
+ * also stop at the pattern delimiters and atom glyphs, which are not reserved
+ * in normal code. So this excludes those in addition to the usual reserved
+ * symbols, operators, and text separators.
+ */
+// The character class (without leading `^[`) of everything that ends a pattern name. Note this
+// deliberately excludes PATTERN_FOLD_SYMBOL: fold is written `Aa`, letters which ARE valid name
+// characters, so it can't be a name terminator — it's matched as its own bounded token instead.
+const PatternNameExclusion = `\n\t ${ReservedSymbols.map((s) =>
+    escapeRegexCharacter(s),
+).join(
+    '',
+)}${TEXT_SEPARATORS}${OPERATORS}${PATTERN_DELIMITER_SYMBOL}${PATTERN_ANY_SYMBOL}${PATTERN_LETTER_SYMBOL}${MEASUREMENT_SYMBOL}${PATTERN_SPACE_SYMBOL}${PATTERN_REST_SYMBOL}${PATTERN_WORD_SYMBOL}${PATTERN_WORDEDGE_SYMBOL}${PATTERN_START_SYMBOL}${PATTERN_END_SYMBOL}${PATTERN_AHEAD_SYMBOL}${PATTERN_BEHIND_SYMBOL}${PATTERN_RANGE_SYMBOL}`;
+const PatternNameRegEx = new RegExp(`^[^${PatternNameExclusion}]+`, 'u');
+// `Aa` (the case-fold keyword) only when it is NOT immediately followed by another name character, so
+// a capture/property name like `Aardvark` reads as a single name rather than `Aa` + `rdvark`. Fold is
+// always followed by `(` or `/lang`, both of which are name terminators, so this never rejects valid use.
+const PatternFoldRegEx = new RegExp(
+    `^${PATTERN_FOLD_SYMBOL}(?![^${PatternNameExclusion}])`,
+    'u',
+);
+
 export function isName(name: string) {
     const tokens = toTokens(name);
     return (
@@ -201,6 +240,14 @@ function escapeRegexCharacter(c: string) {
 type TokenPattern = { pattern: string | RegExp; types: SymType[] };
 
 const CodePattern = { pattern: CODE_SYMBOL, types: [Sym.Code] };
+/** A foreign-language code block in markup: one or more `\<tag>| <code>` variants terminated by a
+ * final `\`, e.g. `\py| a = 5\js| let a = 5;\`. The `<tag>|` lead distinguishes it from a Wordplay
+ * Example (`\code\`); any lowercase tag is accepted. Captured verbatim, so foreign code never
+ * enters the Wordplay tokenizer (it cannot itself contain a `\`). */
+const ExternalExamplePattern = {
+    pattern: /^\\[a-z]+\|[^\\]*(?:\\[a-z]+\|[^\\]*)*\\/,
+    types: [Sym.ExternalExample],
+};
 const FormattedPattern = {
     pattern: new RegExp(`^[${FORMATTED_SYMBOL}${FORMATTED_SYMBOL_FULL}]`, 'u'),
     types: [Sym.Formatted],
@@ -252,6 +299,7 @@ const CodeTokenPatterns: TokenPattern[] = [
     { pattern: UPDATE_SYMBOL, types: [Sym.Update] },
     { pattern: TABLE_OPEN_SYMBOL, types: [Sym.TableOpen] },
     { pattern: TABLE_CLOSE_SYMBOL, types: [Sym.TableClose] },
+    { pattern: PATTERN_DELIMITER_SYMBOL, types: [Sym.PatternDelimiter] },
     {
         pattern: new RegExp(`^[${BIND_SYMBOL}${BIND_SYMBOL_FULL}]`, 'u'),
         types: [Sym.Bind],
@@ -429,6 +477,12 @@ const CodeTokenPatterns: TokenPattern[] = [
     // - Supplementary operators: U+2A00–U+2AFF
     // - Arrows: U+2190–U+21FF, U+27F0–U+27FF, U+2900–U+297F
     // - Basic latin operators: +-×·÷%^<≤=≠≥>&|
+    // These three are operators (so they keep Sym.Operator first), but also carry a
+    // second candidate type so unit/type parsing can match them by Sym rather than
+    // by operator text. They must precede the generic operator rule to win.
+    { pattern: EXPONENT_SYMBOL, types: [Sym.Operator, Sym.Exponent] },
+    { pattern: DOT_SYMBOL, types: [Sym.Operator, Sym.Product] },
+    { pattern: REMAINDER_SYMBOL, types: [Sym.Operator, Sym.Percent] },
     { pattern: OperatorRegEx, types: [Sym.Operator] },
     { pattern: FORMATTED_TYPE_SYMBOL, types: [Sym.FormattedType] },
     { pattern: '`...`', types: [Sym.FormattedType] },
@@ -438,6 +492,158 @@ const CodeTokenPatterns: TokenPattern[] = [
     // All other tokens are names, which are sequences of Unicode characters that are not one of the reserved symbols above or whitespace.
     { pattern: NameRegEx, types: [Sym.Name] },
 ];
+
+export const TextCloseByTextOpen: Record<string, string> = {
+    '"': '"',
+    '“': '”',
+    '„': '“',
+    "'": "'",
+    '‘': '’',
+    '‹': '›',
+    '«': '»',
+    '「': '」',
+    '『': '』',
+    '`': '`',
+};
+
+/**
+ * Inside a pattern, a quoted literal is RAW (LANGUAGE.md): the whole
+ * `‹open›…‹close›` span is a single {@link Sym.PatternText} token with no markup,
+ * no embedded expressions, no `/lang` tag, and no multiple translations — and no
+ * escaping (choose a delimiter the text doesn't contain). One closed rule per
+ * delimiter, then an unclosed fallback that stops at the pattern close `⣿` or a
+ * newline so a missing close doesn't swallow the rest of the pattern.
+ */
+const PatternTextPatterns: TokenPattern[] = Object.entries(
+    TextCloseByTextOpen,
+).flatMap(([open, close]) => {
+    const o = escapeRegexCharacter(open);
+    const c = escapeRegexCharacter(close);
+    const stop = escapeRegexCharacter(PATTERN_DELIMITER_SYMBOL);
+    return [
+        {
+            pattern: new RegExp(`^${o}[^${c}]*${c}`, 'u'),
+            types: [Sym.PatternText],
+        },
+        {
+            pattern: new RegExp(`^${o}[^${c}${stop}\\n]*`, 'u'),
+            types: [Sym.PatternText],
+        },
+    ];
+});
+
+/**
+ * Token patterns used only inside a pattern literal ⣿ … ⣿ (see LANGUAGE.md).
+ * Inside the pattern body, several glyphs that mean something else in normal
+ * code are reinterpreted as pattern atoms/operators (e.g. `_`→letter,
+ * `#`→digit, `…`→rest, `~`→complement, `|`→alternation, the inequalities →
+ * quantifiers). Raw literal text (`"…"`), names (captures/backrefs/properties),
+ * numbers (counts), language tags (`/lang`), sets (`{}`) and groups (`()`)
+ * still tokenize with the normal sub-rules. The pattern-specific glyphs come
+ * first so they win over the reused code rules.
+ */
+const PatternTokenPatterns: TokenPattern[] = [
+    // The closing ⣿ must win over the reused code/atom rules so it ends the
+    // pattern rather than being read as body content.
+    { pattern: PATTERN_DELIMITER_SYMBOL, types: [Sym.PatternDelimiter] },
+    // An Example span's closing `\` ends the example even when a pattern inside
+    // it is still open (`\⣿…\`), the way other delimited values may be left
+    // unclosed in markup. `\` is never valid pattern content, so recognizing it
+    // here lets the example close (popping the unclosed pattern) so the parser
+    // can SHOW the malformed pattern rather than the lexer swallowing the `\`.
+    CodePattern,
+    { pattern: PATTERN_ANY_SYMBOL, types: [Sym.PatternAny] },
+    // `_` is the letter class, but is also the multilingual join inside a `/lang`
+    // tag (e.g. `▭/es_en`); parseLanguage only consumes it when directly
+    // adjacent, so the two readings don't collide.
+    {
+        pattern: PATTERN_LETTER_SYMBOL,
+        types: [Sym.PatternLetter, Sym.LanguageJoin],
+    },
+    // `-` is the region subtag separator inside a `/lang` tag (e.g. `en-US`),
+    // but also a convenient typed-in alias for the range dash `–`, so `3-5` and
+    // `"a"-"z"` work without the en-dash. The parser disambiguates by position:
+    // a quantifier/range reads PatternRange, a language tag reads Region.
+    { pattern: '-', types: [Sym.PatternRange, Sym.Region] },
+    { pattern: MEASUREMENT_SYMBOL, types: [Sym.PatternDigit] },
+    { pattern: PATTERN_SPACE_SYMBOL, types: [Sym.PatternSpace] },
+    { pattern: PATTERN_REST_SYMBOL, types: [Sym.PatternRest] },
+    { pattern: PATTERN_WORD_SYMBOL, types: [Sym.PatternWord] },
+    { pattern: PATTERN_WORDEDGE_SYMBOL, types: [Sym.PatternWordEdge] },
+    { pattern: PATTERN_START_SYMBOL, types: [Sym.PatternStart] },
+    { pattern: PATTERN_END_SYMBOL, types: [Sym.PatternEnd] },
+    { pattern: PATTERN_AHEAD_SYMBOL, types: [Sym.PatternAhead] },
+    { pattern: PATTERN_BEHIND_SYMBOL, types: [Sym.PatternBehind] },
+    { pattern: PatternFoldRegEx, types: [Sym.PatternFold] },
+    { pattern: PATTERN_RANGE_SYMBOL, types: [Sym.PatternRange] },
+    { pattern: NOT_SYMBOL, types: [Sym.PatternComplement] },
+    { pattern: OR_SYMBOL, types: [Sym.PatternAlternation] },
+    // Quantifier inequalities; the two-glyph forms come before the one-glyph ones.
+    { pattern: '≥', types: [Sym.PatternGreaterEqual] },
+    { pattern: '≤', types: [Sym.PatternLessEqual] },
+    { pattern: '>', types: [Sym.PatternGreater] },
+    { pattern: '<', types: [Sym.PatternLess] },
+    { pattern: '=', types: [Sym.PatternEqual] },
+    // Reused code sub-rules: language/property slash, capture bind, sets, groups.
+    { pattern: LANGUAGE_SYMBOL, types: [Sym.Language] },
+    {
+        pattern: new RegExp(`^[${BIND_SYMBOL}${BIND_SYMBOL_FULL}]`, 'u'),
+        types: [Sym.Bind],
+    },
+    {
+        pattern: new RegExp(
+            `^[${SET_OPEN_SYMBOL}${SET_OPEN_SYMBOL_FULL}]`,
+            'u',
+        ),
+        types: [Sym.SetOpen],
+    },
+    {
+        pattern: new RegExp(
+            `^[${SET_CLOSE_SYMBOL}${SET_CLOSE_SYMBOL_FULL}]`,
+            'u',
+        ),
+        types: [Sym.SetClose],
+    },
+    {
+        pattern: new RegExp(
+            `^[${EVAL_OPEN_SYMBOL}${EVAL_OPEN_SYMBOL_FULL}]`,
+            'u',
+        ),
+        types: [Sym.EvalOpen],
+    },
+    {
+        pattern: new RegExp(
+            `^[${EVAL_CLOSE_SYMBOL}${EVAL_CLOSE_SYMBOL_FULL}]`,
+            'u',
+        ),
+        types: [Sym.EvalClose],
+    },
+    // Raw literal text: each `‹open›…‹close›` span is one PatternText token.
+    ...PatternTextPatterns,
+    // Counts are non-negative ASCII integers.
+    { pattern: /^[0-9]+/, types: [Sym.Number, Sym.Decimal] },
+    // Capture, backref, and property names.
+    { pattern: PatternNameRegEx, types: [Sym.Name] },
+];
+
+/**
+ * The glyph to insert to produce each pattern token, keyed by Sym. Most Sym
+ * values ARE their glyph, but the pattern glyphs (`|`, `~`, `_`, `#`, `…`, the
+ * inequalities, …) are reinterpreted inside `⣿ ⣿` and already name other Syms
+ * (`Union`, `Light`, `Placeholder`, …), so their pattern Sym values are unique
+ * placeholders like `'pattern.or'`. Autocomplete must insert the real glyph, not
+ * the placeholder — otherwise picking "alternation" inserts the literal text
+ * `pattern.or`, which can't tokenize. Derived from the single source of truth
+ * ({@link PatternTokenPatterns}); string patterns only (regex rules describe
+ * character classes, not a single insertable glyph). See PossibleEdits.
+ */
+export const PatternSymbolGlyphs: ReadonlyMap<SymType, string> = new Map(
+    PatternTokenPatterns.flatMap((p) =>
+        typeof p.pattern === 'string'
+            ? p.types.map((sym): [SymType, string] => [sym, p.pattern as string])
+            : [],
+    ),
+);
 
 /**
  * Multi-codepoint literal token strings the tokenizer recognizes, paired with
@@ -480,10 +686,52 @@ export const LiteralMultiCharTokens: ReadonlyArray<{
 // period after a link (e.g. `see @Color.`) is left as punctuation.
 export const ConceptRegExPattern = `${LINK_SYMBOL}(?!(https?)?://)([0-9a-fA-F]{2,6}(?!${NameRegExPattern})|${NameRegExPattern}([./]${NameRegExPattern})?)`;
 
+/** A global matcher for finding character references inside plain text, so
+ *  references (e.g. @amy/cat or @1F600) are tokenized as concept tokens there
+ *  too (see #773). */
+const ConceptInTextRegEx = new RegExp(ConceptRegExPattern, 'gu');
+
+/** Characters that make up an email local part. An `@` that directly follows
+ *  one of these looks like the boundary in an email address (e.g. the `@` in
+ *  jdoe@example.com), so we don't treat such an `@` as a reference unless the
+ *  reference is unambiguous (see below). This set is deliberately ASCII-only so
+ *  the rule works across all scripts: in languages that don't separate words
+ *  with spaces (e.g. Chinese, Japanese, Thai), a reference can directly follow
+ *  text — only an ASCII email-like prefix is treated specially. */
+const EmailLocalPartChar = /[A-Za-z0-9._%+-]/;
+
+/** Find the next character reference in plain text. Returns its start index and
+ *  matched text, or undefined if there is none. A reference is recognized when
+ *  it is at a boundary (start of text, after whitespace, after punctuation, or
+ *  after non-ASCII text) OR when it uses a `/` separator (e.g. @username/char,
+ *  @UI/x). The `/` form disambiguates from email addresses — whose domain never
+ *  contains a `/` — so character references work mid-word in Latin scripts too
+ *  (e.g. `hi@amy/cat`), while emails like jdoe@example.com stay literal text. */
+function findCharacterReference(
+    source: string,
+): { index: number; text: string } | undefined {
+    for (const match of source.matchAll(ConceptInTextRegEx)) {
+        const index = match.index ?? 0;
+        const preceding = index === 0 ? undefined : source[index - 1];
+        // A `@` preceded by another `@` is an escaped literal `@@`, not a
+        // reference, so the whole run stays one token for `unescaped` to fold.
+        if (preceding === '@') continue;
+        if (
+            preceding === undefined ||
+            !EmailLocalPartChar.test(preceding) ||
+            match[0].includes('/')
+        )
+            return { index, text: match[0] };
+    }
+    return undefined;
+}
+
 /** Valid tokens inside of markup. */
 const MarkupTokenPatterns = [
     DocPattern,
     FormattedPattern,
+    // Must precede CodePattern so `\tag| …\` matches as one token rather than a bare `\` Code token.
+    ExternalExamplePattern,
     CodePattern,
     ListOpenPattern,
     ListClosePattern,
@@ -517,19 +765,6 @@ const MarkupTokenPatterns = [
     { pattern: OR_SYMBOL, types: [Sym.Union] },
 ];
 
-export const TextCloseByTextOpen: Record<string, string> = {
-    '"': '"',
-    '“': '”',
-    '„': '“',
-    "'": "'",
-    '‘': '’',
-    '‹': '›',
-    '«': '»',
-    '「': '」',
-    '『': '』',
-    '`': '`',
-};
-
 export const TextOpenByTextClose: Record<string, string> = {};
 for (const [open, close] of Object.entries(TextCloseByTextOpen))
     TextOpenByTextClose[close] = open;
@@ -550,6 +785,8 @@ DelimiterCloseByOpen[SET_OPEN_SYMBOL_FULL] = SET_CLOSE_SYMBOL_FULL;
 DelimiterCloseByOpen[TYPE_OPEN_SYMBOL] = TYPE_CLOSE_SYMBOL;
 DelimiterCloseByOpen[TYPE_OPEN_SYMBOL_FULL] = TYPE_CLOSE_SYMBOL_FULL;
 DelimiterCloseByOpen[TABLE_OPEN_SYMBOL] = TABLE_CLOSE_SYMBOL;
+// ⣿ closes itself (one toggling delimiter, like a text quote or `\…\` code).
+DelimiterCloseByOpen[PATTERN_DELIMITER_SYMBOL] = PATTERN_DELIMITER_SYMBOL;
 DelimiterCloseByOpen[CODE_SYMBOL] = CODE_SYMBOL;
 DelimiterCloseByOpen[DOCS_SYMBOL] = DOCS_SYMBOL;
 DelimiterCloseByOpen[ELISION_SYMBOL] = ELISION_SYMBOL;
@@ -560,6 +797,8 @@ PairedCloseDelimiters.add(LIST_CLOSE_SYMBOL);
 PairedCloseDelimiters.add(SET_CLOSE_SYMBOL);
 PairedCloseDelimiters.add(TYPE_CLOSE_SYMBOL);
 PairedCloseDelimiters.add(TABLE_CLOSE_SYMBOL);
+// ⣿ is intentionally NOT a paired close delimiter — it's self-toggling (its
+// open and close are the same glyph), handled like the code/docs self-delimiters.
 
 for (const symbol of FormattingSymbols) DelimiterCloseByOpen[symbol] = symbol;
 
@@ -577,7 +816,7 @@ export function tokens(source: string): Token[] {
     return tokenize(source).getTokens();
 }
 
-export function tokenize(source: string): TokenList {
+export function tokenize(source: string, keywords?: KeywordIndex): TokenList {
     // First, strip any carriage returns. We only work with line feeds.
     source = source.replaceAll('\r', '');
 
@@ -624,7 +863,7 @@ export function tokenize(source: string): TokenList {
 
         // Tokenize the next token. We tokenize in documentation mode if we're inside a doc and the eval depth
         // has not changed since we've entered.
-        const stuff = getNextToken(source, context);
+        const stuff = getNextToken(source, context, keywords);
 
         // Did the next token pull out some unexpected space? Override the space. Apply the elision.
         const nextToken = Array.isArray(stuff) ? stuff[0] : stuff;
@@ -647,10 +886,21 @@ export function tokenize(source: string): TokenList {
 
         // If the token was a code open symbol...
         if (nextToken.isSymbol(Sym.Code)) {
-            // And there's a code context open, close it
-            if (context.length > 0 && context[0].isSymbol(Sym.Code))
-                context.shift();
-            // Otherwise open one.
+            // Walk down to the nearest Code, skipping an unclosed pattern
+            // context (`⣿…`) on the way: a pattern is a lexical mode like text,
+            // so an Example span may close (`\`) while a pattern inside it is
+            // still open. Closing the example pops that unclosed pattern too,
+            // leaving it for the parser to flag (so docs can SHOW a malformed
+            // pattern). If no Code is reachable, this `\` opens one instead.
+            let codeAt = -1;
+            for (let i = 0; i < context.length; i++) {
+                if (context[i].isSymbol(Sym.Code)) {
+                    codeAt = i;
+                    break;
+                }
+                if (!context[i].isSymbol(Sym.PatternDelimiter)) break;
+            }
+            if (codeAt >= 0) context.splice(0, codeAt + 1);
             else context.unshift(nextToken);
         }
         // If the token we encountered a doc...
@@ -697,6 +947,17 @@ export function tokenize(source: string): TokenList {
             // Otherwise open one
             else context.unshift(nextToken);
         }
+        // A pattern is delimited by a single ⣿ on both ends, so it toggles like
+        // a text/code context: if a pattern context is open, this ⣿ closes it;
+        // otherwise it opens one (so the body tokenizes with PatternTokenPatterns).
+        else if (nextToken.isSymbol(Sym.PatternDelimiter)) {
+            if (
+                context.length > 0 &&
+                context[0].isSymbol(Sym.PatternDelimiter)
+            )
+                context.shift();
+            else context.unshift(nextToken);
+        }
     }
 
     // If there's nothing left -- or nothing but space -- and the last token isn't a already end token, add one, and remember the space before it.
@@ -712,6 +973,7 @@ export function tokenize(source: string): TokenList {
 function getNextToken(
     source: string,
     context: Token[],
+    keywords?: KeywordIndex,
 ): Token | [Token, string | undefined] {
     // If there's nothing left after trimming source, return an end of file token.
     if (source.length === 0) return new Token('', Sym.End);
@@ -726,23 +988,31 @@ function getNextToken(
         // If we're in text, keep reading until the next code open, text close, end of line, or end of source,
         // then make a words token.
         if (container.isSymbol(Sym.Text)) {
-            // Find the closest code, text close, or end of line
+            // Find the closest code, text close, end of line, or character reference.
             // For code, we want a standalone code open not preceded or followed by another.
             const codeIndex = source.match(/(?<!\\)\\(?!\\)/)?.index ?? -1;
             const closeIndex = source.indexOf(
                 TextCloseByTextOpen[container.getText()],
             );
             const lineIndex = source.indexOf('\n');
+            // Custom-character references (e.g. @amy/cat or @1F600) are tokenized as
+            // concept tokens inside plain text too (#773), so the parser can build a
+            // ConceptLink. We only treat a reference at a word boundary as one (see
+            // findCharacterReference). Stop the words token at the next reference, and
+            // emit a concept token when the text begins with one.
+            const conceptRef = findCharacterReference(source);
+            const conceptIndex = conceptRef?.index ?? -1;
             const stopIndex = Math.min(
                 codeIndex < 0 ? Number.POSITIVE_INFINITY : codeIndex,
                 closeIndex < 0 ? Number.POSITIVE_INFINITY : closeIndex,
                 lineIndex < 0 ? Number.POSITIVE_INFINITY : lineIndex,
+                conceptIndex < 0 ? Number.POSITIVE_INFINITY : conceptIndex,
             );
 
             // If we ended this text with a newline, then shift out of the context.
             if (stopIndex === lineIndex) context.shift();
 
-            // If we found more than one words characters, make a word token for the text.
+            // If we found some words characters before the next stop, make a words token.
             if (stopIndex > 0)
                 return new Token(
                     source.substring(
@@ -753,6 +1023,9 @@ function getNextToken(
                     ),
                     Sym.Words,
                 );
+            // If the text begins with a character reference, emit a concept token.
+            else if (conceptIndex === 0 && conceptRef)
+                return new Token(conceptRef.text, Sym.Concept);
             // Otherwise, read any preceding space for the next token, and tokenize whatever comes next.
             else {
                 space = getNextSpace(source);
@@ -782,8 +1055,15 @@ function getNextToken(
         }
     }
 
-    // Choose a set of patterns to tokenize.
-    const patterns = inMarkup ? MarkupTokenPatterns : CodeTokenPatterns;
+    // Choose a set of patterns to tokenize. Inside a pattern literal ⣿ … ⣿
+    // (and not inside a nested text literal), the body uses pattern rules.
+    const inPattern =
+        context.length > 0 && context[0].isSymbol(Sym.PatternDelimiter);
+    const patterns = inMarkup
+        ? MarkupTokenPatterns
+        : inPattern
+          ? PatternTokenPatterns
+          : CodeTokenPatterns;
 
     // See if one of the global token patterns matches.
     for (let i = 0; i < patterns.length; i++) {
@@ -800,15 +1080,37 @@ function getNextToken(
             // 1) It's _not_ a text close, or
             // 2) It is, but there are either no open templates (syntax error!), or
             // 3) There is an open template and it's the closing delimiter matches the current open text delimiter.
-            if (match !== null)
+            if (match !== null) {
+                // Localized keyword input: when a name-run exactly equals an active keyword word for
+                // the current context (code or pattern), lex it as a DUAL-TYPE token carrying both
+                // Sym.Name and the keyword's canonical Sym(s). The recursive-descent parser then picks
+                // by position — the keyword where the grammar expects one (e.g. ƒ), a plain name
+                // elsewhere — so a binding named e.g. `número` still works (it merely shadows the
+                // keyword). The typed word is preserved as the token's text. See LANGUAGE.md.
+                if (
+                    keywords !== undefined &&
+                    !inMarkup &&
+                    pattern.types.length === 1 &&
+                    pattern.types[0] === Sym.Name
+                ) {
+                    const entry = (
+                        inPattern ? keywords.pattern : keywords.code
+                    ).get(match[0]);
+                    if (entry !== undefined)
+                        return [
+                            new Token(match[0], [Sym.Name, ...entry.types]),
+                            space,
+                        ];
+                }
                 return [new Token(match[0], pattern.types), space];
+            }
         }
     }
 
     // Otherwise, we fail and return an error token that contains all of the text until the next recognizable token.
     // This is a recursive call: it tries to tokenize the next character, skipping this one, going all the way to the
     // end of the source if necessary, but stopping at the nearest recognizable token. Consume at least one symbol.
-    const stuff = getNextToken(source.substring(1), context);
+    const stuff = getNextToken(source.substring(1), context, keywords);
     const next = Array.isArray(stuff) ? stuff[0] : stuff;
     const end = next.isSymbol(Sym.End)
         ? source.length

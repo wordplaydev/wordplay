@@ -20,12 +20,18 @@ import Assign from '@edit/revision/Assign';
 import Replace from '@edit/revision/Replace';
 import type Revision from '@edit/revision/Revision';
 import { getEditsAt } from '@edit/menu/PossibleEdits';
+import PatternClass from '@nodes/PatternClass';
+import PatternQuantifier from '@nodes/PatternQuantifier';
 import Language from '@nodes/Language';
 import Token from '@nodes/Token';
 import { Sym } from '@nodes/Sym';
 import Dimension from '@nodes/Dimension';
 import Reference from '@nodes/Reference';
 import ListLiteral from '@nodes/ListLiteral';
+import ConceptLink from '@nodes/ConceptLink';
+import FormattedLiteral from '@nodes/FormattedLiteral';
+import FormattedTranslation from '@nodes/FormattedTranslation';
+import Markup from '@nodes/Markup';
 
 test.each([
     ['blank programs suggest numbers', '**', undefined, Append, '0'],
@@ -242,7 +248,6 @@ test.each([
                 resolvedPosition,
                 undefined,
                 undefined,
-                undefined,
             );
             const transforms = getEditsAt(
                 project,
@@ -282,6 +287,206 @@ test.each([
     },
 );
 
+test('pattern token suggestions insert real glyphs, not placeholder Sym values', () => {
+    // Inside a pattern, several glyphs are reinterpreted and carry placeholder
+    // Sym values (e.g. Sym.PatternAlternation = 'pattern.or'). Autocomplete must
+    // insert the glyph (`|`), never the placeholder text — which can't tokenize
+    // and corrupts the program. Regression for the "pattern.or" suggestion bug.
+    const code = "'x' ⌕ ⣿ >0 #⣿";
+    const source = new Source('test', code);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    // A caret just after the `#` atom inside the pattern body.
+    const caret = new Caret(source, code.indexOf('#') + 1, undefined, undefined);
+    const transforms = getEditsAt(project, caret, undefined, DefaultLocales);
+    const inserted = transforms
+        .map((t) => t.getNewNode(DefaultLocales)?.toWordplay())
+        .filter((s): s is string => s !== undefined);
+
+    // No suggestion may leak a placeholder Sym value.
+    for (const text of inserted)
+        expect(
+            text.startsWith('pattern.'),
+            `suggestion ${JSON.stringify(text)} leaked a placeholder Sym value`,
+        ).toBe(false);
+    // The alternation atom is offered as the real glyph.
+    expect(inserted).toContain('|');
+});
+
+test('the full pattern atom palette is reachable from the autocomplete menu', () => {
+    // The whole regular-expression grammar must be constructible from the menu
+    // alone (in either mode). Check the three positions that previously offered
+    // nothing/too little: an empty pattern, a quantifier missing its atom, and
+    // after an existing atom.
+    function suggestionsAt(code: string, pos: number): string[] {
+        const source = new Source('test', code);
+        const project = Project.make(null, 'test', source, [], DefaultLocale);
+        return getEditsAt(
+            project,
+            new Caret(source, pos, undefined, undefined),
+            undefined,
+            DefaultLocales,
+        )
+            .map((r) => r.getNewNode(DefaultLocales)?.toWordplay())
+            .filter((s): s is string => s !== undefined);
+    }
+
+    // Inside an empty `⣿⣿`: the whole atom palette (each as a one-item sequence).
+    const empty = suggestionsAt("'x' ≈ ⣿⣿", "'x' ≈ ⣿".length);
+    for (const glyph of ['◌', '#', '""', '(◌)', '{◌}', '…'])
+        expect(empty, `empty pattern should offer ${glyph}`).toContain(glyph);
+
+    // After a quantifier whose atom isn't typed yet (`>0`): the atom palette,
+    // not just the range dash. Regression for "only suggests |".
+    const afterQuant = suggestionsAt("'x' ≈ ⣿>0⣿", "'x' ≈ ⣿>0".length);
+    expect(afterQuant).toContain('◌');
+    expect(afterQuant).toContain('(◌)');
+
+    // After an existing atom: the palette plus the `|` alternation.
+    const afterAtom = suggestionsAt("'x' ≈ ⣿#⣿", "'x' ≈ ⣿#".length);
+    expect(afterAtom).toContain('◌');
+    expect(afterAtom).toContain('|');
+});
+
+test('pattern suggestions are well-formed: no duplicates, anchors only at edges, no bogus backref', () => {
+    function suggestionsAt(code: string, pos: number): string[] {
+        const source = new Source('test', code);
+        const project = Project.make(null, 'test', source, [], DefaultLocale);
+        return getEditsAt(
+            project,
+            new Caret(source, pos, undefined, undefined),
+            undefined,
+            DefaultLocales,
+        )
+            .map((r) => r.getNewNode(DefaultLocales)?.toWordplay())
+            .filter((s): s is string => s !== undefined);
+    }
+
+    // No duplicate menu items, even when selecting a class's base glyph token
+    // (the ancestor walk + base-glyph swaps previously offered ◌/_/␣ three times).
+    const source = new Source('test', "'x' ≈ ⣿#⣿");
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const cls = source
+        .nodes()
+        .find((n): n is PatternClass => n instanceof PatternClass);
+    expect(cls).toBeDefined();
+    if (cls) {
+        const onBase = getEditsAt(
+            project,
+            new Caret(source, cls.base, undefined, undefined),
+            undefined,
+            DefaultLocales,
+        )
+            .map((r) => r.getNewNode(DefaultLocales)?.toWordplay())
+            .filter((s): s is string => s !== undefined);
+        expect(new Set(onBase).size, `duplicates: ${onBase.join(', ')}`).toBe(
+            onBase.length,
+        );
+    }
+
+    // Anchors are position-sensitive: `⊢` only at a sequence's start, `⊣` only at
+    // its end — never a start anchor after an atom, nor an end anchor before one.
+    const beforeAtom = suggestionsAt("'x' ≈ ⣿#⣿", "'x' ≈ ⣿".length);
+    expect(beforeAtom).toContain('⊢');
+    expect(beforeAtom).not.toContain('⊣');
+    const afterAtom = suggestionsAt("'x' ≈ ⣿#⣿", "'x' ≈ ⣿#".length);
+    expect(afterAtom).toContain('⊣');
+    expect(afterAtom).not.toContain('⊢');
+
+    // A bare backref is only offered for a capture that actually exists — never
+    // the confusing `letter` known-class alias that duplicates the `_` class.
+    const withCapture = suggestionsAt("'x' ≈ ⣿y:(#) ⣿", "'x' ≈ ⣿y:(#) ".length);
+    expect(withCapture).toContain('y');
+    expect(withCapture).not.toContain('letter');
+
+    // Every quantity form is reachable: as `‹quantity› ◌` atoms in the palette…
+    const palette = suggestionsAt("'x' ≈ ⣿#⣿", "'x' ≈ ⣿#".length);
+    for (const q of ['3◌', '3–5◌', '>0◌', '≥0◌', '≤1◌'])
+        expect(palette, `palette should offer ${q}`).toContain(q);
+
+    // …and as alternatives when an existing quantifier is selected (previously
+    // empty, because the only default equalled the selection).
+    const quantSource = new Source('test', "'x' ≈ ⣿>0 #⣿");
+    const quantProject = Project.make(
+        null,
+        'test',
+        quantSource,
+        [],
+        DefaultLocale,
+    );
+    const quantifier = quantSource
+        .nodes()
+        .find((n): n is PatternQuantifier => n instanceof PatternQuantifier);
+    expect(quantifier).toBeDefined();
+    if (quantifier) {
+        const forms = getEditsAt(
+            quantProject,
+            new Caret(quantSource, quantifier, undefined, undefined),
+            undefined,
+            DefaultLocales,
+        )
+            .map((r) => r.getNewNode(DefaultLocales)?.toWordplay())
+            .filter((s): s is string => s !== undefined);
+        expect(forms).toContain('3');
+        expect(forms).toContain('3–5');
+        expect(forms).toContain('≤1');
+        expect(forms).not.toContain('>0'); // the selected form is excluded
+    }
+});
+
+test('every pattern suggestion is syntactically valid, and atom-only slots refuse items', () => {
+    function editsAt(code: string, pos: number) {
+        const source = new Source('test', code);
+        const project = Project.make(null, 'test', source, [], DefaultLocale);
+        return {
+            revs: getEditsAt(
+                project,
+                new Caret(source, pos, undefined, undefined),
+                undefined,
+                DefaultLocales,
+            ),
+            source,
+        };
+    }
+
+    // Applying any suggested insertion must produce a pattern that re-parses to
+    // itself with no unparsable nodes. Regression: a capture's atom slot is
+    // `node(PatternNode)` in the grammar but the parser only accepts atoms, so
+    // offering a capture/quantified/complement there made an unparseable tree.
+    for (const [code, pos] of [
+        ["'x' ≈ ⣿name:⣿", "'x' ≈ ⣿name:".length], // a capture's atom
+        ["'x' ≈ ⣿>0⣿", "'x' ≈ ⣿>0".length], // a quantifier's atom
+        ["'x' ≈ ⣿~⣿", "'x' ≈ ⣿~".length], // a complement's atom
+        ["'x' ≈ ⣿#⣿", "'x' ≈ ⣿#".length], // a sequence member
+    ] as const) {
+        const { revs } = editsAt(code, pos);
+        for (const rev of revs) {
+            const edit = rev.getEdit(DefaultLocales);
+            const result = Array.isArray(edit) ? edit[0] : undefined;
+            if (!(result instanceof Source)) continue;
+            const printed = result.code.toString();
+            const reparsed = new Source('test', printed);
+            const unparsable = reparsed
+                .nodes()
+                .some((n) => n.getDescriptor() === 'UnparsableExpression');
+            expect(
+                unparsable,
+                `suggestion ${JSON.stringify(rev.getNewNode(DefaultLocales)?.toWordplay())} made unparseable ${JSON.stringify(printed)}`,
+            ).toBe(false);
+            expect(reparsed.toWordplay(), 'must round-trip').toBe(printed);
+        }
+    }
+
+    // The capture's atom slot offers only the atom subset — never another
+    // capture, a quantified atom, or a complement (which the parser rejects).
+    const captureAtom = editsAt("'x' ≈ ⣿name:⣿", "'x' ≈ ⣿name:".length)
+        .revs.map((r) => r.getNewNode(DefaultLocales)?.toWordplay())
+        .filter((s): s is string => s !== undefined);
+    expect(captureAtom).toContain('◌');
+    expect(captureAtom.some((s) => s.includes(':'))).toBe(false); // no capture
+    expect(captureAtom).not.toContain('~◌'); // no complement
+    expect(captureAtom).not.toContain('>0◌'); // no quantified
+});
+
 test('default-value suggestions for an input only include values of its declared type', () => {
     // For an input typed `#`, the menu opened on its value placeholder should
     // not suggest values of incompatible types (booleans, text, etc.).
@@ -300,7 +505,6 @@ test('default-value suggestions for an input only include values of its declared
     const caret = new Caret(
         source,
         placeholder,
-        undefined,
         undefined,
         undefined,
     );
@@ -334,7 +538,7 @@ test('default-value suggestions for a struct input do not include sibling inputs
 
     const transforms = getEditsAt(
         project,
-        new Caret(source, 0, undefined, undefined, undefined),
+        new Caret(source, 0, undefined, undefined),
         { parent: b, field: 'value', index: undefined },
         DefaultLocales,
     );
@@ -359,7 +563,7 @@ test('selecting a typed Bind with no default value suggests adding one', () => {
         );
     expect(bind).toBeDefined();
     if (!bind) return;
-    const caret = new Caret(source, bind, undefined, undefined, undefined);
+    const caret = new Caret(source, bind, undefined, undefined);
     const transforms = getEditsAt(project, caret, undefined, DefaultLocales);
 
     const replacements = transforms
@@ -398,7 +602,7 @@ test('appending an input to a struct in use suggests a Bind with a default value
     expect(struct).toBeDefined();
     if (!struct) return;
 
-    const caret = new Caret(source, 0, undefined, undefined, undefined);
+    const caret = new Caret(source, 0, undefined, undefined);
     const transforms = getEditsAt(
         project,
         caret,
@@ -419,4 +623,206 @@ test('appending an input to a struct in use suggests a Bind with a default value
             'suggested input should have a default',
         ).toBeDefined();
     }
+});
+
+test('any markup position recommends available custom characters as concept links', () => {
+    // A formatted literal with the caret inside its markup. The menu should
+    // offer to insert a concept link to each available custom character.
+    let code = '`hello**`';
+    const insertionPoint = code.indexOf('**');
+    code =
+        code.substring(0, insertionPoint) + code.substring(insertionPoint + 2);
+    const source = new Source('test', code);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const caret = new Caret(
+        source,
+        insertionPoint,
+        undefined,
+        undefined,
+    );
+    const transforms = getEditsAt(
+        project,
+        caret,
+        undefined,
+        DefaultLocales,
+        undefined,
+        ['me/Star'],
+    );
+    const link = transforms
+        .map((t) => t.getNewNode(DefaultLocales))
+        .find(
+            (n): n is ConceptLink =>
+                n instanceof ConceptLink && n.toWordplay() === '@me/Star',
+        );
+    expect(link, 'expected a @me/Star concept link insertion').toBeDefined();
+});
+
+test('a partially typed link completes to a matching custom character', () => {
+    // Typing `@me` inside markup should complete to the available `me/Star`
+    // custom character, just as it would complete a concept.
+    let code = '`@me**`';
+    const insertionPoint = code.indexOf('**');
+    code =
+        code.substring(0, insertionPoint) + code.substring(insertionPoint + 2);
+    const source = new Source('test', code);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const caret = new Caret(
+        source,
+        insertionPoint,
+        undefined,
+        undefined,
+    );
+    const transforms = getEditsAt(
+        project,
+        caret,
+        undefined,
+        DefaultLocales,
+        undefined,
+        ['me/Star'],
+    );
+    const link = transforms
+        .filter((t) => t instanceof Replace)
+        .map((t) => t.getNewNode(DefaultLocales))
+        .find(
+            (n): n is ConceptLink =>
+                n instanceof ConceptLink && n.toWordplay() === '@me/Star',
+        );
+    expect(link, 'expected @me to complete to @me/Star').toBeDefined();
+});
+
+test('a position expecting a formatted translation recommends custom characters', () => {
+    // Adding a translation to a formatted literal's `texts` list should offer,
+    // alongside an empty translation, one linking to each available character.
+    const code = '`hello`';
+    const source = new Source('test', code);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const literal = source
+        .nodes()
+        .find((n): n is FormattedLiteral => n instanceof FormattedLiteral);
+    expect(literal).toBeDefined();
+    if (!literal) return;
+
+    const transforms = getEditsAt(
+        project,
+        new Caret(source, 0, undefined, undefined),
+        { parent: literal, field: 'texts', index: literal.texts.length },
+        DefaultLocales,
+        undefined,
+        ['me/Star'],
+    );
+    const translation = transforms
+        .map((t) => t.getNewNode(DefaultLocales))
+        .find((n) => n?.toWordplay().includes('@me/Star'));
+    expect(
+        translation,
+        'expected a formatted translation linking to @me/Star',
+    ).toBeDefined();
+});
+
+test('an empty markup placeholder can be replaced with a custom character', () => {
+    // Selecting the empty markup placeholder inside a formatted literal (``)
+    // should offer replacing it with markup linking to each custom character.
+    const code = '``';
+    const source = new Source('test', code);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const markup = source.nodes().find((n): n is Markup => n instanceof Markup);
+    expect(markup).toBeDefined();
+    if (!markup) return;
+
+    const transforms = getEditsAt(
+        project,
+        new Caret(source, markup, undefined, undefined),
+        undefined,
+        DefaultLocales,
+        undefined,
+        ['me/Star'],
+    );
+    // The replacement must both be offered and actually apply to the source.
+    const applied = transforms
+        .filter((t) => t instanceof Replace)
+        .map((t) => {
+            const edit = t.getEdit(DefaultLocales);
+            return Array.isArray(edit)
+                ? edit[0].getCode().toString()
+                : undefined;
+        })
+        .find((wp) => wp === '`@me/Star`');
+    expect(
+        applied,
+        'expected replacing the markup placeholder to yield `@me/Star`',
+    ).toBeDefined();
+});
+
+test('markup built for a custom character carries spaces so it can render', () => {
+    // Markup with no spaces fails to render as output ("unable to render markup
+    // without spaces"), so the markup we build for a character must have them.
+    const literal = new FormattedLiteral([
+        FormattedTranslation.makeWithLink('creator/Star'),
+    ]);
+    expect(literal.texts[0].markup.spaces).toBeDefined();
+});
+
+test('a selected placeholder expecting formatted text recommends custom characters', () => {
+    // Phrase's text input accepts `""|`…``, so a selected placeholder in
+    // Phrase(_) should offer a formatted literal linking to each character.
+    const code = 'Phrase(_)';
+    const source = new Source('test', code);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const placeholder = source
+        .nodes()
+        .find(
+            (n): n is ExpressionPlaceholder =>
+                n instanceof ExpressionPlaceholder,
+        );
+    expect(placeholder).toBeDefined();
+    if (!placeholder) return;
+
+    const transforms = getEditsAt(
+        project,
+        new Caret(source, placeholder, undefined, undefined),
+        undefined,
+        DefaultLocales,
+        undefined,
+        ['creator/Star'],
+    );
+    const literal = transforms
+        .map((t) => t.getNewNode(DefaultLocales))
+        .find(
+            (n): n is FormattedLiteral =>
+                n instanceof FormattedLiteral &&
+                n.toWordplay() === '`@creator/Star`',
+        );
+    expect(
+        literal,
+        'expected a `@creator/Star` formatted literal at the placeholder',
+    ).toBeDefined();
+});
+
+test('a caret inside an empty formatted literal recommends custom characters', () => {
+    // The caret between the ticks of an empty formatted literal (``) should
+    // offer filling it with a custom character, and the edit must apply.
+    const code = '``';
+    const source = new Source('test', code);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+
+    const transforms = getEditsAt(
+        project,
+        new Caret(source, 1, undefined, undefined),
+        undefined,
+        DefaultLocales,
+        undefined,
+        ['creator/Star'],
+    );
+    const applied = transforms
+        .map((t) => {
+            const edit = t.getEdit(DefaultLocales);
+            return Array.isArray(edit)
+                ? edit[0].getCode().toString()
+                : undefined;
+        })
+        .find((wp) => wp === '`@creator/Star`');
+    expect(
+        applied,
+        'expected filling the empty literal to yield `@creator/Star`',
+    ).toBeDefined();
 });

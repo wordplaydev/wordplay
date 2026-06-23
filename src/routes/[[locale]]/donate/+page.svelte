@@ -1,15 +1,15 @@
 <script lang="ts">
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import BigLink from '@components/app/BigLink.svelte';
-    import Header from '@components/app/Header.svelte';
+    import PageHeader from '@components/app/PageHeader.svelte';
     import Writing from '@components/app/Writing.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
 </script>
 
 <Writing>
-    <Header text={(l) => l.ui.page.donate.header} />
-
-    <MarkupHTMLView markup={(l) => l.ui.page.donate.content} />
+    <PageHeader
+        header={(l) => l.ui.page.donate.header}
+        description={(l) => l.ui.page.donate.content}
+    />
 
     <p class="donate">
         <BigLink

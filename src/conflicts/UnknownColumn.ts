@@ -3,7 +3,11 @@ import type Expression from '@nodes/Expression';
 import Input from '@nodes/Input';
 import type TableType from '@nodes/TableType';
 import type Locales from '@locale/Locales';
-import Conflict, { type Repair, type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Repair,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 import levenshtein from '@util/levenshtein';
@@ -13,7 +17,7 @@ export default class UnknownColumn extends Conflict {
     readonly cell: Expression | Input;
 
     constructor(type: TableType, cell: Expression | Input) {
-        super(false);
+        super(ConflictSeverity.Error);
         this.type = type;
         this.cell = cell;
     }
@@ -31,10 +35,7 @@ export default class UnknownColumn extends Conflict {
         };
     }
 
-    override getResolutions(
-        context: Context,
-        concepts: Node[],
-    ): Resolutions {
+    override getResolutions(context: Context, concepts: Node[]): Resolutions {
         // Only suggest if this is an Input — Levenshtein-match its name
         // against the table's actual column names.
         if (!(this.cell instanceof Input))

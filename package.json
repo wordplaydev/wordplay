@@ -1,6 +1,6 @@
 {
     "name": "wordplay",
-    "version": "0.21.0",
+    "version": "0.24.0",
     "type": "module",
     "scripts": {
         "sync": "svelte-kit sync",
@@ -10,6 +10,7 @@
         "check": "svelte-check --tsconfig ./tsconfig.json --watch .svelte-kit",
         "check:now": "svelte-check --tsconfig ./tsconfig.json .svelte-kit",
         "test": "vitest",
+        "test:run": "vitest run",
         "test:coverage": "vitest run --coverage",
         "end2end": "npm run build && firebase emulators:exec \"npx playwright test\" --project=demo-wordplay --log-verbosity QUIET",
         "dev": "vite dev",
@@ -19,6 +20,7 @@
         "env:windows": "copy .env.template .env",
         "build": "npm upgrade shared-types && npm run env && npm run updates && npm run mediapipe && vite build && (cd functions && npm run build)",
         "build:ci": "npm run env && npm run updates && npm run mediapipe && vite build && (cd functions && npm run build)",
+        "build:web": "npm run env && npm run updates && npm run mediapipe && vite build",
         "preview": "vite preview",
         "stage": "firebase use dev && firebase deploy && npm run env",
         "release": "firebase use prod && firebase deploy && firebase use dev && npm run env",
@@ -73,7 +75,7 @@
         "@types/matter-js": "^0",
         "ajv": "^8",
         "chalk": "^5",
-        "firebase-admin": "^13",
+        "firebase-admin": "^14",
         "firebase-tools": "^15",
         "npm-watch": "^0",
         "prettier": "^3",

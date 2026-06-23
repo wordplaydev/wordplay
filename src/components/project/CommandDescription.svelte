@@ -14,7 +14,7 @@
 </script>
 
 <tr class="command">
-    <td class="symbol"><Emoji>{command.symbol}</Emoji></td>
+    <td class="symbol"><Emoji text={command.symbol} /></td>
     <td class="shortcut"><em>{toShortcut(command)}</em></td>
     <td class="description"><LocalizedText path={command.description} /></td>
 </tr>

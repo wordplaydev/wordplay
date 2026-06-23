@@ -1,7 +1,10 @@
 import type LocaleText from '@locale/LocaleText';
 import NumberLiteral from '@nodes/NumberLiteral';
 import type Locales from '@locale/Locales';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 
@@ -9,7 +12,7 @@ export class NotANumber extends Conflict {
     readonly measurement: NumberLiteral;
 
     constructor(measurement: NumberLiteral) {
-        super(false);
+        super(ConflictSeverity.Error);
         this.measurement = measurement;
     }
 
@@ -24,10 +27,7 @@ export class NotANumber extends Conflict {
         };
     }
 
-    override getResolutions(
-        _context: Context,
-        _concepts: Node[],
-    ): Resolutions {
+    override getResolutions(_context: Context, _concepts: Node[]): Resolutions {
         // Replace the malformed literal with a real `0` (keeping the unit
         // if any). The conflict fires when the literal's value is NaN, so
         // stripping units alone wouldn't change the number text.

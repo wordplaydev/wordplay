@@ -108,7 +108,6 @@ export default class Replace<NodeType extends Node> extends Revision {
                 newSource,
                 newCaretPosition ?? position,
                 undefined,
-                undefined,
                 replacement,
             ),
         ];

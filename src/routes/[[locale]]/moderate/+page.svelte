@@ -103,7 +103,7 @@
         try {
             documentSnapshots = await DB.read(getDocs(unmoderated));
         } catch (error) {
-            DB.reportBanner((l) => l.ui.banner.loadFailed, error);
+            DB.reportLoadFailure(error);
             return;
         }
 

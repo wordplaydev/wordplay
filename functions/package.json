@@ -21,7 +21,7 @@
         "@supercharge/promise-pool": "^3",
         "firebase-admin": "^13",
         "firebase-functions": "^7",
-        "nodemailer": "^8",
+        "nodemailer": "^9",
         "prettier": "^3.8.3",
         "shared-types": "file:./src/shared",
         "yjs": "^13.6.30"

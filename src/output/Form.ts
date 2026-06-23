@@ -238,7 +238,9 @@ export class Polygon extends Form {
         super(value);
 
         this.radius = Math.abs(radius);
-        this.sides = Math.floor(Math.abs(sides));
+        // Round a fractional side count, and clamp to a minimum of 3 — fewer than three sides is a
+        // degenerate (point/line) polygon that draws nothing, so treat it as a triangle.
+        this.sides = Math.max(3, Math.round(Math.abs(sides)));
         this.x = x;
         this.y = y;
         this.z = z;

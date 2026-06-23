@@ -1,7 +1,7 @@
 <script lang="ts">
     import AddProject from '@components/app/AddProject.svelte';
-    import Header from '@components/app/Header.svelte';
     import Notice from '@components/app/Notice.svelte';
+    import PageHeader from '@components/app/PageHeader.svelte';
     import ProjectPreviewSet from '@components/app/ProjectPreviewSet.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
@@ -108,8 +108,10 @@
 </svelte:head>
 
 <Writing>
-    <Header text={(l) => l.ui.page.projects.header} />
-    <MarkupHTMLView markup={(l) => l.ui.page.projects.projectprompt} />
+    <PageHeader
+        header={(l) => l.ui.page.projects.header}
+        description={(l) => l.ui.page.projects.projectprompt}
+    />
 
     <div class="controls">
         <TextField
@@ -288,6 +290,7 @@
         display: flex;
         flex-direction: column;
         gap: var(--wordplay-spacing);
+        margin-block-start: var(--wordplay-spacing);
         margin-block-end: var(--wordplay-spacing);
     }
 

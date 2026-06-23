@@ -2,14 +2,12 @@
     import { browser } from '$app/environment';
     import { afterNavigate } from '$app/navigation';
     import { page } from '$app/state';
-    import Breadcrumbs from '@components/app/Breadcrumbs.svelte';
     import type { Crumb } from '@components/app/getBreadcrumbs';
-    import Header from '@components/app/Header.svelte';
+    import PageHeader from '@components/app/PageHeader.svelte';
     import Documentation, {
         Modes,
     } from '@components/concepts/Documentation.svelte';
     import placeLabel from '@components/concepts/placeLabel';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import {
         getUser,
         setConceptIndex,
@@ -179,17 +177,43 @@
     });
 
     // The guide's concept path, appended to the route breadcrumbs as a single
-    // unified trail: 🏠 Home / 📕 Guide / <concept> / … The 📕 Guide crumb links
-    // back to the guide landing (resetting the concept path). At the landing
-    // itself there's nothing to navigate back to, so it's omitted (the page
-    // header already says "Guide").
+    // unified trail: 🏠 Home / 📕 Guide — code — pattern / <concept> / … The 📕 Guide
+    // crumb always reflects the current section state (e.g. "Guide — code — pattern"),
+    // so the breadcrumb is consistent whether browsing the landing or drilled into a
+    // concept. At the landing it's the current (non-link) location; once we've drilled
+    // in it links back to that section, naming the destination it returns to.
     let extra = $derived.by<Crumb[]>(() => {
-        if ($path.length <= 1) return [];
-        const guide: Crumb = {
-            emoji: DOCUMENTATION_SYMBOL,
-            label: (l) => l.ui.page.guide.header,
-            action: () => path.set(popTo($path, 0)),
-        };
+        // Empty only before mount (path starts empty); afterwards the bottom is a section.
+        if ($path.length === 0) return [];
+        // The bottom of the history is always the section the Guide crumb names (and pops
+        // back to). Language sections add their subsection (purpose), e.g. "code — pattern";
+        // how-to sections have no subsection.
+        const section = $path[0];
+        const header = $locales.getPlainText((l) => l.ui.page.guide.header);
+        let label = header;
+        if (section.kind === 'section') {
+            const mode = $locales.getPlainText((l) =>
+                section.mode === 'howto'
+                    ? l.ui.docs.mode.browse.labels[1]
+                    : l.ui.docs.mode.browse.labels[0],
+            );
+            label =
+                section.mode === 'howto'
+                    ? `${header} — ${mode}`
+                    : `${header} — ${mode} — ${$locales.getPlainText(
+                          (l) => l.ui.docs.purposes[section.purpose].header,
+                      )}`;
+        }
+        // At the landing the section is the current page (non-link); once drilled in it
+        // becomes a back-link that pops the concept path to the section.
+        const guide: Crumb =
+            $path.length === 1
+                ? { emoji: DOCUMENTATION_SYMBOL, text: label, current: true }
+                : {
+                      emoji: DOCUMENTATION_SYMBOL,
+                      text: label,
+                      action: () => path.set(popTo($path, 0)),
+                  };
         const rest = $path.slice(1).map((place, i): Crumb => {
             const index = i + 1;
             const body = { text: placeLabel(place, $locales) };
@@ -238,9 +262,11 @@
 
 <section class="guide">
     <div class="header">
-        <Breadcrumbs {extra} />
-        <Header block={false} text={(l) => l.ui.page.guide.header} />
-        <MarkupHTMLView markup={(l) => l.ui.page.guide.description} />
+        <PageHeader
+            {extra}
+            header={(l) => l.ui.page.guide.header}
+            description={(l) => l.ui.page.guide.description}
+        />
     </div>
 
     <Documentation

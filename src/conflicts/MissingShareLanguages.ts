@@ -1,7 +1,10 @@
 import type LocaleText from '@locale/LocaleText';
 import type Bind from '@nodes/Bind';
 import type Locales from '@locale/Locales';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 
@@ -9,7 +12,7 @@ export class MissingShareLanguages extends Conflict {
     readonly share: Bind;
 
     constructor(share: Bind) {
-        super(false);
+        super(ConflictSeverity.Error);
         this.share = share;
     }
 
@@ -26,10 +29,7 @@ export class MissingShareLanguages extends Conflict {
         };
     }
 
-    override getResolutions(
-        _context: Context,
-        _concepts: Node[],
-    ): Resolutions {
+    override getResolutions(_context: Context, _concepts: Node[]): Resolutions {
         // Remove the `↑` share marker so the bind no longer requires the
         // language tags it lacks. The learner can re-add `↑` after labelling
         // names with /<language> tags.

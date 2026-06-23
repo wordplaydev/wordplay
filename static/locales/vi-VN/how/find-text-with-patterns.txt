@@ -1,0 +1,24 @@
+Tìm và kiểm tra văn bản có chứa mẫu.
+
+Mẫu (pattern) mô tả hình dạng của một đoạn văn bản, cho phép bạn kiểm tra xem văn bản có phù hợp với hình dạng đó hay không, hoặc tìm kiếm mọi vị trí mà nó xuất hiện. Mẫu được đặt bên trong (side). \⣿⣿\ và đọc từ trái sang phải, từng phần một. \_\ là một bức thư, \#\ là một chữ số, \␣\ là một khoảng trắng, và văn bản được trích dẫn như \"-"\ Hoàn toàn trùng khớp.
+
+Để kiểm tra xem toàn bộ một đoạn văn bản có phù hợp với một mẫu nhất định hay không, hãy sử dụng \≈\, điều này mang lại cho bạn một \?\:
+
+\'555-1234' ≈ ⣿ 3 # "-" 4 #⣿\
+
+Câu hỏi đó là “ba chữ số, một dấu gạch ngang, rồi bốn chữ số?” — và câu trả lời là \⊤\.
+
+Số đếm đứng trước phần mà chúng lặp lại: \3
+#\ có nghĩa là ba chữ số. Bạn cũng có thể nói \>0
+#\ (một hoặc nhiều), \≥0
+#\ (không hoặc nhiều hơn), \≤1
+#\ (tùy chọn), hoặc một phạm vi như \2–4
+#\.
+
+Để tìm ra mọi nơi mà một mẫu hình xuất hiện, hãy sử dụng \⌕\, điều này cung cấp cho bạn một danh sách  @Structure  kết quả. Hãy nêu tên một mảnh ghép với \name: (…)\ để nắm bắt nó:
+
+\'sinh ngày 15 tháng 6 năm 2026' ⌕ ⣿ y: (4 #) "-" m: (2 #) "-" d: (2 #)⣿\
+
+Mỗi kết quả cho bạn biết kết quả phù hợp. \text\, nơi nó \start\cát \end\s, và những người bị bắt giữ \groups\ - đây \y\, \m\, Và \d\Vì các mẫu khớp nhau theo từng chữ cái, chúng hoạt động giống nhau trong mọi ngôn ngữ và hệ chữ viết.
+
+mix-languages-in-text

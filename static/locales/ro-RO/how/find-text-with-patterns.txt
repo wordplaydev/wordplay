@@ -1,0 +1,24 @@
+Găsiți și verificați textul cu ajutorul unor modele
+
+Un model descrie forma unui anumit text, astfel încât să poți verifica dacă textul se potrivește unei forme sau să cauți în fiecare loc în care apare. Modelele se află în interior \⣿⣿\ și citește de la stânga la dreapta, bucată cu bucată. \_\ este o scrisoare, \#\ este o cifră, \␣\ este un spațiu și text citat ca \"-"\ se potrivește exact.
+
+Pentru a verifica dacă o întreagă porțiune de text se încadrează într-un model, utilizați \≈\, ceea ce vă oferă o \?\:
+
+\'555-1234' ≈ ⣿ 3 # "-" 4 #⣿\
+
+Asta întreabă „trei cifre, o liniuță, apoi patru cifre?” — iar răspunsul este \⊤\.
+
+Numărătoarele se pun înaintea lucrului pe care îl repetă: \3
+#\ înseamnă trei cifre. Poți spune și \>0
+#\ (unul sau mai multe), \≥0
+#\ (zero sau mai multe), \≤1
+#\ (opțional) sau un interval precum \2–4
+#\.
+
+Pentru a găsi fiecare loc în care apare un model, utilizați \⌕\, care vă oferă o listă de  @Structure  rezultate. Numiți o piesă cu \name: (…)\ pentru a-l captura:
+
+\'născut pe 15.06.2026' ⌕ ⣿ y: (4 #) "-" m: (2 #) "-" d: (2 #)⣿\
+
+Fiecare rezultat vă spune rezultatul potrivit \text\, unde \start\și \end\s, și cei capturați \groups\ - Aici \y\, \m\și \d\Deoarece modelele se potrivesc prin grafem, acestea funcționează la fel în fiecare limbă și scriere.
+
+mix-languages-in-text

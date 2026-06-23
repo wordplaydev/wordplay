@@ -224,14 +224,18 @@
                         entry.purpose
                     ].header}
                 >
-                    {#each entry.revisions as revision, subitemIndex}
-                        <MenuItem
-                            entry={revision}
-                            bind:menu
-                            {handleItemClick}
-                            id={`menuitem-${itemIndex}-${subitemIndex}`}
-                        />
-                    {/each}
+                    <!-- Only mount a submenu's items once it's the open one, so
+                         closed submenus don't build their preview trees up front. -->
+                    {#if menu.getSelectionIndex()[0] === itemIndex}
+                        {#each entry.revisions as revision, subitemIndex}
+                            <MenuItem
+                                entry={revision}
+                                bind:menu
+                                {handleItemClick}
+                                id={`menuitem-${itemIndex}-${subitemIndex}`}
+                            />
+                        {/each}
+                    {/if}
                 </div>
             {/if}
         {:else}
@@ -285,8 +289,10 @@
         max-width: 100dvw;
         max-height: 30vh;
 
-        /** Position above tiles */
-        z-index: 2;
+        /* Position above tiles (z-index 1) and the sidebar resize knob
+           (ResizeKnob, z-index 3), which shares this stacking context and
+           would otherwise cover the autocomplete menu at the editor edge. */
+        z-index: 4;
     }
 
     .revisions {

@@ -1,7 +1,7 @@
 <script lang="ts">
-    import Header from '@components/app/Header.svelte';
     import Link from '@components/app/Link.svelte';
     import Notice from '@components/app/Notice.svelte';
+    import PageHeader from '@components/app/PageHeader.svelte';
     import ProjectPreview from '@components/app/ProjectPreview.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import Writing from '@components/app/Writing.svelte';
@@ -153,8 +153,10 @@
 </svelte:head>
 
 <Writing>
-    <Header text={(l) => l.ui.page.galleries.header} />
-    <MarkupHTMLView markup={(l) => l.ui.page.galleries.prompt} />
+    <PageHeader
+        header={(l) => l.ui.page.galleries.header}
+        description={(l) => l.ui.page.galleries.prompt}
+    />
 
     {#if $user}
         <Subheader text={(l) => l.ui.page.galleries.section.own.header} />
@@ -322,6 +324,13 @@
 
     .howtoonlypreview {
         gap: var(--wordplay-spacing);
+    }
+
+    /* Let long gallery names wrap instead of overflowing — Subheader is
+       `white-space: nowrap` by default. */
+    .howtoonlypreview > :global(h2) {
+        white-space: normal;
+        overflow-wrap: anywhere;
     }
 
     .search-results {

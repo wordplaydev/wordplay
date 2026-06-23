@@ -6,6 +6,120 @@ import type Log from '@util/verify-locales/Log';
 
 export const GoogleTranslate = new Translate.v2.Translate();
 
+/** Pause for `ms` milliseconds. */
+function sleep(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+/** Pull the HTTP `code`, Google `reason`, and `message` out of a Translate
+ *  client error, without assuming its shape. */
+function apiError(error: unknown): {
+    code: number | undefined;
+    reason: string | undefined;
+    message: string | undefined;
+} {
+    if (typeof error !== 'object' || error === null)
+        return { code: undefined, reason: undefined, message: undefined };
+    const code =
+        'code' in error && typeof error.code === 'number'
+            ? error.code
+            : undefined;
+    const message =
+        'message' in error && typeof error.message === 'string'
+            ? error.message
+            : undefined;
+    let reason: string | undefined;
+    if ('errors' in error && Array.isArray(error.errors))
+        for (const item of error.errors)
+            if (
+                typeof item === 'object' &&
+                item !== null &&
+                'reason' in item &&
+                typeof item.reason === 'string'
+            ) {
+                reason = item.reason;
+                break;
+            }
+    return { code, reason, message };
+}
+
+/**
+ * Whether a Translate client error is a rate-limit error worth retrying after a
+ * backoff: HTTP 429, or a `userRateLimitExceeded` / `rateLimitExceeded` reason
+ * (the per-100-seconds-per-user cap). A `dailyLimitExceeded` or billing/config
+ * 403 is NOT retryable — backoff can't fix it — so those fall through to fail.
+ */
+function isRateLimitError(error: unknown): boolean {
+    const { code, reason } = apiError(error);
+    if (code === 429) return true;
+    return /^(user)?rateLimitExceeded$/i.test(reason ?? '');
+}
+
+/** A one-line, human-readable diagnosis of a Translate error, with a hint on how
+ *  to proceed — so a failed run says WHY (rate vs daily cap vs billing/config)
+ *  instead of dumping a raw error object. */
+export function describeApiError(error: unknown): string {
+    const { code, reason, message } = apiError(error);
+    const hint = /dailyLimitExceeded/i.test(reason ?? '')
+        ? 'daily character cap hit — wait for the reset (midnight US Pacific) or raise the "characters per day" quota'
+        : /^(user)?rateLimitExceeded$/i.test(reason ?? '')
+          ? 'per-user rate limit — even after backoff; lower concurrency or raise the "per 100 seconds per user" quota'
+          : /SERVICE_DISABLED|accessNotConfigured/i.test(reason ?? '')
+            ? 'the Cloud Translation API is not enabled for this project'
+            : /billing/i.test(`${reason ?? ''} ${message ?? ''}`)
+              ? 'billing is not enabled on the project (free tier is tiny and 403s quickly)'
+              : /PERMISSION_DENIED|forbidden/i.test(`${reason ?? ''} ${message ?? ''}`)
+                ? "the credentials lack permission, or aren't the project you raised the quota on"
+                : undefined;
+    const summary = [
+        code !== undefined ? `HTTP ${code}` : undefined,
+        reason,
+        message,
+    ]
+        .filter(Boolean)
+        .join(' — ');
+    return `${summary || String(error)}${hint ? `\n     → ${hint}` : ''}`;
+}
+
+/** Proactive pacing between batches to stay under the per-user rate limit. */
+const THROTTLE_MS = 250;
+/** Exponential backoff on rate-limit errors: 2s, 4s, 8s, … with jitter. */
+const MAX_RETRIES = 6;
+const BASE_BACKOFF_MS = 2000;
+
+/**
+ * Translate one batch, self-pacing under Google's per-user rate limit: on a
+ * rate-limit error, wait with exponential backoff and retry (rather than
+ * aborting the whole locale). Non-rate-limit errors propagate immediately.
+ */
+async function translateBatch(
+    log: Log,
+    wrapped: string[],
+    options: { from: string; to: string; format: 'html' },
+): Promise<string[]> {
+    for (let attempt = 0; ; attempt++) {
+        try {
+            const [translated] = await GoogleTranslate.translate(
+                wrapped,
+                options,
+            );
+            return translated;
+        } catch (error) {
+            if (!isRateLimitError(error) || attempt >= MAX_RETRIES) throw error;
+            const delay =
+                BASE_BACKOFF_MS * 2 ** attempt +
+                Math.floor(Math.random() * 500);
+            log.warning(
+                2,
+                `Rate limited (${apiError(error).reason ?? 'rateLimitExceeded'}); waiting ${Math.round(
+                    delay / 1000,
+                )}s before retry ${attempt + 1}/${MAX_RETRIES}…`,
+            );
+            await sleep(delay);
+        }
+    }
+}
+
 export default async function translate(
     log: Log,
     text: string[],
@@ -18,7 +132,7 @@ export default async function translate(
 
     // Pass them to Google Translate
     let translations: string[] = [];
-    for (const batch of sourceStringsBatches) {
+    for (const [index, batch] of sourceStringsBatches.entries()) {
         try {
             // Wrap every `\…\` code block, `@Concept` link, and `$name`
             // mention in a no-translate span before sending. Translate
@@ -29,14 +143,14 @@ export default async function translate(
             // `@Program-urile`, Bengali `@Doc-এ`), or otherwise garbling
             // Wordplay-specific syntax. We strip the wrappers after.
             const wrapped = batch.map(wrapProtected);
-            const [translatedBatch] = await GoogleTranslate.translate(
-                wrapped,
-                {
-                    from: sourceLocale,
-                    to: targetLocale,
-                    format: 'html',
-                },
-            );
+            // Pace requests to stay under the per-user rate limit (skip the
+            // first batch so a single-batch locale has no added delay).
+            if (index > 0) await sleep(THROTTLE_MS);
+            const translatedBatch = await translateBatch(log, wrapped, {
+                from: sourceLocale,
+                to: targetLocale,
+                format: 'html',
+            });
             const restored = translatedBatch
                 .map(unwrapProtected)
                 .map(decodeHtmlEntities)
@@ -53,6 +167,20 @@ export default async function translate(
                 // positional repair against the source's mention list.
                 .map((translation, index) =>
                     repairMentionsPositional(batch[index], translation),
+                )
+                // Final safety net: Google can REORDER protected `\…\` spans
+                // (especially in RTL locales like he/ar), orphaning a `\` and
+                // leaving an unclosed example that breaks markup tokenization
+                // (e.g. trailing `@` links read as invalid tokens). Source
+                // strings always balance their `\`, so an odd count means the
+                // markup is broken — keep the source rather than emit it.
+                .map((translation, index) =>
+                    preserveBalancedDelimiters(
+                        log,
+                        batch[index],
+                        translation,
+                        targetLocale,
+                    ),
                 );
             translations = [...translations, ...restored];
             log.good(
@@ -60,6 +188,12 @@ export default async function translate(
                 `Translated ${batch.length} strings from ${sourceLocale} to ${targetLocale} ...`,
             );
         } catch (error) {
+            // Say WHY in one line (rate vs daily cap vs billing/config) so the
+            // failure is diagnosable at a glance; keep the raw dump below it.
+            log.bad(
+                2,
+                `Translation stopped (${sourceLocale}→${targetLocale}): ${describeApiError(error)}`,
+            );
             console.error(error);
             return undefined;
         }
@@ -200,6 +334,29 @@ export function repairMentionsPositional(
     if (afterMentions.every((m, i) => m === sourceMentions[i])) return after;
     let i = 0;
     return after.replace(looseRe, () => sourceMentions[i++]);
+}
+
+/**
+ * Keep the source string when the translation's `\…\` example delimiters don't
+ * balance. Google sometimes reorders the no-translate spans (notably in RTL
+ * locales), orphaning a `\`; the resulting unclosed example breaks markup
+ * tokenization for the whole doc. Source strings always have an even number of
+ * `\`, so an odd count in the translation means it's broken — fall back to the
+ * source (it'll show as still-needing-translation, not as a hard parse error).
+ */
+export function preserveBalancedDelimiters(
+    log: Log,
+    source: string,
+    translation: string,
+    targetLocale: string,
+): string {
+    const backslashes = (translation.match(/\\/g) ?? []).length;
+    if (backslashes % 2 === 0) return translation;
+    log.warning(
+        2,
+        `Kept the source for a string Google left with an unclosed \\…\\ delimiter in ${targetLocale}.`,
+    );
+    return source;
 }
 
 export async function getGoogleTranslateTargetLocale(

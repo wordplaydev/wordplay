@@ -1,7 +1,4 @@
-import type {
-    InsertContext,
-    ReplaceContext,
-} from '@edit/revision/EditContext';
+import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LanguageCode from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
 import type LocaleText from '@locale/LocaleText';
@@ -33,6 +30,7 @@ import Token from '@nodes/Token';
 import TextLiteral from '@nodes/TextLiteral';
 import type Type from '@nodes/Type';
 import type TypeSet from '@nodes/TypeSet';
+import UnionType from '@nodes/UnionType';
 import { unescaped } from '@nodes/Translation';
 import Words from '@nodes/Words';
 
@@ -47,13 +45,33 @@ export default class FormattedLiteral extends Literal {
         this.computeChildren();
     }
 
-    static getPossibleReplacements({ node }: ReplaceContext) {
+    /** A formatted literal linking to each available custom character. */
+    static getCharacterLiterals(
+        characters: string[] | undefined,
+    ): FormattedLiteral[] {
+        return (
+            characters?.map(
+                (name) =>
+                    new FormattedLiteral([
+                        FormattedTranslation.makeWithLink(name),
+                    ]),
+            ) ?? []
+        );
+    }
+
+    static getPossibleReplacements({
+        node,
+        type,
+        context,
+        characters,
+    }: ReplaceContext) {
+        const edits: FormattedLiteral[] = [];
         // Offer "convert to formatted text" when replacing a plain TextLiteral.
         // Each translation becomes a single-paragraph FormattedTranslation,
         // preserving the language tag and any \…\ Example template segments.
         // Plain-text runs are merged into Words; Examples are kept verbatim.
         if (node instanceof TextLiteral) {
-            return [
+            edits.push(
                 new FormattedLiteral(
                     node.texts.map((t) => {
                         const segments: Segment[] = [];
@@ -79,14 +97,23 @@ export default class FormattedLiteral extends Literal {
                         );
                     }),
                 ),
-            ];
+            );
         }
-        return [];
+        // Wherever formatted text is expected (e.g. a selected placeholder in
+        // Phrase(_)), recommend a literal linking to each custom character.
+        if (type !== undefined && type.accepts(FormattedType.make(), context))
+            edits.push(...FormattedLiteral.getCharacterLiterals(characters));
+        return edits;
     }
 
-    static getPossibleInsertions({ type, context }: InsertContext) {
+    static getPossibleInsertions({ type, context, characters }: InsertContext) {
+        // Offer an empty formatted literal, plus one wrapping a link to each
+        // available custom character, wherever formatted text is expected.
         return type !== undefined && type.accepts(FormattedType.make(), context)
-            ? [new FormattedLiteral([FormattedTranslation.make()])]
+            ? [
+                  new FormattedLiteral([FormattedTranslation.make()]),
+                  ...FormattedLiteral.getCharacterLiterals(characters),
+              ]
             : [];
     }
 
@@ -213,7 +240,7 @@ export default class FormattedLiteral extends Literal {
             }
         }
 
-        return new MarkupValue(this, concrete);
+        return new MarkupValue(this, concrete, translation.language);
     }
 
     getTagged(): FormattedTranslation[] {
@@ -238,11 +265,16 @@ export default class FormattedLiteral extends Literal {
 
     getValue(locales: Locale[]): Value {
         const preferred = this.getPreferredText(locales);
-        return new MarkupValue(this, preferred.markup);
+        return new MarkupValue(this, preferred.markup, preferred.language);
     }
 
-    computeType(): Type {
-        return FormattedType.make();
+    computeType(context: Context): Type {
+        // A union of the formatted type of each alternative, each carrying its
+        // own locale (mirrors TextLiteral.computeType).
+        return UnionType.getPossibleUnion(
+            context,
+            this.texts.map((text) => FormattedType.make(text.language)),
+        );
     }
 
     evaluateTypeGuards(current: TypeSet): TypeSet {

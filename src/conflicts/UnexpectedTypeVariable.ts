@@ -1,7 +1,10 @@
 import type LocaleText from '@locale/LocaleText';
 import type Reference from '@nodes/Reference';
 import type Locales from '@locale/Locales';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 import TypeVariable from '@nodes/TypeVariable';
@@ -11,7 +14,7 @@ export class UnexpectedTypeVariable extends Conflict {
     readonly name: Reference;
 
     constructor(name: Reference) {
-        super(false);
+        super(ConflictSeverity.Error);
         this.name = name;
     }
 
@@ -28,10 +31,7 @@ export class UnexpectedTypeVariable extends Conflict {
         };
     }
 
-    override getResolutions(
-        context: Context,
-        concepts: Node[],
-    ): Resolutions {
+    override getResolutions(context: Context, concepts: Node[]): Resolutions {
         // Find the TypeVariable this reference resolves to, then remove that
         // TypeVariable from its declaring TypeVariables list. The remaining
         // bare reference will then surface as UnknownName, whose repair

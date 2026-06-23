@@ -4,10 +4,11 @@ import type LanguageCode from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
-import ReservedSymbols from '@parser/ReservedSymbols';
+import { type SymType } from '@nodes/Sym';
+import { ExpressionStartKeywordSyms } from '@parser/Keywords';
 import { COMMA_SYMBOL } from '@parser/Symbols';
 import { OperatorRegEx } from '@parser/Tokenizer';
-import { EmojiRegex } from '@unicode/emoji';
+import { EmojiTestRegex } from '@unicode/emoji';
 import { Purpose } from '@concepts/Purpose';
 import { Emotion } from '../lore/Emotion';
 import type Context from '@nodes/Context';
@@ -128,14 +129,13 @@ export default class Name extends LanguageTagged {
               );
     }
 
-    /** Symbolic if it matches the binary op regex  */
+    /**
+     * Symbolic (preferred in symbol display mode) if it's an operator or an emoji. A name that is
+     * merely a single grapheme (a lone letter or kanji) is NOT symbolic — it renders as itself like
+     * any word, and is not infix-capable. See LANGUAGE.md.
+     */
     isSymbolic() {
-        return (
-            this.isOperator() ||
-            this.isEmoji() ||
-            this.name.getTextLength() === 1 ||
-            ReservedSymbols.includes(this.name.getText().charAt(0))
-        );
+        return this.isOperator() || this.isEmoji();
     }
 
     getName(): string {
@@ -143,7 +143,7 @@ export default class Name extends LanguageTagged {
     }
 
     isEmoji(): boolean {
-        return EmojiRegex.test(this.name.getText());
+        return EmojiTestRegex.test(this.name.getText());
     }
 
     withName(name: string) {
@@ -156,6 +156,18 @@ export default class Name extends LanguageTagged {
 
     isOperator() {
         return OperatorRegEx.test(this.name.text.getText());
+    }
+
+    /**
+     * If this name's token is a dual-type localized keyword (it carries Name plus a keyword Sym whose
+     * construct wins over a name at expression start), return that keyword Sym — i.e. this name
+     * shadows a keyword. Returns undefined for ordinary names and for keyword collisions that leave
+     * the name fully usable (number type, operators). See LANGUAGE.md.
+     */
+    getShadowedKeyword(): SymType | undefined {
+        for (const sym of ExpressionStartKeywordSyms)
+            if (this.name.isSymbol(sym)) return sym;
+        return undefined;
     }
 
     withoutLanguage() {

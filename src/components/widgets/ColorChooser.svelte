@@ -51,12 +51,18 @@
 </script>
 
 <script lang="ts">
-    import { LCHtoCSS, RGBtoLCH } from '@output/ColorJS';
-    import { describeColorLocalized } from '@output/BasicColors';
-    import { getFirstText } from '@locale/LocaleText';
-    import { locales } from '@db/Database';
     import { getAnnouncer } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
+    import TextField from '@components/widgets/TextField.svelte';
+    import { locales } from '@db/Database';
+    import { getFirstText } from '@locale/LocaleText';
+    import { describeColorLocalized } from '@output/BasicColors';
+    import {
+        LCHtoCSS,
+        parseColor,
+        RGBtoLCH,
+        serializeColor,
+    } from '@output/ColorJS';
 
     interface Props {
         /** a degree (any number remainder 360) */
@@ -90,8 +96,52 @@
     /** Unique id for the band's visually-hidden instructions, referenced by
      *  the band's aria-describedby. */
     const instructionsId = `color-instructions-${idCounter++}`;
+    /** Unique id for the web-color text field. */
+    const fieldId = `${instructionsId}-field`;
 
     let color = $derived(LCHtoCSS(lightness * 100, chroma, hue));
+
+    /** Number of preset swatches (palette extras + the 11 BCT focals), used to
+     *  lay them out as equal-width squares filling one flush row. */
+    let swatchCount = $derived(palette.length + Primary.length);
+
+    /** The web format last typed or serialized to (e.g. 'hex', 'rgb', 'hsl',
+     *  'lch', 'oklch'). Drives how the text field re-renders the color when the
+     *  other controls change. */
+    let format = $state('hex');
+    /** The text shown in the web-color field. Bound to the field; kept in sync
+     *  with the LCH props by an effect when the field isn't focused. */
+    let fieldText = $state('');
+    /** Whether the text field has focus, so the sync effect doesn't overwrite
+     *  what the user is typing. */
+    let fieldFocused = $state(false);
+    /** The parsed result of the current field text, or undefined when it isn't
+     *  a recognized color. */
+    let fieldColor = $derived(parseColor(fieldText));
+
+    /** Keep the field in sync with the LCH props whenever the color changes via
+     *  the band, sliders, palette, or eyedropper — but never while the user is
+     *  typing. Re-serializes into the last-used format; `serializeColor` reports
+     *  the format actually used so the chip reflects the keyword→hex fallback. */
+    $effect(() => {
+        if (fieldFocused) return;
+        const result = serializeColor(lightness, chroma, hue, format);
+        fieldText = result.text;
+        if (result.format !== format) format = result.format;
+    });
+
+    /** Parse the typed color and, on success, drive the rest of the chooser from
+     *  it. Invalid text is left alone (shown red, with ✕ on the format chip) and
+     *  is reverted to the current color on blur by the sync effect. */
+    function handleFieldInput(text: string) {
+        const parsed = parseColor(text);
+        if (parsed === undefined) return;
+        lightness = parsed.lightness;
+        chroma = parsed.chroma;
+        hue = parsed.hue;
+        format = parsed.format;
+        broadcast();
+    }
 
     let hueWidth: number | undefined = $state(undefined);
     let hueHeight: number | undefined = $state(undefined);
@@ -115,11 +165,7 @@
         // screen-reader users hear it. Falls back silently when no
         // announcer is in context (e.g., outside ProjectView).
         if (announce && $announce) {
-            $announce(
-                'color',
-                $locales.getLanguages()[0],
-                currentDescription,
-            );
+            $announce('color', $locales.getLanguages()[0], currentDescription);
         }
     }
 
@@ -218,180 +264,246 @@
 </script>
 
 <div class="component" {id}>
-    <div
-        class="preview"
-        style:background-color={color}
-        aria-label={currentDescription}
-    ></div>
-    <!-- The chroma×hue picker is a 2-D draggable region. role="application"
-         lets it accept pointer gestures and arrow-key navigation while
-         exposing a meaningful label to assistive tech. When editable it joins
-         the tab order so it's reachable and adjustable without a pointer. -->
-    <!-- svelte-ignore a11y_no_static_element_interactions, a11y_no_noninteractive_tabindex, a11y_no_noninteractive_element_interactions -->
-    <div
-        class="bands"
-        role="application"
-        aria-label={currentDescription}
-        aria-roledescription={$locales.getPlainText(
-            (l) => l.ui.widget.color.field,
-        )}
-        aria-describedby={editable ? instructionsId : null}
-        tabindex={editable ? 0 : -1}
-        onpointerdown={editable
-            ? (e) => {
-                  start?.();
-                  handleMouseMove(e);
-              }
-            : null}
-        onpointermove={editable ? handleMouseMove : null}
-        onpointerup={editable ? () => release?.() : null}
-        onkeydown={editable ? handleKey : null}
-        bind:clientWidth={hueWidth}
-        bind:clientHeight={hueHeight}
-    >
-        {#each Bands as val}
+    <!-- Preview, chroma×hue band, and preset swatches form one flush, bordered
+         unit: preview + band on the top row, presets on the row below. There's
+         no padding inside the unit — adjacent cells are separated only by 1px
+         lines, drawn by the unit's border color showing through the grid/flex
+         gaps, with a matching outer border. -->
+    <div class="unit" style:--swatch-count={swatchCount}>
+        <div class="top">
             <div
-                class="band"
-                style:height="{100 / Bands.length}%"
-                style:background="linear-gradient(to right, {getColors(
-                    lightness * 100,
-                    val,
-                ).join(', ')})"
+                class="preview"
+                style:background-color={color}
+                aria-label={currentDescription}
             ></div>
-        {/each}
-
-        <div
-            class="selection"
-            style:left="{hueToPercent(hue) * hueWidth}px"
-            style:top="{(1 - chromaToPercent(chroma)) * hueHeight}px"
-        ></div>
-
-        <!-- Visually-hidden usage instructions. Doubles as the
-             aria-describedby target and as real subtree content so the
-             application isn't announced as "empty". -->
-        {#if editable}
-            <span id={instructionsId} class="instructions"
-                >{$locales.getPlainText(
-                    (l) => l.ui.widget.color.instructions,
-                )}</span
+            <!-- The chroma×hue picker is a 2-D draggable region.
+                 role="application" lets it accept pointer gestures and arrow-key
+                 navigation while exposing a meaningful label to assistive tech.
+                 When editable it joins the tab order so it's reachable and
+                 adjustable without a pointer. -->
+            <!-- svelte-ignore a11y_no_static_element_interactions, a11y_no_noninteractive_tabindex, a11y_no_noninteractive_element_interactions -->
+            <div
+                class="bands"
+                role="application"
+                aria-label={currentDescription}
+                aria-roledescription={$locales.getPlainText(
+                    (l) => l.ui.widget.color.field,
+                )}
+                aria-describedby={editable ? instructionsId : null}
+                tabindex={editable ? 0 : -1}
+                onpointerdown={editable
+                    ? (e) => {
+                          start?.();
+                          handleMouseMove(e);
+                      }
+                    : null}
+                onpointermove={editable ? handleMouseMove : null}
+                onpointerup={editable ? () => release?.() : null}
+                onkeydown={editable ? handleKey : null}
+                bind:clientWidth={hueWidth}
+                bind:clientHeight={hueHeight}
             >
-        {/if}
-    </div>
-    {#if editable && canPick}
-        <Button
-            tip={(l) => l.ui.widget.color.pick.tip}
-            padding={false}
-            icon="💧"
-            action={() => pickColor()}
-        ></Button>
-    {/if}
-    <div class="primary">
-        {#each [...palette, ...Primary] as primary}{@const swatchLabel =
-                describeColorLocalized(
-                    $locales,
-                    primary[0] / 100,
-                    primary[1],
-                    primary[2],
-                )}<Button
-                tip={() => swatchLabel}
-                padding={false}
-                action={() => {
-                    lightness = primary[0] / 100;
-                    chroma = primary[1];
-                    hue = primary[2];
-                    broadcast();
-                }}
-                ><div
-                    class="color"
-                    style:background={LCHtoCSS(
-                        primary[0],
+                {#each Bands as val}
+                    <div
+                        class="band"
+                        style:height="{100 / Bands.length}%"
+                        style:background="linear-gradient(to right, {getColors(
+                            lightness * 100,
+                            val,
+                        ).join(', ')})"
+                    ></div>
+                {/each}
+
+                <div
+                    class="selection"
+                    style:left="{hueToPercent(hue) * hueWidth}px"
+                    style:top="{(1 - chromaToPercent(chroma)) * hueHeight}px"
+                ></div>
+
+                <!-- Visually-hidden usage instructions. Doubles as the
+                     aria-describedby target and as real subtree content so the
+                     application isn't announced as "empty". -->
+                {#if editable}
+                    <span id={instructionsId} class="instructions"
+                        >{$locales.getPlainText(
+                            (l) => l.ui.widget.color.instructions,
+                        )}</span
+                    >
+                {/if}
+            </div>
+        </div>
+        <div class="primary">
+            {#each [...palette, ...Primary] as primary}{@const swatchLabel =
+                    describeColorLocalized(
+                        $locales,
+                        primary[0] / 100,
                         primary[1],
                         primary[2],
-                    )}
-                    aria-label={swatchLabel}
-                ></div></Button
-            >{/each}
+                    )}<Button
+                    classes="swatch"
+                    tip={() => swatchLabel}
+                    padding={false}
+                    action={() => {
+                        lightness = primary[0] / 100;
+                        chroma = primary[1];
+                        hue = primary[2];
+                        broadcast();
+                    }}
+                    ><div
+                        class="color"
+                        style:background={LCHtoCSS(
+                            primary[0],
+                            primary[1],
+                            primary[2],
+                        )}
+                        aria-label={swatchLabel}
+                    ></div></Button
+                >{/each}
+        </div>
     </div>
 
-    <div class="slider">
-        <Slider
-            label={(l) => getFirstText(l.output.Color.lightness.names)}
-            value={lightness}
-            min={0}
-            max={1}
-            increment={0.01}
-            tip={(l) => l.output.Color.lightness.names[0]}
-            unit={'%'}
-            precision={0}
-            {...start ? { start } : {}}
-            {...release ? { release: () => release() } : {}}
-            change={(value) => {
-                lightness = value.toNumber();
-                broadcast();
-            }}
+    <Slider
+        label={(l) => getFirstText(l.output.Color.lightness.names)}
+        value={lightness}
+        min={0}
+        max={1}
+        increment={0.01}
+        tip={(l) => l.output.Color.lightness.names[0]}
+        unit={'%'}
+        precision={0}
+        {...start ? { start } : {}}
+        {...release ? { release: () => release() } : {}}
+        change={(value) => {
+            lightness = value.toNumber();
+            broadcast();
+        }}
+        {editable}
+    />
+    <Slider
+        label={(l) => getFirstText(l.output.Color.chroma.names)}
+        value={chroma}
+        min={0}
+        max={150}
+        increment={1}
+        unit=""
+        tip={(l) => l.output.Color.chroma.names[0]}
+        {...start ? { start } : {}}
+        {...release ? { release: () => release() } : {}}
+        change={(value) => {
+            chroma = value.round().toNumber();
+            broadcast();
+        }}
+        {editable}
+    />
+    <Slider
+        label={(l) => getFirstText(l.output.Color.hue.names)}
+        value={hue}
+        min={0}
+        max={360}
+        increment={1}
+        unit={'°'}
+        tip={(l) => l.output.Color.hue.names[0]}
+        {...start ? { start } : {}}
+        {...release ? { release: () => release() } : {}}
+        change={(value) => {
+            hue = value.round().toNumber();
+            broadcast();
+        }}
+        {editable}
+    />
+
+    <!-- Last row: eyedropper picker, the web-color text field, and a small chip
+         showing the inferred format. Validation is surfaced on the chip (✕ +
+         aria) rather than TextField's floating message, which would overflow
+         this narrow chooser. -->
+    <div class="input">
+        {#if editable && canPick}
+            <Button
+                tip={(l) => l.ui.widget.color.pick.tip}
+                padding={false}
+                icon="💧"
+                action={() => pickColor()}
+            ></Button>
+        {/if}
+        <TextField
+            id={fieldId}
+            bind:text={fieldText}
+            description={(l) => l.ui.widget.color.input.description}
+            placeholder={(l) => l.ui.widget.color.input.placeholder}
+            classes={fieldColor === undefined ? ['error'] : undefined}
+            changed={handleFieldInput}
+            focus={() => (fieldFocused = true)}
+            blur={() => (fieldFocused = false)}
             {editable}
+            fill
         />
-        <Slider
-            label={(l) => getFirstText(l.output.Color.chroma.names)}
-            value={chroma}
-            min={0}
-            max={150}
-            increment={1}
-            unit=""
-            tip={(l) => l.output.Color.chroma.names[0]}
-            {...start ? { start } : {}}
-            {...release ? { release: () => release() } : {}}
-            change={(value) => {
-                chroma = value.round().toNumber();
-                broadcast();
-            }}
-            {editable}
-        />
-        <Slider
-            label={(l) => getFirstText(l.output.Color.hue.names)}
-            value={hue}
-            min={0}
-            max={360}
-            increment={1}
-            unit={'°'}
-            tip={(l) => l.output.Color.hue.names[0]}
-            {...start ? { start } : {}}
-            {...release ? { release: () => release() } : {}}
-            change={(value) => {
-                hue = value.round().toNumber();
-                broadcast();
-            }}
-            {editable}
-        />
+        <span
+            class="format"
+            class:error={fieldColor === undefined}
+            title={fieldColor === undefined
+                ? $locales.getPlainText((l) => l.ui.widget.color.input.invalid)
+                : $locales.getPlainText((l) => l.ui.widget.color.input.format)}
+            aria-label={fieldColor === undefined
+                ? $locales.getPlainText((l) => l.ui.widget.color.input.invalid)
+                : `${$locales.getPlainText(
+                      (l) => l.ui.widget.color.input.format,
+                  )}: ${format}`}
+            >{fieldColor === undefined ? '✕' : format}</span
+        >
     </div>
 </div>
 
 <style>
+    /* Stack every row vertically and stretch each to full width so the chooser
+       reads as a single rectangular block. */
     .component {
         width: 100%;
+        max-width: 12em;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--wordplay-spacing);
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
+        border-radius: var(--wordplay-border-radius);
+        padding-bottom: var(--wordplay-spacing);
+    }
+
+    /* The preview/band/presets unit. Its border color fills the background and
+       outer border; the 1px flex/grid gaps inside let that color show through
+       as the only separators between cells (no padding). */
+    .unit {
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-border-width);
+        background: var(--wordplay-border-color);
+        border-top-left-radius: var(--wordplay-border-radius);
+        border-top-right-radius: var(--wordplay-border-radius);
+        border-bottom: var(--wordplay-border-width) solid
+            var(--wordplay-border-color);
+    }
+
+    .top {
         display: flex;
         flex-direction: row;
-        flex-wrap: wrap;
-        gap: var(--wordplay-spacing);
-        row-gap: var(--wordplay-spacing);
+        gap: var(--wordplay-border-width);
+        height: 2rem;
+    }
+
+    .preview {
+        width: 2rem;
+        flex: 0 0 auto;
+        border-top-left-radius: var(--wordplay-border-radius);
     }
 
     .bands {
-        min-width: 4em;
-        height: 2rem;
-        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
+        flex: 1;
+        min-width: 2em;
+        height: 100%;
         display: flex;
         flex-direction: column;
         position: relative;
-        flex-grow: 1;
-    }
-
-    .slider {
-        flex-grow: 1;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        row-gap: var(--wordplay-spacing);
+        border-top-right-radius: var(--wordplay-border-radius);
+        overflow: hidden;
     }
 
     .band {
@@ -421,24 +533,62 @@
         white-space: nowrap;
     }
 
+    /* One flush row of equal-width square swatches, sized to fill the unit
+       width. The 1px gaps reveal the unit's border color as separators. */
     .primary {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 0;
-        row-gap: 0;
+        display: grid;
+        grid-template-columns: repeat(var(--swatch-count), 1fr);
+        gap: var(--wordplay-border-width);
+        background: var(--wordplay-border-color);
+    }
+
+    /* Override the Button chrome (min sizes, radius, shadow) so each swatch is a
+       borderless square that fills its grid cell. */
+    .primary :global(button.swatch) {
+        display: block;
+        width: 100%;
+        aspect-ratio: 1;
+        min-width: 0;
+        min-height: 0;
+        border-radius: 0;
+        box-shadow: none;
     }
 
     .color {
-        width: 1em;
-        height: 1em;
-        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
+        display: block;
+        width: 100%;
+        height: 100%;
     }
 
-    .preview {
-        width: auto;
-        min-width: 2rem;
-        height: 2rem;
-        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
+    /* Last row: eyedropper, text field, and format chip, sized to the small
+       slider-label font so the field matches the labels above. */
+    .input {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: var(--wordplay-spacing);
+        font-size: var(--wordplay-small-font-size);
+        padding-inline-start: var(--wordplay-spacing);
+        padding-inline-end: var(--wordplay-spacing);
+    }
+
+    /* Let the text field grow and the chip take its content width. */
+    .input :global(.field-group) {
+        flex: 1;
+        min-width: 0;
+    }
+
+    /* Pin the chip to its content width (the field absorbs any shrink) and keep
+       a small cushion so the format label never sits hard against the chooser's
+       right edge. */
+    .format {
+        flex: 0 0 auto;
+        color: var(--wordplay-inactive-color);
+        white-space: nowrap;
+        padding-inline-end: var(--wordplay-spacing-half);
+    }
+
+    .format.error {
+        color: var(--wordplay-error);
     }
 </style>

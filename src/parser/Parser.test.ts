@@ -396,6 +396,23 @@ test('docs in docs', () => {
     expect((words as Words).segments.length).toBe(3);
 });
 
+test('an example with an unclosed bracket stops at its boundary, not a later one', () => {
+    // `\(\` must be its own example `(`, not merge with a later `\)\` — a nested
+    // block in an example stops at the example boundary `\`, even unclosed.
+    const examplesOf = (markupSource: string) =>
+        parseDoc(toTokens(`¶${markupSource}¶`))
+            .nodes()
+            .filter((n): n is Example => n instanceof Example)
+            .map((e) => e.program.toWordplay().trim());
+    // Two separate examples, with the prose between them left as prose.
+    expect(examplesOf('group with \\(\\ and \\)\\ here')).toEqual(['(', ')']);
+    // A complete bracketed example is bounded by its own close, not the next `\`.
+    expect(examplesOf('like \\(◌ | #)\\ or \\year:(4 #)\\.')).toEqual([
+        '(◌|#)',
+        'year:(4#)',
+    ]);
+});
+
 test('unparsables in docs', () => {
     const doc = parseDoc(
         toTokens(

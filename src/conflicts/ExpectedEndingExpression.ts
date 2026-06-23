@@ -2,7 +2,10 @@ import type LocaleText from '@locale/LocaleText';
 import Block from '@nodes/Block';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import type Locales from '@locale/Locales';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 
@@ -10,7 +13,7 @@ export class ExpectedEndingExpression extends Conflict {
     readonly block: Block;
 
     constructor(block: Block) {
-        super(false);
+        super(ConflictSeverity.Error);
         this.block = block;
     }
 
@@ -27,10 +30,7 @@ export class ExpectedEndingExpression extends Conflict {
         };
     }
 
-    override getResolutions(
-        _context: Context,
-        _concepts: Node[],
-    ): Resolutions {
+    override getResolutions(_context: Context, _concepts: Node[]): Resolutions {
         // Append an expression placeholder to the block.
         const placeholder = ExpressionPlaceholder.make();
         const b = this.block;
@@ -46,7 +46,8 @@ export class ExpectedEndingExpression extends Conflict {
                 kind: 'repair',
                 description: (locales: Locales) =>
                     locales.concretize(
-                        (l) => ExpectedEndingExpression.LocalePath(l).resolution,
+                        (l) =>
+                            ExpectedEndingExpression.LocalePath(l).resolution,
                     ),
                 mediator: (ctx) => ({
                     newProject: ctx.project.withRevisedNodes([

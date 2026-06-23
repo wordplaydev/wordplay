@@ -4,7 +4,10 @@ import type Context from '@nodes/Context';
 import type Expression from '@nodes/Expression';
 import type Type from '@nodes/Type';
 import type Locales from '@locale/Locales';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import type Node from '@nodes/Node';
 import BooleanLiteral from '@nodes/BooleanLiteral';
 import Is from '@nodes/Is';
@@ -15,7 +18,7 @@ export class ImpossibleType extends Conflict {
     readonly givenType: Type;
 
     constructor(expresion: Expression, givenType: Type) {
-        super(true);
+        super(ConflictSeverity.Minor);
         this.expression = expresion;
         this.givenType = givenType;
     }
@@ -36,10 +39,7 @@ export class ImpossibleType extends Conflict {
         };
     }
 
-    override getResolutions(
-        context: Context,
-        concepts: Node[],
-    ): Resolutions {
+    override getResolutions(context: Context, concepts: Node[]): Resolutions {
         // ImpossibleType fires from `Is` (the test is statically false) and
         // from `Otherwise` (the left can never be None, so `??` is dead). For
         // Is, replace with the constant `⊥`; for Otherwise, replace with the

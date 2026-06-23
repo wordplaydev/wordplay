@@ -25,6 +25,9 @@ import getWebpageHandler from './getWebpage.js';
 import postFeedbackHandler from './postFeedback.js';
 import purgeArchivedProjectsHandler from './purgeArchivedProjects.js';
 import refreshContributorsHandler from './refreshContributors.js';
+import tidyStaleAssignmentsHandler, {
+    tidyStaleAssignmentsRequest,
+} from './tidyStaleAssignments.js';
 
 export { submitLocalizationBundle } from './submitLocalization.js';
 export { submitLocaleRequest } from './submitLocaleRequest.js';
@@ -98,6 +101,30 @@ export const refreshContributors = onSchedule(
         memory: '512MiB',
     },
     refreshContributorsHandler,
+);
+
+/**
+ * Every day, nudge issue assignees who've been inactive for 21+ days, and
+ * unassign anyone who still hasn't responded a week after being nudged. Set
+ * DRY_RUN=true in the functions env to log intended actions without writing.
+ */
+export const tidyStaleAssignments = onSchedule(
+    {
+        schedule: '0 9 * * *',
+        timeZone: 'America/Los_Angeles',
+        timeoutSeconds: 540,
+        memory: '512MiB',
+    },
+    tidyStaleAssignmentsHandler,
+);
+
+/**
+ * Manual trigger for the stale-assignment tidy pass, for testing. Pass `?dry=1`
+ * to force a dry run that logs and returns intended actions without writing.
+ */
+export const tidyStaleAssignmentsManual = onRequest(
+    cors,
+    tidyStaleAssignmentsRequest,
 );
 
 /** When new feedback is created, post it to the GitHub repository. */

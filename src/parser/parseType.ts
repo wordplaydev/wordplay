@@ -1,5 +1,6 @@
 import type Bind from '@nodes/Bind';
 import BooleanType from '@nodes/BooleanType';
+import PatternType from '@nodes/PatternType';
 import ConversionType from '@nodes/ConversionType';
 import FormattedType from '@nodes/FormattedType';
 import FunctionType from '@nodes/FunctionType';
@@ -16,6 +17,7 @@ import TextType from '@nodes/TextType';
 import type Type from '@nodes/Type';
 import TypePlaceholder from '@nodes/TypePlaceholder';
 import UnionType from '@nodes/UnionType';
+import Unit from '@nodes/Unit';
 import UnparsableType from '@nodes/UnparsableType';
 import parseBind, { nextIsBind } from '@parser/parseBind';
 import {
@@ -33,7 +35,7 @@ export default function parseType(tokens: Tokens, isExpression = false): Type {
           ? parseNameType(tokens)
           : tokens.nextIs(Sym.BooleanType)
             ? new BooleanType(tokens.read(Sym.BooleanType))
-            : tokens.nextIs(Sym.Operator, '%') ||
+            : tokens.nextIs(Sym.Percent) ||
                 tokens.nextIsOneOf(Sym.Number, Sym.NumberType)
               ? parseNumberType(tokens)
               : tokens.nextIs(Sym.Text)
@@ -46,7 +48,12 @@ export default function parseType(tokens: Tokens, isExpression = false): Type {
                       ? parseSetOrMapType(tokens)
                       : tokens.nextIs(Sym.TableOpen)
                         ? parseTableType(tokens)
-                        : tokens.nextIs(Sym.Function)
+                        : tokens.nextIs(Sym.PatternDelimiter)
+                          ? new PatternType(
+                                tokens.read(Sym.PatternDelimiter),
+                                tokens.read(Sym.PatternDelimiter),
+                            )
+                          : tokens.nextIs(Sym.Function)
                           ? parseFunctionType(tokens)
                           : tokens.nextIs(Sym.Stream)
                             ? parseStreamType(tokens)
@@ -88,18 +95,29 @@ function parseTextType(tokens: Tokens): TextType {
 }
 
 function parseNumberType(tokens: Tokens): NumberType {
-    if (tokens.nextIs(Sym.Operator, '%'))
-        return new NumberType(tokens.read(Sym.Operator));
+    // A percent (`%`) is a unitless ratio, so its unit is "no unit" rather than "any unit".
+    if (tokens.nextIs(Sym.Percent))
+        return new NumberType(tokens.read(Sym.Operator), Unit.Empty);
 
     const number = tokens.nextIs(Sym.Number)
         ? tokens.read(Sym.Number)
         : tokens.read(Sym.NumberType);
-    const unit =
+    // A `!` immediately after the `#` marks an explicit "no unit" type (`#!`).
+    const none =
+        tokens.nextIs(Sym.Literal) && tokens.nextLacksPrecedingSpace()
+            ? tokens.read(Sym.Literal)
+            : undefined;
+    let unit =
+        none === undefined &&
         tokens.nextIsOneOf(Sym.Conditional, Sym.Name, Sym.Language) &&
         tokens.nextLacksPrecedingSpace()
             ? parseUnit(tokens)
             : undefined;
-    return new NumberType(number, unit);
+    // A concrete literal number type (e.g. `2`) is unitless, like the value it describes;
+    // only a bare `#` with no unit means "any unit".
+    if (unit === undefined && none === undefined && number.isSymbol(Sym.Number))
+        unit = Unit.Empty;
+    return new NumberType(number, unit, undefined, none);
 }
 
 function parseNoneType(tokens: Tokens): NoneType {
@@ -198,6 +216,11 @@ function parseConversionType(tokens: Tokens): ConversionType {
     return new ConversionType(convert, from, to);
 }
 
+/** FORMATTED_TYPE :: `…` LANGUAGE? */
 function parseFormattedType(tokens: Tokens): FormattedType {
-    return new FormattedType(tokens.read(Sym.FormattedType));
+    const tick = tokens.read(Sym.FormattedType);
+    const format = tokens.nextIs(Sym.Language)
+        ? parseLanguage(tokens)
+        : undefined;
+    return new FormattedType(tick, format);
 }

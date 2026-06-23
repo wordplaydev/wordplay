@@ -23,6 +23,9 @@ export default class StreamConcept extends Concept {
     /** A derived reference to the stream */
     readonly reference: Evaluate;
 
+    /** A lazily-built reference preferring textual names (see getRepresentation). */
+    private referenceTextual: Evaluate | undefined;
+
     /** Bind concepts */
     readonly inputs: BindConcept[];
 
@@ -80,8 +83,19 @@ export default class StreamConcept extends Concept {
         return concept instanceof StructureConcept ? concept : undefined;
     }
 
-    getRepresentation() {
-        return this.reference;
+    getRepresentation(locales?: Locales, textual = false) {
+        if (!textual || locales === undefined) return this.reference;
+        if (this.referenceTextual === undefined)
+            this.referenceTextual = Evaluate.make(
+                Reference.make(
+                    locales.getName(this.definition.names, false),
+                    this.definition,
+                ),
+                this.definition.inputs
+                    .filter((input) => !input.hasDefault())
+                    .map((input) => ExpressionPlaceholder.make(input.type)),
+            );
+        return this.referenceTextual;
     }
 
     getNodes(): Set<Node> {

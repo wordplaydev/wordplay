@@ -11,6 +11,7 @@ import parseExpression from '@parser/parseExpression';
 import { toTokens } from '@parser/toTokens';
 import type Locales from '@locale/Locales';
 import Conflict, {
+    ConflictSeverity,
     type Repair,
     type Resolution,
     type Resolutions,
@@ -32,7 +33,7 @@ export class UnparsableConflict extends Conflict {
         unparsable: UnparsableType | UnparsableExpression,
         context: Context,
     ) {
-        super(false);
+        super(ConflictSeverity.Error);
         this.unparsable = unparsable;
         this.context = context;
     }
@@ -94,7 +95,9 @@ export class UnparsableConflict extends Conflict {
             ...anchorCandidates,
         ]);
 
-        return best.map((c) => this.toResolution(c.expression, c.replaceTarget));
+        return best.map((c) =>
+            this.toResolution(c.expression, c.replaceTarget),
+        );
     }
 
     /**
@@ -150,7 +153,9 @@ export class UnparsableConflict extends Conflict {
         return candidates;
     }
 
-    private reconstructFromTemplate(template: Expression): Expression | undefined {
+    private reconstructFromTemplate(
+        template: Expression,
+    ): Expression | undefined {
         let code = '';
         let unparsableTokens = this.unparsable.unparsables.slice();
         const templateTokens = template.nodes(
@@ -166,8 +171,7 @@ export class UnparsableConflict extends Conflict {
                 (field.kind instanceof Any &&
                     field.kind.kinds.some(
                         (kind) =>
-                            kind instanceof IsA &&
-                            typeof kind !== 'function',
+                            kind instanceof IsA && typeof kind !== 'function',
                     ));
             if (isSpecificToken) {
                 const unparsableMatch = unparsableTokens.find((t) =>
@@ -212,10 +216,8 @@ export class UnparsableConflict extends Conflict {
         const tokens = toTokens(code);
         const expression = parseExpression(tokens);
         const clean =
-            expression
-                .nodes()
-                .filter((n) => n instanceof UnparsableExpression).length === 0 &&
-            !tokens.hasNext();
+            expression.nodes().filter((n) => n instanceof UnparsableExpression)
+                .length === 0 && !tokens.hasNext();
         return clean ? expression : undefined;
     }
 

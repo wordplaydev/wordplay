@@ -2,7 +2,10 @@ import type LocaleText from '@locale/LocaleText';
 import Language from '@nodes/Language';
 import type Token from '@nodes/Token';
 import type Locales from '@locale/Locales';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 import { Sym } from '@nodes/Sym';
@@ -16,7 +19,7 @@ export default class DuplicateLanguage extends Conflict {
     readonly second: Token;
 
     constructor(language: Language, first: Token, second: Token) {
-        super(true);
+        super(ConflictSeverity.Minor);
         this.language = language;
         this.first = first;
         this.second = second;
@@ -36,10 +39,7 @@ export default class DuplicateLanguage extends Conflict {
         };
     }
 
-    override getResolutions(
-        _context: Context,
-        _concepts: Node[],
-    ): Resolutions {
+    override getResolutions(_context: Context, _concepts: Node[]): Resolutions {
         // Remove the duplicate name AND its preceding `_` separator from the
         // language's extras list. The extras are `[_, name, _, name, ...]`;
         // dropping just the name leaves a stray underscore.
@@ -50,8 +50,7 @@ export default class DuplicateLanguage extends Conflict {
                       (_token, i) => i !== dupIndex && i !== dupIndex - 1,
                   )
                 : this.language.extras.filter(
-                      (t) =>
-                          t !== this.second && !t.isSymbol(Sym.LanguageJoin),
+                      (t) => t !== this.second && !t.isSymbol(Sym.LanguageJoin),
                   );
         const newLanguage = new Language(
             this.language.slash,

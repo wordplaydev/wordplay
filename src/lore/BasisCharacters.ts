@@ -28,6 +28,7 @@ import {
     NEVER_SYMBOL,
     NONE_SYMBOL,
     OR_SYMBOL,
+    PATTERN_DELIMITER_SYMBOL,
     PLACEHOLDER_SYMBOL,
     PREVIOUS_SYMBOL,
     THIS_SYMBOL,
@@ -83,6 +84,7 @@ const CharactersSet = {
     Delete: { symbols: TABLE_OPEN_SYMBOL + DIFFERENCE_SYMBOL },
     // Types
     Type: { symbols: TYPE_SYMBOL },
+    Pattern: { symbols: PATTERN_DELIMITER_SYMBOL },
     BooleanLiteral: { symbols: TRUE_SYMBOL + FALSE_SYMBOL },
     BooleanType: { symbols: QUESTION_SYMBOL },
     None: { symbols: NONE_SYMBOL },
@@ -109,6 +111,7 @@ const CharactersSet = {
     Union: { symbols: OR_SYMBOL },
     VariableType: { symbols: TYPE_OPEN_SYMBOL + TYPE_CLOSE_SYMBOL },
     Example: { symbols: CODE_SYMBOL + CODE_SYMBOL },
+    ExternalExample: { symbols: CODE_SYMBOL + OR_SYMBOL },
     Exception: { symbols: EXCEPTION_SYMBOL },
     // Input
     Stream: { symbols: STREAM_SYMBOL },

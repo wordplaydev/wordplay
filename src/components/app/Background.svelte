@@ -3,8 +3,8 @@
     import { animationFactor } from '@db/Database';
     import { Emotion } from '../../lore/Emotion';
     import { withColorEmoji } from '@unicode/emoji';
-    import UnicodeString from '@unicode/UnicodeString';
     import Eyes from '@components/lore/Eyes.svelte';
+    import { getWorldSymbols, pickRandom } from './backgroundUtils';
 
     type Character = {
         symbol: string;
@@ -24,12 +24,15 @@
         windowHeight: number = $state(0);
 
     const bounds = 0.2;
-    const symbols = new UnicodeString(
-        '😀മAあ韓नेئبअขማঅবাংབོދިεفગુע中رšՀꆈᓄქ',
-    ).getGraphemes();
+    const symbols = getWorldSymbols();
 
     let mounted = $state(false);
     let previousTime: DOMHighResTimeStamp | undefined = undefined;
+
+    // Cache each character's element by index so the animation loop can update
+    // positions without a per-frame document.querySelector (which forces layout
+    // ~20×/frame). Populated by bind:this in the render below.
+    const elements: Record<number, HTMLElement> = {};
 
     function step(time: DOMHighResTimeStamp) {
         if (previousTime === undefined) previousTime = time;
@@ -51,10 +54,8 @@
                 if (character.y < -windowHeight * bounds)
                     character.y = windowHeight * (1 + bounds);
 
-                const element = document.querySelector(
-                    `[data-id="${character.index}"]`,
-                );
-                if (element instanceof HTMLElement) {
+                const element = elements[character.index];
+                if (element) {
                     element.style.left = `${character.x}px`;
                     element.style.top = `${character.y}px`;
                     element.style.transform = `rotate(${character.angle}deg)`;
@@ -83,10 +84,7 @@
                 20,
                 Math.round(windowWidth * windowHeight) / 100000,
             );
-            for (let i = 0; i < count; i++)
-                random.push(
-                    symbols[Math.floor(Math.random() * symbols.length)],
-                );
+            for (let i = 0; i < count; i++) random.push(pickRandom(symbols));
 
             scene = random.map((symbol, index) => {
                 return {
@@ -129,7 +127,7 @@
         {#each scene as character}
             <div
                 class="character"
-                data-id={character.index}
+                bind:this={elements[character.index]}
                 style:font-size="{character.size}pt"
                 >{withColorEmoji(character.symbol)}<Eyes
                     invert={false}

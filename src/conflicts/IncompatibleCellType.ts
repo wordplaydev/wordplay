@@ -7,7 +7,10 @@ import type TableType from '@nodes/TableType';
 import type Type from '@nodes/Type';
 import type Locales from '@locale/Locales';
 import type Node from '@nodes/Node';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 
 export default class IncompatibleCellType extends Conflict {
     readonly type: TableType;
@@ -21,7 +24,7 @@ export default class IncompatibleCellType extends Conflict {
         expected: Type,
         received: Type,
     ) {
-        super(false);
+        super(ConflictSeverity.Error);
 
         this.type = type;
         this.cell = cell;
@@ -46,10 +49,7 @@ export default class IncompatibleCellType extends Conflict {
         };
     }
 
-    override getResolutions(
-        context: Context,
-        concepts: Node[],
-    ): Resolutions {
+    override getResolutions(context: Context, concepts: Node[]): Resolutions {
         return Conflict.fromRegistry(this, context, concepts);
     }
 

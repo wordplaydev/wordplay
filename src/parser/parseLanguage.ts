@@ -3,12 +3,13 @@ import { Sym } from '@nodes/Sym';
 import type Token from '@nodes/Token';
 import type Tokens from '@parser/Tokens';
 
-/** LANGUAGE :: /NAME(_NAME)*(-NAME)?
+/** LANGUAGE :: /NAME(_NAME)*(-NAME(_NAME)*)?
  *
  * Multilingual extension: after the first language name we accept any number
  * of `_<name>` pairs (no spaces) to express mixed languages such as `es_en`
- * (Spanglish) or `es_en_fr_de`. The optional `-REGION` suffix still applies
- * tag-wide.
+ * (Spanglish) or `es_en_fr_de`. The optional `-REGION` suffix likewise accepts
+ * any number of `_<name>` pairs to express multiple regions (e.g. `en-US_CA`),
+ * applying tag-wide.
  */
 export default function parseLanguage(tokens: Tokens): Language {
     const slash = tokens.read(Sym.Language);
@@ -43,5 +44,21 @@ export default function parseLanguage(tokens: Tokens): Language {
         dash && tokens.nextIs(Sym.Name) && tokens.nextLacksPrecedingSpace()
             ? tokens.read(Sym.Name)
             : undefined;
-    return new Language(slash, lang, extras, dash, region);
+
+    // Optional extra regions joined by `_`, mirroring the language extras loop
+    // above: collect alternating [underscore, name] tokens as long as each is
+    // directly adjacent to the prior token.
+    const regionExtras: Token[] = [];
+    while (
+        region !== undefined &&
+        tokens.nextIs(Sym.LanguageJoin) &&
+        tokens.nextLacksPrecedingSpace()
+    ) {
+        regionExtras.push(tokens.read(Sym.LanguageJoin));
+        if (tokens.nextIs(Sym.Name) && tokens.nextLacksPrecedingSpace())
+            regionExtras.push(tokens.read(Sym.Name));
+        else break;
+    }
+
+    return new Language(slash, lang, extras, dash, region, regionExtras);
 }

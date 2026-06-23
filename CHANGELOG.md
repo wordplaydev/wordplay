@@ -4,19 +4,98 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.24.0 - 2026-06-18
+
+This abbreviated week we fleshed out the multilingual and text processing part of the programming language.
+
+### Added
+
+- ⌕ We added a major new element to the programming language: patterns! Also known as "regular expressions", these help you test whether some text matches a particular pattern `"@amyjko" ≈ ⣿"@" >0 {_ #}⣿` ("does this text match an at symbol followed by 1 or more letters or numbers?"), and help you search text for particular patterns `"does my mystery string have a secret code 123456abc?" ⌕ ⣿6 # 3 _⣿` (find all sequences of 6 numbers followed by 3 letters) (#121). Matching is fully steppable, so you can single-step a match and watch the position advance and captures fill in, just like the rest of evaluation.
+- 📛 We added the ability to both view and use **natural language keywords** in code, in addition to their symbolic counterparts. For example, for conditionals, you can either write `condition ? a b` or `condition then a b`, or in Spanish, `condición entonces a b`. This works for every built-in symbol, in all the languages Wordplay supports, so the same program can appear as symbols or as words in each person's language. You can toggle this in settings, if you prefer shorter symbols or longer words in your language (#1194).
+- 🌎 When text is sliced up or combined, we now preserve and combine locales (e.g., `"hello and"/en + "hola"/es` now produces `"hello and hola"/en_es`) (#526).
+- 🌍 We added an operation to apply a locale to plain and formatted text (e.g., `("hello" + "world")/en` applies the `/en` locale to the computed text) (#1189).
+- 🌏 We added several operations to formatted text to mirror text operations (#1190).
+- 🌐 All locale information on plain and formatted text is now reflected in program output, so all text-to-speech functionality is properly localized and language writing directions are respected.
+- 🌐 Autocomplete menus now suggest extra languages and regions, in case you want bilingual, trilingual, or radically multlingual text! (#884).
+- 💡 We added short notes under each suggestion in the autocomplete menu and under code in the [Guide](https://wordplay.dev/guide), so you can see what a concept does without clicking through. We also rewrote many of the built-in explanations so each one starts by saying what it does (#1036).
+
+### Fixed
+
+- 📕 We made the navigation breadcrumbs on the guide more consistent with the page section selection.
+
+## 0.23.0 - 2026-06-13
+
+This week we improved the editor, fixed a few bugs, and added a new shorter tutorial for learners who already know another programming language.
+
+### Added
+
+- › You can now "fold" multi-line blocks of code to make it easier to navigate larger programs (#806, #883).
+- ❓ We added a new quick tutorial for creators who know another common programming language and want a quick way to understand how Wordplay compares. We're starting in English for now until we get feedback on it, then we'll work on translations later (#1034).
+
+### Changed
+
+- 🛠️ We upgraded internal tooling for stability.
+- 🎨 We gave tutorial markers colors and numbers to help distinguish them (#1014).
+
+### Fixed
+
+- ¶ We fixed many inconsistencies with the editor cursor in blocks and text mode.
+- 💨 We made the editor's drop down menus faster to display, especially big ones and especially in blocks mode.
+- 🐜 Debug timeline dragging was broken. It's fixed now!
+- 🔦 The little output chooser that appears when there are more than two source files was overlapping notifications. We moved it to avoid overlap.
+- 🚨 We made tutorial highlights more reliable (#902).
+- 🔢 We fixed a problem with unit types that let some type conflicts slip through.
+
+## 0.22.0 - 2026-06-06
+
+This week we made improvements to the output palette, output editing on stage, and added a block-based editing palette.
+
+### Added
+
+- 🖱️ There's a new block-based editing palette sidebar for quicker dragging and dropping.
+- 🖱️ Block-based editing with drag and copy and paste is now much more consistent. And when something can't be dragged or paste, we explain why in a new editor footer message.
+- 📋 There's now a visual clipboard to show what's copied (#10).
+- 💡 When you write formatted text, auto-complete now suggests your [custom characters](https://wordplay.dev/characters), so you can drop them into your words without typing their names — even to fill an empty spot. (#664)
+- 🖼️ We now render custom characters in a regular @TextLiteral, in addition to a @FormattedLiteral.
+- 😊 Now you can duplicate characters.
+- 🎨 We added many new pre-defined animations and a fancy new palette editor to preview them!
+- 🔶 We add support for editing, moving, rotating, and scaling all @Shape output!
+- ⚡️ We made it possible to edit all aspects of output in the palette (#172, #173, #174).
+- 💨 We made changes to a @Phrase's text animate too, in addition to rotate, scale, color, and other properties.
+- ⌨️ We added a setting to change the behavior of the tab key (#758).
+- ⌨️ We added "soft" wrapping to the text editing mode, so long lines are easier to read (#1173).
+
+### Changed
+
+- ✏️ We made the editor's double click selection behavior make more sense.
+- 🌈 We added alternating colors and different sizes to parentheses and brackets so they're easier to match in text mode (#1170). We also made the screen reader descriptions easier to understand.
+
+### Fixed
+
+- 요 We fixed Korean text entry (#1054).
+- 🚦 When nothing is selected, the palette's buttons for adding output now only make changes that fit — like wrapping a @Phrase in a @Group, or a @Form in a @Shape — instead of odd ones like putting a @Shape inside a @Phrase. When your program is empty, we offer to add a @Phrase to get you started.
+- ⌨️ Multiple selections on stage only worked by pointer; now keyboards are supported too (#118).
+
 ## 0.21.0 - 2026-06-01
+
+This week we made saving much more fast and reliable.
 
 ### Added
 
 - 🔄 We added a "syncing with the cloud" list to the save status dialog, so you can check if projects, galleries, characters, how-tos, and chats finish loading — or see if something didn't.
 - 🔄 When your browser or device is low on storage, we warn you, and when its out, we give an error. Sign in to save your work!
+- 📍 To keep GitHub tidy, we now have a bot that asks inactive assignees on GitHub for an update after 3 weeks of silence, and unassign them if they are silent a week later.
 
 ### Changed
 
 - 🔄 We made loading, updating, and saving errors display more consistently and reliably.
+- ⚠️ We made it easier to navigate conflicts in the editor when there are many.
+- 🎨 You can now edit @Phrase's inputs if they are a @Bind that refers to some other value.
+- 🛠️ We upgraded internal tooling for stability.
 
 ### Fixed
 
+- 🖱️ We fixed pop-up tips in scrolled dialogs. (#1177)
 - 🔄 We made loading and saving much less intensive for slow internet connections and people with lots of projects, galleries, and chats. Saving should be much more reliable overall now, especially if you temporarily lose your internet connection (#812).
 
 ## 0.20.0 - 2026-05-30

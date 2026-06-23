@@ -5,7 +5,10 @@ import Block from '@nodes/Block';
 import type Expression from '@nodes/Expression';
 import type Reference from '@nodes/Reference';
 import type Locales from '@locale/Locales';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 import {
@@ -56,7 +59,7 @@ export default class OrderOfOperations extends Conflict {
     readonly after: BinaryEvaluate;
 
     constructor(operation: BinaryEvaluate, after: BinaryEvaluate) {
-        super(true);
+        super(ConflictSeverity.Minor);
 
         this.operation = operation;
         this.after = after;

@@ -78,6 +78,7 @@
         }
     }
 
+
     /* Position selections relative to the node view */
     .highlight {
         position: absolute;
@@ -200,6 +201,14 @@
     .underline.minor path,
     .underline.minor {
         stroke: var(--wordplay-warning);
+    }
+
+    /* Emphasized conflict: wiggle both the outline and underline left-right.
+       transform-box keeps the transform origin on the path's own box so the
+       translate reads as a small horizontal nudge. */
+    .attention path {
+        transform-box: fill-box;
+        animation: shake calc(var(--animation-factor) * 500ms) linear infinite;
     }
 
     .underline.exception path {

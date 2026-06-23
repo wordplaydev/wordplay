@@ -94,7 +94,7 @@
     {/if}
     <div class="description">
         <Subheader compact
-            ><Link nowrap to={gallery.getLink()}
+            ><Link to={gallery.getLink()}
                 >{gallery.getName($locales)}</Link
             >
             <sub
@@ -118,6 +118,13 @@
         flex-wrap: nowrap;
         margin-block-start: 1em;
         gap: var(--wordplay-spacing);
+    }
+
+    /* The gallery name (a Subheader) is `white-space: nowrap` by default,
+       which makes long names overflow the card. Let it wrap within the card. */
+    .description > :global(h2) {
+        white-space: normal;
+        overflow-wrap: anywhere;
     }
 
     .dots {

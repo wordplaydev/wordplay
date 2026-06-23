@@ -2,8 +2,12 @@ name: Unit tests, type check, and locales
 on:
     workflow_call:
 
+# Split into three independent jobs that run concurrently. This work used to run
+# as four sequential steps in one job; as parallel jobs the wall-clock collapses
+# to the longest single job instead of their sum. Each job repeats the
+# checkout/setup-node/npm-ci preamble (cheap with the npm cache).
 jobs:
-    verify:
+    vitest:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v5
@@ -13,11 +17,33 @@ jobs:
                   cache: 'npm'
             - run: npm ci
               name: Install dependencies
-            - run: npm test
+            - run: npm run test:run
               name: Run vitest
+
+    svelte-check:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v5
+            - uses: actions/setup-node@v5
+              with:
+                  node-version: 22.x
+                  cache: 'npm'
+            - run: npm ci
+              name: Install dependencies
             - run: npx svelte-kit sync
               name: Sync svelte-kit
             - run: npx svelte-check --tsconfig ./tsconfig.json .svelte-kit
               name: Run svelte-check
+
+    locales:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v5
+            - uses: actions/setup-node@v5
+              with:
+                  node-version: 22.x
+                  cache: 'npm'
+            - run: npm ci
+              name: Install dependencies
             - run: npm run locales-ci
               name: Verify locales

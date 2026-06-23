@@ -4,7 +4,10 @@ import type Context from '@nodes/Context';
 import type Translate from '@nodes/Translate';
 import type Type from '@nodes/Type';
 import type Locales from '@locale/Locales';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import type Node from '@nodes/Node';
 
 /** The left side of a translate (↦) must be a List, Set, Map, or Table. */
@@ -13,7 +16,7 @@ export class ExpectedCollection extends Conflict {
     readonly givenType: Type;
 
     constructor(translate: Translate, givenType: Type) {
-        super(false);
+        super(ConflictSeverity.Error);
         this.translate = translate;
         this.givenType = givenType;
     }

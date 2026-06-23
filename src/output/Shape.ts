@@ -15,7 +15,7 @@ import type Pose from '@output/Pose';
 import type { DefinitePose } from '@output/Pose';
 import type Sequence from '@output/Sequence';
 import type { NameGenerator } from '@output/Stage';
-import type TextLang from '@output/TextLang';
+import type TextValue from '@values/TextValue';
 import { getOutputInput } from '@output/Valued';
 import { getStyle } from '@output/toOutput';
 
@@ -64,8 +64,8 @@ export default class Shape extends Output {
     constructor(
         value: StructureValue,
         form: Form,
-        name: TextLang | string,
-        description: TextLang | undefined,
+        name: TextValue | string,
+        description: TextValue | undefined,
         selectable: boolean,
         background: Color | undefined,
         pose: DefinitePose,

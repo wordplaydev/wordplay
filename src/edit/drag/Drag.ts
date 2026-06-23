@@ -1,8 +1,9 @@
+import type Conflict from '@conflicts/Conflict';
 import type Project from '@db/projects/Project';
 import Block from '@nodes/Block';
 import Expression from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import Node, { ListOf } from '@nodes/Node';
+import Node, { type FieldKind, ListOf } from '@nodes/Node';
 import Program from '@nodes/Program';
 import Source from '@nodes/Source';
 import { Sym } from '@nodes/Sym';
@@ -226,6 +227,72 @@ export function dropNodeOnSource(
         }
     }
 
+    // For palette drops (the dragged node came from the Wellspring/Guide rather than from a source),
+    // replace any placeholders inside the dropped subtree with reasonable typed defaults, so the
+    // dropped concept evaluates immediately instead of throwing a placeholder exception. We scope
+    // strictly to the dropped subtree (draggedClone's descendants), leaving placeholders elsewhere in
+    // the program untouched, and leave placeholders whose type has no default for the creator to fill.
+    let droppedNode: Node = draggedClone;
+    if (!draggedInSource) {
+        // Build a provisional source and project so each placeholder's computeType() has a context to
+        // walk up to its parent Evaluate/Bind and resolve its expected input type.
+        const provisionalSource = source.withProgram(
+            editedProgram,
+            editedSpace,
+        );
+        const provisionalProject = project.withSources([
+            ...sourceReplacements,
+            [source, provisionalSource],
+        ]);
+        const context = provisionalProject.getContext(provisionalSource);
+        const locales = project.getLocales();
+
+        // Pair each placeholder in the dropped subtree with its first default, skipping any with none.
+        const pairs = draggedClone
+            .nodes(
+                (n): n is ExpressionPlaceholder =>
+                    n instanceof ExpressionPlaceholder,
+            )
+            .map((placeholder) => {
+                const def = ExpressionPlaceholder.getDefaultExpressions(
+                    placeholder,
+                    context,
+                    locales,
+                )[0];
+                return def ? ([placeholder, def] as const) : undefined;
+            })
+            .filter(
+                (pair): pair is readonly [ExpressionPlaceholder, Expression] =>
+                    pair !== undefined,
+            );
+
+        if (pairs.length > 0) {
+            // Build the resolved subtree. Successive replace() is valid: each untouched sibling
+            // placeholder keeps its identity (clone only rebuilds the path to the replaced node)
+            // until it is itself replaced.
+            let resolvedClone: Node = draggedClone;
+            for (const [placeholder, def] of pairs)
+                resolvedClone = resolvedClone.replace(placeholder, def);
+
+            // Swap the live draggedClone for the resolved subtree in the program and its spacing.
+            editedProgram = editedProgram.replace(draggedClone, resolvedClone);
+            editedSpace = editedSpace.withReplacement(
+                draggedClone,
+                resolvedClone,
+            );
+
+            // Re-point the node to format and the returned node to the live resolved subtree.
+            nodeToFormat =
+                nodeToFormat === draggedClone
+                    ? resolvedClone
+                    : (editedProgram
+                          .nodes()
+                          .find((n) => n.containsChild(resolvedClone)) ??
+                      resolvedClone);
+            droppedNode = resolvedClone;
+        }
+    }
+
     // Make a new source
     let newSource = source.withProgram(editedProgram, editedSpace);
     newSource = nodeToFormat
@@ -235,7 +302,7 @@ export function dropNodeOnSource(
     // Finally, add this editor's updated source to the list of sources to replace in the project.
     sourceReplacements.push([source, newSource]);
 
-    return [project.withSources(sourceReplacements), newSource, draggedClone];
+    return [project.withSources(sourceReplacements), newSource, droppedNode];
 }
 
 export function getInsertionPoint(
@@ -283,16 +350,24 @@ export function getInsertionPoint(
 }
 
 /**
- * Given a project, a dragged node, a target node, and a possible insertion point, determine whether the target is valid.
+ * True if a field governed by `kind` can structurally accept `node` — as the field's whole value, or
+ * as an item when the field is a list. This is the single structural check shared by every drop path
+ * (node replacement, list insertion, and field assignment) so they can't drift apart.
+ */
+export function kindAcceptsDrop(kind: FieldKind, node: Node): boolean {
+    return kind instanceof ListOf ? kind.allowsItem(node) : kind.allows(node);
+}
+
+/**
+ * Given a project, a dragged node, and a target node, determine whether the target is a valid drop target.
  * Valid means that it is syntactically correct, but it may still result in a type error. We permit type errors to allow
- * for more flexible editing, and to help learners reason through what the type should be.
+ * for more flexible editing, and to help learners reason through what the type should be. When a drop would produce a
+ * type error, we don't block it; we explain it (see {@link getDropConflicts}).
  */
 export function isValidDropTarget(
     project: Project,
     dragged: Node,
     target: Node,
-    insertion: InsertionPoint | AssignmentPoint | undefined,
-    permissiveTypes: boolean,
 ): boolean {
     // Is the target inside the dragged node? If so, we can't drop it there.
     if (dragged.contains(target)) return false;
@@ -307,32 +382,92 @@ export function isValidDropTarget(
     if (field === undefined) return false;
 
     // Field doesn't allow the dragged node? Not a valid target.
-    if (!field.kind.allowsKind(dragged.constructor)) return false;
+    if (!kindAcceptsDrop(field.kind, dragged)) return false;
 
-    // What's the type context of the target?
-    const source = project.getSourceOf(target);
-    if (source === undefined) return false;
-    const context = project.getContext(source);
+    // Structurally valid. We permit type errors, so this is a valid drop target.
+    return true;
+}
 
-    // If the field permits the dragged node's kind, and either isn't typed or the dragged node's type is accepted by the field's type, allow the drop.
-    if (
-        permissiveTypes ||
-        field.getType === undefined ||
-        !(dragged instanceof Expression) ||
-        field
-            .getType(
-                context,
-                insertion instanceof InsertionPoint
-                    ? insertion.index
-                    : undefined,
-            )
-            .accepts(dragged.getType(context), context)
-    )
-        return true;
+/**
+ * Simulate dropping `dragged` onto `target` in `source` and return the NEW major conflicts (Warning +
+ * Error) the drop would introduce, diffed against the project's current major conflicts. Placeholder
+ * (minor) conflicts are already excluded by getMajorConflictsNow(), so a drop that only leaves a
+ * placeholder behind returns []. Used for FEEDBACK — it returns both blocking (Error) and permitted
+ * (Warning) conflicts so the caller can explain a rejection or a type-mismatch warning. Diffs the entire
+ * simulated project (not Project.getNewConflicts, which only re-derives a single source) so cross-source
+ * drags, where the donor source also changes, are handled correctly.
+ */
+export function getDropConflicts(
+    project: Project,
+    source: Source,
+    dragged: Node,
+    target: Node | InsertionPoint | AssignmentPoint,
+): { conflicts: Conflict[]; project: Project } {
+    const [newProject] = dropNodeOnSource(project, source, dragged, target);
+    // `before` comes from the live project's CACHED analysis (the app already computed it for the
+    // annotations UI), so it costs nothing. `after` must be computed fresh on the never-analyzed
+    // newProject; getMajorConflictsNow() is the right tool there because it computes conflicts only,
+    // skipping the evaluation/dependency graphs that full analysis would also build.
+    const before = project.getConflicts().filter((c) => !c.isMinor());
+    const after = newProject.getMajorConflictsNow();
+    // The conflicts reference nodes in newProject, so return it too for resolving their context.
+    return {
+        conflicts: after.filter((a) => !before.some((b) => b.isEqualTo(a))),
+        project: newProject,
+    };
+}
 
-    // Allow inserts to be inserted.
-    if (insertion) return true;
+/** The subset of {@link getDropConflicts} that is BLOCKING (Error severity) — the conflicts that make a
+ * drop invalid in blocks mode (e.g. an unknown name). Warning conflicts (type mismatches) are excluded. */
+export function getBlockingDropConflicts(
+    project: Project,
+    source: Source,
+    dragged: Node,
+    target: Node | InsertionPoint | AssignmentPoint,
+): Conflict[] {
+    return getDropConflicts(project, source, dragged, target).conflicts.filter(
+        (c) => c.isBlocking(),
+    );
+}
 
-    // Otherwise, not a valid match.
-    return false;
+/**
+ * Whether a drop is permitted: structurally valid AND introducing no blocking (Error) conflict. This
+ * mirrors the typing/paste policy — Warning and Minor conflicts are permitted, Error is blocked. For a
+ * Node target we run the cheap structural {@link isValidDropTarget} first; InsertionPoint/AssignmentPoint
+ * targets were already structurally validated at detection time (PointerUtilities), so we only
+ * conflict-check them.
+ */
+export function isDropPermitted(
+    project: Project,
+    source: Source,
+    dragged: Node,
+    target: Node | InsertionPoint | AssignmentPoint,
+): boolean {
+    if (target instanceof Node && !isValidDropTarget(project, dragged, target))
+        return false;
+    return (
+        getBlockingDropConflicts(project, source, dragged, target).length === 0
+    );
+}
+
+/**
+ * The node a drop should actually replace when the pointer is over `hovered`. In blocks mode the
+ * most-specific node under the pointer (e.g. a call's function name) often can't accept the dragged
+ * node even though an enclosing node can. Walk from `hovered` outward and return the SMALLEST
+ * enclosing node the drop is permitted on (structurally valid + no blocking conflict). A permitted
+ * `hovered` (including a permitted warning-level mismatch) returns unchanged; if nothing in the chain
+ * is permitted, return `hovered` so the original rejection is still explained.
+ */
+export function resolveReplacementTarget(
+    project: Project,
+    source: Source,
+    dragged: Node,
+    hovered: Node,
+): Node {
+    const root = project.getRoot(hovered);
+    if (root === undefined) return hovered;
+    for (const candidate of root.getSelfAndAncestors(hovered))
+        if (isDropPermitted(project, source, dragged, candidate))
+            return candidate;
+    return hovered;
 }

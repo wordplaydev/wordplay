@@ -24,6 +24,11 @@
     import Placement from '@input/Placement';
     import Pointer from '@input/Pointer';
     import Evaluate from '@nodes/Evaluate';
+    import {
+        rotatedOutput,
+        resizedOutput,
+        resizeIsIncremental,
+    } from '@components/output/editHandles';
     import PermissionException from '@values/PermissionException';
     import PermissionSplash from '@components/output/PermissionSplash.svelte';
     import {
@@ -52,6 +57,7 @@
         getConceptIndex,
         getEvaluation,
         getKeyboardEditIdle,
+        getRevealPalette,
         getSelectedOutput,
         IdleKind,
     } from '@components/project/Contexts';
@@ -112,14 +118,142 @@
     const keyboardEditIdle = getKeyboardEditIdle();
     const selection = getSelectedOutput();
     const announce = getAnnouncer();
+    const revealPalette = getRevealPalette();
 
     let ignored = $state(false);
     let valueView = $state<HTMLElement | undefined>();
+
+    // The continuous rotate/size handle drag is owned HERE, on the stable stage view — not in the
+    // per-output handle component, which re-mounts on every Projects.revise() (GroupView keys by
+    // creator id) and would gap its listeners mid-drag. Gated on the steady `dragging` flag so it
+    // attaches once per gesture; on each move it re-resolves the dragged output from the live
+    // selection (robust to re-mount) and pivots on the center captured at gesture start.
+    $effect(() => {
+        if (!selection?.dragging) return;
+
+        // Coalesce pointermove to at most one revise per animation frame, always applying the LATEST
+        // pointer position. A handle drag's revise drives the whole edit pipeline (evaluator + Editor
+        // + Palette), so processing every raw pointermove (often faster than the frame rate) backs up
+        // the main thread. rAF keeps the stage frame-synced (unlike a debounce timer, which would lag
+        // the pointer). Modeled on Evaluator.later()'s rAF use.
+        let pendingMove: PointerEvent | undefined;
+        let frame: number | undefined;
+
+        function schedule(event: PointerEvent) {
+            pendingMove = event;
+            if (frame !== undefined) return;
+            frame = requestAnimationFrame(() => {
+                frame = undefined;
+                const event = pendingMove;
+                pendingMove = undefined;
+                if (event) applyMove(event);
+            });
+        }
+
+        function applyMove(event: PointerEvent) {
+            // Re-resolve the dragged output from the live selection each frame (robust to the view
+            // re-mounting), and use the gesture's CAPTURED center — never re-query the DOM element,
+            // whose data-node-id lags $project by one evaluation and would freeze the gesture.
+            const output = selection?.getOutput(project)[0];
+            if (output === undefined) return;
+            const context = project.getNodeContext(output);
+
+            const rotating = selection?.rotationDragging;
+            const sizing = selection?.sizeDragging;
+            if (rotating) {
+                const angle =
+                    Math.atan2(
+                        event.clientY - rotating.cy,
+                        event.clientX - rotating.cx,
+                    ) *
+                    (180 / Math.PI);
+                const next = rotatedOutput(
+                    project,
+                    output,
+                    context,
+                    rotating.startDegrees + (angle - rotating.startAngle),
+                );
+                // Skip a revise that wouldn't change the output's VALUE. rotatedOutput rounds to
+                // whole degrees but always mints new node ids, so an unchanged frame produces a
+                // structurally-equal project. Project.equals() (used by ProjectView to decide
+                // whether to rebuild the evaluator) would then skip the rebuild, leaving the
+                // rendered value's node ids stale relative to $project — which makes the on-stage
+                // output unclickable and the handle vanish (it can't match the selection). Moving
+                // never hits this because its position changes every frame.
+                if (next && !next.isEqualTo(output))
+                    Projects.revise(project, [[output, next]]);
+            } else if (sizing && sizing.startDistance !== 0) {
+                const distance = Math.hypot(
+                    event.clientY - sizing.cy,
+                    event.clientX - sizing.cx,
+                );
+                const next = resizedOutput(
+                    project,
+                    output,
+                    context,
+                    distance / sizing.startDistance,
+                    sizing.startSize,
+                );
+                // Same no-op guard as rotation above: only revise (and advance the incremental
+                // reference distance) when the value actually changes, or the stale-id desync
+                // leaves the output stuck.
+                if (next && !next.isEqualTo(output)) {
+                    Projects.revise(project, [[output, next]]);
+                    // A Shape scales its form per frame, so advance the reference distance;
+                    // Phrase/Group resize absolutely from the fixed start distance.
+                    if (resizeIsIncremental(project, output, context))
+                        selection?.advanceSizing(distance);
+                }
+            }
+        }
+
+        // The gesture END (pointerup/pointercancel) is owned by OutputHandles, which registers it
+        // synchronously on pointerdown so a quick release can't beat an async effect. This effect
+        // owns only the continuous MOVE; its cleanup removes the listener when `dragging` clears.
+        window.addEventListener('pointermove', schedule);
+        return () => {
+            window.removeEventListener('pointermove', schedule);
+            if (frame !== undefined) cancelAnimationFrame(frame);
+            pendingMove = undefined;
+        };
+    });
 
     /** The state of dragging the adjusted focus. A location or nothing. */
     let drag = $state<
         { startPlace: Place; left: number; top: number } | undefined
     >();
+
+    // Coalesce body-move revises to one per animation frame (like the handle drag above). Each move
+    // revise drives the whole edit pipeline, so applying every raw pointermove backs up the main
+    // thread. We store the latest target place and flush it once per frame; on release we flush
+    // synchronously so the final position is never dropped. Only the MOVE path is throttled — pan,
+    // pinch, painting, and Pointer-stream updates stay synchronous (handled in handlePointerMove).
+    let pendingMoveTarget: { x: number; y: number } | undefined;
+    let moveFrame: number | undefined;
+
+    function scheduleMove(x: number, y: number) {
+        pendingMoveTarget = { x, y };
+        if (moveFrame !== undefined) return;
+        moveFrame = requestAnimationFrame(() => {
+            moveFrame = undefined;
+            flushMove();
+        });
+    }
+
+    function flushMove() {
+        const target = pendingMoveTarget;
+        pendingMoveTarget = undefined;
+        if (target === undefined) return;
+        const outputs = selection?.getOutput(project) ?? [];
+        if (outputs.length === 0) return;
+        moveOutput(DB, project, outputs, $locales, target.x, target.y, false);
+    }
+
+    function cancelScheduledMove() {
+        if (moveFrame !== undefined) cancelAnimationFrame(moveFrame);
+        moveFrame = undefined;
+        pendingMoveTarget = undefined;
+    }
 
     /** A list of points gathered during a painting drag */
     let paintingPlaces = $state<{ x: number; y: number }[]>([]);
@@ -388,37 +522,118 @@
             }
         }
 
-        if (!evaluator.isPlaying() && editable && selection?.hasPaths()) {
-            const evaluate = getOutputNodeFromID(getOutputNodeIDFromFocus());
-            if (evaluate !== undefined) {
-                // Add or remove the focused node from the selection.
-                if (select) {
-                    selection.setPaths(
-                        project,
-                        selection.includes(evaluate, project)
-                            ? selection
-                                  .getOutput(project)
-                                  .filter((o) => o !== evaluate)
-                            : [evaluate],
-                        'output',
-                    );
+        // Keyboard multi-select of outputs (paused + editable), a decoupled "toggle" model: moving
+        // focus (Tab / Alt+Arrow) never changes the selection; Space toggles the focused output in or
+        // out; Enter selects ONLY the focused output and opens the palette; Escape clears; Cmd/Ctrl+A
+        // selects all. Never mutate the selection mid handle-drag (mirrors selectPointerOutput).
+        if (!evaluator.isPlaying() && editable && selection && !selection.dragging) {
+            const lang = $locales.getLanguages()[0];
+
+            // Escape clears the whole selection (works even when focus is on the stage container).
+            if (event.key === 'Escape' && !command && !shift) {
+                if (!selection.isEmpty()) {
+                    selection.empty();
+                    if ($announce)
+                        $announce(
+                            'selection',
+                            lang,
+                            $locales.getPlainText((l) => l.ui.output.cleared),
+                        );
                     event.stopPropagation();
                     return;
                 }
-                // Remove the node that created this phrase.
-                else if (editable && event.key === 'Backspace' && command) {
-                    Projects.revise(project, [[evaluate, undefined]]);
+            }
+
+            // Cmd/Ctrl+A selects every selectable output on stage.
+            if (event.key === 'a' && command && !shift) {
+                const all = getFocusableOutput()
+                    .map((el) =>
+                        getOutputNodeFromID(getOutputNodeIDFromElement(el)),
+                    )
+                    .filter((e): e is Evaluate => e !== undefined);
+                if (all.length > 0) {
+                    selection.selectAll(project, all);
+                    if ($announce)
+                        $announce(
+                            'selection',
+                            lang,
+                            $locales
+                                .concretize((l) => l.ui.output.allSelected, {
+                                    count: all.length,
+                                })
+                                .toText(),
+                        );
+                    event.preventDefault();
+                    event.stopPropagation();
+                    return;
+                }
+            }
+
+            const evaluate = getOutputNodeFromID(getOutputNodeIDFromFocus());
+            if (evaluate !== undefined) {
+                // Use the output's description (its aria-label) for recognizability — data-name is an
+                // internal id. Read before any toggle so a group's "selected" name suffix isn't echoed.
+                const name =
+                    document.activeElement instanceof HTMLElement
+                        ? (document.activeElement.getAttribute('aria-label') ??
+                          '')
+                        : '';
+
+                // Space toggles the focused output's membership in the selection.
+                if (event.key === ' ' && !command && !shift) {
+                    selection.toggle(project, evaluate);
+                    const nowSelected = selection.includes(evaluate, project);
+                    const count = selection.getOutput(project).length;
+                    if ($announce)
+                        $announce(
+                            'selection',
+                            lang,
+                            nowSelected
+                                ? $locales
+                                      .concretize((l) => l.ui.output.selected, {
+                                          name,
+                                          count,
+                                      })
+                                      .toText()
+                                : $locales
+                                      .concretize(
+                                          (l) => l.ui.output.deselected,
+                                          { name, count },
+                                      )
+                                      .toText(),
+                        );
+                    // Suppress page scroll AND the role=button activation the leaf would otherwise fire.
+                    event.preventDefault();
                     event.stopPropagation();
                     return;
                 }
 
-                // // meta-a: select all phrases
-                // if (editable && event.key === 'a' && (event.metaKey || event.ctrlKey))
-                //     selectedOutput.set(
-                //         Array.from(
-                //             new Set(visible.map((phrase) => phrase.value.creator))
-                //         )
-                //     );
+                // Enter selects only the focused output and opens the palette. (A sole-selected phrase
+                // consumes Enter for text editing in PhraseView before it reaches here.)
+                if (event.key === 'Enter' && !command && !shift) {
+                    selection.setPaths(project, [evaluate], 'output');
+                    selection.setPhrase(null);
+                    revealPalette?.();
+                    if ($announce)
+                        $announce(
+                            'selection',
+                            lang,
+                            $locales
+                                .concretize((l) => l.ui.output.selectedOnly, {
+                                    name,
+                                })
+                                .toText(),
+                        );
+                    event.stopPropagation();
+                    return;
+                }
+
+                // Cmd/Ctrl+Backspace deletes the focused output.
+                if (event.key === 'Backspace' && command) {
+                    Projects.revise(project, [[evaluate, undefined]]);
+                    event.stopPropagation();
+                    return;
+                }
             }
         }
 
@@ -602,6 +817,20 @@
         if (editable && valueView && renderedFocus) {
             const output = selection?.getOutput(project) ?? [];
 
+            // Whether this drag will MOVE a selected output (a non-Stage output, while paused
+            // and editable) versus PAN the focus. Mirrors the decision in handlePointerMove —
+            // it must agree so the drag's start place matches the gesture. A selected Stage (or
+            // empty/playing) pans, so its start place is the rendered focus, NOT the Stage's
+            // own place; panning then only moves x/y and retains the focus's z.
+            const selectedOutput = output[0];
+            const movable =
+                !evaluator.isPlaying() &&
+                selectedOutput !== undefined &&
+                !selectedOutput.is(
+                    project.shares.output.Stage,
+                    project.getNodeContext(selectedOutput),
+                );
+
             // Start dragging.
             const rect = valueView.getBoundingClientRect();
             const dx = event.clientX - rect.left;
@@ -621,15 +850,15 @@
                           my + renderedFocus.y,
                           0,
                       )
-                    : // If there's selected output, it's the first output selected, and it has a place
-                      output.length > 0
+                    : // If moving a selected output, start from its place.
+                      movable
                       ? getOrCreatePlace(
                             project,
                             $locales,
-                            output[0],
-                            evaluator.project.getNodeContext(output[0]),
+                            selectedOutput,
+                            evaluator.project.getNodeContext(selectedOutput),
                         )
-                      : // If moving focus, the start place is the rendered focus
+                      : // Otherwise we're panning: start from the rendered focus.
                         renderedFocus;
 
             if (place) {
@@ -639,6 +868,9 @@
                     left: dx,
                     top: dy,
                 };
+                // Mark an on-stage gesture in progress when this drag will MOVE an output (not a pan
+                // or paint), so ProjectView can defer conflict/concept-index work until release.
+                if (movable) selection?.setInteracting(true);
                 // Reset the painting places
                 paintingPlaces = [];
                 strokeNodeID = undefined;
@@ -699,12 +931,16 @@
 
         // POINTER PANNING AND ZOOMING
 
-        // Handle focus or output moves..
+        // Handle focus or output moves.. but NOT while a rotation/size handle drag is in
+        // progress — the handle owns that gesture, and moving/panning here would revise the
+        // project concurrently, breaking the selection path (and crashing on an empty one).
         if (
             pointersByIndex.length < 2 &&
             event.buttons === 1 &&
             drag &&
-            renderedFocus
+            renderedFocus &&
+            !selection?.rotationDragging &&
+            !selection?.sizeDragging
         ) {
             const valueRect = valueView?.getBoundingClientRect();
             if (valueRect !== undefined) {
@@ -773,39 +1009,36 @@
                 }
                 // If panning, move focus
                 else {
-                    // If there's a stage, move the focus.
-                    if (selection?.isEmpty() && stage) {
+                    // Decide: move a selected movable output, or pan the stage focus.
+                    // A "movable" output is a non-Stage output selected while paused and
+                    // editable. Everything else — an empty selection, a selected Stage, or
+                    // play mode (read-only) — falls through to panning. This is what lets the
+                    // audience click to SELECT the Stage and still drag to PAN it during a
+                    // pause, and keeps panning (but not editing) available during play.
+                    const outputs = selection?.getOutput(project) ?? [];
+                    const selected = outputs[0];
+                    const movable =
+                        editable &&
+                        !evaluator.isPlaying() &&
+                        selected !== undefined &&
+                        !selected.is(
+                            project.shares.output.Stage,
+                            project.getNodeContext(selected),
+                        );
+                    if (movable) {
+                        // Show the grid, for clarity on positioning.
+                        grid = true;
+                        // Defer the revise to one-per-frame (flushed on release); the latest target
+                        // wins. Resolves the outputs fresh at flush time (robust to re-mount).
+                        scheduleMove(newX, newY);
+                        event.stopPropagation();
+                    } else if (stage) {
                         const scale = rootScale(0, renderedFocus.z);
                         // Scale down the mouse delta and offset by the drag starting point.
                         stage.setFocus(
                             renderedDeltaX / scale + drag.startPlace.x,
                             renderedDeltaY / scale + drag.startPlace.y,
                             drag.startPlace.z,
-                        );
-                        event.stopPropagation();
-                    }
-                    // If there's an output selection, move the output.
-                    else if (
-                        selection?.hasPaths() &&
-                        !selection
-                            .getOutput(project)[0]
-                            .is(
-                                project.shares.output.Stage,
-                                project.getNodeContext(
-                                    selection.getOutput(project)[0],
-                                ),
-                            )
-                    ) {
-                        // Show the grid, for clarity on positioning.
-                        grid = true;
-                        moveOutput(
-                            DB,
-                            project,
-                            selection.getOutput(project),
-                            $locales,
-                            newX,
-                            newY,
-                            false,
                         );
                         event.stopPropagation();
                     }
@@ -856,9 +1089,16 @@
             cancelGesture();
         }
 
+        // Apply the final pending move synchronously so release never drops the last frame, then
+        // cancel any scheduled frame. Done before clearing `interacting` so the deferred conflict /
+        // concept-index work (gated on it in ProjectView) flushes once against the final project.
+        flushMove();
+        cancelScheduledMove();
+
         drag = undefined;
         paintingPlaces = [];
         strokeNodeID = undefined;
+        selection?.setInteracting(false);
 
         if (evaluator.isPlaying())
             evaluator.singletonReact(Button, (stream) => stream.react(false));
@@ -880,6 +1120,8 @@
      */
     function selectPointerOutput(event: PointerEvent | MouseEvent): boolean {
         if (selection === undefined) return false;
+        // Never change the selection while a handle drag is in progress — the drag depends on it.
+        if (selection.dragging) return true;
         // If we found the node in the project, add it to the selection.
         const evaluate = getOutputNodeFromID(
             getOutputNodeIDUnderPointer(event),
@@ -918,9 +1160,26 @@
                     outputView,
                     'Focusing output on output selection',
                 );
-        } else selection.setPaths(project, [], 'output');
+        }
+        // Nothing under the pointer: select the explicit Stage (so it's still editable in
+        // the palette), or clear when the stage is implicit and has no node to select.
+        else if (
+            stageValue?.explicit &&
+            stageValue.value.creator instanceof Evaluate
+        )
+            selection.setPaths(project, [stageValue.value.creator], 'output');
+        else selection.setPaths(project, [], 'output');
 
         return true;
+    }
+
+    /** Double-click selects the output under the pointer and explicitly opens the palette for it.
+     *  (A phrase consumes dblclick for text editing before this fires, so this applies to shapes,
+     *  groups, and the stage.) Read-only during play. */
+    function handleDoubleClick(event: MouseEvent) {
+        if (evaluator.isPlaying() || !editable) return;
+        selectPointerOutput(event);
+        revealPalette?.();
     }
 
     function pixelsToMeters(mx: number, my: number, z: number, focusZ: number) {
@@ -1083,7 +1342,7 @@
         // Build all utterances up front so onend closures can reference them.
         const utterances = currentSays.map((say, i) => {
             const u = new SpeechSynthesisUtterance(say.text.text);
-            u.lang = say.text.lang ?? lang;
+            u.lang = say.text.language?.getBCP47() ?? lang;
             if (currentVoiceURI) {
                 const v = speechSynthesis
                     .getVoices()
@@ -1115,7 +1374,11 @@
     class="output"
     data-testid="output"
     data-uiid="stage"
+    role="group"
     aria-label={$locales.getPlainText((l) => l.ui.output.label)}
+    aria-describedby={$evaluation?.playing === false && !painting && editable
+        ? 'output-multiselect-help'
+        : null}
     class:mini
     class:editing={$evaluation?.playing === false && !painting && editable}
     class:selected={stageValue &&
@@ -1124,6 +1387,11 @@
         selection !== undefined &&
         selection.includes(stageValue.value.creator, project)}
 >
+    {#if $evaluation?.playing === false && !painting && editable}
+        <span id="output-multiselect-help" class="multiselect-help"
+            >{$locales.getPlainText((l) => l.ui.output.multiselect)}</span
+        >
+    {/if}
     <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div
         class="value"
@@ -1133,6 +1401,7 @@
         bind:this={valueView}
         onkeydown={interactive ? handleKeyDown : null}
         onkeyup={interactive ? handleKeyUp : null}
+        ondblclick={interactive ? handleDoubleClick : null}
         onwheel={interactive ? handleWheel : null}
         onpointerdown={(event) => {
             event.stopPropagation();
@@ -1288,6 +1557,17 @@
         flex-grow: 1;
     }
 
+    /* Visually-hidden screen-reader instructions for keyboard multi-select. */
+    .multiselect-help {
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        height: 1px;
+        width: 1px;
+        overflow: hidden;
+        position: absolute;
+        white-space: nowrap;
+    }
+
     .output:focus-within {
         outline: var(--wordplay-focus-width) solid var(--wordplay-focus-color);
         outline-offset: calc(-1 * var(--wordplay-focus-width));
@@ -1297,6 +1577,45 @@
         outline: var(--wordplay-focus-width) dotted
             var(--wordplay-highlight-color);
         outline-offset: calc(-1 * var(--wordplay-focus-width));
+    }
+
+    /* Unified on-stage selection feedback for Phrase / Shape / Group, shown only
+       when paused (.editing) and interactive. Centralized here so the three views
+       can't drift apart. No outline-offset: the outline draws outside the box so an
+       opaque Shape fill can't paint over it. */
+    :global(.stage.editing.interactive .phrase.selected),
+    :global(.stage.editing.interactive .shape.selected),
+    :global(.stage.editing.interactive .group.selected) {
+        outline: var(--wordplay-focus-width) dotted
+            var(--wordplay-highlight-color);
+    }
+
+    :global(.stage.editing.interactive .phrase:not(.selected)),
+    :global(.stage.editing.interactive .shape:not(.selected)),
+    :global(.stage.editing.interactive .group:not(.selected):not(.root)) {
+        outline: var(--wordplay-focus-width) dotted
+            var(--wordplay-inactive-color);
+    }
+
+    /* A keyboard-focused output shows a SOLID focus ring drawn with box-shadow (a different property
+       than the selection/selectable dotted `outline` above) so the two coexist — a focused AND
+       selected output shows both. The focus ring sits just outside the outline, separated by a thin
+       background-colored gap, so they read as distinct concentric rings. box-shadow (like the
+       outline) draws outside the box, so an opaque Shape fill can't paint over it. */
+    :global(.stage.editing.interactive .phrase:focus-visible),
+    :global(.stage.editing.interactive .shape:focus-visible),
+    :global(.stage.editing.interactive .group:focus-visible:not(.root)) {
+        box-shadow:
+            0 0 0 var(--wordplay-focus-width) var(--wordplay-background),
+            0 0 0 calc(2 * var(--wordplay-focus-width))
+                var(--wordplay-focus-color);
+    }
+
+    /* Move cursor signals draggability (but not while editing a phrase's text). */
+    :global(.stage.editing.interactive .phrase.selected:not(.entered)),
+    :global(.stage.editing.interactive .shape.selected),
+    :global(.stage.editing.interactive .group.selected) {
+        cursor: move;
     }
 
     .value {

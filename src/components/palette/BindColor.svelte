@@ -6,7 +6,7 @@
     import NumberLiteral from '@nodes/NumberLiteral';
     import Reference from '@nodes/Reference';
     import Unit from '@nodes/Unit';
-    import { locales, Projects } from '@db/Database';
+    import { Projects } from '@db/Database';
     import type Bind from '@nodes/Bind';
     import {
         getProject,
@@ -21,7 +21,8 @@
         id?: string | undefined;
     }
 
-    let { property, values, editable, id = undefined }: Props = $props();
+    // `property` is accepted for a uniform call site but unused here.
+    let { values, editable, id = undefined }: Props = $props();
 
     let project = getProject();
     let selection = getSelectedOutput();
@@ -56,11 +57,7 @@
 
         Projects.revise(
             $project,
-            $project.getBindReplacements(
-                values.getExpressions(),
-                property.getName($locales),
-                replacement,
-            ),
+            values.getEditReplacements($project, replacement),
         );
     }
 

@@ -9,6 +9,7 @@ import type StructureDefinition from '@nodes/StructureDefinition';
 import Type from '@nodes/Type';
 import type TypeVariables from '@nodes/TypeVariables';
 import type Evaluation from '@runtime/Evaluation';
+import type Step from '@runtime/Step';
 import createDefaultShares from '@runtime/createDefaultShares';
 import Value from '@values/Value';
 import type LanguageCode from '@locale/LanguageCode';
@@ -35,6 +36,7 @@ import bootstrapSet from '@basis/SetBasis';
 import bootstrapStructure from '@basis/StructureBasis';
 import bootstrapTable from '@basis/TableBasis';
 import bootstrapText from '@basis/TextBasis';
+import bootstrapFormatted from '@basis/FormattedBasis';
 
 export class Basis {
     readonly locales: Locales;
@@ -64,6 +66,7 @@ export class Basis {
         this.addStructure('none', bootstrapNone(locales));
         this.addStructure('boolean', bootstrapBool(locales));
         this.addStructure('text', bootstrapText(locales));
+        this.addStructure('formatted', bootstrapFormatted(locales));
         this.addStructure('list', bootstrapList(locales));
         this.addStructure('measurement', bootstrapNumber(locales));
         this.addStructure('set', bootstrapSet(locales));
@@ -187,13 +190,14 @@ export function createBasisFunction(
     types: (Type | [Type, Expression])[],
     output: Type,
     evaluator: (requestor: Expression, evaluator: Evaluation) => Value,
+    steps: Step[] | ((expr: InternalExpression) => Step[]) = [],
 ) {
     return FunctionDefinition.make(
         getDocLocales(locales, (l) => text(l).doc),
         getNameLocales(locales, (l) => text(l).names),
         typeVars,
         createInputs(locales, (l) => text(l).inputs, types),
-        new InternalExpression(output, [], evaluator),
+        new InternalExpression(output, steps, evaluator),
         output,
     );
 }

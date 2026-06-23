@@ -1,7 +1,7 @@
 <script lang="ts">
+    import { getAnnouncer } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import { getAnnouncer } from '@components/project/Contexts';
     import { animationDuration, appBanner, locales } from '@db/Database';
     import { slide } from 'svelte/transition';
 
@@ -39,7 +39,8 @@
         data-testid="app-banner"
         transition:slide={{ duration: $animationDuration }}
     >
-        <span class="message"><LocalizedText path={message} markup={false} /></span
+        <span class="message"
+            ><LocalizedText path={message} markup={false} /></span
         ><Button
             tip={(l) => l.ui.update.dismiss}
             action={() => appBanner.set(undefined)}
@@ -69,6 +70,6 @@
     }
 
     .message {
-        text-align: start;
+        text-align: center;
     }
 </style>

@@ -64,13 +64,19 @@ export default class ExpressionPlaceholder extends SimpleExpression {
         );
     }
 
-    static getPossibleReplacements({
-        node,
-        context,
-        locales,
-    }: ReplaceContext) {
-        if (!(node instanceof ExpressionPlaceholder)) return [];
-        const type = node.computeType(context);
+    /**
+     * The ordered candidate default expressions for this placeholder's expected
+     * type: ask the placeholder's computed type (or each member of a union) for
+     * its default expression, dropping the types that have none. The first
+     * element is the top pick the autocomplete menu would offer. Returns an empty
+     * list if no member type has a default (e.g. an un-inferable AnyType).
+     */
+    static getDefaultExpressions(
+        placeholder: ExpressionPlaceholder,
+        context: Context,
+        locales: Locales,
+    ): Expression[] {
+        const type = placeholder.computeType(context);
         const types =
             type instanceof UnionType
                 ? type.getLocalizedTypes(locales, context)
@@ -78,6 +84,15 @@ export default class ExpressionPlaceholder extends SimpleExpression {
         return types
             .map((t) => t.getDefaultExpression(context))
             .filter((e): e is Exclude<typeof e, undefined> => e !== undefined);
+    }
+
+    static getPossibleReplacements({ node, context, locales }: ReplaceContext) {
+        if (!(node instanceof ExpressionPlaceholder)) return [];
+        return ExpressionPlaceholder.getDefaultExpressions(
+            node,
+            context,
+            locales,
+        );
     }
 
     static getPossibleInsertions({ type }: InsertContext) {

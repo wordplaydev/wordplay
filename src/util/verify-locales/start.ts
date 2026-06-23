@@ -8,6 +8,8 @@ import {
 } from '@locale/LocaleText';
 import type { RegionCode } from '@locale/Regions';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
+import { KeywordIds } from '@parser/Keywords';
+import ReservedSymbols from '@parser/ReservedSymbols';
 import type LocalePath from '@util/verify-locales/LocalePath';
 import {
     DefaultLocale,
@@ -35,6 +37,11 @@ import {
     verifyTutorial,
 } from '@util/verify-locales/verifyTutorial';
 import { findUnusedKeys } from '@util/verify-locales/findUnusedKeys';
+import {
+    DEFAULT_TUTORIAL_MODE,
+    TutorialModes,
+    type TutorialMode,
+} from '../../tutorial/TutorialMode';
 import fs from 'fs';
 import path from 'path';
 import * as prettier from 'prettier';
@@ -45,6 +52,12 @@ const TranslationRequested =
 const OverrideMachineTranslations = process.argv[2] === 'override';
 const FailOnInvalid = process.argv[2] === 'ci';
 const FixRequested = process.argv[2] === 'fix';
+
+/** Tutorial modes given the full translation pipeline (per-locale file creation + machine
+ * translation). Modes NOT listed are still VERIFIED — their en-US source is schema- and
+ * conflict-checked — but never translated or created for other locales, so the English can be
+ * refined first. Add 'quick' here to roll quick-tutorial translations out to all locales. */
+const TranslatedTutorialModes: TutorialMode[] = [DEFAULT_TUTORIAL_MODE];
 
 // Make a logger so we can pretty print feedback. It bails on bad or exit with a failure exit code if we're in continuous integration mode.
 const log = new Log(FailOnInvalid);
@@ -157,57 +170,75 @@ async function handleLocale(
         fs.writeFileSync(getLocalePath(locale), prettyLocale);
     }
 
-    // If there's a locale, let's see if there's a tutorial.
-    let currentTutorial = getTutorialJSON(log, locale);
+    // Verify (and, for translate-enabled modes, optionally translate) each tutorial mode's file.
+    for (const mode of TutorialModes) {
+        // Modes not in the translation pipeline are still verified, but never created or translated
+        // for non-en-US locales (see TranslatedTutorialModes).
+        const modeTranslates = TranslatedTutorialModes.includes(mode);
 
-    // Remember whether we created one so we can write it below.
-    let tutorialIsNew = false;
+        // See if there's a tutorial for this mode.
+        let currentTutorial = getTutorialJSON(log, locale, mode);
 
-    // Validate, repair, and optionally translate the tutorial file.
-    if (currentTutorial === undefined) {
-        // No translation requested? Just warn.
-        if (!TranslationRequested)
-            log.bad(1, "This locale doesn't have a tutorial file.");
-        // If a translation was requested and it was a valid langauge and region,
-        // copy the default tutorial, mark all of its text unwritten, and then translate it.
-        else if (FocalLanguage && FocalRegion) {
-            log.say(
-                1,
-                'Creating a new tutorial for this locale based on en-US...',
-            );
-            currentTutorial = createUnwrittenTutorial();
-            currentTutorial.regions = [FocalRegion];
-            currentTutorial.language = FocalLanguage;
-            tutorialIsNew = true;
+        // Remember whether we created one so we can write it below.
+        let tutorialIsNew = false;
+
+        // Validate, repair, and optionally translate the tutorial file.
+        if (currentTutorial === undefined) {
+            // A mode not yet in the translation pipeline is intentionally en-US-only for now, so
+            // don't warn about or create per-locale files for it.
+            if (modeTranslates) {
+                // No translation requested? Just warn.
+                if (!TranslationRequested)
+                    log.bad(
+                        1,
+                        `This locale doesn't have a ${mode} tutorial file.`,
+                    );
+                // If a translation was requested and it was a valid langauge and region,
+                // copy the default tutorial, mark all of its text unwritten, and then translate it.
+                else if (FocalLanguage && FocalRegion) {
+                    log.say(
+                        1,
+                        `Creating a new ${mode} tutorial for this locale based on en-US...`,
+                    );
+                    currentTutorial = createUnwrittenTutorial(mode);
+                    currentTutorial.regions = [FocalRegion];
+                    currentTutorial.language = FocalLanguage;
+                    tutorialIsNew = true;
+                }
+            }
         }
-    }
 
-    // If there is a tutorial file, verify it, and optionally translate it.
-    if (currentTutorial) {
-        const revisedTutorial = await verifyTutorial(
-            log,
-            revisedLocale,
-            currentTutorial,
-            TranslationRequested,
-            OverrideMachineTranslations,
-        );
-
-        // If the tutorial was revised, write the results.
-        if (
-            tutorialIsNew ||
-            (revisedTutorial &&
-                JSON.stringify(currentTutorial) !==
-                    JSON.stringify(revisedTutorial))
-        ) {
-            // Write a formatted version of the revised tutorial file.
-            const prettyTutorial = await prettier.format(
-                JSON.stringify(revisedTutorial, null, 4),
-                { ...prettierOptions, parser: 'json' },
+        // If there is a tutorial file, verify it, and optionally translate it.
+        if (currentTutorial) {
+            const revisedTutorial = await verifyTutorial(
+                log,
+                revisedLocale,
+                currentTutorial,
+                // Verification always runs; only translate-enabled modes are machine-translated.
+                TranslationRequested && modeTranslates,
+                OverrideMachineTranslations,
             );
 
-            if (JSON.stringify(revisedTutorial) !== prettyTutorial) {
-                log.good(1, 'Writing revised ' + locale + ' tutorial');
-                fs.writeFileSync(getTutorialPath(locale), prettyTutorial);
+            // If the tutorial was revised, write the results.
+            if (
+                tutorialIsNew ||
+                (revisedTutorial &&
+                    JSON.stringify(currentTutorial) !==
+                        JSON.stringify(revisedTutorial))
+            ) {
+                // Write a formatted version of the revised tutorial file.
+                const prettyTutorial = await prettier.format(
+                    JSON.stringify(revisedTutorial, null, 4),
+                    { ...prettierOptions, parser: 'json' },
+                );
+
+                if (JSON.stringify(revisedTutorial) !== prettyTutorial) {
+                    log.good(1, `Writing revised ${locale} ${mode} tutorial`);
+                    fs.writeFileSync(
+                        getTutorialPath(locale, mode),
+                        prettyTutorial,
+                    );
+                }
             }
         }
     }
@@ -372,6 +403,38 @@ if (FocalLocale === null) {
                 .join(', ')}`,
         );
     } else log.good(0, 'No unused locale keys detected.');
+}
+
+// Verify keyword integrity: each localized keyword must be a single token (no spaces or hyphens) and
+// not collide with a reserved symbol, so it can be tokenized as one keyword. Warning, not error:
+// render-only display tolerates multi-word seeds, and machine-translated seeds are reviewed before a
+// locale's keywords ship. Coverage (every keyword present) is already enforced by the schema.
+{
+    const keywordIssues: string[] = [];
+    for (const [locale, localeText] of Object.entries(textByLocale)) {
+        const block = localeText.keyword;
+        if (block === undefined) continue;
+        for (const id of KeywordIds) {
+            const raw = block[id];
+            if (typeof raw !== 'string') continue;
+            const value = withoutAnnotations(raw).trim();
+            if (value.length === 0) continue; // Unwritten; coverage enforced by schema.
+            if (/[\s-]/.test(value))
+                keywordIssues.push(
+                    `${locale}.keyword.${id} ("${value}") is not a single token`,
+                );
+            else if (ReservedSymbols.includes(value))
+                keywordIssues.push(
+                    `${locale}.keyword.${id} ("${value}") collides with a reserved symbol`,
+                );
+        }
+    }
+    if (keywordIssues.length > 0)
+        log.warning(
+            0,
+            `${keywordIssues.length} keyword(s) to review (must be a single, hyphen-free, non-reserved token): ${keywordIssues.join('; ')}`,
+        );
+    else log.good(0, 'All keywords are single, hyphen-free tokens.');
 }
 
 // If the user asked for a specific locale, and a folder doesn't exist for it yet, create one.

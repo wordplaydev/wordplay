@@ -1,13 +1,42 @@
 import type { LocaleTextAccessor } from '@locale/Locales';
 import type Node from '@nodes/Node';
+import PatternLiteral from '@nodes/PatternLiteral';
+import PatternNode from '@nodes/PatternNode';
+import canonicalizeKeywords from '@parser/canonicalizeKeywords';
+import type { KeywordIndex } from '@parser/Keywords';
+import { PATTERN_DELIMITER_SYMBOL } from '@parser/Symbols';
 import type Spaces from '@parser/Spaces';
 import { setInternalClipboard } from '@components/editor/commands/InternalClipboard';
+
+/**
+ * A Chromium "web custom format" written alongside text/plain on copy, so paste can recognize Wordplay
+ * code copied from another tab/window/instance and paste it verbatim instead of reinterpreting it (e.g.
+ * as CSV). Safari/Firefox ignore the custom format and just receive text/plain, so copy never breaks.
+ */
+export const WORDPLAY_CLIPBOARD_FORMAT = 'web text/wordplay';
 
 export function copyNode(
     node: Node,
     spaces: Spaces,
+    keywords?: KeywordIndex,
 ): Promise<true | LocaleTextAccessor> {
-    return toClipboard(node.toWordplay(spaces).trim());
+    // Canonicalize localized keyword constructs to symbols so copied code is locale-neutral and pastes
+    // into any project; falls back to verbatim serialization when no keyword index is active.
+    const text = (
+        keywords
+            ? canonicalizeKeywords(node, spaces, keywords)
+            : node.toWordplay(spaces)
+    ).trim();
+    // A pattern atom (e.g. `_`, `>0 #`, `name:(…)`) only means what it means
+    // inside `⣿…⣿`; serialized bare it would re-tokenize as ordinary code (e.g.
+    // `_` → a placeholder). Wrap a copied pattern fragment so the clipboard text
+    // is a self-contained, valid pattern. Pasting it back INTO a pattern strips
+    // the wrapper again (see pasteText), since patterns can't nest.
+    const wrapped =
+        node instanceof PatternNode && !(node instanceof PatternLiteral)
+            ? `${PATTERN_DELIMITER_SYMBOL}${text}${PATTERN_DELIMITER_SYMBOL}`
+            : text;
+    return toClipboard(wrapped);
 }
 
 export async function toClipboard(
@@ -16,6 +45,25 @@ export async function toClipboard(
     // Populate the in-app clipboard before the OS write so paste-from-app
     // works even if the OS write fails (e.g., permission denied).
     setInternalClipboard(text);
+
+    // Prefer write() with a ClipboardItem so we can tag the content as Wordplay (text/plain still lands
+    // for everything else). Fall back to writeText() if write()/ClipboardItem is unavailable or fails.
+    if (typeof ClipboardItem !== 'undefined' && navigator.clipboard?.write) {
+        try {
+            await navigator.clipboard.write([
+                new ClipboardItem({
+                    'text/plain': new Blob([text], { type: 'text/plain' }),
+                    [WORDPLAY_CLIPBOARD_FORMAT]: new Blob([text], {
+                        type: 'text/plain',
+                    }),
+                }),
+            ]);
+            return true;
+        } catch (err) {
+            // Fall through to writeText (e.g. custom formats unsupported, or permission quirk).
+        }
+    }
+
     if (navigator.clipboard && navigator.clipboard.writeText) {
         try {
             await navigator.clipboard.writeText(text);

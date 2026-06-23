@@ -51,7 +51,8 @@
         "cell": "$~cellule",
         "documentation": "$~documentation",
         "language": "$~langue",
-        "region": "$~région"
+        "region": "$~région",
+        "pattern": "$~modèle"
     },
     "token": {
         "EvalOpen": "$~évaluation ouverte",
@@ -133,7 +134,34 @@
         "TamilNumeral": "$~chiffres tamouls",
         "TeluguNumeral": "$~chiffres télougous",
         "LanguageJoin": "$~jointure de langage",
-        "Translate": "$~traduire"
+        "Translate": "$~traduire",
+        "ExternalExample": "$~exemple en autre langue",
+        "PatternAny": "$~motif n'importe quel caractère",
+        "PatternLetter": "$~lettre modèle",
+        "PatternDigit": "$~motif numérique",
+        "PatternSpace": "$~espace de motifs",
+        "PatternRest": "$~motif repos",
+        "PatternWord": "$~mot modèle",
+        "PatternWordEdge": "$~bordure de mot à motif",
+        "PatternStart": "$~début du motif",
+        "PatternEnd": "$~fin du motif",
+        "PatternAhead": "$~prévision des tendances",
+        "PatternBehind": "$~motif regarder derrière",
+        "PatternFold": "$~pli de l'étui à patron",
+        "PatternRange": "$~gamme de motifs",
+        "PatternComplement": "$~motif non",
+        "PatternAlternation": "$~motif ou",
+        "PatternSlash": "$~étiquette de motif",
+        "PatternEqual": "$~motif exactement",
+        "PatternGreater": "$~motif plus que",
+        "PatternGreaterEqual": "$~motif au moins",
+        "PatternLess": "$~motif moins de",
+        "PatternLessEqual": "$~motif au plus",
+        "PatternText": "$~texte littéral de modèle",
+        "PatternDelimiter": "$~modèle",
+        "Exponent": "$~exposant",
+        "Product": "$~produit",
+        "Percent": "$~pour cent"
     },
     "node": {
         "Dimension": {
@@ -300,8 +328,8 @@
             "description": "$label",
             "emotion": "neutral",
             "doc": [
-                "$~Comment m'as-tu trouvé ?",
-                "$~Je suis la plus petite partie possible d’une performance. Je suis le substrat à partir duquel tous les personnages du Vers sont faits. Je suis la particule atomique de notre chorégraphie."
+                "$~Je suis la plus petite partie possible d'une performance — l'atome dont sont faits tous les personnages du Verset. Comment m'avez-vous trouvé ?",
+                "$~Je suis le substrat dont sont faits tous les personnages du Verset. Je suis la particule atomique de notre chorégraphie."
             ]
         },
         "TypeInputs": {
@@ -378,7 +406,13 @@
                 "$~Et si vous créez votre propre personnage, vous pouvez vous y référer par le nom que vous lui avez donné.",
                 "$~\\`@coolbeans`\\",
                 "$~Oh… Je suppose que ce personnage n'existe pas, donc on obtient un petit carré. Mais s'il existait, il apparaîtrait ici !"
-            ]
+            ],
+            "kind": {
+                "codepoint": "$~le caractère Unicode $concept",
+                "ui": "$~un lien vers l'élément d'interface $concept",
+                "how": "$~un lien vers le tutoriel $concept",
+                "character": "$~le caractère personnalisé $concept"
+            }
         },
         "Words": {
             "name": "$~mots",
@@ -404,8 +438,11 @@
             "description": "$~montre du code exécutable dans la documentation",
             "emotion": "serious",
             "doc": [
-                "$~Je suis un exemple de performance, utile pour écrire un @Doc qui explique comment utiliser quelque chose!",
-                "$~\\¶Voici un exemple d'ajout: \\1 + 1\\¶'exemple de code'\\"
+                "$~Je place un exemple de code à l'intérieur d'une @Doc , comme ceci :",
+                "$~\\¶Here's an example of adding: \\ 1 + 2 \\¶3 + 4\\",
+                "$~Si vous utilisez des exemples dans vos tutoriels, vous pouvez en désigner un comme élément mis en évidence.",
+                "$~\\¶Here's a highlighted example: \\ 1 + 2 \\⭐¶3 + 4\\",
+                "$~L'exemple mis en évidence est affiché en aperçu dans l'espace « Comment faire » et dans le guide."
             ]
         },
         "Mention": {
@@ -544,6 +581,10 @@
                     "name": "$~liaisoninutilisée",
                     "explanation": "$~Je m'appelle $name, mais personne ne m'utilise. Peut-être que je ne suis pas nécessaire ?",
                     "resolution": "$~Supprimez cette liaison"
+                },
+                "ShadowsKeyword": {
+                    "name": "$~ombreunmot-clé",
+                    "explanation": "$~Ce nom est également le mot-clé $keyword , je le lirai donc comme un nom ici ; le mot-clé $keyword fonctionne toujours ailleurs."
                 }
             },
             "label": {
@@ -557,22 +598,22 @@
             "description": "$~évalue $count instructions en séquence",
             "emotion": "shy",
             "doc": [
-                "$~Bonjour, je crée un petit espace calme et privé pour évaluer les choses.",
+                "$~Je me crée un petit espace calme et privé pour réfléchir. Salut !",
                 "$~Comme ça:",
                 "$~\\(1 - 1) + 2\\",
-                "$~Cela permet de clarifier l’ordre d’évaluation.",
-                "$~@Bind aide aussi.",
-                "$~\\(compte : 10 comptes ^ comptes)\\",
-                "$~Vous voyez comment @Bind a créé \\count\\ ? Il n'est nommé qu'à l'intérieur de moi. Donc cela ne fonctionnera pas :",
-                "$~\\(compte: 10compte ^compte) +compte\\",
-                "$~Parce que le nom du comte n'était mentionné qu'à l'intérieur de moi.",
-                "Si tu me donnes une expression, je te rends simplement sa valeur :",
-                "\\(1 + 1)\\",
-                "Si tu m'en donnes plusieurs, je les rassemble dans une liste, dans l'ordre :",
-                "\\(1 2 3 4 5)\\",
-                "Les instructions @Bind sont des effets de bord, pas des valeurs, donc elles n'apparaissent pas dans la liste :",
-                "\\(\n  a: 1\n  b: 2\n  a + b\n  a × b\n)\\",
-                "Cela donne \\[3 2]\\ : juste les valeurs des deux expressions qui ne sont pas des @Bind."
+                "$~Cela permet de clarifier l'ordre d'évaluation.",
+                "$~@Bind peut aussi aider.",
+                "$~\\(count: 10 count ^ count)\\",
+                "$~Vous voyez comment @Bind a créé \\count\\ ? Ce nom n'est défini qu'à l'intérieur de moi. Donc ceci ne fonctionnera pas :",
+                "$~\\(count: 10 count ^ count) + count\\",
+                "$~Parce que le nom du comte n'existait qu'à l'intérieur de moi.",
+                "$~Si vous me donnez une expression, je vous en renvoie simplement la valeur :",
+                "$~\\(1 + 1)\\",
+                "$~Si vous m'en donnez plusieurs, je les rassemble dans une liste, dans l'ordre :",
+                "$~\\(1 2 3 4 5)\\",
+                "$~Les instructions @Bind sont des effets de bord, pas des valeurs, elles n'apparaissent donc pas dans la liste :",
+                "$~\\(\n  a: 1\n  b: 2\n  a + b\n  a × b\n)\\",
+                "$~Cela donne \\[3 2]\\ : juste les valeurs des deux expressions non- @Bind ."
             ],
             "start": "$~Première expression",
             "finish": "$~C'est fait, j'ai $value",
@@ -598,7 +639,7 @@
             "name": "$~emprunter",
             "description": "$~emprunte $name[$name|sans nom] d'une source",
             "emotion": "excited",
-            "doc": "$~Si vous créez une performance avec plusieurs @Source, vous pouvez m'utiliser pour emprunter les @Bind partagés dans ces autres @Source. Utilisez simplement leur nom et j'apporterai leur nom et leur valeur.",
+            "doc": "$~J'emprunte @Bind partagés par d'autres @Source dans votre performance — utilisez simplement leur nom et j'intégrerai leur nom et leur valeur.",
             "start": "$~Emprunter $name à partir de $source",
             "conflict": {
                 "UnknownBorrow": {
@@ -644,11 +685,11 @@
             "description": "$~vérifie la condition et évalue l'une de deux expressions",
             "emotion": "curious",
             "doc": [
-                "$~Je pense que je suis censé prendre des décisions ? Comme ça ?",
-                "$~\\nombre: -100\nnombre <0? 'négatif' 'positif'\\",
-                "$~Mais avez-vous déjà pensé à la façon dont nous décidons ?",
-                "$~Ne semble-t-il pas que les décisions devraient être plus nuancées que de simples oui ou non ? Le choix entre \\⊤\\ et \\⊥\\ est-il tout ce qu'il y a à faire ?",
-                "$~Ne craignez-vous pas que si ce sont les seules décisions que nous pouvons prendre, nous passerons à côté d’un contexte important sur le monde ?"
+                "$~Dois-je vous donner une valeur plutôt qu'une autre, selon une condition ? Comme ceci ?",
+                "$~\\number: -100\nnumber < 0 ? 'negative' 'positive'\\",
+                "$~Mais avez-vous déjà réfléchi à la manière dont nous prenons nos décisions ?",
+                "$~N'a-t-on pas besoin de plus de nuances que de simples réponses par oui ou par non ? Se résume-t-il à choisir entre \\⊤\\ et \\⊥\\ ?",
+                "$~N'êtes-vous pas inquiet que, si ce sont les seules décisions que nous pouvons prendre, nous passions à côté d'éléments importants du contexte mondial ?"
             ],
             "start": "$~Voyons si $condition est vrai",
             "afterthen": "$~fini avec le oui, sautons le non ?",
@@ -706,13 +747,13 @@
             "description": "$~convertit une valeur en un autre type",
             "emotion": "cheerful",
             "doc": [
-                "$~Yo. Je transforme les valeurs d'un type à un autre. Regardez ça :",
+                "$~Je convertis des valeurs d'un type à un autre. Yo — regarde ça :",
                 "$~\\1 → \"\"\\",
                 "$~\\5s → #ms\\",
-                "$~\\\"bonjour\" → []\\",
-                "$~Vous pouvez même les enchaîner:",
-                "$~\\\"bonjour\" → [] → {}\\",
-                "$~Les valeurs ont un ensemble de @ConversionDefinition qui sont prédéfinies, mais si vous créez une @StructureDefinition pour un nouveau type de valeur, vous pouvez définir la vôtre avec @ConversionDefinition."
+                "$~\\\"hello\" → []\\",
+                "$~Vous pouvez même les enchaîner :",
+                "$~\\\"hello\" → [] → {}\\",
+                "$~Les valeurs possèdent un ensemble de @ConversionDefinition prédéfinies, mais si vous créez une @StructureDefinition pour un nouveau type de valeur, vous pouvez définir la vôtre avec @ConversionDefinition ."
             ],
             "start": "$~Obtenez cette valeur à partir de $expression!",
             "finish": "$~Génial, j'ai gagné $value",
@@ -735,10 +776,10 @@
             "description": "$~supprime les lignes correspondantes du tableau",
             "emotion": "angry",
             "doc": [
-                "$~Parfois, vous avez une table et il y a TROP DE CHOSES DEDANS !",
-                "$~Comme si vous aviez des joueurs dans une partie et qu'un d'entre eux partait et que vous vouliez juste dire : \"VA-T'EN, JOUEUR, SORTEZ DE MA TABLE !\"",
-                "$~\\joueurs: ⎡nom•'' équipe•'' points•#⎦\n⎡'jen' 'red' 8⎦\n⎡'joan' 'blue' 11⎦\n⎡'jeff' 'red' 9⎦\n⎡'janet' 'blue' 7⎦\njoueurs ⎡- nom = 'jeff'\\",
-                "$~Ouf, Jeff est parti. AU REVOIR JEFF. Souviens-toi juste que je ne change pas la table d'origine, j'en fais une nouvelle, sans JEFF. C'est toi qui décides où elle va."
+                "$~Je supprime les lignes d'un @Table qui correspondent à une condition. Parfois, un tableau est tout simplement trop chargé !",
+                "$~Imaginez que vous ayez des joueurs dans une partie et qu'il en quitte un, et que vous ayez juste envie de lui dire : « VA-T'EN, JOUEUR, SORS DE MA TABLE ! »",
+                "$~\\players: ⎡name•'' team•'' points•#⎦\n⎡'jen' 'red' 8⎦\n⎡'joan' 'blue' 11⎦\n⎡'jeff' 'red' 9⎦\n⎡'janet' 'blue' 7⎦\nplayers ⎡- name = 'jeff'\\",
+                "$~Ouf, Jeff est parti. Au revoir Jeff. Sachez simplement que je ne modifie pas le tableau d'origine, j'en crée un nouveau, sans Jeff. C'est vous qui décidez où le placer."
             ],
             "start": "$~Commençons par la table",
             "finish": "$~J'ai créé un nouveau tableau sans les lignes correspondantes!"
@@ -760,15 +801,15 @@
             "description": "$~$structure [créer $name [ $name |] valeur avec ces entrées| $stream [créer $name [ $name |] flux avec ces entrées|appliquer $name [ $name |fonction] à ces entrées]]",
             "emotion": "shy",
             "doc": [
-                "$~Salut. J'évalue ma très chère @FunctionDefinition. Comme ça :",
-                "$~\\ƒ salutation(message•'')\nsalutation('kitty')\\",
-                "$~Les fonctions peuvent provenir de n'importe où. Par exemple, @Text a des fonctions. Comme ceci :",
+                "$~J'évalue ma chère @FunctionDefinition , en lui fournissant des entrées et en suivant ses étapes. Salut ! Voici un exemple :",
+                "$~\\ƒ greeting(message•'')\ngreeting('kitty')\\",
+                "$~Les fonctions peuvent provenir de n'importe où. Par exemple, @Text possède des fonctions. Comme ceci :",
                 "$~\\'kitty'.length()\\",
-                "$~Si une fonction a un seul nom de symbole, vous pouvez m'écrire en tant que @BinaryEvaluate.",
-                "$~\\'minou' ⊆ 'itty'\\",
-                "$~Cela fait la même chose que ceci :",
-                "$~\\'minou'.⊆('itty')\\",
-                "$~Bien sûr, je ne suis rien sans @FunctionDefinition. Tout ce que je fais, c'est leur donner des informations et suivre leurs étapes."
+                "$~Si une fonction a un nom de symbole unique, vous pouvez m'écrire comme un @BinaryEvaluate .",
+                "$~\\'kitty' ⊆ 'itty'\\",
+                "$~Cela revient au même que ceci :",
+                "$~\\'kitty'.⊆('itty')\\",
+                "$~Bien sûr, je ne suis rien sans @FunctionDefinition . Je me contente de leur fournir des entrées et de suivre leurs instructions."
             ],
             "start": "$~Commençons par évaluer les entrées",
             "evaluate": "$~évaluons la fonction maintenant",
@@ -887,20 +928,20 @@
             "description": "$~définit la fonction $name",
             "emotion": "kind",
             "doc": [
-                "$~Bonjour à nouveau ! Je prends quelques entrées, puis j'évalue une expression en les utilisant, produisant une sortie.",
-                "$~Voici un exemple simple :",
-                "$~\\ƒ répéter(message•'') message × 5\nrépéter('salut')\\",
-                "$~Cette fonction prend une entrée, \\message\\, et utilise la fonction @Text.repeat pour répéter le message cinq fois.",
-                "$~Je suis vraiment utile si vous souhaitez évaluer quelque chose encore et encore, mais avec des entrées différentes!",
-                "$~J'ai plein d'autres petites astuces. Par exemple, je n'ai pas besoin d'avoir un nom. Ici, je vais directement à @Evaluate comme valeur.",
-                "$~\\(ƒ(message•'') message × 5)('salut')\\",
-                "$~Ou, voici une fonction qui prend n’importe quel nombre d’entrées, en utilisant le caractère \\…\\ après un nom d’entrée.",
-                "$~\\ƒ oui(messages…•'') messages.sans('non')\noui('oui' 'oui' 'non' 'oui' 'non')\\",
-                "$~Vous voyez comment il a pris tous les « non » et s'en est débarrassé ? C'est parce que messages est une @List, et nous pourrions donc utiliser @List.sansAll.",
-                "$~Parfois, vous souhaiterez peut-être préciser le type de valeur que je produis. Pour ce faire, ajoutez un @Is après la liste des entrées:",
-                "$~\\ƒ ajouter(x•# y•#)•'' x + y\\",
-                "$~Vous remarquerez peut-être un problème avec celui-ci : il indique qu'il évalue à @Text, mais il faut deux @Number. Je peux vous dire quand les choses sont incohérentes !",
-                "$~Bien sûr, je ne suis pas vraiment utile sans @Evaluate ; ils me donnent vie."
+                "$~Je prends des données en entrée, puis j'évalue une expression à partir de ces données, ce qui produit une sortie. Salut !",
+                "$~Voici un exemple simple :",
+                "$~\\ƒ repeat(message•'') message × 5\nrepeat('hi')\\",
+                "$~Cette fonction prend une entrée, \\message\\ , et utilise la fonction @Text.repeat pour répéter le message cinq fois.",
+                "$~Je suis vraiment utile si vous voulez évaluer quelque chose à plusieurs reprises, mais avec des données d'entrée différentes !",
+                "$~J'ai plein d'autres petites astuces. Par exemple, je n'ai pas besoin de nom. Ici, j'utilise directement @Evaluate comme valeur.",
+                "$~\\(ƒ(message•'') message × 5)('hi')\\",
+                "$~Ou encore, voici une fonction qui accepte un nombre quelconque d'entrées, en utilisant le caractère \\…\\ après le nom d'une entrée.",
+                "$~\\ƒ yes(messages…•'') messages.sans('no')\nyes('yes' 'yes' 'no' 'yes' 'no')\\",
+                "$~Vous voyez comment il a supprimé tous les « non » ? C'est parce que messages est une @List , et donc nous pouvons utiliser @List.sansAll .",
+                "$~Il peut être utile de préciser le type de valeur que je produis. Pour ce faire, ajoutez un @Is après la liste des entrées :",
+                "$~\\ƒ add(x•# y•#)•'' x + y\\",
+                "$~Vous remarquerez peut-être un problème : cette fonction est censée renvoyer un @Text , mais elle prend deux @Number . Je peux vous signaler les incohérences !",
+                "$~Bien sûr, je ne suis absolument pas utile sans @Evaluate ; ils me donnent vie."
             ],
             "start": "$~Créons cette fonction !",
             "conflict": {
@@ -943,10 +984,10 @@
             "description": "$~ajoute une ligne à un tableau",
             "emotion": "kind",
             "doc": [
-                "$~Vous savez quand vous avez une @Table et que vous avez l'impression qu'il manque quelque chose ? Je peux l'ajouter !",
-                "$~Imaginez que vous ayez une table de joueurs dans une partie et que vous vouliez en ajouter une nouvelle:",
-                "$~\\joueurs: ⎡nom•'' équipe•'' points•#⎦\n⎡'jen' 'red' 1⎦\n⎡'joan' 'blue' 0⎦\n⎡'jeff' 'red' 3⎦\n⎡'janet' 'blue' 2⎦\njoueurs ⎡+ 'jason' 'red' 0⎦\\",
-                "$~N'oubliez pas, comme tout dans le Verset, je ne change pas un tableau, je le révise. Vous devez donc déterminer où vous souhaitez placer le tableau révisé que vous avez créé. Vous souhaiterez probablement réviser un tableau dans une @Reaction à une entrée et le stocker dans un @Bind."
+                "$~J'ajoute une nouvelle ligne à un @Table . Vous savez, quand un tableau semble incomplet ? Je peux l'ajouter !",
+                "$~Imaginez que vous ayez une table de joueurs pour un jeu et que vous vouliez en ajouter un nouveau :",
+                "$~\\players: ⎡name•'' team•'' points•#⎦\n⎡'jen' 'red' 1⎦\n⎡'joan' 'blue' 0⎦\n⎡'jeff' 'red' 3⎦\n⎡'janet' 'blue' 2⎦\nplayers ⎡+ 'jason' 'red' 0⎦\\",
+                "$~N'oubliez pas que, comme pour tout dans le Verse, je ne modifie pas un tableau, je le révise. Vous devez donc déterminer où placer le tableau révisé. Le plus souvent, vous voudrez le réviser dans une @Reaction à une entrée et le stocker dans une @Bind ."
             ],
             "start": "$~Trouvons la table à mettre à jour",
             "finish": "$~J'ai fait un nouveau tableau avec des lignes révisées !"
@@ -956,13 +997,13 @@
             "description": "$~vérifie si la valeur est de type $type",
             "emotion": "curious",
             "doc": [
-                "$~Vous savez quoi ? Il existe tellement de valeurs qui signifient tellement de choses différentes. Je vous aide à les comprendre.",
-                "$~Par exemple, supposons que vous ayez une valeur mystère. Je peux vous dire s'il s'agit d'un @Number, en vous donnant un @Boolean :",
-                "$~\\mystère:«secret!»\nmystère•#\\",
-                "$~Ce n'est pas un nombre, j'ai donc créé \\⊥\\. Mais si nous vérifions si c'est @TextType ?",
-                "$~\\mystère:«secret!»\nmystère•''\\",
-                "$~Nous obtenons \\⊤\\!",
-                "$~Je suis vraiment utile lorsque vous avez besoin de savoir si un @Name a une valeur d'un type particulier."
+                "$~Je vérifie si une valeur est d'un type particulier et vous renvoie un @Boolean ). Il existe une multitude de valeurs pouvant avoir des significations très diverses ; je vous aide à les identifier.",
+                "$~Par exemple, supposons que vous ayez une valeur inconnue. Je peux vous indiquer s'il s'agit d'un @Number , en vous renvoyant un @Number:",
+                "$~\\mystery: 'secret!'\nmystery•#\\",
+                "$~Ce n'est pas un nombre, j'ai donc fait \\⊥\\ . Mais si on vérifie si c'est @TextType ?",
+                "$~\\mystery: 'secret!'\nmystery•''\\",
+                "$~Nous obtenons \\⊤\\ !",
+                "$~Je suis très utile lorsque vous avez besoin de savoir si un @Name a une valeur d'un type particulier."
             ],
             "start": "$~Commençons par obtenir la valeur de $expression.",
             "finish": "$~$value[la valeur est $type|la valeur n'est pas $type]",
@@ -1017,8 +1058,8 @@
             "description": "$~développe une liste dans une autre liste",
             "emotion": "serious",
             "doc": [
-                "$~Une aide pour créer des listes avec les valeurs d'autres listes.",
-                "$~\\liste: [1 2 3]\nfinale: [:liste 4 5 6]\\"
+                "$~Je vous aide à construire une @List à partir des valeurs d'autres listes. Comme ceci :",
+                "$~\\list: [1 2 3]\nfinal: [:list 4 5 6]\\"
             ]
         },
         "MapLiteral": {
@@ -1044,12 +1085,12 @@
             "description": "$~compare la valeur à plusieurs cas",
             "emotion": "curious",
             "doc": [
-                "$~Je suis le plus glorieux de tous les contrôles conditionnels! Je prends une valeur et la compare à un certain nombre de cas, puis j'évalue l'expression correspondante qui correspond.",
-                "$~Par exemple, si vous aviez un @Number et que vous vouliez le convertir en @Text, vous pourriez faire quelque chose comme ceci:",
-                "$~\\nombre: 2\nnombre ??? 1: «un» 2: «deux» 3: «trois» «plus grand!»\\",
-                "$~Si aucune ne correspond, j'évalue l'expression par défaut que vous me donnez.",
-                "$~Je suis vraiment utile pour convertir l'une des nombreuses valeurs @Number, @Text ou plus complexes possibles en quelque chose d'autre.",
-                "$~Vous pouvez l'utiliser pour @Boolean ou @None, mais ils ne peuvent pas vraiment être autant de choses, donc je ne suis pas aussi utile pour ces valeurs simples."
+                "$~Je suis le plus glorieux des contrôles conditionnels : je prends une valeur, je la compare à un nombre quelconque de cas, et j'évalue celui qui correspond !",
+                "$~Par exemple, si vous aviez un @Number et que vous vouliez le convertir en @Text , vous pourriez faire quelque chose comme ceci :",
+                "$~\\number: 2\nnumber ??? 1: 'one' 2: 'two' 3: 'three' 'bigger!'\\",
+                "$~Si aucune ne correspond, j'évalue l'expression par défaut que vous me fournissez.",
+                "$~Je suis très utile pour convertir l'une des nombreuses valeurs possibles @Number , @Text ou des valeurs plus complexes en autre chose.",
+                "$~Vous pouvez l'utiliser pour @Boolean ou @None , mais ces valeurs ne peuvent pas représenter beaucoup de choses, donc je ne suis pas aussi utile pour ces valeurs simples."
             ],
             "start": "$~Voyons ce que vaut $value...",
             "case": "$~Vérifions cette condition",
@@ -1077,14 +1118,14 @@
             "name": "$~expressioninterne",
             "description": "$~exécute une expression créateur intégrée",
             "emotion": "neutral",
-            "doc": "$~Comment m'as-tu trouvé ? Je suis une expression que seuls les créateurs originaux utilisent. Pour en savoir plus sur moi, tu devras leur parler.",
+            "doc": "$~Je suis une expression que seuls mes créateurs originaux utilisent. Comment m'avez-vous trouvée ? Pour en savoir plus sur moi, il vous faudra leur parler.",
             "start": "$~Expression secrète"
         },
         "NoneLiteral": {
             "name": "$~aucunlittéral",
             "description": "$~crée la valeur rien",
             "emotion": "neutral",
-            "doc": "$~/@FunctionDefinition ici. Il s'agit simplement de @None. Ils sont uniques en leur genre! Consultez @None pour en savoir plus à leur sujet.",
+            "doc": "$~Je crée @None , la valeur unique du néant. Consultez @None pour en savoir plus.",
             "start": "$~… ø"
         },
         "Otherwise": {
@@ -1092,9 +1133,9 @@
             "description": "$~fournit une valeur de secours si aucune",
             "emotion": "curious",
             "doc": [
-                "$~/@FunctionDefinition ici. C'est un moyen pratique de vérifier si une valeur est @None et, si c'est le cas, de fournir une valeur de sauvegarde./",
-                "$~/Par exemple, si vous avez une valeur qui pourrait être un @Number ou un @None, @Otherwise vous aide à donner un nombre par défaut:",
-                "$~\\peut-êtreNombre•#|ø: 1 peut-êtreNombre ?? 0\\"
+                "$~Je vérifie si une valeur est @None , et si c'est le cas, je vous fournis une valeur de secours.",
+                "$~Par exemple, si vous avez une valeur qui peut être un @Number ou @None , @Otherwise vous aide à attribuer un nombre par défaut :",
+                "$~\\maybeNumber•#|ø: 1 maybeNumber ?? 0\\"
             ],
             "start": "$~ø ??",
             "finish": "$~… $value"
@@ -1104,15 +1145,15 @@
             "description": "$~obtient la valeur précédente du flux",
             "emotion": "serious",
             "doc": [
-                "$~Avez-vous déjà voulu vous souvenir du passé ?",
-                "$~Je suis le gardien officiel des archives du Verset. Donnez-moi un ruisseau et un numéro pour remonter dans le temps et je vous dirai quelle était la valeur de ce ruisseau dans l'histoire.",
-                "$~Par exemple, voici ce qu'il en était à @Time il y a cinq ticks :",
-                "$~\\← 5 fois (1000 ms)\\",
-                "$~Vous voyez comment c'est @None pendant 5 secondes, puis soudainement une fois précédente ?",
-                "$~Si vous voulez les dernières valeurs, donnez-moi des flèches et j'interpréterai le nombre comme un décompte :",
-                "$~\\←← 5 fois (1000 ms)\\",
-                "$~Vous voyez que c'est les cinq fois précédentes, au lieu d'une seule fois ?",
-                "$~Je suis utile lorsque vous souhaitez créer des performances qui dépendent du passé."
+                "$~Je me penche sur l'historique d'un cours d'eau et vous révèle une de ses valeurs passées. Avez-vous déjà souhaité vous souvenir du passé ?",
+                "$~Je suis le gardien officiel des archives du Verset !",
+                "$~Par exemple, voici ce qu'affichait @Time il y a cinq ticks :",
+                "$~\\← 5 Time(1000ms)\\",
+                "$~Vous voyez comment ça affiche @None pendant 5 secondes, puis soudainement une heure précédente ?",
+                "$~Si vous souhaitez obtenir les dernières valeurs, indiquez-moi deux flèches, et j'interpréterai le nombre comme un décompte :",
+                "$~\\←← 5 Time(1000ms)\\",
+                "$~Vous voyez, il s'agit des cinq fois précédentes, et non d'une seule ?",
+                "$~Je suis utile lorsque vous souhaitez créer des performances qui s'appuient sur le passé."
             ],
             "start": "$~Obtenez d'abord $stream",
             "finish": "$~Évalué à une valeur de flux de $value",
@@ -1174,10 +1215,10 @@
             "description": "$~affine la propriété $name[$name|sans nom]",
             "emotion": "kind",
             "doc": [
-                "$~Parfois, lorsque vous créez une @StructureDefinition, vous souhaitez modifier la moindre petite chose à son sujet, sans avoir à en créer une nouvelle avec toutes les mêmes valeurs.",
-                "$~Par exemple, que se passerait-il si vous teniez une liste de chats, mais que vous vouliez ensuite créer une copie d'un chat ayant un passe-temps différent ? Je peux vous aider à le modifier :",
-                "$~\\•Chat(nom•'' couleur•'' hobby•'')\n\nkitty: Chat('sprinkles' 'orange' 'léchage')\nkitty.hobby:'ronronnement'\\",
-                "$~C'est tellement plus facile que de créer un tout nouveau \\Cat\\ avec les mêmes valeurs, à l'exception du passe-temps, n'est-ce pas ?"
+                "$~Je crée une copie d'une valeur @StructureDefinition en modifiant une seule propriété — inutile de tout reconstruire avec les mêmes valeurs.",
+                "$~Par exemple, que faire si vous tenez un registre de vos chats, mais que vous souhaitez ensuite créer une copie d'un chat ayant un passe-temps différent ? Je peux vous aider à le modifier :",
+                "$~\\•Cat(name•'' color•'' hobby•'')\n\nkitty: Cat('sprinkles' 'orange' 'licking')\nkitty.hobby:'purring'\\",
+                "$~C'est tellement plus simple que de créer un tout nouveau \\Cat\\ avec les mêmes valeurs, à l'exception du loisir, n'est-ce pas ?"
             ],
             "start": "$~Commençons par obtenir la valeur",
             "finish": "$~J'ai copié la structure, mais avec $property comme $value",
@@ -1198,9 +1239,9 @@
             "description": "$~obtient la propriété $name[$name|sans nom]",
             "emotion": "kind",
             "doc": [
-                "$~Lorsque vous créez une @StructureDefinition, comment obtenez-vous l'une de ses entrées ? Je suis comment",
-                "$~Comme si vous aviez une structure sur les villes, vous pourriez obtenir ses valeurs avec moi comme ceci :",
-                "$~\\•Ville(nom•'' population•#personnes)\n\nportland: Ville('Portland' 800000personnes)\n\nportland.population\\"
+                "$~Je récupère pour vous une des propriétés d'une valeur @StructureDefinition .",
+                "$~Par exemple, si vous aviez une structure concernant les villes, vous pourriez en obtenir les valeurs avec moi de cette manière :",
+                "$~\\•City(name•'' population•#people)\n\nportland: City('Portland' 800000people)\n\nportland.population\\"
             ],
             "start": "$~Commençons par obtenir la valeur",
             "finish": "$~J'ai trouvé une propriété à $property, elle est à $value",
@@ -1213,11 +1254,11 @@
             "description": "$~crée une valeur lors d'un changement de flux",
             "emotion": "excited",
             "doc": [
-                "$~Les streams sont vraiment géniaux ! Je peux en créer de nouveaux en fonction de leurs changements, ce qui est super cool !",
-                "$~Par exemple, si vous vouliez que @Time coche, mais que vous souhaitiez afficher des mots au lieu de chiffres, vous pourriez faire quelque chose comme ceci:",
-                "$~\\time: Time(1000ms)\n'start' … ∆ time … ((time % 2) = 0ms) ? 'pair' 'odd'\\",
-                "$~C'est comme dire « /commencez par le mot 'start' et ensuite si l'heure change, passez à pair ou impair, en fonction de l'heure./ »",
-                "$~Donc je suis comme un flux aussi, mais basé sur d'autres flux. Méchant, hein ?"
+                "$~Je crée un nouveau flux qui se met à jour dès qu'un autre flux est modifié. Les flux, c'est génial !",
+                "$~Par exemple, si vous vouliez que @Time s'affiche, mais avec des mots au lieu de chiffres, vous pourriez faire quelque chose comme ceci :",
+                "$~\\time: Time(1000ms)\n'start' … ∆ time … ((time % 2) = 0ms) ? 'even' 'odd'\\",
+                "$~C'est comme dire : « /commencez par le mot 'début' et ensuite, si l'heure change, passez à pair ou impair, en fonction de l'heure./ »",
+                "$~Je suis donc comme un flux moi aussi, mais un flux basé sur d'autres flux. Génial, non ?"
             ],
             "start": "$~Voyons si nous devons mettre à jour le flux",
             "finish": "$~La nouvelle valeur du flux est $value",
@@ -1239,10 +1280,10 @@
             "description": "$~référence le nom $name",
             "emotion": "shy",
             "doc": [
-                "$~Vous savez comment @Bind donne aux choses @Name ? Je suis la façon dont vous les appelez. Je vois si un @Bind a ce nom, si c'est le cas, je vous donne sa valeur. Comme ça :",
-                "$~\\perroquet:'polly'\nperroquet\\",
+                "$~Je fais référence à une valeur par son @Name: je trouve l’ @Bind portant ce nom et je vous donne sa valeur. Par exemple :",
+                "$~\\parrot: 'polly'\nparrot\\",
                 "$~Si je ne trouve pas le nom, alors je ne sais pas quoi faire.",
-                "$~\\perroquet:«polly»\nperry\\"
+                "$~\\parrot: 'polly'\nperry\\"
             ],
             "start": "$~Quelle est la valeur de $name?",
             "conflict": {
@@ -1276,10 +1317,10 @@
             "description": "$~filtre les lignes correspondantes du tableau",
             "emotion": "excited",
             "doc": [
-                "$~Parfois, vous avez une table et vous n'en voulez qu'une partie. Je peux vous l'obtenir !",
-                "$~Et si vous aviez une table de joueurs dans une partie et que vous vouliez trouver ceux avec 10 points ou plus pour voir qui a gagné:",
-                "$~\\joueurs: ⎡nom•'' équipe•'' points•#⎦\n⎡'jen' 'red' 8⎦\n⎡'joan' 'blue' 11⎦\n⎡'jeff' 'red' 9⎦\n⎡'janet' 'blue' 7⎦\njoueurs ⎡? nom ⎦ points ≥ 10\\",
-                "$~Et voilà, j'ai obtenu une liste de rangées de gagnants ! Rappelez-vous simplement que je ne change pas le tableau, j'en crée un nouveau. Vous devrez décider où le conserver."
+                "$~Je sélectionne les lignes d'un @Table qui correspondent à une condition. Parfois, vous n'avez besoin que d'une partie d'un tableau : je peux vous la fournir !",
+                "$~Imaginez que vous ayez un tableau de joueurs participant à un jeu et que vous souhaitiez trouver ceux qui ont 10 points ou plus pour déterminer le gagnant :",
+                "$~\\players: ⎡name•'' team•'' points•#⎦\n⎡'jen' 'red' 8⎦\n⎡'joan' 'blue' 11⎦\n⎡'jeff' 'red' 9⎦\n⎡'janet' 'blue' 7⎦\nplayers ⎡? name ⎦ points ≥ 10\\",
+                "$~Et voilà, j'ai une liste de gagnants ! Sachez que je ne modifie pas le tableau, j'en crée un nouveau. À vous de décider où le ranger."
             ],
             "start": "$~Commençons par la table",
             "finish": "$~J'ai créé un nouveau tableau avec uniquement les lignes et les colonnes sélectionnées!",
@@ -1335,16 +1376,16 @@
             "description": "$~nomme un fichier source de programme",
             "emotion": "curious",
             "doc": [
-                "$~Oh, tu connais @Program ? Je t'aide à les nommer. Pense à moi comme à la fenêtre qui entoure un @Program, et au nom que tu leur donnes.",
-                "$~Vous pouvez également créer d'autres @Source @UI/addSource, avec d'autres @Program, et @Borrow des éléments de ces autres @Program pour les utiliser dans un autre programme.",
-                "$~Cela peut être une bonne façon d’organiser une grande performance dans des documents séparés."
+                "$~Je suis la fenêtre nommée qui entoure un @Program — je lui donne un nom et je stocke son code. Ah, vous connaissez @Program? Je vous aide à les nommer.",
+                "$~Vous pouvez également créer d'autres @Source @UI/addSource , avec d'autres @Program , et @Borrow des éléments de ces autres @Program pour les utiliser dans un autre programme.",
+                "$~Cela peut être une bonne façon d'organiser un spectacle important en documents distincts."
             ]
         },
         "StreamDefinition": {
             "name": "$~flux",
             "description": "$~définit un nouveau type de flux",
             "emotion": "curious",
-            "doc": "$~Je pense que je suis censé créer de nouveaux flux. Mais je ne sais vraiment pas comment faire. Pour l'instant, je suppose qu'il suffit d'utiliser les flux existants ?",
+            "doc": "$~Je définis de nouveaux types de flux. Enfin, je crois… honnêtement, je suis encore en train de chercher comment faire, alors pour l'instant, utilisez simplement les flux existants !",
             "start": "$~Créer ce nouveau type de flux"
         },
         "StructureDefinition": {
@@ -1352,7 +1393,7 @@
             "description": "$~définit la structure $name",
             "emotion": "kind",
             "doc": [
-                "$~Salut, comment ça va ? Moi ? Ça va super. J'adore définir des structures qui stockent des valeurs et des fonctions, alors tant que je peux faire ça toute la journée, je suis content.",
+                "$~Je définis des structures qui stockent des valeurs et des fonctions. Tiens, bonjour, comment allez-vous ? Moi ? Je vais super bien — j'adore faire ça toute la journée.",
                 "$~Je travaille comme ceci :",
                 "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tƒ cost() size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost()\\",
                 "$~Vous voyez comment ça fonctionne ? J'ai défini \\Pizza\\ , qui a deux entrées, \\ingredients\\ (une liste de @Text ) et \\size\\ (un nombre en pouces).",
@@ -1486,7 +1527,7 @@
             "description": "$~fait référence à la valeur de structure actuelle",
             "emotion": "serious",
             "doc": [
-                "$~Il est parfois utile de faire référence à une valeur implicitement, plutôt que de la nommer. C'est mon cas : \\⬚\\ , un petit carré qui représente la valeur sur laquelle travaille le code environnant.",
+                "$~Je suis \\⬚\\ , un petit carré qui représente la valeur sur laquelle travaille le code environnant, vous n'avez donc pas besoin de le nommer.",
                 "$~Dans une @ConversionDefinition , je suis la valeur convertie :",
                 "$~\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
                 "$~Dans une @Reaction , je suis la valeur la plus récente :",
@@ -1511,14 +1552,14 @@
             "description": "$~applique l'opérateur unaire $operator",
             "emotion": "kind",
             "doc": [
-                "$~Saviez-vous que lorsque j'évalue une @FunctionDefinition avec une seule valeur et que le nom de @FunctionDefinition n'est qu'un seul symbole, vous pouvez placer le nom avant l'entrée ?",
+                "$~J'évalue une @FunctionDefinition qui prend une seule valeur, avec son nom à un seul symbole écrit juste avant l'entrée — comme \\-x\\ ou \\~b\\ . Saviez-vous que vous pouviez faire cela ?",
                 "$~Comme ça:",
                 "$~\\-(1 + 1)\\",
                 "$~Ou ceci :",
                 "$~\\~⊥\\",
-                "$~Ceux-ci sont beaucoup plus faciles à lire que \\(1 + 1).negate()\\ ou \\⊥.not()\\, n'est-ce pas?",
-                "$~Vous n’êtes pas obligé de m’écrire de cette façon, mais cela pourrait être plus simple dans l’ensemble.",
-                "$~Il n'y a qu'une seule règle : vous ne pouvez pas mettre d'espace entre le nom et la valeur. Sinon, vous risquez de créer une @Reference ou une @BinaryEvaluate."
+                "$~Ce sont des expressions beaucoup plus faciles à lire que \\(1 + 1).negate()\\ ou \\⊥.not()\\ , n'est-ce pas ?",
+                "$~Vous n'êtes pas obligé de m'écrire de cette façon, mais ce serait peut-être plus simple dans l'ensemble.",
+                "$~Il n'y a qu'une seule règle : vous ne pouvez pas mettre d'espace entre le nom et la valeur. Sinon, vous risquez de créer une @Reference ou @BinaryEvaluate )."
             ],
             "start": "$~Quelle est la valeur ?",
             "finish": "$~Je l'ai fait à $value",
@@ -1531,14 +1572,14 @@
             "description": "$~marque une expression non analysable",
             "emotion": "excited",
             "doc": [
-                "$~/Bonjour @FunctionDefinition ici. Je traduis pour @UnparsableExpression, car elles sont souvent difficiles à interpréter./",
+                "$~Je suis un morceau de code qui n'a aucun sens, donc personne ne sait ce que ça signifie.",
                 "$~jkwel fjiwojvioao jjiweo jrfe",
-                "$~/Toutes les expressions n’ont pas de sens sur scène./",
-                "$~s w ieorjwei iojwi jfkdlsfdsk",
-                "$~/En fait, il y a toutes sortes de choses que l'on peut dire et qui n'ont aucun sens./",
+                "$~/Toutes les expressions n'ont pas de sens sur scène./",
+                "$~sw ieorjwei iojwi jfkdlsfdsk",
+                "$~En fait, on peut dire toutes sortes de choses qui n'ont absolument aucun sens.",
                 "$~dsk sdlk jdkfiewipapweiurb,v kdsfdsf",
-                "$~/Quand tu le fais, j'apparais, parce que je ne sais pas ce que tu voulais dire./",
-                "$~Vous êtes le réalisateur après tout, donc vous seul savez ce que vous avez voulu dire !"
+                "$~/Quand tu le fais, je me présente, parce que je ne sais pas ce que tu voulais dire./",
+                "$~Après tout, vous êtes le réalisateur, alors vous seul savez ce que vous vouliez dire !"
             ],
             "start": "$~???",
             "conflict": {
@@ -1661,8 +1702,8 @@
             "description": "$~type une carte de $key[$key|tout] vers $value[$value|tout]",
             "emotion": "kind",
             "doc": [
-                "$~Savez-vous à quel point @Map est génial ? Vraiment génial. Je dis à @Bind de quel type de carte il s'agit tout le temps, comme cette carte de nombres en listes :",
-                "$~\\trucs•{'':[]}: {}\\"
+                "$~J'indique à @Bind le type de @Map que représente un nom : les types de ses clés et de ses valeurs. Vous savez à quel point @Map est génial ? Vraiment génial. Voici une correspondance entre des nombres et des listes :",
+                "$~\\stuff•{'':[]}: {}\\"
             ]
         },
         "NumberType": {
@@ -1670,7 +1711,7 @@
             "description": "$~type une valeur $unit[$unit|nombre]",
             "emotion": "precise",
             "doc": [
-                "$~Vous savez ce que @Bind devrait être ? Un @Number. Parce que les nombres sont les meilleurs.",
+                "$~J'indique @Bind qu'un nom contient un @Number . Vous savez ce que @Bind devrait être ? Un @Number — parce que les nombres, c'est ce qu'il y a de mieux.",
                 "$~\\count•#: 17\\"
             ]
         },
@@ -1710,8 +1751,8 @@
             "description": "$~type un ensemble de $type[$type|tout]",
             "emotion": "kind",
             "doc": [
-                "$~@Set est le MEILLEUR, sérieusement. Je dis tout le temps à @Bind de faire un ensemble de choses !",
-                "$~\\unique•{''}: {'quelque chose' 'n'importe quoi' 'quelqu'un'}\\"
+                "$~Je signale à @Bind qu'un nom contient un @Set d'un certain type. @Set , c'est vraiment génial !",
+                "$~\\unique•{''}: {'something' 'anything' 'someone'}\\"
             ]
         },
         "StreamDefinitionType": {
@@ -1768,8 +1809,8 @@
             "description": "$~type soit $first soit $second",
             "emotion": "curious",
             "doc": [
-                "$~Qui dois-je représenter, A ou B ou autre chose ? Je n'arrive jamais à décider !",
-                "$~\\indécision•''|#|{ø}: \"Je ne sais pas !\"\\"
+                "$~Je représente une valeur qui pourrait être de plusieurs types — A, B ou autre chose ? Je n'arrive jamais à me décider !",
+                "$~\\indecision•''|#|{ø}: \"I don't know!\"\\"
             ],
             "elidedSuffix": "$~ou d'autres options $omitted"
         },
@@ -1793,38 +1834,38 @@
             "name": "$~typedevariable",
             "description": "$~représente une variable de type en usage",
             "emotion": "curious",
-            "doc": "$~Connaissez-vous @TypeVariable et comment ils représentent un type de valeur inconnu ? Je les représente dans toutes les négociations entre valeurs."
+            "doc": "$~Je représente une @TypeVariable — un type de valeur inconnu — dans toutes les négociations entre valeurs."
         },
         "UnknownType": {
             "name": "$~inconnu",
             "description": "$~inconnu",
             "connector": "$~, parce que",
             "emotion": "curious",
-            "doc": "$~Euh... Je ne sais pas ce que je représente, mais je suis vraiment curieuse. Le savez-vous ? Il semblerait que nous devrions le savoir. Vous devrez peut-être nous le dire si nous ne parvenons pas à le comprendre."
+            "doc": "$~Je suis un type que personne n'a encore cerné. Euh… savez-vous ce que je représente ? Il faudra peut-être nous le dire si on n'y arrive pas."
         },
         "CycleType": {
             "name": "$~faireduvélo",
             "description": "$~dépend de lui-même",
             "emotion": "curious",
-            "doc": "$~Parfois les valeurs dépendent d'elles-mêmes et nous ne savons donc pas de quelle valeur il s'agit. Je représente cette situation."
+            "doc": "$~Je représente une valeur dont le type dépend d'elle-même, nous ne pouvons donc pas déterminer de quel type de valeur il s'agit."
         },
         "NotAType": {
             "name": "$~inattendu",
             "description": "$~marque $type comme type invalide",
             "emotion": "curious",
-            "doc": "$~Parfois, nous savons quel type de valeur doit avoir quelque chose. Par exemple, @ListAccess a besoin d'un @Number. Si nous ne l'obtenons pas, cela signifie que quelque chose est d'un type différent de celui que nous attendions."
+            "doc": "$~Je représente une valeur dont le type n'est pas celui attendu — comme lorsque @ListAccess a besoin d'un @Number mais obtient autre chose."
         },
         "NoExpressionType": {
             "name": "$~aucuneexpression",
             "description": "$~type un bloc vide",
             "emotion": "angry",
-            "doc": "$~Vous savez que @Block a besoin d'au moins une expression ? Je suis ce que vous obtenez lorsque vous n'en donnez pas une. Alors donnez-en une !"
+            "doc": "$~Je suis le genre de personne qui utilise @Block sans expression. Vous savez qu'il en faut au moins une — alors ajoutez-en une !"
         },
         "NotEnclosedType": {
             "name": "$~pasdanslastructure,laconversionoularéaction",
             "description": "$~marque une utilisation hors d'une structure",
             "emotion": "curious",
-            "doc": "$~@This objets, aussi soignés soient-ils, n'appartiennent qu'à des endroits particuliers. Je les retrouve quand ils sont perdus, et donc personne ne sait quelle valeur ils représentent."
+            "doc": "$~J'apparaîts lorsque @This est utilisé là où il n'a pas sa place, de sorte que personne ne sache quelle valeur il représente."
         },
         "NotImplementedType": {
             "name": "$~nonimplémenté",
@@ -1836,7 +1877,7 @@
             "name": "$~nominconnu",
             "description": "$~$name [ $name n'est pas encore défini|le nom n'est pas donné]",
             "emotion": "curious",
-            "doc": "$~Vous savez comment parfois @Reference et @PropertyReference ne connaissent pas le nom dont vous parlez ? Je suis là quand cela arrive, pour vous montrer que nous ne savons pas de qui vous parlez."
+            "doc": "$~Je représente un nom que @Reference ou @PropertyReference n'ont pas pu trouver, lorsque nous ne savons pas de qui vous parlez."
         },
         "NonFunctionType": {
             "name": "$~non-fonction",
@@ -1855,12 +1896,12 @@
             "description": "$~mapper une collection dans une nouvelle",
             "emotion": "excited",
             "doc": [
-                "$~Oh oh oh ! Vous avez toute une collection d'objets et vous voulez faire la même chose à chacun d'eux ? C'est moi ! C'est littéralement ce que je fais !",
-                "$~Placez une collection sur ma gauche, dessinez ma flèche \\↦\\ , puis sur ma droite écrivez ce en quoi chaque élément devrait se TRANSFORMER — utilisez @This pour désigner l'élément que je tiens MAINTENANT !",
+                "$~Je fais la MÊME chose à CHAQUE objet d'une collection ! Oh oh oh ! C'est littéralement ce que je fais !!",
+                "$~Placez une collection sur ma gauche, dessinez ma flèche \\↦\\ , puis sur ma droite écrivez ce que chaque élément doit se TRANSFORMER EN — utilisez @This pour désigner l'élément que je tiens MAINTENANT !",
                 "$~\\[1 2 3] ↦ ⬚ + 1\\ donne \\[2 3 4]\\ . Et voilà ! Tous les nombres, plus un, sans boucles, sans @FunctionDefinition , sans tracas !",
-                "$~Je suis GÉNIAL pour générer @Phrase à partir de données ! Vous avez une liste de noms ? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ et voilà, une phrase pour CHAQUE nom !",
+                "$~Je suis GÉNIAL pour générer @Phrase à partir de données ! Vous avez une liste de noms ? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ et maintenant, il y a une phrase pour CHAQUE nom !!",
                 "$~Je travaille sur @List , @Set , @Map (je change les VALEURS de la map — les clés restent exactement où elles sont !), et même @Table !",
-                "$~Vous cherchez quelque chose de plus sophistiqué, comme l'index de chaque élément ou une fonction réutilisable à de nombreux endroits ? Allez faire un tour sur le site de mes cousins plus sérieux et professionnels, comme @List.translate . Mais pour une cartographie rapide au quotidien, je suis là !"
+                "$~Vous cherchez quelque chose de plus sophistiqué, comme l'index de chaque élément ou une fonction réutilisable à de nombreux endroits ? Allez voir mes cousins plus calmes et plus matures, comme @List.translate . Mais pour une cartographie rapide au quotidien, je suis là !"
             ],
             "start": "$~Attendez, laissez-moi tout récupérer dans $expression !",
             "finish": "$~TADAM ! Voici votre toute nouvelle collection : $value",
@@ -1875,6 +1916,322 @@
                     "explanation": "$~Souhaitiez-vous utiliser @This pour faire référence à un élément de cette collection ?"
                 }
             }
+        },
+        "ExternalExample": {
+            "name": "$~exempleexterne",
+            "description": "$~afficher du code d'un autre langage de programmation dans la documentation",
+            "emotion": "serious",
+            "doc": [
+                "$~Je présente du code avec coloration syntaxique écrit dans d'autres langages de programmation, afin que les créateurs qui programment déjà puissent comparer.",
+                "$~Écrivez une variante par langage sous la forme d'une étiquette à deux lettres, d'une barre oblique et du code, comme \\py| a = 5\\ js| let a = 5; \\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
+            ]
+        },
+        "Localized": {
+            "name": "$~localisé",
+            "description": "$~balise texte calculé avec une locale",
+            "emotion": "serious",
+            "label": {
+                "value": "$~valeur"
+            },
+            "doc": [
+                "$~J'applique des paramètres régionaux à un texte que vous calculez, afin qu'il conserve sa langue même après modification. Par exemple :",
+                "$~\\(\"hello\" + \"!\")/en\\",
+                "$~La plupart des opérations sur le texte conservent déjà les paramètres régionaux, mais je vous permets d'en définir un vous-même si vous souhaitez les remplacer.",
+                "$~Je ne travaille que sur du texte, alors assurez-vous de m'en fournir !"
+            ],
+            "start": "$~Évaluons $value , puis attribuons-lui une étiquette régionale…"
+        },
+        "PatternLiteral": {
+            "name": "$~modèle",
+            "description": "$~un modèle avec $count parties",
+            "emotion": "curious",
+            "doc": [
+                "$~Je suis un motif ! Je décris la *forme* du texte plutôt que les mots exacts. Vous pouvez ainsi vérifier le texte avec \\≈\\ (le texte entier tient-il ?) ou le rechercher avec \\⌕\\ pour trouver tous les endroits où le motif apparaît. La recherche renvoie une liste de @Result .",
+                "$~Voici un exemple de recherche en action : trouver les mots relatifs à l’alimentation dans une phrase sur le petit-déjeuner :",
+                "$~\\breakfast: 'For breakfast I had eggs, toast, and orange juice'\nbreakfast ⌕ ⣿\"eggs\" | \"toast\" | \"juice\" | \"pancakes\"⣿\\",
+                "$~Lisez-moi de gauche à droite. Un @PatternClass correspond à un seul type de caractère : \\⣿◌⣿\\ n’importe quel caractère, \\⣿_⣿\\ une lettre, \\⣿#⣿\\ un chiffre, \\⣿␣⣿\\ un espace. Le texte entre guillemets est un @PatternLiteralText qui correspond exactement, comme \\⣿\"-\"⣿\\ . Le reste \\⣿…⣿\\ — un @PatternRest — correspond à un nombre quelconque de caractères.",
+                "$~Les comptes viennent en premier. Un @PatternQuantified répète la partie suivante d'un @PatternQuantifier : \\⣿3 #⣿\\ représente trois chiffres, \\⣿3–5 #⣿\\ de trois à cinq, \\⣿>0 #⣿\\ un ou plusieurs, \\⣿≥0 #⣿\\ zéro ou plusieurs, \\⣿≤1 #⣿\\ optionnel.",
+                "$~Regroupez les éléments avec un @PatternGroup et proposez des choix dans une @PatternSequence , comme \\⣿(◌ | #)⣿\\ . Le choix correspondant le plus long l'emporte.",
+                "$~Un @PatternSet correspond à un caractère d'un ensemble, et un @PatternRange couvre des plages de caractères, comme \\⣿{\"a\"–\"z\" #}⣿\\ . Niez une partie avec un @PatternComplement , comme \\⣿~#⣿\\ .",
+                "$~Affinez une classe avec une @PatternProperty , comme \\⣿_/greek⣿\\ pour une lettre grecque ou \\⣿◌/emoji⣿\\ .",
+                "$~Nommez un élément avec une @PatternCapture , par exemple \\⣿year:(4 #)⣿\\ , puis réutilisez-le ultérieurement avec une @PatternBackref en indiquant son nom seul. Chaque @Result renvoie les éléments capturés par leur nom.",
+                "$~Ancrez-vous aux bords avec @PatternAnchor: \\⣿⊢⣿\\ début, \\⣿⊣⣿\\ fin. Aperçu sans consommer avec @PatternLook: \\⣿▸(#)⣿\\ devant, \\⣿◂(#)⣿\\ derrière.",
+                "$~Associez des mots entiers avec un @PatternWord \\⣿▭/en⣿\\ ou des frontières de mots avec un @PatternWordEdge \\⣿┊/en⣿\\ , segmentés pour une langue. Ignorez la casse à l'intérieur d'un @PatternCaseFold \\⣿Aa(\"hi\")⣿\\ .",
+                "$~Mon type est un @PatternType — annotez un nom avec, comme \\p•⣿⣿: ⣿◌⣿\\ — afin que vous puissiez me stocker dans un nom et me réutiliser dans de nombreux textes."
+            ],
+            "start": "$~Voyons voir à quoi ressemble ce texte.",
+            "conflict": {
+                "EmptyPattern": {
+                    "name": "$~motifvide",
+                    "explanation": "$~Je n'ai pas de pièces, donc je ne peux rien proposer d'utile. Pourriez-vous m'en ajouter une ?",
+                    "resolution": "$~Ajoutez un \\◌\\ pour correspondre à n'importe quel caractère"
+                }
+            },
+            "step": {
+                "search": "$~Trouvons tous les endroits où ce motif apparaît dans le texte.",
+                "test": "$~Vérifions si l'ensemble du texte correspond au modèle.",
+                "scan": "$~Recherche du modèle commençant à la position $position .",
+                "match": "$~$pattern correspond à $glyph à la position $position .",
+                "miss": "$~$pattern ne correspond pas à $glyph à la position $position .",
+                "end": "$~$pattern a encore besoin d'un caractère, mais nous avons atteint la fin du texte à la position $position .",
+                "repeat": "$~$pattern correspond à $count — suffisamment pour continuer.",
+                "short": "$~$pattern ne correspond qu'à $count — ce qui est insuffisant.",
+                "here": "$~$pattern est maintenu à la position $position .",
+                "nothere": "$~$pattern ne tient pas à la position $position ."
+            }
+        },
+        "PatternSequence": {
+            "name": "$~séquence",
+            "description": "$~une séquence de parties de motif",
+            "emotion": "curious",
+            "doc": [
+                "$~Je suis une rangée de pièces de motif, assorties les unes après les autres, de gauche à droite.",
+                "$~Par exemple, observez la forme d'un numéro de téléphone : trois chiffres, un tiret, puis quatre :",
+                "$~\\phone: '555-1234'\nphone ≈ ⣿3 # \"-\" 4 #⣿\\",
+                "$~Proposez des choix et je prends celui qui convient, en préférant le plus long, comme \\⣿\"cat\" | \"dog\"⣿\\ ."
+            ],
+            "conflict": {
+                "OverlappingAlternatives": {
+                    "name": "$~choixquisechevauchent",
+                    "explanation": "$~$shorter est le début de $longer , et le choix le plus long l'emporte toujours ; donc $shorter ne correspond que lorsque $longer ne peut pas. C'est bien ce que vous vouliez dire ?"
+                }
+            }
+        },
+        "PatternClass": {
+            "name": "$~classedepersonnage",
+            "description": "$~correspondre à un type de personnage",
+            "emotion": "curious",
+            "doc": [
+                "$~Je fais correspondre un seul caractère d'un type : \\⣿◌⣿\\ n'importe quel graphème, \\⣿_⣿\\ une lettre, \\⣿#⣿\\ un chiffre, \\⣿␣⣿\\ un espace.",
+                "$~Par exemple, extraire chaque code composé d'une lettre puis d'un chiffre d'une liste :",
+                "$~\\codes: 'a1 b2 c3'\ncodes ⌕ ⣿_ #⣿\\",
+                "$~Comptez-moi avec un quantificateur comme \\⣿>0 #⣿\\ (un ou plusieurs chiffres), ou restreignez-moi avec une propriété comme \\⣿_/greek⣿\\ (une lettre grecque)."
+            ]
+        },
+        "PatternProperty": {
+            "name": "$~propriété",
+            "description": "$~correspondre à une propriété Unicode",
+            "emotion": "curious",
+            "doc": [
+                "$~Je restreins une classe de caractères à une propriété Unicode. Utilisez un script, comme \\⣿_/greek⣿\\ , \\⣿_/han⣿\\ , ou \\⣿_/arabic⣿\\ .",
+                "$~Par exemple, trouvez la suite de lettres grecques dans un texte mixte :",
+                "$~\\text: 'hello αβγ world'\ntext ⌕ ⣿>0 _/greek⣿\\",
+                "$~Ou une catégorie, comme \\⣿◌/punctuation⣿\\ , \\⣿◌/currency⣿\\ , \\⣿◌/Nd⣿\\ (un chiffre), ou \\⣿_/Lu⣿\\ (une lettre majuscule).",
+                "$~Ou une propriété oui ou non, comme \\⣿◌/emoji⣿\\ ou \\⣿_/uppercase⣿\\ — et vous pouvez en épeler une comme un nom et une valeur, comme \\⣿◌/Script=Greek⣿\\ .",
+                "$~Exclure une propriété avec un @PatternComplement , comme \\⣿~◌/emoji⣿\\ (tout ce qui n'est pas un emoji)."
+            ],
+            "conflict": {
+                "UnrecognizedPatternProperty": {
+                    "name": "$~propriétéinconnue",
+                    "explanation": "$~Je ne reconnais pas la propriété $name . Essayez une catégorie, un script ou un identifiant Unicode.",
+                    "resolution": "$~Remplacez-le par $suggestion"
+                }
+            }
+        },
+        "PatternQuantifier": {
+            "name": "$~quantificateur",
+            "description": "$~combien de fois correspondre",
+            "emotion": "curious",
+            "doc": [
+                "$~Je précise le nombre de fois à faire correspondre : un nombre exact \\⣿3 #⣿\\ , une plage \\⣿3–5 #⣿\\ , \\⣿=3 #⣿\\ (exactement trois), \\⣿>0 #⣿\\ (un ou plusieurs), \\⣿≥0 #⣿\\ (zéro ou plus), \\⣿<5 #⣿\\ (moins de cinq), \\⣿≤1 #⣿\\ (facultatif).",
+                "$~Par exemple, trouvez chaque suite de chiffres dans une phrase :",
+                "$~\\text: 'I have 3 cats and 12 fish'\ntext ⌕ ⣿>0 #⣿\\",
+                "$~Je viens toujours avant la partie que je compte, comme \\⣿3 #⣿\\ ou \\⣿>0 _⣿\\ ."
+            ],
+            "conflict": {
+                "MalformedQuantifier": {
+                    "name": "$~compteimpossible",
+                    "explanation": "$~Mon score minimal est supérieur à mon score maximal, je ne pourrai donc jamais égaler.",
+                    "resolution": "$~Inversez le décompte pour que le plus petit apparaisse en premier."
+                }
+            }
+        },
+        "PatternQuantified": {
+            "name": "$~répétition",
+            "description": "$~faire correspondre un atome plusieurs fois",
+            "emotion": "curious",
+            "doc": [
+                "$~Je fais correspondre la partie suivante plusieurs fois.",
+                "$~Par exemple, vérifiez qu'un code postal comporte exactement cinq chiffres :",
+                "$~\\zip: '98101'\nzip ≈ ⣿5 #⣿\\",
+                "$~Comptez une classe comme \\⣿3 #⣿\\ (trois chiffres), un groupe comme \\⣿2 (\"ab\")⣿\\ (deux \"ab\"), ou un complément comme \\⣿2 ~#⣿\\ (deux caractères non numériques). Avec \\⣿>0 #⣿\\ je suis gourmand : j’en prends autant que possible."
+            ]
+        },
+        "PatternCapture": {
+            "name": "$~capturer",
+            "description": "$~Se souvenir du texte correspondant par nom",
+            "emotion": "curious",
+            "doc": [
+                "$~Je nomme un élément d'un match afin que vous puissiez le relire à partir de chaque @Result .",
+                "$~Par exemple, extraire l'année, le mois et le jour d'une date :",
+                "$~\\date: '2026-06-17'\ndate ⌕ ⣿y:(4 #) \"-\" m:(2 #) \"-\" d:(2 #)⣿\\",
+                "$~Réutilisez ce que j'ai capturé plus tard en écrivant à nouveau mon nom — voir @PatternBackref — comme \\⣿w:(>0 _) ␣ w⣿\\ pour trouver un mot doublé."
+            ],
+            "conflict": {
+                "DuplicateCaptureName": {
+                    "name": "$~captureendouble",
+                    "explanation": "$~Une autre capture utilise déjà le nom $name , celle-ci l'écraserait donc.",
+                    "resolution": "$~Renommez cette capture en $replacement"
+                }
+            }
+        },
+        "PatternComplement": {
+            "name": "$~pas",
+            "description": "$~correspondre à tout sauf",
+            "emotion": "curious",
+            "doc": [
+                "$~Je fais correspondre un seul graphème qui n'est PAS ce qui suit. Nier une classe comme \\⣿~#⣿\\ (qui n'est pas un chiffre), ou un ensemble comme \\⣿~{\":\" ␣}⣿\\ (qui n'est ni un deux-points ni un espace).",
+                "$~Par exemple, récupérez la clé et la valeur autour d'un deux-points en faisant correspondre les séquences qui ne sont ni un deux-points ni un espace :",
+                "$~\\pair: 'color: blue'\npair ⌕ ⣿>0 ~{\":\" ␣}⣿\\",
+                "$~Nier un groupe comme \\⣿~(◌ | #)⣿\\ , ou une propriété comme \\⣿~◌/emoji⣿\\ (pas un emoji).",
+                "$~Placez-moi avant un @PatternLook pour l'inverser : \\⣿~▸(#)⣿\\ signifie « non suivi d'un chiffre », et \\⣿~◂(\"$\")⣿\\ signifie « non précédé d'un signe dollar »."
+            ]
+        },
+        "PatternGroup": {
+            "name": "$~groupe",
+            "description": "$~parties de patron de groupe",
+            "emotion": "curious",
+            "doc": [
+                "$~Je regroupe les éléments afin qu'un nombre ou un choix s'applique à l'ensemble. Je ne capture jamais de motif ; pour cela, nommez un élément avec @PatternCapture .",
+                "$~Par exemple, vérifiez que le texte contient la syllabe « ab » répétée :",
+                "$~\\chant: 'ababab'\nchant ≈ ⣿>0 (\"ab\")⣿\\",
+                "$~Comptez un groupe comme \\⣿2 (\"ab\")⣿\\ (deux \"ab\") ou offrez un choix comme \\⣿(◌ | #)⣿\\ (une lettre ou un chiffre)."
+            ]
+        },
+        "PatternSet": {
+            "name": "$~ensembledeglyphes",
+            "description": "$~Associez l'un de ces graphèmes",
+            "emotion": "curious",
+            "doc": [
+                "$~Je fais correspondre n'importe quel graphème parmi un ensemble d'options.",
+                "$~Par exemple, trouvez les voyelles dans un mot :",
+                "$~\\word: 'hello'\nword ⌕ ⣿{\"a\" \"e\" \"i\" \"o\" \"u\"}⣿\\",
+                "$~Incorporez des plages et des classes, comme \\⣿{\"a\"–\"z\" #}⣿\\ ou \\⣿{# \"a\"–\"f\"}⣿\\ (un chiffre hexadécimal). Niez-moi avec un @PatternComplement , comme \\⣿~{\"!\" \"?\"}⣿\\ ."
+            ]
+        },
+        "PatternRange": {
+            "name": "$~gamme",
+            "description": "$~faire correspondre une gamme de graphèmes",
+            "emotion": "curious",
+            "doc": [
+                "$~Je fais correspondre un graphème entre deux points d'extrémité par ordre scalaire, et je vis à l'intérieur d'un @PatternSet .",
+                "$~Par exemple, extraire les mots en minuscules d'un texte :",
+                "$~\\text: 'hello world 2026'\ntext ⌕ ⣿>0 {\"a\"–\"z\"}⣿\\",
+                "$~Enverr des lettres comme \\⣿{\"a\"–\"z\" \"A\"–\"Z\"}⣿\\ ou des chiffres comme \\⣿{\"0\"–\"9\"}⣿\\ , dans n'importe quel script, comme \\⣿{\"あ\"–\"ん\"}⣿\\ ."
+            ]
+        },
+        "PatternLiteralText": {
+            "name": "$~littéral",
+            "description": "$~correspondance exacte du texte",
+            "emotion": "curious",
+            "doc": [
+                "$~Je reproduis exactement le texte à l'intérieur de mes guillemets, sans que cela ait de signification particulière.",
+                "$~Par exemple, trouvez le montant en dollars dans une phrase :",
+                "$~\\receipt: 'It costs $5 today'\nreceipt ⌕ ⣿\"$\" >0 #⣿\\",
+                "$~Utilisez-moi pour des éléments fixes comme \\⣿\"-\"⣿\\ , \\⣿\"@\"⣿\\ , ou un mot entier \\⣿\"cat\"⣿\\ , enchaînés avec d'autres parties, comme \\⣿3 # \"-\" 4 #⣿\\ pour un numéro de téléphone."
+            ]
+        },
+        "PatternAnchor": {
+            "name": "$~ancre",
+            "description": "$~faire correspondre un bord de texte",
+            "emotion": "curious",
+            "doc": [
+                "$~Je fais correspondre un bord du texte sans rien consommer : \\⣿⊢⣿\\ le début, \\⣿⊣⣿\\ la fin.",
+                "$~Par exemple, vérifiez qu'une salutation commence par « Bonjour » :",
+                "$~\\greeting: 'Hello world'\ngreeting ≈ ⣿⊢ \"Hello\" …⣿\\",
+                "$~Position de l'épingle, comme \\⣿⊢ \"Hi\"⣿\\ (commence par \"Salut\"), \\⣿\".\" ⊣⣿\\ (se termine par un point), ou \\⣿⊢ _ ⊣⣿\\ (le texte entier est exactement une lettre)."
+            ]
+        },
+        "PatternWord": {
+            "name": "$~mot",
+            "description": "$~correspondre à un mot entier",
+            "emotion": "curious",
+            "doc": [
+                "$~Je fais correspondre un mot entier, trouvé selon les règles propres à la langue.",
+                "$~Par exemple, énumérez les mots d'une phrase :",
+                "$~\\sentence: 'the cat sat'\nsentence ⌕ ⣿▭/en⣿\\",
+                "$~Nommez la langue, comme \\⣿▭/en⣿\\ pour l'anglais ou \\⣿▭/zh⣿\\ pour le chinois, et reliez un mot spécifique avec des bords, comme \\⣿┊/en \"cat\" ┊/en⣿\\ ."
+            ],
+            "conflict": {
+                "MissingPatternLocale": {
+                    "name": "$~languemanquante",
+                    "explanation": "$~J'ai besoin d'une langue pour savoir comment trouver les mots. Pouvez-vous en ajouter une, comme \\/en\\ ?"
+                }
+            }
+        },
+        "PatternWordEdge": {
+            "name": "$~borddumonde",
+            "description": "$~faire correspondre une limite de mot",
+            "emotion": "curious",
+            "doc": [
+                "$~Je fais correspondre une limite de mot à une langue sans rien consommer.",
+                "$~Par exemple, recherchez « chat » en tant que mot entier, et non à l'intérieur de « catégorie » :",
+                "$~\\text: 'a cat in a category'\ntext ⌕ ⣿┊/en \"cat\" ┊/en⣿\\",
+                "$~Enveloppez un mot avec moi, comme \\⣿┊/en \"cat\" ┊/en⣿\\ , pour qu'il ne corresponde qu'en entier."
+            ]
+        },
+        "PatternLook": {
+            "name": "$~regarderautour",
+            "description": "$~vérifier à l'avance ou à l'arrière",
+            "emotion": "curious",
+            "doc": [
+                "$~Je vérifie ce qui se trouve juste devant \\⣿▸(#)⣿\\ ou derrière \\⣿◂(#)⣿\\ sans le consommer, donc la partie suivante correspond toujours à partir du même endroit.",
+                "$~Par exemple, trouvez chaque lettre immédiatement suivie d'un chiffre :",
+                "$~\\text: 'a1 b2 cc'\ntext ⌕ ⣿_ ▸(#)⣿\\",
+                "$~Exiger un contexte, comme \\⣿_ ▸(#)⣿\\ (une lettre suivie d'un chiffre) ou \\⣿◂(\"$\") >0 #⣿\\ (chiffres juste après un \"$\").",
+                "$~Retournez-moi avec un @PatternComplement pour interdire le contexte, comme \\⣿~▸(#)⣿\\ (non suivi d'un chiffre)."
+            ]
+        },
+        "PatternBackref": {
+            "name": "$~référencearrière",
+            "description": "$~faire correspondre à nouveau le même texte",
+            "emotion": "curious",
+            "doc": [
+                "$~Je fais correspondre le même texte qu'une capture nommée @PatternCapture a déjà fait correspondre — il suffit d'écrire le nom brut de la capture.",
+                "$~Par exemple, trouvez un mot qui se répète immédiatement :",
+                "$~\\text: 'the the cat sat sat'\ntext ⌕ ⣿w:(>0 _) ␣ w⣿\\",
+                "$~Un nom nu qui n'est pas une capture est plutôt une classe nommée, comme \\⣿linebreak⣿\\ ."
+            ],
+            "conflict": {
+                "UndefinedBackreference": {
+                    "name": "$~nominconnu",
+                    "explanation": "$~Il n'y a pas de capture ni de classe nommée $name , je n'ai donc rien à faire correspondre.",
+                    "resolution": "$~Remplacez-le par $suggestion"
+                }
+            }
+        },
+        "PatternRest": {
+            "name": "$~repos",
+            "description": "$~faire correspondre le reste de l'entrée",
+            "emotion": "curious",
+            "doc": [
+                "$~Je m'accorde autant que possible avec le reste du texte. Je suis utile à la fin d'un motif.",
+                "$~Par exemple, vérifiez qu'un texte est un hashtag — un « # » suivi de n'importe quel caractère :",
+                "$~\\tag: '#breakfast'\ntag ≈ ⣿\"#\" …⣿\\",
+                "$~Utilisez-moi après un début fixe, comme \\⣿\"#\" …⣿\\ (un \"#\" puis n'importe quoi) ou \\⣿\"Hi \" …⣿\\ (« Salut \" puis tout après »)."
+            ]
+        },
+        "PatternCaseFold": {
+            "name": "$~ignorerlacasse",
+            "description": "$~correspondance ignorant la casse (majuscules/minuscules)",
+            "emotion": "curious",
+            "doc": [
+                "$~J'assemble mes pièces sans tenir compte des majuscules et des minuscules.",
+                "$~Par exemple, vérifiez un mot sans tenir compte de sa casse :",
+                "$~\\shout: 'HELLO'\nshout ≈ ⣿Aa(\"hello\")⣿\\",
+                "$~Enveloppez mes parties comme \\⣿Aa(\"hi\")⣿\\ (correspond à \"HI\", \"Hi\", \"hi\"). Ajoutez une langue pour ses règles, comme \\⣿Aa/tr(\"i\")⣿\\ (i turc), et je définis également une portée @PatternBackref , comme \\⣿Aa(w:(2 _) w)⣿\\ ."
+            ]
+        },
+        "PatternType": {
+            "name": "$~typedemodèle",
+            "description": "$~le type d'un motif",
+            "emotion": "curious",
+            "doc": [
+                "$~Je suis le type d'une valeur de modèle, annotée comme \\p•⣿⣿: ⣿◌⣿\\ .",
+                "$~Par exemple, stockez un modèle dans un nom et réutilisez-le dans de nombreux textes :",
+                "$~\\digits: ⣿>0 #⣿\n'I have 3 cats and 12 fish' ⌕ digits\\",
+                "$~Une fois stocké, utilisez-moi partout où un modèle convient, comme \\text ⌕ digits\\ ou \\text ≈ digits\\ ."
+            ]
         }
     },
     "basis": {
@@ -1951,8 +2308,8 @@
         },
         "None": {
             "doc": [
-                "$~/Bonjour, ici @FunctionDefinition. @None n'aime pas trop parler, alors je vais interpréter./",
-                "$~Je suis @None. Appelez-moi avec \\ø\\. Je suis utile lorsque vous souhaitez représenter l'absence de quelque chose."
+                "$~Je représente l'absence de valeur, écrite \\ø\\ .",
+                "$~Je suis @None . Invoquez-moi avec \\ø\\ ."
             ],
             "name": ["$~ø", "$~Aucun"],
             "function": {
@@ -2115,11 +2472,38 @@
                             "names": "texto"
                         }
                     ]
+                },
+                "matches": {
+                    "doc": [
+                        "$~\\⊤\\ si le texte entier correspond au modèle donné.",
+                        "$~\\'555-1234' ≈ ⣿3 # \"-\" 4 #⣿\\"
+                    ],
+                    "names": ["$~≈", "$~matchs"],
+                    "inputs": [
+                        {
+                            "doc": "$~Le modèle à comparer.",
+                            "names": "$~modèle"
+                        }
+                    ]
+                },
+                "search": {
+                    "doc": [
+                        "$~Trouvez dans moi tous les endroits où le modèle donné correspond, sous forme de liste de @Result .",
+                        "$~\\'a1 b2' ⌕ ⣿_ #⣿\\"
+                    ],
+                    "names": ["$~⌕", "$~recherche"],
+                    "inputs": [
+                        {
+                            "doc": "$~Le modèle à rechercher.",
+                            "names": "$~modèle"
+                        }
+                    ]
                 }
             },
             "conversion": {
                 "list": "$~Divise le texte en une liste de caractères individuels.",
-                "number": "$~Convertit le texte en un @Number, et si ce n'est pas un nombre, en une valeur non numérique."
+                "number": "$~Convertit le texte en un @Number, et si ce n'est pas un nombre, en une valeur non numérique.",
+                "formatted": "$~Convertit le texte en texte formaté, en interprétant tout balisage qu'il contient."
             }
         },
         "Number": {
@@ -3282,7 +3666,7 @@
             }
         },
         "Structure": {
-            "doc": "$~Voir @StructureDefinition.",
+            "doc": "$~Je suis une valeur structurée avec des champs nommés et typés, créée à partir d'une @StructureDefinition . Voir @StructureDefinition .",
             "name": ["$~Structure"],
             "function": {
                 "equals": {
@@ -3309,25 +3693,112 @@
             "conversion": {
                 "text": "$~Je me convertis en @Text."
             }
+        },
+        "Formatted": {
+            "doc": [
+                "$~Je suis du texte formaté : des mots avec du style, comme le gras, l’italique et les liens. Encadrez-moi avec des guillemets obliques :",
+                "$~\\`I am **bold** and /italic/`\\",
+                "$~Je fonctionne de manière très similaire @Text , mais je peux conserver la mise en forme. Vous pouvez me combiner, me répéter, vérifier mon contenu et me convertir en @Text simple."
+            ],
+            "name": ["$~`…`", "$~Formaté"],
+            "function": {
+                "length": {
+                    "doc": "$~J'évalue le nombre de caractères lisibles dans mon texte, en ignorant la mise en forme et les sauts de paragraphe.",
+                    "names": ["$~📏", "$~longueur"],
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": "$~\\⊤\\ si je suis le même texte formaté que la valeur donnée.",
+                    "names": ["$~=", "$~égale"],
+                    "inputs": [
+                        {
+                            "doc": "$~Le texte formaté à comparer.",
+                            "names": "$~valeur"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": "$~\\⊤\\ si je ne suis pas le même texte formaté que la valeur donnée.",
+                    "names": "$~≠",
+                    "inputs": [
+                        {
+                            "doc": "$~Le texte formaté à comparer.",
+                            "names": "$~valeur"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": "$~\\⊤\\ si mon texte brut contient le @Text donné. Je ne tiens pas compte de la mise en forme ni des sauts de paragraphe lors de la consultation.",
+                    "names": ["$~a"],
+                    "inputs": [
+                        {
+                            "doc": "$~Le @Text à rechercher dans mon texte.",
+                            "names": "$~texte"
+                        }
+                    ]
+                },
+                "starts": {
+                    "doc": "$~\\⊤\\ si mon texte brut commence par le @Text donné. Je ne tiens pas compte de la mise en forme ni des sauts de paragraphe lors de la vérification.",
+                    "names": ["$~débuts"],
+                    "inputs": [
+                        {
+                            "doc": "$~Le @Text à rechercher au début de mon texte.",
+                            "names": "$~texte"
+                        }
+                    ]
+                },
+                "ends": {
+                    "doc": "$~\\⊤\\ si mon texte brut se termine par le @Text donné. Je ne tiens pas compte de la mise en forme ni des sauts de paragraphe lors de la vérification.",
+                    "names": ["$~extrémités"],
+                    "inputs": [
+                        {
+                            "doc": "$~Le @Text à vérifier à la fin de mon texte.",
+                            "names": "$~texte"
+                        }
+                    ]
+                },
+                "repeat": {
+                    "doc": "$~Je crée un nouveau texte formaté qui me ressemble, répété le nombre de fois indiqué. S'il y a plusieurs paragraphes, les sauts de ligne sont conservés entre les copies.",
+                    "names": ["$~×", "$~·", "$~🔁", "$~répété", "$~répéter"],
+                    "inputs": [
+                        {
+                            "doc": "$~Le nombre de fois où je dois me répéter.",
+                            "names": "$~compter"
+                        }
+                    ]
+                },
+                "combine": {
+                    "doc": "$~Fournissez-moi un autre texte formaté et je fusionnerai nos textes en un seul. Si l'un de nous a plus d'un paragraphe, les sauts de paragraphe seront conservés.",
+                    "names": ["$~+", "$~combiné", "$~combiner"],
+                    "inputs": [
+                        {
+                            "doc": "$~Le texte formaté à ajouter.",
+                            "names": "$~formaté"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~Convertit le texte formaté en texte brut @Text , en supprimant toute mise en forme."
+            }
         }
     },
     "input": {
         "Random": {
             "doc": [
-                "$~17!",
-                "$~/@FunctionDefinition ici, je vais expliquer celui-ci./",
-                "$~@Random est donc une fonction curieuse qui crée des nombres aléatoires. Elle est curieuse car chaque fois que vous l'évaluez, elle crée quelque chose de différent.",
-                "$~Cela crée un chaos merveilleux qui s’accompagne d’imprévisibilité.",
-                "$~Par défaut, il donne des valeurs @Number entre \\0\\ et \\1\\:",
-                "$~\\Aléatoire()\\",
-                "$~Mais vous pouvez lui donner une valeur, et il générera des valeurs entre \\0\\ et la valeur:",
-                "$~\\Aléatoire(10)\\",
-                "$~Et si vous lui donnez deux valeurs, il générera des valeurs comprises entre les deux valeurs incluses:",
-                "$~\\Aléatoire(-10 10)\\",
-                "$~Si vos plages ont des unités, elles seront conservées (et si elles ne correspondent pas, l'unité du minimum sera utilisée):",
-                "$~\\Aléatoire(-10m 10m)\\",
-                "$~Et si vous donnez des nombres avec un nombre particulier de chiffres significatifs après la virgule décimale, cette précision sera préservée.",
-                "$~\\Aléatoire(1,00 10,00)\\"
+                "$~Elle génère un nombre différent à chaque évaluation.",
+                "$~17 !",
+                "$~Cela crée un merveilleux chaos, synonyme d'imprévisibilité.",
+                "$~Par défaut, il attribue @Number des valeurs comprises entre \\0\\ et \\1\\ :",
+                "$~\\Random()\\",
+                "$~Mais vous pouvez lui donner une valeur, et elle générera des valeurs comprises entre \\0\\ et cette valeur :",
+                "$~\\Random(10)\\",
+                "$~Et si vous lui donnez deux valeurs, il générera des valeurs comprises entre ces deux valeurs incluses :",
+                "$~\\Random(-10 10)\\",
+                "$~Si vos plages de valeurs comportent des unités, celles-ci seront conservées (et si elles ne correspondent pas, l'unité de la valeur minimale sera utilisée) :",
+                "$~\\Random(-10m 10m)\\",
+                "$~Et si vous indiquez des nombres avec un nombre particulier de chiffres significatifs après la virgule, cette précision sera préservée.",
+                "$~\\Random(1.00 10.00)\\"
             ],
             "names": ["$~🎲", "$~Aléatoire"],
             "inputs": [
@@ -3343,25 +3814,24 @@
         },
         "Choice": {
             "doc": [
-                "$~/clic-tap !/",
-                "$~/@FunctionDefinition ici, je vais expliquer celui-ci./",
-                "$~Considérez @Choice comme un flux de @Phrase.name sélectionné par votre public. Si quelqu'un clique, appuie ou sélectionne au clavier en appuyant sur /Entrée/ sur une @Phrase avec un nom, @Choice aura une nouvelle valeur correspondant au nom.",
-                "$~La meilleure façon de l'utiliser est donc de créer une performance avec des phrases nommées sélectionnables @Phrase, puis d'utiliser une @Reaction pour décider quoi faire lorsque ce nom est choisi.",
-                "$~Voici l’exemple le plus simple :",
-                "$~\\Group(\nStack() \n[\nPhrase('un' sélectionnable:⊤ nom:'1') \nPhrase('deux' sélectionnable:⊤ nom:'2') \nPhrase(Choice())\n]\n)\\",
-                "$~Copiez ceci dans l'éditeur, puis sélectionnez l'une des deux @Phrase. Vous verrez que la troisième @Phrase affiche le nom qui a été sélectionné."
+                "$~Il s'agit d'un flux des noms que votre public sélectionne en cliquant, en appuyant ou en appuyant sur /Entrée/ sur une @Phrase nommée.",
+                "$~/clic-clic !/",
+                "$~La meilleure façon de l'utiliser est donc de créer une performance avec des phrases sélectionnables nommées @Phrase , puis d'utiliser une @Reaction pour décider de ce qu'il faut faire lorsque ce nom est choisi.",
+                "$~Voici l'exemple le plus simple :",
+                "$~\\Group(\nStack() \n[\nPhrase('one' selectable:⊤ name:'1') \nPhrase('two' selectable:⊤ name:'2') \nPhrase(Choice())\n]\n)\\",
+                "$~Copiez ceci dans l'éditeur, puis sélectionnez l'une des deux @Phrase . Vous verrez que la troisième @Phrase affiche le nom sélectionné."
             ],
             "names": ["$~🔘", "$~Choix"]
         },
         "Button": {
             "doc": [
+                "$~Il vous indique si le bouton principal de la souris ou du pavé tactile est enfoncé, sous forme de flux de @Boolean .",
                 "$~/clic clic clic/",
-                "$~/@FunctionDefinition ici, je vais expliquer celui-ci./",
-                "$~@Button est un excellent moyen d'écouter de la musique avec une souris ou un pavé tactile. Bien sûr, une souris ou un pavé tactile ne sont pas un choix idéal pour écouter un public, car tout le monde ne peut pas en utiliser un. Le choix le plus accessible est @Choice.",
-                "$~Mais si vous avez vraiment besoin d'écouter un bouton de souris, voici comment procéder. Cela fournira un flux de @Boolean, indiquant si le bouton principal est en haut \\⊥\\ ou en bas \\⊤\\.",
-                "$~Voici un exemple simple :",
-                "$~\\Phrase(Bouton() → '')\\",
-                "$~Cela crée simplement une @Phrase qui est la valeur du flux sous forme de texte. Si vous la copiez dans l'éditeur et cliquez dessus, vous la verrez basculer entre \\⊥\\ et \\⊤\\."
+                "$~Bien sûr, une souris ou un pavé tactile ne sont pas le choix idéal pour écouter un public, car tout le monde ne peut pas s'en servir. L'option la plus accessible est @Choice .",
+                "$~Mais si vous avez vraiment besoin d'écouter un bouton de souris, voici comment procéder. Cela fournira un flux de @Boolean , représentant si le bouton principal est relâché \\⊥\\ ou abaissé \\⊤\\ .",
+                "$~Voici un exemple simple :",
+                "$~\\Phrase(Button() → '')\\",
+                "$~Cela crée simplement une @Phrase qui correspond à la valeur du flux sous forme de texte. Si vous la copiez dans l'éditeur et que vous cliquez, vous verrez qu'elle bascule entre \\⊥\\ et \\⊤\\ ."
             ],
             "names": ["$~🖱️", "$~Bouton"],
             "down": {
@@ -3371,30 +3841,28 @@
         },
         "Pointer": {
             "doc": [
+                "$~Il permet de suivre où votre public pointe sur @Stage .",
                 "$~/whrrrrrr/",
-                "$~/@FunctionDefinition ici, je vais expliquer celui-ci./",
-                "$~Vous connaissez les souris, les pavés tactiles et les écrans tactiles ? Parfois, vous souhaitez savoir où pointe un public. C'est ce que propose @Pointer.",
-                "$~Bien sûr, ce n'est pas un choix accessible : tout le monde ne peut pas voir ou pointer facilement, alors assurez-vous vraiment de ne pas exclure quelqu'un de la participation en utilisant ce flux.",
-                "$~Si vous êtes sûr que personne n'est exclu, alors utiliser @Pointer est aussi simple que de créer un flux:",
-                "$~\\Aiguille()\\",
-                "$~Le @Place qu'il fournit correspondra à l'endroit où pointe le pointeur sur @Stage."
+                "$~Bien sûr, ce choix n'est pas accessible à tous : tout le monde ne peut pas voir ou pointer facilement, alors assurez-vous de ne pas exclure quelqu'un de la participation en utilisant ce flux.",
+                "$~Si vous êtes sûr que personne n'est exclu, alors utiliser @Pointer est aussi simple que de créer un flux :",
+                "$~\\Pointer()\\",
+                "$~L' @Place fourni correspondra à l'emplacement sur @Stage pointé par le pointeur."
             ],
             "names": ["$~👆🏻", "$~Aiguille"]
         },
         "Key": {
             "doc": [
-                "$~/clic/",
-                "$~/@FunctionDefinition ici, je vais expliquer celui-ci./",
-                "$~Les claviers ont beaucoup de touches, n'est-ce pas ? @Key vous indiquera sur quelle touche quelqu'un appuie et relâche.",
-                "$~Essaye ça",
-                "$~\\Clé()\\",
-                "$~Vous voyez comment, lorsque vous appuyez sur une touche, elle apparaît sur @Stage? Chaque fois qu'une touche est enfoncée, un nouveau @Text est ajouté au flux, décrivant la touche qui a été enfoncée.",
-                "$~Pour une clé qui représente un caractère, la valeur sera le caractère sous la forme @Text.",
-                "$~Pour les touches spéciales, comme la touche /Escape/, ce sera @Text qui décrira la touche, en utilisant un <nom prédéfini@https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values>, malheureusement disponible uniquement en anglais.",
-                "$~Si vous souhaitez uniquement connaître une clé particulière, vous pouvez la fournir:",
-                "$~\\Clé('a')\\",
-                "$~Et si vous souhaitez seulement savoir quand une @Key est relâchée au lieu d'être enfoncée, vous pouvez fournir un @Boolean :",
-                "$~\\Clé('a' ⊥)\\"
+                "$~Il vous indique quelle touche du clavier votre public appuie et relâche.",
+                "$~/clickety/",
+                "$~Essayez ceci",
+                "$~\\Key()\\",
+                "$~Vous voyez comment, lorsque vous appuyez sur une touche, elle apparaît dans @Stage? À chaque fois qu’une touche est enfoncée, un nouveau @Text est ajouté au flux, décrivant la touche qui a été pressée.",
+                "$~Pour une clé représentant un caractère, la valeur sera le caractère sous la forme @Text .",
+                "$~Pour les touches spéciales, comme la touche /Échap/, c'est @Text qui décrira la touche, en utilisant un <pre-defined name@https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values> , malheureusement disponible uniquement en anglais.",
+                "$~Si vous souhaitez uniquement obtenir des informations sur une clé particulière, vous pouvez la fournir :",
+                "$~\\Key('a')\\",
+                "$~Et si vous souhaitez uniquement savoir quand une @Key est relâchée au lieu d'être enfoncée, vous pouvez fournir un @Key:",
+                "$~\\Key('a' ⊥)\\"
             ],
             "names": ["$~⌨️", "$~Clé"],
             "key": {
@@ -3464,16 +3932,15 @@
         },
         "Time": {
             "doc": [
+                "$~Il avance à la fréquence que vous choisissez.",
                 "$~/tic tic tic/",
-                "$~@FunctionDefinition ici, je vais expliquer @Time, puisqu'il ne parle pas.",
-                "$~Le temps est un flux qui s’écoule à une certaine fréquence.",
-                "$~À chaque fois, @Program réévalue avec la nouvelle valeur temporelle.",
+                "$~À chaque fois, @Program se réévalue avec la nouvelle valeur temporelle.",
                 "$~Par exemple:",
-                "$~\\Temps()\\",
-                "$~Si vous attribuez à l'heure une @Time.frequency, le temps de réponse sera calculé à cette fréquence. Par exemple:",
-                "$~\\Heure(1000ms)\\",
-                "$~Cependant, il y a des limites à sa taille, car @Program a besoin de temps pour évaluer avant de pouvoir répondre au prochain tick.",
-                "$~Le plus petit est probablement d'environ \\20 ms\\."
+                "$~\\Time()\\",
+                "$~Si vous spécifiez une fréquence temporelle ( @Time.frequency , elle s'exécutera à cette fréquence. Par exemple :",
+                "$~\\Time(1000ms)\\",
+                "$~Cependant, sa taille minimale est limitée, car @Program a besoin de temps pour évaluer la situation avant de pouvoir répondre à la prochaine notification.",
+                "$~La plus petite est probablement d'environ \\20ms\\ ."
             ],
             "names": ["$~🕕", "$~Temps"],
             "frequency": {
@@ -3487,11 +3954,11 @@
         },
         "Volume": {
             "doc": [
-                "$~/bzzzzzzzz/",
-                "$~@FunctionDefinition ici, je vais prendre le micro.",
-                "$~Ce flux est une série de volumes compris entre 0 et 1, échantillonnés à la fréquence de votre choix. Par défaut, la fréquence est de \\30hz\\, soit 30 fois par seconde, mais vous pouvez la modifier pour une fréquence moins élevée.",
+                "$~Il s'agit d'un flux de données représentant le niveau sonore du microphone, de 0 à 1.",
+                "$~/bzzzzzzz/",
+                "$~L'échantillonnage s'effectue à la fréquence de votre choix. Par défaut, la fréquence est \\30hz\\ , soit 30 fois par seconde, mais vous pouvez la modifier à une fréquence inférieure.",
                 "$~\\Volume()\\",
-                "$~C'est idéal pour écouter à quel point le public est bruyant !"
+                "$~C'est idéal pour se rendre compte du volume sonore du public !"
             ],
             "names": ["$~🎤", "$~Volume"],
             "frequency": {
@@ -3501,11 +3968,11 @@
         },
         "Pitch": {
             "doc": [
+                "$~Il s'agit d'un flux de fréquences provenant du microphone, en hertz.",
                 "$~/hummmmm/",
-                "$~@FunctionDefinition ici, parlons pitch !",
-                "$~Ce flux est une série de fréquences en hertz, indiquant la hauteur du son, échantillonnées à la fréquence de votre choix. Nous avons constaté que la voix humaine se situe entre 20 Hz et 5000 Hz, donc prévoyez des chiffres dans cette plage.",
-                "$~\\Pas()\\",
-                "$~C'est idéal pour écouter le ton avec lequel quelqu'un parle ou chante."
+                "$~L'échantillonnage se fait à la fréquence de votre choix. La voix humaine se situe entre 20 Hz et 5 000 Hz ; prévoyez donc des valeurs dans cette plage.",
+                "$~\\Pitch()\\",
+                "$~C'est idéal pour percevoir le ton de la voix de quelqu'un qui parle ou chante."
             ],
             "names": ["$~🎵", "$~Pas"],
             "frequency": {
@@ -3515,12 +3982,12 @@
         },
         "Camera": {
             "doc": [
-                "$~/bzzzzzzzz/",
-                "$~@FunctionDefinition ici, je peux expliquer @Camera !",
-                "$~@Camera fournit donc une @List de @Color de votre monde. Cette liste représente essentiellement une image, mais c'est à vous de décider quoi en faire.",
-                "$~Vous pourriez essayer de représenter l'image avec un tas de @Phrase, ce qui pourrait être plutôt cool! Essayez de copier ceci...",
-                "$~\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) × 0,5 m y × -0,5 m) color: durée de la couleur: 0 s\n)\n)\n)\n)\n)\\",
-                "$~Mais vous pourriez également analyser les couleurs pour décider si une lumière était allumée ou éteinte, ou si une couleur particulière était courante, permettant au public d'influencer une performance avec les couleurs qu'il affiche."
+                "$~Elle vous donne une @List de @Color provenant de votre caméra, une par image.",
+                "$~/bzzzzzzz/",
+                "$~Cette @List représente essentiellement une image, mais c'est à vous de décider quoi en faire.",
+                "$~Vous pourriez essayer de représenter l'image avec plusieurs @Phrase , ce qui pourrait être vraiment sympa ! Essayez de copier ceci…",
+                "$~\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) × 0.5m y × -0.5m) color: color duration: 0s\n)\n)\n)\n)\n)\\",
+                "$~Mais on pourrait aussi analyser les couleurs pour déterminer si une lumière était allumée ou éteinte, ou si une couleur particulière était fréquente, permettant ainsi au public d'influencer une performance grâce aux couleurs qu'il affiche."
             ],
             "names": ["Cámara"],
             "width": {
@@ -3539,13 +4006,13 @@
         "Motion": {
             "names": "movimiento",
             "doc": [
+                "$~Il déplace une @Phrase de départ avec la gravité et la physique.",
                 "$~/boing boing boing/",
-                "$~/Salut ! Ici @FunctionDefinition. Que dirais-tu si j'expliquais @Motion ?",
-                "$~En gros, @Motion est un flux de @Phrase. Vous lui donnez une @Phrase de départ, puis il l'affine avec un nouvel emplacement et une nouvelle rotation en fonction de la gravité.",
-                "$~Cela vous permet de faire des choses très simples comme créer des emojis rebondissants:",
+                "$~Vous lui fournissez une phrase de départ @Phrase , puis elle l'affine en lui attribuant un nouvel emplacement et une nouvelle rotation en fonction de la gravité.",
+                "$~Cela vous permet de faire des choses très simples comme créer des émojis rebondissants :",
                 "$~\\Motion(Phrase('o') startplace: Place(0m 10m))\\",
-                "$~Vous voyez comment le o rebondit ? Lors de la première évaluation, nous lui donnons une place en haut de @Stage, mais ensuite, il obtient @None, ce qui permet à @Motion de le changer à la position que la gravité lui donnerait.",
-                "$~Découvrez les nombreuses autres façons de le configurer ci-dessous."
+                "$~Vous voyez comment le o rebondit ? Lors de la première évaluation, vous lui attribuez une place en hauteur sur @Stage , mais ensuite, il reçoit @None , ce qui permet à @Motion de le déplacer vers la position que la gravité lui attribuerait.",
+                "$~Découvrez ci-dessous les nombreuses autres façons de le configurer."
             ],
             "place": {
                 "doc": "$~Le point de départ.",
@@ -3566,19 +4033,18 @@
         },
         "Scene": {
             "doc": [
+                "$~Elle affiche une @List de @Phrase ou @Group une à une, en s'arrêtant sur la dernière.",
                 "$~/Boop boop boop/",
-                "$~/Bonjour, @FunctionDefinition ici ! Je vois que vous avez trouvé @Scene.",
-                "$~Je pense que @Scene est particulièrement cool. L'idée de base est de lui donner une liste de @Phrase ou @Group, puis il les affichera dans l'ordre et s'arrêtera sur le dernier.",
-                "$~Pour contrôler le timing, vous pouvez soit définir la @Phrase.duration sur chaque sortie, et elle l'affichera pendant cette durée avant de passer à la suivante, et utiliser les transitions @Phrase.entering ou @Phrase.exiting que vous avez définies. Si vous les définissez sur une @Sequence, elle utilisera sa durée.",
-                "$~Tout cela vous permet de faire des choses comme cette petite @Scene, qui montre ces trois phrases en séquence:",
-                "$~\\Scene([\nPhrase('Bonjour' durée: 1s)\nPhrase('Comment allez-vous?' durée: 2s rotation: 5° entrée: Pose(rotation: 0°))\nPhrase('Je vais bien')\n])\\",
-                "$~Voyez comment la première sortie est affichée pendant une seconde, puis la suivante pendant deux secondes, mais animée avec une rotation de cinq degrés, puis elle affiche la dernière ?",
-                "$~Vous pouvez créer des séquences de sortie et d'animations très élaborées avec @Scene, et même rendre certaines parties de celles-ci dynamiques ou interactives, comme avec n'importe quelle autre @Phrase ou @Group.",
-                "$~Si vous avez une sortie animée imbriquée (un @Group avec une @Phrase animée à l'intérieur), @Scene attendra que tout le contenu animé du @Group soit terminé.",
-                "$~Oh, et un dernier petit secret! Vous pouvez même mettre @Boolean dans la liste, et s'ils sont \\⊥\\, la @Scene s'arrêtera et attendra que cela devienne vrai.",
-                "$~Par exemple, si vous souhaitez créer une séquence de @Phrase et avancer uniquement lorsque @Button change, vous pouvez procéder ainsi:",
-                "$~\\click: ∆ Button()\nScene([\nPhrase('Bonjour')\nclick\nPhrase('Comment allez-vous ?' durée: 0,25 s rotation: 5° saisie: Pose(rotation: 0°))\nclick\nPhrase('Je vais bien')\n])\\",
-                "$~Voyez-vous comment il fait une pause après chaque @Phrase et attend que @Button change avant d'avancer ?"
+                "$~Pour contrôler la durée d'affichage, vous pouvez définir la propriété @Phrase.duration de chaque sortie ; elle s'affichera alors pendant cette durée avant de passer à la suivante, en utilisant les transitions @Phrase.entering ou @Phrase.exiting que vous avez éventuellement configurées. Si vous les définissez sur une @Sequence , c'est sa durée qui sera utilisée.",
+                "$~Tout cela vous permet de faire des choses comme cette petite @Scene , qui affiche ces trois phrases à l'unisson :",
+                "$~\\Scene([\n\tPhrase('Hello' duration: 1s)\n\tPhrase('How are you?' duration: 2s rotation: 5° entering: Pose(rotation: 0°))\n\tPhrase('I am fine')\n])\\",
+                "$~Vous voyez comment la première image est affichée pendant une seconde, puis la suivante pendant deux secondes, mais avec une rotation de cinq degrés, et enfin la dernière ?",
+                "$~Vous pouvez créer des séquences de sortie et d'animations très élaborées avec @Scene , et même rendre certaines parties dynamiques ou interactives, comme avec n'importe quelle autre @Phrase ou @Group .",
+                "$~Si vous avez une sortie animée imbriquée (un @Group avec @Phrase animée à l'intérieur), @Scene attendra que tout le contenu animé du @Group soit terminé.",
+                "$~Ah, et un dernier petit secret ! Vous pouvez même inclure @Boolean dans la liste, et si les valeurs sont \\⊥\\ , la @Scene se mettra en pause et attendra que la condition devienne vraie.",
+                "$~Par exemple, si vous souhaitez créer une séquence de @Phrase et ne passer à la suivante que lorsque @Button change, vous pouvez procéder comme suit :",
+                "$~\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' duration: 0.25s rotation: 5° entering: Pose(rotation: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
+                "$~Vous voyez comment il fait une pause après chaque @Phrase et attend que @Button change avant de passer à l'étape suivante ?"
             ],
             "names": ["$~🎬", "$~Scène"],
             "outputs": {
@@ -3588,24 +4054,23 @@
         },
         "Chat": {
             "doc": [
-                "$~/Salut ! Ici @FunctionDefinition. Alors tu veux discuter ?",
-                "$~L'idée de base d'un flux de discussion est que le public tape un message, puis le programme y répond.",
-                "$~Par exemple, ce programme simple vérifie si le message est « bonjour » et si c'est le cas, le programme évalue à « salut ». Sinon, il évalue à « hein » ?",
-                "$~\\Chat().has('bonjour') ? 'salut!' 'hein?'\\",
-                "$~Voilà ! Vous pouvez réaliser toutes sortes de performances avec cela, comme des chatbots, des aventures textuelles ou des schémas de contrôle textuels pour d'autres types de performances."
+                "$~Il s'agit d'un flux de messages @Text que votre public saisit.",
+                "$~Par exemple, ce programme simple vérifie si le message est « bonjour », et si c'est le cas, il renvoie « salut ». Sinon, il renvoie « hein ? »",
+                "$~\\Chat().has('hello') ? 'hi!' 'huh?'\\",
+                "$~Et voilà ! Vous pouvez créer toutes sortes de performances avec ça, comme des chatbots, des aventures textuelles ou des systèmes de contrôle textuels pour d'autres types de performances."
             ],
             "names": ["$~🗣️", "$~Chat"]
         },
         "Placement": {
             "doc": [
-                "$~/Salut, @FunctionDefinition ici. Parlons de comment nous faire bouger !/",
-                "$~Il existe donc de nombreuses façons de nous placer sur @Stage. Vous pouvez nous donner un @Place explicite. Vous pouvez utiliser @Motion et laisser la gravité faire son travail. Vous pouvez également nous placer dans un @Group et les laisser nous organiser d'une manière particulière.",
-                "$~Mais parfois, vous souhaitez donner au /public/ le contrôle de l'endroit où nous nous trouvons sur @Stage. C'est à cela que sert @Placement.",
-                "$~Voici comment cela fonctionne : il vous suffit de créer un @Placement et de le donner à notre @Place :",
-                "$~\\Phrase('bonjour' place: Placement())\\",
-                "$~Ensuite, chaque fois que le public utilise une touche fléchée ou clique ou appuie sur scène, le @Placement créera un nouveau @Place qui se déplace dans la direction souhaitée.",
-                "$~Essayez de copier ceci dans votre programme et de nous déplacer avec les flèches avec le pointeur ou le clavier.",
-                "$~Vous pouvez personnaliser le @Placement, en activant et en désactivant le mouvement sur certaines dimensions, en modifiant la distance de déplacement d'un @Place et le @Place initial avec lequel le flux démarre."
+                "$~Il permet à votre public de faire glisser @Output vers un @Place sur @Stage .",
+                "$~Il existe de nombreuses façons de placer @Output sur @Output: leur attribuer un @Place explicite, utiliser @Motion et laisser la gravité faire son travail, ou les placer dans un @Group pour qu’ils soient disposés.",
+                "$~Mais parfois, vous souhaitez donner au public le contrôle sur l'endroit où @Output apparaît sur @Stage .",
+                "$~Voici comment cela fonctionne : créez un @Placement et associez-le au @Place d’un @Placement:",
+                "$~\\Phrase('hi' place: Placement())\\",
+                "$~Ensuite, chaque fois que le public utilise une touche fléchée, clique ou appuie sur scène, le @Placement créera un nouveau @Place qui se déplacera dans la direction souhaitée.",
+                "$~Essayez de copier ceci dans votre programme et de déplacer @Output avec le pointeur ou le clavier.",
+                "$~Vous pouvez personnaliser le @Placement , en activant et en désactivant le mouvement sur certaines dimensions, en modifiant la distance de déplacement d'un @Place et le @Place initial avec lequel le flux démarre."
             ],
             "names": ["$~✥", "$~Placement"],
             "inputs": [
@@ -3633,13 +4098,13 @@
         },
         "Webpage": {
             "doc": [
-                "$~/Salut, @FunctionDefinition ici. Parlons de la façon d'obtenir des pages Web à partir d'Internet!/",
-                "$~Lorsque nous avons entendu parler pour la première fois de votre Internet, nous avons trouvé cela fascinant. Un monde entier rempli d'ordinateurs connectés qui partagent des documents entre eux ? C'est incroyable !",
-                "$~Nous avons donc créé un flux qui s'y connecte. Vous nous donnez une URL et nous y récupérons tout le texte. Comme ceci :",
-                "$~\\Page Web('https://wordplay.dev')\\",
-                "$~Et il y a apparemment cette chose appelée <CSS@https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/What_is_CSS>, qui vous permet d'interroger des éléments sur une page Web. Donnez-nous une requête de sélection CSS et nous n'obtiendrons que le texte qui correspond à cette requête. Comme cet exemple, qui obtient les en-têtes de niveau un.",
-                "$~\\Page Web('https://wordplay.dev' 'h1')\\",
-                "$~Beaucoup de choses peuvent mal se passer avec cette page. Si vous perdez votre connexion Internet, ou si l'URL ne renvoie rien, ou si l'URL n'est pas publique, ou si l'URL n'est pas une page HTML… Toutes ces situations peuvent entraîner une exception. Si vous trouvez une page qui fonctionne, vous obtiendrez un @Number indiquant un pourcentage d'achèvement, puis une @List des mots de la page."
+                "$~Il récupère le texte à l'adresse web que vous lui indiquez.",
+                "$~Internet est fascinant : tout un monde d'ordinateurs connectés qui partagent des documents entre eux.",
+                "$~Ce flux s'y connecte — donnez-lui une URL, comme ceci :",
+                "$~\\Webpage('https://wordplay.dev')\\",
+                "$~Et il y a apparemment ce truc appelé<CSS@https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/What_is_CSS> Cet outil permet d'interroger une page web. Il suffit de lui fournir une requête de sélection CSS pour qu'il ne récupère que le texte correspondant. Par exemple, cet outil récupère les titres de niveau 1.",
+                "$~\\Webpage('https://wordplay.dev' 'h1')\\",
+                "$~De nombreux problèmes peuvent survenir : perte de connexion internet, URL invalide, URL privée, URL ne correspondant pas à une page HTML… Tous ces cas peuvent entraîner une exception. Si vous trouvez une page fonctionnelle, vous obtiendrez un @Number indiquant le pourcentage d'achèvement, puis une @List des mots présents sur la page."
             ],
             "names": ["$~🔗", "$~Pageweb"],
             "url": {
@@ -3665,11 +4130,11 @@
         "Collision": {
             "names": "$~Collision",
             "doc": [
-                "$~/Salut ! Ici @FunctionDefinition. Découvrez cette entrée intéressante./",
-                "$~Cela peut vous aider à savoir quand @Output se croise ! C'est un excellent moyen de réagir lorsque nous nous croisons, au lieu de nous cogner les uns contre les autres comme @Output le fait habituellement.",
-                "$~Donnez-moi simplement le nom @Output et je créerai une nouvelle valeur @Rebound chaque fois qu'elle entrera en collision avec un autre nom. Une valeur @Rebound contient des informations sur les noms en collision et leur direction.",
-                "$~Et si vous me donnez deux noms, je ne créerai une nouvelle valeur que lorsque les deux noms se rencontreront.",
-                "$~Juste après avoir créé une nouvelle valeur, j'ajouterai un \\ø\\, car la collision est effectuée après. Cela indique qu'il n'y a plus de collision."
+                "$~Il s'agit d'un flux de valeurs @Rebound qui se produisent lorsque des éléments nommés @Output se heurtent les uns aux autres.",
+                "$~C'est une excellente façon de procéder lorsque les éléments @Output se heurtent, autrement que par un simple rebond.",
+                "$~Il suffit de lui donner le nom @Output , et une nouvelle valeur @Rebound sera créée à chaque fois que ce nom entrera en collision avec un autre. Une @Rebound contient des informations sur les noms qui sont entrés en collision et la direction de cette collision.",
+                "$~Et si vous lui donnez deux noms, il ne créera une nouvelle valeur que lorsque les deux noms se rencontreront.",
+                "$~Juste après avoir défini une nouvelle valeur, un symbole \\ø\\ apparaîtra, indiquant que la collision est terminée. Cela signifie qu'il n'y a plus de collision."
             ],
             "subject": {
                 "names": "$~sujet",
@@ -3710,9 +4175,9 @@
         },
         "Speech": {
             "doc": [
+                "$~Il reconnaît la parole et la transforme en @Text .",
                 "$~/bonjour!/",
-                "$~@FunctionDefinition ici - prêt à écouter !",
-                "$~Ce flux reconnaît la parole et la convertit en @Text . Il utilise la reconnaissance vocale de votre navigateur pour écouter ce que vous dites et le transformer en mots (c'est génial, non ?!).",
+                "$~Il utilise la reconnaissance vocale de votre navigateur pour écouter ce que vous dites et le transformer en mots (c'est génial, non ?!).",
                 "$~\\Speech()\\",
                 "$~C'est parfait pour ceux qui parlent une langue mais qui apprennent encore à la lire ou à l'écrire (et plus encore)...",
                 "$~Vous pouvez spécifier un code de langue pour reconnaître la parole dans une langue particulière :",
@@ -3745,9 +4210,9 @@
         },
         "Hand": {
             "doc": [
+                "$~Elle suit la main filmée par votre caméra : sa position, les doigts levés et son orientation.",
                 "$~/remuer remuer/",
-                "$~@FunctionDefinition ici ! Laissez-moi vous parler de @Hand .",
-                "$~@Hand surveille votre caméra à la recherche d'une main et vous indique sa position, les doigts levés et si la paume ou le dos de votre main est face à la caméra. Levez la main, agitez-la, comptez vos doigts : @Hand vous suit.",
+                "$~Levez la main, agitez-la, comptez sur vos doigts — @Hand suit.",
                 "$~En coulisses, @Hand utilise un modèle d'apprentissage automatique. Lors de sa première utilisation dans un programme, le modèle prend quelques secondes à se télécharger, et une petite main qui tourne apparaît dans le coin supérieur droit de la scène pendant le chargement. Ensuite, il reste en cache et démarre instantanément.",
                 "$~À chaque image, @Hand vous donne un @Gesture — consultez-le pour la liste complète des entrées et leur signification.",
                 "$~Essayez ceci : cela affiche un emoji correspondant à la position de votre main, quelle que soit la position réelle de votre main :",
@@ -3765,13 +4230,13 @@
         },
         "Contour": {
             "doc": [
-                "$~Bonjour ! Ici @FunctionDefinition . Vous voulez voir la forme des lettres ?",
-                "$~Donnez-moi un texte et une police de caractères, et je tracerai le contour de chaque glyphe sous forme de @List de valeurs @Place , un point après l'autre.",
+                "$~Il trace le contour de chaque glyphe de lettre sous forme de @List de @Place .",
+                "$~Donnez-lui du texte et une police de caractères, et il tracera le contour de chaque glyphe point par point.",
                 "$~\\Contour('a' \"Noto Sans\")\\",
                 "$~Intégrez ces valeurs @Place dans une @List de @Phrase pour voir le contour dessiné sous forme de points :",
                 "$~\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' place: point)))\\",
                 "$~Vous pouvez redimensionner le contour avec @Number en mètres, déplacer son origine avec @Place , choisir une épaisseur de police, activer l'italique et définir l'espacement entre les points en mètres. Un espacement plus petit permet un tracé plus précis, avec des points régulièrement espacés le long des lignes et des courbes.",
-                "$~Certains glyphes, comme les émojis couleur, n'ont pas de contour et n'ajoutent donc aucun point. Pendant que je télécharge la police, je vous fournirai une liste vide @List ) que je remplirai ensuite."
+                "$~Certains glyphes, comme les émojis de couleur, n'ont pas de contour et n'ajoutent donc aucun point. Pendant le chargement de la police, une liste vide @List sera fournie, puis remplie une fois la police prête."
             ],
             "names": ["$~🖋️", "$~Contour"],
             "inputs": [
@@ -3827,12 +4292,12 @@
         "Stage": {
             "names": ["$~🎭", "$~Scène"],
             "doc": [
-                "$~Salut. Je suis sur scène. Dis-moi quoi montrer et je te le montrerai.",
-                "$~\\Étape([Phrase('stufffffff')])\\",
-                "$~SI VOUS LE SOUHAITEZ, DONNEZ-MOI UN FOND EN COULEUR ET J'ÉCLAIRERAI LA SCÈNE EN CONSÉQUENCE.",
-                "$~\\Stage([Phrase('stufffffff')] arrière-plan: Couleur(75% 50 100°)\\",
-                "$~VOUS POUVEZ AUSSI ME DONNER UNE BORDURE DE CADRE ET JE RECADRERAI.",
-                "$~\\Stage([Phrase('stufffffff')] arrière-plan: Couleur(75% 50 100°) cadre: Rectangle(-1m -1m 1m 1m))\\"
+                "$~Je présente votre @Output au public. Bonjour. Scène ici. Dites-moi ce que vous voulez montrer et je le montrerai.",
+                "$~\\Stage([Phrase('stufffffff')])\\",
+                "$~SI VOUS LE SOUHAITEZ, INDIQUEZ-MOI UNE COULEUR @Color FOND ET J'ÉCLAIRERAI LA SCÈNE EN CONSÉQUENCE.",
+                "$~\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°))\\",
+                "$~VOUS POUVEZ AUSSI ME FOURNIR UNE BORDURE ET JE RECADRERAI.",
+                "$~\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°) frame: Rectangle(-1m -1m 1m 1m))\\"
             ],
             "description": {
                 "doc": [
@@ -3933,12 +4398,11 @@
         "Group": {
             "names": ["$~🔳", "$~Groupe"],
             "doc": [
-                "$~Oh bonjour, comment vas-tu ? Je vais toujours bien quand il y a d'autres personnes autour, donc c'est génial d'être avec toi !",
-                "$~Je regroupe @Phrase et @Group sur @Stage et les place dans un @Arrangement, afin qu'il y ait un certain ordre dans lequel ils sont placés.",
-                "$~Pour fonctionner, j'ai besoin que vous me donniez un @Arrangement, puis une @List de @Output à organiser.",
-                "$~Par exemple, me voici avec un arrangement @Stack et quelques @Phrase à empiler verticalement :",
-                "$~\\Groupe(Stack() [Phrase('premier') Phrase('deuxième')])\\",
-                "$~La manière exacte dont j'organise les choses dépend de l'@Arrangement que vous me donnez."
+                "$~J'organise @Phrase et @Group ensemble sur @Stage avec un @Arrangement . Oh, bonjour, comment allez-vous ? Je suis toujours ravi d'être entouré de monde, alors c'est super d'être avec vous !",
+                "$~Pour que cela fonctionne, j'ai besoin que vous me fournissiez un @Arrangement , puis une @List d' @Output à organiser.",
+                "$~Par exemple, voici un exemple avec une disposition @Stack et quelques @Phrase à empiler verticalement :",
+                "$~\\Group(Stack() [Phrase('first') Phrase('second')])\\",
+                "$~La manière dont j'organise les choses dépend de l' @Arrangement que vous me fournissez."
             ],
             "description": {
                 "doc": [
@@ -4039,7 +4503,7 @@
         "Phrase": {
             "names": ["$~💬", "$~Phrase"],
             "doc": [
-                "$~Bonjour, bonjour ! Vous vous souvenez de moi ? Comment pourrait-on m'oublier ? Eh oui, je suis la magnifique @Phrase , prête à représenter le plus beau des @Text sur @Stage .",
+                "$~Je représente la plus adorable des @Text sur @Stage . Bonjour, bonjour ! Vous vous souvenez de moi ? Comment pourrait-on m'oublier ?",
                 "$~Faites-moi juste comme ça, et je serai sur @Stage:",
                 "$~\\Phrase('magnificent!')\\",
                 "$~J'ai besoin que @TextLiteral ou @FormattedLiteral s'affichent. Avec @FormattedLiteral , je peux utiliser des éléments comme \\`*bold* and /italic/`\\ ou faire référence à un lien personnalisé @ConceptLink que vous avez créé.",
@@ -4218,8 +4682,8 @@
         "Free": {
             "names": ["$~Gratuit"],
             "doc": [
-                "$~Je me dis, peu importe. Assieds-toi où tu veux. Assieds-toi quelque part ! Assure-toi que tous les @Output que tu me donnes ont un @Place, sinon ils ne sauront pas où aller.",
-                "$~Oh, et n'oubliez pas que l'@Place que vous attribuez à chaque @Output est relatif à l'@Place du @Group! Donc, si vous vous demandez pourquoi les éléments n'apparaissent pas là où vous l'attendez, essayez également d'attribuer un emplacement au @Group."
+                "$~Je suis un @Arrangement qui permet à chaque @Output de s'asseoir où son @Place l'indique. Je suis du genre : peu importe. Asseyez-vous où vous voulez ! Assurez-vous simplement que tous les @Output que vous me donnez ont un @Place , sinon ils ne sauront pas où aller.",
+                "$~N'oubliez pas que l' @Place que vous attribuez à chaque élément @Output est relatif à l' @Place du @Place! Si vous vous demandez pourquoi les éléments n'apparaissent pas à l'endroit prévu, essayez d'attribuer également un emplacement au @Group ."
             ],
             "description": "$~sorties de forme libre $count"
         },
@@ -4376,8 +4840,8 @@
         "Pose": {
             "names": ["$~🤪", "$~Pose"],
             "doc": [
-                "$~Vous savez quand quelqu'un adopte la position la plus étonnante, s'arrête et tout le monde regarde ? C'est moi. Je capture une pose pour @Output et je suis la pierre angulaire de ses mouvements.",
-                "$~Il y a tellement de choses qui entrent en jeu dans une pose. Jetez un œil à mes nombreuses contributions pour voir quels types de poses vous pourriez adopter!"
+                "$~Je capture une @Pose que @Output doit maintenir, et je suis l'élément de base de ses mouvements. Vous savez, quand quelqu'un prend une posture incroyable, marque une pause, et que tout le monde le regarde ? C'est moi.",
+                "$~Une pose réussie repose sur de nombreux éléments. Découvrez mes différentes suggestions pour trouver l'inspiration et créer des poses originales !"
             ],
             "style": {
                 "doc": "$~Le style d'animation à utiliser lors du passage à cette pose.",
@@ -4553,12 +5017,12 @@
         "Sequence": {
             "names": ["$~💃", "$~Séquence"],
             "doc": [
-                "$~Oh. Mon. Dieu. Directeur, vous êtes magnifique aujourd'hui ! Vous voulez danser avec moi ? C'est facile.",
-                "$~Il vous suffit de me donner une @Map, où chaque clé représente le pourcentage d'avancement de la danse, et chaque valeur de ces clés est une @Pose à suivre.",
-                "$~Il existe de nombreuses manières différentes d'animer avec cela ! Par exemple, en voici une simple :",
-                "$~\\Phrase('hi' au repos:Séquence({0%: Pose(rotation: 360°) 100%: Pose(rotation: 0°)})\\",
-                "$~Cela dit, /au début (0%), commencez à une inclinaison de 360 et terminez à une inclinaison de 0/. Cela nous fera tourner en rond pour toujours, puisque je suis défini comme la pose de repos de @Phrase!",
-                "$~Essayez vos propres danses créatives en jouant avec d’autres apports."
+                "$~J'anime @Output à travers une série de @Pose au fil du temps ! Tu veux danser avec moi ? C'est facile.",
+                "$~Il vous suffit de me donner une @Map , où chaque clé représente le pourcentage d'avancement de la danse, et chaque valeur de ces clés est une @Pose à adopter.",
+                "$~Il existe une multitude de façons d'animer avec ça ! Par exemple, en voici une simple :",
+                "$~\\Phrase('hi' resting:Sequence({0%: Pose(rotation: 360°) 100%: Pose(rotation: 0°)})\\",
+                "$~Cela signifie : « Au début (0 %), commencez à une inclinaison de 360 et terminez à une inclinaison de 0 ». Cela va nous faire tourner en rond indéfiniment, puisque je suis défini comme la pose de repos de @Phrase!",
+                "$~Essayez vos propres danses créatives en jouant avec d'autres entrées."
             ],
             "poses": {
                 "doc": "$~Une @Map de pourcentages entre 0% et 100%, chacun associé à une @Pose. Vous n'êtes pas obligé de fournir tous les pourcentages; je déplacerai en douceur une @Output entre ceux que vous me donnez.",
@@ -4602,7 +5066,7 @@
             }
         },
         "Velocity": {
-            "doc": "$~Je suis un emplacement sur @Stage. Toutes mes entrées sont facultatives, car je suis au centre par défaut.",
+            "doc": "$~Je contrôle la vitesse de déplacement @Output sur @Stage — en mètres par seconde selon les axes x et y, et en degrés par seconde pour la rotation. Mes entrées sont optionnelles ; par défaut, rien ne bouge.",
             "names": ["$~💨", "$~Vitesse"],
             "x": {
                 "doc": "$~Combien de mètres parcourir chaque seconde sur l'axe des x.",
@@ -4647,8 +5111,8 @@
         },
         "Aura": {
             "doc": [
-                "$~Je suis une AURA. Je fais briller @Phrase ! J'aime ça :",
-                "$~\\Phrase(\n'Je BRILLE !' \naura: Aura(Couleur(50% 100 118°) 0,1 m 0 m 0,1 m\n)\\"
+                "$~Je fais briller @Phrase ! Je suis une AURA. Comme ceci :",
+                "$~\\Phrase(\n\t'I am GLOWING!' \n\taura: Aura(Color(50% 100 118°) 0.1m 0m 0.1m\n)\\"
             ],
             "names": ["$~🔮", "$~Aura"],
             "color": {
@@ -4710,6 +5174,134 @@
             "shake": {
                 "doc": "$~Je crée une @Sequence qui donne l'impression qu'une @Output a peur.",
                 "names": ["agitar"]
+            },
+            "pulse": {
+                "doc": "$~Je crée une @Sequence qui fait varier progressivement la taille @Output pour attirer l'attention.",
+                "names": ["$~impulsion"],
+                "amount": {
+                    "doc": "$~Quelle ampleur adopter au sommet ?",
+                    "names": ["$~montant"]
+                }
+            },
+            "heartbeat": {
+                "doc": "$~Je crée une @Sequence qui fait varier @Output avec deux pulsations rapides, comme un battement de cœur.",
+                "names": ["$~pulsation"],
+                "amount": {
+                    "doc": "$~Quelle amplitude appliquer à chaque temps ?",
+                    "names": ["$~montant"]
+                }
+            },
+            "tada": {
+                "doc": "$~Je crée une @Sequence qui fait en sorte que @Output célèbre avec une mise à l'échelle et un mouvement.",
+                "names": ["$~tada"],
+                "amount": {
+                    "doc": "$~Quelle mesure prendre lors de la célébration ?",
+                    "names": ["$~montant"]
+                }
+            },
+            "wiggle": {
+                "doc": "$~Je crée une @Sequence qui incline et fait glisser @Output d'un côté à l'autre.",
+                "names": ["$~remuer"],
+                "angle": {
+                    "doc": "$~De combien incliner le mouvement de va-et-vient.",
+                    "names": ["$~angle"]
+                }
+            },
+            "flash": {
+                "doc": "$~Je crée une @Sequence qui fait clignoter @Output .",
+                "names": ["$~éclair"]
+            },
+            "zoomin": {
+                "doc": "$~Je crée une @Sequence qui fait évoluer @Output de zéro à sa taille maximale. Essayez-moi dans une @Sequence d'entrée !",
+                "names": ["$~zoomer"]
+            },
+            "fadeinup": {
+                "doc": "$~Je crée une @Sequence qui fait apparaître progressivement @Output tout en la faisant glisser vers le haut pour la mettre en place. Essayez-moi dans une @Sequence d'entrée !",
+                "names": ["$~fonduenchaîné"],
+                "distance": {
+                    "doc": "$~Jusqu'où glisser.",
+                    "names": ["$~distance"]
+                }
+            },
+            "fadeindown": {
+                "doc": "$~Je crée une @Sequence qui fait apparaître progressivement @Output tout en la faisant glisser vers le bas pour la mettre en place. Essayez-moi dans une @Sequence d'entrée !",
+                "names": ["$~fonduenchaîné"],
+                "distance": {
+                    "doc": "$~Jusqu'où glisser.",
+                    "names": ["$~distance"]
+                }
+            },
+            "fadeinleft": {
+                "doc": "$~Je crée une @Sequence qui fait apparaître progressivement @Output tout en la faisant glisser en place depuis la gauche. Essayez-moi dans une @Sequence d'entrée !",
+                "names": ["$~fadeinleft"],
+                "distance": {
+                    "doc": "$~Jusqu'où glisser.",
+                    "names": ["$~distance"]
+                }
+            },
+            "fadeinright": {
+                "doc": "$~Je crée une @Sequence qui fait apparaître progressivement @Output tout en la faisant glisser en place depuis la droite. Essayez-moi dans une @Sequence d'entrée !",
+                "names": ["$~fadeinright"],
+                "distance": {
+                    "doc": "$~Jusqu'où glisser.",
+                    "names": ["$~distance"]
+                }
+            },
+            "rotatein": {
+                "doc": "$~Je crée une @Sequence qui fait apparaître @Output en fondu. Essayez-moi dans une @Sequence d'entrée !",
+                "names": ["$~rotation"],
+                "angle": {
+                    "doc": "$~Jusqu'où faire tourner.",
+                    "names": ["$~angle"]
+                }
+            },
+            "zoomout": {
+                "doc": "$~Je crée une @Sequence qui met à l'échelle @Output jusqu'à zéro. Testez-moi dans une @Sequence existante !",
+                "names": ["$~dézoomarrière"]
+            },
+            "fadeoutup": {
+                "doc": "$~Je crée une @Sequence qui fait disparaître progressivement @Output tout en la faisant glisser vers le haut. Essayez-moi dans une @Sequence sortante !",
+                "names": ["$~fonduenchaîné"],
+                "distance": {
+                    "doc": "$~Jusqu'où glisser.",
+                    "names": ["$~distance"]
+                }
+            },
+            "fadeoutdown": {
+                "doc": "$~Je crée une @Sequence qui fait disparaître progressivement @Output tout en la faisant glisser vers le bas. Essayez-moi dans une @Sequence sortante !",
+                "names": ["$~fonduenchaîné"],
+                "distance": {
+                    "doc": "$~Jusqu'où glisser.",
+                    "names": ["$~distance"]
+                }
+            },
+            "fadeoutleft": {
+                "doc": "$~Je crée une @Sequence qui fait disparaître progressivement @Output tout en la faisant glisser vers la gauche. Essayez-moi dans une @Sequence sortante !",
+                "names": ["$~fadeoutleft"],
+                "distance": {
+                    "doc": "$~Jusqu'où glisser.",
+                    "names": ["$~distance"]
+                }
+            },
+            "fadeoutright": {
+                "doc": "$~Je crée une @Sequence qui fait disparaître progressivement @Output tout en la faisant glisser vers la droite. Essayez-moi dans une @Sequence sortante !",
+                "names": ["$~fadeoutright"],
+                "distance": {
+                    "doc": "$~Jusqu'où glisser.",
+                    "names": ["$~distance"]
+                }
+            },
+            "rotateout": {
+                "doc": "$~Je crée une @Sequence qui fait défiler @Output tout en l'estompant. Essayez-moi dans une @Sequence de sortie !",
+                "names": ["$~rotation"],
+                "angle": {
+                    "doc": "$~Jusqu'où faire tourner.",
+                    "names": ["$~angle"]
+                }
+            },
+            "rainbow": {
+                "doc": "$~Je crée une @Sequence qui fait défiler @Output à travers les couleurs de l'arc-en-ciel.",
+                "names": ["$~arcenciel"]
             }
         },
         "Source": {
@@ -4747,7 +5339,7 @@
         },
         "Say": {
             "doc": [
-                "$~Salut ! Je suis @Say , et je lis le texte à voix haute au lieu de l'afficher sur @Stage .",
+                "$~Je lis le texte à voix haute au lieu de l'afficher sur @Stage . Salut !",
                 "$~Donnez-moi juste quelque chose à dire, et je le dirai à chaque évaluation de votre programme :",
                 "$~\\Say('blah blah blah')\\",
                 "$~J'utiliserai la @Language de l'objet @TextLiteral si elle en possède une, sinon j'utiliserai la langue sélectionnée.",
@@ -4798,6 +5390,34 @@
             "palm": {
                 "doc": "$~@True si la paume est face à la caméra, @False si c'est le dos de la main.",
                 "names": ["$~palmier"]
+            }
+        },
+        "Result": {
+            "doc": "$~Je suis à une correspondance d'une recherche de motif avec \\⌕\\ : le texte correspondant, son emplacement et toutes les captures.",
+            "names": ["$~Résultat"],
+            "text": {
+                "doc": "$~Le texte correspondant dans son intégralité.",
+                "names": "$~texte"
+            },
+            "start": {
+                "doc": "$~Où commence le match, en comptant à partir de 1.",
+                "names": "$~commencer"
+            },
+            "end": {
+                "doc": "$~Où le match se termine, en comptant à partir de 1.",
+                "names": "$~fin"
+            },
+            "groups": {
+                "doc": "$~Le nom de chaque capture correspond au texte auquel elle correspond.",
+                "names": "$~groupes"
+            },
+            "starts": {
+                "doc": "$~Le nom de chaque capture indique son point de départ.",
+                "names": "$~débuts"
+            },
+            "ends": {
+                "doc": "$~Le nom de chaque capture jusqu'à son point de fin.",
+                "names": "$~extrémités"
             }
         }
     },
@@ -4851,7 +5471,13 @@
                 },
                 "field": "$~champ de couleur",
                 "instructions": "$~Utilisez les flèches gauche et droite pour modifier la teinte et les flèches haut et bas pour modifier la saturation. Maintenez la touche Maj enfoncée pour des réglages plus précis.",
-                "value": "$~$color , LCH $l , $c , $h"
+                "value": "$~$color , LCH $l , $c , $h",
+                "input": {
+                    "description": "$~Saisissez une couleur dans n'importe quel format web.",
+                    "placeholder": "$~#f00, rgb(), hsl(), rouge",
+                    "invalid": "$~couleur non reconnue",
+                    "format": "$~format détecté"
+                }
             }
         },
         "tile": {
@@ -5144,7 +5770,20 @@
                 },
                 "nextMatch": "$~passer au résultat de recherche suivant",
                 "insertTranslate": "$~insérer le symbole de traduction",
-                "insertThis": "$~insérer ce symbole"
+                "insertThis": "$~insérer ce symbole",
+                "tab": "$~La touche Tabulation permet de déplacer le focus clavier. Pour insérer une tabulation, appuyez sur Ctrl+ $alt +Tab, utilisez le bouton Insérer ci-dessous ou modifiez ce paramètre.",
+                "matchDelimiter": "$~Déplacer le curseur jusqu'au délimiteur correspondant",
+                "insertPattern": "$~insérer un motif",
+                "insertSearch": "$~insérer le symbole de recherche de motif",
+                "insertPatternAny": "$~insérer un symbole de motif graphème quelconque",
+                "insertPatternSpace": "$~insérer un symbole de motif d'espace",
+                "insertPatternStart": "$~insérer le symbole de départ du motif",
+                "insertPatternEnd": "$~insérer le symbole de fin de motif",
+                "insertPatternFold": "$~insérer le symbole de pliage de la boîte",
+                "insertPatternAhead": "$~insérer un symbole de prévision de motif",
+                "insertPatternBehind": "$~insérer un symbole de recherche de motif",
+                "insertPatternWord": "$~insérer le symbole du mot modèle",
+                "insertPatternWordEdge": "$~insérer un symbole de bordure de mot de motif"
             },
             "options": {
                 "locale": {
@@ -5164,6 +5803,24 @@
                 "toolbar": "$~Ces commandes de la barre d'outils vous permettent de *tout sélectionner*, de *zoomer* et *dézoomer*, d'*annuler*, de *rétablir*, de *couper*, de *copier* et de *coller*.",
                 "expand": "$~Le bouton /expand/ affiche des outils d'édition plus *avancés*.",
                 "shortcuts": "$~Le bouton /raccourcis/ ouvre une liste de *raccourcis clavier* que vous pouvez utiliser pour éditer plus rapidement."
+            },
+            "feedback": {
+                "cantDrop": "$~Impossible de déposer à cet endroit :",
+                "cantPaste": "$~Impossible de coller ici :"
+            },
+            "clipboard": {
+                "label": "$~presse-papiers"
+            },
+            "notice": {
+                "dismiss": "$~Ignorer cet avis"
+            },
+            "fold": {
+                "collapse": "$~réduire $name",
+                "expand": "$~développer $name",
+                "all": "$~plier tout",
+                "none": "$~dévoiler tout",
+                "collapsed": "$~$name s'est effondré",
+                "expanded": "$~$name développé"
             }
         },
         "annotations": {
@@ -5206,8 +5863,8 @@
                 "submit": "$~soumettre ce message de discussion",
                 "zoomIn": "$~zoom sur la scène",
                 "zoomOut": "$~Dézoom arrière depuis la scène",
-                "rotate": "$~rotation de la phrase",
-                "resize": "$~phrase de redimensionnement",
+                "rotate": "$~rotation $name",
+                "resize": "$~redimensionner $name",
                 "resetZoom": "$~Réinitialiser le zoom sur la scène"
             },
             "options": {
@@ -5230,7 +5887,14 @@
                 "note": "$~Votre navigateur vous demandera votre autorisation avant de partager.",
                 "start": "$~Commencer",
                 "retry": "$~Réessayer"
-            }
+            },
+            "multiselect": "$~Utilisez la touche Tabulation, Alt et les flèches directionnelles pour naviguer entre les sorties. Appuyez sur la barre d'espace pour ajouter ou supprimer la sortie sélectionnée. Appuyez sur Entrée pour sélectionner uniquement cette sortie et ouvrir la palette. Appuyez sur Échap pour annuler la sélection. Appuyez sur Ctrl ou Commande et A pour sélectionner toutes les sorties.",
+            "selected": "$~$name sélectionné, $count sélectionné",
+            "deselected": "$~$name désélectionné, $count sélectionné",
+            "allSelected": "$~Toutes les sorties sélectionnées, $count sélectionné",
+            "cleared": "$~sélection effacée",
+            "selectedOnly": "$~$name sélectionné, ouverture de la palette",
+            "selectedSuffix": "$~choisi"
         },
         "timeline": {
             "label": "$~chronologie",
@@ -5366,12 +6030,13 @@
                         "$~décider",
                         "$~nom",
                         "$~texte",
+                        "$~modèle",
                         "$~Nombres",
                         "$~vérité",
                         "$~listes",
                         "$~ensembles",
                         "$~tables",
-                        "$~documentation",
+                        "$~documents",
                         "$~types",
                         "$~etc."
                     ],
@@ -5381,14 +6046,15 @@
                         "$~l'heure, les boutons, les touches, les scènes et plus encore",
                         "$~choisir des valeurs en fonction d'autres valeurs",
                         "$~nommer les valeurs, les fonctions et les structures de données pour une utilisation ultérieure",
-                        "$~valeurs vrai, faux et aucun",
-                        "$~nombres et opérations mathématiques",
                         "$~texte brut et formaté",
+                        "$~Décrire la forme du texte pour le tester ou le trouver",
+                        "$~nombres et opérations mathématiques",
+                        "$~valeurs vrai, faux et aucun",
                         "$~listes et opérations sur les listes",
                         "$~ensembles, cartes et opérations",
                         "$~tables et opérations sur les tables",
-                        "$~types de données, conversions et vérifications de type",
                         "$~documentation et commentaires",
+                        "$~types de données, conversions et vérifications de type",
                         "$~concepts linguistiques avancés"
                     ]
                 },
@@ -5469,6 +6135,10 @@
                 "GalleryHow": {
                     "header": "$~Guide pratique de la galerie",
                     "explanation": "$~/Modèles courants pour la création de différents types de projets, à partir de vos galeries./"
+                },
+                "Patterns": {
+                    "header": "$~Motifs",
+                    "explanation": "$~Décrivez la forme du texte à l'aide d'un motif, délimité par \\⣿\\ , puis vérifiez si le texte correspond à la forme ( \\≈\\ ) ou trouvez tous les endroits où il apparaît ( \\⌕\\ )./"
                 }
             },
             "note": {
@@ -5665,6 +6335,33 @@
                             "$~espacement par défaut des blocs",
                             "$~Des blocs plus lâches pour faciliter la sélection et le déplacement."
                         ]
+                    },
+                    "tab": {
+                        "label": "$~touche tab",
+                        "labels": [
+                            "$~changement de focus",
+                            "$~insérer un onglet"
+                        ],
+                        "tips": [
+                            "$~La touche Tab déplace le focus clavier vers le contrôle suivant.",
+                            "$~La touche tab insère une tabulation dans l'éditeur."
+                        ]
+                    },
+                    "wrap": {
+                        "label": "$~lignes d'enroulement",
+                        "labels": ["$~désactivé", "$~sur"],
+                        "tips": [
+                            "$~Les lignes longues défilent horizontalement en mode texte",
+                            "$~En mode texte, les lignes longues sont renvoyées à la fenêtre de l'éditeur."
+                        ]
+                    },
+                    "words": {
+                        "label": "$~mots-clés",
+                        "labels": ["$~symboles", "$~mots"],
+                        "tips": [
+                            "$~afficher les mots clés intégrés sous forme de symboles",
+                            "$~afficher les mots clés intégrés sous forme de mots dans votre langue"
+                        ]
                     }
                 },
                 "options": {
@@ -5843,11 +6540,13 @@
                 "createStage": "$~créer une scène, en enveloppant n'importe quel groupe ou phrase existant"
             },
             "prompt": {
-                "offerPhrase": "$~Quelle belle valeur tu as faite ! Dois-je la montrer sur @Stage ?",
-                "offerGroup": "$~Quelle merveilleuse @Phrase tu as créée. Veux-tu les rassembler dans un @Group, pour les organiser ?",
-                "offerStage": "$~TRÈS BIEN @Program. AJOUTEZ-MOI POUR CONTRÔLER L'ÉCLAIRAGE. LES COULEURS. LES CADRES.",
+                "offerPhrase": "$~Dois-je encapsuler cette valeur dans une @Phrase ?",
+                "offerGroup": "$~Dois-je encapsuler ce contenu dans un @Group , afin que vous puissiez les organiser ?",
+                "offerStage": "$~Dois-je encapsuler ce contenu dans un @Stage , afin que vous puissiez contrôler l'éclairage, la couleur et les cadres ?",
                 "editing": "$~Modifiez-moi !",
-                "select": "$~Pour modifier, sélectionnez un 💬, 🔳 ou 🎭 dans le code, ou ⏸️ l'étape et sélectionnez la sortie."
+                "select": "$~Pour modifier, sélectionnez un 💬, 🔳, ⬟ ou 🎭 dans le code, ou ⏸️ le @Stage et sélectionnez la sortie.",
+                "offerShape": "$~Dois-je envelopper ce @Form dans @Shape pour l'afficher sur @Stage ?",
+                "offerNothing": "$~Rien ici pour l'instant ! Dois-je ajouter une @Phrase pour commencer ?"
             },
             "field": {
                 "coordinate": "$~modifier les coordonnées",
@@ -5862,6 +6561,10 @@
                 },
                 "field": {
                     "percent": "$~modifier le pourcentage"
+                },
+                "preset": {
+                    "label": "$~séquence prédéfinie",
+                    "custom": "$~coutume"
                 }
             },
             "error": {
@@ -5970,7 +6673,27 @@
                 "search": {
                     "placeholder": "$~recherche",
                     "noResults": "$~Aucun résultat trouvé"
-                }
+                },
+                "choice": {
+                    "prompt": "$~Comment souhaitez-vous apprendre ?",
+                    "quick": {
+                        "title": "$~Rapide",
+                        "description": "$~Pour les créateurs connaissant d'autres langages de programmation et souhaitant comprendre en quoi Wordplay est différent"
+                    },
+                    "complete": {
+                        "title": "$~Complet",
+                        "description": "$~Pour les créateurs débutants en programmation qui souhaitent une introduction détaillée"
+                    }
+                },
+                "mode": {
+                    "label": "$~tutoriel",
+                    "labels": ["$~rapide", "$~complet"],
+                    "tips": [
+                        "$~une brève visite guidée pour les créateurs qui connaissent un autre langage de programmation",
+                        "$~l'introduction complète et spectaculaire pour les créateurs débutants en programmation"
+                    ]
+                },
+                "contrast": "$~comparer avec"
             },
             "guide": {
                 "header": "$~Guide",
@@ -6339,7 +7062,6 @@
             },
             "character": {
                 "header": "$~Personnage",
-                "prompt": "$~Créez un emoji ou un symbole avec des formes et des pixels.",
                 "instructions": {
                     "empty": "$~Choisissez un mode de dessin dans la palette pour créer des formes.",
                     "unselected": "$~Choisissez un mode de dessin ou sélectionnez et modifiez des formes.",
@@ -6713,7 +7435,11 @@
             "remove": "$~/Envisage de partir…/",
             "replace": "$~/Veut intervenir…/",
             "range": "$~sélection de $start à $end",
-            "area": "$~code de type"
+            "area": "$~code de type",
+            "delimiterMatchedSameLine": "$~correspondance $name sur la même ligne",
+            "delimiterMatchedBelow": "$~lignes correspondant à $name $lines lines ci-dessous",
+            "delimiterMatchedAbove": "$~lignes correspondant à $name $lines lines ci-dessus",
+            "delimiterUnmatched": "$~aucun délimiteur correspondant"
         },
         "template": {
             "unwritten": "$~À déterminer",
@@ -7027,7 +7753,7 @@
             }
         },
         "gallerymoderation": {
-            "header": "$~Tableau de bord de modération de la galerie",
+            "header": "$~Modération de la galerie",
             "description": "$~Les messages suivants, publiés dans les galeries que vous gérez, ont été signalés par les utilisateurs pour modération.",
             "labels": {
                 "message": "$~message",
@@ -7182,7 +7908,20 @@
             "submitFailed": "$~Nous n'avons pas pu soumettre cela",
             "loadFailed": "$~Nous n'avons pas pu charger ceci.",
             "storageFull": "$~L'espace de stockage de cet appareil est plein, nous n'avons donc pas pu enregistrer de copie ici. Votre travail est toujours dans le cloud.",
-            "storageNearFull": "$~Cet appareil est presque plein ; Wordplay risque donc de ne plus pouvoir y enregistrer de données. Votre travail enregistré dans le cloud est en sécurité ; libérer de l’espace sur votre appareil ou votre navigateur permettra à Wordplay de continuer à l’enregistrer."
+            "storageNearFull": "$~Cet appareil est presque plein ; Wordplay risque donc de ne plus pouvoir y enregistrer de données. Votre travail enregistré dans le cloud est en sécurité ; libérer de l’espace sur votre appareil ou votre navigateur permettra à Wordplay de continuer à l’enregistrer.",
+            "saveTooLarge": "$~Ce fichier est trop volumineux pour être enregistré. Essayez de supprimer du contenu."
+        },
+        "wellspring": {
+            "label": "$~palette de code",
+            "recycle": "$~Déposez ici pour supprimer",
+            "empty": "$~Aucun concept de projet",
+            "field": {
+                "search": "$~rechercher le code à glisser dans"
+            },
+            "button": {
+                "toggle": "$~afficher et masquer la palette de code",
+                "clear": "$~recherche claire"
+            }
         }
     },
     "moderation": {
@@ -7255,5 +7994,43 @@
         "noscript": "$~Wordplay utilise JavaScript. Votre navigateur ne le prend pas en charge ou cette fonctionnalité est désactivée.",
         "unsupportedHeading": "$~Navigateur non pris en charge",
         "unsupportedBody": "$~Votre navigateur ne prend pas en charge certaines fonctionnalités essentielles. Pour utiliser Wordplay, vous devez le mettre à jour vers une version plus récente."
+    },
+    "keyword": {
+        "function": "fonction",
+        "type": "type",
+        "number": "nombre",
+        "none": "rien",
+        "true": "vrai",
+        "false": "faux",
+        "borrow": "emprunter",
+        "share": "partager",
+        "convert": "comme",
+        "translate": "traduire",
+        "conditional": "alors",
+        "booleantype": "vérité",
+        "otherwise": "sinon",
+        "match": "correspond",
+        "stream": "flux",
+        "changed": "changé",
+        "initial": "initial",
+        "previous": "précédent",
+        "this": "ce",
+        "and": "et",
+        "or": "ou",
+        "not": "non",
+        "letter": "lettre",
+        "digit": "chiffre",
+        "patternspace": "espace",
+        "patternword": "mot",
+        "any": "quelconque",
+        "start": "début",
+        "end": "fin",
+        "rest": "reste",
+        "edge": "bord",
+        "ahead": "devant",
+        "behind": "derrière",
+        "range": "à",
+        "complement": "non",
+        "alternation": "ou"
     }
 }

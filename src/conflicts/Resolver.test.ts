@@ -5,6 +5,7 @@ import { test, expect, describe } from 'vitest';
 // the test green regardless of the invocation path.
 import '@conflicts/registerTypeResolutions';
 import Conflict, {
+    ConflictSeverity,
     registerResolver,
     type Repair,
     type Resolutions,
@@ -22,12 +23,9 @@ import IncompatibleType from '@conflicts/IncompatibleType';
 // type-mismatch conflicts do.
 class FakeConflict extends Conflict {
     constructor() {
-        super(false);
+        super(ConflictSeverity.Error);
     }
-    override getResolutions(
-        context: Context,
-        concepts: Node[],
-    ): Resolutions {
+    override getResolutions(context: Context, concepts: Node[]): Resolutions {
         return Conflict.fromRegistry(this, context, concepts);
     }
     getMessage() {
@@ -58,10 +56,7 @@ describe('Conflict resolver registry', () => {
         };
         registerResolver(FakeConflict, () => [sentinel]);
         const c = new FakeConflict();
-        const result = c.getResolutions(
-            undefined as unknown as Context,
-            [],
-        );
+        const result = c.getResolutions(undefined as unknown as Context, []);
         expect(result.length).toBeGreaterThan(0);
         expect(result[0]).toBe(sentinel);
     });
@@ -78,10 +73,7 @@ describe('Conflict resolver registry', () => {
             }
         }
         const c = new WithMessage();
-        const result = c.getResolutions(
-            undefined as unknown as Context,
-            [],
-        );
+        const result = c.getResolutions(undefined as unknown as Context, []);
         expect(result.length).toBe(1);
         expect(result[0].kind).toBe('explain');
     });
@@ -97,9 +89,8 @@ describe('Conflict resolver registry', () => {
         return import('@nodes/Source').then(async (S) => {
             const { default: Source } = S;
             const { default: Project } = await import('@db/projects/Project');
-            const { default: DefaultLocale } = await import(
-                '@locale/DefaultLocale'
-            );
+            const { default: DefaultLocale } =
+                await import('@locale/DefaultLocale');
             const source = new Source('test', `a•'': 5`);
             const project = Project.make(
                 null,

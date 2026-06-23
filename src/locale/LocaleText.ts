@@ -12,6 +12,7 @@ import { Languages } from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
 import type { ModerationTexts } from '@locale/ModerationTexts';
 import type NodeTexts from '@locale/NodeTexts';
+import type { KeywordId } from '@parser/Keywords';
 import type OutputTexts from '@locale/OutputTexts';
 import { Regions, type RegionCode } from '@locale/Regions';
 import { DraftLocales } from '@locale/SupportedLocales';
@@ -37,6 +38,8 @@ export type LocaleText = {
     term: TermTexts;
     /** [plain] Descriptions of all token categories. See Sym.ts for the symbol or symbol category that each represents. */
     token: Record<keyof typeof Sym, string>;
+    /** [name] The localized word for each built-in keyword, written and read interchangeably with its symbol. Each must be a single token (no spaces or hyphens). See LANGUAGE.md and Keywords.ts. */
+    keyword: Record<KeywordId, string>;
     /** Names, descriptions, and documentation for all node types, as well as descriptions of start and end of expression evaluations for debugging. */
     node: NodeTexts;
     /** Documentation for basic types. */

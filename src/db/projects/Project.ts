@@ -33,6 +33,7 @@ import FunctionType from '@nodes/FunctionType';
 import type { Path } from '@nodes/Root';
 import Root from '@nodes/Root';
 import { parseNames } from '@parser/parseBind';
+import { buildKeywordIndex, type KeywordIndex } from '@parser/Keywords';
 import { toTokens } from '@parser/toTokens';
 import {
     PROJECT_PARAM_EDIT,
@@ -378,6 +379,17 @@ export default class Project {
         return this.basis.locales;
     }
 
+    private keywordIndex: KeywordIndex | undefined = undefined;
+    /** The localized-keyword recognizer for this project's declared locales, so creators can type
+     * keyword words in those languages. Memoized; rebuilt per project instance. See LANGUAGE.md. */
+    getKeywordIndex(): KeywordIndex {
+        if (this.keywordIndex === undefined)
+            this.keywordIndex = buildKeywordIndex(
+                this.data.locales.map((l) => l.keyword),
+            );
+        return this.keywordIndex;
+    }
+
     getContext(source: Source) {
         let context = this.sourceContext.get(source);
         if (context === undefined) {
@@ -615,25 +627,32 @@ export default class Project {
         return this.getAnalysis().conflicts;
     }
 
+    /**
+     * For each revised source, the new BLOCKING (Error-severity) conflicts it would introduce versus the
+     * project's current conflicts. Only Error conflicts gate an edit in blocks mode — Warning (type
+     * mismatches) and Minor (placeholders, etc.) are permitted.
+     */
     getNewConflictsBatch(
         oldSource: Source,
         newSources: Source[],
-        // Any conflict types to ignore
-        negligibleConflicts: (new () => Conflict)[],
     ): Map<Source, Conflict[]> {
         // Get the current conflicts.
         const currentConflicts = this.getMajorConflictsNow();
         const newConflictsBySource = new Map<Source, Conflict[]>();
+        // Each candidate replaces only one source; unchanged sources reproduce
+        // conflicts already in currentConflicts, so they can never contribute a
+        // NEW conflict. We can therefore recompute conflicts for just the changed
+        // source — unless some source borrows from another, the one channel by
+        // which a single-source edit can change another source's conflicts.
+        const crossSource = this.hasCrossSourceDependencies();
         // For all of the new sources, get the new conflicts caused by the revision.
         for (const newSource of newSources) {
-            let newConflicts = this.withSource(oldSource, newSource)
-                .getMajorConflictsNow()
-                .filter(
-                    (conflict) =>
-                        !negligibleConflicts.some(
-                            (neglibile) => conflict instanceof neglibile,
-                        ),
-                );
+            const revised = this.withSource(oldSource, newSource);
+            const newConflicts = (
+                crossSource
+                    ? revised.getMajorConflictsNow()
+                    : revised.getMajorConflictsInSource(newSource)
+            ).filter((conflict) => conflict.isBlocking());
 
             // Remove all current conflicts that are in the new conflicts.
             newConflictsBySource.set(
@@ -649,28 +668,32 @@ export default class Project {
         return newConflictsBySource;
     }
 
-    getNewConflicts(
-        oldSource: Source,
-        newSource: Source,
-        negligibleConflicts: (new () => Conflict)[],
-    ): Conflict[] {
-        const newConflicts = this.getNewConflictsBatch(
-            oldSource,
-            [newSource],
-            negligibleConflicts,
-        );
+    getNewConflicts(oldSource: Source, newSource: Source): Conflict[] {
+        const newConflicts = this.getNewConflictsBatch(oldSource, [newSource]);
         return Array.from(newConflicts.values())[0];
     }
 
     getMajorConflictsNow() {
         let conflicts: Conflict[] = [];
-        for (const source of this.getSources()) {
-            const context = this.getContext(source);
-            for (const node of source.nodes()) {
-                conflicts = [...conflicts, ...node.computeConflicts(context)];
-            }
-        }
+        for (const source of this.getSources())
+            conflicts = [...conflicts, ...this.getMajorConflictsInSource(source)];
+        return conflicts;
+    }
+
+    /** Major (non-minor) conflicts for a single source, using that source's context. */
+    getMajorConflictsInSource(source: Source): Conflict[] {
+        const context = this.getContext(source);
+        let conflicts: Conflict[] = [];
+        for (const node of source.nodes())
+            conflicts = [...conflicts, ...node.computeConflicts(context)];
         return conflicts.filter((conflict) => !conflict.isMinor());
+    }
+
+    /** True if any source borrows from another, making source scopes interdependent. */
+    hasCrossSourceDependencies(): boolean {
+        return this.getSources().some(
+            (source) => source.expression.borrows.length > 0,
+        );
     }
 
     hasMajorConflictsNow() {
@@ -1004,7 +1027,7 @@ export default class Project {
     }
 
     withNewSource(name: string, code?: string | undefined) {
-        const newSource = new Source(name, code ?? '');
+        const newSource = new Source(name, code ?? '', this.getKeywordIndex());
         return new Project({
             ...this.data,
             supplements: [...this.data.supplements, newSource],
@@ -1159,7 +1182,10 @@ export default class Project {
             : undefined;
     }
 
-    static deserializeSource(source: SerializedSource): Source {
+    static deserializeSource(
+        source: SerializedSource,
+        keywords?: KeywordIndex,
+    ): Source {
         return new Source(
             parseNames(toTokens(source.names)),
             // We changed the documentation symbol. Automatically convert it when deserializing. by seeing if there are 2 or more `` in the code,
@@ -1168,6 +1194,7 @@ export default class Project {
                 (source.code.match(/¶/g) || []).length === 0
                 ? source.code.replaceAll('``', DOCS_SYMBOL)
                 : source.code,
+            keywords,
         );
     }
 
@@ -1195,8 +1222,12 @@ export default class Project {
             new Set([...dependentLocales, ...localesDB.getLocales()]),
         );
 
+        // Recognize typed keyword words in the project's declared locales. Dual-type tokens (LANGUAGE.md
+        // §3) mean a name that collides with a keyword (e.g. "número") still parses as a name — it
+        // shadows the keyword rather than breaking — so this is safe to activate for declared locales.
+        const keywords = buildKeywordIndex(locales.map((l) => l.keyword));
         const sources = project.sources.map((source) =>
-            Project.deserializeSource(source),
+            Project.deserializeSource(source, keywords),
         );
 
         return new Project({

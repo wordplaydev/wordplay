@@ -11,6 +11,23 @@ import OutputProperty from '@edit/output/OutputProperty';
 import OutputPropertyRange from '@edit/output/OutputPropertyRange';
 import OutputPropertyText from '@edit/output/OutputPropertyText';
 
+/** The default two-keyframe poses map used when a sequence has no custom poses. */
+export function createDefaultPosesMap(
+    project: Project,
+    locales: Locales,
+): MapLiteral {
+    return MapLiteral.make([
+        KeyValue.make(
+            NumberLiteral.make('0%'),
+            createPoseLiteral(project, locales),
+        ),
+        KeyValue.make(
+            NumberLiteral.make('100%'),
+            createPoseLiteral(project, locales),
+        ),
+    ]);
+}
+
 export default function getSequenceProperties(
     project: Project,
     locales: Locales,
@@ -22,17 +39,7 @@ export default function getSequenceProperties(
             true,
             false,
             (expr) => expr instanceof MapLiteral,
-            (languages) =>
-                MapLiteral.make([
-                    KeyValue.make(
-                        NumberLiteral.make('0%'),
-                        createPoseLiteral(project, languages),
-                    ),
-                    KeyValue.make(
-                        NumberLiteral.make('100%'),
-                        createPoseLiteral(project, languages),
-                    ),
-                ]),
+            (languages) => createDefaultPosesMap(project, languages),
         ),
         getDurationProperty(locales),
         getStyleProperty(locales),

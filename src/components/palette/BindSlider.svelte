@@ -32,9 +32,8 @@
 
         Projects.revise(
             $project,
-            $project.getBindReplacements(
-                values.getExpressions(),
-                property.getName($locales),
+            values.getEditReplacements(
+                $project,
                 parseNumber(
                     toTokens(
                         newValue

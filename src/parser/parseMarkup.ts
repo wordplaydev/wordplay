@@ -1,6 +1,7 @@
 import Branch from '@nodes/Branch';
 import ConceptLink from '@nodes/ConceptLink';
 import Example from '@nodes/Example';
+import ExternalExample from '@nodes/ExternalExample';
 import Markup from '@nodes/Markup';
 import Mention from '@nodes/Mention';
 import type { Segment } from '@nodes/Paragraph';
@@ -61,12 +62,18 @@ function parseSegment(tokens: Tokens) {
     return tokens.nextIs(Sym.TagOpen)
         ? parseWebLink(tokens)
         : tokens.nextIs(Sym.Concept)
-            ? parseConceptLink(tokens)
-            : tokens.nextIs(Sym.Code)
-                ? parseExample(tokens)
-                : tokens.nextIs(Sym.Mention)
-                    ? parseMention(tokens)
-                    : parseWords(tokens);
+          ? parseConceptLink(tokens)
+          : tokens.nextIs(Sym.ExternalExample)
+          ? parseExternalExample(tokens)
+          : tokens.nextIs(Sym.Code)
+            ? parseExample(tokens)
+            : tokens.nextIs(Sym.Mention)
+              ? parseMention(tokens)
+              : parseWords(tokens);
+}
+
+export function parseExternalExample(tokens: Tokens): ExternalExample {
+    return new ExternalExample(tokens.read(Sym.ExternalExample));
 }
 
 function parseWebLink(tokens: Tokens): WebLink {
@@ -79,7 +86,7 @@ function parseWebLink(tokens: Tokens): WebLink {
     return new WebLink(open, description, at, url, close);
 }
 
-function parseConceptLink(tokens: Tokens): ConceptLink {
+export function parseConceptLink(tokens: Tokens): ConceptLink {
     const concept = tokens.read(Sym.Concept);
     return new ConceptLink(concept);
 }
@@ -150,7 +157,8 @@ export function parseExample(tokens: Tokens): Example {
                 : 'highlight';
             highlight = new Token(HIGHLIGHT_SYMBOL, Sym.Highlight);
             const remaining = text.slice(prefix.length);
-            if (remaining.length > 0) tokens.injectNext(new Token(remaining, Sym.Words));
+            if (remaining.length > 0)
+                tokens.injectNext(new Token(remaining, Sym.Words));
         }
     }
 
@@ -182,6 +190,7 @@ function nextIsContent(tokens: Tokens) {
         Sym.TagOpen,
         Sym.Concept,
         Sym.Code,
+        Sym.ExternalExample,
         Sym.Mention,
         Sym.Italic,
         Sym.Light,

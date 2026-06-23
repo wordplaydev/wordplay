@@ -102,70 +102,74 @@
 >
     <!-- Two-column grid: the two fields share the left column (right-aligned
          with each other), the toggle and button share the right column
-         (right-aligned with each other). -->
-    {#if active}
-        <div class="field">
-            <TextField
-                id="editor-search"
-                max="12em"
-                placeholder={(l) => l.ui.source.field.search}
-                description={(l) => l.ui.source.field.search}
-                bind:view={field}
-                bind:text={query}
-            />
-        </div>
-    {/if}
-    <div class="control">
-        <Toggle
-            tips={(l) => l.ui.source.toggle.search}
-            on={active}
-            toggle={() => (active = !active)}
-            command={ToggleSearch}><Emoji>🔍</Emoji></Toggle
-        >
-    </div>
-    <!-- The replace row only appears when there are matches to replace.
-         Replacing typically removes all matches, so it disappears again. -->
-    {#if active && matchCount > 0}
-        <div class="field">
-            <TextField
-                id="editor-replace"
-                max="12em"
-                placeholder={(l) => l.ui.source.field.replace}
-                description={(l) => l.ui.source.field.replace}
-                bind:view={replaceField}
-                bind:text={replacement}
-            />
-        </div>
+         (right-aligned with each other). When active, the grid reads as a
+         floating form (background, border, padding); inactive, it's just the
+         bare magnifier toggle. -->
+    <div class="search-form" class:active>
+        {#if active}
+            <div class="field">
+                <TextField
+                    id="editor-search"
+                    max="12em"
+                    placeholder={(l) => l.ui.source.field.search}
+                    description={(l) => l.ui.source.field.search}
+                    bind:view={field}
+                    bind:text={query}
+                />
+            </div>
+        {/if}
         <div class="control">
-            <Button
-                tip={(l) => l.ui.source.button.replace}
-                background
-                action={doReplace}>{CONFIRM_SYMBOL}</Button
+            <Toggle
+                tips={(l) => l.ui.source.toggle.search}
+                on={active}
+                toggle={() => (active = !active)}
+                command={ToggleSearch}><Emoji text="🔍" /></Toggle
             >
         </div>
-    {/if}
+        <!-- The replace row only appears when there are matches to replace.
+             Replacing typically removes all matches, so it disappears again. -->
+        {#if active && matchCount > 0}
+            <div class="field">
+                <TextField
+                    id="editor-replace"
+                    max="12em"
+                    placeholder={(l) => l.ui.source.field.replace}
+                    description={(l) => l.ui.source.field.replace}
+                    bind:view={replaceField}
+                    bind:text={replacement}
+                />
+            </div>
+            <div class="control">
+                <Button
+                    tip={(l) => l.ui.source.button.replace}
+                    background
+                    action={doReplace}>{CONFIRM_SYMBOL}</Button
+                >
+            </div>
+        {/if}
+    </div>
 </div>
 
 <style>
-    .search-container {
-        position: sticky;
-        top: var(--wordplay-spacing);
-        align-self: flex-end;
-        /* Two columns: fields | controls. Each row is field + control; the
-           replace row's cells land in the same columns as the search row's,
-           so the two fields right-align and the toggle/button right-align. */
+    /* .search-container only carries the pointer/keyboard handlers that isolate
+       search interaction from the editor caret. Positioning and the visible
+       bordered card are owned by the parent .editor-controls panel (in
+       Editor.svelte), so this wrapper needs no styles of its own. */
+
+    /* Two columns: fields | controls. Each row is field + control; the replace
+       row's cells land in the same columns as the search row's, so the two
+       fields right-align and the toggle/button right-align. The form grows down
+       and to the left as the fields appear; the surrounding card grows with it. */
+    .search-form {
         display: grid;
         grid-template-columns: auto auto;
         justify-content: end;
         align-items: center;
-        gap: var(--wordplay-spacing-half);
-        /* Don't reserve a flex track at the top, so the code isn't pushed
-           down; the rows render above the code via overflow. */
-        height: 0;
-        overflow: visible;
-        z-index: 1;
-        /* Place visually first (top) while staying last in DOM/tab order. */
-        order: -1;
+        gap: 0;
+    }
+
+    .search-form.active {
+        gap: var(--wordplay-spacing);
     }
 
     /* Fields fill the left column; controls the right. justify-self: end

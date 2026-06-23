@@ -1,5 +1,6 @@
 <script lang="ts">
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import EmojisRepaired from '@components/widgets/EmojisRepaired.svelte';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import type { Format } from '@components/editor/nodes/NodeView.svelte';
 
@@ -15,7 +16,9 @@
 
 {#if placeholder !== undefined}<span class="placeholder"
         ><LocalizedText path={placeholder} /></span
-    >{:else if text.length === 0}{#if !format.block}&ZeroWidthSpace;{/if}{:else}{rendered}{/if}
+    >{:else if text.length === 0}{#if !format.block}&ZeroWidthSpace;{/if}{:else}<EmojisRepaired
+        text={rendered}
+    />{/if}
 
 <style>
     .placeholder {

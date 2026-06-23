@@ -4,15 +4,22 @@ import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 import type Type from '@nodes/Type';
 
-type BaseContext = {
+/** The values that are constant across a single getEditsAt invocation, bundled
+ *  so the menu helpers can thread them as one object instead of many arguments. */
+export type EditContext = {
     /** The context of the edit */
     context: Context;
-    /** The type expected for whatever node is suggested */
-    type: Type | undefined;
     /** Locales currently in use */
     locales: Locales;
     /** The concept index, when available, for completing concept links in markup. */
     concepts?: ConceptIndex | undefined;
+    /** Available custom character names, when available, for recommending characters in markup and formatted text. */
+    characters?: string[] | undefined;
+};
+
+type BaseContext = EditContext & {
+    /** The type expected for whatever node is suggested */
+    type: Type | undefined;
 };
 
 export type ReplaceContext = BaseContext & {

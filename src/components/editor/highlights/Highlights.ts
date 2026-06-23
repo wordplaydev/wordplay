@@ -1,11 +1,25 @@
+import {
+    getOutlineOfRows,
+    getRoundedBlockOutline,
+    getRowsOf,
+    getSpaceRects,
+    getTokenRects,
+    rectsToRows,
+    underlineFromRows,
+    type Outline,
+    type Rect,
+    type SpaceLineClip,
+} from '@components/editor/highlights/outline';
+import type Project from '@db/projects/Project';
 import type Caret from '@edit/caret/Caret';
 import {
     AssignmentPoint,
     InsertionPoint,
+    getBlockingDropConflicts,
     isValidDropTarget,
+    kindAcceptsDrop,
 } from '@edit/drag/Drag';
 import Bind from '@nodes/Bind';
-import Block from '@nodes/Block';
 import DefinitionExpression from '@nodes/DefinitionExpression';
 import type Evaluate from '@nodes/Evaluate';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
@@ -20,23 +34,10 @@ import type Source from '@nodes/Source';
 import StructureDefinition from '@nodes/StructureDefinition';
 import Token from '@nodes/Token';
 import TypePlaceholder from '@nodes/TypePlaceholder';
-import type Project from '@db/projects/Project';
 import type Evaluator from '@runtime/Evaluator';
-import type { SearchLanguages } from '@util/search';
 import UnicodeString from '@unicode/UnicodeString';
+import type { SearchLanguages } from '@util/search';
 import ExceptionValue from '@values/ExceptionValue';
-import {
-    getOutlineOfRows,
-    getRoundedBlockOutline,
-    getRowsOf,
-    getSpaceRects,
-    getTokenRects,
-    rectsToRows,
-    underlineFromRows,
-    type Outline,
-    type Rect,
-    type SpaceLineClip,
-} from '@components/editor/highlights/outline';
 
 /** Highlight types and whether they are rendered above or below the code. True for above. */
 export const HighlightTypes = {
@@ -60,6 +61,8 @@ export const HighlightTypes = {
     major: true,
     // Minor conflict
     minor: true,
+    // A conflict being emphasized from the Annotations sidebar (transient wiggle)
+    attention: true,
     // A node that is animated
     animating: false,
     // Output that is active on stage
@@ -134,7 +137,10 @@ export class Highlights {
         }
         for (const [node, fields] of this.empty) {
             const otherFields = other.empty.get(node);
-            if (otherFields === undefined || otherFields.length !== fields.length)
+            if (
+                otherFields === undefined ||
+                otherFields.length !== fields.length
+            )
                 return false;
             for (let i = 0; i < fields.length; i++)
                 if (fields[i] !== otherFields[i]) return false;
@@ -228,7 +234,6 @@ export function getCaretHighlights(
     project: Project,
     caret: Caret,
     blocks: boolean,
-    animatingNodes: Set<Node> | undefined,
 ): Highlights {
     const highlights = new Highlights();
 
@@ -246,6 +251,10 @@ export function getCaretHighlights(
         if (match) highlights.add(source, match, 'delimiter');
     }
 
+    // The node containing the caret, used below to resolve references/names.
+    // We intentionally do NOT highlight it: the grey 1px border TokenView draws
+    // on the caret's token (its .active class) already marks where the caret is,
+    // so an additional 'hovered' outline on the parent would just be visual noise.
     let caretParent: Node | undefined;
     if (caret.position instanceof Node)
         caretParent = source.root.getParent(caret.position);
@@ -253,19 +262,6 @@ export function getCaretHighlights(
         const token = source.getTokenAt(caret.position);
         if (token) caretParent = source.root.getParent(token);
     }
-
-    if (
-        !blocks &&
-        caretParent &&
-        !caret.isNode() &&
-        (animatingNodes === undefined ||
-            !Array.from(animatingNodes).some((node) =>
-                node.contains(caretParent as Node),
-            )) &&
-        !(caretParent instanceof Program) &&
-        !(caretParent instanceof Block && caretParent.isRoot())
-    )
-        highlights.add(source, caretParent, 'hovered');
 
     const reference =
         caret.position instanceof Reference ||
@@ -317,6 +313,85 @@ export function getCaretHighlights(
     return highlights;
 }
 
+/** Per-(source, dragged-node) cache of the static "all permitted drop targets" highlight slice (the
+ * 'target' and 'empty' marks). This set doesn't change for the duration of a drag — the dragged node
+ * and source are constant — so the O(N) tree walk (and the per-candidate drop simulation it now runs)
+ * happens once per drag rather than on every pointer move over empty space. The outer WeakMap
+ * auto-evicts when the source is replaced (any edit); the inner WeakMap keys on dragged-node identity.
+ * Mirrors {@link referenceIndexCache}. */
+const dropTargetCache = new WeakMap<Source, WeakMap<Node, Highlights>>();
+function getDropTargetHighlights(
+    source: Source,
+    project: Project,
+    dragged: Node,
+): Highlights {
+    let perDragged = dropTargetCache.get(source);
+    if (perDragged === undefined) {
+        perDragged = new WeakMap();
+        dropTargetCache.set(source, perDragged);
+    }
+    let slice = perDragged.get(dragged);
+    if (slice === undefined) {
+        slice = new Highlights();
+        for (const target of source.expression.nodes()) {
+            // Highlight literals and placeholders the drop is PERMITTED on — structurally valid and
+            // introducing no blocking (Error) conflict (e.g. an unknown name). Cheap structural checks
+            // run first so we only simulate the drop for plausible candidates.
+            if (
+                (target instanceof Literal ||
+                    target instanceof ExpressionPlaceholder ||
+                    target instanceof TypePlaceholder) &&
+                isValidDropTarget(project, dragged, target) &&
+                getBlockingDropConflicts(project, source, dragged, target)
+                    .length === 0
+            )
+                slice.add(source, target, 'target');
+
+            // Does this target have an empty field we can drop into without a blocking conflict? Use
+            // kindAcceptsDrop as the cheap pre-filter, then simulate the actual insertion/assignment.
+            const elgibleFields = target.getGrammar().filter((field) => {
+                if (!kindAcceptsDrop(field.kind, dragged)) return false;
+                const value = target.getField(field.name);
+                if (Array.isArray(value)) {
+                    if (value.length !== 0) return false;
+                    return (
+                        getBlockingDropConflicts(
+                            project,
+                            source,
+                            dragged,
+                            new InsertionPoint(
+                                target,
+                                field.name,
+                                value,
+                                undefined,
+                                undefined,
+                                0,
+                            ),
+                        ).length === 0
+                    );
+                }
+                if (value === undefined)
+                    return (
+                        getBlockingDropConflicts(
+                            project,
+                            source,
+                            dragged,
+                            new AssignmentPoint(target, field.name),
+                        ).length === 0
+                    );
+                return false;
+            });
+            if (elgibleFields.length > 0) {
+                slice.add(source, target, 'empty');
+                for (const field of elgibleFields)
+                    slice.addEmpty(target, field.name);
+            }
+        }
+        perDragged.set(dragged, slice);
+    }
+    return slice;
+}
+
 /** Highlights that depend on drag/hover state. */
 export function getDragHighlights(
     source: Source,
@@ -326,6 +401,10 @@ export function getDragHighlights(
     insertion: InsertionPoint | AssignmentPoint | undefined,
     blocks: boolean,
     selecting: boolean,
+    /** Whether dropping on the current under-pointer target is permitted (no blocking conflict). Computed
+     *  once per target by the caller so we don't re-simulate the drop on every pointer move. A blocked
+     *  target isn't highlighted as a match — the editor's footer feedback explains why instead. */
+    currentTargetPermitted = true,
 ): Highlights {
     const highlights = new Highlights();
 
@@ -334,70 +413,52 @@ export function getDragHighlights(
         highlights.add(source, dragged, 'dragged');
 
         // If there's something hovered or an insertion point, show targets and matches.
-        // If we're hovered over a valid drop target, highlight the hovered node.
-        if (
-            hovered &&
-            isValidDropTarget(project, dragged, hovered, insertion, true)
-        ) {
-            // Highlight the matching drop target being hovered.
-            highlights.add(source, hovered, 'match');
-            highlights.add(source, hovered, 'hovered');
+        // If we're hovered over a structurally valid drop target, highlight it — but only as a 'match'
+        // when the drop is actually permitted (no blocking conflict).
+        if (hovered && isValidDropTarget(project, dragged, hovered)) {
+            if (currentTargetPermitted) {
+                highlights.add(source, hovered, 'match');
+                highlights.add(source, hovered, 'hovered');
+            }
         }
-        // No valid hover target? Highlight the insertion point if there is one.
+        // No valid hover target? Highlight the insertion point if there is one and the drop is permitted.
         else if (
             insertion instanceof InsertionPoint &&
-            isValidDropTarget(project, dragged, insertion.node, insertion, true)
+            isValidDropTarget(project, dragged, insertion.node)
         ) {
-            if (insertion.list.length === 0) {
+            if (currentTargetPermitted && insertion.list.length === 0) {
                 highlights.add(source, insertion.node, 'match');
                 highlights.add(source, insertion.node, 'hovered');
                 highlights.addEmpty(insertion.node, insertion.field);
             }
         }
-        // No valid hover target? Highlight the assignment point if there is one.
+        // No valid hover target? Highlight the assignment point if there is one and the drop is permitted.
         else if (insertion instanceof AssignmentPoint) {
-            if (insertion.parent instanceof Program) {
-                highlights.add(source, insertion.parent.expression, 'match');
-                highlights.add(source, insertion.parent.expression, 'hovered');
-            } else {
-                highlights.add(source, insertion.parent, 'hovered');
-                highlights.addEmpty(insertion.parent, insertion.field);
+            if (currentTargetPermitted) {
+                if (insertion.parent instanceof Program) {
+                    highlights.add(
+                        source,
+                        insertion.parent.expression,
+                        'match',
+                    );
+                    highlights.add(
+                        source,
+                        insertion.parent.expression,
+                        'hovered',
+                    );
+                } else {
+                    highlights.add(source, insertion.parent, 'hovered');
+                    highlights.addEmpty(insertion.parent, insertion.field);
+                }
             }
         }
-        // No insert? Highlight valid drop targets.
+        // No insert? Highlight valid drop targets. This set is invariant for the whole drag, so it's
+        // computed once and cached rather than re-walked on every pointer move over empty space.
         else if (insertion === undefined) {
-            // Search the source file for targets to highlight.
-            for (const target of source.expression.nodes()) {
-                // Is this target a valid drop target?
-                // Is it a literal or placeholder?
-                // Highlight it!
-                // We don't highlight expressions that have more structure, because it's confusing, but we do permit valid drops.
-                if (
-                    isValidDropTarget(project, dragged, target, insertion, true)
-                ) {
-                    if (
-                        target instanceof Literal ||
-                        target instanceof ExpressionPlaceholder ||
-                        target instanceof TypePlaceholder
-                    )
-                        highlights.add(source, target, 'target');
-                }
-                // Does this target have an empty field we can insert into?
-                const elgibleFields = target.getGrammar().filter((field) => {
-                    if (!field.kind.allows(dragged)) return false;
-                    const value = target.getField(field.name);
-                    const empty =
-                        value === undefined ||
-                        (Array.isArray(value) && value.length === 0);
-                    return empty;
-                });
-                if (elgibleFields.length > 0) {
-                    highlights.add(source, target, 'empty');
-                    for (const field of elgibleFields) {
-                        highlights.addEmpty(target, field.name);
-                    }
-                }
-            }
+            return Highlights.merge(
+                highlights,
+                getDropTargetHighlights(source, project, dragged),
+            );
         }
     }
     // Otherwise, is a node hovered over? Highlight it.
@@ -493,7 +554,7 @@ export function getHighlights(
             selectedOutput,
             blocks,
         ),
-        getCaretHighlights(source, project, caret, blocks, animatingNodes),
+        getCaretHighlights(source, project, caret, blocks),
         getDragHighlights(
             source,
             project,
@@ -565,7 +626,13 @@ export function updateOutlines(
                     types.includes('match') ||
                     types.includes('empty') ||
                     types.includes('dragged') ||
-                    types.includes('dragging'));
+                    types.includes('dragging') ||
+                    // The caret's selected-node highlight: a block node is laid
+                    // out contiguously, so a single rounded rect is both correct
+                    // (the rows path looks jagged here) and far cheaper — one
+                    // getBoundingClientRect instead of one per leaf token, which
+                    // is the dominant per-keypress cost of caret movement.
+                    types.includes('blockselected'));
             // If this node has empty fields to highlight, add outlines for those too.
             const emptyFields = highlights.getEmpty(node);
             if (emptyFields && emptyFields.length > 0) {
@@ -727,8 +794,7 @@ export function getRangeOutline(
 
     // Derive a fallback line-height for zero-height space spans (empty lines).
     // Prefer the rendered height of the first text-token view; fall back to 20 px.
-    const fallbackHeight =
-        nodeViews[0]?.getBoundingClientRect().height || 20;
+    const fallbackHeight = nodeViews[0]?.getBoundingClientRect().height || 20;
 
     // Build all rects in document order: for every source token whose space
     // OR text overlaps [start, end], emit space rects first then the token rect.

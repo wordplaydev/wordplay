@@ -30,6 +30,7 @@
 </script>
 
 <script lang="ts">
+    import PageHeader from '@components/app/PageHeader.svelte';
     import Writing from '@components/app/Writing.svelte';
     import { getUser } from '@components/project/Contexts';
     import { firestore } from '@db/firebase';
@@ -104,5 +105,6 @@
 </script>
 
 <Writing>
+    <PageHeader />
     {@render children()}
 </Writing>

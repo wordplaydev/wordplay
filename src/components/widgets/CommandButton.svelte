@@ -5,6 +5,7 @@
     import { locales } from '@db/Database';
     import { tokenize } from '@parser/Tokenizer';
     import {
+        resetVisualColumnAfter,
         toShortcut,
         type Command,
     } from '@components/editor/commands/Commands';
@@ -70,6 +71,18 @@
     );
 </script>
 
+{#snippet symbol()}{#if token}<TokenView
+        node={tokenize(command.symbol).getTokens()[0]}
+        format={{
+            block: false,
+            root: undefined,
+            spaces: undefined,
+            editable: false,
+        }}
+    />{:else if /\p{Extended_Pictographic}$/u.test(
+        command.symbol,
+    )}<Emoji text={command.symbol} />{:else}{command.symbol}{/if}{/snippet}
+
 <Button
     {background}
     tip={() =>
@@ -99,7 +112,11 @@
                     : undefined,
             );
         else if (typeof result !== 'boolean' && result !== undefined)
-            editor?.edit(result, IdleKind.Typed, focusAfter);
+            editor?.edit(
+                resetVisualColumnAfter(command, result),
+                IdleKind.Typed,
+                focusAfter,
+            );
 
         // If we didn't ask the editor to focus, restore focus on button after update.
         if (!focusAfter && hadFocus) {
@@ -111,15 +128,16 @@
                 );
         }
     }}
-    >{#if token}<TokenView
-            node={tokenize(command.symbol).getTokens()[0]}
-            format={{
-                block: false,
-                root: undefined,
-                spaces: undefined,
-                editable: false,
-            }}
-        />{:else if /\p{Extended_Pictographic}$/u.test(command.symbol)}<Emoji
-            >{command.symbol}</Emoji
-        >{:else}{command.symbol}{/if}</Button
+    >{#if command.symbolRotation !== undefined}<span
+            class="rotated"
+            style:transform="rotate({command.symbolRotation}deg)"
+            >{@render symbol()}</span
+        >{:else}{@render symbol()}{/if}</Button
 >
+
+<style>
+    /* inline-block so the symbol can be rotated about its own center. */
+    .rotated {
+        display: inline-block;
+    }
+</style>

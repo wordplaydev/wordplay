@@ -1,9 +1,4 @@
-import IncompatibleCellType from '@conflicts/IncompatibleCellType';
-import IncompatibleInput from '@conflicts/IncompatibleInput';
-import IncompatibleType from '@conflicts/IncompatibleType';
-import { UnknownName } from '@conflicts/UnknownName';
-import { UnknownTypeName } from '@conflicts/UnknownTypeName';
-import type { LocaleTextAccessor } from '@locale/Locales';
+import type { LocaleTextAccessor, default as Locales } from '@locale/Locales';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import Block from '@nodes/Block';
 import Expression from '@nodes/Expression';
@@ -58,18 +53,6 @@ import { completeInsertion } from '@edit/caret/Complete';
 import type { Path } from '@nodes/Root';
 import type { SerializedCaret } from '@db/projects/ProjectSchemas';
 
-/**
- * Conflicts that are permitted on insertion. We permit these to allow for some
- * flexibility in typing names and for thinking through types.
- */
-export const NegligibleConflicts: (new (...args: any[]) => Conflict)[] = [
-    UnknownName,
-    UnknownTypeName,
-    IncompatibleCellType,
-    IncompatibleType,
-    IncompatibleInput,
-];
-
 export type InsertionContext = { before: Node[]; after: Node[] };
 
 /**
@@ -113,9 +96,7 @@ export function serializeCaretPosition(
     source: Source,
     position: CaretPosition,
 ): SerializedCaret {
-    return position instanceof Node
-        ? source.root.getPath(position)
-        : position;
+    return position instanceof Node ? source.root.getPath(position) : position;
 }
 
 /** Resolve a persisted {@link SerializedCaret} against a source, decoding a
@@ -135,8 +116,11 @@ export function resolveCaretPosition(
 export default class Caret {
     readonly source: Source;
     readonly position: CaretPosition;
-    /** The latest column of the caret in the code with preferred spacing */
-    readonly column: number;
+    /** The remembered horizontal pixel position ("goal column") for visual
+     *  vertical movement, so moving through a short line and back to a longer one
+     *  returns to the original column. Undefined except during a run of
+     *  consecutive visual vertical moves; any other caret operation clears it. */
+    readonly visualColumn: number | undefined;
     readonly entry: Entry;
     // The node recently added.
     readonly addition: Node | undefined;
@@ -156,19 +140,16 @@ export default class Caret {
     constructor(
         source: Source,
         position: CaretPosition,
-        column: number | undefined,
         entry: Entry,
         addition: Node | undefined,
+        /** Remembered goal pixel-x for visual vertical movement. Defaults to
+         *  cleared, so any caret operation that doesn't explicitly carry it forward
+         *  resets the goal column. */
+        visualColumn: number | undefined = undefined,
     ) {
         this.source = source;
         this.position = position;
-        // No column provided? Compute it from the position. Otherwise set it.
-        this.column =
-            column === undefined
-                ? typeof position === 'number'
-                    ? (this.source.getColumn(position) ?? 0)
-                    : 0
-                : column;
+        this.visualColumn = visualColumn;
 
         this.entry = entry;
         this.addition = addition;
@@ -561,9 +542,7 @@ export default class Caret {
                 if (children === undefined) return this;
                 const sibling =
                     children[children.indexOf(this.position) + direction];
-                return sibling
-                    ? this.withPosition(sibling, this.column, entry)
-                    : this;
+                return sibling ? this.withPosition(sibling, entry) : this;
             }
             // If requesting the non-sibling, get the token after/before the current selection
             // in the depth first traversal of the search.
@@ -595,7 +574,7 @@ export default class Caret {
 
                 const index = this.getTextPosition(start, offset);
                 return index !== undefined
-                    ? this.withPosition(index, this.column, entry)
+                    ? this.withPosition(index, entry)
                     : this;
             }
         } else if (this.isPosition() || this.isRange()) {
@@ -626,7 +605,6 @@ export default class Caret {
             )
                 return this.withPosition(
                     this.getParentOfOnlyChild(token),
-                    this.column,
                     entry,
                 );
             // If we found a token before and we're moving before and we're at the token's end, choose the token or its parent if it's an only child or a child of a placeholder
@@ -637,15 +615,10 @@ export default class Caret {
             )
                 return this.withPosition(
                     this.getParentOfOnlyChild(tokenBefore),
-                    this.column,
                     entry,
                 );
 
-            return this.withPosition(
-                currentPosition + direction,
-                this.source.getColumn(currentPosition + direction),
-                entry,
-            );
+            return this.withPosition(currentPosition + direction, entry);
         }
         // Some other mystery selection type? Do nothing.
         else return this;
@@ -683,6 +656,12 @@ export default class Caret {
     }
 
     getBlockPositions(): (Node | number)[] {
+        // This is a pure function of the (immutable) source, but horizontal
+        // blocks-mode moves call it on every arrow press — so reuse the result
+        // cached on the Source rather than recomputing the whole-program scan.
+        const cached = this.source.getCachedBlockPositions();
+        if (cached !== undefined) return cached;
+
         // Find all the tokens in a series of fields, for identifying positions before and after lists.
         function getFieldTokens(node: Node, fields: Field[]) {
             return fields
@@ -701,13 +680,22 @@ export default class Caret {
         for (const node of nodes) {
             if (node instanceof Token) {
                 const tokenParent = this.source.root.getParent(node);
-                // Include all preceding spaces, since we render them.
+                // In blocks mode, inline whitespace is not rendered — only blank
+                // lines render (as .break divs). So the only navigable space
+                // position is the BEGINNING of each empty line (the position just
+                // after a newline whose line is blank or spaces/tabs only).
+                // Trailing space, indentation, and tabs before a token have no
+                // visual anchor and are excluded, so the caret never lands where
+                // CaretView would draw it far from the code.
                 const space = this.source.spaces.getSpace(node);
                 const position = this.source.getTokenTextPosition(node);
                 if (position !== undefined) {
+                    const spaceStart = position - space.length;
                     for (let index = 0; index < space.length; index++) {
-                        if (this.isSpace(space.charAt(index))) {
-                            points.push(position - space.length + index);
+                        if (space.charAt(index) === '\n') {
+                            const lineStart = spaceStart + index + 1;
+                            if (this.source.isEmptyLine(lineStart))
+                                points.push(lineStart);
                         }
                     }
                 }
@@ -868,24 +856,28 @@ export default class Caret {
             }
         }
 
-        // Remove duplicates and sort.
-        return Array.from(new Set(points)).sort((a, b) => {
-            const aPosition =
-                a instanceof Node
-                    ? a instanceof Token
-                        ? (this.source.getTokenTextPosition(a) ?? 0)
-                        : (this.source.getNodeFirstPosition(a) ?? 0)
-                    : a;
-            const bPosition =
-                b instanceof Node
-                    ? b instanceof Token
-                        ? (this.source.getTokenTextPosition(b) ?? 0)
-                        : (this.source.getNodeFirstPosition(b) ?? 0)
-                    : b;
+        // Remove duplicates, then sort by source position. Precompute each
+        // point's position ONCE into a map so the comparator is O(1): the old
+        // comparator called getNodeFirstPosition per comparison (O(N) each),
+        // making the sort O(N · P log P) per call.
+        const unique = Array.from(new Set(points));
+        const positionOf = (point: Node | number) =>
+            point instanceof Node
+                ? point instanceof Token
+                    ? (this.source.getTokenTextPosition(point) ?? 0)
+                    : (this.source.getNodeFirstPosition(point) ?? 0)
+                : point;
+        const positions = new Map<Node | number, number>();
+        for (const point of unique) positions.set(point, positionOf(point));
+        const sorted = unique.sort((a, b) => {
+            const aPosition = positions.get(a) ?? 0;
+            const bPosition = positions.get(b) ?? 0;
             return aPosition === bPosition && typeof a === 'number'
                 ? -1
                 : aPosition - bPosition;
         });
+        this.source.setCachedBlockPositions(sorted);
+        return sorted;
     }
 
     /** Move to the next node or position in blocks mode. */
@@ -903,9 +895,14 @@ export default class Caret {
         if (currentPosition === undefined)
             return (l) => l.ui.source.cursor.ignored.noMove;
 
-        // Get all eligible caret positions in blocks mode, in the order in which we'll search for the next position.
-        const positions = this.getBlockPositions();
-        if (direction < 0) positions.reverse();
+        // Get all eligible caret positions in blocks mode, in the order in which
+        // we'll search for the next position. getBlockPositions() returns a
+        // cached array, so copy before reversing — reverse() mutates in place and
+        // would corrupt the cache (sending later left-moves to the program start).
+        const positions =
+            direction < 0
+                ? [...this.getBlockPositions()].reverse()
+                : this.getBlockPositions();
 
         // Go through all of the eligible positions
         const onNode = this.isNode();
@@ -967,28 +964,6 @@ export default class Caret {
                     Math.min(end + amount, this.source.getCode().getLength()),
                 ),
             ]);
-        }
-        // Node? Don't do anything.
-        else return this;
-    }
-
-    expandVertically(amount: -1 | 1) {
-        if (isPosition(this.position)) {
-            const verticalPosition = this.getVertical(amount, this.position);
-            if (verticalPosition && verticalPosition.isPosition())
-                return this.withPosition([
-                    this.position,
-                    verticalPosition.position,
-                ]);
-            else return this;
-        }
-        // Already a range? Expand the end.
-        else if (this.isRange()) {
-            const [start, end] = this.position;
-            const verticalPosition = this.getVertical(amount, end);
-            if (verticalPosition && verticalPosition.isPosition())
-                return this.withPosition([start, verticalPosition.position]);
-            else return this;
         }
         // Node? Don't do anything.
         else return this;
@@ -1071,8 +1046,10 @@ export default class Caret {
 
     withPosition(
         position: CaretPosition,
-        column?: number,
         entry?: Entry,
+        /** Goal pixel-x to remember for visual vertical movement. Omitted by all
+         *  non-vertical callers, which clears it (the desired reset). */
+        visualColumn?: number,
     ): Caret {
         if (
             (typeof position === 'number' && isNaN(position)) ||
@@ -1091,20 +1068,25 @@ export default class Caret {
                       Math.min(position, this.source.getCode().getLength()),
                   )
                 : position,
-            // If given a column set it, otherwise keep the old one.
-            column ?? this.column,
             entry ?? this.entry,
             this.addition,
+            visualColumn,
         );
     }
+
+    // The with* transforms below all preserve visualColumn (the visual goal
+    // column). Only withPosition (an explicit reposition) and the edit
+    // constructors reset it, so it survives the incidental transforms applied
+    // when committing a caret (e.g. Editor.handleEdit) yet still clears the
+    // moment a non-vertical command repositions the caret. See visualColumn.
 
     withSource(source: Source) {
         return new Caret(
             source,
             this.position,
-            this.column,
             this.entry,
             this.addition,
+            this.visualColumn,
         );
     }
 
@@ -1112,9 +1094,9 @@ export default class Caret {
         return new Caret(
             this.source,
             this.position,
-            this.column,
             entry,
             this.addition,
+            this.visualColumn,
         );
     }
 
@@ -1122,9 +1104,9 @@ export default class Caret {
         return new Caret(
             this.source,
             this.position,
-            this.column,
             this.entry,
             addition,
+            this.visualColumn,
         );
     }
 
@@ -1132,10 +1114,20 @@ export default class Caret {
         return new Caret(
             this.source,
             this.position,
-            this.column,
             this.entry,
             undefined,
+            this.visualColumn,
         );
+    }
+
+    /** Clear the visual goal column, so the next vertical move recomputes it from
+     *  the current position. Applied to the result of every non-vertical command
+     *  (e.g. left/right/home/end), so any horizontal move updates the goal column
+     *  — including no-op moves at a boundary that return the caret unchanged. */
+    withoutVisualColumn(): Caret {
+        return this.visualColumn === undefined
+            ? this
+            : new Caret(this.source, this.position, this.entry, this.addition);
     }
 
     insertNode(node: Node, offset: number): Edit | undefined {
@@ -1149,7 +1141,6 @@ export default class Caret {
                 new Caret(
                     newSource,
                     position + offset,
-                    this.column,
                     undefined,
                     node,
                 ),
@@ -1171,7 +1162,6 @@ export default class Caret {
                 new Caret(
                     newSource,
                     start + offset,
-                    this.column,
                     undefined,
                     node,
                 ),
@@ -1190,7 +1180,6 @@ export default class Caret {
                 new Caret(
                     newSource,
                     position + offset,
-                    this.column,
                     undefined,
                     newSource.getTokenAt(position),
                 ),
@@ -1205,6 +1194,13 @@ export default class Caret {
         blocks: boolean,
         project: Project,
         complete = true,
+        // Called when a blocks-mode insertion is rejected because it would introduce conflicts, with
+        // those conflicts and the source that would have resulted. Lets callers (e.g. paste) explain why.
+        onBlockReject?: (conflicts: Conflict[], source: Source) => void,
+        // When true (used by paste in blocks mode), replace any placeholders in the inserted region
+        // with their type's default expression, so pasted code evaluates without a placeholder
+        // exception — the same behavior as dropping a concept from the palette.
+        fillPlaceholders = false,
     ): Edit | ProjectRevision | LocaleTextAccessor {
         // Normalize the mystery string, ensuring it follows Unicode normalization form.
         text = text.normalize();
@@ -1323,14 +1319,14 @@ export default class Caret {
 
             // Finally, if we're in blocks mode, verify that the insertion was valid.
             if (blocks) {
-                if (
-                    project.getNewConflicts(
-                        this.source,
-                        newSource,
-                        NegligibleConflicts,
-                    ).length > 0
-                )
+                const conflicts = project.getNewConflicts(
+                    this.source,
+                    newSource,
+                );
+                if (conflicts.length > 0) {
+                    onBlockReject?.(conflicts, newSource);
                     return (l) => l.ui.source.cursor.ignored.noError;
+                }
             }
 
             return [
@@ -1358,27 +1354,94 @@ export default class Caret {
                 newPosition +
                 (newSource.getCode().getLength() - lengthBeforeInsert);
 
+            // When pasting Wordplay code in blocks mode, fill any placeholders in the just-inserted
+            // region with reasonable typed defaults — the same behavior as dropping a concept from the
+            // palette — so the pasted code evaluates immediately instead of throwing a placeholder
+            // exception. We scope to the inserted character range so placeholders elsewhere in the
+            // source are untouched, and leave placeholders whose type has no default for the creator.
+            if (blocks && fillPlaceholders) {
+                const insertedEnd = newPosition;
+                const insertedSource = newSource;
+                const context = project
+                    .withSource(this.source, insertedSource)
+                    .getContext(insertedSource);
+                const locales = project.getLocales();
+                const pairs = insertedSource.expression
+                    .nodes(
+                        (n): n is ExpressionPlaceholder =>
+                            n instanceof ExpressionPlaceholder,
+                    )
+                    .filter((placeholder) => {
+                        const pos =
+                            insertedSource.getNodeFirstPosition(placeholder);
+                        return (
+                            pos !== undefined &&
+                            pos >= originalPosition &&
+                            pos < insertedEnd
+                        );
+                    })
+                    .map((placeholder) => {
+                        const def = ExpressionPlaceholder.getDefaultExpressions(
+                            placeholder,
+                            context,
+                            locales,
+                        )[0];
+                        return def ? ([placeholder, def] as const) : undefined;
+                    })
+                    .filter(
+                        (
+                            pair,
+                        ): pair is readonly [
+                            ExpressionPlaceholder,
+                            Expression,
+                        ] => pair !== undefined,
+                    );
+                if (pairs.length > 0) {
+                    let filled = insertedSource;
+                    // Successive replace() is valid: each untouched placeholder keeps its identity
+                    // until it is itself replaced (clone only rebuilds the path to the replaced node).
+                    for (const [placeholder, def] of pairs)
+                        filled = filled.replace(placeholder, def);
+                    // Land the caret on the first still-empty placeholder in the pasted region, or just
+                    // past the paste if all were filled. Filling changes the source length, so adjust.
+                    const regionEnd =
+                        insertedEnd +
+                        (filled.getCode().getLength() -
+                            insertedSource.getCode().getLength());
+                    const remaining = filled.expression
+                        .nodes(
+                            (n): n is ExpressionPlaceholder =>
+                                n instanceof ExpressionPlaceholder,
+                        )
+                        .find((placeholder) => {
+                            const pos =
+                                filled.getNodeFirstPosition(placeholder);
+                            return (
+                                pos !== undefined &&
+                                pos >= originalPosition &&
+                                pos <= regionEnd
+                            );
+                        });
+                    newSource = filled;
+                    newPosition = remaining ?? regionEnd;
+                }
+            }
+
             // Finally, if we're in blocks mode, verify that the insertion was valid.
             if (blocks) {
-                if (
-                    project.getNewConflicts(
-                        this.source,
-                        newSource,
-                        NegligibleConflicts,
-                    ).length > 0
-                )
+                const conflicts = project.getNewConflicts(
+                    this.source,
+                    newSource,
+                );
+                if (conflicts.length > 0) {
+                    onBlockReject?.(conflicts, newSource);
                     return (l) => l.ui.source.cursor.ignored.noError;
+                }
             }
 
             return [
                 newSource,
-                new Caret(
-                    newSource,
-                    newPosition,
-                    undefined,
-                    undefined,
-                    newToken,
-                ),
+                new Caret(newSource, newPosition, undefined, newToken),
             ];
         }
     }
@@ -1525,7 +1588,6 @@ export default class Caret {
             new Caret(
                 newSource,
                 newPosition,
-                undefined,
                 undefined,
                 newSource.getTokenAt(newPosition),
             ),
@@ -1984,8 +2046,7 @@ export default class Caret {
         // If only valid, ensure the edit is valid.
         if (
             validOnly &&
-            project.getNewConflicts(this.source, newSource, NegligibleConflicts)
-                .length > 0
+            project.getNewConflicts(this.source, newSource).length > 0
         )
             return (l) => l.ui.source.cursor.ignored.noError;
 
@@ -1999,44 +2060,6 @@ export default class Caret {
                 undefined,
             ),
         ];
-    }
-
-    moveVertical(direction: 1 | -1): Edit | undefined {
-        if (isNode(this.position)) {
-            const position = this.source.getNodeFirstPosition(this.position);
-            if (position === undefined) return;
-            return this.getVertical(direction, position);
-        } else
-            return this.getVertical(
-                direction,
-                isPosition(this.position) ? this.position : this.position[0],
-            );
-    }
-
-    getVertical(direction: 1 | -1, position: number): Caret | undefined {
-        // Use the line-only variant — we don't need the column for this caret;
-        // we use this.column (the caret's "remembered" column from the last
-        // horizontal move) to land at the same visual offset on the new line.
-        const line = this.source.getLineFromPhysicalPosition(position);
-        if (line === undefined) return;
-        const newLine = line + direction;
-
-        const newPosition = this.source.getPhysicalPositionFromLineAndColumn(
-            newLine,
-            this.column,
-        );
-
-        if (newPosition !== undefined)
-            return this.withPosition(newPosition, this.column);
-
-        // There's no line in the requested direction: pressing ArrowDown on the
-        // last line moves the caret to the very end of the source, and ArrowUp
-        // on the first line moves it to the very beginning.
-        const boundary =
-            direction === 1 ? this.source.getCode().getLength() : 0;
-        return boundary === position
-            ? undefined
-            : this.withPosition(boundary, this.source.getColumn(boundary) ?? 0);
     }
 
     wrap(project: Project, key: string): Revision | undefined {
@@ -2135,18 +2158,66 @@ export default class Caret {
         const conflictDescription =
             conflicts.length > 0
                 ? locales
-                      .concretize(
-                          (l) => l.ui.edit.conflicts,
-                          {
-                              count: conflicts.length,
-                          },
-                      )
+                      .concretize((l) => l.ui.edit.conflicts, {
+                          count: conflicts.length,
+                      })
                       .toText()
                 : undefined;
 
+        /** If on a delimiter, say where its match is (or that it's unmatched). */
+        const delimiterDescription = this.getDelimiterMatchDescription(locales);
+
         return `${this.getPositionDescription(type, context)}${
-            conflictDescription ? `, ${conflictDescription}` : ''
-        }`;
+            delimiterDescription ? `, ${delimiterDescription}` : ''
+        }${conflictDescription ? `, ${conflictDescription}` : ''}`;
+    }
+
+    /**
+     * If the caret has selected a structural bracket, describe where its match
+     * is using line-relative phrasing (line numbers are optional and columns
+     * are grapheme-fuzzy, so relative is more reliable than absolute). Mirrors
+     * the visual match highlight, which also fires when the position is a Token.
+     */
+    getDelimiterMatchDescription(locales: Locales): string | undefined {
+        const token = this.position;
+        if (
+            !(token instanceof Token) ||
+            !this.source.getDelimiterDepths().has(token)
+        )
+            return undefined;
+
+        const match = this.source.getMatchedDelimiter(token);
+        if (match === undefined)
+            return locales
+                .concretize((l) => l.ui.edit.delimiterUnmatched)
+                .toText();
+
+        const name = match.getLabel(locales);
+        const tokenLine = this.source.getLine(token);
+        const matchLine = this.source.getLine(match);
+        if (
+            tokenLine === undefined ||
+            matchLine === undefined ||
+            tokenLine === matchLine
+        )
+            return locales
+                .concretize((l) => l.ui.edit.delimiterMatchedSameLine, { name })
+                .toText();
+
+        const delta = matchLine - tokenLine;
+        return delta > 0
+            ? locales
+                  .concretize((l) => l.ui.edit.delimiterMatchedBelow, {
+                      name,
+                      lines: delta,
+                  })
+                  .toText()
+            : locales
+                  .concretize((l) => l.ui.edit.delimiterMatchedAbove, {
+                      name,
+                      lines: -delta,
+                  })
+                  .toText();
     }
 
     getPositionDescription(type: Type | undefined, context: Context) {
@@ -2155,26 +2226,24 @@ export default class Caret {
         /** If a node was added, describe the addition. */
         if (this.addition) {
             return locales
-                .concretize(
-                    (l) => l.ui.edit.node,
-                    {
-                        node: new NodeRef(this.addition, locales, context),
-                        type: type ? new NodeRef(type, locales, context) : undefined,
-                    },
-                )
+                .concretize((l) => l.ui.edit.node, {
+                    node: new NodeRef(this.addition, locales, context),
+                    type: type
+                        ? new NodeRef(type, locales, context)
+                        : undefined,
+                })
                 .toText();
         }
 
         /** If the caret is a node, describe the node. */
         if (isNode(this.position)) {
             return locales
-                .concretize(
-                    (l) => l.ui.edit.node,
-                    {
-                        node: new NodeRef(this.position, locales, context),
-                        type: type ? new NodeRef(type, locales, context) : undefined,
-                    },
-                )
+                .concretize((l) => l.ui.edit.node, {
+                    node: new NodeRef(this.position, locales, context),
+                    type: type
+                        ? new NodeRef(type, locales, context)
+                        : undefined,
+                })
                 .toText();
         }
 
@@ -2182,13 +2251,10 @@ export default class Caret {
         if (isRange(this.position)) {
             const [start, end] = this.position;
             return locales
-                .concretize(
-                    (l) => l.ui.edit.range,
-                    {
-                        start: start,
-                        end: end,
-                    },
-                )
+                .concretize((l) => l.ui.edit.range, {
+                    start: start,
+                    end: end,
+                })
                 .toText();
         }
 
@@ -2207,64 +2273,56 @@ export default class Caret {
                     ? undefined
                     : this.position - tokenPosition;
             return locales
-                .concretize(
-                    (l) => l.ui.edit.inside,
-                    {
-                        token: new NodeRef(this.tokenExcludingSpace, locales, context),
-                        before: // Character before cursor, if there is one
-                    relativeIndex
+                .concretize((l) => l.ui.edit.inside, {
+                    token: new NodeRef(
+                        this.tokenExcludingSpace,
+                        locales,
+                        context,
+                    ),
+                    // Character before cursor, if there is one
+                    before: relativeIndex
                         ? this.tokenExcludingSpace.text.at(relativeIndex - 1)
                         : undefined,
-                        after: // Character after cursor, if there is one
-                    relativeIndex
+                    // Character after cursor, if there is one
+                    after: relativeIndex
                         ? this.tokenExcludingSpace.text.at(relativeIndex)
                         : undefined,
-                    },
-                )
+                })
                 .toText();
         }
         // Describe the empty line
         else if (this.isEmptyLine()) {
             return locales
-                .concretize(
-                    (l) => l.ui.edit.line,
-                    {
-                        before: beforeNode
+                .concretize((l) => l.ui.edit.line, {
+                    before: beforeNode
                         ? new NodeRef(beforeNode, locales, context)
                         : undefined,
-                        after: afterNode
+                    after: afterNode
                         ? new NodeRef(afterNode, locales, context)
                         : undefined,
-                    },
-                )
+                })
                 .toText();
         }
         // Describe the tokens we're between or before.
         else if (this.tokenIncludingSpace) {
             if (this.tokenPrior && this.tokenPrior !== this.tokenIncludingSpace)
                 return locales
-                    .concretize(
-                        (l) => l.ui.edit.between,
-                        {
-                            before: beforeNode
+                    .concretize((l) => l.ui.edit.between, {
+                        before: beforeNode
                             ? new NodeRef(beforeNode, locales, context)
                             : undefined,
-                            after: afterNode
+                        after: afterNode
                             ? new NodeRef(afterNode, locales, context)
                             : undefined,
-                        },
-                    )
+                    })
                     .toText();
             else
                 return locales
-                    .concretize(
-                        (l) => l.ui.edit.before,
-                        {
-                            after: afterNode
+                    .concretize((l) => l.ui.edit.before, {
+                        after: afterNode
                             ? new NodeRef(afterNode, locales, context)
                             : undefined,
-                        },
-                    )
+                    })
                     .toText();
         }
     }

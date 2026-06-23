@@ -1,5 +1,6 @@
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
+import type { KeywordIndex } from '@parser/Keywords';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
 import { parseNames } from '@parser/parseBind';
 import parseProgram from '@parser/parseProgram';
@@ -31,9 +32,34 @@ import Node, { node, type Grammar, type Replacement } from '@nodes/Node';
 import Program from '@nodes/Program';
 import Root from '@nodes/Root';
 import StructureDefinition from '@nodes/StructureDefinition';
+import { Sym, type SymType } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import type Type from '@nodes/Type';
 import type TypeSet from '@nodes/TypeSet';
+
+/** The structural bracket pairs whose nesting depth we visualize, each mapped to
+ * its pair group so depth is counted independently per delimiter type. Excludes
+ * separators, language tags, markup tags, and text delimiters — same set as
+ * TokenView's isBracket. */
+const StructuralDelimiterGroups = new Map<SymType, string>([
+    [Sym.EvalOpen, 'eval'],
+    [Sym.EvalClose, 'eval'],
+    [Sym.ListOpen, 'list'],
+    [Sym.ListClose, 'list'],
+    [Sym.SetOpen, 'set'],
+    [Sym.SetClose, 'set'],
+    [Sym.TableOpen, 'table'],
+    [Sym.TableClose, 'table'],
+    [Sym.TypeOpen, 'type'],
+    [Sym.TypeClose, 'type'],
+]);
+const StructuralOpenDelimiters = new Set<SymType>([
+    Sym.EvalOpen,
+    Sym.SetOpen,
+    Sym.ListOpen,
+    Sym.TableOpen,
+    Sym.TypeOpen,
+]);
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source extends Expression {
@@ -51,27 +77,42 @@ export default class Source extends Expression {
     /** The spaces preceding each token in the program. */
     readonly spaces: Spaces;
 
+    /** The localized-keyword index used to tokenize this source (from the project's locales), if any.
+     * Carried so reparses/edits keep recognizing typed keyword words; undefined = symbol-only. */
+    readonly keywords: KeywordIndex | undefined;
+
     /** Functions to call when a source's evaluator has an update. */
     readonly observers: Set<() => void> = new Set();
 
     /** An index of token positions in the source file. */
     readonly tokenPositions: Map<Token, number> = new Map();
 
-    /** Lazily-built array where lineStarts[L] is the grapheme position at the
-     * start of line L. Lines are 0-indexed; lineStarts[0] is always 0. Built
-     * once per Source instance from this.code; immutable for the lifetime of
-     * this Source. Used to make position↔(line, column) lookups O(log N) /
-     * O(1) instead of O(N) scans through every token. */
-    private _lineStarts: number[] | undefined = undefined;
-
     /** An index of this tree for analyzing structure */
     readonly root: Root;
+
+    /** Lazily-computed nesting depth of each structural bracket token; see getDelimiterDepths(). */
+    private delimiterDepths: Map<Token, number> | undefined = undefined;
+
+    /** Cache of the navigable blocks-mode caret positions (Caret.getBlockPositions).
+     * That list is a pure function of this immutable Source but is recomputed on
+     * every horizontal blocks-mode arrow press, so Caret stores its result here
+     * once and reuses it for this Source's lifetime. */
+    private blockPositions: (Node | number)[] | undefined = undefined;
+    getCachedBlockPositions(): (Node | number)[] | undefined {
+        return this.blockPositions;
+    }
+    setCachedBlockPositions(positions: (Node | number)[]): void {
+        this.blockPositions = positions;
+    }
 
     constructor(
         names: string | Names,
         code: string | UnicodeString | [Program, Spaces],
+        keywords?: KeywordIndex,
     ) {
         super();
+
+        this.keywords = keywords;
 
         this.names =
             names instanceof Names ? names : parseNames(toTokens(names));
@@ -80,6 +121,7 @@ export default class Source extends Expression {
             // Generate the AST from the provided code.
             const tokens = tokenize(
                 code instanceof UnicodeString ? code.getText() : code,
+                keywords,
             );
             this.tokens = tokens.getTokens();
             this.expression = parseProgram(
@@ -257,15 +299,56 @@ export default class Source extends Expression {
         return undefined;
     }
 
+    /**
+     * Returns the nesting depth of every structural bracket token, counted
+     * independently per delimiter type (outermost of each type is 0), so a
+     * matching open/close pair share a depth and an inner delimiter of a
+     * different type starts its own type's count rather than inheriting an
+     * enclosing type's depth. Computed with a single linear scan over the
+     * tokens, so it degrades gracefully on unmatched brackets, and memoized
+     * since Source is immutable.
+     */
+    getDelimiterDepths(): Map<Token, number> {
+        if (this.delimiterDepths !== undefined) return this.delimiterDepths;
+        const depths = new Map<Token, number>();
+        // The number of currently-open delimiters of each type group.
+        const openCounts = new Map<string, number>();
+        for (const token of this.tokens) {
+            const types = token.getTypes();
+            const group = types
+                .map((type) => StructuralDelimiterGroups.get(type))
+                .find((g) => g !== undefined);
+            if (group === undefined) continue;
+            if (types.some((type) => StructuralOpenDelimiters.has(type))) {
+                const depth = openCounts.get(group) ?? 0;
+                depths.set(token, depth);
+                openCounts.set(group, depth + 1);
+            } else {
+                // Pop first so the close shares its matching open's depth;
+                // clamp at 0 for unmatched closes.
+                const depth = Math.max(0, (openCounts.get(group) ?? 0) - 1);
+                depths.set(token, depth);
+                openCounts.set(group, depth);
+            }
+        }
+        this.delimiterDepths = depths;
+        return depths;
+    }
+
     withName(name: string, locale: LocaleText) {
-        return new Source(this.names.withName(name, locale.language), [
-            this.expression,
-            this.spaces,
-        ]);
+        return new Source(
+            this.names.withName(name, locale.language),
+            [this.expression, this.spaces],
+            this.keywords,
+        );
     }
 
     withSpaces(spaces: Spaces) {
-        return new Source(this.names, [this.expression, spaces]);
+        return new Source(
+            this.names,
+            [this.expression, spaces],
+            this.keywords,
+        );
     }
 
     withPreviousGraphemeReplaced(char: string, position: number) {
@@ -310,8 +393,8 @@ export default class Source extends Expression {
      * dominated by the UI, not by parsing, since programs are small.
      * */
     reparse(newCode: string): Source {
-        // Tokenize the new text
-        const tokenList = tokenize(newCode);
+        // Tokenize the new text with this source's keyword index so typed keyword words keep parsing.
+        const tokenList = tokenize(newCode, this.keywords);
         const newTokens = tokenList.getTokens();
         const newSpaces = tokenList.getSpaces();
 
@@ -450,7 +533,7 @@ export default class Source extends Expression {
         //     console.log(node.getDescriptor() + ' ' + node.toWordplay());
 
         // Otherwise, reparse the program with the reused tokens and return a new source file
-        return new Source(this.names, [newProgram, newSpaces]);
+        return new Source(this.names, [newProgram, newSpaces], this.keywords);
     }
 
     /**
@@ -503,7 +586,11 @@ export default class Source extends Expression {
 
         // Whitespace-only change: keep the existing AST, swap in the new spaces.
         if (differingIndex === -1)
-            return new Source(this.names, [this.expression, newSpaces]);
+            return new Source(
+                this.names,
+                [this.expression, newSpaces],
+                this.keywords,
+            );
 
         // Single-token text change: clone the path from root to the affected
         // token, replacing the old token with the new one. Everything else in
@@ -512,15 +599,15 @@ export default class Source extends Expression {
             this.tokens[differingIndex],
             newTokens[differingIndex],
         );
-        return new Source(this.names, [newProgram, newSpaces]);
+        return new Source(this.names, [newProgram, newSpaces], this.keywords);
     }
 
     withCode(code: string) {
-        return new Source(this.names, new UnicodeString(code));
+        return new Source(this.names, new UnicodeString(code), this.keywords);
     }
 
     withProgram(program: Program, spaces: Spaces) {
-        return new Source(this.names, [program, spaces]);
+        return new Source(this.names, [program, spaces], this.keywords);
     }
 
     clone(replace?: Replacement) {
@@ -531,13 +618,17 @@ export default class Source extends Expression {
             (replace.replacement instanceof Node ||
                 replace.replacement === undefined)
         ) {
-            const newSource = new Source(this.names, [
-                this.replaceChild('expression', this.expression, replace),
-                this.spaces.withReplacement(
-                    replace.original,
-                    replace.replacement,
-                ),
-            ]);
+            const newSource = new Source(
+                this.names,
+                [
+                    this.replaceChild('expression', this.expression, replace),
+                    this.spaces.withReplacement(
+                        replace.original,
+                        replace.replacement,
+                    ),
+                ],
+                this.keywords,
+            );
 
             // Pretty print the replaced node, if there is one.
             return (
@@ -551,10 +642,11 @@ export default class Source extends Expression {
                     : newSource
             ) as this;
         } else
-            return new Source(this.names, [
-                this.expression,
-                this.spaces,
-            ]) as this;
+            return new Source(
+                this.names,
+                [this.expression, this.spaces],
+                this.keywords,
+            ) as this;
     }
 
     getTokenTextPosition(token: Token): number | undefined {
@@ -737,73 +829,6 @@ export default class Source extends Expression {
         return undefined;
     }
 
-    /** Build/return the lazy line-start index — one O(N) grapheme walk of
-     * this.code, amortized to O(1) per subsequent call for the lifetime of
-     * this Source. Replaces the per-call O(N) token walks that
-     * getRenderedLineAndColumnFromPhysicalPosition and
-     * getPhysicalPositionFromLineAndColumn used to do via scanLines. */
-    private getLineStarts(): number[] {
-        if (this._lineStarts === undefined) {
-            const graphemes = this.code.getGraphemes();
-            const starts = [0];
-            for (let i = 0; i < graphemes.length; i++)
-                if (graphemes[i] === '\n') starts.push(i + 1);
-            this._lineStarts = starts;
-        }
-        return this._lineStarts;
-    }
-
-    /** Just the line for a physical position, no column — O(log N) binary
-     * search on the cached lineStarts. Use this in preference to
-     * getRenderedLineAndColumnFromPhysicalPosition when the caller (e.g.
-     * Caret.moveVertical) only needs the line, since the line+column
-     * variant additionally builds and discards a substring representing
-     * "everything on this line up to position". */
-    getLineFromPhysicalPosition(position: number): number | undefined {
-        const len = this.code.getLength();
-        if (position < 0 || position > len) return undefined;
-        const lineStarts = this.getLineStarts();
-        // Largest index whose lineStarts value is <= position.
-        let lo = 0;
-        let hi = lineStarts.length - 1;
-        while (lo < hi) {
-            const mid = (lo + hi + 1) >>> 1;
-            if (lineStarts[mid] <= position) lo = mid;
-            else hi = mid - 1;
-        }
-        return lo;
-    }
-
-    getRenderedLineAndColumnFromPhysicalPosition(
-        position: number,
-    ): [number, number] | undefined {
-        const line = this.getLineFromPhysicalPosition(position);
-        if (line === undefined) return undefined;
-        return [line, position - this.getLineStarts()[line]];
-    }
-
-    getColumn(position: number) {
-        const match =
-            this.getRenderedLineAndColumnFromPhysicalPosition(position);
-        return match ? match[1] : undefined;
-    }
-
-    getPhysicalPositionFromLineAndColumn(
-        preferredLine: number,
-        preferredColumn: number,
-    ): number | undefined {
-        const lineStarts = this.getLineStarts();
-        if (preferredLine < 0 || preferredLine >= lineStarts.length)
-            return undefined;
-        const lineStart = lineStarts[preferredLine];
-        const lineEnd =
-            preferredLine + 1 < lineStarts.length
-                ? // -1 for the '\n' that separates this line from the next.
-                  lineStarts[preferredLine + 1] - 1
-                : this.code.getLength();
-        return lineStart + Math.min(preferredColumn, lineEnd - lineStart);
-    }
-
     getTokenAt(position: number, includingWhitespace = true) {
         // This could be faster with binary search, but let's not prematurely optimize.
         for (const [token, index] of this.tokenPositions) {
@@ -867,7 +892,9 @@ export default class Source extends Expression {
 
     getTokenBeforeNode(node: Node): Token | undefined {
         let found = false;
-        for (const next of this.nodes().reverse()) {
+        // Copy before reversing: nodes() now returns a cached array, and
+        // reverse() mutates in place, which would corrupt the cache.
+        for (const next of [...this.nodes()].reverse()) {
             if (found && next instanceof Token) return next;
             if (next === node) found = true;
         }

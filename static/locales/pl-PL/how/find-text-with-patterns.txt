@@ -1,0 +1,24 @@
+Znajdź i sprawdź tekst za pomocą wzorców
+
+Wzór opisuje kształt tekstu, dzięki czemu możesz sprawdzić, czy tekst pasuje do kształtu, lub wyszukać wszystkie miejsca, w których się pojawia. Wzory znajdują się wewnątrz \⣿⣿\ i czytaj od lewej do prawej, jeden utwór na raz. \_\ jest listem, \#\ jest cyfrą, \␣\ jest spacją i cytowanym tekstem, takim jak \"-"\ pasuje dokładnie.
+
+Aby sprawdzić, czy cały fragment tekstu pasuje do wzorca, użyj \≈\, co daje ci \?\:
+
+\'555-1234' ≈ ⣿ 3 # "-" 4 #⣿\
+
+To pytanie brzmi: „trzy cyfry, myślnik, a potem cztery cyfry?” — a odpowiedź brzmi: \⊤\.
+
+Liczenie poprzedza rzecz, którą powtarza: \3
+#\ oznacza trzy cyfry. Możesz również powiedzieć \>0
+#\ (jeden lub więcej), \≥0
+#\ (zero lub więcej), \≤1
+#\ (opcjonalnie) lub zakres taki jak \2–4
+#\.
+
+Aby znaleźć każde miejsce, w którym pojawia się wzór, użyj \⌕\, który daje Ci listę  @Structure  wyniki. Podaj nazwę utworu \name: (…)\ aby to uchwycić:
+
+\'urodzony 2026-06-15' ⌕ ⣿ y: (4 #) "-" m: (2 #) "-" d: (2 #)⣿\
+
+Każdy wynik informuje Cię o dopasowaniu \text\, gdzie to jest \start\s i \end\s i schwytany \groups\ - Tutaj \y\, \m\, I \d\Ponieważ wzorce dopasowują się poprzez grafem, działają tak samo w każdym języku i piśmie.
+
+mix-languages-in-text

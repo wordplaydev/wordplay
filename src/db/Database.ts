@@ -317,6 +317,21 @@ export class Database {
         }, Database.BANNER_TIMEOUT_MS);
     }
 
+    /** Surface an automatic (non-user-action) load failure as a banner. When the
+     *  cause is a connectivity problem (backend unreachable, offline, our own
+     *  read/write timeout) show the "can't reach the database" message; otherwise
+     *  the generic "couldn't load that". Centralizes the branch shared by every
+     *  background-load call site so a failed read on page load doesn't imply the
+     *  user tried to load something. */
+    reportLoadFailure(error: unknown) {
+        this.reportBanner(
+            this.isConnectivityError(error)
+                ? (l) => l.ui.connection.unreachable
+                : (l) => l.ui.banner.loadFailed,
+            error,
+        );
+    }
+
     /** Ask the browser to make this origin's storage persistent, so it's exempt
      *  from automatic eviction under disk pressure (best-effort → persistent).
      *  Idempotent and browser-only: no-ops on the server, when the API is
@@ -916,7 +931,9 @@ export const animationDuration = derived(
     animationFactor,
     (factor) => factor * 200,
 );
-export const tutorialProgress = Settings.settings.tutorial.value;
+export const tutorialState = Settings.settings.tutorial.value;
+export const tutorialMode = derived(tutorialState, (state) => state.mode);
+export const contrastLanguage = Settings.settings.contrastLanguage.value;
 export const arrangement = Settings.settings.arrangement.value;
 export const locales = DB.Locales.locales;
 export const localesReady = DB.Locales.localesReady;
@@ -924,12 +941,29 @@ export const writingLayout = Settings.settings.writingLayout.value;
 export const camera = Settings.settings.camera.value;
 export const dark = Settings.settings.dark.value;
 export const spaceIndicator = Settings.settings.space.value;
+export const insertTab = Settings.settings.tab.value;
 export const showLines = Settings.settings.lines.value;
-export const showAnnotations = Settings.settings.annotations.value;
-export const annotationsWidth = Settings.settings.annotationsWidth.value;
+export const wrap = Settings.settings.wrap.value;
+export const showAnnotations = derived(
+    Settings.settings.annotations.value,
+    ($a) => $a.shown,
+);
+export const annotationsWidth = derived(
+    Settings.settings.annotations.value,
+    ($a) => $a.width,
+);
+export const showWellspring = derived(
+    Settings.settings.wellspring.value,
+    ($w) => $w.shown,
+);
+export const wellspringWidth = derived(
+    Settings.settings.wellspring.value,
+    ($w) => $w.width,
+);
 export const mic = Settings.settings.mic.value;
 export const voice = Settings.settings.say.value;
 export const blocks = Settings.settings.blocks.value;
+export const words = Settings.settings.words.value;
 export const blockDensity = Settings.settings.blockDensity.value;
 export const howToNotifications = Settings.settings.howToNotifications.value;
 export const status = DB.Status;

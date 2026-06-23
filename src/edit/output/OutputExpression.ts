@@ -2,6 +2,8 @@ import Bind from '@nodes/Bind';
 import Expression from '@nodes/Expression';
 import Input from '@nodes/Input';
 import Literal from '@nodes/Literal';
+import Reference from '@nodes/Reference';
+import StreamDefinition from '@nodes/StreamDefinition';
 import StructureDefinition from '@nodes/StructureDefinition';
 import NumberValue from '@values/NumberValue';
 import TextValue from '@values/TextValue';
@@ -26,6 +28,9 @@ export type OutputPropertyValue = {
     expression: Expression | undefined;
     given: boolean;
     value: Value | undefined;
+    /** When the value came through a reference chain to an upstream literal/value, the leaf
+     * node to replace directly when editing. Undefined for direct literals/defaults. */
+    resolved: Expression | undefined;
 };
 
 /**
@@ -104,9 +109,18 @@ export default class OutputExpression {
      * If there is no property by this name, return undefined.
      */
     getPropertyValue(name: string): OutputPropertyValue | undefined {
-        // What type is this evaluate creating?
-        const type = this.getType();
-        if (type === undefined) return undefined;
+        // Only read inputs of an Evaluate of a structure or stream (e.g. an output type, but
+        // also nested types like Matter, Rectangle, Placement, or an Arrangement that the
+        // palette's nested editors edit). Not the output-type allowlist of getType().
+        const context = this.project.getNodeContext(this.node);
+        const fun = this.node.getFunction(context);
+        if (
+            !(
+                fun instanceof StructureDefinition ||
+                fun instanceof StreamDefinition
+            )
+        )
+            return undefined;
 
         // What binding does this name refer to?
         const binding = this.node
@@ -117,7 +131,7 @@ export default class OutputExpression {
         if (binding === undefined) return undefined;
 
         // If the binding is mapped to a default value, get its value if a literal or its expression if not
-        const expression =
+        const input =
             binding.given === undefined
                 ? binding.expected.value
                 : binding.given instanceof Input
@@ -125,8 +139,15 @@ export default class OutputExpression {
                   : binding.given;
 
         // If the possible value is a list of expressions or undefined, bail.
-        if (expression === undefined || Array.isArray(expression))
-            return undefined;
+        if (input === undefined || Array.isArray(input)) return undefined;
+
+        // If the value is a reference (chain) to an upstream literal/value, resolve to that
+        // leaf so it can be read and edited; otherwise use the input directly.
+        const leaf =
+            input instanceof Reference
+                ? input.resolveToLeaf(this.project.getNodeContext(input))
+                : undefined;
+        const expression = leaf ?? input;
 
         return {
             evaluate: this.node,
@@ -138,6 +159,8 @@ export default class OutputExpression {
                 expression instanceof Literal
                     ? expression.getValue(this.locales.getLocales())
                     : undefined,
+            // Edits target the resolved leaf only when we actually followed a reference.
+            resolved: leaf,
         };
     }
 

@@ -5,26 +5,63 @@
     import Loading from '@components/app/Loading.svelte';
     import Page from '@components/app/Page.svelte';
     import TutorialView from '@components/app/TutorialView.svelte';
+    import TutorialChooser from '@components/app/TutorialChooser.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { untrack } from 'svelte';
-    import Header from '@components/app/Header.svelte';
+    import { onMount, untrack } from 'svelte';
+    import { fade } from 'svelte/transition';
+    import PageHeader from '@components/app/PageHeader.svelte';
     import Link from '@components/app/Link.svelte';
     import Writing from '@components/app/Writing.svelte';
     import Speech from '@components/lore/Speech.svelte';
-    import { Locales, Settings, locales, tutorialProgress } from '@db/Database';
+    import {
+        Locales,
+        Settings,
+        locales,
+        tutorialState,
+        tutorialMode,
+        animationDuration,
+    } from '@db/Database';
+    import { DefaultProgress } from '@db/settings/TutorialProgressSetting';
     import { HOME_SYMBOL } from '@parser/Symbols';
     import Characters from '../../../lore/BasisCharacters';
     import Progress from '../../../tutorial/Progress';
     import type Tutorial from '../../../tutorial/Tutorial';
+    import {
+        DEFAULT_TUTORIAL_MODE,
+        parseTutorialMode,
+        type TutorialMode,
+    } from '../../../tutorial/TutorialMode';
+
+    // Don't decide what to render until settings have loaded on the client. Settings load
+    // synchronously from localStorage in the browser, but SSR/first paint sees defaults, so
+    // gating on this avoids flashing the chooser before the saved mode/progress are known.
+    let ready = $state(false);
+    onMount(() => (ready = true));
+
+    // The active mode: an explicit ?tutorial= parameter wins, otherwise the saved choice.
+    // When both are absent it's null, which shows the choice dialog.
+    let mode = $derived(
+        parseTutorialMode(page.url.searchParams.get('tutorial')) ??
+            $tutorialMode,
+    );
+
+    // The saved progress for the active mode (each mode remembers its own place).
+    let saved = $derived(
+        (mode ? $tutorialState.progress[mode] : undefined) ?? DefaultProgress,
+    );
 
     let tutorial: Tutorial | undefined | null = $state(undefined);
 
-    /** Load the tutorial when locales change. */
+    // Set progress if URL indicates one.
+    let initial: Progress | undefined = $state(undefined);
+
+    /** Load the tutorial when locales or mode change. */
     $effect(() => {
-        if (browser && $locales) {
+        if (browser && $locales && mode) {
             Locales.getTutorial(
                 $locales.getLocale().language,
                 $locales.getLocale().regions,
+                mode,
             ).then((t) => {
                 tutorial = t;
                 if (initial && tutorial) {
@@ -34,6 +71,7 @@
                             initial.act,
                             initial.scene,
                             initial.pause,
+                            mode,
                         ),
                     );
                 }
@@ -41,20 +79,20 @@
         }
     });
 
-    // If hot module reloading, and there's a locale update, refresh the tutorial.
+    // If hot module reloading, and there's a locale update, refresh the tutorial. Pass refresh=true
+    // to bypass the tutorial cache so edits to the tutorial JSON show up on save.
     if (import.meta.hot) {
         import.meta.hot.on('locales-update', async () => {
             tutorial = await Locales.getTutorial(
                 $locales.getLocale().language,
                 $locales.getLocale().regions,
+                mode ?? DEFAULT_TUTORIAL_MODE,
+                true,
             );
         });
     }
 
-    // Set progress if URL indicates one.
-    let initial: Progress | undefined = $state(undefined);
-
-    // Save tutorial projects with projects or tutorial changes.
+    // Save tutorial progress with tutorial changes.
     $effect(() => {
         if (tutorial) {
             // Untrack, as we only want to be dependent on tutorial changes, not page or initial changes.
@@ -75,15 +113,33 @@
         // After navigation, update the tutorial progress.
         Settings.setTutorialProgress(newProgress);
     }
+
+    /** Persist the chosen mode and navigate so the page reactively loads the right tutorial. */
+    function choose(chosen: TutorialMode) {
+        Settings.setTutorialMode(chosen);
+        // The default mode keeps the canonical /learn URL; others carry the mode parameter.
+        goto(
+            chosen === DEFAULT_TUTORIAL_MODE
+                ? '/learn'
+                : `/learn?tutorial=${chosen}`,
+            { keepFocus: true },
+        );
+    }
 </script>
 
-{#if tutorial === undefined}
+{#if !ready}
+    <Loading />
+{:else if mode === null}
     <Page>
-        <Loading />
+        <TutorialChooser onChoose={choose} onGuide={() => goto('/guide')} />
     </Page>
+{:else if tutorial === undefined}
+    <div class="fading" out:fade={{ duration: $animationDuration }}>
+        <Loading />
+    </div>
 {:else if tutorial === null}
     <Writing>
-        <Header>:(</Header>
+        <PageHeader>{#snippet title()}:({/snippet}</PageHeader>
         <Speech character={Characters.FunctionDefinition}
             >{#snippet content()}
                 <MarkupHTMLView markup={(l) => l.ui.page.learn.error} />
@@ -92,19 +148,31 @@
         ></Writing
     >
 {:else}
-    <Page>
-        <TutorialView
-            progress={initial ??
-                new Progress(
-                    tutorial,
-                    $tutorialProgress.act,
-                    $tutorialProgress.scene,
-                    $tutorialProgress.line,
-                )}
-            {navigate}
-            fallback={$locales
-                .getLanguages()
-                .some((lang) => tutorial?.language === lang) === false}
-        />
-    </Page>
+    <div class="fading" in:fade={{ duration: $animationDuration }}>
+        <Page>
+            <TutorialView
+                progress={initial && initial.mode === mode
+                    ? initial
+                    : new Progress(
+                          tutorial,
+                          saved.act,
+                          saved.scene,
+                          saved.line,
+                          mode,
+                      )}
+                {navigate}
+                fallback={$locales
+                    .getLanguages()
+                    .some((lang) => tutorial?.language === lang) === false}
+            />
+        </Page>
+    </div>
 {/if}
+
+<style>
+    /* Fill the page so the loading/tutorial crossfade overlaps in place. */
+    .fading {
+        position: absolute;
+        inset: 0;
+    }
+</style>

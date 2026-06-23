@@ -3,8 +3,9 @@
 </script>
 
 <script lang="ts">
-    import { locales } from '@db/Database';
+    import { locales, animationDuration } from '@db/Database';
     import { type Snippet } from 'svelte';
+    import { slide } from 'svelte/transition';
     import Concept from '@concepts/Concept';
     import type BasisCharacter from '../../lore/BasisCharacter';
     import { Emotion } from '../../lore/Emotion';
@@ -30,8 +31,13 @@
         emote?: boolean;
         /** Optionally double size of text */
         big?: boolean;
+        /** Whether to render the speech bubble. When false, only the character
+         *  (and optional aside) show — useful for a collapsed view whose
+         *  character must be identical to the expanded one. Toggling this
+         *  animates the bubble in/out. */
+        bubble?: boolean;
         aside?: Snippet;
-        content: Snippet;
+        content?: Snippet;
     }
 
     let {
@@ -44,6 +50,7 @@
         emotion = undefined,
         emote = true,
         big = false,
+        bubble = true,
         aside,
         content,
     }: Props = $props();
@@ -97,23 +104,26 @@
             <Eyes {invert} emotion={emotion ?? Emotion.neutral} />
         </div>{@render aside?.()}
     </div>
-    <div
-        class="message {below
-            ? flip
-                ? 'below flip'
-                : 'below'
-            : flip
-              ? 'flip'
-              : 'reading'} {typeof document !== 'undefined'
-            ? document.documentElement.dir
-            : 'ltr'}"
-    >
-        {#if scroll}
-            <div class="scroller">{@render content()}</div>
-        {:else}
-            {@render content()}
-        {/if}
-    </div>
+    {#if bubble && content}
+        <div
+            class="message {below
+                ? flip
+                    ? 'below flip'
+                    : 'below'
+                : flip
+                  ? 'flip'
+                  : 'reading'} {typeof document !== 'undefined'
+                ? document.documentElement.dir
+                : 'ltr'}"
+            transition:slide|local={{ duration: $animationDuration }}
+        >
+            {#if scroll}
+                <div class="scroller">{@render content()}</div>
+            {:else}
+                {@render content()}
+            {/if}
+        </div>
+    {/if}
 </div>
 
 <style>

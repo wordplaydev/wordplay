@@ -4,6 +4,7 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type Project from '@db/projects/Project';
     import type OutputProperty from '@edit/output/OutputProperty';
+    import OutputPropertyNumber from '@edit/output/OutputPropertyNumber';
     import OutputPropertyOptions from '@edit/output/OutputPropertyOptions';
     import OutputPropertyRange from '@edit/output/OutputPropertyRange';
     import OutputPropertyText from '@edit/output/OutputPropertyText';
@@ -20,9 +21,10 @@
     import { getConceptIndex } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
     import Note from '@components/widgets/Note.svelte';
-    import AuraEditor from '@components/palette/AuraEditor.svelte';
+    import ArrangementEditor from '@components/palette/ArrangementEditor.svelte';
     import BindCheckbox from '@components/palette/BindCheckbox.svelte';
     import BindColor from '@components/palette/BindColor.svelte';
+    import BindNumberField from '@components/palette/BindNumberField.svelte';
     import BindOptions from '@components/palette/BindOptions.svelte';
     import BindSlider from '@components/palette/BindSlider.svelte';
     import BindText from '@components/palette/BindText.svelte';
@@ -34,15 +36,24 @@
     import PoseEditor from '@components/palette/PoseEditor.svelte';
     import SequenceEditor from '@components/palette/SequenceEditor.svelte';
     import SequencePosesEditor from '@components/palette/SequencePosesEditor.svelte';
+    import StructureEditor from '@components/palette/StructureEditor.svelte';
 
     interface Props {
         project: Project;
         property: OutputProperty;
         values: OutputPropertyValueSet;
         editable: boolean;
+        /** True when the code caret is inside this property's input. */
+        highlighted?: boolean;
     }
 
-    let { project, property, values, editable }: Props = $props();
+    let {
+        project,
+        property,
+        values,
+        editable,
+        highlighted = false,
+    }: Props = $props();
 
     let indexContext = getConceptIndex();
     let index = $derived(indexContext?.index);
@@ -64,7 +75,7 @@
     }
 </script>
 
-<NamedControl>
+<NamedControl {highlighted}>
     {#snippet name()}
         {#if bindConcept}<small
                 ><ConceptLinkUI
@@ -91,7 +102,7 @@
             <Note id={propertyID}
                 ><LocalizedText path={(l) => l.ui.palette.labels.mixed} /></Note
             >
-        {:else if !values.areSet()}
+        {:else if !values.areSet() && !property.inline}
             {@const expression = values.getExpression()}
             <!-- If the values arent set, show as inherited if inherited, and otherwise show the default -->
             <Note id={propertyID}
@@ -120,6 +131,14 @@
                 {property}
                 {values}
                 range={property.type}
+                {editable}
+            />
+        {:else if property.type instanceof OutputPropertyNumber}
+            <BindNumberField
+                id={propertyID}
+                {property}
+                {values}
+                number={property.type}
                 {editable}
             />
         {:else if property.type instanceof OutputPropertyOptions}
@@ -166,8 +185,6 @@
                     {editable}
                 />
             {/if}
-        {:else if property.type === 'aura'}
-            <AuraEditor {project} {property} {values} {editable} />
         {:else if property.type == 'poses'}
             <SequencePosesEditor
                 id={propertyID}
@@ -176,11 +193,15 @@
                 {editable}
             />
         {:else if property.type === 'content'}
+            {@const allowShape = values.outputs.every(
+                (o) => o.getType() === project.shares.output.Stage,
+            )}
             <ContentEditor
                 id={propertyID}
                 {project}
                 list={values.getList()}
                 {editable}
+                {allowShape}
             />
         {:else if property.type === 'place'}
             {@const place = values.getEvaluationOf(
@@ -210,6 +231,18 @@
                     id={propertyID}
                     {project}
                     {placement}
+                    {editable}
+                />
+            {/if}
+        {:else if property.type === 'arrangement'}
+            <ArrangementEditor id={propertyID} {project} {values} {editable} />
+        {:else if property.type === 'structure'}
+            {@const expression = values.getExpression()}
+            {#if expression instanceof Evaluate}
+                <StructureEditor
+                    id={propertyID}
+                    {project}
+                    {values}
                     {editable}
                 />
             {/if}

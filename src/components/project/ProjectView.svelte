@@ -8,10 +8,10 @@
     import { goto } from '$app/navigation';
     import { page } from '$app/state';
     import Annotations from '@components/annotations/Annotations.svelte';
+    import Wellspring from '@components/wellspring/Wellspring.svelte';
     import CollaborateView from '@components/app/chat/CollaborateView.svelte';
     import Emoji from '@components/app/Emoji.svelte';
     import { extractPreview } from '@components/app/extractPreview';
-    import { getLocalizedProjectName } from '@db/projects/getLocalizedProjectName';
     import Documentation, {
         Modes,
     } from '@components/concepts/Documentation.svelte';
@@ -46,7 +46,6 @@
         setQueryInURL,
     } from '@concepts/ConceptParams';
     import { Purpose } from '@concepts/Purpose';
-    import { debounced } from '@util/debounce.svelte';
     import type Conflict from '@conflicts/Conflict';
     import type Chat from '@db/chats/ChatDatabase.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
@@ -65,6 +64,7 @@
         Projects,
         Settings,
     } from '@db/Database';
+    import { getLocalizedProjectName } from '@db/projects/getLocalizedProjectName';
     import type Project from '@db/projects/Project';
     import Arrangement, {
         isResizeable,
@@ -83,6 +83,7 @@
     } from '@parser/Symbols';
     import { isName } from '@parser/Tokenizer';
     import Evaluator from '@runtime/Evaluator';
+    import { debounced } from '@util/debounce.svelte';
     import type Value from '@values/Value';
     import { onDestroy, onMount, tick, untrack } from 'svelte';
     import { writable, type Writable } from 'svelte/store';
@@ -92,13 +93,25 @@
         PROJECT_PARAM_PLAY,
     } from '../../routes/[[locale]]/project/constants';
 
+    import {
+        currentConcept,
+        remapConcepts,
+        sameHistory,
+        type GuidePlace,
+    } from '@components/concepts/GuideHistory';
     import Toolbar from '@components/editor/commands/Toolbar.svelte';
-    import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
     import Editor from '@components/editor/Editor.svelte';
     import type { HighlightSpec } from '@components/editor/highlights/Highlights';
     import getOutlineOf, {
         getUnderlineOf,
     } from '@components/editor/highlights/outline';
+    import RemoteCarets from '@components/editor/RemoteCarets.svelte';
+    import EditorNotice from '@components/editor/EditorNotice.svelte';
+    import ClipboardNotice from '@components/editor/ClipboardNotice.svelte';
+    import {
+        ClipboardContents,
+        clearInternalClipboard,
+    } from '@components/editor/commands/InternalClipboard';
     import Timeline from '@components/evaluator/Timeline.svelte';
     import OutputView from '@components/output/OutputView.svelte';
     import type PaintingConfiguration from '@components/output/PaintingConfiguration';
@@ -113,22 +126,19 @@
         setConflicts,
         setDragged,
         setEditors,
+        setEmphasizedConflict,
         setEvaluation,
         setKeyboardEditIdle,
         setKeyboardModifiers,
         setProjectCommandContext,
         setResetKeyboardIdle,
+        setRevealPalette,
         setSelectedOutput,
         type ConceptPath,
         type EditorState,
+        type EmphasizedConflict,
         type KeyModifierState,
     } from '@components/project/Contexts';
-    import {
-        currentConcept,
-        remapConcepts,
-        sameHistory,
-        type GuidePlace,
-    } from '@components/concepts/GuideHistory';
     import CopyButton from '@components/project/CopyButton.svelte';
     import Layout from '@components/project/Layout';
     import Moderation from '@components/project/Moderation.svelte';
@@ -145,6 +155,7 @@
     import Button from '@components/widgets/Button.svelte';
     import CommandButton from '@components/widgets/CommandButton.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
+    import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
     import Switch from '@components/widgets/Switch.svelte';
     import Toggle from '@components/widgets/Toggle.svelte';
     import type Gallery from '@db/galleries/Gallery';
@@ -156,8 +167,11 @@
         AnimationIcon,
     } from '@db/settings/AnimationFactorSetting';
     import type MenuInfo from '@edit/menu/Menu';
-    import type { LocaleTextAccessor } from '@locale/Locales';
-    import RemoteCarets from '@components/editor/RemoteCarets.svelte';
+    import type {
+        EditorNotification,
+        EditorNotifier,
+    } from '@components/editor/EditorNotification';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
 
     interface Props {
         project: Project;
@@ -167,6 +181,9 @@
         editable?: boolean;
         /** If true, only the output is shown in the initial layout. */
         showOutput?: boolean;
+        /** Force the editor's annotation panel expanded (true) or collapsed (false); undefined uses
+         * the creator's global annotation setting. Used by the tutorial to show or hide conflicts. */
+        annotationsExpanded?: boolean | undefined;
         /** True if the output should be fit to content */
         fit?: boolean;
         /** True if the project should focus the main editor source on mount */
@@ -192,6 +209,7 @@
         original = undefined,
         editable = true,
         showOutput = false,
+        annotationsExpanded = undefined,
         fit = true,
         autofocus = true,
         guide = true,
@@ -202,6 +220,13 @@
         persistLayout = true,
         isCommenter = false,
     }: Props = $props();
+
+    /** When the parent supplies an initial annotations-expanded state (e.g. the tutorial expands the
+     * panel for a step with expected conflicts), seed a local, user-toggleable state from it — so it
+     * sets the *initial* state rather than forcing the panel open or closed permanently. Left
+     * undefined when the parent doesn't supply one, so Annotations falls back to the global setting.
+     * Re-seeds whenever the parent recreates this view (e.g. the tutorial keys on the project). */
+    let localAnnotationsExpanded = $state(annotationsExpanded);
 
     /** The raw user-chosen animation factor (number or null for "auto"); used
      * by the animation-speed picker so it reflects the actual choice rather
@@ -214,16 +239,30 @@
     // The conflicts of interest in each editor, used to generate annotations.
     let conflictsOfInterest = $state<Map<Source, Conflict[]>>(new Map());
 
-    /** Per-editor large deletion notifications */
-    let largeDeletionNotifications = $state<
-        Map<string, LocaleTextAccessor | null>
-    >(new Map());
+    /** Per-editor footer notifications (large deletions, drag feedback, etc.), stacked when multiple are active. */
+    let editorNotifications = $state<Map<string, EditorNotification[]>>(
+        new Map(),
+    );
 
-    /** Function to set large deletion notification for a specific editor */
-    function setLargeDeletionNotification(sourceID: string) {
-        return (message: LocaleTextAccessor | null) => {
-            largeDeletionNotifications.set(sourceID, message);
-            largeDeletionNotifications = new Map(largeDeletionNotifications);
+    /** A controller a given editor uses to add and remove its footer notifications. */
+    function getEditorNotifier(sourceID: string): EditorNotifier {
+        const update = (
+            fn: (list: EditorNotification[]) => EditorNotification[],
+        ) => {
+            editorNotifications.set(
+                sourceID,
+                fn(editorNotifications.get(sourceID) ?? []),
+            );
+            editorNotifications = new Map(editorNotifications);
+        };
+        return {
+            set: (notification) =>
+                update((list) => [
+                    ...list.filter((n) => n.id !== notification.id),
+                    notification,
+                ]),
+            clear: (id) => update((list) => list.filter((n) => n.id !== id)),
+            clearAll: () => update(() => []),
         };
     }
 
@@ -629,6 +668,12 @@
     /** A store for tracking editor state for all Sources */
     const editors = writable(new Map<string, EditorState>());
     setEditors(editors);
+
+    /** The conflict currently emphasized via the editor↔sidebar attention link. */
+    const emphasizedConflict = writable<EmphasizedConflict | undefined>(
+        undefined,
+    );
+    setEmphasizedConflict(emphasizedConflict);
 
     /** The currently focused editor state */
     const focusedEditorState = $derived(
@@ -1048,6 +1093,8 @@
                 break;
             }
         }
+        // Selection no longer auto-opens the palette, so open it explicitly for the tour.
+        revealPalette();
         openTour = 'palette';
     }
 
@@ -1169,6 +1216,13 @@
         // source for StructureDefinition/FunctionDefinition/Bind concepts
         // is expensive and the result would be discarded on the next key.
         const notTyping = $keyboardEditIdle !== IdleKind.Typing;
+        // Also skip the rebuild during an on-stage drag (move/rotate/resize) or
+        // a palette gesture (color/number slider drag, color picker, focused
+        // number/text field). Read both flags in the tracked outer scope so
+        // ending the gesture (interacting/adjusting → false) re-fires this
+        // effect and rebuilds once against the final project.
+        const notInteracting =
+            !selectedOutput.interacting && !selectedOutput.adjusting;
         const currentProject = project;
 
         // Wrap the rebuild logic in untrack() so that reads and writes of
@@ -1177,7 +1231,9 @@
         untrack(() => {
             if (
                 index === undefined ||
-                (notTyping && latestProject !== currentProject) ||
+                (notTyping &&
+                    notInteracting &&
+                    latestProject !== currentProject) ||
                 resolvedHowTos !== latestHowTos ||
                 currentGalleryHowTos !== latestGalleryHowTos
             ) {
@@ -1314,6 +1370,14 @@
         // $keyboardEditIdle leaves Typing, at which point we'll catch up.
         if ($keyboardEditIdle === IdleKind.Typing) return;
 
+        // Likewise skip during an on-stage drag (move/rotate/resize) or a
+        // palette gesture (color/number slider drag, color picker, focused
+        // number/text field) — re-analyzing every frame or keystroke is the
+        // same wasted cost. The effect below tracks both flags, so ending the
+        // gesture (interacting/adjusting → false) re-fires this and analyzes
+        // once against the final project.
+        if (selectedOutput.interacting || selectedOutput.adjusting) return;
+
         // Analyzed? Update the conflicts immediately.
         if (project.analyzed === 'analyzed') {
             conflicts.set(project.getConflicts());
@@ -1337,6 +1401,10 @@
         // pauses.
         project;
         $keyboardEditIdle;
+        // Tracked so ending an on-stage drag or palette gesture
+        // (interacting/adjusting → false) re-runs analysis once.
+        selectedOutput.interacting;
+        selectedOutput.adjusting;
         updateConflicts();
         return () => {
             if (updateTimer) clearTimeout(updateTimer);
@@ -1358,27 +1426,16 @@
         }
     });
 
-    /** Clear output selection when evaluation resumes, so stale handles don't linger. */
-    $effect(() => {
-        if ($evaluation.playing === true) {
-            selectedOutput.empty();
-            // Close the palette when playing resumes, since content can't be edited while playing.
-            const palette = untrack(() => layout).getPalette();
-            if (palette && palette.mode === TileMode.Expanded)
-                untrack(() => setMode(palette, TileMode.Collapsed));
-        }
-    });
-
-    /** When output selection changes, make the palette visible. */
-    $effect(() => {
-        const palette = untrack(() => layout).getPalette();
-        if (palette) {
-            if (!selectedOutput.isEmpty()) {
-                if (palette.mode === TileMode.Collapsed)
-                    untrack(() => setMode(palette, TileMode.Expanded));
-            }
-        }
-    });
+    /** Reveal the palette tile on demand. Selection changes deliberately do NOT call this — the
+     *  palette follows the selection only while it's already open, so dragging or selecting the
+     *  stage no longer makes the tile pop in. A stage output invokes this (via context) on a
+     *  double-click or Enter to explicitly open the palette for the selected content. */
+    function revealPalette() {
+        const palette = layout.getPalette();
+        if (palette && palette.mode === TileMode.Collapsed)
+            setMode(palette, TileMode.Expanded);
+    }
+    setRevealPalette(revealPalette);
 
     /** When the canvas size changes, resize the layout */
     $effect(() => {
@@ -1541,6 +1598,10 @@
         focusOrCycleTile,
         resetInputs,
         toggleBlocks,
+        foldAll: focusedEditorState?.foldAll,
+        unfoldAll: focusedEditorState?.unfoldAll,
+        canFoldAll: focusedEditorState?.canFoldAll,
+        canUnfoldAll: focusedEditorState?.canUnfoldAll,
         blocks: $blocks,
         view: undefined,
         help: () => (showHelpDialog = !showHelpDialog),
@@ -1719,13 +1780,11 @@
 
     /** Update the mode and move the tile last to bring it to the front. */
     function setMode(tile: Tile, mode: TileMode) {
-        // Special case selected output and the palette, removing the selection of collapsing.
+        // Special case selected output and the palette, removing the selection on collapse.
+        // The palette may stay open while the program plays, so opening it no longer pauses.
         if (tile === layout.getPalette()) {
             if (tile.mode === TileMode.Expanded)
                 selectedOutput.setPaths(project, [], 'editor');
-            // Pause the evaluator when the palette opens, so content can be edited.
-            if (mode === TileMode.Expanded && $evaluator.isPlaying())
-                $evaluator.pause();
         }
 
         layout = layout
@@ -1904,6 +1963,23 @@
 
         if (dragged !== undefined && event.key === 'Escape')
             dragged = undefined;
+
+        // Let native form controls (a <select> dropdown, range sliders, text fields) and
+        // editable regions handle their own keys, so editor commands don't consume e.g.
+        // arrow-key option navigation in a dropdown. Only defer UNMODIFIED keys — the ones
+        // those controls use (arrows, typing, Enter); command shortcuts like ⌘S still run,
+        // so they aren't swallowed by a focused control that ignores them. Use closest() so
+        // a focused <option> (whose event target is the option, not the <select>) is
+        // covered. The code editor handles its own keys via its local handler.
+        const target = event.target;
+        if (
+            !event.metaKey &&
+            !event.ctrlKey &&
+            target instanceof HTMLElement &&
+            (target.closest('select, input, textarea') !== null ||
+                target.isContentEditable)
+        )
+            return;
 
         // See if there's a command that matches...
         const [, result] = handleKeyCommand(event, commandContext);
@@ -2302,7 +2378,7 @@
                                                     outputView?.adjustZoom(-1)}
                                                 tip={(l) =>
                                                     l.ui.output.button.zoomOut}
-                                                ><Emoji>–🔎</Emoji></Button
+                                                ><Emoji text="–⌕" /></Button
                                             >
                                             <Button
                                                 background
@@ -2310,7 +2386,7 @@
                                                     outputView?.adjustZoom(1)}
                                                 tip={(l) =>
                                                     l.ui.output.button.zoomIn}
-                                                ><Emoji>+🔎</Emoji></Button
+                                                ><Emoji text="+⌕" /></Button
                                             >
                                             {#if hasStagePlace}
                                                 <Button
@@ -2321,7 +2397,9 @@
                                                             .resetZoom}
                                                     background
                                                     active={focusOverridden}
-                                                    ><Emoji>⟲🔎</Emoji></Button
+                                                    ><Emoji
+                                                        text="⟲⌕"
+                                                    /></Button
                                                 >
                                             {/if}
                                         </span>
@@ -2334,7 +2412,7 @@
                                                     l.ui.output.toggle.grid}
                                                 on={grid}
                                                 toggle={() => (grid = !grid)}
-                                                ><Emoji>▦</Emoji></Toggle
+                                                ><Emoji text="▦" /></Toggle
                                             ><Toggle
                                                 uiid="stageLock"
                                                 tips={(l) =>
@@ -2342,8 +2420,8 @@
                                                 on={fit}
                                                 toggle={() => (fit = !fit)}
                                                 ><Emoji
-                                                    >{#if fit}🔒{:else}🔓{/if}</Emoji
-                                                ></Toggle
+                                                    text={fit ? '🔒' : '🔓'}
+                                                /></Toggle
                                             >
                                         </span>
                                     {/snippet}
@@ -2448,6 +2526,9 @@
                                 {:else if tile.kind === TileKind.Source}
                                     {@const source = getSourceByTileID(tile.id)}
                                     {#if source}
+                                        {@const notifications =
+                                            editorNotifications.get(tile.id) ??
+                                            []}
                                         <div class="annotated-editor">
                                             <Editor
                                                 bind:this={editorViews[tile.id]}
@@ -2485,69 +2566,126 @@
                                                         getSourceIndexByID(
                                                             tile.id,
                                                         ))}
-                                                setLargeDeletionNotification={setLargeDeletionNotification(
+                                                multipleSourcesVisible={layout.getVisibleSourceCount() >=
+                                                    2}
+                                                notify={getEditorNotifier(
                                                     tile.id,
                                                 )}
                                             />
+                                            <!-- Footer notifications (large deletions, drag/paste
+                                                 feedback) and the collaborator presence row overlay
+                                                 the bottom of the editor itself, within its bounds —
+                                                 close to the action and aligned with the Wellspring's
+                                                 recycle bar, rather than spanning the full tile footer
+                                                 below both margins. -->
+                                            {#if editable}
+                                                <div class="editor-notifications">
+                                                    {#each notifications as notification (notification.id)}
+                                                        <EditorNotice
+                                                            dismiss={() =>
+                                                                getEditorNotifier(
+                                                                    tile.id,
+                                                                ).clear(
+                                                                    notification.id,
+                                                                )}
+                                                            >{#if 'markup' in notification.content}{#if notification.content.prefix}<strong
+                                                                        ><LocalizedText
+                                                                            path={notification
+                                                                                .content
+                                                                                .prefix}
+                                                                        /></strong
+                                                                    >&nbsp;{/if}<MarkupHTMLView
+                                                                    markup={notification
+                                                                        .content
+                                                                        .markup}
+                                                                    inline
+                                                                />{:else}<LocalizedText
+                                                                    path={notification
+                                                                        .content
+                                                                        .path}
+                                                                />{/if}</EditorNotice
+                                                        >
+                                                    {/each}
+                                                    <!-- The clipboard's current contents, shown on the
+                                                         selected editor so it appears once. The close
+                                                         button clears Wordplay's clipboard. -->
+                                                    {#if $ClipboardContents !== undefined && getSourceIndexByID(tile.id) === selectedSourceIndex}
+                                                        <ClipboardNotice
+                                                            text={$ClipboardContents}
+                                                            dismiss={clearInternalClipboard}
+                                                        />
+                                                    {/if}
+                                                    <!-- "Viewing an older checkpoint — Restore" banner.
+                                                         Lives in the band (within editor bounds) rather
+                                                         than dangling in the footer; interactive (it has
+                                                         a Restore button), so pointer-events are enabled. -->
+                                                    {#if checkpoint > -1}
+                                                        <div class="interactive">
+                                                            <EditorNotice
+                                                                ><LocalizedText
+                                                                    path={(l) =>
+                                                                        l.ui
+                                                                            .checkpoints
+                                                                            .label
+                                                                            .restore}
+                                                                />
+                                                                <Button
+                                                                    background
+                                                                    tip={(l) =>
+                                                                        l.ui
+                                                                            .checkpoints
+                                                                            .button
+                                                                            .restore}
+                                                                    active={checkpoint >
+                                                                        -1}
+                                                                    action={() => {
+                                                                        // Save a version of the project with the current source in the history and the new source the old source.
+                                                                        Projects.reviseProject(
+                                                                            getCheckpointProject(
+                                                                                project.withCheckpoint(),
+                                                                            ),
+                                                                        );
+                                                                        checkpoint = -1;
+                                                                    }}
+                                                                    label={(l) =>
+                                                                        l.ui
+                                                                            .checkpoints
+                                                                            .button
+                                                                            .restore}
+                                                                /></EditorNotice
+                                                            >
+                                                        </div>
+                                                    {/if}
+                                                    <!-- Collaborator presence bar uses the same
+                                                         EditorNotice motif (see RemoteCarets), anchored
+                                                         to the bottom edge. Renders nothing when the
+                                                         local user is the only editor. -->
+                                                    <div class="interactive">
+                                                        <RemoteCarets
+                                                            projectID={project.getID()}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            {/if}
                                         </div>
                                     {/if}
                                 {/if}
                             {/snippet}
                             {#snippet footer()}
-                                {@const notification =
-                                    largeDeletionNotifications.get(tile.id)}
                                 {#if tile.kind === TileKind.Source && editable}
-                                    <!-- Collaborator chip row sits above
-                                         the glyph-insertion area, in the
-                                         same band the large-deletion
-                                         overlay uses. Renders nothing
-                                         when the local user is the only
-                                         editor. -->
-                                    <RemoteCarets projectID={project.getID()} />
-
                                     {#if editableAndCurrent}<GlyphInserter
                                             sourceID={tile.id}
                                         />{/if}
-                                    {#if checkpoint > -1}
-                                        <div class="editor-warning"
-                                            ><LocalizedText
-                                                path={(l) =>
-                                                    l.ui.checkpoints.label
-                                                        .restore}
-                                            />
-                                            <Button
-                                                background
-                                                tip={(l) =>
-                                                    l.ui.checkpoints.button
-                                                        .restore}
-                                                active={checkpoint > -1}
-                                                action={() => {
-                                                    // Save a version of the project with the current source in the history and the new source the old source.
-                                                    Projects.reviseProject(
-                                                        getCheckpointProject(
-                                                            project.withCheckpoint(),
-                                                        ),
-                                                    );
-                                                    checkpoint = -1;
-                                                }}
-                                                label={(l) =>
-                                                    l.ui.checkpoints.button
-                                                        .restore}
-                                            />
-                                        </div>
-                                    {/if}
-
-                                    {#if notification}
-                                        <div
-                                            class="large-deletion-notification"
-                                        >
-                                            <LocalizedText
-                                                path={notification}
-                                            />
-                                        </div>
-                                    {/if}
                                 {:else if tile.kind === TileKind.Output && !requestedPlay && !showOutput}
                                     <Timeline evaluator={$evaluator} />{/if}
+                            {/snippet}
+                            {#snippet startMargin()}
+                                {#if tile.kind === TileKind.Source && editable && $blocks}
+                                    {@const source = getSourceByTileID(tile.id)}
+                                    {#if source}
+                                        <Wellspring {project} />
+                                    {/if}
+                                {/if}
                             {/snippet}
                             {#snippet margin()}
                                 {#if tile.kind === TileKind.Source && editable}
@@ -2563,14 +2701,21 @@
                                                 false}
                                             caret={$editors.get(tile.id)
                                                 ?.displayedCaret}
+                                            expanded={localAnnotationsExpanded}
+                                            onToggle={annotationsExpanded !==
+                                            undefined
+                                                ? () =>
+                                                      (localAnnotationsExpanded =
+                                                          !localAnnotationsExpanded)
+                                                : undefined}
                                         />{/if}
                                 {/if}
                             {/snippet}
                         </TileView>
                     {/if}
                 {/each}
-                <!-- If in a layout that supports resizing, create an adjuster for each axis split in the current layout that isn't the first in the axis -->
-                {#if isResizeable(currentArrangement)}
+                <!-- If in a layout that supports resizing, create an adjuster for each axis split in the current layout that isn't the first in the axis. Skip when a tile is fullscreen, since there's nothing to resize. -->
+                {#if isResizeable(currentArrangement) && !layout.isFullscreen()}
                     {#each layout.getSplits(currentArrangement, canvasWidth, canvasHeight) ?? [] as axis, axisIndex}
                         {#each axis.positions as _, groupIndex}
                             {#if groupIndex > 0}
@@ -2773,38 +2918,43 @@
     .annotated-editor {
         display: flex;
         flex-direction: column;
+        /* Grow with the code in BOTH axes (at least filling the scroll viewport)
+           so the sticky notifications below have room to stay pinned across the
+           whole scroll range — not just vertically at scroll-top, but also
+           horizontally so they don't slide off when the code is scrolled right.
+           `min-width: fit-content` widens to the code only when it actually
+           overflows (no-wrap mode); in soft-wrap mode fit-content collapses to
+           the viewport so the editor still wraps instead of growing unbounded. */
         width: 100%;
-        height: 100%;
+        min-width: fit-content;
+        min-height: 100%;
+        /* Positioning context for the footer-notification overlay below. */
+        position: relative;
     }
 
-    .editor-warning {
-        width: 100%;
-        padding: var(--wordplay-spacing);
-        background: var(--wordplay-error);
-        color: var(--wordplay-background);
+    .editor-notifications {
+        /* Pin to the bottom-left of the editor's scroll viewport (not the full tile footer). `sticky`
+           with bottom:0 + left:0 keeps the band glued to the viewport footer as the code scrolls in
+           either axis; `absolute` would anchor it to the content box and scroll away. The band is sized
+           to the viewport width (fed from TileView's measured content width) so it spans the footer and
+           its inline-end dismiss button stays on-screen rather than off the right of the wide content.
+           Every item is an EditorNotice (or contains one), so they share one rectangular, integrated
+           visual design and stack contiguously via their top borders. */
+        position: sticky;
+        bottom: 0;
+        left: 0;
+        width: var(--tile-viewport-width, 100%);
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        /* Purely informational — don't intercept drops or clicks at the bottom of the editor. */
+        pointer-events: none;
     }
 
-    .large-deletion-notification {
-        width: 100%;
-        padding: var(--wordplay-spacing);
-        background: black;
-        color: white;
-        border: 1px solid black;
-        animation: popUp 0.6s ease-out;
-    }
-
-    @keyframes popUp {
-        0% {
-            transform: scale(0.8);
-            opacity: 0;
-        }
-        50% {
-            transform: scale(1.05);
-            opacity: 1;
-        }
-        100% {
-            transform: scale(1);
-        }
+    /* Items that need interaction (the checkpoint banner's Restore button, the collaborator presence
+       chips' tooltips) opt back in, since the band itself is click-through. */
+    .interactive {
+        pointer-events: auto;
     }
 
     /* Group the two zoom buttons so the Tour can highlight them together. */

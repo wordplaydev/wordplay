@@ -2,7 +2,7 @@
   "$ref": "#/definitions/Tutorial",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "definitions": {
-    "Act<[def-alias-1340420873-1434-1586-1340420873-0-2133,def-alias-1340420873-1434-1586-1340420873-0-2133,def-alias-1340420873-1434-1586-1340420873-0-2133,def-alias-1340420873-1434-1586-1340420873-0-2133,def-alias-1340420873-1434-1586-1340420873-0-2133,def-alias-1340420873-1434-1586-1340420873-0-2133,def-alias-1340420873-1434-1586-1340420873-0-2133,def-alias-1340420873-1434-1586-1340420873-0-2133,def-alias-1340420873-1434-1586-1340420873-0-2133,def-alias-1340420873-1434-1586-1340420873-0-2133,def-alias-1340420873-1434-1586-1340420873-0-2133,def-alias-1340420873-1434-1586-1340420873-0-2133]>": {
+    "Act": {
       "additionalProperties": false,
       "properties": {
         "performance": {
@@ -12,158 +12,6 @@
           "items": {
             "$ref": "#/definitions/Scene"
           },
-          "maxItems": 12,
-          "minItems": 12,
-          "type": "array"
-        },
-        "title": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "title",
-        "performance",
-        "scenes"
-      ],
-      "type": "object"
-    },
-    "Act<[def-alias-1340420873-1434-1586-1340420873-0-2133,def-alias-1340420873-1434-1586-1340420873-0-2133,def-alias-1340420873-1434-1586-1340420873-0-2133,def-alias-1340420873-1434-1586-1340420873-0-2133,def-alias-1340420873-1434-1586-1340420873-0-2133,def-alias-1340420873-1434-1586-1340420873-0-2133,def-alias-1340420873-1434-1586-1340420873-0-2133]>": {
-      "additionalProperties": false,
-      "properties": {
-        "performance": {
-          "$ref": "#/definitions/Performance"
-        },
-        "scenes": {
-          "items": {
-            "$ref": "#/definitions/Scene"
-          },
-          "maxItems": 7,
-          "minItems": 7,
-          "type": "array"
-        },
-        "title": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "title",
-        "performance",
-        "scenes"
-      ],
-      "type": "object"
-    },
-    "Act<[def-alias-1340420873-1434-1586-1340420873-0-2133,def-alias-1340420873-1434-1586-1340420873-0-2133,def-alias-1340420873-1434-1586-1340420873-0-2133,def-alias-1340420873-1434-1586-1340420873-0-2133,def-alias-1340420873-1434-1586-1340420873-0-2133,def-alias-1340420873-1434-1586-1340420873-0-2133]>": {
-      "additionalProperties": false,
-      "properties": {
-        "performance": {
-          "$ref": "#/definitions/Performance"
-        },
-        "scenes": {
-          "items": {
-            "$ref": "#/definitions/Scene"
-          },
-          "maxItems": 6,
-          "minItems": 6,
-          "type": "array"
-        },
-        "title": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "title",
-        "performance",
-        "scenes"
-      ],
-      "type": "object"
-    },
-    "Act<[def-alias-1340420873-1434-1586-1340420873-0-2133,def-alias-1340420873-1434-1586-1340420873-0-2133,def-alias-1340420873-1434-1586-1340420873-0-2133,def-alias-1340420873-1434-1586-1340420873-0-2133,def-alias-1340420873-1434-1586-1340420873-0-2133]>": {
-      "additionalProperties": false,
-      "properties": {
-        "performance": {
-          "$ref": "#/definitions/Performance"
-        },
-        "scenes": {
-          "items": {
-            "$ref": "#/definitions/Scene"
-          },
-          "maxItems": 5,
-          "minItems": 5,
-          "type": "array"
-        },
-        "title": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "title",
-        "performance",
-        "scenes"
-      ],
-      "type": "object"
-    },
-    "Act<[def-alias-1340420873-1434-1586-1340420873-0-2133,def-alias-1340420873-1434-1586-1340420873-0-2133,def-alias-1340420873-1434-1586-1340420873-0-2133,def-alias-1340420873-1434-1586-1340420873-0-2133]>": {
-      "additionalProperties": false,
-      "properties": {
-        "performance": {
-          "$ref": "#/definitions/Performance"
-        },
-        "scenes": {
-          "items": {
-            "$ref": "#/definitions/Scene"
-          },
-          "maxItems": 4,
-          "minItems": 4,
-          "type": "array"
-        },
-        "title": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "title",
-        "performance",
-        "scenes"
-      ],
-      "type": "object"
-    },
-    "Act<[def-alias-1340420873-1434-1586-1340420873-0-2133,def-alias-1340420873-1434-1586-1340420873-0-2133,def-alias-1340420873-1434-1586-1340420873-0-2133]>": {
-      "additionalProperties": false,
-      "properties": {
-        "performance": {
-          "$ref": "#/definitions/Performance"
-        },
-        "scenes": {
-          "items": {
-            "$ref": "#/definitions/Scene"
-          },
-          "maxItems": 3,
-          "minItems": 3,
-          "type": "array"
-        },
-        "title": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "title",
-        "performance",
-        "scenes"
-      ],
-      "type": "object"
-    },
-    "Act<[def-alias-1340420873-1434-1586-1340420873-0-2133]>": {
-      "additionalProperties": false,
-      "properties": {
-        "performance": {
-          "$ref": "#/definitions/Performance"
-        },
-        "scenes": {
-          "items": {
-            "$ref": "#/definitions/Scene"
-          },
-          "maxItems": 1,
-          "minItems": 1,
           "type": "array"
         },
         "title": {
@@ -249,6 +97,10 @@
         },
         {
           "const": "Example",
+          "type": "string"
+        },
+        {
+          "const": "ExternalExample",
           "type": "string"
         },
         {
@@ -360,7 +212,91 @@
           "type": "string"
         },
         {
+          "const": "Localized",
+          "type": "string"
+        },
+        {
           "const": "Spread",
+          "type": "string"
+        },
+        {
+          "const": "PatternLiteral",
+          "type": "string"
+        },
+        {
+          "const": "PatternSequence",
+          "type": "string"
+        },
+        {
+          "const": "PatternClass",
+          "type": "string"
+        },
+        {
+          "const": "PatternProperty",
+          "type": "string"
+        },
+        {
+          "const": "PatternQuantifier",
+          "type": "string"
+        },
+        {
+          "const": "PatternQuantified",
+          "type": "string"
+        },
+        {
+          "const": "PatternCapture",
+          "type": "string"
+        },
+        {
+          "const": "PatternComplement",
+          "type": "string"
+        },
+        {
+          "const": "PatternGroup",
+          "type": "string"
+        },
+        {
+          "const": "PatternSet",
+          "type": "string"
+        },
+        {
+          "const": "PatternRange",
+          "type": "string"
+        },
+        {
+          "const": "PatternLiteralText",
+          "type": "string"
+        },
+        {
+          "const": "PatternAnchor",
+          "type": "string"
+        },
+        {
+          "const": "PatternWord",
+          "type": "string"
+        },
+        {
+          "const": "PatternWordEdge",
+          "type": "string"
+        },
+        {
+          "const": "PatternLook",
+          "type": "string"
+        },
+        {
+          "const": "PatternBackref",
+          "type": "string"
+        },
+        {
+          "const": "PatternRest",
+          "type": "string"
+        },
+        {
+          "const": "PatternCaseFold",
+          "type": "string"
+        },
+        {
+          "const": "PatternType",
           "type": "string"
         },
         {
@@ -744,6 +680,10 @@
           "type": "string"
         },
         {
+          "const": "Result",
+          "type": "string"
+        },
+        {
           "const": "Matter",
           "type": "string"
         },
@@ -784,6 +724,10 @@
           "type": "string"
         },
         {
+          "const": "Formatted",
+          "type": "string"
+        },
+        {
           "const": "Number",
           "type": "string"
         },
@@ -819,6 +763,20 @@
           "type": "string"
         }
       ]
+    },
+    "Code": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      ],
+      "description": "A program: a single line, or an array of lines for a multi-line program (kept as an array so the JSON has no embedded newlines)."
     },
     "Dialog": {
       "additionalItems": {
@@ -884,7 +842,8 @@
         "show-when",
         "gravity-and-bouncing",
         "gallery-how-to",
-        "mix-languages-in-text"
+        "mix-languages-in-text",
+        "find-text-with-patterns"
       ],
       "type": "string"
     },
@@ -901,27 +860,64 @@
         }
       ]
     },
-    "PeformanceModeType": {
-      "enum": [
-        "fit",
-        "fix",
-        "edit",
-        "conflict",
-        "use"
-      ],
-      "type": "string"
-    },
     "Performance": {
-      "additionalItems": {
-        "type": "string"
-      },
-      "items": [
+      "anyOf": [
         {
-          "$ref": "#/definitions/PeformanceModeType"
+          "additionalProperties": false,
+          "properties": {
+            "conflicts": {
+              "type": "boolean"
+            },
+            "fit": {
+              "$ref": "#/definitions/Code"
+            },
+            "sidebar": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "fit"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "conflicts": {
+              "type": "boolean"
+            },
+            "fix": {
+              "$ref": "#/definitions/Code"
+            },
+            "sidebar": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "fix"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "conflicts": {
+              "type": "boolean"
+            },
+            "edit": {
+              "$ref": "#/definitions/Code"
+            },
+            "sidebar": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "edit"
+          ],
+          "type": "object"
         }
       ],
-      "minItems": 1,
-      "type": "array"
+      "description": "What the tutorial's project tile shows for a step: a mode-as-key object whose value is the program — literal Wordplay code, or a template reference (`#DarkVoid`, `#Symbol 📄`) resolving to a named program in Performances.ts. Mapped over  {@link  PerformanceMode }  so the modes aren't repeated; each member has exactly one mode key plus the shared  {@link  PerformanceOptions } .\n\n  { \"fit\": \"Phrase('🌙')\" }   { \"edit\": \"1 + 'hi'\", \"conflicts\": true, \"sidebar\": true }   { \"edit\": [\"score: 10\", \"score + 5\"], \"conflicts\": true }   { \"fix\": \"#DarkVoid\", \"sidebar\": true }"
     },
     "RegionCode": {
       "type": [
@@ -969,34 +965,10 @@
           "type": "string"
         },
         "acts": {
-          "items": [
-            {
-              "$ref": "#/definitions/Act%3C%5Bdef-alias-1340420873-1434-1586-1340420873-0-2133%2Cdef-alias-1340420873-1434-1586-1340420873-0-2133%2Cdef-alias-1340420873-1434-1586-1340420873-0-2133%2Cdef-alias-1340420873-1434-1586-1340420873-0-2133%2Cdef-alias-1340420873-1434-1586-1340420873-0-2133%5D%3E"
-            },
-            {
-              "$ref": "#/definitions/Act%3C%5Bdef-alias-1340420873-1434-1586-1340420873-0-2133%2Cdef-alias-1340420873-1434-1586-1340420873-0-2133%2Cdef-alias-1340420873-1434-1586-1340420873-0-2133%2Cdef-alias-1340420873-1434-1586-1340420873-0-2133%2Cdef-alias-1340420873-1434-1586-1340420873-0-2133%2Cdef-alias-1340420873-1434-1586-1340420873-0-2133%2Cdef-alias-1340420873-1434-1586-1340420873-0-2133%5D%3E"
-            },
-            {
-              "$ref": "#/definitions/Act%3C%5Bdef-alias-1340420873-1434-1586-1340420873-0-2133%2Cdef-alias-1340420873-1434-1586-1340420873-0-2133%2Cdef-alias-1340420873-1434-1586-1340420873-0-2133%2Cdef-alias-1340420873-1434-1586-1340420873-0-2133%5D%3E"
-            },
-            {
-              "$ref": "#/definitions/Act%3C%5Bdef-alias-1340420873-1434-1586-1340420873-0-2133%2Cdef-alias-1340420873-1434-1586-1340420873-0-2133%2Cdef-alias-1340420873-1434-1586-1340420873-0-2133%5D%3E"
-            },
-            {
-              "$ref": "#/definitions/Act%3C%5Bdef-alias-1340420873-1434-1586-1340420873-0-2133%2Cdef-alias-1340420873-1434-1586-1340420873-0-2133%2Cdef-alias-1340420873-1434-1586-1340420873-0-2133%2Cdef-alias-1340420873-1434-1586-1340420873-0-2133%2Cdef-alias-1340420873-1434-1586-1340420873-0-2133%2Cdef-alias-1340420873-1434-1586-1340420873-0-2133%2Cdef-alias-1340420873-1434-1586-1340420873-0-2133%2Cdef-alias-1340420873-1434-1586-1340420873-0-2133%2Cdef-alias-1340420873-1434-1586-1340420873-0-2133%2Cdef-alias-1340420873-1434-1586-1340420873-0-2133%2Cdef-alias-1340420873-1434-1586-1340420873-0-2133%2Cdef-alias-1340420873-1434-1586-1340420873-0-2133%5D%3E"
-            },
-            {
-              "$ref": "#/definitions/Act%3C%5Bdef-alias-1340420873-1434-1586-1340420873-0-2133%2Cdef-alias-1340420873-1434-1586-1340420873-0-2133%2Cdef-alias-1340420873-1434-1586-1340420873-0-2133%2Cdef-alias-1340420873-1434-1586-1340420873-0-2133%2Cdef-alias-1340420873-1434-1586-1340420873-0-2133%2Cdef-alias-1340420873-1434-1586-1340420873-0-2133%2Cdef-alias-1340420873-1434-1586-1340420873-0-2133%5D%3E"
-            },
-            {
-              "$ref": "#/definitions/Act%3C%5Bdef-alias-1340420873-1434-1586-1340420873-0-2133%2Cdef-alias-1340420873-1434-1586-1340420873-0-2133%2Cdef-alias-1340420873-1434-1586-1340420873-0-2133%2Cdef-alias-1340420873-1434-1586-1340420873-0-2133%2Cdef-alias-1340420873-1434-1586-1340420873-0-2133%2Cdef-alias-1340420873-1434-1586-1340420873-0-2133%5D%3E"
-            },
-            {
-              "$ref": "#/definitions/Act%3C%5Bdef-alias-1340420873-1434-1586-1340420873-0-2133%5D%3E"
-            }
-          ],
-          "maxItems": 8,
-          "minItems": 8,
+          "description": "The acts of the tutorial. Variable length so that different tutorial modes (e.g. the \"quick\" tour) can have their own structure; see TutorialMode.",
+          "items": {
+            "$ref": "#/definitions/Act"
+          },
           "type": "array"
         },
         "language": {

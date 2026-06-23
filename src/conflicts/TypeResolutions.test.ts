@@ -96,18 +96,14 @@ describe('TypeResolutions — literal annotation (#1025)', () => {
 
 describe('TypeResolutions — none coalescing', () => {
     test('text-or-none bound to text suggests `??`', () => {
-        const { repairs } = getConflictAndRepairs(
-            `b•''|ø: 'hi'\nc•'': b`,
-        );
+        const { repairs } = getConflictAndRepairs(`b•''|ø: 'hi'\nc•'': b`);
         expect(repairs.some((r) => r.node instanceof Otherwise)).toBe(true);
     });
 });
 
 describe('TypeResolutions — type guard', () => {
     test('union reference assigned to one member suggests a guard Conditional', () => {
-        const { repairs } = getConflictAndRepairs(
-            `x•''|#: 'hi'\ny•'': x`,
-        );
+        const { repairs } = getConflictAndRepairs(`x•''|#: 'hi'\ny•'': x`);
         expect(repairs.some((r) => r.node instanceof Conditional)).toBe(true);
     });
 });
@@ -143,7 +139,9 @@ describe('TypeResolutions — add missing input', () => {
         const ctx = project.getContext(project.getMain());
         const conflict = project
             .getAnalysis()
-            .conflicts.find((c): c is MissingInput => c instanceof MissingInput);
+            .conflicts.find(
+                (c): c is MissingInput => c instanceof MissingInput,
+            );
         expect(conflict).toBeDefined();
         if (conflict) {
             const resolutions = conflict.getResolutions(ctx, Templates);
@@ -151,10 +149,7 @@ describe('TypeResolutions — add missing input', () => {
             const first = resolutions[0];
             expect(first.kind).toBe('repair');
             if (first.kind === 'repair') {
-                const { newNode } = first.mediator(
-                    ctx,
-                    project.getLocales(),
-                );
+                const { newNode } = first.mediator(ctx, project.getLocales());
                 expect(newNode).toBeInstanceOf(Evaluate);
             }
         }

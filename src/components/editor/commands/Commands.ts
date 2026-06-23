@@ -28,6 +28,17 @@ import {
     STREAM_SYMBOL,
     TABLE_CLOSE_SYMBOL,
     TABLE_OPEN_SYMBOL,
+    PATTERN_DELIMITER_SYMBOL,
+    MATCH_SEARCH_SYMBOL,
+    PATTERN_ANY_SYMBOL,
+    PATTERN_SPACE_SYMBOL,
+    PATTERN_START_SYMBOL,
+    PATTERN_END_SYMBOL,
+    PATTERN_FOLD_SYMBOL,
+    PATTERN_AHEAD_SYMBOL,
+    PATTERN_BEHIND_SYMBOL,
+    PATTERN_WORD_SYMBOL,
+    PATTERN_WORDEDGE_SYMBOL,
     THIS_SYMBOL,
     TRANSLATE_SYMBOL,
     TRUE_SYMBOL,
@@ -36,9 +47,28 @@ import {
 } from '@parser/Symbols';
 
 import { moveVisualVertical } from '@components/editor/caret/CaretView.svelte';
-import { copyNode, toClipboard } from '@components/editor/commands/Clipboard';
-import interpret from '@components/editor/commands/interpret';
+import {
+    copyNode,
+    toClipboard,
+    WORDPLAY_CLIPBOARD_FORMAT,
+} from '@components/editor/commands/Clipboard';
 import { wasCopiedHere } from '@components/editor/commands/InternalClipboard';
+import interpret from '@components/editor/commands/interpret';
+import type { EditorNotifier } from '@components/editor/EditorNotification';
+import { pasteText } from '@components/editor/Paste';
+import {
+    expandCaretVisualVertical,
+    moveCaretVisualVertical,
+} from '@components/editor/pointer/PointerUtilities';
+import {
+    isNodeHidden,
+    renderedTokenIds,
+    skipHiddenIndex,
+} from '@components/editor/util/foldedCaret';
+import {
+    FOLD_GLYPH,
+    FOLD_GLYPH_ROTATION,
+} from '@components/editor/util/folding';
 import { TileKind } from '@components/project/TileKind';
 import { Settings, type Database } from '@db/Database';
 import type Project from '@db/projects/Project';
@@ -49,13 +79,18 @@ import FunctionDefinition from '@nodes/FunctionDefinition';
 import Names from '@nodes/Names';
 import Source from '@nodes/Source';
 import { Sym } from '@nodes/Sym';
-import { TAB_SYMBOL } from '@parser/Spaces';
+import Token from '@nodes/Token';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
+import { TAB_SYMBOL } from '@parser/Spaces';
 import type Evaluator from '@runtime/Evaluator';
 
 export type Command = {
     /** The iconographic text symbol to use */
     symbol: string;
+    /** Degrees to rotate the rendered symbol, for reusing one glyph at different
+     *  orientations so related toolbar icons stay visually consistent (e.g. the
+     *  fold/unfold chevron). Omit for no rotation. */
+    symbolRotation?: number;
     /** Gets the locale string from a locale for use in title and aria-label of UI  */
     description: LocaleTextAccessor;
     /** True if it should be a control in the toolbar */
@@ -64,7 +99,9 @@ export type Command = {
     category: Category;
     /** If true, the command is always visible and not hidden behind an accordion */
     important?: boolean;
-    /** The key that triggers the command, or if not provided, all keys trigger it */
+    /** The key that triggers the command. If omitted, the command has no keyboard
+     *  shortcut — UNLESS it's also a `typing` catch-all (e.g. InsertSymbol), in
+     *  which case every key triggers it. Palette-only commands omit both. */
     key?: string;
     /** The optional symbol representing the key, for rendering shortcuts */
     keySymbol?: string;
@@ -122,6 +159,16 @@ export type CommandContext = {
     /** Move the caret to the next search match, cycling back to the first.
      *  Returns true if it was handled (consuming the keystroke). */
     nextSearchMatch?: () => boolean;
+    /** Fold / unfold every foldable node in the focused editor. */
+    foldAll?: (() => void) | undefined;
+    unfoldAll?: (() => void) | undefined;
+    /** Whether there's anything left to fold / unfold (drives the toolbar
+     *  buttons' active state and consumes the shortcut only when useful). */
+    canFoldAll?: (() => boolean) | undefined;
+    canUnfoldAll?: (() => boolean) | undefined;
+    /** The set of nodes currently rendered folded, so caret movement can skip
+     *  over a collapsed node's hidden body instead of wandering into it. */
+    folded?: Set<Node> | undefined;
     toggleBlocks?: (on: boolean) => void;
     setFullscreen?: (on: boolean) => void;
     focusOrCycleTile?: (content?: TileKind) => void;
@@ -130,6 +177,8 @@ export type CommandContext = {
     getTokenViews?: () => HTMLElement[];
     /** Function to clear large deletion notification */
     clearLargeDeletionNotification?: () => void;
+    /** The focused editor's footer notification controller */
+    notify?: EditorNotifier | undefined;
     /** The editor zoom level */
     zoom: number | undefined;
     setZoom?: undefined | ((z: number) => void);
@@ -156,6 +205,27 @@ export const Category = {
 } as const;
 export type Category = (typeof Category)[keyof typeof Category];
 
+/** Whether the current device uses macOS/iOS modifier-key conventions, which
+ *  label modifiers with symbols rather than words. */
+export function onMacOS() {
+    return (
+        typeof navigator !== 'undefined' &&
+        navigator.userAgent.indexOf('Mac') !== -1
+    );
+}
+
+/** Platform-specific labels for the modifier keys, reused wherever we summarize a
+ *  keyboard shortcut (toShortcut and in-editor instructions like the Tab notice). */
+export function controlKeyLabel() {
+    return onMacOS() ? '⌘' : 'Ctrl';
+}
+export function altKeyLabel() {
+    return onMacOS() ? '⎇' : 'Alt';
+}
+export function shiftKeyLabel() {
+    return onMacOS() ? '⇧' : 'Shift';
+}
+
 export function toShortcut(
     command: {
         control: boolean | undefined;
@@ -168,12 +238,14 @@ export function toShortcut(
     hideShift = false,
     hideAlt = false,
 ) {
-    const mac =
-        typeof navigator !== 'undefined' &&
-        navigator.userAgent.indexOf('Mac') !== -1;
-    return `${command.control && !hideControl ? (mac ? '⌘' : 'Ctrl+') : ''}${
-        command.alt && !hideAlt ? (mac ? '⎇' : 'Alt + ') : ''
-    }${command.shift && !hideShift ? (mac ? '⇧' : 'Shift + ') : ''}${
+    const mac = onMacOS();
+    return `${command.control && !hideControl ? (mac ? controlKeyLabel() : controlKeyLabel() + '+') : ''}${
+        command.alt && !hideAlt
+            ? mac
+                ? altKeyLabel()
+                : altKeyLabel() + ' + '
+            : ''
+    }${command.shift && !hideShift ? (mac ? shiftKeyLabel() : shiftKeyLabel() + ' + ') : ''}${
         command.keySymbol ?? command.key ?? '-'
     }`;
 }
@@ -194,7 +266,12 @@ export function handleKeyCommand(
             (command.control === undefined || command.control === control) &&
             (command.shift === undefined || command.shift === event.shiftKey) &&
             (command.alt === undefined || command.alt === event.altKey) &&
-            (command.key === undefined ||
+            // A command with no `key` is a keyboard wildcard ONLY when it's a
+            // `typing` catch-all (e.g. InsertSymbol, which inserts the typed
+            // character). Palette-only commands (visible toolbar inserts with no
+            // shortcut, like the pattern glyphs) deliberately omit `key`; without
+            // this guard they'd match every unmodified keystroke and clobber it.
+            ((command.key === undefined && command.typing === true) ||
                 command.key === event.code ||
                 command.key === event.key)
         ) {
@@ -220,6 +297,25 @@ export function handleKeyCommand(
     return [undefined, false, matchedShortcut];
 }
 
+/** Before committing a command's caret result, reset the visual goal column
+ *  unless the command was one of the VerticalMovementCommands (identified by
+ *  reference, not a key string). This way every horizontal or other caret move —
+ *  left/right, home/end, and even no-op moves at a boundary that return the caret
+ *  unchanged — updates the goal column, while the vertical commands keep it.
+ *  Applied at every dispatch site (keyboard and command buttons), so the rule
+ *  holds regardless of how the command was triggered. Non-Caret results (edits)
+ *  are returned unchanged; they build their own caret with the column reset. */
+export function resetVisualColumnAfter(
+    command: Command | undefined,
+    result: Edit | ProjectRevision | LocaleTextAccessor,
+): Edit | ProjectRevision | LocaleTextAccessor {
+    const verticalMove =
+        command !== undefined && VerticalMovementCommands.includes(command);
+    return result instanceof Caret && !verticalMove
+        ? result.withoutVisualColumn()
+        : result;
+}
+
 function handleInsert(context: CommandContext, symbol: string) {
     if (context.caret)
         return (
@@ -227,6 +323,53 @@ function handleInsert(context: CommandContext, symbol: string) {
             false
         );
     else return false;
+}
+
+/** Keep horizontal caret movement (and selection) out of a folded node's hidden
+ *  body while leaving its visible tokens fully navigable: step through rendered
+ *  tokens as normal, but when a move lands on a collapsed (non-rendered) token,
+ *  skip past the whole hidden run. In blocks mode a selection that lands on a
+ *  hidden descendant of a fold collapses to the fold itself. */
+function skipFolded(
+    result: Caret | LocaleTextAccessor,
+    direction: -1 | 1,
+    folded: Set<Node> | undefined,
+    getTokenViews: (() => HTMLElement[]) | undefined,
+): Caret | LocaleTextAccessor {
+    if (
+        !(result instanceof Caret) ||
+        folded === undefined ||
+        folded.size === 0 ||
+        getTokenViews === undefined
+    )
+        return result;
+    const source = result.source;
+    const pos = result.position;
+
+    const rendered = renderedTokenIds(getTokenViews);
+
+    // Node selection (e.g. blocks-mode movement, or a token boundary in text
+    // mode): only redirect when the node is itself collapsed out of view — none
+    // of its tokens are rendered. A visible node inside a folded node's header
+    // or docs (e.g. a doc's markup) stays selectable and navigable as normal.
+    if (pos instanceof Node) {
+        if (isNodeHidden(pos, rendered))
+            for (const node of folded)
+                if (node !== pos && node.contains(pos))
+                    return result.withPosition(node);
+        return result;
+    }
+
+    if (typeof pos === 'number') {
+        const next = skipHiddenIndex(source, pos, direction, rendered);
+        return next === pos ? result : result.withPosition(next);
+    }
+    // Range selection: move only the active (second) end past hidden tokens.
+    if (Array.isArray(pos)) {
+        const next = skipHiddenIndex(source, pos[1], direction, rendered);
+        return next === pos[1] ? result : result.withPosition([pos[0], next]);
+    }
+    return result;
 }
 
 export const ShowKeyboardHelp: Command = {
@@ -711,6 +854,57 @@ export const ToggleBlocks: Command = {
     },
 };
 
+export const FoldAll: Command = {
+    // The fold chevron rotated to point down (collapse all) — the same glyph as
+    // unfold-all and the inline toggle, just reoriented, so the toolbar reads
+    // consistently. Distinct from the filled ▾ menu trigger.
+    symbol: FOLD_GLYPH,
+    symbolRotation: FOLD_GLYPH_ROTATION,
+    description: (l) => l.ui.source.fold.all,
+    visible: Visibility.Visible,
+    category: Category.Modify,
+    shift: true,
+    alt: false,
+    control: true,
+    // ⌘/Ctrl+Shift+< (the comma key). Avoids the bracket keys, which browsers
+    // bind to history navigation.
+    key: 'Comma',
+    keySymbol: '<',
+    important: true,
+    active: ({ canFoldAll }) => canFoldAll?.() ?? false,
+    execute: ({ foldAll }) => {
+        if (foldAll) {
+            foldAll();
+            return true;
+        }
+        return false;
+    },
+};
+
+export const UnfoldAll: Command = {
+    // Right chevron (expand all) — mirrors the inline fold toggle's collapsed
+    // state.
+    symbol: FOLD_GLYPH,
+    description: (l) => l.ui.source.fold.none,
+    visible: Visibility.Visible,
+    category: Category.Modify,
+    shift: true,
+    alt: false,
+    control: true,
+    // ⌘/Ctrl+Shift+> (the period key).
+    key: 'Period',
+    keySymbol: '>',
+    important: true,
+    active: ({ canUnfoldAll }) => canUnfoldAll?.() ?? false,
+    execute: ({ unfoldAll }) => {
+        if (unfoldAll) {
+            unfoldAll();
+            return true;
+        }
+        return false;
+    },
+};
+
 /** The command to rule them all... inserts things during text editing mode. */
 
 export const InsertSymbol: Command = {
@@ -779,75 +973,132 @@ export const Redo: Command = {
     },
 };
 
+// The vertical caret-movement commands are named so resetVisualColumnAfter can
+// identify them by reference (they own the caret's visual goal column) rather
+// than by matching fragile key strings. See VerticalMovementCommands below.
+
+const MovePriorLine: Command = {
+    symbol: '↑',
+    description: (l) => l.ui.source.cursor.priorLine,
+    visible: Visibility.Touch,
+    category: Category.Cursor,
+    alt: false,
+    control: false,
+    shift: false,
+    key: 'ArrowUp',
+    keySymbol: '↑',
+    // Move one visual row up: between block tokens in blocks mode, or by the
+    // rendered row in text mode (respects proportional glyphs, tabs, and
+    // soft-wrapped rows). `?? true` swallows the event at the document edge.
+    execute: ({ caret, blocks, view, getTokenViews, locales }) =>
+        caret && view && getTokenViews
+            ? blocks
+                ? (moveVisualVertical(-1, view, caret, getTokenViews) ?? false)
+                : (moveCaretVisualVertical(
+                      -1,
+                      view,
+                      caret,
+                      getTokenViews,
+                      locales.getDirection() === 'rtl',
+                  ) ?? true)
+            : false,
+};
+
+const ExpandPriorLine: Command = {
+    symbol: '↑☐',
+    description: (l) => l.ui.source.cursor.expandPriorLine,
+    visible: Visibility.Invisible,
+    category: Category.Cursor,
+    alt: false,
+    control: false,
+    shift: true,
+    key: 'ArrowUp',
+    keySymbol: '↑',
+    // Expand the selection by one visual row up in text mode (matching
+    // ArrowUp's movement). No vertical expansion in blocks mode.
+    execute: ({ caret, blocks, view, getTokenViews, locales }) =>
+        caret && view && getTokenViews
+            ? blocks
+                ? false
+                : (expandCaretVisualVertical(
+                      -1,
+                      view,
+                      caret,
+                      getTokenViews,
+                      locales.getDirection() === 'rtl',
+                  ) ?? true)
+            : false,
+};
+
+const MoveNextLine: Command = {
+    symbol: '↓',
+    description: (l) => l.ui.source.cursor.nextLine,
+    visible: Visibility.Touch,
+    category: Category.Cursor,
+    alt: false,
+    control: false,
+    shift: false,
+    key: 'ArrowDown',
+    keySymbol: '↓',
+    // Move one visual row down: between block tokens in blocks mode, or by the
+    // rendered row in text mode (respects proportional glyphs, tabs, and
+    // soft-wrapped rows). `?? true` swallows the event at the document edge.
+    execute: ({ caret, blocks, view, getTokenViews, locales }) =>
+        caret && view && getTokenViews
+            ? blocks
+                ? (moveVisualVertical(1, view, caret, getTokenViews) ?? false)
+                : (moveCaretVisualVertical(
+                      1,
+                      view,
+                      caret,
+                      getTokenViews,
+                      locales.getDirection() === 'rtl',
+                  ) ?? true)
+            : false,
+};
+
+const ExpandNextLine: Command = {
+    symbol: '↓☐',
+    description: (l) => l.ui.source.cursor.expandNextLine,
+    visible: Visibility.Invisible,
+    category: Category.Cursor,
+    alt: false,
+    control: false,
+    shift: true,
+    key: 'ArrowDown',
+    keySymbol: '↓',
+    // Expand the selection by one visual row down in text mode (matching
+    // ArrowDown's movement). No vertical expansion in blocks mode.
+    execute: ({ caret, blocks, view, getTokenViews, locales }) =>
+        caret && view && getTokenViews
+            ? blocks
+                ? false
+                : (expandCaretVisualVertical(
+                      1,
+                      view,
+                      caret,
+                      getTokenViews,
+                      locales.getDirection() === 'rtl',
+                  ) ?? true)
+            : false,
+};
+
+/** The vertical caret-movement commands, which own the caret's visual goal
+ *  column (set/preserved by moveCaretVisualVertical / expandCaretVisualVertical);
+ *  every other command resets it. resetVisualColumnAfter checks membership here
+ *  by reference, so the rule isn't tied to fragile key strings. */
+const VerticalMovementCommands: Command[] = [
+    MovePriorLine,
+    ExpandPriorLine,
+    MoveNextLine,
+    ExpandNextLine,
+];
+
 const Commands: Command[] = [
-    {
-        symbol: '↑',
-        description: (l) => l.ui.source.cursor.priorLine,
-        visible: Visibility.Touch,
-        category: Category.Cursor,
-        alt: false,
-        control: false,
-        shift: false,
-        key: 'ArrowUp',
-        keySymbol: '↑',
-        execute: ({ caret, blocks, view, getTokenViews }) =>
-            caret
-                ? // Return true to swallow the event even if we can't move further.
-                  blocks
-                    ? view && getTokenViews
-                        ? (moveVisualVertical(-1, view, caret, getTokenViews) ??
-                          false)
-                        : false
-                    : (caret.moveVertical(-1) ?? true)
-                : false,
-    },
-    {
-        symbol: '↑☐',
-        description: (l) => l.ui.source.cursor.expandPriorLine,
-        visible: Visibility.Invisible,
-        category: Category.Cursor,
-        alt: false,
-        control: false,
-        shift: true,
-        key: 'ArrowUp',
-        keySymbol: '↑',
-        execute: ({ caret, blocks }) =>
-            caret ? (blocks ? false : caret.expandVertically(-1)) : false,
-    },
-    {
-        symbol: '↓',
-        description: (l) => l.ui.source.cursor.nextLine,
-        visible: Visibility.Touch,
-        category: Category.Cursor,
-        alt: false,
-        control: false,
-        shift: false,
-        key: 'ArrowDown',
-        keySymbol: '↓',
-        execute: ({ caret, blocks, view, getTokenViews }) =>
-            caret
-                ? // Return true to swallow the event even if we can't move further.
-                  blocks
-                    ? view && getTokenViews
-                        ? (moveVisualVertical(1, view, caret, getTokenViews) ??
-                          false)
-                        : false
-                    : (caret.moveVertical(1) ?? true)
-                : false,
-    },
-    {
-        symbol: '↓☐',
-        description: (l) => l.ui.source.cursor.expandNextLine,
-        visible: Visibility.Invisible,
-        category: Category.Cursor,
-        alt: false,
-        control: false,
-        shift: true,
-        key: 'ArrowDown',
-        keySymbol: '↓',
-        execute: ({ caret, blocks }) =>
-            caret ? (blocks ? false : caret.expandVertically(1)) : false,
-    },
+    MovePriorLine,
+    ExpandPriorLine,
+    MoveNextLine,
+    ExpandNextLine,
     {
         symbol: '←',
         description: (l) => l.ui.source.cursor.priorInline,
@@ -858,17 +1109,22 @@ const Commands: Command[] = [
         shift: false,
         key: 'ArrowLeft',
         keySymbol: '←',
-        execute: ({ caret, database, blocks }) =>
-            caret
-                ? blocks
-                    ? caret.moveInlineBlock(-1)
-                    : caret.moveInlineText(
-                          false,
-                          database.Locales.getWritingDirection() === 'ltr'
-                              ? -1
-                              : 1,
-                      )
-                : true,
+        execute: ({ caret, database, blocks, folded, getTokenViews }) => {
+            if (caret === undefined) return true;
+            const direction: -1 | 1 = blocks
+                ? -1
+                : database.Locales.getWritingDirection() === 'ltr'
+                  ? -1
+                  : 1;
+            return skipFolded(
+                blocks
+                    ? caret.moveInlineBlock(direction)
+                    : caret.moveInlineText(false, direction),
+                direction,
+                folded,
+                getTokenViews,
+            );
+        },
     },
     {
         symbol: '←☐',
@@ -880,8 +1136,17 @@ const Commands: Command[] = [
         shift: true,
         key: 'ArrowLeft',
         keySymbol: '←',
-        execute: ({ caret, blocks }) =>
-            caret ? (blocks ? false : caret.expandInline(-1)) : false,
+        execute: ({ caret, blocks, folded, getTokenViews }) =>
+            caret
+                ? blocks
+                    ? false
+                    : skipFolded(
+                          caret.expandInline(-1),
+                          -1,
+                          folded,
+                          getTokenViews,
+                      )
+                : false,
     },
     {
         symbol: '→',
@@ -893,17 +1158,22 @@ const Commands: Command[] = [
         shift: false,
         key: 'ArrowRight',
         keySymbol: '→',
-        execute: ({ caret, database, blocks }) =>
-            caret
-                ? blocks
-                    ? caret.moveInlineBlock(1)
-                    : caret.moveInlineText(
-                          false,
-                          database.Locales.getWritingDirection() === 'ltr'
-                              ? 1
-                              : -1,
-                      )
-                : false,
+        execute: ({ caret, database, blocks, folded, getTokenViews }) => {
+            if (caret === undefined) return false;
+            const direction: -1 | 1 = blocks
+                ? 1
+                : database.Locales.getWritingDirection() === 'ltr'
+                  ? 1
+                  : -1;
+            return skipFolded(
+                blocks
+                    ? caret.moveInlineBlock(direction)
+                    : caret.moveInlineText(false, direction),
+                direction,
+                folded,
+                getTokenViews,
+            );
+        },
     },
     {
         symbol: '☐→',
@@ -915,8 +1185,17 @@ const Commands: Command[] = [
         shift: true,
         key: 'ArrowRight',
         keySymbol: '→',
-        execute: ({ caret, blocks }) =>
-            caret ? (blocks ? false : caret.expandInline(1)) : false,
+        execute: ({ caret, blocks, folded, getTokenViews }) =>
+            caret
+                ? blocks
+                    ? false
+                    : skipFolded(
+                          caret.expandInline(1),
+                          1,
+                          folded,
+                          getTokenViews,
+                      )
+                : false,
     },
     {
         symbol: '⇤',
@@ -1013,11 +1292,21 @@ const Commands: Command[] = [
             // Find the node corresponding to the position.
             // And if it's parent only has the one child, select it.
             else {
-                const token =
+                let token =
                     (caret.atTokenEnd() && caret.hasSpaceAfter()) ||
                     caret.atEnd()
                         ? caret.tokenPrior
                         : caret.getToken();
+                // Never select the program's end token (it's the last token in
+                // the source, and at the end of the source tokenPrior can resolve
+                // to it via its leading space). Instead consider the last token of
+                // the program before the end token.
+                const tokens = caret.source.tokens;
+                if (token !== undefined && token === tokens[tokens.length - 1])
+                    token =
+                        tokens.length > 1
+                            ? tokens[tokens.length - 2]
+                            : undefined;
                 if (token !== undefined) {
                     const parent = caret.source.root.getParent(token);
                     if (parent === undefined) return false;
@@ -1027,6 +1316,30 @@ const Commands: Command[] = [
                 }
             }
             return false;
+        },
+    },
+    {
+        symbol: '⇄',
+        description: (l) => l.ui.source.cursor.matchDelimiter,
+        visible: Visibility.Invisible,
+        category: Category.Cursor,
+        alt: false,
+        shift: true,
+        control: true,
+        key: 'Backslash',
+        keySymbol: '\\',
+        execute: ({ caret }) => {
+            if (caret === undefined) return false;
+            // Resolve the delimiter token under the caret: either selected as a
+            // node, or the token the caret is within.
+            const token =
+                caret.position instanceof Token
+                    ? caret.position
+                    : (caret.tokenExcludingSpace ?? undefined);
+            if (token === undefined) return false;
+            const match = caret.source.getMatchedDelimiter(token);
+            if (match === undefined) return false;
+            return caret.withPosition(match).withEntry(undefined);
         },
     },
     {
@@ -1371,6 +1684,118 @@ const Commands: Command[] = [
         keySymbol: 't',
         execute: (context) => handleInsert(context, TABLE_CLOSE_SYMBOL),
     },
+    // Pattern glyphs (LANGUAGE.md). Palette-only (no shortcut) to avoid key
+    // collisions; inserting `⣿` auto-closes to `⣿⣿` via the delimiter machinery.
+    {
+        symbol: PATTERN_DELIMITER_SYMBOL,
+        description: (l) => l.ui.source.cursor.insertPattern,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        shift: false,
+        alt: false,
+        control: false,
+        execute: (context) => handleInsert(context, PATTERN_DELIMITER_SYMBOL),
+    },
+    {
+        symbol: MATCH_SEARCH_SYMBOL,
+        description: (l) => l.ui.source.cursor.insertSearch,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        shift: false,
+        alt: false,
+        control: false,
+        execute: (context) => handleInsert(context, MATCH_SEARCH_SYMBOL),
+    },
+    {
+        symbol: PATTERN_ANY_SYMBOL,
+        description: (l) => l.ui.source.cursor.insertPatternAny,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        shift: false,
+        alt: false,
+        control: false,
+        execute: (context) => handleInsert(context, PATTERN_ANY_SYMBOL),
+    },
+    {
+        symbol: PATTERN_SPACE_SYMBOL,
+        description: (l) => l.ui.source.cursor.insertPatternSpace,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        shift: false,
+        alt: false,
+        control: false,
+        execute: (context) => handleInsert(context, PATTERN_SPACE_SYMBOL),
+    },
+    {
+        symbol: PATTERN_START_SYMBOL,
+        description: (l) => l.ui.source.cursor.insertPatternStart,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        shift: false,
+        alt: false,
+        control: false,
+        execute: (context) => handleInsert(context, PATTERN_START_SYMBOL),
+    },
+    {
+        symbol: PATTERN_END_SYMBOL,
+        description: (l) => l.ui.source.cursor.insertPatternEnd,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        shift: false,
+        alt: false,
+        control: false,
+        execute: (context) => handleInsert(context, PATTERN_END_SYMBOL),
+    },
+    {
+        symbol: PATTERN_FOLD_SYMBOL,
+        description: (l) => l.ui.source.cursor.insertPatternFold,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        shift: false,
+        alt: false,
+        control: false,
+        execute: (context) => handleInsert(context, PATTERN_FOLD_SYMBOL),
+    },
+    {
+        symbol: PATTERN_AHEAD_SYMBOL,
+        description: (l) => l.ui.source.cursor.insertPatternAhead,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        shift: false,
+        alt: false,
+        control: false,
+        execute: (context) => handleInsert(context, PATTERN_AHEAD_SYMBOL),
+    },
+    {
+        symbol: PATTERN_BEHIND_SYMBOL,
+        description: (l) => l.ui.source.cursor.insertPatternBehind,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        shift: false,
+        alt: false,
+        control: false,
+        execute: (context) => handleInsert(context, PATTERN_BEHIND_SYMBOL),
+    },
+    {
+        symbol: PATTERN_WORD_SYMBOL,
+        description: (l) => l.ui.source.cursor.insertPatternWord,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        shift: false,
+        alt: false,
+        control: false,
+        execute: (context) => handleInsert(context, PATTERN_WORD_SYMBOL),
+    },
+    {
+        symbol: PATTERN_WORDEDGE_SYMBOL,
+        description: (l) => l.ui.source.cursor.insertPatternWordEdge,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        shift: false,
+        alt: false,
+        control: false,
+        execute: (context) => handleInsert(context, PATTERN_WORDEDGE_SYMBOL),
+    },
     {
         symbol: BORROW_SYMBOL,
         description: (l) => l.ui.source.cursor.insertBorrow,
@@ -1499,7 +1924,11 @@ const Commands: Command[] = [
         execute: ({ caret, project, blocks }) => {
             if (caret === undefined) return false;
             if (caret.isNode()) {
-                copyNode(caret.position, getPreferredSpaces(caret.source));
+                copyNode(
+                    caret.position,
+                    getPreferredSpaces(caret.source),
+                    caret.source.keywords,
+                );
                 return caret.delete(project, false, blocks) ?? true;
             } else if (caret.isRange()) {
                 return toClipboard(
@@ -1534,6 +1963,7 @@ const Commands: Command[] = [
                 return copyNode(
                     caret.position,
                     getPreferredSpaces(caret.source),
+                    caret.source.keywords,
                 );
             else if (caret.isRange()) {
                 return toClipboard(
@@ -1562,7 +1992,14 @@ const Commands: Command[] = [
             editor &&
             typeof navigator.clipboard !== 'undefined' &&
             navigator.clipboard.read !== undefined,
-        execute: async ({ editor, caret, blocks, project }) => {
+        execute: async ({
+            editor,
+            caret,
+            blocks,
+            project,
+            locales,
+            notify,
+        }) => {
             if (!editor) return (l) => l.ui.source.cursor.ignored.noEditor;
             // Make sure clipboard is supported.
             if (
@@ -1573,6 +2010,28 @@ const Commands: Command[] = [
                 return (l) => l.ui.source.cursor.ignored.noClipboard;
 
             const items = await navigator.clipboard.read();
+            // First, prefer our custom Wordplay format if present: it was copied as Wordplay (possibly
+            // from another tab/window/instance), so paste it verbatim without reinterpreting it.
+            for (const item of items) {
+                if (item.types.includes(WORDPLAY_CLIPBOARD_FORMAT)) {
+                    try {
+                        const blob = await item.getType(
+                            WORDPLAY_CLIPBOARD_FORMAT,
+                        );
+                        const text = await blob.text();
+                        return pasteText(
+                            text,
+                            caret,
+                            project,
+                            blocks,
+                            locales,
+                            notify,
+                        );
+                    } catch (err) {
+                        // Couldn't read the custom format; fall back to text/plain below.
+                    }
+                }
+            }
             for (const item of items) {
                 for (const type of item.types) {
                     if (type === 'text/plain') {
@@ -1580,12 +2039,14 @@ const Commands: Command[] = [
                         const text = await blob.text();
                         // If this text was copied from within Wordplay, paste it
                         // verbatim instead of reinterpreting it as foreign data
-                        // (e.g. CSV).
-                        return caret.insert(
+                        // (e.g. CSV). pasteText handles the blocks-mode conflict feedback.
+                        return pasteText(
                             wasCopiedHere(text) ? text : interpret(text),
-                            blocks,
+                            caret,
                             project,
-                            false,
+                            blocks,
+                            locales,
+                            notify,
                         );
                     }
                 }
@@ -1593,6 +2054,8 @@ const Commands: Command[] = [
             return (l) => l.ui.source.cursor.ignored.noClipboardItem;
         },
     },
+    FoldAll,
+    UnfoldAll,
     {
         symbol: '( )',
         description: (l) => l.ui.source.cursor.parenthesize,
@@ -1635,13 +2098,15 @@ const Commands: Command[] = [
         shift: false,
         alt: false,
         key: 's',
-        execute: ({ caret }) => {
-            if (caret) {
+        important: true,
+        execute: ({ caret, editor }) => {
+            if (caret && editor) {
                 const length = caret.source.code.getLength();
                 const position = caret.getTextPosition(true) ?? 0;
                 const tidySource = caret.source.withSpaces(
                     getPreferredSpaces(caret.source.root, caret.source.spaces),
                 );
+                if (tidySource.code.getLength() === length) return false;
                 return [
                     tidySource,
                     caret
@@ -1655,7 +2120,7 @@ const Commands: Command[] = [
     },
 
     {
-        symbol: '+🔎',
+        symbol: '+⌕',
         description: (l) => l.ui.source.button.zoomIn,
         visible: Visibility.Visible,
         category: Category.Cursor,
@@ -1674,7 +2139,7 @@ const Commands: Command[] = [
         },
     },
     {
-        symbol: '–🔎',
+        symbol: '–⌕',
         description: (l) => l.ui.source.button.zoomOut,
         visible: Visibility.Visible,
         category: Category.Cursor,

@@ -19,7 +19,7 @@ export default class Initialize extends Step {
         return this.action?.call(undefined, evaluator);
     }
 
-    getExplanations(locales: Locales) {
+    getExplanations(locales: Locales, _evaluator?: Evaluator) {
         return locales.concretize((l) => l.node.Iteration.initialize);
     }
 }

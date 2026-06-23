@@ -4,13 +4,16 @@ import type Conflict from '@conflicts/Conflict';
 import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import DefaultLocale from '@locale/DefaultLocale';
 import type Locales from '@locale/Locales';
+import type { TemplateInput } from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { Purpose } from '@concepts/Purpose';
 import Characters from '../lore/BasisCharacters';
 import { LINK_SYMBOL } from '@parser/Symbols';
 import { getCodepointFromString } from '@unicode/getCodepoint';
+import type Context from '@nodes/Context';
 import Content from '@nodes/Content';
+import type Markup from '@nodes/Markup';
 import { node, type Field, type Replacement } from '@nodes/Node';
 import Symbol from '@nodes/Sym';
 import Token from '@nodes/Token';
@@ -90,23 +93,31 @@ export default class ConceptLink extends Content {
     }
 
     /** Complete the concept link being edited (e.g. `@Col`, `@Color.ra`) against
-     *  the concept index, filtered by what's already typed — mirroring how
-     *  reference completion narrows by prefix. */
+     *  the concept index and the available custom characters, filtered by what's
+     *  already typed — mirroring how reference completion narrows by prefix. */
     static getPossibleReplacements({
         node,
         concepts,
+        characters,
         locales,
     }: ReplaceContext) {
-        return concepts && node instanceof ConceptLink
-            ? getConceptLinkCompletions(concepts, locales, node.getName())
-            : [];
+        if (!(node instanceof ConceptLink)) return [];
+        const prefix = node.getName();
+        return [
+            ...(concepts
+                ? getConceptLinkCompletions(concepts, locales, prefix)
+                : []),
+            ...getCharacterLinkCompletions(characters, prefix),
+        ];
     }
 
-    static getPossibleInsertions(_: InsertContext) {
+    static getPossibleInsertions({ characters }: InsertContext) {
         // Concept links complete an existing `@…` token (handled as a
-        // replacement above); they aren't offered as fresh insertions, so the
+        // replacement above); concepts aren't offered as fresh insertions, so the
         // markup menu isn't flooded with every concept when no link is typed.
-        return [];
+        // Custom characters are a bounded, user-relevant set, so they are offered
+        // as fresh insertions wherever markup accepts a concept link.
+        return characters?.map((name) => ConceptLink.make(name)) ?? [];
     }
 
     getDescriptor(): NodeDescriptor {
@@ -206,6 +217,53 @@ export default class ConceptLink extends Content {
         return ConceptLink.LocalePath;
     }
 
+    getDescriptionInputs(): Record<string, TemplateInput> {
+        return { concept: this.getName() };
+    }
+
+    /**
+     * A reference can resolve to several different things (see ConceptLink.parse),
+     * so describe it according to what it is: a documented concept, a Unicode
+     * codepoint, a UI element, a how-to, or a creator's custom character.
+     */
+    getDescription(locales: Locales, _: Context): Markup {
+        const parsed = ConceptLink.parse(this.getName());
+        if (parsed instanceof CodepointName)
+            return locales.concretize(
+                (l) => l.node.ConceptLink.kind.codepoint,
+                {
+                    concept: this.getCodepoint() ?? this.getName(),
+                },
+            );
+        if (parsed instanceof UIName)
+            return locales.concretize((l) => l.node.ConceptLink.kind.ui, {
+                concept: parsed.id ?? this.getName(),
+            });
+        if (parsed instanceof HowToName)
+            return locales.concretize((l) => l.node.ConceptLink.kind.how, {
+                concept: parsed.name ?? this.getName(),
+            });
+        if (parsed instanceof CharacterName)
+            return locales.concretize(
+                (l) => l.node.ConceptLink.kind.character,
+                {
+                    concept: parsed.name
+                        ? `${parsed.username}/${parsed.name}`
+                        : parsed.username,
+                },
+            );
+        // A documented concept (with an optional member), or an unparseable
+        // reference: use the default concept description.
+        return locales.concretize((l) => l.node.ConceptLink.description, {
+            concept:
+                parsed instanceof ConceptName
+                    ? parsed.property
+                        ? `${parsed.name}.${parsed.property}`
+                        : parsed.name
+                    : this.getName(),
+        });
+    }
+
     getCharacter() {
         return Characters.Link;
     }
@@ -215,7 +273,11 @@ export default class ConceptLink extends Content {
     }
 
     toText() {
-        return this.toWordplay();
+        // A `@<hex>` reference is a Unicode codepoint escape (a CodepointName),
+        // so converting markup to plain text resolves it to its character, the
+        // same as a text literal does. Other links have no plain-text form, so
+        // they fall back to their source.
+        return this.getCodepoint() ?? this.toWordplay();
     }
 }
 
@@ -271,4 +333,17 @@ function getConceptLinkCompletions(
         links.push(ConceptLink.make(token));
     }
     return links;
+}
+
+/** Build character-link completions whose name (`username/charactername`)
+ *  starts with the partial link `prefix` (the text after `@`). */
+function getCharacterLinkCompletions(
+    characters: string[] | undefined,
+    prefix: string,
+): ConceptLink[] {
+    if (characters === undefined) return [];
+    const lower = prefix.toLowerCase();
+    return characters
+        .filter((name) => name.toLowerCase().startsWith(lower))
+        .map((name) => ConceptLink.make(name));
 }

@@ -4,7 +4,10 @@ import type Block from '@nodes/Block';
 import type Context from '@nodes/Context';
 import type Reference from '@nodes/Reference';
 import type Locales from '@locale/Locales';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import type Node from '@nodes/Node';
 
 export default class SeparatedEvaluate extends Conflict {
@@ -13,7 +16,7 @@ export default class SeparatedEvaluate extends Conflict {
     readonly structure: boolean;
 
     constructor(name: Reference, inputs: Block, structure: boolean) {
-        super(false);
+        super(ConflictSeverity.Error);
 
         this.name = name;
         this.inputs = inputs;
@@ -37,10 +40,7 @@ export default class SeparatedEvaluate extends Conflict {
         };
     }
 
-    override getResolutions(
-        context: Context,
-        _concepts: Node[],
-    ): Resolutions {
+    override getResolutions(context: Context, _concepts: Node[]): Resolutions {
         // Strip the whitespace before the inputs block so it sits adjacent to
         // the function name. Replace the project's source with one whose
         // Spaces mapping sets the gap to empty.

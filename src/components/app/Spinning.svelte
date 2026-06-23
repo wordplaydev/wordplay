@@ -8,7 +8,7 @@
         spin?: boolean;
     }
 
-    let { label = undefined, size = 2, spin = true }: Props = $props();
+    let { label = undefined, size = 1.5, spin = true }: Props = $props();
 </script>
 
 <div
@@ -27,7 +27,8 @@
     .cursor {
         display: inline-block;
         transform-origin: center;
-        border: var(--wordplay-inactive-color) solid var(--wordplay-focus-width);
+        border: var(--wordplay-inactive-color) solid
+            calc(2 * var(--wordplay-border-width));
         border-radius: var(--wordplay-border-radius);
         background: var(--wordplay-alternating-color);
         width: 1em;

@@ -1,7 +1,11 @@
 import type LocaleText from '@locale/LocaleText';
 import Row from '@nodes/Row';
 import type Locales from '@locale/Locales';
-import Conflict, { type Repair, type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Repair,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 import Input from '@nodes/Input';
@@ -10,7 +14,7 @@ export default class InvalidRow extends Conflict {
     readonly row: Row;
 
     constructor(row: Row) {
-        super(false);
+        super(ConflictSeverity.Error);
         this.row = row;
     }
 
@@ -25,10 +29,7 @@ export default class InvalidRow extends Conflict {
         };
     }
 
-    override getResolutions(
-        _context: Context,
-        _concepts: Node[],
-    ): Resolutions {
+    override getResolutions(_context: Context, _concepts: Node[]): Resolutions {
         // The conflict fires when a row mixes positional and named cells.
         // Offer two repairs: keep only the positionals, or unwrap the named
         // cells to their values (making them positional too).
@@ -47,7 +48,8 @@ export default class InvalidRow extends Conflict {
                 kind: 'repair',
                 description: (locales: Locales) =>
                     locales.concretize(
-                        (l) => InvalidRow.LocalePath(l).resolutionKeepPositional,
+                        (l) =>
+                            InvalidRow.LocalePath(l).resolutionKeepPositional,
                     ),
                 mediator: (ctx) => ({
                     newProject: ctx.project.withRevisedNodes([

@@ -1,27 +1,17 @@
-<script module lang="ts">
-    const LIMIT = 10;
-</script>
-
 <script lang="ts" generics="NodeType extends Node">
     import EmptyView from '@components/editor/blocks/EmptyView.svelte';
     import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
     import NodeView, {
         type Format,
     } from '@components/editor/nodes/NodeView.svelte';
-    import {
-        getCaret,
-        getDragTarget,
-        getEditor,
-    } from '@components/project/Contexts';
-    import Button from '@components/widgets/Button.svelte';
-    import { locales, spaceIndicator } from '@db/Database';
+    import { getDragTarget } from '@components/project/Contexts';
+    import { spaceIndicator } from '@db/Database';
     import { InsertionPoint } from '@edit/drag/Drag';
     import type NodeRef from '@locale/NodeRef';
     import type ValueRef from '@locale/ValueRef';
     import Node from '@nodes/Node';
     import { EXPLICIT_NEWLINE_TEXT } from '@parser/Spaces';
     import type KeysOfType from '@util/KeysOfType';
-    import { tick } from 'svelte';
 
     interface Props {
         /** The node containing a list of nodes to render */
@@ -38,8 +28,6 @@
         add?: boolean;
         /** What layout to use. Inline wraps automatically. */
         direction?: 'inline' | 'block';
-        /** Whether the list supports being collapsed when it's long. */
-        elide?: boolean;
         /** Whether to indent the list.*/
         indent?: boolean;
         /** Whether to wrap the list if it exceeds the width of its container */
@@ -54,7 +42,6 @@
         filtered,
         empty,
         format,
-        elide = false,
         add = true,
         direction = 'inline',
         indent = false,
@@ -62,8 +49,6 @@
         breaks = false,
     }: Props = $props();
 
-    let caret = getCaret();
-    let editor = getEditor();
     let dragTarget = getDragTarget();
     let insertion = $derived(
         $dragTarget instanceof InsertionPoint &&
@@ -74,26 +59,6 @@
     );
 
     let nodes = $derived(filtered ?? (node[field] as Node[]));
-
-    /** Whether the list is long enough to be collapsible. */
-    let collapsible = $derived(elide && nodes.length > LIMIT);
-
-    /** The user's preference: collapsed unless they've toggled it open. */
-    let userCollapsed = $state(true);
-
-    /** Whether the caret is currently inside any item in the list. */
-    let caretInside = $derived.by(() => {
-        if (!collapsible || !$caret) return false;
-        const position =
-            $caret.position instanceof Node
-                ? $caret.position
-                : $caret.tokenIncludingSpace;
-        if (!position) return false;
-        return nodes.some((n) => n === position || n.contains(position));
-    });
-
-    /** Show all items unless the list is collapsible and the user has it collapsed and the caret isn't inside it. */
-    let expanded = $derived(!collapsible || !userCollapsed || caretInside);
 </script>
 
 {#snippet insertFeedback()}
@@ -111,34 +76,6 @@
             /></div
         >{/if}{/snippet}
 
-{#snippet toggleControl()}
-    {#if collapsible}
-        {@const text = $locales.getTextStructure(
-            (l) => l.ui.source.toggle.expandSequence,
-        )}
-        <Button
-            classes="elide-toggle"
-            background
-            padding={false}
-            tip={() => $locales.getPlainText(expanded ? text.on : text.off)}
-            action={() => {
-                // If we're about to collapse and the caret is inside the list,
-                // move it onto the parent node so the list actually collapses.
-                if (!userCollapsed && caretInside && caret && $caret)
-                    caret.set($caret.withPosition(node));
-                userCollapsed = !userCollapsed;
-                // The selection outline is measured from the rendered DOM, so
-                // toggling visibility leaves it stale until something else
-                // forces a remeasure. Refresh after the next render.
-                tick().then(() => $editor?.refreshHighlights());
-            }}
-            ><span class="elide-label"
-                >{#if expanded}–{:else}+ {nodes.length} …{/if}</span
-            ></Button
-        >
-    {/if}
-{/snippet}
-
 {#snippet items()}
     {#each nodes as node, index}
         {#if insertion?.index === index}
@@ -151,7 +88,11 @@
         {#if format.block && breaks && format.spaces}
             {@const space = format.spaces.getSpace(node)}
             {#each space.split('\n').slice(0, -1), index}
-                <div class="break" class:first={index === 0}
+                <div
+                    class="break"
+                    class:first={index === 0}
+                    data-node-id={node.id}
+                    data-newline={index}
                     >{#if $spaceIndicator}<span class="newline-marker"
                             >{EXPLICIT_NEWLINE_TEXT}</span
                         >{/if}</div
@@ -180,8 +121,11 @@
         {@const trailingSpace = trailingToken
             ? format.spaces.getSpace(trailingToken)
             : ''}
-        {#each trailingSpace.split('\n').slice(0, -1)}
-            <div class="break"
+        {#each trailingSpace.split('\n').slice(0, -1), index}
+            <div
+                class="break"
+                data-node-id={trailingToken?.id}
+                data-newline={index + 1}
                 >{#if $spaceIndicator}<span class="newline-marker"
                         >{EXPLICIT_NEWLINE_TEXT}</span
                     >{/if}</div
@@ -208,10 +152,7 @@
             data-field={field}
             data-direction={direction}
         >
-            {@render toggleControl()}
-            {#if expanded}
-                {@render items()}
-            {/if}
+            {@render items()}
         </div>
     {/if}
 {/snippet}
@@ -219,25 +160,10 @@
 {#if format.block}
     {@render list()}
 {:else}
-    {@render toggleControl()}{#if expanded}{#each nodes as node, index}<NodeView
-                {node}
-                {format}
-                {index}
-            />{/each}{/if}
+    {#each nodes as node, index}<NodeView {node} {format} {index} />{/each}
 {/if}
 
 <style>
-    .elide-label {
-        font-family: var(--wordplay-app-font);
-        font-size: var(--wordplay-small-font-size);
-        padding-inline: var(--wordplay-spacing-half);
-    }
-
-    :global(.elide-toggle) {
-        min-height: 0;
-        align-self: center;
-    }
-
     .node-list {
         display: flex;
         flex-direction: row;

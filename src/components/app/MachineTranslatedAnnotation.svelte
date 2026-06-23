@@ -21,17 +21,16 @@
     }
 </script>
 
-<Emoji color={false}
-    ><span
-        role="tooltip"
-        bind:this={annotation}
-        aria-label={tip}
-        class:wiggle={localize.on}
-        onfocus={showTip}
-        onblur={hideTip}
-        onpointerenter={showTip}
-        onpointerleave={hideTip}>{MACHINE_TRANSLATED_SYMBOL}</span
-    ></Emoji
+<span
+    role="tooltip"
+    bind:this={annotation}
+    aria-label={tip}
+    class:wiggle={localize.on}
+    onfocus={showTip}
+    onblur={hideTip}
+    onpointerenter={showTip}
+    onpointerleave={hideTip}
+    ><Emoji text={MACHINE_TRANSLATED_SYMBOL} color={false} /></span
 >
 
 <style>

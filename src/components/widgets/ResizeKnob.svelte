@@ -77,9 +77,7 @@
         return 'nesw-resize';
     }
 
-    function orientationFor(
-        e: ResizeKnobEdge,
-    ): 'horizontal' | 'vertical' {
+    function orientationFor(e: ResizeKnobEdge): 'horizontal' | 'vertical' {
         return e === 'top' || e === 'bottom' ? 'horizontal' : 'vertical';
     }
 
@@ -149,11 +147,15 @@
     /* Single hover / focus / active style — same color in every state where
        the knob is "engaged". This is the only place either consumer can
        change the knob's appearance. */
-    .resize-knob:hover,
-    .resize-knob:focus-visible,
     .resize-knob.active {
         background: var(--wordplay-highlight-color);
         outline: none;
+    }
+
+    .resize-knob:focus-visible {
+        /* Add a focus ring in addition to the color change, since the knob is
+           small and might be hard to see when it changes color. */
+        background: var(--wordplay-focus-color);
     }
 
     /* Centered on the parent's border line via translate. The consumer is

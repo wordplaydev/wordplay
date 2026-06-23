@@ -5,14 +5,17 @@ import type Name from '@nodes/Name';
 import type Node from '@nodes/Node';
 import type Locales from '@locale/Locales';
 import type Bind from '@nodes/Bind';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 
 export default class DuplicateName extends Conflict {
     readonly bind: Bind;
     readonly duplicate: Name;
 
     constructor(name: Bind, duplicate: Name) {
-        super(true);
+        super(ConflictSeverity.Minor);
 
         this.bind = name;
         this.duplicate = duplicate;
@@ -39,10 +42,7 @@ export default class DuplicateName extends Conflict {
         };
     }
 
-    override getResolutions(
-        _context: Context,
-        _concepts: Node[],
-    ): Resolutions {
+    override getResolutions(_context: Context, _concepts: Node[]): Resolutions {
         // Two cases:
         //  - The duplicate Name lives alongside its sibling within a single
         //    Bind's Names list (separator present) — delete just the Name.
@@ -61,7 +61,10 @@ export default class DuplicateName extends Conflict {
                 mediator: (context: Context) => {
                     return {
                         newProject: context.project.withRevisedNodes([
-                            [targetIsName ? this.duplicate : this.bind, undefined],
+                            [
+                                targetIsName ? this.duplicate : this.bind,
+                                undefined,
+                            ],
                         ]),
                     };
                 },

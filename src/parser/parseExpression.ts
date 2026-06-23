@@ -1,23 +1,38 @@
+import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import type Bind from '@nodes/Bind';
+import Block, { BlockKind } from '@nodes/Block';
+import BooleanLiteral from '@nodes/BooleanLiteral';
 import Changed from '@nodes/Changed';
+import Conditional from '@nodes/Conditional';
 import ConversionDefinition from '@nodes/ConversionDefinition';
 import Convert from '@nodes/Convert';
 import Delete from '@nodes/Delete';
 import Dimension from '@nodes/Dimension';
+import type Doc from '@nodes/Doc';
+import Docs from '@nodes/Docs';
 import DocumentedExpression from '@nodes/DocumentedExpression';
+import Evaluate from '@nodes/Evaluate';
+import type Expression from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+import FormattedLiteral from '@nodes/FormattedLiteral';
+import FormattedTranslation from '@nodes/FormattedTranslation';
 import FunctionDefinition from '@nodes/FunctionDefinition';
+import Initial from '@nodes/Initial';
 import Input from '@nodes/Input';
 import Insert from '@nodes/Insert';
+import Is from '@nodes/Is';
+import IsLocale from '@nodes/IsLocale';
 import KeyValue from '@nodes/KeyValue';
 import ListAccess from '@nodes/ListAccess';
 import ListLiteral from '@nodes/ListLiteral';
+import Localized from '@nodes/Localized';
 import MapLiteral from '@nodes/MapLiteral';
 import Match from '@nodes/Match';
 import NoneLiteral from '@nodes/NoneLiteral';
 import NumberLiteral from '@nodes/NumberLiteral';
 import Otherwise from '@nodes/Otherwise';
 import Previous from '@nodes/Previous';
+import PropertyBind from '@nodes/PropertyBind';
 import PropertyReference from '@nodes/PropertyReference';
 import Reaction from '@nodes/Reaction';
 import Reference from '@nodes/Reference';
@@ -25,43 +40,36 @@ import Row from '@nodes/Row';
 import Select from '@nodes/Select';
 import SetLiteral from '@nodes/SetLiteral';
 import SetOrMapAccess from '@nodes/SetOrMapAccess';
-import TableLiteral from '@nodes/TableLiteral';
-import TextLiteral from '@nodes/TextLiteral';
-import type Token from '@nodes/Token';
-import TypeInputs from '@nodes/TypeInputs';
-import TypeVariable from '@nodes/TypeVariable';
-import TypeVariables from '@nodes/TypeVariables';
-import Unit from '@nodes/Unit';
-import Update from '@nodes/Update';
-import BinaryEvaluate from '@nodes/BinaryEvaluate';
-import Block, { BlockKind } from '@nodes/Block';
-import BooleanLiteral from '@nodes/BooleanLiteral';
-import Conditional from '@nodes/Conditional';
-import type Doc from '@nodes/Doc';
-import Docs from '@nodes/Docs';
-import Evaluate from '@nodes/Evaluate';
-import type Expression from '@nodes/Expression';
-import FormattedLiteral from '@nodes/FormattedLiteral';
-import FormattedTranslation from '@nodes/FormattedTranslation';
-import Initial from '@nodes/Initial';
-import Is from '@nodes/Is';
-import IsLocale from '@nodes/IsLocale';
-import PropertyBind from '@nodes/PropertyBind';
 import Spread from '@nodes/Spread';
 import StructureDefinition from '@nodes/StructureDefinition';
 import { Sym, type SymType } from '@nodes/Sym';
+import TableLiteral from '@nodes/TableLiteral';
+import TextLiteral from '@nodes/TextLiteral';
 import This from '@nodes/This';
+import type Token from '@nodes/Token';
 import Translate from '@nodes/Translate';
 import Translation, { type TranslationSegment } from '@nodes/Translation';
 import type Type from '@nodes/Type';
+import TypeInputs from '@nodes/TypeInputs';
+import TypeVariable from '@nodes/TypeVariable';
+import TypeVariables from '@nodes/TypeVariables';
 import UnaryEvaluate from '@nodes/UnaryEvaluate';
+import Unit from '@nodes/Unit';
 import UnparsableExpression from '@nodes/UnparsableExpression';
-import parseBind, { nextIsBind, nextIsInput, parseNames } from '@parser/parseBind';
+import Update from '@nodes/Update';
+import parseBind, {
+    nextIsBind,
+    nextIsInput,
+    parseNames,
+} from '@parser/parseBind';
 import parseDoc from '@parser/parseDoc';
 import parseLanguage from '@parser/parseLanguage';
-import parseMarkup, { parseExample } from '@parser/parseMarkup';
+import parseMarkup, {
+    parseConceptLink,
+    parseExample,
+} from '@parser/parseMarkup';
+import parsePattern from '@parser/parsePattern';
 import parseType, { parseTableType } from '@parser/parseType';
-import { DOT_SYMBOL, EXPONENT_SYMBOL } from '@parser/Symbols';
 import type Tokens from '@parser/Tokens';
 import { toTokens } from '@parser/toTokens';
 
@@ -117,30 +125,40 @@ export function parseBlock(
           : undefined;
 
     const statements: (Bind | Expression)[] = [];
-    // Keep reading binds and expressions until
-    // 1) there are no more tokens and one the following is true:
-    //  a) It's a root and not a doc
-    //  b) It's not a root or a doc and the next is an eval close
-    //  c) It's a doc and the next is an example close
+    // Keep reading binds and expressions while there are tokens AND:
+    //  - the ROOT block reads everything, except in a doc example it stops at the
+    //    example boundary `\` (Sym.Code);
+    //  - a NESTED block (`(…)`) stops at its close `)` — and ALSO at a `\`. A bare
+    //    `\` never appears mid-block in real code (it only opens a doc example),
+    //    so treating it as a boundary lets an unclosed `(` inside an example
+    //    (`\(\`) stop there instead of swallowing the rest up to a later `)`.
+    //    The nested parser isn't told it's in a doc, so this `\` stop is what
+    //    bounds bracketed examples like \(◌ | #)\ and \year:(4 #)\.
     tokens.whileDo(
         () =>
             tokens.hasNext() &&
-            ((root && !doc) ||
-                (!root && !doc && tokens.nextIsnt(Sym.EvalClose)) ||
-                (doc && tokens.nextIsnt(Sym.Code))),
+            (root
+                ? !doc || tokens.nextIsnt(Sym.Code)
+                : tokens.nextIsnt(Sym.EvalClose) &&
+                  tokens.nextIsnt(Sym.Code)),
         () => {
             const next = nextIsBind(tokens, true)
                 ? parseBind(tokens)
                 : parseExpression(tokens);
             statements.push(next);
-            // Did we get an unparsable expression with no tokens? Read until we get to the block close or the end of the
-            // program. If we don't do this, the we will stop reading statements and will not parse the remainder of the program.
+            // Did we get an unparsable expression with no tokens? Read until we get to the block close,
+            // the end of the program, or an example boundary `\`. If we don't do this, the we will stop
+            // reading statements and will not parse the remainder of the program.
             if (
                 next instanceof UnparsableExpression &&
                 next.unparsables.length === 0
             ) {
                 const unparsed: Token[] = [];
-                while (tokens.hasNext() && tokens.nextIsnt(Sym.EvalClose))
+                while (
+                    tokens.hasNext() &&
+                    tokens.nextIsnt(Sym.EvalClose) &&
+                    tokens.nextIsnt(Sym.Code)
+                )
                     unparsed.push(tokens.read());
                 statements.push(new UnparsableExpression(unparsed));
             }
@@ -250,8 +268,18 @@ function parseAtomicExpression(tokens: Tokens): Expression {
                             parseReference(tokens),
                             parseAtomicExpression(tokens),
                         )
-                      : // References can be names or binary operators
-                        tokens.nextIsOneOf(Sym.Name, Sym.Operator)
+                      : // References can be names or binary operators. A dual-typed keyword word
+                        // (carrying both Sym.Name and a construct Sym, from localized-keyword input)
+                        // defers to its construct branch below, so a typed construct keyword parses as
+                        // the construct rather than a reference. Pure tokens never carry both, so this
+                        // is a no-op unless a keyword index is active. See LANGUAGE.md.
+                        tokens.nextIsOneOf(Sym.Name, Sym.Operator) &&
+                        !tokens.nextIsOneOf(
+                            Sym.Function,
+                            Sym.Type,
+                            Sym.Convert,
+                            Sym.Boolean,
+                        )
                         ? parseReference(tokens)
                         : // Booleans
                           tokens.nextIs(Sym.Boolean)
@@ -271,47 +299,52 @@ function parseAtomicExpression(tokens: Tokens): Expression {
                                   : // Table literals
                                     tokens.nextIs(Sym.TableOpen)
                                     ? parseTable(tokens)
-                                    : // A block expression
-                                      nextAreOptionalDocsThen(tokens, [
-                                            Sym.EvalOpen,
-                                        ])
-                                      ? parseBlock(tokens, BlockKind.Block)
-                                      : // A structure definition
+                                    : // A pattern literal ⣿ … ⣿
+                                      tokens.nextIs(Sym.PatternDelimiter)
+                                      ? parsePattern(tokens)
+                                      : // A block expression
                                         nextAreOptionalDocsThen(tokens, [
-                                              Sym.Type,
-                                          ]) ||
-                                          nextAreOptionalDocsThen(tokens, [
-                                              Sym.Share,
-                                              Sym.Type,
+                                              Sym.EvalOpen,
                                           ])
-                                        ? parseStructure(tokens)
-                                        : // A function function
+                                        ? parseBlock(tokens, BlockKind.Block)
+                                        : // A structure definition
                                           nextAreOptionalDocsThen(tokens, [
-                                                Sym.Function,
+                                                Sym.Type,
                                             ]) ||
                                             nextAreOptionalDocsThen(tokens, [
                                                 Sym.Share,
-                                                Sym.Function,
+                                                Sym.Type,
                                             ])
-                                          ? parseFunction(tokens)
-                                          : // A conversion function.
+                                          ? parseStructure(tokens)
+                                          : // A function function
                                             nextAreOptionalDocsThen(tokens, [
-                                                  Sym.Convert,
+                                                  Sym.Function,
+                                              ]) ||
+                                              nextAreOptionalDocsThen(tokens, [
+                                                  Sym.Share,
+                                                  Sym.Function,
                                               ])
-                                            ? parseConversion(tokens)
-                                            : tokens.nextIs(Sym.Previous)
-                                              ? parsePrevious(tokens)
-                                              : tokens.nextIs(Sym.Formatted)
-                                                ? parseFormattedLiteral(tokens)
-                                                : tokens.nextIs(Sym.Locale)
-                                                  ? parseIsLocale(tokens)
-                                                  : // A documented expression is a doc followed by an expression
-                                                    tokens.nextIs(Sym.Doc)
-                                                    ? parseDocumentedExpression(
-                                                          tokens,
-                                                      )
-                                                    : // Unknown expression? Parse until the end of the line or code block.
-                                                      parseUnparsable(tokens);
+                                            ? parseFunction(tokens)
+                                            : // A conversion function.
+                                              nextAreOptionalDocsThen(tokens, [
+                                                    Sym.Convert,
+                                                ])
+                                              ? parseConversion(tokens)
+                                              : tokens.nextIs(Sym.Previous)
+                                                ? parsePrevious(tokens)
+                                                : tokens.nextIs(Sym.Formatted)
+                                                  ? parseFormattedLiteral(
+                                                        tokens,
+                                                    )
+                                                  : tokens.nextIs(Sym.Locale)
+                                                    ? parseIsLocale(tokens)
+                                                    : // A documented expression is a doc followed by an expression
+                                                      tokens.nextIs(Sym.Doc)
+                                                      ? parseDocumentedExpression(
+                                                            tokens,
+                                                        )
+                                                      : // Unknown expression? Parse until the end of the line or code block.
+                                                        parseUnparsable(tokens);
 
     // But wait! Is it one or more infix expressions? Slurp them up.
     let match = false;
@@ -341,6 +374,15 @@ function parseAtomicExpression(tokens: Tokens): Expression {
                 left = parseUpdate(left, tokens);
             else if (tokens.nextIs(Sym.Delete))
                 left = parseDelete(left, tokens);
+            // A locale tag applied to a computed expression, e.g. `(a + b)/en`.
+            // Binds tightly to the atomic expression (use parens to tag a whole
+            // binary expression). Literals consume their own tag in
+            // parseTranslation, so this only sees computed expressions.
+            else if (
+                tokens.nextIs(Sym.Language) &&
+                tokens.nextLacksPrecedingSpace()
+            )
+                left = new Localized(left, parseLanguage(tokens));
             else match = false;
         },
         () => match,
@@ -416,8 +458,7 @@ export function parseUnit(tokens: Tokens): Unit | undefined {
 
     tokens.whileDo(
         () =>
-            (tokens.nextIs(Sym.Name) ||
-                tokens.nextIs(Sym.Operator, DOT_SYMBOL)) &&
+            (tokens.nextIs(Sym.Name) || tokens.nextIs(Sym.Product)) &&
             tokens.nextLacksPrecedingSpace(),
         () => numerator.push(parseDimension(tokens)),
     );
@@ -428,8 +469,7 @@ export function parseUnit(tokens: Tokens): Unit | undefined {
         slash = tokens.read(Sym.Language);
         tokens.whileDo(
             () =>
-                (tokens.nextIs(Sym.Name) ||
-                    tokens.nextIs(Sym.Operator, DOT_SYMBOL)) &&
+                (tokens.nextIs(Sym.Name) || tokens.nextIs(Sym.Product)) &&
                 tokens.nextLacksPrecedingSpace(),
             () => denominator.push(parseDimension(tokens)),
         );
@@ -444,16 +484,13 @@ export function parseUnit(tokens: Tokens): Unit | undefined {
 
 /** DIMENSION :: NAME (^NUMBER)? */
 function parseDimension(tokens: Tokens): Dimension {
-    const product = tokens.nextIs(Sym.Operator, DOT_SYMBOL)
+    const product = tokens.nextIs(Sym.Product)
         ? tokens.read(Sym.Operator)
         : undefined;
     const name = tokens.nextIs(Sym.Name) ? tokens.read(Sym.Name) : undefined;
     let caret = undefined;
     let exponent = undefined;
-    if (
-        tokens.nextIs(Sym.Operator, EXPONENT_SYMBOL) &&
-        tokens.nextLacksPrecedingSpace()
-    ) {
+    if (tokens.nextIs(Sym.Exponent) && tokens.nextLacksPrecedingSpace()) {
         caret = tokens.read(Sym.Operator);
         exponent =
             tokens.nextIs(Sym.Number) && tokens.nextLacksPrecedingSpace()
@@ -479,11 +516,16 @@ function parseTranslation(tokens: Tokens): Translation {
     const text = tokens.read(Sym.Text);
     const segments: TranslationSegment[] = [];
     tokens.whileDo(
-        () => tokens.nextIs(Sym.Words) || tokens.nextIs(Sym.Code),
+        () =>
+            tokens.nextIs(Sym.Words) ||
+            tokens.nextIs(Sym.Code) ||
+            tokens.nextIs(Sym.Concept),
         () => {
             if (tokens.nextIs(Sym.Words)) segments.push(tokens.read(Sym.Words));
             else if (tokens.nextIs(Sym.Code))
                 segments.push(parseExample(tokens));
+            else if (tokens.nextIs(Sym.Concept))
+                segments.push(parseConceptLink(tokens));
         },
     );
     const close = tokens.nextIs(Sym.Text) ? tokens.read(Sym.Text) : undefined;

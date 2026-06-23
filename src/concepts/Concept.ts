@@ -7,6 +7,7 @@ import type { Emotion } from '../lore/Emotion';
 import type Markup from '@nodes/Markup';
 import type { CharacterName } from '../tutorial/Tutorial';
 import type { PurposeType } from '@concepts/Purpose';
+import { firstSentenceOf } from '@locale/firstSentence';
 
 /**
  * Represents some part of the Wordplay language, API, or example ecosystem.
@@ -54,8 +55,10 @@ export default abstract class Concept {
 
     /**
      * Return a node to represent the concept. Usually an example or template.
+     * When `textual` is true, prefer non-symbolic (textual) names — used by drag
+     * palettes (the Wellspring) where there are no concept links for clarity.
      */
-    abstract getRepresentation(locales: Locales): Node;
+    abstract getRepresentation(locales: Locales, textual?: boolean): Node;
 
     /**
      * Returns a localized creator-facing name or description to represent the concept.
@@ -69,6 +72,18 @@ export default abstract class Concept {
      * Returns, if available, documentation for the concept.
      */
     abstract getDocs(locales: Locales): Markup[];
+
+    /**
+     * A short one-line hint shown below concept previews, to help creators learn
+     * what an unfamiliar concept does. Defaults to the first sentence of the
+     * concept's docs; NodeConcept overrides with the node's short description.
+     */
+    getDescription(locales: Locales): Markup | undefined {
+        const docs = this.getDocs(locales)[0];
+        return docs === undefined
+            ? undefined
+            : firstSentenceOf(docs, locales.getLocaleString());
+    }
 
     /**
      * Provides a set of Nodes that could be rendered in the UI.

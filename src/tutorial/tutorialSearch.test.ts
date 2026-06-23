@@ -4,8 +4,8 @@ import { searchItems } from '@util/search';
 
 const L = 'en';
 
-// Lines are [speaker, emotion, ...text]; a performance line starts with a
-// PerformanceMode ('fit'/'fix'/'edit'/'conflict'/'use') and must be skipped.
+// Lines are [speaker, emotion, ...text] (Dialog); a performance line is an object
+// ({ fit: … }, { edit: … }, …) and must be skipped.
 const tutorial: SearchableTutorial = {
     acts: [
         {
@@ -18,7 +18,7 @@ const tutorial: SearchableTutorial = {
                         ['Emcee', 'happy', 'Welcome to the gesture tutorial'],
                         null, // a pause
                         ['Emcee', 'happy', 'Phrases can be animated on stage'],
-                        ['fit', 'some performance content'], // skipped
+                        { fit: 'some performance content' }, // skipped
                     ],
                 },
             ],

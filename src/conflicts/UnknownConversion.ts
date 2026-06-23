@@ -4,7 +4,10 @@ import type Context from '@nodes/Context';
 import type Convert from '@nodes/Convert';
 import type Type from '@nodes/Type';
 import type Locales from '@locale/Locales';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import type Node from '@nodes/Node';
 
 export class UnknownConversion extends Conflict {
@@ -12,7 +15,7 @@ export class UnknownConversion extends Conflict {
     readonly expectedType: Type;
 
     constructor(expr: Convert, expectedType: Type) {
-        super(false);
+        super(ConflictSeverity.Error);
         this.convert = expr;
         this.expectedType = expectedType;
     }
@@ -27,17 +30,18 @@ export class UnknownConversion extends Conflict {
                 locales.concretize(
                     (l) => UnknownConversion.LocalePath(l).explanation,
                     {
-                        expected: new NodeRef(this.expectedType, locales, context),
+                        expected: new NodeRef(
+                            this.expectedType,
+                            locales,
+                            context,
+                        ),
                         given: new NodeRef(this.convert.type, locales, context),
                     },
                 ),
         };
     }
 
-    override getResolutions(
-        _context: Context,
-        _concepts: Node[],
-    ): Resolutions {
+    override getResolutions(_context: Context, _concepts: Node[]): Resolutions {
         // Remove the convert wrapper, leaving just the inner expression.
         const inner = this.convert.expression;
         return [

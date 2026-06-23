@@ -60,6 +60,12 @@ const Sym = {
     Update: '⎡:',
     Delete: '⎡-',
     Union: '|',
+    // These three are also operators (kept first in their token's type list), but
+    // carry a second candidate type so unit/type parsing can match them by Sym
+    // rather than by operator text, the same way `|` is also Sym.Union.
+    Exponent: '^',
+    Product: '·',
+    Percent: '%',
     Stream: '…',
     Change: '∆',
     Initial: '◆',
@@ -67,6 +73,34 @@ const Sym = {
     Etc: '...',
     This: '⬚',
     Locale: '🌏',
+
+    // Pattern (regex replacement) tokens; the body tokens are emitted only inside ⣿ ⣿ by the pattern lexer context. See LANGUAGE.md.
+    // A pattern is delimited by a single ⣿ on both ends (it can't nest), so one
+    // toggling symbol opens and closes, like a text quote.
+    PatternDelimiter: '⣿',
+    PatternAny: '◌',
+    PatternLetter: 'pattern.letter',
+    PatternDigit: 'pattern.digit',
+    PatternSpace: '␣',
+    PatternRest: 'pattern.rest',
+    PatternWord: '▭',
+    PatternWordEdge: '┊',
+    PatternStart: '⊢',
+    PatternEnd: '⊣',
+    PatternAhead: '▸',
+    PatternBehind: '◂',
+    PatternFold: 'Aa',
+    PatternRange: '–',
+    PatternComplement: 'pattern.not',
+    PatternAlternation: 'pattern.or',
+    PatternSlash: 'pattern.slash',
+    PatternEqual: 'pattern.eq',
+    PatternGreater: 'pattern.gt',
+    PatternGreaterEqual: 'pattern.gte',
+    PatternLess: 'pattern.lt',
+    PatternLessEqual: 'pattern.lte',
+    /** A raw literal inside a pattern (`"…"`), tokenized whole with no markup. */
+    PatternText: 'pattern.text',
 
     // These are the only operators eligible for unary, binary, or teriary notation.
     // We've included them for consistency with math notation and readability.
@@ -80,6 +114,8 @@ const Sym = {
     // Text literals can also come in multiple formats, to encode multilingual apps in place.
     Text: 'text',
     Code: '\\',
+    /** A markup block of foreign-language code, e.g. `\py| a = 5\js| let a = 5;\` */
+    ExternalExample: '@ext',
     Highlight: '⭐',
     // The optional negative sign allows for negative number literals.
     // The optional dash allows for a random number range.
@@ -106,6 +142,7 @@ export const WildcardSymbols = new Set([
     Sym.Text,
     Sym.Words,
     Sym.Concept,
+    Sym.ExternalExample,
     Sym.End,
 ]);
 

@@ -90,39 +90,21 @@
                 return;
             }
 
-            // If the target is inside a dialog, position relative to that dialog.
-            const dialog = inDialog
-                ? (target.closest('dialog') as HTMLDialogElement | null)
-                : null;
+            // Position against the viewport using the target's live on-screen
+            // rect. The in-dialog hint is rendered with `position: fixed` (see
+            // CSS below), so these viewport coordinates stay aligned with the
+            // target regardless of how the dialog or any inner container is
+            // scrolled — no scroll-offset math required.
             const rect = target.getBoundingClientRect();
-
-            // Convert the target rect into the same coordinate system as the
-            // hint's positioning context (the dialog, or the viewport).
-            const targetRect = dialog
-                ? (() => {
-                      const dr = dialog.getBoundingClientRect();
-                      return {
-                          left: rect.left - dr.left + dialog.scrollLeft,
-                          top: rect.top - dr.top + dialog.scrollTop,
-                          width: rect.width,
-                          height: rect.height,
-                      };
-                  })()
-                : {
-                      left: rect.left,
-                      top: rect.top,
-                      width: rect.width,
-                      height: rect.height,
-                  };
-
-            const container = dialog
-                ? { width: dialog.clientWidth, height: dialog.clientHeight }
-                : { width: window.innerWidth, height: window.innerHeight };
-
             const { left, top } = placeNearTarget(
-                targetRect,
+                {
+                    left: rect.left,
+                    top: rect.top,
+                    width: rect.width,
+                    height: rect.height,
+                },
                 { width, height },
-                container,
+                { width: window.innerWidth, height: window.innerHeight },
             );
             bounds.top = top;
             bounds.left = left;
@@ -146,7 +128,11 @@
 
 <style>
     .hint {
-        position: absolute;
+        /* Fixed (viewport-relative) so the tooltip stays aligned with its
+           target regardless of how an enclosing dialog or container is
+           scrolled. The position is computed from the target's live
+           getBoundingClientRect() in viewport coordinates. */
+        position: fixed;
         background: var(--wordplay-background);
         color: var(--wordplay-foreground);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);

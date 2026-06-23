@@ -96,9 +96,9 @@ test.each([
 // The localized union rendering in en-US uses Oxford-comma "one of A, B, ..., or Z"
 // and the TextType description in en-US renders literals as 'X'.
 test.each([
-    [`"a"|"b"`, `one of 'a' or 'b'`],
-    [`"a"|"b"|"c"`, `one of 'a', 'b', or 'c'`],
-    [`"a"|"b"|"c"|"d"`, `one of 'a', 'b', 'c', or 'd'`],
+    [`"a"|"b"`, `One of 'a' or 'b'`],
+    [`"a"|"b"|"c"`, `One of 'a', 'b', or 'c'`],
+    [`"a"|"b"|"c"|"d"`, `One of 'a', 'b', 'c', or 'd'`],
 ])('UnionType.getDescription %s -> %s', (input: string, expected: string) => {
     const source = new Source('untitled', '');
     const project = Project.make(null, 'untitled', source, [], DefaultLocale);

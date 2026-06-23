@@ -24,6 +24,6 @@
     on={tile.isExpanded() && !tile.isInvisible()}
     toggle={() => toggle()}
     highlight={notification}
-    ><Emoji>{TileKinds[tile.kind].symbol}</Emoji>
+    ><Emoji text={TileKinds[tile.kind].symbol} />
     <span class="toggle-label">{tile.getName(project, $locales)}</span></Toggle
 >

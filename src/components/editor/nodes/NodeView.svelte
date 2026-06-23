@@ -12,14 +12,17 @@
 
 <script lang="ts" generics="NodeType extends Node">
     import EmptyView from '@components/editor/blocks/EmptyView.svelte';
+    import FoldToggle from '@components/editor/util/FoldToggle.svelte';
     import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
     import getNodeView from '@components/editor/nodes/nodeToView';
     import Space from '@components/editor/nodes/Space.svelte';
     import {
         getDragTarget,
         getEvaluation,
+        getEffectiveFolded,
         getHidden,
         getHighlights,
+        getProject,
         getRoot,
         getSpaces,
     } from '@components/project/Contexts';
@@ -31,6 +34,7 @@
     import Expression from '@nodes/Expression';
     import Node from '@nodes/Node';
     import type { UnitDeriver } from '@nodes/NumberType';
+    import type { LanguageDeriver } from '@nodes/DerivedLanguage';
     import type Root from '@nodes/Root';
     import Source from '@nodes/Source';
     import Token from '@nodes/Token';
@@ -40,7 +44,13 @@
     interface Props {
         /** The parent node containing the field to render. We take this instead of the field value so we can render a placeholder for empty values in blocks mode. */
         node:
-            | [NodeType, KeysOfType<NodeType, Node | UnitDeriver | undefined>]
+            | [
+                  NodeType,
+                  KeysOfType<
+                      NodeType,
+                      Node | UnitDeriver | LanguageDeriver | undefined
+                  >,
+              ]
             | Node;
         /** The format to use when rendering */
         format: Format;
@@ -50,6 +60,16 @@
         replaceable?: boolean;
         /** The index of the node in the list, if it's in one */
         index?: number | undefined;
+        /** Suppress this node's leading space. Used in folded headers so a
+         *  closing delimiter doesn't drag the hidden body's blank lines along
+         *  with it (e.g. so a folded block reads as a clean "(…)"). */
+        noSpace?: boolean;
+        /** If set, render a fold toggle for the given node immediately AFTER this
+         *  node's leading space and before its content. Foldable views use this
+         *  for their first token so that, in text mode, the toggle lands on the
+         *  same line as the content rather than at the end of the previous line
+         *  (the leading newline renders as a <br> within this node's space). */
+        foldToggleFor?: Node | undefined;
     }
 
     let {
@@ -58,6 +78,8 @@
         empty = 'menu',
         replaceable = false,
         index = undefined,
+        noSpace = false,
+        foldToggleFor = undefined,
     }: Props = $props();
 
     /** Get the value of the node, possibly undefined. */
@@ -66,17 +88,25 @@
     );
 
     const evaluation = getEvaluation();
+    const project = getProject();
     const rootContext = getRoot();
     let root = $derived(rootContext?.root);
 
+    // Source the description's Context from the project store, which only
+    // changes on edits, rather than the evaluation store, which emits a new
+    // object on every evaluator broadcast (i.e. every animation frame while a
+    // program runs). Descriptions don't change between steps, so reading
+    // $evaluation here would recompute every node's localized aria-label each
+    // frame. Fall back to the evaluator's project for non-route render
+    // contexts (e.g. previews) where the project store isn't set.
+    let descriptionContext = $derived(
+        node
+            ? ($project ?? $evaluation?.evaluator.project)?.getNodeContext(node)
+            : undefined,
+    );
     let description = $derived(
-        node && $evaluation
-            ? node
-                  .getDescription(
-                      $locales,
-                      $evaluation.evaluator.project.getNodeContext(node),
-                  )
-                  .toText()
+        node && descriptionContext
+            ? node.getDescription($locales, descriptionContext).toText()
             : null,
     );
 
@@ -118,6 +148,14 @@
         node && rootContext ? rootContext.elided.has(node) : false,
     );
 
+    // Code folding (#806/#883): whether this node is currently folded. The fold
+    // control and the collapsed appearance live in the individual node views
+    // that support folding (each gates on isFoldable); NodeView just reads the
+    // state and passes it down via the `folded` prop so those views can render
+    // their collapsed header.
+    const folded = getEffectiveFolded();
+    let isFolded = $derived(node !== undefined && ($folded?.has(node) ?? false));
+
     // Get the insertion point
     let dragTarget = getDragTarget();
 
@@ -136,7 +174,7 @@
 </script>
 
 {#snippet textSpace()}
-    {#if !hide && firstToken !== undefined && spaceRoot === node}
+    {#if !hide && !noSpace && firstToken !== undefined && spaceRoot === node}
         <Space
             token={firstToken}
             first={$spaces?.isFirst(firstToken) ?? false}
@@ -154,7 +192,7 @@
 
 {#snippet blockSpace()}
     <!-- Render space if not hidden, and this is the token with the space -->
-    {#if !hide && firstToken !== undefined && spaceRoot === node && root !== undefined}
+    {#if !hide && !noSpace && firstToken !== undefined && spaceRoot === node && root !== undefined}
         {@const tokenPrefersPrecedingSpace =
             space.length === 0 &&
             spaceRoot !== undefined &&
@@ -177,7 +215,10 @@
 {#if node !== undefined}
     {#if ComponentView !== undefined}
         <!-- In text mode, render space before the node view. -->
-        {#if !format.block}{@render textSpace()}{:else}{@render blockSpace()}{/if}<!-- Render the node view wrapper, but no extra whitespace! --><div
+        {#if !format.block}{@render textSpace()}{:else}{@render blockSpace()}{/if}{#if foldToggleFor !== undefined}<FoldToggle
+                node={foldToggleFor}
+                lineStart={!format.block && space.includes('\n')}
+            />{/if}<!-- Render the node view wrapper, but no extra whitespace! --><div
             class={[
                 'node-view',
                 node.getDescriptor(),
@@ -204,10 +245,11 @@
                     aria-label="elided">…</span
                 >{:else}{#if value && node.isUndelimited()}<span class="eval"
                         >{EVAL_OPEN_SYMBOL}</span
-                    >{/if}<ComponentView
-                    {node}
-                    {format}
-                />{#if value}{#if node.isUndelimited()}<span class="eval"
+                    >{/if}{#key ComponentView}<ComponentView
+                        {node}
+                        {format}
+                        folded={isFolded}
+                    />{/key}{#if value}{#if node.isUndelimited()}<span class="eval"
                             >{EVAL_CLOSE_SYMBOL}</span
                         >{/if}<div class="value"
                         ><ValueView {value} {node} interactive /></div

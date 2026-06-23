@@ -38,11 +38,20 @@ export default class ConceptIndex {
     readonly subConcepts: Map<Concept, Set<Concept>> = new Map();
     readonly locales: Locales;
 
-    /** Precomputed searchable text for every concept, aligned to {@link concepts}. */
-    readonly searchable: Searchable<Concept>[];
+    /** Lazily-computed searchable text for every concept, aligned to {@link concepts}. Built on the
+     *  first concept search (see {@link searchable}) rather than at construction: concretizing every
+     *  basis concept's docs is ~20ms and is only needed when the user actually searches the guide —
+     *  building a fresh index per project/tutorial-step otherwise pays that cost for nothing. */
+    private cachedSearchable: Searchable<Concept>[] | undefined;
 
     /** A mapping of node ids to nodes, registered by examples that are generated. */
     readonly examples: Map<number, Node> = new Map();
+
+    /** Caches getNodeConcept by node kind. The result depends only on the node's
+     *  class and the concepts array is immutable for this index's lifetime, so
+     *  this collapses the per-call linear concept scan to O(1) after the first
+     *  lookup — hot when building a menu's revisions (one lookup per candidate). */
+    private readonly nodeConceptByKind = new Map<string, NodeConcept | undefined>();
 
     constructor(project: Project, concepts: Concept[], locales: Locales) {
         this.project = project;
@@ -63,22 +72,27 @@ export default class ConceptIndex {
 
         // Remember the preferred locales.
         this.locales = locales;
+    }
 
-        // Precompute searchable text ONCE. This moves the expensive work —
-        // concretizing each concept's documentation markup — out of the
-        // per-keystroke search path. It's rebuilt whenever a new ConceptIndex is
-        // constructed (project/howtos/gallery/locale change).
-        const languages = locales.getLanguages();
-        this.searchable = this.concepts.map((concept) =>
-            makeSearchable(
-                concept,
-                concept.getNames(locales, false),
-                concept
-                    .getDocs(locales)
-                    .flatMap((markup) => markup.getWordsTexts()),
-                languages,
-            ),
-        );
+    /** Searchable text for every concept, computed once on first use and cached. Concretizing each
+     *  concept's docs markup is expensive (~20ms for the basis concepts), so we keep it off the
+     *  index-construction path (every project open / tutorial step) and off the per-keystroke search
+     *  path, paying it only when the guide is first searched. */
+    private get searchable(): Searchable<Concept>[] {
+        if (this.cachedSearchable === undefined) {
+            const languages = this.locales.getLanguages();
+            this.cachedSearchable = this.concepts.map((concept) =>
+                makeSearchable(
+                    concept,
+                    concept.getNames(this.locales, false),
+                    concept
+                        .getDocs(this.locales)
+                        .flatMap((markup) => markup.getWordsTexts()),
+                    languages,
+                ),
+            );
+        }
+        return this.cachedSearchable;
     }
 
     // Make a concept index with a project and some preferreed languages.
@@ -214,14 +228,16 @@ export default class ConceptIndex {
 
     /** Given a node, get the most relevant concept to represent. Generally prefers functions, structures, binds, and streams over nodes. */
     getRelevantConcept(node: Node): Concept | undefined {
-        const context = this.project.getNodeContext(node);
+        // Only Evaluate/Reference nodes need a context to resolve their
+        // definition; compute it lazily so other nodes (e.g. Language) skip the
+        // per-call getNodeContext tree walk.
         const definition =
             node instanceof Evaluate ||
             node instanceof BinaryEvaluate ||
             node instanceof UnaryEvaluate
-                ? node.getFunction(context)
+                ? node.getFunction(this.project.getNodeContext(node))
                 : node instanceof Reference
-                  ? node.resolve(context)
+                  ? node.resolve(this.project.getNodeContext(node))
                   : node instanceof Bind
                     ? node
                     : undefined;
@@ -277,12 +293,18 @@ export default class ConceptIndex {
         );
     }
 
-    getNodeConcept(node: Node) {
-        return this.concepts.find(
-            (concept) =>
+    getNodeConcept(node: Node): NodeConcept | undefined {
+        const kind = node.getDescriptor();
+        const cached = this.nodeConceptByKind.get(kind);
+        if (cached !== undefined || this.nodeConceptByKind.has(kind))
+            return cached;
+        const found = this.concepts.find(
+            (concept): concept is NodeConcept =>
                 concept instanceof NodeConcept &&
                 concept.template.constructor === node.constructor,
         );
+        this.nodeConceptByKind.set(kind, found);
+        return found;
     }
 
     getGalleryHowConcept(howToId: string): GalleryHowConcept | undefined {

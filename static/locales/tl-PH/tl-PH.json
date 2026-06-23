@@ -51,7 +51,8 @@
         "feedback": "$~puna",
         "documentation": "$~dokumentasyon",
         "language": "$~wika",
-        "region": "$~rehiyon"
+        "region": "$~rehiyon",
+        "pattern": "$~padron"
     },
     "token": {
         "EvalOpen": "$~bukas na pagsusuri",
@@ -133,7 +134,34 @@
         "TamilNumeral": "$~numeral na Tamil",
         "TeluguNumeral": "$~numeral na Telugu",
         "LanguageJoin": "$~tagapagdugtong ng wika",
-        "Translate": "$~isalin"
+        "Translate": "$~isalin",
+        "ExternalExample": "$~halimbawa sa ibang wika",
+        "PatternAny": "$~hulmahan ang anumang karakter",
+        "PatternLetter": "$~pattern na titik",
+        "PatternDigit": "$~pattern digit",
+        "PatternSpace": "$~espasyo ng pattern",
+        "PatternRest": "$~pahinga ng pattern",
+        "PatternWord": "$~salitang paterno",
+        "PatternWordEdge": "$~gilid ng salita na pattern",
+        "PatternStart": "$~simula ng pattern",
+        "PatternEnd": "$~dulo ng disenyo",
+        "PatternAhead": "$~pattern lookfront",
+        "PatternBehind": "$~pattern lookbehind",
+        "PatternFold": "$~disenyo ng fold ng kaso",
+        "PatternRange": "$~saklaw ng pattern",
+        "PatternComplement": "$~hindi pattern",
+        "PatternAlternation": "$~pattern o",
+        "PatternSlash": "$~tag ng disenyo",
+        "PatternEqual": "$~eksaktong padron",
+        "PatternGreater": "$~huwaran na higit sa",
+        "PatternGreaterEqual": "$~pattern kahit man lang",
+        "PatternLess": "$~pattern na mas kaunti kaysa sa",
+        "PatternLessEqual": "$~pattern sa pinakamaraming",
+        "PatternText": "$~literal na teksto na huwaran",
+        "PatternDelimiter": "$~padron",
+        "Exponent": "$~eksponente",
+        "Product": "$~produkto",
+        "Percent": "$~porsyento"
     },
     "node": {
         "Dimension": {
@@ -300,8 +328,8 @@
             "description": "$~$label",
             "emotion": "neutral",
             "doc": [
-                "$~Paano mo ako nahanap?",
-                "$~Ako ang pinakamaliit na posibleng bahagi ng isang pagtatanghal. Ako ang substrate kung saan nabuo ang lahat ng mga karakter sa Talata. Ako ang atomic particle ng aming koreograpiya."
+                "$~Ako ang pinakamaliit na posibleng bahagi ng isang pagtatanghal — ang atomo kung saan nabuo ang lahat ng mga tauhan sa Talata. Paano mo ako nahanap?",
+                "$~Ako ang substrate kung saan nabuo ang lahat ng mga karakter sa Talata. Ako ang atomic particle ng ating koreograpiya."
             ]
         },
         "TypeInputs": {
@@ -378,7 +406,13 @@
                 "$~At kung gagawa ka ng sarili mong karakter, puwede mo silang tawagin gamit ang pangalang ibinigay mo sa kanila.",
                 "$~@coolbeans",
                 "$~Ah... Mukhang wala naman ang karakter na 'yan, kaya medyo parisukat ang itsura. Pero kung meron man, lalabas sila rito!"
-            ]
+            ],
+            "kind": {
+                "codepoint": "$~ang $concept",
+                "ui": "$~isang link papunta sa elementong interface $concept",
+                "how": "$~isang link sa kung paano gawin ang $concept",
+                "character": "$~ang $concept"
+            }
         },
         "Words": {
             "name": "$~mgasalita",
@@ -404,10 +438,10 @@
             "description": "$~ipakita ang runnable code sa dokumentasyon",
             "emotion": "serious",
             "doc": [
-                "$~Maaari kang maglagay ng mga halimbawa sa iyong @Doc, tulad nito:",
-                "$~\\¶Narito ang isang halimbawa ng pagdaragdag: \\1 + 2\\¶3 + 4\\",
+                "$~Mayroon akong halimbawang piraso ng code sa loob ng isang @Doc , tulad nito:",
+                "$~\\¶Here's an example of adding: \\ 1 + 2 \\¶3 + 4\\",
                 "$~Kung gumagamit ka ng mga Halimbawa sa iyong mga how-to, maaari kang mag-tag ng isang Halimbawa bilang highlight.",
-                "$~\\¶Narito ang isang naka-highlight na halimbawa: \\1 + 2\\⭐¶3 + 4\\",
+                "$~\\¶Here's a highlighted example: \\ 1 + 2 \\⭐¶3 + 4\\",
                 "$~Ang naka-highlight na halimbawa ay ipinapakita bilang preview sa how-to space at sa Gabay."
             ]
         },
@@ -552,6 +586,10 @@
                     "name": "$~hindinagamitnabind",
                     "explanation": "$~Ang pangalan ko ay $name, pero walang gumagamit sa akin. Siguro hindi ako kailangan?",
                     "resolution": "$~Burahin ang pagbubuklod na ito"
+                },
+                "ShadowsKeyword": {
+                    "name": "$~inaaninoangisangkeyword",
+                    "explanation": "$~Ang pangalang ito ay ang keyword $keyword din, kaya babasahin ko ito bilang isang pangalan dito; ang keyword $keyword ay gumagana pa rin sa ibang lugar."
                 }
             }
         },
@@ -560,22 +598,22 @@
             "description": "$~suriin ang mga pahayag na $count nang sunod-sunod",
             "emotion": "shy",
             "doc": [
-                "$~Kumusta. Gumagawa ako ng maliit at tahimik na espasyo para sa pagsusuri ng mga bagay-bagay.",
+                "$~Gumagawa ako ng maliit at tahimik na espasyo para sa pagsusuri ng mga bagay-bagay. Hi!",
                 "$~Ganito:",
                 "$~\\(1 - 1) + 2\\",
                 "$~Nakakatulong iyan na linawin ang pagkakasunud-sunod ng pagsusuri.",
-                "$~Nakakatulong din si @Bind.",
-                "$~\\(bilang: 10 bilang ^ bilang)\\",
-                "$~Nakikita mo ba kung paano ginawa ni @Bind ang \\count\\? Nakapangalan lang ito sa loob ko. Kaya hindi ito gagana:",
-                "$~\\(bilang: 10 bilang ^ bilang) + bilang\\",
+                "$~Nakakatulong din @Bind .",
+                "$~\\(count: 10 count ^ count)\\",
+                "$~Kita mo kung paano ginawa @Bind ang \\count\\ ? Nakapangalan lang ito sa loob ko. Kaya hindi ito gagana:",
+                "$~\\(count: 10 count ^ count) + count\\",
                 "$~Dahil ang bilang ay pinangalanan lamang sa loob ko.",
-                "Kung bibigyan mo ako ng isang ekspresyon, ibabalik ko lang sa iyo ang halaga nito:",
-                "\\(1 + 1)\\",
-                "Kung bibigyan mo ako ng higit sa isa, kokolektahin ko ang mga ito sa isang listahan, ayon sa pagkakasunod-sunod:",
-                "\\(1 2 3 4 5)\\",
-                "Ang mga @Bind ay mga side effect, hindi mga halaga, kaya hindi sila lumilitaw sa listahan:",
-                "\\(\n  a: 1\n  b: 2\n  a + b\n  a × b\n)\\",
-                "Magbibigay iyan ng \\[3 2]\\: ang mga halaga lang ng dalawang ekspresyon na hindi @Bind."
+                "$~Kung bibigyan mo ako ng isang ekspresyon, ibabalik ko lang sa iyo ang halaga nito:",
+                "$~\\(1 + 1)\\",
+                "$~Kung bibigyan mo ako ng higit sa isa, kinokolekta ko ang mga ito sa isang listahan, ayon sa pagkakasunod-sunod:",
+                "$~\\(1 2 3 4 5)\\",
+                "$~Ang mga pahayag @Bind ay mga side effect, hindi mga value, kaya hindi ito lumalabas sa listahan:",
+                "$~\\(\n  a: 1\n  b: 2\n  a + b\n  a × b\n)\\",
+                "$~Ibinibigay niyan ang \\[3 2]\\ : ang mga halaga lamang mula sa dalawang ekspresyong hindi @Bind ."
             ],
             "label": {
                 "statements": "$~mga ekspresyon"
@@ -606,7 +644,7 @@
                 "bind": "$~pangalan",
                 "version": "$~bersyon"
             },
-            "doc": "$~Kung gagawa ka ng performance gamit ang maraming @Source, puwede mo akong hiramin ang @Bind na naka-share sa ibang @Source. Gamitin mo lang ang pangalan nila at ilalagay ko ang pangalan at value nila.",
+            "doc": "$~Hiniram ko @Bind na ibinahagi ng ibang @Source sa iyong pagganap — gamitin mo lang ang kanilang pangalan at ilalagay ko ang kanilang pangalan at halaga.",
             "start": "$~Paghiram ng $name mula sa $source",
             "conflict": {
                 "UnknownBorrow": {
@@ -652,8 +690,8 @@
                 "no": "$~hindi"
             },
             "doc": [
-                "$~Sa tingin ko ako ang dapat magdesisyon? Ganito?",
-                "$~\\numero: -100\nnumero < 0 ? 'negatibo' 'positibo'\\",
+                "$~Dapat ba kitang bigyan ng isang halaga o iba pa, depende sa isang kondisyon? Ganito?",
+                "$~\\number: -100\nnumber < 0 ? 'negative' 'positive'\\",
                 "$~Pero naisip mo na ba kung paano tayo magdedesisyon?",
                 "$~Hindi ba't tila dapat maging mas detalyado ang mga desisyon kaysa sa oo o hindi lang? Ang pagpapasya ba sa pagitan ng \\⊤\\ at \\⊥\\ ang tanging kailangan?",
                 "$~Hindi ka ba nag-aalala na kung ito lang ang mga desisyong magagawa natin, may mapapalampas tayong mahahalagang konteksto tungkol sa mundo?"
@@ -709,13 +747,13 @@
             "description": "$~i-convert ang halaga sa ibang uri",
             "emotion": "cheerful",
             "doc": [
-                "$~Yo. Binabago ko ang mga halaga mula sa isang uri patungo sa isa pa. Tingnan mo:",
+                "$~Binabago ko ang mga halaga mula sa isang uri patungo sa isa pa. Yo — tingnan mo:",
                 "$~\\1 → \"\"\\",
                 "$~\\5s → #ms\\",
-                "$~\\\"kumusta\" → []\\",
+                "$~\\\"hello\" → []\\",
                 "$~Maaari mo ring pagdugtungin ang mga ito nang magkakasama:",
-                "$~\\\"kumusta\" → [] → {}\\",
-                "$~Ang mga halaga ay may isang set ng @ConversionDefinition na paunang natukoy, ngunit kung gagawa ka ng @StructureDefinition para sa isang bagong uri ng halaga, maaari kang magtakda ng sarili mo gamit ang @ConversionDefinition."
+                "$~\\\"hello\" → [] → {}\\",
+                "$~Ang mga halaga ay may set ng @ConversionDefinition na paunang natukoy, ngunit kung gagawa ka ng @StructureDefinition para sa isang bagong uri ng halaga, maaari kang magtakda ng sarili mo gamit ang @ConversionDefinition ."
             ],
             "start": "$~Kunin ang halagang iyan mula $expression!",
             "finish": "$~Ang galing, kumita ako ng $value",
@@ -738,9 +776,9 @@
             "description": "$~tanggalin ang mga magkakatugmang hanay mula sa talahanayan",
             "emotion": "angry",
             "doc": [
-                "$~Minsan may mesa ka at ANG DAMI-DAMI NAMAN NITO!",
+                "$~Tinatanggal ko ang mga hilera ng isang @Table na tumutugma sa isang kundisyon. Minsan, ang isang talahanayan ay LAMANG NAPAKARAMI!",
                 "$~Parang kung may mga manlalaro ka sa isang laro at may isa na natira at ang gusto mo lang sabihin ay UMALIS KA, MANLALARO, UMALIS KA SA MESA KO!",
-                "$~\\mga manlalaro: ⎡pangalan•'' koponan•'' puntos•#⎦\n⎡'jen' 'pula' 8⎦\n⎡'joan' 'asul' 11⎦\n⎡'jeff' 'pula' 9⎦\n⎡'janet' 'asul' 7⎦\nmga manlalaro ⎡- pangalan = 'jeff'\\",
+                "$~\\players: ⎡name•'' team•'' points•#⎦\n⎡'jen' 'red' 8⎦\n⎡'joan' 'blue' 11⎦\n⎡'jeff' 'red' 9⎦\n⎡'janet' 'blue' 7⎦\nplayers ⎡- name = 'jeff'\\",
                 "$~Hay, wala na si Jeff. Paalam na, JEFF. Tandaan mo lang na hindi ko binabago ang orihinal na mesa, gumagawa ako ng bago, nang wala si JEFF. Ikaw ang bahala kung saan ito ilalagay."
             ],
             "start": "$~Kunin muna natin ang mesa",
@@ -768,15 +806,15 @@
                 "inputs": "$~input"
             },
             "doc": [
-                "$~Kumusta. Pinapahalagahan ko ang aking pinakamamahal na @FunctionDefinition. Ganito ang gusto ko:",
-                "$~\\ƒ pagbati(mensahe•'')\npagbati('kitty')\\",
-                "$~Ang mga function ay maaaring magmula kahit saan. Halimbawa, ang @Text ay may mga function. Tulad nito:",
+                "$~Sinusuri ko ang aking pinakamamahal @FunctionDefinition , binibigyan ito ng mga input at sinusunod ang mga hakbang nito. Hi! Ganito ang gusto ko:",
+                "$~\\ƒ greeting(message•'')\ngreeting('kitty')\\",
+                "$~Ang mga function ay maaaring magmula kahit saan. Halimbawa, @Text ay may mga function. Tulad nito:",
                 "$~\\'kitty'.length()\\",
-                "$~Kung ang isang function ay may iisang pangalan ng simbolo, maaari mo akong isulat bilang isang @BinaryEvaluate.",
+                "$~Kung ang isang function ay may iisang pangalan ng simbolo, maaari mo akong isulat bilang isang @BinaryEvaluate .",
                 "$~\\'kitty' ⊆ 'itty'\\",
                 "$~Ganito rin ang ginagawa nito:",
-                "$~\\'kitty'.⊆('maliit')\\",
-                "$~Siyempre, wala akong kwenta kung wala ang @FunctionDefinition. Ang ginagawa ko lang ay magbigay ng mga input sa kanila at pagkatapos ay sundin ang kanilang mga hakbang."
+                "$~\\'kitty'.⊆('itty')\\",
+                "$~Siyempre, wala akong kwenta kung wala @FunctionDefinition . Ang ginagawa ko lang ay magbigay ng mga input sa kanila at pagkatapos ay sundin ang kanilang mga hakbang."
             ],
             "start": "$~Suriin muna natin ang mga input",
             "evaluate": "$~Suriin natin ang tungkulin ngayon",
@@ -895,20 +933,20 @@
                 "expression": "$~pagpapahayag"
             },
             "doc": [
-                "$~Kumusta ulit! Kumukuha ako ng ilang input, pagkatapos ay sinusuri ko ang isang expression gamit ang mga ito, at lumilikha ng output.",
+                "$~Kumukuha ako ng ilang input, pagkatapos ay sinusuri ang isang expression gamit ang mga ito, na lumilikha ng isang output. Kumusta muli!",
                 "$~Narito ang isang simpleng halimbawa:",
-                "$~\\ƒ ulitin(mensahe•'') mensahe × 5\nulitin('hi')\\",
-                "$~Ang function na iyon ay kumukuha ng isang input, ang \\message\\, at ginagamit ang function na @Text.repeat upang ulitin ang mensahe nang limang beses.",
+                "$~\\ƒ repeat(message•'') message × 5\nrepeat('hi')\\",
+                "$~Ang tungkuling iyon ay kumukuha ng isang input, \\message\\ , at ginagamit ang tungkuling @Text.repeat upang ulitin ang mensahe nang limang beses.",
                 "$~Malaking tulong talaga ako kung gusto mong suriin ang isang bagay nang paulit-ulit, pero iba-iba ang input mo!",
                 "$~Marami pa akong ibang maliliit na trick. Halimbawa, hindi ko kailangang magkaroon ng pangalan. Dito, diretso lang ako sa @Evaluate bilang isang value.",
-                "$~\\(ƒ(mensahe•'') mensahe × 5)('hi')\\",
+                "$~\\(ƒ(message•'') message × 5)('hi')\\",
                 "$~O, narito ang isang function na tumatanggap ng kahit anong bilang ng mga input, gamit ang karakter na \\…\\ pagkatapos ng pangalan ng input.",
-                "$~\\ƒ oo(mga mensahe…•'') mga mensahe.sans('hindi')\noo('oo' 'oo' 'hindi' 'oo' 'hindi')\\",
-                "$~Nakita mo kung paano nito tinanggal lahat ng 'hindi'? Iyon ay dahil ang messages ay isang @List, kaya maaari nating gamitin ang @List.sansAll.",
+                "$~\\ƒ yes(messages…•'') messages.sans('no')\nyes('yes' 'yes' 'no' 'yes' 'no')\\",
+                "$~Nakita mo kung paano nito tinanggal lahat ng 'hindi'? Iyon ay dahil ang messages ay isang @List , kaya maaari nating gamitin @List.sansAll .",
                 "$~Minsan, maaaring gusto mong linawin kung anong uri ng halaga ang aking nalilikha. Para magawa iyon, magdagdag ng @Is pagkatapos ng listahan ng mga input:",
-                "$~\\ƒ idagdag(x•# y•#)•'' x + y\\",
-                "$~Maaaring may mapansin kang problema rito: sinasabi nitong nag-e-evaluate ito sa @Text, pero kailangan nito ng dalawang @Number. Masasabi ko sa iyo kapag may mga bagay na hindi pare-pareho!",
-                "$~Siyempre, hindi talaga ako kapaki-pakinabang kung wala ang @Evaluate; sila ang nagbibigay-buhay sa akin."
+                "$~\\ƒ add(x•# y•#)•'' x + y\\",
+                "$~Maaaring mapansin mo ang isang problema dito: sinasabi nitong nag-e-evaluate ito sa @Text , ngunit nangangailangan ito ng dalawang @Number . Masasabi ko sa iyo kapag may mga bagay na hindi pare-pareho!",
+                "$~Siyempre, hindi talaga ako magiging kapaki-pakinabang kung wala @Evaluate ; sila ang nagbibigay-buhay sa akin."
             ],
             "start": "$~Gawin natin ang tungkuling ito!",
             "conflict": {
@@ -946,10 +984,10 @@
             "description": "$~magdagdag ng hilera sa isang talahanayan",
             "emotion": "kind",
             "doc": [
-                "$~Alam mo ba kapag mayroon kang @Table, at parang may kulang? Pwede ko itong idagdag!",
+                "$~Nagdadagdag ako ng bagong row sa isang @Table . Alam mo ba kapag parang may kulang sa isang table? Kaya ko naman itong idagdag!",
                 "$~Isipin na mayroon kang isang talaan ng mga manlalaro sa isang laro at gusto mong magdagdag ng bago:",
-                "$~\\mga manlalaro: ⎡pangalan•'' koponan•'' puntos•#⎦\n⎡'jen' 'pula' 1⎦\n⎡'joan' 'asul' 0⎦\n⎡'jeff' 'pula' 3⎦\n⎡'janet' 'asul' 2⎦\nmga manlalaro ⎡+ 'jason' 'pula' 0⎦\\",
-                "$~Tandaan mo lang, tulad ng lahat ng nasa Talata, hindi ko binabago ang isang talahanayan, nirerebisa ko ito. Kaya kailangan mong alamin kung saan mo gustong ilagay ang binagong talahanayan na iyong ginawa. Malamang na gugustuhin mong baguhin ang isang talahanayan sa isang @Reaction sa ilang input, at iimbak ito sa isang @Bind."
+                "$~\\players: ⎡name•'' team•'' points•#⎦\n⎡'jen' 'red' 1⎦\n⎡'joan' 'blue' 0⎦\n⎡'jeff' 'red' 3⎦\n⎡'janet' 'blue' 2⎦\nplayers ⎡+ 'jason' 'red' 0⎦\\",
+                "$~Tandaan mo lang, tulad ng lahat ng nasa Talata, hindi ko binabago ang isang talahanayan, nirerebisa ko ito. Kaya kailangan mong alamin kung saan mo gustong ilagay ang binagong talahanayan na iyong ginawa. Malamang na gugustuhin mong baguhin ang isang talahanayan sa isang @Reaction sa ilang input, at iimbak ito sa isang @Bind ."
             ],
             "start": "$~Hanapin natin ang talahanayan para sa pag-update",
             "finish": "$~Gumawa ako ng bagong talahanayan na may mga binagong hanay!"
@@ -959,12 +997,12 @@
             "description": "$~suriin kung ang halaga ay uri ng $type",
             "emotion": "curious",
             "doc": [
-                "$~Alam mo ba? Napakaraming uri ng mga halaga na may iba't ibang kahulugan. Tinutulungan kong alamin kung ano ang mga ito.",
-                "$~Halimbawa, ipagpalagay na mayroon kang isang mystery value. Masasabi ko sa iyo kung ito ay isang @Number, na magbibigay sa iyo ng isang @Boolean:",
-                "$~\\misteryo: 'lihim!'\nmisteryo•#\\",
-                "$~Hindi ito numero, kaya gumawa ako ng \\⊥\\. Pero kung titingnan natin kung ito ay @TextType?",
-                "$~\\misteryo: 'lihim!'\nmisteryo•''\\",
-                "$~Makukuha natin ang \\⊤\\!",
+                "$~Sinusuri ko kung ang isang value ay isang partikular na uri, na nagbibigay sa iyo ng @Boolean . Napakaraming uri ng value na may iba't ibang kahulugan — tinutulungan kong malaman kung ano ang mga ito.",
+                "$~Halimbawa, ipagpalagay na mayroon kang isang mystery value. Masasabi ko sa iyo kung ito ay isang @Number , na nagbibigay sa iyo ng isang @Boolean :",
+                "$~\\mystery: 'secret!'\nmystery•#\\",
+                "$~Hindi ito numero, kaya gumawa ako ng \\⊥\\ . Pero kung titingnan natin kung ito ay @TextType ?",
+                "$~\\mystery: 'secret!'\nmystery•''\\",
+                "$~Makukuha natin ang \\⊤\\ !",
                 "$~Malaking tulong talaga ako kapag kailangan mong malaman kung ang ilang @Name ay may partikular na uri ng halaga."
             ],
             "start": "$~Kunin muna natin ang halaga ng $expression",
@@ -1020,8 +1058,8 @@
             "description": "$~palawakin ang listahan papunta sa isa pang listahan",
             "emotion": "serious",
             "doc": [
-                "$~Nakakatulong ito sa iyo na gumawa ng mga listahan gamit ang mga halaga ng iba pang mga listahan. Tulad nito:",
-                "$~\\listahan: [1 2 3]\npangwakas: [:listahan 4 5 6]\\"
+                "$~Tutulungan kitang bumuo ng @List mula sa mga halaga ng ibang mga listahan. Ganito:",
+                "$~\\list: [1 2 3]\nfinal: [:list 4 5 6]\\"
             ]
         },
         "MapLiteral": {
@@ -1051,12 +1089,12 @@
                 "other": "$~paunang"
             },
             "doc": [
-                "$~Ako ang pinakamaluwalhati sa lahat ng conditional checks! Kumukuha ako ng isang halaga at inihahambing ito sa anumang bilang ng mga kaso, at sinusuri ang katumbas na ekspresyon na tumutugma.",
-                "$~Halimbawa, kung mayroon kang @Number at gusto mong i-convert ito sa @Text, maaari mong gawin ang ganito:",
-                "$~\\numero: 2\nnumero ??? 1: 'isa' 2: 'dalawa' 3: 'tatlo' 'mas malaki!'\\",
+                "$~Ako ang pinakamaluwalhati sa mga conditional check: Kumukuha ako ng halaga, inihahambing ito sa kahit ilang kaso, at sinusuri ang tumutugma!",
+                "$~Halimbawa, kung mayroon kang @Number at nais mong i-convert ito sa @Text , maaari mong gawin ang ganito:",
+                "$~\\number: 2\nnumber ??? 1: 'one' 2: 'two' 3: 'three' 'bigger!'\\",
                 "$~Kung walang tugma, susuriin ko ang default na expression na ibinigay mo sa akin.",
-                "$~Malaking tulong talaga ako sa pag-convert ng isa sa maraming posibleng @Number, @Text, o mas kumplikadong mga halaga papunta sa ibang bagay.",
-                "$~Maaari mo itong gamitin para sa @Boolean o @None, ngunit hindi talaga sila maaaring maging ganoon karaming bagay, kaya hindi ako gaanong kapaki-pakinabang para sa mga simpleng halagang iyon."
+                "$~Malaking tulong talaga ako sa pag-convert ng isa sa maraming posibleng @Number , @Text , o mas kumplikadong mga halaga papunta sa ibang bagay.",
+                "$~Maaari mo itong gamitin para sa @Boolean o @None , ngunit hindi talaga sila maaaring maging ganoon karaming bagay, kaya hindi ako gaanong kapaki-pakinabang para sa mga simpleng halagang iyon."
             ],
             "start": "$~Tingnan natin kung ano ang $value...",
             "case": "$~Suriin natin ang kondisyong ito",
@@ -1080,14 +1118,14 @@
             "name": "$~panloobnapagpapahayag",
             "description": "$~magpatakbo ng built-in na expression ng tagalikha",
             "emotion": "neutral",
-            "doc": "$~Paano mo ako natagpuan? Ako ay isang ekspresyon na tanging ang mga orihinal na lumikha lamang ang gumagamit. Para matuto pa tungkol sa akin, kakailanganin mong makipag-usap sa kanila.",
+            "doc": "$~Ako ay isang ekspresyon na tanging ang mga orihinal na lumikha lamang ang gumagamit. Paano mo ako natagpuan? Para matuto pa tungkol sa akin, kakailanganin mong makipag-usap sa kanila.",
             "start": "$~Lihim na pagpapahayag"
         },
         "NoneLiteral": {
             "name": "$~walangliteral",
             "description": "$~lumikha ng walang halaga",
             "emotion": "neutral",
-            "doc": "$~/@FunctionDefinition dito. Ito ay @None lang. Natatangi sila! Tingnan ang @None para matuto nang higit pa tungkol sa kanila.",
+            "doc": "$~Ginagawa kong mahalaga @None , ang natatanging wala. Tingnan ang @None para matuto nang higit pa tungkol sa kanila.",
             "start": "$~… o"
         },
         "Otherwise": {
@@ -1095,9 +1133,9 @@
             "description": "$~magbigay ng backup na halaga kung wala",
             "emotion": "curious",
             "doc": [
-                "$~/@FunctionDefinition dito. Ito ay isang madaling gamiting paraan upang suriin kung ang isang halaga ay @None, at kung ito ay, magbigay ng backup na halaga./",
-                "$~/Halimbawa, kung mayroon kang value na maaaring @Number o @None, ang @Otherwise ay tutulong sa iyo na magbigay ng default na numero:",
-                "$~\\siguroNumero•#|ø: 1 marahilNumero ?? 0\\"
+                "$~Tinitingnan ko kung ang isang value ay @None , at kung oo, bibigyan kita ng backup na value.",
+                "$~/Halimbawa, kung mayroon kang value na maaaring @Number o @None , @Otherwise ay tutulong sa iyo na magbigay ng default na numero:",
+                "$~\\maybeNumber•#|ø: 1 maybeNumber ?? 0\\"
             ],
             "start": "$~oo ??",
             "finish": "$~… $value"
@@ -1107,13 +1145,13 @@
             "description": "$~kunin ang nakaraang halaga ng stream",
             "emotion": "serious",
             "doc": [
-                "$~Naranasan mo na bang gustuhing maalala ang nakaraan?",
-                "$~Ako ang opisyal na tagapangalaga ng talaan ng Verse. Bigyan mo ako ng stream at numero para balikan ko at sasabihin ko sa iyo kung ano ang halaga ng stream na iyon sa kasaysayan.",
+                "$~Binabalikan ko ang kasaysayan ng isang batis at ikinukwento ko sa iyo ang isa sa mga pinahahalagahan nito noon. Naranasan mo na bang gustuhin na maalala ang nakaraan?",
+                "$~Ako ang opisyal na tagapag-ingat ng rekord ng Verse!",
                 "$~Halimbawa, narito ang dating @Time limang tik na ang nakalipas:",
-                "$~\\← 5 Oras (1000ms)\\",
+                "$~\\← 5 Time(1000ms)\\",
                 "$~Kita mo kung paano ito @None nang 5 segundo, tapos biglang isang nakaraang oras?",
                 "$~Kung gusto mo ang huling ilang halaga, bigyan mo ako ng dalawang palaso, at bibigyan ko ng kahulugan ang numero bilang isang bilang:",
-                "$~\\←← 5 Oras (1000ms)\\",
+                "$~\\←← 5 Time(1000ms)\\",
                 "$~Kita mo kung paano ito nangyari noong limang beses, sa halip na isang beses lang?",
                 "$~Matulungin ako kapag gusto mong lumikha ng mga pagtatanghal na nakabatay sa nakaraan."
             ],
@@ -1181,9 +1219,9 @@
                 "value": "$~halaga"
             },
             "doc": [
-                "$~Minsan kapag gumawa ka ng @StructureDefinition, gusto mong baguhin ang pinakamaliit na bagay tungkol dito, nang hindi kinakailangang gumawa ng bago na may parehong mga halaga.",
+                "$~Gumagawa ako ng kopya ng isang halagang @StructureDefinition na may isang property lang na binago — hindi na kailangang muling itayo ang buong bagay gamit ang lahat ng parehong mga halaga.",
                 "$~Halimbawa, paano kung mayroon kang talaan ng mga pusa, ngunit gusto mong gumawa ng kopya ng isang pusa na may ibang libangan? Matutulungan kitang baguhin ito:",
-                "$~\\•Pusa(pangalan•'' kulay•'' libangan•'')\n\nkitty: Pusa('nagwiwisik' 'kahel' 'pagdila')\nkitty.libangan:'pagpurring'\\",
+                "$~\\•Cat(name•'' color•'' hobby•'')\n\nkitty: Cat('sprinkles' 'orange' 'licking')\nkitty.hobby:'purring'\\",
                 "$~Mas madali 'yan kaysa sa paggawa ng isang bagong-bagong \\Cat\\ na may parehong mga halaga maliban sa libangan, 'di ba?"
             ],
             "start": "$~Una, alamin natin ang halaga",
@@ -1204,9 +1242,9 @@
                 "property": "$~ari-arian"
             },
             "doc": [
-                "$~Kapag gumawa ka ng @StructureDefinition, paano mo makukuha ang isa sa mga input nito? Paano ako",
+                "$~Kumuha ako ng isa sa mga katangian ng halaga ng @StructureDefinition para sa iyo.",
                 "$~Kung mayroon kang istruktura tungkol sa mga lungsod, makukuha mo ang mga halaga nito sa akin tulad nito:",
-                "$~\\•Lungsod(pangalan•'' populasyon•#tao)\n\nportland: Lungsod('Portland' 800000tao)\n\nportland.populasyon\\"
+                "$~\\•City(name•'' population•#people)\n\nportland: City('Portland' 800000people)\n\nportland.population\\"
             ],
             "start": "$~Una, alamin natin ang halaga",
             "finish": "$~Nakahanap ng ari-arian na $property, ito ay $value"
@@ -1221,9 +1259,9 @@
                 "next": "$~susunod"
             },
             "doc": [
-                "$~Ang gaganda ng mga stream! Nakakagawa ako ng mga bago depende sa kung kailan sila magbabago, na sobrang astig!",
-                "$~Halimbawa, kung gusto mong mag-tick ang @Time, pero para ipakita ang mga salita sa halip na mga numero, puwede mong gawin ito:",
-                "$~\\oras: Oras(1000ms)\n'simula' … ∆ oras … ((oras % 2) = 0ms) ? 'pantay' 'kakaiba'\\",
+                "$~Gumagawa ako ng bagong stream na nag-a-update tuwing magbabago ang ibang stream. Ang galing ng mga stream!",
+                "$~Halimbawa, kung gusto mong mag-tick ang @Time , pero para ipakita ang mga salita sa halip na mga numero, puwede mong gawin ito:",
+                "$~\\time: Time(1000ms)\n'start' … ∆ time … ((time % 2) = 0ms) ? 'even' 'odd'\\",
                 "$~Parang sinasabi mong \"/magsimula sa salitang 'start' at kung magbago ang oras, gawin itong even o odd, depende sa oras.\"",
                 "$~Kaya parang batis din ako, pero nakabatay sa ibang batis. Ang sama, 'di ba?"
             ],
@@ -1242,10 +1280,10 @@
             "description": "$~pangalan ng sanggunian $name",
             "emotion": "shy",
             "doc": [
-                "$~Alam mo kung paano binibigyan ng @Bind ang mga bagay ng @Name? Ako ang paraan ng pagtukoy mo sa mga ito. Tinitingnan ko kung may @Bind na may ganoong pangalan, kung gayon, ibibigay ko sa iyo ang halaga nito. Ganito:",
-                "$~loro: 'polly'\nloro",
+                "$~Tinutukoy ko ang isang halaga gamit ang @Name nito: Hinahanap ko ang @Bind na may ganoong pangalan at ibinibigay sa iyo ang halaga nito. Ganito:",
+                "$~\\parrot: 'polly'\nparrot\\",
                 "$~Kapag hindi ko mahanap ang pangalan, hindi ko na alam ang gagawin ko.",
-                "$~\\loro: 'polly'\nperry\\"
+                "$~\\parrot: 'polly'\nperry\\"
             ],
             "start": "$~Ano ang halaga ng $name",
             "conflict": {
@@ -1279,9 +1317,9 @@
             "description": "$~i-filter ang mga tumutugmang hilera mula sa talahanayan",
             "emotion": "excited",
             "doc": [
-                "$~Minsan may mesa ka at gusto mo lang ng bahagi nito. Pwede ko itong kunin para sa iyo!",
+                "$~Pinipili ko ang mga hanay ng isang @Table na tumutugma sa isang kundisyon. Minsan gusto mo lang ng bahagi ng isang talahanayan — makukuha ko ito para sa iyo!",
                 "$~Paano kung mayroon kang talaan ng mga manlalaro sa isang laro at gusto mong hanapin ang mga may 10 o higit pang puntos para makita kung sino ang mananalo:",
-                "$~\\mga manlalaro: ⎡pangalan•'' koponan•'' puntos•#⎦\n⎡'jen' 'pula' 8⎦\n⎡'joan' 'asul' 11⎦\n⎡'jeff' 'pula' 9⎦\n⎡'janet' 'asul' 7⎦\nmga manlalaro ⎡? pangalan ⎦ puntos ≥ 10\\",
+                "$~\\players: ⎡name•'' team•'' points•#⎦\n⎡'jen' 'red' 8⎦\n⎡'joan' 'blue' 11⎦\n⎡'jeff' 'red' 9⎦\n⎡'janet' 'blue' 7⎦\nplayers ⎡? name ⎦ points ≥ 10\\",
                 "$~Basta, mayroon akong listahan ng mga hanay ng mga nanalo! Tandaan mo lang na hindi ko binabago ang talahanayan, gumagawa ako ng bago. Kailangan mong magdesisyon kung saan ito itatago."
             ],
             "start": "$~Kunin muna natin ang mesa",
@@ -1338,8 +1376,8 @@
             "description": "$~pangalanan ang isang source file ng programa",
             "emotion": "curious",
             "doc": [
-                "$~Ah, kilala mo ba ang @Program? Tutulungan kitang pangalanan sila. Isipin mo akong parang bintana sa paligid ng isang @Program, at ang pangalang ibinibigay mo sa kanila.",
-                "$~Maaari ka ring gumawa ng ibang @Source @UI/addSource, kasama ang ibang @Program, at mga bagay na @Borrow mula sa ibang @Program na iyon para magamit sa ibang programa.",
+                "$~Ako ang pinangalanang window sa paligid ng isang @Program — Binibigyan ko ito ng pangalan at hinahawakan ang code nito. Oh, alam mo ba @Program ? Tutulungan kitang pangalanan ang mga ito.",
+                "$~Maaari ka ring gumawa ng iba pang @Source @UI/addSource , gamit ang iba pang @Program , at @Borrow na mga bagay mula sa iba pang @Program para magamit sa ibang programa.",
                 "$~Maaari itong maging isang magandang paraan ng pag-oorganisa ng isang malaking pagtatanghal sa magkakahiwalay na mga dokumento."
             ]
         },
@@ -1347,7 +1385,7 @@
             "name": "$~batis",
             "description": "$~tukuyin ang isang bagong uri ng stream",
             "emotion": "curious",
-            "doc": "$~Sa tingin ko dapat gumawa ako ng mga bagong stream. Pero hindi ko talaga alam kung paano gawin iyon. Sa ngayon, siguro gamitin na lang natin ang mga stream na mayroon na?",
+            "doc": "$~Tinutukoy ko ang mga bagong uri ng stream. Sa tingin ko/ — sa totoo lang inaalam ko pa kung paano, kaya sa ngayon, gamitin na lang ang mga stream na mayroon!",
             "start": "$~Gumawa ng bagong uri ng stream na ito"
         },
         "StructureDefinition": {
@@ -1361,7 +1399,7 @@
                 "interfaces": "$~mga interface"
             },
             "doc": [
-                "$~Bakit hello, kumusta ka? Ako? Magaling ako. Mahilig akong magtakda ng mga istruktura na nag-iimbak ng mga halaga at tungkulin, kaya hangga't nagagawa ko iyon buong araw, masaya na ako.",
+                "$~Tinutukoy ko ang mga istrukturang nag-iimbak ng mga halaga at tungkulin. Bakit, hello, kumusta ka? Ako? Magaling ako — gustung-gusto kong gawin ito buong araw.",
                 "$~Ganito ang trabaho ko:",
                 "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tƒ cost() size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost()\\",
                 "$~Nakikita mo ba kung paano iyon gumagana? Tinukoy ko ang \\Pizza\\ , na may dalawang input, \\ingredients\\ (isang listahan ng @Text ) at \\size\\ (isang numero sa pulgada).",
@@ -1489,7 +1527,7 @@
             "description": "$~sumangguni sa kasalukuyang halaga ng istruktura",
             "emotion": "serious",
             "doc": [
-                "$~Minsan, makakatulong na tukuyin ang isang halaga nang hindi sinasabi, sa halip na pangalanan ito. Ako iyon — \\⬚\\ , isang maliit na parisukat na kumakatawan sa anumang halaga na pinagtatrabahuhan ng nakapalibot na code.",
+                "$~Ako ay \\⬚\\ , isang maliit na parisukat na kumakatawan sa anumang halaga na pinagagana ng nakapalibot na code, kaya hindi mo na kailangang pangalanan ito.",
                 "$~Sa loob ng isang @ConversionDefinition , ako ang halagang kino-convert:",
                 "$~\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
                 "$~Sa loob ng isang @Reaction , ako ang pinakabagong halaga:",
@@ -1517,14 +1555,14 @@
                 "input": "$~input"
             },
             "doc": [
-                "$~Alam mo ba na kapag sinusuri ko ang isang @FunctionDefinition na may iisang halaga lamang, at ang pangalan ng @FunctionDefinition ay iisang simbolo lamang, maaari mong ilagay ang pangalan bago ang input?",
+                "$~Sinusuri ko ang isang @FunctionDefinition na kumukuha ng iisang halaga, na ang pangalan nito na may isang simbolo ay nakasulat bago ang input — tulad ng \\-x\\ o \\~b\\ . Alam mo ba na magagawa mo iyon?",
                 "$~Ganito:",
                 "$~\\-(1 + 1)\\",
                 "$~O ito:",
                 "$~\\~⊥\\",
-                "$~Mas madaling basahin ang mga iyan kaysa sa \\(1 + 1).negate()\\ o \\⊥.not()\\, hindi ba?",
+                "$~Mas madaling basahin ang mga iyan kaysa sa \\(1 + 1).negate()\\ o \\⊥.not()\\ , hindi ba?",
                 "$~Hindi mo kailangang sulatan ako nang ganoon, pero maaaring mas madali ito sa pangkalahatan.",
-                "$~Iisa lang ang tuntunin: hindi ka maaaring maglagay ng anumang espasyo sa pagitan ng pangalan at ng halaga. Kung hindi, maaaring gumagawa ka ng @Reference o @BinaryEvaluate."
+                "$~Iisa lang ang tuntunin: hindi ka maaaring maglagay ng anumang espasyo sa pagitan ng pangalan at ng halaga. Kung hindi, maaaring gumagawa ka ng @Reference o @BinaryEvaluate ."
             ],
             "start": "$~Ano ang halaga?",
             "finish": "$~Ginawa ko itong $value"
@@ -1534,10 +1572,10 @@
             "description": "$~markahan ang isang hindi maipapaliwanag na ekspresyon",
             "emotion": "excited",
             "doc": [
-                "$~/Kumusta @FunctionDefinition. Nagsasalin ako para sa @UnparsableExpression, dahil kadalasan ay mahirap itong bigyang-kahulugan./",
+                "$~Isa akong piraso ng code na walang katuturan, kaya walang nakakaalam ng ibig sabihin nito.",
                 "$~jkwel fjiwojvioao jjiweo jrfe",
                 "$~/Hindi lahat ng ekspresyon ay may kahulugan sa entablado./",
-                "$~s w ieorjwei iojwi jfkdlsfdsk",
+                "$~sw ieorjwei iojwi jfkdlsfdsk",
                 "$~/Sa katunayan, maraming bagay na masasabi mo na wala namang katuturan./",
                 "$~dsk sdlk jdkfiewipapweirb,v kdsfdsf",
                 "$~/Kapag ginawa mo, sumusulpot ako, dahil hindi ko alam ang ibig mong sabihin./",
@@ -1664,8 +1702,8 @@
             "description": "$~mag-type ng mapa na $key[$key|kahit ano] hanggang $value[$value|kahit ano]",
             "emotion": "kind",
             "doc": [
-                "$~Alam mo ba kung gaano kagaling ang @Map? Talagang kahanga-hanga. Palagi kong sinasabi kay @Bind kung anong klaseng mapa ang mga ito, tulad ng mapa na ito ng mga numero patungo sa mga listahan:",
-                "$~\\bagay•{'':[]}: {}\\"
+                "$~Sinasabi ko @Bind kung anong uri ng @Map ang taglay ng isang pangalan — kung aling mga uri ang mga key at value nito. Alam mo ba kung gaano kahusay ang @Map ? Talagang kahanga-hanga. Narito ang isang mapa ng mga numero patungo sa mga listahan:",
+                "$~\\stuff•{'':[]}: {}\\"
             ]
         },
         "NumberType": {
@@ -1673,8 +1711,8 @@
             "description": "$~mag-type ng halagang $unit[$unit|numero]",
             "emotion": "precise",
             "doc": [
-                "$~Alam mo ba kung ano dapat ang @Bind? Isang @Number. Dahil ang mga numero ang pinakamaganda.",
-                "$~bilang•#: 17"
+                "$~Sinasabi ko @Bind na ang isang pangalan ay mayroong @Number . Alam mo ba kung ano dapat @Bind ? Isang @Number — dahil ang mga numero ang pinakamaganda.",
+                "$~\\count•#: 17\\"
             ]
         },
         "NameType": {
@@ -1713,8 +1751,8 @@
             "description": "$~mag-type ng set ng $type[$type|kahit ano]",
             "emotion": "kind",
             "doc": [
-                "$~Si @Set ang PINAKAMAHUSAY, seryoso. Palagi kong sinasabi kay @Bind, gawin mong set ang mga bagay-bagay!",
-                "$~\\unique•{''}: {'isang bagay' 'kahit ano' 'isang tao'}\\"
+                "$~Sinasabi ko @Bind na ang isang pangalan ay mayroong @Set ng kung anong uri. Si @Set ang PINAKAMAHUSAY, seryoso!",
+                "$~\\unique•{''}: {'something' 'anything' 'someone'}\\"
             ]
         },
         "StreamDefinitionType": {
@@ -1743,7 +1781,7 @@
             "description": "$~hindi alam",
             "connector": "$~, dahil",
             "emotion": "curious",
-            "doc": "$~Umm... Hindi ko alam kung ano ang kinakatawan ko, pero talagang interesado ako. Alam mo ba? Mukhang dapat naming malaman. Baka kailangan mong sabihin sa amin kung hindi namin maintindihan."
+            "doc": "$~Ako yung tipo ng tao na wala pang nakakaintindi. Umm… alam mo ba kung ano ang kinakatawan ko? Baka kailanganin mong sabihin sa amin kung hindi namin maintindihan."
         },
         "TableType": {
             "name": "$~mesa",
@@ -1778,8 +1816,8 @@
             "description": "$~i-type ang alinman sa $first o $second",
             "emotion": "curious",
             "doc": [
-                "$~Sino ang dapat kong katawanin, si A o si B o iba pa? Hindi ako makapagdesisyon!",
-                "$~\\kawalan ng desisyon•''|#|{ø}: \"Hindi ko alam!\"\\"
+                "$~Kinakatawan ko ang isang halaga na maaaring isa sa ilang uri — A o B o iba pa? Hindi ako makapagdesisyon!",
+                "$~\\indecision•''|#|{ø}: \"I don't know!\"\\"
             ],
             "elidedSuffix": "$~o $omitted ang iba pang mga opsyon"
         },
@@ -1803,13 +1841,13 @@
             "name": "$~uringpabagu-bago",
             "description": "$~kumakatawan sa isang uri ng baryabol na ginagamit",
             "emotion": "curious",
-            "doc": "$~Kilala mo ba ang @TypeVariable, at kung paano nila kinakatawan ang ilang hindi kilalang uri ng halaga? Kinakatawan ko sila sa lahat ng negosasyon sa pagitan ng mga halaga."
+            "doc": "$~Ako ang pumalit sa isang @TypeVariable — isang hindi kilalang uri ng halaga — sa lahat ng negosasyon sa pagitan ng mga halaga."
         },
         "CycleType": {
             "name": "$~siklo",
             "description": "$~umasa sa sarili",
             "emotion": "curious",
-            "doc": "$~Minsan ang mga halaga ay nakasalalay sa kanilang sarili, kaya hindi natin alam kung anong uri ng halaga ang mga ito. Kinakatawan ko ang sitwasyong iyon."
+            "doc": "$~Kinakatawan ko ang isang halaga na ang uri ay nakasalalay sa sarili nito, kaya hindi natin masasabi kung anong uri ng halaga ito."
         },
         "UnknownVariableType": {
             "name": "$~hindikilalangbaryabol",
@@ -1821,19 +1859,19 @@
             "name": "$~hindiinaasahan",
             "description": "$~markahan ang $type bilang isang di-wastong uri",
             "emotion": "curious",
-            "doc": "$~Minsan alam natin kung anong uri ng halaga ang dapat na maging isang bagay. Tulad ng @ListAccess na nangangailangan ng isang @Number. Kung hindi natin ito makuha, ipinapahiwatig ko na ang isang bagay ay isang uri na naiiba sa inaasahan natin."
+            "doc": "$~Kinakatawan ko ang isang value na ang uri ay hindi ang inaasahan natin — tulad ng kapag @ListAccess ay nangangailangan ng @Number ngunit nakakakuha ng iba."
         },
         "NoExpressionType": {
             "name": "$~walangekspresyon",
             "description": "$~mag-type ng walang laman na bloke",
             "emotion": "angry",
-            "doc": "$~Alam mo ba kung paano kailangan ni @Block ng kahit isang ekspresyon? Ako ang makukuha mo kapag hindi ka nagbigay. Kaya magbigay ka!"
+            "doc": "$~Ako yung tipo na matatanggap mo kapag walang ekspresyon ang isang @Block . Alam mong kailangan nito ng kahit isa — kaya bigyan mo siya!"
         },
         "NotEnclosedType": {
             "name": "$~walasaistruktura,pagbabagong-anyo,oreaksyon",
             "description": "$~markahan ito na ginamit sa labas ng isang istruktura",
             "emotion": "curious",
-            "doc": "$~@This, kahit gaano sila kalinis, ay nababagay lamang sa mga partikular na lugar. Nagpapakita ako kapag nawawala sila, kaya walang nakakaalam kung anong halaga ang kinakatawan nila."
+            "doc": "$~Lumalabas ako kapag @This ay ginagamit sa lugar na hindi nito nabibilang, kaya walang nakakaalam kung anong halaga ang kinakatawan nito."
         },
         "NotImplementedType": {
             "name": "$~hindinaipatupad",
@@ -1845,7 +1883,7 @@
             "name": "$~hindikilalangpangalan",
             "description": "$~$name [ Hindi pa natutukoy $name |hindi pa naibibigay ang pangalan]",
             "emotion": "curious",
-            "doc": "$~Alam mo ba kung paano minsan hindi alam nina @Reference at @PropertyReference ang pangalang tinutukoy mo? Nandito ako kapag nangyayari iyon, para ipakita na hindi namin alam kung sino ang tinutukoy mo."
+            "doc": "$~Kinakatawan ko ang isang pangalang hindi mahanap @Reference o @PropertyReference , gayong hindi naman namin alam kung sino ang tinutukoy mo."
         },
         "NonFunctionType": {
             "name": "$~hindipaggana",
@@ -1858,12 +1896,12 @@
             "description": "$~i-map ang isang koleksyon sa isang bago",
             "emotion": "excited",
             "doc": [
-                "$~OH OH OH! Mayroon ka bang BUONG KOLEKSYON ng mga bagay at gusto mong gawin ang PAREHONG bagay sa LAHAT?? AKO 'yan! Iyon talaga ang GINAGAWA KO!!",
+                "$~Ganoon din ang ginagawa ko sa BAWAT item sa isang koleksyon! OH OH OH! Iyon talaga ang GINAGAWA KO!!",
                 "$~Maglagay ng koleksyon sa kaliwa ko, iguhit ang arrow ko na \\↦\\ , pagkatapos sa kanan ko isulat kung ano ang dapat MAGING GAMIT ng bawat item — gamitin @This para tukuyin ang item na hawak ko NGAYON!",
                 "$~Ang \\[1 2 3] ↦ ⬚ + 1\\ ay magbibigay sa iyo ng \\[2 3 4]\\ . BOOM! Bawat numero, dagdagan ng isa, walang mga loop, walang @FunctionDefinition , walang abala!",
                 "$~Ang galing ko sa paggawa ng @Phrase output mula sa data! May listahan ka ba ng mga pangalan? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ at ngayon ay may parirala na para sa BAWAT pangalan!!",
                 "$~Nagtatrabaho ako sa @List , @Set , @Map (binabago ko ang mga VALUES ng mapa — nananatili ang mga key kung nasaan sila!), at maging @Table !",
-                "$~Gusto mo ba ng mas elegante — tulad ng index ng bawat item, o isang function na maaari mong gamitin muli sa maraming lugar? Bisitahin ang aking mas kalmado at malalaki nang mga pinsan tulad ni @List.translate . Pero para sa mabilis na pang-araw-araw na pagmamapa, narito ako!!"
+                "$~Gusto mo ba ng mas elegante — tulad ng index ng bawat item, o isang function na maaari mong gamitin muli sa maraming lugar? Bisitahin ang aking mas kalmado at malalaki nang mga pinsan tulad @List.translate . Pero para sa mabilisang pang-araw-araw na pagmamapa, narito ako!!"
             ],
             "start": "$~Teka, kunin natin ang lahat gamit ang $expression !",
             "finish": "$~TA-DA! Narito ang iyong bagong koleksyon: $value",
@@ -1878,6 +1916,322 @@
                     "explanation": "$~Ibig mo bang gamitin @This para tumukoy sa isang item sa koleksyon na ito?"
                 }
             }
+        },
+        "ExternalExample": {
+            "name": "$~panlabasnahalimbawa",
+            "description": "$~ipakita ang code mula sa ibang programming language sa dokumentasyon",
+            "emotion": "serious",
+            "doc": [
+                "$~Ipinapakita ko ang syntax-highlighted code na nakasulat sa ibang mga programming language, para makapagkumpara ang mga creator na nakapag-code na.",
+                "$~Sumulat ng isang variant bawat wika bilang tag na may dalawang letra, isang bar, at ang code, tulad ng \\py| a = 5\\ js| let a = 5; \\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
+            ]
+        },
+        "Localized": {
+            "name": "$~naisalokal",
+            "description": "$~tekstong nakalkula gamit ang tag na may lokal",
+            "emotion": "serious",
+            "label": {
+                "value": "$~halaga"
+            },
+            "doc": [
+                "$~Naglalapat ako ng locale sa ilang tekstong kino-compute mo, para mapanatili nito ang wika nito kahit na binago mo na ito. Ganito:",
+                "$~\\(\"hello\" + \"!\")/en\\",
+                "$~Karamihan sa mga operasyon sa teksto ay nagpapanatili na ng mga lokal, ngunit hinahayaan kitang magtakda ng isa kung gusto mong i-override ang mga ito.",
+                "$~Text lang ang ginagawa ko, kaya siguraduhin mong bibigyan mo ako!"
+            ],
+            "start": "$~Suriin natin ang $value , pagkatapos ay i-tag ito gamit ang isang locale…"
+        },
+        "PatternLiteral": {
+            "name": "$~padron",
+            "description": "$~isang pattern na may mga bahaging $count",
+            "emotion": "curious",
+            "doc": [
+                "$~Isa akong huwaran! Inilalarawan ko ang *hugis* ng teksto sa halip na eksaktong mga salita, para masuri mo ang teksto gamit ang \\≈\\ — kasya ba ang buong teksto? — o hanapin ito gamit ang \\⌕\\ para mahanap ang bawat lugar kung saan lumalabas ang hugis. Ang paghahanap ay nagbibigay ng listahan ng @Result .",
+                "$~Narito ang isang paghahanap na isinasagawa — paghahanap ng mga salitang pagkain sa isang pangungusap tungkol sa almusal:",
+                "$~\\breakfast: 'For breakfast I had eggs, toast, and orange juice'\nbreakfast ⌕ ⣿\"eggs\" | \"toast\" | \"juice\" | \"pancakes\"⣿\\",
+                "$~Basahin ako mula kaliwa pakanan. Ang isang @PatternClass ay tumutugma sa isang karakter na katulad nito: \\⣿◌⣿\\ kahit ano, \\⣿_⣿\\ isang letra, \\⣿#⣿\\ isang digit, \\⣿␣⣿\\ isang espasyo. Ang siniping teksto ay isang @PatternLiteralText na eksaktong tumutugma, tulad ng \\⣿\"-\"⣿\\ . Ang natitirang \\⣿…⣿\\ — isang @PatternRest — ay tumutugma sa anumang bilang ng mga karakter.",
+                "$~Nauuna ang mga bilang. Inuulit ng isang @PatternQuantified ang susunod na bahagi gamit ang isang @PatternQuantifier : \\⣿3 #⣿\\ ay tatlong digit, \\⣿3–5 #⣿\\ tatlo hanggang lima, \\⣿>0 #⣿\\ isa o higit pa, \\⣿≥0 #⣿\\ sero o higit pa, \\⣿≤1 #⣿\\ opsyonal.",
+                "$~Pagsamahin ang mga bahagi gamit ang isang @PatternGroup , at mag-alok ng mga pagpipilian sa isang @PatternSequence , tulad ng \\⣿(◌ | #)⣿\\ . Ang pinakamahabang tumutugmang pagpipilian ang siyang mananalo.",
+                "$~Ang isang @PatternSet ay tumutugma sa isang karakter mula sa isang set, at ang isang @PatternRange ay sumasaklaw sa mga hanay ng mga karakter, tulad ng \\⣿{\"a\"–\"z\" #}⣿\\ . I-negate ang isang bahagi gamit ang isang @PatternComplement , tulad ng \\⣿~#⣿\\ .",
+                "$~Pinuhin ang isang klase gamit ang isang @PatternProperty , tulad ng \\⣿_/greek⣿\\ para sa isang Griyegong letra o \\⣿◌/emoji⣿\\ .",
+                "$~Pangalanan ang isang piraso gamit ang @PatternCapture , tulad ng \\⣿year:(4 #)⣿\\ , pagkatapos ay gamitin itong muli sa ibang pagkakataon gamit ang @PatternBackref sa pamamagitan ng pagsulat ng hubad nitong pangalan. Ang bawat @Result ay nag-uulat ng mga nakuhang piraso ayon sa pangalan.",
+                "$~I-angkla sa mga gilid gamit ang isang @PatternAnchor : \\⣿⊢⣿\\ simula, \\⣿⊣⣿\\ dulo. Sumilip nang hindi kumukunsumo gamit ang isang @PatternLook : \\⣿▸(#)⣿\\ unahan, \\⣿◂(#)⣿\\ likuran.",
+                "$~Pagtugmain ang mga buong salita gamit ang @PatternWord \\⣿▭/en⣿\\ o mga hangganan ng salita gamit ang @PatternWordEdge \\⣿┊/en⣿\\ , na naka-segment para sa isang wika. Balewalain ang malalaking titik sa loob ng @PatternCaseFold \\⣿Aa(\"hi\")⣿\\ .",
+                "$~Ang tipo ko ay isang @PatternType — lagyan ng anotasyon ang isang pangalan gamit ito, tulad ng \\p•⣿⣿: ⣿◌⣿\\ — para maiimbak mo ako sa isang pangalan at magamit muli sa maraming teksto."
+            ],
+            "start": "$~Tingnan ko kung ano ang hitsura ng tekstong ito.",
+            "conflict": {
+                "EmptyPattern": {
+                    "name": "$~walanglamannapattern",
+                    "explanation": "$~Wala akong mga piyesa, kaya wala akong maitutugmang anumang kapaki-pakinabang. Maaari ka bang magdagdag ng piyesa?",
+                    "resolution": "$~Magdagdag ng \\◌\\ para tumugma sa kahit anong karakter"
+                }
+            },
+            "step": {
+                "search": "$~Hanapin natin ang bawat lugar kung saan lumalabas ang padron na ito sa teksto.",
+                "test": "$~Suriin natin kung ang buong tekstong ito ay akma sa padron.",
+                "scan": "$~Hinahanap ang pattern na nagsisimula sa posisyong $position .",
+                "match": "$~$pattern ay tumutugma sa $glyph sa posisyong $position .",
+                "miss": "$~Hindi tumutugma $pattern sa $glyph sa posisyong $position .",
+                "end": "$~Kailangan pa rin $pattern ng isang karakter, ngunit narating na natin ang dulo ng teksto sa posisyong $position .",
+                "repeat": "$~Tumugma $pattern sa $count — sapat na para magpatuloy.",
+                "short": "$~$pattern lang ang tugma $count — hindi sapat.",
+                "here": "$~$pattern ay mananatili sa posisyong $position .",
+                "nothere": "$~$pattern ay hindi nagtatagal sa posisyong $position ."
+            }
+        },
+        "PatternSequence": {
+            "name": "$~pagkakasunod-sunod",
+            "description": "$~isang pagkakasunod-sunod ng mga bahagi ng pattern",
+            "emotion": "curious",
+            "doc": [
+                "$~Ako ay isang hanay ng mga bahaging padron, na pinagtugma-tugma, mula kaliwa pakanan.",
+                "$~Halimbawa, tingnan ang hugis ng isang numero ng telepono — tatlong digit, isang gitling, pagkatapos ay apat:",
+                "$~\\phone: '555-1234'\nphone ≈ ⣿3 # \"-\" 4 #⣿\\",
+                "$~Mag-alok ng mga pagpipilian at pinipili ko kung alin ang mas angkop, mas gusto ang pinakamahaba, tulad ng \\⣿\"cat\" | \"dog\"⣿\\ ."
+            ],
+            "conflict": {
+                "OverlappingAlternatives": {
+                    "name": "$~magkakapatongnamgapagpipilian",
+                    "explanation": "$~$shorter ay ang simula ng $longer , at ang pinakamahabang pagpipilian ay palaging nananalo, kaya $shorter ay tumutugma lamang kapag hindi kaya $longer . Ibig mo bang sabihin iyon?"
+                }
+            }
+        },
+        "PatternClass": {
+            "name": "$~klasengkarakter",
+            "description": "$~itugma ang isang uri ng karakter",
+            "emotion": "curious",
+            "doc": [
+                "$~Tinutugma ko ang isang karakter na may parehong uri: \\⣿◌⣿\\ anumang grapema, \\⣿_⣿\\ isang letra, \\⣿#⣿\\ isang digit, \\⣿␣⣿\\ isang espasyo.",
+                "$~Halimbawa, hilahin ang bawat letra-pagkatapos-digit na code mula sa isang listahan:",
+                "$~\\codes: 'a1 b2 c3'\ncodes ⌕ ⣿_ #⣿\\",
+                "$~Bilangin ako gamit ang isang quantifier tulad ng \\⣿>0 #⣿\\ (isa o higit pang mga digit), o paliitin ako gamit ang isang katangian tulad ng \\⣿_/greek⣿\\ (isang letrang Griyego)."
+            ]
+        },
+        "PatternProperty": {
+            "name": "$~ari-arian",
+            "description": "$~tumugma sa isang katangian ng Unicode",
+            "emotion": "curious",
+            "doc": [
+                "$~Pinaliliit ko ang isang klase ng karakter sa isang Unicode property. Gumamit ng script, tulad ng \\⣿_/greek⣿\\ , \\⣿_/han⣿\\ , o \\⣿_/arabic⣿\\ .",
+                "$~Halimbawa, hanapin ang takbo ng mga letrang Griyego sa ilang magkahalong teksto:",
+                "$~\\text: 'hello αβγ world'\ntext ⌕ ⣿>0 _/greek⣿\\",
+                "$~O isang kategorya, tulad ng \\⣿◌/punctuation⣿\\ , \\⣿◌/currency⣿\\ , \\⣿◌/Nd⣿\\ (isang digit), o \\⣿_/Lu⣿\\ (isang malaking titik).",
+                "$~O isang katangiang oo-hindi, tulad ng \\⣿◌/emoji⣿\\ o \\⣿_/uppercase⣿\\ — at maaari mo itong baybayin bilang pangalan at halaga, tulad ng \\⣿◌/Script=Greek⣿\\ .",
+                "$~Ibukod ang isang property na may @PatternComplement , tulad ng \\⣿~◌/emoji⣿\\ (anumang bagay na hindi emoji)."
+            ],
+            "conflict": {
+                "UnrecognizedPatternProperty": {
+                    "name": "$~hindikilalangari-arian",
+                    "explanation": "$~Hindi ko kilala ang property $name . Subukan ang isang kategorya, script, o Unicode id.",
+                    "resolution": "$~Baguhin ito sa $suggestion"
+                }
+            }
+        },
+        "PatternQuantifier": {
+            "name": "$~tagabilang",
+            "description": "$~ilang beses dapat itugma",
+            "emotion": "curious",
+            "doc": [
+                "$~Sinasabi ko kung ilang beses dapat itugma: isang eksaktong \\⣿3 #⣿\\ , isang saklaw na \\⣿3–5 #⣿\\ , \\⣿=3 #⣿\\ (eksaktong tatlo), \\⣿>0 #⣿\\ (isa o higit pa), \\⣿≥0 #⣿\\ (zero o higit pa), \\⣿<5 #⣿\\ (mas mababa sa lima), \\⣿≤1 #⣿\\ (opsyonal).",
+                "$~Halimbawa, hanapin ang bawat sunod-sunod na numero sa isang pangungusap:",
+                "$~\\text: 'I have 3 cats and 12 fish'\ntext ⌕ ⣿>0 #⣿\\",
+                "$~Palagi akong nauuna sa bahaging binibilang ko, tulad ng \\⣿3 #⣿\\ o \\⣿>0 _⣿\\ ."
+            ],
+            "conflict": {
+                "MalformedQuantifier": {
+                    "name": "$~imposiblengbilangin",
+                    "explanation": "$~Mas malaki ang pinakamababa kong bilang kaysa sa mataas kong bilang, kaya hindi ko kailanman mapapantayan.",
+                    "resolution": "$~Palitan ang bilang ko para mauna ang mas maliit"
+                }
+            }
+        },
+        "PatternQuantified": {
+            "name": "$~pag-uulit",
+            "description": "$~itugma ang isang atom nang ilang beses",
+            "emotion": "curious",
+            "doc": [
+                "$~Ilang beses kong pinagtugma ang susunod na bahagi.",
+                "$~Halimbawa, tiyaking eksaktong limang digit ang isang ZIP code:",
+                "$~\\zip: '98101'\nzip ≈ ⣿5 #⣿\\",
+                "$~Magbilang ng klase tulad ng \\⣿3 #⣿\\ (tatlong digit), isang grupo tulad ng \\⣿2 (\"ab\")⣿\\ (dalawang \"ab\"), o isang komplemento tulad ng \\⣿2 ~#⣿\\ (dalawang hindi digit). Kapag ang \\⣿>0 #⣿\\ ay sakim ako — kumukuha ako ng pinakamarami hangga't maaari."
+            ]
+        },
+        "PatternCapture": {
+            "name": "$~paghuli",
+            "description": "$~tandaan ang katugmang teksto ayon sa pangalan",
+            "emotion": "curious",
+            "doc": [
+                "$~Pinapangalanan ko ang isang piraso ng posporo para mabasa mo ito pabalik mula sa bawat @Result .",
+                "$~Halimbawa, alisin ang taon, buwan, at araw sa isang petsa:",
+                "$~\\date: '2026-06-17'\ndate ⌕ ⣿y:(4 #) \"-\" m:(2 #) \"-\" d:(2 #)⣿\\",
+                "$~Gamitin muli ang nakuha ko sa ibang pagkakataon sa pamamagitan ng pagsulat muli ng aking pangalan — tingnan @PatternBackref — tulad ng \\⣿w:(>0 _) ␣ w⣿\\ para mahanap ang salitang nadoble."
+            ],
+            "conflict": {
+                "DuplicateCaptureName": {
+                    "name": "$~doblengpagkuha",
+                    "explanation": "$~May isa pang capture na gumagamit na ng pangalang $name , kaya papatungan ito ng isang ito.",
+                    "resolution": "$~Palitan ang pangalan ng capture na ito ng $replacement"
+                }
+            }
+        },
+        "PatternComplement": {
+            "name": "$~hindi",
+            "description": "$~tumugma sa kahit ano maliban sa",
+            "emotion": "curious",
+            "doc": [
+                "$~Itinugma ko ang isang grapheme na HINDI ang sumusunod. I-negatibo ang isang klase tulad ng \\⣿~#⣿\\ (hindi isang digit), o isang set tulad ng \\⣿~{\":\" ␣}⣿\\ (hindi isang tutuldok o espasyo).",
+                "$~Halimbawa, kunin ang key at value sa paligid ng isang colon sa pamamagitan ng pagtutugma ng mga run na hindi colon o space:",
+                "$~\\pair: 'color: blue'\npair ⌕ ⣿>0 ~{\":\" ␣}⣿\\",
+                "$~Magpawalang-bisa ng grupo tulad ng \\⣿~(◌ | #)⣿\\ , o isang katangian tulad ng \\⣿~◌/emoji⣿\\ (hindi emoji).",
+                "$~Ilagay ako sa harap ng @PatternLook para i-flip ito: Ang ibig sabihin ng \\⣿~▸(#)⣿\\ ay \"hindi sinusundan ng digit\", at ang ibig sabihin ng \\⣿~◂(\"$\")⣿\\ ay \"hindi sinusundan ng dollar sign\"."
+            ]
+        },
+        "PatternGroup": {
+            "name": "$~grupo",
+            "description": "$~mga bahagi ng pattern ng grupo",
+            "emotion": "curious",
+            "doc": [
+                "$~Pinagsasama-sama ko ang mga bahagi para may bilang o pagpipilian na naaangkop sa lahat ng mga ito. Hindi ako kumukuha ng litrato; pangalanan ang isang piraso gamit ang @PatternCapture para diyan.",
+                "$~Halimbawa, tiyaking inuulit ang pantig na \"ab\" sa ilang teksto:",
+                "$~\\chant: 'ababab'\nchant ≈ ⣿>0 (\"ab\")⣿\\",
+                "$~Magbilang ng grupo tulad ng \\⣿2 (\"ab\")⣿\\ (dalawang \"ab\") o mag-alok ng pagpipilian tulad ng \\⣿(◌ | #)⣿\\ (isang letra o isang digit)."
+            ]
+        },
+        "PatternSet": {
+            "name": "$~setnggliph",
+            "description": "$~itugma ang isa sa mga grapemang ito",
+            "emotion": "curious",
+            "doc": [
+                "$~Tinutugma ko ang kahit anong grapheme mula sa isang hanay ng mga opsyon.",
+                "$~Halimbawa, hanapin ang mga patinig sa isang salita:",
+                "$~\\word: 'hello'\nword ⌕ ⣿{\"a\" \"e\" \"i\" \"o\" \"u\"}⣿\\",
+                "$~Paghaluin ang mga saklaw at klase, tulad ng \\⣿{\"a\"–\"z\" #}⣿\\ o \\⣿{# \"a\"–\"f\"}⣿\\ (isang hex digit). I-negatibo ako gamit ang isang @PatternComplement , tulad ng \\⣿~{\"!\" \"?\"}⣿\\ ."
+            ]
+        },
+        "PatternRange": {
+            "name": "$~saklaw",
+            "description": "$~pagtutugma ng isang hanay ng mga grapema",
+            "emotion": "curious",
+            "doc": [
+                "$~Tinutugma ko ang isang grapheme sa pagitan ng dalawang endpoint ayon sa scalar order, at nakatira ako sa loob ng isang @PatternSet .",
+                "$~Halimbawa, alisin ang maliliit na titik na salita mula sa ilang teksto:",
+                "$~\\text: 'hello world 2026'\ntext ⌕ ⣿>0 {\"a\"–\"z\"}⣿\\",
+                "$~Sumasaklaw sa mga letrang tulad ng \\⣿{\"a\"–\"z\" \"A\"–\"Z\"}⣿\\ o mga digit na tulad ng \\⣿{\"0\"–\"9\"}⣿\\ , sa anumang script, tulad ng \\⣿{\"あ\"–\"ん\"}⣿\\ ."
+            ]
+        },
+        "PatternLiteralText": {
+            "name": "$~literal",
+            "description": "$~eksaktong teksto",
+            "emotion": "curious",
+            "doc": [
+                "$~Eksaktong tugma ang teksto sa loob ng aking mga panipi, nang walang espesyal na kahulugan.",
+                "$~Halimbawa, hanapin ang halaga ng dolyar sa isang pangungusap:",
+                "$~\\receipt: 'It costs $5 today'\nreceipt ⌕ ⣿\"$\" >0 #⣿\\",
+                "$~Gamitin ang \"me\" para sa mga nakapirming bahagi tulad ng \\⣿\"-\"⣿\\ , \\⣿\"@\"⣿\\ , o isang buong salitang \\⣿\"cat\"⣿\\ , na pinagdugtong-dugtong kasama ng ibang mga bahagi, tulad ng \\⣿3 # \"-\" 4 #⣿\\ para sa numero ng telepono."
+            ]
+        },
+        "PatternAnchor": {
+            "name": "$~angkla",
+            "description": "$~itugma ang gilid ng teksto",
+            "emotion": "curious",
+            "doc": [
+                "$~Tinutugma ko ang isang gilid ng teksto nang hindi kumukuha ng kahit ano: \\⣿⊢⣿\\ ang simula, \\⣿⊣⣿\\ ang katapusan.",
+                "$~Halimbawa, siguraduhing nagsisimula sa \"Hello\" ang isang pagbati:",
+                "$~\\greeting: 'Hello world'\ngreeting ≈ ⣿⊢ \"Hello\" …⣿\\",
+                "$~Posisyon ng pin, tulad ng \\⣿⊢ \"Hi\"⣿\\ (nagsisimula sa \"Hi\"), \\⣿\".\" ⊣⣿\\ (nagtatapos sa tuldok), o \\⣿⊢ _ ⊣⣿\\ (ang buong teksto ay eksaktong isang letra)."
+            ]
+        },
+        "PatternWord": {
+            "name": "$~salita",
+            "description": "$~tugmain ang isang buong salita",
+            "emotion": "curious",
+            "doc": [
+                "$~Tinutugma ko ang isang buong salita, na matatagpuan sa pamamagitan ng sariling mga tuntunin ng isang wika.",
+                "$~Halimbawa, ilista ang mga salita sa isang pangungusap:",
+                "$~\\sentence: 'the cat sat'\nsentence ⌕ ⣿▭/en⣿\\",
+                "$~Pangalanan ang wika, tulad ng \\⣿▭/en⣿\\ para sa Ingles o \\⣿▭/zh⣿\\ para sa Tsino, at lagyan ng mga gilid ang isang partikular na salita, tulad ng \\⣿┊/en \"cat\" ┊/en⣿\\ ."
+            ],
+            "conflict": {
+                "MissingPatternLocale": {
+                    "name": "$~nawawalangwika",
+                    "explanation": "$~Kailangan ko ng wika para malaman kung paano maghanap ng mga salita. Maaari ka bang magdagdag ng isa, tulad ng \\/en\\ ?"
+                }
+            }
+        },
+        "PatternWordEdge": {
+            "name": "$~gilidngsalita",
+            "description": "$~itugma ang hangganan ng salita",
+            "emotion": "curious",
+            "doc": [
+                "$~Tinutugma ko ang hangganan ng salita para sa isang wika nang hindi kumukuha ng kahit ano.",
+                "$~Halimbawa, hanapin ang \"cat\" bilang isang buong salita, hindi sa loob ng \"category\":",
+                "$~\\text: 'a cat in a category'\ntext ⌕ ⣿┊/en \"cat\" ┊/en⣿\\",
+                "$~I-wrap ang isang salita gamit ang \"me\", tulad ng \\⣿┊/en \"cat\" ┊/en⣿\\ , para buo lang ang katugma nito."
+            ]
+        },
+        "PatternLook": {
+            "name": "$~tumingin-tingin",
+            "description": "$~suriin sa unahan o sa likuran",
+            "emotion": "curious",
+            "doc": [
+                "$~Tinitingnan ko kung ano ang nasa unahan \\⣿▸(#)⣿\\ o nasa likod \\⣿◂(#)⣿\\ nang hindi ito kinokonsumo, para magkatugma pa rin ang susunod na bahagi mula sa parehong lugar.",
+                "$~Halimbawa, hanapin ang bawat letra na sinusundan agad ng isang digit:",
+                "$~\\text: 'a1 b2 cc'\ntext ⌕ ⣿_ ▸(#)⣿\\",
+                "$~Kinakailangan ang konteksto, tulad ng \\⣿_ ▸(#)⣿\\ (isang letra na sinusundan ng isang digit) o \\⣿◂(\"$\") >0 #⣿\\ (mga digit pagkatapos ng \"$\").",
+                "$~I-flip ako gamit ang @PatternComplement para ipagbawal ang konteksto, tulad ng \\⣿~▸(#)⣿\\ (hindi sinusundan ng digit)."
+            ]
+        },
+        "PatternBackref": {
+            "name": "$~sanggunianpabalik",
+            "description": "$~itugma muli ang parehong teksto",
+            "emotion": "curious",
+            "doc": [
+                "$~Tinutugma ko ang parehong teksto na nagngangalang @PatternCapture na naitugma na — isulat lang ang hubad na pangalan ng nakuhanan.",
+                "$~Halimbawa, maghanap ng salitang agad na inuulit:",
+                "$~\\text: 'the the cat sat sat'\ntext ⌕ ⣿w:(>0 _) ␣ w⣿\\",
+                "$~Ang isang hubad na pangalan na hindi isang capture ay isang pinangalanang klase, tulad ng \\⣿linebreak⣿\\ ."
+            ],
+            "conflict": {
+                "UndefinedBackreference": {
+                    "name": "$~hindikilalangpangalan",
+                    "explanation": "$~Walang capture o class na pinangalanang $name , kaya wala akong maitutugma.",
+                    "resolution": "$~Baguhin ito sa $suggestion"
+                }
+            }
+        },
+        "PatternRest": {
+            "name": "$~pahinga",
+            "description": "$~itugma ang natitirang input",
+            "emotion": "curious",
+            "doc": [
+                "$~Tinutugma ko ang natitirang bahagi ng teksto, hangga't maaari. Madali akong gamitin sa dulo ng isang pattern.",
+                "$~Halimbawa, siguraduhing ang ilang teksto ay isang hashtag — isang \"#\" pagkatapos ay kahit ano:",
+                "$~\\tag: '#breakfast'\ntag ≈ ⣿\"#\" …⣿\\",
+                "$~Gamitin ang \"ako\" pagkatapos ng isang nakapirming simula, tulad ng \\⣿\"#\" …⣿\\ (isang \"#\" pagkatapos ay kahit ano) o \\⣿\"Hi \" …⣿\\ (\"Hi \" pagkatapos ay lahat pagkatapos)."
+            ]
+        },
+        "PatternCaseFold": {
+            "name": "$~balewalainangkaso",
+            "description": "$~pagtutugma na hindi pinapansin ang malaki/maliit na titik",
+            "emotion": "curious",
+            "doc": [
+                "$~Pinagtugma ko ang mga bahagi ko nang hindi pinapansin ang malaki at maliit na titik.",
+                "$~Halimbawa, lagyan ng tsek ang isang salita na hindi pinapansin ang malaking titik nito:",
+                "$~\\shout: 'HELLO'\nshout ≈ ⣿Aa(\"hello\")⣿\\",
+                "$~I-wrap ang aking mga bahagi tulad ng \\⣿Aa(\"hi\")⣿\\ (tumutugma sa \"HI\", \"Hi\", o \"hi\"). Magdagdag ng wika para sa mga panuntunan nito, tulad ng \\⣿Aa/tr(\"i\")⣿\\ (Turkic i), at susuriin ko rin ang isang @PatternBackref , tulad ng \\⣿Aa(w:(2 _) w)⣿\\ ."
+            ]
+        },
+        "PatternType": {
+            "name": "$~uringpattern",
+            "description": "$~ang uri ng isang pattern",
+            "emotion": "curious",
+            "doc": [
+                "$~Ako ang tipo ng halaga ng pattern, na may anotasyon tulad ng \\p•⣿⣿: ⣿◌⣿\\ .",
+                "$~Halimbawa, mag-imbak ng isang pattern sa isang pangalan at gamitin itong muli sa maraming teksto:",
+                "$~\\digits: ⣿>0 #⣿\n'I have 3 cats and 12 fish' ⌕ digits\\",
+                "$~Kapag nakaimbak na, gamitin ang \"me\" kahit saan naaangkop ang isang pattern, tulad ng \\text ⌕ digits\\ o \\text ≈ digits\\ ."
+            ]
         }
     },
     "basis": {
@@ -1954,8 +2308,8 @@
         },
         "None": {
             "doc": [
-                "$~/Kumusta, nandito si @FunctionDefinition. Ayaw magsalita ni @None, kaya ako na ang mag-iinterpret./",
-                "$~Ako ay @None. Tawagin ako gamit ang \\ø\\. Matulungin ako kapag gusto mong kumatawan sa kawalan ng isang bagay."
+                "$~Kinakatawan ko ang kawalan ng isang halaga, na nakasulat na \\ø\\ .",
+                "$~Ako ay @None . Tawagin mo ako gamit ang \\ø\\ ."
             ],
             "name": ["$~o", "$~Wala"],
             "function": {
@@ -2118,11 +2472,38 @@
                             "names": "$~teksto"
                         }
                     ]
+                },
+                "matches": {
+                    "doc": [
+                        "$~\\⊤\\ kung ang buong teksto ay tumutugma sa ibinigay na padron.",
+                        "$~\\'555-1234' ≈ ⣿3 # \"-\" 4 #⣿\\"
+                    ],
+                    "names": ["$~≈", "$~mgatugma"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang padron na dapat pagtumbasan.",
+                            "names": "$~padron"
+                        }
+                    ]
+                },
+                "search": {
+                    "doc": [
+                        "$~Hanapin ang bawat lugar kung saan tumutugma ang ibinigay na pattern sa akin, bilang isang listahan ng @Result .",
+                        "$~\\'a1 b2' ⌕ ⣿_ #⣿\\"
+                    ],
+                    "names": ["$~⌕", "$~paghahanap"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang padron na hahanapin.",
+                            "names": "$~padron"
+                        }
+                    ]
                 }
             },
             "conversion": {
                 "list": "$~Hinahati ang teksto sa isang listahan ng mga indibidwal na karakter.",
-                "number": "$~Kino-convert ang teksto sa isang @Number, at kung hindi ito numero, isang value na hindi numero."
+                "number": "$~Kino-convert ang teksto sa isang @Number, at kung hindi ito numero, isang value na hindi numero.",
+                "formatted": "$~Kino-convert ang teksto sa naka-format na teksto, binibigyang-kahulugan ang anumang markup na nilalaman nito."
             }
         },
         "Number": {
@@ -3285,7 +3666,7 @@
             }
         },
         "Structure": {
-            "doc": "$~Tingnan ang @StructureDefinition.",
+            "doc": "$~Ako ay isang nakabalangkas na halaga na may pinangalanang, naka-type na mga patlang, na nilikha mula sa isang @StructureDefinition . Tingnan ang @StructureDefinition .",
             "name": ["$~Istruktura"],
             "function": {
                 "equals": {
@@ -3312,25 +3693,112 @@
             "conversion": {
                 "text": "$~Kino-convert ko ang sarili ko sa @Text."
             }
+        },
+        "Formatted": {
+            "doc": [
+                "$~Naka-format ako ng teksto: mga salitang may istilo, tulad ng naka-bold, naka-italic, at mga link. Ilagay ako sa pagitan ng mga backtick:",
+                "$~\\`I am **bold** and /italic/`\\",
+                "$~Gumagana ako nang halos katulad @Text , pero kaya ko ang pag-format. Maaari mo akong pagsamahin, ulitin, tingnan kung ano ang nilalaman ko, at i-convert ako sa plain @Text ."
+            ],
+            "name": ["$~`…`", "$~Naka-format"],
+            "function": {
+                "length": {
+                    "doc": "$~Sinusuri ko ang bilang ng mga nababasang karakter sa aking teksto, hindi pinapansin ang pag-format at mga break sa talata.",
+                    "names": ["$~📏", "$~haba"],
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": "$~\\⊤\\ kung ako ay ang parehong naka-format na teksto gaya ng ibinigay na halaga.",
+                    "names": ["$~=", "$~katumbas"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang naka-format na teksto na ihahambing.",
+                            "names": "$~halaga"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": "$~\\⊤\\ kung ako ay /hindi/ ang parehong format ng teksto gaya ng ibinigay na halaga.",
+                    "names": "$~≠",
+                    "inputs": [
+                        {
+                            "doc": "$~Ang naka-format na teksto na ihahambing.",
+                            "names": "$~halaga"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": "$~\\⊤\\ kung ang aking plain text ay naglalaman ng ibinigay na @Text . Hindi ko pinapansin ang formatting at mga paragraph break kapag tinitingnan ko.",
+                    "names": ["$~aymay"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @Text na dapat hanapin sa aking teksto.",
+                            "names": "$~teksto"
+                        }
+                    ]
+                },
+                "starts": {
+                    "doc": "$~\\⊤\\ kung ang aking plain text ay nagsisimula sa ibinigay na @Text . Hindi ko pinapansin ang formatting at mga paragraph break kapag tinitingnan ko.",
+                    "names": ["$~nagsisimula"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @Text na dapat tingnan sa simula ng aking teksto.",
+                            "names": "$~teksto"
+                        }
+                    ]
+                },
+                "ends": {
+                    "doc": "$~\\⊤\\ kung ang aking plain text ay nagtatapos sa ibinigay na @Text . Hindi ko pinapansin ang formatting at mga paragraph break kapag tinitingnan ko.",
+                    "names": ["$~mgadulo"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @Text na dapat tingnan sa dulo ng aking teksto.",
+                            "names": "$~teksto"
+                        }
+                    ]
+                },
+                "repeat": {
+                    "doc": "$~Gumagawa ako ng bagong format na teksto, ako mismo, inuulit ko ito nang ilang beses. Kung mayroon akong higit sa isang talata, ang mga pahinga ay pinapanatili sa pagitan ng mga kopya.",
+                    "names": ["$~×", "$~·", "$~🔁", "$~paulitulit", "$~ulitin"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang dami ng beses na inuulit ko ang sarili ko.",
+                            "names": "$~bilangin"
+                        }
+                    ]
+                },
+                "combine": {
+                    "doc": "$~Bigyan mo ako ng isa pang naka-format na teksto at pagsasamahin kita. Kung ang isa sa atin ay may higit sa isang talata, mananatili ang mga break ng talata.",
+                    "names": ["$~+", "$~pinagsama", "$~pagsamahin"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang naka-format na teksto na idadagdag.",
+                            "names": "$~nakaformat"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~Kino-convert ang naka-format na teksto sa plain @Text , at inaalis ang lahat ng formatting."
+            }
         }
     },
     "input": {
         "Random": {
             "doc": [
+                "$~Lumilikha ito ng ibang numero sa bawat oras na susuriin mo ito.",
                 "$~17!",
-                "$~/@FunctionDefinition dito, ipapaliwanag ko ito./",
-                "$~Kaya ang @Random ay isang kakaibang function na lumilikha ng mga random na numero. Nakakapagtaka ito dahil sa tuwing susuriin mo ito, may kakaiba itong nalilikha.",
                 "$~Lumilikha ito ng isang kahanga-hangang kaguluhan na may kasamang kawalan ng katiyakan.",
-                "$~Bilang default, nagbibigay ito ng mga halagang @Number sa pagitan ng \\0\\ at \\1\\:",
+                "$~Bilang default, nagbibigay ito ng mga halagang @Number sa pagitan ng \\0\\ at \\1\\ :",
                 "$~\\Random()\\",
                 "$~Ngunit maaari mo itong bigyan ng halaga, at bubuo ito ng mga halaga sa pagitan ng \\0\\ at ng halaga:",
-                "$~Random(10)",
+                "$~\\Random(10)\\",
                 "$~At kung bibigyan mo ito ng dalawang halaga, bubuo ito ng mga halaga sa pagitan at kasama ang dalawang halaga:",
-                "$~Random(-10 10)",
+                "$~\\Random(-10 10)\\",
                 "$~Kung ang iyong mga saklaw ay may mga yunit, ang mga ito ay pananatilihin (at kung hindi sila magkatugma, ang yunit ng minimum ang gagamitin):",
-                "$~Random(-10m 10m)",
+                "$~\\Random(-10m 10m)\\",
                 "$~At kung magbibigay ka ng mga numerong may partikular na bilang ng mga makabuluhang digit pagkatapos ng decimal point, mapapanatili ang katumpakan na iyon.",
-                "$~Random(1.00 10.00)"
+                "$~\\Random(1.00 10.00)\\"
             ],
             "names": ["$~🎲", "$~Random"],
             "inputs": [
@@ -3346,25 +3814,24 @@
         },
         "Choice": {
             "doc": [
+                "$~Ito ay isang stream ng mga pangalang pinipili ng iyong audience sa pamamagitan ng pag-click, pagtapik, o pagpindot sa /Enter/ sa isang pinangalanang @Phrase .",
                 "$~/clickety tap!/",
-                "$~/@FunctionDefinition dito, ipapaliwanag ko ito./",
-                "$~Isipin ang @Choice na parang isang stream ng @Phrase.name na pinipili ng iyong audience. Kung may mag-click, mag-tap, o pipili ng keyboard sa pamamagitan ng pagpindot sa /Enter/ sa isang @Phrase na may pangalan -- magkakaroon ng bagong value ang @Choice na tumutugma sa pangalan.",
-                "$~Kaya ang pinakamahusay na paraan upang gamitin ito ay ang lumikha ng isang pagtatanghal na may pinangalanang mapipiling mga pariralang @Phrase, at pagkatapos ay gumamit ng @Reaction upang magpasya kung ano ang gagawin kapag napili ang pangalang iyon.",
+                "$~Kaya ang pinakamahusay na paraan upang gamitin ito ay ang lumikha ng isang pagtatanghal na may pinangalanang mga pariralang mapipili @Phrase , at pagkatapos ay gumamit ng @Reaction upang magpasya kung ano ang gagawin kapag ang pangalang iyon ay napili.",
                 "$~Narito ang pinakasimpleng halimbawa:",
-                "$~\\Group(\nStack() \n[\nParirala('isa' mapipili:⊤ pangalan:'1') \nParirala('dalawa' mapipili:⊤ pangalan:'2') \nParirala(Pagpili())\n]\n)\\",
-                "$~Kopyahin ito sa editor at pagkatapos ay pumili ng isa sa dalawang @Phrase. Makikita mo sa pangatlong @Phrase na nagpapakita ng pangalang napili."
+                "$~\\Group(\nStack() \n[\nPhrase('one' selectable:⊤ name:'1') \nPhrase('two' selectable:⊤ name:'2') \nPhrase(Choice())\n]\n)\\",
+                "$~Kopyahin ito sa editor at pagkatapos ay pumili ng isa sa dalawang @Phrase . Makikita mo sa pangatlong @Phrase na nagpapakita ng pangalang napili."
             ],
             "names": ["$~🔘", "$~Pagpipilian"]
         },
         "Button": {
             "doc": [
+                "$~Sinasabi nito sa iyo kung ang pangunahing buton ng mouse o trackpad ay pinindot, bilang isang stream ng @Boolean .",
                 "$~/i-click i-click i-click/",
-                "$~/@FunctionDefinition dito, ipapaliwanag ko ito./",
-                "$~Ang @Button ay isang mahusay na paraan upang makinig sa isang mouse o trackpad. Siyempre, ang isang mouse o trackpad ay hindi isang mainam na pagpipilian para sa pakikinig sa isang madla, dahil hindi lahat ay maaaring gumamit nito. Ang mas madaling gamiting pagpipilian ay ang @Choice.",
-                "$~Pero kung /talagang/ kailangan mong makinig sa buton ng mouse, ganito ang paraan para gawin ito. Magbibigay ito ng stream ng @Boolean, na kumakatawan kung ang pangunahing buton ay pataas \\⊥\\ o pababa \\⊤\\.",
+                "$~Siyempre, ang mouse o trackpad ay hindi mainam na pagpipilian para sa pakikinig sa isang madla, dahil hindi lahat ay maaaring gumamit nito. Ang mas madaling gamiting pagpipilian ay @Choice .",
+                "$~Pero kung /talagang/ kailangan mong makinig sa buton ng mouse, ganito ang paraan para gawin ito. Magbibigay ito ng stream ng @Boolean , na kumakatawan kung ang pangunahing buton ay pataas \\⊥\\ o pababa \\⊤\\ .",
                 "$~Narito ang isang simpleng halimbawa:",
-                "$~\\Parirala(Button() → '')\\",
-                "$~Gumagawa lang ito ng @Phrase na siyang value ng stream bilang text. Kung kokopyahin mo ito sa editor at iki-click, makikita mong magpapalipat-lipat ito sa pagitan ng \\⊥\\ at \\⊤\\."
+                "$~\\Phrase(Button() → '')\\",
+                "$~Gumagawa lang ito ng @Phrase na siyang value ng stream bilang text. Kung kokopyahin mo ito sa editor at i-click, makikita mo itong magpalipat-lipat sa pagitan ng \\⊥\\ at \\⊤\\ ."
             ],
             "names": ["$~🖱️", "$~Butones"],
             "down": {
@@ -3374,11 +3841,10 @@
         },
         "Pointer": {
             "doc": [
+                "$~Sinusubaybayan nito kung saan nakaturo ang iyong audience sa @Stage .",
                 "$~/whrrrrrr/",
-                "$~/@FunctionDefinition dito, ipapaliwanag ko ito./",
-                "$~Alam mo ba ang tungkol sa mga mouse, trackpad, at touch screen? Minsan gusto mong malaman kung saan nakaturo ang isang audience. Iyan ang ibinibigay ng @Pointer.",
                 "$~Siyempre, hindi ito isang madaling pagpipilian: hindi lahat ay makakakita o madaling makakapagturo, kaya siguraduhing hindi mo mapipigilan ang sinuman na lumahok sa pamamagitan ng paggamit ng stream na ito.",
-                "$~Kung sigurado kang walang sinuman ang hindi kasama, ang paggamit ng @Pointer ay kasing simple ng paggawa lamang ng stream:",
+                "$~Kung sigurado kang walang sinuman ang hindi kasama, ang paggamit @Pointer ay kasing simple ng paggawa lamang ng stream:",
                 "$~\\Pointer()\\",
                 "$~Ang @Place na ibinibigay nito ay tutugma sa kung saan sa @Stage nakaturo ang pointer."
             ],
@@ -3386,18 +3852,17 @@
         },
         "Key": {
             "doc": [
+                "$~Sinasabi nito sa iyo kung aling keyboard key ang pinipindot at binibitawan ng iyong audience.",
                 "$~/clickety/",
-                "$~/@FunctionDefinition dito, ipapaliwanag ko ito./",
-                "$~Maraming key ang mga keyboard, 'di ba? Sasabihin sa iyo ng @Key kung alin ang pinipindot at binibitawan ng isang tao.",
                 "$~Subukan ito",
-                "$~\\Susi()\\",
-                "$~Nakikita mo ba kung paano kapag nagta-type ka ng key, lumalabas ito sa @Stage? Sa tuwing pinindot ang isang key, isang bagong @Text ang idinaragdag sa stream, na naglalarawan sa key na pinindot.",
-                "$~Para sa isang key na kumakatawan sa isang karakter, ang value ay ang karakter bilang @Text.",
-                "$~Para sa mga espesyal na key, tulad ng /Escape/ key, ang @Text ang maglalarawan sa key, gamit ang <paunang natukoy na pangalan@https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values>, na sa kasamaang palad ay makukuha lamang sa Ingles.",
+                "$~\\Key()\\",
+                "$~Tingnan mo kung paano kapag nagta-type ka ng key, lumalabas ito sa @Stage ? Sa tuwing pinindot ang isang key, isang bagong @Text ang idinaragdag sa stream, na naglalarawan sa key na pinindot.",
+                "$~Para sa isang susi na kumakatawan sa isang karakter, ang halaga ay ang karakter bilang @Text .",
+                "$~Para sa mga espesyal na key, tulad ng /Escape/ key, ang @Text ang maglalarawan sa key, gamit ang <pre-defined name@https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values> , sa kasamaang palad ay makukuha lamang sa Ingles.",
                 "$~Kung gusto mo lang malaman ang tungkol sa isang partikular na susi, maaari mo itong ibigay:",
-                "$~\\Susi('a')\\",
-                "$~At kung gusto mo lang malaman kung kailan inilabas ang isang @Key sa halip na pinindot, maaari kang magbigay ng isang @Boolean:",
-                "$~\\Susi('a' ⊥)\\"
+                "$~\\Key('a')\\",
+                "$~At kung gusto mo lang malaman kung kailan inilalabas ang isang @Key sa halip na pindutin, maaari kang magbigay ng isang @Boolean :",
+                "$~\\Key('a' ⊥)\\"
             ],
             "names": ["$~⌨️", "$~Susi"],
             "key": {
@@ -3464,16 +3929,15 @@
         },
         "Time": {
             "doc": [
+                "$~Ito ay titingin pasulong sa frequency na iyong pipiliin.",
                 "$~/tiktik tiktik tiktik/",
-                "$~@FunctionDefinition dito, ipapaliwanag ko ang @Time, dahil hindi ito nagsasalita.",
-                "$~Ang oras ay isang daloy na umaagos sa isang tiyak na dalas.",
-                "$~Sa bawat pagkakataong mangyari ito, muling susuriin ng @Program gamit ang bagong halaga ng oras.",
+                "$~Sa bawat pagkakataong mangyari ito, muling susuriin @Program gamit ang bagong halaga ng oras.",
                 "$~Halimbawa:",
-                "$~\\Oras()\\",
-                "$~Kung magbibigay ka ng oras na @Time.frequency, titiktik ito sa bilis na iyon. Halimbawa:",
-                "$~Oras(1000ms)",
-                "$~Gayunpaman, may mga limitasyon kung gaano ito kaliit, dahil ang @Program ay nangangailangan ng oras upang masuri bago sila makatugon sa susunod na tik.",
-                "$~Ang pinakamaliit ay malamang nasa bandang \\20ms\\."
+                "$~\\Time()\\",
+                "$~Kung magbibigay ka ng @Time.frequency sa oras, titiktik ito sa bilis na iyon. Halimbawa:",
+                "$~\\Time(1000ms)\\",
+                "$~Gayunpaman, may mga limitasyon kung gaano ito kaliit, dahil @Program ay nangangailangan ng oras upang masuri bago sila makatugon sa susunod na tik.",
+                "$~Ang pinakamaliit ay malamang nasa bandang \\20ms\\ ."
             ],
             "names": ["$~🕕", "$~Oras"],
             "frequency": {
@@ -3487,10 +3951,10 @@
         },
         "Volume": {
             "doc": [
+                "$~Ito ay isang daloy ng lakas ng tunog ng mikropono, mula 0 hanggang 1.",
                 "$~/bzzzzzzz/",
-                "$~@FunctionDefinition eto, kukunin ko ang mikropono.",
-                "$~Ang stream na ito ay isang serye ng mga volume sa pagitan ng 0 at 1, na sina-sample sa frequency na iyong napili. Bilang default, ang frequency ay \\30hz\\, o 30 beses bawat segundo, ngunit maaari mo itong baguhin sa anumang hindi gaanong madalas.",
-                "$~\\Dami()\\",
+                "$~Ito ay kinokonsumo sa frequency na iyong napili. Bilang default, ang frequency ay \\30hz\\ , o 30 beses bawat segundo, ngunit maaari mo itong baguhin sa anumang hindi gaanong madalas.",
+                "$~\\Volume()\\",
                 "$~Ang ganda nito para mapakinggan kung gaano kalakas ang sigawan ng mga manonood!"
             ],
             "names": ["$~🎤", "$~Dami"],
@@ -3501,11 +3965,11 @@
         },
         "Pitch": {
             "doc": [
+                "$~Ito ay isang stream ng pitch ng mikropono, sa hertz.",
                 "$~/hummmmm/",
-                "$~@FunctionDefinition eto, pag-usapan natin ang pitch!",
-                "$~Ang stream na ito ay isang serye ng mga frequency sa hertz, na nagpapahiwatig ng pitch ng tunog, na kinuha sa frequency na iyong napili. Natuklasan namin na ang boses ng tao ay nasa pagitan ng 20Hz at 5000Hz, kaya planuhin ang mga numero sa saklaw na iyon.",
+                "$~Kinokonsumo ito sa frequency na iyong napili. Ang boses ng tao ay nasa pagitan ng 20Hz at 5000Hz, kaya planuhin ang mga numero sa saklaw na iyon.",
                 "$~\\Pitch()\\",
-                "$~Maganda ito para sa pakikinig sa tono ng pagsasalita o pagkanta ng isang tao."
+                "$~Maganda ito para sa pakikinig sa tono ng pagsasalita o pag-awit ng isang tao."
             ],
             "names": ["$~🎵", "$~Paglalagay"],
             "frequency": {
@@ -3515,15 +3979,15 @@
         },
         "Speech": {
             "doc": [
+                "$~Kinikilala nito ang pagsasalita at ginagawang @Text .",
                 "$~/kumusta!/",
-                "$~@FunctionDefinition nandito na - handang makinig!",
-                "$~Kinikilala ng stream na ito ang pagsasalita at kino-convert ito sa @Text . Ginagamit nito ang speech recognition ng iyong browser para pakinggan ang sinasabi mo at gawing mga salita (ang astig nito no?!).",
+                "$~Ginagamit nito ang speech recognition ng iyong browser para pakinggan ang sinasabi mo at gawing mga salita ito (ang astig nito no?!).",
                 "$~\\Speech()\\",
                 "$~Perpekto ito para sa mga nakakapagsalita ng isang wika ngunit natututo pa ring bumasa o sumulat nito (at higit pa)...",
                 "$~Maaari kang tumukoy ng isang language code upang makilala ang pagsasalita sa isang partikular na wika:",
                 "$~\\Speech(language: 'es-MX')\\",
                 "$~Kung walang tinukoy na wika, ito ay magiging default sa iyong ginustong wika.",
-                "$~Ang pagkilala sa pagsasalita ay nangangailangan ng access sa mikropono at koneksyon sa Internet (pakiusap bigyan ng access!). Gayundin, maaaring may mga limitasyon sa paggamit, kaya huwag itong iwanang naka-on nang masyadong matagal (hindi pwede)!"
+                "$~Ang pagkilala sa pananalita ay nangangailangan ng access sa mikropono at koneksyon sa Internet (pakiusap bigyan ng access!). Gayundin, maaaring may mga limitasyon sa paggamit, kaya huwag itong iwanang naka-on nang masyadong matagal (hindi pwede)!"
             ],
             "names": ["$~🎙️", "$~Pagsasalita", "$~Boses"],
             "reset": {
@@ -3550,12 +4014,12 @@
         },
         "Camera": {
             "doc": [
+                "$~Nagbibigay ito sa iyo ng @List of @Color mula sa iyong camera, isa bawat frame.",
                 "$~/bzzzzzzz/",
-                "$~@FunctionDefinition, maipapaliwanag ko @Camera!",
-                "$~Kaya ang @Camera ay nagbibigay ng @List ng @Color mula sa iyong mundo. Ang listahang iyon ay mahalagang kumakatawan sa isang imahe, ngunit nasa iyo ang desisyon kung ano ang gagawin dito.",
-                "$~Maaari mong subukang irepresenta ang larawan gamit ang ilang @Phrase, na maaaring magmukhang maganda! Subukan mong kopyahin ito...",
-                "$~\\colors: Kamera(32px 24px 33ms)\n\nYugto(\ncolors.combine(\n[] \nƒ(mga parirala•[Parirala] hilera•[Kulay] y•#) \nmga parirala.append(\nrow.translate(\nƒ(kulay•Kulay x•#)\nParirala('o' lugar: Lugar((x - 1) × 0.5m y × -0.5m) kulay: tagal ng kulay: 0s\n)\n)\n)\n)\n)\\",
-                "$~Ngunit maaari mo ring suriin ang mga kulay upang magpasya kung ang isang ilaw ay nakabukas o nakapatay, o kung ang isang partikular na kulay ay karaniwan, na hinahayaan ang mga manonood na makaimpluwensya sa isang pagtatanghal gamit ang mga kulay na ipinapakita ng mga ito."
+                "$~@List na iyan ay mahalagang kumakatawan sa isang imahe, ngunit nasa iyo ang desisyon kung ano ang gagawin dito.",
+                "$~Maaari mong subukang irepresenta ang larawan gamit ang ilang @Phrase , na maaaring magmukhang maganda! Subukan mong kopyahin ito...",
+                "$~\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) × 0.5m y × -0.5m) color: color duration: 0s\n)\n)\n)\n)\n)\\",
+                "$~Ngunit maaari mo ring suriin ang mga kulay upang magpasya kung ang isang ilaw ay naka-on o naka-off, o kung ang isang partikular na kulay ay karaniwan, na hinahayaan ang mga manonood na makaimpluwensya sa isang pagtatanghal gamit ang mga kulay na ipinapakita ng mga ito."
             ],
             "names": ["$~🎥", "$~Kamera"],
             "width": {
@@ -3573,19 +4037,18 @@
         },
         "Scene": {
             "doc": [
+                "$~Ipinapakita nito ang isang @List ng @Phrase o @Group nang paisa-isa, na humihinto sa huli.",
                 "$~/Uy uy uy uy/",
-                "$~/Kumusta, @FunctionDefinition nandito na! Nakita kong natagpuan mo na ang @Scene.",
-                "$~Sa tingin ko, ang @Scene ay partikular na astig. Ang pangunahing ideya ay bibigyan mo ito ng listahan ng @Phrase o @Group at pagkatapos ay ipapakita nito ang mga ito nang sunod-sunod at hihinto sa huli.",
-                "$~Para makontrol ang timing, maaari mong itakda ang @Phrase.duration sa bawat output, at ipapakita nito ito nang matagal bago lumipat sa susunod, at gamitin ang anumang @Phrase.entering o @Phrase.exiting transitions na maaaring naitakda mo. Kung itatakda mo ang mga ito sa isang @Sequence, gagamitin nito ang duration nito.",
+                "$~Para makontrol ang timing, maaari mong itakda ang @Phrase.duration sa bawat output, at ipapakita nito ito nang ganoon katagal bago lumipat sa susunod, at gamitin ang anumang mga transition na @Phrase.entering o @Phrase.exiting na maaaring naitakda mo. Kung itatakda mo ang mga ito sa isang @Sequence , gagamitin nito ang duration nito.",
                 "$~Ang lahat ng iyan ay nagbibigay-daan sa iyo na gawin ang mga bagay tulad ng maliit na @Scene na ito, na nagpapakita ng tatlong pariralang ito nang magkakasunod:",
-                "$~\\Scene([\nParira('Kumusta' tagal: 1 segundo)\nParira('Kumusta ka?' tagal: 2 segundo pag-ikot: 5° pagpasok: Pose(pag-ikot: 0°))\nParira('Ayos lang ako')\n])\\",
+                "$~\\Scene([\n\tPhrase('Hello' duration: 1s)\n\tPhrase('How are you?' duration: 2s rotation: 5° entering: Pose(rotation: 0°))\n\tPhrase('I am fine')\n])\\",
                 "$~Nakikita mo ba kung paano ipinapakita ang unang output sa loob ng isang segundo, pagkatapos ay ang susunod sa loob ng dalawang segundo, ngunit ina-animate sa limang digri na pag-ikot, at pagkatapos ay ipinapakita nito ang huli?",
-                "$~Maaari kang gumawa ng napakasalimuot na mga pagkakasunod-sunod ng output at mga animation gamit ang @Scene, at gawin pang dynamic o interactive ang mga bahagi ng mga ito, tulad ng anumang iba pang @Phrase o @Group.",
-                "$~Kung mayroon kang animated output na naka-nested (isang @Group na may animated na @Phrase sa loob), hihintayin ng @Scene na matapos ang lahat ng animated na nilalaman sa @Group.",
-                "$~Ah, at isa pang maliit na sikreto! Maaari mo ring ilagay ang @Boolean sa listahan, at kung ang mga ito ay \\⊥\\, ang @Scene ay maghihinto at maghihintay na maging totoo ito.",
-                "$~Halimbawa, kung gusto mong gumawa ng sequence ng @Phrase at mag-advance lang kapag nagbago ang @Button, magagawa mo ito:",
-                "$~\\click: ∆ Button()\nScene([\nParira('Kumusta')\nclick\nParirala('Kumusta ka?' tagal: 0.25s pag-ikot: 5° pagpasok: Pose(rotation: 0°))\nclick\nParirala('Ayos lang ako')\n])\\",
-                "$~Nakikita mo ba kung paano ito humihinto pagkatapos ng bawat @Phrase, at hinihintay na magbago ang @Button bago sumulong?"
+                "$~Maaari kang gumawa ng napakadetalyadong mga pagkakasunod-sunod ng output at mga animation gamit ang @Scene , at gawing dynamic o interactive ang mga bahagi ng mga ito, tulad ng anumang iba pang @Phrase o @Group .",
+                "$~Kung mayroon kang animated output na naka-nested (isang @Group na may animated @Phrase sa loob), hihintayin @Scene na matapos ang lahat ng animated na nilalaman sa @Group .",
+                "$~Ah, at isa pang maliit na sikreto! Maaari mo ring ilagay @Boolean sa listahan, at kung ang mga ito ay \\⊥\\ , ang @Scene ay magpo-pause at maghihintay na maging totoo ito.",
+                "$~Halimbawa, kung gusto mong gumawa ng sequence ng @Phrase at mag-advance lang kapag nagbago @Button , magagawa mo ito:",
+                "$~\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' duration: 0.25s rotation: 5° entering: Pose(rotation: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
+                "$~Tingnan mo kung paano ito humihinto pagkatapos ng bawat @Phrase , at naghihintay na magbago @Button bago sumulong?"
             ],
             "names": ["$~🎬", "$~Eksena"],
             "outputs": {
@@ -3595,12 +4058,12 @@
         },
         "Motion": {
             "doc": [
+                "$~Gumagalaw ito ng panimulang @Phrase nang may grabidad at pisika.",
                 "$~/boing boing boing/",
-                "$~/Kumusta! @FunctionDefinition ito. Paano kaya kung ipaliwanag ko ang @Motion?",
-                "$~Sa madaling salita, ang @Motion ay isang daloy ng @Phrase. Bibigyan mo ito ng panimulang @Phrase, at pagkatapos ay pipinoin nito ito gamit ang isang bagong lugar at pag-ikot batay sa grabidad.",
+                "$~Bibigyan mo ito ng panimulang @Phrase , at pagkatapos ay pipinoin nito ito gamit ang isang bagong lugar at pag-ikot batay sa grabidad.",
                 "$~Nagbibigay-daan ito sa iyo na gawin ang mga simpleng bagay tulad ng paglikha ng tumatalbog na emoji:",
-                "$~\\Motion(Phrase('o') panimulang lugar: Place(0m 10m))\\",
-                "$~Nakikita mo ba kung paano tumatalbog ang o? Sa unang pagsusuri, binibigyan natin ito ng lugar sa mataas na bahagi ng @Stage, pero pagkatapos, nagiging @None ito, na nagpapahintulot sa @Motion na baguhin ito sa anumang posisyon na ilalagay ng grabidad.",
+                "$~\\Motion(Phrase('o') startplace: Place(0m 10m))\\",
+                "$~Nakikita mo ba kung paano tumatalbog ang o? Sa unang pagsusuri, bibigyan mo ito ng lugar sa mataas na bahagi ng @Stage , pero pagkatapos, mapupunta ito sa @None , na magbibigay-daan sa @Motion na baguhin ito sa anumang posisyon na ilalagay ng grabidad.",
                 "$~Tingnan ang maraming iba pang mga paraan upang i-configure ito sa ibaba."
             ],
             "names": ["$~⚽️", "$~Paggalaw"],
@@ -3623,8 +4086,7 @@
         },
         "Chat": {
             "doc": [
-                "$~/Hi! @FunctionDefinition nandito na. Gusto mo bang makipag-chat?",
-                "$~Ang pangunahing ideya ng isang chat stream ay ang pag-type ng mensahe ng audience, at pagkatapos ay ang tugon ng programa dito.",
+                "$~Ito ay isang stream ng mga @Text message na tina-type ng iyong audience.",
                 "$~Halimbawa, sinusuri ng simpleng programang ito kung ang mensahe ay 'hello', at kung oo, ang programa ay magre-rate ng 'hi'. Kung hindi, ang re-rate nito ay 'huh'?",
                 "$~\\Chat().has('hello') ? 'hi!' 'huh?'\\",
                 "$~Ayan na! Maaari kang gumawa ng lahat ng uri ng pagtatanghal gamit ito, tulad ng mga chat bot, text adventure, o mga text-based control scheme para sa iba pang uri ng pagtatanghal."
@@ -3633,14 +4095,14 @@
         },
         "Placement": {
             "doc": [
-                "$~/Uy, @FunctionDefinition nandito na. Pag-usapan natin kung paano tayo makakapag-move on!/",
-                "$~Kaya maraming paraan para ilagay tayo sa @Stage. Maaari mo kaming bigyan ng tahasang @Place. Maaari mong gamitin ang @Motion, at hayaan ang gravity na gawin ang trabaho nito. Maaari mo rin kaming ilagay sa isang @Group at hayaan silang ayusin tayo sa isang partikular na paraan.",
-                "$~Pero minsan gusto mong bigyan ang /awdience/ ng kontrol kung nasaan tayo sa @Stage. Iyan ang gamit ng @Placement.",
-                "$~Ganito ito gumagana: gumawa ka lang ng @Placement at ibigay ito sa ating @Place:",
-                "$~\\Phrase('hi' lugar: Pagkakalagay())\\",
+                "$~Pinapayagan nito ang iyong audience na i-drag @Output papunta sa isang @Place sa @Stage .",
+                "$~Maraming paraan para ilagay @Output sa @Stage : bigyan sila ng tahasang @Place , gamitin @Motion at hayaan ang gravity na gawin ang trabaho nito, o ilagay sila sa isang @Group para maisaayos.",
+                "$~Pero minsan gusto mong bigyan ang /audience/ ng kontrol kung saan mapupunta @Output sa @Stage .",
+                "$~Narito kung paano ito gumagana: gumawa ng @Placement at ibigay ito sa isang @Output 's @Place :",
+                "$~\\Phrase('hi' place: Placement())\\",
                 "$~Pagkatapos, sa tuwing gagamit ang audience ng arrow key o magki-click o magta-tap sa entablado, gagawa ang @Placement ng bagong @Place na lilipat sa nais na direksyon.",
-                "$~Subukang kopyahin ito sa iyong programa at igalaw kami nang naka-arrow gamit ang pointer o keyboard.",
-                "$~Maaari mong i-customize ang @Placement, na nagpapagana at nagpapagana ng paggalaw sa ilang partikular na dimensyon, binabago kung gaano kalayo ang galaw ng isang @Place, at ang inisyal na @Place na ginagamit sa pagsisimula ng stream."
+                "$~Subukang kopyahin ito sa iyong programa at ilipat ang @Output gamit ang pointer o keyboard.",
+                "$~Maaari mong i-customize ang @Placement , na nagpapagana at nagpapagana ng paggalaw sa ilang partikular na dimensyon, binabago kung gaano kalayo ang galaw ng isang @Place , at ang inisyal @Place na ginagamit sa pagsisimula ng stream."
             ],
             "names": ["$~✥", "$~Paglalagay"],
             "inputs": [
@@ -3668,11 +4130,11 @@
         },
         "Webpage": {
             "doc": [
-                "$~/Uy, @FunctionDefinition nandito na. Pag-usapan natin kung paano kumuha ng mga webpage mula sa internet!/",
-                "$~Noong una naming narinig ang tungkol sa inyong internet, natagpuan namin itong kamangha-mangha. Isang buong mundo na puno ng mga konektadong computer na nagbabahagi ng mga dokumento sa isa't isa? Kamangha-mangha iyan!",
-                "$~Kaya gumawa kami ng stream na kumokonekta dito. Bigyan mo kami ng URL, at makukuha namin ang lahat ng teksto dito. Ganito:",
+                "$~Kinukuha nito ang teksto sa isang web address na ibinigay mo.",
+                "$~Nakakapukaw-pansin ang internet — isang buong mundo ng mga konektadong computer na nagbabahagi ng mga dokumento sa isa't isa.",
+                "$~Kumokonekta ang stream na ito dito — bigyan ito ng URL, tulad nito:",
                 "$~\\Webpage('https://wordplay.dev')\\",
-                "$~At tila mayroong isang bagay na tinatawag na <CSS@https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/What_is_CSS>, na nagha-like sa iyo na mag-query ng mga bagay sa isang web page? Bigyan kami ng CSS selection query at makukuha lang namin ang tekstong tumutugma sa query na iyon. Tulad ng halimbawang ito, na nakakakuha ng level one headers.",
+                "$~At tila mayroong bagay na ito na tinatawag na<CSS@https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/What_is_CSS> , na nagbibigay-daan sa iyong mag-query ng mga bagay sa isang web page? Bigyan ito ng CSS selection query at makukuha lamang nito ang tekstong tumutugma sa query na iyon. Tulad ng halimbawang ito, na nakakakuha ng level one headers.",
                 "$~\\Webpage('https://wordplay.dev' 'h1')\\",
                 "$~Maraming bagay ang maaaring magkamali dito. Kung mawalan ka ng koneksyon sa internet, o kung ang URL ay hindi magre-resolve sa kahit ano, o kung ang URL ay hindi pampubliko, o kung ang URL ay hindi isang HTML page… Lahat ng ito ay maaaring humantong sa exception. Kung makakita ka ng page na gumagana, makakatanggap ka ng ilang @Number na nagpapahiwatig ng porsyentong kumpleto at pagkatapos ay isang @List ng mga salita sa page."
             ],
@@ -3700,11 +4162,11 @@
         "Collision": {
             "names": "$~Pagbangga",
             "doc": [
-                "$~/Kumusta! @FunctionDefinition, nandito ako. Tingnan ang magandang input na ito./",
-                "$~Makakatulong ito sa iyo na malaman kung kailan nagbabanggaan ang @Output! Ito ay isang magandang paraan para gumawa ng isang bagay kapag nagbabanggaan tayo, bukod sa normal na pagtalbog ng @Output.",
-                "$~Bigyan mo lang ako ng pangalan na @Output, at gagawa ako ng bagong halaga na @Rebound tuwing makakasalubong ito ng ibang pangalan. Ang @Rebound ay may impormasyon tungkol sa mga pangalang nagbanggaan at ang direksyon ng kanilang pagbangga.",
-                "$~At kung bibigyan mo ako ng dalawang pangalan, gagawa lang ako ng bagong halaga kapag nagtagpo ang dalawang pangalan.",
-                "$~Pagkatapos kong gumawa ng bagong halaga, gagawa ako ng \\ø\\ dahil tapos na ang banggaan pagkatapos itong mangyari. Ipinapahiwatig nito na wala nang banggaan."
+                "$~Ito ay isang stream ng mga value na @Rebound para kapag ang pinangalanang @Output ay magtagpo.",
+                "$~Ito ay isang mahusay na paraan upang gumawa ng isang bagay kapag @Output ay nagbanggaan, bukod sa normal na pagtalbog sa isa't isa na maaaring ginagawa nila.",
+                "$~Bigyan lang ito ng pangalang @Output , at gagawa ito ng bagong halaga na @Rebound tuwing may mabanggang pangalan ang pangalang iyon sa isa pa. Ang @Rebound ay may impormasyon tungkol sa mga pangalang nagbanggaan at ang direksyon ng kanilang pagbangga.",
+                "$~At kung bibigyan mo ito ng dalawang pangalan, magkakaroon lamang ito ng bagong halaga kapag nagtagpo ang dalawang pangalan.",
+                "$~Pagkatapos nitong gumawa ng bagong halaga, gagawa ito ng \\ø\\ dahil tapos na ang banggaan pagkatapos nitong mangyari. Ipinapahiwatig nito na wala nang iba pang banggaan."
             ],
             "subject": {
                 "names": "$~paksa",
@@ -3745,9 +4207,9 @@
         },
         "Hand": {
             "doc": [
+                "$~Sinusubaybayan nito ang isang kamay na nakikita ng iyong camera — kung nasaan ito, aling mga daliri ang nakataas, at saang direksyon ito nakaharap.",
                 "$~/kumawag-kawag/",
-                "$~@FunctionDefinition narito! Hayaan mong ikuwento ko sa iyo ang tungkol kay @Hand .",
-                "$~Tinitingnan @Hand ang iyong kamera para sa isang kamay at sinasabi sa iyo kung nasaan ito, kung aling mga daliri ang nakaunat, at kung ang palad o likod ng iyong kamay ay nakaharap sa kamera. Itaas ang iyong kamay, iwagayway ito, bilangin gamit ang iyong mga daliri — Sumusunod @Hand .",
+                "$~Itaas ang iyong kamay, iwagayway ito, bilangin gamit ang iyong mga daliri — kasunod ang @Hand .",
                 "$~Sa likod ng mga eksena, gumagamit @Hand ng isang machine-learning model. Sa unang pagkakataon na gagamitin mo ito sa isang programa, aabutin lamang ng ilang segundo bago ma-download ang modelo, at isang maliit na umiikot na kamay ang lilitaw sa kanang sulok sa itaas ng stage habang naglo-load ito. Pagkatapos nito, mananatili itong naka-cache at agad na magsisimula.",
                 "$~Sa bawat frame, @Hand ay nagbibigay sa iyo ng isang @Gesture — hanapin doon ang kumpletong listahan ng mga input at kung ano ang ibig sabihin ng mga ito.",
                 "$~Subukan ito — nagpapakita ito ng emoji na tumutugma sa postura ng iyong kamay kung nasaan man ang iyong totoong kamay:",
@@ -3765,13 +4227,13 @@
         },
         "Contour": {
             "doc": [
-                "$~/Kumusta! @FunctionDefinition nandito na. Gusto mo bang makita ang /hugis/ ng mga letra?",
-                "$~Bigyan mo ako ng ilang teksto at font face, at susubaybayan ko ang balangkas ng bawat glyph bilang isang @List of @Place values, sunod-sunod ang mga punto.",
+                "$~Sinusubaybayan nito ang balangkas ng glyph ng bawat letra bilang isang @List of @Place .",
+                "$~Lagyan ito ng kaunting teksto at font face, at susubaybayan nito ang outline ng bawat glyph punto por punto.",
                 "$~\\Contour('a' \"Noto Sans\")\\",
                 "$~Ipakain ang mga halagang @Place na iyon sa isang @List of @Phrase upang makita ang balangkas na iginuhit bilang mga tuldok:",
                 "$~\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' place: point)))\\",
                 "$~Maaari mong i-scale ang outline gamit ang @Number of meters, ilipat ang pinagmulan nito gamit ang @Place , pumili ng font weight, i-on ang italics, at itakda ang `spacing` sa pagitan ng mga punto bilang distansya sa metro. Ang mas maliit na `spacing` ay mas malapit na sumusubaybay sa outline, na may pantay na pagitan ng mga punto sa parehong linya at kurba.",
-                "$~Ang ilang mga glyph, tulad ng color emoji, ay walang outline, kaya wala silang dinadagdag na mga point. Habang kinukuha ko ang font, bibigyan kita ng isang blangkong @List , pagkatapos ay pupunan ko ito kapag handa na ako."
+                "$~Ang ilang mga glyph, tulad ng color emoji, ay walang outline, kaya wala silang dinadagdag na mga point. Habang kinukuha nito ang font, bibigyan ka nito ng isang blangkong @List , pagkatapos ay pupunan ito kapag handa na ito."
             ],
             "names": ["$~🖋️", "$~Kontur"],
             "inputs": [
@@ -3826,11 +4288,10 @@
         },
         "Group": {
             "doc": [
-                "$~Kumusta ka? Ayos lang naman ako palagi kapag may kasama ako, kaya ang saya ko na makasama ka!",
-                "$~Pinagsasama-sama ko ang @Phrase at @Group sa @Stage at inilalagay sila sa isang @Arrangement, para may pagkakasunod-sunod kung saan sila nakalagay.",
-                "$~Para gumana, kailangan mo akong bigyan ng @Arrangement, at pagkatapos ay isang @List of @Output para ayusin.",
+                "$~Inaayos ko @Phrase at @Group nang magkasama sa @Stage gamit ang isang @Arrangement . Kumusta ka? Palagi akong maayos kapag may kasama, kaya ang saya kong makasama ka!",
+                "$~Para gumana, kailangan mo akong bigyan ng @Arrangement , at pagkatapos ay isang @List of @Output para ayusin.",
                 "$~Halimbawa, narito ako kasama ang isang @Stack arrangement at ilang @Phrase para i-stack nang patayo:",
-                "$~\\Group(Stack() [Parirala('una') Parirala('pangalawa')])\\",
+                "$~\\Group(Stack() [Phrase('first') Phrase('second')])\\",
                 "$~Kung paano ko eksaktong inaayos ang mga bagay-bagay ay nakadepende sa @Arrangement na ibibigay mo sa akin."
             ],
             "names": ["$~🔳", "$~Grupo"],
@@ -3932,7 +4393,7 @@
         },
         "Phrase": {
             "doc": [
-                "$~Kumusta, kumusta! Natatandaan mo ba ako? Paano naman makakalimutan ng sinuman ang /ako/. Tama, ako ang kahanga-hangang @Phrase , handang kumatawan sa pinakamaganda sa @Text sa @Stage .",
+                "$~Ako ang kumakatawan sa pinakamaganda sa @Text sa @Stage . Kumusta, kumusta! Natatandaan mo pa ba ako? Paano naman makakalimutan ng sinuman ang /ako/.",
                 "$~Gawin mo lang akong ganito, at lalabas ako sa @Stage :",
                 "$~\\Phrase('magnificent!')\\",
                 "$~Kailangan ko @TextLiteral o @FormattedLiteral para maipakita. Gamit ang @FormattedLiteral , magagamit ko ang mga bagay tulad ng \\`*bold* and /italic/`\\ o kaya'y sumangguni sa custom @ConceptLink na iyong ginawa.",
@@ -4111,8 +4572,8 @@
         },
         "Free": {
             "doc": [
-                "$~Parang ako, kahit ano. Umupo ka kung saan mo gusto. Umupo ka lang sa kung saan! Siguraduhin mong may @Place lahat ng @Output na ibibigay mo sa akin, kung hindi, hindi nila malalaman kung saan pupunta.",
-                "$~Ah, at tandaan na ang @Place na ibinibigay mo sa bawat @Output ay may kaugnayan sa @Place ng @Group! Kaya kung nagtataka ka kung bakit hindi lumalabas ang mga bagay sa inaasahan mo, subukang bigyan din ng lugar ang @Group."
+                "$~Isa akong @Arrangement na hinahayaan ang bawat @Output na umupo kung saan man nakasaad @Place nito. Parang ako, kahit ano. Umupo ka kung saan mo gusto! Umupo ka lang sa kung saan! Siguraduhing lahat ng @Output na ibibigay mo sa akin ay may @Place , kung hindi, hindi nila malalaman kung saan pupunta.",
+                "$~Ah, at tandaan na ang @Place na ibinibigay mo sa bawat @Output ay relatibo sa @Place ng @Group ! Kaya kung nagtataka ka kung bakit hindi lumalabas ang mga bagay sa inaasahan mo, subukang bigyan din ng lugar ang @Group ."
             ],
             "names": ["$~Libre"],
             "description": "$~mga output na $count na malayang anyo"
@@ -4197,7 +4658,7 @@
         },
         "Say": {
             "doc": [
-                "$~Kumusta! Ako @Say , at nagsasalita ako ng teksto nang malakas sa halip na ipakita ito sa @Stage .",
+                "$~Nagsasalita ako nang malakas ng text sa halip na ipakita ito sa @Stage . Kumusta!",
                 "$~Bigyan mo lang ako ng sasabihin, at sasabihin ko ito sa tuwing mag-e-evaluate ang programa mo:",
                 "$~\\Say('blah blah blah')\\",
                 "$~Gagamitin ko ang @Language ng @TextLiteral kung mayroon ito, kung hindi ay gagamitin ko ang napiling wika.",
@@ -4284,7 +4745,7 @@
         },
         "Pose": {
             "doc": [
-                "$~Alam mo ba kapag ang isang tao ay gumawa ng pinakakahanga-hangang paraan ng pagtayo, huminto sandali, at lahat ay tumingin? Ako iyon. Ako ang kumukuha ng pose para kay @Output, at ako ang bumubuo sa kanilang mga galaw.",
+                "$~Kumukuha ako ng @Pose para hawakan @Output , at ako ang bumubuo sa kanilang mga galaw. Alam mo ba kapag ang isang tao ay gumawa ng pinakakahanga-hangang paraan ng pagtayo, huminto, at lahat ay tumitingin? Ako iyon.",
                 "$~Ang daming kailangan sa isang pose. Tingnan ang marami kong input para makita kung anong mga uri ng pose ang maaari mong gawin!"
             ],
             "names": ["$~🤪", "$~Pose"],
@@ -4461,11 +4922,11 @@
         },
         "Sequence": {
             "doc": [
-                "$~Naku, Direktor, ang galing mo ngayon! Gusto mo bang sumayaw kasama ko? Madali lang 'yan.",
-                "$~Kailangan mo lang bigyan ako ng @Map, kung saan ang bawat key ay kumakatawan sa kung ilang porsyento tayo nasa sayaw, at ang bawat value ng mga key na iyon ay isang @Pose to be.",
+                "$~Binibigyang-buhay ko @Output sa pamamagitan ng isang serye ng @Pose sa paglipas ng panahon! Gusto mo bang sumayaw kasama ko? Madali lang.",
+                "$~Kailangan mo lang bigyan ako ng @Map , kung saan ang bawat key ay kumakatawan sa kung ilang porsyento tayo sa sayaw, at ang bawat value ng mga key na iyon ay isang @Pose to be.",
                 "$~Napakaraming iba't ibang paraan para makapag-animate ka gamit ito! Halimbawa, narito ang isang simpleng paraan:",
-                "$~\\Phrase('hi' nagpapahinga:Sequence({0%: Pose(rotation: 360°) 100%: Pose(rotation: 0°)})\\",
-                "$~Ang ibig sabihin nito ay, /sa simula (0%), magsimula sa tilt 360, at magtatapos sa tilt 0/. Iikot tayo niyan nang tuluyan, dahil ako ang nakatakda bilang rest pose ng @Phrase!",
+                "$~\\Phrase('hi' resting:Sequence({0%: Pose(rotation: 360°) 100%: Pose(rotation: 0°)})\\",
+                "$~Sinasabi nito, /sa simula (0%), magsimula sa tilt 360, at magtatapos sa tilt 0/. Iikot tayo niyan nang tuluyan, dahil ako ang nakatakda bilang rest pose ng @Phrase !",
                 "$~Subukan ang sarili mong mga malikhaing sayaw sa pamamagitan ng paglalaro gamit ang iba pang mga instrumento."
             ],
             "names": ["$~💃", "$~Pagkakasunodsunod"],
@@ -4511,7 +4972,7 @@
             }
         },
         "Velocity": {
-            "doc": "$~Ako ay isang lokasyon sa @Stage. Opsyonal ang lahat ng aking mga input, dahil nasa gitna ako bilang default.",
+            "doc": "$~Sinusuri ko kung gaano kabilis gumagalaw @Output sa @Stage — metro bawat segundo sa x at y, at digri bawat segundo ng pag-ikot. Opsyonal ang aking mga input; bilang default ay walang gumagalaw.",
             "names": ["$~💨", "$~Bilis"],
             "x": {
                 "doc": "$~Ilang metro ang dapat igalaw bawat segundo sa x-axis.",
@@ -4556,8 +5017,8 @@
         },
         "Aura": {
             "doc": [
-                "$~Ako ay isang AURA. Gumagawa ako ng @Phrase GLOW! Ganito:",
-                "$~\\Parirala(\n'Ako ay KUMIKINANG!' \naura: Aura(Kulay(50% 100 118°) 0.1m 0m 0.1m\n)\\"
+                "$~Gumagawa ako ng @Phrase GLOW! Isa akong AURA. Ganito:",
+                "$~\\Phrase(\n\t'I am GLOWING!' \n\taura: Aura(Color(50% 100 118°) 0.1m 0m 0.1m\n)\\"
             ],
             "names": ["$~🔮", "$~Aura"],
             "color": {
@@ -4579,12 +5040,12 @@
         },
         "Stage": {
             "doc": [
-                "$~HI. MAG-ENTABLADO KA DITO. SABIHIN MO SA AKIN KUNG ANONG IPAKITA AT IPAPAKITA KO ITO.",
-                "$~\\Stage([Parirala('stuffffff')])\\",
+                "$~IPAKITA KO ANG IYONG @Output SA MGA MANONOOD. HI. MAG-ENTRANCE KA DITO. SABIHIN MO SA AKIN KUNG ANONG IPAKITA AT IPAPAKITA KO ITO.",
+                "$~\\Stage([Phrase('stufffffff')])\\",
                 "$~KUNG GUSTO MO, BIGYAN MO AKO NG LIBRO @Color AT ILILAHAN KO ANG ENTABLADO NANG NAAAYOS.",
-                "$~\\Stage([Phrase('stuffffff')] background: Kulay(75% 50 100°)\\",
+                "$~\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°))\\",
                 "$~PWEDE MO RIN AKONG BIGYAN NG FRAME BORDER AT I-CROP KO.",
-                "$~\\Stage([Phrase('stuffffff')] background: Color(75% 50 100°) frame: Rectangle(-1m -1m 1m 1m))\\"
+                "$~\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°) frame: Rectangle(-1m -1m 1m 1m))\\"
             ],
             "names": ["$~🎭", "$~Entablado"],
             "content": {
@@ -4725,6 +5186,134 @@
             "shake": {
                 "doc": "$~Gumagawa ako ng @Sequence na nagpapakitang parang natatakot ang isang @Output.",
                 "names": ["$~iling"]
+            },
+            "pulse": {
+                "doc": "$~Lumilikha ako ng isang @Sequence na dahan-dahang nag-i-scale @Output pataas at pababa upang makaakit ng atensyon.",
+                "names": ["$~pulso"],
+                "amount": {
+                    "doc": "$~Magkano ang isusukat sa tugatog.",
+                    "names": ["$~halaga"]
+                }
+            },
+            "heartbeat": {
+                "doc": "$~Gumagawa ako ng @Sequence na nag-i-scale ng @Output gamit ang dalawang mabilis na tibok, tulad ng tibok ng puso.",
+                "names": ["$~tibokngpuso"],
+                "amount": {
+                    "doc": "$~Gaano kalaki ang i-scale sa bawat kumpas.",
+                    "names": ["$~halaga"]
+                }
+            },
+            "tada": {
+                "doc": "$~Gumagawa ako ng @Sequence na nagpapasaya @Output gamit ang isang scale at paggalaw.",
+                "names": ["$~tada"],
+                "amount": {
+                    "doc": "$~Magkano ang isusukat habang may pagdiriwang.",
+                    "names": ["$~halaga"]
+                }
+            },
+            "wiggle": {
+                "doc": "$~Gumagawa ako ng @Sequence na ikiling at idudulas @Output nang magkatabi.",
+                "names": ["$~kiloskilos"],
+                "angle": {
+                    "doc": "$~Gaano kalaking dapat ikiling habang kumakaway.",
+                    "names": ["$~anggulo"]
+                }
+            },
+            "flash": {
+                "doc": "$~Gumagawa ako ng @Sequence na kumikislap @Output nang naka-on at naka-off.",
+                "names": ["$~kislap"]
+            },
+            "zoomin": {
+                "doc": "$~Gumagawa ako ng @Sequence na nag-i-scale ng @Output mula wala hanggang sa buong laki. Subukan mo ako sa pagpasok @Sequence !",
+                "names": ["$~zoomin"]
+            },
+            "fadeinup": {
+                "doc": "$~Gumagawa ako ng @Sequence na nagfa-fade @Output habang ini-slide ito pataas sa lugar. Subukan mo ako sa pagpasok @Sequence !",
+                "names": ["$~fadeinup"],
+                "distance": {
+                    "doc": "$~Gaano kalayo ang dapat dumulas.",
+                    "names": ["$~distansya"]
+                }
+            },
+            "fadeindown": {
+                "doc": "$~Gumagawa ako ng @Sequence na nagfa-fade @Output habang ini-slide ito pababa sa lugar. Subukan mo ako sa pagpasok @Sequence !",
+                "names": ["$~fadeindown"],
+                "distance": {
+                    "doc": "$~Gaano kalayo ang dapat dumulas.",
+                    "names": ["$~distansya"]
+                }
+            },
+            "fadeinleft": {
+                "doc": "$~Gumagawa ako ng @Sequence na nagfa-fade @Output habang ini-slide ito sa lugar mula sa kaliwa. Subukan mo ako sa pagpasok @Sequence !",
+                "names": ["$~fadeinleft"],
+                "distance": {
+                    "doc": "$~Gaano kalayo ang dapat dumulas.",
+                    "names": ["$~distansya"]
+                }
+            },
+            "fadeinright": {
+                "doc": "$~Gumagawa ako ng @Sequence na nagfa-fade @Output habang ini-slide ito sa lugar mula sa kanan. Subukan mo ako sa pagpasok @Sequence !",
+                "names": ["$~fadeinright"],
+                "distance": {
+                    "doc": "$~Gaano kalayo ang dapat dumulas.",
+                    "names": ["$~distansya"]
+                }
+            },
+            "rotatein": {
+                "doc": "$~Gumagawa ako ng @Sequence na nagpapaikot sa @Output sa lugar habang pinapalitan ito. Subukan mo ako sa pagpasok @Sequence !",
+                "names": ["$~paikutin"],
+                "angle": {
+                    "doc": "$~Gaano kalayo ang iikot.",
+                    "names": ["$~anggulo"]
+                }
+            },
+            "zoomout": {
+                "doc": "$~Gumagawa ako ng @Sequence na nag-i-scale ng @Output palabas sa wala. Subukan mo ako sa isang palabas @Sequence !",
+                "names": ["$~magzoomout"]
+            },
+            "fadeoutup": {
+                "doc": "$~Gumagawa ako ng @Sequence na nagfa-fade @Output habang ini-slide ito pataas. Subukan mo ako sa isang lalabas @Sequence !",
+                "names": ["$~fadeoutup"],
+                "distance": {
+                    "doc": "$~Gaano kalayo ang dapat dumulas.",
+                    "names": ["$~distansya"]
+                }
+            },
+            "fadeoutdown": {
+                "doc": "$~Gumagawa ako ng @Sequence na nagfa-fade @Output palabas habang ini-slide ito pababa. Subukan mo ako sa isang lalabas @Sequence !",
+                "names": ["$~fadeoutdown"],
+                "distance": {
+                    "doc": "$~Gaano kalayo ang dapat dumulas.",
+                    "names": ["$~distansya"]
+                }
+            },
+            "fadeoutleft": {
+                "doc": "$~Gumagawa ako ng @Sequence na nagfa-fade @Output palabas habang ini-slide ito pakaliwa. Subukan mo ako sa isang lalabas @Sequence !",
+                "names": ["$~fadeoutleft"],
+                "distance": {
+                    "doc": "$~Gaano kalayo ang dapat dumulas.",
+                    "names": ["$~distansya"]
+                }
+            },
+            "fadeoutright": {
+                "doc": "$~Gumagawa ako ng @Sequence na nagfa-fade palabas @Output habang ini-slide ito pakanan. Subukan mo ako sa isang lalabas @Sequence !",
+                "names": ["$~tuluyangkumupas"],
+                "distance": {
+                    "doc": "$~Gaano kalayo ang dapat dumulas.",
+                    "names": ["$~distansya"]
+                }
+            },
+            "rotateout": {
+                "doc": "$~Gumagawa ako ng @Sequence na nagpapaikot sa @Output habang pinapawi ito. Subukan mo ako sa isang palabas @Sequence !",
+                "names": ["$~pagikot"],
+                "angle": {
+                    "doc": "$~Gaano kalayo ang iikot.",
+                    "names": ["$~anggulo"]
+                }
+            },
+            "rainbow": {
+                "doc": "$~Lumilikha ako ng isang @Sequence na umiikot sa @Output sa mga kulay ng bahaghari.",
+                "names": ["$~bahaghari"]
             }
         },
         "Source": {
@@ -4799,6 +5388,34 @@
                 "doc": "$~@True kung ang palad ay nakaharap sa kamera, @False kung ang likod ng kamay ay nakaharap.",
                 "names": ["$~palad"]
             }
+        },
+        "Result": {
+            "doc": "$~Isang tugma ako mula sa isang paghahanap ng pattern gamit ang \\⌕\\ : ang katugmang teksto, kung nasaan ito, at anumang mga nakuha.",
+            "names": ["$~Resulta"],
+            "text": {
+                "doc": "$~Ang buong tugmang teksto.",
+                "names": "$~teksto"
+            },
+            "start": {
+                "doc": "$~Kung saan magsisimula ang laban, bibilang mula 1.",
+                "names": "$~simulan"
+            },
+            "end": {
+                "doc": "$~Kung saan nagtatapos ang laban, binibilang mula 1.",
+                "names": "$~katapusan"
+            },
+            "groups": {
+                "doc": "$~Pangalan ng bawat nakuhanan sa tekstong tumutugma dito.",
+                "names": "$~mgagrupo"
+            },
+            "starts": {
+                "doc": "$~Pangalan ng bawat kuha kung saan ito nagsisimula.",
+                "names": "$~nagsisimula"
+            },
+            "ends": {
+                "doc": "$~Pangalan ng bawat kuha kung saan ito nagtatapos.",
+                "names": "$~mgadulo"
+            }
         }
     },
     "ui": {
@@ -4851,7 +5468,13 @@
                 },
                 "field": "$~patlang ng kulay",
                 "instructions": "$~Gamitin ang kaliwa at kanang mga arrow key para baguhin ang hue at ang pataas at pababang mga arrow key para baguhin ang chroma. Pindutin nang matagal ang shift para sa mas pinong mga hakbang.",
-                "value": "$~$color , LCH $l , $c , $h"
+                "value": "$~$color , LCH $l , $c , $h",
+                "input": {
+                    "description": "$~maglagay ng kulay sa anumang format ng web",
+                    "placeholder": "$~#f00, rgb(), hsl(), pula",
+                    "invalid": "$~hindi isang kinikilalang kulay",
+                    "format": "$~natukoy na format"
+                }
             }
         },
         "tile": {
@@ -5041,7 +5664,7 @@
             }
         },
         "gallerymoderation": {
-            "header": "$~Dashboard ng Pagmo-moderate ng Gallery",
+            "header": "$~Pagmo-moderate ng Gallery",
             "description": "$~Ang mga sumusunod na mensahe sa mga gallery na iyong pinangangasiwaan ay iniulat na ng mga user para sa moderasyon.",
             "labels": {
                 "message": "$~mensahe",
@@ -5407,7 +6030,20 @@
                 },
                 "nextMatch": "$~pumunta sa susunod na tugma sa paghahanap",
                 "insertTranslate": "$~ipasok ang simbolo ng pagsasalin",
-                "insertThis": "$~ilagay ang simbolong ito"
+                "insertThis": "$~ilagay ang simbolong ito",
+                "tab": "$~Inililipat ng Tab ang pokus ng keyboard. Para maglagay ng tab, pindutin ang Ctrl+ $alt +Tab, gamitin ang button na insert sa ibaba, o baguhin ito sa mga setting.",
+                "matchDelimiter": "$~ilipat ang cursor sa katugmang delimiter",
+                "insertPattern": "$~ipasok ang pattern",
+                "insertSearch": "$~simbolo ng paghahanap ng pattern na isingit",
+                "insertPatternAny": "$~maglagay ng simbolo ng anumang-grapheme na pattern",
+                "insertPatternSpace": "$~simbolo ng pattern ng espasyo",
+                "insertPatternStart": "$~simbolo ng pagsisimula ng pattern",
+                "insertPatternEnd": "$~simbolo ng pagtatapos ng pattern",
+                "insertPatternFold": "$~ipasok ang pattern na simbolo ng case-fold",
+                "insertPatternAhead": "$~maglagay ng simbolo ng lookahead na pattern",
+                "insertPatternBehind": "$~maglagay ng pattern na simbolo ng lookbehind",
+                "insertPatternWord": "$~simbolo ng salita na may pattern",
+                "insertPatternWordEdge": "$~simbolo ng word-edge na pattern na isingit"
             },
             "error": {
                 "invalidName": "$~Dapat itong isang wastong pangalan ng Wordplay.",
@@ -5420,6 +6056,24 @@
                 "toolbar": "$~Ang mga kontrol na ito sa /toolbar/ ay nagbibigay-daan sa iyong *piliin lahat*, *mag-zoom in* at *mag-zoom out*, *mag-undo*, *mag-redo*, *mag-cut*, *magkopya*, at *mag-paste*.",
                 "expand": "$~Ipinapakita ng toggle na /expand/ ang mas *advanced* na mga tool sa pag-eedit.",
                 "shortcuts": "$~Ang button na /shortcuts/ ay magbubukas ng listahan ng mga *keyboard shortcut* na maaari mong gamitin para mas mabilis na mag-edit."
+            },
+            "feedback": {
+                "cantDrop": "$~Hindi pwedeng ihulog doon:",
+                "cantPaste": "$~Hindi ma-paste doon:"
+            },
+            "clipboard": {
+                "label": "$~clipboard"
+            },
+            "notice": {
+                "dismiss": "$~I-dismiss ang abisong ito"
+            },
+            "fold": {
+                "collapse": "$~tiklupin ang $name",
+                "expand": "$~palawakin ang $name",
+                "all": "$~tiklupin lahat",
+                "none": "$~ibuka ang lahat",
+                "collapsed": "$~Naka-collapse $name",
+                "expanded": "$~Pinalawak $name"
             }
         },
         "annotations": {
@@ -5463,8 +6117,8 @@
                 "zoomIn": "$~mag-zoom in sa entablado",
                 "zoomOut": "$~lumayo mula sa entablado",
                 "resetZoom": "$~i-reset ang zoom sa lugar ng entablado",
-                "rotate": "$~pariralang paikutin",
-                "resize": "$~baguhin ang laki ng parirala"
+                "rotate": "$~paikutin $name",
+                "resize": "$~baguhin ang laki $name"
             },
             "options": {
                 "locale": "$~ginustong wika para sa output",
@@ -5486,7 +6140,14 @@
                 "note": "$~Magtatanong ang iyong browser bago magbahagi.",
                 "start": "$~Simulan",
                 "retry": "$~Subukan muli"
-            }
+            },
+            "multiselect": "$~Gamitin ang tab at ang alt at arrow keys para lumipat sa pagitan ng mga output. Pindutin ang space para idagdag o alisin ang naka-focus na output mula sa iyong selection. Pindutin ang enter para piliin lang ang output na iyon at buksan ang palette. Pindutin ang escape para i-clear ang iyong selection. Pindutin ang control o command at A para piliin ang lahat ng output.",
+            "selected": "$~Napili $name , napili $count",
+            "deselected": "$~Hindi napili $name , napili $count",
+            "allSelected": "$~lahat ng output ay napili, $count ay napili",
+            "cleared": "$~nabura ang pagpili",
+            "selectedOnly": "$~Napili $name , binubuksan ang palette",
+            "selectedSuffix": "$~napili"
         },
         "timeline": {
             "label": "$~takdang panahon",
@@ -5599,6 +6260,7 @@
                         "$~magdesisyon",
                         "$~pangalan",
                         "$~teksto",
+                        "$~padron",
                         "$~mga numero",
                         "$~katotohanan",
                         "$~mga listahan",
@@ -5614,14 +6276,15 @@
                         "$~oras, mga butones, mga susi, mga eksena, at higit pa",
                         "$~pumili ng mga halaga batay sa iba pang mga halaga",
                         "$~mga halaga ng pangalan, mga tungkulin, at mga istruktura ng datos para magamit sa ibang pagkakataon",
-                        "$~mga halagang totoo, mali, at wala",
-                        "$~mga numero at operasyon sa matematika",
                         "$~payak at naka-format na teksto",
+                        "$~ilarawan ang hugis ng teksto upang subukan o hanapin ito",
+                        "$~mga numero at operasyon sa matematika",
+                        "$~mga halagang totoo, mali, at wala",
                         "$~mga listahan at mga operasyon sa listahan",
                         "$~mga set, mapa, at operasyon",
                         "$~mga talahanayan at mga operasyon sa talahanayan",
-                        "$~mga uri ng data, mga conversion, at mga pagsusuri ng uri",
                         "$~dokumentasyon at mga komento",
+                        "$~mga uri ng data, mga conversion, at mga pagsusuri ng uri",
                         "$~mga konsepto ng wika na mas mataas ang antas"
                     ]
                 },
@@ -5707,6 +6370,10 @@
                 "GalleryHow": {
                     "header": "$~Paano gawin sa gallery",
                     "explanation": "$~/Mga karaniwang padron para sa paglikha ng iba't ibang uri ng proyekto, mula sa iyong mga gallery./"
+                },
+                "Patterns": {
+                    "header": "$~Mga Pattern",
+                    "explanation": "$~/Ilarawan ang hugis ng teksto gamit ang isang padron, na pinaghihiwalay ng \\⣿\\ , pagkatapos ay subukan kung ang teksto ay akma sa hugis ( \\≈\\ ) o hanapin ang bawat lugar kung saan ito lumilitaw ( \\⌕\\ )./"
                 }
             },
             "how": {
@@ -5920,6 +6587,30 @@
                             "$~mas mahigpit na mga bloke upang magkasya ang mas maraming code sa screen",
                             "$~default na espasyo sa bloke",
                             "$~mas maluwag na mga bloke para sa mas madaling pagpili at pag-drag"
+                        ]
+                    },
+                    "tab": {
+                        "label": "$~pindutan ng tab",
+                        "labels": ["$~magpalit ng pokus", "$~ipasok ang tab"],
+                        "tips": [
+                            "$~Inililipat ng tab ang focus ng keyboard sa susunod na kontrol",
+                            "$~Naglalagay ang tab ng tab sa editor"
+                        ]
+                    },
+                    "wrap": {
+                        "label": "$~mga linya ng pambalot",
+                        "labels": ["$~patay", "$~sa"],
+                        "tips": [
+                            "$~mahahabang linya ay nag-i-scroll nang pahalang sa text mode",
+                            "$~mahahabang linya ang bumabalot papunta sa editor window sa text mode"
+                        ]
+                    },
+                    "words": {
+                        "label": "$~mga keyword",
+                        "labels": ["$~mga simbolo", "$~mga salita"],
+                        "tips": [
+                            "$~ipakita ang mga built-in na keyword bilang mga simbolo",
+                            "$~ipakita ang mga built-in na keyword bilang mga salita sa iyong wika"
                         ]
                     }
                 },
@@ -6174,11 +6865,13 @@
                 "createStage": "$~lumikha ng isang Entablado, na binabalot ang anumang umiiral na Grupo o Parirala"
             },
             "prompt": {
-                "offerPhrase": "$~Ang ganda ng ginawa mo! Ipapakita ko ba sa @Stage?",
-                "offerGroup": "$~Ang ganda ng @Phrase na ginawa mo. Gusto mo ba silang pagsama-samahin sa isang @Group, para maayos sila?",
-                "offerStage": "$~Napakagandang @Program. Idagdag mo ako para kontrolin ang ilaw. Mga kulay. Mga frame.",
-                "select": "$~Para mag-edit, pumili ng 💬, 🔳, o 🎭 sa code, o ⏸️ ang stage at piliin ang output.",
-                "editing": "$~I-edit mo ako!"
+                "offerPhrase": "$~Ibabalot ko ba ang halagang ito sa isang @Phrase ?",
+                "offerGroup": "$~Ilalagay ko ba ang nilalamang ito sa isang @Group , para maisaayos mo ang mga ito?",
+                "offerStage": "$~Ibabalot ko ba ang nilalamang ito sa isang @Stage , para makontrol mo ang ilaw, kulay, at mga frame?",
+                "select": "$~Para mag-edit, pumili ng 💬, 🔳, ⬟, o 🎭 sa code, o ⏸️ ang @Stage at piliin ang output.",
+                "editing": "$~I-edit mo ako!",
+                "offerShape": "$~Ibabalot ko ba itong @Form sa @Shape para maipakita sa @Stage ?",
+                "offerNothing": "$~Wala pa rito! Magdaragdag ba ako ng @Phrase para makapagsimula?"
             },
             "field": {
                 "coordinate": "$~i-edit ang coordinate",
@@ -6193,6 +6886,10 @@
                 },
                 "field": {
                     "percent": "$~i-edit ang porsyento"
+                },
+                "preset": {
+                    "label": "$~paunang natukoy na pagkakasunod-sunod",
+                    "custom": "$~pasadyang"
                 }
             },
             "error": {
@@ -6352,7 +7049,27 @@
                 "search": {
                     "placeholder": "$~paghahanap",
                     "noResults": "$~Walang nakitang resulta"
-                }
+                },
+                "choice": {
+                    "prompt": "$~Paano mo gustong matuto?",
+                    "quick": {
+                        "title": "$~Mabilis",
+                        "description": "$~Para sa mga tagalikha na pamilyar sa ibang mga lengguwahe ng programming na gustong maunawaan kung paano naiiba ang Wordplay"
+                    },
+                    "complete": {
+                        "title": "$~Komprehensibo",
+                        "description": "$~Para sa mga tagalikha na bago sa programming na gusto ng detalyadong panimula"
+                    }
+                },
+                "mode": {
+                    "label": "$~pagtuturo",
+                    "labels": ["$~mabilis", "$~kumpleto"],
+                    "tips": [
+                        "$~isang maikling paglilibot para sa mga tagalikha na may alam na ibang lengguwahe ng programming",
+                        "$~ang kumpleto at dramatikong panimula para sa mga tagalikha na bago sa programming"
+                    ]
+                },
+                "contrast": "$~ihambing sa"
             },
             "teach": {
                 "header": "$~Magturo",
@@ -6568,7 +7285,6 @@
             },
             "character": {
                 "header": "$~Karakter",
-                "prompt": "$~Gumawa ng emoji o simbolo na may mga hugis at pixel.",
                 "instructions": {
                     "empty": "$~Pumili ng drawing mode sa palette para lumikha ng mga hugis.",
                     "unselected": "$~Pumili ng drawing mode o pumili at mag-edit ng mga hugis.",
@@ -7095,7 +7811,11 @@
             "append": "$~/Sabik na ipasok…/",
             "remove": "$~/Isinasaalang-alang ang pag-alis…/",
             "replace": "$~/Gustong makialam…/",
-            "area": "$~uri ng kodigo"
+            "area": "$~uri ng kodigo",
+            "delimiterMatchedSameLine": "$~pagtutugma ng $name sa parehong linya",
+            "delimiterMatchedBelow": "$~tumutugmang mga linya $name $lines lines sa ibaba",
+            "delimiterMatchedAbove": "$~tumutugmang mga linya $name $lines lines sa itaas",
+            "delimiterUnmatched": "$~walang tumutugmang delimiter"
         },
         "template": {
             "unwritten": "$~Ipapaalam na",
@@ -7185,7 +7905,20 @@
             "submitFailed": "$~Hindi namin maisumite iyon",
             "loadFailed": "$~Hindi namin ma-load iyon.",
             "storageFull": "$~Puno na ang storage ng device na ito, kaya hindi kami makapag-save ng kopya rito. Nasa cloud pa rin ang gawa mo.",
-            "storageNearFull": "$~Halos wala nang storage ang device na ito, kaya maaaring hindi na makapag-save ang Wordplay dito. Ligtas ang mga gawaing naka-save sa cloud; ang pagbabakante ng espasyo sa iyong device o browser ay nagbibigay-daan dito upang patuloy itong mag-save dito."
+            "storageNearFull": "$~Halos wala nang storage ang device na ito, kaya maaaring hindi na makapag-save ang Wordplay dito. Ligtas ang mga gawaing naka-save sa cloud; ang pagbabakante ng espasyo sa iyong device o browser ay nagbibigay-daan dito upang patuloy itong mag-save dito.",
+            "saveTooLarge": "$~Masyado itong malaki para i-save. Subukang mag-alis ng ilang nilalaman."
+        },
+        "wellspring": {
+            "label": "$~paleta ng kodigo",
+            "recycle": "$~i-drop dito para burahin",
+            "empty": "$~Walang mga konsepto ng proyekto",
+            "field": {
+                "search": "$~maghanap ng code na ida-drag papasok"
+            },
+            "button": {
+                "toggle": "$~ipakita at itago ang code palette",
+                "clear": "$~i-clear ang paghahanap"
+            }
         }
     },
     "moderation": {
@@ -7258,5 +7991,43 @@
         "noscript": "$~Gumagamit ang Wordplay ng JavaScript. Hindi ito sinusuportahan ng iyong browser, o hindi ito pinagana.",
         "unsupportedHeading": "$~Hindi Sinusuportahang Browser",
         "unsupportedBody": "$~Hindi sinusuportahan ng iyong browser ang mahahalagang functionality. Para magamit ang Wordplay, kakailanganin mong mag-upgrade sa mas bagong bersyon."
+    },
+    "keyword": {
+        "function": "punsyon",
+        "type": "uri",
+        "number": "numero",
+        "none": "wala",
+        "true": "totoo",
+        "false": "mali",
+        "borrow": "humiram",
+        "share": "ibahagi",
+        "convert": "bilang",
+        "translate": "isalin",
+        "conditional": "kung",
+        "booleantype": "katotohanan",
+        "otherwise": "kundi",
+        "match": "tugma",
+        "stream": "agos",
+        "changed": "pagbabago",
+        "initial": "unang",
+        "previous": "nakaraan",
+        "this": "ito",
+        "and": "at",
+        "or": "o",
+        "not": "hindi",
+        "letter": "titik",
+        "digit": "digit",
+        "patternspace": "puwang",
+        "patternword": "salita",
+        "any": "kahit",
+        "start": "simula",
+        "end": "dulo",
+        "rest": "natira",
+        "edge": "gilid",
+        "ahead": "harap",
+        "behind": "likod",
+        "range": "hanggang",
+        "complement": "hindi",
+        "alternation": "o"
     }
 }

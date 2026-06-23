@@ -1,11 +1,19 @@
 <script lang="ts">
     import Action from '@components/app/Action.svelte';
+    import Background from '@components/app/Background.svelte';
+    import BigLink from '@components/app/BigLink.svelte';
     import Emoji from '@components/app/Emoji.svelte';
     import Header from '@components/app/Header.svelte';
+    import Writing from '@components/app/Writing.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Speech from '@components/lore/Speech.svelte';
     import { getUser } from '@components/project/Contexts';
+    import LocaleChooser from '@components/settings/LocaleChooser.svelte';
     import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import { DB, Settings } from '@db/Database';
+    import { getLocaleLanguageName } from '@locale/LocaleText';
+    import { SupportedLocales } from '@locale/SupportedLocales';
     import {
         DOCUMENTATION_SYMBOL,
         LEARN_SYMBOL,
@@ -15,14 +23,6 @@
         SYMBOL_SYMBOL,
         TEACH_SYMBOL,
     } from '@parser/Symbols';
-    import Background from '@components/app/Background.svelte';
-    import BigLink from '@components/app/BigLink.svelte';
-    import Writing from '@components/app/Writing.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import LocaleChooser from '@components/settings/LocaleChooser.svelte';
-    import { DB, Settings } from '@db/Database';
-    import { getLocaleLanguageName } from '@locale/LocaleText';
-    import { SupportedLocales } from '@locale/SupportedLocales';
     import Characters from '../../lore/BasisCharacters';
     import { Emotion } from '../../lore/Emotion';
     import Beta from './Beta.svelte';
@@ -82,7 +82,7 @@
 <Writing footer={false}>
     <Beta />
     <Header
-        ><Emoji>{LOGO_SYMBOL}</Emoji><LocalizedText
+        ><Emoji text={LOGO_SYMBOL} /><LocalizedText
             path={(l) => l.wordplay}
         /></Header
     >

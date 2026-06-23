@@ -4,12 +4,14 @@
     interface Props {
         name: Snippet;
         control: Snippet;
+        /** When true, mark this control (e.g. the palette property the code caret is in). */
+        highlighted?: boolean;
     }
 
-    let { name, control }: Props = $props();
+    let { name, control, highlighted = false }: Props = $props();
 </script>
 
-<div class="property">
+<div class="property" class:caret-highlight={highlighted}>
     <h3 class="name">{@render name()}</h3>
     <div class="control">{@render control()} </div>
 </div>

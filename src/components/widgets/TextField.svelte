@@ -360,8 +360,12 @@
     .done {
         position: absolute;
         right: -1em;
-        top: var(--wordplay-spacing);
-        font-size: calc(var(--wordplay-small-font-size));
+        /* Center vertically in the field and match the field's text size, so
+           the save feedback stays visible even on large fields (e.g. an
+           editable page header). */
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: inherit;
         color: var(--wordplay-inactive-color);
     }
 </style>

@@ -15,7 +15,8 @@ test.each([
     ["'hi'/en|'hello'/en", "''/en"],
     ["'hi'/en|'hi'/fr", "''/en|''/fr"],
     ['1|2|3', '#'],
-    ['1m|2|3', '#'],
+    // A meter and unitless numbers don't unify, so they stay a union (#877).
+    ['1m|2|3', '#m|#'],
     ['1m|2m|3m', '#m'],
     ['[1|2|3]', '[#]'],
     ['{1}', '{#}'],

@@ -9,6 +9,7 @@ import {
     type SaveCounts,
     type SaveError,
 } from '@db/Database';
+import { Creator } from '@db/creators/CreatorDatabase';
 import { Domain } from '@db/Domains';
 import { firestore } from '@db/firebase';
 import isQuotaError from '@db/isQuotaError';
@@ -17,6 +18,7 @@ import SaveTracker from '@db/SaveTracker.svelte';
 import supportsIndexedDB from '@db/supportsIndexedDB';
 import ConceptLink, { CharacterName } from '@nodes/ConceptLink';
 import type Node from '@nodes/Node';
+import { COPY_SYMBOL } from '@parser/Symbols';
 import deferToIdle from '@util/deferToIdle';
 import { FirebaseError } from 'firebase/app';
 import type { User } from 'firebase/auth';
@@ -39,11 +41,6 @@ import { SvelteMap } from 'svelte/reactivity';
 import { v4 as uuidv4 } from 'uuid';
 
 const CharactersCollection = Domain.Characters;
-
-/**
- * Cap on a character name
- */
-export const MAX_CHARACTER_NAME_LENGTH = 32;
 
 export class CharactersDatabase {
     private readonly db: Database;
@@ -344,12 +341,13 @@ export class CharactersDatabase {
                 shapes: [],
             };
         else {
+            // Persist the given character as a new one owned by this user,
+            // keeping its name and collaborators (the caller — copy() — has
+            // already prepared them).
             character = {
                 ...character,
                 id: uuidv4(),
                 owner: user.uid,
-                // Make the name unique
-                name: character.name + this.byID.size,
                 updated: Date.now(),
             };
         }
@@ -371,8 +369,29 @@ export class CharactersDatabase {
         return character.id;
     }
 
+    /** Duplicate a character as a new one owned by the current user. */
     async copy(character: Character) {
-        return this.createCharacter(character);
+        const user = this.db.getUser();
+        if (user === null) return undefined;
+
+        // Re-base the name onto the current user's username (the source may be
+        // owned by someone else), keeping just the bare name after the prefix.
+        const username = Creator.getUsername(user.email ?? '');
+        const slash = character.name.indexOf('/');
+        const base =
+            slash >= 0 ? character.name.slice(slash + 1) : character.name;
+
+        // Mark it as a copy with the copy symbol, adding more until the bare
+        // name is unused among the user's characters.
+        let name = base + COPY_SYMBOL;
+        while (this.getEditableCharacterWithName(name) !== undefined)
+            name += COPY_SYMBOL;
+
+        return this.createCharacter({
+            ...character,
+            collaborators: [],
+            name: `${username}/${name}`,
+        });
     }
 
     /** Update the local store's version of this character, and defer a save to the database later. */
@@ -684,5 +703,20 @@ export class CharactersDatabase {
                         character.public ||
                         character.collaborators.includes(user.uid)),
             );
+    }
+
+    /** Available character names for autocomplete, sorted owned → collaborator → other. */
+    getAvailableCharacterNamesForAutocomplete(): string[] {
+        const uid = this.db.getUser()?.uid;
+        const rank = (character: Character) =>
+            character.owner === uid
+                ? 0
+                : uid !== undefined && character.collaborators.includes(uid)
+                  ? 1
+                  : 2;
+        return this.getAvailableCharacters()
+            .map((character) => ({ character, rank: rank(character) }))
+            .sort((a, b) => a.rank - b.rank)
+            .map(({ character }) => character.name);
     }
 }

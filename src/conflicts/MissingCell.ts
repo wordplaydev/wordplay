@@ -6,7 +6,10 @@ import Row from '@nodes/Row';
 import type TableType from '@nodes/TableType';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import type Locales from '@locale/Locales';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import type Node from '@nodes/Node';
 
 export default class MissingCell extends Conflict {
@@ -15,7 +18,7 @@ export default class MissingCell extends Conflict {
     readonly column: Bind;
 
     constructor(row: Row, type: TableType, column: Bind) {
-        super(false);
+        super(ConflictSeverity.Error);
 
         this.row = row;
         this.type = type;
@@ -33,20 +36,17 @@ export default class MissingCell extends Conflict {
                     (l) => MissingCell.LocalePath(l).explanation,
                     {
                         column: new NodeRef(
-                        this.column,
-                        locales,
-                        context,
-                        locales.getName(this.column.names),
-                    ),
+                            this.column,
+                            locales,
+                            context,
+                            locales.getName(this.column.names),
+                        ),
                     },
                 ),
         };
     }
 
-    override getResolutions(
-        _context: Context,
-        _concepts: Node[],
-    ): Resolutions {
+    override getResolutions(_context: Context, _concepts: Node[]): Resolutions {
         // Append an expression placeholder cell for the missing column.
         const placeholder = ExpressionPlaceholder.make(
             this.column.type ?? undefined,

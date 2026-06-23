@@ -1,5 +1,12 @@
 {
     "tabWidth": 4,
     "singleQuote": true,
-    "htmlWhitespaceSensitivity": "strict"
+    "htmlWhitespaceSensitivity": "strict",
+    "overrides": [
+        {
+            "comment": "Tutorial performance objects ({ \"fit\": ... }, etc.) read best on one line. Collapse any object that fits within printWidth so single-property performances stay single-line on save; only objects too long to fit wrap.",
+            "files": "static/locales/**/*-tutorial*.json",
+            "options": { "objectWrap": "collapse" }
+        }
+    ]
 }

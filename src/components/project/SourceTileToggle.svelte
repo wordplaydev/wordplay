@@ -45,7 +45,7 @@
 <Toggle tips={(l) => l.ui.tile.toggle.show} on={expanded} {toggle}>
     {#if conflictCount > 0}<span class="count conflict">{conflictCount}</span
         >{/if}
-    {#if conflictCount === 0}<Emoji>{Characters.Program.symbols}</Emoji>{/if}
+    {#if conflictCount === 0}<Emoji text={Characters.Program.symbols} />{/if}
     <!-- Only one source? Use a label to indicate that this is where the code is. Otherwise, use the source names. -->
     <span class="toggle-label"
         >{#if project.getSources().length > 1}{$locales.getName(

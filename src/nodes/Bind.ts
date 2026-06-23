@@ -1,5 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import DuplicateName from '@conflicts/DuplicateName';
+import { getKeywordShadowConflicts } from '@conflicts/ShadowsKeyword';
 import { DuplicateShare } from '@conflicts/DuplicateShare';
 import IncompatibleType from '@conflicts/IncompatibleType';
 import { MisplacedShare } from '@conflicts/MisplacedShare';
@@ -382,6 +383,9 @@ export default class Bind extends Expression {
 
     computeConflicts(context: Context): Conflict[] {
         const conflicts = [];
+
+        // Advisory if any name shadows a localized keyword (no-op without active keyword input).
+        conflicts.push(...getKeywordShadowConflicts(this, this.names));
 
         const parent = this.getParent(context);
 

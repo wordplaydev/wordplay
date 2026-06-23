@@ -1,7 +1,10 @@
 import type LocaleText from '@locale/LocaleText';
 import type Bind from '@nodes/Bind';
 import type Locales from '@locale/Locales';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 import FunctionDefinition from '@nodes/FunctionDefinition';
@@ -12,7 +15,7 @@ export default class RequiredAfterOptional extends Conflict {
     readonly bind: Bind;
 
     constructor(bind: Bind) {
-        super(false);
+        super(ConflictSeverity.Error);
 
         this.bind = bind;
     }
@@ -30,10 +33,7 @@ export default class RequiredAfterOptional extends Conflict {
         };
     }
 
-    override getResolutions(
-        context: Context,
-        concepts: Node[],
-    ): Resolutions {
+    override getResolutions(context: Context, concepts: Node[]): Resolutions {
         // Move all required inputs before optional ones, preserving order
         // within each group (stable partition).
         const parent = context.source.root.getParent(this.bind);

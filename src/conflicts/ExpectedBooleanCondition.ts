@@ -6,14 +6,17 @@ import type Type from '@nodes/Type';
 import type Locales from '@locale/Locales';
 import type Reaction from '@nodes/Reaction';
 import type Node from '@nodes/Node';
-import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import Conflict, {
+    ConflictSeverity,
+    type Resolutions,
+} from '@conflicts/Conflict';
 
 export default class ExpectedBooleanCondition extends Conflict {
     readonly conditional: Conditional | Reaction;
     readonly type: Type;
 
     constructor(conditional: Conditional | Reaction, type: Type) {
-        super(false);
+        super(ConflictSeverity.Error);
 
         this.conditional = conditional;
         this.type = type;
@@ -38,10 +41,7 @@ export default class ExpectedBooleanCondition extends Conflict {
         };
     }
 
-    override getResolutions(
-        context: Context,
-        concepts: Node[],
-    ): Resolutions {
+    override getResolutions(context: Context, concepts: Node[]): Resolutions {
         return Conflict.fromRegistry(this, context, concepts);
     }
 

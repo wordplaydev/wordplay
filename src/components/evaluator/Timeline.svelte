@@ -1,15 +1,6 @@
 <script lang="ts">
     import Emoji from '@components/app/Emoji.svelte';
     import Subheader from '@components/app/Subheader.svelte';
-    import Controls from '@components/evaluator/Controls.svelte';
-    import { getEvaluation } from '@components/project/Contexts';
-    import ButtonWidget from '@components/widgets/Button.svelte';
-    import CommandButton from '@components/widgets/CommandButton.svelte';
-    import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
-    import Tour, { type UIExplanation } from '@components/widgets/Tour.svelte';
-    import { animationDuration, locales, Settings } from '@db/Database';
-    import Button from '@input/Button';
-    import Key from '@input/Key';
     import {
         StepBack,
         StepBackInput,
@@ -21,6 +12,15 @@
         StepToPresent,
         StepToStart,
     } from '@components/editor/commands/Commands';
+    import Controls from '@components/evaluator/Controls.svelte';
+    import { getEvaluation } from '@components/project/Contexts';
+    import ButtonWidget from '@components/widgets/Button.svelte';
+    import CommandButton from '@components/widgets/CommandButton.svelte';
+    import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
+    import Tour, { type UIExplanation } from '@components/widgets/Tour.svelte';
+    import { animationDuration, locales, Settings } from '@db/Database';
+    import Button from '@input/Button';
+    import Key from '@input/Key';
     import { DEFECT_SYMBOL, INFO_SYMBOL } from '@parser/Symbols';
     import type Evaluator from '@runtime/Evaluator';
     import BoolValue from '@values/BoolValue';
@@ -189,12 +189,12 @@
         if ($evaluation?.streams === undefined) return;
         if (timeline === undefined) return;
 
-        // Map the pointer's x position to the closest event.
+        // Map the pointer's x position to the closest event. Use viewport
+        // coordinates from getBoundingClientRect, since elementFromPoint expects
+        // them and offsetTop is relative to the offset parent, not the viewport.
+        const rect = timeline.getBoundingClientRect();
         const view = document
-            .elementFromPoint(
-                event.clientX,
-                timeline.offsetTop + timeline.clientHeight / 2,
-            )
+            .elementFromPoint(event.clientX, rect.top + rect.height / 2)
             ?.closest('.event');
         if (view instanceof HTMLElement) {
             // Is this a stream input? Get it's index and step to it.
@@ -217,8 +217,9 @@
             ) {
                 const start = parseInt(view.dataset.startindex);
                 const end = parseInt(view.dataset.endindex);
+                const viewRect = view.getBoundingClientRect();
                 const percent =
-                    (event.offsetX - view.offsetLeft) / view.offsetWidth;
+                    (event.clientX - viewRect.left) / viewRect.width;
                 const step = Math.min(
                     end,
                     Math.max(0, Math.round(percent * (end - start) + start)),
@@ -230,7 +231,6 @@
         // If we're on the edge, autoscroll.
         if (timeline) {
             dragging = true;
-            const rect = timeline.getBoundingClientRect();
             const offset = event.clientX - rect.left;
             const width = rect.width;
             if (offset < 50) timeline.scrollLeft = timeline.scrollLeft - 10;
@@ -259,15 +259,14 @@
 >
     {#snippet timelineHeader()}
         <Subheader compact
-            ><Emoji>{DEFECT_SYMBOL}</Emoji>
-            {$locales.getUnannotatedText(
-                (l) => l.ui.timeline.debug,
-            )}</Subheader
+            ><Emoji text={DEFECT_SYMBOL} />
+            {$locales.getUnannotatedText((l) => l.ui.timeline.debug)}</Subheader
         >
         <ButtonWidget
             tip={(l) => l.ui.timeline.tour.launch}
             background="circular"
             padding={false}
+            uiid="debugtour"
             icon={INFO_SYMBOL}
             action={() => (touring = true)}
         ></ButtonWidget>
@@ -294,9 +293,7 @@
                 class="timeline"
                 tabindex={0}
                 data-uiid="timeline"
-                aria-label={$locales.getPlainText(
-                    (l) => l.ui.timeline.slider,
-                )}
+                aria-label={$locales.getPlainText((l) => l.ui.timeline.slider)}
                 aria-valuemin={0}
                 aria-valuemax={$evaluation.evaluator.getStepCount()}
                 aria-valuenow={$evaluation.stepIndex}
@@ -402,15 +399,29 @@
     {/snippet}
 
     <!-- Individual step buttons — each is its own item so they overflow one by one. -->
-    {#snippet stepToStart()}<CommandButton command={StepToStart} />{/snippet}
-    {#snippet stepBackInput()}<CommandButton command={StepBackInput} />{/snippet}
+    <!-- Anchor the `stepControls` UI reference (tutorial highlight + debug tour) on the leftmost,
+         most overflow-stable step button, since the step buttons are separate toolbar items with no
+         group wrapper to carry the data-uiid. -->
+    {#snippet stepToStart()}<CommandButton
+            command={StepToStart}
+            uiid="stepControls"
+        />{/snippet}
+    {#snippet stepBackInput()}<CommandButton
+            command={StepBackInput}
+        />{/snippet}
     {#snippet stepBackNode()}<CommandButton command={StepBackNode} />{/snippet}
     {#snippet stepBack()}<CommandButton command={StepBack} />{/snippet}
     {#snippet stepOut()}<CommandButton command={StepOut} />{/snippet}
     {#snippet stepForward()}<CommandButton command={StepForward} />{/snippet}
-    {#snippet stepForwardNode()}<CommandButton command={StepForwardNode} />{/snippet}
-    {#snippet stepForwardInput()}<CommandButton command={StepForwardInput} />{/snippet}
-    {#snippet stepToPresent()}<CommandButton command={StepToPresent} />{/snippet}
+    {#snippet stepForwardNode()}<CommandButton
+            command={StepForwardNode}
+        />{/snippet}
+    {#snippet stepForwardInput()}<CommandButton
+            command={StepForwardInput}
+        />{/snippet}
+    {#snippet stepToPresent()}<CommandButton
+            command={StepToPresent}
+        />{/snippet}
 
     <OverflowToolbar
         items={[

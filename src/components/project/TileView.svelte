@@ -58,6 +58,10 @@
          * the tile name rather than mixed in with the toolbar. */
         help?: Snippet;
         extra?: Snippet;
+        /** Optional content rendered on the inline-start side of the tile's
+         *  main area (e.g. the blocks-mode Wellspring). Symmetric to `margin`,
+         *  which renders on the inline-end side. */
+        startMargin?: Snippet;
         margin?: Snippet;
         footer?: Snippet;
         position: (position: Bounds) => void;
@@ -88,6 +92,7 @@
         help,
         extra,
         content,
+        startMargin,
         margin,
         footer,
         position,
@@ -341,7 +346,7 @@
                     <Subheader compact>
                         <div class="name" class:source={tile.isSource()}>
                             {#if editable && tile.isSource()}
-                                <Emoji>{Characters.Program.symbols}</Emoji>
+                                <Emoji text={Characters.Program.symbols} />
                                 {#if project.getSources().length > 1}
                                     <!-- Only show the source name editor if there's more than one source, to simplify. -->
                                     <TextField
@@ -370,8 +375,9 @@
                                     )}
                                 {/if}
                             {:else}
-                                <Emoji>{TileKinds[tile.kind].symbol}</Emoji
-                                >{tile.getName(project, $locales)}
+                                <Emoji
+                                    text={TileKinds[tile.kind].symbol}
+                                />{tile.getName(project, $locales)}
                             {/if}
                             {@render title()}
                         </div>
@@ -403,6 +409,9 @@
             </div>
             <!-- Render the content -->
             <div class="main" class:rtl={$locales.getDirection() === 'rtl'}>
+                {#if startMargin}
+                    <div class="start-margin">{@render startMargin()}</div>
+                {/if}
                 <div
                     class="content"
                     onscroll={() => scroll()}
@@ -410,6 +419,9 @@
                     bind:clientWidth={tileWidth}
                     bind:clientHeight={tileHeight}
                     onpointermove={handleContentPointerMove}
+                    style:--tile-viewport-width={tileWidth > 0
+                        ? `${tileWidth}px`
+                        : undefined}
                 >
                     {@render content()}
                 </div>
@@ -493,7 +505,8 @@
         /* scroll-behavior: smooth; */
     }
 
-    .margin {
+    .margin,
+    .start-margin {
         width: auto;
         height: 100%;
     }

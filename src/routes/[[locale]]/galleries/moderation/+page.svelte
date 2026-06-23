@@ -1,7 +1,7 @@
 <script lang="ts">
-    import Header from '@components/app/Header.svelte';
     import Loading from '@components/app/Loading.svelte';
     import Notice from '@components/app/Notice.svelte';
+    import PageHeader from '@components/app/PageHeader.svelte';
     import Writing from '@components/app/Writing.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
@@ -33,31 +33,37 @@
     }
 </script>
 
-<Writing>
-    {#if $user === null}
-        <Notice text={(l) => l.ui.gallerymoderation.error} />
-    {:else if $user === undefined}
-        <Loading />
-    {:else}
-        <Header text={(l) => l.ui.gallerymoderation.header} />
-        <MarkupHTMLView markup={(l) => l.ui.gallerymoderation.description} />
-
-        {#if modNeeded.size > 0}
-            {#each modNeeded.values() as [message, chat, galleryID]}
-                <ModerationItem
-                    {message}
-                    {chat}
-                    {galleryID}
-                    {removeMessage}
-                    {approveMessage}
-                />
-            {/each}
+{#if $user === undefined}
+    <!-- Auth hasn't resolved yet: overlay the page with a loader, alone. -->
+    <Loading />
+{:else}
+    <Writing>
+        {#if $user === null}
+            <PageHeader />
+            <Notice text={(l) => l.ui.gallerymoderation.error} />
         {:else}
-            <Notice
-                ><MarkupHTMLView
-                    markup={(l) => l.ui.gallerymoderation.empty}
-                /></Notice
-            >
+            <PageHeader
+                header={(l) => l.ui.gallerymoderation.header}
+                description={(l) => l.ui.gallerymoderation.description}
+            />
+
+            {#if modNeeded.size > 0}
+                {#each modNeeded.values() as [message, chat, galleryID]}
+                    <ModerationItem
+                        {message}
+                        {chat}
+                        {galleryID}
+                        {removeMessage}
+                        {approveMessage}
+                    />
+                {/each}
+            {:else}
+                <Notice
+                    ><MarkupHTMLView
+                        markup={(l) => l.ui.gallerymoderation.empty}
+                    /></Notice
+                >
+            {/if}
         {/if}
-    {/if}
-</Writing>
+    </Writing>
+{/if}

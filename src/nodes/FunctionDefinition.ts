@@ -1,4 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
+import { getKeywordShadowConflicts } from '@conflicts/ShadowsKeyword';
 import NoExpression from '@conflicts/NoExpression';
 import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
@@ -415,6 +416,11 @@ export default class FunctionDefinition extends DefinitionExpression {
 
     computeConflicts(context: Context): Conflict[] {
         let conflicts: Conflict[] = [];
+
+        // Advisory if the function name shadows a localized keyword (no-op without keyword input).
+        conflicts = conflicts.concat(
+            getKeywordShadowConflicts(this, this.names),
+        );
 
         // Make sure the inputs are valid.
         conflicts = conflicts.concat(getEvaluationInputConflicts(this.inputs));
