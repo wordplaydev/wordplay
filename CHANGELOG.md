@@ -6,6 +6,10 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ## 0.24.1 - 2026-06-22
 
+### Added
+
+- 📕 Added the first sentence of project documentation to the project previews (#897).
+
 ### Fixed
 
 - 📕 We re-organized the how-to editing and viewing panels to offer much more width for viewing.
