@@ -5,7 +5,7 @@
 
 <div class="container">
     <Spinning label={(l) => l.ui.widget.loading.message} size={2} />
-    <Subheader text={(l) => l.ui.widget.loading.message} compact />
+    <Subheader text={(l) => l.ui.widget.loading.message} compact wrap />
 </div>
 
 <style>

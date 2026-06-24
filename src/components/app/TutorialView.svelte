@@ -34,6 +34,9 @@
     import BasisCharacters from '../../lore/BasisCharacters';
     import { Emotion } from '../../lore/Emotion';
     import ConceptLink from '@nodes/ConceptLink';
+    import type LanguageCode from '@locale/LanguageCode';
+    import { getLanguageDirection } from '@locale/LanguageCode';
+    import { MULTILINGUAL_SEPARATOR } from '@locale/Locales';
     import type Markup from '@nodes/Markup';
     import Source from '@nodes/Source';
     import getPreferredSpaces from '@parser/getPreferredSpaces';
@@ -184,6 +187,44 @@
      *  stable override key for inline editing. */
     let dialogWithIndices = $derived(progress.getDialogWithIndices());
 
+    /** For a dialog line, the same line rendered in each non-primary chosen locale's
+     *  tutorial — matched by parallel act/scene/line index — to echo beneath the primary
+     *  (dimmed and smaller, like other multilingual UI text). Skips locales whose text is
+     *  missing or identical to the primary. */
+    function dialogEchoes(
+        lineIndex: number,
+        primaryRawText: string,
+    ): { language: LanguageCode; direction: 'ltr' | 'rtl'; markup: Markup }[] {
+        const actIndex = progress.act - 1;
+        const sceneIndex = progress.scene - 1;
+        const echoes: {
+            language: LanguageCode;
+            direction: 'ltr' | 'rtl';
+            markup: Markup;
+        }[] = [];
+        const seen = new Set([primaryRawText.trim()]);
+        for (const tutorial of extraTutorials) {
+            const line = tutorial.acts[actIndex]?.scenes[sceneIndex]?.lines[
+                lineIndex
+            ];
+            if (!Array.isArray(line)) continue;
+            const rawText = line
+                .slice(2)
+                .filter((part): part is string => typeof part === 'string')
+                .join('\n\n')
+                .trim();
+            if (rawText.length === 0 || seen.has(rawText)) continue;
+            seen.add(rawText);
+            const [markup] = toMarkup(rawText);
+            echoes.push({
+                language: tutorial.language,
+                direction: getLanguageDirection(tutorial.language),
+                markup,
+            });
+        }
+        return echoes;
+    }
+
     /** Convert the instructions into a sequence of docs/space pairs */
     let turns: {
         speech: Markup;
@@ -193,6 +234,12 @@
         rawText: string;
         /** Index of this dialog line in `scene.lines`; used for override keys. */
         lineIndex: number;
+        /** The same line in each non-primary chosen locale, for multilingual echoes. */
+        others: {
+            language: LanguageCode;
+            direction: 'ltr' | 'rtl';
+            markup: Markup;
+        }[];
     }[] = $derived(
         dialogWithIndices
             ? dialogWithIndices.map(({ dialog: line, lineIndex }) => {
@@ -206,6 +253,7 @@
                       dialog: line,
                       rawText,
                       lineIndex,
+                      others: dialogEchoes(lineIndex, rawText),
                   };
               })
             : [],
@@ -379,12 +427,60 @@
             );
     });
 
+    /** The scene title in each non-primary chosen locale's tutorial (matched by parallel
+     *  act/scene index), so the lesson <Options> can echo each chosen locale. */
+    function sceneTitleEchoes(
+        actIndex: number,
+        sceneIndex: number,
+        primaryText: string,
+    ): { language: LanguageCode; direction: 'ltr' | 'rtl'; text: string }[] {
+        const echoes: {
+            language: LanguageCode;
+            direction: 'ltr' | 'rtl';
+            text: string;
+        }[] = [];
+        const seen = new Set([primaryText]);
+        for (const tutorial of extraTutorials) {
+            const scene = tutorial.acts[actIndex]?.scenes[sceneIndex];
+            if (scene === undefined) continue;
+            const text = withoutAnnotations(scene.subtitle ?? scene.title);
+            if (text.length === 0 || seen.has(text)) continue;
+            seen.add(text);
+            echoes.push({
+                language: tutorial.language,
+                direction: getLanguageDirection(tutorial.language),
+                text,
+            });
+        }
+        return echoes;
+    }
+
+    /** The act title joined across chosen locales. A native <optgroup label> is a plain
+     *  attribute that can't carry per-locale markup, so (unlike the scene options, which
+     *  render styled echoes) the act header joins locales into one string. */
+    function actTitleJoined(actIndex: number, primary: string): string {
+        const seen = new Set([primary]);
+        const parts = [primary];
+        for (const tutorial of extraTutorials) {
+            const title = tutorial.acts[actIndex]?.title;
+            if (title === undefined) continue;
+            const text = withoutAnnotations(title);
+            if (text.length === 0 || seen.has(text)) continue;
+            seen.add(text);
+            parts.push(text);
+        }
+        return parts.join(MULTILINGUAL_SEPARATOR);
+    }
+
     // Compute the options for the select based on the tutorial
     let lessons = $derived(
         progress.tutorial.acts.map((act, actIndex) => {
             return {
-                label: act.title,
+                label: actTitleJoined(actIndex, withoutAnnotations(act.title)),
                 options: act.scenes.map((scene, sceneIndex) => {
+                    const label = withoutAnnotations(
+                        scene.subtitle ?? scene.title,
+                    );
                     return {
                         value: JSON.stringify(
                             new Progress(
@@ -394,9 +490,8 @@
                                 0,
                             ).serialize(),
                         ),
-                        label: withoutAnnotations(
-                            scene.subtitle ?? scene.title,
-                        ),
+                        label,
+                        others: sceneTitleEchoes(actIndex, sceneIndex, label),
                     };
                 }),
             };
@@ -591,7 +686,17 @@
                         change={handleSelect}
                         id="current-lesson"
                         options={lessons}
-                    ></Options>
+                    >
+                        {#snippet item(option, localized)}{@render localized(
+                                option.label,
+                            )}{#each option.others ?? [] as echo, i}<span
+                                    class="option-echo"
+                                    lang={echo.language}
+                                    dir={echo.direction}
+                                    style="font-size: {0.8 **
+                                        (i + 1)}em">{echo.text}</span
+                                >{/each}{/snippet}
+                    </Options>
                     <TextField
                         id="tutorial-search"
                         placeholder={(l) => l.ui.page.learn.search.placeholder}
@@ -750,7 +855,16 @@
                                                 turn.lineIndex,
                                             )}
                                             sourceText={turn.rawText}
-                                        />
+                                        />{#each turn.others as echo, i}<div
+                                                class="dialog-echo"
+                                                lang={echo.language}
+                                                dir={echo.direction}
+                                                style="font-size: {0.8 **
+                                                    (i + 1)}em"
+                                                ><MarkupHTMLView
+                                                    markup={echo.markup}
+                                                /></div
+                                            >{/each}
                                     {/snippet}
                                 </Speech>
                             {/each}
@@ -877,6 +991,20 @@
 
     .dialog:focus {
         outline-offset: calc(-1 * var(--wordplay-focus-width));
+    }
+
+    /* Echo of the same dialog line in an additional chosen locale: dimmed and (via an
+       inline per-echo font-size) successively smaller than the primary. */
+    .dialog-echo {
+        opacity: 0.7;
+        margin-block-start: var(--wordplay-spacing);
+    }
+
+    /* Echo of a lesson option's title in an additional chosen locale, shown on its own
+       line beneath the primary, dimmed and smaller. */
+    .option-echo {
+        display: block;
+        opacity: 0.7;
     }
 
     nav {

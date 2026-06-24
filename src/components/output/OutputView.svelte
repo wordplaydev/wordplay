@@ -1389,7 +1389,7 @@
 >
     {#if $evaluation?.playing === false && !painting && editable}
         <span id="output-multiselect-help" class="multiselect-help"
-            >{$locales.getPlainText((l) => l.ui.output.multiselect)}</span
+            ><LocalizedText path={(l) => l.ui.output.multiselect} /></span
         >
     {/if}
     <!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -1428,7 +1428,10 @@
                     >
                         {#snippet content()}
                             <MarkupHTMLView
-                                markup={exception.getExplanation($locales)}
+                                markup={{
+                                    perLocale: (l) =>
+                                        exception.getExplanation(l),
+                                }}
                             />
                             {#if permissionException !== undefined && onretry !== undefined}
                                 <div class="permission-retry">
@@ -1439,9 +1442,10 @@
                                         background
                                         testid="permission-retry"
                                     >
-                                        {$locales.getPlainText(
-                                            (l) => l.ui.output.permission.retry,
-                                        )}
+                                        <LocalizedText
+                                            path={(l) =>
+                                                l.ui.output.permission.retry}
+                                        />
                                     </ButtonUI>
                                 </div>
                             {/if}

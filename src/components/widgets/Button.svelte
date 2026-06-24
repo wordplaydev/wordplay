@@ -8,7 +8,10 @@
     import { getLocalizing, getTip } from '@components/project/Contexts';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { locales } from '@db/Database';
-    import type { LocaleTextAccessor } from '@locale/Locales';
+    import {
+        MULTILINGUAL_SEPARATOR,
+        type LocaleTextAccessor,
+    } from '@locale/Locales';
     import { withMonoEmoji } from '@unicode/emoji';
 
     interface Props {
@@ -83,10 +86,21 @@
     }
 
     let loading = $state(false);
+    // Per-locale concretized tooltip markup (undefined for computed tips, which have no
+    // accessor and so stay single-locale). Drives the rich stacked popup; its flattened
+    // text, joined, is the plain-string aria-label (attributes can't carry markup).
+    let tipEntries = $derived(
+        isComputedTooltip(tip)
+            ? undefined
+            : $locales.getMultilingualMarkup(tip),
+    );
     let tooltip = $derived(
         isComputedTooltip(tip)
             ? tip()
-            : $locales.concretize($locales.getPlainText(tip)).toText(),
+            : (tipEntries ?? [])
+                  .map((entry) => entry.markup.toText())
+                  .join(MULTILINGUAL_SEPARATOR) +
+                  (shortcut ? ` (${shortcut})` : ''),
     );
     let pressed = $state(false);
 
@@ -100,7 +114,11 @@
         // Skip empty tooltips — callers (e.g. the glyph picker) sometimes
         // compute a tip lazily and return an empty string when no
         // description is available; showing an empty hint adds visual noise.
-        if (_ && tooltip.length > 0) hint.show(tooltip, _);
+        if (!_) return;
+        if (tipEntries === undefined) {
+            if (tooltip.length > 0) hint.show(tooltip, _);
+        } else if (tipEntries.length > 0)
+            hint.showMarkup(tipEntries, _, shortcut);
     }
     function hideTip() {
         hint.hide();

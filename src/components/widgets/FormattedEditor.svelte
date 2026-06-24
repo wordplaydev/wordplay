@@ -5,8 +5,6 @@
     import Button from '@components/widgets/Button.svelte';
     import Switch from '@components/widgets/Switch.svelte';
     import TextBox from '@components/widgets/TextBox.svelte';
-    import { locales } from '@db/Database';
-    import type LocaleText from '@locale/LocaleText';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import { BULLET_SYMBOL } from '@parser/Symbols';
     import { tick } from 'svelte';
@@ -290,75 +288,115 @@
             })}
         />
         <Button
-            tip={() =>
-                $locales.getPlainText((l) => l.token.Italic) +
-                ` (${toShortcut({ control: true, alt: undefined, shift: undefined, key: 'i' })})`}
+            tip={(l) => l.token.Italic}
+            shortcut={toShortcut({
+                control: true,
+                alt: undefined,
+                shift: undefined,
+                key: 'i',
+            })}
             action={() => format('/')}
             ><em style="font-family: 'Noto Sans'">I</em></Button
         >
         <Button
-            tip={() =>
-                $locales.getPlainText((l) => l.token.Bold) +
-                ` (${toShortcut({ control: true, alt: undefined, shift: undefined, key: 'b' })})`}
+            tip={(l) => l.token.Bold}
+            shortcut={toShortcut({
+                control: true,
+                alt: undefined,
+                shift: undefined,
+                key: 'b',
+            })}
             action={() => format('*')}
             ><strong style="font-family: 'Noto Sans'">B</strong></Button
         >
         <Button
-            tip={() =>
-                $locales.getPlainText((l) => l.token.Extra) +
-                ` (${toShortcut({ control: true, alt: undefined, shift: undefined, key: 'e' })})`}
+            tip={(l) => l.token.Extra}
+            shortcut={toShortcut({
+                control: true,
+                alt: undefined,
+                shift: undefined,
+                key: 'e',
+            })}
             action={() => format('^')}
             ><strong style="font-family: 'Noto Sans'; font-weight: 900"
                 >B</strong
             ></Button
         >
         <Button
-            tip={() =>
-                $locales.getPlainText((l) => l.token.Underline) +
-                ` (${toShortcut({ control: true, alt: undefined, shift: undefined, key: 'u' })})`}
+            tip={(l) => l.token.Underline}
+            shortcut={toShortcut({
+                control: true,
+                alt: undefined,
+                shift: undefined,
+                key: 'u',
+            })}
             action={() => format('_')}
             ><u style="font-family: 'Noto Sans'">U</u></Button
         >
         <Button
-            tip={() =>
-                $locales.getPlainText((l) => l.token.Code) +
-                ` (${toShortcut({ control: true, alt: undefined, shift: undefined, key: '\\' })})`}
+            tip={(l) => l.token.Code}
+            shortcut={toShortcut({
+                control: true,
+                alt: undefined,
+                shift: undefined,
+                key: '\\',
+            })}
             action={() => format('\\')}><code>\\</code></Button
         >
         <Button
-            tip={(l: LocaleText) =>
-                l.ui.widget.formatted.highlight +
-                ` (${toShortcut({ control: true, alt: undefined, shift: true, key: '8' })})`}
+            tip={(l) => l.ui.widget.formatted.highlight}
+            shortcut={toShortcut({
+                control: true,
+                alt: undefined,
+                shift: true,
+                key: '8',
+            })}
             action={formatHighlight}
             active={!preview && cursorInExample}><Emoji text="⭐" /></Button
         >
         <Button
-            tip={(l: LocaleText) =>
-                l.ui.source.cursor.insertDocs +
-                ` (${toShortcut({ control: undefined, alt: true, shift: undefined, key: '7' })})`}
+            tip={(l) => l.ui.source.cursor.insertDocs}
+            shortcut={toShortcut({
+                control: undefined,
+                alt: true,
+                shift: undefined,
+                key: '7',
+            })}
             action={() => format('¶')}
             active={!preview &&
                 exampleRange !== null &&
                 cursorPosition <= exampleRange.close}>¶</Button
         >
         <Button
-            tip={(l: LocaleText) =>
-                l.ui.widget.formatted.attention +
-                ` (${toShortcut({ control: true, alt: undefined, shift: true, key: '.' })})`}
+            tip={(l) => l.ui.widget.formatted.attention}
+            shortcut={toShortcut({
+                control: true,
+                alt: undefined,
+                shift: true,
+                key: '.',
+            })}
             action={formatAttention}
             active={!preview && cursorInDocInExample}
             ><Emoji text="👀" /></Button
         >
         <Button
-            tip={() =>
-                $locales.getPlainText((l) => l.token.Link) +
-                ` (${toShortcut({ control: true, alt: undefined, shift: undefined, key: 'k' })})`}
+            tip={(l) => l.token.Link}
+            shortcut={toShortcut({
+                control: true,
+                alt: undefined,
+                shift: undefined,
+                key: 'k',
+            })}
             action={() => format('@')}><Emoji text="🔗" /></Button
         >
         <Button
-            tip={(l: LocaleText) =>
-                l.ui.widget.formatted.bullet +
-                ` (${toShortcut({ control: true, alt: undefined, shift: undefined, key: '8' })})`}
+            tip={(l) => l.ui.widget.formatted.bullet}
+            shortcut={toShortcut({
+                control: true,
+                alt: undefined,
+                shift: undefined,
+                key: '8',
+            })}
             action={formatBullet}>{BULLET_SYMBOL}</Button
         >
     </div>

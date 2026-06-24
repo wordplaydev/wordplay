@@ -19,7 +19,7 @@
     let hint = getTip();
     let localizing = getLocalizing();
     function showTip() {
-        if (view) hint.show($locales.getPlainText(label), view);
+        if (view) hint.showMarkup($locales.getMultilingualMarkup(label), view);
     }
     function hideTip() {
         hint.hide();

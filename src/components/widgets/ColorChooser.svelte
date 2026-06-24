@@ -53,6 +53,7 @@
 <script lang="ts">
     import { getAnnouncer } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import { locales } from '@db/Database';
     import { getFirstText } from '@locale/LocaleText';
@@ -325,9 +326,9 @@
                      application isn't announced as "empty". -->
                 {#if editable}
                     <span id={instructionsId} class="instructions"
-                        >{$locales.getPlainText(
-                            (l) => l.ui.widget.color.instructions,
-                        )}</span
+                        ><LocalizedText
+                            path={(l) => l.ui.widget.color.instructions}
+                        /></span
                     >
                 {/if}
             </div>

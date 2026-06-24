@@ -125,7 +125,7 @@
 {/snippet}
 
 {#snippet messageBody()}
-    {#each annotation.messages as markup}
+    {#each annotation.messages as explain}
         {@const repairs = isStep
             ? []
             : annotation
@@ -134,8 +134,8 @@
                       (r): r is Extract<typeof r, { kind: 'repair' }> =>
                           r.kind === 'repair',
                   )}
-        <aside aria-label={markup.toText()}>
-            <MarkupHTMLView {markup} />
+        <aside aria-label={explain($locales).toText()}>
+            <MarkupHTMLView markup={{ perLocale: explain }} />
             {#each repairs as resolution}
                 <!-- svelte-ignore a11y_no_static_element_interactions -->
                 <!-- Stop propagation so applying a fix doesn't also toggle the row. -->
@@ -156,10 +156,13 @@
                     <div class="description"
                         ><MarkupHTMLView
                             inline
-                            markup={resolution.description(
-                                $locales,
-                                annotation.context,
-                            )}
+                            markup={{
+                                perLocale: (l) =>
+                                    resolution.description(
+                                        l,
+                                        annotation.context,
+                                    ),
+                            }}
                         /></div
                     >
                 </div>

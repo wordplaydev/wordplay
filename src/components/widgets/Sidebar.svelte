@@ -120,7 +120,10 @@
      *  pointer moving between background and content. */
     function handlePointerOver(event: PointerEvent) {
         if (overEmptySpace(event) && tipAnchor)
-            hint.show($locales.getPlainText(toggleLabel), tipAnchor);
+            hint.showMarkup(
+                $locales.getMultilingualMarkup(toggleLabel),
+                tipAnchor,
+            );
         else hint.hide();
     }
     function hideTip() {

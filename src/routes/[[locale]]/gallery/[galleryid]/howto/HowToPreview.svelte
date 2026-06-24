@@ -20,6 +20,8 @@
     import { untrack } from 'svelte';
     import type { SvelteMap } from 'svelte/reactivity';
     import HowToForm from './HowToForm.svelte';
+    import { getLanguageDirection } from '@locale/LanguageCode';
+    import { toLocaleString } from '@locale/LocaleText';
     import {
         findHowToPlacement,
         movePermitted,
@@ -497,7 +499,21 @@
     let previewNode: HTMLDivElement;
 
     function showTip() {
-        if (previewNode) hint.show(title, previewNode);
+        if (!previewNode || howTo === undefined) return;
+        // Show the how-to title in each chosen locale, stacked and styled like other hints.
+        const seen = new Set<string>();
+        const entries = [];
+        for (const locale of $locales.getPreferredLocales()) {
+            const text = howTo.getTitleInLocale(toLocaleString(locale));
+            if (text.length === 0 || seen.has(text)) continue;
+            seen.add(text);
+            entries.push({
+                language: locale.language,
+                direction: getLanguageDirection(locale.language),
+                text,
+            });
+        }
+        hint.showMultilingual(entries, previewNode);
     }
 
     function hideTip() {

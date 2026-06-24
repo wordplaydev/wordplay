@@ -370,14 +370,20 @@
                                         changed={handleRename}
                                     />
                                 {:else}
-                                    {$locales.getUnannotatedText(
-                                        (l) => l.ui.source.title,
-                                    )}
+                                    <LocalizedText
+                                        path={(l) => l.ui.source.title}
+                                    />
                                 {/if}
                             {:else}
                                 <Emoji
                                     text={TileKinds[tile.kind].symbol}
-                                />{tile.getName(project, $locales)}
+                                />{#if tile.isSource()}{tile.getName(
+                                        project,
+                                        $locales,
+                                    )}{:else}<LocalizedText
+                                        path={(l) => l.ui.tile.label}
+                                        extras={[tile.kind]}
+                                    />{/if}
                             {/if}
                             {@render title()}
                         </div>

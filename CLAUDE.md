@@ -55,6 +55,8 @@ Text input → **Parser** ([src/parser/](src/parser/)) → AST nodes ([src/nodes
 
 All user-visible strings live in locale JSON files ([static/locales/](static/locales/), 26 languages) validated against a schema. `Database` exposes the active locale as a Svelte store. Nodes, conflicts, values, and APIs all define localized descriptions via `Locale.ts`. Run `npm run locales` to verify and `npm run locales-fix` to repair issues, and `npm run locales-translae` to generate translations.
 
+When several UI locales are chosen, all UI text is echoed in each chosen locale (primary full size, the rest dimmed and successively 80% the size). This is centralized in `Locales` (`getSecondaryLocaleViews`, `getMultilingualEntries`, `getMultilingualMarkup`, `getMultilingualFrom`, and the multilingual `getPlainText`/`getUnannotatedText`) and consumed by `LocalizedText` (inline), `MarkupHTMLView` (block), `Hint` (rich markup tooltips), and `TutorialView` (dialog lines). It's a no-op with one locale chosen, and suppressed in localization mode. **Render visible text via `LocalizedText`/`MarkupHTMLView`, not `getPlainText`/`getUnannotatedText`** — those join all locales into one string for attributes (aria-label/title) only. Use `getUnannotatedPrimaryText` when a plain-text result is an identity/key rather than displayed.
+
 **Locale type declarations** ([src/locale/\*.ts](src/locale/), e.g. `UITexts.ts`, `NodeTexts.ts`, `OutputTexts.ts`) describe the shape of every locale JSON file. **Every field whose value is a user-visible string MUST have a TSDoc comment containing exactly one formatting tag**, which tells the in-app localization editor which editor to render:
 
 | Tag           | Editor           | Use when the value is...                                       |

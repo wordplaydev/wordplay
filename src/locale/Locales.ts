@@ -20,7 +20,7 @@ import {
     type Template,
 } from '@locale/LocaleText';
 import type NodeRef from '@locale/NodeRef';
-import type { Script } from '@locale/Scripts';
+import type { Script, WritingDirection } from '@locale/Scripts';
 import type ValueRef from '@locale/ValueRef';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
 
@@ -39,6 +39,28 @@ export type TemplateInput =
  */
 export type LocaleTextAccessor = (locale: LocaleText) => string;
 export type LocaleTextsAccessor = (locale: LocaleText) => string | string[];
+
+/** A single locale's rendering of some UI text, used to echo each chosen locale.
+ *  Carries the language/direction so callers can tag spans for bidi/script/font. */
+export type MultilingualEntry = {
+    language: LanguageCode;
+    direction: WritingDirection;
+    text: string;
+};
+
+/** Like {@link MultilingualEntry}, but carrying concretized `Markup` for contexts that
+ *  render rich text per locale (e.g. tooltips). */
+export type MultilingualMarkup = {
+    language: LanguageCode;
+    direction: WritingDirection;
+    markup: Markup;
+};
+
+/** Separator placed between locales when several are joined into one plain string for a
+ *  NON-VISUAL context — an aria-label or title attribute, which can't carry per-language
+ *  markup. Visible text must never use this; it styles each locale instead (see
+ *  LocalizedText / MarkupHTMLView / Hint). */
+export const MULTILINGUAL_SEPARATOR = ' · ';
 
 /** Represents a sequence of preferred locales, and a set of utility functions for extracting information from them. */
 export default class Locales {
@@ -87,6 +109,17 @@ export default class Locales {
     /** Get preferred locales, in order of preference */
     getPreferredLocales() {
         return [...this.locales];
+    }
+
+    /** Single-locale views for the non-primary preferred locales, used to echo UI text
+     *  in each additional chosen locale. Each view falls back to its own locale so an
+     *  unwritten string stays detectable (annotated, see {@link isUnwritten}) instead of
+     *  silently resolving to English. Empty when only one locale is chosen, which is what
+     *  makes the multilingual UI a no-op for the common single-locale case. */
+    getSecondaryLocaleViews(): Locales[] {
+        return this.locales
+            .slice(1)
+            .map((l) => new Locales(this.concretizer, [l], l));
     }
 
     /** True if one of the locales uses the given script */
@@ -193,10 +226,135 @@ export default class Locales {
     }
 
     /**
+     * Resolve the accessor in each chosen locale, returning one entry per locale that
+     * has written the string. The primary entry uses the normal full-fallback resolution;
+     * each secondary entry comes from a single-locale view and is skipped when unwritten
+     * in its own locale or when it duplicates an earlier entry. Text keeps its annotations.
+     * With one chosen locale this returns a single entry.
+     */
+    private getMultilingualRaw(
+        accessor: LocaleTextAccessor,
+    ): MultilingualEntry[] {
+        const result: MultilingualEntry[] = [];
+        const seen = new Set<string>();
+        const push = (locale: LocaleText, text: string) => {
+            const plain = withoutAnnotations(text);
+            if (seen.has(plain)) return;
+            seen.add(plain);
+            result.push({
+                language: locale.language,
+                direction: getLanguageDirection(locale.language),
+                text,
+            });
+        };
+
+        // Primary is always included so single-locale output is identical to today.
+        const primary = this.get(accessor);
+        if (typeof primary === 'string') push(this.getLocale(), primary);
+
+        for (const view of this.getSecondaryLocaleViews()) {
+            const text = view.getWithAnnotations(accessor);
+            if (typeof text !== 'string' || isUnwritten(text)) continue;
+            push(view.getLocale(), text);
+        }
+
+        return result;
+    }
+
+    /**
+     * Resolve the accessor in each chosen locale, with annotations stripped. The joined
+     * form feeds NON-VISUAL plain-string attributes (aria-label/title); visible text uses
+     * the styled components instead.
+     */
+    getMultilingualEntries(accessor: LocaleTextAccessor): MultilingualEntry[] {
+        return this.getMultilingualRaw(accessor).map((entry) => ({
+            ...entry,
+            text: withoutAnnotations(entry.text),
+        }));
+    }
+
+    /**
+     * Like {@link getMultilingualEntries}, but concretizes each locale's template in that
+     * locale (so terminology like `$program` resolves per-locale) and returns the
+     * resulting `Markup`. Used for tooltips, which render rich content per chosen locale.
+     */
+    getMultilingualMarkup(accessor: LocaleTextAccessor): MultilingualMarkup[] {
+        const result: MultilingualMarkup[] = [];
+        const seen = new Set<string>();
+        const push = (locale: Locales, skipUnwritten: boolean) => {
+            const template = locale.getWithAnnotations(accessor);
+            if (typeof template !== 'string') return;
+            if (skipUnwritten && isUnwritten(template)) return;
+            const markup = locale.concretize(template);
+            const text = markup.toText();
+            if (text.length === 0 || seen.has(text)) return;
+            seen.add(text);
+            const language = locale.getLocale().language;
+            result.push({
+                language,
+                direction: getLanguageDirection(language),
+                markup,
+            });
+        };
+
+        push(this, false);
+        for (const view of this.getSecondaryLocaleViews()) push(view, true);
+
+        return result;
+    }
+
+    /**
+     * Like {@link getMultilingualMarkup}, but for tooltips assembled from a locale
+     * subtree (e.g. a toggle's on/off labels or a mode's per-choice tip). Resolves the
+     * structure in each chosen locale and runs `format` to produce that locale's line.
+     * Empty results (e.g. an unwritten secondary that falls back to an empty string) and
+     * duplicates are skipped.
+     */
+    getMultilingualFrom<Structure>(
+        accessor: (locale: LocaleText) => Structure,
+        format: (structure: Structure) => string,
+    ): MultilingualEntry[] {
+        const result: MultilingualEntry[] = [];
+        const seen = new Set<string>();
+        const push = (locale: Locales) => {
+            const text = withoutAnnotations(
+                format(locale.getTextStructure(accessor)),
+            );
+            if (text.length === 0 || seen.has(text)) return;
+            seen.add(text);
+            const language = locale.getLocale().language;
+            result.push({
+                language,
+                direction: getLanguageDirection(language),
+                text,
+            });
+        };
+
+        push(this);
+        for (const view of this.getSecondaryLocaleViews()) push(view);
+
+        return result;
+    }
+
+    /**
      * Get localized text, but strip the annotations.
      * Be careful to only use this when the UI doesn't need that metadata.
+     * Joins all chosen locales (a NON-VISUAL plain string for aria-label/title);
+     * collapses to the primary locale's text when only one locale is chosen. For VISIBLE
+     * text use a styled component (LocalizedText) instead, not this.
      */
     getUnannotatedText(path: LocaleTextAccessor): string {
+        return this.getMultilingualEntries(path)
+            .map((entry) => entry.text)
+            .join(MULTILINGUAL_SEPARATOR);
+    }
+
+    /**
+     * Like {@link getUnannotatedText}, but only the primary locale. Use this when the
+     * result is an identifier, map key, or compared for equality rather than displayed,
+     * where joining multiple locales would be wrong.
+     */
+    getUnannotatedPrimaryText(path: LocaleTextAccessor): string {
         return withoutAnnotations(this.get(path));
     }
 
@@ -220,7 +378,16 @@ export default class Locales {
      * language to describe the annotation.
      */
     getPlainText(path: LocaleTextAccessor | string): string {
-        let text = typeof path === 'string' ? path : this.get(path);
+        // A pre-resolved string carries no accessor, so it can't be made multilingual.
+        if (typeof path === 'string') return this.toPlainText(path);
+        return this.getMultilingualRaw(path)
+            .map(({ text }) => this.toPlainText(text))
+            .join(MULTILINGUAL_SEPARATOR);
+    }
+
+    /** Strip annotations from a single locale string, re-appending the machine-translation
+     *  symbol so it stays visible in plain-text contexts (tooltips, aria-labels). */
+    private toPlainText(text: string): string {
         const isMT = text.startsWith(MachineTranslated);
         return `${withoutAnnotations(text)}${isMT ? withMonoEmoji(' ' + MACHINE_TRANSLATED_SYMBOL) : ''}`;
     }

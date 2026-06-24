@@ -202,7 +202,12 @@
         <!-- The code's NodeView already exposes this same text via aria-label, so the
              visible hint is aria-hidden to avoid a screen reader reading it twice. -->
         <span class="note-wrap" aria-hidden="true">
-            <Note inline><MarkupHTMLView markup={note} inline /></Note>
+            <Note inline
+                ><MarkupHTMLView
+                    markup={{ perLocale: (l) => concept?.getDescription(l) }}
+                    inline
+                /></Note
+            >
         </span>
     {/if}
 </span>

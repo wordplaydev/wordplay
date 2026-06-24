@@ -82,9 +82,10 @@
 
     <Speech character={concept.getCharacter($locales)} below={header}>
         {#snippet content()}
-            {@const markup = concept.getDocs($locales)[0]}
-            {#if markup}
-                <MarkupHTMLView {markup} />
+            {#if concept.getDocs($locales)[0]}
+                <MarkupHTMLView
+                    markup={{ perLocale: (l) => concept.getDocs(l)[0] }}
+                />
             {:else}
                 {$locales.concretize((l) => l.ui.docs.nodoc)}
             {/if}

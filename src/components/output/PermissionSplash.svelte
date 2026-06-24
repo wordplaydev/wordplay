@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { locales } from '@db/Database';
     import {
         AllPermissions,
         Permission,
@@ -49,7 +48,7 @@
             background
             testid="permission-start"
         >
-            {$locales.getPlainText((l) => l.ui.output.permission.start)}
+            <LocalizedText path={(l) => l.ui.output.permission.start} />
         </Button>
         <p class="note">
             <LocalizedText path={(l) => l.ui.output.permission.note} />

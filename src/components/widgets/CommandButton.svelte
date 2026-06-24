@@ -2,7 +2,6 @@
     import Emoji from '@components/app/Emoji.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { tick } from 'svelte';
-    import { locales } from '@db/Database';
     import { tokenize } from '@parser/Tokenizer';
     import {
         resetVisualColumnAfter,
@@ -85,9 +84,7 @@
 
 <Button
     {background}
-    tip={() =>
-        $locales.getPlainText(command.description) +
-        ` (${toShortcut(command)})`}
+    tip={command.description}
     shortcut={toShortcut(command)}
     bind:view
     uiid={uiid ?? command.uiid}

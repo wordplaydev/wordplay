@@ -14,7 +14,13 @@
     );
 
     function showTip() {
-        if (annotation) hint.show(tip, annotation);
+        if (annotation)
+            hint.showMarkup(
+                $locales.getMultilingualMarkup(
+                    (l) => l.ui.template.machineTranslated,
+                ),
+                annotation,
+            );
     }
     function hideTip() {
         hint.hide();

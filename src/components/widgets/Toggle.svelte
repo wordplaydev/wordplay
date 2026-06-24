@@ -3,6 +3,7 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { locales } from '@db/Database';
     import type LocaleText from '@locale/LocaleText';
+    import { MULTILINGUAL_SEPARATOR } from '@locale/Locales';
     import { type Snippet } from 'svelte';
     import type { ToggleText } from '@locale/UITexts';
     import {
@@ -41,14 +42,16 @@
         }
     }
 
-    let text = $derived($locales.getTextStructure(tips));
-
-    let title = $derived(
-        $locales.getPlainText(
-            `${on ? text.on : text.off}${
-                command ? ' (' + toShortcut(command) + ')' : ''
-            }`,
+    // One tooltip line per chosen locale (on/off label plus the shared shortcut suffix).
+    let suffix = $derived(command ? ' (' + toShortcut(command) + ')' : '');
+    let tipEntries = $derived(
+        $locales.getMultilingualFrom(
+            tips,
+            (text) => `${on ? text.on : text.off}${suffix}`,
         ),
+    );
+    let title = $derived(
+        tipEntries.map((entry) => entry.text).join(MULTILINGUAL_SEPARATOR),
     );
 
     let view = $state<HTMLButtonElement | undefined>(undefined);
@@ -58,7 +61,7 @@
     let offEditing = $state(false);
     let onEditing = $state(false);
     function showTip() {
-        if (view) hint.show(title, view);
+        if (view && tipEntries.length > 0) hint.showMultilingual(tipEntries, view);
     }
     function hideTip() {
         hint.hide();

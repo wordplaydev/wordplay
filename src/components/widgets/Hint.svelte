@@ -1,20 +1,66 @@
 <script module lang="ts">
-    export class ActiveHint {
-        private text: string = $state('');
-        private view: HTMLElement | undefined = $state(undefined);
+    import type {
+        MultilingualEntry,
+        MultilingualMarkup,
+    } from '@locale/Locales';
+    import type Markup from '@nodes/Markup';
 
+    /** One line of a tooltip. `language`/`direction` are set for per-locale echoes and
+     *  omitted for plain/computed tips. `markup` renders rich content; otherwise `text`
+     *  is shown as plain text. */
+    export type HintEntry = {
+        text?: string;
+        markup?: Markup;
+        language?: string;
+        direction?: 'ltr' | 'rtl';
+    };
+
+    export class ActiveHint {
+        private entries: HintEntry[] = $state([]);
+        private view: HTMLElement | undefined = $state(undefined);
+        /** A keyboard shortcut shown once after the primary locale (it's universal, not
+         *  per-locale), so a shortcut needn't force a single computed tip string. */
+        private shortcut: string | undefined = $state(undefined);
+
+        /** Show a single plain string (a computed tip, or an already-joined label). */
         show(text: string, view: HTMLElement) {
-            this.text = text;
+            this.entries = text.length > 0 ? [{ text }] : [];
+            this.shortcut = undefined;
+            this.view = view;
+        }
+
+        /** Show one plain-text entry per chosen locale, each tagged with its
+         *  language/direction so the popup can stack them smaller and dimmed. */
+        showMultilingual(entries: MultilingualEntry[], view: HTMLElement) {
+            this.entries = entries;
+            this.shortcut = undefined;
+            this.view = view;
+        }
+
+        /** Like {@link showMultilingual}, but each entry renders rich `Markup`. An optional
+         *  keyboard shortcut is shown inline after the primary locale. */
+        showMarkup(
+            entries: MultilingualMarkup[],
+            view: HTMLElement,
+            shortcut?: string,
+        ) {
+            this.entries = entries;
+            this.shortcut = shortcut;
             this.view = view;
         }
 
         hide() {
-            this.text = '';
+            this.entries = [];
+            this.shortcut = undefined;
             this.view = undefined;
         }
 
-        getText() {
-            return this.text;
+        getEntries() {
+            return this.entries;
+        }
+
+        getShortcut() {
+            return this.shortcut;
         }
 
         getView() {
@@ -29,6 +75,7 @@
 
 <script lang="ts">
     import { browser } from '$app/environment';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getTip } from '@components/project/Contexts';
     import { placeNearTarget } from '@components/widgets/placeNearTarget';
     import { onDestroy } from 'svelte';
@@ -122,7 +169,20 @@
         bind:clientHeight={height}
         class:visible={width !== undefined && width > 0}
         style:left={`${bounds.left ?? 0}px`}
-        style:top={`${bounds.top ?? 0}px`}>{tip.getText()}</div
+        style:top={`${bounds.top ?? 0}px`}
+        >{#each tip.getEntries() as entry, i}<span
+                class="hint-entry"
+                class:secondary={i > 0}
+                lang={entry.language}
+                dir={entry.direction}
+                style="font-size: {0.8 ** i}em"
+                >{#if entry.markup}<MarkupHTMLView
+                        markup={entry.markup}
+                        inline
+                    />{:else}{entry.text}{/if}{#if i === 0 && tip.getShortcut()}<span
+                        class="hint-shortcut">&nbsp;({tip.getShortcut()})</span
+                    >{/if}</span
+            >{/each}</div
     >
 {/if}
 
@@ -151,6 +211,19 @@
 
     .hint.visible {
         opacity: 1;
+    }
+
+    /* Each chosen locale on its own line; secondaries dimmed (and sized per-entry). */
+    .hint-entry {
+        display: block;
+    }
+
+    .hint-entry.secondary {
+        opacity: 0.7;
+    }
+
+    .hint-shortcut {
+        opacity: 0.7;
     }
 
     @keyframes appear {

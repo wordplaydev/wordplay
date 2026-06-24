@@ -27,15 +27,18 @@
         shortcut,
     }: Props = $props();
 
-    let onTipText = $derived($locales.getPlainText(onTip));
-    let offTipText = $derived($locales.getPlainText(offTip));
+    let suffix = $derived(shortcut ? ` (${shortcut})` : '');
+    // aria-labels stay joined-multilingual plain strings (attributes can't carry markup);
+    // the visible hint renders each chosen locale stacked and styled.
+    let onTipText = $derived($locales.getPlainText(onTip) + suffix);
+    let offTipText = $derived($locales.getPlainText(offTip) + suffix);
 
     let hint = getTip();
     let localizing = getLocalizing();
     let offEditing = $state(false);
     let onEditing = $state(false);
-    function showTip(view: HTMLSpanElement, tip: string) {
-        hint.show(tip + (shortcut ? ` (${shortcut})` : ''), view);
+    function showTip(view: HTMLSpanElement, tip: LocaleTextAccessor) {
+        hint.showMarkup($locales.getMultilingualMarkup(tip), view);
     }
     function hideTip() {
         hint.hide();
@@ -55,13 +58,13 @@
             toggle(false);
         }}
         onpointerenter={(event) =>
-            showTip(event.target as HTMLSpanElement, offTipText)}
+            showTip(event.target as HTMLSpanElement, offTip)}
         onpointerleave={hideTip}
         onfocus={(event) =>
-            showTip(event.target as HTMLSpanElement, offTipText)}
+            showTip(event.target as HTMLSpanElement, offTip)}
         onblur={hideTip}
         ontouchstart={(event) =>
-            showTip(event.target as HTMLSpanElement, offTipText)}
+            showTip(event.target as HTMLSpanElement, offTip)}
         ontouchend={hideTip}
         ontouchcancel={hideTip}
         onkeydown={(event) =>
@@ -76,9 +79,9 @@
         tabindex="0"
         onpointerdown={(event) => event.preventDefault()}
         onpointerenter={(event) =>
-            showTip(event.target as HTMLSpanElement, onTipText)}
+            showTip(event.target as HTMLSpanElement, onTip)}
         onpointerleave={hideTip}
-        onfocus={(event) => showTip(event.target as HTMLSpanElement, onTipText)}
+        onfocus={(event) => showTip(event.target as HTMLSpanElement, onTip)}
         onblur={hideTip}
         onclick={(event) => {
             event.stopPropagation();

@@ -98,7 +98,12 @@ export default class Docs extends Node {
     }
 
     getMarkup(locales: Locales) {
-        return this.docs
+        if (this.docs.length === 0) return [];
+        // Put the locale-preferred doc first so callers that take `[0]` get the doc for
+        // the (primary, or single-view) locale rather than whichever was authored first.
+        // This is what makes concept docs multilingual when resolved per chosen locale.
+        const preferred = this.getPreferredLocale(locales);
+        return [preferred, ...this.docs.filter((doc) => doc !== preferred)]
             .map((doc) => doc.markup.concretize(locales, {}))
             .filter((m) => m !== undefined);
     }

@@ -56,7 +56,7 @@
     let hint = getTip();
     let localizing = getLocalizing();
     function showTip() {
-        if (view) hint.show(tooltip, view);
+        if (view) hint.showMarkup($locales.getMultilingualMarkup(tip), view);
     }
     function hideTip() {
         hint.hide();

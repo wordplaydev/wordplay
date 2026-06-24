@@ -122,7 +122,11 @@
     }
 
     function showTip() {
-        if (view && !pickerOpen()) hint.show(title, view);
+        if (!view || pickerOpen()) return;
+        // The hint renders each chosen locale styled; the aria-label (`title`) stays a
+        // joined plain string since attributes can't carry per-locale markup.
+        if (typeof label === 'string') hint.show(label, view);
+        else hint.showMarkup($locales.getMultilingualMarkup(label), view);
     }
     function hideTip() {
         hint.hide();

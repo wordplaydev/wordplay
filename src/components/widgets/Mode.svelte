@@ -2,6 +2,10 @@
     import { getLocalizing, getTip } from '@components/project/Contexts';
     import { locales } from '@db/Database';
     import type LocaleText from '@locale/LocaleText';
+    import {
+        MULTILINGUAL_SEPARATOR,
+        type MultilingualEntry,
+    } from '@locale/Locales';
     import type { ModeText } from '@locale/UITexts';
     import { withoutAnnotations } from '@locale/withoutAnnotations';
     import { withMonoEmoji } from '@unicode/emoji';
@@ -67,8 +71,17 @@
     // label is being edited (and vice versa).
     let labelEditing = $state<Record<number, boolean>>({});
     let tipEditing = $state<Record<number, boolean>>({});
-    function showTip(view: HTMLButtonElement, tip: string) {
-        hint.show(tip, view);
+    // One tooltip line per chosen locale for the mode at `index`.
+    function tipEntriesFor(index: number) {
+        return $locales.getMultilingualFrom(modes, (text) => text.tips[index]);
+    }
+    function tipTitleFor(index: number) {
+        return tipEntriesFor(index)
+            .map((entry) => entry.text)
+            .join(MULTILINGUAL_SEPARATOR);
+    }
+    function showTip(view: HTMLButtonElement, entries: MultilingualEntry[]) {
+        if (entries.length > 0) hint.showMultilingual(entries, view);
     }
     function hideTip() {
         hint.hide();
@@ -96,7 +109,7 @@
                     role="radio"
                     aria-checked={index === choice}
                     class:selected={index === choice}
-                    aria-label={$locales.getPlainText(modeText.tips[index])}
+                    aria-label={tipTitleFor(index)}
                     aria-disabled={!active || index === choice}
                     ondblclick={(event) => event.stopPropagation()}
                     onpointerdown={(event) => {
@@ -107,19 +120,19 @@
                     onpointerenter={(event) =>
                         showTip(
                             event.target as HTMLButtonElement,
-                            $locales.getPlainText(modeText.tips[index]),
+                            tipEntriesFor(index),
                         )}
                     onpointerleave={hideTip}
                     onfocus={(event) =>
                         showTip(
                             event.target as HTMLButtonElement,
-                            $locales.getPlainText(modeText.tips[index]),
+                            tipEntriesFor(index),
                         )}
                     onblur={hideTip}
                     ontouchstart={(event) =>
                         showTip(
                             event.target as HTMLButtonElement,
-                            $locales.getPlainText(modeText.tips[index]),
+                            tipEntriesFor(index),
                         )}
                     ontouchend={hideTip}
                     ontouchcancel={hideTip}

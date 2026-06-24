@@ -22,7 +22,11 @@
     } from '@db/locales/LocalizationDexie';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import type LocaleText from '@locale/LocaleText';
-    import { isMachineTranslated, toLocaleString } from '@locale/LocaleText';
+    import {
+        isMachineTranslated,
+        isUnwritten,
+        toLocaleString,
+    } from '@locale/LocaleText';
     import { withoutAnnotations } from '@locale/withoutAnnotations';
     import {
         CANCEL_SYMBOL,
@@ -109,6 +113,33 @@
     );
     const isMT = $derived(isMachineTranslated(text));
     const withoutAnnotationsText = $derived(withoutAnnotations(text));
+
+    // Echo this text in each additional chosen locale (rendered smaller and dimmed after
+    // the primary). Only for accessor-driven text; skips locales where the string is
+    // unwritten or duplicates the primary. Empty for the common single-locale case.
+    const secondaryEntries = $derived.by(() => {
+        if (path === undefined || overrideKey !== undefined) return [];
+        const entries: {
+            language: string;
+            direction: 'ltr' | 'rtl';
+            text: string;
+        }[] = [];
+        const seen = new Set([withoutAnnotationsText]);
+        for (const view of $locales.getSecondaryLocaleViews()) {
+            const raw = walk(view.getWithAnnotations(path), extras);
+            if (typeof raw !== 'string' || isUnwritten(raw)) continue;
+            const plain = withoutAnnotations(raw);
+            if (plain.length === 0 || seen.has(plain)) continue;
+            seen.add(plain);
+            entries.push({
+                language: view.getLocale().language,
+                direction: view.getDirection(),
+                // markup sub-case keeps annotations for MarkupHTMLView to strip itself.
+                text: markup ? raw : plain,
+            });
+        }
+        return entries;
+    });
 
     let localizing = getLocalizing();
     let editing = $state(false);
@@ -279,12 +310,28 @@
         >{#if markup}<MarkupHTMLView markup={text}
             ></MarkupHTMLView>{:else}{withoutAnnotationsText}{/if}{#if isMT}<MachineTranslatedAnnotation
             />{/if}</span
-    >
+    >{#each secondaryEntries as entry, i}<span
+            class="localized secondary"
+            lang={entry.language}
+            dir={entry.direction}
+            style="font-size: {0.8 ** (i + 1)}em"
+            >{#if markup}<MarkupHTMLView
+                    markup={entry.text}
+                />{:else}{entry.text}{/if}</span
+        >{/each}
 {/if}
 
 <style>
     .localized-wrapper {
         display: inline;
+    }
+
+    /* Echoes of the same text in additional chosen locales: dimmed, and (via inline
+       font-size) successively smaller. Slight inline gap so they don't butt against
+       the primary or each other. */
+    .localized.secondary {
+        opacity: 0.7;
+        margin-inline-start: 0.25em;
     }
 
     /* When the inline editor is open, take a full block-level row of space.

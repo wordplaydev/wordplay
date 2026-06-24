@@ -242,7 +242,7 @@
         <div class="content" aria-live="polite">
             {#if rect === null}
                 <p class="offscreen">
-                    {$locales.getPlainText((l) => l.ui.tour.offscreen)}
+                    <LocalizedText path={(l) => l.ui.tour.offscreen} />
                 </p>
             {/if}
             <div class="explanation">

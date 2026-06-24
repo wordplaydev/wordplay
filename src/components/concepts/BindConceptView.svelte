@@ -16,9 +16,10 @@
 
 <Speech character={concept.getCharacter($locales)} below={true}>
     {#snippet content()}
-        {@const markup = concept.getDocs($locales)[0]}
-        {#if markup}
-            <MarkupHTMLView {markup} />
+        {#if concept.getDocs($locales)[0]}
+            <MarkupHTMLView
+                markup={{ perLocale: (l) => concept.getDocs(l)[0] }}
+            />
         {:else}
             <LocalizedText path={(l) => l.ui.docs.nodoc} />
         {/if}

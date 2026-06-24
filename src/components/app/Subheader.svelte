@@ -6,12 +6,21 @@
         text?: LocaleTextAccessor;
         children?: Snippet;
         compact?: boolean;
+        /** Allow the header to wrap across lines. Off by default (headers are usually
+         *  short); on for headers that grow wide, e.g. when several chosen locales are
+         *  echoed after the primary. */
+        wrap?: boolean;
     }
 
-    let { text, children, compact: compact = false }: Props = $props();
+    let {
+        text,
+        children,
+        compact: compact = false,
+        wrap = false,
+    }: Props = $props();
 </script>
 
-<h2 class:compact
+<h2 class:compact class:wrap
     >{#if children}{@render children()}{:else if text}<LocalizedText
             path={text}
         />{/if}</h2
@@ -32,5 +41,10 @@
     .compact {
         font-size: min(4vw, 16pt);
         margin: 0;
+    }
+
+    .wrap {
+        white-space: normal;
+        text-align: center;
     }
 </style>

@@ -7,7 +7,9 @@
     export type AnnotationInfo = {
         node: Node;
         element: Element | null;
-        messages: Markup[];
+        /** Resolvers for each message, called per chosen locale so the annotation can
+         *  echo its explanation in every selected language. */
+        messages: ((locales: Locales) => Markup)[];
         kind: 'step' | 'major' | 'minor';
         context: Context;
         /**
@@ -60,6 +62,7 @@
     } from '@db/settings/AnnotationsSetting';
     import type Project from '@db/projects/Project';
     import Characters from '../../lore/BasisCharacters';
+    import type Locales from '@locale/Locales';
     import type Markup from '@nodes/Markup';
     import type Source from '@nodes/Source';
     import {
@@ -175,15 +178,15 @@
                 // getMessage is cheap (no inference) — explanation needed eagerly for the speech bubble.
                 // Resolutions are wrapped in a thunk and only computed when the annotation renders.
                 const nodes = conflict.getMessage(context, Templates);
+                const messageContext =
+                    project.getNodeContext(nodes.node) ??
+                    project.getContext(project.getMain());
                 return {
                     node: nodes.node,
                     element: getNodeView(nodes.node),
                     messages: [
-                        nodes.explanation(
-                            $locales,
-                            project.getNodeContext(nodes.node) ??
-                                project.getContext(project.getMain()),
-                        ),
+                        (locales: Locales) =>
+                            nodes.explanation(locales, messageContext),
                     ],
                     kind: conflict.isMinor()
                         ? ('minor' as const)
@@ -223,19 +226,19 @@
                         node: node,
                         element: view,
                         messages: [
-                            $evaluation?.step
-                                ? ($evaluation?.step as Step).getExplanations(
-                                      $locales,
-                                      evaluator,
-                                  )
-                                : evaluator.steppedToNode() &&
-                                    evaluator.isDone()
-                                  ? $locales.concretize(
-                                        (l) => l.node.Program.unevaluated,
-                                    )
-                                  : $locales.concretize(
-                                        (l) => l.node.Program.done,
-                                    ),
+                            (locales: Locales) =>
+                                $evaluation?.step
+                                    ? (
+                                          $evaluation?.step as Step
+                                      ).getExplanations(locales, evaluator)
+                                    : evaluator.steppedToNode() &&
+                                        evaluator.isDone()
+                                      ? locales.concretize(
+                                            (l) => l.node.Program.unevaluated,
+                                        )
+                                      : locales.concretize(
+                                            (l) => l.node.Program.done,
+                                        ),
                         ],
                         kind: 'step',
                         context,

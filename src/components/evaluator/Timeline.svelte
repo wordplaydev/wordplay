@@ -16,6 +16,7 @@
     import { getEvaluation } from '@components/project/Contexts';
     import ButtonWidget from '@components/widgets/Button.svelte';
     import CommandButton from '@components/widgets/CommandButton.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
     import Tour, { type UIExplanation } from '@components/widgets/Tour.svelte';
     import { animationDuration, locales, Settings } from '@db/Database';
@@ -260,7 +261,7 @@
     {#snippet timelineHeader()}
         <Subheader compact
             ><Emoji text={DEFECT_SYMBOL} />
-            {$locales.getUnannotatedText((l) => l.ui.timeline.debug)}</Subheader
+            <LocalizedText path={(l) => l.ui.timeline.debug} /></Subheader
         >
         <ButtonWidget
             tip={(l) => l.ui.timeline.tour.launch}
