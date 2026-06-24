@@ -1,5 +1,5 @@
 import { get } from 'svelte/store';
-import { beforeEach, expect, test } from 'vitest';
+import { afterEach, beforeEach, expect, test, vi } from 'vitest';
 import {
     DB,
     Domain,
@@ -8,6 +8,7 @@ import {
     authAttempted,
     disconnected,
     firebaseEverConnected,
+    firebaseFailed,
     firebaseReachable,
     onlineStatus,
     status,
@@ -24,7 +25,14 @@ beforeEach(() => {
     onlineStatus.set(true);
     firebaseReachable.set(true);
     firebaseEverConnected.set(false);
+    firebaseFailed.set(false);
     authAttempted.set(true);
+});
+
+// The failure-confirmation tests drive fake timers; restore real ones after
+// each test so the rest of the suite is unaffected.
+afterEach(() => {
+    vi.useRealTimers();
 });
 
 test('setStatus updates the save-status store and is decoupled from connection state', () => {
@@ -123,6 +131,52 @@ test('mark* transition only the targeted domain through the sync lifecycle', () 
     // The earlier domain's terminal state is preserved.
     expect(get(syncState).projects.status).toBe('updated');
     expect(get(syncState).projects.count).toBe(12);
+});
+
+test('a transient failure that recovers within the window never shows the banner', () => {
+    // Mirrors a cold-start handshake error the SDK retries and recovers from:
+    // markFirebaseFailed should not flash the banner if a success lands first.
+    vi.useFakeTimers();
+
+    DB.markFirebaseFailed();
+    // Speculative reachable=false alone is gated by a prior success, so no banner.
+    expect(get(disconnected)).toBe(false);
+    expect(get(firebaseFailed)).toBe(false);
+
+    // Recover before the confirmation window elapses.
+    vi.advanceTimersByTime(2_000);
+    DB.markFirebaseReachable();
+
+    // Past the original deadline, the cancelled timer must not fire.
+    vi.advanceTimersByTime(5_000);
+    expect(get(firebaseFailed)).toBe(false);
+    expect(get(disconnected)).toBe(false);
+});
+
+test('a failure that persists past the window shows the banner', () => {
+    vi.useFakeTimers();
+
+    DB.markFirebaseFailed();
+    expect(get(disconnected)).toBe(false);
+
+    // No recovering success — the definitive failure surfaces after the window.
+    vi.advanceTimersByTime(4_000);
+    expect(get(firebaseFailed)).toBe(true);
+    expect(get(disconnected)).toBe(true);
+});
+
+test('repeated failures do not reset the confirmation window', () => {
+    vi.useFakeTimers();
+
+    DB.markFirebaseFailed();
+    // A second failure partway through must keep the original deadline, not
+    // restart it — otherwise a stream of listener errors could defer forever.
+    vi.advanceTimersByTime(3_000);
+    DB.markFirebaseFailed();
+    expect(get(firebaseFailed)).toBe(false);
+
+    vi.advanceTimersByTime(1_000);
+    expect(get(firebaseFailed)).toBe(true);
 });
 
 test('banner is fully suppressed before authAttempted, even when offline', () => {

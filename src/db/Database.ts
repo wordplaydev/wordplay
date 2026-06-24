@@ -190,6 +190,17 @@ export class Database {
      *  after two in a row, suppressing false positives under classroom load. */
     private writeCheckConsecutiveFailures = 0;
 
+    /** A single connectivity error during the cold-start handshake (a first
+     *  listener attach or read the SDK retries and recovers within seconds) must
+     *  not flash the banner. Surface a *definitive* failure only after it has
+     *  persisted this long without a recovering success. */
+    private static FAILURE_CONFIRM_MS = 4_000;
+
+    /** Pending-failure timer ({@link markFirebaseFailed}); cancelled by
+     *  {@link markFirebaseReachable} on any success. */
+    private pendingFailureTimer: ReturnType<typeof setTimeout> | undefined =
+        undefined;
+
     /** Auto-dismiss timer for the top-of-page banner ({@link reportBanner}). */
     private bannerTimer: ReturnType<typeof setTimeout> | undefined = undefined;
 
@@ -387,10 +398,25 @@ export class Database {
      *  case the `firebaseEverConnected` gate would otherwise hide. */
     markFirebaseFailed() {
         firebaseReachable.set(false);
-        firebaseFailed.set(true);
+        // Confirm the failure persists before surfacing it. Transient cold-start
+        // errors recover within seconds and call markFirebaseReachable(), which
+        // cancels this timer — so they no longer flash the banner. A real outage
+        // still shows it once the window elapses. Measure from the first
+        // failure: if one is already pending, leave it.
+        if (this.pendingFailureTimer !== undefined) return;
+        this.pendingFailureTimer = setTimeout(() => {
+            this.pendingFailureTimer = undefined;
+            firebaseFailed.set(true);
+        }, Database.FAILURE_CONFIRM_MS);
     }
 
     markFirebaseReachable() {
+        // A success makes any pending definitive failure moot — cancel it so a
+        // recovered transient never surfaces the banner.
+        if (this.pendingFailureTimer !== undefined) {
+            clearTimeout(this.pendingFailureTimer);
+            this.pendingFailureTimer = undefined;
+        }
         // Was the cloud unreachable before this success? If so, this is a
         // recovery — replay any edits that didn't reach the server. We can't
         // rely on the browser `online` event for this: Firebase often goes
