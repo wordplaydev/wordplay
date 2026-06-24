@@ -161,6 +161,10 @@
         autofocus?: boolean;
         /** Whether the editor is editable */
         editable: boolean;
+        /** Allow dragging nodes *out* of this editor even when it isn't editable,
+         *  so read-only examples can be a drag source (e.g. ExampleUI). The
+         *  editor remains a non-drop-target; only drag initiation is enabled. */
+        dragSource?: boolean;
         /** Whether to offer the search-and-replace field (Cmd/Ctrl+F). Only the
          *  ProjectView editor enables this; embedded editors (e.g. ExampleUI) don't. */
         searchable?: boolean;
@@ -192,6 +196,7 @@
         selected = false,
         autofocus = true,
         editable,
+        dragSource = false,
         searchable = false,
         locale,
         menu = $bindable(undefined),
@@ -1209,15 +1214,23 @@
         // suppression is deferred to the moment a drag actually starts (in
         // handleEditHover for mouse, or the long-press timer for touch).
         dragPoint = { x: event.clientX, y: event.clientY };
-        // Drag requires the editor to be editable. The previous condition
-        // (`editable ? $blocks || event.shiftKey : $blocks`) inadvertently
-        // allowed dragging in read-only blocks mode.
+        // Drag requires the editor to be editable, or an explicit drag source
+        // (a read-only example you can still drag nodes out of). The previous
+        // condition (`editable ? $blocks || event.shiftKey : $blocks`)
+        // inadvertently allowed dragging in read-only blocks mode.
         if (
-            editable &&
+            (editable || dragSource) &&
             nonTokenNodeUnderPointer &&
             ($blocks || event.shiftKey)
         ) {
             dragCandidate = nonTokenNodeUnderPointer;
+
+            // A read-only drag source (e.g. an example) drags nodes into a
+            // *different* editor. Release the implicit pointer capture the browser
+            // sets on pointerdown; otherwise pointermove/up stay captured on this
+            // editor and the target editor never receives the drop.
+            if (dragSource && event.target instanceof Element)
+                event.target.releasePointerCapture(event.pointerId);
 
             // Touch input: gate drag on a long-press so scroll swipes still
             // scroll. Mouse/trackpad still uses the existing pixel

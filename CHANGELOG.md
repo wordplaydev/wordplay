@@ -19,6 +19,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Fixed
 
 - 📕 We re-organized the how-to editing and viewing panels to offer much more width for viewing.
+- 🖱️ We fixed the code examples in the [Guide](https://wordplay.dev/guide) so you can drag pieces of them into your project.
 
 ## 0.24.0 - 2026-06-18
 

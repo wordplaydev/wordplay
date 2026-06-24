@@ -9,7 +9,6 @@
         IdleKind,
         setAnimatingNodes,
         setConflicts,
-        setDragged,
         setEditors,
         setEvaluation,
         setKeyboardEditIdle,
@@ -125,13 +124,21 @@
     setKeyboardEditIdle(writable(IdleKind.Idle));
     setResetKeyboardIdle(() => {});
 
-    // Isolate every other project-scoped context so the example is fully
-    // independent from the parent ProjectView. Without these, the parent's
-    // selection, drag state, editor map, and command context leak into the
-    // example's Editor / OutputView / Annotations / CommandButtons.
+    // Isolate selection, editor map, and command context so the example is
+    // independent from the parent ProjectView. The drag store is deliberately
+    // *not* isolated: sharing the parent's store lets a creator drag nodes out of
+    // the read-only example into the real editor using the Editor's own drag
+    // mechanism (see `dragSource` below), which preserves caret selection. Editor's
+    // read-only gates keep the example from being a drop target, so a parent drag
+    // never affects it.
     setSelectedOutput(new SelectedOutput());
     setEditors(writable(new Map<string, EditorState>()));
-    setDragged(writable<Node | undefined>(undefined));
+
+    // Only allow dragging code out when the parent index is a real editable
+    // project, not the read-only guide (mirrors ConceptPreview).
+    const draggable = $derived(
+        indexContext !== undefined && index?.project.getName() !== 'guide',
+    );
 
     // Provide a minimal command context bound to this example's project and
     // evaluator. CommandButtons inside the example's Annotations consult this
@@ -258,6 +265,7 @@
                             locale={null}
                             {evaluator}
                             editable={false}
+                            dragSource={draggable}
                             bind:caretSnapshot={currentCaret}
                         />
                     {/if}
