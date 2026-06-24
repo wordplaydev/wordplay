@@ -6328,11 +6328,17 @@
                     },
                     "writing": {
                         "label": "$~yazı düzeni",
-                        "labels": ["$~yatay", "$~dikey rtl", "$~dikey harf"],
+                        "labels": [
+                            "$~yatay",
+                            "$~dikey rtl",
+                            "$~dikey harf",
+                            "$~otomatik"
+                        ],
                         "tips": [
                             "$~yatay metin, soldan sağa okunur.",
                             "$~dikey metin, sağdan sola okunur.",
-                            "$~Dikey metin, soldan sağa okunur."
+                            "$~Dikey metin, soldan sağa okunur.",
+                            "$~dilin yazım düzenini takip edin"
                         ]
                     },
                     "blocks": {

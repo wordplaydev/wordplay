@@ -12,13 +12,11 @@
     import Dialog from '@components/widgets/Dialog.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Options from '@components/widgets/Options.svelte';
-    import { locales, Settings } from '@db/Database';
+    import { locales } from '@db/Database';
     import { functions } from '@db/firebase';
-    import type LanguageCode from '@locale/LanguageCode';
-    import { getLanguageLayout, Languages } from '@locale/LanguageCode';
+    import { Languages } from '@locale/LanguageCode';
     import { localeToString } from '@locale/Locale';
     import {
-        getLocaleLanguage,
         getLocaleLanguageName,
         isLocaleDraft,
     } from '@locale/LocaleText';
@@ -147,12 +145,9 @@
 
         if (selectedLocales.length === 0) return;
 
-        // Set the layout and direction based on the preferred language.
-        Settings.setWritingLayout(
-            getLanguageLayout(
-                getLocaleLanguage(selectedLocales[0]) as LanguageCode,
-            ),
-        );
+        // The writing layout is no longer set from the locale here: the
+        // writingLayout setting defaults to 'auto', which follows the active
+        // locale's layout at render time, so an explicit choice isn't stomped.
 
         // All selected locales go into the URL joined by '+' (e.g. "en-US+es-MX").
         // The layout's $effect will call DB.Locales.setLocales() after navigation.

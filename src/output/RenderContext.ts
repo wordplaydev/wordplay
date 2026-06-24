@@ -1,5 +1,6 @@
 import type { SupportedFace } from '@basis/Fonts';
 import type Locales from '@locale/Locales';
+import type { WritingLayout } from '@locale/Scripts';
 
 export default class RenderContext {
     /** A single typeface name with no text delimiters */
@@ -8,6 +9,9 @@ export default class RenderContext {
     readonly locales: Locales;
     readonly fonts: Set<SupportedFace>;
     readonly animationFactor: number;
+    /** The effective writing layout for output whose Phrases don't specify one
+     *  (the resolved writingLayout setting: explicit, or the locale's in 'auto'). */
+    readonly layout: WritingLayout;
 
     constructor(
         face: SupportedFace,
@@ -15,12 +19,14 @@ export default class RenderContext {
         locales: Locales,
         fonts: Set<SupportedFace>,
         animationFactor: number,
+        layout: WritingLayout,
     ) {
         this.face = face;
         this.size = size;
         this.locales = locales;
         this.fonts = fonts;
         this.animationFactor = animationFactor;
+        this.layout = layout;
     }
 
     withFontAndSize(font: SupportedFace | undefined, size: number | undefined) {
@@ -30,6 +36,7 @@ export default class RenderContext {
             this.locales,
             this.fonts,
             this.animationFactor,
+            this.layout,
         );
     }
 }

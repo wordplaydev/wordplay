@@ -14884,8 +14884,8 @@
                           "description": "The soft-wrap on/off mode for the editor's text mode"
                         },
                         "writing": {
-                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E",
-                          "description": "The writing layout direction"
+                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%5D%3E",
+                          "description": "The writing layout direction (automatic, horizontal, vertical rtl, vertical ltr)"
                         }
                       },
                       "required": [
@@ -21788,6 +21788,39 @@
           },
           "maxItems": 6,
           "minItems": 6,
+          "type": "array"
+        }
+      },
+      "required": [
+        "label",
+        "labels",
+        "tips"
+      ],
+      "type": "object"
+    },
+    "ModeText<[string,string,string,string]>": {
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "description": "[plain] The tooltip and ARIA-label for the entire mode widget, describing the kind of modes it supports switching to.",
+          "type": "string"
+        },
+        "labels": {
+          "description": "[plain] A list of short labels, one per mode",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 4,
+          "minItems": 4,
+          "type": "array"
+        },
+        "tips": {
+          "description": "[plain] A list of tooltip/ARIA descriptions, one per mode",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 4,
+          "minItems": 4,
           "type": "array"
         }
       },

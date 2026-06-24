@@ -2,7 +2,7 @@ import type { SupportedLocale } from '@locale/SupportedLocales';
 import { doc, getDoc } from 'firebase/firestore';
 import type { SerializedLayout } from '@components/project/Layout';
 import Layout from '@components/project/Layout';
-import type { WritingLayout } from '@locale/Scripts';
+import type { WritingLayoutChoice } from '@locale/Scripts';
 import type Progress from '../../tutorial/Progress';
 import { CreatorCollection } from '@db/creators/CreatorDatabase';
 import type { Database } from '@db/Database';
@@ -53,7 +53,7 @@ export type SettingsSchemaV1 = {
     tutorial: TutorialProgress;
     locales: SupportedLocale[];
     animationFactor: number;
-    writingLayout: WritingLayout;
+    writingLayout: WritingLayoutChoice;
 };
 
 export type SettingsSchemaV2 = Omit<SettingsSchemaV1, 'v'> & {
@@ -322,7 +322,7 @@ export default class SettingsDatabase {
         this.settings.animationFactor.set(this.database, factor);
     }
 
-    setWritingLayout(layout: WritingLayout) {
+    setWritingLayout(layout: WritingLayoutChoice) {
         this.settings.writingLayout.set(this.database, layout);
     }
 

@@ -6339,12 +6339,14 @@
                         "labels": [
                             "$~poziomy",
                             "$~pionowy rtl",
-                            "$~pionowy ltr"
+                            "$~pionowy ltr",
+                            "$~automatyczny"
                         ],
                         "tips": [
                             "$~tekst poziomy, czytany od lewej do prawej",
                             "$~tekst pionowy, czytaj od prawej do lewej",
-                            "$~tekst pionowy, czytany od lewej do prawej"
+                            "$~tekst pionowy, czytany od lewej do prawej",
+                            "$~przestrzegać układu pisma języka"
                         ]
                     },
                     "blocks": {

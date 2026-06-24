@@ -1121,8 +1121,8 @@ type UITexts = {
                 >;
                 /** The dark on/off/automatic mode */
                 dark: ModeText<[string, string, string]>;
-                /** The writing layout direction */
-                writing: ModeText<[string, string, string]>;
+                /** The writing layout direction (automatic, horizontal, vertical rtl, vertical ltr) */
+                writing: ModeText<[string, string, string, string]>;
                 /** The blocks on/off mode */
                 blocks: ModeText<[string, string]>;
                 /** The keyword display mode: built-in keywords as symbols or as localized words */

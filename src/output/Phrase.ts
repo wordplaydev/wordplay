@@ -3,7 +3,7 @@ import {
     VerticalLeftRightLayout,
     VerticalRightLeftLayout,
     layoutToCSS,
-    layoutToSymbol,
+    type WritingLayout,
     type WritingLayoutSymbol,
 } from '@locale/Scripts';
 import { getBind } from '@locale/getBind';
@@ -99,7 +99,7 @@ export function createPhraseType(locales: Locales) {
         ${getBind(
             locales,
             (locale) => locale.output.Phrase.direction,
-        )}•'${HorizontalLayout}'|'${VerticalRightLeftLayout}'|'${VerticalLeftRightLayout}': '${layoutToSymbol(locales.getLayout())}'
+        )}•'${HorizontalLayout}'|'${VerticalRightLeftLayout}'|'${VerticalLeftRightLayout}'|ø: ø
         ${getBind(locales, (locale) => locale.output.Phrase.matter)}•Matter|ø: ø
         ${getBind(locales, (locale) => locale.output.Phrase.aura)}•ø|🔮: ø
     )`);
@@ -120,11 +120,16 @@ export default class Phrase extends Output {
     readonly text: TextValue | MarkupValue;
     readonly wrap: number | undefined;
     readonly alignment: string | undefined;
-    readonly direction: WritingLayoutSymbol;
+    /** The explicit writing layout, or undefined to inherit the render context's
+     *  effective layout (the resolved writingLayout setting). */
+    readonly direction: WritingLayoutSymbol | undefined;
     readonly matter: Matter | undefined;
     readonly aura: Aura | undefined;
 
     private _metrics: Metrics | undefined = undefined;
+    /** The effective layout the cached metrics were computed for, so we can
+     *  recompute when an inherited (undefined-direction) layout changes. */
+    private _metricsLayout: WritingLayout | undefined = undefined;
 
     private _description: string | undefined = undefined;
 
@@ -147,7 +152,7 @@ export default class Phrase extends Output {
         style: string,
         wrap: number | undefined,
         alignment: string | undefined,
-        direction: WritingLayoutSymbol,
+        direction: WritingLayoutSymbol | undefined,
         matter: Matter | undefined,
         aura: Aura | undefined,
     ) {
@@ -192,8 +197,15 @@ export default class Phrase extends Output {
     }
 
     getMetrics(context: RenderContext, parsed = true) {
-        // Return the cache, if there is one.
-        if (parsed && this._metrics) return this._metrics;
+        // The effective layout: the Phrase's explicit one, or the render
+        // context's inherited layout (the resolved writingLayout setting).
+        const layout = this.direction
+            ? layoutToCSS(this.direction)
+            : context.layout;
+
+        // Return the cache, if there is one and it was computed for this layout.
+        if (parsed && this._metrics && this._metricsLayout === layout)
+            return this._metrics;
 
         // The font is:
         // 1) the animated font, if there is one
@@ -235,7 +247,7 @@ export default class Phrase extends Output {
         const faceLoaded = Fonts.isFaceLoaded(renderedFace);
 
         // Is the text horizontal or vertical? This determines how we calculate size.
-        const horizontal = this.direction === HorizontalLayout;
+        const horizontal = layout === 'horizontal-tb';
 
         // Go through each formatted text,
         for (const formatted of formats) {
@@ -258,7 +270,7 @@ export default class Phrase extends Output {
                     } ${sizeToPx(
                         renderedSize,
                     )} "${renderedFace}", ${CSSFallbackFaces}`,
-                    layoutToCSS(this.direction),
+                    layout,
                 );
 
                 if (metrics) {
@@ -306,9 +318,11 @@ export default class Phrase extends Output {
         }
 
         const dimensions = { width, height, ascent, descent };
-        // If the font is loaded, these metrics can be trusted, so we cache them.
+        // If the font is loaded, these metrics can be trusted, so we cache them
+        // along with the layout they were computed for.
         if (height !== undefined && ascent !== undefined && faceLoaded) {
             this._metrics = dimensions;
+            this._metricsLayout = layout;
         }
 
         // Return the current dimensions.
@@ -478,7 +492,6 @@ export function toPhrase(
         (!Array.isArray(texts) || texts.length > 0) &&
         duration !== undefined &&
         style !== undefined &&
-        direction !== undefined &&
         pose &&
         selectable !== undefined
         ? new Phrase(
@@ -500,7 +513,8 @@ export function toPhrase(
               style,
               wrap,
               alignment?.text,
-              direction.text as WritingLayoutSymbol,
+              // ø (None) → undefined, meaning "inherit the context's layout".
+              direction ? (direction.text as WritingLayoutSymbol) : undefined,
               matter,
               shadow,
           )

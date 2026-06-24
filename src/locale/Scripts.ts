@@ -1,5 +1,8 @@
 export type WritingDirection = 'ltr' | 'rtl';
 export type WritingLayout = 'horizontal-tb' | 'vertical-rl' | 'vertical-lr';
+/** A user's writing-layout choice: an explicit layout, or 'auto' to follow the
+ *  active locale's layout. */
+export type WritingLayoutChoice = WritingLayout | 'auto';
 export const HorizontalLayout = '↔↓';
 export const VerticalRightLeftLayout = '↕←';
 export const VerticalLeftRightLayout = '↕→';
@@ -16,17 +19,6 @@ export const CSSByLayout: Record<WritingLayoutSymbol, WritingLayout> = {
 
 export function layoutToCSS(layout: WritingLayoutSymbol): WritingLayout {
     return CSSByLayout[layout] ?? 'horizontal-tb';
-}
-
-export const SymbolByLayout: Record<WritingLayout, WritingLayoutSymbol> = {
-    'horizontal-tb': HorizontalLayout,
-    'vertical-rl': VerticalRightLeftLayout,
-    'vertical-lr': VerticalLeftRightLayout,
-};
-
-/** The inverse of layoutToCSS: the symbol creators write for a CSS layout. */
-export function layoutToSymbol(layout: WritingLayout): WritingLayoutSymbol {
-    return SymbolByLayout[layout];
 }
 
 export type ScriptMetadata = {

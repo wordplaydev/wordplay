@@ -12,7 +12,7 @@
 <script lang="ts">
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import OutputHandles from '@components/output/OutputHandles.svelte';
-    import { HorizontalLayout, layoutToCSS } from '@locale/Scripts';
+    import { layoutToCSS } from '@locale/Scripts';
     import Evaluate from '@nodes/Evaluate';
     import TextLiteral from '@nodes/TextLiteral';
     import {
@@ -165,6 +165,11 @@
     );
 
     let metrics = $derived(phrase.getMetrics(localContext));
+
+    // The phrase's explicit writing layout, or the context's inherited one.
+    let effectiveLayout = $derived(
+        phrase.direction ? layoutToCSS(phrase.direction) : localContext.layout,
+    );
 
     let description: string | null = $state(null);
     let lastFrame = $state(0);
@@ -444,7 +449,7 @@
         style:width="{metrics.width}px"
         style:height="{metrics.height}px"
         style:line-height="{phrase.wrap !== undefined ||
-        phrase.direction !== HorizontalLayout
+        effectiveLayout !== 'horizontal-tb'
             ? metrics.ascent + metrics.descent
             : metrics.height}px"
         style:transform={toOutputTransform(
@@ -455,7 +460,7 @@
             parentAscent,
             metrics,
         )}
-        style:writing-mode={layoutToCSS(phrase.direction)}
+        style:writing-mode={effectiveLayout}
         style:text-shadow={phrase.aura
             ? `${getSizeCSS(phrase.aura.offsetX ?? 0)} ${getSizeCSS(
                   phrase.aura.offsetY ?? 0,

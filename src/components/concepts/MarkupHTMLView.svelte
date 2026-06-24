@@ -411,7 +411,15 @@
         {#each parsed.asLine().paragraphs[0].segments as segment}
             <SegmentHTMLView {segment} {spaces} alone={false} />
         {/each}
-    {:else}<div class="markup" class:note
+    {:else}<!-- Tag prose with the active locale's language/direction (a11y, font
+        fallback, bidi). This uses the primary locale; per-content language
+        (e.g. a fallback-language string, or a raw Markup node, which carries no
+        language today) is a future refinement. -->
+        <div
+            class="markup"
+            class:note
+            lang={$locales.getLocale().language}
+            dir={$locales.getDirection()}
             >{#each paragraphsAndLists as paragraphOrList, index}{#if paragraphOrList instanceof Paragraph}
                     <div
                         class="paragraph"

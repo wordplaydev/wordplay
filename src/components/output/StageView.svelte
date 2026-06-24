@@ -23,7 +23,7 @@
     import { DefaultSize } from '@output/Stage';
     import type Evaluator from '@runtime/Evaluator';
     import { onDestroy, onMount, tick, untrack } from 'svelte';
-    import { animationFactor, locales } from '@db/Database';
+    import { animationFactor, locales, writingLayout } from '@db/Database';
     import type Output from '@output/Output';
     import range from '@util/range';
     import {
@@ -248,6 +248,13 @@
         }
     });
 
+    // The effective writing layout for output: an explicit setting, or the
+    // project locale's layout when the setting is 'auto'.
+    let outputLayout = $derived(
+        $writingLayout === 'auto'
+            ? project.getLocales().getLayout()
+            : $writingLayout,
+    );
     let context = $derived(
         new RenderContext(
             stage.face ?? $locales.getLocale().ui.font.app,
@@ -255,6 +262,7 @@
             project.getLocales(),
             $loadedFonts,
             $animationFactor,
+            outputLayout,
         ),
     );
     let contentBounds = $derived(stage.getLayout(context));

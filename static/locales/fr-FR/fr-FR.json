@@ -6303,12 +6303,14 @@
                         "labels": [
                             "$~horizontal",
                             "$~vertical rtl",
-                            "$~lettre verticale"
+                            "$~lettre verticale",
+                            "$~automatique"
                         ],
                         "tips": [
                             "$~Texte horizontal, lecture de gauche à droite",
                             "$~Texte vertical, lecture de droite à gauche",
-                            "$~Texte vertical, lecture de gauche à droite"
+                            "$~Texte vertical, lecture de gauche à droite",
+                            "$~suivre la mise en page de l'écriture de la langue"
                         ]
                     },
                     "lines": {

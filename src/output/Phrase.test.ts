@@ -5,7 +5,6 @@ import Locales from '@locale/Locales';
 import concretize from '@locale/concretize';
 import Source from '@nodes/Source';
 import { getLanguageDirection } from '@locale/LanguageCode';
-import { HorizontalLayout, VerticalLeftRightLayout } from '@locale/Scripts';
 import evaluateCode from '@runtime/evaluate';
 import MarkupValue from '@values/MarkupValue';
 import TextValue from '@values/TextValue';
@@ -40,18 +39,13 @@ test('an untagged phrase exposes no locale', () => {
     expect(phrase?.text.language).toBeUndefined();
 });
 
-test("a Phrase's default writing layout follows the project locale", () => {
-    // A horizontal locale keeps the horizontal default (the `:` marks the
-    // default value, distinguishing it from the type's union of options).
-    const horizontal = new Locales(concretize, [DefaultLocale], DefaultLocale);
-    expect(createPhraseType(horizontal).toWordplay()).toContain(
-        `:'${HorizontalLayout}'`,
-    );
+test("a Phrase's writing layout defaults to ø (inherit the render context)", () => {
+    // The direction input defaults to ø ("none") so output inherits the
+    // effective writingLayout setting at render time, rather than baking a
+    // concrete layout into the type. (The trailing `:ø` is the default value.)
+    const locales = new Locales(concretize, [DefaultLocale], DefaultLocale);
+    expect(createPhraseType(locales).toWordplay()).toContain(`|ø:ø`);
 
-    // A locale whose dominant script is vertical defaults phrases to vertical.
-    const vertical = new Locales(concretize, [DefaultLocale], DefaultLocale);
-    vertical.getLayout = () => 'vertical-lr';
-    expect(createPhraseType(vertical).toWordplay()).toContain(
-        `:'${VerticalLeftRightLayout}'`,
-    );
+    // An untagged phrase therefore has no explicit direction.
+    expect(phraseFrom("Phrase('hi')")?.direction).toBeUndefined();
 });

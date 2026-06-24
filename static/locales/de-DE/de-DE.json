@@ -6309,12 +6309,14 @@
                         "labels": [
                             "$~horizontal",
                             "$~vertikalen RTL",
-                            "$~vertikaler Liter"
+                            "$~vertikaler Liter",
+                            "$~automatisch"
                         ],
                         "tips": [
                             "$~horizontaler Text, von links nach rechts lesen",
                             "$~vertikaler Text, von rechts nach links lesen",
-                            "$~vertikaler Text, von links nach rechts lesen"
+                            "$~vertikaler Text, von links nach rechts lesen",
+                            "$~Folgen Sie dem Schriftlayout der Sprache."
                         ]
                     },
                     "lines": {

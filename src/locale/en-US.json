@@ -6616,12 +6616,14 @@
                         "labels": [
                             "horizontal",
                             "vertical rtl",
-                            "vertical ltr"
+                            "vertical ltr",
+                            "automatic"
                         ],
                         "tips": [
                             "horizontal text, read left to right",
                             "vertical text, read right to left",
-                            "vertical text, read left to right"
+                            "vertical text, read left to right",
+                            "follow the language's writing layout"
                         ]
                     },
                     "words": {

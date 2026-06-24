@@ -26,6 +26,7 @@
         voice,
         words,
         wrap,
+        writingLayout,
     } from '@db/Database';
     import {
         AnimationFactorIcons,
@@ -290,6 +291,27 @@
             choice={$words ? 1 : 0}
             select={(choice) => Settings.setWords(choice === 1 ? true : false)}
             icons={['ƒ', 'Aa']}
+        />
+        <Mode
+            modes={(l) => l.ui.dialog.settings.mode.writing}
+            choice={$writingLayout === 'horizontal-tb'
+                ? 0
+                : $writingLayout === 'vertical-rl'
+                  ? 1
+                  : $writingLayout === 'vertical-lr'
+                    ? 2
+                    : 3}
+            select={(choice) =>
+                Settings.setWritingLayout(
+                    choice === 0
+                        ? 'horizontal-tb'
+                        : choice === 1
+                          ? 'vertical-rl'
+                          : choice === 2
+                            ? 'vertical-lr'
+                            : 'auto',
+                )}
+            icons={['↔↓', '↕←', '↕→', '🌐']}
         />
         {#if $blocks}
             <div class="indented">

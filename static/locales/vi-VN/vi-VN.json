@@ -6570,11 +6570,17 @@
                     },
                     "writing": {
                         "label": "$~bố cục viết",
-                        "labels": ["$~nằm ngang", "$~RTL dọc", "$~lít dọc"],
+                        "labels": [
+                            "$~nằm ngang",
+                            "$~RTL dọc",
+                            "$~lít dọc",
+                            "$~tự động"
+                        ],
                         "tips": [
                             "$~Văn bản nằm ngang, đọc từ trái sang phải",
                             "$~Văn bản dọc, đọc từ phải sang trái",
-                            "$~Văn bản dọc, đọc từ trái sang phải"
+                            "$~Văn bản dọc, đọc từ trái sang phải",
+                            "$~Tuân theo bố cục viết của ngôn ngữ."
                         ]
                     },
                     "blockDensity": {

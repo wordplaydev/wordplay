@@ -1,22 +1,5 @@
 import { test, expect } from 'vitest';
-import {
-    HorizontalLayout,
-    Scripts,
-    VerticalLeftRightLayout,
-    VerticalRightLeftLayout,
-    layoutToCSS,
-    layoutToSymbol,
-} from '@locale/Scripts';
-
-test('layoutToSymbol is the inverse of layoutToCSS', () => {
-    for (const symbol of [
-        HorizontalLayout,
-        VerticalRightLeftLayout,
-        VerticalLeftRightLayout,
-    ] as const) {
-        expect(layoutToSymbol(layoutToCSS(symbol))).toBe(symbol);
-    }
-});
+import { Scripts } from '@locale/Scripts';
 
 test('genuinely vertical scripts carry a vertical layout', () => {
     // Mongolian and Phags-pa are written top-to-bottom in left-to-right columns.

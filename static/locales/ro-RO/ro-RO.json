@@ -6591,12 +6591,14 @@
                         "labels": [
                             "$~orizontală",
                             "$~vertical rtl",
-                            "$~litri verticali"
+                            "$~litri verticali",
+                            "$~automat"
                         ],
                         "tips": [
                             "$~text orizontal, citit de la stânga la dreapta",
                             "$~text vertical, citit de la dreapta la stânga",
-                            "$~text vertical, citit de la stânga la dreapta"
+                            "$~text vertical, citit de la stânga la dreapta",
+                            "$~urmați structura de scriere a limbii"
                         ]
                     },
                     "tab": {

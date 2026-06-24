@@ -6325,12 +6325,14 @@
                         "labels": [
                             "$~horisontell",
                             "$~vertikal rtl",
-                            "$~vertikal ltr"
+                            "$~vertikal ltr",
+                            "$~automatisk"
                         ],
                         "tips": [
                             "$~horisontell text, läs från vänster till höger",
                             "$~vertikal text, läs från höger till vänster",
-                            "$~vertikal text, läs från vänster till höger"
+                            "$~vertikal text, läs från vänster till höger",
+                            "$~följ språkets skrivstil"
                         ]
                     },
                     "blocks": {

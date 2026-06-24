@@ -6565,14 +6565,16 @@
                     "writing": {
                         "label": "layout de escrita",
                         "labels": [
-                            "horizontal",
-                            "dir. -> esq. vertical",
-                            "esq. -> dir. vertical"
+                            "$~horizontal",
+                            "$~rtl vertical",
+                            "$~litro vertical",
+                            "$~automático"
                         ],
                         "tips": [
-                            "Texto horizontal, lido da esquerda para a direita.",
-                            "Texto vertical, lido da direita para a esquerda.",
-                            "Texto vertical, lido da esquerda para a direita."
+                            "$~Texto horizontal, lido da esquerda para a direita.",
+                            "$~Texto vertical, lido da direita para a esquerda.",
+                            "$~Texto vertical, lido da esquerda para a direita.",
+                            "$~siga o esquema de escrita da língua"
                         ]
                     },
                     "blockDensity": {

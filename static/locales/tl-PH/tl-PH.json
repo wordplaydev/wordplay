@@ -6573,12 +6573,14 @@
                         "labels": [
                             "$~pahalang",
                             "$~patayong rtl",
-                            "$~patayong litro"
+                            "$~patayong litro",
+                            "$~awtomatiko"
                         ],
                         "tips": [
                             "$~pahalang na teksto, binabasa mula kaliwa pakanan",
                             "$~patayong teksto, binabasa mula kanan pakaliwa",
-                            "$~patayong teksto, binabasa mula kaliwa pakanan"
+                            "$~patayong teksto, binabasa mula kaliwa pakanan",
+                            "$~sundin ang pagkakaayos ng pagsulat ng wika"
                         ]
                     },
                     "blockDensity": {

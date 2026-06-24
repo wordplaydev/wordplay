@@ -6591,12 +6591,14 @@
                         "labels": [
                             "$~horisontal",
                             "$~rtl vertikal",
-                            "$~huruf vertikal"
+                            "$~huruf vertikal",
+                            "$~otomatis"
                         ],
                         "tips": [
                             "$~Teks horizontal, dibaca dari kiri ke kanan",
                             "$~Teks vertikal, dibaca dari kanan ke kiri.",
-                            "$~Teks vertikal, dibaca dari kiri ke kanan"
+                            "$~Teks vertikal, dibaca dari kiri ke kanan",
+                            "$~Ikuti tata letak penulisan bahasa tersebut."
                         ]
                     },
                     "tab": {

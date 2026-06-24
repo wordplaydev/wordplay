@@ -53,6 +53,7 @@ function contextFor(direction: WritingDirection) {
         locales,
         new Set(),
         1,
+        'horizontal-tb',
     );
 }
 

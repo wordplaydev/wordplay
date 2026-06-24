@@ -6280,13 +6280,15 @@
                         "label": "diseño de escritura",
                         "labels": [
                             "$~horizontal",
-                            "$~derecha vertical",
-                            "$~litros verticales"
+                            "$~vertical rtl",
+                            "$~vertical ltr",
+                            "$~automático"
                         ],
                         "tips": [
-                            "$~texto horizontal, leer de izquierda a derecha",
-                            "$~texto vertical, leer de derecha a izquierda",
-                            "$~texto vertical, leer de izquierda a derecha"
+                            "$~Texto horizontal, se lee de izquierda a derecha.",
+                            "$~Texto vertical, se lee de derecha a izquierda.",
+                            "$~Texto vertical, se lee de izquierda a derecha.",
+                            "$~Sigue el formato de escritura del idioma."
                         ]
                     },
                     "lines": {
