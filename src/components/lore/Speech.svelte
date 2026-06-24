@@ -1,7 +1,3 @@
-<script module lang="ts">
-    export const Limit = 10;
-</script>
-
 <script lang="ts">
     import { locales, animationDuration } from '@db/Database';
     import { type Snippet } from 'svelte';
@@ -68,13 +64,7 @@
             : character.symbols,
     );
 
-    let symbols = $derived(
-        withColorEmoji(
-            characters.length > Limit
-                ? `${characters.substring(0, Limit)}…`
-                : characters,
-        ),
-    );
+    let symbols = $derived(withColorEmoji(characters));
 </script>
 
 <div
@@ -146,6 +136,21 @@
         align-items: start;
     }
 
+    /* In column layouts the speaker (name + type/value aside) can carry a long
+       aside, e.g. Phrase.face's union of every font name. Cap its width and let
+       it wrap so the inline type wraps inside the panel instead of overflowing. */
+    .dialog.column .speaker {
+        max-width: 100%;
+        flex-wrap: wrap;
+    }
+
+    /* The name's margin-right: auto right-aligns the aside in a row; with the
+       column width cap above it would shove the type/value signature to the far
+       edge, so keep the signature snug against the name instead. */
+    .dialog.column .characters {
+        margin-inline-end: 0;
+    }
+
     .dialog.row {
         flex-direction: row;
         align-items: center;
@@ -173,6 +178,13 @@
         position: relative;
         margin-right: auto;
         font-size: 2em;
+        /* Now that names render in full, let an overlong single-token label
+           break instead of overflowing the narrow concept panel. Use break-word,
+           not anywhere: anywhere collapses the label's min-content width to one
+           character, which stacks short names (e.g. "face") one letter per line
+           when an adjacent aside squeezes the flex row. */
+        max-width: 100%;
+        overflow-wrap: break-word;
     }
 
     .characters.small {
