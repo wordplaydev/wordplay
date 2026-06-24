@@ -120,15 +120,15 @@
         margin-inline-end: auto;
         max-width: 95vw;
         height: max-content;
+        background-color: var(--wordplay-background);
+        color: var(--wordplay-foreground);
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
+        font-size: var(--wordplay-font-size);
     }
 
     dialog.wide {
         /* Fill the window width (minus margins) for maximum horizontal space. */
         width: 95vw;
-        background-color: var(--wordplay-background);
-        color: var(--wordplay-foreground);
-        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
-        font-size: var(--wordplay-font-size);
     }
 
     dialog::backdrop {
