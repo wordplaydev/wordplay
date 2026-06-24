@@ -45,6 +45,7 @@
     } from '@components/project/Contexts';
     import {
         animationFactor,
+        appBanner,
         dark,
         DB,
         howToNotifications,
@@ -265,7 +266,16 @@
     <!-- App-wide transient banner for one-off action failures (e.g. a delete
          that couldn't reach the cloud). In normal flow at the top so the page
          content shrinks to fit; auto-dismisses via Database.reportBanner. -->
-    <Banner />
+    {#if $appBanner !== undefined}
+        <Banner
+            message={$appBanner}
+            variant="error"
+            dismiss={() => appBanner.set(undefined)}
+        />
+    {/if}
+    <!-- Top banner when a newer app version has been deployed. In the top flow
+         alongside the failure banner, using the same standard Banner facility. -->
+    <UpdateNotification />
     <div class="content">
         <!-- Always render children, even before the user's preferred locale
              finishes loading. The server renders with the default locale,
@@ -293,9 +303,6 @@
     bind:announcer={() => $announcerStore, (fn) => announcerStore.set(fn)}
 />
 <Hint></Hint>
-<!-- Top-right notification when a newer app version has been deployed.
-     Rendered at body level so its fixed positioning escapes the .content flow. -->
-<UpdateNotification />
 
 <style>
     /* Flex column at the viewport height so the banner can take its natural
