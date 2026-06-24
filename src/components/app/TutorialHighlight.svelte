@@ -90,8 +90,8 @@
         border-radius: 50%;
         width: 0.75em;
         height: 0.75em;
-        margin-left: 0.1em;
-        margin-right: 0.1em;
+        margin-inline-start: 0.1em;
+        margin-inline-end: 0.1em;
         animation-name: inline-glow;
         animation-duration: 1s;
         animation-iteration-count: infinite;

@@ -248,8 +248,8 @@
 
     .padding,
     .salient {
-        padding-left: var(--wordplay-spacing);
-        padding-right: var(--wordplay-spacing);
+        padding-inline-start: var(--wordplay-spacing);
+        padding-inline-end: var(--wordplay-spacing);
     }
 
     button.stretch {

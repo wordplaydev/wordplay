@@ -10,6 +10,10 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 - 📕 Added the first sentence of project documentation to the project previews (#897).
 
+### Changed
+
+- 🌐 We made Wordplay work much better for right-to-left languages like Arabic and Hebrew. Menus, buttons, text, and the things your programs show on stage now flow from right to left to match how you read.
+
 ### Fixed
 
 - 📕 We re-organized the how-to editing and viewing panels to offer much more width for viewing.

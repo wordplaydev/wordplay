@@ -139,6 +139,13 @@ Localization is intimately connected to accessibility, as many of the localizati
 
 `Database` keeps track of which languages and regions are selected, loads the appropriate locale files with the strings and templates, and exposes them as a Svelte store for the user interface and language implementation to use to render localized descriptions of things. When the database receives a request to change languages and regions, these are propagated to all interfaces that depend on the selected locales. All projects are also revised to have the new locales as well.
 
+#### Writing direction and layout
+
+Each script in [Scripts.ts](https://github.com/wordplaydev/wordplay/blob/main/src/locale/Scripts.ts) carries a writing `direction` (`ltr`/`rtl`) and `layout` (`horizontal-tb`/`vertical-rl`/`vertical-lr`); a language derives both from its dominant (first) script. `Locales` exposes these via `getDirection()` and `getLayout()`. Two rules keep the platform direction-aware:
+
+- **UI chrome and the editor** follow the viewer's UI locale: the document `dir` is set on `<html>`, and component CSS uses logical properties (`margin-inline-start`, `inset-inline-end`, `text-align: start`, …) rather than physical sides, so the interface mirrors automatically under RTL. `npm run rtl` ([scripts/check-logical-css.ts](https://github.com/wordplaydev/wordplay/blob/main/scripts/check-logical-css.ts)) guards against new physical properties.
+- **Program output** follows the _project_ locale (carried by `RenderContext.locales`), which is stable per project regardless of who views it. Under RTL, the spatial arrangements (`Row`, `Grid`, `Stack`) mirror their children's order/alignment via `reflectX` while staying physical primitives — vertical writing is not an axis swap but a text-flow property: a `Phrase`'s `direction` (writing layout) defaults to the project locale's `getLayout()` and is applied per-phrase as a CSS `writing-mode`. Text `alignment` (`<`/`|`/`>`) maps to logical `start`/`center`/`end`. Caret/selection geometry in the editor consults `getDirection()`; vertical _editing_ (caret geometry for vertical writing modes) is not yet supported.
+
 ### Output
 
 All output is rendered in the [OutputView](https://github.com/wordplaydev/wordplay/blob/main/src/components/output/OutputView.svelte) component. It renders `Exception`s, and other arbitrary values using all of the Svelte views defined in `valueToView.ts`, which maps `Value` instances onto views. If a Value corresponds to a `Phrase`, `Group`, or `Stage`, then it is rendered as typographic output. These typographic values are generally converted into classes that provide convenience functions for reasoning about the output without having to use the low level interface of `Structure` values.

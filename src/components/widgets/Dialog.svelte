@@ -116,8 +116,8 @@
         position: relative;
         border-radius: var(--wordplay-border-radius);
         padding: 0;
-        margin-left: auto;
-        margin-right: auto;
+        margin-inline-start: auto;
+        margin-inline-end: auto;
         max-width: 95vw;
         height: max-content;
     }
@@ -147,7 +147,7 @@
         position: sticky;
         top: 1em;
         width: 100%;
-        text-align: right;
+        text-align: end;
         z-index: 2;
     }
 

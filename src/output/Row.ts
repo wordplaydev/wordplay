@@ -9,7 +9,7 @@ import type Alignment from '@output/Alignment';
 import Arrangement from '@output/Arrangement';
 import type Color from '@output/Color';
 import type Output from '@output/Output';
-import Place from '@output/Place';
+import Place, { reflectX } from '@output/Place';
 import type RenderContext from '@output/RenderContext';
 import { getOutputInput } from '@output/Valued';
 
@@ -56,6 +56,10 @@ export class Row extends Arrangement {
             0,
         );
 
+        // Under an RTL project locale, lay children out from the inline-end
+        // (right) edge so reading order flows right-to-left.
+        const rtl = context.locales.getDirection() === 'rtl';
+
         let x = 0;
         let left = 0,
             top = 0,
@@ -65,10 +69,12 @@ export class Row extends Arrangement {
         // Layout each child from start to end.
         for (const child of layouts) {
             if (child) {
+                // Reflect the start-to-end cursor to its mirror under RTL.
+                const childX = rtl ? reflectX(x, child.width, width) : x;
                 const place = new Place(
                     this.value,
                     // Current x position
-                    x,
+                    childX,
                     // If a y is specified, use it.
                     child.output.place && child.output.place.y !== undefined
                         ? child.output.place.y
@@ -89,10 +95,9 @@ export class Row extends Arrangement {
                 x = x + child.width;
                 x = x + this.padding;
 
-                if (place.x < left) left = place.x;
+                if (childX < left) left = childX;
                 if (place.y < bottom) bottom = place.y;
-                if (place.x + child.width > right)
-                    right = place.x + child.width;
+                if (childX + child.width > right) right = childX + child.width;
                 if (place.y + child.ascent > top) top = place.y + child.ascent;
             }
         }

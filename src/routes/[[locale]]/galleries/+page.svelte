@@ -319,7 +319,7 @@
     }
 
     .add {
-        margin-left: calc(2 * var(--wordplay-spacing));
+        margin-inline-start: calc(2 * var(--wordplay-spacing));
     }
 
     .howtoonlypreview {

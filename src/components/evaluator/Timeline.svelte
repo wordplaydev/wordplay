@@ -470,10 +470,10 @@
         white-space: nowrap;
         user-select: none;
         cursor: pointer;
-        border-left: var(--wordplay-border-color) solid
+        border-inline-start: var(--wordplay-border-color) solid
             var(--wordplay-border-width);
-        padding-left: var(--wordplay-spacing);
-        padding-right: var(--wordplay-spacing);
+        padding-inline-start: var(--wordplay-spacing);
+        padding-inline-end: var(--wordplay-spacing);
     }
 
     .timeline:focus {
@@ -504,7 +504,7 @@
         display: inline-block;
         width: 100%;
         position: relative;
-        left: 0;
+        inset-inline-start: 0;
         top: 0;
         border-bottom: 1px dotted currentColor;
     }
@@ -513,7 +513,7 @@
         position: absolute;
         top: 0;
         height: 100%;
-        border-left: currentColor solid 2px;
+        border-inline-start: currentColor solid 2px;
         display: flex;
         flex-direction: column;
         flex-wrap: nowrap;
@@ -523,7 +523,7 @@
     .index {
         font-size: xx-small;
         color: currentColor;
-        margin-left: var(--wordplay-spacing);
+        margin-inline-start: var(--wordplay-spacing);
         margin-top: auto;
     }
 </style>

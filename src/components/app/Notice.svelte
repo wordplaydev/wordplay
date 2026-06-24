@@ -63,7 +63,7 @@
     }
 
     div {
-        text-align: left;
+        text-align: start;
         padding: var(--wordplay-spacing);
     }
 </style>

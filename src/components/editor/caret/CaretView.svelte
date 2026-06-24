@@ -706,11 +706,15 @@
         // Don't have a viewport? Can't compute.
         if (viewport === null) return;
 
-        // Get the padding
+        // Get the editor's leading inline padding, since the caret's start is
+        // measured from there. getComputedStyle resolves the logical property to
+        // the correct physical side (left in LTR, right in RTL).
         if (editorPadding === undefined) {
             const editorStyle = window.getComputedStyle(viewport);
             editorPadding = parseInt(
-                editorStyle.getPropertyValue('padding-left').replace('px', ''),
+                editorStyle
+                    .getPropertyValue('padding-inline-start')
+                    .replace('px', ''),
             );
         }
 

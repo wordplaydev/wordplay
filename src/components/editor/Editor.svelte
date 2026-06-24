@@ -3408,8 +3408,8 @@
         background: var(--wordplay-highlight-color);
         color: var(--wordplay-background);
         /* border:  var(--wordplay-border-width) solid var(--wordplay-border-color); */
-        padding-left: var(--wordplay-spacing-half);
-        padding-right: var(--wordplay-spacing-half);
+        padding-inline-start: var(--wordplay-spacing-half);
+        padding-inline-end: var(--wordplay-spacing-half);
         border-radius: var(--wordplay-border-radius);
         opacity: 0;
         display: flex;
@@ -3469,11 +3469,11 @@
         gap: var(--wordplay-spacing);
         padding: var(--wordplay-spacing);
         background: var(--wordplay-background);
-        border-left: var(--wordplay-border-width) solid
+        border-inline-start: var(--wordplay-border-width) solid
             var(--wordplay-border-color);
         border-bottom: var(--wordplay-border-width) solid
             var(--wordplay-border-color);
-        border-bottom-left-radius: var(--wordplay-border-radius);
+        border-end-start-radius: var(--wordplay-border-radius);
     }
 
 </style>

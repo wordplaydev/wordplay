@@ -59,9 +59,9 @@
 
 <style>
     .structure-inputs {
-        margin-left: var(--wordplay-spacing);
-        padding-left: var(--wordplay-spacing);
-        border-left: solid var(--wordplay-border-color)
+        margin-inline-start: var(--wordplay-spacing);
+        padding-inline-start: var(--wordplay-spacing);
+        border-inline-start: solid var(--wordplay-border-color)
             var(--wordplay-border-width);
         display: flex;
         flex-direction: column;

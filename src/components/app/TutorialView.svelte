@@ -869,9 +869,9 @@
         min-height: 0;
         gap: var(--wordplay-spacing);
         align-items: flex-start;
-        border-right: var(--wordplay-border-width) solid
+        border-inline-end: var(--wordplay-border-width) solid
             var(--wordplay-border-color);
-        border-left: var(--wordplay-border-width) solid
+        border-inline-start: var(--wordplay-border-width) solid
             var(--wordplay-border-color);
     }
 
@@ -951,7 +951,7 @@
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);
         cursor: pointer;
-        text-align: left;
+        text-align: start;
         font-family: var(--wordplay-app-font);
         font-size: inherit;
         color: inherit;
@@ -978,8 +978,8 @@
             min-width: 0;
             max-width: none;
             max-height: fit-content;
-            border-right: none;
-            border-left: none;
+            border-inline-end: none;
+            border-inline-start: none;
             border-top: var(--wordplay-border-width) solid
                 var(--wordplay-border-color);
             border-bottom: var(--wordplay-border-width) solid

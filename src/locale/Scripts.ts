@@ -18,6 +18,17 @@ export function layoutToCSS(layout: WritingLayoutSymbol): WritingLayout {
     return CSSByLayout[layout] ?? 'horizontal-tb';
 }
 
+export const SymbolByLayout: Record<WritingLayout, WritingLayoutSymbol> = {
+    'horizontal-tb': HorizontalLayout,
+    'vertical-rl': VerticalRightLeftLayout,
+    'vertical-lr': VerticalLeftRightLayout,
+};
+
+/** The inverse of layoutToCSS: the symbol creators write for a CSS layout. */
+export function layoutToSymbol(layout: WritingLayout): WritingLayoutSymbol {
+    return SymbolByLayout[layout];
+}
+
 export type ScriptMetadata = {
     /** The script's name in the script itself (e.g. "देवनागरी" for Devanagari)
      *  when a confident native form exists. For historical or technical
@@ -633,7 +644,8 @@ export const Scripts = {
         name: 'Hudum Mongol bichig',
         en: 'Mongolian',
         direction: 'ltr',
-        layout: 'horizontal-tb',
+        // Written top-to-bottom in columns that progress left-to-right.
+        layout: 'vertical-lr',
     },
     Mroo: {
         name: 'Mro',
@@ -771,7 +783,8 @@ export const Scripts = {
         name: 'ʼPhags-pa',
         en: 'Phags Pa',
         direction: 'ltr',
-        layout: 'horizontal-tb',
+        // Written top-to-bottom in columns that progress left-to-right.
+        layout: 'vertical-lr',
     },
     Phli: {
         name: 'Inscriptional Pahlavi',

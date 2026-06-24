@@ -8,7 +8,7 @@ import StructureValue from '@values/StructureValue';
 import Arrangement from '@output/Arrangement';
 import type Color from '@output/Color';
 import type Output from '@output/Output';
-import Place from '@output/Place';
+import Place, { reflectX } from '@output/Place';
 import type RenderContext from '@output/RenderContext';
 import { getOutputInputs } from '@output/Valued';
 
@@ -137,6 +137,10 @@ export class Grid extends Arrangement {
             rowHeights.reduce((sum, height) => sum + height, 0) +
             this.padding * (rows - 1);
 
+        // Under an RTL project locale, fill columns from the inline-end (right)
+        // edge so reading order flows right-to-left while rows stay top-to-bottom.
+        const rtl = context.locales.getDirection() === 'rtl';
+
         // Next, position each child in a cell, iterating through each row from left to right.
         const places: [Output, Place][] = [];
         for (let row = 0; row < rows; row++) {
@@ -157,9 +161,10 @@ export class Grid extends Arrangement {
                             .reduce((sum, height) => sum + height, 0) +
                             row * this.padding);
                     const rowHeight = rowHeights[row];
+                    const cellX = cellLeft + (columnWidth - cell.output.width) / 2;
                     const place = new Place(
                         this.value,
-                        cellLeft + (columnWidth - cell.output.width) / 2,
+                        rtl ? reflectX(cellX, cell.output.width, width) : cellX,
                         cellTop + (rowHeight - cell.output.height) / 2,
                         0,
                     );

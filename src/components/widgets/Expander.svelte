@@ -76,7 +76,7 @@
     }
 
     .expander.horizontal {
-        text-align: left;
+        text-align: start;
         transform-origin: center;
         transform: rotate(90deg);
     }

@@ -410,7 +410,7 @@
         .comment {
             width: 100%;
             padding: var(--wordplay-spacing);
-            border-left: var(--wordplay-border-color) solid
+            border-inline-start: var(--wordplay-border-color) solid
                 var(--wordplay-focus-width);
             background-color: var(--color-background);
             padding-inline-start: 1em;
@@ -437,7 +437,7 @@
             display: flex;
             flex-direction: row;
             gap: var(--wordplay-spacing);
-            margin-left: auto;
+            margin-inline-start: auto;
         }
     </style>
 {/snippet}

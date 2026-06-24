@@ -62,6 +62,17 @@ export class Stack extends Arrangement {
         // Start at the top and work our way down.
         let y = new Decimal(height);
 
+        // Stack alignment is horizontal, so under an RTL project locale swap the
+        // start/end ('<'/'>') alignments; '|' (center) is unaffected.
+        const align: Alignment =
+            context.locales.getDirection() === 'rtl'
+                ? this.alignment === '<'
+                    ? '>'
+                    : this.alignment === '>'
+                      ? '<'
+                      : this.alignment
+                : this.alignment;
+
         const places: [Output, Place][] = [];
         let left = 0,
             bottom = 0,
@@ -76,9 +87,9 @@ export class Stack extends Arrangement {
                     // Place the x in the center of the stack, or if it has a place, use that
                     child.output.place && child.output.place.x !== undefined
                         ? child.output.place.x
-                        : this.alignment === '|'
+                        : align === '|'
                           ? width.sub(child.width).div(2).toNumber()
-                          : this.alignment === '<'
+                          : align === '<'
                             ? 0
                             : width.sub(child.width).toNumber(),
                     // The current y, minus the child's height

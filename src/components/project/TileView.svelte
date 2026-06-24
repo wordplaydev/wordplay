@@ -523,7 +523,7 @@
 
     .tile.responsive,
     .tile.horizontal {
-        border-right: var(--wordplay-border-width) solid
+        border-inline-end: var(--wordplay-border-width) solid
             var(--wordplay-border-color);
         border-bottom: var(--wordplay-border-width) solid
             var(--wordplay-border-color);

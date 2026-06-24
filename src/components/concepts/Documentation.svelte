@@ -740,8 +740,8 @@
         position: sticky;
         top: 0;
         z-index: 1;
-        margin-left: var(--wordplay-spacing-half);
-        margin-right: var(--wordplay-spacing-half);
+        margin-inline-start: var(--wordplay-spacing-half);
+        margin-inline-end: var(--wordplay-spacing-half);
     }
 
     /* Filter grid: the section + subsection Modes (each `display: contents`) drop their
@@ -767,7 +767,7 @@
         overflow-x: auto;
         font-size: var(--wordplay-small-font-size);
         gap: var(--wordplay-spacing-half);
-        padding-left: var(--wordplay-spacing);
+        padding-inline-start: var(--wordplay-spacing);
         align-items: center;
     }
 
@@ -815,7 +815,7 @@
     }
 
     .matches {
-        margin-left: var(--wordplay-spacing);
+        margin-inline-start: var(--wordplay-spacing);
     }
     .match {
         color: var(--wordplay-highlight-color);

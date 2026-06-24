@@ -9,7 +9,7 @@
            which can resolve relative to an indefinite container and leak
            extra height into the row. */
         align-self: stretch;
-        border-left: var(--wordplay-border-width) solid
+        border-inline-start: var(--wordplay-border-width) solid
             var(--wordplay-inactive-color);
     }
 </style>

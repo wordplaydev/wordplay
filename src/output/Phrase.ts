@@ -3,6 +3,7 @@ import {
     VerticalLeftRightLayout,
     VerticalRightLeftLayout,
     layoutToCSS,
+    layoutToSymbol,
     type WritingLayoutSymbol,
 } from '@locale/Scripts';
 import { getBind } from '@locale/getBind';
@@ -98,7 +99,7 @@ export function createPhraseType(locales: Locales) {
         ${getBind(
             locales,
             (locale) => locale.output.Phrase.direction,
-        )}•'${HorizontalLayout}'|'${VerticalRightLeftLayout}'|'${VerticalLeftRightLayout}': '${HorizontalLayout}'
+        )}•'${HorizontalLayout}'|'${VerticalRightLeftLayout}'|'${VerticalLeftRightLayout}': '${layoutToSymbol(locales.getLayout())}'
         ${getBind(locales, (locale) => locale.output.Phrase.matter)}•Matter|ø: ø
         ${getBind(locales, (locale) => locale.output.Phrase.aura)}•ø|🔮: ø
     )`);

@@ -29,7 +29,7 @@
 
     .name {
         flex-basis: 5em;
-        text-align: left;
+        text-align: start;
         margin: 0;
         white-space: nowrap;
     }

@@ -283,7 +283,7 @@
     .measurer {
         display: inline-block;
         position: absolute;
-        left: 0;
+        inset-inline-start: 0;
         top: 0;
         background: none;
         font-size: inherit;
@@ -300,7 +300,7 @@
     }
 
     input.right {
-        text-align: right;
+        text-align: end;
     }
 
     .fill {
@@ -348,18 +348,18 @@
 
     .focused .message.inline {
         top: 0;
-        left: 100%;
+        inset-inline-start: 100%;
         white-space: nowrap;
         width: auto;
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
-        border-top-right-radius: var(--wordplay-border-radius);
-        border-bottom-right-radius: var(--wordplay-border-radius);
+        border-start-start-radius: 0;
+        border-end-start-radius: 0;
+        border-start-end-radius: var(--wordplay-border-radius);
+        border-end-end-radius: var(--wordplay-border-radius);
     }
 
     .done {
         position: absolute;
-        right: -1em;
+        inset-inline-end: -1em;
         /* Center vertically in the field and match the field's text size, so
            the save feedback stays visible even on large fields (e.g. an
            editable page header). */

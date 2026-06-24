@@ -348,8 +348,8 @@
        own internal spacing. */
     .node:not(:global(.outline)) {
         border-radius: var(--wordplay-border-radius);
-        padding-left: var(--wordplay-spacing);
-        padding-right: var(--wordplay-spacing);
+        padding-inline-start: var(--wordplay-spacing);
+        padding-inline-end: var(--wordplay-spacing);
         background: var(--wordplay-alternating-color);
     }
 </style>

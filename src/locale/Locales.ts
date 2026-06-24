@@ -7,7 +7,11 @@ import { MachineTranslated, Unwritten } from '@locale/Annotations';
 import type ConceptRef from '@locale/ConceptRef';
 import type { Concretizer } from '@locale/concretize';
 import type LanguageCode from '@locale/LanguageCode';
-import { getLanguageDirection, getLanguageScripts } from '@locale/LanguageCode';
+import {
+    getLanguageDirection,
+    getLanguageLayout,
+    getLanguageScripts,
+} from '@locale/LanguageCode';
 import { localeToString } from '@locale/Locale';
 import type LocaleText from '@locale/LocaleText';
 import {
@@ -100,6 +104,11 @@ export default class Locales {
     /** Get the writing direction for the most preferred locale. */
     getDirection() {
         return getLanguageDirection(this.getLocale().language);
+    }
+
+    /** Get the writing layout (horizontal/vertical) for the most preferred locale. */
+    getLayout() {
+        return getLanguageLayout(this.getLocale().language);
     }
 
     hasLanguage(lang: LanguageCode) {

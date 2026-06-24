@@ -302,6 +302,10 @@ export default class LocalesDatabase {
         return get(this.locales).getDirection();
     }
 
+    getWritingLayout() {
+        return get(this.locales).getLayout();
+    }
+
     /** Set the languages, load all locales if they aren't loaded, revise all projects to include any new locales, and save the new configuration. */
     async setLocales(
         preferredLocales: SupportedLocale[],

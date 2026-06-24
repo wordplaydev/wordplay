@@ -86,6 +86,13 @@ export default class Place extends Valued {
     }
 }
 
+/** Reflect an x coordinate within a container of the given width, mapping a
+ *  start-to-end position to its end-to-start mirror. Arrangements use this to
+ *  lay children out right-to-left under RTL project locales. */
+export function reflectX(x: number, width: number, containerWidth: number) {
+    return containerWidth - x - width;
+}
+
 export function toPlace(value: Value | undefined): Place | undefined {
     if (!(value instanceof StructureValue)) return undefined;
 

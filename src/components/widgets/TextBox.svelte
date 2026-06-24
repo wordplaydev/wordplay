@@ -151,9 +151,9 @@
         font-weight: inherit;
         line-height: inherit;
         border: none;
-        border-left: var(--wordplay-focus-width) solid
+        border-inline-start: var(--wordplay-focus-width) solid
             var(--wordplay-inactive-color);
-        padding-left: var(--wordplay-spacing);
+        padding-inline-start: var(--wordplay-spacing);
         width: 100%;
         resize: none;
         background: var(--wordplay-background);
@@ -184,7 +184,7 @@
     /* Needs to be last to override the error color */
     textarea:focus {
         outline: none;
-        border-left-color: var(--wordplay-focus-color);
+        border-inline-start-color: var(--wordplay-focus-color);
     }
 
     .message {
@@ -206,7 +206,7 @@
 
     .done {
         position: absolute;
-        right: 0;
+        inset-inline-end: 0;
         top: var(--wordplay-spacing);
         font-size: calc(var(--wordplay-small-font-size));
         color: var(--wordplay-inactive-color);

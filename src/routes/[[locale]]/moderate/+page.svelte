@@ -255,7 +255,7 @@
         flex-direction: column;
         gap: var(--wordplay-spacing);
         padding: var(--wordplay-spacing);
-        border-right: var(--wordplay-focus-width) solid
+        border-inline-end: var(--wordplay-focus-width) solid
             var(--wordplay-border-color);
         overflow-x: hidden;
         overflow-y: auto;

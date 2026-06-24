@@ -1,8 +1,11 @@
 <script module lang="ts">
+    /** Map Wordplay's alignment glyphs to logical CSS text-align values so a
+     *  phrase's text aligns to the start/end of its own reading direction —
+     *  '<' (start) and '>' (end) flip automatically under an RTL `dir`. */
     export const CSSAlignments: Record<string, string> = {
-        '<': 'left',
+        '<': 'start',
         '|': 'center',
-        '>': 'right',
+        '>': 'end',
     };
 </script>
 
