@@ -349,9 +349,10 @@
        passes outline={false}). Give them a neutral rounded border and a
        subtle alternating background so they're visually separated from
        surrounding prose — names share the text color, so without this they
-       blur into the sentence. No padding: identifiers already carry their
-       own internal spacing. */
-    .node:not(:global(.outline)) {
+       blur into the sentence. Text mode only: in blocks mode the block's own
+       box chrome (border, padding, background) already separates it from prose,
+       so the extra background would just double up. */
+    .node:not(:global(.outline)):not(.blocks) {
         border-radius: var(--wordplay-border-radius);
         padding-inline-start: var(--wordplay-spacing);
         padding-inline-end: var(--wordplay-spacing);

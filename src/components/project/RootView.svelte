@@ -309,7 +309,7 @@
 
 {#if inline}
     <span
-        class="root"
+        class="root inline"
         style="--line-count: {lineDigits}"
         class:inert
         class:elide
@@ -342,6 +342,15 @@
 
     :global(.dragging) .root {
         cursor: grabbing;
+    }
+
+    /* In blocks mode the outermost node-view is `.block` (display: flex), a
+       block-level box that can't sit on a paragraph's text line. When the root is
+       inline (an example embedded in prose), make it inline-level so the short
+       block flows with the surrounding text. Nested blocks are flex items, where
+       inline-flex and flex are equivalent, so only the outer box's flow changes. */
+    .root.inline :global(.node-view.block) {
+        display: inline-flex;
     }
 
     .elide {
