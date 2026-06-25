@@ -6,7 +6,7 @@ import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { type SymType } from '@nodes/Sym';
 import { ExpressionStartKeywordSyms } from '@parser/Keywords';
-import { COMMA_SYMBOL } from '@parser/Symbols';
+import { BasisTypeSymbols, COMMA_SYMBOL } from '@parser/Symbols';
 import { OperatorRegEx } from '@parser/Tokenizer';
 import { EmojiTestRegex } from '@unicode/emoji';
 import { Purpose } from '@concepts/Purpose';
@@ -130,12 +130,18 @@ export default class Name extends LanguageTagged {
     }
 
     /**
-     * Symbolic (preferred in symbol display mode) if it's an operator or an emoji. A name that is
-     * merely a single grapheme (a lone letter or kanji) is NOT symbolic — it renders as itself like
-     * any word, and is not infix-capable. See LANGUAGE.md.
+     * Symbolic (preferred in symbol display mode) if it's an operator, an emoji, or a basis-type
+     * delimiter (e.g. `''`, `[]`, `#`, `ø`). A name that is merely a single grapheme (a lone letter
+     * or kanji) is NOT symbolic — it renders as itself like any word, and is not infix-capable.
+     * See LANGUAGE.md.
      */
     isSymbolic() {
-        return this.isOperator() || this.isEmoji();
+        return this.isOperator() || this.isEmoji() || this.isDelimiter();
+    }
+
+    /** True if this is a basis type's delimiter name (the symbolic form of Text, List, etc.). */
+    isDelimiter(): boolean {
+        return BasisTypeSymbols.has(this.name.getText());
     }
 
     getName(): string {

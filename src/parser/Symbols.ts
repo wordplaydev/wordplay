@@ -161,6 +161,24 @@ export const HELP_SYMBOL = '🤝';
 export const UNDO_SYMBOL = '⟲';
 export const REDO_SYMBOL = '⟳';
 
+/**
+ * The symbolic (delimiter) names of the basis types, composed from the constants above so the
+ * single source of these characters stays here. Unlike operators and emoji, these can't be
+ * detected by a regex (e.g. `ø` is a Unicode letter), so a `Name` consults this set to know it's
+ * symbolic — which keeps a concept's word name and delimiter subscript distinct. See Name.isSymbolic.
+ */
+export const BasisTypeSymbols = new Set<string>([
+    `${TEXT_SYMBOL}${TEXT_SYMBOL}`, // ''
+    MEASUREMENT_SYMBOL, // #
+    NONE_SYMBOL, // ø
+    `${TRUE_SYMBOL}${FALSE_SYMBOL}`, // ⊤⊥
+    `${LIST_OPEN_SYMBOL}${LIST_CLOSE_SYMBOL}`, // []
+    `${SET_OPEN_SYMBOL}${SET_CLOSE_SYMBOL}`, // {}
+    `${SET_OPEN_SYMBOL}${BIND_SYMBOL}${SET_CLOSE_SYMBOL}`, // {:}
+    `${TABLE_OPEN_SYMBOL}${TABLE_CLOSE_SYMBOL}`, // ⎡⎦
+    FORMATTED_TYPE_SYMBOL, // `…`
+]);
+
 export const DRAFT_SYMBOL = '🚧';
 
 export const LOCALE_SYMBOL = withMonoEmoji(GLOBE1_SYMBOL);
