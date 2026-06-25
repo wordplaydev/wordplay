@@ -705,6 +705,7 @@
 
 <!-- how-to form -->
 <Dialog
+    id={howToId ? `howto:${howToId}` : undefined}
     bind:show
     wide
     header={editingMode

@@ -98,6 +98,7 @@
 </script>
 
 <Dialog
+    id="settings"
     button={{
         tip: (l) => l.ui.dialog.settings.button.show,
         icon: '⚙',

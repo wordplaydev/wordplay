@@ -257,6 +257,7 @@
 </script>
 
 <Dialog
+    id="status"
     bind:show={showError}
     header={(l) => l.ui.save.status.header}
     explanation={$status.message}

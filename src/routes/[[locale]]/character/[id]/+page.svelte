@@ -2325,6 +2325,7 @@
                             blocks={false}
                         />
                         <Dialog
+                            id="character-share"
                             header={(l) =>
                                 l.ui.page.character.share.dialog.header}
                             explanation={(l) =>

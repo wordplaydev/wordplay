@@ -169,6 +169,7 @@
 </script>
 
 <Dialog
+    id="notifications"
     bind:show={showDialog}
     header={(l) => l.ui.dialog.notifications.header}
     explanation={(l) => l.ui.dialog.notifications.explanation}

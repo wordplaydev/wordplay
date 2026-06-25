@@ -443,6 +443,7 @@
 {/snippet}
 
 <Dialog
+    id="feedback"
     bind:show
     header={(l) => l.ui.dialog.feedback.header}
     explanation={(l) => l.ui.dialog.feedback.explanation}

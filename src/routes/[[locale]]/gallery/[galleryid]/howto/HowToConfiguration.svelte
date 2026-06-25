@@ -131,6 +131,7 @@
 {/snippet}
 
 <Dialog
+    id="howto-config"
     bind:show
     header={(l) => l.ui.howto.configuration.configurationDialog.header}
     explanation={(l) =>

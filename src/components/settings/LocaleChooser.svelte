@@ -164,6 +164,7 @@
 </script>
 
 <Dialog
+    id="locale"
     bind:show
     header={(l) => l.ui.dialog.locale.header}
     explanation={(l) => l.ui.dialog.locale.explanation}

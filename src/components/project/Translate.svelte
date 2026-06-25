@@ -82,6 +82,7 @@
 </script>
 
 <Dialog
+    id="translate"
     bind:show
     header={(l) => l.ui.project.dialog.translate.header}
     explanation={(l) => l.ui.project.dialog.translate.explanation}

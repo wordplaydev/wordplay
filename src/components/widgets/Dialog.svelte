@@ -11,9 +11,18 @@
         LocaleTextsAccessor,
     } from '@locale/Locales';
     import { tick } from 'svelte';
+    import {
+        isDialogOpenInURL,
+        mountedDialogIds,
+        setDialogInURL,
+    } from './dialogURL';
 
     interface Props {
         show?: boolean;
+        /** When set, the dialog's open state is persisted in the URL as
+         *  `?dialog=<id>`, so a refresh or shared link reopens it. Must be a
+         *  stable, app-unique string. */
+        id?: string | undefined;
         header: LocaleTextAccessor | undefined;
         explanation: LocaleTextsAccessor | undefined;
         closeable?: boolean;
@@ -37,6 +46,7 @@
 
     let {
         show = $bindable(false),
+        id = undefined,
         header,
         explanation,
         closeable = true,
@@ -46,6 +56,38 @@
     }: Props = $props();
 
     let view: HTMLDialogElement | undefined = $state(undefined);
+
+    /** Register this dialog's id while mounted so the layout's cleanup knows it
+     *  has an owner on this page. Keyed on id so a changing id is handled. */
+    $effect(() => {
+        if (id === undefined) return;
+        mountedDialogIds.add(id);
+        return () => mountedDialogIds.delete(id);
+    });
+
+    // Trackers for the two-way URL<->show sync below; start from "closed" so the
+    // first run adopts whichever side already differs (e.g. a shared link that
+    // arrives with the param set). Plain lets (not state) so updating them
+    // doesn't itself trigger reactivity.
+    let lastShow = false;
+    let lastUrlOpen = false;
+
+    /** Keep `show` and the URL in sync, pushing whichever side actually changed.
+     *  URL changes (refresh, shared link, back/forward, another dialog opening)
+     *  drive `show`; `show` changes (button, close, Escape, click-outside, or a
+     *  parent's bind:show) drive the URL. Detecting the changed side avoids the
+     *  two effects fighting and reverting each other. */
+    $effect(() => {
+        if (id === undefined) return;
+        const urlOpen = isDialogOpenInURL(id);
+        if (urlOpen !== lastUrlOpen) {
+            lastUrlOpen = urlOpen;
+            if (show !== urlOpen) lastShow = show = urlOpen;
+        } else if (show !== lastShow) {
+            lastShow = show;
+            setDialogInURL(id, show);
+        }
+    });
 
     /** Show and focus dialog when shown, hide when not. */
     $effect(() => {

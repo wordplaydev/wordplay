@@ -161,6 +161,7 @@
     {#if shareable}
         <span data-uiid="shareDialog">
             <Dialog
+                id="share"
                 header={(l) => l.ui.dialog.share.header}
                 explanation={(l) => l.ui.dialog.share.explanation}
                 button={{
@@ -324,6 +325,7 @@
             <CurrentLayout {arrangement} {canvasWidth} {canvasHeight} />
             <span data-uiid="shortcutsDialog"
                 ><Dialog
+                    id="shortcuts"
                     header={(l) => l.ui.dialog.help.header}
                     explanation={(l) => l.ui.dialog.help.explanation}
                     button={{

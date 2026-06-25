@@ -19,7 +19,9 @@
     import '@conflicts/registerTypeResolutions';
 
     import { browser } from '$app/environment';
+    import { afterNavigate } from '$app/navigation';
     import { page } from '$app/state';
+    import { clearUnclaimedDialog } from '@components/widgets/dialogURL';
     import Loading from '@components/app/Loading.svelte';
     import UpdateNotification from '@components/app/UpdateNotification.svelte';
     import Banner from '@components/app/Banner.svelte';
@@ -33,7 +35,7 @@
         type SupportedLocale,
     } from '@locale/SupportedLocales';
     import type { User } from 'firebase/auth';
-    import { onMount, type Snippet } from 'svelte';
+    import { onMount, tick, type Snippet } from 'svelte';
     import { writable, type Writable } from 'svelte/store';
     import Fonts from '@basis/Fonts';
     import {
@@ -250,6 +252,17 @@
                 ) as SupportedLocale[];
             if (valid.length > 0) DB.Locales.setLocales(valid);
         }
+    });
+
+    // After every navigation (including initial load), strip any `dialog` query
+    // param that no mounted dialog claims, so a shared or stale link can't leave
+    // a dirty URL. Runs post-mount, so a dialog present on the page has already
+    // registered its id and won't be stripped. Deferred a tick to be safe
+    // against effect-flush ordering.
+    afterNavigate(() => {
+        tick().then(() => {
+            if (browser) clearUnclaimedDialog();
+        });
     });
 </script>
 
