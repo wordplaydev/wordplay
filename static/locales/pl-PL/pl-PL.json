@@ -6038,7 +6038,7 @@
                     "header": "$~Instrukcje",
                     "explanation": "$~/Krótkie przykłady pokazujące, jak to zrobić w Wordplay. Naciśnij przycisk „Odtwórz” w dowolnym podglądzie, aby zobaczyć, jak to działa, a następnie otwórz go, aby dowiedzieć się, jak to działa./"
                 },
-                "conceptHowTos": "$?"
+                "conceptHowTos": "$~Jak to zrobić"
             },
             "mode": {
                 "browse": {
@@ -6186,7 +6186,7 @@
                 "label": "$~historia nawigacji",
                 "home": "$~Dom"
             },
-            "tutorial": "$?"
+            "tutorial": "$~Seminarium"
         },
         "dialog": {
             "share": {

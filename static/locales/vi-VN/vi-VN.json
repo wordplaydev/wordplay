@@ -6398,7 +6398,7 @@
                     "header": "$~Hướng dẫn",
                     "explanation": "$~/Các ví dụ ngắn minh họa cách thực hiện các thao tác trong Wordplay. Bấm nút phát trên bất kỳ bản xem trước nào để xem nó hoạt động, sau đó mở nó ra để đọc hướng dẫn./"
                 },
-                "conceptHowTos": "$?"
+                "conceptHowTos": "$~Làm cách nào để"
             },
             "tour": {
                 "launch": "$~tham quan hướng dẫn viên.",
@@ -6412,7 +6412,7 @@
                 "label": "$~lịch sử điều hướng",
                 "home": "$~Trang chủ"
             },
-            "tutorial": "$?"
+            "tutorial": "$~Hướng dẫn"
         },
         "dialog": {
             "share": {

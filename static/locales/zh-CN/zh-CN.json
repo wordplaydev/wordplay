@@ -5975,7 +5975,7 @@
                     "header": "$~操作指南",
                     "explanation": "$~/简短示例，展示如何在 Wordplay 中进行操作。点击任意预览即可观看运行，然后打开查看其工作原理。/"
                 },
-                "conceptHowTos": "$?"
+                "conceptHowTos": "$~操作方法"
             },
             "mode": {
                 "browse": {
@@ -6120,7 +6120,7 @@
                 "label": "$~导航历史记录",
                 "home": "$~家"
             },
-            "tutorial": "$?"
+            "tutorial": "$~教程"
         },
         "dialog": {
             "share": {

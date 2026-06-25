@@ -6407,7 +6407,7 @@
                     "header": "$~Cara-cara",
                     "explanation": "$~Contoh singkat yang menunjukkan cara melakukan berbagai hal di Wordplay. Tekan putar pada pratinjau mana pun untuk melihatnya berjalan, lalu buka untuk membaca cara kerjanya."
                 },
-                "conceptHowTos": "$?"
+                "conceptHowTos": "$~Cara"
             },
             "tour": {
                 "launch": "$~ikuti tur bersama pemandu",
@@ -6421,7 +6421,7 @@
                 "label": "$~riwayat navigasi",
                 "home": "$~Rumah"
             },
-            "tutorial": "$?"
+            "tutorial": "$~Tutorial"
         },
         "dialog": {
             "share": {

@@ -6407,7 +6407,7 @@
                     "header": "$~Ghiduri",
                     "explanation": "$~/Exemple scurte care arată cum se fac lucrurile în Wordplay. Apasă pe redare în orice previzualizare pentru a o vedea rulând, apoi deschide-o pentru a citi cum funcționează./"
                 },
-                "conceptHowTos": "$?"
+                "conceptHowTos": "$~Cum se face"
             },
             "tour": {
                 "launch": "$~faceți un tur al ghidului",
@@ -6421,7 +6421,7 @@
                 "label": "$~istoricul navigației",
                 "home": "$~Acasă"
             },
-            "tutorial": "$?"
+            "tutorial": "$~Tutorial"
         },
         "dialog": {
             "share": {

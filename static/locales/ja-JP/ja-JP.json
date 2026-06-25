@@ -6030,7 +6030,7 @@
                     "header": "$~ハウツー",
                     "explanation": "$~/Wordplayでの操作方法を示す短い例です。プレビューの再生ボタンを押すと動作を確認できます。その後、開いて動作の説明をお読みください。/"
                 },
-                "conceptHowTos": "$?"
+                "conceptHowTos": "$~ハウツー"
             },
             "mode": {
                 "browse": {
@@ -6178,7 +6178,7 @@
                 "label": "$~ナビゲーション履歴",
                 "home": "$~家"
             },
-            "tutorial": "$?"
+            "tutorial": "$~チュートリアル"
         },
         "dialog": {
             "share": {

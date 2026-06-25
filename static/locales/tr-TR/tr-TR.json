@@ -6030,7 +6030,7 @@
                     "header": "$~Nasıl yapılır",
                     "explanation": "$~/Wordplay'de işlemlerin nasıl yapılacağını gösteren kısa örnekler. Çalıştırılmasını görmek için herhangi bir önizlemede oynat düğmesine basın, ardından nasıl çalıştığını okumak için dosyayı açın./"
                 },
-                "conceptHowTos": "$?"
+                "conceptHowTos": "$~Nasıl yapılır"
             },
             "mode": {
                 "browse": {
@@ -6178,7 +6178,7 @@
                 "label": "$~gezinme geçmişi",
                 "home": "$~Ev"
             },
-            "tutorial": "$?"
+            "tutorial": "$~Eğitim videosu"
         },
         "dialog": {
             "share": {

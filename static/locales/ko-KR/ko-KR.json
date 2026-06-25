@@ -6007,7 +6007,7 @@
                     "header": "$~방법",
                     "explanation": "$~워드플레이 사용법을 보여주는 간단한 예시입니다. 미리보기에서 재생 버튼을 누르면 실행되는 것을 볼 수 있고, 열어서 사용 방법을 확인할 수 있습니다."
                 },
-                "conceptHowTos": "$?"
+                "conceptHowTos": "$~방법"
             },
             "mode": {
                 "browse": {
@@ -6155,7 +6155,7 @@
                 "label": "$~탐색 기록",
                 "home": "$~집"
             },
-            "tutorial": "$?"
+            "tutorial": "$~지도 시간"
         },
         "dialog": {
             "share": {

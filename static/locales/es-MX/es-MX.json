@@ -5988,7 +5988,7 @@
                     "header": "$~Cómo hacerlo",
                     "explanation": "$~Ejemplos breves que muestran cómo hacer cosas en Wordplay. Pulsa reproducir en cualquier vista previa para verla en funcionamiento y luego ábrela para leer cómo funciona."
                 },
-                "conceptHowTos": "$?"
+                "conceptHowTos": "$~Cómo hacerlo"
             },
             "mode": {
                 "browse": {
@@ -6136,7 +6136,7 @@
                 "label": "$~historial de navegación",
                 "home": "$~Hogar"
             },
-            "tutorial": "$?"
+            "tutorial": "$~Tutorial"
         },
         "dialog": {
             "share": {

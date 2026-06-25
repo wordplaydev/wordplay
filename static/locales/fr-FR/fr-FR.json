@@ -6010,7 +6010,7 @@
                     "header": "$~Tutoriels",
                     "explanation": "$~/Courts exemples illustrant l'utilisation de Wordplay. Cliquez sur « Lecture » dans un aperçu pour le voir s'exécuter, puis ouvrez-le pour en découvrir le fonctionnement./"
                 },
-                "conceptHowTos": "$?"
+                "conceptHowTos": "$~Comment faire"
             },
             "mode": {
                 "browse": {
@@ -6158,7 +6158,7 @@
                 "label": "$~historique de navigation",
                 "home": "$~Maison"
             },
-            "tutorial": "$?"
+            "tutorial": "$~Tutoriel"
         },
         "dialog": {
             "share": {

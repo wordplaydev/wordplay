@@ -6024,7 +6024,7 @@
                     "header": "$~Instruktioner",
                     "explanation": "$~/Korta exempel som visar hur man gör saker i Wordplay. Tryck på play i valfri förhandsgranskning för att se den köras, öppna den sedan för att läsa hur den fungerar./"
                 },
-                "conceptHowTos": "$?"
+                "conceptHowTos": "$~Instruktioner"
             },
             "mode": {
                 "browse": {
@@ -6172,7 +6172,7 @@
                 "label": "$~navigeringshistorik",
                 "home": "$~Hem"
             },
-            "tutorial": "$?"
+            "tutorial": "$~Handledning"
         },
         "dialog": {
             "share": {
