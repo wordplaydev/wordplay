@@ -3,7 +3,9 @@
     import { afterNavigate } from '$app/navigation';
     import { page } from '$app/state';
     import type { Crumb } from '@components/app/getBreadcrumbs';
-    import PageHeader from '@components/app/PageHeader.svelte';
+    import Breadcrumbs from '@components/app/Breadcrumbs.svelte';
+    import Header from '@components/app/Header.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Documentation, {
         Modes,
     } from '@components/concepts/Documentation.svelte';
@@ -102,6 +104,12 @@
     }
 
     let mounted = $state(false);
+
+    // The pinned breadcrumb bar's height, measured so the Documentation search
+    // header can offset its sticky `top` and pin directly below it (the trail
+    // can wrap to multiple lines, so this can't be a constant).
+    let breadcrumbHeight = $state(0);
+
     onMount(() => {
         // Before showing, wait for how tos to load.
         Locales.loadHowTos($locales.getLocaleString()).then(() => {
@@ -260,13 +268,17 @@
     });
 </script>
 
-<section class="guide">
+<section class="guide" style="--guide-sticky-top: {breadcrumbHeight}px">
+    <!-- The breadcrumb bar is a direct child of .guide (not nested in the page
+         header) so its sticky containing block spans the full content height and
+         it stays pinned while the title/description below it scroll away. -->
+    <div class="breadcrumb-bar" bind:clientHeight={breadcrumbHeight}>
+        <Breadcrumbs {extra} />
+    </div>
+
     <div class="header">
-        <PageHeader
-            {extra}
-            header={(l) => l.ui.page.guide.header}
-            description={(l) => l.ui.page.guide.description}
-        />
+        <Header text={(l) => l.ui.page.guide.header} />
+        <MarkupHTMLView markup={(l) => l.ui.page.guide.description} />
     </div>
 
     <Documentation
@@ -288,9 +300,32 @@
         height: 100%;
         gap: var(--wordplay-spacing);
         background: var(--wordplay-background);
+        /* Scroll the whole guide here (rather than letting the page's <main>
+           scroll) so the sticky breadcrumb bar and search header — both direct
+           children — stay pinned for the entire content length, not just the
+           first viewport. A sticky element only stays within its containing
+           block, which must therefore be the scroll container that holds all
+           the content. */
+        overflow-y: auto;
+        min-height: 0;
+    }
+
+    .breadcrumb-bar {
+        position: sticky;
+        top: 0;
+        /* Above the Documentation search header (z-index: 1) so it never bleeds
+           through, and opaque so the scrolled-away title/description don't show. */
+        z-index: 2;
+        background: var(--wordplay-background);
+        /* No bottom padding, and a negative margin that cancels the .guide flex
+           gap below the bar, so the only space to the title is the breadcrumb's
+           own bottom margin — keeping it close as before. */
+        padding: var(--wordplay-spacing) calc(2 * var(--wordplay-spacing)) 0;
+        margin-bottom: calc(-1 * var(--wordplay-spacing));
     }
 
     .header {
-        padding: calc(2 * var(--wordplay-spacing));
+        padding: 0 calc(2 * var(--wordplay-spacing))
+            calc(2 * var(--wordplay-spacing));
     }
 </style>

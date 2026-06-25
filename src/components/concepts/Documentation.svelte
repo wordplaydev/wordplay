@@ -738,7 +738,10 @@
         flex-direction: column;
         gap: var(--wordplay-spacing);
         position: sticky;
-        top: 0;
+        /* In the standalone guide, .guide sets --guide-sticky-top to the pinned
+           breadcrumb bar's height so this header pins directly below it.
+           Everywhere else the variable is unset and this resolves to 0. */
+        top: var(--guide-sticky-top, 0);
         z-index: 1;
         margin-inline-start: var(--wordplay-spacing-half);
         margin-inline-end: var(--wordplay-spacing-half);
