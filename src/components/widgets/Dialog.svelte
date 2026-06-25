@@ -57,10 +57,21 @@
 
     let view: HTMLDialogElement | undefined = $state(undefined);
 
-    /** Register this dialog's id while mounted so the layout's cleanup knows it
-     *  has an owner on this page. Keyed on id so a changing id is handled. */
+    /** True when the element is mounted and not inside an `inert` subtree —
+     *  OverflowToolbar renders an inert measurement clone of each item, and if
+     *  that clone also reacted to the URL a single id would open two modals at
+     *  once (the clone's would steal the top layer). */
+    function isLive(el: HTMLDialogElement | undefined): boolean {
+        return el !== undefined && el.closest('[inert]') === null;
+    }
+
+    /** Whether this instance should persist its open state in the URL. */
+    let persists = $derived(id !== undefined && isLive(view));
+
+    /** Register this dialog's id while it persists so the layout's cleanup knows
+     *  it has an owner on this page. Keyed on id so a changing id is handled. */
     $effect(() => {
-        if (id === undefined) return;
+        if (!persists || id === undefined) return;
         mountedDialogIds.add(id);
         return () => mountedDialogIds.delete(id);
     });
@@ -78,7 +89,7 @@
      *  parent's bind:show) drive the URL. Detecting the changed side avoids the
      *  two effects fighting and reverting each other. */
     $effect(() => {
-        if (id === undefined) return;
+        if (!persists || id === undefined) return;
         const urlOpen = isDialogOpenInURL(id);
         if (urlOpen !== lastUrlOpen) {
             lastUrlOpen = urlOpen;
