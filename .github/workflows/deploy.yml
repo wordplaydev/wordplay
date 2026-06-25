@@ -18,7 +18,12 @@ jobs:
             - uses: actions/checkout@v5
             - uses: actions/setup-node@v5
               with:
-                  node-version: '22'
+                  # Pinned to 22.22.0 (not floating '22') to avoid 22.23.0's
+                  # http.Agent keep-alive change (CVE-2026-48931 fix), which makes
+                  # node-fetch throw "Premature close" during firebase-tools' OAuth
+                  # token exchange and breaks deploy auth. Revert to '22' once
+                  # Node ships the regression fix (nodejs/node#64004).
+                  node-version: '22.22.0'
                   cache: 'npm'
 
             # Set up authentication for Firebase deployment using a service account
@@ -57,6 +62,7 @@ jobs:
             # plain auth works in CI independent of the deploy/--project path.
             - name: Debug auth (temporary)
               run: |
+                  echo "node version:"; node --version
                   echo "firebase CLI version:"; npx firebase --version
                   echo "credential file:"; node -e "const c=require(process.env.GOOGLE_APPLICATION_CREDENTIALS); console.log('type:', c.type, 'project:', c.project_id, 'email:', c.client_email)"
                   echo "projects:list (auth check, debug):"; npx firebase projects:list --debug || true
