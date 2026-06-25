@@ -197,7 +197,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'Pumpkin',
                 'Size',
                 'FloatingFoods',
-                'AditiAnimatedName',
+                'AnimatedName',
                 'WordplayTrace',
             ],
             locales,
@@ -240,7 +240,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
             Object.fromEntries(
                 locale.map((l) => [localeToString(l), l.gallery.stories]),
             ),
-            ['Pears', 'JapaneseClass', 'AditiPersonalMap'],
+            ['Pears', 'JapaneseClass', 'PersonalMap'],
             locales,
         ),
         createGallery(
