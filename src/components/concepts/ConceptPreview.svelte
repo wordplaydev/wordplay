@@ -81,14 +81,18 @@
     // demand) instead of code, falling back to the code (the {@render code()} snippet) when
     // the output isn't a Stage. This is bundled here so every place that renders a concept
     // (the how-to grid, search results, …) gets it automatically.
-    let isHowTo = $derived(
-        concept instanceof HowConcept || concept instanceof GalleryHowConcept,
-    );
-    let example = $derived(
+    let howConcept = $derived(
         concept instanceof HowConcept || concept instanceof GalleryHowConcept
-            ? concept.getPreviewExample()
+            ? concept
             : undefined,
     );
+    let isHowTo = $derived(howConcept !== undefined);
+    let example = $derived(howConcept?.getPreviewExample());
+
+    // How-to code previews show at full size anchored to the tile's start corner
+    // (the tile clips any overflow), so the fixed elide clip would wrongly crop
+    // them differently; only non-how-to previews elide.
+    let elideCode = $derived(elide && !isHowTo);
 
     // A short hint describing what the concept does, shown below the concept link
     // to help creators learn unfamiliar language constructs (see issue #1036).
@@ -138,7 +142,7 @@
             class:outline={outline && !$blocks}
             class:draggable={dragged !== undefined && draggable}
             class:inline
-            class:elide
+            class:elide={elideCode}
             class:evaluate={node instanceof Expression &&
                 node.getKind() === ExpressionKind.Evaluate}
             class:definition={node instanceof Expression &&
@@ -156,7 +160,7 @@
                 {inline}
                 {spaces}
                 blocks={$blocks}
-                {elide}
+                elide={elideCode}
                 locale={localize ? $locales.getLocale() : null}
                 inert={!draggable}
             /></span
@@ -168,6 +172,14 @@
             />
         {/if}
     </span>
+{/snippet}
+
+{#snippet howToTile()}
+    <!-- Frame the how-to code fallback in the same 4:3 box the output preview and
+         placeholder use, so every how-to card is the same size regardless of
+         whether it shows output or code (issue #1182). The code shows at full size
+         anchored to the start corner; the box clips any overflow. -->
+    <div class="how-tile">{@render code()}</div>
 {/snippet}
 
 {#snippet link()}
@@ -189,10 +201,10 @@
                 onPlay={() => (playing = true)}
                 onStop={() => (playing = false)}
             >
-                {#snippet fallback()}{@render code()}{/snippet}
+                {#snippet fallback()}{@render howToTile()}{/snippet}
             </OutputPreview>
         {:else}
-            {@render code()}
+            {@render howToTile()}
         {/if}
     {:else}
         {@render code()}
@@ -234,6 +246,23 @@
         aspect-ratio: 4 / 3;
         border-radius: var(--wordplay-border-radius);
         background: var(--wordplay-alternating-color);
+    }
+
+    /* The how-to code fallback's frame, matching OutputPreview's .stage box so a
+       code-only how-to card is the same size as an output one (issue #1182). The
+       code is already elided, so it's centered and clipped within the box. */
+    .how-tile {
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        border-radius: var(--wordplay-border-radius);
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
+        overflow: hidden;
+        display: flex;
+        /* Anchor the code to the tile's inline-start/block-start corner, shown at
+           full size; the box clips anything that overflows. */
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding: var(--wordplay-spacing);
     }
 
     /* Indent the concept link to match the code's inset (the outline padding, or the
