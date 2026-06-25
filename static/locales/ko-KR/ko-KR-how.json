@@ -1,0 +1,191 @@
+[
+    {
+        "id": "animate-phrase",
+        "title": "캐릭터를 애니메이션으로 만들기",
+        "category": "characters",
+        "body": "캐릭터는 움직이지 않을 때 반복되는 휴식 애니메이션을 가질 수 있습니다.\n\n예를 들어, 고양이를 회전하고 이동시켜서 약간 춤추게 만들어 보겠습니다.\n\n\\Phrase('🐈' resting: Sequence({\n\t\t\t0%: Pose(rotation: 0°)\n\t\t\t15%: Pose(rotation: 15°)\n\t\t\t30%: Pose(rotation: 0°)\n\t\t\t45%: Pose(offset: Place(-0.25m))\n\t\t\t60%: Pose(offset: Place(0.25m))\n\t\t\t75%: Pose(offset: Place(-0.25m))\n\t\t\t90%: Pose(offset: Place(0m))\n\t\t} 2s))\\\n\n이 예제에서는 다음을 사용합니다. @Sequence 다양한 @Pose .",
+        "related": ["move-phrase", "shake-phrase"]
+    },
+    {
+        "id": "move-phrase",
+        "title": "캐릭터를 움직일 수 있게 만들기",
+        "category": "characters",
+        "body": "때로는 ~을 만드는 것이 도움이 됩니다. @Phrase 키보드, 마우스 또는 손가락으로 움직일 수 있습니다.\n\n이렇게 하면 결합할 수 있습니다 @Phrase  와 함께  @Placement :\n\n\\Stage([Phrase('나를 움직여' place: Placement())] place: Place(0m 0m -10m))\\\n\n키보드 화살표를 사용하거나 @Stage 업데이트할 것입니다 @Placement , 원인이 됨 @Phrase 그 방향으로 이동하다.\n\n하지만 당신은 알고 있었나요? @Placement 와 함께 사용할 수 있습니다/아무것/그것이 걸립니다 @Place ?예를 들어 @Stage 가지고있다 @Place 이는 카메라가 향하는 방향을 결정합니다.설정을 시도해 보자 @Placement ~을 위해 @Stage 의 자리에 가서 무슨 일이 일어나는지 지켜보세요.\n\n\\Stage([\n\t\tPhrase('🐈' place: Place(-2m 2m))\n\t\tPhrase('🐈' place: Place(2m -2m))\n\t\tPhrase('🐈' place: Place(-1m 3m))\n\t] place: Placement(Place(0m 0m -10m)))\\\n\n그러면 카메라가 움직입니다! (참고: 시작합니다. @Placement 와 함께\\z\\의 가치\\10m\\그래서 카메라는 모든 것에서 뒤로 물러나 있습니다.)",
+        "related": ["animated-scene"]
+    },
+    {
+        "id": "custom-characters",
+        "title": "사용자 정의 문자 표시",
+        "category": "characters",
+        "body": "이모티콘, 글자, 기호는 정말 좋아요! 하지만 가끔은 나만의 캐릭터를 만들고 싶을 때도 있죠.어떻게 하면 자신만의 작품을 만들고 보여줄 수 있을까요?\n\n먼저 캐릭터를 만들어 시작하세요.<캐릭터@://characters>페이지.픽셀, 사각형, 원, 경로를 사용할 수 있습니다.이름을 지정하고 설명을 입력한 후 사용자 이름과 캐릭터 이름을 다음과 같이 사용할 수 있습니다.\n\n\\Phrase(`내 멋진 모습을 보세요 @username/charactername !`)\\\n\n해당 사용자 이름과 캐릭터 이름이 존재하지 않으므로 빈 사각형으로 표시됩니다.실제 사용자 이름과 캐릭터 이름을 사용하세요.\n\n텍스트에서 따옴표 대신 백틱(\\)을 사용한 게 보이시나요? 중요한 부분입니다.이는 서식 있는 텍스트 모드를 사용하고 있으며 사용자 지정 문자를 참조해야 함을 의미합니다.\n\n텍스트 서식에 대해 자세히 알아보려면 여기를 클릭하세요. @Phrase .",
+        "related": ["animate-phrase"]
+    },
+    {
+        "id": "styling-text",
+        "title": "텍스트 스타일 지정",
+        "category": "characters",
+        "body": "때로는 텍스트를 눈에 띄게 하고 싶을 때가 있습니다. 다음과 같은 방법으로 할 수 있습니다./이탤릭체로 표시/,*굵게 표시*, 그리고 더 많은 것들!\n\n예를 들어, 텍스트를 기울임꼴로 표시하려면 //Hello//처럼 슬래시(//)로 묶을 수 있습니다. 예:\n\n\\Group(Stack() [\n\t\tPhrase(`좀 뽐내고 싶어/이탤릭체/당신의 텍스트에서?`)\n\t\tPhrase(`강조하거나 단어를 전달하는 데 좋습니다./엑스트라 재즈/.`)\n\t\tPhrase(`단어나 구문의 앞과 뒤에 슬래시(//)를 넣으면 됩니다./이와 같이/.`)\n\t])\\\n\n@Phrase 텍스트를 굵게 표시할 수도 있습니다. **안녕하세요**처럼 텍스트를 별표(**)로 감싸면 됩니다. 예:\n\n\\Group(Stack() [\n\t\tPhrase(`텍스트를 눈에 띄게 만들고 싶습니까?*용감한*?`)\n\t\tPhrase(`필요할 때 완벽해요*뭔가를 큰 소리로 외치다*.`)\n\t\tPhrase(`단어 주위에 별표(**) 하나만 붙이면 됩니다.*여기요!*, 그리고 그것이 다르게 타격하는 것을 지켜보세요.`)\n\t])\\\n\n@Phrase 텍스트를 매우 굵게 만들 수도 있습니다. 이렇게 하려면 텍스트를 캐럿으로 감싸세요. 예: ^^Hello^^.\n\n\\Group(Stack() [\n\t\tPhrase(`매우 굵은 글씨는^염소^분위기를 최고조로 끌어올려야 할 때.`)\n\t\tPhrase(`대담하지만 더 많은 것 같아요^불^, 보통 당근을 하나씩 넣어서 합니다 (^^)`)\n\t\tPhrase(`그것을 사용하여 구부리십시오^헤더^ 또는 ^큰 아이디어^.`)\n\t])\\\n\n마지막으로,  @Phrase 텍스트에 밑줄을 표시할 수 있습니다. __Hello__처럼 텍스트를 밑줄(__)로 묶으세요. 예:\n\n\\Group(Stack() [\n\t\tPhrase(`밑줄은_낮은 키 화재_텍스트를 세련되게 유지하면서도 눈에 띄게 만들고 싶을 때 사용합니다.`)\n\t\tPhrase(`텍스트 앞뒤에 밑줄(__) 하나를 넣으세요._이와 같이_그리고 그것은 명확한 강조를 제공합니다.`)\n\t\tPhrase(`그것은 _완벽한_너무 과장하지 않고 요점을 잘 전달해 주셔서 감사합니다._추가의_.`)\n\t])\\",
+        "related": ["custom-characters"]
+    },
+    {
+        "id": "animated-scene",
+        "title": "애니메이션 장면 시리즈 만들기",
+        "category": "stories",
+        "body": "가끔 우리는 이야기를 들려주고 싶고, 가사를 보여주고 싶고, 시를 생동감 있게 표현하고 싶을 때가 있습니다.그렇게 하려면 다음을 사용할 수 있습니다. @Scene  그리고  @Phrase 함께, 순서를 보여주기 위해.\n\n예를 들어, 짧은 동요 \"Jack be Nimble\"에 애니메이션을 적용하고 싶다고 가정해 보겠습니다.우리는 만들 수 있습니다 @Scene 각 줄이 다음과 같습니다. @Phrase , 그리고 설정하여 @Phrase/duration 각 줄의 @Scene 각 문구가 완료될 때마다 다음 문장으로 넘어갑니다.\n\n\\Scene([\n\t\tPhrase('잭은 민첩하다' duration: 1s)\n\t\tPhrase('잭, 빨리 해줘' duration: 1s)\n\t\tPhrase('잭이 촛대를 뛰어넘다' duration: 1s)\n\t])\\\n\n@Scene 기다릴 것이다 @Sequence 할 일도 해야지. 촛불 줄을 점프하게 만들어 보자!\n\n\\Scene([\n\t\tPhrase('잭은 민첩하다' duration: 1s)\n\t\tPhrase('잭, 빨리 해줘' duration: 1s)\n\t\tPhrase('잭이 촛대를 뛰어넘다' entering: Sequence(bounce() 1s))\n\t])\\\n\n@Scene 또한 취할 수 있습니다 @Group 텍스트도 마찬가지이며, 모든 콘텐츠의 애니메이션이 완료될 때까지 기다립니다.\n\n\\Scene([\n\t\tGroup(Stack() [Phrase('잭은 민첩하다') Phrase('잭, 빨리 해줘')] duration: 2s)\n\t\tPhrase('잭이 촛대를 뛰어넘다' entering: Sequence(bounce() 1s))\n\t])\\",
+        "related": ["interactive-scene"]
+    },
+    {
+        "id": "interactive-scene",
+        "title": "대화형 장면 시리즈 만들기",
+        "category": "stories",
+        "body": "가끔은 시청자가 다음 콘텐츠로 넘어가기 전에 뭔가를 해야 하는 스토리를 전달하고 싶을 때가 있습니다.\n\n이를 위해 다음을 사용할 수 있습니다. @Scene , 하지만 넣어 @Boolean 표시하려는 콘텐츠 사이의 값입니다. 예를 들어, 여기를 클릭하면 다음 콘텐츠로 이동합니다. @Button :\n\n\\Scene([\n\t\tPhrase('나를 클릭해')\n\t\tButton()\n\t\tPhrase('다시 클릭해줘' duration: 1s)\n\t\tButton()\n\t\tPhrase('아니, 정말이에요, 최대한 세게 클릭해 주세요!!' duration: 1s)\n\t\tButton()\n\t\tPhrase('아직 나를 클릭하지 않았나요?' duration: 1s)\n\t])\\\n\n그 @Scene 첫 번째를 보여줍니다 @Phrase , 그런 다음 기다립니다 @Button 사실이라면, 그것이 사실이라면 다음으로 넘어갑니다. @Phrase .\n\n진실이든 거짓이든, 원하는 대로 무엇이든 제시할 수 있습니다.예를 들어, 우리는 목소리를 사용할 수 있습니다!우리가 충분히 큰 소리로 외치면 장면이 진행됩니다.\n\n\\Scene([\n\t\tPhrase('거기 누구 있어요?')\n\t\tVolume() > .5\n\t\tPhrase(\"들리지 않아요. 다시 말씀해 주시겠어요?\" duration: 1s)\n\t\tVolume() > .7\n\t\tPhrase('더 크게 말해주세요...' duration: 1s)\n\t\tVolume() > .9\n\t\tPhrase('오, 안녕하세요!' duration: 1s)\n\t])\\",
+        "related": ["animated-scene"]
+    },
+    {
+        "id": "layering-images",
+        "title": "이미지를 서로 겹쳐 놓기",
+        "category": "stories",
+        "body": "가끔은 재미있는 장면이나 창의적인 모양을 만들기 위해 이미지를 겹쳐서 표현하고 싶을 때가 있습니다.\n\n예를 들어, 프로젝트에 여러 레이어를 사용할 수 있습니다. @Stage 원하는 대로 이미지를 쌓고 배열하세요.\n\n보세요! 모양만으로 거북이를 만들었어요!각 도형의 숫자를 바꿔 보세요. 도형을 이동하고, 크기를 조절하고, 회전할 수도 있습니다.여러가지를 시도해보고 무엇을 만들 수 있는지 살펴보세요!\n\n\\¶참고: 다른 프로젝트에 대한 갤러리를 확인하세요<예@https://wordplay.dev/project/example-Layers?play>이미지를 레이어링하는 것.¶Stage([\n\t\tShape(Circle(3m 0m 1m 0m))\n\t\tShape(Polygon(2m 3 0m -12m 0m) rotation: -30°)\n\t\tShape(Polygon(7m 6 0m -6m 0m))\n\t\tShape(Rectangle(-11m -9m 11m -12m 10m) rotation: 25°)\n\t\tShape(Rectangle(-11m -9m 11m -12m 10m) rotation: -25°)\n\t] place: Place(0m 10m -30m))\\\n\n레이어를 활용하면 정말 멋진 작품을 만들 수 있어요! 한번 만들어 보세요!",
+        "related": ["custom-characters"]
+    },
+    {
+        "id": "shake-phrase",
+        "title": "캐릭터를 흔들어 보세요",
+        "category": "randomization",
+        "body": "때로는 캐릭터가 떨고 있는 것처럼 보이게 하는 것이 도움이 됩니다.이를 실현할 수 있는 몇 가지 방법이 있습니다.\n\n우리는 사용할 수 있습니다 @Phrase/offset  와 함께  @Random  그리고  @Time 그 일이 일어나도록 하기 위해서입니다.\n\n\\offset: 0m … ∆ Time() … Random(-0.1m 0.1m)\nPhrase('안녕' offset: Place(offset 0m))\\\n\n이것은 다음과 같은 값을 생성합니다.\\offset\\시계가 똑딱거릴 때마다 새로운 무작위 값으로 변경됩니다.그런 다음 해당 오프셋을 사용하여 다음을 표시합니다. @Phrase 해당 금액만큼 상쇄됩니다.\n\n흔들림을 더 정확하게 제어하려면 다음을 사용할 수 있습니다. @Sequence 반복되는 무작위 흔들림 애니메이션을 만듭니다.\n\n\\Phrase('안녕' resting: Sequence({\n\t\t\t0%: Pose(offset: Place(Random(-.2m .2m)))\n\t\t\t15%: Pose(offset: Place(Random(-.2m .2m)))\n\t\t\t60%: Pose(offset: Place(Random(-.2m .2m)))\n\t\t\t75%: Pose(offset: Place(Random(-.2m .2m)))\n\t\t} 0.1s))\\\n\n이 예제는 무작위 값을 한 번만 선택하지만 이를 반복되는 시퀀스로 바꿉니다.",
+        "related": ["move-phrase"]
+    },
+    {
+        "id": "video-grid",
+        "title": "카메라로 비디오 만들기",
+        "category": "video",
+        "body": "그 @Camera 스트림은 세상의 색상 그리드를 얻는 좋은 방법입니다.우리가 그 색상을 보고 이미지를 다시 만들고 싶다면 어떻게 해야 할까요? @Camera 보시나요?\n\n우리는 사용할 수 있습니다 @Grid 레이아웃 @Group , 그리고  @List/combine 색상을 목록으로 변환하는 기능 @Phrase 우리가 주는 것 @Grid .\n\n\\width: 24\nheight: 24\ncolors: Camera(width × 1px height × 1px 33ms)\nStage([\n\t\tGroup(Grid(height width 0m) colors.combine([] ƒ(phrases row) [\n\t\t\t\t\t\t:phrases\n\t\t\t\t\t\t:row.translate(ƒ(color) Phrase(\"⬤\" color: color duration: 0s))\n\t\t\t\t\t]))\n\t])\\\n\n이 예제는 각 색상을 특정 색상의 원으로 변환하여 구문 목록을 작성합니다.\n\n조심하세요 @Camera 스트림: 입력이 많기 때문에 이미지의 너비와 높이를 작게 유지하는 것이 좋습니다.",
+        "related": ["interactive-scene"]
+    },
+    {
+        "id": "track-points",
+        "title": "포인트를 추적하세요",
+        "category": "remembering",
+        "body": "게임에서는 어떤 일이 일어났을 때 점수를 기록해 두면 도움이 될 때가 있습니다. 워드플레이가 변수에 새로운 값을 부여하는 것을 허용하지 않는다면, 어떻게 할 수 있을까요?\n\n비결은 사용하는 것입니다 @Reaction 정의하다 @Bind 의 가치를 고려하고 어떤 이벤트가 새로운 가치를 가져올지 신중하게 생각해야 합니다. @Bind .\n\n예를 들어, 플레이어가 키보드로 비밀 키를 입력할 때마다 더 많은 점수를 얻는 매우 간단한 게임을 상상해 보세요.\n\n\\points: 0 … ['에이' '이자형' '나' '영형' '유'].has(Key()) … points + 1\\\n\n이 예에서는 다음과 같이 말합니다./포인트는 0에서 시작하고, 키를 누를 때마다 해당 키가 모음 목록에 있으면 포인트는 현재 포인트에 1을 더한 값이 됩니다./매번\\Key()\\  @Stream 변경 사항이 있으면 프로그램은 조건을 다시 평가하고 확인하고 참이면 제공합니다.\\points\\새로운 가치.\n\n이 반응에는 세 가지 부분이 있습니다.\n\n• 포인트의 초기값(\\0\\)• 참일 경우 새로운 값을 생성하는 조건(\\['에이' '이자형' '나' '영형' '유'].has(Key())\\)• 조건이 참이 되면 새 값(\\points + 1\\)\n\n더욱 정교한 포인트 추적을 구현하려면 더욱 정교한 조건이나 새로운 값을 만들면 됩니다. 이러한 조건과 새로운 값의 규칙을 충분히 숙고한 후, 코드로 표현해 보세요.",
+        "related": ["track-points"]
+    },
+    {
+        "id": "track-game-state",
+        "title": "게임 상태를 추적하세요",
+        "category": "remembering",
+        "body": "대부분의 게임은 게임이 진행됨에 따라 여러 가지 사항을 추적합니다. 점수, 플레이어 위치, 기타 세부 정보가 모두 중요합니다.입력이 있을 때마다 상태가 바뀌고, 그에 대한 응답으로 새로운 출력을 표시하고 싶습니다.\n\n모든 게임의 일반적인 패턴은 세 가지로 구성됩니다.\n\n• 게임 상태 데이터 구조를 정의하여 모든 게임 상태를 저장합니다.• 새로운 입력이 있을 때마다 이전 게임 상태를 기반으로 새로운 게임 상태를 만드는 반응을 정의합니다.• 만들어보세요 @Stage  와 함께  @Group  그리고  @Phrase 게임 상태를 보여주기 위해\n\n예를 들어, 텍스트 상자에 비밀 단어를 입력하고 비밀 단어를 맞힐 때마다 점수를 얻는 간단한 게임을 상상해 보겠습니다.\n\n\\•Game(secrets•[''] points•#)\nstate: Game(['고양이' '개'] 0) … state.secrets.has(Chat()) … state.points:state.points + 1\nStage(state.points = state.secrets.length() ? [Phrase(\"당신이 이겼어요!\")] [\n\t\t\tGroup(Stack() [\n\t\t\t\t\tPhrase(\"내 비밀 단어를 맞춰봐\")\n\t\t\t\t\tPhrase(`\\state.secrets.length() - state.points\\더 많은 비밀`)\n\t\t\t\t])\n\t\t])\\\n\n이것을 자세히 살펴보겠습니다.\n\n• 첫 번째 줄,\\•Game(secrets•[''] points•#)\\말한다,/라는 데이터 구조를 만듭니다.\\Game\\비밀과 포인트 목록을 저장하는/• 두 번째 줄에는 다음과 같이 나와 있습니다./게임 상태는 비밀 목록과 0점으로 시작합니다.\\Chat\\변경 사항, 입력한 단어가 비밀 목록에 있는 경우 포인트가 1만큼 증가한 새로운 게임 상태를 만듭니다./.• 프로그램이 재평가될 때마다(\\Chat\\변경 사항)이 있는 경우 스테이지를 표시합니다. 점수가 비밀 개수와 같으면 승리 스테이지를 표시합니다. 그렇지 않으면 프롬프트와 남은 비밀 개수를 표시합니다.\n\n이 예에는 몇 가지 문제가 있습니다.\n\n• 비밀 단어를 여러 번 맞히면 더 많은 점수를 얻습니다! 게임 상태는 추측한 단어를 기억해야 할 수도 있으므로, 각 단어는 두 번만 계산됩니다.• 플레이어가 여러 단어를 입력하면 계산되나요?\n\n더욱 정교한 게임 상태와 게임 업데이트가 이러한 경우를 처리하는 데 도움이 될 것입니다.",
+        "related": ["track-points"]
+    },
+    {
+        "id": "offer-choices",
+        "title": "선택 가능한 선택 항목 표시",
+        "category": "remembering",
+        "body": "때로는 화면에 여러 가지 선택지를 보여주고, 관객이 선택한 것을 바탕으로 뭔가를 하고 싶을 때가 있습니다. 이를 위해서는 두 가지가 필요합니다.\n\n• 하나 이상 @Phrase 선택 가능으로 표시되고 고유한 이름을 갖는 항목(예:\\Phrase('옵션 1' selectable: ⊤ name: '하나')\\)• 아 @Choice , 이는 다음으로 변경됩니다. @Phrase 가장 최근에 선택한 이름.\n\n예를 들어, 여기서는 각각 고유한 이름을 가진 세 가지 선택 사항을 보여줍니다.\n\n\\option: Choice()\nGroup(Stack() [\n\t\tPhrase('옵션 1' selectable: ⊤ name: '하나')\n\t\tPhrase('옵션 2' selectable: ⊤ name: '둘')\n\t\tPhrase('옵션 3' selectable: ⊤ name: '삼')\n\t\tPhrase(option)\n\t])\\\n\n매번 하나를 선택할 때마다 마지막 @Phrase 선택된 이름을 보여줍니다.\n\n이 패턴을 사용하면 선택에 따라 특정 작업을 수행할 수 있습니다. 예를 들어, 위 프로젝트를 변경하여 선택에 따라 비밀 이모지를 표시할 수 있습니다.\n\n\\option: Choice()\noption = '' ? Group(Stack() [\n\t\t\tPhrase('옵션 1' selectable: ⊤ name: '하나')\n\t\t\tPhrase('옵션 2' selectable: ⊤ name: '둘')\n\t\t\tPhrase('옵션 3' selectable: ⊤ name: '삼')\n\t\t]) Phrase({'하나': '😡' '둘': '🏀' '삼': '❤️'}{option} ?? '?')\\\n\n그 @Choice 빈칸으로 시작 @Text 그래서 프로젝트가 시작되면 그걸 확인하고 세 가지 선택 사항을 보여드립니다.선택이 이루어지면 그것은 세 가지 중 하나가 됩니다. @Phrase 이름.\n\n선택에 따라 이모티콘을 표시하려면 다음을 사용할 수 있습니다. @Map 이름을 비밀 이모티콘으로 변환합니다.우리가 값을 얻을 때 @Map , 일치하는 항목이 없으면 다음으로 평가됩니다.\\ø\\그래서 우리는 사용합니다\\??\\기본값으로\\'?'\\해당 옵션이 지도에 없는 경우.이 경우에는 그런 일이 절대 일어날 수 없습니다. 하지만 우리는 그것을 알 만큼 똑똑하지 않습니다!",
+        "related": ["move-phrase"]
+    },
+    {
+        "id": "choose-adventure",
+        "title": "텍스트 어드벤처를 만들어 보세요",
+        "category": "remembering",
+        "body": "재미있는 게임 중 하나는/나만의 모험을 선택하세요/플레이어가 일련의 선택을 통해 행복한 결말을 찾는 게임입니다.\n\n이 중 하나를 만들려면 다음을 사용할 수 있습니다. @Structure , @Key , @Reaction , 그리고  @List 다음과 같이 각각에 대한 옵션을 갖는 일련의 결정을 함께 내립니다.\n\n\\¶이는 선택 사항과 해당 선택 사항이 어떤 결정을 내릴지 저장하는 데이터 구조를 만듭니다.¶•Option(text•'' decision•#)\n¶이 데이터 구조는 선택 목록을 저장합니다.¶•Decision(options: [Option])\n¶이게 바로 게임 콘텐츠입니다! 옵션의 텍스트를 변경하여 분위기와 어려운 선택을 만들어 보세요.까다로운 선택의 장을 만들기 위해 옵션을 추가합니다.¶\ndecisions: [\n\t\tDecision([Option('시작' 2)])\n\t\tDecision([\n\t\t\t\tOption('왼쪽' 3)\n\t\t\t\tOption('똑바로' 4)\n\t\t\t\tOption('오른쪽' 4)\n\t\t\t])\n\t\tDecision([Option('이기다' 1)])\n\t\tDecision([Option('잃다' 1)])\n\t]\n¶키가 1이면 키를 숫자로 변환합니다.¶\nkey: Key()\nchoice: key → #\n¶이 값은 위 목록의 현재 결정을 나타냅니다.키가 눌리면 다음 중 하나가 수행됩니다.이 결정에 대한 선택이 하나뿐이라면 현재 결정을 변경합니다.어떤 키를 눌렀는지와 관계없이 옵션의 목표 결정에 영향을 미칩니다.눌린 키가 1과 옵션 수 사이에 있으면 해당 옵션의 목표 결정으로 이동합니다.그렇지 않으면 우리는 현재의 결정을 그대로 유지합니다.¶\ncurrent•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ? decisions[current].options[choice].decision current\n¶이 옵션은 문구를 쌓아 놓은 형태로 표시됩니다. 이 옵션을 변경하여 설명, 애니메이션 등 다양한 효과를 추가할 수 있습니다!¶Stage([\n\t\tGroup(Stack() decisions[current].options.translate(ƒ(option) Phrase(option.text)))\n\t])\\\n\n이 패턴은 복잡해 보이지만, 실제로는 현재 옵션 세트를 보여주고, 키가 변경될 때마다 선택한 옵션에 대한 결정을 내리는 역할을 합니다. 게임 디자인의 핵심은 상단의 콘텐츠를 변경하는 것입니다!",
+        "related": ["offer-choices"]
+    },
+    {
+        "id": "repeating-a-movement",
+        "title": "동작 반복",
+        "category": "characters",
+        "body": "때로는 캐릭터를 여러 번 같은 방식으로 움직이게 만들고 싶을 때가 있습니다!같은 줄을 계속해서 반복해서 입력하는 것은 지루해졌습니다.\n\n대신, 우리는 사용할 수 있습니다 @Sequence  와 함께  @Phrase 무언가를 여러 번 반복하다니! 구체적으로 말하면,우리는 카운트를 사용할 수 있습니다 @Sequence 그리고 포즈 세트가 몇 번 발생하는지 선택하세요. 예를 들어,농구공이 위아래로 두 번 튀어오르는 모습입니다.\n\n\\Stage([\n\t\tPhrase('🏀' entering: Sequence({\n\t\t\t\t\t0%: Pose(offset: Place(y: 0.25m))\n\t\t\t\t\t25%: Pose(offset: Place(y: 0m))\n\t\t\t\t\t50%: Pose(offset: Place(y: -0.25m))\n\t\t\t\t\t75%: Pose(offset: Place(y: 0m))\n\t\t\t\t\t100%: Pose(offset: Place(y: 0.25m))\n\t\t\t\t} count: 2x duration: 2s))\n\t])\\",
+        "related": ["animate-phrase", "shake-phrase"]
+    },
+    {
+        "id": "arrange-in-a-row",
+        "title": "텍스트를 나란히 배치합니다",
+        "category": "layout",
+        "body": "때로는 텍스트들이 깔끔하게 한 줄로 나란히 배치되기를 원할 때가 있습니다.우리는 그것을 할 수 있습니다 @Row 모든 것을 정리하는 것 @Group 왼쪽에서 오른쪽으로.\n\n\\Group(Row() [Phrase('🍎') Phrase('🍌') Phrase('🍇')])\\\n\n에이 @Row 또한 문자를 위쪽, 중간 또는 아래쪽 가장자리를 기준으로 정렬하고 문자 사이에 간격을 추가할 수 있습니다.같은 과일이지만, 아래쪽을 정렬하고 약간의 여유 공간을 두었습니다.\n\n\\Group(Row('>' 0.5m) [\n\t\tPhrase('🍎' size: 2m)\n\t\tPhrase('🍌' size: 1m)\n\t\tPhrase('🍇' size: 3m)\n\t])\\\n\n그\\'>'\\말해준다 @Row 아랫부분 가장자리를 따라 모든 것을 정렬해 보세요.\\'<'\\최고를 위해 또는\\'|'\\중간을 위해.그\\0.5m\\각 문자 사이의 간격입니다.",
+        "related": ["stack-up-and-down", "make-a-grid"]
+    },
+    {
+        "id": "stack-up-and-down",
+        "title": "문자를 위에서 아래로 쌓으세요",
+        "category": "layout",
+        "body": "만약 @Row 나란히 놓기 위한 것이고, 그 다음에는 @Stack 위에서 아래로 향하는 것입니다. @Stack 각 문자를 바로 앞 문자 아래에 쌓아 올리는 방식으로, 마치 탑처럼 쌓아 올립니다.\n\n\\Group(Stack() [Phrase('하나') Phrase('둘') Phrase('삼')])\\\n\n마치 @Row , a @Stack 정렬 및 패딩 기능도 있을 수 있습니다.모든 것을 왼쪽 편에 맞춰 정렬해 보세요.\n\n\\Group(Stack('<' 0.25m) [\n\t\tPhrase('🐣 작은')\n\t\tPhrase('🐥 중간 크기')\n\t\tPhrase('🐔 큰')\n\t])\\\n\n그\\'<'\\ 수단 /모든 것을 왼쪽 가장자리를 따라 정렬하세요/.다른 방법도 시도해 볼 수 있습니다.\\'|'\\센터의 경우 또는\\'>'\\오른쪽 가장자리를 위해.",
+        "related": ["arrange-in-a-row", "make-a-grid"]
+    },
+    {
+        "id": "make-a-grid",
+        "title": "문자로 격자를 만드세요",
+        "category": "layout",
+        "body": "행을 원한다면 어떻게 해야 할까요?/그리고/동시에 여러 열을 표시하는 건가요? 그게 바로 그런 거죠. @Grid 는 ~을 위한 것입니다.\n\n에이 @Grid 행의 개수, 열의 개수, 그리고 셀 사이의 간격을 입력하라는 메시지입니다.\n\n\\Group(Grid(2 3 0.25m) [\n\t\tPhrase('🍎')\n\t\tPhrase('🍌')\n\t\tPhrase('🍇')\n\t\tPhrase('🥕')\n\t\tPhrase('🥦')\n\t\tPhrase('🌽')\n\t])\\\n\n이렇게 하면 2x3 크기의 과일 및 채소 텃밭이 만들어집니다!\n\n모든 셀의 크기를 동일하게 하려면, @Grid 너비와 높이도 지정해야 합니다. 이렇게 하면 글자 크기가 다르더라도 각 글자가 사각형 안에 깔끔하게 유지됩니다.\n\n\\Group(Grid(2 2 0.1m 1.5m 1.5m) [\n\t\tPhrase('🐈' size: 1m)\n\t\tPhrase('🐶' size: 1.5m)\n\t\tPhrase('🦊' size: 0.5m)\n\t\tPhrase('🐻' size: 2m)\n\t])\\",
+        "related": ["arrange-in-a-row", "stack-up-and-down", "make-many-copies"]
+    },
+    {
+        "id": "make-many-copies",
+        "title": "캐릭터를 여러 개 복사하세요",
+        "category": "layout",
+        "body": "고양이 열 마리나 별 백 개를 원하지만, 그 이름을 일일이 입력하고 싶지 않다면 어떻게 해야 할까요?우리는 명단을 만들어 우리에게 복사본을 만들어 달라고 요청할 수 있습니다. @List/translate .\n\n숫자부터 시작해 볼까요?\\10\\그리고 다음과 같이 변환하세요\\→ []\\그러면 1부터 10까지의 숫자 10개로 이루어진 목록을 얻게 됩니다.그런 다음 우리는 사용합니다 @List/translate 각 숫자를 변환하기 위해 @Phrase :\n\n\\Group(Row() (10 → []).translate(ƒ() Phrase('🐈')))\\\n\n@List/translate 이 함수는 각 항목에 대해 한 번씩 호출되고, 그 결과를 새로운 목록에 저장합니다.\n\n각 복사본을 조금씩 다르게 만들려면, 번역기가 제공하는 숫자를 사용하세요.\n\n\\Group(Row('|' 0.2m) (8 → []).translate(ƒ(n) Phrase('⭐' size: n × 0.5m)))\\\n\n각 별은 이전 별보다 더 큽니다. 왜냐하면\\n\\~에서 ~로 변한다\\1\\ 에게 \\8\\.",
+        "related": ["make-a-grid", "arrange-in-a-row"]
+    },
+    {
+        "id": "follow-the-pointer",
+        "title": "손가락을 따라 캐릭터가 움직이도록 하세요",
+        "category": "characters",
+        "body": "마우스나 손가락을 따라다니는 캐릭터를 원하시나요? @Stage ?우리는 그것을 할 수 있습니다 @Pointer 입력. \n\n@Pointer 우리에게 새로운 것을 줍니다 @Place 포인터가 움직일 때마다.우리가 그것을 사용한다면 @Place ~로서 @Phrase 's\\place\\그러면 캐릭터는 우리가 가리키는 곳으로 이동합니다.\n\n\\Stage([Phrase('🐈' place: Pointer())] place: Place(0m 0m -10m))\\\n\n자, 이제 끝입니다! 마우스를 움직이거나 손가락을 드래그하면 고양이가 따라옵니다.\n\n그것을 꺼내면 더 흥미로운 일들을 할 수 있습니다.\\x\\ 그리고 \\y\\~로부터 @Place .여기 포인터보다 항상 1미터 위에 떠 있는 오리가 있습니다.\n\n\\Stage([\n\t\tPhrase('🦆' place: Place(Pointer().x Pointer().y + 1m))\n\t] place: Place(0m 0m -10m))\\",
+        "related": ["move-phrase", "count-with-time"]
+    },
+    {
+        "id": "your-own-template",
+        "title": "나만의 캐릭터 템플릿을 만들어 보세요",
+        "category": "characters",
+        "body": "때로는 거의 똑같아 보이지만 약간의 차이가 있는 캐릭터를 많이 만들고 싶을 때가 있습니다.똑같은 내용을 쓰는 대신에 @Phrase 반복해서 자신만의 템플릿을 만들 수 있습니다. @Structure .\n\n에이 @Structure 마치 빈칸을 채워 넣어야 하는 레시피와 같습니다.다음은 색상과 라벨을 입력받아 스스로 표시되는 풍선 템플릿입니다.\n\n\\•Balloon(color•Color label•'') (\n\tƒ show() Phrase(`🎈\\label\\` color: color size: 2m)\n)\nGroup(Row() [\n\t\tBalloon(Color(80% 50 240°) '하늘').show()\n\t\tBalloon(Color(60% 80 0°) '장미').show()\n\t\tBalloon(Color(90% 80 90°) '화창한').show()\n\t])\\\n\n그\\•Balloon(...)\\이 부분은 템플릿을 정의하고,\\ƒ show()\\일부 내용은 다음과 같습니다./그리는 방법/.그다음에는 색깔과 라벨이 다른 풍선 세 개를 만들고, 각각에게 다음과 같이 요청합니다.\\show\\그 자체.\n\n템플릿은 코드를 깔끔하게 유지하고 문자를 일관되게 사용하고 싶을 때 유용합니다.",
+        "related": ["track-game-state", "make-many-copies"]
+    },
+    {
+        "id": "count-with-time",
+        "title": "시간이 흐르는 동안 카운트다운",
+        "category": "animation",
+        "body": "많은 프로젝트에는 시간이 지남에 따라 변화하는 요소, 예를 들어 타이머, 점수 표시, 카운트다운 등이 필요합니다.우리는 다음을 조합하여 카운터를 만들 수 있습니다. @Time   @Stream 함께 @Reaction .\n\n에이 @Reaction 세 부분으로 구성됩니다. 시작 값, 관찰 대상, 그리고 관찰 대상이 변할 때의 새로운 값입니다.여기서부터 시작합니다.\\0\\, 보다  @Time 그리고 시계가 똑딱거릴 때마다 하나씩 더하세요:\n\n\\count: 0 … ∆ Time(1000ms) … count + 1\nPhrase(count → '')\\\n\n매초마다 @Time 화재, @Reaction 공지사항\\∆ Time(1000ms)\\, 그리고 \\count\\되다\\count + 1\\.그\\→ ''\\마지막에 숫자를 텍스트로 변환합니다. @Phrase 보여줄 수 있습니다.\n\n시간뿐만 아니라 원하는 입력값을 사용할 수 있습니다. 이 카운터는 Button() 함수가 눌린 횟수를 계산합니다.\n\n\\count: 0 … ∆ Button() … count + 1\nPhrase(count → '')\\\n\n매번 @Button 스트림이 클릭이나 탭으로 변경되면 카운트가 1씩 증가합니다.",
+        "related": ["track-points", "pick-from-a-list"]
+    },
+    {
+        "id": "react-to-sound",
+        "title": "소리에 맞춰 캐릭터가 성장하도록 하세요",
+        "category": "animation",
+        "body": "프로젝트가 당신의 의견을 들을 수 있다는 사실을 알고 계셨나요? @Volume   @Stream 마이크를 사용하여 다음에서 번호를 알려주세요.\\0\\(침묵)에게\\1\\ (시끄러운).\n\n우리는 그 숫자를 이용해 무엇이든 제어할 수 있습니다. 예를 들어 크기를 조절할 수 있죠. @Phrase 회전, 색상까지.\n\n\\Phrase('📣' size: (Volume() × 5m) + 1m)\\\n\n조용할 때는 확성기를 사용합니다.\\1m\\키가 크다. 소리를 지르면 키가 더 커질 수 있다.\\6m\\ 키가 큰.\n\n목소리가 클수록 더 빨리 도는 태양을 원하시나요?\n\n\\Phrase('🌞' rotation: Volume() × 360°)\\\n\n손뼉을 치거나 콧노래를 불러보고 어떤 일이 일어나는지 살펴보세요.(컴퓨터가 처음 마이크 사용 권한을 요청할 수 있습니다.)",
+        "related": ["count-with-time", "follow-the-pointer"]
+    },
+    {
+        "id": "pick-from-a-list",
+        "title": "목록에서 무작위로 하나를 고르세요",
+        "category": "randomization",
+        "body": "프로젝트를 실행할 때마다 놀라움을 선사하고 싶으신가요? 선택 목록을 만들고 그중 하나를 선택하세요. @Random . \n\n@Random 임의의 숫자를 생성할 수 있으며, 해당 숫자로 목록을 검색할 수 있습니다.\\[n]\\.이것들을 합쳐서 무작위 이모티콘을 선택하세요:\n\n\\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']\nPhrase(emojis.random())\\\n\n또한 다음을 사용할 수 있습니다. @Random 두 숫자 중에서 그 사이의 정수 하나를 선택합니다.예를 들어, 선택하려면/새로운/매초마다 무작위 이모티콘을 섞어서 @Time 그리고 @Reaction :\n\n\\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']\npick: emojis[1] … ∆ Time(1000ms) … emojis[Random(1 emojis.length())]\nPhrase(pick)\\\n\n매 틱 @Time , 그 @Reaction 새로운 놀라움을 선사합니다.",
+        "related": ["shake-phrase", "count-with-time"]
+    },
+    {
+        "id": "show-when",
+        "title": "값에 따라 다른 것을 보여주세요",
+        "category": "remembering",
+        "body": "만약 당신이 원한다면 @Phrase 점수나 키 입력과 같은 어떤 것에 따라 변하는 것을 말하는 건가요?\n\n조건문을 사용할 수 있습니다.\\?\\두 가지 중 하나를 선택해야 한다.조건을 작성한 다음 a\\?\\그다음은 참일 때 사용할 값이고, 그다음은 거짓일 때 사용할 값입니다.\n\n스페이스바를 누를 때마다 웃는 얼굴이 슬픈 얼굴로 바뀌었다가 다시 웃는 얼굴로 돌아오는 이모티콘입니다.\n\n\\happy: ⊤ … ∆ Key(' ') … ~happy\nPhrase(happy ? '😊' '😢')\\\n\n그 @Reaction 시작\\happy\\ 처럼 \\⊤\\(참)이고, 그것을 뒤집는다.\\~\\스페이스 키를 누를 때마다.그러면 조건문이\\?\\적절한 얼굴을 고른다.\n\n조건문을 연결하여 두 가지 이상의 항목을 선택할 수 있습니다.\n\n\\score: 0 … ∆ Key('에이') … score + 1\nPhrase(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')\\\n\n누르다 \\a\\몇 번만 기다리면 알에서 병아리가 부화하는 것을 볼 수 있어요!",
+        "related": ["track-points", "offer-choices"]
+    },
+    {
+        "id": "gravity-and-bouncing",
+        "title": "캐릭터가 넘어지고 튕기도록 하세요",
+        "category": "motion",
+        "body": "캐릭터가 실제처럼 넘어지거나, 바닥에 부딪히거나, 밀쳐지는 모습을 보여주고 싶다면 어떻게 해야 할까요?그게 바로 그거예요 @Motion  그리고  @Matter 이것들은 함께 물리 현상을 시뮬레이션하기 위한 것입니다. @Phrase . \n\n@Motion 제어/어디/캐릭터는 시간이 지남에 따라 변합니다. 우리는 그것을 다음과 같이 사용합니다.\\place\\~을 위해 @Phrase 높이 올려놓아서 떨어지게 하는 거죠.또한, 넘어질 때 받쳐줄 무언가가 필요해요. 그렇지 않으면 우리 캐릭터가 계속해서 떨어질 테니까요! @Shape 넓은 범위로 @Rectangle 바닥재로 아주 좋습니다:\n\n\\Stage([\n\t\tPhrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())\n\t\tShape(Rectangle(-10m 0m 10m -5m))\n\t])\\\n\n사과는 5미터 높이에서 떨어져 중력에 의해 아래로 떨어집니다.바닥에 닿으면 약간 튀어 오르는데, 그 이유는 다음과 같습니다. @Phrase 내장되어 있습니다 @Matter 그것은 물체의 무게와 탄력을 조절합니다.\n\n방식을 바꾸려면/탄력 있는/또는 어떻게/무거운/캐릭터란, 당신만의 개성을 부여하는 것입니다. @Matter . @Matter 질량, 탄성, 마찰력이 필요합니다.\n\n\\Stage([\n\t\tPhrase('⚽' place: Motion(Place(-2m 5m)) matter: Matter(1kg 0.9 0.2))\n\t\tPhrase('🪨' place: Motion(Place(2m 5m)) matter: Matter(5kg 0.1 0.8))\n\t\tShape(Rectangle(-10m 0m 10m -5m))\n\t])\\\n\n공은 가볍고 탄력이 좋아서 다시 튀어 오릅니다.그 돌은 무겁고 탄력이 없어서 그냥 쿵 하고 떨어질 뿐이에요.",
+        "related": ["follow-the-pointer", "move-phrase"]
+    },
+    {
+        "id": "mix-languages-in-text",
+        "title": "다국어 사용자를 대상으로 인사하기",
+        "category": "styling",
+        "body": "에이  @Phrase  시청자가 선택한 언어에 따라 적절한 번역을 보여줍니다. 시청자가 스페인어를 사용하면 스페인어로 말하고, 스페인어와 영어를 모두 사용하는 경우(스팽글리시!)에는 혼합해서 말할 수 있습니다.\n\n주세요  @TextLiteral  다국어 번역을 포함한 여러 번역본 중에서 Wordplay가 각 시청자에게 가장 적합한 번역본을 선택합니다.\n\n\\Phrase(\"안녕하세요\"/es\"안녕하세요\"/en\"안녕하세요 신사분\"/es_en)\\\n\n선호하는 언어가 스페인어인 시청자는 다음과 같이 봅니다. /안녕하세요/영어만 선호하는 시청자는 다음과 같이 봅니다. /안녕하세요/스페인어와 영어를 모두 선호하는 시청자는 다음과 같이 봅니다. /안녕하세요 신사분/ — 스페인어와 영어가 섞인 버전입니다.\n\n단어 유희는 가장 구체적인 일치를 선호하므로, 두 가지 모두 적용될 수 있는 경우 단일 언어 번역이 다중 언어 번역보다 항상 우선시됩니다.",
+        "related": ["styling-text"]
+    },
+    {
+        "id": "find-text-with-patterns",
+        "title": "패턴이 있는 텍스트를 찾아 확인하세요.",
+        "category": "styling",
+        "body": "패턴은 텍스트의 모양을 설명하므로 텍스트가 모양에 맞는지 확인하거나 텍스트가 나타나는 모든 위치를 검색할 수 있습니다. 패턴은 내부에 있습니다. \\⣿⣿\\ 왼쪽에서 오른쪽으로, 한 번에 한 부분씩 읽으세요. \\_\\ 편지입니다. \\#\\ 숫자입니다. \\␣\\ 공백이고, 인용된 텍스트는 다음과 같습니다. \\\"-\"\\ 정확히 일치합니다.\n\n텍스트 전체가 패턴에 맞는지 확인하려면 다음을 사용하세요. \\≈\\그러면 당신에게 다음을 제공합니다. \\?\\:\n\n\\'555-1234' ≈ ⣿ 3 # \"-\" 4 #⣿\\\n\n그 질문은 \"세 자리 숫자, 하이픈, 그리고 네 자리 숫자?\"인데, 답은 다음과 같습니다. \\⊤\\.\n\n반복되는 내용 앞에 숫자가 옵니다. \\3\n#\\ 세 자리 숫자를 의미합니다. 이렇게도 말할 수 있습니다. \\>0\n#\\ (하나 이상) \\≥0\n#\\ (0개 이상) \\≤1\n#\\ (선택 사항) 또는 다음과 같은 범위 \\2–4\n#\\.\n\n패턴이 나타나는 모든 위치를 찾으려면 다음을 사용하세요. \\⌕\\그러면 목록이 표시됩니다.  @Structure  결과. 다음 중 하나를 말해 보세요. \\name: (…)\\ 그것을 포착하기 위해:\n\n\\'2026년 6월 15일 출생' ⌕ ⣿ y: (4 #) \"-\" m: (2 #) \"-\" d: (2 #)⣿\\\n\n각 결과는 일치하는 항목을 알려줍니다. \\text\\그것이 있는 곳 \\start\\s와 \\end\\s, 그리고 포로로 잡힌 \\groups\\ - 여기 \\y\\, \\m\\, 그리고 \\d\\패턴은 문자 단위로 일치하기 때문에 모든 언어와 문자 체계에서 동일하게 작동합니다.",
+        "related": ["mix-languages-in-text"]
+    }
+]

@@ -6204,7 +6204,7 @@
         "docs": {
             "label": "guide",
             "link": "show \"$name\" in documentation",
-            "learn": "learn more …",
+            "tutorial": "Tutorial",
             "nodoc": "Who am I? What am I? What is my purpose?",
             "button": {
                 "home": "return home",
@@ -6420,6 +6420,7 @@
                     "gallery": "created by your fellow Wordplay directors"
                 },
                 "related": "Not what you're looking for?",
+                "conceptHowTos": "How-to",
                 "howToGalleryButton": {
                     "label": "see to the how-to in the space",
                     "tip": "see to the how-to in the space"

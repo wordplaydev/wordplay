@@ -5907,7 +5907,6 @@
         "docs": {
             "label": "navegador de documentación",
             "link": "mostrar concepto $name en la documentación",
-            "learn": "saber más …",
             "nodoc": "¿Quién soy? ¿Qué soy? ¿Cuál es mi propósito?",
             "button": {
                 "home": "volver a casa",
@@ -5988,7 +5987,8 @@
                 "explain": {
                     "header": "$~Cómo hacerlo",
                     "explanation": "$~Ejemplos breves que muestran cómo hacer cosas en Wordplay. Pulsa reproducir en cualquier vista previa para verla en funcionamiento y luego ábrela para leer cómo funciona."
-                }
+                },
+                "conceptHowTos": "$?"
             },
             "mode": {
                 "browse": {
@@ -6135,7 +6135,8 @@
             "breadcrumb": {
                 "label": "$~historial de navegación",
                 "home": "$~Hogar"
-            }
+            },
+            "tutorial": "$?"
         },
         "dialog": {
             "share": {

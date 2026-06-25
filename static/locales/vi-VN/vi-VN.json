@@ -6183,7 +6183,6 @@
         "docs": {
             "label": "$~trình duyệt tài liệu",
             "link": "$~Hiển thị \"$name\" trong tài liệu",
-            "learn": "$~Tìm hiểu thêm…",
             "nodoc": "$~Tôi là ai? Tôi là gì? Mục đích sống của tôi là gì?",
             "button": {
                 "home": "$~trở về nhà",
@@ -6398,7 +6397,8 @@
                 "explain": {
                     "header": "$~Hướng dẫn",
                     "explanation": "$~/Các ví dụ ngắn minh họa cách thực hiện các thao tác trong Wordplay. Bấm nút phát trên bất kỳ bản xem trước nào để xem nó hoạt động, sau đó mở nó ra để đọc hướng dẫn./"
-                }
+                },
+                "conceptHowTos": "$?"
             },
             "tour": {
                 "launch": "$~tham quan hướng dẫn viên.",
@@ -6411,7 +6411,8 @@
             "breadcrumb": {
                 "label": "$~lịch sử điều hướng",
                 "home": "$~Trang chủ"
-            }
+            },
+            "tutorial": "$?"
         },
         "dialog": {
             "share": {

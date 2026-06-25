@@ -1,5 +1,12 @@
+import {
+    bundleEntryToHowTo,
+    parseHowTo,
+    type HowToBundleEntry,
+} from '@concepts/HowTo';
 import { MachineTranslated } from '@locale/Annotations';
 import { isMachineTranslated, isUnwritten } from '@locale/LocaleText';
+import fs from 'fs';
+import path from 'path';
 import { describe, expect, it } from 'vitest';
 
 // Test the helper functions and logic that can be unit tested
@@ -53,6 +60,44 @@ describe('verifyHowTo helpers', () => {
                 .trim();
             expect(cleaned).toBe(expected);
         });
+    });
+});
+
+describe('how-to bundle round-trip', () => {
+    // Rebuild a how-to from a bundle entry derived from its source .txt, mirroring how
+    // buildHowTos.ts generates the bundle and LocalesDatabase.loadHowTos reads it back.
+    const id = 'animate-phrase';
+    const text = fs.readFileSync(
+        path.join('static', 'locales', 'en-US', 'how', `${id}.txt`),
+        'utf-8',
+    );
+    const { how, body } = parseHowTo(id, text);
+
+    it('parses the source how-to', () => {
+        expect(how).not.toBeNull();
+        expect(how?.content.getExamples().length).toBeGreaterThan(0);
+    });
+
+    it('round-trips a bundle entry back to an equivalent how-to', () => {
+        if (how === null || body === null)
+            throw new Error('how-to failed to parse');
+
+        // Build a bundle entry the way buildHowTos.ts does.
+        const entry: HowToBundleEntry = {
+            id: how.id,
+            title: how.title,
+            category: how.category,
+            body,
+            related: how.related,
+        };
+
+        const restored = bundleEntryToHowTo(entry);
+        expect(restored.id).toBe(how.id);
+        expect(restored.title).toBe(how.title);
+        expect(restored.category).toBe(how.category);
+        expect(restored.related).toEqual(how.related);
+        // The re-parsed body produces equivalent markup.
+        expect(restored.content.toWordplay()).toBe(how.content.toWordplay());
     });
 });
 

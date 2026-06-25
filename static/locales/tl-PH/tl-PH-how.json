@@ -1,0 +1,191 @@
+[
+    {
+        "id": "animate-phrase",
+        "title": "Gawing animated ang isang karakter",
+        "category": "characters",
+        "body": "Ang mga karakter ay maaaring magkaroon ng resting animation na nauulit habang hindi sila gumagalaw.\n\nHalimbawa, hayaan nating sumayaw nang kaunti ang pusang ito sa pamamagitan ng pagpapaikot at pagpapagalaw nito:\n\n\\Phrase('🐈' resting: Sequence({\n\t\t\t0%: Pose(rotation: 0°)\n\t\t\t15%: Pose(rotation: 15°)\n\t\t\t30%: Pose(rotation: 0°)\n\t\t\t45%: Pose(offset: Place(-0.25m))\n\t\t\t60%: Pose(offset: Place(0.25m))\n\t\t\t75%: Pose(offset: Place(-0.25m))\n\t\t\t90%: Pose(offset: Place(0m))\n\t\t} 2s))\\\n\nAng halimbawang ito ay gumagamit ng isang @Sequence ng iba't ibang @Pose .",
+        "related": ["move-phrase", "shake-phrase"]
+    },
+    {
+        "id": "move-phrase",
+        "title": "Gawing magagalaw ang isang karakter",
+        "category": "characters",
+        "body": "Minsan, nakakatulong ang paggawa ng @Phrase maaaring igalaw gamit ang keyboard, mouse, o daliri.\n\nGawin mo ito, maaari tayong magsama-sama @Phrase kasama @Placement :\n\n\\Stage([Phrase('ilipat ako' place: Placement())] place: Place(0m 0m -10m))\\\n\nGamit ang mga arrow sa keyboard o pag-click sa @Stage ia-update ang @Placement , na nagiging sanhi ng @Phrase upang lumipat sa direksyong iyon.\n\nAlam mo ba, gayunpaman, na @Placement maaaring gamitin kasama ng/kahit ano/na kumukuha ng isang @Place ?Halimbawa, isang @Stage ay may @Place na siyang nagtatakda kung saan nakaturo ang kamera nito.Subukan nating magtakda ng @Placement para sa isang @Stage lugar ni, at tingnan kung ano ang mangyayari.\n\n\\Stage([\n\t\tPhrase('🐈' place: Place(-2m 2m))\n\t\tPhrase('🐈' place: Place(2m -2m))\n\t\tPhrase('🐈' place: Place(-1m 3m))\n\t] place: Placement(Place(0m 0m -10m)))\\\n\nIyan ang nagpapagalaw sa kamera! (Paalala: sisimulan natin ang @Placement na may isang\\z\\halaga ng\\10m\\para ang kamera ay nakatalikod mula sa lahat ng bagay.)",
+        "related": ["animated-scene"]
+    },
+    {
+        "id": "custom-characters",
+        "title": "Magpakita ng pasadyang karakter",
+        "category": "characters",
+        "body": "Maganda ang mga emoji, letra, at simbolo! Pero minsan gusto mo ring gumawa ng sarili mong mga karakter.Paano ka makakalikha at makakapagpakita ng sarili mo?\n\nUna, simulan sa pamamagitan ng paglikha ng isang karakter sa<Mga Karakter@://characters>pahina.Maaari kang gumamit ng mga pixel, parihaba, bilog, at mga path.Bigyan ito ng pangalan, ilarawan ito, at pagkatapos ay maaari mong gamitin ang iyong username at ang pangalan ng karakter tulad nito:\n\n\\Phrase(`Tingnan mo ang aking pagnanasa @username/charactername !`)\\\n\nHindi umiiral ang username at pangalan ng karakter na iyan, kaya ipapakita ito bilang isang walang laman na parihaba.Siguraduhing gamitin ang iyong aktwal na username at character name\n\nNakikita mo ba kung paano ginagamit ng teksto ang backtick sa halip na simbolo ng panipi? Mahalaga iyon.Ibig sabihin niyan ay gumagamit ka ng rich text mode, at kinakailangan iyon para tumukoy sa isang custom na karakter.\n\nMaaari kang matuto nang higit pa tungkol sa pag-format ng teksto mula sa @Phrase .",
+        "related": ["animate-phrase"]
+    },
+    {
+        "id": "styling-text",
+        "title": "I-istilo ang iyong teksto",
+        "category": "characters",
+        "body": "Minsan gusto nating mapansin ang ating teksto. Magagawa natin ito sa pamamagitan ng/pag-italiko/,*pag-bold*, at marami pang iba!\n\nHalimbawa, para i-italicize ang teksto, maaari mo itong balutin ng mga forward slash na //, tulad ng //Hello//. Halimbawa:\n\n\\Group(Stack() [\n\t\tPhrase(`Gusto kong mag-flex nang kaunti/mga italiko/sa iyong teksto?`)\n\t\tPhrase(`Mabuti ito para sa pagbibigay-diin o para bigyan ang iyong mga salita ng/dagdag na jazz/.`)\n\t\tPhrase(`Lagyan lamang ng slash (//) bago at pagkatapos ng salita o parirala,/ganito/.`)\n\t])\\\n\n@Phrase maaari ring naka-bold ang teksto. Magagawa mo ito sa pamamagitan ng pagbalot ng iyong teksto sa mga asterisk **, tulad ng **Hello**. Halimbawa:\n\n\\Group(Stack() [\n\t\tPhrase(`Gusto mong palitawin ang iyong teksto gamit ang*matapang*?`)\n\t\tPhrase(`Perpekto ito kapag kailangan mo*sumigaw ng isang bagay nang malakas*.`)\n\t\tPhrase(`Lagyan lang ng tig-iisang asterisk (**) ang paligid ng iyong mga salita, tulad ng*Hoy!*, at panoorin itong tumama nang iba.`)\n\t])\\\n\n@Phrase maaari ring gawing mas naka-bold ang teksto. Para dito, balutin ang iyong teksto ng mga caret ^^, tulad ng ^^Hello^^. Halimbawa:\n\n\\Group(Stack() [\n\t\tPhrase(`Sobrang naka-bold ang^KAMBING^kapag kailangan mong i-maximize ang vibe.`)\n\t\tPhrase(`Parang matapang pero mas^apoy^, karaniwang ginagawa gamit ang mga karot na nakapaligid (^^)`)\n\t\tPhrase(`Gamitin ito para mag-flex^mga header^o^malalaking ideya^.`)\n\t])\\\n\nSa wakas, @Phrase maaaring gawing may salungguhit ang teksto. Para dito, balutin ang iyong teksto ng mga salungguhit na __, tulad ng __Hello__. Halimbawa:\n\n\\Group(Stack() [\n\t\tPhrase(`Ang salungguhit ay_mahinang apoy_para sa mga panahong gusto mong panatilihing makinis ang teksto pero kapansin-pansin pa rin.`)\n\t\tPhrase(`Maglagay ng isang underscore (__) bago at pagkatapos ng iyong teksto,_ganito_, at nagbibigay ito ng malinaw na diin.`)\n\t\tPhrase(`Ito ay_perpekto_para maipahayag ang iyong punto nang hindi masyadong_dagdag_.`)\n\t])\\",
+        "related": ["custom-characters"]
+    },
+    {
+        "id": "animated-scene",
+        "title": "Gumawa ng isang animated na serye ng mga eksena",
+        "category": "stories",
+        "body": "Minsan gusto nating magkwento, magpakita ng mga liriko, o magbigay-buhay ng mga tula.Para magawa iyan, maaari nating gamitin ang @Scene at @Phrase magkasama, upang ipakita ang isang pagkakasunod-sunod.\n\nHalimbawa, isipin na gusto nating bigyang-buhay ang maikling tula para sa mga bata na pinamagatang \"Jack be Nimble\".Maaari tayong gumawa ng @Scene na ang bawat linya ay @Phrase , at sa pamamagitan ng pagtatakda ng @Phrase/duration ng bawat linya, ang @Scene ay susulong kapag natapos ang bawat parirala.\n\n\\Scene([\n\t\tPhrase('Maging maliksi si Jack' duration: 1s)\n\t\tPhrase('Bilisan mo Jack' duration: 1s)\n\t\tPhrase('Tumalon si Jack sa ibabaw ng kandila' duration: 1s)\n\t])\\\n\n@Scene maghihintay para sa isang @Sequence para matapos na rin. Tara, patalbugin natin ang linya ng kandila!\n\n\\Scene([\n\t\tPhrase('Maging maliksi si Jack' duration: 1s)\n\t\tPhrase('Bilisan mo Jack' duration: 1s)\n\t\tPhrase('Tumalon si Jack sa ibabaw ng kandila' entering: Sequence(bounce() 1s))\n\t])\\\n\n@Scene maaari ring kumuha ng @Group ng teksto rin, at hihintayin nitong matapos ang lahat ng nilalaman nito sa animation.\n\n\\Scene([\n\t\tGroup(Stack() [\n\t\t\t\tPhrase('Maging maliksi si Jack')\n\t\t\t\tPhrase('Bilisan mo Jack')\n\t\t\t] duration: 2s)\n\t\tPhrase('Tumalon si Jack sa ibabaw ng kandila' entering: Sequence(bounce() 1s))\n\t])\\",
+        "related": ["interactive-scene"]
+    },
+    {
+        "id": "interactive-scene",
+        "title": "Gumawa ng isang interactive na serye ng mga eksena",
+        "category": "stories",
+        "body": "Minsan gusto nating magkwento na naghihintay muna sa manonood na gumawa ng isang bagay bago pumunta sa susunod na nilalaman.\n\nPara magawa ito, maaari tayong gumamit ng isang @Scene , ngunit ilagay @Boolean mga halaga sa pagitan ng nilalamang gusto nating ipakita. Halimbawa, narito ang isang pag-click na susulong sa bawat susunod na nilalaman, gamit ang isang @Button :\n\n\\Scene([\n\t\tPhrase('i-click ako')\n\t\tButton()\n\t\tPhrase('i-click mo ulit ako' duration: 1s)\n\t\tButton()\n\t\tPhrase('hindi talaga, i-click mo ako nang malakas hangga't maaari!!' duration: 1s)\n\t\tButton()\n\t\tPhrase('Na-click mo na ba ako?' duration: 1s)\n\t])\\\n\nAng @Scene nagpapakita ng una @Phrase , pagkatapos ay naghihintay para sa @Button maging totoo, at kapag ito ay totoo na, ito ay lilipat sa susunod @Phrase .\n\nMaaari mong gamitin ang anumang gusto mong isulong, basta't ito ay true o false.Halimbawa, maaari nating gamitin ang ating boses!Kung sisigaw tayo nang malakas, ang eksena ay susulong:\n\n\\Scene([\n\t\tPhrase('may tao ba diyan?')\n\t\tVolume() > .5\n\t\tPhrase(\"Hindi kita marinig, ulitin mo?\" duration: 1s)\n\t\tVolume() > .7\n\t\tPhrase('mas malakas pa sana...' duration: 1s)\n\t\tVolume() > .9\n\t\tPhrase('uy, hi!' duration: 1s)\n\t])\\",
+        "related": ["animated-scene"]
+    },
+    {
+        "id": "layering-images",
+        "title": "Ipatong-patong ang mga larawan sa ibabaw ng isa't isa.",
+        "category": "stories",
+        "body": "Minsan gusto nating pagdugtungin ang mga imahe para makabuo ng mga nakakatuwang eksena o malikhaing mga hugis.\n\nHalimbawa, maaari mong gamitin ang maraming layer sa iyong proyekto @Stage para isalansan at ayusin ang mga larawan ayon sa gusto mo.\n\nTingnan mo! Narito ang isang pagong na ginawa ko gamit lamang ang mga hugis!Subukang baguhin ang mga numero para sa bawat hugis. Maaari mo silang ilipat, baguhin ang laki, at paikutin pa.Maglaro-laro at tingnan kung ano ang kaya mong likhain!\n\n\\¶Paalala: Tingnan ang gallery para sa isa pang proyekto<halimbawa@https://wordplay.dev/project/example-Layers?play>ng mga imaheng nagpapatong-patong.¶Stage([\n\t\tShape(Circle(3m 0m 1m 0m))\n\t\tShape(Polygon(2m 3 0m -12m 0m) rotation: -30°)\n\t\tShape(Polygon(7m 6 0m -6m 0m))\n\t\tShape(Rectangle(-11m -9m 11m -12m 10m) rotation: 25°)\n\t\tShape(Rectangle(-11m -9m 11m -12m 10m) rotation: -25°)\n\t] place: Place(0m 10m -30m))\\\n\nMaaari kang gumawa ng mga talagang magagandang bagay gamit ang mga layer! Subukan ito!",
+        "related": ["custom-characters"]
+    },
+    {
+        "id": "shake-phrase",
+        "title": "Gumawa ng pag-iling ng karakter",
+        "category": "randomization",
+        "body": "Minsan nakakatulong na ipakita na parang nanginginig ang isang karakter.May ilang paraan para maisakatuparan natin iyon.\n\nMaaari nating gamitin @Phrase/offset kasama @Random at @Time para mangyari iyon.\n\n\\offset: 0m … ∆ Time() … Random(-0.1m 0.1m)\nPhrase('kumusta' offset: Place(offset 0m))\\\n\nLumilikha ito ng isang halaga na tinatawag na\\offset\\na nagbabago sa isang bagong random na halaga sa bawat pag-ikot ng orasan.Pagkatapos, ginagamit nito ang offset na iyon upang ipakita ang @Phrase na-offset ng halagang iyon.\n\nKung gusto nating mas tumpak na kontrolin ang pagyanig, maaari tayong gumamit ng @Sequence para gumawa ng random na animation ng pag-alog na nauulit.\n\n\\Phrase('kumusta' resting: Sequence({\n\t\t\t0%: Pose(offset: Place(Random(-.2m .2m)))\n\t\t\t15%: Pose(offset: Place(Random(-.2m .2m)))\n\t\t\t60%: Pose(offset: Place(Random(-.2m .2m)))\n\t\t\t75%: Pose(offset: Place(Random(-.2m .2m)))\n\t\t} 0.1s))\\\n\nAng halimbawang ito ay pumipili lamang ng mga random na halaga nang isang beses, ngunit ginagawa itong isang paulit-ulit na pagkakasunod-sunod.",
+        "related": ["move-phrase"]
+    },
+    {
+        "id": "video-grid",
+        "title": "Gumawa ng video mula sa camera",
+        "category": "video",
+        "body": "Ang @Camera Ang stream ay isang mahusay na paraan upang makakuha ng isang grid ng mga kulay mula sa mundo.Paano kung gusto nating makita ang mga kulay na iyon, na muling likhain ang imahe @Camera nakikita?\n\nMaaari nating gamitin ang @Grid layout para sa isang @Group , at @List/combine tungkuling i-convert ang mga kulay sa isang listahan ng @Phrase na ibinibigay natin sa mga @Grid .\n\n\\width: 24\nheight: 24\ncolors: Camera(width × 1px height × 1px 33ms)\nStage([\n\t\tGroup(Grid(height width 0m) colors.combine([] ƒ(phrases row) [\n\t\t\t\t\t\t:phrases\n\t\t\t\t\t\t:row.translate(ƒ(color) Phrase(\"⬤\" color: color duration: 0s))\n\t\t\t\t\t]))\n\t])\\\n\nAng halimbawang ito ay bubuo ng isang listahan ng mga parirala, na sumasaklaw sa bawat kulay sa isang bilog na may partikular na kulay.\n\nMag-ingat sa @Camera mga stream: nakakagawa sila ng maraming input! Gugustuhin mong panatilihing maliit ang lapad at taas ng imahe.",
+        "related": ["interactive-scene"]
+    },
+    {
+        "id": "track-points",
+        "title": "Subaybayan ang mga puntos",
+        "category": "remembering",
+        "body": "Minsan sa isang laro, nakakatulong na subaybayan ang mga puntos kapag may nangyari. Kung hindi pinapayagan ng Wordplay ang mga baryabol na bigyan ng mga bagong halaga, paano natin magagawa iyon?\n\nAng sekreto ay ang paggamit ng @Reaction upang tukuyin ang isang @Bind halaga, at pag-isipang mabuti kung anong pangyayari ang dapat magresulta sa isang bagong halaga para sa @Bind .\n\nHalimbawa, isipin ang isang napakasimpleng laro kung saan ang isang manlalaro ay nakakakuha ng mas maraming puntos sa bawat pagta-type ng isang sikretong key sa keyboard.\n\n\\points: 0 … ['isang' 'e' 'ako' 'o' 'ikaw'].has(Key()) … points + 1\\\n\nSinasabi ng halimbawang ito,/Nagsisimula ang mga puntos sa 0, at sa tuwing may pipindutin na key, kung ang key ay nasa listahan ng mga patinig, ang mga puntos ay nagiging kasalukuyang mga puntos na may dagdag na isa./Sa bawat pagkakataon ang\\Key()\\  @Stream mga pagbabago, muling susuriin ng programa, susuriin ang kondisyon, at kung ito ay totoo, ibibigay\\points\\isang bagong halaga.\n\nMay tatlong bahagi ang isang reaksyon dito:\n\n• Ang paunang halaga para sa mga puntos (\\0\\)• Ang kondisyon na, kapag totoo, ay lumilikha ng isang bagong halaga (\\['isang' 'e' 'ako' 'o' 'ikaw'].has(Key())\\)• Ang bagong halaga, kung ang kundisyon ay magiging totoo (\\points + 1\\)\n\nPara makagawa ng mas sopistikadong point tracking, gumawa lang ng mas sopistikadong mga kondisyon o mga bagong halaga. Maglaan ng ilang oras para pag-isipan ang mga patakaran ng mga kundisyong iyon at mga bagong halaga, at pagkatapos ay subukang ipahayag ang mga ito sa code.",
+        "related": ["track-points"]
+    },
+    {
+        "id": "track-game-state",
+        "title": "Subaybayan ang estado ng laro",
+        "category": "remembering",
+        "body": "Karamihan sa mga laro ay sumusubaybay sa maraming bagay habang umuusad ang laro: mga puntos, posisyon ng manlalaro, at iba pang mga detalye ay pawang mahalaga.Sa bawat oras na mayroong ilang input, nagbabago ang estado na iyon, at pagkatapos ay gusto nating magpakita ng bagong output, bilang tugon.\n\nAng pangkalahatang padron para sa anumang laro ay may tatlong ginagawa:\n\n• Magtakda ng istruktura ng datos ng estado ng laro, upang iimbak ang lahat ng estado ng laro• Magtakda ng reaksyon na bubuo ng bagong estado ng laro batay sa nakaraang estado ng laro tuwing may bagong input• Gumawa ng @Stage kasama @Group at @Phrase upang ipakita ang estado ng laro\n\nHalimbawa, isipin natin ang isang simpleng laro na kinabibilangan ng pag-type ng mga sikretong salita sa isang text box, at pagkuha ng puntos sa bawat oras na mahulaan ang isang sikretong salita:\n\n\\•Game(secrets•[''] points•#)\nstate: Game(['pusa' 'aso'] 0) … state.secrets.has(Chat()) … state.points:state.points + 1\nStage(state.points = state.secrets.length() ? [Phrase(\"panalo ka!\")] [\n\t\t\tGroup(Stack() [\n\t\t\t\t\tPhrase(\"hulaan ang aking mga sikretong salita\")\n\t\t\t\t\tPhrase(`\\state.secrets.length() - state.points\\mas maraming sikreto`)\n\t\t\t\t])\n\t\t])\\\n\nSuriin natin ito.\n\n• Ang unang linya,\\•Game(secrets•[''] points•#)\\sabi,/Gumawa ng istruktura ng datos na tinatawag na\\Game\\na nag-iimbak ng listahan ng mga sikreto at mga punto/• Ang pangalawang linya ay nagsasabing/Ang estado ng laro ay nagsisimula sa isang listahan ng mga sikreto at mga sero puntos. Sa bawat oras na ang\\Chat\\mga pagbabago, kung ang salitang ipinasok ay nasa listahan ng mga sikreto, gumawa ng bagong estado ng laro na may mga puntos na nadaragdagan ng isa/.• Sa bawat pagkakataong muling susuriin ng programa (kapag ang\\Chat\\(mga pagbabago), magpakita ng isang yugto. Kung ang bilang ng mga puntos ay katumbas ng bilang ng mga sikreto, ipapakita ang isang panalong yugto. Kung hindi, magpakita ng isang prompt at ang bilang ng mga natitirang sikreto.\n\nAng halimbawang ito ay may ilang mga problema:\n\n• Kung mahulaan nila ang isang sikretong salita nang maraming beses, makakakuha sila ng mas maraming puntos! Maaaring kailanganin din ng ating estado ng laro na matandaan kung ano ang nahulaan, kaya ang bawat salita ay binibilang lamang nang dalawang beses.• Kung maraming salita ang ilalagay ng manlalaro, dapat ba itong mabilang?\n\nAng mas sopistikadong mga estado ng laro at mga update sa laro ay makakatulong sa amin na mahawakan ang mga kasong ito.",
+        "related": ["track-points"]
+    },
+    {
+        "id": "offer-choices",
+        "title": "Ipakita ang mga pagpipiliang maaaring piliin",
+        "category": "remembering",
+        "body": "Minsan gusto mong magpakita ng maraming pagpipilian sa screen, at gumawa ng isang bagay gamit ang pinipili ng mga manonood. Para magawa ito, kailangan natin ng dalawang bagay:\n\n• Isa o higit pa @Phrase na minarkahan bilang mapipili at may natatanging pangalan (hal.,\\Phrase('opsyon 1' selectable: ⊤ name: 'isa')\\)• Isang @Choice , na nagbabago sa @Phrase pangalang pinakahuling napili.\n\nHalimbawa, ipinapakita namin dito ang tatlong pagpipilian, bawat isa ay may natatanging pangalan.\n\n\\option: Choice()\nGroup(Stack() [\n\t\tPhrase('opsyon 1' selectable: ⊤ name: 'isa')\n\t\tPhrase('opsyon 2' selectable: ⊤ name: 'dalawa')\n\t\tPhrase('opsyon 3' selectable: ⊤ name: 'tatlo')\n\t\tPhrase(option)\n\t])\\\n\nSa bawat oras na may mapipili, ang huli @Phrase ipinapakita ang pangalang napili.\n\nMaaari mong gamitin ang pattern na ito upang gawin ang mga bagay bilang tugon sa isang pagpipilian. Halimbawa, maaari nating baguhin ang proyekto sa itaas upang magpakita ng isang sikretong emoji batay sa pagpipilian:\n\n\\option: Choice()\noption = '' ? Group(Stack() [\n\t\t\tPhrase('opsyon 1' selectable: ⊤ name: 'isa')\n\t\t\tPhrase('opsyon 2' selectable: ⊤ name: 'dalawa')\n\t\t\tPhrase('opsyon 3' selectable: ⊤ name: 'tatlo')\n\t\t]) Phrase({'isa': '😡' 'dalawa': '🏀' 'tatlo': '❤'}{option} ?? '?')\\\n\nAng @Choice nagsisimula bilang isang walang laman @Text , kaya kapag nagsimula na ang proyekto, sinusuri namin iyon, at ipinapakita ang tatlong pagpipilian.Kapag nagawa na ang isang pagpili, ito ay nagiging isa sa tatlo @Phrase mga pangalan.\n\nPara magpakita ng emoji batay sa napili, maaari nating gamitin ang @Map para i-convert ang pangalan sa isang sikretong emoji.Kapag nakakuha tayo ng halaga mula sa isang @Map , kung walang tugma, susuriin ito sa\\ø\\, kaya ginagamit namin ang\\??\\para maging default sa\\'?'\\kung wala sa mapa ang opsyon.Sa kasong ito, hindi iyon maaaring mangyari, ngunit hindi tayo sapat na matalino para malaman ito!",
+        "related": ["move-phrase"]
+    },
+    {
+        "id": "choose-adventure",
+        "title": "Gumawa ng isang pakikipagsapalaran sa teksto",
+        "category": "remembering",
+        "body": "Isang masayang uri ng laro ay/piliin ang sarili mong pakikipagsapalaran/laro, kung saan ang isang manlalaro ay pipili ng isang serye ng mga pagpipilian, at susubukang makahanap ng paraan tungo sa masayang wakas.\n\nPara makagawa ng isa sa mga ito, maaari nating gamitin ang @Structure , @Key , @Reaction , at @List magkasama upang gumawa ng isang koleksyon ng mga desisyon, bawat isa ay may hanay ng mga opsyon, tulad nito:\n\n\\¶Gumagawa ito ng istruktura ng datos na nag-iimbak ng isang pagpipilian at kung aling desisyon ang pupuntahan nito.¶•Option(text•'' decision•#)\n¶Ang istrukturang ito ng datos ay nag-iimbak ng isang listahan ng mga pagpipilian¶•Decision(options: [Option])\n¶Ito ang nilalaman ng laro! Baguhin ang teksto sa Mga Pagpipilian upang lumikha ng kapaligiran at mahihirap na mga pagpipilian.Magdagdag ng mga opsyon upang lumikha ng isang lambat ng mga mahihirap na pagpipilian.¶\ndecisions: [\n\t\tDecision([Option('simulan' 2)])\n\t\tDecision([\n\t\t\t\tOption('kaliwa' 3)\n\t\t\t\tOption('tuwid' 4)\n\t\t\t\tOption('kanan' 4)\n\t\t\t])\n\t\tDecision([Option('manalo' 1)])\n\t\tDecision([Option('matalo' 1)])\n\t]\n¶I-convert ang susi sa isang numero, kung ito ay isa¶\nkey: Key()\nchoice: key → #\n¶Ang halagang ito ay kumakatawan sa kasalukuyang desisyon sa listahan sa itaas.Kapag pinindot ang key, ginagawa namin ang isa sa mga sumusunod.Kung iisa lang ang pagpipilian para sa desisyong ito, babaguhin natin ang kasalukuyang desisyonsa target na desisyon ng opsyon kahit anong key ang pinindot.Kung ang key na pinindot ay nasa pagitan ng 1 at ng bilang ng mga opsyon, pupunta tayo sa target na desisyon ng opsyong iyon.Kung hindi, pananatilihin na lang natin ang kasalukuyang desisyon.¶\ncurrent•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ? decisions[current].options[choice].decision current\n¶Ipinapakita lang nito ang mga opsyon bilang isang salansan ng mga parirala. Maaari mo itong baguhin para magdagdag ng mga tagubilin, animation, at iba pang anghang!¶Stage([\n\t\tGroup(Stack() decisions[current].options.translate(ƒ(option) Phrase(option.text)))\n\t])\\\n\nMukhang kumplikado ang pattern na ito, ngunit ang ginagawa lang talaga nito ay ipinapakita ang kasalukuyang hanay ng mga opsyon at sa bawat pagbabago ng isang susi, patungo sa desisyon ng napiling opsyon. Ang pagdidisenyo ng isang laro ay tungkol sa pagbabago ng nilalaman sa itaas!",
+        "related": ["offer-choices"]
+    },
+    {
+        "id": "repeating-a-movement",
+        "title": "Pag-uulit ng isang galaw",
+        "category": "characters",
+        "body": "Minsan gusto nating igalaw ang isang karakter sa parehong paraan nang ilang beses!Nakakapagod na ring paulit-ulit na i-type ang parehong mga linya.\n\nSa halip, maaari nating gamitin ang @Sequence kasama @Phrase para ulitin ang isang bagay nang maraming beses! Sa partikular,magagamit natin ang bilang sa @Sequence at piliin kung ilang beses nangyayari ang isang set ng mga pose. Halimbawa,Narito ang isang basketball na tumatalbog pataas at pababa nang dalawang beses.\n\n\\Stage([\n\t\tPhrase('🏀' entering: Sequence({\n\t\t\t\t\t0%: Pose(offset: Place(y: 0.25m))\n\t\t\t\t\t25%: Pose(offset: Place(y: 0m))\n\t\t\t\t\t50%: Pose(offset: Place(y: -0.25m))\n\t\t\t\t\t75%: Pose(offset: Place(y: 0m))\n\t\t\t\t\t100%: Pose(offset: Place(y: 0.25m))\n\t\t\t\t} count: 2x duration: 2s))\n\t])\\",
+        "related": ["animate-phrase", "shake-phrase"]
+    },
+    {
+        "id": "arrange-in-a-row",
+        "title": "Ilagay ang teksto nang magkatabi",
+        "category": "layout",
+        "body": "Minsan gusto natin na ang teksto ay magkatabi sa isang maayos na linya.Magagawa natin iyan gamit ang isang @Row , na nag-aayos ng lahat ng bagay sa isang @Group mula kaliwa pakanan.\n\n\\Group(Row() [Phrase('🍎') Phrase('🍌') Phrase('🍇')])\\\n\nIsang @Row maaari ring ihanay ang mga karakter sa pamamagitan ng kanilang mga gilid sa itaas, gitna, o ibaba, at magdagdag ng espasyo sa pagitan ng mga ito.Narito ang parehong prutas, ngunit nakahanay sa ilalim na may kaunting espasyo para makahinga:\n\n\\Group(Row('>' 0.5m) [\n\t\tPhrase('🍎' size: 2m)\n\t\tPhrase('🍌' size: 1m)\n\t\tPhrase('🍇' size: 3m)\n\t])\\\n\nAng\\'>'\\nagsasabi sa @Row para ihanay ang lahat sa ilalim na gilid nito. Subukan\\'<'\\para sa itaas o\\'|'\\para sa gitna.Ang\\0.5m\\ay ang espasyo sa pagitan ng bawat karakter.",
+        "related": ["stack-up-and-down", "make-a-grid"]
+    },
+    {
+        "id": "stack-up-and-down",
+        "title": "Ipatong ang mga karakter mula itaas hanggang ibaba",
+        "category": "layout",
+        "body": "Kung ang isang @Row ay para sa magkatabi, pagkatapos ay isang @Stack ay para sa itaas hanggang ibaba. @Stack inilalagay ang bawat karakter sa ibaba ng nauna rito, tulad ng isang tore.\n\n\\Group(Stack() [\n\t\tPhrase('isa')\n\t\tPhrase('dalawa')\n\t\tPhrase('tatlo')\n\t])\\\n\nParang isang @Row , isang @Stack maaari ring magkaroon ng alignment at padding.Subukang ihanay ang lahat sa kaliwang bahagi:\n\n\\Group(Stack('<' 0.25m) [\n\t\tPhrase('🐣 maliit')\n\t\tPhrase('🐥 katamtaman')\n\t\tPhrase('🐔 malaki')\n\t])\\\n\nAng\\'<'\\ibig sabihin/ihanay ang lahat sa kaliwang gilid/.Maaari mo ring subukan\\'|'\\para sa gitna o\\'>'\\para sa kanang gilid.",
+        "related": ["arrange-in-a-row", "make-a-grid"]
+    },
+    {
+        "id": "make-a-grid",
+        "title": "Gumawa ng grid ng mga karakter",
+        "category": "layout",
+        "body": "Paano kung gusto natin ng mga hilera/at/mga kolum nang sabay-sabay? Iyan ang isang @Grid ay para sa.\n\nIsang @Grid Nagtatanong ng bilang ng mga hilera, bilang ng mga kolum, at kung gaano kalaking espasyo ang ilalagay sa pagitan ng mga selula.\n\n\\Group(Grid(2 3 0.25m) [\n\t\tPhrase('🍎')\n\t\tPhrase('🍌')\n\t\tPhrase('🍇')\n\t\tPhrase('🥕')\n\t\tPhrase('🥦')\n\t\tPhrase('🌽')\n\t])\\\n\nGumagawa ito ng 2 por 3 na hardin ng prutas at gulay!\n\nKung gusto mong magkapareho ang laki ng bawat selula, ibigay @Grid lapad at taas din. Sa ganoong paraan, ang mga karakter ay mananatili nang maayos sa loob ng kanilang mga parisukat, kahit na magkaiba ang laki ng mga ito:\n\n\\Group(Grid(2 2 0.1m 1.5m 1.5m) [\n\t\tPhrase('🐈' size: 1m)\n\t\tPhrase('🐶' size: 1.5m)\n\t\tPhrase('🦊' size: 0.5m)\n\t\tPhrase('🐻' size: 2m)\n\t])\\",
+        "related": ["arrange-in-a-row", "stack-up-and-down", "make-many-copies"]
+    },
+    {
+        "id": "make-many-copies",
+        "title": "Gumawa ng maraming kopya ng isang karakter",
+        "category": "layout",
+        "body": "Paano kung gusto natin ng sampung pusa, o isang daang bituin, pero ayaw nating i-type lahat?Maaari tayong humingi ng kopya mula sa isang listahan para sa atin. @List/translate .\n\nKung magsisimula tayo sa numero\\10\\at i-convert ito gamit ang\\→ []\\, makakakuha tayo ng listahan ng sampung numero mula 1 hanggang 10.Pagkatapos ay ginagamit natin @List/translate upang gawing isang @Phrase :\n\n\\Group(Row() (10 → []).translate(ƒ() Phrase('🐈')))\\\n\n@List/translate Tinatawag ang ating maliit na function nang isang beses para sa bawat item, at kinokolekta ang mga resulta sa isang bagong listahan.\n\nPara gawing medyo magkaiba ang bawat kopya, gamitin ang numerong ibinibigay sa atin ng translate:\n\n\\Group(Row('|' 0.2m) (8 → []).translate(ƒ(n) Phrase('⭐' size: n × 0.5m)))\\\n\nMas malaki ang bawat bituin kaysa sa nauna, dahil\\n\\nagmumula sa\\1\\sa\\8\\.",
+        "related": ["make-a-grid", "arrange-in-a-row"]
+    },
+    {
+        "id": "follow-the-pointer",
+        "title": "Pasundan ng isang karakter ang iyong daliri",
+        "category": "characters",
+        "body": "Gusto mo ba ng karakter na hahabol sa iyong mouse o daliri sa paligid ng @Stage ?Magagawa natin iyan gamit ang @Pointer input. \n\n@Pointer nagbibigay sa atin ng sariwa @Place sa tuwing gumagalaw ang pointer.Kung gagamitin natin iyan @Place bilang isang @Phrase ng\\place\\, pupunta ang karakter saanman natin ituro.\n\n\\Stage([Phrase('🐈' place: Pointer())] place: Place(0m 0m -10m))\\\n\nAyan na! Igalaw ang iyong mouse o i-drag ang iyong daliri, at panoorin ang pusang sumusunod.\n\nMas marami kang magagawang kawili-wiling bagay sa pamamagitan ng paghila palabas ng\\x\\at\\y\\mula sa @Place .Narito ang isang pato na laging lumulutang nang isang metro sa itaas ng pointer:\n\n\\Stage([\n\t\tPhrase('🦆' place: Place(Pointer().x Pointer().y + 1m))\n\t] place: Place(0m 0m -10m))\\",
+        "related": ["move-phrase", "count-with-time"]
+    },
+    {
+        "id": "your-own-template",
+        "title": "Gumawa ng sarili mong template ng karakter",
+        "category": "characters",
+        "body": "Minsan gusto mo ng maraming karakter na halos magkapareho ang hitsura, ngunit may kaunting pagkakaiba.Sa halip na magsulat ng pareho @Phrase paulit-ulit, maaari kang gumawa ng sarili mong template gamit ang isang @Structure .\n\nIsang @Structure parang isang recipe na may mga patlang na kailangang punan.Narito ang isang template ng lobo na may kulay at label, at alam kung paano ipapakita ang sarili nito:\n\n\\•Balloon(color•Color label•'') (\n\tƒ show() Phrase(`🎈\\label\\` color: color size: 2m)\n)\nGroup(Row() [\n\t\tBalloon(Color(80% 50 240°) 'Langit').show()\n\t\tBalloon(Color(60% 80 0°) 'Rosas').show()\n\t\tBalloon(Color(90% 80 90°) 'Maaraw').show()\n\t])\\\n\nAng\\•Balloon(...)\\bahagi ang tumutukoy sa template, at ang\\ƒ show()\\sabi ng bahagi/paano gumuhit ng isa/.Pagkatapos ay gagawa tayo ng tatlong lobo na may iba't ibang kulay at label, at hihilingin sa bawat isa na\\show\\mismo.\n\nMahusay ang mga template kapag gusto mong panatilihing maayos ang iyong code at pare-pareho ang iyong mga karakter.",
+        "related": ["track-game-state", "make-many-copies"]
+    },
+    {
+        "id": "count-with-time",
+        "title": "Magbilang habang lumilipas ang oras",
+        "category": "animation",
+        "body": "Maraming proyekto ang nangangailangan ng isang bagay na lalago sa paglipas ng panahon — isang timer, isang score, isang countdown.Maaari tayong bumuo ng isang counter sa pamamagitan ng pagsasama-sama ng @Time   @Stream na may isang @Reaction .\n\nIsang @Reaction ay may tatlong bahagi: isang panimulang halaga, isang bagay na dapat bantayan, at isang bagong halaga kapag nagbago ang bagay na iyon.Dito, magsisimula tayo sa\\0\\, relo @Time , at magdagdag ng isa sa bawat pag-ikot ng orasan:\n\n\\count: 0 … ∆ Time(1000ms) … count + 1\nPhrase(count → '')\\\n\nBawat segundo, @Time mga sunog, ang @Reaction mga abiso na may\\∆ Time(1000ms)\\, at\\count\\nagiging\\count + 1\\.Ang\\→ ''\\sa dulo ay kino-convert ang numero sa teksto kaya @Phrase maipakita ito.\n\nMaaari mong gamitin ang anumang input na gusto mo, hindi lang ang oras. Binibilang ng counter na ito ang bilang ng mga pagpindot sa Button():\n\n\\count: 0 … ∆ Button() … count + 1\nPhrase(count → '')\\\n\nSa bawat pagkakataon ang @Button Nagbabago ang stream sa isang pag-click o pag-tap, tumataas ang bilang ng isa.",
+        "related": ["track-points", "pick-from-a-list"]
+    },
+    {
+        "id": "react-to-sound",
+        "title": "Palaguin ang mga karakter gamit ang tunog",
+        "category": "animation",
+        "body": "Alam mo ba na ang iyong proyekto ay maaaring makinig sa iyo? Ang @Volume   @Stream ginagamit ang iyong mikropono para bigyan kami ng numero mula sa\\0\\(tahimik) sa\\1\\(malakas).\n\nMagagamit natin ang numerong iyan para kontrolin ang kahit ano — kasinlaki ng isang @Phrase , ang pag-ikot nito, ang kulay nito.\n\n\\Phrase('📣' size: (Volume() × 5m) + 1m)\\\n\nKapag tahimik, ang megaphone ay\\1m\\matangkad. Kapag sumigaw ka, maaari itong lumaki hanggang\\6m\\matangkad.\n\nGusto mo ba ng araw na mas mabilis umikot habang mas malakas ang tibok ng puso mo?\n\n\\Phrase('🌞' rotation: Volume() × 360°)\\\n\nSubukang pumalakpak o humuhuni at panoorin kung ano ang mangyayari.(Maaaring humingi ng pahintulot ang iyong computer na gamitin ang mikropono sa unang pagkakataon.)",
+        "related": ["count-with-time", "follow-the-pointer"]
+    },
+    {
+        "id": "pick-from-a-list",
+        "title": "Pumili ng isang random na bagay mula sa isang listahan",
+        "category": "randomization",
+        "body": "Gusto mo bang sorpresahin ka ng iyong proyekto sa bawat oras na ito ay tatakbo? Gumawa ng listahan ng mga pagpipilian at pumili ng isa na may @Random . \n\n@Random maaaring magbigay sa atin ng random na numero, at maaaring hanapin ang isang listahan ayon sa numero gamit ang\\[n]\\.Pagsama-samahin ang mga ito para pumili ng random na emoji:\n\n\\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']\nPhrase(emojis.random())\\\n\nMaaari mo ring gamitin @Random na may dalawang numero, na pumipili ng isang buong numero sa pagitan ng mga ito.Halimbawa, para pumili ng isang/bago/random na emoji bawat segundo, ihalo @Time at isang @Reaction :\n\n\\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']\npick: emojis[1] … ∆ Time(1000ms) … emojis[Random(1 emojis.length())]\nPhrase(pick)\\\n\nAng bawat tik ng @Time , ang @Reaction pumipili ng bagong sorpresa.",
+        "related": ["shake-phrase", "count-with-time"]
+    },
+    {
+        "id": "show-when",
+        "title": "Magpakita ng iba't ibang bagay batay sa isang halaga",
+        "category": "remembering",
+        "body": "Paano kung gusto mo ng @Phrase magbago depende sa isang bagay — tulad ng score, o pagpindot sa key?\n\nMaaari nating gamitin ang kondisyonal na\\?\\para pumili sa pagitan ng dalawang bagay.Isulat ang kondisyon, pagkatapos ay isang\\?\\, pagkatapos ay ang value na gagamitin kapag ito ay true, pagkatapos ay ang value na gagamitin kapag ito ay false.\n\nNarito ang isang masayang mukha na nagiging malungkot sa tuwing pipindutin mo ang space bar, at pagkatapos ay babalik muli:\n\n\\happy: ⊤ … ∆ Key(' ') … ~happy\nPhrase(happy ? '😊' '😢')\\\n\nAng @Reaction nagsisimula\\happy\\bilang\\⊤\\(totoo), at binabaligtad ito gamit ang\\~\\sa tuwing pinipindot ang espasyo.Pagkatapos ang kondisyonal\\?\\pinipili ang tamang mukha.\n\nMaaari kang pumili mula sa higit sa dalawang bagay gamit ang mga conditional chain:\n\n\\score: 0 … ∆ Key('isang') … score + 1\nPhrase(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')\\\n\nPindutin\\a\\ilang beses at panoorin ang itlog na napisa at maging sisiw!",
+        "related": ["track-points", "offer-choices"]
+    },
+    {
+        "id": "gravity-and-bouncing",
+        "title": "Pabagsakin at patalbugin ang isang karakter",
+        "category": "motion",
+        "body": "Paano kung gusto nating matumba ang isang karakter, tumalbog sa sahig, o maitulak na parang totoong bagay?Iyon ang @Motion at @Matter ay para sa — magkasama nilang ginagaya ang pisika para sa isang @Phrase . \n\n@Motion mga kontrol/saan/ang isang karakter ay nasa paglipas ng panahon. Ginagamit natin ito bilang\\place\\para sa isang @Phrase , sinimulan itong itaas nang mataas para ito ay mahulog.Kailangan din natin ng madadapaan, kung hindi ay patuloy lang na mahuhulog ang ating karakter! @Shape na may malawak @Rectangle nakakagawa ng magandang sahig:\n\n\\Stage([\n\t\tPhrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())\n\t\tShape(Rectangle(-10m 0m 10m -5m))\n\t])\\\n\nAng mansanas ay nagsisimula sa taas na limang metro at nahuhulog sa ilalim ng grabidad.Kapag tumama ito sa sahig, medyo tumatalbog ito, dahil @Phrase may built-in na @Matter na kumokontrol kung gaano ito kabigat at katalbog.\n\nPara baguhin kung paano/mabounce/o paano/mabigat/ang isang karakter ay, bigyan ito ng sarili mo @Matter . @Matter tumatagal ng isang masa, isang bounciness, at isang friction:\n\n\\Stage([\n\t\tPhrase('⚽' place: Motion(Place(-2m 5m)) matter: Matter(1kg 0.9 0.2))\n\t\tPhrase('🪨' place: Motion(Place(2m 5m)) matter: Matter(5kg 0.1 0.8))\n\t\tShape(Rectangle(-10m 0m 10m -5m))\n\t])\\\n\nMagaan at tumalbog ang bola, kaya't tumatalbog itong muli.Mabigat ang bato at hindi tumatalbog, kaya't kusang lumalagutok ito.",
+        "related": ["follow-the-pointer", "move-phrase"]
+    },
+    {
+        "id": "mix-languages-in-text",
+        "title": "Batiin ang isang madlang multilingual",
+        "category": "styling",
+        "body": "Isang  @Phrase  Ipinapakita ng tamang pagsasalin sa bawat manonood batay sa mga wikang kanilang pinili. Kung ang iyong mga manonood ay nagsasalita ng Espanyol, maaari mo silang kausapin sa Espanyol; kung nagsasalita sila ng parehong Espanyol at Ingles — Espanyol! — maaari mong paghaluin.\n\nMagbigay ng  @TextLiteral  ilang mga salin, kabilang ang isang multilingual, at pinipili ng Wordplay ang pinakaangkop para sa bawat manonood:\n\n\\Phrase(\"kumusta\"/es\"kumusta\"/en\"kumusta ginoo\"/es_en)\\\n\nIsang manonood na ang mas gustong wika ay Espanyol lamang ang makakakita /kumusta/Ang isang manonood na mas gusto lang ang Ingles ay nakakakita /kumusta/Ang isang manonood na mas gusto ang parehong Espanyol at Ingles ay makakakita /kumusta ginoo/ — ang bersyong Espanyol.\n\nMas pinapaboran ng paglalaro ng mga salita ang pinaka-espesipikong tugma, kaya ang isang pagsasalin na iisa ang wika ay laging nananalo kaysa sa isang multilingual kapag maaaring pareho itong mailapat.",
+        "related": ["styling-text"]
+    },
+    {
+        "id": "find-text-with-patterns",
+        "title": "Hanapin at suriin ang teksto na may mga pattern",
+        "category": "styling",
+        "body": "Inilalarawan ng isang pattern ang hugis ng ilang teksto, para masuri mo kung akma ang teksto sa isang hugis, o mahahanap mo ang bawat lugar kung saan ito lumalabas. Nasa loob ang mga pattern. \\⣿⣿\\ at basahin mula kaliwa pakanan, isa-isang piraso. \\_\\ ay isang liham, \\#\\ ay isang digit, \\␣\\ ay isang espasyo, at sinipi na teksto tulad ng \\\"-\"\\ eksaktong tumutugma.\n\nPara masuri kung ang isang buong piraso ng teksto ay akma sa isang padron, gamitin ang \\≈\\, na nagbibigay sa iyo ng \\?\\:\n\n\\'555-1234' ≈ ⣿ 3 # \"-\" 4 #⣿\\\n\nIyan ang tanong na \"tatlong digit, isang gitling, tapos apat na digit?\" — at ang sagot ay \\⊤\\.\n\nAng mga bilang ay nauuna sa bagay na inuulit nila: \\3\n#\\ nangangahulugang tatlong numero. Maaari mo ring sabihin \\>0\n#\\ (isa o higit pa), \\≥0\n#\\ (zero o higit pa), \\≤1\n#\\ (opsyonal), o isang saklaw tulad ng \\2–4\n#\\.\n\nPara mahanap ang bawat lugar na lumalabas ang isang pattern, gamitin ang \\⌕\\, na nagbibigay sa iyo ng listahan ng  @Structure  mga resulta. Magpangalan ng isang piraso na may \\name: (…)\\ para makuha ito:\n\n\\'ipinanganak noong 2026-06-15' ⌕ ⣿ y: (4 #) \"-\" m: (2 #) \"-\" d: (2 #)⣿\\\n\nAng bawat resulta ay nagsasabi sa iyo ng magkatugmang \\text\\, kung saan ito \\start\\at \\end\\s, at ang mga nabihag \\groups\\ — dito \\y\\, \\m\\, at \\d\\Dahil ang mga padron ay tumutugma ayon sa grapema, pareho ang paggana ng mga ito sa bawat wika at iskrip.",
+        "related": ["mix-languages-in-text"]
+    }
+]

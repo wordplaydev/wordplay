@@ -1,0 +1,191 @@
+[
+    {
+        "id": "animate-phrase",
+        "title": "Bir karakteri canlandırın",
+        "category": "characters",
+        "body": "Karakterler hareket etmedikleri sırada tekrarlanan bir dinlenme animasyonuna sahip olabilir.\n\nÖrneğin, bu kediyi döndürüp kaydırarak biraz dans ettirelim:\n\n\\Phrase('🐈' resting: Sequence({\n\t\t\t0%: Pose(rotation: 0°)\n\t\t\t15%: Pose(rotation: 15°)\n\t\t\t30%: Pose(rotation: 0°)\n\t\t\t45%: Pose(offset: Place(-0.25m))\n\t\t\t60%: Pose(offset: Place(0.25m))\n\t\t\t75%: Pose(offset: Place(-0.25m))\n\t\t\t90%: Pose(offset: Place(0m))\n\t\t} 2s))\\\n\nBu örnek bir @Sequence farklı @Pose .",
+        "related": ["move-phrase", "shake-phrase"]
+    },
+    {
+        "id": "move-phrase",
+        "title": "Bir karakteri hareket ettirilebilir hale getirin",
+        "category": "characters",
+        "body": "Bazen bir tane yapmak faydalıdır @Phrase klavye, fare veya parmakla hareket ettirilebilir.\n\nBunu yapın, birleştirebiliriz @Phrase  ile  @Placement :\n\n\\Stage([\n\t\tPhrase('beni hareket ettir' place: Placement())\n\t] place: Place(0m 0m -10m))\\\n\nKlavye oklarını kullanarak veya @Stage güncellenecek @Placement , neden olan @Phrase o yöne doğru hareket etmek.\n\nPeki, biliyor muydunuz ki? @Placement ile birlikte kullanılabilir/herhangi bir şey/bu bir şey alır @Place ?Örneğin bir @Stage bir tane var @Place kamerasının nereye baktığını belirler.Bir ayar yapmayı deneyelim @Placement bir için @Stage 'nin yerini bul ve neler olacağını gör.\n\n\\Stage([\n\t\tPhrase('🐈' place: Place(-2m 2m))\n\t\tPhrase('🐈' place: Place(2m -2m))\n\t\tPhrase('🐈' place: Place(-1m 3m))\n\t] place: Placement(Place(0m 0m -10m)))\\\n\nBu kameranın hareket etmesini sağlar! (Not: @Placement bir ile\\z\\değeri\\10m\\(böylece kamera her şeyden uzaklaşmış olur.)",
+        "related": ["animated-scene"]
+    },
+    {
+        "id": "custom-characters",
+        "title": "Özel bir karakter göster",
+        "category": "characters",
+        "body": "Emojiler, harfler ve semboller harika! Ama bazen kendi karakterlerinizi yaratmak istersiniz.Kendinize ait olanı nasıl yaratabilir ve gösterebilirsiniz?\n\nİlk olarak, bir karakter oluşturarak başlayın<Karakterler@://characters> sayfa. Piksel, dikdörtgen, daire ve yol kullanabilirsiniz.Bir isim verin, tanımlayın ve ardından kullanıcı adınızı ve karakter adını şu şekilde kullanabilirsiniz:\n\n\\Phrase(`Benim fantezime bak @username/charactername !`)\\\n\nBu kullanıcı adı ve karakter adı mevcut olmadığından boş bir dikdörtgen olarak gösterilecektir.Gerçek kullanıcı adınızı ve karakter adınızı kullandığınızdan emin olun\n\nMetnin tırnak işareti yerine ters tırnak işaretini nasıl kullandığını görüyor musunuz? Bu önemli.Bu bize zengin metin modunu kullandığınızı ve özel bir karaktere başvurmak için bunun gerekli olduğunu söylüyor.\n\nMetin biçimlendirme hakkında daha fazla bilgi edinmek için şuraya bakabilirsiniz: @Phrase .",
+        "related": ["animate-phrase"]
+    },
+    {
+        "id": "styling-text",
+        "title": "Metninizi biçimlendirin",
+        "category": "characters",
+        "body": "Bazen metnimizin öne çıkmasını isteriz. Bunu şu şekilde yapabiliriz:/italik yazıyla/,*kalınlaştırma*ve daha fazlası!\n\nÖrneğin, metni italik yapmak için, //Merhaba// gibi ileri eğik çizgilerle // sarabilirsiniz. Örneğin:\n\n\\Group(Stack() [\n\t\tPhrase(`Biraz esnemek ister misin?/italik/Metninizde mi?`)\n\t\tPhrase(`Vurgu yapmak veya kelimelerinize anlam katmak için iyidir/ekstra caz/.`)\n\t\tPhrase(`Kelime veya ifadenin önüne ve arkasına eğik çizgi (//) koymanız yeterli./bunun gibi/.`)\n\t])\\\n\n@Phrase metni kalınlaştırabilirsiniz. Bunu metninizi yıldız işaretleriyle **, **Merhaba** gibi sararak yapabilirsiniz. Örneğin:\n\n\\Group(Stack() [\n\t\tPhrase(`Metninizin dikkat çekmesini mi istiyorsunuz?*gözü pek*?`)\n\t\tPhrase(`İhtiyacınız olduğunda mükemmeldir*yüksek sesle bir şeyler bağırmak*.`)\n\t\tPhrase(`Kelimelerinizin etrafına tek yıldız işareti (**) koyun, şöyle ki*Hey!*ve farklı şekilde çarptığını izleyin.`)\n\t])\\\n\n@Phrase metni EKSTRA kalın da yapabilirsiniz. Bunun için metninizi şapka işaretleri ^^ ile sarın, ^^Merhaba^^ gibi. Örneğin:\n\n\\Group(Stack() [\n\t\tPhrase(`Ekstra kalın olan^KEÇİ^titreşimi en üst seviyeye çıkarmanız gerektiğinde.`)\n\t\tPhrase(`Cesur ama daha fazlası gibi^ateş^, genellikle tek havuçlarla yapılır (^^)`)\n\t\tPhrase(`Bunu esnetmek için kullan^başlıklar^ veya ^büyük fikirler^.`)\n\t])\\\n\nNihayet,  @Phrase metni altı çizili yapabilir. Bunun için metninizi __Merhaba__ gibi alt çizgilerle __ sarın. Örneğin:\n\n\\Group(Stack() [\n\t\tPhrase(`Altı çizili_düşük anahtarlı ateş_Metninizin şık ama aynı zamanda dikkat çekici olmasını istediğiniz zamanlar için.`)\n\t\tPhrase(`Metninizin başına ve sonuna tek bir alt çizgi (__) koyun,_bunun gibi_ve temiz bir vurgu yapıyor.`)\n\t\tPhrase(`Onun _mükemmel_çok abartmadan anlatmak istediğini dile getirdiğin için_ekstra_.`)\n\t])\\",
+        "related": ["custom-characters"]
+    },
+    {
+        "id": "animated-scene",
+        "title": "Animasyonlu sahneler dizisi oluşturun",
+        "category": "stories",
+        "body": "Bazen hikayeler anlatmak, şarkı sözleri göstermek veya şiiri canlandırmak isteriz.Bunu yapmak için şunu kullanabiliriz: @Scene  Ve  @Phrase birlikte, bir sırayı göstermek için.\n\nÖrneğin, \"Jack be Nimble\" adlı kısa çocuk şarkısını canlandırmak istediğimizi varsayalım.Bir tane yapabiliriz @Scene her satırı bir @Phrase ve ayarlayarak @Phrase/duration her satırın @Scene her cümle bittiğinde ilerleyecekti.\n\n\\Scene([\n\t\tPhrase('Jack çevik ol' duration: 1s)\n\t\tPhrase('Jack çabuk ol' duration: 1s)\n\t\tPhrase('Jack mum çubuğunun üzerinden atladı' duration: 1s)\n\t])\\\n\n@Scene bekleyeceğim @Sequence yapılacak da. Mum çizgisini zıplatalım!\n\n\\Scene([\n\t\tPhrase('Jack çevik ol' duration: 1s)\n\t\tPhrase('Jack çabuk ol' duration: 1s)\n\t\tPhrase('Jack mum çubuğunun üzerinden atladı' entering: Sequence(bounce() 1s))\n\t])\\\n\n@Scene ayrıca alabilir @Group metnin de animasyonu tamamlanacak ve tüm içeriğin animasyonunun bitmesini bekleyecektir.\n\n\\Scene([\n\t\tGroup(Stack() [\n\t\t\t\tPhrase('Jack çevik ol')\n\t\t\t\tPhrase('Jack çabuk ol')\n\t\t\t] duration: 2s)\n\t\tPhrase('Jack mum çubuğunun üzerinden atladı' entering: Sequence(bounce() 1s))\n\t])\\",
+        "related": ["interactive-scene"]
+    },
+    {
+        "id": "interactive-scene",
+        "title": "Etkileşimli bir sahne dizisi yaratın",
+        "category": "stories",
+        "body": "Bazen izleyicinin bir sonraki içeriğe geçmeden önce bir şeyler yapmasını bekleyen hikayeler anlatmak isteriz.\n\nBunu yapmak için şunu kullanabiliriz: @Scene , ama koy @Boolean göstermek istediğimiz içerik arasındaki değerler. Örneğin, burada bir tıklama, bir sonraki içeriğe ilerlemenizi sağlar, bir @Button :\n\n\\Scene([\n\t\tPhrase('bana tıkla')\n\t\tButton()\n\t\tPhrase('beni tekrar tıkla' duration: 1s)\n\t\tButton()\n\t\tPhrase('hayır gerçekten, bana olabildiğince sert tıkla!!' duration: 1s)\n\t\tButton()\n\t\tPhrase('beni tıkladın mı?' duration: 1s)\n\t])\\\n\nThe @Scene ilkini gösterir @Phrase , sonra bekler @Button doğruysa ve doğruysa, bir sonraki aşamaya geçer @Phrase .\n\nİlerlemek için istediğiniz her şeyi kullanabilirsiniz, yeter ki doğru ya da yanlış olsun.Mesela sesimizi kullanabiliriz!Yeterince yüksek sesle bağırırsak sahne ilerleyecek:\n\n\\Scene([\n\t\tPhrase('orada kimse var mı?')\n\t\tVolume() > .5\n\t\tPhrase(\"Duyamadım, tekrar söyler misin?\" duration: 1s)\n\t\tVolume() > .7\n\t\tPhrase('daha yüksek sesle lütfen...' duration: 1s)\n\t\tVolume() > .9\n\t\tPhrase('aa merhaba!' duration: 1s)\n\t])\\",
+        "related": ["animated-scene"]
+    },
+    {
+        "id": "layering-images",
+        "title": "Görüntüleri Birbirinin Üzerine Katmanlayın",
+        "category": "stories",
+        "body": "Bazen eğlenceli sahneler veya yaratıcı şekiller oluşturmak için görselleri katmanlar halinde kullanmak isteriz.\n\nÖrneğin, projenizde birden fazla katman kullanabilirsiniz @Stage Resimleri istediğiniz gibi istifleyip düzenleyebilirsiniz.\n\nBakın! İşte sadece şekilleri kullanarak yaptığım bir kaplumbağa!Her şeklin sayılarını değiştirmeyi deneyin. Bunları taşıyabilir, yeniden boyutlandırabilir ve hatta döndürebilirsiniz.Oynayın ve neler yaratabileceğinizi görün!\n\n\\¶Not: Başka bir proje için galeriye göz atın<örnek@https://wordplay.dev/project/example-Layers?play>Katmanlı görüntülerin.¶Stage([\n\t\tShape(Circle(3m 0m 1m 0m))\n\t\tShape(Polygon(2m 3 0m -12m 0m) rotation: -30°)\n\t\tShape(Polygon(7m 6 0m -6m 0m))\n\t\tShape(Rectangle(-11m -9m 11m -12m 10m) rotation: 25°)\n\t\tShape(Rectangle(-11m -9m 11m -12m 10m) rotation: -25°)\n\t] place: Place(0m 10m -30m))\\\n\nKatmanlarla gerçekten harika şeyler yapabilirsiniz! Deneyin!",
+        "related": ["custom-characters"]
+    },
+    {
+        "id": "shake-phrase",
+        "title": "Bir karakteri sallayın",
+        "category": "randomization",
+        "body": "Bazen karakterin titriyormuş gibi görünmesi faydalı olabilir.Bunu gerçekleştirmenin birkaç yolu var.\n\nKullanabiliriz @Phrase/offset  ile  @Random  Ve  @Time Bunu gerçekleştirmek için.\n\n\\offset: 0m … ∆ Time() … Random(-0.1m 0.1m)\nPhrase('MERHABA' offset: Place(offset 0m))\\\n\nBu, adı verilen bir değer yaratır\\offset\\her saat tik tak ettiğinde yeni bir rastgele değere dönüşen.Daha sonra, bu ofseti kullanarak şunu gösterir: @Phrase bu miktarla telafi edilir.\n\nSarsıntıyı daha hassas bir şekilde kontrol etmek isteseydik, bir @Sequence Tekrarlanan rastgele bir sallanma animasyonu yapmak için.\n\n\\Phrase('MERHABA' resting: Sequence({\n\t\t\t0%: Pose(offset: Place(Random(-.2m .2m)))\n\t\t\t15%: Pose(offset: Place(Random(-.2m .2m)))\n\t\t\t60%: Pose(offset: Place(Random(-.2m .2m)))\n\t\t\t75%: Pose(offset: Place(Random(-.2m .2m)))\n\t\t} 0.1s))\\\n\nBu örnekte rastgele değerler yalnızca bir kez seçiliyor, ancak bunlar tekrar eden bir diziye dönüştürülüyor.",
+        "related": ["move-phrase"]
+    },
+    {
+        "id": "video-grid",
+        "title": "Kameradan bir video oluşturun",
+        "category": "video",
+        "body": "The @Camera Stream, dünyadaki renklerin bir ızgarasını elde etmenin harika bir yoludur.Ya o renkleri görmek istersek, görüntüyü yeniden yaratırsak? @Camera görüyor mu?\n\nBunu kullanabiliriz @Grid bir düzen için @Group , Ve  @List/combine renkleri bir listeye dönüştürme işlevi @Phrase biz veriyoruz @Grid .\n\n\\width: 24\nheight: 24\ncolors: Camera(width × 1px height × 1px 33ms)\nStage([\n\t\tGroup(Grid(height width 0m) colors.combine([] ƒ(phrases row) [\n\t\t\t\t\t\t:phrases\n\t\t\t\t\t\t:row.translate(ƒ(color) Phrase(\"⬤\" color: color duration: 0s))\n\t\t\t\t\t]))\n\t])\\\n\nBu örnek, her rengi belirli bir renge sahip bir daireye dönüştürerek bir ifade listesi oluşturur.\n\nDikkatli olun @Camera akışlar: çok fazla girdi üretirler! Görüntünün genişliğini ve yüksekliğini küçük tutmak isteyeceksiniz.",
+        "related": ["interactive-scene"]
+    },
+    {
+        "id": "track-points",
+        "title": "Puanları takip edin",
+        "category": "remembering",
+        "body": "Bazen bir oyunda, bir şey olduğunda puanları takip etmek faydalıdır. Wordplay değişkenlere yeni değerler verilmesine izin vermiyorsa, bunu nasıl yapabiliriz?\n\nİşin püf noktası bir tane kullanmaktır @Reaction tanımlamak için @Bind 'nin değerini ve hangi olayın yeni bir değere yol açacağını dikkatlice düşünmek @Bind .\n\nÖrneğin, bir oyuncunun klavyedeki gizli bir tuşa her bastığında daha fazla puan aldığı çok basit bir oyun düşünün.\n\n\\points: 0 … ['A' 've' 'Ben' 'O' 'sen'].has(Key()) … points + 1\\\n\nBu örnek şunu söylüyor:/Puanlar 0'dan başlar ve sonra her tuşa basıldığında, eğer tuş sesli harfler listesindeyse, puanlar geçerli puan artı bir olur./Her seferinde\\Key()\\  @Stream değişirse, program yeniden değerlendirir, koşulu kontrol eder ve doğruysa,\\points\\yeni bir değer.\n\nBu tepkimenin üç bölümü vardır:\n\n• Puanlar için başlangıç değeri (\\0\\)• Doğru olduğunda yeni bir değer üreten koşul (\\['A' 've' 'Ben' 'O' 'sen'].has(Key())\\)• Koşul doğruysa yeni değer (\\points + 1\\)\n\nDaha karmaşık nokta takibi yapmak için, daha karmaşık koşullar veya yeni değerler oluşturun. Bu koşulların ve yeni değerlerin kurallarını düşünmek için biraz zaman ayırın ve sonra bunları kodda ifade etmeye çalışın.",
+        "related": ["track-points"]
+    },
+    {
+        "id": "track-game-state",
+        "title": "Oyun durumunu takip edin",
+        "category": "remembering",
+        "body": "Çoğu oyun, oyun ilerledikçe birden fazla şeyi takip eder: puanlar, oyuncuların pozisyonları ve diğer ayrıntıların hepsi önemlidir.Her seferinde bir girdi olduğunda, bu durum değişir ve sonra yanıt olarak yeni bir çıktı görüntülemek isteriz.\n\nHerhangi bir oyun için genel bir kalıp üç şeyi yapar:\n\n• Tüm oyun durumlarını depolamak için bir oyun durumu veri yapısı tanımlayın• Yeni bir girdi olduğunda önceki oyun durumuna dayalı olarak yeni bir oyun durumu oluşturan bir tepki tanımlayın• Bir tane yapın @Stage  ile  @Group  Ve  @Phrase oyun durumunu göstermek için\n\nÖrneğin, bir metin kutusuna gizli kelimeler yazmayı ve her gizli kelime tahmin edildiğinde bir puan almayı içeren basit bir oyun hayal edelim:\n\n\\•Game(secrets•[''] points•#)\nstate: Game(['kedi' 'köpek'] 0) … state.secrets.has(Chat()) … state.points:state.points + 1\nStage(state.points = state.secrets.length() ? [Phrase(\"sen kazandın!\")] [\n\t\t\tGroup(Stack() [\n\t\t\t\t\tPhrase(\"gizli kelimelerimi tahmin et\")\n\t\t\t\t\tPhrase(`\\state.secrets.length() - state.points\\daha fazla sır`)\n\t\t\t\t])\n\t\t])\\\n\nBunu biraz açalım.\n\n• İlk satır,\\•Game(secrets•[''] points•#)\\diyor ki,/Adında bir veri yapısı oluşturun\\Game\\sırların ve noktaların bir listesini saklayan/• İkinci satırda şöyle yazıyor/Oyun durumu sırlar listesi ve sıfır puanla başlar. Her seferinde\\Chat\\değişiklikler, girilen kelime sırlar listesindeyse, puanlar bir artırılarak yeni bir oyun durumu oluşturulur/.• Program her yeniden değerlendirildiğinde (program\\Chat\\değişiklikler), bir aşamayı gösterir. Puan sayısı sır sayısına eşitse, kazanan bir aşama gösterilir. Değilse, bir istem ve kalan sır sayısını gösterir.\n\nBu örnekte bazı sorunlar var:\n\n• Gizli bir kelimeyi birden fazla kez tahmin ederlerse daha fazla puan alırlar! Oyun durumumuzun neyin tahmin edildiğini de hatırlaması gerekebilir, bu yüzden her kelime yalnızca iki kez sayılır.• Oyuncu birden fazla kelime girerse, bu sayılır mı?\n\nDaha gelişmiş oyun durumları ve oyun güncellemeleri bu tür durumlarla başa çıkmamıza yardımcı olacaktır.",
+        "related": ["track-points"]
+    },
+    {
+        "id": "offer-choices",
+        "title": "Seçilebilir seçenekleri göster",
+        "category": "remembering",
+        "body": "Bazen ekranda bir sürü seçenek göstermek ve izleyicinin seçtikleriyle bir şeyler yapmak istersiniz. Bunu yapmak için iki şeye ihtiyacımız var:\n\n• Bir veya daha fazla @Phrase seçilebilir olarak işaretlenmiş ve benzersiz bir ada sahip olanlar (örneğin,\\Phrase('Seçenek 1' selectable: ⊤ name: 'bir')\\)• A  @Choice , şu şekilde değişir: @Phrase En son seçilen isim.\n\nÖrneğin, burada her biri benzersiz bir isme sahip üç seçenek gösteriyoruz.\n\n\\option: Choice()\nGroup(Stack() [\n\t\tPhrase('Seçenek 1' selectable: ⊤ name: 'bir')\n\t\tPhrase('Seçenek 2' selectable: ⊤ name: 'iki')\n\t\tPhrase('Seçenek 3' selectable: ⊤ name: 'üç')\n\t\tPhrase(option)\n\t])\\\n\nHer seferinde biri seçildiğinde, sonuncusu @Phrase seçilen ismi gösterir.\n\nBu deseni bir seçime yanıt olarak bir şeyler yapmak için kullanabilirsiniz. Örneğin, yukarıdaki projeyi seçime dayalı gizli bir emoji gösterecek şekilde değiştirebiliriz:\n\n\\option: Choice()\noption = '' ? Group(Stack() [\n\t\t\tPhrase('Seçenek 1' selectable: ⊤ name: 'bir')\n\t\t\tPhrase('Seçenek 2' selectable: ⊤ name: 'iki')\n\t\t\tPhrase('Seçenek 3' selectable: ⊤ name: 'üç')\n\t\t]) Phrase({'bir': '😡' 'iki': '🏀' 'üç': '❤️'}{option} ?? '?')\\\n\nThe @Choice boş olarak başlar @Text ve proje başladığında bunu kontrol ediyoruz ve üç seçeneği gösteriyoruz.Bir seçim yapıldığında, üç seçenekten biri haline gelir. @Phrase İsimler.\n\nSeçime dayalı bir emoji göstermek için şunu kullanabiliriz: @Map ismini gizli bir emojiye dönüştürmek için.Bir değer aldığımızda @Map , eğer eşleşme yoksa, şu şekilde değerlendirilir\\ø\\, bu yüzden şunu kullanırız\\??\\varsayılan olarak\\'?'\\Eğer seçenek haritada yoksa.Bu durumda böyle bir şey asla olamaz ama bunu bilecek kadar akıllı değiliz!",
+        "related": ["move-phrase"]
+    },
+    {
+        "id": "choose-adventure",
+        "title": "Bir metin macerası yaratın",
+        "category": "remembering",
+        "body": "Eğlenceli bir oyun türü de şudur:/kendi maceranı seç/Oyuncunun bir dizi seçim yaparak mutlu sona ulaşmaya çalıştığı oyun.\n\nBunlardan birini yapmak için şunu kullanabiliriz: @Structure , @Key , @Reaction , Ve  @List her biri bir dizi seçeneğe sahip olan bir dizi karar oluşturmak için bir araya gelin:\n\n\\¶Bu, bir seçimi ve hangi karara gideceğini depolayan bir veri yapısı oluşturur¶•Option(text•'' decision•#)\n¶Bu veri yapısı bir seçim listesi depolar¶•Decision(options: [Option])\n¶Bu oyunun içeriğidir! Atmosfer ve zor seçimler yaratmak için Seçenekler'deki metni değiştirin.Zorlu seçimlerden oluşan bir ağ oluşturmak için seçenekler ekleyin.¶\ndecisions: [\n\t\tDecision([Option('başlangıç' 2)])\n\t\tDecision([\n\t\t\t\tOption('sol' 3)\n\t\t\t\tOption('dümdüz' 4)\n\t\t\t\tOption('Sağ' 4)\n\t\t\t])\n\t\tDecision([Option('kazanç' 1)])\n\t\tDecision([Option('kaybetmek' 1)])\n\t]\n¶Anahtarı bir sayıya dönüştürün, eğer bir sayıysa¶\nkey: Key()\nchoice: key → #\n¶Bu değer yukarıdaki listedeki mevcut kararı temsil eder.Tuşa basıldığında aşağıdakilerden birini yaparız.Bu karar için yalnızca bir seçenek varsa, o zaman mevcut kararı değiştiririzHangi tuşa basıldığına bakılmaksızın opsiyonun hedef kararına.Eğer basılan tuş 1 ile seçenek sayısı arasında ise o seçeneğin hedef kararına geçiyoruz.Aksi takdirde mevcut kararı aynı şekilde sürdürürüz.¶\ncurrent•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ? decisions[current].options[choice].decision current\n¶Bu, seçenekleri yalnızca bir ifade yığını olarak gösterir. Talimatlar, animasyonlar ve diğer baharatlı şeyler eklemek için bunu değiştirebilirsiniz!¶Stage([\n\t\tGroup(Stack() decisions[current].options.translate(ƒ(option) Phrase(option.text)))\n\t])\\\n\nBu desen karmaşık görünüyor, ancak gerçekte yaptığı tek şey mevcut seçenek kümesini göstermek ve her seferinde bir anahtar değiştiğinde, seçilen seçeneğin kararına gitmek. Bir oyun tasarlamak, en üstteki içeriği değiştirmekle ilgilidir!",
+        "related": ["offer-choices"]
+    },
+    {
+        "id": "repeating-a-movement",
+        "title": "Bir hareketi tekrarlamak",
+        "category": "characters",
+        "body": "Bazen bir karakterin aynı şekilde birkaç kez hareket etmesini isteriz!Aynı satırları tekrar tekrar yazmak sıkıcı olmaya başladı.\n\nBunun yerine şunu kullanabiliriz: @Sequence  ile  @Phrase bir şeyi birden fazla kez tekrar ettirmek! Özellikle,sayımı kullanabiliriz @Sequence ve bir poz setinin kaç kez gerçekleşeceğini seçin. Örneğin,İşte iki kez yukarı aşağı zıplayan bir basketbol topu.\n\n\\Stage([\n\t\tPhrase('🏀' entering: Sequence({\n\t\t\t\t\t0%: Pose(offset: Place(y: 0.25m))\n\t\t\t\t\t25%: Pose(offset: Place(y: 0m))\n\t\t\t\t\t50%: Pose(offset: Place(y: -0.25m))\n\t\t\t\t\t75%: Pose(offset: Place(y: 0m))\n\t\t\t\t\t100%: Pose(offset: Place(y: 0.25m))\n\t\t\t\t} count: 2x duration: 2s))\n\t])\\",
+        "related": ["animate-phrase", "shake-phrase"]
+    },
+    {
+        "id": "arrange-in-a-row",
+        "title": "Metinleri yan yana yerleştirin",
+        "category": "layout",
+        "body": "Bazen metinlerin düzgün bir şekilde yan yana durmasını isteriz.Bunu şu şekilde yapabiliriz: @Row her şeyi düzenleyen bir @Group Soldan sağa.\n\n\\Group(Row() [Phrase('🍎') Phrase('🍌') Phrase('🍇')])\\\n\nA  @Row Karakterleri üst, orta veya alt kenarlarından hizalayabilir ve aralarına boşluk ekleyebilirsiniz.İşte aynı meyve, ancak bu sefer alt kısmı hizalanmış ve biraz boşluk bırakılmış şekilde:\n\n\\Group(Row('>' 0.5m) [\n\t\tPhrase('🍎' size: 2m)\n\t\tPhrase('🍌' size: 1m)\n\t\tPhrase('🍇' size: 3m)\n\t])\\\n\nO\\'>'\\anlatıyor @Row Her şeyi alt kenarı boyunca hizalamayı deneyin.\\'<'\\üst veya üst için\\'|'\\orta için.O\\0.5m\\Her karakter arasındaki boşluktur.",
+        "related": ["stack-up-and-down", "make-a-grid"]
+    },
+    {
+        "id": "stack-up-and-down",
+        "title": "Karakterleri yukarıdan aşağıya doğru sıralayın.",
+        "category": "layout",
+        "body": "Eğer bir @Row yan yana anlamına gelir, o zaman bir @Stack Yukarıdan aşağıya doğrudur. @Stack Her karakteri bir öncekinin altına, bir kule gibi yerleştirir.\n\n\\Group(Stack() [Phrase('bir') Phrase('iki') Phrase('üç')])\\\n\nBir @Row , A  @Stack Ayrıca hizalama ve dolguya da sahip olabilir.Her şeyi sol tarafa hizalamayı deneyin:\n\n\\Group(Stack('<' 0.25m) [\n\t\tPhrase('🐣 küçük')\n\t\tPhrase('🐥 orta')\n\t\tPhrase('🐔 büyük')\n\t])\\\n\nO\\'<'\\ araç /Her şeyi sol kenar boyunca hizalayın./.Ayrıca şunları da deneyebilirsiniz.\\'|'\\merkez için veya\\'>'\\sağ kenar için.",
+        "related": ["arrange-in-a-row", "make-a-grid"]
+    },
+    {
+        "id": "make-a-grid",
+        "title": "Karakterlerden oluşan bir ızgara oluşturun.",
+        "category": "layout",
+        "body": "Peki ya satırlar istiyorsak?/Ve/Aynı anda sütunlar mı? İşte bu, bir @Grid içindir.\n\nA  @Grid Satır sayısını, sütun sayısını ve hücreler arasına ne kadar boşluk bırakılacağını soruyor.\n\n\\Group(Grid(2 3 0.25m) [\n\t\tPhrase('🍎')\n\t\tPhrase('🍌')\n\t\tPhrase('🍇')\n\t\tPhrase('🥕')\n\t\tPhrase('🥦')\n\t\tPhrase('🌽')\n\t])\\\n\nBu, 2x3 boyutlarında bir meyve ve sebze bahçesi oluşturuyor!\n\nTüm hücrelerin aynı boyutta olmasını istiyorsanız, şunu verin: @Grid Genişlik ve yükseklik de var. Bu sayede karakterler, farklı boyutlarda olsalar bile, karelerinin içinde düzgün bir şekilde kalırlar:\n\n\\Group(Grid(2 2 0.1m 1.5m 1.5m) [\n\t\tPhrase('🐈' size: 1m)\n\t\tPhrase('🐶' size: 1.5m)\n\t\tPhrase('🦊' size: 0.5m)\n\t\tPhrase('🐻' size: 2m)\n\t])\\",
+        "related": ["arrange-in-a-row", "stack-up-and-down", "make-many-copies"]
+    },
+    {
+        "id": "make-many-copies",
+        "title": "Bir karakterin birçok kopyasını oluşturun.",
+        "category": "layout",
+        "body": "Peki ya on tane kedi ya da yüz tane yıldız çizmek istesek ama hepsini tek tek yazmak istemesek?Listeden bize fotokopi çekmelerini isteyebiliriz. @List/translate .\n\nSayıyla başlarsak\\10\\ve bunu ile dönüştürün\\→ []\\Bu sayede 1'den 10'a kadar on sayıdan oluşan bir liste elde ederiz.Sonra biz kullanıyoruz @List/translate her sayıyı bir şeye dönüştürmek @Phrase :\n\n\\Group(Row() (10 → []).translate(ƒ() Phrase('🐈')))\\\n\n@List/translate Bu küçük fonksiyonu her öğe için bir kez çağırır ve sonuçları yeni bir listeye toplar.\n\nHer kopyanın biraz farklı olmasını sağlamak için, çeviri işleminin bize verdiği sayıyı kullanın:\n\n\\Group(Row('|' 0.2m) (8 → []).translate(ƒ(n) Phrase('⭐' size: n × 0.5m)))\\\n\nHer yıldız bir öncekinden daha büyük, çünkü\\n\\şuradan gider\\1\\ ile \\8\\.",
+        "related": ["make-a-grid", "arrange-in-a-row"]
+    },
+    {
+        "id": "follow-the-pointer",
+        "title": "Bir karakterin parmağınızı takip etmesini sağlayın.",
+        "category": "characters",
+        "body": "Fare veya parmağınızı kovalayan bir karakter mi istiyorsunuz? @Stage ?Bunu şu şekilde yapabiliriz: @Pointer giriş. \n\n@Pointer bize yeni bir bakış açısı sunuyor @Place İmleç her hareket ettiğinde.Eğer bunu kullanırsak @Place olarak @Phrase 'S \\place\\Karakter, işaret ettiğimiz yere gidecektir.\n\n\\Stage([Phrase('🐈' place: Pointer())] place: Place(0m 0m -10m))\\\n\nİşte bu kadar! Fareyi hareket ettirin veya parmağınızı sürükleyin ve kedinin sizi takip etmesini izleyin.\n\nÇıkararak daha ilginç şeyler yapabilirsiniz.\\x\\ Ve \\y\\-den @Place .İşte her zaman imlecin bir metre üzerinde süzülen bir ördek:\n\n\\Stage([\n\t\tPhrase('🦆' place: Place(Pointer().x Pointer().y + 1m))\n\t] place: Place(0m 0m -10m))\\",
+        "related": ["move-phrase", "count-with-time"]
+    },
+    {
+        "id": "your-own-template",
+        "title": "Kendi karakter şablonunuzu oluşturun",
+        "category": "characters",
+        "body": "Bazen görünüş olarak neredeyse aynı, ancak aralarında çok az fark olan birçok karakter istersiniz.Aynı şeyi yazmak yerine @Phrase Tekrar tekrar, kendi şablonunuzu oluşturabilirsiniz. @Structure .\n\nA  @Structure Boşlukları doldurulması gereken bir yemek tarifi gibidir.İşte bir renk ve bir etiket alan ve kendini nasıl göstereceğini bilen bir balon şablonu:\n\n\\•Balloon(color•Color label•'') (\n\tƒ show() Phrase(`🎈\\label\\` color: color size: 2m)\n)\nGroup(Row() [\n\t\tBalloon(Color(80% 50 240°) 'Gökyüzü').show()\n\t\tBalloon(Color(60% 80 0°) 'Gül').show()\n\t\tBalloon(Color(90% 80 90°) 'Güneşli').show()\n\t])\\\n\nO\\•Balloon(...)\\Bu kısım şablonu tanımlar ve\\ƒ show()\\bir kısmı şöyle diyor/bir tane nasıl çizilir/.Daha sonra farklı renklerde ve etiketlerde üç balon yapıyoruz ve her birinden şunu istiyoruz:\\show\\kendisi.\n\nŞablonlar, kodunuzu düzenli tutmak ve karakter tutarlılığını sağlamak istediğinizde harika bir çözümdür.",
+        "related": ["track-game-state", "make-many-copies"]
+    },
+    {
+        "id": "count-with-time",
+        "title": "Zaman geçerken saymaya devam edin.",
+        "category": "animation",
+        "body": "Birçok proje zamanla gelişen bir şeye ihtiyaç duyar; zamanlayıcı, puanlama sistemi, geri sayım sayacı gibi.Birleştirme yoluyla bir sayaç oluşturabiliriz. @Time   @Stream ile @Reaction .\n\nA  @Reaction Üç bölümden oluşur: başlangıç değeri, izlenmesi gereken bir şey ve bu şey değiştiğinde ortaya çıkan yeni değer.Buradan başlıyoruz.\\0\\, kol saati  @Time ve saatin her tik takında bir tane daha ekleyin:\n\n\\count: 0 … ∆ Time(1000ms) … count + 1\nPhrase(count → '')\\\n\nHer saniye, @Time yangınlar, @Reaction bildirimlerle\\∆ Time(1000ms)\\, Ve \\count\\olur\\count + 1\\.O\\→ ''\\Sonunda sayıyı metne dönüştürüyor, yani @Phrase Bunu gösterebilir.\n\nZaman dışında istediğiniz herhangi bir girdiyi kullanabilirsiniz. Bu sayaç, Button() düğmesine basılma sayısını sayar:\n\n\\count: 0 … ∆ Button() … count + 1\nPhrase(count → '')\\\n\nHer seferinde @Button Tıklama veya dokunma ile akış değişir, sayım bir artar.",
+        "related": ["track-points", "pick-from-a-list"]
+    },
+    {
+        "id": "react-to-sound",
+        "title": "Karakterlerin seslerle büyümesini sağlayın.",
+        "category": "animation",
+        "body": "Projenizin sizi dinleyebileceğini biliyor muydunuz? @Volume   @Stream Mikrofonunuzu kullanarak bize bir numara verin.\\0\\(sessiz)\\1\\ (yüksek sesle).\n\nBu sayıyı her şeyi kontrol etmek için kullanabiliriz — bir şeyin boyutunu bile. @Phrase Dönüşü, rengi.\n\n\\Phrase('📣' size: (Volume() × 5m) + 1m)\\\n\nOrtam sessiz olduğunda, megafon devreye girer.\\1m\\uzun. Bağırdığınızda, boyu uzayabilir.\\6m\\ uzun.\n\nNe kadar yüksek sesle konuşursanız, o kadar hızlı dönen bir güneş mi istiyorsunuz?\n\n\\Phrase('🌞' rotation: Volume() × 360°)\\\n\nAlkışlamayı veya mırıldanmayı deneyin ve neler olduğunu izleyin.(Bilgisayarınız ilk kullanımda mikrofonu kullanmak için izin isteyebilir.)",
+        "related": ["count-with-time", "follow-the-pointer"]
+    },
+    {
+        "id": "pick-from-a-list",
+        "title": "Listeden rastgele bir şey seçin.",
+        "category": "randomization",
+        "body": "Projenizin her çalıştığında sizi şaşırtmasını mı istiyorsunuz? Bir seçenek listesi oluşturun ve birini seçin. @Random . \n\n@Random Bize rastgele bir sayı verebilir ve bir liste, sayıya göre aranabilir.\\[n]\\.Bunları bir araya getirerek rastgele bir emoji seçin:\n\n\\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']\nPhrase(emojis.random())\\\n\nAyrıca şunları da kullanabilirsiniz. @Random İki sayı ile, bu sayılar arasından tam sayı seçen bir fonksiyon.Örneğin, birini seçmek için/yeni/Her saniye rastgele emojiler, karıştır. @Time ve bir @Reaction :\n\n\\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']\npick: emojis[1] … ∆ Time(1000ms) … emojis[Random(1 emojis.length())]\nPhrase(pick)\\\n\nHer bir tik @Time , o @Reaction Yeni bir sürpriz seçiyor.",
+        "related": ["shake-phrase", "count-with-time"]
+    },
+    {
+        "id": "show-when",
+        "title": "Bir değere bağlı olarak farklı şeyler gösterin.",
+        "category": "remembering",
+        "body": "Peki ya şunu istiyorsanız... @Phrase Bir şeye bağlı olarak değişmek — örneğin bir puana veya bir tuşa basılmaya bağlı olarak?\n\nŞartlı ifadeyi kullanabiliriz.\\?\\İki şey arasında seçim yapmak.Önce koşulu yazın, sonra da...\\?\\Öncelikle doğru olduğunda kullanılacak değer, ardından yanlış olduğunda kullanılacak değer.\n\nİşte boşluk tuşuna her bastığınızda üzgün bir ifadeye dönüşen, sonra tekrar mutlu bir ifadeye dönen bir yüz:\n\n\\happy: ⊤ … ∆ Key(' ') … ~happy\nPhrase(happy ? '😊' '😢')\\\n\nO @Reaction başlar\\happy\\ gibi \\⊤\\(doğru) ve bunu tersine çeviriyor.\\~\\Her defasında alan daraldığında.Sonra koşullu ifade\\?\\Doğru yüzü seçiyor.\n\nİkiden fazla seçenek arasından seçim yapmak için koşullu ifadeleri zincirleyebilirsiniz:\n\n\\score: 0 … ∆ Key('A') … score + 1\nPhrase(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')\\\n\nBasmak \\a\\Birkaç kez deneyin ve yumurtanın civciv haline gelmesini izleyin!",
+        "related": ["track-points", "offer-choices"]
+    },
+    {
+        "id": "gravity-and-bouncing",
+        "title": "Bir karakterin düşmesini ve sekmesini sağlayın.",
+        "category": "motion",
+        "body": "Peki ya bir karakterin gerçek hayattaki gibi düşmesini, yere çarpmasını veya itilip kakılmasını istersek?İşte bu @Motion  Ve  @Matter Bunlar birlikte fizik simülasyonu için kullanılır. @Phrase . \n\n@Motion kontroller/Neresi/Bir karakter zamanla değişir. Bunu şu şekilde kullanıyoruz:\\place\\bir için @Phrase Yüksekten başlatıp düşmesini sağlamak.Ayrıca üzerine düşebileceğimiz bir şeye de ihtiyacımız var, yoksa karakterimiz sonsuza dek düşmeye devam eder! @Shape geniş bir @Rectangle Güzel bir zemin oluşturuyor:\n\n\\Stage([\n\t\tPhrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())\n\t\tShape(Rectangle(-10m 0m 10m -5m))\n\t])\\\n\nElma beş metre yükseklikten başlıyor ve yerçekimi etkisiyle düşüyor.Yere çarptığında biraz sekerek uzaklaşır, çünkü @Phrase dahili bir özelliğe sahip @Matter Bu, ağırlığını ve esnekliğini kontrol eder.\n\nDeğiştirmek için/zıplayan/veya nasıl/ağır/Bir karakter, ona kendi tarzını katmaktır. @Matter . @Matter Bir kütle, bir esneklik ve bir sürtünme katsayısı gerektirir:\n\n\\Stage([\n\t\tPhrase('⚽' place: Motion(Place(-2m 5m)) matter: Matter(1kg 0.9 0.2))\n\t\tPhrase('🪨' place: Motion(Place(2m 5m)) matter: Matter(5kg 0.1 0.8))\n\t\tShape(Rectangle(-10m 0m 10m -5m))\n\t])\\\n\nTop hafif ve esnek olduğu için tekrar yukarı fırlıyor.Kaya ağır ve esnek değil, bu yüzden yere düşerken sadece güm diye ses çıkarıyor.",
+        "related": ["follow-the-pointer", "move-phrase"]
+    },
+    {
+        "id": "mix-languages-in-text",
+        "title": "Çok dilli bir kitleyi selamlayın.",
+        "category": "styling",
+        "body": "A  @Phrase  Seçtikleri dillere göre her izleyiciye doğru çeviriyi gösterir. İzleyicileriniz İspanyolca konuşuyorsa, onlarla İspanyolca konuşabilirsiniz; hem İspanyolca hem de İngilizce konuşuyorlarsa — Spanglish! — karışık bir dil kullanabilirsiniz.\n\nBir tane verin  @TextLiteral  Çok dilli bir çeviri de dahil olmak üzere çeşitli çeviriler mevcuttur ve Wordplay her izleyici için en uygun olanı seçer:\n\n\\Phrase(\"hola\"/es\"Merhaba\"/en\"merhaba beyefendi\"/es_en)\\\n\nTercih ettiği dil yalnızca İspanyolca olan bir izleyici şunu görür: /hola/Sadece İngilizce izlemeyi tercih eden bir izleyici şunu görür: /Merhaba/Hem İspanyolca hem de İngilizceyi tercih eden bir izleyici şunu görür: /merhaba beyefendi/ — İspanyolca ve İngilizce karışımı versiyon.\n\nKelime oyunları en uygun eşleşmeyi tercih eder, bu nedenle her ikisi de geçerli olabileceği durumlarda tek dilli çeviri her zaman çok dilli çeviriye üstün gelir.",
+        "related": ["styling-text"]
+    },
+    {
+        "id": "find-text-with-patterns",
+        "title": "Desenli metinleri bulun ve kontrol edin.",
+        "category": "styling",
+        "body": "Bir kalıp, bir metnin şeklini tanımlar; böylece metnin bir şekle uyup uymadığını kontrol edebilir veya metnin geçtiği her yeri arayabilirsiniz. Kalıplar içeriye yerleştirilir. \\⣿⣿\\ ve soldan sağa, her seferinde bir parça okuyun. \\_\\ Bu bir mektuptur. \\#\\ bir rakamdır, \\␣\\ boşluktur ve alıntılanan metin şöyledir: \\\"-\"\\ Tam olarak eşleşiyor.\n\nBir metnin tamamının bir kalıba uyup uymadığını kontrol etmek için şunu kullanın: \\≈\\Bu da size bir \\?\\:\n\n\\'555-1234' ≈ ⣿ 3 # \"-\" 4 #⣿\\\n\nBu, \"üç basamaklı, bir tire, sonra dört basamaklı?\" diye soruyor ve cevabı şu: \\⊤\\.\n\nSayılar, tekrarladıkları şeyden önce gelir: \\3\n#\\ Üç basamaklı anlamına gelir. Ayrıca şöyle de diyebilirsiniz: \\>0\n#\\ (bir veya daha fazla), \\≥0\n#\\ (sıfır veya daha fazla), \\≤1\n#\\ (isteğe bağlı) veya buna benzer bir aralık \\2–4\n#\\.\n\nBir desenin her nerede göründüğünü bulmak için şunu kullanın: \\⌕\\Bu size bir liste sunar.  @Structure  sonuçlar. Bir parçaya isim verin. \\name: (…)\\ Bunu yakalamak için:\n\n\\'2026-06-15 tarihinde doğdu' ⌕ ⣿ y: (4 #) \"-\" m: (2 #) \"-\" d: (2 #)⣿\\\n\nHer sonuç size eşleşeni gösterir. \\text\\, nerede \\start\\kum \\end\\ve yakalananlar \\groups\\ - Burada \\y\\, \\m\\, Ve \\d\\Desenler harf öbeklerine göre eşleştiği için her dilde ve yazı sisteminde aynı şekilde çalışırlar.",
+        "related": ["mix-languages-in-text"]
+    }
+]

@@ -6192,7 +6192,6 @@
         "docs": {
             "label": "$~memandu",
             "link": "$~tampilkan \" $name \" dalam dokumentasi",
-            "learn": "$~Pelajari selengkapnya…",
             "nodoc": "$~Siapakah aku? Apa aku ini? Apa tujuan hidupku?",
             "button": {
                 "home": "$~kembali ke rumah",
@@ -6407,7 +6406,8 @@
                 "explain": {
                     "header": "$~Cara-cara",
                     "explanation": "$~Contoh singkat yang menunjukkan cara melakukan berbagai hal di Wordplay. Tekan putar pada pratinjau mana pun untuk melihatnya berjalan, lalu buka untuk membaca cara kerjanya."
-                }
+                },
+                "conceptHowTos": "$?"
             },
             "tour": {
                 "launch": "$~ikuti tur bersama pemandu",
@@ -6420,7 +6420,8 @@
             "breadcrumb": {
                 "label": "$~riwayat navigasi",
                 "home": "$~Rumah"
-            }
+            },
+            "tutorial": "$?"
         },
         "dialog": {
             "share": {

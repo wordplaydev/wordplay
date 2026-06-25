@@ -5896,7 +5896,6 @@
         "docs": {
             "label": "文件瀏覽器",
             "link": "在文件中顯示概念$name",
-            "learn": "了解更多…",
             "nodoc": "我是誰？我是什麼？我的目的是什麼？",
             "button": {
                 "home": "返回主頁",
@@ -5977,7 +5976,8 @@
                 "explain": {
                     "header": "$~操作指南",
                     "explanation": "$~/簡短範例，展示如何在 Wordplay 中進行操作。點擊任何預覽即可觀看運行，然後打開查看其工作原理。 /"
-                }
+                },
+                "conceptHowTos": "$?"
             },
             "mode": {
                 "browse": {
@@ -6121,7 +6121,8 @@
             "breadcrumb": {
                 "label": "$~導航歷史記錄",
                 "home": "$~家"
-            }
+            },
+            "tutorial": "$?"
         },
         "dialog": {
             "share": {

@@ -13,7 +13,7 @@ type DocumentationText = {
     /** [formatted] A link to a concept in documentation */
     link: Template<['name']>;
     /** [plain] A link to the tutorial for a concept */
-    learn: string;
+    tutorial: string;
     /** [plain] Shown if documentation is missing for a concept */
     nodoc: string;
     /** Buttons in the documentation tile */
@@ -113,6 +113,8 @@ type DocumentationText = {
         category: Record<keyof typeof HowToCategories, string>;
         /** [plain] The subheader for related how to's */
         related: string;
+        /** [plain] The heading for the list of how-tos relevant to a concept, shown in the concept sidebar */
+        conceptHowTos: string;
         /** Button text to go to the how-to in the space */
         howToGalleryButton: ButtonText;
     };

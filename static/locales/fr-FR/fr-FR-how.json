@@ -1,0 +1,191 @@
+[
+    {
+        "id": "animate-phrase",
+        "title": "Animer un personnage",
+        "category": "characters",
+        "body": "Les personnages peuvent avoir une animation de repos qui se répète lorsqu'ils ne bougent pas.\n\nPar exemple, faisons danser un peu ce chat en le faisant tourner et se déplacer :\n\n\\Phrase('🐈' resting: Sequence({\n\t\t\t0%: Pose(rotation: 0°)\n\t\t\t15%: Pose(rotation: 15°)\n\t\t\t30%: Pose(rotation: 0°)\n\t\t\t45%: Pose(offset: Place(-0.25m))\n\t\t\t60%: Pose(offset: Place(0.25m))\n\t\t\t75%: Pose(offset: Place(-0.25m))\n\t\t\t90%: Pose(offset: Place(0m))\n\t\t} 2s))\\\n\nCet exemple utilise un @Sequence de différents @Pose .",
+        "related": ["move-phrase", "shake-phrase"]
+    },
+    {
+        "id": "move-phrase",
+        "title": "Rendre un personnage mobile",
+        "category": "characters",
+        "body": "Parfois, il est utile de faire un @Phrase déplaçable avec un clavier, une souris ou un doigt.\n\nFais-le, nous pouvons nous combiner @Phrase  avec  @Placement :\n\n\\Stage([Phrase('bouge-moi' place: Placement())] place: Place(0m 0m -10m))\\\n\nEn utilisant les flèches du clavier ou en cliquant sur le @Stage mettra à jour le @Placement , provoquant la @Phrase pour aller dans cette direction.\n\nMais saviez-vous que @Placement peut être utilisé avec/rien/ça prend un @Place ?Par exemple un @Stage a un @Place qui détermine où pointe la caméra.Essayons de définir un @Placement pour un @Stage chez nous, et voyons ce qui se passe.\n\n\\Stage([\n\t\tPhrase('🐈' place: Place(-2m 2m))\n\t\tPhrase('🐈' place: Place(2m -2m))\n\t\tPhrase('🐈' place: Place(-1m 3m))\n\t] place: Placement(Place(0m 0m -10m)))\\\n\nCela fait bouger la caméra ! (Remarque : nous commençons le @Placement avec un\\z\\valeur de\\10m\\afin que la caméra soit en retrait de tout.)",
+        "related": ["animated-scene"]
+    },
+    {
+        "id": "custom-characters",
+        "title": "Afficher un personnage personnalisé",
+        "category": "characters",
+        "body": "Les émojis, les lettres et les symboles sont géniaux ! Mais parfois, on a envie de créer ses propres personnages.Comment pouvez-vous créer et montrer le vôtre ?\n\nTout d’abord, commencez par créer un personnage sur le<Personnages@://characters>page.Vous pouvez utiliser des pixels, des rectangles, des cercles et des chemins.Donnez-lui un nom, décrivez-le, puis vous pourrez utiliser votre nom d'utilisateur et le nom du personnage comme ceci :\n\n\\Phrase(`Regarde ma fantaisie @username/charactername !`)\\\n\nCe nom d'utilisateur et ce nom de personnage n'existent pas, ils s'afficheront donc sous la forme d'un rectangle vide.Assurez-vous d'utiliser votre nom d'utilisateur et votre nom de personnage réels\n\nVous voyez comment le texte utilise le guillemet inversé au lieu d'une citation ? C'est important.Cela nous indique que vous utilisez le mode texte enrichi, et cela est nécessaire pour faire référence à un caractère personnalisé.\n\nVous pouvez en apprendre davantage sur la mise en forme du texte à partir de @Phrase .",
+        "related": ["animate-phrase"]
+    },
+    {
+        "id": "styling-text",
+        "title": "Stylisez votre texte",
+        "category": "characters",
+        "body": "Parfois, nous souhaitons que notre texte se démarque. Nous pouvons y parvenir en/en italique/,*mise en gras*, et plus encore !\n\nPar exemple, pour mettre du texte en italique, vous pouvez l'entourer de barres obliques //, comme //Bonjour//. Par exemple :\n\n\\Group(Stack() [\n\t\tPhrase(`Envie de vous exercer un peu/italique/dans ton texte ?`)\n\t\tPhrase(`C'est bon pour mettre l'accent ou pour donner à vos mots ce/jazz supplémentaire/.`)\n\t\tPhrase(`Il suffit de mettre une barre oblique (//) avant et après le mot ou la phrase,/comme ça/.`)\n\t])\\\n\n@Phrase Vous pouvez également mettre le texte en gras. Pour ce faire, placez des astérisques **, comme **Bonjour**. Par exemple :\n\n\\Group(Stack() [\n\t\tPhrase(`Vous voulez faire ressortir votre texte avec*audacieux*?`)\n\t\tPhrase(`C'est parfait lorsque vous en avez besoin*crier quelque chose fort*.`)\n\t\tPhrase(`Il suffit de mettre des astérisques simples (**) autour de vos mots, comme*Hé!*, et regardez-le frapper différemment.`)\n\t])\\\n\n@Phrase Vous pouvez également mettre du texte en gras. Pour cela, entourez votre texte de carets ^^, comme ^^Bonjour^^. Par exemple :\n\n\\Group(Stack() [\n\t\tPhrase(`Extra gras est le^CHÈVRE^quand vous avez besoin de mettre l'ambiance au maximum.`)\n\t\tPhrase(`C'est comme audacieux mais en plus^feu^, généralement fait avec des carottes simples autour (^^)`)\n\t\tPhrase(`Utilisez-le pour vous fléchir^en-têtes^ ou ^grandes idées^.`)\n\t])\\\n\nEnfin,  @Phrase Vous pouvez souligner du texte. Pour cela, entourez votre texte de traits de soulignement __, comme __Bonjour__. Par exemple :\n\n\\Group(Stack() [\n\t\tPhrase(`Le soulignement est_feu discret_pour quand vous souhaitez garder un texte élégant mais qui se démarque.`)\n\t\tPhrase(`Déposez un seul trait de soulignement (__) avant et après votre texte,_comme ça_, et cela donne une emphase nette.`)\n\t\tPhrase(`C'est _parfait_pour faire valoir votre point de vue sans être trop_supplémentaire_.`)\n\t])\\",
+        "related": ["custom-characters"]
+    },
+    {
+        "id": "animated-scene",
+        "title": "Créer une série de scènes animées",
+        "category": "stories",
+        "body": "Parfois, nous voulons raconter des histoires, montrer des paroles ou animer de la poésie.Pour ce faire, nous pouvons utiliser @Scene  et  @Phrase ensemble, pour montrer une séquence.\n\nPar exemple, imaginons que nous voulions animer la courte comptine « Jack be Nimble ».Nous pourrions faire un @Scene qui a chaque ligne comme un @Phrase , et en définissant le @Phrase/duration de chaque ligne, le @Scene avancerait lorsque chaque phrase serait terminée.\n\n\\Scene([\n\t\tPhrase('Jack, sois agile' duration: 1s)\n\t\tPhrase('Jack, fais vite' duration: 1s)\n\t\tPhrase('Jack saute par-dessus le chandelier' duration: 1s)\n\t])\\\n\n@Scene attendra un @Sequence À faire aussi. Faisons sauter la ligne des bougies !\n\n\\Scene([\n\t\tPhrase('Jack, sois agile' duration: 1s)\n\t\tPhrase('Jack, fais vite' duration: 1s)\n\t\tPhrase('Jack saute par-dessus le chandelier' entering: Sequence(bounce() 1s))\n\t])\\\n\n@Scene peut également prendre un @Group de texte aussi, et il attendra que tout son contenu termine l'animation.\n\n\\Scene([\n\t\tGroup(Stack() [\n\t\t\t\tPhrase('Jack, sois agile')\n\t\t\t\tPhrase('Jack, fais vite')\n\t\t\t] duration: 2s)\n\t\tPhrase('Jack saute par-dessus le chandelier' entering: Sequence(bounce() 1s))\n\t])\\",
+        "related": ["interactive-scene"]
+    },
+    {
+        "id": "interactive-scene",
+        "title": "Créez une série de scènes interactives",
+        "category": "stories",
+        "body": "Parfois, nous voulons raconter des histoires qui attendent que le spectateur fasse quelque chose avant de passer au contenu suivant.\n\nPour ce faire, nous pouvons utiliser un @Scene , mais mettre @Boolean valeurs entre les contenus que nous souhaitons afficher. Par exemple, un clic permet d'accéder au contenu suivant, en utilisant un @Button :\n\n\\Scene([\n\t\tPhrase('cliquez sur moi')\n\t\tButton()\n\t\tPhrase('cliquez à nouveau sur moi' duration: 1s)\n\t\tButton()\n\t\tPhrase('non vraiment, clique sur moi aussi fort que tu peux !!' duration: 1s)\n\t\tButton()\n\t\tPhrase('Est-ce que tu as déjà cliqué sur moi ?' duration: 1s)\n\t])\\\n\nLe  @Scene montre le premier @Phrase , puis attend le @Button être vrai, et une fois que c'est le cas, on passe au suivant @Phrase .\n\nVous pouvez utiliser tout ce que vous voulez pour avancer, à condition que ce soit vrai ou faux.Par exemple, nous pourrions utiliser notre voix !Si nous crions assez fort, la scène avancera :\n\n\\Scene([\n\t\tPhrase('Est-ce qu'il y a quelqu'un ?')\n\t\tVolume() > .5\n\t\tPhrase(\"Je ne t'entends pas, répète-le ?\" duration: 1s)\n\t\tVolume() > .7\n\t\tPhrase('plus fort s'il vous plaît...' duration: 1s)\n\t\tVolume() > .9\n\t\tPhrase('Oh, salut !' duration: 1s)\n\t])\\",
+        "related": ["animated-scene"]
+    },
+    {
+        "id": "layering-images",
+        "title": "Superposer les images les unes sur les autres",
+        "category": "stories",
+        "body": "Parfois, nous souhaitons superposer des images pour créer des scènes amusantes ou des formes créatives.\n\nPar exemple, vous pouvez utiliser plusieurs calques sur votre projet @Stage pour empiler et organiser les images comme vous le souhaitez.\n\nRegardez ! Voici une tortue que j'ai réalisée en utilisant uniquement des formes !Essayez de modifier les numéros de chaque forme. Vous pouvez les déplacer, les redimensionner et même les faire pivoter.Jouez et voyez ce que vous pouvez créer !\n\n\\¶Remarque : consultez la galerie pour un autre projet<exemple@https://wordplay.dev/project/example-Layers?play>de superposition d'images.¶Stage([\n\t\tShape(Circle(3m 0m 1m 0m))\n\t\tShape(Polygon(2m 3 0m -12m 0m) rotation: -30°)\n\t\tShape(Polygon(7m 6 0m -6m 0m))\n\t\tShape(Rectangle(-11m -9m 11m -12m 10m) rotation: 25°)\n\t\tShape(Rectangle(-11m -9m 11m -12m 10m) rotation: -25°)\n\t] place: Place(0m 10m -30m))\\\n\nTu pourrais créer des trucs vraiment sympas avec des couches ! Essaie !",
+        "related": ["custom-characters"]
+    },
+    {
+        "id": "shake-phrase",
+        "title": "Faire trembler un personnage",
+        "category": "randomization",
+        "body": "Parfois, il est utile de donner l'impression qu'un personnage tremble.Il existe plusieurs façons d’y parvenir.\n\nNous pouvons utiliser @Phrase/offset  avec  @Random  et  @Time pour que cela se produise.\n\n\\offset: 0m … ∆ Time() … Random(-0.1m 0.1m)\nPhrase('Salut' offset: Place(offset 0m))\\\n\nCela crée une valeur appelée\\offset\\qui change en une nouvelle valeur aléatoire à chaque fois que l'horloge tourne.Ensuite, il utilise ce décalage pour afficher le @Phrase compensé par ce montant.\n\nSi nous voulions contrôler les secousses plus précisément, nous pourrions utiliser un @Sequence pour créer une animation de tremblement aléatoire qui se répète.\n\n\\Phrase('Salut' resting: Sequence({\n\t\t\t0%: Pose(offset: Place(Random(-.2m .2m)))\n\t\t\t15%: Pose(offset: Place(Random(-.2m .2m)))\n\t\t\t60%: Pose(offset: Place(Random(-.2m .2m)))\n\t\t\t75%: Pose(offset: Place(Random(-.2m .2m)))\n\t\t} 0.1s))\\\n\nCet exemple sélectionne simplement des valeurs aléatoires une fois, mais les transforme en une séquence répétitive.",
+        "related": ["move-phrase"]
+    },
+    {
+        "id": "video-grid",
+        "title": "Créer une vidéo à partir de la caméra",
+        "category": "video",
+        "body": "Le  @Camera Le flux est un excellent moyen d'obtenir une grille de couleurs du monde.Et si nous voulions voir ces couleurs, recréer l'image de la @Camera voit?\n\nNous pouvons utiliser le @Grid mise en page pour un @Group , et  @List/combine fonction pour convertir les couleurs en une liste de @Phrase que nous donnons à la @Grid .\n\n\\width: 24\nheight: 24\ncolors: Camera(width × 1px height × 1px 33ms)\nStage([\n\t\tGroup(Grid(height width 0m) colors.combine([] ƒ(phrases row) [\n\t\t\t\t\t\t:phrases\n\t\t\t\t\t\t:row.translate(ƒ(color) Phrase(\"⬤\" color: color duration: 0s))\n\t\t\t\t\t]))\n\t])\\\n\nCet exemple crée une liste de phrases, en convertissant chaque couleur en un cercle avec la couleur spécifique.\n\nSoyez prudent avec @Camera Flux : ils génèrent beaucoup d'informations ! Il est conseillé de réduire la largeur et la hauteur de l'image.",
+        "related": ["interactive-scene"]
+    },
+    {
+        "id": "track-points",
+        "title": "Gardez une trace des points",
+        "category": "remembering",
+        "body": "Parfois, dans un jeu, il est utile de suivre les points lorsqu'un événement se produit. Si Wordplay ne permet pas de donner de nouvelles valeurs aux variables, comment faire ?\n\nL'astuce consiste à utiliser un @Reaction définir un @Bind la valeur de , et de réfléchir attentivement à l'événement qui devrait entraîner une nouvelle valeur pour le @Bind .\n\nPar exemple, imaginez un jeu très simple dans lequel un joueur obtient plus de points à chaque fois qu'il tape une touche secrète sur le clavier.\n\n\\points: 0 … ['un' 'et' 'je' 'l'' 'toi'].has(Key()) … points + 1\\\n\nCet exemple dit,/Les points commencent à 0, puis chaque fois qu'une touche est enfoncée, si la touche est dans la liste des voyelles, les points deviennent les points actuels plus un./Chaque fois que le\\Key()\\  @Stream changements, le programme réévalue, vérifie la condition et, si elle est vraie, donne\\points\\une nouvelle valeur.\n\nUne réaction se compose de trois parties :\n\n• La valeur initiale des points (\\0\\)• La condition qui, lorsqu'elle est vraie, produit une nouvelle valeur (\\['un' 'et' 'je' 'l'' 'toi'].has(Key())\\)• La nouvelle valeur, si la condition devient vraie (\\points + 1\\)\n\nPour un suivi de points plus sophistiqué, il suffit de créer des conditions plus sophistiquées ou de nouvelles valeurs. Prenez le temps de réfléchir aux règles de ces conditions et de ces nouvelles valeurs, puis essayez de les exprimer dans le code.",
+        "related": ["track-points"]
+    },
+    {
+        "id": "track-game-state",
+        "title": "Suivez l'état du jeu",
+        "category": "remembering",
+        "body": "La plupart des jeux suivent plusieurs éléments au fur et à mesure de la progression de la partie : les points, les positions des joueurs et d'autres détails sont tous essentiels.Chaque fois qu'il y a une entrée, cet état change, et nous voulons alors afficher une nouvelle sortie, en réponse.\n\nUn modèle général pour n’importe quel jeu fait trois choses :\n\n• Définir une structure de données d'état du jeu, pour stocker tout l'état du jeu• Définir une réaction qui crée un nouvel état de jeu basé sur l'état de jeu précédent chaque fois qu'il y a une nouvelle entrée• Faire un @Stage  avec  @Group  et  @Phrase pour afficher l'état du jeu\n\nPar exemple, imaginons un jeu simple qui consiste à taper des mots secrets dans une zone de texte et à obtenir un point à chaque fois qu'un mot secret est deviné :\n\n\\•Game(secrets•[''] points•#)\nstate: Game(['chat' 'chien'] 0) … state.secrets.has(Chat()) … state.points:state.points + 1\nStage(state.points = state.secrets.length() ? [Phrase(\"tu as gagné!\")] [\n\t\t\tGroup(Stack() [\n\t\t\t\t\tPhrase(\"devine mes mots secrets\")\n\t\t\t\t\tPhrase(`\\state.secrets.length() - state.points\\plus de secrets`)\n\t\t\t\t])\n\t\t])\\\n\nDécomposons cela.\n\n• La première ligne,\\•Game(secrets•[''] points•#)\\dit,/Créez une structure de données appelée\\Game\\qui stocke une liste de secrets et de points/• La deuxième ligne dit/Le jeu commence avec une liste de secrets et zéro point. Chaque fois que\\Chat\\changements, si le mot saisi est dans la liste des secrets, alors créez un nouvel état de jeu avec les points augmentés d'un/.• Chaque fois que le programme réévalue (lorsque le\\Chat\\(changements), affiche une étape. Si le nombre de points est égal au nombre de secrets, affiche une étape gagnante. Sinon, affiche une invite et le nombre de secrets restants.\n\nCet exemple présente quelques problèmes :\n\n• S'ils devinent un mot secret plusieurs fois, ils gagnent plus de points ! Notre jeu devra peut-être également mémoriser ce qui a été deviné, donc chaque mot n'est compté que deux fois.• Si le joueur entre plusieurs mots, cela doit-il compter ?\n\nDes états de jeu et des mises à jour de jeu plus sophistiqués nous aideraient à gérer ces cas.",
+        "related": ["track-points"]
+    },
+    {
+        "id": "offer-choices",
+        "title": "Afficher les choix sélectionnables",
+        "category": "remembering",
+        "body": "Parfois, on souhaite présenter plusieurs choix à l'écran et exploiter les choix du public. Pour cela, deux éléments sont nécessaires :\n\n• Un ou plusieurs @Phrase qui sont marqués comme sélectionnables et ont un nom unique (par exemple,\\Phrase('option 1' selectable: ⊤ name: 'un')\\)• UN  @Choice , qui change en @Phrase nom le plus récemment choisi.\n\nPar exemple, nous montrons ici trois choix, chacun avec un nom unique.\n\n\\option: Choice()\nGroup(Stack() [\n\t\tPhrase('option 1' selectable: ⊤ name: 'un')\n\t\tPhrase('option 2' selectable: ⊤ name: 'deux')\n\t\tPhrase('option 3' selectable: ⊤ name: 'trois')\n\t\tPhrase(option)\n\t])\\\n\nChaque fois qu'on en choisit un, le dernier @Phrase affiche le nom sélectionné.\n\nVous pouvez utiliser ce modèle pour réagir à un choix. Par exemple, nous pourrions modifier le projet ci-dessus pour afficher un emoji secret basé sur ce choix :\n\n\\option: Choice()\noption = '' ? Group(Stack() [\n\t\t\tPhrase('option 1' selectable: ⊤ name: 'un')\n\t\t\tPhrase('option 2' selectable: ⊤ name: 'deux')\n\t\t\tPhrase('option 3' selectable: ⊤ name: 'trois')\n\t\t]) Phrase({'un': '😡' 'deux': '🏀' 'trois': '❤️'}{option} ?? '?')\\\n\nLe  @Choice commence comme un vide @Text , et donc lorsque le projet démarre, nous vérifions cela et montrons les trois choix.Une fois qu'un choix est fait, il devient l'un des trois @Phrase noms.\n\nPour afficher un emoji en fonction du choix, nous pouvons utiliser un @Map pour convertir le nom en un emoji secret.Lorsque nous obtenons une valeur à partir d'un @Map , s'il n'y a pas de correspondance, il évalue à\\ø\\, nous utilisons donc le\\??\\par défaut\\'?'\\si l'option n'est pas sur la carte.Dans ce cas, cela ne peut jamais arriver, mais nous ne sommes pas assez intelligents pour le savoir !",
+        "related": ["move-phrase"]
+    },
+    {
+        "id": "choose-adventure",
+        "title": "Créer une aventure textuelle",
+        "category": "remembering",
+        "body": "Un type de jeu amusant est un/choisissez votre propre aventure/jeu dans lequel un joueur navigue dans une série de choix et essaie de trouver un chemin vers une fin heureuse.\n\nPour en fabriquer un, nous pouvons utiliser @Structure , @Key , @Reaction , et  @List ensemble pour prendre une série de décisions, chacune avec un ensemble d'options, comme ceci :\n\n\\¶Cela crée une structure de données qui stocke un choix et la décision vers laquelle elle va naviguer.¶•Option(text•'' decision•#)\n¶Cette structure de données stocke une liste de choix¶•Decision(options: [Option])\n¶Voici le contenu du jeu ! Modifiez le texte dans les options pour créer une atmosphère et des choix difficiles.Ajoutez des options pour créer un réseau de choix délicats.¶\ndecisions: [\n\t\tDecision([Option('commencer' 2)])\n\t\tDecision([\n\t\t\t\tOption('gauche' 3)\n\t\t\t\tOption('droit' 4)\n\t\t\t\tOption('droite' 4)\n\t\t\t])\n\t\tDecision([Option('gagner' 1)])\n\t\tDecision([Option('perdre' 1)])\n\t]\n¶Convertir la clé en un nombre, si c'est un¶\nkey: Key()\nchoice: key → #\n¶Cette valeur représente la décision actuelle dans la liste ci-dessus.Lorsque la touche est enfoncée, nous effectuons l’une des actions suivantes.S'il n'y a qu'un seul choix pour cette décision, alors nous modifions la décision actuelleà la décision cible de l'option, quelle que soit la touche enfoncée.Si la touche enfoncée est comprise entre 1 et le nombre d'options, alors nous passons à la décision cible de cette option.Sinon, nous maintenons simplement la décision actuelle telle quelle.¶\ncurrent•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ? decisions[current].options[choice].decision current\n¶Ceci affiche simplement les options sous forme de phrases. Vous pouvez modifier ce paramètre pour ajouter des instructions, des animations et d'autres éléments intéressants !¶Stage([\n\t\tGroup(Stack() decisions[current].options.translate(ƒ(option) Phrase(option.text)))\n\t])\\\n\nCe modèle paraît complexe, mais il ne fait en réalité qu'afficher les options actuelles et, à chaque changement de touche, indiquer l'option choisie. Concevoir un jeu, c'est avant tout modifier le contenu en haut de la page !",
+        "related": ["offer-choices"]
+    },
+    {
+        "id": "repeating-a-movement",
+        "title": "Répéter un mouvement",
+        "category": "characters",
+        "body": "Parfois, nous voulons faire bouger un personnage de la même manière plusieurs fois !Taper les mêmes lignes encore et encore est devenu fastidieux.\n\nAu lieu de cela, nous pouvons utiliser @Sequence  avec  @Phrase faire répéter quelque chose plusieurs fois ! Plus précisément,nous pouvons utiliser le compte dans @Sequence et choisissez le nombre de fois qu'une série de poses doit être exécutée. Par exemple,voici un ballon de basket qui rebondit deux fois de haut en bas.\n\n\\Stage([\n\t\tPhrase('🏀' entering: Sequence({\n\t\t\t\t\t0%: Pose(offset: Place(y: 0.25m))\n\t\t\t\t\t25%: Pose(offset: Place(y: 0m))\n\t\t\t\t\t50%: Pose(offset: Place(y: -0.25m))\n\t\t\t\t\t75%: Pose(offset: Place(y: 0m))\n\t\t\t\t\t100%: Pose(offset: Place(y: 0.25m))\n\t\t\t\t} count: 2x duration: 2s))\n\t])\\",
+        "related": ["animate-phrase", "shake-phrase"]
+    },
+    {
+        "id": "arrange-in-a-row",
+        "title": "Mettre le texte côte à côte",
+        "category": "layout",
+        "body": "Parfois, nous voulons que les textes soient alignés les uns à côté des autres.Nous pouvons le faire avec un @Row , qui organise tout dans un @Group de gauche à droite.\n\n\\Group(Row() [Phrase('🍎') Phrase('🍌') Phrase('🍇')])\\\n\nUN  @Row Il est également possible d'aligner les caractères par leurs bords supérieur, médian ou inférieur, et d'ajouter un espace entre eux.Voici le même fruit, mais aligné en bas avec un peu d'espace :\n\n\\Group(Row('>' 0.5m) [\n\t\tPhrase('🍎' size: 2m)\n\t\tPhrase('🍌' size: 1m)\n\t\tPhrase('🍇' size: 3m)\n\t])\\\n\nLe \\'>'\\raconte @Row aligner le tout le long de son bord inférieur. Essayez\\'<'\\pour le haut ou\\'|'\\pour le milieu.Le \\0.5m\\est l'espace entre chaque caractère.",
+        "related": ["stack-up-and-down", "make-a-grid"]
+    },
+    {
+        "id": "stack-up-and-down",
+        "title": "Empilez les caractères de haut en bas",
+        "category": "layout",
+        "body": "Si un @Row est pour côte à côte, puis un @Stack est pour aller de haut en bas. @Stack place chaque caractère en dessous de celui qui le précède, comme une tour.\n\n\\Group(Stack() [\n\t\tPhrase('un')\n\t\tPhrase('deux')\n\t\tPhrase('trois')\n\t])\\\n\nComme un @Row , un  @Stack peut également comporter un alignement et un rembourrage.Essayez d'aligner tout le long du côté gauche :\n\n\\Group(Stack('<' 0.25m) [\n\t\tPhrase('🐣 petit')\n\t\tPhrase('🐥 moyen')\n\t\tPhrase('🐔 grand')\n\t])\\\n\nLe \\'<'\\ moyens /Alignez tout le long du bord gauche./.Vous pouvez aussi essayer\\'|'\\pour le centre ou\\'>'\\pour le bord droit.",
+        "related": ["arrange-in-a-row", "make-a-grid"]
+    },
+    {
+        "id": "make-a-grid",
+        "title": "Créez une grille de caractères",
+        "category": "layout",
+        "body": "Et si nous voulions des rangées ?/et/colonnes en même temps ? C'est ce que… @Grid est pour.\n\nUN  @Grid demande le nombre de lignes, le nombre de colonnes et l'espacement entre les cellules.\n\n\\Group(Grid(2 3 0.25m) [\n\t\tPhrase('🍎')\n\t\tPhrase('🍌')\n\t\tPhrase('🍇')\n\t\tPhrase('🥕')\n\t\tPhrase('🥦')\n\t\tPhrase('🌽')\n\t])\\\n\nCela permet de créer un potager de 2 x 3 pieds !\n\nSi vous souhaitez que toutes les cellules aient la même taille, donnez @Grid une largeur et une hauteur également. Ainsi, les caractères restent bien à l'intérieur de leurs carrés, même s'ils sont de tailles différentes :\n\n\\Group(Grid(2 2 0.1m 1.5m 1.5m) [\n\t\tPhrase('🐈' size: 1m)\n\t\tPhrase('🐶' size: 1.5m)\n\t\tPhrase('🦊' size: 0.5m)\n\t\tPhrase('🐻' size: 2m)\n\t])\\",
+        "related": ["arrange-in-a-row", "stack-up-and-down", "make-many-copies"]
+    },
+    {
+        "id": "make-many-copies",
+        "title": "Créez de nombreuses copies d'un personnage",
+        "category": "layout",
+        "body": "Et si on voulait dix chats, ou cent étoiles, mais qu'on n'avait pas envie de tout taper ?Nous pouvons demander à une liste de nous faire des copies avec @List/translate .\n\nSi nous commençons par le nombre\\10\\et le convertir avec\\→ []\\, nous obtenons une liste de dix nombres de 1 à 10.Ensuite, nous utilisons @List/translate transformer chaque nombre en un @Phrase :\n\n\\Group(Row() (10 → []).translate(ƒ() Phrase('🐈')))\\\n\n@List/translate elle appelle notre petite fonction une fois pour chaque élément et collecte les résultats dans une nouvelle liste.\n\nPour que chaque copie soit légèrement différente, utilisez le nombre que la traduction nous donne :\n\n\\Group(Row('|' 0.2m) (8 → []).translate(ƒ(n) Phrase('⭐' size: n × 0.5m)))\\\n\nChaque étoile est plus grande que la précédente, car\\n\\va de\\1\\ à \\8\\.",
+        "related": ["make-a-grid", "arrange-in-a-row"]
+    },
+    {
+        "id": "follow-the-pointer",
+        "title": "Faites suivre votre doigt à un personnage.",
+        "category": "characters",
+        "body": "Vous voulez un personnage qui poursuit votre souris ou votre doigt sur le @Stage ?Nous pouvons le faire avec le @Pointer  saisir. \n\n@Pointer nous donne un nouveau @Place à chaque fois que le pointeur se déplace.Si nous utilisons cela @Place comme un @Phrase 's\\place\\Le personnage ira là où nous le désignerons.\n\n\\Stage([Phrase('🐈' place: Pointer())] place: Place(0m 0m -10m))\\\n\nEt voilà ! Déplacez votre souris ou faites glisser votre doigt, et regardez le chat vous suivre.\n\nVous pouvez faire des choses plus intéressantes en sortant le\\x\\ et \\y\\de la @Place .Voici un canard qui flotte toujours à un mètre au-dessus du pointeur :\n\n\\Stage([\n\t\tPhrase('🦆' place: Place(Pointer().x Pointer().y + 1m))\n\t] place: Place(0m 0m -10m))\\",
+        "related": ["move-phrase", "count-with-time"]
+    },
+    {
+        "id": "your-own-template",
+        "title": "Créez votre propre modèle de personnage",
+        "category": "characters",
+        "body": "Parfois, on souhaite avoir beaucoup de personnages qui se ressemblent presque, mais avec de petites différences.Au lieu d'écrire la même chose @Phrase Vous pouvez créer votre propre modèle à l'infini avec un @Structure .\n\nUN  @Structure C'est comme une recette avec des cases à remplir.Voici un modèle de ballon qui prend une couleur et une étiquette, et sait comment s'afficher :\n\n\\•Balloon(color•Color label•'') (\n\tƒ show() Phrase(`🎈\\label\\` color: color size: 2m)\n)\nGroup(Row() [\n\t\tBalloon(Color(80% 50 240°) 'Ciel').show()\n\t\tBalloon(Color(60% 80 0°) 'Rose').show()\n\t\tBalloon(Color(90% 80 90°) 'Ensoleillé').show()\n\t])\\\n\nLe \\•Balloon(...)\\cette partie définit le modèle, et la\\ƒ show()\\partie dit/comment en dessiner un/.Ensuite, nous fabriquons trois ballons de couleurs et d'étiquettes différentes, et nous demandons à chacun de\\show\\elle-même.\n\nLes modèles sont très pratiques pour garder un code propre et des caractères uniformes.",
+        "related": ["track-game-state", "make-many-copies"]
+    },
+    {
+        "id": "count-with-time",
+        "title": "Comptez les secondes au fur et à mesure que le temps passe.",
+        "category": "animation",
+        "body": "De nombreux projets nécessitent un élément qui évolue avec le temps : un minuteur, un score, un compte à rebours.Nous pouvons construire un compteur en combinant les @Time   @Stream avec un @Reaction .\n\nUN  @Reaction Elle comporte trois parties : une valeur initiale, un élément à surveiller et une nouvelle valeur lorsque cet élément change.Ici, nous commençons par\\0\\, montre  @Time et en ajouter un à chaque tic-tac de l'horloge :\n\n\\count: 0 … ∆ Time(1000ms) … count + 1\nPhrase(count → '')\\\n\nChaque seconde, @Time incendies, les @Reaction avis avec\\∆ Time(1000ms)\\, et \\count\\devient\\count + 1\\.Le \\→ ''\\à la fin, convertit le nombre en texte. @Phrase peut le montrer.\n\nVous pouvez utiliser n'importe quelle entrée, pas seulement le temps. Ce compteur compte le nombre d'appuis sur le bouton Button().\n\n\\count: 0 … ∆ Button() … count + 1\nPhrase(count → '')\\\n\nÀ chaque fois, @Button Lorsqu'un flux change en cliquant ou en appuyant dessus, le compteur augmente de un.",
+        "related": ["track-points", "pick-from-a-list"]
+    },
+    {
+        "id": "react-to-sound",
+        "title": "Faites évoluer les personnages grâce au son",
+        "category": "animation",
+        "body": "Saviez-vous que votre projet peut vous écouter ? @Volume   @Stream utilise votre microphone pour nous donner un numéro de\\0\\(silencieux) à\\1\\ (fort).\n\nNous pouvons utiliser ce nombre pour tout contrôler, y compris la taille d'un @Phrase , sa rotation, sa couleur.\n\n\\Phrase('📣' size: (Volume() × 5m) + 1m)\\\n\nQuand c'est calme, le mégaphone est\\1m\\grand. Quand vous criez, il peut atteindre\\6m\\ grand.\n\nVous voulez un soleil qui tourne plus vite quand vous faites du bruit ?\n\n\\Phrase('🌞' rotation: Volume() × 360°)\\\n\nEssayez de taper des mains ou de fredonner et observez ce qui se passe.(Votre ordinateur peut vous demander l'autorisation d'utiliser le microphone la première fois.)",
+        "related": ["count-with-time", "follow-the-pointer"]
+    },
+    {
+        "id": "pick-from-a-list",
+        "title": "Choisissez un élément au hasard dans une liste.",
+        "category": "randomization",
+        "body": "Vous voulez que votre projet vous surprenne à chaque exécution ? Faites une liste d’options et choisissez-en une avec @Random . \n\n@Random peut nous donner un nombre aléatoire, et une liste peut être consultée par numéro avec\\[n]\\.Combinez-les pour choisir un emoji aléatoire :\n\n\\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']\nPhrase(emojis.random())\\\n\nVous pouvez également utiliser @Random avec deux nombres, qui choisit un nombre entier entre eux.Par exemple, pour choisir un/nouveau/Des emojis aléatoires toutes les secondes, mélangés @Time et un @Reaction :\n\n\\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']\npick: emojis[1] … ∆ Time(1000ms) … emojis[Random(1 emojis.length())]\nPhrase(pick)\\\n\nChaque tic-tac de @Time , le  @Reaction choisit une nouvelle surprise.",
+        "related": ["shake-phrase", "count-with-time"]
+    },
+    {
+        "id": "show-when",
+        "title": "Afficher des choses différentes en fonction d'une valeur",
+        "category": "remembering",
+        "body": "Et si vous vouliez un @Phrase changer en fonction de quelque chose, comme un score ou une touche pressée ?\n\nNous pouvons utiliser la conditionnelle\\?\\choisir entre deux choses.Écrivez la condition, puis un\\?\\, puis la valeur à utiliser lorsque c'est vrai, puis la valeur à utiliser lorsqu'ce n'est pas vrai.\n\nVoici un visage souriant qui devient triste à chaque fois que vous appuyez sur la barre d'espace, puis revient à son état initial :\n\n\\happy: ⊤ … ∆ Key(' ') … ~happy\nPhrase(happy ? '😊' '😢')\\\n\nLe  @Reaction débuts\\happy\\ comme \\⊤\\(vrai), et le retourne avec\\~\\à chaque fois que la barre d'espace est enfoncée.Alors la conditionnelle\\?\\choisit le bon visage.\n\nVous pouvez enchaîner les conditions pour choisir parmi plus de deux éléments :\n\n\\score: 0 … ∆ Key('un') … score + 1\nPhrase(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')\\\n\nPresse \\a\\Répétez l'opération plusieurs fois et regardez l'œuf éclore en poussin !",
+        "related": ["track-points", "offer-choices"]
+    },
+    {
+        "id": "gravity-and-bouncing",
+        "title": "Faites tomber un personnage et rebondir",
+        "category": "motion",
+        "body": "Et si on voulait qu'un personnage tombe, rebondisse sur le sol ou soit bousculé comme un objet réel ?C'est ce que @Motion  et  @Matter sont pour — ensemble, ils simulent la physique pour un @Phrase . \n\n@Motion contrôles/où/un personnage évolue avec le temps. Nous l'utilisons comme le\\place\\pour un @Phrase , en le faisant démarrer haut pour qu'il puisse tomber.Il nous faut aussi quelque chose sur quoi retomber, sinon notre personnage ne cessera de chuter indéfiniment ! @Shape avec une large @Rectangle fait un joli sol :\n\n\\Stage([\n\t\tPhrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())\n\t\tShape(Rectangle(-10m 0m 10m -5m))\n\t])\\\n\nLa pomme décolle à cinq mètres de hauteur et retombe sous l'effet de la gravité.Lorsqu'il touche le sol, il rebondit un peu, car @Phrase possède un @Matter qui détermine son poids et son rebond.\n\nPour changer la façon/rebondissant/ou comment/lourd/Un personnage, c'est… donnez-lui votre propre style. @Matter . @Matter nécessite une masse, un rebond et une friction :\n\n\\Stage([\n\t\tPhrase('⚽' place: Motion(Place(-2m 5m)) matter: Matter(1kg 0.9 0.2))\n\t\tPhrase('🪨' place: Motion(Place(2m 5m)) matter: Matter(5kg 0.1 0.8))\n\t\tShape(Rectangle(-10m 0m 10m -5m))\n\t])\\\n\nLa balle est légère et rebondissante, elle reprend donc sa forme initiale.La pierre est lourde et ne rebondit pas, elle fait donc un bruit sourd.",
+        "related": ["follow-the-pointer", "move-phrase"]
+    },
+    {
+        "id": "mix-languages-in-text",
+        "title": "Saluer un public multilingue",
+        "category": "styling",
+        "body": "UN  @Phrase  L'application affiche la traduction appropriée à chaque spectateur en fonction de la langue qu'il a choisie. Si votre public parle espagnol, vous pouvez lui parler en espagnol ; s'il parle à la fois espagnol et anglais (le spanglish !), vous pouvez mélanger les deux.\n\nDonnez un  @TextLiteral  plusieurs traductions, dont une multilingue, et Wordplay choisit celle qui convient le mieux à chaque spectateur :\n\n\\Phrase(\"hola\"/es\"Bonjour\"/en\"Salut messieurs\"/es_en)\\\n\nUn téléspectateur dont la langue préférée est uniquement l'espagnol voit /hola/Un téléspectateur qui préfère uniquement l'anglais voit /Bonjour/Un téléspectateur qui préfère à la fois l'espagnol et l'anglais voit /Salut messieurs/ — la version spanglish.\n\nLes jeux de mots privilégient la correspondance la plus précise ; une traduction monolingue l'emporte donc toujours sur une traduction multilingue lorsque les deux pourraient convenir.",
+        "related": ["styling-text"]
+    },
+    {
+        "id": "find-text-with-patterns",
+        "title": "Recherchez et vérifiez les textes contenant des motifs.",
+        "category": "styling",
+        "body": "Un motif décrit la forme d'un texte ; vous pouvez ainsi vérifier si un texte correspond à une forme ou rechercher tous ses emplacements. Les motifs sont placés à l'intérieur \\⣿⣿\\ et lisez de gauche à droite, un élément à la fois. \\_\\ est une lettre, \\#\\ est un chiffre, \\␣\\ est un espace, et le texte cité comme \\\"-\"\\ Correspond exactement.\n\nPour vérifier si un texte entier correspond à un modèle, utilisez \\≈\\, ce qui vous donne un \\?\\:\n\n\\'555-1234' ≈ ⣿ 3 # \"-\" 4 #⣿\\\n\nCela demande « trois chiffres, un tiret, puis quatre chiffres ? » — et la réponse est \\⊤\\.\n\nLes comptes précèdent ce qu'ils répètent : \\3\n#\\ signifie trois chiffres. Vous pouvez aussi dire \\>0\n#\\ (un ou plusieurs), \\≥0\n#\\ (zéro ou plus), \\≤1\n#\\ (facultatif), ou une plage comme \\2–4\n#\\.\n\nPour trouver tous les endroits où un motif apparaît, utilisez \\⌕\\, qui vous donne une liste de  @Structure  résultats. Nommez une pièce avec \\name: (…)\\ pour le capturer :\n\n\\'né(e) le 15 juin 2026' ⌕ ⣿ y: (4 #) \"-\" m: (2 #) \"-\" d: (2 #)⣿\\\n\nChaque résultat vous indique la correspondance \\text\\, où il \\start\\sable \\end\\s, et les capturés \\groups\\ - ici \\y\\, \\m\\, et \\d\\. Puisque les modèles correspondent par graphème, ils fonctionnent de la même manière dans toutes les langues et tous les systèmes d'écriture.",
+        "related": ["mix-languages-in-text"]
+    }
+]

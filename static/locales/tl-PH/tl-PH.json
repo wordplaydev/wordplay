@@ -6183,7 +6183,6 @@
         "docs": {
             "label": "$~dokumentasyon browser",
             "link": "$~ipakita ang \"$name\" sa dokumentasyon",
-            "learn": "$~matuto nang higit pa…",
             "nodoc": "$~Sino ako? Ano ako? Ano ang aking layunin?",
             "button": {
                 "home": "$~umuwi",
@@ -6398,7 +6397,8 @@
                 "explain": {
                     "header": "$~Mga Paano-Gawin",
                     "explanation": "$~/Maikling halimbawa na nagpapakita kung paano gawin ang mga bagay sa Wordplay. Pindutin ang play sa anumang preview para makita itong tumakbo, pagkatapos ay buksan ito para mabasa kung paano ito gumagana./"
-                }
+                },
+                "conceptHowTos": "$?"
             },
             "tour": {
                 "launch": "$~maglibot sa gabay",
@@ -6411,7 +6411,8 @@
             "breadcrumb": {
                 "label": "$~kasaysayan ng nabigasyon",
                 "home": "$~Tahanan"
-            }
+            },
+            "tutorial": "$?"
         },
         "dialog": {
             "share": {

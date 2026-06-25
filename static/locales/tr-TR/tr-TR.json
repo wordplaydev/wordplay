@@ -5949,7 +5949,6 @@
         "docs": {
             "label": "$~belge tarayıcısı",
             "link": "$~$name kavramını dokümantasyonda göster",
-            "learn": "$~daha fazla bilgi edin …",
             "nodoc": "$~Ben kimim? Ben neyim? Amacım nedir?",
             "button": {
                 "home": "$~eve dönüş",
@@ -6030,7 +6029,8 @@
                 "explain": {
                     "header": "$~Nasıl yapılır",
                     "explanation": "$~/Wordplay'de işlemlerin nasıl yapılacağını gösteren kısa örnekler. Çalıştırılmasını görmek için herhangi bir önizlemede oynat düğmesine basın, ardından nasıl çalıştığını okumak için dosyayı açın./"
-                }
+                },
+                "conceptHowTos": "$?"
             },
             "mode": {
                 "browse": {
@@ -6177,7 +6177,8 @@
             "breadcrumb": {
                 "label": "$~gezinme geçmişi",
                 "home": "$~Ev"
-            }
+            },
+            "tutorial": "$?"
         },
         "dialog": {
             "share": {

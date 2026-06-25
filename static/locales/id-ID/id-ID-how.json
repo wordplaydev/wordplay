@@ -1,0 +1,191 @@
+[
+    {
+        "id": "animate-phrase",
+        "title": "Buat karakter menjadi animasi.",
+        "category": "characters",
+        "body": "Karakter dapat memiliki animasi istirahat yang berulang saat mereka tidak bergerak.\n\nSebagai contoh, mari kita buat kucing ini menari sedikit dengan membuatnya berputar dan bergeser:\n\n\\Phrase('🐈' resting: Sequence({\n\t\t\t0%: Pose(rotation: 0°)\n\t\t\t15%: Pose(rotation: 15°)\n\t\t\t30%: Pose(rotation: 0°)\n\t\t\t45%: Pose(offset: Place(-0.25m))\n\t\t\t60%: Pose(offset: Place(0.25m))\n\t\t\t75%: Pose(offset: Place(-0.25m))\n\t\t\t90%: Pose(offset: Place(0m))\n\t\t} 2s))\\\n\nContoh ini menggunakan sebuah  @Sequence  dari yang berbeda  @Pose .",
+        "related": ["move-phrase", "shake-phrase"]
+    },
+    {
+        "id": "move-phrase",
+        "title": "Buat karakter bisa digerakkan.",
+        "category": "characters",
+        "body": "Terkadang bermanfaat untuk membuat  @Phrase  dapat digerakkan dengan keyboard, mouse, atau jari.\n\nLakukan ini, kita bisa menggabungkannya  @Phrase  dengan  @Placement :\n\n\\Stage([Phrase('gerakkan aku' place: Placement())] place: Place(0m 0m -10m))\\\n\nGunakan tombol panah keyboard atau klik pada  @Stage  akan memperbarui  @Placement , menyebabkan  @Phrase  untuk bergerak ke arah itu.\n\nNamun, tahukah Anda bahwa...  @Placement  dapat digunakan dengan /apa pun/ yang membutuhkan  @Place ? Sebagai contoh, sebuah  @Stage  memiliki  @Place  yang menentukan ke mana kamera tersebut mengarah.Mari kita coba mengatur  @Placement  untuk sebuah  @Stage di tempatnya, dan lihat apa yang terjadi.\n\n\\Stage([\n\t\tPhrase('🐈' place: Place(-2m 2m))\n\t\tPhrase('🐈' place: Place(2m -2m))\n\t\tPhrase('🐈' place: Place(-1m 3m))\n\t] place: Placement(Place(0m 0m -10m)))\\\n\nItu membuat kamera bergerak! (Catatan: kita mulai  @Placement  dengan \\z\\ nilai dari \\10m\\ (sehingga kamera diposisikan agak jauh dari semuanya.)",
+        "related": ["animated-scene"]
+    },
+    {
+        "id": "custom-characters",
+        "title": "Tampilkan karakter kustom",
+        "category": "characters",
+        "body": "Emoji, huruf, dan simbol memang bagus! Tapi terkadang kamu ingin membuat karaktermu sendiri.Bagaimana Anda bisa membuat dan menampilkan karya Anda sendiri?\n\nPertama, mulailah dengan membuat karakter di <Karakter@://characters> halaman. Anda dapat menggunakan piksel, persegi panjang, lingkaran, dan jalur. Beri nama, deskripsikan, lalu Anda dapat menggunakan nama pengguna dan nama karakter seperti ini:\n\n\\Phrase(`Lihatlah imajinasiku  @username/charactername !`)\\\n\nNama pengguna dan nama karakter tersebut tidak ada, jadi akan ditampilkan sebagai persegi panjang kosong.Pastikan Anda menggunakan nama pengguna dan nama karakter Anda yang sebenarnya.\n\nPerhatikan bagaimana teks tersebut menggunakan tanda backtick (`) alih-alih tanda kutip? Itu penting. Itu menunjukkan bahwa Anda menggunakan mode teks kaya, dan itu diperlukan untuk merujuk ke karakter khusus.\n\nAnda dapat mempelajari lebih lanjut tentang pemformatan teks dari  @Phrase .",
+        "related": ["animate-phrase"]
+    },
+    {
+        "id": "styling-text",
+        "title": "Atur gaya teks Anda",
+        "category": "characters",
+        "body": "Terkadang kita ingin teks kita menonjol. Kita bisa melakukan ini dengan cara... /memiringkan/, *menebalkan*, dan masih banyak lagi!\n\nMisalnya, untuk membuat teks menjadi miring, Anda dapat membungkusnya dengan garis miring //, seperti //Hello//. Contohnya:\n\n\\Group(Stack() [\n\t\tPhrase(`Ingin pamer /huruf miring/ dalam teks Anda?`)\n\t\tPhrase(`Ini bagus untuk penekanan atau untuk memberi makna pada kata-kata Anda. /jazz tambahan/.`)\n\t\tPhrase(`Cukup tambahkan garis miring (//) sebelum dan sesudah kata atau frasa tersebut. /seperti ini/.`)\n\t])\\\n\n@Phrase  Anda juga dapat menebalkan teks. Anda dapat melakukannya dengan membungkus teks Anda dengan tanda bintang **, seperti **Halo**. Misalnya:\n\n\\Group(Stack() [\n\t\tPhrase(`Ingin membuat teks Anda lebih menarik dengan *berani*?`)\n\t\tPhrase(`Ini sangat cocok saat Anda membutuhkannya. *teriak sesuatu dengan keras*.`)\n\t\tPhrase(`Cukup beri tanda bintang tunggal (**) di sekitar kata-kata Anda, seperti *Hai!*, dan saksikan bagaimana rasanya berbeda.`)\n\t])\\\n\n@Phrase  Anda juga dapat membuat teks menjadi LEBIH tebal. Untuk itu, bungkus teks Anda dengan tanda sisipan ^^, seperti ^^Halo^^. Misalnya:\n\n\\Group(Stack() [\n\t\tPhrase(`Ekstra tebal adalah ^KAMBING^ saat kamu perlu memaksimalkan suasana.`)\n\t\tPhrase(`Ini seperti berani tapi lebih ^api^, biasanya dilakukan dengan satu wortel di sekelilingnya (^^)`)\n\t\tPhrase(`Gunakan itu untuk pamer ^judul^ atau ^ide-ide besar^.`)\n\t])\\\n\nAkhirnya,  @Phrase  Anda dapat membuat teks bergaris bawah. Untuk itu, bungkus teks Anda dengan garis bawah __, seperti __Hello__. Misalnya:\n\n\\Group(Stack() [\n\t\tPhrase(`Garis bawah adalah _api tersembunyi_ untuk saat Anda ingin teks tetap terlihat rapi namun tetap menonjol.`)\n\t\tPhrase(`Hilangkan satu garis bawah (__) sebelum dan sesudah teks Anda, _seperti ini_, dan ini memberikan penekanan yang jelas.`)\n\t\tPhrase(`Dia _sempurna_ karena menyampaikan maksudmu tanpa terlalu berlebihan _tambahan_.`)\n\t])\\",
+        "related": ["custom-characters"]
+    },
+    {
+        "id": "animated-scene",
+        "title": "Buatlah serangkaian adegan animasi.",
+        "category": "stories",
+        "body": "Terkadang kita ingin bercerita, menampilkan lirik, atau menghidupkan puisi.Untuk melakukan itu, kita bisa menggunakan  @Scene  Dan  @Phrase  bersama-sama, untuk menunjukkan sebuah urutan.\n\nSebagai contoh, bayangkan kita ingin membuat animasi dari lagu anak-anak pendek, \"Jack be Nimble\".Kita bisa membuat  @Scene  yang setiap barisnya adalah  @Phrase , dan dengan menetapkan  @Phrase/duration  dari setiap baris,  @Scene  akan berlanjut ketika setiap frasa selesai.\n\n\\Scene([\n\t\tPhrase('Jack lincah' duration: 1s)\n\t\tPhrase('Jack, cepatlah!' duration: 1s)\n\t\tPhrase('Jack melompati tempat lilin' duration: 1s)\n\t])\\\n\n@Scene  akan menunggu  @Sequence  Itu juga harus dilakukan. Mari kita buat garis candlestick melonjak!\n\n\\Scene([\n\t\tPhrase('Jack lincah' duration: 1s)\n\t\tPhrase('Jack, cepatlah!' duration: 1s)\n\t\tPhrase('Jack melompati tempat lilin' entering: Sequence(bounce() 1s))\n\t])\\\n\n@Scene  juga bisa mengambil  @Group  termasuk teks juga, dan akan menunggu hingga seluruh kontennya selesai dianimasikan.\n\n\\Scene([\n\t\tGroup(Stack() [\n\t\t\t\tPhrase('Jack lincah')\n\t\t\t\tPhrase('Jack, cepatlah!')\n\t\t\t] duration: 2s)\n\t\tPhrase('Jack melompati tempat lilin' entering: Sequence(bounce() 1s))\n\t])\\",
+        "related": ["interactive-scene"]
+    },
+    {
+        "id": "interactive-scene",
+        "title": "Buat serangkaian adegan interaktif.",
+        "category": "stories",
+        "body": "Terkadang kita ingin menceritakan kisah yang menunggu penonton melakukan sesuatu sebelum beralih ke konten berikutnya.\n\nUntuk melakukan ini, kita bisa menggunakan  @Scene , tapi letakkan  @Boolean  nilai di antara konten yang ingin kita tampilkan. Misalnya, klik di sini akan beralih ke setiap konten berikutnya, menggunakan  @Button :\n\n\\Scene([\n\t\tPhrase('klik saya')\n\t\tButton()\n\t\tPhrase('klik saya lagi' duration: 1s)\n\t\tButton()\n\t\tPhrase('Tidak, sungguh, klik saya sekeras mungkin!!' duration: 1s)\n\t\tButton()\n\t\tPhrase('Apakah Anda sudah mengklik saya?' duration: 1s)\n\t])\\\n\nItu  @Scene  menunjukkan yang pertama  @Phrase lalu menunggu  @Button  agar menjadi kenyataan, dan begitu terbukti benar, maka akan berlanjut ke tahap berikutnya.  @Phrase .\n\nAnda dapat menggunakan apa pun yang Anda inginkan untuk menyampaikan argumen, asalkan pernyataan tersebut benar atau salah. Sebagai contoh, kita bisa menggunakan suara kita! Jika kita berteriak cukup keras, adegan akan berlanjut:\n\n\\Scene([\n\t\tPhrase('Apakah ada orang di sana?')\n\t\tVolume() > .5\n\t\tPhrase(\"Aku tidak bisa mendengarmu, ulangi lagi?\" duration: 1s)\n\t\tVolume() > .7\n\t\tPhrase('Tolong lebih keras...' duration: 1s)\n\t\tVolume() > .9\n\t\tPhrase('Oh, hai!' duration: 1s)\n\t])\\",
+        "related": ["animated-scene"]
+    },
+    {
+        "id": "layering-images",
+        "title": "Tumpuk gambar satu di atas yang lain",
+        "category": "stories",
+        "body": "Terkadang kita ingin menumpuk gambar untuk membangun adegan yang menyenangkan atau bentuk yang kreatif.\n\nSebagai contoh, Anda dapat menggunakan beberapa lapisan pada proyek Anda.  @Stage  untuk menumpuk dan mengatur gambar sesuai keinginan Anda.\n\nLihat! Ini dia kura-kura yang saya buat hanya menggunakan bentuk-bentuk!Cobalah mengubah angka untuk setiap bentuk. Anda dapat memindahkannya, mengubah ukurannya, dan bahkan memutarnya.Cobalah bereksperimen dan lihat apa yang bisa kamu ciptakan!\n\n\\¶Catatan: Lihat galeri untuk proyek lainnya. <contoh@https://wordplay.dev/project/example-Layers?play> tentang penumpukan gambar.¶Stage([\n\t\tShape(Circle(3m 0m 1m 0m))\n\t\tShape(Polygon(2m 3 0m -12m 0m) rotation: -30°)\n\t\tShape(Polygon(7m 6 0m -6m 0m))\n\t\tShape(Rectangle(-11m -9m 11m -12m 10m) rotation: 25°)\n\t\tShape(Rectangle(-11m -9m 11m -12m 10m) rotation: -25°)\n\t] place: Place(0m 10m -30m))\\\n\nKamu bisa membuat hal-hal yang sangat keren dengan lapisan! Cobalah!",
+        "related": ["custom-characters"]
+    },
+    {
+        "id": "shake-phrase",
+        "title": "Buat karakter goyangan",
+        "category": "randomization",
+        "body": "Terkadang, akan lebih baik jika karakter tersebut terlihat seperti sedang gemetar.Ada beberapa cara yang bisa kita lakukan untuk mewujudkannya.\n\nKita bisa menggunakan  @Phrase/offset  dengan  @Random  Dan  @Time  untuk mewujudkan hal itu.\n\n\\offset: 0m … ∆ Time() … Random(-0.1m 0.1m)\nPhrase('Hai' offset: Place(offset 0m))\\\n\nIni menciptakan nilai yang disebut \\offset\\ yang berubah menjadi nilai acak baru setiap kali jam berdetik.Kemudian, ia menggunakan offset tersebut untuk menampilkan  @Phrase  dikurangi dengan jumlah tersebut.\n\nJika kita ingin mengontrol getaran dengan lebih tepat, kita bisa menggunakan sebuah  @Sequence  untuk membuat animasi goyang acak yang berulang.\n\n\\Phrase('Hai' resting: Sequence({\n\t\t\t0%: Pose(offset: Place(Random(-.2m .2m)))\n\t\t\t15%: Pose(offset: Place(Random(-.2m .2m)))\n\t\t\t60%: Pose(offset: Place(Random(-.2m .2m)))\n\t\t\t75%: Pose(offset: Place(Random(-.2m .2m)))\n\t\t} 0.1s))\\\n\nContoh ini hanya memilih nilai acak sekali, tetapi mengubahnya menjadi urutan yang berulang.",
+        "related": ["move-phrase"]
+    },
+    {
+        "id": "video-grid",
+        "title": "Buat video dari kamera",
+        "category": "video",
+        "body": "Itu  @Camera  Stream adalah cara yang bagus untuk mendapatkan kisi-kisi warna dari dunia. Bagaimana jika kita ingin melihat warna-warna itu, menciptakan kembali gambar tersebut?  @Camera  melihat?\n\nKita bisa menggunakan  @Grid  tata letak untuk sebuah  @Group , Dan  @List/combine  fungsi untuk mengubah warna menjadi daftar  @Phrase  yang kita berikan kepada  @Grid .\n\n\\width: 24\nheight: 24\ncolors: Camera(width × 1px height × 1px 33ms)\nStage([\n\t\tGroup(Grid(height width 0m) colors.combine([] ƒ(phrases row) [\n\t\t\t\t\t\t:phrases\n\t\t\t\t\t\t:row.translate(ƒ(color) Phrase(\"⬤\" color: color duration: 0s))\n\t\t\t\t\t]))\n\t])\\\n\nContoh ini menyusun daftar frasa, mengubah setiap warna menjadi lingkaran dengan warna spesifik tersebut.\n\nBerhati-hatilah dengan  @Camera  Stream: menghasilkan banyak input! Anda perlu menjaga lebar dan tinggi gambar tetap kecil.",
+        "related": ["interactive-scene"]
+    },
+    {
+        "id": "track-points",
+        "title": "Pantau poinnya",
+        "category": "remembering",
+        "body": "Terkadang dalam permainan, akan sangat membantu untuk melacak poin ketika sesuatu terjadi. Jika Wordplay tidak mengizinkan variabel diberi nilai baru, bagaimana kita bisa melakukannya?\n\nKuncinya adalah menggunakan  @Reaction  untuk mendefinisikan sebuah  @Bind nilai tersebut, dan untuk berpikir dengan cermat tentang peristiwa apa yang seharusnya menghasilkan nilai baru untuknya.  @Bind .\n\nSebagai contoh, bayangkan sebuah permainan yang sangat sederhana di mana seorang pemain mendapatkan lebih banyak poin setiap kali mereka mengetikkan tombol rahasia pada keyboard. \n\n\\points: 0 … ['A' 'e' 'Saya' 'Hai' 'kamu'].has(Key()) … points + 1\\\n\nContoh ini mengatakan, /Poin dimulai dari 0, dan setiap kali tombol ditekan, jika tombol tersebut ada dalam daftar huruf vokal, poin akan menjadi poin saat ini ditambah satu./ Setiap kali \\Key()\\  @Stream  Ketika terjadi perubahan, program mengevaluasi ulang, memeriksa kondisinya, dan jika benar, maka akan memberikan hasil. \\points\\ nilai baru.\n\nReaksi ini terdiri dari tiga bagian:\n\n• Nilai awal untuk poin (\\0\\)• Kondisi yang, jika benar, menghasilkan nilai baru (\\['A' 'e' 'Saya' 'Hai' 'kamu'].has(Key())\\)• Nilai baru, jika kondisinya menjadi benar (\\points + 1\\)\n\nUntuk membuat pelacakan titik yang lebih canggih, cukup buat kondisi yang lebih kompleks atau nilai baru. Luangkan waktu untuk memikirkan aturan dari kondisi dan nilai baru tersebut, lalu coba ungkapkan dalam kode.",
+        "related": ["track-points"]
+    },
+    {
+        "id": "track-game-state",
+        "title": "Pantau status permainan.",
+        "category": "remembering",
+        "body": "Sebagian besar gim melacak berbagai hal seiring berjalannya gim: poin, posisi pemain, dan detail lainnya semuanya penting.Setiap kali ada masukan, status tersebut berubah, dan kemudian kita ingin menampilkan keluaran baru sebagai responsnya.\n\nPola umum untuk permainan apa pun melakukan tiga hal:\n\n• Definisikan struktur data status permainan, untuk menyimpan seluruh status permainan.• Definisikan reaksi yang menghasilkan status permainan baru berdasarkan status permainan sebelumnya setiap kali ada masukan baru.• Buatlah  @Stage  dengan  @Group  Dan  @Phrase  untuk menampilkan status permainan\n\nSebagai contoh, mari kita bayangkan sebuah permainan sederhana yang melibatkan mengetik kata-kata rahasia ke dalam kotak teks, dan mendapatkan satu poin setiap kali kata rahasia tersebut ditebak:\n\n\\•Game(secrets•[''] points•#)\nstate: Game(['kucing' 'anjing'] 0) … state.secrets.has(Chat()) … state.points:state.points + 1\nStage(state.points = state.secrets.length() ? [Phrase(\"kamu menang!\")] [\n\t\t\tGroup(Stack() [\n\t\t\t\t\tPhrase(\"Coba tebak kata-kata rahasiaku\")\n\t\t\t\t\tPhrase(`\\state.secrets.length() - state.points\\ rahasia lainnya`)\n\t\t\t\t])\n\t\t])\\\n\nMari kita uraikan ini.\n\n• Baris pertama, \\•Game(secrets•[''] points•#)\\ kata, /Buatlah struktur data yang disebut... \\Game\\ yang menyimpan daftar rahasia dan poin./• Baris kedua mengatakan /Keadaan permainan dimulai dengan daftar rahasia dan nol poin. Setiap kali \\Chat\\ Jika kata yang dimasukkan ada dalam daftar rahasia, maka buat status permainan baru dengan poin yang bertambah satu./.• Setiap kali program dievaluasi ulang (ketika \\Chat\\ (perubahan), tampilkan sebuah tahapan. Jika jumlah poin sama dengan jumlah rahasia, tampilkan tahapan kemenangan. Jika tidak, tampilkan petunjuk dan jumlah rahasia yang tersisa.\n\nContoh ini memiliki beberapa masalah:\n\n• Jika mereka menebak kata rahasia beberapa kali, mereka mendapatkan lebih banyak poin! Sistem permainan kita mungkin juga perlu mengingat apa yang ditebak, jadi setiap kata hanya dihitung dua kali.• Jika pemain memasukkan beberapa kata, apakah itu akan dihitung?\n\nKondisi permainan dan pembaruan permainan yang lebih canggih akan membantu kita menangani kasus-kasus ini.",
+        "related": ["track-points"]
+    },
+    {
+        "id": "offer-choices",
+        "title": "Tampilkan pilihan yang dapat dipilih",
+        "category": "remembering",
+        "body": "Terkadang Anda ingin menampilkan banyak pilihan di layar, dan melakukan sesuatu dengan pilihan yang dibuat penonton. Untuk melakukan ini, kita membutuhkan dua hal:\n\n• Satu atau lebih  @Phrase  yang ditandai sebagai dapat dipilih dan memiliki nama unik (misalnya, \\Phrase('pilihan 1' selectable: ⊤ name: 'satu')\\)• A  @Choice , yang berubah menjadi  @Phrase  nama yang paling baru dipilih.\n\nSebagai contoh, di sini kami menampilkan tiga pilihan, masing-masing dengan nama yang unik.\n\n\\option: Choice()\nGroup(Stack() [\n\t\tPhrase('pilihan 1' selectable: ⊤ name: 'satu')\n\t\tPhrase('opsi 2' selectable: ⊤ name: 'dua')\n\t\tPhrase('pilihan 3' selectable: ⊤ name: 'tiga')\n\t\tPhrase(option)\n\t])\\\n\nSetiap kali seseorang dipilih, yang terakhir  @Phrase  Menampilkan nama yang dipilih.\n\nAnda dapat menggunakan pola ini untuk melakukan sesuatu sebagai respons terhadap suatu pilihan. Misalnya, kita dapat mengubah proyek di atas untuk menampilkan emoji rahasia berdasarkan pilihan tersebut:\n\n\\option: Choice()\noption = '' ? Group(Stack() [\n\t\t\tPhrase('pilihan 1' selectable: ⊤ name: 'satu')\n\t\t\tPhrase('opsi 2' selectable: ⊤ name: 'dua')\n\t\t\tPhrase('pilihan 3' selectable: ⊤ name: 'tiga')\n\t\t]) Phrase({'satu': '😡' 'dua': '🏀' 'tiga': '❤'}{option} ?? '?')\\\n\nItu  @Choice  dimulai sebagai sesuatu yang kosong  @Text Jadi, ketika proyek dimulai, kami memeriksanya dan menampilkan tiga pilihan tersebut.Setelah pilihan dibuat, maka pilihan tersebut akan menjadi salah satu dari tiga pilihan yang tersedia.  @Phrase  nama.\n\nUntuk menampilkan emoji berdasarkan pilihan, kita dapat menggunakan  @Map  untuk mengubah nama tersebut menjadi emoji rahasia.Ketika kita mendapatkan nilai dari sebuah  @Map , jika tidak ada kecocokan, maka akan dievaluasi menjadi \\ø\\, jadi kami menggunakan \\??\\ untuk default \\'?'\\ jika opsi tersebut tidak ada di peta. Dalam kasus ini, hal itu tidak mungkin terjadi, tetapi kita tidak cukup pintar untuk mengetahuinya!",
+        "related": ["move-phrase"]
+    },
+    {
+        "id": "choose-adventure",
+        "title": "Buat petualangan berbasis teks.",
+        "category": "remembering",
+        "body": "Salah satu jenis permainan yang menyenangkan adalah... /pilih petualanganmu sendiri/ Permainan di mana pemain menavigasi serangkaian pilihan, dan mencoba menemukan jalan menuju akhir yang bahagia. \n\nUntuk membuat salah satunya, kita bisa menggunakan  @Structure ,  @Key ,  @Reaction , Dan  @List  Bersama-sama untuk membuat serangkaian keputusan, masing-masing dengan serangkaian pilihan, seperti ini:\n\n\\¶ Ini menghasilkan struktur data yang menyimpan pilihan dan keputusan mana yang akan dituju. ¶•Option(text•'' decision•#)\n¶ Struktur data ini menyimpan daftar pilihan. ¶•Decision(options: [Option])\n¶ Inilah konten permainannya! Ubah teks di Opsi untuk menciptakan suasana dan pilihan yang sulit.Tambahkan opsi untuk menciptakan jalinan pilihan yang rumit. ¶\ndecisions: [\n\t\tDecision([Option('awal' 2)])\n\t\tDecision([\n\t\t\t\tOption('kiri' 3)\n\t\t\t\tOption('lurus' 4)\n\t\t\t\tOption('Kanan' 4)\n\t\t\t])\n\t\tDecision([Option('menang' 1)])\n\t\tDecision([Option('kehilangan' 1)])\n\t]\n¶ Ubah kunci menjadi angka, jika kunci tersebut berupa angka. ¶\nkey: Key()\nchoice: key → #\n¶ Nilai ini mewakili keputusan saat ini dalam daftar di atas.Saat tombol ditekan, kita melakukan salah satu hal berikut.Jika hanya ada satu pilihan untuk keputusan ini, maka kita ubah keputusan yang ada saat ini.terhadap keputusan target opsi tersebut, terlepas dari tombol apa pun yang ditekan.Jika tombol yang ditekan berada di antara 1 dan jumlah opsi, maka kita akan menuju ke keputusan target opsi tersebut.Jika tidak, kita akan tetap mempertahankan keputusan yang ada. ¶\ncurrent•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ? decisions[current].options[choice].decision current\n¶ Ini hanya menampilkan opsi sebagai tumpukan frasa. Anda dapat mengubahnya untuk menambahkan instruksi, animasi, dan hal-hal menarik lainnya! ¶Stage([\n\t\tGroup(Stack() decisions[current].options.translate(ƒ(option) Phrase(option.text)))\n\t])\\\n\nPola ini terlihat kompleks, tetapi sebenarnya hanya menampilkan pilihan yang tersedia saat ini dan setiap kali tombol berubah, akan menampilkan keputusan dari pilihan yang dipilih. Mendesain game adalah tentang mengubah konten di bagian atas!",
+        "related": ["offer-choices"]
+    },
+    {
+        "id": "repeating-a-movement",
+        "title": "Mengulangi suatu gerakan",
+        "category": "characters",
+        "body": "Terkadang kita ingin membuat karakter bergerak dengan cara yang sama beberapa kali! Mengetik baris yang sama berulang kali bisa menjadi membosankan.\n\nSebagai gantinya, kita bisa menggunakan  @Sequence  dengan  @Phrase  untuk membuat sesuatu berulang beberapa kali! Secara spesifik,kita bisa menggunakan hitungan di  @Sequence  dan pilih berapa kali serangkaian pose tersebut diulang. Misalnya, Ini dia bola basket yang memantul naik turun dua kali. \n\n\\Stage([\n\t\tPhrase('🏀' entering: Sequence({\n\t\t\t\t\t0%: Pose(offset: Place(y: 0.25m))\n\t\t\t\t\t25%: Pose(offset: Place(y: 0m))\n\t\t\t\t\t50%: Pose(offset: Place(y: -0.25m))\n\t\t\t\t\t75%: Pose(offset: Place(y: 0m))\n\t\t\t\t\t100%: Pose(offset: Place(y: 0.25m))\n\t\t\t\t} count: 2x duration: 2s))\n\t])\\",
+        "related": ["animate-phrase", "shake-phrase"]
+    },
+    {
+        "id": "arrange-in-a-row",
+        "title": "Letakkan teks berdampingan",
+        "category": "layout",
+        "body": "Terkadang kita menginginkan teks tersusun rapi berdampingan dalam satu baris.Kita bisa melakukan itu dengan  @Row , yang mengatur semuanya dalam sebuah  @Group  dari kiri ke kanan.\n\n\\Group(Row() [Phrase('🍎') Phrase('🍌') Phrase('🍇')])\\\n\nA  @Row  Anda juga dapat menyusun karakter berdasarkan tepi atas, tengah, atau bawahnya, dan menambahkan spasi di antara karakter-karakter tersebut.Ini buah yang sama, tetapi posisinya lebih rendah dengan sedikit ruang bernapas:\n\n\\Group(Row('>' 0.5m) [\n\t\tPhrase('🍎' size: 2m)\n\t\tPhrase('🍌' size: 1m)\n\t\tPhrase('🍇' size: 3m)\n\t])\\\n\nItu \\'>'\\ memberitahu  @Row  untuk menyelaraskan semuanya di sepanjang tepi bawahnya. Cobalah \\'<'\\ untuk bagian atas atau \\'|'\\ untuk bagian tengah.Itu \\0.5m\\ adalah spasi di antara setiap karakter.",
+        "related": ["stack-up-and-down", "make-a-grid"]
+    },
+    {
+        "id": "stack-up-and-down",
+        "title": "Susun karakter dari atas ke bawah",
+        "category": "layout",
+        "body": "Jika sebuah  @Row  adalah untuk berdampingan, lalu sebuah  @Stack  Ini untuk dari atas ke bawah. @Stack  menempatkan setiap karakter di bawah karakter sebelumnya, seperti sebuah menara.\n\n\\Group(Stack() [\n\t\tPhrase('satu')\n\t\tPhrase('dua')\n\t\tPhrase('tiga')\n\t])\\\n\nSeperti  @Row , A  @Stack  juga bisa memiliki penyelarasan dan bantalan.Cobalah untuk menyusun semuanya di sepanjang sisi kiri:\n\n\\Group(Stack('<' 0.25m) [\n\t\tPhrase('🐣 kecil')\n\t\tPhrase('🐥 sedang')\n\t\tPhrase('🐔 besar')\n\t])\\\n\nItu \\'<'\\ cara /sejajarkan semuanya di sepanjang tepi kiri./.Anda juga bisa mencoba \\'|'\\ untuk tengah atau \\'>'\\ untuk tepi kanan.",
+        "related": ["arrange-in-a-row", "make-a-grid"]
+    },
+    {
+        "id": "make-a-grid",
+        "title": "Buatlah kisi-kisi karakter.",
+        "category": "layout",
+        "body": "Bagaimana jika kita menginginkan baris? /Dan/ kolom secara bersamaan? Itulah yang dimaksud dengan...  @Grid  adalah untuk.\n\nA  @Grid  meminta jumlah baris, jumlah kolom, dan jarak antar sel.\n\n\\Group(Grid(2 3 0.25m) [\n\t\tPhrase('🍎')\n\t\tPhrase('🍌')\n\t\tPhrase('🍇')\n\t\tPhrase('🥕')\n\t\tPhrase('🥦')\n\t\tPhrase('🌽')\n\t])\\\n\nIni menghasilkan kebun buah dan sayuran berukuran 2 x 3!\n\nJika Anda ingin setiap sel memiliki ukuran yang sama, berikan  @Grid  serta lebar dan tinggi juga. Dengan begitu, karakter akan tetap rapi di dalam kotaknya, meskipun ukurannya berbeda:\n\n\\Group(Grid(2 2 0.1m 1.5m 1.5m) [\n\t\tPhrase('🐈' size: 1m)\n\t\tPhrase('🐶' size: 1.5m)\n\t\tPhrase('🦊' size: 0.5m)\n\t\tPhrase('🐻' size: 2m)\n\t])\\",
+        "related": ["arrange-in-a-row", "stack-up-and-down", "make-many-copies"]
+    },
+    {
+        "id": "make-many-copies",
+        "title": "Buat banyak salinan dari sebuah karakter.",
+        "category": "layout",
+        "body": "Bagaimana jika kita menginginkan sepuluh kucing, atau seratus bintang, tetapi tidak ingin mengetik semuanya?Kita bisa meminta daftar tersebut untuk membuat salinan untuk kita.  @List/translate .\n\nJika kita mulai dengan angka \\10\\ dan mengubahnya dengan \\→ []\\, kita mendapatkan daftar sepuluh angka dari 1 hingga 10.Kemudian kita menggunakan  @List/translate  untuk mengubah setiap angka menjadi sebuah  @Phrase :\n\n\\Group(Row() (10 → []).translate(ƒ() Phrase('🐈')))\\\n\n@List/translate  Fungsi kecil kita dipanggil sekali untuk setiap item, dan hasilnya dikumpulkan ke dalam daftar baru.\n\nUntuk membuat setiap salinan sedikit berbeda, gunakan angka yang diberikan oleh fungsi terjemahan:\n\n\\Group(Row('|' 0.2m) (8 → []).translate(ƒ(n) Phrase('⭐' size: n × 0.5m)))\\\n\nSetiap bintang lebih besar dari bintang sebelumnya, karena \\n\\ mulai dari \\1\\ ke \\8\\.",
+        "related": ["make-a-grid", "arrange-in-a-row"]
+    },
+    {
+        "id": "follow-the-pointer",
+        "title": "Buat karakter mengikuti gerakan jari Anda.",
+        "category": "characters",
+        "body": "Ingin karakter yang mengejar kursor mouse atau jari Anda?  @Stage ?Kita bisa melakukan itu dengan  @Pointer  masukan. \n\n@Pointer  memberi kita sesuatu yang baru  @Place  setiap kali penunjuk bergerak.Jika kita menggunakan itu  @Place  sebagai  @Phrase 'S \\place\\Karakter tersebut akan pergi ke mana pun kita menunjuk.\n\n\\Stage([Phrase('🐈' place: Pointer())] place: Place(0m 0m -10m))\\\n\nSelesai! Gerakkan mouse Anda atau seret jari Anda, dan saksikan kucing itu mengikuti.\n\nAnda bisa melakukan hal-hal yang lebih menarik dengan mengeluarkan \\x\\ Dan \\y\\ dari  @Place .Ini dia seekor bebek yang selalu melayang satu meter di atas penunjuk:\n\n\\Stage([\n\t\tPhrase('🦆' place: Place(Pointer().x Pointer().y + 1m))\n\t] place: Place(0m 0m -10m))\\",
+        "related": ["move-phrase", "count-with-time"]
+    },
+    {
+        "id": "your-own-template",
+        "title": "Buat templat karaktermu sendiri",
+        "category": "characters",
+        "body": "Terkadang Anda menginginkan banyak karakter yang terlihat hampir sama, tetapi dengan sedikit perbedaan.Alih-alih menulis hal yang sama  @Phrase  berulang kali, Anda dapat membuat templat Anda sendiri dengan  @Structure .\n\nA  @Structure  Ini seperti resep dengan bagian-bagian kosong yang perlu diisi.Berikut templat balon yang menerima warna dan label, dan tahu cara menampilkan dirinya sendiri:\n\n\\•Balloon(color•Color label•'') (\n\tƒ show() Phrase(`🎈 \\label\\` color: color size: 2m)\n)\nGroup(Row() [\n\t\tBalloon(Color(80% 50 240°) 'Langit').show()\n\t\tBalloon(Color(60% 80 0°) 'Mawar').show()\n\t\tBalloon(Color(90% 80 90°) 'Cerah').show()\n\t])\\\n\nItu \\•Balloon(...)\\ bagian mendefinisikan templat, dan \\ƒ show()\\ sebagian mengatakan /cara menggambarnya/.Kemudian kita membuat tiga balon dengan warna dan label yang berbeda, dan meminta masing-masing balon untuk \\show\\ diri.\n\nTemplate sangat berguna ketika Anda ingin menjaga kode tetap rapi dan karakter tetap konsisten.",
+        "related": ["track-game-state", "make-many-copies"]
+    },
+    {
+        "id": "count-with-time",
+        "title": "Hitung terus saat waktu berlalu",
+        "category": "animation",
+        "body": "Banyak proyek membutuhkan sesuatu yang berkembang seiring waktu — pengatur waktu, skor, hitung mundur.Kita bisa membangun penghitung dengan menggabungkan  @Time   @Stream  dengan  @Reaction .\n\nA  @Reaction  memiliki tiga bagian: nilai awal, hal yang perlu diperhatikan, dan nilai baru ketika hal tersebut berubah.Di sini, kita mulai dari \\0\\, jam tangan  @Time , dan tambahkan satu setiap kali jam berdetik:\n\n\\count: 0 … ∆ Time(1000ms) … count + 1\nPhrase(count → '')\\\n\nSetiap detik,  @Time  kebakaran,  @Reaction  pemberitahuan dengan \\∆ Time(1000ms)\\, Dan \\count\\ menjadi \\count + 1\\.Itu \\→ ''\\ pada akhirnya mengubah angka menjadi teks sehingga  @Phrase  bisa menunjukkannya.\n\nAnda dapat menggunakan input apa pun yang Anda inginkan, bukan hanya waktu. Penghitung ini menghitung jumlah penekanan tombol Button():\n\n\\count: 0 … ∆ Button() … count + 1\nPhrase(count → '')\\\n\nSetiap kali  @Button  Aliran data berubah dengan sekali klik atau sentuhan, jumlahnya bertambah satu.",
+        "related": ["track-points", "pick-from-a-list"]
+    },
+    {
+        "id": "react-to-sound",
+        "title": "Kembangkan karakter dengan suara.",
+        "category": "animation",
+        "body": "Tahukah Anda bahwa proyek Anda dapat mendengarkan Anda?  @Volume   @Stream  menggunakan mikrofon Anda untuk memberi kami angka dari \\0\\ (diam) untuk \\1\\ (keras).\n\nKita bisa menggunakan angka itu untuk mengendalikan apa saja — ukuran sebuah  @Phrase , rotasinya, warnanya.\n\n\\Phrase('📣' size: (Volume() × 5m) + 1m)\\\n\nSaat suasana tenang, megafon digunakan \\1m\\ tinggi. Saat Anda berteriak, tingginya bisa mencapai \\6m\\ tinggi.\n\nIngin matahari yang berputar lebih cepat semakin keras suaramu?\n\n\\Phrase('🌞' rotation: Volume() × 360°)\\\n\nCobalah bertepuk tangan atau bersenandung dan perhatikan apa yang terjadi.(Komputer Anda mungkin akan meminta izin untuk menggunakan mikrofon pada penggunaan pertama.)",
+        "related": ["count-with-time", "follow-the-pointer"]
+    },
+    {
+        "id": "pick-from-a-list",
+        "title": "Pilih satu hal secara acak dari sebuah daftar.",
+        "category": "randomization",
+        "body": "Ingin proyek Anda selalu memberikan kejutan setiap kali dijalankan? Buat daftar pilihan dan pilih salah satu yang sesuai.  @Random . \n\n@Random  dapat memberi kita angka acak, dan sebuah daftar dapat dicari berdasarkan nomor dengan \\[n]\\.Gabungkan ketiganya untuk memilih emoji secara acak:\n\n\\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']\nPhrase(emojis.random())\\\n\nAnda juga dapat menggunakan  @Random  dengan dua angka, yang akan memilih bilangan bulat di antara keduanya.Misalnya, untuk memilih /baru/ Emoji acak setiap detik, campur aduk  @Time  dan sebuah  @Reaction :\n\n\\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']\npick: emojis[1] … ∆ Time(1000ms) … emojis[Random(1 emojis.length())]\nPhrase(pick)\\\n\nSetiap detik dari  @Time , itu  @Reaction  memilih kejutan baru.",
+        "related": ["shake-phrase", "count-with-time"]
+    },
+    {
+        "id": "show-when",
+        "title": "Tampilkan hal-hal berbeda berdasarkan suatu nilai.",
+        "category": "remembering",
+        "body": "Bagaimana jika Anda menginginkan sebuah  @Phrase  Berubah tergantung pada sesuatu — seperti skor, atau penekanan tombol?\n\nKita bisa menggunakan kondisi bersyarat. \\?\\ untuk memilih di antara dua hal.Tuliskan kondisinya, lalu sebuah \\?\\, kemudian nilai yang digunakan ketika bernilai benar, lalu nilai yang digunakan ketika bernilai salah.\n\nIni dia wajah bahagia yang berubah menjadi sedih setiap kali Anda menekan spasi, lalu kembali lagi:\n\n\\happy: ⊤ … ∆ Key(' ') … ~happy\nPhrase(happy ? '😊' '😢')\\\n\nItu  @Reaction  mulai \\happy\\ sebagai \\⊤\\ (benar), dan membalikkannya dengan \\~\\ setiap kali ruang terbatas.Kemudian kondisional \\?\\ memilih wajah yang tepat.\n\nAnda dapat menggabungkan kondisi untuk memilih lebih dari dua hal:\n\n\\score: 0 … ∆ Key('A') … score + 1\nPhrase(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')\\\n\nTekan \\a\\ Beberapa kali dan saksikan telur menetas menjadi anak ayam!",
+        "related": ["track-points", "offer-choices"]
+    },
+    {
+        "id": "gravity-and-bouncing",
+        "title": "Buat karakter jatuh dan memantul",
+        "category": "motion",
+        "body": "Bagaimana jika kita ingin karakter tersebut terjatuh, terpental dari lantai, atau didorong-dorong seperti benda sungguhan?Itulah  @Motion  Dan  @Matter  untuk — bersama-sama mereka mensimulasikan fisika untuk sebuah  @Phrase . \n\n@Motion  kontrol /Di mana/ Sebuah karakter terbentuk seiring waktu. Kita menggunakannya sebagai... \\place\\ untuk sebuah  @Phrase , memulainya dari posisi tinggi agar bisa jatuh.Kita juga butuh sesuatu untuk dijadikan pijakan saat jatuh, atau karakter kita akan terus jatuh selamanya! A  @Shape  dengan lebar  @Rectangle  menghasilkan lantai yang bagus:\n\n\\Stage([\n\t\tPhrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())\n\t\tShape(Rectangle(-10m 0m 10m -5m))\n\t])\\\n\nApel tersebut mulai dari ketinggian lima meter dan jatuh karena gravitasi.Saat menyentuh lantai, benda itu akan sedikit memantul, karena  @Phrase  memiliki bawaan  @Matter  yang mengontrol seberapa berat dan kenyal benda tersebut.\n\nUntuk mengubah cara /goyang/ atau bagaimana /berat/ Sebuah karakter, berikanlah karaktermu sendiri.  @Matter . @Matter  Membutuhkan massa, daya pantul, dan gesekan:\n\n\\Stage([\n\t\tPhrase('⚽' place: Motion(Place(-2m 5m)) matter: Matter(1kg 0.9 0.2))\n\t\tPhrase('🪨' place: Motion(Place(2m 5m)) matter: Matter(5kg 0.1 0.8))\n\t\tShape(Rectangle(-10m 0m 10m -5m))\n\t])\\\n\nBola ini ringan dan memantul, sehingga mudah kembali ke atas.Batu itu berat dan tidak kenyal, jadi hanya berbunyi gedebuk.",
+        "related": ["follow-the-pointer", "move-phrase"]
+    },
+    {
+        "id": "mix-languages-in-text",
+        "title": "Sapa audiens yang multibahasa",
+        "category": "styling",
+        "body": "A  @Phrase  Menampilkan terjemahan yang tepat untuk setiap pemirsa berdasarkan bahasa yang telah mereka pilih. Jika audiens Anda berbicara bahasa Spanyol, Anda dapat berbicara bahasa Spanyol kepada mereka; jika mereka berbicara bahasa Spanyol dan Inggris — Spanglish! — Anda dapat mencampurnya.\n\nBerikan  @TextLiteral  beberapa terjemahan, termasuk terjemahan multibahasa, dan Wordplay memilih yang paling sesuai untuk setiap pemirsa:\n\n\\Phrase(\"halo\"/es\"Halo\"/en\"Halo Tuan-tuan\"/es_en)\\\n\nSeorang pemirsa yang bahasa pilihannya hanya bahasa Spanyol melihat /halo/Seorang pemirsa yang lebih menyukai bahasa Inggris saja melihat /Halo/Seorang pemirsa yang lebih menyukai bahasa Spanyol dan Inggris melihat /Halo Tuan-tuan/ — versi Spanglish.\n\nPermainan kata mengutamakan kecocokan yang paling spesifik, jadi terjemahan monolingual selalu lebih unggul daripada terjemahan multilingual ketika keduanya bisa diterapkan.",
+        "related": ["styling-text"]
+    },
+    {
+        "id": "find-text-with-patterns",
+        "title": "Temukan dan periksa teks dengan pola tertentu.",
+        "category": "styling",
+        "body": "Pola menggambarkan bentuk suatu teks, sehingga Anda dapat memeriksa apakah teks tersebut sesuai dengan suatu bentuk, atau mencari di setiap tempat teks tersebut muncul. Pola ditempatkan di dalam \\⣿⣿\\ dan bacalah dari kiri ke kanan, satu per satu. \\_\\ adalah sebuah surat, \\#\\ adalah sebuah angka, \\␣\\ adalah sebuah ruang, dan teks yang dikutip seperti \\\"-\"\\ cocok persis.\n\nUntuk memeriksa apakah seluruh teks sesuai dengan suatu pola, gunakan \\≈\\, yang memberi Anda \\?\\:\n\n\\'555-1234' ≈ ⣿ 3 # \"-\" 4 #⣿\\\n\nPertanyaan itu berbunyi “tiga digit, tanda hubung, lalu empat digit?” — dan jawabannya adalah \\⊤\\.\n\nJumlah diletakkan sebelum hal yang diulang: \\3\n#\\ artinya tiga digit. Anda juga bisa mengatakan \\>0\n#\\ (satu atau lebih), \\≥0\n#\\ (nol atau lebih), \\≤1\n#\\ (opsional), atau rentang seperti \\2–4\n#\\.\n\nUntuk menemukan setiap tempat pola muncul, gunakan \\⌕\\, yang memberi Anda daftar  @Structure  hasil. Sebutkan sebuah karya dengan \\name: (…)\\ untuk menangkapnya:\n\n\\'lahir 15 Juni 2026' ⌕ ⣿ y: (4 #) \"-\" m: (2 #) \"-\" d: (2 #)⣿\\\n\nSetiap hasil memberi tahu Anda yang cocok \\text\\, di mana itu \\start\\pasir \\end\\s, dan yang ditangkap \\groups\\ - Di Sini \\y\\, \\m\\, Dan \\d\\Karena pola-pola tersebut cocok berdasarkan grafem, maka cara kerjanya sama di setiap bahasa dan aksara.",
+        "related": ["mix-languages-in-text"]
+    }
+]

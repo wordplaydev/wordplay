@@ -81,6 +81,35 @@ type HowTo = {
 };
 
 /**
+ * A serializable how-to, as stored in a per-locale `{locale}-how.json` bundle.
+ * The bundle is generated at build time from the authoring `.txt` files (see
+ * src/util/verify-locales/buildHowTos.ts) so the guide can load all how-tos in a
+ * single request. The `body` is the raw markup (re-parsed at load) to keep the
+ * artifact human-diffable; concept references are derived at runtime from the parsed
+ * content (see ConceptIndex.getHowTosForConcept).
+ */
+export type HowToBundleEntry = {
+    id: HowToID;
+    title: string;
+    category: HowToCategory;
+    body: string;
+    related: HowToID[];
+};
+
+export type HowToBundle = HowToBundleEntry[];
+
+/** Reconstruct a runtime HowTo from a bundle entry, re-parsing the raw body. */
+export function bundleEntryToHowTo(entry: HowToBundleEntry): HowTo {
+    return {
+        id: entry.id,
+        title: entry.title,
+        category: entry.category,
+        content: parseLocaleDoc(entry.body).markup,
+        related: entry.related,
+    };
+}
+
+/**
  * Parses a text file into a how to data structure, or null if it's not valid.
  * The format of a how to is just:
  * [title]
@@ -90,10 +119,11 @@ type HowTo = {
 export function parseHowTo(
     id: string,
     text: string,
-): { how: HowTo | null; error: string | null } {
+): { how: HowTo | null; body: string | null; error: string | null } {
     if (!HowToIDs.includes(id as HowToID)) {
         return {
             how: null,
+            body: null,
             error: `how to '${id}' is not a valid how to ID. Make sure it's defined in HowTo.ts`,
         };
     }
@@ -104,6 +134,7 @@ export function parseHowTo(
     if (lines.length < 3)
         return {
             how: null,
+            body: null,
             error:
                 'Only found ' +
                 lines.length +
@@ -113,7 +144,7 @@ export function parseHowTo(
     // First line is the title.
     const title = lines.shift();
     if (title === undefined)
-        return { how: null, error: "Couldn't find a title." };
+        return { how: null, body: null, error: "Couldn't find a title." };
 
     // Last line are the related how to IDs.
     const related =
@@ -126,15 +157,20 @@ export function parseHowTo(
         if (!HowToIDs.includes(rel as HowToID)) {
             return {
                 how: null,
+                body: null,
                 error: `Related how to '${rel}' is not in the list of how to IDs. Make sure it's defined in HowTo.ts.`,
             };
         }
     }
 
-    const content = parseLocaleDoc(lines.join('\n').trim()).markup;
+    // The raw markup between the title and related lines. Returned so callers (e.g. the
+    // bundle generator) can persist the body without re-implementing this split.
+    const body = lines.join('\n').trim();
+    const content = parseLocaleDoc(body).markup;
 
     // Parse the text into the how to data structure
     return {
+        body,
         how: {
             id: howToID,
             title,

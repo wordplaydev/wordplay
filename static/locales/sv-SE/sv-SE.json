@@ -5943,7 +5943,6 @@
         "docs": {
             "label": "$~dokumentwebbläsare",
             "link": "$~visa koncept $name i dokumentationen",
-            "learn": "$~lär dig mer...",
             "nodoc": "$~Vem är jag? Vad är jag? Vad är mitt syfte?",
             "button": {
                 "home": "$~hemkomst",
@@ -6024,7 +6023,8 @@
                 "explain": {
                     "header": "$~Instruktioner",
                     "explanation": "$~/Korta exempel som visar hur man gör saker i Wordplay. Tryck på play i valfri förhandsgranskning för att se den köras, öppna den sedan för att läsa hur den fungerar./"
-                }
+                },
+                "conceptHowTos": "$?"
             },
             "mode": {
                 "browse": {
@@ -6171,7 +6171,8 @@
             "breadcrumb": {
                 "label": "$~navigeringshistorik",
                 "home": "$~Hem"
-            }
+            },
+            "tutorial": "$?"
         },
         "dialog": {
             "share": {

@@ -1,0 +1,191 @@
+[
+    {
+        "id": "animate-phrase",
+        "title": "使角色動畫化",
+        "category": "characters",
+        "body": "角色可以擁有靜止動畫，該動畫在角色不動時重複。\n\n例如，讓我們透過旋轉和移動讓這隻貓跳一點舞：\n\n\\Phrase('🐈' resting: Sequence({\n\t\t\t0%: Pose(rotation: 0°)\n\t\t\t15%: Pose(rotation: 15°)\n\t\t\t30%: Pose(rotation: 0°)\n\t\t\t45%: Pose(offset: Place(-0.25m))\n\t\t\t60%: Pose(offset: Place(0.25m))\n\t\t\t75%: Pose(offset: Place(-0.25m))\n\t\t\t90%: Pose(offset: Place(0m))\n\t\t} 2s))\\\n\n此範例使用 @Sequence 不同的 @Pose 。",
+        "related": ["move-phrase", "shake-phrase"]
+    },
+    {
+        "id": "move-phrase",
+        "title": "使角色可移動",
+        "category": "characters",
+        "body": "有時， @Phrase 可用鍵盤、滑鼠或手指移動。\n\n這樣做，我們可以結合 @Phrase  和 @Placement ：\n\n\\Stage([Phrase('讓我動起來' place: Placement())] place: Place(0m 0m -10m))\\\n\n使用鍵盤箭頭或點擊 @Stage 將更新 @Placement ，導致 @Phrase 朝那個方向前進。\n\n但你知道嗎， @Placement 可以與/任何事物/這需要 @Place ？例如 @Stage 有一個 @Place 這決定了相機指向的位置。讓我們嘗試設定一個 @Placement 對於 @Stage 的地方，看看會發生什麼。\n\n\\Stage([\n\t\tPhrase('🐈' place: Place(-2m 2m))\n\t\tPhrase('🐈' place: Place(2m -2m))\n\t\tPhrase('🐈' place: Place(-1m 3m))\n\t] place: Placement(Place(0m 0m -10m)))\\\n\n這會讓相機移動！ （註：我們開始 @Placement 與\\z\\的價值\\10m\\這樣相機就遠離了一切。 ）",
+        "related": ["animated-scene"]
+    },
+    {
+        "id": "custom-characters",
+        "title": "顯示自訂角色",
+        "category": "characters",
+        "body": "表情符號、字母和符號都很棒！但有時你會想創造自己的角色。您如何創作並展示自己的作品？\n\n首先，從在<人物@://characters> 頁。 您可以使用像素、矩形、圓形和路徑。給它一個名字，描述它，然後你可以使用你的使用者名稱和角色名稱，像這樣：\n\n\\Phrase(`看看我的奇思妙想 @username/charactername ！`)\\\n\n該使用者名稱和角色名稱不存在，因此它將顯示為一個空矩形。請務必使用您的真實使用者名稱和角色名\n\n看到文字是如何使用反引號而不是引號的嗎？這很重要。這告訴我們您正在使用富文本模式，並且需要引用自訂字元。\n\n您可以從以下網址了解有關格式化文字的更多信息 @Phrase 。",
+        "related": ["animate-phrase"]
+    },
+    {
+        "id": "styling-text",
+        "title": "文字樣式",
+        "category": "characters",
+        "body": "有時我們希望文字脫穎而出。我們可以這樣做/斜體/，*加粗*，還有更多！\n\n例如，要將文字設為斜體，可以用正斜線 // 將其括起來，例如 //Hello//。例如：\n\n\\Group(Stack() [\n\t\tPhrase(`想要展示一些/斜體/在你的文本中？`)\n\t\tPhrase(`這對於強調或表達你的觀點很有用/額外的爵士樂/。`)\n\t\tPhrase(`只需在單字或短語前後加上斜線 (//)，/像這樣/。`)\n\t])\\\n\n@Phrase 也可以將文字加粗。你可以將文字括在星號**中，例如**Hello**。例如：\n\n\\Group(Stack() [\n\t\tPhrase(`想要讓你的文字流行起來*大膽的*？`)\n\t\tPhrase(`當你需要的時候，它是完美的*大聲喊叫*。`)\n\t\tPhrase(`只需在單字兩邊加上星號 (**)，例如*嘿！*，並觀察其擊球的不同效果。`)\n\t])\\\n\n@Phrase 也可以將文字加粗。為此，請使用插入符號 ^^ 包裹文本，例如 ^^Hello^^。例如：\n\n\\Group(Stack() [\n\t\tPhrase(`加粗的是^山羊^當你需要將氛圍調到最大。`)\n\t\tPhrase(`就像大膽但更^火^，通常用一根胡蘿蔔圍繞著 (^^)`)\n\t\tPhrase(`用它來彎曲^標題^ 或者^偉大的想法^。`)\n\t])\\\n\n最後， @Phrase 可以為文字添加下劃線。為此，請用底線 __ 將文字括起來，例如 __Hello__。例如：\n\n\\Group(Stack() [\n\t\tPhrase(`下劃線是_低調的火_當您想讓文字保持流暢但仍引人注目時。`)\n\t\tPhrase(`在文字前後各增加一條底線 (__)，_像這樣_，並且給予了清晰的強調。`)\n\t\tPhrase(`它是_完美的_表達你的觀點，但又不會太_額外的_。`)\n\t])\\",
+        "related": ["custom-characters"]
+    },
+    {
+        "id": "animated-scene",
+        "title": "創建一系列動畫場景",
+        "category": "stories",
+        "body": "有時我們想講述故事、展示歌詞或使詩歌生動。為此，我們可以使用 @Scene  和 @Phrase 一起來展現一個序列。\n\n例如，假設我們想要將短小的童謠「Jack be Nimble」製作成動畫。我們可以做一個 @Scene 每一行都是 @Phrase ，並透過設定 @Phrase/duration 每行， @Scene 每完成一個短語就會前進。\n\n\\Scene([\n\t\tPhrase('傑克很敏捷' duration: 1s)\n\t\tPhrase('傑克快點' duration: 1s)\n\t\tPhrase('傑克跳過蠟燭桿' duration: 1s)\n\t])\\\n\n@Scene 將等待 @Sequence 也要做。讓我們讓蠟燭線跳起來！\n\n\\Scene([\n\t\tPhrase('傑克很敏捷' duration: 1s)\n\t\tPhrase('傑克快點' duration: 1s)\n\t\tPhrase('傑克跳過蠟燭桿' entering: Sequence(bounce() 1s))\n\t])\\\n\n@Scene 還可以 @Group 文字也是如此，它將等待所有內容完成動畫。\n\n\\Scene([\n\t\tGroup(Stack() [Phrase('傑克很敏捷') Phrase('傑克快點')] duration: 2s)\n\t\tPhrase('傑克跳過蠟燭桿' entering: Sequence(bounce() 1s))\n\t])\\",
+        "related": ["interactive-scene"]
+    },
+    {
+        "id": "interactive-scene",
+        "title": "建立一系列互動式場景",
+        "category": "stories",
+        "body": "有時我們想講述一些故事，等待觀眾採取一些行動，然後再進入下一個內容。\n\n為此，我們可以使用 @Scene ，但把 @Boolean 我們要顯示的內容之間的值。例如，點擊後會前進到下一個內容，使用 @Button ：\n\n\\Scene([\n\t\tPhrase('點擊我')\n\t\tButton()\n\t\tPhrase('再次點擊我' duration: 1s)\n\t\tButton()\n\t\tPhrase('不，真的，用盡全力點擊我！ ！' duration: 1s)\n\t\tButton()\n\t\tPhrase('你點擊我了嗎？' duration: 1s)\n\t])\\\n\n這 @Scene 顯示第一個 @Phrase ，然後等待 @Button 是真的，一旦是真的，它就會進入下一個 @Phrase 。\n\n您可以使用任何您想要推進的事情，只要它是真或假。例如，我們可以使用我們的聲音！如果我們喊得夠大聲，場景就會推進：\n\n\\Scene([\n\t\tPhrase('有人在嗎？')\n\t\tVolume() > .5\n\t\tPhrase(\"我聽不見，再說一次？\" duration: 1s)\n\t\tVolume() > .7\n\t\tPhrase('請大聲點...' duration: 1s)\n\t\tVolume() > .9\n\t\tPhrase('噢，嗨！' duration: 1s)\n\t])\\",
+        "related": ["animated-scene"]
+    },
+    {
+        "id": "layering-images",
+        "title": "將影像層疊在一起",
+        "category": "stories",
+        "body": "有時我們會想將圖像分層以建立有趣的場景或富有創意的形狀。\n\n例如，您可以在您的專案上使用多個層 @Stage 按照您喜歡的方式堆疊和排列圖像。\n\n看！這是我用形狀製作的烏龜！嘗試更改每個形狀的數字。你可以移動它們、調整它們的大小，甚至旋轉它們。玩一玩，看看你能創造什麼！\n\n\\¶注意：請查看圖庫以了解另一個項目<例子@https://wordplay.dev/project/example-Layers?play>分層影像。¶Stage([\n\t\tShape(Circle(3m 0m 1m 0m))\n\t\tShape(Polygon(2m 3 0m -12m 0m) rotation: -30°)\n\t\tShape(Polygon(7m 6 0m -6m 0m))\n\t\tShape(Rectangle(-11m -9m 11m -12m 10m) rotation: 25°)\n\t\tShape(Rectangle(-11m -9m 11m -12m 10m) rotation: -25°)\n\t] place: Place(0m 10m -30m))\\\n\n你可以用圖層製作出一些很酷的東西！快來試試吧！",
+        "related": ["custom-characters"]
+    },
+    {
+        "id": "shake-phrase",
+        "title": "讓角色搖晃",
+        "category": "randomization",
+        "body": "有時讓角色看起來在顫抖是有幫助的。我們可以透過幾種方法來實現這一點。\n\n我們可以使用 @Phrase/offset  和 @Random  和 @Time 來實現這一點。\n\n\\offset: 0m … ∆ Time() … Random(-0.1m 0.1m)\nPhrase('你好' offset: Place(offset 0m))\\\n\n這將建立一個名為\\offset\\每當時鐘滴答作響時，它就會變成一個新的隨機值。然後，它使用該偏移量來顯示 @Phrase 抵銷該金額。\n\n如果我們想更精確地控制震動，我們可以使用 @Sequence 製作重複的隨機搖動動畫。\n\n\\Phrase('你好' resting: Sequence({\n\t\t\t0%: Pose(offset: Place(Random(-.2m .2m)))\n\t\t\t15%: Pose(offset: Place(Random(-.2m .2m)))\n\t\t\t60%: Pose(offset: Place(Random(-.2m .2m)))\n\t\t\t75%: Pose(offset: Place(Random(-.2m .2m)))\n\t\t} 0.1s))\\\n\n此範例僅選擇一次隨機值，但將它們變成重複序列。",
+        "related": ["move-phrase"]
+    },
+    {
+        "id": "video-grid",
+        "title": "使用相機創建視頻",
+        "category": "video",
+        "body": "這 @Camera 流是從世界獲取顏色網格的好方法。如果我們想看到這些顏色，重建圖像 @Camera 看到了嗎？\n\n我們可以使用 @Grid 佈局 @Group ， 和 @List/combine 函數將顏色轉換為列表 @Phrase 我們給予 @Grid 。\n\n\\width: 24\nheight: 24\ncolors: Camera(width × 1px height × 1px 33ms)\nStage([\n\t\tGroup(Grid(height width 0m) colors.combine([] ƒ(phrases row) [\n\t\t\t\t\t\t:phrases\n\t\t\t\t\t\t:row.translate(ƒ(color) Phrase(\"⬤\" color: color duration: 0s))\n\t\t\t\t\t]))\n\t])\\\n\n此範例建立了一個短語列表，將每種顏色轉換為具有特定顏色的圓圈。\n\n小心 @Camera 流：它們會產生大量的輸入！你需要保持圖像的寬度和高度較小。",
+        "related": ["interactive-scene"]
+    },
+    {
+        "id": "track-points",
+        "title": "追蹤點",
+        "category": "remembering",
+        "body": "有時在遊戲中，記錄事件發生時的點數會很有幫助。如果Wordplay不允許變數被賦予新值，我們該怎麼做呢？\n\n訣竅是使用 @Reaction 定義一個 @Bind 的價值，並仔細思考什麼事件應該導致新的價值 @Bind 。\n\n例如，想像一個非常簡單的遊戲，玩家每次在鍵盤上鍵入一個秘密鍵時都會獲得更多積分。\n\n\\points: 0 … ['一個' 'e' '我' '哦' '你'].has(Key()) … points + 1\\\n\n這個例子表明，/點數從 0 開始，然後每次按下一個鍵時，如果該鍵在母音清單中，則點數變成目前點數加一。/每次\\Key()\\  @Stream 改變時，程序重新評估，檢查條件，如果為真，則給出\\points\\一個新的值。\n\n對此的反應分為三個部分：\n\n• 點的初始值（\\0\\)• 當條件為真時，產生一個新值 (\\['一個' 'e' '我' '哦' '你'].has(Key())\\)• 若條件成立，則為新值（\\points + 1\\)\n\n要實現更複雜的點追踪，只需設定更複雜的條件或新值即可。花點時間思考這些條件和新值的規則，然後嘗試用程式碼表達它們。",
+        "related": ["track-points"]
+    },
+    {
+        "id": "track-game-state",
+        "title": "追蹤遊戲狀態",
+        "category": "remembering",
+        "body": "大多數遊戲在遊戲進行過程中都會追蹤多項事物：分數、玩家位置和其他細節都是關鍵。每次有輸入時，狀態就會發生變化，然後我們希望顯示新的輸出作為回應。\n\n任何遊戲的通用模式都會做三件事：\n\n• 定義一個遊戲狀態資料結構，用於儲存所有遊戲狀態• 定義一個反應，當有新的輸入時，根據先前的遊戲狀態創建新的遊戲狀態• 製作 @Stage  和 @Group  和 @Phrase 顯示遊戲狀態\n\n例如，讓我們想像一個簡單的遊戲，其中需要在文字框中輸入秘密單詞，並且每次猜出一個秘密單詞時都會獲得一分：\n\n\\•Game(secrets•[''] points•#)\nstate: Game(['貓' '狗'] 0) … state.secrets.has(Chat()) … state.points:state.points + 1\nStage(state.points = state.secrets.length() ? [Phrase(\"你贏了！\")] [\n\t\t\tGroup(Stack() [\n\t\t\t\t\tPhrase(\"猜猜我的秘密\")\n\t\t\t\t\tPhrase(`\\state.secrets.length() - state.points\\更多秘密`)\n\t\t\t\t])\n\t\t])\\\n\n讓我們來分析一下。\n\n• 第一行，\\•Game(secrets•[''] points•#)\\說，/製作一個名為\\Game\\儲存秘密和點的列表/• 第二行說/遊戲狀態以秘密清單和零分開始。每次\\Chat\\改變，如果輸入的單字在秘密清單中，則創建一個新的遊戲狀態，並將分數增加一/。• 每次程序重新評估時（當\\Chat\\（根據變化），顯示一個階段。如果分數等於秘密數量，則顯示獲勝階段。如果不相等，則顯示提示和剩餘秘密數量。\n\n這個例子存在一些問題：\n\n• 如果他們多次猜出同一個秘密單詞，就能獲得更多分數！我們的遊戲狀態可能還需要記住猜對的內容，所以每個單字只計算兩次。• 若玩家輸入多個單字，是否該計算在內？\n\n更複雜的遊戲狀態和遊戲更新將幫助我們處理這些情況。",
+        "related": ["track-points"]
+    },
+    {
+        "id": "offer-choices",
+        "title": "顯示可選的選項",
+        "category": "remembering",
+        "body": "有時你想在螢幕上顯示一系列選項，並根據觀眾的選擇執行相應的操作。為此，我們需要做兩件事：\n\n• 一個或多個 @Phrase 標記為可選，並具有唯一名稱（例如，\\Phrase('選項 1' selectable: ⊤ name: '一')\\)• A @Choice ，這將變為 @Phrase 最近選擇的名稱。\n\n例如，這裡我們顯示三個選項，每個選項都有一個唯一的名稱。\n\n\\option: Choice()\nGroup(Stack() [\n\t\tPhrase('選項 1' selectable: ⊤ name: '一')\n\t\tPhrase('選項 2' selectable: ⊤ name: '二')\n\t\tPhrase('選項 3' selectable: ⊤ name: '三')\n\t\tPhrase(option)\n\t])\\\n\n每次選一個，最後 @Phrase 顯示所選的名稱。\n\n你可以使用這個模式來響應使用者選擇。例如，我們可以修改上面的項目，讓它根據使用者選擇顯示一個秘密表情符號：\n\n\\option: Choice()\noption = '' ? Group(Stack() [\n\t\t\tPhrase('選項 1' selectable: ⊤ name: '一')\n\t\t\tPhrase('選項 2' selectable: ⊤ name: '二')\n\t\t\tPhrase('選項 3' selectable: ⊤ name: '三')\n\t\t]) Phrase({'一': '😡' '二': '🏀' '三': '❤️'}{option} ?? '？')\\\n\n這 @Choice 以空開始 @Text ，因此當項目開始時，我們會檢查這一點，並顯示三個選項。一旦做出選擇，它就成為三個之一 @Phrase 名字。\n\n為了根據選擇顯示表情符號，我們可以使用 @Map 將名稱轉換為秘密表情符號。當我們從 @Map ，如果沒有匹配，則計算結果為\\ø\\，所以我們使用\\??\\預設\\'？'\\如果該選項不在地圖中。在這種情況下，這種情況永遠不會發生，但我們不夠聰明，不知道這一點！",
+        "related": ["move-phrase"]
+    },
+    {
+        "id": "choose-adventure",
+        "title": "進行文字冒險",
+        "category": "remembering",
+        "body": "一個有趣的遊戲是/選擇你自己的冒險/遊戲中，玩家需要做出一系列選擇，並嘗試找到通往幸福結局的方法。\n\n為了製作其中之一，我們可以使用 @Structure ， @Key ， @Reaction ， 和 @List 共同做出一系列決定，每個決定都有一組選項，如下所示：\n\n\\¶這就形成了一個資料結構，用於儲存選擇以及它將導航到哪個決策。¶•Option(text•'' decision•#)\n¶此資料結構儲存了選擇列表¶•Decision(options: [Option])\n¶這就是遊戲內容！更改選項中的文本，營造氛圍，並做出艱難的選擇。新增選項來建立一個棘手的選擇網路。¶\ndecisions: [\n\t\tDecision([Option('開始' 2)])\n\t\tDecision([Option('左邊' 3) Option('直的' 4) Option('正確的' 4)])\n\t\tDecision([Option('贏' 1)])\n\t\tDecision([Option('失去' 1)])\n\t]\n¶如果密鑰是數字，則將其轉換為數字¶\nkey: Key()\nchoice: key → #\n¶該值代表上述列表中的當前決策。當按下該鍵時，我們會執行以下操作之一。如果這個決定只有一個選擇，那麼我們改變目前的決定無論按下什麼鍵，都會做出選項的目標決定。如果按下的鍵介於 1 和選項數量之間，那麼我們將轉到該選項的目標決策。否則，我們就維持目前的決定。¶\ncurrent•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ? decisions[current].options[choice].decision current\n¶這只是將選項顯示為一堆短語。您可以更改它以添加說明、動畫和其他趣味內容！¶Stage([\n\t\tGroup(Stack() decisions[current].options.translate(ƒ(option) Phrase(option.text)))\n\t])\\\n\n這個模式看起來很複雜，但它實際上的作用是顯示當前的選項集，並且每次按鍵改變時，都會跳到所選選項的決策。遊戲設計的關鍵在於改變頂部的內容！",
+        "related": ["offer-choices"]
+    },
+    {
+        "id": "repeating-a-movement",
+        "title": "重複動作",
+        "category": "characters",
+        "body": "有時我們想讓一個角色以相同的方式移動幾次！一遍又一遍地輸入相同的行變得很乏味。\n\n相反，我們可以使用 @Sequence  和 @Phrase 讓某件事重複多次！具體來說，我們可以使用計數 @Sequence 並選出一組姿勢出現的次數。例如，這是一個籃球上下彈跳兩次。\n\n\\Stage([\n\t\tPhrase('🏀' entering: Sequence({\n\t\t\t\t\t0%: Pose(offset: Place(y: 0.25m))\n\t\t\t\t\t25%: Pose(offset: Place(y: 0m))\n\t\t\t\t\t50%: Pose(offset: Place(y: -0.25m))\n\t\t\t\t\t75%: Pose(offset: Place(y: 0m))\n\t\t\t\t\t100%: Pose(offset: Place(y: 0.25m))\n\t\t\t\t} count: 2x duration: 2s))\n\t])\\",
+        "related": ["animate-phrase", "shake-phrase"]
+    },
+    {
+        "id": "arrange-in-a-row",
+        "title": "將文字並排顯示",
+        "category": "layout",
+        "body": "有時我們希望文字整齊地排列成一行。我們可以用……來做到這一點。 @Row 它將一切安排妥當 @Group 從左到右。\n\n\\Group(Row() [Phrase('🍎') Phrase('🍌') Phrase('🍇')])\\\n\nA @Row 還可以按字符的頂部、中間或底部邊緣對齊字符，並在它們之間添加間距。這是同樣的水果，但底部對齊，留出一些空間：\n\n\\Group(Row('>' 0.5m) [\n\t\tPhrase('🍎' size: 2m)\n\t\tPhrase('🍌' size: 1m)\n\t\tPhrase('🍇' size: 3m)\n\t])\\\n\n這\\'>'\\告訴 @Row 將所有部件沿底部邊緣對齊。試試看。\\'<'\\頂部或\\'|'\\中間。這\\0.5m\\是每個字元之間的空格。",
+        "related": ["stack-up-and-down", "make-a-grid"]
+    },
+    {
+        "id": "stack-up-and-down",
+        "title": "從上到下堆疊字符",
+        "category": "layout",
+        "body": "如果 @Row 如果是並排，那就是 @Stack 是從上到下的。 @Stack 將每個字元置於前一個字元的下方，就像一座塔一樣。\n\n\\Group(Stack() [Phrase('一') Phrase('二') Phrase('三')])\\\n\n就像 @Row ，一個 @Stack 還可以進行對齊和填充。盡量把所有東西都沿著左側排列：\n\n\\Group(Stack('<' 0.25m) [\n\t\tPhrase('🐣 小')\n\t\tPhrase('🐥 中型')\n\t\tPhrase('🐔大')\n\t])\\\n\n這\\'<'\\ 方法/將所有東西沿著左側邊緣對齊。/。你也可以試試\\'|'\\中心或\\'>'\\右邊緣。",
+        "related": ["arrange-in-a-row", "make-a-grid"]
+    },
+    {
+        "id": "make-a-grid",
+        "title": "製作人物網格",
+        "category": "layout",
+        "body": "如果我們想要行呢？/和/同時插入多列？這就是… @Grid 是為了。\n\nA @Grid 詢問行數、列數以及儲存格之間的間距。\n\n\\Group(Grid(2 3 0.25m) [\n\t\tPhrase('🍎')\n\t\tPhrase('🍌')\n\t\tPhrase('🍇')\n\t\tPhrase('🥕')\n\t\tPhrase('🥦')\n\t\tPhrase('🌽')\n\t])\\\n\n這樣就形成了一個 2 英尺 x 3 英尺的果蔬園！\n\n如果你希望每個單元格大小相同，請給出 @Grid 也要設定寬度和高度。這樣，即使字元大小不同，它們也能整齊地保持在各自的方格內：\n\n\\Group(Grid(2 2 0.1m 1.5m 1.5m) [\n\t\tPhrase('🐈' size: 1m)\n\t\tPhrase('🐶' size: 1.5m)\n\t\tPhrase('🦊' size: 0.5m)\n\t\tPhrase('🐻' size: 2m)\n\t])\\",
+        "related": ["arrange-in-a-row", "stack-up-and-down", "make-many-copies"]
+    },
+    {
+        "id": "make-many-copies",
+        "title": "複製一個角色多個副本",
+        "category": "layout",
+        "body": "如果我們想要十隻貓，或是一百顆星星，但又不想把它們全部打出來怎麼辦？我們可以要求提供一份清單，讓他們為我們複印。 @List/translate 。\n\n如果我們從數字開始\\10\\並用\\→ []\\我們得到一個包含 1 到 10 的十個數字的清單。然後我們使用 @List/translate 將每個數字轉換為 @Phrase ：\n\n\\Group(Row() (10 → []).translate(ƒ() Phrase('🐈')))\\\n\n@List/translate 對每個項目呼叫一次我們的小函數，並將結果收集到一個新清單中。\n\n為了讓每個副本略有不同，請使用翻譯後得到的數字：\n\n\\Group(Row('|' 0.2m) (8 → []).translate(ƒ(n) Phrase('⭐' size: n × 0.5m)))\\\n\n每顆星都比上一顆更大，因為\\n\\從\\1\\ 到\\8\\。",
+        "related": ["make-a-grid", "arrange-in-a-row"]
+    },
+    {
+        "id": "follow-the-pointer",
+        "title": "讓一個角色跟著你的手指移動",
+        "category": "characters",
+        "body": "想要一個能追逐你的滑鼠或手指的角色嗎？ @Stage ？我們可以用以下方式做到這一點： @Pointer  輸入。 \n\n@Pointer 帶給我們新鮮感 @Place 每次指針移動。如果我們使用那個 @Place 作為一個 @Phrase 的\\place\\角色會按照我們指向的方向移動。\n\n\\Stage([Phrase('🐈' place: Pointer())] place: Place(0m 0m -10m))\\\n\n就是這樣！移動滑鼠或拖曳手指，就能看到貓咪跟著你走。\n\n你可以透過拿出…來做更多有趣的事情。\\x\\ 和\\y\\ 從 @Place 。這是一隻始終漂浮在指針上方一公尺處的鴨子：\n\n\\Stage([\n\t\tPhrase('🦆' place: Place(Pointer().x Pointer().y + 1m))\n\t] place: Place(0m 0m -10m))\\",
+        "related": ["move-phrase", "count-with-time"]
+    },
+    {
+        "id": "your-own-template",
+        "title": "製作自己的角色模板",
+        "category": "characters",
+        "body": "有時你需要很多看起來幾乎一樣，但又略有不同的角色。而不是寫出同樣的東西 @Phrase 你可以重複使用以下方式創建自己的模板： @Structure 。\n\nA @Structure 就像一份需要填寫空白的食譜。這是一個氣球模板，它接受顏色和標籤，並能自動顯示自身：\n\n\\•Balloon(color•Color label•'') (\n\tƒ show() Phrase(`🎈\\label\\` color: color size: 2m)\n)\nGroup(Row() [\n\t\tBalloon(Color(80% 50 240°) '天空').show()\n\t\tBalloon(Color(60% 80 0°) '玫瑰').show()\n\t\tBalloon(Color(90% 80 90°) '陽光明媚').show()\n\t])\\\n\n這\\•Balloon(...)\\這部分定義了模板，以及\\ƒ show()\\部分內容/如何畫一個/。然後我們製作了三個不同顏色和標籤的氣球，並要求每個人…\\show\\自身。\n\n當你想保持程式碼整潔和字元一致時，模板非常有用。",
+        "related": ["track-game-state", "make-many-copies"]
+    },
+    {
+        "id": "count-with-time",
+        "title": "時間流逝，數著日子。",
+        "category": "animation",
+        "body": "許多項目需要一些隨著時間推移而增長的東西——計時器、分數、倒數計時。我們可以透過組合以下方式來建構一個計數器： @Time   @Stream  與一個 @Reaction 。\n\nA @Reaction 它由三個部分組成：初始值、觀察對像以及該物件發生變化時的新值。這裡，我們從…開始\\0\\， 手錶 @Time 並且每過一秒就加一：\n\n\\count: 0 … ∆ Time(1000ms) … count + 1\nPhrase(count → '')\\\n\n每秒鐘， @Time 火災， @Reaction 通知\\∆ Time(1000ms)\\， 和\\count\\變成\\count + 1\\。這\\→ ''\\最後將數字轉換為文本，因此 @Phrase 可以展示出來。\n\n你可以使用任何你想要的輸入，不只是時間。這個計數器會統計 Button() 函數的按下次數：\n\n\\count: 0 … ∆ Button() … count + 1\nPhrase(count → '')\\\n\n每次 @Button 點擊或輕觸即可切換串流，計數加一。",
+        "related": ["track-points", "pick-from-a-list"]
+    },
+    {
+        "id": "react-to-sound",
+        "title": "透過聲音讓角色成長",
+        "category": "animation",
+        "body": "你知道你的專案也能「聽」到你說話嗎？ @Volume   @Stream 使用您的麥克風向我們提供一個數字\\0\\（沉默）\\1\\（大聲）\n\n我們可以用這個數字來控制任何東西──例如…的大小 @Phrase 它的旋轉，它的顏色。\n\n\\Phrase('📣' size: (Volume() × 5m) + 1m)\\\n\n當周圍安靜下來時，擴音器…\\1m\\高大。當你喊叫時，它可以長高到…\\6m\\ 高的。\n\n想要一個聲音越大，旋轉速度越快的太陽嗎？\n\n\\Phrase('🌞' rotation: Volume() × 360°)\\\n\n試著拍手或哼歌，看看會發生什麼事。（您的電腦首次使用麥克風時可能會要求授權。）",
+        "related": ["count-with-time", "follow-the-pointer"]
+    },
+    {
+        "id": "pick-from-a-list",
+        "title": "從清單中隨機選擇一件物品",
+        "category": "randomization",
+        "body": "想讓你的專案每次運行都給你帶來驚喜嗎？列出一些選項，然後從中選擇一個。 @Random 。 \n\n@Random 可以產生一個隨機數，然後可以透過該隨機數來尋找清單。\\[n]\\。將它們組合起來，即可隨機抽取一個表情符號：\n\n\\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']\nPhrase(emojis.random())\\\n\n你也可以使用 @Random 用兩個數字，從中選出一個介於兩者之間的整數。例如，要選擇一個/新的/每秒隨機發送表情符號，混合在一起 @Time 和 @Reaction ：\n\n\\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']\npick: emojis[1] … ∆ Time(1000ms) … emojis[Random(1 emojis.length())]\nPhrase(pick)\\\n\n每一次滴答 @Time ， 這 @Reaction 挑選出一個新的驚喜。",
+        "related": ["shake-phrase", "count-with-time"]
+    },
+    {
+        "id": "show-when",
+        "title": "根據數值顯示不同的內容",
+        "category": "remembering",
+        "body": "如果你想要一個 @Phrase 根據某些因素（例如分數或按鍵）而改變？\n\n我們可以使用條件語句。\\?\\在兩件事之間做出選擇。寫出條件，然後\\?\\然後是為真時要使用的值，然後是為假時要使用的值。\n\n這是一個笑臉，每次按下空白鍵它就會變成哭臉，然後再變回笑臉：\n\n\\happy: ⊤ … ∆ Key(' ') … ~happy\nPhrase(happy ? '😊' '😢')\\\n\n這 @Reaction 開始\\happy\\ 作為\\⊤\\（正確），並將其翻轉\\~\\每次按下空白鍵。然後是條件。\\?\\選對了臉。\n\n你可以使用條件語句鏈來從兩個以上的選項中進行選擇：\n\n\\score: 0 … ∆ Key('一個') … score + 1\nPhrase(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')\\\n\n按\\a\\幾次之後，你就能看到雞蛋孵化成小雞了！",
+        "related": ["track-points", "offer-choices"]
+    },
+    {
+        "id": "gravity-and-bouncing",
+        "title": "讓角色跌倒彈跳",
+        "category": "motion",
+        "body": "如果我們想讓角色像真人一樣跌倒、從地板上彈起來或被推來推去，該怎麼辦？就是這樣 @Motion  和 @Matter 是用來－它們共同模擬物理現象 @Phrase 。 \n\n@Motion 控制/在哪裡/角色會隨著時間的推移而改變。我們用它來…\\place\\為 @Phrase 把它放在高處，讓它掉下來。我們也需要一些東西來支撐我們，否則我們的角色就會一直墜落！ @Shape 寬 @Rectangle 鋪上一層漂亮的地板：\n\n\\Stage([\n\t\tPhrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())\n\t\tShape(Rectangle(-10m 0m 10m -5m))\n\t])\\\n\n蘋果從五公尺高處開始下落，並受到重力作用而落下。它落地時會稍微彈一下，因為 @Phrase 內建 @Matter 這控制著它的重量和彈性。\n\n改變方式/有彈性的/或如何/重的/角色就是，賦予它你自己的個性。 @Matter 。 @Matter 它需要質量、彈性和摩擦力：\n\n\\Stage([\n\t\tPhrase('⚽' place: Motion(Place(-2m 5m)) matter: Matter(1kg 0.9 0.2))\n\t\tPhrase('🪨' place: Motion(Place(2m 5m)) matter: Matter(5kg 0.1 0.8))\n\t\tShape(Rectangle(-10m 0m 10m -5m))\n\t])\\\n\n這個球很輕，彈性很好，所以會彈回來。這塊石頭很重，沒有彈性，所以只會發出砰砰的響聲。",
+        "related": ["follow-the-pointer", "move-phrase"]
+    },
+    {
+        "id": "mix-languages-in-text",
+        "title": "迎接多語言觀眾",
+        "category": "styling",
+        "body": "一個  @Phrase  根據觀眾選擇的語言，向他們顯示正確的翻譯。如果您的觀眾講西班牙語，您可以用西班牙語與他們溝通；如果他們既講西班牙語又講英語（西班牙語和英語混雜！），您可以混合使用這兩種語言。\n\n給予  @TextLiteral  提供多種譯本，包括多語言譯本，Wordplay 會為每位觀眾挑選最合適的譯本：\n\n\\Phrase(\"你好\"/es\"你好\"/en\"你好，先生\"/es_en)\\\n\n一位首選語言僅為西班牙語的觀眾會看到 /你好/只喜歡英語的觀眾會看到 /你好/一位既喜歡西班牙語又喜歡英語的觀眾會看到 /你好，先生/ — 西班牙文和英文混合版本。\n\n文字遊戲傾向於最精確的匹配，因此，當兩種翻譯都適用時，單語翻譯總是勝過多語翻譯。",
+        "related": ["styling-text"]
+    },
+    {
+        "id": "find-text-with-patterns",
+        "title": "尋找並檢查帶有模式的文本",
+        "category": "styling",
+        "body": "模式描述了文字的形狀，因此您可以檢查文字是否符合某種形狀，或搜尋文字出現的所有位置。模式位於…內部。 \\⣿⣿\\ 從左到右，一次讀一篇。 \\_\\ 是一封信， \\#\\ 是一個數字， \\␣\\ 是一個空格，以及類似這樣的引用文本 \\\"-\"\\ 完全匹配。\n\n若要檢查整段文字是否符合某種模式，請使用 \\≈\\這給你帶來 \\?\\：\n\n\\'555-1234' ≈ ⣿ 3 # \"-\" 4 #⣿\\\n\n它問的是「三個數字，一個短橫線，然後四個數字？」——答案是 \\⊤\\。\n\n計數放在它們重複的內容之前： \\3\n#\\ 意思是三個數字。你也可以說 \\>0\n#\\ （一個或多個）， \\≥0\n#\\ （零或多個）， \\≤1\n#\\ （可選），或類似這樣的範圍 \\2–4\n#\\。\n\n要找到圖案出現的所有位置，請使用 \\⌕\\它會給你一個列表  @Structure  結果。為一件作品命名。 \\name: (…)\\ 捕捉它：\n\n\\'出生於2026年6月15日' ⌕ ⣿ y: (4 #) \"-\" m: (2 #) \"-\" d: (2 #)⣿\\\n\n每個結果都會告訴你匹配項。 \\text\\，它 \\start\\沙 \\end\\以及被俘獲的 \\groups\\ - 這裡 \\y\\， \\m\\， 和 \\d\\因為模式是透過字形來匹配的，所以它們在每種語言和文字中都適用。",
+        "related": ["mix-languages-in-text"]
+    }
+]

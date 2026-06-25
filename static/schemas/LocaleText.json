@@ -15307,6 +15307,10 @@
                       ],
                       "type": "object"
                     },
+                    "conceptHowTos": {
+                      "description": "[plain] The heading for the list of how-tos relevant to a concept, shown in the concept sidebar",
+                      "type": "string"
+                    },
                     "explain": {
                       "$ref": "#/definitions/HeaderAndExplanationText",
                       "description": "Header and explanation of what how-tos are, shown atop the how-to section"
@@ -15324,16 +15328,13 @@
                     "explain",
                     "category",
                     "related",
+                    "conceptHowTos",
                     "howToGalleryButton"
                   ],
                   "type": "object"
                 },
                 "label": {
                   "description": "[plain] The ARIA label for the palette section.",
-                  "type": "string"
-                },
-                "learn": {
-                  "description": "[plain] A link to the tutorial for a concept",
                   "type": "string"
                 },
                 "link": {
@@ -15511,12 +15512,16 @@
                     "search"
                   ],
                   "type": "object"
+                },
+                "tutorial": {
+                  "description": "[plain] A link to the tutorial for a concept",
+                  "type": "string"
                 }
               },
               "required": [
                 "label",
                 "link",
-                "learn",
+                "tutorial",
                 "nodoc",
                 "button",
                 "field",

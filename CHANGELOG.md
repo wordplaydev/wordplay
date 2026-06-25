@@ -11,6 +11,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🌐 When you pick more than one language for Wordplay, we now show the interface in all of them at once. Your first language appears full size, and each other language follows it a little smaller and lighter — in labels, tooltips, the [Guide](https://wordplay.dev/guide), the tutorial, and even error messages.
 - 📕 Added the first sentence of project documentation to the project previews (#897).
 - 📐 We added a writing layout setting, so your program's output can read top to bottom (vertical) instead of left to right. It follows your language automatically, or you can pick one (#220).
+- 📖 When you look at a concept in the [Guide](https://wordplay.dev/guide), we now show a link to the lesson that teaches it and a list of how-to's that use it, so it's easier to learn more (#769).
 
 ### Changed
 

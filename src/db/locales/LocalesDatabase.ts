@@ -1,7 +1,12 @@
 import { Basis } from '@basis/Basis';
 import Fonts from '@basis/Fonts';
 import type HowTo from '@concepts/HowTo';
-import { HowToIDs, parseHowTo } from '@concepts/HowTo';
+import {
+    bundleEntryToHowTo,
+    HowToIDs,
+    parseHowTo,
+    type HowToBundle,
+} from '@concepts/HowTo';
 import type { Database } from '@db/Database';
 import { type Concretizer } from '@locale/concretize';
 import DefaultLocale from '@locale/DefaultLocale';
@@ -157,32 +162,45 @@ export default class LocalesDatabase {
             .catch(() => undefined);
     }
 
-    /** For the given locale, load the how to documents, with fallbacks as necessary */
+    getHowToURL(locale: SupportedLocale) {
+        return `/locales/${locale}/${locale}-how.json`;
+    }
+
+    /** For the given locale, load the how to documents from the per-locale bundle, with
+     * fallbacks as necessary. The bundle is generated at build time from the authoring
+     * .txt files (see src/util/verify-locales/buildHowTos.ts), so this is a single request
+     * regardless of how many how-tos exist. */
     async loadHowTos(locale: SupportedLocale): Promise<HowTo[]> {
         const existingHowTos = get(this.howTos)[locale];
         if (existingHowTos !== undefined) return existingHowTos;
 
-        const getHowTos = async (locale: SupportedLocale) => {
-            const howTos: HowTo[] = [];
-
-            for (const howID of HowToIDs) {
-                // gallery how-tos are not stored in /static
-                if (howID === 'gallery-how-to') continue;
-
-                const path = `/locales/${locale}/how/${howID}.txt`;
-                const fallback = `/locales/en-US/how/${howID}.txt`;
-                let text =
-                    (await this.loadHowTo(path)) ??
-                    (await this.loadHowTo(fallback));
-
-                if (text !== undefined) {
-                    const { how, error } = parseHowTo(howID, text);
-                    if (how !== null) {
-                        howTos.push(how);
-                    } else if (error) console.log(error);
-                }
+        const loadBundle = async (
+            locale: SupportedLocale,
+        ): Promise<HowTo[] | undefined> => {
+            try {
+                const response = await fetch(
+                    versioned(this.getHowToURL(locale)),
+                );
+                if (!response.ok) return undefined;
+                const bundle = (await response.json()) as HowToBundle;
+                return bundle.map((entry) => bundleEntryToHowTo(entry));
+            } catch (_) {
+                return undefined;
             }
-            return howTos;
+        };
+
+        const getHowTos = async (locale: SupportedLocale): Promise<HowTo[]> => {
+            // Load the whole locale's how-tos in one request, falling back to en-US.
+            const howTos =
+                (await loadBundle(locale)) ??
+                (locale === 'en-US' ? undefined : await loadBundle('en-US'));
+            if (howTos !== undefined) return howTos;
+
+            // In dev, the bundle may be missing (e.g. a newly added how-to not yet built);
+            // fall back to loading the individual .txt files so authoring works without a build.
+            if (import.meta.env.DEV) return this.loadHowTosFromFiles(locale);
+
+            return [];
         };
 
         const promise = getHowTos(locale);
@@ -197,6 +215,30 @@ export default class LocalesDatabase {
         updated[locale] = howTos;
         this.howTos.set(updated);
 
+        return howTos;
+    }
+
+    /** Dev-only fallback: load and parse each how-to .txt individually when no bundle exists. */
+    private async loadHowTosFromFiles(
+        locale: SupportedLocale,
+    ): Promise<HowTo[]> {
+        const howTos: HowTo[] = [];
+        for (const howID of HowToIDs) {
+            // gallery how-tos are not stored in /static
+            if (howID === 'gallery-how-to') continue;
+
+            const path = `/locales/${locale}/how/${howID}.txt`;
+            const fallback = `/locales/en-US/how/${howID}.txt`;
+            const text =
+                (await this.loadHowTo(path)) ??
+                (await this.loadHowTo(fallback));
+
+            if (text !== undefined) {
+                const { how, error } = parseHowTo(howID, text);
+                if (how !== null) howTos.push(how);
+                else if (error) console.log(error);
+            }
+        }
         return howTos;
     }
 

@@ -5935,7 +5935,6 @@
         "docs": {
             "label": "$~Dokumentationsbrowser",
             "link": "$~Konzept $name in der Dokumentation anzeigen",
-            "learn": "$~Lern mehr …",
             "nodoc": "$~Wer bin ich? Was bin ich? Was ist mein Ziel?",
             "button": {
                 "home": "$~nach Hause zurückkehren",
@@ -6016,7 +6015,8 @@
                 "explain": {
                     "header": "$~Anleitungen",
                     "explanation": "$~Kurze Beispiele, die zeigen, wie man Dinge in Wordplay macht. Klicken Sie auf eine beliebige Vorschau, um sie auszuführen, und öffnen Sie sie anschließend, um die Funktionsweise zu lesen."
-                }
+                },
+                "conceptHowTos": "$?"
             },
             "mode": {
                 "browse": {
@@ -6163,7 +6163,8 @@
             "breadcrumb": {
                 "label": "$~Navigationsverlauf",
                 "home": "$~Heim"
-            }
+            },
+            "tutorial": "$?"
         },
         "dialog": {
             "share": {

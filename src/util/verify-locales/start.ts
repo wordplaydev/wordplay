@@ -26,6 +26,7 @@ import {
     getTutorialJSON,
     getTutorialPath,
 } from '@util/verify-locales/TutorialSchema';
+import { buildHowToBundle } from '@util/verify-locales/buildHowTos';
 import { verifyHowTo } from '@util/verify-locales/verifyHowTo';
 import {
     createUnwrittenLocale,
@@ -252,6 +253,9 @@ async function handleLocale(
         TranslationRequested,
         OverrideMachineTranslations,
     );
+
+    // Regenerate the per-locale how-to bundle the runtime loads (write-if-changed).
+    await buildHowToBundle(log, locale, prettierOptions);
 }
 
 // Build a database of all locales

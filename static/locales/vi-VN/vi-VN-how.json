@@ -1,0 +1,191 @@
+[
+    {
+        "id": "animate-phrase",
+        "title": "Làm cho nhân vật chuyển động",
+        "category": "characters",
+        "body": "Các nhân vật có thể có hoạt ảnh nghỉ ngơi lặp lại khi họ không di chuyển.\n\nVí dụ, chúng ta hãy làm cho con mèo này nhảy múa một chút bằng cách xoay và di chuyển:\n\n\\Phrase('🐈' resting: Sequence({\n\t\t\t0%: Pose(rotation: 0°)\n\t\t\t15%: Pose(rotation: 15°)\n\t\t\t30%: Pose(rotation: 0°)\n\t\t\t45%: Pose(offset: Place(-0.25m))\n\t\t\t60%: Pose(offset: Place(0.25m))\n\t\t\t75%: Pose(offset: Place(-0.25m))\n\t\t\t90%: Pose(offset: Place(0m))\n\t\t} 2s))\\\n\nVí dụ này sử dụng một @Sequence khác nhau @Pose .",
+        "related": ["move-phrase", "shake-phrase"]
+    },
+    {
+        "id": "move-phrase",
+        "title": "Làm cho nhân vật có thể di chuyển được",
+        "category": "characters",
+        "body": "Đôi khi việc tạo ra một @Phrase Có thể di chuyển bằng bàn phím, chuột hoặc ngón tay.\n\nHãy làm điều này, chúng ta có thể kết hợp. @Phrase  với  @Placement :\n\n\\Stage([\n\t\tPhrase('làm tôi xúc động' place: Placement())\n\t] place: Place(0m 0m -10m))\\\n\nSử dụng các phím mũi tên trên bàn phím hoặc nhấp chuột vào @Stage sẽ cập nhật @Placement , gây ra @Phrase Tiến theo hướng đó.\n\nBạn có biết rằng @Placement có thể được sử dụng với/bất cứ điều gì/điều đó mất một @Place ?Ví dụ như một @Stage có @Place Điều đó quyết định hướng mà camera đang nhắm tới.Hãy thử thiết lập một @Placement cho một @Stage Đến chỗ của anh ấy và xem chuyện gì sẽ xảy ra.\n\n\\Stage([\n\t\tPhrase('🐈' place: Place(-2m 2m))\n\t\tPhrase('🐈' place: Place(2m -2m))\n\t\tPhrase('🐈' place: Place(-1m 3m))\n\t] place: Placement(Place(0m 0m -10m)))\\\n\nĐiều đó khiến máy quay di chuyển! (Lưu ý: chúng ta bắt đầu từ...) @Placement với một\\z\\giá trị của\\10m\\(Để máy ảnh được đặt cách xa mọi thứ.)",
+        "related": ["animated-scene"]
+    },
+    {
+        "id": "custom-characters",
+        "title": "Hiển thị ký tự tùy chỉnh",
+        "category": "characters",
+        "body": "Biểu tượng cảm xúc, chữ cái và ký hiệu rất tuyệt! Nhưng đôi khi bạn muốn tự tạo ra các nhân vật của riêng mình.Bạn có thể tạo và trưng bày tác phẩm của riêng mình như thế nào?\n\nĐầu tiên, hãy bắt đầu bằng cách tạo một nhân vật trên máy tính.<Nhân vật@://characters> trang. Bạn có thể sử dụng pixel, hình chữ nhật, hình tròn và đường dẫn.Hãy đặt tên cho nó, mô tả nó, rồi bạn có thể sử dụng tên người dùng và tên nhân vật như thế này:\n\n\\Phrase(`Hãy nhìn vào chiếc váy lộng lẫy của tôi này. @username/charactername !`)\\\n\nTên người dùng và tên nhân vật đó không tồn tại, vì vậy nó sẽ hiển thị dưới dạng một hình chữ nhật trống.Hãy chắc chắn sử dụng tên người dùng và tên nhân vật thật của bạn.\n\nBạn thấy đấy, văn bản này sử dụng dấu ngoặc kép ngược thay vì dấu ngoặc kép thông thường. Điều đó rất quan trọng.Điều đó cho chúng ta biết rằng bạn đang sử dụng chế độ văn bản đa dạng, và chế độ này cần thiết để tham chiếu đến một ký tự tùy chỉnh.\n\nBạn có thể tìm hiểu thêm về định dạng văn bản từ @Phrase .",
+        "related": ["animate-phrase"]
+    },
+    {
+        "id": "styling-text",
+        "title": "Định dạng văn bản của bạn",
+        "category": "characters",
+        "body": "Đôi khi chúng ta muốn văn bản của mình nổi bật. Chúng ta có thể làm điều này bằng cách/in nghiêng/,*in đậm*và hơn thế nữa!\n\nVí dụ, để in nghiêng văn bản, bạn có thể đặt nó trong dấu gạch chéo //, như //Hello//. Ví dụ:\n\n\\Group(Stack() [\n\t\tPhrase(`Muốn khoe mẽ chút nào/chữ nghiêng/Trong văn bản của bạn?`)\n\t\tPhrase(`Cách này rất tốt để nhấn mạnh hoặc làm cho lời nói của bạn thêm phần sinh động./nhạc jazz bổ sung/.`)\n\t\tPhrase(`Chỉ cần đặt dấu gạch chéo (//) trước và sau từ hoặc cụm từ đó./như thế này/.`)\n\t])\\\n\n@Phrase Bạn cũng có thể in đậm văn bản. Bạn có thể làm điều này bằng cách đặt văn bản của mình trong dấu sao **, ví dụ như **Xin chào**. Ví dụ:\n\n\\Group(Stack() [\n\t\tPhrase(`Bạn muốn làm cho văn bản của mình nổi bật hơn?*in đậm*?`)\n\t\tPhrase(`Nó hoàn hảo khi bạn cần*hét lên thật to*.`)\n\t\tPhrase(`Chỉ cần thêm dấu hoa thị đơn (**) xung quanh các từ của bạn, ví dụ như...*Chào!*và cảm nhận sự khác biệt.`)\n\t])\\\n\n@Phrase Bạn cũng có thể làm cho văn bản đậm hơn nữa. Để làm điều này, hãy bao quanh văn bản của bạn bằng dấu mũ ^^, ví dụ như ^^Hello^^. Ví dụ:\n\n\\Group(Stack() [\n\t\tPhrase(`Chữ in đậm hơn nữa là^CON DÊ^Khi bạn cần đẩy bầu không khí lên mức tối đa.`)\n\t\tPhrase(`Nó giống như kiểu chữ đậm nhưng đậm hơn.^ngọn lửa^, thường được làm với từng củ cà rốt riêng lẻ xung quanh (^^)`)\n\t\tPhrase(`Hãy dùng nó để khoe khoang.^tiêu đề^ hoặc ^những ý tưởng lớn^.`)\n\t])\\\n\nCuối cùng,  @Phrase Bạn có thể gạch chân văn bản. Để làm điều này, hãy đặt văn bản của bạn trong dấu gạch dưới __, ví dụ như __Hello__. Ví dụ:\n\n\\Group(Stack() [\n\t\tPhrase(`Gạch chân là_ngọn lửa kín đáo_Khi bạn muốn giữ cho văn bản gọn gàng nhưng vẫn nổi bật.`)\n\t\tPhrase(`Thêm một dấu gạch dưới (__) trước và sau văn bản của bạn._như thế này_và nó nhấn mạnh một cách rõ ràng.`)\n\t\tPhrase(`Của nó _hoàn hảo _để trình bày quan điểm của bạn mà không quá_thêm_.`)\n\t])\\",
+        "related": ["custom-characters"]
+    },
+    {
+        "id": "animated-scene",
+        "title": "Tạo một loạt các cảnh hoạt hình",
+        "category": "stories",
+        "body": "Đôi khi chúng ta muốn kể chuyện, thể hiện lời bài hát hoặc minh họa thơ ca.Để làm được điều đó, chúng ta có thể sử dụng @Scene  Và  @Phrase Cùng nhau, để thể hiện một chuỗi.\n\nVí dụ, hãy tưởng tượng chúng ta muốn làm hoạt hình cho bài đồng dao ngắn \"Jack be Nimble\".Chúng ta có thể tạo ra một @Scene trong đó mỗi dòng là một @Phrase và bằng cách thiết lập @Phrase/duration của mỗi dòng, @Scene sẽ chuyển sang bước tiếp theo khi mỗi cụm từ được hoàn thành.\n\n\\Scene([\n\t\tPhrase('Jack nhanh nhẹn' duration: 1s)\n\t\tPhrase('Jack nhanh lên' duration: 1s)\n\t\tPhrase('Jack nhảy qua cây nến.' duration: 1s)\n\t])\\\n\n@Scene sẽ đợi một @Sequence Việc đó cũng cần phải làm. Hãy làm cho đường nến nhảy vọt lên nào!\n\n\\Scene([\n\t\tPhrase('Jack nhanh nhẹn' duration: 1s)\n\t\tPhrase('Jack nhanh lên' duration: 1s)\n\t\tPhrase('Jack nhảy qua cây nến.' entering: Sequence(bounce() 1s))\n\t])\\\n\n@Scene cũng có thể lấy @Group Văn bản cũng vậy, và nó sẽ đợi cho đến khi toàn bộ nội dung hoàn tất quá trình hoạt động.\n\n\\Scene([\n\t\tGroup(Stack() [\n\t\t\t\tPhrase('Jack nhanh nhẹn')\n\t\t\t\tPhrase('Jack nhanh lên')\n\t\t\t] duration: 2s)\n\t\tPhrase('Jack nhảy qua cây nến.' entering: Sequence(bounce() 1s))\n\t])\\",
+        "related": ["interactive-scene"]
+    },
+    {
+        "id": "interactive-scene",
+        "title": "Tạo một chuỗi cảnh tương tác",
+        "category": "stories",
+        "body": "Đôi khi chúng ta muốn kể những câu chuyện mà người xem cần thực hiện một hành động nào đó trước khi chuyển sang nội dung tiếp theo.\n\nĐể làm điều này, chúng ta có thể sử dụng một @Scene nhưng đặt @Boolean các giá trị nằm giữa nội dung mà chúng ta muốn hiển thị. Ví dụ, ở đây một cú nhấp chuột sẽ chuyển đến nội dung tiếp theo, sử dụng một @Button :\n\n\\Scene([\n\t\tPhrase('bấm vào đây')\n\t\tButton()\n\t\tPhrase('bấm vào đây lần nữa' duration: 1s)\n\t\tButton()\n\t\tPhrase('Không, hãy nhấn mạnh hết sức có thể vào tôi!!' duration: 1s)\n\t\tButton()\n\t\tPhrase('Bạn đã nhấp vào tôi chưa?' duration: 1s)\n\t])\\\n\nCái @Scene hiển thị cái đầu tiên @Phrase sau đó chờ đợi @Button Điều đó là sự thật, và một khi đã đúng, nó sẽ tiến đến giai đoạn tiếp theo. @Phrase .\n\nBạn có thể sử dụng bất cứ thứ gì bạn muốn để tiến lên, miễn là nó đúng hoặc sai.Ví dụ, chúng ta có thể sử dụng giọng nói của mình!Nếu chúng ta hét đủ lớn, cảnh sẽ tiếp diễn:\n\n\\Scene([\n\t\tPhrase('Có ai ở đó không?')\n\t\tVolume() > .5\n\t\tPhrase(\"Tôi không nghe rõ, bạn nói lại được không?\" duration: 1s)\n\t\tVolume() > .7\n\t\tPhrase('Làm ơn nói to hơn...' duration: 1s)\n\t\tVolume() > .9\n\t\tPhrase('Ồ, chào!' duration: 1s)\n\t])\\",
+        "related": ["animated-scene"]
+    },
+    {
+        "id": "layering-images",
+        "title": "Xếp chồng các hình ảnh lên nhau",
+        "category": "stories",
+        "body": "Đôi khi chúng ta muốn ghép các hình ảnh lại với nhau để tạo nên những cảnh thú vị hoặc những hình dạng sáng tạo.\n\nVí dụ, bạn có thể sử dụng nhiều lớp cho dự án của mình. @Stage Bạn có thể xếp chồng và sắp xếp hình ảnh theo bất kỳ cách nào bạn muốn.\n\nNhìn này! Đây là con rùa mình làm chỉ bằng các hình khối!Hãy thử thay đổi các con số cho từng hình dạng. Bạn có thể di chuyển, thay đổi kích thước và thậm chí xoay chúng.Hãy thỏa sức sáng tạo và xem bạn có thể tạo ra những gì!\n\n\\¶Lưu ý: Hãy xem thư viện ảnh để xem thêm dự án khác.<ví dụ@https://wordplay.dev/project/example-Layers?play>về việc xếp lớp các hình ảnh.¶\nStage([\n\t\tShape(Circle(3m 0m 1m 0m))\n\t\tShape(Polygon(2m 3 0m -12m 0m) rotation: -30°)\n\t\tShape(Polygon(7m 6 0m -6m 0m))\n\t\tShape(Rectangle(-11m -9m 11m -12m 10m) rotation: 25°)\n\t\tShape(Rectangle(-11m -9m 11m -12m 10m) rotation: -25°)\n\t] place: Place(0m 10m -30m))\\\n\nBạn có thể tạo ra những thứ thực sự tuyệt vời bằng cách sử dụng các lớp! Hãy thử xem!",
+        "related": ["custom-characters"]
+    },
+    {
+        "id": "shake-phrase",
+        "title": "Làm cho nhân vật run rẩy",
+        "category": "randomization",
+        "body": "Đôi khi, việc cho nhân vật trông như đang run rẩy sẽ rất hữu ích.Có một vài cách để chúng ta có thể thực hiện điều đó.\n\nChúng ta có thể sử dụng @Phrase/offset  với  @Random  Và  @Time để biến điều đó thành hiện thực.\n\n\\offset: 0m … ∆ Time() … Random(-0.1m 0.1m)\nPhrase('CHÀO' offset: Place(offset 0m))\\\n\nĐiều này tạo ra một giá trị được gọi là\\offset\\Giá trị đó sẽ thay đổi thành một giá trị ngẫu nhiên mới mỗi khi đồng hồ tích tắc.Sau đó, nó sử dụng độ lệch đó để hiển thị @Phrase được bù trừ bằng số tiền đó.\n\nNếu muốn kiểm soát độ rung lắc chính xác hơn, chúng ta có thể sử dụng... @Sequence Tạo hiệu ứng rung lắc ngẫu nhiên lặp đi lặp lại.\n\n\\Phrase('CHÀO' resting: Sequence({\n\t\t\t0%: Pose(offset: Place(Random(-.2m .2m)))\n\t\t\t15%: Pose(offset: Place(Random(-.2m .2m)))\n\t\t\t60%: Pose(offset: Place(Random(-.2m .2m)))\n\t\t\t75%: Pose(offset: Place(Random(-.2m .2m)))\n\t\t} 0.1s))\\\n\nVí dụ này chỉ chọn ngẫu nhiên các giá trị một lần, nhưng biến chúng thành một chuỗi lặp lại.",
+        "related": ["move-phrase"]
+    },
+    {
+        "id": "video-grid",
+        "title": "Tạo video từ camera",
+        "category": "video",
+        "body": "Cái @Camera Luồng dữ liệu là một cách tuyệt vời để thu thập một lưới màu sắc từ thế giới xung quanh.Nếu chúng ta muốn nhìn thấy những màu sắc đó, bằng cách tái tạo lại hình ảnh thì sao? @Camera thấy sao?\n\nChúng ta có thể sử dụng @Grid bố cục cho một @Group , Và  @List/combine hàm chuyển đổi màu sắc thành một danh sách @Phrase mà chúng ta trao cho @Grid .\n\n\\width: 24\nheight: 24\ncolors: Camera(width × 1px height × 1px 33ms)\nStage([\n\t\tGroup(Grid(height width 0m) colors.combine([] ƒ(phrases row) [\n\t\t\t\t\t\t:phrases\n\t\t\t\t\t\t:row.translate(ƒ(color) Phrase(\"⬤\" color: color duration: 0s))\n\t\t\t\t\t]))\n\t])\\\n\nVí dụ này xây dựng một danh sách các cụm từ, chuyển đổi mỗi màu thành một hình tròn có màu sắc cụ thể đó.\n\nHãy cẩn thận với @Camera Luồng dữ liệu: Chúng tạo ra rất nhiều dữ liệu đầu vào! Bạn nên giữ chiều rộng và chiều cao của hình ảnh ở mức nhỏ.",
+        "related": ["interactive-scene"]
+    },
+    {
+        "id": "track-points",
+        "title": "Theo dõi điểm số",
+        "category": "remembering",
+        "body": "Đôi khi trong trò chơi, việc theo dõi điểm số khi có sự kiện xảy ra rất hữu ích. Nếu Wordplay không cho phép gán giá trị mới cho các biến, chúng ta có thể làm điều đó bằng cách nào?\n\nMấu chốt là sử dụng một @Reaction để định nghĩa một @Bind giá trị của nó, và cần suy nghĩ kỹ về sự kiện nào sẽ dẫn đến một giá trị mới cho nó. @Bind .\n\nVí dụ, hãy tưởng tượng một trò chơi rất đơn giản, trong đó người chơi nhận được nhiều điểm hơn mỗi khi họ gõ một phím bí mật trên bàn phím.\n\n\\points: 0 … ['Một' 'e' 'Tôi' 'o' 'bạn'].has(Key()) … points + 1\\\n\nVí dụ này nói rằng,/Điểm số bắt đầu từ 0, và mỗi khi nhấn một phím, nếu phím đó nằm trong danh sách các nguyên âm, điểm số sẽ bằng điểm số hiện tại cộng thêm một./Mỗi lần\\Key()\\  @Stream Khi có thay đổi, chương trình sẽ đánh giá lại, kiểm tra điều kiện, và nếu điều kiện đúng, sẽ đưa ra kết quả.\\points\\một giá trị mới.\n\nPhản ứng này gồm ba phần:\n\n• Giá trị ban đầu của các điểm (\\0\\)• Điều kiện, khi đúng, sẽ tạo ra một giá trị mới (\\['Một' 'e' 'Tôi' 'o' 'bạn'].has(Key())\\)• Giá trị mới, nếu điều kiện trở thành đúng (\\points + 1\\)\n\nĐể thực hiện việc theo dõi điểm phức tạp hơn, chỉ cần tạo ra các điều kiện phức tạp hơn hoặc các giá trị mới. Hãy dành thời gian suy nghĩ kỹ về các quy tắc của những điều kiện và giá trị mới đó, rồi cố gắng thể hiện chúng bằng mã lập trình.",
+        "related": ["track-points"]
+    },
+    {
+        "id": "track-game-state",
+        "title": "Theo dõi trạng thái trò chơi",
+        "category": "remembering",
+        "body": "Hầu hết các trò chơi đều theo dõi nhiều yếu tố trong suốt quá trình chơi: điểm số, vị trí người chơi và các chi tiết khác đều rất quan trọng.Mỗi khi có dữ liệu đầu vào, trạng thái đó sẽ thay đổi, và sau đó chúng ta muốn hiển thị dữ liệu đầu ra mới để đáp ứng.\n\nMột mô hình chung cho bất kỳ trò chơi nào đều thực hiện ba điều:\n\n• Định nghĩa cấu trúc dữ liệu trạng thái trò chơi để lưu trữ tất cả trạng thái trò chơi.• Định nghĩa một phản ứng tạo ra trạng thái trò chơi mới dựa trên trạng thái trò chơi trước đó mỗi khi có dữ liệu đầu vào mới.• Tạo một @Stage  với  @Group  Và  @Phrase để hiển thị trạng thái trò chơi\n\nVí dụ, hãy tưởng tượng một trò chơi đơn giản, trong đó người chơi nhập các từ bí mật vào một ô văn bản và nhận được một điểm mỗi khi đoán đúng từ bí mật đó:\n\n\\•Game(secrets•[''] points•#)\nstate: Game(['con mèo' 'chó'] 0) … state.secrets.has(Chat()) … state.points:state.points + 1\nStage(state.points = state.secrets.length() ? [Phrase(\"Bạn thắng rồi!\")] [\n\t\t\tGroup(Stack() [\n\t\t\t\t\tPhrase(\"Đoán xem từ bí mật của tôi là gì nào!\")\n\t\t\t\t\tPhrase(`\\state.secrets.length() - state.points\\thêm bí mật`)\n\t\t\t\t])\n\t\t])\\\n\nChúng ta hãy cùng phân tích điều này.\n\n• Dòng đầu tiên,\\•Game(secrets•[''] points•#)\\nói,/Tạo một cấu trúc dữ liệu có tên là\\Game\\nơi lưu trữ danh sách các bí mật và điểm số./• Dòng thứ hai nói rằng/Trạng thái trò chơi bắt đầu với một danh sách các bí mật và 0 điểm. Mỗi lần\\Chat\\Nếu từ được nhập có trong danh sách bí mật, hãy tạo trạng thái trò chơi mới với số điểm tăng thêm một./.• Mỗi lần chương trình đánh giá lại (khi\\Chat\\(thay đổi), hiển thị một giai đoạn. Nếu số điểm bằng số bí mật, hiển thị giai đoạn chiến thắng. Nếu không, hiển thị lời nhắc và số bí mật còn lại.\n\nVí dụ này có một số vấn đề:\n\n• Nếu họ đoán đúng một từ bí mật nhiều lần, họ sẽ nhận được nhiều điểm hơn! Trạng thái trò chơi của chúng ta cũng có thể cần ghi nhớ những từ đã được đoán, vì vậy mỗi từ chỉ được tính hai lần.• Nếu người chơi nhập nhiều từ, liệu chúng có được tính không?\n\nCác trạng thái trò chơi và bản cập nhật trò chơi phức tạp hơn sẽ giúp chúng ta xử lý những trường hợp này.",
+        "related": ["track-points"]
+    },
+    {
+        "id": "offer-choices",
+        "title": "Hiển thị các lựa chọn có thể chọn",
+        "category": "remembering",
+        "body": "Đôi khi bạn muốn hiển thị nhiều lựa chọn trên màn hình và xử lý kết quả dựa trên lựa chọn của khán giả. Để làm được điều này, chúng ta cần hai thứ:\n\n• Một hoặc nhiều @Phrase những mục được đánh dấu là có thể chọn và có tên duy nhất (ví dụ:\\Phrase('lựa chọn 1' selectable: ⊤ name: 'một')\\)• MỘT  @Choice , điều này thay đổi thành @Phrase Tên được chọn gần đây nhất.\n\nVí dụ, ở đây chúng tôi trình bày ba lựa chọn, mỗi lựa chọn có một tên riêng biệt.\n\n\\option: Choice()\nGroup(Stack() [\n\t\tPhrase('lựa chọn 1' selectable: ⊤ name: 'một')\n\t\tPhrase('lựa chọn 2' selectable: ⊤ name: 'hai')\n\t\tPhrase('lựa chọn 3' selectable: ⊤ name: 'ba')\n\t\tPhrase(option)\n\t])\\\n\nMỗi khi một người được chọn, người cuối cùng sẽ được chọn. @Phrase Hiển thị tên đã được chọn.\n\nBạn có thể sử dụng mẫu này để thực hiện các hành động dựa trên một lựa chọn. Ví dụ, chúng ta có thể thay đổi dự án ở trên để hiển thị một biểu tượng cảm xúc bí mật dựa trên lựa chọn:\n\n\\option: Choice()\noption = '' ? Group(Stack() [\n\t\t\tPhrase('lựa chọn 1' selectable: ⊤ name: 'một')\n\t\t\tPhrase('lựa chọn 2' selectable: ⊤ name: 'hai')\n\t\t\tPhrase('lựa chọn 3' selectable: ⊤ name: 'ba')\n\t\t]) Phrase({'một': '😡' 'hai': '🏀' 'ba': '❤'}{option} ?? '?')\\\n\nCái @Choice bắt đầu từ một khoảng trống @Text Vì vậy, khi dự án bắt đầu, chúng tôi sẽ kiểm tra điều đó và đưa ra ba lựa chọn.Một khi đã đưa ra lựa chọn, nó sẽ trở thành một trong ba lựa chọn đó. @Phrase tên.\n\nĐể hiển thị biểu tượng cảm xúc dựa trên lựa chọn, chúng ta có thể sử dụng... @Map Để chuyển đổi tên thành biểu tượng cảm xúc bí mật.Khi chúng ta nhận được một giá trị từ một @Map Nếu không tìm thấy kết quả phù hợp, nó sẽ được đánh giá thành\\ø\\Vì vậy, chúng tôi sử dụng\\??\\để mặc định thành\\'?'\\Nếu tùy chọn đó không có trên bản đồ.Trong trường hợp này, điều đó không bao giờ có thể xảy ra, nhưng chúng ta không đủ thông minh để biết điều đó!",
+        "related": ["move-phrase"]
+    },
+    {
+        "id": "choose-adventure",
+        "title": "Tạo một trò chơi phiêu lưu bằng văn bản",
+        "category": "remembering",
+        "body": "Một loại trò chơi thú vị là.../Hãy tự chọn cuộc phiêu lưu của riêng bạn/Trò chơi, trong đó người chơi đưa ra một loạt các lựa chọn và cố gắng tìm cách dẫn đến một kết thúc có hậu.\n\nĐể làm ra một cái như thế này, chúng ta có thể sử dụng @Structure , @Key , @Reaction , Và  @List Cùng nhau đưa ra một loạt quyết định, mỗi quyết định đều có một tập hợp các lựa chọn, như sau:\n\n\\¶Điều này tạo ra một cấu trúc dữ liệu lưu trữ lựa chọn và quyết định mà nó sẽ dẫn đến.¶\n•Option(text•'' decision•#)\n¶Cấu trúc dữ liệu này lưu trữ một danh sách các lựa chọn.¶•Decision(options: [Option])\n¶Đây là nội dung trò chơi! Hãy thay đổi văn bản trong phần Tùy chọn để tạo bầu không khí và những lựa chọn khó khăn.Thêm các tùy chọn để tạo ra một mạng lưới các lựa chọn phức tạp.¶\ndecisions: [\n\t\tDecision([Option('bắt đầu' 2)])\n\t\tDecision([\n\t\t\t\tOption('bên trái' 3)\n\t\t\t\tOption('thẳng' 4)\n\t\t\t\tOption('Phải' 4)\n\t\t\t])\n\t\tDecision([Option('thắng' 1)])\n\t\tDecision([Option('thua' 1)])\n\t]\n¶Nếu khóa là số một, hãy chuyển đổi nó thành số.¶\nkey: Key()\nchoice: key → #\n¶Giá trị này thể hiện quyết định hiện tại trong danh sách trên.Khi nhấn phím, chúng ta thực hiện một trong những thao tác sau.Nếu chỉ có một lựa chọn duy nhất cho quyết định này, thì chúng ta sẽ thay đổi quyết định hiện tại.quyết định mục tiêu của quyền chọn sẽ được giữ nguyên bất kể phím nào được nhấn.Nếu phím được nhấn nằm trong khoảng từ 1 đến số lượng tùy chọn, thì chúng ta sẽ chuyển đến quyết định mục tiêu của tùy chọn đó.Nếu không, chúng ta cứ giữ nguyên quyết định hiện tại.¶\ncurrent•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ? decisions[current].options[choice].decision current\n¶Đây chỉ đơn giản là hiển thị các tùy chọn dưới dạng một chồng các cụm từ. Bạn có thể thay đổi điều này để thêm hướng dẫn, hình ảnh động và những yếu tố thú vị khác!¶Stage([\n\t\tGroup(Stack() decisions[current].options.translate(ƒ(option) Phrase(option.text)))\n\t])\\\n\nMẫu này trông có vẻ phức tạp, nhưng thực chất nó chỉ hiển thị tập hợp các tùy chọn hiện tại và mỗi khi một phím thay đổi, nó sẽ chuyển đến quyết định của tùy chọn đã chọn. Thiết kế trò chơi chủ yếu là về việc thay đổi nội dung ở phía trên!",
+        "related": ["offer-choices"]
+    },
+    {
+        "id": "repeating-a-movement",
+        "title": "Lặp lại một chuyển động",
+        "category": "characters",
+        "body": "Đôi khi chúng ta muốn nhân vật di chuyển theo cùng một kiểu nhiều lần!Việc gõ đi gõ lại cùng một dòng chữ trở nên nhàm chán.\n\nThay vào đó, chúng ta có thể sử dụng @Sequence  với  @Phrase Để làm cho một điều gì đó lặp lại nhiều lần! Cụ thể là,chúng ta có thể sử dụng số lượng trong @Sequence và chọn số lần một chuỗi tư thế được thực hiện. Ví dụ:Đây là một quả bóng rổ đang nảy lên và xuống hai lần.\n\n\\Stage([\n\t\tPhrase('🏀' entering: Sequence({\n\t\t\t\t\t0%: Pose(offset: Place(y: 0.25m))\n\t\t\t\t\t25%: Pose(offset: Place(y: 0m))\n\t\t\t\t\t50%: Pose(offset: Place(y: -0.25m))\n\t\t\t\t\t75%: Pose(offset: Place(y: 0m))\n\t\t\t\t\t100%: Pose(offset: Place(y: 0.25m))\n\t\t\t\t} count: 2x duration: 2s))\n\t])\\",
+        "related": ["animate-phrase", "shake-phrase"]
+    },
+    {
+        "id": "arrange-in-a-row",
+        "title": "Đặt văn bản cạnh nhau",
+        "category": "layout",
+        "body": "Đôi khi chúng ta muốn văn bản được sắp xếp gọn gàng thành một dòng.Chúng ta có thể làm điều đó với một @Row , sắp xếp mọi thứ theo một cách nhất định. @Group Từ trái sang phải.\n\n\\Group(Row() [Phrase('🍎') Phrase('🍌') Phrase('🍇')])\\\n\nMỘT  @Row Bạn cũng có thể sắp xếp các ký tự theo cạnh trên, giữa hoặc dưới, và thêm khoảng cách giữa chúng.Đây là cùng một loại trái cây, nhưng được đặt thẳng đứng ở phía dưới, chừa ra một chút khoảng trống:\n\n\\Group(Row('>' 0.5m) [\n\t\tPhrase('🍎' size: 2m)\n\t\tPhrase('🍌' size: 1m)\n\t\tPhrase('🍇' size: 3m)\n\t])\\\n\nCái\\'>'\\kể cho @Row Sắp xếp mọi thứ thẳng hàng dọc theo cạnh dưới. Hãy thử\\'<'\\cho hàng đầu hoặc\\'|'\\cho phần giữa.Cái\\0.5m\\là khoảng cách giữa mỗi ký tự.",
+        "related": ["stack-up-and-down", "make-a-grid"]
+    },
+    {
+        "id": "stack-up-and-down",
+        "title": "Xếp các ký tự từ trên xuống dưới.",
+        "category": "layout",
+        "body": "Nếu một @Row là viết tắt của \"side by side\" (cạnh nhau), sau đó là một @Stack Từ trên xuống dưới. @Stack Mỗi ký tự được đặt bên dưới ký tự trước đó, giống như một tòa tháp.\n\n\\Group(Stack() [Phrase('một') Phrase('hai') Phrase('ba')])\\\n\nGiống như một @Row , Một  @Stack Cũng có thể có căn chỉnh và khoảng cách.Hãy thử sắp xếp mọi thứ dọc theo phía bên trái:\n\n\\Group(Stack('<' 0.25m) [\n\t\tPhrase('🐣 bé nhỏ')\n\t\tPhrase('🐥 cỡ trung bình')\n\t\tPhrase('🐔 lớn')\n\t])\\\n\nCái\\'<'\\ có nghĩa /Sắp xếp mọi thứ thẳng hàng dọc theo cạnh trái./.Bạn cũng có thể thử\\'|'\\cho trung tâm hoặc\\'>'\\cho cạnh phải.",
+        "related": ["arrange-in-a-row", "make-a-grid"]
+    },
+    {
+        "id": "make-a-grid",
+        "title": "Tạo một lưới các ký tự",
+        "category": "layout",
+        "body": "Nếu chúng ta muốn có các hàng thì sao?/Và/các cột cùng lúc? Đó là điều mà... @Grid là dành cho.\n\nMỘT  @Grid Chương trình yêu cầu nhập số hàng, số cột và khoảng cách giữa các ô.\n\n\\Group(Grid(2 3 0.25m) [\n\t\tPhrase('🍎')\n\t\tPhrase('🍌')\n\t\tPhrase('🍇')\n\t\tPhrase('🥕')\n\t\tPhrase('🥦')\n\t\tPhrase('🌽')\n\t])\\\n\nĐây là một khu vườn rau quả có kích thước 2x3!\n\nNếu bạn muốn tất cả các ô có cùng kích thước, hãy cung cấp @Grid Cả chiều rộng và chiều cao nữa. Bằng cách đó, các ký tự sẽ nằm gọn gàng bên trong các ô vuông của chúng, ngay cả khi chúng có kích thước khác nhau:\n\n\\Group(Grid(2 2 0.1m 1.5m 1.5m) [\n\t\tPhrase('🐈' size: 1m)\n\t\tPhrase('🐶' size: 1.5m)\n\t\tPhrase('🦊' size: 0.5m)\n\t\tPhrase('🐻' size: 2m)\n\t])\\",
+        "related": ["arrange-in-a-row", "stack-up-and-down", "make-many-copies"]
+    },
+    {
+        "id": "make-many-copies",
+        "title": "Tạo nhiều bản sao của một nhân vật",
+        "category": "layout",
+        "body": "Nếu chúng ta muốn mười con mèo, hoặc một trăm ngôi sao, nhưng không muốn gõ hết chúng ra thì sao?Chúng ta có thể yêu cầu một danh sách sao chép tài liệu cho chúng ta. @List/translate .\n\nNếu chúng ta bắt đầu với con số\\10\\và chuyển đổi nó bằng\\→ []\\Ta nhận được một danh sách mười số từ 1 đến 10.Sau đó chúng ta sử dụng @List/translate để chuyển mỗi số thành một @Phrase :\n\n\\Group(Row() (10 → []).translate(ƒ() Phrase('🐈')))\\\n\n@List/translate Hàm này gọi một lần cho mỗi mục và thu thập kết quả vào một danh sách mới.\n\nĐể mỗi bản sao có chút khác biệt, hãy sử dụng số mà lệnh translate cung cấp cho chúng ta:\n\n\\Group(Row('|' 0.2m) (8 → []).translate(ƒ(n) Phrase('⭐' size: n × 0.5m)))\\\n\nMỗi ngôi sao đều lớn hơn ngôi sao trước đó, bởi vì\\n\\đi từ\\1\\ ĐẾN \\8\\.",
+        "related": ["make-a-grid", "arrange-in-a-row"]
+    },
+    {
+        "id": "follow-the-pointer",
+        "title": "Điều khiển nhân vật di chuyển theo ngón tay của bạn",
+        "category": "characters",
+        "body": "Bạn muốn một nhân vật đuổi theo chuột hoặc ngón tay của bạn? @Stage ?Chúng ta có thể làm điều đó với @Pointer đầu vào. \n\n@Pointer mang đến cho chúng ta một sự đổi mới @Place mỗi khi con trỏ di chuyển.Nếu chúng ta sử dụng điều đó @Place với tư cách là một @Phrase của\\place\\Nhân vật sẽ di chuyển đến bất cứ nơi nào chúng ta chỉ định.\n\n\\Stage([Phrase('🐈' place: Pointer())] place: Place(0m 0m -10m))\\\n\nVậy thôi! Di chuyển chuột hoặc kéo ngón tay, và xem con mèo đi theo.\n\nBạn có thể làm được nhiều việc thú vị hơn bằng cách lấy ra...\\x\\ Và \\y\\từ @Place .Đây là một con vịt luôn lơ lửng cách con trỏ một mét:\n\n\\Stage([\n\t\tPhrase('🦆' place: Place(Pointer().x Pointer().y + 1m))\n\t] place: Place(0m 0m -10m))\\",
+        "related": ["move-phrase", "count-with-time"]
+    },
+    {
+        "id": "your-own-template",
+        "title": "Tạo mẫu nhân vật của riêng bạn",
+        "category": "characters",
+        "body": "Đôi khi bạn muốn có nhiều nhân vật trông gần giống nhau, nhưng lại có những khác biệt nhỏ.Thay vì viết giống nhau @Phrase Bạn có thể tự tạo mẫu của riêng mình nhiều lần bằng cách sử dụng... @Structure .\n\nMỘT  @Structure Nó giống như một công thức nấu ăn với những chỗ trống cần điền vào.Đây là một mẫu bóng bay chỉ cần chọn màu sắc và nhãn, và nó biết cách tự hiển thị:\n\n\\•Balloon(color•Color label•'') (\n\tƒ show() Phrase(`🎈\\label\\` color: color size: 2m)\n)\nGroup(Row() [\n\t\tBalloon(Color(80% 50 240°) 'Bầu trời').show()\n\t\tBalloon(Color(60% 80 0°) 'Hoa hồng').show()\n\t\tBalloon(Color(90% 80 90°) 'Nhiều nắng').show()\n\t])\\\n\nCái\\•Balloon(...)\\phần xác định mẫu và\\ƒ show()\\phần nói/cách vẽ một cái/.Sau đó, chúng ta làm ba quả bóng bay với màu sắc và nhãn khác nhau, rồi yêu cầu mỗi người làm một quả.\\show\\ chính nó.\n\nMẫu (template) rất hữu ích khi bạn muốn giữ cho mã của mình gọn gàng và các ký tự nhất quán.",
+        "related": ["track-game-state", "make-many-copies"]
+    },
+    {
+        "id": "count-with-time",
+        "title": "Đếm ngược thời gian trôi qua",
+        "category": "animation",
+        "body": "Nhiều dự án cần một thứ gì đó phát triển theo thời gian — bộ đếm thời gian, điểm số, bộ đếm ngược.Chúng ta có thể tạo ra một bộ đếm bằng cách kết hợp các yếu tố sau: @Time   @Stream với một @Reaction .\n\nMỘT  @Reaction Nó gồm ba phần: giá trị ban đầu, một yếu tố cần theo dõi, và giá trị mới khi yếu tố đó thay đổi.Chúng ta bắt đầu từ đây.\\0\\, đồng hồ  @Time và cộng thêm một mỗi khi đồng hồ tích tắc:\n\n\\count: 0 … ∆ Time(1000ms) … count + 1\nPhrase(count → '')\\\n\nMỗi giây, @Time đám cháy, @Reaction thông báo kèm theo\\∆ Time(1000ms)\\, Và \\count\\trở thành\\count + 1\\.Cái\\→ ''\\Cuối cùng, nó chuyển đổi số thành văn bản. @Phrase có thể chứng minh điều đó.\n\nBạn có thể sử dụng bất kỳ đầu vào nào bạn muốn, không chỉ là thời gian. Bộ đếm này đếm số lần nhấn nút Button():\n\n\\count: 0 … ∆ Button() … count + 1\nPhrase(count → '')\\\n\nMỗi lần @Button Luồng dữ liệu thay đổi khi bạn nhấp chuột hoặc chạm vào, số lượng sẽ tăng lên một.",
+        "related": ["track-points", "pick-from-a-list"]
+    },
+    {
+        "id": "react-to-sound",
+        "title": "Giúp nhân vật phát triển cùng âm thanh.",
+        "category": "animation",
+        "body": "Bạn có biết dự án của bạn có thể lắng nghe bạn không? @Volume   @Stream Bạn sử dụng micrô của mình để cung cấp cho chúng tôi một số từ\\0\\(im lặng) tới\\1\\ (ồn ào).\n\nChúng ta có thể sử dụng con số đó để kiểm soát bất cứ thứ gì — kích thước của một... @Phrase , sự quay của nó, màu sắc của nó.\n\n\\Phrase('📣' size: (Volume() × 5m) + 1m)\\\n\nKhi yên tĩnh, chiếc loa phóng thanh được sử dụng.\\1m\\cao. Khi bạn hét lên, nó có thể cao tới\\6m\\ cao.\n\nBạn muốn mặt trời quay nhanh hơn khi bạn càng la hét to hơn không?\n\n\\Phrase('🌞' rotation: Volume() × 360°)\\\n\nHãy thử vỗ tay hoặc ngân nga và xem điều gì sẽ xảy ra.(Máy tính của bạn có thể yêu cầu quyền sử dụng micro trong lần đầu tiên.)",
+        "related": ["count-with-time", "follow-the-pointer"]
+    },
+    {
+        "id": "pick-from-a-list",
+        "title": "Chọn ngẫu nhiên một vật từ danh sách.",
+        "category": "randomization",
+        "body": "Bạn muốn dự án của mình mang lại bất ngờ mỗi khi chạy? Hãy lập danh sách các lựa chọn và chọn một trong số đó. @Random . \n\n@Random có thể cung cấp cho chúng ta một số ngẫu nhiên, và một danh sách có thể được tra cứu theo số.\\[n]\\.Ghép chúng lại với nhau để chọn một biểu tượng cảm xúc ngẫu nhiên:\n\n\\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']\nPhrase(emojis.random())\\\n\nBạn cũng có thể sử dụng @Random Với hai số, người chọn sẽ chọn một số nguyên giữa hai số đó.Ví dụ, để chọn một/mới/Ngẫu nhiên biểu tượng cảm xúc mỗi giây, trộn lẫn vào @Time và một @Reaction :\n\n\\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']\npick: emojis[1] … ∆ Time(1000ms) … emojis[Random(1 emojis.length())]\nPhrase(pick)\\\n\nMỗi nhịp tích tắc của @Time , cái @Reaction Chọn một điều bất ngờ mới.",
+        "related": ["shake-phrase", "count-with-time"]
+    },
+    {
+        "id": "show-when",
+        "title": "Hiển thị các nội dung khác nhau dựa trên một giá trị.",
+        "category": "remembering",
+        "body": "Nếu bạn muốn một @Phrase Thay đổi tùy thuộc vào một yếu tố nào đó — ví dụ như điểm số hoặc thao tác nhấn phím?\n\nChúng ta có thể sử dụng câu điều kiện\\?\\Chọn giữa hai thứ.Viết điều kiện, sau đó là\\?\\Sau đó là giá trị cần sử dụng khi điều kiện đúng, rồi đến giá trị cần sử dụng khi điều kiện sai.\n\nĐây là một khuôn mặt tươi cười, nhưng sẽ chuyển sang buồn mỗi khi bạn nhấn phím cách, rồi lại trở lại bình thường:\n\n\\happy: ⊤ … ∆ Key(' ') … ~happy\nPhrase(happy ? '😊' '😢')\\\n\nCái @Reaction bắt đầu\\happy\\ BẰNG \\⊤\\(đúng), và lật nó lại với\\~\\Mỗi khi nhấn phím cách.Sau đó là điều kiện\\?\\Chọn đúng khuôn mặt.\n\nBạn có thể kết hợp các câu lệnh điều kiện để chọn từ nhiều hơn hai tùy chọn:\n\n\\score: 0 … ∆ Key('Một') … score + 1\nPhrase(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')\\\n\nNhấn \\a\\Vài lần như vậy và bạn sẽ thấy quả trứng nở thành gà con!",
+        "related": ["track-points", "offer-choices"]
+    },
+    {
+        "id": "gravity-and-bouncing",
+        "title": "Làm cho nhân vật rơi xuống và nảy lên.",
+        "category": "motion",
+        "body": "Nếu chúng ta muốn nhân vật ngã xuống, nảy lên khỏi sàn nhà, hoặc bị xô đẩy như thật thì sao?Đó là điều @Motion  Và  @Matter chúng dùng để — cùng nhau chúng mô phỏng vật lý cho một @Phrase . \n\n@Motion điều khiển/Ở đâu/Một nhân vật được hình thành theo thời gian. Chúng ta sử dụng nó như là...\\place\\cho một @Phrase , khởi động nó ở vị trí cao để nó có thể rơi xuống.Chúng ta cũng cần một điểm tựa để ngã, nếu không nhân vật của chúng ta sẽ cứ rơi mãi không thôi! @Shape với một phạm vi rộng @Rectangle Tạo nên một sàn nhà đẹp:\n\n\\Stage([\n\t\tPhrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())\n\t\tShape(Rectangle(-10m 0m 10m -5m))\n\t])\\\n\nQuả táo bắt đầu từ độ cao năm mét và rơi xuống do trọng lực.Khi chạm sàn, nó nảy lên một chút, bởi vì @Phrase có sẵn @Matter Điều đó quyết định độ nặng và độ đàn hồi của nó.\n\nĐể thay đổi cách thức/đàn hồi/hoặc như thế nào/nặng/Một nhân vật là, hãy tạo cho nó nét riêng của bạn. @Matter . @Matter Cần có khối lượng, độ đàn hồi và ma sát:\n\n\\Stage([\n\t\tPhrase('⚽' place: Motion(Place(-2m 5m)) matter: Matter(1kg 0.9 0.2))\n\t\tPhrase('🪨' place: Motion(Place(2m 5m)) matter: Matter(5kg 0.1 0.8))\n\t\tShape(Rectangle(-10m 0m 10m -5m))\n\t])\\\n\nQuả bóng nhẹ và có độ đàn hồi cao, nên nó bật trở lại.Hòn đá nặng và không đàn hồi, nên khi rơi xuống chỉ phát ra tiếng \"thịch\".",
+        "related": ["follow-the-pointer", "move-phrase"]
+    },
+    {
+        "id": "mix-languages-in-text",
+        "title": "Chào hỏi khán giả đa ngôn ngữ",
+        "category": "styling",
+        "body": "MỘT  @Phrase  Ứng dụng sẽ hiển thị bản dịch phù hợp cho từng người xem dựa trên ngôn ngữ họ đã chọn. Nếu khán giả của bạn nói tiếng Tây Ban Nha, bạn có thể nói tiếng Tây Ban Nha với họ; nếu họ nói cả tiếng Tây Ban Nha và tiếng Anh — Spanglish! — bạn có thể kết hợp cả hai.\n\nHãy đưa ra  @TextLiteral  Có nhiều bản dịch, bao gồm cả bản dịch đa ngôn ngữ, và Wordplay sẽ chọn bản dịch phù hợp nhất cho mỗi người xem:\n\n\\Phrase(\"xin chào\"/es\"Xin chào\"/en\"Chào quý ông\"/es_en)\\\n\nMột người xem chỉ sử dụng tiếng Tây Ban Nha sẽ thấy /xin chào/Một người xem chỉ thích tiếng Anh sẽ thấy... /Xin chào/Một người xem thích cả tiếng Tây Ban Nha và tiếng Anh sẽ thấy... /Chào quý ông/ — Phiên bản tiếng Tây Ban Nha pha tiếng Anh.\n\nTrò chơi chữ ưu tiên sự phù hợp chính xác nhất, vì vậy bản dịch đơn ngữ luôn được ưu tiên hơn bản dịch đa ngữ khi cả hai đều có thể áp dụng.",
+        "related": ["styling-text"]
+    },
+    {
+        "id": "find-text-with-patterns",
+        "title": "Tìm và kiểm tra văn bản có chứa mẫu.",
+        "category": "styling",
+        "body": "Mẫu (pattern) mô tả hình dạng của một đoạn văn bản, cho phép bạn kiểm tra xem văn bản có phù hợp với hình dạng đó hay không, hoặc tìm kiếm mọi vị trí mà nó xuất hiện. Mẫu được đặt bên trong (side). \\⣿⣿\\ và đọc từ trái sang phải, từng phần một. \\_\\ là một bức thư, \\#\\ là một chữ số, \\␣\\ là một khoảng trắng, và văn bản được trích dẫn như \\\"-\"\\ Hoàn toàn trùng khớp.\n\nĐể kiểm tra xem toàn bộ một đoạn văn bản có phù hợp với một mẫu nhất định hay không, hãy sử dụng \\≈\\, điều này mang lại cho bạn một \\?\\:\n\n\\'555-1234' ≈ ⣿ 3 # \"-\" 4 #⣿\\\n\nCâu hỏi đó là “ba chữ số, một dấu gạch ngang, rồi bốn chữ số?” — và câu trả lời là \\⊤\\.\n\nSố đếm đứng trước phần mà chúng lặp lại: \\3\n#\\ có nghĩa là ba chữ số. Bạn cũng có thể nói \\>0\n#\\ (một hoặc nhiều), \\≥0\n#\\ (không hoặc nhiều hơn), \\≤1\n#\\ (tùy chọn), hoặc một phạm vi như \\2–4\n#\\.\n\nĐể tìm ra mọi nơi mà một mẫu hình xuất hiện, hãy sử dụng \\⌕\\, điều này cung cấp cho bạn một danh sách  @Structure  kết quả. Hãy nêu tên một mảnh ghép với \\name: (…)\\ để nắm bắt nó:\n\n\\'sinh ngày 15 tháng 6 năm 2026' ⌕ ⣿ y: (4 #) \"-\" m: (2 #) \"-\" d: (2 #)⣿\\\n\nMỗi kết quả cho bạn biết kết quả phù hợp. \\text\\, nơi nó \\start\\cát \\end\\s, và những người bị bắt giữ \\groups\\ - đây \\y\\, \\m\\, Và \\d\\Vì các mẫu khớp nhau theo từng chữ cái, chúng hoạt động giống nhau trong mọi ngôn ngữ và hệ chữ viết.",
+        "related": ["mix-languages-in-text"]
+    }
+]

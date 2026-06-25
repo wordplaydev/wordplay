@@ -5929,7 +5929,6 @@
         "docs": {
             "label": "$~navigateur de documentation",
             "link": "$~afficher le concept $name dans la documentation",
-            "learn": "$~apprendre encore plus …",
             "nodoc": "$~Qui suis-je ? Que suis-je ? Quel est mon but ?",
             "button": {
                 "home": "$~retour à la maison",
@@ -6010,7 +6009,8 @@
                 "explain": {
                     "header": "$~Tutoriels",
                     "explanation": "$~/Courts exemples illustrant l'utilisation de Wordplay. Cliquez sur « Lecture » dans un aperçu pour le voir s'exécuter, puis ouvrez-le pour en découvrir le fonctionnement./"
-                }
+                },
+                "conceptHowTos": "$?"
             },
             "mode": {
                 "browse": {
@@ -6157,7 +6157,8 @@
             "breadcrumb": {
                 "label": "$~historique de navigation",
                 "home": "$~Maison"
-            }
+            },
+            "tutorial": "$?"
         },
         "dialog": {
             "share": {

@@ -9,6 +9,7 @@ import FunctionConcept from '@concepts/FunctionConcept';
 import GalleryHowConcept from '@concepts/GalleryHowConcept';
 import HowConcept from '@concepts/HowConcept';
 import type HowTo from '@concepts/HowTo';
+import ConceptLink from '@nodes/ConceptLink';
 import NodeConcept from '@concepts/NodeConcept';
 import { Purpose, type PurposeType } from '@concepts/Purpose';
 import StreamConcept from '@concepts/StreamConcept';
@@ -21,6 +22,7 @@ import Bind from '@nodes/Bind';
 import Evaluate from '@nodes/Evaluate';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import FunctionType from '@nodes/FunctionType';
+import type Markup from '@nodes/Markup';
 import type Node from '@nodes/Node';
 import Reference from '@nodes/Reference';
 import StreamDefinition from '@nodes/StreamDefinition';
@@ -28,6 +30,7 @@ import StructureDefinition from '@nodes/StructureDefinition';
 import type Type from '@nodes/Type';
 import type TypeSet from '@nodes/TypeSet';
 import UnaryEvaluate from '@nodes/UnaryEvaluate';
+import { toMarkup } from '@parser/toMarkup';
 import { makeSearchable, searchConcepts } from '@concepts/conceptSearch';
 import type { Searchable, SearchMatch } from '@util/search';
 
@@ -43,6 +46,14 @@ export default class ConceptIndex {
      *  basis concept's docs is ~20ms and is only needed when the user actually searches the guide —
      *  building a fresh index per project/tutorial-step otherwise pays that cost for nothing. */
     private cachedSearchable: Searchable<Concept>[] | undefined;
+
+    /** Lazily-built map from a concept to the how-tos that reference it (built-in and accessible
+     *  cloud), with a per-how-to reference count for ranking. Built once by walking each how-to's
+     *  markup — text @links and every node in its example programs — and resolving each to a
+     *  concept; see {@link getHowTosForConcept}. */
+    private cachedHowTosByConcept:
+        | Map<Concept, { how: Concept; count: number }[]>
+        | undefined;
 
     /** A mapping of node ids to nodes, registered by examples that are generated. */
     readonly examples: Map<number, Node> = new Map();
@@ -93,6 +104,65 @@ export default class ConceptIndex {
             );
         }
         return this.cachedSearchable;
+    }
+
+    /** Count, per concept, how many times a how-to's markup references it: each @link in the text,
+     *  and each node in its example programs resolved to a concept (structure/function/stream/bind
+     *  by reference, otherwise the language construct's NodeConcept — conditionals, binds, …). */
+    private countReferencedConcepts(markup: Markup): Map<Concept, number> {
+        const counts = new Map<Concept, number>();
+        const bump = (concept: Concept | undefined) => {
+            if (concept) counts.set(concept, (counts.get(concept) ?? 0) + 1);
+        };
+        // Text @links (e.g. @Phrase, @Color.random).
+        for (const node of markup.nodes())
+            if (node instanceof ConceptLink) {
+                const [base, property] = node.getName().split(/[./]/);
+                const owner = this.getConceptByName(base);
+                bump(
+                    property && owner
+                        ? (this.getSubConceptByName(owner, property) ?? owner)
+                        : owner,
+                );
+            }
+        // Every node in every example program.
+        for (const example of markup.getExamples())
+            for (const node of example.program.nodes())
+                bump(this.getRelevantConcept(node));
+        return counts;
+    }
+
+    /** The how-tos (built-in and accessible cloud) that reference the given concept, ranked by how
+     *  many times each references it (most first) and capped to 10. A how-to references a concept
+     *  when it @links it in text or uses it (any concept type) in an example program. */
+    getHowTosForConcept(concept: Concept): Concept[] {
+        if (this.cachedHowTosByConcept === undefined) {
+            const map = new Map<Concept, { how: Concept; count: number }[]>();
+            for (const how of this.concepts) {
+                const markup =
+                    how instanceof HowConcept
+                        ? how.how.content
+                        : how instanceof GalleryHowConcept
+                          ? toMarkup(how.howTo.getText().join('\n\n'))[0]
+                          : undefined;
+                if (markup === undefined) continue;
+                for (const [referenced, count] of this.countReferencedConcepts(
+                    markup,
+                )) {
+                    // A how-to shouldn't list itself.
+                    if (referenced === how) continue;
+                    const list = map.get(referenced) ?? [];
+                    list.push({ how, count });
+                    map.set(referenced, list);
+                }
+            }
+            this.cachedHowTosByConcept = map;
+        }
+
+        return [...(this.cachedHowTosByConcept.get(concept) ?? [])]
+            .sort((a, b) => b.count - a.count)
+            .slice(0, 10)
+            .map((match) => match.how);
     }
 
     // Make a concept index with a project and some preferreed languages.

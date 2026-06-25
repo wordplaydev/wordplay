@@ -6192,7 +6192,6 @@
         "docs": {
             "label": "$~ghid",
             "link": "$~afișează „ $name ” în documentație",
-            "learn": "$~află mai multe …",
             "nodoc": "$~Cine sunt eu? Ce sunt eu? Care este scopul meu?",
             "button": {
                 "home": "$~întoarce-te acasă",
@@ -6407,7 +6406,8 @@
                 "explain": {
                     "header": "$~Ghiduri",
                     "explanation": "$~/Exemple scurte care arată cum se fac lucrurile în Wordplay. Apasă pe redare în orice previzualizare pentru a o vedea rulând, apoi deschide-o pentru a citi cum funcționează./"
-                }
+                },
+                "conceptHowTos": "$?"
             },
             "tour": {
                 "launch": "$~faceți un tur al ghidului",
@@ -6420,7 +6420,8 @@
             "breadcrumb": {
                 "label": "$~istoricul navigației",
                 "home": "$~Acasă"
-            }
+            },
+            "tutorial": "$?"
         },
         "dialog": {
             "share": {
