@@ -56,16 +56,5 @@ jobs:
             # freshly deployed client could call not-yet-updated functions. This
             # is acceptable as long as function changes are backward-compatible;
             # if that stops holding, split functions into its own prior step.
-            # TEMP diagnostic — remove once the deploy auth issue is resolved.
-            # Prints the firebase CLI version actually used, the credential file
-            # type/project/email the auth step produced (no secrets), and whether
-            # plain auth works in CI independent of the deploy/--project path.
-            - name: Debug auth (temporary)
-              run: |
-                  echo "node version:"; node --version
-                  echo "firebase CLI version:"; npx firebase --version
-                  echo "credential file:"; node -e "const c=require(process.env.GOOGLE_APPLICATION_CREDENTIALS); console.log('type:', c.type, 'project:', c.project_id, 'email:', c.client_email)"
-                  echo "projects:list (auth check, debug):"; npx firebase projects:list --debug || true
-
             - run: npx firebase deploy --project wordplay-prod
               name: Deploy to Firebase
