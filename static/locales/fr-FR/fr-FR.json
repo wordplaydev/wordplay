@@ -5531,13 +5531,14 @@
                     "tip": "$~modifier les langues de ce projet et le traduire dans d'autres langues.",
                     "label": "$~traduire"
                 },
-                "primary": "$~définie comme langue principale de ce projet",
+                "primary": "$~traduire le texte dans cette langue",
                 "share": {
                     "tip": "$~afficher les options de partage de projet",
                     "label": "$~partager"
                 },
                 "savedLocally": "$~les projets sont enregistrés localement, mais pas en ligne",
-                "savedOnline": "$~les projets sont enregistrés en ligne"
+                "savedOnline": "$~les projets sont enregistrés en ligne",
+                "destination": "$~traduire dans cette langue"
             },
             "field": {
                 "name": {
@@ -5569,10 +5570,14 @@
                 "translate": {
                     "header": "$~Langues",
                     "explanation": [
-                        "$~Voici les langues que votre projet utilise.",
-                        "$~Pour essayer de traduire votre projet dans d’autres langues, choisissez une langue source principale, puis choisissez une nouvelle langue.",
-                        "$~/Toutes les langues ne sont pas prises en charge et les traductions seront imparfaites, alors vérifiez les résultats!/"
-                    ]
+                        "$~Voici les langages utilisés par votre projet.",
+                        "$~Pour traduire votre projet dans d'autres langues prises en charge, choisissez une langue source principale, puis choisissez une nouvelle langue.",
+                        "$~Les traductions ne seront pas parfaites, alors vérifiez les résultats !"
+                    ],
+                    "search": {
+                        "description": "$~Filtrer les langues par nom ou région",
+                        "placeholder": "$~langue ou région"
+                    }
                 }
             },
             "subheader": {

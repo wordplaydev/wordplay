@@ -5537,13 +5537,14 @@
                     "tip": "$~Bearbeiten Sie die Sprachen dieses Projekts und übersetzen Sie es in andere Sprachen.",
                     "label": "$~übersetzen"
                 },
-                "primary": "$~als primäre Sprache dieses Projekts festgelegt",
+                "primary": "$~Text in dieser Sprache übersetzen",
                 "share": {
                     "tip": "$~Optionen zur Projektfreigabe anzeigen",
                     "label": "$~Aktie"
                 },
                 "savedLocally": "$~Projekte werden lokal, aber nicht online gespeichert",
-                "savedOnline": "$~Projekte werden online gespeichert"
+                "savedOnline": "$~Projekte werden online gespeichert",
+                "destination": "$~in diese Sprache übersetzen"
             },
             "field": {
                 "name": {
@@ -5575,10 +5576,14 @@
                 "translate": {
                     "header": "$~Sprachen",
                     "explanation": [
-                        "$~Dies sind die Sprachen, die Ihr Projekt verwendet.",
-                        "$~Um zu versuchen, Ihr Projekt in andere Sprachen zu übersetzen, wählen Sie eine primäre Ausgangssprache und dann eine neue Sprache.",
-                        "$~/Es werden nicht alle Sprachen unterstützt und die Übersetzungen können unvollständig sein. Überprüfen Sie daher die Ergebnisse!/"
-                    ]
+                        "$~Dies sind die Sprachen, die in Ihrem Projekt verwendet werden.",
+                        "$~Um Ihr Projekt in andere unterstützte Sprachen zu übersetzen, wählen Sie eine primäre Ausgangssprache und anschließend eine neue Sprache.",
+                        "$~Die Übersetzungen werden nicht perfekt sein, überprüfen Sie daher bitte die Ergebnisse!"
+                    ],
+                    "search": {
+                        "description": "$~Sprachen nach Namen oder Region filtern",
+                        "placeholder": "$~Sprache oder Region"
+                    }
                 }
             },
             "subheader": {

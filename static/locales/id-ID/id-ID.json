@@ -5540,7 +5540,8 @@
                     "tip": "$~Edit bahasa-bahasa dalam proyek ini dan terjemahkan ke dalam bahasa lain.",
                     "label": "$~menerjemahkan"
                 },
-                "primary": "$~ditetapkan sebagai bahasa utama proyek ini"
+                "primary": "$~Terjemahkan teks ini ke dalam bahasa ini",
+                "destination": "$~terjemahkan ke bahasa ini"
             },
             "field": {
                 "name": {
@@ -5573,9 +5574,13 @@
                     "header": "$~Menerjemahkan",
                     "explanation": [
                         "$~Ini adalah bahasa-bahasa yang digunakan proyek Anda.",
-                        "$~Untuk mencoba menerjemahkan proyek Anda ke bahasa lain, pilih bahasa sumber utama, lalu pilih bahasa baru.",
-                        "$~Tidak semua bahasa didukung dan terjemahan mungkin tidak sempurna, jadi tinjau hasilnya!"
-                    ]
+                        "$~Untuk menerjemahkan proyek Anda ke bahasa lain yang didukung, pilih bahasa sumber utama, lalu pilih bahasa baru.",
+                        "$~Terjemahan mungkin tidak sempurna, jadi periksa hasilnya!"
+                    ],
+                    "search": {
+                        "description": "$~Saring bahasa berdasarkan nama atau wilayah.",
+                        "placeholder": "$~bahasa atau wilayah"
+                    }
                 }
             },
             "subheader": {

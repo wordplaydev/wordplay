@@ -224,8 +224,10 @@ type UITexts = {
             unsaved: string;
             /** Show translation button */
             translate: ButtonText;
-            /** [plain] The tooltip for the primary locale setting button */
+            /** [plain] The tooltip for the source language button in the translate dialog */
             primary: string;
+            /** [plain] The tooltip for the destination language button in the translate dialog */
+            destination: string;
         };
         field: {
             /** [name] The project name text field */
@@ -277,7 +279,10 @@ type UITexts = {
             /** [formatted] The header for the save error */
             unsaved: FormattedText;
             /** The content for the translation dialog */
-            translate: HeaderAndExplanationText;
+            translate: HeaderAndExplanationText & {
+                /** The field that filters destination languages by name or region */
+                search: FieldText;
+            };
         };
         subheader: {
             /** [formatted] The header for the source language */

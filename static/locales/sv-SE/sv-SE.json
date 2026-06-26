@@ -5532,9 +5532,10 @@
                     "tip": "$~redigera det här projektets språk och översätt det till andra språk.",
                     "label": "$~översätta"
                 },
-                "primary": "$~ange som projektets primära språk",
+                "primary": "$~översätt text på det här språket",
                 "savedLocally": "$~projekt sparas lokalt, men inte online",
-                "savedOnline": "$~projekten sparas online"
+                "savedOnline": "$~projekten sparas online",
+                "destination": "$~översätt till detta språk"
             },
             "field": {
                 "name": {
@@ -5567,9 +5568,13 @@
                     "header": "$~Översätta",
                     "explanation": [
                         "$~Det här är de språk som ditt projekt använder.",
-                        "$~För att försöka översätta ditt projekt till andra språk, välj ett primärt källspråk och välj sedan ett nytt språk.",
-                        "$~/Alla språk stöds inte och översättningarna kommer att vara ofullkomliga, så granska resultaten!/"
-                    ]
+                        "$~För att översätta ditt projekt till andra språk som stöds, välj ett primärt källspråk och välj sedan ett nytt språk.",
+                        "$~/Översättningarna kommer att vara ofullkomliga, så granska resultaten!/"
+                    ],
+                    "search": {
+                        "description": "$~Filtrera språk efter namn eller region",
+                        "placeholder": "$~språk eller region"
+                    }
                 }
             },
             "subheader": {

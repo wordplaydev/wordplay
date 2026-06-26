@@ -5509,13 +5509,14 @@
                     "tip": "$~Editar los idiomas de este proyecto y traducirlo a otros idiomas.",
                     "label": "$~traducir"
                 },
-                "primary": "$~establecido como idioma principal de este proyecto",
+                "primary": "$~traducir texto en este idioma",
                 "share": {
                     "tip": "$~Mostrar opciones para compartir proyectos",
                     "label": "$~compartir"
                 },
                 "savedLocally": "$~Los proyectos se guardan localmente, pero no en línea",
-                "savedOnline": "$~Los proyectos se guardan en línea"
+                "savedOnline": "$~Los proyectos se guardan en línea",
+                "destination": "$~traducir a este idioma"
             },
             "field": {
                 "name": {
@@ -5547,10 +5548,14 @@
                 "translate": {
                     "header": "$~Idiomas",
                     "explanation": [
-                        "$~Estos son los idiomas que utiliza su proyecto.",
-                        "$~Para intentar traducir su proyecto a otros idiomas, elija un idioma de origen principal y luego elija un nuevo idioma.",
-                        "$~/No todos los idiomas son compatibles y las traducciones serán imperfectas, ¡así que revise los resultados!/"
-                    ]
+                        "$~Estos son los lenguajes que utiliza tu proyecto.",
+                        "$~Para traducir tu proyecto a otros idiomas compatibles, elige un idioma de origen principal y, a continuación, elige un nuevo idioma.",
+                        "$~Las traducciones serán imperfectas, ¡así que revisen los resultados!"
+                    ],
+                    "search": {
+                        "description": "$~Filtrar idiomas por nombre o región.",
+                        "placeholder": "$~idioma o región"
+                    }
                 }
             },
             "subheader": {

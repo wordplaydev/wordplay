@@ -19696,6 +19696,10 @@
                       "$ref": "#/definitions/ButtonText",
                       "description": "Copy the project as text to the clipboard"
                     },
+                    "destination": {
+                      "description": "[plain] The tooltip for the destination language button in the translate dialog",
+                      "type": "string"
+                    },
                     "duplicate": {
                       "$ref": "#/definitions/ButtonText",
                       "description": "Duplicate the project"
@@ -19721,7 +19725,7 @@
                       "type": "string"
                     },
                     "primary": {
-                      "description": "[plain] The tooltip for the primary locale setting button",
+                      "description": "[plain] The tooltip for the source language button in the translate dialog",
                       "type": "string"
                     },
                     "removeCollaborator": {
@@ -19769,7 +19773,8 @@
                     "savedOnline",
                     "unsaved",
                     "translate",
-                    "primary"
+                    "primary",
+                    "destination"
                   ],
                   "type": "object"
                 },
@@ -19794,8 +19799,38 @@
                   "additionalProperties": false,
                   "properties": {
                     "translate": {
-                      "$ref": "#/definitions/HeaderAndExplanationText",
-                      "description": "The content for the translation dialog"
+                      "additionalProperties": false,
+                      "description": "The content for the translation dialog",
+                      "properties": {
+                        "explanation": {
+                          "anyOf": [
+                            {
+                              "$ref": "#/definitions/FormattedText"
+                            },
+                            {
+                              "items": {
+                                "$ref": "#/definitions/FormattedText"
+                              },
+                              "type": "array"
+                            }
+                          ],
+                          "description": "[formatted] The explanation text just below the header."
+                        },
+                        "header": {
+                          "description": "[plain] The header to be shown at the top of the dialog",
+                          "type": "string"
+                        },
+                        "search": {
+                          "$ref": "#/definitions/FieldText",
+                          "description": "The field that filters destination languages by name or region"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "header",
+                        "search"
+                      ],
+                      "type": "object"
                     },
                     "unsaved": {
                       "$ref": "#/definitions/FormattedText",

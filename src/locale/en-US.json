@@ -5540,7 +5540,8 @@
                     "tip": "translate this project into a new language, making it multilingual",
                     "label": "translate"
                 },
-                "primary": "set as this project's primary language"
+                "primary": "translate text in this language",
+                "destination": "translate to this language"
             },
             "field": {
                 "name": {
@@ -5573,9 +5574,13 @@
                     "header": "Translate",
                     "explanation": [
                         "These are the languages your project is using.",
-                        "To try to translate your project into other languages, choose a primary source language and then choose a new language.",
-                        "/Not all languages are supported and translations will be imperfect, so review the results!/"
-                    ]
+                        "To translate your project into other supported languages, choose a primary source language and then choose a new language.",
+                        "/Translations will be imperfect, so review the results!/"
+                    ],
+                    "search": {
+                        "description": "Filter languages by name or region",
+                        "placeholder": "language or region"
+                    }
                 }
             },
             "subheader": {

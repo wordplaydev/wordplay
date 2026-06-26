@@ -6,7 +6,6 @@ import {
     type WritingDirection,
     type WritingLayout,
 } from '@locale/Scripts';
-import { EMOJI_SYMBOL } from '@parser/Symbols';
 import { TextCloseByTextOpen } from '@parser/Tokenizer';
 
 type LanguageMetadata = {
@@ -40,66 +39,194 @@ type LanguageMetadata = {
     speakers?: number;
 };
 
-/** Languages Google Cloud Translate does not currently support. Cross-checked
- *  against https://cloud.google.com/translate/docs/languages. Google adds
- *  languages periodically — when a code here gains support, remove its line.
+/** Wordplay `LanguageCode`s that Google Cloud Translate can translate. This is
+ *  an allowlist, not a denylist: anything NOT listed here is treated as
+ *  non-translatable. We invert because `Languages` carries ~260 codes (many
+ *  obscure ISO 639-3 entries) while Google supports far fewer, and a denylist
+ *  silently lets every newly added `Languages` entry through even when Google
+ *  can't handle it. Derived from https://cloud.google.com/translate/docs/languages
+ *  (fetched 2026-06-25). Google adds languages periodically — when a code here
+ *  gains support, add its line; codes Google supports under a different code
+ *  (e.g. `nb`→`no`) are mapped via `GoogleTranslateCodeOverrides`, not omitted.
  *  Typed as `LanguageCode[]` so a typo here (or a code that doesn't exist in
  *  the `Languages` constant) becomes a compile-time error rather than a
  *  silent miss at runtime. */
-export const Untranslatable: LanguageCode[] = [
-    EMOJI_SYMBOL,
-    // Constructed languages
-    'ia', // Interlingua
-    'ie', // Interlingue (Occidental)
-    'io', // Ido
-    'vo', // Volapük
-    // Dead / liturgical
-    'ae', // Avestan
-    'cu', // Church Slavonic
-    'pi', // Pali
-    // African languages without coverage
-    'aa', // Afar
-    'ho', // Hiri Motu
-    'hz', // Herero
-    'kg', // Kongo
-    'ki', // Kikuyu
-    'kj', // Kuanyama
-    'kr', // Kanuri
-    'lu', // Luba-Katanga
-    'nd', // North Ndebele
-    'ng', // Ndonga
-    've', // Venda
-    'wo', // Wolof
-    // Caucasus / Russian-Federation minority languages
-    'kv', // Komi
-    'os', // Ossetian
-    // European minority languages
-    'an', // Aragonese
-    'gv', // Manx
-    'kw', // Cornish
-    'rm', // Romansh
-    'sc', // Sardinian
-    'se', // Northern Sami
-    'wa', // Walloon
-    // Americas indigenous
-    'cr', // Cree
-    'ik', // Inupiaq
-    'iu', // Inuktitut
-    'nv', // Navajo
-    'oj', // Ojibwa
-    // Asia / Pacific
-    'bi', // Bislama
-    'bo', // Tibetan
-    'ch', // Chamorro
-    'ii', // Yi
-    'kl', // Kalaallisut (Greenlandic)
-    'mh', // Marshallese
-    'na', // Nauru
-    'syc', // Syriac
-    'to', // Tongan
-    'ty', // Tahitian
-    'za', // Zhuang
+export const Translatable: LanguageCode[] = [
+    'ab', // Abkhazian — GE, TR, RU
+    'af', // Afrikaans — ZA, NA
+    'ak', // Akan — GH, CI
+    'am', // Amharic — ET, IL
+    'ar', // Arabic — SA, EG, AE, IQ, JO, KW, LB, LY, MA, OM, QA, SY, TN, YE, BH, DJ, DZ, KM, MR, PS, SD, SO
+    'as', // Assamese — IN
+    'ay', // Aymara — BO, PE
+    'az', // Azerbaijani — AZ, IR, TR, GE, RU, IQ
+    'ba', // Bashkir — RU
+    'be', // Belarusian — BY, RU, PL, LT, UA
+    'bg', // Bulgarian — BG, MK, GR, RO, TR, RS, UA, MD
+    'bm', // Bambara — ML, BF, CI, GN, SN
+    'bn', // Bengali — BD, IN
+    'br', // Breton — FR
+    'bs', // Bosnian — BA, RS, ME, HR
+    'ca', // Catalan — ES, AD, FR, IT
+    'co', // Corsican — FR, IT
+    'cs', // Czech — CZ, SK
+    'cv', // Chuvash — RU
+    'cy', // Welsh — GB, AR
+    'da', // Danish — DK, GL, FO, DE
+    'de', // German — DE, AT, CH, LI, LU, BE
+    'ee', // Ewe — GH, TG, BJ
+    'dz', // Dzongkha — BT
+    'dv', // Divehi — MV
+    'el', // Greek — GR, CY, AL, IT, TR
+    'en', // English — US, GB, CA, AU, NZ, IE, IN, ZA, SG, NG, PH, KE, JM, TT
+    'eo', // Esperanto — no region
+    'es', // Spanish — ES, MX, AR, CO, PE, VE, CL, GT, EC, CU, BO, DO, HN, PY, SV, NI, CR, PR, PA, UY, US
+    'et', // Estonian — EE, FI, SE, RU
+    'eu', // Basque — ES, FR
+    'fa', // Persian — IR, AF, TJ, UZ, BH
+    'ff', // Fulah — SN, GN, ML, NG, CM, BF, NE, TD, SL, MR, GW, GM, CF
+    'fi', // Finnish — FI, SE, NO, RU, EE
+    'fil', // Filipino — PH
+    'fj', // Fijian — FJ
+    'fr', // French — FR, CA, BE, CH, LU, MC, DZ, MA, TN, SN, CI, CM, BF, NE, ML, GA, CD, RW, BI, TD, MG
+    'fy', // Frisian — NL, DE
+    'ga', // Irish — IE, GB
+    'gd', // Scottish Gaelic — GB, CA
+    'gl', // Galician — ES, PT
+    'gn', // Guarani — PY, BO, AR, BR
+    'gu', // Gujarati — IN, PK, GB, UG, KE, TZ, ZA
+    'ha', // Hausa — NG, NE, GH, CM, TD, SD, CI, BF
+    'he', // Hebrew — IL
+    'hi', // Hindi — IN, FJ, MU, NP, TT, GY, SR
+    'hr', // Croatian — HR, BA, RS, AT, HU, ME
+    'ht', // Haitian — HT, DO, CA, US, FR, BS
+    'hu', // Hungarian — HU, RO, RS, SK, UA, AT, HR, SI
+    'hy', // Armenian — AM, RU, GE, LB, IR, SY, TR, US, FR
+    'id', // Indonesian — ID, TL
+    'ig', // Igbo — NG, GQ
+    'is', // Icelandic — IS
+    'it', // Italian — IT, CH, SM, VA
+    'ja', // Japanese — JP
+    'jv', // Javanese — ID, SR
+    'ka', // Georgian — GE, RU, TR, AZ, IR
+    'kk', // Kazakh — KZ, CN, MN, RU, UZ, KG, TR, TM, AF
+    'km', // Khmer — KH, TH, VN
+    'kn', // Kannada — IN
+    'ko', // Korean — KR, KP, CN, JP, RU, US
+    'gom', // Konkani — IN
+    'ku', // Kurdish — TR, IR, IQ, SY, AM, AZ, GE, LB
+    'ky', // Kyrgyz — KG, CN, TJ, UZ, AF, PK, RU, TR
+    'la', // Latin — VA
+    'lb', // Luxembourgish — LU, BE, DE, FR
+    'ln', // Lingala — CD, CG, AO, CF
+    'li', // Limburgan — NL, BE, DE
+    'lg', // Ganda — UG
+    'lo', // Lao — LA, TH
+    'lt', // Lithuanian — LT, PL, BY, LV
+    'lv', // Latvian — LV
+    'mg', // Malagasy — MG, KM, YT
+    'mi', // Maori — NZ, CK
+    'mk', // Macedonian — MK, AL, BG, GR, RS, TR
+    'ml', // Malayalam — IN, AE, SA, BH, OM
+    'mn', // Mongolian — MN, CN, RU
+    'mr', // Marathi — IN
+    'ms', // Malay — MY, BN, SG, ID, TH, PH
+    'mt', // Maltese — MT
+    'my', // Burmese — MM
+    'nb', // Norwegian Bokmål — NO
+    'ne', // Nepali — NP, IN, BT, MM
+    'nl', // Dutch — NL, BE, SR, AW, CW, SX, BQ
+    'nn', // Norwegian Nynorsk — NO
+    'no', // Norwegian — NO
+    'ny', // Nyanja — MW, ZM, MZ, ZW
+    'nr', // South Ndebele — ZA
+    'oc', // Occitan — FR, ES, IT, MC
+    'or', // Oriya — IN
+    'om', // Oromo — ET, KE, SO, EG
+    'pa', // Punjabi — IN, PK, GB, CA, US
+    'pl', // Polish — PL, LT, BY, UA, CZ, DE, GB, US
+    'ps', // Pashto — AF, PK, IR
+    'pt', // Portuguese — PT, BR, AO, MZ, CV, GW, TL, ST
+    'qu', // Quechua — PE, BO, EC, AR, CL, CO
+    'rn', // Rundi — BI, RW, TZ, UG
+    'ro', // Romanian — RO, MD, RS, UA, HU, BG
+    'ru', // Russian — RU, BY, KZ, KG, MD, UA, UZ, TJ
+    'rw', // Kinyarwanda — RW, BI, UG, CD, TZ
+    'sa', // Sanskrit — IN, NP
+    'sg', // Sango — CF, CD, TD
+    'sd', // Sindhi — PK, IN, AE, GB
+    'si', // Sinhala — LK, AE, SG
+    'sk', // Slovak — SK, CZ, HU, RS, PL, UA
+    'sl', // Slovenian — SI, IT, AT, HU, HR
+    'so', // Somali — SO, DJ, ET, KE, YE
+    'sn', // Shona — ZW, ZM, MZ, BW
+    'sm', // Samoan — WS, AS, NZ, AU, US
+    'sq', // Albanian — AL, XK, MK, ME, GR, IT, TR, RS
+    'sr', // Serbian — RS, BA, ME, XK, HR, MK, SI
+    'su', // Sundanese — ID
+    'st', // Southern Sotho — LS, ZA, ZW
+    'ss', // Swati — SZ, ZA, MZ
+    'sv', // Swedish — SE, FI, NO, AX
+    'sw', // Swahili — TZ, KE, UG, CD, RW, BI, MZ, KM, YT, OM, SO
+    'ta', // Tamil — IN, LK, SG, MY, MU, FJ, RE
+    'te', // Telugu — IN, US, MY, AE
+    'tg', // Tajik — TJ, UZ, AF, KG, RU
+    'th', // Thai — TH
+    'tk', // Turkmen — TM, AF, IR, TR, TJ, UZ, RU
+    'ti', // Tigrinya — ER, ET
+    'tl', // Tagalog — PH, US
+    'tn', // Tswana — BW, ZA, NA, ZW
+    'tr', // Turkish — TR, CY, DE, BG, MK, NL, AT, GR, IQ, RO, RS, XK, AZ, UZ, SY
+    'ts', // Tsonga — ZA, MZ, ZW, SZ
+    'tt', // Tatar — RU, UZ, KZ, TR, CN
+    'tw', // Twi — GH
+    'ug', // Uyghur — CN, KZ, UZ, KG, TR
+    'uk', // Ukrainian — UA, PL, CA, US, BY, RU, KZ, MD, RO, SK
+    'ur', // Urdu — PK, IN, AE, SA, GB, US, BD
+    'uz', // Uzbek — UZ, AF, KZ, KG, TJ, TM, RU, CN, TR
+    'vi', // Vietnamese — VN, US, KH, LA
+    'xh', // Xhosa — ZA, ZW, LS
+    'yi', // Yiddish — IL, US, CA, GB, BE, FR, AR, UA, BY, RU
+    'yo', // Yoruba — NG, BJ, TG, GH, CI
+    'zh', // Chinese — CN, TW, HK, SG, MO, MY
+    'zu', // Zulu — ZA, LS, MW, MZ
+    // ISO 639-3 codes Google supports
+    'ace', // Acehnese — ID
+    'awa', // Awadhi — IN, NP
+    'ban', // Balinese — ID
+    'bbc', // Batak Toba — ID
+    'bik', // Bikol — PH
+    'ceb', // Cebuano — PH
+    'ckb', // Sorani Kurdish — IQ, IR
+    'doi', // Dogri — IN
+    'hil', // Hiligaynon — PH
+    'hmn', // Hmong — LA, VN, CN, US, TH
+    'ilo', // Ilocano — PH
+    'luo', // Luo — KE, TZ, UG
+    'mai', // Maithili — IN, NP
+    'mak', // Makasar — ID
+    'min', // Minangkabau — ID
+    'mni', // Manipuri — IN, BD, MM
+    'new', // Newari — NP
+    'rom', // Romani — RO, BG, RS, HU, SK, ES, TR, MK
+    'shn', // Shan — MM, CN, TH
+    'crh', // Crimean Tatar — UA, RU, TR, UZ, RO, BG
+    'mhr', // Eastern Mari — RU
+    'bua', // Buryat — RU, MN, CN
 ];
+
+/** Wordplay codes that Google supports but under a different code. We send the
+ *  override to the API while keeping Wordplay's own code everywhere else; codes
+ *  not listed here are sent verbatim. */
+export const GoogleTranslateCodeOverrides: Partial<
+    Record<LanguageCode, string>
+> = {
+    nb: 'no', // Google has only generic Norwegian
+    nn: 'no',
+    mhr: 'chm', // Google labels Meadow Mari as "chm"
+    tl: 'fil', // Google labels Tagalog as Filipino
+    tw: 'ak', // Google labels Twi as Akan
+};
 
 /** BCP 47 language tags and other metadata. `scripts` lists writing systems
  *  the language is actively (or historically) written in; the first entry
@@ -635,7 +762,7 @@ export const Languages = {
     hi: {
         name: 'हिंदी',
         en: 'Hindi',
-        scripts: ['Deva'],
+        scripts: ['Deva', 'Latn'],
         regions: ['IN', 'FJ', 'MU', 'NP', 'TT', 'GY', 'SR'],
         speakers: 610,
     },
@@ -716,7 +843,7 @@ export const Languages = {
     ii: {
         name: 'ꆈꌠꁱꂷ',
         en: 'Yi',
-        scripts: ['Yiii'],
+        scripts: ['Yiii', 'Latn'],
         regions: ['CN'],
         speakers: 2,
     },
@@ -879,7 +1006,7 @@ export const Languages = {
     ky: {
         name: 'Кыргыз',
         en: 'Kyrgyz',
-        scripts: ['Cyrl', 'Arab'],
+        scripts: ['Cyrl', 'Latn', 'Arab'],
         regions: ['KG', 'CN', 'TJ', 'UZ', 'AF', 'PK', 'RU', 'TR'],
         speakers: 5,
     },
@@ -1337,7 +1464,7 @@ export const Languages = {
     sw: {
         name: 'Kiswahili',
         en: 'Swahili',
-        scripts: ['Latn'],
+        scripts: ['Latn', 'Arab'],
         regions: [
             'TZ',
             'KE',
@@ -1477,7 +1604,7 @@ export const Languages = {
     ug: {
         name: 'ئۇيغۇرچە',
         en: 'Uyghur',
-        scripts: ['Arab'],
+        scripts: ['Arab', 'Latn', 'Cyrl'],
         regions: ['CN', 'KZ', 'UZ', 'KG', 'TR'],
         speakers: 10,
     },
@@ -2113,7 +2240,7 @@ export const PossibleLanguages: LanguageCode[] = Object.keys(
 export const TranslatableLocales: Locale[] = (
     Object.entries(Languages) as [LanguageCode, LanguageMetadata][]
 )
-    .filter(([language]) => !Untranslatable.includes(language))
+    .filter(([language]) => Translatable.includes(language))
     .map(([language, info]) =>
         info.regions.length === 0
             ? { language, regions: [] }

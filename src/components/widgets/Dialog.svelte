@@ -30,6 +30,11 @@
          *  Use for dialogs whose content benefits from maximum horizontal space
          *  (e.g. wide example code in how-tos). */
         wide?: boolean;
+        /** When set, fix the dialog to this CSS height instead of sizing to
+         *  content, so its size doesn't jump as content changes (e.g. a list
+         *  that grows and shrinks while filtering). The body scrolls if it
+         *  overflows. */
+        height?: string | undefined;
         button?:
             | {
                   tip: LocaleTextAccessor;
@@ -51,6 +56,7 @@
         explanation,
         closeable = true,
         wide = false,
+        height = undefined,
         button = undefined,
         children,
     }: Props = $props();
@@ -137,6 +143,8 @@
 <dialog
     bind:this={view}
     class:wide
+    class:fixed={height !== undefined}
+    style={height ? `height: ${height};` : undefined}
     use:clickOutside={() => (show = false)}
     tabindex="-1"
     onkeydown={closeable
@@ -182,6 +190,12 @@
     dialog.wide {
         /* Fill the window width (minus margins) for maximum horizontal space. */
         width: 95vw;
+    }
+
+    dialog.fixed {
+        /* Height is set inline; scroll the body so the dialog stays put as
+           content changes. The sticky close button rides the scroll. */
+        overflow-y: auto;
     }
 
     dialog::backdrop {

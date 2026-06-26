@@ -5538,9 +5538,10 @@
                     "tip": "$~Bu projenin dillerini düzenleyin ve diğer dillere çevirin.",
                     "label": "$~tercüme etmek"
                 },
-                "primary": "$~Bu projenin birincil dili olarak ayarlandı.",
+                "primary": "$~Bu dildeki metni çevir",
                 "savedLocally": "$~projeler yerel olarak kaydedilir, ancak çevrimiçi olarak kaydedilmez",
-                "savedOnline": "$~projeler çevrimiçi olarak kaydedilir"
+                "savedOnline": "$~projeler çevrimiçi olarak kaydedilir",
+                "destination": "$~Bu dile çevir"
             },
             "field": {
                 "name": {
@@ -5573,9 +5574,13 @@
                     "header": "$~Çevir",
                     "explanation": [
                         "$~Bunlar projenizin kullandığı dillerdir.",
-                        "$~Projenizi diğer dillere çevirmeyi denemek için, birincil kaynak dili seçin ve ardından yeni bir dil seçin.",
-                        "$~/Tüm diller desteklenmiyor ve çeviriler kusurlu olabilir, bu yüzden sonuçları inceleyin!/"
-                    ]
+                        "$~Projenizi desteklenen diğer dillere çevirmek için, önce birincil kaynak dili, ardından yeni bir dil seçin.",
+                        "$~Çeviriler kusursuz olmayabilir, bu yüzden lütfen sonuçları gözden geçirin!"
+                    ],
+                    "search": {
+                        "description": "$~Dilleri isme veya bölgeye göre filtrele",
+                        "placeholder": "$~dil veya bölge"
+                    }
                 }
             },
             "subheader": {

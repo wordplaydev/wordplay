@@ -5546,9 +5546,10 @@
                     "tip": "$~edytuj języki tego projektu i przetłumacz go na inne języki.",
                     "label": "$~tłumaczyć"
                 },
-                "primary": "$~ustaw jako główny język tego projektu",
+                "primary": "$~przetłumacz tekst w tym języku",
                 "savedLocally": "$~projekty są zapisywane lokalnie, ale nie online",
-                "savedOnline": "$~projekty są zapisywane online"
+                "savedOnline": "$~projekty są zapisywane online",
+                "destination": "$~przetłumacz na ten język"
             },
             "field": {
                 "name": {
@@ -5581,9 +5582,13 @@
                     "header": "$~Tłumaczyć",
                     "explanation": [
                         "$~Oto języki, których używa Twój projekt.",
-                        "$~Aby spróbować przetłumaczyć swój projekt na inne języki, wybierz główny język źródłowy, a następnie wybierz nowy język.",
-                        "$~/Nie wszystkie języki są obsługiwane i tłumaczenia będą niedoskonałe, dlatego sprawdź wyniki!/"
-                    ]
+                        "$~Aby przetłumaczyć swój projekt na inne obsługiwane języki, wybierz język źródłowy, a następnie wybierz nowy język.",
+                        "$~/Tłumaczenia będą niedoskonałe, dlatego sprawdź wyniki!/"
+                    ],
+                    "search": {
+                        "description": "$~Filtruj języki według nazwy lub regionu",
+                        "placeholder": "$~język lub region"
+                    }
                 }
             },
             "subheader": {

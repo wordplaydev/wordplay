@@ -5533,7 +5533,8 @@
                     "tip": "Edite os idiomas deste projeto e traduza-o para outros idiomas.",
                     "label": "traduzir"
                 },
-                "primary": "definido como o local principal deste projeto"
+                "primary": "$~Traduzir texto neste idioma",
+                "destination": "$~traduzir para este idioma"
             },
             "field": {
                 "name": {
@@ -5565,10 +5566,14 @@
                 "translate": {
                     "header": "Traduzir",
                     "explanation": [
-                        "Estas são as linguagens que o seu projeto está a utilizar.",
-                        "Para tentar traduzir o seu projeto para outros idiomas, escolha um idioma de origem principal e, em seguida, escolha um novo idioma.",
-                        "Nem todos os idiomas são suportados e as traduções podem não ser perfeitas, por isso reveja os resultados!"
-                    ]
+                        "$~Estas são as linguagens que o seu projeto está a utilizar.",
+                        "$~Para traduzir o seu projeto para outros idiomas compatíveis, escolha um idioma de origem principal e, em seguida, escolha um novo idioma.",
+                        "$~/As traduções podem não ser perfeitas, por isso reveja os resultados!/"
+                    ],
+                    "search": {
+                        "description": "$~Filtre os idiomas por nome ou região.",
+                        "placeholder": "$~Língua ou região"
+                    }
                 }
             },
             "subheader": {

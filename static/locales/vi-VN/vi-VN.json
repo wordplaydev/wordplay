@@ -5537,7 +5537,8 @@
                     "tip": "$~Chỉnh sửa ngôn ngữ của dự án này và dịch nó sang các ngôn ngữ khác.",
                     "label": "$~dịch"
                 },
-                "primary": "$~được đặt làm ngôn ngữ chính của dự án này"
+                "primary": "$~dịch văn bản sang ngôn ngữ này",
+                "destination": "$~dịch sang ngôn ngữ này"
             },
             "field": {
                 "name": {
@@ -5570,9 +5571,13 @@
                     "header": "$~Dịch",
                     "explanation": [
                         "$~Đây là các ngôn ngữ mà dự án của bạn đang sử dụng.",
-                        "$~Để thử dịch dự án của bạn sang các ngôn ngữ khác, hãy chọn một ngôn ngữ nguồn chính, sau đó chọn một ngôn ngữ mới.",
-                        "$~/Không phải tất cả các ngôn ngữ đều được hỗ trợ và bản dịch có thể không hoàn hảo, vì vậy hãy xem lại kết quả!/"
-                    ]
+                        "$~Để dịch dự án của bạn sang các ngôn ngữ được hỗ trợ khác, hãy chọn ngôn ngữ nguồn chính rồi chọn ngôn ngữ mới.",
+                        "$~Bản dịch có thể không hoàn hảo, vì vậy hãy xem lại kết quả!"
+                    ],
+                    "search": {
+                        "description": "$~Lọc ngôn ngữ theo tên hoặc khu vực",
+                        "placeholder": "$~ngôn ngữ hoặc khu vực"
+                    }
                 }
             },
             "subheader": {

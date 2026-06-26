@@ -1,4 +1,5 @@
 import { Locales } from '@db/Database';
+import { GoogleTranslateCodeOverrides } from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
 import { localeToString } from '@locale/Locale';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
@@ -24,6 +25,16 @@ import type Project from '@db/projects/Project';
 
 // Convert any camel cased word into space separated words.
 const SeparateWords = /[A-Z-_](?=[a-z0-9]+)|[A-Z-_]+(?![a-z0-9])/g;
+
+/** The code to hand to Google Translate for a locale. A few languages Google
+ *  supports under a different code (e.g. `nb`→`no`); those use the override
+ *  (no region, since the override is already the code Google expects). All
+ *  others are sent as the full locale string, unchanged from before. */
+function toGoogleTranslateCode(locale: Locale): string {
+    return (
+        GoogleTranslateCodeOverrides[locale.language] ?? localeToString(locale)
+    );
+}
 
 /**
  * Doc.make() and FormattedTranslation.make() build their inner Markup with
@@ -195,7 +206,9 @@ export default async function translateProject(
                             ? undefined
                             : docToTranslate instanceof Translation
                               ? docToTranslate.segments
-                                    .filter((t): t is Token => t instanceof Token)
+                                    .filter(
+                                        (t): t is Token => t instanceof Token,
+                                    )
                                     .map((t) => t.toWordplay())
                                     .join('')
                               : docToTranslate.markup.paragraphs
@@ -231,8 +244,8 @@ export default async function translateProject(
 
             const translations = (
                 await getTranslations({
-                    from: localeToString(sourceLocale),
-                    to: localeToString(targetLocale),
+                    from: toGoogleTranslateCode(sourceLocale),
+                    to: toGoogleTranslateCode(targetLocale),
                     text: uniqueOriginals,
                 })
             ).data;

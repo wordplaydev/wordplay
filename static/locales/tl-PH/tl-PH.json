@@ -5537,7 +5537,8 @@
                     "tip": "$~i-edit ang mga wika ng proyektong ito at isalin ito sa ibang mga wika.",
                     "label": "$~isalin"
                 },
-                "primary": "$~itinakda bilang pangunahing wika ng proyektong ito"
+                "primary": "$~isalin ang teksto sa wikang ito",
+                "destination": "$~isalin sa wikang ito"
             },
             "field": {
                 "name": {
@@ -5570,9 +5571,13 @@
                     "header": "$~Isalin",
                     "explanation": [
                         "$~Ito ang mga wikang ginagamit ng iyong proyekto.",
-                        "$~Para subukang isalin ang iyong proyekto sa ibang mga wika, pumili ng pangunahing wika ng pinagmulan at pagkatapos ay pumili ng bagong wika.",
-                        "$~/Hindi lahat ng wika ay sinusuportahan at ang mga pagsasalin ay magiging hindi perpekto, kaya suriin ang mga resulta!/"
-                    ]
+                        "$~Para isalin ang iyong proyekto sa iba pang mga sinusuportahang wika, pumili ng pangunahing wika ng pinagmulan at pagkatapos ay pumili ng bagong wika.",
+                        "$~/Magiging hindi perpekto ang mga pagsasalin, kaya suriin ang mga resulta!/"
+                    ],
+                    "search": {
+                        "description": "$~Salain ang mga wika ayon sa pangalan o rehiyon",
+                        "placeholder": "$~wika o rehiyon"
+                    }
                 }
             },
             "subheader": {

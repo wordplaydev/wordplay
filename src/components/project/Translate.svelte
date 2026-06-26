@@ -5,17 +5,19 @@
     import LocaleName from '@components/settings/LocaleName.svelte';
     import Button from '@components/widgets/Button.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
-    import { Projects } from '@db/Database';
+    import TextField from '@components/widgets/TextField.svelte';
+    import { locales, Projects } from '@db/Database';
     import { functions } from '@db/firebase';
     import type Project from '@db/projects/Project';
     import translateProject from '@db/projects/translate';
-    import { TranslatableLocales } from '@locale/LanguageCode';
+    import { Languages, TranslatableLocales } from '@locale/LanguageCode';
     import {
         localesAreEqual,
         localeToString,
         type Locale,
     } from '@locale/Locale';
-    import { CONFIRM_SYMBOL, LOCALE_SYMBOL } from '@parser/Symbols';
+    import { Regions } from '@locale/Regions';
+    import { LOCALE_SYMBOL } from '@parser/Symbols';
 
     interface Props {
         project: Project;
@@ -47,6 +49,27 @@
     );
 
     let targetLocale = $state<Locale | undefined>(undefined);
+
+    /** A query that filters the destination languages by native name, Latin name, or region. */
+    let query = $state('');
+
+    let destinationLocales = $derived.by(() => {
+        const langs = $locales.getLanguages();
+        const q = query.trim().toLocaleLowerCase(langs);
+        if (q.length === 0) return TranslatableLocales;
+        return TranslatableLocales.filter((locale) => {
+            const info = Languages[locale.language];
+            const haystack = [
+                info?.name ?? '', // native name, e.g. "español", "日本語"
+                info?.en ?? '', // Latin name, e.g. "Spanish"
+                ...locale.regions, // region code, e.g. "MX"
+                ...locale.regions.map((r) => Regions[r]?.en ?? ''), // region name, e.g. "Mexico"
+            ]
+                .join(' ')
+                .toLocaleLowerCase(langs);
+            return haystack.includes(q);
+        });
+    });
 
     /** Translate the project into another language */
     async function translate() {
@@ -84,6 +107,7 @@
 <Dialog
     id="translate"
     bind:show
+    height="75vh"
     header={(l) => l.ui.project.dialog.translate.header}
     explanation={(l) => l.ui.project.dialog.translate.explanation}
     button={{
@@ -96,16 +120,17 @@
     <Subheader text={(l) => l.ui.project.subheader.source} />
     <div class="options">
         {#each projectLocales as locale, index}
-            <div class="option">
+            <div
+                class="option"
+                class:selected={sourceLocale !== undefined &&
+                    localesAreEqual(locale, sourceLocale)}
+            >
                 <Button
                     action={() => updatePrimaryLocale(index)}
                     active={!translating &&
                         (sourceLocale === undefined ||
                             !localesAreEqual(locale, sourceLocale))}
                     tip={(l) => l.ui.project.button.primary}
-                    icon={sourceLocale && localesAreEqual(locale, sourceLocale)
-                        ? CONFIRM_SYMBOL
-                        : undefined}
                     ><LocaleName
                         locale={localeToString(locale)}
                         supported
@@ -115,11 +140,42 @@
             </div>
         {/each}
     </div>
-    <Subheader text={(l) => l.ui.project.subheader.destination} />
+    <div class="destination-header">
+        <Subheader text={(l) => l.ui.project.subheader.destination} />
+        <TextField
+            id="translate-destination-search"
+            placeholder={(l) =>
+                l.ui.project.dialog.translate.search.placeholder}
+            description={(l) =>
+                l.ui.project.dialog.translate.search.description}
+            bind:text={query}
+        />
+        <Button
+            background
+            action={() => {
+                translate();
+            }}
+            active={targetLocale !== undefined &&
+                sourceLocale !== undefined &&
+                !translating}
+            tip={(l) => l.ui.project.button.translate.tip}
+            label={(l) => l.ui.project.button.translate.label}
+        ></Button>
+        {#if translating}
+            <Spinning />
+        {/if}
+    </div>
+    {#if error}
+        <Notice text={(l) => l.ui.project.error.translate} />
+    {/if}
     <div class="options">
         <!-- Allow all of the languages that Google Translate supports. -->
-        {#each TranslatableLocales as locale}
-            <div class="option">
+        {#each destinationLocales as locale}
+            <div
+                class="option"
+                class:selected={targetLocale !== undefined &&
+                    localesAreEqual(targetLocale, locale)}
+            >
                 <Button
                     action={() => {
                         targetLocale = locale;
@@ -129,7 +185,7 @@
                             !localesAreEqual(targetLocale, locale)) &&
                         (sourceLocale === undefined ||
                             !localesAreEqual(sourceLocale, locale))}
-                    tip={(l) => l.ui.dialog.locale.button.replace}
+                    tip={(l) => l.ui.project.button.destination}
                     ><LocaleName
                         locale={localeToString(locale)}
                         supported
@@ -140,25 +196,6 @@
         {:else}&mdash;
         {/each}
     </div>
-
-    <Button
-        background
-        action={() => {
-            translate();
-        }}
-        active={targetLocale !== undefined &&
-            sourceLocale !== undefined &&
-            !translating}
-        tip={(l) => l.ui.project.button.translate.tip}
-        label={(l) => l.ui.project.button.translate.label}
-    ></Button>
-
-    {#if translating}
-        <Spinning />
-    {/if}
-    {#if error}
-        <Notice text={(l) => l.ui.project.error.translate} />
-    {/if}
 </Dialog>
 
 <style>
@@ -170,5 +207,28 @@
         gap: calc(2 * var(--wordplay-spacing));
         row-gap: var(--wordplay-spacing);
         padding: var(--wordplay-spacing);
+    }
+
+    .destination-header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: calc(2 * var(--wordplay-spacing));
+    }
+
+    .option {
+        border: var(--wordplay-focus-width) solid transparent;
+        border-radius: var(--wordplay-border-radius);
+    }
+
+    /* Selected locales aren't clickable, so highlight them to show selection.
+       Uses the highlight color; the focus color is reserved for focus. */
+    .option.selected {
+        border-color: var(--wordplay-highlight-color);
+    }
+
+    .option.selected :global(.language) {
+        color: var(--wordplay-foreground) !important;
     }
 </style>

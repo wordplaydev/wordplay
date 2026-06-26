@@ -5540,7 +5540,8 @@
                     "tip": "$~editați limbile acestui proiect și traduceți-l în alte limbi.",
                     "label": "$~traduce"
                 },
-                "primary": "$~setată ca limbă principală a acestui proiect"
+                "primary": "$~traduce text în această limbă",
+                "destination": "$~traduce în această limbă"
             },
             "field": {
                 "name": {
@@ -5573,9 +5574,13 @@
                     "header": "$~Traduce",
                     "explanation": [
                         "$~Acestea sunt limbile pe care le folosește proiectul tău.",
-                        "$~Pentru a încerca să traduceți proiectul în alte limbi, alegeți o limbă sursă principală și apoi alegeți o limbă nouă.",
-                        "$~Nu toate limbile sunt acceptate și traducerile vor fi imperfecte, așa că verificați rezultatele!"
-                    ]
+                        "$~Pentru a traduce proiectul în alte limbi acceptate, alegeți o limbă sursă principală și apoi alegeți o limbă nouă.",
+                        "$~Traducerile vor fi imperfecte, așa că verificați rezultatele!"
+                    ],
+                    "search": {
+                        "description": "$~Filtrați limbile după nume sau regiune",
+                        "placeholder": "$~limbă sau regiune"
+                    }
                 }
             },
             "subheader": {
