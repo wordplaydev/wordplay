@@ -1422,6 +1422,7 @@
         {:else if exception !== undefined}
             <div class="message exception" class:mini data-uiid="exception"
                 >{#if mini}!{:else}<Speech
+                        eyes
                         character={index?.getNodeConcept(exception.creator) ??
                             exception.creator.getCharacter($locales)}
                         invert

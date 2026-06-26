@@ -353,6 +353,7 @@
         <div class="annotations">
             {#if source.isEmpty()}
                 <Speech
+                    eyes
                     character={Characters.FunctionDefinition}
                     scroll={false}
                     below
@@ -370,6 +371,7 @@
                 <!-- Hide the caret description while conflicts are showing so the
                      list stays scannable. -->
                 <Speech
+                    eyes
                     character={Characters.FunctionDefinition}
                     scroll={false}
                     below

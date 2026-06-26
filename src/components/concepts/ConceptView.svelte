@@ -95,7 +95,11 @@
 
     <div class="body" class:sidebar={useSidebar}>
         <div class="bubble">
-            <Speech character={concept.getCharacter($locales)} below={header}>
+            <Speech
+                character={concept.getCharacter($locales)}
+                below={header}
+                eyes={header}
+            >
                 {#snippet content()}
                     {#if concept.getDocs($locales)[0]}
                         <MarkupHTMLView

@@ -833,6 +833,7 @@
                                     projectContext?.getConceptByName(character)}
                                 <!-- First speaker is always function, alternating speakers are the concept we're learning about. -->
                                 <Speech
+                                    eyes
                                     character={concept ??
                                         BasisCharacters[
                                             character as keyof typeof BasisCharacters

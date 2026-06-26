@@ -28,6 +28,11 @@
         emote?: boolean;
         /** Optionally double size of text */
         big?: boolean;
+        /** Whether to render the character's animated blinking eyes. Off by default: eyes are
+         *  reserved for prominent, one-at-a-time characters (tutorial, annotations, palette),
+         *  not the many small bubbles in a concept's input/property listing, where dozens of
+         *  blink loops would drop frames. */
+        eyes?: boolean;
         /** Whether to render the speech bubble. When false, only the character
          *  (and optional aside) show — useful for a collapsed view whose
          *  character must be identical to the expanded one. Toggling this
@@ -47,6 +52,7 @@
         emotion = undefined,
         emote = true,
         big = false,
+        eyes = false,
         bubble = true,
         aside,
         content,
@@ -116,7 +122,11 @@
             {:else}
                 {symbols}
             {/if}
-            <Eyes {invert} active={animate} emotion={emotion ?? Emotion.neutral} />
+            {#if eyes}<Eyes
+                    {invert}
+                    active={animate}
+                    emotion={emotion ?? Emotion.neutral}
+                />{/if}
         </div>{@render aside?.()}
     </div>
     {#if bubble && content}
