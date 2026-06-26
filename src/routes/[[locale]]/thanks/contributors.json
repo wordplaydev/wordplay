@@ -1,5 +1,5 @@
 {
-  "created": "2026-06-19T09:02:51.685Z",
+  "created": "2026-06-26T09:02:50.850Z",
   "contributors": [
     {
       "login": "amyjko",
@@ -7,14 +7,74 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/552276?v=4",
       "html_url": "https://github.com/amyjko",
       "counts": {
-        "commit": 6333,
-        "issue": 416,
-        "pull_request": 43,
-        "issue_comment": 1959,
-        "pr_review": 331,
+        "commit": 6386,
+        "issue": 417,
+        "pull_request": 48,
+        "issue_comment": 1971,
+        "pr_review": 337,
         "pr_review_comment": 80
       },
-      "latest": "2026-06-19T06:45:24Z"
+      "latest": "2026-06-26T06:12:28Z"
+    },
+    {
+      "login": "AJT14-cmd",
+      "name": null,
+      "avatar_url": "https://avatars.githubusercontent.com/u/204154311?v=4",
+      "html_url": "https://github.com/AJT14-cmd",
+      "counts": {
+        "commit": 0,
+        "issue": 1,
+        "pull_request": 1,
+        "issue_comment": 2,
+        "pr_review": 0,
+        "pr_review_comment": 0
+      },
+      "latest": "2026-06-25T19:00:51Z"
+    },
+    {
+      "login": "tiaL-ops",
+      "name": "tiaL-ops",
+      "avatar_url": "https://avatars.githubusercontent.com/u/104815994?v=4",
+      "html_url": "https://github.com/tiaL-ops",
+      "counts": {
+        "commit": 3,
+        "issue": 0,
+        "pull_request": 1,
+        "issue_comment": 6,
+        "pr_review": 3,
+        "pr_review_comment": 3
+      },
+      "latest": "2026-06-24T00:21:52Z"
+    },
+    {
+      "login": "ellipsis7449",
+      "name": "ellipsis7449",
+      "avatar_url": "https://avatars.githubusercontent.com/u/210096731?v=4",
+      "html_url": "https://github.com/ellipsis7449",
+      "counts": {
+        "commit": 19,
+        "issue": 18,
+        "pull_request": 5,
+        "issue_comment": 25,
+        "pr_review": 0,
+        "pr_review_comment": 0
+      },
+      "latest": "2026-06-24T00:11:57Z"
+    },
+    {
+      "login": "melissachen2000",
+      "name": "Melissa Chen",
+      "avatar_url": "https://avatars.githubusercontent.com/u/31445526?v=4",
+      "html_url": "https://github.com/melissachen2000",
+      "counts": {
+        "commit": 104,
+        "issue": 51,
+        "pull_request": 29,
+        "issue_comment": 88,
+        "pr_review": 11,
+        "pr_review_comment": 11
+      },
+      "latest": "2026-06-22T15:21:19Z"
     },
     {
       "login": "DiegoL426",
@@ -30,51 +90,6 @@
         "pr_review_comment": 0
       },
       "latest": "2026-06-19T05:58:50Z"
-    },
-    {
-      "login": "ellipsis7449",
-      "name": "Aditi K",
-      "avatar_url": "https://avatars.githubusercontent.com/u/210096731?v=4",
-      "html_url": "https://github.com/ellipsis7449",
-      "counts": {
-        "commit": 18,
-        "issue": 18,
-        "pull_request": 4,
-        "issue_comment": 25,
-        "pr_review": 0,
-        "pr_review_comment": 0
-      },
-      "latest": "2026-06-18T19:47:43Z"
-    },
-    {
-      "login": "tiaL-ops",
-      "name": null,
-      "avatar_url": "https://avatars.githubusercontent.com/u/104815994?v=4",
-      "html_url": "https://github.com/tiaL-ops",
-      "counts": {
-        "commit": 0,
-        "issue": 0,
-        "pull_request": 1,
-        "issue_comment": 4,
-        "pr_review": 3,
-        "pr_review_comment": 3
-      },
-      "latest": "2026-06-15T21:10:59Z"
-    },
-    {
-      "login": "melissachen2000",
-      "name": "Melissa Chen",
-      "avatar_url": "https://avatars.githubusercontent.com/u/31445526?v=4",
-      "html_url": "https://github.com/melissachen2000",
-      "counts": {
-        "commit": 104,
-        "issue": 51,
-        "pull_request": 29,
-        "issue_comment": 87,
-        "pr_review": 11,
-        "pr_review_comment": 11
-      },
-      "latest": "2026-06-15T20:25:10Z"
     },
     {
       "login": "neetiv",
