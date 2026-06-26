@@ -33,9 +33,11 @@
     interface Props {
         invert: boolean;
         emotion: Emotion;
+        /** When false, the blink loop is paused (e.g. the bubble is off-screen or scrolling). */
+        active?: boolean;
     }
 
-    let { invert, emotion }: Props = $props();
+    let { invert, emotion, active = true }: Props = $props();
 
     let left: HTMLElement | null = $state(null);
     let right: HTMLElement | null = $state(null);
@@ -63,7 +65,7 @@
     }
 
     function animateEyes() {
-        if (left && right && $animationFactor > 0) {
+        if (active && left && right && $animationFactor > 0) {
             offset = Math.round(Math.random() * 4 - 2);
             gaze = Math.round(Math.random() * 50);
             const delay = getRandomDelay();
@@ -92,7 +94,8 @@
     let offset = $state(0);
     let gaze = $state(25);
     $effect(() => {
-        if (left && right && $animationFactor > 0) animateEyes();
+        if (active && left && right && $animationFactor > 0) animateEyes();
+        else cancelAnimations();
     });
 
     let eyes = $derived(

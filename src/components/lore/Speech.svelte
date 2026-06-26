@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { locales, animationDuration } from '@db/Database';
+    import { locales, animationDuration, animationFactor } from '@db/Database';
+    import { scrolling } from '@db/settings/scrolling';
     import { type Snippet } from 'svelte';
     import { slide } from 'svelte/transition';
     import Concept from '@concepts/Concept';
@@ -65,6 +66,29 @@
     );
 
     let symbols = $derived(withColorEmoji(characters));
+
+    // Decorative emotion/eye animations are paused when the bubble is off-screen or while the
+    // page is actively scrolling, so a page with many bubbles (e.g. a structure concept's
+    // ~27 properties) doesn't contend with the compositor and drop frames on mobile.
+    let dialog = $state<HTMLElement>();
+    let onscreen = $state(true);
+    $effect(() => {
+        const el = dialog;
+        if (!(el instanceof HTMLElement)) return;
+        if (typeof IntersectionObserver === 'undefined') {
+            onscreen = true;
+            return;
+        }
+        const observer = new IntersectionObserver(
+            (entries) => {
+                onscreen = entries.some((entry) => entry.isIntersecting);
+            },
+            { rootMargin: '200px' },
+        );
+        observer.observe(el);
+        return () => observer.disconnect();
+    });
+    let animate = $derived(emote && onscreen && !$scrolling && $animationFactor > 0);
 </script>
 
 <div
@@ -77,12 +101,13 @@
           : 'row'} {!below && baseline ? 'baseline' : ''}"
     class:big
     class:scroll
+    bind:this={dialog}
 >
     <div class="speaker">
         <div
             class="characters {symbols.length >= 3
                 ? 'small'
-                : ''} {renderedEmotion && emote
+                : ''} {renderedEmotion && animate
                 ? `emotion-${renderedEmotion}`
                 : ''}"
         >
@@ -91,7 +116,7 @@
             {:else}
                 {symbols}
             {/if}
-            <Eyes {invert} emotion={emotion ?? Emotion.neutral} />
+            <Eyes {invert} active={animate} emotion={emotion ?? Emotion.neutral} />
         </div>{@render aside?.()}
     </div>
     {#if bubble && content}
