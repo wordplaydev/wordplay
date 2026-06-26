@@ -177,7 +177,7 @@
         class={`annotation ${annotation.kind}`}
         transition:fade|local={{ duration: $animationDuration }}
     >
-        <Speech character={annotation.node.getCharacter($locales)} below>
+        <Speech character={annotation.node.getCharacter($locales)} below eyes>
             {#snippet content()}{@render messageBody()}{/snippet}
         </Speech>
     </div>
@@ -212,6 +212,7 @@
         <Speech
             character={annotation.node.getCharacter($locales)}
             below
+            eyes
             bubble={expanded}
         >
             {#snippet aside()}{@render nameLabel()}{/snippet}

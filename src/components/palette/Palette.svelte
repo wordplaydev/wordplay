@@ -217,6 +217,7 @@
 >
     {#if propertyValues.size > 0}
         <Speech
+            eyes
             character={(outputs.length > 1 || definition === undefined
                 ? undefined
                 : index?.getStructureConcept(definition)) ?? {
@@ -253,7 +254,7 @@
         {/each}
     {:else if editable}
         {#if selection === undefined || selection.isEmpty()}
-            <Speech character={{ symbols: PALETTE_SYMBOL }}
+            <Speech eyes character={{ symbols: PALETTE_SYMBOL }}
                 >{#snippet content()}
                     <MarkupHtmlView
                         markup={(l) => l.ui.palette.prompt.select}

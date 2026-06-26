@@ -132,6 +132,7 @@
                 >{withColorEmoji(character.symbol)}<Eyes
                     invert={false}
                     emotion={Emotion.neutral}
+                    active={false}
                 /></div
             >
         {/each}
