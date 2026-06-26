@@ -7,7 +7,6 @@
     import { copyNode } from '@components/editor/commands/Clipboard';
     import { getConceptIndex, getDragged } from '@components/project/Contexts';
     import getScrollParent from '@components/util/getScrollParent';
-    import { scrolling } from '@db/settings/scrolling';
     import RootView from '@components/project/RootView.svelte';
     import type Concept from '@concepts/Concept';
     import GalleryHowConcept from '@concepts/GalleryHowConcept';
@@ -105,10 +104,11 @@
     // of how-tos keeps a bounded number of live evaluators instead of accumulating them. Two
     // observers form a hysteresis band (mount within MOUNT_MARGIN, unmount past UNMOUNT_MARGIN)
     // so a tile sitting on the boundary can't thrash, and the placeholder reserves the same 4:3
-    // box so mount/unmount never shifts scroll. `playing` is local; OutputPreview's registry
-    // enforces one-playing-at-a-time globally.
-    const MOUNT_MARGIN = 300; // px from the scroll root within which a tile may mount
-    const UNMOUNT_MARGIN = 800; // px past which a tile unmounts (the gap is the hysteresis band)
+    // box so mount/unmount never shifts scroll. The mount margin is generous so a preview mounts
+    // and evaluates *before* it scrolls into view, leaving no empty frame. `playing` is local;
+    // OutputPreview's registry enforces one-playing-at-a-time globally.
+    const MOUNT_MARGIN = 600; // px from the scroll root within which a tile may mount
+    const UNMOUNT_MARGIN = 1200; // px past which a tile unmounts (the gap is the hysteresis band)
     let view = $state<HTMLElement>();
     let visible = $state(false);
     let playing = $state(false);
@@ -138,14 +138,14 @@
             unmount.disconnect();
         };
     });
-    // Turn the two bands into the windowed `visible`. Mounting is deferred while actively
-    // scrolling so a fast fling doesn't spin up an evaluator for every tile it passes; this
-    // effect re-runs when scrolling settles. A playing tile is never unmounted out from under
-    // the viewer.
+    // Turn the two bands into the windowed `visible`. Mount eagerly as soon as a tile is near
+    // (even mid-scroll) so previews are never empty when they reach the viewport; the generous
+    // mount margin gives them a head start. A playing tile is never unmounted out from under the
+    // viewer.
     $effect(() => {
         if (gone) {
             if (!playing) visible = false;
-        } else if (near && !$scrolling) visible = true;
+        } else if (near) visible = true;
     });
 </script>
 
