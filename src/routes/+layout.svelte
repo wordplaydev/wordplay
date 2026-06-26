@@ -19,9 +19,12 @@
     import '@conflicts/registerTypeResolutions';
 
     import { browser } from '$app/environment';
-    import { afterNavigate } from '$app/navigation';
     import { page } from '$app/state';
-    import { clearUnclaimedDialog } from '@components/widgets/dialogURL';
+    import {
+        clearUnclaimedDialog,
+        mountedDialogIds,
+        PARAM_DIALOG,
+    } from '@components/widgets/dialogURL';
     import Loading from '@components/app/Loading.svelte';
     import UpdateNotification from '@components/app/UpdateNotification.svelte';
     import Banner from '@components/app/Banner.svelte';
@@ -35,7 +38,7 @@
         type SupportedLocale,
     } from '@locale/SupportedLocales';
     import type { User } from 'firebase/auth';
-    import { onMount, tick, type Snippet } from 'svelte';
+    import { onMount, type Snippet } from 'svelte';
     import { writable, type Writable } from 'svelte/store';
     import Fonts from '@basis/Fonts';
     import {
@@ -254,15 +257,21 @@
         }
     });
 
-    // After every navigation (including initial load), strip any `dialog` query
-    // param that no mounted dialog claims, so a shared or stale link can't leave
-    // a dirty URL. Runs post-mount, so a dialog present on the page has already
-    // registered its id and won't be stripped. Deferred a tick to be safe
-    // against effect-flush ordering.
-    afterNavigate(() => {
-        tick().then(() => {
-            if (browser) clearUnclaimedDialog();
-        });
+    // Strip a `dialog` query param that no mounted dialog claims, so a shared or
+    // stale link can't leave a dirty URL. Reading `page.url` and the reactive
+    // `mountedDialogIds` set makes this re-run as the URL changes and as dialogs
+    // mount — important because dialogs deep in the tree (e.g. the project
+    // view's footer) mount only after the project loads, well after navigation
+    // settles. So we don't strip immediately: a short grace timer gives a
+    // late-mounting dialog time to claim the param, and the moment one does this
+    // effect re-runs and clears the timer. Only a param still unclaimed after
+    // the grace period (a genuinely stale link) gets stripped.
+    $effect(() => {
+        if (!browser) return;
+        const current = page.url.searchParams.get(PARAM_DIALOG);
+        if (current === null || mountedDialogIds.has(current)) return;
+        const timer = setTimeout(() => clearUnclaimedDialog(), 5000);
+        return () => clearTimeout(timer);
     });
 </script>
 

@@ -192,6 +192,15 @@
         width: 95vw;
     }
 
+    /* An open modal must paint even when an ancestor is hidden — e.g. a dialog
+       overflowed into a collapsed OverflowToolbar popup that re-opens itself
+       from the URL on refresh. The ancestor uses `visibility: hidden` (not
+       `display: none`) precisely so this override can take effect. */
+    dialog[open] {
+        visibility: visible;
+        pointer-events: auto;
+    }
+
     dialog.fixed {
         /* Height is set inline; scroll the body so the dialog stays put as
            content changes. The sticky close button rides the scroll. */

@@ -5,9 +5,7 @@
     import { tick, type Snippet } from 'svelte';
 
     /** Either a list of zero-arg snippets, OR a count + indexed renderer. */
-    type ItemSource =
-        | Snippet[]
-        | { count: number; render: Snippet<[number]> };
+    type ItemSource = Snippet[] | { count: number; render: Snippet<[number]> };
 
     interface Props {
         /** Items that overflow into the hamburger popup one by one as space shrinks. */
@@ -82,8 +80,7 @@
             const itemEls = Array.from(eItemsMeasure.children) as HTMLElement[];
             if (itemEls.length !== itemCount) return;
 
-            const gap =
-                parseFloat(getComputedStyle(eContainer).columnGap) || 8;
+            const gap = parseFloat(getComputedStyle(eContainer).columnGap) || 8;
             const itemWidths = itemEls.map((el) => el.offsetWidth);
 
             // Pinned items always reserve their measured width.
@@ -93,8 +90,7 @@
                     ePinnedMeasure.children,
                 ) as HTMLElement[];
                 for (let i = 0; i < pinnedEls.length; i++) {
-                    pinnedWidth +=
-                        pinnedEls[i].offsetWidth + (i > 0 ? gap : 0);
+                    pinnedWidth += pinnedEls[i].offsetWidth + (i > 0 ? gap : 0);
                 }
                 pinnedWidth += gap; // gap before pinned group
             }
@@ -308,7 +304,7 @@
             {@render item()}
         {/each}
     {:else}
-        {#each Array.from( { length: Math.min(items.count, visibleCount) }, (_, i) => i ) as i}
+        {#each Array.from({ length: Math.min(items.count, visibleCount) }, (_, i) => i) as i}
             {@render items.render(i)}
         {/each}
     {/if}
@@ -384,10 +380,16 @@
     {/if}
 </div>
 
-{#if open && showButton}
+{#if showButton}
+    <!-- Rendered whenever items overflow (not only when open) so the items
+         inside stay mounted — a dialog overflowed here can then register its id
+         and re-open itself from the URL on refresh. Hidden via `visibility`
+         (not `display:none`) when closed so an open modal descendant can still
+         paint (see the `dialog[open]` rule in Dialog.svelte). -->
     <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
     <div
         class="overflow-panel"
+        class:closed={!open}
         id={panelId}
         role="group"
         aria-label={$locales.getPlainText((l) => l.ui.widget.overflow.popup)}
@@ -403,7 +405,7 @@
                 {@render item()}
             {/each}
         {:else}
-            {#each Array.from( { length: items.count - visibleCount }, (_, i) => i + visibleCount ) as i}
+            {#each Array.from({ length: items.count - visibleCount }, (_, i) => i + visibleCount) as i}
                 {@render items.render(i)}
             {/each}
         {/if}
@@ -529,5 +531,14 @@
         font-weight: var(--wordplay-font-weight);
         font-size: var(--wordplay-font-size);
         color: var(--wordplay-foreground);
+    }
+
+    /* Closed but still mounted: hide without unmounting so a dialog inside can
+       register and re-open from the URL. `visibility` (not `display:none`)
+       keeps it out of the tab order while still letting an open modal
+       descendant paint. */
+    .overflow-panel.closed {
+        visibility: hidden;
+        pointer-events: none;
     }
 </style>
