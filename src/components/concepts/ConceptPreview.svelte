@@ -6,6 +6,7 @@
     import Note from '@components/widgets/Note.svelte';
     import { copyNode } from '@components/editor/commands/Clipboard';
     import { getConceptIndex, getDragged } from '@components/project/Contexts';
+    import getScrollParent from '@components/util/getScrollParent';
     import RootView from '@components/project/RootView.svelte';
     import type Concept from '@concepts/Concept';
     import GalleryHowConcept from '@concepts/GalleryHowConcept';
@@ -98,27 +99,53 @@
     // to help creators learn unfamiliar language constructs (see issue #1036).
     let note = $derived(concept?.getDescription($locales));
 
-    // The output preview mounts lazily when the tile first scrolls into view, so a long list
-    // of how-tos doesn't spin up dozens of evaluators at once. Latch visible (don't toggle
-    // back) to avoid layout thrash. `playing` is local; OutputPreview's registry enforces
-    // one-playing-at-a-time globally.
+    // The output preview is windowed: it mounts (spinning up an evaluator + output DOM) only
+    // while the tile is near the viewport and unmounts when it scrolls far away, so a long list
+    // of how-tos keeps a bounded number of live evaluators instead of accumulating them. Two
+    // observers form a hysteresis band (mount within MOUNT_MARGIN, unmount past UNMOUNT_MARGIN)
+    // so a tile sitting on the boundary can't thrash, and the placeholder reserves the same 4:3
+    // box so mount/unmount never shifts scroll. The mount margin is generous so a preview mounts
+    // and evaluates *before* it scrolls into view, leaving no empty frame. `playing` is local;
+    // OutputPreview's registry enforces one-playing-at-a-time globally.
+    const MOUNT_MARGIN = 600; // px from the scroll root within which a tile may mount
+    const UNMOUNT_MARGIN = 1200; // px past which a tile unmounts (the gap is the hysteresis band)
     let view = $state<HTMLElement>();
     let visible = $state(false);
     let playing = $state(false);
+    let near = $state(false); // within the mount band
+    let gone = $state(false); // outside the unmount band
     $effect(() => {
         const el = view;
-        if (!isHowTo || !(el instanceof HTMLElement) || visible) return;
-        const observer = new IntersectionObserver(
-            (entries) => {
-                if (entries.some((entry) => entry.isIntersecting)) {
-                    visible = true;
-                    observer.disconnect();
-                }
-            },
-            { rootMargin: '200px' },
+        if (!isHowTo || !(el instanceof HTMLElement)) return;
+        // No IntersectionObserver (SSR/tests): just show the preview.
+        if (typeof IntersectionObserver === 'undefined') {
+            visible = true;
+            return;
+        }
+        const root = getScrollParent(el) ?? null;
+        const mount = new IntersectionObserver(
+            (entries) => (near = entries.some((entry) => entry.isIntersecting)),
+            { root, rootMargin: `${MOUNT_MARGIN}px` },
         );
-        observer.observe(el);
-        return () => observer.disconnect();
+        const unmount = new IntersectionObserver(
+            (entries) => (gone = entries.every((entry) => !entry.isIntersecting)),
+            { root, rootMargin: `${UNMOUNT_MARGIN}px` },
+        );
+        mount.observe(el);
+        unmount.observe(el);
+        return () => {
+            mount.disconnect();
+            unmount.disconnect();
+        };
+    });
+    // Turn the two bands into the windowed `visible`. Mount eagerly as soon as a tile is near
+    // (even mid-scroll) so previews are never empty when they reach the viewport; the generous
+    // mount margin gives them a head start. A playing tile is never unmounted out from under the
+    // viewer.
+    $effect(() => {
+        if (gone) {
+            if (!playing) visible = false;
+        } else if (near) visible = true;
     });
 </script>
 
