@@ -21,14 +21,14 @@ import LocalePath, {
 } from '@util/verify-locales/LocalePath';
 import { LocaleValidator } from '@util/verify-locales/LocaleSchema';
 import type Log from '@util/verify-locales/Log';
+import { mismatchedDelimiter } from '@util/verify-locales/protect';
 import type { RevisedString } from '@util/verify-locales/start';
 import {
     checkTemplateInputs,
     getDeclaredInputs,
 } from '@util/verify-locales/templateInputs';
-import translate, {
-    getGoogleTranslateTargetLocale,
-} from '@util/verify-locales/translate';
+import getTranslator from '@util/verify-locales/getTranslator';
+import toValidName from '@util/verify-locales/toValidName';
 
 /** Create a copy of the default tutorial with all dialog marked unwritten */
 export function createUnwrittenLocale(): LocaleText {
@@ -214,7 +214,37 @@ async function checkLocale(
         // If the key suggests that it's documentation, try to parse it as a doc and
         // see if it has any tokens of unknown type or unparsable expressions or types.
         if (path.key === 'doc') {
-            const doc = parseLocaleDoc(toDocString(path.value));
+            const docString = toDocString(path.value);
+
+            // An orphaned/duplicated `\…\` or `` `…` `` delimiter (e.g. an LLM
+            // doubling a backtick while localizing a nested example) breaks
+            // tokenization silently — the markup parser skips over a malformed
+            // example, so it surfaces only later when the embedded code is parsed
+            // (e.g. building a basis type). Catch it here, where it's introduced.
+            // A code (`\…\`) or formatted (`` `…` ``) delimiter the translation
+            // dropped or duplicated (vs the en-US source) breaks tokenization
+            // silently — the markup parser skips a malformed example, so it
+            // surfaces only later when the embedded code is parsed (e.g. building
+            // a basis type). Compare counts to the source so external examples
+            // (legitimately odd `\`) aren't false-positives. A warning, not an
+            // error: many locales carry this from older machine translations, so
+            // we surface it (and any new) without failing CI on legacy debt; the
+            // translator's preserveBalancedDelimiters is the hard guarantee that
+            // no new mismatch ships (it falls back to the source).
+            const enValue = path.resolve(DefaultLocale);
+            if (enValue !== undefined) {
+                const mismatched = mismatchedDelimiter(
+                    toDocString(enValue),
+                    docString,
+                );
+                if (mismatched !== undefined)
+                    log.warning(
+                        2,
+                        `Mismatched ${mismatched} delimiter at ${path.toString()} (differs from en-US) in ${docString.substring(0, 50)}...`,
+                    );
+            }
+
+            const doc = parseLocaleDoc(docString);
             const unknownTokens = doc
                 .leaves()
                 .filter(
@@ -250,21 +280,11 @@ async function checkLocale(
                         .join(', ')}`,
                 );
 
-            // const unparsables = doc
-            //     .nodes()
-            //     .filter(
-            //         (node) =>
-            //             node instanceof UnparsableExpression ||
-            //             node instanceof UnparsableType
-            //     );
-
-            // expect(
-            //     unparsables.length,
-            //     `Found unparsables in code inside ${pathToString(
-            //         locale,
-            //         path
-            //     )}: "${unparsables.map((u) => u.toWordplay()).join(', ')}"`
-            // ).toBe(0);
+            // Note: a full UnparsableExpression/UnparsableType scan over the doc
+            // is too noisy here — markup constructs (italic `/`, `…`, etc.) parse
+            // to unparsable nodes outside a code context, drowning real code
+            // breakage in false positives. The delimiter-balance check above
+            // catches the build-breaking class (orphaned/duplicated delimiters).
         }
         // Is one or more names? Make sure they're valid names or operator symbols.
         else if (path.key === 'names') {
@@ -449,79 +469,135 @@ async function translateLocale(
 ) {
     const revised = JSON.parse(JSON.stringify(target)) as LocaleText;
 
-    // Resolve all of the source strings, stripping any Unwritten/Revised
-    // annotation prefixes so Google Translate doesn't see them as part of
-    // the input (otherwise "$!duplicate" can come back with the marker
-    // literally embedded in the translation).
+    // Strip Unwritten/Revised prefixes so the translator doesn't see them as
+    // part of the input (e.g. "$!duplicate" coming back with the marker embedded).
     const stripMarkers = (s: string) =>
         s.replace(Unwritten, '').replace(Revised, '');
-    const sourceStrings = unwritten
-        .map((path) => {
-            const match = path.resolve(source);
-            return match === undefined
-                ? undefined
-                : Array.isArray(match)
-                  ? match.map(stripMarkers)
-                  : stripMarkers(match);
-        })
-        .filter((s) => s !== undefined)
-        .flat();
 
-    const targetLocale = await getGoogleTranslateTargetLocale(
+    const translator = getTranslator();
+    const targetLocale = await translator.getTargetLocale(
         target.language,
         target.regions,
     );
 
-    const translations = await translate(
-        log,
-        sourceStrings,
-        toLocaleString(source),
-        targetLocale,
-    );
+    // Translate a subset of paths and write the results into `revised`. A `null`
+    // translation is written as the source marked Unwritten ($?) — never fake
+    // machine-translated English; $? fails the unwritten gate (loud) and is
+    // retried next run. `targetText` supplies the in-memory target (with the
+    // already-translated glossary, Phase 1) so terms localize to the target word.
+    // Returns false on a hard failure (caller aborts the locale).
+    const apply = async (
+        paths: LocalePath[],
+        targetText: LocaleText | undefined,
+    ): Promise<boolean> => {
+        // A `doc` array is one logical markup document (items are an editing
+        // convenience, often breaking mid-sentence) → translate atomically as one
+        // joined string (toDocString's `\n\n`). Other arrays (names, tips, …) are
+        // distinct items, translated per element.
+        const sourceStrings = paths.flatMap((path) => {
+            const match = path.resolve(source);
+            if (match === undefined) return [];
+            if (Array.isArray(match))
+                return path.key === 'doc'
+                    ? [match.map(stripMarkers).join('\n\n')]
+                    : match.map(stripMarkers);
+            return [stripMarkers(match)];
+        });
+        if (sourceStrings.length === 0) return true;
 
-    if (translations === undefined) {
-        log.bad(
-            2,
-            'Unable to translate. Make sure gcloud cli is installed, you are logged in, and your project is wordplay-prod.',
+        const translations = await translator.translate(
+            log,
+            sourceStrings,
+            toLocaleString(source),
+            targetLocale,
+            targetText,
         );
-        return revised;
-    }
+        if (translations === undefined) {
+            log.bad(
+                2,
+                'Unable to translate. Check ANTHROPIC_API_KEY (claude) or gcloud auth (google).',
+            );
+            return false;
+        }
 
-    // Set all of the target strings to the translated strings.
-    for (const path of unwritten) {
-        const match = path.resolve(source);
-        if (match !== undefined) {
-            if (
-                Array.isArray(match) &&
-                match.every((s) => typeof s === 'string')
-            ) {
-                const value = [];
-                let wroteAny = false;
-                for (let count = 0; count < match.length; count++) {
-                    let next = translations.shift();
-                    if (next) {
-                        if (path.key === 'name' || path.key === 'names')
-                            next = next.replaceAll(' ', '');
-                        value.push(`${MachineTranslated}${next.trim()}`);
-                        wroteAny = true;
+        for (const path of paths) {
+            const match = path.resolve(source);
+            if (match === undefined) continue;
+            if (Array.isArray(match)) {
+                if (path.key === 'doc') {
+                    // Atomic doc: one translation for the whole block; split back
+                    // into paragraphs on `\n\n`. On a null result, keep the source
+                    // unwritten per original element.
+                    const translation = translations.shift();
+                    if (translation != null && translation.trim().length > 0) {
+                        const parts = translation
+                            .split('\n\n')
+                            .map((p) => p.trim())
+                            .filter((p) => p.length > 0)
+                            .map((p) => `${MachineTranslated}${p}`);
+                        if (parts.length > 0) {
+                            path.repair(revised, parts);
+                            translatedPaths?.add(path.toString());
+                        }
+                    } else {
+                        path.repair(
+                            revised,
+                            match.map((s) => `${Unwritten}${stripMarkers(s)}`),
+                        );
                     }
+                } else {
+                    const value: string[] = [];
+                    let wroteAny = false;
+                    for (let count = 0; count < match.length; count++) {
+                        const next = translations.shift();
+                        if (next != null) {
+                            const t =
+                                path.key === 'name' || path.key === 'names'
+                                    ? toValidName(next)
+                                    : next;
+                            value.push(`${MachineTranslated}${t.trim()}`);
+                            wroteAny = true;
+                        } else {
+                            value.push(
+                                `${Unwritten}${stripMarkers(match[count])}`,
+                            );
+                        }
+                    }
+                    path.repair(revised, value);
+                    if (wroteAny) translatedPaths?.add(path.toString());
                 }
-                path.repair(revised, value);
-                if (wroteAny) translatedPaths?.add(path.toString());
             } else {
-                let translation = translations.shift();
-                if (translation) {
-                    if (path.key === 'name' || path.key === 'names')
-                        translation = translation.replaceAll(' ', '');
-                    path.repair(
-                        revised,
-                        `${MachineTranslated}${translation.trim()}`,
-                    );
+                const translation = translations.shift();
+                if (translation != null) {
+                    const t =
+                        path.key === 'name' || path.key === 'names'
+                            ? toValidName(translation)
+                            : translation;
+                    path.repair(revised, `${MachineTranslated}${t.trim()}`);
                     translatedPaths?.add(path.toString());
+                } else {
+                    path.repair(revised, `${Unwritten}${stripMarkers(match)}`);
                 }
             }
         }
-    }
+        return true;
+    };
+
+    // Phase 1: translate the glossary words first, so Phase 2 can localize the
+    // many bare occurrences of those terms (and the words inside definitions) to
+    // the target word. On a fresh locale the glossary isn't translated yet, so
+    // this must precede everything else.
+    const isGlossaryWord = (p: LocalePath) =>
+        p.path[0] === 'glossary' && p.key === 'word';
+    const glossaryWords = unwritten.filter(isGlossaryWord);
+    const rest = unwritten.filter((p) => !isGlossaryWord(p));
+    if (glossaryWords.length > 0)
+        log.say(2, `Translating ${glossaryWords.length} glossary terms first…`);
+    if (!(await apply(glossaryWords, undefined))) return revised;
+    // Phase 2: everything else, with the now-translated glossary supplied.
+    if (rest.length > 0)
+        log.say(2, `Translating ${rest.length} remaining strings…`);
+    await apply(rest, revised);
 
     return revised;
 }

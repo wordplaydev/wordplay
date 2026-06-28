@@ -1,4 +1,5 @@
 import type { ReplaceContext } from '@edit/revision/EditContext';
+import getConceptName from '@locale/getConceptName';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { BasisTypeName } from '@basis/BasisConstants';
@@ -56,7 +57,7 @@ export default class Spread extends Node {
                 name: 'list',
                 kind: optional(node(Expression)),
                 getType: () => ListType.make(new AnyType()),
-                label: () => (l) => l.term.list,
+                label: () => (l) => getConceptName(l, 'list'),
             },
         ];
     }

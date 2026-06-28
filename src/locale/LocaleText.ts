@@ -16,7 +16,7 @@ import type { KeywordId } from '@parser/Keywords';
 import type OutputTexts from '@locale/OutputTexts';
 import { Regions, type RegionCode } from '@locale/Regions';
 import { DraftLocales } from '@locale/SupportedLocales';
-import type TermTexts from '@locale/TermTexts';
+import type GlossaryTexts from '@locale/GlossaryTexts';
 import type UITexts from '@locale/UITexts';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
 
@@ -34,8 +34,8 @@ export type LocaleText = {
     regions: RegionCode[];
     /** [plain] The name of the platform */
     wordplay: string;
-    /** Common vocabulary that can be used in documentation and descriptions. */
-    term: TermTexts;
+    /** A glossary of widely-used terms not already defined by a concept, each with a localized word and a learner-facing definition. Words are referenced symbolically as @term in documentation and descriptions. */
+    glossary: GlossaryTexts;
     /** [plain] Descriptions of all token categories. See Sym.ts for the symbol or symbol category that each represents. */
     token: Record<keyof typeof Sym, string>;
     /** [name] The localized word for each built-in keyword, written and read interchangeably with its symbol. Each must be a single token (no spaces or hyphens). See LANGUAGE.md and Keywords.ts. */
@@ -67,7 +67,9 @@ export type LocaleText = {
 
 export { type LocaleText as default };
 
-/** Represents a string that is in Wordplay markup formatted syntax. */
+/** [formatted] Represents a string that is in Wordplay markup formatted syntax.
+ *  Tagging the alias makes any bare `FormattedText` field default to the
+ *  formatted editor; fields with their own (untagged) comment are still flagged. */
 export type FormattedText = string;
 
 /**
@@ -94,10 +96,10 @@ export type FunctionText<Inputs extends readonly NameAndDoc[]> = NameAndDoc & {
     inputs: Inputs;
 };
 
-/** A single name or a list of names, all valid Wordplay names */
+/** [name] A single name or a list of names, all valid Wordplay names */
 export type NameText = string | string[];
 
-/** Wordplay markup, a single paragraph or a list of paragraphs. */
+/** [formatted] Wordplay markup, a single paragraph or a list of paragraphs. */
 export type DocText = string | string[];
 
 export function toLocaleString(locale: Locale) {
@@ -160,9 +162,7 @@ export function getLocaleLanguage(locale: string): LanguageCode | undefined {
 /** All language codes in a locale string or Locale. For `es_en-MX` (string)
  *  or a Locale with `multilingual: ['es', 'en']`, returns `['es', 'en']`.
  *  For a monolingual Locale, returns just `[locale.language]`. */
-export function getLocaleLanguages(
-    locale: string | Locale,
-): LanguageCode[] {
+export function getLocaleLanguages(locale: string | Locale): LanguageCode[] {
     if (typeof locale !== 'string')
         return locale.multilingual ?? [locale.language];
     const { languages } = splitLocaleString(locale);
@@ -185,9 +185,7 @@ export function getLocaleLanguageName(
 /** Localized display of every language in a multilingual tag, joined with
  *  ` + `. Returns the single language's name for monolingual tags so it
  *  is safe to use as a drop-in for `getLocaleLanguageName`. */
-export function getMultilingualLanguageLabel(
-    locale: string | Locale,
-): string {
+export function getMultilingualLanguageLabel(locale: string | Locale): string {
     const codes = getLocaleLanguages(locale);
     if (codes.length === 0) return '';
     const names = codes.map((code) => Languages[code]?.name ?? code);

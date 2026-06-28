@@ -195,16 +195,46 @@ describe('describeApiError', () => {
 describe('preserveBalancedDelimiters', () => {
     const log = new Log(false);
 
-    test('keeps a translation whose delimiters balance', () => {
+    test('keeps a translation whose delimiter counts match the source', () => {
+        const source = 'aaa \\x\\ bbb';
         expect(
-            preserveBalancedDelimiters(log, 'src', 'aaa \\x\\ bbb', 'he-IL'),
+            preserveBalancedDelimiters(log, source, 'aaa \\y\\ bbb', 'he-IL'),
+        ).toBe('aaa \\y\\ bbb');
+    });
+
+    test('falls back to the source when a `\\` is dropped', () => {
+        // Source has a balanced `\…\`; the translation lost the closing `\`.
+        expect(
+            preserveBalancedDelimiters(
+                log,
+                'aaa \\x\\ bbb',
+                'aaa \\x bbb',
+                'he-IL',
+            ),
         ).toBe('aaa \\x\\ bbb');
     });
 
-    test('falls back to the source when a delimiter is orphaned', () => {
-        // An odd number of `\` means Google left an unclosed example.
+    test('falls back to the source when a backtick is duplicated', () => {
+        // An LLM mangling a nested `…` example inside a `\…\` block doubled a
+        // backtick — the count no longer matches the source, so keep the source.
+        const source = '\\Phrase(`\\count\\ times!`)\\';
         expect(
-            preserveBalancedDelimiters(log, 'src', 'aaa \\x\\ \\ bbb', 'he-IL'),
-        ).toBe('src');
+            preserveBalancedDelimiters(
+                log,
+                source,
+                '\\Phrase(``\\count\\ times!`)\\',
+                'es-MX',
+            ),
+        ).toBe(source);
+    });
+
+    test('keeps an external example (legitimately odd `\\` count)', () => {
+        // `\tag|code\tag|code\` has an odd `\` count by design; matching the
+        // source count must not trip the guard.
+        const source = '\\py| a = 5\\js| let a = 5;\\';
+        const translation = '\\py| a = 5\\js| sea a = 5;\\';
+        expect(
+            preserveBalancedDelimiters(log, source, translation, 'es-MX'),
+        ).toBe(translation);
     });
 });

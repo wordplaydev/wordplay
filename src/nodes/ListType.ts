@@ -70,7 +70,7 @@ export default class ListType extends BasisType {
             {
                 name: 'type',
                 kind: optional(node(Type)),
-                label: () => (l) => l.term.type,
+                label: () => (l) => l.glossary.type.word,
             },
             { name: 'close', kind: node(Sym.ListClose), label: undefined },
         ];
@@ -131,7 +131,9 @@ export default class ListType extends BasisType {
 
     getDescriptionInputs(locales: Locales, context: Context) {
         return {
-            type: this.type ? new NodeRef(this.type, locales, context) : undefined,
+            type: this.type
+                ? new NodeRef(this.type, locales, context)
+                : undefined,
         };
     }
 

@@ -24,9 +24,10 @@
  * existing contributors PR function).
  */
 
-import Translate from '@google-cloud/translate';
 import { HttpsError, onCall } from 'firebase-functions/v2/https';
 import prettier from 'prettier';
+import type { StringAnalysis } from 'shared-types';
+import { analyze } from './analyzeLocalization.js';
 
 const REPO_OWNER = 'wordplaydev';
 const REPO_NAME = 'wordplay';
@@ -81,10 +82,7 @@ function parseOverrideKey(key: string): {
 
 /** Walk a record along dotted segments and return the leaf value, or undefined
  *  if any step fails. */
-function resolveAtPath(
-    root: Record<string, unknown>,
-    path: string,
-): unknown {
+function resolveAtPath(root: Record<string, unknown>, path: string): unknown {
     let node: unknown = root;
     for (const seg of path.split('.').filter((s) => s.length > 0)) {
         if (typeof node !== 'object' || node === null) return undefined;
@@ -126,7 +124,9 @@ function setAtPath(
     let node: unknown = root;
     for (let i = 0; i < segments.length - 1; i++) {
         if (typeof node !== 'object' || node === null)
-            throw new Error(`Cannot descend into ${segments.slice(0, i).join('.')}`);
+            throw new Error(
+                `Cannot descend into ${segments.slice(0, i).join('.')}`,
+            );
         node = (node as Record<string, unknown>)[segments[i]];
     }
     if (typeof node !== 'object' || node === null)
@@ -269,27 +269,23 @@ async function createPullRequest(
 // Backtranslation
 // ---------------------------------------------------------------------------
 
-/** Translate a batch of strings via Google Cloud Translate. Returns an array
- *  of translations aligned with the input. Falls back to empty strings if the
- *  API fails — backtranslation is a courtesy for reviewers, not load-bearing. */
-async function backtranslate(
-    text: string[],
-    fromLocale: string,
-    toLocale: string,
-): Promise<string[]> {
-    if (text.length === 0) return [];
-    if (fromLocale === toLocale) return text;
-    try {
-        const translator = new Translate.v2.Translate();
-        const [translations] = await translator.translate(text, {
-            from: fromLocale,
-            to: toLocale,
-        });
-        return Array.isArray(translations) ? translations : [translations];
-    } catch (e) {
-        console.error('Backtranslation failed', e);
-        return text.map(() => '');
+function isRecord(value: unknown): value is Record<string, unknown> {
+    return typeof value === 'object' && value !== null;
+}
+
+/** Read a locale JSON's glossary words ({ id: { word, definition } }) for the
+ *  literal-term check, tolerating any shape (returns [] if absent/malformed). */
+function extractGlossaryWords(
+    json: Record<string, unknown> | undefined,
+): { id: string; word: string }[] {
+    if (json === undefined || !isRecord(json.glossary)) return [];
+    const out: { id: string; word: string }[] = [];
+    for (const id of Object.keys(json.glossary)) {
+        const entry = json.glossary[id];
+        if (isRecord(entry) && typeof entry.word === 'string')
+            out.push({ id, word: entry.word });
     }
+    return out;
 }
 
 // ---------------------------------------------------------------------------
@@ -309,6 +305,22 @@ function truncate(text: string, max = 200): string {
     return text.length <= max ? text : text.slice(0, max - 1) + '…';
 }
 
+/** A reviewer-facing quality note for one string: a reading-level flag and any
+ *  glossary terms that should become symbolic `$term` references. */
+function qualityCell(analysis: StringAnalysis | undefined): string {
+    if (analysis === undefined) return '';
+    const parts: string[] = [];
+    if (analysis.complex)
+        parts.push(
+            `⚠ reading level${analysis.readingLevelNote ? `: ${analysis.readingLevelNote}` : ''}`,
+        );
+    if (analysis.literalTerms.length > 0)
+        parts.push(
+            `use ${analysis.literalTerms.map((t) => `$${t.id}`).join(', ')}`,
+        );
+    return parts.length > 0 ? escapeCell(truncate(parts.join('; '), 240)) : '✓';
+}
+
 function composePrBody(args: {
     contributor: { uid: string; name: string | null; email: string | null };
     locale: string;
@@ -318,6 +330,7 @@ function composePrBody(args: {
         sourceEnglish: string;
         edited: string;
         backtranslation: string;
+        analysis?: StringAnalysis;
     }[];
 }): string {
     const { contributor, locale, description, rows } = args;
@@ -325,6 +338,18 @@ function composePrBody(args: {
         contributor.name ??
         contributor.email ??
         `user ${contributor.uid.slice(0, 8)}`;
+
+    // Only show quality columns/summary when analysis succeeded (graceful
+    // degrade: a failed analysis renders exactly the original table).
+    const analyses = rows
+        .map((r) => r.analysis)
+        .filter((a): a is StringAnalysis => a !== undefined);
+    const hasAnalysis = analyses.length > 0;
+    const complexCount = analyses.filter((a) => a.complex).length;
+    const literalCount = analyses.reduce(
+        (n, a) => n + a.literalTerms.length,
+        0,
+    );
 
     return [
         `## Submission`,
@@ -343,18 +368,31 @@ function composePrBody(args: {
                   .join('\n')
             : `_(no rationale provided)_`,
         ``,
+        ...(hasAnalysis
+            ? [
+                  `### Quality`,
+                  ``,
+                  `- Strings above ~6th-grade reading level: **${complexCount}**`,
+                  `- Glossary terms that could be symbolic \`$term\` references: **${literalCount}**`,
+                  ``,
+              ]
+            : []),
         `### Edits`,
         ``,
-        `| Key | Original English | Edited (\`${locale}\`) | Backtranslation to English |`,
-        `|-----|------------------|------------------------|----------------------------|`,
-        ...rows.map(
-            (r) =>
-                `| \`${escapeCell(r.key)}\` | ${escapeCell(
-                    truncate(r.sourceEnglish),
-                )} | ${escapeCell(truncate(r.edited))} | ${escapeCell(
-                    truncate(r.backtranslation),
-                )} |`,
-        ),
+        hasAnalysis
+            ? `| Key | Original English | Edited (\`${locale}\`) | Backtranslation to English | Quality |`
+            : `| Key | Original English | Edited (\`${locale}\`) | Backtranslation to English |`,
+        hasAnalysis
+            ? `|-----|------------------|------------------------|----------------------------|---------|`
+            : `|-----|------------------|------------------------|----------------------------|`,
+        ...rows.map((r) => {
+            const base = `| \`${escapeCell(r.key)}\` | ${escapeCell(
+                truncate(r.sourceEnglish),
+            )} | ${escapeCell(truncate(r.edited))} | ${escapeCell(
+                truncate(r.backtranslation),
+            )} |`;
+            return hasAnalysis ? `${base} ${qualityCell(r.analysis)} |` : base;
+        }),
         ``,
         `_Generated by the localization workspace._`,
     ].join('\n');
@@ -376,10 +414,16 @@ export const submitLocalizationBundle = onCall<
 
     const { locale, description, edits } = request.data;
 
-    if (typeof locale !== 'string' || !/^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$/.test(locale))
+    if (
+        typeof locale !== 'string' ||
+        !/^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$/.test(locale)
+    )
         throw new HttpsError('invalid-argument', `Invalid locale: ${locale}`);
     if (typeof description !== 'string')
-        throw new HttpsError('invalid-argument', 'description must be a string.');
+        throw new HttpsError(
+            'invalid-argument',
+            'description must be a string.',
+        );
     if (description.length > LIMITS.maxDescriptionLength)
         throw new HttpsError('invalid-argument', 'description is too long.');
     if (typeof edits !== 'object' || edits === null || Array.isArray(edits))
@@ -388,7 +432,10 @@ export const submitLocalizationBundle = onCall<
     if (entries.length === 0)
         throw new HttpsError('invalid-argument', 'No edits to submit.');
     if (entries.length > LIMITS.maxEdits)
-        throw new HttpsError('invalid-argument', 'Too many edits in one bundle.');
+        throw new HttpsError(
+            'invalid-argument',
+            'Too many edits in one bundle.',
+        );
     for (const [key, value] of entries) {
         if (typeof value !== 'string')
             throw new HttpsError(
@@ -449,10 +496,7 @@ export const submitLocalizationBundle = onCall<
             `Tutorial file not found for ${locale}.`,
         );
     if (!sourceLocaleFile)
-        throw new HttpsError(
-            'internal',
-            'en-US source locale file not found.',
-        );
+        throw new HttpsError('internal', 'en-US source locale file not found.');
 
     // Apply edits to in-memory copies of the JSON. Throws on invalid paths.
     const summaryRows: {
@@ -494,27 +538,37 @@ export const submitLocalizationBundle = onCall<
         );
     }
 
-    // Backtranslate each edited value into English for the reviewer.
-    const backtranslations =
-        locale === 'en-US'
-            ? summaryRows.map((r) => r.edited)
-            : await backtranslate(
-                  summaryRows.map((r) => r.edited),
-                  locale,
-                  'en',
-              );
+    // One Claude pass over the edited strings: back-translation (for non-English
+    // locales) plus reading-level + glossary-symbolization analysis for review.
+    // Null on any failure — the PR still opens, just without these aids.
+    const analysis = await analyze({
+        locale,
+        sourceLocale: 'en-US',
+        strings: summaryRows.map((r) => ({ key: r.key, text: r.edited })),
+        glossary: extractGlossaryWords(targetLocaleFile?.json),
+        backTranslate: locale !== 'en-US',
+    });
+    const analysisByKey = new Map(
+        (analysis ?? []).map((a): [string, StringAnalysis] => [a.key, a]),
+    );
 
-    const rows = summaryRows.map((r, i) => ({
-        ...r,
-        backtranslation: backtranslations[i] ?? '',
-    }));
+    const rows = summaryRows.map((r) => {
+        const a = analysisByKey.get(r.key);
+        return {
+            ...r,
+            backtranslation:
+                locale === 'en-US' ? r.edited : (a?.backTranslation ?? ''),
+            analysis: a,
+        };
+    });
 
     // Compose PR body using the contributor's auth context.
-    const userRecord =
-        await (await import('firebase-admin/auth'))
-            .getAuth()
-            .getUser(request.auth.uid)
-            .catch(() => undefined);
+    const userRecord = await (
+        await import('firebase-admin/auth')
+    )
+        .getAuth()
+        .getUser(request.auth.uid)
+        .catch(() => undefined);
     const contributor = {
         uid: request.auth.uid,
         name: userRecord?.displayName ?? request.auth.token.name ?? null,
@@ -574,9 +628,7 @@ export const submitLocalizationBundle = onCall<
             `Branch:  ${branch}`,
             `Title:   ${title}`,
             `Files:   ${files.length}`,
-            ...files.map(
-                (f) => `  • ${f.path} (${f.content.length} bytes)`,
-            ),
+            ...files.map((f) => `  • ${f.path} (${f.content.length} bytes)`),
             '',
             '--- PR body ---',
             body,

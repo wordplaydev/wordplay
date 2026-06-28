@@ -4,7 +4,7 @@ import type { DocText, FormattedText, Template } from '@locale/LocaleText';
 export type NodeText = {
     /** [name] The name that should be used to refer to the node type */
     name: string;
-    /** Documentation text that appears in the documentation view */
+    /** [formatted] Documentation text that appears in the documentation view */
     doc: DocText;
     /** [emotion] The emotion that should be conveyed in animations of the node type */
     emotion: `${Emotion}`;
@@ -1195,6 +1195,7 @@ type NodeTexts = {
              */
             UnparsableConflict: {
                 conflict: ConflictText<['expression']>;
+                /** [formatted] Suggested fix for an unparsable expression or type */
                 resolution: Template<['first', 'second']>;
             };
             /**

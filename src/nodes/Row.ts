@@ -65,7 +65,7 @@ export default class Row extends Node {
                 name: 'cells',
                 kind: list(true, node(Input), node(Expression)),
                 space: true,
-                label: () => (l) => l.term.cell,
+                label: () => (l) => l.glossary.cell.word,
             },
             { name: 'close', kind: node(Sym.TableClose), label: undefined },
         ];

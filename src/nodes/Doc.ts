@@ -88,7 +88,7 @@ export default class Doc extends LanguageTagged {
             {
                 name: 'language',
                 kind: optional(node(Language)),
-                label: () => (l) => l.term.language,
+                label: () => (l) => l.glossary.language.word,
             },
             {
                 name: 'separator',

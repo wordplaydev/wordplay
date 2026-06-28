@@ -1,8 +1,9 @@
 import type Concept from '@concepts/Concept';
 import type { PurposeType } from '@concepts/Purpose';
 
-/** The guide's two top-level sections: language/code concepts vs. how-to guides. */
-export type GuideMode = 'language' | 'howto';
+/** The guide's top-level sections: language/code concepts, how-to guides, and
+ *  the glossary of key terms. */
+export type GuideMode = 'language' | 'howto' | 'glossary';
 
 /**
  * One location in the guide's navigation history:

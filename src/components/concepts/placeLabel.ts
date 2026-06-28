@@ -19,7 +19,11 @@ export default function placeLabel(
         const language = locales.getLocale().language;
         return `${SEARCH_SYMBOL} ${getLanguageQuoteOpen(language)}${place.query}${getLanguageQuoteClose(language)}`;
     }
-    return place.mode === 'howto'
-        ? locales.getPlainText((l) => l.ui.docs.mode.browse.labels[1])
-        : locales.getPlainText((l) => l.ui.docs.purposes[place.purpose].header);
+    if (place.mode === 'howto')
+        return locales.getPlainText((l) => l.ui.docs.mode.browse.labels[1]);
+    if (place.mode === 'glossary')
+        return locales.getPlainText((l) => l.ui.docs.mode.browse.labels[2]);
+    return locales.getPlainText(
+        (l) => l.ui.docs.purposes[place.purpose].header,
+    );
 }

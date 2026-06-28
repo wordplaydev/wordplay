@@ -80,7 +80,7 @@ export default class Paragraph extends Content {
                     node(Mention),
                     node(Branch),
                 ),
-                label: () => (l) => l.term.markup,
+                label: () => (l) => l.glossary.markup.word,
             },
         ];
     }

@@ -1,4 +1,5 @@
 <script lang="ts">
+    import getConceptName from '@locale/getConceptName';
     import Speech from '@components/lore/Speech.svelte';
     import ProjectView from '@components/project/ProjectView.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
@@ -204,9 +205,8 @@
         }[] = [];
         const seen = new Set([primaryRawText.trim()]);
         for (const tutorial of extraTutorials) {
-            const line = tutorial.acts[actIndex]?.scenes[sceneIndex]?.lines[
-                lineIndex
-            ];
+            const line =
+                tutorial.acts[actIndex]?.scenes[sceneIndex]?.lines[lineIndex];
             if (!Array.isArray(line)) continue;
             const rawText = line
                 .slice(2)
@@ -693,8 +693,8 @@
                                     class="option-echo"
                                     lang={echo.language}
                                     dir={echo.direction}
-                                    style="font-size: {0.8 **
-                                        (i + 1)}em">{echo.text}</span
+                                    style="font-size: {0.8 ** (i + 1)}em"
+                                    >{echo.text}</span
                                 >{/each}{/snippet}
                     </Options>
                     <TextField
@@ -781,7 +781,7 @@
                         >
                     {:else if scene === undefined}
                         <div class="title act"
-                            ><LocalizedText path={(l) => l.term.act} />
+                            ><LocalizedText path={(l) => l.glossary.act.word} />
                             {progress.act}<p
                                 ><em
                                     ><LocalizedText
@@ -798,7 +798,9 @@
                         >
                     {:else if dialog === undefined}
                         <div class="title scene"
-                            ><LocalizedText path={(l) => l.term.scene} />
+                            ><LocalizedText
+                                path={(l) => getConceptName(l, 'scene')}
+                            />
                             {progress.scene}<p
                                 ><em
                                     ><LocalizedText
@@ -1018,7 +1020,6 @@
         justify-content: center;
         width: 100%;
     }
-
 
     .turns {
         padding: var(--wordplay-spacing);

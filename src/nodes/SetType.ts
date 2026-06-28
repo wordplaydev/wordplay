@@ -58,7 +58,7 @@ export default class SetType extends BasisType {
             {
                 name: 'key',
                 kind: optional(node(Type)),
-                label: () => (l) => l.term.type,
+                label: () => (l) => l.glossary.type.word,
             },
             { name: 'close', kind: node(Sym.SetClose), label: undefined },
         ];
@@ -126,7 +126,9 @@ export default class SetType extends BasisType {
 
     getDescriptionInputs(locales: Locales, context: Context) {
         return {
-            type: this.key ? new NodeRef(this.key, locales, context) : undefined,
+            type: this.key
+                ? new NodeRef(this.key, locales, context)
+                : undefined,
         };
     }
 

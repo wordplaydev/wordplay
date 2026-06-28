@@ -198,7 +198,7 @@ export default class Unit extends Node {
             {
                 name: 'numerator',
                 kind: list(true, node(Dimension)),
-                label: () => (l) => l.term.unit,
+                label: () => (l) => l.node.Unit.name,
             },
             {
                 name: 'slash',
@@ -208,7 +208,7 @@ export default class Unit extends Node {
             {
                 name: 'denominator',
                 kind: list(true, node(Dimension)),
-                label: () => (l) => l.term.unit,
+                label: () => (l) => l.node.Unit.name,
             },
         ];
     }

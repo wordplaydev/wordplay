@@ -5,12 +5,15 @@ import {
     onDocumentWritten,
 } from 'firebase-functions/v2/firestore';
 import { onCall, onRequest } from 'firebase-functions/v2/https';
+import { defineSecret } from 'firebase-functions/params';
 import { onSchedule } from 'firebase-functions/v2/scheduler';
 import type {
+    AnalyzeLocalizationInputs,
     CreateClassInputs,
     CreateClassOutput,
     EmailExistsInputs,
     EmailExistsOutput,
+    GetLLMTranslationsInputs,
 } from 'shared-types';
 
 import compactProjectUpdatesHandler from './compactProjectUpdates.js';
@@ -21,6 +24,8 @@ import getCreatorsHandler from './getCreators.js';
 import getTranslationsHandler, {
     type GetTranslationsInputs,
 } from './getTranslations.js';
+import getLLMTranslationsHandler from './getLLMTranslations.js';
+import analyzeLocalizationHandler from './analyzeLocalization.js';
 import getWebpageHandler from './getWebpage.js';
 import postFeedbackHandler from './postFeedback.js';
 import purgeArchivedProjectsHandler from './purgeArchivedProjects.js';
@@ -60,6 +65,31 @@ export const emailExists = onCall<
 export const getTranslations = onCall<GetTranslationsInputs>(
     cors,
     getTranslationsHandler,
+);
+
+/** The Anthropic API key, for the Claude-backed project translation. Set with
+ *  `firebase functions:secrets:set ANTHROPIC_API_KEY` (and, for the emulator,
+ *  in the gitignored functions/.env.local). */
+const anthropicKey = defineSecret('ANTHROPIC_API_KEY');
+
+/**
+ * Like getTranslations, but uses Claude for higher-quality, context-aware
+ * project translation. The Google getTranslations remains registered as a
+ * fallback. The SDK reads ANTHROPIC_API_KEY from the bound secret.
+ */
+export const getLLMTranslations = onCall<GetLLMTranslationsInputs>(
+    { ...cors, secrets: [anthropicKey] },
+    getLLMTranslationsHandler,
+);
+
+/**
+ * Analyze locale strings for reading level (#460) and glossary symbolization.
+ * Used by the in-app localization workspace's "check reading level" action; the
+ * same core also runs inside submitLocalization for PR review.
+ */
+export const analyzeLocalization = onCall<AnalyzeLocalizationInputs>(
+    { ...cors, secrets: [anthropicKey] },
+    analyzeLocalizationHandler,
 );
 
 /** Given a URL that should refer to an HTML document, sends a GET request to the URL to try to get the document's text. */

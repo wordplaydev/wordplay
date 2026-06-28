@@ -1,4 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
+import getConceptName from '@locale/getConceptName';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
@@ -84,7 +85,7 @@ export default class ListAccess extends Expression {
             {
                 name: 'list',
                 kind: node(Expression),
-                label: () => (l) => l.term.list,
+                label: () => (l) => getConceptName(l, 'list'),
                 // Must be a list
                 getType: () => ListType.make(),
             },
@@ -92,7 +93,7 @@ export default class ListAccess extends Expression {
             {
                 name: 'index',
                 kind: node(Expression),
-                label: () => (l) => l.term.index,
+                label: () => (l) => l.glossary.index.word,
                 // Must be a number
                 getType: () => NumberType.make(),
             },
@@ -139,7 +140,8 @@ export default class ListAccess extends Expression {
         if (
             !context.isUnknownDownstream(this.index) &&
             (!(indexType instanceof NumberType) ||
-                (indexType.unit instanceof Unit && !indexType.unit.isUnitless()))
+                (indexType.unit instanceof Unit &&
+                    !indexType.unit.isUnitless()))
         )
             conflicts.push(
                 new IncompatibleInput(this.index, indexType, NumberType.make()),
@@ -282,12 +284,9 @@ export default class ListAccess extends Expression {
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return locales.concretize(
-            (l) => l.node.ListAccess.start,
-            {
-                list: new NodeRef(this.list, locales, context),
-            },
-        );
+        return locales.concretize((l) => l.node.ListAccess.start, {
+            list: new NodeRef(this.list, locales, context),
+        });
     }
 
     getFinishExplanations(
@@ -295,12 +294,9 @@ export default class ListAccess extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return locales.concretize(
-            (l) => l.node.ListAccess.finish,
-            {
-                value: this.getValueIfDefined(locales, context, evaluator),
-            },
-        );
+        return locales.concretize((l) => l.node.ListAccess.finish, {
+            value: this.getValueIfDefined(locales, context, evaluator),
+        });
     }
 
     getCharacter() {

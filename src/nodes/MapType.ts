@@ -82,7 +82,7 @@ export default class MapType extends BasisType {
                     node(Type),
                     none(['value', () => ExpressionPlaceholder.make()]),
                 ),
-                label: () => (l) => l.term.type,
+                label: () => (l) => l.glossary.type.word,
             },
             { name: 'bind', kind: node(Sym.Bind), label: undefined },
             {
@@ -91,7 +91,7 @@ export default class MapType extends BasisType {
                     node(Type),
                     none(['key', () => ExpressionPlaceholder.make()]),
                 ),
-                label: () => (l) => l.term.type,
+                label: () => (l) => l.glossary.type.word,
             },
             { name: 'close', kind: node(Sym.SetClose), label: undefined },
         ];
@@ -176,7 +176,9 @@ export default class MapType extends BasisType {
     getDescriptionInputs(locales: Locales, context: Context) {
         return {
             key: this.key ? new NodeRef(this.key, locales, context) : undefined,
-            value: this.value ? new NodeRef(this.value, locales, context) : undefined,
+            value: this.value
+                ? new NodeRef(this.value, locales, context)
+                : undefined,
         };
     }
 

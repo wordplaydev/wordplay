@@ -80,7 +80,7 @@ export default class TextType extends BasisType {
             {
                 name: 'language',
                 kind: optional(node(Language)),
-                label: () => (l) => l.term.language,
+                label: () => (l) => l.glossary.language.word,
             },
         ];
     }

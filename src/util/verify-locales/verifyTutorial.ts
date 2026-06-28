@@ -2,6 +2,7 @@ import Project from '@db/projects/Project';
 import { MachineTranslated, Unwritten } from '@locale/Annotations';
 import type LocaleText from '@locale/LocaleText';
 import { isMachineTranslated, isUnwritten } from '@locale/LocaleText';
+import { withoutAnnotations } from '@locale/withoutAnnotations';
 import ConceptLink from '@nodes/ConceptLink';
 import type Node from '@nodes/Node';
 import Source from '@nodes/Source';
@@ -15,9 +16,7 @@ import TutorialSchema, {
     getDefaultTutorial,
 } from '@util/verify-locales/TutorialSchema';
 import Validator from '@util/verify-locales/Validator';
-import translate, {
-    getGoogleTranslateTargetLocale,
-} from '@util/verify-locales/translate';
+import getTranslator from '@util/verify-locales/getTranslator';
 import { Performances } from '../../tutorial/Performances';
 import {
     DEFAULT_TUTORIAL_MODE,
@@ -260,19 +259,23 @@ async function translateTutorial(
     // Copy the target tutorial so we can revise it.
     const revised = JSON.parse(JSON.stringify(tutorial)) as Tutorial;
 
-    // Extract strings that need to be translated from source, but don't translate unwritten strings.
+    // Extract the strings to translate. Strip ALL annotation markers (not just
+    // $?), because the tutorial resolves from the target — which already carries
+    // $~ on machine-translated strings — so without this an override run would
+    // re-mark an already-marked string and accumulate markers ($~$~$~…).
     const sourceStrings = unwritten
         .map((path) => {
             const match = path.resolve(tutorial);
             return match === undefined || Array.isArray(match)
                 ? undefined
-                : match.replace(Unwritten, '');
+                : withoutAnnotations(match);
         })
         .filter((s) => s !== undefined)
         .flat();
 
     // See if the region of the target language is supported and append it if so.
-    const targetLocale = await getGoogleTranslateTargetLocale(
+    const translator = getTranslator();
+    const targetLocale = await translator.getTargetLocale(
         tutorial.language,
         tutorial.regions,
     );
@@ -283,7 +286,7 @@ async function translateTutorial(
         `Translating ${unwritten.length} unwritten strings ("${Unwritten}")...`,
     );
 
-    const translations = await translate(
+    const translations = await translator.translate(
         log,
         sourceStrings,
         sourceLocale,

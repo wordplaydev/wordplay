@@ -110,7 +110,9 @@ type PageText = {
             countDisplay: Template<['count']>;
             /** [plain] Options text for selecting which projects and how-tos used this how-to */
             selector: string;
+            /** [plain] Button to remove a project/how-to from those using this how-to */
             removeButton: string;
+            /** [plain] Button to add a project/how-to to those using this how-to */
             addButton: string;
         };
         /** [plain] Prompt for reaction summary */
@@ -145,7 +147,7 @@ type PageText = {
             subheader: HeaderAndExplanationText;
             /** [plain] Guiding questions description */
             descriptor: string;
-            /** Guiding questions default text */
+            /** [plain] Guiding questions default text */
             default: string[];
         };
         /** Subheaders and descriptions for configuring reaction options */
@@ -160,14 +162,15 @@ type PageText = {
             addReactionTip: string;
             /** [plain] Remove reaction tip */
             removeReactionTip: string;
-            /** Default reactions */
+            /** [plain] Default reactions */
             default: Record<string, string>;
         };
         submit: ButtonText & {
+            /** [plain] Error shown when saving how-to configuration fails */
             error: string;
         };
     };
-    /** For announcing changes to the canvas or to how-to positions */
+    /** [formatted] For announcing changes to the canvas or to how-to positions */
     announce: {
         howToPosition: Template<['title', 'x', 'y']>;
         canvasPosition: Template<['x', 'y']>;

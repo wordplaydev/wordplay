@@ -1,6 +1,7 @@
 <script lang="ts">
     import ConceptRef from '@locale/ConceptRef';
     import NodeRef from '@locale/NodeRef';
+    import TermRef from '@locale/TermRef';
     import ValueRef from '@locale/ValueRef';
     import ConceptLink from '@nodes/ConceptLink';
     import Example from '@nodes/Example';
@@ -17,6 +18,7 @@
     import ValueView from '@components/values/ValueView.svelte';
     import ConceptPreview from '@components/concepts/ConceptPreview.svelte';
     import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
+    import TermView from '@components/concepts/TermView.svelte';
     import elideNode from '@components/concepts/elideNode';
     import ExampleUI from '@components/concepts/ExampleUI.svelte';
     import ExternalExampleView from '@components/concepts/ExternalExampleView.svelte';
@@ -85,6 +87,7 @@
         link={segment}
         symbolic={false}
     />
+{:else if segment instanceof TermRef}<TermView term={segment} />
 {:else if segment instanceof Words}<WordsHTMLView words={segment} {spaces} />
 {:else if segment instanceof NodeRef}{#if segment.node instanceof UnknownType}
         <MarkupHTMLView

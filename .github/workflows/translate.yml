@@ -37,9 +37,11 @@ jobs:
             - run: npm run locales-fix
               name: Repair locale structure
 
-            # translate -> npm run locales-translate; override -> npm run override
-            - run: npm run ${{ inputs.mode == 'override' && 'override' || 'locales-translate' }}
+            # translate -> npm run locales-translate; override -> npm run locales-override
+            - run: npm run ${{ inputs.mode == 'override' && 'locales-override' || 'locales-translate' }}
               name: Generate machine translations
+              env:
+                  ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
 
             - name: Commit translations to the PR branch
               run: |

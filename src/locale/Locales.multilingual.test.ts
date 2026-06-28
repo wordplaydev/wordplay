@@ -5,16 +5,19 @@ import type LocaleText from '@locale/LocaleText';
 import Locales, { MULTILINGUAL_SEPARATOR } from '@locale/Locales';
 import { describe, expect, test } from 'vitest';
 
-/** Build a locale that's like en-US but with a different language and `term.start`. */
+/** Build a locale that's like en-US but with a different language and `glossary.start.word`. */
 function localeWith(language: string, start: string): LocaleText {
     return {
         ...DefaultLocale,
         language,
-        term: { ...DefaultLocale.term, start },
+        glossary: {
+            ...DefaultLocale.glossary,
+            start: { ...DefaultLocale.glossary.start, word: start },
+        },
     } as unknown as LocaleText;
 }
 
-const en = DefaultLocale; // term.start === 'start'
+const en = DefaultLocale; // glossary.start.word === 'start'
 const es = localeWith('es', 'empezar');
 const esUnwritten = localeWith('es', Unwritten);
 
@@ -22,7 +25,7 @@ function locales(...preferred: LocaleText[]) {
     return new Locales(concretize, preferred, DefaultLocale);
 }
 
-const start = (l: LocaleText) => l.term.start;
+const start = (l: LocaleText) => l.glossary.start.word;
 
 describe('getSecondaryLocaleViews', () => {
     test('is empty for a single chosen locale', () => {
@@ -61,9 +64,10 @@ describe('getMultilingualEntries', () => {
     });
 
     test('dedupes a secondary that equals the primary', () => {
-        const entries = locales(en, localeWith('es', 'start')).getMultilingualEntries(
-            start,
-        );
+        const entries = locales(
+            en,
+            localeWith('es', 'start'),
+        ).getMultilingualEntries(start);
         expect(entries.map((e) => e.text)).toEqual(['start']);
     });
 });
@@ -98,8 +102,8 @@ describe('getMultilingualMarkup', () => {
 describe('getMultilingualFrom', () => {
     test('formats a structure subtree per chosen locale', () => {
         const entries = locales(en, es).getMultilingualFrom(
-            (l) => l.term,
-            (term) => term.start,
+            (l) => l.glossary,
+            (glossary) => glossary.start.word,
         );
         expect(entries.map((e) => e.text)).toEqual(['start', 'empezar']);
     });

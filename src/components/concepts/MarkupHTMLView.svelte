@@ -9,6 +9,7 @@
     import Notice from '@components/app/Notice.svelte';
     import SegmentHTMLView from '@components/concepts/SegmentHTMLView.svelte';
     import { accessorToLocalePath } from '@components/localization/accessorToLocalePath';
+    import LocalizationQuality from '@components/localization/LocalizationQuality.svelte';
     import { getLocalizing } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
     import FormattedEditor from '@components/widgets/FormattedEditor.svelte';
@@ -26,8 +27,8 @@
     import ConceptLink from '@nodes/ConceptLink';
     import Markup from '@nodes/Markup';
     import Paragraph from '@nodes/Paragraph';
-    import type Spaces from '@parser/Spaces';
     import { parseDocs, parseFormattedLiteral } from '@parser/parseExpression';
+    import type Spaces from '@parser/Spaces';
     import {
         CANCEL_SYMBOL,
         CONFIRM_SYMBOL,
@@ -144,17 +145,21 @@
 
     // Convert sequences of paragraphs that start with bullets into an HTML list.
     function toParagraphsAndLists(m: Markup): ParagraphOrList[] {
-        return m.paragraphs.reduce((stuff: ParagraphOrList[], next: Paragraph) => {
-            if (next.isBulleted()) {
-                const items = next.getBullets();
-                const previous = stuff.at(-1);
-                if (previous instanceof Paragraph) return [...stuff, { items }];
-                else if (previous !== undefined) {
-                    previous.items.push(next);
-                    return stuff;
-                } else return [{ items }];
-            } else return [...stuff, next];
-        }, []);
+        return m.paragraphs.reduce(
+            (stuff: ParagraphOrList[], next: Paragraph) => {
+                if (next.isBulleted()) {
+                    const items = next.getBullets();
+                    const previous = stuff.at(-1);
+                    if (previous instanceof Paragraph)
+                        return [...stuff, { items }];
+                    else if (previous !== undefined) {
+                        previous.items.push(next);
+                        return stuff;
+                    } else return [{ items }];
+                } else return [...stuff, next];
+            },
+            [],
+        );
     }
 
     let paragraphsAndLists = $derived(toParagraphsAndLists(parsed));
@@ -256,7 +261,9 @@
             Array.isArray(text) ? text.join('\n\n') : text;
 
         const seen = new Set([
-            withoutAnnotations(joinWords($locales.getWithAnnotations(accessor))),
+            withoutAnnotations(
+                joinWords($locales.getWithAnnotations(accessor)),
+            ),
         ]);
         for (const view of $locales.getSecondaryLocaleViews()) {
             const raw = joinWords(view.getWithAnnotations(accessor));
@@ -349,34 +356,37 @@
     });
 </script>
 
-{#snippet paragraphsView(items: ParagraphOrList[], sp: Spaces)}{#each items as paragraphOrList, index}{#if paragraphOrList instanceof Paragraph}<!--
+{#snippet paragraphsView(
+    items: ParagraphOrList[],
+    sp: Spaces,
+)}{#each items as paragraphOrList, index}{#if paragraphOrList instanceof Paragraph}<!--
             `div` rather than `p`: an inline Example's NodeView produces a
             `<div>` for its wrapper, and `<div>` isn't phrasing content so `<p>`
             rejects it (SSR errors and hydration mismatch). The paragraph styling
             carries via the `.paragraph` class either way.
         -->
-    <div
-        class="paragraph"
-        class:animated={$animationFactor > 0}
-        style="--delay:{$animationDuration * index * 0.1}ms"
-        >{#each paragraphOrList.segments as segment, segIndex}<SegmentHTMLView
-                {segment}
-                spaces={sp}
-                alone={paragraphOrList.segments.length === 1}
-                first={segIndex === 0}
-            />{/each}</div
-    >{:else}<ul
-        class:animated={$animationFactor > 0}
-        style="--delay:{$animationDuration * index * 0.1}ms"
-        >{#each paragraphOrList.items as paragraph}<li
-                >{#each paragraph.segments as segment, segIndex}<SegmentHTMLView
+            <div
+                class="paragraph"
+                class:animated={$animationFactor > 0}
+                style="--delay:{$animationDuration * index * 0.1}ms"
+                >{#each paragraphOrList.segments as segment, segIndex}<SegmentHTMLView
                         {segment}
                         spaces={sp}
-                        alone={paragraph.segments.length === 1}
+                        alone={paragraphOrList.segments.length === 1}
                         first={segIndex === 0}
-                    />{/each}</li
-            >{/each}</ul
-    >{/if}{/each}{/snippet}
+                    />{/each}</div
+            >{:else}<ul
+                class:animated={$animationFactor > 0}
+                style="--delay:{$animationDuration * index * 0.1}ms"
+                >{#each paragraphOrList.items as paragraph}<li
+                        >{#each paragraph.segments as segment, segIndex}<SegmentHTMLView
+                                {segment}
+                                spaces={sp}
+                                alone={paragraph.segments.length === 1}
+                                first={segIndex === 0}
+                            />{/each}</li
+                    >{/each}</ul
+            >{/if}{/each}{/snippet}
 
 {#if localizing?.on && isLocalizable}
     <span
@@ -407,6 +417,11 @@
                     >
                 </Notice>
             {/if}
+            <LocalizationQuality
+                text={editedText}
+                localeKey={storageKey}
+                onfix={(suggestion) => (editedText = suggestion)}
+            />
             <div class="edit-actions">
                 <Button
                     tip={(l) => l.ui.localize.button.submit}
@@ -479,9 +494,7 @@
                     lang={entry.language}
                     dir={entry.direction}
                     style="font-size: {0.8 ** (i + 1)}em"
-                    >{#each entry.markup
-                        .asLine()
-                        .paragraphs[0].segments as segment}<SegmentHTMLView
+                    >{#each entry.markup.asLine().paragraphs[0].segments as segment}<SegmentHTMLView
                             {segment}
                             spaces={entry.markup.spaces}
                             alone={false}

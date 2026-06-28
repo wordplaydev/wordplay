@@ -3,9 +3,11 @@ import { HowToIDs, type HowToID } from '@concepts/HowTo';
 import type Conflict from '@conflicts/Conflict';
 import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import DefaultLocale from '@locale/DefaultLocale';
+import { getTermDefinition } from '@locale/Glossary';
 import type Locales from '@locale/Locales';
 import type { TemplateInput } from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
+import TermRef from '@locale/TermRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { Purpose } from '@concepts/Purpose';
 import Characters from '../lore/BasisCharacters';
@@ -32,6 +34,11 @@ export const ReservedConceptIDs = new Set([
     ...Object.keys(DefaultLocale.input),
     ...Object.keys(DefaultLocale.output),
 ]);
+
+/** Glossary term ids referenceable as `@term` (lowercase). Concept ids take
+ *  precedence, so a `@id` resolves to a glossary term only when it isn't a
+ *  concept id. */
+export const ReservedGlossaryIDs = new Set(Object.keys(DefaultLocale.glossary));
 
 export class ConceptName {
     readonly name: string;
@@ -64,6 +71,16 @@ export class HowToName {
 
     constructor(id: string) {
         this.name = id;
+    }
+}
+
+/** A `@term` reference (lowercase id) that resolves to a glossary entry rather
+ *  than a documented concept. */
+export class GlossaryName {
+    readonly id: string;
+
+    constructor(id: string) {
+        this.id = id;
     }
 }
 
@@ -151,6 +168,10 @@ export default class ConceptLink extends Content {
         if (concept.toLowerCase() === 'how') return new HowToName(property);
         else if (ReservedConceptIDs.has(concept))
             return new ConceptName(concept, property);
+        // A bare `@term` (no member/separator) whose id is a glossary term, and
+        // not a concept id, is a glossary reference. Concept ids take precedence.
+        else if (property === undefined && ReservedGlossaryIDs.has(concept))
+            return new GlossaryName(concept);
         else return new CharacterName(concept, property);
     }
 
@@ -168,6 +189,8 @@ export default class ConceptLink extends Content {
             return true;
         if (concept instanceof HowToName)
             return HowToIDs.includes(concept.name as HowToID);
+        if (concept instanceof GlossaryName)
+            return concept.id in locale.glossary;
 
         // See which section of the locale has the concept name, if any.
         const section = [
@@ -252,6 +275,9 @@ export default class ConceptLink extends Content {
                         : parsed.username,
                 },
             );
+        // A glossary term: describe it with its definition.
+        if (parsed instanceof GlossaryName)
+            return getTermDefinition(locales, parsed.id);
         // A documented concept (with an optional member), or an unparseable
         // reference: use the default concept description.
         return locales.concretize((l) => l.node.ConceptLink.description, {
@@ -268,7 +294,14 @@ export default class ConceptLink extends Content {
         return Characters.Link;
     }
 
-    concretize(): ConceptLink {
+    concretize(locales: Locales): ConceptLink | TermRef {
+        // A `@term` glossary reference resolves to a TermRef so it renders as an
+        // interactive glossary link (via TermView), like an `@term` reference.
+        const parsed = ConceptLink.parse(this.getName());
+        if (parsed instanceof GlossaryName) {
+            const word = locales.getTermByID(parsed.id);
+            if (word !== undefined) return new TermRef(parsed.id, word);
+        }
         return this;
     }
 

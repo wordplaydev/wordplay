@@ -1453,7 +1453,7 @@ const Commands: Command[] = [
                 FunctionDefinition.make(
                     undefined,
                     Names.make([
-                        locales.getWithAnnotations((l) => l.term.name),
+                        locales.getWithAnnotations((l) => l.glossary.name.word),
                     ]),
                     undefined,
                     [],

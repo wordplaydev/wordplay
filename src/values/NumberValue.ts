@@ -1,4 +1,5 @@
 import type LocaleText from '@locale/LocaleText';
+import getConceptName from '@locale/getConceptName';
 import NumberType from '@nodes/NumberType';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
@@ -289,7 +290,7 @@ export default class NumberValue extends SimpleValue {
     }
 
     getDescription() {
-        return (l: LocaleText) => l.term.number;
+        return (l: LocaleText) => getConceptName(l, 'number');
     }
 
     getRepresentativeText() {

@@ -7,7 +7,8 @@ import Token from '@nodes/Token';
 import fs from 'fs';
 import path from 'path';
 import type Log from '@util/verify-locales/Log';
-import translate, { getGoogleTranslateTargetLocale } from '@util/verify-locales/translate';
+import getTranslator from '@util/verify-locales/getTranslator';
+import writeFormatted from '@util/verify-locales/writeFormatted';
 
 /**
  * Verify and optionally translate how-to content for a locale
@@ -67,10 +68,11 @@ export async function verifyHowTo(
         return;
     }
 
-    // Translation mode - get target locale for Google Translate
+    // Translation mode - resolve the target locale via the active backend.
+    const translator = getTranslator();
     let targetLocale: string;
     try {
-        targetLocale = await getGoogleTranslateTargetLocale(language, regions);
+        targetLocale = await translator.getTargetLocale(language, regions);
     } catch (error) {
         log.bad(2, `Failed to get target locale for ${locale}: ${error}`);
         return;
@@ -173,7 +175,8 @@ async function translateHowToFile(
     if (phrases.length === 0) return false;
 
     // Translate the title and content
-    const translations = await translate(
+    const translator = getTranslator();
+    const translations = await translator.translate(
         log,
         [parsedHowTo.how.title, ...phrases.map((phrase) => phrase.getText())],
         sourceLocale,
@@ -190,13 +193,16 @@ async function translateHowToFile(
         );
     }
 
-    // Apply translations to the title.
-    parsedHowTo.how.title = translations[0];
+    // Apply translations to the title (keep the original if it couldn't translate).
+    parsedHowTo.how.title = translations[0] ?? parsedHowTo.how.title;
     translations.shift();
 
     // Apply translations to the words in the markup, replacing the original tokens with the revised ones.
     let markup = parsedHowTo.how.content;
     for (let i = 0; i < translations.length; i++) {
+        // Couldn't translate this phrase → keep the original.
+        const translation = translations[i];
+        if (translation === null) continue;
         const tokens = markup.leaves();
         const tokenBefore = tokens[tokens.indexOf(phrases[i]) - 1];
         const tokenAfter = tokens[tokens.indexOf(phrases[i]) + 1];
@@ -210,9 +216,7 @@ async function translateHowToFile(
         markup = markup.replace(
             phrases[i],
             new Token(
-                (nameBefore ? ' ' : '') +
-                    translations[i] +
-                    (nameAfter ? ' ' : ''),
+                (nameBefore ? ' ' : '') + translation + (nameAfter ? ' ' : ''),
                 Sym.Words,
             ),
         );
@@ -221,13 +225,11 @@ async function translateHowToFile(
     // Update the content.
     parsedHowTo.how.content = markup;
 
-    // Write the translated file
+    // Write the translated file. (How-to `.txt` is a custom format Prettier has
+    // no parser for, so writeFormatted writes it raw — but routes through the same
+    // write-if-changed path as every other locale write.)
     try {
-        fs.writeFileSync(
-            targetFilePath,
-            howToToString(parsedHowTo.how),
-            'utf-8',
-        );
+        await writeFormatted(targetFilePath, howToToString(parsedHowTo.how));
     } catch (error) {
         throw new Error(`Failed to write translated file: ${error}`);
     }

@@ -133,7 +133,7 @@ export default class NumberLiteral extends Literal {
             {
                 name: 'unit',
                 kind: optional(node(Unit)),
-                label: () => (l) => l.term.unit,
+                label: () => (l) => l.node.Unit.name,
             },
         ];
     }
@@ -203,22 +203,24 @@ export default class NumberLiteral extends Literal {
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return locales.concretize(
-            (l) => l.node.NumberLiteral.start,
-            {
-                value: new NodeRef(this.number, locales, context),
-            },
-        );
+        return locales.concretize((l) => l.node.NumberLiteral.start, {
+            value: new NodeRef(this.number, locales, context),
+        });
     }
 
     getCharacter() {
         return Characters.Number;
     }
 
-    getDescriptionInputs(locales: Locales, context: Context): Record<string, TemplateInput> {
+    getDescriptionInputs(
+        locales: Locales,
+        context: Context,
+    ): Record<string, TemplateInput> {
         return {
             number: this.number.getText(),
-            unit: this.unit ? new NodeRef(this.unit, locales, context) : undefined,
+            unit: this.unit
+                ? new NodeRef(this.unit, locales, context)
+                : undefined,
         };
     }
 

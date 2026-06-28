@@ -65,7 +65,11 @@ export default class UnionType extends Type {
 
     getGrammar(): Grammar {
         return [
-            { name: 'left', kind: node(Type), label: () => (l) => l.term.type },
+            {
+                name: 'left',
+                kind: node(Type),
+                label: () => (l) => l.glossary.type.word,
+            },
             {
                 name: 'or',
                 kind: node(Sym.Union),
@@ -74,7 +78,7 @@ export default class UnionType extends Type {
             {
                 name: 'right',
                 kind: node(Type),
-                label: () => (l) => l.term.type,
+                label: () => (l) => l.glossary.type.word,
             },
         ];
     }
@@ -293,13 +297,10 @@ export default class UnionType extends Type {
             .join(', ');
         const head = filtered.length >= 3 ? `${headText},` : headText;
         const tail = last.getDescription(locales, context).toText();
-        return locales.concretize(
-            (l) => l.node.UnionType.description,
-            {
-                first: head,
-                second: tail,
-            },
-        );
+        return locales.concretize((l) => l.node.UnionType.description, {
+            first: head,
+            second: tail,
+        });
     }
 
     concretize(context: Context) {

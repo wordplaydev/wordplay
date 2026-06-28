@@ -141,7 +141,7 @@ export default class Translate extends Expression {
                 name: 'translation',
                 kind: node(Expression),
                 space: true,
-                label: () => (l) => l.term.value,
+                label: () => (l) => l.glossary.value.word,
             },
         ];
     }
@@ -161,8 +161,7 @@ export default class Translate extends Expression {
     /** The type of `.` (This) inside the translation body: the element/value/row type of the left collection. */
     getItemType(context: Context): Type {
         const leftType = this.expression.getType(context);
-        if (leftType instanceof ListType)
-            return leftType.type ?? new AnyType();
+        if (leftType instanceof ListType) return leftType.type ?? new AnyType();
         if (leftType instanceof SetType) return leftType.key ?? new AnyType();
         if (leftType instanceof MapType) return leftType.value ?? new AnyType();
         if (leftType instanceof TableType)
@@ -302,12 +301,9 @@ export default class Translate extends Expression {
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return locales.concretize(
-            (l) => l.node.Translate.start,
-            {
-                expression: new NodeRef(this.expression, locales, context),
-            },
-        );
+        return locales.concretize((l) => l.node.Translate.start, {
+            expression: new NodeRef(this.expression, locales, context),
+        });
     }
 
     getFinishExplanations(
@@ -315,12 +311,9 @@ export default class Translate extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return locales.concretize(
-            (l) => l.node.Translate.finish,
-            {
-                value: this.getValueIfDefined(locales, context, evaluator),
-            },
-        );
+        return locales.concretize((l) => l.node.Translate.finish, {
+            value: this.getValueIfDefined(locales, context, evaluator),
+        });
     }
 
     getCharacter() {

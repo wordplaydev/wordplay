@@ -3,6 +3,7 @@
     import AddProject from '@components/app/AddProject.svelte';
     import Link from '@components/app/Link.svelte';
     import Loading from '@components/app/Loading.svelte';
+    import HeaderAndExplanation from '@components/app/HeaderAndExplanation.svelte';
     import Notice from '@components/app/Notice.svelte';
     import PageHeader from '@components/app/PageHeader.svelte';
     import ProjectPreviewSet from '@components/app/ProjectPreviewSet.svelte';
@@ -275,11 +276,9 @@
             </div>
 
             {#if editable || gallery.getCurators().length > 0}
-                <Subheader
-                    text={(l) => l.ui.gallery.subheader.curators.header}
-                />
-                <MarkupHTMLView
-                    markup={(l) => l.ui.gallery.subheader.curators.explanation}
+                <HeaderAndExplanation
+                    text={(l) => l.ui.gallery.subheader.curators}
+                    sub
                 />
                 <CreatorList
                     uids={gallery.getCurators()}
@@ -304,11 +303,9 @@
             {/if}
 
             {#if editable || gallery.getCreators().length > 0}
-                <Subheader
-                    text={(l) => l.ui.gallery.subheader.creators.header}
-                />
-                <MarkupHTMLView
-                    markup={(l) => l.ui.gallery.subheader.creators.explanation}
+                <HeaderAndExplanation
+                    text={(l) => l.ui.gallery.subheader.creators}
+                    sub
                 />
                 <CreatorList
                     anonymize={!editable}
@@ -327,11 +324,9 @@
             {/if}
 
             {#if classes && classes.length > 0}
-                <Subheader
-                    text={(l) => l.ui.gallery.subheader.classes.header}
-                />
-                <MarkupHTMLView
-                    markup={(l) => l.ui.gallery.subheader.classes.explanation}
+                <HeaderAndExplanation
+                    text={(l) => l.ui.gallery.subheader.classes}
+                    sub
                 />
 
                 <ul>
@@ -361,9 +356,9 @@
                             : undefined;
                     }}
                 />
-                <Subheader text={(l) => l.ui.gallery.subheader.delete.header} />
-                <MarkupHTMLView
-                    markup={(l) => l.ui.gallery.subheader.delete.explanation}
+                <HeaderAndExplanation
+                    text={(l) => l.ui.gallery.subheader.delete}
+                    sub
                 />
 
                 <p>

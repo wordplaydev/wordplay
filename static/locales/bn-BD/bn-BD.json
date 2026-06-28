@@ -1,58 +1,175 @@
 {
     "$schema": "../../schemas/LocaleText.json",
     "language": "bn",
-    "regions": ["BD"],
+    "regions": [
+        "BD"
+    ],
     "wordplay": "$~শব্দখেলা",
-    "term": {
-        "bind": "$~বাঁধুন",
-        "evaluate": "$~মূল্যায়ন করুন",
-        "decide": "$~সিদ্ধান্ত নিন",
-        "project": "$~প্রকল্প",
-        "document": "$~ব্যাখ্যা করুন",
-        "source": "$~উৎস",
-        "code": "$~কোড",
-        "input": "$~ইনপুট",
-        "output": "$~আউটপুট",
-        "convert": "$~রূপান্তর করুন",
-        "how": "$~কীভাবে",
-        "act": "$~আইন",
-        "scene": "$~দৃশ্য",
-        "phrase": "$~বাক্যাংশ",
-        "group": "$~দল",
-        "stage": "$~মঞ্চ",
-        "type": "$~প্রকার",
-        "start": "$~শুরু",
-        "entered": "$~নতুন",
-        "changed": "$~পরিবর্তিত",
-        "moved": "$~স্থানান্তরিত",
-        "name": "$~নাম",
-        "value": "$~মূল্য",
-        "text": "$~পাঠ্য",
-        "boolean": "$~বুলিয়ান",
-        "map": "$~মানচিত্র",
-        "number": "$~সংখ্যা",
-        "unit": "$~ইউনিট",
-        "markup": "$~মার্কআপ",
-        "function": "$~ফাংশন",
-        "exception": "$~ব্যতিক্রম",
-        "table": "$~টেবিল",
-        "column": "$~কলাম",
-        "row": "$~সারি",
-        "cell": "$~কোষ",
-        "none": "$~কোনোটিই না",
-        "list": "$~তালিকা",
-        "stream": "$~স্রোত",
-        "structure": "$~কাঠামো",
-        "index": "$~সূচক",
-        "query": "$~প্রশ্ন",
-        "set": "$~সেট",
-        "key": "$~চাবি",
-        "help": "$~সাহায্য",
-        "feedback": "$~প্রতিক্রিয়া",
-        "documentation": "$~ডকুমেন্টেশন",
-        "language": "$~ভাষা",
-        "region": "$~অঞ্চল",
-        "pattern": "$~প্যাটার্ন"
+    "glossary": {
+        "value": {
+            "word": "$~মূল্য",
+            "definition": "$?A piece of information, like a number, some words, or a list."
+        },
+        "type": {
+            "word": "$~প্রকার",
+            "definition": "$?The kind of a value, such as number or text. A value's type decides what you can do with it."
+        },
+        "expression": {
+            "word": "$?expression",
+            "definition": "$?A piece of code that produces a value when it runs."
+        },
+        "variable": {
+            "word": "$?variable",
+            "definition": "$?A name whose value can change while a program runs."
+        },
+        "parameter": {
+            "word": "$?parameter",
+            "definition": "$?A named input that a function expects when you call it."
+        },
+        "argument": {
+            "word": "$?argument",
+            "definition": "$?A value you give to a function for one of its parameters."
+        },
+        "operator": {
+            "word": "$?operator",
+            "definition": "$?A symbol, such as + or -, that combines or compares values."
+        },
+        "condition": {
+            "word": "$?condition",
+            "definition": "$?A true-or-false test that decides what a program does next."
+        },
+        "loop": {
+            "word": "$?loop",
+            "definition": "$?Code that repeats an action many times."
+        },
+        "iteration": {
+            "word": "$?iteration",
+            "definition": "$?One pass through a loop."
+        },
+        "recursion": {
+            "word": "$?recursion",
+            "definition": "$?When a function calls itself to handle a smaller part of a problem."
+        },
+        "property": {
+            "word": "$?property",
+            "definition": "$?A named part of a value, such as a color's brightness."
+        },
+        "element": {
+            "word": "$?element",
+            "definition": "$?One item in a list or group."
+        },
+        "scope": {
+            "word": "$?scope",
+            "definition": "$?The part of a program where a name can be used."
+        },
+        "state": {
+            "word": "$?state",
+            "definition": "$?Information a program keeps and can change over time."
+        },
+        "sideEffect": {
+            "word": "$?side effect",
+            "definition": "$?A change a program makes besides giving back a value, such as showing output."
+        },
+        "abstraction": {
+            "word": "$?abstraction",
+            "definition": "$?Hiding details so you can use something without knowing how it works inside."
+        },
+        "project": {
+            "word": "$~প্রকল্প",
+            "definition": "$?All the files that make up one Wordplay program."
+        },
+        "code": {
+            "word": "$~কোড",
+            "definition": "$?The text you write to tell a program what to do."
+        },
+        "act": {
+            "word": "$~আইন",
+            "definition": "$?A large part of the tutorial, like an act in a play."
+        },
+        "how": {
+            "word": "$~কীভাবে",
+            "definition": "$?A short guide that shows how to do one thing."
+        },
+        "gallery": {
+            "word": "$?gallery",
+            "definition": "$?A place where people share and explore projects."
+        },
+        "blocks": {
+            "word": "$?blocks",
+            "definition": "$?A way to edit code by dragging pieces instead of typing."
+        },
+        "placeholder": {
+            "word": "$?placeholder",
+            "definition": "$?An empty spot that shows where code or a value is missing."
+        },
+        "conflict": {
+            "word": "$?conflict",
+            "definition": "$?A problem in code that Wordplay marks so you can fix it."
+        },
+        "checkpoint": {
+            "word": "$?checkpoint",
+            "definition": "$?A saved point in your work that you can return to."
+        },
+        "guide": {
+            "word": "$?guide",
+            "definition": "$?The searchable reference that explains Wordplay's ideas."
+        },
+        "tutorial": {
+            "word": "$?tutorial",
+            "definition": "$?The step-by-step lessons that teach Wordplay."
+        },
+        "name": {
+            "word": "$~নাম",
+            "definition": "$?A word that refers to a value or a function."
+        },
+        "markup": {
+            "word": "$~মার্কআপ",
+            "definition": "$?Text with formatting, such as bold words or links."
+        },
+        "language": {
+            "word": "$~ভাষা",
+            "definition": "$?A human language that a name or text is written in."
+        },
+        "documentation": {
+            "word": "$~ডকুমেন্টেশন",
+            "definition": "$?Text that explains what code does."
+        },
+        "region": {
+            "word": "$~অঞ্চল",
+            "definition": "$?A place where a language is used, which can change how numbers and dates look."
+        },
+        "start": {
+            "word": "$~শুরু",
+            "definition": "$?The main source file where a project begins."
+        },
+        "query": {
+            "word": "$~প্রশ্ন",
+            "definition": "$?A way to choose rows from a table."
+        },
+        "key": {
+            "word": "$~চাবি",
+            "definition": "$?The value used to find an item in a map."
+        },
+        "index": {
+            "word": "$~সূচক",
+            "definition": "$?A number that picks an item by its position in a list."
+        },
+        "moved": {
+            "word": "$~স্থানান্তরিত",
+            "definition": "$?Output that changed position on stage."
+        },
+        "entered": {
+            "word": "$~নতুন",
+            "definition": "$?Output that appeared on stage for the first time."
+        },
+        "cell": {
+            "word": "$~কোষ",
+            "definition": "$?One value in a table row."
+        },
+        "column": {
+            "word": "$~কলাম",
+            "definition": "$?A named field in a table."
+        }
     },
     "token": {
         "EvalOpen": "$~মূল্যায়ন খোলা আছে",
@@ -420,9 +537,9 @@
             "emotion": "serious",
             "doc": [
                 "$~@Doc-এ আপনার পছন্দের যেকোনো শব্দ ব্যবহার করতে পারেন। উদাহরণস্বরূপ:",
-                "\\¶May the Force be with you.¶\n'just some words!'\\",
+                "$~\\¶May the Force be with you.¶\n'just some words!'\\",
                 "$~তবে কখনও কখনও, আপনি @Doc দ্বারা ব্যবহৃত বিশেষ অক্ষরগুলোকে শব্দ হিসেবে ব্যবহার করতে চাইতে পারেন। উদাহরণস্বরূপ:",
-                "\\¶My friends use @@, //, **, ||, and other symbols.¶\n'using special characters!'\\",
+                "$~\\¶My friends use @@, //, **, ||, and other symbols.¶\n'using special characters!'\\",
                 "$~আপনি যদি শুধু ওই বিশেষ অক্ষরগুলো পুনরাবৃত্তি করেন, তাহলে সেগুলোর বিশেষ অর্থের পরিবর্তে অক্ষরটিই পাবেন।"
             ],
             "conflict": {
@@ -450,7 +567,7 @@
             "description": "$~মার্কআপে $name উল্লেখ করুন",
             "emotion": "serious",
             "doc": [
-                "$~আমি হয় পরিভাষা \\ $program \\ অথবা একটি ডাইনামিক ইনপুট \\ $name \\-এর একটি রেফারেন্স।",
+                "$~আমি হয় পরিভাষা \\ $program \\ অথবা একটি ডাইনামিক ইনপুট \\ @name \\-এর একটি রেফারেন্স।",
                 "$~তবে এটি মূলত একটি অভ্যন্তরীণ বৈশিষ্ট্য, তাই আপনার এটি জানার প্রয়োজন নেই।"
             ]
         },
@@ -503,11 +620,11 @@
             "doc": [
                 "$~আমি মানগুলোর নামকরণ করি।",
                 "$~এইরকম!",
-                "\\pi: 3.1415926\\",
+                "$~\\pi: 3.1415926\\",
                 "$~আমি @FunctionDefinition এবং @StructureDefinition-এর ইনপুটগুলোর নাম দিই, @Block-এর ভ্যালুগুলোর নাম দিই। আমি সবকিছুরই নাম দিই!",
                 "$~ওহ, কিন্তু আপনি কি জানতেন যে একটি মানেরই অনেক নাম থাকতে পারে?",
                 "$~আপনাকে এই বিষয়ে জানাতে আমি খুবই উত্তেজিত! একটি মান, অনেকগুলো @Names উদাহরণস্বরূপ:",
-                "\\joe,tess,amy: 5\\",
+                "$~\\joe,tess,amy: 5\\",
                 "$~দেখলেন আমি কী করলাম?",
                 "$~একটি মান, তিনটি নাম।",
                 "$~আপনি ঐ পাঁচজনকে ওই নামগুলোর যেকোনো একটি দিয়ে উল্লেখ করতে পারেন।",
@@ -517,14 +634,14 @@
                 "$~আচ্ছা, আমার কাছে শেষ একটা গোপন কথা আছে।",
                 "$~আপনি কি জানেন যে, একটি নামের কী ধরনের মান থাকা উচিত তা জানার জন্য আমি @Is ব্যবহার করতে পারি? এবং যদি সেই মান না থাকে, তবে আমি আপনাকে তা জানিয়ে দেব।",
                 "$~এইভাবে:",
-                "\\bignumber•#: \"one zillion\"\\",
+                "$~\\bignumber•#: \"one zillion\"\\",
                 "$~দেখো, আমি বলেছিলাম \\bignumber\\ একটি সংখ্যা হবে, কিন্তু এটি টেক্সট, আর এ দুটো সামঞ্জস্যপূর্ণ নয়, আর তাই এই সমস্যা!",
                 "$~তারা দ্বিমত পোষণ করলে আমি আপনাকে জানাবো।",
                 "$~কখনও কখনও আপনাকে হয়তো আমাকে অন্য কোনো ধরনের ডেটা কী তা বলে দিতে হতে পারে, কারণ আমি নিজে থেকে তা বুঝতে পারি না। এমনটা সাধারণত @FunctionDefinition-এর ক্ষেত্রে ঘটে থাকে।",
                 "$~উদাহরণস্বরূপ, এখানে, @FunctionDefinition জানে না যে \\a\\ এবং \\b\\ এর মান কী, কারণ আমি তাদের তা বলিনি।",
                 "$~\\ƒ sum(ab) a + b\\",
                 "$~কিন্তু আমরা @Is যোগ করে এটি পরিবর্তন করতে পারি, এবং এখন @FunctionDefinition জানে যে এগুলো সংখ্যা:",
-                "\\ƒ sum(a•# b•#) a + b\\"
+                "$~\\ƒ sum(a•# b•#) a + b\\"
             ],
             "label": {
                 "value": "$~মূল্য",
@@ -649,12 +766,12 @@
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~অজানাধার",
-                    "explanation": "$~আমি এই নামে কোনো $source জানি না।",
+                    "explanation": "$~আমি এই নামে কোনো @Source জানি না।",
                     "resolution": "$~এই ধারটি সরান"
                 },
                 "BorrowCycle": {
                     "name": "$~আত্ম-উল্লেখকারীধার",
-                    "explanation": "$~এটি $borrow উপর নির্ভরশীল, যা আবার এই $source উপর নির্ভরশীল, তাই প্রোগ্রামটি মূল্যায়ন করা যাচ্ছে না।",
+                    "explanation": "$~এটি $borrow উপর নির্ভরশীল, যা আবার এই @Source উপর নির্ভরশীল, তাই প্রোগ্রামটি মূল্যায়ন করা যাচ্ছে না।",
                     "resolution": "$~চক্রটি ভাঙতে এই ধারটি সরিয়ে ফেলুন।"
                 }
             },
@@ -871,7 +988,7 @@
                 },
                 "SeparatedEvaluate": {
                     "name": "$~অস্পষ্টমূল্যায়ন",
-                    "explanation": "$~$name কি কোনো $structure [ $structure | $function ]-এর নাম যা আপনি মূল্যায়ন করার চেষ্টা করছেন? 'me'-এর পরের স্পেসটি সরিয়ে দিন, তাহলে আমি বুঝতে পারব এটি একটি @Evaluate, কোনো আলাদা @Block নয়।",
+                    "explanation": "$~$name কি কোনো $structure [ $structure | @FunctionDefinition ]-এর নাম যা আপনি মূল্যায়ন করার চেষ্টা করছেন? 'me'-এর পরের স্পেসটি সরিয়ে দিন, তাহলে আমি বুঝতে পারব এটি একটি @Evaluate, কোনো আলাদা @Block নয়।",
                     "resolution": "$~* $name * এবং এর ইনপুটগুলির মধ্যে থাকা স্পেসটি বন্ধ করুন।"
                 }
             },
@@ -2244,7 +2361,10 @@
                 "$~কেউ কেউ কিবোর্ড ব্যবহার করেন (⊤ চিহ্নের জন্য /ctrl+9/ এবং ⊥ চিহ্নের জন্য /ctrl+0/)। কেউ কেউ এডিটরের নিচের দিকে থাকা ক্যারেক্টার সার্চ ব্যবহার করেন। অথবা আপনি এখান থেকে আমাদেরকে টেনে আনতে পারেন।",
                 "$~নিচে আমাদের @FunctionDefinition-গুলো দেখুন। এগুলো খুবই যৌক্তিক।"
             ],
-            "name": ["$~⊤⊥", "$~বুলিয়ান"],
+            "name": [
+                "$~⊤⊥",
+                "$~বুলিয়ান"
+            ],
             "function": {
                 "and": {
                     "doc": [
@@ -2254,7 +2374,10 @@
                         "$~\\⊥ & ⊤\\",
                         "$~\\⊥ & ⊥\\"
                     ],
-                    "names": ["$~এবং", "$~এবং"],
+                    "names": [
+                        "$~এবং",
+                        "$~এবং"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~যাচাই করার জন্য আরেকটি @Boolean আছে। যদি প্রথমটি \\⊥\\ হয়, তাহলে এটি কী তা বিবেচ্য নয়, ফাংশনটির মানও \\⊥\\ হবে।",
@@ -2270,7 +2393,10 @@
                         "$~⊥ | ⊤",
                         "$~⊥ | ⊥\\"
                     ],
-                    "names": ["$~|", "$~অথবা"],
+                    "names": [
+                        "$~|",
+                        "$~অথবা"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~যাচাই করার জন্য আরেকটি @Boolean যদি প্রথমটি \\⊥\\ হয়, তাহলে ফাংশনটি কেবল তখনই \\⊤\\ হিসেবে মূল্যায়ন হবে, যদি এটি \\⊤\\ হয়।",
@@ -2280,12 +2406,18 @@
                 },
                 "not": {
                     "doc": "$~আমি আমার নিজের বিপরীতটা পাই: যদি \\⊤\\ হয়, তাহলে \\⊥\\ হয়, যদি \\⊥\\ হয়, তাহলে \\⊤\\ হয়।",
-                    "names": ["$~~", "$~না"],
+                    "names": [
+                        "$~~",
+                        "$~না"
+                    ],
                     "inputs": []
                 },
                 "equals": {
                     "doc": "$~\\⊤\\ যদি উভয়ই \\⊤\\ হয় অথবা উভয়ই \\⊥\\ হয়।",
-                    "names": ["$~=", "$~সমান"],
+                    "names": [
+                        "$~=",
+                        "$~সমান"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~যাচাই করার জন্য আরেকটি মান।",
@@ -2295,7 +2427,10 @@
                 },
                 "notequal": {
                     "doc": "$~⊤ যদি উভয়ই বিপরীত হয়।",
-                    "names": ["$~≠", "$~নোটইকুয়াল"],
+                    "names": [
+                        "$~≠",
+                        "$~নোটইকুয়াল"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~যাচাই করার জন্য আরেকটি মান।",
@@ -2313,11 +2448,17 @@
                 "$~I হলো মানের অনুপস্থিতি, যা \\ø\\ দ্বারা লেখা হয়।",
                 "$~আমি @None । আমাকে \\ø\\ দিয়ে আহ্বান করুন।"
             ],
-            "name": ["$~ø", "$~কোনোটিইনা"],
+            "name": [
+                "$~ø",
+                "$~কোনোটিইনা"
+            ],
             "function": {
                 "equals": {
                     "doc": "$~অন্য কোনো মানও কি শূন্য? তাই হওয়াই ভালো, নইলে \\⊥\\।",
-                    "names": ["$~=", "$~সমান"],
+                    "names": [
+                        "$~=",
+                        "$~সমান"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~অপর মানটি।",
@@ -2327,7 +2468,10 @@
                 },
                 "notequals": {
                     "doc": "$~অন্য কোনো মান কি শূন্য নয়?",
-                    "names": ["$~≠", "$~নোটইকুয়াল"],
+                    "names": [
+                        "$~≠",
+                        "$~নোটইকুয়াল"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~অপর মানটি।",
@@ -2344,20 +2488,23 @@
             "doc": [
                 "$~আমি যেকোনো ভাষার যেকোনো লেখা উপস্থাপন করতে পারি। শুধু লেখাটিকে টেক্সটের শুরু ও শেষের চিহ্নগুলোর মধ্যে রাখুন: \\\"\"\\, \\“”\\, \\„“\\, \\''\\, \\''\\, \\‹›\\, \\«»\\, \\「」\\, অথবা \\『』\\।",
                 "$~উদাহরণস্বরূপ, এই সুন্দর বাক্যাংশগুলো বিবেচনা করুন।",
-                "\\“There are only two ways to live your life. One is as though nothing is a miracle. The other is as though everything is a miracle.”\\",
-                "\\『一日三秋』\\",
+                "$~\\“There are only two ways to live your life. One is as though nothing is a miracle. The other is as though everything is a miracle.”\\",
+                "$~\\『一日三秋』\\",
                 "$~মনে রেখো, আমাকে খুললে বন্ধ করে দিও এবং সঠিক প্রতীকটি ব্যবহার করো। নইলে আমি বুঝব না যে তোমার কথা বলা শেষ হয়েছে।",
-                "\\'hello'/en'hola'/es-MX\\",
+                "$~\\'hello'/en'hola'/es-MX\\",
                 "$~আপনি আমাকে ভাষা দিয়ে ট্যাগ করতে পারেন, এমনকি একাধিক অনুবাদও দিতে পারেন। বর্তমানে নির্বাচিত ভাষাগুলোর মধ্যে কোনো মিল থাকলে, আমি সেই অনুযায়ীই মূল্যায়ন করব।",
                 "$~যদি তুমি আমাকে অন্য কোনো মান দিয়ে তৈরি করতে চাও, তাহলে তুমি এটা করতে পারো:",
-                "\\\"Here are some sums \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
+                "$~\\\"Here are some sums \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
                 "$~দেখুন তো, আমি কত সুন্দরভাবে যোগফলগুলো মূল্যায়ন করে @Text-এর ভেতরে রেখেছি?",
                 "$~আমার কাছে শেষ একটি ছোট্ট গোপন কথা আছে: আপনারা কি জানতেন যে আমাদের প্রত্যেকের একটি অনন্য নম্বর আছে? এটা সত্যি! আপনারা আমাদের নম্বর দিয়ে আমাদের উল্লেখ করতে পারেন। উদাহরণস্বরূপ, @FunctionDefinition-এর নম্বর হলো 192:",
-                "\\'@192'\\",
+                "$~\\'@192'\\",
                 "$~দেখলেন তো, কীভাবে 192 @FunctionDefinition-এ পরিণত হলো? শুনলাম আপনারা এই সংখ্যাগুলোকে 'ইউনিকোড' বলেন।",
                 "$~তাছাড়া, @FunctionDefinition আমার জন্য এমন অনেক চমৎকার ফাংশন তৈরি করেছে, যা দিয়ে আমি শব্দ নিয়ে নানা রকম কাজ করতে পারি!"
             ],
-            "name": ["$~''", "$~পাঠ্য"],
+            "name": [
+                "$~''",
+                "$~পাঠ্য"
+            ],
             "function": {
                 "length": {
                     "doc": [
@@ -2365,12 +2512,18 @@
                         "$~'হ্যালো'.দৈর্ঘ্য()",
                         "$~'🐈📚'.length()"
                     ],
-                    "names": ["$~📏", "$~দৈর্ঘ্য"],
+                    "names": [
+                        "$~📏",
+                        "$~দৈর্ঘ্য"
+                    ],
                     "inputs": []
                 },
                 "equals": {
                     "doc": "$~\\⊤\\ যদি আমি প্রদত্ত @Text-এর মতো একই অক্ষর অনুক্রম হই।",
-                    "names": ["$~=", "$~সমান"],
+                    "names": [
+                        "$~=",
+                        "$~সমান"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~তুলনা করার জন্য @Text",
@@ -2393,7 +2546,10 @@
                         "$~⊤ যদি প্রদত্ত @Text আমার মধ্যে আবির্ভূত হয়।",
                         "$~'তুমি যা খুঁজছিলে তা কি খুঁজে পেয়েছো?'.has('you')"
                     ],
-                    "names": ["$~⊆", "$~আছে"],
+                    "names": [
+                        "$~⊆",
+                        "$~আছে"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~আমার মধ্যে খোঁজার জন্য @Text",
@@ -2407,7 +2563,9 @@
                         "$~'হ্যালো শ্লোক!'.starts('হ্যালো')",
                         "$~'হ্যালো শ্লোক!'.starts('verse')"
                     ],
-                    "names": ["$~শুরুহয়"],
+                    "names": [
+                        "$~শুরুহয়"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~আমার শুরুতে যাচাই করার জন্য @Text",
@@ -2421,7 +2579,9 @@
                         "$~'আমি কি একটি প্রশ্ন?'.ends('?')",
                         "$~'আমি কোনো প্রশ্ন নই।'.ends('?')"
                     ],
-                    "names": ["$~শেষ"],
+                    "names": [
+                        "$~শেষ"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~আমার শেষে যাচাই করার জন্য @Text",
@@ -2456,11 +2616,15 @@
                 "segment": {
                     "doc": [
                         "$~আমি প্রদত্ত @Text-কে বিভাজক হিসেবে ব্যবহার করে এবং বিভাজকগুলো সরিয়ে দিয়ে নিজেকে @Text-এর একটি @List-এ বিভক্ত করি। উদাহরণস্বরূপ:",
-                        "\\'apples, oranges, grapes' ÷ ', '\\",
+                        "$~\\'apples, oranges, grapes' ÷ ', '\\",
                         "$~যদি বিভাজকটি একটি খালি @Text হয়, তাহলে আমি নিজেকে অক্ষরগুলিতে বিভক্ত করি:",
-                        "\\'🖌️🏠🥸' ÷ ''\\"
+                        "$~\\'🖌️🏠🥸' ÷ ''\\"
                     ],
-                    "names": ["$~÷", "$~খণ্ডিত", "$~অংশ"],
+                    "names": [
+                        "$~÷",
+                        "$~খণ্ডিত",
+                        "$~অংশ"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~বিভাজক হিসেবে ব্যবহার করার জন্য @Text",
@@ -2473,7 +2637,11 @@
                         "$~কখনও কখনও দুটি @Text-কে একত্রিত করা সহায়ক হতে পারে। আমাকে আরেকটি @Text দিন এবং আমি একটি নতুন টেক্সট তৈরি করব যা আমাদের একত্রিত করবে:",
                         "$~'হ্যালো ' + 'শ্লোক'"
                     ],
-                    "names": ["$~+", "$~সম্মিলিত", "$~একত্রিতকরুন"],
+                    "names": [
+                        "$~+",
+                        "$~সম্মিলিত",
+                        "$~একত্রিতকরুন"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~যুক্ত করার জন্য @Text",
@@ -2486,7 +2654,10 @@
                         "$~\\⊤\\ যদি সম্পূর্ণ লেখাটি প্রদত্ত প্যাটার্নের সাথে মিলে যায়।",
                         "$~\\'555-1234' ≈ ⣿3 # \"-\" 4 #⣿\\"
                     ],
-                    "names": ["$~≈", "$~ম্যাচ"],
+                    "names": [
+                        "$~≈",
+                        "$~ম্যাচ"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~যে নকশার সাথে মেলাতে হবে।",
@@ -2499,7 +2670,10 @@
                         "$~আমার মধ্যে প্রদত্ত প্যাটার্নটি যেখানে যেখানে মেলে, সেই সমস্ত স্থান @Result এর একটি তালিকা হিসাবে খুঁজুন।",
                         "$~\\'a1 b2' ⌕ ⣿_ #⣿\\"
                     ],
-                    "names": ["$~⌕", "$~অনুসন্ধান"],
+                    "names": [
+                        "$~⌕",
+                        "$~অনুসন্ধান"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~যে প্যাটার্নটি খুঁজতে হবে।",
@@ -2518,27 +2692,30 @@
             "doc": [
                 "I create @Number, with any number of units you can imagine!",
                 "Here are my top 5:",
-                "\\0\\",
-                "\\1story\\",
-                "\\πpie\\",
-                "\\∞rock\\",
-                "\\1000000hugs\\",
+                "$~\\0\\",
+                "$~\\1story\\",
+                "$~\\πpie\\",
+                "$~\\∞rock\\",
+                "$~\\1000000hugs\\",
                 "That's basically an infinite number of numbers.",
                 "And an infinite number of units!",
                 "And an infinite number of number/unit pairs…",
                 "I can be integers, real numbers, negative, positive, fractional, decimal, even not a number.",
-                "And you can write me with many different number systems, including Arabic \\123\\, Roman \\ⅩⅩⅩⅠⅩ\\, Japanese \\二十\\, and more:",
-                "\\1 + Ⅰ + 一\\",
+                "$~And you can write me with many different number systems, including Arabic \\123\\, Roman \\ⅩⅩⅩⅠⅩ\\, Japanese \\二十\\, and more:",
+                "$~\\1 + Ⅰ + 一\\",
                 "You can also write me in bases 2 to 16 by putting a base number like this:",
-                "\\2;11111111\\",
-                "\\10;255\\",
-                "\\16;FF\\",
+                "$~\\2;11111111\\",
+                "$~\\10;255\\",
+                "$~\\16;FF\\",
                 "There is one special number called NaN that is possible when you write something that isn't a number:",
-                "\\2;22\\",
+                "$~\\2;22\\",
                 "There is no digit '2' in base 2, so it's not a valid number. NaN will also show up if you try to convert non-number text to number",
-                "\\'hi'→#\\"
+                "$~\\'hi'→#\\"
             ],
-            "name": ["$~#", "$~সংখ্যা"],
+            "name": [
+                "$~#",
+                "$~সংখ্যা"
+            ],
             "function": {
                 "add": {
                     "doc": [
@@ -2549,7 +2726,10 @@
                         "$~এককগুলো না মিললে আমি অনুষ্ঠানটি থামিয়ে দিই।",
                         "$~৩টি বিড়াল + ৫টি কুকুর"
                     ],
-                    "names": ["$~+", "$~যোগকরুন"],
+                    "names": [
+                        "$~+",
+                        "$~যোগকরুন"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~যোগ করার জন্য @Number",
@@ -2566,7 +2746,10 @@
                         "$~এককগুলো না মিললে আমি অনুষ্ঠানটি থামিয়ে দিই।",
                         "$~৩টি বিড়াল - ৫টি কুকুর"
                     ],
-                    "names": ["$~-", "$~বিয়োগকরুন"],
+                    "names": [
+                        "$~-",
+                        "$~বিয়োগকরুন"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~আমার থেকে বিয়োগ করার জন্য @Number",
@@ -2581,7 +2764,11 @@
                         "$~৫মি × ৫মি",
                         "$~৫মি × ১/সেকেন্ড"
                     ],
-                    "names": ["$~×", "$~·", "$~গুণকরুন"],
+                    "names": [
+                        "$~×",
+                        "$~·",
+                        "$~গুণকরুন"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~যে সংখ্যাটিকে গুণ করতে হবে।",
@@ -2596,7 +2783,10 @@
                         "$~৫মি ÷ ৫মি",
                         "$~৫মি ÷ ৫সে"
                     ],
-                    "names": ["$~÷", "$~ভাগ"],
+                    "names": [
+                        "$~÷",
+                        "$~ভাগ"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~আমাকে ভাগ করার জন্য @Number",
@@ -2611,7 +2801,10 @@
                         "$~১০মি % ২",
                         "$~১০মি/সেকেন্ড % ৩"
                     ],
-                    "names": ["$~%", "$~বাকি"],
+                    "names": [
+                        "$~%",
+                        "$~বাকি"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~আমাকে ভাগ করার জন্য @Number",
@@ -2624,7 +2817,9 @@
                         "$~আমি একটি নতুন @Number তৈরি করি যা নেতিবাচক হলে আমাকে ইতিবাচক করে তোলে।",
                         "$~-200.ধনাত্মক()"
                     ],
-                    "names": ["$~ইতিবাচক"],
+                    "names": [
+                        "$~ইতিবাচক"
+                    ],
                     "inputs": []
                 },
                 "round": {
@@ -2634,7 +2829,9 @@
                         "$~\\9.5.round()\\",
                         "$~\\9.6.round()\\"
                     ],
-                    "names": ["$~গোল"],
+                    "names": [
+                        "$~গোল"
+                    ],
                     "inputs": []
                 },
                 "roundDown": {
@@ -2644,7 +2841,9 @@
                         "$~\\10.1.roundDown()\\",
                         "$~\\10.01.roundDown()\\"
                     ],
-                    "names": ["$~রাউন্ডডাউন"],
+                    "names": [
+                        "$~রাউন্ডডাউন"
+                    ],
                     "inputs": []
                 },
                 "roundUp": {
@@ -2654,7 +2853,9 @@
                         "$~\\10.9.roundUp()\\",
                         "$~\\10.99.roundUp()\\"
                     ],
-                    "names": ["$~রাউন্ডআপ"],
+                    "names": [
+                        "$~রাউন্ডআপ"
+                    ],
                     "inputs": []
                 },
                 "power": {
@@ -2664,7 +2865,10 @@
                         "$~\\10 ^ -2\\",
                         "$~\\5 ^ -.5\\"
                     ],
-                    "names": ["$~^", "$~ক্ষমতা"],
+                    "names": [
+                        "$~^",
+                        "$~ক্ষমতা"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~আমাকে উন্নীত করার জন্য প্রবক্তা।",
@@ -2678,7 +2882,10 @@
                         "$~\\4 √ 2\\",
                         "$~\\1000 √ 3\\"
                     ],
-                    "names": ["$~√", "$~মূল"],
+                    "names": [
+                        "$~√",
+                        "$~মূল"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~গণনা করার জন্য মূল।",
@@ -2692,7 +2899,10 @@
                         "$~১ < ২",
                         "$~\\2 < 1\\"
                     ],
-                    "names": ["$~<", "$~কম"],
+                    "names": [
+                        "$~<",
+                        "$~কম"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~আমাকে তুলনা করার জন্য @Number",
@@ -2707,7 +2917,10 @@
                         "$~\\2 ≤ 1\\",
                         "$~\\2 ≤ 2\\"
                     ],
-                    "names": ["$~≤", "$~কমসমান"],
+                    "names": [
+                        "$~≤",
+                        "$~কমসমান"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~আমাকে তুলনা করার জন্য @Number",
@@ -2721,7 +2934,10 @@
                         "$~১ > ২",
                         "$~\\2 > 1\\"
                     ],
-                    "names": ["$~>", "$~বৃহত্তর"],
+                    "names": [
+                        "$~>",
+                        "$~বৃহত্তর"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~আমাকে তুলনা করার জন্য @Number",
@@ -2736,7 +2952,10 @@
                         "$~\\2 ≥ 1\\",
                         "$~\\2 ≥ 2\\"
                     ],
-                    "names": ["$~≥", "$~বৃহত্তরসমান"],
+                    "names": [
+                        "$~≥",
+                        "$~বৃহত্তরসমান"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~আমাকে তুলনা করার জন্য @Number",
@@ -2750,7 +2969,10 @@
                         "$~১ = ২",
                         "$~\\2 = 2\\"
                     ],
-                    "names": ["$~=", "$~সমান"],
+                    "names": [
+                        "$~=",
+                        "$~সমান"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~আমাকে তুলনা করার জন্য @Number",
@@ -2764,7 +2986,10 @@
                         "$~১ ≠ ২",
                         "$~\\2 ≠ 2\\"
                     ],
-                    "names": ["$~≠", "$~নোটইকুয়াল"],
+                    "names": [
+                        "$~≠",
+                        "$~নোটইকুয়াল"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~আমাকে তুলনা করার জন্য @Number",
@@ -2773,13 +2998,25 @@
                     ]
                 },
                 "cos": {
-                    "doc": ["$~me-এর কোসাইন নির্ণয় করুন।", "$~π.cos()"],
-                    "names": ["$~কস", "$~কোসাইন"],
+                    "doc": [
+                        "$~me-এর কোসাইন নির্ণয় করুন।",
+                        "$~π.cos()"
+                    ],
+                    "names": [
+                        "$~কস",
+                        "$~কোসাইন"
+                    ],
                     "inputs": []
                 },
                 "sin": {
-                    "doc": ["$~me-এর সাইন নির্ণয় করুন।", "$~\\π.cos()\\"],
-                    "names": ["$~পাপ", "$~সাইন"],
+                    "doc": [
+                        "$~me-এর সাইন নির্ণয় করুন।",
+                        "$~\\π.cos()\\"
+                    ],
+                    "names": [
+                        "$~পাপ",
+                        "$~সাইন"
+                    ],
                     "inputs": []
                 },
                 "min": {
@@ -2878,7 +3115,10 @@
                 "$~\\['আপেল' 'কলা' 'আম']!\\",
                 "$~ব্যাপারটা মোটামুটি এই। কিন্তু আমি আমার @FunctionDefinition দিয়ে অনেক ধরনের দারুণ কাজ করতে পারি!"
             ],
-            "name": ["$~[]", "$~তালিকা"],
+            "name": [
+                "$~[]",
+                "$~তালিকা"
+            ],
             "kind": "$~ধরনের",
             "out": "$~ফলাফল",
             "outofbounds": "$~সীমার বাইরে",
@@ -2888,7 +3128,10 @@
                         "$~আমি প্রদত্ত আইটেমটিকে শেষে রেখে একটি নতুন @List তৈরি করি।",
                         "$~\\['apple' 'banana' 'mang'].with('watermelon')"
                     ],
-                    "names": ["$~সাথে", "$~যোগকরুন"],
+                    "names": [
+                        "$~সাথে",
+                        "$~যোগকরুন"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~আমিই সেই মূল্য যা আপনি যোগ করতে চান।",
@@ -2903,7 +3146,10 @@
                         "$~তবে @Spread ব্যবহার করাটা একটু বেশি সহজ, যেমন:",
                         "$~\\['আপেল' 'কলা' 'আম' :['তরমুজ' 'স্টারফ্রুট']]\\"
                     ],
-                    "names": ["$~তালিকাসহ", "$~যুক্তকরুন"],
+                    "names": [
+                        "$~তালিকাসহ",
+                        "$~যুক্তকরুন"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~যোগ করার জন্য মানগুলির তালিকা।",
@@ -2916,7 +3162,9 @@
                         "$~আমি একটি নতুন তালিকা তৈরি করি যা প্রদত্ত ইন্ডেক্সের মানকে প্রদত্ত মান দ্বারা প্রতিস্থাপন করে।",
                         "$~\\['apple' 'banana' 'mango'].replace(1 'kiwi')\\"
                     ],
-                    "names": ["$~প্রতিস্থাপনকরুন"],
+                    "names": [
+                        "$~প্রতিস্থাপনকরুন"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~যে মানটি প্রতিস্থাপন করতে হবে তার সূচক",
@@ -2930,7 +3178,10 @@
                 },
                 "length": {
                     "doc": "$~আমার মধ্যে থাকা জিনিসপত্রের সংখ্যা।",
-                    "names": ["$~📏", "$~দৈর্ঘ্য"],
+                    "names": [
+                        "$~📏",
+                        "$~দৈর্ঘ্য"
+                    ],
                     "inputs": []
                 },
                 "random": {
@@ -3020,7 +3271,10 @@
                         "$~আমি আমার প্রথম আইটেমটি ছাড়া একটি তালিকা তৈরি করি।",
                         "$~\\['apple' 'banana' 'mango'].sansFirst()\\"
                     ],
-                    "names": ["$~প্রথমটিছাড়া", "$~স্যান্সফার্স্ট"],
+                    "names": [
+                        "$~প্রথমটিছাড়া",
+                        "$~স্যান্সফার্স্ট"
+                    ],
                     "inputs": []
                 },
                 "sansLast": {
@@ -3028,7 +3282,10 @@
                         "$~আমি আমার শেষ আইটেমটি ছাড়া একটি তালিকা তৈরি করি।",
                         "$~\\['apple' 'banana' 'mango'].sansLast()\\"
                     ],
-                    "names": ["$~শেষছাড়া", "$~স্যান্সলাস্ট"],
+                    "names": [
+                        "$~শেষছাড়া",
+                        "$~স্যান্সলাস্ট"
+                    ],
                     "inputs": []
                 },
                 "sans": {
@@ -3036,7 +3293,10 @@
                         "$~আমি, কিন্তু প্রদত্ত মানটির প্রথম উপস্থিতিগুলো ছাড়া।",
                         "$~\\['apple' 'banana' 'mange' 'apple'].sans('apple')\\"
                     ],
-                    "names": ["$~ছাড়া", "$~স্যান্স"],
+                    "names": [
+                        "$~ছাড়া",
+                        "$~স্যান্স"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~যে মানটির প্রথম উপস্থিতি অপসারণ করতে হবে।",
@@ -3049,7 +3309,10 @@
                         "$~আমি, কিন্তু প্রদত্ত মানটির সমস্ত ঘটনা ছাড়া।",
                         "$~\\['apple' 'banana' 'mange' 'apple'].sans('apple')\\"
                     ],
-                    "names": ["$~সবকিছুছাড়া", "$~সবছাড়া"],
+                    "names": [
+                        "$~সবকিছুছাড়া",
+                        "$~সবছাড়া"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~তালিকা থেকে যে মানটির সমস্ত পুনরাবৃত্তি মুছে ফেলতে হবে।",
@@ -3062,7 +3325,10 @@
                         "$~আমি, কিন্তু উল্টোভাবে!",
                         "$~\\['apple' 'banana' 'mango'].reverse()\\"
                     ],
-                    "names": ["$~বিপরীত", "$~বিপরীত"],
+                    "names": [
+                        "$~বিপরীত",
+                        "$~বিপরীত"
+                    ],
                     "inputs": []
                 },
                 "equals": {
@@ -3070,7 +3336,10 @@
                         "$~⊤ যদি আমার আইটেম এবং ক্রম প্রদত্ত @List-এর সাথে হুবহু একই হয়।",
                         "$~\\['apple' 'banana' 'mango'] = ['apple' 'manna' 'banana']\\"
                     ],
-                    "names": ["$~=", "$~সমান"],
+                    "names": [
+                        "$~=",
+                        "$~সমান"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~আমাকে তুলনা করার জন্য @List",
@@ -3083,7 +3352,10 @@
                         "$~⊤ যদি আমার আইটেম এবং তাদের ক্রম প্রদত্ত @List-এর সাথে হুবহু এক না হয়।",
                         "$~\\['apple' 'banana' 'mango'] ≠ ['apple' 'mango' 'banana']\\"
                     ],
-                    "names": ["$~≠", "$~নোটইকুয়াল"],
+                    "names": [
+                        "$~≠",
+                        "$~নোটইকুয়াল"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~আমাকে তুলনা করার জন্য @List",
@@ -3237,7 +3509,10 @@
                         "$~আমার মধ্যে থাকা সমস্ত আইটেমকে একটি একক মানে একত্রিত করার জন্য এটি সত্যিই সহায়ক। উদাহরণস্বরূপ, ধরুন আপনি সংখ্যার একটি তালিকা যোগ করতে চেয়েছিলেন:",
                         "$~\\[3 9 2 8 1 4].combine(0 ƒ(sum•# number•#) sum + number)\\"
                     ],
-                    "names": ["$~সম্মিলিত", "$~একত্রিতকরুন"],
+                    "names": [
+                        "$~সম্মিলিত",
+                        "$~একত্রিতকরুন"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~শুরুর সমন্বয়।",
@@ -3304,16 +3579,19 @@
                 "$~এর মানে হলো, আপনি যদি আমাকে এমন মান দেন যা আমার কাছে ইতিমধ্যেই আছে, তাহলে আমি অতিরিক্তগুলো উপেক্ষা করব।",
                 "$~উদাহরণস্বরূপ, এই সেটে অনেক সদৃশ উপাদান রয়েছে:",
                 "$~\\{1 1 2 2 3 3}\\",
-                "I evaluate it to just \\{1 2 3}\\.",
+                "$~I evaluate it to just \\{1 2 3}\\.",
                 "$~আমার মধ্যে কোনো মান আছে কিনা তা দেখতে চাইলে, @SetOrMapAccess সাহায্য করতে পারে:",
-                "\\{'jar' 'bottle' 'glass'}{'cup'}\\",
+                "$~\\{'jar' 'bottle' 'glass'}{'cup'}\\",
                 "$~সাধারণত, আপনি যদি আমাকে একই ধরনের অনেকগুলো ভ্যালু দেন, আমি ধরে নেব যে সেগুলো সেই ধরনেরই একটি লিস্ট। যেমন এই সেটটি হলো \\{''}\\, কারণ এর সবগুলোই @Text",
                 "$~\\{'হে' 'হাই' 'হ্যালো'}\\",
                 "$~কিন্তু আপনি হয়তো উল্লেখ করতে চাইতে পারেন যে আমি শুধুমাত্র ওই মানগুলোরই একটি সেট, যাতে আপনি যখন কোনো অননুমোদিত মান ব্যবহার করার চেষ্টা করবেন, তখন আমি আপনাকে তা জানিয়ে দিতে পারি। সেক্ষেত্রে, আমার নামের শেষে শুধু একটি বিস্ময়সূচক চিহ্ন (!) যোগ করে দিন।",
                 "$~\\{'হে' 'হাই' 'হ্যালো'}!{'ইয়ো'}\\",
                 "$~তুমি কি আমার সাথে অন্য কিছু করতে চাও? আমার কাছে থাকা সব চমৎকার @FunctionDefinition গুলো দেখে নাও!"
             ],
-            "name": ["$~{}", "$~সেট"],
+            "name": [
+                "$~{}",
+                "$~সেট"
+            ],
             "kind": "$~ধরনের",
             "out": "$~ফলাফল",
             "function": {
@@ -3327,7 +3605,10 @@
                         "$~আমি \\⊤\\ হবো যদি প্রদত্ত @Set এবং আমার মানগুলো হুবহু একই হয়:",
                         "$~\\{1 2 3} = {2 3 4}\\"
                     ],
-                    "names": ["$~=", "$~সমান"],
+                    "names": [
+                        "$~=",
+                        "$~সমান"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~তুলনা করার জন্য @Set",
@@ -3340,7 +3621,10 @@
                         "$~আমি \\⊤\\ হবো যদি প্রদত্ত @Set এবং আমার কাছে হুবহু একই মান না থাকে:",
                         "$~\\{1 2 3} ≠ {2 3 4}\\"
                     ],
-                    "names": ["$~≠", "$~নোটইকুয়াল"],
+                    "names": [
+                        "$~≠",
+                        "$~নোটইকুয়াল"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~তুলনা করার জন্য @Set",
@@ -3353,7 +3637,11 @@
                         "$~যোগ করার জন্য আমাকে একটি আইটেম দিন এবং আমি আমার আইটেমগুলোর সাথে প্রদত্ত আইটেমটি দিয়ে একটি নতুন @Set তৈরি করে দেব।",
                         "$~\\{1 2 3} + 4\\"
                     ],
-                    "names": ["$~সাথে", "$~যোগকরুন", "$~+"],
+                    "names": [
+                        "$~সাথে",
+                        "$~যোগকরুন",
+                        "$~+"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~যোগ করার আইটেমটি",
@@ -3367,7 +3655,10 @@
                         "$~\\{1 2 3} - 2\\",
                         "$~আমার কাছে জিনিসটা না থাকলে, আমি মনে মনেই বিচার করে নেব।"
                     ],
-                    "names": ["$~অপসারণকরুন", "$~-"],
+                    "names": [
+                        "$~অপসারণকরুন",
+                        "$~-"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~যে আইটেমটি সরাতে হবে।",
@@ -3380,7 +3671,10 @@
                         "$~আমাকে @Set দিন এবং আমি আমার আইটেম ও ওই সেটের আইটেমগুলো দিয়ে একটি নতুন @Set তৈরি করে দেব।",
                         "$~\\{1 2 3} ∪ {3 4 5}\\"
                     ],
-                    "names": ["$~ইউনিয়ন", "$~∪"],
+                    "names": [
+                        "$~ইউনিয়ন",
+                        "$~∪"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~আমার সাথে একত্রিত হতে @Set করুন।",
@@ -3393,7 +3687,10 @@
                         "$~আমাকে @Set দিন এবং আমি একটি নতুন @Set তৈরি করব যাতে শুধুমাত্র আমাদের উভয়ের মধ্যে থাকা আইটেমগুলো থাকবে।",
                         "$~\\{1 2 3} ∩ {3 4 5}\\"
                     ],
-                    "names": ["$~ছেদ", "$~∩"],
+                    "names": [
+                        "$~ছেদ",
+                        "$~∩"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~আমার সাথে তুলনা করার জন্য সেটটি।",
@@ -3486,7 +3783,10 @@
                 "$~\\{1:1 2:2 3:3}!{4}\\",
                 "$~আমি আমার জোড়া মেলানোর মাধ্যমে অনেক চমৎকার জিনিস করতে জানি।"
             ],
-            "name": ["$~{:}", "$~মানচিত্র"],
+            "name": [
+                "$~{:}",
+                "$~মানচিত্র"
+            ],
             "key": "$~চাবি",
             "value": "$~মূল্য",
             "result": "$~ফলাফল",
@@ -3501,7 +3801,10 @@
                         "$~\\{⊤}\\ যদি আমার জোড়গুলো প্রদত্ত @Map-এর জোড়গুলোর হুবহু একই হয়।",
                         "$~\\{1:1 2:2} = {1:1 2:3}\\"
                     ],
-                    "names": ["$~=", "$~সমান"],
+                    "names": [
+                        "$~=",
+                        "$~সমান"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~আমাকে তুলনা করার জন্য @Map",
@@ -3514,7 +3817,10 @@
                         "$~\\{⊤}\\ যদি আমার জোড়গুলো প্রদত্ত @Map-এর জোড়গুলোর সাথে হুবহু এক না হয়।",
                         "$~\\{1:1 2:2} ≠ {1:1 2:3}"
                     ],
-                    "names": ["$~≠", "$~নোটইকুয়াল"],
+                    "names": [
+                        "$~≠",
+                        "$~নোটইকুয়াল"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~আমাকে তুলনা করার জন্য @Map",
@@ -3634,22 +3940,28 @@
                 "$~উদাহরণস্বরূপ, ধরুন আপনি একগুচ্ছ পাথরের হিসাব রাখতে চান:",
                 "$~\\⎡নাম•''রঙ•''⎦ ⎡'অবসিডিয়ান' 'কালো'⎦ ⎡'পিউমিস' 'ধূসর'⎦ ⎡'সিট্রিন' 'হলুদ'⎦\\",
                 "$~@Bind আপনাকে এটির নামকরণ করতে সাহায্য করতে পারে! এবং তারপরে আপনি @Insert: ব্যবহার করে একটি নতুন সারি সহ একটি সংশোধিত টেবিল তৈরি করার মতো কাজ করতে পারেন।",
-                "\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\nrocks ⎡+ 'quartz' 'white'⎦\\",
+                "$~\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\nrocks ⎡+ 'quartz' 'white'⎦\\",
                 "$~অথবা যদি আপনি মিলে যায় এমন সারিগুলো খুঁজে বের করতে চান, তাহলে আপনি @Select ব্যবহার করে কোনো শর্তের সাথে মেলে এমন সারিগুলো নির্বাচন করতে পারেন:",
-                "\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\nrocks ⎡?⎦ color = 'grey'\\",
+                "$~\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\nrocks ⎡?⎦ color = 'grey'\\",
                 "$~অথবা হয়তো আপনি এমন একটি সংশোধিত টেবিল তৈরি করতে চান, যেখানে কোনো শর্ত পূরণকারী সারিগুলোর জন্য ভিন্ন ভিন্ন মান থাকবে:",
-                "\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\nrocks ⎡: color: 'black' ⎦ name = 'pumice'\\",
+                "$~\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\nrocks ⎡: color: 'black' ⎦ name = 'pumice'\\",
                 "$~অথবা হয়তো আপনি কোনো শর্তের সাথে মেলে এমন সারিগুলো মুছে ফেলতে চান:",
-                "\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\nrocks ⎡- name.has('i')\\",
+                "$~\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\nrocks ⎡- name.has('i')\\",
                 "$~আর যদি আপনি কখনো আমার কাছ থেকে নির্দিষ্ট মান পেতে চান, তাহলে আপনি যেকোনো টেবিলকে একটি লিস্টে রূপান্তর করে @PropertyReference ব্যবহার করে স্বতন্ত্র সারিগুলো অ্যাক্সেস করতে পারেন।",
                 "$~\\পাথর: ⎡নাম•'' রঙ•''⎦ ⎡'অবসিডিয়ান' 'কালো'⎦ ⎡'পিউমিস' 'ধূসর'⎦ ⎡'সিট্রিন' 'হলুদ'⎦ (পাথর → [])[1].নাম\\"
             ],
-            "name": ["$~⎡⎦", "$~টেবিল"],
+            "name": [
+                "$~⎡⎦",
+                "$~টেবিল"
+            ],
             "row": "$~সারি",
             "function": {
                 "equals": {
                     "doc": "$~আমি যাচাই করে দেখি যে আমার কাছে অন্য একটি @Table-এর মতো হুবহু একই সেলগুলো হুবহু একই ক্রমে আছে কি না।",
-                    "names": ["$~=", "$~সমান"],
+                    "names": [
+                        "$~=",
+                        "$~সমান"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~অন্য টেবিলটা যাচাই করতে হবে।",
@@ -3659,7 +3971,10 @@
                 },
                 "notequal": {
                     "doc": "$~আমি পরীক্ষা করে দেখি যে আমার কোনো সেল অন্য কোনো @Table সেল থেকে আলাদা বা ভিন্ন ক্রমে আছে কি না।",
-                    "names": ["$~≠", "$~সমাননয়"],
+                    "names": [
+                        "$~≠",
+                        "$~সমাননয়"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~অন্য টেবিলটা যাচাই করতে হবে।",
@@ -3675,11 +3990,16 @@
         },
         "Structure": {
             "doc": "$~আমি একটি স্ট্রাকচার্ড ভ্যালু, যার মধ্যে নামযুক্ত ও টাইপ করা ফিল্ড রয়েছে এবং যা একটি @StructureDefinition থেকে তৈরি। @StructureDefinition দেখুন।",
-            "name": ["$~কাঠামো"],
+            "name": [
+                "$~কাঠামো"
+            ],
             "function": {
                 "equals": {
                     "doc": "$~আমি যাচাই করে দেখি যে আমার প্রপার্টিগুলোর নাম এবং মান অন্য একটি স্ট্রাকচারের প্রপার্টিগুলোর সাথে একই কিনা।",
-                    "names": ["$~=", "$~সমান"],
+                    "names": [
+                        "$~=",
+                        "$~সমান"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~যাচাই করার জন্য অন্য কাঠামোটি।",
@@ -3689,7 +4009,10 @@
                 },
                 "notequal": {
                     "doc": "$~আমি যাচাই করে দেখি যে আমার প্রোপার্টিগুলোর নাম এবং মান অন্য কোনো স্ট্রাকচারের থেকে কোনোভাবে আলাদা কি না।",
-                    "names": ["$~≠", "$~সমাননয়"],
+                    "names": [
+                        "$~≠",
+                        "$~সমাননয়"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~যাচাই করার জন্য অন্য কাঠামোটি।",
@@ -3708,16 +4031,25 @@
                 "$~\\`I am **bold** and /italic/`\\",
                 "$~আমি অনেকটা @Text মতোই কাজ করি, কিন্তু আমি ফরম্যাটিং করতে পারি। আপনি আমাকে একত্রিত করতে, পুনরাবৃত্তি করতে, আমার মধ্যে কী আছে তা পরীক্ষা করতে এবং আমাকে সাধারণ @Text এ রূপান্তর করতে পারেন।"
             ],
-            "name": ["$~…", "$~ফরম্যাটকরা"],
+            "name": [
+                "$~…",
+                "$~ফরম্যাটকরা"
+            ],
             "function": {
                 "length": {
                     "doc": "$~আমি ফরম্যাটিং এবং অনুচ্ছেদ বিভাজন উপেক্ষা করে আমার লেখার পাঠযোগ্য অক্ষরের সংখ্যা মূল্যায়ন করি।",
-                    "names": ["$~📏", "$~দৈর্ঘ্য"],
+                    "names": [
+                        "$~📏",
+                        "$~দৈর্ঘ্য"
+                    ],
                     "inputs": []
                 },
                 "equals": {
                     "doc": "$~\\⊤\\ যদি আমি প্রদত্ত মানের মতো একই ফরম্যাট করা টেক্সট হই।",
-                    "names": ["$~=", "$~সমান"],
+                    "names": [
+                        "$~=",
+                        "$~সমান"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~তুলনা করার জন্য ফরম্যাট করা টেক্সট।",
@@ -3737,7 +4069,9 @@
                 },
                 "has": {
                     "doc": "$~\\⊤\\ যদি আমার সাধারণ টেক্সটে প্রদত্ত @Text থাকে। দেখার সময় আমি ফরম্যাটিং এবং অনুচ্ছেদ বিভাজন উপেক্ষা করি।",
-                    "names": ["$~আছে"],
+                    "names": [
+                        "$~আছে"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~আমার টেক্সটে যে @Text খুঁজতে হবে।",
@@ -3747,7 +4081,9 @@
                 },
                 "starts": {
                     "doc": "$~\\⊤\\ যদি আমার সাধারণ টেক্সট প্রদত্ত @Text দিয়ে শুরু হয়। যাচাই করার সময় আমি ফরম্যাটিং এবং অনুচ্ছেদ বিভাজন উপেক্ষা করি।",
-                    "names": ["$~শুরুহয়"],
+                    "names": [
+                        "$~শুরুহয়"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~আমার লেখার শুরুতে যে @Text Text-টি যাচাই করতে হবে।",
@@ -3757,7 +4093,9 @@
                 },
                 "ends": {
                     "doc": "$~\\⊤\\ যদি আমার সাধারণ টেক্সট প্রদত্ত @Text দিয়ে শেষ হয়। যাচাই করার সময় আমি ফরম্যাটিং এবং অনুচ্ছেদ বিভাজন উপেক্ষা করি।",
-                    "names": ["$~শেষ"],
+                    "names": [
+                        "$~শেষ"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~আমার লেখার শেষে যে @Text টি যাচাই করতে হবে।",
@@ -3783,7 +4121,11 @@
                 },
                 "combine": {
                     "doc": "$~আমাকে আরেকটি ফরম্যাট করা টেক্সট দিন এবং আমি আমাদের দুটিকে একসাথে জুড়ে দেব। আমাদের দুজনের মধ্যে কারও একাধিক প্যারাগ্রাফ থাকলেও, প্যারাগ্রাফের বিভাজনগুলো বজায় থাকবে।",
-                    "names": ["$~+", "$~সম্মিলিত", "$~একত্রিতকরুন"],
+                    "names": [
+                        "$~+",
+                        "$~সম্মিলিত",
+                        "$~একত্রিতকরুন"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~যুক্ত করার জন্য ফরম্যাট করা টেক্সট।",
@@ -3814,7 +4156,10 @@
                 "$~এবং যদি আপনি দশমিক বিন্দুর পরে নির্দিষ্ট সংখ্যক সার্থক অঙ্কসহ সংখ্যা দেন, তাহলে সেই নির্ভুলতা বজায় থাকবে।",
                 "$~\\Random(1.00 10.00)\\"
             ],
-            "names": ["$~🎲", "$~র‍্যান্ডম"],
+            "names": [
+                "$~🎲",
+                "$~র‍্যান্ডম"
+            ],
             "inputs": [
                 {
                     "names": "$~মিনিট",
@@ -3835,7 +4180,10 @@
                 "$~\\Group(\nStack() \n[\nPhrase('one' selectable:⊤ name:'1') \nPhrase('two' selectable:⊤ name:'2') \nPhrase(Choice())\n]\n)\\",
                 "$~এটি এডিটরে কপি করুন এবং তারপর দুটি @Phrase এর মধ্যে একটি নির্বাচন করুন। আপনি দেখতে পাবেন যে তৃতীয় @Phrase নির্বাচিত নামটি দেখাচ্ছে।"
             ],
-            "names": ["$~🔘", "$~পছন্দ"]
+            "names": [
+                "$~🔘",
+                "$~পছন্দ"
+            ]
         },
         "Button": {
             "doc": [
@@ -3847,7 +4195,10 @@
                 "$~\\Phrase(Button() → '')\\",
                 "$~এটি স্ট্রিমের মানটিকে টেক্সট আকারে একটি @Phrase হিসেবে তৈরি করে। আপনি যদি এটি এডিটরে কপি করে ক্লিক করেন, তাহলে দেখবেন এটি \\⊥\\ এবং \\⊤\\ এর মধ্যে পর্যায়ক্রমে পরিবর্তিত হচ্ছে।"
             ],
-            "names": ["$~🖱️", "$~বোতাম"],
+            "names": [
+                "$~🖱️",
+                "$~বোতাম"
+            ],
             "down": {
                 "names": "$~নিচে",
                 "doc": "$~যদি @None দেওয়া থাকে, তাহলে স্ট্রিমটি আপ এবং ডাউন উভয় মানই প্রদান করবে। যদি একটি \\⊤\\ দেওয়া থাকে, তাহলে এটি শুধুমাত্র বাটন চাপলে পরিবর্তিত হবে। যদি একটি \\⊥\\ দেওয়া থাকে, তাহলে এটি শুধুমাত্র বাটন ছেড়ে দিলেই পরিবর্তিত হবে।"
@@ -3862,7 +4213,10 @@
                 "$~\\Pointer()\\",
                 "$~এটি যে @Place প্রদান করবে, তা @Stage সেই স্থানের সাথে সঙ্গতিপূর্ণ হবে যেখানে পয়েন্টারটি নির্দেশ করছে।"
             ],
-            "names": ["$~👆🏻", "$~পয়েন্টার"]
+            "names": [
+                "$~👆🏻",
+                "$~পয়েন্টার"
+            ]
         },
         "Key": {
             "doc": [
@@ -3878,7 +4232,10 @@
                 "$~আর যদি আপনি শুধু জানতে চান কখন একটি @Key চাপার পরিবর্তে ছেড়ে দেওয়া হয়, তাহলে আপনি একটি @Boolean প্রদান করতে পারেন:",
                 "$~\\Key('a' ⊥)\\"
             ],
-            "names": ["$~⌨️", "$~চাবি"],
+            "names": [
+                "$~⌨️",
+                "$~চাবি"
+            ],
             "key": {
                 "names": "$~চাবি",
                 "doc": "$~যদি @None হয়, তাহলে সমস্ত কী প্রদান করা হয়। যদি একটি নির্দিষ্ট @Text হয়, তাহলে শুধুমাত্র সেই কী-টিই প্রদান করা হয়।"
@@ -3888,57 +4245,179 @@
                 "doc": "$~যদি @None হয়, তাহলে কী-ডাউন করলে ইনপুট তৈরি হয়। যদি \\⊤\\ হয়, তাহলে শুধু ডাউন ইনপুট দেওয়া হয়, এবং যদি \\⊥\\ হয়, তাহলে শুধু রিলিজ ইনপুট দেওয়া হয়।"
             },
             "keys": {
-                "Shift": ["$~শিফট"],
-                "Control": ["$~নিয়ন্ত্রণ", "$~Ctrl"],
-                "Alt": ["$~বিকল্প", "$~বিকল্প"],
-                "Meta": ["$~মেটা", "$~আদেশ", "$~উইন্ডোজ"],
-                "AltGraph": ["$~অল্টগ্রাফ"],
-                "CapsLock": ["$~ক্যাপসলক", "$~ক্যাপস লক"],
-                "NumLock": ["$~নামলক", "$~নাম লক"],
-                "ScrollLock": ["$~স্ক্রললক", "$~স্ক্রোল লক"],
-                "Enter": ["$~প্রবেশ করুন", "$~ফেরত"],
-                "Tab": ["$~ট্যাব"],
-                " ": ["$~মহাকাশ", "$~স্পেসবার", "$~"],
-                "ArrowUp": ["$~অ্যারোআপ", "$~উপরে"],
-                "ArrowDown": ["$~অ্যারোডাউন", "$~নিচে"],
-                "ArrowLeft": ["$~তীরবাঁয়ে", "$~বাম"],
-                "ArrowRight": ["$~তীরডান", "$~সঠিক"],
-                "Home": ["$~হোম"],
-                "End": ["$~শেষ"],
-                "PageUp": ["$~পেজআপ", "$~পৃষ্ঠা উপরে"],
-                "PageDown": ["$~পেজডাউন", "$~পৃষ্ঠা নিচে"],
-                "Backspace": ["$~ব্যাকস্পেস"],
-                "Delete": ["$~মুছে ফেলুন", "$~ডেল"],
-                "Insert": ["$~ঢোকান", "$~ইনস"],
-                "Clear": ["$~পরিষ্কার"],
-                "Cut": ["$~কাটা"],
-                "Copy": ["$~অনুলিপি"],
-                "Paste": ["$~পেস্ট"],
-                "Undo": ["$~পূর্বাবস্থায় ফেরান"],
-                "Redo": ["$~পুনরায় করুন"],
-                "Escape": ["$~পালানো", "$~এস্ক"],
-                "Pause": ["$~বিরতি"],
-                "ContextMenu": ["$~প্রসঙ্গ মেনু", "$~মেনু"],
-                "Help": ["$~সাহায্য"],
-                "Convert": ["$~রূপান্তর করুন"],
-                "NonConvert": ["$~অরূপান্তরিত"],
-                "KanaMode": ["$~কানামোড"],
-                "HangulMode": ["$~হ্যাঙ্গুলমোড"],
-                "Hiragana": ["$~হিরাগানা"],
-                "Katakana": ["$~কাতাকানা"],
-                "Romaji": ["$~রোমাজি"],
-                "F1": ["$~এফ১"],
-                "F2": ["$~এফ২"],
-                "F3": ["$~F3"],
-                "F4": ["$~F4"],
-                "F5": ["$~F5"],
-                "F6": ["$~এফ৬"],
-                "F7": ["$~এফ৭"],
-                "F8": ["$~এফ৮"],
-                "F9": ["$~F9"],
-                "F10": ["$~F10"],
-                "F11": ["$~এফ১১"],
-                "F12": ["$~F12"]
+                "Shift": [
+                    "$~শিফট"
+                ],
+                "Control": [
+                    "$~নিয়ন্ত্রণ",
+                    "$~Ctrl"
+                ],
+                "Alt": [
+                    "$~বিকল্প",
+                    "$~বিকল্প"
+                ],
+                "Meta": [
+                    "$~মেটা",
+                    "$~আদেশ",
+                    "$~উইন্ডোজ"
+                ],
+                "AltGraph": [
+                    "$~অল্টগ্রাফ"
+                ],
+                "CapsLock": [
+                    "$~ক্যাপসলক",
+                    "$~ক্যাপস লক"
+                ],
+                "NumLock": [
+                    "$~নামলক",
+                    "$~নাম লক"
+                ],
+                "ScrollLock": [
+                    "$~স্ক্রললক",
+                    "$~স্ক্রোল লক"
+                ],
+                "Enter": [
+                    "$~প্রবেশ করুন",
+                    "$~ফেরত"
+                ],
+                "Tab": [
+                    "$~ট্যাব"
+                ],
+                " ": [
+                    "$~মহাকাশ",
+                    "$~স্পেসবার",
+                    "$~"
+                ],
+                "ArrowUp": [
+                    "$~অ্যারোআপ",
+                    "$~উপরে"
+                ],
+                "ArrowDown": [
+                    "$~অ্যারোডাউন",
+                    "$~নিচে"
+                ],
+                "ArrowLeft": [
+                    "$~তীরবাঁয়ে",
+                    "$~বাম"
+                ],
+                "ArrowRight": [
+                    "$~তীরডান",
+                    "$~সঠিক"
+                ],
+                "Home": [
+                    "$~হোম"
+                ],
+                "End": [
+                    "$~শেষ"
+                ],
+                "PageUp": [
+                    "$~পেজআপ",
+                    "$~পৃষ্ঠা উপরে"
+                ],
+                "PageDown": [
+                    "$~পেজডাউন",
+                    "$~পৃষ্ঠা নিচে"
+                ],
+                "Backspace": [
+                    "$~ব্যাকস্পেস"
+                ],
+                "Delete": [
+                    "$~মুছে ফেলুন",
+                    "$~ডেল"
+                ],
+                "Insert": [
+                    "$~ঢোকান",
+                    "$~ইনস"
+                ],
+                "Clear": [
+                    "$~পরিষ্কার"
+                ],
+                "Cut": [
+                    "$~কাটা"
+                ],
+                "Copy": [
+                    "$~অনুলিপি"
+                ],
+                "Paste": [
+                    "$~পেস্ট"
+                ],
+                "Undo": [
+                    "$~পূর্বাবস্থায় ফেরান"
+                ],
+                "Redo": [
+                    "$~পুনরায় করুন"
+                ],
+                "Escape": [
+                    "$~পালানো",
+                    "$~এস্ক"
+                ],
+                "Pause": [
+                    "$~বিরতি"
+                ],
+                "ContextMenu": [
+                    "$~প্রসঙ্গ মেনু",
+                    "$~মেনু"
+                ],
+                "Help": [
+                    "$~সাহায্য"
+                ],
+                "Convert": [
+                    "$~রূপান্তর করুন"
+                ],
+                "NonConvert": [
+                    "$~অরূপান্তরিত"
+                ],
+                "KanaMode": [
+                    "$~কানামোড"
+                ],
+                "HangulMode": [
+                    "$~হ্যাঙ্গুলমোড"
+                ],
+                "Hiragana": [
+                    "$~হিরাগানা"
+                ],
+                "Katakana": [
+                    "$~কাতাকানা"
+                ],
+                "Romaji": [
+                    "$~রোমাজি"
+                ],
+                "F1": [
+                    "$~এফ১"
+                ],
+                "F2": [
+                    "$~এফ২"
+                ],
+                "F3": [
+                    "$~F3"
+                ],
+                "F4": [
+                    "$~F4"
+                ],
+                "F5": [
+                    "$~F5"
+                ],
+                "F6": [
+                    "$~এফ৬"
+                ],
+                "F7": [
+                    "$~এফ৭"
+                ],
+                "F8": [
+                    "$~এফ৮"
+                ],
+                "F9": [
+                    "$~F9"
+                ],
+                "F10": [
+                    "$~F10"
+                ],
+                "F11": [
+                    "$~এফ১১"
+                ],
+                "F12": [
+                    "$~F12"
+                ]
             }
         },
         "Time": {
@@ -3953,13 +4432,20 @@
                 "$~তবে, এটি কতটা ছোট হতে পারে তার একটি সীমা আছে, কারণ পরবর্তী টিকে সাড়া দেওয়ার আগে @Program মূল্যায়ন করার জন্য সময়ের প্রয়োজন হয়।",
                 "$~সর্বনিম্নটি সম্ভবত প্রায় \\20ms\\ ।"
             ],
-            "names": ["$~🕕", "$~সময়"],
+            "names": [
+                "$~🕕",
+                "$~সময়"
+            ],
             "frequency": {
-                "names": ["$~ফ্রিকোয়েন্সি"],
+                "names": [
+                    "$~ফ্রিকোয়েন্সি"
+                ],
                 "doc": "$~এটি হলো সেই হার, যে হারে সময় পরিবর্তিত হবে। এর ডিফল্ট মান হলো ৩৩ মিলিসেকেন্ড, যা প্রতি সেকেন্ডে প্রায় ৩০ বার।"
             },
             "relative": {
-                "names": ["$~আত্মীয়"],
+                "names": [
+                    "$~আত্মীয়"
+                ],
                 "doc": "$~যদি \\⊤\\ হয়, তাহলে প্রোগ্রামটি প্রথমবার মূল্যায়ন করার সময় অর্থাৎ ০ থেকে সময় শুরু হয়। অন্যথায়, এটি আজকের দিন শুরু হওয়ার পর থেকে UTC (সমন্বিত সার্বজনীন সময়) অনুযায়ী মিলিসেকেন্ডের সংখ্যা থেকে শুরু হয়, যা আপনাকে দিনের সময়ের হিসাব রাখতে সাহায্য করে।"
             }
         },
@@ -3971,9 +4457,14 @@
                 "$~\\Volume()\\",
                 "$~শ্রোতাদের আওয়াজ কতটা জোরালো তা শোনার জন্য এটি দারুণ!"
             ],
-            "names": ["$~🎤", "$~ভলিউম"],
+            "names": [
+                "$~🎤",
+                "$~ভলিউম"
+            ],
             "frequency": {
-                "names": ["$~ফ্রিকোয়েন্সি"],
+                "names": [
+                    "$~ফ্রিকোয়েন্সি"
+                ],
                 "doc": "$~নমুনা সংগ্রহের মধ্যবর্তী সময়।"
             }
         },
@@ -3985,9 +4476,14 @@
                 "$~\\Pitch()\\",
                 "$~কেউ কথা বলছে বা গান গাইছে তার সুর শোনার জন্য এটি খুবই কার্যকর।"
             ],
-            "names": ["$~🎵", "$~পিচ"],
+            "names": [
+                "$~🎵",
+                "$~পিচ"
+            ],
             "frequency": {
-                "names": ["$~ফ্রিকোয়েন্সি"],
+                "names": [
+                    "$~ফ্রিকোয়েন্সি"
+                ],
                 "doc": "$~নমুনা সংগ্রহের মধ্যবর্তী সময়।"
             }
         },
@@ -4003,17 +4499,30 @@
                 "$~যদি কোনো ভাষা নির্দিষ্ট করা না থাকে, তাহলে এটি আপনার পছন্দের ভাষায় সেট হয়ে যাবে।",
                 "$~স্পিচ রিকগনিশনের জন্য মাইক্রোফোন অ্যাক্সেস এবং ইন্টারনেট সংযোগ প্রয়োজন (অনুগ্রহ করে অ্যাক্সেস দিন!)। এছাড়াও, ব্যবহারের সীমাবদ্ধতা থাকতে পারে, তাই এটি বেশিক্ষণ চালু রাখবেন না (না না)!"
             ],
-            "names": ["$~🎙️", "$~বক্তৃতা", "$~কণ্ঠস্বর"],
+            "names": [
+                "$~🎙️",
+                "$~বক্তৃতা",
+                "$~কণ্ঠস্বর"
+            ],
             "reset": {
-                "names": ["$~রিসেট", "$~পরিষ্কার"],
+                "names": [
+                    "$~রিসেট",
+                    "$~পরিষ্কার"
+                ],
                 "doc": "$~এই মান পরিবর্তিত হলে, জমে থাকা কথা মুছে ফেলুন এবং নতুন করে শুরু করুন।"
             },
             "language": {
-                "names": ["$~ভাষা", "$~ভাষা"],
+                "names": [
+                    "$~ভাষা",
+                    "$~ভাষা"
+                ],
                 "doc": "$~একটি BCP 47 ভাষা কোড (যেমন, 'en-US')। যদি এটি আপনার ব্রাউজারের স্পিচ রিকগনিশন দ্বারা সমর্থিত না হয়, তাহলে আপনি একটি ত্রুটি বার্তা পাবেন। এটি ডিফল্টরূপে আপনার পছন্দের ভাষা ব্যবহার করে।"
             },
             "limit": {
-                "names": ["$~সীমা", "$~শব্দ"],
+                "names": [
+                    "$~সীমা",
+                    "$~শব্দ"
+                ],
                 "doc": "$~সঞ্চিত বক্তৃতায় (স্লাইডিং উইন্ডো) রাখার জন্য শব্দের সর্বোচ্চ সংখ্যা। এটি সেট করা থাকলে, শুধুমাত্র সবচেয়ে সাম্প্রতিক শব্দগুলো রাখা হয় এবং পুরোনো শব্দগুলো বাদ দেওয়া হয়। নির্দিষ্ট না করা থাকলে, সমস্ত শব্দ অনির্দিষ্টকালের জন্য রাখা হয়।"
             },
             "error": {
@@ -4035,17 +4544,26 @@
                 "$~\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) × 0.5m y × -0.5m) color: color duration: 0s\n)\n)\n)\n)\n)\\",
                 "$~কিন্তু আপনি রংগুলো বিশ্লেষণ করে একটি বাতি জ্বলছে না নিভে আছে, কিংবা কোনো নির্দিষ্ট রং সাধারণ কি না, তা-ও নির্ধারণ করতে পারেন, এবং এর মাধ্যমে দর্শকদের দেখানো রঙের দ্বারা পরিবেশনাকে প্রভাবিত করার সুযোগ দিতে পারেন।"
             ],
-            "names": ["$~🎥", "$~ক্যামেরা"],
+            "names": [
+                "$~🎥",
+                "$~ক্যামেরা"
+            ],
             "width": {
-                "names": ["$~প্রস্থ"],
+                "names": [
+                    "$~প্রস্থ"
+                ],
                 "doc": "$~এক সারিতে নমুনা করার জন্য @Color-এর সংখ্যা।"
             },
             "height": {
-                "names": ["$~উচ্চতা"],
+                "names": [
+                    "$~উচ্চতা"
+                ],
                 "doc": "$~একটি কলামে নমুনা হিসেবে নেওয়ার জন্য @Color-এর সংখ্যা।"
             },
             "frequency": {
-                "names": ["$~ফ্রিকোয়েন্সি"],
+                "names": [
+                    "$~ফ্রিকোয়েন্সি"
+                ],
                 "doc": "$~@Color স্যাম্পলগুলোর মধ্যবর্তী সময়।"
             }
         },
@@ -4059,13 +4577,20 @@
                 "$~এটা চেষ্টা করে দেখুন — আপনার আসল হাত যেখানেই থাকুক না কেন, এটি আপনার হাতের ভঙ্গির সাথে মেলে এমন একটি ইমোজি দেখাবে:",
                 "$~\\hand: Hand()\nPhrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
             ],
-            "names": ["$~🖐️", "$~হাত"],
+            "names": [
+                "$~🖐️",
+                "$~হাত"
+            ],
             "frequency": {
-                "names": ["$~ফ্রিকোয়েন্সি"],
+                "names": [
+                    "$~ফ্রিকোয়েন্সি"
+                ],
                 "doc": "$~নমুনাগুলোর মধ্যবর্তী সময়।"
             },
             "resolution": {
-                "names": ["$~সমাধান"],
+                "names": [
+                    "$~সমাধান"
+                ],
                 "doc": "$~হ্যান্ড মডেলটি চালানোর আগে ক্যামেরা থেকে ডেটা স্যাম্পল করার পিক্সেল-ভিত্তিক প্রস্থ। উচ্চতর মান কিছুটা বেশি নির্ভুল ল্যান্ডমার্ক দিতে পারে, কিন্তু এতে প্রতি ফ্রেমে বেশি সময় লাগে।"
             }
         },
@@ -4084,7 +4609,10 @@
                 "$~\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' duration: 0.25s rotation: 5° entering: Pose(rotation: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
                 "$~লক্ষ্য করুন, এটি প্রতিটি @Phrase পরে কীভাবে থামে এবং এগিয়ে যাওয়ার আগে @Button পরিবর্তনের জন্য অপেক্ষা করে?"
             ],
-            "names": ["$~🎬", "$~দৃশ্য"],
+            "names": [
+                "$~🎬",
+                "$~দৃশ্য"
+            ],
             "outputs": {
                 "names": "$~আউটপুট",
                 "doc": "$~ক্রমানুসারে দেখানোর জন্য আউটপুটগুলির তালিকা।"
@@ -4100,7 +4628,10 @@
                 "$~দেখছেন o-টা কীভাবে লাফায়? প্রথম মূল্যায়নে, আপনি এটিকে @Stage এর ওপরে একটি জায়গা দেন, কিন্তু তারপরে এটি @None পায়, যা @Motion এটিকে মাধ্যাকর্ষণ শক্তি অনুযায়ী যেকোনো অবস্থানে পরিবর্তন করার সুযোগ দেয়।",
                 "$~নিচে এটি কনফিগার করার আরও অনেক উপায় দেখুন।"
             ],
-            "names": ["$~⚽️", "$~গতি"],
+            "names": [
+                "$~⚽️",
+                "$~গতি"
+            ],
             "place": {
                 "doc": "$~শুরুর স্থান।",
                 "names": "$~স্থান"
@@ -4125,7 +4656,10 @@
                 "$~\\Chat().has('hello') ? 'hi!' 'huh?'\\",
                 "$~ব্যাস! এটা দিয়ে আপনি সব ধরনের পারফরম্যান্স তৈরি করতে পারবেন, যেমন চ্যাট বট, টেক্সট অ্যাডভেঞ্চার, অথবা অন্য ধরনের পারফরম্যান্সের জন্য টেক্সট-ভিত্তিক কন্ট্রোল স্কিম।"
             ],
-            "names": ["$~🗣️", "$~চ্যাট"]
+            "names": [
+                "$~🗣️",
+                "$~চ্যাট"
+            ]
         },
         "Placement": {
             "doc": [
@@ -4138,7 +4672,10 @@
                 "$~এটি আপনার প্রোগ্রামে কপি করে পয়েন্টার বা কিবোর্ড ব্যবহার করে @Output কে সরান।",
                 "$~আপনি @Placement কাস্টমাইজ করতে পারেন, যার মাধ্যমে নির্দিষ্ট ডাইমেনশনে মুভমেন্ট চালু বা বন্ধ করা যায়, একটি @Place কতদূর সরবে তা পরিবর্তন করা যায়, এবং স্ট্রিমটি যে প্রাথমিক @Place থেকে শুরু হবে তাও ঠিক করা যায়।"
             ],
-            "names": ["$~✥", "$~প্লেসমেন্ট"],
+            "names": [
+                "$~✥",
+                "$~প্লেসমেন্ট"
+            ],
             "inputs": [
                 {
                     "doc": "$~শুরু করার প্রাথমিক স্থান।",
@@ -4172,7 +4709,10 @@
                 "$~\\Webpage('https://wordplay.dev' 'h1')\\",
                 "$~এটার ক্ষেত্রে অনেক কিছুই ভুল হতে পারে। যদি আপনার ইন্টারনেট সংযোগ বিচ্ছিন্ন হয়ে যায়, অথবা ইউআরএলটি কোনো কিছুতে রূপান্তরিত না হয়, অথবা ইউআরএলটি পাবলিক না হয়, অথবা ইউআরএলটি কোনো এইচটিএমএল (HTML) পেজ না হয়… এই সবকিছুর ফলেই এক্সেপশন (exception) হতে পারে। যদি আপনি এমন কোনো পেজ খুঁজে পান যা কাজ করছে, তাহলে আপনি একটি @Number দেখতে পাবেন যা কাজটি কত শতাংশ সম্পন্ন হয়েছে তা নির্দেশ করবে এবং তারপর পেজটিতে থাকা শব্দগুলোর একটি @List ।"
             ],
-            "names": ["$~🔗", "$~ওয়েবপেজ"],
+            "names": [
+                "$~🔗",
+                "$~ওয়েবপেজ"
+            ],
             "url": {
                 "doc": "$~যে HTML ওয়েবপেজটির URL পেতে হবে।",
                 "names": "$~ইউআরএল"
@@ -4249,7 +4789,10 @@
                 "$~আপনি @Number মিটার ব্যবহার করে আউটলাইনের আকার পরিবর্তন করতে পারেন, @Place ব্যবহার করে এর মূলবিন্দু সরাতে পারেন, ফন্টের ওজন বেছে নিতে পারেন, ইটালিক চালু করতে পারেন এবং পয়েন্টগুলোর মধ্যে দূরত্ব মিটারে নির্ধারণ করতে পারেন। কম স্পেসিং আউটলাইনটিকে আরও নিবিড়ভাবে অঙ্কন করে, যার ফলে সরলরেখা এবং বক্ররেখা উভয় বরাবরই পয়েন্টগুলো সমান দূরত্বে থাকে।",
                 "$~কিছু গ্লিফ, যেমন রঙিন ইমোজি, এর কোনো আউটলাইন নেই, তাই এগুলোর জন্য কোনো পয়েন্ট যোগ হয় না। ফন্টটি আনার সময় এটি আপনাকে একটি খালি @List দেবে, এবং প্রস্তুত হয়ে গেলে তা পূরণ করে দেবে।"
             ],
-            "names": ["$~🖋️", "$~কনট্যুর"],
+            "names": [
+                "$~🖋️",
+                "$~কনট্যুর"
+            ],
             "inputs": [
                 {
                     "doc": "$~যে লিপিটির গ্লিফ রূপরেখাগুলো আমার অনুসরণ করা উচিত।",
@@ -4308,7 +4851,10 @@
                 "$~\\Group(Stack() [Phrase('first') Phrase('second')])\\",
                 "$~আমি ঠিক কীভাবে জিনিসপত্র সাজাবো, তা নির্ভর করে আপনি আমাকে কী ধরনের @Arrangement দেবেন তার ওপর।"
             ],
-            "names": ["$~🔳", "$~গ্রুপ"],
+            "names": [
+                "$~🔳",
+                "$~গ্রুপ"
+            ],
             "layout": {
                 "doc": "$~@Output-কে তাদের নির্দিষ্ট স্থানে রাখার জন্য ব্যবহৃত ব্যবস্থা।",
                 "names": "$~বিন্যাস"
@@ -4327,14 +4873,19 @@
             },
             "face": {
                 "doc": "$~আমার ভেতরের ফন্ট ফেস কন্টেন্টের নামটি থাকা উচিত, যদি না তাদের ব্যবহারের জন্য নিজস্ব কোনো ফেস থাকে।",
-                "names": ["$~মুখ", "$~ফন্ট"]
+                "names": [
+                    "$~মুখ",
+                    "$~ফন্ট"
+                ]
             },
             "place": {
                 "doc": "$~মঞ্চের সেই জায়গা যেখানে আমার থাকা উচিত। আমার ভেতরের বিষয়বস্তুগুলো সেটির সাপেক্ষে বিন্যস্ত হবে।",
                 "names": "$~স্থান"
             },
             "name": {
-                "doc": ["$~@Phrase.name-এর মতোই!"],
+                "doc": [
+                    "$~@Phrase.name-এর মতোই!"
+                ],
                 "names": "$~নাম"
             },
             "description": {
@@ -4365,7 +4916,10 @@
             },
             "rotation": {
                 "doc": "$~আমার শরীরের কেন্দ্র থেকে কতটা ঝুঁকে থাকা উচিত, আমার @Pose-এ তো অন্যরকম একটা পোজ দেওয়া আছে।",
-                "names": ["$~📐", "$~ঘূর্ণন"]
+                "names": [
+                    "$~📐",
+                    "$~ঘূর্ণন"
+                ]
             },
             "scale": {
                 "doc": "$~আমার আসল আকারের তুলনায় আমার কতটা বড় হওয়া উচিত।",
@@ -4397,7 +4951,10 @@
             },
             "duration": {
                 "doc": "$~@Phrase.duration-এর মতোই!",
-                "names": ["$~⏳", "$~সময়কাল"]
+                "names": [
+                    "$~⏳",
+                    "$~সময়কাল"
+                ]
             },
             "style": {
                 "doc": "$~@Phrase.style-এর মতোই!",
@@ -4414,7 +4971,10 @@
                 "$~এছাড়াও আপনি চাইলে আমাকে @Output সমস্ত ক্ষমতা দিতে পারেন, যার মধ্যে রয়েছে আমার আকার, ফন্ট, ঘূর্ণন পরিবর্তন করা এবং @Pose ও @Sequence ব্যবহার করে আমার সব অসাধারণ নাচগুলো করানো।",
                 "$~এছাড়াও আপনি @Stage এ আমাকে নির্বাচন করে পাশের প্যালেট 🎨 দিয়ে সম্পাদনা করতে পারেন — এটি বিভিন্ন ফন্ট পরখ করে দেখার এবং আপনার @Text জন্য সঠিক রূপটি বেছে নেওয়ার একটি দারুণ উপায়।"
             ],
-            "names": ["$~💬", "$~বাক্যাংশ"],
+            "names": [
+                "$~💬",
+                "$~বাক্যাংশ"
+            ],
             "text": {
                 "doc": "$~@Stage-এ দেখানোর জন্য অক্ষরগুলো হলো @TextLiteral বা @Stage",
                 "names": "$~পাঠ্য"
@@ -4433,7 +4993,10 @@
             },
             "wrap": {
                 "doc": "$~যে প্রান্তে আমার প্রতীকগুলোকে মোড়ানো উচিত, অথবা মোড়ানো না হলে \\ø\\ ব্যবহার করা উচিত।",
-                "names": ["$~↵", "$~মোড়ক"]
+                "names": [
+                    "$~↵",
+                    "$~মোড়ক"
+                ]
             },
             "alignment": {
                 "doc": "$~যদি একটি @Phrase.wrap বাউন্ডারি সেট করা থাকে, তাহলে সিম্বলগুলোকে এজ-এর শুরুতে, কেন্দ্রে, নাকি শেষে অ্যালাইন করা উচিত।",
@@ -4521,7 +5084,10 @@
             },
             "duration": {
                 "doc": "$~মঞ্চে এক স্থান থেকে অন্য স্থানে যাওয়ার সময় প্রয়োগের সময়কাল।",
-                "names": ["$~⏳", "$~সময়কাল"]
+                "names": [
+                    "$~⏳",
+                    "$~সময়কাল"
+                ]
             },
             "style": {
                 "doc": "$~মঞ্চের এক স্থান থেকে অন্য স্থানে যাওয়ার জন্য ব্যবহৃত অ্যানিমেশন শৈলী।",
@@ -4531,11 +5097,17 @@
         },
         "Arrangement": {
             "doc": "$~আমি ভার্স-এর অন্যান্য অনেক ধরনের বিন্যাসের, যেমন @Row, @Stack, @Grid, এবং @Free-এর অনুপ্রেরণা। আমি @Group-এর সাথে ঘনিষ্ঠভাবে কাজ করি",
-            "names": ["$~⠿", "$~ব্যবস্থা"]
+            "names": [
+                "$~⠿",
+                "$~ব্যবস্থা"
+            ]
         },
         "Row": {
             "doc": "$~আমি @Row, @Output-এর একটি আনুভূমিক @Arrangement, যার মাঝে ঐচ্ছিক প্যাডিং রয়েছে। আমার যমজ, @Stack-এর সাথে কি তোমার পরিচয় হয়েছে?",
-            "names": ["$~➡", "$~সারি"],
+            "names": [
+                "$~➡",
+                "$~সারি"
+            ],
             "description": "$~$count সংখ্যক বাক্যাংশ এবং গোষ্ঠীর সারি",
             "alignment": {
                 "doc": "$~প্রতিটি কলামে টেক্সট শুরুতে, মাঝখানে, নাকি শেষে বিন্যস্ত করা হবে।",
@@ -4548,7 +5120,10 @@
         },
         "Stack": {
             "doc": "$~আমি @Stack, @Output-এর একটি উল্লম্ব @Arrangement, যার মাঝে ঐচ্ছিক প্যাডিং রয়েছে। আমার যমজ, @Row-এর সাথে কি তোমার পরিচয় হয়েছে?",
-            "names": ["$~⬇", "$~স্ট্যাক"],
+            "names": [
+                "$~⬇",
+                "$~স্ট্যাক"
+            ],
             "description": "$~$count সংখ্যক বাক্যাংশ এবং গোষ্ঠীর স্তূপ",
             "alignment": {
                 "doc": "$~প্রতিটি সারিতে লেখাকে শুরুতে, মাঝখানে, নাকি শেষে বিন্যস্ত করা হবে।",
@@ -4561,7 +5136,10 @@
         },
         "Grid": {
             "doc": "$~আমি @Output-এর একটি গ্রিড। আমাকে সারি এবং কলাম সংখ্যা দিন, আমি ঐচ্ছিক প্যাডিং ও সেল সাইজ ব্যবহার করে একটি পরিপাটি বিন্যাস তৈরি করে দেব।",
-            "names": ["$~▦", "$~গ্রিড"],
+            "names": [
+                "$~▦",
+                "$~গ্রিড"
+            ],
             "description": "$~$rows সারি $columns কলাম গ্রিড",
             "rows": {
                 "doc": "$~গ্রিডে কয়টি সারি তৈরি করতে হবে।",
@@ -4589,12 +5167,17 @@
                 "$~আমি এমন এক @Arrangement যা প্রতিটি @Output তার @Place অনুযায়ী যেকোনো জায়গায় বসতে দেয়। আমার মতে, যা খুশি হোক। যেখানে খুশি বসো! শুধু কোনো এক জায়গায় বসো! খেয়াল রেখো, আমাকে দেওয়া প্রতিটি @Output যেন একটি @Place থাকে, নইলে ওরা জানবে না কোথায় যেতে হবে।",
                 "$~ওহ, আর মনে রাখবেন যে, আপনি প্রতিটি @Output @Place দেন, তা @Group এর @Place এর সাপেক্ষে হয়! তাই, জিনিসগুলো আপনার প্রত্যাশিত জায়গায় কেন দেখা যাচ্ছে না, তা নিয়ে যদি আপনার মনে প্রশ্ন জাগে, তাহলে @Group একটি স্থান দিয়ে দেখুন।"
             ],
-            "names": ["$~বিনামূল্যে"],
+            "names": [
+                "$~বিনামূল্যে"
+            ],
             "description": "$~মুক্ত-ফর্ম $count আউটপুট"
         },
         "Shape": {
             "doc": "$~আমি সকল আকৃতির জন্য অনুপ্রেরণা। @Stage-কে কী আকৃতি নিতে হবে, তা বলে দেওয়ার জন্য আমি দরকারি।",
-            "names": ["$~⬟", "$~আকৃতি"],
+            "names": [
+                "$~⬟",
+                "$~আকৃতি"
+            ],
             "form": {
                 "doc": "$~আমি দেখানোর মতো একটি আকৃতি। প্রতিটি আকৃতির বিন্যাস নির্ধারণের জন্য ভিন্ন ভিন্ন তথ্যের প্রয়োজন হয়।",
                 "names": "$~ফর্ম"
@@ -4678,7 +5261,10 @@
                 "$~@TextLiteral এর কোনো ভাষা থাকলে আমি সেই @Language ব্যবহার করব, অন্যথায় নির্বাচিত ভাষাটি ব্যবহার করব।",
                 "$~আপনি সেটিংস থেকে একটি কণ্ঠস্বর বেছে নিতে পারেন।"
             ],
-            "names": ["$~🔊", "$~বলুন"],
+            "names": [
+                "$~🔊",
+                "$~বলুন"
+            ],
             "text": {
                 "doc": "$~যে লেখাটি আমার উচ্চস্বরে বলা উচিত।",
                 "names": "$~পাঠ্য"
@@ -4687,11 +5273,15 @@
         },
         "Form": {
             "doc": "$~আমি একটি বিমূর্ত রূপ, যেমন একটি @Rectangle বা @Rectangle",
-            "names": ["$~ফর্ম"]
+            "names": [
+                "$~ফর্ম"
+            ]
         },
         "Rectangle": {
             "doc": "$~আমি একটি আয়তক্ষেত্র, যা @Stage-কে আপনার পছন্দমতো আকারের একটি সীমানা দিতে কাজে লাগে।",
-            "names": ["$~আয়তক্ষেত্র"],
+            "names": [
+                "$~আয়তক্ষেত্র"
+            ],
             "left": {
                 "doc": "$~এক্স-অক্ষে মঞ্চের বাম প্রান্ত",
                 "names": "$~বাম"
@@ -4715,7 +5305,9 @@
         },
         "Circle": {
             "doc": "$~আমি একটি বৃত্ত, যা @Stage-এ বিভিন্ন আকৃতি তৈরি করার জন্য উপযোগী।",
-            "names": ["$~বৃত্ত"],
+            "names": [
+                "$~বৃত্ত"
+            ],
             "radius": {
                 "doc": "$~বৃত্তের ব্যাসার্ধ",
                 "names": "$~ব্যাসার্ধ"
@@ -4735,7 +5327,9 @@
         },
         "Polygon": {
             "doc": "$~আমি একটি 'নিয়মিত' বহুভুজ, যার বাহু ও কোণগুলো সমান দৈর্ঘ্যের এবং যা @Stage-এ বিভিন্ন আকৃতি তৈরি করার জন্য উপযোগী।",
-            "names": ["$~বহুভুজ"],
+            "names": [
+                "$~বহুভুজ"
+            ],
             "radius": {
                 "doc": "$~বহুভুজের ব্যাসার্ধ",
                 "names": "$~ব্যাসার্ধ"
@@ -4762,7 +5356,10 @@
                 "$~আমি @Output এর ধরে রাখার জন্য একটি @Pose ধারণ করি, এবং আমিই তাদের নড়াচড়ার মূল ভিত্তি। জানেন তো, যখন কেউ অসাধারণ কোনো ভঙ্গিতে দাঁড়িয়ে একটু থামে, আর সবাই তার দিকে তাকায়? ওটা আমি।",
                 "$~একটি ভঙ্গির পেছনে অনেক কিছু জড়িত থাকে। আপনি কী ধরনের ভঙ্গি করতে পারেন তা দেখতে আমার দেওয়া বিভিন্ন পরামর্শগুলো দেখুন!"
             ],
-            "names": ["$~🤪", "$~ভঙ্গি"],
+            "names": [
+                "$~🤪",
+                "$~ভঙ্গি"
+            ],
             "style": {
                 "doc": "$~এই পোজে যাওয়ার সময় যে অ্যানিমেশন শৈলীটি ব্যবহার করতে হবে।",
                 "names": "$~শৈলী"
@@ -4818,63 +5415,97 @@
                 "$~\\Color.blue\\",
                 "$~এই শর্টকাটগুলো আপনার ভাষাতেও কাজ করে, তাই একজন ফরাসিভাষী \\couleur.rouge\\ এবং একজন জাপানিভাষী \\色.赤\\ লিখতে পারেন। শর্টকাটগুলো হলো: লাল, কমলা, হলুদ, সবুজ, নীল, বেগুনি, বাদামী, গোলাপী, কালো, সাদা এবং ধূসর।"
             ],
-            "names": ["$~🌈", "$~রঙ"],
+            "names": [
+                "$~🌈",
+                "$~রঙ"
+            ],
             "lightness": {
                 "doc": "$~০ থেকে ১ পর্যন্ত আমার কতটা ফর্সা হওয়া উচিত, ০-তে কালো, ০.৫-এ ধূসর, এবং ১-এ সাদা।",
-                "names": ["$~হালকা", "$~এল"]
+                "names": [
+                    "$~হালকা",
+                    "$~এল"
+                ]
             },
             "chroma": {
                 "doc": "$~আমার কতটা রঙ থাকা উচিত, ০ থেকে ∞ পর্যন্ত। কোনো রঙ না থাকা মানে ধূসর, সংখ্যা যত বেশি হবে, রঙও তত বেশি হবে।",
-                "names": ["$~ক্রোমা", "$~গ"]
+                "names": [
+                    "$~ক্রোমা",
+                    "$~গ"
+                ]
             },
             "hue": {
                 "doc": "$~কালার হুইলে ম্যাজেন্টা \\0\\, লাল \\30\\, সবুজ \\120\\ থেকে নীল \\270\\ পর্যন্ত আমার রঙ কী হওয়া উচিত।",
-                "names": ["$~রঙ", "$~এইচ"]
+                "names": [
+                    "$~রঙ",
+                    "$~এইচ"
+                ]
             },
             "colors": {
                 "black": {
                     "doc": "$~মৌলিক রঙ কালো।",
-                    "names": ["$~কালো"]
+                    "names": [
+                        "$~কালো"
+                    ]
                 },
                 "white": {
                     "doc": "$~মৌলিক রঙ সাদা।",
-                    "names": ["$~সাদা"]
+                    "names": [
+                        "$~সাদা"
+                    ]
                 },
                 "gray": {
                     "doc": "$~মৌলিক রঙ ধূসর।",
-                    "names": ["$~ধূসর"]
+                    "names": [
+                        "$~ধূসর"
+                    ]
                 },
                 "red": {
                     "doc": "$~মৌলিক রঙ লাল।",
-                    "names": ["$~লাল"]
+                    "names": [
+                        "$~লাল"
+                    ]
                 },
                 "orange": {
                     "doc": "$~মৌলিক রঙ কমলা।",
-                    "names": ["$~কমলা"]
+                    "names": [
+                        "$~কমলা"
+                    ]
                 },
                 "yellow": {
                     "doc": "$~মৌলিক রঙ হলুদ।",
-                    "names": ["$~হলুদ"]
+                    "names": [
+                        "$~হলুদ"
+                    ]
                 },
                 "green": {
                     "doc": "$~মৌলিক রঙ সবুজ।",
-                    "names": ["$~সবুজ"]
+                    "names": [
+                        "$~সবুজ"
+                    ]
                 },
                 "blue": {
                     "doc": "$~মৌলিক রঙ নীল।",
-                    "names": ["$~নীল"]
+                    "names": [
+                        "$~নীল"
+                    ]
                 },
                 "purple": {
                     "doc": "$~মৌলিক রঙ বেগুনি।",
-                    "names": ["$~বেগুনি"]
+                    "names": [
+                        "$~বেগুনি"
+                    ]
                 },
                 "brown": {
                     "doc": "$~মৌলিক রঙ বাদামী।",
-                    "names": ["$~বাদামী"]
+                    "names": [
+                        "$~বাদামী"
+                    ]
                 },
                 "pink": {
                     "doc": "$~মৌলিক রঙ গোলাপী।",
-                    "names": ["$~গোলাপী"]
+                    "names": [
+                        "$~গোলাপী"
+                    ]
                 }
             },
             "description": {
@@ -4943,14 +5574,20 @@
                 "$~এর মানে হলো, /শুরুতে (০%), ৩৬০ ডিগ্রি টিল্টে শুরু করুন এবং ০ ডিগ্রি টিল্টে শেষ করুন/। এটা আমাদেরকে অনন্তকাল ধরে গোল গোল করে ঘোরাতে থাকবে, কারণ আমাকে @Phrase এর রেস্ট পোজ হিসেবে সেট করা হয়েছে!",
                 "$~অন্যান্য ইনপুট ব্যবহার করে নিজের সৃজনশীল নাচ তৈরি করার চেষ্টা করুন।"
             ],
-            "names": ["$~💃", "$~ক্রম"],
+            "names": [
+                "$~💃",
+                "$~ক্রম"
+            ],
             "poses": {
                 "doc": "$~০% থেকে ১০০% এর মধ্যে শতাংশের একটি @Map, যার প্রতিটির সাথে একটি @Pose যুক্ত থাকবে। আপনাকে সব শতাংশ দিতে হবে না; আপনি যেগুলি দেবেন, আমি সেগুলির মধ্যে একটি @Output মসৃণভাবে স্থানান্তর করব।",
                 "names": "$~ভঙ্গি"
             },
             "duration": {
                 "doc": "$~এই নাচটা আমি কতক্ষণ করব? যদি এটা আবার করি, তাহলে আমি এর সময়কাল বাড়াব না, শুধু আরও দ্রুত নাচব।",
-                "names": ["$~⏳", "$~সময়কাল"]
+                "names": [
+                    "$~⏳",
+                    "$~সময়কাল"
+                ]
             },
             "style": {
                 "doc": "$~নাচের জন্য আমার কোন শৈলী ব্যবহার করা উচিত?",
@@ -4967,7 +5604,10 @@
         },
         "Place": {
             "doc": "$~আমি @Stage-এর একটি অবস্থান। আমার সমস্ত ইনপুট ঐচ্ছিক, কারণ আমি ডিফল্টভাবে কেন্দ্রে থাকি।",
-            "names": ["$~📍", "$~স্থান"],
+            "names": [
+                "$~📍",
+                "$~স্থান"
+            ],
             "x": {
                 "doc": "$~এক্স-অক্ষের উপর একটি অবস্থান।",
                 "names": "$~x"
@@ -4982,52 +5622,79 @@
             },
             "rotation": {
                 "doc": "$~এই অবস্থানে আবর্তন",
-                "names": ["$~📐", "$~ঘূর্ণন"]
+                "names": [
+                    "$~📐",
+                    "$~ঘূর্ণন"
+                ]
             }
         },
         "Gesture": {
             "doc": "$~আমি @Hand স্ট্রিম দ্বারা নির্গত, ক্যামেরা দ্বারা শনাক্তকৃত একটি হাতের ভঙ্গির স্ন্যাপশট। আমার স্থান (place) বলে দেয় মঞ্চে হাতটি কোথায় আছে, আমার আঙুলগুলো (fingers) বলে দেয় কয়টি আঙুল প্রসারিত আছে, আমার খোলা (open) সত্য হয় যখন হাতটি খোলা থাকে (৩টির বেশি আঙুল প্রসারিত), এবং আমার বুড়ো আঙুল, তর্জনী, মধ্যমা, অনামিকা ও কনিষ্ঠা প্রতিটি বলে দেয় কোন নির্দিষ্ট আঙুলগুলো প্রসারিত আছে। আমার তালু (palm) সত্য হয় যখন হাতের তালু ক্যামেরার দিকে থাকে, এবং মিথ্যা হয় যখন হাতের পেছন দিকটা ক্যামেরার দিকে থাকে।",
-            "names": ["$~✋", "$~অঙ্গভঙ্গি"],
+            "names": [
+                "$~✋",
+                "$~অঙ্গভঙ্গি"
+            ],
             "place": {
                 "doc": "$~যেখানে হাতটি মঞ্চের উপর রয়েছে।",
-                "names": ["$~স্থান"]
+                "names": [
+                    "$~স্থান"
+                ]
             },
             "open": {
                 "doc": "$~@True যদি হাত খোলা থাকে (৩ বা তার বেশি আঙুল প্রসারিত), @False যদি মুষ্টিবদ্ধ থাকে।",
-                "names": ["$~খোলা"]
+                "names": [
+                    "$~খোলা"
+                ]
             },
             "fingers": {
                 "doc": "$~কয়টি আঙুল প্রসারিত করা আছে, ০ (মুষ্টিবদ্ধ হাত) থেকে ৫ (বুড়ো আঙুল সহ সব আঙুল উপরে তোলা)।",
-                "names": ["$~আঙুল"]
+                "names": [
+                    "$~আঙুল"
+                ]
             },
             "thumb": {
                 "doc": "$~@True যদি থাম্বটি প্রসারিত করা হয়।",
-                "names": ["$~বুড়োআঙুল"]
+                "names": [
+                    "$~বুড়োআঙুল"
+                ]
             },
             "index": {
                 "doc": "$~তর্জনী আঙুল প্রসারিত থাকলে True।",
-                "names": ["$~সূচক"]
+                "names": [
+                    "$~সূচক"
+                ]
             },
             "middle": {
                 "doc": "$~@True আঙুলটি প্রসারিত করা হলে True।",
-                "names": ["$~মাঝখানে"]
+                "names": [
+                    "$~মাঝখানে"
+                ]
             },
             "ring": {
                 "doc": "$~অনামিকা আঙুল প্রসারিত থাকলে True।",
-                "names": ["$~আংটি"]
+                "names": [
+                    "$~আংটি"
+                ]
             },
             "pinky": {
                 "doc": "$~কনিষ্ঠা আঙুল প্রসারিত করা হলে সত্য।",
-                "names": ["$~পিঙ্কি"]
+                "names": [
+                    "$~পিঙ্কি"
+                ]
             },
             "palm": {
                 "doc": "$~হাতের তালু ক্যামেরার দিকে থাকলে @True, হাতের পেছন দিক থাকলে @True",
-                "names": ["$~হাতেরতালু"]
+                "names": [
+                    "$~হাতেরতালু"
+                ]
             }
         },
         "Velocity": {
             "doc": "$~আমি নির্ধারণ করি @Output @Stage উপর কত দ্রুত চলে — x এবং y অক্ষ বরাবর প্রতি সেকেন্ডে মিটারে, এবং ঘূর্ণনের ক্ষেত্রে প্রতি সেকেন্ডে ডিগ্রিতে। আমার ইনপুটগুলো ঐচ্ছিক; ডিফল্টভাবে কিছুই নড়াচড়া করে না।",
-            "names": ["$~💨", "$~বেগ"],
+            "names": [
+                "$~💨",
+                "$~বেগ"
+            ],
             "x": {
                 "doc": "$~এক্স-অক্ষ বরাবর প্রতি সেকেন্ডে কত মিটার যেতে হবে।",
                 "names": "$~x"
@@ -5038,12 +5705,18 @@
             },
             "angle": {
                 "doc": "$~প্রতি সেকেন্ডে কত ডিগ্রি ঘোরাতে হবে",
-                "names": ["$~কোণ", "$~°"]
+                "names": [
+                    "$~কোণ",
+                    "$~°"
+                ]
             }
         },
         "Matter": {
             "doc": "$~আমি হলাম উৎপাদিত বস্তুর ভৌত বৈশিষ্ট্য, যা মঞ্চে থাকা অন্যান্য উৎপাদিত বস্তুর সাথে আমার মিথস্ক্রিয়াকে প্রভাবিত করে।",
-            "names": ["$~⚛️", "$~বিষয়"],
+            "names": [
+                "$~⚛️",
+                "$~বিষয়"
+            ],
             "mass": {
                 "doc": "$~ওজন, কিলোগ্রামে",
                 "names": "$~ভর"
@@ -5074,7 +5747,10 @@
                 "$~আমি @Phrase কে উজ্জ্বল করে তুলি! আমি এক আভা। ঠিক এইরকম:",
                 "$~\\Phrase(\n\t'I am GLOWING!' \n\taura: Aura(Color(50% 100 118°) 0.1m 0m 0.1m\n)\\"
             ],
-            "names": ["$~🔮", "$~আভা"],
+            "names": [
+                "$~🔮",
+                "$~আভা"
+            ],
             "color": {
                 "doc": "$~@Aura-এর @Color কেমন হওয়া উচিত।",
                 "names": "$~রঙ"
@@ -5101,7 +5777,10 @@
                 "$~আপনি চাইলে আমাকে একটি ফ্রেম বর্ডারও দিতে পারেন এবং আমি ছবিটি ক্রপ করে দেব।",
                 "$~\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°) frame: Rectangle(-1m -1m 1m 1m))\\"
             ],
-            "names": ["$~🎭", "$~মঞ্চ"],
+            "names": [
+                "$~🎭",
+                "$~মঞ্চ"
+            ],
             "content": {
                 "doc": "$~স্টেজে দেখানোর জন্য @Output-এর তালিকা।",
                 "names": "$~বিষয়বস্তু"
@@ -5123,7 +5802,9 @@
                 "names": "$~স্থান"
             },
             "name": {
-                "doc": ["$~@Phrase.name-এর মতোই!"],
+                "doc": [
+                    "$~@Phrase.name-এর মতোই!"
+                ],
                 "names": "$~নাম"
             },
             "description": {
@@ -5154,7 +5835,10 @@
             },
             "rotation": {
                 "doc": "$~@Group.rotation এর মতোই",
-                "names": ["$~📐", "$~ঘূর্ণন"]
+                "names": [
+                    "$~📐",
+                    "$~ঘূর্ণন"
+                ]
             },
             "scale": {
                 "doc": "$~@Group.scale এর মতোই",
@@ -5186,7 +5870,10 @@
             },
             "duration": {
                 "doc": "$~@Phrase.duration-এর মতোই!",
-                "names": ["$~⏳", "$~সময়কাল"]
+                "names": [
+                    "$~⏳",
+                    "$~সময়কাল"
+                ]
             },
             "style": {
                 "doc": "$~@Phrase.style-এর মতোই!",
@@ -5207,167 +5894,249 @@
         "sequence": {
             "sway": {
                 "doc": "$~আমি একটি @Sequence তৈরি করি যা একটি @Output-এর কেন্দ্রকে ঘিরে সামনে-পিছনে দুলতে থাকে।",
-                "names": ["$~দোল"],
+                "names": [
+                    "$~দোল"
+                ],
                 "angle": {
                     "doc": "$~দোলনায় কতটা হেলতে হবে।",
-                    "names": ["$~কোণ"]
+                    "names": [
+                        "$~কোণ"
+                    ]
                 }
             },
             "bounce": {
                 "doc": "$~আমি একটি @Sequence তৈরি করি যা একটি নির্দিষ্ট উচ্চতায় @Output-কে বাউন্স করে।",
-                "names": ["$~বাউন্স"],
+                "names": [
+                    "$~বাউন্স"
+                ],
                 "height": {
                     "doc": "$~কত উঁচুতে লাফাতে হবে।",
-                    "names": ["$~উচ্চতা"]
+                    "names": [
+                        "$~উচ্চতা"
+                    ]
                 }
             },
             "spin": {
                 "doc": "$~আমি একটি @Sequence তৈরি করি যা @Output-কে তার কেন্দ্রবিন্দুকে ঘিরে ঘোরায়।",
-                "names": ["$~স্পিন"]
+                "names": [
+                    "$~স্পিন"
+                ]
             },
             "fadein": {
                 "doc": "$~আমি একটি @Sequence তৈরি করি যা @Output-কে অদৃশ্য অবস্থা থেকে ধীরে ধীরে দৃশ্যমান করে তোলে।",
-                "names": ["$~ফেইডিং"]
+                "names": [
+                    "$~ফেইডিং"
+                ]
             },
             "fadeout": {
                 "doc": "$~আমি একটি @Sequence তৈরি করি যা @Output-কে দৃশ্যমান থেকে অদৃশ্য করে দেয়। একটি বিদ্যমান @Sequence-এ আমাকে ব্যবহার করে দেখুন!",
-                "names": ["$~ফেডআউট"]
+                "names": [
+                    "$~ফেডআউট"
+                ]
             },
             "popup": {
                 "doc": "$~আমি একটি @Sequence তৈরি করি যা @Output-কে প্রথমে দ্রুত বড় করে এবং তারপর তার স্বাভাবিক আকারে ছোট করে আনে।",
-                "names": ["$~পপআপ"]
+                "names": [
+                    "$~পপআপ"
+                ]
             },
             "shake": {
                 "doc": "$~আমি এমন একটি @Sequence তৈরি করি যা দেখে মনে হয় একটি @Output ভয় পেয়েছে।",
-                "names": ["$~ঝাঁকুনি"]
+                "names": [
+                    "$~ঝাঁকুনি"
+                ]
             },
             "pulse": {
                 "doc": "$~আমি একটি @Sequence তৈরি করি যা মনোযোগ আকর্ষণের জন্য @Output ধীরে ধীরে বাড়িয়ে ও কমিয়ে আনে।",
-                "names": ["$~নাড়ি"],
+                "names": [
+                    "$~নাড়ি"
+                ],
                 "amount": {
                     "doc": "$~চূড়ায় কতটা আরোহণ করতে হবে",
-                    "names": ["$~পরিমাণ"]
+                    "names": [
+                        "$~পরিমাণ"
+                    ]
                 }
             },
             "heartbeat": {
                 "doc": "$~আমি একটি @Sequence তৈরি করি যা হৃদস্পন্দনের মতো দুটি দ্রুত স্পন্দনের মাধ্যমে @Output স্কেল করে।",
-                "names": ["$~হৃদস্পন্দন"],
+                "names": [
+                    "$~হৃদস্পন্দন"
+                ],
                 "amount": {
                     "doc": "$~প্রতিটি বিটে কতটা স্কেল করতে হবে।",
-                    "names": ["$~পরিমাণ"]
+                    "names": [
+                        "$~পরিমাণ"
+                    ]
                 }
             },
             "tada": {
                 "doc": "$~আমি একটি @Sequence তৈরি করি যা @Output একটি স্কেল ও উইগলের মাধ্যমে উদ্‌যাপন করায়।",
-                "names": ["$~তাদা"],
+                "names": [
+                    "$~তাদা"
+                ],
                 "amount": {
                     "doc": "$~উদযাপনের সময় কতটা বাড়াতে হবে",
-                    "names": ["$~পরিমাণ"]
+                    "names": [
+                        "$~পরিমাণ"
+                    ]
                 }
             },
             "wiggle": {
                 "doc": "$~আমি একটি @Sequence তৈরি করি যা @Output ডানে-বামে কাত করে ও স্লাইড করে।",
-                "names": ["$~নড়াচড়া"],
+                "names": [
+                    "$~নড়াচড়া"
+                ],
                 "angle": {
                     "doc": "$~দোলনের সময় কতটা হেলতে হবে",
-                    "names": ["$~কোণ"]
+                    "names": [
+                        "$~কোণ"
+                    ]
                 }
             },
             "flash": {
                 "doc": "$~আমি একটি @Sequence তৈরি করি যা @Output ক্ষণিকের জন্য চালু ও বন্ধ করে।",
-                "names": ["$~ফ্ল্যাশ"]
+                "names": [
+                    "$~ফ্ল্যাশ"
+                ]
             },
             "zoomin": {
                 "doc": "$~আমি একটি @Sequence তৈরি করি যা @Output শূন্য থেকে পূর্ণ আকারে পরিবর্তন করে। একটি প্রবেশকারী @Sequence এ আমাকে পরীক্ষা করে দেখুন!",
-                "names": ["$~জুমইন"]
+                "names": [
+                    "$~জুমইন"
+                ]
             },
             "fadeinup": {
                 "doc": "$~আমি একটি @Sequence তৈরি করি যা @Output ধীরে ধীরে দৃশ্যমান করে এবং একই সাথে উপরে তুলে যথাস্থানে বসায়। একটি প্রবেশকারী @Sequence এ আমাকে চেষ্টা করে দেখুন!",
-                "names": ["$~ফেডিনআপ"],
+                "names": [
+                    "$~ফেডিনআপ"
+                ],
                 "distance": {
                     "doc": "$~কতটা পিছলে যেতে হবে।",
-                    "names": ["$~দূরত্ব"]
+                    "names": [
+                        "$~দূরত্ব"
+                    ]
                 }
             },
             "fadeindown": {
                 "doc": "$~আমি একটি @Sequence তৈরি করি যা @Output ধীরে ধীরে দৃশ্যমান করে এবং একই সাথে স্লাইড করে যথাস্থানে নামিয়ে আনে। একটি প্রবেশকারী @Sequence এ আমাকে চেষ্টা করে দেখুন!",
-                "names": ["$~ফেডইনডাউন"],
+                "names": [
+                    "$~ফেডইনডাউন"
+                ],
                 "distance": {
                     "doc": "$~কতটা পিছলে যেতে হবে।",
-                    "names": ["$~দূরত্ব"]
+                    "names": [
+                        "$~দূরত্ব"
+                    ]
                 }
             },
             "fadeinleft": {
                 "doc": "$~আমি একটি @Sequence তৈরি করি যা @Output বাম দিক থেকে স্লাইড করে যথাস্থানে বসানোর সাথে সাথে ধীরে ধীরে দৃশ্যমান করে তোলে। একটি প্রবেশকারী @Sequence এ আমাকে চেষ্টা করে দেখুন!",
-                "names": ["$~ফেডইনলেফট"],
+                "names": [
+                    "$~ফেডইনলেফট"
+                ],
                 "distance": {
                     "doc": "$~কতটা পিছলে যেতে হবে।",
-                    "names": ["$~দূরত্ব"]
+                    "names": [
+                        "$~দূরত্ব"
+                    ]
                 }
             },
             "fadeinright": {
                 "doc": "$~আমি একটি @Sequence তৈরি করি যা @Output ডান দিক থেকে স্লাইড করে যথাস্থানে বসানোর সময় ধীরে ধীরে দৃশ্যমান করে তোলে। একটি প্রবেশকারী @Sequence এ আমাকে চেষ্টা করে দেখুন!",
-                "names": ["$~ফেডইনরাইট"],
+                "names": [
+                    "$~ফেডইনরাইট"
+                ],
                 "distance": {
                     "doc": "$~কতটা পিছলে যেতে হবে।",
-                    "names": ["$~দূরত্ব"]
+                    "names": [
+                        "$~দূরত্ব"
+                    ]
                 }
             },
             "rotatein": {
                 "doc": "$~আমি একটি @Sequence তৈরি করি যা @Output ধীরে ধীরে দৃশ্যমান করার সাথে সাথে ঘুরিয়ে নির্দিষ্ট স্থানে নিয়ে আসে। একটি প্রবেশকারী @Sequence এ আমাকে চেষ্টা করে দেখুন!",
-                "names": ["$~ঘূর্ণন"],
+                "names": [
+                    "$~ঘূর্ণন"
+                ],
                 "angle": {
                     "doc": "$~কতদূর ঘোরাতে হবে।",
-                    "names": ["$~কোণ"]
+                    "names": [
+                        "$~কোণ"
+                    ]
                 }
             },
             "zoomout": {
                 "doc": "$~আমি এমন একটি @Sequence তৈরি করি যা @Output কে স্কেল আউট করে শূন্য করে দেয়। একটি বিদ্যমান @Sequence এ আমাকে পরীক্ষা করে দেখুন!",
-                "names": ["$~জুমআউট"]
+                "names": [
+                    "$~জুমআউট"
+                ]
             },
             "fadeoutup": {
                 "doc": "$~আমি একটি @Sequence তৈরি করি যা @Output উপরের দিকে স্লাইড করার সাথে সাথে ধীরে ধীরে মিলিয়ে দেয়। একটি বিদ্যমান @Sequence এ আমাকে ব্যবহার করে দেখুন!",
-                "names": ["$~ফেডআউটআপ"],
+                "names": [
+                    "$~ফেডআউটআপ"
+                ],
                 "distance": {
                     "doc": "$~কতটা পিছলে যেতে হবে।",
-                    "names": ["$~দূরত্ব"]
+                    "names": [
+                        "$~দূরত্ব"
+                    ]
                 }
             },
             "fadeoutdown": {
                 "doc": "$~আমি একটি @Sequence তৈরি করি যা @Output কে নিচে স্লাইড করার সাথে সাথে ধীরে ধীরে মিলিয়ে দেয়। একটি বিদ্যমান @Sequence এ এটি ব্যবহার করে দেখুন!",
-                "names": ["$~ফেডআউটডাউন"],
+                "names": [
+                    "$~ফেডআউটডাউন"
+                ],
                 "distance": {
                     "doc": "$~কতটা পিছলে যেতে হবে।",
-                    "names": ["$~দূরত্ব"]
+                    "names": [
+                        "$~দূরত্ব"
+                    ]
                 }
             },
             "fadeoutleft": {
                 "doc": "$~আমি একটি @Sequence তৈরি করি যা @Output বাম দিকে স্লাইড করার সাথে সাথে ধীরে ধীরে মিলিয়ে দেয়। একটি বিদ্যমান @Sequence এ এটি ব্যবহার করে দেখুন!",
-                "names": ["$~ফেডআউটলেফট"],
+                "names": [
+                    "$~ফেডআউটলেফট"
+                ],
                 "distance": {
                     "doc": "$~কতটা পিছলে যেতে হবে।",
-                    "names": ["$~দূরত্ব"]
+                    "names": [
+                        "$~দূরত্ব"
+                    ]
                 }
             },
             "fadeoutright": {
                 "doc": "$~আমি একটি @Sequence তৈরি করি যা @Output ডানদিকে স্লাইড করার সাথে সাথে ধীরে ধীরে মিলিয়ে দেয়। একটি বিদ্যমান @Sequence এ আমাকে ব্যবহার করে দেখুন!",
-                "names": ["$~ফেডআউটরাইট"],
+                "names": [
+                    "$~ফেডআউটরাইট"
+                ],
                 "distance": {
                     "doc": "$~কতটা পিছলে যেতে হবে।",
-                    "names": ["$~দূরত্ব"]
+                    "names": [
+                        "$~দূরত্ব"
+                    ]
                 }
             },
             "rotateout": {
                 "doc": "$~আমি একটি @Sequence তৈরি করি যা @Output ধীরে ধীরে মিলিয়ে যাওয়ার সাথে সাথে ঘুরিয়ে দেয়। একটি চলমান @Sequence এ আমাকে ব্যবহার করে দেখুন!",
-                "names": ["$~ঘোরানো"],
+                "names": [
+                    "$~ঘোরানো"
+                ],
                 "angle": {
                     "doc": "$~কতদূর ঘোরাতে হবে।",
-                    "names": ["$~কোণ"]
+                    "names": [
+                        "$~কোণ"
+                    ]
                 }
             },
             "rainbow": {
                 "doc": "$~আমি একটি @Sequence তৈরি করি যা @Output রংধনুর বিভিন্ন রঙের মধ্যে দিয়ে চক্রাকারে পরিবর্তন করে।",
-                "names": ["$~রংধনু"]
+                "names": [
+                    "$~রংধনু"
+                ]
             }
         },
         "Source": {
@@ -5405,7 +6174,9 @@
         },
         "Result": {
             "doc": "$~আমি \\⌕\\ দিয়ে করা একটি প্যাটার্ন সার্চ থেকে মাত্র একটি ম্যাচ দূরে আছি: মিলে যাওয়া টেক্সট, সেটির অবস্থান এবং যেকোনো ক্যাপচার।",
-            "names": ["$~ফলাফল"],
+            "names": [
+                "$~ফলাফল"
+            ],
             "text": {
                 "doc": "$~সম্পূর্ণ মিলে যাওয়া লেখাটি।",
                 "names": "$~পাঠ্য"
@@ -5534,7 +6305,7 @@
                     "tip": "$~প্রজেক্টটি ক্লিপবোর্ডে টেক্সট হিসেবে কপি করুন",
                     "label": "$~টেক্সট হিসেবে কপি করুন"
                 },
-                "addSource": "$~একটি নতুন $source তৈরি করুন",
+                "addSource": "$~একটি নতুন @Source তৈরি করুন",
                 "duplicate": {
                     "tip": "$~এই প্রকল্পটি নকল করুন",
                     "label": "$~নকল"
@@ -5759,7 +6530,10 @@
                 },
                 "notification": {
                     "label": "$~গ্রাহকদের অবহিত করুন",
-                    "labels": ["$~অবহিত করুন", "$~অবহিত করবেন না"],
+                    "labels": [
+                        "$~অবহিত করুন",
+                        "$~অবহিত করবেন না"
+                    ],
                     "tips": [
                         "$~আপনি যখন এই টিউটোরিয়ালটি পোস্ট করবেন তখন সাবস্ক্রাইবারদের অবহিত করুন।",
                         "$~এই টিউটোরিয়ালটি পোস্ট করার সময় সাবস্ক্রাইবারদের অবহিত করবেন না।"
@@ -5792,7 +6566,10 @@
                 },
                 "accessMode": {
                     "label": "$~এই নির্দেশিকাটি কে দেখতে পারবে তা সীমাবদ্ধ করুন",
-                    "labels": ["$~সীমাবদ্ধ", "$~প্রসারিত"],
+                    "labels": [
+                        "$~সীমাবদ্ধ",
+                        "$~প্রসারিত"
+                    ],
                     "tips": [
                         "$~এই গ্যালারির নির্মাতারাই কেবল দেখতে পারবেন",
                         "$~যেকোনো গ্যালারিতে, কিউরেটরের তত্ত্বাবধানে থাকা নির্মাতা ও কিউরেটররা দেখতে পারেন।"
@@ -5802,7 +6579,10 @@
                 "publicExplanation": "$~আপনি যদি চান যে লিঙ্কের মাধ্যমে যে কেউ আপনার টিউটোরিয়ালটি দেখতে পারুক, তাহলে আপনি এটি পাবলিক করে দিতে পারেন।",
                 "publicMode": {
                     "label": "$~এই নির্দেশিকাটি সর্বজনীন করুন",
-                    "labels": ["$~ব্যক্তিগত", "$~জনসাধারণের"],
+                    "labels": [
+                        "$~ব্যক্তিগত",
+                        "$~জনসাধারণের"
+                    ],
                     "tips": [
                         "$~শুধুমাত্র সেইসব শব্দখেলোয়াড়রাই এটি দেখতে পারবেন, যাদের এই নির্দেশিকাটিতে সরাসরি প্রবেশাধিকার রয়েছে।",
                         "$~লিঙ্ক থাকলে যে কেউ এই নির্দেশিকাটি দেখতে পারবে।"
@@ -5865,7 +6645,10 @@
                     },
                     "mode": {
                         "label": "$~ডিফল্ট দৃশ্যমানতা",
-                        "labels": ["$~সীমিত", "$~প্রসারিত"],
+                        "labels": [
+                            "$~সীমিত",
+                            "$~প্রসারিত"
+                        ],
                         "tips": [
                             "$~শুধুমাত্র এই গ্যালারির সহযোগীরাই নির্দেশিকাগুলো দেখতে পারবেন।",
                             "$~আপনি নীচে যে গ্যালারিগুলির উল্লেখ করেছেন, সেগুলির সহযোগীরা নির্দেশিকাগুলি দেখতে পারেন।"
@@ -5932,7 +6715,7 @@
             ],
             "confirm": {
                 "delete": {
-                    "description": "$~এই $source মুছে ফেলুন",
+                    "description": "$~এই @Source মুছে ফেলুন",
                     "prompt": "$~মুছে ফেলুন"
                 }
             },
@@ -6271,10 +7054,15 @@
             "mode": {
                 "browse": {
                     "label": "$~বিভাগ",
-                    "labels": ["$~কোড", "$~কীভাবে"],
+                    "labels": [
+                        "$~কোড",
+                        "$~কীভাবে",
+                        "$?"
+                    ],
                     "tips": [
                         "$~প্রোগ্রামিং ভাষার ধারণা",
-                        "$~প্রকল্প তৈরির জন্য পুনরায় ব্যবহারযোগ্য প্যাটার্ন"
+                        "$~প্রকল্প তৈরির জন্য পুনরায় ব্যবহারযোগ্য প্যাটার্ন",
+                        "$?"
                     ]
                 },
                 "purpose": {
@@ -6316,7 +7104,10 @@
                 },
                 "howToFilter": {
                     "label": "$~ব্যবহারকারী-নির্মিত নির্দেশিকা",
-                    "labels": ["$~সব", "$~গ্যালারি এবং বুকমার্ক"],
+                    "labels": [
+                        "$~সব",
+                        "$~গ্যালারি এবং বুকমার্ক"
+                    ],
                     "tips": [
                         "$~ব্যবহারকারীদের তৈরি সমস্ত নির্দেশিকা দেখুন",
                         "$~এই প্রজেক্টের গ্যালারি থেকে শুধুমাত্র ব্যবহারকারী-নির্মিত নির্দেশিকা এবং সমস্ত বুকমার্ক দেখুন"
@@ -6438,7 +7229,13 @@
                 "label": "$~নেভিগেশন ইতিহাস",
                 "home": "$~হোম"
             },
-            "tutorial": "$~টিউটোরিয়াল"
+            "tutorial": "$~টিউটোরিয়াল",
+            "glossary": {
+                "explain": {
+                    "header": "$?",
+                    "explanation": "$?"
+                }
+            }
         },
         "dialog": {
             "share": {
@@ -6479,7 +7276,10 @@
                 "mode": {
                     "public": {
                         "label": "$~দৃশ্যমানতা",
-                        "labels": ["$~ব্যক্তিগত", "$~জনসাধারণের"],
+                        "labels": [
+                            "$~ব্যক্তিগত",
+                            "$~জনসাধারণের"
+                        ],
                         "tips": [
                             "$~শুধুমাত্র আপনি এবং আপনার সহযোগীরাই এই প্রকল্পটি দেখতে পারবেন।",
                             "$~যে কেউ এই প্রকল্পটি দেখতে পারেন।"
@@ -6487,7 +7287,10 @@
                     },
                     "preview": {
                         "label": "$~প্রিভিউ মোড",
-                        "labels": ["$~অটো", "$~কাস্টম"],
+                        "labels": [
+                            "$~অটো",
+                            "$~কাস্টম"
+                        ],
                         "tips": [
                             "$~প্রকল্পটি যা দেখাবে তার উপর ভিত্তি করে এটিকে নিজস্ব প্রিভিউ গ্লিফ বেছে নিতে দিন।",
                             "$~আপনার পছন্দের একটি গ্লিফ পিন করুন"
@@ -6564,7 +7367,11 @@
                     },
                     "dark": {
                         "label": "$~থিম",
-                        "labels": ["$~আলো", "$~অন্ধকার", "$~অটো"],
+                        "labels": [
+                            "$~আলো",
+                            "$~অন্ধকার",
+                            "$~অটো"
+                        ],
                         "tips": [
                             "$~হালকা রঙ",
                             "$~গাঢ় রঙ",
@@ -6573,7 +7380,10 @@
                     },
                     "blocks": {
                         "label": "$~সম্পাদক",
-                        "labels": ["$~পাঠ্য", "$~ব্লক"],
+                        "labels": [
+                            "$~পাঠ্য",
+                            "$~ব্লক"
+                        ],
                         "tips": [
                             "$~কোডটিকে টেক্সট হিসেবে সম্পাদনা করুন",
                             "$~কোডকে ব্লক হিসেবে সম্পাদনা করুন"
@@ -6581,7 +7391,11 @@
                     },
                     "blockDensity": {
                         "label": "$~ব্লক ব্যবধান",
-                        "labels": ["$~কম্প্যাক্ট", "$~স্বাভাবিক", "$~প্রশস্ত"],
+                        "labels": [
+                            "$~কম্প্যাক্ট",
+                            "$~স্বাভাবিক",
+                            "$~প্রশস্ত"
+                        ],
                         "tips": [
                             "$~স্ক্রিনে আরও বেশি কোড দেখানোর জন্য ব্লকগুলো আরও ঘন করে সাজানো হয়েছে।",
                             "$~ডিফল্ট ব্লক স্পেসিং",
@@ -6590,7 +7404,10 @@
                     },
                     "space": {
                         "label": "$~স্পেস, ট্যাব এবং নতুন লাইন চিহ্নিতকারী",
-                        "labels": ["$~লুকানো", "$~দেখান"],
+                        "labels": [
+                            "$~লুকানো",
+                            "$~দেখান"
+                        ],
                         "tips": [
                             "$~স্পেস এবং ট্যাব নির্দেশক দেখাবেন না",
                             "$~স্পেস এবং ট্যাব নির্দেশকগুলি স্পষ্টভাবে দেখান"
@@ -6598,7 +7415,10 @@
                     },
                     "lines": {
                         "label": "$~লাইন নম্বর",
-                        "labels": ["$~লুকানো", "$~দেখান"],
+                        "labels": [
+                            "$~লুকানো",
+                            "$~দেখান"
+                        ],
                         "tips": [
                             "$~টেক্সট মোডে লাইন নম্বর দেখাবেন না",
                             "$~টেক্সট মোডে লাইন নম্বর দেখান"
@@ -6621,7 +7441,10 @@
                     },
                     "tab": {
                         "label": "$~ট্যাব কী",
-                        "labels": ["$~ফোকাস পরিবর্তন করুন", "$~ট্যাব ঢোকান"],
+                        "labels": [
+                            "$~ফোকাস পরিবর্তন করুন",
+                            "$~ট্যাব ঢোকান"
+                        ],
                         "tips": [
                             "$~ট্যাব কিবোর্ড ফোকাসকে পরবর্তী কন্ট্রোলে নিয়ে যায়।",
                             "$~ট্যাব এডিটরে একটি ট্যাব প্রবেশ করায়।"
@@ -6629,7 +7452,10 @@
                     },
                     "wrap": {
                         "label": "$~মোড়ক রেখা",
-                        "labels": ["$~বন্ধ", "$~চালু"],
+                        "labels": [
+                            "$~বন্ধ",
+                            "$~চালু"
+                        ],
                         "tips": [
                             "$~টেক্সট মোডে লম্বা লাইনগুলো আনুভূমিকভাবে স্ক্রল হয়।",
                             "$~টেক্সট মোডে লম্বা লাইনগুলো এডিটর উইন্ডোতে চলে আসে।"
@@ -6637,7 +7463,10 @@
                     },
                     "words": {
                         "label": "$~কীওয়ার্ড",
-                        "labels": ["$~প্রতীক", "$~শব্দ"],
+                        "labels": [
+                            "$~প্রতীক",
+                            "$~শব্দ"
+                        ],
                         "tips": [
                             "$~অন্তর্নির্মিত কীওয়ার্ডগুলিকে প্রতীক হিসাবে দেখান",
                             "$~অন্তর্নির্মিত কীওয়ার্ডগুলিকে আপনার ভাষায় শব্দ হিসাবে দেখান"
@@ -6658,7 +7487,10 @@
                 "open": "$~বিজ্ঞপ্তি ডায়ালগ খুলুন",
                 "howToNotifications": {
                     "label": "$~নতুন টিউটোরিয়ালের জন্য বিজ্ঞপ্তি",
-                    "labels": ["$~বন্ধ", "$~চালু"],
+                    "labels": [
+                        "$~বন্ধ",
+                        "$~চালু"
+                    ],
                     "tips": [
                         "$~নতুন টিউটোরিয়াল সম্পর্কে আমাকে অবহিত করবেন না।",
                         "$~নতুন টিউটোরিয়াল সম্পর্কে আমাকে অবহিত করুন"
@@ -6741,7 +7573,10 @@
                 },
                 "mode": {
                     "label": "$~প্রতিক্রিয়া",
-                    "labels": ["$~ত্রুটি", "$~ধারণা"],
+                    "labels": [
+                        "$~ত্রুটি",
+                        "$~ধারণা"
+                    ],
                     "tips": [
                         "$~ভাঙা মনে হচ্ছে এমন কিছু রিপোর্ট করুন।",
                         "$~নতুন বৈশিষ্ট্য বা উন্নতির পরামর্শ দিন"
@@ -6844,7 +7679,10 @@
                 "explanation": "$~আপনার প্রজেক্টটি একটি গ্যালারিতে রয়েছে। ডিফল্টরূপে, যারা এই গ্যালারিটি দেখতে পারেন, তারাই এই প্রজেক্টটিও দেখতে পারবেন। আপনি আপনার প্রজেক্টটি শুধুমাত্র আপনি এবং গ্যালারির কিউরেটরদের দেখার মধ্যে সীমাবদ্ধ রাখতে পারেন।",
                 "mode": {
                     "label": "$~প্রকল্পের অ্যাক্সেস সীমাবদ্ধ করুন",
-                    "labels": ["$~সীমাবদ্ধ করবেন না", "$~সীমাবদ্ধ করুন"],
+                    "labels": [
+                        "$~সীমাবদ্ধ করবেন না",
+                        "$~সীমাবদ্ধ করুন"
+                    ],
                     "tips": [
                         "$~যে কেউ এই গ্যালারিটি দেখতে পেলে আপনার প্রজেক্টটিও দেখতে পাবে।",
                         "$~শুধুমাত্র গ্যালারির কিউরেটররাই আপনার প্রকল্পটি দেখতে পারবেন।"
@@ -7093,7 +7931,10 @@
                 },
                 "mode": {
                     "label": "$~টিউটোরিয়াল",
-                    "labels": ["$~দ্রুত", "$~সম্পূর্ণ"],
+                    "labels": [
+                        "$~দ্রুত",
+                        "$~সম্পূর্ণ"
+                    ],
                     "tips": [
                         "$~যারা অন্য কোনো প্রোগ্রামিং ভাষা জানেন, সেইসব নির্মাতাদের জন্য একটি সংক্ষিপ্ত ভ্রমণ।",
                         "$~প্রোগ্রামিংয়ে নতুন নির্মাতাদের জন্য পূর্ণাঙ্গ ও নাটকীয় ভূমিকা"
@@ -7137,7 +7978,10 @@
                 "nextEntry": "$~পরবর্তী স্ট্রিংটি সম্পাদনা করুন",
                 "qualityMode": {
                     "label": "$~দেখান",
-                    "labels": ["$~সব", "$~যন্ত্রানুবাদ বা অলিখিত"],
+                    "labels": [
+                        "$~সব",
+                        "$~যন্ত্রানুবাদ বা অলিখিত"
+                    ],
                     "tips": [
                         "$~সমস্ত স্ট্রিং দেখান",
                         "$~শুধুমাত্র যন্ত্র-অনূদিত বা অলিখিত স্ট্রিংগুলি দেখান"
@@ -7183,7 +8027,11 @@
                     "ui": "$~ব্যবহারকারী ইন্টারফেস",
                     "gallery": "$~গ্যালারি",
                     "moderation": "$~সংযম"
-                }
+                },
+                "literalTermsWarning": "$?",
+                "checkReadingLevel": "$?",
+                "readingLevelComplex": "$?",
+                "readingLevelOk": "$?"
             },
             "teach": {
                 "header": "$~শেখান",
@@ -7434,7 +8282,10 @@
                     },
                     "public": {
                         "label": "$~দৃশ্যমানতা",
-                        "labels": ["$~জনসাধারণের", "$~ব্যক্তিগত"],
+                        "labels": [
+                            "$~জনসাধারণের",
+                            "$~ব্যক্তিগত"
+                        ],
                         "tips": [
                             "$~যে কেউ এই চরিত্রটি দেখতে পারে",
                             "$~শুধুমাত্র আপনি এবং আপনার সহযোগীরাই এই চরিত্রটি দেখতে পারবেন।"

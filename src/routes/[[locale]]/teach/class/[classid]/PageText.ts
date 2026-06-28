@@ -2,7 +2,7 @@ import type { FormattedText } from '@locale/LocaleText';
 import type { ButtonText, FieldText } from '@locale/UITexts';
 
 type PageText = {
-    /** Header for the class page*/
+    /** [plain] Header for the class page*/
     header: string;
     subheader: {
         /** [plain] The teachers header */

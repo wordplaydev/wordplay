@@ -1,4 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
+import getConceptName from '@locale/getConceptName';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { STREAM_SYMBOL } from '@parser/Symbols';
@@ -113,7 +114,7 @@ export default class StreamDefinition extends DefinitionExpression {
             {
                 name: 'docs',
                 kind: optional(node(Docs)),
-                label: () => (l) => l.term.documentation,
+                label: () => (l) => l.glossary.documentation.word,
             },
             { name: 'dots', kind: node(Sym.Stream), label: undefined },
             { name: 'names', kind: node(Names), label: undefined },
@@ -123,7 +124,7 @@ export default class StreamDefinition extends DefinitionExpression {
                 kind: list(true, node(Bind)),
                 space: true,
                 indent: true,
-                label: () => (l) => l.term.input,
+                label: () => (l) => getConceptName(l, 'input'),
             },
             { name: 'close', kind: node(Sym.EvalClose), label: undefined },
             {
@@ -137,7 +138,7 @@ export default class StreamDefinition extends DefinitionExpression {
             {
                 name: 'output',
                 kind: any(node(Type), none(['dot', () => new TypeToken()])),
-                label: () => (l) => l.term.type,
+                label: () => (l) => l.glossary.type.word,
             },
         ];
     }

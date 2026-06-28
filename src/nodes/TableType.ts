@@ -67,7 +67,7 @@ export default class TableType extends BasisType {
             {
                 name: 'columns',
                 kind: list(true, node(Bind)),
-                label: () => (l) => l.term.column,
+                label: () => (l) => l.glossary.column.word,
                 space: true,
             },
             { name: 'close', kind: node(Sym.TableClose), label: undefined },

@@ -1,4 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
+import getConceptName from '@locale/getConceptName';
 import type { InsertContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
@@ -87,7 +88,7 @@ export default class Previous extends Expression {
             {
                 name: 'number',
                 kind: node(Expression),
-                label: () => (l) => l.term.index,
+                label: () => (l) => l.glossary.index.word,
                 // Must be a number
                 getType: () => NumberType.make(),
                 space: true,
@@ -95,7 +96,7 @@ export default class Previous extends Expression {
             {
                 name: 'stream',
                 kind: node(Expression),
-                label: () => (l) => l.term.stream,
+                label: () => (l) => getConceptName(l, 'stream'),
                 // Must be a stream
                 getType: () => StreamType.make(new AnyType()),
                 space: true,
@@ -216,12 +217,9 @@ export default class Previous extends Expression {
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return locales.concretize(
-            (l) => l.node.Previous.start,
-            {
-                stream: new NodeRef(this.stream, locales, context),
-            },
-        );
+        return locales.concretize((l) => l.node.Previous.start, {
+            stream: new NodeRef(this.stream, locales, context),
+        });
     }
 
     getFinishExplanations(
@@ -229,12 +227,9 @@ export default class Previous extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return locales.concretize(
-            (l) => l.node.Previous.finish,
-            {
-                value: this.getValueIfDefined(locales, context, evaluator),
-            },
-        );
+        return locales.concretize((l) => l.node.Previous.finish, {
+            value: this.getValueIfDefined(locales, context, evaluator),
+        });
     }
 
     getCharacter() {

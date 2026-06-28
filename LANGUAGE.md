@@ -127,6 +127,10 @@ An external example embeds code from another programming language for documentat
 
 A concept link references a documented concept (e.g. `@Phrase`). A concept and one of its members (a property, function, or other subconcept) are separated by `.`, mirroring property access (e.g. `@Color.random`, `@Phrase.size`). A `/` separator instead references something that is not a concept: a UI element (`@UI/toolbar`), a how-to (`@How/...`), or a creator-defined character (`@username/charactername`). The separator must be followed by a name, so a sentence-ending period after a link (e.g. `see @Color.`) is left as punctuation.
 
+A bare lowercase `@term` (no separator) references a **glossary term** rather than a documented concept (e.g. `@value`, `@expression`). Resolution is by id: an `@id` resolves to a concept when the id is a concept's, otherwise to a glossary term — so concepts (capitalized ids like `@Phrase`) and glossary terms (lowercase ids) share the `@` reference syntax.
+
+A `$` mention substitutes a named template input (e.g. `$expected`), with `$?`/`$!` as special placeholders. `$` is only for input substitution; documented things — concepts and glossary terms alike — are referenced with `@` (above).
+
 > words → _any sequence of characters between `markup` that aren't markup delimeters above_
 
 Compound data structures have several delimiters:

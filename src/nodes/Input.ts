@@ -54,16 +54,14 @@ export default class Input extends Node {
         );
     }
 
-    static getPossibleReplacements({
-        node,
-        context,
-        locales,
-    }: ReplaceContext) {
+    static getPossibleReplacements({ node, context, locales }: ReplaceContext) {
         if (!(node instanceof Input)) return [];
         const parent = node.getParent(context);
         if (!(parent instanceof Evaluate)) return [];
         const mapping = parent.getInputMapping(context);
-        const expected = mapping?.inputs.find((i) => i.given === node)?.expected;
+        const expected = mapping?.inputs.find(
+            (i) => i.given === node,
+        )?.expected;
         if (expected === undefined) return [];
         const types =
             expected.type instanceof UnionType
@@ -74,13 +72,12 @@ export default class Input extends Node {
         return (
             types
                 ?.map((t) => t.getDefaultExpression(context))
-                .filter((e): e is Exclude<typeof e, undefined> => e !== undefined)
+                .filter(
+                    (e): e is Exclude<typeof e, undefined> => e !== undefined,
+                )
                 .map(
                     (value) =>
-                        new Refer(
-                            (name) => Input.make(name, value),
-                            expected,
-                        ),
+                        new Refer((name) => Input.make(name, value), expected),
                 ) ?? [
                 new Refer(
                     (name) => Input.make(name, ExpressionPlaceholder.make()),
@@ -169,7 +166,7 @@ export default class Input extends Node {
                     }
                     return new NoExpressionType(this.value);
                 },
-                label: () => (l) => l.term.value,
+                label: () => (l) => l.glossary.value.word,
             },
             { name: 'separator', kind: node(Sym.Separator), label: undefined },
         ];

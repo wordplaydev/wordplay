@@ -75,7 +75,7 @@ export default class WebLink extends Content {
             {
                 name: 'description',
                 kind: node(Sym.Words),
-                label: () => (l) => l.term.markup,
+                label: () => (l) => l.glossary.markup.word,
             },
             { name: 'at', kind: node(Sym.Link), label: undefined },
             { name: 'url', kind: node(Sym.URL), label: () => (l) => 'url' },

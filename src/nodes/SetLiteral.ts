@@ -75,7 +75,7 @@ export default class SetLiteral extends CompositeLiteral {
             {
                 name: 'values',
                 kind: list(true, node(Expression)),
-                label: () => (l) => l.term.value,
+                label: () => (l) => l.glossary.value.word,
                 // Only allow types to be inserted that are of the list's type, if provided.
                 getType: (context) =>
                     this.getItemType(context) ?? new AnyType(),
@@ -206,12 +206,9 @@ export default class SetLiteral extends CompositeLiteral {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return locales.concretize(
-            (l) => l.node.SetLiteral.finish,
-            {
-                value: this.getValueIfDefined(locales, context, evaluator),
-            },
-        );
+        return locales.concretize((l) => l.node.SetLiteral.finish, {
+            value: this.getValueIfDefined(locales, context, evaluator),
+        });
     }
 
     getDescriptionInputs() {

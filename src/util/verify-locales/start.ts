@@ -1,3 +1,6 @@
+// Load .env.local (secrets) + .env (config) before anything reads process.env.
+// Side-effect import kept first so it runs ahead of the others. See loadEnv.ts.
+import '@util/verify-locales/loadEnv';
 import type LanguageCode from '@locale/LanguageCode';
 import type LocaleText from '@locale/LocaleText';
 import {
@@ -19,10 +22,6 @@ import {
 } from '@util/verify-locales/LocaleSchema';
 import Log from '@util/verify-locales/Log';
 import {
-    getDeclaredInputs,
-    getTerminologyNames,
-} from '@util/verify-locales/templateInputs';
-import {
     getTutorialJSON,
     getTutorialPath,
 } from '@util/verify-locales/TutorialSchema';
@@ -38,6 +37,8 @@ import {
     verifyTutorial,
 } from '@util/verify-locales/verifyTutorial';
 import { findUnusedKeys } from '@util/verify-locales/findUnusedKeys';
+import findUntaggedStrings from '@util/verify-locales/findUntaggedStrings';
+import getTranslator from '@util/verify-locales/getTranslator';
 import {
     DEFAULT_TUTORIAL_MODE,
     TutorialModes,
@@ -45,7 +46,7 @@ import {
 } from '../../tutorial/TutorialMode';
 import fs from 'fs';
 import path from 'path';
-import * as prettier from 'prettier';
+import writeFormatted from '@util/verify-locales/writeFormatted';
 
 // We're we asked to translate? Let's see if there was a specific locale we're focusing on.
 const TranslationRequested =
@@ -73,24 +74,6 @@ if (
         'Please provide either "verify" (check structure), "ci" (fail on invalid structure), "fix" (repair structure), "translate" (translate untranslated strings), "override" command (replace existing machine translations)',
         false,
     );
-}
-
-// Surface any declared input names that collide with terminology keys.
-// Collisions aren't blocking (input precedence makes the runtime correct
-// where the collision is intentional, like Bind.description's `$name`),
-// but they mask `$<term>` terminology lookups in fields that declare the
-// same name as an input — worth flagging so the next developer notices.
-{
-    const terms = getTerminologyNames();
-    const declaredNames = new Set<string>();
-    for (const names of getDeclaredInputs().values())
-        for (const n of names) declaredNames.add(n);
-    const collisions = [...declaredNames].filter((n) => terms.has(n)).sort();
-    if (collisions.length > 0)
-        log.warning(
-            0,
-            `Template input names collide with terminology keys (input precedence applies): ${collisions.join(', ')}`,
-        );
 }
 
 // If there are problems in the default locale, we can't verify or translate anything.
@@ -128,13 +111,24 @@ log.say(
         : 'Checking all locale files for problems...',
 );
 
+// The translation backend must be chosen explicitly (no silent default), so a
+// long run can't quietly use the wrong one. Validate and report it up front.
+if (TranslationRequested) {
+    try {
+        log.say(0, `Using the "${getTranslator().id}" translation backend.`);
+    } catch (error) {
+        log.exit(
+            0,
+            error instanceof Error ? error.message : String(error),
+            false,
+        );
+    }
+}
+
 // Go through all of the locale directors and check the locale and tutorial files, repairing and optionally translating them.
 const localeFolders = Array.from(
     fs.readdirSync(path.join('static', 'locales'), { withFileTypes: true }),
 );
-
-// Find prettier configuration options so we can format the locale.
-const prettierOptions = await prettier.resolveConfig('');
 
 // Verify, repair, and translate a locale */
 async function handleLocale(
@@ -159,16 +153,13 @@ async function handleLocale(
         translatedPaths,
     );
 
-    // If the locale was revised, write the results.
+    // If the locale was revised, write the results (Prettier-formatted).
     if (localeChanged || localeIsNew) {
-        // Write a formatted version of the revised locale file.
-        const prettyLocale = await prettier.format(
-            JSON.stringify(revisedLocale, null, 4),
-            { ...prettierOptions, parser: 'json' },
-        );
-
         log.good(1, 'Saving repairs to ' + locale);
-        fs.writeFileSync(getLocalePath(locale), prettyLocale);
+        await writeFormatted(
+            getLocalePath(locale),
+            JSON.stringify(revisedLocale, null, 4),
+        );
     }
 
     // Verify (and, for translate-enabled modes, optionally translate) each tutorial mode's file.
@@ -220,26 +211,18 @@ async function handleLocale(
                 OverrideMachineTranslations,
             );
 
-            // If the tutorial was revised, write the results.
+            // If the tutorial was revised, write the results (Prettier-formatted).
             if (
                 tutorialIsNew ||
                 (revisedTutorial &&
                     JSON.stringify(currentTutorial) !==
                         JSON.stringify(revisedTutorial))
             ) {
-                // Write a formatted version of the revised tutorial file.
-                const prettyTutorial = await prettier.format(
+                log.good(1, `Writing revised ${locale} ${mode} tutorial`);
+                await writeFormatted(
+                    getTutorialPath(locale, mode),
                     JSON.stringify(revisedTutorial, null, 4),
-                    { ...prettierOptions, parser: 'json' },
                 );
-
-                if (JSON.stringify(revisedTutorial) !== prettyTutorial) {
-                    log.good(1, `Writing revised ${locale} ${mode} tutorial`);
-                    fs.writeFileSync(
-                        getTutorialPath(locale, mode),
-                        prettyTutorial,
-                    );
-                }
             }
         }
     }
@@ -255,7 +238,7 @@ async function handleLocale(
     );
 
     // Regenerate the per-locale how-to bundle the runtime loads (write-if-changed).
-    await buildHowToBundle(log, locale, prettierOptions);
+    await buildHowToBundle(log, locale);
 }
 
 // Build a database of all locales
@@ -372,20 +355,14 @@ if (TranslationRequested && translatedPaths.size > 0) {
                     ? entry.slice('$!'.length)
                     : entry,
             );
-            if (
-                updated.some((entry, i) => entry !== (value as unknown[])[i])
-            ) {
+            if (updated.some((entry, i) => entry !== (value as unknown[])[i])) {
                 revisedString.path.repair(enUSText, updated);
                 stripped++;
             }
         }
     }
     if (stripped > 0) {
-        const prettyEnUS = await prettier.format(
-            JSON.stringify(enUSText, null, 4),
-            { ...prettierOptions, parser: 'json' },
-        );
-        fs.writeFileSync(enUSPath, prettyEnUS);
+        await writeFormatted(enUSPath, JSON.stringify(enUSText, null, 4));
         log.good(
             0,
             `Cleared "$!" Revised markers from ${stripped} en-US strings whose translations propagated to sibling locales.`,
@@ -407,6 +384,19 @@ if (FocalLocale === null) {
                 .join(', ')}`,
         );
     } else log.good(0, 'No unused locale keys detected.');
+}
+
+// Every user-visible string field must declare a format tag ([plain]/[formatted]/
+// [name]/[emotion]) in its locale type, or it's invisible to the localization
+// editor and translators. This is a type-level (schema) property, so check once.
+if (FocalLocale === null) {
+    const untagged = findUntaggedStrings(DefaultLocale);
+    if (untagged.length > 0) {
+        log.bad(
+            0,
+            `${untagged.length} user-visible string field(s) are missing a format tag ([plain]/[formatted]/[name]/[emotion]) and are invisible to translators. Add a tag to each in its locale type declaration:\n  ${untagged.join('\n  ')}`,
+        );
+    } else log.good(0, 'All user-visible string fields have a format tag.');
 }
 
 // Verify keyword integrity: each localized keyword must be a single token (no spaces or hyphens) and

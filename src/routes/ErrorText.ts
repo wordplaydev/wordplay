@@ -1,7 +1,7 @@
 type ErrorText = {
-    /** The header for the unknown route */
+    /** [plain] The header for the unknown route */
     header: string;
-    /** The message for the unknown route */
+    /** [plain] The message for the unknown route */
     message: string;
 };
 

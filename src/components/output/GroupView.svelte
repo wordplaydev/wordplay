@@ -1,7 +1,19 @@
 <script lang="ts">
     import GroupView from '@components/output/GroupView.svelte';
+    import getConceptName from '@locale/getConceptName';
 
+    import OutputHandles from '@components/output/OutputHandles.svelte';
+    import PhraseView from '@components/output/PhraseView.svelte';
+    import ShapeView from '@components/output/ShapeView.svelte';
+    import moveOutput from '@components/palette/editOutput';
+    import {
+        getProject,
+        getSelectedOutput,
+    } from '@components/project/Contexts';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import { DB, locales } from '@db/Database';
     import Evaluate from '@nodes/Evaluate';
+    import type { Form } from '@output/Form';
     import Group from '@output/Group';
     import {
         PX_PER_METER,
@@ -15,20 +27,9 @@
     import Phrase from '@output/Phrase';
     import type Place from '@output/Place';
     import type RenderContext from '@output/RenderContext';
-    import { untrack } from 'svelte';
-    import { DB, locales } from '@db/Database';
-    import moveOutput from '@components/palette/editOutput';
-    import type { Form } from '@output/Form';
     import Shape from '@output/Shape';
     import Stage from '@output/Stage';
-    import {
-        getProject,
-        getSelectedOutput,
-    } from '@components/project/Contexts';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import PhraseView from '@components/output/PhraseView.svelte';
-    import ShapeView from '@components/output/ShapeView.svelte';
-    import OutputHandles from '@components/output/OutputHandles.svelte';
+    import { untrack } from 'svelte';
 
     interface Props {
         group: Group | Stage;
@@ -145,7 +146,15 @@
                   ? -increment
                   : 0;
         event.stopPropagation();
-        moveOutput(DB, $project, [creator], $locales, horizontal, vertical, true);
+        moveOutput(
+            DB,
+            $project,
+            [creator],
+            $locales,
+            horizontal,
+            vertical,
+            true,
+        );
     }
 
     let description: string | null = $state(null);
@@ -167,8 +176,8 @@
           )}`.trim()
         : description}
     aria-roledescription={group instanceof Group
-        ? $locales.getPlainText((l) => l.term.group)
-        : $locales.getPlainText((l) => l.term.stage)}
+        ? $locales.getPlainText((l) => getConceptName(l, 'group'))
+        : $locales.getPlainText((l) => getConceptName(l, 'stage'))}
     aria-hidden={empty ? 'true' : null}
     class="output group {group instanceof Group ? 'Group' : 'Stage'}"
     class:selected={selected && !root}
@@ -265,7 +274,7 @@
             {creator}
             {view}
             selected={soleSelected}
-            name={$locales.getPlainText((l) => l.term.group)}
+            name={$locales.getPlainText((l) => getConceptName(l, 'group'))}
             rotation={group.pose.rotation ?? 0}
             size={group.pose.scale ?? 1}
         />

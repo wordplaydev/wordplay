@@ -12,13 +12,13 @@ type PageText = {
         students: string;
         /** [plain] The subheader for the preview */
         credentials: string;
-        /** The subheader for submitting*/
+        /** [plain] The subheader for submitting*/
         submit: string;
     };
     prompt: {
         /** [formatted] Explain the purpose of the form */
         start: FormattedText;
-        /** Prompt review of the genrated students.*/
+        /** [formatted] Prompt review of the genrated students.*/
         review: FormattedText;
         /** [formatted] What to say before there are any generated credentials. */
         ready: FormattedText;
@@ -42,9 +42,9 @@ type PageText = {
             /** [plain] Label for existing users. */
             label: string;
         };
-        /** The student data field */
+        /** [formatted] The student data field */
         metadata: FieldText & { prompt: FormattedText };
-        /** The password words field */
+        /** [formatted] The password words field */
         words: FieldText & { prompt: FormattedText };
         /** The generate credentials button */
         generate: ButtonText;

@@ -20,7 +20,7 @@
                             "FunctionDefinition",
                             "curious",
                             "Oh, is this your first time visiting?",
-                            "Nice to meet you. My name is @FunctionDefinition.",
+                            "Nice to meet you. My @name is @FunctionDefinition.",
                             "…"
                         ],
                         null,
@@ -194,8 +194,8 @@
                             "Program",
                             "serious",
                             "The instructions can get as sophisticated as you want, but there are a few rules.",
-                            "For example, I evaluate to one *value* and show that value on stage. That one value can be as complex as you want, and as long as I know how to show it, I will.",
-                            "If you give me more than one expression, I'll collect their values into a *list* and show that.",
+                            "For example, I evaluate to one *@value* and show that value on stage. That one value can be as complex as you want, and as long as I know how to show it, I will.",
+                            "If you give me more than one @expression, I'll collect their values into a *list* and show that.",
                             "For example, try adding another line and then typing whatever word you want, in quotes."
                         ],
                         null,
@@ -302,7 +302,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Sure! My friend @ExpressionPlaceholder is a placeholder. They represent any kind of expression in a program. They don't evaluate to any value in particular — in fact, if they show up in @Program, @Program will just halt the performance, since it's not really clear what to do next."
+                            "Sure! My friend @ExpressionPlaceholder is a @placeholder. They represent any kind of @expression in a program. They don't evaluate to any @value in particular — in fact, if they show up in @Program, @Program will just halt the performance, since it's not really clear what to do next."
                         ],
                         null,
                         { "edit": "_", "conflicts": true, "sidebar": true },
@@ -317,7 +317,7 @@
                             "neutral",
                             "@Program tried to follow the @ExpressionPlaceholder, instruction, but since the placeholder doesn't say what to do yet, it @Program evaluated to an *exception* @UI/exception on *stage*.",
                             "An exception happens when @Program can't follow an instruction you give.",
-                            "If @Program knows there will be an exception, it will show a *conflict* @UI/conflict that explains its confusion.",
+                            "If @Program knows there will be an exception, it will show a *@conflict* @UI/conflict that explains its confusion.",
                             "If you select @ExpressionPlaceholder, or move the text cursor over it, you can see options for what to replace it with. You can also just type over @ExpressionPlaceholder and write your own. For example, try typing \\'hello'\\."
                         ],
                         null,
@@ -425,7 +425,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "(For example, try typing \\]\\. See how you can't type it without a conflict? If you're editing with blocks 🖱️, we won't let you type \\]\\, and if you're editing with text ⌨️, it creates a conflict.)"
+                            "(For example, try typing \\]\\. See how you can't type it without a @conflict? If you're editing with @blocks 🖱️, we won't let you type \\]\\, and if you're editing with text ⌨️, it creates a conflict.)"
                         ],
                         null,
                         { "edit": "]", "conflicts": true, "sidebar": true },
@@ -758,7 +758,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "Every value has a *type*. For example, \\1\\ is a number type; that's our friend @Number. And \\'hello'\\ is a text type; that's our friend @Text. Types are important because they help us keep track of what kind of value we're creating.",
+                            "Every value has a *@type*. For example, \\1\\ is a number type; that's our friend @Number. And \\'hello'\\ is a text type; that's our friend @Text. Types are important because they help us keep track of what kind of value we're creating.",
                             "That helps us find problems. For example, it doesn't make any sense to add \\'hello' + 1\\ because what would it even mean to add @Text to @Number?"
                         ],
                         null,
@@ -823,7 +823,7 @@
                             "Text",
                             "serious",
                             "Why don't you try making a text in this blank @Program?",
-                            "You can use whatever quotes you like — single \\''\\, double \\\"\"\\, angle \\«»\\, brackets \\「」\\ — in whatever language you like. The only rule is that if you start some text with an opening quote symbol, you must finish it with a closing one. Everything inside is the text value I will create!"
+                            "You can use whatever quotes you like — single \\''\\, double \\\"\"\\, angle \\«»\\, brackets \\「」\\ — in whatever language you like. The only rule is that if you start some text with an opening quote symbol, you must finish it with a closing one. Everything inside is the text @value I will create!"
                         ],
                         { "edit": "''" },
                         null,
@@ -861,7 +861,7 @@
                         [
                             "Text",
                             "excited",
-                            "Oh, and did you know you can tell me what language I am in? You just do a little slash and then a special language code, or if you like, a language and region."
+                            "Oh, and did you know you can tell me what @language I am in? You just do a little slash and then a special language @code, or if you like, a language and @region."
                         ],
                         null,
                         { "edit": "'amigas'/es'friends!'/en-US" },
@@ -869,7 +869,7 @@
                             "Text",
                             "excited",
                             "You can even write multiple translations of me in different languages. I'll evaluate to the closest match for the current language, letting you put on multilingual performances.",
-                            "By default, if the cursor isn't in the text, you will only see the name of the language you've chosen. Try moving the cursor in and out of the text to see the multiple translations show and hide.",
+                            "By default, if the cursor isn't in the text, you will only see the @name of the @language you've chosen. Try moving the cursor in and out of the text to see the multiple translations show and hide.",
                             "You can try adding another translation. Just don't put any space between them or there'll be two of me!"
                         ],
                         null,
@@ -878,13 +878,13 @@
                             "Text",
                             "neutral",
                             "I have another secret... you can put /values/ inside me. I know; it's wild!",
-                            "If you do, I'm happy to stitch it together and assemble your beautiful prose into a single value for display or whatever other purposes you might have."
+                            "If you do, I'm happy to stitch it together and assemble your beautiful prose into a single @value for display or whatever other purposes you might have."
                         ],
                         null,
                         [
                             "Text",
                             "serious",
-                            "For example, did @FunctionDefinition show you how text knows how to add itself to other text? Like this: this little expression converts \\7\\ to text, adds it to \\'I have'\\, and then adds \\'apples'\\. But it's so untidy and makes it hard to read what's happening, and the conversion to text feels so unnecessary."
+                            "For example, did @FunctionDefinition show you how text knows how to add itself to other text? Like this: this little @expression converts \\7\\ to text, adds it to \\'I have'\\, and then adds \\'apples'\\. But it's so untidy and makes it hard to read what's happening, and the conversion to text feels so unnecessary."
                         ],
                         { "edit": "'I have' + (7→'') + 'apples'" },
                         null,
@@ -904,7 +904,7 @@
                         [
                             "Text",
                             "neutral",
-                            "And when I say any expression, I really do mean any. For example, imagine you wanted to do some arithmetic and created some text with the result. You might do this. This sums several numbers and then makes text with the sum. Truly wondrous, isn't it? And so much more graceful than \\'I have ' + (1 + 2 + 5 + 8) + ' apples'\\, with all those extra additions."
+                            "And when I say any @expression, I really do mean any. For example, imagine you wanted to do some arithmetic and created some text with the result. You might do this. This sums several numbers and then makes text with the sum. Truly wondrous, isn't it? And so much more graceful than \\'I have ' + (1 + 2 + 5 + 8) + ' apples'\\, with all those extra additions."
                         ],
                         { "edit": "'I have \\1 + 2 + 5 + 8\\ apples'" },
                         null,
@@ -913,7 +913,7 @@
                             "curious",
                             "And so you might be wondering, /What if I want to use @Text in some text?/ ",
                             "Well, maybe you weren't wondering that, but I'm going to tell you anyway!",
-                            "In any @Text, just give me two in a row! I'll interpret that as just one @Text instead of an empty expression, which wouldn't have any meaning anyway.",
+                            "In any @Text, just give me two in a row! I'll interpret that as just one @Text instead of an empty @expression, which wouldn't have any meaning anyway.",
                             "Try removing the \\\\ and you'll see that the slash regains its meaning."
                         ],
                         {
@@ -924,13 +924,13 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "This is so very graceful, isn't it! @Text, I love how much you appreciate the beauty in expression. It inspires me so much to be graceful myself!"
+                            "This is so very graceful, isn't it! @Text, I love how much you appreciate the beauty in @expression. It inspires me so much to be graceful myself!"
                         ],
                         null,
                         [
                             "Text",
                             "curious",
-                            "And did our friend @FunctionDefinition here tell you about all of the wonderful functions they defined for me? They've allowed me to do all kinds of things. One is pretty simple: it's called @Text.length, and all it does is get the length of some text. For example, if we team up with @Evaluate here and our little friend @PropertyReference, we can evaluate the length function with no inputs and get the length value back. Try changing the text and watch the length that Program shows change as it gets shorter and longer."
+                            "And did our friend @FunctionDefinition here tell you about all of the wonderful functions they defined for me? They've allowed me to do all kinds of things. One is pretty simple: it's called @Text.length, and all it does is get the length of some text. For example, if we team up with @Evaluate here and our little friend @PropertyReference, we can evaluate the length function with no inputs and get the length @value back. Try changing the text and watch the length that Program shows change as it gets shorter and longer."
                         ],
                         { "edit": "'hello'.length()" },
                         null,
@@ -983,21 +983,21 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "For example, did you know they come in another form? You saw them in \\function()\\ form, but they also have this beautiful trick when a single input function is evaluated on a value. @Evaluate calls it @BinaryEvaluate. For example, you know that repeat function that text just showed you? It looked like this."
+                            "For example, did you know they come in another form? You saw them in \\function()\\ form, but they also have this beautiful trick when a single input function is evaluated on a @value. @Evaluate calls it @BinaryEvaluate. For example, you know that repeat function that text just showed you? It looked like this."
                         ],
                         { "edit": "'hi'.repeat(5)" },
                         null,
                         [
                             "FunctionDefinition",
                             "eager",
-                            "Instead, you can have @Evaluate evaluate it with a much simpler symbol in the middle, like this. This means 'repeat 'hi' five times'. But it also means 'evaluate the \\×\\ function on the text value \\'hi'\\ with the input \\5\\.' The function \\repeat\\ just has multiple names, one of which is a symbol name \\×\\."
+                            "Instead, you can have @Evaluate evaluate it with a much simpler symbol in the middle, like this. This means 'repeat 'hi' five times'. But it also means 'evaluate the \\×\\ function on the text @value \\'hi'\\ with the input \\5\\.' The function \\repeat\\ just has multiple names, one of which is a symbol name \\×\\."
                         ],
                         { "edit": "'hi' × 5" },
                         null,
                         [
                             "FunctionDefinition",
                             "serious",
-                            "That reminds me of another of @Text's functions! It's helpful for making one text value from multiple text values. It's called \\combine\\, but also \\+\\, and you can use it to add words together. See how I took a text value and then evaluated \\combine\\ on it with \\'verse'\\? That made \\'hello verse'\\."
+                            "That reminds me of another of @Text's functions! It's helpful for making one text @value from multiple text values. It's called \\combine\\, but also \\+\\, and you can use it to add words together. See how I took a text value and then evaluated \\combine\\ on it with \\'verse'\\? That made \\'hello verse'\\."
                         ],
                         { "edit": "'hello '.combine('verse')" },
                         null,
@@ -1018,7 +1018,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "This is the same as a series of evaluations of combine, but without all of the parentheses and \\.\\ and a symbolic name instead of a word name."
+                            "This is the same as a series of evaluations of combine, but without all of the parentheses and \\.\\ and a symbolic @name instead of a word name."
                         ],
                         { "edit": "'hello '.combine('verse').combine('!')" },
                         null,
@@ -1163,7 +1163,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "(This just reverses a truth value)."
+                            "(This just reverses a truth @value)."
                         ],
                         null,
                         {
@@ -1317,7 +1317,7 @@
                         [
                             "Number",
                             "excited",
-                            "I count things! I can be any number you like. Just type me in, and I'll make the value you want. Like this."
+                            "I count things! I can be any number you like. Just type me in, and I'll make the @value you want. Like this."
                         ],
                         { "edit": "1" },
                         null,
@@ -1405,7 +1405,7 @@
                         [
                             "Number",
                             "angry",
-                            "No. That's why I underlined the conflict. I don't like adding incompatible things. I can only add compatible numbers. That applies to multiplication, division, and all of my other functions. Do you want to fix it? Change apples to oranges or oranges to apples, and the conflict will go away. Make sure there's no space between the number and the unit; otherwise, I don't know it's a unit. And make sure the units are /exactly/ the same. I don't know anything about people units; they mean nothing to me. I just compare the unit names, and if they don't match, BOOM!"
+                            "No. That's why I underlined the @conflict. I don't like adding incompatible things. I can only add compatible numbers. That applies to multiplication, division, and all of my other functions. Do you want to fix it? Change apples to oranges or oranges to apples, and the conflict will go away. Make sure there's no space between the number and the unit; otherwise, I don't know it's a unit. And make sure the units are /exactly/ the same. I don't know anything about people units; they mean nothing to me. I just compare the unit names, and if they don't match, BOOM!"
                         ],
                         null,
                         [
@@ -1448,7 +1448,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "There are only a few of these, but they are powerful. One is really relevant to @Number: negation. You can just put a \\-\\ in front of any number value and get its negative."
+                            "There are only a few of these, but they are powerful. One is really relevant to @Number: negation. You can just put a \\-\\ in front of any number @value and get its negative."
                         ],
                         { "edit": "-(1 + 3)" },
                         null,
@@ -1461,7 +1461,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "The other one is similar but for negating \\⊤\\ and \\⊥\\: it's like a little squiggle minus \\~\\ that just flips true to false and false to true. For example, this little expression evaluates \\⊤ | ⊥\\, which is \\⊤\\, then flips the \\⊤\\ to \\⊥\\. This is the same as saying \\(⊤ | ⊥).not()\\ but so much more sleek."
+                            "The other one is similar but for negating \\⊤\\ and \\⊥\\: it's like a little squiggle minus \\~\\ that just flips true to false and false to true. For example, this little @expression evaluates \\⊤ | ⊥\\, which is \\⊤\\, then flips the \\⊤\\ to \\⊥\\. This is the same as saying \\(⊤ | ⊥).not()\\ but so much more sleek."
                         ],
                         { "edit": "~(⊤ | ⊥)" },
                         null,
@@ -1483,7 +1483,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "Do you think you're okay meeting just one more value? Let's go find @None next. They are a bit more chill than @Number. @None? Are you out there?"
+                            "Do you think you're okay meeting just one more @value? Let's go find @None next. They are a bit more chill than @Number. @None? Are you out there?"
                         ],
                         ["None", "bored", "…"],
                         null,
@@ -1572,7 +1572,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "Use \\≈\\ to ask “does this whole text fit the shape?” — you get a \\⊤\\ or \\⊥\\. Try \\⌕\\ to *find* every place a pattern appears, and name the pieces you want to keep with \\name:( … )\\."
+                            "Use \\≈\\ to ask “does this whole text fit the shape?” — you get a \\⊤\\ or \\⊥\\. Try \\⌕\\ to *find* every place a pattern appears, and @name the pieces you want to keep with \\name:( … )\\."
                         ],
                         {
                             "edit": "'born 2026-06-15' ⌕ ⣿y:(4 #) \"-\" m:(2 #) \"-\" d:(2 #)⣿"
@@ -1580,7 +1580,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "Each result is a @Structure with the matched text, where it starts and ends, and the groups you captured. And because patterns match by grapheme, they behave the same in every language and script."
+                            "Each result is a @Structure with the matched text, where it starts and ends, and the groups you captured. And because patterns match by grapheme, they behave the same in every @language and script."
                         ]
                     ]
                 }
@@ -1772,19 +1772,19 @@
                         [
                             "List",
                             "surprised",
-                            "Oh, that reminds me of the last rule, rule number five: I start counting at 1! Not zero, not two, 1. So if you want to get the value at a particular place in a list, you can use two more \\[]\\ to make a @ListAccess and give the place you want. See how when I get \\3\\, I give the third value in the list, \\'c'\\? Try changing it to \\1\\ or \\5\\ and see what you get. And then maybe try \\0\\ or \\6\\…"
+                            "Oh, that reminds me of the last rule, rule number five: I start counting at 1! Not zero, not two, 1. So if you want to get the @value at a particular place in a list, you can use two more \\[]\\ to make a @ListAccess and give the place you want. See how when I get \\3\\, I give the third value in the list, \\'c'\\? Try changing it to \\1\\ or \\5\\ and see what you get. And then maybe try \\0\\ or \\6\\…"
                         ],
                         { "edit": "['a' 'b' 'c' 'd' 'e'][3]" },
                         [
                             "List",
                             "happy",
-                            "Interesting, huh? Give me a place in the list, and I will wrap around. For example, \\-1\\ is the last item in the list, and if the list has five items, then index \\6\\ is the first item. If you give me index \\0\\, then I'll give you @NoneLiteral because there's nothing there. Make sense?"
+                            "Interesting, huh? Give me a place in the list, and I will wrap around. For example, \\-1\\ is the last item in the list, and if the list has five items, then @index \\6\\ is the first item. If you give me index \\0\\, then I'll give you @NoneLiteral because there's nothing there. Make sense?"
                         ],
                         null,
                         [
                             "List",
                             "serious",
-                            "Okay, maybe one list function, because this is my favorite. This one is called @List.random and will give a random value in the list. It's great fun because you never know what you're going to get! What did you get, what did you get? Try adding your own animal and see what you get."
+                            "Okay, maybe one list function, because this is my favorite. This one is called @List.random and will give a random @value in the list. It's great fun because you never know what you're going to get! What did you get, what did you get? Try adding your own animal and see what you get."
                         ],
                         {
                             "edit": "['cat' 'dog' 'mouse' 'parrot' 'snake'].random()"
@@ -1860,7 +1860,7 @@
                         [
                             "Set",
                             "curious",
-                            "Also like @List, you can work with @SetOrMapAccess to see if a value is contained in the set. You'll get either \\⊤\\ if it is or \\⊥\\ if it's not. Let's see if \\3\\ is missing from this set. Yep, not there! Try adding \\3\\ back to the set."
+                            "Also like @List, you can work with @SetOrMapAccess to see if a @value is contained in the set. You'll get either \\⊤\\ if it is or \\⊥\\ if it's not. Let's see if \\3\\ is missing from this set. Yep, not there! Try adding \\3\\ back to the set."
                         ],
                         { "edit": "{ 1 2 4 5 }{3}" },
                         null,
@@ -1884,7 +1884,7 @@
                             "Set",
                             "neutral",
                             "Yes, @Set.difference.",
-                            "When evaluated on a set and given another set, it removes all of the items from the given set from the set evaluated on (Hm, those were some clumsy words, but that was what I meant). Here's an example. See how the result is just the set of \\{3}\\? That's the only value that remains after removing the values in \\{ 1 2 }\\."
+                            "When evaluated on a set and given another set, it removes all of the items from the given set from the set evaluated on (Hm, those were some clumsy words, but that was what I meant). Here's an example. See how the result is just the set of \\{3}\\? That's the only @value that remains after removing the values in \\{ 1 2 }\\."
                         ],
                         { "edit": "{ 1 2 3 }.difference({ 1 2 })" },
                         null,
@@ -1937,7 +1937,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "There's just one more collection I'd like to introduce you to. They're a bit like @Set in some ways and even use the same braces, but they're different in one important way: they're a connector. Their name is @Map."
+                            "There's just one more collection I'd like to introduce you to. They're a bit like @Set in some ways and even use the same braces, but they're different in one important way: they're a connector. Their @name is @Map."
                         ],
                         [
                             "FunctionDefinition",
@@ -1998,7 +1998,7 @@
                         [
                             "Map",
                             "eager",
-                            "I connect! I'm kind of like a dictionary: give me a value and I'll give you the definition it corresponds to. @FunctionDefinition told you about values? I map them, one to one, from one value to another. Give me a key; I'll give you the value it corresponds to. For example, here's a mapping from names to a point tally. Names are the key; points are the value."
+                            "I connect! I'm kind of like a dictionary: give me a @value and I'll give you the definition it corresponds to. @FunctionDefinition told you about values? I map them, one to one, from one value to another. Give me a @key; I'll give you the value it corresponds to. For example, here's a mapping from names to a point tally. Names are the key; points are the value."
                         ],
                         {
                             "edit": "{ 'ben': 2points 'joe': 5points 'kate': 12points }"
@@ -2007,7 +2007,7 @@
                         [
                             "Map",
                             "serious",
-                            "But like @Set, I don't like duplicates. You can't have more than one of the same key, but you can have as many unique keys mapped to equivalent values as you like. For example, this gives me two \\'ben'\\ keys, but I just use the last one. But it's okay that \\'ben'\\ and \\'joe'\\ have the same number of points because they're different keys."
+                            "But like @Set, I don't like duplicates. You can't have more than one of the same @key, but you can have as many unique keys mapped to equivalent values as you like. For example, this gives me two \\'ben'\\ keys, but I just use the last one. But it's okay that \\'ben'\\ and \\'joe'\\ have the same number of points because they're different keys."
                         ],
                         {
                             "edit": "{'ben': 2points 'ben': 5points 'joe': 5points 'kate': 12points }"
@@ -2033,7 +2033,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "And what if our director doesn't provide a value or a key? Like this? Like, \\3\\ has no value?"
+                            "And what if our director doesn't provide a @value or a @key? Like this? Like, \\3\\ has no value?"
                         ],
                         {
                             "edit": "{1:1 2:2 3 }",
@@ -2043,18 +2043,18 @@
                         [
                             "Map",
                             "serious",
-                            "Oh… DON'T do that. I only like pairs. Is 3 a key? A value? Totally confusing. Stop the show."
+                            "Oh… DON'T do that. I only like pairs. Is 3 a @key? A @value? Totally confusing. Stop the show."
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "curious",
-                            "And if our director wants to get a value from a key?"
+                            "And if our director wants to get a @value from a @key?"
                         ],
                         [
                             "Map",
                             "neutral",
-                            "Just like @Set: just put a \\{}\\ after a map and give me the key you want."
+                            "Just like @Set: just put a \\{}\\ after a map and give me the @key you want."
                         ],
                         {
                             "edit": "{ 'ben': 2points 'joe': 5points 'kate': 12points }{'ben'}"
@@ -2063,7 +2063,7 @@
                         [
                             "Map",
                             "neutral",
-                            "And if I don't have a key, I'll give you @None."
+                            "And if I don't have a @key, I'll give you @None."
                         ],
                         {
                             "edit": "{ 'ben': 2points 'joe': 5points 'kate': 12points }{'anna'}"
@@ -2073,7 +2073,7 @@
                             "Map",
                             "neutral",
                             "You might want to use our friend @Otherwise if you'd rather treat a @None as something else.",
-                            "Here, for example, we default to \\0points\\ if there's no value."
+                            "Here, for example, we default to \\0points\\ if there's no @value."
                         ],
                         {
                             "edit": [
@@ -2143,7 +2143,7 @@
                             "FunctionDefinition",
                             "curious",
                             "What are they?",
-                            "Conversions. They are the alchemy of this world that help change one type of value to another. Let's go meet them."
+                            "Conversions. They are the alchemy of this world that help change one @type of @value to another. Let's go meet them."
                         ]
                     ]
                 },
@@ -2261,7 +2261,7 @@
                         [
                             "Convert",
                             "sad",
-                            "Yeahhh… you can always check a type of value and see what types of conversions they support."
+                            "Yeahhh… you can always check a @type of @value and see what types of conversions they support."
                         ],
                         null,
                         { "fit": "#Symbol 🧐" },
@@ -2290,7 +2290,7 @@
                         [
                             "Convert",
                             "scared",
-                            "Sorry, bro, I'm still a bit shaken. Uhhh, they can check out any of the value types in the reference @UI/docsExpand.",
+                            "Sorry, bro, I'm still a bit shaken. Uhhh, they can check out any of the @value types in the reference @UI/docsExpand.",
                             "There should be a list of the other types I can change them into… Everything is conversion…"
                         ],
                         null,
@@ -2322,7 +2322,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "To be clear, not all decisions: I have my own life, and they have theirs. But in a performance, when we're trying to decide what to do next on stage, it's all up to them to follow your guidance as director and decide what to do. So they're a key partner creating exciting performances."
+                            "To be clear, not all decisions: I have my own life, and they have theirs. But in a performance, when we're trying to decide what to do next on stage, it's all up to them to follow your guidance as director and decide what to do. So they're a @key partner creating exciting performances."
                         ],
                         null,
                         { "fit": "#SpinningInTheDark ?" },
@@ -2364,7 +2364,7 @@
                             "FunctionDefinition",
                             "excited",
                             "Yes, exactly like that!",
-                            "Do you see how there's four parts to @Conditional's format? There's a *condition* first, which needs to be a @Boolean. Then there's \\?\\. Then there's *yes* expression, then a *no* expression. What @Conditional does is evaluate the condition, and if it's \\⊤\\, they evaluate the *yes* expression. Otherwise, they evaluate the /no/ expression. It's such a powerful way of deciding!"
+                            "Do you see how there's four parts to @Conditional's format? There's a *@condition* first, which needs to be a @Boolean. Then there's \\?\\. Then there's *yes* @expression, then a *no* expression. What @Conditional does is evaluate the condition, and if it's \\⊤\\, they evaluate the *yes* expression. Otherwise, they evaluate the /no/ expression. It's such a powerful way of deciding!"
                         ],
                         null,
                         { "edit": "1 > 5 ? 'more' 'less'" },
@@ -2473,7 +2473,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "I want to show you the connection between our worlds and what they make possible. We call them *input streams*, and they are perhaps the most magical kind of input in the Verse. They're like functions that create a special kind of value that changes as your world changes. They also can't communicate in the ways you might be used to. They're more like heartbeats from another world. So I'll do my best to explain how they work since they won't be able to explain themselves.",
+                            "I want to show you the connection between our worlds and what they make possible. We call them *input streams*, and they are perhaps the most magical kind of input in the Verse. They're like functions that create a special kind of @value that changes as your world changes. They also can't communicate in the ways you might be used to. They're more like heartbeats from another world. So I'll do my best to explain how they work since they won't be able to explain themselves.",
                             "Are you ready to meet one?"
                         ]
                     ]
@@ -2487,7 +2487,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "Let's start with the most elemental stream of all: @Time. To make a stream, we use @Evaluate and give the name of the type of stream you want."
+                            "Let's start with the most elemental stream of all: @Time. To make a stream, we use @Evaluate and give the name of the @type of stream you want."
                         ],
                         ["Time", "neutral", "tick tick tick tick tick…"],
                         { "edit": "Time()" },
@@ -2549,7 +2549,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "If I'm not mistaken, there's a thing in your world called a “keyboard”? It's a way of selecting which one of us you want to appear in your documents, right? Well in the Verse, we receive these requests as a stream of text, each text value representing the key that was pressed. We use these to listen to what people in your world are typing. This stream is called @Key."
+                            "If I'm not mistaken, there's a thing in your world called a “keyboard”? It's a way of selecting which one of us you want to appear in your documents, right? Well in the Verse, we receive these requests as a stream of text, each text value representing the @key that was pressed. We use these to listen to what people in your world are typing. This stream is called @Key."
                         ],
                         null,
                         [
@@ -2672,7 +2672,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "@Volume can be used to make performances respond to sound from the audience. For example, here we could make a little amplitude visualization by converting the amplitude number from the stream to a certain number of \\'o'\\ characters. See how when you make noise, there are more \\'o'\\s? The @Volume amplitude is divided by \\10\\, putting it in the \\0\\ to \\10\\ range. Then, that value is given to @Text.repeat function, which repeats the \\'o'\\ the given number of times."
+                            "@Volume can be used to make performances respond to sound from the audience. For example, here we could make a little amplitude visualization by converting the amplitude number from the stream to a certain number of \\'o'\\ characters. See how when you make noise, there are more \\'o'\\s? The @Volume amplitude is divided by \\10\\, putting it in the \\0\\ to \\10\\ range. Then, that @value is given to @Text.repeat function, which repeats the \\'o'\\ the given number of times."
                         ],
                         ["Volume", "neutral", "bzzzZZZZZzzzzzZZZZ…"],
                         { "edit": "'o'.repeat(Volume() × 10)" }
@@ -2901,14 +2901,14 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Here's the simplest way to use it. You type something and then the stage shows it because the program's value is the @Chat's value."
+                            "Here's the simplest way to use it. You type something and then the stage shows it because the program's @value is the @Chat's value."
                         ],
                         null,
                         { "edit": "Chat().has('oo') ? 'choo choo' 'hmm'" },
                         [
                             "FunctionDefinition",
                             "kind",
-                            "It's more fun to check the value of the chat message to shape the response of the program. This little example responds to any message with consecutive o's with a train sound!"
+                            "It's more fun to check the @value of the chat message to shape the response of the program. This little example responds to any message with consecutive o's with a train sound!"
                         ]
                     ]
                 },
@@ -2940,7 +2940,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "You can also filter the words with something I think you call a 'CSS' query? Like we heard that 'h3' means 'level 3 header', so here are all the phrases in headers on the page."
+                            "You can also filter the words with something I think you call a 'CSS' @query? Like we heard that 'h3' means 'level 3 header', so here are all the phrases in headers on the page."
                         ],
                         null,
                         {
@@ -3003,8 +3003,8 @@
                         [
                             "Reaction",
                             "serious",
-                            "Okay, so I need three things from you: a condition for change, an initial value, and a next value.",
-                            "The *initial* value is whatever value I should make before any change has happened. It's just a normal expression of any kind!",
+                            "Okay, so I need three things from you: a @condition for change, an initial @value, and a next value.",
+                            "The *initial* value is whatever value I should make before any change has happened. It's just a normal @expression of any kind!",
                             "Then you put \\…\\ after the initial value to tell me that the value can change.",
                             "After \\…\\, give me *condition* that evaluates to \\⊤\\ or \\⊥\\. It should generally check one or more streams — otherwise, there's nothing changing, since the only source of change in a performance is streams.",
                             "Then put another \\…\\ after the condition to tell me that the value can change.",
@@ -3019,7 +3019,7 @@
                         [
                             "Reaction",
                             "serious",
-                            "Here's an example. See the @Key stream? Putting ∆ before it asks, /Did this stream change?/ Before it changes, I evaluate to the initial value, \\1m\\. But when the space key is pressed, @Program reevaluates, and I evaluate to the *next* expression, which is \\1m\\ plus whatever the previous stream value was; that's represented by \\.\\. This adds \\1m\\ to the size of the phrase, making the word get bigger and bigger."
+                            "Here's an example. See the @Key stream? Putting ∆ before it asks, /Did this stream change?/ Before it changes, I evaluate to the initial value, \\1m\\. But when the space key is pressed, @Program reevaluates, and I evaluate to the *next* @expression, which is \\1m\\ plus whatever the previous stream value was; that's represented by \\.\\. This adds \\1m\\ to the size of the phrase, making the word get bigger and bigger."
                         ],
                         {
                             "fix": "Phrase('hi' size: 1m … ∆ Key(' ') … 1m + ⬚)"
@@ -3066,7 +3066,7 @@
                         [
                             "Reaction",
                             "eager",
-                            "Okay. Well, I think you're more important than that. Because I'm pretty useless without you! For example, if you give me a condition that doesn't check a stream, I'm never going to create a new value. Like here, the condition a @Boolean from @Button, but without you, I only ever change with the button ."
+                            "Okay. Well, I think you're more important than that. Because I'm pretty useless without you! For example, if you give me a @condition that doesn't check a stream, I'm never going to create a new value. Like here, the condition a @Boolean from @Button, but without you, I only ever change with the button ."
                         ],
                         {
                             "fit": "Phrase('hi' size: 1m … Key(' ') = ' ' … 1m + ⬚)"
@@ -3131,7 +3131,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "You've seen a lot of output already. Every time @Program evaluates, it results in a value and @Program shows that value on stage. But so far you've only seen things like numbers, text, lists. I get it, you just want to see full performances, just like we do!"
+                            "You've seen a lot of output already. Every time @Program evaluates, it results in a @value and @Program shows that value on stage. But so far you've only seen things like numbers, text, lists. I get it, you just want to see full performances, just like we do!"
                         ],
                         null,
                         { "fit": "#Symbol 💬" },
@@ -3235,7 +3235,7 @@
                         [
                             "Phrase",
                             "kind",
-                            "That size can be any expression. For example, say we wanted it to grow as @Time ticks. We can take time, multiply it by a fraction of a meter, and glorious, tick tick tick, hi hi hi. Try changing the frequency or the multiplier. See what beautiful growth you can create!"
+                            "That size can be any @expression. For example, say we wanted it to grow as @Time ticks. We can take time, multiply it by a fraction of a meter, and glorious, tick tick tick, hi hi hi. Try changing the frequency or the multiplier. See what beautiful growth you can create!"
                         ],
                         { "fix": "Phrase('hi' Time(100ms) × 0.001m/ms)" },
                         null,
@@ -3294,7 +3294,7 @@
                         [
                             "Phrase",
                             "kind",
-                            "Only want to give a particular property? Just name the one you want. Here, we name @Phrase.size and @Phrase.rotation."
+                            "Only want to give a particular @property? Just name the one you want. Here, we name @Phrase.size and @Phrase.rotation."
                         ],
                         {
                             "edit": "Phrase('hi' size: 3m rotation: Time(10ms) × 0.1°/ms)"
@@ -3384,7 +3384,7 @@
                         [
                             "Phrase",
                             "happy",
-                            "Of course! Any time you get tired of fiddling with @Evaluate's inputs, you can always select a phrase on stage, and a palette will appear, allowing you to change any little thing you might want: my size, font, place, poses. There's just one rule: if you set any of those to an expression instead of just a value, you'll have to change them down in @Program, not in the palette. Dress me up all you like!"
+                            "Of course! Any time you get tired of fiddling with @Evaluate's inputs, you can always select a phrase on stage, and a palette will appear, allowing you to change any little thing you might want: my size, font, place, poses. There's just one rule: if you set any of those to an @expression instead of just a value, you'll have to change them down in @Program, not in the palette. Dress me up all you like!"
                         ],
                         { "edit": "Phrase('dress me up!')" },
                         null,
@@ -3725,7 +3725,7 @@
                         [
                             "Group",
                             "happy",
-                            "Just as with anything in the Verse, that padding value can come from anything, like input. Sometimes we grow apart, don't we? Let's dance that idea by making the padding grow over time…"
+                            "Just as with anything in the Verse, that padding @value can come from anything, like input. Sometimes we grow apart, don't we? Let's dance that idea by making the padding grow over time…"
                         ],
                         {
                             "edit": [
@@ -3760,7 +3760,7 @@
                         [
                             "Group",
                             "curious",
-                            "Sometimes, it's nice to use two dimensions instead of one. If you tell me how many rows and columns you want, I'll make a @Grid of phrases. Just make sure to give me enough phrases to fill the grid! You can also give @Grid padding and a cell size if you want to be extra precise. Grids are laid out a row at a time, so put your @Phrase list in order of rows."
+                            "Sometimes, it's nice to use two dimensions instead of one. If you tell me how many rows and columns you want, I'll make a @Grid of phrases. Just make sure to give me enough phrases to fill the grid! You can also give @Grid padding and a @cell size if you want to be extra precise. Grids are laid out a row at a time, so put your @Phrase list in order of rows."
                         ],
                         {
                             "edit": [
@@ -4230,7 +4230,7 @@
                         [
                             "Bind",
                             "excited",
-                            "Absolutely! So names… you know how every expression makes a value?"
+                            "Absolutely! So names… you know how every @expression makes a @value?"
                         ],
                         [
                             "FunctionDefinition",
@@ -4240,20 +4240,20 @@
                         [
                             "Bind",
                             "excited",
-                            "Right! So like, values, when we make them, they just kind of get passed around by us like a ball, from expression to expression, until @Program makes the final value it gives to @Stage to show. But sometimes, rather than passing a value around, it's helpful to set it aside and save it for later for some other expression. That's what a @Phrase.name is for. I name things so we can use them later."
+                            "Right! So like, values, when we make them, they just kind of get passed around by us like a ball, from @expression to expression, until @Program makes the final @value it gives to @Stage to show. But sometimes, rather than passing a value around, it's helpful to set it aside and save it for later for some other expression. That's what a @Phrase.name is for. I name things so we can use them later."
                         ],
                         null,
                         [
                             "Bind",
                             "serious",
-                            "So like, here's a really simple example. Let's say we want to name a number. We just say the name, then :, then the number we want. Simple, right? Now, any time we use the name number in an expression, it will evaluate to \\1\\. Like here, where we name it, then use its name to give @Program whatever value it has."
+                            "So like, here's a really simple example. Let's say we want to name a number. We just say the name, then :, then the number we want. Simple, right? Now, any time we use the name number in an @expression, it will evaluate to \\1\\. Like here, where we name it, then use its name to give @Program whatever @value it has."
                         ],
                         { "edit": ["number: 1", "number"] },
                         null,
                         [
                             "Bind",
                             "serious",
-                            "And like, you can tell me what kind of value the name should be by giving me a type with the \\•\\ symbol. So like, if you wanted to make sure that number was a number, you'd say this. That says to name the value \\number\\ and that the value must be a @Number."
+                            "And like, you can tell me what kind of @value the name should be by giving me a @type with the \\•\\ symbol. So like, if you wanted to make sure that number was a number, you'd say this. That says to name the value \\number\\ and that the value must be a @Number."
                         ],
                         { "edit": ["number•#: 1", "number"] },
                         null,
@@ -4279,7 +4279,7 @@
                         [
                             "Bind",
                             "serious",
-                            "Now, let's make the phrase. We put that @List.has expression in for the text and convert it to text. Now, we get @Phrase on stage as \\⊤\\ or \\⊥\\. Good!"
+                            "Now, let's make the phrase. We put that @List.has @expression in for the text and convert it to text. Now, we get @Phrase on stage as \\⊤\\ or \\⊥\\. Good!"
                         ],
                         {
                             "edit": "Phrase([ 'a' 'e' 'i' 'o' 'u'].has(Key())→'')"
@@ -4288,7 +4288,7 @@
                         [
                             "Bind",
                             "curious",
-                            "Now comes the problem part. How do we change the size of the @Phrase? Well, we already figured out how to check if it's a magic letter, so we could just copy it, and if it's \\⊤\\, then make it size \\2m\\, and otherwise, if it's \\⊥\\, make it \\1m\\. That works, but you see how we have to evaluate the same expression twice?"
+                            "Now comes the problem part. How do we change the size of the @Phrase? Well, we already figured out how to check if it's a magic letter, so we could just copy it, and if it's \\⊤\\, then make it size \\2m\\, and otherwise, if it's \\⊥\\, make it \\1m\\. That works, but you see how we have to evaluate the same @expression twice?"
                         ],
                         {
                             "edit": [
@@ -4302,7 +4302,7 @@
                         [
                             "Bind",
                             "excited",
-                            "That's where I come in! See, what you can do is just evaluate the expression and name the resulting value. Magic, right? All you have to do is put a name and \\:\\ in front of an expression, and the value of that expression gets a name. Then, you can use that name anywhere after that expression to refer to its value. Weird, huh? You want to see how it works? Try pressing the ← in the timeline and go backwards a few steps to where \\magic\\ is first named. See how \\magic\\ gets the value of the \\has\\? And then how when each place \\magic\\ is referred to by name, the same value gets placed?"
+                            "That's where I come in! See, what you can do is just evaluate the @expression and name the resulting @value. Magic, right? All you have to do is put a name and \\:\\ in front of an expression, and the value of that expression gets a name. Then, you can use that name anywhere after that expression to refer to its value. Weird, huh? You want to see how it works? Try pressing the ← in the timeline and go backwards a few steps to where \\magic\\ is first named. See how \\magic\\ gets the value of the \\has\\? And then how when each place \\magic\\ is referred to by name, the same value gets placed?"
                         ],
                         {
                             "edit": [
@@ -4332,7 +4332,7 @@
                         [
                             "Bind",
                             "kind",
-                            "But like, if you name the expression, you just have to do it once. And look how much easier that is to read, too."
+                            "But like, if you name the @expression, you just have to do it once. And look how much easier that is to read, too."
                         ],
                         {
                             "edit": [
@@ -4402,8 +4402,8 @@
                             "Bind",
                             "eager",
                             "Oh! Yes, something really important. So like, one name is good, right? But sometimes, multiple names is better? Like if you wanted to name something in multiple person languages, so everyone can read it? So like, say you wanted to say fruit in multiple languages.",
-                            "Put the text cursor on the name \\fruit\\. See how there are actually three names in there and they each have a two letter tag like \\/en\\? Names hide if they're in a language that you haven't chosen.",
-                            "Go down to the ⚙ and choose Spanish, for example, and you'll see the English and Spanish names. So like, one value, but three names, and you can use any of them to get that value. If you tell us what languages you want, we'll show whichever ones are available. The more languages, the better, though, since there are a lot of people in the world who read a lot of different languages!"
+                            "Put the text cursor on the name \\fruit\\. See how there are actually three names in there and they each have a two letter tag like \\/en\\? Names hide if they're in a @language that you haven't chosen.",
+                            "Go down to the ⚙ and choose Spanish, for example, and you'll see the English and Spanish names. So like, one @value, but three names, and you can use any of them to get that value. If you tell us what languages you want, we'll show whichever ones are available. The more languages, the better, though, since there are a lot of people in the world who read a lot of different languages!"
                         ],
                         {
                             "edit": "fruit/en,fruta/es,水果/zh: 5",
@@ -4481,7 +4481,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "And so another thing @Block can do is something you've already seen. @Block lets you name things with @Bind. But any names defined in the @Block are only defined between the parentheses. Not before and not after. For example, check this out. \\a\\ is defined as \\1\\, then a block starts and \\b\\ is defined as \\2\\, then \\c\\ is defined as their sum, then I write \\c\\ on its own. @Bind statements are side effects — they introduce names but don't have a value of their own. So my value is whatever the non-@Bind expressions produce. Here that's just \\c\\, which is \\3\\. Right?"
+                            "And so another thing @Block can do is something you've already seen. @Block lets you name things with @Bind. But any names defined in the @Block are only defined between the parentheses. Not before and not after. For example, check this out. \\a\\ is defined as \\1\\, then a block starts and \\b\\ is defined as \\2\\, then \\c\\ is defined as their sum, then I write \\c\\ on its own. @Bind statements are side effects — they introduce names but don't have a @value of their own. So my value is whatever the non-@Bind expressions produce. Here that's just \\c\\, which is \\3\\. Right?"
                         ],
                         {
                             "edit": [
@@ -4546,7 +4546,7 @@
                         [
                             "Block",
                             "shy",
-                            "… then I'd have nothing to give. I need at least one expression that isn't a @Bind, otherwise I have to tell you something is missing."
+                            "… then I'd have nothing to give. I need at least one @expression that isn't a @Bind, otherwise I have to tell you something is missing."
                         ],
                         {
                             "edit": ["(", "  a: 1", "  b: 2", ")"],
@@ -4610,7 +4610,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "I guess let's start with what you've already seen. You know how every value has different functions that you can evaluate on them? Like numbers know how to @Number.add, and a text value knows how to check if it @Text.has some text, or @Set knows how to check if it has a certain value? Well, I'm the one that defines those functions. I mean, I don't have the inspiration to create them myself — that's what directors like you do — but I define the inputs a function accepts, the names it has, and the expression that uses the inputs to evaluate to an output value."
+                            "I guess let's start with what you've already seen. You know how every @value has different functions that you can evaluate on them? Like numbers know how to @Number.add, and a text value knows how to check if it @Text.has some text, or @Set knows how to check if it has a certain value? Well, I'm the one that defines those functions. I mean, I don't have the inspiration to create them myself — that's what directors like you do — but I define the inputs a function accepts, the names it has, and the @expression that uses the inputs to evaluate to an output value."
                         ],
                         null,
                         [
@@ -4624,7 +4624,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "So here's a more useful example. You know odd and even numbers? I once had a director that wanted to check if a number was even (divisible by 2, I think that means?), so they wrote this. This is a function called \\even\\ that takes a single number called… \\number\\. You need to tell me what kind of value each input is, so @Evaluate can make sure that anything evaluating the function is sending the right kind of value. Then, it takes the number, divides it by two, gets the remainder (with the @Number.remainder), and then checks if the remainder is equal to \\0\\ with @Number.equal. So the whole function ends up either evaluating to \\⊤\\ or \\⊥\\. For example, this evaluation of even evaluated to \\⊥\\ because \\3\\ is odd. Try using the rewind buttons to see how it works."
+                            "So here's a more useful example. You know odd and even numbers? I once had a director that wanted to check if a number was even (divisible by 2, I think that means?), so they wrote this. This is a function called \\even\\ that takes a single number called… \\number\\. You need to tell me what kind of @value each input is, so @Evaluate can make sure that anything evaluating the function is sending the right kind of value. Then, it takes the number, divides it by two, gets the remainder (with the @Number.remainder), and then checks if the remainder is equal to \\0\\ with @Number.equal. So the whole function ends up either evaluating to \\⊤\\ or \\⊥\\. For example, this evaluation of even evaluated to \\⊥\\ because \\3\\ is odd. Try using the rewind buttons to see how it works."
                         ],
                         {
                             "edit": [
@@ -4636,7 +4636,7 @@
                         [
                             "FunctionDefinition",
                             "eager",
-                            "You can also tell me what kind of value I should evaluate to. See how we added \\•\\? after the list of inputs? That say, “The function's expression should evaluate to a \\⊤\\ or \\⊥\\.” But see how we complain about it? We don't know if the function should be a \\⊤\\ or \\⊥\\ or whatever kind of value you returned, so the show ends."
+                            "You can also tell me what kind of @value I should evaluate to. See how we added \\•\\? after the list of inputs? That say, “The function's @expression should evaluate to a \\⊤\\ or \\⊥\\.” But see how we complain about it? We don't know if the function should be a \\⊤\\ or \\⊥\\ or whatever kind of value you returned, so the show ends."
                         ],
                         {
                             "edit": "ƒ even(number•#)•? (number % 2) + 0",
@@ -4808,7 +4808,7 @@
                         [
                             "StructureDefinition",
                             "serious",
-                            "Then, they had the problem of how the performance would remember which message they were on. They realized they needed some way of remembering the index in the list. This is a good start, but it only shows the first message."
+                            "Then, they had the problem of how the performance would remember which message they were on. They realized they needed some way of remembering the @index in the list. This is a good start, but it only shows the first message."
                         ],
                         {
                             "edit": [
@@ -4827,7 +4827,7 @@
                         [
                             "StructureDefinition",
                             "excited",
-                            "Then, they remembered @Reaction, which can be used to respond to stream changes. They wanted the message to change every two seconds, so they made @Time stream that ticks every 2 seconds and used @Reaction to increment the next index each time. This @Reaction says start at \\1\\, and when the time changes every \\2000ms\\, evaluate to the previous value of \\index + 1\\. This way, \\index\\ increases by \\1\\ every two seconds, changing the message shown. Yay, it works!"
+                            "Then, they remembered @Reaction, which can be used to respond to stream changes. They wanted the message to change every two seconds, so they made @Time stream that ticks every 2 seconds and used @Reaction to increment the next @index each time. This @Reaction says start at \\1\\, and when the time changes every \\2000ms\\, evaluate to the previous value of \\index + 1\\. This way, \\index\\ increases by \\1\\ every two seconds, changing the message shown. Yay, it works!"
                         ],
                         {
                             "edit": [
@@ -4871,7 +4871,7 @@
                             "StructureDefinition",
                             "serious",
                             "Now, all of that works. And we could just leave it this way. But it is also a bit hard to read and understand. That's partly because we repeat ourselves: \\messages[index]\\ appears twice, once in each phrase. And the @Reaction is very long. What can we do to simplify it? That's how I can help. I tidy things to make them easier to understand by giving reusable concepts names. So imagine instead of all of these @Bind, we instead make one of me and name it \\Marquee\\. That's what we do first. \\Marquee\\'s job is to store the messages but also to have a function for advancing to the next message \\next()\\ and a function for getting the current message \\now()\\.",
-                            "Then, we can use Marquee in the reaction. Now, it just says the initial value is a marquee with the five messages, and the next value, after each clock tick, is the next message. Simpler, right? That's because all of the logic for next messages is in \\next()\\, which just makes a new \\Marquee\\ with the same messages but an updated index. We also get some benefits in the two @Phrase. Instead of them having to refer to the messages and the index like before, we can just say \\marquee.now()\\, which gets the current message in the list."
+                            "Then, we can use Marquee in the reaction. Now, it just says the initial value is a marquee with the five messages, and the next value, after each clock tick, is the next message. Simpler, right? That's because all of the logic for next messages is in \\next()\\, which just makes a new \\Marquee\\ with the same messages but an updated @index. We also get some benefits in the two @Phrase. Instead of them having to refer to the messages and the index like before, we can just say \\marquee.now()\\, which gets the current message in the list."
                         ],
                         {
                             "edit": [
@@ -4903,7 +4903,7 @@
                         [
                             "StructureDefinition",
                             "serious",
-                            "Ah, it's really about change. It is a bit more code now, but what if we decided to change \\Marquee\\ in some way? Like what if we wanted to make it so that the list of messages reverses each time it gets to the end? In the old version without me, there's no easy way to do that because we'd have to reverse the list of messages when the index reaches the end. Since @Bind can't change after it's been set, it would be hard. But since we made \\Marquee\\, the change is easy. We just change the \\next\\ function to make a \\Marquee\\ with a reversed list when the index is at the end, and then just incrementing when it's otherwise."
+                            "Ah, it's really about change. It is a bit more @code now, but what if we decided to change \\Marquee\\ in some way? Like what if we wanted to make it so that the list of messages reverses each time it gets to the end? In the old version without me, there's no easy way to do that because we'd have to reverse the list of messages when the @index reaches the end. Since @Bind can't change after it's been set, it would be hard. But since we made \\Marquee\\, the change is easy. We just change the \\next\\ function to make a \\Marquee\\ with a reversed list when the index is at the end, and then just incrementing when it's otherwise."
                         ],
                         {
                             "edit": [
@@ -4949,7 +4949,7 @@
                         [
                             "StructureDefinition",
                             "eager",
-                            "Oh, yes. You don't have to have any @FunctionDefinition in a @StructureDefinition. You can just have values. For example, you might want to just keep a bunch of data in one place. I know a lot of directors like making games, and it's really common for them to put all of the game state in a @StructureDefinition."
+                            "Oh, yes. You don't have to have any @FunctionDefinition in a @StructureDefinition. You can just have values. For example, you might want to just keep a bunch of data in one place. I know a lot of directors like making games, and it's really common for them to put all of the game @state in a @StructureDefinition."
                         ],
                         { "edit": "•Game(score•# lives•# level•#)" },
                         null,
@@ -5115,7 +5115,7 @@
                         [
                             "Doc",
                             "serious",
-                            "You can also put me in front of any expression, which is especially helpful if you have a particularly complicated one."
+                            "You can also put me in front of any @expression, which is especially helpful if you have a particularly complicated one."
                         ],
                         {
                             "edit": [
@@ -5128,7 +5128,7 @@
                         [
                             "Doc",
                             "excited",
-                            "And like @Bind, you can tell me what language an explanation is in and give me multiple translations of the same explanation (You'll only see the Spanish if it's selected. If you don't see it, try adding Spanish to your selected languages.)"
+                            "And like @Bind, you can tell me what @language an explanation is in and give me multiple translations of the same explanation (You'll only see the Spanish if it's selected. If you don't see it, try adding Spanish to your selected languages.)"
                         ],
                         {
                             "edit": [
@@ -5213,7 +5213,7 @@
                         [
                             "Doc",
                             "excited",
-                            "You can put example code inside ^\\^\\."
+                            "You can put example @code inside ^\\^\\."
                         ],
                         {
                             "edit": [
@@ -5578,7 +5578,7 @@
                         [
                             "Evaluate",
                             "confused",
-                            "Hmm… still not moving. Oh! We didn't evaluate \\move\\ in @Reaction. @List, can you translate each \\Character\\ into a _moved_ \\Character\\?"
+                            "Hmm… still not moving. Oh! We didn't evaluate \\move\\ in @Reaction. @List, can you translate each \\Character\\ into a _@moved_ \\Character\\?"
                         ],
                         ["List", "excited", "Translating with your help!"],
                         { "edit": "#EvaluateDance12" },

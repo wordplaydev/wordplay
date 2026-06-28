@@ -35,6 +35,7 @@
     } from '@locale/LocaleText';
     import { checkTemplateInputs } from '@locale/templateInputs';
     import { withoutAnnotations } from '@locale/withoutAnnotations';
+    import LocalizationQuality from '@components/localization/LocalizationQuality.svelte';
     import {
         CANCEL_SYMBOL,
         CONFIRM_SYMBOL,
@@ -47,7 +48,7 @@
     import { debounced } from '@util/debounce.svelte';
     import { localizeFields } from './localizeSearch';
     import { httpsCallable } from 'firebase/functions';
-    import { onMount } from 'svelte';
+    import { onMount, tick } from 'svelte';
     import { Emotion } from '../../../lore/Emotion';
     import { isTutorialKey } from '../../../tutorial/TutorialPath';
 
@@ -312,6 +313,10 @@
     /** The search results for the current query, or null when there's no query
      *  (meaning "everything matches, in the default order"). */
     const searchMatched = $derived.by(() => {
+        // Clearing the filter takes effect immediately (don't wait out the
+        // debounce); this also lets editFromBundle reveal a path without the
+        // visibility guard racing the debounce and dropping the selection.
+        if (filterQuery.trim() === '') return null;
         const q = debouncedFilter.current.trim();
         return q === '' ? null : searchItems(searchRecords, q, searchLanguages);
     });
@@ -740,7 +745,7 @@
 
     /** Jump from the bundle viewer back to the editor for that entry, and scroll the
      *  workspace area into view so the editor is visible. */
-    function editFromBundle(overrideKey: string) {
+    async function editFromBundle(overrideKey: string) {
         const { path, index } = parseOverrideKey(overrideKey);
         // Clear filters so the path is reachable.
         filterQuery = '';
@@ -752,6 +757,9 @@
         // dance required.
         manualIndex = index;
         workspaceTop?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Focus the editor so it's clearly in edit mode for the chosen entry.
+        await tick();
+        (editorView ?? textAreaView ?? textInputView)?.focus();
     }
 
     /** Submit the current bundle to the backend. On success, the function opens
@@ -940,6 +948,16 @@
                 </Options>
 
                 {#if selectedPath !== undefined}
+                    {#if currentEnglishText !== ''}
+                        <div class="english-reference">
+                            <h3>
+                                <LocalizedText
+                                    path={(l) => l.ui.localize.reference}
+                                />
+                            </h3>
+                            <p>{currentEnglishText}</p>
+                        </div>
+                    {/if}
                     {#if arrayLength > 1}
                         <div class="tuple-nav">
                             <Button
@@ -1017,16 +1035,6 @@
                             editedText = next;
                         }}
                     />
-                    {#if currentEnglishText !== ''}
-                        <div class="english-reference">
-                            <h3>
-                                <LocalizedText
-                                    path={(l) => l.ui.localize.reference}
-                                />
-                            </h3>
-                            <p>{currentEnglishText}</p>
-                        </div>
-                    {/if}
                     {#if singletonWords.length > 0}
                         <Notice>
                             <p>
@@ -1041,6 +1049,11 @@
                             >
                         </Notice>
                     {/if}
+                    <LocalizationQuality
+                        text={editedText}
+                        localeKey={currentKey ?? selectedPath}
+                        onfix={(suggestion) => (editedText = suggestion)}
+                    />
                     <div class="editor-actions">
                         <Button
                             tip={templateInputsClean

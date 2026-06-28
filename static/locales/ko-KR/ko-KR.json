@@ -1,58 +1,175 @@
 {
     "$schema": "../../schemas/LocaleText.json",
     "language": "ko",
-    "regions": ["KR"],
+    "regions": [
+        "KR"
+    ],
     "wordplay": "워드플레이",
-    "term": {
-        "evaluate": "평가",
-        "bind": "바인드",
-        "decide": "결정",
-        "document": "문서화",
-        "project": "프로젝트",
-        "source": "원본",
-        "input": "입력",
-        "output": "출력",
-        "convert": "변환",
-        "act": "동작",
-        "scene": "장면",
-        "phrase": "구문",
-        "group": "그룹",
-        "stage": "스테이지",
-        "type": "유형",
-        "start": "시작",
-        "entered": "입력된",
-        "changed": "변경된",
-        "moved": "이동된",
-        "name": "이름",
-        "value": "값",
-        "text": "텍스트",
-        "boolean": "불리언",
-        "map": "맵",
-        "number": "숫자",
-        "function": "함수",
-        "exception": "예외",
-        "table": "테이블",
-        "none": "없음",
-        "list": "목록",
-        "stream": "스트림",
-        "structure": "구조",
-        "index": "인덱스",
-        "query": "질의",
-        "row": "행",
-        "set": "집합",
-        "key": "키",
-        "feedback": "의견",
-        "help": "도움",
-        "how": "$~어떻게",
-        "code": "$~암호",
-        "unit": "$~단위",
-        "markup": "$~마크업",
-        "column": "$~열",
-        "cell": "$~셀",
-        "documentation": "$~선적 서류 비치",
-        "language": "$~언어",
-        "region": "$~지역",
-        "pattern": "$~무늬"
+    "glossary": {
+        "value": {
+            "word": "값",
+            "definition": "$?A piece of information, like a number, some words, or a list."
+        },
+        "type": {
+            "word": "유형",
+            "definition": "$?The kind of a value, such as number or text. A value's type decides what you can do with it."
+        },
+        "expression": {
+            "word": "$?expression",
+            "definition": "$?A piece of code that produces a value when it runs."
+        },
+        "variable": {
+            "word": "$?variable",
+            "definition": "$?A name whose value can change while a program runs."
+        },
+        "parameter": {
+            "word": "$?parameter",
+            "definition": "$?A named input that a function expects when you call it."
+        },
+        "argument": {
+            "word": "$?argument",
+            "definition": "$?A value you give to a function for one of its parameters."
+        },
+        "operator": {
+            "word": "$?operator",
+            "definition": "$?A symbol, such as + or -, that combines or compares values."
+        },
+        "condition": {
+            "word": "$?condition",
+            "definition": "$?A true-or-false test that decides what a program does next."
+        },
+        "loop": {
+            "word": "$?loop",
+            "definition": "$?Code that repeats an action many times."
+        },
+        "iteration": {
+            "word": "$?iteration",
+            "definition": "$?One pass through a loop."
+        },
+        "recursion": {
+            "word": "$?recursion",
+            "definition": "$?When a function calls itself to handle a smaller part of a problem."
+        },
+        "property": {
+            "word": "$?property",
+            "definition": "$?A named part of a value, such as a color's brightness."
+        },
+        "element": {
+            "word": "$?element",
+            "definition": "$?One item in a list or group."
+        },
+        "scope": {
+            "word": "$?scope",
+            "definition": "$?The part of a program where a name can be used."
+        },
+        "state": {
+            "word": "$?state",
+            "definition": "$?Information a program keeps and can change over time."
+        },
+        "sideEffect": {
+            "word": "$?side effect",
+            "definition": "$?A change a program makes besides giving back a value, such as showing output."
+        },
+        "abstraction": {
+            "word": "$?abstraction",
+            "definition": "$?Hiding details so you can use something without knowing how it works inside."
+        },
+        "project": {
+            "word": "프로젝트",
+            "definition": "$?All the files that make up one Wordplay program."
+        },
+        "code": {
+            "word": "$~암호",
+            "definition": "$?The text you write to tell a program what to do."
+        },
+        "act": {
+            "word": "동작",
+            "definition": "$?A large part of the tutorial, like an act in a play."
+        },
+        "how": {
+            "word": "$~어떻게",
+            "definition": "$?A short guide that shows how to do one thing."
+        },
+        "gallery": {
+            "word": "$?gallery",
+            "definition": "$?A place where people share and explore projects."
+        },
+        "blocks": {
+            "word": "$?blocks",
+            "definition": "$?A way to edit code by dragging pieces instead of typing."
+        },
+        "placeholder": {
+            "word": "$?placeholder",
+            "definition": "$?An empty spot that shows where code or a value is missing."
+        },
+        "conflict": {
+            "word": "$?conflict",
+            "definition": "$?A problem in code that Wordplay marks so you can fix it."
+        },
+        "checkpoint": {
+            "word": "$?checkpoint",
+            "definition": "$?A saved point in your work that you can return to."
+        },
+        "guide": {
+            "word": "$?guide",
+            "definition": "$?The searchable reference that explains Wordplay's ideas."
+        },
+        "tutorial": {
+            "word": "$?tutorial",
+            "definition": "$?The step-by-step lessons that teach Wordplay."
+        },
+        "name": {
+            "word": "이름",
+            "definition": "$?A word that refers to a value or a function."
+        },
+        "markup": {
+            "word": "$~마크업",
+            "definition": "$?Text with formatting, such as bold words or links."
+        },
+        "language": {
+            "word": "$~언어",
+            "definition": "$?A human language that a name or text is written in."
+        },
+        "documentation": {
+            "word": "$~선적 서류 비치",
+            "definition": "$?Text that explains what code does."
+        },
+        "region": {
+            "word": "$~지역",
+            "definition": "$?A place where a language is used, which can change how numbers and dates look."
+        },
+        "start": {
+            "word": "시작",
+            "definition": "$?The main source file where a project begins."
+        },
+        "query": {
+            "word": "질의",
+            "definition": "$?A way to choose rows from a table."
+        },
+        "key": {
+            "word": "키",
+            "definition": "$?The value used to find an item in a map."
+        },
+        "index": {
+            "word": "인덱스",
+            "definition": "$?A number that picks an item by its position in a list."
+        },
+        "moved": {
+            "word": "이동된",
+            "definition": "$?Output that changed position on stage."
+        },
+        "entered": {
+            "word": "입력된",
+            "definition": "$?Output that appeared on stage for the first time."
+        },
+        "cell": {
+            "word": "$~셀",
+            "definition": "$?One value in a table row."
+        },
+        "column": {
+            "word": "$~열",
+            "definition": "$?A named field in a table."
+        }
     },
     "token": {
         "EvalOpen": "평가열기",
@@ -170,10 +287,10 @@
             "emotion": "serious",
             "doc": [
                 "나는 /측정 단위/이다!",
-                "나는 \\1m\\, \\10s\\, \\100g\\와 같은 표준화된 단위가 될 수 있어. 네가 만들고 싶은 \\17사과\\와 같은 단위도 기꺼이 될 수 있어.",
-                "나는 \\17사과/일\\와 같은 비율 단위를 만들기 위해 \\/\\와 결합될 수 있고, \\9.8m/s^2\\와 같은 지수 단위를 만들기 위해 \\^\\와 결합될 수 있어.",
+                "$~나는 \\1m\\, \\10s\\, \\100g\\와 같은 표준화된 단위가 될 수 있어. 네가 만들고 싶은 \\17사과\\와 같은 단위도 기꺼이 될 수 있어.",
+                "$~나는 \\17사과/일\\와 같은 비율 단위를 만들기 위해 \\/\\와 결합될 수 있고, \\9.8m/s^2\\와 같은 지수 단위를 만들기 위해 \\^\\와 결합될 수 있어.",
                 "나는 항상 @Number 뒤에 와야 해. 그렇지 않으면 @Reference 오해받을 수 있는데, 그건 꽤 난감할거야!",
-                "나는 단위 간의 불일치도 잘 찾아내요. 예를 들면, \\1고양이 + 1개\\는 아무런 의미가 없어요!",
+                "$~나는 단위 간의 불일치도 잘 찾아내요. 예를 들면, \\1고양이 + 1개\\는 아무런 의미가 없어요!",
                 "다른 단위 값들을 변환하고 싶다면, @Convert 말하세요."
             ]
         },
@@ -184,17 +301,17 @@
             "doc": [
                 "나는 @Markup 으로 여러 가지를 포맷합니다, 예를 들면 너의 @Program 대한 설명이나, @Phrase 무대에 올린 단어들처럼요.",
                 "예를 들면, 나는 어떤 표현 앞에 올 수 있어요:",
-                "¶\\이게 정말 7이 맞나요?¶\n7\\",
+                "$~¶\\이게 정말 7이 맞나요?¶\n7\\",
                 "예를 들면, @Bind 앞에 나를 둘 수 있어요:",
-                "\\¶나는 어떤 사람의 키를 측정해요¶\nheight: 5m\\",
+                "$~\\¶나는 어떤 사람의 키를 측정해요¶\nheight: 5m\\",
                 "또는 @FunctionDefinition 앞에도요:",
-                "\\¶나는 두 숫자를 더해요¶\nƒ sum(a•# b•#) a + b\\",
+                "$~\\¶나는 두 숫자를 더해요¶\nƒ sum(a•# b•#) a + b\\",
                 "또는 @StructureDefinition 앞에도요:",
-                "\\¶나는 사람들의 이름과 좋아하는 과일을 기억해요¶\n•Person(name•'' fruit•'')\\",
+                "$~\\¶나는 사람들의 이름과 좋아하는 과일을 기억해요¶\n•Person(name•'' fruit•'')\\",
                 "너는 또한 전체 퍼포먼스가 무엇에 관한 것인지 말하기 위해 나를 @Program 맨 처음에 둘 수 있어요.",
-                "\\¶이 프로그램은 안녕이라고 말해요¶\n\n'hello!'\\",
+                "$~\\¶이 프로그램은 안녕이라고 말해요¶\n\n'hello!'\\",
                 "다른 사람들이 내가 어떤 언어로 쓰여졌는지 알 수 있도록 나에게 @Language 줄 수 있어요:",
-                "\\¶나는 영어 문서에요¶/en\nduration: 5s\\",
+                "$~\\¶나는 영어 문서에요¶/en\nduration: 5s\\",
                 "나를 리스트로 만들 수 있다는 것 알고 계셨나요? @Docs 말해보세요."
             ]
         },
@@ -205,7 +322,7 @@
             "doc": [
                 "나는 다양한 언어로 @Doc의 번역본을 여러 개 가질 때 유용한 @Doc의 목록이야.",
                 "목록을 만들기 위해 특별히 무언가를 할 필요는 없어. 그냥 이렇게 여러 개의 @Doc을 나란히 놓으면 돼:",
-                "\\Hello/en\\n안녕하세요/kr\\ngreeting: '…'\\"
+                "$~\\Hello/en\\n안녕하세요/kr\\ngreeting: '…'\\"
             ],
             "start": "문서의 값을 만들기!"
         },
@@ -216,9 +333,9 @@
             "doc": [
                 "나는 항상 @Map 안에서 *키*에서 *값*으로의 매핑이에요.",
                 "어떤 종류의 값을 다른 값에 매핑할 수 있어요. 예를 들어, 숫자의 매핑은 여기 있습니다:",
-                "\\{1:1}\\",
+                "$~\\{1:1}\\",
                 "또는 텍스트에서 숫자로의 매핑:",
-                "\\{'토끼':1}\\"
+                "$~\\{'토끼':1}\\"
             ]
         },
         "Language": {
@@ -266,13 +383,13 @@
             "doc": [
                 "나는 값을 식별하며, 평가하기 어려운 것이나 반복해서 평가하고 싶지 않은 것에 대한 축약된 레이블을 제공하는 유용한 방법입니다.",
                 "@Bind 이렇게 내 이름을 지어줍니다:",
-                "\\hi: 5\\",
+                "$~\\hi: 5\\",
                 "나는 오직 하나의 값을 대표하며, 한 번 가지고 나면 변경할 수 없어요. 예를 들어, @Bind 사용하여 이렇게 하려고 하면 우리는 불평을 할 거예요.",
-                "\\hi: 5\nhi: 3\\",
+                "$~\\hi: 5\nhi: 3\\",
                 "내 값을 얻으려면 @Reference 또는 @PropertyReference 이름을 사용하기만 하면 돼요. 여기서 @Bind 나를 이름 지어주고, @Reference 내게 주어진 값을 얻습니다.",
-                "\\hi: 5\nhi\\",
+                "$~\\hi: 5\nhi\\",
                 "@Bind 많은 곳에 나타날 수 있기 때문에, 나도 많은 곳에 나타날 수 있어요. 위에 @Block 안에 있었지만, @FunctionDefinition 안에도 있을 수 있어요. 여기서 나는 임시적으로 메시지의 이름을 지어주고 있습니다:",
-                "\\ƒ say(message•'') message\\",
+                "$~\\ƒ say(message•'') message\\",
                 "나는 @FunctionDefinition 내부에서 정의되고, 함수 평가가 끝나는 대로 사라져요.",
                 "내 이름이 어떤 언어인지 나타내기 위해 @Language 사용할 수 있어요. 이것은 다른 사람들과 공연을 공유할 때, 그들이 당신의 프로그램을 읽고 싶을 경우에 도움이 됩니다."
             ]
@@ -283,8 +400,8 @@
             "emotion": "kind",
             "doc": [
                 "나는 @Name 목록이며, 값을 여러 이름으로 지정하고 싶을 때 유용합니다, 종종 다른 @Language 함께요.",
-                "이름은 \\,\\ 기호로 구분됩니다. 예를 들어, 여기 @Bind 여러 @Name 값을 지정하는 것입니다:",
-                "\\hi/en,hello/en,hola/es: '환영합니다'\\"
+                "$~이름은 \\,\\ 기호로 구분됩니다. 예를 들어, 여기 @Bind 여러 @Name 값을 지정하는 것입니다:",
+                "$~\\hi/en,hello/en,hola/es: '환영합니다'\\"
             ],
             "label": {
                 "names": "$~이름"
@@ -378,9 +495,9 @@
             "doc": [
                 "나는 @Words, @ConceptLink, @WebLink 웹링크, 그리고 @Example 연속으로, 빈 줄로 구분되며 @Doc 안에 있습니다.",
                 "나를 쓰기 위해 필요한 것은 @Doc 많은 단어를 쓰는 것뿐입니다:",
-                "\\¶나는 문서 속의 문단입니다.¶'한 문단'\\",
+                "$~\\¶나는 문서 속의 문단입니다.¶'한 문단'\\",
                 "여러 문단을 원한다면, 그저 빈 줄을 넣으면 됩니다.",
-                "\\¶문단 1.\n\n문단 2.\n\n문단 3.¶'세 문단'\\"
+                "$~\\¶문단 1.\n\n문단 2.\n\n문단 3.¶'세 문단'\\"
             ]
         },
         "WebLink": {
@@ -389,7 +506,7 @@
             "emotion": "serious",
             "doc": [
                 "나는 인터넷상의 무언가로의 링크입니다. 나는 설명과 URL만 필요로 합니다:",
-                "\\¶나는 문서에서 <링크@https://wordplay.dev>입니다¶\n'링크 예시'\\",
+                "$~\\¶나는 문서에서 <링크@https://wordplay.dev>입니다¶\n'링크 예시'\\",
                 "누군가 나를 선택한다면, URL로 새 창을 열게 됩니다."
             ]
         },
@@ -420,9 +537,9 @@
             "emotion": "serious",
             "doc": [
                 "나는 @Doc 안에서 마음에 드는 어떤 단어들이에요. 예를 들면:",
-                "\\¶포스가 함께 하기를.¶\n'그냥 몇몇 단어들!'\\",
+                "$~\\¶포스가 함께 하기를.¶\n'그냥 몇몇 단어들!'\\",
                 "하지만 때때로, @Doc 사용하는 특수 문자들을 /단어로써/ 사용하고 싶을 수도 있어요. 예를 들어:",
-                "\\¶내 친구들은 @@, //, **, ||, 그리고 다른 기호들을 사용해요.¶\n'특수 문자 사용하기!'\\",
+                "$~\\¶내 친구들은 @@, //, **, ||, 그리고 다른 기호들을 사용해요.¶\n'특수 문자 사용하기!'\\",
                 "이 특수 문자들을 반복하기만 하면, 그 특수한 의미 대신 문자 자체를 얻을 수 있습니다."
             ],
             "conflict": {
@@ -450,7 +567,7 @@
             "description": "$~마크업에서 $name 언급하기",
             "emotion": "serious",
             "doc": [
-                "나는 용어 \\$program\\ 또는 동적 입력 \\$name\\에 대한 참조입니다.",
+                "$~나는 용어 \\$program\\ 또는 동적 입력 \\@name\\에 대한 참조입니다.",
                 "하지만 이것은 주로 내부 기능이므로, 알 필요는 없을 거예요."
             ]
         },
@@ -470,15 +587,15 @@
             "doc": [
                 "나는 @Evaluate 더 단순한 형태입니다, 두 입력을 취하는 @FunctionDefinition 사용하고 싶을 때 유용합니다.",
                 "예를 들어, 두 숫자를 더하는 데 @Evaluate 사용하는 방법은 다음과 같습니다:",
-                "\\1.+(1)\\",
+                "$~\\1.+(1)\\",
                 "조금 이상해 보이나요? 틀린 것은 아닙니다: 1에 더하기 함수를 가져와서 평가한다는 것을 의미해요.",
                 "하지만 @BinaryEvaluate 사용하는 것이 훨씬 쉽습니다",
-                "\\1 + 1\\",
+                "$~\\1 + 1\\",
                 "이것은 기본적으로 같은 것이지만 모든 것을 좀 더 깔끔하게 만들어줍니다.",
                 "주의할 한 가지는: 이 형태에서는 나는 왼쪽에서 오른쪽으로 평가한다는 것입니다. 수학의 연산 순서에 익숙하다면 혼란스러울 수 있어요.",
                 "이것은 당신이 예상하지 못한 방식으로 평가됩니다:",
-                "\\1 + 2 × 3 + 4\\",
-                "수학에서는 곱셈이 먼저 오고 그 다음에 덧셈이 오므로 결과는 \\11\\이 될 것입니다. 하지만 읽는 순서대로 평가하기 때문에 결과는 \\13\\이 됩니다."
+                "$~\\1 + 2 × 3 + 4\\",
+                "$~수학에서는 곱셈이 먼저 오고 그 다음에 덧셈이 오므로 결과는 \\11\\이 될 것입니다. 하지만 읽는 순서대로 평가하기 때문에 결과는 \\13\\이 됩니다."
             ],
             "right": "입력",
             "start": "$left 먼저 평가해 봅시다",
@@ -503,28 +620,28 @@
             "doc": [
                 "나는 *값들*에 이름을 붙입니다.",
                 "이렇게요!",
-                "\\파이: 3.1415926\\",
+                "$~\\파이: 3.1415926\\",
                 "나는 @FunctionDefinition @StructureDefinition 입력값에 이름을 붙이고, @Block 내의 값에 이름을 붙입니다. 나는 모든 것에 이름을 붙입니다!",
                 "오, 그런데 한 가지 값에 *여러 이름*을 붙일 수 있다는 것을 알고 계셨나요?",
                 "이에 대해 말씀드리게 되어 정말 신나요! 하나의 값에 여러 @Names 있습니다. 예를 들어:",
-                "\\조,테스,에이미: 5\\",
+                "$~\\조,테스,에이미: 5\\",
                 "제가 한 일을 보세요?",
                 "하나의 값에 세 개의 이름.",
                 "그 다섯을 그 이름 중 *아무거나*로 참조할 수 있습니다.",
                 "특히 여러 언어로 이름을 지정하고 싶을 때 유용합니다:",
-                "\\조/en,에이미/fr,明/zh: 5\\",
+                "$~\\조/en,에이미/fr,明/zh: 5\\",
                 "제가 한 일을 보세요? 하나의 값에 세 개의 다른 언어로 된 이름!",
                 "자, 마지막 비밀을 하나 알려드릴게요.",
                 "@Is 와 함께 작동하여 이름에 어떤 종류의 값이 있어야 하는지 알려줄 수도 있다는 것을 알고 계셨나요? 그리고 그렇지 않다면, 저한테서 듣게 될 겁니다.",
                 "이렇게요:",
-                "\\큰숫자•#: \"한 조\"\\",
-                "보세요, \\큰숫자\\가 숫자여야 한다고 했는데 텍스트이고, 그것들은 호환되지 않으므로 쾅!",
+                "$~\\큰숫자•#: \"한 조\"\\",
+                "$~보세요, \\큰숫자\\가 숫자여야 한다고 했는데 텍스트이고, 그것들은 호환되지 않으므로 쾅!",
                 "그들이 동의하지 않으면 알려드릴 겁니다.",
                 "때로는 @FunctionDefinition 스스로 파악할 수 없을 때 *반드시* 무슨 종류의 데이터인지 알려줘야 할 수도 있습니다.",
-                "예를 들어, 여기서 @FunctionDefinition \\a\\와 \\b\\가 어떤 종류의 값을 가지고 있는지 모릅니다, 왜냐하면 저는 그들에게 알려주지 않았거든요.",
-                "\\ƒ sum(a b) a + b\\",
+                "$~예를 들어, 여기서 @FunctionDefinition \\a\\와 \\b\\가 어떤 종류의 값을 가지고 있는지 모릅니다, 왜냐하면 저는 그들에게 알려주지 않았거든요.",
+                "$~\\ƒ sum(a b) a + b\\",
                 "하지만 @Is 를 추가하면 이제 @FunctionDefinition 그것들이 숫자라는 것을 알게 됩니다:",
-                "\\ƒ sum(a•# b•#) a + b\\"
+                "$~\\ƒ sum(a•# b•#) a + b\\"
             ],
             "start": "$value 어떤 값을 얻는지 봅시다!",
             "finish": "오, 좋아요, $value 얻었어요! 이름을 $name 지어봅시다",
@@ -632,7 +749,7 @@
             "name": "특정 부울",
             "description": "$~$value[참|거짓] 불리언 값 만들기",
             "emotion": "precise",
-            "doc": "나는 \\⊤\\ 또는 \\⊥\\ 중 하나입니다. 우리의 아름다운 논리에 대해 더 알고 싶다면 @Boolean 참조하세요.",
+            "doc": "$~나는 \\⊤\\ 또는 \\⊥\\ 중 하나입니다. 우리의 아름다운 논리에 대해 더 알고 싶다면 @Boolean 참조하세요.",
             "start": "$value!"
         },
         "Borrow": {
@@ -644,12 +761,12 @@
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~알수없는차용",
-                    "explanation": "$~저는 그런 이름의 $source를 알지 못합니다.",
+                    "explanation": "$~저는 그런 이름의 @Source를 알지 못합니다.",
                     "resolution": "$~이 대출 항목을 제거하세요"
                 },
                 "BorrowCycle": {
                     "name": "$~자기참조차용",
-                    "explanation": "$~이것은 $borrow 에 의존하고, $borrow는 다시 $source 에 의존하므로 프로그램을 평가할 수 없습니다.",
+                    "explanation": "$~이것은 $borrow 에 의존하고, $borrow는 다시 @Source 에 의존하므로 프로그램을 평가할 수 없습니다.",
                     "resolution": "$~이 차용을 제거하여 악순환을 끊으세요."
                 }
             },
@@ -671,7 +788,7 @@
             "emotion": "serious",
             "doc": [
                 "스트림이 @Program 재평가하게 했는지 확인하고 @Boolean 만듭니다. 이렇게요",
-                "\\∆ 시간()\\",
+                "$~\\∆ 시간()\\",
                 "스트림이 변경되었을 때만 무언가가 변경되기를 원할 때 정말 유용합니다.",
                 "그게 다에요."
             ],
@@ -724,9 +841,9 @@
             "emotion": "excited",
             "doc": [
                 "이봐요, 저는 한 타입에서 다른 타입으로의 변환을 정의해요! @Block 안에서 이렇게 쓰이죠:",
-                "\\→ #kitty #cat ⬚ ÷ 2\n6kitty→#cat\\",
+                "$~\\→ #kitty #cat ⬚ ÷ 2\n6kitty→#cat\\",
                 "제가 어떻게 키티를 고양이로 바꿨는지 보이나요? 멋져요!",
-                "점 (\\.)이 무엇을 하는지 궁금하실 겁니다. 그것은 변환되는 값을 나타냅니다. 그 값이 그렇지 않으면 이름이 없기 때문에 저는 그것을 사용해요."
+                "$~점 (\\.)이 무엇을 하는지 궁금하실 겁니다. 그것은 변환되는 값을 나타냅니다. 그 값이 그렇지 않으면 이름이 없기 때문에 저는 그것을 사용해요."
             ],
             "start": "대단해, 새로운 변환!",
             "conflict": {
@@ -789,10 +906,12 @@
             "description": "$~표현식에 문서 첨부하기",
             "emotion": "eager",
             "doc": [
-                "나는 @Doc 붙인 표현이야!",
-                "나를 만들려면, 표현 앞에 @Doc 를 넣기만 하면 돼:",
-                "\\doubleplus: 1\n(2 × doubleplus) + \n¶조금만 더 크게 만들어보자¶\n1\\",
-                "나는 프로그래밍에 코멘트를 달 때 유용해"
+                "$~I'm any @expression, but with a @Doc!",
+                "$~To make me, just put a @Doc before an expression, and you'll get me:",
+                "$~\\doubleplus: 1\n(2 × doubleplus) + \n¶Let's make it just a little bit bigger¶\n1\\",
+                "$~I'm useful for making a comment on some part of a program.",
+                "$~If you put 👀 in the @Doc, I can also highlight the expression:",
+                "$~\\¶Look at me! 👀¶1+1\\"
             ],
             "start": "이 표현을 해석해보자!"
         },
@@ -864,7 +983,7 @@
                 },
                 "SeparatedEvaluate": {
                     "name": "$~모호한평가",
-                    "explanation": "$~$name 평가하려는 $structure[$structure|$function]의 이름인가요? @Evaluate 아니면 별도의 @Block 알 수 있도록 제 뒤에 있는 공백을 제거해 주세요.",
+                    "explanation": "$~$name 평가하려는 $structure[$structure|@FunctionDefinition]의 이름인가요? @Evaluate 아니면 별도의 @Block 알 수 있도록 제 뒤에 있는 공백을 제거해 주세요.",
                     "resolution": "$~* $name * 과 해당 입력값 사이의 공백을 닫으세요."
                 }
             },
@@ -899,10 +1018,10 @@
             "doc": [
                 "나는 *표현*이지만 실제로는 아니야… 나는 그냥 다른 것을 대신하는 역할을 하는거야.",
                 "아직 무엇을 쓸지 모르면 내가 유용해. 이렇게 사용할 수 있어:",
-                "\\1 + _\\",
+                "$~\\1 + _\\",
                 "우리가 뭘 더하는 건지 알아? 나는 몰라. 네가 말해줘.",
                 "또는 누군가가 @Evaluate 로 함수를 평가하고 있었다면, 나는 함수를 대신할 수 있어.",
-                "\\_(1 2 3)\\",
+                "$~\\_(1 2 3)\\",
                 "난는 @Stage 에 있을 때 싫어!"
             ],
             "start": "악, 어떻게 해야 할지 모르겠어!",
@@ -974,8 +1093,8 @@
             "emotion": "curious",
             "doc": [
                 "@Program 의 현재 평가가 첫 번째인지 여부를 알려주는 역할을 하는데, 이것은 @Boolean 으로 평가돼. 예를 들어:",
-                "\\◆ ? Time() 'hi'\\",
-                "너는 보지 못했겠지만, 첫 번째 평가는 시간이었지만 그 후의 모든 시간 동안 나는 \\⊥\\였고, @Conditional 이 \\⊤\\으로 만들었어.",
+                "$~\\◆ ? Time() 'hi'\\",
+                "$~너는 보지 못했겠지만, 첫 번째 평가는 시간이었지만 그 후의 모든 시간 동안 나는 \\⊥\\였고, @Conditional 이 \\⊤\\으로 만들었어.",
                 "나는 스트림을 다룰 때 유용해, 첫 번째 시간에만 뭔가를 하고 싶을 때나 첫 번째 시간에는 아예 하고 싶지 않을 때 말이야!"
             ]
         },
@@ -1028,8 +1147,8 @@
             "emotion": "kind",
             "doc": [
                 "나는 너가 특정 언어나 지역을 선택했는지 확인하는 데 도움이 돼:",
-                "\\🌍/en\\",
-                "\\🌍/es-MX\\",
+                "$~\\🌍/en\\",
+                "$~\\🌍/es-MX\\",
                 "이것은 선택된 언어에 따라 공연을 변경하고 싶을 때 유용하다."
             ],
             "start": "그 언어는 $locale 야?"
@@ -1040,7 +1159,7 @@
             "emotion": "cheerful",
             "doc": [
                 "@List 긴밀하게 협력해서 특정 위치의 값을 얻는 데 도움을 줘. 예를 들면, 리스트가 있고 그 중 두 번째 아이템을 원한다면 이렇게 쓸 수 있어:",
-                "\\list: ['새' '오리' '물고기' '뱀']\nlist[2]\\"
+                "$~\\list: ['새' '오리' '물고기' '뱀']\nlist[2]\\"
             ],
             "start": "먼저 리스트 $list 값을 가져오자",
             "finish": "아이템은 $value!"
@@ -1347,9 +1466,9 @@
             "doc": [
                 "@Set 또는 @Map 값이나 키가 있는지 확인할 수 있어요.",
                 "그리 어렵지 않아요. 이렇게 말이죠:",
-                "\\좋아하는 것들: {'오리' '거위' '원숭이'}\n좋아하는 것들{'쥐'}\\",
+                "$~\\좋아하는 것들: {'오리' '거위' '원숭이'}\n좋아하는 것들{'쥐'}\\",
                 "또는 @Map 사용하여 이렇게요:",
-                "\\좋아하는 것들: {'맥앤치즈': 5별 '시리얼': 2별 '죽': 1별}\n좋아하는 것들{'죽'}\\"
+                "$~\\좋아하는 것들: {'맥앤치즈': 5별 '시리얼': 2별 '죽': 1별}\n좋아하는 것들{'죽'}\\"
             ],
             "start": "세트나 맵은 무엇인가요?",
             "finish": "값은 $value",
@@ -1513,12 +1632,12 @@
             "doc": [
                 "저는 @Language 태그가 있는 포맷된 텍스트를 나타냅니다.",
                 "저는 다음과 같을 수 있어요:",
-                "\\`/이탤릭/`\\",
-                "\\`*볼드*`\\",
-                "\\`^엑스트라 볼드^`\\",
-                "\\`_밑줄_`\\",
-                "\\`<링크@https://wordplay.dev>`\\",
-                "\\`\\'코드'\\`\\",
+                "$~\\`/이탤릭/`\\",
+                "$~\\`*볼드*`\\",
+                "$~\\`^엑스트라 볼드^`\\",
+                "$~\\`_밑줄_`\\",
+                "$~\\`<링크@https://wordplay.dev>`\\",
+                "$~\\`\\'코드'\\`\\",
                 "@Phrase 함께 @Stage 아름다운 텍스트를 올리는 데 정말 잘 작동해요."
             ]
         },
@@ -1610,7 +1729,7 @@
             "doc": [
                 "저는 @Table 수정하는 데 도움을 줍니다. 조건에 맞는 행을 찾아 새로운 값으로 개정된 행을 생성합니다.",
                 "예를 들어, 캐릭터와 점수가 있는 테이블이 있고, 특정 팀의 모든 캐릭터에게 점수를 주고 싶다면 이렇게 할 수 있습니다:",
-                "\\플레이어: ⎡이름•'' 팀•'' 점수•#⎦\n⎡'jen' 'red' 1⎦\n⎡'joan' 'blue' 0⎦\n⎡'jeff' 'red' 3⎦\n⎡'janet' 'blue' 2⎦\n플레이어 ⎡: 점수: 점수 + 1 ⎦ 팀 = 'blue'\\",
+                "$~\\플레이어: ⎡이름•'' 팀•'' 점수•#⎦\n⎡'jen' 'red' 1⎦\n⎡'joan' 'blue' 0⎦\n⎡'jeff' 'red' 3⎦\n⎡'janet' 'blue' 2⎦\n플레이어 ⎡: 점수: 점수 + 1 ⎦ 팀 = 'blue'\\",
                 "변경할 열을 지정하기 위해 @Bind 사용할 수 있고, 조건에는 열 이름이나 범위 안의 다른 이름을 사용할 수 있습니다."
             ],
             "start": "먼저 테이블을 가져와 봅시다",
@@ -1650,7 +1769,7 @@
             "emotion": "kind",
             "doc": [
                 "나는 @Bind 함께 작동해서 이름이 @Boolean 값임을 선언해. 이렇게:",
-                "\\hungry•?: 'jello'\\",
+                "$~\\hungry•?: 'jello'\\",
                 "뭔가가 정말 @Boolean 인지 확실하게 하려면 나를 사용해, 내가 확인해 줄게!"
             ]
         },
@@ -1660,7 +1779,7 @@
             "emotion": "serious",
             "doc": [
                 "@Bind 와 함께 작동해서 이름이 @ConversionDefinition 인 것을 나타냄. 아마도 나를 사용할 일은 별로 없을 거야, 왜냐하면 많은 사람들이 나를 값으로 전달하지 않기 때문이지만, 만약에 나를 사용한다면 이렇게 보일거야:",
-                "\\magic•?→'': → ? '' ⬚ ? 'yep' 'nope'\\"
+                "$~\\magic•?→'': → ? '' ⬚ ? 'yep' 'nope'\\"
             ]
         },
         "FormattedType": {
@@ -1669,7 +1788,7 @@
             "emotion": "serious",
             "doc": [
                 "@Bind 와 함께 작동해서 이름이 @FormattedLiteral 값임을 알림. 이렇게:",
-                "\\hungry•`…`: `I am so /fancy/!`\\",
+                "$~\\hungry•`…`: `I am so /fancy/!`\\",
                 "뭔가가 정말 @FormattedLiteral 값인지 확인하려면 이렇게 확인해 봐."
             ]
         },
@@ -1685,7 +1804,7 @@
             "emotion": "curious",
             "doc": [
                 "나는 @FunctionDefinition 을 나타냄. @Bind 가 어떤 종류의 함수를 가지고 있는지 말하고 싶을 때 정말 도움이 돼! 이렇게:",
-                "\\math•ƒ (# # # #) #: ƒ interesting(a•# b•# c•# d•#) a + b + c + d\\"
+                "$~\\math•ƒ (# # # #) #: ƒ interesting(a•# b•# c•# d•#) a + b + c + d\\"
             ]
         },
         "ListType": {
@@ -1694,7 +1813,7 @@
             "emotion": "cheerful",
             "doc": [
                 "나는 정말 @List 의 팬이야. @Bind 에게 그들이 어떤 종류의 리스트인지 말할 수 있어! 이렇게, 나는 @Number 리스트라고 말하고 있어:",
-                "\\things•[#]: [ 1 2 3 4 5 ]\\"
+                "$~\\things•[#]: [ 1 2 3 4 5 ]\\"
             ]
         },
         "MapType": {
@@ -1721,7 +1840,7 @@
             "emotion": "curious",
             "doc": [
                 "나는 @StructureDefinition 을 그 이름으로 나타냄. 그래서, 예를 들면 이렇게 구조가 있다면, 값을 저장하는 @Bind 를 만들 수 있어.",
-                "\\•Friend(name•'')\nbestie•Friend: Friend('Jonah')\\"
+                "$~\\•Friend(name•'')\nbestie•Friend: Friend('Jonah')\\"
             ],
             "conflict": {
                 "UnknownTypeName": {
@@ -1743,7 +1862,7 @@
             "emotion": "neutral",
             "doc": [
                 "@None 은 가장 최고의 없음이고, 나는 그들의 충실한 대표자야.",
-                "\\space•ø: ø\\"
+                "$~\\space•ø: ø\\"
             ]
         },
         "SetType": {
@@ -1767,7 +1886,7 @@
             "emotion": "curious",
             "doc": [
                 "나는 스트림의 아름다움과 의미를 축하해… @Bind 에게 그것들을 저장하라고 말해:",
-                "\\time•…#ms: Time()\\"
+                "$~\\time•…#ms: Time()\\"
             ]
         },
         "StructureType": {
@@ -1802,7 +1921,7 @@
             "emotion": "happy",
             "doc": [
                 "나는 가장 화려한 종류의 값, @Text 를 멋지게 나타냄.",
-                "\\story•'': '한 번에 하나의 시간에...'\\"
+                "$~\\story•'': '한 번에 하나의 시간에...'\\"
             ]
         },
         "TypePlaceholder": {
@@ -1827,7 +1946,7 @@
             "emotion": "precise",
             "doc": [
                 "나는 @Number 가 가질 수 있는 모든 단위를 나타내, 단위가 없는 경우부터 상상할 수 있는 가장 복잡한 단위까지. 중력 같은 것 예를 들면:",
-                "\\gravity•m/s^2: 9.8m/s^2\\",
+                "$~\\gravity•m/s^2: 9.8m/s^2\\",
                 "@Bind 에서 나타나지만 @Number 바로 뒤에서도 나타나. 나는 숫자가 같은 종류인지 확인하는 데 도움을 주고, 그렇지 않으면 분명히 알려줄 거야, 실수라면 말이야!"
             ]
         },
@@ -2237,53 +2356,68 @@
     "basis": {
         "Boolean": {
             "doc": [
-                "우리는 \\⊤\\와 \\⊥\\입니다. \\⊤\\는 참입니다. \\⊥\\는 거짓입니다. \\⊤\\는 \\⊥\\가 아니며; \\⊥\\는 \\⊤\\가 아닙니다. 이것이 그대로의 사실입니다.",
-                "우리를 어떻게 만드나요? 그냥 \\⊤\\와 \\⊥\\, 더도 덜도 아닙니다.",
-                "일부는 키보드를 사용합니다 (/ctrl+9/은 \\⊤\\, /ctrl+0/은 \\⊥\\). 일부는 편집기 하단의 문자 검색을 사용합니다. 또는 여기서 끌어다 쓸 수도 있습니다.",
+                "$~우리는 \\⊤\\와 \\⊥\\입니다. \\⊤\\는 참입니다. \\⊥\\는 거짓입니다. \\⊤\\는 \\⊥\\가 아니며; \\⊥\\는 \\⊤\\가 아닙니다. 이것이 그대로의 사실입니다.",
+                "$~우리를 어떻게 만드나요? 그냥 \\⊤\\와 \\⊥\\, 더도 덜도 아닙니다.",
+                "$~일부는 키보드를 사용합니다 (/ctrl+9/은 \\⊤\\, /ctrl+0/은 \\⊥\\). 일부는 편집기 하단의 문자 검색을 사용합니다. 또는 여기서 끌어다 쓸 수도 있습니다.",
                 "아래의 @FunctionDefinition 확인해보세요. 그들은 매우 논리적입니다."
             ],
-            "name": ["⊤⊥", "부울"],
+            "name": [
+                "⊤⊥",
+                "부울"
+            ],
             "function": {
                 "and": {
                     "doc": [
-                        "두 값이 모두 \\⊤\\일 때만 \\⊤\\로 평가합니다. 많은 것들이 모두 참인지 결정하는 데 도움이 됩니다. 가능한 결과는 네 가지뿐입니다",
-                        "\\⊤ & ⊤\\",
-                        "\\⊤ & ⊥\\",
-                        "\\⊥ & ⊤\\",
-                        "\\⊥ & ⊥\\"
+                        "$~두 값이 모두 \\⊤\\일 때만 \\⊤\\로 평가합니다. 많은 것들이 모두 참인지 결정하는 데 도움이 됩니다. 가능한 결과는 네 가지뿐입니다",
+                        "$~\\⊤ & ⊤\\",
+                        "$~\\⊤ & ⊥\\",
+                        "$~\\⊥ & ⊤\\",
+                        "$~\\⊥ & ⊥\\"
                     ],
-                    "names": ["&", "그리고"],
+                    "names": [
+                        "&",
+                        "그리고"
+                    ],
                     "inputs": [
                         {
-                            "doc": "확인할 다른 @Boolean. 첫 번째가 \\⊥\\이면 이것이 무엇이든, 함수는 \\⊥\\로 평가될 것입니다.",
+                            "doc": "$~확인할 다른 @Boolean. 첫 번째가 \\⊥\\이면 이것이 무엇이든, 함수는 \\⊥\\로 평가될 것입니다.",
                             "names": "값"
                         }
                     ]
                 },
                 "or": {
                     "doc": [
-                        "두 값 중 *하나라도* \\⊤\\일 때 \\⊤\\로 평가합니다. 많은 것들 중 하나라도 참인지 결정하는 데 도움이 됩니다. 가능한 결과는 네 가지뿐입니다",
-                        "\\⊤ | ⊤\\",
-                        "\\⊤ | ⊥\\",
-                        "\\⊥ | ⊤\\",
-                        "\\⊥ | ⊥\\"
+                        "$~두 값 중 *하나라도* \\⊤\\일 때 \\⊤\\로 평가합니다. 많은 것들 중 하나라도 참인지 결정하는 데 도움이 됩니다. 가능한 결과는 네 가지뿐입니다",
+                        "$~\\⊤ | ⊤\\",
+                        "$~\\⊤ | ⊥\\",
+                        "$~\\⊥ | ⊤\\",
+                        "$~\\⊥ | ⊥\\"
                     ],
-                    "names": ["|", "또는"],
+                    "names": [
+                        "|",
+                        "또는"
+                    ],
                     "inputs": [
                         {
-                            "doc": "확인할 다른 @Boolean. 첫 번째가 \\⊥\\이면, 이 함수는 이것이 \\⊤\\일 때만 \\⊤\\로 평가됩니다.",
+                            "doc": "$~확인할 다른 @Boolean. 첫 번째가 \\⊥\\이면, 이 함수는 이것이 \\⊤\\일 때만 \\⊤\\로 평가됩니다.",
                             "names": "값"
                         }
                     ]
                 },
                 "not": {
-                    "doc": "저는 제 자신의 반대를 얻습니다: 만약 \\⊤\\이라면 \\⊥\\를, 만약 \\⊥\\라면 \\⊤\\를 줍니다.",
-                    "names": ["~", "아님"],
+                    "doc": "$~저는 제 자신의 반대를 얻습니다: 만약 \\⊤\\이라면 \\⊥\\를, 만약 \\⊥\\라면 \\⊤\\를 줍니다.",
+                    "names": [
+                        "~",
+                        "아님"
+                    ],
                     "inputs": []
                 },
                 "equals": {
-                    "doc": "둘 다 \\⊤\\이거나 둘 다 \\⊥\\일 경우 \\⊤\\입니다.",
-                    "names": ["=", "동등"],
+                    "doc": "$~둘 다 \\⊤\\이거나 둘 다 \\⊥\\일 경우 \\⊤\\입니다.",
+                    "names": [
+                        "=",
+                        "동등"
+                    ],
                     "inputs": [
                         {
                             "doc": "확인할 다른 값입니다.",
@@ -2292,8 +2426,11 @@
                     ]
                 },
                 "notequal": {
-                    "doc": "둘 다 반대일 경우 \\⊤\\입니다.",
-                    "names": ["≠", "동등하지않음"],
+                    "doc": "$~둘 다 반대일 경우 \\⊤\\입니다.",
+                    "names": [
+                        "≠",
+                        "동등하지않음"
+                    ],
                     "inputs": [
                         {
                             "doc": "확인할 다른 값입니다.",
@@ -2311,11 +2448,17 @@
                 "$~나는 값이 없음을 나타내며, \\ø\\ 로 표기합니다.",
                 "$~저는 @None 입니다. \\ø\\ 로 저를 호출하세요."
             ],
-            "name": ["ø", "없음"],
+            "name": [
+                "ø",
+                "없음"
+            ],
             "function": {
                 "equals": {
-                    "doc": "다른 값도 아무것도 아닌가요? 그렇지 않다면, \\⊥\\이겠죠.",
-                    "names": ["=", "동등"],
+                    "doc": "$~다른 값도 아무것도 아닌가요? 그렇지 않다면, \\⊥\\이겠죠.",
+                    "names": [
+                        "=",
+                        "동등"
+                    ],
                     "inputs": [
                         {
                             "doc": "다른 값입니다.",
@@ -2325,7 +2468,10 @@
                 },
                 "notequals": {
                     "doc": "다른 값이 /아무것도 아니지 않나요?/",
-                    "names": ["≠", "동등하지않음"],
+                    "names": [
+                        "≠",
+                        "동등하지않음"
+                    ],
                     "inputs": [
                         {
                             "doc": "다른 값입니다.",
@@ -2355,20 +2501,29 @@
                 "$~192가 @FunctionDefinition 바뀌는 걸 보셨나요? 이 숫자를 '유니코드'라고 부르는 걸 들었어요.",
                 "$~그렇지 않으면, @FunctionDefinition 나에게 단어로 온갖 일을 할 수 있게 해준 영광스러운 함수들이 너무나 많았을 뿐이에요!"
             ],
-            "name": ["''", "텍스트"],
+            "name": [
+                "''",
+                "텍스트"
+            ],
             "function": {
                 "length": {
                     "doc": [
                         "저는 텍스트의 가독 가능한 문자 수로 평가됩니다; 한 글자는 한 문자, 하나의 이모지도 한 문자입니다. 예를 들어:",
-                        "\\'hello'.length()\\",
-                        "\\'🐈📚'.length()\\"
+                        "$~\\'hello'.length()\\",
+                        "$~\\'🐈📚'.length()\\"
                     ],
-                    "names": ["📏", "길이"],
+                    "names": [
+                        "📏",
+                        "길이"
+                    ],
                     "inputs": []
                 },
                 "equals": {
-                    "doc": "\\⊤\\, 주어진 @Text 같은 문자열 순서인 경우.",
-                    "names": ["=", "equals"],
+                    "doc": "$~\\⊤\\, 주어진 @Text 같은 문자열 순서인 경우.",
+                    "names": [
+                        "=",
+                        "equals"
+                    ],
                     "inputs": [
                         {
                             "doc": "비교할 @Text.",
@@ -2377,8 +2532,11 @@
                     ]
                 },
                 "notequals": {
-                    "doc": "\\⊤\\, 주어진 @Text 같은 문자열 순서가 /아닌/ 경우.",
-                    "names": ["≠", "동등하지않음"],
+                    "doc": "$~\\⊤\\, 주어진 @Text 같은 문자열 순서가 /아닌/ 경우.",
+                    "names": [
+                        "≠",
+                        "동등하지않음"
+                    ],
                     "inputs": [
                         {
                             "doc": "비교할 @Text.",
@@ -2388,15 +2546,19 @@
                 },
                 "repeat": {
                     "doc": [
-                        "나는 \\count\\ 횟수를 반복하여 나라는 새로운 @Text를 만듭니다.",
-                        "\\'안녕하세요' × 5\\",
+                        "$~나는 \\count\\ 횟수를 반복하여 나라는 새로운 @Text를 만듭니다.",
+                        "$~\\'안녕하세요' × 5\\",
                         "분수 @Number를 주면 나는 분수를 무시합니다.",
-                        "\\'안녕하세요' × 5.5\\",
+                        "$~\\'안녕하세요' × 5.5\\",
                         "음수 @Number 또는 0을 제공하면 빈 @Text를 제공합니다.",
-                        "\\'안녕하세요' × -5\\",
+                        "$~\\'안녕하세요' × -5\\",
                         "제가 만들 수 있는 가장 긴 텍스트는 65,535자입니다. 더 긴 텍스트를 작성하려고 하면 가능한 한 여러 번 텍스트를 반복하겠습니다."
                     ],
-                    "names": ["×", "🔁", "반복하다"],
+                    "names": [
+                        "×",
+                        "🔁",
+                        "반복하다"
+                    ],
                     "inputs": [
                         {
                             "doc": "새 텍스트에서 내 말을 반복할 횟수입니다.",
@@ -2407,11 +2569,13 @@
                 "segment": {
                     "doc": [
                         "주어진 @Text를 구분 기호로 사용하고 구분 기호를 제거하여 @Text의 @List로 나눕니다. 예를 들어:",
-                        "\\'사과, 오렌지, 포도' ¼ ', '\\",
+                        "$~\\'사과, 오렌지, 포도' ¼ ', '\\",
                         "구분 기호가 빈 @Text인 경우 문자로 나눕니다.",
-                        "\\'🖌️🏠🥸' ¼ ''\\"
+                        "$~\\'🖌️🏠🥸' ¼ ''\\"
                     ],
-                    "names": ["segmentar"],
+                    "names": [
+                        "segmentar"
+                    ],
                     "inputs": [
                         {
                             "doc": "구분 기호로 사용할 @Text입니다.",
@@ -2422,9 +2586,12 @@
                 "combine": {
                     "doc": [
                         "때로는 @Text를 하나로 결합하는 것이 도움이 될 수 있습니다. @Text를 한 번 더 주시면 우리를 하나로 묶는 새로운 텍스트를 만들어 드리겠습니다.",
-                        "\\'안녕하세요' + '절'\\"
+                        "$~\\'안녕하세요' + '절'\\"
                     ],
-                    "names": ["+", "결합하다"],
+                    "names": [
+                        "+",
+                        "결합하다"
+                    ],
                     "inputs": [
                         {
                             "doc": "추가할 @Text입니다.",
@@ -2434,10 +2601,12 @@
                 },
                 "has": {
                     "doc": [
-                        "\\⊤\\ 주어진 @Text가 나에게 나타나는 경우.",
-                        "\\'원하는 것을 찾으셨나요?'.has('당신')\\"
+                        "$~\\⊤\\ 주어진 @Text가 나에게 나타나는 경우.",
+                        "$~\\'원하는 것을 찾으셨나요?'.has('당신')\\"
                     ],
-                    "names": ["tiene"],
+                    "names": [
+                        "tiene"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~내에서 검색할 @Text 입니다.",
@@ -2447,11 +2616,13 @@
                 },
                 "starts": {
                     "doc": [
-                        "\\⊤\\ 주어진 @Text로 시작하면.",
-                        "\\'안녕 절!'.starts('hello')\\",
-                        "\\'안녕 절!'.starts('절')\\"
+                        "$~\\⊤\\ 주어진 @Text로 시작하면.",
+                        "$~\\'안녕 절!'.starts('hello')\\",
+                        "$~\\'안녕 절!'.starts('절')\\"
                     ],
-                    "names": ["시작하다"],
+                    "names": [
+                        "시작하다"
+                    ],
                     "inputs": [
                         {
                             "doc": "시작 시 확인할 @Text입니다.",
@@ -2461,11 +2632,13 @@
                 },
                 "ends": {
                     "doc": [
-                        "\\⊤\\ 주어진 @Text로 끝나는 경우.",
-                        "\\'제가 질문인가요?'.ends('?')\\",
-                        "\\'저는 질문이 아닙니다.'.ends('?')\\"
+                        "$~\\⊤\\ 주어진 @Text로 끝나는 경우.",
+                        "$~\\'제가 질문인가요?'.ends('?')\\",
+                        "$~\\'저는 질문이 아닙니다.'.ends('?')\\"
                     ],
-                    "names": ["끝"],
+                    "names": [
+                        "끝"
+                    ],
                     "inputs": [
                         {
                             "doc": "마지막에 확인할 @Text입니다.",
@@ -2478,7 +2651,10 @@
                         "$~텍스트 전체가 주어진 패턴과 일치하면 \\⊤\\ 표시합니다.",
                         "$~\\'555-1234' ≈ ⣿3 # \"-\" 4 #⣿\\"
                     ],
-                    "names": ["$~≈", "$~성냥"],
+                    "names": [
+                        "$~≈",
+                        "$~성냥"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~비교할 패턴.",
@@ -2491,7 +2667,10 @@
                         "$~주어진 패턴이 내 몸에서 일치하는 모든 위치를 찾아 @Result 리스트로 반환합니다.",
                         "$~\\'a1 b2' ⌕ ⣿_ #⣿\\"
                     ],
-                    "names": ["$~⌕", "$~찾다"],
+                    "names": [
+                        "$~⌕",
+                        "$~찾다"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~찾아야 할 패턴.",
@@ -2510,38 +2689,44 @@
             "doc": [
                 "나는 당신이 상상할 수 있는 모든 단위로 @Number를 만듭니다!",
                 "내 상위 5개는 다음과 같습니다.",
-                "\\0\\",
-                "\\1스토리\\",
-                "\\π파이\\",
-                "\\∞돌\\",
-                "\\1000000포옹\\",
+                "$~\\0\\",
+                "$~\\1스토리\\",
+                "$~\\π파이\\",
+                "$~\\∞돌\\",
+                "$~\\1000000포옹\\",
                 "그건 사실상 무한한 숫자의 집합이에요.",
                 "그리고 무한한 단위의 집합도요!",
                 "그리고 무한한 숫자/단위 쌍…",
                 "저는 정수, 실수, 음수, 양수, 분수, 소수, 심지어 숫자가 아닐 수도 있습니다.",
-                "그리고 아랍어 \\123\\, 로마자 \\ⅩⅩⅩⅠⅩ\\, 일본어 \\two十\\ 등 다양한 숫자 체계로 저를 표현할 수도 있어요:",
-                "\\1 + Ⅰ + 一\\",
+                "$~그리고 아랍어 \\123\\, 로마자 \\ⅩⅩⅩⅠⅩ\\, 일본어 \\two十\\ 등 다양한 숫자 체계로 저를 표현할 수도 있어요:",
+                "$~\\1 + Ⅰ + 一\\",
                 "저를 2진수부터 16진수까지 다양한 진법으로 쓸 수도 있어요.",
-                "\\2;11111111\\",
-                "\\10;255\\",
-                "\\16;FF\\",
+                "$~\\2;11111111\\",
+                "$~\\10;255\\",
+                "$~\\16;FF\\",
                 "숫자가 아닌 것을 입력했을 때 사용할 수 있는 NaN이라는 특별한 숫자가 하나 있습니다:",
-                "\\2;22\\",
+                "$~\\2;22\\",
                 "2진법에는 '2'라는 숫자가 없으므로 유효한 숫자가 아닙니다. NaN은 숫자가 아닌 텍스트를 숫자로 변환하려고 할 때도 나타날 수 있어요.",
-                "\\'안녕'→#\\"
+                "$~\\'안녕'→#\\"
             ],
-            "name": ["#", "숫자"],
+            "name": [
+                "#",
+                "숫자"
+            ],
             "function": {
                 "add": {
                     "doc": [
                         "동일한 @Unit을 가진 @Number를 더해, 동일한 @Unit를 가진 새로운 @Number를 생성합니다.",
                         "예를 들어:",
-                        "\\1 + 1\\",
-                        "\\고양이 3마리 + 고양이 5마리\\",
+                        "$~\\1 + 1\\",
+                        "$~\\고양이 3마리 + 고양이 5마리\\",
                         "만약 단위가 일치하지 않으면, 계산을 멈춥니다.",
-                        "\\고양이 3마리 + 강아지 5마리\\"
+                        "$~\\고양이 3마리 + 강아지 5마리\\"
                     ],
-                    "names": ["+", "추가하다"],
+                    "names": [
+                        "+",
+                        "추가하다"
+                    ],
                     "inputs": [
                         {
                             "doc": "추가할 @Number입니다.",
@@ -2553,12 +2738,15 @@
                     "doc": [
                         "저는 주어진 @Number를 저 자신에서 빼서, 동일한 @Unit를 가진 새로운 @Number를 만듭니다.",
                         "예를 들어:",
-                        "\\1 - 1\\",
-                        "\\고양이 3마리 - 고양이 5마리\\",
+                        "$~\\1 - 1\\",
+                        "$~\\고양이 3마리 - 고양이 5마리\\",
                         "만약 단위가 일치하지 않으면, 계산을 멈춥니다.",
-                        "\\고양이 3마리 - 고양이 5마리\\"
+                        "$~\\고양이 3마리 - 고양이 5마리\\"
                     ],
-                    "names": ["-", "빼다"],
+                    "names": [
+                        "-",
+                        "빼다"
+                    ],
                     "inputs": [
                         {
                             "doc": "나에게서 뺄 @Number입니다.",
@@ -2569,11 +2757,14 @@
                 "multiply": {
                     "doc": [
                         "저는 주어진 @Number와 저 자신을 곱해, 제 @Unit과 주어진 숫자의 @Unit를 곱한 결과를 만듭니다.",
-                        "\\5 × 5\\",
-                        "\\5m × 5m\\",
-                        "\\5m × 1/초\\"
+                        "$~\\5 × 5\\",
+                        "$~\\5m × 5m\\",
+                        "$~\\5m × 1/초\\"
                     ],
-                    "names": ["×", "곱하다"],
+                    "names": [
+                        "×",
+                        "곱하다"
+                    ],
                     "inputs": [
                         {
                             "doc": "곱할 숫자입니다.",
@@ -2584,11 +2775,14 @@
                 "divide": {
                     "doc": [
                         "저는 주어진 @Number로 저 자신을 나누어, 제 @Unit과 주어진 숫자의 @Unit을 나눈 몫을 만듭니다.",
-                        "\\5 ¼ 5\\",
-                        "\\5m ¼ 5m\\",
-                        "\\5분 ¼ 5초\\"
+                        "$~\\5 ¼ 5\\",
+                        "$~\\5m ¼ 5m\\",
+                        "$~\\5분 ¼ 5초\\"
                     ],
-                    "names": ["÷", "divide"],
+                    "names": [
+                        "÷",
+                        "divide"
+                    ],
                     "inputs": [
                         {
                             "doc": "나를 나눌 @Number입니다.",
@@ -2599,11 +2793,14 @@
                 "remainder": {
                     "doc": [
                         "나는 주어진 @Number로 나 자신을 나누고 나머지를 제공합니다.",
-                        "\\10% 2\\",
-                        "\\10m % 2\\",
-                        "\\10m/초 % 3\\"
+                        "$~\\10% 2\\",
+                        "$~\\10m % 2\\",
+                        "$~\\10m/초 % 3\\"
                     ],
-                    "names": ["%", "나머지"],
+                    "names": [
+                        "%",
+                        "나머지"
+                    ],
                     "inputs": [
                         {
                             "doc": "저를 나눌 @Number입니다.",
@@ -2614,49 +2811,60 @@
                 "positive": {
                     "doc": [
                         "저는 음수일 경우 저를 양수로 만드는 새로운 @Number를 만듭니다.",
-                        "\\-200.양수()\\"
+                        "$~\\-200.양수()\\"
                     ],
-                    "names": ["양수"],
+                    "names": [
+                        "양수"
+                    ],
                     "inputs": []
                 },
                 "round": {
                     "doc": [
                         "저는 자신을 가장 가까운 정수로 반올림한 새로운 @Number를 만듭니다.",
-                        "\\9.4.반올림()\\",
-                        "\\9.5.반올림()\\",
-                        "\\9.6.반올림()\\"
+                        "$~\\9.4.반올림()\\",
+                        "$~\\9.5.반올림()\\",
+                        "$~\\9.6.반올림()\\"
                     ],
-                    "names": ["반올림"],
+                    "names": [
+                        "반올림"
+                    ],
                     "inputs": []
                 },
                 "roundDown": {
                     "doc": [
                         "저는 자신보다 작거나 같은 가장 작은 정수로 내림한 새로운 @Number를 만듭니다.",
-                        "\\10.5.내림()\\",
-                        "\\10.1.내림()\\",
-                        "\\10.01.내림()\\"
+                        "$~\\10.5.내림()\\",
+                        "$~\\10.1.내림()\\",
+                        "$~\\10.01.내림()\\"
                     ],
-                    "names": ["내림"],
+                    "names": [
+                        "내림"
+                    ],
                     "inputs": []
                 },
                 "roundUp": {
                     "doc": [
                         "저는 자신보다 크거나 같은 가장 작은 정수로 올림한 새로운 @Number를 만듭니다.",
-                        "\\10.5.올림()\\",
-                        "\\10.9.올림()\\",
-                        "\\10.99.올림()\\"
+                        "$~\\10.5.올림()\\",
+                        "$~\\10.9.올림()\\",
+                        "$~\\10.99.올림()\\"
                     ],
-                    "names": ["올림"],
+                    "names": [
+                        "올림"
+                    ],
                     "inputs": []
                 },
                 "power": {
                     "doc": [
                         "저는 자신을 주어진 @Number의 거듭제곱으로 올립니다. 분수 지수도 가능합니다!",
-                        "\\2 ^ 8\\",
-                        "\\10 ^ -2\\",
-                        "\\5 ^ -.5\\"
+                        "$~\\2 ^ 8\\",
+                        "$~\\10 ^ -2\\",
+                        "$~\\5 ^ -.5\\"
                     ],
-                    "names": ["^", "power"],
+                    "names": [
+                        "^",
+                        "power"
+                    ],
                     "inputs": [
                         {
                             "doc": "저를 몇 제곱으로 올릴지 나타내는 지수입니다.",
@@ -2667,10 +2875,13 @@
                 "root": {
                     "doc": [
                         "저는 주어진 루트를 사용하여 제 자신의 루트를 만듭니다.",
-                        "\\4 √ 2\\",
-                        "\\1000 √ 3\\"
+                        "$~\\4 √ 2\\",
+                        "$~\\1000 √ 3\\"
                     ],
-                    "names": ["√", "root"],
+                    "names": [
+                        "√",
+                        "root"
+                    ],
                     "inputs": [
                         {
                             "doc": "계산할 루트의 값입니다.",
@@ -2680,11 +2891,14 @@
                 },
                 "lessThan": {
                     "doc": [
-                        "\\⊤\\ 주어진 @Number보다 작은 경우:",
-                        "\\1 < 2\\",
-                        "\\2 < 1\\"
+                        "$~\\⊤\\ 주어진 @Number보다 작은 경우:",
+                        "$~\\1 < 2\\",
+                        "$~\\2 < 1\\"
                     ],
-                    "names": ["<", "lessthan"],
+                    "names": [
+                        "<",
+                        "lessthan"
+                    ],
                     "inputs": [
                         {
                             "doc": "저와 비교할 @Number입니다.",
@@ -2694,12 +2908,15 @@
                 },
                 "lessOrEqual": {
                     "doc": [
-                        "\\⊤\\ 주어진 @Number보다 작거나 같은 경우:",
-                        "\\1 ≤ 2\\",
-                        "\\2 ≤ 1\\",
-                        "\\2 ≤ 2\\"
+                        "$~\\⊤\\ 주어진 @Number보다 작거나 같은 경우:",
+                        "$~\\1 ≤ 2\\",
+                        "$~\\2 ≤ 1\\",
+                        "$~\\2 ≤ 2\\"
                     ],
-                    "names": ["≤", "lessorequal"],
+                    "names": [
+                        "≤",
+                        "lessorequal"
+                    ],
                     "inputs": [
                         {
                             "doc": "저와 비교할 @Number입니다.",
@@ -2709,11 +2926,14 @@
                 },
                 "greaterThan": {
                     "doc": [
-                        "\\⊤\\ 주어진 @Number보다 큰 경우:",
-                        "\\1 > 2\\",
-                        "\\2 > 1\\"
+                        "$~\\⊤\\ 주어진 @Number보다 큰 경우:",
+                        "$~\\1 > 2\\",
+                        "$~\\2 > 1\\"
                     ],
-                    "names": [">", "greaterthan"],
+                    "names": [
+                        ">",
+                        "greaterthan"
+                    ],
                     "inputs": [
                         {
                             "doc": "저와 비교할 @Number입니다.",
@@ -2723,12 +2943,15 @@
                 },
                 "greaterOrEqual": {
                     "doc": [
-                        "\\⊤\\ 내가 주어진 @Number보다 크거나 같은 경우:",
-                        "\\1 ≥ 2\\",
-                        "\\2 ≥ 1\\",
-                        "\\2 ≥ 2\\"
+                        "$~\\⊤\\ 내가 주어진 @Number보다 크거나 같은 경우:",
+                        "$~\\1 ≥ 2\\",
+                        "$~\\2 ≥ 1\\",
+                        "$~\\2 ≥ 2\\"
                     ],
-                    "names": ["≥", "greaterorequal"],
+                    "names": [
+                        "≥",
+                        "greaterorequal"
+                    ],
                     "inputs": [
                         {
                             "doc": "자와 비교할 @Number입니다.",
@@ -2738,11 +2961,14 @@
                 },
                 "equal": {
                     "doc": [
-                        "\\⊤\\ 제가 주어진 @Number와 같은 경우:",
-                        "\\1 = 2\\",
-                        "\\2 = 2\\"
+                        "$~\\⊤\\ 제가 주어진 @Number와 같은 경우:",
+                        "$~\\1 = 2\\",
+                        "$~\\2 = 2\\"
                     ],
-                    "names": ["=", "동일한"],
+                    "names": [
+                        "=",
+                        "동일한"
+                    ],
                     "inputs": [
                         {
                             "doc": "저와 비교할 @Number입니다.",
@@ -2752,11 +2978,14 @@
                 },
                 "notequal": {
                     "doc": [
-                        "\\⊤\\ 내가 주어진 @Number와 같지 않은 경우:",
-                        "\\1 ≠ 2\\",
-                        "\\2 ≠ 2\\"
+                        "$~\\⊤\\ 내가 주어진 @Number와 같지 않은 경우:",
+                        "$~\\1 ≠ 2\\",
+                        "$~\\2 ≠ 2\\"
                     ],
-                    "names": ["≠", "동일하지않은"],
+                    "names": [
+                        "≠",
+                        "동일하지않은"
+                    ],
                     "inputs": [
                         {
                             "doc": "저와 비교할 @Number입니다.",
@@ -2765,19 +2994,31 @@
                     ]
                 },
                 "cos": {
-                    "doc": ["저의 코사인 값을 계산해 보세요.", "\\π.cos()\\"],
-                    "names": ["cos", "cosine"],
+                    "doc": [
+                        "저의 코사인 값을 계산해 보세요.",
+                        "$~\\π.cos()\\"
+                    ],
+                    "names": [
+                        "cos",
+                        "cosine"
+                    ],
                     "inputs": []
                 },
                 "sin": {
-                    "doc": ["저의 사인 값을 계산해 보세요.", "\\π.cos()\\"],
-                    "names": ["sin", "sine"],
+                    "doc": [
+                        "저의 사인 값을 계산해 보세요.",
+                        "$~\\π.cos()\\"
+                    ],
+                    "names": [
+                        "sin",
+                        "sine"
+                    ],
                     "inputs": []
                 },
                 "min": {
                     "doc": [
                         "저와 다른 숫자들 중에서 가장 작은 숫자를 찾습니다.",
-                        "\\1.최소(2 3 -1)\\"
+                        "$~\\1.최소(2 3 -1)\\"
                     ],
                     "names": "최소",
                     "inputs": [
@@ -2790,7 +3031,7 @@
                 "max": {
                     "doc": [
                         "저와 다른 숫자들 중에서 가장 큰 숫자를 찾습니다.",
-                        "\\1.최대(2 3 4)\\"
+                        "$~\\1.최대(2 3 4)\\"
                     ],
                     "names": "최대",
                     "inputs": [
@@ -2859,18 +3100,21 @@
             "doc": [
                 "나는 어떤 종류의 값이든 일련의 값입니다!",
                 "나에게 무엇이든 넣을 수 있어: @Boolean, @Number, @Text, @None, 심지어 다른 @List, @Set, @Map 또는 어떤 표현식이라도 가능해. 여기 간단한 예시가 있어:",
-                "\\['사과' '바나나' '망고']\\",
+                "$~\\['사과' '바나나' '망고']\\",
                 "나를 특별하게 만드는 것은 내가 순서를 유지하고, 내가 가진 모든 항목을 1부터 숫자를 매긴다는 점입니다.",
                 "내 항목에는 1부터 시작하여 번호가 매겨져 있습니다. 해당 번호를 사용하여 @ListAccess로 저장한 값을 가져올 수 있습니다.",
-                "예를 들어, 이 목록의 두 번째 값은 \\['banana']\\입니다.",
-                "\\['사과' '바나나' '망고'][2]\\",
+                "$~예를 들어, 이 목록의 두 번째 값은 \\['banana']\\입니다.",
+                "$~\\['사과' '바나나' '망고'][2]\\",
                 "나는 어떤 것이든 포함할 수 있어. @Text, @Number, 그리고 @Time이 포함된 이 목록을 보세요!",
-                "\\['사과' 10 + 10 시간()]\\",
+                "$~\\['사과' 10 + 10 시간()]\\",
                 "내가 다양한 타입의 값들을 포함하는 리스트를 받으면, 공통된 유형이 있다면 이를 일반화할 것입니다. 하지만 때때로 정확히 특정한 값들만 포함하고 싶을 수도 있습니다. 그럴 때는 리스트 뒤에 !를 붙이면 돼. 그러면 나는 정확히 그 값들만 포함하는 리스트로 유지될 거야.",
-                "\\['사과' '바나나' '망고']!\\",
+                "$~\\['사과' '바나나' '망고']!\\",
                 "이게 나야. 하지만 나는 @FunctionDefinition을 이용해 정말 다양한 멋진 기능을 수행할 수도 있어!"
             ],
-            "name": ["[]", "목록"],
+            "name": [
+                "[]",
+                "목록"
+            ],
             "kind": "종류",
             "out": "결과",
             "outofbounds": "범위를 벗어남",
@@ -2878,9 +3122,12 @@
                 "add": {
                     "doc": [
                         "나는 주어진 항목을 끝에 추가하여 새로운 @List를 만듭니다.",
-                        "\\['사과' '바나나' '망고'].와함께('수박')\\"
+                        "$~\\['사과' '바나나' '망고'].와함께('수박')\\"
                     ],
-                    "names": ["와함께", "추가하다"],
+                    "names": [
+                        "와함께",
+                        "추가하다"
+                    ],
                     "inputs": [
                         {
                             "doc": "추가하고 싶은 값입니다.",
@@ -2891,11 +3138,14 @@
                 "append": {
                     "doc": [
                         "내 값을 사용하여 새 @List를 만든 다음, 주어진 @List의 모든 값을 내 뒤에 만듭니다.",
-                        "\\['사과' '바나나' '망고'].withList(['수박' '스타프루트'])\\",
+                        "$~\\['사과' '바나나' '망고'].withList(['수박' '스타프루트'])\\",
                         "하지만 다음과 같이 @Spread를 사용하는 것이 조금 더 쉽습니다.",
-                        "\\['사과' '바나나' '망고' :['수박' '스타프루트']]\\"
+                        "$~\\['사과' '바나나' '망고' :['수박' '스타프루트']]\\"
                     ],
-                    "names": ["withList", "추가"],
+                    "names": [
+                        "withList",
+                        "추가"
+                    ],
                     "inputs": [
                         {
                             "doc": "추가할 값 목록입니다.",
@@ -2906,9 +3156,11 @@
                 "replace": {
                     "doc": [
                         "주어진 인덱스의 값을 새로운 값으로 바꾼 새로운 리스트를 만듭니다.",
-                        "\\['사과' '바나나' '망고'].replace(1 '키위')\\"
+                        "$~\\['사과' '바나나' '망고'].replace(1 '키위')\\"
                     ],
-                    "names": ["replace"],
+                    "names": [
+                        "replace"
+                    ],
                     "inputs": [
                         {
                             "doc": "대체할 값의 인덱스",
@@ -2922,13 +3174,16 @@
                 },
                 "length": {
                     "doc": "내 안에 있는 항목의 @Number.",
-                    "names": ["📏", "길이"],
+                    "names": [
+                        "📏",
+                        "길이"
+                    ],
                     "inputs": []
                 },
                 "random": {
                     "doc": [
                         "내 항목 중 무작위로 선택된 하나의 항목을 반환하거나, 비어 있다면 @None을 반환합니다.",
-                        "\\['사과' '바나나' '망고'].random()\\"
+                        "$~\\['사과' '바나나' '망고'].random()\\"
                     ],
                     "names": "무작위의",
                     "inputs": []
@@ -2936,7 +3191,7 @@
                 "shuffled": {
                     "doc": [
                         "내 항목들을 무작위 순서로 섞어서 새로운 리스트를 만듭니다.",
-                        "\\['사과' '바나나' '망고'].shuffled()\\"
+                        "$~\\['사과' '바나나' '망고'].shuffled()\\"
                     ],
                     "names": "섞인",
                     "inputs": []
@@ -2944,7 +3199,7 @@
                 "first": {
                     "doc": [
                         "내 첫 번째 항목이거나 비어 있으면 @None입니다.",
-                        "\\['사과' '바나나' '망고'].first()\\"
+                        "$~\\['사과' '바나나' '망고'].first()\\"
                     ],
                     "names": "첫번째",
                     "inputs": []
@@ -2952,15 +3207,15 @@
                 "last": {
                     "doc": [
                         "내 안의 마지막 항목이거나 비어 있으면 @None입니다.",
-                        "\\['사과' '바나나' '망고'].first()\\"
+                        "$~\\['사과' '바나나' '망고'].first()\\"
                     ],
                     "names": "마지막",
                     "inputs": []
                 },
                 "has": {
                     "doc": [
-                        "\\⊤\\ 내 안에 주어진 아이템과 같은 항목이 있다면.",
-                        "\\['사과' '바나나' '망고'].has('바나나')\\"
+                        "$~\\⊤\\ 내 안에 주어진 아이템과 같은 항목이 있다면.",
+                        "$~\\['사과' '바나나' '망고'].has('바나나')\\"
                     ],
                     "names": "가지다",
                     "inputs": [
@@ -2973,7 +3228,7 @@
                 "join": {
                     "doc": [
                         "내 목록의 항목을 @Text로 결합하며, 주어진 구분 기호 @Text로 구분합니다.",
-                        "\\['사과' '바나나' '망고'].join(', ')\\"
+                        "$~\\['사과' '바나나' '망고'].join(', ')\\"
                     ],
                     "names": "결합하다",
                     "inputs": [
@@ -2986,14 +3241,14 @@
                 "subsequence": {
                     "doc": [
                         "이 목록 내에서 제공된 인덱스에서 시작하여 마지막 항목까지, 또는 특정한 항목에서 끝나는 하위 목록을 가져옵니다.",
-                        "\\['사과' '바나나' '망고'].subsequence(2)\\",
-                        "\\['사과' '바나나' '망고'].subsequence(1 2)\\",
+                        "$~\\['사과' '바나나' '망고'].subsequence(2)\\",
+                        "$~\\['사과' '바나나' '망고'].subsequence(1 2)\\",
                         "그리고 보세요! 번호를 순서대로 제공하지 않으면, 거꾸로 반환합니다.",
-                        "\\['사과' '바나나' '망고'].subsequence(3 1)\\",
+                        "$~\\['사과' '바나나' '망고'].subsequence(3 1)\\",
                         "인덱스에 1보다 작은 값을 제공하면, 1로 간주합니다.",
-                        "\\['사과' '바나나' '망고'].subsequence(-1003243 2)\\",
+                        "$~\\['사과' '바나나' '망고'].subsequence(-1003243 2)\\",
                         "그리고 가장 큰 인덱스보다 큰 값을 제공하면, 리스트의 끝까지 선택한 것으로 간주합니다.",
-                        "\\['사과' '바나나' '망고'].subsequence(3 2304032432)\\"
+                        "$~\\['사과' '바나나' '망고'].subsequence(3 2304032432)\\"
                     ],
                     "names": "부분연속",
                     "inputs": [
@@ -3010,25 +3265,34 @@
                 "sansFirst": {
                     "doc": [
                         "첫 번째 항목 없이 목록을 만듭니다.",
-                        "\\['사과' '바나나' '망고'].sansFirst()\\"
+                        "$~\\['사과' '바나나' '망고'].sansFirst()\\"
                     ],
-                    "names": ["첫번째없이", "sansFirst"],
+                    "names": [
+                        "첫번째없이",
+                        "sansFirst"
+                    ],
                     "inputs": []
                 },
                 "sansLast": {
                     "doc": [
                         "마지막 항목 없이 목록을 만듭니다.",
-                        "\\['사과' '바나나' '망고'].sansLast()\\"
+                        "$~\\['사과' '바나나' '망고'].sansLast()\\"
                     ],
-                    "names": ["마지막없이", "sansLast"],
+                    "names": [
+                        "마지막없이",
+                        "sansLast"
+                    ],
                     "inputs": []
                 },
                 "sans": {
                     "doc": [
                         "나, 하지만 주어진 값이 처음으로 나타나는 경우는 없습니다.",
-                        "\\['사과' '바나나' '망고' '사과'].sans('사과')\\"
+                        "$~\\['사과' '바나나' '망고' '사과'].sans('사과')\\"
                     ],
-                    "names": ["없이", "sans"],
+                    "names": [
+                        "없이",
+                        "sans"
+                    ],
                     "inputs": [
                         {
                             "doc": "처음 나타나는 항목을 제거할 값입니다.",
@@ -3039,9 +3303,12 @@
                 "sansAll": {
                     "doc": [
                         "나, 그러나 주어진 값이 전혀 발생하지 않습니다.",
-                        "\\['사과' '바나나' '망고' '사과'].sans('사과')\\"
+                        "$~\\['사과' '바나나' '망고' '사과'].sans('사과')\\"
                     ],
-                    "names": ["모두없이", "sansAll"],
+                    "names": [
+                        "모두없이",
+                        "sansAll"
+                    ],
                     "inputs": [
                         {
                             "doc": "목록에서 모든 항목을 제거할 값입니다.",
@@ -3052,17 +3319,23 @@
                 "reverse": {
                     "doc": [
                         "나야, 하지만 반대야!",
-                        "\\['사과' '바나나' '망고'].reverse()\\"
+                        "$~\\['사과' '바나나' '망고'].reverse()\\"
                     ],
-                    "names": ["반대로", "뒤집다"],
+                    "names": [
+                        "반대로",
+                        "뒤집다"
+                    ],
                     "inputs": []
                 },
                 "equals": {
                     "doc": [
-                        "\\⊤\\ 내 품목과 순서가 주어진 @List와 정확히 일치한 경우.",
-                        "\\['사과' '바나나' '망고'] = ['사과' '망고' '바나나']\\"
+                        "$~\\⊤\\ 내 품목과 순서가 주어진 @List와 정확히 일치한 경우.",
+                        "$~\\['사과' '바나나' '망고'] = ['사과' '망고' '바나나']\\"
                     ],
-                    "names": ["=", "일치하다"],
+                    "names": [
+                        "=",
+                        "일치하다"
+                    ],
                     "inputs": [
                         {
                             "doc": "저를 비교할 @List입니다.",
@@ -3072,10 +3345,13 @@
                 },
                 "notequals": {
                     "doc": [
-                        "\\⊤\\ 내 품목과 순서가 주어진 @List와 정확히 일치하지 /않는/ 경우.",
-                        "\\['사과' '바나나' '망고'] ≠ ['사과' '망고' '바나나']\\"
+                        "$~\\⊤\\ 내 품목과 순서가 주어진 @List와 정확히 일치하지 /않는/ 경우.",
+                        "$~\\['사과' '바나나' '망고'] ≠ ['사과' '망고' '바나나']\\"
                     ],
-                    "names": ["≠", "일치하지않다"],
+                    "names": [
+                        "≠",
+                        "일치하지않다"
+                    ],
                     "inputs": [
                         {
                             "doc": "나를 비교할 @List입니다.",
@@ -3087,7 +3363,7 @@
                     "doc": [
                         "값과 선택적 인덱스를 입력으로 사용하여 값을 생성하는 @FunctionDefinition을 제공하면 각 항목에 대해 이를 평가하여 값을 새 값으로 변환합니다.",
                         "예를 들어, 내가 @Number의 목록이고 이를 모두 두 배로 늘리고 싶다고 가정해 보겠습니다.",
-                        "\\[2 4 6 8].translate(f(num•#) num × 2)\\"
+                        "$~\\[2 4 6 8].translate(f(num•#) num × 2)\\"
                     ],
                     "names": "번역하다",
                     "inputs": [
@@ -3113,14 +3389,14 @@
                 },
                 "filter": {
                     "doc": [
-                        "값과 선택적 인덱스를 입력으로 사용하고 @Boolean을 생성하는 @FunctionDefinition을 제공하면 \\⊤\\ 결과 항목만 포함하는 새 목록을 생성하겠습니다.",
+                        "$~값과 선택적 인덱스를 입력으로 사용하고 @Boolean을 생성하는 @FunctionDefinition을 제공하면 \\⊤\\ 결과 항목만 포함하는 새 목록을 생성하겠습니다.",
                         "예를 들어, 내가 @Number의 목록이고 긍정적인 것만 원한다고 가정해 보세요.",
-                        "\\[2 -4 8 -16].filter(f(num•#) num ≥ 0)\\"
+                        "$~\\[2 -4 8 -16].filter(f(num•#) num ≥ 0)\\"
                     ],
                     "names": "필터",
                     "inputs": [
                         {
-                            "doc": "각 항목을 확인하여 보관해야 하는 경우 \\⊤\\를 생성하는 @FunctionDefinition입니다.",
+                            "doc": "$~각 항목을 확인하여 보관해야 하는 경우 \\⊤\\를 생성하는 @FunctionDefinition입니다.",
                             "names": "체커"
                         }
                     ],
@@ -3141,14 +3417,14 @@
                 },
                 "all": {
                     "doc": [
-                        "값을 입력으로 사용하고 어떤 조건과 일치하면 @Boolean을 생성하는 @FunctionDefinition을 제공하세요. 모든 항목이 조건에 일치하면 \\⊤\\를 생성하겠습니다.",
+                        "$~값을 입력으로 사용하고 어떤 조건과 일치하면 @Boolean을 생성하는 @FunctionDefinition을 제공하세요. 모든 항목이 조건에 일치하면 \\⊤\\를 생성하겠습니다.",
                         "예를 들어, 내가 @Number의 목록이고 모든 것이 양수인지 알고 싶다고 가정해 보겠습니다.",
-                        "\\[2 -4 8 -16].all(f(num•#) num ≥ 0)\\"
+                        "$~\\[2 -4 8 -16].all(f(num•#) num ≥ 0)\\"
                     ],
                     "names": "모두",
                     "inputs": [
                         {
-                            "doc": "항목이 조건을 충족하는 경우 \\⊤\\를 생성하는 @FunctionDefinition입니다.",
+                            "doc": "$~항목이 조건을 충족하는 경우 \\⊤\\를 생성하는 @FunctionDefinition입니다.",
                             "names": "체커"
                         }
                     ],
@@ -3170,13 +3446,13 @@
                 "until": {
                     "doc": [
                         "값을 입력으로 사용하고 어떤 조건과 일치하면 @Boolean을 생성하는 @FunctionDefinition을 제공하세요. 조건이 충족되지 않을 때까지 모든 항목을 포함하는 새 @List를 만들겠습니다.",
-                        "예를 들어, 내가 @Text 동물 목록이고 \\'rat'\\이 발견될 때까지 모든 것을 원한다고 가정해 보겠습니다.",
-                        "\\['cat' 'dog' 'rat' 'mouse' 'pony'].until(f(animal•'') 동물 = 'rat')\\"
+                        "$~예를 들어, 내가 @Text 동물 목록이고 \\'rat'\\이 발견될 때까지 모든 것을 원한다고 가정해 보겠습니다.",
+                        "$~\\['cat' 'dog' 'rat' 'mouse' 'pony'].until(f(animal•'') 동물 = 'rat')\\"
                     ],
                     "names": "까지",
                     "inputs": [
                         {
-                            "doc": "항목 포함을 중지해야 하는 경우 \\⊤\\를 생성하는 @FunctionDefinition입니다.",
+                            "doc": "$~항목 포함을 중지해야 하는 경우 \\⊤\\를 생성하는 @FunctionDefinition입니다.",
                             "names": "체커"
                         }
                     ],
@@ -3198,13 +3474,13 @@
                 "find": {
                     "doc": [
                         "값을 입력으로 사용하고 일부 기준과 일치하는 경우 @Boolean을 생성하는 @FunctionDefinition을 제공하면 일치하는 항목을 평가하겠습니다.",
-                        "예를 들어, 모음 \\'e'\\를 가진 첫 번째 동물을 찾고 싶다고 가정해 보겠습니다.",
-                        "\\['고양이' '개' '쥐' '마우스' '조랑말'].find(f(animal•'')animal.has('e'))\\"
+                        "$~예를 들어, 모음 \\'e'\\를 가진 첫 번째 동물을 찾고 싶다고 가정해 보겠습니다.",
+                        "$~\\['고양이' '개' '쥐' '마우스' '조랑말'].find(f(animal•'')animal.has('e'))\\"
                     ],
                     "names": "찾다",
                     "inputs": [
                         {
-                            "doc": "검색 기준과 일치하는 경우 \\⊤\\를 생성하는 @FunctionDefinition입니다.",
+                            "doc": "$~검색 기준과 일치하는 경우 \\⊤\\를 생성하는 @FunctionDefinition입니다.",
                             "names": "체커"
                         }
                     ],
@@ -3227,7 +3503,7 @@
                     "doc": [
                         "가장 최근의 조합과 다음 값을 가져와 다음 조합을 생성하는 @FunctionDefinition을 제공하면 내 항목의 첫 번째 항목에서 마지막 항목으로 이동하여 연속 조합을 생성하고 @FunctionDefinition이 평가하는 최종 조합을 평가합니다.",
                         "이는 내 안의 모든 항목을 하나의 값으로 결합하는 데 정말 도움이 됩니다. 예를 들어 숫자 목록을 추가한다고 가정해 보겠습니다.",
-                        "\\[3 9 2 8 1 4].combine(0 f(합계•# 숫자•#) 합계 + 숫자)\\"
+                        "$~\\[3 9 2 8 1 4].combine(0 f(합계•# 숫자•#) 합계 + 숫자)\\"
                     ],
                     "names": "결합하다",
                     "inputs": [
@@ -3262,11 +3538,11 @@
                 "sorted": {
                     "doc": [
                         "나는 목록을 가져와 해당 값을 정렬하여 새로운 목록을 만들 수 있어. 예를 들면 이렇게:",
-                        "\\[1 5 8 0 2].sorted()\\",
+                        "$~\\[1 5 8 0 2].sorted()\\",
                         "@Text 값에 대해서도 할 수 있습니다",
-                        "\\['오렌지' '키위' '바나나' '사과'].sorted()\\",
+                        "$~\\['오렌지' '키위' '바나나' '사과'].sorted()\\",
                         "@Number 또는 @Text가 아닌 값 목록이 있는 경우 각 항목을 @Number로 변환하는 @FunctionDefinition을 제공하여 정렬할 수 있습니다. 예를 들어, 여기에는 다양한 길이의 목록이 있습니다. 각 목록을 길이로 변환하는 함수를 제공하면 길이별로 정렬할 수 있습니다.",
-                        "\\[[1] [2 3] [4 8 12] [8]].sorted(f(list) list.length())\\"
+                        "$~\\[[1] [2 3] [4 8 12] [8]].sorted(f(list) list.length())\\"
                     ],
                     "names": "정렬됨",
                     "inputs": [
@@ -3291,21 +3567,24 @@
         "Set": {
             "doc": [
                 "나는 값들의 집합이야! 즉 아무 값도 없을 수도 있고, 여러 개의 값을 가질 수도 있어. 나를 이렇게 만들 수 있어:",
-                "\\{1 2 3}\\",
+                "$~\\{1 2 3}\\",
                 "나는 중복 없이 모음을 유지하고 싶을 때 정말 유용해.",
                 "즉, 내가 이미 가지고 있는 값을 또 주면, 나는 추가 항목을 무시해.",
                 "예를 들어, 이 집합에는 중복된 값들이 많아:",
-                "\\{1 1 2 2 3 3}\\",
-                "나는 이를 \\{1 2 3}\\ 로 정리해.",
+                "$~\\{1 1 2 2 3 3}\\",
+                "$~나는 이를 \\{1 2 3}\\ 로 정리해.",
                 "내가 특정 값을 가지고 있는지 확인하고 싶다면 @SetOrMapAccess를 사용하면 돼:",
-                "\\{'병' '물병' '유리'}{'컵'}\\",
-                "보통 같은 유형의 값들을 주면, 나는 그것이 해당 유형의 목록이라고 생각해. 예를 들어, 이 집합은 모두 @Text이기 때문에 \\{''}\\ 처럼 보여.",
-                "\\{'안녕' '안녕' '헬로우'}\\",
+                "$~\\{'병' '물병' '유리'}{'컵'}\\",
+                "$~보통 같은 유형의 값들을 주면, 나는 그것이 해당 유형의 목록이라고 생각해. 예를 들어, 이 집합은 모두 @Text이기 때문에 \\{''}\\ 처럼 보여.",
+                "$~\\{'안녕' '안녕' '헬로우'}\\",
                 "하지만 내가 /오직/ 특정 값들만 포함하는 집합이라는 걸 명확히 하고 싶다면, 나의 끝에 !를 붙이면 돼. 이렇게 하면 허용되지 않는 값을 사용할 때 경고할 수 있어.",
-                "\\{'안녕' '안녕' '헬로우'}!{'요'}\\",
+                "$~\\{'안녕' '안녕' '헬로우'}!{'요'}\\",
                 "나를 더 활용하고 싶어? 내가 가진 다양한 @FunctionDefinition을 확인해 봐!"
             ],
-            "name": ["{}", "세트"],
+            "name": [
+                "{}",
+                "세트"
+            ],
             "kind": "친절한",
             "out": "결과",
             "function": {
@@ -3316,10 +3595,13 @@
                 },
                 "equals": {
                     "doc": [
-                        "주어진 @Set과 정확히 동일한 값을 갖는 경우 나는 \\⊤\\입니다.",
-                        "\\{1 2 3} = {2 3 4}\\"
+                        "$~주어진 @Set과 정확히 동일한 값을 갖는 경우 나는 \\⊤\\입니다.",
+                        "$~\\{1 2 3} = {2 3 4}\\"
                     ],
-                    "names": ["=", "동일하다"],
+                    "names": [
+                        "=",
+                        "동일하다"
+                    ],
                     "inputs": [
                         {
                             "doc": "비교할 @Set입니다.",
@@ -3329,10 +3611,13 @@
                 },
                 "notequals": {
                     "doc": [
-                        "주어진 @Set에 정확히 동일한 값이 없으면 나는 \\⊤\\입니다.",
-                        "\\{1 2 3} ≠ {2 3 4}\\"
+                        "$~주어진 @Set에 정확히 동일한 값이 없으면 나는 \\⊤\\입니다.",
+                        "$~\\{1 2 3} ≠ {2 3 4}\\"
                     ],
-                    "names": ["≠", "동일하지않다"],
+                    "names": [
+                        "≠",
+                        "동일하지않다"
+                    ],
                     "inputs": [
                         {
                             "doc": "비교할 @Set입니다.",
@@ -3343,9 +3628,12 @@
                 "add": {
                     "doc": [
                         "추가할 항목을 주면 내 항목과 주어진 항목으로 새 @Set을 만들겠습니다.",
-                        "\\{1 2 3} + 4\\"
+                        "$~\\{1 2 3} + 4\\"
                     ],
-                    "names": ["add", "+"],
+                    "names": [
+                        "add",
+                        "+"
+                    ],
                     "inputs": [
                         {
                             "doc": "추가할 항목",
@@ -3356,10 +3644,13 @@
                 "remove": {
                     "doc": [
                         "제거할 항목을 주시면 해당 항목 없이 새 @Set을 만들어 드리겠습니다.",
-                        "\\{1 2 3} - 2\\",
+                        "$~\\{1 2 3} - 2\\",
                         "항목이 없으면 그냥 제가 평가하겠습니다."
                     ],
-                    "names": ["remove", "-"],
+                    "names": [
+                        "remove",
+                        "-"
+                    ],
                     "inputs": [
                         {
                             "doc": "제거할 항목입니다.",
@@ -3370,9 +3661,12 @@
                 "union": {
                     "doc": [
                         "나에게 다른 @Set을 주면, 내 항목과 그 집합의 항목을 모두 포함하는 새로운 @Set을 만들어 드립니다.",
-                        "\\{1 2 3} ∪ {3 4 5}\\"
+                        "$~\\{1 2 3} ∪ {3 4 5}\\"
                     ],
-                    "names": ["union", "∪"],
+                    "names": [
+                        "union",
+                        "∪"
+                    ],
                     "inputs": [
                         {
                             "doc": "나와 비교할 @Set입니다.",
@@ -3383,9 +3677,12 @@
                 "intersection": {
                     "doc": [
                         "나에게 다른 @Set을 주면, 우리 둘 다 공통적으로 가지고 있는 항목들만 모아 새로운 @Set을 만들어 드립니다.",
-                        "\\{1 2 3} ∩ {3 4 5}\\"
+                        "$~\\{1 2 3} ∩ {3 4 5}\\"
                     ],
-                    "names": ["intersection", "∩"],
+                    "names": [
+                        "intersection",
+                        "∩"
+                    ],
                     "inputs": [
                         {
                             "doc": "나와 비교할 세트입니다.",
@@ -3396,7 +3693,7 @@
                 "difference": {
                     "doc": [
                         "@Set을 주면 우리가 공통으로 가지고 있는 항목만 포함된 항목이 있는 새 @Set을 만들겠습니다.",
-                        "\\{1 2 3}.차이({3 4 5})\\"
+                        "$~\\{1 2 3}.차이({3 4 5})\\"
                     ],
                     "names": "차이점",
                     "inputs": [
@@ -3408,9 +3705,9 @@
                 },
                 "filter": {
                     "doc": [
-                        "항목을 가져와 보관해야 하는 경우 \\⊤\\를 생성하는 @FunctionDefinition을 주시면 기준에 맞는 항목만 포함하는 @Set을 만들어 드리겠습니다.",
+                        "$~항목을 가져와 보관해야 하는 경우 \\⊤\\를 생성하는 @FunctionDefinition을 주시면 기준에 맞는 항목만 포함하는 @Set을 만들어 드리겠습니다.",
                         "예를 들어, 내 안의 홀수를 찾아봅시다:",
-                        "\\{1 2 3 4 5 6 7 8 9}.filter(f(num•#) (num % 2) = 1)\\"
+                        "$~\\{1 2 3 4 5 6 7 8 9}.filter(f(num•#) (num % 2) = 1)\\"
                     ],
                     "names": "filter",
                     "inputs": [
@@ -3478,7 +3775,10 @@
                 "$~\\{1:1 2:2 3:3}!{4}\\",
                 "$~나는 내 페어링으로 많은 멋진 일을 하는 방법을 알고 있습니다."
             ],
-            "name": ["$~{:}", "$~지도"],
+            "name": [
+                "$~{:}",
+                "$~지도"
+            ],
             "key": "$~열쇠",
             "value": "$~값",
             "result": "$~결과",
@@ -3493,7 +3793,10 @@
                         "$~\\{⊤}\\ 내 쌍이 주어진 @Map 과 정확히 동일한 경우.",
                         "$~\\{1:1 2:2} = {1:1 2:3}\\"
                     ],
-                    "names": ["=", "equals"],
+                    "names": [
+                        "=",
+                        "equals"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~나를 비교할 @Map 입니다.",
@@ -3506,7 +3809,10 @@
                         "$~\\{⊤}\\ 내 쌍이 주어진 @Map 과 정확히 동일 /아님/인 경우.",
                         "$~\\{1:1 2:2} ≠ {1:1 2:3}\\"
                     ],
-                    "names": ["$~≠", "$~동일하다"],
+                    "names": [
+                        "$~≠",
+                        "$~동일하다"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~나를 비교할 @Map 입니다.",
@@ -3636,12 +3942,18 @@
                 "$~그리고 나에게서 특정 값을 얻으려면 테이블을 목록으로 변환하고 @PropertyReference 를 사용하여 개별 행에 액세스할 수 있습니다.",
                 "$~\\rocks: ⎡이름•'' 색상•''⎦\n⎡'흑요석' '검은색'⎦\n⎡'부석' '회색'⎦\n⎡'황수정' '노란색'⎦\n(바위 → [])[1].name\\"
             ],
-            "name": ["$~⎡⎦", "$~테이블"],
+            "name": [
+                "$~⎡⎦",
+                "$~테이블"
+            ],
             "row": "$~열",
             "function": {
                 "equals": {
                     "doc": "$~다른 @Table 과 정확히 동일한 순서로 동일한 셀이 있는지 확인합니다.",
-                    "names": ["$~=", "$~같음"],
+                    "names": [
+                        "$~=",
+                        "$~같음"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~확인할 다른 테이블입니다.",
@@ -3651,7 +3963,10 @@
                 },
                 "notequal": {
                     "doc": "$~내 셀이 다른 @Table 과 다르거나 순서가 다른지 확인합니다.",
-                    "names": ["$~≠", "$~같지않음"],
+                    "names": [
+                        "$~≠",
+                        "$~같지않음"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~확인할 다른 테이블.",
@@ -3667,11 +3982,16 @@
         },
         "Structure": {
             "doc": "$~저는 @StructureDefinition 에서 생성된, 이름과 타입이 지정된 필드를 가진 구조화된 값입니다. @StructureDefinition 참조하세요.",
-            "name": ["$~구조"],
+            "name": [
+                "$~구조"
+            ],
             "function": {
                 "equals": {
                     "doc": "$~내 속성이 다른 구조의 속성과 동일한 이름 및 값인지 확인합니다.",
-                    "names": ["$~=", "$~같음"],
+                    "names": [
+                        "$~=",
+                        "$~같음"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~확인할 다른 구조입니다.",
@@ -3681,7 +4001,10 @@
                 },
                 "notequal": {
                     "doc": "$~내 속성이 다른 구조의 이름 및 값과 어떤 식으로든 다른지 확인합니다.",
-                    "names": ["$~≠", "$~같지않음"],
+                    "names": [
+                        "$~≠",
+                        "$~같지않음"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~확인할 다른 구조입니다.",
@@ -3700,16 +4023,25 @@
                 "$~\\`I am **bold** and /italic/`\\",
                 "$~저는 @Text 와 매우 유사하게 작동하지만 서식을 유지할 수 있습니다. 저를 결합하거나, 반복하거나, 내용을 확인하거나, 일반 @Text 로 변환할 수 있습니다."
             ],
-            "name": ["$~`…`", "$~형식화됨"],
+            "name": [
+                "$~`…`",
+                "$~형식화됨"
+            ],
             "function": {
                 "length": {
                     "doc": "$~서식이나 단락 구분은 무시하고 텍스트에서 읽을 수 있는 문자 수를 기준으로 평가합니다.",
-                    "names": ["$~📏", "$~길이"],
+                    "names": [
+                        "$~📏",
+                        "$~길이"
+                    ],
                     "inputs": []
                 },
                 "equals": {
                     "doc": "$~\\⊤\\ 주어진 값과 동일한 형식의 텍스트인 경우.",
-                    "names": ["$~=", "$~동등하다"],
+                    "names": [
+                        "$~=",
+                        "$~동등하다"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~비교할 서식이 지정된 텍스트입니다.",
@@ -3729,7 +4061,9 @@
                 },
                 "has": {
                     "doc": "$~\\⊤\\ 내 일반 텍스트에 주어진 @Text 포함되어 있는지 확인합니다. 서식이나 단락 구분은 무시합니다.",
-                    "names": ["$~가지다"],
+                    "names": [
+                        "$~가지다"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~내 텍스트에서 찾아야 할 @Text .",
@@ -3739,7 +4073,9 @@
                 },
                 "starts": {
                     "doc": "$~\\⊤\\ 내 일반 텍스트가 주어진 @Text 로 시작하는지 확인합니다. 서식과 단락 구분은 무시합니다.",
-                    "names": ["$~시작"],
+                    "names": [
+                        "$~시작"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~텍스트 시작 부분에서 확인할 @Text .",
@@ -3749,7 +4085,9 @@
                 },
                 "ends": {
                     "doc": "$~\\⊤\\ 내 일반 텍스트가 주어진 @Text 로 끝나는지 확인합니다. 서식과 단락 구분은 무시합니다.",
-                    "names": ["$~끝"],
+                    "names": [
+                        "$~끝"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~텍스트 끝부분에서 확인할 @Text .",
@@ -3759,7 +4097,13 @@
                 },
                 "repeat": {
                     "doc": "$~저는 제 이름이 포함된 서식이 적용된 텍스트를 지정된 횟수만큼 반복해서 만듭니다. 단락이 여러 개인 경우, 각 단락 사이에는 구분선이 유지됩니다.",
-                    "names": ["$~×", "$~·", "$~🔁", "$~반복됨", "$~반복하다"],
+                    "names": [
+                        "$~×",
+                        "$~·",
+                        "$~🔁",
+                        "$~반복됨",
+                        "$~반복하다"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~같은 말을 몇 번이나 반복해야 하는지.",
@@ -3769,7 +4113,11 @@
                 },
                 "combine": {
                     "doc": "$~서식이 지정된 다른 텍스트를 주시면 두 텍스트를 하나로 합치겠습니다. 두 텍스트 중 하나라도 단락이 두 개 이상인 경우 단락 구분은 유지됩니다.",
-                    "names": ["$~+", "$~결합된", "$~결합하다"],
+                    "names": [
+                        "$~+",
+                        "$~결합된",
+                        "$~결합하다"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~추가할 서식이 지정된 텍스트입니다.",
@@ -3800,7 +4148,9 @@
                 "$~소수점 이하 유효숫자 개수를 특정 개수로 지정하면 해당 정밀도가 유지됩니다.",
                 "$~\\Random(1.00 10.00)\\"
             ],
-            "names": ["Azar"],
+            "names": [
+                "Azar"
+            ],
             "inputs": [
                 {
                     "names": "$~분",
@@ -3821,7 +4171,10 @@
                 "$~\\Group(\nStack() \n[\nPhrase('one' selectable:⊤ name:'1') \nPhrase('two' selectable:⊤ name:'2') \nPhrase(Choice())\n]\n)\\",
                 "$~이 내용을 편집기에 복사한 다음 두 개의 @Phrase 중 하나를 선택하세요. 그러면 세 번째 @Phrase 에 선택된 이름이 표시됩니다."
             ],
-            "names": ["Selección", "Elección"]
+            "names": [
+                "Selección",
+                "Elección"
+            ]
         },
         "Button": {
             "doc": [
@@ -3833,7 +4186,9 @@
                 "$~\\Phrase(Button() → '')\\",
                 "$~이것은 스트림의 값을 텍스트로 나타내는 @Phrase 생성합니다. 이 코드를 편집기에 복사하고 클릭하면 \\⊥\\ 와 \\⊤\\ 사이를 번갈아 가며 나타나는 것을 볼 수 있습니다."
             ],
-            "names": ["Botón"],
+            "names": [
+                "Botón"
+            ],
             "down": {
                 "names": "$~아래에",
                 "doc": "$~@None 인 경우 스트림은 up 및 down 값을 모두 제공합니다. @Boolean 인 경우 지정된 @Boolean 값만 제공합니다."
@@ -3848,7 +4203,9 @@
                 "$~\\Pointer()\\",
                 "$~@Place 속성은 @Stage 상에서 포인터가 가리키는 위치에 해당합니다."
             ],
-            "names": ["Puntero"]
+            "names": [
+                "Puntero"
+            ]
         },
         "Key": {
             "doc": [
@@ -3864,7 +4221,9 @@
                 "$~만약 @Key 눌렸을 때가 아니라 놓았을 때만 알고 싶다면, @Boolean 타입을 제공하면 됩니다.",
                 "$~\\Key('a' ⊥)\\"
             ],
-            "names": ["Teclado"],
+            "names": [
+                "Teclado"
+            ],
             "key": {
                 "names": "$~열쇠",
                 "doc": "$~@None 인 경우 모든 키가 제공됩니다. 특정 @Text 인 경우 해당 키만 제공됩니다."
@@ -3874,57 +4233,179 @@
                 "doc": "$~@None 인 경우 키를 누르면 입력이 생성됩니다. \\⊤\\이면 다운 입력만 제공되고, \\⊥\\이면 릴리스 입력만 제공됩니다."
             },
             "keys": {
-                "Shift": ["$~옮기다"],
-                "Control": ["$~제어", "$~Ctrl 키"],
-                "Alt": ["$~Alt", "$~옵션"],
-                "Meta": ["$~메타", "$~명령", "$~윈도우"],
-                "AltGraph": ["$~AltGraph"],
-                "CapsLock": ["$~캡스락", "$~캡스록"],
-                "NumLock": ["$~넘락", "$~넘락"],
-                "ScrollLock": ["$~스크롤락", "$~스크롤 락"],
-                "Enter": ["$~입력하다", "$~반품"],
-                "Tab": ["$~꼬리표"],
-                " ": ["$~공간", "$~스페이스바", "$~"],
-                "ArrowUp": ["$~애로우업", "$~위로"],
-                "ArrowDown": ["$~아래쪽 화살표", "$~아래에"],
-                "ArrowLeft": ["$~왼쪽 화살표", "$~왼쪽"],
-                "ArrowRight": ["$~오른쪽 화살표", "$~오른쪽"],
-                "Home": ["$~집"],
-                "End": ["$~끝"],
-                "PageUp": ["$~페이지업", "$~페이지 위로"],
-                "PageDown": ["$~페이지다운", "$~페이지 다운"],
-                "Backspace": ["$~역행 키이"],
-                "Delete": ["$~삭제", "$~델"],
-                "Insert": ["$~끼워 넣다", "$~보험"],
-                "Clear": ["$~분명한"],
-                "Cut": ["$~자르다"],
-                "Copy": ["$~복사"],
-                "Paste": ["$~반죽"],
-                "Undo": ["$~끄르다"],
-                "Redo": ["$~다시 하다"],
-                "Escape": ["$~탈출하다", "$~에스"],
-                "Pause": ["$~정지시키다"],
-                "ContextMenu": ["$~컨텍스트메뉴", "$~메뉴"],
-                "Help": ["$~돕다"],
-                "Convert": ["$~전환하다"],
-                "NonConvert": ["$~비변환"],
-                "KanaMode": ["$~카나모드"],
-                "HangulMode": ["$~한글 모드"],
-                "Hiragana": ["$~히라가나"],
-                "Katakana": ["$~가타카나"],
-                "Romaji": ["$~로마자"],
-                "F1": ["$~F1"],
-                "F2": ["$~F2"],
-                "F3": ["$~F3"],
-                "F4": ["$~F4"],
-                "F5": ["$~F5"],
-                "F6": ["$~F6"],
-                "F7": ["$~F7"],
-                "F8": ["$~F8"],
-                "F9": ["$~F9"],
-                "F10": ["$~F10"],
-                "F11": ["$~F11"],
-                "F12": ["$~F12"]
+                "Shift": [
+                    "$~옮기다"
+                ],
+                "Control": [
+                    "$~제어",
+                    "$~Ctrl 키"
+                ],
+                "Alt": [
+                    "$~Alt",
+                    "$~옵션"
+                ],
+                "Meta": [
+                    "$~메타",
+                    "$~명령",
+                    "$~윈도우"
+                ],
+                "AltGraph": [
+                    "$~AltGraph"
+                ],
+                "CapsLock": [
+                    "$~캡스락",
+                    "$~캡스록"
+                ],
+                "NumLock": [
+                    "$~넘락",
+                    "$~넘락"
+                ],
+                "ScrollLock": [
+                    "$~스크롤락",
+                    "$~스크롤 락"
+                ],
+                "Enter": [
+                    "$~입력하다",
+                    "$~반품"
+                ],
+                "Tab": [
+                    "$~꼬리표"
+                ],
+                " ": [
+                    "$~공간",
+                    "$~스페이스바",
+                    "$~"
+                ],
+                "ArrowUp": [
+                    "$~애로우업",
+                    "$~위로"
+                ],
+                "ArrowDown": [
+                    "$~아래쪽 화살표",
+                    "$~아래에"
+                ],
+                "ArrowLeft": [
+                    "$~왼쪽 화살표",
+                    "$~왼쪽"
+                ],
+                "ArrowRight": [
+                    "$~오른쪽 화살표",
+                    "$~오른쪽"
+                ],
+                "Home": [
+                    "$~집"
+                ],
+                "End": [
+                    "$~끝"
+                ],
+                "PageUp": [
+                    "$~페이지업",
+                    "$~페이지 위로"
+                ],
+                "PageDown": [
+                    "$~페이지다운",
+                    "$~페이지 다운"
+                ],
+                "Backspace": [
+                    "$~역행 키이"
+                ],
+                "Delete": [
+                    "$~삭제",
+                    "$~델"
+                ],
+                "Insert": [
+                    "$~끼워 넣다",
+                    "$~보험"
+                ],
+                "Clear": [
+                    "$~분명한"
+                ],
+                "Cut": [
+                    "$~자르다"
+                ],
+                "Copy": [
+                    "$~복사"
+                ],
+                "Paste": [
+                    "$~반죽"
+                ],
+                "Undo": [
+                    "$~끄르다"
+                ],
+                "Redo": [
+                    "$~다시 하다"
+                ],
+                "Escape": [
+                    "$~탈출하다",
+                    "$~에스"
+                ],
+                "Pause": [
+                    "$~정지시키다"
+                ],
+                "ContextMenu": [
+                    "$~컨텍스트메뉴",
+                    "$~메뉴"
+                ],
+                "Help": [
+                    "$~돕다"
+                ],
+                "Convert": [
+                    "$~전환하다"
+                ],
+                "NonConvert": [
+                    "$~비변환"
+                ],
+                "KanaMode": [
+                    "$~카나모드"
+                ],
+                "HangulMode": [
+                    "$~한글 모드"
+                ],
+                "Hiragana": [
+                    "$~히라가나"
+                ],
+                "Katakana": [
+                    "$~가타카나"
+                ],
+                "Romaji": [
+                    "$~로마자"
+                ],
+                "F1": [
+                    "$~F1"
+                ],
+                "F2": [
+                    "$~F2"
+                ],
+                "F3": [
+                    "$~F3"
+                ],
+                "F4": [
+                    "$~F4"
+                ],
+                "F5": [
+                    "$~F5"
+                ],
+                "F6": [
+                    "$~F6"
+                ],
+                "F7": [
+                    "$~F7"
+                ],
+                "F8": [
+                    "$~F8"
+                ],
+                "F9": [
+                    "$~F9"
+                ],
+                "F10": [
+                    "$~F10"
+                ],
+                "F11": [
+                    "$~F11"
+                ],
+                "F12": [
+                    "$~F12"
+                ]
             }
         },
         "Time": {
@@ -3939,13 +4420,20 @@
                 "$~하지만 @Program 다음 틱에 응답하기 전에 평가할 시간이 필요하기 때문에 크기가 얼마나 작을 수 있는지에는 한계가 있습니다.",
                 "$~가장 작은 값은 아마도 \\20ms\\ 정도일 것입니다."
             ],
-            "names": ["$~🕕", "$~시간"],
+            "names": [
+                "$~🕕",
+                "$~시간"
+            ],
             "frequency": {
-                "names": ["$~빈도"],
+                "names": [
+                    "$~빈도"
+                ],
                 "doc": "$~이것은 시간이 흘러야 하는 빈도입니다. 기본값은 \\33ms\\로, 초당 약 30회입니다."
             },
             "relative": {
-                "names": ["$~상대적인"],
+                "names": [
+                    "$~상대적인"
+                ],
                 "doc": "$~\\⊤\\인 경우 시간은 프로그램이 처음 평가되는 0부터 시작됩니다. 그렇지 않으면 오늘이 시작된 이후의 밀리초 수인 UTC(협정 세계시)에서 시작하여 하루 중 시간을 추적할 수 있습니다."
             }
         },
@@ -3957,9 +4445,14 @@
                 "$~\\Volume()\\",
                 "$~이건 관객들이 얼마나 큰 소리를 내는지 듣기에 아주 좋아요!"
             ],
-            "names": ["$~🎤", "$~용량"],
+            "names": [
+                "$~🎤",
+                "$~용량"
+            ],
             "frequency": {
-                "names": ["frecuencia"],
+                "names": [
+                    "frecuencia"
+                ],
                 "doc": "$~샘플링 사이의 시간입니다."
             }
         },
@@ -3971,9 +4464,14 @@
                 "$~\\Pitch()\\",
                 "$~이 기능은 누군가 말하거나 노래할 때의 음색을 듣는 데 아주 좋습니다."
             ],
-            "names": ["$~🎵", "$~정점"],
+            "names": [
+                "$~🎵",
+                "$~정점"
+            ],
             "frequency": {
-                "names": ["frecuencia"],
+                "names": [
+                    "frecuencia"
+                ],
                 "doc": "$~샘플링 사이의 시간입니다."
             }
         },
@@ -3986,17 +4484,25 @@
                 "$~\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) × 0.5m y × -0.5m) color: color duration: 0s\n)\n)\n)\n)\n)\\",
                 "$~하지만 색상을 분석하여 조명이 켜져 있는지 꺼져 있는지, 또는 특정 색상이 자주 사용되는지 판단할 수도 있으며, 이를 통해 관객이 보여주는 색상을 통해 공연에 영향을 미칠 수 있습니다."
             ],
-            "names": ["Cámara"],
+            "names": [
+                "Cámara"
+            ],
             "width": {
-                "names": ["ancho"],
+                "names": [
+                    "ancho"
+                ],
                 "doc": "$~연속적으로 샘플링할 @Color 수입니다."
             },
             "height": {
-                "names": ["altura"],
+                "names": [
+                    "altura"
+                ],
                 "doc": "$~열에서 샘플링할 @Color 수입니다."
             },
             "frequency": {
-                "names": ["frecuencia"],
+                "names": [
+                    "frecuencia"
+                ],
                 "doc": "$~@Color 샘플 사이의 시간입니다."
             }
         },
@@ -4043,7 +4549,10 @@
                 "$~\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' duration: 0.25s rotation: 5° entering: Pose(rotation: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
                 "$~@Phrase 입력할 때마다 잠시 멈추고 @Button 변경될 때까지 기다린 후 다음 단계로 넘어가는 것을 보세요."
             ],
-            "names": ["$~🎬", "$~장면"],
+            "names": [
+                "$~🎬",
+                "$~장면"
+            ],
             "outputs": {
                 "names": "$~출력",
                 "doc": "$~순서대로 표시할 출력 목록입니다."
@@ -4056,7 +4565,10 @@
                 "$~\\Chat().has('hello') ? 'hi!' 'huh?'\\",
                 "$~이게 전부입니다! 이를 활용하면 챗봇, 텍스트 어드벤처, 또는 다른 유형의 공연을 위한 텍스트 기반 제어 체계와 같은 다양한 공연을 만들 수 있습니다."
             ],
-            "names": ["$~🗣️", "$~채팅"]
+            "names": [
+                "$~🗣️",
+                "$~채팅"
+            ]
         },
         "Placement": {
             "doc": [
@@ -4069,7 +4581,10 @@
                 "$~이 코드를 프로그램에 복사한 다음 포인터나 키보드를 사용하여 @Output 부분을 이동해 보세요.",
                 "$~@Placement 를 사용자 지정하여 특정 차원에서의 이동을 활성화 또는 비활성화하거나, @Place 의 이동 거리를 변경하거나, 스트림이 시작될 때의 초기 @Place 설정할 수 있습니다."
             ],
-            "names": ["$~✥", "$~놓기"],
+            "names": [
+                "$~✥",
+                "$~놓기"
+            ],
             "inputs": [
                 {
                     "doc": "$~처음 시작하는 장소입니다.",
@@ -4103,7 +4618,10 @@
                 "$~\\Webpage('https://wordplay.dev' 'h1')\\",
                 "$~이 부분에서는 여러 가지 문제가 발생할 수 있습니다. 인터넷 연결이 끊어지거나, URL이 제대로 연결되지 않거나, URL이 공개되어 있지 않거나, HTML 페이지가 아닌 경우 등 모든 상황에서 예외가 발생할 수 있습니다. 만약 정상적으로 작동하는 페이지를 찾으면, 진행률을 나타내는 @Number 와 페이지에 있는 단어들의 @List 가 표시됩니다."
             ],
-            "names": ["$~🔗", "$~웹페이지"],
+            "names": [
+                "$~🔗",
+                "$~웹페이지"
+            ],
             "url": {
                 "doc": "$~가져올 HTML 웹페이지 URL입니다.",
                 "names": "$~URL"
@@ -4182,17 +4700,29 @@
                 "$~언어를 지정하지 않으면 사용자가 선호하는 언어로 기본 설정됩니다.",
                 "$~음성 인식 기능을 사용하려면 마이크 접근 권한과 인터넷 연결이 필요합니다(접근 권한을 허용해 주세요!). 또한 사용 시간 제한이 있을 수 있으니 너무 오래 켜두지 마세요(안돼요!)."
             ],
-            "names": ["$~연설", "$~목소리"],
+            "names": [
+                "$~연설",
+                "$~목소리"
+            ],
             "reset": {
-                "names": ["$~다시놓기", "$~분명한"],
+                "names": [
+                    "$~다시놓기",
+                    "$~분명한"
+                ],
                 "doc": "$~이 값이 변경되면 누적된 음성 기록을 모두 지우고 처음부터 다시 시작하세요."
             },
             "language": {
-                "names": ["$~언어", "$~언어"],
+                "names": [
+                    "$~언어",
+                    "$~언어"
+                ],
                 "doc": "$~BCP 47 언어 코드(예: 'en-US')입니다. 브라우저의 음성 인식 기능이 해당 코드를 지원하지 않으면 오류 메시지가 표시됩니다. 기본 설정 언어는 사용자가 선호하는 언어입니다."
             },
             "limit": {
-                "names": ["$~한계", "$~단어"],
+                "names": [
+                    "$~한계",
+                    "$~단어"
+                ],
                 "doc": "$~누적된 음성 데이터에 저장할 최대 단어 수(슬라이딩 윈도우 방식). 이 값을 설정하면 가장 최근 단어만 저장되고 오래된 단어는 삭제됩니다. 지정하지 않으면 모든 단어가 무기한으로 저장됩니다."
             },
             "error": {
@@ -4215,13 +4745,20 @@
                 "$~이렇게 해보세요. 실제 손이 있는 위치에 맞는 손 모양 이모티콘을 보여줍니다.",
                 "$~\\hand: Hand()\nPhrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
             ],
-            "names": ["$~🖐️", "$~손"],
+            "names": [
+                "$~🖐️",
+                "$~손"
+            ],
             "frequency": {
-                "names": ["$~빈도"],
+                "names": [
+                    "$~빈도"
+                ],
                 "doc": "$~샘플 채취 간격."
             },
             "resolution": {
-                "names": ["$~해결"],
+                "names": [
+                    "$~해결"
+                ],
                 "doc": "$~손 모델을 실행하기 전에 카메라를 샘플링할 픽셀 단위의 너비입니다. 값이 높을수록 랜드마크의 정확도가 약간 높아지지만 프레임당 처리 시간이 더 오래 걸립니다."
             }
         },
@@ -4235,7 +4772,10 @@
                 "$~@Number of meters`를 사용하여 윤곽선의 크기를 조절하고, @Place 를 사용하여 원점을 이동하고, 글꼴 두께를 선택하고, 기울임꼴을 켜고, 점 사이의 간격을 미터 단위로 설정할 수 있습니다. 간격이 작을수록 윤곽선이 더 촘촘하게 그려지며, 직선과 곡선을 따라 점들이 고르게 배치됩니다.",
                 "$~색상 이모지와 같은 일부 글리프는 윤곽선이 없으므로 포인트를 추가하지 않습니다. 글꼴을 가져오는 동안에는 빈 @List 표시되고 준비가 되면 채워집니다."
             ],
-            "names": ["$~🖋️", "$~윤곽"],
+            "names": [
+                "$~🖋️",
+                "$~윤곽"
+            ],
             "inputs": [
                 {
                     "doc": "$~내가 글자 윤곽을 따라 그려야 할 글자.",
@@ -4287,7 +4827,10 @@
             ]
         },
         "Stage": {
-            "names": ["$~🎭", "$~단계"],
+            "names": [
+                "$~🎭",
+                "$~단계"
+            ],
             "doc": [
                 "$~저는 당신의 @Output 관객들에게 보여드립니다. 안녕하세요. 여기 무대입니다. 무엇을 보여드릴지 말씀해 주시면 보여드리겠습니다.",
                 "$~\\Stage([Phrase('stufffffff')])\\",
@@ -4318,7 +4861,9 @@
                 "names": "$~장소"
             },
             "name": {
-                "doc": ["$~@Phrase.name 동일합니다!"],
+                "doc": [
+                    "$~@Phrase.name 동일합니다!"
+                ],
                 "names": "$~이름"
             },
             "description": {
@@ -4349,7 +4894,10 @@
             },
             "rotation": {
                 "doc": "$~@Group.rotation 동일",
-                "names": ["$~📐", "$~회전"]
+                "names": [
+                    "$~📐",
+                    "$~회전"
+                ]
             },
             "scale": {
                 "doc": "$~@Group.scale 동일",
@@ -4381,7 +4929,10 @@
             },
             "duration": {
                 "doc": "$~@Phrase.duration 동일합니다!",
-                "names": ["$~⏳", "$~지속"]
+                "names": [
+                    "$~⏳",
+                    "$~지속"
+                ]
             },
             "style": {
                 "doc": "$~@Phrase.style 동일합니다!",
@@ -4393,7 +4944,10 @@
             }
         },
         "Group": {
-            "names": ["$~🔳", "$~그룹"],
+            "names": [
+                "$~🔳",
+                "$~그룹"
+            ],
             "doc": [
                 "$~저는 @Phrase 와 @Group @Stage 에서 @Arrangement 로 함께 배치합니다. 안녕하세요, 잘 지내시나요? 저는 다른 사람들이 주변에 있을 때 항상 기분이 좋아요. 그래서 이렇게 함께 있으니 정말 좋네요!",
                 "$~작업을 진행하려면 @Arrangement 와 @Output 의 @List 제공해 주셔야 합니다.",
@@ -4427,7 +4981,9 @@
                 "names": "$~장소"
             },
             "name": {
-                "doc": ["$~@Phrase.name 과 동일합니다!"],
+                "doc": [
+                    "$~@Phrase.name 과 동일합니다!"
+                ],
                 "names": "$~이름"
             },
             "description": {
@@ -4458,7 +5014,10 @@
             },
             "rotation": {
                 "doc": "$~내 중심을 중심으로 얼마나 기울어져야 하는지, 내 @Pose 에는 다른 것이 있습니다.",
-                "names": ["$~📐", "$~회전"]
+                "names": [
+                    "$~📐",
+                    "$~회전"
+                ]
             },
             "scale": {
                 "doc": "$~원래 크기에 비해 얼마나 커야 할까요?",
@@ -4490,7 +5049,9 @@
             },
             "duration": {
                 "doc": "$~@Phrase.duration 과 동일합니다!",
-                "names": ["duración"]
+                "names": [
+                    "duración"
+                ]
             },
             "style": {
                 "doc": "$~@Phrase.style 과 동일합니다!",
@@ -4498,7 +5059,10 @@
             }
         },
         "Phrase": {
-            "names": ["$~💬", "$~구절"],
+            "names": [
+                "$~💬",
+                "$~구절"
+            ],
             "doc": [
                 "$~저는 @Text on @Stage 에서 가장 사랑스러운 모습을 보여드려요. 안녕하세요! 저 기억하시나요? 누가 저를 잊을 수 있겠어요?",
                 "$~저를 이렇게 만들어주시면 @Stage 에 출연할게요.",
@@ -4526,7 +5090,10 @@
             },
             "wrap": {
                 "doc": "$~기호를 감싸야 하는 가장자리 또는 기호를 감싸지 말아야 하는 경우 \\ø\\입니다.",
-                "names": ["$~↵", "$~포장하다"]
+                "names": [
+                    "$~↵",
+                    "$~포장하다"
+                ]
             },
             "alignment": {
                 "doc": "$~@Phrase.wrap 경계가 설정된 경우 기호를 가장자리의 시작, 중앙 또는 끝에 정렬해야 하는지 여부입니다.",
@@ -4614,7 +5181,10 @@
             },
             "duration": {
                 "doc": "$~스테이지 내 다른 장소로 이동할 때 적용되는 지속시간입니다.",
-                "names": ["$~⏳", "$~지속"]
+                "names": [
+                    "$~⏳",
+                    "$~지속"
+                ]
             },
             "style": {
                 "doc": "$~무대 위의 다른 장소로 이동할 때 사용할 애니메이션 스타일입니다.",
@@ -4622,11 +5192,15 @@
             }
         },
         "Arrangement": {
-            "names": ["Arrangement"],
+            "names": [
+                "Arrangement"
+            ],
             "doc": "$~나는 @Row, @Stack, @Grid 및 @Free 를 포함하여 Verse의 다른 많은 종류의 배열에 영감을 주었습니다. 저는 @Group 과 긴밀히 협력하여"
         },
         "Row": {
-            "names": ["Fila"],
+            "names": [
+                "Fila"
+            ],
             "doc": "$~나는 @Output 의 수평 @Arrangement 인 @Row 이며, 그 사이에 선택적 패딩이 있습니다. 내 쌍둥이 @Stack 을 만나보셨나요?",
             "description": "$~$count 구문 및 그룹 행",
             "alignment": {
@@ -4639,7 +5213,10 @@
             }
         },
         "Stack": {
-            "names": ["$~⬇", "$~스택"],
+            "names": [
+                "$~⬇",
+                "$~스택"
+            ],
             "doc": "$~나는 @Output 의 수직 @Arrangement 인 @Stack 이며 그 사이에 선택적 패딩이 있습니다. 내 쌍둥이 @Row 를 만나보셨나요?",
             "description": "$~$count 구문 및 그룹 스택",
             "padding": {
@@ -4652,7 +5229,10 @@
             }
         },
         "Grid": {
-            "names": ["$~▦", "$~그리드"],
+            "names": [
+                "$~▦",
+                "$~그리드"
+            ],
             "doc": "$~나는 @Output 의 그리드입니다. 행과 열 개수를 알려주시면 선택적으로 패딩과 셀 크기를 사용하여 깔끔하게 정리하겠습니다.",
             "description": "$~$rows $columns 그리드",
             "rows": {
@@ -4677,7 +5257,9 @@
             }
         },
         "Free": {
-            "names": ["$~무료"],
+            "names": [
+                "$~무료"
+            ],
             "doc": [
                 "$~저는 각 @Output 이 @Place 에 지정된 위치에 자유롭게 배치될 수 있도록 하는 @Arrangement 입니다. 제 스타일은 \"어디든 상관없어. 앉고 싶은 곳에 앉아! 그냥 아무 데나 앉아!\"입니다. 다만, 저에게 주는 모든 @Output 에는 @Place 지정되어 있어야 합니다. 그렇지 않으면 어디로 가야 할지 알 수 없으니까요.",
                 "$~아, 그리고 각 @Output 에 지정하는 @Place 는 @Group 의 @Place 기준으로 한다는 점을 기억하세요! 따라서 결과물이 예상과 다른 위치에 나타나는 이유가 궁금하다면 @Group 에도 @Place 지정해 보세요."
@@ -4685,7 +5267,10 @@
             "description": "$~자유 형식 $count 출력"
         },
         "Shape": {
-            "names": ["$~⬟", "$~모양"],
+            "names": [
+                "$~⬟",
+                "$~모양"
+            ],
             "doc": "$~나는 모든 형태에 영감을 줍니다. @Stage 에서 어떤 모양이 될지 알려주는 데 유용합니다.",
             "form": {
                 "doc": "$~나는 보여주고 싶은 체형이다. 각 모양에는 배열을 정의하기 위해 서로 다른 정보가 필요합니다.",
@@ -4764,10 +5349,14 @@
         },
         "Form": {
             "doc": "$~나는 @Rectangle 또는 @Circle 과 같은 추상 형식입니다.",
-            "names": ["$~형태"]
+            "names": [
+                "$~형태"
+            ]
         },
         "Rectangle": {
-            "names": ["$~직사각형"],
+            "names": [
+                "$~직사각형"
+            ],
             "doc": "$~나는 @Stage 가 선택한 크기의 경계를 갖도록 만드는 데 유용한 직사각형입니다.",
             "left": {
                 "doc": "$~X축에서 스테이지의 왼쪽 가장자리",
@@ -4792,7 +5381,9 @@
         },
         "Circle": {
             "doc": "$~저는 @Stage 에서 모양을 만드는 데 유용한 원입니다.",
-            "names": ["$~원"],
+            "names": [
+                "$~원"
+            ],
             "radius": {
                 "doc": "$~원의 반경",
                 "names": "$~반지름"
@@ -4812,7 +5403,9 @@
         },
         "Polygon": {
             "doc": "$~나는 @Stage 에서 모양을 만드는 데 유용한 동일한 길이의 변과 각도를 가진 '일반' 다각형입니다.",
-            "names": ["$~다각형"],
+            "names": [
+                "$~다각형"
+            ],
             "radius": {
                 "doc": "$~다각형의 반경",
                 "names": "$~반지름"
@@ -4835,7 +5428,10 @@
             }
         },
         "Pose": {
-            "names": ["$~🤪", "$~포즈"],
+            "names": [
+                "$~🤪",
+                "$~포즈"
+            ],
             "doc": [
                 "$~저는 @Output 이 유지할 @Pose 캡처하고, 그들의 움직임을 구성하는 기본 틀을 만듭니다. 누군가가 정말 멋진 자세를 취하고 잠시 멈추면 모든 사람이 쳐다보는 그런 상황, 다들 아시죠? 그게 바로 저예요.",
                 "$~포즈 하나에는 정말 많은 요소가 담겨 있어요. 제가 제시하는 다양한 팁들을 참고해서 어떤 포즈들을 만들어볼 수 있을지 생각해 보세요!"
@@ -4875,7 +5471,9 @@
             "description": "$~$opacity[투명 $opacity|] $rotation[$rotation 회전|] $scale[크기 조정 $scale|] $flipx[수평으로 뒤집음|] $flipy[수직으로 뒤집음|] $blur[흐린 그림자 $blur]"
         },
         "Color": {
-            "names": ["$~색상"],
+            "names": [
+                "$~색상"
+            ],
             "doc": [
                 "$~나는 눈에 보이는 색깔이며, 세 가지 필수적인 차원으로 이루어져 있습니다.",
                 "$~다음은 색상환에서 중간 밝기와 높은 채도를 가진 몇 가지 일반적인 색상입니다.",
@@ -4898,60 +5496,91 @@
             ],
             "lightness": {
                 "doc": "$~\\0\\에서 \\1\\까지, 검은색에서 \\0\\, 회색에서 \\0.5\\, 흰색에서 \\1\\까지 얼마나 밝아야 할까요?",
-                "names": ["$~가벼움", "$~엘"]
+                "names": [
+                    "$~가벼움",
+                    "$~엘"
+                ]
             },
             "chroma": {
                 "doc": "$~\\0\\부터 까지 얼마나 많은 색상을 가져야 할까요? 색상이 없으면 회색을 의미하고, 숫자가 높을수록 색상이 더 많다는 것을 의미합니다.",
-                "names": ["$~크로마", "$~기음"]
+                "names": [
+                    "$~크로마",
+                    "$~기음"
+                ]
             },
             "hue": {
                 "doc": "$~색상환에서 자홍색 \\0\\, 빨간색 \\30\\, 녹색 \\120\\, 파란색 \\270\\까지 어떤 색이어야 합니까?",
-                "names": ["$~색조", "$~시간"]
+                "names": [
+                    "$~색조",
+                    "$~시간"
+                ]
             },
             "colors": {
                 "black": {
                     "doc": "$~기본 색상은 검정색입니다.",
-                    "names": ["$~검은색"]
+                    "names": [
+                        "$~검은색"
+                    ]
                 },
                 "white": {
                     "doc": "$~기본 색상은 흰색입니다.",
-                    "names": ["$~하얀색"]
+                    "names": [
+                        "$~하얀색"
+                    ]
                 },
                 "gray": {
                     "doc": "$~기본 색상은 회색입니다.",
-                    "names": ["$~회색"]
+                    "names": [
+                        "$~회색"
+                    ]
                 },
                 "red": {
                     "doc": "$~기본 색상은 빨간색입니다.",
-                    "names": ["$~빨간색"]
+                    "names": [
+                        "$~빨간색"
+                    ]
                 },
                 "orange": {
                     "doc": "$~기본 색상은 주황색입니다.",
-                    "names": ["$~주황색"]
+                    "names": [
+                        "$~주황색"
+                    ]
                 },
                 "yellow": {
                     "doc": "$~기본 색상은 노란색입니다.",
-                    "names": ["$~노란색"]
+                    "names": [
+                        "$~노란색"
+                    ]
                 },
                 "green": {
                     "doc": "$~기본 색상은 녹색입니다.",
-                    "names": ["$~녹색"]
+                    "names": [
+                        "$~녹색"
+                    ]
                 },
                 "blue": {
                     "doc": "$~기본 색상은 파란색입니다.",
-                    "names": ["$~파란색"]
+                    "names": [
+                        "$~파란색"
+                    ]
                 },
                 "purple": {
                     "doc": "$~기본 색상은 보라색입니다.",
-                    "names": ["$~보라"]
+                    "names": [
+                        "$~보라"
+                    ]
                 },
                 "brown": {
                     "doc": "$~기본 색상은 갈색입니다.",
-                    "names": ["$~갈색"]
+                    "names": [
+                        "$~갈색"
+                    ]
                 },
                 "pink": {
                     "doc": "$~기본 색상은 핑크입니다.",
-                    "names": ["$~분홍색"]
+                    "names": [
+                        "$~분홍색"
+                    ]
                 }
             },
             "description": {
@@ -5012,7 +5641,10 @@
             }
         },
         "Sequence": {
-            "names": ["$~💃", "$~순서"],
+            "names": [
+                "$~💃",
+                "$~순서"
+            ],
             "doc": [
                 "$~저는 @Output 시간에 따라 일련의 @Pose 통해 애니메이션화합니다! 저랑 같이 춤추실래요? 아주 쉬워요.",
                 "$~각 키가 춤 진행률을 백분율로 나타내고, 각 키의 값이 우리가 취할 @Pose 나타내는 @Map 만 주시면 됩니다.",
@@ -5027,7 +5659,10 @@
             },
             "duration": {
                 "doc": "$~이 춤은 언제까지 춰야 하나요? 반복한다면 시간을 추가하지 않고 더 빠르게 춤을 추겠습니다.",
-                "names": ["$~⏳", "$~지속"]
+                "names": [
+                    "$~⏳",
+                    "$~지속"
+                ]
             },
             "style": {
                 "doc": "$~춤을 출 때 어떤 스타일을 사용해야 할까요?",
@@ -5043,7 +5678,9 @@
             }
         },
         "Place": {
-            "names": ["Posición"],
+            "names": [
+                "Posición"
+            ],
             "doc": "$~저는 @Stage 에 있습니다. 내가 기본적으로 중앙에 있기 때문에 모든 입력은 선택 사항입니다.",
             "x": {
                 "doc": "$~x축의 위치입니다.",
@@ -5059,12 +5696,18 @@
             },
             "rotation": {
                 "doc": "$~이 위치에서 회전",
-                "names": ["$~📐", "$~회전"]
+                "names": [
+                    "$~📐",
+                    "$~회전"
+                ]
             }
         },
         "Velocity": {
             "doc": "$~저는 @Output @Stage 에서 움직이는 속도를 나타냅니다. x축과 y축 방향으로는 초당 미터 단위, 회전 방향으로는 초당 도 단위로 표시됩니다. 입력값은 선택 사항이며, 기본적으로 아무것도 움직이지 않습니다.",
-            "names": ["$~💨", "$~속도"],
+            "names": [
+                "$~💨",
+                "$~속도"
+            ],
             "x": {
                 "doc": "$~x축에서 초당 몇 미터를 이동해야 하는지입니다.",
                 "names": "$~엑스"
@@ -5075,12 +5718,18 @@
             },
             "angle": {
                 "doc": "$~1초마다 회전할 각도는 얼마입니까?",
-                "names": ["$~각도", "$~°"]
+                "names": [
+                    "$~각도",
+                    "$~°"
+                ]
             }
         },
         "Matter": {
             "doc": "$~나는 무대에서 다른 출력과 상호 작용하는 방식에 영향을 미치는 출력의 물리적 특성입니다.",
-            "names": ["$~⚛️", "$~문제"],
+            "names": [
+                "$~⚛️",
+                "$~문제"
+            ],
             "mass": {
                 "doc": "$~무게(킬로그램)",
                 "names": "$~대량의"
@@ -5111,7 +5760,10 @@
                 "$~저는 @Phrase 빛나게 만들어요! 저는 아우라예요. 이렇게요:",
                 "$~\\Phrase(\n\t'I am GLOWING!' \n\taura: Aura(Color(50% 100 118°) 0.1m 0m 0.1m\n)\\"
             ],
-            "names": ["$~🔮", "$~영기"],
+            "names": [
+                "$~🔮",
+                "$~영기"
+            ],
             "color": {
                 "doc": "$~@Aura 는 @Color 여야 합니다.",
                 "names": "$~색상"
@@ -5138,167 +5790,249 @@
         "sequence": {
             "sway": {
                 "doc": "$~@Output 의 중심을 중심으로 앞뒤로 흔들리는 @Sequence 를 만듭니다.",
-                "names": ["vaivén"],
+                "names": [
+                    "vaivén"
+                ],
                 "angle": {
                     "doc": "$~흔들림에서 기울어지는 정도입니다.",
-                    "names": ["ángulo"]
+                    "names": [
+                        "ángulo"
+                    ]
                 }
             },
             "bounce": {
                 "doc": "$~@Output 을 주어진 높이로 반사시키는 @Sequence 를 생성합니다.",
-                "names": ["rebotar"],
+                "names": [
+                    "rebotar"
+                ],
                 "height": {
                     "doc": "$~튕기는 정도.",
-                    "names": ["altura"]
+                    "names": [
+                        "altura"
+                    ]
                 }
             },
             "spin": {
                 "doc": "$~@Output 을 중심으로 회전하는 @Sequence 를 만듭니다.",
-                "names": ["girar"]
+                "names": [
+                    "girar"
+                ]
             },
             "fadein": {
                 "doc": "$~@Output 을 보이지 않는 상태에서 보이는 상태로 페이드 인하는 @Sequence 를 만듭니다.",
-                "names": ["revelar"]
+                "names": [
+                    "revelar"
+                ]
             },
             "fadeout": {
                 "doc": "$~@Output 을 보이는 상태에서 보이지 않는 상태로 페이드하는 @Sequence 를 만듭니다. 종료되는 @Sequence 에서 저를 시험해 보세요!",
-                "names": ["$~사라지다"]
+                "names": [
+                    "$~사라지다"
+                ]
             },
             "popup": {
                 "doc": "$~@Output 을 일반 크기로 축소하는 것보다 빠르게 축소하는 @Sequence 를 만듭니다.",
-                "names": ["surgir"]
+                "names": [
+                    "surgir"
+                ]
             },
             "shake": {
                 "doc": "$~@Output 이 겁나는 것처럼 보이게 만드는 @Sequence 를 만듭니다.",
-                "names": ["agitar"]
+                "names": [
+                    "agitar"
+                ]
             },
             "pulse": {
                 "doc": "$~저는 @Output 서서히 늘렸다가 줄이는 @Sequence 만들어서 관심을 끌려고 합니다.",
-                "names": ["$~맥박"],
+                "names": [
+                    "$~맥박"
+                ],
                 "amount": {
                     "doc": "$~정점에서 얼마나 확장해야 할까요?",
-                    "names": ["$~양"]
+                    "names": [
+                        "$~양"
+                    ]
                 }
             },
             "heartbeat": {
                 "doc": "$~저는 심장 박동처럼 두 번의 빠른 박자로 @Output 값을 확대하는 @Sequence 만듭니다.",
-                "names": ["$~심장박동"],
+                "names": [
+                    "$~심장박동"
+                ],
                 "amount": {
                     "doc": "$~각 박자에 맞춰 얼마나 스케일을 조절할 것인가?",
-                    "names": ["$~양"]
+                    "names": [
+                        "$~양"
+                    ]
                 }
             },
             "tada": {
                 "doc": "$~@Output 크기를 키우고 흔들면서 축하하도록 하는 @Sequence 만듭니다.",
-                "names": ["$~짜잔"],
+                "names": [
+                    "$~짜잔"
+                ],
                 "amount": {
                     "doc": "$~축하 행사 기간 동안 규모를 얼마나 확대해야 할까요?",
-                    "names": ["$~양"]
+                    "names": [
+                        "$~양"
+                    ]
                 }
             },
             "wiggle": {
                 "doc": "$~@Output 좌우로 기울이고 움직이는 @Sequence 생성합니다.",
-                "names": ["$~뒤흔들다"],
+                "names": [
+                    "$~뒤흔들다"
+                ],
                 "angle": {
                     "doc": "$~흔들림을 얼마나 기울여야 할까요?",
-                    "names": ["$~각도"]
+                    "names": [
+                        "$~각도"
+                    ]
                 }
             },
             "flash": {
                 "doc": "$~@Output 깜빡이게 하는 @Sequence 생성합니다.",
-                "names": ["$~플래시"]
+                "names": [
+                    "$~플래시"
+                ]
             },
             "zoomin": {
                 "doc": "$~저는 @Output 0에서 최대 크기까지 확장하는 @Sequence 생성합니다. 새로운 @Sequence 에서 저를 사용해 보세요!",
-                "names": ["$~확대"]
+                "names": [
+                    "$~확대"
+                ]
             },
             "fadeinup": {
                 "doc": "$~@Output 서서히 나타나면서 제자리로 슬라이드되는 @Sequence 만들었습니다. @Sequence 에 넣어 사용해 보세요!",
-                "names": ["$~페이드인업"],
+                "names": [
+                    "$~페이드인업"
+                ],
                 "distance": {
                     "doc": "$~얼마나 미끄러져 내려가야 할까요?",
-                    "names": ["$~거리"]
+                    "names": [
+                        "$~거리"
+                    ]
                 }
             },
             "fadeindown": {
                 "doc": "$~@Output 서서히 나타나면서 제자리에 고정되는 @Sequence 만들었습니다. @Sequence 의 시작 부분에 사용해 보세요!",
-                "names": ["$~페이드인다운"],
+                "names": [
+                    "$~페이드인다운"
+                ],
                 "distance": {
                     "doc": "$~얼마나 미끄러져 내려가야 할까요?",
-                    "names": ["$~거리"]
+                    "names": [
+                        "$~거리"
+                    ]
                 }
             },
             "fadeinleft": {
                 "doc": "$~왼쪽에서부터 서서히 나타나도록 @Output 페이드인하는 @Sequence 만들었습니다. @Sequence 에 넣어서 사용해 보세요!",
-                "names": ["$~fadeinleft"],
+                "names": [
+                    "$~fadeinleft"
+                ],
                 "distance": {
                     "doc": "$~얼마나 미끄러져 내려가야 할까요?",
-                    "names": ["$~거리"]
+                    "names": [
+                        "$~거리"
+                    ]
                 }
             },
             "fadeinright": {
                 "doc": "$~오른쪽에서 서서히 나타나도록 @Output 페이드인하는 @Sequence 만들었습니다. @Sequence 에 넣어서 사용해 보세요!",
-                "names": ["$~페이드인라이트"],
+                "names": [
+                    "$~페이드인라이트"
+                ],
                 "distance": {
                     "doc": "$~얼마나 미끄러져 내려가야 할까요?",
-                    "names": ["$~거리"]
+                    "names": [
+                        "$~거리"
+                    ]
                 }
             },
             "rotatein": {
                 "doc": "$~@Output 서서히 나타나게 하면서 회전시키는 @Sequence 생성합니다. @Sequence 의 시작 부분에서 사용해 보세요!",
-                "names": ["$~회전"],
+                "names": [
+                    "$~회전"
+                ],
                 "angle": {
                     "doc": "$~얼마나 돌려야 할까요?",
-                    "names": ["$~각도"]
+                    "names": [
+                        "$~각도"
+                    ]
                 }
             },
             "zoomout": {
                 "doc": "$~@Output 0으로 줄이는 @Sequence 만들었습니다. 기존 @Sequence 에서 저를 사용해 보세요!",
-                "names": ["$~축소"]
+                "names": [
+                    "$~축소"
+                ]
             },
             "fadeoutup": {
                 "doc": "$~@Output 을 위로 슬라이드하면서 서서히 사라지게 하는 @Sequence 만들었습니다. 기존 @Sequence 에서 저를 사용해 보세요!",
-                "names": ["$~페이드아웃"],
+                "names": [
+                    "$~페이드아웃"
+                ],
                 "distance": {
                     "doc": "$~얼마나 미끄러져 내려가야 할까요?",
-                    "names": ["$~거리"]
+                    "names": [
+                        "$~거리"
+                    ]
                 }
             },
             "fadeoutdown": {
                 "doc": "$~@Output 아래로 슬라이드하면서 서서히 사라지게 하는 @Sequence 만들었습니다. 기존 @Sequence 에서 사용해 보세요!",
-                "names": ["$~페이드아웃다운"],
+                "names": [
+                    "$~페이드아웃다운"
+                ],
                 "distance": {
                     "doc": "$~얼마나 미끄러져 내려가야 할까요?",
-                    "names": ["$~거리"]
+                    "names": [
+                        "$~거리"
+                    ]
                 }
             },
             "fadeoutleft": {
                 "doc": "$~왼쪽으로 슬라이드하면서 @Output 서서히 사라지는 @Sequence 만들었습니다. 기존 @Sequence 에서 사용해 보세요!",
-                "names": ["$~fadeoutleft"],
+                "names": [
+                    "$~fadeoutleft"
+                ],
                 "distance": {
                     "doc": "$~얼마나 미끄러져 내려가야 할까요?",
-                    "names": ["$~거리"]
+                    "names": [
+                        "$~거리"
+                    ]
                 }
             },
             "fadeoutright": {
                 "doc": "$~오른쪽으로 슬라이드하면서 @Output 서서히 사라지는 @Sequence 만들었습니다. 기존 @Sequence 에서 저를 사용해 보세요!",
-                "names": ["$~페이드아웃라이트"],
+                "names": [
+                    "$~페이드아웃라이트"
+                ],
                 "distance": {
                     "doc": "$~얼마나 미끄러져 내려가야 할까요?",
-                    "names": ["$~거리"]
+                    "names": [
+                        "$~거리"
+                    ]
                 }
             },
             "rotateout": {
                 "doc": "$~@Output 서서히 사라지게 하면서 회전시키는 @Sequence 만들었습니다. 흥미로운 @Sequence 에서 저를 사용해 보세요!",
-                "names": ["$~회전"],
+                "names": [
+                    "$~회전"
+                ],
                 "angle": {
                     "doc": "$~얼마나 돌려야 할까요?",
-                    "names": ["$~각도"]
+                    "names": [
+                        "$~각도"
+                    ]
                 }
             },
             "rainbow": {
                 "doc": "$~저는 @Output 에 무지개 색깔을 순환적으로 출력하는 @Sequence 만듭니다.",
-                "names": ["$~무지개"]
+                "names": [
+                    "$~무지개"
+                ]
             }
         },
         "Source": {
@@ -5342,7 +6076,10 @@
                 "$~@TextLiteral 에 @Language 가 있으면 해당 언어를 사용하고, 없으면 선택된 언어를 사용합니다.",
                 "$~설정에서 음성을 선택할 수 있습니다."
             ],
-            "names": ["$~🔊", "$~말하다"],
+            "names": [
+                "$~🔊",
+                "$~말하다"
+            ],
             "text": {
                 "doc": "$~내가 소리 내어 읽어야 할 텍스트입니다.",
                 "names": "$~텍스트"
@@ -5351,47 +6088,70 @@
         },
         "Gesture": {
             "doc": "$~저는 카메라가 감지한 손 포즈의 스냅샷이며, @Hand 스트림을 통해 전송됩니다. 제 위치(place)는 무대 위 손의 위치를 나타내고, 손가락(fingers)은 몇 개의 손가락이 펴져 있는지를 보여줍니다. open은 손이 완전히 펴진 상태(3개 이상의 손가락이 펴진 상태)일 때 true이고, thumb, sword, middle, racky, punky는 각각 어떤 손가락이 펴져 있는지를 나타냅니다. palm은 손바닥이 카메라를 향하고 있을 때 true이고, 손등이 향하고 있을 때는 false입니다.",
-            "names": ["$~✋", "$~몸짓"],
+            "names": [
+                "$~✋",
+                "$~몸짓"
+            ],
             "place": {
                 "doc": "$~손이 무대 위에 있는 곳.",
-                "names": ["$~장소"]
+                "names": [
+                    "$~장소"
+                ]
             },
             "open": {
                 "doc": "$~손이 펴진 상태(손가락 3개 이상)이면 @True, 주먹을 쥔 상태이면 @True.",
-                "names": ["$~열려있는"]
+                "names": [
+                    "$~열려있는"
+                ]
             },
             "fingers": {
                 "doc": "$~손가락을 몇 개 펼쳤는지 (0개: 주먹, 5개: 엄지손가락을 포함한 모든 손가락),",
-                "names": ["$~손가락"]
+                "names": [
+                    "$~손가락"
+                ]
             },
             "thumb": {
                 "doc": "$~엄지손가락이 펴져 있으면 @True.",
-                "names": ["$~무지"]
+                "names": [
+                    "$~무지"
+                ]
             },
             "index": {
                 "doc": "$~@True 검지손가락이 펴져 있으면 참입니다.",
-                "names": ["$~색인"]
+                "names": [
+                    "$~색인"
+                ]
             },
             "middle": {
                 "doc": "$~가운데 손가락을 뻗으면 @True.",
-                "names": ["$~가운데"]
+                "names": [
+                    "$~가운데"
+                ]
             },
             "ring": {
                 "doc": "$~약지를 펴면 @True.",
-                "names": ["$~반지"]
+                "names": [
+                    "$~반지"
+                ]
             },
             "pinky": {
                 "doc": "$~새끼손가락을 펴면 @True.",
-                "names": ["$~핑키"]
+                "names": [
+                    "$~핑키"
+                ]
             },
             "palm": {
                 "doc": "$~손바닥이 카메라를 향하면 @True, 손등이 카메라를 향하면 @True.",
-                "names": ["$~손바닥안에감추다"]
+                "names": [
+                    "$~손바닥안에감추다"
+                ]
             }
         },
         "Result": {
             "doc": "$~\\⌕\\ 기호를 사용한 패턴 검색에서 일치하는 항목이 하나 있습니다. 일치하는 텍스트, 위치 및 캡처된 내용이 표시됩니다.",
-            "names": ["$~결과"],
+            "names": [
+                "$~결과"
+            ],
             "text": {
                 "doc": "$~일치하는 전체 텍스트.",
                 "names": "$~텍스트"
@@ -5512,7 +6272,7 @@
                     "tip": "$~프로젝트를 텍스트로 클립보드에 복사",
                     "label": "$~텍스트로 복사"
                 },
-                "addSource": "$~새로운 $source 생성",
+                "addSource": "$~새로운 @Source 생성",
                 "duplicate": {
                     "tip": "$~이 프로젝트를 복제하세요",
                     "label": "$~복제하다"
@@ -5660,7 +6420,7 @@
             ],
             "confirm": {
                 "delete": {
-                    "description": "$~이 $source 삭제",
+                    "description": "$~이 @Source 삭제",
                     "prompt": "$~삭제"
                 }
             },
@@ -6017,10 +6777,15 @@
             "mode": {
                 "browse": {
                     "label": "$~먹다",
-                    "labels": ["$~암호", "$~방법"],
+                    "labels": [
+                        "$~암호",
+                        "$~방법",
+                        "$?"
+                    ],
                     "tips": [
                         "$~프로그래밍 언어 개념",
-                        "$~프로젝트 제작을 위한 재사용 가능한 패턴"
+                        "$~프로젝트 제작을 위한 재사용 가능한 패턴",
+                        "$?"
                     ]
                 },
                 "purpose": {
@@ -6062,7 +6827,10 @@
                 },
                 "howToFilter": {
                     "label": "$~사용자가 만든 사용법",
-                    "labels": ["$~모두", "$~갤러리 및 북마크"],
+                    "labels": [
+                        "$~모두",
+                        "$~갤러리 및 북마크"
+                    ],
                     "tips": [
                         "$~사용자가 작성한 모든 사용법을 확인하세요",
                         "$~이 프로젝트 갤러리에서 사용자가 만든 사용법 가이드와 모든 북마크만 볼 수 있습니다."
@@ -6160,7 +6928,13 @@
                 "label": "$~탐색 기록",
                 "home": "$~집"
             },
-            "tutorial": "$~지도 시간"
+            "tutorial": "$~지도 시간",
+            "glossary": {
+                "explain": {
+                    "header": "$?",
+                    "explanation": "$?"
+                }
+            }
         },
         "dialog": {
             "share": {
@@ -6201,7 +6975,10 @@
                 "mode": {
                     "public": {
                         "label": "$~시계",
-                        "labels": ["$~사적인", "$~공공의"],
+                        "labels": [
+                            "$~사적인",
+                            "$~공공의"
+                        ],
                         "tips": [
                             "$~이 프로젝트는 당신과 공동 작업자만 볼 수 있습니다.",
                             "$~누구나 이 프로젝트를 볼 수 있습니다."
@@ -6209,7 +6986,10 @@
                     },
                     "preview": {
                         "label": "$~미리보기 모드",
-                        "labels": ["$~자동", "$~관습"],
+                        "labels": [
+                            "$~자동",
+                            "$~관습"
+                        ],
                         "tips": [
                             "$~프로젝트가 표시되는 내용을 기반으로 자체적으로 미리보기 글리프를 선택하도록 합니다.",
                             "$~원하는 기호를 고정하세요"
@@ -6286,7 +7066,11 @@
                     },
                     "dark": {
                         "label": "$~주제",
-                        "labels": ["$~빛", "$~어두운", "$~자동"],
+                        "labels": [
+                            "$~빛",
+                            "$~어두운",
+                            "$~자동"
+                        ],
                         "tips": [
                             "$~더 밝은 색상",
                             "$~더 어두운 색상",
@@ -6295,7 +7079,10 @@
                     },
                     "space": {
                         "label": "$~공간 표시기",
-                        "labels": ["$~숨다", "$~보여주다"],
+                        "labels": [
+                            "$~숨다",
+                            "$~보여주다"
+                        ],
                         "tips": [
                             "$~공백 및 탭 표시기를 표시하지 마십시오",
                             "$~공백 및 탭 표시기를 명시적으로 표시합니다."
@@ -6318,7 +7105,10 @@
                     },
                     "lines": {
                         "label": "$~줄 번호",
-                        "labels": ["$~숨다", "$~보여주다"],
+                        "labels": [
+                            "$~숨다",
+                            "$~보여주다"
+                        ],
                         "tips": [
                             "$~텍스트 모드에서 줄 번호를 표시하지 마세요",
                             "$~텍스트 모드에서 줄 번호를 표시합니다."
@@ -6326,7 +7116,10 @@
                     },
                     "blocks": {
                         "label": "$~편집 모드",
-                        "labels": ["$~텍스트", "$~블록"],
+                        "labels": [
+                            "$~텍스트",
+                            "$~블록"
+                        ],
                         "tips": [
                             "$~코드를 텍스트로 편집",
                             "$~코드를 블록 단위로 편집하세요"
@@ -6334,7 +7127,11 @@
                     },
                     "blockDensity": {
                         "label": "$~블록 간격",
-                        "labels": ["$~콤팩트", "$~정상", "$~넓은"],
+                        "labels": [
+                            "$~콤팩트",
+                            "$~정상",
+                            "$~넓은"
+                        ],
                         "tips": [
                             "$~화면에 더 많은 코드를 표시하기 위해 블록 크기를 더 촘촘하게 조정했습니다.",
                             "$~기본 블록 간격",
@@ -6343,7 +7140,10 @@
                     },
                     "tab": {
                         "label": "$~탭 키",
-                        "labels": ["$~초점을 전환하세요", "$~삽입 탭"],
+                        "labels": [
+                            "$~초점을 전환하세요",
+                            "$~삽입 탭"
+                        ],
                         "tips": [
                             "$~Tab 키를 누르면 키보드 포커스가 다음 컨트롤로 이동합니다.",
                             "$~tab은 편집기에 탭을 삽입합니다."
@@ -6351,7 +7151,10 @@
                     },
                     "wrap": {
                         "label": "$~랩 라인",
-                        "labels": ["$~끄다", "$~~에"],
+                        "labels": [
+                            "$~끄다",
+                            "$~~에"
+                        ],
                         "tips": [
                             "$~텍스트 모드에서 긴 줄은 가로로 스크롤됩니다.",
                             "$~텍스트 모드에서 긴 줄은 편집기 창으로 줄 바꿈됩니다."
@@ -6359,7 +7162,10 @@
                     },
                     "words": {
                         "label": "$~키워드",
-                        "labels": ["$~기호", "$~단어"],
+                        "labels": [
+                            "$~기호",
+                            "$~단어"
+                        ],
                         "tips": [
                             "$~내장 키워드를 기호로 표시합니다.",
                             "$~내장 키워드를 사용자의 언어로 단어로 표시합니다."
@@ -6437,7 +7243,10 @@
                 },
                 "mode": {
                     "label": "$~피드백",
-                    "labels": ["$~결함", "$~아이디어"],
+                    "labels": [
+                        "$~결함",
+                        "$~아이디어"
+                    ],
                     "tips": [
                         "$~뭔가 잘못된 것 같으면 신고하세요",
                         "$~새로운 기능이나 개선 사항을 제안해 주세요."
@@ -6486,7 +7295,10 @@
                 "open": "$~알림 대화 상자 열기",
                 "howToNotifications": {
                     "label": "$~새로운 사용법에 대한 알림",
-                    "labels": ["$~끄다", "$~~에"],
+                    "labels": [
+                        "$~끄다",
+                        "$~~에"
+                    ],
                     "tips": [
                         "$~새로운 사용법에 대한 알림을 받지 마세요.",
                         "$~새로운 사용법이 있으면 알려주세요"
@@ -6689,7 +7501,10 @@
                 },
                 "mode": {
                     "label": "$~지도 시간",
-                    "labels": ["$~빠른", "$~완벽한"],
+                    "labels": [
+                        "$~빠른",
+                        "$~완벽한"
+                    ],
                     "tips": [
                         "$~다른 프로그래밍 언어를 아는 크리에이터를 위한 간단한 투어",
                         "$~프로그래밍을 처음 접하는 제작자들을 위한 완벽하고 극적인 소개"
@@ -7116,7 +7931,11 @@
                     },
                     "fill": {
                         "label": "$~채우다",
-                        "labels": ["$~없음", "$~이네릿", "$~선택하다"],
+                        "labels": [
+                            "$~없음",
+                            "$~이네릿",
+                            "$~선택하다"
+                        ],
                         "tips": [
                             "$~채우지 않음",
                             "$~주변 텍스트의 채우기 색상을 상속합니다.",
@@ -7125,7 +7944,11 @@
                     },
                     "stroke": {
                         "label": "$~뇌졸중",
-                        "labels": ["$~없음", "$~이네릿", "$~선택하다"],
+                        "labels": [
+                            "$~없음",
+                            "$~이네릿",
+                            "$~선택하다"
+                        ],
                         "tips": [
                             "$~뇌졸중 없음",
                             "$~주변 텍스트에서 획 색상을 상속합니다.",
@@ -7264,7 +8087,10 @@
                     },
                     "public": {
                         "label": "$~시계",
-                        "labels": ["$~공공의", "$~사적인"],
+                        "labels": [
+                            "$~공공의",
+                            "$~사적인"
+                        ],
                         "tips": [
                             "$~누구나 이 캐릭터를 볼 수 있습니다.",
                             "$~이 캐릭터는 당신과 공동 작업자만 볼 수 있습니다."
@@ -7366,7 +8192,10 @@
                 "nextEntry": "$~다음 문자열을 편집하세요",
                 "qualityMode": {
                     "label": "$~보여주다",
-                    "labels": ["$~모두", "$~기계 번역되었거나 기록되지 않은"],
+                    "labels": [
+                        "$~모두",
+                        "$~기계 번역되었거나 기록되지 않은"
+                    ],
                     "tips": [
                         "$~모든 문자열을 표시합니다",
                         "$~기계 번역된 문자열 또는 작성되지 않은 문자열만 표시합니다."
@@ -7415,7 +8244,11 @@
                 },
                 "singletonWordsWarning": "$~작성하신 초안에 단어가 한 번밖에 나오지 않는 경우가 있습니다. 철자가 정확한지, 다른 텍스트와 일관성이 있는지 확인해 보셨나요?",
                 "viewPR": "$~풀 리퀘스트 보기",
-                "oneLocaleNote": "$~각 제출물은 한 번에 하나의 언어만 다룹니다. 이 제출물은 $locale 에 대한 수정 사항으로 제출됩니다. 다른 언어에 기여하려면 먼저 언어를 변경하세요. 각 언어별로 저장한 수정 사항은 별도로 보관됩니다."
+                "oneLocaleNote": "$~각 제출물은 한 번에 하나의 언어만 다룹니다. 이 제출물은 $locale 에 대한 수정 사항으로 제출됩니다. 다른 언어에 기여하려면 먼저 언어를 변경하세요. 각 언어별로 저장한 수정 사항은 별도로 보관됩니다.",
+                "literalTermsWarning": "$?",
+                "checkReadingLevel": "$?",
+                "readingLevelComplex": "$?",
+                "readingLevelOk": "$?"
             },
             "breadcrumb": {
                 "label": "$~빵가루",
@@ -7505,7 +8338,10 @@
                 "explanation": "$~프로젝트가 갤러리에 등록되었습니다. 기본적으로 이 갤러리를 볼 수 있는 모든 사용자가 이 프로젝트도 볼 수 있습니다. 프로젝트 공개 범위를 본인과 갤러리 큐레이터로 제한할 수 있습니다.",
                 "mode": {
                     "label": "$~프로젝트 접근 제한",
-                    "labels": ["$~제한하지 마세요", "$~얽매다"],
+                    "labels": [
+                        "$~제한하지 마세요",
+                        "$~얽매다"
+                    ],
                     "tips": [
                         "$~이 갤러리를 볼 수 있는 사람은 누구나 당신의 프로젝트를 볼 수 있습니다.",
                         "$~갤러리 큐레이터만 당신의 프로젝트를 볼 수 있습니다."
@@ -7592,7 +8428,10 @@
                 },
                 "notification": {
                     "label": "$~구독자에게 알림",
-                    "labels": ["$~알리다", "$~알리지 마세요"],
+                    "labels": [
+                        "$~알리다",
+                        "$~알리지 마세요"
+                    ],
                     "tips": [
                         "$~이 사용법 게시물을 올리면 구독자에게 알림을 보내세요",
                         "$~이 사용법 게시물을 올릴 때 구독자에게 알림을 보내지 마세요."
@@ -7625,7 +8464,10 @@
                 },
                 "accessMode": {
                     "label": "$~이 사용법을 볼 수 있는 사람을 제한하세요",
-                    "labels": ["$~제한된", "$~퍼지는"],
+                    "labels": [
+                        "$~제한된",
+                        "$~퍼지는"
+                    ],
                     "tips": [
                         "$~이 갤러리에 등록된 크리에이터만 볼 수 있습니다.",
                         "$~갤러리의 창작자와 큐레이터, 그리고 큐레이터가 큐레이팅한 내용을 볼 수 있습니다."
@@ -7635,7 +8477,10 @@
                 "publicExplanation": "$~링크를 가진 사람이라면 누구나 사용 방법을 볼 수 있도록 하려면 사용 방법을 공개로 설정하면 됩니다.",
                 "publicMode": {
                     "label": "$~이 사용법을 공개하세요",
-                    "labels": ["$~사적인", "$~공공의"],
+                    "labels": [
+                        "$~사적인",
+                        "$~공공의"
+                    ],
                     "tips": [
                         "$~이 사용법에 직접 접근 권한이 있는 워드플레이어만 볼 수 있습니다.",
                         "$~링크만 있으면 누구나 이 사용법을 볼 수 있습니다."
@@ -7698,7 +8543,10 @@
                     },
                     "mode": {
                         "label": "$~기본 표시",
-                        "labels": ["$~제한된", "$~퍼지는"],
+                        "labels": [
+                            "$~제한된",
+                            "$~퍼지는"
+                        ],
                         "tips": [
                             "$~이 갤러리의 협력자만 볼 수 있습니다.",
                             "$~어떤 갤러리든 어떤 큐레이터든 협력자들이 볼 수 있습니다."

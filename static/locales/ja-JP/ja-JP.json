@@ -1,58 +1,175 @@
 {
     "$schema": "../../schemas/LocaleText.json",
     "language": "ja",
-    "regions": ["JP"],
+    "regions": [
+        "JP"
+    ],
     "wordplay": "$~言葉遊び",
-    "term": {
-        "bind": "$~バインド",
-        "evaluate": "$~評価する",
-        "decide": "$~決める",
-        "project": "$~プロジェクト",
-        "document": "$~説明する",
-        "source": "$~ソース",
-        "input": "$~入力",
-        "output": "$~出力",
-        "convert": "$~変換する",
-        "act": "$~活動",
-        "scene": "$~シーン",
-        "phrase": "$~フレーズ",
-        "group": "$~グループ",
-        "stage": "$~ステージ",
-        "type": "$~タイプ",
-        "start": "$~始める",
-        "entered": "$~新しい",
-        "changed": "$~変更された",
-        "moved": "$~移動した",
-        "name": "$~名前",
-        "value": "$~価値",
-        "text": "$~文章",
-        "boolean": "$~ブール値",
-        "map": "$~地図",
-        "number": "$~番号",
-        "function": "$~関数",
-        "exception": "$~例外",
-        "table": "$~テーブル",
-        "none": "$~なし",
-        "list": "$~リスト",
-        "stream": "$~ストリーム",
-        "structure": "$~構造",
-        "index": "$~索引",
-        "query": "$~クエリ",
-        "row": "$~行",
-        "set": "$~セット",
-        "key": "$~鍵",
-        "help": "$~ヘルプ",
-        "feedback": "$~フィードバック",
-        "how": "$~方法",
-        "code": "$~コード",
-        "unit": "$~ユニット",
-        "markup": "$~マークアップ",
-        "column": "$~カラム",
-        "cell": "$~細胞",
-        "documentation": "$~ドキュメント",
-        "language": "$~言語",
-        "region": "$~地域",
-        "pattern": "$~パターン"
+    "glossary": {
+        "value": {
+            "word": "$~価値",
+            "definition": "$?A piece of information, like a number, some words, or a list."
+        },
+        "type": {
+            "word": "$~タイプ",
+            "definition": "$?The kind of a value, such as number or text. A value's type decides what you can do with it."
+        },
+        "expression": {
+            "word": "$?expression",
+            "definition": "$?A piece of code that produces a value when it runs."
+        },
+        "variable": {
+            "word": "$?variable",
+            "definition": "$?A name whose value can change while a program runs."
+        },
+        "parameter": {
+            "word": "$?parameter",
+            "definition": "$?A named input that a function expects when you call it."
+        },
+        "argument": {
+            "word": "$?argument",
+            "definition": "$?A value you give to a function for one of its parameters."
+        },
+        "operator": {
+            "word": "$?operator",
+            "definition": "$?A symbol, such as + or -, that combines or compares values."
+        },
+        "condition": {
+            "word": "$?condition",
+            "definition": "$?A true-or-false test that decides what a program does next."
+        },
+        "loop": {
+            "word": "$?loop",
+            "definition": "$?Code that repeats an action many times."
+        },
+        "iteration": {
+            "word": "$?iteration",
+            "definition": "$?One pass through a loop."
+        },
+        "recursion": {
+            "word": "$?recursion",
+            "definition": "$?When a function calls itself to handle a smaller part of a problem."
+        },
+        "property": {
+            "word": "$?property",
+            "definition": "$?A named part of a value, such as a color's brightness."
+        },
+        "element": {
+            "word": "$?element",
+            "definition": "$?One item in a list or group."
+        },
+        "scope": {
+            "word": "$?scope",
+            "definition": "$?The part of a program where a name can be used."
+        },
+        "state": {
+            "word": "$?state",
+            "definition": "$?Information a program keeps and can change over time."
+        },
+        "sideEffect": {
+            "word": "$?side effect",
+            "definition": "$?A change a program makes besides giving back a value, such as showing output."
+        },
+        "abstraction": {
+            "word": "$?abstraction",
+            "definition": "$?Hiding details so you can use something without knowing how it works inside."
+        },
+        "project": {
+            "word": "$~プロジェクト",
+            "definition": "$?All the files that make up one Wordplay program."
+        },
+        "code": {
+            "word": "$~コード",
+            "definition": "$?The text you write to tell a program what to do."
+        },
+        "act": {
+            "word": "$~活動",
+            "definition": "$?A large part of the tutorial, like an act in a play."
+        },
+        "how": {
+            "word": "$~方法",
+            "definition": "$?A short guide that shows how to do one thing."
+        },
+        "gallery": {
+            "word": "$?gallery",
+            "definition": "$?A place where people share and explore projects."
+        },
+        "blocks": {
+            "word": "$?blocks",
+            "definition": "$?A way to edit code by dragging pieces instead of typing."
+        },
+        "placeholder": {
+            "word": "$?placeholder",
+            "definition": "$?An empty spot that shows where code or a value is missing."
+        },
+        "conflict": {
+            "word": "$?conflict",
+            "definition": "$?A problem in code that Wordplay marks so you can fix it."
+        },
+        "checkpoint": {
+            "word": "$?checkpoint",
+            "definition": "$?A saved point in your work that you can return to."
+        },
+        "guide": {
+            "word": "$?guide",
+            "definition": "$?The searchable reference that explains Wordplay's ideas."
+        },
+        "tutorial": {
+            "word": "$?tutorial",
+            "definition": "$?The step-by-step lessons that teach Wordplay."
+        },
+        "name": {
+            "word": "$~名前",
+            "definition": "$?A word that refers to a value or a function."
+        },
+        "markup": {
+            "word": "$~マークアップ",
+            "definition": "$?Text with formatting, such as bold words or links."
+        },
+        "language": {
+            "word": "$~言語",
+            "definition": "$?A human language that a name or text is written in."
+        },
+        "documentation": {
+            "word": "$~ドキュメント",
+            "definition": "$?Text that explains what code does."
+        },
+        "region": {
+            "word": "$~地域",
+            "definition": "$?A place where a language is used, which can change how numbers and dates look."
+        },
+        "start": {
+            "word": "$~始める",
+            "definition": "$?The main source file where a project begins."
+        },
+        "query": {
+            "word": "$~クエリ",
+            "definition": "$?A way to choose rows from a table."
+        },
+        "key": {
+            "word": "$~鍵",
+            "definition": "$?The value used to find an item in a map."
+        },
+        "index": {
+            "word": "$~索引",
+            "definition": "$?A number that picks an item by its position in a list."
+        },
+        "moved": {
+            "word": "$~移動した",
+            "definition": "$?Output that changed position on stage."
+        },
+        "entered": {
+            "word": "$~新しい",
+            "definition": "$?Output that appeared on stage for the first time."
+        },
+        "cell": {
+            "word": "$~細胞",
+            "definition": "$?One value in a table row."
+        },
+        "column": {
+            "word": "$~カラム",
+            "definition": "$?A named field in a table."
+        }
     },
     "token": {
         "EvalOpen": "$~評価オープン",
@@ -450,7 +567,7 @@
             "description": "$~マークアップで$name",
             "emotion": "serious",
             "doc": [
-                "$~私は用語 \\$program\\ または動的入力 \\$name\\ のいずれかを参照しています。",
+                "$~私は用語 \\$program\\ または動的入力 \\@name\\ のいずれかを参照しています。",
                 "$~ただし、これは主に内部機能なので、知っておく必要はありません。"
             ]
         },
@@ -644,12 +761,12 @@
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~不明な借用",
-                    "explanation": "$~この名前の$sourceは知りません",
+                    "explanation": "$~この名前の@Sourceは知りません",
                     "resolution": "$~この借用を削除する"
                 },
                 "BorrowCycle": {
                     "name": "$~自己参照借用",
-                    "explanation": "$~これは$borrowに依存し、$borrow はこの$sourceに依存しているため、プログラムを評価できません。",
+                    "explanation": "$~これは$borrowに依存し、$borrow はこの@Sourceに依存しているため、プログラムを評価できません。",
                     "resolution": "$~この借り入れを解いて、悪循環を断ち切りましょう"
                 }
             },
@@ -792,7 +909,9 @@
                 "$~私はどんな表現でも、@Doc を使って表現します。",
                 "$~これを作成するには、式の前に @Doc を置くだけで、次のようになります。",
                 "$~\\doubleplus: 1\n(2 × doubleplus) + \n¶もう少し大きくしてみましょう¶\n1\\",
-                "$~プログラムの一部にコメントを付けるのに役立ちます。"
+                "$~プログラムの一部にコメントを付けるのに役立ちます。",
+                "$~If you put 👀 in the @Doc, I can also highlight the expression:",
+                "$~\\¶Look at me! 👀¶1+1\\"
             ],
             "start": "$~式を評価してみましょう"
         },
@@ -864,7 +983,7 @@
                 },
                 "SeparatedEvaluate": {
                     "name": "$~曖昧な評価",
-                    "explanation": "$~$name は評価しようとしている $structure[$structure|$function] の名前ですか？ 後ろのスペースを削除してみてください。そうすれば、別の @Block ではなく @Evaluate であることがわかります。",
+                    "explanation": "$~$name は評価しようとしている $structure[$structure|@FunctionDefinition] の名前ですか？ 後ろのスペースを削除してみてください。そうすれば、別の @Block ではなく @Evaluate であることがわかります。",
                     "resolution": "$~* $name * とその入力値の間のスペースを閉じます"
                 }
             },
@@ -2242,7 +2361,10 @@
                 "$~キーボードを使用する人もいます (\\⊤\\ の場合は /ctrl+9/、\\⊥\\ の場合は /ctrl+0/)。 エディターの下部にある文字検索を使用する人もいます。 または、ここからドラッグすることもできます。",
                 "$~以下の @FunctionDefinition をご覧ください。非常に論理的です。"
             ],
-            "name": ["$~⊤⊥", "$~ブール"],
+            "name": [
+                "$~⊤⊥",
+                "$~ブール"
+            ],
             "function": {
                 "and": {
                     "doc": [
@@ -2252,7 +2374,10 @@
                         "$~\\⊥ & ⊤\\",
                         "$~\\⊥ & ⊥\\"
                     ],
-                    "names": ["$~＆", "$~そして"],
+                    "names": [
+                        "$~＆",
+                        "$~そして"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~チェックする他の @Boolean。最初の @Boolean が \\⊥\\ の場合、これが何であっても、関数は \\⊥\\ と評価されます。",
@@ -2268,7 +2393,10 @@
                         "$~\\⊥ | ⊤\\",
                         "$~\\⊥ | ⊥\\"
                     ],
-                    "names": ["$~|", "$~または"],
+                    "names": [
+                        "$~|",
+                        "$~または"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~チェックする他の @Boolean。最初の @Boolean が \\⊥\\ の場合、関数はこれが \\⊤\\ の場合にのみ \\⊤\\ と評価されます。",
@@ -2278,12 +2406,18 @@
                 },
                 "not": {
                     "doc": "$~私は自分の反対を得ます: \\⊤\\ の場合は \\⊥\\ を返し、\\⊥\\ の場合は \\⊤\\ を返します。",
-                    "names": ["$~〜", "$~ない"],
+                    "names": [
+                        "$~〜",
+                        "$~ない"
+                    ],
                     "inputs": []
                 },
                 "equals": {
                     "doc": "$~両方が \\⊤\\ であるか、両方が \\⊥\\ である場合は \\⊤\\ です。",
-                    "names": ["$~=", "$~等しい"],
+                    "names": [
+                        "$~=",
+                        "$~等しい"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~チェックする他の値。",
@@ -2293,7 +2427,10 @@
                 },
                 "notequal": {
                     "doc": "$~両方が反対の場合は\\⊤\\。",
-                    "names": ["$~≠", "$~ノーイコール"],
+                    "names": [
+                        "$~≠",
+                        "$~ノーイコール"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~チェックする他の値。",
@@ -2311,11 +2448,17 @@
                 "$~私は値の欠如を表し、 \\ø\\と表記します。",
                 "$~私は@None。 \\ø\\で私を呼び出してください。"
             ],
-            "name": ["$~ø", "$~なし"],
+            "name": [
+                "$~ø",
+                "$~なし"
+            ],
             "function": {
                 "equals": {
                     "doc": "$~別の値も何もないのでしょうか? そうでなければ、\\⊥\\ であるほうがよいでしょう。",
-                    "names": ["$~=", "$~等しい"],
+                    "names": [
+                        "$~=",
+                        "$~等しい"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~もう一つの価値。",
@@ -2325,7 +2468,10 @@
                 },
                 "notequals": {
                     "doc": "$~別の値は何もないのでしょうか?",
-                    "names": ["$~≠", "$~ノーイコール"],
+                    "names": [
+                        "$~≠",
+                        "$~ノーイコール"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~もう一つの価値。",
@@ -2355,7 +2501,10 @@
                 "$~192 が @FunctionDefinition に変わったのがわかりますか? これらの数字を「Unicode」と呼ぶそうです。",
                 "$~それ以外にも、@FunctionDefinition には、言葉を使ってさまざまなことを実行するための素晴らしい関数がたくさんあります。"
             ],
-            "name": ["$~''", "$~文章"],
+            "name": [
+                "$~''",
+                "$~文章"
+            ],
             "function": {
                 "length": {
                     "doc": [
@@ -2363,12 +2512,18 @@
                         "$~\\'hello'.length()\\",
                         "$~\\'🐈📚'.length()\\"
                     ],
-                    "names": ["$~📏", "$~長さ"],
+                    "names": [
+                        "$~📏",
+                        "$~長さ"
+                    ],
                     "inputs": []
                 },
                 "equals": {
                     "doc": "$~\\⊤\\ は、指定された @Text と同じ文字シーケンスである場合です。",
-                    "names": ["$~=", "$~等しい"],
+                    "names": [
+                        "$~=",
+                        "$~等しい"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~比較する@Text。",
@@ -2391,7 +2546,10 @@
                         "$~\\⊤\\ 指定された @Text が me に現れるかどうか。",
                         "$~\\'探していたものは見つかりましたか?'.has('you')\\"
                     ],
-                    "names": ["$~⊆", "$~もっている"],
+                    "names": [
+                        "$~⊆",
+                        "$~もっている"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~私の中で検索する@Text。",
@@ -2405,7 +2563,9 @@
                         "$~\\'hello verse!'.starts('hello')\\",
                         "$~\\'hello verse!'.starts('verse')\\"
                     ],
-                    "names": ["$~始まる"],
+                    "names": [
+                        "$~始まる"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~私の開始時にチェックする@Text。",
@@ -2419,7 +2579,9 @@
                         "$~\\'私は質問ですか?'.ends('?')\\",
                         "$~\\'私は質問ではありません。'.ends('?')\\"
                     ],
-                    "names": ["$~終了"],
+                    "names": [
+                        "$~終了"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~私の末尾でチェックする@Text。",
@@ -2437,7 +2599,12 @@
                         "$~\\'こんにちは' × -5\\",
                         "$~私が作成できる最長のテキストは 65,535 文字です。これより長いテキストを作成しようとすると、テキストを何度でも繰り返します。"
                     ],
-                    "names": ["$~×", "$~🔁", "$~繰り返し", "$~繰り返す"],
+                    "names": [
+                        "$~×",
+                        "$~🔁",
+                        "$~繰り返し",
+                        "$~繰り返す"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~新しいテキストで自分自身を繰り返す回数。",
@@ -2452,7 +2619,11 @@
                         "$~セパレータが空の@Text、文字に分割します。",
                         "$~\\'🖌️🏠🥸' ÷ ''\\"
                     ],
-                    "names": ["$~÷", "$~セグメント化された", "$~セグメント"],
+                    "names": [
+                        "$~÷",
+                        "$~セグメント化された",
+                        "$~セグメント"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~区切り文字として使用する@Text。",
@@ -2465,7 +2636,11 @@
                         "$~複数の @Text を 1 つに結合すると便利な場合があります。別の @Text を指定すると、それらを結合した新しいテキストが作成されます。",
                         "$~\\'hello' + 'verse'\\"
                     ],
-                    "names": ["$~+", "$~組み合わせた", "$~組み合わせる"],
+                    "names": [
+                        "$~+",
+                        "$~組み合わせた",
+                        "$~組み合わせる"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~追加する@Text。",
@@ -2478,7 +2653,10 @@
                         "$~\\⊤\\テキスト全体が指定されたパターンに一致する場合。",
                         "$~\\'555-1234' ≈ ⣿3 # \"-\" 4 #⣿\\"
                     ],
-                    "names": ["$~≈", "$~マッチ"],
+                    "names": [
+                        "$~≈",
+                        "$~マッチ"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~照合対象となるパターン。",
@@ -2491,7 +2669,10 @@
                         "$~指定されたパターンが一致するすべての場所を、 @Result。",
                         "$~\\'a1 b2' ⌕ ⣿_ #⣿\\"
                     ],
-                    "names": ["$~⌕", "$~検索"],
+                    "names": [
+                        "$~⌕",
+                        "$~検索"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~探すべきパターン。",
@@ -2530,7 +2711,10 @@
                 "$~2進数には「2」という数字はないので、有効な数値ではありません。数値以外のテキストを数値に変換しようとすると、NaNも表示されます。",
                 "$~\\'こんにちは'→#\\"
             ],
-            "name": ["$~#", "$~番号"],
+            "name": [
+                "$~#",
+                "$~番号"
+            ],
             "function": {
                 "add": {
                     "doc": [
@@ -2541,7 +2725,10 @@
                         "$~単位が一致しない場合は、ショーを中止します。",
                         "$~\\3匹の猫 + 5匹の犬\\"
                     ],
-                    "names": ["$~+", "$~追加"],
+                    "names": [
+                        "$~+",
+                        "$~追加"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~追加する@Number。",
@@ -2558,7 +2745,10 @@
                         "$~単位が一致しない場合は、ショーを中止します。",
                         "$~\\3猫 - 5犬\\"
                     ],
-                    "names": ["$~-", "$~減算する"],
+                    "names": [
+                        "$~-",
+                        "$~減算する"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~私から減算する@Number。",
@@ -2573,7 +2763,10 @@
                         "$~\\5m × 5m\\",
                         "$~\\5m × 1/s\\"
                     ],
-                    "names": ["$~×", "$~掛ける"],
+                    "names": [
+                        "$~×",
+                        "$~掛ける"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~乗算する数値。",
@@ -2588,7 +2781,10 @@
                         "$~\\5m ÷ 5m\\",
                         "$~\\5分÷5秒\\"
                     ],
-                    "names": ["$~÷", "$~分ける"],
+                    "names": [
+                        "$~÷",
+                        "$~分ける"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~割る数値。",
@@ -2603,7 +2799,10 @@
                         "$~\\10m % 2\\",
                         "$~\\10m/s % 3\\"
                     ],
-                    "names": ["$~%", "$~残り"],
+                    "names": [
+                        "$~%",
+                        "$~残り"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~割る数値。",
@@ -2616,7 +2815,9 @@
                         "$~負の場合、正になる新しい @Number を作成します。",
                         "$~\\-200.ポジティブ()\\"
                     ],
-                    "names": ["$~ポジティブ"],
+                    "names": [
+                        "$~ポジティブ"
+                    ],
                     "inputs": []
                 },
                 "round": {
@@ -2626,7 +2827,9 @@
                         "$~\\9.5.ラウンド()\\",
                         "$~\\9.6.round()\\"
                     ],
-                    "names": ["$~ラウンド"],
+                    "names": [
+                        "$~ラウンド"
+                    ],
                     "inputs": []
                 },
                 "roundDown": {
@@ -2636,7 +2839,9 @@
                         "$~\\10.1.roundDown()\\",
                         "$~\\10.01.roundDown()\\"
                     ],
-                    "names": ["$~切り下げ"],
+                    "names": [
+                        "$~切り下げ"
+                    ],
                     "inputs": []
                 },
                 "roundUp": {
@@ -2646,7 +2851,9 @@
                         "$~\\10.9.roundUp()\\",
                         "$~\\10.99.roundUp()\\"
                     ],
-                    "names": ["$~切り上げする"],
+                    "names": [
+                        "$~切り上げする"
+                    ],
                     "inputs": []
                 },
                 "power": {
@@ -2656,7 +2863,10 @@
                         "$~\\10^-2\\",
                         "$~\\5^-.5\\"
                     ],
-                    "names": ["$~^", "$~力"],
+                    "names": [
+                        "$~^",
+                        "$~力"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~私を成長させる指数。",
@@ -2670,7 +2880,10 @@
                         "$~\\4√2\\",
                         "$~\\1000√3\\"
                     ],
-                    "names": ["$~√", "$~根"],
+                    "names": [
+                        "$~√",
+                        "$~根"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~計算するルート。",
@@ -2684,7 +2897,10 @@
                         "$~\\1 < 2\\",
                         "$~\\2 < 1\\"
                     ],
-                    "names": ["$~<", "$~未満"],
+                    "names": [
+                        "$~<",
+                        "$~未満"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~私と比較する@Number。",
@@ -2699,7 +2915,10 @@
                         "$~\\2 ≤ 1\\",
                         "$~\\2 ≤ 2\\"
                     ],
-                    "names": ["$~≤", "$~劣る"],
+                    "names": [
+                        "$~≤",
+                        "$~劣る"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~私と比較する@Number。",
@@ -2713,7 +2932,10 @@
                         "$~\\1 > 2\\",
                         "$~\\2 > 1\\"
                     ],
-                    "names": ["$~>", "$~より大きい"],
+                    "names": [
+                        "$~>",
+                        "$~より大きい"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~私と比較する@Number。",
@@ -2728,7 +2950,10 @@
                         "$~\\2 ≥ 1\\",
                         "$~\\2 ≥ 2\\"
                     ],
-                    "names": ["$~≥", "$~より大きいまたは等しい"],
+                    "names": [
+                        "$~≥",
+                        "$~より大きいまたは等しい"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~私と比較する@Number。",
@@ -2742,7 +2967,10 @@
                         "$~\\1 = 2\\",
                         "$~\\2 = 2\\"
                     ],
-                    "names": ["$~=", "$~等しい"],
+                    "names": [
+                        "$~=",
+                        "$~等しい"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~私と比較する@Number。",
@@ -2756,7 +2984,10 @@
                         "$~\\1 ≠ 2\\",
                         "$~\\2 ≠ 2\\"
                     ],
-                    "names": ["$~≠", "$~ノーイコール"],
+                    "names": [
+                        "$~≠",
+                        "$~ノーイコール"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~私と比較する@Number。",
@@ -2765,13 +2996,25 @@
                     ]
                 },
                 "cos": {
-                    "doc": ["$~私の余弦を計算してください。", "$~\\π.cos()\\"],
-                    "names": ["$~コス", "$~余弦"],
+                    "doc": [
+                        "$~私の余弦を計算してください。",
+                        "$~\\π.cos()\\"
+                    ],
+                    "names": [
+                        "$~コス",
+                        "$~余弦"
+                    ],
                     "inputs": []
                 },
                 "sin": {
-                    "doc": ["$~私の正弦を計算してください。", "$~\\π.cos()\\"],
-                    "names": ["$~罪", "$~正弦"],
+                    "doc": [
+                        "$~私の正弦を計算してください。",
+                        "$~\\π.cos()\\"
+                    ],
+                    "names": [
+                        "$~罪",
+                        "$~正弦"
+                    ],
                     "inputs": []
                 },
                 "min": {
@@ -2870,7 +3113,10 @@
                 "$~\\['リンゴ' 'バナナ' 'マンゴー']!\\",
                 "$~それはこんな感じです。でも、@FunctionDefinition を使えば、もっと面白いことができるんです!"
             ],
-            "name": ["$~[]", "$~リスト"],
+            "name": [
+                "$~[]",
+                "$~リスト"
+            ],
             "kind": "$~親切",
             "out": "$~結果",
             "outofbounds": "$~アウトオブバウンズ",
@@ -2880,7 +3126,10 @@
                         "$~最後に指定された項目を含む新しい @List を作成します。",
                         "$~\\['リンゴ' 'バナナ' 'マンゴー'].with('スイカ')\\"
                     ],
-                    "names": ["$~と", "$~追加"],
+                    "names": [
+                        "$~と",
+                        "$~追加"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~あなたが加えたい価値は私です。",
@@ -2895,7 +3144,10 @@
                         "$~ただし、次のように @Spread を使用する方が少し簡単です。",
                         "$~\\['リンゴ' 'バナナ' 'マンゴー' :['スイカ' 'スターフルーツ']]\\"
                     ],
-                    "names": ["$~リスト付き", "$~追加"],
+                    "names": [
+                        "$~リスト付き",
+                        "$~追加"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~追加する値のリスト。",
@@ -2908,7 +3160,9 @@
                         "$~指定されたインデックスの値を指定された値に置き換える新しいリストを作成します。",
                         "$~\\['リンゴ' 'バナナ' 'マンゴー'].replace(1 'キウイ')\\"
                     ],
-                    "names": ["$~交換する"],
+                    "names": [
+                        "$~交換する"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~置き換える値のインデックス",
@@ -2922,7 +3176,10 @@
                 },
                 "length": {
                     "doc": "$~私の中のアイテムの数。",
-                    "names": ["$~📏", "$~長さ"],
+                    "names": [
+                        "$~📏",
+                        "$~長さ"
+                    ],
                     "inputs": []
                 },
                 "random": {
@@ -3012,7 +3269,10 @@
                         "$~最初の項目なしでリストを作成します。",
                         "$~\\['リンゴ' 'バナナ' 'マンゴー'].sansFirst()\\"
                     ],
-                    "names": ["$~なし", "$~サンズファースト"],
+                    "names": [
+                        "$~なし",
+                        "$~サンズファースト"
+                    ],
                     "inputs": []
                 },
                 "sansLast": {
@@ -3020,7 +3280,10 @@
                         "$~最後の項目を除いたリストを作成します。",
                         "$~\\['リンゴ' 'バナナ' 'マンゴー'].sansLast()\\"
                     ],
-                    "names": ["$~なし最後", "$~サンズラスト"],
+                    "names": [
+                        "$~なし最後",
+                        "$~サンズラスト"
+                    ],
                     "inputs": []
                 },
                 "sans": {
@@ -3028,7 +3291,10 @@
                         "$~私ですが、指定された値の最初の出現がありません。",
                         "$~\\['リンゴ' 'バナナ' 'マンゴー' 'リンゴ'].sans('リンゴ')\\"
                     ],
-                    "names": ["$~それなし", "$~サンズ"],
+                    "names": [
+                        "$~それなし",
+                        "$~サンズ"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~最初に出現したものを削除する値。",
@@ -3041,7 +3307,10 @@
                         "$~私ですが、指定された値のすべての出現がありません。",
                         "$~\\['リンゴ' 'バナナ' 'マンゴー' 'リンゴ'].sans('リンゴ')\\"
                     ],
-                    "names": ["$~すべてなし", "$~sansAll"],
+                    "names": [
+                        "$~すべてなし",
+                        "$~sansAll"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~リストからすべての出現を削除する値。",
@@ -3054,7 +3323,10 @@
                         "$~私、ただし逆です！",
                         "$~\\['リンゴ' 'バナナ' 'マンゴー'].reverse()\\"
                     ],
-                    "names": ["$~逆転した", "$~逆行する"],
+                    "names": [
+                        "$~逆転した",
+                        "$~逆行する"
+                    ],
                     "inputs": []
                 },
                 "equals": {
@@ -3062,7 +3334,10 @@
                         "$~\\⊤\\ アイテムと順序が指定された @List とまったく同じである場合。",
                         "$~\\['リンゴ' 'バナナ' 'マンゴー'] = ['リンゴ' 'マンゴー' 'バナナ']\\"
                     ],
-                    "names": ["$~=", "$~等しい"],
+                    "names": [
+                        "$~=",
+                        "$~等しい"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~私と比較するための@List。",
@@ -3075,7 +3350,10 @@
                         "$~\\⊤\\ 私のアイテムと順序が指定された @List とまったく同じではない場合。",
                         "$~\\['リンゴ' 'バナナ' 'マンゴー'] ≠ ['リンゴ' 'マンゴー' 'バナナ']\\"
                     ],
-                    "names": ["$~≠", "$~ノーイコール"],
+                    "names": [
+                        "$~≠",
+                        "$~ノーイコール"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~私と比較するための@List。",
@@ -3229,7 +3507,10 @@
                         "$~これは、me 内のすべての項目を 1 つの値に結合するのに非常に役立ちます。たとえば、数値のリストを追加したいとします。",
                         "$~\\[3 9 2 8 1 4].combine(0 ƒ(合計•# 数値•#) 合計 + 数値)\\"
                     ],
-                    "names": ["$~組み合わせた", "$~組み合わせる"],
+                    "names": [
+                        "$~組み合わせた",
+                        "$~組み合わせる"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~開始の組み合わせ。",
@@ -3305,7 +3586,10 @@
                 "$~\\{'やあ' 'こんにちは' 'こんにちは'}!{'よ'}\\",
                 "$~他に何か私と一緒にやりたいことはありますか? 私が持っているすばらしい @FunctionDefinition をすべてチェックしてください!"
             ],
-            "name": ["$~{}", "$~セット"],
+            "name": [
+                "$~{}",
+                "$~セット"
+            ],
             "kind": "$~親切",
             "out": "$~結果",
             "function": {
@@ -3319,7 +3603,10 @@
                         "$~指定された @Set と I がまったく同じ値を持つ場合、I は \\⊤\\ です。",
                         "$~\\{1 2 3} = {2 3 4}\\"
                     ],
-                    "names": ["$~=", "$~等しい"],
+                    "names": [
+                        "$~=",
+                        "$~等しい"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~比較する@Set。",
@@ -3332,7 +3619,10 @@
                         "$~指定された @Set と I の値がまったく同じでない場合は、I は \\⊤\\ になります。",
                         "$~\\{1 2 3} ≠ {2 3 4}\\"
                     ],
-                    "names": ["$~≠", "$~ノーイコール"],
+                    "names": [
+                        "$~≠",
+                        "$~ノーイコール"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~比較する@Set。",
@@ -3345,7 +3635,11 @@
                         "$~追加するアイテムを教えていただければ、自分のアイテムと指定されたアイテムで新しい @Set を作成します。",
                         "$~\\{1 2 3} + 4\\"
                     ],
-                    "names": ["$~と", "$~追加", "$~+"],
+                    "names": [
+                        "$~と",
+                        "$~追加",
+                        "$~+"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~追加するアイテム",
@@ -3359,7 +3653,10 @@
                         "$~\\{1 2 3} - 2\\",
                         "$~アイテムを持っていない場合は、自分で評価します。"
                     ],
-                    "names": ["$~取り除く", "$~-"],
+                    "names": [
+                        "$~取り除く",
+                        "$~-"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~削除するアイテム。",
@@ -3372,7 +3669,10 @@
                         "$~@Set を渡せば、自分のアイテムとセットのアイテムを含む新しい @Set が作成されます。",
                         "$~\\{1 2 3} ∪ {3 4 5}\\"
                     ],
-                    "names": ["$~連合", "$~∪"],
+                    "names": [
+                        "$~連合",
+                        "$~∪"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~私と組み合わせる@Set。",
@@ -3385,7 +3685,10 @@
                         "$~@Set を渡していただければ、共通する項目のみを含む新しい @Set を作成します。",
                         "$~\\{1 2 3} ∩ {3 4 5}\\"
                     ],
-                    "names": ["$~交差点", "$~∩"],
+                    "names": [
+                        "$~交差点",
+                        "$~∩"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~私と比較するためのセット。",
@@ -3478,7 +3781,10 @@
                 "$~\\{1:1 2:2 3:3}!{4}\\",
                 "$~私は組み合わせによって多くの素晴らしいことを実現する方法を知っています。"
             ],
-            "name": ["$~{:}", "$~地図"],
+            "name": [
+                "$~{:}",
+                "$~地図"
+            ],
             "key": "$~鍵",
             "value": "$~価値",
             "result": "$~結果",
@@ -3493,7 +3799,10 @@
                         "$~\\{⊤}\\ は、私のペアリングが指定された @Map とまったく同じである場合です。",
                         "$~\\{1:1 2:2} = {1:1 2:3}\\"
                     ],
-                    "names": ["$~=", "$~等しい"],
+                    "names": [
+                        "$~=",
+                        "$~等しい"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~私と比較するための@Map。",
@@ -3506,7 +3815,10 @@
                         "$~\\{⊤}\\ 私のペアリングが指定された @Map とまったく同じではない場合。",
                         "$~\\{1:1 2:2} ≠ {1:1 2:3}\\"
                     ],
-                    "names": ["$~≠", "$~ノーイコール"],
+                    "names": [
+                        "$~≠",
+                        "$~ノーイコール"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~私と比較するための@Map。",
@@ -3636,12 +3948,18 @@
                 "$~そして、もし私から特定の値を取得したい場合には、任意のテーブルをリストに変換し、@PropertyReference。",
                 "$~\\rocks: ⎡name•'' color•''⎦\n⎡'黒曜石' '黒'⎦\n⎡'軽石' '灰色'⎦\n⎡'黄水晶' '黄色'⎦\n(rocks → [])[1].name\\"
             ],
-            "name": ["$~⎡⎦", "$~テーブル"],
+            "name": [
+                "$~⎡⎦",
+                "$~テーブル"
+            ],
             "row": "$~行",
             "function": {
                 "equals": {
                     "doc": "$~別の @Table とまったく同じ順序でまったく同じセルがあるかどうかを確認します。",
-                    "names": ["$~=", "$~等しい"],
+                    "names": [
+                        "$~=",
+                        "$~等しい"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~確認する他のテーブル。",
@@ -3651,7 +3969,10 @@
                 },
                 "notequal": {
                     "doc": "$~セルのいずれかが別の @Table と異なっているか、または順序が異なっているかどうかを確認します。",
-                    "names": ["$~≠", "$~等しくない"],
+                    "names": [
+                        "$~≠",
+                        "$~等しくない"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~確認する他のテーブル。",
@@ -3667,11 +3988,16 @@
         },
         "Structure": {
             "doc": "$~私は、 @StructureDefinitionから作成された、名前と型が指定されたフィールドを持つ構造化値です。 @StructureDefinition。",
-            "name": ["$~構造"],
+            "name": [
+                "$~構造"
+            ],
             "function": {
                 "equals": {
                     "doc": "$~自分のプロパティが別の構造体のプロパティと同じ名前と値であるかどうかを確認します。",
-                    "names": ["$~=", "$~等しい"],
+                    "names": [
+                        "$~=",
+                        "$~等しい"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~チェックする他の構造。",
@@ -3681,7 +4007,10 @@
                 },
                 "notequal": {
                     "doc": "$~自分のプロパティが、別の構造体の名前や値と何らかの点で異なるかどうかを確認します。",
-                    "names": ["$~≠", "$~等しくない"],
+                    "names": [
+                        "$~≠",
+                        "$~等しくない"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~チェックする他の構造。",
@@ -3700,16 +4029,25 @@
                 "$~\\`I am **bold** and /italic/`\\",
                 "$~私は@Textとよく似た働きをしますが、書式設定を保持できます。私を組み合わせたり、繰り返したり、内容を確認したり、通常の@Text。"
             ],
-            "name": ["$~`…`", "$~フォーマット済み"],
+            "name": [
+                "$~`…`",
+                "$~フォーマット済み"
+            ],
             "function": {
                 "length": {
                     "doc": "$~私は、書式設定や段落区切りを無視して、テキスト内の判読可能な文字数を評価します。",
-                    "names": ["$~📏", "$~長さ"],
+                    "names": [
+                        "$~📏",
+                        "$~長さ"
+                    ],
                     "inputs": []
                 },
                 "equals": {
                     "doc": "$~\\⊤\\指定された値と同じ形式のテキストである場合。",
-                    "names": ["$~=", "$~等しい"],
+                    "names": [
+                        "$~=",
+                        "$~等しい"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~比較対象となる書式設定されたテキスト。",
@@ -3729,7 +4067,9 @@
                 },
                 "has": {
                     "doc": "$~\\⊤\\プレーンテキストに指定された@Text。検索時には書式設定と段落区切りは無視します。",
-                    "names": ["$~もっている"],
+                    "names": [
+                        "$~もっている"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~私のテキスト内で検索する@Text 。",
@@ -3739,7 +4079,9 @@
                 },
                 "starts": {
                     "doc": "$~\\⊤\\プレーンテキストが指定された@Text。チェック時には書式設定と段落区切りは無視します。",
-                    "names": ["$~開始"],
+                    "names": [
+                        "$~開始"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~テキストの先頭でチェックする@Text 。",
@@ -3749,7 +4091,9 @@
                 },
                 "ends": {
                     "doc": "$~\\⊤\\プレーンテキストが指定された@Text。チェック時には書式設定と段落区切りは無視します。",
-                    "names": ["$~終了"],
+                    "names": [
+                        "$~終了"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~テキストの末尾でチェックする@Text 。",
@@ -3775,7 +4119,11 @@
                 },
                 "combine": {
                     "doc": "$~別の書式設定済みのテキストを提供していただければ、それらを結合して1つのテキストにします。どちらかのテキストが複数の段落に分かれている場合は、段落区切りは保持されます。",
-                    "names": ["$~+", "$~組み合わせ", "$~組み合わせる"],
+                    "names": [
+                        "$~+",
+                        "$~組み合わせ",
+                        "$~組み合わせる"
+                    ],
                     "inputs": [
                         {
                             "doc": "$~追加する書式設定済みのテキスト。",
@@ -3806,7 +4154,10 @@
                 "$~小数点以下の有効桁数を特定の数だけ指定した場合、その精度は維持されます。",
                 "$~\\Random(1.00 10.00)\\"
             ],
-            "names": ["$~🎲", "$~ランダム"],
+            "names": [
+                "$~🎲",
+                "$~ランダム"
+            ],
             "inputs": [
                 {
                     "names": "$~分",
@@ -3827,7 +4178,10 @@
                 "$~\\Group(\nStack() \n[\nPhrase('one' selectable:⊤ name:'1') \nPhrase('two' selectable:⊤ name:'2') \nPhrase(Choice())\n]\n)\\",
                 "$~これをエディタにコピーして、2つの@Phraseのうち1つを選択してください。すると、3つ目の@Phrase。"
             ],
-            "names": ["$~🔘", "$~選択"]
+            "names": [
+                "$~🔘",
+                "$~選択"
+            ]
         },
         "Button": {
             "doc": [
@@ -3839,7 +4193,10 @@
                 "$~\\Phrase(Button() → '')\\",
                 "$~これは、ストリームの値をテキストとして表した@Phrase。これをエディタにコピーしてクリックすると、 \\⊥\\と\\⊤\\が交互に切り替わるのがわかります。"
             ],
-            "names": ["$~🖱️", "$~ボタン"],
+            "names": [
+                "$~🖱️",
+                "$~ボタン"
+            ],
             "down": {
                 "names": "$~下",
                 "doc": "$~@None の場合、ストリームは up と down の両方の値を提供します。@Boolean の場合、指定された @Boolean 値のみを提供します。"
@@ -3854,7 +4211,10 @@
                 "$~\\Pointer()\\",
                 "$~提供される@Place、 @Stage。"
             ],
-            "names": ["$~👆🏻", "$~ポインタ"]
+            "names": [
+                "$~👆🏻",
+                "$~ポインタ"
+            ]
         },
         "Key": {
             "doc": [
@@ -3870,7 +4230,10 @@
                 "$~また、 @Key、離されたときだけを知りたい場合は、 @Boolean。",
                 "$~\\Key('a' ⊥)\\"
             ],
-            "names": ["$~⌨️", "$~鍵"],
+            "names": [
+                "$~⌨️",
+                "$~鍵"
+            ],
             "key": {
                 "names": "$~鍵",
                 "doc": "$~@None の場合は、すべてのキーが提供されます。特定の @Text の場合は、そのキーのみが提供されます。"
@@ -3880,57 +4243,179 @@
                 "doc": "$~@None の場合、キーを押すと入力が生成されます。\\⊤\\ の場合は、押下入力のみが提供され、\\⊥\\ の場合は、リリース入力のみが提供されます。"
             },
             "keys": {
-                "Shift": ["$~シフト"],
-                "Control": ["$~コントロール", "$~Ctrl"],
-                "Alt": ["$~代替", "$~オプション"],
-                "Meta": ["$~メタ", "$~指示", "$~Windows"],
-                "AltGraph": ["$~AltGraph"],
-                "CapsLock": ["$~キャップスロック", "$~キャップスロック"],
-                "NumLock": ["$~NumLock", "$~Num Lock"],
-                "ScrollLock": ["$~スクロールロック", "$~スクロールロック"],
-                "Enter": ["$~入力", "$~戻る"],
-                "Tab": ["$~タブ"],
-                " ": ["$~空間", "$~スペースキー", "$~"],
-                "ArrowUp": ["$~上向き矢印", "$~上"],
-                "ArrowDown": ["$~下向き矢印", "$~下"],
-                "ArrowLeft": ["$~左矢印", "$~左"],
-                "ArrowRight": ["$~右矢印", "$~右"],
-                "Home": ["$~家"],
-                "End": ["$~終わり"],
-                "PageUp": ["$~ページアップ", "$~ページアップ"],
-                "PageDown": ["$~ページダウン", "$~ページダウン"],
-                "Backspace": ["$~バックスペース"],
-                "Delete": ["$~消去", "$~デル"],
-                "Insert": ["$~入れる", "$~イン"],
-                "Clear": ["$~クリア"],
-                "Cut": ["$~カット"],
-                "Copy": ["$~コピー"],
-                "Paste": ["$~ペースト"],
-                "Undo": ["$~元に戻す"],
-                "Redo": ["$~やり直し"],
-                "Escape": ["$~逃げる", "$~ESC"],
-                "Pause": ["$~一時停止"],
-                "ContextMenu": ["$~コンテキストメニュー", "$~メニュー"],
-                "Help": ["$~ヘルプ"],
-                "Convert": ["$~変換する"],
-                "NonConvert": ["$~非改宗者"],
-                "KanaMode": ["$~KanaMode"],
-                "HangulMode": ["$~ハングルモード"],
-                "Hiragana": ["$~ひらがな"],
-                "Katakana": ["$~カタカナ"],
-                "Romaji": ["$~ローマ字"],
-                "F1": ["$~F1"],
-                "F2": ["$~F2"],
-                "F3": ["$~F3"],
-                "F4": ["$~F4"],
-                "F5": ["$~F5"],
-                "F6": ["$~F6"],
-                "F7": ["$~F7"],
-                "F8": ["$~F8"],
-                "F9": ["$~F9"],
-                "F10": ["$~F10"],
-                "F11": ["$~F11"],
-                "F12": ["$~F12"]
+                "Shift": [
+                    "$~シフト"
+                ],
+                "Control": [
+                    "$~コントロール",
+                    "$~Ctrl"
+                ],
+                "Alt": [
+                    "$~代替",
+                    "$~オプション"
+                ],
+                "Meta": [
+                    "$~メタ",
+                    "$~指示",
+                    "$~Windows"
+                ],
+                "AltGraph": [
+                    "$~AltGraph"
+                ],
+                "CapsLock": [
+                    "$~キャップスロック",
+                    "$~キャップスロック"
+                ],
+                "NumLock": [
+                    "$~NumLock",
+                    "$~Num Lock"
+                ],
+                "ScrollLock": [
+                    "$~スクロールロック",
+                    "$~スクロールロック"
+                ],
+                "Enter": [
+                    "$~入力",
+                    "$~戻る"
+                ],
+                "Tab": [
+                    "$~タブ"
+                ],
+                " ": [
+                    "$~空間",
+                    "$~スペースキー",
+                    "$~"
+                ],
+                "ArrowUp": [
+                    "$~上向き矢印",
+                    "$~上"
+                ],
+                "ArrowDown": [
+                    "$~下向き矢印",
+                    "$~下"
+                ],
+                "ArrowLeft": [
+                    "$~左矢印",
+                    "$~左"
+                ],
+                "ArrowRight": [
+                    "$~右矢印",
+                    "$~右"
+                ],
+                "Home": [
+                    "$~家"
+                ],
+                "End": [
+                    "$~終わり"
+                ],
+                "PageUp": [
+                    "$~ページアップ",
+                    "$~ページアップ"
+                ],
+                "PageDown": [
+                    "$~ページダウン",
+                    "$~ページダウン"
+                ],
+                "Backspace": [
+                    "$~バックスペース"
+                ],
+                "Delete": [
+                    "$~消去",
+                    "$~デル"
+                ],
+                "Insert": [
+                    "$~入れる",
+                    "$~イン"
+                ],
+                "Clear": [
+                    "$~クリア"
+                ],
+                "Cut": [
+                    "$~カット"
+                ],
+                "Copy": [
+                    "$~コピー"
+                ],
+                "Paste": [
+                    "$~ペースト"
+                ],
+                "Undo": [
+                    "$~元に戻す"
+                ],
+                "Redo": [
+                    "$~やり直し"
+                ],
+                "Escape": [
+                    "$~逃げる",
+                    "$~ESC"
+                ],
+                "Pause": [
+                    "$~一時停止"
+                ],
+                "ContextMenu": [
+                    "$~コンテキストメニュー",
+                    "$~メニュー"
+                ],
+                "Help": [
+                    "$~ヘルプ"
+                ],
+                "Convert": [
+                    "$~変換する"
+                ],
+                "NonConvert": [
+                    "$~非改宗者"
+                ],
+                "KanaMode": [
+                    "$~KanaMode"
+                ],
+                "HangulMode": [
+                    "$~ハングルモード"
+                ],
+                "Hiragana": [
+                    "$~ひらがな"
+                ],
+                "Katakana": [
+                    "$~カタカナ"
+                ],
+                "Romaji": [
+                    "$~ローマ字"
+                ],
+                "F1": [
+                    "$~F1"
+                ],
+                "F2": [
+                    "$~F2"
+                ],
+                "F3": [
+                    "$~F3"
+                ],
+                "F4": [
+                    "$~F4"
+                ],
+                "F5": [
+                    "$~F5"
+                ],
+                "F6": [
+                    "$~F6"
+                ],
+                "F7": [
+                    "$~F7"
+                ],
+                "F8": [
+                    "$~F8"
+                ],
+                "F9": [
+                    "$~F9"
+                ],
+                "F10": [
+                    "$~F10"
+                ],
+                "F11": [
+                    "$~F11"
+                ],
+                "F12": [
+                    "$~F12"
+                ]
             }
         },
         "Time": {
@@ -3945,13 +4430,20 @@
                 "$~しかし、 @Program、その小ささには限界があります。",
                 "$~最小値はおそらく\\20ms\\程度でしょう。"
             ],
-            "names": ["$~🕕", "$~時間"],
+            "names": [
+                "$~🕕",
+                "$~時間"
+            ],
             "frequency": {
-                "names": ["$~頻度"],
+                "names": [
+                    "$~頻度"
+                ],
                 "doc": "$~これは、時間が刻まれる頻度です。デフォルトは \\33ms\\ で、これは 1 秒あたり約 30 回です。"
             },
             "relative": {
-                "names": ["$~相対的"],
+                "names": [
+                    "$~相対的"
+                ],
                 "doc": "$~\\⊤\\ の場合、時間はプログラムが最初に評価されたときの 0 から始まります。それ以外の場合は、今日の開始時刻 (UTC (協定世界時)) からのミリ秒数から始まるため、時刻を追跡できます。"
             }
         },
@@ -3963,9 +4455,14 @@
                 "$~\\Volume()\\",
                 "$~これは観客の声の大きさを聞き取るのに最適です！"
             ],
-            "names": ["$~🎤", "$~音量"],
+            "names": [
+                "$~🎤",
+                "$~音量"
+            ],
             "frequency": {
-                "names": ["$~頻度"],
+                "names": [
+                    "$~頻度"
+                ],
                 "doc": "$~サンプリング間の時間。"
             }
         },
@@ -3977,9 +4474,14 @@
                 "$~\\Pitch()\\",
                 "$~これは、誰かが話したり歌ったりしているときの音色を聞き取るのに最適です。"
             ],
-            "names": ["$~🎵", "$~ピッチ"],
+            "names": [
+                "$~🎵",
+                "$~ピッチ"
+            ],
             "frequency": {
-                "names": ["$~頻度"],
+                "names": [
+                    "$~頻度"
+                ],
                 "doc": "$~サンプリング間の時間。"
             }
         },
@@ -3992,17 +4494,26 @@
                 "$~\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) × 0.5m y × -0.5m) color: color duration: 0s\n)\n)\n)\n)\n)\\",
                 "$~しかし、色を分析することで、照明が点灯しているか消灯しているか、あるいは特定の色が一般的かどうかを判断することも可能です。観客が示す色によって、パフォーマンスに影響を与えることができるのです。"
             ],
-            "names": ["$~🎥", "$~カメラ"],
+            "names": [
+                "$~🎥",
+                "$~カメラ"
+            ],
             "width": {
-                "names": ["$~幅"],
+                "names": [
+                    "$~幅"
+                ],
                 "doc": "$~行内でサンプリングする @Color の数。"
             },
             "height": {
-                "names": ["$~身長"],
+                "names": [
+                    "$~身長"
+                ],
                 "doc": "$~列内でサンプリングする @Color の数。"
             },
             "frequency": {
-                "names": ["$~頻度"],
+                "names": [
+                    "$~頻度"
+                ],
                 "doc": "$~@Color サンプル間の時間。"
             }
         },
@@ -4021,7 +4532,10 @@
                 "$~\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' duration: 0.25s rotation: 5° entering: Pose(rotation: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
                 "$~各@Phrase、 @Button？"
             ],
-            "names": ["$~🎬", "$~シーン"],
+            "names": [
+                "$~🎬",
+                "$~シーン"
+            ],
             "outputs": {
                 "names": "$~出力",
                 "doc": "$~順番に表示する出力のリスト。"
@@ -4037,7 +4551,10 @@
                 "$~o がどのように跳ね返るか見てください。最初の評価では、 @Stage、その後は@None。これにより、 @Motion。",
                 "$~他にも様々な設定方法がありますので、以下をご覧ください。"
             ],
-            "names": ["$~⚽️", "$~モーション"],
+            "names": [
+                "$~⚽️",
+                "$~モーション"
+            ],
             "place": {
                 "doc": "$~出発点。",
                 "names": "$~場所"
@@ -4062,7 +4579,10 @@
                 "$~\\Chat().has('hello') ? 'hi!' 'huh?'\\",
                 "$~以上です！これを使えば、チャットボット、テキストアドベンチャー、その他のパフォーマンスのためのテキストベースの操作方法など、あらゆる種類のパフォーマンスを作成できます。"
             ],
-            "names": ["$~🗣️", "$~チャット"]
+            "names": [
+                "$~🗣️",
+                "$~チャット"
+            ]
         },
         "Placement": {
             "doc": [
@@ -4075,7 +4595,10 @@
                 "$~これをプログラムにコピーして、ポインターまたはキーボードを使って@Output。",
                 "$~@Placement、特定の次元での移動を有効または無効にしたり、 @Place移動距離を変更したり、ストリームの開始時に使用する最初の@Place。"
             ],
-            "names": ["$~✥", "$~配置"],
+            "names": [
+                "$~✥",
+                "$~配置"
+            ],
             "inputs": [
                 {
                     "doc": "$~最初に始める場所。",
@@ -4109,7 +4632,10 @@
                 "$~\\Webpage('https://wordplay.dev' 'h1')\\",
                 "$~この方法では、多くの問題が発生する可能性があります。インターネット接続が切断された場合、URLが何も解決されない場合、URLが公開されていない場合、URLがHTMLページでない場合など、これらのすべてが例外につながる可能性があります。正常に動作するページが見つかった場合は、完了率を示す@Number、ページ上の単語の@List。"
             ],
-            "names": ["$~🔗", "$~ウェブページ"],
+            "names": [
+                "$~🔗",
+                "$~ウェブページ"
+            ],
             "url": {
                 "doc": "$~取得する HTML Web ページの URL。",
                 "names": "$~URL"
@@ -4188,17 +4714,29 @@
                 "$~言語が指定されていない場合は、デフォルトで優先言語が使用されます。",
                 "$~音声認識にはマイクへのアクセスとインターネット接続が必要です（アクセスを許可してください！）。また、使用制限がある場合もあるので、長時間オンにしたままにしないでください（だめだよ！）。"
             ],
-            "names": ["$~スピーチ", "$~声"],
+            "names": [
+                "$~スピーチ",
+                "$~声"
+            ],
             "reset": {
-                "names": ["$~リセット", "$~クリア"],
+                "names": [
+                    "$~リセット",
+                    "$~クリア"
+                ],
                 "doc": "$~この値が変化すると、蓄積された音声をクリアして最初からやり直します。"
             },
             "language": {
-                "names": ["$~言語", "$~ラン"],
+                "names": [
+                    "$~言語",
+                    "$~ラン"
+                ],
                 "doc": "$~BCP 47言語コード（例：「en-US」）。ブラウザの音声認識機能でサポートされていない場合は、エラーが表示されます。デフォルトでは、優先言語が使用されます。"
             },
             "limit": {
-                "names": ["$~制限", "$~言葉"],
+                "names": [
+                    "$~制限",
+                    "$~言葉"
+                ],
                 "doc": "$~蓄積された音声（スライディングウィンドウ）に保持する単語の最大数。設定すると、最新の単語のみが保持され、古い単語は破棄されます。指定しない場合は、すべての単語が無期限に保持されます。"
             },
             "error": {
@@ -4221,13 +4759,20 @@
                 "$~これを試してみてください。あなたの手の位置に合わせて、手の形に合った絵文字が表示されます。",
                 "$~\\hand: Hand()\nPhrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
             ],
-            "names": ["$~🖐️", "$~手"],
+            "names": [
+                "$~🖐️",
+                "$~手"
+            ],
             "frequency": {
-                "names": ["$~頻度"],
+                "names": [
+                    "$~頻度"
+                ],
                 "doc": "$~サンプル採取間隔。"
             },
             "resolution": {
-                "names": ["$~解決"],
+                "names": [
+                    "$~解決"
+                ],
                 "doc": "$~ハンドモデルを実行する前にカメラをサンプリングするピクセル幅。値が大きいほどランドマークの精度は若干向上しますが、フレームあたりの処理時間が増加します。"
             }
         },
@@ -4241,7 +4786,10 @@
                 "$~アウトラインは、 @Number of meters で拡大縮小したり、 @Number、フォントの太さを選択したり、斜体を有効にしたり、点間の間隔をメートル単位で設定したりできます。間隔を小さくすると、アウトラインがより正確にトレースされ、直線と曲線の両方に沿って点が均等に配置されます。",
                 "$~カラー絵文字など、一部のグリフにはアウトラインがないため、ポイントは加算されません。フォントの取得中は空の@List、準備が整い次第、データが入力されます。"
             ],
-            "names": ["$~🖋️", "$~輪郭"],
+            "names": [
+                "$~🖋️",
+                "$~輪郭"
+            ],
             "inputs": [
                 {
                     "doc": "$~私がなぞるべき文字の輪郭を持つテキスト。",
@@ -4300,7 +4848,10 @@
                 "$~\\Group(Stack() [Phrase('first') Phrase('second')])\\",
                 "$~具体的な配置方法は、あなたが指定する@Arrangement。"
             ],
-            "names": ["$~🔳", "$~グループ"],
+            "names": [
+                "$~🔳",
+                "$~グループ"
+            ],
             "layout": {
                 "doc": "$~@Output を所定の位置に配置するために使用する配置。",
                 "names": "$~レイアウト"
@@ -4326,7 +4877,9 @@
                 "names": "$~場所"
             },
             "name": {
-                "doc": ["$~@Phrase.name!"],
+                "doc": [
+                    "$~@Phrase.name!"
+                ],
                 "names": "$~名前"
             },
             "description": {
@@ -4357,7 +4910,10 @@
             },
             "rotation": {
                 "doc": "$~中心の周りでどのくらい傾けるべきですか。私の @Pose は異なります。",
-                "names": ["$~📐", "$~回転"]
+                "names": [
+                    "$~📐",
+                    "$~回転"
+                ]
             },
             "scale": {
                 "doc": "$~元のサイズと比べてどれくらい大きくなるべきか。",
@@ -4389,7 +4945,10 @@
             },
             "duration": {
                 "doc": "$~@Phrase.duration と同じです。",
-                "names": ["$~⏳", "$~間隔"]
+                "names": [
+                    "$~⏳",
+                    "$~間隔"
+                ]
             },
             "style": {
                 "doc": "$~@Phrase.style と同じです!",
@@ -4406,7 +4965,10 @@
                 "$~また、オプションで、私のサイズ、フォント、回転を変更したり、 @Output@Pose、 @Sequence。",
                 "$~@Stage、隣のパレット 🎨 で編集することもできます。さまざまなフォントを試して、 @Text /face/ を選択するのに最適な方法です。"
             ],
-            "names": ["$~💬", "$~フレーズ"],
+            "names": [
+                "$~💬",
+                "$~フレーズ"
+            ],
             "text": {
                 "doc": "$~@Stage に表示する文字。",
                 "names": "$~文章"
@@ -4425,7 +4987,10 @@
             },
             "wrap": {
                 "doc": "$~シンボルをラップするエッジ、またはシンボルをラップしない場合は \\ø\\ です。",
-                "names": ["$~↵", "$~包む"]
+                "names": [
+                    "$~↵",
+                    "$~包む"
+                ]
             },
             "alignment": {
                 "doc": "$~@Phrase.wrap 境界が設定されている場合、シンボルをエッジの先頭、中央、または末尾のいずれに揃えるかを指定します。",
@@ -4513,7 +5078,10 @@
             },
             "duration": {
                 "doc": "$~ステージ上の別の場所に移動するときに適用される持続時間。",
-                "names": ["$~⏳", "$~間隔"]
+                "names": [
+                    "$~⏳",
+                    "$~間隔"
+                ]
             },
             "style": {
                 "doc": "$~ステージ上の別の場所に移動する場合に使用するアニメーション スタイル。",
@@ -4523,11 +5091,17 @@
         },
         "Arrangement": {
             "doc": "$~私は、@Row、@Stack、@Grid、@Row、Verseの他の多くの種類の配置にインスピレーションを与えています。私は@Stack、",
-            "names": ["$~⠿", "$~配置"]
+            "names": [
+                "$~⠿",
+                "$~配置"
+            ]
         },
         "Row": {
             "doc": "$~私は @Row です。これは @Output の水平方向の @Arrangement で、間にオプションのパディングがあります。私の双子の @Stack に会ったことがありますか?",
-            "names": ["$~➡", "$~行"],
+            "names": [
+                "$~➡",
+                "$~行"
+            ],
             "description": "$~$count のフレーズとグループの行",
             "alignment": {
                 "doc": "$~各列のテキストを先頭、中央、末尾のいずれに配置するかを指定します。",
@@ -4540,7 +5114,10 @@
         },
         "Stack": {
             "doc": "$~私は @Stack です。@Output を垂直に並べた @Arrangement で、間にオプションのパディングを入れます。私の双子の @Row に会ったことはありますか?",
-            "names": ["$~⬇", "$~スタック"],
+            "names": [
+                "$~⬇",
+                "$~スタック"
+            ],
             "description": "$~$count",
             "alignment": {
                 "doc": "$~各行のテキストを先頭、中央、末尾のいずれに配置するかを指定します。",
@@ -4553,7 +5130,10 @@
         },
         "Grid": {
             "doc": "$~私は @Output のグリッドです。行と列の数を指定すると、オプションのパディングとセル サイズを使用して整然とした配置を作成します。",
-            "names": ["$~▦", "$~グリッド"],
+            "names": [
+                "$~▦",
+                "$~グリッド"
+            ],
             "description": "$~$rows 行 $columns 列のグリッド",
             "rows": {
                 "doc": "$~グリッドに何行作成するか。",
@@ -4581,12 +5161,17 @@
                 "$~私は、各@Arrangement@Placeで指定された場所に配置される@Arrangementです。私は「何でもいいよ。好きな場所に置いて！とにかくどこかに置いて！」という感じです。ただし、私に渡すすべての@Output@Place。そうでないと、どこに配置すればいいのかわかりません。",
                 "$~それから、各@Outputに指定する@Output、 @Groupの@Place。そのため、期待どおりの場所に表示されない場合は、 @Group。"
             ],
-            "names": ["$~無料"],
+            "names": [
+                "$~無料"
+            ],
             "description": "$~自由形式の$count"
         },
         "Shape": {
             "doc": "$~私はあらゆる形のインスピレーションです。@Stage にどのような形にするかを伝えるのに役立ちます。",
-            "names": ["$~⬟", "$~形"],
+            "names": [
+                "$~⬟",
+                "$~形"
+            ],
             "form": {
                 "doc": "$~私は、見せるための形です。それぞれの形には、その配置を定義するために異なる情報が必要です。",
                 "names": "$~形状"
@@ -4664,11 +5249,15 @@
         },
         "Form": {
             "doc": "$~私は @Rectangle や @Circle のような抽象的なフォームです。",
-            "names": ["$~形状"]
+            "names": [
+                "$~形状"
+            ]
         },
         "Rectangle": {
             "doc": "$~私は長方形です。@Stage に任意のサイズの境界を設定するのに役立ちます。",
-            "names": ["$~矩形"],
+            "names": [
+                "$~矩形"
+            ],
             "left": {
                 "doc": "$~X軸上のステージの左端",
                 "names": "$~左"
@@ -4692,7 +5281,9 @@
         },
         "Circle": {
             "doc": "$~私は円です。@Stage で図形を作成するのに役立ちます。",
-            "names": ["$~丸"],
+            "names": [
+                "$~丸"
+            ],
             "radius": {
                 "doc": "$~円の半径",
                 "names": "$~半径"
@@ -4712,7 +5303,9 @@
         },
         "Polygon": {
             "doc": "$~私は、長さが等しい辺と角度を持つ「正多角形」で、@Stage で図形を作成するのに役立ちます。",
-            "names": ["$~ポリゴン"],
+            "names": [
+                "$~ポリゴン"
+            ],
             "radius": {
                 "doc": "$~多角形の半径",
                 "names": "$~半径"
@@ -4739,7 +5332,10 @@
                 "$~私は@Pose@Output、彼らの動きの構成要素となる。誰かが最高の立ち姿を見せて、一瞬静止すると、みんなが注目する。まさにそれが私だ。",
                 "$~ポーズには実に多くの要素が関わっています。私が投稿した様々なアイデアを参考に、どんなポーズができるか考えてみてください！"
             ],
-            "names": ["$~🤪", "$~ポーズ"],
+            "names": [
+                "$~🤪",
+                "$~ポーズ"
+            ],
             "style": {
                 "doc": "$~このポーズに移動するときに使用するアニメーションのスタイル。",
                 "names": "$~スタイル"
@@ -4795,63 +5391,97 @@
                 "$~\\Color.blue\\",
                 "$~これらのショートカットはあなたの言語でも機能します。フランス語話者は\\couleur.rouge\\と入力でき、日本語話者は\\色.赤\\と入力できます。ショートカットは、赤、オレンジ、黄色、緑、青、紫、茶色、ピンク、黒、白、灰色です。"
             ],
-            "names": ["$~🌈", "$~色"],
+            "names": [
+                "$~🌈",
+                "$~色"
+            ],
             "lightness": {
                 "doc": "$~\\0\\ から \\1\\ まで、つまり \\0\\ で黒、\\0.5\\ で灰色、\\1\\ で白になるまでの明るさを指定します。",
-                "names": ["$~軽さ", "$~l"]
+                "names": [
+                    "$~軽さ",
+                    "$~l"
+                ]
             },
             "chroma": {
                 "doc": "$~どのくらいの色が必要かは、\\0\\ から \\∞\\ までです。色がない場合には灰色、数字が大きいほど色が多くなります。",
-                "names": ["$~彩度", "$~ｃ"]
+                "names": [
+                    "$~彩度",
+                    "$~ｃ"
+                ]
             },
             "hue": {
                 "doc": "$~色相環で、メゼンタ \\0\\、赤 \\30\\、緑 \\120\\、青 \\270\\ のどの色になるでしょうか。",
-                "names": ["$~色相", "$~h"]
+                "names": [
+                    "$~色相",
+                    "$~h"
+                ]
             },
             "colors": {
                 "black": {
                     "doc": "$~基本色である黒。",
-                    "names": ["$~黒"]
+                    "names": [
+                        "$~黒"
+                    ]
                 },
                 "white": {
                     "doc": "$~基本色は白。",
-                    "names": ["$~白"]
+                    "names": [
+                        "$~白"
+                    ]
                 },
                 "gray": {
                     "doc": "$~基本色はグレー。",
-                    "names": ["$~グレー"]
+                    "names": [
+                        "$~グレー"
+                    ]
                 },
                 "red": {
                     "doc": "$~基本色である赤。",
-                    "names": ["$~赤"]
+                    "names": [
+                        "$~赤"
+                    ]
                 },
                 "orange": {
                     "doc": "$~基本色であるオレンジ色。",
-                    "names": ["$~オレンジ"]
+                    "names": [
+                        "$~オレンジ"
+                    ]
                 },
                 "yellow": {
                     "doc": "$~基本色である黄色。",
-                    "names": ["$~黄色"]
+                    "names": [
+                        "$~黄色"
+                    ]
                 },
                 "green": {
                     "doc": "$~基本色である緑色。",
-                    "names": ["$~緑"]
+                    "names": [
+                        "$~緑"
+                    ]
                 },
                 "blue": {
                     "doc": "$~基本色である青。",
-                    "names": ["$~青"]
+                    "names": [
+                        "$~青"
+                    ]
                 },
                 "purple": {
                     "doc": "$~基本的な色である紫。",
-                    "names": ["$~紫"]
+                    "names": [
+                        "$~紫"
+                    ]
                 },
                 "brown": {
                     "doc": "$~基本的な色は茶色です。",
-                    "names": ["$~茶色"]
+                    "names": [
+                        "$~茶色"
+                    ]
                 },
                 "pink": {
                     "doc": "$~基本色であるピンク。",
-                    "names": ["$~ピンク"]
+                    "names": [
+                        "$~ピンク"
+                    ]
                 }
             },
             "description": {
@@ -4920,14 +5550,20 @@
                 "$~これは、「開始時（0%）、傾斜360度で開始し、傾斜0度で終了する」という意味です。私は@Phrase、これは私たちを永遠にぐるぐる回らせます！",
                 "$~他の入力要素を取り入れて、自分だけのクリエイティブなダンスを試してみてください。"
             ],
-            "names": ["$~💃", "$~順序"],
+            "names": [
+                "$~💃",
+                "$~順序"
+            ],
             "poses": {
                 "doc": "$~0% から 100% までのパーセンテージの @Map で、それぞれが @Pose とペアになっています。すべてのパーセンテージを指定する必要はありません。指定したパーセンテージ間で @Output をスムーズに移動させます。",
                 "names": "$~ポーズ"
             },
             "duration": {
                 "doc": "$~このダンスはどのくらいの時間踊ればいいですか？繰り返す場合は、時間を増やすのではなく、ただ速く踊るだけです。",
-                "names": ["$~⏳", "$~間隔"]
+                "names": [
+                    "$~⏳",
+                    "$~間隔"
+                ]
             },
             "style": {
                 "doc": "$~ダンスにはどんなスタイルを使えばいいでしょうか。",
@@ -4944,7 +5580,10 @@
         },
         "Place": {
             "doc": "$~私は @Stage 上の場所です。デフォルトでは中央にいるので、入力はすべてオプションです。",
-            "names": ["$~📍", "$~場所"],
+            "names": [
+                "$~📍",
+                "$~場所"
+            ],
             "x": {
                 "doc": "$~x 軸上の位置。",
                 "names": "$~x"
@@ -4959,12 +5598,18 @@
             },
             "rotation": {
                 "doc": "$~この位置での回転",
-                "names": ["$~📐", "$~回転"]
+                "names": [
+                    "$~📐",
+                    "$~回転"
+                ]
             }
         },
         "Velocity": {
             "doc": "$~@Output @Output（x 軸と y 軸に沿ったメートル/秒、および回転角度/秒）を指定します。入力は任意です。デフォルトでは何も動きません。",
-            "names": ["$~💨", "$~速度"],
+            "names": [
+                "$~💨",
+                "$~速度"
+            ],
             "x": {
                 "doc": "$~x 軸上で毎秒何メートル移動するか。",
                 "names": "$~x"
@@ -4975,12 +5620,18 @@
             },
             "angle": {
                 "doc": "$~1秒間に何度回転するか",
-                "names": ["$~角度", "$~°"]
+                "names": [
+                    "$~角度",
+                    "$~°"
+                ]
             }
         },
         "Matter": {
             "doc": "$~私は出力の物理的特性であり、それがステージ上で他の出力とどのように相互作用するかに影響します。",
-            "names": ["$~⚛️", "$~案件"],
+            "names": [
+                "$~⚛️",
+                "$~案件"
+            ],
             "mass": {
                 "doc": "$~重量（キログラム）",
                 "names": "$~質量"
@@ -5011,7 +5662,10 @@
                 "$~私は@Phrase！私はオーラです。こんな感じです：",
                 "$~\\Phrase(\n\t'I am GLOWING!' \n\taura: Aura(Color(50% 100 118°) 0.1m 0m 0.1m\n)\\"
             ],
-            "names": ["$~🔮", "$~オーラ"],
+            "names": [
+                "$~🔮",
+                "$~オーラ"
+            ],
             "color": {
                 "doc": "$~@Aura が適用される @Color。",
                 "names": "$~色"
@@ -5038,7 +5692,10 @@
                 "$~枠線を追加していただければ、トリミングいたします。",
                 "$~\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°) frame: Rectangle(-1m -1m 1m 1m))\\"
             ],
-            "names": ["$~🎭", "$~ステージ"],
+            "names": [
+                "$~🎭",
+                "$~ステージ"
+            ],
             "content": {
                 "doc": "$~ステージに表示する @Output のリスト。",
                 "names": "$~コンテンツ"
@@ -5060,7 +5717,9 @@
                 "names": "$~場所"
             },
             "name": {
-                "doc": ["$~@Phrase.name と同じです!"],
+                "doc": [
+                    "$~@Phrase.name と同じです!"
+                ],
                 "names": "$~名前"
             },
             "description": {
@@ -5091,7 +5750,10 @@
             },
             "rotation": {
                 "doc": "$~@Group.rotation",
-                "names": ["$~📐", "$~回転"]
+                "names": [
+                    "$~📐",
+                    "$~回転"
+                ]
             },
             "scale": {
                 "doc": "$~@Group.scale",
@@ -5123,7 +5785,10 @@
             },
             "duration": {
                 "doc": "$~@Phrase.duration と同じです。",
-                "names": ["$~⏳", "$~間隔"]
+                "names": [
+                    "$~⏳",
+                    "$~間隔"
+                ]
             },
             "style": {
                 "doc": "$~@Phrase.style と同じです!",
@@ -5144,167 +5809,249 @@
         "sequence": {
             "sway": {
                 "doc": "$~@Output の中心の周りを前後に揺れる @Sequence を作成します。",
-                "names": ["$~揺れる"],
+                "names": [
+                    "$~揺れる"
+                ],
                 "angle": {
                     "doc": "$~揺れにどれだけ傾くか。",
-                    "names": ["$~角度"]
+                    "names": [
+                        "$~角度"
+                    ]
                 }
             },
             "bounce": {
                 "doc": "$~指定された高さで @Output をバウンドさせる @Sequence を作成します。",
-                "names": ["$~バウンス"],
+                "names": [
+                    "$~バウンス"
+                ],
                 "height": {
                     "doc": "$~どのくらい高く跳ねるか。",
-                    "names": ["$~身長"]
+                    "names": [
+                        "$~身長"
+                    ]
                 }
             },
             "spin": {
                 "doc": "$~@Output をその中心の周りに回転させる @Sequence を作成します。",
-                "names": ["$~スピン"]
+                "names": [
+                    "$~スピン"
+                ]
             },
             "fadein": {
                 "doc": "$~@Output を非表示から表示にフェードインする @Sequence を作成します。",
-                "names": ["$~フェードイン"]
+                "names": [
+                    "$~フェードイン"
+                ]
             },
             "fadeout": {
                 "doc": "$~@Output を可視から不可視にフェードアウトする @Sequence を作成します。既存の @Sequence で試してみてください。",
-                "names": ["$~フェードアウト"]
+                "names": [
+                    "$~フェードアウト"
+                ]
             },
             "popup": {
                 "doc": "$~@Output が通常のサイズに縮小するよりも速く拡大する @Sequence を作成します。",
-                "names": ["$~ポップアップ"]
+                "names": [
+                    "$~ポップアップ"
+                ]
             },
             "shake": {
                 "doc": "$~@Output が怖いように見える @Sequence を作成します。",
-                "names": ["$~振る"]
+                "names": [
+                    "$~振る"
+                ]
             },
             "pulse": {
                 "doc": "$~私は、 @Sequence@Output。",
-                "names": ["$~脈"],
+                "names": [
+                    "$~脈"
+                ],
                 "amount": {
                     "doc": "$~ピーク時にどれだけ規模を拡大すべきか。",
-                    "names": ["$~額"]
+                    "names": [
+                        "$~額"
+                    ]
                 }
             },
             "heartbeat": {
                 "doc": "$~私は、心臓の鼓動のように、2つの短い拍子で@Sequence@Output。",
-                "names": ["$~心拍"],
+                "names": [
+                    "$~心拍"
+                ],
                 "amount": {
                     "doc": "$~各拍ごとにどれくらいスケールするか。",
-                    "names": ["$~額"]
+                    "names": [
+                        "$~額"
+                    ]
                 }
             },
             "tada": {
                 "doc": "$~私は、 @Sequence@Output。",
-                "names": ["$~タダ"],
+                "names": [
+                    "$~タダ"
+                ],
                 "amount": {
                     "doc": "$~祝賀行事の際にどれくらい規模を拡大するか。",
-                    "names": ["$~額"]
+                    "names": [
+                        "$~額"
+                    ]
                 }
             },
             "wiggle": {
                 "doc": "$~@Sequence@Output。",
-                "names": ["$~くねくね"],
+                "names": [
+                    "$~くねくね"
+                ],
                 "angle": {
                     "doc": "$~どれくらい傾けるべきか。",
-                    "names": ["$~角度"]
+                    "names": [
+                        "$~角度"
+                    ]
                 }
             },
             "flash": {
                 "doc": "$~@Sequence@Output。",
-                "names": ["$~フラッシュ"]
+                "names": [
+                    "$~フラッシュ"
+                ]
             },
             "zoomin": {
                 "doc": "$~@Sequenceを作成し、 @Output。入力中の@Sequence。",
-                "names": ["$~ズームイン"]
+                "names": [
+                    "$~ズームイン"
+                ]
             },
             "fadeinup": {
                 "doc": "$~@Outputをフェードインさせながらスライドアップさせる@Output。エントリー中の@Sequence！",
-                "names": ["$~フェードインアップ"],
+                "names": [
+                    "$~フェードインアップ"
+                ],
                 "distance": {
                     "doc": "$~どれくらい滑るか。",
-                    "names": ["$~距離"]
+                    "names": [
+                        "$~距離"
+                    ]
                 }
             },
             "fadeindown": {
                 "doc": "$~@Outputをフェードインさせながらスライドダウンさせる@Output。入力中の@Sequence！",
-                "names": ["$~フェードインダウン"],
+                "names": [
+                    "$~フェードインダウン"
+                ],
                 "distance": {
                     "doc": "$~どれくらい滑るか。",
-                    "names": ["$~距離"]
+                    "names": [
+                        "$~距離"
+                    ]
                 }
             },
             "fadeinleft": {
                 "doc": "$~左側からスライドインしながら@Outputフェードインさせる@Output。インタラクションする@Sequence！",
-                "names": ["$~左へフェードイン"],
+                "names": [
+                    "$~左へフェードイン"
+                ],
                 "distance": {
                     "doc": "$~どれくらい滑るか。",
-                    "names": ["$~距離"]
+                    "names": [
+                        "$~距離"
+                    ]
                 }
             },
             "fadeinright": {
                 "doc": "$~@Outputを右からスライドさせながらフェードインさせる@Output。入力中の@Sequence！",
-                "names": ["$~フェードインライト"],
+                "names": [
+                    "$~フェードインライト"
+                ],
                 "distance": {
                     "doc": "$~どれくらい滑るか。",
-                    "names": ["$~距離"]
+                    "names": [
+                        "$~距離"
+                    ]
                 }
             },
             "rotatein": {
                 "doc": "$~@Output回転させながらフェードインさせる@Output。入力中の@Sequence！",
-                "names": ["$~回転"],
+                "names": [
+                    "$~回転"
+                ],
                 "angle": {
                     "doc": "$~どれくらい回転させるか。",
-                    "names": ["$~角度"]
+                    "names": [
+                        "$~角度"
+                    ]
                 }
             },
             "zoomout": {
                 "doc": "$~@Outputゼロにスケールアウトする@Output。既存の@Sequence。",
-                "names": ["$~ズームアウト"]
+                "names": [
+                    "$~ズームアウト"
+                ]
             },
             "fadeoutup": {
                 "doc": "$~@Outputをフェードアウトさせながらスライドアップさせる@Output。既存の@Sequence！",
-                "names": ["$~フェードアウトアップ"],
+                "names": [
+                    "$~フェードアウトアップ"
+                ],
                 "distance": {
                     "doc": "$~どれくらい滑るか。",
-                    "names": ["$~距離"]
+                    "names": [
+                        "$~距離"
+                    ]
                 }
             },
             "fadeoutdown": {
                 "doc": "$~@Outputをスライドダウンしながらフェードアウトさせる@Output。既存の@Sequence！",
-                "names": ["$~フェードアウトダウン"],
+                "names": [
+                    "$~フェードアウトダウン"
+                ],
                 "distance": {
                     "doc": "$~どれくらい滑るか。",
-                    "names": ["$~距離"]
+                    "names": [
+                        "$~距離"
+                    ]
                 }
             },
             "fadeoutleft": {
                 "doc": "$~@Output左にスライドさせながらフェードアウトさせる@Output。既存の@Sequence！",
-                "names": ["$~左へフェードアウト"],
+                "names": [
+                    "$~左へフェードアウト"
+                ],
                 "distance": {
                     "doc": "$~どれくらい滑るか。",
-                    "names": ["$~距離"]
+                    "names": [
+                        "$~距離"
+                    ]
                 }
             },
             "fadeoutright": {
                 "doc": "$~@Outputを右にスライドさせながらフェードアウトさせる@Output。既存の@Sequence！",
-                "names": ["$~完全に消え去る"],
+                "names": [
+                    "$~完全に消え去る"
+                ],
                 "distance": {
                     "doc": "$~どれくらい滑るか。",
-                    "names": ["$~距離"]
+                    "names": [
+                        "$~距離"
+                    ]
                 }
             },
             "rotateout": {
                 "doc": "$~@Outputをフェードアウトさせながら回転させる@Output。既存の@Sequence！",
-                "names": ["$~回転アウト"],
+                "names": [
+                    "$~回転アウト"
+                ],
                 "angle": {
                     "doc": "$~どれくらい回転させるか。",
-                    "names": ["$~角度"]
+                    "names": [
+                        "$~角度"
+                    ]
                 }
             },
             "rainbow": {
                 "doc": "$~私は、 @Sequence@Output。",
-                "names": ["$~虹"]
+                "names": [
+                    "$~虹"
+                ]
             }
         },
         "Source": {
@@ -5348,7 +6095,10 @@
                 "$~@Language@TextLiteral、設定されていない場合は選択された言語を使用します。",
                 "$~設定で音声を選択できます。"
             ],
-            "names": ["$~🔊", "$~言う"],
+            "names": [
+                "$~🔊",
+                "$~言う"
+            ],
             "text": {
                 "doc": "$~私が声に出して読むべき文章。",
                 "names": "$~文章"
@@ -5357,47 +6107,70 @@
         },
         "Gesture": {
             "doc": "$~私は、カメラが検出した手のポーズのスナップショットで、 @Hand。place はステージ上の手の位置を示し、fingsings は伸ばされている指の数を示します。open は手が開いているとき（3本以上の指が伸びているとき）に true になり、thumb、index、middle、ring、pinky はそれぞれどの指が伸びているかを示します。palm は手のひらがカメラに向いているときに true になり、手の甲が向いているときに false になります。",
-            "names": ["$~✋", "$~ジェスチャー"],
+            "names": [
+                "$~✋",
+                "$~ジェスチャー"
+            ],
             "place": {
                 "doc": "$~舞台上の手の位置。",
-                "names": ["$~場所"]
+                "names": [
+                    "$~場所"
+                ]
             },
             "open": {
                 "doc": "$~@True（3本以上の指が伸びている場合）はTrue、握りこぶしの場合はFalse。",
-                "names": ["$~開ける"]
+                "names": [
+                    "$~開ける"
+                ]
             },
             "fingers": {
                 "doc": "$~指を何本伸ばしたか、0（握りこぶし）から5（親指を含めた全ての指を立てた状態）までで答えてください。",
-                "names": ["$~指"]
+                "names": [
+                    "$~指"
+                ]
             },
             "thumb": {
                 "doc": "$~親指が伸びている場合はTrue。",
-                "names": ["$~親指"]
+                "names": [
+                    "$~親指"
+                ]
             },
             "index": {
                 "doc": "$~人差し指が伸びている場合はTrue。",
-                "names": ["$~索引"]
+                "names": [
+                    "$~索引"
+                ]
             },
             "middle": {
                 "doc": "$~@True。",
-                "names": ["$~真ん中"]
+                "names": [
+                    "$~真ん中"
+                ]
             },
             "ring": {
                 "doc": "$~@True。",
-                "names": ["$~指輪"]
+                "names": [
+                    "$~指輪"
+                ]
             },
             "pinky": {
                 "doc": "$~@True。",
-                "names": ["$~ピンキー"]
+                "names": [
+                    "$~ピンキー"
+                ]
             },
             "palm": {
                 "doc": "$~@手のひらがカメラに向いている場合は @False、手の甲が向いている場合は @False。",
-                "names": ["$~ヤシ"]
+                "names": [
+                    "$~ヤシ"
+                ]
             }
         },
         "Result": {
             "doc": "$~私は\\⌕\\を使用したパターン検索で 1 つの一致にたどり着きました。一致したテキスト、その場所、およびキャプチャされたテキスト。",
-            "names": ["$~結果"],
+            "names": [
+                "$~結果"
+            ],
             "text": {
                 "doc": "$~一致したテキスト全体。",
                 "names": "$~文章"
@@ -5522,7 +6295,7 @@
                     "tip": "$~プロジェクトをテキストとしてクリップボードにコピーする",
                     "label": "$~テキストとしてコピー"
                 },
-                "addSource": "$~新しい$sourceを作成する",
+                "addSource": "$~新しい@Sourceを作成する",
                 "duplicate": {
                     "tip": "$~このプロジェクトを複製する",
                     "label": "$~重複"
@@ -5683,7 +6456,7 @@
             ],
             "confirm": {
                 "delete": {
-                    "description": "$~この$sourceを削除する",
+                    "description": "$~この@Sourceを削除する",
                     "prompt": "$~消去"
                 }
             },
@@ -6040,10 +6813,15 @@
             "mode": {
                 "browse": {
                     "label": "$~ブラウズ",
-                    "labels": ["$~コード", "$~方法"],
+                    "labels": [
+                        "$~コード",
+                        "$~方法",
+                        "$?"
+                    ],
                     "tips": [
                         "$~プログラミング言語の概念",
-                        "$~プロジェクト作成のための再利用可能なパターン"
+                        "$~プロジェクト作成のための再利用可能なパターン",
+                        "$?"
                     ]
                 },
                 "purpose": {
@@ -6085,7 +6863,10 @@
                 },
                 "howToFilter": {
                     "label": "$~ユーザーが作成したハウツー記事",
-                    "labels": ["$~全て", "$~ギャラリーとブックマーク"],
+                    "labels": [
+                        "$~全て",
+                        "$~ギャラリーとブックマーク"
+                    ],
                     "tips": [
                         "$~ユーザーが作成したすべてのハウツーを見る",
                         "$~このプロジェクトのギャラリーにあるユーザー作成のハウツー記事とすべてのブックマークのみを表示する"
@@ -6183,7 +6964,13 @@
                 "label": "$~ナビゲーション履歴",
                 "home": "$~家"
             },
-            "tutorial": "$~チュートリアル"
+            "tutorial": "$~チュートリアル",
+            "glossary": {
+                "explain": {
+                    "header": "$?",
+                    "explanation": "$?"
+                }
+            }
         },
         "dialog": {
             "share": {
@@ -6224,7 +7011,10 @@
                 "mode": {
                     "public": {
                         "label": "$~可視性",
-                        "labels": ["$~プライベート", "$~公共"],
+                        "labels": [
+                            "$~プライベート",
+                            "$~公共"
+                        ],
                         "tips": [
                             "$~このプロジェクトはあなたと共同編集者だけが閲覧できます",
                             "$~このプロジェクトは誰でも見ることができます"
@@ -6232,7 +7022,10 @@
                     },
                     "preview": {
                         "label": "$~プレビューモード",
-                        "labels": ["$~自動", "$~カスタム"],
+                        "labels": [
+                            "$~自動",
+                            "$~カスタム"
+                        ],
                         "tips": [
                             "$~プロジェクトが表示する内容に基づいて、独自のプレビューグリフを選択できるようにする",
                             "$~好きなグリフをピン留めする"
@@ -6309,7 +7102,11 @@
                     },
                     "dark": {
                         "label": "$~テーマ",
-                        "labels": ["$~ライト", "$~暗い", "$~自動車"],
+                        "labels": [
+                            "$~ライト",
+                            "$~暗い",
+                            "$~自動車"
+                        ],
                         "tips": [
                             "$~明るい色",
                             "$~暗い色",
@@ -6318,7 +7115,10 @@
                     },
                     "space": {
                         "label": "$~スペースインジケータ",
-                        "labels": ["$~隠れる", "$~見せる"],
+                        "labels": [
+                            "$~隠れる",
+                            "$~見せる"
+                        ],
                         "tips": [
                             "$~スペースとタブのインジケータを表示しない",
                             "$~スペースとタブのインジケータを明示的に表示する"
@@ -6326,7 +7126,10 @@
                     },
                     "lines": {
                         "label": "$~行番号",
-                        "labels": ["$~隠れる", "$~見せる"],
+                        "labels": [
+                            "$~隠れる",
+                            "$~見せる"
+                        ],
                         "tips": [
                             "$~テキストモードで行番号を表示しない",
                             "$~テキストモードで行番号を表示する"
@@ -6349,7 +7152,10 @@
                     },
                     "blocks": {
                         "label": "$~編集モード",
-                        "labels": ["$~文章", "$~ブロック"],
+                        "labels": [
+                            "$~文章",
+                            "$~ブロック"
+                        ],
                         "tips": [
                             "$~コードをテキストとして編集",
                             "$~コードをブロックとして編集する"
@@ -6357,7 +7163,11 @@
                     },
                     "blockDensity": {
                         "label": "$~ブロック間隔",
-                        "labels": ["$~コンパクト", "$~普通", "$~広々とした"],
+                        "labels": [
+                            "$~コンパクト",
+                            "$~普通",
+                            "$~広々とした"
+                        ],
                         "tips": [
                             "$~ブロックをコンパクトにして、画面により多くのコードを収める",
                             "$~デフォルトのブロック間隔",
@@ -6366,7 +7176,10 @@
                     },
                     "tab": {
                         "label": "$~タブキー",
-                        "labels": ["$~フォーカスを切り替える", "$~タブを挿入"],
+                        "labels": [
+                            "$~フォーカスを切り替える",
+                            "$~タブを挿入"
+                        ],
                         "tips": [
                             "$~Tab キーでキーボードのフォーカスを次のコントロールに移動します。",
                             "$~tab はエディタにタブを挿入します"
@@ -6374,7 +7187,10 @@
                     },
                     "wrap": {
                         "label": "$~ラップライン",
-                        "labels": ["$~オフ", "$~の上"],
+                        "labels": [
+                            "$~オフ",
+                            "$~の上"
+                        ],
                         "tips": [
                             "$~テキストモードでは、長い行は水平方向にスクロールします。",
                             "$~テキストモードで長い行がエディタウィンドウに折り返される"
@@ -6382,7 +7198,10 @@
                     },
                     "words": {
                         "label": "$~キーワード",
-                        "labels": ["$~シンボル", "$~言葉"],
+                        "labels": [
+                            "$~シンボル",
+                            "$~言葉"
+                        ],
                         "tips": [
                             "$~組み込みキーワードをシンボルとして表示する",
                             "$~組み込みキーワードをあなたの言語の単語として表示する"
@@ -6460,7 +7279,10 @@
                 },
                 "mode": {
                     "label": "$~フィードバック",
-                    "labels": ["$~欠陥", "$~アイデア"],
+                    "labels": [
+                        "$~欠陥",
+                        "$~アイデア"
+                    ],
                     "tips": [
                         "$~壊れていると思われるものを報告する",
                         "$~新しい機能や改善点を提案する"
@@ -6509,7 +7331,10 @@
                 "open": "$~通知ダイアログを開く",
                 "howToNotifications": {
                     "label": "$~新しいハウツーの通知",
-                    "labels": ["$~オフ", "$~の上"],
+                    "labels": [
+                        "$~オフ",
+                        "$~の上"
+                    ],
                     "tips": [
                         "$~新しいハウツーを通知しない",
                         "$~新しいハウツーを通知する"
@@ -6589,7 +7414,10 @@
                 "explanation": "$~プロジェクトはギャラリーに追加されています。デフォルトでは、ギャラリーを閲覧できるユーザーであれば誰でもこのプロジェクトを閲覧できます。プロジェクトを閲覧できるユーザーを、あなたとギャラリーキュレーターのみに制限することもできます。",
                 "mode": {
                     "label": "$~プロジェクトへのアクセスを制限する",
-                    "labels": ["$~制限しない", "$~制限"],
+                    "labels": [
+                        "$~制限しない",
+                        "$~制限"
+                    ],
                     "tips": [
                         "$~このギャラリーを見ることができる人は誰でもあなたのプロジェクトを見ることができます",
                         "$~あなたのプロジェクトを見ることができるのはギャラリーのキュレーターだけです"
@@ -6787,7 +7615,10 @@
                 },
                 "mode": {
                     "label": "$~チュートリアル",
-                    "labels": ["$~素早い", "$~完了"],
+                    "labels": [
+                        "$~素早い",
+                        "$~完了"
+                    ],
                     "tips": [
                         "$~別のプログラミング言語を知っているクリエイター向けの短いツアー",
                         "$~プログラミング初心者向けの、完全かつ劇的な入門編"
@@ -7214,7 +8045,11 @@
                     },
                     "fill": {
                         "label": "$~埋める",
-                        "labels": ["$~なし", "$~不完全な", "$~選ぶ"],
+                        "labels": [
+                            "$~なし",
+                            "$~不完全な",
+                            "$~選ぶ"
+                        ],
                         "tips": [
                             "$~塗りつぶしなし",
                             "$~周囲のテキストから塗りつぶし色を継承する",
@@ -7223,7 +8058,11 @@
                     },
                     "stroke": {
                         "label": "$~脳卒中",
-                        "labels": ["$~なし", "$~不完全な", "$~選ぶ"],
+                        "labels": [
+                            "$~なし",
+                            "$~不完全な",
+                            "$~選ぶ"
+                        ],
                         "tips": [
                             "$~脳卒中なし",
                             "$~周囲のテキストから線の色を継承する",
@@ -7362,7 +8201,10 @@
                     },
                     "public": {
                         "label": "$~可視性",
-                        "labels": ["$~公共", "$~プライベート"],
+                        "labels": [
+                            "$~公共",
+                            "$~プライベート"
+                        ],
                         "tips": [
                             "$~誰でもこの文字を見ることができます",
                             "$~このキャラクターはあなたと共同編集者だけが見ることができます"
@@ -7464,7 +8306,10 @@
                 "nextEntry": "$~次の文字列を編集する",
                 "qualityMode": {
                     "label": "$~見せる",
-                    "labels": ["$~全て", "$~機械翻訳または未記述"],
+                    "labels": [
+                        "$~全て",
+                        "$~機械翻訳または未記述"
+                    ],
                     "tips": [
                         "$~すべての文字列を表示",
                         "$~機械翻訳された文字列または未記述の文字列のみを表示する"
@@ -7513,7 +8358,11 @@
                 },
                 "singletonWordsWarning": "$~下書きの中には、文章全体を通して一度しか登場しない単語がいくつかあります。それらの単語のスペルは正しく、他の文章との整合性も保たれていることを確認してください。",
                 "viewPR": "$~プルリクエストを表示する",
-                "oneLocaleNote": "$~各投稿は一度に1つの言語を対象とします。このバッチは$locale。別の言語に貢献したい場合は、まず言語を切り替えてください。各言語で保存した編集内容は別々に保存されます。"
+                "oneLocaleNote": "$~各投稿は一度に1つの言語を対象とします。このバッチは$locale。別の言語に貢献したい場合は、まず言語を切り替えてください。各言語で保存した編集内容は別々に保存されます。",
+                "literalTermsWarning": "$?",
+                "checkReadingLevel": "$?",
+                "readingLevelComplex": "$?",
+                "readingLevelOk": "$?"
             },
             "breadcrumb": {
                 "label": "$~パンくず",
@@ -7598,7 +8447,10 @@
                 },
                 "notification": {
                     "label": "$~購読者に通知する",
-                    "labels": ["$~通知する", "$~通知しない"],
+                    "labels": [
+                        "$~通知する",
+                        "$~通知しない"
+                    ],
                     "tips": [
                         "$~このハウツーを投稿したら購読者に通知する",
                         "$~このハウツーを投稿しても購読者に通知しない"
@@ -7631,7 +8483,10 @@
                 },
                 "accessMode": {
                     "label": "$~このハウツーを閲覧できるユーザーを制限する",
-                    "labels": ["$~制限付き", "$~拡大"],
+                    "labels": [
+                        "$~制限付き",
+                        "$~拡大"
+                    ],
                     "tips": [
                         "$~このギャラリーのクリエイターのみが閲覧できます",
                         "$~キュレーターが閲覧できるギャラリーのクリエイターとキュレーター"
@@ -7641,7 +8496,10 @@
                 "publicExplanation": "$~リンクを知っている人なら誰でもあなたのハウツー記事を見られるようにしたい場合は、ハウツー記事を公開設定にすることができます。",
                 "publicMode": {
                     "label": "$~このハウツーを公開する",
-                    "labels": ["$~プライベート", "$~公共"],
+                    "labels": [
+                        "$~プライベート",
+                        "$~公共"
+                    ],
                     "tips": [
                         "$~このハウツーに直接アクセスできるWordplayerのみが閲覧できます",
                         "$~リンクを知っている人なら誰でもこのハウツーを見ることができます"
@@ -7704,7 +8562,10 @@
                     },
                     "mode": {
                         "label": "$~デフォルトの表示",
-                        "labels": ["$~限定", "$~拡大"],
+                        "labels": [
+                            "$~限定",
+                            "$~拡大"
+                        ],
                         "tips": [
                             "$~このギャラリーの共同編集者のみが閲覧できます",
                             "$~キュレーターが作成したギャラリーの共同作業者は閲覧可能"

@@ -1381,7 +1381,7 @@ export default class ProjectsDatabase {
         const newProject = Project.make(
             null,
             '',
-            new Source(locales[0].term.start, code),
+            new Source(locales[0].glossary.start.word, code),
             [],
             // The project starts with all of the locales currently selected in the config.
             locales,

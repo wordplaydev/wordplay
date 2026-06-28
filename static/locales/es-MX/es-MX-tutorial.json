@@ -5171,7 +5171,7 @@
                             "$~Aunque me encanta explicar las cosas, a veces también resulta útil omitir algunas cosas. Es decir, eliminar algo de un proyecto temporalmente para que no forme parte del mismo.",
                             "$~Puedes hacer esto envolviendo cualquier cosa entre las estrellas.",
                             "$~¿Ves cómo \"gato\" no está incluido en la lista que hicimos?",
-                            "$~Puedes eliminar las estrellas eliminándolas con el teclado o colocando el cursor dentro de ellas y usando el comando elide para eliminarlas por ti."
+                            "$~Puedes eliminar las estrellas borrándolas con el teclado o colocando el cursor dentro de ellas y usando el comando elide para eliminarlas por ti."
                         ],
                         { "edit": "[1 2 3 4 *'gato'* 5 6 7 8]" },
                         null,

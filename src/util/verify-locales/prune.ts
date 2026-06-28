@@ -1,9 +1,9 @@
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
-import * as prettier from 'prettier';
 import ts from 'typescript';
 import { findUnusedKeys } from '@util/verify-locales/findUnusedKeys';
+import writeFormatted from '@util/verify-locales/writeFormatted';
 import { DefaultLocale } from '@util/verify-locales/LocaleSchema';
 
 /** Root file where the `LocaleText` type is defined. The path resolver starts
@@ -103,20 +103,20 @@ function findProperty(
 }
 
 /** Resolve an `import type X from '<specifier>'` to an absolute file path. */
-function resolveImportSpecifier(
-    specifier: string,
-    fromFile: string,
-): string {
+function resolveImportSpecifier(specifier: string, fromFile: string): string {
     for (const [alias, real] of PATH_ALIASES) {
         if (specifier.startsWith(alias))
             return path.resolve(real + specifier.slice(alias.length) + '.ts');
     }
     if (specifier.startsWith('.'))
         return (
-            path.resolve(path.dirname(fromFile), specifier).replace(/\.ts$/, '') +
-            '.ts'
+            path
+                .resolve(path.dirname(fromFile), specifier)
+                .replace(/\.ts$/, '') + '.ts'
         );
-    throw new Error(`Cannot resolve non-alias non-relative import: ${specifier}`);
+    throw new Error(
+        `Cannot resolve non-alias non-relative import: ${specifier}`,
+    );
 }
 
 /** Resolve a default export to the local type name it points at. Handles
@@ -144,7 +144,11 @@ function locateTypeDefinition(
     sf: ts.SourceFile,
     typeName: string,
     file: string,
-): { file: string; sf: ts.SourceFile; decl: ts.TypeAliasDeclaration | ts.InterfaceDeclaration } {
+): {
+    file: string;
+    sf: ts.SourceFile;
+    decl: ts.TypeAliasDeclaration | ts.InterfaceDeclaration;
+} {
     function resolveInTargetFile(
         targetFile: string,
         isDefaultImport: boolean,
@@ -371,17 +375,11 @@ async function editOnePath(dotted: string): Promise<void> {
         resolution.property,
         resolution.members,
     );
-    fs.writeFileSync(resolution.file, newSource);
+    await writeFormatted(resolution.file, newSource);
 
     const enUS = JSON.parse(fs.readFileSync(EN_US_JSON, 'utf8'));
-    if (removeJsonKey(enUS, segments)) {
-        const prettierOptions = await prettier.resolveConfig(EN_US_JSON);
-        const formatted = await prettier.format(JSON.stringify(enUS), {
-            ...prettierOptions,
-            parser: 'json',
-        });
-        fs.writeFileSync(EN_US_JSON, formatted);
-    }
+    if (removeJsonKey(enUS, segments))
+        await writeFormatted(EN_US_JSON, JSON.stringify(enUS));
 }
 
 /** Run the chained cleanup commands. Called once after all edits so we don't
@@ -413,7 +411,9 @@ export async function prune(dotted: string): Promise<void> {
     try {
         await editOnePath(dotted);
     } catch (err) {
-        console.error(`Refusing to prune "${dotted}": ${(err as Error).message}`);
+        console.error(
+            `Refusing to prune "${dotted}": ${(err as Error).message}`,
+        );
         process.exit(1);
     }
     console.log(`Removed ${dotted} from TS type + en-US.json.`);

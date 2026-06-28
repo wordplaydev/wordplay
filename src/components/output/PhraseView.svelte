@@ -1,4 +1,5 @@
 <script module lang="ts">
+    import getConceptName from '@locale/getConceptName';
     /** Map Wordplay's alignment glyphs to logical CSS text-align values so a
      *  phrase's text aligns to the start/end of its own reading direction —
      *  '<' (start) and '>' (end) flip automatically under an RTL `dir`. */
@@ -426,7 +427,7 @@
         aria-disabled={!selectable}
         aria-label={description}
         aria-roledescription={!selectable
-            ? $locales.getPlainText((l) => l.term.phrase)
+            ? $locales.getPlainText((l) => getConceptName(l, 'phrase'))
             : null}
         aria-pressed={selectable && editing && editable ? selected : null}
         class="output phrase"
@@ -480,7 +481,7 @@
                 {creator}
                 {view}
                 selected={soleSelected}
-                name={$locales.getPlainText((l) => l.term.phrase)}
+                name={$locales.getPlainText((l) => getConceptName(l, 'phrase'))}
                 rotation={phrase.pose.rotation ?? 0}
                 size={phrase.size ?? localContext.size}
             />

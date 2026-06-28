@@ -1,4 +1,5 @@
 import type LocaleText from '@locale/LocaleText';
+import getConceptName from '@locale/getConceptName';
 import type Context from '@nodes/Context';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
 import { FUNCTION_SYMBOL } from '@parser/Symbols';
@@ -55,7 +56,7 @@ export default class FunctionValue extends Value {
     }
 
     getDescription() {
-        return (l: LocaleText) => l.term.function;
+        return (l: LocaleText) => getConceptName(l, 'function');
     }
 
     getRepresentativeText() {

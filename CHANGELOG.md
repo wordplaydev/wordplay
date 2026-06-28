@@ -4,25 +4,29 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
-## 0.25.0 - 2026-06-22
+## 0.25.0 - 2026-06-27
 
 ### Added
 
 - 🌐 When you pick more than one language for Wordplay, we now show the interface in all of them at once. Your first language appears full size, and each other language follows it a little smaller and lighter — in labels, tooltips, the [Guide](https://wordplay.dev/guide), the tutorial, and even error messages.
-- 📕 Added the first sentence of project documentation to the project previews (#897).
-- 📐 We added a writing layout setting, so your program's output can read top to bottom (vertical) instead of left to right. It follows your language automatically, or you can pick one (#220).
+- 🌐 We added a writing layout setting, so your program's output can read top to bottom (vertical) instead of left to right. It follows your language automatically, or you can pick one (#220).
 - 📖 When you look at a concept in the [Guide](https://wordplay.dev/guide), we now show a link to the lesson that teaches it and a list of how-to's that use it, so it's easier to learn more (#769).
+- 📖 We added a glossary to the [Guide](https://wordplay.dev/guide) that explains the key words and ideas used across Wordplay. You can search it, or hover any term in the docs to see what it means (#780).
+- 📕 Added the first sentence of project documentation to the project previews (#897).
+- 📝 When you help translate Wordplay, we now point out text that may be hard to read and suggest when a key word should link to the glossary, so translations stay clear and easy to read (#460).
 
 ### Changed
 
 - 🌐 We made Wordplay work much better for right-to-left languages like Arabic and Hebrew. Menus, buttons, text, and the things your programs show on stage now flow from right to left to match how you read.
+- 🌐 We now use Claude to translate Wordplay into other languages. The wording is clearer, key words stay consistent, and the small example programs in the docs get translated too, not just the words around them.
+- 🌐 We made translating your own project into another language better: names, text, and documentation now translate together, with clearer wording.
 
 ### Fixed
 
 - 📕 We re-organized the how-to editing and viewing panels to offer much more width for viewing.
 - 🖱️ We fixed the code examples in the [Guide](https://wordplay.dev/guide) so you can drag pieces of them into your project.
 
-## 0.24.0 - 2026-06-18
+## 0.24.0 - 2026-06-20
 
 This abbreviated week we fleshed out the multilingual and text processing part of the programming language.
 

@@ -1,4 +1,5 @@
 import type LocaleText from '@locale/LocaleText';
+import getConceptName from '@locale/getConceptName';
 import type Context from '@nodes/Context';
 import type ConversionDefinition from '@nodes/ConversionDefinition';
 import { CONVERT_SYMBOL } from '@parser/Symbols';
@@ -44,7 +45,7 @@ export default class ConversionDefinitionValue extends SimpleValue {
     }
 
     getDescription() {
-        return (l: LocaleText) => l.term.function;
+        return (l: LocaleText) => getConceptName(l, 'function');
     }
 
     getRepresentativeText() {

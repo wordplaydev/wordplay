@@ -16,6 +16,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import writeFormatted from '@util/verify-locales/writeFormatted';
 
 /** Minimal shape of the JSON Schema fragments we walk. We treat the schema
  *  as untyped JSON elsewhere; this narrow type is enough for the recursion. */
@@ -86,7 +87,11 @@ function visit(
 
 visit(schema.definitions?.LocaleText, [], []);
 
-const termRoot = schema.definitions?.LocaleText?.properties?.term?.properties;
+// Terminology names are the glossary entry ids; an @term reference resolves to a
+// glossary entry's word. Each entry is an object ({ word, definition }) — only
+// its key matters here.
+const termRoot =
+    schema.definitions?.LocaleText?.properties?.glossary?.properties;
 const terminologyNames: string[] = Object.keys(termRoot ?? {}).sort();
 
 const entries: [string, string[]][] = [...inputsByField.entries()].sort(
@@ -107,10 +112,7 @@ const body =
 export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
 ` +
     entries
-        .map(
-            ([k, v]) =>
-                `    '${k}': [${v.map((n) => `'${n}'`).join(', ')}],`,
-        )
+        .map(([k, v]) => `    '${k}': [${v.map((n) => `'${n}'`).join(', ')}],`)
         .join('\n') +
     `
 };
@@ -123,21 +125,12 @@ export const TERMINOLOGY_NAMES: readonly string[] = [
 ];
 `;
 
-// Skip the write when the on-disk content already matches. Always-writing
-// touches mtime and can prime feedback loops with file watchers (e.g. a
-// stray nodemon on src/locale that doesn't ignore this generated file would
-// re-trigger create-schemas → write → re-trigger → ... forever, which then
-// floods Vite HMR).
-const existing = fs.existsSync(OUT_PATH)
-    ? fs.readFileSync(OUT_PATH, 'utf8')
-    : undefined;
-if (existing === body) {
-    console.log(
-        `${OUT_PATH} unchanged (${entries.length} fields, ${terminologyNames.length} terms)`,
-    );
-} else {
-    fs.writeFileSync(OUT_PATH, body);
-    console.log(
-        `Wrote ${OUT_PATH} (${entries.length} fields, ${terminologyNames.length} terms)`,
-    );
-}
+// writeFormatted skips the write when the formatted content already matches, so
+// re-runs don't touch mtime — important here because always-writing can prime
+// feedback loops with file watchers (e.g. a stray nodemon on src/locale that
+// doesn't ignore this generated file would re-trigger create-schemas → write →
+// re-trigger → ... forever, which then floods Vite HMR).
+const wrote = await writeFormatted(OUT_PATH, body);
+console.log(
+    `${wrote ? 'Wrote' : 'Unchanged'} ${OUT_PATH} (${entries.length} fields, ${terminologyNames.length} terms)`,
+);

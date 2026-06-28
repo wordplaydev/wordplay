@@ -1,4 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
+import getConceptName from '@locale/getConceptName';
 import type { ReplaceContext } from '@edit/revision/EditContext';
 import type Context from '@nodes/Context';
 import type LocaleText from '@locale/LocaleText';
@@ -70,12 +71,12 @@ export default class Insert extends Expression {
             {
                 name: 'table',
                 kind: node(Expression),
-                label: () => (l) => l.term.table,
+                label: () => (l) => getConceptName(l, 'table'),
             },
             {
                 name: 'row',
                 kind: node(Row),
-                label: () => (l) => l.term.row,
+                label: () => (l) => getConceptName(l, 'row'),
                 space: true,
             },
         ];
