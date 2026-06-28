@@ -46,6 +46,7 @@ import {
 } from '../../tutorial/TutorialMode';
 import fs from 'fs';
 import path from 'path';
+import generateEmojisForLocale from '@util/verify-locales/generateEmojis';
 import writeFormatted from '@util/verify-locales/writeFormatted';
 
 // We're we asked to translate? Let's see if there was a specific locale we're focusing on.
@@ -239,6 +240,31 @@ async function handleLocale(
 
     // Regenerate the per-locale how-to bundle the runtime loads (write-if-changed).
     await buildHowToBundle(log, locale);
+
+    // Generate this locale's emoji translations as part of a translate/override
+    // run, so a new/updated locale gets its `{locale}-emojis.json` without a
+    // separate `npm run locales-emojis`. Best-effort: it does network I/O (CLDR),
+    // so a failure is logged and the run continues rather than aborting.
+    if (TranslationRequested) await generateEmojis(log, locale);
+}
+
+/** Generate this locale's emoji translations in-process. Best-effort — it does
+ *  network I/O (CLDR), so a failure is logged and the run continues rather than
+ *  aborting a translation run. */
+async function generateEmojis(log: Log, locale: string): Promise<void> {
+    log.say(2, `Generating emoji translations for ${locale}…`);
+    try {
+        const { used, matched, total } = await generateEmojisForLocale(locale);
+        log.good(
+            3,
+            `Emojis: ${matched}/${total} from CLDR ${used.join('+') || 'en (fallback)'}.`,
+        );
+    } catch (error) {
+        log.warning(
+            2,
+            `Emoji generation for ${locale} failed (${error}); keeping any existing emojis. Re-run "npm run locales-emojis" later.`,
+        );
+    }
 }
 
 // Build a database of all locales

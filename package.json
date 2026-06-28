@@ -35,7 +35,7 @@
         "locales-override": "WORDPLAY_TRANSLATOR=claude npx tsx src/util/verify-locales/start.ts override",
         "locales-translate-parallel": "WORDPLAY_TRANSLATOR=claude npx tsx src/util/verify-locales/batch.ts translate",
         "locales-override-parallel": "WORDPLAY_TRANSLATOR=claude npx tsx src/util/verify-locales/batch.ts override",
-        "locales-emojis": "node scripts/generate-emojis.mjs",
+        "locales-emojis": "npx tsx src/util/verify-locales/generateEmojis.ts",
         "how": "npx tsx src/util/verify-locales/buildHowTos.ts",
         "codes": "npx tsx src/unicode/compress.ts",
         "rtl": "npx tsx scripts/check-logical-css.ts",
