@@ -39,11 +39,7 @@ import {
 import { findUnusedKeys } from '@util/verify-locales/findUnusedKeys';
 import findUntaggedStrings from '@util/verify-locales/findUntaggedStrings';
 import getTranslator from '@util/verify-locales/getTranslator';
-import {
-    DEFAULT_TUTORIAL_MODE,
-    TutorialModes,
-    type TutorialMode,
-} from '../../tutorial/TutorialMode';
+import { TutorialModes, type TutorialMode } from '../../tutorial/TutorialMode';
 import fs from 'fs';
 import path from 'path';
 import generateEmojisForLocale from '@util/verify-locales/generateEmojis';
@@ -56,11 +52,12 @@ const OverrideMachineTranslations = process.argv[2] === 'override';
 const FailOnInvalid = process.argv[2] === 'ci';
 const FixRequested = process.argv[2] === 'fix';
 
-/** Tutorial modes given the full translation pipeline (per-locale file creation + machine
- * translation). Modes NOT listed are still VERIFIED — their en-US source is schema- and
- * conflict-checked — but never translated or created for other locales, so the English can be
- * refined first. Add 'quick' here to roll quick-tutorial translations out to all locales. */
-const TranslatedTutorialModes: TutorialMode[] = [DEFAULT_TUTORIAL_MODE];
+/** Tutorial modes in the full translation pipeline (per-locale file creation + machine
+ * translation + required by CI). All modes are translated so no tutorial falls back to English
+ * in production; a mode here that lacks a per-locale file fails verification, and translate/override
+ * creates and fills it. (A mode could be removed here to keep it en-US-only while its English is
+ * refined.) */
+const TranslatedTutorialModes: TutorialMode[] = [...TutorialModes];
 
 // Make a logger so we can pretty print feedback. It bails on bad or exit with a failure exit code if we're in continuous integration mode.
 const log = new Log(FailOnInvalid);
