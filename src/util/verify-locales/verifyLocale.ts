@@ -91,6 +91,10 @@ export async function verifyLocale(
      *  once every sibling has been processed. Pass `undefined` for non-
      *  translation runs. */
     translatedPaths?: Set<string>,
+    /** Optional predicate to narrow which paths get translated (e.g. a
+     *  `+locale:<prefix>` scope). Verification still runs over everything;
+     *  only the translation pass is filtered. Undefined = translate all. */
+    localeFilter?: (path: LocalePath) => boolean,
 ): Promise<[LocaleText, boolean]> {
     let revisedText: LocaleText = text;
     const valid = LocaleValidator(text);
@@ -115,6 +119,7 @@ export async function verifyLocale(
         revisedStrings,
         globalNames,
         translatedPaths,
+        localeFilter,
     );
 
     return [revisedText, JSON.stringify(revisedText) !== JSON.stringify(text)];
@@ -144,6 +149,8 @@ async function checkLocale(
     /** Accumulator for paths whose translation succeeded in this run; see
      *  verifyLocale for details. */
     translatedPaths?: Set<string>,
+    /** Optional predicate to narrow which paths get translated; see verifyLocale. */
+    localeFilter?: (path: LocalePath) => boolean,
 ): Promise<LocaleText> {
     // Make a copy of the original to modify.
     let revised = JSON.parse(JSON.stringify(original)) as LocaleText;
@@ -154,6 +161,8 @@ async function checkLocale(
     // list nothing reads. Saves a second tree traversal of every locale.
     if (translate && warnUnwritten) {
         const pairsToTranslate = getCheckableLocalePairs(revised)
+            // Narrow to the requested locale-path scope, if any (+locale:<prefix>).
+            .filter((path) => localeFilter === undefined || localeFilter(path))
             .filter((path) => {
                 const value = path.value;
                 // If this path is marked revised ($!) in any locale, reset

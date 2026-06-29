@@ -15,6 +15,7 @@
 import { spawn } from 'child_process';
 import fs from 'fs';
 import path from 'path';
+import { parseCategorySelection } from '@util/verify-locales/contentCategories';
 
 /** Commands safe to batch — only ones that translate (per-locale, independent).
  *  verify/fix/ci do cross-locale work and stay on the serial `start.ts`. */
@@ -28,6 +29,8 @@ export type BatchArgs = {
     jobs: number;
     /** Explicit locales to run; empty means "all locales except en-US". */
     locales: string[];
+    /** Content-category `+/-` flags to forward verbatim to each child run. */
+    flags: string[];
 };
 
 function isBatchCommand(value: string | undefined): value is BatchCommand {
@@ -47,6 +50,7 @@ export function parseBatchArgs(
 
     let jobs = defaultJobs;
     const locales: string[] = [];
+    const flags: string[] = [];
     for (let i = 1; i < argv.length; i++) {
         const arg = argv[i];
         if (arg === '--jobs' || arg.startsWith('--jobs=')) {
@@ -56,11 +60,20 @@ export function parseBatchArgs(
             if (!Number.isInteger(n) || n < 1)
                 return `--jobs needs a positive integer (got "${raw ?? ''}").`;
             jobs = n;
+        } else if (arg.startsWith('+') || arg.startsWith('-')) {
+            // A content-category flag (locale names never start with +/-).
+            flags.push(arg);
         } else {
             locales.push(arg);
         }
     }
-    return { command, jobs, locales };
+
+    // Validate the category flags up front (same parser the children use), so a
+    // typo fails the whole batch before any child spawns.
+    const selection = parseCategorySelection(flags);
+    if (typeof selection === 'string') return selection;
+
+    return { command, jobs, locales, flags };
 }
 
 /** The locales to process: the explicit list if any, else every locale directory
@@ -118,6 +131,7 @@ function linePrefixer(locale: string): (data: Buffer) => void {
 function runLocale(
     command: BatchCommand,
     locale: string,
+    flags: string[],
 ): Promise<LocaleResult> {
     return new Promise((resolve) => {
         const startedAt = Date.now();
@@ -125,7 +139,13 @@ function runLocale(
             resolve({ locale, code, ms: Date.now() - startedAt });
         const child = spawn(
             'npx',
-            ['tsx', 'src/util/verify-locales/start.ts', command, locale],
+            [
+                'tsx',
+                'src/util/verify-locales/start.ts',
+                command,
+                locale,
+                ...flags,
+            ],
             { env: process.env },
         );
         child.stdout.on('data', linePrefixer(locale));
@@ -159,11 +179,11 @@ async function main(): Promise<void> {
     }
 
     console.log(
-        `Batch ${parsed.command}: ${locales.length} locale(s), ${parsed.jobs} at a time → ${locales.join(', ')}`,
+        `Batch ${parsed.command}: ${locales.length} locale(s), ${parsed.jobs} at a time${parsed.flags.length > 0 ? ` [${parsed.flags.join(' ')}]` : ''} → ${locales.join(', ')}`,
     );
     const startedAt = Date.now();
     const results = await runPool(locales, parsed.jobs, (locale) =>
-        runLocale(parsed.command, locale),
+        runLocale(parsed.command, locale, parsed.flags),
     );
 
     const failed = results.filter((r) => r.code !== 0);

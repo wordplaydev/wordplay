@@ -14,6 +14,7 @@ describe('parseBatchArgs', () => {
             command: 'override',
             jobs: 4,
             locales: [],
+            flags: [],
         });
     });
 
@@ -24,6 +25,7 @@ describe('parseBatchArgs', () => {
             command: 'translate',
             jobs: 2,
             locales: ['ja-JP', 'ko-KR'],
+            flags: [],
         });
     });
 
@@ -32,7 +34,32 @@ describe('parseBatchArgs', () => {
             command: 'override',
             jobs: 3,
             locales: [],
+            flags: [],
         });
+    });
+
+    test('separates category flags from locales and forwards them', () => {
+        expect(
+            parseBatchArgs([
+                'override',
+                '--jobs',
+                '2',
+                'ja-JP',
+                '-quick',
+                '-emoji',
+            ]),
+        ).toEqual({
+            command: 'override',
+            jobs: 2,
+            locales: ['ja-JP'],
+            flags: ['-quick', '-emoji'],
+        });
+    });
+
+    test('rejects invalid category flags (mixing + and -)', () => {
+        expect(
+            typeof parseBatchArgs(['translate', '+howto', '-emoji']),
+        ).toBe('string');
     });
 
     test('rejects a non-positive or non-numeric --jobs', () => {
@@ -50,6 +77,7 @@ describe('parseBatchArgs', () => {
             command: 'override',
             jobs: 8,
             locales: [],
+            flags: [],
         });
     });
 });

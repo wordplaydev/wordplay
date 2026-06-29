@@ -44,6 +44,11 @@ import fs from 'fs';
 import path from 'path';
 import generateEmojisForLocale from '@util/verify-locales/generateEmojis';
 import writeFormatted from '@util/verify-locales/writeFormatted';
+import {
+    localePrefixMatches,
+    parseCategorySelection,
+    type Selection,
+} from '@util/verify-locales/contentCategories';
 
 // We're we asked to translate? Let's see if there was a specific locale we're focusing on.
 const TranslationRequested =
@@ -88,7 +93,29 @@ if (!LocaleValidator(DefaultLocale)) {
     process.exit(1);
 }
 
-const FocalLocale = process.argv[3] ?? null;
+// Parse content-category targeting flags (+/-) from the args. Invalid syntax
+// exits with a usage message. Only meaningful for translate/override; verify/ci
+// pass no flags so the selection is "all" (a no-op).
+const selectionResult = parseCategorySelection(process.argv.slice(3));
+// log.exit returns `never`, so the error branch types as never → the whole
+// expression is Selection (no reliance on flow-narrowing into the closure).
+const selection: Selection =
+    typeof selectionResult === 'string'
+        ? log.exit(0, selectionResult, false)
+        : selectionResult;
+
+// The focal locale is the first positional that isn't a +/- category flag
+// (so `translate -quick zh-CN` and `translate zh-CN -quick` both work).
+const FocalLocale =
+    process.argv.slice(3).find((arg) => !selection.flags.includes(arg)) ?? null;
+
+// A path predicate for the `+locale:<prefix>` scope (empty = all locale strings).
+const localePrefixes = selection.localePrefixes();
+const localeFilter = (path: LocalePath): boolean =>
+    localePrefixes.length === 0 ||
+    localePrefixes.some((prefix) =>
+        localePrefixMatches(path.toString(), prefix),
+    );
 
 const FocalLanguage = FocalLocale ? getLocaleLanguage(FocalLocale) : null;
 const FocalRegion = FocalLocale
@@ -144,11 +171,13 @@ async function handleLocale(
         locale,
         localeText as LocaleText,
         FixRequested,
-        TranslationRequested,
+        // Verification always runs; translate only if `locale` is in scope.
+        TranslationRequested && selection.isIncluded('locale'),
         OverrideMachineTranslations,
         revisedStrings,
         globals,
         translatedPaths,
+        localeFilter,
     );
 
     // If the locale was revised, write the results (Prettier-formatted).
@@ -198,15 +227,26 @@ async function handleLocale(
             }
         }
 
+        // The quick tutorial is its own category; every other mode is `tutorial`.
+        const category = mode === 'quick' ? 'quick' : 'tutorial';
+        const targets =
+            mode === 'quick'
+                ? selection.quickTargets()
+                : selection.tutorialTargets();
+
         // If there is a tutorial file, verify it, and optionally translate it.
         if (currentTutorial) {
             const revisedTutorial = await verifyTutorial(
                 log,
                 revisedLocale,
                 currentTutorial,
-                // Verification always runs; only translate-enabled modes are machine-translated.
-                TranslationRequested && modeTranslates,
+                // Verification always runs; only translate-enabled modes that are
+                // in scope are machine-translated.
+                TranslationRequested &&
+                    modeTranslates &&
+                    selection.isIncluded(category),
                 OverrideMachineTranslations,
+                targets,
             );
 
             // If the tutorial was revised, write the results (Prettier-formatted).
@@ -225,14 +265,16 @@ async function handleLocale(
         }
     }
 
-    // Verify and optionally translate how-to content
+    // Verify and optionally translate how-to content (translate only if `howto`
+    // is in scope, narrowed to any +howto:<id> targets).
     await verifyHowTo(
         log,
         locale,
         localeText.language,
         localeText.regions,
-        TranslationRequested,
+        TranslationRequested && selection.isIncluded('howto'),
         OverrideMachineTranslations,
+        selection.howtoIds(),
     );
 
     // Regenerate the per-locale how-to bundle the runtime loads (write-if-changed).
@@ -242,7 +284,8 @@ async function handleLocale(
     // run, so a new/updated locale gets its `{locale}-emojis.json` without a
     // separate `npm run locales-emojis`. Best-effort: it does network I/O (CLDR),
     // so a failure is logged and the run continues rather than aborting.
-    if (TranslationRequested) await generateEmojis(log, locale);
+    if (TranslationRequested && selection.isIncluded('emoji'))
+        await generateEmojis(log, locale);
 }
 
 /** Generate this locale's emoji translations in-process. Best-effort — it does

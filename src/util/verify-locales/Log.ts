@@ -35,7 +35,7 @@ export default class Log {
         }
     }
 
-    exit(level: number, message: string, success: boolean) {
+    exit(level: number, message: string, success: boolean): never {
         this.bad(level, 'x ' + chalk.red(message));
         process.exit(success ? 0 : 1);
     }

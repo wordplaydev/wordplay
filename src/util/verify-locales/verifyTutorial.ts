@@ -9,6 +9,10 @@ import Source from '@nodes/Source';
 import { DOCS_SYMBOL } from '@parser/Symbols';
 import parseDoc from '@parser/parseDoc';
 import { toTokens } from '@parser/toTokens';
+import {
+    tutorialTargetMatches,
+    type TutorialTarget,
+} from '@util/verify-locales/contentCategories';
 import type LocalePath from '@util/verify-locales/LocalePath';
 import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
 import type Log from '@util/verify-locales/Log';
@@ -77,6 +81,10 @@ export async function verifyTutorial(
     tutorial: Tutorial,
     translate: boolean,
     override: boolean,
+    /** Optional act/scene scope (1-based) to narrow the translation pass to
+     *  (e.g. `+tutorial:2/3`). Verification still runs over everything; empty
+     *  or undefined = translate the whole tutorial. */
+    targets?: TutorialTarget[],
 ): Promise<Tutorial | undefined> {
     const validate = Validator.compile(TutorialSchema);
     const valid = validate(tutorial);
@@ -92,9 +100,28 @@ export async function verifyTutorial(
     tutorial = await checkTutorial(log, locale, tutorial as Tutorial);
 
     // Translate if requested.
-    if (translate) tutorial = await translateTutorial(log, tutorial, override);
+    if (translate)
+        tutorial = await translateTutorial(log, tutorial, override, targets);
 
     return tutorial;
+}
+
+/** Whether a tutorial path falls under one of the act/scene targets (1-based).
+ *  Empty targets = include everything. */
+function pathInTutorialTargets(
+    path: LocalePath,
+    targets: TutorialTarget[],
+): boolean {
+    if (targets.length === 0) return true;
+    const actAt = path.path.indexOf('acts');
+    const act = actAt > -1 ? path.path[actAt + 1] : undefined;
+    if (typeof act !== 'number') return false;
+    const sceneAt = path.path.indexOf('scenes');
+    const scene =
+        sceneAt > -1 && typeof path.path[sceneAt + 1] === 'number'
+            ? (path.path[sceneAt + 1] as number) + 1
+            : undefined;
+    return targets.some((t) => tutorialTargetMatches(act + 1, scene, t));
 }
 
 async function checkTutorial(
@@ -242,9 +269,13 @@ async function translateTutorial(
     log: Log,
     tutorial: Tutorial,
     override: boolean,
+    targets: TutorialTarget[] = [],
 ): Promise<Tutorial> {
-    // Get the key/value pairs to translate.
-    let pairs: LocalePath[] = getTranslatableTutorialPairs(tutorial);
+    // Get the key/value pairs to translate, narrowed to the requested act/scene
+    // scope (if any).
+    let pairs: LocalePath[] = getTranslatableTutorialPairs(tutorial).filter(
+        (path) => pathInTutorialTargets(path, targets),
+    );
 
     const unwritten = pairs.filter(({ value }) =>
         typeof value === 'string'

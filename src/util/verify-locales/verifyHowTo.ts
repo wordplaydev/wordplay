@@ -24,6 +24,9 @@ export async function verifyHowTo(
     regions: RegionCode[],
     translateContent: boolean,
     override: boolean,
+    /** Optional how-to ids (filename without `.txt`) to narrow the translation
+     *  pass to (e.g. `+howto:animate-phrase`). Empty or undefined = all. */
+    howtoIds?: string[],
 ): Promise<void> {
     // Skip English locale - it's the source
     if (locale === 'en-US') return;
@@ -45,6 +48,12 @@ export async function verifyHowTo(
         log.bad(2, `Failed to read English how-to directory: ${error}`);
         return;
     }
+
+    // Narrow to the requested how-to ids, if any (+howto:<id>).
+    if (howtoIds !== undefined && howtoIds.length > 0)
+        englishFiles = englishFiles.filter((f) =>
+            howtoIds.includes(f.replace('.txt', '')),
+        );
 
     if (englishFiles.length === 0) return;
 
