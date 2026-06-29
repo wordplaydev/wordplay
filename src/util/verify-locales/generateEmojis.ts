@@ -90,11 +90,11 @@ async function fetchCLDR(
 /** Decode the XML entities CLDR uses in keyword text. */
 function decodeXMLEntities(s: string): string {
     return s
-        .replace(/&amp;/g, '&')
         .replace(/&lt;/g, '<')
         .replace(/&gt;/g, '>')
         .replace(/&quot;/g, '"')
-        .replace(/&apos;/g, "'");
+        .replace(/&apos;/g, "'")
+        .replace(/&amp;/g, '&');
 }
 
 /** Parse a CLDR annotation XML body into a map of emoji → {tts?, keywords?}.
