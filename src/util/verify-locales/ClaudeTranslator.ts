@@ -32,12 +32,25 @@ const CHUNK_SIZE = 100;
 /** Output cap; structured JSON of ~100 short strings stays well under this. */
 const MAX_TOKENS = 16000;
 
-/** The structured-output schema: a translations array parallel to the input. */
+/** The structured-output schema: each translation echoes its source `index`, so
+ *  results reconcile by id rather than by position. A miscount (dropped/merged
+ *  item) then isolates to the missing index instead of failing the whole batch. */
 const SCHEMA = {
     type: 'object',
     additionalProperties: false,
     properties: {
-        translations: { type: 'array', items: { type: 'string' } },
+        translations: {
+            type: 'array',
+            items: {
+                type: 'object',
+                additionalProperties: false,
+                properties: {
+                    index: { type: 'integer' },
+                    text: { type: 'string' },
+                },
+                required: ['index', 'text'],
+            },
+        },
     },
     required: ['translations'],
 };
@@ -47,24 +60,44 @@ function hasTranslations(data: unknown): data is { translations: unknown } {
     return typeof data === 'object' && data !== null && 'translations' in data;
 }
 
-/** Parse and validate the model's JSON response, returning the translations
- *  only when they're a string array of the expected length. */
-export function parseTranslations(
+/** Reconcile the model's id-keyed response into a `(string | null)[]` of length
+ *  `expected`: each `{ index, text }` with an in-range index and string text
+ *  fills that slot; missing / out-of-range / duplicate / non-string entries stay
+ *  `null` (the caller marks those unwritten). Returns `undefined` only when the
+ *  response is wholly unparseable (bad JSON or wrong outer shape), so the caller
+ *  can retry. Length need not match — that's the point. */
+export function reconcileTranslations(
     text: string,
     expected: number,
-): string[] | undefined {
+): (string | null)[] | undefined {
     let data: unknown;
     try {
         data = JSON.parse(text);
     } catch {
         return undefined;
     }
-    if (!hasTranslations(data)) return undefined;
-    const translations = data.translations;
-    if (!Array.isArray(translations)) return undefined;
-    if (!translations.every((t): t is string => typeof t === 'string'))
+    if (!hasTranslations(data) || !Array.isArray(data.translations))
         return undefined;
-    return translations.length === expected ? translations : undefined;
+    const result: (string | null)[] = new Array<string | null>(expected).fill(
+        null,
+    );
+    for (const item of data.translations) {
+        if (
+            typeof item === 'object' &&
+            item !== null &&
+            'index' in item &&
+            'text' in item &&
+            typeof item.index === 'number' &&
+            Number.isInteger(item.index) &&
+            item.index >= 0 &&
+            item.index < expected &&
+            typeof item.text === 'string' &&
+            // First valid translation for an index wins; ignore later duplicates.
+            result[item.index] === null
+        )
+            result[item.index] = item.text;
+    }
+    return result;
 }
 
 /** A one-line diagnosis of an Anthropic SDK error, with a hint — the Claude
@@ -125,6 +158,7 @@ Rules:
   - Keep every @Concept reference verbatim (e.g. @Phrase, @FunctionDefinition) — never translate, transliterate, or alter them.
   - Keep every $name reference verbatim (e.g. $value, $type) — never translate, transliterate, or alter them.
   - Do not add or remove formatting symbols (*, _, \`, backslashes).
+- Translate fully into the target language, written in its own native script. Do NOT leave words in English or merely transliterate them unless the language genuinely has no equivalent — prefer the native word a young learner of that language would recognize. This applies to ordinary text, names, and key terms alike (it does NOT apply to the @Concept and $name references above, which always stay verbatim).
 - Write for young, multilingual learners.
 - Key terms — the glossary below. When one of these words appears as ordinary text (a bare word, NOT a $name mention or @Concept link above), translate it to its listed target-language word and use that same word consistently. Where a line shows only an English word, translate it naturally and keep that choice consistent.
 ${getGlossaryForPrompt(targetText)}
@@ -134,17 +168,20 @@ ${PLAIN_LANGUAGE_GUIDANCE}`;
 
     /** Translate one chunk of markup segments. Returns a same-length array; a
      *  `null` element means that string couldn't be translated (the caller marks
-     *  it unwritten rather than shipping English). Truncation (`max_tokens`) is
-     *  retried by splitting the chunk — large atomic docs make a 100-string batch
-     *  overflow; a single string that still overflows yields `null`. A malformed
-     *  response is retried once. Throws on a fatal error (caller aborts). */
+     *  it unwritten rather than shipping English). Results reconcile by the echoed
+     *  `index`, so a miscount isolates to the missing items — one targeted retry
+     *  of just those, then `null` — instead of failing (and re-splitting) the
+     *  whole batch. `max_tokens` (a size problem) still splits the chunk; a
+     *  `refusal` or wholly-unparseable reply (after one retry) nulls it. `isRetry`
+     *  marks a recovery call so it doesn't itself recurse into more retries.
+     *  Throws on a fatal error (caller aborts). */
     private async translateChunk(
         log: Log,
         chunk: string[],
         system: string,
         sourceLocale: string,
         targetLocale: string,
-        retriedParse = false,
+        isRetry = false,
     ): Promise<(string | null)[]> {
         const response = await this.client.messages.create({
             model: MODEL,
@@ -160,7 +197,7 @@ ${PLAIN_LANGUAGE_GUIDANCE}`;
             messages: [
                 {
                     role: 'user',
-                    content: `Translate these ${chunk.length} strings from ${sourceLocale} to ${targetLocale}. Return JSON {"translations":[...]} with exactly ${chunk.length} entries, in the same order.\n\n${JSON.stringify(chunk)}`,
+                    content: `Translate these ${chunk.length} strings from ${sourceLocale} to ${targetLocale}. Each input is {"index","text"}; return JSON {"translations":[{"index","text"}]} with one object per input, echoing each input's "index".\n\n${JSON.stringify(chunk.map((text, index) => ({ index, text })))}`,
                 },
             ],
         });
@@ -170,8 +207,8 @@ ${PLAIN_LANGUAGE_GUIDANCE}`;
             return chunk.map(() => null);
         }
         if (response.stop_reason === 'max_tokens') {
-            // Output overflowed the cap. Split the batch and retry so big atomic
-            // docs fit; a single string that still overflows can't be translated.
+            // Output overflowed the cap — a size problem (big atomic docs). Split
+            // the batch so it fits; a single string that still overflows is null.
             if (chunk.length <= 1) {
                 log.warning(
                     2,
@@ -203,12 +240,14 @@ ${PLAIN_LANGUAGE_GUIDANCE}`;
         }
 
         const textBlock = response.content.find((b) => b.type === 'text');
-        const parsed =
+        const reconciled =
             textBlock !== undefined
-                ? parseTranslations(textBlock.text, chunk.length)
+                ? reconcileTranslations(textBlock.text, chunk.length)
                 : undefined;
-        if (parsed === undefined) {
-            if (!retriedParse)
+
+        // Wholly unparseable (bad JSON / wrong outer shape): retry once, else null.
+        if (reconciled === undefined) {
+            if (!isRetry)
                 return this.translateChunk(
                     log,
                     chunk,
@@ -217,40 +256,40 @@ ${PLAIN_LANGUAGE_GUIDANCE}`;
                     targetLocale,
                     true,
                 );
-            // Still malformed (usually a length mismatch) after a retry. Isolate
-            // the culprit by splitting instead of nulling the whole batch, so one
-            // bad string doesn't cost ~100 others; a lone string that still fails
-            // is marked unwritten.
-            if (chunk.length <= 1) {
-                log.warning(
-                    2,
-                    'Claude response did not match the expected shape; marking it unwritten.',
-                );
-                return [null];
-            }
-            const mid = Math.ceil(chunk.length / 2);
             log.warning(
                 2,
-                `Claude response shape mismatch; retrying in halves (${chunk.length} → ${mid}+${chunk.length - mid}).`,
+                'Claude response was unparseable after a retry; marking it unwritten.',
             );
-            return [
-                ...(await this.translateChunk(
-                    log,
-                    chunk.slice(0, mid),
-                    system,
-                    sourceLocale,
-                    targetLocale,
-                )),
-                ...(await this.translateChunk(
-                    log,
-                    chunk.slice(mid),
-                    system,
-                    sourceLocale,
-                    targetLocale,
-                )),
-            ];
+            return chunk.map(() => null);
         }
-        return parsed;
+
+        // Reconciled by index. Fill any items the model dropped with a single
+        // targeted retry of just those; whatever is still missing stays null.
+        const missing = reconciled.flatMap((t, i) => (t === null ? [i] : []));
+        if (missing.length === 0) return reconciled;
+        if (isRetry) {
+            log.warning(
+                2,
+                `${missing.length}/${chunk.length} items still missing after retry; marking them unwritten.`,
+            );
+            return reconciled;
+        }
+        log.warning(
+            2,
+            `${missing.length}/${chunk.length} items missing from the response; retrying just those.`,
+        );
+        const filled = await this.translateChunk(
+            log,
+            missing.map((i) => chunk[i]),
+            system,
+            sourceLocale,
+            targetLocale,
+            true,
+        );
+        missing.forEach((originalIndex, k) => {
+            reconciled[originalIndex] = filled[k];
+        });
+        return reconciled;
     }
 
     /** Cache of loaded target locale texts, used to localize embedded examples'

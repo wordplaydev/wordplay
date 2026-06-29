@@ -187,8 +187,15 @@ export default class ConceptLink extends Content {
             concept instanceof CharacterName
         )
             return true;
+        // A bare word like `@how` parses as a HowToName (a how-to reference uses
+        // a specific id, e.g. `@phrase-how-to`), but the same word can be a
+        // glossary term (`how` → "how-to"). Accept a valid how-to id OR, falling
+        // back to the link's literal name, a glossary term.
         if (concept instanceof HowToName)
-            return HowToIDs.includes(concept.name as HowToID);
+            return (
+                HowToIDs.includes(concept.name as HowToID) ||
+                this.getName() in locale.glossary
+            );
         if (concept instanceof GlossaryName)
             return concept.id in locale.glossary;
 

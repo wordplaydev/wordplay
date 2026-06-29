@@ -1,43 +1,79 @@
 import { describe, expect, test } from 'vitest';
-import { describeClaudeError, parseTranslations } from './ClaudeTranslator';
+import { describeClaudeError, reconcileTranslations } from './ClaudeTranslator';
 
-describe('parseTranslations', () => {
-    test('returns the array when shape and length match', () => {
+/** Build an id-keyed response body from index→text pairs. */
+const body = (pairs: [number, string][]) =>
+    JSON.stringify({
+        translations: pairs.map(([index, text]) => ({ index, text })),
+    });
+
+describe('reconcileTranslations', () => {
+    test('maps each translation to its echoed index', () => {
         expect(
-            parseTranslations(JSON.stringify({ translations: ['a', 'b'] }), 2),
+            reconcileTranslations(
+                body([
+                    [0, 'a'],
+                    [1, 'b'],
+                ]),
+                2,
+            ),
         ).toEqual(['a', 'b']);
     });
 
-    test('preserves order', () => {
+    test('reorders by index regardless of array order', () => {
         expect(
-            parseTranslations(
-                JSON.stringify({ translations: ['x', 'y', 'z'] }),
+            reconcileTranslations(
+                body([
+                    [2, 'z'],
+                    [0, 'x'],
+                    [1, 'y'],
+                ]),
                 3,
             ),
         ).toEqual(['x', 'y', 'z']);
     });
 
-    test('undefined on length mismatch (so caller keeps source)', () => {
+    test('a dropped item leaves that index null, neighbors intact (no split)', () => {
         expect(
-            parseTranslations(JSON.stringify({ translations: ['a'] }), 2),
-        ).toBeUndefined();
+            reconcileTranslations(
+                body([
+                    [0, 'a'],
+                    [2, 'c'],
+                ]),
+                3,
+            ),
+        ).toEqual(['a', null, 'c']);
     });
 
-    test('undefined on wrong shape', () => {
+    test('ignores out-of-range, duplicate, and non-string entries', () => {
+        // Out-of-range 5 ignored; duplicate index 0 keeps the first; index 1 stays null.
         expect(
-            parseTranslations(JSON.stringify({ foo: 1 }), 1),
-        ).toBeUndefined();
-        expect(parseTranslations(JSON.stringify(['a']), 1)).toBeUndefined();
-        expect(
-            parseTranslations(JSON.stringify({ translations: 'a' }), 1),
-        ).toBeUndefined();
-        expect(
-            parseTranslations(JSON.stringify({ translations: [1, 2] }), 2),
-        ).toBeUndefined();
+            reconcileTranslations(
+                JSON.stringify({
+                    translations: [
+                        { index: 0, text: 'a' },
+                        { index: 5, text: 'oops' },
+                        { index: 0, text: 'dupe' },
+                        { index: 2, text: 7 },
+                    ],
+                }),
+                3,
+            ),
+        ).toEqual(['a', null, null]);
     });
 
-    test('undefined on invalid JSON', () => {
-        expect(parseTranslations('not json', 1)).toBeUndefined();
+    test('all-null when the response has no usable items', () => {
+        expect(reconcileTranslations(body([]), 2)).toEqual([null, null]);
+    });
+
+    test('undefined only when wholly unparseable', () => {
+        expect(reconcileTranslations('not json', 1)).toBeUndefined();
+        expect(
+            reconcileTranslations(JSON.stringify({ foo: 1 }), 1),
+        ).toBeUndefined();
+        expect(
+            reconcileTranslations(JSON.stringify({ translations: 'a' }), 1),
+        ).toBeUndefined();
     });
 });
 
