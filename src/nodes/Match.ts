@@ -104,7 +104,7 @@ export default class Match extends Expression {
             {
                 name: 'value',
                 kind: node(Expression),
-                label: () => (l) => l.term.value,
+                label: () => (l) => l.glossary.value.word,
             },
             {
                 name: 'question',
@@ -285,12 +285,9 @@ export default class Match extends Expression {
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return locales.concretize(
-            (l) => l.node.Match.start,
-            {
-                value: new NodeRef(this.value, locales, context),
-            },
-        );
+        return locales.concretize((l) => l.node.Match.start, {
+            value: new NodeRef(this.value, locales, context),
+        });
     }
 
     getFinishExplanations(locales: Locales) {

@@ -47,7 +47,7 @@ export default class Docs extends Node {
                 name: 'docs',
                 kind: list(true, node(Doc)),
                 newline: true,
-                label: () => (l) => l.term.documentation,
+                label: () => (l) => l.glossary.documentation.word,
             },
         ];
     }

@@ -1,4 +1,5 @@
 <script lang="ts">
+    import getConceptName from '@locale/getConceptName';
     import Fonts from '@basis/Fonts';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
@@ -405,8 +406,8 @@
             // Prefix with the localized "output" term so the screen reader
             // user can tell stage-output announcements apart from editor
             // and chooser announcements.
-            const description = `${$locales.getPlainText(
-                (l) => l.term.output,
+            const description = `${$locales.getPlainText((l) =>
+                getConceptName(l, 'output'),
             )} ${body}`;
             untrack(() =>
                 $announce('value', $locales.getLanguages()[0], description),
@@ -526,7 +527,12 @@
         // focus (Tab / Alt+Arrow) never changes the selection; Space toggles the focused output in or
         // out; Enter selects ONLY the focused output and opens the palette; Escape clears; Cmd/Ctrl+A
         // selects all. Never mutate the selection mid handle-drag (mirrors selectPointerOutput).
-        if (!evaluator.isPlaying() && editable && selection && !selection.dragging) {
+        if (
+            !evaluator.isPlaying() &&
+            editable &&
+            selection &&
+            !selection.dragging
+        ) {
             const lang = $locales.getLanguages()[0];
 
             // Escape clears the whole selection (works even when focus is on the stage container).

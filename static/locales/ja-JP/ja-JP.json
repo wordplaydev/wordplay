@@ -3,56 +3,171 @@
     "language": "ja",
     "regions": ["JP"],
     "wordplay": "$~言葉遊び",
-    "term": {
-        "bind": "$~バインド",
-        "evaluate": "$~評価する",
-        "decide": "$~決める",
-        "project": "$~プロジェクト",
-        "document": "$~説明する",
-        "source": "$~ソース",
-        "input": "$~入力",
-        "output": "$~出力",
-        "convert": "$~変換する",
-        "act": "$~活動",
-        "scene": "$~シーン",
-        "phrase": "$~フレーズ",
-        "group": "$~グループ",
-        "stage": "$~ステージ",
-        "type": "$~タイプ",
-        "start": "$~始める",
-        "entered": "$~新しい",
-        "changed": "$~変更された",
-        "moved": "$~移動した",
-        "name": "$~名前",
-        "value": "$~価値",
-        "text": "$~文章",
-        "boolean": "$~ブール値",
-        "map": "$~地図",
-        "number": "$~番号",
-        "function": "$~関数",
-        "exception": "$~例外",
-        "table": "$~テーブル",
-        "none": "$~なし",
-        "list": "$~リスト",
-        "stream": "$~ストリーム",
-        "structure": "$~構造",
-        "index": "$~索引",
-        "query": "$~クエリ",
-        "row": "$~行",
-        "set": "$~セット",
-        "key": "$~鍵",
-        "help": "$~ヘルプ",
-        "feedback": "$~フィードバック",
-        "how": "$~方法",
-        "code": "$~コード",
-        "unit": "$~ユニット",
-        "markup": "$~マークアップ",
-        "column": "$~カラム",
-        "cell": "$~細胞",
-        "documentation": "$~ドキュメント",
-        "language": "$~言語",
-        "region": "$~地域",
-        "pattern": "$~パターン"
+    "glossary": {
+        "value": {
+            "word": "$~価値",
+            "definition": "$~数字や言葉、リストのような情報のひとかけらです。"
+        },
+        "type": {
+            "word": "$~タイプ",
+            "definition": "$~数字やテキストのような、価値の種類です。価値のタイプによって、それを使ってできることが決まります。"
+        },
+        "expression": {
+            "word": "$~式",
+            "definition": "$~実行すると価値を作り出すコードのひとかけらです。"
+        },
+        "variable": {
+            "word": "$~変数",
+            "definition": "$~プログラムが動いている間に価値を変えられる名前です。"
+        },
+        "parameter": {
+            "word": "$~パラメーター",
+            "definition": "$~関数を呼ぶときに渡すと期待される、名前のついた入力です。"
+        },
+        "argument": {
+            "word": "$~引数",
+            "definition": "$~関数のパラメーターのひとつに渡す価値です。"
+        },
+        "operator": {
+            "word": "$~演算子",
+            "definition": "$~+ や - のような、価値を組み合わせたり比べたりする記号です。"
+        },
+        "condition": {
+            "word": "$~条件",
+            "definition": "$~プログラムが次に何をするかを決める、正しいか正しくないかのテストです。"
+        },
+        "loop": {
+            "word": "$~ループ",
+            "definition": "$~ある動作を何度も繰り返すコードです。"
+        },
+        "iteration": {
+            "word": "$~反復",
+            "definition": "$~ループを一回通り抜けることです。"
+        },
+        "recursion": {
+            "word": "$~再帰",
+            "definition": "$~問題の小さな部分を処理するために、関数が自分自身を呼ぶことです。"
+        },
+        "property": {
+            "word": "$~プロパティ",
+            "definition": "$~色の明るさのような、価値の名前のついた部分です。"
+        },
+        "element": {
+            "word": "$~要素",
+            "definition": "$~リストやグループの中のひとつの項目です。"
+        },
+        "scope": {
+            "word": "$~スコープ",
+            "definition": "$~名前を使えるプログラムの部分です。"
+        },
+        "state": {
+            "word": "$~状態",
+            "definition": "$~プログラムが持ち続け、時間とともに変えられる情報です。"
+        },
+        "sideEffect": {
+            "word": "$~副作用",
+            "definition": "$~価値を返すこと以外に、出力を見せるなど、プログラムが起こす変化です。"
+        },
+        "abstraction": {
+            "word": "$~抽象化",
+            "definition": "$~中でどう動いているかを知らなくても使えるように、細かいことを隠すことです。"
+        },
+        "project": {
+            "word": "$~プロジェクト",
+            "definition": "$~ひとつのWordplayプログラムを作るすべてのファイルです。"
+        },
+        "code": {
+            "word": "$~コード",
+            "definition": "$~プログラムに何をするかを伝えるために書くテキストです。"
+        },
+        "act": {
+            "word": "$~活動",
+            "definition": "$~劇の幕のような、チュートリアルの大きな部分です。"
+        },
+        "how": {
+            "word": "$~方法",
+            "definition": "$~ひとつのことのやり方を見せる短いガイドです。"
+        },
+        "gallery": {
+            "word": "$~ギャラリー",
+            "definition": "$~人々がプロジェクトを共有したり探したりする場所です。"
+        },
+        "blocks": {
+            "word": "$~ブロック",
+            "definition": "$~入力する代わりに、ピースをドラッグしてコードを編集する方法です。"
+        },
+        "placeholder": {
+            "word": "$~プレースホルダー",
+            "definition": "$~コードや価値が足りない場所を示す、空いた場所です。"
+        },
+        "conflict": {
+            "word": "$~競合",
+            "definition": "$~あなたが直せるようにWordplayが印をつける、コードの問題です。"
+        },
+        "checkpoint": {
+            "word": "$~チェックポイント",
+            "definition": "$~作業の中で戻れる、保存された場所です。"
+        },
+        "guide": {
+            "word": "$~ガイド",
+            "definition": "$~Wordplayの考え方を説明する、検索できる参考資料です。"
+        },
+        "tutorial": {
+            "word": "$~チュートリアル",
+            "definition": "$~Wordplayを教える、ひとつずつ進むレッスンです。"
+        },
+        "name": {
+            "word": "$~名前",
+            "definition": "$~価値や関数を指し示す言葉です。"
+        },
+        "markup": {
+            "word": "$~マークアップ",
+            "definition": "$~太字の言葉やリンクのような、書式のついたテキストです。"
+        },
+        "language": {
+            "word": "$~言語",
+            "definition": "$~名前やテキストが書かれている人間の言語です。"
+        },
+        "documentation": {
+            "word": "$~ドキュメント",
+            "definition": "$~コードが何をするかを説明するテキストです。"
+        },
+        "region": {
+            "word": "$~地域",
+            "definition": "$~言語が使われる場所で、数字や日付の見え方を変えることがあります。"
+        },
+        "start": {
+            "word": "$~始める",
+            "definition": "$~プロジェクトが始まる主なソースファイルです。"
+        },
+        "query": {
+            "word": "$~クエリ",
+            "definition": "$~テーブルから行を選ぶ方法です。"
+        },
+        "key": {
+            "word": "$~鍵",
+            "definition": "$~マップの中の項目を見つけるために使う価値です。"
+        },
+        "index": {
+            "word": "$~索引",
+            "definition": "$~リストの中の位置で項目を選ぶ数字です。"
+        },
+        "moved": {
+            "word": "$~移動した",
+            "definition": "$~ステージ上で位置が変わった出力です。"
+        },
+        "entered": {
+            "word": "$~新しい",
+            "definition": "$~ステージ上に初めて現れた出力です。"
+        },
+        "cell": {
+            "word": "$~細胞",
+            "definition": "$~テーブルの行の中のひとつの価値です。"
+        },
+        "column": {
+            "word": "$~カラム",
+            "definition": "$~テーブルの中の名前のついたフィールドです。"
+        }
     },
     "token": {
         "EvalOpen": "$~評価オープン",
@@ -450,7 +565,7 @@
             "description": "$~マークアップで$name",
             "emotion": "serious",
             "doc": [
-                "$~私は用語 \\$program\\ または動的入力 \\$name\\ のいずれかを参照しています。",
+                "$~私は用語 \\¶@program¶\\ または動的入力 \\¶$name¶\\ のいずれかを参照しています。",
                 "$~ただし、これは主に内部機能なので、知っておく必要はありません。"
             ]
         },
@@ -644,12 +759,12 @@
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~不明な借用",
-                    "explanation": "$~この名前の$sourceは知りません",
+                    "explanation": "$~この名前の@Sourceは知りません",
                     "resolution": "$~この借用を削除する"
                 },
                 "BorrowCycle": {
                     "name": "$~自己参照借用",
-                    "explanation": "$~これは$borrowに依存し、$borrow はこの$sourceに依存しているため、プログラムを評価できません。",
+                    "explanation": "$~これは$borrowに依存し、$borrow はこの@Sourceに依存しているため、プログラムを評価できません。",
                     "resolution": "$~この借り入れを解いて、悪循環を断ち切りましょう"
                 }
             },
@@ -791,8 +906,10 @@
             "doc": [
                 "$~私はどんな表現でも、@Doc を使って表現します。",
                 "$~これを作成するには、式の前に @Doc を置くだけで、次のようになります。",
-                "$~\\doubleplus: 1\n(2 × doubleplus) + \n¶もう少し大きくしてみましょう¶\n1\\",
-                "$~プログラムの一部にコメントを付けるのに役立ちます。"
+                "$~\\doubleplus: 1\n(2 × doubleplus) + \n¶Let's make it just a little bit bigger¶\n1\\",
+                "$~プログラムの一部にコメントを付けるのに役立ちます。",
+                "$~If you put 👀 in the @Doc, I can also highlight the expression:",
+                "$~\\¶Look at me! 👀¶1+1\\"
             ],
             "start": "$~式を評価してみましょう"
         },
@@ -864,7 +981,7 @@
                 },
                 "SeparatedEvaluate": {
                     "name": "$~曖昧な評価",
-                    "explanation": "$~$name は評価しようとしている $structure[$structure|$function] の名前ですか？ 後ろのスペースを削除してみてください。そうすれば、別の @Block ではなく @Evaluate であることがわかります。",
+                    "explanation": "$~$name は評価しようとしている $structure[$structure|@FunctionDefinition] の名前ですか？ 後ろのスペースを削除してみてください。そうすれば、別の @Block ではなく @Evaluate であることがわかります。",
                     "resolution": "$~* $name * とその入力値の間のスペースを閉じます"
                 }
             },
@@ -5522,7 +5639,7 @@
                     "tip": "$~プロジェクトをテキストとしてクリップボードにコピーする",
                     "label": "$~テキストとしてコピー"
                 },
-                "addSource": "$~新しい$sourceを作成する",
+                "addSource": "$~新しい@Sourceを作成する",
                 "duplicate": {
                     "tip": "$~このプロジェクトを複製する",
                     "label": "$~重複"
@@ -5683,7 +5800,7 @@
             ],
             "confirm": {
                 "delete": {
-                    "description": "$~この$sourceを削除する",
+                    "description": "$~この@Sourceを削除する",
                     "prompt": "$~消去"
                 }
             },
@@ -6040,10 +6157,11 @@
             "mode": {
                 "browse": {
                     "label": "$~ブラウズ",
-                    "labels": ["$~コード", "$~方法"],
+                    "labels": ["$~コード", "$~方法", "$~用語集"],
                     "tips": [
-                        "$~プログラミング言語の概念",
-                        "$~プロジェクト作成のための再利用可能なパターン"
+                        "$~プログラミング言語の考え方",
+                        "$~プロジェクトを作るための再利用できるパターン",
+                        "$~重要な言葉の定義"
                     ]
                 },
                 "purpose": {
@@ -6183,7 +6301,13 @@
                 "label": "$~ナビゲーション履歴",
                 "home": "$~家"
             },
-            "tutorial": "$~チュートリアル"
+            "tutorial": "$~チュートリアル",
+            "glossary": {
+                "explain": {
+                    "header": "$~用語集",
+                    "explanation": "$~/Wordplayプログラミング言語とプラットフォーム全体で使われる言葉と考え方。/"
+                }
+            }
         },
         "dialog": {
             "share": {
@@ -7513,7 +7637,11 @@
                 },
                 "singletonWordsWarning": "$~下書きの中には、文章全体を通して一度しか登場しない単語がいくつかあります。それらの単語のスペルは正しく、他の文章との整合性も保たれていることを確認してください。",
                 "viewPR": "$~プルリクエストを表示する",
-                "oneLocaleNote": "$~各投稿は一度に1つの言語を対象とします。このバッチは$locale。別の言語に貢献したい場合は、まず言語を切り替えてください。各言語で保存した編集内容は別々に保存されます。"
+                "oneLocaleNote": "$~各投稿は一度に1つの言語を対象とします。このバッチは$locale。別の言語に貢献したい場合は、まず言語を切り替えてください。各言語で保存した編集内容は別々に保存されます。",
+                "literalTermsWarning": "$~あなたの下書きは用語集の言葉をふつうのテキストとして使っています。ひとつをタップすると、用語集のリンクに変わります。",
+                "checkReadingLevel": "$~この文字列の読みやすさのレベルを調べる",
+                "readingLevelComplex": "$~これは読みにくいかもしれません。もっと短い文と、もっとやさしい言葉を試してみましょう。",
+                "readingLevelOk": "$~これは目標の読みやすさのレベルで、はっきり読めます。"
             },
             "breadcrumb": {
                 "label": "$~パンくず",

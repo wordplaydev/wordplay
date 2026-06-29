@@ -7,7 +7,13 @@ import Characters from '../lore/BasisCharacters';
 import Content from '@nodes/Content';
 import Mention from '@nodes/Mention';
 import type Node from '@nodes/Node';
-import { type Grammar, list, node, optional, type Replacement } from '@nodes/Node';
+import {
+    type Grammar,
+    list,
+    node,
+    optional,
+    type Replacement,
+} from '@nodes/Node';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import Words from '@nodes/Words';
@@ -57,13 +63,13 @@ export default class Branch extends Content {
             {
                 name: 'yes',
                 kind: list(true, node(Words)),
-                label: () => (l) => l.term.markup,
+                label: () => (l) => l.glossary.markup.word,
             },
             { name: 'bar', kind: optional(node(Sym.Union)), label: undefined },
             {
                 name: 'no',
                 kind: list(true, node(Words)),
-                label: () => (l) => l.term.markup,
+                label: () => (l) => l.glossary.markup.word,
             },
             { name: 'close', kind: node(Sym.ListClose), label: undefined },
         ];

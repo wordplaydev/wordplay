@@ -42,6 +42,19 @@ type PageText = {
      *  occur only once across the entire locale, hinting at possible typos or
      *  inconsistent vocabulary. The actual word list is rendered separately. */
     singletonWordsWarning: string;
+    /** [plain] Warning shown below the editor when the draft uses a glossary
+     *  term as plain prose; each finding is offered as a one-click fix that
+     *  swaps it for a symbolic @term reference (rendered separately). */
+    literalTermsWarning: string;
+    /** [plain] Tooltip for the button that checks the current string's reading
+     *  level with an AI assistant. */
+    checkReadingLevel: string;
+    /** [plain] Result shown when the AI judges the current string too complex
+     *  for the target ~6th-grade reading level. */
+    readingLevelComplex: string;
+    /** [plain] Result shown when the AI judges the current string's reading
+     *  level acceptable. */
+    readingLevelOk: string;
     /** The submit button shown after the contributor has reviewed their bundle */
     submit: ConfirmText;
     /** [formatted] Notice rendered after the server accepts a submitted batch.

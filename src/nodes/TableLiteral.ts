@@ -1,4 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
+import getConceptName from '@locale/getConceptName';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type Evaluator from '@runtime/Evaluator';
@@ -183,13 +184,13 @@ export default class TableLiteral extends CompositeLiteral {
             {
                 name: 'type',
                 kind: node(TableType),
-                label: () => (l) => l.term.table,
+                label: () => (l) => getConceptName(l, 'table'),
             },
             {
                 name: 'rows',
                 kind: list(true, node(Row)),
                 newline: true,
-                label: () => (l) => l.term.row,
+                label: () => (l) => getConceptName(l, 'row'),
             },
         ];
     }
@@ -348,12 +349,9 @@ export default class TableLiteral extends CompositeLiteral {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return locales.concretize(
-            (l) => l.node.TableLiteral.finish,
-            {
-                value: this.getValueIfDefined(locales, context, evaluator),
-            },
-        );
+        return locales.concretize((l) => l.node.TableLiteral.finish, {
+            value: this.getValueIfDefined(locales, context, evaluator),
+        });
     }
 
     getCharacter() {

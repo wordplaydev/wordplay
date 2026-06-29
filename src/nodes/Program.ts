@@ -78,7 +78,7 @@ export default class Program extends Expression {
             {
                 name: 'docs',
                 kind: any(node(Docs), none()),
-                label: () => (l) => l.term.documentation,
+                label: () => (l) => l.glossary.documentation.word,
             },
             {
                 name: 'borrows',
@@ -239,17 +239,14 @@ export default class Program extends Expression {
         const reaction = evaluator.getReactionPriorTo(evaluator.getStepIndex());
         const change = reaction && reaction.changes.length > 0;
 
-        return locales.concretize(
-            (l) => l.node.Program.start,
-            {
-                stream: change
+        return locales.concretize((l) => l.node.Program.start, {
+            stream: change
                 ? new ValueRef(reaction.changes[0].stream, locales, context)
                 : undefined,
-                value: change
+            value: change
                 ? new ValueRef(reaction.changes[0].value, locales, context)
                 : undefined,
-            },
-        );
+        });
     }
 
     getFinishExplanations(
@@ -257,12 +254,9 @@ export default class Program extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return locales.concretize(
-            (l) => l.node.Program.finish,
-            {
-                value: this.getValueIfDefined(locales, context, evaluator),
-            },
-        );
+        return locales.concretize((l) => l.node.Program.finish, {
+            value: this.getValueIfDefined(locales, context, evaluator),
+        });
     }
 
     getCharacter() {

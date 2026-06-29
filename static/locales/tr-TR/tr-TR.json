@@ -3,56 +3,171 @@
     "language": "tr",
     "regions": ["TR"],
     "wordplay": "$~Kelime oyunu",
-    "term": {
-        "bind": "$~bağlamak",
-        "evaluate": "$~değerlendirmek",
-        "decide": "$~karar vermek",
-        "project": "$~proje",
-        "document": "$~açıklamak",
-        "source": "$~kaynak",
-        "input": "$~giriş",
-        "output": "$~çıktı",
-        "convert": "$~dönüştürmek",
-        "act": "$~davranmak",
-        "scene": "$~sahne",
-        "phrase": "$~ifade etmek",
-        "group": "$~grup",
-        "stage": "$~sahne",
-        "type": "$~tip",
-        "start": "$~başlangıç",
-        "entered": "$~yeni",
-        "changed": "$~değişti",
-        "moved": "$~etkilenmiş",
-        "name": "$~isim",
-        "value": "$~değer",
-        "text": "$~metin",
-        "boolean": "$~Boolean",
-        "map": "$~harita",
-        "number": "$~sayı",
-        "function": "$~işlev",
-        "exception": "$~istisna",
-        "table": "$~masa",
-        "none": "$~hiçbiri",
-        "list": "$~liste",
-        "stream": "$~aktarım",
-        "structure": "$~yapı",
-        "index": "$~dizin",
-        "query": "$~sorgu",
-        "row": "$~sıra",
-        "set": "$~ayarlamak",
-        "key": "$~anahtar",
-        "help": "$~Yardım",
-        "feedback": "$~geri bildirim",
-        "how": "$~nasıl",
-        "code": "$~kod",
-        "unit": "$~birim",
-        "markup": "$~işaretleme",
-        "column": "$~kolon",
-        "cell": "$~hücre",
-        "documentation": "$~dokümantasyon",
-        "language": "$~dil",
-        "region": "$~bölge",
-        "pattern": "$~model"
+    "glossary": {
+        "value": {
+            "word": "$~değer",
+            "definition": "$~Bir bilgi parçası, örneğin bir sayı, bazı kelimeler veya bir liste."
+        },
+        "type": {
+            "word": "$~tip",
+            "definition": "$~Bir değerin türü, örneğin sayı veya metin. Bir değerin tipi, onunla ne yapabileceğini belirler."
+        },
+        "expression": {
+            "word": "$~ifade",
+            "definition": "$~Çalıştığında bir değer üreten bir kod parçası."
+        },
+        "variable": {
+            "word": "$~değişken",
+            "definition": "$~Bir program çalışırken değeri değişebilen bir isim."
+        },
+        "parameter": {
+            "word": "$~parametre",
+            "definition": "$~Bir fonksiyonu çağırdığında beklediği isimli bir girdi."
+        },
+        "argument": {
+            "word": "$~argüman",
+            "definition": "$~Bir fonksiyonun parametrelerinden biri için verdiğin bir değer."
+        },
+        "operator": {
+            "word": "$~işleç",
+            "definition": "$~Değerleri birleştiren veya karşılaştıran bir sembol, örneğin + veya -."
+        },
+        "condition": {
+            "word": "$~koşul",
+            "definition": "$~Bir programın sonra ne yapacağına karar veren doğru-ya-da-yanlış bir test."
+        },
+        "loop": {
+            "word": "$~döngü",
+            "definition": "$~Bir eylemi birçok kez tekrarlayan kod."
+        },
+        "iteration": {
+            "word": "$~yineleme",
+            "definition": "$~Bir döngüden bir geçiş."
+        },
+        "recursion": {
+            "word": "$~özyineleme",
+            "definition": "$~Bir fonksiyonun, bir sorunun daha küçük bir parçasını ele almak için kendini çağırması."
+        },
+        "property": {
+            "word": "$~özellik",
+            "definition": "$~Bir değerin isimli bir parçası, örneğin bir rengin parlaklığı."
+        },
+        "element": {
+            "word": "$~öğe",
+            "definition": "$~Bir listedeki veya gruptaki bir öğe."
+        },
+        "scope": {
+            "word": "$~kapsam",
+            "definition": "$~Bir programın, bir ismin kullanılabildiği parçası."
+        },
+        "state": {
+            "word": "$~durum",
+            "definition": "$~Bir programın tuttuğu ve zamanla değiştirebildiği bilgi."
+        },
+        "sideEffect": {
+            "word": "$~yan etki",
+            "definition": "$~Bir programın, bir değer geri vermenin yanı sıra yaptığı bir değişiklik, örneğin çıktı göstermek."
+        },
+        "abstraction": {
+            "word": "$~soyutlama",
+            "definition": "$~Bir şeyi içeride nasıl çalıştığını bilmeden kullanabilmen için ayrıntıları gizlemek."
+        },
+        "project": {
+            "word": "$~proje",
+            "definition": "$~Bir Wordplay programını oluşturan tüm dosyalar."
+        },
+        "code": {
+            "word": "$~kod",
+            "definition": "$~Bir programa ne yapacağını söylemek için yazdığın metin."
+        },
+        "act": {
+            "word": "$~davranmak",
+            "definition": "$~Öğreticinin büyük bir parçası, bir oyundaki perde gibi."
+        },
+        "how": {
+            "word": "$~nasıl",
+            "definition": "$~Tek bir şeyi nasıl yapacağını gösteren kısa bir rehber."
+        },
+        "gallery": {
+            "word": "$~galeri",
+            "definition": "$~İnsanların projeleri paylaştığı ve keşfettiği bir yer."
+        },
+        "blocks": {
+            "word": "$~bloklar",
+            "definition": "$~Yazmak yerine parçaları sürükleyerek kod düzenlemenin bir yolu."
+        },
+        "placeholder": {
+            "word": "$~yer tutucu",
+            "definition": "$~Kodun veya bir değerin eksik olduğunu gösteren boş bir nokta."
+        },
+        "conflict": {
+            "word": "$~çakışma",
+            "definition": "$~Wordplay'in işaretlediği, düzeltebilmen için koddaki bir sorun."
+        },
+        "checkpoint": {
+            "word": "$~kontrol noktası",
+            "definition": "$~Çalışmanda geri dönebileceğin kaydedilmiş bir nokta."
+        },
+        "guide": {
+            "word": "$~rehber",
+            "definition": "$~Wordplay'in fikirlerini açıklayan, aranabilir başvuru kaynağı."
+        },
+        "tutorial": {
+            "word": "$~öğretici",
+            "definition": "$~Wordplay'i öğreten adım adım dersler."
+        },
+        "name": {
+            "word": "$~isim",
+            "definition": "$~Bir değere veya fonksiyona işaret eden bir kelime."
+        },
+        "markup": {
+            "word": "$~işaretleme",
+            "definition": "$~Biçimlendirilmiş metin, örneğin kalın kelimeler veya bağlantılar."
+        },
+        "language": {
+            "word": "$~dil",
+            "definition": "$~Bir ismin veya metnin yazıldığı insan dili."
+        },
+        "documentation": {
+            "word": "$~dokümantasyon",
+            "definition": "$~Kodun ne yaptığını açıklayan metin."
+        },
+        "region": {
+            "word": "$~bölge",
+            "definition": "$~Bir dilin kullanıldığı yer; bu, sayıların ve tarihlerin nasıl göründüğünü değiştirebilir."
+        },
+        "start": {
+            "word": "$~başlangıç",
+            "definition": "$~Bir projenin başladığı ana kaynak dosyası."
+        },
+        "query": {
+            "word": "$~sorgu",
+            "definition": "$~Bir tablodan satırları seçmenin bir yolu."
+        },
+        "key": {
+            "word": "$~anahtar",
+            "definition": "$~Bir haritada bir öğeyi bulmak için kullanılan değer."
+        },
+        "index": {
+            "word": "$~dizin",
+            "definition": "$~Bir listede bir öğeyi konumuna göre seçen bir sayı."
+        },
+        "moved": {
+            "word": "$~etkilenmiş",
+            "definition": "$~Sahnede konumu değişen çıktı."
+        },
+        "entered": {
+            "word": "$~yeni",
+            "definition": "$~Sahnede ilk kez beliren çıktı."
+        },
+        "cell": {
+            "word": "$~hücre",
+            "definition": "$~Bir tablo satırındaki bir değer."
+        },
+        "column": {
+            "word": "$~kolon",
+            "definition": "$~Bir tablodaki isimli bir alan."
+        }
     },
     "token": {
         "EvalOpen": "$~değerlendirme açık",
@@ -450,7 +565,7 @@
             "description": "$~biçimlendirmede $name'den söz et",
             "emotion": "serious",
             "doc": [
-                "$~Ben ya \\$program\\ terminolojisine ya da \\$name\\ dinamik girdisine referansım.",
+                "$~Ben ya \\¶@program¶\\ terminolojisine ya da \\¶$name¶\\ dinamik girdisine referansım.",
                 "$~Bu çoğunlukla dahili bir özellik olduğundan bunu bilmenize gerek yok."
             ]
         },
@@ -649,7 +764,7 @@
                 },
                 "BorrowCycle": {
                     "name": "$~kendikendineatıftabulunanödünçalma",
-                    "explanation": "$~Bu, $borrow'e bağlıdır, $borrow de bu $source'a bağlıdır, bu nedenle program değerlendirilemez.",
+                    "explanation": "$~Bu, $borrow'e bağlıdır, $borrow de bu @Source'a bağlıdır, bu nedenle program değerlendirilemez.",
                     "resolution": "$~Bu ödünç almayı kaldırarak döngüyü kırın."
                 }
             },
@@ -660,7 +775,7 @@
                 }
             },
             "label": {
-                "source": "$~$source",
+                "source": "$~@Source",
                 "bind": "$~isim",
                 "version": "$~versiyon"
             }
@@ -791,8 +906,10 @@
             "doc": [
                 "$~Herhangi bir ifadeyi ifade ediyorum ama @Doc ile!",
                 "$~Bunu yapmak için, bir ifadenin önüne @Doc eklemeniz yeterli, ve bana şunu vereceksiniz:",
-                "$~\\doubleplus: 1\n(2 × doubleplus) + \n¶Biraz daha büyütelim¶\n1\\",
-                "$~Bir programın herhangi bir kısmı hakkında yorum yapmaya yarar."
+                "$~\\doubleplus: 1\n(2 × doubleplus) + \n¶Let's make it just a little bit bigger¶\n1\\",
+                "$~Bir programın herhangi bir kısmı hakkında yorum yapmaya yarar.",
+                "$~If you put 👀 in the @Doc, I can also highlight the expression:",
+                "$~\\¶Look at me! 👀¶1+1\\"
             ],
             "start": "$~İfadeyi değerlendirelim"
         },
@@ -864,7 +981,7 @@
                 },
                 "SeparatedEvaluate": {
                     "name": "$~belirsizdeğerlendirme",
-                    "explanation": "$~$name, değerlendirmeye çalıştığınız $structure[$structure|$function] adlı bir yapının adı mı? @Evaluate olduğunu ve ayrı bir @Block olmadığını anlamam için benden sonraki boşluğu kaldırmayı deneyin.",
+                    "explanation": "$~$name, değerlendirmeye çalıştığınız $structure[$structure|@FunctionDefinition] adlı bir yapının adı mı? @Evaluate olduğunu ve ayrı bir @Block olmadığını anlamam için benden sonraki boşluğu kaldırmayı deneyin.",
                     "resolution": "$~* $name * ile girdileri arasındaki boşluğu kapatın."
                 }
             },
@@ -5522,7 +5639,7 @@
                     "tip": "$~projeyi metin olarak panoya kopyala",
                     "label": "$~metin olarak kopyala"
                 },
-                "addSource": "$~yeni bir $source oluştur",
+                "addSource": "$~yeni bir @Source oluştur",
                 "duplicate": {
                     "tip": "$~Bu projeyi kopyala",
                     "label": "$~kopyalamak"
@@ -5683,7 +5800,7 @@
             ],
             "confirm": {
                 "delete": {
-                    "description": "$~bu $source'u sil",
+                    "description": "$~bu @Source'u sil",
                     "prompt": "$~silmek"
                 }
             },
@@ -6040,10 +6157,11 @@
             "mode": {
                 "browse": {
                     "label": "$~göz at",
-                    "labels": ["$~kod", "$~nasıl"],
+                    "labels": ["$~kod", "$~nasıl", "$~sözlük"],
                     "tips": [
                         "$~programlama dili kavramları",
-                        "$~projeler yapmak için yeniden kullanılabilir kalıplar"
+                        "$~proje yapmak için tekrar kullanılabilir desenler",
+                        "$~anahtar terimlerin tanımları"
                     ]
                 },
                 "purpose": {
@@ -6183,7 +6301,13 @@
                 "label": "$~gezinme geçmişi",
                 "home": "$~Ev"
             },
-            "tutorial": "$~Eğitim videosu"
+            "tutorial": "$~Eğitim videosu",
+            "glossary": {
+                "explain": {
+                    "header": "$~Sözlük",
+                    "explanation": "$~/Wordplay programlama dili ve platformu boyunca kullanılan terimler ve fikirler./"
+                }
+            }
         },
         "dialog": {
             "share": {
@@ -7516,7 +7640,11 @@
                 },
                 "singletonWordsWarning": "$~Taslağınızdaki bazı kelimeler metnin tamamında yalnızca bir kez geçiyor. Bu kelimelerin doğru yazıldığından ve metnin geri kalanıyla tutarlı olduğundan emin misiniz?",
                 "viewPR": "$~Çekme isteğini görüntüle",
-                "oneLocaleNote": "$~Her gönderim bir seferde yalnızca bir dili kapsar. Bu parti, $locale değişkenine yapılan düzenlemeler olarak gönderilecektir. Farklı bir dile katkıda bulunmak istiyorsanız, önce dilleri değiştirin; her dil altında kaydettiğiniz düzenlemeler ayrı ayrı saklanır."
+                "oneLocaleNote": "$~Her gönderim bir seferde yalnızca bir dili kapsar. Bu parti, $locale değişkenine yapılan düzenlemeler olarak gönderilecektir. Farklı bir dile katkıda bulunmak istiyorsanız, önce dilleri değiştirin; her dil altında kaydettiğiniz düzenlemeler ayrı ayrı saklanır.",
+                "literalTermsWarning": "$~Taslağın sözlük kelimelerini düz metin olarak kullanıyor. Birine dokunarak onu bir sözlük bağlantısına dönüştür.",
+                "checkReadingLevel": "$~Bu metnin okuma düzeyini kontrol et",
+                "readingLevelComplex": "$~Bunu okumak zor olabilir. Daha kısa cümleler ve daha basit kelimeler dene.",
+                "readingLevelOk": "$~Bu, hedef okuma düzeyi için açıkça okunuyor."
             },
             "breadcrumb": {
                 "label": "$~Ekmek kırıntıları",

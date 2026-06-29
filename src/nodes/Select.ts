@@ -1,4 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
+import getConceptName from '@locale/getConceptName';
 import ExpectedSelectName from '@conflicts/ExpectedSelectName';
 import UnknownColumn from '@conflicts/UnknownColumn';
 import type { ReplaceContext } from '@edit/revision/EditContext';
@@ -81,18 +82,18 @@ export default class Select extends Expression {
             {
                 name: 'table',
                 kind: node(Expression),
-                label: () => (l) => l.term.table,
+                label: () => (l) => getConceptName(l, 'table'),
             },
             {
                 name: 'row',
                 kind: node(Row),
-                label: () => (l) => l.term.row,
+                label: () => (l) => getConceptName(l, 'row'),
                 space: true,
             },
             {
                 name: 'query',
                 kind: node(Expression),
-                label: () => (l) => l.term.query,
+                label: () => (l) => l.glossary.query.word,
                 space: true,
             },
         ];

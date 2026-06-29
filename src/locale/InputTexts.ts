@@ -19,7 +19,7 @@ type InputTexts = {
         key: NameAndDoc;
         /** The optional up or down state to notify about */
         down: NameAndDoc;
-        /** Per-locale translations for the named keys `Key()` can emit
+        /** [plain] Per-locale translations for the named keys `Key()` can emit
          *  (Space, Enter, ArrowUp, etc.). Keyed by the canonical English
          *  `KeyboardEvent.key` string from [KeyboardKeys.ts](src/input/KeyboardKeys.ts).
          *  Each value is an array whose first entry is this locale's display

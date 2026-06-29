@@ -3,56 +3,171 @@
     "language": "fr",
     "regions": ["FR"],
     "wordplay": "$~Jeu de mots",
-    "term": {
-        "evaluate": "$~évaluer",
-        "bind": "$~lier",
-        "decide": "$~décider",
-        "document": "documenter",
-        "project": "$~projet",
-        "source": "$~source",
-        "input": "entrée",
-        "output": "sortie",
-        "convert": "$~convertir",
-        "act": "agir",
-        "scene": "$~scène",
-        "phrase": "$~phrase",
-        "group": "$~groupe",
-        "stage": "$~scène",
-        "type": "$~taper",
-        "start": "$~commencer",
-        "entered": "$~nouveau",
-        "changed": "$~modifié",
-        "moved": "$~déplacé",
-        "name": "$~nom",
-        "value": "$~valeur",
-        "text": "$~texte",
-        "boolean": "$~booléen",
-        "map": "$~carte",
-        "number": "$~nombre",
-        "function": "$~fonction",
-        "exception": "$~exception",
-        "table": "$~tableau",
-        "none": "$~aucun",
-        "list": "$~liste",
-        "stream": "$~flux",
-        "structure": "$~structure",
-        "index": "$~indice",
-        "query": "$~requête",
-        "row": "ligne",
-        "set": "$~ensemble",
-        "key": "$~clé",
-        "help": "$~aide",
-        "feedback": "retour",
-        "how": "$~comment faire",
-        "code": "$~code",
-        "unit": "$~unité",
-        "markup": "$~marge",
-        "column": "$~colonne",
-        "cell": "$~cellule",
-        "documentation": "$~documentation",
-        "language": "$~langue",
-        "region": "$~région",
-        "pattern": "$~modèle"
+    "glossary": {
+        "value": {
+            "word": "$~valeur",
+            "definition": "$~Une information, comme un nombre, des mots ou une liste."
+        },
+        "type": {
+            "word": "$~taper",
+            "definition": "$~La sorte d'une valeur, comme un nombre ou du texte. Le taper d'une valeur décide ce que tu peux faire avec elle."
+        },
+        "expression": {
+            "word": "$~expression",
+            "definition": "$~Un morceau de code qui produit une valeur quand il s'exécute."
+        },
+        "variable": {
+            "word": "$~variable",
+            "definition": "$~Un nom dont la valeur peut changer pendant qu'un programme s'exécute."
+        },
+        "parameter": {
+            "word": "$~paramètre",
+            "definition": "$~Une entrée nommée qu'une fonction attend quand tu l'appelles."
+        },
+        "argument": {
+            "word": "$~argument",
+            "definition": "$~Une valeur que tu donnes à une fonction pour l'un de ses paramètres."
+        },
+        "operator": {
+            "word": "$~opérateur",
+            "definition": "$~Un symbole, comme + ou -, qui combine ou compare des valeurs."
+        },
+        "condition": {
+            "word": "$~condition",
+            "definition": "$~Un test vrai ou faux qui décide ce qu'un programme fait ensuite."
+        },
+        "loop": {
+            "word": "$~boucle",
+            "definition": "$~Du code qui répète une action plusieurs fois."
+        },
+        "iteration": {
+            "word": "$~itération",
+            "definition": "$~Un passage dans une boucle."
+        },
+        "recursion": {
+            "word": "$~récursion",
+            "definition": "$~Quand une fonction s'appelle elle-même pour traiter une plus petite partie d'un problème."
+        },
+        "property": {
+            "word": "$~propriété",
+            "definition": "$~Une partie nommée d'une valeur, comme la luminosité d'une couleur."
+        },
+        "element": {
+            "word": "$~élément",
+            "definition": "$~Un objet dans une liste ou un groupe."
+        },
+        "scope": {
+            "word": "$~portée",
+            "definition": "$~La partie d'un programme où un nom peut être utilisé."
+        },
+        "state": {
+            "word": "$~état",
+            "definition": "$~Une information qu'un programme garde et peut changer au fil du temps."
+        },
+        "sideEffect": {
+            "word": "$~effet de bord",
+            "definition": "$~Un changement qu'un programme fait en plus de rendre une valeur, comme montrer un résultat."
+        },
+        "abstraction": {
+            "word": "$~abstraction",
+            "definition": "$~Cacher des détails pour pouvoir utiliser quelque chose sans savoir comment cela fonctionne à l'intérieur."
+        },
+        "project": {
+            "word": "$~projet",
+            "definition": "$~Tous les fichiers qui forment un programme Wordplay."
+        },
+        "code": {
+            "word": "$~code",
+            "definition": "$~Le texte que tu écris pour dire à un programme ce qu'il doit faire."
+        },
+        "act": {
+            "word": "agir",
+            "definition": "$~Une grande partie du tutoriel, comme un acte dans une pièce de théâtre."
+        },
+        "how": {
+            "word": "$~comment faire",
+            "definition": "$~Un petit guide qui montre comment faire une chose."
+        },
+        "gallery": {
+            "word": "$~galerie",
+            "definition": "$~Un endroit où les gens partagent et explorent des projets."
+        },
+        "blocks": {
+            "word": "$~blocs",
+            "definition": "$~Une façon de modifier du code en glissant des morceaux au lieu de taper."
+        },
+        "placeholder": {
+            "word": "$~espace réservé",
+            "definition": "$~Une place vide qui montre où du code ou une valeur manque."
+        },
+        "conflict": {
+            "word": "$~conflit",
+            "definition": "$~Un problème dans le code que Wordplay signale pour que tu puisses le corriger."
+        },
+        "checkpoint": {
+            "word": "$~point de contrôle",
+            "definition": "$~Un point enregistré dans ton travail où tu peux revenir."
+        },
+        "guide": {
+            "word": "$~guide",
+            "definition": "$~La référence où tu peux chercher et qui explique les idées de Wordplay."
+        },
+        "tutorial": {
+            "word": "$~tutoriel",
+            "definition": "$~Les leçons pas à pas qui enseignent Wordplay."
+        },
+        "name": {
+            "word": "$~nom",
+            "definition": "$~Un mot qui désigne une valeur ou une fonction."
+        },
+        "markup": {
+            "word": "$~marge",
+            "definition": "$~Du texte avec une mise en forme, comme des mots en gras ou des liens."
+        },
+        "language": {
+            "word": "$~langue",
+            "definition": "$~Une langue humaine dans laquelle un nom ou un texte est écrit."
+        },
+        "documentation": {
+            "word": "$~documentation",
+            "definition": "$~Du texte qui explique ce que fait le code."
+        },
+        "region": {
+            "word": "$~région",
+            "definition": "$~Un endroit où une langue est utilisée, ce qui peut changer l'apparence des nombres et des dates."
+        },
+        "start": {
+            "word": "$~commencer",
+            "definition": "$~Le fichier source principal où un projet commence."
+        },
+        "query": {
+            "word": "$~requête",
+            "definition": "$~Une façon de choisir des lignes dans une table."
+        },
+        "key": {
+            "word": "$~clé",
+            "definition": "$~La valeur utilisée pour trouver un objet dans une carte."
+        },
+        "index": {
+            "word": "$~indice",
+            "definition": "$~Un nombre qui choisit un objet selon sa position dans une liste."
+        },
+        "moved": {
+            "word": "$~déplacé",
+            "definition": "$~Un résultat qui a changé de position sur la scène."
+        },
+        "entered": {
+            "word": "$~nouveau",
+            "definition": "$~Un résultat qui est apparu sur la scène pour la première fois."
+        },
+        "cell": {
+            "word": "$~cellule",
+            "definition": "$~Une valeur dans une ligne de table."
+        },
+        "column": {
+            "word": "$~colonne",
+            "definition": "$~Un champ nommé dans une table."
+        }
     },
     "token": {
         "EvalOpen": "$~évaluation ouverte",
@@ -450,7 +565,7 @@
             "description": "$~mentionne $name dans le balisage",
             "emotion": "serious",
             "doc": [
-                "$~Je fais référence soit à une terminologie \\$programme\\ soit à une entrée dynamique \\$name\\.",
+                "$~Je fais référence soit à une terminologie \\¶@program¶\\ soit à une entrée dynamique \\¶$name¶\\.",
                 "$~Il s’agit principalement d’une fonctionnalité interne, vous n’avez donc pas besoin de la connaître."
             ]
         },
@@ -649,7 +764,7 @@
                 },
                 "BorrowCycle": {
                     "name": "$~empruntautoréférencé",
-                    "explanation": "$~Cela dépend de $borrow, qui dépend de cette source $source, donc le programme ne peut pas être évalué.",
+                    "explanation": "$~Cela dépend de $borrow, qui dépend de cette source @Source, donc le programme ne peut pas être évalué.",
                     "resolution": "$~Supprimer cet emprunt permet de rompre le cycle."
                 }
             },
@@ -791,8 +906,10 @@
             "doc": [
                 "$~Je suis n'importe quelle expression, mais avec un @Doc !",
                 "$~Pour me faire, il suffit de mettre un @Doc avant une expression, et vous m'obtiendrez :",
-                "$~\\doubleplus: 1\n(2 × doubleplus) + \n¶Rendons-le un peu plus grand¶\n1\\",
-                "$~Je suis utile pour faire un commentaire sur une partie d'un programme."
+                "$~\\doubleplus: 1\n(2 × doubleplus) + \n¶Let's make it just a little bit bigger¶\n1\\",
+                "$~Je suis utile pour faire un commentaire sur une partie d'un programme.",
+                "$~If you put 👀 in the @Doc, I can also highlight the expression:",
+                "$~\\¶Look at me! 👀¶1+1\\"
             ],
             "start": "$~Évaluons l'expression"
         },
@@ -864,7 +981,7 @@
                 },
                 "SeparatedEvaluate": {
                     "name": "$~évaluationambiguë",
-                    "explanation": "$~Est-ce que $name est le nom d'une $structure[$structure|$function] que vous essayez d'évaluer ? Veuillez supprimer l'espace après moi afin que je sache qu'il s'agit d'une @Evaluate et non d'un @Block distinct.",
+                    "explanation": "$~Est-ce que $name est le nom d'une $structure[$structure|@FunctionDefinition] que vous essayez d'évaluer ? Veuillez supprimer l'espace après moi afin que je sache qu'il s'agit d'une @Evaluate et non d'un @Block distinct.",
                     "resolution": "$~Supprimez l'espace entre * $name * et ses entrées"
                 }
             },
@@ -5515,7 +5632,7 @@
                     "tip": "$~copier le projet dans le presse-papiers sous forme de texte",
                     "label": "$~copier comme texte"
                 },
-                "addSource": "$~créer une nouvelle $source",
+                "addSource": "$~créer une nouvelle @Source",
                 "duplicate": {
                     "tip": "$~dupliquer ce projet",
                     "label": "$~double"
@@ -5663,7 +5780,7 @@
             ],
             "confirm": {
                 "delete": {
-                    "description": "$~supprimer cette $source",
+                    "description": "$~supprimer cette @Source",
                     "prompt": "$~supprimer"
                 }
             },
@@ -6020,10 +6137,11 @@
             "mode": {
                 "browse": {
                     "label": "$~parcourir",
-                    "labels": ["$~code", "$~comment"],
+                    "labels": ["$~code", "$~comment faire", "$~glossaire"],
                     "tips": [
-                        "$~concepts de langage de programmation",
-                        "$~patrons réutilisables pour la réalisation de projets"
+                        "$~concepts du langage de programmation",
+                        "$~modèles réutilisables pour créer des projets",
+                        "$~définitions des termes clés"
                     ]
                 },
                 "purpose": {
@@ -6163,7 +6281,13 @@
                 "label": "$~historique de navigation",
                 "home": "$~Maison"
             },
-            "tutorial": "$~Tutoriel"
+            "tutorial": "$~Tutoriel",
+            "glossary": {
+                "explain": {
+                    "header": "$~Glossaire",
+                    "explanation": "$~/Termes et idées utilisés dans tout le langage de programmation et la plateforme Wordplay./"
+                }
+            }
         },
         "dialog": {
             "share": {
@@ -7424,7 +7548,11 @@
                 },
                 "singletonWordsWarning": "$~Certains mots de votre brouillon n'apparaissent qu'une seule fois dans tout le texte. Êtes-vous certain(e) de leur orthographe correcte et de leur cohérence avec le reste du texte ?",
                 "viewPR": "$~Consulter la demande de fusion",
-                "oneLocaleNote": "$~Chaque contribution concerne une langue à la fois. Ce lot sera soumis sous forme de modifications à la variable $locale . Si vous souhaitez contribuer à une autre langue, veuillez d'abord la sélectionner ; les modifications enregistrées dans chaque langue sont conservées séparément."
+                "oneLocaleNote": "$~Chaque contribution concerne une langue à la fois. Ce lot sera soumis sous forme de modifications à la variable $locale . Si vous souhaitez contribuer à une autre langue, veuillez d'abord la sélectionner ; les modifications enregistrées dans chaque langue sont conservées séparément.",
+                "literalTermsWarning": "$~Ton brouillon utilise des mots du glossaire comme texte simple. Touche-en un pour le transformer en lien vers le glossaire.",
+                "checkReadingLevel": "$~Vérifie le niveau de lecture de ce texte",
+                "readingLevelComplex": "$~Ceci peut être difficile à lire. Essaie des phrases plus courtes et des mots plus simples.",
+                "readingLevelOk": "$~Ceci se lit clairement pour le niveau de lecture visé."
             },
             "breadcrumb": {
                 "label": "$~chapelure",

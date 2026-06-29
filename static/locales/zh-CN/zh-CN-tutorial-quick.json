@@ -1,0 +1,332 @@
+{
+    "$schema": "../../schemas/Tutorial.json",
+    "language": "zh",
+    "regions": ["CN"],
+    "acts": [
+        {
+            "title": "$~Wordplay 与众不同",
+            "performance": { "fit": "#Symbol 💬" },
+            "scenes": [
+                {
+                    "title": "$~程序就是值",
+                    "subtitle": "$~是表达式，不是语句",
+                    "concept": "Program",
+                    "performance": { "fit": "#Symbol ƒ" },
+                    "lines": [
+                        { "edit": "" },
+                        [
+                            "FunctionDefinition",
+                            "cheerful",
+                            "$~欢迎来到 Wordplay！听说你已经懂一点编程了？太好了！这个简短的导览会告诉你 Wordplay 有哪些地方相似，又有哪些地方不同。",
+                            "$~先让你了解这个屏幕上的一切：这个页面展示了 @tutorial 对话框和 @project 视图。你可以看到 *舞台* @UI/stage，它显示程序的输出，还有 *编辑器* @UI/editor，它是程序的代码。",
+                            "$~这个程序是空白的，所以它的输出只是一个提示，让你去写一个程序。",
+                            "$~还有很多其他控件，用来暂停和播放程序，以及编辑代码，不过现在先别担心这些。"
+                        ],
+                        null,
+                        { "edit": "'hi'" },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~在大多数编程语言里，程序是一串语句，它们告诉计算机要 *做* 什么，比如打印一个 @value：",
+                            "$~\\py | print('你好')\\js|console.log('hi')\\jv | System.out.println('你好')\n;\\",
+                            "$~在 Wordplay 里，程序是 *表达式*，它们说明程序的 /结果/ 应该是什么，而不是说明怎么产生这个结果。",
+                            "$~这个程序求值得到值 \\'你好'\\，然后它会显示在舞台上。没有打印命令，只有一个 @expression 来说明要求值出什么值。"
+                        ],
+                        null,
+                        { "edit": ["message: 'hi'", "message"] },
+                        [
+                            "Bind",
+                            "neutral",
+                            "$~在其他语言里，*变量* 是一个有名字的容器，用来装一个 @value，而且它的值可以改变：",
+                            "$~\\py | score = 10\nscore = 20\nprint(score)\\js|let score = 10;\nscore = 20;\nconsole.log(score);\\jv | int\nscore = 10\n;\nscore = 20\n;\nSystem.out.println(score)\n;\\",
+                            "$~在 Wordplay 里，有名字的值永远不能改变。它们是“不可变的”，意思是不能再给它们赋上新的值。所以我们把它们叫做 @Bind，而不是 @variable，因为它们不会变化。",
+                            "$~我们很快会讲到，怎样在没有可变变量的情况下写出可交互的程序。"
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~检查条件",
+                    "subtitle": null,
+                    "concept": "Conditional",
+                    "performance": { "fit": "#Symbol ?" },
+                    "lines": [
+                        { "edit": ["num: 5", "num < 5 ?", "'more'", "'less'"] },
+                        [
+                            "Conditional",
+                            "neutral",
+                            "$~其他编程语言通常有一个 *if* 语句，根据 @condition 来做不同的事情：",
+                            "$~\\py | num = 5\nif\nnum < 5\n:\nprint('更少')\n否则:\n\tprint('更多')\\js|let num = 5;\nif(num < 5)\n    console.log('less');\nelse\n    console.log('more');\\jv | int\nnum = 5\nif(num < 5)\nSystem.out.println('更少')\n;\nelse\nSystem.out.println('更多')\n;\\",
+                            "$~在 Wordplay 里，一切都是 @expression，所以 @Conditional 是一个 *表达式*，先写一个条件，然后是 \\?\\，接着是一个为真时的表达式和一个为假时的表达式。不需要任何关键字"
+                        ],
+                        null,
+                        { "edit": ["n: 1", "n ??? 1: 'one' 2: 'two' 'many'"] },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~有些语言还有一个 *switch* 语句，根据一个 @value 来做不同的事情：",
+                            "$~\\py| n = 1\nmatch n:\n  case 1: print('one')\n  case 2: print('two')\n  case _: print('many')\\js| switch (n) {\n  case 1: console.log('one'); break;\n  case 2: console.log('two'); break;\n  default: console.log('many'); break;\n}\\jv | switch\n(n)\n{\n\tcase\n\t1: System.out.println('一')\n\t;break;\n\tcase\n\t2: System.out.println('二')\n\t;break;\n\tdefault: System.out.println('很多')\n\t;break;\n}\\",
+                            "$~Wordplay 有 @Match，它根据值来挑选一个结果。"
+                        ],
+                        null,
+                        { "edit": ["val: ø", "val ?? 0"] },
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~有些语言还有一个 *空值合并* @operator，用来在一个 @variable 是 null 或未定义时提供一个默认 @value：",
+                            "$~\\py | val = None\nresult = val ?? 0\\js| let val = null;\nlet result = val ?? 0;\\jv | Object\nval = null\n;\nObject\nresult = val\n!=null?val:0;\\",
+                            "$~Wordplay 有 @Otherwise 运算符来达到同样的结果。"
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~值和类型",
+                    "subtitle": null,
+                    "concept": "Number",
+                    "performance": { "fit": "#Symbol 0️⃣" },
+                    "lines": [
+                        {
+                            "edit": [
+                                "number: 1",
+                                "numberWithUnit: 1.5m",
+                                "text: 'hi'",
+                                "textWithTranslations: 'hi'/en'hola'/es",
+                                "boolean: ⊤",
+                                "none: ø"
+                            ],
+                            "conflicts": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~大多数语言有很多“基本”的 @value 类型。",
+                            "$~\\py | number\n:1\n文本: '你好'\n布尔值: True\n无: None\\js| let number = 1;\nlet text = 'hi';\nlet boolean = true;\nlet none = null;\\jv | int\nnumber = 1\n;\nString\ntext = '嗨'\n;\nboolean\nboolean = true\n;\nObject\nnone = null\n;\\",
+                            "$~Wordplay 对这些类型有相似的写法，但也允许你加上其他信息，比如给多语言文本加 @language 标记，给数字加单位。"
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "list: [1 2 3]",
+                                "set: {1 2 3}",
+                                "map: {'a': 1}"
+                            ],
+                            "conflicts": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~编程语言也有办法创建值的集合，比如列表、集合和映射（常常叫做字典或哈希）：",
+                            "$~\\py | list = [1 ,2,3]\n\t\tset = {1 ,2,3}\n\t\t\t\tmap = {'一个': 1}\\js|let list = [1, 2, 3];\nlet set = new Set([1, 2, 3]);\nlet map = { a: 1 };\\jv | let\narray = [\n\t\t1\n\t\t,2,3];\n\t\tlet\n\t\tset = new\n\t\tjava.util.HashSet < >([\n\t\t\t\t\t1\n\t\t\t\t\t,2,3]);\n\t\t\t\t\tlet\n\t\t\t\t\tmap = new\n\t\t\t\t\tjava.util.HashMap < >()\n\t\t\t\t\t;\n\t\t\t\t\tmap.put('一' 1)\n\t\t\t\t\t;\\",
+                            "$~Wordplay 对这些集合使用不同的写法，最明显的是用空格而不是逗号来分隔值。"
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "inferredType: [1 2 3]",
+                                "declaredType•[#]: [1 2 3]"
+                            ],
+                            "conflicts": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~有些编程语言允许你指定一个 @variable 的 @type，这样你就能确保你使用这个变量的所有方式都是有效的：",
+                            "$~\\py | list\n:list[int]=[1,2,3]\\js| // JavaScript doesn't have type annotations. TypeScript does though:\nlet list: number[] = [1, 2, 3];\\jv | List < Integer > list = Arrays.asList(1 ,2,3);\\",
+                            "$~Wordplay 也是有类型的，但类型是 *推断出来的*。你通常不需要声明它们，但有时候如果无法推断，你可能就得声明。"
+                        ],
+                        null,
+                        { "edit": ["•Pet(name•'' age•#)", "Pet('boomy' 16)"] },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~编程语言通常也提供一种办法来创建自定义的数据类型，把多个值组合成一个数据结构：",
+                            "$~\\py | class\n宠物:\n\tdef\n_\n_\ninit\n_\n_(self ,name,age):\n\tself.name = name\n\tself.age = age\\js| class Pet {\n    constructor(name, age) {\n        this.name = name;\n        this.age = age;\n    }\n}\\jv | public\nclass\nPet\n{\n\tprivate\n\tString\n\tname\n\t;\n\tprivate\n\tint\n\tage\n\t;\n\tpublic\n\tPet(String name ,intage){\n\t\tthis.name = name ;\n\t\tthis.age = age ;\n\t\t}\n\t\t}\\",
+                            "$~Wordplay 使用不同的写法来声明一个 @Structure，先用 \\•\\ 来表示一个数据类型，然后是一个 @name，接着是这个结构里的各个字段。"
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~转换、集合和函数",
+                    "subtitle": null,
+                    "concept": "Convert",
+                    "performance": { "fit": "#Symbol →" },
+                    "lines": [
+                        { "edit": ["1m → #ft → ''"] },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~编程里一个常见的操作是把数据从一个 @type 转换成另一个。比如，我们可能想把一个数字转换成一个文本 @value：",
+                            "$~\\py | str(1)\\js| String(1)\\jv | String.valueOf(1)\\",
+                            "$~Wordplay 的所有值都有一个 @Convert 构造，让你能在类型之间转换。这个例子把 \\1m\\ 转换成英尺，然后再转换成 @Text。每种类型的值都有一整套支持的转换"
+                        ],
+                        null,
+                        { "edit": "[1 2 3] ↦ ⬚ × 2" },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~对于列表和数组这样的值的集合，其他编程语言使用 *for* 和 *while* 循环这样的构造，从一个已有集合的值来构造一个新集合。",
+                            "$~\\py | n = [1 ,2,3]\n\t\t#Listcomprehension\n\t\t[n\n\n\n\n\t\t\t2 )\\js| n = [1, 2, 3];\n// Map\nnums.map(n => n * 2);\n// For loop\nn2 = [];\nfor (let n of nums) {\n    n2.push(n * 2);\n}\\jv | int[]nums=[1,2,3];\n//Map\nnums.stream().map(n -> n\n\n\n\n\t2)\n;\n}\\",
+                            "$~Wordplay 有一个简单的 @Translate* 构造，它使用 \\↦\\ 符号：它会构造一个新的 @List、@Set 或 @Map，把每一项（用 \\⬚\\ @placeholder 表示）替换成一个新的 @value。这会把每一项翻倍，得到 \\[2 4 6]\\。",
+                            "$~还有一些更强大的东西，比如 @List.translate 和 @List.combine，以备你需要更复杂的操作。"
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "ƒ greet(name•'') 'hi ' + name",
+                                "greet('Verse')"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~每种编程语言都有函数，它让你能声明可重复使用的代码块，这些代码块接收输入，并根据输入产生输出，可以有任意的复杂度：",
+                            "$~\\py | def\ngreet(n)\n:\nreturn\n'你好 ' + n\nprint(greet('诗节'))\\js| function greet(n) {\n  return 'hi ' + n\n}\nconsole.log(greet('Verse'))\\jv | public\nclass\nGreeter\n{\n\tpublic\n\tstatic\n\tString\n\tgreet(String n)\n\t{\n\t\treturn '你好 ' + n ;\n\t}\n}\nGreeter.greet('诗节')\\",
+                            "$~Wordplay 也支持函数定义，但用的是 ƒ 符号。就像所有 Wordplay 程序一样，函数必须求值出一个 @value。"
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~输出是排版式的，输入是响应式的",
+                    "subtitle": null,
+                    "concept": "Stage",
+                    "performance": { "fit": "#Symbol 💬" },
+                    "lines": [
+                        {
+                            "edit": "Stage([Phrase('🎉' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.5) 100%: Pose(scale: 1)} duration: 2s))] background: Color(90% 0 0°))"
+                        },
+                        [
+                            "Stage",
+                            "neutral",
+                            "$~其他编程语言把文本打印到控制台，画到画布上，或者修改网页：",
+                            "$~\\py | print('你好')\\js| document.body.append('hi')\\jv | System.out.println('你好')\n;\\",
+                            "$~Wordplay 的输出是排版式的：一个 @Phrase、一个 @Group 或一个 @Stage，它会在屏幕上显示有样式的、有动画的、可交互的文本，或者由屏幕阅读器读出。",
+                            "$~下面的例子展示了一个 @Stage，里面有一个 @Phrase，它带有一个静止时的缩放动画。"
+                        ],
+                        null,
+                        {
+                            "edit": "Phrase('🌎' rotation: Time(100ms) × 0.05°/ms)"
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~大多数编程语言都有办法从用户那里获取输入：",
+                            "$~\\py | name = input('你叫什么名字？')\\js| const name = prompt('What is your name?')\\jv | Scanner\nscanner = new\nScanner(System.in)\n;\nString\nname = scanner.nextLine()\n;\\",
+                            "$~Wordplay 的输入来自 *流*，它们是会随时间改变的特殊值，会响应输入，并让 Wordplay 程序用流的新值重新求值。",
+                            "$~举个例子，这个程序使用一个 @Time 流来驱动地球表情符号的旋转。每当 @Time() 流跳到一个新的 @value 时，程序就会用这个新值重新求值，更新 @Stage 上程序的值。"
+                        ],
+                        null,
+                        { "edit": "Phrase(∆ Button() ? 'hi' 'click me')" },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~在大多数其他编程语言里，交互意味着注册事件处理器和回调函数：",
+                            "$~\\py | import\ntkinter\nas\ntk\n\ndef\non\n_\nclick()\n:\nlabel.config(text = '你好！')\n\nroot = tk.Tk()\nlabel = tk.Label(root ,text=\"Click the button\")\n\t\tlabel.pack()\n\t\ttk.按钮(root ,text=\"Click me\",command=on_click).pack()\n\t\t\troot.mainloop()\\js| addEventListener('keydown', () => document.body.append('hello'))\\jv | import\njavax.swing.\n\n\n\n\n\n\n\n\n\n\n\n\\",
+                            "$~在 Wordplay 里，交互我们只需要使用像 @Button、@Key 和 @Pointer 这样的流来创建可交互的元素。这个 @Phrase 的文本取决于 @Button 是否被点击，它用一个 @Conditional 来查看 @Button 流是否 @Changed。"
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "button: Button()",
+                                "count: 1 … ∆ button … count + 1",
+                                "Phrase(count → '')"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~其他编程语言让你在运行时改变变量的值，这对创建动态和可交互的应用很有用。但它们要求你记得在正确的地方更新这些值，并在这些值改变时更新屏幕上显示的内容：",
+                            "$~\\py | import\ntkinter\nas\ntk\n\ncount = 0\n\ndef\non\n_\nclick()\n:\nglobal\ncount\ncount\n+=\n1\nlabel.config(text = f '点击次数：{count}')\n\nroot = tk.Tk()\nlabel = tk.Label(root ,text=\"Clicks: 0\")\n\t\tlabel.pack()\n\t\ttk.按钮(root ,text=\"Click me\",command=on_click).pack()\n\t\t\troot.mainloop()\\js|let count = 0;\nfunction onClick() {\n    count++;\n    document.getElementById('label').textContent = `Clicks: ${count}`;\n\n}\naddEventListener('keydown', onClick);\\jv | import\njavax.swing.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\",
+                            "$~Wordplay 用一个 @Reaction @expression 把这件事简化了。它从一个初始值开始，检查一个引用了流输入的 @condition，并根据流的变化更新这个表达式的值。在这个例子里，每当 @Button 流改变时，我们就更新 count 的值，而这又会更新 @Stage 上显示的 @Phrase。"
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~冲突和调试",
+                    "subtitle": null,
+                    "concept": "UnparsableExpression",
+                    "performance": { "fit": "#Symbol ‼️" },
+                    "lines": [
+                        {
+                            "edit": "1 + 'hello'",
+                            "conflicts": true,
+                            "sidebar": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "angry",
+                            "$~其他语言会抛出 *错误* —— 这是程序做了不被允许的事情的标志：",
+                            "$~\\py | 1 + '你好'\\js|1 + 'hello'\\jv | 1 + '你好'\\",
+                            "$~Wordplay 把错误叫做 *冲突*：就是两件不能同时成立的事，比如在下面的程序里把一个数字和文本相加。",
+                            "$~Wordplay 会给冲突画上下划线，并在侧边栏 @UI/conflict 里显示它们。它还会提供解决冲突的建议，来修复这个问题。"
+                        ],
+                        null,
+                        { "edit": "(1 + 2) × 3" },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~大多数编程语言都提供某种调试工具，帮助创作者理解并解决代码中的问题。但很多只是用打印语句在控制台里检查变量的值：",
+                            "$~\\py | print(elapsed)\\js|console.log(elapsed)\\jv | System.out.println(elapsed)\\",
+                            "$~Wordplay 提供了一种更完善的调试体验，让你能在它的求值过程中 *向前* 和 *向后* 一步步走。@UI/stepControls 可以朝任何方向推进求值，这样你就能看到一个值是怎么一步步构造出来的。",
+                            "$~想要更多指导？调试区里的 @UI/debugtour 按钮会带你做一次关于这些控件的有导览的介绍。"
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~把它们组合起来",
+                    "subtitle": null,
+                    "concept": "Stage",
+                    "performance": { "fit": "#Symbol 🔨" },
+                    "lines": [
+                        { "edit": ["elapsed: Time(100ms)", "elapsed"] },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~让我们分三步来构建一个小小的可交互 @project。",
+                            "$~*第一步：* 声明你的数据和 *流*。这里有一个名叫 elapsed 的 @Time 流，它报告程序运行了多久。"
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "elapsed: Time(100ms)",
+                                "turn: elapsed × 0.05°/ms",
+                                "turn"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~*第二步：* 通过推导出新的 @Bind 值来 *响应* 这个流。这里 turn 把流逝的时间转换成度数，每当 elapsed 改变时就重新计算。"
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "elapsed: Time(100ms)",
+                                "turn: elapsed × 0.05°/ms",
+                                "Stage([Phrase('✨' rotation: turn)] background: Color(25% 0 0°))"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~*第三步：* *输出* —— 把你的数据映射到一个 @Phrase、@Group 或 @Stage 上。现在这颗星星自己转起来啦！"
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "volume: Volume()",
+                                "turn: volume × 360°",
+                                "Stage([Phrase('✨' rotation: turn)] background: Color(25% 0 0°))"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~我们可以加上用户输入来控制旋转，让它更有交互性，比如用麦克风输入的 @Volume。它是一个 0 到 1 之间的值，所以我们可以把它映射到 360 度上。",
+                            "$~这就是大多数项目的样子：先是声明，然后是响应，再然后是输出。<Guide//guide> 里有一个 @how 部分，满是可以研究、复制和编辑的范例。",
+                            "$~创作愉快！"
+                        ]
+                    ]
+                }
+            ]
+        }
+    ]
+}

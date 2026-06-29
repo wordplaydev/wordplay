@@ -1,4 +1,5 @@
 import type LocaleText from '@locale/LocaleText';
+import getConceptName from '@locale/getConceptName';
 import NoneType from '@nodes/NoneType';
 import { NONE_SYMBOL } from '@parser/Symbols';
 import type { BasisTypeName } from '@basis/BasisConstants';
@@ -28,7 +29,7 @@ export default class NoneValue extends SimpleValue {
     }
 
     getDescription() {
-        return (l: LocaleText) => l.term.none;
+        return (l: LocaleText) => getConceptName(l, 'none');
     }
 
     getRepresentativeText() {

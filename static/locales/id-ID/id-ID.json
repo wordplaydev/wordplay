@@ -3,56 +3,171 @@
     "language": "id",
     "regions": ["ID"],
     "wordplay": "$~Permainan kata",
-    "term": {
-        "bind": "$~mengikat",
-        "evaluate": "$~mengevaluasi",
-        "decide": "$~memutuskan",
-        "project": "$~proyek",
-        "document": "$~menjelaskan",
-        "source": "$~sumber",
-        "code": "$~kode",
-        "input": "$~masukan",
-        "output": "$~keluaran",
-        "convert": "$~mengubah",
-        "how": "$~cara",
-        "act": "$~bertindak",
-        "scene": "$~pemandangan",
-        "phrase": "$~frasa",
-        "group": "$~kelompok",
-        "stage": "$~panggung",
-        "type": "$~jenis",
-        "start": "$~awal",
-        "entered": "$~baru",
-        "changed": "$~berubah",
-        "moved": "$~terharu",
-        "name": "$~nama",
-        "value": "$~nilai",
-        "text": "$~teks",
-        "boolean": "$~boolean",
-        "map": "$~peta",
-        "number": "$~nomor",
-        "unit": "$~satuan",
-        "markup": "$~markup",
-        "function": "$~fungsi",
-        "exception": "$~pengecualian",
-        "table": "$~meja",
-        "column": "$~kolom",
-        "row": "$~baris",
-        "cell": "$~sel",
-        "none": "$~tidak ada",
-        "list": "$~daftar",
-        "stream": "$~sungai kecil",
-        "structure": "$~struktur",
-        "index": "$~indeks",
-        "query": "$~pertanyaan",
-        "set": "$~mengatur",
-        "key": "$~kunci",
-        "help": "$~Membantu",
-        "feedback": "$~masukan",
-        "documentation": "$~dokumentasi",
-        "language": "$~bahasa",
-        "region": "$~wilayah",
-        "pattern": "$~pola"
+    "glossary": {
+        "value": {
+            "word": "$~nilai",
+            "definition": "$~Sepotong informasi, seperti angka, beberapa kata, atau daftar."
+        },
+        "type": {
+            "word": "$~jenis",
+            "definition": "$~Macam dari sebuah nilai, seperti angka atau teks. Jenis dari sebuah nilai menentukan apa yang bisa kamu lakukan dengannya."
+        },
+        "expression": {
+            "word": "$~ekspresi",
+            "definition": "$~Sepotong kode yang menghasilkan nilai saat dijalankan."
+        },
+        "variable": {
+            "word": "$~variabel",
+            "definition": "$~Sebuah nama yang nilainya bisa berubah saat program berjalan."
+        },
+        "parameter": {
+            "word": "$~parameter",
+            "definition": "$~Masukan bernama yang diharapkan sebuah fungsi saat kamu memanggilnya."
+        },
+        "argument": {
+            "word": "$~argumen",
+            "definition": "$~Nilai yang kamu berikan ke sebuah fungsi untuk salah satu parameternya."
+        },
+        "operator": {
+            "word": "$~operator",
+            "definition": "$~Sebuah simbol, seperti + atau -, yang menggabungkan atau membandingkan nilai."
+        },
+        "condition": {
+            "word": "$~kondisi",
+            "definition": "$~Sebuah uji benar-atau-salah yang menentukan apa yang dilakukan program berikutnya."
+        },
+        "loop": {
+            "word": "$~perulangan",
+            "definition": "$~Kode yang mengulang sebuah tindakan berkali-kali."
+        },
+        "iteration": {
+            "word": "$~iterasi",
+            "definition": "$~Satu kali jalan melalui sebuah perulangan."
+        },
+        "recursion": {
+            "word": "$~rekursi",
+            "definition": "$~Ketika sebuah fungsi memanggil dirinya sendiri untuk menangani bagian masalah yang lebih kecil."
+        },
+        "property": {
+            "word": "$~properti",
+            "definition": "$~Bagian bernama dari sebuah nilai, seperti kecerahan suatu warna."
+        },
+        "element": {
+            "word": "$~elemen",
+            "definition": "$~Satu benda dalam sebuah daftar atau kelompok."
+        },
+        "scope": {
+            "word": "$~cakupan",
+            "definition": "$~Bagian dari program tempat sebuah nama bisa dipakai."
+        },
+        "state": {
+            "word": "$~keadaan",
+            "definition": "$~Informasi yang disimpan program dan bisa berubah seiring waktu."
+        },
+        "sideEffect": {
+            "word": "$~efek samping",
+            "definition": "$~Perubahan yang dibuat program selain memberikan nilai kembali, seperti menampilkan keluaran."
+        },
+        "abstraction": {
+            "word": "$~abstraksi",
+            "definition": "$~Menyembunyikan rincian agar kamu bisa memakai sesuatu tanpa tahu cara kerjanya di dalam."
+        },
+        "project": {
+            "word": "$~proyek",
+            "definition": "$~Semua berkas yang membentuk satu program Wordplay."
+        },
+        "code": {
+            "word": "$~kode",
+            "definition": "$~Teks yang kamu tulis untuk memberi tahu program apa yang harus dilakukan."
+        },
+        "act": {
+            "word": "$~bertindak",
+            "definition": "$~Bagian besar dari tutorial, seperti babak dalam sebuah drama."
+        },
+        "how": {
+            "word": "$~cara",
+            "definition": "$~Panduan singkat yang menunjukkan cara melakukan satu hal."
+        },
+        "gallery": {
+            "word": "$~galeri",
+            "definition": "$~Tempat orang berbagi dan menjelajahi proyek."
+        },
+        "blocks": {
+            "word": "$~blok",
+            "definition": "$~Cara mengedit kode dengan menyeret potongan, bukan mengetik."
+        },
+        "placeholder": {
+            "word": "$~penampung",
+            "definition": "$~Tempat kosong yang menunjukkan di mana kode atau nilai belum ada."
+        },
+        "conflict": {
+            "word": "$~konflik",
+            "definition": "$~Masalah dalam kode yang ditandai Wordplay agar kamu bisa memperbaikinya."
+        },
+        "checkpoint": {
+            "word": "$~titik simpan",
+            "definition": "$~Titik tersimpan dalam pekerjaanmu yang bisa kamu kunjungi kembali."
+        },
+        "guide": {
+            "word": "$~panduan",
+            "definition": "$~Rujukan yang bisa dicari yang menjelaskan gagasan-gagasan Wordplay."
+        },
+        "tutorial": {
+            "word": "$~tutorial",
+            "definition": "$~Pelajaran langkah demi langkah yang mengajarkan Wordplay."
+        },
+        "name": {
+            "word": "$~nama",
+            "definition": "$~Sebuah kata yang merujuk ke sebuah nilai atau fungsi."
+        },
+        "markup": {
+            "word": "$~markup",
+            "definition": "$~Teks dengan format, seperti kata tebal atau tautan."
+        },
+        "language": {
+            "word": "$~bahasa",
+            "definition": "$~Bahasa manusia tempat sebuah nama atau teks ditulis."
+        },
+        "documentation": {
+            "word": "$~dokumentasi",
+            "definition": "$~Teks yang menjelaskan apa yang dilakukan kode."
+        },
+        "region": {
+            "word": "$~wilayah",
+            "definition": "$~Tempat sebuah bahasa dipakai, yang bisa mengubah tampilan angka dan tanggal."
+        },
+        "start": {
+            "word": "$~awal",
+            "definition": "$~Berkas sumber utama tempat sebuah proyek dimulai."
+        },
+        "query": {
+            "word": "$~pertanyaan",
+            "definition": "$~Cara memilih baris dari sebuah tabel."
+        },
+        "key": {
+            "word": "$~kunci",
+            "definition": "$~Nilai yang dipakai untuk menemukan sebuah benda dalam sebuah peta."
+        },
+        "index": {
+            "word": "$~indeks",
+            "definition": "$~Sebuah angka yang memilih benda berdasarkan posisinya dalam sebuah daftar."
+        },
+        "moved": {
+            "word": "$~terharu",
+            "definition": "$~Keluaran yang berubah posisi di panggung."
+        },
+        "entered": {
+            "word": "$~baru",
+            "definition": "$~Keluaran yang muncul di panggung untuk pertama kalinya."
+        },
+        "cell": {
+            "word": "$~sel",
+            "definition": "$~Satu nilai dalam sebuah baris tabel."
+        },
+        "column": {
+            "word": "$~kolom",
+            "definition": "$~Bidang bernama dalam sebuah tabel."
+        }
     },
     "token": {
         "EvalOpen": "$~evaluasi terbuka",
@@ -450,7 +565,7 @@
             "description": "$~sebutkan $name dalam markup",
             "emotion": "serious",
             "doc": [
-                "$~Saya adalah referensi untuk terminologi \\ $program \\ atau input dinamis \\ $name \\.",
+                "$~Saya adalah referensi untuk terminologi \\¶@program¶\\ atau input dinamis \\¶$name¶\\.",
                 "$~Ini sebagian besar merupakan fitur internal, jadi Anda tidak perlu mengetahuinya."
             ]
         },
@@ -649,12 +764,12 @@
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~pinjamantakdikenal",
-                    "explanation": "$~Saya tidak tahu $source dengan nama ini.",
+                    "explanation": "$~Saya tidak tahu @Source dengan nama ini.",
                     "resolution": "$~Hapus pinjaman ini"
                 },
                 "BorrowCycle": {
                     "name": "$~meminjamyangmerujukdirisendiri",
-                    "explanation": "$~Ini bergantung pada $borrow , yang bergantung pada $source , sehingga program tidak dapat dievaluasi.",
+                    "explanation": "$~Ini bergantung pada $borrow , yang bergantung pada @Source , sehingga program tidak dapat dievaluasi.",
                     "resolution": "$~Hapus pinjaman ini untuk memutus siklusnya."
                 }
             },
@@ -871,7 +986,7 @@
                 },
                 "SeparatedEvaluate": {
                     "name": "$~evaluasiambigu",
-                    "explanation": "$~Apakah $name adalah nama dari $structure [ $structure | $function ] yang ingin Anda evaluasi? Coba hapus spasi setelahnya, agar saya tahu itu adalah @Evaluate dan bukan @Block terpisah.",
+                    "explanation": "$~Apakah $name adalah nama dari $structure [ $structure | @FunctionDefinition ] yang ingin Anda evaluasi? Coba hapus spasi setelahnya, agar saya tahu itu adalah @Evaluate dan bukan @Block terpisah.",
                     "resolution": "$~Tutup spasi antara * $name * dan inputnya"
                 }
             },
@@ -904,7 +1019,7 @@
             "doc": [
                 "$~Aku adalah sebuah *ungkapan*, tapi bukan ungkapan yang sebenarnya… Aku hanya menggantikan peran ungkapan yang sebenarnya.",
                 "$~Aku tidak masalah kalau kamu belum tahu mau menulis apa. Seperti ini:",
-                "\\1 + _\\",
+                "$~\\1 + _\\",
                 "$~Apa yang akan kita tambahkan? Saya tidak tahu. Kamu yang beri tahu saya.",
                 "$~Atau jika seseorang mengevaluasi suatu fungsi dengan @Evaluate, saya mungkin akan menggantikan fungsi tersebut.",
                 "$~\\_(1 2 3)\\",
@@ -2342,18 +2457,18 @@
         },
         "Text": {
             "doc": [
-                "I can represent any text, from any language. Just put the text between opening and closing text symbols: \\\"\"\\, \\“”\\, \\„“\\, \\''\\, \\‘’\\, \\‹›\\, \\«»\\, \\「」\\, or \\『』\\.",
+                "$~I can represent any text, from any language. Just put the text between opening and closing text symbols: \\\"\"\\, \\“”\\, \\„“\\, \\''\\, \\‘’\\, \\‹›\\, \\«»\\, \\「」\\, or \\『』\\.",
                 "To illustrate, consider these beautiful phrases",
-                "\\“There are only two ways to live your life. One is as though nothing is a miracle. The other is as though everything is a miracle.”\\",
-                "\\『一日三秋』\\",
+                "$~\\“There are only two ways to live your life. One is as though nothing is a miracle. The other is as though everything is a miracle.”\\",
+                "$~\\『一日三秋』\\",
                 "Just remember to close me if you open me, and use the matching symbol. Otherwise I won't know that you're done with your words.",
-                "\\'hello'/en'hola'/es-MX\\",
+                "$~\\'hello'/en'hola'/es-MX\\",
                 "You can also tag me with languages, and even give multiple translations. I'll evaluate to whatever languages are currently selected, if there's a matching language.",
                 "If you want to make me with some other values, you can do this:",
-                "\\\"Here are some sums \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
+                "$~\\\"Here are some sums \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
                 "See how elegantly I just evaluated those sums, and placed them inside the @Text?",
                 "I have one last little secret: did you know we all have a unique number? It's true! You can refer to us by our number. For example, @FunctionDefinition is 192:",
-                "\\'@192'\\",
+                "$~\\'@192'\\",
                 "See how 192 turned into @FunctionDefinition? I hear you call these numbers 'Unicode'.",
                 "Otherwise, there just so many glorious functions that @FunctionDefinition made for me to do all kinds of things with words!"
             ],
@@ -5522,7 +5637,7 @@
                     "tip": "$~Salin proyek ke papan klip sebagai teks.",
                     "label": "$~salin sebagai teks"
                 },
-                "addSource": "$~buat $source baru",
+                "addSource": "$~buat @Source baru",
                 "duplicate": {
                     "tip": "$~gandakan proyek ini",
                     "label": "$~duplikat"
@@ -5920,7 +6035,7 @@
             ],
             "confirm": {
                 "delete": {
-                    "description": "$~hapus $source ini",
+                    "description": "$~hapus @Source ini",
                     "prompt": "$~menghapus"
                 }
             },
@@ -6259,10 +6374,11 @@
             "mode": {
                 "browse": {
                     "label": "$~bagian",
-                    "labels": ["$~kode", "$~cara"],
+                    "labels": ["$~kode", "$~cara", "$~glosarium"],
                     "tips": [
                         "$~konsep bahasa pemrograman",
-                        "$~Pola yang dapat digunakan kembali untuk membuat proyek."
+                        "$~pola yang bisa dipakai ulang untuk membuat proyek",
+                        "$~definisi istilah penting"
                     ]
                 },
                 "purpose": {
@@ -6426,7 +6542,13 @@
                 "label": "$~riwayat navigasi",
                 "home": "$~Rumah"
             },
-            "tutorial": "$~Tutorial"
+            "tutorial": "$~Tutorial",
+            "glossary": {
+                "explain": {
+                    "header": "$~Glosarium",
+                    "explanation": "$~/Istilah dan gagasan yang dipakai di seluruh bahasa pemrograman dan platform Wordplay./"
+                }
+            }
         },
         "dialog": {
             "share": {
@@ -7174,7 +7296,11 @@
                     "ui": "$~Antarmuka pengguna",
                     "gallery": "$~Galeri",
                     "moderation": "$~Moderasi"
-                }
+                },
+                "literalTermsWarning": "$~Draf kamu memakai kata-kata glosarium sebagai teks biasa. Ketuk salah satu untuk mengubahnya menjadi tautan glosarium.",
+                "checkReadingLevel": "$~Periksa tingkat keterbacaan string ini",
+                "readingLevelComplex": "$~Ini mungkin sulit dibaca. Coba pakai kalimat lebih pendek dan kata lebih sederhana.",
+                "readingLevelOk": "$~Ini mudah dibaca untuk tingkat keterbacaan yang dituju."
             },
             "teach": {
                 "header": "$~Mengajar",

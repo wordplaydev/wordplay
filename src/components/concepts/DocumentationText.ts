@@ -48,8 +48,8 @@ type DocumentationText = {
     };
     /** Modes in the guide */
     mode: {
-        /** Toggle between browsing all concepts and filtering by purpose */
-        browse: ModeText<[string, string]>;
+        /** Toggle between the code concepts, how-to guides, and glossary sections */
+        browse: ModeText<[string, string, string]>;
         /** Filter concepts by purpose category (aligned with the order of the
          *  Purpose enum's keys: project, output, input, decide, name, text,
          *  pattern, numbers, truth, lists, sets, tables, docs, types, etc.) */
@@ -109,7 +109,7 @@ type DocumentationText = {
     how: {
         /** Header and explanation of what how-tos are, shown atop the how-to section */
         explain: HeaderAndExplanationText;
-        /** The category names */
+        /** [plain] The category names */
         category: Record<keyof typeof HowToCategories, string>;
         /** [plain] The subheader for related how to's */
         related: string;
@@ -118,19 +118,24 @@ type DocumentationText = {
         /** Button text to go to the how-to in the space */
         howToGalleryButton: ButtonText;
     };
+    /** Everything related to the glossary section */
+    glossary: {
+        /** Header and explanation of what the glossary is, shown atop the glossary section */
+        explain: HeaderAndExplanationText;
+    };
     /** Interactive tour explaining the documentation tile */
     tour: {
         /** [plain] Tooltip on the help button that opens the tour */
         launch: string;
-        /** Markup describing the guide overall */
+        /** [formatted] Markup describing the guide overall */
         guide: FormattedText;
-        /** Markup describing the code (programming language) section */
+        /** [formatted] Markup describing the code (programming language) section */
         code: FormattedText;
-        /** Markup describing the how-to section */
+        /** [formatted] Markup describing the how-to section */
         howto: FormattedText;
-        /** Markup describing the code/how-to mode toggle */
+        /** [formatted] Markup describing the code/how-to mode toggle */
         mode: FormattedText;
-        /** Markup describing the search field */
+        /** [formatted] Markup describing the search field */
         search: FormattedText;
     };
 };

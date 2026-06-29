@@ -1,4 +1,5 @@
 import type LocaleText from '@locale/LocaleText';
+import getConceptName from '@locale/getConceptName';
 import type Context from '@nodes/Context';
 import SetType from '@nodes/SetType';
 import UnionType from '@nodes/UnionType';
@@ -108,7 +109,7 @@ export default class SetValue extends SimpleValue {
     }
 
     getDescription() {
-        return (l: LocaleText) => l.term.set;
+        return (l: LocaleText) => getConceptName(l, 'set');
     }
 
     getRepresentativeText() {

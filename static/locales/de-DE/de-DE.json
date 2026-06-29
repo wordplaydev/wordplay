@@ -3,56 +3,171 @@
     "language": "de",
     "regions": ["DE"],
     "wordplay": "Wordplay",
-    "term": {
-        "evaluate": "auswerten",
-        "bind": "binden",
-        "decide": "entscheiden",
-        "document": "Dokumentation",
-        "project": "Projekt",
-        "source": "Quelldatei",
-        "input": "Eingabe",
-        "output": "Ausgabe",
-        "convert": "konvertieren",
-        "act": "speilen",
-        "scene": "Szene",
-        "phrase": "Satzglied",
-        "group": "Gruppe",
-        "stage": "Bühne",
-        "type": "Typ",
-        "start": "Anfang",
-        "entered": "neu",
-        "changed": "geändert",
-        "moved": "gerührt",
-        "name": "Name",
-        "value": "Wert",
-        "text": "Text",
-        "boolean": "boolescher Wert",
-        "map": "Karte",
-        "number": "Nummer",
-        "function": "Funktion",
-        "exception": "Ausnahme",
-        "table": "Tabelle",
-        "none": "keiner",
-        "list": "Liste",
-        "stream": "Datenstrom",
-        "structure": "Strukturwert",
-        "index": "Index",
-        "query": "Abfrage",
-        "row": "Reihe",
-        "set": "Set",
-        "key": "Schlüssel",
-        "help": "Hilfe",
-        "feedback": "Bewertung",
-        "how": "$~Wie man",
-        "code": "$~Code",
-        "unit": "$~Einheit",
-        "markup": "$~Aufschlag",
-        "column": "$~Spalte",
-        "cell": "$~Zelle",
-        "documentation": "$~Dokumentation",
-        "language": "$~Sprache",
-        "region": "$~Region",
-        "pattern": "$~Muster"
+    "glossary": {
+        "value": {
+            "word": "Wert",
+            "definition": "$~Eine Information, wie eine Zahl, ein paar Wörter oder eine Liste."
+        },
+        "type": {
+            "word": "Typ",
+            "definition": "$~Die Art eines Wertes, wie Zahl oder Text. Der Typ eines Wertes entscheidet, was du damit machen kannst."
+        },
+        "expression": {
+            "word": "$~Ausdruck",
+            "definition": "$~Ein Stück Code, das einen Wert erzeugt, wenn es läuft."
+        },
+        "variable": {
+            "word": "$~Variable",
+            "definition": "$~Ein Name, dessen Wert sich ändern kann, während ein Programm läuft."
+        },
+        "parameter": {
+            "word": "$~Parameter",
+            "definition": "$~Eine benannte Eingabe, die eine Funktion erwartet, wenn du sie aufrufst."
+        },
+        "argument": {
+            "word": "$~Argument",
+            "definition": "$~Ein Wert, den du einer Funktion für einen ihrer Parameter gibst."
+        },
+        "operator": {
+            "word": "$~Operator",
+            "definition": "$~Ein Symbol, wie + oder -, das Werte verbindet oder vergleicht."
+        },
+        "condition": {
+            "word": "$~Bedingung",
+            "definition": "$~Ein Wahr-oder-Falsch-Test, der entscheidet, was ein Programm als Nächstes tut."
+        },
+        "loop": {
+            "word": "$~Schleife",
+            "definition": "$~Code, der eine Aktion viele Male wiederholt."
+        },
+        "iteration": {
+            "word": "$~Durchlauf",
+            "definition": "$~Ein Durchgang durch eine Schleife."
+        },
+        "recursion": {
+            "word": "$~Rekursion",
+            "definition": "$~Wenn eine Funktion sich selbst aufruft, um einen kleineren Teil eines Problems zu lösen."
+        },
+        "property": {
+            "word": "$~Eigenschaft",
+            "definition": "$~Ein benannter Teil eines Wertes, wie die Helligkeit einer Farbe."
+        },
+        "element": {
+            "word": "$~Element",
+            "definition": "$~Ein Element in einer Liste oder Gruppe."
+        },
+        "scope": {
+            "word": "$~Gültigkeitsbereich",
+            "definition": "$~Der Teil eines Programms, in dem ein Name benutzt werden kann."
+        },
+        "state": {
+            "word": "$~Zustand",
+            "definition": "$~Informationen, die ein Programm behält und mit der Zeit ändern kann."
+        },
+        "sideEffect": {
+            "word": "$~Nebenwirkung",
+            "definition": "$~Eine Änderung, die ein Programm macht, außer einen Wert zurückzugeben, wie das Anzeigen von Ausgaben."
+        },
+        "abstraction": {
+            "word": "$~Abstraktion",
+            "definition": "$~Details verstecken, damit du etwas benutzen kannst, ohne zu wissen, wie es innen funktioniert."
+        },
+        "project": {
+            "word": "Projekt",
+            "definition": "$~Alle Dateien, die ein Wordplay-Programm bilden."
+        },
+        "code": {
+            "word": "$~Code",
+            "definition": "$~Der Text, den du schreibst, um einem Programm zu sagen, was es tun soll."
+        },
+        "act": {
+            "word": "speilen",
+            "definition": "$~Ein großer Teil der Anleitung, wie ein Akt in einem Theaterstück."
+        },
+        "how": {
+            "word": "$~Wie man",
+            "definition": "$~Ein kurzer Leitfaden, der zeigt, wie man eine Sache macht."
+        },
+        "gallery": {
+            "word": "$~Galerie",
+            "definition": "$~Ein Ort, an dem Menschen Projekte teilen und erkunden."
+        },
+        "blocks": {
+            "word": "$~Blöcke",
+            "definition": "$~Eine Art, Code zu bearbeiten, indem man Teile zieht, statt zu tippen."
+        },
+        "placeholder": {
+            "word": "$~Platzhalter",
+            "definition": "$~Eine leere Stelle, die zeigt, wo Code oder ein Wert fehlt."
+        },
+        "conflict": {
+            "word": "$~Konflikt",
+            "definition": "$~Ein Problem im Code, das Wordplay markiert, damit du es beheben kannst."
+        },
+        "checkpoint": {
+            "word": "$~Prüfpunkt",
+            "definition": "$~Ein gespeicherter Punkt in deiner Arbeit, zu dem du zurückkehren kannst."
+        },
+        "guide": {
+            "word": "$~Leitfaden",
+            "definition": "$~Das durchsuchbare Nachschlagewerk, das die Ideen von Wordplay erklärt."
+        },
+        "tutorial": {
+            "word": "$~Anleitung",
+            "definition": "$~Die Schritt-für-Schritt-Lektionen, die Wordplay lehren."
+        },
+        "name": {
+            "word": "Name",
+            "definition": "$~Ein Wort, das sich auf einen Wert oder eine Funktion bezieht."
+        },
+        "markup": {
+            "word": "$~Aufschlag",
+            "definition": "$~Text mit Formatierung, wie fette Wörter oder Links."
+        },
+        "language": {
+            "word": "$~Sprache",
+            "definition": "$~Eine menschliche Sprache, in der ein Name oder Text geschrieben ist."
+        },
+        "documentation": {
+            "word": "$~Dokumentation",
+            "definition": "$~Text, der erklärt, was Code tut."
+        },
+        "region": {
+            "word": "$~Region",
+            "definition": "$~Ein Ort, an dem eine Sprache benutzt wird, was ändern kann, wie Zahlen und Daten aussehen."
+        },
+        "start": {
+            "word": "Anfang",
+            "definition": "$~Die Hauptquelldatei, in der ein Projekt beginnt."
+        },
+        "query": {
+            "word": "Abfrage",
+            "definition": "$~Eine Art, Zeilen aus einer Tabelle auszuwählen."
+        },
+        "key": {
+            "word": "Schlüssel",
+            "definition": "$~Der Wert, mit dem man ein Element in einer Karte findet."
+        },
+        "index": {
+            "word": "Index",
+            "definition": "$~Eine Zahl, die ein Element nach seiner Position in einer Liste auswählt."
+        },
+        "moved": {
+            "word": "gerührt",
+            "definition": "$~Ausgabe, die ihre Position auf der Bühne geändert hat."
+        },
+        "entered": {
+            "word": "neu",
+            "definition": "$~Ausgabe, die zum ersten Mal auf der Bühne erschienen ist."
+        },
+        "cell": {
+            "word": "$~Zelle",
+            "definition": "$~Ein Wert in einer Tabellenzeile."
+        },
+        "column": {
+            "word": "$~Spalte",
+            "definition": "$~Ein benanntes Feld in einer Tabelle."
+        }
     },
     "token": {
         "EvalOpen": "Auswertung öffnen",
@@ -450,7 +565,7 @@
             "description": "$~erwähne $name im Markup",
             "emotion": "serious",
             "doc": [
-                "$~Ich beziehe mich entweder auf die Terminologie \\$program\\ oder auf eine dynamische Eingabe \\$name\\.",
+                "$~Ich beziehe mich entweder auf die Terminologie \\¶@program¶\\ oder auf eine dynamische Eingabe \\¶$name¶\\.",
                 "$~Dies ist allerdings größtenteils eine interne Funktion, Sie müssen es also nicht kennen."
             ]
         },
@@ -644,12 +759,12 @@
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~unbekannteAusleihe",
-                    "explanation": "$~Mir ist keine $source mit diesem Namen bekannt",
+                    "explanation": "$~Mir ist keine @Source mit diesem Namen bekannt",
                     "resolution": "$~Diese Ausleihe entfernen"
                 },
                 "BorrowCycle": {
                     "name": "$~selbstreferenzierendeAusleihe",
-                    "explanation": "$~Dies hängt von $borrow ab, welches wiederum von dieser $source abhängt, daher kann das Programm nicht ausgewertet werden.",
+                    "explanation": "$~Dies hängt von $borrow ab, welches wiederum von dieser @Source abhängt, daher kann das Programm nicht ausgewertet werden.",
                     "resolution": "$~Entfernen Sie diese Kreditlinie, um den Kreislauf zu durchbrechen."
                 }
             },
@@ -660,7 +775,7 @@
                 }
             },
             "label": {
-                "source": "$~$source",
+                "source": "$~@Source",
                 "bind": "$~Name",
                 "version": "$~Version"
             }
@@ -791,8 +906,10 @@
             "doc": [
                 "$~Ich bin jeder Ausdruck, aber mit einem @Doc!",
                 "$~Um mich zu erstellen, setzen Sie einfach ein @Doc vor einen Ausdruck, und Sie erhalten mich:",
-                "$~\\doubleplus: 1\n(2 × doubleplus) + \n¶Lass es uns ein bisschen größer machen¶\n1\\",
-                "$~Ich bin nützlich, um einen Teil eines Programms zu kommentieren."
+                "$~\\doubleplus: 1\n(2 × doubleplus) + \n¶Let's make it just a little bit bigger¶\n1\\",
+                "$~Ich bin nützlich, um einen Teil eines Programms zu kommentieren.",
+                "$~If you put 👀 in the @Doc, I can also highlight the expression:",
+                "$~\\¶Look at me! 👀¶1+1\\"
             ],
             "start": "$~Lassen Sie uns den Ausdruck auswerten"
         },
@@ -864,7 +981,7 @@
                 },
                 "SeparatedEvaluate": {
                     "name": "$~mehrdeutigeBewertung",
-                    "explanation": "$~Ist $name der Name einer $structure[$structure|$function], die Sie auswerten möchten? Versuchen Sie, das Leerzeichen nach mir zu entfernen, damit ich weiß, dass es sich um eine @Evaluate-Anweisung und nicht um einen separaten @Block handelt.",
+                    "explanation": "$~Ist $name der Name einer $structure[$structure|@FunctionDefinition], die Sie auswerten möchten? Versuchen Sie, das Leerzeichen nach mir zu entfernen, damit ich weiß, dass es sich um eine @Evaluate-Anweisung und nicht um einen separaten @Block handelt.",
                     "resolution": "$~Schließen Sie den Abstand zwischen * $name * und seinen Eingaben."
                 }
             },
@@ -5521,7 +5638,7 @@
                     "tip": "$~Projekt als Text in die Zwischenablage kopieren",
                     "label": "$~als Text kopieren"
                 },
-                "addSource": "$~erstelle eine neue $source",
+                "addSource": "$~erstelle eine neue @Source",
                 "duplicate": {
                     "tip": "$~Dieses Projekt duplizieren",
                     "label": "$~Duplikat"
@@ -5669,7 +5786,7 @@
             ],
             "confirm": {
                 "delete": {
-                    "description": "$~lösche diese $source",
+                    "description": "$~lösche diese @Source",
                     "prompt": "$~löschen"
                 }
             },
@@ -6026,10 +6143,11 @@
             "mode": {
                 "browse": {
                     "label": "$~durchsuchen",
-                    "labels": ["$~Code", "$~wie man"],
+                    "labels": ["$~Code", "$~Wie man", "$~Glossar"],
                     "tips": [
-                        "$~Konzepte von Programmiersprachen",
-                        "$~wiederverwendbare Schnittmuster für Projekte"
+                        "$~Konzepte der Programmiersprache",
+                        "$~wiederverwendbare Muster zum Erstellen von Projekten",
+                        "$~Definitionen wichtiger Begriffe"
                     ]
                 },
                 "purpose": {
@@ -6169,7 +6287,13 @@
                 "label": "$~Navigationsverlauf",
                 "home": "$~Heim"
             },
-            "tutorial": "$~Tutorial"
+            "tutorial": "$~Tutorial",
+            "glossary": {
+                "explain": {
+                    "header": "$~Glossar",
+                    "explanation": "$~/Begriffe und Ideen, die in der Programmiersprache und Plattform Wordplay verwendet werden./"
+                }
+            }
         },
         "dialog": {
             "share": {
@@ -7430,7 +7554,11 @@
                 },
                 "singletonWordsWarning": "$~Einige Wörter in Ihrem Entwurf kommen im gesamten Text nur einmal vor. Sind Sie sicher, dass sie korrekt geschrieben sind und mit dem übrigen Text übereinstimmen?",
                 "viewPR": "$~Pull-Anfrage ansehen",
-                "oneLocaleNote": "$~Jeder Beitrag bezieht sich jeweils auf eine Sprache. Diese Bearbeitungen werden in der Datei $locale gespeichert. Wenn Sie zu einer anderen Sprache beitragen möchten, wechseln Sie bitte zuerst die Sprache. Die unter jeder Sprache gespeicherten Änderungen werden separat verwaltet."
+                "oneLocaleNote": "$~Jeder Beitrag bezieht sich jeweils auf eine Sprache. Diese Bearbeitungen werden in der Datei $locale gespeichert. Wenn Sie zu einer anderen Sprache beitragen möchten, wechseln Sie bitte zuerst die Sprache. Die unter jeder Sprache gespeicherten Änderungen werden separat verwaltet.",
+                "literalTermsWarning": "$~Dein Entwurf verwendet Glossarwörter als einfachen Text. Tippe auf eines, um es in einen Glossarlink zu verwandeln.",
+                "checkReadingLevel": "$~Lesbarkeit dieser Zeichenkette prüfen",
+                "readingLevelComplex": "$~Das könnte schwer zu lesen sein. Versuche kürzere Sätze und einfachere Wörter.",
+                "readingLevelOk": "$~Das liest sich klar für das Ziel-Leseniveau."
             },
             "breadcrumb": {
                 "label": "$~Paniermehl",

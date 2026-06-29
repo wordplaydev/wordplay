@@ -69,10 +69,14 @@ export default class Is extends Expression {
             {
                 name: 'expression',
                 kind: node(Expression),
-                label: () => (l) => l.term.value,
+                label: () => (l) => l.glossary.value.word,
             },
             { name: 'operator', kind: node(Sym.Type), label: undefined },
-            { name: 'type', kind: node(Type), label: () => (l) => l.term.type },
+            {
+                name: 'type',
+                kind: node(Type),
+                label: () => (l) => l.glossary.type.word,
+            },
         ];
     }
 
@@ -159,12 +163,9 @@ export default class Is extends Expression {
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return locales.concretize(
-            (l) => l.node.Is.start,
-            {
-                expression: new NodeRef(this.expression, locales, context),
-            },
-        );
+        return locales.concretize((l) => l.node.Is.start, {
+            expression: new NodeRef(this.expression, locales, context),
+        });
     }
 
     getFinishExplanations(
@@ -173,13 +174,10 @@ export default class Is extends Expression {
         evaluator: Evaluator,
     ) {
         const result = evaluator.peekValue();
-        return locales.concretize(
-            (l) => l.node.Is.finish,
-            {
-                value: result instanceof BoolValue && result.bool,
-                type: new NodeRef(this.type, locales, context),
-            },
-        );
+        return locales.concretize((l) => l.node.Is.finish, {
+            value: result instanceof BoolValue && result.bool,
+            type: new NodeRef(this.type, locales, context),
+        });
     }
 
     getCharacter() {

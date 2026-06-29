@@ -1,4 +1,5 @@
 import type LocaleText from '@locale/LocaleText';
+import getConceptName from '@locale/getConceptName';
 import Language from '@nodes/Language';
 import TextType from '@nodes/TextType';
 import BoolValue from '@values/BoolValue';
@@ -113,7 +114,7 @@ export default class TextValue extends SimpleValue {
     }
 
     getDescription() {
-        return (l: LocaleText) => l.term.text;
+        return (l: LocaleText) => getConceptName(l, 'text');
     }
 
     getRepresentativeText() {

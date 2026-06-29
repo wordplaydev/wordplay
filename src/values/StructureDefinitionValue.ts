@@ -1,4 +1,5 @@
 import type LocaleText from '@locale/LocaleText';
+import getConceptName from '@locale/getConceptName';
 import Bind from '@nodes/Bind';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import type StructureDefinition from '@nodes/StructureDefinition';
@@ -98,7 +99,7 @@ export default class StructureDefinitionValue extends SimpleValue {
     }
 
     getDescription() {
-        return (l: LocaleText) => l.term.structure;
+        return (l: LocaleText) => getConceptName(l, 'structure');
     }
 
     getRepresentativeText(locales: Locales) {

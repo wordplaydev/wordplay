@@ -90,7 +90,7 @@ export default class Convert extends Expression {
                 name: 'type',
                 kind: node(Type),
                 space: true,
-                label: () => (l) => l.term.type,
+                label: () => (l) => l.glossary.type.word,
             },
         ];
     }
@@ -139,7 +139,9 @@ export default class Convert extends Expression {
                 seen.add(key);
                 return true;
             })
-            .map((output) => new Convert(this.expression, this.convert, output));
+            .map(
+                (output) => new Convert(this.expression, this.convert, output),
+            );
     }
 
     getConversionSequence(
@@ -315,12 +317,9 @@ export default class Convert extends Expression {
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return locales.concretize(
-            (l) => l.node.Convert.start,
-            {
-                expression: new NodeRef(this.expression, locales, context),
-            },
-        );
+        return locales.concretize((l) => l.node.Convert.start, {
+            expression: new NodeRef(this.expression, locales, context),
+        });
     }
 
     getFinishExplanations(
@@ -328,12 +327,9 @@ export default class Convert extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return locales.concretize(
-            (l) => l.node.Convert.finish,
-            {
-                value: this.getValueIfDefined(locales, context, evaluator),
-            },
-        );
+        return locales.concretize((l) => l.node.Convert.finish, {
+            value: this.getValueIfDefined(locales, context, evaluator),
+        });
     }
 
     getCharacter() {

@@ -1,4 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
+import getConceptName from '@locale/getConceptName';
 import { IncompatibleKey } from '@conflicts/IncompatibleKey';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import type LocaleText from '@locale/LocaleText';
@@ -84,7 +85,7 @@ export default class SetOrMapAccess extends Expression {
             {
                 name: 'setOrMap',
                 kind: node(Expression),
-                label: () => (l) => l.term.set,
+                label: () => (l) => getConceptName(l, 'set'),
                 // Must be a number
                 getType: () => UnionType.make(SetType.make(), MapType.make()),
             },
@@ -92,7 +93,7 @@ export default class SetOrMapAccess extends Expression {
             {
                 name: 'key',
                 kind: node(Expression),
-                label: () => (l) => l.term.key,
+                label: () => (l) => l.glossary.key.word,
             },
             { name: 'close', kind: node(Sym.SetClose), label: undefined },
         ];
@@ -295,12 +296,9 @@ export default class SetOrMapAccess extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return locales.concretize(
-            (l) => l.node.SetOrMapAccess.finish,
-            {
-                value: this.getValueIfDefined(locales, context, evaluator),
-            },
-        );
+        return locales.concretize((l) => l.node.SetOrMapAccess.finish, {
+            value: this.getValueIfDefined(locales, context, evaluator),
+        });
     }
 
     getCharacter() {

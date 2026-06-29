@@ -23,13 +23,23 @@ import DefinitionExpression from '@nodes/DefinitionExpression';
 import Docs from '@nodes/Docs';
 import EvalCloseToken from '@nodes/EvalCloseToken';
 import EvalOpenToken from '@nodes/EvalOpenToken';
-import Expression, { ExpressionKind, type GuardContext } from '@nodes/Expression';
+import Expression, {
+    ExpressionKind,
+    type GuardContext,
+} from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import Names from '@nodes/Names';
 import NoExpressionType from '@nodes/NoExpressionType';
 import type Node from '@nodes/Node';
-import { any, list, node, none, type Grammar, type Replacement } from '@nodes/Node';
+import {
+    any,
+    list,
+    node,
+    none,
+    type Grammar,
+    type Replacement,
+} from '@nodes/Node';
 import ListType from '@nodes/ListType';
 import Reference from '@nodes/Reference';
 import StructureDefinition from '@nodes/StructureDefinition';
@@ -171,7 +181,7 @@ export default class Block extends Expression {
             {
                 name: 'docs',
                 kind: node(Docs),
-                label: () => (l) => l.term.documentation,
+                label: () => (l) => l.glossary.documentation.word,
             },
             {
                 name: 'open',
@@ -398,8 +408,7 @@ export default class Block extends Expression {
         const results: Value[] = [];
         for (let i = this.statements.length - 1; i >= 0; i--) {
             const value = evaluator.popValue(this);
-            if (!Block.isSideEffect(this.statements[i]))
-                results.unshift(value);
+            if (!Block.isSideEffect(this.statements[i])) results.unshift(value);
         }
         if (this.isStructure()) return new NoneValue(this);
         if (results.length === 0) return new NoneValue(this);
@@ -473,12 +482,9 @@ export default class Block extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return locales.concretize(
-            (l) => l.node.Block.finish,
-            {
-                value: this.getValueIfDefined(locales, context, evaluator),
-            },
-        );
+        return locales.concretize((l) => l.node.Block.finish, {
+            value: this.getValueIfDefined(locales, context, evaluator),
+        });
     }
 
     getDescriptionInputs() {

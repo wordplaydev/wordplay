@@ -8,5 +8,4 @@ export {
     checkTemplateInputs,
     getDeclaredInputs,
     getTemplateReferences,
-    getTerminologyNames,
 } from '@locale/templateInputs';

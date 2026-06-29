@@ -77,7 +77,9 @@
     .concepts.row {
         flex-direction: row;
         flex-wrap: wrap;
-        align-items: end;
+        /* Top-align wrapped previews so each row reads as a clean line of names,
+           rather than bottom-aligned with tops at varying heights. */
+        align-items: start;
         justify-items: center;
     }
 </style>

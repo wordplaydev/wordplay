@@ -10,7 +10,8 @@
     import { functions } from '@db/firebase';
     import type Project from '@db/projects/Project';
     import translateProject from '@db/projects/translate';
-    import { Languages, TranslatableLocales } from '@locale/LanguageCode';
+    import { Languages } from '@locale/LanguageCode';
+    import getTranslatableLocales from '@locale/getTranslatableLocales';
     import {
         localesAreEqual,
         localeToString,
@@ -56,8 +57,9 @@
     let destinationLocales = $derived.by(() => {
         const langs = $locales.getLanguages();
         const q = query.trim().toLocaleLowerCase(langs);
-        if (q.length === 0) return TranslatableLocales;
-        return TranslatableLocales.filter((locale) => {
+        const offered = getTranslatableLocales();
+        if (q.length === 0) return offered;
+        return offered.filter((locale) => {
             const info = Languages[locale.language];
             const haystack = [
                 info?.name ?? '', // native name, e.g. "español", "日本語"

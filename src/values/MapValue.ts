@@ -1,4 +1,5 @@
 import type LocaleText from '@locale/LocaleText';
+import getConceptName from '@locale/getConceptName';
 import type Context from '@nodes/Context';
 import MapType from '@nodes/MapType';
 import UnionType from '@nodes/UnionType';
@@ -129,7 +130,7 @@ export default class MapValue extends SimpleValue {
     }
 
     getDescription() {
-        return (l: LocaleText) => l.term.map;
+        return (l: LocaleText) => getConceptName(l, 'map');
     }
 
     getRepresentativeText() {

@@ -1,4 +1,5 @@
 import type LocaleText from '@locale/LocaleText';
+import getConceptName from '@locale/getConceptName';
 import BooleanType from '@nodes/BooleanType';
 import type UnaryEvaluate from '@nodes/UnaryEvaluate';
 import { FALSE_SYMBOL, NOT_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
@@ -59,7 +60,7 @@ export default class BoolValue extends SimpleValue {
     }
 
     getDescription() {
-        return (l: LocaleText) => l.term.boolean;
+        return (l: LocaleText) => getConceptName(l, 'boolean');
     }
 
     getRepresentativeText() {

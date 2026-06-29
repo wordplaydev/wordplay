@@ -1,0 +1,332 @@
+{
+    "$schema": "../../schemas/Tutorial.json",
+    "language": "kn",
+    "regions": ["IN"],
+    "acts": [
+        {
+            "title": "$~Wordplay ಬೇರೆಯದು",
+            "performance": { "fit": "#Symbol 💬" },
+            "scenes": [
+                {
+                    "title": "$~ಪ್ರೋಗ್ರಾಮ್‌ಗಳು value ಗಳಾಗಿವೆ",
+                    "subtitle": "$~expression ಗಳು, statement ಗಳಲ್ಲ",
+                    "concept": "Program",
+                    "performance": { "fit": "#Symbol ƒ" },
+                    "lines": [
+                        { "edit": "" },
+                        [
+                            "FunctionDefinition",
+                            "cheerful",
+                            "$~Wordplay ಗೆ ಸ್ವಾಗತ! ನಿಮಗೆ ಪ್ರೋಗ್ರಾಮಿಂಗ್ ಬಗ್ಗೆ ಸ್ವಲ್ಪ ಗೊತ್ತು ಎಂದು ಕೇಳಿದೆ? ಚೆನ್ನಾಗಿದೆ! ಈ ಸಣ್ಣ ಪ್ರವಾಸವು Wordplay ನಲ್ಲಿ ಯಾವುದು ಒಂದೇ ರೀತಿ ಮತ್ತು ಯಾವುದು ಬೇರೆ ಎಂದು ತೋರಿಸುತ್ತದೆ.",
+                            "$~ಈ ಪರದೆಯ ಮೇಲಿನ ಎಲ್ಲವೂ ನಿಮಗೆ ಗೊತ್ತಿರಲಿ ಎಂದು, ಈ ಪುಟವು @tutorial ಸಂಭಾಷಣೆ ಮತ್ತು @project ನೋಟವನ್ನು ತೋರಿಸುತ್ತದೆ. ನೀವು *ವೇದಿಕೆ* @UI/stage ಅನ್ನು ನೋಡಬಹುದು, ಇದು ಪ್ರೋಗ್ರಾಮ್ ಔಟ್‌ಪುಟ್ ಅನ್ನು ತೋರಿಸುತ್ತದೆ, ಮತ್ತು *ಸಂಪಾದಕ* @UI/editor, ಇದು ಪ್ರೋಗ್ರಾಮ್ code ಆಗಿದೆ.",
+                            "$~ಈ ಪ್ರೋಗ್ರಾಮ್ ಖಾಲಿಯಾಗಿದೆ, ಆದ್ದರಿಂದ ಅದರ ಔಟ್‌ಪುಟ್ ಪ್ರೋಗ್ರಾಮ್ ಬರೆಯಲು ಒಂದು ಸೂಚನೆ ಮಾತ್ರ.",
+                            "$~ಪ್ರೋಗ್ರಾಮ್ ಅನ್ನು ನಿಲ್ಲಿಸಲು ಮತ್ತು ಚಲಾಯಿಸಲು ಮತ್ತು code ಅನ್ನು ಸಂಪಾದಿಸಲು ಇನ್ನೂ ಹಲವು ನಿಯಂತ್ರಣಗಳಿವೆ, ಆದರೆ ಸದ್ಯಕ್ಕೆ ಅವುಗಳ ಬಗ್ಗೆ ಚಿಂತಿಸಬೇಡಿ."
+                        ],
+                        null,
+                        { "edit": "'hi'" },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~ಬಹುತೇಕ ಪ್ರೋಗ್ರಾಮಿಂಗ್ ಭಾಷೆಗಳಲ್ಲಿ, ಪ್ರೋಗ್ರಾಮ್ ಎಂಬುದು ಕಂಪ್ಯೂಟರ್‌ಗೆ ಏನು *ಮಾಡಬೇಕು* ಎಂದು ಹೇಳುವ statement ಗಳ ಪಟ್ಟಿ, ಉದಾಹರಣೆಗೆ ಒಂದು value ಅನ್ನು ಮುದ್ರಿಸುವುದು:",
+                            "$~\\py | print('ನಮಸ್ಕಾರ')\\js|console.log('hi')\\jv | System.out.println('ನಮಸ್ಕಾರ')\n;\\",
+                            "$~Wordplay ನಲ್ಲಿ, ಪ್ರೋಗ್ರಾಮ್‌ಗಳು *expression* ಗಳಾಗಿವೆ, ಅವು ಪ್ರೋಗ್ರಾಮ್‌ನ /ಫಲಿತಾಂಶ/ ಏನಾಗಿರಬೇಕು ಎಂದು ಹೇಳುತ್ತವೆ, ಅದನ್ನು ಹೇಗೆ ಉತ್ಪಾದಿಸಬೇಕು ಎಂದಲ್ಲ.",
+                            "$~ಈ ಪ್ರೋಗ್ರಾಮ್ ಈ value ಗೆ ಮೌಲ್ಯ ಕೊಡುತ್ತದೆ \\'ನಮಸ್ಕಾರ'\\, ಅದನ್ನು ನಂತರ ವೇದಿಕೆಯ ಮೇಲೆ ತೋರಿಸಲಾಗುತ್ತದೆ. ಯಾವುದೇ ಮುದ್ರಣ ಆಜ್ಞೆ ಇಲ್ಲ, ಯಾವ value ಗೆ ಮೌಲ್ಯ ಕೊಡಬೇಕು ಎಂದು ಹೇಳುವ @expression ಮಾತ್ರ."
+                        ],
+                        null,
+                        { "edit": ["message: 'hi'", "message"] },
+                        [
+                            "Bind",
+                            "neutral",
+                            "$~ಇತರ ಭಾಷೆಗಳಲ್ಲಿ, *variable* ಎಂಬುದು ಒಂದು value ಗಾಗಿ ಹೆಸರಿಸಲಾದ ಪಾತ್ರೆ, ಮತ್ತು ಅದರ value ಬದಲಾಗಬಹುದು:",
+                            "$~\\py | score = 10\nscore = 20\nprint(score)\\js|let score = 10;\nscore = 20;\nconsole.log(score);\\jv | int\nscore = 10\n;\nscore = 20\n;\nSystem.out.println(score)\n;\\",
+                            "$~Wordplay ನಲ್ಲಿ, ಹೆಸರಿಸಲಾದ value ಗಳು ಎಂದಿಗೂ ಬದಲಾಗುವುದಿಲ್ಲ. ಅವು 'ಅಬದಲಾಗದ' ಎಂದರೆ ಅವುಗಳಿಗೆ ಹೊಸ value ಗಳನ್ನು ಮತ್ತೆ ನೀಡಲಾಗದು. ಆದ್ದರಿಂದಲೇ ನಾವು ಅವುಗಳನ್ನು @variable ಬದಲಿಗೆ @Bind ಎಂದು ಕರೆಯುತ್ತೇವೆ, ಏಕೆಂದರೆ ಅವು ಬದಲಾಗುವುದಿಲ್ಲ.",
+                            "$~ಬದಲಾಗಬಲ್ಲ variable ಗಳಿಲ್ಲದೆ ಸಂವಾದಾತ್ಮಕ ಪ್ರೋಗ್ರಾಮ್‌ಗಳನ್ನು ಹೇಗೆ ಬರೆಯುವುದು ಎಂದು ನಾವು ಶೀಘ್ರದಲ್ಲೇ ಮಾತನಾಡುತ್ತೇವೆ."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~condition ಗಳನ್ನು ಪರಿಶೀಲಿಸುವುದು",
+                    "subtitle": null,
+                    "concept": "Conditional",
+                    "performance": { "fit": "#Symbol ?" },
+                    "lines": [
+                        { "edit": ["num: 5", "num < 5 ?", "'more'", "'less'"] },
+                        [
+                            "Conditional",
+                            "neutral",
+                            "$~ಇತರ ಪ್ರೋಗ್ರಾಮಿಂಗ್ ಭಾಷೆಗಳು ಸಾಮಾನ್ಯವಾಗಿ ಒಂದು @condition ಆಧಾರದ ಮೇಲೆ ಬೇರೆ ಬೇರೆ ಕೆಲಸಗಳನ್ನು ಮಾಡಲು *if* statement ಅನ್ನು ಹೊಂದಿರುತ್ತವೆ:",
+                            "$~\\py | num = 5\nif\nnum < 5\n:\nprint('ಕಡಿಮೆ')\nಇಲ್ಲದಿದ್ದರೆ:\n\tprint('ಹೆಚ್ಚು')\\js|let num = 5;\nif(num < 5)\n    console.log('less');\nelse\n    console.log('more');\\jv | int\nnum = 5\nif(num < 5)\nSystem.out.println('ಕಡಿಮೆ')\n;\nelse\nSystem.out.println('ಹೆಚ್ಚು')\n;\\",
+                            "$~Wordplay ನಲ್ಲಿ, ಎಲ್ಲವೂ ಒಂದು @expression ಆಗಿದೆ, ಆದ್ದರಿಂದ @Conditional ಎಂಬುದು ಒಂದು condition, ನಂತರ \\?\\, ನಂತರ ಒಂದು ನಿಜ expression ಮತ್ತು ಒಂದು ಸುಳ್ಳು expression ಜೊತೆಗೆ ಬರೆಯಲಾದ *expression* ಆಗಿದೆ. ಯಾವುದೇ ಕೀವರ್ಡ್‌ಗಳ ಅಗತ್ಯವಿಲ್ಲ"
+                        ],
+                        null,
+                        { "edit": ["n: 1", "n ??? 1: 'one' 2: 'two' 'many'"] },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~ಕೆಲವು ಭಾಷೆಗಳು ಒಂದು @value ಆಧಾರದ ಮೇಲೆ ಬೇರೆ ಬೇರೆ ಕೆಲಸಗಳನ್ನು ಮಾಡಲು *switch* statement ಅನ್ನು ಸಹ ಹೊಂದಿವೆ:",
+                            "$~\\py| n = 1\nmatch n:\n  case 1: print('one')\n  case 2: print('two')\n  case _: print('many')\\js| switch (n) {\n  case 1: console.log('one'); break;\n  case 2: console.log('two'); break;\n  default: console.log('many'); break;\n}\\jv | switch\n(n)\n{\n\tcase\n\t1: System.out.println('ಒಂದು')\n\t;break;\n\tcase\n\t2: System.out.println('ಎರಡು')\n\t;break;\n\tdefault: System.out.println('ಹಲವು')\n\t;break;\n}\\",
+                            "$~Wordplay ನಲ್ಲಿ @Match ಇದೆ, ಅದು value ಮೂಲಕ ಫಲಿತಾಂಶವನ್ನು ಆಯ್ಕೆ ಮಾಡುತ್ತದೆ."
+                        ],
+                        null,
+                        { "edit": ["val: ø", "val ?? 0"] },
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~ಒಂದು @variable ನಲ್ ಅಥವಾ ವ್ಯಾಖ್ಯಾನಿಸದಿರುವಾಗ ಡೀಫಾಲ್ಟ್ @value ಒದಗಿಸಲು ಕೆಲವು ಭಾಷೆಗಳು *null coalescing* @operator ಅನ್ನು ಸಹ ಹೊಂದಿವೆ:",
+                            "$~\\py | val = None\nresult = val ?? 0\\js| let val = null;\nlet result = val ?? 0;\\jv | Object\nval = null\n;\nObject\nresult = val\n!=null?val:0;\\",
+                            "$~ಅದೇ ಫಲಿತಾಂಶ ಪಡೆಯಲು Wordplay ನಲ್ಲಿ @Otherwise operator ಇದೆ."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~value ಗಳು ಮತ್ತು type ಗಳು",
+                    "subtitle": null,
+                    "concept": "Number",
+                    "performance": { "fit": "#Symbol 0️⃣" },
+                    "lines": [
+                        {
+                            "edit": [
+                                "number: 1",
+                                "numberWithUnit: 1.5m",
+                                "text: 'hi'",
+                                "textWithTranslations: 'hi'/en'hola'/es",
+                                "boolean: ⊤",
+                                "none: ø"
+                            ],
+                            "conflicts": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~ಬಹುತೇಕ ಭಾಷೆಗಳಲ್ಲಿ ಹಲವು 'ಮೂಲ' @value type ಗಳಿವೆ.",
+                            "$~\\py | number\n:1\nಪಠ್ಯ: 'ನಮಸ್ತೆ'\nಬೂಲಿಯನ್: True\nಯಾವುದೂಇಲ್ಲ: None\\js| let number = 1;\nlet text = 'hi';\nlet boolean = true;\nlet none = null;\\jv | int\nnumber = 1\n;\nString\ntext = 'ನಮಸ್ಕಾರ'\n;\nboolean\nboolean = true\n;\nObject\nnone = null\n;\\",
+                            "$~Wordplay ಈ type ಗಳಿಗೆ ಒಂದೇ ರೀತಿಯ ರಚನೆಯನ್ನು ಹೊಂದಿದೆ, ಆದರೆ ಬಹುಭಾಷಾ ಪಠ್ಯಕ್ಕಾಗಿ @language ಟ್ಯಾಗ್‌ಗಳು ಮತ್ತು ಸಂಖ್ಯೆಗಳ ಮೇಲೆ ಘಟಕಗಳಂತಹ ಇತರ ಮಾಹಿತಿಯನ್ನು ಸೇರಿಸಲು ಸಹ ಅನುಮತಿಸುತ್ತದೆ."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "list: [1 2 3]",
+                                "set: {1 2 3}",
+                                "map: {'a': 1}"
+                            ],
+                            "conflicts": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~ಪ್ರೋಗ್ರಾಮಿಂಗ್ ಭಾಷೆಗಳು value ಗಳ ಸಂಗ್ರಹಗಳನ್ನು ರಚಿಸುವ ಮಾರ್ಗಗಳನ್ನು ಸಹ ಹೊಂದಿವೆ, ಉದಾಹರಣೆಗೆ ಪಟ್ಟಿಗಳು, ಸೆಟ್‌ಗಳು ಮತ್ತು ನಕ್ಷೆಗಳು (ಸಾಮಾನ್ಯವಾಗಿ ನಿಘಂಟುಗಳು ಅಥವಾ ಹ್ಯಾಶ್‌ಗಳು ಎಂದು ಕರೆಯಲಾಗುತ್ತದೆ):",
+                            "$~\\py | list = [1 ,2,3]\n\t\tset = {1 ,2,3}\n\t\t\t\tmap = {'ಎ': 1}\\js|let list = [1, 2, 3];\nlet set = new Set([1, 2, 3]);\nlet map = { a: 1 };\\jv | let\narray = [\n\t\t1\n\t\t,2,3];\n\t\tlet\n\t\tset = new\n\t\tjava.util.HashSet < >([\n\t\t\t\t\t1\n\t\t\t\t\t,2,3]);\n\t\t\t\t\tlet\n\t\t\t\t\tmap = new\n\t\t\t\t\tjava.util.HashMap < >()\n\t\t\t\t\t;\n\t\t\t\t\tmap.put('ಅ' 1)\n\t\t\t\t\t;\\",
+                            "$~Wordplay ಈ ಸಂಗ್ರಹಗಳಿಗೆ ಬೇರೆ ರಚನೆಯನ್ನು ಬಳಸುತ್ತದೆ, ಮುಖ್ಯವಾಗಿ value ಗಳನ್ನು ಪ್ರತ್ಯೇಕಿಸಲು ಅಲ್ಪವಿರಾಮಗಳ ಬದಲಿಗೆ ಖಾಲಿಸ್ಥಳಗಳನ್ನು ಬಳಸುತ್ತದೆ."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "inferredType: [1 2 3]",
+                                "declaredType•[#]: [1 2 3]"
+                            ],
+                            "conflicts": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~ಕೆಲವು ಪ್ರೋಗ್ರಾಮಿಂಗ್ ಭಾಷೆಗಳು ಒಂದು @variable ನ @type ಅನ್ನು ನಿರ್ದಿಷ್ಟಪಡಿಸಲು ನಿಮಗೆ ಅವಕಾಶ ನೀಡುತ್ತವೆ, ಆದ್ದರಿಂದ ನೀವು variable ಬಳಸುವ ಎಲ್ಲಾ ವಿಧಾನಗಳು ಮಾನ್ಯವಾಗಿವೆ ಎಂದು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಬಹುದು:",
+                            "$~\\py | list\n:list[int]=[1,2,3]\\js| // JavaScript ನಲ್ಲಿ type ಟಿಪ್ಪಣಿಗಳಿಲ್ಲ. ಆದರೆ TypeScript ನಲ್ಲಿ ಇದೆ:\nlet list: number[] = [1, 2, 3];\\jv | List < Integer > list = Arrays.asList(1 ,2,3);\\",
+                            "$~Wordplay ಸಹ type ಹೊಂದಿದೆ, ಆದರೆ type ಗಳನ್ನು *ಊಹಿಸಲಾಗುತ್ತದೆ*. ನೀವು ಸಾಮಾನ್ಯವಾಗಿ ಅವುಗಳನ್ನು ಘೋಷಿಸಬೇಕಾಗಿಲ್ಲ, ಆದರೆ ಅವುಗಳನ್ನು ಊಹಿಸಲಾಗದಿದ್ದರೆ ಕೆಲವೊಮ್ಮೆ ನೀವು ಘೋಷಿಸಬೇಕಾಗಬಹುದು."
+                        ],
+                        null,
+                        { "edit": ["•Pet(name•'' age•#)", "Pet('boomy' 16)"] },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~ಪ್ರೋಗ್ರಾಮಿಂಗ್ ಭಾಷೆಗಳು ಸಾಮಾನ್ಯವಾಗಿ ಹಲವು value ಗಳನ್ನು ಒಂದೇ ಡೇಟಾ ರಚನೆಯಲ್ಲಿ ಒಗ್ಗೂಡಿಸಲು, ಸ್ವಂತ ಡೇಟಾ type ಗಳನ್ನು ರಚಿಸುವ ಮಾರ್ಗವನ್ನು ಸಹ ನೀಡುತ್ತವೆ:",
+                            "$~\\py | class\nಸಾಕುಪ್ರಾಣಿ:\n\tdef\n_\n_\ninit\n_\n_(self ,name,age):\n\tself.name = name\n\tself.age = age\\js| class Pet {\n    constructor(name, age) {\n        this.name = name;\n        this.age = age;\n    }\n}\\jv | public\nclass\nPet\n{\n\tprivate\n\tString\n\tname\n\t;\n\tprivate\n\tint\n\tage\n\t;\n\tpublic\n\tPet(String name ,intage){\n\t\tthis.name = name ;\n\t\tthis.age = age ;\n\t\t}\n\t\t}\\",
+                            "$~Wordplay @Structure ಅನ್ನು ಘೋಷಿಸಲು ಬೇರೆ ರಚನೆಯನ್ನು ಬಳಸುತ್ತದೆ, ಇದನ್ನು ಬಳಸಿ \\•\\ ಒಂದು ಡೇಟಾ type ಅನ್ನು ಪ್ರತಿನಿಧಿಸಲು, ನಂತರ ಒಂದು @name, ನಂತರ ರಚನೆಯ ಕ್ಷೇತ್ರಗಳು."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~ಪರಿವರ್ತನೆಗಳು, ಸಂಗ್ರಹಗಳು ಮತ್ತು ಫಂಕ್ಷನ್‌ಗಳು",
+                    "subtitle": null,
+                    "concept": "Convert",
+                    "performance": { "fit": "#Symbol →" },
+                    "lines": [
+                        { "edit": ["1m → #ft → ''"] },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~ಪ್ರೋಗ್ರಾಮಿಂಗ್‌ನಲ್ಲಿ ಒಂದು ಸಾಮಾನ್ಯ ಕಾರ್ಯವೆಂದರೆ ಡೇಟಾವನ್ನು ಒಂದು @type ನಿಂದ ಮತ್ತೊಂದಕ್ಕೆ ಪರಿವರ್ತಿಸುವುದು. ಉದಾಹರಣೆಗೆ, ನಾವು ಒಂದು ಸಂಖ್ಯೆಯನ್ನು ಪಠ್ಯ @value ಗೆ ಪರಿವರ್ತಿಸಲು ಬಯಸಬಹುದು:",
+                            "$~\\py | str(1)\\js| String(1)\\jv | String.valueOf(1)\\",
+                            "$~Wordplay value ಗಳೆಲ್ಲವೂ @Convert ರಚನೆಯನ್ನು ಹೊಂದಿವೆ, ಅದು type ಗಳ ನಡುವೆ ಪರಿವರ್ತಿಸಲು ನಿಮಗೆ ಅವಕಾಶ ನೀಡುತ್ತದೆ. ಈ ಉದಾಹರಣೆ ಇದನ್ನು ಪರಿವರ್ತಿಸುತ್ತದೆ \\1m\\ ಅಡಿಗಳಿಗೆ, ನಂತರ @Text ಗೆ. ಪ್ರತಿ value type ಬೆಂಬಲಿಸುವ ಪರಿವರ್ತನೆಗಳ ಸಂಪೂರ್ಣ ಸಂಗ್ರಹವನ್ನು ಹೊಂದಿದೆ"
+                        ],
+                        null,
+                        { "edit": "[1 2 3] ↦ ⬚ × 2" },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~ಪಟ್ಟಿಗಳು ಮತ್ತು ಸರಣಿಗಳಂತಹ value ಗಳ ಸಂಗ್ರಹಗಳಿಗಾಗಿ, ಇತರ ಪ್ರೋಗ್ರಾಮಿಂಗ್ ಭಾಷೆಗಳು ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಸಂಗ್ರಹದ value ಗಳಿಂದ ಹೊಸ ಸಂಗ್ರಹವನ್ನು ರಚಿಸಲು *for* ಮತ್ತು *while* loop ಗಳಂತಹ ರಚನೆಗಳನ್ನು ಬಳಸುತ್ತವೆ.",
+                            "$~\\py | n = [1 ,2,3]\n\t\t#Listcomprehension\n\t\t[n\n\n\n\n\t\t\t2 )\\js| n = [1, 2, 3];\n// Map\nnums.map(n => n * 2);\n// For loop\nn2 = [];\nfor (let n of nums) {\n    n2.push(n * 2);\n}\\jv | int[]nums=[1,2,3];\n//Map\nnums.stream().map(n -> n\n\n\n\n\t2)\n;\n}\\",
+                            "$~Wordplay ಒಂದು ಸರಳ @Translate* ರಚನೆಯನ್ನು ಹೊಂದಿದೆ, ಅದು ಈ ಚಿಹ್ನೆಯನ್ನು ಬಳಸುತ್ತದೆ \\↦\\: ಅದು ಹೊಸ @List, @Set ಅಥವಾ @Map ಅನ್ನು ರಚಿಸುತ್ತದೆ, ಪ್ರತಿ ವಸ್ತುವನ್ನು (ಇದನ್ನು \\⬚\\ @placeholder ನಿಂದ ಪ್ರತಿನಿಧಿಸಲಾಗುತ್ತದೆ) ಒಂದು ಹೊಸ @value ಯಿಂದ ಬದಲಾಯಿಸುತ್ತದೆ. ಇದು ಪ್ರತಿ ವಸ್ತುವನ್ನು ದ್ವಿಗುಣಗೊಳಿಸಿ ಇದನ್ನು ಮಾಡುತ್ತದೆ \\[2 4 6]\\.",
+                            "$~ನಿಮಗೆ ಇನ್ನಷ್ಟು ಸಂಕೀರ್ಣ ಕಾರ್ಯಾಚರಣೆಗಳು ಬೇಕಾದರೆ, @List.translate ಮತ್ತು @List.combine ನಂತಹ ಹೆಚ್ಚು ಶಕ್ತಿಶಾಲಿ ವಿಷಯಗಳೂ ಇವೆ."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "ƒ greet(name•'') 'hi ' + name",
+                                "greet('Verse')"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~ಪ್ರತಿ ಪ್ರೋಗ್ರಾಮಿಂಗ್ ಭಾಷೆಯಲ್ಲಿ ಫಂಕ್ಷನ್‌ಗಳಿವೆ, ಅವು ಇನ್‌ಪುಟ್ ತೆಗೆದುಕೊಂಡು ಅದರ ಆಧಾರದ ಮೇಲೆ ಔಟ್‌ಪುಟ್ ಉತ್ಪಾದಿಸುವ, ಯಾವುದೇ ಸಂಕೀರ್ಣತೆಯ, ಮರುಬಳಕೆ ಮಾಡಬಹುದಾದ code blocks ಗಳನ್ನು ಘೋಷಿಸಲು ನಿಮಗೆ ಅವಕಾಶ ನೀಡುತ್ತವೆ:",
+                            "$~\\py | def\ngreet(n)\n:\nreturn\n'ನಮಸ್ಕಾರ ' + n\nprint(greet('ಪದ್ಯ'))\\js| function greet(n) {\n  return 'hi ' + n\n}\nconsole.log(greet('Verse'))\\jv | public\nclass\nGreeter\n{\n\tpublic\n\tstatic\n\tString\n\tgreet(String n)\n\t{\n\t\treturn 'ನಮಸ್ಕಾರ ' + n ;\n\t}\n}\nGreeter.greet('ಪದ್ಯ')\\",
+                            "$~Wordplay ಸಹ ಫಂಕ್ಷನ್ ವ್ಯಾಖ್ಯಾನಗಳನ್ನು ಬೆಂಬಲಿಸುತ್ತದೆ, ಆದರೆ ƒ ಚಿಹ್ನೆಯೊಂದಿಗೆ. ಎಲ್ಲಾ Wordplay ಪ್ರೋಗ್ರಾಮ್‌ಗಳಂತೆ, ಫಂಕ್ಷನ್‌ಗಳು ಒಂದು @value ಗೆ ಮೌಲ್ಯ ಕೊಡಬೇಕು."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~ಔಟ್‌ಪುಟ್ ಅಕ್ಷರಶೈಲಿಯದು, ಇನ್‌ಪುಟ್ ಪ್ರತಿಕ್ರಿಯಾತ್ಮಕವಾದದ್ದು",
+                    "subtitle": null,
+                    "concept": "Stage",
+                    "performance": { "fit": "#Symbol 💬" },
+                    "lines": [
+                        {
+                            "edit": "Stage([Phrase('🎉' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.5) 100%: Pose(scale: 1)} duration: 2s))] background: Color(90% 0 0°))"
+                        },
+                        [
+                            "Stage",
+                            "neutral",
+                            "$~ಇತರ ಪ್ರೋಗ್ರಾಮಿಂಗ್ ಭಾಷೆಗಳು ಪಠ್ಯವನ್ನು ಕನ್ಸೋಲ್‌ಗೆ ಮುದ್ರಿಸುತ್ತವೆ, ಕ್ಯಾನ್ವಾಸ್‌ಗೆ ಚಿತ್ರಿಸುತ್ತವೆ, ಅಥವಾ ವೆಬ್‌ಪುಟವನ್ನು ಮಾರ್ಪಡಿಸುತ್ತವೆ:",
+                            "$~\\py | print('ನಮಸ್ಕಾರ')\\js| document.body.append('hi')\\jv | System.out.println('ನಮಸ್ತೆ')\n;\\",
+                            "$~Wordplay ನ ಔಟ್‌ಪುಟ್ ಅಕ್ಷರಶೈಲಿಯದು: ಒಂದು @Phrase, ಒಂದು @Group, ಅಥವಾ ಒಂದು @Stage, ಅದು ಪರದೆಯ ಮೇಲೆ ಶೈಲೀಕೃತ, ಚಲನಚಿತ್ರ ಮತ್ತು ಸಂವಾದಾತ್ಮಕ ಪಠ್ಯವನ್ನು ತೋರಿಸುತ್ತದೆ, ಅಥವಾ ಪರದೆ ಓದುಗ ಮೂಲಕ ಓದಲಾಗುತ್ತದೆ.",
+                            "$~ಕೆಳಗಿನ ಉದಾಹರಣೆ ಒಂದೇ @Phrase ಹೊಂದಿರುವ @Stage ಅನ್ನು ತೋರಿಸುತ್ತದೆ, ಅದು ವಿಶ್ರಾಂತಿ ಗಾತ್ರ ಬದಲಾವಣೆಯ ಚಲನಚಿತ್ರವನ್ನು ಹೊಂದಿದೆ."
+                        ],
+                        null,
+                        {
+                            "edit": "Phrase('🌎' rotation: Time(100ms) × 0.05°/ms)"
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~ಬಹುತೇಕ ಪ್ರೋಗ್ರಾಮಿಂಗ್ ಭಾಷೆಗಳು ಬಳಕೆದಾರನಿಂದ ಇನ್‌ಪುಟ್ ತೆಗೆದುಕೊಳ್ಳುವ ಮಾರ್ಗವನ್ನು ಹೊಂದಿವೆ:",
+                            "$~\\py | name = input('ನಿಮ್ಮ ಹೆಸರೇನು?')\\js| const name = prompt('What is your name?')\\jv | Scanner\nscanner = new\nScanner(System.in)\n;\nString\nname = scanner.nextLine()\n;\\",
+                            "$~Wordplay ನ ಇನ್‌ಪುಟ್ *ಸ್ಟ್ರೀಮ್‌ಗಳಿಂದ* ಬರುತ್ತದೆ, ಅವು ಇನ್‌ಪುಟ್‌ಗೆ ಪ್ರತಿಕ್ರಿಯೆಯಾಗಿ ಕಾಲಾನುಕ್ರಮದಲ್ಲಿ ಬದಲಾಗುವ ವಿಶೇಷ value ಗಳಾಗಿವೆ, ಮತ್ತು Wordplay ಪ್ರೋಗ್ರಾಮ್ ಸ್ಟ್ರೀಮ್‌ನ ಹೊಸ value ಜೊತೆಗೆ ಮತ್ತೆ ಮೌಲ್ಯ ನಿರ್ಣಯಿಸಲು ಕಾರಣವಾಗುತ್ತವೆ.",
+                            "$~ಉದಾಹರಣೆಗೆ, ಈ ಪ್ರೋಗ್ರಾಮ್ ಭೂಗೋಳ ಎಮೋಜಿಯ ತಿರುಗುವಿಕೆಯನ್ನು ಚಾಲನೆ ಮಾಡಲು ಒಂದು @Time ಸ್ಟ್ರೀಮ್ ಅನ್ನು ಬಳಸುತ್ತದೆ. @Time() ಸ್ಟ್ರೀಮ್ ಹೊಸ @value ಗೆ ಟಿಕ್ ಮಾಡಿದಾಗೆಲ್ಲ, ಪ್ರೋಗ್ರಾಮ್ ಹೊಸ value ಜೊತೆಗೆ ಮತ್ತೆ ಮೌಲ್ಯ ನಿರ್ಣಯಿಸುತ್ತದೆ, @Stage ಮೇಲಿನ ಪ್ರೋಗ್ರಾಮ್‌ನ value ಅನ್ನು ನವೀಕರಿಸುತ್ತದೆ."
+                        ],
+                        null,
+                        { "edit": "Phrase(∆ Button() ? 'hi' 'click me')" },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~ಬೇರೆಡೆ ಬಹುತೇಕ ಪ್ರೋಗ್ರಾಮಿಂಗ್ ಭಾಷೆಗಳಲ್ಲಿ ಸಂವಾದಾತ್ಮಕತೆ ಎಂದರೆ ಘಟನೆ ನಿರ್ವಾಹಕರು ಮತ್ತು ಕಾಲ್‌ಬ್ಯಾಕ್‌ಗಳನ್ನು ನೋಂದಾಯಿಸುವುದು:",
+                            "$~\\py | import\ntkinter\nas\ntk\n\ndef\non\n_\nclick()\n:\nlabel.config(text = 'ನಮಸ್ಕಾರ!')\n\nroot = tk.Tk()\nlabel = tk.Label(root ,text=\"Click the button\")\n\t\tlabel.pack()\n\t\ttk.🖱(root ,text=\"Click me\",command=on_click).pack()\n\t\t\troot.mainloop()\\js| addEventListener('keydown', () => document.body.append('hello'))\\jv | import\njavax.swing.\n\n\n\n\n\n\n\n\n\n\n\n\\",
+                            "$~Wordplay ನಲ್ಲಿ, ಸಂವಾದಾತ್ಮಕ ಅಂಶಗಳನ್ನು ರಚಿಸಲು ನಾವು @Button, @Key, ಮತ್ತು @Pointer ನಂತಹ ಸ್ಟ್ರೀಮ್‌ಗಳನ್ನು ಮಾತ್ರ ಬಳಸಬಹುದು. ಈ @Phrase ನ ಪಠ್ಯವು @Button ಅನ್ನು ಕ್ಲಿಕ್ ಮಾಡಲಾಗಿದೆಯೇ ಎಂಬುದರ ಮೇಲೆ ಆಧಾರಿತವಾಗಿದೆ, @Button ಸ್ಟ್ರೀಮ್ @Changed ಆಗಿದೆಯೇ ಎಂದು ನೋಡಲು @Conditional ಅನ್ನು ಬಳಸುತ್ತದೆ."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "button: Button()",
+                                "count: 1 … ∆ button … count + 1",
+                                "Phrase(count → '')"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~ಇತರ ಪ್ರೋಗ್ರಾಮಿಂಗ್ ಭಾಷೆಗಳು ರನ್‌ಟೈಮ್‌ನಲ್ಲಿ variable ಗಳ value ಗಳನ್ನು ಬದಲಾಯಿಸಲು ನಿಮಗೆ ಅವಕಾಶ ನೀಡುತ್ತವೆ, ಅದು ಚಲನಶೀಲ ಮತ್ತು ಸಂವಾದಾತ್ಮಕ ಅಪ್ಲಿಕೇಶನ್‌ಗಳನ್ನು ರಚಿಸಲು ಉಪಯುಕ್ತವಾಗಬಹುದು. ಆದರೆ ಅವು ಸರಿಯಾದ ಸ್ಥಳಗಳಲ್ಲಿ value ಗಳನ್ನು ನವೀಕರಿಸಲು, ಮತ್ತು ಆ value ಗಳು ಬದಲಾದಾಗ ಪರದೆಯ ಮೇಲೆ ತೋರಿಸಿರುವುದನ್ನು ನವೀಕರಿಸಲು ನೆನಪಿಡುವಂತೆ ಬಯಸುತ್ತವೆ:",
+                            "$~\\py | import\ntkinter\nas\ntk\n\ncount = 0\n\ndef\non\n_\nclick()\n:\nglobal\ncount\ncount\n+=\n1\nlabel.config(text = f 'ಕ್ಲಿಕ್‌ಗಳು: {count}')\n\nroot = tk.Tk()\nlabel = tk.Label(root ,text=\"Clicks: 0\")\n\t\tlabel.pack()\n\t\ttk.🖱(root ,text=\"Click me\",command=on_click).pack()\n\t\t\troot.mainloop()\\js|let count = 0;\nfunction onClick() {\n    count++;\n    document.getElementById('label').textContent = `Clicks: ${count}`;\n\n}\naddEventListener('keydown', onClick);\\jv | import\njavax.swing.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\",
+                            "$~Wordplay ಇದನ್ನು @Reaction @expression ಬಳಸಿ ಸರಳಗೊಳಿಸುತ್ತದೆ, ಅದು ಒಂದು ಆರಂಭಿಕ value ನಿಂದ ಪ್ರಾರಂಭವಾಗುತ್ತದೆ, ಸ್ಟ್ರೀಮ್ ಇನ್‌ಪುಟ್‌ಗಳನ್ನು ಉಲ್ಲೇಖಿಸುವ ಒಂದು @condition ಅನ್ನು ಪರಿಶೀಲಿಸುತ್ತದೆ, ಮತ್ತು ಸ್ಟ್ರೀಮ್‌ನ ಬದಲಾವಣೆಗಳ ಆಧಾರದ ಮೇಲೆ expression ನ value ಅನ್ನು ನವೀಕರಿಸುತ್ತದೆ. ಈ ಉದಾಹರಣೆಯಲ್ಲಿ, @Button ಸ್ಟ್ರೀಮ್ ಬದಲಾದಾಗೆಲ್ಲ, ನಾವು count ನ value ಅನ್ನು ನವೀಕರಿಸುತ್ತೇವೆ, ಮತ್ತು ಅದು @Stage ಮೇಲೆ ತೋರಿಸಿರುವ @Phrase ಅನ್ನು ನವೀಕರಿಸುತ್ತದೆ."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~conflict ಗಳು ಮತ್ತು ದೋಷ ನಿವಾರಣೆ",
+                    "subtitle": null,
+                    "concept": "UnparsableExpression",
+                    "performance": { "fit": "#Symbol ‼️" },
+                    "lines": [
+                        {
+                            "edit": "1 + 'hello'",
+                            "conflicts": true,
+                            "sidebar": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "angry",
+                            "$~ಇತರ ಭಾಷೆಗಳು *ದೋಷಗಳನ್ನು* ಎಸೆಯುತ್ತವೆ — ಪ್ರೋಗ್ರಾಮ್ ಅನುಮತಿ ಇಲ್ಲದ ಏನನ್ನೋ ಮಾಡಿದೆ ಎಂಬ ಸಂಕೇತ:",
+                            "$~\\py | 1 + 'ನಮಸ್ಕಾರ'\\js|1 + 'hello'\\jv | 1 + 'ನಮಸ್ಕಾರ'\\",
+                            "$~Wordplay ದೋಷಗಳನ್ನು *conflict* ಎಂದು ಕರೆಯುತ್ತದೆ: ಎರಡೂ ನಿಜವಾಗಲಾಗದ ಎರಡು ವಿಷಯಗಳು, ಉದಾಹರಣೆಗೆ ಕೆಳಗಿನ ಪ್ರೋಗ್ರಾಮ್‌ನಲ್ಲಿ ಒಂದು ಸಂಖ್ಯೆ ಮತ್ತು ಪಠ್ಯವನ್ನು ಸೇರಿಸುವುದು.",
+                            "$~Wordplay conflict ಗಳಿಗೆ ಅಡಿಗೆರೆ ಎಳೆಯುತ್ತದೆ ಮತ್ತು ಅವುಗಳನ್ನು ಪಕ್ಕಪಟ್ಟಿಯಲ್ಲಿ @UI/conflict ತೋರಿಸುತ್ತದೆ. ಅದು ಸಮಸ್ಯೆಯನ್ನು ಸರಿಪಡಿಸಲು conflict ಪರಿಹಾರ ಸಲಹೆಗಳನ್ನು ಸಹ ನೀಡುತ್ತದೆ."
+                        ],
+                        null,
+                        { "edit": "(1 + 2) × 3" },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~ಬಹುತೇಕ ಪ್ರೋಗ್ರಾಮಿಂಗ್ ಭಾಷೆಗಳು ರಚನೆಕಾರರಿಗೆ ತಮ್ಮ code ನಲ್ಲಿನ ಸಮಸ್ಯೆಗಳನ್ನು ಅರ್ಥಮಾಡಿಕೊಳ್ಳಲು ಮತ್ತು ಪರಿಹರಿಸಲು ಸಹಾಯ ಮಾಡಲು ಕೆಲವು ರೀತಿಯ ದೋಷ ನಿವಾರಣೆ ಸಾಧನಗಳನ್ನು ನೀಡುತ್ತವೆ. ಆದರೆ ಹಲವು ಕನ್ಸೋಲ್‌ನಲ್ಲಿ variable ಗಳ value ಗಳನ್ನು ಪರಿಶೀಲಿಸಲು ಮುದ್ರಣ statement ಗಳನ್ನು ಮಾತ್ರ ಬಳಸುತ್ತವೆ:",
+                            "$~\\py | print(elapsed)\\js|console.log(elapsed)\\jv | System.out.println(elapsed)\\",
+                            "$~Wordplay ಹೆಚ್ಚು ಅತ್ಯಾಧುನಿಕ ದೋಷ ನಿವಾರಣೆ ಅನುಭವವನ್ನು ಒದಗಿಸುತ್ತದೆ, ಅದು ಅದರ ಮೌಲ್ಯ ನಿರ್ಣಯದ ಮೂಲಕ *ಮುಂದಕ್ಕೆ* ಮತ್ತು *ಹಿಂದಕ್ಕೆ* ಹೆಜ್ಜೆ ಇಡಲು ನಿಮಗೆ ಅವಕಾಶ ನೀಡುತ್ತದೆ. @UI/stepControls ಮೌಲ್ಯ ನಿರ್ಣಯವನ್ನು ಯಾವುದೇ ದಿಕ್ಕಿನಲ್ಲಿ ಹೆಜ್ಜೆ ಹಾಕುತ್ತದೆ, ಆದ್ದರಿಂದ value ಹೇಗೆ ನಿರ್ಮಾಣವಾಗುತ್ತದೆ ಎಂದು ನೀವು ನೋಡಬಹುದು.",
+                            "$~ಹೆಚ್ಚಿನ ಮಾರ್ಗದರ್ಶನ ಬೇಕೇ? ದೋಷ ನಿವಾರಣೆ ಪ್ರದೇಶದಲ್ಲಿನ @UI/debugtour ಬಟನ್ ಈ ನಿಯಂತ್ರಣಗಳ ಮಾರ್ಗದರ್ಶಿತ ಪ್ರವಾಸವನ್ನು ನೀಡುತ್ತದೆ."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~ಎಲ್ಲವನ್ನೂ ಒಟ್ಟಿಗೆ ಸೇರಿಸುವುದು",
+                    "subtitle": null,
+                    "concept": "Stage",
+                    "performance": { "fit": "#Symbol 🔨" },
+                    "lines": [
+                        { "edit": ["elapsed: Time(100ms)", "elapsed"] },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~ಮೂರು ಹಂತಗಳಲ್ಲಿ ಒಂದು ಸಣ್ಣ ಸಂವಾದಾತ್ಮಕ @project ಅನ್ನು ನಿರ್ಮಿಸೋಣ.",
+                            "$~*ಒಂದು:* ನಿಮ್ಮ ಡೇಟಾ ಮತ್ತು *ಸ್ಟ್ರೀಮ್‌ಗಳನ್ನು* ಘೋಷಿಸಿ. ಇಲ್ಲಿ elapsed ಎಂಬ @Time ಸ್ಟ್ರೀಮ್ ಪ್ರೋಗ್ರಾಮ್ ಎಷ್ಟು ಹೊತ್ತು ಚಲಿಸಿದೆ ಎಂದು ವರದಿ ಮಾಡುತ್ತದೆ."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "elapsed: Time(100ms)",
+                                "turn: elapsed × 0.05°/ms",
+                                "turn"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~*ಎರಡು:* ಹೊಸ @Bind value ಗಳನ್ನು ಪಡೆಯುವ ಮೂಲಕ ಸ್ಟ್ರೀಮ್‌ಗೆ *ಪ್ರತಿಕ್ರಿಯಿಸಿ*. ಇಲ್ಲಿ turn ಕಳೆದ ಸಮಯವನ್ನು ಡಿಗ್ರಿಗಳಿಗೆ ಪರಿವರ್ತಿಸುತ್ತದೆ, elapsed ಬದಲಾದಾಗೆಲ್ಲ ಮತ್ತೆ ಲೆಕ್ಕ ಹಾಕುತ್ತದೆ."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "elapsed: Time(100ms)",
+                                "turn: elapsed × 0.05°/ms",
+                                "Stage([Phrase('✨' rotation: turn)] background: Color(25% 0 0°))"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~*ಮೂರು:* *ಔಟ್‌ಪುಟ್* — ನಿಮ್ಮ ಡೇಟಾವನ್ನು ಒಂದು @Phrase, @Group, ಅಥವಾ @Stage ಗೆ ಮ್ಯಾಪ್ ಮಾಡಿ. ಈಗ ನಕ್ಷತ್ರ ತಾನಾಗಿಯೇ ತಿರುಗುತ್ತದೆ!"
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "volume: Volume()",
+                                "turn: volume × 360°",
+                                "Stage([Phrase('✨' rotation: turn)] background: Color(25% 0 0°))"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~ಮೈಕ್ರೋಫೋನ್ ಇನ್‌ಪುಟ್‌ನ @Volume ನಂತಹ ಬಳಕೆದಾರ ಇನ್‌ಪುಟ್ ಅನ್ನು ಸೇರಿಸಿ ತಿರುಗುವಿಕೆಯನ್ನು ನಿಯಂತ್ರಿಸುವ ಮೂಲಕ ನಾವು ಇದನ್ನು ಇನ್ನಷ್ಟು ಸಂವಾದಾತ್ಮಕವಾಗಿಸಬಹುದು. ಅದು 0 ಮತ್ತು 1  ನಡುವಿನ ಒಂದು value, ಆದ್ದರಿಂದ ನಾವು ಅದನ್ನು 360 ಡಿಗ್ರಿಗಳಿಗೆ ಮ್ಯಾಪ್ ಮಾಡಬಹುದು.",
+                            "$~ಬಹುತೇಕ project ಗಳ ಆಕಾರ ಅದೇ: ಘೋಷಣೆಗಳು, ನಂತರ ಪ್ರತಿಕ್ರಿಯೆಗಳು, ನಂತರ ಔಟ್‌ಪುಟ್. <Guide//guide> ನಲ್ಲಿ ಅಧ್ಯಯನ ಮಾಡಲು, ನಕಲಿಸಲು ಮತ್ತು ಸಂಪಾದಿಸಲು ಪಾಕವಿಧಾನಗಳಿಂದ ತುಂಬಿದ @how ವಿಭಾಗವಿದೆ.",
+                            "$~ಸಂತೋಷದ ರಚನೆ!"
+                        ]
+                    ]
+                }
+            ]
+        }
+    ]
+}

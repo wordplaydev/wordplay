@@ -71,7 +71,7 @@ export default class Otherwise extends SimpleExpression {
             {
                 name: 'left',
                 kind: node(Expression),
-                label: () => (l) => l.term.value,
+                label: () => (l) => l.glossary.value.word,
             },
             {
                 name: 'question',
@@ -83,7 +83,7 @@ export default class Otherwise extends SimpleExpression {
                 name: 'right',
                 kind: node(Expression),
                 space: true,
-                label: () => (l) => l.term.value,
+                label: () => (l) => l.glossary.value.word,
             },
         ];
     }
@@ -184,12 +184,9 @@ export default class Otherwise extends SimpleExpression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return locales.concretize(
-            (l) => l.node.Otherwise.finish,
-            {
-                value: this.getValueIfDefined(locales, context, evaluator),
-            },
-        );
+        return locales.concretize((l) => l.node.Otherwise.finish, {
+            value: this.getValueIfDefined(locales, context, evaluator),
+        });
     }
 
     getCharacter() {

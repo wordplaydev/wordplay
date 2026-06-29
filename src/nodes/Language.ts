@@ -178,7 +178,10 @@ export default class Language extends Node {
      *  first variants that extend this tag with another language/region, then
      *  the full set of whole-locale replacements. */
     getReplacementsForTokenAnchor(): Language[] {
-        return [...this.getPossibleExtensions(), ...Language.getPossibleLanguages()];
+        return [
+            ...this.getPossibleExtensions(),
+            ...Language.getPossibleLanguages(),
+        ];
     }
 
     /** Variants of this tag with one more language or region added, drawn from
@@ -243,7 +246,7 @@ export default class Language extends Node {
             {
                 name: 'region',
                 kind: optional(node(Sym.Name)),
-                label: () => (l) => l.term.region,
+                label: () => (l) => l.glossary.region.word,
             },
             {
                 name: 'regionExtras',
@@ -405,9 +408,7 @@ export default class Language extends Node {
 
     /** True if any language in this tag matches the locale's language. */
     isLocaleLanguage(locale: Locale) {
-        return this.getLanguageTexts().some(
-            (text) => text === locale.language,
-        );
+        return this.getLanguageTexts().some((text) => text === locale.language);
     }
 
     /** True if this tag's regions and the given locale's regions match, where

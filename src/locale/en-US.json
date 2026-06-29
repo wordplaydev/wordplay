@@ -3,56 +3,171 @@
     "language": "en",
     "regions": ["US"],
     "wordplay": "Wordplay",
-    "term": {
-        "bind": "bind",
-        "evaluate": "evaluate",
-        "decide": "decide",
-        "project": "project",
-        "document": "explain",
-        "source": "source",
-        "code": "code",
-        "input": "input",
-        "output": "output",
-        "convert": "convert",
-        "how": "how-to",
-        "act": "act",
-        "scene": "scene",
-        "phrase": "phrase",
-        "group": "group",
-        "stage": "stage",
-        "type": "type",
-        "start": "start",
-        "entered": "new",
-        "changed": "changed",
-        "moved": "moved",
-        "name": "name",
-        "value": "value",
-        "text": "text",
-        "boolean": "boolean",
-        "pattern": "pattern",
-        "map": "map",
-        "number": "number",
-        "unit": "unit",
-        "markup": "markup",
-        "function": "function",
-        "exception": "exception",
-        "table": "table",
-        "column": "column",
-        "row": "row",
-        "cell": "cell",
-        "none": "none",
-        "list": "list",
-        "stream": "stream",
-        "structure": "structure",
-        "index": "index",
-        "query": "query",
-        "set": "set",
-        "key": "key",
-        "help": "Help",
-        "feedback": "feedback",
-        "documentation": "documentation",
-        "language": "language",
-        "region": "region"
+    "glossary": {
+        "value": {
+            "word": "value",
+            "definition": "A piece of information, like a number, some words, or a list."
+        },
+        "type": {
+            "word": "type",
+            "definition": "The kind of a value, such as number or text. A value's type decides what you can do with it."
+        },
+        "expression": {
+            "word": "expression",
+            "definition": "A piece of code that produces a value when it runs."
+        },
+        "variable": {
+            "word": "variable",
+            "definition": "A name whose value can change while a program runs."
+        },
+        "parameter": {
+            "word": "parameter",
+            "definition": "A named input that a function expects when you call it."
+        },
+        "argument": {
+            "word": "argument",
+            "definition": "A value you give to a function for one of its parameters."
+        },
+        "operator": {
+            "word": "operator",
+            "definition": "A symbol, such as + or -, that combines or compares values."
+        },
+        "condition": {
+            "word": "condition",
+            "definition": "A true-or-false test that decides what a program does next."
+        },
+        "loop": {
+            "word": "loop",
+            "definition": "Code that repeats an action many times."
+        },
+        "iteration": {
+            "word": "iteration",
+            "definition": "One pass through a loop."
+        },
+        "recursion": {
+            "word": "recursion",
+            "definition": "When a function calls itself to handle a smaller part of a problem."
+        },
+        "property": {
+            "word": "property",
+            "definition": "A named part of a value, such as a color's brightness."
+        },
+        "element": {
+            "word": "element",
+            "definition": "One item in a list or group."
+        },
+        "scope": {
+            "word": "scope",
+            "definition": "The part of a program where a name can be used."
+        },
+        "state": {
+            "word": "state",
+            "definition": "Information a program keeps and can change over time."
+        },
+        "sideEffect": {
+            "word": "side effect",
+            "definition": "A change a program makes besides giving back a value, such as showing output."
+        },
+        "abstraction": {
+            "word": "abstraction",
+            "definition": "Hiding details so you can use something without knowing how it works inside."
+        },
+        "project": {
+            "word": "project",
+            "definition": "All the files that make up one Wordplay program."
+        },
+        "code": {
+            "word": "code",
+            "definition": "The text you write to tell a program what to do."
+        },
+        "act": {
+            "word": "act",
+            "definition": "A large part of the tutorial, like an act in a play."
+        },
+        "how": {
+            "word": "how-to",
+            "definition": "A short guide that shows how to do one thing."
+        },
+        "gallery": {
+            "word": "gallery",
+            "definition": "A place where people share and explore projects."
+        },
+        "blocks": {
+            "word": "blocks",
+            "definition": "A way to edit code by dragging pieces instead of typing."
+        },
+        "placeholder": {
+            "word": "placeholder",
+            "definition": "An empty spot that shows where code or a value is missing."
+        },
+        "conflict": {
+            "word": "conflict",
+            "definition": "A problem in code that Wordplay marks so you can fix it."
+        },
+        "checkpoint": {
+            "word": "checkpoint",
+            "definition": "A saved point in your work that you can return to."
+        },
+        "guide": {
+            "word": "guide",
+            "definition": "The searchable reference that explains Wordplay's ideas."
+        },
+        "tutorial": {
+            "word": "tutorial",
+            "definition": "The step-by-step lessons that teach Wordplay."
+        },
+        "name": {
+            "word": "name",
+            "definition": "A word that refers to a value or a function."
+        },
+        "markup": {
+            "word": "markup",
+            "definition": "Text with formatting, such as bold words or links."
+        },
+        "language": {
+            "word": "language",
+            "definition": "A human language that a name or text is written in."
+        },
+        "documentation": {
+            "word": "documentation",
+            "definition": "Text that explains what code does."
+        },
+        "region": {
+            "word": "region",
+            "definition": "A place where a language is used, which can change how numbers and dates look."
+        },
+        "start": {
+            "word": "start",
+            "definition": "The main source file where a project begins."
+        },
+        "query": {
+            "word": "query",
+            "definition": "A way to choose rows from a table."
+        },
+        "key": {
+            "word": "key",
+            "definition": "The value used to find an item in a map."
+        },
+        "index": {
+            "word": "index",
+            "definition": "A number that picks an item by its position in a list."
+        },
+        "moved": {
+            "word": "moved",
+            "definition": "Output that changed position on stage."
+        },
+        "entered": {
+            "word": "new",
+            "definition": "Output that appeared on stage for the first time."
+        },
+        "cell": {
+            "word": "cell",
+            "definition": "One value in a table row."
+        },
+        "column": {
+            "word": "column",
+            "definition": "A named field in a table."
+        }
     },
     "token": {
         "EvalOpen": "evaluation open",
@@ -183,7 +298,7 @@
             "emotion": "serious",
             "doc": [
                 "I richly format things with @Markup, like explanations of some of your @Program, or even the words you put on stage with @Phrase.",
-                "For example, I can go before any expression:",
+                "For example, I can go before any @expression:",
                 "\\¶Is this really supposed to be 7?¶\n7\\",
                 "For example, you can place me before @Bind:",
                 "\\¶I measure how tall someone is¶\nheight: 5m\\",
@@ -215,7 +330,7 @@
             "emotion": "kind",
             "doc": [
                 "I'm a mapping from a *key* to a *value*, always in a @Map.",
-                "You can map any kind of value to any other. For example, here's a mapping of numbers:",
+                "You can map any kind of @value to any other. For example, here's a mapping of numbers:",
                 "\\{1:1}\\",
                 "Or a mapping from text to numbers:",
                 "\\{'bunny':1}\\"
@@ -237,7 +352,7 @@
                 "Sometimes text isn't just one language — it's a *mix*. Like Spanglish, where Spanish and English blend together. For those, list each language with an underscore between them. The first one is the *primary* — that's the one I use when I have to pick (for example, to choose which quote marks to use).",
                 "\\\"Hola gentleman!\"/es_en\\",
                 "\\¶A bilingual greeting¶/es_en\nhello/es_en: \"Hola gentleman!\"\\",
-                "You can add a single region too, after a dash, just like with a single language:",
+                "You can add a single @region too, after a dash, just like with a single language:",
                 "\\\"Hola gentleman!\"/es_en-MX\\",
                 "There's no limit to how many languages you can list — just don't repeat the same one twice; I'll let you know if you do. There are many <2-letter language codes@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> that I understand. If you don't use one of those, I'll let you know too."
             ],
@@ -264,7 +379,7 @@
             "description": "Declare name $name[$name|unnamed]",
             "emotion": "kind",
             "doc": [
-                "I identify a value, and am a helpful way of giving a shorthand label to something that was hard to evaluate, or that you don't want to have to evaluate over and over.",
+                "I identify a @value, and am a helpful way of giving a shorthand label to something that was hard to evaluate, or that you don't want to have to evaluate over and over.",
                 "@Bind gives me my name like this:",
                 "\\hi: 5\\",
                 "I only ever represent one value, and once I have it, I can't change. For example, if you tried to do this with @Bind, we would complain.",
@@ -285,7 +400,7 @@
                 "names": "names"
             },
             "doc": [
-                "I'm a list of @Name, useful when you want to give a value multiple names, often with different @Language.",
+                "I'm a list of @Name, useful when you want to give a @value multiple names, often with different @Language.",
                 "Names are separated by \\,\\ symbols. For example, here's @Bind giving a value multiple @Name",
                 "\\hi/en,hello/en,hola/es: 'welcome'\\"
             ]
@@ -345,7 +460,7 @@
             "label": {
                 "type": "type"
             },
-            "doc": "I am a mystery type on @FunctionDefinition or @StructureDefinition, provided by @TypeInputs when either is evaluated. @Set, @List, and @Map use me.",
+            "doc": "I am a mystery @type on @FunctionDefinition or @StructureDefinition, provided by @TypeInputs when either is evaluated. @Set, @List, and @Map use me.",
             "conflict": {
                 "DuplicateTypeVariable": {
                     "name": "duplicate type variable",
@@ -368,7 +483,7 @@
                 "paragraphs": "paragraphs"
             },
             "doc": [
-                "I'm a list of paragraphs, using the many kinds of markup available in explanations, such as @Words, @WebLink, @ConceptLink, and @Example."
+                "I'm a list of paragraphs, using the many kinds of @markup available in explanations, such as @Words, @WebLink, @ConceptLink, and @Example."
             ]
         },
         "Paragraph": {
@@ -442,7 +557,7 @@
                 "\\¶Here's an example of adding: \\1 + 2\\¶3 + 4\\",
                 "If you are using Examples in your how-tos, you can tag one Example as a highlight.",
                 "\\¶Here's a highlighted example: \\1 + 2\\⭐¶3 + 4\\",
-                "The highlighted example is shown as the preview in the how-to space and the Guide."
+                "The highlighted example is shown as the preview in the @how space and the @guide."
             ]
         },
         "ExternalExample": {
@@ -459,7 +574,7 @@
             "description": "Mention $name in markup",
             "emotion": "serious",
             "doc": [
-                "I'm a reference to either terminology \\$program\\ or a dynamic input \\$name\\.",
+                "I'm a reference to either terminology \\¶@program¶\\ or a dynamic input \\¶$name¶\\.",
                 "This is mostly an internal feature though, so you shouldn't need to know it."
             ]
         },
@@ -515,7 +630,7 @@
                 "\\pi: 3.1415926\\",
                 "I name inputs to @FunctionDefinition and @StructureDefinition, I name values in @Block. I name everything!",
                 "Oh, but did you know you can have one value *many names*?",
-                "I'm so excited to tell you about this! One value, many @Names. For example:",
+                "I'm so excited to tell you about this! One @value, many @Names. For example:",
                 "\\joe,tess,amy: 5\\",
                 "See what I did there? ",
                 "One value, three names.",
@@ -616,7 +731,7 @@
                 "See how @Bind made \\count\\? It's only named inside me. So this won't work:",
                 "\\(count: 10 count ^ count) + count\\",
                 "Because count was only named inside me.",
-                "If you give me one expression, I just give you back its value:",
+                "If you give me one @expression, I just give you back its @value:",
                 "\\(1 + 1)\\",
                 "If you give me more than one, I collect them into a list, in order:",
                 "\\(1 2 3 4 5)\\",
@@ -653,17 +768,17 @@
                 "bind": "name",
                 "version": "version"
             },
-            "doc": "I borrow @Bind that are shared by other @Source in your performance — just use their name and I'll bring in their name and value.",
+            "doc": "I borrow @Bind that are shared by other @Source in your performance — just use their name and I'll bring in their name and @value.",
             "start": "Borrowing $name from $source",
             "conflict": {
                 "UnknownBorrow": {
                     "name": "unknown borrow",
-                    "explanation": "I don't know a $source by this name",
+                    "explanation": "I don't know a source by this name",
                     "resolution": "Remove this borrow"
                 },
                 "BorrowCycle": {
                     "name": "self-referencing borrow",
-                    "explanation": "this depends on $borrow, which depends on this $source, so the program can't be evaluated",
+                    "explanation": "this depends on $borrow, which depends on this @Source, so the program can't be evaluated",
                     "resolution": "Remove this borrow to break the cycle"
                 }
             },
@@ -699,7 +814,7 @@
                 "no": "no"
             },
             "doc": [
-                "Should I give you one value or another, depending on a condition? Like this?",
+                "Should I give you one @value or another, depending on a @condition? Like this?",
                 "\\number: -100\nnumber < 0 ? 'negative' 'positive'\\",
                 "But have you ever thought about how we decide?",
                 "Doesn't it seem like decisions should be more nuanced than just yes or no? Is deciding between \\⊤\\ and \\⊥\\ all there is?",
@@ -737,10 +852,10 @@
                 "expression": "expression"
             },
             "doc": [
-                "Dude, I define conversions from one type to another! I go in @Block, something like this:",
+                "Dude, I define conversions from one @type to another! I go in @Block, something like this:",
                 "\\→ #kitty #cat ⬚ ÷ 2\n6kitty→#cat\\",
                 "See how I turned kitties into cats? Wicked!",
-                "You might be wondering what that \\⬚\\ is doing there. That represents the value being converted. I use that because the value has no name otherwise."
+                "You might be wondering what that \\⬚\\ is doing there. That represents the @value being converted. I use that because the value has no name otherwise."
             ],
             "start": "Awesome, a new conversion!",
             "conflict": {
@@ -756,7 +871,7 @@
             "description": "Convert value to another type",
             "emotion": "cheerful",
             "doc": [
-                "I turn values from one type to another. Yo — check it out:",
+                "I turn values from one @type to another. Yo — check it out:",
                 "\\1 → \"\"\\",
                 "\\5s → #ms\\",
                 "\\\"hello\" → []\\",
@@ -790,7 +905,7 @@
                 "\\[1 2 3] ↦ ⬚ + 1\\ gives you \\[2 3 4]\\. BOOM! Every number, plus one, no loops, no @FunctionDefinition, no fuss!",
                 "I am AMAZING for making @Phrase output from data! Got a list of names? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ and now there's a phrase for EVERY name!!",
                 "I work on @List, @Set, @Map (I change the map's VALUES — the keys stay right where they are!), and even @Table!",
-                "Want something fancier — like the index of each item, or a function you can reuse in lots of places? Go visit my calmer, grown-up cousins like @List.translate. But for quick everyday mapping, I'm here!!"
+                "Want something fancier — like the @index of each item, or a function you can reuse in lots of places? Go visit my calmer, grown-up cousins like @List.translate. But for quick everyday mapping, I'm here!!"
             ],
             "start": "Hang on, lemme grab everything in $expression!",
             "finish": "TA-DA! Here's your brand new collection: $value",
@@ -811,7 +926,7 @@
             "description": "Remove matching rows from table",
             "emotion": "angry",
             "doc": [
-                "I remove the rows of a @Table that match a condition. Sometimes a table JUST HAS TOO MUCH IN IT!",
+                "I remove the rows of a @Table that match a @condition. Sometimes a table JUST HAS TOO MUCH IN IT!",
                 "Like if you had some players in a game and one left and you just wanted to say GO AWAY PLAYER, GET OUT OF MY TABLE!",
                 "\\players: ⎡name•'' team•'' points•#⎦\n⎡'jen' 'red' 8⎦\n⎡'joan' 'blue' 11⎦\n⎡'jeff' 'red' 9⎦\n⎡'janet' 'blue' 7⎦\nplayers ⎡- name = 'jeff'\\",
                 "Phew, Jeff is gone. BYE JEFF. Just remember that I don't change the original table, I make a new one, without JEFF. You decide where it goes."
@@ -824,7 +939,7 @@
             "description": "Attach documentation to an expression",
             "emotion": "eager",
             "doc": [
-                "I'm any expression, but with a @Doc!",
+                "I'm any @expression, but with a @Doc!",
                 "To make me, just put a @Doc before an expression, and you'll get me:",
                 "\\doubleplus: 1\n(2 × doubleplus) + \n¶Let's make it just a little bit bigger¶\n1\\",
                 "I'm useful for making a comment on some part of a program.",
@@ -906,7 +1021,7 @@
                 },
                 "SeparatedEvaluate": {
                     "name": "ambiguous evaluate",
-                    "explanation": "Is $name the name of a $structure[$structure|$function] you're trying to evaluate? Try removing the space after me, so I know it's an @Evaluate and not a separate @Block.",
+                    "explanation": "Is $name the name of a $structure[$structure|@FunctionDefinition] you're trying to evaluate? Try removing the space after me, so I know it's an @Evaluate and not a separate @Block.",
                     "resolution": "Close the space between *$name* and its inputs"
                 }
             },
@@ -970,12 +1085,12 @@
                 "expression": "expression"
             },
             "doc": [
-                "I take some inputs, then evaluate an expression using them, producing an output. Hi again!",
+                "I take some inputs, then evaluate an @expression using them, producing an output. Hi again!",
                 "Here's a simple example:",
                 "\\ƒ repeat(message•'') message × 5\nrepeat('hi')\\",
                 "That function takes one input, \\message\\, and uses the @Text.repeat function to repeat the message five times.",
                 "I'm really helpful if you want to evaluate something over and over, but with different inputs!",
-                "I do have lots of other little tricks. For example, I don't have to have a name. Here, I'm just going directly to @Evaluate as a value.",
+                "I do have lots of other little tricks. For example, I don't have to have a name. Here, I'm just going directly to @Evaluate as a @value.",
                 "\\(ƒ(message•'') message × 5)('hi')\\",
                 "Or, here's a function that takes any number of inputs, using the \\…\\ character after an input name.",
                 "\\ƒ yes(messages…•'') messages.sans('no')\nyes('yes' 'yes' 'no' 'yes' 'no')\\",
@@ -1034,7 +1149,7 @@
             "description": "Check if value is type $type",
             "emotion": "curious",
             "doc": [
-                "I check whether a value is a particular type, giving you a @Boolean. There are so many kinds of values that mean so many different things — I help figure out what they are.",
+                "I check whether a @value is a particular @type, giving you a @Boolean. There are so many kinds of values that mean so many different things — I help figure out what they are.",
                 "For example, suppose you had a mystery value. I can tell you whether it's a @Number, giving you a @Boolean:",
                 "\\mystery: 'secret!'\nmystery•#\\",
                 "It's not a number, so I made \\⊥\\. But if we check if it's @TextType?",
@@ -1064,7 +1179,7 @@
             "description": "Return true if language is selected",
             "emotion": "kind",
             "doc": [
-                "I'll help you check if the audience has selected a particular language or region:",
+                "I'll help you check if the audience has selected a particular @language or @region:",
                 "\\🌍/en\\",
                 "\\🌍/es-MX\\",
                 "This is helpful if you want to change your performance based on the language chosen."
@@ -1098,7 +1213,7 @@
                 "value": "value"
             },
             "doc": [
-                "I apply a locale to some text you compute, so it keeps its language even after you change it. Like this:",
+                "I apply a locale to some text you compute, so it keeps its @language even after you change it. Like this:",
                 "\\(\"hello\" + \"!\")/en\\",
                 "Most text operations already keep locales, but I let you set one yourself when you want to override them.",
                 "I only work on text, so make sure you give me some!"
@@ -1129,8 +1244,8 @@
                 "Refine a class with a @PatternProperty, like \\⣿_/greek⣿\\ for a Greek letter or \\⣿◌/emoji⣿\\.",
                 "Name a piece with a @PatternCapture, like \\⣿year:(4 #)⣿\\, then reuse it later with a @PatternBackref by writing its bare name. Each @Result reports captured pieces by name.",
                 "Anchor to the edges with a @PatternAnchor: \\⣿⊢⣿\\ start, \\⣿⊣⣿\\ end. Peek without consuming using a @PatternLook: \\⣿▸(#)⣿\\ ahead, \\⣿◂(#)⣿\\ behind.",
-                "Match whole words with a @PatternWord \\⣿▭/en⣿\\ or word boundaries with a @PatternWordEdge \\⣿┊/en⣿\\, segmented for a language. Ignore letter case inside a @PatternCaseFold \\⣿Aa(\"hi\")⣿\\.",
-                "My type is a @PatternType — annotate a name with it, like \\p•⣿⣿: ⣿◌⣿\\ — so you can store me in a name and reuse me across many texts."
+                "Match whole words with a @PatternWord \\⣿▭/en⣿\\ or word boundaries with a @PatternWordEdge \\⣿┊/en⣿\\, segmented for a @language. Ignore letter case inside a @PatternCaseFold \\⣿Aa(\"hi\")⣿\\.",
+                "My @type is a @PatternType — annotate a name with it, like \\p•⣿⣿: ⣿◌⣿\\ — so you can store me in a name and reuse me across many texts."
             ],
             "start": "Let me see what this text looks like.",
             "step": {
@@ -1178,7 +1293,7 @@
                 "I match a single character of a kind: \\⣿◌⣿\\ any grapheme, \\⣿_⣿\\ a letter, \\⣿#⣿\\ a digit, \\⣿␣⣿\\ a space.",
                 "For example, pull each letter-then-digit code out of a list:",
                 "\\codes: 'a1 b2 c3'\ncodes ⌕ ⣿_ #⣿\\",
-                "Count me with a quantifier like \\⣿>0 #⣿\\ (one or more digits), or narrow me with a property like \\⣿_/greek⣿\\ (a Greek letter)."
+                "Count me with a quantifier like \\⣿>0 #⣿\\ (one or more digits), or narrow me with a @property like \\⣿_/greek⣿\\ (a Greek letter)."
             ]
         },
         "PatternProperty": {
@@ -1186,11 +1301,11 @@
             "description": "Match a Unicode property",
             "emotion": "curious",
             "doc": [
-                "I narrow a character class to a Unicode property. Use a script, like \\⣿_/greek⣿\\, \\⣿_/han⣿\\, or \\⣿_/arabic⣿\\.",
+                "I narrow a character class to a Unicode @property. Use a script, like \\⣿_/greek⣿\\, \\⣿_/han⣿\\, or \\⣿_/arabic⣿\\.",
                 "For example, find the run of Greek letters in some mixed text:",
                 "\\text: 'hello αβγ world'\ntext ⌕ ⣿>0 _/greek⣿\\",
                 "Or a category, like \\⣿◌/punctuation⣿\\, \\⣿◌/currency⣿\\, \\⣿◌/Nd⣿\\ (a digit), or \\⣿_/Lu⣿\\ (an uppercase letter).",
-                "Or a yes-or-no property, like \\⣿◌/emoji⣿\\ or \\⣿_/uppercase⣿\\ — and you can spell one out as a name and value, like \\⣿◌/Script=Greek⣿\\.",
+                "Or a yes-or-no property, like \\⣿◌/emoji⣿\\ or \\⣿_/uppercase⣿\\ — and you can spell one out as a name and @value, like \\⣿◌/Script=Greek⣿\\.",
                 "Exclude a property with a @PatternComplement, like \\⣿~◌/emoji⣿\\ (anything that isn't an emoji)."
             ],
             "conflict": {
@@ -1254,9 +1369,9 @@
             "emotion": "curious",
             "doc": [
                 "I match a single grapheme that is NOT what follows. Negate a class like \\⣿~#⣿\\ (not a digit), or a set like \\⣿~{\":\" ␣}⣿\\ (not a colon or space).",
-                "For example, grab the key and value around a colon by matching runs that aren't a colon or space:",
+                "For example, grab the @key and @value around a colon by matching runs that aren't a colon or space:",
                 "\\pair: 'color: blue'\npair ⌕ ⣿>0 ~{\":\" ␣}⣿\\",
-                "Negate a group like \\⣿~(◌ | #)⣿\\, or a property like \\⣿~◌/emoji⣿\\ (not an emoji).",
+                "Negate a group like \\⣿~(◌ | #)⣿\\, or a @property like \\⣿~◌/emoji⣿\\ (not an emoji).",
                 "Put me before a @PatternLook to flip it: \\⣿~▸(#)⣿\\ means \"not followed by a digit\", and \\⣿~◂(\"$\")⣿\\ means \"not preceded by a dollar sign\"."
             ]
         },
@@ -1320,7 +1435,7 @@
             "description": "Match a whole word",
             "emotion": "curious",
             "doc": [
-                "I match a whole word, found by a language's own rules.",
+                "I match a whole word, found by a @language's own rules.",
                 "For example, list the words in a sentence:",
                 "\\sentence: 'the cat sat'\nsentence ⌕ ⣿▭/en⣿\\",
                 "Name the language, like \\⣿▭/en⣿\\ for English or \\⣿▭/zh⣿\\ for Chinese, and bound a specific word with edges, like \\⣿┊/en \"cat\" ┊/en⣿\\."
@@ -1337,7 +1452,7 @@
             "description": "Match a word boundary",
             "emotion": "curious",
             "doc": [
-                "I match a word boundary for a language without consuming anything.",
+                "I match a word boundary for a @language without consuming anything.",
                 "For example, find \"cat\" as a whole word, not inside \"category\":",
                 "\\text: 'a cat in a category'\ntext ⌕ ⣿┊/en \"cat\" ┊/en⣿\\",
                 "Wrap a word with me, like \\⣿┊/en \"cat\" ┊/en⣿\\, so it only matches whole."
@@ -1392,7 +1507,7 @@
                 "I match my parts ignoring upper and lower case.",
                 "For example, check a word ignoring its capitalization:",
                 "\\shout: 'HELLO'\nshout ≈ ⣿Aa(\"hello\")⣿\\",
-                "Wrap my parts like \\⣿Aa(\"hi\")⣿\\ (matches \"HI\", \"Hi\", or \"hi\"). Add a language for its rules, like \\⣿Aa/tr(\"i\")⣿\\ (Turkic i), and I scope a @PatternBackref too, like \\⣿Aa(w:(2 _) w)⣿\\."
+                "Wrap my parts like \\⣿Aa(\"hi\")⣿\\ (matches \"HI\", \"Hi\", or \"hi\"). Add a @language for its rules, like \\⣿Aa/tr(\"i\")⣿\\ (Turkic i), and I scope a @PatternBackref too, like \\⣿Aa(w:(2 _) w)⣿\\."
             ]
         },
         "PatternType": {
@@ -1400,8 +1515,8 @@
             "description": "The type of a pattern",
             "emotion": "curious",
             "doc": [
-                "I'm the type of a pattern value, annotated like \\p•⣿⣿: ⣿◌⣿\\.",
-                "For example, store a pattern in a name and reuse it across many texts:",
+                "I'm the @type of a pattern @value, annotated like \\p•⣿⣿: ⣿◌⣿\\.",
+                "For example, store a pattern in a @name and reuse it across many texts:",
                 "\\digits: ⣿>0 #⣿\n'I have 3 cats and 12 fish' ⌕ digits\\",
                 "Once stored, use me anywhere a pattern fits, like \\text ⌕ digits\\ or \\text ≈ digits\\."
             ]
@@ -1433,10 +1548,10 @@
                 "other": "default"
             },
             "doc": [
-                "I am the most glorious of conditional checks: I take a value, compare it against any number of cases, and evaluate the one that matches!",
+                "I am the most glorious of conditional checks: I take a @value, compare it against any number of cases, and evaluate the one that matches!",
                 "For example, if you had a @Number and wanted to convert it to a @Text, you might do something like this:",
                 "\\number: 2\nnumber ??? 1: 'one' 2: 'two' 3: 'three' 'bigger!'\\",
-                "If none match, I evaluate the default expression you give me.",
+                "If none match, I evaluate the default @expression you give me.",
                 "I'm really helpful for converting one of many possible @Number, @Text, or more complex values into something else.",
                 "You can use it for @Boolean or @None, but they can't really be that many things, so I'm not as useful for those simple values."
             ],
@@ -1462,14 +1577,14 @@
             "name": "internal expression",
             "description": "Run a built-in creator expression",
             "emotion": "neutral",
-            "doc": "I'm an expression that only the original creators use. How did you find me? To learn more about me, you'll need to talk to them.",
+            "doc": "I'm an @expression that only the original creators use. How did you find me? To learn more about me, you'll need to talk to them.",
             "start": "Secret expression"
         },
         "NoneLiteral": {
             "name": "none literal",
             "description": "Create the nothing value",
             "emotion": "neutral",
-            "doc": "I make @None, the one-of-a-kind nothing value. See @None to learn more about them.",
+            "doc": "I make @None, the one-of-a-kind nothing @value. See @None to learn more about them.",
             "start": "… ø"
         },
         "Otherwise": {
@@ -1477,7 +1592,7 @@
             "description": "Provide backup value if none",
             "emotion": "curious",
             "doc": [
-                "I check whether a value is @None, and if it is, I give you a backup value instead.",
+                "I check whether a @value is @None, and if it is, I give you a backup value instead.",
                 "/For example, if you had a value that could be a @Number or @None, @Otherwise helps you give a default number:",
                 "\\maybeNumber•#|ø: 1 maybeNumber ?? 0\\"
             ],
@@ -1512,7 +1627,7 @@
             "doc": [
                 "I'm where a performance begins and ends, containing all of the other characters that choregraph a show.",
                 "You know how @Block evaluates a list of expressions, and evaluates to the last one in its list? ",
-                "I'm the same, but rather than giving my value to whatever expression I'm in, I put the value on @Stage.",
+                "I'm the same, but rather than giving my @value to whatever @expression I'm in, I put the value on @Stage.",
                 "The value can be anything: a @Number, @Text, or @Boolean, a @List, @Set, @Map, or even something more complex, like a @Phrase, @Group, or @Stage.",
                 "If you don't give me a value to show on stage, I'll ask you for one.",
                 "If there's a problem during a performance, I'll show that problem.",
@@ -1563,7 +1678,7 @@
                 "value": "value"
             },
             "doc": [
-                "I make a copy of a @StructureDefinition value with just one property changed — no need to rebuild the whole thing with all the same values.",
+                "I make a copy of a @StructureDefinition @value with just one @property changed — no need to rebuild the whole thing with all the same values.",
                 "For example, what if you were keeping a record of cats, but then wanted to create a copy of a cat with a different hobby? I can help you change it:",
                 "\\•Cat(name•'' color•'' hobby•'')\n\nkitty: Cat('sprinkles' 'orange' 'licking')\nkitty.hobby:'purring'\\",
                 "That's so much easier than making a whole new \\Cat\\ with the same values except for the hobby, isn't it?"
@@ -1586,7 +1701,7 @@
                 "property": "property"
             },
             "doc": [
-                "I get one of a @StructureDefinition value's properties for you.",
+                "I get one of a @StructureDefinition @value's properties for you.",
                 "Like if you had a structure about cities, you could get its values with me like this:",
                 "\\•City(name•'' population•#people)\n\nportland: City('Portland' 800000people)\n\nportland.population\\"
             ],
@@ -1624,9 +1739,9 @@
             "description": "Reference name $name",
             "emotion": "shy",
             "doc": [
-                "I refer to a value by its @Name: I find the @Bind with that name and give you its value. Like this:",
+                "I refer to a @value by its @Name: I find the @Bind with that name and give you its value. Like this:",
                 "\\parrot: 'polly'\nparrot\\",
-                "If I don't find the name, then I don't know what to do.",
+                "If I don't find the @name, then I don't know what to do.",
                 "\\parrot: 'polly'\nperry\\"
             ],
             "start": "What value does $name have?",
@@ -1661,7 +1776,7 @@
             "description": "Filter matching rows from table",
             "emotion": "excited",
             "doc": [
-                "I pick the rows of a @Table that match a condition. Sometimes you just want part of a table — I can get it for you!",
+                "I pick the rows of a @Table that match a @condition. Sometimes you just want part of a table — I can get it for you!",
                 "Like what if you had a table of players in a game and you wanted to find the ones with 10 or more points to see who won:",
                 "\\players: ⎡name•'' team•'' points•#⎦\n⎡'jen' 'red' 8⎦\n⎡'joan' 'blue' 11⎦\n⎡'jeff' 'red' 9⎦\n⎡'janet' 'blue' 7⎦\nplayers ⎡? name ⎦ points ≥ 10\\",
                 "Just like that, I got a list of rows of winners! Just remember that I don't change the table, I make a new one. You'll have to decide where to keep it."
@@ -1689,7 +1804,7 @@
             "description": "Check if set or map contains",
             "emotion": "kind",
             "doc": [
-                "I can see if a @Set or @Map has a value or key.",
+                "I can see if a @Set or @Map has a @value or @key.",
                 "It's not too hard. Like this:",
                 "\\faves: {'duck' 'goose' 'monkey'}\nfaves{'mouse'}\\",
                 "Or this, with a @Map:",
@@ -1720,7 +1835,7 @@
             "description": "Name a program source file",
             "emotion": "curious",
             "doc": [
-                "I'm the named window around a @Program — I give it a name and hold its code. Oh, you know @Program? I help you name them.",
+                "I'm the named window around a @Program — I give it a name and hold its @code. Oh, you know @Program? I help you name them.",
                 "You can also make other @Source @UI/addSource, with other @Program, and @Borrow things from those other @Program for use in another program.",
                 "This can be a nice way of organizing a big performance into separate documents."
             ]
@@ -1752,7 +1867,7 @@
                 "\\•Pizza(\ningredients•['']\nsize•#in\n)\\",
                 "I can also have @Bind inside, so we could evaluate the cost in advance.",
                 "\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tcost: size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost\\",
-                "Mark a function or value with ↑ to make it belong to the structure itself, not to instances. Then you can use the name of the structure to reach it, without making one.",
+                "Mark a function or @value with ↑ to make it belong to the structure itself, not to instances. Then you can use the @name of the structure to reach it, without making one.",
                 "\\•Math() (\n\t↑ pi: 3.14159\n\t↑ ƒ square(n•#) n · n\n)\n\nMath.pi\nMath.square(5)\\"
             ],
             "start": "Let's define this lovely structure",
@@ -1871,7 +1986,7 @@
             "description": "Refer to current structure value",
             "emotion": "serious",
             "doc": [
-                "I'm \\⬚\\, a little square that stands for whatever value the surrounding code is working on, so you don't have to name it.",
+                "I'm \\⬚\\, a little square that stands for whatever @value the surrounding code is working on, so you don't have to name it.",
                 "Inside a @ConversionDefinition, I'm the value being converted:",
                 "\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
                 "Inside a @Reaction, I'm the most recent value:",
@@ -1899,7 +2014,7 @@
                 "input": "input"
             },
             "doc": [
-                "I evaluate a @FunctionDefinition that takes a single value, with its one-symbol name written right before the input — like \\-x\\ or \\~b\\. Did you know you could do that?",
+                "I evaluate a @FunctionDefinition that takes a single @value, with its one-symbol name written right before the input — like \\-x\\ or \\~b\\. Did you know you could do that?",
                 "Like this:",
                 "\\-(1 + 1)\\",
                 "Or this:",
@@ -1918,7 +2033,7 @@
             "doc": [
                 "I'm a piece of code that doesn't make sense, so no one knows what it means.",
                 "jkwel fjiwojvioao jjiweo jrfe",
-                "/Not every expression has meaning on stage./",
+                "/Not every @expression has meaning on stage./",
                 "s w ieorjwei iojwi jfkdlsfdsk",
                 "/In fact, there are all kinds of things you can say that don't make any sense at all./",
                 "dsk sdlk jdkfiewipapweiurb,v kdsfdsf",
@@ -1952,10 +2067,10 @@
             "description": "Revise matching rows in table",
             "emotion": "kind",
             "doc": [
-                "I help revise a @Table, finding the rows that match a condition, and then creating revised rows with new values.",
+                "I help revise a @Table, finding the rows that match a @condition, and then creating revised rows with new values.",
                 "So like, if you had a table of characters and points, and you wanted to give every character on a team a point, you might do this:",
                 "\\players: ⎡name•'' team•'' points•#⎦\n⎡'jen' 'red' 1⎦\n⎡'joan' 'blue' 0⎦\n⎡'jeff' 'red' 3⎦\n⎡'janet' 'blue' 2⎦\nplayers ⎡: points: points + 1 ⎦ team = 'blue'\\",
-                "You can use a @Bind to say which columns to change, and you can use any of the column names or other names in scope in the condition."
+                "You can use a @Bind to say which columns to change, and you can use any of the column names or other names in @scope in the condition."
             ],
             "start": "Let's get the table first",
             "finish": "Evaluated to a new table with revised rows!",
@@ -1986,14 +2101,14 @@
             "name": "any",
             "description": "Any",
             "emotion": "curious",
-            "doc": "I represent any possible type. Sometimes I show up because I don't know what kind of value something is, so it could be anything."
+            "doc": "I represent any possible @type. Sometimes I show up because I don't know what kind of @value something is, so it could be anything."
         },
         "BooleanType": {
             "name": "boolean",
             "description": "Type a boolean true/false value",
             "emotion": "kind",
             "doc": [
-                "I work with @Bind to declare that a name is a @Boolean value. Like this:",
+                "I work with @Bind to declare that a name is a @Boolean @value. Like this:",
                 "\\hungry•?: 'jello'\\",
                 "If you want to be sure that something is @Boolean, use me, and I'll check!"
             ]
@@ -2003,7 +2118,7 @@
             "description": "Type a conversion definition",
             "emotion": "serious",
             "doc": [
-                "I work with @Bind to indicate that a name is a @ConversionDefinition. You probably don't need to use me, because not a lot of people pass me around as a value, but if you did, I would look like this:",
+                "I work with @Bind to indicate that a name is a @ConversionDefinition. You probably don't need to use me, because not a lot of people pass me around as a @value, but if you did, I would look like this:",
                 "\\magic•?→'': → ? '' ⬚ ? 'yep' 'nope'\\"
             ]
         },
@@ -2012,7 +2127,7 @@
             "description": "Type a formatted text value",
             "emotion": "serious",
             "doc": [
-                "I work with @Bind to note that a name is a @FormattedLiteral value. Like this:",
+                "I work with @Bind to note that a name is a @FormattedLiteral @value. Like this:",
                 "\\hungry•`…`: `I am so /fancy/!`\\",
                 "Want to make sure something is a @FormattedLiteral value? This is how you make sure."
             ]
@@ -2079,7 +2194,7 @@
             "name": "never",
             "description": "Represent an impossible type",
             "emotion": "curious",
-            "doc": "I represent a type that is impossible. Like when you ask @Is if something is a @Number, but it can never be a number."
+            "doc": "I represent a @type that is impossible. Like when you ask @Is if something is a @Number, but it can never be a number."
         },
         "NoneType": {
             "name": "none",
@@ -2118,14 +2233,14 @@
             "name": "structure",
             "description": "Represent structure $name",
             "emotion": "kind",
-            "doc": "I am an internal type to represent the type of default value types."
+            "doc": "I am an internal @type to represent the type of default @value types."
         },
         "UnknownType": {
             "name": "unknown",
             "description": "Unknown",
             "connector": ", because ",
             "emotion": "curious",
-            "doc": "I'm a type no one has figured out yet. Umm… do you know what I represent? You might need to tell us if we can't figure it out."
+            "doc": "I'm a @type no one has figured out yet. Umm… do you know what I represent? You might need to tell us if we can't figure it out."
         },
         "TableType": {
             "name": "table",
@@ -2145,7 +2260,7 @@
             "description": "$text['$text'|Text]",
             "emotion": "happy",
             "doc": [
-                "I fabulously represent the most fabulous kind of value there is, @Text.",
+                "I fabulously represent the most fabulous kind of @value there is, @Text.",
                 "\\story•'': 'Once upon a time...'\\"
             ]
         },
@@ -2153,7 +2268,7 @@
             "name": "placeholder",
             "description": "Hold a placeholder for a type",
             "emotion": "eager",
-            "doc": "I hope to represent a type some day, kind of like my bestie @ExpressionPlaceholder represents an expression! Will you help me decide what kind?"
+            "doc": "I hope to represent a @type some day, kind of like my bestie @ExpressionPlaceholder represents an @expression! Will you help me decide what kind?"
         },
         "UnionType": {
             "name": "option",
@@ -2161,7 +2276,7 @@
             "elidedSuffix": " or $omitted other options",
             "emotion": "curious",
             "doc": [
-                "I represent a value that could be one of several types — A or B or something else? I can never decide!",
+                "I represent a @value that could be one of several types — A or B or something else? I can never decide!",
                 "\\indecision•''|#|{ø}: \"I don't know!\"\\"
             ]
         },
@@ -2179,55 +2294,55 @@
             "name": "unparsable",
             "description": "Type an unparsable expression",
             "emotion": "curious",
-            "doc": "I represent the type of an unknown expression. I show up when you try to use that expression for something."
+            "doc": "I represent the @type of an unknown @expression. I show up when you try to use that expression for something."
         },
         "VariableType": {
             "name": "variable type",
             "description": "Represent a type variable in use",
             "emotion": "curious",
-            "doc": "I stand in for a @TypeVariable — an unknown kind of value — in all negotiations between values."
+            "doc": "I stand in for a @TypeVariable — an unknown kind of @value — in all negotiations between values."
         },
         "CycleType": {
             "name": "cycle",
             "description": "Depend on itself",
             "emotion": "curious",
-            "doc": "I represent a value whose type depends on itself, so we can't tell what kind of value it is."
+            "doc": "I represent a @value whose @type depends on itself, so we can't tell what kind of value it is."
         },
         "UnknownVariableType": {
             "name": "unknown variable",
             "description": "Represent an unknown type variable",
             "emotion": "curious",
-            "doc": "Sometimes we try to guess what kind of value something is; I show up when we don't know."
+            "doc": "Sometimes we try to guess what kind of @value something is; I show up when we don't know."
         },
         "NotAType": {
             "name": "unexpected",
             "description": "Mark $type as an invalid type",
             "emotion": "curious",
-            "doc": "I represent a value whose type isn't the one we expected — like when @ListAccess needs a @Number but gets something else."
+            "doc": "I represent a @value whose @type isn't the one we expected — like when @ListAccess needs a @Number but gets something else."
         },
         "NoExpressionType": {
             "name": "no expression",
             "description": "Type an empty block",
             "emotion": "angry",
-            "doc": "I'm the type you get when a @Block has no expression in it. You know it needs at least one — so give one!"
+            "doc": "I'm the @type you get when a @Block has no @expression in it. You know it needs at least one — so give one!"
         },
         "NotEnclosedType": {
             "name": "not in structure, conversion, or reaction",
             "description": "Mark this used outside a structure",
             "emotion": "curious",
-            "doc": "I show up when @This is used somewhere it doesn't belong, so no one knows what value it represents."
+            "doc": "I show up when @This is used somewhere it doesn't belong, so no one knows what @value it represents."
         },
         "NotImplementedType": {
             "name": "unimplemented",
             "description": "Type an unfilled placeholder",
             "emotion": "curious",
-            "doc": "When you use @ExpressionPlaceholder, but don't say what type they are, I'm the type you get. Deal with it!"
+            "doc": "When you use @ExpressionPlaceholder, but don't say what @type they are, I'm the type you get. Deal with it!"
         },
         "UnknownNameType": {
             "name": "unknown name",
             "description": "$name[$name isn't defined yet|The name isn't given]",
             "emotion": "curious",
-            "doc": "I represent a name that @Reference or @PropertyReference couldn't find, when we don't know who you're talking about."
+            "doc": "I represent a @name that @Reference or @PropertyReference couldn't find, when we don't know who you're talking about."
         },
         "NonFunctionType": {
             "name": "non-function",
@@ -2264,7 +2379,7 @@
                 },
                 "or": {
                     "doc": [
-                        "I evaluate to \\⊤\\ when *either* value are \\⊤\\. Helpful for determining if one of many things are true. There are only four possible outcomes",
+                        "I evaluate to \\⊤\\ when *either* @value are \\⊤\\. Helpful for determining if one of many things are true. There are only four possible outcomes",
                         "\\⊤ | ⊤\\",
                         "\\⊤ | ⊥\\",
                         "\\⊥ | ⊤\\",
@@ -2288,7 +2403,7 @@
                     "names": ["=", "equals"],
                     "inputs": [
                         {
-                            "doc": "The other value to check.",
+                            "doc": "The other @value to check.",
                             "names": "value"
                         }
                     ]
@@ -2298,7 +2413,7 @@
                     "names": ["≠", "notequal"],
                     "inputs": [
                         {
-                            "doc": "The other value to check.",
+                            "doc": "The other @value to check.",
                             "names": "value"
                         }
                     ]
@@ -2310,27 +2425,27 @@
         },
         "None": {
             "doc": [
-                "I represent the absence of a value, written \\ø\\.",
+                "I represent the absence of a @value, written \\ø\\.",
                 "I am @None. Invoke me with \\ø\\."
             ],
             "name": ["ø", "None"],
             "function": {
                 "equals": {
-                    "doc": "Is another value also nothing? It better be, otherwise, \\⊥\\.",
+                    "doc": "Is another @value also nothing? It better be, otherwise, \\⊥\\.",
                     "names": ["=", "equals"],
                     "inputs": [
                         {
-                            "doc": "The other value.",
+                            "doc": "The other @value.",
                             "names": "value"
                         }
                     ]
                 },
                 "notequals": {
-                    "doc": "Is another value /not/ nothing?",
+                    "doc": "Is another @value /not/ nothing?",
                     "names": ["≠", "notequal"],
                     "inputs": [
                         {
-                            "doc": "The other value.",
+                            "doc": "The other @value.",
                             "names": "value"
                         }
                     ]
@@ -2342,7 +2457,7 @@
         },
         "Text": {
             "doc": [
-                "I can represent any text, from any language. Just put the text between opening and closing text symbols: \\\"\"\\, \\“”\\, \\„“\\, \\''\\, \\‘’\\, \\‹›\\, \\«»\\, \\「」\\, or \\『』\\.",
+                "I can represent any text, from any @language. Just put the text between opening and closing text symbols: \\\"\"\\, \\“”\\, \\„“\\, \\''\\, \\‘’\\, \\‹›\\, \\«»\\, \\「」\\, or \\『』\\.",
                 "To illustrate, consider these beautiful phrases",
                 "\\“There are only two ways to live your life. One is as though nothing is a miracle. The other is as though everything is a miracle.”\\",
                 "\\『一日三秋』\\",
@@ -2522,7 +2637,7 @@
                     "inputs": []
                 },
                 "equals": {
-                    "doc": "\\⊤\\ if I am the same formatted text as the given value.",
+                    "doc": "\\⊤\\ if I am the same formatted text as the given @value.",
                     "names": ["=", "equals"],
                     "inputs": [
                         {
@@ -2532,7 +2647,7 @@
                     ]
                 },
                 "notequals": {
-                    "doc": "\\⊤\\ if I am /not/ the same formatted text as the given value.",
+                    "doc": "\\⊤\\ if I am /not/ the same formatted text as the given @value.",
                     "names": "≠",
                     "inputs": [
                         {
@@ -2948,15 +3063,15 @@
         "List": {
             "doc": [
                 "I'm a sequence of values, of any kind!",
-                "You can put anything in me: @Boolean, @Number, @Text, @None, even other @List, @Set, @Map, or any expression. Here's a simple one:",
+                "You can put anything in me: @Boolean, @Number, @Text, @None, even other @List, @Set, @Map, or any @expression. Here's a simple one:",
                 "\\['apple' 'banana' 'mango']\\",
                 "What makes me special is that I keep things in order and I number everything from 1 to however many items are in me.",
                 "My items are numbered, starting from 1. You can get values that I'm storing with @ListAccess, using their number:",
-                "For example, the second value in this list is \\['banana']\\",
+                "For example, the second @value in this list is \\['banana']\\",
                 "\\['apple' 'banana' 'mango'][2]\\",
                 "I can have anything in me. Look at this list, with @Text, @Number, and @Time!",
                 "\\['apple' 10 + 10 Time()]\\",
-                "When you give me a list of many things, I'll generalize them if they have a type in common. But sometimes you might literally mean those specific things. If you do, just put a ! after me, and I'll make sure that I represent a list of specifically only those values.",
+                "When you give me a list of many things, I'll generalize them if they have a @type in common. But sometimes you might literally mean those specific things. If you do, just put a ! after me, and I'll make sure that I represent a list of specifically only those values.",
                 "\\['apple' 'banana' 'mango']!\\",
                 "That's kind of it. But I can do all kinds of exciting things with my @FunctionDefinition!"
             ],
@@ -2973,7 +3088,7 @@
                     "names": ["with", "add"],
                     "inputs": [
                         {
-                            "doc": "I am the value you want to add.",
+                            "doc": "I am the @value you want to add.",
                             "names": "item"
                         }
                     ]
@@ -2995,17 +3110,17 @@
                 },
                 "replace": {
                     "doc": [
-                        "I create a new list that replaces the value at the given index with the given value.",
+                        "I create a new list that replaces the @value at the given @index with the given value.",
                         "\\['apple' 'banana' 'mango'].replace(1 'kiwi')\\"
                     ],
                     "names": ["replace"],
                     "inputs": [
                         {
-                            "doc": "The index of the value to replace",
+                            "doc": "The @index of the @value to replace",
                             "names": "index"
                         },
                         {
-                            "doc": "The replacement value",
+                            "doc": "The replacement @value",
                             "names": "value"
                         }
                     ]
@@ -3055,7 +3170,7 @@
                     "names": "has",
                     "inputs": [
                         {
-                            "doc": "The value to search for.",
+                            "doc": "The @value to search for.",
                             "names": "item"
                         }
                     ]
@@ -3075,7 +3190,7 @@
                 },
                 "subsequence": {
                     "doc": [
-                        "I get a list within this list, starting at the index you provide, and ending with the last item, or if you provide one, a particular item.",
+                        "I get a list within this list, starting at the @index you provide, and ending with the last item, or if you provide one, a particular item.",
                         "\\['apple' 'banana' 'mango'].subsequence(2)\\",
                         "\\['apple' 'banana' 'mango'].subsequence(1 2)\\",
                         "And look! If you provide numbers out of order, I give you the reverse",
@@ -3088,11 +3203,11 @@
                     "names": "subsequence",
                     "inputs": [
                         {
-                            "doc": "The index of the first item of the subsequence you want.",
+                            "doc": "The @index of the first item of the subsequence you want.",
                             "names": "start"
                         },
                         {
-                            "doc": "The optional index of the last item of the subsequence you want. If you don't give one, your list will end with the last item in the list.",
+                            "doc": "The optional @index of the last item of the subsequence you want. If you don't give one, your list will end with the last item in the list.",
                             "names": "end"
                         }
                     ]
@@ -3115,26 +3230,26 @@
                 },
                 "sans": {
                     "doc": [
-                        "Me, but without the first occurrences of the given value.",
+                        "Me, but without the first occurrences of the given @value.",
                         "\\['apple' 'banana' 'mango' 'apple'].sans('apple')\\"
                     ],
                     "names": ["without", "sans"],
                     "inputs": [
                         {
-                            "doc": "The value to remove the first occurence of.",
+                            "doc": "The @value to remove the first occurence of.",
                             "names": "value"
                         }
                     ]
                 },
                 "sansAll": {
                     "doc": [
-                        "Me, but without all occurrences of the given value.",
+                        "Me, but without all occurrences of the given @value.",
                         "\\['apple' 'banana' 'mango' 'apple'].sans('apple')\\"
                     ],
                     "names": ["withoutAll", "sansAll"],
                     "inputs": [
                         {
-                            "doc": "The value to remove all occurences of from the list.",
+                            "doc": "The @value to remove all occurences of from the list.",
                             "names": "value"
                         }
                     ]
@@ -3175,7 +3290,7 @@
                 },
                 "translate": {
                     "doc": [
-                        "Give me a @FunctionDefinition that takes a value and optional index as input and produces a value, and I'll evaluate it on each of my items, translating my values into new values.",
+                        "Give me a @FunctionDefinition that takes a @value and optional @index as input and produces a value, and I'll evaluate it on each of my items, translating my values into new values.",
                         "For example, imagine I was a list of @Number and you wanted to double all of them:",
                         "\\[2 4 6 8].translate(ƒ(num•#) num × 2)\\"
                     ],
@@ -3192,7 +3307,7 @@
                             "names": "item"
                         },
                         {
-                            "doc": "The index of the item being translated.",
+                            "doc": "The @index of the item being translated.",
                             "names": "index"
                         },
                         {
@@ -3203,7 +3318,7 @@
                 },
                 "filter": {
                     "doc": [
-                        "Give me a @FunctionDefinition that takes a value and optional index as input and produces a @Boolean, and I'll create a new list that only includes the items that result \\⊤\\.",
+                        "Give me a @FunctionDefinition that takes a @value and optional @index as input and produces a @Boolean, and I'll create a new list that only includes the items that result \\⊤\\.",
                         "For example, imagine I was a list of @Number and you only wanted the positive ones:",
                         "\\[2 -4 8 -16].filter(ƒ(num•#) num ≥ 0)\\"
                     ],
@@ -3220,7 +3335,7 @@
                             "names": "item"
                         },
                         {
-                            "doc": "The index of the item being checked.",
+                            "doc": "The @index of the item being checked.",
                             "names": "index"
                         },
                         {
@@ -3231,14 +3346,14 @@
                 },
                 "all": {
                     "doc": [
-                        "Give me a @FunctionDefinition that takes a value as input and produces a @Boolean if it matches some condition. I'll create \\⊤\\ if all the items match the condition.",
+                        "Give me a @FunctionDefinition that takes a @value as input and produces a @Boolean if it matches some @condition. I'll create \\⊤\\ if all the items match the condition.",
                         "For example, imagine I was a list of @Number and you wanted to know if everything was positive:",
                         "\\[2 -4 8 -16].all(ƒ(num•#) num ≥ 0)\\"
                     ],
                     "names": "all",
                     "inputs": [
                         {
-                            "doc": "The @FunctionDefinition that produces \\⊤\\ if an item satisfies your condition.",
+                            "doc": "The @FunctionDefinition that produces \\⊤\\ if an item satisfies your @condition.",
                             "names": "checker"
                         }
                     ],
@@ -3248,7 +3363,7 @@
                             "names": "item"
                         },
                         {
-                            "doc": "The index of the item being checked.",
+                            "doc": "The @index of the item being checked.",
                             "names": "index"
                         },
                         {
@@ -3259,7 +3374,7 @@
                 },
                 "until": {
                     "doc": [
-                        "Give me a @FunctionDefinition that takes a value as input and produces a @Boolean if it matches some condition. I'll create a new @List that contains all the items until the condition isn't met.",
+                        "Give me a @FunctionDefinition that takes a @value as input and produces a @Boolean if it matches some @condition. I'll create a new @List that contains all the items until the condition isn't met.",
                         "For example, imagine I was a list of @Text animals and you wanted everything up until \\'rat'\\ was found:",
                         "\\['cat' 'dog' 'rat' 'mouse' 'pony'].until(ƒ(animal•'') animal = 'rat')\\"
                     ],
@@ -3276,7 +3391,7 @@
                             "names": "item"
                         },
                         {
-                            "doc": "The index of the item being checked.",
+                            "doc": "The @index of the item being checked.",
                             "names": "index"
                         },
                         {
@@ -3287,7 +3402,7 @@
                 },
                 "find": {
                     "doc": [
-                        "Give me a @FunctionDefinition that takes a value as input and produces a @Boolean if it matches some criteria, and I'll evaluate to the matching item.",
+                        "Give me a @FunctionDefinition that takes a @value as input and produces a @Boolean if it matches some criteria, and I'll evaluate to the matching item.",
                         "For example, imagine you wanted to find the first animal that had the vowel \\'e'\\:",
                         "\\['cat' 'dog' 'rat' 'mouse' 'pony'].find(ƒ(animal•'') animal.has('e'))\\"
                     ],
@@ -3304,7 +3419,7 @@
                             "names": "item"
                         },
                         {
-                            "doc": "The index of the item being checked.",
+                            "doc": "The @index of the item being checked.",
                             "names": "index"
                         },
                         {
@@ -3315,7 +3430,7 @@
                 },
                 "combine": {
                     "doc": [
-                        "Give me a @FunctionDefinition that takes the most recent combination and a next value, and creates a next combination, and I'll move from the first to last of my items, creating successive combinations, and evaluating to the final combination your @FunctionDefinition evaluates to.",
+                        "Give me a @FunctionDefinition that takes the most recent combination and a next @value, and creates a next combination, and I'll move from the first to last of my items, creating successive combinations, and evaluating to the final combination your @FunctionDefinition evaluates to.",
                         "This is really helpful for combining all of the items in me into a single value. For example, imagine you wanted to add a list of numbers:",
                         "\\[3 9 2 8 1 4].combine(0 ƒ(sum•# number•#) sum + number)\\"
                     ],
@@ -3326,7 +3441,7 @@
                             "names": "initial"
                         },
                         {
-                            "doc": "The @FunctionDefinition that takes the latest combination and the next value and produces the next combination.",
+                            "doc": "The @FunctionDefinition that takes the latest combination and the next @value and produces the next combination.",
                             "names": "combiner"
                         }
                     ],
@@ -3340,7 +3455,7 @@
                             "names": "next"
                         },
                         {
-                            "doc": "The index of the next item",
+                            "doc": "The @index of the next item",
                             "names": "index"
                         },
                         {
@@ -3361,13 +3476,13 @@
                     "names": "sorted",
                     "inputs": [
                         {
-                            "doc": "The optional @FunctionDefinition to use to sort a list value. It should turn the value into a @Number that can be used for sorting the list.",
+                            "doc": "The optional @FunctionDefinition to use to sort a list @value. It should turn the value into a @Number that can be used for sorting the list.",
                             "names": "sequencer"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "The value to turn into a @Number.",
+                            "doc": "The @value to turn into a @Number.",
                             "names": "value"
                         }
                     ]
@@ -3387,9 +3502,9 @@
                 "For example, this set has many duplicates:",
                 "\\{1 1 2 2 3 3}\\",
                 "I evaluate it to just \\{1 2 3}\\.",
-                "If you want to see if I have a value in me, @SetOrMapAccess can help:",
+                "If you want to see if I have a @value in me, @SetOrMapAccess can help:",
                 "\\{'jar' 'bottle' 'glass'}{'cup'}\\",
-                "Usually, if you give me a bunch of values that are of a common type, I'll assume they're a list of that type. Like this set is \\{''}\\, because it's all @Text.",
+                "Usually, if you give me a bunch of values that are of a common @type, I'll assume they're a list of that type. Like this set is \\{''}\\, because it's all @Text.",
                 "\\{'hey' 'hi' 'hello'}\\",
                 "But you might want to indicate that I'm a set of /only/ those values, so I can tell you when you're trying to use one that's not allowed. If so, just add a ! at the end of me.",
                 "\\{'hey' 'hi' 'hello'}!{'yo'}\\",
@@ -3554,15 +3669,15 @@
             "doc": [
                 "I bring values together, mapping *keys* to *values*. For example:",
                 "\\{'amy': 6points 'tony':3points 'shiela': 8points}\\",
-                "My keys can be any kind of value, and my values can be any kind of value.",
-                "Some people like to think of my like an index, or a dictionary, where you give me something, and I give you what it's mapped to.",
-                "If you wanted to check what something is mapped to, you can give @SetOrMapAccess, a key and they'll give you the value:",
+                "My keys can be any kind of @value, and my values can be any kind of value.",
+                "Some people like to think of my like an @index, or a dictionary, where you give me something, and I give you what it's mapped to.",
+                "If you wanted to check what something is mapped to, you can give @SetOrMapAccess, a @key and they'll give you the value:",
                 "\\{'amy': 6points 'tony':3points 'shiela': 8points}{'amy'}\\",
                 "If there is no matching key, I'll give you @None.",
                 "\\{'amy': 6points 'tony':3points 'shiela': 8points}{'jen'}\\",
                 "You can also make an empty map like this:",
                 "\\{:}\\",
-                "Usually, I'll see whatever kinds of keys and values you give me and just come up with a type to represent all of them. Like this is a map from numbers to numbers:",
+                "Usually, I'll see whatever kinds of keys and values you give me and just come up with a @type to represent all of them. Like this is a map from numbers to numbers:",
                 "\\{1:1 2:2 3:3}\\",
                 "But say you wanted to ensure it was specifically only those values; just add ! at the end of me, and I won't generalize. That'll help you know if you're trying to get a value you didn't intend.",
                 "\\{1:1 2:2 3:3}!{4}\\",
@@ -3606,50 +3721,50 @@
                 },
                 "set": {
                     "doc": [
-                        "I'll make a new @Map with all the same pairings, but with the new pairing you give me. If I already have the key, I'll pair it to the new value.",
+                        "I'll make a new @Map with all the same pairings, but with the new pairing you give me. If I already have the @key, I'll pair it to the new @value.",
                         "\\{'amy': 6points 'tony':3points}.pair('jen' 0points)\\"
                     ],
                     "names": "pair",
                     "inputs": [
                         {
-                            "doc": "Key to pair with a value.",
+                            "doc": "@key to pair with a @value.",
                             "names": "key"
                         },
                         {
-                            "doc": "The value to pair with the key",
+                            "doc": "The @value to pair with the @key",
                             "names": "value"
                         }
                     ]
                 },
                 "unset": {
                     "doc": [
-                        "I'll make a new @Map without the key you give me, removing its pairing.",
+                        "I'll make a new @Map without the @key you give me, removing its pairing.",
                         "\\{'amy': 6points 'tony':3points}.unpair('amy')\\"
                     ],
                     "names": "unpair",
                     "inputs": [
                         {
-                            "doc": "The key to forget.",
+                            "doc": "The @key to forget.",
                             "names": "key"
                         }
                     ]
                 },
                 "remove": {
                     "doc": [
-                        "I'll create a new @Map without any keys that have the value.",
+                        "I'll create a new @Map without any keys that have the @value.",
                         "\\{'amy': 0points 'jen': 0points 'tony':3points}.remove(0points)\\"
                     ],
                     "names": "remove",
                     "inputs": [
                         {
-                            "doc": "The value to remove from me, along with any keys its paired to.",
+                            "doc": "The @value to remove from me, along with any keys its paired to.",
                             "names": "value"
                         }
                     ]
                 },
                 "filter": {
                     "doc": [
-                        "Give me a @FunctionDefinition that takes a key and value and evaluates to \\⊤\\ if a pairing should be kept. I'll create a new @Map that meets your criteria.",
+                        "Give me a @FunctionDefinition that takes a @key and @value and evaluates to \\⊤\\ if a pairing should be kept. I'll create a new @Map that meets your criteria.",
                         "For example, here we want to keep any pairings that are Amy or have more than zero points.",
                         "\\{'amy': 0points 'jen': 0points 'tony':3points}.filter(ƒ(key•'' value•#points) (key = 'amy') | (value > 0points))\\"
                     ],
@@ -3662,11 +3777,11 @@
                     ],
                     "checker": [
                         {
-                            "doc": "The key being checked.",
+                            "doc": "The @key being checked.",
                             "names": "key"
                         },
                         {
-                            "doc": "The value being checked.",
+                            "doc": "The @value being checked.",
                             "names": "value"
                         },
                         {
@@ -3677,24 +3792,24 @@
                 },
                 "translate": {
                     "doc": [
-                        "Give me a @FunctionDefinition that takes a key and value and evaluates the value to a new value. I'll create a new @Map with the same keys but updated values.",
+                        "Give me a @FunctionDefinition that takes a @key and @value and evaluates the value to a new value. I'll create a new @Map with the same keys but updated values.",
                         "For example, let's give everyone one point since they've been so nice.",
                         "\\{'amy': 5points 'jen': 3points 'tony': 0points}.translate(ƒ(key•'' value•#points) value + 1points)\\"
                     ],
                     "names": "translate",
                     "inputs": [
                         {
-                            "doc": "The @FunctionDefinition that translates each value.",
+                            "doc": "The @FunctionDefinition that translates each @value.",
                             "names": "translator"
                         }
                     ],
                     "translator": [
                         {
-                            "doc": "The key of the value being translated.",
+                            "doc": "The @key of the @value being translated.",
                             "names": "key"
                         },
                         {
-                            "doc": "The value being translated.",
+                            "doc": "The @value being translated.",
                             "names": "value"
                         },
                         {
@@ -3717,7 +3832,7 @@
                 "\\⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\\",
                 "@Bind can help you name it! And then you can do things like make a revised table with an new row @Insert:",
                 "\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\nrocks ⎡+ 'quartz' 'white'⎦\\",
-                "Or if you want to find rows that match, you can @Select rows that match a condition:",
+                "Or if you want to find rows that match, you can @Select rows that match a @condition:",
                 "\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\nrocks ⎡?⎦ color = 'grey'\\",
                 "Or maybe you want to make a revised table that has different values for rows that match a condition:",
                 "\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\nrocks ⎡: color: 'black' ⎦ name = 'pumice'\\",
@@ -3756,7 +3871,7 @@
             }
         },
         "Structure": {
-            "doc": "I'm a structured value with named, typed fields, created from a @StructureDefinition. See @StructureDefinition.",
+            "doc": "I'm a structured @value with named, typed fields, created from a @StructureDefinition. See @StructureDefinition.",
             "name": ["Structure"],
             "function": {
                 "equals": {
@@ -3793,7 +3908,7 @@
                 "This creates a wonderful chaos that comes with unpredictability.",
                 "By default, it gives @Number values between \\0\\ and \\1\\:",
                 "\\Random()\\",
-                "But you can give it a value, and it will generate values between \\0\\ and the value:",
+                "But you can give it a @value, and it will generate values between \\0\\ and the value:",
                 "\\Random(10)\\",
                 "And if you give it two values, it will generate values between and including the two values:",
                 "\\Random(-10 10)\\",
@@ -3806,11 +3921,11 @@
             "inputs": [
                 {
                     "names": "min",
-                    "doc": "The minimum value that will be created, or if it's larger than 0, the maximum value. If @None is provided, then the minimum is \\0\\."
+                    "doc": "The minimum @value that will be created, or if it's larger than 0, the maximum value. If @None is provided, then the minimum is \\0\\."
                 },
                 {
                     "names": "max",
-                    "doc": "The maximum value that will created, or if its smaller than the minimum provided, the minimum. If @None is provided, then the maximum is \\1\\."
+                    "doc": "The maximum @value that will created, or if its smaller than the minimum provided, the minimum. If @None is provided, then the maximum is \\1\\."
                 }
             ]
         },
@@ -3833,7 +3948,7 @@
                 "But if you /really/ need to listen to a mouse button, this is the way to do it. It will provide a stream of @Boolean, representing whether the primary button is up \\⊥\\ or down \\⊤\\.",
                 "Here's a simple example:",
                 "\\Phrase(Button() → '')\\",
-                "This just makes a @Phrase that is the value of the stream as text. If you copy it into the editor and click, you'll see it toggle back and forth between \\⊥\\ and \\⊤\\."
+                "This just makes a @Phrase that is the @value of the stream as text. If you copy it into the editor and click, you'll see it toggle back and forth between \\⊥\\ and \\⊤\\."
             ],
             "names": ["🖱️", "Button"],
             "down": {
@@ -3854,12 +3969,12 @@
         },
         "Key": {
             "doc": [
-                "It tells you which keyboard key your audience is pressing and releasing.",
+                "It tells you which keyboard @key your audience is pressing and releasing.",
                 "/clickety/",
                 "Try this",
                 "\\Key()\\",
                 "See how when you type a key, it shows up on @Stage? Every time a key is pressed down, a new @Text is added to the stream, describing the key that was pressed.",
-                "For a key that represents a character, the value will be the character as @Text.",
+                "For a key that represents a character, the @value will be the character as @Text.",
                 "For special keys, like the /Escape/ key, it will be @Text that describes the key, using a <pre-defined name@https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values>, unfortunately available only in English.",
                 "If you only want to know about a particular key, you can provide it:",
                 "\\Key('a')\\",
@@ -3873,7 +3988,7 @@
             },
             "down": {
                 "names": "down",
-                "doc": "IF @None, then key down generates inputs. If \\⊤\\, then only down inputs are provided, and if \\⊥\\, then only release inputs are provided."
+                "doc": "IF @None, then @key down generates inputs. If \\⊤\\, then only down inputs are provided, and if \\⊥\\, then only release inputs are provided."
             },
             "keys": {
                 "Shift": ["Shift"],
@@ -3933,7 +4048,7 @@
             "doc": [
                 "It ticks forward at a frequency you choose.",
                 "/tick tick tick/",
-                "Each time it does, @Program reevaluates with the new time value.",
+                "Each time it does, @Program reevaluates with the new time @value.",
                 "For example:",
                 "\\Time()\\",
                 "If you provide time a @Time.frequency, it will tick at that rate. For example:",
@@ -3985,7 +4100,7 @@
                 "/hello there!/",
                 "It uses your browser's speech recognition to listen to what you say and turn it into words (isn't this so cool?!).",
                 "\\Speech()\\",
-                "This is perfect for those who can speak a language but are still learning to read or write it (and more)...",
+                "This is perfect for those who can speak a @language but are still learning to read or write it (and more)...",
                 "You can specify a language code to recognize speech in a particular language:",
                 "\\Speech(language: 'es-MX')\\",
                 "If no language is specified, it defaults to your preferred language.",
@@ -3994,11 +4109,11 @@
             "names": ["🎙️", "Speech", "Voice"],
             "reset": {
                 "names": ["reset", "clear"],
-                "doc": "When this value changes, clear the accumulated speech and start fresh."
+                "doc": "When this @value changes, clear the accumulated speech and start fresh."
             },
             "language": {
                 "names": ["language", "lang"],
-                "doc": "A BCP 47 language code (e.g., 'en-US'). If it's not supported by your browser's speech recognition, you'll get an error. It defaults to your preferred language."
+                "doc": "A BCP 47 @language code (e.g., 'en-US'). If it's not supported by your browser's speech recognition, you'll get an error. It defaults to your preferred language."
             },
             "limit": {
                 "names": ["limit", "words"],
@@ -4030,7 +4145,7 @@
             },
             "height": {
                 "names": ["height"],
-                "doc": "The number of @Color to sample in a column."
+                "doc": "The number of @Color to sample in a @column."
             },
             "frequency": {
                 "names": ["frequency"],
@@ -4174,7 +4289,7 @@
                 "But sometimes you want to give the /audience/ control over where @Output goes on @Stage.",
                 "Here's how it works: make a @Placement and give it to an @Output's @Place:",
                 "\\Phrase('hi' place: Placement())\\",
-                "Then, any time the audience uses an arrow key or clicks or taps on stage, the @Placement will make a new @Place that moves in the desired direction.",
+                "Then, any time the audience uses an arrow @key or clicks or taps on stage, the @Placement will make a new @Place that moves in the desired direction.",
                 "Try copying this to your program and moving the @Output with the pointer or keyboard.",
                 "You can customize the @Placement, enabling and disabling movement on certain dimensions, changing how far a @Place moves, and the initial @Place the stream starts with."
             ],
@@ -4208,7 +4323,7 @@
                 "The internet is fascinating — a whole world of connected computers sharing documents with each other.",
                 "This stream connects to it — give it a URL, like this:",
                 "\\Webpage('https://wordplay.dev')\\",
-                "And there's apparently this thing called <CSS@https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/What_is_CSS>, which lets you query things on a web page? Give it a CSS selection query and it'll get only the text that matches that query. Like this example, which gets the level one headers.",
+                "And there's apparently this thing called <CSS@https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/What_is_CSS>, which lets you @query things on a web page? Give it a CSS selection query and it'll get only the text that matches that query. Like this example, which gets the level one headers.",
                 "\\Webpage('https://wordplay.dev' 'h1')\\",
                 "Lots of things can go wrong with this one. If you lose your internet connection, or the URL doesn't resolve to anything, or the URL isn't public, or the URL isn't an HTML page… All of these can lead to exception. If if you find a page that works, you'll get some @Number indicating a percent complete and then a @List of the words on the page."
             ],
@@ -4218,7 +4333,7 @@
                 "names": "url"
             },
             "query": {
-                "doc": "The CSS query to evaluate on the HTML",
+                "doc": "The CSS @query to evaluate on the HTML",
                 "names": "query"
             },
             "frequency": {
@@ -4238,7 +4353,7 @@
             "doc": [
                 "It's a stream of @Rebound values for when named @Output bump into each other.",
                 "This is a great way to do something when @Output bump into each other, other than the normal bouncing off each other they might do.",
-                "Just give it a name of @Output, and it'll make a new @Rebound value whenever that name bumps into another. A @Rebound has info about the names that collided and the direction of their collision.",
+                "Just give it a name of @Output, and it'll make a new @Rebound @value whenever that name bumps into another. A @Rebound has info about the names that collided and the direction of their collision.",
                 "And if you give it two names, it'll only make a new value when the two names bump into each other.",
                 "Right after it makes a new value, it'll make a \\ø\\ since the collision is done after it happens. This indicates that there's no more collision."
             ],
@@ -4445,7 +4560,7 @@
                     "First, if I have a name, I'll use it to describe myself in screen reader descriptions.",
                     "Second, when animating, you might have multiple different expressions that are supposed to represent the same content on stage; give them the same name and they will animate as one.",
                     "Finally, I'm helpful with @Choice: the names you give me appear in that stream.",
-                    "You can give me many different names, each in a different language, if it's helpful. I'll always use the name in the first selected language."
+                    "You can give me many different names, each in a different @language, if it's helpful. I'll always use the name in the first selected language."
                 ],
                 "names": "name"
             },
@@ -4526,7 +4641,7 @@
             "names": ["➡", "Row"],
             "description": "row of $count phrases and groups",
             "alignment": {
-                "doc": "Whether to align text at the start, center, or end on each column.",
+                "doc": "Whether to align text at the start, center, or end on each @column.",
                 "names": "alignment"
             },
             "padding": {
@@ -4548,7 +4663,7 @@
             }
         },
         "Grid": {
-            "doc": "I am grid of @Output. Give me a row and column count and I'll make a tidy arrangement with optional padding and cell sizes.",
+            "doc": "I am grid of @Output. Give me a row and @column count and I'll make a tidy arrangement with optional padding and @cell sizes.",
             "names": ["▦", "Grid"],
             "description": "$rows row $columns column grid",
             "rows": {
@@ -4663,7 +4778,7 @@
                 "I speak text aloud instead of showing it on @Stage. Hi!",
                 "Just give me something to say, and I'll say it every time your program evaluates:",
                 "\\Say('blah blah blah')\\",
-                "I'll use the @Language of the @TextLiteral if it has one, otherwise I'll use the selected language.",
+                "I'll use the @Language of the @TextLiteral if it has one, otherwise I'll use the selected @language.",
                 "You can select a voice in settings."
             ],
             "names": ["🔊", "Say"],
@@ -4804,7 +4919,7 @@
                 "For the eleven most common color names, you don't have to make me from scratch. I have shortcuts on my name:",
                 "\\Color.red\\",
                 "\\Color.blue\\",
-                "These shortcuts work in your language too, so a French speaker can write \\couleur.rouge\\ and a Japanese speaker can write \\色.赤\\. The shortcuts are: red, orange, yellow, green, blue, purple, brown, pink, black, white, and gray."
+                "These shortcuts work in your @language too, so a French speaker can write \\couleur.rouge\\ and a Japanese speaker can write \\色.赤\\. The shortcuts are: red, orange, yellow, green, blue, purple, brown, pink, black, white, and gray."
             ],
             "names": ["🌈", "Color"],
             "lightness": {
@@ -4925,7 +5040,7 @@
         "Sequence": {
             "doc": [
                 "I animate @Output through a series of @Pose over time! Do you want to dance with me? It's easy.",
-                "You just need to give me a @Map, where each key represents what percent along we are in the dance, and each value of those keys is a @Pose to be.",
+                "You just need to give me a @Map, where each @key represents what percent along we are in the dance, and each @value of those keys is a @Pose to be.",
                 "There are /so/ many different ways you can animate with this! For example, here's a simple one:",
                 "\\Phrase('hi' resting:Sequence({0%: Pose(rotation: 360°) 100%: Pose(rotation: 0°)})\\",
                 "This says, /at the beginning (0%), start at tilt 360, and end at tilt 0/. That'll spin us around in circles forever, since I'm set as the @Phrase's rest pose!",
@@ -4974,7 +5089,7 @@
             }
         },
         "Gesture": {
-            "doc": "I'm a snapshot of a hand pose detected by the camera, emitted by the @Hand stream. My place tells you where the hand is on stage, my fingers tells you how many are extended, my open is true when the hand is open (3+ fingers extended), and my thumb, index, middle, ring, and pinky each say which specific fingers are extended. My palm is true when the palm faces the camera, false when the back of the hand does.",
+            "doc": "I'm a snapshot of a hand pose detected by the camera, emitted by the @Hand stream. My place tells you where the hand is on stage, my fingers tells you how many are extended, my open is true when the hand is open (3+ fingers extended), and my thumb, @index, middle, ring, and pinky each say which specific fingers are extended. My palm is true when the palm faces the camera, false when the back of the hand does.",
             "names": ["✋", "Gesture"],
             "place": {
                 "doc": "Where the hand is on stage.",
@@ -4993,7 +5108,7 @@
                 "names": ["thumb"]
             },
             "index": {
-                "doc": "@True if the index finger is extended.",
+                "doc": "@True if the @index finger is extended.",
                 "names": ["index"]
             },
             "middle": {
@@ -5049,11 +5164,11 @@
                 "names": "groups"
             },
             "starts": {
-                "doc": "Each capture's name to where it starts.",
+                "doc": "Each capture's @name to where it starts.",
                 "names": "starts"
             },
             "ends": {
-                "doc": "Each capture's name to where it ends.",
+                "doc": "Each capture's @name to where it ends.",
                 "names": "ends"
             }
         },
@@ -5392,7 +5507,7 @@
                 "You know how projects can have more than one @Source file? I let you create a @Source based on your project's logic. This is really helpful if you want to save some data between different evaluations of your project.",
                 "For example, imagine you wanted to make a simple counter that counts up by one each time you press a mouse button. You might use this to remember how many times you did something.",
                 "\\↓ count\n[\n\tPhrase(`\\count\\ times!`)\n\tSource('count' count … ∆ Button() … count + 1 )\n]\\",
-                "Try copying it, making a new @Source called /count/ and typing 0 in it, to start the count at 0. This little project will get the value in the /count/ source and each time the mouse button is pressed, edits the /count/ @Source with to be the current /count/ value plus /1/."
+                "Try copying it, making a new @Source called /count/ and typing 0 in it, to start the count at 0. This little project will get the @value in the /count/ source and each time the mouse button is pressed, edits the /count/ @Source with to be the current /count/ value plus /1/."
             ],
             "name": {
                 "names": "name",
@@ -5400,7 +5515,7 @@
             },
             "value": {
                 "names": "value",
-                "doc": "The data value that the source file should be created or updated with."
+                "doc": "The data @value that the source file should be created or updated with."
             },
             "DynamicEditLimitException": {
                 "description": "dynamic source edit limit",
@@ -5522,7 +5637,7 @@
                     "tip": "copy project to clipboard as text",
                     "label": "copy as text"
                 },
-                "addSource": "create a new $source",
+                "addSource": "create a new @Source",
                 "duplicate": {
                     "tip": "duplicate this project",
                     "label": "duplicate"
@@ -5920,7 +6035,7 @@
             ],
             "confirm": {
                 "delete": {
-                    "description": "delete this $source",
+                    "description": "delete this @Source",
                     "prompt": "delete"
                 }
             },
@@ -6276,10 +6391,11 @@
             "mode": {
                 "browse": {
                     "label": "section",
-                    "labels": ["code", "how-to"],
+                    "labels": ["code", "how-to", "glossary"],
                     "tips": [
                         "programming language concepts",
-                        "reusable patterns for making projects"
+                        "reusable patterns for making projects",
+                        "definitions of key terms"
                     ]
                 },
                 "purpose": {
@@ -6429,6 +6545,12 @@
                 "howToGalleryButton": {
                     "label": "see to the how-to in the space",
                     "tip": "see to the how-to in the space"
+                }
+            },
+            "glossary": {
+                "explain": {
+                    "header": "Glossary",
+                    "explanation": "/Terms and ideas used throughout the Wordplay programming language and platform./"
                 }
             },
             "tour": {
@@ -7153,6 +7275,10 @@
                 "notSpamNote": "Wordplay is a not-for-profit project led by volunteers.",
                 "requireLogin": "You must be logged in to contribute localization suggestions.",
                 "singletonWordsWarning": "Some words in your draft only appear once across the entire language. Are you sure they are spelled correctly and consistent with other text?",
+                "literalTermsWarning": "Your draft uses glossary words as plain text. Tap one to turn it into a glossary link.",
+                "checkReadingLevel": "Check this string's reading level",
+                "readingLevelComplex": "This may be hard to read. Try shorter sentences and simpler words.",
+                "readingLevelOk": "This reads clearly for the target reading level.",
                 "submit": {
                     "description": "Submit this batch of edits",
                     "prompt": "Submit"

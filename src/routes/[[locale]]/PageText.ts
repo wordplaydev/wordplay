@@ -3,7 +3,7 @@ import type { FormattedText } from '@locale/LocaleText';
 type PageText = {
     /** [formatted] The value proposition for the site */
     value: FormattedText;
-    /** A description of the platform's features */
+    /** [formatted] A description of the platform's features */
     description: FormattedText | FormattedText[];
     /** [formatted] The landing page beta warning */
     beta: FormattedText[];
@@ -31,9 +31,9 @@ type PageText = {
         rights: string;
         /** [plain] What content is on the updates page */
         updates: string;
-        /** The community link */
+        /** [plain] The community link */
         community: { label: string; subtitle: string };
-        /** The contributor link */
+        /** [plain] The contributor link */
         contribute: { label: string; subtitle: string };
         /** [plain] What content is on the design page */
         design: string;

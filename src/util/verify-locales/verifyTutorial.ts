@@ -2,12 +2,17 @@ import Project from '@db/projects/Project';
 import { MachineTranslated, Unwritten } from '@locale/Annotations';
 import type LocaleText from '@locale/LocaleText';
 import { isMachineTranslated, isUnwritten } from '@locale/LocaleText';
+import { withoutAnnotations } from '@locale/withoutAnnotations';
 import ConceptLink from '@nodes/ConceptLink';
 import type Node from '@nodes/Node';
 import Source from '@nodes/Source';
 import { DOCS_SYMBOL } from '@parser/Symbols';
 import parseDoc from '@parser/parseDoc';
 import { toTokens } from '@parser/toTokens';
+import {
+    tutorialTargetMatches,
+    type TutorialTarget,
+} from '@util/verify-locales/contentCategories';
 import type LocalePath from '@util/verify-locales/LocalePath';
 import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
 import type Log from '@util/verify-locales/Log';
@@ -15,9 +20,7 @@ import TutorialSchema, {
     getDefaultTutorial,
 } from '@util/verify-locales/TutorialSchema';
 import Validator from '@util/verify-locales/Validator';
-import translate, {
-    getGoogleTranslateTargetLocale,
-} from '@util/verify-locales/translate';
+import getTranslator from '@util/verify-locales/getTranslator';
 import { Performances } from '../../tutorial/Performances';
 import {
     DEFAULT_TUTORIAL_MODE,
@@ -78,6 +81,10 @@ export async function verifyTutorial(
     tutorial: Tutorial,
     translate: boolean,
     override: boolean,
+    /** Optional act/scene scope (1-based) to narrow the translation pass to
+     *  (e.g. `+tutorial:2/3`). Verification still runs over everything; empty
+     *  or undefined = translate the whole tutorial. */
+    targets?: TutorialTarget[],
 ): Promise<Tutorial | undefined> {
     const validate = Validator.compile(TutorialSchema);
     const valid = validate(tutorial);
@@ -93,9 +100,28 @@ export async function verifyTutorial(
     tutorial = await checkTutorial(log, locale, tutorial as Tutorial);
 
     // Translate if requested.
-    if (translate) tutorial = await translateTutorial(log, tutorial, override);
+    if (translate)
+        tutorial = await translateTutorial(log, tutorial, override, targets);
 
     return tutorial;
+}
+
+/** Whether a tutorial path falls under one of the act/scene targets (1-based).
+ *  Empty targets = include everything. */
+function pathInTutorialTargets(
+    path: LocalePath,
+    targets: TutorialTarget[],
+): boolean {
+    if (targets.length === 0) return true;
+    const actAt = path.path.indexOf('acts');
+    const act = actAt > -1 ? path.path[actAt + 1] : undefined;
+    if (typeof act !== 'number') return false;
+    const sceneAt = path.path.indexOf('scenes');
+    const scene =
+        sceneAt > -1 && typeof path.path[sceneAt + 1] === 'number'
+            ? (path.path[sceneAt + 1] as number) + 1
+            : undefined;
+    return targets.some((t) => tutorialTargetMatches(act + 1, scene, t));
 }
 
 async function checkTutorial(
@@ -243,9 +269,13 @@ async function translateTutorial(
     log: Log,
     tutorial: Tutorial,
     override: boolean,
+    targets: TutorialTarget[] = [],
 ): Promise<Tutorial> {
-    // Get the key/value pairs to translate.
-    let pairs: LocalePath[] = getTranslatableTutorialPairs(tutorial);
+    // Get the key/value pairs to translate, narrowed to the requested act/scene
+    // scope (if any).
+    let pairs: LocalePath[] = getTranslatableTutorialPairs(tutorial).filter(
+        (path) => pathInTutorialTargets(path, targets),
+    );
 
     const unwritten = pairs.filter(({ value }) =>
         typeof value === 'string'
@@ -260,19 +290,23 @@ async function translateTutorial(
     // Copy the target tutorial so we can revise it.
     const revised = JSON.parse(JSON.stringify(tutorial)) as Tutorial;
 
-    // Extract strings that need to be translated from source, but don't translate unwritten strings.
+    // Extract the strings to translate. Strip ALL annotation markers (not just
+    // $?), because the tutorial resolves from the target — which already carries
+    // $~ on machine-translated strings — so without this an override run would
+    // re-mark an already-marked string and accumulate markers ($~$~$~…).
     const sourceStrings = unwritten
         .map((path) => {
             const match = path.resolve(tutorial);
             return match === undefined || Array.isArray(match)
                 ? undefined
-                : match.replace(Unwritten, '');
+                : withoutAnnotations(match);
         })
         .filter((s) => s !== undefined)
         .flat();
 
     // See if the region of the target language is supported and append it if so.
-    const targetLocale = await getGoogleTranslateTargetLocale(
+    const translator = getTranslator();
+    const targetLocale = await translator.getTargetLocale(
         tutorial.language,
         tutorial.regions,
     );
@@ -283,7 +317,7 @@ async function translateTutorial(
         `Translating ${unwritten.length} unwritten strings ("${Unwritten}")...`,
     );
 
-    const translations = await translate(
+    const translations = await translator.translate(
         log,
         sourceStrings,
         sourceLocale,

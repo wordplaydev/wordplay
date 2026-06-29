@@ -17,6 +17,7 @@
     },
     "main": "lib/index.js",
     "dependencies": {
+        "@anthropic-ai/sdk": "^0.106.0",
         "@google-cloud/translate": "^9",
         "@supercharge/promise-pool": "^3",
         "firebase-admin": "^13",

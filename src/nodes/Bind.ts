@@ -32,7 +32,10 @@ import type Definition from '@nodes/Definition';
 import Docs from '@nodes/Docs';
 import DocumentedExpression from '@nodes/DocumentedExpression';
 import Evaluate from '@nodes/Evaluate';
-import Expression, { ExpressionKind, type GuardContext } from '@nodes/Expression';
+import Expression, {
+    ExpressionKind,
+    type GuardContext,
+} from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import FunctionType from '@nodes/FunctionType';
@@ -146,7 +149,9 @@ export default class Bind extends Expression {
                     Bind.make(
                         undefined,
                         Names.make([
-                            locales.getUnannotatedText((l) => l.term.name),
+                            locales.getUnannotatedText(
+                                (l) => l.glossary.name.word,
+                            ),
                         ]),
                         undefined,
                         node,
@@ -166,7 +171,9 @@ export default class Bind extends Expression {
                   Bind.make(
                       undefined,
                       Names.make([
-                          locales.getUnannotatedText((l) => l.term.name),
+                          locales.getUnannotatedText(
+                              (l) => l.glossary.name.word,
+                          ),
                       ]),
                       TypePlaceholder.make(),
                       ExpressionPlaceholder.make(),
@@ -174,7 +181,9 @@ export default class Bind extends Expression {
                 : Bind.make(
                       undefined,
                       Names.make([
-                          locales.getUnannotatedText((l) => l.term.name),
+                          locales.getUnannotatedText(
+                              (l) => l.glossary.name.word,
+                          ),
                       ]),
                       undefined,
                       ExpressionPlaceholder.make(),
@@ -187,7 +196,7 @@ export default class Bind extends Expression {
             {
                 name: 'docs',
                 kind: any(node(Docs), none()),
-                label: () => (l) => l.term.documentation,
+                label: () => (l) => l.glossary.documentation.word,
             },
             {
                 name: 'share',
@@ -751,14 +760,12 @@ export default class Bind extends Expression {
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return locales.concretize(
-            (l) => l.node.Bind.start,
-            {
-                value: this.value === undefined
-                ? undefined
-                : new NodeRef(this.value, locales, context),
-            },
-        );
+        return locales.concretize((l) => l.node.Bind.start, {
+            value:
+                this.value === undefined
+                    ? undefined
+                    : new NodeRef(this.value, locales, context),
+        });
     }
 
     getFinishExplanations(
@@ -766,18 +773,15 @@ export default class Bind extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return locales.concretize(
-            (l) => l.node.Bind.finish,
-            {
-                value: this.getValueIfDefined(locales, context, evaluator),
-                name: new NodeRef(
+        return locales.concretize((l) => l.node.Bind.finish, {
+            value: this.getValueIfDefined(locales, context, evaluator),
+            name: new NodeRef(
                 this.names,
                 locales,
                 context,
                 locales.getName(this.names),
             ),
-            },
-        );
+        });
     }
 
     getDescriptionInputs(locales: Locales) {

@@ -52,7 +52,7 @@ export default class KeyValue extends Node {
             {
                 name: 'key',
                 kind: node(Expression),
-                label: () => (l) => l.term.key,
+                label: () => (l) => l.glossary.key.word,
                 space: true,
             },
             { name: 'bind', kind: node(Sym.Bind), label: undefined },
@@ -60,7 +60,7 @@ export default class KeyValue extends Node {
                 name: 'value',
                 kind: node(Expression),
                 space: true,
-                label: () => (l) => l.term.value,
+                label: () => (l) => l.glossary.value.word,
             },
         ];
     }

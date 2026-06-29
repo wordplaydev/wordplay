@@ -9334,7 +9334,15 @@
     "1F5FD": ["Frihetsgudinnan", "frihet", "new york", "ny", "nyc", "staty"],
     "1F5FE": ["karta över Japan", "Japan", "karta"],
     "1F5FF": ["staty", "påskön"],
-    "1F600": ["↑↑↑"],
+    "1F600": [
+        "ansikte med stort leende",
+        "ansikte",
+        "glad",
+        "kul",
+        "leende",
+        "roligt",
+        "skratt"
+    ],
     "1F601": [
         "strålande ansikte med leende ögon",
         "ansikte",

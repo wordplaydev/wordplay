@@ -99,7 +99,7 @@ export default class ConversionDefinition extends DefinitionExpression {
             {
                 name: 'docs',
                 kind: any(node(Docs), none()),
-                label: () => (l) => l.term.documentation,
+                label: () => (l) => l.glossary.documentation.word,
             },
             { name: 'arrow', kind: node(Sym.Convert), label: undefined },
             {

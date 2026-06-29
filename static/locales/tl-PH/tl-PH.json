@@ -3,56 +3,171 @@
     "language": "tl",
     "regions": ["PH"],
     "wordplay": "$~Paglalaro ng mga Salita",
-    "term": {
-        "bind": "$~magbigkis",
-        "evaluate": "$~suriin",
-        "decide": "$~magdesisyon",
-        "project": "$~proyekto",
-        "document": "$~ipaliwanag",
-        "source": "$~pinagmulan",
-        "code": "$~kodigo",
-        "input": "$~input",
-        "output": "$~output",
-        "convert": "$~mag-convert",
-        "how": "$~kung paano gawin",
-        "act": "$~kumilos",
-        "scene": "$~eksena",
-        "phrase": "$~parirala",
-        "group": "$~grupo",
-        "stage": "$~entablado",
-        "type": "$~uri",
-        "start": "$~simulan",
-        "entered": "$~bago",
-        "changed": "$~nagbago",
-        "moved": "$~inilipat",
-        "name": "$~pangalan",
-        "value": "$~halaga",
-        "text": "$~teksto",
-        "boolean": "$~boolean",
-        "map": "$~mapa",
-        "number": "$~numero",
-        "unit": "$~yunit",
-        "markup": "$~markup",
-        "function": "$~tungkulin",
-        "exception": "$~eksepsiyon",
-        "table": "$~mesa",
-        "column": "$~haligi",
-        "row": "$~hanay",
-        "cell": "$~selula",
-        "none": "$~wala",
-        "list": "$~listahan",
-        "stream": "$~batis",
-        "structure": "$~istruktura",
-        "index": "$~indeks",
-        "query": "$~tanong",
-        "set": "$~itakda",
-        "key": "$~susi",
-        "help": "$~Tulong",
-        "feedback": "$~puna",
-        "documentation": "$~dokumentasyon",
-        "language": "$~wika",
-        "region": "$~rehiyon",
-        "pattern": "$~padron"
+    "glossary": {
+        "value": {
+            "word": "$~halaga",
+            "definition": "$~Isang piraso ng impormasyon, tulad ng numero, ilang salita, o listahan."
+        },
+        "type": {
+            "word": "$~uri",
+            "definition": "$~Ang klase ng isang halaga, tulad ng numero o teksto. Ang uri ng isang halaga ang nagpapasya kung ano ang magagawa mo dito."
+        },
+        "expression": {
+            "word": "$~ekspresyon",
+            "definition": "$~Isang piraso ng kodigo na gumagawa ng halaga kapag tumakbo ito."
+        },
+        "variable": {
+            "word": "$~variable",
+            "definition": "$~Isang pangalan na maaaring magbago ang halaga habang tumatakbo ang programa."
+        },
+        "parameter": {
+            "word": "$~parameter",
+            "definition": "$~Isang pinangalanang input na inaasahan ng isang function kapag tinawag mo ito."
+        },
+        "argument": {
+            "word": "$~argument",
+            "definition": "$~Isang halaga na ibinibigay mo sa isang function para sa isa sa mga parameter nito."
+        },
+        "operator": {
+            "word": "$~operator",
+            "definition": "$~Isang simbolo, tulad ng + o -, na pinagsasama o naghahambing ng mga halaga."
+        },
+        "condition": {
+            "word": "$~kondisyon",
+            "definition": "$~Isang tama-o-mali na pagsubok na nagpapasya kung ano ang gagawin ng programa sa susunod."
+        },
+        "loop": {
+            "word": "$~loop",
+            "definition": "$~Kodigo na inuulit ang isang gawain nang maraming beses."
+        },
+        "iteration": {
+            "word": "$~iteration",
+            "definition": "$~Isang pagdaan sa isang loop."
+        },
+        "recursion": {
+            "word": "$~recursion",
+            "definition": "$~Kapag tinatawag ng isang function ang sarili nito upang harapin ang isang mas maliit na bahagi ng problema."
+        },
+        "property": {
+            "word": "$~property",
+            "definition": "$~Isang pinangalanang bahagi ng isang halaga, tulad ng liwanag ng isang kulay."
+        },
+        "element": {
+            "word": "$~element",
+            "definition": "$~Isang item sa isang listahan o grupo."
+        },
+        "scope": {
+            "word": "$~scope",
+            "definition": "$~Ang bahagi ng isang programa kung saan magagamit ang isang pangalan."
+        },
+        "state": {
+            "word": "$~estado",
+            "definition": "$~Impormasyon na iniingatan ng isang programa at maaaring magbago sa paglipas ng panahon."
+        },
+        "sideEffect": {
+            "word": "$~side effect",
+            "definition": "$~Isang pagbabago na ginagawa ng programa bukod sa pagbabalik ng halaga, tulad ng pagpapakita ng output."
+        },
+        "abstraction": {
+            "word": "$~abstraction",
+            "definition": "$~Pagtatago ng mga detalye upang magamit mo ang isang bagay nang hindi mo alam kung paano ito gumagana sa loob."
+        },
+        "project": {
+            "word": "$~proyekto",
+            "definition": "$~Lahat ng file na bumubuo ng isang programa ng Wordplay."
+        },
+        "code": {
+            "word": "$~kodigo",
+            "definition": "$~Ang teksto na isinusulat mo upang sabihin sa isang programa kung ano ang gagawin."
+        },
+        "act": {
+            "word": "$~kumilos",
+            "definition": "$~Isang malaking bahagi ng tutorial, tulad ng isang yugto sa isang dula."
+        },
+        "how": {
+            "word": "$~kung paano gawin",
+            "definition": "$~Isang maikling gabay na nagpapakita kung paano gawin ang isang bagay."
+        },
+        "gallery": {
+            "word": "$~gallery",
+            "definition": "$~Isang lugar kung saan nagbabahagi at nagtutuklas ang mga tao ng mga proyekto."
+        },
+        "blocks": {
+            "word": "$~blocks",
+            "definition": "$~Isang paraan upang i-edit ang kodigo sa pamamagitan ng pag-drag ng mga piraso sa halip na pag-type."
+        },
+        "placeholder": {
+            "word": "$~placeholder",
+            "definition": "$~Isang bakanteng puwesto na nagpapakita kung saan nawawala ang kodigo o isang halaga."
+        },
+        "conflict": {
+            "word": "$~conflict",
+            "definition": "$~Isang problema sa kodigo na minamarkahan ng Wordplay upang maaayos mo ito."
+        },
+        "checkpoint": {
+            "word": "$~checkpoint",
+            "definition": "$~Isang naka-save na puwesto sa iyong trabaho na maaari mong balikan."
+        },
+        "guide": {
+            "word": "$~gabay",
+            "definition": "$~Ang reperensiyang mahahanap na nagpapaliwanag ng mga ideya ng Wordplay."
+        },
+        "tutorial": {
+            "word": "$~tutorial",
+            "definition": "$~Ang mga aralin na hakbang-hakbang na nagtuturo ng Wordplay."
+        },
+        "name": {
+            "word": "$~pangalan",
+            "definition": "$~Isang salita na tumutukoy sa isang halaga o isang function."
+        },
+        "markup": {
+            "word": "$~markup",
+            "definition": "$~Teksto na may pormat, tulad ng mga matatapang na salita o mga link."
+        },
+        "language": {
+            "word": "$~wika",
+            "definition": "$~Isang wika ng tao kung saan nakasulat ang isang pangalan o teksto."
+        },
+        "documentation": {
+            "word": "$~dokumentasyon",
+            "definition": "$~Teksto na nagpapaliwanag kung ano ang ginagawa ng kodigo."
+        },
+        "region": {
+            "word": "$~rehiyon",
+            "definition": "$~Isang lugar kung saan ginagamit ang isang wika, na maaaring magpabago sa hitsura ng mga numero at petsa."
+        },
+        "start": {
+            "word": "$~simulan",
+            "definition": "$~Ang pangunahing source file kung saan nagsisimula ang isang proyekto."
+        },
+        "query": {
+            "word": "$~tanong",
+            "definition": "$~Isang paraan upang pumili ng mga hilera mula sa isang talahanayan."
+        },
+        "key": {
+            "word": "$~susi",
+            "definition": "$~Ang halaga na ginagamit upang makahanap ng isang item sa isang map."
+        },
+        "index": {
+            "word": "$~indeks",
+            "definition": "$~Isang numero na pumipili ng isang item ayon sa posisyon nito sa isang listahan."
+        },
+        "moved": {
+            "word": "$~inilipat",
+            "definition": "$~Output na nagbago ng posisyon sa entablado."
+        },
+        "entered": {
+            "word": "$~bago",
+            "definition": "$~Output na lumitaw sa entablado sa unang pagkakataon."
+        },
+        "cell": {
+            "word": "$~selula",
+            "definition": "$~Isang halaga sa isang hilera ng talahanayan."
+        },
+        "column": {
+            "word": "$~haligi",
+            "definition": "$~Isang pinangalanang field sa isang talahanayan."
+        }
     },
     "token": {
         "EvalOpen": "$~bukas na pagsusuri",
@@ -450,7 +565,7 @@
             "description": "$~banggitin ang $name sa markup",
             "emotion": "serious",
             "doc": [
-                "$~Isa akong reperensya sa alinman sa terminolohiyang \\$program\\ o isang dynamic input na \\$name\\.",
+                "$~Isa akong reperensya sa alinman sa terminolohiyang \\¶@program¶\\ o isang dynamic input na \\¶$name¶\\.",
                 "$~Kadalasan, isa itong panloob na tampok, kaya hindi mo na kailangang malaman pa ito."
             ]
         },
@@ -649,12 +764,12 @@
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~hindikilalangpaghiram",
-                    "explanation": "$~Wala akong alam na $source na ganito ang pangalan",
+                    "explanation": "$~Wala akong alam na @Source na ganito ang pangalan",
                     "resolution": "$~Alisin ang hiniram na ito"
                 },
                 "BorrowCycle": {
                     "name": "$~paghiramnatumutukoysasarili",
-                    "explanation": "$~Nakadepende ito sa $borrow, na nakadepende sa $source na ito, kaya hindi masusuri ang programa",
+                    "explanation": "$~Nakadepende ito sa $borrow, na nakadepende sa @Source na ito, kaya hindi masusuri ang programa",
                     "resolution": "$~Alisin ang hiram na ito upang masira ang siklo"
                 }
             },
@@ -791,8 +906,10 @@
             "doc": [
                 "$~Kahit anong ekspresyon ko, pero may @Doc!",
                 "$~Para gawin ako, maglagay lang ng @Doc bago ang isang expression, at makukuha mo ako:",
-                "$~\\doubleplus: 1\n(2 × doubleplus) + \n¶Palakihin natin ito nang kaunti¶\n1\\",
-                "$~Magagamit ako sa pagbibigay ng komento sa ilang bahagi ng isang programa."
+                "$~\\doubleplus: 1\n(2 × doubleplus) + \n¶Let's make it just a little bit bigger¶\n1\\",
+                "$~Magagamit ako sa pagbibigay ng komento sa ilang bahagi ng isang programa.",
+                "$~If you put 👀 in the @Doc, I can also highlight the expression:",
+                "$~\\¶Look at me! 👀¶1+1\\"
             ],
             "start": "$~Suriin natin ang ekspresyon"
         },
@@ -869,7 +986,7 @@
                 },
                 "SeparatedEvaluate": {
                     "name": "$~hindimalinawnapagsusuri",
-                    "explanation": "$~Ang $name ba ang pangalan ng isang $structure[$structure|$function] na sinusubukan mong suriin? Subukan mong alisin ang espasyo sa tabi ko, para malaman kong isa itong @Evaluate at hindi isang hiwalay na @Block.",
+                    "explanation": "$~Ang $name ba ang pangalan ng isang $structure[$structure|@FunctionDefinition] na sinusubukan mong suriin? Subukan mong alisin ang espasyo sa tabi ko, para malaman kong isa itong @Evaluate at hindi isang hiwalay na @Block.",
                     "resolution": "$~Isara ang espasyo sa pagitan ng * $name * at ng mga input nito"
                 }
             },
@@ -5519,7 +5636,7 @@
                     "tip": "$~kopyahin ang proyekto sa clipboard bilang teksto",
                     "label": "$~kopyahin bilang teksto"
                 },
-                "addSource": "$~lumikha ng bagong $source",
+                "addSource": "$~lumikha ng bagong @Source",
                 "duplicate": {
                     "tip": "$~kopyahin ang proyektong ito",
                     "label": "$~doble"
@@ -5918,7 +6035,7 @@
             ],
             "confirm": {
                 "delete": {
-                    "description": "$~burahin ang $source na ito",
+                    "description": "$~burahin ang @Source na ito",
                     "prompt": "$~burahin"
                 }
             },
@@ -6250,10 +6367,11 @@
             "mode": {
                 "browse": {
                     "label": "$~seksyon",
-                    "labels": ["$~kodigo", "$~kung paano gawin"],
+                    "labels": ["$~kodigo", "$~kung paano gawin", "$~glosaryo"],
                     "tips": [
-                        "$~mga konsepto ng wikang pamprograma",
-                        "$~magagamit muli na mga pattern para sa paggawa ng mga proyekto"
+                        "$~mga konsepto ng wika ng programming",
+                        "$~magagamit-muli na mga pattern para sa paggawa ng mga proyekto",
+                        "$~mga kahulugan ng mga pangunahing termino"
                     ]
                 },
                 "purpose": {
@@ -6417,7 +6535,13 @@
                 "label": "$~kasaysayan ng nabigasyon",
                 "home": "$~Tahanan"
             },
-            "tutorial": "$~Pagtuturo"
+            "tutorial": "$~Pagtuturo",
+            "glossary": {
+                "explain": {
+                    "header": "$~Glosaryo",
+                    "explanation": "$~/Mga termino at ideya na ginagamit sa buong wika at plataporma ng Wordplay programming./"
+                }
+            }
         },
         "dialog": {
             "share": {
@@ -7801,7 +7925,11 @@
                 },
                 "singletonWordsWarning": "$~Ang ilang salita sa iyong draft ay lumilitaw nang isang beses lamang sa buong wika. Sigurado ka bang tama ang baybay ng mga ito at naaayon sa ibang teksto?",
                 "viewPR": "$~Tingnan ang kahilingan sa paghila",
-                "oneLocaleNote": "$~Ang bawat pagsusumite ay sumasaklaw sa isang wika sa bawat pagkakataon. Ang batch na ito ay isusumite bilang mga pag-edit sa $locale . Kung gusto mong mag-ambag sa ibang wika, magpalit muna ng wika; ang mga pag-edit na iyong sine-save sa ilalim ng bawat wika ay itatago nang hiwalay."
+                "oneLocaleNote": "$~Ang bawat pagsusumite ay sumasaklaw sa isang wika sa bawat pagkakataon. Ang batch na ito ay isusumite bilang mga pag-edit sa $locale . Kung gusto mong mag-ambag sa ibang wika, magpalit muna ng wika; ang mga pag-edit na iyong sine-save sa ilalim ng bawat wika ay itatago nang hiwalay.",
+                "literalTermsWarning": "$~Ang iyong draft ay gumagamit ng mga salita ng glosaryo bilang payak na teksto. I-tap ang isa upang gawing link ng glosaryo ito.",
+                "checkReadingLevel": "$~Suriin ang antas ng pagbabasa ng string na ito",
+                "readingLevelComplex": "$~Maaaring mahirap itong basahin. Subukan ang mas maiikling pangungusap at mas simpleng mga salita.",
+                "readingLevelOk": "$~Malinaw itong nababasa para sa target na antas ng pagbabasa."
             },
             "breadcrumb": {
                 "label": "$~Mga breadcrumb",

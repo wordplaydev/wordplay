@@ -37,6 +37,13 @@ type LanguageMetadata = {
      *  for relative ordering, not statistical claims.
      * */
     speakers?: number;
+    /** The Unicode CLDR emoji-annotation base code, when it differs from this
+     *  language code (e.g. Tagalog `tl` → `fil`). Used by the emoji generator
+     *  (see `getCLDRCandidates`); defaults to the language code when omitted. */
+    cldr?: string;
+    /** Region-specific CLDR emoji-annotation code overrides, for script variants
+     *  a region implies (e.g. Chinese in `TW` → Traditional `zh_Hant`). */
+    cldrByRegion?: Partial<Record<RegionCode, string>>;
 };
 
 /** Wordplay `LanguageCode`s that Google Cloud Translate can translate. This is
@@ -1535,6 +1542,7 @@ export const Languages = {
         scripts: ['Latn', 'Tglg'],
         regions: ['PH', 'US'],
         speakers: 87,
+        cldr: 'fil', // CLDR uses the Filipino code for Tagalog emoji annotations.
     },
     tn: {
         name: 'Setswana',
@@ -1702,6 +1710,9 @@ export const Languages = {
         scripts: ['Hans', 'Hant', 'Hani', 'Bopo'],
         regions: ['CN', 'TW', 'HK', 'SG', 'MO', 'MY'],
         speakers: 1140,
+        // Traditional-script regions use CLDR's zh_Hant annotations; CN/SG use
+        // the base zh (Simplified).
+        cldrByRegion: { TW: 'zh_Hant', HK: 'zh_Hant', MO: 'zh_Hant' },
     },
     zu: {
         name: 'isiZulu',
@@ -2232,6 +2243,29 @@ export const Languages = {
 
 type LanguageCode = keyof typeof Languages;
 export { type LanguageCode as default };
+
+/**
+ * The Unicode CLDR emoji-annotation locale codes to try for a given language and
+ * region, most-specific first (the emoji generator uses the first that exists,
+ * falling back through the rest, then to English). The base is the language's
+ * `cldr` override or its own code; a `cldrByRegion` entry (e.g. Chinese in TW →
+ * `zh_Hant`) and the generic `base_REGION` form (e.g. `es_MX`) are tried ahead of
+ * the base. Centralized here so CLDR mappings live with the language metadata
+ * rather than in the generator script.
+ */
+export function getCLDRCandidates(
+    language: LanguageCode,
+    region: RegionCode | undefined,
+): string[] {
+    const meta: LanguageMetadata = Languages[language];
+    const base = meta.cldr ?? language;
+    const candidates = [
+        region ? meta.cldrByRegion?.[region] : undefined,
+        region ? `${base}_${region}` : undefined,
+        base,
+    ];
+    return [...new Set(candidates.filter((c): c is string => c !== undefined))];
+}
 
 export const PossibleLanguages: LanguageCode[] = Object.keys(
     Languages,

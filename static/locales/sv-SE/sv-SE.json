@@ -3,56 +3,171 @@
     "language": "sv",
     "regions": ["SE"],
     "wordplay": "$~Ordlek",
-    "term": {
-        "bind": "$~binda",
-        "evaluate": "$~utvärdera",
-        "decide": "$~besluta",
-        "project": "$~projekt",
-        "document": "$~förklara",
-        "source": "$~källa",
-        "input": "$~input",
-        "output": "$~produktion",
-        "convert": "$~konvertera",
-        "act": "$~agera",
-        "scene": "$~scen",
-        "phrase": "$~fras",
-        "group": "$~grupp",
-        "stage": "$~etapp",
-        "type": "$~typ",
-        "start": "$~start",
-        "entered": "$~ny",
-        "changed": "$~ändrats",
-        "moved": "$~rörd",
-        "name": "$~namn",
-        "value": "$~värde",
-        "text": "$~text",
-        "boolean": "$~booleskt",
-        "map": "$~karta",
-        "number": "$~antal",
-        "function": "$~fungera",
-        "exception": "$~undantag",
-        "table": "$~tabell",
-        "none": "$~ingen",
-        "list": "$~lista",
-        "stream": "$~strömma",
-        "structure": "$~strukturera",
-        "index": "$~index",
-        "query": "$~fråga",
-        "row": "$~rad",
-        "set": "$~uppsättning",
-        "key": "$~nyckel",
-        "help": "$~Hjälp",
-        "feedback": "$~feed-back",
-        "how": "$~hur man",
-        "code": "$~koda",
-        "unit": "$~enhet",
-        "markup": "$~pålägg",
-        "column": "$~kolumn",
-        "cell": "$~cell",
-        "documentation": "$~dokumentation",
-        "language": "$~språk",
-        "region": "$~område",
-        "pattern": "$~mönster"
+    "glossary": {
+        "value": {
+            "word": "$~värde",
+            "definition": "$~En bit information, som ett tal, några ord eller en lista."
+        },
+        "type": {
+            "word": "$~typ",
+            "definition": "$~Sorten av ett värde, som tal eller text. Ett värdes typ bestämmer vad du kan göra med det."
+        },
+        "expression": {
+            "word": "$~uttryck",
+            "definition": "$~En bit kod som skapar ett värde när den körs."
+        },
+        "variable": {
+            "word": "$~variabel",
+            "definition": "$~Ett namn vars värde kan ändras medan ett program körs."
+        },
+        "parameter": {
+            "word": "$~parameter",
+            "definition": "$~En namngiven indata som en funktion väntar sig när du anropar den."
+        },
+        "argument": {
+            "word": "$~argument",
+            "definition": "$~Ett värde du ger till en funktion för en av dess parametrar."
+        },
+        "operator": {
+            "word": "$~operator",
+            "definition": "$~En symbol, som + eller -, som kombinerar eller jämför värden."
+        },
+        "condition": {
+            "word": "$~villkor",
+            "definition": "$~Ett sant-eller-falskt-test som bestämmer vad ett program gör härnäst."
+        },
+        "loop": {
+            "word": "$~loop",
+            "definition": "$~Kod som upprepar en handling många gånger."
+        },
+        "iteration": {
+            "word": "$~iteration",
+            "definition": "$~Ett varv genom en loop."
+        },
+        "recursion": {
+            "word": "$~rekursion",
+            "definition": "$~När en funktion anropar sig själv för att hantera en mindre del av ett problem."
+        },
+        "property": {
+            "word": "$~egenskap",
+            "definition": "$~En namngiven del av ett värde, som en färgs ljusstyrka."
+        },
+        "element": {
+            "word": "$~element",
+            "definition": "$~En sak i en lista eller grupp."
+        },
+        "scope": {
+            "word": "$~räckvidd",
+            "definition": "$~Den del av ett program där ett namn kan användas."
+        },
+        "state": {
+            "word": "$~tillstånd",
+            "definition": "$~Information som ett program behåller och kan ändra över tid."
+        },
+        "sideEffect": {
+            "word": "$~sidoeffekt",
+            "definition": "$~En förändring som ett program gör utöver att ge tillbaka ett värde, som att visa utdata."
+        },
+        "abstraction": {
+            "word": "$~abstraktion",
+            "definition": "$~Att dölja detaljer så att du kan använda något utan att veta hur det fungerar inuti."
+        },
+        "project": {
+            "word": "$~projekt",
+            "definition": "$~Alla filer som tillsammans bildar ett Wordplay-program."
+        },
+        "code": {
+            "word": "$~koda",
+            "definition": "$~Texten du skriver för att tala om för ett program vad det ska göra."
+        },
+        "act": {
+            "word": "$~agera",
+            "definition": "$~En stor del av handledningen, som en akt i en pjäs."
+        },
+        "how": {
+            "word": "$~hur man",
+            "definition": "$~En kort guide som visar hur man gör en sak."
+        },
+        "gallery": {
+            "word": "$~galleri",
+            "definition": "$~En plats där människor delar och utforskar projekt."
+        },
+        "blocks": {
+            "word": "$~block",
+            "definition": "$~Ett sätt att redigera kod genom att dra delar istället för att skriva."
+        },
+        "placeholder": {
+            "word": "$~platshållare",
+            "definition": "$~En tom plats som visar var kod eller ett värde saknas."
+        },
+        "conflict": {
+            "word": "$~konflikt",
+            "definition": "$~Ett problem i kod som Wordplay markerar så att du kan rätta det."
+        },
+        "checkpoint": {
+            "word": "$~kontrollpunkt",
+            "definition": "$~En sparad punkt i ditt arbete som du kan återvända till."
+        },
+        "guide": {
+            "word": "$~guide",
+            "definition": "$~Den sökbara referensen som förklarar Wordplays idéer."
+        },
+        "tutorial": {
+            "word": "$~handledning",
+            "definition": "$~De steg-för-steg-lektioner som lär ut Wordplay."
+        },
+        "name": {
+            "word": "$~namn",
+            "definition": "$~Ett ord som syftar på ett värde eller en funktion."
+        },
+        "markup": {
+            "word": "$~pålägg",
+            "definition": "$~Text med formatering, som feta ord eller länkar."
+        },
+        "language": {
+            "word": "$~språk",
+            "definition": "$~Ett mänskligt språk som ett namn eller en text är skrivet på."
+        },
+        "documentation": {
+            "word": "$~dokumentation",
+            "definition": "$~Text som förklarar vad kod gör."
+        },
+        "region": {
+            "word": "$~område",
+            "definition": "$~En plats där ett språk används, vilket kan ändra hur tal och datum ser ut."
+        },
+        "start": {
+            "word": "$~start",
+            "definition": "$~Den huvudsakliga källfilen där ett projekt börjar."
+        },
+        "query": {
+            "word": "$~fråga",
+            "definition": "$~Ett sätt att välja rader från en tabell."
+        },
+        "key": {
+            "word": "$~nyckel",
+            "definition": "$~Värdet som används för att hitta en sak i en karta."
+        },
+        "index": {
+            "word": "$~index",
+            "definition": "$~Ett tal som väljer en sak utifrån dess plats i en lista."
+        },
+        "moved": {
+            "word": "$~rörd",
+            "definition": "$~Utdata som ändrade plats på scenen."
+        },
+        "entered": {
+            "word": "$~ny",
+            "definition": "$~Utdata som visades på scenen för första gången."
+        },
+        "cell": {
+            "word": "$~cell",
+            "definition": "$~Ett värde i en tabellrad."
+        },
+        "column": {
+            "word": "$~kolumn",
+            "definition": "$~Ett namngivet fält i en tabell."
+        }
     },
     "token": {
         "EvalOpen": "$~utvärdering öppen",
@@ -450,7 +565,7 @@
             "description": "$~nämn $name",
             "emotion": "serious",
             "doc": [
-                "$~Jag är en referens till antingen terminologi \\$program\\ eller en dynamisk ingång \\$name\\.",
+                "$~Jag är en referens till antingen terminologi \\¶@program¶\\ eller en dynamisk ingång \\¶$name¶\\.",
                 "$~Detta är dock mestadels en intern funktion, så du borde inte behöva veta det."
             ]
         },
@@ -644,12 +759,12 @@
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~okändlån",
-                    "explanation": "$~Jag känner inte till en $source med det här namnet",
+                    "explanation": "$~Jag känner inte till en @Source med det här namnet",
                     "resolution": "$~Ta bort detta lån"
                 },
                 "BorrowCycle": {
                     "name": "$~självrefererandelån",
-                    "explanation": "$~detta beror på $borrow, vilket beror på denna $source, så programmet kan inte utvärderas",
+                    "explanation": "$~detta beror på $borrow, vilket beror på denna @Source, så programmet kan inte utvärderas",
                     "resolution": "$~Ta bort detta lån för att bryta cykeln"
                 }
             },
@@ -660,7 +775,7 @@
                 }
             },
             "label": {
-                "source": "$~$sourceälla",
+                "source": "$~@Sourceälla",
                 "bind": "$~namn",
                 "version": "$~version"
             }
@@ -791,8 +906,10 @@
             "doc": [
                 "$~Jag är vilket uttryck som helst, men med en @Doc!",
                 "$~För att göra mig, sätt bara en @Doc före ett uttryck, så får du mig:",
-                "$~\\doubleplus: 1\n(2 × dubbelplus) + \n¶Låt oss göra det lite större¶\n1\\",
-                "$~Jag är användbar för att kommentera någon del av ett program."
+                "$~\\doubleplus: 1\n(2 × doubleplus) + \n¶Let's make it just a little bit bigger¶\n1\\",
+                "$~Jag är användbar för att kommentera någon del av ett program.",
+                "$~If you put 👀 in the @Doc, I can also highlight the expression:",
+                "$~\\¶Look at me! 👀¶1+1\\"
             ],
             "start": "$~Låt oss utvärdera uttrycket"
         },
@@ -864,7 +981,7 @@
                 },
                 "SeparatedEvaluate": {
                     "name": "$~tvetydigutvärdering",
-                    "explanation": "$~Är $name namnet på en $structure[$structure|$function] som du försöker utvärdera? Försök att ta bort mellanslaget efter mig, så att jag vet att det är en @Evaluate och inte ett separat @Block.",
+                    "explanation": "$~Är $name namnet på en $structure[$structure|@FunctionDefinition] som du försöker utvärdera? Försök att ta bort mellanslaget efter mig, så att jag vet att det är en @Evaluate och inte ett separat @Block.",
                     "resolution": "$~Stäng mellanrummet mellan * $name * och dess indata"
                 }
             },
@@ -5516,7 +5633,7 @@
                     "tip": "$~kopiera projekt till urklipp som text",
                     "label": "$~kopiera som text"
                 },
-                "addSource": "$~skapa en ny $source",
+                "addSource": "$~skapa en ny @Source",
                 "duplicate": {
                     "tip": "$~duplicera detta projekt",
                     "label": "$~duplicera"
@@ -5677,7 +5794,7 @@
             ],
             "confirm": {
                 "delete": {
-                    "description": "$~ta bort denna $source",
+                    "description": "$~ta bort denna @Source",
                     "prompt": "$~radera"
                 }
             },
@@ -6034,10 +6151,11 @@
             "mode": {
                 "browse": {
                     "label": "$~bläddra",
-                    "labels": ["$~koda", "$~hur man"],
+                    "labels": ["$~koda", "$~hur man", "$~ordlista"],
                     "tips": [
-                        "$~programmeringsspråkskoncept",
-                        "$~återanvändbara mönster för att skapa projekt"
+                        "$~begrepp inom programmeringsspråk",
+                        "$~återanvändbara mönster för att göra projekt",
+                        "$~förklaringar av viktiga termer"
                     ]
                 },
                 "purpose": {
@@ -6177,7 +6295,13 @@
                 "label": "$~navigeringshistorik",
                 "home": "$~Hem"
             },
-            "tutorial": "$~Handledning"
+            "tutorial": "$~Handledning",
+            "glossary": {
+                "explain": {
+                    "header": "$~Ordlista",
+                    "explanation": "$~/Termer och idéer som används överallt i programmeringsspråket och plattformen Wordplay./"
+                }
+            }
         },
         "dialog": {
             "share": {
@@ -7507,7 +7631,11 @@
                 },
                 "singletonWordsWarning": "$~Vissa ord i ditt utkast förekommer bara en gång i hela språket. Är du säker på att de är korrekt stavade och överensstämmer med annan text?",
                 "viewPR": "$~Visa pull-förfrågan",
-                "oneLocaleNote": "$~Varje bidrag täcker ett språk i taget. Denna bunt kommer att skickas in som redigeringar till $locale . Om du vill bidra till ett annat språk, byt språk först; redigeringar du sparar under varje språk sparas separat."
+                "oneLocaleNote": "$~Varje bidrag täcker ett språk i taget. Denna bunt kommer att skickas in som redigeringar till $locale . Om du vill bidra till ett annat språk, byt språk först; redigeringar du sparar under varje språk sparas separat.",
+                "literalTermsWarning": "$~Ditt utkast använder ordlistans ord som vanlig text. Tryck på ett för att göra det till en ordlistelänk.",
+                "checkReadingLevel": "$~Kontrollera läsnivån för denna sträng",
+                "readingLevelComplex": "$~Detta kan vara svårt att läsa. Prova kortare meningar och enklare ord.",
+                "readingLevelOk": "$~Detta läses tydligt för den avsedda läsnivån."
             },
             "breadcrumb": {
                 "label": "$~Ströbröd",

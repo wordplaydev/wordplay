@@ -1,4 +1,5 @@
 <script module lang="ts">
+    import getConceptName from '@locale/getConceptName';
     /** How long to wait until considering typing idle. */
     export const KeyboardIdleWaitTime = 500;
 </script>
@@ -2086,7 +2087,7 @@
 
     function addSource() {
         const newProject = project.withNewSource(
-            `${$locales.getUnannotatedText((l) => l.term.source)}${
+            `${$locales.getUnannotatedText((l) => getConceptName(l, 'source'))}${
                 project.getSupplements().length + 1
             }`,
         );
@@ -2397,9 +2398,7 @@
                                                             .resetZoom}
                                                     background
                                                     active={focusOverridden}
-                                                    ><Emoji
-                                                        text="⟲⌕"
-                                                    /></Button
+                                                    ><Emoji text="⟲⌕" /></Button
                                                 >
                                             {/if}
                                         </span>
@@ -2579,7 +2578,9 @@
                                                  recycle bar, rather than spanning the full tile footer
                                                  below both margins. -->
                                             {#if editable}
-                                                <div class="editor-notifications">
+                                                <div
+                                                    class="editor-notifications"
+                                                >
                                                     {#each notifications as notification (notification.id)}
                                                         <EditorNotice
                                                             dismiss={() =>
@@ -2620,7 +2621,9 @@
                                                          than dangling in the footer; interactive (it has
                                                          a Restore button), so pointer-events are enabled. -->
                                                     {#if checkpoint > -1}
-                                                        <div class="interactive">
+                                                        <div
+                                                            class="interactive"
+                                                        >
                                                             <EditorNotice
                                                                 ><LocalizedText
                                                                     path={(l) =>
@@ -2645,9 +2648,12 @@
                                                                                 project.withCheckpoint(),
                                                                             ),
                                                                         );
-                                                                        checkpoint = -1;
+                                                                        checkpoint =
+                                                                            -1;
                                                                     }}
-                                                                    label={(l) =>
+                                                                    label={(
+                                                                        l,
+                                                                    ) =>
                                                                         l.ui
                                                                             .checkpoints
                                                                             .button

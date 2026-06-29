@@ -53,7 +53,7 @@ export default class Name extends LanguageTagged {
             {
                 name: 'language',
                 kind: optional(node(Language)),
-                label: () => (l) => l.term.language,
+                label: () => (l) => l.glossary.language.word,
             },
             {
                 name: 'separator',
@@ -78,7 +78,9 @@ export default class Name extends LanguageTagged {
 
     /** Suggest names for insertion.  */
     static getPossibleInsertions({ locales }: InsertContext) {
-        return [Name.make(locales.getUnannotatedText((l) => l.term.name))];
+        return [
+            Name.make(locales.getUnannotatedText((l) => l.glossary.name.word)),
+        ];
     }
 
     simplify() {

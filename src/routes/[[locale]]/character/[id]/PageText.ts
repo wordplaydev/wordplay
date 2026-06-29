@@ -7,7 +7,9 @@ import type {
 } from '@locale/UITexts';
 
 type PageText = {
+    /** [plain] The character editor page header */
     header: string;
+    /** [plain] Guidance shown in the character editor for each tool and selection state */
     instructions: {
         empty: string;
         unselected: string;
@@ -19,6 +21,7 @@ type PageText = {
         path: string;
         emoji: string;
     };
+    /** [plain] Names of the character editor shape tools */
     shape: {
         shape: string;
         eraser: string;
@@ -33,6 +36,7 @@ type PageText = {
         button: ButtonText;
         delete: ButtonText;
         public: ModeText<string[]>;
+        /** [plain] Label for the character's collaborators list */
         collaborators: string;
     };
     field: {
@@ -47,15 +51,15 @@ type PageText = {
         none: string;
         /** [plain] What to call inherited color */
         inherit: string;
-        /** Labels for the stroke width slider*/
+        /** [plain] Labels for the stroke width slider*/
         strokeWidth: { label: string; tip: string };
-        /** Labels for the border radius slider */
+        /** [plain] Labels for the border radius slider */
         radius: { label: string; tip: string };
-        /** Labels for the rotation slider */
+        /** [plain] Labels for the rotation slider */
         angle: { label: string; tip: string };
-        /** Width slider */
+        /** [plain] Width slider */
         width: { label: string; tip: string };
-        /** Height slider */
+        /** [plain] Height slider */
         height: { label: string; tip: string };
         /** [plain] Closed path label */
         closed: string;

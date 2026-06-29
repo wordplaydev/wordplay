@@ -12,10 +12,7 @@
  * counts as a mention; this module accepts the same set.
  */
 import { isUnwritten } from '@locale/LocaleText';
-import {
-    DECLARED_INPUTS,
-    TERMINOLOGY_NAMES,
-} from '@locale/templateInputs.generated';
+import { DECLARED_INPUTS } from '@locale/templateInputs.generated';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
 
 /** Field path -> ordered list of declared input names. */
@@ -31,19 +28,6 @@ export function getDeclaredInputs(): InputsByField {
     return cache;
 }
 
-let termsCache: Set<string> | undefined;
-
-/**
- * Returns the set of terminology keys defined in `LocaleText.term`. A `$name`
- * Mention whose name is in this set is a terminology reference (resolved at
- * render time from `term[<name>]`), not a template input.
- */
-export function getTerminologyNames(): Set<string> {
-    if (termsCache) return termsCache;
-    termsCache = new Set(TERMINOLOGY_NAMES);
-    return termsCache;
-}
-
 /**
  * Mention regex mirroring `Tokenizer.MentionRegEx`: `$?` / `$!` placeholders
  * or `$<alphanumeric>`, with a negative lookbehind so escaped `$$N` doesn't
@@ -55,12 +39,9 @@ const MENTION_RE = /(?<!\$)\$([a-zA-Z0-9]+|\?|!)/g;
  * Categorize every `$<name>` reference in a template:
  *  - `named` — name appears in `declared`; matches a template input.
  *  - `numeric` — bare `$N` digits; legacy positional ref (now disallowed).
- *  - `unknown` — name is neither declared nor a known terminology key, e.g.
- *    a translator typo like `$expecte`. Flagged so the translator can fix it.
- *
- * Terminology refs (`$program`, `$bind`, etc.) are resolved at render time
- * and don't count as template inputs — they're filtered out silently when
- * found in `getTerminologyNames()`.
+ *  - `unknown` — name isn't a declared input, e.g. a translator typo like
+ *    `$expecte`, or a stale `$term` glossary reference (glossary terms are now
+ *    `@term`, resolved by ConceptLink). Flagged so it can be fixed.
  */
 export function getTemplateReferences(
     template: string,
@@ -69,7 +50,6 @@ export function getTemplateReferences(
     const named = new Set<string>();
     const numeric = new Set<number>();
     const unknown = new Set<string>();
-    const terms = getTerminologyNames();
     for (const m of template.matchAll(MENTION_RE)) {
         const name = m[1];
         if (name === '?' || name === '!') continue;
@@ -78,7 +58,7 @@ export function getTemplateReferences(
             continue;
         }
         if (declared.has(name)) named.add(name);
-        else if (!terms.has(name)) unknown.add(name);
+        else unknown.add(name);
     }
     return { named, numeric, unknown };
 }
@@ -93,14 +73,11 @@ export function getTemplateReferences(
 export function checkTemplateInputs(
     fieldPath: string,
     template: string,
-):
-    | { numeric: number[]; unused: string[]; unknown: string[] }
-    | undefined {
+): { numeric: number[]; unused: string[]; unknown: string[] } | undefined {
     const declared = getDeclaredInputs().get(fieldPath);
     if (declared === undefined) return undefined;
 
-    if (isUnwritten(template))
-        return { numeric: [], unused: [], unknown: [] };
+    if (isUnwritten(template)) return { numeric: [], unused: [], unknown: [] };
 
     const cleaned = withoutAnnotations(template);
     const declaredSet = new Set(declared);

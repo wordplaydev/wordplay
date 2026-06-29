@@ -1,0 +1,332 @@
+{
+    "$schema": "../../schemas/Tutorial.json",
+    "language": "de",
+    "regions": ["DE"],
+    "acts": [
+        {
+            "title": "$~Wordplay ist anders",
+            "performance": { "fit": "#Symbol 💬" },
+            "scenes": [
+                {
+                    "title": "$~Programme sind Werte",
+                    "subtitle": "$~Ausdrücke, keine Anweisungen",
+                    "concept": "Program",
+                    "performance": { "fit": "#Symbol ƒ" },
+                    "lines": [
+                        { "edit": "" },
+                        [
+                            "FunctionDefinition",
+                            "cheerful",
+                            "$~Willkommen bei Wordplay! Ich höre, du weißt schon etwas über das Programmieren? Großartig! Diese kurze Tour zeigt, was bei Wordplay ähnlich und was anders ist.",
+                            "$~Damit du alles auf diesem Bildschirm kennst: Diese Seite zeigt einen @tutorial-Dialog und eine @project-Ansicht. Du kannst die *Bühne* @UI/stage sehen, die die Ausgabe des Programms zeigt, und den *Editor* @UI/editor, der den Programm-Code enthält.",
+                            "$~Dieses Programm ist leer, deshalb ist seine Ausgabe nur eine Aufforderung, ein Programm zu schreiben.",
+                            "$~Es gibt viele andere Bedienelemente, um das Programm anzuhalten und abzuspielen und den Code zu bearbeiten, aber darüber musst du dir jetzt keine Gedanken machen."
+                        ],
+                        null,
+                        { "edit": "'hi'" },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~In den meisten Programmiersprachen ist ein Programm eine Liste von Anweisungen, die dem Computer sagen, was er *tun* soll, wie zum Beispiel einen value auszugeben:",
+                            "$~\\py | print('hallo')\\js|console.log('hi')\\jv | System.out.println('hallo')\n;\\",
+                            "$~In Wordplay sind Programme *Ausdrücke*, die sagen, was das /Ergebnis/ des Programms sein soll, und nicht, wie es das erzeugen soll.",
+                            "$~Dieses Programm wird zum Wert ausgewertet \\'hallo'\\, der dann auf der Bühne gezeigt wird. Kein Ausgabebefehl, nur ein @expression, der sagt, zu welchem Wert ausgewertet werden soll."
+                        ],
+                        null,
+                        { "edit": ["message: 'hi'", "message"] },
+                        [
+                            "Bind",
+                            "neutral",
+                            "$~In anderen Sprachen ist eine variable ein benannter Behälter für einen value, und sein Wert kann sich ändern:",
+                            "$~\\py | score = 10\nscore = 20\nprint(score)\\js|let score = 10;\nscore = 20;\nconsole.log(score);\\jv | int\nscore = 10\n;\nscore = 20\n;\nSystem.out.println(score)\n;\\",
+                            "$~In Wordplay können sich benannte Werte nie ändern. Sie sind 'unveränderlich', das heißt, ihnen können keine neuen Werte zugewiesen werden. Deshalb nennen wir sie @Bind statt variable, weil sie nicht variieren können.",
+                            "$~Wir sprechen bald darüber, wie man interaktive Programme ohne veränderbare variable schreibt."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~Bedingungen prüfen",
+                    "subtitle": null,
+                    "concept": "Conditional",
+                    "performance": { "fit": "#Symbol ?" },
+                    "lines": [
+                        { "edit": ["num: 5", "num < 5 ?", "'more'", "'less'"] },
+                        [
+                            "Conditional",
+                            "neutral",
+                            "$~Andere Programmiersprachen haben meist eine *if*-Anweisung, um je nach condition unterschiedliche Dinge zu tun:",
+                            "$~\\py | num = 5\nif\nnum < 5\n:\nprint('weniger')\nsonst:\n\tprint('mehr')\\js|let num = 5;\nif(num < 5)\n    console.log('less');\nelse\n    console.log('more');\\jv | int\nnum = 5\nif(num < 5)\nSystem.out.println('weniger')\n;\nelse\nSystem.out.println('mehr')\n;\\",
+                            "$~In Wordplay ist alles ein @expression, deshalb ist die @Conditional ein *Ausdruck*, der mit einer condition geschrieben wird, dann einem \\?\\, dann einem wahren Ausdruck und einem falschen Ausdruck. Keine Schlüsselwörter nötig"
+                        ],
+                        null,
+                        { "edit": ["n: 1", "n ??? 1: 'one' 2: 'two' 'many'"] },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Manche Sprachen haben auch eine *switch*-Anweisung, um je nach value unterschiedliche Dinge zu tun:",
+                            "$~\\py| n = 1\nmatch n:\n  case 1: print('one')\n  case 2: print('two')\n  case _: print('many')\\js| switch (n) {\n  case 1: console.log('one'); break;\n  case 2: console.log('two'); break;\n  default: console.log('many'); break;\n}\\jv | switch\n(n)\n{\n\tcase\n\t1: System.out.println('eins')\n\t;break;\n\tcase\n\t2: System.out.println('zwei')\n\t;break;\n\tdefault: System.out.println('viele')\n\t;break;\n}\\",
+                            "$~Wordplay hat @Match, das ein Ergebnis nach Wert auswählt."
+                        ],
+                        null,
+                        { "edit": ["val: ø", "val ?? 0"] },
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~Manche Sprachen haben auch einen *null-coalescing*-operator, um einen Standard-value zu liefern, wenn eine variable null oder undefiniert ist:",
+                            "$~\\py | val = None\nresult = val ?? 0\\js| let val = null;\nlet result = val ?? 0;\\jv | Object\nval = null\n;\nObject\nresult = val\n!=null?val:0;\\",
+                            "$~Wordplay hat den @Otherwise-Operator, um dasselbe Ergebnis zu erreichen."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~Werte und Typen",
+                    "subtitle": null,
+                    "concept": "Number",
+                    "performance": { "fit": "#Symbol 0️⃣" },
+                    "lines": [
+                        {
+                            "edit": [
+                                "number: 1",
+                                "numberWithUnit: 1.5m",
+                                "text: 'hi'",
+                                "textWithTranslations: 'hi'/en'hola'/es",
+                                "boolean: ⊤",
+                                "none: ø"
+                            ],
+                            "conflicts": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~Die meisten Sprachen haben viele 'primitive' value-Typen.",
+                            "$~\\py | number\n:1\ntext: 'hallo'\nwahrheitswert: True\nnichts: None\\js| let number = 1;\nlet text = 'hi';\nlet boolean = true;\nlet none = null;\\jv | int\nnumber = 1\n;\nString\ntext = 'hallo'\n;\nboolean\nboolean = true\n;\nObject\nnone = null\n;\\",
+                            "$~Wordplay hat eine ähnliche Schreibweise für diese Typen, erlaubt dir aber auch, weitere Informationen hinzuzufügen, wie language-Markierungen für mehrsprachigen Text und Einheiten bei Zahlen."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "list: [1 2 3]",
+                                "set: {1 2 3}",
+                                "map: {'a': 1}"
+                            ],
+                            "conflicts": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~Programmiersprachen haben auch Wege, Sammlungen von Werten zu erstellen, wie Listen, Mengen und Maps (oft Wörterbücher oder Hashes genannt):",
+                            "$~\\py | list = [1 ,2,3]\n\t\tset = {1 ,2,3}\n\t\t\t\tmap = {'a': 1}\\js|let list = [1, 2, 3];\nlet set = new Set([1, 2, 3]);\nlet map = { a: 1 };\\jv | let\narray = [\n\t\t1\n\t\t,2,3];\n\t\tlet\n\t\tset = new\n\t\tjava.util.HashSet < >([\n\t\t\t\t\t1\n\t\t\t\t\t,2,3]);\n\t\t\t\t\tlet\n\t\t\t\t\tmap = new\n\t\t\t\t\tjava.util.HashMap < >()\n\t\t\t\t\t;\n\t\t\t\t\tmap.put('a' 1)\n\t\t\t\t\t;\\",
+                            "$~Wordplay verwendet eine andere Schreibweise für diese Sammlungen, vor allem nutzt es Leerzeichen statt Kommas, um Werte zu trennen."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "inferredType: [1 2 3]",
+                                "declaredType•[#]: [1 2 3]"
+                            ],
+                            "conflicts": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Manche Programmiersprachen erlauben dir, den type einer variable anzugeben, damit du sicherstellen kannst, dass alle Verwendungen der Variable gültig sind:",
+                            "$~\\py | list\n:list[int]=[1,2,3]\\js| // JavaScript doesn't have type annotations. TypeScript does though:\nlet list: number[] = [1, 2, 3];\\jv | List < Integer > list = Arrays.asList(1 ,2,3);\\",
+                            "$~Wordplay ist auch typisiert, aber die Typen werden *abgeleitet*. Meist musst du sie nicht angeben, aber manchmal musst du es vielleicht, wenn sie nicht abgeleitet werden können."
+                        ],
+                        null,
+                        { "edit": ["•Pet(name•'' age•#)", "Pet('boomy' 16)"] },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Programmiersprachen bieten meist auch eine Möglichkeit, eigene Datentypen zu erstellen, um mehrere Werte zu einer einzigen Datenstruktur zu verbinden:",
+                            "$~\\py | class\nstreicheln:\n\tdef\n_\n_\ninit\n_\n_(self ,name,age):\n\tself.name = name\n\tself.age = age\\js| class Pet {\n    constructor(name, age) {\n        this.name = name;\n        this.age = age;\n    }\n}\\jv | public\nclass\nPet\n{\n\tprivate\n\tString\n\tname\n\t;\n\tprivate\n\tint\n\tage\n\t;\n\tpublic\n\tPet(String name ,intage){\n\t\tthis.name = name ;\n\t\tthis.age = age ;\n\t\t}\n\t\t}\\",
+                            "$~Wordplay verwendet eine andere Schreibweise, um eine @Structure zu erstellen, und nutzt \\•\\, um einen Datentyp darzustellen, dann einen @name, dann die Felder in der Struktur."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~Umwandlungen, Sammlungen und Funktionen",
+                    "subtitle": null,
+                    "concept": "Convert",
+                    "performance": { "fit": "#Symbol →" },
+                    "lines": [
+                        { "edit": ["1m → #ft → ''"] },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Eine häufige Aufgabe beim Programmieren ist es, Daten von einem type in einen anderen umzuwandeln. Zum Beispiel möchten wir vielleicht eine Zahl in einen Text-value umwandeln:",
+                            "$~\\py | str(1)\\js| String(1)\\jv | String.valueOf(1)\\",
+                            "$~Alle Werte in Wordplay haben ein @Convert-Konstrukt, mit dem du zwischen Typen umwandeln kannst. Dieses Beispiel wandelt \\1m\\ in Fuß um und dann in @Text. Jede Art von Wert hat eine ganze Sammlung unterstützter Umwandlungen"
+                        ],
+                        null,
+                        { "edit": "[1 2 3] ↦ ⬚ × 2" },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~Für Sammlungen von Werten wie Listen und Arrays verwenden andere Programmiersprachen Konstrukte wie *for*- und *while*-Schleifen, um aus den Werten einer bestehenden Sammlung eine neue Sammlung zu erstellen.",
+                            "$~\\py | n = [1 ,2,3]\n\t\t#Listcomprehension\n\t\t[n\n\n\n\n\t\t\t2 )\\js| n = [1, 2, 3];\n// Map\nnums.map(n => n * 2);\n// For loop\nn2 = [];\nfor (let n of nums) {\n    n2.push(n * 2);\n}\\jv | int[]nums=[1,2,3];\n//Map\nnums.stream().map(n -> n\n\n\n\n\t2)\n;\n}\\",
+                            "$~Wordplay hat ein einfaches @Translate*-Konstrukt, das das \\↦\\-Symbol verwendet: Es baut eine neue @List, @Set oder @Map und ersetzt jedes Element (dargestellt durch den \\⬚\\-@placeholder) durch einen neuen value. Das verdoppelt jedes Element, um \\[2 4 6]\\ zu machen.",
+                            "$~Es gibt auch mächtigere Dinge wie @List.translate und @List.combine, falls du komplexere Aufgaben brauchst."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "ƒ greet(name•'') 'hi ' + name",
+                                "greet('Verse')"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~Jede Programmiersprache hat Funktionen, mit denen du wiederverwendbare blocks von Code erstellen kannst, die Eingaben annehmen und daraus Ausgaben erzeugen, mit beliebiger Komplexität:",
+                            "$~\\py | def\ngreet(n)\n:\nreturn\n'hallo ' + n\nprint(greet('Vers'))\\js| function greet(n) {\n  return 'hi ' + n\n}\nconsole.log(greet('Verse'))\\jv | public\nclass\nGreeter\n{\n\tpublic\n\tstatic\n\tString\n\tgreet(String n)\n\t{\n\t\treturn 'hallo ' + n ;\n\t}\n}\nGreeter.greet('Vers')\\",
+                            "$~Wordplay unterstützt auch Funktionsdefinitionen, aber mit dem ƒ-Symbol. Wie alle Wordplay-Programme müssen Funktionen zu einem value ausgewertet werden."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~Die Ausgabe ist typografisch, die Eingabe ist reaktiv",
+                    "subtitle": null,
+                    "concept": "Stage",
+                    "performance": { "fit": "#Symbol 💬" },
+                    "lines": [
+                        {
+                            "edit": "Stage([Phrase('🎉' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.5) 100%: Pose(scale: 1)} duration: 2s))] background: Color(90% 0 0°))"
+                        },
+                        [
+                            "Stage",
+                            "neutral",
+                            "$~Andere Programmiersprachen geben Text in einer Konsole aus, zeichnen auf eine Leinwand oder verändern eine Webseite:",
+                            "$~\\py | print('hallo')\\js| document.body.append('hi')\\jv | System.out.println('hallo')\n;\\",
+                            "$~Die Ausgabe von Wordplay ist typografisch: ein @Phrase, eine @Group oder eine @Stage, die gestalteten, animierten und interaktiven Text auf dem Bildschirm zeigt oder von einem Screenreader vorgelesen wird.",
+                            "$~Das Beispiel unten zeigt eine @Stage mit einem einzigen @Phrase, der eine ruhende Skalierungs-Animation hat."
+                        ],
+                        null,
+                        {
+                            "edit": "Phrase('🌎' rotation: Time(100ms) × 0.05°/ms)"
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~Die meisten Programmiersprachen haben eine Möglichkeit, Eingaben von der nutzenden Person anzunehmen:",
+                            "$~\\py | name = input('Wie heißt du?')\\js| const name = prompt('What is your name?')\\jv | Scanner\nscanner = new\nScanner(System.in)\n;\nString\nname = scanner.nextLine()\n;\\",
+                            "$~Die Eingabe von Wordplay kommt von *Streams*, das sind besondere Werte, die sich über die Zeit ändern, als Antwort auf Eingaben, und das Wordplay-Programm dazu bringen, mit dem neuen Wert des Streams neu ausgewertet zu werden.",
+                            "$~Dieses Programm zum Beispiel verwendet einen @Time-Stream, um die Drehung des Globus-Emojis anzutreiben. Jedes Mal, wenn der @Time()-Stream zu einem neuen value tickt, wird das Programm mit dem neuen Wert neu ausgewertet und aktualisiert den Wert des Programms auf der @Stage."
+                        ],
+                        null,
+                        { "edit": "Phrase(∆ Button() ? 'hi' 'click me')" },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Interaktivität bedeutet in den meisten Programmiersprachen, dass man Ereignis-Handler und Rückrufe registriert:",
+                            "$~\\py | import\ntkinter\nas\ntk\n\ndef\non\n_\nclick()\n:\nlabel.config(text = 'Hallo!')\n\nroot = tk.Tk()\nlabel = tk.Label(root ,text=\"Click the button\")\n\t\tlabel.pack()\n\t\ttk.🖱(root ,text=\"Click me\",command=on_click).pack()\n\t\t\troot.mainloop()\\js| addEventListener('keydown', () => document.body.append('hello'))\\jv | import\njavax.swing.\n\n\n\n\n\n\n\n\n\n\n\n\\",
+                            "$~In Wordplay können wir für Interaktivität einfach Streams wie @Button, @Key und @Pointer verwenden, um interaktive Elemente zu erstellen. Der Text dieses @Phrase hängt davon ab, ob der @Button angeklickt wird, indem eine @Conditional prüft, ob sich der @Button-Stream geändert hat (@Changed)."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "button: Button()",
+                                "count: 1 … ∆ button … count + 1",
+                                "Phrase(count → '')"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~Andere Programmiersprachen erlauben dir, die Werte von Variablen während der Laufzeit zu ändern, was nützlich sein kann, um dynamische und interaktive Anwendungen zu erstellen. Aber du musst daran denken, die Werte an den richtigen Stellen zu aktualisieren und das, was auf dem Bildschirm gezeigt wird, zu aktualisieren, wenn sich diese Werte ändern:",
+                            "$~\\py | import\ntkinter\nas\ntk\n\ncount = 0\n\ndef\non\n_\nclick()\n:\nglobal\ncount\ncount\n+=\n1\nlabel.config(text = f 'Klicks: {count}')\n\nroot = tk.Tk()\nlabel = tk.Label(root ,text=\"Clicks: 0\")\n\t\tlabel.pack()\n\t\ttk.🖱(root ,text=\"Click me\",command=on_click).pack()\n\t\t\troot.mainloop()\\js|let count = 0;\nfunction onClick() {\n    count++;\n    document.getElementById('label').textContent = `Clicks: ${count}`;\n\n}\naddEventListener('keydown', onClick);\\jv | import\njavax.swing.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\",
+                            "$~Wordplay vereinfacht das mit einem @Reaction-@expression, der bei einem Anfangswert startet, eine condition prüft, die sich auf Stream-Eingaben bezieht, und den Wert des Ausdrucks bei Änderungen des Streams aktualisiert. In diesem Beispiel aktualisieren wir jedes Mal, wenn sich der @Button-Stream ändert, den Wert von count, und das aktualisiert den @Phrase, der auf der @Stage gezeigt wird."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~Konflikte und Fehlersuche",
+                    "subtitle": null,
+                    "concept": "UnparsableExpression",
+                    "performance": { "fit": "#Symbol ‼️" },
+                    "lines": [
+                        {
+                            "edit": "1 + 'hello'",
+                            "conflicts": true,
+                            "sidebar": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "angry",
+                            "$~Andere Sprachen werfen *Fehler* — ein Zeichen, dass ein Programm etwas getan hat, das nicht erlaubt ist:",
+                            "$~\\py | 1 + 'hallo'\\js|1 + 'hello'\\jv | 1 + 'hallo'\\",
+                            "$~Wordplay nennt Fehler *Konflikte*: zwei Dinge, die nicht beide wahr sein können, wie das Addieren einer Zahl und eines Textes im Programm unten.",
+                            "$~Wordplay unterstreicht Konflikte und zeigt sie in der Seitenleiste @UI/conflict. Es bietet auch Vorschläge zur Lösung von Konflikten, um das Problem zu beheben."
+                        ],
+                        null,
+                        { "edit": "(1 + 2) × 3" },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~Die meisten Programmiersprachen bieten eine Art Werkzeug zur Fehlersuche, um den Erstellenden zu helfen, Probleme in ihrem Code zu verstehen und zu lösen. Aber viele verwenden einfach Ausgabe-Anweisungen, um die Werte von Variablen in einer Konsole zu prüfen:",
+                            "$~\\py | print(elapsed)\\js|console.log(elapsed)\\jv | System.out.println(elapsed)\\",
+                            "$~Wordplay bietet eine raffiniertere Erfahrung bei der Fehlersuche und erlaubt dir, durch die Auswertung *vorwärts* und *rückwärts* zu gehen. Die @UI/stepControls steuern die Auswertung in jede Richtung, sodass du beobachten kannst, wie ein Wert aufgebaut wird.",
+                            "$~Möchtest du mehr Hilfe? Die Schaltfläche @UI/debugtour im Bereich der Fehlersuche gibt eine geführte Tour durch diese Bedienelemente."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~Alles zusammensetzen",
+                    "subtitle": null,
+                    "concept": "Stage",
+                    "performance": { "fit": "#Symbol 🔨" },
+                    "lines": [
+                        { "edit": ["elapsed: Time(100ms)", "elapsed"] },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~Lass uns in drei Schritten ein kleines interaktives @project bauen.",
+                            "$~*Eins:* Lege deine Daten und *Streams* fest. Hier meldet ein @Time-Stream namens elapsed, wie lange das Programm schon läuft."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "elapsed: Time(100ms)",
+                                "turn: elapsed × 0.05°/ms",
+                                "turn"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~*Zwei:* *Reagiere* auf den Stream, indem du neue @Bind-Werte ableitest. Hier wandelt turn die vergangene Zeit in Grad um und berechnet neu, wann immer sich elapsed ändert."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "elapsed: Time(100ms)",
+                                "turn: elapsed × 0.05°/ms",
+                                "Stage([Phrase('✨' rotation: turn)] background: Color(25% 0 0°))"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~*Drei:* *Ausgabe* — bilde deine Daten auf einen @Phrase, eine @Group oder eine @Stage ab. Jetzt dreht sich der Stern von selbst!"
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "volume: Volume()",
+                                "turn: volume × 360°",
+                                "Stage([Phrase('✨' rotation: turn)] background: Color(25% 0 0°))"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~Wir können das noch interaktiver machen, indem wir eine Nutzereingabe hinzufügen, um die Drehung zu steuern, wie die @Volume der Mikrofon-Eingabe. Sie ist ein Wert zwischen 0 und 1, also können wir sie auf 360 Grad abbilden.",
+                            "$~So sehen die meisten Projekte aus: erst Festlegungen, dann Reaktionen, dann Ausgabe. Der <Guide//guide> hat einen @how-Abschnitt voller Rezepte zum Studieren, Kopieren und Bearbeiten.",
+                            "$~Viel Freude beim Erstellen!"
+                        ]
+                    ]
+                }
+            ]
+        }
+    ]
+}

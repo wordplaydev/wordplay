@@ -1,12 +1,8 @@
-import {
-    HowToIDs,
-    parseHowTo,
-    type HowToBundleEntry,
-} from '@concepts/HowTo';
+import { HowToIDs, parseHowTo, type HowToBundleEntry } from '@concepts/HowTo';
 import Log from '@util/verify-locales/Log';
+import writeFormatted from '@util/verify-locales/writeFormatted';
 import fs from 'fs';
 import path from 'path';
-import * as prettier from 'prettier';
 
 /**
  * Generates a single `{locale}-how.json` bundle per locale from the authoring
@@ -28,7 +24,6 @@ const bundlePath = (locale: string) =>
 export async function buildHowToBundle(
     log: Log,
     locale: string,
-    prettierOptions: prettier.Options | null,
 ): Promise<void> {
     const entries: HowToBundleEntry[] = [];
 
@@ -62,31 +57,22 @@ export async function buildHowToBundle(
         });
     }
 
-    const json = await prettier.format(JSON.stringify(entries, null, 4), {
-        ...prettierOptions,
-        parser: 'json',
-    });
-
-    // Write only if changed so re-runs don't churn git.
-    const target = bundlePath(locale);
-    const existing = fs.existsSync(target)
-        ? fs.readFileSync(target, 'utf-8')
-        : undefined;
-    if (existing !== json) {
-        fs.writeFileSync(target, json);
+    // Write only if changed (writeFormatted) so re-runs don't churn git.
+    const wrote = await writeFormatted(
+        bundlePath(locale),
+        JSON.stringify(entries, null, 4),
+    );
+    if (wrote)
         log.good(2, `Wrote how-to bundle for ${locale} (${entries.length})`);
-    }
 }
 
 /** Build bundles for every locale directory. Used by the standalone `npm run how` script. */
 export async function buildAllHowToBundles(log: Log): Promise<void> {
-    const prettierOptions = await prettier.resolveConfig('');
     const localeFolders = fs.readdirSync(path.join('static', 'locales'), {
         withFileTypes: true,
     });
     for (const folder of localeFolders) {
-        if (folder.isDirectory())
-            await buildHowToBundle(log, folder.name, prettierOptions);
+        if (folder.isDirectory()) await buildHowToBundle(log, folder.name);
     }
 }
 

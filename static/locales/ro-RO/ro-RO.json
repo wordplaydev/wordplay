@@ -3,56 +3,171 @@
     "language": "ro",
     "regions": ["RO"],
     "wordplay": "$~Joc de cuvinte",
-    "term": {
-        "bind": "$~lega",
-        "evaluate": "$~evalua",
-        "decide": "$~decide",
-        "project": "$~proiect",
-        "document": "$~explica",
-        "source": "$~sursă",
-        "code": "$~cod",
-        "input": "$~intrare",
-        "output": "$~ieșire",
-        "convert": "$~convertit",
-        "how": "$~instrucțiuni",
-        "act": "$~act",
-        "scene": "$~scenă",
-        "phrase": "$~fraza",
-        "group": "$~grup",
-        "stage": "$~etapă",
-        "type": "$~tip",
-        "start": "$~început",
-        "entered": "$~nou",
-        "changed": "$~schimbat",
-        "moved": "$~mutat",
-        "name": "$~nume",
-        "value": "$~valoare",
-        "text": "$~text",
-        "boolean": "$~boolean",
-        "map": "$~hartă",
-        "number": "$~număr",
-        "unit": "$~unitate",
-        "markup": "$~marcaj",
-        "function": "$~funcţie",
-        "exception": "$~excepţie",
-        "table": "$~masă",
-        "column": "$~coloană",
-        "row": "$~rând",
-        "cell": "$~celulă",
-        "none": "$~nici unul",
-        "list": "$~listă",
-        "stream": "$~flux",
-        "structure": "$~structura",
-        "index": "$~index",
-        "query": "$~interogare",
-        "set": "$~set",
-        "key": "$~cheie",
-        "help": "$~Ajutor",
-        "feedback": "$~feedback",
-        "documentation": "$~documentare",
-        "language": "$~limbă",
-        "region": "$~regiune",
-        "pattern": "$~model"
+    "glossary": {
+        "value": {
+            "word": "$~valoare",
+            "definition": "$~O informație, cum ar fi un număr, niște cuvinte sau o listă."
+        },
+        "type": {
+            "word": "$~tip",
+            "definition": "$~Felul unei valori, cum ar fi un număr sau un text. Tipul unei valori decide ce poți face cu ea."
+        },
+        "expression": {
+            "word": "$~expresie",
+            "definition": "$~O bucată de cod care produce o valoare când rulează."
+        },
+        "variable": {
+            "word": "$~variabilă",
+            "definition": "$~Un nume a cărui valoare se poate schimba în timp ce un program rulează."
+        },
+        "parameter": {
+            "word": "$~parametru",
+            "definition": "$~O intrare cu nume pe care o funcție o așteaptă când o apelezi."
+        },
+        "argument": {
+            "word": "$~argument",
+            "definition": "$~O valoare pe care o dai unei funcții pentru unul dintre parametrii ei."
+        },
+        "operator": {
+            "word": "$~operator",
+            "definition": "$~Un simbol, cum ar fi + sau -, care combină sau compară valori."
+        },
+        "condition": {
+            "word": "$~condiție",
+            "definition": "$~Un test adevărat-sau-fals care decide ce face un program în continuare."
+        },
+        "loop": {
+            "word": "$~buclă",
+            "definition": "$~Cod care repetă o acțiune de multe ori."
+        },
+        "iteration": {
+            "word": "$~iterație",
+            "definition": "$~O trecere printr-o buclă."
+        },
+        "recursion": {
+            "word": "$~recursie",
+            "definition": "$~Când o funcție se apelează pe ea însăși pentru a rezolva o parte mai mică a unei probleme."
+        },
+        "property": {
+            "word": "$~proprietate",
+            "definition": "$~O parte cu nume a unei valori, cum ar fi luminozitatea unei culori."
+        },
+        "element": {
+            "word": "$~element",
+            "definition": "$~Un element dintr-o listă sau un grup."
+        },
+        "scope": {
+            "word": "$~domeniu",
+            "definition": "$~Partea unui program în care un nume poate fi folosit."
+        },
+        "state": {
+            "word": "$~stare",
+            "definition": "$~Informație pe care un program o păstrează și o poate schimba în timp."
+        },
+        "sideEffect": {
+            "word": "$~efect secundar",
+            "definition": "$~O schimbare pe care un program o face pe lângă întoarcerea unei valori, cum ar fi afișarea unui rezultat."
+        },
+        "abstraction": {
+            "word": "$~abstractizare",
+            "definition": "$~Ascunderea detaliilor ca să poți folosi ceva fără să știi cum funcționează pe dinăuntru."
+        },
+        "project": {
+            "word": "$~proiect",
+            "definition": "$~Toate fișierele care alcătuiesc un program Wordplay."
+        },
+        "code": {
+            "word": "$~cod",
+            "definition": "$~Textul pe care îl scrii ca să spui unui program ce să facă."
+        },
+        "act": {
+            "word": "$~act",
+            "definition": "$~O parte mare a tutorialului, ca un act dintr-o piesă de teatru."
+        },
+        "how": {
+            "word": "$~instrucțiuni",
+            "definition": "$~Un ghid scurt care arată cum să faci un singur lucru."
+        },
+        "gallery": {
+            "word": "$~galerie",
+            "definition": "$~Un loc unde oamenii împart și explorează proiecte."
+        },
+        "blocks": {
+            "word": "$~blocuri",
+            "definition": "$~Un mod de a edita codul prin tragerea unor piese în loc de tastare."
+        },
+        "placeholder": {
+            "word": "$~substituent",
+            "definition": "$~Un loc gol care arată unde lipsește cod sau o valoare."
+        },
+        "conflict": {
+            "word": "$~conflict",
+            "definition": "$~O problemă din cod pe care Wordplay o marchează ca să o poți repara."
+        },
+        "checkpoint": {
+            "word": "$~punct de salvare",
+            "definition": "$~Un punct salvat din munca ta la care te poți întoarce."
+        },
+        "guide": {
+            "word": "$~ghid",
+            "definition": "$~Referința în care poți căuta și care explică ideile din Wordplay."
+        },
+        "tutorial": {
+            "word": "$~tutorial",
+            "definition": "$~Lecțiile pas cu pas care te învață Wordplay."
+        },
+        "name": {
+            "word": "$~nume",
+            "definition": "$~Un cuvânt care se referă la o valoare sau la o funcție."
+        },
+        "markup": {
+            "word": "$~marcaj",
+            "definition": "$~Text cu formatare, cum ar fi cuvinte îngroșate sau legături."
+        },
+        "language": {
+            "word": "$~limbă",
+            "definition": "$~O limbă omenească în care este scris un nume sau un text."
+        },
+        "documentation": {
+            "word": "$~documentare",
+            "definition": "$~Text care explică ce face codul."
+        },
+        "region": {
+            "word": "$~regiune",
+            "definition": "$~Un loc unde se folosește o limbă, ceea ce poate schimba felul în care arată numerele și datele."
+        },
+        "start": {
+            "word": "$~început",
+            "definition": "$~Fișierul sursă principal de unde începe un proiect."
+        },
+        "query": {
+            "word": "$~interogare",
+            "definition": "$~Un mod de a alege rânduri dintr-un tabel."
+        },
+        "key": {
+            "word": "$~cheie",
+            "definition": "$~Valoarea folosită pentru a găsi un element într-o hartă."
+        },
+        "index": {
+            "word": "$~index",
+            "definition": "$~Un număr care alege un element după poziția lui într-o listă."
+        },
+        "moved": {
+            "word": "$~mutat",
+            "definition": "$~Rezultat care și-a schimbat poziția pe scenă."
+        },
+        "entered": {
+            "word": "$~nou",
+            "definition": "$~Rezultat care a apărut pe scenă pentru prima dată."
+        },
+        "cell": {
+            "word": "$~celulă",
+            "definition": "$~O valoare dintr-un rând de tabel."
+        },
+        "column": {
+            "word": "$~coloană",
+            "definition": "$~Un câmp cu nume dintr-un tabel."
+        }
     },
     "token": {
         "EvalOpen": "$~evaluare deschisă",
@@ -184,17 +299,17 @@
             "doc": [
                 "I richly format things with @Markup, like explanations of some of your @Program, or even the words you put on stage with @Phrase.",
                 "For example, I can go before any expression:",
-                "\\¶Is this really supposed to be 7?¶\n7\\",
+                "$~\\¶Is this really supposed to be 7?¶\n7\\",
                 "For example, you can place me before @Bind:",
-                "\\¶I measure how tall someone is¶\nheight: 5m\\",
+                "$~\\¶I measure how tall someone is¶\nheight: 5m\\",
                 "Or before a @FunctionDefinition:",
-                "\\¶I add two numbers¶\nƒ sum(a•# b•#) a + b\\",
+                "$~\\¶I add two numbers¶\nƒ sum(a•# b•#) a + b\\",
                 "Or before a @StructureDefinition:",
-                "\\¶I remember people's name and favorite fruit¶\n•Person(name•'' fruit•'')\\",
+                "$~\\¶I remember people's name and favorite fruit¶\n•Person(name•'' fruit•'')\\",
                 "You can also place me at the very beginning of @Program to say what the whole performance is about",
-                "\\¶This program says hello¶\n\n'hello!'\\",
+                "$~\\¶This program says hello¶\n\n'hello!'\\",
                 "You can give me a @Language to help others know what language I'm written in:",
-                "\\¶I'm an English doc¶/en\nduration: 5s\\",
+                "$~\\¶I'm an English doc¶/en\nduration: 5s\\",
                 "Did you know you can make a list of me? Go talk to @Docs."
             ]
         },
@@ -400,11 +515,11 @@
             "doc": [
                 "I'm a link to Verse character. I'm helpful when you want to write a @Doc and refer to one of us.",
                 "For example, say you wanted to talk about @Evaluate, and how awesome they are. You could write:",
-                "\\¶You know, @Evaluate is pretty awesome.¶\n'look, a character link!'\\",
+                "$~\\¶You know, @Evaluate is pretty awesome.¶\n'look, a character link!'\\",
                 "Characters also have numbers that correspond to them. For example, @FunctionDefinition is 192. You can refer to them by number and they'll appear:",
-                "\\`@192 is so nice!`\\",
+                "$~\\`@192 is so nice!`\\",
                 "And if you make your own character, you can refer to them by the name you gave them.",
-                "\\`@coolbeans`\\",
+                "$~\\`@coolbeans`\\",
                 "Oh... I guess that character doesn't exist, so you get a little square. But if they did, they would show up here!"
             ],
             "kind": {
@@ -420,7 +535,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Sunt orice cuvinte doriți într-un @Doc. De exemplu:",
-                "\\¶May the Force be with you.¶\n'just some words!'\\",
+                "$~\\¶May the Force be with you.¶\n'just some words!'\\",
                 "$~Uneori însă, este posibil să doriți să utilizați caracterele speciale pe care @Doc le folosește /ca/ cuvinte. De exemplu:",
                 "$~\\¶Prietenii mei folosesc @@, //, **, || și alte simboluri.¶ 'folosind caractere speciale!'\\",
                 "$~Dacă repetați doar acele caractere speciale, veți obține caracterul în loc de semnificația lor specială."
@@ -450,7 +565,7 @@
             "description": "$~menționează $name în markup",
             "emotion": "serious",
             "doc": [
-                "$~Sunt o referință fie la terminologie \\ $program \\, fie la o intrare dinamică \\ $name \\.",
+                "$~Sunt o referință fie la terminologie \\¶@program¶\\, fie la o intrare dinamică \\¶$name¶\\.",
                 "$~Aceasta este în mare parte o caracteristică internă, deci nu ar trebui să fie nevoie să o știi."
             ]
         },
@@ -503,28 +618,28 @@
             "doc": [
                 "I name *values*.",
                 "Like this!",
-                "\\pi: 3.1415926\\",
+                "$~\\pi: 3.1415926\\",
                 "I name inputs to @FunctionDefinition and @StructureDefinition, I name values in @Block. I name everything!",
                 "Oh, but did you know you can have one value *many names*?",
                 "I'm so excited to tell you about this! One value, many @Names. For example:",
-                "\\joe,tess,amy: 5\\",
+                "$~\\joe,tess,amy: 5\\",
                 "See what I did there? ",
                 "One value, three names.",
                 "You can refer to that five by *any* of those names.",
                 "This is especially when you want to give names in many languages:",
-                "\\joe/en,aimee/fr,明/zh: 5\\",
+                "$~\\joe/en,aimee/fr,明/zh: 5\\",
                 "See what I did there? Three names for one value, just in different languages!",
                 "Okay, I have one last secret.",
                 "Did you know I can work with @Is to tell me what kind of value a name should have? And if I doesn't have it, I will tell you?",
                 "Like this:",
-                "\\bignumber•#: \"one zillion\"\\",
-                "See, I said \\bignumber\\ should be a number, but it's text, and those aren't compatible and so BOOM!",
+                "$~\\bignumber•#: \"one zillion\"\\",
+                "$~See, I said \\bignumber\\ should be a number, but it's text, and those aren't compatible and so BOOM!",
                 "I'll let you know if they disagree.",
                 "Sometimes you might *have* to tell me what kind of data something else because I can't figure it out myself. That usually happens in @FunctionDefinition.",
-                "For example, here, @FunctionDefinition doesn't know what what kind of values \\a\\ and \\b\\ have, because I didn't tell them.",
-                "\\ƒ sum(a b) a + b\\",
+                "$~For example, here, @FunctionDefinition doesn't know what what kind of values \\a\\ and \\b\\ have, because I didn't tell them.",
+                "$~\\ƒ sum(a b) a + b\\",
                 "But we can change this to add the @Is, and now @FunctionDefinition knows that they're numbers:",
-                "\\ƒ sum(a•# b•#) a + b\\"
+                "$~\\ƒ sum(a•# b•#) a + b\\"
             ],
             "label": {
                 "value": "$~valoare",
@@ -649,12 +764,12 @@
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~împrumutnecunoscut",
-                    "explanation": "$~Nu cunosc o $source cu acest nume.",
+                    "explanation": "$~Nu cunosc o @Source cu acest nume.",
                     "resolution": "$~Eliminați această împrumut"
                 },
                 "BorrowCycle": {
                     "name": "$~împrumutautoreferențial",
-                    "explanation": "$~aceasta depinde de $borrow , care depinde și de această $source , deci programul nu poate fi evaluat.",
+                    "explanation": "$~aceasta depinde de $borrow , care depinde și de această @Source , deci programul nu poate fi evaluat.",
                     "resolution": "$~Eliminați această împrumut pentru a rupe ciclul"
                 }
             },
@@ -791,10 +906,10 @@
             "doc": [
                 "$~Sunt orice expresie, dar cu un @Doc!",
                 "$~Ca să mă creezi, pune pur și simplu un @Doc înaintea unei expresii și vei primi:",
-                "$~\\doubleplus: 1 (2 × doubleplus) + ¶Să-l facem puțin mai mare¶ 1\\",
+                "$~\\doubleplus: 1\n(2 × doubleplus) + \n¶Let's make it just a little bit bigger¶\n1\\",
                 "$~Sunt util pentru a face un comentariu asupra unei părți a unui program.",
                 "$~Dacă pui 👀 în @Doc, pot evidenția și expresia:",
-                "$~\\¶Uită-te la mine! 👀¶1+1\\"
+                "$~\\¶Look at me! 👀¶1+1\\"
             ],
             "start": "$~Să evaluăm expresia"
         },
@@ -871,7 +986,7 @@
                 },
                 "SeparatedEvaluate": {
                     "name": "$~evaluareambiguă",
-                    "explanation": "$~Este $name numele unei $structure [ $structure | $function ] pe care încerci să o evaluezi? Încearcă să elimini spațiul de după mine, ca să știu că este un @Evaluate și nu un @Block separat.",
+                    "explanation": "$~Este $name numele unei $structure [ $structure | @FunctionDefinition ] pe care încerci să o evaluezi? Încearcă să elimini spațiul de după mine, ca să știu că este un @Evaluate și nu un @Block separat.",
                     "resolution": "$~Închideți spațiul dintre * $name * și intrările sale"
                 }
             },
@@ -5522,7 +5637,7 @@
                     "tip": "$~copiază proiectul în clipboard ca text",
                     "label": "$~copiază ca text"
                 },
-                "addSource": "$~creează o nouă $source",
+                "addSource": "$~creează o nouă @Source",
                 "duplicate": {
                     "tip": "$~duplicați acest proiect",
                     "label": "$~duplicat"
@@ -5920,7 +6035,7 @@
             ],
             "confirm": {
                 "delete": {
-                    "description": "$~ștergeți această $source",
+                    "description": "$~ștergeți această @Source",
                     "prompt": "$~şterge"
                 }
             },
@@ -6259,10 +6374,11 @@
             "mode": {
                 "browse": {
                     "label": "$~secțiune",
-                    "labels": ["$~cod", "$~instrucțiuni"],
+                    "labels": ["$~cod", "$~instrucțiuni", "$~glosar"],
                     "tips": [
-                        "$~concepte de limbaj de programare",
-                        "$~modele reutilizabile pentru realizarea de proiecte"
+                        "$~concepte ale limbajului de programare",
+                        "$~tipare reutilizabile pentru a face proiecte",
+                        "$~definiții ale termenilor cheie"
                     ]
                 },
                 "purpose": {
@@ -6426,7 +6542,13 @@
                 "label": "$~istoricul navigației",
                 "home": "$~Acasă"
             },
-            "tutorial": "$~Tutorial"
+            "tutorial": "$~Tutorial",
+            "glossary": {
+                "explain": {
+                    "header": "$~Glosar",
+                    "explanation": "$~/Termeni și idei folosite în întreg limbajul de programare și platforma Wordplay./"
+                }
+            }
         },
         "dialog": {
             "share": {
@@ -7174,7 +7296,11 @@
                     "ui": "$~Interfață utilizator",
                     "gallery": "$~Galerie",
                     "moderation": "$~Moderare"
-                }
+                },
+                "literalTermsWarning": "$~Ciorna ta folosește cuvinte din glosar ca text simplu. Atinge unul ca să îl transformi într-o legătură către glosar.",
+                "checkReadingLevel": "$~Verifică nivelul de citire al acestui șir de text",
+                "readingLevelComplex": "$~Acest text poate fi greu de citit. Încearcă propoziții mai scurte și cuvinte mai simple.",
+                "readingLevelOk": "$~Acest text se citește clar pentru nivelul de citire țintă."
             },
             "teach": {
                 "header": "$~Predă",

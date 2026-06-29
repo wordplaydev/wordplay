@@ -14,16 +14,14 @@ import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 
 /**
- * To refer to an input, use a $, followed by the number of the input desired,
- * starting from 1.
+ * A `$` mention substitutes a template input by name (the `$?`/`$!` placeholders
+ * are handled specially below):
  *
- *      "Hello, my name is $1"
+ *      "I expected $expected, but received $given"
  *
- * To indicate that you want to reuse a common phrase defined in a locale's "terminology" dictionary,
- * use a $ followed by any number of word characters (in regex, /\$\w/). This allows
- * for terminology to be changed globally without search and replace.
- *
- *      "To create a new $program, click here."
+ * `$` is only for input substitution. Glossary terms are referenced with `@term`
+ * (resolved by ConceptLink, alongside `@Concept` links), so a `$name` that isn't
+ * a declared input resolves to nothing here.
  */
 export default class Mention extends Content {
     readonly name: Token;
@@ -110,15 +108,9 @@ export default class Mention extends Content {
 
             return replacement;
         }
-        // Try to resolve terminology.
-        else {
-            const term = locales.getTermByID(name);
-            const replacement = term ? new Token(term, Sym.Words) : undefined;
-
-            if (replacement instanceof Token)
-                replacements.push([this, replacement]);
-            return replacement;
-        }
+        // Not a placeholder or a declared input: nothing to substitute. Glossary
+        // terms are `@term` now (resolved by ConceptLink), not `$term`.
+        else return undefined;
     }
 
     getDescriptionInputs() {

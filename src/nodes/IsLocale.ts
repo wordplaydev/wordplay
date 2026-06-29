@@ -54,7 +54,7 @@ export default class IsLocale extends SimpleExpression {
             {
                 name: 'locale',
                 kind: optional(node(Language)),
-                label: () => (l) => l.term.language,
+                label: () => (l) => l.glossary.language.word,
             },
         ];
     }
@@ -121,12 +121,9 @@ export default class IsLocale extends SimpleExpression {
     }
 
     getStartExplanations(locales: Locales) {
-        return locales.concretize(
-            (l) => l.node.IsLocale.start,
-            {
-                locale: this.locale?.toWordplay() ?? '-',
-            },
-        );
+        return locales.concretize((l) => l.node.IsLocale.start, {
+            locale: this.locale?.toWordplay() ?? '-',
+        });
     }
 
     getCharacter() {

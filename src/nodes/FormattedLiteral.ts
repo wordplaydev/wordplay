@@ -130,7 +130,7 @@ export default class FormattedLiteral extends Literal {
             {
                 name: 'texts',
                 kind: list(false, node(FormattedTranslation)),
-                label: () => (l) => l.term.markup,
+                label: () => (l) => l.glossary.markup.word,
             },
         ];
     }

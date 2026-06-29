@@ -302,8 +302,26 @@ export const [getShowLines, setShowLines] = createContext<Writable<boolean>>();
 /** The guide's navigation history: a flat stack of visited locations (home is the
  *  empty stack; search results and concepts are pushed on top). See GuideHistory.ts. */
 export type ConceptPath = GuideHistory;
-export const [getConceptPath, setConceptPath] =
-    createContext<Writable<ConceptPath>>();
+const ConceptPathSymbol = Symbol('conceptPath');
+/** The guide's navigation path. Required getter — throws if unset; use in the
+ *  guide/project/tutorial, where it's always provided. */
+export function getConceptPath(): Writable<ConceptPath> {
+    const path = getContext<Writable<ConceptPath> | undefined>(
+        ConceptPathSymbol,
+    );
+    if (path === undefined)
+        throw new Error('Concept path context was not set in a parent.');
+    return path;
+}
+/** Optional getter — undefined when unset. Use where concept links can render
+ *  without a guide context (e.g. inside the global Hint/tooltip or a standalone
+ *  page), so a missing path degrades gracefully instead of throwing. */
+export function getConceptPathOptional(): Writable<ConceptPath> | undefined {
+    return getContext<Writable<ConceptPath> | undefined>(ConceptPathSymbol);
+}
+export function setConceptPath(path: Writable<ConceptPath>): void {
+    setContext(ConceptPathSymbol, path);
+}
 
 /** The current index of concepts */
 export type ConceptIndexContext = { index: ConceptIndex | undefined };

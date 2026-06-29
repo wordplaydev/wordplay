@@ -47,7 +47,7 @@ export default class TypePlaceholder extends Type {
             {
                 name: 'placeholder',
                 kind: node(Sym.Placeholder),
-                label: () => (l) => l.term.type,
+                label: () => (l) => l.glossary.type.word,
             },
         ];
     }

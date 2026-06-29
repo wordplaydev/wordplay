@@ -6,7 +6,7 @@
 // semicolon-separated file.
 //
 // The output omits the human-readable Unicode name. Emoji names come from
-// per-locale CLDR data (see scripts/generate-emojis.mjs), so storing the
+// per-locale CLDR data (see src/util/verify-locales/generateEmojis.ts), so storing the
 // English name in codes.txt was redundant.
 //
 // Output format, one entry per line:

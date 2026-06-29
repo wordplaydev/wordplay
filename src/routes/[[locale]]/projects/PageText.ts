@@ -21,9 +21,9 @@ type PageText = {
     };
     /** Search functionality */
     search: {
-        /** Description for the search field */
+        /** [plain] Description for the search field */
         description: string;
-        /** No project search results */
+        /** [plain] No project search results */
         noResults: string;
     };
     button: {

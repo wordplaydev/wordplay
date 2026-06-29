@@ -3,56 +3,171 @@
     "language": "vi",
     "regions": ["VN"],
     "wordplay": "$~Trò chơi chữ",
-    "term": {
-        "bind": "$~liên kết",
-        "evaluate": "$~đánh giá",
-        "decide": "$~quyết định",
-        "project": "$~dự án",
-        "document": "$~giải thích",
-        "source": "$~nguồn",
-        "code": "$~mã số",
-        "input": "$~đầu vào",
-        "output": "$~đầu ra",
-        "convert": "$~chuyển thành",
-        "how": "$~làm cách nào để",
-        "act": "$~hành động",
-        "scene": "$~bối cảnh",
-        "phrase": "$~cụm từ",
-        "group": "$~nhóm",
-        "stage": "$~sân khấu",
-        "type": "$~kiểu",
-        "start": "$~bắt đầu",
-        "entered": "$~mới",
-        "changed": "$~đã thay đổi",
-        "moved": "$~di chuyển",
-        "name": "$~tên",
-        "value": "$~giá trị",
-        "text": "$~chữ",
-        "boolean": "$~boolean",
-        "map": "$~bản đồ",
-        "number": "$~con số",
-        "unit": "$~đơn vị",
-        "markup": "$~đánh dấu",
-        "function": "$~chức năng",
-        "exception": "$~ngoại lệ",
-        "table": "$~bàn",
-        "column": "$~cột",
-        "row": "$~hàng ngang",
-        "cell": "$~tế bào",
-        "none": "$~không có",
-        "list": "$~danh sách",
-        "stream": "$~suối",
-        "structure": "$~kết cấu",
-        "index": "$~chỉ mục",
-        "query": "$~truy vấn",
-        "set": "$~bộ",
-        "key": "$~chìa khóa",
-        "help": "$~Giúp đỡ",
-        "feedback": "$~nhận xét",
-        "documentation": "$~tài liệu",
-        "language": "$~ngôn ngữ",
-        "region": "$~vùng đất",
-        "pattern": "$~mẫu"
+    "glossary": {
+        "value": {
+            "word": "$~giá trị",
+            "definition": "$~Một mẩu thông tin, như một con số, vài từ, hoặc một danh sách."
+        },
+        "type": {
+            "word": "$~kiểu",
+            "definition": "$~Loại của một giá trị, ví dụ như số hoặc văn bản. Kiểu của một giá trị quyết định những gì bạn có thể làm với nó."
+        },
+        "expression": {
+            "word": "$~biểu thức",
+            "definition": "$~Một đoạn mã số tạo ra một giá trị khi nó chạy."
+        },
+        "variable": {
+            "word": "$~biến",
+            "definition": "$~Một tên mà giá trị của nó có thể thay đổi trong khi chương trình chạy."
+        },
+        "parameter": {
+            "word": "$~tham số",
+            "definition": "$~Một đầu vào có tên mà một hàm cần khi bạn gọi nó."
+        },
+        "argument": {
+            "word": "$~đối số",
+            "definition": "$~Một giá trị bạn đưa cho một hàm cho một trong các tham số của nó."
+        },
+        "operator": {
+            "word": "$~toán tử",
+            "definition": "$~Một ký hiệu, như + hoặc -, dùng để kết hợp hoặc so sánh các giá trị."
+        },
+        "condition": {
+            "word": "$~điều kiện",
+            "definition": "$~Một phép kiểm tra đúng-hoặc-sai quyết định chương trình làm gì tiếp theo."
+        },
+        "loop": {
+            "word": "$~vòng lặp",
+            "definition": "$~Mã số lặp lại một hành động nhiều lần."
+        },
+        "iteration": {
+            "word": "$~lần lặp",
+            "definition": "$~Một lần đi qua một vòng lặp."
+        },
+        "recursion": {
+            "word": "$~đệ quy",
+            "definition": "$~Khi một hàm tự gọi chính nó để xử lý một phần nhỏ hơn của một bài toán."
+        },
+        "property": {
+            "word": "$~thuộc tính",
+            "definition": "$~Một phần có tên của một giá trị, như độ sáng của một màu."
+        },
+        "element": {
+            "word": "$~phần tử",
+            "definition": "$~Một mục trong một danh sách hoặc nhóm."
+        },
+        "scope": {
+            "word": "$~phạm vi",
+            "definition": "$~Phần của một chương trình nơi một tên có thể được dùng."
+        },
+        "state": {
+            "word": "$~trạng thái",
+            "definition": "$~Thông tin mà một chương trình giữ và có thể thay đổi theo thời gian."
+        },
+        "sideEffect": {
+            "word": "$~hiệu ứng phụ",
+            "definition": "$~Một thay đổi mà chương trình tạo ra ngoài việc trả về một giá trị, như hiển thị kết quả."
+        },
+        "abstraction": {
+            "word": "$~trừu tượng hóa",
+            "definition": "$~Giấu đi các chi tiết để bạn có thể dùng một thứ gì đó mà không cần biết nó hoạt động bên trong ra sao."
+        },
+        "project": {
+            "word": "$~dự án",
+            "definition": "$~Tất cả các tập tin tạo nên một chương trình Wordplay."
+        },
+        "code": {
+            "word": "$~mã số",
+            "definition": "$~Văn bản bạn viết để bảo một chương trình phải làm gì."
+        },
+        "act": {
+            "word": "$~hành động",
+            "definition": "$~Một phần lớn của bài học, giống như một hành động trong một vở kịch."
+        },
+        "how": {
+            "word": "$~làm cách nào để",
+            "definition": "$~Một sổ tay hướng dẫn ngắn cho thấy cách làm một việc."
+        },
+        "gallery": {
+            "word": "$~phòng trưng bày",
+            "definition": "$~Một nơi mọi người chia sẻ và khám phá các dự án."
+        },
+        "blocks": {
+            "word": "$~khối",
+            "definition": "$~Một cách chỉnh sửa mã số bằng cách kéo các mảnh thay vì gõ."
+        },
+        "placeholder": {
+            "word": "$~chỗ giữ chỗ",
+            "definition": "$~Một chỗ trống cho thấy nơi mã số hoặc một giá trị còn thiếu."
+        },
+        "conflict": {
+            "word": "$~xung đột",
+            "definition": "$~Một vấn đề trong mã số mà Wordplay đánh dấu để bạn có thể sửa."
+        },
+        "checkpoint": {
+            "word": "$~điểm lưu",
+            "definition": "$~Một điểm đã lưu trong công việc của bạn mà bạn có thể quay lại."
+        },
+        "guide": {
+            "word": "$~sổ tay hướng dẫn",
+            "definition": "$~Tài liệu tham khảo có thể tìm kiếm, giải thích các ý tưởng của Wordplay."
+        },
+        "tutorial": {
+            "word": "$~bài học",
+            "definition": "$~Các bài học từng bước dạy về Wordplay."
+        },
+        "name": {
+            "word": "$~tên",
+            "definition": "$~Một từ chỉ đến một giá trị hoặc một hàm."
+        },
+        "markup": {
+            "word": "$~đánh dấu",
+            "definition": "$~Văn bản có định dạng, như chữ in đậm hoặc liên kết."
+        },
+        "language": {
+            "word": "$~ngôn ngữ",
+            "definition": "$~Một ngôn ngữ của con người mà một tên hoặc văn bản được viết bằng."
+        },
+        "documentation": {
+            "word": "$~tài liệu",
+            "definition": "$~Văn bản giải thích mã số làm gì."
+        },
+        "region": {
+            "word": "$~vùng đất",
+            "definition": "$~Một nơi mà một ngôn ngữ được dùng, điều này có thể thay đổi cách hiển thị số và ngày tháng."
+        },
+        "start": {
+            "word": "$~bắt đầu",
+            "definition": "$~Tập tin nguồn chính nơi một dự án bắt đầu."
+        },
+        "query": {
+            "word": "$~truy vấn",
+            "definition": "$~Một cách chọn các hàng từ một bảng."
+        },
+        "key": {
+            "word": "$~chìa khóa",
+            "definition": "$~Giá trị dùng để tìm một mục trong một bản đồ."
+        },
+        "index": {
+            "word": "$~chỉ mục",
+            "definition": "$~Một con số chọn một mục theo vị trí của nó trong một danh sách."
+        },
+        "moved": {
+            "word": "$~di chuyển",
+            "definition": "$~Kết quả đã thay đổi vị trí trên sân khấu."
+        },
+        "entered": {
+            "word": "$~mới",
+            "definition": "$~Kết quả xuất hiện trên sân khấu lần đầu tiên."
+        },
+        "cell": {
+            "word": "$~tế bào",
+            "definition": "$~Một giá trị trong một hàng của bảng."
+        },
+        "column": {
+            "word": "$~cột",
+            "definition": "$~Một trường có tên trong một bảng."
+        }
     },
     "token": {
         "EvalOpen": "$~đánh giá đang mở",
@@ -450,7 +565,7 @@
             "description": "$~đề cập $name trong đánh dấu",
             "emotion": "serious",
             "doc": [
-                "$~Tôi là tham chiếu đến thuật ngữ \\$program\\ hoặc đầu vào động \\$name\\.",
+                "$~Tôi là tham chiếu đến thuật ngữ \\¶@program¶\\ hoặc đầu vào động \\¶$name¶\\.",
                 "$~Tuy nhiên, đây chủ yếu là một tính năng nội bộ, vì vậy bạn không cần phải biết đến nó."
             ]
         },
@@ -654,7 +769,7 @@
                 },
                 "BorrowCycle": {
                     "name": "$~mượntựthamchiếu",
-                    "explanation": "$~Điều này phụ thuộc vào $borrow, mà $borrow lại phụ thuộc vào $source này, vì vậy chương trình không thể được đánh giá.",
+                    "explanation": "$~Điều này phụ thuộc vào $borrow, mà $borrow lại phụ thuộc vào @Source này, vì vậy chương trình không thể được đánh giá.",
                     "resolution": "$~Hãy loại bỏ khoản vay này để phá vỡ chu kỳ."
                 }
             },
@@ -791,8 +906,10 @@
             "doc": [
                 "$~Tôi có thể biểu lộ cảm xúc theo bất kỳ cách nào, nhưng kèm theo hashtag @Doc!",
                 "$~Để tạo ra tôi, chỉ cần đặt @Doc trước một biểu thức, và bạn sẽ có được tôi:",
-                "$~\\doubleplus: 1\n(2 × doubleplus) + \n¶Hãy làm cho nó lớn hơn một chút¶\n1\\",
-                "$~Tôi rất hữu ích khi dùng để bình luận về một phần nào đó của chương trình."
+                "$~\\doubleplus: 1\n(2 × doubleplus) + \n¶Let's make it just a little bit bigger¶\n1\\",
+                "$~Tôi rất hữu ích khi dùng để bình luận về một phần nào đó của chương trình.",
+                "$~If you put 👀 in the @Doc, I can also highlight the expression:",
+                "$~\\¶Look at me! 👀¶1+1\\"
             ],
             "start": "$~Hãy đánh giá biểu thức này."
         },
@@ -869,7 +986,7 @@
                 },
                 "SeparatedEvaluate": {
                     "name": "$~đánhgiámơhồ",
-                    "explanation": "$~$name có phải là tên của một $structure[$structure|$function] mà bạn đang cố gắng đánh giá không? Hãy thử xóa khoảng trắng sau tôi để tôi biết đó là một @Evaluate chứ không phải là một @Block riêng biệt.",
+                    "explanation": "$~$name có phải là tên của một $structure[$structure|@FunctionDefinition] mà bạn đang cố gắng đánh giá không? Hãy thử xóa khoảng trắng sau tôi để tôi biết đó là một @Evaluate chứ không phải là một @Block riêng biệt.",
                     "resolution": "$~Đóng khoảng trắng giữa * $name * và các đầu vào của nó."
                 }
             },
@@ -5519,7 +5636,7 @@
                     "tip": "$~Sao chép dự án vào clipboard dưới dạng văn bản",
                     "label": "$~sao chép dưới dạng văn bản"
                 },
-                "addSource": "$~tạo một nguồn mới $source",
+                "addSource": "$~tạo một nguồn mới @Source",
                 "duplicate": {
                     "tip": "$~sao chép dự án này",
                     "label": "$~nhân bản"
@@ -6250,10 +6367,15 @@
             "mode": {
                 "browse": {
                     "label": "$~phần",
-                    "labels": ["$~mã số", "$~làm cách nào để"],
+                    "labels": [
+                        "$~mã số",
+                        "$~làm cách nào để",
+                        "$~bảng thuật ngữ"
+                    ],
                     "tips": [
                         "$~các khái niệm ngôn ngữ lập trình",
-                        "$~Các mẫu có thể tái sử dụng để làm các dự án"
+                        "$~các mẫu có thể dùng lại để tạo dự án",
+                        "$~định nghĩa các thuật ngữ chính"
                     ]
                 },
                 "purpose": {
@@ -6417,7 +6539,13 @@
                 "label": "$~lịch sử điều hướng",
                 "home": "$~Trang chủ"
             },
-            "tutorial": "$~Hướng dẫn"
+            "tutorial": "$~Hướng dẫn",
+            "glossary": {
+                "explain": {
+                    "header": "$~Bảng thuật ngữ",
+                    "explanation": "$~/Các thuật ngữ và ý tưởng được dùng xuyên suốt ngôn ngữ lập trình và nền tảng Wordplay./"
+                }
+            }
         },
         "dialog": {
             "share": {
@@ -7750,7 +7878,11 @@
                 },
                 "singletonWordsWarning": "$~Một số từ trong bản nháp của bạn chỉ xuất hiện một lần duy nhất trong toàn bộ văn bản. Bạn có chắc chắn rằng chúng được viết đúng chính tả và nhất quán với các đoạn văn khác không?",
                 "viewPR": "$~Xem yêu cầu kéo (pull request)",
-                "oneLocaleNote": "$~Mỗi lần đóng góp chỉ dành cho một ngôn ngữ. Những đóng góp này sẽ được gửi dưới dạng chỉnh sửa cho biến $locale . Nếu bạn muốn đóng góp cho một ngôn ngữ khác, hãy chuyển đổi ngôn ngữ trước; các chỉnh sửa bạn lưu dưới mỗi ngôn ngữ sẽ được giữ riêng biệt."
+                "oneLocaleNote": "$~Mỗi lần đóng góp chỉ dành cho một ngôn ngữ. Những đóng góp này sẽ được gửi dưới dạng chỉnh sửa cho biến $locale . Nếu bạn muốn đóng góp cho một ngôn ngữ khác, hãy chuyển đổi ngôn ngữ trước; các chỉnh sửa bạn lưu dưới mỗi ngôn ngữ sẽ được giữ riêng biệt.",
+                "literalTermsWarning": "$~Bản nháp của bạn dùng các từ trong bảng thuật ngữ dưới dạng văn bản thường. Chạm vào một từ để biến nó thành một liên kết bảng thuật ngữ.",
+                "checkReadingLevel": "$~Kiểm tra mức độ dễ đọc của chuỗi này",
+                "readingLevelComplex": "$~Cái này có thể khó đọc. Hãy thử dùng câu ngắn hơn và từ đơn giản hơn.",
+                "readingLevelOk": "$~Cái này đọc rõ ràng cho mức độ đọc mong muốn."
             },
             "breadcrumb": {
                 "label": "$~Vụn bánh mì",

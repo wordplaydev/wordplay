@@ -33,7 +33,14 @@ import FunctionType from '@nodes/FunctionType';
 import Names from '@nodes/Names';
 import NameType from '@nodes/NameType';
 import type Node from '@nodes/Node';
-import { any, list, node, none, type Grammar, type Replacement } from '@nodes/Node';
+import {
+    any,
+    list,
+    node,
+    none,
+    type Grammar,
+    type Replacement,
+} from '@nodes/Node';
 import NumberType from '@nodes/NumberType';
 import PropertyReference from '@nodes/PropertyReference';
 import Reference from '@nodes/Reference';
@@ -127,7 +134,9 @@ export default class FunctionDefinition extends DefinitionExpression {
         return [
             FunctionDefinition.make(
                 undefined,
-                Names.make([locales.getUnannotatedText((l) => l.term.name)]),
+                Names.make([
+                    locales.getUnannotatedText((l) => l.glossary.name.word),
+                ]),
                 undefined,
                 [],
                 ExpressionPlaceholder.make(),
@@ -261,7 +270,7 @@ export default class FunctionDefinition extends DefinitionExpression {
             {
                 name: 'docs',
                 kind: any(node(Docs), none()),
-                label: () => (l) => l.term.documentation,
+                label: () => (l) => l.glossary.documentation.word,
             },
             {
                 name: 'share',

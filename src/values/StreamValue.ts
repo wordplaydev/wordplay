@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type LocaleText from '@locale/LocaleText';
+import getConceptName from '@locale/getConceptName';
 import type Evaluation from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
 import type { StepNumber } from '@runtime/Evaluator';
@@ -50,7 +51,7 @@ export default abstract class StreamValue<
     }
 
     getDescription() {
-        return (l: LocaleText) => l.term.stream;
+        return (l: LocaleText) => getConceptName(l, 'stream');
     }
 
     isEqualTo(value: Value): boolean {

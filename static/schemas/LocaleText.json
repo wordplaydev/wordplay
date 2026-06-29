@@ -199,7 +199,7 @@
         },
         "doc": {
           "$ref": "#/definitions/DocText",
-          "description": "Documentation text that appears in the documentation view"
+          "description": "[formatted] Documentation text that appears in the documentation view"
         },
         "emotion": {
           "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -248,7 +248,7 @@
         },
         "doc": {
           "$ref": "#/definitions/DocText",
-          "description": "Documentation text that appears in the documentation view"
+          "description": "[formatted] Documentation text that appears in the documentation view"
         },
         "emotion": {
           "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -297,7 +297,7 @@
         },
         "doc": {
           "$ref": "#/definitions/DocText",
-          "description": "Documentation text that appears in the documentation view"
+          "description": "[formatted] Documentation text that appears in the documentation view"
         },
         "emotion": {
           "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -346,7 +346,7 @@
         },
         "doc": {
           "$ref": "#/definitions/DocText",
-          "description": "Documentation text that appears in the documentation view"
+          "description": "[formatted] Documentation text that appears in the documentation view"
         },
         "emotion": {
           "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -395,7 +395,7 @@
         },
         "doc": {
           "$ref": "#/definitions/DocText",
-          "description": "Documentation text that appears in the documentation view"
+          "description": "[formatted] Documentation text that appears in the documentation view"
         },
         "emotion": {
           "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -444,7 +444,7 @@
         },
         "doc": {
           "$ref": "#/definitions/DocText",
-          "description": "Documentation text that appears in the documentation view"
+          "description": "[formatted] Documentation text that appears in the documentation view"
         },
         "emotion": {
           "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -493,7 +493,7 @@
         },
         "doc": {
           "$ref": "#/definitions/DocText",
-          "description": "Documentation text that appears in the documentation view"
+          "description": "[formatted] Documentation text that appears in the documentation view"
         },
         "emotion": {
           "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -542,7 +542,7 @@
         },
         "doc": {
           "$ref": "#/definitions/DocText",
-          "description": "Documentation text that appears in the documentation view"
+          "description": "[formatted] Documentation text that appears in the documentation view"
         },
         "emotion": {
           "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -591,7 +591,7 @@
         },
         "doc": {
           "$ref": "#/definitions/DocText",
-          "description": "Documentation text that appears in the documentation view"
+          "description": "[formatted] Documentation text that appears in the documentation view"
         },
         "emotion": {
           "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -640,7 +640,7 @@
         },
         "doc": {
           "$ref": "#/definitions/DocText",
-          "description": "Documentation text that appears in the documentation view"
+          "description": "[formatted] Documentation text that appears in the documentation view"
         },
         "emotion": {
           "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -692,7 +692,7 @@
           "type": "array"
         }
       ],
-      "description": "Wordplay markup, a single paragraph or a list of paragraphs."
+      "description": "[formatted] Wordplay markup, a single paragraph or a list of paragraphs."
     },
     "ExceptionText": {
       "additionalProperties": false,
@@ -882,10 +882,10 @@
       "type": "object"
     },
     "FormattedText": {
-      "description": "Represents a string that is in Wordplay markup formatted syntax.",
+      "description": "[formatted] Represents a string that is in Wordplay markup formatted syntax. Tagging the alias makes any bare `FormattedText` field default to the formatted editor; fields with their own (untagged) comment are still flagged.",
       "type": "string"
     },
-    "FunctionText<[def-alias-1170802340-3852-4117-1170802340-0-8963,def-alias-1170802340-3852-4117-1170802340-0-8963]>": {
+    "FunctionText<[def-alias-1170802340-4170-4435-1170802340-0-9286,def-alias-1170802340-4170-4435-1170802340-0-9286]>": {
       "additionalProperties": false,
       "properties": {
         "doc": {
@@ -913,7 +913,7 @@
       ],
       "type": "object"
     },
-    "FunctionText<[def-alias-1170802340-3852-4117-1170802340-0-8963]>": {
+    "FunctionText<[def-alias-1170802340-4170-4435-1170802340-0-9286]>": {
       "additionalProperties": false,
       "properties": {
         "doc": {
@@ -941,7 +941,7 @@
       ],
       "type": "object"
     },
-    "FunctionText<alias-1184849637-114-147-1184849637-0-19298>": {
+    "FunctionText<alias-1184849637-131-164-1184849637-0-21250>": {
       "additionalProperties": false,
       "properties": {
         "doc": {
@@ -1022,6 +1022,25 @@
       ],
       "type": "object"
     },
+    "GlossaryText": {
+      "additionalProperties": false,
+      "description": "One glossary entry: a localized word and a learner-facing definition.",
+      "properties": {
+        "definition": {
+          "$ref": "#/definitions/FormattedText",
+          "description": "[formatted] A short, simple definition of the term, written for young learners."
+        },
+        "word": {
+          "description": "[plain] The word or short phrase for this term, shown wherever a",
+          "type": "string"
+        }
+      },
+      "required": [
+        "word",
+        "definition"
+      ],
+      "type": "object"
+    },
     "HeaderAndExplanationText": {
       "additionalProperties": false,
       "properties": {
@@ -1072,7 +1091,7 @@
                   "properties": {
                     "text": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     }
                   },
                   "required": [
@@ -1082,31 +1101,31 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation to explain what the type is for and how it's used."
+                  "description": "[formatted] Documentation to explain what the type is for and how it's used."
                 },
                 "function": {
                   "additionalProperties": false,
                   "description": "Functions in the type",
                   "properties": {
                     "and": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "not": {
-                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-114-147-1184849637-0-19298%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21250%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "notequal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "or": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     }
                   },
                   "required": [
@@ -1141,7 +1160,7 @@
                   "properties": {
                     "text": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     }
                   },
                   "required": [
@@ -1151,43 +1170,43 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation to explain what the type is for and how it's used."
+                  "description": "[formatted] Documentation to explain what the type is for and how it's used."
                 },
                 "function": {
                   "additionalProperties": false,
                   "description": "Functions in the type",
                   "properties": {
                     "combine": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "ends": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "has": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "length": {
-                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-114-147-1184849637-0-19298%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21250%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "repeat": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "starts": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     }
                   },
                   "required": [
@@ -1221,7 +1240,7 @@
               "properties": {
                 "conversion": {
                   "additionalProperties": false,
-                  "description": "Conversions in the type",
+                  "description": "[formatted] Conversions in the type",
                   "properties": {
                     "set": {
                       "$ref": "#/definitions/DocText"
@@ -1238,19 +1257,19 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation to explain what the type is for and how it's used."
+                  "description": "[formatted] Documentation to explain what the type is for and how it's used."
                 },
                 "function": {
                   "additionalProperties": false,
                   "description": "Functions in the type",
                   "properties": {
                     "add": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "all": {
                       "additionalProperties": false,
-                      "description": "See `en-US.json` for documentation",
+                      "description": "[formatted] See `en-US.json` for documentation",
                       "properties": {
                         "checker": {
                           "items": {
@@ -1287,12 +1306,12 @@
                       "type": "object"
                     },
                     "append": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "combine": {
                       "additionalProperties": false,
-                      "description": "See `en-US.json` for documentation",
+                      "description": "[formatted] See `en-US.json` for documentation",
                       "properties": {
                         "combiner": {
                           "items": {
@@ -1329,12 +1348,12 @@
                       "type": "object"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "filter": {
                       "additionalProperties": false,
-                      "description": "See `en-US.json` for documentation",
+                      "description": "[formatted] See `en-US.json` for documentation",
                       "properties": {
                         "checker": {
                           "items": {
@@ -1372,7 +1391,7 @@
                     },
                     "find": {
                       "additionalProperties": false,
-                      "description": "See `en-US.json` for documentation",
+                      "description": "[formatted] See `en-US.json` for documentation",
                       "properties": {
                         "checker": {
                           "items": {
@@ -1409,64 +1428,64 @@
                       "type": "object"
                     },
                     "first": {
-                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-114-147-1184849637-0-19298%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21250%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "has": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "join": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "last": {
-                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-114-147-1184849637-0-19298%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21250%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "length": {
-                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-114-147-1184849637-0-19298%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21250%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "random": {
-                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-114-147-1184849637-0-19298%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21250%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "replace": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%2Cdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%2Cdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "reverse": {
-                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-114-147-1184849637-0-19298%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21250%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "sans": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "sansAll": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "sansFirst": {
-                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-114-147-1184849637-0-19298%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21250%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "sansLast": {
-                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-114-147-1184849637-0-19298%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21250%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "shuffled": {
-                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-114-147-1184849637-0-19298%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21250%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "sorted": {
                       "additionalProperties": false,
-                      "description": "See `en-US.json` for documentation",
+                      "description": "[formatted] See `en-US.json` for documentation",
                       "properties": {
                         "doc": {
                           "$ref": "#/definitions/DocText",
@@ -1503,12 +1522,12 @@
                       "type": "object"
                     },
                     "subsequence": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%2Cdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%2Cdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "translate": {
                       "additionalProperties": false,
-                      "description": "See `en-US.json` for documentation",
+                      "description": "[formatted] See `en-US.json` for documentation",
                       "properties": {
                         "doc": {
                           "$ref": "#/definitions/DocText",
@@ -1546,7 +1565,7 @@
                     },
                     "until": {
                       "additionalProperties": false,
-                      "description": "See `en-US.json` for documentation",
+                      "description": "[formatted] See `en-US.json` for documentation",
                       "properties": {
                         "checker": {
                           "items": {
@@ -1614,7 +1633,7 @@
                 },
                 "kind": {
                   "$ref": "#/definitions/NameText",
-                  "description": "The type variable name for the kind of values in the list"
+                  "description": "[name] The type variable name for the kind of values in the list"
                 },
                 "name": {
                   "$ref": "#/definitions/NameText",
@@ -1622,11 +1641,11 @@
                 },
                 "out": {
                   "$ref": "#/definitions/NameText",
-                  "description": "The type variable name to use for functions that produce lists of different types"
+                  "description": "[name] The type variable name to use for functions that produce lists of different types"
                 },
                 "outofbounds": {
                   "$ref": "#/definitions/NameText",
-                  "description": "The name of the exception when an index is out of bounds of a list's values"
+                  "description": "[name] The name of the exception when an index is out of bounds of a list's values"
                 }
               },
               "required": [
@@ -1649,15 +1668,15 @@
                   "properties": {
                     "list": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "set": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "text": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     }
                   },
                   "required": [
@@ -1669,19 +1688,19 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation to explain what the type is for and how it's used."
+                  "description": "[formatted] Documentation to explain what the type is for and how it's used."
                 },
                 "function": {
                   "additionalProperties": false,
                   "description": "Functions in the type",
                   "properties": {
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "filter": {
                       "additionalProperties": false,
-                      "description": "See `en-US.json` for documentation",
+                      "description": "[formatted] See `en-US.json` for documentation",
                       "properties": {
                         "checker": {
                           "items": {
@@ -1718,24 +1737,24 @@
                       "type": "object"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "remove": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "set": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%2Cdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%2Cdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "size": {
-                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-114-147-1184849637-0-19298%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21250%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "translate": {
                       "additionalProperties": false,
-                      "description": "See `en-US.json` for documentation",
+                      "description": "[formatted] See `en-US.json` for documentation",
                       "properties": {
                         "doc": {
                           "$ref": "#/definitions/DocText",
@@ -1772,8 +1791,8 @@
                       "type": "object"
                     },
                     "unset": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     }
                   },
                   "required": [
@@ -1790,7 +1809,7 @@
                 },
                 "key": {
                   "$ref": "#/definitions/NameText",
-                  "description": "The type variable name for the map's type of keys"
+                  "description": "[name] The type variable name for the map's type of keys"
                 },
                 "name": {
                   "$ref": "#/definitions/NameText",
@@ -1798,11 +1817,11 @@
                 },
                 "result": {
                   "$ref": "#/definitions/NameText",
-                  "description": "The type variable name for higher order functions that produce maps of different types"
+                  "description": "[name] The type variable name for higher order functions that produce maps of different types"
                 },
                 "value": {
                   "$ref": "#/definitions/NameText",
-                  "description": "The type variable name for the map's type of values"
+                  "description": "[name] The type variable name for the map's type of values"
                 }
               },
               "required": [
@@ -1826,7 +1845,7 @@
                   "properties": {
                     "text": {
                       "$ref": "#/definitions/DocText",
-                      "description": "None to Text"
+                      "description": "[formatted] None to Text"
                     }
                   },
                   "required": [
@@ -1836,19 +1855,19 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation to explain what the type is for and how it's used."
+                  "description": "[formatted] Documentation to explain what the type is for and how it's used."
                 },
                 "function": {
                   "additionalProperties": false,
                   "description": "Functions in the type",
                   "properties": {
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     }
                   },
                   "required": [
@@ -1880,195 +1899,195 @@
                   "properties": {
                     "Gm2m": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "Mm2m": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "Tm2m": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "cm2in": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "cm2m": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "day2s": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "dm2m": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "ft2m": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "g2kg": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "g2mg": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "g2oz": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "h2s": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "in2cm": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "kg2g": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "km2m": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "km2mi": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "lb2oz": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "list": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "m2Gm": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "m2Mm": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "m2Tm": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "m2cm": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "m2dm": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "m2ft": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "m2km": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "m2micro": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "m2mm": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "m2nm": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "m2pm": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "mg2g": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "mi2km": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "micro2m": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "min2s": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "mm2m": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "ms2s": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "nm2m": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "oz2g": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "oz2lb": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "pm2m": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "s2day": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "s2h": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "s2m": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "s2ms": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "s2wk": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "s2year": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "text": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "wk2s": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "yr2s": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     }
                   },
                   "required": [
@@ -2125,95 +2144,95 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation to explain what the type is for and how it's used."
+                  "description": "[formatted] Documentation to explain what the type is for and how it's used."
                 },
                 "function": {
                   "additionalProperties": false,
                   "description": "Functions in the type",
                   "properties": {
                     "add": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "cos": {
-                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-114-147-1184849637-0-19298%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21250%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "divide": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "equal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "greaterOrEqual": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "greaterThan": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "lessOrEqual": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "lessThan": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "max": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "min": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "multiply": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "notequal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "positive": {
-                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-114-147-1184849637-0-19298%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21250%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "power": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "remainder": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "root": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "round": {
-                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-114-147-1184849637-0-19298%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21250%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "roundDown": {
-                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-114-147-1184849637-0-19298%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21250%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "roundUp": {
-                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-114-147-1184849637-0-19298%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21250%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "sin": {
-                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-114-147-1184849637-0-19298%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21250%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "subtract": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     }
                   },
                   "required": [
@@ -2264,11 +2283,11 @@
                   "properties": {
                     "list": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "text": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     }
                   },
                   "required": [
@@ -2279,27 +2298,27 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation to explain what the type is for and how it's used."
+                  "description": "[formatted] Documentation to explain what the type is for and how it's used."
                 },
                 "function": {
                   "additionalProperties": false,
                   "description": "Functions in the type",
                   "properties": {
                     "add": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "difference": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "filter": {
                       "additionalProperties": false,
-                      "description": "See `en-US.json` for documentation",
+                      "description": "[formatted] See `en-US.json` for documentation",
                       "properties": {
                         "checker": {
                           "items": {
@@ -2336,24 +2355,24 @@
                       "type": "object"
                     },
                     "intersection": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "remove": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "size": {
-                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-114-147-1184849637-0-19298%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21250%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "translate": {
                       "additionalProperties": false,
-                      "description": "See `en-US.json` for documentation",
+                      "description": "[formatted] See `en-US.json` for documentation",
                       "properties": {
                         "doc": {
                           "$ref": "#/definitions/DocText",
@@ -2390,8 +2409,8 @@
                       "type": "object"
                     },
                     "union": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     }
                   },
                   "required": [
@@ -2410,7 +2429,7 @@
                 },
                 "kind": {
                   "$ref": "#/definitions/NameText",
-                  "description": "The type variable name for the kind of value in the set"
+                  "description": "[name] The type variable name for the kind of value in the set"
                 },
                 "name": {
                   "$ref": "#/definitions/NameText",
@@ -2418,7 +2437,7 @@
                 },
                 "out": {
                   "$ref": "#/definitions/NameText",
-                  "description": "The type variable name for sets that produce sets of different value types"
+                  "description": "[name] The type variable name for sets that produce sets of different value types"
                 }
               },
               "required": [
@@ -2441,7 +2460,7 @@
                   "properties": {
                     "text": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     }
                   },
                   "required": [
@@ -2451,19 +2470,19 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation to explain what the type is for and how it's used."
+                  "description": "[formatted] Documentation to explain what the type is for and how it's used."
                 },
                 "function": {
                   "additionalProperties": false,
                   "description": "Functions in the type",
                   "properties": {
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "notequal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     }
                   },
                   "required": [
@@ -2495,11 +2514,11 @@
                   "properties": {
                     "list": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "text": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     }
                   },
                   "required": [
@@ -2510,19 +2529,19 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation to explain what the type is for and how it's used."
+                  "description": "[formatted] Documentation to explain what the type is for and how it's used."
                 },
                 "function": {
                   "additionalProperties": false,
                   "description": "Functions in the type",
                   "properties": {
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "notequal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     }
                   },
                   "required": [
@@ -2537,7 +2556,7 @@
                 },
                 "row": {
                   "$ref": "#/definitions/NameText",
-                  "description": "The type variable name for the type of row in a table"
+                  "description": "[name] The type variable name for the type of row in a table"
                 }
               },
               "required": [
@@ -2559,15 +2578,15 @@
                   "properties": {
                     "formatted": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "list": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "number": {
                       "$ref": "#/definitions/DocText",
-                      "description": "See `en-US.json` for documentation"
+                      "description": "[formatted] See `en-US.json` for documentation"
                     }
                   },
                   "required": [
@@ -2579,55 +2598,55 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation to explain what the type is for and how it's used."
+                  "description": "[formatted] Documentation to explain what the type is for and how it's used."
                 },
                 "function": {
                   "additionalProperties": false,
                   "description": "Functions in the type",
                   "properties": {
                     "combine": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "ends": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "has": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "length": {
-                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-114-147-1184849637-0-19298%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21250%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "matches": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
                       "description": "`≈` — whether a pattern matches the whole text. See LANGUAGE.md."
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "repeat": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "search": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
                       "description": "`⌕` — search the text for a pattern, returning a list of Result."
                     },
                     "segment": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "starts": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
-                      "description": "See `en-US.json` for documentation"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
                     }
                   },
                   "required": [
@@ -2676,6 +2695,179 @@
         "gallery": {
           "$ref": "#/definitions/GalleryTexts",
           "description": "Default gallery text"
+        },
+        "glossary": {
+          "additionalProperties": false,
+          "description": "A glossary of widely-used terms not already defined by a concept, each with a localized word and a learner-facing definition. Words are referenced symbolically as",
+          "properties": {
+            "abstraction": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "act": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "argument": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "blocks": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "cell": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "checkpoint": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "code": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "column": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "condition": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "conflict": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "documentation": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "element": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "entered": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "expression": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "gallery": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "guide": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "how": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "index": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "iteration": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "key": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "language": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "loop": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "markup": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "moved": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "name": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "operator": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "parameter": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "placeholder": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "project": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "property": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "query": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "recursion": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "region": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "scope": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "sideEffect": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "start": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "state": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "tutorial": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "type": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "value": {
+              "$ref": "#/definitions/GlossaryText"
+            },
+            "variable": {
+              "$ref": "#/definitions/GlossaryText"
+            }
+          },
+          "required": [
+            "value",
+            "type",
+            "expression",
+            "variable",
+            "parameter",
+            "argument",
+            "operator",
+            "condition",
+            "loop",
+            "iteration",
+            "recursion",
+            "property",
+            "element",
+            "scope",
+            "state",
+            "sideEffect",
+            "abstraction",
+            "project",
+            "code",
+            "act",
+            "how",
+            "gallery",
+            "blocks",
+            "placeholder",
+            "conflict",
+            "checkpoint",
+            "guide",
+            "tutorial",
+            "name",
+            "markup",
+            "language",
+            "documentation",
+            "region",
+            "start",
+            "query",
+            "key",
+            "index",
+            "moved",
+            "entered",
+            "cell",
+            "column"
+          ],
+          "type": "object"
         },
         "input": {
           "additionalProperties": false,
@@ -2910,7 +3102,7 @@
                 },
                 "keys": {
                   "additionalProperties": false,
-                  "description": "Per-locale translations for the named keys `Key()` can emit (Space, Enter, ArrowUp, etc.). Keyed by the canonical English `KeyboardEvent.key` string from [KeyboardKeys.ts](src/input/KeyboardKeys.ts). Each value is an array whose first entry is this locale's display name (what `Key()` emits) and any remaining entries are accepted aliases for the `key` filter argument. The record's literal-key type pins every `WellKnownKey` as required so the locale verifier and `locales-fix` ensure full coverage in every locale.",
+                  "description": "[plain] Per-locale translations for the named keys `Key()` can emit (Space, Enter, ArrowUp, etc.). Keyed by the canonical English `KeyboardEvent.key` string from [KeyboardKeys.ts](src/input/KeyboardKeys.ts). Each value is an array whose first entry is this locale's display name (what `Key()` emits) and any remaining entries are accepted aliases for the `key` filter argument. The record's literal-key type pins every `WellKnownKey` as required so the locale verifier and `locales-fix` ensure full coverage in every locale.",
                   "properties": {
                     " ": {
                       "items": {
@@ -4184,7 +4376,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -4527,7 +4719,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -4646,7 +4838,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -4721,7 +4913,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -4839,7 +5031,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -4938,7 +5130,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -5007,7 +5199,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -5175,7 +5367,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "else": {
                   "$ref": "#/definitions/Template%3C%5B%22jumping%22%5D%3E",
@@ -5300,7 +5492,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -5418,7 +5610,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -5498,7 +5690,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -5566,7 +5758,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -5621,7 +5813,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -5945,7 +6137,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -6091,7 +6283,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -6180,7 +6372,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -6277,7 +6469,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -6364,7 +6556,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -6419,7 +6611,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -6479,7 +6671,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -6573,7 +6765,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -6649,7 +6841,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -6708,7 +6900,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -6864,7 +7056,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -6915,7 +7107,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -6975,7 +7167,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -7039,7 +7231,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -7142,7 +7334,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -7221,7 +7413,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -7289,7 +7481,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -7411,7 +7603,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -7462,7 +7654,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -7538,7 +7730,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -7643,7 +7835,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -7703,7 +7895,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -7805,7 +7997,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -7890,7 +8082,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -7991,7 +8183,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -8149,7 +8341,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -8238,7 +8430,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -8311,7 +8503,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -8384,7 +8576,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -8439,7 +8631,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -8513,7 +8705,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "done": {
                   "$ref": "#/definitions/FormattedText",
@@ -8680,7 +8872,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -8760,7 +8952,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -8868,7 +9060,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -9031,7 +9223,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -9221,7 +9413,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -9306,7 +9498,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -9367,7 +9559,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -9511,7 +9703,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -9584,7 +9776,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -9756,7 +9948,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -9848,7 +10040,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -9942,7 +10134,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -9993,7 +10185,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -10099,7 +10291,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -10178,7 +10370,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -10307,7 +10499,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -10414,7 +10606,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -10483,7 +10675,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -10557,7 +10749,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "elidedSuffix": {
                   "$ref": "#/definitions/Template%3C%5B%22omitted%22%5D%3E",
@@ -10624,7 +10816,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -10709,7 +10901,8 @@
                           "$ref": "#/definitions/ConflictText%3C%5B%22expression%22%5D%3E"
                         },
                         "resolution": {
-                          "$ref": "#/definitions/Template%3C%5B%22first%22%2C%22second%22%5D%3E"
+                          "$ref": "#/definitions/Template%3C%5B%22first%22%2C%22second%22%5D%3E",
+                          "description": "[formatted] Suggested fix for an unparsable expression or type"
                         }
                       },
                       "required": [
@@ -10731,7 +10924,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -10915,7 +11108,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -11018,7 +11211,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation text that appears in the documentation view"
+                  "description": "[formatted] Documentation text that appears in the documentation view"
                 },
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
@@ -11349,7 +11542,7 @@
                   "type": "object"
                 },
                 "darker": {
-                  "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
+                  "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
                   "description": "`darker()` — a new color with lightness decreased by a percent (5% by default)."
                 },
                 "description": {
@@ -11390,7 +11583,7 @@
                   "description": "0-360, a color wheel"
                 },
                 "lighter": {
-                  "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
+                  "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
                   "description": "`lighter()` — a new color with lightness increased by a percent (5% by default)."
                 },
                 "lightness": {
@@ -11402,7 +11595,7 @@
                   "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
                 },
                 "random": {
-                  "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3852-4117-1170802340-0-8963%2Cdef-alias-1170802340-3852-4117-1170802340-0-8963%5D%3E",
+                  "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%2Cdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
                   "description": "The static `Color.random()` function that produces a random color. With no inputs it picks a random basic color; with one color it keeps that color's lightness and chroma but randomizes the hue; with two colors it randomizes each LCH value within their range."
                 }
               },
@@ -13157,260 +13350,6 @@
           ],
           "type": "object"
         },
-        "term": {
-          "additionalProperties": false,
-          "description": "Common vocabulary that can be used in documentation and descriptions.",
-          "properties": {
-            "act": {
-              "description": "[plain] The word for the top level organizational scheme of the tutorial, as in a dramatic play",
-              "type": "string"
-            },
-            "bind": {
-              "description": "[plain] The phrase to use to describe when values are bound to names, e.g., 'num: 5'",
-              "type": "string"
-            },
-            "boolean": {
-              "description": "[plain] What to call a boolean value",
-              "type": "string"
-            },
-            "cell": {
-              "description": "[plain] What to call a table cell",
-              "type": "string"
-            },
-            "changed": {
-              "description": "[plain] How to describe output that has changed",
-              "type": "string"
-            },
-            "code": {
-              "description": "[plain] What to call code",
-              "type": "string"
-            },
-            "column": {
-              "description": "[plain] What to call a table column",
-              "type": "string"
-            },
-            "convert": {
-              "description": "[plain] The verb for converting data from one type to another",
-              "type": "string"
-            },
-            "decide": {
-              "description": "[plain] The phrase to use to describe conditional logic",
-              "type": "string"
-            },
-            "document": {
-              "description": "[plain] What to call documentation in code",
-              "type": "string"
-            },
-            "documentation": {
-              "description": "[plain] What to call documentation",
-              "type": "string"
-            },
-            "entered": {
-              "description": "[plain] How to describe output that has entered for the first time",
-              "type": "string"
-            },
-            "evaluate": {
-              "description": "[plain] The phrase to use to describe",
-              "type": "string"
-            },
-            "exception": {
-              "description": "[plain] What to call an exception value",
-              "type": "string"
-            },
-            "feedback": {
-              "description": "[plain] What to call feedback in help/feedback links",
-              "type": "string"
-            },
-            "function": {
-              "description": "[plain] What to call a function value",
-              "type": "string"
-            },
-            "group": {
-              "description": "[plain] The word for a group of output in a Wordplay program",
-              "type": "string"
-            },
-            "help": {
-              "description": "[plain] What to call help in help/feedback links",
-              "type": "string"
-            },
-            "how": {
-              "description": "[plain] The phrase for describing a how to concept",
-              "type": "string"
-            },
-            "index": {
-              "description": "[plain] What to call an index into a list value",
-              "type": "string"
-            },
-            "input": {
-              "description": "[plain] What to call data that goes into a program",
-              "type": "string"
-            },
-            "key": {
-              "description": "[plain] What to call a key in a map",
-              "type": "string"
-            },
-            "language": {
-              "description": "[plain] What to call language tags",
-              "type": "string"
-            },
-            "list": {
-              "description": "[plain] What to call a list value",
-              "type": "string"
-            },
-            "map": {
-              "description": "[plain] What to call a map value",
-              "type": "string"
-            },
-            "markup": {
-              "description": "[plain] What to call rich text",
-              "type": "string"
-            },
-            "moved": {
-              "description": "[plain] How to describe output that has moved",
-              "type": "string"
-            },
-            "name": {
-              "description": "[name] How to refer to names",
-              "type": "string"
-            },
-            "none": {
-              "description": "[plain] What to call a none value",
-              "type": "string"
-            },
-            "number": {
-              "description": "[plain] What to call a number value",
-              "type": "string"
-            },
-            "output": {
-              "description": "[plain] What to call data that comes out of a program",
-              "type": "string"
-            },
-            "pattern": {
-              "description": "[plain] What to call a pattern value",
-              "type": "string"
-            },
-            "phrase": {
-              "description": "[plain] The word for phrase output in a Wordplay program",
-              "type": "string"
-            },
-            "project": {
-              "description": "[plain] What to call a Wordplay project",
-              "type": "string"
-            },
-            "query": {
-              "description": "[plain] What to call a query a table value",
-              "type": "string"
-            },
-            "region": {
-              "description": "[plain] What to call region tags",
-              "type": "string"
-            },
-            "row": {
-              "description": "[plain] What to call a row value",
-              "type": "string"
-            },
-            "scene": {
-              "description": "[plain] The word for the a comoponent of an act in a dramatic play",
-              "type": "string"
-            },
-            "set": {
-              "description": "[plain] What to call a set value",
-              "type": "string"
-            },
-            "source": {
-              "description": "[plain] What to call a Wordplay project source file",
-              "type": "string"
-            },
-            "stage": {
-              "description": "[plain] The word for the visual stage on which output is displayed",
-              "type": "string"
-            },
-            "start": {
-              "description": "[plain] What to call the main source in a project.",
-              "type": "string"
-            },
-            "stream": {
-              "description": "[plain] What to call a stream value",
-              "type": "string"
-            },
-            "structure": {
-              "description": "[plain] What to call a structure value",
-              "type": "string"
-            },
-            "table": {
-              "description": "[plain] What to call a table value",
-              "type": "string"
-            },
-            "text": {
-              "description": "[plain] What to call a text value",
-              "type": "string"
-            },
-            "type": {
-              "description": "[plain] The word for a data type",
-              "type": "string"
-            },
-            "unit": {
-              "description": "[plain] What to call a number unit",
-              "type": "string"
-            },
-            "value": {
-              "description": "[plain] What to call a data value",
-              "type": "string"
-            }
-          },
-          "required": [
-            "bind",
-            "evaluate",
-            "decide",
-            "document",
-            "project",
-            "code",
-            "source",
-            "input",
-            "output",
-            "convert",
-            "how",
-            "act",
-            "scene",
-            "phrase",
-            "group",
-            "stage",
-            "type",
-            "start",
-            "entered",
-            "changed",
-            "moved",
-            "name",
-            "value",
-            "boolean",
-            "pattern",
-            "table",
-            "column",
-            "cell",
-            "row",
-            "list",
-            "map",
-            "text",
-            "number",
-            "unit",
-            "markup",
-            "function",
-            "none",
-            "exception",
-            "set",
-            "structure",
-            "stream",
-            "index",
-            "query",
-            "key",
-            "help",
-            "feedback",
-            "language",
-            "region",
-            "documentation"
-          ],
-          "type": "object"
-        },
         "token": {
           "additionalProperties": false,
           "description": "[plain] Descriptions of all token categories. See Sym.ts for the symbol or symbol category that each represents.",
@@ -13970,6 +13909,7 @@
               "properties": {
                 "button": {
                   "additionalProperties": false,
+                  "description": "[plain] Buttons in the checkpoints/revisions panel",
                   "properties": {
                     "back": {
                       "type": "string"
@@ -14006,6 +13946,7 @@
                 },
                 "label": {
                   "additionalProperties": false,
+                  "description": "[plain] Labels in the checkpoints/revisions panel",
                   "properties": {
                     "ago": {
                       "$ref": "#/definitions/Template%3C%5B%22amount%22%2C%22unit%22%5D%3E"
@@ -15186,6 +15127,20 @@
                   ],
                   "type": "object"
                 },
+                "glossary": {
+                  "additionalProperties": false,
+                  "description": "Everything related to the glossary section",
+                  "properties": {
+                    "explain": {
+                      "$ref": "#/definitions/HeaderAndExplanationText",
+                      "description": "Header and explanation of what the glossary is, shown atop the glossary section"
+                    }
+                  },
+                  "required": [
+                    "explain"
+                  ],
+                  "type": "object"
+                },
                 "header": {
                   "additionalProperties": false,
                   "properties": {
@@ -15260,7 +15215,7 @@
                   "properties": {
                     "category": {
                       "additionalProperties": false,
-                      "description": "The category names",
+                      "description": "[plain] The category names",
                       "properties": {
                         "animation": {
                           "type": "string"
@@ -15346,8 +15301,8 @@
                   "description": "Modes in the guide",
                   "properties": {
                     "browse": {
-                      "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
-                      "description": "Toggle between browsing all concepts and filtering by purpose"
+                      "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E",
+                      "description": "Toggle between the code concepts, how-to guides, and glossary sections"
                     },
                     "howToFilter": {
                       "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
@@ -15480,15 +15435,15 @@
                   "properties": {
                     "code": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the code (programming language) section"
+                      "description": "[formatted] Markup describing the code (programming language) section"
                     },
                     "guide": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the guide overall"
+                      "description": "[formatted] Markup describing the guide overall"
                     },
                     "howto": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the how-to section"
+                      "description": "[formatted] Markup describing the how-to section"
                     },
                     "launch": {
                       "description": "[plain] Tooltip on the help button that opens the tour",
@@ -15496,11 +15451,11 @@
                     },
                     "mode": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the code/how-to mode toggle"
+                      "description": "[formatted] Markup describing the code/how-to mode toggle"
                     },
                     "search": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the search field"
+                      "description": "[formatted] Markup describing the search field"
                     }
                   },
                   "required": [
@@ -15531,6 +15486,7 @@
                 "header",
                 "purposes",
                 "how",
+                "glossary",
                 "tour"
               ],
               "type": "object"
@@ -15673,11 +15629,11 @@
               "properties": {
                 "app": {
                   "$ref": "#/definitions/SupportedFace",
-                  "description": "The application font to use throughout the application. Should support the language used in this locale so that characters render correctly. Add the face to Fonts.ts if the one you choose is not yet supported."
+                  "description": "[plain] The application font to use throughout the application. Should support the language used in this locale so that characters render correctly. Add the face to Fonts.ts if the one you choose is not yet supported."
                 },
                 "code": {
                   "$ref": "#/definitions/SupportedFace",
-                  "description": "The monospace font to use for code in the editor and code examples. Should support the language used in this locale so that characters render correctly. Add the face to Fonts.ts if the one you choose is not yet supported."
+                  "description": "[plain] The monospace font to use for code in the editor and code examples. Should support the language used in this locale so that characters render correctly. Add the face to Fonts.ts if the one you choose is not yet supported."
                 },
                 "missing": {
                   "description": "[plain] The word shown before the markup symbols that a font face doesn't support (e.g. \"missing * ^\" for a face without bold or extra bold)",
@@ -15870,7 +15826,7 @@
               "properties": {
                 "announce": {
                   "additionalProperties": false,
-                  "description": "For announcing changes to the canvas or to how-to positions",
+                  "description": "[formatted] For announcing changes to the canvas or to how-to positions",
                   "properties": {
                     "canvasPosition": {
                       "$ref": "#/definitions/Template%3C%5B%22x%22%2C%22y%22%5D%3E"
@@ -15962,7 +15918,7 @@
                       "description": "Subheaders and descriptions for configuring guiding questions",
                       "properties": {
                         "default": {
-                          "description": "Guiding questions default text",
+                          "description": "[plain] Guiding questions default text",
                           "items": {
                             "type": "string"
                           },
@@ -15996,7 +15952,7 @@
                           "additionalProperties": {
                             "type": "string"
                           },
-                          "description": "Default reactions",
+                          "description": "[plain] Default reactions",
                           "type": "object"
                         },
                         "reactionDescriptionTip": {
@@ -16030,6 +15986,7 @@
                       "additionalProperties": false,
                       "properties": {
                         "error": {
+                          "description": "[plain] Error shown when saving how-to configuration fails",
                           "type": "string"
                         },
                         "label": {
@@ -16310,6 +16267,7 @@
                       "additionalProperties": false,
                       "properties": {
                         "addButton": {
+                          "description": "[plain] Button to add a project/how-to to those using this how-to",
                           "type": "string"
                         },
                         "countDisplay": {
@@ -16325,6 +16283,7 @@
                           "type": "string"
                         },
                         "removeButton": {
+                          "description": "[plain] Button to remove a project/how-to from those using this how-to",
                           "type": "string"
                         },
                         "selector": {
@@ -17008,7 +16967,7 @@
                       "properties": {
                         "angle": {
                           "additionalProperties": false,
-                          "description": "Labels for the rotation slider",
+                          "description": "[plain] Labels for the rotation slider",
                           "properties": {
                             "label": {
                               "type": "string"
@@ -17035,7 +16994,7 @@
                         },
                         "height": {
                           "additionalProperties": false,
-                          "description": "Height slider",
+                          "description": "[plain] Height slider",
                           "properties": {
                             "label": {
                               "type": "string"
@@ -17066,7 +17025,7 @@
                         },
                         "radius": {
                           "additionalProperties": false,
-                          "description": "Labels for the border radius slider",
+                          "description": "[plain] Labels for the border radius slider",
                           "properties": {
                             "label": {
                               "type": "string"
@@ -17086,7 +17045,7 @@
                         },
                         "strokeWidth": {
                           "additionalProperties": false,
-                          "description": "Labels for the stroke width slider",
+                          "description": "[plain] Labels for the stroke width slider",
                           "properties": {
                             "label": {
                               "type": "string"
@@ -17103,7 +17062,7 @@
                         },
                         "width": {
                           "additionalProperties": false,
-                          "description": "Width slider",
+                          "description": "[plain] Width slider",
                           "properties": {
                             "label": {
                               "type": "string"
@@ -17137,10 +17096,12 @@
                       "type": "object"
                     },
                     "header": {
+                      "description": "[plain] The character editor page header",
                       "type": "string"
                     },
                     "instructions": {
                       "additionalProperties": false,
+                      "description": "[plain] Guidance shown in the character editor for each tool and selection state",
                       "properties": {
                         "ellipse": {
                           "type": "string"
@@ -17185,6 +17146,7 @@
                     },
                     "shape": {
                       "additionalProperties": false,
+                      "description": "[plain] Names of the character editor shape tools",
                       "properties": {
                         "ellipse": {
                           "type": "string"
@@ -17226,6 +17188,7 @@
                           "$ref": "#/definitions/ButtonText"
                         },
                         "collaborators": {
+                          "description": "[plain] Label for the character's collaborators list",
                           "type": "string"
                         },
                         "delete": {
@@ -17403,7 +17366,7 @@
                       "type": "object"
                     },
                     "header": {
-                      "description": "Header for the class page",
+                      "description": "[plain] Header for the class page",
                       "type": "string"
                     },
                     "prompt": {
@@ -17857,7 +17820,7 @@
                           "type": "array"
                         }
                       ],
-                      "description": "A description of the platform's features"
+                      "description": "[formatted] A description of the platform's features"
                     },
                     "link": {
                       "additionalProperties": false,
@@ -17873,7 +17836,7 @@
                         },
                         "community": {
                           "additionalProperties": false,
-                          "description": "The community link",
+                          "description": "[plain] The community link",
                           "properties": {
                             "label": {
                               "type": "string"
@@ -17890,7 +17853,7 @@
                         },
                         "contribute": {
                           "additionalProperties": false,
-                          "description": "The contributor link",
+                          "description": "[plain] The contributor link",
                           "properties": {
                             "label": {
                               "type": "string"
@@ -18117,6 +18080,10 @@
                       "description": "[plain] Header above the bundle review viewer",
                       "type": "string"
                     },
+                    "checkReadingLevel": {
+                      "description": "[plain] Tooltip for the button that checks the current string's reading level with an AI assistant.",
+                      "type": "string"
+                    },
                     "description": {
                       "description": "[formatted] Introduction to the workspace shown above the dropdown",
                       "items": {
@@ -18138,6 +18105,10 @@
                     },
                     "header": {
                       "description": "[plain] The header for the localization workspace page",
+                      "type": "string"
+                    },
+                    "literalTermsWarning": {
+                      "description": "[plain] Warning shown below the editor when the draft uses a glossary term as plain prose; each finding is offered as a one-click fix that swaps it for a symbolic",
                       "type": "string"
                     },
                     "nextBundleItem": {
@@ -18171,6 +18142,14 @@
                     "qualityMode": {
                       "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
                       "description": "Mode widget that filters the dropdown to \"all\" strings or only the machine-translated ones. The \"machine translated\" option is the default."
+                    },
+                    "readingLevelComplex": {
+                      "description": "[plain] Result shown when the AI judges the current string too complex for the target ~6th-grade reading level.",
+                      "type": "string"
+                    },
+                    "readingLevelOk": {
+                      "description": "[plain] Result shown when the AI judges the current string's reading level acceptable.",
+                      "type": "string"
                     },
                     "requireLogin": {
                       "description": "[plain] Notice shown when the user is not logged in and tries to view this page",
@@ -18298,6 +18277,10 @@
                     "notSpamNote",
                     "requireLogin",
                     "singletonWordsWarning",
+                    "literalTermsWarning",
+                    "checkReadingLevel",
+                    "readingLevelComplex",
+                    "readingLevelOk",
                     "submit",
                     "submitSuccess",
                     "viewPR",
@@ -18701,7 +18684,7 @@
                         },
                         "metadata": {
                           "additionalProperties": false,
-                          "description": "The student data field",
+                          "description": "[formatted] The student data field",
                           "properties": {
                             "description": {
                               "description": "[plain] The tooltip and ARIA-label for the text field",
@@ -18732,7 +18715,7 @@
                         },
                         "words": {
                           "additionalProperties": false,
-                          "description": "The password words field",
+                          "description": "[formatted] The password words field",
                           "properties": {
                             "description": {
                               "description": "[plain] The tooltip and ARIA-label for the text field",
@@ -18787,7 +18770,7 @@
                         },
                         "review": {
                           "$ref": "#/definitions/FormattedText",
-                          "description": "Prompt review of the genrated students."
+                          "description": "[formatted] Prompt review of the genrated students."
                         },
                         "start": {
                           "$ref": "#/definitions/FormattedText",
@@ -18829,7 +18812,7 @@
                           "type": "string"
                         },
                         "submit": {
-                          "description": "The subheader for submitting",
+                          "description": "[plain] The subheader for submitting",
                           "type": "string"
                         }
                       },
@@ -18950,11 +18933,11 @@
                       "description": "Search functionality",
                       "properties": {
                         "description": {
-                          "description": "Description for the search field",
+                          "description": "[plain] Description for the search field",
                           "type": "string"
                         },
                         "noResults": {
-                          "description": "No project search results",
+                          "description": "[plain] No project search results",
                           "type": "string"
                         }
                       },
@@ -19142,11 +19125,11 @@
                   "description": "The unknown route page",
                   "properties": {
                     "header": {
-                      "description": "The header for the unknown route",
+                      "description": "[plain] The header for the unknown route",
                       "type": "string"
                     },
                     "message": {
-                      "description": "The message for the unknown route",
+                      "description": "[plain] The message for the unknown route",
                       "type": "string"
                     }
                   },
@@ -21626,7 +21609,7 @@
         "language",
         "regions",
         "wordplay",
-        "term",
+        "glossary",
         "token",
         "keyword",
         "node",
@@ -22017,7 +22000,7 @@
         },
         "flags": {
           "$ref": "#/definitions/FlagDescriptions",
-          "description": "Content moderation rules that creators promise to follow. See en-US.json for ground truth language."
+          "description": "[formatted] Content moderation rules that creators promise to follow. See en-US.json for ground truth language."
         },
         "moderate": {
           "$ref": "#/definitions/HeaderAndExplanationText",
@@ -22079,7 +22062,7 @@
           "type": "array"
         }
       ],
-      "description": "A single name or a list of names, all valid Wordplay names"
+      "description": "[name] A single name or a list of names, all valid Wordplay names"
     },
     "RegionCode": {
       "type": [

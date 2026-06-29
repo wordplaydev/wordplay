@@ -40,7 +40,7 @@ export default class DocumentedExpression extends SimpleExpression {
             {
                 name: 'expression',
                 kind: node(Expression),
-                label: () => (l) => l.term.value,
+                label: () => (l) => l.glossary.value.word,
             },
         ];
     }

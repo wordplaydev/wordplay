@@ -2,12 +2,17 @@ import { howToToString, parseHowTo } from '@concepts/HowTo';
 import type LanguageCode from '@locale/LanguageCode';
 import { isMachineTranslated } from '@locale/LocaleText';
 import type { RegionCode } from '@locale/Regions';
+import Example from '@nodes/Example';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
+import parseDoc from '@parser/parseDoc';
+import { DOCS_SYMBOL } from '@parser/Symbols';
+import { toTokens } from '@parser/toTokens';
 import fs from 'fs';
 import path from 'path';
 import type Log from '@util/verify-locales/Log';
-import translate, { getGoogleTranslateTargetLocale } from '@util/verify-locales/translate';
+import getTranslator from '@util/verify-locales/getTranslator';
+import writeFormatted from '@util/verify-locales/writeFormatted';
 
 /**
  * Verify and optionally translate how-to content for a locale
@@ -19,6 +24,9 @@ export async function verifyHowTo(
     regions: RegionCode[],
     translateContent: boolean,
     override: boolean,
+    /** Optional how-to ids (filename without `.txt`) to narrow the translation
+     *  pass to (e.g. `+howto:animate-phrase`). Empty or undefined = all. */
+    howtoIds?: string[],
 ): Promise<void> {
     // Skip English locale - it's the source
     if (locale === 'en-US') return;
@@ -40,6 +48,12 @@ export async function verifyHowTo(
         log.bad(2, `Failed to read English how-to directory: ${error}`);
         return;
     }
+
+    // Narrow to the requested how-to ids, if any (+howto:<id>).
+    if (howtoIds !== undefined && howtoIds.length > 0)
+        englishFiles = englishFiles.filter((f) =>
+            howtoIds.includes(f.replace('.txt', '')),
+        );
 
     if (englishFiles.length === 0) return;
 
@@ -67,10 +81,11 @@ export async function verifyHowTo(
         return;
     }
 
-    // Translation mode - get target locale for Google Translate
+    // Translation mode - resolve the target locale via the active backend.
+    const translator = getTranslator();
     let targetLocale: string;
     try {
-        targetLocale = await getGoogleTranslateTargetLocale(language, regions);
+        targetLocale = await translator.getTargetLocale(language, regions);
     } catch (error) {
         log.bad(2, `Failed to get target locale for ${locale}: ${error}`);
         return;
@@ -163,19 +178,31 @@ async function translateHowToFile(
     // Find all of the words in the content.
     if (parsedHowTo.how === null) return false;
 
+    // Prose runs to translate, and embedded \code\ examples to localize (so a
+    // how-to reads natively like the tutorial — not English code in localized
+    // prose). These are disjoint: code tokens are never Sym.Words.
     const phrases = parsedHowTo.how.content
         .nodes()
         .filter(
             (node): node is Token =>
                 node instanceof Token && node.isSymbol(Sym.Words),
         );
+    const examples = parsedHowTo.how.content
+        .nodes()
+        .filter((node): node is Example => node instanceof Example);
 
-    if (phrases.length === 0) return false;
+    if (phrases.length === 0 && examples.length === 0) return false;
 
-    // Translate the title and content
-    const translations = await translate(
+    // Translate the title + prose, and localize each example by passing its full
+    // \code\ source — the translator localizes the embedded program's names/text.
+    const translator = getTranslator();
+    const translations = await translator.translate(
         log,
-        [parsedHowTo.how.title, ...phrases.map((phrase) => phrase.getText())],
+        [
+            parsedHowTo.how.title,
+            ...phrases.map((phrase) => phrase.getText()),
+            ...examples.map((example) => example.toWordplay()),
+        ],
         sourceLocale,
         targetLocale,
     );
@@ -184,19 +211,21 @@ async function translateHowToFile(
         throw new Error('Translation service returned no results');
     }
 
-    if (translations.length !== phrases.length + 1) {
+    const expected = 1 + phrases.length + examples.length;
+    if (translations.length !== expected) {
         throw new Error(
-            `Translation count mismatch: expected ${phrases.length}, got ${translations.length}`,
+            `Translation count mismatch: expected ${expected}, got ${translations.length}`,
         );
     }
 
-    // Apply translations to the title.
-    parsedHowTo.how.title = translations[0];
-    translations.shift();
+    // Apply translations to the title (keep the original if it couldn't translate).
+    parsedHowTo.how.title = translations[0] ?? parsedHowTo.how.title;
 
-    // Apply translations to the words in the markup, replacing the original tokens with the revised ones.
     let markup = parsedHowTo.how.content;
-    for (let i = 0; i < translations.length; i++) {
+    // Replace each prose run with its translation (null → keep the original).
+    for (let i = 0; i < phrases.length; i++) {
+        const translation = translations[1 + i];
+        if (translation === null) continue;
         const tokens = markup.leaves();
         const tokenBefore = tokens[tokens.indexOf(phrases[i]) - 1];
         const tokenAfter = tokens[tokens.indexOf(phrases[i]) + 1];
@@ -210,24 +239,32 @@ async function translateHowToFile(
         markup = markup.replace(
             phrases[i],
             new Token(
-                (nameBefore ? ' ' : '') +
-                    translations[i] +
-                    (nameAfter ? ' ' : ''),
+                (nameBefore ? ' ' : '') + translation + (nameAfter ? ' ' : ''),
                 Sym.Words,
             ),
         );
+    }
+    // Replace each example with its localized \code\ (null → keep original code).
+    for (let i = 0; i < examples.length; i++) {
+        const localized = translations[1 + phrases.length + i];
+        if (localized === null) continue;
+        const newExample = parseDoc(
+            toTokens(DOCS_SYMBOL + localized + DOCS_SYMBOL),
+        )
+            .nodes()
+            .find((node): node is Example => node instanceof Example);
+        if (newExample !== undefined)
+            markup = markup.replace(examples[i], newExample);
     }
 
     // Update the content.
     parsedHowTo.how.content = markup;
 
-    // Write the translated file
+    // Write the translated file. (How-to `.txt` is a custom format Prettier has
+    // no parser for, so writeFormatted writes it raw — but routes through the same
+    // write-if-changed path as every other locale write.)
     try {
-        fs.writeFileSync(
-            targetFilePath,
-            howToToString(parsedHowTo.how),
-            'utf-8',
-        );
+        await writeFormatted(targetFilePath, howToToString(parsedHowTo.how));
     } catch (error) {
         throw new Error(`Failed to write translated file: ${error}`);
     }

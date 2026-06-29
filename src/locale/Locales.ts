@@ -14,11 +14,7 @@ import {
 } from '@locale/LanguageCode';
 import { localeToString } from '@locale/Locale';
 import type LocaleText from '@locale/LocaleText';
-import {
-    isUnwritten,
-    toLocaleString,
-    type Template,
-} from '@locale/LocaleText';
+import { isUnwritten, toLocaleString, type Template } from '@locale/LocaleText';
 import type NodeRef from '@locale/NodeRef';
 import type { Script, WritingDirection } from '@locale/Scripts';
 import type ValueRef from '@locale/ValueRef';
@@ -465,9 +461,12 @@ export default class Locales {
     }
 
     getTermByID(id: string) {
-        const locale = this.getLocale();
-        const term = id as keyof LocaleText['term'];
-        return Object.hasOwn(locale.term, term) ? locale.term[term] : undefined;
+        // Glossary entries are { word, definition }; the word is the display
+        // term used when an @term reference appears. Iterate entries to look up
+        // by a runtime string id without an unsafe keyof cast.
+        for (const [key, entry] of Object.entries(this.getLocale().glossary))
+            if (key === id) return entry.word;
+        return undefined;
     }
 
     getName(names: Names, symbolic = true) {

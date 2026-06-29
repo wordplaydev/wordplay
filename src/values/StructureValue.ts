@@ -1,4 +1,5 @@
 import type LocaleText from '@locale/LocaleText';
+import getConceptName from '@locale/getConceptName';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import type Names from '@nodes/Names';
 import type StructureDefinition from '@nodes/StructureDefinition';
@@ -206,7 +207,7 @@ export default class StructureValue extends Value {
     }
 
     getDescription() {
-        return (l: LocaleText) => l.term.structure;
+        return (l: LocaleText) => getConceptName(l, 'structure');
     }
 
     /**

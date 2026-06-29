@@ -75,9 +75,9 @@ export type FieldText = {
 
 type UITexts = {
     font: {
-        /** The application font to use throughout the application. Should support the language used in this locale so that characters render correctly. Add the face to Fonts.ts if the one you choose is not yet supported. */
+        /** [plain] The application font to use throughout the application. Should support the language used in this locale so that characters render correctly. Add the face to Fonts.ts if the one you choose is not yet supported. */
         app: SupportedFace;
-        /** The monospace font to use for code in the editor and code examples. Should support the language used in this locale so that characters render correctly. Add the face to Fonts.ts if the one you choose is not yet supported. */
+        /** [plain] The monospace font to use for code in the editor and code examples. Should support the language used in this locale so that characters render correctly. Add the face to Fonts.ts if the one you choose is not yet supported. */
         code: SupportedFace;
         /** [plain] The word shown before the markup symbols that a font face doesn't support (e.g. "missing * ^" for a face without bold or extra bold) */
         missing: string;

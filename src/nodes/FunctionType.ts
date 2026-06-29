@@ -1,4 +1,5 @@
 import { Purpose } from '@concepts/Purpose';
+import getConceptName from '@locale/getConceptName';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { FUNCTION_SYMBOL } from '@parser/Symbols';
@@ -14,7 +15,13 @@ import type Expression from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import Names from '@nodes/Names';
-import { list, node, optional, type Grammar, type Replacement } from '@nodes/Node';
+import {
+    list,
+    node,
+    optional,
+    type Grammar,
+    type Replacement,
+} from '@nodes/Node';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import Type from '@nodes/Type';
@@ -116,14 +123,14 @@ export default class FunctionType extends Type {
                 kind: list(true, node(Bind)),
                 space: true,
                 indent: true,
-                label: () => (l) => l.term.input,
+                label: () => (l) => getConceptName(l, 'input'),
             },
             { name: 'close', kind: node(Sym.EvalClose), label: undefined },
             {
                 name: 'output',
                 kind: node(Type),
                 space: true,
-                label: () => (l) => l.term.type,
+                label: () => (l) => l.glossary.type.word,
             },
         ];
     }

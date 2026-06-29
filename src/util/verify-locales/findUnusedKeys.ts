@@ -17,7 +17,7 @@ const TOP_LEVEL_SECTIONS = [
     'gallery',
     'moderation',
     'system',
-    'term',
+    'glossary',
     'token',
     'wordplay',
 ] as const;
@@ -32,9 +32,9 @@ const ALWAYS_USED_PREFIXES: readonly string[] = [
     'language',
     'regions',
     'wordplay',
-    // term.* is read via getTermByID(id) — id is a runtime string built from
-    // definition names, so no static accessor lists individual term keys.
-    'term',
+    // glossary.* is read via getTermByID(id) (@term references) and the glossary
+    // UI, with runtime-computed keys, so no static accessor lists individual ids.
+    'glossary',
     // token.<TokenName> is mapped from the Sym enum by TokenCategories.
     'token',
     // keyword.<KeywordId> is read dynamically (l.keyword[id]) by TokenView from Keywords.ts.
@@ -121,8 +121,7 @@ function isLeafUsed(leafPath: string, usedPrefixes: Set<string>): boolean {
     // LocalePath.toString() emits `.key` for top-level leaves; normalize.
     const cleaned = leafPath.startsWith('.') ? leafPath.slice(1) : leafPath;
     for (const prefix of ALWAYS_USED_PREFIXES) {
-        if (cleaned === prefix || cleaned.startsWith(prefix + '.'))
-            return true;
+        if (cleaned === prefix || cleaned.startsWith(prefix + '.')) return true;
     }
     let prefix = '';
     for (const segment of cleaned.split('.')) {

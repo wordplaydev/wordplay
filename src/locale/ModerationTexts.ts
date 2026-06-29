@@ -11,7 +11,7 @@ export type ModerationTexts = {
     unmoderated: HeaderAndExplanationText;
     /** Moderation view text */
     moderate: HeaderAndExplanationText;
-    /** Content moderation rules that creators promise to follow. See en-US.json for ground truth language. */
+    /** [formatted] Content moderation rules that creators promise to follow. See en-US.json for ground truth language. */
     flags: FlagDescriptions;
     /** [formatted] Progress message */
     progress: Template<['moderated', 'remaining']>;

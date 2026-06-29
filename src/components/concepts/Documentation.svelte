@@ -1,6 +1,6 @@
 <script module lang="ts">
     /** The available documentation browsing modes */
-    export const Modes = ['language', 'howto'] as const;
+    export const Modes = ['language', 'howto', 'glossary'] as const;
 </script>
 
 <script lang="ts">
@@ -10,6 +10,9 @@
     import Subheader from '@components/app/Subheader.svelte';
     import TutorialHighlight from '@components/app/TutorialHighlight.svelte';
     import ConceptGroupView from '@components/concepts/ConceptGroupView.svelte';
+    import GlossaryEntry from '@components/concepts/GlossaryEntry.svelte';
+    import GlossaryView from '@components/concepts/GlossaryView.svelte';
+    import { foldEntry, searchItems, type Searchable } from '@util/search';
     import ConceptPreview from '@components/concepts/ConceptPreview.svelte';
     import ConceptsView from '@components/concepts/ConceptsView.svelte';
     import ConceptView from '@components/concepts/ConceptView.svelte';
@@ -22,6 +25,7 @@
         reconcileSearch,
         sameHistory,
         currentConcept as topConcept,
+        type GuidePlace,
     } from '@components/concepts/GuideHistory';
     import placeLabel from '@components/concepts/placeLabel';
     import HowConceptView from '@components/concepts/HowConceptView.svelte';
@@ -324,6 +328,28 @@
         if (untrack(() => query) !== desired) query = desired;
     });
 
+    // A concept reached from the glossary belongs to the code section: switch the
+    // toggle to 'language' and rebase the glossary section beneath it so the
+    // breadcrumb and Back return to code, not the glossary.
+    $effect(() => {
+        if (currentConcept === undefined || mode !== 'glossary') return;
+        mode = 'language';
+        const history = get(path);
+        let changed = false;
+        const next = history.map((place): GuidePlace => {
+            if (place.kind === 'section' && place.mode === 'glossary') {
+                changed = true;
+                return {
+                    kind: 'section',
+                    mode: 'language',
+                    purpose: place.purpose,
+                };
+            }
+            return place;
+        });
+        if (changed) path.set(next);
+    });
+
     /** Remember the previous history we visited */
     let previousPath: ConceptPath = $state([]);
 
@@ -343,6 +369,32 @@
                 ? index?.getQuery(debouncedQuery.current)
                 : undefined,
         );
+
+    /** Glossary terms matching the global search, shown alongside concept
+     *  results. Clicking one opens the glossary and flashes the entry. */
+    let glossaryResults: { id: string; word: string }[] = $derived.by(() => {
+        const q = debouncedQuery.current.trim();
+        if (q.length < MIN_QUERY_LENGTH) return [];
+        const langs = $locales.getLanguages();
+        // Match on the term's word only, not its definition.
+        const entries = Object.keys($locales.getLocale().glossary).map(
+            (id) => ({
+                id,
+                word: $locales.getTermByID(id) ?? id,
+            }),
+        );
+        const searchables: Searchable<string>[] = entries.map((entry) => ({
+            ref: entry.id,
+            fields: [{ entries: [foldEntry(entry.word, langs)], priority: 0 }],
+        }));
+        const wordById = new Map(
+            entries.map((entry) => [entry.id, entry.word]),
+        );
+        return searchItems(searchables, q, langs).map(([id]) => ({
+            id,
+            word: wordById.get(id) ?? id,
+        }));
+    });
 
     // Find all the highlights in the current documentation so we can render them.
     let highlights = $derived(
@@ -446,7 +498,7 @@
                 grid
                 uiid="docsModeToggle"
                 modes={(l) => l.ui.docs.mode.browse}
-                icons={[DOCUMENTATION_SYMBOL, IDEA_SYMBOL]}
+                icons={[DOCUMENTATION_SYMBOL, IDEA_SYMBOL, '📖']}
                 choice={Modes.indexOf(mode)}
                 select={(choice) => chooseSection(Modes[choice], purpose)}
             />
@@ -517,6 +569,11 @@
         <!-- Search mode is prioritized over a selected concept or the home page -->
         {#if searchActive}
             {#if results}
+                <!-- Glossary matches first (usually one or two), shown as
+                     glossary entries; clicking the word jumps to the entry. -->
+                {#each glossaryResults as term (term.id)}
+                    <GlossaryEntry id={term.id} word={term.word} />
+                {/each}
                 {#each results.slice(0, resultLimit) as [concept, text]}
                     {@const match = text[0]}
                     {@const start = text[1]}
@@ -538,9 +595,10 @@
                             >
                         </div>
                     </div>
-                {:else}
-                    <Notice text={(l) => l.ui.docs.note.noMatches} />
                 {/each}
+                {#if results.length === 0 && glossaryResults.length === 0}
+                    <Notice text={(l) => l.ui.docs.note.noMatches} />
+                {/if}
                 <!-- Infinite-scroll sentinel: reveals another page when reached. -->
                 <div bind:this={resultsSentinel} aria-hidden="true"></div>
             {:else}
@@ -593,6 +651,9 @@
                         concept={currentConcept}
                     />
                 {/if}
+                <!-- Glossary mode renders its own list (no concept index needed). -->
+            {:else if mode === 'glossary'}
+                <GlossaryView />
                 <!-- Home page is default. -->
             {:else if index}
                 {#if mode === 'howto'}
@@ -658,7 +719,7 @@
                         index.getPrimaryConceptsWithPurpose(Purpose.Project)}
                     {#if projectConcepts.length > 0}
                         <ConceptsView
-                            category={(l) => l.term.project}
+                            category={(l) => l.glossary.project.word}
                             concepts={projectConcepts}
                             {collapse}
                             {row}

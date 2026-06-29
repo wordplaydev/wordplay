@@ -54,7 +54,7 @@ export default class TypeInputs extends Node {
             {
                 name: 'types',
                 kind: list(true, node(Type)),
-                label: () => (l) => l.term.type,
+                label: () => (l) => l.glossary.type.word,
             },
             {
                 name: 'close',

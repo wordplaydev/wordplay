@@ -11,7 +11,7 @@ export function describeEnteredOutput(
     entered: OutputsByName,
 ): string | undefined {
     return entered.size > 0
-        ? locales.getPlainText((l) => l.term.entered) +
+        ? locales.getPlainText((l) => l.glossary.entered.word) +
               ' ' +
               Array.from(entered.values())
                   .filter(
@@ -86,7 +86,7 @@ export function describeMovedOutput(locales: Locales, moved: Moved) {
     if (descriptions.length === 0) return '';
     else
         return (
-            locales.getPlainText((l) => l.term.moved) +
+            locales.getPlainText((l) => l.glossary.moved.word) +
             ', ' +
             descriptions.join(', ')
         );

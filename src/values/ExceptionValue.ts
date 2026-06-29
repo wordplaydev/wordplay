@@ -1,4 +1,5 @@
 import type LocaleText from '@locale/LocaleText';
+import getConceptName from '@locale/getConceptName';
 import ExceptionType from '@nodes/ExceptionType';
 import type Node from '@nodes/Node';
 import type Evaluator from '@runtime/Evaluator';
@@ -38,7 +39,7 @@ export default abstract class ExceptionValue extends SimpleValue {
     ): ExceptionText<readonly string[], readonly string[]>;
 
     getDescription() {
-        return (l: LocaleText) => l.term.exception;
+        return (l: LocaleText) => getConceptName(l, 'exception');
     }
 
     abstract getExplanation(locales: Locales): Markup;

@@ -62,13 +62,13 @@ export default class ConversionType extends Type {
             {
                 name: 'input',
                 kind: node(Type),
-                label: () => (l) => l.term.type,
+                label: () => (l) => l.glossary.type.word,
             },
             {
                 name: 'output',
                 kind: node(Type),
                 space: true,
-                label: () => (l) => l.term.type,
+                label: () => (l) => l.glossary.type.word,
             },
         ];
     }

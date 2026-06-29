@@ -51,7 +51,7 @@
         >{#if project.getSources().length > 1}{$locales.getName(
                 source.names,
             )}{:else}<em
-                ><LocalizedText path={(locale) => locale.term.code}
+                ><LocalizedText path={(locale) => locale.glossary.code.word}
                 ></LocalizedText></em
             >{/if}</span
     >

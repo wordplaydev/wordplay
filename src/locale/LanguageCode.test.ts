@@ -1,5 +1,6 @@
 import { expect, test } from 'vitest';
 import {
+    getCLDRCandidates,
     GoogleTranslateCodeOverrides,
     Languages,
     Translatable,
@@ -87,6 +88,21 @@ test('languages Google Translate does not support are not offered', () => {
             Translatable,
             `${code} should not be translatable`,
         ).not.toContain(code);
+});
+
+test('getCLDRCandidates derives CLDR codes from language metadata', () => {
+    // Region variant first, then base (es_MX → es).
+    expect(getCLDRCandidates('es', 'MX')).toEqual(['es_MX', 'es']);
+    // Base code with a region that has no special CLDR (ne_NP 404s → ne).
+    expect(getCLDRCandidates('ne', 'NP')).toEqual(['ne_NP', 'ne']);
+    // `cldr` override (Tagalog → fil) becomes the base.
+    expect(getCLDRCandidates('tl', 'PH')).toEqual(['fil_PH', 'fil']);
+    // `cldrByRegion` script override comes first (Chinese in TW → Traditional).
+    expect(getCLDRCandidates('zh', 'TW')).toEqual(['zh_Hant', 'zh_TW', 'zh']);
+    // A region without a script override falls to the base.
+    expect(getCLDRCandidates('zh', 'CN')).toEqual(['zh_CN', 'zh']);
+    // No region → just the base.
+    expect(getCLDRCandidates('en', undefined)).toEqual(['en']);
 });
 
 test('code overrides map to the code Google expects', () => {

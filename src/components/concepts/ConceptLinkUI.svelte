@@ -4,23 +4,29 @@
     import CharacterView from '@components/output/CharacterView.svelte';
     import {
         getConceptIndex,
-        getConceptPath,
+        getConceptPathOptional,
         getUser,
     } from '@components/project/Contexts';
     import Concept from '@concepts/Concept';
-    import { currentConcept, pushConcept } from '@components/concepts/GuideHistory';
+    import {
+        currentConcept,
+        pushConcept,
+    } from '@components/concepts/GuideHistory';
     import GalleryHowConcept from '@concepts/GalleryHowConcept';
     import { locales } from '@db/Database';
     import ConceptRef from '@locale/ConceptRef';
+    import TermRef from '@locale/TermRef';
     import ConceptLink, {
         CharacterName,
         CodepointName,
         ConceptName,
+        GlossaryName,
         HowToName,
         UIName,
     } from '@nodes/ConceptLink';
     import { withMonoEmoji } from '@unicode/emoji';
     import MarkupHTMLView from './MarkupHTMLView.svelte';
+    import TermView from './TermView.svelte';
 
     interface Props {
         link: ConceptRef | ConceptLink | Concept | string;
@@ -34,7 +40,9 @@
     let indexContext = getConceptIndex();
     let index = $derived(indexContext?.index);
 
-    let path = getConceptPath();
+    // Optional: concept links can render outside a guide (e.g. inside a Hint
+    // tooltip or a standalone page), where there's no navigation path.
+    let path = getConceptPathOptional();
 
     /** The different types of matches we can find */
     type Match =
@@ -59,6 +67,26 @@
         | string
         | undefined;
 
+    // A `@term` glossary reference renders as an interactive glossary term, the
+    // same as a resolved `@term` reference (see SegmentHTMLView's TermRef branch).
+    let term: TermRef | undefined = $derived.by(() => {
+        const name =
+            link instanceof ConceptLink
+                ? link.getName()
+                : link instanceof ConceptRef
+                  ? link.concept
+                  : typeof link === 'string'
+                    ? link
+                    : undefined;
+        if (name === undefined) return undefined;
+        const parsed = ConceptLink.parse(name);
+        if (parsed instanceof GlossaryName) {
+            const word = $locales.getTermByID(parsed.id);
+            if (word !== undefined) return new TermRef(parsed.id, word);
+        }
+        return undefined;
+    });
+
     // Derive the concept, container, and UI based on the link.
     let match: Match = $derived.by((): Match => {
         // Already have a concept this refers to? Return it.
@@ -80,6 +108,8 @@
             );
 
             if (id === undefined) return undefined;
+            // Glossary terms are rendered separately (see `term` below).
+            if (id instanceof GlossaryName) return undefined;
             if (
                 id instanceof UIName ||
                 id instanceof CodepointName ||
@@ -166,7 +196,7 @@
     let isCurrent = $derived(
         concept !== undefined &&
             path !== undefined &&
-            currentConcept($path)?.isEqualTo(concept) === true,
+            currentConcept($path ?? [])?.isEqualTo(concept) === true,
     );
 
     function navigate() {
@@ -174,11 +204,12 @@
         // the navigation history as a new location.
         if (isCurrent) return;
         if (match && typeof match !== 'string' && 'concept' in match && path)
-            path.set(pushConcept($path, match.concept));
+            path.set(pushConcept($path ?? [], match.concept));
     }
 </script>
 
-{#if concept}
+{#if term}<TermView {term} />
+{:else if concept}
     {#if isConceptGalleryHow && (concept as GalleryHowConcept).howTo.hasBookmarker($user?.uid ?? '')}
         <MarkupHTMLView inline markup={'🔖'} />
     {/if}

@@ -16,14 +16,16 @@ describe('getTemplateReferences', () => {
         expect([...named].sort()).toEqual(['expected', 'given']);
     });
 
-    test('treats unknown names as terminology refs, not inputs', () => {
-        // `$program` is in the locale terminology dictionary; not a template input.
-        const { named, numeric } = getTemplateReferences(
+    test('treats a non-input name (e.g. a stale $term) as unknown', () => {
+        // `$program` isn't a declared input; glossary terms are now `@program`,
+        // so a leftover `$program` is flagged for fixing.
+        const { named, numeric, unknown } = getTemplateReferences(
             'I am a $program',
             declared,
         );
         expect([...named]).toEqual([]);
         expect([...numeric]).toEqual([]);
+        expect([...unknown]).toEqual(['program']);
     });
 
     test('collects bare numeric refs (legacy syntax) separately', () => {
@@ -110,7 +112,7 @@ describe('checkTemplateInputs', () => {
         expect(result?.unknown).toEqual([]);
     });
 
-    test('flags $name refs that are neither declared nor terminology', () => {
+    test('flags $name refs that are not declared inputs', () => {
         const result = checkTemplateInputs(
             'node.Bind.conflict.IncompatibleType.explanation',
             'I expected $expected, but received $expecte',
@@ -119,13 +121,14 @@ describe('checkTemplateInputs', () => {
         expect(result?.unused).toEqual(['given']);
     });
 
-    test('does not flag known terminology refs', () => {
-        // `$project` is a terminology key, not a template input — should be ignored.
+    test('flags a stale $term glossary ref as unknown (now @term)', () => {
+        // Glossary terms moved from `$project` to `@project`; a leftover
+        // `$project` is no longer a valid reference and is flagged.
         const result = checkTemplateInputs(
             'node.Bind.conflict.IncompatibleType.explanation',
             'I expected $expected, but received $given in $project',
         );
-        expect(result?.unknown).toEqual([]);
+        expect(result?.unknown).toEqual(['project']);
         expect(result?.unused).toEqual([]);
     });
 });

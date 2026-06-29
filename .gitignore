@@ -3,6 +3,7 @@ node_modules
 .DS_Store
 **/.DS_Store
 .env
+.env.local
 .env.wordplay-dev
 .env.wordplay-prod
 .env.demo

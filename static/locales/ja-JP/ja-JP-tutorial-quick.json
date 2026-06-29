@@ -1,0 +1,332 @@
+{
+    "$schema": "../../schemas/Tutorial.json",
+    "language": "ja",
+    "regions": ["JP"],
+    "acts": [
+        {
+            "title": "$~Wordplayはちがう",
+            "performance": { "fit": "#Symbol 💬" },
+            "scenes": [
+                {
+                    "title": "$~プログラムはvalueです",
+                    "subtitle": "$~文ではなく、expression",
+                    "concept": "Program",
+                    "performance": { "fit": "#Symbol ƒ" },
+                    "lines": [
+                        { "edit": "" },
+                        [
+                            "FunctionDefinition",
+                            "cheerful",
+                            "$~Wordplayへようこそ！プログラミングを少し知っているのですね？すばらしい！この短いツアーでは、Wordplayが何と似ていて、何がちがうのかをお見せします。",
+                            "$~この画面のものを知っておいてもらうために、このページは@tutorial@project。プログラムの出力を見せる*ステージ*@UI/stage、プログラムのcodeである*エディター*@UI/editor。",
+                            "$~このプログラムは空なので、出力はプログラムを書くようにうながすだけです。",
+                            "$~プログラムを止めたり動かしたり、codeを編集したりするための、ほかにもたくさんの操作がありますが、今は気にしなくて大丈夫です。"
+                        ],
+                        null,
+                        { "edit": "'hi'" },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~ほとんどのプログラミング言語では、プログラムはコンピューターに何を*する*かを伝える文のリストです。たとえば、valueを表示することです：",
+                            "$~\\py | print('こんにちは')\\js|console.log('hi')\\jv | System.out.println('こんにちは')\n;\\",
+                            "$~Wordplayでは、プログラムは*expression*です。プログラムの/結果/がどうあるべきかを言うのであって、どう作るかは言いません。",
+                            "$~このプログラムは次のvalueに評価され、\\'こんにちは'\\それがステージに表示されます。表示命令はなく、どんなvalueに評価されるかを言う@expression。"
+                        ],
+                        null,
+                        { "edit": ["message: 'hi'", "message"] },
+                        [
+                            "Bind",
+                            "neutral",
+                            "$~ほかの言語では、*variable*はvalueに名前をつけた入れ物で、そのvalueは変わることがあります：",
+                            "$~\\py | score = 10\nscore = 20\nprint(score)\\js|let score = 10;\nscore = 20;\nconsole.log(score);\\jv | int\nscore = 10\n;\nscore = 20\n;\nSystem.out.println(score)\n;\\",
+                            "$~Wordplayでは、名前のついたvalueは決して変わりません。「変えられない」もので、新しいvalueを入れ直すことができません。だから、それらをvariableではなく@Bind。変わることがないからです。",
+                            "$~変えられるvariableなしで、どうやってインタラクティブなプログラムを書くかは、すぐにお話しします。"
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~conditionを調べる",
+                    "subtitle": null,
+                    "concept": "Conditional",
+                    "performance": { "fit": "#Symbol ?" },
+                    "lines": [
+                        { "edit": ["num: 5", "num < 5 ?", "'more'", "'less'"] },
+                        [
+                            "Conditional",
+                            "neutral",
+                            "$~ほかのプログラミング言語には、たいてい*if*文があり、conditionによってちがうことをします：",
+                            "$~\\py | num = 5\nif\nnum < 5\n:\nprint('少なく')\nそれ以外:\n\tprint('多く')\\js|let num = 5;\nif(num < 5)\n    console.log('less');\nelse\n    console.log('more');\\jv | int\nnum = 5\nif(num < 5)\nSystem.out.println('少なく')\n;\nelse\nSystem.out.println('多く')\n;\\",
+                            "$~Wordplayでは、すべてが@expression、@Conditional。conditionを書き、次に\\?\\を書き、それから真のexpressionと偽のexpressionを書きます。キーワードはいりません。"
+                        ],
+                        null,
+                        { "edit": ["n: 1", "n ??? 1: 'one' 2: 'two' 'many'"] },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~いくつかの言語には、valueによってちがうことをする*switch*文もあります：",
+                            "$~\\py| n = 1\nmatch n:\n  case 1: print('one')\n  case 2: print('two')\n  case _: print('many')\\js| switch (n) {\n  case 1: console.log('one'); break;\n  case 2: console.log('two'); break;\n  default: console.log('many'); break;\n}\\jv | switch\n(n)\n{\n\tcase\n\t1: System.out.println('いち')\n\t;break;\n\tcase\n\t2: System.out.println('に')\n\t;break;\n\tdefault: System.out.println('たくさん')\n\t;break;\n}\\",
+                            "$~Wordplayには@Match、valueで結果を選びます。"
+                        ],
+                        null,
+                        { "edit": ["val: ø", "val ?? 0"] },
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~いくつかの言語には、variableがnullやundefinedのときに既定のvalueをあたえる、*nullまとめ*operatorもあります：",
+                            "$~\\py | val = None\nresult = val ?? 0\\js| let val = null;\nlet result = val ?? 0;\\jv | Object\nval = null\n;\nObject\nresult = val\n!=null?val:0;\\",
+                            "$~Wordplayには同じ結果を出す@Otherwise operatorがあります。"
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~valueとtype",
+                    "subtitle": null,
+                    "concept": "Number",
+                    "performance": { "fit": "#Symbol 0️⃣" },
+                    "lines": [
+                        {
+                            "edit": [
+                                "number: 1",
+                                "numberWithUnit: 1.5m",
+                                "text: 'hi'",
+                                "textWithTranslations: 'hi'/en'hola'/es",
+                                "boolean: ⊤",
+                                "none: ø"
+                            ],
+                            "conflicts": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~ほとんどの言語には、たくさんの「基本」value typeがあります。",
+                            "$~\\py | number\n:1\nテキスト: 'こんにちは'\n真偽値: True\nなし: None\\js| let number = 1;\nlet text = 'hi';\nlet boolean = true;\nlet none = null;\\jv | int\nnumber = 1\n;\nString\ntext = 'こんにちは'\n;\nboolean\nboolean = true\n;\nObject\nnone = null\n;\\",
+                            "$~Wordplayもこれらのtypeに似た書き方をしますが、ほかの情報も加えられます。たとえば、多言語テキストのための@language、数字の単位です。"
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "list: [1 2 3]",
+                                "set: {1 2 3}",
+                                "map: {'a': 1}"
+                            ],
+                            "conflicts": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~プログラミング言語には、valueの集まりを作る方法もあります。リスト、セット、マップ（よく辞書やハッシュと呼ばれます）などです：",
+                            "$~\\py | list = [1 ,2,3]\n\t\tset = {1 ,2,3}\n\t\t\t\tmap = {'あ': 1}\\js|let list = [1, 2, 3];\nlet set = new Set([1, 2, 3]);\nlet map = { a: 1 };\\jv | let\narray = [\n\t\t1\n\t\t,2,3];\n\t\tlet\n\t\tset = new\n\t\tjava.util.HashSet < >([\n\t\t\t\t\t1\n\t\t\t\t\t,2,3]);\n\t\t\t\t\tlet\n\t\t\t\t\tmap = new\n\t\t\t\t\tjava.util.HashMap < >()\n\t\t\t\t\t;\n\t\t\t\t\tmap.put('a' 1)\n\t\t\t\t\t;\\",
+                            "$~Wordplayはこれらの集まりにちがう書き方を使います。とくに目立つのは、valueを区切るのにコンマではなくスペースを使うことです。"
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "inferredType: [1 2 3]",
+                                "declaredType•[#]: [1 2 3]"
+                            ],
+                            "conflicts": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~いくつかのプログラミング言語では、variableのtypeを指定できます。そうすると、そのvariableの使い方がすべて正しいことを確かめられます：",
+                            "$~\\py | list\n:list[int]=[1,2,3]\\js| // JavaScript doesn't have type annotations. TypeScript does though:\nlet list: number[] = [1, 2, 3];\\jv | List < Integer > list = Arrays.asList(1 ,2,3);\\",
+                            "$~Wordplayもtypeをもちますが、typeは*推測されます*。ふつうは宣言しなくてよいのですが、推測できないときは、宣言しないといけないこともあります。"
+                        ],
+                        null,
+                        { "edit": ["•Pet(name•'' age•#)", "Pet('boomy' 16)"] },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~プログラミング言語は、たいてい自分だけのデータtypeを作る方法もあたえます。複数のvalueを一つのデータ構造にまとめるためです：",
+                            "$~\\py | class\nペット:\n\tdef\n_\n_\ninit\n_\n_(self ,name,age):\n\tself.name = name\n\tself.age = age\\js| class Pet {\n    constructor(name, age) {\n        this.name = name;\n        this.age = age;\n    }\n}\\jv | public\nclass\nPet\n{\n\tprivate\n\tString\n\tname\n\t;\n\tprivate\n\tint\n\tage\n\t;\n\tpublic\n\tPet(String name ,intage){\n\t\tthis.name = name ;\n\t\tthis.age = age ;\n\t\t}\n\t\t}\\",
+                            "$~Wordplayは@Structure。\\•\\でデータtypeを表し、次に@name、それから構造の中のフィールドを書きます。"
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~変換、集まり、関数",
+                    "subtitle": null,
+                    "concept": "Convert",
+                    "performance": { "fit": "#Symbol →" },
+                    "lines": [
+                        { "edit": ["1m → #ft → ''"] },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~プログラミングでよくある操作は、データを一つのtypeから別のtypeに変えることです。たとえば、数字をテキストのvalueに変えたいことがあります：",
+                            "$~\\py | str(1)\\js| String(1)\\jv | String.valueOf(1)\\",
+                            "$~Wordplayのvalueはすべて@Convert、type同士を変換できます。この例は次のものを\\1m\\をフィートに変え、それから@Text。それぞれのvalue typeは、たくさんの使える変換をもっています。"
+                        ],
+                        null,
+                        { "edit": "[1 2 3] ↦ ⬚ × 2" },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~リストや配列のようなvalueの集まりについて、ほかのプログラミング言語は*for*ループや*while*ループのような仕組みを使い、もとの集まりのvalueから新しい集まりを作ります。",
+                            "$~\\py | n = [1 ,2,3]\n\t\t#Listcomprehension\n\t\t[n\n\n\n\n\t\t\t2 )\\js| n = [1, 2, 3];\n// Map\nnums.map(n => n * 2);\n// For loop\nn2 = [];\nfor (let n of nums) {\n    n2.push(n * 2);\n}\\jv | int[]nums=[1,2,3];\n//Map\nnums.stream().map(n -> n\n\n\n\n\t2)\n;\n}\\",
+                            "$~Wordplayには、かんたんな@Translate*、次の記号を使います\\↦\\の記号です。それは新しい@List、@Set、@List、それぞれの項目（\\⬚\\@Set）を新しいvalueに置きかえます。これはそれぞれの項目を二倍にして、次を作ります\\[2 4 6]\\。",
+                            "$~もっと強力なものもあります。@List.translate@List.combine、もっと複雑な操作が必要なときに使えます。"
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "ƒ greet(name•'') 'hi ' + name",
+                                "greet('Verse')"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~どのプログラミング言語にも関数があります。関数を使うと、入力を受け取って、それをもとに出力を作る、くり返し使えるcodeのblocksを宣言できます。どんなに複雑なものでもです：",
+                            "$~\\py | def\ngreet(n)\n:\nreturn\n'こんにちは ' + n\nprint(greet('バース'))\\js| function greet(n) {\n  return 'hi ' + n\n}\nconsole.log(greet('Verse'))\\jv | public\nclass\nGreeter\n{\n\tpublic\n\tstatic\n\tString\n\tgreet(String n)\n\t{\n\t\treturn 'こんにちは ' + n ;\n\t}\n}\nGreeter.greet('バース')\\",
+                            "$~Wordplayも関数の定義をサポートしますが、ƒという記号を使います。すべてのWordplayのプログラムと同じく、関数はvalueに評価されないといけません。"
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~出力は文字の表現、入力は反応する",
+                    "subtitle": null,
+                    "concept": "Stage",
+                    "performance": { "fit": "#Symbol 💬" },
+                    "lines": [
+                        {
+                            "edit": "Stage([Phrase('🎉' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.5) 100%: Pose(scale: 1)} duration: 2s))] background: Color(90% 0 0°))"
+                        },
+                        [
+                            "Stage",
+                            "neutral",
+                            "$~ほかのプログラミング言語は、テキストをコンソールに表示したり、キャンバスに描いたり、ウェブページを変えたりします：",
+                            "$~\\py | print('こんにちは')\\js| document.body.append('hi')\\jv | System.out.println('こんにちは')\n;\\",
+                            "$~Wordplayの出力は文字の表現です。@Phrase、@Group、@Phrase、画面にスタイルのついた、動く、インタラクティブなテキストを見せたり、スクリーンリーダーが読み上げたりします。",
+                            "$~下の例は、止まっているときに大きさを変えるアニメーションをもつ、一つの@Stage@Phrase。"
+                        ],
+                        null,
+                        {
+                            "edit": "Phrase('🌎' rotation: Time(100ms) × 0.05°/ms)"
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~ほとんどのプログラミング言語には、ユーザーから入力を受け取る方法があります：",
+                            "$~\\py | name = input('あなたの名前は何ですか？')\\js| const name = prompt('What is your name?')\\jv | Scanner\nscanner = new\nScanner(System.in)\n;\nString\nname = scanner.nextLine()\n;\\",
+                            "$~Wordplayの入力は*ストリーム*から来ます。ストリームは特別なvalueで、入力に応じて時間とともに変わり、Wordplayのプログラムをストリームの新しいvalueでもう一度評価させます。",
+                            "$~たとえばこのプログラムは、@Timeストリームを使って地球の絵文字を回しています。@Time()ストリームが新しいvalueに進むたびに、プログラムは新しいvalueでもう一度評価され、@Time。"
+                        ],
+                        null,
+                        { "edit": "Phrase(∆ Button() ? 'hi' 'click me')" },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~ほかのプログラミング言語の多くでは、インタラクティブにするには、イベントハンドラーやコールバックを登録することを意味します：",
+                            "$~\\py | import\ntkinter\nas\ntk\n\ndef\non\n_\nclick()\n:\nlabel.config(text = 'こんにちは！')\n\nroot = tk.Tk()\nlabel = tk.Label(root ,text=\"Click the button\")\n\t\tlabel.pack()\n\t\ttk.🖱(root ,text=\"Click me\",command=on_click).pack()\n\t\t\troot.mainloop()\\js| addEventListener('keydown', () => document.body.append('hello'))\\jv | import\njavax.swing.\n\n\n\n\n\n\n\n\n\n\n\n\\",
+                            "$~Wordplayでは、インタラクティブにするには、@Button、@Key、@Pointerのようなストリームを使ってインタラクティブなelementを作るだけです。この@Key、@Pointer、@Phrase@Button@Conditional。"
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "button: Button()",
+                                "count: 1 … ∆ button … count + 1",
+                                "Phrase(count → '')"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~ほかのプログラミング言語では、実行中にvariableのvalueを変えられます。これは動きのある、インタラクティブなアプリを作るのに役立ちます。でも、正しい場所でvalueを更新するのを覚えておかないといけませんし、そのvalueが変わったとき、画面に見せるものも更新しないといけません：",
+                            "$~\\py | import\ntkinter\nas\ntk\n\ncount = 0\n\ndef\non\n_\nclick()\n:\nglobal\ncount\ncount\n+=\n1\nlabel.config(text = f 'クリック数: {count}')\n\nroot = tk.Tk()\nlabel = tk.Label(root ,text=\"Clicks: 0\")\n\t\tlabel.pack()\n\t\ttk.🖱(root ,text=\"Click me\",command=on_click).pack()\n\t\t\troot.mainloop()\\js|let count = 0;\nfunction onClick() {\n    count++;\n    document.getElementById('label').textContent = `Clicks: ${count}`;\n\n}\naddEventListener('keydown', onClick);\\jv | import\njavax.swing.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\",
+                            "$~Wordplayはこれを@Reaction @Reaction。それは最初のvalueから始まり、ストリームの入力を参照するconditionを調べ、ストリームの変化をもとにexpressionのvalueを更新します。この例では、@expression、それが@condition@Button。"
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~conflictとデバッグ",
+                    "subtitle": null,
+                    "concept": "UnparsableExpression",
+                    "performance": { "fit": "#Symbol ‼️" },
+                    "lines": [
+                        {
+                            "edit": "1 + 'hello'",
+                            "conflicts": true,
+                            "sidebar": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "angry",
+                            "$~ほかの言語は*エラー*を投げます。プログラムが許されないことをした、というしるしです：",
+                            "$~\\py | 1 + 'こんにちは'\\js|1 + 'hello'\\jv | 1 + 'こんにちは'\\",
+                            "$~Wordplayはエラーを*conflict*と呼びます。両方とも真であることができない二つのことです。下のプログラムのように、数字とテキストを足すようなものです。",
+                            "$~Wordplayはconflictに下線を引き、サイドバー@UI/conflict。問題を直すために、conflictを解決する提案もしてくれます。"
+                        ],
+                        null,
+                        { "edit": "(1 + 2) × 3" },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~ほとんどのプログラミング言語は、何らかのデバッグツールをあたえて、作る人がcodeの問題を理解して解決するのを助けます。でも、多くはコンソールでvariableのvalueを調べるのに、ただ表示文を使うだけです：",
+                            "$~\\py | print(elapsed)\\js|console.log(elapsed)\\jv | System.out.println(elapsed)\\",
+                            "$~Wordplayはもっと進んだデバッグ体験をあたえ、評価を*前に*も*後ろに*も一歩ずつ進められます。@UI/stepControls、valueがどう作られるかを見られます。",
+                            "$~もっと案内がほしいですか？デバッグ領域の@UI/debugtour、これらの操作の案内ツアーをあたえます。"
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~組み合わせる",
+                    "subtitle": null,
+                    "concept": "Stage",
+                    "performance": { "fit": "#Symbol 🔨" },
+                    "lines": [
+                        { "edit": ["elapsed: Time(100ms)", "elapsed"] },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~小さなインタラクティブな@project、三つの手順で作りましょう。",
+                            "$~*一つめ：*データと*ストリーム*を宣言します。ここでは、elapsedという名前の@Time、プログラムが動いてからどれくらいたったかを報告します。"
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "elapsed: Time(100ms)",
+                                "turn: elapsed × 0.05°/ms",
+                                "turn"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~*二つめ：*新しい@Bind valueを導き出して、ストリームに*反応*します。ここではturnがelapsedの時間を角度に変換し、elapsedが変わるたびに計算し直します。"
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "elapsed: Time(100ms)",
+                                "turn: elapsed × 0.05°/ms",
+                                "Stage([Phrase('✨' rotation: turn)] background: Color(25% 0 0°))"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~*三つめ：*出力です。データを@Phrase、@Group、@Phrase。これで星が自分で回ります！"
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "volume: Volume()",
+                                "turn: volume × 360°",
+                                "Stage([Phrase('✨' rotation: turn)] background: Color(25% 0 0°))"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~回転を操作するユーザー入力を加えると、これをもっとインタラクティブにできます。マイク入力の@Volume。それは0から1の間のvalueなので、360度に対応させられます。",
+                            "$~これがほとんどのプロジェクトのかたちです。宣言、それから反応、それから出力です。<Guide//guide>には、学んだり、まねしたり、編集したりするためのレシピがいっぱいの@how。",
+                            "$~楽しく作ってください！"
+                        ]
+                    ]
+                }
+            ]
+        }
+    ]
+}

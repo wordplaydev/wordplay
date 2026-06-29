@@ -1,4 +1,5 @@
 import type LocaleText from '@locale/LocaleText';
+import getConceptName from '@locale/getConceptName';
 import type { BasisTypeName } from '@basis/BasisConstants';
 import type Expression from '@nodes/Expression';
 import type PatternLiteral from '@nodes/PatternLiteral';
@@ -54,7 +55,7 @@ export default class PatternValue extends SimpleValue {
     }
 
     getDescription() {
-        return (l: LocaleText) => l.term.pattern;
+        return (l: LocaleText) => getConceptName(l, 'pattern');
     }
 
     getRepresentativeText() {

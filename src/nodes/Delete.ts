@@ -1,4 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
+import getConceptName from '@locale/getConceptName';
 import type { ReplaceContext } from '@edit/revision/EditContext';
 import type Context from '@nodes/Context';
 import type LocaleText from '@locale/LocaleText';
@@ -63,7 +64,7 @@ export default class Delete extends Expression {
             {
                 name: 'table',
                 kind: node(Expression),
-                label: () => (l) => l.term.table,
+                label: () => (l) => getConceptName(l, 'table'),
             },
             {
                 name: 'del',
@@ -74,7 +75,7 @@ export default class Delete extends Expression {
             {
                 name: 'query',
                 kind: node(Expression),
-                label: () => (l) => l.term.query,
+                label: () => (l) => l.glossary.query.word,
                 // Must be a boolean
                 getType: () => BooleanType.make(),
                 space: true,

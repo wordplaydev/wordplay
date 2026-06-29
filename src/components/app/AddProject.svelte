@@ -20,7 +20,7 @@
                 null,
                 '',
                 new Source(
-                    $locales.getUnannotatedText((l) => l.term.start),
+                    $locales.getUnannotatedText((l) => l.glossary.start.word),
                     $locales.getUnannotatedText(
                         (l) => l.ui.project.defaults.starterCode,
                     ),

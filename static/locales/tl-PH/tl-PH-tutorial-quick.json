@@ -1,0 +1,332 @@
+{
+    "$schema": "../../schemas/Tutorial.json",
+    "language": "tl",
+    "regions": ["PH"],
+    "acts": [
+        {
+            "title": "$~Iba ang Wordplay",
+            "performance": { "fit": "#Symbol 💬" },
+            "scenes": [
+                {
+                    "title": "$~Ang mga programa ay mga value",
+                    "subtitle": "$~Mga expression, hindi mga statement",
+                    "concept": "Program",
+                    "performance": { "fit": "#Symbol ƒ" },
+                    "lines": [
+                        { "edit": "" },
+                        [
+                            "FunctionDefinition",
+                            "cheerful",
+                            "$~Maligayang pagdating sa Wordplay! Narinig kong may alam ka na tungkol sa programming? Mahusay! Ipapakita ng maikling pasyal na ito kung ano ang magkatulad at kung ano ang iba sa Wordplay.",
+                            "$~Para malaman mo ang lahat sa screen na ito, ipinapakita ng pahinang ito ang @tutorial dialog at isang @project view. Makikita mo ang *stage* @UI/stage, na nagpapakita ng output ng programa, at ang *editor* @UI/editor, na siyang code ng programa.",
+                            "$~Walang laman ang programang ito, kaya ang output nito ay isa lamang paalala na magsulat ng programa.",
+                            "$~Maraming iba pang kontrol para sa pag-pause at pag-play ng programa at pag-edit ng code, pero huwag mong alalahanin iyon sa ngayon."
+                        ],
+                        null,
+                        { "edit": "'hi'" },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~Sa karamihan ng mga programming language, ang programa ay isang listahan ng mga statement na nagsasabi sa kompyuter kung ano ang *gagawin*, gaya ng pag-print ng isang @value:",
+                            "$~\\py | print('kumusta')\\js|console.log('hi')\\jv | System.out.println('kumusta')\n;\\",
+                            "$~Sa Wordplay, ang mga programa ay mga *expression* na nagsasabi kung ano dapat ang /resulta/ ng programa, hindi kung paano ito gagawin.",
+                            "$~Ang programang ito ay nag-eevaluate sa value na \\'kumusta'\\, na ipinapakita sa stage. Walang print command, isang @expression lang na nagsasabi kung anong value ang ie-evaluate."
+                        ],
+                        null,
+                        { "edit": ["message: 'hi'", "message"] },
+                        [
+                            "Bind",
+                            "neutral",
+                            "$~Sa ibang mga language, ang *variable* ay isang lalagyan na may pangalan para sa isang @value, at maaaring magbago ang value nito:",
+                            "$~\\py | score = 10\nscore = 20\nprint(score)\\js|let score = 10;\nscore = 20;\nconsole.log(score);\\jv | int\nscore = 10\n;\nscore = 20\n;\nSystem.out.println(score)\n;\\",
+                            "$~Sa Wordplay, hindi kailanman nagbabago ang mga value na may pangalan. Ang mga ito ay 'immutable', na ang ibig sabihin ay hindi maaaring bigyan ng bagong value. Kaya tinatawag namin ang mga ito na @Bind sa halip na @variable, dahil hindi sila nagbabago.",
+                            "$~Pag-uusapan natin sa lalong madaling panahon kung paano magsulat ng mga interactive na programa nang walang mga variable na maaaring magbago."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~Pagsusuri ng mga kondisyon",
+                    "subtitle": null,
+                    "concept": "Conditional",
+                    "performance": { "fit": "#Symbol ?" },
+                    "lines": [
+                        { "edit": ["num: 5", "num < 5 ?", "'more'", "'less'"] },
+                        [
+                            "Conditional",
+                            "neutral",
+                            "$~Ang ibang mga programming language ay karaniwang may *if* statement para gumawa ng iba't ibang bagay batay sa isang @condition:",
+                            "$~\\py | num = 5\nif\nnum < 5\n:\nprint('kaunti')\nkungHindi:\n\tprint('marami')\\js|let num = 5;\nif(num < 5)\n    console.log('less');\nelse\n    console.log('more');\\jv | int\nnum = 5\nif(num < 5)\nSystem.out.println('mas kaunti')\n;\nelse\nSystem.out.println('mas marami')\n;\\",
+                            "$~Sa Wordplay, lahat ay @expression, kaya ang @Conditional ay isang *expression* na isinusulat na may kondisyon, pagkatapos ay isang \\?\\, pagkatapos ay isang totoong expression at isang maling expression. Walang kailangang keyword"
+                        ],
+                        null,
+                        { "edit": ["n: 1", "n ??? 1: 'one' 2: 'two' 'many'"] },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~May ibang mga language na mayroon ding *switch* statement para gumawa ng iba't ibang bagay batay sa isang @value:",
+                            "$~\\py| n = 1\nmatch n:\n  case 1: print('one')\n  case 2: print('two')\n  case _: print('many')\\js| switch (n) {\n  case 1: console.log('one'); break;\n  case 2: console.log('two'); break;\n  default: console.log('many'); break;\n}\\jv | switch\n(n)\n{\n\tcase\n\t1: System.out.println('isa')\n\t;break;\n\tcase\n\t2: System.out.println('dalawa')\n\t;break;\n\tdefault: System.out.println('marami')\n\t;break;\n}\\",
+                            "$~Ang Wordplay ay may @Match, na pumipili ng resulta batay sa value."
+                        ],
+                        null,
+                        { "edit": ["val: ø", "val ?? 0"] },
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~May ibang mga language na may *null coalescing* @operator para magbigay ng default na @value kapag ang isang @variable ay null o undefined:",
+                            "$~\\py | val = None\nresult = val ?? 0\\js| let val = null;\nlet result = val ?? 0;\\jv | Object\nval = null\n;\nObject\nresult = val\n!=null?val:0;\\",
+                            "$~Ang Wordplay ay may @Otherwise operator para makamit ang parehong resulta."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~Mga value at type",
+                    "subtitle": null,
+                    "concept": "Number",
+                    "performance": { "fit": "#Symbol 0️⃣" },
+                    "lines": [
+                        {
+                            "edit": [
+                                "number: 1",
+                                "numberWithUnit: 1.5m",
+                                "text: 'hi'",
+                                "textWithTranslations: 'hi'/en'hola'/es",
+                                "boolean: ⊤",
+                                "none: ø"
+                            ],
+                            "conflicts": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~Karamihan ng mga language ay may maraming 'primitive' na uri ng @value.",
+                            "$~\\py | number\n:1\nteksto: 'kumusta'\nboolean: True\nwala: None\\js| let number = 1;\nlet text = 'hi';\nlet boolean = true;\nlet none = null;\\jv | int\nnumber = 1\n;\nString\ntext = 'kumusta'\n;\nboolean\nboolean = true\n;\nObject\nnone = null\n;\\",
+                            "$~Ang Wordplay ay may katulad na syntax para sa mga uring ito, pero pinapayagan ka ring magdagdag ng iba pang impormasyon, gaya ng mga @language tag para sa text na maraming wika at mga unit sa mga numero."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "list: [1 2 3]",
+                                "set: {1 2 3}",
+                                "map: {'a': 1}"
+                            ],
+                            "conflicts": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~Ang mga programming language ay may mga paraan din para gumawa ng mga koleksyon ng value, gaya ng mga listahan, set, at map (kadalasang tinatawag na dictionary o hash):",
+                            "$~\\py | list = [1 ,2,3]\n\t\tset = {1 ,2,3}\n\t\t\t\tmap = {'isang': 1}\\js|let list = [1, 2, 3];\nlet set = new Set([1, 2, 3]);\nlet map = { a: 1 };\\jv | let\narray = [\n\t\t1\n\t\t,2,3];\n\t\tlet\n\t\tset = new\n\t\tjava.util.HashSet < >([\n\t\t\t\t\t1\n\t\t\t\t\t,2,3]);\n\t\t\t\t\tlet\n\t\t\t\t\tmap = new\n\t\t\t\t\tjava.util.HashMap < >()\n\t\t\t\t\t;\n\t\t\t\t\tmap.put('a' 1)\n\t\t\t\t\t;\\",
+                            "$~Ang Wordplay ay gumagamit ng ibang syntax para sa mga koleksyong ito, lalo na sa paggamit ng mga puwang sa halip na mga kuwit para paghiwalayin ang mga value."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "inferredType: [1 2 3]",
+                                "declaredType•[#]: [1 2 3]"
+                            ],
+                            "conflicts": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~May ibang mga programming language na nagpapahintulot sa iyong tukuyin ang @type ng isang @variable, para masiguro mong wasto ang lahat ng paraan ng paggamit mo sa variable:",
+                            "$~\\py | list\n:list[int]=[1,2,3]\\js| // JavaScript doesn't have type annotations. TypeScript does though:\nlet list: number[] = [1, 2, 3];\\jv | List < Integer > list = Arrays.asList(1 ,2,3);\\",
+                            "$~Ang Wordplay ay may type din, pero ang mga type ay *inferred*, o nahuhulaan. Kadalasan ay hindi mo kailangang ideklara ang mga ito, pero minsan ay maaaring kailanganin mo kapag hindi ito mahuhulaan."
+                        ],
+                        null,
+                        { "edit": ["•Pet(name•'' age•#)", "Pet('boomy' 16)"] },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Karaniwang nagbibigay ang mga programming language ng paraan para gumawa rin ng sariling uri ng data, para pagsamahin ang maraming value sa iisang istruktura ng data:",
+                            "$~\\py | class\nalagangHayop:\n\tdef\n_\n_\ninit\n_\n_(self ,name,age):\n\tself.name = name\n\tself.age = age\\js| class Pet {\n    constructor(name, age) {\n        this.name = name;\n        this.age = age;\n    }\n}\\jv | public\nclass\nPet\n{\n\tprivate\n\tString\n\tname\n\t;\n\tprivate\n\tint\n\tage\n\t;\n\tpublic\n\tPet(String name ,intage){\n\t\tthis.name = name ;\n\t\tthis.age = age ;\n\t\t}\n\t\t}\\",
+                            "$~Ang Wordplay ay gumagamit ng ibang syntax para magdeklara ng isang @Structure, gamit ang \\•\\ para kumatawan sa isang uri ng data, pagkatapos ay isang @name, pagkatapos ay ang mga field sa istruktura."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~Mga conversion, koleksyon, at function",
+                    "subtitle": null,
+                    "concept": "Convert",
+                    "performance": { "fit": "#Symbol →" },
+                    "lines": [
+                        { "edit": ["1m → #ft → ''"] },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Isang karaniwang operasyon sa programming ay ang pag-convert ng data mula sa isang @type patungo sa iba. Halimbawa, maaaring gusto nating i-convert ang isang numero sa isang text na @value:",
+                            "$~\\py | str(1)\\js| String(1)\\jv | String.valueOf(1)\\",
+                            "$~Lahat ng value sa Wordplay ay may @Convert na construct na nagpapahintulot sa iyong mag-convert sa pagitan ng mga type. Ang halimbawang ito ay nag-cconvert ng \\1m\\ sa talampakan, at pagkatapos ay sa @Text. Bawat uri ng value ay may buong koleksyon ng mga sinusuportahang conversion"
+                        ],
+                        null,
+                        { "edit": "[1 2 3] ↦ ⬚ × 2" },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~Para sa mga koleksyon ng value gaya ng mga listahan at array, ang ibang mga programming language ay gumagamit ng mga construct gaya ng *for* at *while* na loop para gumawa ng bagong koleksyon mula sa mga value ng dati nang koleksyon.",
+                            "$~\\py | n = [1 ,2,3]\n\t\t#Listcomprehension\n\t\t[n\n\n\n\n\t\t\t2 )\\js| n = [1, 2, 3];\n// Map\nnums.map(n => n * 2);\n// For loop\nn2 = [];\nfor (let n of nums) {\n    n2.push(n * 2);\n}\\jv | int[]nums=[1,2,3];\n//Map\nnums.stream().map(n -> n\n\n\n\n\t2)\n;\n}\\",
+                            "$~Ang Wordplay ay may simpleng @Translate* na construct na gumagamit ng \\↦\\ na simbolo: gumagawa ito ng bagong @List, @Set o @Map, na pinapalitan ang bawat item (kinakatawan ng \\⬚\\ @placeholder), ng bagong @value. Dinodoble nito ang bawat item para gawing \\[2 4 6]\\.",
+                            "$~May mas makapangyarihang mga bagay din gaya ng @List.translate at @List.combine, kung sakaling kailangan mo ng mas masalimuot na mga operasyon."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "ƒ greet(name•'') 'hi ' + name",
+                                "greet('Verse')"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~Bawat programming language ay may mga function, na nagpapahintulot sa iyong magdeklara ng magagamit muli na mga @blocks ng code na tumatanggap ng input at gumagawa ng output batay sa mga ito, anuman ang kasalimuotan:",
+                            "$~\\py | def\ngreet(n)\n:\nreturn\n'kumusta ' + n\nprint(greet('Verse'))\\js| function greet(n) {\n  return 'hi ' + n\n}\nconsole.log(greet('Verse'))\\jv | public\nclass\nGreeter\n{\n\tpublic\n\tstatic\n\tString\n\tgreet(String n)\n\t{\n\t\treturn 'kumusta ' + n ;\n\t}\n}\nGreeter.greet('Verse')\\",
+                            "$~Ang Wordplay ay sumusuporta rin sa mga depinisyon ng function, pero gamit ang ƒ na simbolo. Tulad ng lahat ng programa sa Wordplay, ang mga function ay dapat mag-evaluate sa isang @value."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~Ang output ay typographic, ang input ay reactive",
+                    "subtitle": null,
+                    "concept": "Stage",
+                    "performance": { "fit": "#Symbol 💬" },
+                    "lines": [
+                        {
+                            "edit": "Stage([Phrase('🎉' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.5) 100%: Pose(scale: 1)} duration: 2s))] background: Color(90% 0 0°))"
+                        },
+                        [
+                            "Stage",
+                            "neutral",
+                            "$~Ang ibang mga programming language ay nagpiprint ng text sa isang console, gumuguhit sa isang canvas, o nagbabago ng isang webpage:",
+                            "$~\\py | print('kumusta')\\js| document.body.append('hi')\\jv | System.out.println('kumusta')\n;\\",
+                            "$~Ang output ng Wordplay ay typographic: isang @Phrase, isang @Group, o isang @Stage, na nagpapakita ng may-estilo, may-animasyon, at interactive na text sa screen, o binabasa ng isang screen reader.",
+                            "$~Ipinapakita ng halimbawa sa ibaba ang isang @Stage na may iisang @Phrase na may animasyon na pag-scale habang nakapahinga."
+                        ],
+                        null,
+                        {
+                            "edit": "Phrase('🌎' rotation: Time(100ms) × 0.05°/ms)"
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~Karamihan ng mga programming language ay may paraan para kumuha ng input mula sa gumagamit:",
+                            "$~\\py | name = input('Ano ang pangalan mo?')\\js| const name = prompt('What is your name?')\\jv | Scanner\nscanner = new\nScanner(System.in)\n;\nString\nname = scanner.nextLine()\n;\\",
+                            "$~Ang input ng Wordplay ay nanggagaling sa mga *stream*, na mga espesyal na value na nagbabago sa paglipas ng panahon, bilang tugon sa input, at nagdudulot sa programa ng Wordplay na mag-evaluate muli gamit ang bagong value ng stream.",
+                            "$~Ang programang ito, halimbawa, ay gumagamit ng @Time stream para paikutin ang globe emoji. Sa tuwing ang @Time() stream ay tumitik sa bagong @value, ang programa ay nag-eevaluate muli gamit ang bagong value, na ina-update ang value ng programa sa @Stage."
+                        ],
+                        null,
+                        { "edit": "Phrase(∆ Button() ? 'hi' 'click me')" },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Ang interactivity sa karamihan ng mga programming language ay nangangahulugan ng pagrerehistro ng mga event handler at callback:",
+                            "$~\\py | import\ntkinter\nas\ntk\n\ndef\non\n_\nclick()\n:\nlabel.config(text = 'Kumusta!')\n\nroot = tk.Tk()\nlabel = tk.Label(root ,text=\"Click the button\")\n\t\tlabel.pack()\n\t\ttk.🖱(root ,text=\"Click me\",command=on_click).pack()\n\t\t\troot.mainloop()\\js| addEventListener('keydown', () => document.body.append('hello'))\\jv | import\njavax.swing.\n\n\n\n\n\n\n\n\n\n\n\n\\",
+                            "$~Sa Wordplay, para sa interactivity ay maaari na nating gamitin ang mga stream gaya ng @Button, @Key, at @Pointer para gumawa ng mga interactive na elemento. Ang text ng @Phrase na ito ay batay sa kung na-click ba ang @Button, gamit ang isang @Conditional para tingnan kung ang @Button stream ay @Changed."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "button: Button()",
+                                "count: 1 … ∆ button … count + 1",
+                                "Phrase(count → '')"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~Ang ibang mga programming language ay nagpapahintulot sa iyong baguhin ang mga value ng variable habang tumatakbo, na maaaring kapaki-pakinabang para gumawa ng dinamiko at interactive na mga aplikasyon. Pero kailangan mong tandaang i-update ang mga value sa tamang mga lugar, at i-update kung ano ang ipinapakita sa screen kapag nagbago ang mga value na iyon:",
+                            "$~\\py | import\ntkinter\nas\ntk\n\ncount = 0\n\ndef\non\n_\nclick()\n:\nglobal\ncount\ncount\n+=\n1\nlabel.config(text = f 'Mga pag-click: {count}')\n\nroot = tk.Tk()\nlabel = tk.Label(root ,text=\"Clicks: 0\")\n\t\tlabel.pack()\n\t\ttk.🖱(root ,text=\"Click me\",command=on_click).pack()\n\t\t\troot.mainloop()\\js|let count = 0;\nfunction onClick() {\n    count++;\n    document.getElementById('label').textContent = `Clicks: ${count}`;\n\n}\naddEventListener('keydown', onClick);\\jv | import\njavax.swing.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\",
+                            "$~Pinapasimple ito ng Wordplay sa paggamit ng isang @Reaction @expression, na nagsisimula sa isang unang value, sumusuri ng isang @condition na tumutukoy sa mga input ng stream, at ina-update ang value ng expression batay sa mga pagbabago ng stream. Sa halimbawang ito, sa tuwing magbabago ang @Button stream, ina-update natin ang value ng count, at ina-update nito ang @Phrase na ipinapakita sa @Stage."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~Mga conflict at debugging",
+                    "subtitle": null,
+                    "concept": "UnparsableExpression",
+                    "performance": { "fit": "#Symbol ‼️" },
+                    "lines": [
+                        {
+                            "edit": "1 + 'hello'",
+                            "conflicts": true,
+                            "sidebar": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "angry",
+                            "$~Ang ibang mga language ay naghahagis ng mga *error* — isang tanda na may ginawa ang programa na hindi pinapayagan:",
+                            "$~\\py | 1 + 'kumusta'\\js|1 + 'hello'\\jv | 1 + 'kumusta'\\",
+                            "$~Tinatawag ng Wordplay ang mga error na *conflict*: dalawang bagay na hindi maaaring parehong totoo, gaya ng pagdaragdag ng numero at text sa programa sa ibaba.",
+                            "$~Sasalungguhitan ng Wordplay ang mga conflict at ipapakita ang mga ito sa sidebar @UI/conflict. Magbibigay din ito ng mga mungkahi para lutasin ang conflict, para ayusin ang problema."
+                        ],
+                        null,
+                        { "edit": "(1 + 2) × 3" },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~Karamihan ng mga programming language ay nag-aalok ng ilang uri ng mga kasangkapan sa debugging para tulungan ang mga gumagawa na maintindihan at lutasin ang mga isyu sa kanilang code. Pero marami ang gumagamit lang ng mga print statement para tingnan ang mga value ng variable sa isang console:",
+                            "$~\\py | print(elapsed)\\js|console.log(elapsed)\\jv | System.out.println(elapsed)\\",
+                            "$~Ang Wordplay ay nagbibigay ng mas sopistikadong karanasan sa debugging, na nagpapahintulot sa iyong tumuntong *pasulong* at *paatras* sa pag-eevaluate nito. Ang @UI/stepControls ay tumutuntong sa pag-eevaluate sa anumang direksyon, kaya makikita mo kung paano binubuo ang isang value.",
+                            "$~Gusto mo ng mas maraming gabay? Ang @UI/debugtour na button sa lugar ng debug ay nagbibigay ng may-gabay na pasyal sa mga kontrol na ito."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~Pagsasama-sama nito",
+                    "subtitle": null,
+                    "concept": "Stage",
+                    "performance": { "fit": "#Symbol 🔨" },
+                    "lines": [
+                        { "edit": ["elapsed: Time(100ms)", "elapsed"] },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~Gumawa tayo ng maliit na interactive na @project sa tatlong hakbang.",
+                            "$~*Isa:* ideklara ang iyong data at mga *stream*. Dito, isang @Time stream na pinangalanang elapsed ang nag-uulat kung gaano katagal nang tumatakbo ang programa."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "elapsed: Time(100ms)",
+                                "turn: elapsed × 0.05°/ms",
+                                "turn"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~*Dalawa:* *tumugon* sa stream sa pamamagitan ng paghango ng bagong mga @Bind value. Dito, ginagawang degree ng turn ang nakalipas na oras, at muling kinukwenta sa tuwing magbabago ang elapsed."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "elapsed: Time(100ms)",
+                                "turn: elapsed × 0.05°/ms",
+                                "Stage([Phrase('✨' rotation: turn)] background: Color(25% 0 0°))"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~*Tatlo:* *output* — itugma ang iyong data sa isang @Phrase, @Group, o @Stage. Ngayon ay umiikot na ang bituin nang mag-isa!"
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "volume: Volume()",
+                                "turn: volume × 360°",
+                                "Stage([Phrase('✨' rotation: turn)] background: Color(25% 0 0°))"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~Maaari natin itong gawing mas interactive sa pamamagitan ng pagdaragdag ng input ng gumagamit para kontrolin ang pag-ikot, gaya ng @Volume ng input ng mikropono. Ito ay isang value sa pagitan ng 0 at 1, kaya maaari nating itugma ito sa 360 na degree.",
+                            "$~Iyan ang hugis ng karamihan ng mga proyekto: mga deklarasyon, pagkatapos ay mga reaksyon, pagkatapos ay output. Ang <Guide//guide> ay may seksyong @how na puno ng mga resipe na maaari mong pag-aralan, kopyahin, at i-edit.",
+                            "$~Masayang paglikha!"
+                        ]
+                    ]
+                }
+            ]
+        }
+    ]
+}
