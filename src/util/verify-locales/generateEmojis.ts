@@ -10,7 +10,9 @@
 //   { "1F600": ["grinning face", "face", "grin", "smile"] }
 //
 // Emojis with no CLDR coverage in the target locale fall back to the English
-// CLDR entry, then to the name in static/unicode/codes.txt. Files are written
+// CLDR entry, then to the English name in en-US-emojis.json (the canonical name
+// source for characters CLDR doesn't annotate — e.g. ASCII digits/punctuation —
+// since codes.txt carries only Unicode metadata, no names). Files are written
 // Prettier-formatted (via writeFormatted) so they match the committed files and
 // re-runs produce clean diffs.
 //
@@ -35,6 +37,7 @@ const CLDR_BASE = 'https://raw.githubusercontent.com/unicode-org/cldr/main';
 const cldrCache = new Map<string, CLDRMap | null>();
 let emojiCodesCache: EmojiCode[] | undefined;
 let englishCache: CLDRMap | undefined;
+let englishNamesCache: Record<string, string[]> | undefined;
 
 /** Read codes.txt and return entries that should get emoji translations: every
  *  entry with a subgroup code (column 4+), matching the GlyphChooser picker. */
@@ -47,7 +50,9 @@ function readEmojiCodes(): EmojiCode[] {
     const entries: EmojiCode[] = [];
     for (const line of lines) {
         if (!line) continue;
-        // cols: [hex sequence, name, category, group?, subgroup?]
+        // cols: [hex sequence, general category, script, group?, subgroup?].
+        // There is no character name here; `category` is only a last-resort
+        // label (real names come from CLDR or en-US-emojis.json).
         const cols = line.split(';');
         if (cols.length < 4 || !cols[3]) continue;
         entries.push({ key: cols[0].trim(), name: cols[1].trim() });
@@ -179,16 +184,23 @@ async function loadCLDRForLocale(
 }
 
 /** Build the per-locale emoji array for one entry: locale CLDR, then English
- *  CLDR, then the codes.txt name; the tts is first, keywords deduped after. */
+ *  CLDR, then the English name from en-US-emojis.json (for characters CLDR
+ *  doesn't annotate), then the category code as a last resort; the tts is first,
+ *  keywords deduped after. */
 function buildEntry(
     entry: EmojiCode,
     cldrMap: CLDRMap,
     englishMap: CLDRMap,
+    englishNames: Record<string, string[]>,
 ): string[] {
     const emoji = stripVariationSelectors(hexToEmoji(entry.key));
     const cldr = cldrMap.get(emoji);
     const english = englishMap.get(emoji);
-    const tts = cldr?.tts ?? english?.tts ?? entry.name.toLowerCase();
+    const tts =
+        cldr?.tts ??
+        english?.tts ??
+        englishNames[entry.key]?.[0] ??
+        entry.name.toLowerCase();
     const keywords =
         cldr?.keywords && cldr.keywords.length > 0
             ? cldr.keywords
@@ -213,12 +225,25 @@ async function loadEnglish(): Promise<CLDRMap> {
     return en;
 }
 
+/** Load the committed en-US emoji names once — the canonical name source for
+ *  characters CLDR doesn't annotate (ASCII digits, punctuation, etc.). Empty
+ *  if the file is missing (e.g. a first-ever en-US generation). */
+function loadEnglishNames(): Record<string, string[]> {
+    if (englishNamesCache) return englishNamesCache;
+    const file = path.join('static', 'locales', 'en-US', 'en-US-emojis.json');
+    englishNamesCache = existsSync(file)
+        ? (JSON.parse(readFileSync(file, 'utf8')) as Record<string, string[]>)
+        : {};
+    return englishNamesCache;
+}
+
 /** Generate and write `{locale}-emojis.json` for one locale. Returns coverage
  *  stats for logging. Throws on a fatal fetch failure (callers may catch). */
 export default async function generateEmojisForLocale(
     locale: string,
 ): Promise<{ used: string[]; matched: number; total: number }> {
     const english = await loadEnglish();
+    const englishNames = loadEnglishNames();
     const emojiCodes = readEmojiCodes();
     const { used, map } = await loadCLDRForLocale(locale);
     const cldrMap = map ?? english;
@@ -227,7 +252,7 @@ export default async function generateEmojisForLocale(
     for (const entry of emojiCodes) {
         if (cldrMap.has(stripVariationSelectors(hexToEmoji(entry.key))))
             matched++;
-        obj[entry.key] = buildEntry(entry, cldrMap, english);
+        obj[entry.key] = buildEntry(entry, cldrMap, english, englishNames);
     }
     const dir = path.join('static', 'locales', locale);
     if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
