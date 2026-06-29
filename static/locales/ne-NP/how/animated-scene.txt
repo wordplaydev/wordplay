@@ -1,0 +1,31 @@
+दृश्यहरूको एनिमेसन गरिएको शृङ्खला बनाउनुहोस्
+
+कहिलेकाहीँ हामी कथा सुनाउन, गीतका शब्द देखाउन, वा कविता एनिमेट गर्न चाहन्छौं।त्यसो गर्न, हामी  @Scene  र  @Phrase  लाई सँगै प्रयोग गरेर एउटा क्रम देखाउन सक्छौं।
+
+उदाहरणका लागि, कल्पना गर्नुहोस् हामीले छोटो बाल गीत "Jack be Nimble" लाई एनिमेट गर्न चाह्यौं।हामी एउटा  @Scene  बनाउन सक्छौं जसमा हरेक हरफ एउटा  @Phrase  होस्, र हरेक हरफको  @Phrase/duration  सेट गरेर,  @Scene  हरेक वाक्यांश सकिएपछि अगाडि बढ्नेछ।
+
+\Scene([
+		Phrase('Jack be nimble' duration: 1s)
+		Phrase('Jack be quick' duration: 1s)
+		Phrase('Jack jump over the candle stick' duration: 1s)
+	])\
+
+@Scene  ले एउटा  @Sequence  सकिने पनि पर्खनेछ। आउनुहोस् मैनबत्ती हरफलाई उफार्नुहोस्!
+
+\Scene([
+		Phrase('Jack be nimble' duration: 1s)
+		Phrase('Jack be quick' duration: 1s)
+		Phrase('Jack jump over the candle stick' entering: Sequence(bounce() 1s))
+	])\
+
+@Scene  ले पाठको एउटा  @Group  पनि लिन सक्छ, र यसले आफ्नो सबै सामग्रीको एनिमेसन सकिने पर्खनेछ।
+
+\Scene([
+		Group(Stack() [
+				Phrase('Jack be nimble')
+				Phrase('Jack be quick')
+			] duration: 2s)
+		Phrase('Jack jump over the candle stick' entering: Sequence(bounce() 1s))
+	])\
+
+interactive-scene
