@@ -1,174 +1,172 @@
 {
     "$schema": "../../schemas/LocaleText.json",
     "language": "pt",
-    "regions": [
-        "PT"
-    ],
+    "regions": ["PT"],
     "wordplay": "Jogo de palavras",
     "glossary": {
         "value": {
             "word": "valor",
-            "definition": "$?A piece of information, like a number, some words, or a list."
+            "definition": "$~Uma parte de informação, como um número, algumas palavras ou uma lista."
         },
         "type": {
             "word": "tipo",
-            "definition": "$?The kind of a value, such as number or text. A value's type decides what you can do with it."
+            "definition": "$~O género de um valor, como número ou texto. O tipo de um valor decide o que podes fazer com ele."
         },
         "expression": {
-            "word": "$?expression",
-            "definition": "$?A piece of code that produces a value when it runs."
+            "word": "$~expressão",
+            "definition": "$~Uma parte de código que produz um valor quando corre."
         },
         "variable": {
-            "word": "$?variable",
-            "definition": "$?A name whose value can change while a program runs."
+            "word": "$~variável",
+            "definition": "$~Um nome cujo valor pode mudar enquanto um programa corre."
         },
         "parameter": {
-            "word": "$?parameter",
-            "definition": "$?A named input that a function expects when you call it."
+            "word": "$~parâmetro",
+            "definition": "$~Uma entrada com nome que uma função espera quando a chamas."
         },
         "argument": {
-            "word": "$?argument",
-            "definition": "$?A value you give to a function for one of its parameters."
+            "word": "$~argumento",
+            "definition": "$~Um valor que dás a uma função para um dos seus parâmetros."
         },
         "operator": {
-            "word": "$?operator",
-            "definition": "$?A symbol, such as + or -, that combines or compares values."
+            "word": "$~operador",
+            "definition": "$~Um símbolo, como + ou -, que combina ou compara valores."
         },
         "condition": {
-            "word": "$?condition",
-            "definition": "$?A true-or-false test that decides what a program does next."
+            "word": "$~condição",
+            "definition": "$~Um teste de verdadeiro ou falso que decide o que um programa faz a seguir."
         },
         "loop": {
-            "word": "$?loop",
-            "definition": "$?Code that repeats an action many times."
+            "word": "$~ciclo",
+            "definition": "$~Código que repete uma ação muitas vezes."
         },
         "iteration": {
-            "word": "$?iteration",
-            "definition": "$?One pass through a loop."
+            "word": "$~iteração",
+            "definition": "$~Uma passagem por um ciclo."
         },
         "recursion": {
-            "word": "$?recursion",
-            "definition": "$?When a function calls itself to handle a smaller part of a problem."
+            "word": "$~recursão",
+            "definition": "$~Quando uma função se chama a si própria para tratar de uma parte mais pequena de um problema."
         },
         "property": {
-            "word": "$?property",
-            "definition": "$?A named part of a value, such as a color's brightness."
+            "word": "$~propriedade",
+            "definition": "$~Uma parte com nome de um valor, como o brilho de uma cor."
         },
         "element": {
-            "word": "$?element",
-            "definition": "$?One item in a list or group."
+            "word": "$~elemento",
+            "definition": "$~Um item numa lista ou grupo."
         },
         "scope": {
-            "word": "$?scope",
-            "definition": "$?The part of a program where a name can be used."
+            "word": "$~âmbito",
+            "definition": "$~A parte de um programa onde um nome pode ser usado."
         },
         "state": {
-            "word": "$?state",
-            "definition": "$?Information a program keeps and can change over time."
+            "word": "$~estado",
+            "definition": "$~Informação que um programa guarda e pode mudar ao longo do tempo."
         },
         "sideEffect": {
-            "word": "$?side effect",
-            "definition": "$?A change a program makes besides giving back a value, such as showing output."
+            "word": "$~efeito secundário",
+            "definition": "$~Uma mudança que um programa faz além de devolver um valor, como mostrar resultados."
         },
         "abstraction": {
-            "word": "$?abstraction",
-            "definition": "$?Hiding details so you can use something without knowing how it works inside."
+            "word": "$~abstração",
+            "definition": "$~Esconder detalhes para poderes usar algo sem saber como funciona por dentro."
         },
         "project": {
             "word": "projeto",
-            "definition": "$?All the files that make up one Wordplay program."
+            "definition": "$~Todos os ficheiros que formam um programa Wordplay."
         },
         "code": {
             "word": "código",
-            "definition": "$?The text you write to tell a program what to do."
+            "definition": "$~O texto que escreves para dizer a um programa o que fazer."
         },
         "act": {
             "word": "atuar",
-            "definition": "$?A large part of the tutorial, like an act in a play."
+            "definition": "$~Uma grande parte do tutorial, como um ato numa peça de teatro."
         },
         "how": {
             "word": "como",
-            "definition": "$?A short guide that shows how to do one thing."
+            "definition": "$~Um guia curto que mostra como fazer uma coisa."
         },
         "gallery": {
-            "word": "$?gallery",
-            "definition": "$?A place where people share and explore projects."
+            "word": "$~galeria",
+            "definition": "$~Um lugar onde as pessoas partilham e exploram projetos."
         },
         "blocks": {
-            "word": "$?blocks",
-            "definition": "$?A way to edit code by dragging pieces instead of typing."
+            "word": "$~blocos",
+            "definition": "$~Uma forma de editar código arrastando peças em vez de escrever."
         },
         "placeholder": {
-            "word": "$?placeholder",
-            "definition": "$?An empty spot that shows where code or a value is missing."
+            "word": "$~marcador de posição",
+            "definition": "$~Um lugar vazio que mostra onde falta código ou um valor."
         },
         "conflict": {
-            "word": "$?conflict",
-            "definition": "$?A problem in code that Wordplay marks so you can fix it."
+            "word": "$~conflito",
+            "definition": "$~Um problema no código que o Wordplay marca para o poderes corrigir."
         },
         "checkpoint": {
-            "word": "$?checkpoint",
-            "definition": "$?A saved point in your work that you can return to."
+            "word": "$~ponto de controlo",
+            "definition": "$~Um ponto guardado no teu trabalho ao qual podes voltar."
         },
         "guide": {
-            "word": "$?guide",
-            "definition": "$?The searchable reference that explains Wordplay's ideas."
+            "word": "$~guia",
+            "definition": "$~A referência pesquisável que explica as ideias do Wordplay."
         },
         "tutorial": {
-            "word": "$?tutorial",
-            "definition": "$?The step-by-step lessons that teach Wordplay."
+            "word": "$~tutorial",
+            "definition": "$~As lições passo a passo que ensinam o Wordplay."
         },
         "name": {
             "word": "nome",
-            "definition": "$?A word that refers to a value or a function."
+            "definition": "$~Uma palavra que se refere a um valor ou a uma função."
         },
         "markup": {
             "word": "marcação",
-            "definition": "$?Text with formatting, such as bold words or links."
+            "definition": "$~Texto com formatação, como palavras a negrito ou ligações."
         },
         "language": {
             "word": "idioma",
-            "definition": "$?A human language that a name or text is written in."
+            "definition": "$~Um idioma humano em que um nome ou texto está escrito."
         },
         "documentation": {
             "word": "documentação",
-            "definition": "$?Text that explains what code does."
+            "definition": "$~Texto que explica o que o código faz."
         },
         "region": {
             "word": "região",
-            "definition": "$?A place where a language is used, which can change how numbers and dates look."
+            "definition": "$~Um lugar onde um idioma é usado, que pode mudar como os números e as datas aparecem."
         },
         "start": {
             "word": "iniciar",
-            "definition": "$?The main source file where a project begins."
+            "definition": "$~O ficheiro de origem principal onde um projeto começa."
         },
         "query": {
             "word": "consulta",
-            "definition": "$?A way to choose rows from a table."
+            "definition": "$~Uma forma de escolher linhas de uma tabela."
         },
         "key": {
             "word": "chave",
-            "definition": "$?The value used to find an item in a map."
+            "definition": "$~O valor usado para encontrar um item num mapa."
         },
         "index": {
             "word": "índice",
-            "definition": "$?A number that picks an item by its position in a list."
+            "definition": "$~Um número que escolhe um item pela sua posição numa lista."
         },
         "moved": {
             "word": "movido",
-            "definition": "$?Output that changed position on stage."
+            "definition": "$~Resultado que mudou de posição no palco."
         },
         "entered": {
             "word": "novo",
-            "definition": "$?Output that appeared on stage for the first time."
+            "definition": "$~Resultado que apareceu no palco pela primeira vez."
         },
         "cell": {
             "word": "célula",
-            "definition": "$?One value in a table row."
+            "definition": "$~Um valor numa linha de tabela."
         },
         "column": {
             "word": "coluna",
-            "definition": "$?A named field in a table."
+            "definition": "$~Um campo com nome numa tabela."
         }
     },
     "token": {
@@ -567,7 +565,7 @@
             "description": "mencionar $name",
             "emotion": "serious",
             "doc": [
-                "$~Sou uma referência à terminologia \\$program\\ ou a uma entrada dinâmica \\@name\\.",
+                "$~Sou uma referência à terminologia \\¶@program¶\\ ou a uma entrada dinâmica \\¶$name¶\\.",
                 "Trata-se principalmente de uma funcionalidade interna, pelo que não precisa de saber isso."
             ]
         },
@@ -2361,10 +2359,7 @@
                 "$~Algumas pessoas utilizam o teclado (/ctrl+9/ para \\⊤\\ e /ctrl+0/ para \\⊥\\). Outras utilizam a pesquisa de caracteres na parte inferior do editor. Ou pode arrastar-nos daqui.",
                 "Confira a nossa @FunctionDefinition abaixo. São muito lógicas."
             ],
-            "name": [
-                "⊤⊥",
-                "Booleano"
-            ],
+            "name": ["⊤⊥", "Booleano"],
             "function": {
                 "and": {
                     "doc": [
@@ -2374,10 +2369,7 @@
                         "$~\\⊥ & ⊤\\",
                         "$~\\⊥ & ⊥\\"
                     ],
-                    "names": [
-                        "&",
-                        "e"
-                    ],
+                    "names": ["&", "e"],
                     "inputs": [
                         {
                             "doc": "$~O outro valor booleano a verificar. Se o primeiro for \\⊥\\, não importa qual este, a função será avaliada como \\⊥\\.",
@@ -2393,10 +2385,7 @@
                         "$~\\⊥ | ⊤\\",
                         "$~\\⊥ | ⊥\\"
                     ],
-                    "names": [
-                        "|",
-                        "ou"
-                    ],
+                    "names": ["|", "ou"],
                     "inputs": [
                         {
                             "doc": "$~O outro valor booleano a verificar. Se o primeiro for \\⊥\\, a função só será avaliada como \\⊤\\ se este também for \\⊤\\.",
@@ -2406,18 +2395,12 @@
                 },
                 "not": {
                     "doc": "$~Eu obtenho o oposto de mim próprio: se \\⊤\\, dá \\⊥\\, se \\⊥\\ dá \\⊤\\.",
-                    "names": [
-                        "~",
-                        "não"
-                    ],
+                    "names": ["~", "não"],
                     "inputs": []
                 },
                 "equals": {
                     "doc": "$~\\⊤\\ se ambos forem \\⊤\\ ou ambos forem \\⊥\\.",
-                    "names": [
-                        "=",
-                        "iguala"
-                    ],
+                    "names": ["=", "iguala"],
                     "inputs": [
                         {
                             "doc": "O outro valor a verificar.",
@@ -2427,10 +2410,7 @@
                 },
                 "notequal": {
                     "doc": "$~\\⊤\\ se ambos forem opostos.",
-                    "names": [
-                        "≠",
-                        "nãoiguala"
-                    ],
+                    "names": ["≠", "nãoiguala"],
                     "inputs": [
                         {
                             "doc": "O outro valor a verificar.",
@@ -2448,17 +2428,11 @@
                 "$~Represento a ausência de um valor, escrito \\ø\\ .",
                 "$~Eu sou @None . Invoque-me com \\ø\\ ."
             ],
-            "name": [
-                "ø",
-                "Nenhum"
-            ],
+            "name": ["ø", "Nenhum"],
             "function": {
                 "equals": {
                     "doc": "$~Outro valor também é zero? É melhor que assim seja, caso contrário, \\⊥\\.",
-                    "names": [
-                        "=",
-                        "iguala"
-                    ],
+                    "names": ["=", "iguala"],
                     "inputs": [
                         {
                             "doc": "O outro valor.",
@@ -2468,10 +2442,7 @@
                 },
                 "notequals": {
                     "doc": "Outro valor não é nada?",
-                    "names": [
-                        "≠",
-                        "nãoigual"
-                    ],
+                    "names": ["≠", "nãoigual"],
                     "inputs": [
                         {
                             "doc": "O outro valor.",
@@ -2501,10 +2472,7 @@
                 "Vê como 192 se transformou em @FunctionDefinition? Ouvi dizer que chama a estes números 'Unicode'.",
                 "Caso contrário, existem tantas funções maravilhosas que o @FunctionDefinition criou para mim, que me permitem fazer todo o tipo de coisas com palavras!"
             ],
-            "name": [
-                "''",
-                "Texto"
-            ],
+            "name": ["''", "Texto"],
             "function": {
                 "length": {
                     "doc": [
@@ -2512,18 +2480,12 @@
                         "$~\\'olá'.comprimento()\\",
                         "$~\\'🐈📚'.comprimento()\\"
                     ],
-                    "names": [
-                        "📏",
-                        "comprimento"
-                    ],
+                    "names": ["📏", "comprimento"],
                     "inputs": []
                 },
                 "equals": {
                     "doc": "$~\\⊤\\ se eu for a mesma sequência de caracteres que o @Text fornecido.",
-                    "names": [
-                        "=",
-                        "iguala"
-                    ],
+                    "names": ["=", "iguala"],
                     "inputs": [
                         {
                             "doc": "O @Text a comparar.",
@@ -2546,10 +2508,7 @@
                         "$~\\⊤\\ se o @Text fornecido aparecer em mim.",
                         "$~\\'econtrou o que estava procurando?'.tem('tu')\\"
                     ],
-                    "names": [
-                        "⊆",
-                        "tem"
-                    ],
+                    "names": ["⊆", "tem"],
                     "inputs": [
                         {
                             "doc": "O @Text para pesquisar em mim.",
@@ -2563,9 +2522,7 @@
                         "$~\\'Olá verso!'.starts('olá')\\",
                         "$~\\'Olá verso!'.starts('verso')\\"
                     ],
-                    "names": [
-                        "começa"
-                    ],
+                    "names": ["começa"],
                     "inputs": [
                         {
                             "doc": "O @Text a ser verificado no início de mim.",
@@ -2579,9 +2536,7 @@
                         "$~\\'Sou eu uma pergunta?'.ends('?')\\",
                         "$~\\'Eu não sou uma pergunta.'.ends('?')\\"
                     ],
-                    "names": [
-                        "termina"
-                    ],
+                    "names": ["termina"],
                     "inputs": [
                         {
                             "doc": "O @Text a ser verificado no final de mim.",
@@ -2599,13 +2554,7 @@
                         "$~\\'oi' × -5\\",
                         "O texto mais longo que consigo criar tem 65.535 caracteres. Se tentar criar um texto mais longo, repeti-lo-ei tantas vezes quantas as possíveis."
                     ],
-                    "names": [
-                        "×",
-                        "·",
-                        "🔁",
-                        "repetido",
-                        "repetir"
-                    ],
+                    "names": ["×", "·", "🔁", "repetido", "repetir"],
                     "inputs": [
                         {
                             "doc": "O número de vezes que me devo repetir no novo texto.",
@@ -2620,11 +2569,7 @@
                         "Se o separador for um @Text vazio, divido-me em caracteres:",
                         "$~\\'🖌️🏠🥸' ÷ ''\\"
                     ],
-                    "names": [
-                        "÷",
-                        "segmentado",
-                        "segmento"
-                    ],
+                    "names": ["÷", "segmentado", "segmento"],
                     "inputs": [
                         {
                             "doc": "O @Text a utilizar como separador.",
@@ -2637,11 +2582,7 @@
                         "Por vezes é útil combinar dois @Text num só. Dá-me outro @Text e eu criarei um novo texto que nos una:",
                         "$~\\'Olá' + 'verso'\\"
                     ],
-                    "names": [
-                        "+",
-                        "combinado",
-                        "combinar"
-                    ],
+                    "names": ["+", "combinado", "combinar"],
                     "inputs": [
                         {
                             "doc": "O @Text a adicionar.",
@@ -2654,10 +2595,7 @@
                         "$~\\⊤\\ se todo o texto corresponder ao padrão fornecido.",
                         "$~\\'555-1234' ≈ ⣿3 # \"-\" 4 #⣿\\"
                     ],
-                    "names": [
-                        "$~≈",
-                        "$~partidas"
-                    ],
+                    "names": ["$~≈", "$~partidas"],
                     "inputs": [
                         {
                             "doc": "$~O padrão a comparar.",
@@ -2670,10 +2608,7 @@
                         "$~Encontre todos os locais em que o padrão fornecido corresponde em mim, como uma lista de @Result .",
                         "$~\\'a1 b2' ⌕ ⣿_ #⣿\\"
                     ],
-                    "names": [
-                        "$~⌕",
-                        "$~pesquisa"
-                    ],
+                    "names": ["$~⌕", "$~pesquisa"],
                     "inputs": [
                         {
                             "doc": "$~O padrão a procurar.",
@@ -2712,10 +2647,7 @@
                 "Não existe o dígito '2' na base 2, pelo que não é um número válido. O valor NaN também aparecerá se tentar converter um texto que não seja um número num número.",
                 "$~\\'olá'→#\\"
             ],
-            "name": [
-                "#",
-                "Número"
-            ],
+            "name": ["#", "Número"],
             "function": {
                 "add": {
                     "doc": [
@@ -2726,10 +2658,7 @@
                         "Se as unidades não coincidirem, interrompo a apresentação.",
                         "$~\\3gatos + 5cães\\"
                     ],
-                    "names": [
-                        "+",
-                        "adicionar"
-                    ],
+                    "names": ["+", "adicionar"],
                     "inputs": [
                         {
                             "doc": "O @Number a adicionar.",
@@ -2746,10 +2675,7 @@
                         "Se as unidades não coincidirem, interrompo a apresentação.",
                         "$~\\3gato - 5cão\\"
                     ],
-                    "names": [
-                        "-",
-                        "subtrair"
-                    ],
+                    "names": ["-", "subtrair"],
                     "inputs": [
                         {
                             "doc": "O @Number a ser-me subtraído.",
@@ -2764,11 +2690,7 @@
                         "$~\\5m × 5m\\",
                         "$~\\5m × 1/s\\"
                     ],
-                    "names": [
-                        "×",
-                        "·",
-                        "multiplicar"
-                    ],
+                    "names": ["×", "·", "multiplicar"],
                     "inputs": [
                         {
                             "doc": "O número a multiplicar.",
@@ -2783,10 +2705,7 @@
                         "$~\\5m ÷ 5m\\",
                         "$~\\5m ÷ 5s\\"
                     ],
-                    "names": [
-                        "÷",
-                        "dividir"
-                    ],
+                    "names": ["÷", "dividir"],
                     "inputs": [
                         {
                             "doc": "O @Number pelo qual devo ser dividido.",
@@ -2801,10 +2720,7 @@
                         "$~\\10m % 2\\",
                         "$~\\10 m/s % 3\\"
                     ],
-                    "names": [
-                        "%",
-                        "restante"
-                    ],
+                    "names": ["%", "restante"],
                     "inputs": [
                         {
                             "doc": "O @Number pelo qual devo ser dividido.",
@@ -2817,9 +2733,7 @@
                         "Crio um novo @Number que me torna positivo, caso seja negativo.",
                         "$~-200.positivo()"
                     ],
-                    "names": [
-                        "positivo"
-                    ],
+                    "names": ["positivo"],
                     "inputs": []
                 },
                 "round": {
@@ -2829,9 +2743,7 @@
                         "$~9.5.arredondar()",
                         "$~9.6.arredondar()"
                     ],
-                    "names": [
-                        "redondo"
-                    ],
+                    "names": ["redondo"],
                     "inputs": []
                 },
                 "roundDown": {
@@ -2841,9 +2753,7 @@
                         "$~10.1.arredondarParaBaixo()",
                         "$~10.01.arredondarParaBaixo()"
                     ],
-                    "names": [
-                        "arredondarParaBaixo"
-                    ],
+                    "names": ["arredondarParaBaixo"],
                     "inputs": []
                 },
                 "roundUp": {
@@ -2853,9 +2763,7 @@
                         "$~10.9.arredondarParaCima()",
                         "$~10,99. arredondarParaCima()"
                     ],
-                    "names": [
-                        "arredondarParaCima"
-                    ],
+                    "names": ["arredondarParaCima"],
                     "inputs": []
                 },
                 "power": {
@@ -2865,10 +2773,7 @@
                         "$~\\10 ^ -2\\",
                         "$~\\5 ^ -.5\\"
                     ],
-                    "names": [
-                        "^",
-                        "poder"
-                    ],
+                    "names": ["^", "poder"],
                     "inputs": [
                         {
                             "doc": "O expoente a que devo elevar-me.",
@@ -2882,10 +2787,7 @@
                         "$~\\4 √ 2\\",
                         "$~\\1000 √ 3\\"
                     ],
-                    "names": [
-                        "√",
-                        "raiz"
-                    ],
+                    "names": ["√", "raiz"],
                     "inputs": [
                         {
                             "doc": "A raiz a calcular.",
@@ -2899,10 +2801,7 @@
                         "$~1 < 2",
                         "$~2 < 1"
                     ],
-                    "names": [
-                        "<",
-                        "menorque"
-                    ],
+                    "names": ["<", "menorque"],
                     "inputs": [
                         {
                             "doc": "O @Number com o qual me deve comparar.",
@@ -2917,10 +2816,7 @@
                         "$~2 ≤ 1",
                         "$~2 ≤ 2"
                     ],
-                    "names": [
-                        "≤",
-                        "menorouigual"
-                    ],
+                    "names": ["≤", "menorouigual"],
                     "inputs": [
                         {
                             "doc": "O @Number com o qual me deve comparar.",
@@ -2934,10 +2830,7 @@
                         "$~\\1 > 2\\",
                         "$~2 > 1"
                     ],
-                    "names": [
-                        ">",
-                        "maiorque"
-                    ],
+                    "names": [">", "maiorque"],
                     "inputs": [
                         {
                             "doc": "O @Number com o qual me deve comparar.",
@@ -2952,10 +2845,7 @@
                         "$~2 ≥ 1",
                         "$~2 ≥ 2"
                     ],
-                    "names": [
-                        "≥",
-                        "maiorouigual"
-                    ],
+                    "names": ["≥", "maiorouigual"],
                     "inputs": [
                         {
                             "doc": "O @Number com o qual me deve comparar.",
@@ -2969,10 +2859,7 @@
                         "$~1 = 2",
                         "$~2 = 2"
                     ],
-                    "names": [
-                        "=",
-                        "igual"
-                    ],
+                    "names": ["=", "igual"],
                     "inputs": [
                         {
                             "doc": "O @Number com o qual me deve comparar.",
@@ -2986,10 +2873,7 @@
                         "$~1 ≠ 2",
                         "$~2 ≠ 2"
                     ],
-                    "names": [
-                        "≠",
-                        "nãoIqual"
-                    ],
+                    "names": ["≠", "nãoIqual"],
                     "inputs": [
                         {
                             "doc": "O @Number com o qual me deve comparar.",
@@ -2998,25 +2882,13 @@
                     ]
                 },
                 "cos": {
-                    "doc": [
-                        "Calcule o coseno de mim.",
-                        "$~\\π.cos()\\"
-                    ],
-                    "names": [
-                        "cos",
-                        "cosseno"
-                    ],
+                    "doc": ["Calcule o coseno de mim.", "$~\\π.cos()\\"],
+                    "names": ["cos", "cosseno"],
                     "inputs": []
                 },
                 "sin": {
-                    "doc": [
-                        "Calcule o seno de mim.",
-                        "$~\\π.cos()\\"
-                    ],
-                    "names": [
-                        "pecado",
-                        "seno"
-                    ],
+                    "doc": ["Calcule o seno de mim.", "$~\\π.cos()\\"],
+                    "names": ["pecado", "seno"],
                     "inputs": []
                 },
                 "min": {
@@ -3115,10 +2987,7 @@
                 "$~['maçã', 'banana', 'manga']!",
                 "É basicamente isso. Mas posso fazer todo o tipo de coisas interessantes com a minha @FunctionDefinition!"
             ],
-            "name": [
-                "[]",
-                "Lista"
-            ],
+            "name": ["[]", "Lista"],
             "kind": "Tipo",
             "out": "Resultado",
             "outofbounds": "foradoslimites",
@@ -3128,10 +2997,7 @@
                         "Crio uma nova @List com o item fornecido no final.",
                         "$~\\['maçã' 'banana' 'manga'].com('melancia')\\"
                     ],
-                    "names": [
-                        "com",
-                        "adicionar"
-                    ],
+                    "names": ["com", "adicionar"],
                     "inputs": [
                         {
                             "doc": "Eu sou o valor que pretende acrescentar.",
@@ -3146,10 +3012,7 @@
                         "É um pouco mais fácil usar o @Spread, assim:",
                         "$~\\['maçã' 'banana' 'manga' :['melancia' 'carambola']]\\"
                     ],
-                    "names": [
-                        "comlista",
-                        "acrescentar"
-                    ],
+                    "names": ["comlista", "acrescentar"],
                     "inputs": [
                         {
                             "doc": "Lista de valores a adicionar.",
@@ -3162,9 +3025,7 @@
                         "Crio uma nova lista que substitui o valor no índice fornecido pelo valor fornecido.",
                         "$~\\['maçã' 'banana' 'manga'].replace(1 'kiwi')\\"
                     ],
-                    "names": [
-                        "substituir"
-                    ],
+                    "names": ["substituir"],
                     "inputs": [
                         {
                             "doc": "O índice do valor a substituir",
@@ -3178,10 +3039,7 @@
                 },
                 "length": {
                     "doc": "O número de itens em mim.",
-                    "names": [
-                        "📏",
-                        "comprimento"
-                    ],
+                    "names": ["📏", "comprimento"],
                     "inputs": []
                 },
                 "random": {
@@ -3271,10 +3129,7 @@
                         "Crio uma lista sem o primeiro item.",
                         "$~\\['maçã' 'banana' 'manga'].sansFirst()\\"
                     ],
-                    "names": [
-                        "excetoPrimeiro",
-                        "semprimeiro"
-                    ],
+                    "names": ["excetoPrimeiro", "semprimeiro"],
                     "inputs": []
                 },
                 "sansLast": {
@@ -3282,10 +3137,7 @@
                         "Crio uma lista sem o meu último item.",
                         "$~\\['maçã' 'banana' 'manga'].sansLast()\\"
                     ],
-                    "names": [
-                        "excetoÚltimo",
-                        "semÚltimo"
-                    ],
+                    "names": ["excetoÚltimo", "semÚltimo"],
                     "inputs": []
                 },
                 "sans": {
@@ -3293,10 +3145,7 @@
                         "Eu, mas sem as primeiras ocorrências do valor em questão.",
                         "$~\\['maçã' 'banana' 'manga' 'maçã'].sans('maçã')\\"
                     ],
-                    "names": [
-                        "exceto",
-                        "sem"
-                    ],
+                    "names": ["exceto", "sem"],
                     "inputs": [
                         {
                             "doc": "O valor a remover na primeira ocorrência de.",
@@ -3309,10 +3158,7 @@
                         "Eu, mas sem todas as ocorrências do valor em questão.",
                         "$~\\['maçã' 'banana' 'manga' 'maçã'].sans('maçã')\\"
                     ],
-                    "names": [
-                        "semtudo",
-                        "semtudo"
-                    ],
+                    "names": ["semtudo", "semtudo"],
                     "inputs": [
                         {
                             "doc": "O valor para remover todas as ocorrências de da lista.",
@@ -3325,10 +3171,7 @@
                         "Eu, mas ao contrário!",
                         "$~\\['maçã' 'banana' 'manga'].reverse()\\"
                     ],
-                    "names": [
-                        "invertido",
-                        "invertir"
-                    ],
+                    "names": ["invertido", "invertir"],
                     "inputs": []
                 },
                 "equals": {
@@ -3336,10 +3179,7 @@
                         "$~\\⊤\\ se os meus artigos e encomenda forem exatamente iguais à @List fornecida.",
                         "$~\\['maçã' 'banana' 'manga'] = ['maçã' 'manga' 'banana']\\"
                     ],
-                    "names": [
-                        "=",
-                        "iguala"
-                    ],
+                    "names": ["=", "iguala"],
                     "inputs": [
                         {
                             "doc": "A @List para me comparar.",
@@ -3352,10 +3192,7 @@
                         "$~\\⊤\\ se os meus artigos e o pedido /não/ forem exatamente iguais à @List fornecida.",
                         "$~\\['maçã' 'banana' 'manga'] ≠ ['maçã' 'manga' 'banana']\\"
                     ],
-                    "names": [
-                        "≠",
-                        "nãoIguala"
-                    ],
+                    "names": ["≠", "nãoIguala"],
                     "inputs": [
                         {
                             "doc": "A @List para me comparar.",
@@ -3509,10 +3346,7 @@
                         "Isto é realmente útil para combinar todos os itens em mim num único valor. Por exemplo, imagine que pretende adicionar uma lista de números:",
                         "$~\\[3 9 2 8 1 4].combine(0 ƒ(soma•# número•#) soma + número)\\"
                     ],
-                    "names": [
-                        "combinado",
-                        "combinar"
-                    ],
+                    "names": ["combinado", "combinar"],
                     "inputs": [
                         {
                             "doc": "A combinação inicial.",
@@ -3588,10 +3422,7 @@
                 "$~\\{'ei' 'oi' 'olá'}!{'e aí'}\\",
                 "Há mais alguma coisa que me queira fazer? Dá uma vista de olhos a todas as minhas incríveis @FunctionDefinition!"
             ],
-            "name": [
-                "{}",
-                "Conjunto"
-            ],
+            "name": ["{}", "Conjunto"],
             "kind": "Amabilidade",
             "out": "Resultado",
             "function": {
@@ -3605,10 +3436,7 @@
                         "$~Sou \\⊤\\ se o @Set fornecido e eu tivermos exactamente os mesmos valores:",
                         "$~\\{1 2 3} = {2 3 4}\\"
                     ],
-                    "names": [
-                        "=",
-                        "iguala"
-                    ],
+                    "names": ["=", "iguala"],
                     "inputs": [
                         {
                             "doc": "O @Set para comparação.",
@@ -3621,10 +3449,7 @@
                         "$~Sou \\⊤\\ se o @Set fornecido e eu não tivermos exactamente os mesmos valores:",
                         "$~\\{1 2 3} ≠ {2 3 4}\\"
                     ],
-                    "names": [
-                        "≠",
-                        "notqual"
-                    ],
+                    "names": ["≠", "notqual"],
                     "inputs": [
                         {
                             "doc": "O @Set para comparação.",
@@ -3637,11 +3462,7 @@
                         "Dê-me um item para adicionar e eu criarei um novo @Set com os meus itens e o item fornecido.",
                         "$~\\{1 2 3} + 4\\"
                     ],
-                    "names": [
-                        "com",
-                        "adicionar",
-                        "+"
-                    ],
+                    "names": ["com", "adicionar", "+"],
                     "inputs": [
                         {
                             "doc": "O item a adicionar",
@@ -3655,10 +3476,7 @@
                         "$~\\{1 2 3} - 2\\",
                         "Se não tiver o artigo, farei uma avaliação por conta própria."
                     ],
-                    "names": [
-                        "remover",
-                        "-"
-                    ],
+                    "names": ["remover", "-"],
                     "inputs": [
                         {
                             "doc": "O item a remover.",
@@ -3671,10 +3489,7 @@
                         "Dá-me @Set e eu criarei um novo @Set que terá os meus itens e os itens do conjunto.",
                         "$~\\{1 2 3} ∪ {3 4 5}\\"
                     ],
-                    "names": [
-                        "união",
-                        "∪"
-                    ],
+                    "names": ["união", "∪"],
                     "inputs": [
                         {
                             "doc": "O @Set para combinar comigo.",
@@ -3687,10 +3502,7 @@
                         "Dá-me @Set e eu criarei um novo @Set que terá apenas os itens que temos em comum.",
                         "$~\\{1 2 3} ∩ {3 4 5}\\"
                     ],
-                    "names": [
-                        "interseção",
-                        "∩"
-                    ],
+                    "names": ["interseção", "∩"],
                     "inputs": [
                         {
                             "doc": "O conjunto para comparar comigo.",
@@ -3783,10 +3595,7 @@
                 "$~\\{1:1 2:2 3:3}!{4}\\",
                 "Sei fazer muitas coisas maravilhosas com as minhas combinações."
             ],
-            "name": [
-                "{:}",
-                "Mapa"
-            ],
+            "name": ["{:}", "Mapa"],
             "key": "Chave",
             "value": "Valor",
             "result": "Resultado",
@@ -3801,10 +3610,7 @@
                         "$~\\{⊤}\\ se os meus emparelhamentos forem exatamente iguais aos do @Map fornecido.",
                         "$~\\{1:1 2:2} = {1:1 2:3}\\"
                     ],
-                    "names": [
-                        "=",
-                        "iguala"
-                    ],
+                    "names": ["=", "iguala"],
                     "inputs": [
                         {
                             "doc": "O @Map para me comparar.",
@@ -3817,10 +3623,7 @@
                         "$~\\{⊤}\\ se os meus emparelhamentos /não/ forem exatamente iguais aos do @Map fornecido.",
                         "$~\\{1:1 2:2} ≠ {1:1 2:3}\\"
                     ],
-                    "names": [
-                        "≠",
-                        "nãoIguala"
-                    ],
+                    "names": ["≠", "nãoIguala"],
                     "inputs": [
                         {
                             "doc": "O @Map para me comparar.",
@@ -3950,18 +3753,12 @@
                 "E se precisar de obter valores específicos meus, pode converter qualquer tabela numa lista e aceder a linhas individuais com @PropertyReference.",
                 "$~\\rocks: ⎡nome•'' cor•''⎦\n⎡'obsidiana' 'preta'⎦\n⎡'pedra-pomes' 'cinza'⎦\n⎡'citrino' 'amarela'⎦\n(rochas → [])[1].nome\\"
             ],
-            "name": [
-                "⎡⎦",
-                "Tabela"
-            ],
+            "name": ["⎡⎦", "Tabela"],
             "row": "Linha",
             "function": {
                 "equals": {
                     "doc": "Verifico se tenho exatamente as mesmas células, pela mesma ordem, que outra @Table.",
-                    "names": [
-                        "=",
-                        "iguala"
-                    ],
+                    "names": ["=", "iguala"],
                     "inputs": [
                         {
                             "doc": "A outra tabela a verificar.",
@@ -3971,10 +3768,7 @@
                 },
                 "notequal": {
                     "doc": "Verifico se alguma das minhas células é diferente ou se está numa ordem diferente de outra @Table.",
-                    "names": [
-                        "≠",
-                        "nãoiguala"
-                    ],
+                    "names": ["≠", "nãoiguala"],
                     "inputs": [
                         {
                             "doc": "A outra tabela a verificar.",
@@ -3990,16 +3784,11 @@
         },
         "Structure": {
             "doc": "$~Sou um valor estruturado com campos nomeados e tipados, criado a partir de uma @StructureDefinition . Consulte @StructureDefinition .",
-            "name": [
-                "Estrutura"
-            ],
+            "name": ["Estrutura"],
             "function": {
                 "equals": {
                     "doc": "Verifico se as minhas propriedades têm o mesmo nome e valores que as propriedades de outra estrutura.",
-                    "names": [
-                        "=",
-                        "iguala"
-                    ],
+                    "names": ["=", "iguala"],
                     "inputs": [
                         {
                             "doc": "Outra estrutura a verificar.",
@@ -4009,10 +3798,7 @@
                 },
                 "notequal": {
                     "doc": "Verifico se as minhas propriedades são diferentes de alguma forma em termos de nome e valor em comparação com outra estrutura.",
-                    "names": [
-                        "≠",
-                        "nãoIguala"
-                    ],
+                    "names": ["≠", "nãoIguala"],
                     "inputs": [
                         {
                             "doc": "Outra estrutura a verificar.",
@@ -4031,25 +3817,16 @@
                 "$~\\`I am **bold** and /italic/`\\",
                 "$~Funciono de forma muito semelhante @Text , mas consigo manter a formatação. Pode combinar-me, repetir-me, verificar o que eu contenha e converter-me num @Text simples."
             ],
-            "name": [
-                "$~`…`",
-                "$~Formatado"
-            ],
+            "name": ["$~`…`", "$~Formatado"],
             "function": {
                 "length": {
                     "doc": "$~Avalio o número de caracteres legíveis no meu texto, ignorando a formatação e as quebras de parágrafo.",
-                    "names": [
-                        "$~📏",
-                        "$~comprimento"
-                    ],
+                    "names": ["$~📏", "$~comprimento"],
                     "inputs": []
                 },
                 "equals": {
                     "doc": "$~\\⊤\\ se eu for o mesmo texto formatado que o valor fornecido.",
-                    "names": [
-                        "$~=",
-                        "$~iguala"
-                    ],
+                    "names": ["$~=", "$~iguala"],
                     "inputs": [
                         {
                             "doc": "$~O texto formatado para comparação.",
@@ -4069,9 +3846,7 @@
                 },
                 "has": {
                     "doc": "$~\\⊤\\ se o meu texto simples contiver o @Text fornecido. Ignoro a formatação e as quebras de parágrafo ao verificar.",
-                    "names": [
-                        "$~tem"
-                    ],
+                    "names": ["$~tem"],
                     "inputs": [
                         {
                             "doc": "$~O @Text a pesquisar no meu texto.",
@@ -4081,9 +3856,7 @@
                 },
                 "starts": {
                     "doc": "$~\\⊤\\ se o meu texto simples começar com o @Text fornecido. Ignoro a formatação e as quebras de parágrafo ao verificar.",
-                    "names": [
-                        "$~começa"
-                    ],
+                    "names": ["$~começa"],
                     "inputs": [
                         {
                             "doc": "$~O @Text a verificar no início do meu texto.",
@@ -4093,9 +3866,7 @@
                 },
                 "ends": {
                     "doc": "$~\\⊤\\ se o meu texto simples terminar com o @Text fornecido. Ignoro a formatação e as quebras de parágrafo ao verificar.",
-                    "names": [
-                        "$~termina"
-                    ],
+                    "names": ["$~termina"],
                     "inputs": [
                         {
                             "doc": "$~O @Text a verificar no final do meu texto.",
@@ -4105,13 +3876,7 @@
                 },
                 "repeat": {
                     "doc": "$~Crio um novo texto formatado que sou eu, repetido o número de vezes especificado. Se existir mais do que um parágrafo, as quebras de linha são mantidas entre cópias.",
-                    "names": [
-                        "$~×",
-                        "$~·",
-                        "$~🔁",
-                        "$~repetido",
-                        "$~repetir"
-                    ],
+                    "names": ["$~×", "$~·", "$~🔁", "$~repetido", "$~repetir"],
                     "inputs": [
                         {
                             "doc": "$~O número de vezes que me devo repetir.",
@@ -4121,11 +3886,7 @@
                 },
                 "combine": {
                     "doc": "$~Dê-me outro texto formatado e eu juntá-los-ei num só. Se algum de nós tiver mais do que um parágrafo, as quebras de parágrafo serão mantidas.",
-                    "names": [
-                        "$~+",
-                        "$~combinado",
-                        "$~combinar"
-                    ],
+                    "names": ["$~+", "$~combinado", "$~combinar"],
                     "inputs": [
                         {
                             "doc": "$~O texto formatado a anexar.",
@@ -4156,10 +3917,7 @@
                 "$~E se fornecer números com uma quantidade específica de dígitos significativos após a vírgula decimal, essa precisão será preservada.",
                 "$~\\Random(1.00 10.00)\\"
             ],
-            "names": [
-                "🎲",
-                "Aleatório"
-            ],
+            "names": ["🎲", "Aleatório"],
             "inputs": [
                 {
                     "names": "min",
@@ -4180,10 +3938,7 @@
                 "$~\\Group(\nStack() \n[\nPhrase('one' selectable:⊤ name:'1') \nPhrase('two' selectable:⊤ name:'2') \nPhrase(Choice())\n]\n)\\",
                 "$~Copie isto para o editor e selecione uma das duas @Phrase . Verá que a terceira @Phrase mostra o nome que foi selecionado."
             ],
-            "names": [
-                "🔘",
-                "Escolha"
-            ]
+            "names": ["🔘", "Escolha"]
         },
         "Button": {
             "doc": [
@@ -4195,10 +3950,7 @@
                 "$~\\Phrase(Button() → '')\\",
                 "$~Isto simplesmente cria uma @Phrase que é o valor do fluxo como texto. Se a copiar para o editor e clicar, verá que alterna entre \\⊥\\ e \\⊤\\ ."
             ],
-            "names": [
-                "🖱️",
-                "Botão"
-            ],
+            "names": ["🖱️", "Botão"],
             "down": {
                 "names": "parabaixo",
                 "doc": "$~Se `@None`, o fluxo fornecerá valores para cima e para baixo. Se for um `⊤`, só mudará quando o botão for pressionado. Se for fornecido um `⊥`, este só mudará quando o botão for libertado."
@@ -4213,10 +3965,7 @@
                 "$~\\Pointer()\\",
                 "$~O @Place fornecido corresponderá ao local no @Stage para onde o ponteiro está a apontar."
             ],
-            "names": [
-                "👆🏻",
-                "Ponteiro"
-            ]
+            "names": ["👆🏻", "Ponteiro"]
         },
         "Key": {
             "doc": [
@@ -4232,10 +3981,7 @@
                 "$~E se quiser saber apenas quando uma @Key é libertada em vez de ser premida, pode fornecer um @Boolean :",
                 "$~\\Key('a' ⊥)\\"
             ],
-            "names": [
-                "⌨️",
-                "Chave"
-            ],
+            "names": ["⌨️", "Chave"],
             "key": {
                 "names": "chave",
                 "doc": "$~Se `@None`, todas as chaves serão fornecidas. Se for especificado um `@Text` específico, apenas essa chave será fornecida."
@@ -4245,179 +3991,57 @@
                 "doc": "$~Se @None, então premir a tecla gera entradas. Se \\⊤\\, então apenas as entradas de pressão são fornecidas, e se \\⊥\\, então apenas as entradas de libertação são fornecidas."
             },
             "keys": {
-                "Shift": [
-                    "Turno"
-                ],
-                "Control": [
-                    "Controlo",
-                    "Ctrl"
-                ],
-                "Alt": [
-                    "Alternativa",
-                    "Opção"
-                ],
-                "Meta": [
-                    "Meta",
-                    "Comando",
-                    "Windows"
-                ],
-                "AltGraph": [
-                    "Gráfico alternativo"
-                ],
-                "CapsLock": [
-                    "Caps Lock",
-                    "Caps Lock"
-                ],
-                "NumLock": [
-                    "NumLock",
-                    "Num Lock"
-                ],
-                "ScrollLock": [
-                    "ScrollLock",
-                    "Bloqueio de rolagem"
-                ],
-                "Enter": [
-                    "Entrar",
-                    "Devolver"
-                ],
-                "Tab": [
-                    "Aba"
-                ],
-                " ": [
-                    "Espaço",
-                    "Barra de espaço",
-                    ""
-                ],
-                "ArrowUp": [
-                    "Seta para cima",
-                    "Para cima"
-                ],
-                "ArrowDown": [
-                    "Seta para baixo",
-                    "Para baixo"
-                ],
-                "ArrowLeft": [
-                    "Seta para a esquerda",
-                    "Esquerda"
-                ],
-                "ArrowRight": [
-                    "Seta para a direita",
-                    "Certo"
-                ],
-                "Home": [
-                    "Casa"
-                ],
-                "End": [
-                    "Fim"
-                ],
-                "PageUp": [
-                    "PageUp",
-                    "Página acima"
-                ],
-                "PageDown": [
-                    "PáginaDown",
-                    "Página abaixo"
-                ],
-                "Backspace": [
-                    "Apagar"
-                ],
-                "Delete": [
-                    "Eliminar",
-                    "Del"
-                ],
-                "Insert": [
-                    "Inserir",
-                    "Ins"
-                ],
-                "Clear": [
-                    "Claro"
-                ],
-                "Cut": [
-                    "Corte"
-                ],
-                "Copy": [
-                    "Cópia"
-                ],
-                "Paste": [
-                    "Colar"
-                ],
-                "Undo": [
-                    "Desfazer"
-                ],
-                "Redo": [
-                    "Refazer"
-                ],
-                "Escape": [
-                    "Escapar",
-                    "Esc"
-                ],
-                "Pause": [
-                    "Pausa"
-                ],
-                "ContextMenu": [
-                    "Menu de contexto",
-                    "Menu"
-                ],
-                "Help": [
-                    "Ajuda"
-                ],
-                "Convert": [
-                    "Converso"
-                ],
-                "NonConvert": [
-                    "Não converter"
-                ],
-                "KanaMode": [
-                    "KanaMode"
-                ],
-                "HangulMode": [
-                    "Modo Hangul"
-                ],
-                "Hiragana": [
-                    "Hiragana"
-                ],
-                "Katakana": [
-                    "Katakana"
-                ],
-                "Romaji": [
-                    "Romaji"
-                ],
-                "F1": [
-                    "F1"
-                ],
-                "F2": [
-                    "F2"
-                ],
-                "F3": [
-                    "F3"
-                ],
-                "F4": [
-                    "F4"
-                ],
-                "F5": [
-                    "F5"
-                ],
-                "F6": [
-                    "F6"
-                ],
-                "F7": [
-                    "F7"
-                ],
-                "F8": [
-                    "F8"
-                ],
-                "F9": [
-                    "F9"
-                ],
-                "F10": [
-                    "F10"
-                ],
-                "F11": [
-                    "F11"
-                ],
-                "F12": [
-                    "F12"
-                ]
+                "Shift": ["Turno"],
+                "Control": ["Controlo", "Ctrl"],
+                "Alt": ["Alternativa", "Opção"],
+                "Meta": ["Meta", "Comando", "Windows"],
+                "AltGraph": ["Gráfico alternativo"],
+                "CapsLock": ["Caps Lock", "Caps Lock"],
+                "NumLock": ["NumLock", "Num Lock"],
+                "ScrollLock": ["ScrollLock", "Bloqueio de rolagem"],
+                "Enter": ["Entrar", "Devolver"],
+                "Tab": ["Aba"],
+                " ": ["Espaço", "Barra de espaço", ""],
+                "ArrowUp": ["Seta para cima", "Para cima"],
+                "ArrowDown": ["Seta para baixo", "Para baixo"],
+                "ArrowLeft": ["Seta para a esquerda", "Esquerda"],
+                "ArrowRight": ["Seta para a direita", "Certo"],
+                "Home": ["Casa"],
+                "End": ["Fim"],
+                "PageUp": ["PageUp", "Página acima"],
+                "PageDown": ["PáginaDown", "Página abaixo"],
+                "Backspace": ["Apagar"],
+                "Delete": ["Eliminar", "Del"],
+                "Insert": ["Inserir", "Ins"],
+                "Clear": ["Claro"],
+                "Cut": ["Corte"],
+                "Copy": ["Cópia"],
+                "Paste": ["Colar"],
+                "Undo": ["Desfazer"],
+                "Redo": ["Refazer"],
+                "Escape": ["Escapar", "Esc"],
+                "Pause": ["Pausa"],
+                "ContextMenu": ["Menu de contexto", "Menu"],
+                "Help": ["Ajuda"],
+                "Convert": ["Converso"],
+                "NonConvert": ["Não converter"],
+                "KanaMode": ["KanaMode"],
+                "HangulMode": ["Modo Hangul"],
+                "Hiragana": ["Hiragana"],
+                "Katakana": ["Katakana"],
+                "Romaji": ["Romaji"],
+                "F1": ["F1"],
+                "F2": ["F2"],
+                "F3": ["F3"],
+                "F4": ["F4"],
+                "F5": ["F5"],
+                "F6": ["F6"],
+                "F7": ["F7"],
+                "F8": ["F8"],
+                "F9": ["F9"],
+                "F10": ["F10"],
+                "F11": ["F11"],
+                "F12": ["F12"]
             }
         },
         "Time": {
@@ -4432,20 +4056,13 @@
                 "$~No entanto, há limites para o quão pequeno pode ser, uma vez que @Program precisa de tempo para avaliar antes de poder responder ao próximo tick.",
                 "$~O menor é provavelmente cerca de \\20ms\\ ."
             ],
-            "names": [
-                "🕕",
-                "Tempo"
-            ],
+            "names": ["🕕", "Tempo"],
             "frequency": {
-                "names": [
-                    "frequência"
-                ],
+                "names": ["frequência"],
                 "doc": "$~Esta é a frequência com que o tempo deve passar. O valor predefinido é de 33 ms, o que corresponde a cerca de 30 vezes por segundo."
             },
             "relative": {
-                "names": [
-                    "familiar"
-                ],
+                "names": ["familiar"],
                 "doc": "$~Se \\⊤\\, o tempo começa em 0, quando o programa é avaliado pela primeira vez. Caso contrário, começa no número de milissegundos desde o início do dia de hoje, UTC (Tempo Universal Coordenado), permitindo acompanhar a hora do dia."
             }
         },
@@ -4457,14 +4074,9 @@
                 "$~\\Volume()\\",
                 "$~Isto é ótimo para ouvir o quão barulhento está o público!"
             ],
-            "names": [
-                "🎤",
-                "Volume"
-            ],
+            "names": ["🎤", "Volume"],
             "frequency": {
-                "names": [
-                    "frequência"
-                ],
+                "names": ["frequência"],
                 "doc": "O intervalo de tempo entre amostragens."
             }
         },
@@ -4476,14 +4088,9 @@
                 "$~\\Pitch()\\",
                 "$~Isto é ótimo para ouvir o tom de voz de alguém quando fala ou canta."
             ],
-            "names": [
-                "🎵",
-                "Tom"
-            ],
+            "names": ["🎵", "Tom"],
             "frequency": {
-                "names": [
-                    "frequência"
-                ],
+                "names": ["frequência"],
                 "doc": "O intervalo de tempo entre amostragens."
             }
         },
@@ -4499,30 +4106,17 @@
                 "$~Se não for especificado nenhum idioma, o idioma da sua preferência será utilizado por predefinição.",
                 "$~O reconhecimento de voz requer acesso ao microfone e ligação à internet (por favor, conceda acesso!). Além disso, pode haver limites de utilização, por isso não o deixe ligado durante muito tempo (nãooooo)!"
             ],
-            "names": [
-                "🎙️",
-                "Fala",
-                "Voz"
-            ],
+            "names": ["🎙️", "Fala", "Voz"],
             "reset": {
-                "names": [
-                    "reiniciar",
-                    "$impar"
-                ],
+                "names": ["reiniciar", "$impar"],
                 "doc": "Quando este valor mudar, apague a fala acumulada e comece do zero."
             },
             "language": {
-                "names": [
-                    "idioma",
-                    "ling"
-                ],
+                "names": ["idioma", "ling"],
                 "doc": "Um código de idioma BCP 47 (por exemplo, 'en-US'). Se não for compatível com o reconhecimento de voz do seu navegador, receberá um erro. O predefinido é o seu idioma preferido."
             },
             "limit": {
-                "names": [
-                    "limite",
-                    "palavras"
-                ],
+                "names": ["limite", "palavras"],
                 "doc": "O número máximo de palavras a manter no discurso acumulado (janela deslizante). Quando definido, apenas as palavras mais recentes são mantidas, e as palavras mais antigas são descartadas. Se não for especificado, todas as palavras são mantidas indefinidamente."
             },
             "error": {
@@ -4544,26 +4138,17 @@
                 "$~\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) × 0.5m y × -0.5m) color: color duration: 0s\n)\n)\n)\n)\n)\\",
                 "$~Mas também podia analisar as cores para decidir se uma luz estava acesa ou apagada, ou se uma determinada cor era comum, permitindo ao público influenciar uma apresentação com as cores que demonstrava."
             ],
-            "names": [
-                "🎥",
-                "Câmera"
-            ],
+            "names": ["🎥", "Câmera"],
             "width": {
-                "names": [
-                    "largura"
-                ],
+                "names": ["largura"],
                 "doc": "O número de cores @Color a amostrar numa linha."
             },
             "height": {
-                "names": [
-                    "altura"
-                ],
+                "names": ["altura"],
                 "doc": "O número de cores @Color a amostrar numa coluna."
             },
             "frequency": {
-                "names": [
-                    "frequência"
-                ],
+                "names": ["frequência"],
                 "doc": "O intervalo entre as amostras de @Color."
             }
         },
@@ -4582,10 +4167,7 @@
                 "$~\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' duration: 0.25s rotation: 5° entering: Pose(rotation: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
                 "$~Vê como ele faz uma pausa após cada @Phrase e espera que @Button mude antes de prosseguir?"
             ],
-            "names": [
-                "🎬",
-                "Cena"
-            ],
+            "names": ["🎬", "Cena"],
             "outputs": {
                 "names": "saídas",
                 "doc": "A lista de resultados a apresentar em sequência."
@@ -4601,10 +4183,7 @@
                 "$~Vê como o \"o\" salta? Na primeira avaliação, coloca-se num lugar alto no @Stage , mas depois, recebe @None , o que permite ao @Motion movê-lo para qualquer posição que a gravidade o colocaria.",
                 "$~Confira abaixo as várias outras formas de o configurar."
             ],
-            "names": [
-                "⚽️",
-                "Movimento"
-            ],
+            "names": ["⚽️", "Movimento"],
             "place": {
                 "doc": "O ponto de partida.",
                 "names": "local"
@@ -4629,10 +4208,7 @@
                 "$~\\Chat().has('hello') ? 'hi!' 'huh?'\\",
                 "$~É por aí! Pode criar todos os tipos de performances com isto, como chatbots, aventuras em texto ou esquemas de controlo baseados em texto para outros tipos de performances."
             ],
-            "names": [
-                "🗣️",
-                "Conversa"
-            ]
+            "names": ["🗣️", "Conversa"]
         },
         "Placement": {
             "doc": [
@@ -4645,10 +4221,7 @@
                 "$~Experimente copiar isto para o seu programa e mover o @Output com o ponteiro ou o teclado.",
                 "$~Pode personalizar o @Placement , ativando e desativando o movimento em determinadas dimensões, alterando a distância que um @Place se move e o @Place inicial com que o fluxo começa."
             ],
-            "names": [
-                "✥",
-                "Colocação"
-            ],
+            "names": ["✥", "Colocação"],
             "inputs": [
                 {
                     "doc": "O ponto de partida inicial.",
@@ -4682,10 +4255,7 @@
                 "$~\\Webpage('https://wordplay.dev' 'h1')\\",
                 "$~Muitas coisas podem correr mal com isso. Se perder a ligação à internet, se o URL não resolver para nada, se o URL não for público ou se o URL não for uma página HTML… Todas estas situações podem levar a uma exceção. Se encontrar uma página que funcione, verá um @Number indicando a percentagem de conclusão e, em seguida, uma @List das palavras na página."
             ],
-            "names": [
-                "🔗",
-                "PáginadaInternet"
-            ],
+            "names": ["🔗", "PáginadaInternet"],
             "url": {
                 "doc": "O URL da página web HTML a obter.",
                 "names": "URL"
@@ -4762,20 +4332,13 @@
                 "$~Experimente isto — mostra um emoji que corresponde à posição da sua mão, independentemente de onde a sua mão está de facto:",
                 "$~\\hand: Hand()\nPhrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
             ],
-            "names": [
-                "🖐️",
-                "Mão"
-            ],
+            "names": ["🖐️", "Mão"],
             "frequency": {
-                "names": [
-                    "frequência"
-                ],
+                "names": ["frequência"],
                 "doc": "O intervalo de tempo entre as amostras."
             },
             "resolution": {
-                "names": [
-                    "resolução"
-                ],
+                "names": ["resolução"],
                 "doc": "A largura em pixéis a que a câmara deve ser amostrada antes de executar o modelo da mão. Valores mais elevados podem fornecer pontos de referência ligeiramente mais precisos, mas requerem mais tempo por fotograma."
             }
         },
@@ -4789,10 +4352,7 @@
                 "$~Pode dimensionar o contorno com um @Number de metros, mover a sua origem com um @Place , escolher uma espessura de fonte, ativar o itálico e definir o `espaçamento` entre os pontos como uma distância em metros. Um `espaçamento` mais pequeno traça o contorno mais de perto, com pontos uniformemente espaçados ao longo de linhas e curvas.",
                 "$~Alguns glifos, como os emojis coloridos, não têm contorno, pelo que não acrescentam pontos. Enquanto a fonte é carregada, esta irá apresentar uma lista vazia @List ) e preenchê-la quando estiver pronta."
             ],
-            "names": [
-                "🖋️",
-                "Contorno"
-            ],
+            "names": ["🖋️", "Contorno"],
             "inputs": [
                 {
                     "doc": "O texto cujos contornos de glifos devo traçar.",
@@ -4851,10 +4411,7 @@
                 "$~\\Group(Stack() [Phrase('first') Phrase('second')])\\",
                 "$~A forma exata como organizo as coisas depende do @Arrangement que me fornece."
             ],
-            "names": [
-                "🔳",
-                "Grupo"
-            ],
+            "names": ["🔳", "Grupo"],
             "layout": {
                 "doc": "A disposição a utilizar para inserir @Output nos seus respetivos lugares.",
                 "names": "layout"
@@ -4873,19 +4430,14 @@
             },
             "face": {
                 "doc": "O nome do tipo de letra que está dentro do meu conteúdo deveria estar lá, a menos que tenham o seu proprio tipo para usar.",
-                "names": [
-                    "tipo",
-                    "fonte"
-                ]
+                "names": ["tipo", "fonte"]
             },
             "place": {
                 "doc": "O lugar no palco onde devo estar. O conteúdo dentro de mim será organizado em relação a esse lugar.",
                 "names": "local"
             },
             "name": {
-                "doc": [
-                    "O mesmo que @Phrase.name!"
-                ],
+                "doc": ["O mesmo que @Phrase.name!"],
                 "names": "nome"
             },
             "description": {
@@ -4916,10 +4468,7 @@
             },
             "rotation": {
                 "doc": "Qual deve ser a inclinação em torno do meu centro de gravidade? O meu @Pose tem uma inclinação diferente.",
-                "names": [
-                    "📐",
-                    "rotação"
-                ]
+                "names": ["📐", "rotação"]
             },
             "scale": {
                 "doc": "Qual deveria ser o meu tamanho em relação ao meu tamanho original?",
@@ -4951,10 +4500,7 @@
             },
             "duration": {
                 "doc": "Igual à @Phrase.duration!",
-                "names": [
-                    "⏳",
-                    "duração"
-                ]
+                "names": ["⏳", "duração"]
             },
             "style": {
                 "doc": "Igual ao @Phrase.style!",
@@ -4971,10 +4517,7 @@
                 "$~Também pode, opcionalmente, dar-me tudo o que um @Output pode fazer, incluindo alterar o meu tamanho, tipo de letra, rotação e fazer todas as minhas incríveis danças com @Pose e @Sequence .",
                 "$~Também me pode selecionar no @Stage e editar-me com a paleta 🎨 ao lado — é uma ótima forma de experimentar diferentes tipos de letra e escolher a /cara/ certa para o seu @Text ."
             ],
-            "names": [
-                "💬",
-                "Frase"
-            ],
+            "names": ["💬", "Frase"],
             "text": {
                 "doc": "Os caracteres a apresentar em @Stage, um @TextLiteral ou um @FormattedLiteral.",
                 "names": "texto"
@@ -4993,10 +4536,7 @@
             },
             "wrap": {
                 "doc": "$~A borda na qual devo quebrar os símbolos ou \\ø\\ se não devo quebrá-los.",
-                "names": [
-                    "↵",
-                    "envolver"
-                ]
+                "names": ["↵", "envolver"]
             },
             "alignment": {
                 "doc": "Se houver um limite definido por @Phrase.wrap, devo alinhar os símbolos ao início, ao centro ou ao fim da borda?",
@@ -5084,10 +4624,7 @@
             },
             "duration": {
                 "doc": "A duração a aplicar ao mudar de posição no palco.",
-                "names": [
-                    "⏳",
-                    "duração"
-                ]
+                "names": ["⏳", "duração"]
             },
             "style": {
                 "doc": "O estilo de animação a utilizar quando se desloca para um local diferente no palco.",
@@ -5097,17 +4634,11 @@
         },
         "Arrangement": {
             "doc": "Sou uma inspiração para muitos outros tipos de arranjos no Verso, incluindo @Row, @Stack, @Grid e @Free. Trabalho em estreita colaboração com o @Group para",
-            "names": [
-                "⠿",
-                "Acordo"
-            ]
+            "names": ["⠿", "Acordo"]
         },
         "Row": {
             "doc": "Eu sou o @Row, um @Arrangement horizontal do @Output, com espaçamento opcional entre eles. Já conheceu o meu gémeo, @Stack?",
-            "names": [
-                "➡",
-                "Linha"
-            ],
+            "names": ["➡", "Linha"],
             "description": "linha de frases e grupos de $count",
             "alignment": {
                 "doc": "Indica se o texto deve ser alinhado no início, no centro ou no final de cada coluna.",
@@ -5120,10 +4651,7 @@
         },
         "Stack": {
             "doc": "Eu sou o @Stack, um @Arrangement vertical do @Output, com espaçamento opcional entre eles. Já conheceste o meu gémeo, @Row?",
-            "names": [
-                "⬇",
-                "Monte"
-            ],
+            "names": ["⬇", "Monte"],
             "description": "pilha de frases e grupos de $count",
             "alignment": {
                 "doc": "Indica se o texto deve ser alinhado no início, no centro ou no fim de cada linha.",
@@ -5136,10 +4664,7 @@
         },
         "Grid": {
             "doc": "Sou uma quadrícula de @Output. Forneça-me o número de linhas e colunas e eu criarei um layout organizado com espaçamento e tamanhos de células opcionais.",
-            "names": [
-                "▦",
-                "Rede"
-            ],
+            "names": ["▦", "Rede"],
             "description": "Grelha de $rows linhas e $columns colunas",
             "rows": {
                 "doc": "Quantas linhas devo criar na quadrícula?",
@@ -5167,17 +4692,12 @@
                 "$~Sou um @Arrangement que permite que cada @Output fique onde o seu @Place indicar. Tipo, tanto faz. Fiquem onde quiserem! Só fiquem em algum lugar! Certifiquem-se que todos os @Output que me derem têm um @Place , senão não sabem para onde ir.",
                 "$~Ah, e lembre-se que o @Place que atribui a cada @Output é relativo ao @Place do @Group ! Portanto, se se está a perguntar porque é que as coisas não estão a aparecer onde espera, tente atribuir um @Place também ao @Group ."
             ],
-            "names": [
-                "Livre"
-            ],
+            "names": ["Livre"],
             "description": "Saídas de $count em formato livre"
         },
         "Shape": {
             "doc": "Sou uma inspiração para todos os tipos de corpos. Sou útil para dizer ao @Stage que tipo de corpo deve ser.",
-            "names": [
-                "⬟",
-                "Forma"
-            ],
+            "names": ["⬟", "Forma"],
             "form": {
                 "doc": "Sou o tipo de forma que se destaca. Cada forma requer informações diferentes para definir a sua configuração.",
                 "names": "forma"
@@ -5261,10 +4781,7 @@
                 "$~Usarei o @Language no @TextLiteral , se existir; caso contrário, utilizarei o idioma selecionado.",
                 "$~Pode selecionar uma voz nas definições."
             ],
-            "names": [
-                "🔊",
-                "Dizer"
-            ],
+            "names": ["🔊", "Dizer"],
             "text": {
                 "doc": "O texto que eu deveria ler em voz alta.",
                 "names": "texto"
@@ -5273,15 +4790,11 @@
         },
         "Form": {
             "doc": "Sou uma forma abstrata, como um @Rectangle ou um @Circle.",
-            "names": [
-                "Forma"
-            ]
+            "names": ["Forma"]
         },
         "Rectangle": {
             "doc": "Sou um retângulo, útil para criar um limite para o @Stage do tamanho que escolher.",
-            "names": [
-                "Retângulo"
-            ],
+            "names": ["Retângulo"],
             "left": {
                 "doc": "A borda esquerda do palco no eixo x",
                 "names": "esquerda"
@@ -5305,9 +4818,7 @@
         },
         "Circle": {
             "doc": "Sou um círculo, útil para criar formas no @Stage.",
-            "names": [
-                "Círculo"
-            ],
+            "names": ["Círculo"],
             "radius": {
                 "doc": "O raio do círculo",
                 "names": "raio"
@@ -5327,9 +4838,7 @@
         },
         "Polygon": {
             "doc": "Sou um polígono 'regular' com lados e ângulos de igual comprimento, útil para criar formas no @Stage.",
-            "names": [
-                "Polígono"
-            ],
+            "names": ["Polígono"],
             "radius": {
                 "doc": "O raio do polígono",
                 "names": "raio"
@@ -5356,10 +4865,7 @@
                 "$~Eu capturo uma @Pose para @Output manter, e sou a base para os seus movimentos. Sabe quando alguém assume uma postura incrível, faz uma pausa e toda a gente fica a olhar? Este sou eu.",
                 "$~Há muitos fatores envolvidos numa pose. Confira as minhas várias sugestões para ver que tipos de poses pode fazer!"
             ],
-            "names": [
-                "🤪",
-                "Pose"
-            ],
+            "names": ["🤪", "Pose"],
             "style": {
                 "doc": "O estilo de animação a utilizar ao passar para esta pose.",
                 "names": "estilo"
@@ -5415,97 +4921,63 @@
                 "$~\\Color.blue\\",
                 "$~Estes atalhos também funcionam na sua língua, pelo que um falante de francês pode escrever \\couleur.rouge\\ e um falante de japonês pode escrever \\色.赤\\ . Os atalhos são: vermelho, laranja, amarelo, verde, azul, roxo, castanho, rosa, preto, branco e cinzento."
             ],
-            "names": [
-                "🌈",
-                "Cor"
-            ],
+            "names": ["🌈", "Cor"],
             "lightness": {
                 "doc": "$~Como eu deveria ser de \\0\\ a \\1\\, do preto em \\0\\, ao cinzento em \\0,5\\, ao branco em \\1\\.",
-                "names": [
-                    "leveza",
-                    "l"
-                ]
+                "names": ["leveza", "l"]
             },
             "chroma": {
                 "doc": "$~A quantidade de cor que devo ter, de \\0\\ a \\∞\\. Nenhuma cor significa cinzento, números maiores significam mais cor.",
-                "names": [
-                    "croma",
-                    "c"
-                ]
+                "names": ["croma", "c"]
             },
             "hue": {
                 "doc": "$~Num círculo cromático, de magenta 0, vermelho 30, verde 120 a azul 270, qual seria a minha cor?",
-                "names": [
-                    "matiz",
-                    "h"
-                ]
+                "names": ["matiz", "h"]
             },
             "colors": {
                 "black": {
                     "doc": "A cor básica é o preto.",
-                    "names": [
-                        "preto"
-                    ]
+                    "names": ["preto"]
                 },
                 "white": {
                     "doc": "A cor básica é o branco.",
-                    "names": [
-                        "branco"
-                    ]
+                    "names": ["branco"]
                 },
                 "gray": {
                     "doc": "A cor básica é o cinzento.",
-                    "names": [
-                        "cinzento"
-                    ]
+                    "names": ["cinzento"]
                 },
                 "red": {
                     "doc": "A cor básica é o vermelho.",
-                    "names": [
-                        "vermelho"
-                    ]
+                    "names": ["vermelho"]
                 },
                 "orange": {
                     "doc": "A cor base é o laranja.",
-                    "names": [
-                        "laranja"
-                    ]
+                    "names": ["laranja"]
                 },
                 "yellow": {
                     "doc": "A cor básica é o amarelo.",
-                    "names": [
-                        "amarelo"
-                    ]
+                    "names": ["amarelo"]
                 },
                 "green": {
                     "doc": "A cor básica é o verde.",
-                    "names": [
-                        "verde"
-                    ]
+                    "names": ["verde"]
                 },
                 "blue": {
                     "doc": "A cor básica é o azul.",
-                    "names": [
-                        "azul"
-                    ]
+                    "names": ["azul"]
                 },
                 "purple": {
                     "doc": "A cor básica é o roxo.",
-                    "names": [
-                        "roxo"
-                    ]
+                    "names": ["roxo"]
                 },
                 "brown": {
                     "doc": "A cor básica é o castanho.",
-                    "names": [
-                        "castanho"
-                    ]
+                    "names": ["castanho"]
                 },
                 "pink": {
                     "doc": "A cor básica é o rosa.",
-                    "names": [
-                        "corderosa"
-                    ]
+                    "names": ["corderosa"]
                 }
             },
             "description": {
@@ -5574,20 +5046,14 @@
                 "$~Isto significa: /no início (0%), comece com uma inclinação de 360 graus e termine com uma inclinação de 0 graus/. Isto vai fazer-nos girar em círculos para sempre, uma vez que estou definido como a pose de repouso do @Phrase !",
                 "$~Experimente as suas próprias danças criativas brincando com diferentes entradas."
             ],
-            "names": [
-                "💃",
-                "Sequência"
-            ],
+            "names": ["💃", "Sequência"],
             "poses": {
                 "doc": "Um mapa de percentagens entre 0% e 100%, cada uma associada a uma pose. Não precisa de fornecer todas as percentagens; Farei uma transição suave entre elas utilizando uma saída (Output).",
                 "names": "poses"
             },
             "duration": {
                 "doc": "Durante quanto tempo devo fazer esta dança? Se a for repetir, não acrescentarei tempo à duração, apenas dançarei mais depressa.",
-                "names": [
-                    "⏳",
-                    "duração"
-                ]
+                "names": ["⏳", "duração"]
             },
             "style": {
                 "doc": "Que estilo devo usar para a dança?",
@@ -5604,10 +5070,7 @@
         },
         "Place": {
             "doc": "Sou um local no @Stage. Todas as minhas entradas são opcionais, pois estou no centro por defeito.",
-            "names": [
-                "📍",
-                "Local"
-            ],
+            "names": ["📍", "Local"],
             "x": {
                 "doc": "Uma posição no eixo x.",
                 "names": "x"
@@ -5622,18 +5085,12 @@
             },
             "rotation": {
                 "doc": "Rotação nesta posição",
-                "names": [
-                    "📐",
-                    "rotação"
-                ]
+                "names": ["📐", "rotação"]
             }
         },
         "Velocity": {
             "doc": "$~Represento a velocidade com que @Output se move em @Stage — metros por segundo ao longo dos eixos x e y, e graus por segundo de rotação. Os meus inputs são opcionais; por defeito, nada se move.",
-            "names": [
-                "💨",
-                "Velocidade"
-            ],
+            "names": ["💨", "Velocidade"],
             "x": {
                 "doc": "Quantos metros percorrer a cada segundo no eixo dos x?",
                 "names": "x"
@@ -5644,18 +5101,12 @@
             },
             "angle": {
                 "doc": "Quantos graus rodar a cada segundo?",
-                "names": [
-                    "ângulo",
-                    "°"
-                ]
+                "names": ["ângulo", "°"]
             }
         },
         "Matter": {
             "doc": "Sou propriedades físicas da saída, que influenciam a forma como interajo com outras saídas em palco.",
-            "names": [
-                "⚛️",
-                "Matéria"
-            ],
+            "names": ["⚛️", "Matéria"],
             "mass": {
                 "doc": "Um peso, em quilogramas",
                 "names": "massa"
@@ -5686,10 +5137,7 @@
                 "$~Eu faço @Phrase BRILHAR! Eu sou uma AURA. Assim:",
                 "$~\\Phrase(\n\t'I am GLOWING!' \n\taura: Aura(Color(50% 100 118°) 0.1m 0m 0.1m\n)\\"
             ],
-            "names": [
-                "🔮",
-                "Aura"
-            ],
+            "names": ["🔮", "Aura"],
             "color": {
                 "doc": "A cor que a aura deveria ter.",
                 "names": "cor"
@@ -5716,10 +5164,7 @@
                 "$~Também me pode fornecer uma borda e eu recortarei.",
                 "$~\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°) frame: Rectangle(-1m -1m 1m 1m))\\"
             ],
-            "names": [
-                "🎭",
-                "Fase"
-            ],
+            "names": ["🎭", "Fase"],
             "content": {
                 "doc": "A lista de @Output a exibir no palco.",
                 "names": "conteúdo"
@@ -5741,9 +5186,7 @@
                 "names": "local"
             },
             "name": {
-                "doc": [
-                    "IGUAL A @Phrase.name!"
-                ],
+                "doc": ["IGUAL A @Phrase.name!"],
                 "names": "nome"
             },
             "description": {
@@ -5774,10 +5217,7 @@
             },
             "rotation": {
                 "doc": "IGUAL A @Group.rotation",
-                "names": [
-                    "📐",
-                    "rotação"
-                ]
+                "names": ["📐", "rotação"]
             },
             "scale": {
                 "doc": "IGUAL A @Group.scale",
@@ -5809,10 +5249,7 @@
             },
             "duration": {
                 "doc": "IGUAL A @Phrase.duration!",
-                "names": [
-                    "⏳",
-                    "duração"
-                ]
+                "names": ["⏳", "duração"]
             },
             "style": {
                 "doc": "IGUAL A @Phrase.style!",
@@ -5833,249 +5270,167 @@
         "sequence": {
             "sway": {
                 "doc": "Crio uma @Sequence que oscila para a frente e para trás em torno do centro de uma @Output.",
-                "names": [
-                    "balançar"
-                ],
+                "names": ["balançar"],
                 "angle": {
                     "doc": "O quanto inclinar no baloiço.",
-                    "names": [
-                        "ângulo"
-                    ]
+                    "names": ["ângulo"]
                 }
             },
             "bounce": {
                 "doc": "Crio uma @Sequence que faz o @Output saltar a uma determinada altura.",
-                "names": [
-                    "ressaltar"
-                ],
+                "names": ["ressaltar"],
                 "height": {
                     "doc": "Qual a altura do salto?",
-                    "names": [
-                        "altura"
-                    ]
+                    "names": ["altura"]
                 }
             },
             "spin": {
                 "doc": "Crio uma @Sequence que roda um @Output em torno do seu centro.",
-                "names": [
-                    "rodar"
-                ]
+                "names": ["rodar"]
             },
             "fadein": {
                 "doc": "Crio uma @Sequence que faz com que o @Output apareça gradualmente, passando de invisível a visível.",
-                "names": [
-                    "fadein"
-                ]
+                "names": ["fadein"]
             },
             "fadeout": {
                 "doc": "Crio uma @Sequence que faz com que a @Output desapareça gradualmente, tornando-se invisível. Experimente numa @Sequence existente!",
-                "names": [
-                    "fadeout"
-                ]
+                "names": ["fadeout"]
             },
             "popup": {
                 "doc": "Crio uma @Sequence que faz com que a @Output aumente de tamanho rapidamente e depois diminua para o seu tamanho normal.",
-                "names": [
-                    "Aparecer"
-                ]
+                "names": ["Aparecer"]
             },
             "shake": {
                 "doc": "Crio uma @Sequence que faz parecer que um @Output está assustado.",
-                "names": [
-                    "agitar"
-                ]
+                "names": ["agitar"]
             },
             "pulse": {
                 "doc": "$~Crio uma @Sequence que aumenta e diminui gradualmente a escala @Output para chamar a atenção.",
-                "names": [
-                    "$~pulso"
-                ],
+                "names": ["$~pulso"],
                 "amount": {
                     "doc": "$~Quanto escalar no pico.",
-                    "names": [
-                        "$~montante"
-                    ]
+                    "names": ["$~montante"]
                 }
             },
             "heartbeat": {
                 "doc": "$~Crio uma @Sequence que dimensiona @Output com duas batidas rápidas, como uma batida cardíaca.",
-                "names": [
-                    "$~batimentocardíaco"
-                ],
+                "names": ["$~batimentocardíaco"],
                 "amount": {
                     "doc": "$~Quanto escalar em cada batida.",
-                    "names": [
-                        "$~montante"
-                    ]
+                    "names": ["$~montante"]
                 }
             },
             "tada": {
                 "doc": "$~Crio uma @Sequence que faz @Output celebrar com uma escala e um movimento oscilante.",
-                "names": [
-                    "$~tada"
-                ],
+                "names": ["$~tada"],
                 "amount": {
                     "doc": "$~Qual a escala ideal para a celebração?",
-                    "names": [
-                        "$~montante"
-                    ]
+                    "names": ["$~montante"]
                 }
             },
             "wiggle": {
                 "doc": "$~Crio uma @Sequence que inclina e desliza @Output de um lado para o outro.",
-                "names": [
-                    "$~mexer"
-                ],
+                "names": ["$~mexer"],
                 "angle": {
                     "doc": "$~O quanto inclinar durante o movimento de balanço.",
-                    "names": [
-                        "$~ângulo"
-                    ]
+                    "names": ["$~ângulo"]
                 }
             },
             "flash": {
                 "doc": "$~Crio uma @Sequence que pisca @Output ligando-o e desligando-o.",
-                "names": [
-                    "$~clarão"
-                ]
+                "names": ["$~clarão"]
             },
             "zoomin": {
                 "doc": "$~Crio uma @Sequence que escala @Output de zero até ao tamanho máximo. Experimente numa @Sequence de entrada!",
-                "names": [
-                    "$~zoomin"
-                ]
+                "names": ["$~zoomin"]
             },
             "fadeinup": {
                 "doc": "$~Crio uma @Sequence que faz com que @Output apareça gradualmente enquanto desliza para cima até à sua posição correta. Experimente numa @Sequence de entrada!",
-                "names": [
-                    "$~fadeinup"
-                ],
+                "names": ["$~fadeinup"],
                 "distance": {
                     "doc": "$~Até onde deslizar.",
-                    "names": [
-                        "$~distância"
-                    ]
+                    "names": ["$~distância"]
                 }
             },
             "fadeindown": {
                 "doc": "$~Crio uma @Sequence que faz com que @Output apareça gradualmente enquanto desliza para baixo até se posicionar corretamente. Experimente numa @Sequence de entrada!",
-                "names": [
-                    "$~fadeindown"
-                ],
+                "names": ["$~fadeindown"],
                 "distance": {
                     "doc": "$~Até onde deslizar.",
-                    "names": [
-                        "$~distância"
-                    ]
+                    "names": ["$~distância"]
                 }
             },
             "fadeinleft": {
                 "doc": "$~Crio uma @Sequence que faz com que @Output apareça gradualmente enquanto desliza para a posição correta a partir da esquerda. Experimente numa @Sequence de entrada!",
-                "names": [
-                    "$~fadeinleft"
-                ],
+                "names": ["$~fadeinleft"],
                 "distance": {
                     "doc": "$~Até onde deslizar.",
-                    "names": [
-                        "$~distância"
-                    ]
+                    "names": ["$~distância"]
                 }
             },
             "fadeinright": {
                 "doc": "$~Crio uma @Sequence que faz com que @Output apareça gradualmente enquanto desliza para o lugar a partir da direita. Experimente numa @Sequence de entrada!",
-                "names": [
-                    "$~fadeinright"
-                ],
+                "names": ["$~fadeinright"],
                 "distance": {
                     "doc": "$~Até onde deslizar.",
-                    "names": [
-                        "$~distância"
-                    ]
+                    "names": ["$~distância"]
                 }
             },
             "rotatein": {
                 "doc": "$~Crio uma @Sequence que posiciona @Output no lugar enquanto o ilumina gradualmente. Experimente-me numa @Sequence de entrada!",
-                "names": [
-                    "$~girando"
-                ],
+                "names": ["$~girando"],
                 "angle": {
                     "doc": "$~Até que ponto rodar.",
-                    "names": [
-                        "$~ângulo"
-                    ]
+                    "names": ["$~ângulo"]
                 }
             },
             "zoomout": {
                 "doc": "$~Crio uma @Sequence que reduz @Output a zero. Experimente numa @Sequence existente!",
-                "names": [
-                    "$~zoomout"
-                ]
+                "names": ["$~zoomout"]
             },
             "fadeoutup": {
                 "doc": "$~Crio uma @Sequence que diminui @Output enquanto o desliza para cima. Experimente numa @Sequence existente!",
-                "names": [
-                    "$~fadeoutup"
-                ],
+                "names": ["$~fadeoutup"],
                 "distance": {
                     "doc": "$~Até onde deslizar.",
-                    "names": [
-                        "$~distância"
-                    ]
+                    "names": ["$~distância"]
                 }
             },
             "fadeoutdown": {
                 "doc": "$~Crio uma @Sequence que diminui @Output enquanto o desliza para baixo. Experimente numa @Sequence existente!",
-                "names": [
-                    "$~fadeoutdown"
-                ],
+                "names": ["$~fadeoutdown"],
                 "distance": {
                     "doc": "$~Até onde deslizar.",
-                    "names": [
-                        "$~distância"
-                    ]
+                    "names": ["$~distância"]
                 }
             },
             "fadeoutleft": {
                 "doc": "$~Crio uma @Sequence que diminui @Output enquanto o desliza para a esquerda. Experimente numa @Sequence existente!",
-                "names": [
-                    "$~fadeoutesquerda"
-                ],
+                "names": ["$~fadeoutesquerda"],
                 "distance": {
                     "doc": "$~Até onde deslizar.",
-                    "names": [
-                        "$~distância"
-                    ]
+                    "names": ["$~distância"]
                 }
             },
             "fadeoutright": {
                 "doc": "$~Crio uma @Sequence que diminui @Output enquanto o desliza para a direita. Experimente numa @Sequence existente!",
-                "names": [
-                    "$~desaparecendocompletamente"
-                ],
+                "names": ["$~desaparecendocompletamente"],
                 "distance": {
                     "doc": "$~Até onde deslizar.",
-                    "names": [
-                        "$~distância"
-                    ]
+                    "names": ["$~distância"]
                 }
             },
             "rotateout": {
                 "doc": "$~Crio uma @Sequence que faz com que @Output desapareça gradualmente. Experimente numa @Sequence existente!",
-                "names": [
-                    "$~rotacionar"
-                ],
+                "names": ["$~rotacionar"],
                 "angle": {
                     "doc": "$~Até que ponto rodar.",
-                    "names": [
-                        "$~ângulo"
-                    ]
+                    "names": ["$~ângulo"]
                 }
             },
             "rainbow": {
                 "doc": "$~Crio uma @Sequence que percorre @Output com as cores do arco-íris.",
-                "names": [
-                    "$~arcoíris"
-                ]
+                "names": ["$~arcoíris"]
             }
         },
         "Source": {
@@ -6113,70 +5468,47 @@
         },
         "Gesture": {
             "doc": "Sou uma captura instantânea da pose da mão detetada pela câmara, emitida pelo stream @Hand . O meu posicionamento indica onde a mão está no palco, os meus dedos indicam quantos estão estendidos, o meu atributo \"aberto\" é verdadeiro quando a mão está aberta (3 ou mais dedos estendidos), e o meu polegar, indicador, médio, anelar e mindinho indicam quais os dedos específicos que estão estendidos. O meu atributo \"palma\" é verdadeiro quando a palma da mão está virada para a câmara e falso quando o dorso da mão está.",
-            "names": [
-                "✋",
-                "Gesto"
-            ],
+            "names": ["✋", "Gesto"],
             "place": {
                 "doc": "Onde a mão está no palco.",
-                "names": [
-                    "local"
-                ]
+                "names": ["local"]
             },
             "open": {
                 "doc": "@True se a mão estiver aberta (3 ou mais dedos estendidos), @False se estiver fechada em punho.",
-                "names": [
-                    "aberto"
-                ]
+                "names": ["aberto"]
             },
             "fingers": {
                 "doc": "Quantos dedos estão estendidos, de 0 (punho fechado) a 5 (todos os dedos levantados, incluindo o polegar)?",
-                "names": [
-                    "dedos"
-                ]
+                "names": ["dedos"]
             },
             "thumb": {
                 "doc": "@True se o polegar estiver estendido.",
-                "names": [
-                    "polegar"
-                ]
+                "names": ["polegar"]
             },
             "index": {
                 "doc": "@True se o dedo indicador estiver estendido.",
-                "names": [
-                    "índice"
-                ]
+                "names": ["índice"]
             },
             "middle": {
                 "doc": "@True se o dedo médio estiver estendido.",
-                "names": [
-                    "meio"
-                ]
+                "names": ["meio"]
             },
             "ring": {
                 "doc": "@True se o dedo anelar estiver estendido.",
-                "names": [
-                    "anel"
-                ]
+                "names": ["anel"]
             },
             "pinky": {
                 "doc": "@True se o dedo mindinho estiver estendido.",
-                "names": [
-                    "mindinho"
-                ]
+                "names": ["mindinho"]
             },
             "palm": {
                 "doc": "@True se a palma da mão estiver virada para a câmara, @False se for o dorso da mão.",
-                "names": [
-                    "palma"
-                ]
+                "names": ["palma"]
             }
         },
         "Result": {
             "doc": "$~Sou uma correspondência de uma pesquisa de padrão com \\⌕\\ : o texto correspondente, onde está e quaisquer capturas.",
-            "names": [
-                "$~Resultado"
-            ],
+            "names": ["$~Resultado"],
             "text": {
                 "doc": "$~Todo o texto correspondente.",
                 "names": "$~texto"
@@ -6530,10 +5862,7 @@
                 },
                 "notification": {
                     "label": "notificar os assinantes",
-                    "labels": [
-                        "notificar",
-                        "não notificar"
-                    ],
+                    "labels": ["notificar", "não notificar"],
                     "tips": [
                         "Avise os subscritores quando publicar este tutorial.",
                         "Não avise os subscritores quando publicar este tutorial."
@@ -6566,10 +5895,7 @@
                 },
                 "accessMode": {
                     "label": "restringir quem pode visualizar este tutorial",
-                    "labels": [
-                        "restrito",
-                        "expandido"
-                    ],
+                    "labels": ["restrito", "expandido"],
                     "tips": [
                         "apenas os criadores desta galeria podem visualizar.",
                         "criadores e curadores em qualquer galeria que o curador organize podem visualizar"
@@ -6579,10 +5905,7 @@
                 "publicExplanation": "se quiser que qualquer pessoa com o link possa ver o seu tutorial, pode torná-lo público.",
                 "publicMode": {
                     "label": "torne este tutorial público",
-                    "labels": [
-                        "privado",
-                        "público"
-                    ],
+                    "labels": ["privado", "público"],
                     "tips": [
                         "apenas os jogadores de Wordplayer com acesso direto a este tutorial podem vê-lo.",
                         "qualquer pessoa com o link pode ver este tutorial."
@@ -6645,10 +5968,7 @@
                     },
                     "mode": {
                         "label": "visibilidade padrão",
-                        "labels": [
-                            "limitado",
-                            "expandido"
-                        ],
+                        "labels": ["limitado", "expandido"],
                         "tips": [
                             "Apenas os colaboradores desta galeria podem visualizar.",
                             "Os colaboradores de qualquer galeria criada por qualquer curador podem visualizar."
@@ -6664,9 +5984,7 @@
                         "explanation": "Configure as perguntas orientadoras apresentadas ao criar um novo tutorial. Separe as questões orientadoras com uma quebra de linha."
                     },
                     "descriptor": "Uma caixa de texto para escrever as suas questões orientadoras, separadas por uma quebra de linha.",
-                    "default": [
-                        "O que aprendeu? Dê exemplos de como o fazer."
-                    ]
+                    "default": ["O que aprendeu? Dê exemplos de como o fazer."]
                 },
                 "reactions": {
                     "subheader": {
@@ -7047,15 +6365,11 @@
             "mode": {
                 "browse": {
                     "label": "secção",
-                    "labels": [
-                        "código",
-                        "como",
-                        "$?"
-                    ],
+                    "labels": ["$~código", "$~como", "$~glossário"],
                     "tips": [
-                        "conceitos de linguagem de programação",
-                        "moldes reutilizáveis para a criação de projetos",
-                        "$?"
+                        "$~conceitos de linguagem de programação",
+                        "$~padrões reutilizáveis para criar projetos",
+                        "$~definições de termos importantes"
                     ]
                 },
                 "purpose": {
@@ -7097,10 +6411,7 @@
                 },
                 "howToFilter": {
                     "label": "tutoriais criados pelos utilizadores",
-                    "labels": [
-                        "tudo",
-                        "galeria e favoritos"
-                    ],
+                    "labels": ["tudo", "galeria e favoritos"],
                     "tips": [
                         "Veja todos os tutoriais criados pelos utilizadores.",
                         "Veja apenas os tutoriais criados pelos utilizadores na galeria deste projeto e todos os favoritos."
@@ -7225,8 +6536,8 @@
             "tutorial": "$~Tutorial",
             "glossary": {
                 "explain": {
-                    "header": "$?",
-                    "explanation": "$?"
+                    "header": "$~Glossário",
+                    "explanation": "$~/Termos e ideias usados ao longo da linguagem de programação e da plataforma Wordplay./"
                 }
             }
         },
@@ -7269,10 +6580,7 @@
                 "mode": {
                     "public": {
                         "label": "visibilidade",
-                        "labels": [
-                            "privado",
-                            "público"
-                        ],
+                        "labels": ["privado", "público"],
                         "tips": [
                             "Só você e os seus colaboradores podem ver este projeto.",
                             "Qualquer pessoa pode ver este projeto."
@@ -7280,10 +6588,7 @@
                     },
                     "preview": {
                         "label": "modo de pré-visualização",
-                        "labels": [
-                            "auto",
-                            "personalizado"
-                        ],
+                        "labels": ["auto", "personalizado"],
                         "tips": [
                             "Deixe o projeto escolher o seu próprio glifo de pré-visualização com base no que mostra.",
                             "fixe um glifo à sua escolha."
@@ -7360,11 +6665,7 @@
                     },
                     "dark": {
                         "label": "tema",
-                        "labels": [
-                            "luz",
-                            "escuro",
-                            "auto"
-                        ],
+                        "labels": ["luz", "escuro", "auto"],
                         "tips": [
                             "cores mais claras",
                             "cores mais escuras",
@@ -7373,10 +6674,7 @@
                     },
                     "blocks": {
                         "label": "editor",
-                        "labels": [
-                            "texto",
-                            "blocos"
-                        ],
+                        "labels": ["texto", "blocos"],
                         "tips": [
                             "editar código como texto",
                             "editar código como blocos"
@@ -7384,10 +6682,7 @@
                     },
                     "space": {
                         "label": "Marcadores de espaço, tabulação e nova linha",
-                        "labels": [
-                            "ocultar",
-                            "espetáculo"
-                        ],
+                        "labels": ["ocultar", "espetáculo"],
                         "tips": [
                             "Não mostrar indicadores de espaço e tabulação",
                             "Visualizar explicitamente os indicadores de espaço e de tabulação."
@@ -7395,10 +6690,7 @@
                     },
                     "lines": {
                         "label": "números de linha",
-                        "labels": [
-                            "ocultar",
-                            "mostrar"
-                        ],
+                        "labels": ["ocultar", "mostrar"],
                         "tips": [
                             "Não apresentar números de linha no modo de texto",
                             "Visualizar números de linha no modo de texto"
@@ -7421,11 +6713,7 @@
                     },
                     "blockDensity": {
                         "label": "espaçamento entre blocos",
-                        "labels": [
-                            "compactar",
-                            "normal",
-                            "espaçoso"
-                        ],
+                        "labels": ["compactar", "normal", "espaçoso"],
                         "tips": [
                             "Blocos mais compactos para exibir mais código no ecrã.",
                             "espaçamento padrão entre blocos",
@@ -7434,10 +6722,7 @@
                     },
                     "tab": {
                         "label": "$~tecla tab",
-                        "labels": [
-                            "$~mudar o foco",
-                            "$~inserir guia"
-                        ],
+                        "labels": ["$~mudar o foco", "$~inserir guia"],
                         "tips": [
                             "$~A tecla Tab move o foco do teclado para o comando seguinte.",
                             "$~A tecla Tab insere um separador no editor."
@@ -7445,10 +6730,7 @@
                     },
                     "wrap": {
                         "label": "$~linhas de enrolamento",
-                        "labels": [
-                            "$~desligado",
-                            "$~em"
-                        ],
+                        "labels": ["$~desligado", "$~em"],
                         "tips": [
                             "$~As linhas longas percorrem horizontalmente no modo de texto.",
                             "$~As linhas longas são automaticamente quebradas na janela do editor em modo de texto."
@@ -7456,10 +6738,7 @@
                     },
                     "words": {
                         "label": "$~palavras-chave",
-                        "labels": [
-                            "$~símbolos",
-                            "$~palavras"
-                        ],
+                        "labels": ["$~símbolos", "$~palavras"],
                         "tips": [
                             "$~Exibir palavras-chave integradas como símbolos",
                             "$~Exibir palavras-chave integradas como palavras no seu idioma."
@@ -7480,10 +6759,7 @@
                 "open": "abrir caixa de diálogo de notificações",
                 "howToNotifications": {
                     "label": "notificações para novos tutoriais",
-                    "labels": [
-                        "desligado",
-                        "em"
-                    ],
+                    "labels": ["desligado", "em"],
                     "tips": [
                         "Não me avise sobre novos tutoriais.",
                         "Avise-me sobre novos tutoriais."
@@ -7566,10 +6842,7 @@
                 },
                 "mode": {
                     "label": "feedback",
-                    "labels": [
-                        "defeitos",
-                        "ideias"
-                    ],
+                    "labels": ["defeitos", "ideias"],
                     "tips": [
                         "Reportar algo que parece estar com defeito.",
                         "Sugira novas funcionalidades ou melhorias."
@@ -7672,10 +6945,7 @@
                 "explanation": "O seu projeto está numa galeria. Por defeito, qualquer pessoa que possa ver esta galeria também poderá ver este projeto. Pode restringir o acesso ao seu projeto apenas a si e aos curadores da galeria.",
                 "mode": {
                     "label": "restringir o acesso ao projeto",
-                    "labels": [
-                        "não restrinja",
-                        "restrito"
-                    ],
+                    "labels": ["não restrinja", "restrito"],
                     "tips": [
                         "Qualquer pessoa que possa ver esta galeria poderá ver o seu projeto.",
                         "Apenas os curadores da galeria podem ver o seu projeto."
@@ -7924,10 +7194,7 @@
                 },
                 "mode": {
                     "label": "$~tutorial",
-                    "labels": [
-                        "$~rápido",
-                        "$~concluir"
-                    ],
+                    "labels": ["$~rápido", "$~concluir"],
                     "tips": [
                         "$~Um breve guia para criadores que conhecem outra linguagem de programação.",
                         "$~Uma introdução completa e impactante para criadores iniciantes em programação."
@@ -8184,10 +7451,7 @@
                     },
                     "public": {
                         "label": "visibilidade",
-                        "labels": [
-                            "público",
-                            "privado"
-                        ],
+                        "labels": ["público", "privado"],
                         "tips": [
                             "Qualquer pessoa pode ver este personagem.",
                             "Só você e os seus colaboradores podem ver este personagem."
@@ -8227,11 +7491,7 @@
                     },
                     "fill": {
                         "label": "preencher",
-                        "labels": [
-                            "nenhum",
-                            "herdar",
-                            "escolher"
-                        ],
+                        "labels": ["nenhum", "herdar", "escolher"],
                         "tips": [
                             "sem enchimento",
                             "herdar a cor de preenchimento do texto envolvente",
@@ -8240,11 +7500,7 @@
                     },
                     "stroke": {
                         "label": "traço",
-                        "labels": [
-                            "nenhum",
-                            "herdar",
-                            "escolher"
-                        ],
+                        "labels": ["nenhum", "herdar", "escolher"],
                         "tips": [
                             "sem derrame",
                             "herdar a cor do traço do texto envolvente",
@@ -8612,10 +7868,7 @@
                 "nextEntry": "Edite a sequência de caracteres seguinte.",
                 "qualityMode": {
                     "label": "espetáculo",
-                    "labels": [
-                        "tudo",
-                        "traduzido por máquina ou não escrito"
-                    ],
+                    "labels": ["tudo", "traduzido por máquina ou não escrito"],
                     "tips": [
                         "mostrar todas as strings",
                         "Mostrar apenas strings traduzidas automaticamente ou não escritas."
@@ -8662,10 +7915,10 @@
                     "gallery": "Galeria",
                     "moderation": "Moderação"
                 },
-                "literalTermsWarning": "$?",
-                "checkReadingLevel": "$?",
-                "readingLevelComplex": "$?",
-                "readingLevelOk": "$?"
+                "literalTermsWarning": "$~O teu rascunho usa palavras do glossário como texto simples. Toca numa para a tornares numa ligação do glossário.",
+                "checkReadingLevel": "$~Verifica o nível de leitura deste texto",
+                "readingLevelComplex": "$~Isto pode ser difícil de ler. Tenta frases mais curtas e palavras mais simples.",
+                "readingLevelOk": "$~Isto lê-se com clareza para o nível de leitura pretendido."
             },
             "breadcrumb": {
                 "label": "Migalhas de pão",

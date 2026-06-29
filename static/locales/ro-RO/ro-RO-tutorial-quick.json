@@ -1,0 +1,332 @@
+{
+    "$schema": "../../schemas/Tutorial.json",
+    "language": "ro",
+    "regions": ["RO"],
+    "acts": [
+        {
+            "title": "$~Wordplay este diferit",
+            "performance": { "fit": "#Symbol 💬" },
+            "scenes": [
+                {
+                    "title": "$~Programele sunt valori",
+                    "subtitle": "$~Expresii, nu instrucțiuni",
+                    "concept": "Program",
+                    "performance": { "fit": "#Symbol ƒ" },
+                    "lines": [
+                        { "edit": "" },
+                        [
+                            "FunctionDefinition",
+                            "cheerful",
+                            "$~Bine ai venit la Wordplay! Am auzit că știi câte ceva despre programare? Grozav! Acest scurt tur îți arată ce este la fel și ce este diferit la Wordplay.",
+                            "$~Ca să cunoști tot ce este pe acest ecran, această pagină arată dialogul @tutorial și o vizualizare @project. Poți vedea *scena* @UI/stage, care arată rezultatul programului, și *editorul* @UI/editor, care este codul programului.",
+                            "$~Acest program este gol, așa că rezultatul lui este doar un îndemn să scrii un program.",
+                            "$~Există multe alte comenzi pentru a pune pe pauză și a porni programul și pentru a edita codul, dar nu îți face griji despre ele acum."
+                        ],
+                        null,
+                        { "edit": "'hi'" },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~În majoritatea limbajelor de programare, un program este o listă de instrucțiuni care îi spun computerului ce să *facă*, cum ar fi afișarea unei valori:",
+                            "$~\\py | print('salut')\\js|console.log('hi')\\jv | System.out.println('salut')\n;\\",
+                            "$~În Wordplay, programele sunt *expresii* care spun care ar trebui să fie /rezultatul/ programului, nu cum ar trebui să îl producă.",
+                            "$~Acest program se evaluează la valoarea \\'salut'\\, care apoi este arătată pe scenă. Nicio comandă de afișare, doar o expresie care spune la ce valoare să se evalueze."
+                        ],
+                        null,
+                        { "edit": ["message: 'hi'", "message"] },
+                        [
+                            "Bind",
+                            "neutral",
+                            "$~În alte limbaje, o variabilă este un recipient cu nume pentru o valoare, iar valoarea ei se poate schimba:",
+                            "$~\\py | score = 10\nscore = 20\nprint(score)\\js|let score = 10;\nscore = 20;\nconsole.log(score);\\jv | int\nscore = 10\n;\nscore = 20\n;\nSystem.out.println(score)\n;\\",
+                            "$~În Wordplay, valorile cu nume nu se pot schimba niciodată. Ele sunt „neschimbătoare”, ceea ce înseamnă că nu li se pot atribui valori noi. De aceea le numim @Bind în loc de variabilă, deoarece nu pot varia.",
+                            "$~Vom vorbi în curând despre cum să scrii programe interactive fără variabile care se pot schimba."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~Verificarea condițiilor",
+                    "subtitle": null,
+                    "concept": "Conditional",
+                    "performance": { "fit": "#Symbol ?" },
+                    "lines": [
+                        { "edit": ["num: 5", "num < 5 ?", "'more'", "'less'"] },
+                        [
+                            "Conditional",
+                            "neutral",
+                            "$~Alte limbaje de programare au de obicei o instrucțiune *if* pentru a face lucruri diferite în funcție de o condiție:",
+                            "$~\\py | num = 5\nif\nnum < 5\n:\nprint('mai puțin')\naltfel:\n\tprint('mai mult')\\js|let num = 5;\nif(num < 5)\n    console.log('less');\nelse\n    console.log('more');\\jv | int\nnum = 5\nif(num < 5)\nSystem.out.println('mai puțin')\n;\nelse\nSystem.out.println('mai mult')\n;\\",
+                            "$~În Wordplay, totul este o expresie, așa că @Conditional este o *expresie* scrisă cu o condiție, apoi un \\?\\, apoi o expresie pentru adevărat și o expresie pentru fals. Nu sunt necesare cuvinte cheie"
+                        ],
+                        null,
+                        { "edit": ["n: 1", "n ??? 1: 'one' 2: 'two' 'many'"] },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Unele limbaje au și o instrucțiune *switch* pentru a face lucruri diferite în funcție de o valoare:",
+                            "$~\\py| n = 1\nmatch n:\n  case 1: print('one')\n  case 2: print('two')\n  case _: print('many')\\js| switch (n) {\n  case 1: console.log('one'); break;\n  case 2: console.log('two'); break;\n  default: console.log('many'); break;\n}\\jv | switch\n(n)\n{\n\tcase\n\t1: System.out.println('unu')\n\t;break;\n\tcase\n\t2: System.out.println('doi')\n\t;break;\n\tdefault: System.out.println('mulți')\n\t;break;\n}\\",
+                            "$~Wordplay are @Match, care alege un rezultat în funcție de valoare."
+                        ],
+                        null,
+                        { "edit": ["val: ø", "val ?? 0"] },
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~Unele limbaje au și un operator de *combinare cu null* pentru a oferi o valoare implicită atunci când o variabilă este null sau nedefinită:",
+                            "$~\\py | val = None\nresult = val ?? 0\\js| let val = null;\nlet result = val ?? 0;\\jv | Object\nval = null\n;\nObject\nresult = val\n!=null?val:0;\\",
+                            "$~Wordplay are operatorul @Otherwise pentru a obține același rezultat."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~Valori și tipuri",
+                    "subtitle": null,
+                    "concept": "Number",
+                    "performance": { "fit": "#Symbol 0️⃣" },
+                    "lines": [
+                        {
+                            "edit": [
+                                "number: 1",
+                                "numberWithUnit: 1.5m",
+                                "text: 'hi'",
+                                "textWithTranslations: 'hi'/en'hola'/es",
+                                "boolean: ⊤",
+                                "none: ø"
+                            ],
+                            "conflicts": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~Majoritatea limbajelor au mai multe tipuri de valori „primitive”.",
+                            "$~\\py | number\n:1\ntext: 'salut'\nboolean: True\nniciunul: None\\js| let number = 1;\nlet text = 'hi';\nlet boolean = true;\nlet none = null;\\jv | int\nnumber = 1\n;\nString\ntext = 'bună'\n;\nboolean\nboolean = true\n;\nObject\nnone = null\n;\\",
+                            "$~Wordplay are o sintaxă asemănătoare pentru aceste tipuri, dar îți permite și să adaugi alte informații, cum ar fi etichete de limbă pentru text în mai multe limbi și unități la numere."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "list: [1 2 3]",
+                                "set: {1 2 3}",
+                                "map: {'a': 1}"
+                            ],
+                            "conflicts": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~Limbajele de programare au și modalități de a crea colecții de valori, cum ar fi liste, mulțimi și hărți (numite adesea dicționare sau hash-uri):",
+                            "$~\\py | list = [1 ,2,3]\n\t\tset = {1 ,2,3}\n\t\t\t\tmap = {'a': 1}\\js|let list = [1, 2, 3];\nlet set = new Set([1, 2, 3]);\nlet map = { a: 1 };\\jv | let\narray = [\n\t\t1\n\t\t,2,3];\n\t\tlet\n\t\tset = new\n\t\tjava.util.HashSet < >([\n\t\t\t\t\t1\n\t\t\t\t\t,2,3]);\n\t\t\t\t\tlet\n\t\t\t\t\tmap = new\n\t\t\t\t\tjava.util.HashMap < >()\n\t\t\t\t\t;\n\t\t\t\t\tmap.put('un' 1)\n\t\t\t\t\t;\\",
+                            "$~Wordplay folosește o sintaxă diferită pentru aceste colecții, mai ales folosind spații pentru a separa valorile în loc de virgule."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "inferredType: [1 2 3]",
+                                "declaredType•[#]: [1 2 3]"
+                            ],
+                            "conflicts": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Unele limbaje de programare îți permit să specifici tipul unei variabile, ca să te asiguri că toate modurile în care folosești variabila sunt valide:",
+                            "$~\\py | list\n:list[int]=[1,2,3]\\js| // JavaScript doesn't have type annotations. TypeScript does though:\nlet list: number[] = [1, 2, 3];\\jv | List < Integer > list = Arrays.asList(1 ,2,3);\\",
+                            "$~Wordplay are și tipuri, dar tipurile sunt *deduse*. De obicei nu trebuie să le declari, dar uneori s-ar putea să fii nevoit, dacă nu pot fi deduse."
+                        ],
+                        null,
+                        { "edit": ["•Pet(name•'' age•#)", "Pet('boomy' 16)"] },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Limbajele de programare oferă de obicei și o modalitate de a crea tipuri de date proprii, pentru a combina mai multe valori într-o singură structură de date:",
+                            "$~\\py | class\nanimalDeCompanie:\n\tdef\n_\n_\ninit\n_\n_(self ,name,age):\n\tself.name = name\n\tself.age = age\\js| class Pet {\n    constructor(name, age) {\n        this.name = name;\n        this.age = age;\n    }\n}\\jv | public\nclass\nPet\n{\n\tprivate\n\tString\n\tname\n\t;\n\tprivate\n\tint\n\tage\n\t;\n\tpublic\n\tPet(String name ,intage){\n\t\tthis.name = name ;\n\t\tthis.age = age ;\n\t\t}\n\t\t}\\",
+                            "$~Wordplay folosește o sintaxă diferită pentru a declara o @Structure, folosind \\•\\ pentru a reprezenta un tip de date, apoi un @name, apoi câmpurile din structură."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~Conversii, colecții și funcții",
+                    "subtitle": null,
+                    "concept": "Convert",
+                    "performance": { "fit": "#Symbol →" },
+                    "lines": [
+                        { "edit": ["1m → #ft → ''"] },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~O operație frecventă în programare este transformarea datelor dintr-un tip în altul. De exemplu, am putea dori să transformăm un număr într-o valoare text:",
+                            "$~\\py | str(1)\\js| String(1)\\jv | String.valueOf(1)\\",
+                            "$~Toate valorile din Wordplay au o construcție @Convert care îți permite să transformi între tipuri. Acest exemplu transformă \\1m\\ în picioare, și apoi în @Text. Fiecare tip de valoare are o întreagă colecție de conversii acceptate"
+                        ],
+                        null,
+                        { "edit": "[1 2 3] ↦ ⬚ × 2" },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~Pentru colecții de valori, cum ar fi listele și tablourile, alte limbaje de programare folosesc construcții precum buclele *for* și *while* pentru a construi o nouă colecție din valorile unei colecții existente.",
+                            "$~\\py | n = [1 ,2,3]\n\t\t#Listcomprehension\n\t\t[n\n\n\n\n\t\t\t2 )\\js| n = [1, 2, 3];\n// Map\nnums.map(n => n * 2);\n// For loop\nn2 = [];\nfor (let n of nums) {\n    n2.push(n * 2);\n}\\jv | int[]nums=[1,2,3];\n//Map\nnums.stream().map(n -> n\n\n\n\n\t2)\n;\n}\\",
+                            "$~Wordplay are o construcție simplă @Translate* care folosește simbolul \\↦\\: construiește o nouă @List, @Set sau @Map, înlocuind fiecare element (reprezentat de marcajul de loc \\⬚\\) cu o nouă valoare. Aceasta dublează fiecare element pentru a obține \\[2 4 6]\\.",
+                            "$~Există și lucruri mai puternice, cum ar fi @List.translate și @List.combine, în cazul în care ai nevoie de operații mai complexe."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "ƒ greet(name•'') 'hi ' + name",
+                                "greet('Verse')"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~Fiecare limbaj de programare are funcții, care îți permit să declari blocuri de cod refolosibile care primesc o intrare și produc o ieșire pe baza ei, de orice complexitate:",
+                            "$~\\py | def\ngreet(n)\n:\nreturn\n'salut ' + n\nprint(greet('Vers'))\\js| function greet(n) {\n  return 'hi ' + n\n}\nconsole.log(greet('Verse'))\\jv | public\nclass\nGreeter\n{\n\tpublic\n\tstatic\n\tString\n\tgreet(String n)\n\t{\n\t\treturn 'salut ' + n ;\n\t}\n}\nGreeter.greet('Vers')\\",
+                            "$~Wordplay acceptă și definiții de funcții, dar cu simbolul ƒ. La fel ca toate programele Wordplay, funcțiile trebuie să se evalueze la o valoare."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~Ieșirea este tipografică, intrarea este reactivă",
+                    "subtitle": null,
+                    "concept": "Stage",
+                    "performance": { "fit": "#Symbol 💬" },
+                    "lines": [
+                        {
+                            "edit": "Stage([Phrase('🎉' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.5) 100%: Pose(scale: 1)} duration: 2s))] background: Color(90% 0 0°))"
+                        },
+                        [
+                            "Stage",
+                            "neutral",
+                            "$~Alte limbaje de programare afișează text într-o consolă, desenează pe o pânză sau modifică o pagină web:",
+                            "$~\\py | print('salut')\\js| document.body.append('hi')\\jv | System.out.println('bună')\n;\\",
+                            "$~Ieșirea din Wordplay este tipografică: o @Phrase, un @Group sau un @Stage, care arată pe ecran text stilizat, animat și interactiv, sau citit de un cititor de ecran.",
+                            "$~Exemplul de mai jos arată un @Stage cu o singură @Phrase care are o animație de scalare în repaus."
+                        ],
+                        null,
+                        {
+                            "edit": "Phrase('🌎' rotation: Time(100ms) × 0.05°/ms)"
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~Majoritatea limbajelor de programare au o modalitate de a primi o intrare de la utilizator:",
+                            "$~\\py | name = input('Cum te numești?')\\js| const name = prompt('What is your name?')\\jv | Scanner\nscanner = new\nScanner(System.in)\n;\nString\nname = scanner.nextLine()\n;\\",
+                            "$~Intrarea în Wordplay vine din *fluxuri*, care sunt valori speciale ce se schimbă în timp, ca răspuns la o intrare, și fac ca programul Wordplay să se reevalueze cu noua valoare a fluxului.",
+                            "$~Acest program, de exemplu, folosește un flux @Time pentru a controla rotirea emoji-ului cu globul. De fiecare dată când fluxul @Time() trece la o nouă valoare, programul se reevaluează cu noua valoare, actualizând valoarea programului pe @Stage."
+                        ],
+                        null,
+                        { "edit": "Phrase(∆ Button() ? 'hi' 'click me')" },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Interactivitatea în majoritatea celorlalte limbaje de programare înseamnă înregistrarea de gestionare a evenimentelor și apeluri inverse:",
+                            "$~\\py | import\ntkinter\nas\ntk\n\ndef\non\n_\nclick()\n:\nlabel.config(text = 'Bună!')\n\nroot = tk.Tk()\nlabel = tk.Label(root ,text=\"Click the button\")\n\t\tlabel.pack()\n\t\ttk.🖱(root ,text=\"Click me\",command=on_click).pack()\n\t\t\troot.mainloop()\\js| addEventListener('keydown', () => document.body.append('hello'))\\jv | import\njavax.swing.\n\n\n\n\n\n\n\n\n\n\n\n\\",
+                            "$~În Wordplay, pentru interactivitate putem folosi pur și simplu fluxuri precum @Button, @Key și @Pointer pentru a crea elemente interactive. Textul acestei @Phrase se bazează pe faptul dacă @Button este apăsat, folosind un @Conditional pentru a vedea dacă fluxul @Button s-a @Changed."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "button: Button()",
+                                "count: 1 … ∆ button … count + 1",
+                                "Phrase(count → '')"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~Alte limbaje de programare îți permit să schimbi valorile variabilelor în timpul rulării, ceea ce poate fi util pentru a crea aplicații dinamice și interactive. Dar ele îți cer să ții minte să actualizezi valorile în locurile corecte și să actualizezi ce este arătat pe ecran atunci când acele valori se schimbă:",
+                            "$~\\py | import\ntkinter\nas\ntk\n\ncount = 0\n\ndef\non\n_\nclick()\n:\nglobal\ncount\ncount\n+=\n1\nlabel.config(text = f 'Clicuri: {count}')\n\nroot = tk.Tk()\nlabel = tk.Label(root ,text=\"Clicks: 0\")\n\t\tlabel.pack()\n\t\ttk.🖱(root ,text=\"Click me\",command=on_click).pack()\n\t\t\troot.mainloop()\\js|let count = 0;\nfunction onClick() {\n    count++;\n    document.getElementById('label').textContent = `Clicks: ${count}`;\n\n}\naddEventListener('keydown', onClick);\\jv | import\njavax.swing.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\",
+                            "$~Wordplay simplifică acest lucru folosind o expresie @Reaction, care pornește de la o valoare inițială, verifică o condiție care se referă la intrările fluxurilor și actualizează valoarea expresiei pe baza schimbărilor fluxului. În acest exemplu, de fiecare dată când fluxul @Button se schimbă, actualizăm valoarea lui count, iar asta actualizează @Phrase arătată pe @Stage."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~Conflicte și depanare",
+                    "subtitle": null,
+                    "concept": "UnparsableExpression",
+                    "performance": { "fit": "#Symbol ‼️" },
+                    "lines": [
+                        {
+                            "edit": "1 + 'hello'",
+                            "conflicts": true,
+                            "sidebar": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "angry",
+                            "$~Alte limbaje aruncă *erori* — un semn că un program a făcut ceva care nu este permis:",
+                            "$~\\py | 1 + 'salut'\\js|1 + 'hello'\\jv | 1 + 'salut'\\",
+                            "$~Wordplay numește erorile *conflicte*: două lucruri care nu pot fi adevărate amândouă, cum ar fi adunarea unui număr și a unui text în programul de mai jos.",
+                            "$~Wordplay va sublinia conflictele și le va arăta în bara laterală @UI/conflict. Va oferi și sugestii de rezolvare a conflictelor, pentru a remedia problema."
+                        ],
+                        null,
+                        { "edit": "(1 + 2) × 3" },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~Majoritatea limbajelor de programare oferă un fel de instrumente de depanare pentru a-i ajuta pe creatori să înțeleagă și să rezolve problemele din codul lor. Dar multe folosesc doar instrucțiuni de afișare pentru a verifica valorile variabilelor într-o consolă:",
+                            "$~\\py | print(elapsed)\\js|console.log(elapsed)\\jv | System.out.println(elapsed)\\",
+                            "$~Wordplay oferă o experiență de depanare mai sofisticată, permițându-ți să avansezi *înainte* și *înapoi* prin evaluarea sa. @UI/stepControls fac evaluarea pas cu pas în orice direcție, ca să poți urmări cum este construită o valoare.",
+                            "$~Vrei mai multă îndrumare? Butonul @UI/debugtour din zona de depanare oferă un tur ghidat al acestor comenzi."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~Punem totul cap la cap",
+                    "subtitle": null,
+                    "concept": "Stage",
+                    "performance": { "fit": "#Symbol 🔨" },
+                    "lines": [
+                        { "edit": ["elapsed: Time(100ms)", "elapsed"] },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~Hai să construim un mic @project interactiv în trei pași.",
+                            "$~*Unu:* declară-ți datele și *fluxurile*. Aici un flux @Time numit elapsed raportează de cât timp rulează programul."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "elapsed: Time(100ms)",
+                                "turn: elapsed × 0.05°/ms",
+                                "turn"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~*Doi:* *reacționează* la flux derivând noi valori @Bind. Aici turn transformă timpul elapsed în grade, recalculând de fiecare dată când elapsed se schimbă."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "elapsed: Time(100ms)",
+                                "turn: elapsed × 0.05°/ms",
+                                "Stage([Phrase('✨' rotation: turn)] background: Color(25% 0 0°))"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~*Trei:* *ieșire* — mapează-ți datele la o @Phrase, un @Group sau un @Stage. Acum steaua se rotește singură!"
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "volume: Volume()",
+                                "turn: volume × 360°",
+                                "Stage([Phrase('✨' rotation: turn)] background: Color(25% 0 0°))"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~Putem face acest lucru și mai interactiv adăugând o intrare de la utilizator pentru a controla rotirea, cum ar fi @Volume al intrării de la microfon. Este o valoare între 0 și 1, așa că o putem mapa pe 360 de grade.",
+                            "$~Aceasta este forma majorității proiectelor: declarații, apoi reacții, apoi ieșire. <Guide//guide> are o secțiune @how plină de rețete de studiat, copiat și editat.",
+                            "$~Creație plăcută!"
+                        ]
+                    ]
+                }
+            ]
+        }
+    ]
+}

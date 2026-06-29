@@ -540,7 +540,7 @@
             "description": "mención $name",
             "emotion": "serious",
             "doc": [
-                "$~Soy una referencia a terminología \\¶@type¶\\ o a una entrada dinámica \\¶$name¶\\.",
+                "$~Soy una referencia a terminología \\¶@program¶\\ o a una entrada dinámica \\¶$name¶\\.",
                 "$~Esto es principalmente una característica interna, así que no deberías necesitar saberlo."
             ]
         },
@@ -881,10 +881,10 @@
             "doc": [
                 "$~¡Soy cualquier @expression, pero con un @Doc!",
                 "$~Para hacerme, solo pon un @Doc antes de una expresión, y me obtendrás:",
-                "$~\\doubleplus: 1\n(2 × doubleplus) +\n\t¶Vamos a hacerlo solo un poquito más grande¶\n\t1\\",
+                "$~\\doubleplus: 1\n(2 × doubleplus) + \n¶Let's make it just a little bit bigger¶\n1\\",
                 "$~Soy útil para hacer un comentario sobre alguna parte de un programa.",
                 "$~Si pones 👀 en el @Doc, también puedo resaltar la expresión:",
-                "$~\\¶¡Mírame! 👀¶1 + 1\\"
+                "$~\\¶Look at me! 👀¶1+1\\"
             ],
             "start": "evaluemos la expresión"
         },

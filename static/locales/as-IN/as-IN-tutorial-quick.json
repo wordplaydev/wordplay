@@ -1,0 +1,332 @@
+{
+    "$schema": "../../schemas/Tutorial.json",
+    "language": "as",
+    "regions": ["IN"],
+    "acts": [
+        {
+            "title": "$~Wordplay বেলেগ",
+            "performance": { "fit": "#Symbol 💬" },
+            "scenes": [
+                {
+                    "title": "$~প্ৰ’গ্ৰামবোৰ হৈছে value",
+                    "subtitle": "$~Expression, statement নহয়",
+                    "concept": "Program",
+                    "performance": { "fit": "#Symbol ƒ" },
+                    "lines": [
+                        { "edit": "" },
+                        [
+                            "FunctionDefinition",
+                            "cheerful",
+                            "$~Wordplay-লৈ আদৰণি! মই শুনিছোঁ যে তুমি প্ৰ’গ্ৰামিঙৰ বিষয়ে অলপ জানা? ভাল! এই চমু ভ্ৰমণে দেখুৱায় যে Wordplay-ৰ কি মিল আছে আৰু কি বেলেগ।",
+                            "$~তুমি যাতে এই স্ক্ৰীণৰ সকলো বস্তু জানা, এই পৃষ্ঠাই এটা @tutorial সংলাপ আৰু এটা @project দৃশ্য দেখুৱায়। তুমি *stage* @UI/stage চাব পাৰা, যিয়ে প্ৰ’গ্ৰামৰ আউটপুট দেখুৱায়, আৰু *editor* @UI/editor, যিটো হৈছে প্ৰ’গ্ৰাম code।",
+                            "$~এই প্ৰ’গ্ৰামটো খালী, সেয়েহে ইয়াৰ আউটপুট মাত্ৰ এটা প্ৰ’গ্ৰাম লিখিবলৈ অনুৰোধ।",
+                            "$~প্ৰ’গ্ৰামটো ৰখোৱা আৰু চলোৱা আৰু code সম্পাদনা কৰিবলৈ আন বহুতো নিয়ন্ত্ৰণ আছে, কিন্তু এতিয়াৰ বাবে সেইবোৰৰ বিষয়ে চিন্তা নকৰিবা।"
+                        ],
+                        null,
+                        { "edit": "'hi'" },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~বেছিভাগ প্ৰ’গ্ৰামিং ভাষাত, এটা প্ৰ’গ্ৰাম হৈছে statement-ৰ এখন তালিকা যিয়ে কম্পিউটাৰক কি *কৰিব* লাগে কয়, যেনে এটা value প্ৰিণ্ট কৰা:",
+                            "$~\\py | print('নমস্কাৰ')\\js|console.log('hi')\\jv | System.out.println('নমস্কাৰ')\n;\\",
+                            "$~Wordplay-ত, প্ৰ’গ্ৰামবোৰ হৈছে *expression* যিয়ে কয় যে প্ৰ’গ্ৰামৰ /ফলাফল/ কি হ’ব লাগে, ই কেনেকৈ সেইটো উলিয়াব লাগে সেয়া নহয়।",
+                            "$~এই প্ৰ’গ্ৰামটো এই value-লৈ মূল্যায়ন হয় \\'নমস্কাৰ'\\, যিটো তাৰ পিছত stage-ত দেখুওৱা হয়। কোনো প্ৰিণ্ট কমাণ্ড নাই, মাত্ৰ এটা @expression যিয়ে কয় কোনটো value-লৈ মূল্যায়ন কৰিব লাগে।"
+                        ],
+                        null,
+                        { "edit": ["message: 'hi'", "message"] },
+                        [
+                            "Bind",
+                            "neutral",
+                            "$~আন ভাষাত, এটা *variable* হৈছে এটা value-ৰ বাবে নাম থকা পাত্ৰ, আৰু ইয়াৰ value সলনি হ’ব পাৰে:",
+                            "$~\\py | score = 10\nscore = 20\nprint(score)\\js|let score = 10;\nscore = 20;\nconsole.log(score);\\jv | int\nscore = 10\n;\nscore = 20\n;\nSystem.out.println(score)\n;\\",
+                            "$~Wordplay-ত, নাম থকা value কেতিয়াও সলনি হ’ব নোৱাৰে। সেইবোৰ 'অপৰিৱৰ্তনীয়', অৰ্থাৎ সেইবোৰক নতুন value পুনৰ দিব নোৱাৰি। সেইবাবেই আমি সেইবোৰক @variable-ৰ পৰিৱৰ্তে @Bind বুলি কওঁ, কাৰণ সেইবোৰ সলনি হ’ব নোৱাৰে।",
+                            "$~আমি অলপ পিছত সলনি হ’ব পৰা variable নথকাকৈ আন্তঃক্ৰিয়াশীল প্ৰ’গ্ৰাম কেনেকৈ লিখিব লাগে সেই বিষয়ে কথা পাতিম।"
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~condition পৰীক্ষা কৰা",
+                    "subtitle": null,
+                    "concept": "Conditional",
+                    "performance": { "fit": "#Symbol ?" },
+                    "lines": [
+                        { "edit": ["num: 5", "num < 5 ?", "'more'", "'less'"] },
+                        [
+                            "Conditional",
+                            "neutral",
+                            "$~আন প্ৰ’গ্ৰামিং ভাষাত সাধাৰণতে এটা @condition-ৰ ওপৰত ভিত্তি কৰি বেলেগ বেলেগ কাম কৰিবলৈ এটা *if* statement থাকে:",
+                            "$~\\py | num = 5\nif\nnum < 5\n:\nprint('কম')\nনহ'লে:\n\tprint('বেছি')\\js|let num = 5;\nif(num < 5)\n    console.log('less');\nelse\n    console.log('more');\\jv | int\nnum = 5\nif(num < 5)\nSystem.out.println('কম')\n;\nelse\nSystem.out.println('বেছি')\n;\\",
+                            "$~Wordplay-ত, সকলো বস্তু এটা @expression, সেয়েহে @Conditional এটা *expression* যিটো এটা condition দি লিখা হয়, তাৰ পিছত এটা \\?\\, তাৰ পিছত এটা true expression আৰু এটা false expression। কোনো কীৱৰ্ড লাগে নাই"
+                        ],
+                        null,
+                        { "edit": ["n: 1", "n ??? 1: 'one' 2: 'two' 'many'"] },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~কিছুমান ভাষাত এটা value-ৰ ওপৰত ভিত্তি কৰি বেলেগ বেলেগ কাম কৰিবলৈ এটা *switch* statement-ও থাকে:",
+                            "$~\\py| n = 1\nmatch n:\n  case 1: print('one')\n  case 2: print('two')\n  case _: print('many')\\js| switch (n) {\n  case 1: console.log('one'); break;\n  case 2: console.log('two'); break;\n  default: console.log('many'); break;\n}\\jv | switch\n(n)\n{\n\tcase\n\t1: System.out.println('এটা')\n\t;break;\n\tcase\n\t2: System.out.println('দুটা')\n\t;break;\n\tdefault: System.out.println('বহুত')\n\t;break;\n}\\",
+                            "$~Wordplay-ত @Match আছে, যিয়ে value অনুসৰি এটা ফলাফল বাছনি কৰে।"
+                        ],
+                        null,
+                        { "edit": ["val: ø", "val ?? 0"] },
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~কিছুমান ভাষাত এটা *null coalescing* @operator-ও থাকে যিয়ে এটা @variable null বা undefined হ’লে এটা ডিফল্ট value দিয়ে:",
+                            "$~\\py | val = None\nresult = val ?? 0\\js| let val = null;\nlet result = val ?? 0;\\jv | Object\nval = null\n;\nObject\nresult = val\n!=null?val:0;\\",
+                            "$~Wordplay-ত একে ফলাফল পাবলৈ @Otherwise অপাৰেটৰ আছে।"
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~value আৰু type",
+                    "subtitle": null,
+                    "concept": "Number",
+                    "performance": { "fit": "#Symbol 0️⃣" },
+                    "lines": [
+                        {
+                            "edit": [
+                                "number: 1",
+                                "numberWithUnit: 1.5m",
+                                "text: 'hi'",
+                                "textWithTranslations: 'hi'/en'hola'/es",
+                                "boolean: ⊤",
+                                "none: ø"
+                            ],
+                            "conflicts": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~বেছিভাগ ভাষাত বহুতো 'প্ৰিমিটিভ' value type থাকে।",
+                            "$~\\py | number\n:1\nলিখনি: 'নমস্কাৰ'\nবুলিয়ান: True\nএকোনাই: None\\js| let number = 1;\nlet text = 'hi';\nlet boolean = true;\nlet none = null;\\jv | int\nnumber = 1\n;\nString\ntext = 'নমস্কাৰ'\n;\nboolean\nboolean = true\n;\nObject\nnone = null\n;\\",
+                            "$~Wordplay-ত এই type-বোৰৰ বাবে একে ধৰণৰ গঠন আছে, কিন্তু ই তোমাক আন তথ্যও যোগ কৰিবলৈ দিয়ে, যেনে বহুভাষিক text-ৰ বাবে @language টেগ আৰু সংখ্যাৰ ওপৰত একক।"
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "list: [1 2 3]",
+                                "set: {1 2 3}",
+                                "map: {'a': 1}"
+                            ],
+                            "conflicts": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~প্ৰ’গ্ৰামিং ভাষাবোৰত value-ৰ সংগ্ৰহ সৃষ্টি কৰাৰো উপায় থাকে, যেনে list, set, আৰু map (প্ৰায়ে dictionary বা hash বুলি জনাজাত):",
+                            "$~\\py | list = [1 ,2,3]\n\t\tset = {1 ,2,3}\n\t\t\t\tmap = {'এটা': 1}\\js|let list = [1, 2, 3];\nlet set = new Set([1, 2, 3]);\nlet map = { a: 1 };\\jv | let\narray = [\n\t\t1\n\t\t,2,3];\n\t\tlet\n\t\tset = new\n\t\tjava.util.HashSet < >([\n\t\t\t\t\t1\n\t\t\t\t\t,2,3]);\n\t\t\t\t\tlet\n\t\t\t\t\tmap = new\n\t\t\t\t\tjava.util.HashMap < >()\n\t\t\t\t\t;\n\t\t\t\t\tmap.put('a' 1)\n\t\t\t\t\t;\\",
+                            "$~Wordplay-ত এই সংগ্ৰহবোৰৰ বাবে এটা বেলেগ গঠন ব্যৱহাৰ হয়, বিশেষকৈ কমাৰ পৰিৱৰ্তে value পৃথক কৰিবলৈ স্পেচ ব্যৱহাৰ কৰি।"
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "inferredType: [1 2 3]",
+                                "declaredType•[#]: [1 2 3]"
+                            ],
+                            "conflicts": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~কিছুমান প্ৰ’গ্ৰামিং ভাষাই তোমাক এটা @variable-ৰ type উল্লেখ কৰিবলৈ দিয়ে, যাতে তুমি variable-টো ব্যৱহাৰ কৰা সকলো উপায় বৈধ বুলি নিশ্চিত কৰিব পাৰা:",
+                            "$~\\py | list\n:list[int]=[1,2,3]\\js| // JavaScript-ত type টোকা নাথাকে। কিন্তু TypeScript-ত থাকে:\nlet list: number[] = [1, 2, 3];\\jv | List < Integer > list = Arrays.asList(1 ,2,3);\\",
+                            "$~Wordplay-তো type থাকে, কিন্তু type-বোৰ *অনুমান* কৰা হয়। সাধাৰণতে তুমি সেইবোৰ ঘোষণা কৰিবলৈ নালাগে, কিন্তু কেতিয়াবা অনুমান কৰিব নোৱাৰিলে তোমাক কৰিব লাগিব পাৰে।"
+                        ],
+                        null,
+                        { "edit": ["•Pet(name•'' age•#)", "Pet('boomy' 16)"] },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~প্ৰ’গ্ৰামিং ভাষাবোৰে সাধাৰণতে এক বিশেষ data type সৃষ্টি কৰাৰো উপায় দিয়ে, একাধিক value-ক এটা data structure-ত একত্ৰিত কৰিবলৈ:",
+                            "$~\\py | class\nপোহনীয়াজন্তু:\n\tdef\n_\n_\ninit\n_\n_(self ,name,age):\n\tself.name = name\n\tself.age = age\\js| class Pet {\n    constructor(name, age) {\n        this.name = name;\n        this.age = age;\n    }\n}\\jv | public\nclass\nPet\n{\n\tprivate\n\tString\n\tname\n\t;\n\tprivate\n\tint\n\tage\n\t;\n\tpublic\n\tPet(String name ,intage){\n\t\tthis.name = name ;\n\t\tthis.age = age ;\n\t\t}\n\t\t}\\",
+                            "$~Wordplay-ত এটা @Structure ঘোষণা কৰিবলৈ এটা বেলেগ গঠন ব্যৱহাৰ হয়, \\•\\ এটা data type বুজাবলৈ, তাৰ পিছত এটা @name, তাৰ পিছত structure-ৰ ক্ষেত্ৰবোৰ।"
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~ৰূপান্তৰ, সংগ্ৰহ, আৰু function",
+                    "subtitle": null,
+                    "concept": "Convert",
+                    "performance": { "fit": "#Symbol →" },
+                    "lines": [
+                        { "edit": ["1m → #ft → ''"] },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~প্ৰ’গ্ৰামিঙৰ এটা সাধাৰণ কাম হৈছে এটা type-ৰ পৰা আন এটা type-লৈ data ৰূপান্তৰ কৰা। উদাহৰণস্বৰূপে, আমি এটা সংখ্যাক text value-লৈ ৰূপান্তৰ কৰিব বিচাৰিব পাৰোঁ:",
+                            "$~\\py | str(1)\\js| String(1)\\jv | String.valueOf(1)\\",
+                            "$~Wordplay-ৰ সকলো value-ত এটা @Convert গঠন থাকে যিয়ে তোমাক type-বোৰৰ মাজত ৰূপান্তৰ কৰিবলৈ দিয়ে। এই উদাহৰণটোৱে \\1m\\ ফুটলৈ, আৰু তাৰ পিছত @Text-লৈ ৰূপান্তৰ কৰে। প্ৰতিটো type-ৰ value-ৰ সমৰ্থিত ৰূপান্তৰৰ এটা সম্পূৰ্ণ সংগ্ৰহ থাকে"
+                        ],
+                        null,
+                        { "edit": "[1 2 3] ↦ ⬚ × 2" },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~list আৰু array-ৰ দৰে value-ৰ সংগ্ৰহৰ বাবে, আন প্ৰ’গ্ৰামিং ভাষাই *for* আৰু *while* loop-ৰ দৰে গঠন ব্যৱহাৰ কৰি এটা বৰ্তমানৰ সংগ্ৰহৰ value-ৰ পৰা এটা নতুন সংগ্ৰহ সৃষ্টি কৰে।",
+                            "$~\\py | n = [1 ,2,3]\n\t\t#Listcomprehension\n\t\t[n\n\n\n\n\t\t\t2 )\\js| n = [1, 2, 3];\n// Map\nnums.map(n => n * 2);\n// For loop\nn2 = [];\nfor (let n of nums) {\n    n2.push(n * 2);\n}\\jv | int[]nums=[1,2,3];\n//Map\nnums.stream().map(n -> n\n\n\n\n\t2)\n;\n}\\",
+                            "$~Wordplay-ত এটা সৰল @Translate* গঠন আছে যিয়ে \\↦\\ চিহ্ন ব্যৱহাৰ কৰে: ই এটা নতুন @List, @Set বা @Map সাজে, প্ৰতিটো বস্তু (\\⬚\\ @placeholder-ৰ দ্বাৰা বুজোৱা) এটা নতুন value-ৰে সলনি কৰি। ই প্ৰতিটো বস্তু দুগুণ কৰি \\[2 4 6]\\ বনায়।",
+                            "$~@List.translate আৰু @List.combine-ৰ দৰে অধিক শক্তিশালী বস্তুও আছে, যদি তোমাক অধিক জটিল কাম লাগে।"
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "ƒ greet(name•'') 'hi ' + name",
+                                "greet('Verse')"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~প্ৰতিটো প্ৰ’গ্ৰামিং ভাষাত function থাকে, যিয়ে তোমাক পুনৰ ব্যৱহাৰযোগ্য code-ৰ @blocks ঘোষণা কৰিবলৈ দিয়ে যিয়ে ইনপুট লয় আৰু তাৰ ওপৰত ভিত্তি কৰি আউটপুট উলিয়ায়, যিকোনো জটিলতাৰ:",
+                            "$~\\py | def\ngreet(n)\n:\nreturn\n'নমস্কাৰ ' + n\nprint(greet('পদ'))\\js| function greet(n) {\n  return 'hi ' + n\n}\nconsole.log(greet('Verse'))\\jv | public\nclass\nGreeter\n{\n\tpublic\n\tstatic\n\tString\n\tgreet(String n)\n\t{\n\t\treturn 'নমস্কাৰ ' + n ;\n\t}\n}\nGreeter.greet('কবিতা')\\",
+                            "$~Wordplay-য়ো function সংজ্ঞা সমৰ্থন কৰে, কিন্তু ƒ চিহ্নৰ সৈতে। সকলো Wordplay প্ৰ’গ্ৰামৰ দৰে, function-বোৰ এটা value-লৈ মূল্যায়ন হ’বই লাগিব।"
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~আউটপুট হৈছে টাইপ’গ্ৰাফিক, ইনপুট হৈছে প্ৰতিক্ৰিয়াশীল",
+                    "subtitle": null,
+                    "concept": "Stage",
+                    "performance": { "fit": "#Symbol 💬" },
+                    "lines": [
+                        {
+                            "edit": "Stage([Phrase('🎉' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.5) 100%: Pose(scale: 1)} duration: 2s))] background: Color(90% 0 0°))"
+                        },
+                        [
+                            "Stage",
+                            "neutral",
+                            "$~আন প্ৰ’গ্ৰামিং ভাষাই কনচ’লত text প্ৰিণ্ট কৰে, কেনভাচত আঁকে, বা এটা ৱেবপৃষ্ঠা সলনি কৰে:",
+                            "$~\\py | print('নমস্কাৰ')\\js| document.body.append('hi')\\jv | System.out.println('নমস্কাৰ')\n;\\",
+                            "$~Wordplay-ৰ আউটপুট হৈছে টাইপ’গ্ৰাফিক: এটা @Phrase, এটা @Group, বা এটা @Stage, যিয়ে স্ক্ৰীণত শৈলীযুক্ত, এনিমেচনযুক্ত, আৰু আন্তঃক্ৰিয়াশীল text দেখুৱায়, বা এটা স্ক্ৰীণ ৰিডাৰে পঢ়ে।",
+                            "$~তলৰ উদাহৰণটোৱে এটা @Stage দেখুৱায় এটা একক @Phrase-ৰ সৈতে যাৰ এটা বিশ্ৰাম স্কেলিং এনিমেচন আছে।"
+                        ],
+                        null,
+                        {
+                            "edit": "Phrase('🌎' rotation: Time(100ms) × 0.05°/ms)"
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~বেছিভাগ প্ৰ’গ্ৰামিং ভাষাত ব্যৱহাৰকাৰীৰ পৰা ইনপুট লোৱাৰ উপায় থাকে:",
+                            "$~\\py | name = input('তোমাৰ নাম কি?')\\js| const name = prompt('What is your name?')\\jv | Scanner\nscanner = new\nScanner(System.in)\n;\nString\nname = scanner.nextLine()\n;\\",
+                            "$~Wordplay-ৰ ইনপুট *stream*-ৰ পৰা আহে, যিবোৰ বিশেষ value যিবোৰ সময়ৰ লগে লগে সলনি হয়, ইনপুটৰ প্ৰতিক্ৰিয়াত, আৰু Wordplay প্ৰ’গ্ৰামটোক stream-ৰ নতুন value-ৰে পুনৰ মূল্যায়ন কৰায়।",
+                            "$~এই প্ৰ’গ্ৰামটোৱে, উদাহৰণস্বৰূপে, এটা @Time stream ব্যৱহাৰ কৰে গ্ল’ব ইম’জিৰ ঘূৰ্ণন চলাবলৈ। প্ৰতিবাৰ @Time() stream-টো এটা নতুন value-লৈ টিক কৰিলে, প্ৰ’গ্ৰামটো নতুন value-ৰে পুনৰ মূল্যায়ন হয়, @Stage-ত প্ৰ’গ্ৰামৰ value আপডেট কৰি।"
+                        ],
+                        null,
+                        { "edit": "Phrase(∆ Button() ? 'hi' 'click me')" },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~বেছিভাগ আন প্ৰ’গ্ৰামিং ভাষাত আন্তঃক্ৰিয়াশীলতাৰ অৰ্থ হৈছে ইভেণ্ট হেণ্ডলাৰ আৰু কলবেক পঞ্জীয়ন কৰা:",
+                            "$~\\py | import\ntkinter\nas\ntk\n\ndef\non\n_\nclick()\n:\nlabel.config(text = 'নমস্কাৰ!')\n\nroot = tk.Tk()\nlabel = tk.Label(root ,text=\"Click the button\")\n\t\tlabel.pack()\n\t\ttk.🖱(root ,text=\"Click me\",command=on_click).pack()\n\t\t\troot.mainloop()\\js| addEventListener('keydown', () => document.body.append('hello'))\\jv | import\njavax.swing.\n\n\n\n\n\n\n\n\n\n\n\n\\",
+                            "$~Wordplay-ত, আন্তঃক্ৰিয়াশীলতাৰ বাবে আমি মাত্ৰ @Button, @Key, আৰু @Pointer-ৰ দৰে stream ব্যৱহাৰ কৰি আন্তঃক্ৰিয়াশীল element সৃষ্টি কৰিব পাৰোঁ। এই @Phrase-ৰ text @Button-টো ক্লিক হ’ল নে নাই তাৰ ওপৰত ভিত্তি কৰি, এটা @Conditional ব্যৱহাৰ কৰি @Button stream @Changed হ’ল নে নাই চাবলৈ।"
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "button: Button()",
+                                "count: 1 … ∆ button … count + 1",
+                                "Phrase(count → '')"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~আন প্ৰ’গ্ৰামিং ভাষাই তোমাক ৰানটাইমত variable-ৰ value সলনি কৰিবলৈ দিয়ে, যিটো গতিশীল আৰু আন্তঃক্ৰিয়াশীল এপ্লিকেচন সৃষ্টি কৰিবলৈ উপযোগী হ’ব পাৰে। কিন্তু সেইবোৰে তোমাক সঠিক ঠাইত value আপডেট কৰিবলৈ আৰু সেই value সলনি হ’লে স্ক্ৰীণত যি দেখুওৱা হয় সেয়া আপডেট কৰিবলৈ মনত ৰাখিবলৈ কয়:",
+                            "$~\\py | import\ntkinter\nas\ntk\n\ncount = 0\n\ndef\non\n_\nclick()\n:\nglobal\ncount\ncount\n+=\n1\nlabel.config(text = f 'ক্লিক: {count}')\n\nroot = tk.Tk()\nlabel = tk.Label(root ,text=\"Clicks: 0\")\n\t\tlabel.pack()\n\t\ttk.🖱(root ,text=\"Click me\",command=on_click).pack()\n\t\t\troot.mainloop()\\js|let count = 0;\nfunction onClick() {\n    count++;\n    document.getElementById('label').textContent = `Clicks: ${count}`;\n\n}\naddEventListener('keydown', onClick);\\jv | import\njavax.swing.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\",
+                            "$~Wordplay-ই এটা @Reaction @expression ব্যৱহাৰ কৰি ইয়াক সৰল কৰে, যিটো এটা প্ৰাৰম্ভিক value-ত আৰম্ভ হয়, stream ইনপুটক বুজোৱা এটা @condition পৰীক্ষা কৰে, আৰু stream-ৰ সলনিৰ ওপৰত ভিত্তি কৰি expression-ৰ value আপডেট কৰে। এই উদাহৰণত, প্ৰতিবাৰ @Button stream সলনি হ’লে, আমি count-ৰ value আপডেট কৰোঁ, আৰু সেইটোৱে @Stage-ত দেখুওৱা @Phrase আপডেট কৰে।"
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~conflict আৰু ডিবাগিং",
+                    "subtitle": null,
+                    "concept": "UnparsableExpression",
+                    "performance": { "fit": "#Symbol ‼️" },
+                    "lines": [
+                        {
+                            "edit": "1 + 'hello'",
+                            "conflicts": true,
+                            "sidebar": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "angry",
+                            "$~আন ভাষাই *error* দিয়ে — এটা চিন যে প্ৰ’গ্ৰামে অনুমতি নথকা কিবা এটা কৰিলে:",
+                            "$~\\py | 1 + 'নমস্কাৰ'\\js|1 + 'hello'\\jv | 1 + 'নমস্কাৰ'\\",
+                            "$~Wordplay-ই error-ক *conflict* বুলি কয়: দুটা বস্তু যিবোৰ একেলগে সত্য হ’ব নোৱাৰে, যেনে তলৰ প্ৰ’গ্ৰামত এটা সংখ্যা আৰু text যোগ কৰা।",
+                            "$~Wordplay-ই conflict-বোৰৰ তলত ৰেখা টানিব আৰু সেইবোৰ ছাইডবাৰত @UI/conflict দেখুৱাব। ই সমস্যাটো সমাধান কৰিবলৈ conflict সমাধানৰ পৰামৰ্শও দিব।"
+                        ],
+                        null,
+                        { "edit": "(1 + 2) × 3" },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~বেছিভাগ প্ৰ’গ্ৰামিং ভাষাই সৃষ্টিকৰ্তাসকলক তেওঁলোকৰ code-ৰ সমস্যা বুজি সমাধান কৰাত সহায় কৰিবলৈ কিবা ধৰণৰ ডিবাগিং সঁজুলি দিয়ে। কিন্তু বহুতে মাত্ৰ কনচ’লত variable-ৰ value পৰীক্ষা কৰিবলৈ প্ৰিণ্ট statement ব্যৱহাৰ কৰে:",
+                            "$~\\py | print(elapsed)\\js|console.log(elapsed)\\jv | System.out.println(elapsed)\\",
+                            "$~Wordplay-ই অধিক উন্নত ডিবাগিং অভিজ্ঞতা দিয়ে, তোমাক ইয়াৰ মূল্যায়নৰ মাজেৰে *আগলৈ* আৰু *পিছলৈ* খোজ কাঢ়িবলৈ দিয়ে। @UI/stepControls-এ যিকোনো দিশত মূল্যায়ন আগবঢ়ায়, যাতে তুমি এটা value কেনেকৈ সজা হয় চাব পাৰা।",
+                            "$~অধিক পথ-নিৰ্দেশনা বিচাৰা? ডিবাগ এৰিয়াৰ @UI/debugtour বুটামটোৱে এই নিয়ন্ত্ৰণবোৰৰ এটা পথ-নিৰ্দেশিত ভ্ৰমণ দিয়ে।"
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~সকলো একেলগে কৰা",
+                    "subtitle": null,
+                    "concept": "Stage",
+                    "performance": { "fit": "#Symbol 🔨" },
+                    "lines": [
+                        { "edit": ["elapsed: Time(100ms)", "elapsed"] },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~আহাঁ তিনিটা পদক্ষেপত এটা সৰু আন্তঃক্ৰিয়াশীল @project সাজোঁ।",
+                            "$~*এক:* তোমাৰ data আৰু *stream* ঘোষণা কৰা। ইয়াত elapsed নামৰ এটা @Time stream-এ প্ৰ’গ্ৰামটো কিমান সময় চলিছে সেয়া জনায়।"
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "elapsed: Time(100ms)",
+                                "turn: elapsed × 0.05°/ms",
+                                "turn"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~*দুই:* নতুন @Bind value উলিয়াই stream-ৰ প্ৰতি *প্ৰতিক্ৰিয়া* কৰা। ইয়াত turn-এ elapsed সময়ক ডিগ্ৰীলৈ ৰূপান্তৰ কৰে, elapsed সলনি হ’লেই পুনৰ গণনা কৰে।"
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "elapsed: Time(100ms)",
+                                "turn: elapsed × 0.05°/ms",
+                                "Stage([Phrase('✨' rotation: turn)] background: Color(25% 0 0°))"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~*তিনি:* *আউটপুট* — তোমাৰ data-ক এটা @Phrase, @Group, বা @Stage-লৈ মেপ কৰা। এতিয়া তৰাটো নিজে নিজে ঘূৰে!"
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "volume: Volume()",
+                                "turn: volume × 360°",
+                                "Stage([Phrase('✨' rotation: turn)] background: Color(25% 0 0°))"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~আমি ঘূৰ্ণন নিয়ন্ত্ৰণ কৰিবলৈ ব্যৱহাৰকাৰীৰ ইনপুট যোগ কৰি ইয়াক আৰু অধিক আন্তঃক্ৰিয়াশীল কৰিব পাৰোঁ, যেনে মাইক্ৰ’ফোন ইনপুটৰ @Volume ই 0 আৰু 1-ৰ মাজৰ এটা value, সেয়েহে আমি ইয়াক 360 ডিগ্ৰীলৈ মেপ কৰিব পাৰোঁ।",
+                            "$~বেছিভাগ project-ৰ আকৃতি এনেকুৱাই: ঘোষণা, তাৰ পিছত প্ৰতিক্ৰিয়া, তাৰ পিছত আউটপুট। <Guide//guide>-ত পঢ়িবলৈ, কপি কৰিবলৈ, আৰু সম্পাদনা কৰিবলৈ ৰেচিপীৰে ভৰা এটা @how অংশ আছে।",
+                            "$~সৃষ্টিৰ আনন্দ ল’বা!"
+                        ]
+                    ]
+                }
+            ]
+        }
+    ]
+}

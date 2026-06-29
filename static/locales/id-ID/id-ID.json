@@ -1,174 +1,172 @@
 {
     "$schema": "../../schemas/LocaleText.json",
     "language": "id",
-    "regions": [
-        "ID"
-    ],
+    "regions": ["ID"],
     "wordplay": "$~Permainan kata",
     "glossary": {
         "value": {
             "word": "$~nilai",
-            "definition": "$?A piece of information, like a number, some words, or a list."
+            "definition": "$~Sepotong informasi, seperti angka, beberapa kata, atau daftar."
         },
         "type": {
             "word": "$~jenis",
-            "definition": "$?The kind of a value, such as number or text. A value's type decides what you can do with it."
+            "definition": "$~Macam dari sebuah nilai, seperti angka atau teks. Jenis dari sebuah nilai menentukan apa yang bisa kamu lakukan dengannya."
         },
         "expression": {
-            "word": "$?expression",
-            "definition": "$?A piece of code that produces a value when it runs."
+            "word": "$~ekspresi",
+            "definition": "$~Sepotong kode yang menghasilkan nilai saat dijalankan."
         },
         "variable": {
-            "word": "$?variable",
-            "definition": "$?A name whose value can change while a program runs."
+            "word": "$~variabel",
+            "definition": "$~Sebuah nama yang nilainya bisa berubah saat program berjalan."
         },
         "parameter": {
-            "word": "$?parameter",
-            "definition": "$?A named input that a function expects when you call it."
+            "word": "$~parameter",
+            "definition": "$~Masukan bernama yang diharapkan sebuah fungsi saat kamu memanggilnya."
         },
         "argument": {
-            "word": "$?argument",
-            "definition": "$?A value you give to a function for one of its parameters."
+            "word": "$~argumen",
+            "definition": "$~Nilai yang kamu berikan ke sebuah fungsi untuk salah satu parameternya."
         },
         "operator": {
-            "word": "$?operator",
-            "definition": "$?A symbol, such as + or -, that combines or compares values."
+            "word": "$~operator",
+            "definition": "$~Sebuah simbol, seperti + atau -, yang menggabungkan atau membandingkan nilai."
         },
         "condition": {
-            "word": "$?condition",
-            "definition": "$?A true-or-false test that decides what a program does next."
+            "word": "$~kondisi",
+            "definition": "$~Sebuah uji benar-atau-salah yang menentukan apa yang dilakukan program berikutnya."
         },
         "loop": {
-            "word": "$?loop",
-            "definition": "$?Code that repeats an action many times."
+            "word": "$~perulangan",
+            "definition": "$~Kode yang mengulang sebuah tindakan berkali-kali."
         },
         "iteration": {
-            "word": "$?iteration",
-            "definition": "$?One pass through a loop."
+            "word": "$~iterasi",
+            "definition": "$~Satu kali jalan melalui sebuah perulangan."
         },
         "recursion": {
-            "word": "$?recursion",
-            "definition": "$?When a function calls itself to handle a smaller part of a problem."
+            "word": "$~rekursi",
+            "definition": "$~Ketika sebuah fungsi memanggil dirinya sendiri untuk menangani bagian masalah yang lebih kecil."
         },
         "property": {
-            "word": "$?property",
-            "definition": "$?A named part of a value, such as a color's brightness."
+            "word": "$~properti",
+            "definition": "$~Bagian bernama dari sebuah nilai, seperti kecerahan suatu warna."
         },
         "element": {
-            "word": "$?element",
-            "definition": "$?One item in a list or group."
+            "word": "$~elemen",
+            "definition": "$~Satu benda dalam sebuah daftar atau kelompok."
         },
         "scope": {
-            "word": "$?scope",
-            "definition": "$?The part of a program where a name can be used."
+            "word": "$~cakupan",
+            "definition": "$~Bagian dari program tempat sebuah nama bisa dipakai."
         },
         "state": {
-            "word": "$?state",
-            "definition": "$?Information a program keeps and can change over time."
+            "word": "$~keadaan",
+            "definition": "$~Informasi yang disimpan program dan bisa berubah seiring waktu."
         },
         "sideEffect": {
-            "word": "$?side effect",
-            "definition": "$?A change a program makes besides giving back a value, such as showing output."
+            "word": "$~efek samping",
+            "definition": "$~Perubahan yang dibuat program selain memberikan nilai kembali, seperti menampilkan keluaran."
         },
         "abstraction": {
-            "word": "$?abstraction",
-            "definition": "$?Hiding details so you can use something without knowing how it works inside."
+            "word": "$~abstraksi",
+            "definition": "$~Menyembunyikan rincian agar kamu bisa memakai sesuatu tanpa tahu cara kerjanya di dalam."
         },
         "project": {
             "word": "$~proyek",
-            "definition": "$?All the files that make up one Wordplay program."
+            "definition": "$~Semua berkas yang membentuk satu program Wordplay."
         },
         "code": {
             "word": "$~kode",
-            "definition": "$?The text you write to tell a program what to do."
+            "definition": "$~Teks yang kamu tulis untuk memberi tahu program apa yang harus dilakukan."
         },
         "act": {
             "word": "$~bertindak",
-            "definition": "$?A large part of the tutorial, like an act in a play."
+            "definition": "$~Bagian besar dari tutorial, seperti babak dalam sebuah drama."
         },
         "how": {
             "word": "$~cara",
-            "definition": "$?A short guide that shows how to do one thing."
+            "definition": "$~Panduan singkat yang menunjukkan cara melakukan satu hal."
         },
         "gallery": {
-            "word": "$?gallery",
-            "definition": "$?A place where people share and explore projects."
+            "word": "$~galeri",
+            "definition": "$~Tempat orang berbagi dan menjelajahi proyek."
         },
         "blocks": {
-            "word": "$?blocks",
-            "definition": "$?A way to edit code by dragging pieces instead of typing."
+            "word": "$~blok",
+            "definition": "$~Cara mengedit kode dengan menyeret potongan, bukan mengetik."
         },
         "placeholder": {
-            "word": "$?placeholder",
-            "definition": "$?An empty spot that shows where code or a value is missing."
+            "word": "$~penampung",
+            "definition": "$~Tempat kosong yang menunjukkan di mana kode atau nilai belum ada."
         },
         "conflict": {
-            "word": "$?conflict",
-            "definition": "$?A problem in code that Wordplay marks so you can fix it."
+            "word": "$~konflik",
+            "definition": "$~Masalah dalam kode yang ditandai Wordplay agar kamu bisa memperbaikinya."
         },
         "checkpoint": {
-            "word": "$?checkpoint",
-            "definition": "$?A saved point in your work that you can return to."
+            "word": "$~titik simpan",
+            "definition": "$~Titik tersimpan dalam pekerjaanmu yang bisa kamu kunjungi kembali."
         },
         "guide": {
-            "word": "$?guide",
-            "definition": "$?The searchable reference that explains Wordplay's ideas."
+            "word": "$~panduan",
+            "definition": "$~Rujukan yang bisa dicari yang menjelaskan gagasan-gagasan Wordplay."
         },
         "tutorial": {
-            "word": "$?tutorial",
-            "definition": "$?The step-by-step lessons that teach Wordplay."
+            "word": "$~tutorial",
+            "definition": "$~Pelajaran langkah demi langkah yang mengajarkan Wordplay."
         },
         "name": {
             "word": "$~nama",
-            "definition": "$?A word that refers to a value or a function."
+            "definition": "$~Sebuah kata yang merujuk ke sebuah nilai atau fungsi."
         },
         "markup": {
             "word": "$~markup",
-            "definition": "$?Text with formatting, such as bold words or links."
+            "definition": "$~Teks dengan format, seperti kata tebal atau tautan."
         },
         "language": {
             "word": "$~bahasa",
-            "definition": "$?A human language that a name or text is written in."
+            "definition": "$~Bahasa manusia tempat sebuah nama atau teks ditulis."
         },
         "documentation": {
             "word": "$~dokumentasi",
-            "definition": "$?Text that explains what code does."
+            "definition": "$~Teks yang menjelaskan apa yang dilakukan kode."
         },
         "region": {
             "word": "$~wilayah",
-            "definition": "$?A place where a language is used, which can change how numbers and dates look."
+            "definition": "$~Tempat sebuah bahasa dipakai, yang bisa mengubah tampilan angka dan tanggal."
         },
         "start": {
             "word": "$~awal",
-            "definition": "$?The main source file where a project begins."
+            "definition": "$~Berkas sumber utama tempat sebuah proyek dimulai."
         },
         "query": {
             "word": "$~pertanyaan",
-            "definition": "$?A way to choose rows from a table."
+            "definition": "$~Cara memilih baris dari sebuah tabel."
         },
         "key": {
             "word": "$~kunci",
-            "definition": "$?The value used to find an item in a map."
+            "definition": "$~Nilai yang dipakai untuk menemukan sebuah benda dalam sebuah peta."
         },
         "index": {
             "word": "$~indeks",
-            "definition": "$?A number that picks an item by its position in a list."
+            "definition": "$~Sebuah angka yang memilih benda berdasarkan posisinya dalam sebuah daftar."
         },
         "moved": {
             "word": "$~terharu",
-            "definition": "$?Output that changed position on stage."
+            "definition": "$~Keluaran yang berubah posisi di panggung."
         },
         "entered": {
             "word": "$~baru",
-            "definition": "$?Output that appeared on stage for the first time."
+            "definition": "$~Keluaran yang muncul di panggung untuk pertama kalinya."
         },
         "cell": {
             "word": "$~sel",
-            "definition": "$?One value in a table row."
+            "definition": "$~Satu nilai dalam sebuah baris tabel."
         },
         "column": {
             "word": "$~kolom",
-            "definition": "$?A named field in a table."
+            "definition": "$~Bidang bernama dalam sebuah tabel."
         }
     },
     "token": {
@@ -567,7 +565,7 @@
             "description": "$~sebutkan $name dalam markup",
             "emotion": "serious",
             "doc": [
-                "$~Saya adalah referensi untuk terminologi \\ $program \\ atau input dinamis \\ @name \\.",
+                "$~Saya adalah referensi untuk terminologi \\¶@program¶\\ atau input dinamis \\¶$name¶\\.",
                 "$~Ini sebagian besar merupakan fitur internal, jadi Anda tidak perlu mengetahuinya."
             ]
         },
@@ -2361,10 +2359,7 @@
                 "$~Beberapa menggunakan keyboard (/ctrl+9/ untuk \\⊤\\ dan /ctrl+0/ untuk \\⊥\\). Beberapa menggunakan pencarian karakter di bagian bawah editor. Atau Anda dapat menyeret kami dari sini.",
                 "$~Lihat @FunctionDefinition kami di bawah ini. Penjelasannya sangat logis."
             ],
-            "name": [
-                "$~⊤⊥",
-                "$~Boolean"
-            ],
+            "name": ["$~⊤⊥", "$~Boolean"],
             "function": {
                 "and": {
                     "doc": [
@@ -2374,10 +2369,7 @@
                         "$~\\⊥ & ⊤\\",
                         "$~\\⊥ & ⊥\\"
                     ],
-                    "names": [
-                        "$~&",
-                        "$~Dan"
-                    ],
+                    "names": ["$~&", "$~Dan"],
                     "inputs": [
                         {
                             "doc": "$~@Boolean lain yang perlu diperiksa. Jika yang pertama adalah \\⊥\\, tidak masalah apa pun nilainya, fungsi akan dievaluasi menjadi \\⊥\\.",
@@ -2393,10 +2385,7 @@
                         "$~\\⊥ | ⊤\\",
                         "$~\\⊥ | ⊥\\"
                     ],
-                    "names": [
-                        "$~|",
-                        "$~atau"
-                    ],
+                    "names": ["$~|", "$~atau"],
                     "inputs": [
                         {
                             "doc": "$~@Boolean lain yang perlu diperiksa. Jika yang pertama adalah \\⊥\\, fungsi hanya akan menghasilkan \\⊤\\ jika yang ini adalah \\⊤\\.",
@@ -2406,18 +2395,12 @@
                 },
                 "not": {
                     "doc": "$~Saya mendapatkan kebalikan dari diri saya sendiri: jika \\⊤\\, maka hasilnya \\⊥\\, jika \\⊥\\, maka hasilnya \\⊤\\.",
-                    "names": [
-                        "$~~",
-                        "$~bukan"
-                    ],
+                    "names": ["$~~", "$~bukan"],
                     "inputs": []
                 },
                 "equals": {
                     "doc": "$~\\⊤\\ jika keduanya adalah \\⊤\\ atau keduanya adalah \\⊥\\.",
-                    "names": [
-                        "$~=",
-                        "$~samadengan"
-                    ],
+                    "names": ["$~=", "$~samadengan"],
                     "inputs": [
                         {
                             "doc": "$~Nilai lain yang perlu diperiksa.",
@@ -2427,10 +2410,7 @@
                 },
                 "notequal": {
                     "doc": "$~\\⊤\\ jika keduanya berlawanan.",
-                    "names": [
-                        "$~≠",
-                        "$~tidaksama"
-                    ],
+                    "names": ["$~≠", "$~tidaksama"],
                     "inputs": [
                         {
                             "doc": "$~Nilai lain yang perlu diperiksa.",
@@ -2448,17 +2428,11 @@
                 "$~Saya mewakili ketiadaan nilai, yang ditulis \\ø\\ .",
                 "$~Saya adalah @None . Panggil saya dengan \\ø\\ ."
             ],
-            "name": [
-                "$~Hai",
-                "$~Tidakada"
-            ],
+            "name": ["$~Hai", "$~Tidakada"],
             "function": {
                 "equals": {
                     "doc": "$~Apakah nilai lain juga tidak ada? Sebaiknya memang begitu, kalau tidak, \\⊥\\.",
-                    "names": [
-                        "$~=",
-                        "$~samadengan"
-                    ],
+                    "names": ["$~=", "$~samadengan"],
                     "inputs": [
                         {
                             "doc": "$~Nilai lainnya.",
@@ -2468,10 +2442,7 @@
                 },
                 "notequals": {
                     "doc": "$~Apakah nilai lain bukan berarti tidak ada?",
-                    "names": [
-                        "$~≠",
-                        "$~tidaksama"
-                    ],
+                    "names": ["$~≠", "$~tidaksama"],
                     "inputs": [
                         {
                             "doc": "$~Nilai lainnya.",
@@ -2501,10 +2472,7 @@
                 "See how 192 turned into @FunctionDefinition? I hear you call these numbers 'Unicode'.",
                 "Otherwise, there just so many glorious functions that @FunctionDefinition made for me to do all kinds of things with words!"
             ],
-            "name": [
-                "$~''",
-                "$~Teks"
-            ],
+            "name": ["$~''", "$~Teks"],
             "function": {
                 "length": {
                     "doc": [
@@ -2512,18 +2480,12 @@
                         "$~'halo'.panjang()",
                         "$~\\'🐈📚'.length()\\"
                     ],
-                    "names": [
-                        "$~📏",
-                        "$~panjang"
-                    ],
+                    "names": ["$~📏", "$~panjang"],
                     "inputs": []
                 },
                 "equals": {
                     "doc": "$~\\⊤\\ jika saya adalah urutan karakter yang sama dengan @Text yang diberikan.",
-                    "names": [
-                        "$~=",
-                        "$~samadengan"
-                    ],
+                    "names": ["$~=", "$~samadengan"],
                     "inputs": [
                         {
                             "doc": "$~Teks yang akan dibandingkan.",
@@ -2546,10 +2508,7 @@
                         "$~\\⊤\\ jika @Text yang diberikan muncul di dalam diriku.",
                         "$~Apakah Anda menemukan apa yang Anda cari?"
                     ],
-                    "names": [
-                        "$~⊆",
-                        "$~memiliki"
-                    ],
+                    "names": ["$~⊆", "$~memiliki"],
                     "inputs": [
                         {
                             "doc": "$~Teks yang dicari dalam diriku.",
@@ -2563,9 +2522,7 @@
                         "$~\\'halo bait!'.starts('halo')\\",
                         "$~\\'halo bait!'.starts('bait')\\"
                     ],
-                    "names": [
-                        "$~mulai"
-                    ],
+                    "names": ["$~mulai"],
                     "inputs": [
                         {
                             "doc": "$~@Text yang perlu diperiksa di awal saya.",
@@ -2579,9 +2536,7 @@
                         "$~\\'Apakah aku sebuah pertanyaan?'.ends('?')\\",
                         "$~'Saya bukan sebuah pertanyaan.'.ends('?')\\"
                     ],
-                    "names": [
-                        "$~berakhir"
-                    ],
+                    "names": ["$~berakhir"],
                     "inputs": [
                         {
                             "doc": "$~@Text yang perlu diperiksa di akhir saya.",
@@ -2599,13 +2554,7 @@
                         "$~\\'hai ' × -5\\",
                         "$~Teks terpanjang yang bisa saya buat adalah 65.535 karakter. Jika Anda mencoba membuat teks yang lebih panjang, saya akan mengulang teks tersebut sebanyak mungkin."
                     ],
-                    "names": [
-                        "$~×",
-                        "$~·",
-                        "$~🔁",
-                        "$~ulang",
-                        "$~mengulang"
-                    ],
+                    "names": ["$~×", "$~·", "$~🔁", "$~ulang", "$~mengulang"],
                     "inputs": [
                         {
                             "doc": "$~Jumlah pengulangan yang saya perlukan dalam teks baru.",
@@ -2620,11 +2569,7 @@
                         "$~Jika pemisahnya adalah @Text kosong, saya membagi diri saya menjadi beberapa karakter:",
                         "$~\\'🖌️🏠🥸' ÷ ''\\"
                     ],
-                    "names": [
-                        "$~÷",
-                        "$~tersegmentasi",
-                        "$~segmen"
-                    ],
+                    "names": ["$~÷", "$~tersegmentasi", "$~segmen"],
                     "inputs": [
                         {
                             "doc": "$~@Text yang digunakan sebagai pemisah.",
@@ -2637,11 +2582,7 @@
                         "$~Terkadang, menggabungkan dua @Text menjadi satu bisa sangat membantu. Berikan saya @Text lain dan saya akan membuat teks baru yang menghubungkan kita:",
                         "$~'halo ' + 'ayat'"
                     ],
-                    "names": [
-                        "$~+",
-                        "$~gabungan",
-                        "$~menggabungkan"
-                    ],
+                    "names": ["$~+", "$~gabungan", "$~menggabungkan"],
                     "inputs": [
                         {
                             "doc": "$~@Text yang akan ditambahkan.",
@@ -2654,10 +2595,7 @@
                         "$~\\⊤\\ jika seluruh teks cocok dengan pola yang diberikan.",
                         "$~\\'555-1234' ≈ ⣿3 # \"-\" 4 #⣿\\"
                     ],
-                    "names": [
-                        "$~≈",
-                        "$~pertandingan"
-                    ],
+                    "names": ["$~≈", "$~pertandingan"],
                     "inputs": [
                         {
                             "doc": "$~Pola yang akan dicocokkan.",
@@ -2670,10 +2608,7 @@
                         "$~Temukan setiap tempat di mana pola yang diberikan cocok di dalam diri saya, sebagai daftar @Result .",
                         "$~\\'a1 b2' ⌕ ⣿_ #⣿\\"
                     ],
-                    "names": [
-                        "$~⌕",
-                        "$~mencari"
-                    ],
+                    "names": ["$~⌕", "$~mencari"],
                     "inputs": [
                         {
                             "doc": "$~Pola yang perlu dicari.",
@@ -2712,10 +2647,7 @@
                 "$~Tidak ada angka '2' dalam basis 2, jadi itu bukan angka yang valid. NaN juga akan muncul jika Anda mencoba mengkonversi teks non-angka menjadi angka.",
                 "$~\\'hai'→#\\"
             ],
-            "name": [
-                "$~#",
-                "$~Nomor"
-            ],
+            "name": ["$~#", "$~Nomor"],
             "function": {
                 "add": {
                     "doc": [
@@ -2726,10 +2658,7 @@
                         "$~Jika satuannya tidak cocok, saya akan menghentikan pertunjukan.",
                         "$~\\3 kucing + 5 anjing\\"
                     ],
-                    "names": [
-                        "$~+",
-                        "$~menambahkan"
-                    ],
+                    "names": ["$~+", "$~menambahkan"],
                     "inputs": [
                         {
                             "doc": "$~@Number yang akan ditambahkan.",
@@ -2746,10 +2675,7 @@
                         "$~Jika satuannya tidak cocok, saya akan menghentikan pertunjukan.",
                         "$~\\3 kucing - 5 anjing\\"
                     ],
-                    "names": [
-                        "$~-",
-                        "$~mengurangi"
-                    ],
+                    "names": ["$~-", "$~mengurangi"],
                     "inputs": [
                         {
                             "doc": "$~Nomor yang akan dikurangi dari saya.",
@@ -2764,11 +2690,7 @@
                         "$~5m × 5m",
                         "$~\\5m × 1/s\\"
                     ],
-                    "names": [
-                        "$~×",
-                        "$~·",
-                        "$~berkembangbiak"
-                    ],
+                    "names": ["$~×", "$~·", "$~berkembangbiak"],
                     "inputs": [
                         {
                             "doc": "$~Angka yang akan dikalikan.",
@@ -2783,10 +2705,7 @@
                         "$~5m ÷ 5m",
                         "$~5 menit ÷ 5 detik"
                     ],
-                    "names": [
-                        "$~÷",
-                        "$~membagi"
-                    ],
+                    "names": ["$~÷", "$~membagi"],
                     "inputs": [
                         {
                             "doc": "$~Nomor untuk membagi saya.",
@@ -2801,10 +2720,7 @@
                         "$~\\10m % 2\\",
                         "$~\\10m/s % 3\\"
                     ],
-                    "names": [
-                        "$~%",
-                        "$~sisa"
-                    ],
+                    "names": ["$~%", "$~sisa"],
                     "inputs": [
                         {
                             "doc": "$~Nomor untuk membagi saya.",
@@ -2817,9 +2733,7 @@
                         "$~Saya membuat @Number baru yang membuat saya menjadi positif, jika negatif.",
                         "$~-200.positif()"
                     ],
-                    "names": [
-                        "$~positif"
-                    ],
+                    "names": ["$~positif"],
                     "inputs": []
                 },
                 "round": {
@@ -2829,9 +2743,7 @@
                         "$~\\9.5.round()\\",
                         "$~\\9.6.round()\\"
                     ],
-                    "names": [
-                        "$~bulat"
-                    ],
+                    "names": ["$~bulat"],
                     "inputs": []
                 },
                 "roundDown": {
@@ -2841,9 +2753,7 @@
                         "$~\\10.1.roundDown()\\",
                         "$~\\10.01.roundDown()\\"
                     ],
-                    "names": [
-                        "$~bulatkankebawah"
-                    ],
+                    "names": ["$~bulatkankebawah"],
                     "inputs": []
                 },
                 "roundUp": {
@@ -2853,9 +2763,7 @@
                         "$~\\10.9.roundUp()\\",
                         "$~\\10.99.roundUp()\\"
                     ],
-                    "names": [
-                        "$~Ringkasan"
-                    ],
+                    "names": ["$~Ringkasan"],
                     "inputs": []
                 },
                 "power": {
@@ -2865,10 +2773,7 @@
                         "$~\\10^-2\\",
                         "$~\\5 ^ -.5\\"
                     ],
-                    "names": [
-                        "$~^",
-                        "$~kekuatan"
-                    ],
+                    "names": ["$~^", "$~kekuatan"],
                     "inputs": [
                         {
                             "doc": "$~Eksponen untuk menaikkan saya ke.",
@@ -2882,10 +2787,7 @@
                         "$~\\4 √ 2\\",
                         "$~\\1000 √ 3\\"
                     ],
-                    "names": [
-                        "$~√",
-                        "$~akar"
-                    ],
+                    "names": ["$~√", "$~akar"],
                     "inputs": [
                         {
                             "doc": "$~Akar yang akan dihitung.",
@@ -2899,10 +2801,7 @@
                         "$~1 < 2",
                         "$~2 < 1"
                     ],
-                    "names": [
-                        "$~<",
-                        "$~kurangdari"
-                    ],
+                    "names": ["$~<", "$~kurangdari"],
                     "inputs": [
                         {
                             "doc": "$~Nomor untuk membandingkan saya.",
@@ -2917,10 +2816,7 @@
                         "$~2 ≤ 1",
                         "$~2 ≤ 2"
                     ],
-                    "names": [
-                        "$~≤",
-                        "$~kurangdarisamadengan"
-                    ],
+                    "names": ["$~≤", "$~kurangdarisamadengan"],
                     "inputs": [
                         {
                             "doc": "$~Nomor untuk membandingkan saya.",
@@ -2934,10 +2830,7 @@
                         "$~1 > 2",
                         "$~2 > 1"
                     ],
-                    "names": [
-                        "$~>",
-                        "$~lebihbesardari"
-                    ],
+                    "names": ["$~>", "$~lebihbesardari"],
                     "inputs": [
                         {
                             "doc": "$~Nomor untuk membandingkan saya.",
@@ -2952,10 +2845,7 @@
                         "$~2 ≥ 1",
                         "$~2 ≥ 2"
                     ],
-                    "names": [
-                        "$~≥",
-                        "$~lebihbesaratausamadengan"
-                    ],
+                    "names": ["$~≥", "$~lebihbesaratausamadengan"],
                     "inputs": [
                         {
                             "doc": "$~Nomor untuk membandingkan saya.",
@@ -2969,10 +2859,7 @@
                         "$~1 = 2",
                         "$~2 = 2"
                     ],
-                    "names": [
-                        "$~=",
-                        "$~setara"
-                    ],
+                    "names": ["$~=", "$~setara"],
                     "inputs": [
                         {
                             "doc": "$~Nomor untuk membandingkan saya.",
@@ -2986,10 +2873,7 @@
                         "$~1 ≠ 2",
                         "$~2 ≠ 2"
                     ],
-                    "names": [
-                        "$~≠",
-                        "$~tidaksama"
-                    ],
+                    "names": ["$~≠", "$~tidaksama"],
                     "inputs": [
                         {
                             "doc": "$~Nomor untuk membandingkan saya.",
@@ -2998,25 +2882,13 @@
                     ]
                 },
                 "cos": {
-                    "doc": [
-                        "$~Hitung kosinus dari saya.",
-                        "$~\\π.cos()\\"
-                    ],
-                    "names": [
-                        "$~karena",
-                        "$~kosinus"
-                    ],
+                    "doc": ["$~Hitung kosinus dari saya.", "$~\\π.cos()\\"],
+                    "names": ["$~karena", "$~kosinus"],
                     "inputs": []
                 },
                 "sin": {
-                    "doc": [
-                        "$~Hitung sinus dari saya.",
-                        "$~\\π.cos()\\"
-                    ],
-                    "names": [
-                        "$~dosa",
-                        "$~sinus"
-                    ],
+                    "doc": ["$~Hitung sinus dari saya.", "$~\\π.cos()\\"],
+                    "names": ["$~dosa", "$~sinus"],
                     "inputs": []
                 },
                 "min": {
@@ -3115,10 +2987,7 @@
                 "$~\\['apel' 'pisang' 'mangga']!\\",
                 "$~Kurang lebih seperti itu. Tapi saya bisa melakukan berbagai hal menarik dengan @FunctionDefinition saya!"
             ],
-            "name": [
-                "$~[]",
-                "$~Daftar"
-            ],
+            "name": ["$~[]", "$~Daftar"],
             "kind": "$~Baik",
             "out": "$~Hasil",
             "outofbounds": "$~di luar batas",
@@ -3128,10 +2997,7 @@
                         "$~Saya membuat @List baru dengan item yang diberikan di bagian akhir.",
                         "$~\\['apel' 'pisang' 'mangga'].with('semangka')\\"
                     ],
-                    "names": [
-                        "$~dengan",
-                        "$~menambahkan"
-                    ],
+                    "names": ["$~dengan", "$~menambahkan"],
                     "inputs": [
                         {
                             "doc": "$~Saya adalah nilai tambah yang Anda butuhkan.",
@@ -3146,10 +3012,7 @@
                         "$~Menggunakan @Spread sedikit lebih mudah, seperti ini:",
                         "$~\\['apel' 'pisang' 'mangga' :['semangka' 'belimbing']]\\"
                     ],
-                    "names": [
-                        "$~denganDaftar",
-                        "$~menambahkan"
-                    ],
+                    "names": ["$~denganDaftar", "$~menambahkan"],
                     "inputs": [
                         {
                             "doc": "$~Daftar nilai yang akan ditambahkan.",
@@ -3162,9 +3025,7 @@
                         "$~Saya membuat daftar baru yang mengganti nilai pada indeks yang diberikan dengan nilai yang diberikan.",
                         "$~\\['apel' 'pisang' 'mangga'].ganti(1 'kiwi')\\"
                     ],
-                    "names": [
-                        "$~mengganti"
-                    ],
+                    "names": ["$~mengganti"],
                     "inputs": [
                         {
                             "doc": "$~Indeks nilai yang akan diganti",
@@ -3178,10 +3039,7 @@
                 },
                 "length": {
                     "doc": "$~Jumlah item dalam diri saya.",
-                    "names": [
-                        "$~📏",
-                        "$~panjang"
-                    ],
+                    "names": ["$~📏", "$~panjang"],
                     "inputs": []
                 },
                 "random": {
@@ -3271,10 +3129,7 @@
                         "$~Saya membuat daftar tanpa item pertama saya.",
                         "$~\\['apel' 'pisang' 'mangga'].sansFirst()\\"
                     ],
-                    "names": [
-                        "$~tanpaPertama",
-                        "$~tanpaPertama"
-                    ],
+                    "names": ["$~tanpaPertama", "$~tanpaPertama"],
                     "inputs": []
                 },
                 "sansLast": {
@@ -3282,10 +3137,7 @@
                         "$~Saya membuat daftar tanpa item terakhir saya.",
                         "$~\\['apel' 'pisang' 'mangga'].sansLast()\\"
                     ],
-                    "names": [
-                        "$~tanpaTerakhir",
-                        "$~tanpaterakhir"
-                    ],
+                    "names": ["$~tanpaTerakhir", "$~tanpaterakhir"],
                     "inputs": []
                 },
                 "sans": {
@@ -3293,10 +3145,7 @@
                         "$~Saya, tetapi tanpa kemunculan pertama dari nilai yang diberikan.",
                         "$~\\['apel' 'pisang' 'mangga' 'apel'].sans('apel')\\"
                     ],
-                    "names": [
-                        "$~tanpa",
-                        "$~tanpa"
-                    ],
+                    "names": ["$~tanpa", "$~tanpa"],
                     "inputs": [
                         {
                             "doc": "$~Nilai yang akan dihapus pada kemunculan pertama.",
@@ -3309,10 +3158,7 @@
                         "$~Saya, tetapi tanpa semua kemunculan nilai yang diberikan.",
                         "$~\\['apel' 'pisang' 'mangga' 'apel'].sans('apel')\\"
                     ],
-                    "names": [
-                        "$~tanpaSemua",
-                        "$~tanpasemua"
-                    ],
+                    "names": ["$~tanpaSemua", "$~tanpasemua"],
                     "inputs": [
                         {
                             "doc": "$~Nilai untuk menghapus semua kemunculan dari daftar.",
@@ -3325,10 +3171,7 @@
                         "$~Aku, tapi kebalikannya!",
                         "$~\\['apel' 'pisang' 'mangga'].balikkan()\\"
                     ],
-                    "names": [
-                        "$~terbalik",
-                        "$~balik"
-                    ],
+                    "names": ["$~terbalik", "$~balik"],
                     "inputs": []
                 },
                 "equals": {
@@ -3336,10 +3179,7 @@
                         "$~\\⊤\\ jika item dan pesanan saya sama persis dengan @List yang diberikan.",
                         "$~\\['apel' 'pisang' 'mangga'] = ['apel' 'mangga' 'pisang']\\"
                     ],
-                    "names": [
-                        "$~=",
-                        "$~samadengan"
-                    ],
+                    "names": ["$~=", "$~samadengan"],
                     "inputs": [
                         {
                             "doc": "$~@List yang digunakan untuk membandingkan saya.",
@@ -3352,10 +3192,7 @@
                         "$~\\⊤\\ jika item dan pesanan saya tidak persis sama dengan @List yang diberikan.",
                         "$~\\['apel' 'pisang' 'mangga'] ≠ ['apel' 'mangga' 'pisang']\\"
                     ],
-                    "names": [
-                        "$~≠",
-                        "$~tidaksama"
-                    ],
+                    "names": ["$~≠", "$~tidaksama"],
                     "inputs": [
                         {
                             "doc": "$~@List yang digunakan untuk membandingkan saya.",
@@ -3509,10 +3346,7 @@
                         "$~Ini sangat membantu untuk menggabungkan semua item dalam diri saya menjadi satu nilai. Misalnya, bayangkan Anda ingin menambahkan daftar angka:",
                         "$~\\[3 9 2 8 1 4].combine(0 ƒ(sum•# number•#) sum + number)\\"
                     ],
-                    "names": [
-                        "$~gabungan",
-                        "$~menggabungkan"
-                    ],
+                    "names": ["$~gabungan", "$~menggabungkan"],
                     "inputs": [
                         {
                             "doc": "$~Kombinasi awal.",
@@ -3588,10 +3422,7 @@
                 "$~\\{'hai' 'hai' 'halo'}!{'yo'}\\",
                 "$~Apakah ada hal lain yang ingin kamu lakukan denganku? Lihat semua @FunctionDefinition keren yang kumiliki!"
             ],
-            "name": [
-                "$~{}",
-                "$~Mengatur"
-            ],
+            "name": ["$~{}", "$~Mengatur"],
             "kind": "$~Baik",
             "out": "$~Hasil",
             "function": {
@@ -3605,10 +3436,7 @@
                         "$~Saya \\⊤\\ jika @Set yang diberikan dan saya memiliki nilai yang persis sama:",
                         "$~\\{1 2 3} = {2 3 4}\\"
                     ],
-                    "names": [
-                        "$~=",
-                        "$~samadengan"
-                    ],
+                    "names": ["$~=", "$~samadengan"],
                     "inputs": [
                         {
                             "doc": "$~@Set yang akan dibandingkan.",
@@ -3621,10 +3449,7 @@
                         "$~Saya \\⊤\\ jika @Set yang diberikan dan saya tidak memiliki nilai yang persis sama:",
                         "$~\\{1 2 3} ≠ {2 3 4}\\"
                     ],
-                    "names": [
-                        "$~≠",
-                        "$~tidaksama"
-                    ],
+                    "names": ["$~≠", "$~tidaksama"],
                     "inputs": [
                         {
                             "doc": "$~@Set yang akan dibandingkan.",
@@ -3637,11 +3462,7 @@
                         "$~Berikan saya sebuah item untuk ditambahkan dan saya akan membuat @Set baru dengan item saya dan item yang diberikan.",
                         "$~\\{1 2 3} + 4\\"
                     ],
-                    "names": [
-                        "$~dengan",
-                        "$~menambahkan",
-                        "$~+"
-                    ],
+                    "names": ["$~dengan", "$~menambahkan", "$~+"],
                     "inputs": [
                         {
                             "doc": "$~Barang yang akan ditambahkan",
@@ -3655,10 +3476,7 @@
                         "$~\\{1 2 3} - 2\\",
                         "$~Jika saya tidak memiliki barang tersebut, saya akan menilainya sendiri."
                     ],
-                    "names": [
-                        "$~menghapus",
-                        "$~-"
-                    ],
+                    "names": ["$~menghapus", "$~-"],
                     "inputs": [
                         {
                             "doc": "$~Barang yang akan dihapus.",
@@ -3671,10 +3489,7 @@
                         "$~Berikan saya @Set dan saya akan membuat @Set baru yang berisi item saya dan item dari set tersebut.",
                         "$~\\{1 2 3} ∪ {3 4 5}\\"
                     ],
-                    "names": [
-                        "$~serikat",
-                        "$~∪"
-                    ],
+                    "names": ["$~serikat", "$~∪"],
                     "inputs": [
                         {
                             "doc": "$~@Set untuk bergabung denganku.",
@@ -3687,10 +3502,7 @@
                         "$~Berikan saya @Set dan saya akan membuat @Set baru yang hanya berisi item yang kita miliki bersama.",
                         "$~\\{1 2 3} ∩ {3 4 5}\\"
                     ],
-                    "names": [
-                        "$~persimpangan",
-                        "$~∩"
-                    ],
+                    "names": ["$~persimpangan", "$~∩"],
                     "inputs": [
                         {
                             "doc": "$~Set yang bisa dibandingkan dengan saya.",
@@ -3783,10 +3595,7 @@
                 "$~\\{1:1 2:2 3:3}!{4}\\",
                 "$~Saya tahu cara melakukan banyak hal menakjubkan dengan paduan yang saya buat."
             ],
-            "name": [
-                "$~{:}",
-                "$~Peta"
-            ],
+            "name": ["$~{:}", "$~Peta"],
             "key": "$~Kunci",
             "value": "$~Nilai",
             "result": "$~Hasil",
@@ -3801,10 +3610,7 @@
                         "$~\\{⊤}\\ jika pasangan saya sama persis dengan @Map yang diberikan.",
                         "$~\\{1:1 2:2} = {1:1 2:3}\\"
                     ],
-                    "names": [
-                        "$~=",
-                        "$~samadengan"
-                    ],
+                    "names": ["$~=", "$~samadengan"],
                     "inputs": [
                         {
                             "doc": "$~@Map untuk membandingkan saya.",
@@ -3817,10 +3623,7 @@
                         "$~\\{⊤}\\ jika pasangan saya tidak sama persis dengan @Map yang diberikan.",
                         "$~\\{1:1 2:2} ≠ {1:1 2:3}\\"
                     ],
-                    "names": [
-                        "$~≠",
-                        "$~tidaksama"
-                    ],
+                    "names": ["$~≠", "$~tidaksama"],
                     "inputs": [
                         {
                             "doc": "$~@Map untuk membandingkan saya.",
@@ -3950,18 +3753,12 @@
                 "$~Dan jika Anda ingin mendapatkan nilai spesifik dari saya, Anda dapat mengkonversi tabel apa pun menjadi daftar dan mengakses setiap baris dengan @PropertyReference.",
                 "$~\\rocks: ⎡name•'' color•''⎦ ⎡'obsidian' 'black'⎦ ⎡'pumice' 'grey'⎦ ⎡'citrine' 'yellow'⎦ (rocks → [])[1].name\\"
             ],
-            "name": [
-                "$~⎡⎦",
-                "$~Meja"
-            ],
+            "name": ["$~⎡⎦", "$~Meja"],
             "row": "$~Baris",
             "function": {
                 "equals": {
                     "doc": "$~Saya memeriksa apakah saya memiliki sel yang persis sama dan dalam urutan yang persis sama dengan @Table lainnya.",
-                    "names": [
-                        "$~=",
-                        "$~samadengan"
-                    ],
+                    "names": ["$~=", "$~samadengan"],
                     "inputs": [
                         {
                             "doc": "$~Tabel lain yang perlu diperiksa.",
@@ -3971,10 +3768,7 @@
                 },
                 "notequal": {
                     "doc": "$~Saya memeriksa apakah ada sel saya yang berbeda atau berada dalam urutan yang berbeda dari @Table lain.",
-                    "names": [
-                        "$~≠",
-                        "$~tidaksamadengan"
-                    ],
+                    "names": ["$~≠", "$~tidaksamadengan"],
                     "inputs": [
                         {
                             "doc": "$~Tabel lain yang perlu diperiksa.",
@@ -3990,16 +3784,11 @@
         },
         "Structure": {
             "doc": "$~Saya adalah nilai terstruktur dengan bidang bernama dan bertipe, yang dibuat dari @StructureDefinition . Lihat @StructureDefinition .",
-            "name": [
-                "$~Struktur"
-            ],
+            "name": ["$~Struktur"],
             "function": {
                 "equals": {
                     "doc": "$~Saya memeriksa apakah properti saya memiliki nama dan nilai yang sama dengan properti struktur lain.",
-                    "names": [
-                        "$~=",
-                        "$~samadengan"
-                    ],
+                    "names": ["$~=", "$~samadengan"],
                     "inputs": [
                         {
                             "doc": "$~Struktur lain yang perlu diperiksa.",
@@ -4009,10 +3798,7 @@
                 },
                 "notequal": {
                     "doc": "$~Saya memeriksa apakah properti saya berbeda dalam hal apa pun dari nama dan nilai struktur lain.",
-                    "names": [
-                        "$~≠",
-                        "$~tidaksamadengan"
-                    ],
+                    "names": ["$~≠", "$~tidaksamadengan"],
                     "inputs": [
                         {
                             "doc": "$~Struktur lain yang perlu diperiksa.",
@@ -4031,25 +3817,16 @@
                 "$~\\`I am **bold** and /italic/`\\",
                 "$~Saya bekerja mirip dengan @Text , tetapi saya dapat membawa format. Anda dapat menggabungkan saya, mengulang saya, memeriksa apa yang saya masukkan, dan mengubah saya menjadi @Text biasa."
             ],
-            "name": [
-                "$~`…`",
-                "$~Diformat"
-            ],
+            "name": ["$~`…`", "$~Diformat"],
             "function": {
                 "length": {
                     "doc": "$~Saya menilai berdasarkan jumlah karakter yang dapat dibaca dalam teks saya, mengabaikan format dan pemisah paragraf.",
-                    "names": [
-                        "$~📏",
-                        "$~panjang"
-                    ],
+                    "names": ["$~📏", "$~panjang"],
                     "inputs": []
                 },
                 "equals": {
                     "doc": "$~\\⊤\\ jika saya adalah teks berformat sama dengan nilai yang diberikan.",
-                    "names": [
-                        "$~=",
-                        "$~samadengan"
-                    ],
+                    "names": ["$~=", "$~samadengan"],
                     "inputs": [
                         {
                             "doc": "$~Teks yang diformat untuk dibandingkan.",
@@ -4069,9 +3846,7 @@
                 },
                 "has": {
                     "doc": "$~\\⊤\\ jika teks biasa saya berisi @Text yang diberikan. Saya mengabaikan format dan pemisah paragraf saat memeriksanya.",
-                    "names": [
-                        "$~memiliki"
-                    ],
+                    "names": ["$~memiliki"],
                     "inputs": [
                         {
                             "doc": "$~@Text yang harus dicari dalam teks saya.",
@@ -4081,9 +3856,7 @@
                 },
                 "starts": {
                     "doc": "$~\\⊤\\ jika teks biasa saya diawali dengan @Text yang diberikan. Saya mengabaikan format dan pemisah paragraf saat memeriksa.",
-                    "names": [
-                        "$~mulai"
-                    ],
+                    "names": ["$~mulai"],
                     "inputs": [
                         {
                             "doc": "$~@Text yang perlu diperiksa di awal teks saya.",
@@ -4093,9 +3866,7 @@
                 },
                 "ends": {
                     "doc": "$~\\⊤\\ jika teks biasa saya diakhiri dengan @Text yang diberikan. Saya mengabaikan format dan pemisah paragraf saat memeriksa.",
-                    "names": [
-                        "$~berakhir"
-                    ],
+                    "names": ["$~berakhir"],
                     "inputs": [
                         {
                             "doc": "$~@Text yang perlu diperiksa di akhir teks saya.",
@@ -4105,13 +3876,7 @@
                 },
                 "repeat": {
                     "doc": "$~Saya membuat teks baru yang diformat sesuai dengan diri saya, diulang sebanyak jumlah yang diberikan. Jika saya memiliki lebih dari satu paragraf, pemisah antar salinan akan dipertahankan.",
-                    "names": [
-                        "$~×",
-                        "$~·",
-                        "$~🔁",
-                        "$~ulang",
-                        "$~mengulang"
-                    ],
+                    "names": ["$~×", "$~·", "$~🔁", "$~ulang", "$~mengulang"],
                     "inputs": [
                         {
                             "doc": "$~Jumlah kali saya harus mengulanginya.",
@@ -4121,11 +3886,7 @@
                 },
                 "combine": {
                     "doc": "$~Berikan saya teks lain yang sudah diformat dan saya akan menggabungkannya menjadi satu. Jika salah satu dari kita memiliki lebih dari satu paragraf, pemisah paragraf akan tetap dipertahankan.",
-                    "names": [
-                        "$~+",
-                        "$~gabungan",
-                        "$~menggabungkan"
-                    ],
+                    "names": ["$~+", "$~gabungan", "$~menggabungkan"],
                     "inputs": [
                         {
                             "doc": "$~Teks yang diformat untuk ditambahkan.",
@@ -4156,10 +3917,7 @@
                 "$~Dan jika Anda memberikan angka dengan jumlah angka penting tertentu setelah titik desimal, ketelitian tersebut akan tetap terjaga.",
                 "$~\\Random(1.00 10.00)\\"
             ],
-            "names": [
-                "$~🎲",
-                "$~Acak"
-            ],
+            "names": ["$~🎲", "$~Acak"],
             "inputs": [
                 {
                     "names": "$~menit",
@@ -4180,10 +3938,7 @@
                 "$~\\Group(\nStack() \n[\nPhrase('one' selectable:⊤ name:'1') \nPhrase('two' selectable:⊤ name:'2') \nPhrase(Choice())\n]\n)\\",
                 "$~Salin ini ke editor, lalu pilih salah satu dari dua @Phrase . Anda akan melihat @Phrase ketiga menampilkan nama yang dipilih."
             ],
-            "names": [
-                "$~🔘",
-                "$~Pilihan"
-            ]
+            "names": ["$~🔘", "$~Pilihan"]
         },
         "Button": {
             "doc": [
@@ -4195,10 +3950,7 @@
                 "$~\\Phrase(Button() → '')\\",
                 "$~Ini hanya membuat @Phrase yang merupakan nilai dari stream sebagai teks. Jika Anda menyalinnya ke editor dan mengkliknya, Anda akan melihatnya berganti-ganti antara \\⊥\\ dan \\⊤\\ ."
             ],
-            "names": [
-                "$~🖱️",
-                "$~Tombol"
-            ],
+            "names": ["$~🖱️", "$~Tombol"],
             "down": {
                 "names": "$~turun",
                 "doc": "$~Jika @None, aliran data akan memberikan nilai naik dan turun. Jika berupa \\⊤\\, nilainya hanya akan berubah saat tombol ditekan. Jika diberikan \\⊥\\, nilainya hanya akan berubah saat tombol dilepaskan."
@@ -4213,10 +3965,7 @@
                 "$~\\Pointer()\\",
                 "$~@Place yang diberikannya akan sesuai dengan lokasi yang ditunjuk oleh penunjuk pada @Stage ."
             ],
-            "names": [
-                "$~👆🏻",
-                "$~Penunjuk"
-            ]
+            "names": ["$~👆🏻", "$~Penunjuk"]
         },
         "Key": {
             "doc": [
@@ -4232,10 +3981,7 @@
                 "$~Dan jika Anda hanya ingin mengetahui kapan sebuah @Key dilepaskan dan bukan ditekan, Anda dapat memberikan @Boolean :",
                 "$~\\Key('a' ⊥)\\"
             ],
-            "names": [
-                "$~⌨️",
-                "$~Kunci"
-            ],
+            "names": ["$~⌨️", "$~Kunci"],
             "key": {
                 "names": "$~kunci",
                 "doc": "$~Jika @None, maka semua kunci akan diberikan. Jika @Text tertentu, maka hanya kunci tersebut yang akan diberikan."
@@ -4245,179 +3991,57 @@
                 "doc": "$~Jika @None, maka penekanan tombol akan menghasilkan input. Jika \\⊤\\, maka hanya input penekanan tombol yang diberikan, dan jika \\⊥\\, maka hanya input pelepasan tombol yang diberikan."
             },
             "keys": {
-                "Shift": [
-                    "$~Menggeser"
-                ],
-                "Control": [
-                    "$~Kontrol",
-                    "$~Ctrl"
-                ],
-                "Alt": [
-                    "$~Alternatif",
-                    "$~Pilihan"
-                ],
-                "Meta": [
-                    "$~Meta",
-                    "$~Memerintah",
-                    "$~Windows"
-                ],
-                "AltGraph": [
-                    "$~AltGraph"
-                ],
-                "CapsLock": [
-                    "$~CapsLock",
-                    "$~Caps Lock"
-                ],
-                "NumLock": [
-                    "$~Tombol NumLock",
-                    "$~Tombol Num Lock"
-                ],
-                "ScrollLock": [
-                    "$~ScrollLock",
-                    "$~Kunci Gulir"
-                ],
-                "Enter": [
-                    "$~Memasuki",
-                    "$~Kembali"
-                ],
-                "Tab": [
-                    "$~Tab"
-                ],
-                " ": [
-                    "$~Ruang angkasa",
-                    "$~Tombol spasi",
-                    "$~"
-                ],
-                "ArrowUp": [
-                    "$~Panah Atas",
-                    "$~Ke atas"
-                ],
-                "ArrowDown": [
-                    "$~Panah Bawah",
-                    "$~Turun"
-                ],
-                "ArrowLeft": [
-                    "$~Panah Kiri",
-                    "$~Kiri"
-                ],
-                "ArrowRight": [
-                    "$~Panah Kanan",
-                    "$~Benar"
-                ],
-                "Home": [
-                    "$~Rumah"
-                ],
-                "End": [
-                    "$~Akhir"
-                ],
-                "PageUp": [
-                    "$~Halaman Atas",
-                    "$~Halaman Atas"
-                ],
-                "PageDown": [
-                    "$~PageDown",
-                    "$~Halaman ke Bawah"
-                ],
-                "Backspace": [
-                    "$~Hapus"
-                ],
-                "Delete": [
-                    "$~Menghapus",
-                    "$~Del"
-                ],
-                "Insert": [
-                    "$~Menyisipkan",
-                    "$~Asuransi"
-                ],
-                "Clear": [
-                    "$~Jernih"
-                ],
-                "Cut": [
-                    "$~Memotong"
-                ],
-                "Copy": [
-                    "$~Menyalin"
-                ],
-                "Paste": [
-                    "$~Pasta"
-                ],
-                "Undo": [
-                    "$~Membuka"
-                ],
-                "Redo": [
-                    "$~Mengulangi"
-                ],
-                "Escape": [
-                    "$~Melarikan diri",
-                    "$~Esc"
-                ],
-                "Pause": [
-                    "$~Berhenti sebentar"
-                ],
-                "ContextMenu": [
-                    "$~Menu Konteks",
-                    "$~Menu"
-                ],
-                "Help": [
-                    "$~Membantu"
-                ],
-                "Convert": [
-                    "$~Mengubah"
-                ],
-                "NonConvert": [
-                    "$~NonKonversi"
-                ],
-                "KanaMode": [
-                    "$~KanaMode"
-                ],
-                "HangulMode": [
-                    "$~HangulMode"
-                ],
-                "Hiragana": [
-                    "$~Hiragana"
-                ],
-                "Katakana": [
-                    "$~Katakana"
-                ],
-                "Romaji": [
-                    "$~Romaji"
-                ],
-                "F1": [
-                    "$~F1"
-                ],
-                "F2": [
-                    "$~F2"
-                ],
-                "F3": [
-                    "$~F3"
-                ],
-                "F4": [
-                    "$~F4"
-                ],
-                "F5": [
-                    "$~F5"
-                ],
-                "F6": [
-                    "$~F6"
-                ],
-                "F7": [
-                    "$~F7"
-                ],
-                "F8": [
-                    "$~F8"
-                ],
-                "F9": [
-                    "$~F9"
-                ],
-                "F10": [
-                    "$~F10"
-                ],
-                "F11": [
-                    "$~F11"
-                ],
-                "F12": [
-                    "$~F12"
-                ]
+                "Shift": ["$~Menggeser"],
+                "Control": ["$~Kontrol", "$~Ctrl"],
+                "Alt": ["$~Alternatif", "$~Pilihan"],
+                "Meta": ["$~Meta", "$~Memerintah", "$~Windows"],
+                "AltGraph": ["$~AltGraph"],
+                "CapsLock": ["$~CapsLock", "$~Caps Lock"],
+                "NumLock": ["$~Tombol NumLock", "$~Tombol Num Lock"],
+                "ScrollLock": ["$~ScrollLock", "$~Kunci Gulir"],
+                "Enter": ["$~Memasuki", "$~Kembali"],
+                "Tab": ["$~Tab"],
+                " ": ["$~Ruang angkasa", "$~Tombol spasi", "$~"],
+                "ArrowUp": ["$~Panah Atas", "$~Ke atas"],
+                "ArrowDown": ["$~Panah Bawah", "$~Turun"],
+                "ArrowLeft": ["$~Panah Kiri", "$~Kiri"],
+                "ArrowRight": ["$~Panah Kanan", "$~Benar"],
+                "Home": ["$~Rumah"],
+                "End": ["$~Akhir"],
+                "PageUp": ["$~Halaman Atas", "$~Halaman Atas"],
+                "PageDown": ["$~PageDown", "$~Halaman ke Bawah"],
+                "Backspace": ["$~Hapus"],
+                "Delete": ["$~Menghapus", "$~Del"],
+                "Insert": ["$~Menyisipkan", "$~Asuransi"],
+                "Clear": ["$~Jernih"],
+                "Cut": ["$~Memotong"],
+                "Copy": ["$~Menyalin"],
+                "Paste": ["$~Pasta"],
+                "Undo": ["$~Membuka"],
+                "Redo": ["$~Mengulangi"],
+                "Escape": ["$~Melarikan diri", "$~Esc"],
+                "Pause": ["$~Berhenti sebentar"],
+                "ContextMenu": ["$~Menu Konteks", "$~Menu"],
+                "Help": ["$~Membantu"],
+                "Convert": ["$~Mengubah"],
+                "NonConvert": ["$~NonKonversi"],
+                "KanaMode": ["$~KanaMode"],
+                "HangulMode": ["$~HangulMode"],
+                "Hiragana": ["$~Hiragana"],
+                "Katakana": ["$~Katakana"],
+                "Romaji": ["$~Romaji"],
+                "F1": ["$~F1"],
+                "F2": ["$~F2"],
+                "F3": ["$~F3"],
+                "F4": ["$~F4"],
+                "F5": ["$~F5"],
+                "F6": ["$~F6"],
+                "F7": ["$~F7"],
+                "F8": ["$~F8"],
+                "F9": ["$~F9"],
+                "F10": ["$~F10"],
+                "F11": ["$~F11"],
+                "F12": ["$~F12"]
             }
         },
         "Time": {
@@ -4432,20 +4056,13 @@
                 "$~Namun, ada batasan seberapa kecil ukurannya, karena @Program membutuhkan waktu untuk mengevaluasi sebelum dapat merespons pada tick berikutnya.",
                 "$~Yang terkecil mungkin sekitar \\20ms\\ ."
             ],
-            "names": [
-                "$~🕕",
-                "$~Waktu"
-            ],
+            "names": ["$~🕕", "$~Waktu"],
             "frequency": {
-                "names": [
-                    "$~frekuensi"
-                ],
+                "names": ["$~frekuensi"],
                 "doc": "$~Ini adalah frekuensi detak waktu. Nilai defaultnya adalah \\33ms\\, yang setara dengan sekitar 30 kali per detik."
             },
             "relative": {
-                "names": [
-                    "$~relatif"
-                ],
+                "names": ["$~relatif"],
                 "doc": "$~Jika \\⊤\\, waktu dimulai dari 0, saat program pertama kali dievaluasi. Jika tidak, waktu dimulai dari jumlah milidetik sejak awal hari ini, UTC (Waktu Universal Terkoordinasi), sehingga Anda dapat melacak waktu dalam sehari."
             }
         },
@@ -4457,14 +4074,9 @@
                 "$~\\Volume()\\",
                 "$~Ini sangat bagus untuk mendengarkan seberapa keras suara penonton!"
             ],
-            "names": [
-                "$~🎤",
-                "$~Volume"
-            ],
+            "names": ["$~🎤", "$~Volume"],
             "frequency": {
-                "names": [
-                    "$~frekuensi"
-                ],
+                "names": ["$~frekuensi"],
                 "doc": "$~Jangka waktu antara pengambilan sampel."
             }
         },
@@ -4476,14 +4088,9 @@
                 "$~\\Pitch()\\",
                 "$~Ini sangat bagus untuk mendengarkan intonasi suara seseorang saat berbicara atau bernyanyi."
             ],
-            "names": [
-                "$~🎵",
-                "$~Melempar"
-            ],
+            "names": ["$~🎵", "$~Melempar"],
             "frequency": {
-                "names": [
-                    "$~frekuensi"
-                ],
+                "names": ["$~frekuensi"],
                 "doc": "$~Jangka waktu antara pengambilan sampel."
             }
         },
@@ -4499,30 +4106,17 @@
                 "$~Jika tidak ada bahasa yang ditentukan, maka akan menggunakan bahasa pilihan Anda secara default.",
                 "$~Pengenalan suara memerlukan akses mikrofon dan koneksi internet (mohon berikan akses!). Selain itu, mungkin ada batasan penggunaan, jadi jangan biarkan menyala terlalu lama (jangan!)"
             ],
-            "names": [
-                "$~🎙️",
-                "$~Pidato",
-                "$~Suara"
-            ],
+            "names": ["$~🎙️", "$~Pidato", "$~Suara"],
             "reset": {
-                "names": [
-                    "$~mengaturulang",
-                    "$~jernih"
-                ],
+                "names": ["$~mengaturulang", "$~jernih"],
                 "doc": "$~Ketika nilai ini berubah, hapus ucapan yang telah terkumpul dan mulai dari awal."
             },
             "language": {
-                "names": [
-                    "$~bahasa",
-                    "$~bahasa"
-                ],
+                "names": ["$~bahasa", "$~bahasa"],
                 "doc": "$~Kode bahasa BCP 47 (misalnya, 'en-US'). Jika tidak didukung oleh pengenalan suara peramban Anda, Anda akan mendapatkan kesalahan. Secara default akan menggunakan bahasa pilihan Anda."
             },
             "limit": {
-                "names": [
-                    "$~membatasi",
-                    "$~katakata"
-                ],
+                "names": ["$~membatasi", "$~katakata"],
                 "doc": "$~Jumlah maksimum kata yang akan disimpan dalam akumulasi ucapan (jendela geser). Jika diatur, hanya kata-kata terbaru yang disimpan, dan kata-kata yang lebih lama akan dibuang. Jika tidak ditentukan, semua kata akan disimpan tanpa batas waktu."
             },
             "error": {
@@ -4544,26 +4138,17 @@
                 "$~\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) × 0.5m y × -0.5m) color: color duration: 0s\n)\n)\n)\n)\n)\\",
                 "$~Namun Anda juga dapat menganalisis warna untuk menentukan apakah lampu menyala atau mati, atau apakah warna tertentu umum, sehingga penonton dapat memengaruhi pertunjukan dengan warna yang mereka tunjukkan."
             ],
-            "names": [
-                "$~🎥",
-                "$~Kamera"
-            ],
+            "names": ["$~🎥", "$~Kamera"],
             "width": {
-                "names": [
-                    "$~lebar"
-                ],
+                "names": ["$~lebar"],
                 "doc": "$~Jumlah @Color yang akan diambil sampelnya secara berurutan."
             },
             "height": {
-                "names": [
-                    "$~tinggi"
-                ],
+                "names": ["$~tinggi"],
                 "doc": "$~Jumlah @Color yang akan diambil sampelnya dalam sebuah kolom."
             },
             "frequency": {
-                "names": [
-                    "$~frekuensi"
-                ],
+                "names": ["$~frekuensi"],
                 "doc": "$~Jeda waktu antara sampel @Color."
             }
         },
@@ -4577,20 +4162,13 @@
                 "$~Cobalah ini — ini menampilkan emoji yang sesuai dengan posisi tangan Anda di mana pun tangan Anda yang sebenarnya berada:",
                 "$~\\hand: Hand()\nPhrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
             ],
-            "names": [
-                "$~🖐️",
-                "$~Tangan"
-            ],
+            "names": ["$~🖐️", "$~Tangan"],
             "frequency": {
-                "names": [
-                    "$~frekuensi"
-                ],
+                "names": ["$~frekuensi"],
                 "doc": "$~Jeda waktu antar sampel."
             },
             "resolution": {
-                "names": [
-                    "$~resolusi"
-                ],
+                "names": ["$~resolusi"],
                 "doc": "$~Lebar dalam piksel yang digunakan untuk mengambil sampel kamera sebelum menjalankan model tangan. Nilai yang lebih tinggi dapat memberikan penanda lokasi yang sedikit lebih akurat tetapi membutuhkan lebih banyak waktu per bingkai."
             }
         },
@@ -4609,10 +4187,7 @@
                 "$~\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' duration: 0.25s rotation: 5° entering: Pose(rotation: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
                 "$~Perhatikan bagaimana kode tersebut berhenti sejenak setelah setiap @Phrase , dan menunggu @Button berubah sebelum melanjutkan?"
             ],
-            "names": [
-                "$~🎬",
-                "$~Pemandangan"
-            ],
+            "names": ["$~🎬", "$~Pemandangan"],
             "outputs": {
                 "names": "$~keluaran",
                 "doc": "$~Daftar output yang akan ditampilkan secara berurutan."
@@ -4628,10 +4203,7 @@
                 "$~Lihat bagaimana huruf o memantul? Pada evaluasi pertama, Anda memberinya tempat di posisi tinggi pada @Stage , tetapi kemudian setelah itu, ia mendapatkan @None , yang memungkinkan @Motion untuk mengubahnya ke posisi apa pun yang akan diberikan oleh gravitasi.",
                 "$~Lihat berbagai cara lain untuk mengkonfigurasinya di bawah ini."
             ],
-            "names": [
-                "$~⚽️",
-                "$~Gerakan"
-            ],
+            "names": ["$~⚽️", "$~Gerakan"],
             "place": {
                 "doc": "$~Titik awal.",
                 "names": "$~tempat"
@@ -4656,10 +4228,7 @@
                 "$~\\Chat().has('hello') ? 'hi!' 'huh?'\\",
                 "$~Selesai! Anda dapat membuat berbagai macam pertunjukan dengan ini, seperti chatbot, petualangan berbasis teks, atau skema kontrol berbasis teks untuk jenis pertunjukan lainnya."
             ],
-            "names": [
-                "$~🗣️",
-                "$~Mengobrol"
-            ]
+            "names": ["$~🗣️", "$~Mengobrol"]
         },
         "Placement": {
             "doc": [
@@ -4672,10 +4241,7 @@
                 "$~Cobalah salin kode ini ke program Anda dan gerakkan @Output menggunakan pointer atau keyboard.",
                 "$~Anda dapat menyesuaikan @Placement , mengaktifkan dan menonaktifkan pergerakan pada dimensi tertentu, mengubah seberapa jauh @Place bergerak, dan @Place awal yang digunakan saat stream dimulai."
             ],
-            "names": [
-                "$~✥",
-                "$~Penempatan"
-            ],
+            "names": ["$~✥", "$~Penempatan"],
             "inputs": [
                 {
                     "doc": "$~Tempat pertama untuk memulai.",
@@ -4709,10 +4275,7 @@
                 "$~\\Webpage('https://wordplay.dev' 'h1')\\",
                 "$~Banyak hal yang bisa salah dengan ini. Jika Anda kehilangan koneksi internet, atau URL tidak mengarah ke apa pun, atau URL tidak publik, atau URL bukan halaman HTML… Semua ini dapat menyebabkan pengecualian. Jika Anda menemukan halaman yang berfungsi, Anda akan mendapatkan @Number yang menunjukkan persentase penyelesaian dan kemudian @List kata-kata di halaman tersebut."
             ],
-            "names": [
-                "$~🔗",
-                "$~Halamanweb"
-            ],
+            "names": ["$~🔗", "$~Halamanweb"],
             "url": {
                 "doc": "$~URL halaman web HTML yang akan diambil.",
                 "names": "$~URL"
@@ -4789,10 +4352,7 @@
                 "$~Anda dapat mengubah ukuran garis luar dengan @Number of meters, memindahkan titik asalnya dengan @Place , memilih ketebalan font, mengaktifkan huruf miring, dan mengatur `spacing` antar titik sebagai jarak dalam meter. `spacing` yang lebih kecil akan menelusuri garis luar dengan lebih akurat, dengan titik-titik yang berjarak sama di sepanjang garis dan kurva.",
                 "$~Beberapa glif, seperti emoji warna, tidak memiliki garis luar, sehingga tidak menambahkan titik. Saat mengambil font, ia akan memberi Anda @List kosong, lalu mengisinya saat sudah siap."
             ],
-            "names": [
-                "$~🖋️",
-                "$~Kontur"
-            ],
+            "names": ["$~🖋️", "$~Kontur"],
             "inputs": [
                 {
                     "doc": "$~Teks yang garis luar glifnya harus saya jiplak.",
@@ -4851,10 +4411,7 @@
                 "$~\\Group(Stack() [Phrase('first') Phrase('second')])\\",
                 "$~Bagaimana tepatnya saya mengatur semuanya bergantung pada @Arrangement yang Anda berikan kepada saya."
             ],
-            "names": [
-                "$~🔳",
-                "$~Kelompok"
-            ],
+            "names": ["$~🔳", "$~Kelompok"],
             "layout": {
                 "doc": "$~Susunan yang digunakan untuk menempatkan @Output pada tempatnya.",
                 "names": "$~tataletak"
@@ -4873,19 +4430,14 @@
             },
             "face": {
                 "doc": "$~Nama jenis huruf yang ada di dalam konten saya seharusnya ada, kecuali jika mereka memiliki jenis huruf sendiri untuk digunakan.",
-                "names": [
-                    "$~menghadapi",
-                    "$~font"
-                ]
+                "names": ["$~menghadapi", "$~font"]
             },
             "place": {
                 "doc": "$~Tempat di atas panggung di mana seharusnya aku berada. Isi di dalam diriku akan diatur relatif terhadap tempat itu.",
                 "names": "$~tempat"
             },
             "name": {
-                "doc": [
-                    "$~Sama seperti @Phrase.name!"
-                ],
+                "doc": ["$~Sama seperti @Phrase.name!"],
                 "names": "$~nama"
             },
             "description": {
@@ -4916,10 +4468,7 @@
             },
             "rotation": {
                 "doc": "$~Seberapa miring seharusnya posisi tubuhku di sekitar pusat tubuhku? @Pose-ku memiliki nilai kemiringan yang berbeda.",
-                "names": [
-                    "$~📐",
-                    "$~rotasi"
-                ]
+                "names": ["$~📐", "$~rotasi"]
             },
             "scale": {
                 "doc": "$~Seberapa besar seharusnya ukuran tubuhku dibandingkan dengan ukuran tubuhku semula.",
@@ -4951,10 +4500,7 @@
             },
             "duration": {
                 "doc": "$~Sama seperti @Phrase.duration!",
-                "names": [
-                    "$~⏳",
-                    "$~lamanya"
-                ]
+                "names": ["$~⏳", "$~lamanya"]
             },
             "style": {
                 "doc": "$~Sama seperti @Phrase.style!",
@@ -4971,10 +4517,7 @@
                 "$~Anda juga dapat secara opsional memberi saya semua yang dapat dilakukan oleh @Output , termasuk mengubah ukuran, font, rotasi, dan melakukan semua tarian luar biasa saya dengan @Pose dan @Sequence .",
                 "$~Anda juga dapat memilih saya di @Stage dan mengedit saya dengan palet 🎨 di sebelahnya — ini adalah cara yang bagus untuk mencoba berbagai font dan memilih /face/ yang tepat untuk @Text Anda."
             ],
-            "names": [
-                "$~💬",
-                "$~Frasa"
-            ],
+            "names": ["$~💬", "$~Frasa"],
             "text": {
                 "doc": "$~Karakter yang akan ditampilkan pada @Stage, @TextLiteral atau @FormattedLiteral.",
                 "names": "$~teks"
@@ -4993,10 +4536,7 @@
             },
             "wrap": {
                 "doc": "$~Batas di mana saya harus membungkus simbol atau \\ø\\ jika saya tidak perlu membungkusnya.",
-                "names": [
-                    "$~↵",
-                    "$~membungkus"
-                ]
+                "names": ["$~↵", "$~membungkus"]
             },
             "alignment": {
                 "doc": "$~Jika ada batasan @Phrase.wrap yang ditetapkan, apakah saya harus menyelaraskan simbol ke awal, tengah, atau akhir tepi.",
@@ -5084,10 +4624,7 @@
             },
             "duration": {
                 "doc": "$~Durasi yang berlaku saat berpindah ke tempat lain di atas panggung.",
-                "names": [
-                    "$~⏳",
-                    "$~lamanya"
-                ]
+                "names": ["$~⏳", "$~lamanya"]
             },
             "style": {
                 "doc": "$~Gaya animasi yang digunakan saat berpindah ke tempat lain di atas panggung.",
@@ -5097,17 +4634,11 @@
         },
         "Arrangement": {
             "doc": "$~Saya adalah inspirasi bagi berbagai macam susunan lain di Verse, termasuk @Row, @Stack, @Grid, dan @Free. Saya bekerja sama erat dengan @Group untuk",
-            "names": [
-                "$~⠿",
-                "$~Pengaturan"
-            ]
+            "names": ["$~⠿", "$~Pengaturan"]
         },
         "Row": {
             "doc": "$~Saya adalah @Row, sebuah @Arrangement horizontal dari @Output, dengan padding opsional di antaranya. Sudahkah Anda bertemu kembaran saya, @Stack?",
-            "names": [
-                "$~➡",
-                "$~Baris"
-            ],
+            "names": ["$~➡", "$~Baris"],
             "description": "$~baris berisi $count frasa dan grup",
             "alignment": {
                 "doc": "$~Apakah teks akan disejajarkan di awal, tengah, atau akhir setiap kolom.",
@@ -5120,10 +4651,7 @@
         },
         "Stack": {
             "doc": "$~Saya adalah @Stack, sebuah @Arrangement vertikal dari @Output, dengan padding opsional di antaranya. Sudahkah Anda bertemu kembaran saya, @Row?",
-            "names": [
-                "$~⬇",
-                "$~Tumpukan"
-            ],
+            "names": ["$~⬇", "$~Tumpukan"],
             "description": "$~tumpukan $count frasa dan grup",
             "alignment": {
                 "doc": "$~Apakah teks akan disejajarkan di awal, tengah, atau akhir setiap baris.",
@@ -5136,10 +4664,7 @@
         },
         "Grid": {
             "doc": "$~Saya adalah grid dari @Output. Berikan saya jumlah baris dan kolom, dan saya akan membuat susunan yang rapi dengan padding dan ukuran sel opsional.",
-            "names": [
-                "$~▦",
-                "$~Jaringan"
-            ],
+            "names": ["$~▦", "$~Jaringan"],
             "description": "$~$rows baris $columns kolom kisi",
             "rows": {
                 "doc": "$~Berapa banyak baris yang harus dibuat dalam grid.",
@@ -5167,17 +4692,12 @@
                 "$~Saya adalah @Arrangement yang memungkinkan setiap @Output berada di mana pun @Place -nya menunjukkan. Saya seperti, terserah. Duduklah di mana pun kamu mau! Duduk saja di suatu tempat! Pastikan semua @Output yang kamu berikan kepada saya memiliki @Place , jika tidak, mereka tidak akan tahu ke mana harus pergi.",
                 "$~Oh, dan ingatlah bahwa @Place yang Anda berikan pada setiap @Output bersifat relatif terhadap @Place dari @Group ! Jadi, jika Anda bertanya-tanya mengapa sesuatu tidak muncul di tempat yang Anda harapkan, coba berikan @Group tempat juga."
             ],
-            "names": [
-                "$~Bebas"
-            ],
+            "names": ["$~Bebas"],
             "description": "$~keluaran $count bentuk bebas"
         },
         "Shape": {
             "doc": "$~Aku adalah inspirasi bagi semua bentuk. Aku berguna untuk memberi tahu @Stage bentuk apa yang harus dia miliki.",
-            "names": [
-                "$~⬟",
-                "$~Membentuk"
-            ],
+            "names": ["$~⬟", "$~Membentuk"],
             "form": {
                 "doc": "$~Saya adalah tipe bentuk yang perlu ditampilkan. Setiap bentuk membutuhkan informasi yang berbeda untuk menentukan susunannya.",
                 "names": "$~membentuk"
@@ -5261,10 +4781,7 @@
                 "$~Saya akan menggunakan @Language dari @TextLiteral jika ada, jika tidak, saya akan menggunakan bahasa yang dipilih.",
                 "$~Anda dapat memilih suara di pengaturan."
             ],
-            "names": [
-                "$~🔊",
-                "$~Mengatakan"
-            ],
+            "names": ["$~🔊", "$~Mengatakan"],
             "text": {
                 "doc": "$~Teks yang harus saya bacakan dengan lantang.",
                 "names": "$~teks"
@@ -5273,15 +4790,11 @@
         },
         "Form": {
             "doc": "$~Saya adalah bentuk abstrak, seperti @Rectangle atau @Circle.",
-            "names": [
-                "$~Membentuk"
-            ]
+            "names": ["$~Membentuk"]
         },
         "Rectangle": {
             "doc": "$~Saya adalah sebuah persegi panjang, berguna untuk membuat @Stage memiliki batas dengan ukuran yang Anda pilih.",
-            "names": [
-                "$~Persegipanjang"
-            ],
+            "names": ["$~Persegipanjang"],
             "left": {
                 "doc": "$~Tepi kiri panggung pada sumbu x",
                 "names": "$~kiri"
@@ -5305,9 +4818,7 @@
         },
         "Circle": {
             "doc": "$~Saya adalah sebuah lingkaran, berguna untuk membuat berbagai bentuk di @Stage.",
-            "names": [
-                "$~Lingkaran"
-            ],
+            "names": ["$~Lingkaran"],
             "radius": {
                 "doc": "$~Jari-jari lingkaran",
                 "names": "$~radius"
@@ -5327,9 +4838,7 @@
         },
         "Polygon": {
             "doc": "$~Saya adalah poligon 'beraturan' dengan sisi dan sudut yang sama panjang, berguna untuk membuat bentuk di @Stage.",
-            "names": [
-                "$~Poligon"
-            ],
+            "names": ["$~Poligon"],
             "radius": {
                 "doc": "$~Jari-jari poligon",
                 "names": "$~radius"
@@ -5356,10 +4865,7 @@
                 "$~Saya menangkap @Pose untuk @Output agar tetap berada di posisi tersebut, dan saya adalah fondasi dari gerakan mereka. Anda tahu ketika seseorang berdiri dengan cara yang paling menakjubkan, berhenti sejenak, dan semua orang memperhatikan? Itulah saya.",
                 "$~Banyak sekali hal yang perlu dipertimbangkan dalam sebuah pose. Lihatlah berbagai masukan saya untuk melihat jenis pose apa yang mungkin bisa Anda buat!"
             ],
-            "names": [
-                "$~🤪",
-                "$~Pose"
-            ],
+            "names": ["$~🤪", "$~Pose"],
             "style": {
                 "doc": "$~Gaya animasi yang digunakan saat beralih ke pose ini.",
                 "names": "$~gaya"
@@ -5415,97 +4921,63 @@
                 "$~\\Color.blue\\",
                 "$~Singkatan-singkatan ini juga berlaku dalam bahasa Anda, jadi penutur bahasa Prancis dapat menulis \\couleur.rouge\\ dan penutur bahasa Jepang dapat menulis \\色.赤\\ . Singkatan-singkatan tersebut adalah: merah, oranye, kuning, hijau, biru, ungu, cokelat, merah muda, hitam, putih, dan abu-abu."
             ],
-            "names": [
-                "$~🌈",
-                "$~Warna"
-            ],
+            "names": ["$~🌈", "$~Warna"],
             "lightness": {
                 "doc": "$~Seberapa terang seharusnya warna saya dari 0 hingga 1, dari hitam di 0, menjadi abu-abu di 0,5, hingga putih di 1.",
-                "names": [
-                    "$~keringanan",
-                    "$~l"
-                ]
+                "names": ["$~keringanan", "$~l"]
             },
             "chroma": {
                 "doc": "$~Seberapa banyak warna yang seharusnya saya miliki, dari 0 hingga ∞. Tidak ada warna berarti abu-abu, angka yang lebih tinggi berarti semakin banyak warna.",
-                "names": [
-                    "$~kroma",
-                    "$~C"
-                ]
+                "names": ["$~kroma", "$~C"]
             },
             "hue": {
                 "doc": "$~Warna apa yang seharusnya saya miliki, pada roda warna, dari magenta \\0\\, merah \\30\\, hijau \\120\\, hingga biru \\270\\.",
-                "names": [
-                    "$~warna",
-                    "$~H"
-                ]
+                "names": ["$~warna", "$~H"]
             },
             "colors": {
                 "black": {
                     "doc": "$~Warna dasar hitam.",
-                    "names": [
-                        "$~hitam"
-                    ]
+                    "names": ["$~hitam"]
                 },
                 "white": {
                     "doc": "$~Warna dasar putih.",
-                    "names": [
-                        "$~putih"
-                    ]
+                    "names": ["$~putih"]
                 },
                 "gray": {
                     "doc": "$~Warna dasar abu-abu.",
-                    "names": [
-                        "$~abuabu"
-                    ]
+                    "names": ["$~abuabu"]
                 },
                 "red": {
                     "doc": "$~Warna dasar merah.",
-                    "names": [
-                        "$~merah"
-                    ]
+                    "names": ["$~merah"]
                 },
                 "orange": {
                     "doc": "$~Warna dasar oranye.",
-                    "names": [
-                        "$~oranye"
-                    ]
+                    "names": ["$~oranye"]
                 },
                 "yellow": {
                     "doc": "$~Warna dasar kuning.",
-                    "names": [
-                        "$~kuning"
-                    ]
+                    "names": ["$~kuning"]
                 },
                 "green": {
                     "doc": "$~Warna dasar hijau.",
-                    "names": [
-                        "$~hijau"
-                    ]
+                    "names": ["$~hijau"]
                 },
                 "blue": {
                     "doc": "$~Warna dasar biru.",
-                    "names": [
-                        "$~biru"
-                    ]
+                    "names": ["$~biru"]
                 },
                 "purple": {
                     "doc": "$~Warna dasar ungu.",
-                    "names": [
-                        "$~ungu"
-                    ]
+                    "names": ["$~ungu"]
                 },
                 "brown": {
                     "doc": "$~Warna dasar cokelat.",
-                    "names": [
-                        "$~cokelat"
-                    ]
+                    "names": ["$~cokelat"]
                 },
                 "pink": {
                     "doc": "$~Warna dasar merah muda.",
-                    "names": [
-                        "$~berwarnamerahmuda"
-                    ]
+                    "names": ["$~berwarnamerahmuda"]
                 }
             },
             "description": {
@@ -5574,20 +5046,14 @@
                 "$~Ini tertulis, /pada awalnya (0%), mulai pada kemiringan 360, dan berakhir pada kemiringan 0/. Itu akan membuat kita berputar-putar selamanya, karena saya ditetapkan sebagai posisi istirahat @Phrase !",
                 "$~Cobalah kreasi tarian Anda sendiri dengan bereksperimen menggunakan input lain."
             ],
-            "names": [
-                "$~💃",
-                "$~Urutan"
-            ],
+            "names": ["$~💃", "$~Urutan"],
             "poses": {
                 "doc": "$~Sebuah @Map berisi persentase antara 0% dan 100%, masing-masing dipasangkan dengan @Pose. Anda tidak perlu memberikan semua persentase; saya akan memindahkan @Output secara halus di antara persentase yang Anda berikan.",
                 "names": "$~pose"
             },
             "duration": {
                 "doc": "$~Berapa lama saya harus melakukan tarian ini? Jika saya mengulanginya, saya tidak akan menambah durasi, saya hanya akan menari lebih cepat.",
-                "names": [
-                    "$~⏳",
-                    "$~lamanya"
-                ]
+                "names": ["$~⏳", "$~lamanya"]
             },
             "style": {
                 "doc": "$~Gaya apa yang sebaiknya saya gunakan untuk tarian itu?",
@@ -5604,10 +5070,7 @@
         },
         "Place": {
             "doc": "$~Saya adalah lokasi di @Stage. Semua input saya bersifat opsional, karena saya berada di tengah secara default.",
-            "names": [
-                "$~📍",
-                "$~Tempat"
-            ],
+            "names": ["$~📍", "$~Tempat"],
             "x": {
                 "doc": "$~Posisi pada sumbu x.",
                 "names": "$~X"
@@ -5622,79 +5085,52 @@
             },
             "rotation": {
                 "doc": "$~Rotasi pada posisi ini",
-                "names": [
-                    "$~📐",
-                    "$~rotasi"
-                ]
+                "names": ["$~📐", "$~rotasi"]
             }
         },
         "Gesture": {
             "doc": "$~Saya adalah cuplikan pose tangan yang terdeteksi oleh kamera, yang dipancarkan oleh aliran @Hand . Posisi saya menunjukkan di mana tangan berada di atas panggung, jari-jari saya menunjukkan berapa banyak jari yang terentang, posisi terbuka saya bernilai true ketika tangan terbuka (3+ jari terentang), dan ibu jari, telunjuk, tengah, manis, dan kelingking saya masing-masing menunjukkan jari mana yang terentang. Telapak tangan saya bernilai true ketika telapak tangan menghadap kamera, dan false ketika punggung tangan yang menghadap kamera.",
-            "names": [
-                "$~✋",
-                "$~Sikap"
-            ],
+            "names": ["$~✋", "$~Sikap"],
             "place": {
                 "doc": "$~Di mana tangan berada di atas panggung.",
-                "names": [
-                    "$~tempat"
-                ]
+                "names": ["$~tempat"]
             },
             "open": {
                 "doc": "$~@True jika tangan terbuka (3+ jari terentang), @False jika tangan mengepal.",
-                "names": [
-                    "$~membuka"
-                ]
+                "names": ["$~membuka"]
             },
             "fingers": {
                 "doc": "$~Berapa banyak jari yang direntangkan, dari 0 (kepalan tangan) hingga 5 (semua jari terangkat, termasuk ibu jari).",
-                "names": [
-                    "$~jarijari"
-                ]
+                "names": ["$~jarijari"]
             },
             "thumb": {
                 "doc": "$~@True jika ibu jari direntangkan.",
-                "names": [
-                    "$~ibujari"
-                ]
+                "names": ["$~ibujari"]
             },
             "index": {
                 "doc": "$~@True jika jari telunjuk direntangkan.",
-                "names": [
-                    "$~indeks"
-                ]
+                "names": ["$~indeks"]
             },
             "middle": {
                 "doc": "$~@True jika jari tengah diulurkan.",
-                "names": [
-                    "$~tengah"
-                ]
+                "names": ["$~tengah"]
             },
             "ring": {
                 "doc": "$~@True jika jari manis diregangkan.",
-                "names": [
-                    "$~cincin"
-                ]
+                "names": ["$~cincin"]
             },
             "pinky": {
                 "doc": "$~@True jika jari kelingking direntangkan.",
-                "names": [
-                    "$~jarikelingking"
-                ]
+                "names": ["$~jarikelingking"]
             },
             "palm": {
                 "doc": "$~@True jika telapak tangan menghadap kamera, @False jika punggung tangan yang menghadap kamera.",
-                "names": [
-                    "$~telapak"
-                ]
+                "names": ["$~telapak"]
             }
         },
         "Velocity": {
             "doc": "$~Saya adalah indikator kecepatan pergerakan @Output di @Stage — meter per detik di sepanjang sumbu x dan y, dan derajat per detik rotasi. Input saya bersifat opsional; secara default tidak ada yang bergerak.",
-            "names": [
-                "$~💨",
-                "$~Kecepatan"
-            ],
+            "names": ["$~💨", "$~Kecepatan"],
             "x": {
                 "doc": "$~Berapa meter yang harus digeser setiap detik pada sumbu x.",
                 "names": "$~X"
@@ -5705,18 +5141,12 @@
             },
             "angle": {
                 "doc": "$~Berapa derajat yang harus diputar setiap detik?",
-                "names": [
-                    "$~sudut",
-                    "$~°"
-                ]
+                "names": ["$~sudut", "$~°"]
             }
         },
         "Matter": {
             "doc": "$~Saya adalah sifat fisik dari output, yang memengaruhi bagaimana saya berinteraksi dengan output lain di atas panggung.",
-            "names": [
-                "$~⚛️",
-                "$~Urusan"
-            ],
+            "names": ["$~⚛️", "$~Urusan"],
             "mass": {
                 "doc": "$~Berat, dalam kilogram",
                 "names": "$~massa"
@@ -5747,10 +5177,7 @@
                 "$~Aku membuat @Phrase BERSINAR! Aku adalah AURA. Seperti ini:",
                 "$~\\Phrase(\n\t'I am GLOWING!' \n\taura: Aura(Color(50% 100 118°) 0.1m 0m 0.1m\n)\\"
             ],
-            "names": [
-                "$~🔮",
-                "$~Aura"
-            ],
+            "names": ["$~🔮", "$~Aura"],
             "color": {
                 "doc": "$~Warna yang seharusnya dimiliki oleh @Aura.",
                 "names": "$~warna"
@@ -5777,10 +5204,7 @@
                 "$~ANDA JUGA DAPAT MEMBERIKAN SAYA BATAS BINGKAI DAN SAYA AKAN MEMOTONGNYA.",
                 "$~\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°) frame: Rectangle(-1m -1m 1m 1m))\\"
             ],
-            "names": [
-                "$~🎭",
-                "$~Panggung"
-            ],
+            "names": ["$~🎭", "$~Panggung"],
             "content": {
                 "doc": "$~Daftar @Output yang akan ditampilkan di panggung.",
                 "names": "$~isi"
@@ -5802,9 +5226,7 @@
                 "names": "$~tempat"
             },
             "name": {
-                "doc": [
-                    "$~SAMA SEPERTI @Phrase.name!"
-                ],
+                "doc": ["$~SAMA SEPERTI @Phrase.name!"],
                 "names": "$~nama"
             },
             "description": {
@@ -5835,10 +5257,7 @@
             },
             "rotation": {
                 "doc": "$~SAMA SEPERTI @Group.rotation",
-                "names": [
-                    "$~📐",
-                    "$~rotasi"
-                ]
+                "names": ["$~📐", "$~rotasi"]
             },
             "scale": {
                 "doc": "$~SAMA SEPERTI @Group.scale",
@@ -5870,10 +5289,7 @@
             },
             "duration": {
                 "doc": "$~SAMA SEPERTI @Phrase.duration!",
-                "names": [
-                    "$~⏳",
-                    "$~lamanya"
-                ]
+                "names": ["$~⏳", "$~lamanya"]
             },
             "style": {
                 "doc": "$~SAMA SEPERTI @Phrase.style!",
@@ -5894,249 +5310,167 @@
         "sequence": {
             "sway": {
                 "doc": "$~Saya membuat @Sequence yang berayun bolak-balik di sekitar pusat @Output.",
-                "names": [
-                    "$~bergoyang"
-                ],
+                "names": ["$~bergoyang"],
                 "angle": {
                     "doc": "$~Seberapa besar kemiringan yang diperlukan saat bergoyang.",
-                    "names": [
-                        "$~sudut"
-                    ]
+                    "names": ["$~sudut"]
                 }
             },
             "bounce": {
                 "doc": "$~Saya membuat @Sequence yang memantulkan @Output pada ketinggian tertentu.",
-                "names": [
-                    "$~melambung"
-                ],
+                "names": ["$~melambung"],
                 "height": {
                     "doc": "$~Seberapa tinggi harus melompat.",
-                    "names": [
-                        "$~tinggi"
-                    ]
+                    "names": ["$~tinggi"]
                 }
             },
             "spin": {
                 "doc": "$~Saya membuat @Sequence yang memutar @Output di sekitar titik tengahnya.",
-                "names": [
-                    "$~putaran"
-                ]
+                "names": ["$~putaran"]
             },
             "fadein": {
                 "doc": "$~Saya membuat @Sequence yang memudarkan @Output dari tidak terlihat menjadi terlihat.",
-                "names": [
-                    "$~memudar"
-                ]
+                "names": ["$~memudar"]
             },
             "fadeout": {
                 "doc": "$~Saya membuat @Sequence yang memudarkan @Output dari terlihat menjadi tidak terlihat. Cobalah saya di @Sequence yang sudah ada!",
-                "names": [
-                    "$~memudar"
-                ]
+                "names": ["$~memudar"]
             },
             "popup": {
                 "doc": "$~Saya membuat @Sequence yang membuat @Output membesar dengan cepat, lalu menyusut kembali ke ukuran normalnya.",
-                "names": [
-                    "$~popup"
-                ]
+                "names": ["$~popup"]
             },
             "shake": {
                 "doc": "$~Saya membuat @Sequence yang membuatnya tampak seolah-olah @Output sedang ketakutan.",
-                "names": [
-                    "$~menggoyang"
-                ]
+                "names": ["$~menggoyang"]
             },
             "pulse": {
                 "doc": "$~Saya membuat @Sequence yang secara perlahan mengubah skala @Output naik dan turun untuk menarik perhatian.",
-                "names": [
-                    "$~detak"
-                ],
+                "names": ["$~detak"],
                 "amount": {
                     "doc": "$~Seberapa besar pendakian yang harus dilakukan di puncaknya.",
-                    "names": [
-                        "$~jumlah"
-                    ]
+                    "names": ["$~jumlah"]
                 }
             },
             "heartbeat": {
                 "doc": "$~Saya membuat @Sequence yang menskalakan @Output dengan dua ketukan cepat, seperti detak jantung.",
-                "names": [
-                    "$~denyutjantung"
-                ],
+                "names": ["$~denyutjantung"],
                 "amount": {
                     "doc": "$~Seberapa besar skala yang harus ditambahkan pada setiap ketukan.",
-                    "names": [
-                        "$~jumlah"
-                    ]
+                    "names": ["$~jumlah"]
                 }
             },
             "tada": {
                 "doc": "$~Saya membuat @Sequence yang membuat @Output merayakan dengan skala dan goyangan.",
-                "names": [
-                    "$~tada"
-                ],
+                "names": ["$~tada"],
                 "amount": {
                     "doc": "$~Seberapa besar skala yang dibutuhkan selama perayaan tersebut.",
-                    "names": [
-                        "$~jumlah"
-                    ]
+                    "names": ["$~jumlah"]
                 }
             },
             "wiggle": {
                 "doc": "$~Saya membuat @Sequence yang memiringkan dan menggeser @Output dari sisi ke sisi.",
-                "names": [
-                    "$~menggoyangkan"
-                ],
+                "names": ["$~menggoyangkan"],
                 "angle": {
                     "doc": "$~Seberapa banyak kemiringan yang diperlukan saat menggoyangkan.",
-                    "names": [
-                        "$~sudut"
-                    ]
+                    "names": ["$~sudut"]
                 }
             },
             "flash": {
                 "doc": "$~Saya membuat @Sequence yang membuat @Output berkedip menyala dan mati.",
-                "names": [
-                    "$~kilatan"
-                ]
+                "names": ["$~kilatan"]
             },
             "zoomin": {
                 "doc": "$~Saya membuat @Sequence yang mengubah ukuran @Output dari nol hingga ukuran penuh. Cobalah saya dalam sebuah @Sequence yang sedang berjalan!",
-                "names": [
-                    "$~perbesar"
-                ]
+                "names": ["$~perbesar"]
             },
             "fadeinup": {
                 "doc": "$~Saya membuat @Sequence yang memudarkan @Output saat menggesernya ke atas ke tempatnya. Cobalah saya di dalam @Sequence yang sedang masuk!",
-                "names": [
-                    "$~memudar"
-                ],
+                "names": ["$~memudar"],
                 "distance": {
                     "doc": "$~Seberapa jauh harus digeser.",
-                    "names": [
-                        "$~jarak"
-                    ]
+                    "names": ["$~jarak"]
                 }
             },
             "fadeindown": {
                 "doc": "$~Saya membuat @Sequence yang memudarkan @Output saat menggesernya ke bawah hingga berada di tempatnya. Cobalah saya di dalam @Sequence yang sedang masuk!",
-                "names": [
-                    "$~memudar"
-                ],
+                "names": ["$~memudar"],
                 "distance": {
                     "doc": "$~Seberapa jauh harus digeser.",
-                    "names": [
-                        "$~jarak"
-                    ]
+                    "names": ["$~jarak"]
                 }
             },
             "fadeinleft": {
                 "doc": "$~Saya membuat @Sequence yang memudarkan @Output saat menggesernya ke tempatnya dari kiri. Coba saya di dalam @Sequence yang sedang masuk!",
-                "names": [
-                    "$~memudarkekiri"
-                ],
+                "names": ["$~memudarkekiri"],
                 "distance": {
                     "doc": "$~Seberapa jauh harus digeser.",
-                    "names": [
-                        "$~jarak"
-                    ]
+                    "names": ["$~jarak"]
                 }
             },
             "fadeinright": {
                 "doc": "$~Saya membuat @Sequence yang memudarkan @Output saat menggesernya ke tempatnya dari kanan. Coba saya di dalam @Sequence yang sedang masuk!",
-                "names": [
-                    "$~memudarkekanan"
-                ],
+                "names": ["$~memudarkekanan"],
                 "distance": {
                     "doc": "$~Seberapa jauh harus digeser.",
-                    "names": [
-                        "$~jarak"
-                    ]
+                    "names": ["$~jarak"]
                 }
             },
             "rotatein": {
                 "doc": "$~Saya membuat @Sequence yang memutar @Output ke tempatnya sambil memudarkannya. Cobalah saya dalam sebuah @Sequence yang sedang berlangsung!",
-                "names": [
-                    "$~berputar"
-                ],
+                "names": ["$~berputar"],
                 "angle": {
                     "doc": "$~Seberapa jauh harus diputar.",
-                    "names": [
-                        "$~sudut"
-                    ]
+                    "names": ["$~sudut"]
                 }
             },
             "zoomout": {
                 "doc": "$~Saya membuat @Sequence yang mengurangi @Output hingga nol. Coba saya di @Sequence yang sudah ada!",
-                "names": [
-                    "$~perkeciltampilan"
-                ]
+                "names": ["$~perkeciltampilan"]
             },
             "fadeoutup": {
                 "doc": "$~Saya membuat @Sequence yang memudarkan @Output sambil menggesernya ke atas. Cobalah saya di @Sequence yang sudah ada!",
-                "names": [
-                    "$~memudarkeatas"
-                ],
+                "names": ["$~memudarkeatas"],
                 "distance": {
                     "doc": "$~Seberapa jauh harus digeser.",
-                    "names": [
-                        "$~jarak"
-                    ]
+                    "names": ["$~jarak"]
                 }
             },
             "fadeoutdown": {
                 "doc": "$~Saya membuat @Sequence yang memudarkan @Output sambil menggesernya ke bawah. Cobalah saya di @Sequence yang sudah ada!",
-                "names": [
-                    "$~memudar"
-                ],
+                "names": ["$~memudar"],
                 "distance": {
                     "doc": "$~Seberapa jauh harus digeser.",
-                    "names": [
-                        "$~jarak"
-                    ]
+                    "names": ["$~jarak"]
                 }
             },
             "fadeoutleft": {
                 "doc": "$~Saya membuat @Sequence yang memudarkan @Output sambil menggesernya ke kiri. Coba saya di @Sequence yang sudah ada!",
-                "names": [
-                    "$~memudarkekiri"
-                ],
+                "names": ["$~memudarkekiri"],
                 "distance": {
                     "doc": "$~Seberapa jauh harus digeser.",
-                    "names": [
-                        "$~jarak"
-                    ]
+                    "names": ["$~jarak"]
                 }
             },
             "fadeoutright": {
                 "doc": "$~Saya membuat @Sequence yang memudarkan @Output sambil menggesernya ke kanan. Cobalah saya di @Sequence yang sudah ada!",
-                "names": [
-                    "$~memudarsepenuhnya"
-                ],
+                "names": ["$~memudarsepenuhnya"],
                 "distance": {
                     "doc": "$~Seberapa jauh harus digeser.",
-                    "names": [
-                        "$~jarak"
-                    ]
+                    "names": ["$~jarak"]
                 }
             },
             "rotateout": {
                 "doc": "$~Saya membuat @Sequence yang memutar @Output hingga hilang sambil memudarkannya. Cobalah saya dalam @Sequence yang sudah ada!",
-                "names": [
-                    "$~putarkeluar"
-                ],
+                "names": ["$~putarkeluar"],
                 "angle": {
                     "doc": "$~Seberapa jauh harus diputar.",
-                    "names": [
-                        "$~sudut"
-                    ]
+                    "names": ["$~sudut"]
                 }
             },
             "rainbow": {
                 "doc": "$~Saya membuat @Sequence yang meng循环kan @Output melalui warna-warna pelangi.",
-                "names": [
-                    "$~pelangi"
-                ]
+                "names": ["$~pelangi"]
             }
         },
         "Source": {
@@ -6174,9 +5508,7 @@
         },
         "Result": {
             "doc": "$~Saya tinggal satu kecocokan lagi dari pencarian pola dengan \\⌕\\ : teks yang cocok, letaknya, dan tangkapan apa pun.",
-            "names": [
-                "$~Hasil"
-            ],
+            "names": ["$~Hasil"],
             "text": {
                 "doc": "$~Seluruh teks cocok.",
                 "names": "$~teks"
@@ -6530,10 +5862,7 @@
                 },
                 "notification": {
                     "label": "$~memberi tahu pelanggan",
-                    "labels": [
-                        "$~memberitahu",
-                        "$~jangan memberi tahu"
-                    ],
+                    "labels": ["$~memberitahu", "$~jangan memberi tahu"],
                     "tips": [
                         "$~Beri tahu pelanggan saat Anda memposting panduan ini.",
                         "$~Jangan beri tahu pelanggan saat Anda memposting panduan ini."
@@ -6566,10 +5895,7 @@
                 },
                 "accessMode": {
                     "label": "$~batasi siapa yang dapat melihat panduan ini",
-                    "labels": [
-                        "$~terbatas",
-                        "$~diperluas"
-                    ],
+                    "labels": ["$~terbatas", "$~diperluas"],
                     "tips": [
                         "$~Hanya kreator di galeri ini yang dapat melihat",
                         "$~Para kreator dan kurator di galeri mana pun yang dikelola oleh kurator tersebut dapat melihat"
@@ -6579,10 +5905,7 @@
                 "publicExplanation": "$~Jika Anda ingin siapa pun yang memiliki tautan tersebut dapat melihat panduan Anda, Anda dapat membuat panduan tersebut publik.",
                 "publicMode": {
                     "label": "$~Publikasikan panduan ini",
-                    "labels": [
-                        "$~pribadi",
-                        "$~publik"
-                    ],
+                    "labels": ["$~pribadi", "$~publik"],
                     "tips": [
                         "$~Hanya pemain Wordplayer yang memiliki akses langsung ke panduan ini yang dapat melihatnya.",
                         "$~Siapa pun yang memiliki tautan dapat melihat panduan ini."
@@ -6645,10 +5968,7 @@
                     },
                     "mode": {
                         "label": "$~visibilitas default",
-                        "labels": [
-                            "$~terbatas",
-                            "$~diperluas"
-                        ],
+                        "labels": ["$~terbatas", "$~diperluas"],
                         "tips": [
                             "$~Hanya kolaborator galeri ini yang dapat melihat panduan cara pembuatan.",
                             "$~Para kolaborator dari galeri yang Anda sebutkan di bawah ini dapat melihat panduan caranya."
@@ -7054,15 +6374,11 @@
             "mode": {
                 "browse": {
                     "label": "$~bagian",
-                    "labels": [
-                        "$~kode",
-                        "$~cara",
-                        "$?"
-                    ],
+                    "labels": ["$~kode", "$~cara", "$~glosarium"],
                     "tips": [
                         "$~konsep bahasa pemrograman",
-                        "$~Pola yang dapat digunakan kembali untuk membuat proyek.",
-                        "$?"
+                        "$~pola yang bisa dipakai ulang untuk membuat proyek",
+                        "$~definisi istilah penting"
                     ]
                 },
                 "purpose": {
@@ -7104,10 +6420,7 @@
                 },
                 "howToFilter": {
                     "label": "$~panduan buatan pengguna",
-                    "labels": [
-                        "$~semua",
-                        "$~galeri & bookmark"
-                    ],
+                    "labels": ["$~semua", "$~galeri & bookmark"],
                     "tips": [
                         "$~lihat semua panduan yang dibuat pengguna",
                         "$~Lihat hanya panduan buatan pengguna dari galeri proyek ini dan semua bookmark."
@@ -7232,8 +6545,8 @@
             "tutorial": "$~Tutorial",
             "glossary": {
                 "explain": {
-                    "header": "$?",
-                    "explanation": "$?"
+                    "header": "$~Glosarium",
+                    "explanation": "$~/Istilah dan gagasan yang dipakai di seluruh bahasa pemrograman dan platform Wordplay./"
                 }
             }
         },
@@ -7276,10 +6589,7 @@
                 "mode": {
                     "public": {
                         "label": "$~visibilitas",
-                        "labels": [
-                            "$~pribadi",
-                            "$~publik"
-                        ],
+                        "labels": ["$~pribadi", "$~publik"],
                         "tips": [
                             "$~Hanya Anda dan kolaborator yang dapat melihat proyek ini.",
                             "$~Siapa pun dapat melihat proyek ini."
@@ -7287,10 +6597,7 @@
                     },
                     "preview": {
                         "label": "$~mode pratinjau",
-                        "labels": [
-                            "$~mobil",
-                            "$~kebiasaan"
-                        ],
+                        "labels": ["$~mobil", "$~kebiasaan"],
                         "tips": [
                             "$~biarkan proyek memilih sendiri glif pratinjaunya berdasarkan apa yang ditampilkannya",
                             "$~sematkan simbol yang Anda pilih"
@@ -7367,11 +6674,7 @@
                     },
                     "dark": {
                         "label": "$~tema",
-                        "labels": [
-                            "$~lampu",
-                            "$~gelap",
-                            "$~mobil"
-                        ],
+                        "labels": ["$~lampu", "$~gelap", "$~mobil"],
                         "tips": [
                             "$~warna yang lebih terang",
                             "$~warna yang lebih gelap",
@@ -7380,10 +6683,7 @@
                     },
                     "blocks": {
                         "label": "$~editor",
-                        "labels": [
-                            "$~teks",
-                            "$~blok"
-                        ],
+                        "labels": ["$~teks", "$~blok"],
                         "tips": [
                             "$~edit kode sebagai teks",
                             "$~edit kode sebagai blok"
@@ -7391,11 +6691,7 @@
                     },
                     "blockDensity": {
                         "label": "$~jarak antar blok",
-                        "labels": [
-                            "$~kompak",
-                            "$~normal",
-                            "$~luas"
-                        ],
+                        "labels": ["$~kompak", "$~normal", "$~luas"],
                         "tips": [
                             "$~Blok yang lebih rapat agar lebih banyak kode dapat ditampilkan di layar.",
                             "$~spasi blok default",
@@ -7404,10 +6700,7 @@
                     },
                     "space": {
                         "label": "$~spasi, tab, dan penanda baris baru",
-                        "labels": [
-                            "$~bersembunyi",
-                            "$~menunjukkan"
-                        ],
+                        "labels": ["$~bersembunyi", "$~menunjukkan"],
                         "tips": [
                             "$~jangan menampilkan indikator spasi dan tab",
                             "$~Tampilkan indikator spasi dan tab secara eksplisit."
@@ -7415,10 +6708,7 @@
                     },
                     "lines": {
                         "label": "$~nomor baris",
-                        "labels": [
-                            "$~bersembunyi",
-                            "$~menunjukkan"
-                        ],
+                        "labels": ["$~bersembunyi", "$~menunjukkan"],
                         "tips": [
                             "$~jangan tampilkan nomor baris dalam mode teks",
                             "$~Tampilkan nomor baris dalam mode teks"
@@ -7441,10 +6731,7 @@
                     },
                     "tab": {
                         "label": "$~tombol tab",
-                        "labels": [
-                            "$~alihkan fokus",
-                            "$~sisipkan tab"
-                        ],
+                        "labels": ["$~alihkan fokus", "$~sisipkan tab"],
                         "tips": [
                             "$~tombol tab memindahkan fokus keyboard ke kontrol berikutnya",
                             "$~tab menyisipkan tab di editor"
@@ -7452,10 +6739,7 @@
                     },
                     "wrap": {
                         "label": "$~garis pembungkus",
-                        "labels": [
-                            "$~mati",
-                            "$~pada"
-                        ],
+                        "labels": ["$~mati", "$~pada"],
                         "tips": [
                             "$~Baris panjang bergulir secara horizontal dalam mode teks.",
                             "$~Baris panjang akan membungkus ke jendela editor dalam mode teks."
@@ -7463,10 +6747,7 @@
                     },
                     "words": {
                         "label": "$~kata kunci",
-                        "labels": [
-                            "$~simbol",
-                            "$~kata-kata"
-                        ],
+                        "labels": ["$~simbol", "$~kata-kata"],
                         "tips": [
                             "$~Tampilkan kata kunci bawaan sebagai simbol.",
                             "$~Tampilkan kata kunci bawaan sebagai kata-kata dalam bahasa Anda."
@@ -7487,10 +6768,7 @@
                 "open": "$~buka dialog notifikasi",
                 "howToNotifications": {
                     "label": "$~pemberitahuan untuk panduan baru",
-                    "labels": [
-                        "$~mati",
-                        "$~pada"
-                    ],
+                    "labels": ["$~mati", "$~pada"],
                     "tips": [
                         "$~jangan beri tahu saya tentang tutorial baru",
                         "$~Beri tahu saya tentang panduan baru."
@@ -7573,10 +6851,7 @@
                 },
                 "mode": {
                     "label": "$~masukan",
-                    "labels": [
-                        "$~cacat",
-                        "$~ide-ide"
-                    ],
+                    "labels": ["$~cacat", "$~ide-ide"],
                     "tips": [
                         "$~Laporkan sesuatu yang tampaknya rusak.",
                         "$~menyarankan fitur atau peningkatan baru"
@@ -7679,10 +6954,7 @@
                 "explanation": "$~Proyek Anda berada di dalam galeri. Secara default, siapa pun yang dapat melihat galeri ini dapat melihat proyek ini. Anda dapat membatasi siapa yang dapat melihat proyek Anda hanya kepada Anda dan kurator galeri.",
                 "mode": {
                     "label": "$~batasi akses proyek",
-                    "labels": [
-                        "$~jangan membatasi",
-                        "$~membatasi"
-                    ],
+                    "labels": ["$~jangan membatasi", "$~membatasi"],
                     "tips": [
                         "$~Siapa pun yang dapat melihat galeri ini dapat melihat proyek Anda.",
                         "$~Hanya kurator galeri yang dapat melihat proyek Anda."
@@ -7931,10 +7203,7 @@
                 },
                 "mode": {
                     "label": "$~tutorial",
-                    "labels": [
-                        "$~cepat",
-                        "$~menyelesaikan"
-                    ],
+                    "labels": ["$~cepat", "$~menyelesaikan"],
                     "tips": [
                         "$~tur singkat untuk para kreator yang mengetahui bahasa pemrograman lain",
                         "$~pengantar lengkap dan dramatis untuk para kreator yang baru mengenal pemrograman."
@@ -8028,10 +7297,10 @@
                     "gallery": "$~Galeri",
                     "moderation": "$~Moderasi"
                 },
-                "literalTermsWarning": "$?",
-                "checkReadingLevel": "$?",
-                "readingLevelComplex": "$?",
-                "readingLevelOk": "$?"
+                "literalTermsWarning": "$~Draf kamu memakai kata-kata glosarium sebagai teks biasa. Ketuk salah satu untuk mengubahnya menjadi tautan glosarium.",
+                "checkReadingLevel": "$~Periksa tingkat keterbacaan string ini",
+                "readingLevelComplex": "$~Ini mungkin sulit dibaca. Coba pakai kalimat lebih pendek dan kata lebih sederhana.",
+                "readingLevelOk": "$~Ini mudah dibaca untuk tingkat keterbacaan yang dituju."
             },
             "teach": {
                 "header": "$~Mengajar",
@@ -8282,10 +7551,7 @@
                     },
                     "public": {
                         "label": "$~visibilitas",
-                        "labels": [
-                            "$~publik",
-                            "$~pribadi"
-                        ],
+                        "labels": ["$~publik", "$~pribadi"],
                         "tips": [
                             "$~Siapa pun bisa melihat karakter ini.",
                             "$~Hanya Anda dan kolaborator yang dapat melihat karakter ini."
@@ -8325,11 +7591,7 @@
                     },
                     "fill": {
                         "label": "$~mengisi",
-                        "labels": [
-                            "$~tidak ada",
-                            "$~mewarisi",
-                            "$~memilih"
-                        ],
+                        "labels": ["$~tidak ada", "$~mewarisi", "$~memilih"],
                         "tips": [
                             "$~tidak diisi",
                             "$~mewarisi warna isian dari teks di sekitarnya.",
@@ -8338,11 +7600,7 @@
                     },
                     "stroke": {
                         "label": "$~stroke",
-                        "labels": [
-                            "$~tidak ada",
-                            "$~mewarisi",
-                            "$~memilih"
-                        ],
+                        "labels": ["$~tidak ada", "$~mewarisi", "$~memilih"],
                         "tips": [
                             "$~tidak terkena stroke",
                             "$~mewarisi warna garis tepi dari teks di sekitarnya.",
