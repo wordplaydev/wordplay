@@ -281,7 +281,7 @@ test.each([
     ['a•…#', Bind, 'type', StreamType],
     ['a•Cat|#', Bind, 'type', UnionType],
     ['a•`…`', Bind, 'type', FormattedType],
-    ['a•→# ""', Bind, 'type', ConversionType],
+    ["a•#→''", Bind, 'type', ConversionType],
     ['a•/', Bind, 'type', UnparsableType],
 ])(
     '%s -> %o',
@@ -505,6 +505,37 @@ test('highlighted example roundtrips to ⭐ form', () => {
     const doc = parseDoc(toTokens('¶\\1 + 1\\highlight¶'));
     const example = doc.markup.paragraphs[0].segments[0] as Example;
     expect(example.toWordplay()).toBe('\\1+1\\⭐');
+});
+
+test('defect-annotated example with 🪲', () => {
+    const doc = parseDoc(toTokens('¶\\/\\🪲¶'));
+    const example = doc.markup.paragraphs[0].segments[0];
+    expect(example).toBeInstanceOf(Example);
+    expect((example as Example).defect).toBeDefined();
+    expect((example as Example).defect?.getText()).toBe('🪲');
+    expect((example as Example).highlight).toBeUndefined();
+});
+
+test('non-defect example has no defect', () => {
+    const doc = parseDoc(toTokens('¶\\1 + 1\\¶'));
+    const example = doc.markup.paragraphs[0].segments[0];
+    expect(example).toBeInstanceOf(Example);
+    expect((example as Example).defect).toBeUndefined();
+});
+
+test('example can be both highlighted and defect-annotated in either order', () => {
+    for (const source of ['¶\\1 + 1\\⭐🪲¶', '¶\\1 + 1\\🪲⭐¶']) {
+        const example = parseDoc(toTokens(source)).markup.paragraphs[0]
+            .segments[0] as Example;
+        expect(example.highlight).toBeDefined();
+        expect(example.defect).toBeDefined();
+    }
+});
+
+test('defect-annotated example roundtrips to 🪲 form', () => {
+    const doc = parseDoc(toTokens('¶\\1 + 1\\🪲¶'));
+    const example = doc.markup.paragraphs[0].segments[0] as Example;
+    expect(example.toWordplay()).toBe('\\1+1\\🪲');
 });
 
 test('unclosed backtick in one doc does not leak into the next doc', () => {

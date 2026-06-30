@@ -60,9 +60,7 @@ export default function parseType(tokens: Tokens, isExpression = false): Type {
                             : // We use the doc symbol because it looks like an empty formatted
                               tokens.nextIs(Sym.FormattedType)
                               ? parseFormattedType(tokens)
-                              : tokens.nextIs(Sym.Convert)
-                                ? parseConversionType(tokens)
-                                : new UnparsableType(tokens.readLine());
+                              : new UnparsableType(tokens.readLine());
 
     tokens.whileDo(
         () => tokens.nextIs(Sym.Union) && tokens.nextLacksPrecedingSpace(),
@@ -71,6 +69,14 @@ export default function parseType(tokens: Tokens, isExpression = false): Type {
             left = new UnionType(left, or, parseType(tokens));
         },
     );
+
+    // A trailing `→` makes this a conversion type (`input → output`), e.g. `#→''`. Only in type
+    // annotations, not in expression contexts (`isExpression`), where `→` is the convert operator
+    // (`value→type`, which can chain) and must be left for the expression parser.
+    if (!isExpression && tokens.nextIs(Sym.Convert)) {
+        const convert = tokens.read(Sym.Convert);
+        left = new ConversionType(left, convert, parseType(tokens, isExpression));
+    }
 
     return left;
 }
@@ -206,14 +212,6 @@ function parseFunctionType(tokens: Tokens): FunctionType {
     const output = parseType(tokens);
 
     return new FunctionType(fun, typeVars, open, inputs, close, output);
-}
-
-function parseConversionType(tokens: Tokens): ConversionType {
-    const convert = tokens.read(Sym.Convert);
-    const from = parseType(tokens);
-    const to = parseType(tokens);
-
-    return new ConversionType(convert, from, to);
 }
 
 /** FORMATTED_TYPE :: `…` LANGUAGE? */

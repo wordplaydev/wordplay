@@ -3,7 +3,7 @@ import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { Purpose } from '@concepts/Purpose';
 import Characters from '../lore/BasisCharacters';
-import { CODE_SYMBOL, HIGHLIGHT_SYMBOL } from '@parser/Symbols';
+import { CODE_SYMBOL, DEFECT_SYMBOL, HIGHLIGHT_SYMBOL } from '@parser/Symbols';
 import Content from '@nodes/Content';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import { node, type Grammar, type Replacement } from '@nodes/Node';
@@ -16,12 +16,14 @@ export default class Example extends Content {
     readonly program: Program;
     readonly close: Token | undefined;
     readonly highlight: Token | undefined;
+    readonly defect: Token | undefined;
 
     constructor(
         open: Token,
         program: Program,
         close: Token | undefined,
         highlight?: Token,
+        defect?: Token,
     ) {
         super();
 
@@ -29,15 +31,22 @@ export default class Example extends Content {
         this.program = program;
         this.close = close;
         this.highlight = highlight;
+        this.defect = defect;
     }
 
-    static make(program: Program, highlighted = false) {
+    static make(program: Program, highlighted = false, defect = false) {
         return new Example(
             new Token(CODE_SYMBOL, Sym.Code),
             program,
             new Token(CODE_SYMBOL, Sym.Code),
             highlighted ? new Token(HIGHLIGHT_SYMBOL, Sym.Highlight) : undefined,
+            defect ? new Token(DEFECT_SYMBOL, Sym.Defect) : undefined,
         );
+    }
+
+    /** Whether this example is annotated as expected to have conflicts (🪲), so the locale verifier permits them. */
+    expectsDefect() {
+        return this.defect !== undefined;
     }
 
     static getPossibleReplacements() {
@@ -58,6 +67,7 @@ export default class Example extends Content {
             { name: 'program', kind: node(Program), label: undefined },
             { name: 'close', kind: node(Sym.Code), label: undefined },
             { name: 'highlight', kind: node(Sym.Highlight), label: undefined },
+            { name: 'defect', kind: node(Sym.Defect), label: undefined },
         ];
     }
 
@@ -71,6 +81,7 @@ export default class Example extends Content {
             this.replaceChild('program', this.program, replace),
             this.replaceChild('close', this.close, replace),
             this.replaceChild('highlight', this.highlight, replace),
+            this.replaceChild('defect', this.defect, replace),
         ) as this;
     }
 

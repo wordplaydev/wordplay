@@ -117,6 +117,8 @@ const Sym = {
     /** A markup block of foreign-language code, e.g. `\py| a = 5\js| let a = 5;\` */
     ExternalExample: '@ext',
     Highlight: '⭐',
+    /** Marks an Example as expected to have conflicts, so the locale verifier permits them (the markup analogue of a tutorial's `conflicts: true`). */
+    Defect: '🪲',
     // The optional negative sign allows for negative number literals.
     // The optional dash allows for a random number range.
     // The trailing text at the end encodes the unit.

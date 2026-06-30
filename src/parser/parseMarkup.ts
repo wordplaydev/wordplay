@@ -11,7 +11,7 @@ import Token from '@nodes/Token';
 import WebLink from '@nodes/WebLink';
 import Words from '@nodes/Words';
 import parseProgram from '@parser/parseProgram';
-import { BULLET_SYMBOL, HIGHLIGHT_SYMBOL } from '@parser/Symbols';
+import { BULLET_SYMBOL, DEFECT_SYMBOL, HIGHLIGHT_SYMBOL } from '@parser/Symbols';
 import type Tokens from '@parser/Tokens';
 
 export default function parseMarkup(tokens: Tokens): Markup {
@@ -147,22 +147,34 @@ export function parseExample(tokens: Tokens): Example {
     const program = parseProgram(tokens, true);
     const close = tokens.readIf(Sym.Code);
 
+    // An example may carry trailing annotation suffixes after its closing `\`:
+    // `⭐`/`highlight` (highlight in tutorials) and `🪲` (expected-to-have-conflicts).
+    // They ride in the Sym.Words stream and may appear in either order.
     let highlight: Token | undefined = undefined;
-    if (close !== undefined && tokens.nextIs(Sym.Words)) {
+    let defect: Token | undefined = undefined;
+    while (close !== undefined && tokens.nextIs(Sym.Words)) {
         const text = tokens.peekText() ?? '';
-        if (text.startsWith(HIGHLIGHT_SYMBOL) || text.startsWith('highlight')) {
-            tokens.read(Sym.Words);
-            const prefix = text.startsWith(HIGHLIGHT_SYMBOL)
+        let prefix: string | undefined = undefined;
+        if (
+            highlight === undefined &&
+            (text.startsWith(HIGHLIGHT_SYMBOL) || text.startsWith('highlight'))
+        ) {
+            prefix = text.startsWith(HIGHLIGHT_SYMBOL)
                 ? HIGHLIGHT_SYMBOL
                 : 'highlight';
             highlight = new Token(HIGHLIGHT_SYMBOL, Sym.Highlight);
-            const remaining = text.slice(prefix.length);
-            if (remaining.length > 0)
-                tokens.injectNext(new Token(remaining, Sym.Words));
-        }
+        } else if (defect === undefined && text.startsWith(DEFECT_SYMBOL)) {
+            prefix = DEFECT_SYMBOL;
+            defect = new Token(DEFECT_SYMBOL, Sym.Defect);
+        } else break;
+
+        tokens.read(Sym.Words);
+        const remaining = text.slice(prefix.length);
+        if (remaining.length > 0)
+            tokens.injectNext(new Token(remaining, Sym.Words));
     }
 
-    return new Example(open, program, close, highlight);
+    return new Example(open, program, close, highlight, defect);
 }
 
 function parseMention(tokens: Tokens): Mention | Branch {
