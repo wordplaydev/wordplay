@@ -100,6 +100,10 @@ if (announce && $announce) {
 
 `aria-label` on a focused element is still appropriate for _focus-time_ labeling — screen readers read the label when the element receives focus. Use Announcer for _change-time_ announcements (the user moved a slider, picked a color, toggled a setting).
 
+### Svelte MCP server
+
+The project configures the official Svelte MCP server ([.mcp.json](.mcp.json), mirrored in [.vscode/mcp.json](.vscode/mcp.json)) for current Svelte 5 / SvelteKit 2 docs and a `svelte-autofixer`. Its suggestions are **advisory**: they encode generic Svelte best practice and are blind to this repo's conventions (immutability outside `Evaluator`/`Database`, the centralized `Announcer` over local `aria-live`, `LocalizedText`/`MarkupHTMLView` for user-visible text). When they conflict, repo conventions win, and `npm run check:now` + `npm test` remain the source of truth — the autofixer never replaces them.
+
 ### Keep ARCHITECTURE.md in sync
 
 [ARCHITECTURE.md](ARCHITECTURE.md) is the high-level orientation document for the codebase. After any change that affects content described there — renaming/moving a file it references, changing the responsibilities of a component it describes, adding or removing a major subsystem, or altering the core pipeline — update ARCHITECTURE.md in the same change. If a fact in this CLAUDE.md (e.g., file paths, locale count, node count) also appears in ARCHITECTURE.md, update both.
