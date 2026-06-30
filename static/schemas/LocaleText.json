@@ -13396,6 +13396,9 @@
             "Decimal": {
               "type": "string"
             },
+            "Defect": {
+              "type": "string"
+            },
             "Delete": {
               "type": "string"
             },
@@ -13777,6 +13780,7 @@
             "Code",
             "ExternalExample",
             "Highlight",
+            "Defect",
             "Number",
             "Decimal",
             "Base",
@@ -21468,6 +21472,10 @@
                       "description": "[plain] The bullet list item button",
                       "type": "string"
                     },
+                    "defect": {
+                      "description": "[plain] The expected-defect example button (🪲)",
+                      "type": "string"
+                    },
                     "edit": {
                       "description": "[plain] The edit mode",
                       "type": "string"
@@ -21485,6 +21493,7 @@
                     "edit",
                     "preview",
                     "highlight",
+                    "defect",
                     "bullet",
                     "attention"
                   ],

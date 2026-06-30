@@ -90,6 +90,13 @@
         insertAtCursor('⭐', range.close + 1);
     }
 
+    function formatDefect() {
+        if (view === undefined) return;
+        const range = findRange(text, view.selectionStart ?? 0, '\\');
+        if (range === null) return;
+        insertAtCursor('🪲', range.close + 1);
+    }
+
     function formatAttention() {
         if (view === undefined) return;
         insertAtCursor('👀', view.selectionStart ?? 0);
@@ -245,6 +252,11 @@
                     event.stopPropagation();
                     formatHighlight();
                     break;
+                case '&':
+                    event.preventDefault();
+                    event.stopPropagation();
+                    formatDefect();
+                    break;
                 case '8':
                     event.preventDefault();
                     event.stopPropagation();
@@ -353,6 +365,17 @@
             })}
             action={formatHighlight}
             active={!preview && cursorInExample}><Emoji text="⭐" /></Button
+        >
+        <Button
+            tip={(l) => l.ui.widget.formatted.defect}
+            shortcut={toShortcut({
+                control: true,
+                alt: undefined,
+                shift: true,
+                key: '7',
+            })}
+            action={formatDefect}
+            active={!preview && cursorInExample}><Emoji text="🪲" /></Button
         >
         <Button
             tip={(l) => l.ui.source.cursor.insertDocs}

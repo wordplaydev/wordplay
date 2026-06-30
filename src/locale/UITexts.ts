@@ -122,6 +122,8 @@ type UITexts = {
             preview: string;
             /** [plain] The highlight example button */
             highlight: string;
+            /** [plain] The expected-defect example button (🪲) */
+            defect: string;
             /** [plain] The bullet list item button */
             bullet: string;
             /** [plain] The highlight line of code button (👀) */

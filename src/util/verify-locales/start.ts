@@ -360,20 +360,26 @@ for (const localeText of allLocaleText) {
             }
         }
 
-        const value = path.resolve(localeText);
-        const revised = (
-            value === undefined
-                ? []
-                : typeof value === 'string'
-                  ? [value]
-                  : value
-        ).find((v) => isRevised(v));
-        if (revised)
-            revisedStrings.push({
-                path,
-                locale: toLocaleString(localeText),
-                text: revised,
-            });
+        // Only en-US `$!` Revised markers propagate across all locales (a source revision should
+        // re-translate every sibling). A `$!` on a *translated* locale string is locale-specific —
+        // it re-translates just that string (via shouldStringBeMachineTranslated), not the path
+        // everywhere — so it isn't collected here.
+        if (toLocaleString(localeText) === toLocaleString(DefaultLocale)) {
+            const value = path.resolve(localeText);
+            const revised = (
+                value === undefined
+                    ? []
+                    : typeof value === 'string'
+                      ? [value]
+                      : value
+            ).find((v) => isRevised(v));
+            if (revised)
+                revisedStrings.push({
+                    path,
+                    locale: toLocaleString(localeText),
+                    text: revised,
+                });
+        }
     }
 }
 

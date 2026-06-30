@@ -1,14 +1,13 @@
-import Project from '@db/projects/Project';
 import { MachineTranslated, Unwritten } from '@locale/Annotations';
 import type LocaleText from '@locale/LocaleText';
 import { isMachineTranslated, isUnwritten } from '@locale/LocaleText';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
 import ConceptLink from '@nodes/ConceptLink';
 import type Node from '@nodes/Node';
-import Source from '@nodes/Source';
 import { DOCS_SYMBOL } from '@parser/Symbols';
 import parseDoc from '@parser/parseDoc';
 import { toTokens } from '@parser/toTokens';
+import analyzeCode from '@util/verify-locales/analyzeCode';
 import {
     tutorialTargetMatches,
     type TutorialTarget,
@@ -34,45 +33,6 @@ import {
     type Performance,
 } from '../../tutorial/Tutorial';
 
-/**
- * Cache of tutorial code conflict-analysis results, keyed by the snippet's
- * source code. Tutorial snippets are overwhelmingly shared across locales
- * (94%+ dedup ratio across all 26 locales) — translators don't change the
- * code, only the surrounding dialog. Without this cache the verifier would
- * re-run `Project.analyze` ~7,600 times per pass; with it, ~430.
- *
- * The cached value is the analysis output, not the Project — Projects are
- * heavy and we don't need them after extracting conflicts.
- */
-type AnalyzeResult = { conflicts: string[]; error: string | undefined };
-const analyzeCache = new Map<string, AnalyzeResult>();
-
-function analyzeTutorialCode(code: string, locale: LocaleText): AnalyzeResult {
-    const cached = analyzeCache.get(code);
-    if (cached) return cached;
-    let result: AnalyzeResult;
-    try {
-        const project = Project.make(
-            null,
-            'test',
-            new Source('start', code),
-            [],
-            locale,
-        );
-        project.analyze();
-        project.getAnalysis();
-        result = {
-            conflicts: Array.from(project.getConflictedNodes().values())
-                .flat()
-                .map((c) => c.toString()),
-            error: undefined,
-        };
-    } catch (error) {
-        result = { conflicts: [], error: String(error) };
-    }
-    analyzeCache.set(code, result);
-    return result;
-}
 
 /** Load, validate, and check the tutorial, and optionally translate. */
 export async function verifyTutorial(
@@ -161,7 +121,7 @@ async function checkTutorial(
             else code = fun(...parsed.code.inputs);
         }
         if (code) {
-            const result = analyzeTutorialCode(code, locale);
+            const result = analyzeCode(code, locale);
             if (result.error)
                 log.bad(
                     2,

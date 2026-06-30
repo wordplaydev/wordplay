@@ -4,6 +4,16 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.25.1 - 2026-06-30
+
+### Added
+
+- 🪲 When you write documentation with example code, you can now mark an example as one that's _meant_ to have a mistake, so Wordplay won't flag it as an error — handy for showing what a mistake looks like. It sits right next to the highlight button.
+
+### Fixed
+
+- 🌐 We fixed many example programs in the docs and tutorial that broke when translated into other languages — pieces of them were getting lost or jumbled, so they didn't show up right. Now they translate cleanly and appear the way they should.
+
 ## 0.25.0 - 2026-06-27
 
 ### Added

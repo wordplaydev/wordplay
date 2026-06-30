@@ -17,6 +17,7 @@ import TextType from '@nodes/TextType';
 import Token from '@nodes/Token';
 import Translation from '@nodes/Translation';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
+import { isName } from '@parser/Tokenizer';
 import { toMarkup } from '@parser/toMarkup';
 import type Project from '@db/projects/Project';
 import { splitMarkupAndCode } from '@util/verify-locales/protect';
@@ -74,6 +75,22 @@ function withFormattedMarkupSpaces<T extends Doc | FormattedTranslation>(
         inner,
         new Markup(inner.paragraphs, getPreferredSpaces(inner)),
     ) as T;
+}
+
+/**
+ * Make a machine-translated name a valid Wordplay identifier. Transliterations
+ * commonly carry an apostrophe (a Hebrew geresh, a glottal stop) that a translator
+ * writes as an ASCII `'` or a curly `'`/`‘` — all of which are *string delimiters*
+ * in Wordplay, so they'd open an unterminated text literal mid-identifier and break
+ * tokenization. We swap them for the modifier letter apostrophe `ʼ` (U+02BC), a
+ * letter that reads identically and is valid in a name. Returns the sanitized name,
+ * or undefined if it still isn't a single valid name (some other reserved character
+ * slipped in) — in which case the caller should keep the source name rather than
+ * ship a broken identifier.
+ */
+export function sanitizeTranslatedName(name: string): string | undefined {
+    const fixed = name.replace(/['‘’′]/gu, 'ʼ');
+    return isName(fixed) ? fixed : undefined;
 }
 
 /**
@@ -341,6 +358,11 @@ export default async function translateProjectContent(
                             : word.charAt(0).toUpperCase() + word.slice(1),
                     )
                     .join('');
+                // Don't ship a name that isn't a valid identifier (e.g. one a
+                // transliteration left an apostrophe in); keep the source name.
+                const sanitized = sanitizeTranslatedName(translation);
+                if (sanitized === undefined) continue;
+                translation = sanitized;
                 if (existingNames.has(translation)) {
                     let counter = 2;
                     // Increment the counter until a unique name is found

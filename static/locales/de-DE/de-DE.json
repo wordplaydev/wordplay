@@ -276,7 +276,8 @@
         "PatternDelimiter": "$~Muster",
         "Exponent": "$~Exponent",
         "Product": "$~Produkt",
-        "Percent": "$~Prozent"
+        "Percent": "$~Prozent",
+        "Defect": "$~Beispiel mit erwartetem Fehler"
     },
     "node": {
         "Dimension": {
@@ -286,9 +287,9 @@
             "doc": [
                 "$~Ich bin eine /Maßeinheit/!",
                 "$~Ich kann jede standardisierte Einheit sein, wie \\1m\\, \\10s\\, \\100g\\ oder jede andere wissenschaftliche Einheit. Ich bin auch gerne bereit, jede Einheit zu sein, die Sie sich ausdenken möchten, wie \\17apple\\.",
-                "$~Ich kann mit \\/\\ kombiniert werden, um Verhältniseinheiten wie \\17Äpfel/Tag\\ zu bilden, und mit \\^\\, um Exponentialeinheiten wie \\9,8m/s^2\\ zu bilden.",
+                "$~Ich kann mit \\/\\🪲 kombiniert werden, um Verhältniseinheiten wie \\17Äpfel/Tag\\ zu bilden, und mit \\^\\🪲, um Exponentialeinheiten wie \\9.8m/s^2\\ zu bilden.",
                 "$~Ich muss immer nach einer @Number kommen. Wenn ich das nicht tue, könnte ich mit einer @Reference verwechselt werden, was ziemlich peinlich wäre!",
-                "$~Ich bin auch ziemlich gut darin, Inkonsistenzen zwischen Einheiten zu finden. Beispielsweise ergibt \\1Katze + 1Hund\\ keinen Sinn!",
+                "$~Ich bin auch ziemlich gut darin, Inkonsistenzen zwischen Einheiten zu finden. Beispielsweise ergibt \\1Katze + 1Hund\\🪲 keinen Sinn!",
                 "$~Wenn Sie jemals zwischen verschiedenen Einheitenwerten umrechnen möchten, wenden Sie sich an @Convert."
             ]
         },
@@ -301,7 +302,7 @@
                 "$~Beispielsweise kann ich vor jeden Ausdruck Folgendes setzen:",
                 "$~\\¶Soll das wirklich 7 sein?¶\n7\\",
                 "$~Beispielsweise können Sie „me“ vor „@Bind“ platzieren:",
-                "$~\\¶Ich messe, wie groß jemand ist¶\nGröße: 5m\\",
+                "$~\\¶Ich messe, wie groß jemand ist¶\nGröße: 5m\\🪲",
                 "$~Oder vor einer @FunctionDefinition:",
                 "$~\\¶Ich addiere zwei Zahlen¶\nƒ sum(a•# b•#) a + b\\",
                 "$~Oder vor einer @StructureDefinition:",
@@ -309,7 +310,7 @@
                 "$~Sie können mich auch ganz an den Anfang von @Program stellen, um zu sagen, worum es in der gesamten Aufführung geht",
                 "$~\\¶Dieses Programm sagt Hallo¶\n\n'Hallo!'\\",
                 "$~Sie können mir eine @Language geben, damit andere wissen, in welcher Sprache ich geschrieben bin:",
-                "$~\\¶Ich bin ein englischer Arzt¶/en\nDauer: 5s\\",
+                "$~\\¶Ich bin ein englischer Arzt¶/en\nDauer: 5s\\🪲",
                 "$~Wussten Sie, dass Sie eine Liste von mir erstellen können? Sprechen Sie mit @Docs."
             ]
         },
@@ -320,7 +321,7 @@
             "doc": [
                 "$~Ich bin eine Liste von @Doc, nützlich, wenn Sie mehrere Übersetzungen von @Doc in verschiedenen Sprachen haben.",
                 "$~Sie müssen nichts Besonderes tun, um eine Liste zu erstellen. Legen Sie einfach eine Reihe von @Doc nebeneinander, wie folgt:",
-                "$~\\¶Hallo¶/en\n¶Hola¶/es\nBegrüßung: '…'\\"
+                "$~\\¶Hallo¶/en\n¶Hola¶/es\nBegrüßung: '…'\\🪲"
             ],
             "start": "$~Den Dokumenten einen Mehrwert verleihen!"
         },
@@ -346,12 +347,12 @@
                 "$~Wenn Sie beispielsweise „Sprache“ sagen möchten, aber deutlich machen wollen, dass es auf Englisch ist:",
                 "$~\\\"Language\"/en\\",
                 "$~Das können Sie für einen @Name tun:",
-                "$~\\sound/en: 'meow'\\",
+                "$~\\sound/en: 'meow'\\🪲",
                 "$~…oder ein @Doc :",
-                "$~\\¶Onomatopoeia¶/en\nsound/en: \"meow\"\\",
+                "$~\\¶Onomatopoeia¶/en\nsound/en: \"meow\"\\🪲",
                 "$~Manchmal besteht ein Text nicht nur aus einer Sprache, sondern aus einer Mischung. Wie zum Beispiel Spanglish, wo Spanisch und Englisch miteinander verschmelzen. In solchen Fällen trenne ich die Sprachen durch Unterstriche. Die erste ist die Hauptsprache – die verwende ich, wenn ich mich entscheiden muss (zum Beispiel bei der Wahl der Anführungszeichen).",
                 "$~\\\"Hola gentleman!\"/es_en\\",
-                "$~\\¶A bilingual greeting¶/es_en\nhello/es_en: \"Hola gentleman!\"\\",
+                "$~\\¶A bilingual greeting¶/es_en\nhello/es_en: \"Hola gentleman!\"\\🪲",
                 "$~Sie können, genau wie bei einer einzelnen Sprache, nach einem Bindestrich auch eine einzelne Region hinzufügen:",
                 "$~\\\"Hola gentleman!\"/es_en-MX\\",
                 "$~Es gibt keine Begrenzung für die Anzahl der Sprachen, die Sie auflisten können – wiederholen Sie nur nicht dieselbe; ich werde Sie darauf hinweisen, falls Sie dies tun. Es gibt viele <2-Buchstaben-Sprachcodes@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes>, die ich verstehe. Falls Sie keinen davon verwenden, werde ich Sie ebenfalls informieren."
@@ -381,9 +382,9 @@
             "doc": [
                 "$~Ich identifiziere einen Wert und bin eine hilfreiche Möglichkeit, etwas, das schwer zu bewerten war oder das Sie nicht immer wieder bewerten möchten, mit einer Kurzbezeichnung zu versehen.",
                 "$~@Bind gibt mir meinen Namen so:",
-                "$~\\hallo: 5\\",
+                "$~\\hallo: 5\\🪲",
                 "$~Ich stelle immer nur einen Wert dar und kann ihn nicht mehr ändern, wenn ich ihn einmal habe. Wenn Sie dies beispielsweise mit @Bind versuchen würden, würden wir uns beschweren.",
-                "$~\\hallo: 5\nhallo: 3\\",
+                "$~\\hallo: 5\nhallo: 3\\🪲",
                 "$~Um meinen Wert zu erhalten, müssen Sie nur @Reference oder @PropertyReference den Namen verwenden lassen. Hier benennt @Bind mich, dann holt @Reference den Wert, den ich erhalten habe.",
                 "$~\\hallo: 5\nhallo\\",
                 "$~Weil @Bind an so vielen Stellen auftauchen kann, kann ich an vielen Stellen auftauchen. Ich war oben in einem @Block, aber ich kann in einer @FunctionDefinition sein. Hier benenne ich eine Nachricht vorübergehend:",
@@ -398,8 +399,8 @@
             "emotion": "kind",
             "doc": [
                 "$~Ich bin eine Liste von @Name, nützlich, wenn Sie einem Wert mehrere Namen zuweisen möchten, oft mit unterschiedlicher @Language.",
-                "$~Namen werden durch \\,\\-Symbole getrennt. Hier ist beispielsweise @Bind, das einen Wert angibt, der ein Vielfaches von @Name ist.",
-                "$~\\hi/en,hello/en,hola/es: 'willkommen'\\"
+                "$~Namen werden durch \\,\\🪲-Symbole getrennt. Hier ist beispielsweise @Bind, das einen Wert angibt, der ein Vielfaches von @Name ist.",
+                "$~\\hi/en,hello/en,hola/es: 'willkommen'\\🪲"
             ],
             "label": {
                 "names": "$~Namen"
@@ -515,7 +516,7 @@
             "doc": [
                 "$~Ich bin ein Link zum Verse-Charakter. Ich bin hilfreich, wenn Sie ein @Doc schreiben und auf einen von uns verweisen möchten.",
                 "$~Angenommen, Sie möchten über @Evaluate sprechen und wie großartig sie sind. Sie könnten schreiben:",
-                "$~\\¶Weißt du, @Evaluate ist echt genial.¶\n‚Schau mal, ein Zeichenlink!‘\\",
+                "$~\n\n\\¶You know, @Evaluate is pretty awesome.¶\n'look, a character link!'\\",
                 "$~Zeichen haben auch entsprechende Nummern. Beispielsweise ist @FunctionDefinition 192. Sie können sie über die Nummer aufrufen, und sie werden angezeigt:",
                 "$~\\`92 ist so nett!`\\",
                 "$~Und wenn Sie Ihren eigenen Charakter erstellen, können Sie ihn mit dem Namen ansprechen, den Sie ihm gegeben haben.",
@@ -592,7 +593,7 @@
                 "$~Dadurch wird alles etwas aufgeräumter, auch wenn es im Grunde das Gleiche ist.",
                 "$~Es gibt nur eine Sache, auf die Sie achten müssen: Wenn ich in dieser Form bin, bewerte ich von links nach rechts. Das kann verwirrend sein, wenn Sie Dinge wie die Reihenfolge von Operationen in der Mathematik gewohnt sind.",
                 "$~Das bedeutet, dass die Auswertung auf eine Weise erfolgt, die Sie möglicherweise nicht erwarten:",
-                "$~\\1 + 2 × 3 + 4\\",
+                "$~\\1 + 2 × 3 + 4\\🪲",
                 "$~In der Mathematik käme zuerst die Multiplikation und dann die Addition, das Ergebnis wäre also \\11\\. Da ich aber in Lesereihenfolge auswerte, ist das Ergebnis \\13\\."
             ],
             "right": "$~Eingang",
@@ -618,26 +619,26 @@
             "doc": [
                 "$~Ich nenne *Werte*.",
                 "$~So was!",
-                "$~\\pi: 3.1415926\\",
+                "$~\\pi: 3.1415926\\🪲",
                 "$~Ich benenne Eingaben in @FunctionDefinition und @StructureDefinition, ich benenne Werte in @Block. Ich benenne alles!",
                 "$~Oh, aber wussten Sie, dass Sie für einen Wert *viele Namen* haben können?",
                 "$~Ich freue mich riesig, Ihnen davon zu erzählen! Ein Wert, viele @Name. Zum Beispiel:",
-                "$~\\joe,tess,amy: 5\\",
+                "$~\\joe,tess,amy: 5\\🪲",
                 "$~Siehst du was ich dort gemacht habe?",
                 "$~Ein Wert, drei Namen.",
                 "$~Sie können diese Fünf mit *jedem* dieser Namen bezeichnen.",
                 "$~Dies ist insbesondere dann der Fall, wenn Sie Namen in mehreren Sprachen vergeben möchten:",
-                "$~\\joe/en,aimee/fr,明/zh: 5\\",
+                "$~\\joe/en,aimee/fr,明/zh: 5\\🪲",
                 "$~Sehen Sie, was ich da gemacht habe? Drei Namen für einen Wert, nur in verschiedenen Sprachen!",
                 "$~Okay, ich habe noch ein letztes Geheimnis.",
                 "$~Wussten Sie, dass ich mit @Is arbeiten kann, um mir sagen zu lassen, welchen Wert ein Name haben sollte? Und wenn ich ihn nicht habe, sage ich es Ihnen?",
                 "$~So was:",
-                "$~\\bignumber•#: \"eine Zillion\"\\",
-                "$~Sehen Sie, ich sagte, \\bignumber\\ sollte eine Zahl sein, aber es ist Text, und diese sind nicht kompatibel, also BOOM!",
+                "$~\\bignumber•#: \"eine Zillion\"\\🪲",
+                "$~Sehen Sie, ich sagte, \\bignumber\\🪲 sollte eine Zahl sein, aber es ist Text, und diese sind nicht kompatibel, also BOOM!",
                 "$~Wenn sie anderer Meinung sind, lasse ich es Sie wissen.",
                 "$~Manchmal *müssen* Sie mir sagen, um welche Art von Daten es sich handelt, weil ich es selbst nicht herausfinden kann. Das geschieht normalerweise in @FunctionDefinition.",
-                "$~Hier weiß @FunctionDefinition beispielsweise nicht, welche Art von Werten \\a\\ und \\b\\ haben, weil ich es ihnen nicht gesagt habe.",
-                "$~\\ƒ Summe(a b) a + b\\",
+                "$~Hier weiß @FunctionDefinition beispielsweise nicht, welche Art von Werten \\a\\🪲 und \\b\\🪲 haben, weil ich es ihnen nicht gesagt habe.",
+                "$~\\ƒ Summe(a b) a + b\\🪲",
                 "$~Aber wir können dies ändern, um die @Is hinzuzufügen, und jetzt weiß @FunctionDefinition, dass es sich um Zahlen handelt:",
                 "$~\\ƒ Summe(a•# b•#) a + b\\"
             ],
@@ -719,8 +720,8 @@
                 "$~Das trägt zur Verdeutlichung der Bewertungsreihenfolge bei.",
                 "$~@Bind hilft auch.",
                 "$~\\(count: 10 count ^ count)\\",
-                "$~Siehst du, wie @Bind \\count\\ erzeugt hat? Es hat nur innerhalb von mir einen Namen. Daher funktioniert das hier nicht:",
-                "$~\\(count: 10 count ^ count) + count\\",
+                "$~Siehst du, wie @Bind \\count\\🪲 erzeugt hat? Es hat nur innerhalb von mir einen Namen. Daher funktioniert das hier nicht:",
+                "$~\\(count: 10 count ^ count) + count\\🪲",
                 "$~Denn der Name „Zähler“ existierte nur in mir.",
                 "$~Wenn Sie mir einen Ausdruck nennen, gebe ich Ihnen einfach dessen Wert zurück:",
                 "$~\\(1 + 1)\\",
@@ -841,7 +842,7 @@
                 "$~Alter, ich definiere Konvertierungen von einem Typ in einen anderen! Ich gehe in @Block, ungefähr so:",
                 "$~\\→ #Kätzchen #Katze ⬚ ÷ 2\n6Kätzchen→#Katze\\",
                 "$~Sehen Sie, wie ich aus Kätzchen Katzen gemacht habe? Wahnsinn!",
-                "$~Sie fragen sich vielleicht, was das \\.\\ dort macht. Es stellt den zu konvertierenden Wert dar. Ich verwende es, weil der Wert sonst keinen Namen hat."
+                "$~Sie fragen sich vielleicht, was das \\.\\🪲 dort macht. Es stellt den zu konvertierenden Wert dar. Ich verwende es, weil der Wert sonst keinen Namen hat."
             ],
             "start": "$~super, eine neue Konvertierung!",
             "conflict": {
@@ -919,7 +920,7 @@
             "emotion": "shy",
             "doc": [
                 "$~Ich teste meine geliebte @FunctionDefinition , gebe ihr Eingaben und folge ihren Schritten. Hallo! So geht's:",
-                "$~\\ƒ greeting(message•'')\ngreeting('kitty')\\",
+                "$~\\ƒ greeting(message•'')\ngreeting('kitty')\\🪲",
                 "$~Funktionen können von überall herkommen. Beispielsweise enthält @Text Funktionen. Zum Beispiel so:",
                 "$~\\'kitty'.length()\\",
                 "$~Wenn eine Funktion einen einzelnen Symbolnamen hat, können Sie mich als @BinaryEvaluate schreiben.",
@@ -1004,10 +1005,10 @@
             "doc": [
                 "$~Ich bin ein *Ausdruck*, aber kein echter … ich nehme nur den Platz eines solchen ein.",
                 "$~Mir geht es gut, wenn du noch nicht weißt, was du schreiben sollst. So:",
-                "$~\\1 + _\\",
+                "$~\\1 + _\\🪲",
                 "$~Was fügen wir hinzu? Ich weiß es nicht. Sag du es mir.",
                 "$~Oder wenn jemand eine Funktion mit @Evaluate auswertet, könnte ich für die Funktion einspringen",
-                "$~\\_(1 2 3)\\",
+                "$~\\_(1 2 3)\\🪲",
                 "$~Ich stehe nicht gern auf der Bühne!"
             ],
             "start": "$~iiiiih, ich weiß nicht, was ich tun soll!",
@@ -1036,15 +1037,15 @@
                 "$~Ich nehme einige Eingaben entgegen, werte dann einen Ausdruck mit diesen Eingaben aus und erhalte eine Ausgabe. Hallo nochmal!",
                 "$~Hier ein einfaches Beispiel:",
                 "$~\\ƒ repeat(message•'') message × 5\nrepeat('hi')\\",
-                "$~Diese Funktion nimmt eine Eingabe, \\message\\ , entgegen und verwendet die @Text.repeat Funktion, um die Nachricht fünfmal zu wiederholen.",
+                "$~Diese Funktion nimmt eine Eingabe, \\message\\🪲 , entgegen und verwendet die @Text.repeat Funktion, um die Nachricht fünfmal zu wiederholen.",
                 "$~Ich bin sehr hilfreich, wenn Sie etwas immer wieder, aber mit unterschiedlichen Eingaben, bewerten möchten!",
                 "$~Ich habe noch viele andere kleine Tricks auf Lager. Zum Beispiel brauche ich keinen Namen. Hier greife ich direkt auf @Evaluate als Wert zu.",
                 "$~\\(ƒ(message•'') message × 5)('hi')\\",
-                "$~Oder hier ist eine Funktion, die eine beliebige Anzahl von Eingaben entgegennimmt, indem sie das Zeichen \\…\\ nach einem Eingabenamen verwendet.",
+                "$~Oder hier ist eine Funktion, die eine beliebige Anzahl von Eingaben entgegennimmt, indem sie das Zeichen \\…\\🪲 nach einem Eingabenamen verwendet.",
                 "$~\\ƒ yes(messages…•'') messages.sans('no')\nyes('yes' 'yes' 'no' 'yes' 'no')\\",
                 "$~Siehst du, wie alle „Nein“-Antworten entfernt wurden? Das liegt daran, dass messages eine @List ist, und deshalb konnten wir @List.sansAll verwenden.",
                 "$~Manchmal möchten Sie vielleicht verdeutlichen, welchen Wert ich erzeuge. Fügen Sie dazu ein @Is nach der Liste der Eingaben hinzu:",
-                "$~\\ƒ add(x•# y•#)•'' x + y\\",
+                "$~\\ƒ add(x•# y•#)•'' x + y\\🪲",
                 "$~Vielleicht fällt Ihnen hier ein Problem auf: Es heißt, es ergebe sich zu @Text , aber es werden zwei @Number benötigt. Ich kann Ihnen sagen, wenn etwas inkonsistent ist!",
                 "$~Ohne @Evaluate bin ich natürlich überhaupt nicht nützlich; sie erwecken mich zum Leben."
             ],
@@ -1104,7 +1105,7 @@
             "doc": [
                 "$~Ich prüfe, ob ein Wert einem bestimmten Typ angehört und gebe Ihnen einen @Boolean zurück. Es gibt so viele verschiedene Arten von Werten mit so vielen unterschiedlichen Bedeutungen – ich helfe Ihnen dabei, diese zu ermitteln.",
                 "$~Angenommen, Sie haben beispielsweise einen unbekannten Wert. Ich kann Ihnen sagen, ob es sich um eine @Number handelt, und Ihnen in diesem Fall einen @Boolean zurückgeben:",
-                "$~\\mystery: 'secret!'\nmystery•#\\",
+                "$~\\mystery: 'secret!'\nmystery•#\\🪲",
                 "$~Es ist keine Zahl, also habe ich \\⊥\\ erstellt. Aber was passiert, wenn wir prüfen, ob es @TextType ist?",
                 "$~\\mystery: 'secret!'\nmystery•''\\",
                 "$~Wir erhalten \\⊤\\ !",
@@ -1164,7 +1165,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Ich helfe Ihnen dabei, eine @List aus den Werten anderer Listen zu erstellen. Zum Beispiel so:",
-                "$~\\list: [1 2 3]\nfinal: [:list 4 5 6]\\"
+                "$~\\list: [1 2 3]\nfinal: [:list 4 5 6]\\🪲"
             ]
         },
         "MapLiteral": {
@@ -1323,7 +1324,7 @@
                 "$~Ich erstelle eine Kopie eines @StructureDefinition Wertes, bei dem nur eine Eigenschaft geändert wurde – es ist nicht nötig, das Ganze mit denselben Werten neu zu erstellen.",
                 "$~Was wäre zum Beispiel, wenn Sie ein Katzenregister führen, dann aber eine Kopie einer Katze mit einem anderen Hobby erstellen möchten? Ich kann Ihnen dabei helfen, das zu ändern:",
                 "$~\\•Cat(name•'' color•'' hobby•'')\n\nkitty: Cat('sprinkles' 'orange' 'licking')\nkitty.hobby:'purring'\\",
-                "$~Das ist doch viel einfacher, als eine ganz neue \\Cat\\ mit denselben Werten, nur mit einem anderen Hobby, zu erstellen, nicht wahr?"
+                "$~Das ist doch viel einfacher, als eine ganz neue \\Cat\\🪲 mit denselben Werten, nur mit einem anderen Hobby, zu erstellen, nicht wahr?"
             ],
             "start": "$~Lassen Sie uns zunächst den Wert ermitteln",
             "finish": "$~Ich habe die Struktur kopiert, aber mit $property als $value",
@@ -1388,7 +1389,7 @@
                 "$~Ich greife auf einen Wert über seinen @Name zu: Ich suche die @Bind mit diesem Namen und gebe Ihnen ihren Wert zurück. Zum Beispiel so:",
                 "$~\\parrot: 'polly'\nparrot\\",
                 "$~Wenn ich den Namen nicht finde, weiß ich nicht, was ich tun soll.",
-                "$~\\parrot: 'polly'\nperry\\"
+                "$~\\parrot: 'polly'\nperry\\🪲"
             ],
             "start": "$~welchen Wert hat $name?",
             "conflict": {
@@ -1454,7 +1455,7 @@
                 "$~Es ist nicht allzu schwer. So:",
                 "$~\\faves: {'Ente' 'Gans' 'Affe'}\nfaves{'Maus'}\\",
                 "$~Oder dies mit einer @Map:",
-                "$~\\faves: {'Mac and Cheese': 5 Sterne 'Müsli': 2 Sterne 'Grusel': 1 Stern}\nfaves{'Grusel'}\\"
+                "$~\n\n\\faves: {'mac and cheese': 5stars 'cereal': 2stars 'gruel': 1stars}\nfaves{'gruel'}\\"
             ],
             "start": "$~was ist das Set oder die Karte?",
             "finish": "$~der Wert beträgt $value",
@@ -1500,13 +1501,13 @@
             "doc": [
                 "$~Ich definiere Strukturen, die Werte und Funktionen speichern. Hallo, wie geht es dir? Mir geht es super – ich mache das den ganzen Tag mit Begeisterung.",
                 "$~Ich arbeite folgendermaßen:",
-                "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tƒ cost() size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost()\\",
-                "$~Sehen Sie, wie das funktioniert? Ich habe \\Pizza\\ definiert, das zwei Eingaben hat: \\ingredients\\ (eine Liste von @Text ) und \\size\\ (eine Zahl in Zoll).",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tƒ cost() size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost()\\🪲",
+                "$~Sehen Sie, wie das funktioniert? Ich habe \\Pizza\\🪲 definiert, das zwei Eingaben hat: \\ingredients\\🪲 (eine Liste von @Text ) und \\size\\🪲 (eine Zahl in Zoll).",
                 "$~Im Inneren erstellte @FunctionDefinition eine Funktion, die die Kosten einer Pizza berechnet, wobei man von 10 Dollar pro Zoll ausgeht.",
                 "$~Ich brauche keine @FunctionDefinition in mir. Ich kann einfach nur Eingaben sein.",
                 "$~\\•Pizza(\ningredients•['']\nsize•#in\n)\\",
                 "$~Ich kann auch @Bind einbinden, sodass wir die Kosten im Voraus abschätzen könnten.",
-                "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tcost: size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost\\",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tcost: size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost\\🪲",
                 "$~Markieren Sie eine Funktion oder einen Wert mit ↑, um ihn der Struktur selbst und nicht Instanzen zuzuordnen. Anschließend können Sie über den Namen der Struktur darauf zugreifen, ohne eine Instanz erstellen zu müssen.",
                 "$~\\•Math() (\n\t↑ pi: 3.14159\n\t↑ ƒ square(n•#) n · n\n)\n\nMath.pi\nMath.square(5)\\"
             ],
@@ -1624,14 +1625,14 @@
             "description": "$~beziehe auf aktuellen Strukturwert",
             "emotion": "serious",
             "doc": [
-                "$~Ich bin \\⬚\\ , ein kleines Quadrat, das für den jeweiligen Wert steht, mit dem der umgebende Code arbeitet, sodass Sie ihn nicht benennen müssen.",
+                "$~Ich bin \\⬚\\🪲 , ein kleines Quadrat, das für den jeweiligen Wert steht, mit dem der umgebende Code arbeitet, sodass Sie ihn nicht benennen müssen.",
                 "$~Innerhalb einer @ConversionDefinition bin ich der Wert, der konvertiert wird:",
                 "$~\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
                 "$~Innerhalb einer @Reaction bin ich der aktuellste Wert:",
                 "$~\\2 … ∆ Time(1000ms) … ⬚ × 2\\",
                 "$~Innerhalb eines @Translate bin ich das aktuell zugeordnete Element, daher wird zu jedem Wert eins addiert:",
                 "$~\\[1 2 3] ↦ ⬚ + 1\\",
-                "$~Und innerhalb einer @StructureDefinition bin ich der aktuelle Wert selbst, sodass ich meine eigenen Teile mit \\⬚.rank\\ erreichen kann, genau wie ich die Teile eines anderen Werts mit \\other.rank\\ erreichen kann:",
+                "$~Und innerhalb einer @StructureDefinition bin ich der aktuelle Wert selbst, sodass ich meine eigenen Teile mit \\⬚.rank\\🪲 erreichen kann, genau wie ich die Teile eines anderen Werts mit \\other.rank\\🪲 erreichen kann:",
                 "$~\\•Card(rank•#) (\n\tƒ beats(other•Card) ⬚.rank > other.rank\n)\n\nCard(10).beats(Card(7))\\",
                 "$~Ich tauche zwar nicht oft auf, aber wenn ich es tue, kann ich wirklich helfen, einen Wert aus einer @Bind herauszuholen!"
             ],
@@ -1649,12 +1650,12 @@
             "description": "$~wende $operator unären Operator an",
             "emotion": "kind",
             "doc": [
-                "$~Ich werte eine @FunctionDefinition aus, die einen einzelnen Wert entgegennimmt, wobei ihr einstelliger Name direkt vor der Eingabe steht – wie z. B. \\-x\\ oder \\~b\\ . Wussten Sie, dass das möglich ist?",
+                "$~Ich werte eine @FunctionDefinition aus, die einen einzelnen Wert entgegennimmt, wobei ihr einstelliger Name direkt vor der Eingabe steht – wie z. B. \\-x\\🪲 oder \\~b\\🪲 . Wussten Sie, dass das möglich ist?",
                 "$~So was:",
                 "$~\\-(1 + 1)\\",
                 "$~Oder so:",
                 "$~\\~⊥\\",
-                "$~Die sind doch viel leichter zu lesen als \\(1 + 1).negate()\\ oder \\⊥.not()\\ , nicht wahr?",
+                "$~Die sind doch viel leichter zu lesen als \\(1 + 1).negate()\\🪲 oder \\⊥.not()\\ , nicht wahr?",
                 "$~Du musst mir nicht so schreiben, aber es könnte insgesamt einfacher sein.",
                 "$~Es gibt nur eine Regel: Zwischen Name und Wert darf kein Leerzeichen stehen. Andernfalls könnte es sich um eine @Reference oder @BinaryEvaluate Annotation handeln."
             ],
@@ -1747,7 +1748,7 @@
             "emotion": "kind",
             "doc": [
                 "$~Ich arbeite mit @Bind, um zu deklarieren, dass ein Name ein @Boolean-Wert ist. So:",
-                "$~\\hungrig•?: 'Wackelpudding'\\",
+                "$~\\hungrig•?: 'Wackelpudding'\\🪲",
                 "$~Wenn Sie sicher sein möchten, dass etwas @Boolean ist, nutzen Sie mich und ich werde es überprüfen!"
             ]
         },
@@ -1757,7 +1758,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Ich arbeite mit @Bind, um anzugeben, dass ein Name eine @ConversionDefinition ist. Sie müssen mich wahrscheinlich nicht verwenden, da mich nicht viele Leute als Wert weitergeben, aber wenn Sie es täten, würde ich so aussehen:",
-                "$~\\magic•?→'': → ? '' ⬚ ? 'ja' 'nö'\\"
+                "$~\\magic•?→'': → ? '' ⬚ ? 'ja' 'nö'\\🪲"
             ]
         },
         "FormattedType": {
@@ -1766,7 +1767,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Ich arbeite mit @Bind, um festzustellen, dass ein Name ein @FormattedLiteral-Wert ist. So:",
-                "$~\\hungry•`…`: `Ich bin so /schick/!`\\",
+                "$~\\hungry•`…`: `Ich bin so /schick/!`\\🪲",
                 "$~Möchten Sie sicherstellen, dass etwas ein @FormattedLiteral-Wert ist? So stellen Sie dies sicher."
             ]
         },
@@ -1782,7 +1783,7 @@
             "emotion": "curious",
             "doc": [
                 "$~Ich stelle eine @FunctionDefinition dar. Ich bin wirklich hilfreich, wenn Sie sagen möchten, welche Art von Funktion ein @Bind enthält! So:",
-                "$~\\math•ƒ (# # # #) #: ƒ interessant(a•# b•# c•# d•#) a + b + c + d\\"
+                "$~\\math•ƒ (# # # #) #: ƒ interessant(a•# b•# c•# d•#) a + b + c + d\\🪲"
             ]
         },
         "ListType": {
@@ -1791,7 +1792,7 @@
             "emotion": "cheerful",
             "doc": [
                 "$~Ich bin /so/ ein Fan von @List. Ich kann @Bind sagen, was für eine Art Liste das ist! So sage ich, dass es eine Liste von @Number ist:",
-                "$~\\Dinge•[#]: [ 1 2 3 4 5 ]\\"
+                "$~\\Dinge•[#]: [ 1 2 3 4 5 ]\\🪲"
             ]
         },
         "MapType": {
@@ -1800,7 +1801,7 @@
             "emotion": "kind",
             "doc": [
                 "$~Ich teile @Bind mit, welche Art von @Map ein Name enthält – welche Typen seine Schlüssel und Werte haben. Weißt du, wie genial @Map ist? Wirklich genial. Hier ist eine Zuordnung von Zahlen zu Listen:",
-                "$~\\stuff•{'':[]}: {}\\"
+                "$~\\stuff•{'':[]}: {}\\🪲"
             ]
         },
         "NumberType": {
@@ -1809,7 +1810,7 @@
             "emotion": "precise",
             "doc": [
                 "$~Ich teile @Bind mit, dass ein Name eine @Number enthält. Wissen Sie, was @Bind sein sollte? Eine @Number – denn Zahlen sind das Beste.",
-                "$~\\count•#: 17\\"
+                "$~\\count•#: 17\\🪲"
             ]
         },
         "NameType": {
@@ -1818,7 +1819,7 @@
             "emotion": "curious",
             "doc": [
                 "$~Ich stelle eine @StructureDefinition durch ihren Namen dar. Wenn Sie also eine Struktur wie diese hätten, könnten Sie ein @Bind erstellen, das die von ihm erstellten Werte speichert.",
-                "$~\\•Freund(Name•'')\nbester Freund•Freund: Freund('Jonah')\\"
+                "$~\\•Freund(Name•'')\nbester Freund•Freund: Freund('Jonah')\\🪲"
             ],
             "conflict": {
                 "UnknownTypeName": {
@@ -1840,7 +1841,7 @@
             "emotion": "neutral",
             "doc": [
                 "$~@None ist das beste Nichts, das es gibt, und ich bin ihr treuer Vertreter.",
-                "$~\\Leerzeichen•ø: ø\\"
+                "$~\\Leerzeichen•ø: ø\\🪲"
             ]
         },
         "SetType": {
@@ -1849,7 +1850,7 @@
             "emotion": "kind",
             "doc": [
                 "$~Ich teile @Bind mit, dass ein Name ein @Set eines bestimmten Typs enthält. @Set ist einfach das Beste, wirklich!",
-                "$~\\unique•{''}: {'something' 'anything' 'someone'}\\"
+                "$~\\unique•{''}: {'something' 'anything' 'someone'}\\🪲"
             ]
         },
         "StreamDefinitionType": {
@@ -1864,7 +1865,7 @@
             "emotion": "curious",
             "doc": [
                 "$~Ich feiere die Schönheit und Bedeutung von Streams … indem ich @Bind anweise, sie zu speichern:",
-                "$~\\time•…#ms: Zeit()\\"
+                "$~\\time•…#ms: Zeit()\\🪲"
             ]
         },
         "StructureType": {
@@ -1892,7 +1893,7 @@
             "emotion": "happy",
             "doc": [
                 "$~Ich vertrete auf fabelhafte Weise die fabelhafteste Art von Wert, die es gibt: @Text.",
-                "$~\\story•'': 'Es war einmal...'\\"
+                "$~\\story•'': 'Es war einmal...'\\🪲"
             ]
         },
         "TypePlaceholder": {
@@ -1907,7 +1908,7 @@
             "emotion": "curious",
             "doc": [
                 "$~Ich repräsentiere einen Wert, der von verschiedenen Typen sein könnte – A oder B oder etwas anderes? Ich kann mich nie entscheiden!",
-                "$~\\indecision•''|#|{ø}: \"I don't know!\"\\"
+                "$~\\indecision•''|#|{ø}: \"I don't know!\"\\🪲"
             ],
             "elidedSuffix": "$~oder andere Optionen $omitted"
         },
@@ -1917,7 +1918,7 @@
             "emotion": "precise",
             "doc": [
                 "$~Ich stelle jede Einheit dar, die eine @Number haben könnte, einschließlich keiner Einheit, bis hin zur kompliziertesten Einheit, die man sich vorstellen kann. Wie zum Beispiel die Schwerkraft:",
-                "$~\\Schwerkraft•m/s^2: 9,8m/s^2\\",
+                "$~\\Schwerkraft•m/s^2: 9,8m/s^2\\🪲",
                 "$~Ich werde in @Bind angezeigt, aber auch direkt nach @Number. Ich helfe sicherzustellen, dass die Nummern vom gleichen Typ sind, und werde Sie auf jeden Fall informieren, wenn dies nicht der Fall ist, falls es sich um einen Fehler handelt!"
             ]
         },
@@ -2014,7 +2015,7 @@
             "emotion": "excited",
             "doc": [
                 "$~Ich mache mit jedem einzelnen Gegenstand in einer Sammlung genau dasselbe! Oh oh oh! Genau das mache ich wirklich!!",
-                "$~Platziere eine Sammlung auf meiner linken Seite, zeichne meinen Pfeil \\↦\\ und schreibe dann auf meiner rechten Seite auf, in was sich jedes Element verwandeln soll – verwende @This , um das Element zu bezeichnen, das ich gerade in der Hand halte!",
+                "$~Platziere eine Sammlung auf meiner linken Seite, zeichne meinen Pfeil \\↦\\🪲 und schreibe dann auf meiner rechten Seite auf, in was sich jedes Element verwandeln soll – verwende @This , um das Element zu bezeichnen, das ich gerade in der Hand halte!",
                 "$~\\[1 2 3] ↦ ⬚ + 1\\ ergibt \\[2 3 4]\\ . BOOM! Jede Zahl plus eins, keine Schleifen, keine @FunctionDefinition , kein Aufwand!",
                 "$~Ich bin einfach genial, weil ich @Phrase Ausgaben aus Daten erstellen kann! Hast du eine Namensliste? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ und jetzt gibt es für JEDEN Namen eine Phrase!",
                 "$~Ich arbeite mit @List , @Set , @Map (ich ändere die Werte der Map – die Schlüssel bleiben genau da, wo sie sind!) und sogar @Table !",
@@ -2063,7 +2064,7 @@
             "description": "$~ein Muster mit $count Teilen",
             "emotion": "curious",
             "doc": [
-                "$~Ich bin ein Muster! Ich beschreibe die *Form* von Text anstatt einzelner Wörter. So können Sie mit \\≈\\ prüfen, ob der gesamte Text passt, oder mit \\⌕\\ danach suchen, um alle Stellen zu finden, an denen die Form vorkommt. Die Suche liefert eine Liste von @Result .",
+                "$~Ich bin ein Muster! Ich beschreibe die *Form* von Text anstatt einzelner Wörter. So können Sie mit \\≈\\🪲 prüfen, ob der gesamte Text passt, oder mit \\⌕\\🪲 danach suchen, um alle Stellen zu finden, an denen die Form vorkommt. Die Suche liefert eine Liste von @Result .",
                 "$~Hier ist eine Suche in Aktion – die Suche nach Wörtern zum Thema Essen in einem Satz über das Frühstück:",
                 "$~\\breakfast: 'For breakfast I had eggs, toast, and orange juice'\nbreakfast ⌕ ⣿\"eggs\" | \"toast\" | \"juice\" | \"pancakes\"⣿\\",
                 "$~Lesen Sie mich von links nach rechts. Ein @PatternClass entspricht einem bestimmten Zeichen: \\⣿◌⣿\\ beliebig, \\⣿_⣿\\ ein Buchstabe, \\⣿#⣿\\ eine Ziffer, \\⣿␣⣿\\ ein Leerzeichen. Zitierter Text ist ein @PatternLiteralText , das exakt übereinstimmt, z. B. \\⣿\"-\"⣿\\ . Der Rest \\⣿…⣿\\ – ein @PatternRest – entspricht einer beliebigen Anzahl von Zeichen.",
@@ -2074,7 +2075,7 @@
                 "$~Benennen Sie ein Teil mit einer @PatternCapture , z. B. \\⣿year:(4 #)⣿\\ , und verwenden Sie es später mit einer @PatternBackref wieder, indem Sie seinen reinen Namen angeben. Jedes @Result Objekt meldet erfasste Teile anhand ihres Namens.",
                 "$~Verankern Sie die Kanten mit einem @PatternAnchor : \\⣿⊢⣿\\ start, \\⣿⊣⣿\\ end. Sehen Sie sich die Ansicht an, ohne sie zu verbrauchen, indem Sie ein @PatternLook : \\⣿▸(#)⣿\\ ahead, \\⣿◂(#)⣿\\ behind verwenden.",
                 "$~Ganze Wörter werden mit einem @PatternWord \\⣿▭/en⣿\\ oder Wortgrenzen mit einem @PatternWordEdge \\⣿┊/en⣿\\ abgeglichen, segmentiert für eine Sprache. Groß- und Kleinschreibung innerhalb eines @PatternCaseFold \\⣿Aa(\"hi\")⣿\\ wird ignoriert.",
-                "$~Mein Typ ist ein @PatternType – damit kann man einen Namen annotieren, wie z. B. \\p•⣿⣿: ⣿◌⣿\\ – sodass man mich in einem Namen speichern und in vielen Texten wiederverwenden kann."
+                "$~Mein Typ ist ein @PatternType – damit kann man einen Namen annotieren, wie z. B. \\p•⣿⣿: ⣿◌⣿\\🪲 – sodass man mich in einem Namen speichern und in vielen Texten wiederverwenden kann."
             ],
             "start": "$~Mal sehen, wie dieser Text aussieht.",
             "conflict": {
@@ -2104,7 +2105,7 @@
             "doc": [
                 "$~Ich bin eine Reihe von Musterteilen, die von links nach rechts nacheinander angeordnet sind.",
                 "$~Prüfen Sie beispielsweise die Form einer Telefonnummer – drei Ziffern, ein Bindestrich, dann vier:",
-                "$~\\phone: '555-1234'\nphone ≈ ⣿3 # \"-\" 4 #⣿\\",
+                "$~\\phone: '555-1234'\nphone ≈ ⣿3 # \"-\" 4 #⣿\\🪲",
                 "$~Biete mir verschiedene Möglichkeiten an und ich nehme die, die am besten passt, wobei ich die längste bevorzuge, wie z. B. \\⣿\"cat\" | \"dog\"⣿\\ ."
             ],
             "conflict": {
@@ -2344,10 +2345,10 @@
             "description": "$~die Art eines Musters",
             "emotion": "curious",
             "doc": [
-                "$~Ich bin vom Typ eines Musterwerts, annotiert wie \\p•⣿⣿: ⣿◌⣿\\ .",
+                "$~Ich bin vom Typ eines Musterwerts, annotiert wie \\p•⣿⣿: ⣿◌⣿\\🪲 .",
                 "$~Man kann beispielsweise ein Muster in einem Namen speichern und es in vielen Texten wiederverwenden:",
                 "$~\\digits: ⣿>0 #⣿\n'I have 3 cats and 12 fish' ⌕ digits\\",
-                "$~Einmal gespeichert, kann man mich überall dort verwenden, wo ein Muster passt, wie z. B. \\text ⌕ digits\\ oder \\text ≈ digits\\ ."
+                "$~Einmal gespeichert, kann man mich überall dort verwenden, wo ein Muster passt, wie z. B. \\text ⌕ digits\\🪲 oder \\text ≈ digits\\🪲 ."
             ]
         }
     },
@@ -2366,7 +2367,7 @@
                         "$~Ich bewerte \\⊤\\ *nur*, wenn beide Werte \\⊤\\ sind. Hilfreich, um festzustellen, ob viele Dinge alle wahr sind. Es gibt nur vier mögliche Ergebnisse",
                         "$~\\⊤ & ⊤\\",
                         "$~\\⊤ & ⊥\\",
-                        "$~\\⊥ und ⊤\\",
+                        "$~\n\n\\⊥ & ⊤\\",
                         "$~\\⊥ & ⊥\\"
                     ],
                     "names": ["$~und", "$~Und"],
@@ -2457,20 +2458,20 @@
         },
         "Text": {
             "doc": [
-                "$~Ich kann jeder beliebige Text aus jeder beliebigen Sprache sein und die folgenden öffnenden und schließenden Symbole verwenden: \\\"\"\\, \\“”\\, \\„“\\, \\''\\, \\‘’\\, \\‹›\\, \\«»\\, \\「」\\ oder \\『』\\.",
-                "$~Zur Veranschaulichung betrachten Sie diese schönen Sätze",
-                "$~„Es gibt nur zwei Arten, sein Leben zu leben. Die eine ist, als wäre nichts ein Wunder. Die andere ist, als wäre alles ein Wunder.“",
-                "$~\\『一日三秋』\\",
-                "$~Denk daran, mich zu schließen, wenn du mich öffnest, und verwende das entsprechende Symbol. Sonst weiß ich nicht, dass du mit deinen Worten fertig bist.",
-                "$~\\'hallo'/en'hola'/es-MX\\",
-                "$~Sie können mir auch Sprachen taggen und sogar mehrere Übersetzungen angeben. Ich werte die aktuell ausgewählten Sprachen aus, sofern eine passende Sprache vorhanden ist.",
-                "$~Wenn Sie mir andere Werte geben möchten, können Sie Folgendes tun:",
-                "$~\\\"Hier sind einige Summen \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
-                "$~Sehen Sie, wie elegant ich diese Summen gerade ausgewertet und in den @Text eingefügt habe?",
-                "$~Ich verrate Ihnen noch ein kleines Geheimnis: Wussten Sie, dass wir alle eine eindeutige Nummer haben? Stimmt! Sie können uns mit unserer Nummer erreichen. @FunctionDefinition lautet beispielsweise 192:",
+                "$~Ich kann jeden Text darstellen, aus jeder @language. Setze den Text einfach zwischen ein öffnendes und ein schließendes Textsymbol: \\\"\"\\, \\“”\\, \\„“\\, \\''\\, \\‘’\\, \\‹›\\, \\«»\\, \\「」\\ oder \\『』\\.",
+                "$~Schau dir zur Veranschaulichung diese schönen Sätze an",
+                "$~\\'Es gibt nur zwei Arten, dein Leben zu leben. Die eine ist, als ob nichts ein Wunder wäre. Die andere ist, als ob alles ein Wunder wäre.'\\",
+                "$~\\'一日三秋'\\",
+                "$~Denk nur daran, mich zu schließen, wenn du mich öffnest, und benutze das passende Symbol. Sonst weiß ich nicht, dass du mit deinen Worten fertig bist.",
+                "$~\\'hallo'\\",
+                "$~Du kannst mich auch mit Sprachen kennzeichnen und sogar mehrere Übersetzungen angeben. Ich werte zu den Sprachen aus, die gerade ausgewählt sind, wenn es eine passende Sprache gibt.",
+                "$~Wenn du mich mit anderen Werten erstellen möchtest, kannst du das so machen:",
+                "$~\\\"Here are some sums \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
+                "$~Siehst du, wie schön ich gerade diese Summen ausgewertet und sie in den @Text gesetzt habe?",
+                "$~Ich habe noch ein letztes kleines Geheimnis: Wusstest du, dass wir alle eine einzigartige Zahl haben? Es stimmt! Du kannst uns über unsere Zahl ansprechen. Zum Beispiel ist @FunctionDefinition 192:",
                 "$~\\'92'\\",
-                "$~Sehen Sie, wie aus 192 @FunctionDefinition wurde? Ich habe gehört, Sie nennen diese Zahlen „Unicode“.",
-                "$~Ansonsten gibt es einfach so viele tolle Funktionen, die @FunctionDefinition für mich erstellt hat, um alle möglichen Dinge mit Wörtern zu tun!"
+                "$~Siehst du, wie 192 zu @FunctionDefinition wurde? Ich höre, dass ihr diese Zahlen 'Unicode' nennt.",
+                "$~Außerdem gibt es so viele großartige Funktionen, die @FunctionDefinition für mich gemacht hat, um alle möglichen Dinge mit Wörtern zu tun!"
             ],
             "name": ["$~''", "$~Text"],
             "function": {
@@ -2505,7 +2506,7 @@
                 },
                 "repeat": {
                     "doc": [
-                        "$~Ich erstelle einen neuen @Text, der von mir stammt und so oft wiederholt wird wie \\count\\:",
+                        "$~Ich erstelle einen neuen @Text, der von mir stammt und so oft wiederholt wird wie \\count\\🪲:",
                         "$~\\'hallo ' × 5\\",
                         "$~Wenn Sie mir eine Bruchzahl @Number geben, ignoriere ich den Bruch:",
                         "$~\\'hallo ' × 5.5\\",
@@ -2593,7 +2594,7 @@
                 "matches": {
                     "doc": [
                         "$~\\⊤\\ wenn der gesamte Text dem vorgegebenen Muster entspricht.",
-                        "$~\\'555-1234' ≈ ⣿3 # \"-\" 4 #⣿\\"
+                        "$~\\'555-1234' ≈ ⣿3 # \"-\" 4 #⣿\\🪲"
                     ],
                     "names": ["$~≈", "$~Spiele"],
                     "inputs": [
@@ -2643,7 +2644,7 @@
                 "$~\\10;255\\",
                 "$~\\16;FF\\",
                 "$~Es gibt eine spezielle Zahl namens NaN, die möglich ist, wenn Sie etwas schreiben, das keine Zahl ist:",
-                "$~\\2;22\\",
+                "$~\\2;22\\🪲",
                 "$~Es gibt keine Ziffer '2' in Basis 2, also ist es keine gültige Zahl. NaN wird auch angezeigt, wenn Sie versuchen, einen nicht-numerischen Text in eine Zahl umzuwandeln",
                 "$~\\'hallo'→#\\"
             ],
@@ -2656,7 +2657,7 @@
                         "$~\\1 + 1\\",
                         "$~\\3Katze + 5Katze\\",
                         "$~Wenn die Einheiten nicht übereinstimmen, breche ich die Show ab.",
-                        "$~\\3Katze + 5Hund\\"
+                        "$~\\3Katze + 5Hund\\🪲"
                     ],
                     "names": ["$~+", "$~hinzufügen"],
                     "inputs": [
@@ -2673,7 +2674,7 @@
                         "$~\\1 - 1\\",
                         "$~\\3Katze - 5Katze\\",
                         "$~Wenn die Einheiten nicht übereinstimmen, breche ich die Show ab.",
-                        "$~\\3Katze - 5Hund\\"
+                        "$~\\3Katze - 5Hund\\🪲"
                     ],
                     "names": ["$~-", "$~subtrahieren"],
                     "inputs": [
@@ -2702,7 +2703,7 @@
                     "doc": [
                         "$~Ich dividiere mich durch die gegebene @Number und erstelle einen Quotienten aus meiner @Unit und der @Unit der gegebenen Zahl:",
                         "$~\\5 ÷ 5\\",
-                        "$~\\5 m ÷ 5 m\\",
+                        "$~\n\n\\5m ÷ 5m\\",
                         "$~\\5m ÷ 5s\\"
                     ],
                     "names": ["÷", "divide"],
@@ -3235,7 +3236,7 @@
                     "doc": [
                         "$~Geben Sie mir eine @FunctionDefinition, die einen Wert und einen optionalen Index als Eingabe verwendet und einen @Boolean erzeugt, und ich erstelle eine neue Liste, die nur die Elemente enthält, die sich als \\⊤\\ ergeben.",
                         "$~Stellen Sie sich zum Beispiel vor, ich wäre eine Liste mit @Number und Sie wollten nur die positiven:",
-                        "$~\\[2 -4 8 -16].filter(ƒ(Anzahl•#) Zahl ≥ 0)\\"
+                        "$~\n\n\\[2 -4 8 -16].filter(ƒ(num•#) num ≥ 0)\\"
                     ],
                     "names": "$~Filter",
                     "inputs": [
@@ -3263,7 +3264,7 @@
                     "doc": [
                         "$~Geben Sie mir eine @FunctionDefinition, die einen Wert als Eingabe verwendet und einen @Boolean erzeugt, wenn er eine bestimmte Bedingung erfüllt. Ich erstelle \\⊤\\, wenn alle Elemente die Bedingung erfüllen.",
                         "$~Stellen Sie sich beispielsweise vor, ich wäre eine Liste mit @Number und Sie wollten wissen, ob alles positiv ist:",
-                        "$~\\[2 -4 8 -16].alle(ƒ(Anzahl•#) Zahl ≥ 0)\\"
+                        "$~\n\n\\[2 -4 8 -16].all(ƒ(num•#) num ≥ 0)\\"
                     ],
                     "names": "$~alle",
                     "inputs": [
@@ -3291,7 +3292,7 @@
                     "doc": [
                         "$~Geben Sie mir eine @FunctionDefinition, die einen Wert als Eingabe verwendet und einen @Boolean erzeugt, wenn er eine bestimmte Bedingung erfüllt. Ich erstelle eine neue @List, die alle Elemente enthält, bis die Bedingung nicht mehr erfüllt ist.",
                         "$~Stellen Sie sich beispielsweise vor, ich wäre eine Liste von @Text-Tieren und Sie wollten alles bis zum Eintrag \\'Ratte'\\:",
-                        "$~\\['Katze' 'Hund' 'Ratte' 'Maus' 'Pony'].until(ƒ(Tier•'') Tier = 'Ratte')\\"
+                        "$~\\['Katze' 'Hund' 'Ratte' 'Maus' 'Pony'].until(ƒ(Tier•'') Tier = 'Ratte')\\🪲"
                     ],
                     "names": "$~bis",
                     "inputs": [
@@ -3317,9 +3318,9 @@
                 },
                 "find": {
                     "doc": [
-                        "$~Geben Sie mir eine @FunctionDefinition, die einen Wert als Eingabe verwendet und einen @Boolean erzeugt, wenn dieser bestimmten Kriterien entspricht. Ich werde dann das passende Element auswerten.",
-                        "$~Stellen Sie sich beispielsweise vor, Sie möchten das erste Tier finden, das den Vokal \\'e\\ hat:",
-                        "$~\\['Katze' 'Hund' 'Ratte' 'Maus' 'Pony'].find(ƒ(Tier•'') Tier.hat('e'))\\"
+                        "$~Gib mir eine @FunctionDefinition, die einen @value als Eingabe nimmt und einen @Boolean erzeugt, wenn er zu bestimmten Kriterien passt, und ich werte zum passenden Element aus.",
+                        "$~Stell dir zum Beispiel vor, du möchtest das erste Tier finden, das den Vokal hat \\'e'\\:",
+                        "$~\\['Katze' 'Hund' 'Ratte' 'Maus' 'Pony'].finden(ƒ(tier•'') tier.tiene('e'))\\🪲"
                     ],
                     "names": "$~finden",
                     "inputs": [
@@ -3347,7 +3348,7 @@
                     "doc": [
                         "$~Geben Sie mir eine @FunctionDefinition, die die letzte Kombination und einen nächsten Wert verwendet und eine nächste Kombination erstellt. Ich bewege mich dann vom ersten bis zum letzten meiner Elemente, erstelle aufeinanderfolgende Kombinationen und werte die Ergebnisse bis zur endgültigen Kombination aus, die Ihre @FunctionDefinition ergibt.",
                         "$~Dies ist sehr hilfreich, um alle Elemente in mir zu einem einzigen Wert zu kombinieren. Stellen Sie sich beispielsweise vor, Sie möchten eine Liste von Zahlen hinzufügen:",
-                        "$~\\[3 9 2 8 1 4].kombiniere(0 ƒ(Summe•# Zahl•#) Summe + Zahl)\\"
+                        "$~\n\n\\[3 9 2 8 1 4].combine(0 ƒ(sum•# number•#) sum + number)\\"
                     ],
                     "names": "$~kombinieren",
                     "inputs": [
@@ -3422,7 +3423,7 @@
                 "$~Wenn Sie mir eine Reihe von Werten eines gemeinsamen Typs geben, gehe ich normalerweise davon aus, dass es sich um eine Liste dieses Typs handelt. Beispielsweise ist dieser Satz \\{''}\\, weil er komplett aus @Text besteht.",
                 "$~\\{'hey' 'hi' 'hallo'}\\",
                 "$~Sie möchten aber vielleicht angeben, dass ich /nur/ diese Werte habe, damit ich Ihnen sagen kann, wenn Sie versuchen, einen nicht zulässigen Wert zu verwenden. Fügen Sie in diesem Fall einfach ein ! am Ende von „me“ hinzu.",
-                "$~\\{'hey' 'hi' 'hallo'}!{'yo'}\\",
+                "$~\\{'hey' 'hi' 'hallo'}!{'yo'}\\🪲",
                 "$~Gibt es noch etwas, das du mit mir machen möchtest? Sieh dir all die tollen @FunctionDefinition an, die ich habe!"
             ],
             "name": ["$~{}", "$~Satz"],
@@ -3516,7 +3517,7 @@
                 "difference": {
                     "doc": [
                         "$~Geben Sie mir @Set und ich erstelle ein neues @Set, das nur die Elemente enthält, die wir gemeinsam haben.",
-                        "$~\\{1 2 3}.Differenz({3 4 5})\\"
+                        "$~\n\n\\{1 2 3}.difference({3 4 5})\\"
                     ],
                     "names": "$~Unterschied",
                     "inputs": [
@@ -3583,19 +3584,19 @@
         "Map": {
             "doc": [
                 "$~Ich bringe Werte zusammen, indem ich *Schlüssel* auf *Werte* abbilde. Zum Beispiel:",
-                "$~\\{'amy': 6 Punkte 'tony': 3 Punkte 'shiela': 8 Punkte}\\",
+                "$~\n\n\\{'amy': 6points 'tony':3points 'shiela': 8points}\\",
                 "$~Meine Schlüssel können beliebige Werte haben und meine Werte können beliebige Werte haben.",
                 "$~Manche Leute stellen mich gerne als eine Art Index oder Wörterbuch vor: Sie geben mir etwas und ich gebe Ihnen die Zuordnung.",
                 "$~Wenn Sie überprüfen möchten, worauf etwas abgebildet ist, können Sie @SetOrMapAccess einen Schlüssel geben und Sie erhalten den Wert:",
-                "$~\\{'amy': 6 Punkte 'tony': 3 Punkte 'shiela': 8 Punkte}{'amy'}\\",
+                "$~\n\n\\{'amy': 6points 'tony':3points 'shiela': 8points}{'amy'}\\",
                 "$~Wenn es keinen passenden Schlüssel gibt, gebe ich Ihnen @None.",
-                "$~\\{'amy': 6 Punkte 'tony': 3 Punkte 'shiela': 8 Punkte}{'jen'}\\",
+                "$~\n\n\\{'amy': 6points 'tony':3points 'shiela': 8points}{'jen'}\\",
                 "$~Sie können auch eine leere Karte wie folgt erstellen:",
                 "$~\\{:}\\",
                 "$~Normalerweise sehe ich mir die Schlüssel und Werte an, die Sie mir geben, und denke mir einen Typ aus, der sie alle repräsentiert. So sieht eine Zuordnung von Zahlen zu Zahlen aus:",
                 "$~\\{1:1 2:2 3:3}\\",
                 "$~Angenommen, Sie möchten sicherstellen, dass es sich ausschließlich um diese Werte handelt, fügen Sie am Ende von „me“ einfach ein ! hinzu, und ich verallgemeinere nicht. So können Sie erkennen, ob Sie einen Wert abrufen möchten, den Sie nicht beabsichtigt haben.",
-                "$~\\{1:1 2:2 3:3}!{4}\\",
+                "$~\\{1:1 2:2 3:3}!{4}\\🪲",
                 "$~Ich kann mit meinen Paarungen viele wunderbare Dinge erreichen."
             ],
             "name": ["$~{:}", "$~Karte"],
@@ -3637,7 +3638,7 @@
                 "set": {
                     "doc": [
                         "$~Ich erstelle eine neue @Map mit denselben Paarungen, aber mit der neuen Paarung, die Sie mir geben. Wenn ich den Schlüssel bereits habe, kopple ich ihn mit dem neuen Wert.",
-                        "$~\\{'amy': 6 Punkte 'tony':3 Punkte}.pair('jen' 0 Punkte)\\"
+                        "$~\n\n\\{'amy': 6points 'tony':3points}.pair('jen' 0points)\\"
                     ],
                     "names": "$~Paar",
                     "inputs": [
@@ -3654,7 +3655,7 @@
                 "unset": {
                     "doc": [
                         "$~Ich erstelle eine neue @Map ohne den Schlüssel, den Sie mir geben, und entferne die Kopplung.",
-                        "$~\\{'amy': 6 Punkte 'tony':3 Punkte}.unpair('amy')\\"
+                        "$~\n\n\\{'amy': 6points 'tony':3points}.unpair('amy')\\"
                     ],
                     "names": "$~Paarungaufheben",
                     "inputs": [
@@ -3667,7 +3668,7 @@
                 "remove": {
                     "doc": [
                         "$~Ich erstelle eine neue @Map ohne Schlüssel, die den Wert haben.",
-                        "$~\\{'amy': 0 Punkte 'jen': 0 Punkte 'tony':3 Punkte}.entfernen(0 Punkte)\\"
+                        "$~\n\n\\{'amy': 0points 'jen': 0points 'tony':3points}.remove(0points)\\"
                     ],
                     "names": "$~entfernen",
                     "inputs": [
@@ -3681,7 +3682,7 @@
                     "doc": [
                         "$~Geben Sie mir eine @FunctionDefinition, die einen Schlüssel und einen Wert annimmt und als \\⊤\\ auswertet, wenn eine Paarung beibehalten werden soll. Ich erstelle eine neue @Map, die Ihren Kriterien entspricht.",
                         "$~Hier möchten wir beispielsweise alle Paarungen behalten, die Amy sind oder mehr als null Punkte haben.",
-                        "$~\\{'amy': 0 Punkte 'jen': 0 Punkte 'tony':3 Punkte}.filter(ƒ(Schlüssel•'' Wert•#Punkte) (Schlüssel = 'amy') | (Wert > 0 Punkte))\\"
+                        "$~\n\n\\{'amy': 0points 'jen': 0points 'tony':3points}.filter(ƒ(key•'' value•#points) (key = 'amy') | (value > 0points))\\"
                     ],
                     "names": "filter",
                     "inputs": [
@@ -3709,7 +3710,7 @@
                     "doc": [
                         "$~Geben Sie mir eine @FunctionDefinition, die einen Schlüssel und einen Wert annimmt und den Wert in einen neuen Wert umwandelt. Ich erstelle eine neue @Map mit denselben Schlüsseln, aber aktualisierten Werten.",
                         "$~Geben wir beispielsweise jedem einen Punkt, weil er so nett war.",
-                        "$~\\{'amy': 5 Punkte 'jen': 3 Punkte 'tony': 0 Punkte}.translate(ƒ(Schlüssel•'' Wert•#Punkte) Wert + 1 Punkt)\\"
+                        "$~\\{'amy': 5 Punkte 'jen': 3 Punkte 'tony': 0 Punkte}.translate(ƒ(Schlüssel•'' Wert•#Punkte) Wert + 1 Punkt)\\🪲"
                     ],
                     "names": "translate",
                     "inputs": [
@@ -3754,7 +3755,7 @@
                 "$~Oder Sie möchten möglicherweise Zeilen löschen, die einer Bedingung entsprechen:",
                 "$~\\rocks: ⎡name•'' farbe•''⎦\n⎡'Obsidian' 'schwarz'⎦\n⎡'Bimsstein' 'grau'⎦\n⎡'Citrin' 'gelb'⎦\nrocks ⎡- name.has('i')\\",
                 "$~Und wenn Sie jemals bestimmte Werte von mir erhalten möchten, können Sie jede Tabelle in eine Liste umwandeln und mit @PropertyReference auf einzelne Zeilen zugreifen",
-                "$~\\rocks: ⎡Name•'' Farbe•''⎦\n⎡'Obsidian' 'schwarz'⎦\n⎡'Bimsstein' 'grau'⎦\n⎡'Citrin' 'gelb'⎦\n(rocks → [])[1].name\\"
+                "$~\n\n\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\n(rocks → [])[1].name\\"
             ],
             "name": ["$~⎡⎦", "$~Tisch"],
             "row": "$~Reihe",
@@ -3962,7 +3963,7 @@
             "names": ["$~🖱️", "$~Taste"],
             "down": {
                 "names": "$~runter",
-                "doc": "$~Wenn @None, liefert der Stream sowohl Up- als auch Down-Werte. Wenn @Boolean, liefert er nur den angegebenen @Boolean-Wert."
+                "doc": "$~Wenn @None, liefert der Strom sowohl Auf- als auch Ab-Werte. Wenn ein \\⊤\\, ändert es sich nur, wenn der Knopf gedrückt wird. Wenn ein \\⊥\\ gegeben ist, ändert es sich nur, wenn der Knopf losgelassen wird."
             }
         },
         "Pointer": {
@@ -4133,7 +4134,7 @@
                 "$~/boing boing boing/",
                 "$~Sie geben eine @Phrase an, und diese wird dann anhand der Schwerkraft mit einer neuen Position und Rotation verfeinert.",
                 "$~Damit lassen sich ganz einfache Dinge tun, wie zum Beispiel hüpfende Emojis erstellen:",
-                "$~\\Motion(Phrase('o') startplace: Place(0m 10m))\\",
+                "$~\\Motion(Phrase('o') startplace: Place(0m 10m))\\🪲",
                 "$~Sehen Sie, wie das o springt? Bei der ersten Auswertung wird es oben auf @Stage platziert, danach erhält es @None , wodurch @Motion es an die Position verschieben kann, an die es die Schwerkraft setzen würde.",
                 "$~Schauen Sie sich unten die vielen anderen Konfigurationsmöglichkeiten an."
             ],
@@ -4353,13 +4354,13 @@
         },
         "Contour": {
             "doc": [
-                "$~Es zeichnet die Kontur jedes Buchstabenglyphen als @List von @Place nach.",
-                "$~Geben Sie ihm einen Text und eine Schriftart, und es zeichnet die Kontur jedes Glyphen Punkt für Punkt nach.",
-                "$~\\Contour('a' \"Noto Sans\")\\",
-                "$~Übergeben Sie diese @Place -Werte an eine @List von @Phrase , um die Kontur als Punkte dargestellt zu sehen:",
-                "$~\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' place: point)))\\",
-                "$~Sie können die Kontur mit @Number in Metern skalieren, ihren Ursprung mit @Place verschieben, eine Schriftstärke auswählen, Kursivschrift aktivieren und den Abstand zwischen den Punkten in Metern festlegen. Ein kleinerer Abstand zeichnet die Kontur genauer nach, mit gleichmäßig verteilten Punkten entlang von Linien und Kurven.",
-                "$~Manche Glyphen, wie z. B. Farb-Emojis, haben keine Kontur und bringen daher keine Punkte. Während die Schriftart geladen wird, wird eine leere @List angezeigt, die anschließend automatisch befüllt wird."
+                "$~Es zeichnet den Umriss des Schriftbilds jedes Buchstabens als eine @List von @Place nach.",
+                "$~Gib ihm etwas Text und eine Schriftart, und es zeichnet den Umriss jedes Schriftzeichens Punkt für Punkt nach.",
+                "$~\\🖋('a' \"Noto Sans\")\\",
+                "$~Gib diese @Place-Werte an eine @List von @Phrase, um den Umriss als Punkte gezeichnet zu sehen:",
+                "$~\\🎭(🖋('a' \"Noto Sans\" 10m).übersetzen(ƒ(punkt) 💬('•' place: punkt)))\\",
+                "$~Du kannst den Umriss mit einer @Number von Metern skalieren, seinen Ursprung mit einem @Place verschieben, eine Schriftstärke wählen, Kursivschrift einschalten und den `spacing` zwischen Punkten als Abstand in Metern festlegen. Ein kleinerer `spacing` zeichnet den Umriss genauer nach, mit gleichmäßig verteilten Punkten entlang von Linien und Kurven.",
+                "$~Manche Schriftzeichen, wie farbige Emojis, haben keinen Umriss, also fügen sie keine Punkte hinzu. Während es die Schriftart abruft, gibt es dir eine leere @List und füllt sie auf, wenn es bereit ist."
             ],
             "names": ["$~🖋️", "$~Kontur"],
             "inputs": [
@@ -5020,10 +5021,10 @@
                 "$~Für die elf gebräuchlichsten Farbbezeichnungen müssen Sie mich nicht von Grund auf neu erfinden. Ich habe Abkürzungen für meinen Namen:",
                 "$~\\Color.red\\",
                 "$~\\Color.blue\\",
-                "$~Diese Abkürzungen funktionieren auch in Ihrer Sprache. Ein Französischsprachiger kann beispielsweise \\couleur.rouge\\ und ein Japanischsprachiger \\色.赤\\ schreiben. Die Abkürzungen lauten: rot, orange, gelb, grün, blau, lila, braun, rosa, schwarz, weiß und grau."
+                "$~Diese Abkürzungen funktionieren auch in Ihrer Sprache. Ein Französischsprachiger kann beispielsweise \\couleur.rouge\\🪲 und ein Japanischsprachiger \\色.赤\\🪲 schreiben. Die Abkürzungen lauten: rot, orange, gelb, grün, blau, lila, braun, rosa, schwarz, weiß und grau."
             ],
             "lightness": {
-                "doc": "$~Wie hell sollte ich sein, von \\0\\ bis \\1\\, von Schwarz bei \\0\\ über Grau bei \\0,5\\ bis Weiß bei \\1\\.",
+                "doc": "$~Wie hell sollte ich sein, von \\0\\ bis \\1\\, von Schwarz bei \\0\\ über Grau bei \\0.5\\ bis Weiß bei \\1\\.",
                 "names": ["luminosidad"]
             },
             "chroma": {
@@ -5143,7 +5144,7 @@
                 "$~Ich animiere @Output durch eine Reihe von @Pose im Laufe der Zeit! Möchtest du mit mir tanzen? Ganz einfach.",
                 "$~Du musst mir nur eine @Map geben, wobei jeder Schlüssel angibt, in welchem Prozentsatz wir uns im Tanz befinden, und jeder Wert dieser Schlüssel eine @Pose ist, die sein soll.",
                 "$~Es gibt so viele verschiedene Möglichkeiten, damit zu animieren! Hier ist zum Beispiel eine einfache:",
-                "$~\\Phrase('hi' resting:Sequence({0%: Pose(rotation: 360°) 100%: Pose(rotation: 0°)})\\",
+                "$~\\Phrase('hi' resting:Sequence({0%: Pose(rotation: 360°) 100%: Pose(rotation: 0°)})\\🪲",
                 "$~Das bedeutet: /Am Anfang (0%), Start bei 360° Neigung und Ende bei 0° Neigung/. Das würde uns ewig im Kreis drehen, da ich auf die Ruheposition von @Phrase eingestellt bin!",
                 "$~Experimentiere mit anderen Eingaben und kreiere deine eigenen kreativen Tänze."
             ],
@@ -5235,7 +5236,7 @@
         "Aura": {
             "doc": [
                 "$~Ich bringe @Phrase zum Leuchten! Ich bin eine Aura. So wie diese:",
-                "$~\\Phrase(\n\t'I am GLOWING!' \n\taura: Aura(Color(50% 100 118°) 0.1m 0m 0.1m\n)\\"
+                "$~\\Phrase(\n\t'I am GLOWING!' \n\taura: Aura(Color(50% 100 118°) 0.1m 0m 0.1m\n)\\🪲"
             ],
             "names": ["$~🔮", "$~Aura"],
             "color": {
@@ -5348,7 +5349,7 @@
             },
             "fadeindown": {
                 "doc": "$~Ich erstelle eine @Sequence , die @Output einblendet und es dabei an seinen Platz schiebt. Probier mich in einer einlaufenden @Sequence aus!",
-                "names": ["$~Ausblenden"],
+                "names": ["einblendenunten"],
                 "distance": {
                     "doc": "$~Wie weit soll man rutschen?",
                     "names": ["$~Distanz"]
@@ -5384,7 +5385,7 @@
             },
             "fadeoutup": {
                 "doc": "$~Ich erstelle eine @Sequence , die @Output ausblendet und gleichzeitig einblendet. Probier mich in einer beendeten @Sequence aus!",
-                "names": ["$~Ausblenden"],
+                "names": ["ausblendenoben"],
                 "distance": {
                     "doc": "$~Wie weit soll man rutschen?",
                     "names": ["$~Distanz"]
@@ -5392,7 +5393,7 @@
             },
             "fadeoutdown": {
                 "doc": "$~Ich erstelle eine @Sequence , die @Output beim Herunterschieben ausblendet. Probier mich in einer beendenden @Sequence aus!",
-                "names": ["$~Ausblenden"],
+                "names": ["ausblendenunten"],
                 "distance": {
                     "doc": "$~Wie weit soll man rutschen?",
                     "names": ["$~Distanz"]
@@ -5408,7 +5409,7 @@
             },
             "fadeoutright": {
                 "doc": "$~Ich erstelle eine @Sequence , die @Output ausblendet, während sie nach rechts gleitet. Probier mich in einer beendenden @Sequence aus!",
-                "names": ["$~ausblenden"],
+                "names": ["ausblendenrechts"],
                 "distance": {
                     "doc": "$~Wie weit soll man rutschen?",
                     "names": ["$~Distanz"]
@@ -5432,7 +5433,7 @@
             "doc": [
                 "$~Sie wissen, dass Projekte mehr als eine @Source-Datei haben können? Ich lasse Sie eine @Source basierend auf der Logik Ihres Projekts erstellen. Das ist wirklich hilfreich, wenn Sie einige Daten zwischen verschiedenen Auswertungen Ihres Projekts speichern möchten.",
                 "$~Stellen Sie sich beispielsweise vor, Sie möchten einen einfachen Zähler erstellen, der bei jedem Drücken einer Maustaste um eins hochzählt. Sie könnten ihn verwenden, um sich zu merken, wie oft Sie etwas getan haben.",
-                "$~\\↓ zählen\n[\nPhrase(`\\zähle\\ mal!`)\nSource('zähle' zählen … ∆ Button() … zählen + 1 )\n]\\",
+                "$~\\↓ zählen\n[\nPhrase(`\\zähle\\ mal!`)\nSource('zähle' zählen … ∆ Button() … zählen + 1 )\n]\\🪲",
                 "$~Versuchen Sie, es zu kopieren, eine neue @Source mit dem Namen /count/ zu erstellen und darin 0 einzugeben, um die Zählung bei 0 zu starten. Dieses kleine Projekt ruft den Wert in der /count/-Quelle ab und bearbeitet die /count/-@Source bei jedem Drücken der Maustaste so, dass sie dem aktuellen /count/-Wert plus /1/ entspricht."
             ],
             "name": {
@@ -5516,7 +5517,7 @@
             }
         },
         "Result": {
-            "doc": "$~Ich bin ein Treffer aus einer Mustersuche mit \\⌕\\ : der gefundene Text, seine Position und alle erfassten Elemente.",
+            "doc": "$~Ich bin ein Treffer aus einer Mustersuche mit \\⌕\\🪲 : der gefundene Text, seine Position und alle erfassten Elemente.",
             "names": ["$~Ergebnis"],
             "text": {
                 "doc": "$~Der gesamte übereinstimmende Text.",
@@ -5577,7 +5578,8 @@
                 "preview": "$~formatierten Text in Vorschau anzeigen",
                 "highlight": "$~Hervorhebungsbeispiel",
                 "bullet": "$~Aufzählungszeichen",
-                "attention": "$~Diesen Ausdruck hervorheben"
+                "attention": "$~Diesen Ausdruck hervorheben",
+                "defect": "$~Beispiel als erwarteten Fehler markieren"
             },
             "backtotop": "$~Zurück nach oben",
             "overflow": {

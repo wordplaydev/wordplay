@@ -71,7 +71,7 @@ import TypeVariables from '@nodes/TypeVariables';
 import Unit from '@nodes/Unit';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
 import parseDoc from '@parser/parseDoc';
-import { parseBlock } from '@parser/parseExpression';
+import { parseBlock, parseStructure } from '@parser/parseExpression';
 import parseProgram, { toProgram } from '@parser/parseProgram';
 import { Sym } from '@nodes/Sym';
 import { NONE_SYMBOL, PLACEHOLDER_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
@@ -116,6 +116,15 @@ test('Parse shares', () => {
     expect(good.expression).toBeInstanceOf(Block);
     expect((good.expression as Block).statements).toHaveLength(1);
     expect((good.expression as Block).statements[0]).toBeInstanceOf(Bind);
+});
+
+test('parseStructure produces an unparsable instead of throwing when `•` is missing', () => {
+    // A doc not followed by the structure symbol `•` (e.g. a malformed localized basis
+    // source whose doc ran long) must produce an UnparsableExpression, never throw an
+    // internal parsing error. Regression for a crash building the localized basis.
+    expect(parseStructure(toTokens('¶just a doc¶ notAType'))).toBeInstanceOf(
+        UnparsableExpression,
+    );
 });
 
 test('Unparsable runaways', () => {

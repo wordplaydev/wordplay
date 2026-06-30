@@ -276,7 +276,8 @@
         "PatternDelimiter": "$~pola",
         "Exponent": "$~eksponen",
         "Product": "$~produk",
-        "Percent": "$~persen"
+        "Percent": "$~persen",
+        "Defect": "$~contoh dengan cacat yang diharapkan"
     },
     "node": {
         "Dimension": {
@@ -286,9 +287,9 @@
             "doc": [
                 "$~Saya adalah sebuah /satuan ukuran/!",
                 "$~Saya bisa berupa satuan standar apa pun, seperti \\1m\\, \\10s\\, \\100g\\, atau satuan ilmiah lainnya. Saya juga senang menjadi satuan apa pun yang ingin saya buat sendiri, seperti \\17apel\\.",
-                "$~Tanda I dapat dikombinasikan dengan \\/\\ untuk membuat satuan rasio seperti \\17apel/hari\\ dan dengan \\^\\ untuk membuat satuan eksponensial seperti \\9.8m/s^2\\",
+                "$~Tanda I dapat dikombinasikan dengan \\/\\🪲 untuk membuat satuan rasio seperti \\17apel/hari\\ dan dengan \\^\\🪲 untuk membuat satuan eksponensial seperti \\9.8m/s^2\\",
                 "$~Saya harus selalu diletakkan setelah @Number. Jika tidak, saya mungkin disalahartikan sebagai @Reference, yang akan sangat memalukan!",
-                "$~Saya juga cukup mahir menemukan ketidaksesuaian antar satuan. Misalnya, \\1kucing + 1anjing\\ tidak masuk akal!",
+                "$~Saya juga cukup mahir menemukan ketidaksesuaian antar satuan. Misalnya, \\1kucing + 1anjing\\🪲 tidak masuk akal!",
                 "$~Jika Anda ingin melakukan konversi antar nilai satuan yang berbeda, silakan hubungi @Convert."
             ]
         },
@@ -297,20 +298,21 @@
             "description": "$~mendokumentasikan sebuah ekspresi dengan teks.",
             "emotion": "serious",
             "doc": [
-                "$~Saya memformat berbagai hal dengan @Markup, seperti penjelasan tentang beberapa @Program Anda, atau bahkan kata-kata yang Anda ucapkan di atas panggung dengan @Phrase.",
-                "$~Sebagai contoh, saya dapat diletakkan sebelum ekspresi apa pun:",
-                "$~¶Apakah ini benar-benar seharusnya 7?¶ 7",
-                "$~Misalnya, Anda dapat menempatkan saya sebelum @Bind:",
-                "$~¶Saya mengukur tinggi badan seseorang¶ tinggi: 5m",
+                "$~Aku memformat banyak hal dengan indah memakai @Markup, seperti penjelasan tentang bagian @Program-mu, atau bahkan kata-kata yang kamu taruh di panggung dengan @Phrase.",
+                "$~Misalnya, aku bisa muncul sebelum @expression mana pun:",
+                "$~\\¶Apakah ini seharusnya benar-benar 7?¶\n7\\",
+                "$~Misalnya, kamu bisa menaruhku sebelum @Bind:",
+                "$~\\¶Saya mengukur seberapa tinggi seseorang¶\ntinggi: 5m\\🪲",
                 "$~Atau sebelum @FunctionDefinition:",
-                "$~\\¶Saya menambahkan dua angka¶ ƒ sum(a•# b•#) a + b\\",
+                "$~\\¶Saya menambahkan dua angka¶\nƒ jumlah(a•# b•#) a + b\\",
                 "$~Atau sebelum @StructureDefinition:",
-                "$~¶Saya ingat nama orang dan buah favorit mereka¶ •Orang(nama•'' buah•'')\\",
-                "$~Anda juga bisa menempatkan saya di bagian paling awal @Program untuk menjelaskan tentang apa keseluruhan pertunjukan tersebut.",
-                "$~¶Program ini mengucapkan salam¶ 'halo!'",
-                "$~Anda bisa menambahkan @Language agar orang lain tahu bahasa apa yang saya gunakan:",
-                "$~¶Saya seorang dokter Inggris¶/durasi: 5 detik",
-                "$~Tahukah kamu bahwa kamu bisa membuat daftar tentangku? Silakan hubungi @Docs."
+                "$~\\¶I remember people's name and favorite fruit¶\n•Person(name•'' fruit•'')\\",
+                "$~You can also place me at the very beginning of @Program to say what the whole performance is about",
+                "$~\\¶This program says hello¶",
+                "$~'hello!'\\",
+                "$~You can give me a @Language to help others know what language I'm written in:",
+                "$~\\¶I'm an English doc¶/en\nduration: 5s\\🪲",
+                "$~Did you know you can make a list of me? Go talk to @Docs."
             ]
         },
         "Docs": {
@@ -320,7 +322,7 @@
             "doc": [
                 "$~Saya adalah daftar @Doc, berguna ketika Anda memiliki beberapa terjemahan @Doc dalam berbagai bahasa.",
                 "$~Anda tidak perlu melakukan hal khusus untuk membuat daftar. Cukup letakkan beberapa @Doc bersebelahan, seperti ini:",
-                "$~\\¶Halo¶/en ¶Hola¶/es salam: '…'\\"
+                "$~\\¶Halo¶/en ¶Hola¶/es salam: '…'\\🪲"
             ],
             "start": "$~Meningkatkan nilai dokumentasi!"
         },
@@ -346,12 +348,12 @@
                 "$~Contohnya, jika Anda ingin mengatakan \"Bahasa\" tetapi tetap menekankan bahwa itu dalam bahasa Inggris:",
                 "$~\\\"Language\"/en\\",
                 "$~Anda bisa melakukan ini untuk @Name :",
-                "$~\\sound/en: 'meow'\\",
+                "$~\\sound/en: 'meow'\\🪲",
                 "$~…atau @Doc :",
-                "$~\\¶Onomatopoeia¶/en\nsound/en: \"meow\"\\",
+                "$~\\¶Onomatopoeia¶/en\nsound/en: \"meow\"\\🪲",
                 "$~Terkadang teks bukan hanya satu bahasa — melainkan *campuran*. Seperti Spanglish, di mana bahasa Spanyol dan Inggris bercampur. Untuk itu, cantumkan setiap bahasa dengan garis bawah di antaranya. Yang pertama adalah *utama* — itulah yang saya gunakan ketika saya harus memilih (misalnya, untuk memilih tanda kutip mana yang akan digunakan).",
                 "$~\\\"Hola gentleman!\"/es_en\\",
-                "$~\\¶A bilingual greeting¶/es_en\nhello/es_en: \"Hola gentleman!\"\\",
+                "$~\\¶A bilingual greeting¶/es_en\nhello/es_en: \"Hola gentleman!\"\\🪲",
                 "$~Anda juga dapat menambahkan satu wilayah saja, setelah tanda hubung, sama seperti saat menambahkan satu bahasa:",
                 "$~\\\"Hola gentleman!\"/es_en-MX\\",
                 "$~Tidak ada batasan berapa banyak bahasa yang dapat Anda cantumkan — hanya saja jangan mengulangi bahasa yang sama dua kali; saya akan memberi tahu Anda jika Anda melakukannya. Ada banyak <kode bahasa 2 huruf@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> yang saya pahami. Jika Anda tidak menggunakan salah satu dari kode tersebut, saya juga akan memberi tahu Anda."
@@ -381,9 +383,9 @@
             "doc": [
                 "$~Saya mengidentifikasi suatu nilai, dan merupakan cara yang bermanfaat untuk memberikan label singkat pada sesuatu yang sulit dievaluasi, atau yang tidak ingin Anda evaluasi berulang kali.",
                 "$~@Bind memberi saya nama saya seperti ini:",
-                "$~\\hi: 5\\",
+                "$~\\hi: 5\\🪲",
                 "$~Saya hanya mewakili satu nilai, dan begitu saya memilikinya, saya tidak dapat mengubahnya. Misalnya, jika Anda mencoba melakukan ini dengan @Bind, kami akan memberikan peringatan.",
-                "$~\\hi: 5 hi: 3\\",
+                "$~\\hi: 5 hi: 3\\🪲",
                 "$~Yang perlu Anda lakukan untuk mendapatkan nilai saya adalah membuat @Reference atau @PropertyReference menggunakan nama. Di sini, @Bind memberi nama pada saya, lalu @Reference mendapatkan nilai yang diberikan kepada saya.",
                 "$~\\hi: 5 hi\\",
                 "$~Karena @Bind dapat muncul di banyak tempat, saya pun dapat muncul di banyak tempat. Saya berada di dalam @Block di atas, tetapi saya juga dapat berada di dalam @FunctionDefinition. Di sini saya memberi nama pesan untuk sementara waktu:",
@@ -401,8 +403,8 @@
             },
             "doc": [
                 "$~Saya adalah daftar @Name, berguna ketika Anda ingin memberikan beberapa nama pada suatu nilai, seringkali dengan @Language yang berbeda.",
-                "$~Nama dipisahkan oleh simbol \\,\\. Misalnya, berikut adalah @Bind yang memberikan nilai berupa beberapa @Name.",
-                "$~\\hi/en,halo/en,hola/es: 'selamat datang'\\"
+                "$~Nama dipisahkan oleh simbol \\,\\🪲. Misalnya, berikut adalah @Bind yang memberikan nilai berupa beberapa @Name.",
+                "$~\\hi/en,halo/en,hola/es: 'selamat datang'\\🪲"
             ]
         },
         "Row": {
@@ -491,11 +493,13 @@
             "description": "$~mengelompokkan kata-kata menjadi sebuah paragraf.",
             "emotion": "serious",
             "doc": [
-                "$~Saya adalah serangkaian @Words, @ConceptLink, @WebLink, dan @Example, dipisahkan oleh baris kosong, dan berada di dalam @Doc.",
-                "$~Yang perlu Anda lakukan untuk menghubungi saya hanyalah menulis beberapa kata dalam @Doc:",
-                "$~¶Saya adalah sebuah paragraf dalam sebuah dokumen.¶'satu paragraf'",
-                "$~Jika Anda menginginkan beberapa paragraf, cukup masukkan baris kosong.",
-                "$~\\¶Paragraf 1. Paragraf 2. Paragraf 3.¶'tiga paragraf'\\"
+                "$~Aku adalah rangkaian @Words, @ConceptLink, @WebLink, dan @Example, dipisahkan oleh baris kosong, dan berada di dalam @Doc.",
+                "$~Yang perlu kamu lakukan untuk menulisku hanyalah menulis sekumpulan kata di dalam @Doc:",
+                "$~\\¶Saya adalah sebuah paragraf di dalam dokumen.¶'satu paragraf'\\",
+                "$~Jika kamu mau beberapa paragraf, cukup taruh baris kosong.",
+                "$~\\¶Paragraf 1.",
+                "$~Paragraf 2.",
+                "$~Paragraf 3.¶'tiga paragraf'\\"
             ]
         },
         "WebLink": {
@@ -503,9 +507,9 @@
             "description": "$~tautan ke alamat web $url",
             "emotion": "serious",
             "doc": [
-                "$~Saya adalah tautan ke sesuatu di internet. Saya hanya membutuhkan deskripsi dan URL:",
-                "$~Saya adalah seorang<link@https://wordplay.dev> dalam dokumen¶ 'contoh tautan'\\",
-                "$~Jika ada yang memilih saya, saya akan membuka jendela baru ke URL tersebut."
+                "$~Aku adalah tautan ke sesuatu di internet. Aku hanya butuh deskripsi dan sebuah URL:",
+                "$~\\¶Saya adalah <tautan@https://wordplay.dev> di sebuah dokumen¶\n'contoh tautan'\\",
+                "$~Jika ada yang memilihku, aku akan membuka jendela baru ke URL itu."
             ]
         },
         "ConceptLink": {
@@ -513,14 +517,14 @@
             "description": "$~tautan ke $concept concept di dokumentasi",
             "emotion": "serious",
             "doc": [
-                "$~Saya adalah penghubung ke karakter Verse. Saya berguna ketika Anda ingin menulis @Doc dan merujuk kepada salah satu dari kami.",
-                "$~Misalnya, Anda ingin berbicara tentang @Evaluate, dan betapa hebatnya mereka. Anda bisa menulis:",
-                "$~¶Kau tahu, @Evaluate itu keren banget.¶ 'Lihat, ada tautan karakter!'",
-                "$~Karakter juga memiliki angka yang sesuai dengannya. Misalnya, @FunctionDefinition adalah 192. Anda dapat merujuknya berdasarkan nomor dan karakter tersebut akan muncul:",
-                "$~\\`92 sangat baik!`\\",
-                "$~Dan jika Anda membuat karakter sendiri, Anda dapat menyebutnya dengan nama yang Anda berikan.",
+                "$~Aku adalah tautan ke karakter Verse. Aku berguna saat kamu mau menulis @Doc dan menyebut salah satu dari kami.",
+                "$~Misalnya, katakanlah kamu mau membahas @Evaluate, dan betapa hebatnya mereka. Kamu bisa menulis:",
+                "$~\\¶Kamu tahu, @Evaluate itu cukup keren.¶\n'lihat, tautan karakter!'\\",
+                "$~Karakter juga punya nomor yang sesuai dengan mereka. Misalnya, @FunctionDefinition adalah 192. Kamu bisa menyebut mereka dengan nomor dan mereka akan muncul:",
+                "$~\\`92 sangat bagus!`\\",
+                "$~Dan jika kamu membuat karakter sendiri, kamu bisa menyebut mereka dengan nama yang kamu berikan.",
                 "$~\\`@coolbeans`\\",
-                "$~Oh... sepertinya karakter itu tidak ada, jadi yang muncul hanya kotak kecil. Tapi kalau ada, pasti akan muncul di sini!"
+                "$~Oh... Sepertinya karakter itu tidak ada, jadi kamu dapat kotak kecil. Tapi jika ada, mereka akan muncul di sini!"
             ],
             "kind": {
                 "codepoint": "$~$concept karakter Unicode",
@@ -534,11 +538,11 @@
             "description": "$~Tulis dengan kata-kata sederhana dalam dokumentasi.",
             "emotion": "serious",
             "doc": [
-                "$~Saya bisa menulis kata apa pun yang Anda inginkan di @Doc. Misalnya:",
-                "$~Semoga kekuatan menyertaimu.¶ 'hanya beberapa kata!'",
-                "$~Namun terkadang, Anda mungkin ingin menggunakan karakter khusus yang digunakan @Doc sebagai kata. Misalnya:",
-                "$~Teman-teman saya menggunakan @@, //, **, ||, dan simbol lainnya. 'menggunakan karakter khusus!'",
-                "$~Jika Anda hanya mengulang karakter khusus tersebut, Anda akan mendapatkan karakter tersebut, bukan makna khususnya."
+                "$~Aku adalah kata-kata apa pun yang kamu suka di dalam @Doc. Misalnya:",
+                "$~\\¶Semoga Kekuatan menyertaimu.¶\n'hanya beberapa kata!'\\",
+                "$~Namun kadang, kamu mungkin mau memakai karakter khusus yang dipakai @Doc /sebagai/ kata. Misalnya:",
+                "$~\\¶Teman-teman saya memakai , //, **, ||, dan simbol lainnya.¶\n'memakai karakter khusus!'\\",
+                "$~Jika kamu cukup mengulang karakter khusus itu, kamu akan mendapatkan karakternya, bukan arti khususnya."
             ],
             "conflict": {
                 "UnsupportedFontFormat": {
@@ -583,17 +587,17 @@
             "description": "$~terapkan operator $operator pada dua nilai",
             "emotion": "insecure",
             "doc": [
-                "$~Saya adalah @Evaluate, tetapi dalam bentuk yang lebih sederhana, berguna ketika Anda ingin menggunakan @FunctionDefinition yang menerima dua input.",
-                "$~Sebagai contoh, berikut cara Anda menggunakan @Evaluate untuk menambahkan dua angka:",
+                "$~Aku adalah @Evaluate, tapi dalam bentuk yang lebih sederhana, berguna saat kamu mau memakai @FunctionDefinition yang menerima dua masukan.",
+                "$~Misalnya, begini cara kamu memakai @Evaluate untuk menjumlahkan dua angka:",
                 "$~\\1.+(1)\\",
-                "$~Bukankah itu terlihat agak aneh? Itu tidak salah: itu hanya mengatakan untuk mendapatkan fungsi penjumlahan pada 1 lalu mengevaluasinya.",
-                "$~Namun, jauh lebih mudah menggunakan @BinaryEvaluate.",
-                "$~1 + 1",
-                "$~Ini membuat semuanya sedikit lebih rapi, meskipun pada dasarnya itu hal yang sama.",
-                "$~Hanya ada satu hal yang perlu diperhatikan: ketika saya dalam bentuk ini, saya mengevaluasi dari kiri ke kanan. Itu mungkin membingungkan jika Anda terbiasa dengan hal-hal seperti urutan operasi dalam matematika.",
-                "$~Artinya, hal ini dievaluasi dengan cara yang mungkin tidak Anda duga:",
-                "$~1 + 2 × 3 + 4",
-                "$~Dalam matematika, perkalian akan dilakukan terlebih dahulu, kemudian penjumlahan, sehingga hasilnya adalah \\11\\. Tetapi karena saya menghitungnya sesuai urutan baca, hasilnya adalah \\13\\."
+                "$~Bukankah itu terlihat agak lucu? Itu tidak salah: ia hanya berkata ambil fungsi tambah pada 1 lalu jalankan.",
+                "$~Tapi jauh lebih mudah memakai @BinaryEvaluate",
+                "$~\\1 + 1\\",
+                "$~Ini membuat semuanya lebih rapi, meski pada dasarnya sama saja.",
+                "$~Hanya ada satu hal yang perlu diperhatikan: saat aku dalam bentuk ini, aku mengevaluasi dari kiri ke kanan. Itu mungkin membingungkan jika kamu terbiasa dengan urutan operasi dalam matematika.",
+                "$~Ini berarti yang berikut dievaluasi dengan cara yang mungkin tidak kamu duga:",
+                "$~\\1 + 2 × 3 + 4\\🪲",
+                "$~Dalam matematika, perkalian akan didahulukan, lalu penjumlahan, sehingga hasilnya adalah \\11\\. Tapi karena aku mengevaluasi dalam urutan baca, hasilnya adalah \\13\\."
             ],
             "label": {
                 "operator": "$~operator"
@@ -618,26 +622,26 @@
             "doc": [
                 "$~Saya menyebutkan *nilai-nilai*.",
                 "$~Seperti ini!",
-                "$~\\pi: 3.1415926\\",
+                "$~\\pi: 3.1415926\\🪲",
                 "$~Saya memberi nama input pada @FunctionDefinition dan @StructureDefinition, saya memberi nama nilai pada @Block. Saya memberi nama semuanya!",
                 "$~Oh, tapi tahukah Anda bahwa satu nilai dapat memiliki *banyak nama*?",
                 "$~Saya sangat senang memberi tahu Anda tentang ini! Satu nilai, banyak @Names. Misalnya:",
-                "$~\\joe,tess,amy: 5\\",
+                "$~\\joe,tess,amy: 5\\🪲",
                 "$~Mengerti maksudku?",
                 "$~Satu nilai, tiga nama.",
                 "$~Anda dapat menyebut kelima hal itu dengan *salah satu* nama tersebut.",
                 "$~Hal ini terutama berlaku jika Anda ingin memberikan nama dalam banyak bahasa:",
-                "$~\\joe/en,aimee/fr,明/zh: 5\\",
+                "$~\\joe/en,aimee/fr,明/zh: 5\\🪲",
                 "$~Lihat apa yang saya lakukan di situ? Tiga nama untuk satu nilai, hanya dalam bahasa yang berbeda!",
                 "$~Oke, aku punya satu rahasia terakhir.",
                 "$~Tahukah Anda bahwa saya dapat bekerja sama dengan @Is untuk memberi tahu saya nilai seperti apa yang seharusnya dimiliki sebuah nama? Dan jika saya tidak memilikinya, saya akan memberi tahu Anda?",
                 "$~Seperti ini:",
-                "$~\\bignumber•#: \"satu triliun\"\\",
-                "$~Lihat, saya bilang \\bignumber\\ seharusnya berupa angka, tapi ini berupa teks, dan teks tidak kompatibel, jadi BOOM!",
+                "$~\\bignumber•#: \"satu triliun\"\\🪲",
+                "$~Lihat, saya bilang \\bignumber\\🪲 seharusnya berupa angka, tapi ini berupa teks, dan teks tidak kompatibel, jadi BOOM!",
                 "$~Saya akan memberi tahu Anda jika mereka tidak setuju.",
                 "$~Terkadang Anda mungkin *harus* memberi tahu saya jenis data apa yang lain karena saya tidak dapat mengetahuinya sendiri. Itu biasanya terjadi di @FunctionDefinition.",
-                "$~Misalnya, di sini, @FunctionDefinition tidak tahu nilai seperti apa yang dimiliki \\a\\ dan \\b\\, karena saya tidak memberi tahu mereka.",
-                "$~\\ƒ sum(ab) a + b\\",
+                "$~Misalnya, di sini, @FunctionDefinition tidak tahu nilai seperti apa yang dimiliki \\a\\🪲 dan \\b\\🪲, karena saya tidak memberi tahu mereka.",
+                "$~\\ƒ sum(ab) a + b\\🪲",
                 "$~Namun kita dapat mengubahnya dengan menambahkan @Is, dan sekarang @FunctionDefinition tahu bahwa itu adalah angka:",
                 "$~\\ƒ sum(a•# b•#) a + b\\"
             ],
@@ -719,8 +723,8 @@
                 "$~Hal itu membantu memperjelas urutan evaluasi.",
                 "$~@Bind juga membantu.",
                 "$~\\(count: 10 count ^ count)\\",
-                "$~Lihat bagaimana @Bind membuat \\count\\ ? Itu hanya diberi nama di dalam diriku. Jadi ini tidak akan berhasil:",
-                "$~\\(count: 10 count ^ count) + count\\",
+                "$~Lihat bagaimana @Bind membuat \\count\\🪲 ? Itu hanya diberi nama di dalam diriku. Jadi ini tidak akan berhasil:",
+                "$~\\(count: 10 count ^ count) + count\\🪲",
                 "$~Karena hitungan itu hanya disebut di dalam diriku.",
                 "$~Jika Anda memberi saya satu ungkapan, saya hanya akan mengembalikan nilainya kepada Anda:",
                 "$~\\(1 + 1)\\",
@@ -846,7 +850,7 @@
                 "$~Bro, aku yang menentukan konversi dari satu tipe ke tipe lainnya! Aku masuk ke @Block, kira-kira seperti ini:",
                 "$~\\→ #kucing #kucing ⬚ ÷ 2 6kucing→#kucing\\",
                 "$~Lihat bagaimana aku mengubah anak kucing menjadi kucing dewasa? Keren!",
-                "$~Anda mungkin bertanya-tanya apa fungsi \\.\\ di situ. Itu mewakili nilai yang sedang dikonversi. Saya menggunakannya karena nilai tersebut tidak memiliki nama lain."
+                "$~Anda mungkin bertanya-tanya apa fungsi \\.\\🪲 di situ. Itu mewakili nilai yang sedang dikonversi. Saya menggunakannya karena nilai tersebut tidak memiliki nama lain."
             ],
             "start": "$~Mantap, konversi baru!",
             "conflict": {
@@ -904,12 +908,12 @@
             "description": "$~lampirkan dokumentasi ke sebuah ekspresi",
             "emotion": "eager",
             "doc": [
-                "$~Saya bisa mengekspresikan apa saja, tetapi dengan @Doc!",
-                "$~Untuk menggunakan saya, cukup tambahkan @Doc sebelum sebuah ekspresi, dan Anda akan mendapatkannya:",
-                "$~\\doubleplus: 1 (2 × doubleplus) + ¶Mari kita perbesar sedikit saja¶ 1\\",
-                "$~Saya berguna untuk memberikan komentar pada bagian tertentu dari suatu program.",
-                "$~Jika Anda menambahkan 👀 di @Doc, saya juga dapat menyorot ekspresi tersebut:",
-                "$~Lihat aku! 👀1+1"
+                "$~Aku adalah @expression apa pun, tapi dengan @Doc!",
+                "$~Untuk membuatku, cukup taruh @Doc sebelum sebuah ekspresi, dan kamu akan mendapatkanku:",
+                "$~\\doubleplus: 1\n(2 × doubleplus) + \n¶Let's make it just a little bit bigger¶\n1\\",
+                "$~I'm useful for making a comment on some part of a program.",
+                "$~If you put 👀 in the @Doc, I can also highlight the expression:",
+                "$~\\¶Look at me! 👀¶1+1\\"
             ],
             "start": "$~Mari kita evaluasi ekspresi tersebut."
         },
@@ -924,7 +928,7 @@
             },
             "doc": [
                 "$~Saya mengevaluasi @FunctionDefinition kesayangan saya, memberinya input dan mengikuti langkah-langkahnya. Hai! Seperti ini:",
-                "$~\\ƒ greeting(message•'')\ngreeting('kitty')\\",
+                "$~\\ƒ greeting(message•'')\ngreeting('kitty')\\🪲",
                 "$~Fungsi bisa berasal dari mana saja. Misalnya, @Text memiliki fungsi. Seperti ini:",
                 "$~\\'kitty'.length()\\",
                 "$~Jika sebuah fungsi memiliki nama simbol tunggal, Anda dapat menuliskannya sebagai @BinaryEvaluate .",
@@ -1019,10 +1023,10 @@
             "doc": [
                 "$~Aku adalah sebuah *ungkapan*, tapi bukan ungkapan yang sebenarnya… Aku hanya menggantikan peran ungkapan yang sebenarnya.",
                 "$~Aku tidak masalah kalau kamu belum tahu mau menulis apa. Seperti ini:",
-                "$~\\1 + _\\",
+                "$~\\1 + _\\🪲",
                 "$~Apa yang akan kita tambahkan? Saya tidak tahu. Kamu yang beri tahu saya.",
                 "$~Atau jika seseorang mengevaluasi suatu fungsi dengan @Evaluate, saya mungkin akan menggantikan fungsi tersebut.",
-                "$~\\_(1 2 3)\\",
+                "$~\\_(1 2 3)\\🪲",
                 "I don't like being on @Stage!"
             ],
             "start": "$~Saya tidak tahu harus berbuat apa di sini. Bisakah Anda memberi saya penjelasan?",
@@ -1050,20 +1054,20 @@
                 "expression": "$~ekspresi"
             },
             "doc": [
-                "$~Saya menerima beberapa masukan, kemudian mengevaluasi sebuah ekspresi menggunakan masukan tersebut, menghasilkan sebuah keluaran. Hai lagi!",
-                "$~Berikut contoh sederhananya:",
-                "$~\\ƒ repeat(message•'') message × 5\nrepeat('hi')\\",
-                "$~Fungsi tersebut menerima satu input, \\message\\ , dan menggunakan fungsi @Text.repeat untuk mengulang pesan tersebut sebanyak lima kali.",
-                "$~Saya sangat membantu jika Anda ingin mengevaluasi sesuatu berulang kali, tetapi dengan masukan yang berbeda!",
-                "$~Saya memang punya banyak trik kecil lainnya. Misalnya, saya tidak perlu memiliki nama. Di sini, saya langsung menuju ke @Evaluate sebagai sebuah nilai.",
-                "$~\\(ƒ(message•'') message × 5)('hi')\\",
-                "$~Atau, berikut adalah fungsi yang menerima sejumlah input, menggunakan karakter \\…\\ setelah nama input.",
-                "$~\\ƒ yes(messages…•'') messages.sans('no')\nyes('yes' 'yes' 'no' 'yes' 'no')\\",
-                "$~Lihat bagaimana semua penolakan dihilangkan? Itu karena `messages` adalah sebuah @List , sehingga kita bisa menggunakan @List.sansAll .",
-                "$~Terkadang Anda mungkin ingin memperjelas jenis nilai apa yang saya hasilkan. Untuk melakukan itu, tambahkan @Is setelah daftar input:",
-                "$~\\ƒ add(x•# y•#)•'' x + y\\",
-                "$~Anda mungkin akan menemukan masalah pada yang satu ini: tertulis bahwa hasilnya adalah @Text , tetapi ternyata membutuhkan dua @Number . Saya bisa memberi tahu Anda kapan terjadi ketidakkonsistenan!",
-                "$~Tentu saja, saya tidak akan berguna sama sekali tanpa @Evaluate ; merekalah yang membuat saya hidup."
+                "$~Aku menerima beberapa masukan, lalu mengevaluasi sebuah @expression memakainya, menghasilkan keluaran. Hai lagi!",
+                "$~Ini contoh sederhana:",
+                "$~\\ƒ ulangi(pesan•'') pesan × 5\nulangi('hai')\\",
+                "$~Fungsi itu menerima satu masukan, \\message\\🪲, dan memakai fungsi @Text.repeat untuk mengulang pesan lima kali.",
+                "$~Aku sangat berguna jika kamu mau mengevaluasi sesuatu berulang-ulang, tapi dengan masukan berbeda!",
+                "$~Aku punya banyak trik kecil lain. Misalnya, aku tidak harus punya nama. Di sini, aku langsung menuju @Evaluate sebagai sebuah @value.",
+                "$~\\(ƒ(pesan•'') pesan × 5)('hai')\\",
+                "$~Atau, ini fungsi yang menerima sejumlah masukan, memakai karakter \\…\\🪲 setelah nama masukan.",
+                "$~\\ƒ ya(pesan…•'') pesan.tanpa('tidak')\nya('ya' 'ya' 'tidak' 'ya' 'tidak')\\",
+                "$~Lihat bagaimana ia mengambil semua 'no' lalu menyingkirkannya? Itu karena messages adalah @List, jadi kita bisa memakai @List.sansAll.",
+                "$~Kadang kamu mungkin mau memperjelas jenis nilai apa yang aku hasilkan. Untuk itu, tambahkan @Is setelah daftar masukan:",
+                "$~\\ƒ tambah(x•# y•#)•'' x + y\\🪲",
+                "$~Kamu mungkin menyadari masalah di sini: ia berkata menghasilkan @Text, tapi menerima dua @Number. Aku bisa memberitahumu saat ada yang tidak konsisten!",
+                "$~Tentu saja, aku tidak terlalu berguna tanpa @Evaluate; mereka menghidupkanku."
             ],
             "start": "$~Mari kita buat fungsi ini!",
             "conflict": {
@@ -1116,7 +1120,7 @@
             "doc": [
                 "$~Saya memeriksa apakah suatu nilai bertipe tertentu, dan memberikan Anda sebuah @Boolean . Ada begitu banyak jenis nilai yang memiliki begitu banyak arti berbeda — saya membantu Anda untuk mengetahui apa arti nilai-nilai tersebut.",
                 "$~Misalnya, anggaplah Anda memiliki nilai misterius. Saya dapat memberi tahu Anda apakah itu @Number , sehingga Anda mendapatkan @Boolean :",
-                "$~\\mystery: 'secret!'\nmystery•#\\",
+                "$~\\mystery: 'secret!'\nmystery•#\\🪲",
                 "$~Ini bukan angka, jadi saya membuat \\⊥\\ . Tapi bagaimana jika kita periksa apakah itu @TextType ?",
                 "$~\\mystery: 'secret!'\nmystery•''\\",
                 "$~Kita dapat \\⊤\\ !",
@@ -1176,7 +1180,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Saya membantu Anda membuat @List dari nilai-nilai daftar lain. Seperti ini:",
-                "$~\\list: [1 2 3]\nfinal: [:list 4 5 6]\\"
+                "$~\\list: [1 2 3]\nfinal: [:list 4 5 6]\\🪲"
             ]
         },
         "MapLiteral": {
@@ -1339,7 +1343,7 @@
                 "$~Saya membuat salinan nilai @StructureDefinition hanya dengan mengubah satu properti — tidak perlu membangun ulang semuanya dengan nilai yang sama.",
                 "$~Sebagai contoh, bagaimana jika Anda sedang mencatat data kucing, tetapi kemudian ingin membuat salinan data kucing dengan hobi yang berbeda? Saya dapat membantu Anda mengubahnya:",
                 "$~\\•Cat(name•'' color•'' hobby•'')\n\nkitty: Cat('sprinkles' 'orange' 'licking')\nkitty.hobby:'purring'\\",
-                "$~Itu jauh lebih mudah daripada membuat \\Cat\\ baru dengan nilai yang sama kecuali hobinya, bukan?"
+                "$~Itu jauh lebih mudah daripada membuat \\Cat\\🪲 baru dengan nilai yang sama kecuali hobinya, bukan?"
             ],
             "start": "$~Pertama-tama, mari kita dapatkan nilainya.",
             "finish": "$~Saya menyalin strukturnya, tetapi dengan $property sebagai $value",
@@ -1400,7 +1404,7 @@
                 "$~Saya merujuk pada suatu nilai berdasarkan @Name -nya: Saya menemukan @Bind dengan nama tersebut dan memberikan nilainya kepada Anda. Seperti ini:",
                 "$~\\parrot: 'polly'\nparrot\\",
                 "$~Jika saya tidak menemukan namanya, maka saya tidak tahu harus berbuat apa.",
-                "$~\\parrot: 'polly'\nperry\\"
+                "$~\\parrot: 'polly'\nperry\\🪲"
             ],
             "start": "$~Berapakah nilai dari $name ?",
             "conflict": {
@@ -1518,13 +1522,13 @@
             "doc": [
                 "$~Saya mendefinisikan struktur yang menyimpan nilai dan fungsi. Hai, apa kabar? Saya? Saya baik-baik saja — saya senang melakukan ini sepanjang hari.",
                 "$~Saya bekerja seperti ini:",
-                "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tƒ cost() size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost()\\",
-                "$~Lihat cara kerjanya? Saya mendefinisikan \\Pizza\\ , yang memiliki dua input, \\ingredients\\ (daftar @Text ) dan \\size\\ (angka dalam inci).",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tƒ cost() size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost()\\🪲",
+                "$~Lihat cara kerjanya? Saya mendefinisikan \\Pizza\\🪲 , yang memiliki dua input, \\ingredients\\🪲 (daftar @Text ) dan \\size\\🪲 (angka dalam inci).",
                 "$~Di dalam, @FunctionDefinition membuat sebuah fungsi yang mengevaluasi biaya pizza, dengan asumsi $10 per inci.",
                 "$~Saya tidak perlu memiliki @FunctionDefinition di dalam diri saya. Saya bisa saja berupa input.",
                 "$~\\•Pizza(\ningredients•['']\nsize•#in\n)\\",
                 "$~Saya juga bisa menyertakan @Bind di dalamnya, sehingga kita bisa mengevaluasi biayanya terlebih dahulu.",
-                "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tcost: size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost\\",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tcost: size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost\\🪲",
                 "$~Tandai fungsi atau nilai dengan ↑ agar menjadi bagian dari struktur itu sendiri, bukan dari instance. Kemudian Anda dapat menggunakan nama struktur untuk mengaksesnya, tanpa perlu membuat struktur baru.",
                 "$~\\•Math() (\n\t↑ pi: 3.14159\n\t↑ ƒ square(n•#) n · n\n)\n\nMath.pi\nMath.square(5)\\"
             ],
@@ -1644,14 +1648,14 @@
             "description": "$~mengacu pada nilai struktur saat ini",
             "emotion": "serious",
             "doc": [
-                "$~Saya adalah \\⬚\\ , sebuah kotak kecil yang mewakili nilai apa pun yang sedang dikerjakan oleh kode di sekitarnya, jadi Anda tidak perlu memberinya nama.",
+                "$~Saya adalah \\⬚\\🪲 , sebuah kotak kecil yang mewakili nilai apa pun yang sedang dikerjakan oleh kode di sekitarnya, jadi Anda tidak perlu memberinya nama.",
                 "$~Di dalam @ConversionDefinition , saya adalah nilai yang sedang dikonversi:",
                 "$~\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
                 "$~Di dalam @Reaction , saya adalah nilai terbaru:",
                 "$~\\2 … ∆ Time(1000ms) … ⬚ × 2\\",
                 "$~Di dalam @Translate , saya adalah item yang sedang dipetakan, jadi ini menambahkan satu ke setiap nilai:",
                 "$~\\[1 2 3] ↦ ⬚ + 1\\",
-                "$~Dan di dalam @StructureDefinition , saya adalah nilai saat ini itu sendiri, jadi saya dapat mengakses bagian saya sendiri dengan \\⬚.rank\\ , sama seperti saya mengakses bagian nilai lain dengan \\other.rank\\ :",
+                "$~Dan di dalam @StructureDefinition , saya adalah nilai saat ini itu sendiri, jadi saya dapat mengakses bagian saya sendiri dengan \\⬚.rank\\🪲 , sama seperti saya mengakses bagian nilai lain dengan \\other.rank\\🪲 :",
                 "$~\\•Card(rank•#) (\n\tƒ beats(other•Card) ⬚.rank > other.rank\n)\n\nCard(10).beats(Card(7))\\",
                 "$~Saya jarang muncul, tetapi ketika saya muncul, saya benar-benar dapat membantu mendapatkan nilai dari @Bind !"
             ],
@@ -1672,12 +1676,12 @@
                 "input": "$~masukan"
             },
             "doc": [
-                "$~Saya mengevaluasi @FunctionDefinition yang menerima satu nilai, dengan nama satu simbolnya ditulis tepat sebelum input — seperti \\-x\\ atau \\~b\\ . Tahukah Anda bahwa Anda bisa melakukan itu?",
+                "$~Saya mengevaluasi @FunctionDefinition yang menerima satu nilai, dengan nama satu simbolnya ditulis tepat sebelum input — seperti \\-x\\🪲 atau \\~b\\🪲 . Tahukah Anda bahwa Anda bisa melakukan itu?",
                 "$~Seperti ini:",
                 "$~\\-(1 + 1)\\",
                 "$~Atau ini:",
                 "$~\\~⊥\\",
-                "$~Itu jauh lebih mudah dibaca daripada \\(1 + 1).negate()\\ atau \\⊥.not()\\ , bukan?",
+                "$~Itu jauh lebih mudah dibaca daripada \\(1 + 1).negate()\\🪲 atau \\⊥.not()\\ , bukan?",
                 "$~Anda tidak harus menulis seperti itu kepada saya, tetapi mungkin akan lebih mudah secara keseluruhan.",
                 "$~Hanya ada satu aturan: Anda tidak boleh menambahkan spasi antara nama dan nilai. Jika tidak, Anda mungkin akan membuat @Reference atau @BinaryEvaluate ."
             ],
@@ -1767,7 +1771,7 @@
             "emotion": "kind",
             "doc": [
                 "$~Saya menggunakan @Bind untuk menyatakan bahwa sebuah nama adalah nilai @Boolean. Seperti ini:",
-                "$~\\lapar•?: 'agar-agar'\\",
+                "$~\\lapar•?: 'agar-agar'\\🪲",
                 "$~Jika Anda ingin memastikan bahwa sesuatu itu @Boolean, gunakan saya, dan saya akan memeriksanya!"
             ]
         },
@@ -1777,7 +1781,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Saya bekerja dengan @Bind untuk menunjukkan bahwa sebuah nama adalah @ConversionDefinition. Anda mungkin tidak perlu menggunakan saya, karena tidak banyak orang yang meneruskan saya sebagai nilai, tetapi jika Anda membutuhkannya, tampilan saya akan seperti ini:",
-                "$~\\magic•?→'': → ? '' ⬚ ? 'ya' 'tidak'\\"
+                "$~\\magic•?→'': → ? '' ⬚ ? 'ya' 'tidak'\\🪲"
             ]
         },
         "FormattedType": {
@@ -1786,7 +1790,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Saya menggunakan @Bind untuk mencatat bahwa sebuah nama adalah nilai @FormattedLiteral. Seperti ini:",
-                "$~\\lapar•`…`: `Aku sangat /mewah/!`\\",
+                "$~\\lapar•`…`: `Aku sangat /mewah/!`\\🪲",
                 "$~Ingin memastikan sesuatu adalah nilai @FormattedLiteral? Begini caranya."
             ]
         },
@@ -1802,7 +1806,7 @@
             "emotion": "curious",
             "doc": [
                 "$~Saya mewakili @FunctionDefinition. Saya sangat membantu jika Anda ingin menyatakan jenis fungsi apa yang dipegang oleh @Bind! Seperti ini:",
-                "$~\\math•ƒ (# # # #) #: ƒ interesting(a•# b•# c•# d•#) a + b + c + d\\"
+                "$~\\math•ƒ (# # # #) #: ƒ interesting(a•# b•# c•# d•#) a + b + c + d\\🪲"
             ]
         },
         "ListType": {
@@ -1811,7 +1815,7 @@
             "emotion": "cheerful",
             "doc": [
                 "$~Saya sangat menyukai @List. Saya bisa memberi tahu @Bind jenis daftar apa itu! Seperti ini, saya mengatakan bahwa ini adalah daftar @Number:",
-                "$~\\things•[#]: [ 1 2 3 4 5 ]\\"
+                "$~\\things•[#]: [ 1 2 3 4 5 ]\\🪲"
             ]
         },
         "MapType": {
@@ -1820,7 +1824,7 @@
             "emotion": "kind",
             "doc": [
                 "$~Saya memberi tahu @Bind jenis @Map apa yang dimiliki sebuah nama — tipe apa kunci dan nilainya. Tahukah Anda betapa hebatnya @Map ? Benar-benar hebat. Berikut adalah peta angka ke daftar:",
-                "$~\\stuff•{'':[]}: {}\\"
+                "$~\\stuff•{'':[]}: {}\\🪲"
             ]
         },
         "NumberType": {
@@ -1829,7 +1833,7 @@
             "emotion": "precise",
             "doc": [
                 "$~Saya memberi tahu @Bind bahwa sebuah nama menyimpan sebuah @Number . Tahukah Anda apa yang seharusnya menjadi @Bind ? Sebuah @Number — karena angka adalah yang terbaik.",
-                "$~\\count•#: 17\\"
+                "$~\\count•#: 17\\🪲"
             ]
         },
         "NameType": {
@@ -1838,7 +1842,7 @@
             "emotion": "curious",
             "doc": [
                 "$~Saya merepresentasikan @StructureDefinition berdasarkan namanya. Jadi, misalnya, jika Anda memiliki struktur seperti ini, Anda dapat membuat @Bind yang menyimpan nilai-nilai yang dibuatnya.",
-                "$~\\•Teman(nama•'') sahabat•Teman: Teman('Jonah')\\"
+                "$~\\•Teman(nama•'') sahabat•Teman: Teman('Jonah')\\🪲"
             ],
             "conflict": {
                 "UnknownTypeName": {
@@ -1860,7 +1864,7 @@
             "emotion": "neutral",
             "doc": [
                 "$~@None adalah ketiadaan terbaik yang ada, dan saya adalah perwakilan setia mereka.",
-                "$~\\space•ø: ø\\"
+                "$~\\space•ø: ø\\🪲"
             ]
         },
         "SetType": {
@@ -1869,7 +1873,7 @@
             "emotion": "kind",
             "doc": [
                 "$~Saya memberi tahu @Bind bahwa sebuah nama memegang @Set dari beberapa tipe. @Set adalah yang TERBAIK, sungguh!",
-                "$~\\unique•{''}: {'something' 'anything' 'someone'}\\"
+                "$~\\unique•{''}: {'something' 'anything' 'someone'}\\🪲"
             ]
         },
         "StreamDefinitionType": {
@@ -1884,7 +1888,7 @@
             "emotion": "curious",
             "doc": [
                 "$~Saya merayakan keindahan dan makna aliran data… dengan meminta @Bind untuk menyimpannya:",
-                "$~\\time•…#ms: Waktu()\\"
+                "$~\\time•…#ms: Waktu()\\🪲"
             ]
         },
         "StructureType": {
@@ -1918,8 +1922,8 @@
             "description": "$~$text [' $text '|teks]",
             "emotion": "happy",
             "doc": [
-                "$~Saya dengan luar biasa mewakili jenis nilai paling luar biasa yang ada, @Text.",
-                "$~'Kisah: Dahulu kala...'"
+                "$~Aku dengan menawan mewakili jenis @value paling menawan yang ada, @Text.",
+                "$~\\cerita•'': 'Pada suatu hari...'\\🪲"
             ]
         },
         "TypePlaceholder": {
@@ -1934,7 +1938,7 @@
             "emotion": "curious",
             "doc": [
                 "$~Saya mewakili sebuah nilai yang bisa berupa beberapa jenis — A atau B atau sesuatu yang lain? Saya tidak pernah bisa memutuskan!",
-                "$~\\indecision•''|#|{ø}: \"I don't know!\"\\"
+                "$~\\indecision•''|#|{ø}: \"I don't know!\"\\🪲"
             ],
             "elidedSuffix": "$~atau opsi lain $omitted"
         },
@@ -1944,7 +1948,7 @@
             "emotion": "precise",
             "doc": [
                 "$~Saya mewakili satuan apa pun yang mungkin dimiliki oleh @Number, termasuk tanpa satuan, hingga satuan paling rumit yang dapat Anda bayangkan. Seperti gravitasi, misalnya:",
-                "$~\\gravitasi•m/s^2: 9.8m/s^2\\",
+                "$~\\gravitasi•m/s^2: 9.8m/s^2\\🪲",
                 "$~Saya muncul di @Bind, tetapi juga tepat setelah @Number. Saya membantu memastikan bahwa angka-angka tersebut berjenis sama, dan pasti akan memberi tahu Anda jika ada kesalahan!"
             ]
         },
@@ -2014,7 +2018,7 @@
             "emotion": "excited",
             "doc": [
                 "$~Aku melakukan hal yang SAMA pada SETIAP barang dalam koleksi! OH OH OH! Itulah yang benar-benar kulakukan!!",
-                "$~Letakkan koleksi di sebelah kiri saya, gambar panah saya \\↦\\ , lalu di sebelah kanan saya tuliskan apa yang seharusnya menjadi hasil akhir dari setiap item — gunakan @This untuk menunjukkan item yang sedang saya pegang SAAT INI!",
+                "$~Letakkan koleksi di sebelah kiri saya, gambar panah saya \\↦\\🪲 , lalu di sebelah kanan saya tuliskan apa yang seharusnya menjadi hasil akhir dari setiap item — gunakan @This untuk menunjukkan item yang sedang saya pegang SAAT INI!",
                 "$~\\[1 2 3] ↦ ⬚ + 1\\ menghasilkan \\[2 3 4]\\ . BOOM! Setiap angka, ditambah satu, tanpa perulangan, tanpa @FunctionDefinition , tanpa ribet!",
                 "$~Saya SANGAT hebat dalam membuat output @Phrase dari data! Punya daftar nama? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ dan sekarang ada frasa untuk SETIAP nama!!",
                 "$~Saya mengerjakan @List , @Set , @Map (saya mengubah VALUES map — kunci tetap di tempatnya!), dan bahkan @Table !",
@@ -2063,7 +2067,7 @@
             "description": "$~pola dengan $count bagian",
             "emotion": "curious",
             "doc": [
-                "$~Saya adalah sebuah pola! Saya mendeskripsikan *bentuk* teks, bukan kata-kata persisnya, sehingga Anda dapat memeriksa teks dengan \\≈\\ — apakah seluruh teks sesuai? — atau mencarinya dengan \\⌕\\ untuk menemukan setiap tempat bentuk tersebut muncul. Pencarian akan mengembalikan daftar @Result .",
+                "$~Saya adalah sebuah pola! Saya mendeskripsikan *bentuk* teks, bukan kata-kata persisnya, sehingga Anda dapat memeriksa teks dengan \\≈\\🪲 — apakah seluruh teks sesuai? — atau mencarinya dengan \\⌕\\🪲 untuk menemukan setiap tempat bentuk tersebut muncul. Pencarian akan mengembalikan daftar @Result .",
                 "$~Berikut contoh pencarian — menemukan kata-kata yang berkaitan dengan makanan dalam sebuah kalimat tentang sarapan:",
                 "$~\\breakfast: 'For breakfast I had eggs, toast, and orange juice'\nbreakfast ⌕ ⣿\"eggs\" | \"toast\" | \"juice\" | \"pancakes\"⣿\\",
                 "$~Bacalah dari kiri ke kanan. @PatternClass cocok dengan satu karakter dari jenis tertentu: \\⣿◌⣿\\ apa saja, \\⣿_⣿\\ huruf, \\⣿#⣿\\ angka, \\⣿␣⣿\\ spasi. Teks yang dikutip adalah @PatternLiteralText yang cocok persis, seperti \\⣿\"-\"⣿\\ . Sisanya \\⣿…⣿\\ — sebuah @PatternRest — cocok dengan sejumlah karakter apa pun.",
@@ -2074,7 +2078,7 @@
                 "$~Beri nama sebuah bagian dengan @PatternCapture , seperti \\⣿year:(4 #)⣿\\ , lalu gunakan kembali nanti dengan @PatternBackref dengan menuliskan nama aslinya. Setiap @Result melaporkan bagian yang ditangkap berdasarkan namanya.",
                 "$~Berlabuh ke tepi dengan @PatternAnchor : \\⣿⊢⣿\\ mulai, \\⣿⊣⣿\\ akhir. Intip tanpa mengonsumsi menggunakan @PatternLook : \\⣿▸(#)⣿\\ di depan, \\⣿◂(#)⣿\\ di belakang.",
                 "$~Cocokkan seluruh kata dengan @PatternWord \\⣿▭/en⣿\\ atau batas kata dengan @PatternWordEdge \\⣿┊/en⣿\\ , yang disegmentasikan untuk suatu bahasa. Abaikan perbedaan huruf besar dan kecil di dalam @PatternCaseFold \\⣿Aa(\"hi\")⣿\\ .",
-                "$~Tipe saya adalah @PatternType — beri anotasi pada nama dengan tipe ini, seperti \\p•⣿⣿: ⣿◌⣿\\ — sehingga Anda dapat menyimpan saya dalam sebuah nama dan menggunakannya kembali di banyak teks."
+                "$~Tipe saya adalah @PatternType — beri anotasi pada nama dengan tipe ini, seperti \\p•⣿⣿: ⣿◌⣿\\🪲 — sehingga Anda dapat menyimpan saya dalam sebuah nama dan menggunakannya kembali di banyak teks."
             ],
             "start": "$~Coba saya lihat seperti apa teks ini.",
             "conflict": {
@@ -2104,7 +2108,7 @@
             "doc": [
                 "$~Aku adalah deretan bagian pola, yang dipasangkan satu demi satu, dari kiri ke kanan.",
                 "$~Sebagai contoh, perhatikan bentuk nomor telepon — tiga digit, tanda hubung, lalu empat:",
-                "$~\\phone: '555-1234'\nphone ≈ ⣿3 # \"-\" 4 #⣿\\",
+                "$~\\phone: '555-1234'\nphone ≈ ⣿3 # \"-\" 4 #⣿\\🪲",
                 "$~Berikan pilihan dan saya akan mengambil mana pun yang sesuai, lebih menyukai yang terpanjang, seperti \\⣿\"cat\" | \"dog\"⣿\\ ."
             ],
             "conflict": {
@@ -2344,10 +2348,10 @@
             "description": "$~jenis pola",
             "emotion": "curious",
             "doc": [
-                "$~Saya adalah tipe nilai pola, yang diberi anotasi seperti \\p•⣿⣿: ⣿◌⣿\\ .",
+                "$~Saya adalah tipe nilai pola, yang diberi anotasi seperti \\p•⣿⣿: ⣿◌⣿\\🪲 .",
                 "$~Sebagai contoh, simpan pola dalam sebuah nama dan gunakan kembali pola tersebut di banyak teks:",
                 "$~\\digits: ⣿>0 #⣿\n'I have 3 cats and 12 fish' ⌕ digits\\",
-                "$~Setelah disimpan, gunakan saya di mana pun pola tersebut cocok, seperti \\text ⌕ digits\\ atau \\text ≈ digits\\ ."
+                "$~Setelah disimpan, gunakan saya di mana pun pola tersebut cocok, seperti \\text ⌕ digits\\🪲 atau \\text ≈ digits\\🪲 ."
             ]
         }
     },
@@ -2476,9 +2480,9 @@
             "function": {
                 "length": {
                     "doc": [
-                        "$~Saya mengevaluasi berdasarkan jumlah karakter yang dapat dibaca dalam teks; satu huruf adalah satu karakter, satu emoji adalah satu karakter, dan seterusnya. Misalnya:",
-                        "$~'halo'.panjang()",
-                        "$~\\'🐈📚'.length()\\"
+                        "$~Aku menghasilkan jumlah karakter yang terbaca dalam teks; satu huruf adalah satu karakter, satu emoji adalah satu karakter, dan seterusnya. Misalnya:",
+                        "$~\\'halo'.📏()\\",
+                        "$~\\'🐈📚'.📏()\\"
                     ],
                     "names": ["$~📏", "$~panjang"],
                     "inputs": []
@@ -2505,8 +2509,8 @@
                 },
                 "has": {
                     "doc": [
-                        "$~\\⊤\\ jika @Text yang diberikan muncul di dalam diriku.",
-                        "$~Apakah Anda menemukan apa yang Anda cari?"
+                        "$~\\⊤\\ jika @Text yang diberikan muncul dalam diriku.",
+                        "$~\\'apakah kamu menemukan apa yang kamu cari?'.⊆('kamu')\\"
                     ],
                     "names": ["$~⊆", "$~memiliki"],
                     "inputs": [
@@ -2532,9 +2536,9 @@
                 },
                 "ends": {
                     "doc": [
-                        "$~\\⊤\\ jika saya akhiri dengan @Text yang diberikan.",
-                        "$~\\'Apakah aku sebuah pertanyaan?'.ends('?')\\",
-                        "$~'Saya bukan sebuah pertanyaan.'.ends('?')\\"
+                        "$~\\⊤\\ jika aku berakhir dengan @Text yang diberikan.",
+                        "$~\\'apakah aku sebuah pertanyaan?'.berakhir('?')\\",
+                        "$~\\'Saya bukan sebuah pertanyaan.'.berakhir('?')\\"
                     ],
                     "names": ["$~berakhir"],
                     "inputs": [
@@ -2546,13 +2550,13 @@
                 },
                 "repeat": {
                     "doc": [
-                        "$~Saya membuat @Text baru yang merupakan diri saya sendiri, diulang sebanyak \\count\\:",
-                        "$~'hai' × 5",
-                        "$~Jika Anda memberi saya @Number berupa pecahan, saya akan mengabaikan pecahannya:",
-                        "$~'hai' × 5.5",
-                        "$~Jika Anda memberi saya @Number negatif atau nol, saya akan memberikan @Text kosong.",
+                        "$~Aku membuat @Text baru yang adalah diriku, diulang sebanyak \\count\\🪲:",
+                        "$~\\'hai ' × 5\\",
+                        "$~Jika kamu memberiku @Number pecahan, aku mengabaikan pecahannya:",
+                        "$~\\'hai ' × 5.5\\",
+                        "$~Jika kamu memberiku @Number negatif atau nol, aku memberi @Text kosong.",
                         "$~\\'hai ' × -5\\",
-                        "$~Teks terpanjang yang bisa saya buat adalah 65.535 karakter. Jika Anda mencoba membuat teks yang lebih panjang, saya akan mengulang teks tersebut sebanyak mungkin."
+                        "$~Teks terpanjang yang bisa aku buat adalah 65.535 karakter. Jika kamu mencoba membuat teks lebih panjang, aku akan mengulang teks sebanyak yang aku bisa."
                     ],
                     "names": ["$~×", "$~·", "$~🔁", "$~ulang", "$~mengulang"],
                     "inputs": [
@@ -2579,8 +2583,8 @@
                 },
                 "combine": {
                     "doc": [
-                        "$~Terkadang, menggabungkan dua @Text menjadi satu bisa sangat membantu. Berikan saya @Text lain dan saya akan membuat teks baru yang menghubungkan kita:",
-                        "$~'halo ' + 'ayat'"
+                        "$~Kadang berguna untuk menggabungkan dua @Text menjadi satu. Beri aku @Text lain dan aku akan membuat teks baru yang menyatukan kita:",
+                        "$~\\'halo ' + 'bait'\\"
                     ],
                     "names": ["$~+", "$~gabungan", "$~menggabungkan"],
                     "inputs": [
@@ -2593,7 +2597,7 @@
                 "matches": {
                     "doc": [
                         "$~\\⊤\\ jika seluruh teks cocok dengan pola yang diberikan.",
-                        "$~\\'555-1234' ≈ ⣿3 # \"-\" 4 #⣿\\"
+                        "$~\\'555-1234' ≈ ⣿3 # \"-\" 4 #⣿\\🪲"
                     ],
                     "names": ["$~≈", "$~pertandingan"],
                     "inputs": [
@@ -2625,38 +2629,38 @@
         },
         "Number": {
             "doc": [
-                "$~Saya membuat @Number, dengan jumlah unit apa pun yang dapat Anda bayangkan!",
-                "$~Berikut 5 pilihan teratas saya:",
-                "$~0",
-                "$~1 lantai",
+                "$~Aku membuat @Number, dengan satuan sebanyak yang bisa kamu bayangkan!",
+                "$~Ini 5 teratasku:",
+                "$~\\0\\",
+                "$~\\1story\\",
                 "$~\\πpie\\",
-                "$~∞batu",
-                "$~1.000.000 pelukan",
-                "$~Pada dasarnya, itu adalah jumlah angka yang tak terbatas.",
-                "$~Dan jumlah unit yang tak terbatas!",
-                "$~Dan jumlah pasangan angka/satuan yang tak terbatas…",
-                "$~Saya bisa berupa bilangan bulat, bilangan riil, negatif, positif, pecahan, desimal, bahkan bukan bilangan sama sekali.",
-                "$~Dan Anda dapat menulis saya dengan berbagai sistem angka yang berbeda, termasuk Arab \\123\\, Romawi \\ⅩⅩⅩⅠⅩ\\, Jepang \\二十\\, dan banyak lagi:",
+                "$~\\∞rock\\",
+                "$~\\1000000hugs\\",
+                "$~Itu pada dasarnya angka yang tak terhingga banyaknya.",
+                "$~Dan satuan yang tak terhingga banyaknya!",
+                "$~Dan pasangan angka/satuan yang tak terhingga banyaknya…",
+                "$~Aku bisa berupa bilangan bulat, bilangan riil, negatif, positif, pecahan, desimal, bahkan bukan angka.",
+                "$~Dan kamu bisa menulisku dengan banyak sistem angka berbeda, termasuk Arab \\123\\, Romawi \\ⅩⅩⅩⅠⅩ\\, Jepang \\二十\\, dan lainnya:",
                 "$~\\1 + Ⅰ + 一\\",
-                "$~Anda juga dapat menuliskan saya dalam basis 2 hingga 16 dengan memasukkan angka basis seperti ini:",
+                "$~Kamu juga bisa menulisku dalam basis 2 sampai 16 dengan menaruh nomor basis seperti ini:",
                 "$~\\2;11111111\\",
-                "$~10.255",
+                "$~\\10;255\\",
                 "$~\\16;FF\\",
-                "$~Ada satu angka khusus yang disebut NaN yang mungkin terjadi ketika Anda menulis sesuatu yang bukan angka:",
-                "$~2;22",
-                "$~Tidak ada angka '2' dalam basis 2, jadi itu bukan angka yang valid. NaN juga akan muncul jika Anda mencoba mengkonversi teks non-angka menjadi angka.",
-                "$~\\'hai'→#\\"
+                "$~Ada satu angka khusus bernama NaN yang muncul saat kamu menulis sesuatu yang bukan angka:",
+                "$~\\2;22\\🪲",
+                "$~Tidak ada digit '2' dalam basis 2, jadi itu bukan angka yang sah. NaN juga akan muncul jika kamu mencoba mengubah teks bukan-angka menjadi angka",
+                "$~\\'hai' → #\\"
             ],
             "name": ["$~#", "$~Nomor"],
             "function": {
                 "add": {
                     "doc": [
-                        "$~Saya menambahkan @Number dengan @Unit yang sama ke diri saya sendiri, sehingga menciptakan @Number baru dengan @Unit yang sama.",
-                        "$~Misalnya:",
-                        "$~1 + 1",
+                        "$~Saya menambahkan sebuah @Number dengan @Unit yang sama ke diri saya, sehingga membuat @Number baru dengan @Unit yang sama.",
+                        "$~Contohnya:",
+                        "$~\\1 + 1\\",
                         "$~\\3cat + 5cat\\",
-                        "$~Jika satuannya tidak cocok, saya akan menghentikan pertunjukan.",
-                        "$~\\3 kucing + 5 anjing\\"
+                        "$~Jika satuannya tidak cocok, saya menghentikan pertunjukan.",
+                        "$~\\3cat + 5dog\\🪲"
                     ],
                     "names": ["$~+", "$~menambahkan"],
                     "inputs": [
@@ -2668,12 +2672,12 @@
                 },
                 "subtract": {
                     "doc": [
-                        "$~Saya mengurangi @Number yang Anda berikan dari diri saya sendiri, sehingga tercipta @Number baru dengan @Unit yang sama.",
-                        "$~Misalnya:",
-                        "$~1 - 1",
+                        "$~Saya mengurangkan @Number yang kamu berikan dari diri saya, sehingga membuat @Number baru dengan @Unit yang sama.",
+                        "$~Contohnya:",
+                        "$~\\1 - 1\\",
                         "$~\\3cat - 5cat\\",
-                        "$~Jika satuannya tidak cocok, saya akan menghentikan pertunjukan.",
-                        "$~\\3 kucing - 5 anjing\\"
+                        "$~Jika satuannya tidak cocok, saya menghentikan pertunjukan.",
+                        "$~\\3cat - 5dog\\🪲"
                     ],
                     "names": ["$~-", "$~mengurangi"],
                     "inputs": [
@@ -2685,9 +2689,9 @@
                 },
                 "multiply": {
                     "doc": [
-                        "$~Saya mengalikan diri saya dengan @Number yang diberikan, menghasilkan hasil perkalian antara @Unit saya dan @Unit dari angka yang diberikan:",
-                        "$~5 × 5",
-                        "$~5m × 5m",
+                        "$~Aku mengalikan diriku dengan @Number yang diberikan, membuat hasil kali dari @Unit-ku dan @Unit angka yang diberikan:",
+                        "$~\\5 × 5\\",
+                        "$~\\5m × 5m\\",
                         "$~\\5m × 1/s\\"
                     ],
                     "names": ["$~×", "$~·", "$~berkembangbiak"],
@@ -2700,10 +2704,10 @@
                 },
                 "divide": {
                     "doc": [
-                        "$~Saya membagi diri saya dengan @Number yang diberikan, sehingga menghasilkan hasil bagi antara @Unit saya dan @Unit dari angka yang diberikan:",
-                        "$~5 ÷ 5",
-                        "$~5m ÷ 5m",
-                        "$~5 menit ÷ 5 detik"
+                        "$~Aku membagi diriku dengan @Number yang diberikan, membuat hasil bagi dari @Unit-ku dan @Unit angka yang diberikan:",
+                        "$~\\5 ÷ 5\\",
+                        "$~\\5m ÷ 5m\\",
+                        "$~\\5m ÷ 5s\\"
                     ],
                     "names": ["$~÷", "$~membagi"],
                     "inputs": [
@@ -2715,8 +2719,8 @@
                 },
                 "remainder": {
                     "doc": [
-                        "$~Saya membagi diri saya dengan @Number yang diberikan, tetapi memberikan sisanya:",
-                        "$~10% 2",
+                        "$~Aku membagi diriku dengan @Number yang diberikan, tapi memberi sisanya:",
+                        "$~\\10 % 2\\",
                         "$~\\10m % 2\\",
                         "$~\\10m/s % 3\\"
                     ],
@@ -2730,8 +2734,8 @@
                 },
                 "positive": {
                     "doc": [
-                        "$~Saya membuat @Number baru yang membuat saya menjadi positif, jika negatif.",
-                        "$~-200.positif()"
+                        "$~Aku membuat @Number baru yang membuatku positif, jika negatif.",
+                        "$~\\-200.positif()\\"
                     ],
                     "names": ["$~positif"],
                     "inputs": []
@@ -2768,9 +2772,9 @@
                 },
                 "power": {
                     "doc": [
-                        "$~Saya memangkatkan diri saya dengan angka yang diberikan. Eksponen pecahan diperbolehkan!",
-                        "$~2 ^ 8",
-                        "$~\\10^-2\\",
+                        "$~Aku memangkatkan diriku dengan @Number yang diberikan. Pangkat pecahan boleh saja!",
+                        "$~\\2 ^ 8\\",
+                        "$~\\10 ^ -2\\",
                         "$~\\5 ^ -.5\\"
                     ],
                     "names": ["$~^", "$~kekuatan"],
@@ -2797,9 +2801,9 @@
                 },
                 "lessThan": {
                     "doc": [
-                        "$~\\⊤\\ jika saya kurang dari @Number yang diberikan:",
-                        "$~1 < 2",
-                        "$~2 < 1"
+                        "$~\\⊤\\ jika aku lebih kecil dari @Number yang diberikan:",
+                        "$~\\1 < 2\\",
+                        "$~\\2 < 1\\"
                     ],
                     "names": ["$~<", "$~kurangdari"],
                     "inputs": [
@@ -2811,10 +2815,10 @@
                 },
                 "lessOrEqual": {
                     "doc": [
-                        "$~\\⊤\\ jika saya kurang dari atau sama dengan @Number yang diberikan:",
-                        "$~1 ≤ 2",
-                        "$~2 ≤ 1",
-                        "$~2 ≤ 2"
+                        "$~\\⊤\\ jika aku lebih kecil dari atau sama dengan @Number yang diberikan:",
+                        "$~\\1 ≤ 2\\",
+                        "$~\\2 ≤ 1\\",
+                        "$~\\2 ≤ 2\\"
                     ],
                     "names": ["$~≤", "$~kurangdarisamadengan"],
                     "inputs": [
@@ -2826,9 +2830,9 @@
                 },
                 "greaterThan": {
                     "doc": [
-                        "$~\\⊤\\ jika saya lebih besar dari @Number yang diberikan:",
-                        "$~1 > 2",
-                        "$~2 > 1"
+                        "$~\\⊤\\ jika aku lebih besar dari @Number yang diberikan:",
+                        "$~\\1 > 2\\",
+                        "$~\\2 > 1\\"
                     ],
                     "names": ["$~>", "$~lebihbesardari"],
                     "inputs": [
@@ -2840,10 +2844,10 @@
                 },
                 "greaterOrEqual": {
                     "doc": [
-                        "$~\\⊤\\ jika saya lebih besar dari atau sama dengan @Number yang diberikan:",
-                        "$~1 ≥ 2",
-                        "$~2 ≥ 1",
-                        "$~2 ≥ 2"
+                        "$~\\⊤\\ jika aku lebih besar dari atau sama dengan @Number yang diberikan:",
+                        "$~\\1 ≥ 2\\",
+                        "$~\\2 ≥ 1\\",
+                        "$~\\2 ≥ 2\\"
                     ],
                     "names": ["$~≥", "$~lebihbesaratausamadengan"],
                     "inputs": [
@@ -2855,9 +2859,9 @@
                 },
                 "equal": {
                     "doc": [
-                        "$~\\⊤\\ jika saya sama dengan @Number yang diberikan:",
-                        "$~1 = 2",
-                        "$~2 = 2"
+                        "$~\\⊤\\ jika aku sama dengan @Number yang diberikan:",
+                        "$~\\1 = 2\\",
+                        "$~\\2 = 2\\"
                     ],
                     "names": ["$~=", "$~setara"],
                     "inputs": [
@@ -2869,9 +2873,9 @@
                 },
                 "notequal": {
                     "doc": [
-                        "$~\\⊤\\ jika saya tidak sama dengan @Number yang diberikan:",
-                        "$~1 ≠ 2",
-                        "$~2 ≠ 2"
+                        "$~\\⊤\\ jika aku tidak sama dengan @Number yang diberikan:",
+                        "$~\\1 ≠ 2\\",
+                        "$~\\2 ≠ 2\\"
                     ],
                     "names": ["$~≠", "$~tidaksama"],
                     "inputs": [
@@ -2907,7 +2911,7 @@
                 "max": {
                     "doc": [
                         "$~Temukan jumlah terbesar dari saya dan orang lain.",
-                        "$~\\1.maks(2 3 4)\\"
+                        "$~\n\n\\1.max(2 3 4)\\"
                     ],
                     "names": "$~maksimal",
                     "inputs": [
@@ -2974,18 +2978,18 @@
         },
         "List": {
             "doc": [
-                "$~Aku adalah rangkaian nilai, apa pun jenisnya!",
-                "$~Anda bisa memasukkan apa saja ke dalamnya: @Boolean, @Number, @Text, @None, bahkan @List, @Set, @Map lainnya, atau ekspresi apa pun. Berikut contoh sederhananya:",
-                "$~['apel' 'pisang' 'mangga']",
-                "$~Yang membuatku istimewa adalah aku menjaga segala sesuatunya tetap teratur dan aku memberi nomor pada semuanya dari 1 hingga jumlah benda yang ada di dalam diriku.",
-                "$~Item-item saya diberi nomor, dimulai dari 1. Anda bisa mendapatkan nilai yang saya simpan dengan @ListAccess, menggunakan nomornya:",
-                "$~Misalnya, nilai kedua dalam daftar ini adalah \\['pisang']\\",
+                "$~Aku adalah urutan nilai, jenis apa pun!",
+                "$~Kamu bisa menaruh apa saja dalam diriku: @Boolean, @Number, @Text, @None, bahkan @List, @Set, @Map lain, atau @expression apa pun. Ini contoh sederhana:",
+                "$~\\['apel' 'pisang' 'mangga']\\",
+                "$~Yang membuatku istimewa adalah aku menjaga segala hal tetap berurutan dan aku menomori semuanya dari 1 sampai berapa pun jumlah item dalam diriku.",
+                "$~Item-itemku dinomori, mulai dari 1. Kamu bisa mengambil nilai yang aku simpan dengan @ListAccess, memakai nomornya:",
+                "$~Misalnya, @value kedua dalam daftar ini adalah \\['pisang']\\",
                 "$~\\['apel' 'pisang' 'mangga'][2]\\",
-                "$~Aku bisa menyimpan apa saja di dalam diriku. Lihat daftar ini, dengan @Text, @Number, dan @Time!",
-                "$~\\['apel' 10 + 10 Waktu()]\\",
-                "$~Saat Anda memberi saya daftar banyak hal, saya akan menggeneralisasikannya jika memiliki tipe yang sama. Tetapi terkadang Anda mungkin benar-benar bermaksud hal-hal spesifik tersebut. Jika demikian, cukup tambahkan tanda seru (!) setelah saya, dan saya akan memastikan bahwa saya mewakili daftar yang hanya berisi nilai-nilai tersebut.",
+                "$~Aku bisa berisi apa saja. Lihat daftar ini, dengan @Text, @Number, dan @Time!",
+                "$~\\['apel' 10 + 10 🕕()]\\",
+                "$~Saat kamu memberiku daftar berisi banyak hal, aku akan menyamaratakannya jika mereka punya @type yang sama. Tapi kadang kamu mungkin benar-benar memaksudkan hal-hal tertentu itu. Jika begitu, cukup taruh ! setelahku, dan aku akan memastikan aku mewakili daftar yang khusus berisi hanya nilai-nilai itu.",
                 "$~\\['apel' 'pisang' 'mangga']!\\",
-                "$~Kurang lebih seperti itu. Tapi saya bisa melakukan berbagai hal menarik dengan @FunctionDefinition saya!"
+                "$~Kira-kira begitu. Tapi aku bisa melakukan segala macam hal seru dengan @FunctionDefinition-ku!"
             ],
             "name": ["$~[]", "$~Daftar"],
             "kind": "$~Baik",
@@ -3023,7 +3027,7 @@
                 "replace": {
                     "doc": [
                         "$~Saya membuat daftar baru yang mengganti nilai pada indeks yang diberikan dengan nilai yang diberikan.",
-                        "$~\\['apel' 'pisang' 'mangga'].ganti(1 'kiwi')\\"
+                        "$~\n\n\\['apple' 'banana' 'mango'].replace(1 'kiwi')\\"
                     ],
                     "names": ["$~mengganti"],
                     "inputs": [
@@ -3061,7 +3065,7 @@
                 "first": {
                     "doc": [
                         "$~Item pertama di dalam diriku, atau @None jika aku kosong.",
-                        "$~\\['apel' 'pisang' 'mangga'].pertama()\\"
+                        "$~\n\n\\['apple' 'banana' 'mango'].first()\\"
                     ],
                     "names": "$~Pertama",
                     "inputs": []
@@ -3069,7 +3073,7 @@
                 "last": {
                     "doc": [
                         "$~Item terakhir di dalam diriku, atau @None jika aku kosong.",
-                        "$~\\['apel' 'pisang' 'mangga'].pertama()\\"
+                        "$~\n\n\\['apple' 'banana' 'mango'].last()\\"
                     ],
                     "names": "$~terakhir",
                     "inputs": []
@@ -3090,7 +3094,7 @@
                 "join": {
                     "doc": [
                         "$~Saya menggabungkan item-item dalam daftar saya ke dalam @Text, dipisahkan oleh pemisah @Text yang diberikan.",
-                        "$~\\['apel' 'pisang' 'mangga'].gabungkan(', ')\\"
+                        "$~\n\n\\['apple' 'banana' 'mango'].join(', ')\\"
                     ],
                     "names": "$~bergabung",
                     "inputs": [
@@ -3169,7 +3173,7 @@
                 "reverse": {
                     "doc": [
                         "$~Aku, tapi kebalikannya!",
-                        "$~\\['apel' 'pisang' 'mangga'].balikkan()\\"
+                        "$~\n\n\\['apple' 'banana' 'mango'].reverse()\\"
                     ],
                     "names": ["$~terbalik", "$~balik"],
                     "inputs": []
@@ -3286,9 +3290,9 @@
                 },
                 "until": {
                     "doc": [
-                        "$~Berikan saya sebuah @FunctionDefinition yang menerima nilai sebagai input dan menghasilkan @Boolean jika nilai tersebut sesuai dengan suatu kondisi. Saya akan membuat @List baru yang berisi semua item hingga kondisi tersebut tidak terpenuhi.",
-                        "$~Misalnya, bayangkan saya adalah daftar hewan @Text dan Anda ingin menemukan semua hewan hingga 'tikus':",
-                        "$~\\['kucing' 'anjing' 'tikus' 'mencit' 'kuda poni'].until(ƒ(hewan•'') hewan = 'tikus')\\"
+                        "$~Beri aku @FunctionDefinition yang menerima @value sebagai masukan dan menghasilkan @Boolean jika ia cocok dengan suatu @condition. Aku akan membuat @List baru yang berisi semua item sampai kondisinya tidak terpenuhi.",
+                        "$~Misalnya, bayangkan aku adalah daftar @Text hewan dan kamu mau semuanya sampai \\'tikus'\\ ditemukan:",
+                        "$~\\[\n\t'kucing'\n\t'anjing'\n\t'tikus'\n\t'tikus kecil'\n\t'kuda poni'\n].sampai(ƒ(hewan•'') hewan = 'tikus')\\🪲"
                     ],
                     "names": "$~sampai",
                     "inputs": [
@@ -3314,9 +3318,9 @@
                 },
                 "find": {
                     "doc": [
-                        "$~Berikan saya @FunctionDefinition yang menerima nilai sebagai input dan menghasilkan @Boolean jika nilai tersebut sesuai dengan kriteria tertentu, dan saya akan mengevaluasinya menjadi item yang sesuai.",
-                        "$~Misalnya, bayangkan Anda ingin menemukan hewan pertama yang memiliki huruf vokal 'e':",
-                        "$~\\['kucing' 'anjing' 'tikus' 'mencit' 'kuda poni'].find(ƒ(hewan•'') hewan.has('e'))\\"
+                        "$~Beri aku @FunctionDefinition yang menerima @value sebagai masukan dan menghasilkan @Boolean jika ia cocok dengan suatu kriteria, dan aku akan menghasilkan item yang cocok.",
+                        "$~Misalnya, bayangkan kamu mau menemukan hewan pertama yang punya huruf vokal \\'e'\\:",
+                        "$~\\[\n\t'kucing'\n\t'anjing'\n\t'tikus'\n\t'tikus kecil'\n\t'kuda poni'\n].menemukan(ƒ(hewan•'') hewan.⊆('e'))\\🪲"
                     ],
                     "names": "$~menemukan",
                     "inputs": [
@@ -3419,7 +3423,7 @@
                 "$~Biasanya, jika Anda memberi saya sejumlah nilai yang memiliki tipe yang sama, saya akan menganggapnya sebagai daftar dari tipe tersebut. Seperti himpunan ini adalah \\{''}\\, karena semuanya adalah @Text.",
                 "$~\\{'hai' 'hai' 'halo'}\\",
                 "$~Namun, Anda mungkin ingin menunjukkan bahwa saya hanya terdiri dari nilai-nilai tersebut, sehingga saya dapat memberi tahu Anda ketika Anda mencoba menggunakan nilai yang tidak diizinkan. Jika demikian, cukup tambahkan tanda seru (!) di akhir nama saya.",
-                "$~\\{'hai' 'hai' 'halo'}!{'yo'}\\",
+                "$~\\{'hai' 'hai' 'halo'}!{'yo'}\\🪲",
                 "$~Apakah ada hal lain yang ingin kamu lakukan denganku? Lihat semua @FunctionDefinition keren yang kumiliki!"
             ],
             "name": ["$~{}", "$~Mengatur"],
@@ -3580,19 +3584,19 @@
         "Map": {
             "doc": [
                 "$~Saya menggabungkan nilai-nilai, memetakan *kunci* ke *nilai*. Misalnya:",
-                "$~\\{'amy': 6 poin 'tony': 3 poin 'shiela': 8 poin}\\",
+                "$~\n\n\\{'amy': 6points 'tony':3points 'shiela': 8points}\\",
                 "$~Kunci saya bisa berupa nilai apa saja, dan nilai saya juga bisa berupa nilai apa saja.",
                 "$~Sebagian orang suka menganggap saya seperti indeks, atau kamus, di mana Anda memberi saya sesuatu, dan saya memberi Anda apa yang sesuai dengannya.",
                 "$~Jika Anda ingin memeriksa apa yang dipetakan, Anda dapat memberikan kunci kepada @SetOrMapAccess dan mereka akan memberi Anda nilainya:",
-                "$~\\{'amy': 6 poin 'tony': 3 poin 'shiela': 8 poin}{'amy'}\\",
+                "$~\n\n\\{'amy': 6points 'tony':3points 'shiela': 8points}{'amy'}\\",
                 "$~Jika tidak ada kunci yang cocok, saya akan memberi Anda @None.",
-                "$~\\{'amy': 6 poin 'tony': 3 poin 'shiela': 8 poin}{'jen'}\\",
+                "$~\n\n\\{'amy': 6points 'tony':3points 'shiela': 8points}{'jen'}\\",
                 "$~Anda juga bisa membuat peta kosong seperti ini:",
                 "$~\\{:}\\",
                 "$~Biasanya, saya akan melihat semua jenis kunci dan nilai yang Anda berikan dan kemudian membuat tipe data untuk mewakili semuanya. Seperti ini adalah pemetaan dari angka ke angka:",
                 "$~\\{1:1 2:2 3:3}\\",
                 "$~Namun, misalkan Anda ingin memastikan bahwa nilainya hanya nilai-nilai tersebut saja; cukup tambahkan tanda seru (!) di akhir kata \"me\", dan saya tidak akan melakukan generalisasi. Itu akan membantu Anda mengetahui apakah Anda mencoba mendapatkan nilai yang tidak Anda inginkan.",
-                "$~\\{1:1 2:2 3:3}!{4}\\",
+                "$~\\{1:1 2:2 3:3}!{4}\\🪲",
                 "$~Saya tahu cara melakukan banyak hal menakjubkan dengan paduan yang saya buat."
             ],
             "name": ["$~{:}", "$~Peta"],
@@ -3634,7 +3638,7 @@
                 "set": {
                     "doc": [
                         "$~Saya akan membuat @Map baru dengan semua pasangan yang sama, tetapi dengan pasangan baru yang Anda berikan kepada saya. Jika saya sudah memiliki kuncinya, saya akan memasangkannya dengan nilai baru tersebut.",
-                        "$~\\{'amy': 6 poin 'tony': 3 poin}.pair('jen' 0 poin)\\"
+                        "$~\n\n\\{'amy': 6points 'tony':3points}.pair('jen' 0points)\\"
                     ],
                     "names": "$~pasangan",
                     "inputs": [
@@ -3651,7 +3655,7 @@
                 "unset": {
                     "doc": [
                         "$~Saya akan membuat @Map baru tanpa kunci yang Anda berikan, dan menghapus pasangannya.",
-                        "$~\\{'amy': 6 poin 'tony': 3 poin}.unpair('amy')\\"
+                        "$~\n\n\\{'amy': 6points 'tony':3points}.unpair('amy')\\"
                     ],
                     "names": "$~lepaskanpasangan",
                     "inputs": [
@@ -3664,7 +3668,7 @@
                 "remove": {
                     "doc": [
                         "$~Saya akan membuat @Map baru tanpa kunci apa pun yang memiliki nilai tersebut.",
-                        "$~\\{'amy': 0 poin 'jen': 0 poin 'tony': 3 poin}.hapus(0 poin)\\"
+                        "$~\n\n\\{'amy': 0points 'jen': 0points 'tony':3points}.remove(0points)\\"
                     ],
                     "names": "$~menghapus",
                     "inputs": [
@@ -3678,7 +3682,7 @@
                     "doc": [
                         "$~Berikan saya @FunctionDefinition yang menerima kunci dan nilai dan menghasilkan \\⊤\\ jika pasangan tersebut harus dipertahankan. Saya akan membuat @Map baru yang memenuhi kriteria Anda.",
                         "$~Sebagai contoh, di sini kita ingin mempertahankan pasangan apa pun yang merupakan Amy atau memiliki poin lebih dari nol.",
-                        "$~\\{'amy': 0 poin 'jen': 0 poin 'tony': 3 poin}.filter(ƒ(key•'' value•#poin) (key = 'amy') | (value > 0 poin))\\"
+                        "$~\n\n\\{'amy': 0points 'jen': 0points 'tony':3points}.filter(ƒ(key•'' value•#points) (key = 'amy') | (value > 0points))\\"
                     ],
                     "names": "$~menyaring",
                     "inputs": [
@@ -3706,7 +3710,7 @@
                     "doc": [
                         "$~Berikan saya sebuah @FunctionDefinition yang menerima sebuah key dan value, lalu mengevaluasi value tersebut menjadi value baru. Saya akan membuat @Map baru dengan key yang sama tetapi value yang diperbarui.",
                         "$~Sebagai contoh, mari kita beri setiap orang satu poin karena mereka sangat baik.",
-                        "$~\\{'amy': 5 poin 'jen': 3 poin 'tony': 0 poin}.translate(ƒ(key•'' value•#poin) value + 1 poin)\\"
+                        "$~\\{'amy': 5 poin 'jen': 3 poin 'tony': 0 poin}.translate(ƒ(key•'' value•#poin) value + 1 poin)\\🪲"
                     ],
                     "names": "$~menerjemahkan",
                     "inputs": [
@@ -4199,7 +4203,7 @@
                 "$~/boing boing boing/",
                 "$~Anda memberikan @Phrase awal, lalu sistem akan memperhalusnya dengan lokasi dan rotasi baru berdasarkan gravitasi.",
                 "$~Ini memungkinkan Anda melakukan hal-hal yang sangat sederhana seperti membuat emoji yang memantul:",
-                "$~\\Motion(Phrase('o') startplace: Place(0m 10m))\\",
+                "$~\\Motion(Phrase('o') startplace: Place(0m 10m))\\🪲",
                 "$~Lihat bagaimana huruf o memantul? Pada evaluasi pertama, Anda memberinya tempat di posisi tinggi pada @Stage , tetapi kemudian setelah itu, ia mendapatkan @None , yang memungkinkan @Motion untuk mengubahnya ke posisi apa pun yang akan diberikan oleh gravitasi.",
                 "$~Lihat berbagai cara lain untuk mengkonfigurasinya di bawah ini."
             ],
@@ -4697,7 +4701,7 @@
         },
         "Shape": {
             "doc": "$~Aku adalah inspirasi bagi semua bentuk. Aku berguna untuk memberi tahu @Stage bentuk apa yang harus dia miliki.",
-            "names": ["$~⬟", "$~Membentuk"],
+            "names": ["$~⬟", "Bangun"],
             "form": {
                 "doc": "$~Saya adalah tipe bentuk yang perlu ditampilkan. Setiap bentuk membutuhkan informasi yang berbeda untuk menentukan susunannya.",
                 "names": "$~membentuk"
@@ -4790,7 +4794,7 @@
         },
         "Form": {
             "doc": "$~Saya adalah bentuk abstrak, seperti @Rectangle atau @Circle.",
-            "names": ["$~Membentuk"]
+            "names": ["Bentuk"]
         },
         "Rectangle": {
             "doc": "$~Saya adalah sebuah persegi panjang, berguna untuk membuat @Stage memiliki batas dengan ukuran yang Anda pilih.",
@@ -4919,15 +4923,15 @@
                 "$~Untuk sebelas nama warna yang paling umum, Anda tidak perlu membuat saya dari awal. Saya memiliki jalan pintas dalam penamaan saya:",
                 "$~\\Color.red\\",
                 "$~\\Color.blue\\",
-                "$~Singkatan-singkatan ini juga berlaku dalam bahasa Anda, jadi penutur bahasa Prancis dapat menulis \\couleur.rouge\\ dan penutur bahasa Jepang dapat menulis \\色.赤\\ . Singkatan-singkatan tersebut adalah: merah, oranye, kuning, hijau, biru, ungu, cokelat, merah muda, hitam, putih, dan abu-abu."
+                "$~Singkatan-singkatan ini juga berlaku dalam bahasa Anda, jadi penutur bahasa Prancis dapat menulis \\couleur.rouge\\🪲 dan penutur bahasa Jepang dapat menulis \\色.赤\\🪲 . Singkatan-singkatan tersebut adalah: merah, oranye, kuning, hijau, biru, ungu, cokelat, merah muda, hitam, putih, dan abu-abu."
             ],
             "names": ["$~🌈", "$~Warna"],
             "lightness": {
-                "doc": "$~Seberapa terang seharusnya warna saya dari 0 hingga 1, dari hitam di 0, menjadi abu-abu di 0,5, hingga putih di 1.",
+                "doc": "$~Seberapa terang aku seharusnya, dari \\0\\ sampai \\1\\, dari hitam pada \\0\\, ke abu-abu pada \\0.5\\, ke putih pada \\1\\.",
                 "names": ["$~keringanan", "$~l"]
             },
             "chroma": {
-                "doc": "$~Seberapa banyak warna yang seharusnya saya miliki, dari 0 hingga ∞. Tidak ada warna berarti abu-abu, angka yang lebih tinggi berarti semakin banyak warna.",
+                "doc": "$~Seberapa banyak warna yang seharusnya aku punya, dari \\0\\ sampai \\∞\\. Tanpa warna berarti abu-abu, angka lebih tinggi berarti lebih banyak warna.",
                 "names": ["$~kroma", "$~C"]
             },
             "hue": {
@@ -5042,7 +5046,7 @@
                 "$~Aku menganimasikan @Output melalui serangkaian @Pose seiring waktu! Mau berdansa denganku? Mudah sekali.",
                 "$~Anda hanya perlu memberi saya @Map , di mana setiap kunci mewakili persentase kemajuan kita dalam tarian, dan setiap nilai dari kunci tersebut adalah @Pose yang akan dilakukan.",
                 "$~Ada banyak sekali cara berbeda yang bisa kamu gunakan untuk membuat animasi dengan ini! Misalnya, berikut contoh yang sederhana:",
-                "$~\\Phrase('hi' resting:Sequence({0%: Pose(rotation: 360°) 100%: Pose(rotation: 0°)})\\",
+                "$~\\Phrase('hi' resting:Sequence({0%: Pose(rotation: 360°) 100%: Pose(rotation: 0°)})\\🪲",
                 "$~Ini tertulis, /pada awalnya (0%), mulai pada kemiringan 360, dan berakhir pada kemiringan 0/. Itu akan membuat kita berputar-putar selamanya, karena saya ditetapkan sebagai posisi istirahat @Phrase !",
                 "$~Cobalah kreasi tarian Anda sendiri dengan bereksperimen menggunakan input lain."
             ],
@@ -5175,7 +5179,7 @@
         "Aura": {
             "doc": [
                 "$~Aku membuat @Phrase BERSINAR! Aku adalah AURA. Seperti ini:",
-                "$~\\Phrase(\n\t'I am GLOWING!' \n\taura: Aura(Color(50% 100 118°) 0.1m 0m 0.1m\n)\\"
+                "$~\\Phrase(\n\t'I am GLOWING!' \n\taura: Aura(Color(50% 100 118°) 0.1m 0m 0.1m\n)\\🪲"
             ],
             "names": ["$~🔮", "$~Aura"],
             "color": {
@@ -5334,7 +5338,7 @@
             },
             "fadeout": {
                 "doc": "$~Saya membuat @Sequence yang memudarkan @Output dari terlihat menjadi tidak terlihat. Cobalah saya di @Sequence yang sudah ada!",
-                "names": ["$~memudar"]
+                "names": ["memudarhilang"]
             },
             "popup": {
                 "doc": "$~Saya membuat @Sequence yang membuat @Output membesar dengan cepat, lalu menyusut kembali ke ukuran normalnya.",
@@ -5386,7 +5390,7 @@
             },
             "fadeinup": {
                 "doc": "$~Saya membuat @Sequence yang memudarkan @Output saat menggesernya ke atas ke tempatnya. Cobalah saya di dalam @Sequence yang sedang masuk!",
-                "names": ["$~memudar"],
+                "names": ["munculkeatas"],
                 "distance": {
                     "doc": "$~Seberapa jauh harus digeser.",
                     "names": ["$~jarak"]
@@ -5394,7 +5398,7 @@
             },
             "fadeindown": {
                 "doc": "$~Saya membuat @Sequence yang memudarkan @Output saat menggesernya ke bawah hingga berada di tempatnya. Cobalah saya di dalam @Sequence yang sedang masuk!",
-                "names": ["$~memudar"],
+                "names": ["memudarkebawah"],
                 "distance": {
                     "doc": "$~Seberapa jauh harus digeser.",
                     "names": ["$~jarak"]
@@ -5438,7 +5442,7 @@
             },
             "fadeoutdown": {
                 "doc": "$~Saya membuat @Sequence yang memudarkan @Output sambil menggesernya ke bawah. Cobalah saya di @Sequence yang sudah ada!",
-                "names": ["$~memudar"],
+                "names": ["memudarhilangbawah"],
                 "distance": {
                     "doc": "$~Seberapa jauh harus digeser.",
                     "names": ["$~jarak"]
@@ -5446,7 +5450,7 @@
             },
             "fadeoutleft": {
                 "doc": "$~Saya membuat @Sequence yang memudarkan @Output sambil menggesernya ke kiri. Coba saya di @Sequence yang sudah ada!",
-                "names": ["$~memudarkekiri"],
+                "names": ["memudarhilangkiri"],
                 "distance": {
                     "doc": "$~Seberapa jauh harus digeser.",
                     "names": ["$~jarak"]
@@ -5478,7 +5482,7 @@
             "doc": [
                 "$~Anda tahu kan bagaimana sebuah proyek bisa memiliki lebih dari satu file @Source? Saya memungkinkan Anda untuk membuat @Source berdasarkan logika proyek Anda. Ini sangat membantu jika Anda ingin menyimpan beberapa data di antara evaluasi proyek yang berbeda.",
                 "$~Sebagai contoh, bayangkan Anda ingin membuat penghitung sederhana yang bertambah satu setiap kali Anda menekan tombol mouse. Anda mungkin menggunakan ini untuk mengingat berapa kali Anda melakukan sesuatu.",
-                "$~\\↓ count [ Phrase(`\\count\\ times!`) Source('count' count … ∆ Button() … count + 1 ) ]\\",
+                "$~\\↓ count [ Phrase(`\\count\\ times!`) Source('count' count … ∆ Button() … count + 1 ) ]\\🪲",
                 "$~Cobalah menyalinnya, membuat @Source baru bernama /count/ dan mengetikkan 0 di dalamnya, untuk memulai hitungan dari 0. Proyek kecil ini akan mengambil nilai di sumber /count/ dan setiap kali tombol mouse ditekan, akan mengedit @Source /count/ menjadi nilai /count/ saat ini ditambah /1/."
             ],
             "name": {
@@ -5507,7 +5511,7 @@
             }
         },
         "Result": {
-            "doc": "$~Saya tinggal satu kecocokan lagi dari pencarian pola dengan \\⌕\\ : teks yang cocok, letaknya, dan tangkapan apa pun.",
+            "doc": "$~Saya tinggal satu kecocokan lagi dari pencarian pola dengan \\⌕\\🪲 : teks yang cocok, letaknya, dan tangkapan apa pun.",
             "names": ["$~Hasil"],
             "text": {
                 "doc": "$~Seluruh teks cocok.",
@@ -5568,7 +5572,8 @@
                 "preview": "$~pratinjau teks yang diformat",
                 "highlight": "$~contoh sorotan",
                 "bullet": "$~peluru",
-                "attention": "$~sorot ungkapan ini"
+                "attention": "$~sorot ungkapan ini",
+                "defect": "$~tandai contoh sebagai cacat yang diharapkan"
             },
             "backtotop": "$~kembali ke atas",
             "overflow": {

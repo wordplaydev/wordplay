@@ -18,7 +18,11 @@
  * the Google backend and keep only the cross-backend repair helpers shared.
  */
 
-import { ConceptRegExPattern, MentionRegEx } from '@parser/Tokenizer';
+import {
+    ConceptRegExPattern,
+    MentionRegEx,
+    TextCloseByTextOpen,
+} from '@parser/Tokenizer';
 import type Log from '@util/verify-locales/Log';
 
 /** Wrap each `$name` mention in a `<span translate="no">` so Google Translate
@@ -55,29 +59,44 @@ export function splitMarkupAndCode(
 ): Array<{ kind: 'markup' | 'code'; text: string }> {
     const segments: Array<{ kind: 'markup' | 'code'; text: string }> = [];
     let buffer = '';
-    let inCode = false;
+    // Contexts entered since leaving markup; empty means we're in markup. A `\`
+    // delimits an example only at the top level — inside a text literal it opens
+    // an embedded expression (`\expr\`), and inside that expression a text literal
+    // can nest again. We track that nesting instead of toggling on every `\`;
+    // otherwise `\"sums \1 + 2\, \2 + 3\"\` is shredded into stray `\, \` pieces
+    // (which parse as bogus `,` examples) and the inner expressions leak to markup.
+    const stack: Array<{ kind: 'code' } | { kind: 'text'; close: string }> = [];
     for (const c of text) {
-        if (c === '\\') {
-            if (inCode) {
-                segments.push({ kind: 'code', text: '\\' + buffer + '\\' });
-                buffer = '';
-                inCode = false;
-            } else {
+        if (stack.length === 0) {
+            if (c === '\\') {
                 if (buffer.length > 0)
                     segments.push({ kind: 'markup', text: buffer });
-                buffer = '';
-                inCode = true;
-            }
-        } else {
-            buffer += c;
+                buffer = '\\';
+                stack.push({ kind: 'code' });
+            } else buffer += c;
+            continue;
         }
+        buffer += c;
+        const top = stack[stack.length - 1];
+        if (top.kind === 'code') {
+            if (c === '\\') {
+                stack.pop();
+                // Closing the top-level example ends the code segment; closing a
+                // nested interpolation just returns us to its text literal.
+                if (stack.length === 0) {
+                    segments.push({ kind: 'code', text: buffer });
+                    buffer = '';
+                }
+            } else if (TextCloseByTextOpen[c] !== undefined)
+                stack.push({ kind: 'text', close: TextCloseByTextOpen[c] });
+        } else if (c === '\\') stack.push({ kind: 'code' });
+        else if (c === top.close) stack.pop();
     }
-    if (buffer.length > 0 || inCode) {
+    if (buffer.length > 0)
         segments.push({
-            kind: inCode ? 'code' : 'markup',
-            text: inCode ? '\\' + buffer : buffer,
+            kind: stack.length === 0 ? 'markup' : 'code',
+            text: buffer,
         });
-    }
     return segments;
 }
 
@@ -199,6 +218,28 @@ export function mismatchedDelimiter(
     if (count(source, /\\/g) !== count(translation, /\\/g)) return '\\…\\';
     if (count(source, /`/g) !== count(translation, /`/g)) return '`…`';
     return undefined;
+}
+
+/**
+ * Whether `code` ends inside an unterminated text literal — e.g. a localized
+ * identifier that picked up an apostrophe written as `'` (a string delimiter),
+ * leaving `…'brien: 5` open. This swallows the rest of a doc when the example is
+ * re-embedded, and unlike a dropped `\`/`` ` `` it doesn't change those counts, so
+ * `mismatchedDelimiter` can't see it. Tracks text-literal nesting (a `\…\` inside a
+ * literal is an embedded expression, not a close), mirroring `splitMarkupAndCode`;
+ * balanced literals (including interpolations) return false.
+ */
+export function hasUnclosedText(code: string): boolean {
+    let close: string | undefined;
+    let inInterp = false;
+    for (const c of code) {
+        if (close === undefined) {
+            if (TextCloseByTextOpen[c] !== undefined)
+                close = TextCloseByTextOpen[c];
+        } else if (!inInterp && c === close) close = undefined;
+        else if (c === '\\') inInterp = !inInterp;
+    }
+    return close !== undefined;
 }
 
 export const ConceptPattern = new RegExp(ConceptRegExPattern, 'ug');

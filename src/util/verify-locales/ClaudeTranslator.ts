@@ -17,6 +17,7 @@ import type Log from '@util/verify-locales/Log';
 import { getLocaleJSON } from './LocaleSchema';
 import {
     ConceptPattern,
+    hasUnclosedText,
     mismatchedDelimiter,
     repairMentionsPositional,
     restoreReferences,
@@ -346,6 +347,11 @@ ${PLAIN_LANGUAGE_GUIDANCE}`;
             terminated = true;
         }
         if (inner.trim().length === 0) return code;
+        // Nothing to localize if there's no letter in any script — e.g. the
+        // text-delimiter demos `""`/`“”`/`«»`/`「」` or pure number/symbol programs.
+        // Sending these to the model risks normalizing the very delimiters they
+        // demonstrate (`“”` → `''`), so keep them verbatim.
+        if (!/\p{L}/u.test(inner)) return code;
 
         try {
             const project = Project.make(
@@ -404,6 +410,20 @@ ${PLAIN_LANGUAGE_GUIDANCE}`;
                 return code;
             }
 
+            // An identifier the model localized may have picked up a string
+            // delimiter (e.g. a transliteration apostrophe written as `'`), leaving
+            // an unterminated text literal that swallows the rest of the embedding
+            // doc. It doesn't change the `\`/`` ` `` counts above and may not raise
+            // the conflict count on a 🪲 example, so check text-literal balance
+            // directly and keep the source if localization introduced an open one.
+            if (!hasUnclosedText(inner) && hasUnclosedText(newInner)) {
+                log.warning(
+                    2,
+                    'Localized example left an unterminated text literal; keeping the original.',
+                );
+                return code;
+            }
+
             // Re-parse + re-analyze in the target locale; keep the original if
             // localization introduced conflicts the source didn't have.
             const reparsed = Project.make(
@@ -429,6 +449,34 @@ ${PLAIN_LANGUAGE_GUIDANCE}`;
             );
             return code;
         }
+    }
+
+    /**
+     * Localize a single `\code\` example surgically — builds the system prompt and loads the
+     * target locale text itself. For one-off scripts that localize specific examples (e.g. English
+     * examples substituted into a locale) without running a full doc translation. Keeps the
+     * original verbatim on any failure or if localization would introduce conflicts.
+     */
+    async localizeOneExample(
+        log: Log,
+        code: string,
+        sourceLocale: string,
+        targetLocale: string,
+    ): Promise<string> {
+        const targetLocaleText = this.loadLocaleText(log, targetLocale);
+        const system = this.buildSystem(
+            sourceLocale,
+            targetLocale,
+            targetLocaleText,
+        );
+        return this.localizeExample(
+            log,
+            code,
+            sourceLocale,
+            targetLocale,
+            targetLocaleText,
+            system,
+        );
     }
 
     async translate(

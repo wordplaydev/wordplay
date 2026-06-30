@@ -13,15 +13,15 @@ import TypePlaceholder from '@nodes/TypePlaceholder';
 import type TypeSet from '@nodes/TypeSet';
 
 export default class ConversionType extends Type {
-    readonly convert: Token;
     readonly input: Type;
+    readonly convert: Token;
     readonly output: Type;
 
-    constructor(convert: Token, input: Type, output: Type) {
+    constructor(input: Type, convert: Token, output: Type) {
         super();
 
-        this.convert = convert;
         this.input = input;
+        this.convert = convert;
         this.output = output;
 
         this.computeChildren();
@@ -29,8 +29,8 @@ export default class ConversionType extends Type {
 
     static make(input?: Type, output?: Type) {
         return new ConversionType(
-            new Token(CONVERT_SYMBOL, Sym.Convert),
             input ?? TypePlaceholder.make(),
+            new Token(CONVERT_SYMBOL, Sym.Convert),
             output ?? TypePlaceholder.make(),
         );
     }
@@ -54,15 +54,15 @@ export default class ConversionType extends Type {
     getGrammar(): Grammar {
         return [
             {
+                name: 'input',
+                kind: node(Type),
+                label: () => (l) => l.glossary.type.word,
+            },
+            {
                 name: 'convert',
                 kind: node(Sym.Convert),
                 space: true,
                 label: undefined,
-            },
-            {
-                name: 'input',
-                kind: node(Type),
-                label: () => (l) => l.glossary.type.word,
             },
             {
                 name: 'output',
@@ -75,8 +75,8 @@ export default class ConversionType extends Type {
 
     clone(replace?: Replacement) {
         return new ConversionType(
-            this.replaceChild('convert', this.convert, replace),
             this.replaceChild('input', this.input, replace),
+            this.replaceChild('convert', this.convert, replace),
             this.replaceChild('output', this.output, replace),
         ) as this;
     }

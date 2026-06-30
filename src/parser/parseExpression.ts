@@ -812,6 +812,18 @@ export function parseStructure(
     const docs = tokens.nextIs(Sym.Doc) ? parseDocs(tokens) : undefined;
     const share = tokens.nextIs(Sym.Share) ? tokens.read(Sym.Share) : undefined;
 
+    // A structure declares its type with `•`. If it isn't next (e.g. a malformed localized
+    // basis source whose docs ran long), rewind and produce an unparsable rather than throwing —
+    // the parser must never throw on any input.
+    if (!tokens.nextIs(Sym.Type)) {
+        const first = [
+            ...(docs ? docs.leaves() : []),
+            ...(share ? [share] : []),
+        ][0];
+        if (first) tokens.unreadTo(first);
+        return parseUnparsable(tokens);
+    }
+
     const type = tokens.read(Sym.Type);
     const names = parseNames(tokens);
 

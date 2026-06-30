@@ -5,6 +5,7 @@ import DefaultLocales from '@locale/DefaultLocales';
 import type LocaleText from '@locale/LocaleText';
 import {
     isMachineTranslated,
+    isRevised,
     isUnwritten,
     parseLocaleDoc,
     toDocString,
@@ -16,6 +17,9 @@ import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import { tokenize } from '@parser/Tokenizer';
 import { toTokens } from '@parser/toTokens';
+import analyzeCode from '@util/verify-locales/analyzeCode';
+import checkGlobalNames from '@util/verify-locales/checkGlobalNames';
+import getDocExamples from '@util/verify-locales/docExamples';
 import LocalePath, {
     getKeyTemplatePairs,
 } from '@util/verify-locales/LocalePath';
@@ -125,12 +129,14 @@ export async function verifyLocale(
     return [revisedText, JSON.stringify(revisedText) !== JSON.stringify(text)];
 }
 
-// If the value is unwritten, or marked revised and machine translated, or we're overriding and is machine translated,
+// Whether to (re)machine-translate this string: it's unwritten ($?), explicitly marked Revised ($!)
+// to force a per-string re-translation from en-US, or machine-translated ($~) and we're overriding.
 function shouldStringBeMachineTranslated(
     text: string,
     override: boolean,
 ): boolean {
     if (isUnwritten(text)) return true;
+    if (isRevised(text)) return true;
     if (isMachineTranslated(text) && override) return true;
     return false;
 }
@@ -215,6 +221,9 @@ async function checkLocale(
         }
     }
 
+    // Two distinct global shares (output types, input streams, sequences) must not share a name.
+    checkGlobalNames(log, revised);
+
     // Check every pair for errors.
     const pairs = getKeyTemplatePairs(revised);
 
@@ -225,32 +234,36 @@ async function checkLocale(
         if (path.key === 'doc') {
             const docString = toDocString(path.value);
 
-            // An orphaned/duplicated `\…\` or `` `…` `` delimiter (e.g. an LLM
-            // doubling a backtick while localizing a nested example) breaks
-            // tokenization silently — the markup parser skips over a malformed
-            // example, so it surfaces only later when the embedded code is parsed
-            // (e.g. building a basis type). Catch it here, where it's introduced.
+            // A doc explicitly queued for re-translation ($! Revised) gets warnings,
+            // not hard failures, for delimiter/conflict problems — acknowledged debt
+            // the next translate pass regenerates. Everything else must be clean.
+            const docValue = path.value;
+            const queued =
+                typeof docValue === 'string'
+                    ? isRevised(docValue)
+                    : docValue.some((s) => isRevised(s));
+
             // A code (`\…\`) or formatted (`` `…` ``) delimiter the translation
             // dropped or duplicated (vs the en-US source) breaks tokenization
-            // silently — the markup parser skips a malformed example, so it
-            // surfaces only later when the embedded code is parsed (e.g. building
-            // a basis type). Compare counts to the source so external examples
-            // (legitimately odd `\`) aren't false-positives. A warning, not an
-            // error: many locales carry this from older machine translations, so
-            // we surface it (and any new) without failing CI on legacy debt; the
-            // translator's preserveBalancedDelimiters is the hard guarantee that
-            // no new mismatch ships (it falls back to the source).
+            // silently — the markup parser skips the malformed example, so it never
+            // renders (and only surfaces later when the embedded code is parsed, e.g.
+            // building a basis type). Count against the source so examples with a
+            // legitimately odd count (external examples, a literal `\`) aren't false
+            // positives. This is a hard failure: a dropped/added delimiter is broken
+            // output, not stylistic. (`preserveBalancedDelimiters` keeps the
+            // translator from shipping one; this catches any introduced by another
+            // path, and refuses to let it through.)
             const enValue = path.resolve(DefaultLocale);
             if (enValue !== undefined) {
                 const mismatched = mismatchedDelimiter(
                     toDocString(enValue),
                     docString,
                 );
-                if (mismatched !== undefined)
-                    log.warning(
-                        2,
-                        `Mismatched ${mismatched} delimiter at ${path.toString()} (differs from en-US) in ${docString.substring(0, 50)}...`,
-                    );
+                if (mismatched !== undefined) {
+                    const message = `Mismatched ${mismatched} delimiter at ${path.toString()} (differs from en-US) in ${docString.substring(0, 50)}...`;
+                    if (queued) log.warning(2, message);
+                    else log.bad(2, message);
+                }
             }
 
             const doc = parseLocaleDoc(docString);
@@ -289,11 +302,32 @@ async function checkLocale(
                         .join(', ')}`,
                 );
 
-            // Note: a full UnparsableExpression/UnparsableType scan over the doc
-            // is too noisy here — markup constructs (italic `/`, `…`, etc.) parse
-            // to unparsable nodes outside a code context, drowning real code
-            // breakage in false positives. The delimiter-balance check above
-            // catches the build-breaking class (orphaned/duplicated delimiters).
+            // Analyze each inline code example for conflicts — the markup analogue of a tutorial's
+            // `conflicts: true`. We parse the real Example nodes via getDocExamples (so markup
+            // constructs like italic `/` and `…`, which parse to unparsables outside a code context,
+            // don't produce false positives), and skip examples annotated 🪲 (expected to have
+            // conflicts: deliberate type errors, bare-symbol illustrations). Every other example
+            // must analyze cleanly, in every locale.
+            // A conflict in an example is a hard error — unless the doc is queued for
+            // re-translation ($! Revised, computed above): those surface as a warning
+            // and are left for the translator to regenerate from en-US. Deliberate
+            // per-string opt-out, not a blanket pass on machine-translated content.
+            const report = (message: string) =>
+                queued ? log.warning(2, message) : log.bad(2, message);
+            for (const example of getDocExamples(docString)) {
+                if (example.expectsDefect) continue;
+                const result = analyzeCode(example.code, revised);
+                if (result.error)
+                    report(
+                        `Unable to analyze example at ${path.toString()}: "${example.code}".\n${result.error}`,
+                    );
+                else if (result.conflicts.length > 0)
+                    report(
+                        `Found conflicts (${result.conflicts.join(
+                            ', ',
+                        )}) in example "${example.code}" at ${path.toString()}. Fix it, mark it 🪲 if intended, or mark the string "${Revised}" to queue it for re-translation.`,
+                    );
+            }
         }
         // Is one or more names? Make sure they're valid names or operator symbols.
         else if (path.key === 'names') {
