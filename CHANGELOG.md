@@ -8,7 +8,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Added
 
-- 🪲 When you write documentation with example code, you can now mark an example as one that's _meant_ to have a mistake, so Wordplay won't flag it as an error — handy for showing what a mistake looks like. It sits right next to the highlight button.
+- 🪲 When you write documentation with example code, you can now mark an example as one that's _meant_ to have a mistake, so Wordplay won't flag it as an error — handy for showing what a mistake looks like.
 
 ### Fixed
 
