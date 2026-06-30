@@ -141,13 +141,16 @@
     {/if}
 {/snippet}
 
-<span class="options-group"
+<span
+    class="options-group"
+    style:width={width === 'auto' ? undefined : width}
     ><select
         {id}
         aria-label={title}
         bind:value
         bind:this={view}
         style:width
+        style:max-width={width === 'auto' ? undefined : width}
         disabled={!editable}
         class:code
         class:placeholder={value === undefined}
@@ -242,6 +245,20 @@
     select button,
     selectedcontent {
         white-space: nowrap;
+    }
+
+    /* Let the flex chain (select → button → selectedcontent) shrink below its
+       content size so the closed display can clip instead of spilling past the
+       control's right border. */
+    select,
+    select button {
+        min-width: 0;
+    }
+
+    selectedcontent {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     select {
