@@ -3,7 +3,6 @@ import {
     isBot,
     paginate,
     REPO_BASE,
-    REPO_OWNER,
     type GitHubUser,
 } from './github.js';
 
@@ -199,6 +198,10 @@ export async function fetchContributorsData(
     return { created: new Date().toISOString(), contributors };
 }
 
+/** Title shared by detection and creation so the duplicate check can match an
+ * existing PR by title regardless of its branch name. */
+const PR_TITLE = 'Update contributors data';
+
 /** GitHub returns 422 when a ref/PR already exists; tolerate that so duplicate
  * scheduled invocations converge instead of erroring (and triggering retries). */
 function alreadyExists(e: unknown): boolean {
@@ -220,12 +223,16 @@ export async function createContributorsPR(
         'base64',
     );
 
-    // If a PR for this branch is already open, this invocation is a duplicate.
-    const open = await githubFetch(
+    // Bail if any auto-generated contributors PR is already open. Matching by
+    // title (not just this branch's head) catches a duplicate opened by a
+    // separate invocation whose branch is named differently — e.g. a stale
+    // function deployment still minting timestamped branches — which a
+    // head-only check would miss.
+    const open = (await githubFetch(
         token,
-        `${base}/pulls?head=${REPO_OWNER}:${branch}&state=open`,
-    );
-    if (Array.isArray(open) && open.length > 0) return;
+        `${base}/pulls?base=main&state=open&per_page=100`,
+    )) as Array<{ title: string }> | undefined;
+    if (Array.isArray(open) && open.some((pr) => pr.title === PR_TITLE)) return;
 
     const ref = (await githubFetch(token, `${base}/git/ref/heads/main`)) as {
         object: { sha: string };
@@ -272,7 +279,7 @@ export async function createContributorsPR(
         await githubFetch(token, `${base}/pulls`, {
             method: 'POST',
             body: JSON.stringify({
-                title: 'Update contributors data',
+                title: PR_TITLE,
                 head: branch,
                 base: 'main',
                 body: `Automated refresh of \`static/contributors.json\` generated on ${data.created}.`,
