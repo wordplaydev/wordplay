@@ -6490,8 +6490,8 @@
                     "supported": "可用的"
                 },
                 "search": {
-                    "description": "$?",
-                    "placeholder": "$?"
+                    "description": "$~依姓名或地區篩選語言",
+                    "placeholder": "$~語言或地區"
                 },
                 "button": {
                     "show": "切換語言",

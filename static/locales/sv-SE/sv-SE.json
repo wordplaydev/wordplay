@@ -6525,8 +6525,8 @@
                     "supported": "$~Tillgänglig"
                 },
                 "search": {
-                    "description": "$?",
-                    "placeholder": "$?"
+                    "description": "$~Filtrera språk efter namn eller område",
+                    "placeholder": "$~språk eller område"
                 },
                 "button": {
                     "show": "$~välj språk för webbplatsen",

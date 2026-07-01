@@ -6801,8 +6801,8 @@
                     "supported": "$~Disponibil"
                 },
                 "search": {
-                    "description": "$?",
-                    "placeholder": "$?"
+                    "description": "$~Filtrează limbile după nume sau regiune",
+                    "placeholder": "$~limbă sau regiune"
                 },
                 "button": {
                     "show": "$~alegeți limba (limbile) pentru site-ul web",

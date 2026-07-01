@@ -6791,8 +6791,8 @@
                     "supported": "$~Magagamit"
                 },
                 "search": {
-                    "description": "$?",
-                    "placeholder": "$?"
+                    "description": "$~Salain ang mga wika ayon sa pangalan o rehiyon",
+                    "placeholder": "$~wika o rehiyon"
                 },
                 "button": {
                     "show": "$~pumili ng wika/mga wika para sa website",

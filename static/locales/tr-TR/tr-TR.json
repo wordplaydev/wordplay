@@ -6531,8 +6531,8 @@
                     "supported": "$~Mevcut"
                 },
                 "search": {
-                    "description": "$?",
-                    "placeholder": "$?"
+                    "description": "$~Dilleri isim veya bölgeye göre süz",
+                    "placeholder": "$~dil veya bölge"
                 },
                 "button": {
                     "show": "$~web sitesi için dil(ler) seçin",

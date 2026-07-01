@@ -6798,8 +6798,8 @@
                     "supported": "$~Có sẵn"
                 },
                 "search": {
-                    "description": "$?",
-                    "placeholder": "$?"
+                    "description": "$~Lọc ngôn ngữ theo tên hoặc vùng đất",
+                    "placeholder": "$~ngôn ngữ hoặc vùng đất"
                 },
                 "button": {
                     "show": "$~Chọn ngôn ngữ cho trang web",

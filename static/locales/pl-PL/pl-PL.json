@@ -6543,8 +6543,8 @@
                     "supported": "$~Dostępny"
                 },
                 "search": {
-                    "description": "$?",
-                    "placeholder": "$?"
+                    "description": "$~Filtruj języki według nazwy lub regionu",
+                    "placeholder": "$~język lub region"
                 },
                 "button": {
                     "show": "$~wybierz język(i) witryny",

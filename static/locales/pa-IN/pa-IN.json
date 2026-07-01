@@ -6527,8 +6527,8 @@
                     "supported": "$~ਉਪਲਬਧ ਹੈ"
                 },
                 "search": {
-                    "description": "$?",
-                    "placeholder": "$?"
+                    "description": "$~ਭਾਸ਼ਾਵਾਂ ਨੂੰ ਨਾਮ ਜਾਂ ਖੇਤਰ ਨਾਲ ਛਾਂਟੋ",
+                    "placeholder": "$~ਭਾਸ਼ਾ ਜਾਂ ਖੇਤਰ"
                 },
                 "button": {
                     "show": "$~ਵੈੱਬਸਾਈਟ ਲਈ ਭਾਸ਼ਾ(ਵਾਂ) ਚੁਣੋ।",

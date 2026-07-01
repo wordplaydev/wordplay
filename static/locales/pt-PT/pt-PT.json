@@ -6791,8 +6791,8 @@
                     "supported": "Disponível"
                 },
                 "search": {
-                    "description": "$?",
-                    "placeholder": "$?"
+                    "description": "$~Filtrar idiomas por nome ou região",
+                    "placeholder": "$~idioma ou região"
                 },
                 "button": {
                     "show": "alterar localidade",

@@ -6532,8 +6532,8 @@
                     "supported": "$~उपलब्ध"
                 },
                 "search": {
-                    "description": "$?",
-                    "placeholder": "$?"
+                    "description": "$~नाव किंवा प्रदेशानुसार भाषा गाळा",
+                    "placeholder": "$~भाषा किंवा प्रदेश"
                 },
                 "button": {
                     "show": "$~वेबसाइटसाठी भाषा निवडा",
