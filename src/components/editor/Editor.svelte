@@ -124,6 +124,7 @@
         isDropPermitted,
         isValidDropTarget,
         resolveReplacementTarget,
+        targetAnchorNode,
     } from '@edit/drag/Drag';
     import Menu, { RevisionSet } from '@edit/menu/Menu';
     import { getEditsAt } from '@edit/menu/PossibleEdits';
@@ -897,6 +898,14 @@
 
         // If there's a hovered node, prioritize that. Otherwise, choose the insertion point.
         const target = $hovered ?? $insertion;
+
+        // Stale target guard for #1213: a mid-drag project revision (e.g. a temporal stream tick)
+        // replaces the tree with new node identities while the drag stores still reference old nodes.
+        // Targeting a since-replaced node would splice against a mismatched tree (corrupting it or
+        // crashing), so no-op. handleRelease still clears the drag state afterward. (A rootless
+        // dragged node is the normal palette-drop case, so we don't gate on it.)
+        if (target === undefined || !project.contains(targetAnchorNode(target)))
+            return;
 
         const [newProject, newSource, droppedNode] =
             target === undefined

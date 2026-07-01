@@ -18,6 +18,7 @@ import {
     getBlockingDropConflicts,
     isValidDropTarget,
     kindAcceptsDrop,
+    targetAnchorNode,
 } from '@edit/drag/Drag';
 import Bind from '@nodes/Bind';
 import DefinitionExpression from '@nodes/DefinitionExpression';
@@ -409,52 +410,70 @@ export function getDragHighlights(
     const highlights = new Highlights();
 
     if (dragged !== undefined) {
-        // Highlight the dragged node.
+        // Highlight the dragged node. (A rootless dragged node — a palette drop — isn't in the source,
+        // so this is a no-op for it; that's fine.)
         highlights.add(source, dragged, 'dragged');
+
+        // Stale target guard for #1213: a mid-drag project revision replaces the tree with new node
+        // identities while the drag stores still reference old nodes. Ignore a hovered/insertion
+        // target whose anchor node no longer lives in the project, so we never walk or simulate
+        // against a mismatched tree (which can throw a `.length`-of-undefined deep in analysis).
+        const validHovered =
+            hovered !== undefined && project.contains(hovered)
+                ? hovered
+                : undefined;
+        const validInsertion =
+            insertion !== undefined &&
+            project.contains(targetAnchorNode(insertion))
+                ? insertion
+                : undefined;
 
         // If there's something hovered or an insertion point, show targets and matches.
         // If we're hovered over a structurally valid drop target, highlight it — but only as a 'match'
         // when the drop is actually permitted (no blocking conflict).
-        if (hovered && isValidDropTarget(project, dragged, hovered)) {
+        if (validHovered && isValidDropTarget(project, dragged, validHovered)) {
             if (currentTargetPermitted) {
-                highlights.add(source, hovered, 'match');
-                highlights.add(source, hovered, 'hovered');
+                highlights.add(source, validHovered, 'match');
+                highlights.add(source, validHovered, 'hovered');
             }
         }
         // No valid hover target? Highlight the insertion point if there is one and the drop is permitted.
         else if (
-            insertion instanceof InsertionPoint &&
-            isValidDropTarget(project, dragged, insertion.node)
+            validInsertion instanceof InsertionPoint &&
+            isValidDropTarget(project, dragged, validInsertion.node)
         ) {
-            if (currentTargetPermitted && insertion.list.length === 0) {
-                highlights.add(source, insertion.node, 'match');
-                highlights.add(source, insertion.node, 'hovered');
-                highlights.addEmpty(insertion.node, insertion.field);
+            if (currentTargetPermitted && validInsertion.list.length === 0) {
+                highlights.add(source, validInsertion.node, 'match');
+                highlights.add(source, validInsertion.node, 'hovered');
+                highlights.addEmpty(validInsertion.node, validInsertion.field);
             }
         }
         // No valid hover target? Highlight the assignment point if there is one and the drop is permitted.
-        else if (insertion instanceof AssignmentPoint) {
+        else if (validInsertion instanceof AssignmentPoint) {
             if (currentTargetPermitted) {
-                if (insertion.parent instanceof Program) {
+                if (validInsertion.parent instanceof Program) {
                     highlights.add(
                         source,
-                        insertion.parent.expression,
+                        validInsertion.parent.expression,
                         'match',
                     );
                     highlights.add(
                         source,
-                        insertion.parent.expression,
+                        validInsertion.parent.expression,
                         'hovered',
                     );
                 } else {
-                    highlights.add(source, insertion.parent, 'hovered');
-                    highlights.addEmpty(insertion.parent, insertion.field);
+                    highlights.add(source, validInsertion.parent, 'hovered');
+                    highlights.addEmpty(
+                        validInsertion.parent,
+                        validInsertion.field,
+                    );
                 }
             }
         }
         // No insert? Highlight valid drop targets. This set is invariant for the whole drag, so it's
         // computed once and cached rather than re-walked on every pointer move over empty space.
-        else if (insertion === undefined) {
+        else if (validInsertion === undefined) {
             return Highlights.merge(
                 highlights,
                 getDropTargetHighlights(source, project, dragged),

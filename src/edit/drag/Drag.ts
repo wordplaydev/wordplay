@@ -389,6 +389,21 @@ export function isValidDropTarget(
 }
 
 /**
+ * The node a drop target is anchored to in the current tree: the target itself for a node
+ * replacement, or the list/field owner for an insertion/assignment point. Used to check whether a
+ * drop target still belongs to the live project after a mid-drag revision.
+ */
+export function targetAnchorNode(
+    target: Node | InsertionPoint | AssignmentPoint,
+): Node {
+    return target instanceof InsertionPoint
+        ? target.node
+        : target instanceof AssignmentPoint
+          ? target.parent
+          : target;
+}
+
+/**
  * Simulate dropping `dragged` onto `target` in `source` and return the NEW major conflicts (Warning +
  * Error) the drop would introduce, diffed against the project's current major conflicts. Placeholder
  * (minor) conflicts are already excluded by getMajorConflictsNow(), so a drop that only leaves a
@@ -403,6 +418,14 @@ export function getDropConflicts(
     dragged: Node,
     target: Node | InsertionPoint | AssignmentPoint,
 ): { conflicts: Conflict[]; project: Project } {
+    // Stale target guard: a mid-drag project revision (e.g. a temporal stream tick) replaces the tree
+    // with new node identities, but the drag stores still reference old nodes. Simulating a drop whose
+    // target anchor is no longer in the project would splice against a mismatched tree and can throw,
+    // so treat it as introducing no conflicts (the actual drop path no-ops too). We don't gate on the
+    // dragged node: a rootless dragged node is the normal palette-drop case, handled by dropNodeOnSource.
+    if (!project.contains(targetAnchorNode(target)))
+        return { conflicts: [], project };
+
     const [newProject] = dropNodeOnSource(project, source, dragged, target);
     // `before` comes from the live project's CACHED analysis (the app already computed it for the
     // annotations UI), so it costs nothing. `after` must be computed fresh on the never-analyzed

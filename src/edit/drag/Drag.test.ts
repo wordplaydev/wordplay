@@ -212,6 +212,32 @@ test('getDropConflicts returns [] when a drop only leaves a placeholder behind (
     ).toHaveLength(0);
 });
 
+test('getDropConflicts no-ops for a stale target anchored outside the project (#1213)', () => {
+    // Regression for #1213: a mid-drag project revision replaces the tree with new node identities,
+    // leaving the drag stores pointing at old nodes. Simulate that with an insertion point anchored
+    // to a list in a since-replaced (detached) tree; the guard must return no conflicts instead of
+    // walking the mismatched tree and throwing.
+    const source = new Source('test', '1');
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const dragged = source.find<Node>(NumberLiteral);
+    const detached = new Source('stale', '[1 3 4 5]');
+    const staleList = detached.find<ListLiteral>(ListLiteral);
+    const target = new InsertionPoint(
+        staleList,
+        'values',
+        staleList.values,
+        staleList.find<Token>(Token, 2),
+        0,
+        1,
+    );
+    expect(() =>
+        getDropConflicts(project, source, dragged, target),
+    ).not.toThrow();
+    expect(
+        getDropConflicts(project, source, dragged, target).conflicts,
+    ).toHaveLength(0);
+});
+
 test('getDropConflicts reports the conflict a type-erroring drop would introduce', () => {
     const source = new Source('test', 'Place()');
     const project = Project.make(null, 'test', source, [], DefaultLocale);
