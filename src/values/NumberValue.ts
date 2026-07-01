@@ -11,6 +11,8 @@ import type { BasisTypeName } from '@basis/BasisConstants';
 import type Expression from '@nodes/Expression';
 import type Value from '@values/Value';
 import SimpleValue from '@values/SimpleValue';
+import type Locale from '@locale/Locale';
+import { formatNumberForLocale } from '@locale/numberFormats';
 
 export type NumberAndPrecision = [Decimal, number | undefined];
 
@@ -289,6 +291,24 @@ export default class NumberValue extends SimpleValue {
         }${this.unit.toString()}`;
     }
 
+    /**
+     * Render this number for OUTPUT in the given locale (#1196): native digits,
+     * grouping, and decimal separator per {@link formatNumberForLocale}, plus the
+     * unit. Deterministic across platforms (no Intl). Distinct from
+     * {@link toWordplay}, which stays Arabic-Western for round-trippable code.
+     */
+    toText(locale: Locale): string {
+        // Non-finite values have no localized form; mirror toWordplay.
+        if (this.num.isNaN()) return `!#${this.unit.toString()}`;
+        if (!this.num.isFinite())
+            return `${this.num.isPositive() ? '' : '-'}∞${this.unit.toString()}`;
+
+        // Keep authored trailing zeros (precision) and full precision (no cap).
+        const dp = Math.max(this.num.decimalPlaces(), this.precision ?? 0);
+        const numeric = this.num.toFixed(dp);
+        return `${formatNumberForLocale(numeric, locale)}${this.unit.toString()}`;
+    }
+
     getDescription() {
         return (l: LocaleText) => getConceptName(l, 'number');
     }
@@ -330,7 +350,7 @@ const hanOrders: Record<string, number> = {
 
 // Positional numeral digit maps. Each script's ten digits translate one-to-one
 // to Arabic '0'–'9'; the converter shares a single helper.
-const thaiDigits: Record<string, string> = {
+export const thaiDigits: Record<string, string> = {
     '๐': '0',
     '๑': '1',
     '๒': '2',
@@ -343,7 +363,7 @@ const thaiDigits: Record<string, string> = {
     '๙': '9',
 };
 
-const bengaliDigits: Record<string, string> = {
+export const bengaliDigits: Record<string, string> = {
     '০': '0',
     '১': '1',
     '২': '2',
@@ -356,7 +376,7 @@ const bengaliDigits: Record<string, string> = {
     '৯': '9',
 };
 
-const devanagariDigits: Record<string, string> = {
+export const devanagariDigits: Record<string, string> = {
     '०': '0',
     '१': '1',
     '२': '2',
@@ -369,7 +389,7 @@ const devanagariDigits: Record<string, string> = {
     '९': '9',
 };
 
-const gujaratiDigits: Record<string, string> = {
+export const gujaratiDigits: Record<string, string> = {
     '૦': '0',
     '૧': '1',
     '૨': '2',
@@ -382,7 +402,7 @@ const gujaratiDigits: Record<string, string> = {
     '૯': '9',
 };
 
-const gurmukhiDigits: Record<string, string> = {
+export const gurmukhiDigits: Record<string, string> = {
     '੦': '0',
     '੧': '1',
     '੨': '2',
@@ -395,7 +415,7 @@ const gurmukhiDigits: Record<string, string> = {
     '੯': '9',
 };
 
-const kannadaDigits: Record<string, string> = {
+export const kannadaDigits: Record<string, string> = {
     '೦': '0',
     '೧': '1',
     '೨': '2',
@@ -408,7 +428,7 @@ const kannadaDigits: Record<string, string> = {
     '೯': '9',
 };
 
-const tamilDigits: Record<string, string> = {
+export const tamilDigits: Record<string, string> = {
     '௦': '0',
     '௧': '1',
     '௨': '2',
@@ -421,7 +441,7 @@ const tamilDigits: Record<string, string> = {
     '௯': '9',
 };
 
-const teluguDigits: Record<string, string> = {
+export const teluguDigits: Record<string, string> = {
     '౦': '0',
     '౧': '1',
     '౨': '2',

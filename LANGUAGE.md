@@ -100,6 +100,8 @@ The `thai` production accepts the Thai digit characters ๐–๙, which are pos
 
 We hope to add other numerals as we localize other languages.
 
+Numbers are also localized on **output**. When a number becomes text — through the `→ ''` conversion or by being interpolated into a text template — it is rendered in the numeral system and grouping/decimal conventions of an output locale: native digits for the positional scripts above (Devanagari, Bengali, Gurmukhi, Gujarati, Kannada, Tamil, Telugu, Thai), locale grouping (including South-Asian 3-then-2 grouping, e.g. `10,00,000`), and the locale's decimal separator. Scripts without a positional digit set (Arabic, and the additive Han system) fall back to Western digits with the locale's grouping. By default the active project locale is used. To render in a specific locale regardless of the reader, tag the target text type with a language/region: the conversion `1234 → ''/hi-IN` and interpolation into a tagged literal `'\n\'/hi-IN` both produce Hindi digits. (A language tag on a `→ ''` target is treated as a rendering request — the generic number→text conversion satisfies it — and the resulting text is tagged with that locale.) This rendering is deterministic across platforms — it does not use `Intl.NumberFormat` — and always preserves full precision. Source code and round-trippable value text stay Arabic-Western regardless of locale.
+
 Text literals can be opened and closed with numerous delimiters:
 
 > textopen → `"` | `“` | `„` | `'` | `‘` | `‹` | `«` | `「` | `『`  

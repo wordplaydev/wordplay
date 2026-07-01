@@ -4,6 +4,7 @@ import type Evaluator from '@runtime/Evaluator';
 import type { BasisTypeName } from '@basis/BasisConstants';
 import type Locales from '@locale/Locales';
 import type { LocaleTextAccessor } from '@locale/Locales';
+import type Locale from '@locale/Locale';
 import type Expression from '@nodes/Expression';
 
 /** Used to uniquely distinguish values. */
@@ -23,6 +24,16 @@ export default abstract class Value {
     }
 
     abstract toWordplay(locales?: Locales): string;
+
+    /**
+     * Render this value as OUTPUT text in the given locale (#1196). Only
+     * NumberValue localizes (native digits, grouping, separators); every other
+     * value type falls back to its round-trippable string, so localizing a
+     * number in a text template or `→''` conversion doesn't change other types.
+     */
+    toText(_locale: Locale): string {
+        return this.toString();
+    }
 
     /** Returns the Structure defining this value's interface. */
     abstract getType(context: Context): Type;

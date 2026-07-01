@@ -29,6 +29,7 @@ import NameType from '@nodes/NameType';
 import NeverType from '@nodes/NeverType';
 import { node, type Grammar, type Replacement } from '@nodes/Node';
 import { NotAType } from '@nodes/NotAType';
+import TextType from '@nodes/TextType';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import Type from '@nodes/Type';
@@ -144,6 +145,21 @@ export default class Convert extends Expression {
             );
     }
 
+    /**
+     * The type used to RESOLVE a conversion path. A language/region tag on a
+     * text target is a rendering request, not a distinct conversion target:
+     * `x → ''/fr` means "convert x to text, rendered in French." So we resolve
+     * the path against the language-less text type (letting the generic
+     * number→text conversion satisfy a request for a specific locale) and keep
+     * the tag on `this.type` for the computed type and for the runtime to read
+     * when rendering (see NumberBasis' number→text conversion).
+     */
+    getConversionTargetType(): Type {
+        return this.type instanceof TextType && this.type.language !== undefined
+            ? this.type.withLanguage(undefined)
+            : this.type;
+    }
+
     getConversionSequence(
         context: Context,
     ): ConversionDefinition[] | undefined {
@@ -174,7 +190,7 @@ export default class Convert extends Expression {
         // Find a path between the input type and the desired type
         return getConversionPath(
             inputType,
-            this.type,
+            this.getConversionTargetType(),
             [...typeConversions, ...scopeConversions],
             context,
         );
@@ -207,6 +223,13 @@ export default class Convert extends Expression {
                     this.type,
                 ),
             );
+        // When the request carried a language tag (resolved via the language-
+        // less text type in getConversionTargetType), the value we produce IS
+        // that tagged text, so report the requested tagged type rather than the
+        // conversion's generic '' output.
+        if (this.type instanceof TextType && this.type.language !== undefined)
+            return this.type;
+
         const lastConversion = conversions[conversions.length - 1];
 
         // Now that we have an output type, concretize it, in case it has generic types.

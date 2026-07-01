@@ -1,9 +1,16 @@
 import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
 import NumberValue from '@values/NumberValue';
+import TextValue from '@values/TextValue';
 import { expect, test } from 'vitest';
 import { parseNumber } from '@parser/parseExpression';
 import { toTokens } from '@parser/toTokens';
 import evaluateCode from '@runtime/evaluate';
+import type Locale from '@locale/Locale';
+import type LanguageCode from '@locale/LanguageCode';
+
+function loc(language: LanguageCode): Locale {
+    return { language, regions: [] };
+}
 
 test.each([
     // Test JavaScript number translation.
@@ -223,4 +230,52 @@ test.each([
     ['1000mg→#lb', '0.002204625lb'],
 ])('Expect %s to be %s', (code, value) => {
     expect(evaluateCode(code)?.toString()).toBe(value);
+});
+
+// Localized output (#1196). toText renders native digits + locale grouping and
+// decimal separators, deterministically. Distinct from toString/toWordplay,
+// which stay Arabic-Western for round-trippable code.
+test.each<[string, LanguageCode, string]>([
+    // Western grouping / separators.
+    ['1000000.5', 'en', '1,000,000.5'],
+    ['1000000.5', 'de', '1.000.000,5'],
+    ['-1234', 'en', '-1,234'],
+    // Precision / authored trailing zeros preserved.
+    ['1.50', 'en', '1.50'],
+    ['1.50', 'de', '1,50'],
+    // Indian grouping + Devanagari digits.
+    ['1234', 'hi', '१,२३४'],
+    ['1000000.5', 'hi', '१०,००,०००.५'],
+    // Non-finite values have no localized form.
+    ['∞', 'en', '∞'],
+    ['!#', 'en', '!#'],
+])('toText %s in %s = %s', (text, language, expected) => {
+    const literal = parseNumber(toTokens(text));
+    expect(new NumberValue(literal, literal.number).toText(loc(language))).toBe(
+        expected,
+    );
+});
+
+// Output paths that localize numbers: the #→'' conversion and text-template
+// interpolation. The conversion honors an explicit locale tag on the text type
+// (e.g. ''/hi-IN), beating the active output locale.
+test.each([
+    // #→'' conversion, no tag → active locale (default en): Western grouping.
+    ["1234→''", '1,234'],
+    // Unit is preserved after the localized number.
+    ["5000m→''", '5,000m'],
+    // Interpolation of a number into a text template (no tag → active locale).
+    ["'\\1234\\'", '1,234'],
+    // Interpolation into a locale-tagged text literal renders the number in
+    // that text's locale, beating the active locale (explicit override).
+    ["'\\1234\\'/hi-IN", '१,२३४'],
+    ["'\\1234\\'/de", '1.234'],
+    // The #→'' conversion honors a locale tag on the target text type.
+    ["1234→''/hi-IN", '१,२३४'],
+    ["1234→''/de", '1.234'],
+    ["5000m→''/hi-IN", '५,०००m'],
+])('%s outputs text %s', (code, expected) => {
+    const value = evaluateCode(code);
+    expect(value).toBeInstanceOf(TextValue);
+    if (value instanceof TextValue) expect(value.text).toBe(expected);
 });

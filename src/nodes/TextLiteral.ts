@@ -224,10 +224,17 @@ export default class TextLiteral extends Literal {
                 next = segment.getCodepoint() ?? segment.concept.getText();
             } else {
                 const value = evaluator.popValue(this);
-                next =
-                    value instanceof TextValue
-                        ? value.text
-                        : (value.toString() ?? '');
+                if (value instanceof TextValue) next = value.text;
+                else {
+                    // Localize an interpolated number for output (#1196), using
+                    // this text's own locale when tagged, else the active output
+                    // locale. Only numbers localize; other types fall back to
+                    // their round-trippable string via Value.toText.
+                    const target =
+                        translation.language?.getLocaleID() ??
+                        evaluator.getLocaleIDs()[0];
+                    next = target ? value.toText(target) : value.toString();
+                }
             }
             // Assemble in reverse order
             text = next + text;

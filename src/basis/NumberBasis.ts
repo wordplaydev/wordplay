@@ -23,6 +23,8 @@ import type LocaleText from '@locale/LocaleText';
 import type { FunctionText, NameAndDoc } from '@locale/LocaleText';
 import type Expression from '@nodes/Expression';
 import ListType from '@nodes/ListType';
+import Convert from '@nodes/Convert';
+import TextType from '@nodes/TextType';
 import {
     createBasisConversion,
     createBasisFunction,
@@ -437,8 +439,33 @@ export default function bootstrapNumber(locales: Locales) {
                     ),
                     '#',
                     "''",
-                    (requestor: Expression, val: NumberValue) =>
-                        new TextValue(requestor, val.toString()),
+                    (
+                        requestor: Expression,
+                        val: NumberValue,
+                        evaluation: Evaluation,
+                    ) => {
+                        // Localize the number for output (#1196). If the creator
+                        // named a target locale on the conversion's text type
+                        // (e.g. `5 → ''/hi-IN`), render in that locale and tag the
+                        // resulting text with it; otherwise use the active output
+                        // locale and leave the text untagged.
+                        const creator = evaluation.getCreator();
+                        const requestedLanguage =
+                            creator instanceof Convert &&
+                            creator.type instanceof TextType
+                                ? creator.type.concreteLanguage(
+                                      evaluation.getContext(),
+                                  )
+                                : undefined;
+                        const target =
+                            requestedLanguage?.getLocaleID() ??
+                            locales.getLocale();
+                        return new TextValue(
+                            requestor,
+                            val.toText(target),
+                            requestedLanguage,
+                        );
+                    },
                 ),
                 createBasisConversion(
                     getDocLocales(

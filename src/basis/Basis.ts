@@ -230,7 +230,11 @@ export function createBasisConversion<ValueType extends Value>(
     docs: Docs,
     input: Type | string,
     output: Type | string,
-    convert: (requestor: Expression, value: ValueType) => Value,
+    convert: (
+        requestor: Expression,
+        value: ValueType,
+        evaluation: Evaluation,
+    ) => Value,
 ) {
     // Parse the expected type.
     const inputType =
@@ -251,7 +255,7 @@ export function createBasisConversion<ValueType extends Value>(
                     evaluation.getContext(),
                 )
             )
-                return convert(requestor, val as ValueType);
+                return convert(requestor, val as ValueType, evaluation);
             else
                 return evaluation.getValueOrTypeException(
                     requestor,
