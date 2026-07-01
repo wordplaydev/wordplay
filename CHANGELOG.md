@@ -9,6 +9,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Added
 
 - 🪲 When you write documentation with example code, you can now mark an example as one that's _meant_ to have a mistake, so Wordplay won't flag it as an error — handy for showing what a mistake looks like.
+- 🌐 Numbers now appear in your language's own digits and number style. When a number becomes text or is shown as a value, we use the right digits (like १,२३४), grouping, and decimal mark for your language — and you can ask for a specific one with a tag like `5 → ''/hi-IN` (#1196).
 
 ### Fixed
 
