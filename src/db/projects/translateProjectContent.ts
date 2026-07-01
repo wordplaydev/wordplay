@@ -20,44 +20,14 @@ import getPreferredSpaces from '@parser/getPreferredSpaces';
 import { isName } from '@parser/Tokenizer';
 import { toMarkup } from '@parser/toMarkup';
 import type Project from '@db/projects/Project';
-import { splitMarkupAndCode } from '@util/verify-locales/protect';
+import { normalizeSoftBreaks, type RawTranslator } from '@db/translateMarkup';
+
+// Re-exported so existing importers of this path keep working; the type now
+// lives with the reusable markup-translation helpers.
+export type { RawTranslator } from '@db/translateMarkup';
 
 // Convert any camel cased word into space separated words.
 const SeparateWords = /[A-Z-_](?=[a-z0-9]+)|[A-Z-_]+(?![a-z0-9])/g;
-
-/**
- * Collapse soft line breaks (single newlines and other whitespace runs) within
- * a paragraph's markup to single spaces, leaving `\code\` blocks untouched.
- *
- * Translators reflow prose, so a source newline has no stable counterpart in the
- * translation; sending the newline through risks the model dropping it entirely
- * and running words together (e.g. "and\nexplain" → "yexplicar"). Normalizing to
- * spaces up front guarantees correct word spacing; the cost is that translated
- * docs don't preserve the source's line wrapping.
- */
-function normalizeSoftBreaks(text: string): string {
-    return splitMarkupAndCode(text)
-        .map((seg) =>
-            seg.kind === 'code' ? seg.text : seg.text.replace(/\s+/g, ' '),
-        )
-        .join('');
-}
-
-/**
- * The raw machine-translation step, injected so this core is independent of the
- * backend and transport. Receives the unique source strings plus the source and
- * target locales, and returns translations aligned 1:1 with the inputs, or
- * `null` on failure. The browser injects a Firebase callable; the CLI injects a
- * direct backend call.
- */
-export type RawTranslator = (
-    texts: string[],
-    from: Locale,
-    to: Locale,
-    /** Optional context for quality: a sample of the project's other names and
-     *  docs so the backend can choose domain-appropriate words. */
-    context?: { names?: string[]; docs?: string[] },
-) => Promise<(string | undefined)[] | null>;
 
 /**
  * Doc.make() and FormattedTranslation.make() build their inner Markup with
