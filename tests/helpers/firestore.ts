@@ -109,3 +109,62 @@ export async function waitForDocumentUpdate(
 
     return documentData;
 }
+
+/**
+ * Waits until the client's local Dexie cache (`wordplay` DB, `projects` store)
+ * holds the given project — optionally with a source substring. This is the
+ * reliable signal that the project is in the in-memory `allEditableProjects`
+ * store that the client-side character-rename rewrite iterates: on page load
+ * `ProjectsDatabase.trackLocal` rehydrates cached projects into memory
+ * independent of realtime-listener timing. Reads via `getAll()` and matches on
+ * the serialized `id` field to avoid coupling to the store's `++id` key.
+ */
+export async function waitForClientCachedProject(
+    page: Page,
+    projectId: string,
+    sourceContains?: string,
+    timeout = 20000,
+): Promise<void> {
+    await page.waitForFunction(
+        ({ id, needle }) =>
+            new Promise<boolean>((resolve) => {
+                const request = indexedDB.open('wordplay');
+                request.onsuccess = () => {
+                    const db = request.result;
+                    if (!db.objectStoreNames.contains('projects')) {
+                        db.close();
+                        resolve(false);
+                        return;
+                    }
+                    const getAll = db
+                        .transaction('projects', 'readonly')
+                        .objectStore('projects')
+                        .getAll();
+                    getAll.onsuccess = () => {
+                        const rows: Array<{
+                            id?: string;
+                            sources?: Array<{ code?: string }>;
+                        }> = getAll.result;
+                        db.close();
+                        resolve(
+                            rows.some(
+                                (p) =>
+                                    p?.id === id &&
+                                    (needle === undefined ||
+                                        (p?.sources?.[0]?.code ?? '').includes(
+                                            needle,
+                                        )),
+                            ),
+                        );
+                    };
+                    getAll.onerror = () => {
+                        db.close();
+                        resolve(false);
+                    };
+                };
+                request.onerror = () => resolve(false);
+            }),
+        { id: projectId, needle: sourceContains },
+        { timeout, polling: 300 },
+    );
+}

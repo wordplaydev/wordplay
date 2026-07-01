@@ -4,7 +4,10 @@ import { createTestCharacter } from '../helpers/createCharacter';
 import { seedCollaborativeProject } from '../helpers/createCollaborativeProject';
 import { createTestProject } from '../helpers/createProject';
 import { uidForUsername } from '../helpers/loginNewContext';
-import { waitForDocumentUpdate } from '../helpers/firestore';
+import {
+    waitForClientCachedProject,
+    waitForDocumentUpdate,
+} from '../helpers/firestore';
 
 test('editing a project saves it to the cloud', async ({ page }) => {
     // Create test project - the page will be redirected to the new project page 
@@ -61,19 +64,19 @@ test('changing a character name updates its project references', async ({
     page,
     loggedInUsername,
 }) => {
-    // The test under coverage is the Cloud Function that updates project
-    // sources whenever a character is renamed. That function reads and
-    // writes Firestore via the admin SDK; the editor UI is incidental.
+    // The character-rename rewrite is CLIENT-SIDE: CharacterDatabase.updateCharacter
+    // iterates the in-memory db.Projects.allEditableProjects and revises any
+    // ConceptLink references (there is no Cloud Function). So the referencing
+    // project MUST be loaded in this page's client before we rename — otherwise
+    // the rewrite iterates a set that lacks it and silently does nothing.
     //
-    // The page therefore stays on the character page for the whole test:
-    // we never open the project in the browser, so there's no in-memory
-    // Project view that could autosave (and clobber) the seeded source on
-    // unmount, and no fragile "wait for the Firestore listener to deliver
-    // the admin-SDK write to the DOM" step. Setup is admin-SDK only; the
-    // assertion polls Firestore directly.
+    // We make that deterministic by getting the project into the client's local
+    // (Dexie) cache first: on the character page, ProjectsDatabase.trackLocal
+    // rehydrates cached projects into allEditableProjects at load, independent of
+    // realtime-listener timing (historically the flake source on slower browsers).
 
-    // Create the character via the page (we still want to exercise the
-    // real character-rename UI as the trigger for the Cloud Function).
+    // Create the character via the page (we exercise the real rename UI as the
+    // trigger for the rewrite).
     const characterId = await createTestCharacter(page);
     const characterNameInput = page.locator('#character-name');
     const initialCharacterName = 'Old';
@@ -87,9 +90,8 @@ test('changing a character name updates its project references', async ({
         (data) => data?.name === initialCharacterNameFull,
     );
 
-    // Seed a project that already references the character, via admin SDK.
-    // The page never visits /project/{id}, so there's no race between the
-    // page's autosave and our admin write.
+    // Seed a project that references the character (deterministic source via the
+    // admin SDK).
     const sourceCodeWithCharacterRef = `Phrase(\`@${initialCharacterNameFull}\`)`;
     const ownerUid = await uidForUsername(loggedInUsername);
     const projectId = await seedCollaborativeProject(
@@ -98,11 +100,38 @@ test('changing a character name updates its project references', async ({
         sourceCodeWithCharacterRef,
     );
 
-    // Trigger the Cloud Function by renaming the character. The page is
-    // already on /character/{id} from createTestCharacter, so this is a
-    // simple fill in place.
+    // Open the project so the client loads the referenced source into memory,
+    // then make a trivial (name-only) client edit. That marks the project
+    // unsaved, so persist() writes it — reference source included — into the
+    // local Dexie cache. The source is untouched, so there's no clobber.
+    await page.goto(`/en-US/project/${projectId}`);
+    const projectNameField = page.locator('#project-name:not([disabled])');
+    await projectNameField.waitFor();
+    const seededProjectName = 'Referencing project';
+    await projectNameField.fill(seededProjectName);
+    await expect(projectNameField).toHaveValue(seededProjectName);
+    await waitForDocumentUpdate(
+        page,
+        'projects',
+        projectId,
+        (data) => data?.name === seededProjectName,
+    );
+
+    // Return to the character page. On load, trackLocal rehydrates the cached
+    // referencing project into allEditableProjects.
+    await page.goto(`/en-US/character/${characterId}`);
+
+    // Confirm the client's local cache holds the project with its reference
+    // before we rename — the precondition for the rewrite to have anything to do.
+    await waitForClientCachedProject(
+        page,
+        projectId,
+        `@${initialCharacterNameFull}`,
+    );
+
+    // Trigger the client-side rewrite by renaming the character.
     const newCharacterName = 'New';
-    await characterNameInput.fill(newCharacterName);
+    await page.locator('#character-name').fill(newCharacterName);
 
     const expectedFullName = `${loggedInUsername}/${newCharacterName}`;
     await waitForDocumentUpdate(
@@ -112,8 +141,8 @@ test('changing a character name updates its project references', async ({
         (data) => data?.name === expectedFullName,
     );
 
-    // Poll Firestore for the Cloud Function's update — the actual subject
-    // under test.
+    // The client rewrite should update the referencing project's source, which
+    // then saves to the cloud — the actual subject under test.
     const expectedSourceCode = `Phrase(\`@${expectedFullName}\`)`;
     const updatedProject = await waitForDocumentUpdate(
         page,
