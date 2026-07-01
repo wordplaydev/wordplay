@@ -6800,6 +6800,10 @@
                     "selected": "$~Terpilih",
                     "supported": "$~Tersedia"
                 },
+                "search": {
+                    "description": "$~Saring bahasa berdasarkan nama atau wilayah",
+                    "placeholder": "$~bahasa atau wilayah"
+                },
                 "button": {
                     "show": "$~Pilih bahasa untuk situs web",
                     "replace": "$~gunakan bahasa ini",

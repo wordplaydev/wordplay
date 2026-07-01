@@ -6542,6 +6542,10 @@
                     "selected": "$~Wybrany",
                     "supported": "$~Dostępny"
                 },
+                "search": {
+                    "description": "$?",
+                    "placeholder": "$?"
+                },
                 "button": {
                     "show": "$~wybierz język(i) witryny",
                     "replace": "$~użyj tego języka",

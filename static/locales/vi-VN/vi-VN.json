@@ -6797,6 +6797,10 @@
                     "selected": "$~Đã chọn",
                     "supported": "$~Có sẵn"
                 },
+                "search": {
+                    "description": "$?",
+                    "placeholder": "$?"
+                },
                 "button": {
                     "show": "$~Chọn ngôn ngữ cho trang web",
                     "replace": "$~sử dụng ngôn ngữ này",

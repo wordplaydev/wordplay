@@ -6800,6 +6800,10 @@
                     "selected": "$~Selectat",
                     "supported": "$~Disponibil"
                 },
+                "search": {
+                    "description": "$?",
+                    "placeholder": "$?"
+                },
                 "button": {
                     "show": "$~alegeți limba (limbile) pentru site-ul web",
                     "replace": "$~folosește acest limbaj",

@@ -3,21 +3,21 @@
     import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import LocaleName from '@components/settings/LocaleName.svelte';
+    import LocaleSearch, {
+        filterLocalesByQuery,
+    } from '@components/settings/LocaleSearch.svelte';
     import Button from '@components/widgets/Button.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
     import { locales, Projects } from '@db/Database';
     import { functions } from '@db/firebase';
     import type Project from '@db/projects/Project';
     import translateProject from '@db/projects/translate';
-    import { Languages } from '@locale/LanguageCode';
     import getTranslatableLocales from '@locale/getTranslatableLocales';
     import {
         localesAreEqual,
         localeToString,
         type Locale,
     } from '@locale/Locale';
-    import { Regions } from '@locale/Regions';
     import { LOCALE_SYMBOL } from '@parser/Symbols';
 
     interface Props {
@@ -54,24 +54,14 @@
     /** A query that filters the destination languages by native name, Latin name, or region. */
     let query = $state('');
 
-    let destinationLocales = $derived.by(() => {
-        const langs = $locales.getLanguages();
-        const q = query.trim().toLocaleLowerCase(langs);
-        const offered = getTranslatableLocales();
-        if (q.length === 0) return offered;
-        return offered.filter((locale) => {
-            const info = Languages[locale.language];
-            const haystack = [
-                info?.name ?? '', // native name, e.g. "español", "日本語"
-                info?.en ?? '', // Latin name, e.g. "Spanish"
-                ...locale.regions, // region code, e.g. "MX"
-                ...locale.regions.map((r) => Regions[r]?.en ?? ''), // region name, e.g. "Mexico"
-            ]
-                .join(' ')
-                .toLocaleLowerCase(langs);
-            return haystack.includes(q);
-        });
-    });
+    let destinationLocales = $derived(
+        filterLocalesByQuery(
+            getTranslatableLocales(),
+            query,
+            (locale) => locale,
+            $locales.getLanguages(),
+        ),
+    );
 
     /** Translate the project into another language */
     async function translate() {
@@ -144,13 +134,13 @@
     </div>
     <div class="destination-header">
         <Subheader text={(l) => l.ui.project.subheader.destination} />
-        <TextField
+        <LocaleSearch
             id="translate-destination-search"
             placeholder={(l) =>
                 l.ui.project.dialog.translate.search.placeholder}
             description={(l) =>
                 l.ui.project.dialog.translate.search.description}
-            bind:text={query}
+            bind:query
         />
         <Button
             background

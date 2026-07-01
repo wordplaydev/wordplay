@@ -6530,6 +6530,10 @@
                     "selected": "$~選択済み",
                     "supported": "$~利用可能"
                 },
+                "search": {
+                    "description": "$~名前や地域で言語を絞り込む",
+                    "placeholder": "$~言語または地域"
+                },
                 "button": {
                     "show": "$~ウェブサイトの言語を選択してください",
                     "replace": "$~この言語を使用する",

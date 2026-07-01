@@ -6489,6 +6489,10 @@
                     "selected": "选择",
                     "supported": "可用的"
                 },
+                "search": {
+                    "description": "$?",
+                    "placeholder": "$?"
+                },
                 "button": {
                     "show": "切换语言",
                     "replace": "替换这个语言",

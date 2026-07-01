@@ -6807,6 +6807,10 @@
                     "selected": "Selected",
                     "supported": "Available"
                 },
+                "search": {
+                    "description": "Filter languages by name or region",
+                    "placeholder": "language or region"
+                },
                 "button": {
                     "show": "choose language(s) for the website",
                     "replace": "use this language",

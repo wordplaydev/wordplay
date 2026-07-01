@@ -6790,6 +6790,10 @@
                     "selected": "Selecionado",
                     "supported": "Disponível"
                 },
+                "search": {
+                    "description": "$?",
+                    "placeholder": "$?"
+                },
                 "button": {
                     "show": "alterar localidade",
                     "replace": "Utilize este idioma",

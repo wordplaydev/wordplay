@@ -6524,6 +6524,10 @@
                     "selected": "$~Vald",
                     "supported": "$~Tillgänglig"
                 },
+                "search": {
+                    "description": "$?",
+                    "placeholder": "$?"
+                },
                 "button": {
                     "show": "$~välj språk för webbplatsen",
                     "replace": "$~använd detta språk",

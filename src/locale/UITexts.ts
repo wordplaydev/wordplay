@@ -1193,6 +1193,8 @@ type UITexts = {
                 /** [plain] How to label the supported locales that have not been selected */
                 supported: string;
             };
+            /** The field that filters the available locales by name or region */
+            search: FieldText;
             /** Buttons in the locale chooser dialog */
             button: {
                 /** [plain] Show the locale chooser dialog */

@@ -14633,6 +14633,10 @@
                       ],
                       "type": "object"
                     },
+                    "search": {
+                      "$ref": "#/definitions/FieldText",
+                      "description": "The field that filters the available locales by name or region"
+                    },
                     "subheader": {
                       "additionalProperties": false,
                       "description": "Subheaders in the local chooser dialog.",
@@ -14659,6 +14663,7 @@
                     "header",
                     "localizeHelp",
                     "request",
+                    "search",
                     "subheader"
                   ],
                   "type": "object"

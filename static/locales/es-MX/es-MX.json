@@ -6512,6 +6512,10 @@
                     "selected": "Seleccionado",
                     "supported": "Disponible"
                 },
+                "search": {
+                    "description": "$~Filtra idiomas por nombre o región",
+                    "placeholder": "$~idioma o región"
+                },
                 "button": {
                     "show": "cambiar idiomas",
                     "replace": "reemplazar idomas",

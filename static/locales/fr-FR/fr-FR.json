@@ -6513,6 +6513,10 @@
                     "selected": "$~Choisi",
                     "supported": "$~Disponible"
                 },
+                "search": {
+                    "description": "$~Filtrer les langues par nom ou région",
+                    "placeholder": "$~langue ou région"
+                },
                 "button": {
                     "show": "$~Choisissez la ou les langues du site web",
                     "add": "$~utiliser cette langue et les langues actuelles",

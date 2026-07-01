@@ -6530,6 +6530,10 @@
                     "selected": "$~Seçilmiş",
                     "supported": "$~Mevcut"
                 },
+                "search": {
+                    "description": "$?",
+                    "placeholder": "$?"
+                },
                 "button": {
                     "show": "$~web sitesi için dil(ler) seçin",
                     "replace": "$~bu dili kullanın",

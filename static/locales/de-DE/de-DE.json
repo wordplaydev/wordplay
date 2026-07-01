@@ -6519,6 +6519,10 @@
                     "selected": "$~Ausgewählt",
                     "supported": "$~Verfügbar"
                 },
+                "search": {
+                    "description": "$~Sprachen nach Name oder Region filtern",
+                    "placeholder": "$~Sprache oder Region"
+                },
                 "button": {
                     "show": "$~Sprache(n) für die Website auswählen",
                     "add": "$~diese Sprache und die aktuellen verwenden",

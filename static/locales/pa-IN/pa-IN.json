@@ -6526,6 +6526,10 @@
                     "selected": "$~ਚੁਣਿਆ ਗਿਆ",
                     "supported": "$~ਉਪਲਬਧ ਹੈ"
                 },
+                "search": {
+                    "description": "$?",
+                    "placeholder": "$?"
+                },
                 "button": {
                     "show": "$~ਵੈੱਬਸਾਈਟ ਲਈ ਭਾਸ਼ਾ(ਵਾਂ) ਚੁਣੋ।",
                     "replace": "$~ਇਸ ਭਾਸ਼ਾ ਦੀ ਵਰਤੋਂ ਕਰੋ",

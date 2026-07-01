@@ -8,6 +8,9 @@
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
     import LocaleName from '@components/settings/LocaleName.svelte';
+    import LocaleSearch, {
+        filterLocalesByQuery,
+    } from '@components/settings/LocaleSearch.svelte';
     import Button from '@components/widgets/Button.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
@@ -15,7 +18,7 @@
     import { locales } from '@db/Database';
     import { functions } from '@db/firebase';
     import { Languages } from '@locale/LanguageCode';
-    import { localeToString } from '@locale/Locale';
+    import { localeToString, stringToLocale } from '@locale/Locale';
     import {
         getLocaleLanguageName,
         isLocaleDraft,
@@ -46,6 +49,20 @@
             .getPreferredLocales()
             .map((locale) => localeToString(locale)) as SupportedLocale[];
     });
+
+    /** A query that filters the available locales by native name, Latin name, or region. */
+    let query = $state('');
+
+    let availableLocales = $derived(
+        filterLocalesByQuery(
+            SupportedLocales.filter(
+                (supported) => !selectedLocales.includes(supported),
+            ),
+            query,
+            (code) => stringToLocale(code),
+            $locales.getLanguages(),
+        ),
+    );
 
     // ─── Request-a-language form state ────────────────────────────────────
     const userStore = getUser();
@@ -166,6 +183,7 @@
 <Dialog
     id="locale"
     bind:show
+    height="75vh"
     header={(l) => l.ui.dialog.locale.header}
     explanation={(l) => l.ui.dialog.locale.explanation}
     button={showButton
@@ -201,13 +219,16 @@
             >
         {/each}
     </div>
-    <h2
-        >{$locales
-            .concretize((l) => l.ui.dialog.locale.subheader.supported)
-            .toText()}</h2
-    >
+    <div class="available-header">
+        <h2
+            >{$locales
+                .concretize((l) => l.ui.dialog.locale.subheader.supported)
+                .toText()}</h2
+        >
+        <LocaleSearch id="locale-available-search" bind:query />
+    </div>
     <div class="supported">
-        {#each SupportedLocales.filter((supported) => !selectedLocales.includes(supported)) as supported (supported)}
+        {#each availableLocales as supported (supported)}
             <div class="option">
                 <Button
                     action={() => select(supported, 'replace')}
@@ -222,6 +243,7 @@
                     icon="+"
                 />
             </div>
+        {:else}&mdash;
         {/each}
     </div>
 
@@ -296,6 +318,14 @@
 </Dialog>
 
 <style>
+    .available-header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: calc(2 * var(--wordplay-spacing));
+    }
+
     .supported {
         display: flex;
         flex-direction: column;
