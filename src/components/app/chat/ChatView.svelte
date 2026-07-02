@@ -11,10 +11,13 @@
     import FormattedEditor from '@components/widgets/FormattedEditor.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Note from '@components/widgets/Note.svelte';
+    import Options from '@components/widgets/Options.svelte';
     import type Chat from '@db/chats/ChatDatabase.svelte';
     import { type SerializedMessage } from '@db/chats/ChatDatabase.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
-    import { Chats, Galleries } from '@db/Database';
+    import { Chats, Galleries, locales } from '@db/Database';
+    import { getLanguageName } from '@locale/LanguageCode';
+    import getTranslatableLocales from '@locale/getTranslatableLocales';
     import type Gallery from '@db/galleries/Gallery';
     import type HowTo from '@db/howtos/HowToDatabase.svelte';
     import type Project from '@db/projects/Project';
@@ -44,6 +47,29 @@
 
     let scrollerView = $state<HTMLDivElement | undefined>();
 
+    // The languages a creator can tag a message with, one option per
+    // translatable language (deduped, since translatable locales list a locale
+    // per region and we only tag the language).
+    const languageOptions = (() => {
+        const seen = new Set<string>();
+        const options: { value: string; label: string }[] = [];
+        for (const locale of getTranslatableLocales()) {
+            if (seen.has(locale.language)) continue;
+            seen.add(locale.language);
+            options.push({
+                value: locale.language,
+                label: getLanguageName(locale.language) ?? locale.language,
+            });
+        }
+        return options;
+    })();
+
+    // The language the creator has chosen to tag their next message with,
+    // defaulting to their current primary UI language.
+    let messageLanguage = $state<string | undefined>(
+        $locales.getLanguages()[0],
+    );
+
     // get the gallery from the gallery ID
     let gallery: Gallery | undefined = $state(undefined);
     $effect(() => {
@@ -72,7 +98,7 @@
     function submitMessage() {
         if (newMessage.trim() === '') return;
         if (!chat) return;
-        Chats.addMessage(chat, newMessage);
+        Chats.addMessage(chat, newMessage, messageLanguage);
         newMessage = '';
         tick().then(() => {
             if (newMessageView)
@@ -253,6 +279,15 @@
                 {/each}
             </div>
         </div>
+        <div class="language">
+            <Options
+                id="new-message-language"
+                label="message language"
+                value={messageLanguage}
+                options={languageOptions}
+                change={(value) => (messageLanguage = value)}
+            />
+        </div>
         <form class="new" data-sveltekit-keepfocus>
             <div class="editor">
                 <FormattedEditor
@@ -311,6 +346,13 @@
         flex-direction: column;
         padding-top: var(--wordplay-spacing);
         padding-bottom: var(--wordplay-spacing);
+    }
+
+    .language {
+        display: flex;
+        justify-content: flex-end;
+        flex-shrink: 0;
+        padding-block: calc(0.5 * var(--wordplay-spacing));
     }
 
     .new {
