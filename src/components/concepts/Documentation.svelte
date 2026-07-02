@@ -16,7 +16,6 @@
     import ConceptPreview from '@components/concepts/ConceptPreview.svelte';
     import ConceptsView from '@components/concepts/ConceptsView.svelte';
     import ConceptView from '@components/concepts/ConceptView.svelte';
-    import { summarizeUnionTypes } from '@components/concepts/elideNode';
     import FunctionConceptView from '@components/concepts/FunctionConceptView.svelte';
     import {
         currentSearch,
@@ -582,9 +581,7 @@
                         <ConceptPreview
                             {concept}
                             elide
-                            node={summarizeUnionTypes(
-                                concept.getRepresentation($locales),
-                            )}
+                            node={concept.getRepresentation($locales)}
                         />
                         <!-- Show the matching text, highlighting the matched range. -->
                         <div class="matches">

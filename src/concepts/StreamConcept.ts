@@ -37,7 +37,7 @@ export default class StreamConcept extends Concept {
             Reference.make(locales.getName(stream.names), this.definition),
             this.definition.inputs
                 .filter((input) => !input.hasDefault())
-                .map((input) => ExpressionPlaceholder.make(input.type)),
+                .map(() => ExpressionPlaceholder.make()),
         );
 
         this.inputs = this.definition.inputs.map(
@@ -93,7 +93,7 @@ export default class StreamConcept extends Concept {
                 ),
                 this.definition.inputs
                     .filter((input) => !input.hasDefault())
-                    .map((input) => ExpressionPlaceholder.make(input.type)),
+                    .map(() => ExpressionPlaceholder.make()),
             );
         return this.referenceTextual;
     }
