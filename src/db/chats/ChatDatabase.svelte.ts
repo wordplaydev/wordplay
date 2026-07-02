@@ -10,9 +10,9 @@ import {
 import { Domain } from '@db/Domains';
 import SaveTracker from '@db/SaveTracker.svelte';
 import { firestore } from '@db/firebase';
-import isQuotaError from '@db/isQuotaError';
 import type Gallery from '@db/galleries/Gallery';
 import HowTo from '@db/howtos/HowToDatabase.svelte';
+import isQuotaError from '@db/isQuotaError';
 import type Project from '@db/projects/Project';
 import supportsIndexedDB from '@db/supportsIndexedDB';
 import deferToIdle from '@util/deferToIdle';
@@ -68,12 +68,23 @@ const MessageSchemaV2 = MessageSchemaV1.extend(
     }).shape,
 );
 
-const MessageSchema = MessageSchemaV2;
-export const MessageSchemaLatestVersion = 2;
+const MessageSchemaV3 = MessageSchemaV2.extend(
+    z.object({
+        /** The language the creator tagged this message with (a Wordplay
+         * language code, e.g. "en"). Optional because messages created before
+         * language tagging existed have no value; new messages set it from the
+         * creator's chosen language. */
+        language: z.string().optional(),
+    }).shape,
+);
 
-export type SerializedMessage = z.infer<typeof MessageSchemaV2>;
+const MessageSchema = MessageSchemaV3;
+export const MessageSchemaLatestVersion = 3;
+
+export type SerializedMessage = z.infer<typeof MessageSchemaV3>;
 export type SerializedMessageUnknownVersion =
     | z.infer<typeof MessageSchemaV1>
+    | z.infer<typeof MessageSchemaV2>
     | SerializedMessage;
 
 const ChatSchemaV1 = z.object({
@@ -508,11 +519,11 @@ export class ChatDatabase {
             // merged view updateDoc would — just create-capable.
             return chat
                 ? {
-                      write: setDoc(
-                          doc(db, ChatsCollection, id),
-                          chat.getData(),
-                      ),
-                  }
+                    write: setDoc(
+                        doc(db, ChatsCollection, id),
+                        chat.getData(),
+                    ),
+                }
                 : undefined;
         });
     }
@@ -928,6 +939,7 @@ export class ChatDatabase {
     async addMessage(
         chat: Chat,
         message: string,
+        language?: string,
     ): Promise<SerializedMessage | undefined> {
         const user = this.db.getUser()?.uid;
         if (user === undefined) return;
@@ -937,6 +949,9 @@ export class ChatDatabase {
             text: message,
             time: Date.now(),
             creator: user,
+            // Only tag a language when the creator chose one; existing messages
+            // and untagged sends leave the optional field unset.
+            ...(language !== undefined ? { language } : {}),
         };
 
         // Optimistic local update so the sender sees their message immediately.
