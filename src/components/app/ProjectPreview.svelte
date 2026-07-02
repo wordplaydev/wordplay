@@ -19,6 +19,7 @@
     import type Project from '@db/projects/Project';
     import type { SerializedPreview } from '@db/projects/ProjectSchemas';
     import { PHRASE_SYMBOL } from '@parser/Symbols';
+    import EmojisRepaired from '@components/widgets/EmojisRepaired.svelte';
 
     interface Props {
         project: Project;
