@@ -19,13 +19,20 @@ import { tokenize } from '@parser/Tokenizer';
 import { toTokens } from '@parser/toTokens';
 import analyzeCode from '@util/verify-locales/analyzeCode';
 import checkGlobalNames from '@util/verify-locales/checkGlobalNames';
+import checkStringArrays from '@util/verify-locales/checkStringArrays';
+import classifyLocalePath, {
+    classifyPair,
+} from '@util/verify-locales/classifyLocalePath';
 import getDocExamples from '@util/verify-locales/docExamples';
 import LocalePath, {
     getKeyTemplatePairs,
 } from '@util/verify-locales/LocalePath';
 import { LocaleValidator } from '@util/verify-locales/LocaleSchema';
 import type Log from '@util/verify-locales/Log';
-import { mismatchedDelimiter } from '@util/verify-locales/protect';
+import {
+    mismatchedDelimiter,
+    splitDocParagraphs,
+} from '@util/verify-locales/protect';
 import type { RevisedString } from '@util/verify-locales/start';
 import {
     checkTemplateInputs,
@@ -42,12 +49,17 @@ export function createUnwrittenLocale(): LocaleText {
     // Find the translatable pairs
     const pairs = getCheckableLocalePairs(locale);
 
-    // Mark all strings as unwritten
+    // Mark all strings as unwritten. A markup array is one document with a
+    // single write-status, on the first element only.
     for (const pair of pairs)
         pair.repair(
             locale,
             Array.isArray(pair.value)
-                ? pair.value.map((s) => Unwritten + s)
+                ? classifyPair(pair) === 'markup'
+                    ? pair.value.map((s, index) =>
+                          index === 0 ? Unwritten + s : s,
+                      )
+                    : pair.value.map((s) => Unwritten + s)
                 : Unwritten + pair.value,
         );
 
@@ -111,6 +123,11 @@ export async function verifyLocale(
 
         if (fix) revisedText = repairLocale(log, DefaultLocale, revisedText);
     }
+
+    // Check the array-kind contracts (positional lengths, markup paragraph
+    // breaks) before the doc-parse checks and translation below, so fix-mode
+    // repairs land first.
+    revisedText = checkStringArrays(log, DefaultLocale, revisedText, fix);
 
     // Don't warn if we're checking the example locale.
     revisedText = await checkLocale(
@@ -533,15 +550,16 @@ async function translateLocale(
         paths: LocalePath[],
         targetText: LocaleText | undefined,
     ): Promise<boolean> => {
-        // A `doc` array is one logical markup document (items are an editing
-        // convenience, often breaking mid-sentence) → translate atomically as one
-        // joined string (toDocString's `\n\n`). Other arrays (names, tips, …) are
-        // distinct items, translated per element.
+        // A markup ([formatted]) array is one logical document whose items are
+        // paragraphs (an editing convenience, see toDocString) → translate
+        // atomically as one joined string so the translator can organize
+        // paragraphs naturally for the target language. Other arrays (names,
+        // tips, …) are distinct items, translated per element.
         const sourceStrings = paths.flatMap((path) => {
             const match = path.resolve(source);
             if (match === undefined) return [];
             if (Array.isArray(match))
-                return path.key === 'doc'
+                return classifyPair(path) === 'markup'
                     ? [match.map(stripMarkers).join('\n\n')]
                     : match.map(stripMarkers);
             return [stripMarkers(match)];
@@ -567,17 +585,19 @@ async function translateLocale(
             const match = path.resolve(source);
             if (match === undefined) continue;
             if (Array.isArray(match)) {
-                if (path.key === 'doc') {
+                if (classifyPair(path) === 'markup') {
                     // Atomic doc: one translation for the whole block; split back
-                    // into paragraphs on `\n\n`. On a null result, keep the source
-                    // unwritten per original element.
+                    // into paragraphs at blank lines outside `\…\` examples, so the
+                    // paragraph count may legitimately differ from en-US but no
+                    // element carries an embedded break. On a null result, keep the
+                    // source unwritten per original element.
                     const translation = translations.shift();
                     if (translation != null && translation.trim().length > 0) {
-                        const parts = translation
-                            .split('\n\n')
-                            .map((p) => p.trim())
-                            .filter((p) => p.length > 0)
-                            .map((p) => `${MachineTranslated}${p}`);
+                        // The doc has one write-status, on the first element only.
+                        const parts = splitDocParagraphs(translation).map(
+                            (p, index) =>
+                                index === 0 ? `${MachineTranslated}${p}` : p,
+                        );
                         if (parts.length > 0) {
                             path.repair(revised, parts);
                             translatedPaths?.add(path.toString());
@@ -585,7 +605,11 @@ async function translateLocale(
                     } else {
                         path.repair(
                             revised,
-                            match.map((s) => `${Unwritten}${stripMarkers(s)}`),
+                            match.map((s, index) =>
+                                index === 0
+                                    ? `${Unwritten}${stripMarkers(s)}`
+                                    : stripMarkers(s),
+                            ),
                         );
                     }
                 } else {
@@ -649,6 +673,8 @@ export function removeExtraKeys(
     log: Log,
     source: Record<string, unknown>,
     target: Record<string, unknown>,
+    /** Path from the locale root to `target`, for classifying arrays. */
+    segments: (string | number)[] = [],
 ) {
     for (const key of Object.keys(target)) {
         const targetValue = target[key];
@@ -672,6 +698,7 @@ export function removeExtraKeys(
                     log,
                     sourceValue as Record<string, unknown>,
                     targetValue as Record<string, unknown>,
+                    [...segments, key],
                 );
             // If they are arrays, go through them and remove any extra keys.
             else if (
@@ -679,6 +706,14 @@ export function removeExtraKeys(
                 Array.isArray(sourceValue) &&
                 key !== 'regions'
             ) {
+                // Markup and name arrays legitimately vary in length per locale
+                // (paragraphs and aliases respectively), so never clamp them to
+                // the source length; only positional ('plain') arrays must match.
+                if (
+                    targetValue.every((v) => typeof v === 'string') &&
+                    classifyLocalePath([...segments, key]) !== 'plain'
+                )
+                    continue;
                 for (let index = 0; index < targetValue.length; index++) {
                     const sourceValueElement = sourceValue[index];
                     if (sourceValueElement === undefined) {
@@ -688,6 +723,7 @@ export function removeExtraKeys(
                             log,
                             sourceValueElement,
                             targetValue[index],
+                            [...segments, key, index],
                         );
                 }
                 // Truncate any undefined values created in the list.
@@ -703,6 +739,8 @@ export function addMissingKeys(
     log: Log,
     source: Record<string, unknown>,
     target: Record<string, unknown>,
+    /** Path from the locale root to `target`, for classifying arrays. */
+    segments: (string | number)[] = [],
 ) {
     for (const key of Object.keys(source)) {
         const sourceValue = source[key];
@@ -728,6 +766,7 @@ export function addMissingKeys(
                         log,
                         sourceValue as Record<string, unknown>,
                         targetValue as Record<string, unknown>,
+                        [...segments, key],
                     );
                 else if (
                     typeof targetValue === 'string' &&
@@ -739,6 +778,7 @@ export function addMissingKeys(
                         log,
                         sourceValue as Record<string, unknown>,
                         target[key] as Record<string, unknown>,
+                        [...segments, key],
                     );
                 } else
                     log.bad(
@@ -764,6 +804,7 @@ export function addMissingKeys(
                                 log,
                                 sourceValueElement,
                                 targetValue[index],
+                                [...segments, key, index],
                             );
                     }
                 } else {
@@ -773,11 +814,12 @@ export function addMissingKeys(
                     );
                 }
             } else if (
-                key !== 'names' &&
-                key !== 'doc' &&
+                // Only positional ('plain') arrays are padded to the source
+                // length; markup and name arrays legitimately vary per locale.
                 key !== 'regions' &&
                 Array.isArray(sourceValue) &&
-                sourceValue.every((s) => typeof s === 'string')
+                sourceValue.every((s) => typeof s === 'string') &&
+                classifyLocalePath([...segments, key]) === 'plain'
             ) {
                 if (
                     Array.isArray(targetValue) &&

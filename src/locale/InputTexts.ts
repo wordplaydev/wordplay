@@ -24,9 +24,11 @@ type InputTexts = {
          *  `KeyboardEvent.key` string from [KeyboardKeys.ts](src/input/KeyboardKeys.ts).
          *  Each value is an array whose first entry is this locale's display
          *  name (what `Key()` emits) and any remaining entries are accepted
-         *  aliases for the `key` filter argument. The record's literal-key
-         *  type pins every `WellKnownKey` as required so the locale verifier
-         *  and `locales-fix` ensure full coverage in every locale. */
+         *  aliases for the `key` filter argument; the alias count may vary per
+         *  locale (the locale tooling classifies these as name-like, see
+         *  `classifyLocalePath`). The record's literal-key type pins every
+         *  `WellKnownKey` as required so the locale verifier and `locales-fix`
+         *  ensure full coverage in every locale. */
         keys: Record<WellKnownKey, string[]>;
     };
     /** A stream of times since evaluation began */

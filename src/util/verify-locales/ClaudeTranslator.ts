@@ -159,6 +159,7 @@ Rules:
   - Keep every @Concept reference verbatim (e.g. @Phrase, @FunctionDefinition) — never translate, transliterate, or alter them.
   - Keep every $name reference verbatim (e.g. $value, $type) — never translate, transliterate, or alter them.
   - Do not add or remove formatting symbols (*, _, \`, backslashes).
+- A blank line separates paragraphs. Keep the text organized into paragraphs — you may merge or re-break them where natural for the target language — but never insert a blank line anywhere except between paragraphs.
 - Translate fully into the target language, written in its own native script. Do NOT leave words in English or merely transliterate them unless the language genuinely has no equivalent — prefer the native word a young learner of that language would recognize. This applies to ordinary text, names, and key terms alike (it does NOT apply to the @Concept and $name references above, which always stay verbatim).
 - Write for young, multilingual learners.
 - Key terms — the glossary below. When one of these words appears as ordinary text (a bare word, NOT a $name mention or @Concept link above), translate it to its listed target-language word and use that same word consistently. Where a line shows only an English word, translate it naturally and keep that choice consistent.

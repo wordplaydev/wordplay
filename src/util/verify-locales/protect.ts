@@ -100,6 +100,44 @@ export function splitMarkupAndCode(
     return segments;
 }
 
+/** Split markup into paragraphs at blank lines, but never inside `\…\` example
+ *  code, where blank lines are legitimate content (e.g. multi-paragraph doc
+ *  literals, blank lines in multi-line code). Built on `splitMarkupAndCode`, so
+ *  unbalanced delimiters in corrupted input degrade to a trailing code segment
+ *  that is never split. Paragraphs are trimmed and empties dropped. */
+export function splitDocParagraphs(text: string): string[] {
+    const paragraphs: string[] = [];
+    let current = '';
+    for (const segment of splitMarkupAndCode(text)) {
+        if (segment.kind === 'code') current += segment.text;
+        else {
+            const parts = segment.text.split(/\n{2,}/);
+            current += parts[0];
+            for (const part of parts.slice(1)) {
+                paragraphs.push(current);
+                current = part;
+            }
+        }
+    }
+    paragraphs.push(current);
+    return paragraphs.map((p) => p.trim()).filter((p) => p.length > 0);
+}
+
+/** Whether markup contains a paragraph break outside example code — the one
+ *  thing a markup array element must never contain, since element boundaries
+ *  are the paragraph breaks. */
+export function hasOutOfExampleBreak(text: string): boolean {
+    return splitMarkupAndCode(text).some(
+        (segment) => segment.kind === 'markup' && /\n{2,}/.test(segment.text),
+    );
+}
+
+/** The leading annotation markers ($?/$!/$~, see @locale/Annotations) on a
+ *  locale string, or the empty string if unannotated. */
+export function leadingAnnotations(text: string): string {
+    return text.match(/^(?:\$[?!~])+/)?.[0] ?? '';
+}
+
 const PROTECT_OPEN = '<span translate="no">';
 const PROTECT_CLOSE = '</span>';
 

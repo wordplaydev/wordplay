@@ -556,6 +556,14 @@
           "type": "string"
         },
         {
+          "const": "Now",
+          "type": "string"
+        },
+        {
+          "const": "Moment",
+          "type": "string"
+        },
+        {
           "const": "Volume",
           "type": "string"
         },
@@ -837,6 +845,7 @@
         "follow-the-pointer",
         "your-own-template",
         "count-with-time",
+        "show-time-in-another-city",
         "react-to-sound",
         "pick-from-a-list",
         "show-when",
