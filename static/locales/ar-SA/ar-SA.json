@@ -315,7 +315,7 @@
             ]
         },
         "Docs": {
-            "name": "$~قائمةشرح",
+            "name": "$~قائمة الشرح",
             "description": "$~سرد التوثيق بلغات متعددة",
             "emotion": "serious",
             "doc": [
@@ -359,17 +359,17 @@
             ],
             "conflict": {
                 "UnknownLanguage": {
-                    "name": "$~لغةغيرمعروفة",
+                    "name": "$~لغة غير معروفة",
                     "explanation": "$~لا أعرف هذه اللغة",
                     "resolution": "$~أزل رمز اللغة هذا"
                 },
                 "MissingLanguage": {
-                    "name": "$~لغةمفقودة",
+                    "name": "$~لغة مفقودة",
                     "explanation": "$~تنقصني لغة. هل يمكنك إضافة واحدة؟",
                     "resolution": "$~أزل وسم اللغة الفارغ"
                 },
                 "DuplicateLanguage": {
-                    "name": "$~لغةمكررة",
+                    "name": "$~لغة مكررة",
                     "explanation": "$~استخدمت اللغة '$code' مرتين. يجب أن تذكر وسوم اللغات المختلطة كل لغة مرة واحدة فقط.",
                     "resolution": "$~أزل وسم *$code* المكرر"
                 }
@@ -394,7 +394,7 @@
             ]
         },
         "Names": {
-            "name": "$~قائمةأسماء",
+            "name": "$~قائمة الأسماء",
             "description": "$~سرد الأسماء بلغات متعددة",
             "emotion": "kind",
             "label": {
@@ -413,28 +413,28 @@
             "doc": "$~أنا أمثّل صفًا في @Table. من الأفضل أن تتحدث مع @Table فهم يعرفون كل شيء عني. أنا فقط أجلس وأبقي القيم منظمة :(",
             "conflict": {
                 "InvalidRow": {
-                    "name": "$~صفغيرصالح",
+                    "name": "$~صف غير صالح",
                     "explanation": "$~يجب أن تكون الصفوف كلها قيم أو كلها @Bind.",
                     "resolutionKeepPositional": "$~احذف الخلايا المسماة، واحتفظ فقط بالخلايا حسب الموضع",
                     "resolutionUnwrapInputs": "$~احذف الأسماء من الخلايا المسماة"
                 },
                 "MissingCell": {
-                    "name": "$~عمودمفقود",
+                    "name": "$~عمود مفقود",
                     "explanation": "$~العمود $column مفقود لدي",
                     "resolution": "$~أضف خلية عنصر نائب لـ *$column*"
                 },
                 "ExtraCell": {
-                    "name": "$~عمودإضافي",
+                    "name": "$~عمود إضافي",
                     "explanation": "$~بناءً على نوع جدولي، أنا عمود إضافي لا يجب أن يكون هنا.",
                     "resolution": "$~احذف الخلية الإضافية"
                 },
                 "UnknownColumn": {
-                    "name": "$~اسمعمودغيرمعروف",
+                    "name": "$~اسم عمود غير معروف",
                     "explanation": "$~لا أعرف عمودًا بهذا الاسم",
                     "resolution": "$~غيّر الاسم إلى *$name*"
                 },
                 "UnexpectedColumnBind": {
-                    "name": "$~لاصفوفبنوع@Bind",
+                    "name": "$~لا توجد صفوف مرتبطة",
                     "explanation": "$~يجب أن أكون قيمة، وليس @Bind."
                 }
             }
@@ -449,13 +449,13 @@
             ]
         },
         "TypeInputs": {
-            "name": "$~مدخلاتالنوع",
+            "name": "$~مدخلات النوع",
             "description": "$~املأ فراغات متغير النوع",
             "emotion": "curious",
             "doc": "$~أنا قائمة من الأنواع التي تحل محل @TypeVariables في @StructureDefinition أو @FunctionDefinition. أساعد الجميع على معرفة نوع المدخلات التي سيستقبلونها."
         },
         "TypeVariable": {
-            "name": "$~متغيرالنوع",
+            "name": "$~متغير النوع",
             "description": "$~سمّ نوعًا يعطيه المُستدعي",
             "emotion": "curious",
             "label": {
@@ -464,14 +464,14 @@
             "doc": "$~أنا نوع غامض في @FunctionDefinition أو @type يقدمه @TypeInputs عند تقييم أي منهما. تستخدمني @Set و @List و @Map.",
             "conflict": {
                 "DuplicateTypeVariable": {
-                    "name": "$~متغيرنوعمكرر",
+                    "name": "$~متغير نوع مكرر",
                     "explanation": "$~لدي نفس اسم $duplicate",
                     "resolution": "$~احذف متغير النوع المكرر"
                 }
             }
         },
         "TypeVariables": {
-            "name": "$~متغيراتالنوع",
+            "name": "$~متغيرات النوع",
             "description": "$~سرد متغيرات النوع في تعريف ما",
             "emotion": "curious",
             "doc": "$~أنا قائمة من @TypeVariable."
@@ -543,7 +543,7 @@
             ],
             "conflict": {
                 "UnsupportedFontFormat": {
-                    "name": "$~تنسيقخطغيرمدعوم",
+                    "name": "$~تنسيق خط غير مدعوم",
                     "explanation": "$~صديقي *$face* لا يعرف كيف يكون $format.",
                     "resolution": "$~احذف التنسيق"
                 }
@@ -580,7 +580,7 @@
             ]
         },
         "BinaryEvaluate": {
-            "name": "$~تقييمثنائي",
+            "name": "$~تقييم ثنائي",
             "description": "$~طبّق العامل $operator على قيمتين",
             "emotion": "insecure",
             "doc": [
@@ -604,7 +604,7 @@
             "finish": "$~انظر، صنعت $value!",
             "conflict": {
                 "OrderOfOperations": {
-                    "name": "$~ترتيبغامض",
+                    "name": "$~ترتيب غامض",
                     "explanation": "$~أنا أقيّم من اليسار إلى اليمين، لكن الرياضيات عادة تقيّم ^ قبل × ÷، و × ÷ قبل + −. يُسمى هذا الترتيب PEMDAS. اختر كيف تريدني أن أقيّم هذا.",
                     "resolutionPEMDAS": "$~طبّق ترتيب الرياضيات PEMDAS: قيّم $higher قبل $lower",
                     "resolutionReading": "$~احتفظ بترتيب القراءة: قيّم $lower قبل $higher",
@@ -652,18 +652,18 @@
             "conflict": {
                 "DuplicateName": {
                     "conflict": {
-                        "name": "$~اسممكرر",
+                        "name": "$~اسم مكرر",
                         "explanation": "$~شخص ما لديه الاسم $shadowed لذا لا يمكنني الحصول على هذا الاسم."
                     },
                     "resolution": "$~هناك أسماء مكررة، هل تريد إزالة أحدها؟"
                 },
                 "DuplicateShare": {
-                    "name": "$~مشاركةمكررة",
+                    "name": "$~مشاركة مكررة",
                     "explanation": "$~لدي نفس الاسم مثل $duplicate. هذا يجعل ما نشاركه غير واضح.",
                     "resolution": "$~أزل هذه المشاركة المكررة"
                 },
                 "IncompatibleType": {
-                    "name": "$~نوعغيرمتوافق",
+                    "name": "$~نوع غير متوافق",
                     "explanation": "$~توقعت $expected، لكن استلمت النوع $given",
                     "resolution": "$~حوّله إلى $expected، لأن $expected مطلوب",
                     "resolutionLiteral": "$~علّم القائمة أو المجموعة أو الخريطة بأنها حرفية بـ !، حتى تبقى قيمها محددة بدلًا من تعميمها — $expected يحتاج القيم الدقيقة",
@@ -679,32 +679,32 @@
                     "explanationDivideByZero": "$~قد يكون هذا ø لأن $source قد يقسم على صفر، ورقم مطلوب هنا"
                 },
                 "MisplacedShare": {
-                    "name": "$~مشاركةفيمكانخاطئ",
+                    "name": "$~مشاركة في مكان خاطئ",
                     "explanation": "$~يمكنني فقط مشاركة الأشياء على مستوى @Program وليس داخل أي شيء!",
                     "resolution": "$~أزل علامة *↑*"
                 },
                 "MissingShareLanguages": {
-                    "name": "$~لغةمفقودة",
+                    "name": "$~لغة مفقودة",
                     "explanation": "$~إذا أردت مشاركة هذا، عليك أن تقول بأي لغة هذا، حتى يعرف الآخرون إن كانوا يستطيعون قراءته!",
                     "resolution": "$~أزل علامة *↑*"
                 },
                 "RequiredAfterOptional": {
-                    "name": "$~مدخلمطلوببعداختياري",
+                    "name": "$~مدخل مطلوب بعد مدخل اختياري",
                     "explanation": "$~لا يمكنني أن أكون هنا، هناك @Bind اختياري قبلي",
                     "resolution": "$~انقل المدخلات المطلوبة قبل الاختيارية"
                 },
                 "UnexpectedEtc": {
-                    "name": "$~مدخلغيرمتوقعبعدقائمةمدخلات",
+                    "name": "$~مدخل غير متوقع بعد قائمة المدخلات",
                     "explanation": "$~يمكنني فقط أن أكون متغير الطول في @FunctionDefinition",
                     "resolution": "$~أزل *…*"
                 },
                 "UnusedBind": {
-                    "name": "$~ربطغيرمستخدم",
+                    "name": "$~ربط غير مستخدم",
                     "explanation": "$~اسمي $name، لكن لا أحد يستخدمني. ربما لست مطلوبًا؟",
                     "resolution": "$~احذف هذا الربط"
                 },
                 "ShadowsKeyword": {
-                    "name": "$~يحجبكلمةمفتاحية",
+                    "name": "$~يحجب كلمة محجوزة",
                     "explanation": "$~هذا الاسم هو أيضًا الكلمة المفتاحية $keyword، لذا سأقرأه كاسم هنا؛ الكلمة المفتاحية $keyword لا تزال تعمل في أماكن أخرى."
                 }
             }
@@ -738,14 +738,14 @@
             "finish": "$~تم، حصلت على $value",
             "conflict": {
                 "ExpectedEndingExpression": {
-                    "name": "$~تعبيرمفقود",
+                    "name": "$~تعبير مفقود",
                     "explanation": "أحتاج إلى تعبير واحد على الأقل ليس @Bind، حتى يكون لدي قيمة لإعادتها.",
                     "resolution": "$~أضف تعبيرًا نهائيًا"
                 }
             }
         },
         "BooleanLiteral": {
-            "name": "$~قيمةمنطقيةحرفية",
+            "name": "$~قيمة منطقية",
             "description": "$~أنشئ قيمة منطقية $value[true|false]",
             "emotion": "precise",
             "doc": "$~أنا إما \\⊤\\ أو \\⊥\\. انظر @Boolean لتتعلم المزيد عن منطقنا الجميل.",
@@ -764,12 +764,12 @@
             "start": "$~أستعير $name من $source",
             "conflict": {
                 "UnknownBorrow": {
-                    "name": "$~استعارةغيرمعروفة",
+                    "name": "$~استعارة غير معروفة",
                     "explanation": "$~لا أعرف مصدرًا بهذا الاسم",
                     "resolution": "$~أزل هذه الاستعارة"
                 },
                 "BorrowCycle": {
-                    "name": "$~استعارةتشيرإلىنفسها",
+                    "name": "$~استعارة تشير إلى نفسها",
                     "explanation": "$~هذا يعتمد على $borrow، الذي يعتمد على هذا @Source لذا لا يمكن تقييم البرنامج",
                     "resolution": "$~أزل هذه الاستعارة لكسر الدورة"
                 }
@@ -818,7 +818,7 @@
             "finish": "$~أظن أنها $value؟",
             "conflict": {
                 "ExpectedBooleanCondition": {
-                    "name": "$~توقعتشرطًامنطقيًا",
+                    "name": "$~شرط منطقي متوقع",
                     "explanation": "$~أحتاج إلى @Boolean لاتخاذ قرار، لكنني حصلت على $type بدلاً من ذلك.",
                     "resolution": "$~حوّلها إلى $expected، لأن $expected مطلوب",
                     "resolutionLiteral": "$~علّم القائمة أو المجموعة أو الخريطة كقيمة حرفية باستخدام !، حتى تبقى قيمها محددة بدلاً من أن تُعمَّم — يحتاج $expected إلى القيم الدقيقة",
@@ -835,7 +835,7 @@
             }
         },
         "ConversionDefinition": {
-            "name": "$~تعريفالتحويل",
+            "name": "$~تعريف تحويل",
             "description": "$~عرّف تحويل $input إلى $output",
             "emotion": "excited",
             "label": {
@@ -852,7 +852,7 @@
             "start": "$~رائع، تحويل جديد!",
             "conflict": {
                 "MisplacedConversion": {
-                    "name": "$~تحويلفيغيرمكانه",
+                    "name": "$~تحويل في مكان خاطئ",
                     "explanation": "$~واو، لا يمكنني أن أكون هنا، فقط داخل @Block.",
                     "resolution": "$~أزل هذا التحويل"
                 }
@@ -875,7 +875,7 @@
             "finish": "$~رائع، صنعت $value",
             "conflict": {
                 "UnknownConversion": {
-                    "name": "$~تحويلغيرمعروف",
+                    "name": "$~تحويل غير معروف",
                     "explanation": "$~لم نتمكن من إيجاد طريقة لتحويل $expected إلى $given",
                     "resolution": "$~أزل التحويل"
                 }
@@ -901,7 +901,7 @@
             "finish": "$~صنعت جدولاً جديدًا بدون الصفوف المطابقة!"
         },
         "DocumentedExpression": {
-            "name": "$~تعبيرمشروح",
+            "name": "$~تعبير مشروح",
             "description": "$~أرفق توثيقًا بتعبير",
             "emotion": "eager",
             "doc": [
@@ -939,7 +939,7 @@
             "finish": "$~قيّمت إلى $value",
             "conflict": {
                 "IncompatibleInput": {
-                    "name": "$~مدخلغيرمتوافق",
+                    "name": "$~مدخل غير متوافق",
                     "explanation": "$~توقعت $expected، لكنني استلمت $given",
                     "resolution": "$~حوّلها إلى $expected، لأن $expected مطلوب",
                     "resolutionLiteral": "$~علّم القائمة أو المجموعة أو الخريطة كقيمة حرفية باستخدام !، حتى تبقى قيمها محددة بدلاً من أن تُعمَّم — يحتاج $expected إلى القيم الدقيقة",
@@ -955,43 +955,43 @@
                     "explanationDivideByZero": "$~قد يكون هذا ø لأن $source قد يقسم على صفر، ويلزم رقم هنا"
                 },
                 "UnexpectedTypeInput": {
-                    "name": "$~مدخلنوعغيرمتوقع",
+                    "name": "$~مدخل نوع غير متوقع",
                     "explanation": "$~أنا مدخل نوع إضافي وغير متوقع.",
                     "resolution": "$~أزل مدخل النوع هذا"
                 },
                 "MissingInput": {
-                    "name": "$~مدخلمفقود",
+                    "name": "$~مدخل مفقود",
                     "explanation": "$~لا يمكنني تقييم $name بدون المدخل $input :(",
                     "resolutionAddInput": "$~أضف المدخل المفقود $input، مع قيمته الافتراضية",
                     "resolutionPlaceholder": "$~أضف المدخل المفقود $input كعنصر نائب، ثم اختر قيمة من قائمة الإكمال التلقائي"
                 },
                 "NotInstantiable": {
-                    "name": "$~بنيةغيرمكتملة",
+                    "name": "$~بنية غير مكتملة",
                     "explanation": "$~لا يمكنني صنع هذه @StructureDefinition فيها دوال غير منفذة.",
                     "resolution": "$~ضع هيكل الدوال المفقودة"
                 },
                 "UnexpectedInput": {
-                    "name": "$~مدخلغيرمتوقع",
+                    "name": "$~مدخل غير متوقع",
                     "explanation": "$~أنا مدخل غير متوقع.",
                     "resolution": "$~أزل هذا المدخل"
                 },
                 "UnknownInput": {
-                    "name": "$~مدخلغيرمعروف",
+                    "name": "$~مدخل غير معروف",
                     "explanation": "$~هذه الدالة *$name* لا تتوقع مدخلاً باسمي.",
                     "resolution": "$~أعد تسمية هذا المدخل إلى *$name*"
                 },
                 "InputListMustBeLast": {
-                    "name": "$~المدخلاتالإضافيةليستأخيرًا",
+                    "name": "$~المدخلات الإضافية ليست في النهاية",
                     "explanation": "$~يجب أن تكون قائمة المدخلات أخيرة",
                     "resolution": "$~انقل مدخل القائمة إلى النهاية"
                 },
                 "SeparatedEvaluate": {
-                    "name": "$~تقييمغامض",
+                    "name": "$~تقييم غامض",
                     "explanation": "$~هل $name هو اسم $structure[$structure|@FunctionDefinition] تحاول تقييمه؟ جرّب إزالة المسافة بعدي، حتى أعرف أنه @Evaluate وليس @Block منفصلاً.",
                     "resolution": "$~أغلق المسافة بين *$name* ومدخلاته"
                 },
                 "UnknownTimeZone": {
-                    "name": "$~منطقةزمنيةغيرمعروفة",
+                    "name": "$~منطقة زمنية غير معروفة",
                     "explanation": "$~لا أعرف منطقة زمنية اسمها *$zone*. المناطق الزمنية تُسمى بأسماء المناطق والمدن، مثل \\'America/New_York'\\. جرّب كتابة اسم مدينة تعرفها، وسأقترح واحدة!",
                     "resolution": "$~غيّرها إلى *$zone*، المنطقة الزمنية لـ $city"
                 }
@@ -1074,14 +1074,14 @@
             "start": "$~لنصنع هذه الدالة!",
             "conflict": {
                 "NoExpression": {
-                    "name": "$~تعبيرمفقود",
+                    "name": "$~تعبير مفقود",
                     "explanation": "$~أحتاج إلى تعبير لأُقيّمه، هل يمكنك إضافة واحد؟",
                     "resolution": "$~أضف جسماً نائباً"
                 }
             }
         },
         "Iteration": {
-            "name": "$~دالةمنرتبةأعلى",
+            "name": "$~دالة من رتبة أعلى",
             "description": "$~كرّر على قيم القائمة داخلياً",
             "emotion": "kind",
             "doc": "$~أنا نوع خاص جداً من @FunctionDefinition يعمل على قوائم الأشياء. لا تحتاج لمعرفة أي شيء عني، سوى أنني أجعل دوال مثل @List.translate ممكنة.",
@@ -1132,7 +1132,7 @@
             "finish": "$~$value[القيمة من النوع $type|القيمة ليست من النوع $type]",
             "conflict": {
                 "ImpossibleType": {
-                    "name": "$~نوعمستحيل",
+                    "name": "$~نوع مستحيل",
                     "explanation": "$~هذا لا يمكن أبداً أن يكون $type",
                     "resolutionIsFalse": "$~استبدل فحص النوع هذا بـ *⊥* (الجواب دائماً خطأ)",
                     "resolutionDropOtherwise": "$~أزل *??* — الجانب الأيسر لا يكون أبداً *ø*"
@@ -1146,7 +1146,7 @@
             }
         },
         "IsLocale": {
-            "name": "$~هياللغة",
+            "name": "$~هي لغة",
             "description": "$~أعد صحيح إذا كانت اللغة مختارة",
             "emotion": "kind",
             "doc": [
@@ -1158,7 +1158,7 @@
             "start": "$~هل اللغة $locale؟"
         },
         "ListAccess": {
-            "name": "$~الوصولإلىالقائمة",
+            "name": "$~الوصول إلى القائمة",
             "description": "$~احصل على القيمة في موضع القائمة",
             "emotion": "cheerful",
             "doc": [
@@ -1169,7 +1169,7 @@
             "finish": "$~العنصر في الفهرس هو $value!"
         },
         "ListLiteral": {
-            "name": "$~قائمةحرفية",
+            "name": "$~قائمة صريحة",
             "description": "$~أنشئ قائمة من $count قيم",
             "emotion": "eager",
             "doc": "$~أنا @List محددة من القيم! انظر @List لتعرف المزيد عما يمكنك فعله بي.",
@@ -1186,7 +1186,7 @@
             ]
         },
         "MapLiteral": {
-            "name": "$~خريطةحرفية",
+            "name": "$~خريطة صريحة",
             "description": "$~أنشئ خريطة من $count أزواج مفتاح-قيمة",
             "emotion": "kind",
             "label": {
@@ -1197,7 +1197,7 @@
             "finish": "$~ربطتُ الجميع، $value",
             "conflict": {
                 "NotAKeyValue": {
-                    "name": "$~قيمةمفقودة",
+                    "name": "$~قيمة مفقودة",
                     "explanation": "$~أنا في @Map لذا أحتاج إلى قيمة.",
                     "resolution": "$~لُفّ كزوج مفتاح-قيمة"
                 }
@@ -1224,28 +1224,28 @@
             "finish": "$~حسناً، لدينا قيمة نهائية!"
         },
         "NumberLiteral": {
-            "name": "$~عددحرفي",
+            "name": "$~رقم صريح",
             "description": "$~إنشاء عدد $number $unit[$unit|]",
             "emotion": "excited",
             "doc": "$~أنا @Number محدد. يمكنك كتابتي بأي نوع من الأرقام من أي لغة. انظر @Number لكل ما أستطيع فعله.",
             "start": "$~$value!",
             "conflict": {
                 "NotANumber": {
-                    "name": "$~ليسعدداً",
+                    "name": "$~ليس رقمًا",
                     "explanation": "$~ظننت أنني أعرف كل الأعداد، لكنني لا أعرف هذا العدد",
                     "resolution": "$~استبدل بـ *0*"
                 }
             }
         },
         "InternalExpression": {
-            "name": "$~تعبيرداخلي",
+            "name": "$~تعبير داخلي",
             "description": "$~تشغيل تعبير إنشاء مدمج",
             "emotion": "neutral",
             "doc": "$~أنا @expression لا يستخدمه إلا المبدعون الأصليون. كيف وجدتني؟ لتعرف المزيد عني، عليك أن تتحدث إليهم.",
             "start": "$~تعبير سري"
         },
         "NoneLiteral": {
-            "name": "$~قيمةلاشيءحرفية",
+            "name": "$~قيمة فارغة صريحة",
             "description": "$~إنشاء قيمة لا شيء",
             "emotion": "neutral",
             "doc": "$~أنا أصنع @None قيمة لا شيء الفريدة. انظر @None لتعرف المزيد عنها.",
@@ -1351,7 +1351,7 @@
             "finish": "$~نسخت البنية، لكن مع $property كـ $value",
             "conflict": {
                 "InvalidProperty": {
-                    "name": "$~خاصيةغيرمعروفة",
+                    "name": "$~خاصية غير معروفة",
                     "explanation": "$~أنا لست اسماً في البنية $structure، لذا لا يمكن تحسيني.",
                     "resolution": "$~أعد التسمية إلى *$name*"
                 }
@@ -1392,7 +1392,7 @@
             "finish": "$~قيمة التيار الجديدة هي $value",
             "conflict": {
                 "ExpectedStream": {
-                    "name": "$~تيارمتوقع",
+                    "name": "$~تدفق متوقع",
                     "explanation": "$~$condition لا يشير إلى تيار، لذا لن أتفاعل أبداً!",
                     "resolution": "$~أسقط التفاعل، واحتفظ بالقيمة الأولية فقط"
                 }
@@ -1412,18 +1412,18 @@
             "conflict": {
                 "UnknownName": {
                     "conflict": {
-                        "name": "$~اسمغيرمعروف",
+                        "name": "$~اسم غير معروف",
                         "explanation": "$~$name[لا أعرف أحداً اسمه $name في $scope[$scope|هذه @Block]|هل يمكنك أن تعطيني اسماً؟]"
                     },
                     "resolution": "$~هل قصدت *$suggestion؟*"
                 },
                 "ReferenceCycle": {
-                    "name": "$~قيمةتشيرإلىنفسها",
+                    "name": "$~قيمة تشير إلى نفسها",
                     "explanation": "$~حسناً، قيمة $name تعتمد على نفسها، فكيف أعرف أي قيمة أعطيها؟",
                     "resolution": "$~استبدل *$name* بعنصر نائب لكسر الدورة"
                 },
                 "UnexpectedTypeVariable": {
-                    "name": "$~متغيرنوعغيرمتوقع",
+                    "name": "$~متغير نوع غير متوقع",
                     "explanation": "$~لا أعرف ماذا أفعل بمدخلات النوع هذه",
                     "resolution": "$~أزل متغير النوع هذا من الدالة"
                 }
@@ -1449,14 +1449,14 @@
             "finish": "$~صنعت جدولًا جديدًا بالصفوف والأعمدة المحددة فقط!",
             "conflict": {
                 "ExpectedSelectName": {
-                    "name": "$~اسمعمودمفقود",
+                    "name": "$~اسم عمود مفقود",
                     "explanation": "$~أحتاج إلى اسم عمود واحد على الأقل.",
                     "resolution": "$~إزالة هذه الخلية"
                 }
             }
         },
         "SetLiteral": {
-            "name": "$~مجموعةحرفية",
+            "name": "$~مجموعة صريحة",
             "description": "$~إنشاء مجموعة من $count عناصر",
             "emotion": "eager",
             "doc": "$~أنا @Set محددة من قيم محددة. انظر @Set لتتعلم المزيد عن كيفية التعامل معي.",
@@ -1464,7 +1464,7 @@
             "finish": "$~صنعت مجموعة $value!"
         },
         "SetOrMapAccess": {
-            "name": "$~الوصولإلىمجموعة/خريطة",
+            "name": "$~الوصول إلى مجموعة/خريطة",
             "description": "$~تحقق إذا كانت المجموعة أو الخريطة تحتوي",
             "emotion": "kind",
             "doc": [
@@ -1478,7 +1478,7 @@
             "finish": "$~القيمة هي $value",
             "conflict": {
                 "IncompatibleKey": {
-                    "name": "$~مفتاحغيرمتوافق",
+                    "name": "$~مفتاح غير متوافق",
                     "explanation": "$~توقعت مفتاحًا من نوع $expected",
                     "resolution": "$~حوّله إلى $expected، لأن $expected مطلوب",
                     "resolutionLiteral": "$~علّم القائمة أو المجموعة أو الخريطة كحرفية بـ !، لتبقى قيمها محددة بدلًا من أن تُعمَّم — يحتاج $expected إلى القيم الدقيقة",
@@ -1537,17 +1537,17 @@
             "start": "$~لنعرّف هذه البنية الجميلة",
             "conflict": {
                 "DisallowedInputs": {
-                    "name": "$~المدخلاتغيرمسموحة",
+                    "name": "$~المدخلات غير مسموح بها",
                     "explanation": "$~لا يمكن أن يكون لدي مدخلات لأن واحدة أو أكثر من دوال الواجهة لدي غير منفّذة",
                     "resolution": "$~أزل المدخلات"
                 },
                 "IncompleteImplementation": {
-                    "name": "$~بنيةغيرمكتملة",
+                    "name": "$~بنية غير مكتملة",
                     "explanation": "$~دوالي إما يجب أن تكون كلها منفّذة، أو لا شيء منها منفّذ. لا خلطات فوضوية!",
                     "resolution": "$~أسقط المدخلات لجعلها واجهة"
                 },
                 "NotAnInterface": {
-                    "name": "$~ليستواجهة",
+                    "name": "$~ليست واجهة",
                     "explanation": "$~أنا لست واجهة؛ البنية يمكنها فقط تنفيذ الواجهات، لا البنى الأخرى",
                     "resolution": "$~أسقط هذا من قائمة الواجهات"
                 },
@@ -1559,7 +1559,7 @@
             }
         },
         "StructureDefinitionType": {
-            "name": "$~تعريفالبنية",
+            "name": "$~تعريف بنية",
             "description": "$~$name",
             "emotion": "kind",
             "doc": [
@@ -1567,7 +1567,7 @@
             ]
         },
         "TableLiteral": {
-            "name": "$~جدولحرفي",
+            "name": "$~جدول صريح",
             "description": "$~إنشاء جدول من $count صفوف",
             "emotion": "angry",
             "doc": "$~أنا جدول محدد بصفوف محددة. انظر @Table عن كيفية مساعدتي.",
@@ -1575,7 +1575,7 @@
             "finish": "$~قُيّم إلى جدول جديد $value"
         },
         "TextLiteral": {
-            "name": "$~نصحرفي",
+            "name": "$~نص صريح",
             "description": "$~إنشاء قيمة نصية $text",
             "emotion": "serious",
             "label": {
@@ -1594,43 +1594,43 @@
             "doc": "$~أمثّل نصًا ما، مع وسم @Language اختياري. انظر @Text لتتعلم المزيد!",
             "conflict": {
                 "phone": {
-                    "name": "$~رقمهاتفمحتمل",
+                    "name": "$~رقم هاتف محتمل",
                     "explanation": "$~هل *$text* رقم هاتف أحدهم؟ لا تشاركني عبر الإنترنت إن كان كذلك!\n\n$reminder"
                 },
                 "email": {
-                    "name": "$~بريدإلكترونيمحتمل",
+                    "name": "$~بريد إلكتروني محتمل",
                     "explanation": "$~هل *$text* بريد إلكتروني لأحدهم؟ لا تشاركني هنا إن كان كذلك!\n\n$reminder"
                 },
                 "tin": {
-                    "name": "$~معرّفضريبيمحتمل",
+                    "name": "$~معرّف ضريبي محتمل",
                     "explanation": "$~هل *$text* معرّف ضريبي؟ إن كان كذلك، فلا تشاركني أبدًا، أنا معلومات حساسة جدًا!\n\n$reminder"
                 },
                 "address": {
-                    "name": "$~عنوانمحتمل",
+                    "name": "$~عنوان محتمل",
                     "explanation": "$~هل *$text* عنوان منزل أحدهم؟ إن كان كذلك، فلا تضعني هنا، لا نريد أن يُتعقَّب أحد!\n\n$reminder"
                 },
                 "handle": {
-                    "name": "$~اسممستخدممحتمل",
+                    "name": "$~اسم مستخدم محتمل",
                     "explanation": "$~هل *$text* اسم المستخدم الخاص بك في مكان آخر على الإنترنت؟ إن كان كذلك، فلا تشاركني هنا إلا إذا كنت تقصد ذلك حقًا.\n\n$reminder"
                 },
                 "resolution": "$~هذه ليست بيانات حساسة",
                 "reminder": "$~ملاحظة: يمكنك التراجع عن هذا الإجراء ورؤية أشياء أخرى علّمتها كغير حساسة في نافذة المشاركة.",
                 "character": {
-                    "name": "$~حرفمخصصمحتمل",
+                    "name": "$~حرف مخصص محتمل",
                     "explanation": "$~يبدو هذا كاسم حرف. لإظهارها، استخدم @FormattedLiteral بدلًا من @TextLiteral.",
                     "resolutionStrip": "$~أزل الأحرف الخاصة من النص"
                 }
             }
         },
         "FormattedLiteral": {
-            "name": "$~نصمنسّق",
+            "name": "$~نص منسّق",
             "description": "$~إنشاء نص منسق $text",
             "emotion": "serious",
             "doc": "$~أمثل العديد من @FormattedTranslation للنص المنسق. عندما أُقيَّم، سأختار أفضل تطابق بناءً على اللغات التي اختارها الجمهور.",
             "start": "$~لنصنع نصًا باللغة الحالية"
         },
         "FormattedTranslation": {
-            "name": "$~ترجمةمنسقة",
+            "name": "$~ترجمة منسّقة",
             "description": "$~ترجمة النص المنسق إلى $language",
             "emotion": "serious",
             "doc": [
@@ -1664,14 +1664,14 @@
             "start": "$~تم التقييم إلى $value",
             "conflict": {
                 "MisplacedThis": {
-                    "name": "$~إشارةThisفيغيرموضعها",
+                    "name": "$~إشارة this في مكان خاطئ",
                     "explanation": "$~يُسمح لي فقط داخل بنية أو تحويل أو تفاعل أو ترجمة.",
                     "resolution": "$~استبدال بعنصر نائب"
                 }
             }
         },
         "UnaryEvaluate": {
-            "name": "$~تقييمأحادي",
+            "name": "$~تقييم أحادي",
             "description": "$~تطبيق العامل الأحادي $operator",
             "emotion": "kind",
             "label": {
@@ -1708,13 +1708,13 @@
             "conflict": {
                 "UnparsableConflict": {
                     "conflict": {
-                        "name": "$~كودغيرقابلللقراءة",
+                        "name": "$~كود غير قابل للقراءة",
                         "explanation": "$~@FunctionDefinition هنا، @UnparsableExpression لا يعرف أي نوع من $expression[ تعبير | نوع ] هذا."
                     },
                     "resolution": "$~هل قصدت النوع $first أو $second؟"
                 },
                 "UnclosedDelimiter": {
-                    "name": "$~فاصلغيرمغلق",
+                    "name": "$~فاصل غير مغلق",
                     "explanation": "$~توقعت $expected في وقت ما بعد $unclosed",
                     "resolution": "$~أضف *$expected* المفقود"
                 }
@@ -1740,12 +1740,12 @@
             "finish": "$~تم التقييم إلى جدول جديد بصفوف معدّلة!",
             "conflict": {
                 "ExpectedColumnBind": {
-                    "name": "$~قيمةعمودمفقودة",
+                    "name": "$~قيمة عمود مفقودة",
                     "explanation": "$~أحتاج إلى قيمة لكل عمود",
                     "resolution": "$~لفّ هذه الخلية كعمود مسمى"
                 },
                 "IncompatibleCellType": {
-                    "name": "$~نوعخليةغيرمتوافق",
+                    "name": "$~نوع خلية غير متوافق",
                     "explanation": "$~يُفترض أن أكون من النوع $expected، لكنني $given",
                     "resolution": "$~حوّلها إلى $expected، لأن $expected مطلوب",
                     "resolutionLiteral": "$~ضع علامة على القائمة أو المجموعة أو الخريطة كحرفية بـ !، حتى تبقى قيمها محددة بدلًا من تعميمها — يحتاج $expected إلى القيم الدقيقة",
@@ -1848,7 +1848,7 @@
             ],
             "conflict": {
                 "UnknownTypeName": {
-                    "name": "$~اسمنوعغيرمعروف",
+                    "name": "$~اسم نوع غير معروف",
                     "explanation": "$~يمكن لأسماء الأنواع أن تشير فقط إلى الهياكل أو متغيرات الأنواع، لكن هذا يشير إلى النوع $type",
                     "resolution": "$~استبدله بعنصر نائب لنوع"
                 }
@@ -1879,7 +1879,7 @@
             ]
         },
         "StreamDefinitionType": {
-            "name": "$~تعريفتدفق",
+            "name": "$~تعريف تدفق",
             "description": "$~اكتب تدفقًا معرّفًا",
             "emotion": "angry",
             "doc": "$~أمثّل تدفقًا قمت بتعريفه، وهذا غير ممكن، فلماذا تقرأ هذا أصلًا؟"
@@ -1913,7 +1913,7 @@
             "doc": "$~أمثّل جدولًا.",
             "conflict": {
                 "ExpectedColumnType": {
-                    "name": "$~نوععمودمفقود",
+                    "name": "$~نوع عمود مفقود",
                     "explanation": "$~أحتاج إلى نوع عمود",
                     "resolution": "$~أضف عنصرًا نائبًا لنوع"
                 }
@@ -1961,7 +1961,7 @@
             "doc": "$~أمثّل @type لـ @expression غير معروف. أظهر عندما تحاول استخدام ذلك التعبير لشيء ما."
         },
         "VariableType": {
-            "name": "$~نوعمتغير",
+            "name": "$~نوع المتغير",
             "description": "$~يمثل متغير نوع قيد الاستخدام",
             "emotion": "curious",
             "doc": "$~أنوب عن @TypeVariable — نوع غير معروف من @value — في كل المفاوضات بين القيم."
@@ -1973,7 +1973,7 @@
             "doc": "$~أمثّل @value يعتمد @type الخاص به على نفسه، فلا نستطيع معرفة نوع القيمة."
         },
         "UnknownVariableType": {
-            "name": "$~متغيرغيرمعروف",
+            "name": "$~متغير غير معروف",
             "description": "$~يمثل متغير نوع غير معروف",
             "emotion": "curious",
             "doc": "$~أحيانًا نحاول تخمين نوع @value لشيء ما؛ أظهر عندما لا نعرف."
@@ -1985,13 +1985,13 @@
             "doc": "$~أمثّل @value ليس @type الخاص به هو الذي توقعناه — مثل عندما يحتاج @ListAccess إلى @Number لكنه يحصل على شيء آخر."
         },
         "NoExpressionType": {
-            "name": "$~لايوجدتعبير",
+            "name": "$~لا يوجد تعبير",
             "description": "$~اكتب كتلة فارغة",
             "emotion": "angry",
             "doc": "$~أنا @type الذي تحصل عليه عندما لا يوجد في @Block أي @expression. أنت تعرف أنه يحتاج إلى واحد على الأقل — فأعطه واحدًا!"
         },
         "NotEnclosedType": {
-            "name": "$~ليسفيهيكلأوتحويلأوتفاعل",
+            "name": "$~ليس في بنية أو تحويل أو تفاعل",
             "description": "$~حدّد أن هذا مستخدم خارج هيكل",
             "emotion": "curious",
             "doc": "$~أظهر عندما يُستخدم @This في مكان لا ينتمي إليه، فلا أحد يعرف ما @value الذي يمثّله."
@@ -2003,7 +2003,7 @@
             "doc": "$~عندما تستخدم @ExpressionPlaceholder لكنك لا تقول ما هو @type الخاص به، فأنا النوع الذي تحصل عليه. تعامل مع الأمر!"
         },
         "UnknownNameType": {
-            "name": "$~اسمغيرمعروف",
+            "name": "$~اسم غير معروف",
             "description": "$~$name[$name لم يُعرّف بعد|الاسم غير معطى]",
             "emotion": "curious",
             "doc": "$~أمثّل @name لم يستطع @Reference أو @PropertyReference إيجاده، عندما لا نعرف عمّن تتحدث."
@@ -2031,17 +2031,17 @@
             "next": "$~العنصر التالي: $value!",
             "conflict": {
                 "ExpectedCollection": {
-                    "name": "$~توقعتمجموعة",
+                    "name": "$~مجموعة متوقعة",
                     "explanation": "$~توقعت أن يكون الجانب الأيسر من تحويل المجموعة مجموعة، لكنني حصلت على $type"
                 },
                 "ExpectedThis": {
-                    "name": "$~توقعتهذا",
+                    "name": "$~this متوقع",
                     "explanation": "$~هل قصدت استخدام @This للإشارة إلى عنصر في هذه المجموعة؟"
                 }
             }
         },
         "ExternalExample": {
-            "name": "$~مثالخارجي",
+            "name": "$~مثال خارجي",
             "description": "$~اعرض كودًا من لغة برمجة أخرى في التوثيق",
             "emotion": "serious",
             "doc": [
@@ -2085,7 +2085,7 @@
             "start": "$~دعني أرى كيف يبدو هذا النص.",
             "conflict": {
                 "EmptyPattern": {
-                    "name": "$~نمطفارغ",
+                    "name": "$~نمط فارغ",
                     "explanation": "$~ليس لدي أجزاء، لذا لا أطابق أي شيء مفيد. هل يمكنك إضافة جزء؟",
                     "resolution": "$~أضف \\◌\\ لمطابقة أي حرف واحد"
                 }
@@ -2115,13 +2115,13 @@
             ],
             "conflict": {
                 "OverlappingAlternatives": {
-                    "name": "$~خياراتمتداخلة",
+                    "name": "$~خيارات متداخلة",
                     "explanation": "$~$shorter هو بداية $longer، والخيار الأطول يفوز دائماً، لذا يطابق $shorter فقط عندما لا يستطيع $longer ذلك. هل قصدت ذلك؟"
                 }
             }
         },
         "PatternClass": {
-            "name": "$~صنفالأحرف",
+            "name": "$~فئة الحروف",
             "description": "$~طابق نوعاً واحداً من الأحرف",
             "emotion": "curious",
             "doc": [
@@ -2145,7 +2145,7 @@
             ],
             "conflict": {
                 "UnrecognizedPatternProperty": {
-                    "name": "$~خاصيةغيرمعروفة",
+                    "name": "$~خاصية غير معروفة",
                     "explanation": "$~لا أتعرف على الخاصية $name. جرّب فئة أو نصاً أو معرّف يونيكود.",
                     "resolution": "$~غيّرها إلى $suggestion"
                 }
@@ -2163,7 +2163,7 @@
             ],
             "conflict": {
                 "MalformedQuantifier": {
-                    "name": "$~عددمستحيل",
+                    "name": "$~عدد مستحيل",
                     "explanation": "$~عددي الأدنى أكبر من عددي الأعلى، لذا لا يمكنني المطابقة أبداً.",
                     "resolution": "$~بدّل أعدادي ليأتي الأصغر أولاً"
                 }
@@ -2192,7 +2192,7 @@
             ],
             "conflict": {
                 "DuplicateCaptureName": {
-                    "name": "$~التقاطمكرر",
+                    "name": "$~التقاط مكرر",
                     "explanation": "$~التقاط آخر يستخدم الاسم $name من قبل، لذا هذا سيكتب فوقه.",
                     "resolution": "$~أعد تسمية هذا الالتقاط إلى $replacement"
                 }
@@ -2222,7 +2222,7 @@
             ]
         },
         "PatternSet": {
-            "name": "$~مجموعةرموز",
+            "name": "$~مجموعة رموز",
             "description": "$~طابق أحد هذه الرموز الرسومية",
             "emotion": "curious",
             "doc": [
@@ -2277,13 +2277,13 @@
             ],
             "conflict": {
                 "MissingPatternLocale": {
-                    "name": "$~لغةمفقودة",
+                    "name": "$~لغة مفقودة",
                     "explanation": "$~أحتاج لغة لأعرف كيف أجد الكلمات. هل يمكنك إضافة واحدة، مثل \\/en\\؟"
                 }
             }
         },
         "PatternWordEdge": {
-            "name": "$~حافةكلمة",
+            "name": "$~حافة الكلمة",
             "description": "$~طابق حدود كلمة",
             "emotion": "curious",
             "doc": [
@@ -2317,7 +2317,7 @@
             ],
             "conflict": {
                 "UndefinedBackreference": {
-                    "name": "$~اسممجهول",
+                    "name": "$~اسم غير معروف",
                     "explanation": "$~لا يوجد التقاط أو صنف باسم $name، لذا ليس لديّ ما أطابقه.",
                     "resolution": "$~غيّره إلى $suggestion"
                 }
@@ -2335,7 +2335,7 @@
             ]
         },
         "PatternCaseFold": {
-            "name": "$~تجاهلالحالة",
+            "name": "$~تجاهل حالة الأحرف",
             "description": "$~طابق متجاهلًا الأحرف الكبيرة والصغيرة",
             "emotion": "curious",
             "doc": [
@@ -2346,7 +2346,7 @@
             ]
         },
         "PatternType": {
-            "name": "$~نوعالنمط",
+            "name": "$~نوع النمط",
             "description": "$~نوع النمط",
             "emotion": "curious",
             "doc": [
@@ -2996,7 +2996,7 @@
             "name": ["$~[]", "$~قائمة"],
             "kind": "$~نوع",
             "out": "$~نتيجة",
-            "outofbounds": "$~خارج النطاق",
+            "outofbounds": "$~خارجالنطاق",
             "function": {
                 "add": {
                     "doc": [
@@ -5816,7 +5816,7 @@
             "tour": {
                 "launch": "$~قم بجولة في عناصر التحكم بالمشروع",
                 "controls": "$~هذه /عناصر التحكم/ في الأسفل تُطبَّق على *المشروع ككل*، بغض النظر عن البلاطة التي تعمل عليها.",
-                "name": "$~حقل/الاسم/هواسممشروعك.تظهرالأسماءفيعرض*المشروع*و*المعرض*.",
+                "name": "$~حقل /name/ هو اسم مشروعك. تظهر الأسماء في عرض *المشروع* و*المعرض*.",
                 "sourceToggle": "$~هذا /المفتاح/ يُظهر أو يُخفي *ملف المصدر*. *المفاتيح الأخرى* في هذا الصف تفعل الشيء نفسه للبلاطات الأخرى.",
                 "addSource": "$~تستفيد بعض المشاريع من *عدة* ملفات مصدر، حيث تُخزَّن البيانات في ملف وتُستورد إلى المصدر *الرئيسي*. زر /إضافة مصدر/ يُنشئ ملفاً جديداً.",
                 "share": "$~يتيح لك مربع حوار /المشاركة/ مشاركة مشروعك مع *المعارض*، أو مع *الجمهور*، أو نسخه كـ *نص* لمشاركته في مكان آخر.",
@@ -7644,7 +7644,7 @@
                     }
                 },
                 "feedback": {
-                    "name": "$~تحتاجالأحرفإلىاسمWordplayصالحبطولحرفواحدعلىالأقل.لايمكنأنيكون'UI'،أوعددًاعشريًاأوسداسيًاعشريًا،أواسمميزةلغةمدمجة.",
+                    "name": "$~تحتاج الأحرف إلى اسم Wordplay صالح لا يقل طوله عن حرف واحد. لا يمكن أن يكون 'UI'، أو رقمًا عشريًا أو سداسيًا عشريًا، أو اسم ميزة لغة مدمجة.",
                     "description": "$~تحتاج الأحرف إلى وصف حتى يعرف من لا يستطيعون الرؤية ما تمثله.",
                     "end": "$~أو اضغط زر الهروب.",
                     "loadfail": "$~حدثت مشكلة في تحميل هذا الحرف.",
@@ -7692,7 +7692,7 @@
                     "confirm": "$~تحقق من عنوان بريدك الإلكتروني القديم لتأكيد عنوانك الجديد.",
                     "delete": "$~تريد منا أن ننسى كل ما صنعته هنا؟ لا يمكن التراجع عن هذا.",
                     "reallyDelete": "$~هل أنت متأكد؟ سيتم حذف حسابك وإعداداتك فورًا وستتم جدولة مشاريعك للحذف. سيفقد المتعاونون في مشاريعك الوصول إليها فورًا. اكتب بريدك الإلكتروني أو اسم المستخدم لتأكيد أن هذا ما تريده.",
-                    "name": "$~اختررمزًاتعبيريًاأوحرفًامخصصًالتمثيلنفسكللآخرين."
+                    "name": "$~اختر رمزًا تعبيريًا أو حرفًا مخصصًا ليمثلك أمام الآخرين."
                 },
                 "error": {
                     "expired": "$~انتهت صلاحية هذا الرابط.",

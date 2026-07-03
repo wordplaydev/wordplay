@@ -315,7 +315,7 @@
             ]
         },
         "Docs": {
-            "name": "$~listed'explication",
+            "name": "$~liste d'explications",
             "description": "$~liste la documentation en plusieurs langues",
             "emotion": "serious",
             "doc": [
@@ -359,17 +359,17 @@
             ],
             "conflict": {
                 "UnknownLanguage": {
-                    "name": "$~langueinconnue",
+                    "name": "$~langue inconnue",
                     "explanation": "$~Je ne connais pas cette langue",
                     "resolution": "$~Supprimez ce code de langue"
                 },
                 "MissingLanguage": {
-                    "name": "$~languemanquante",
+                    "name": "$~langue manquante",
                     "explanation": "$~Il me manque une langue. Pouvez-vous en ajouter une ?",
                     "resolution": "$~Supprimez l'étiquette de langue vide"
                 },
                 "DuplicateLanguage": {
-                    "name": "$~languedupliquée",
+                    "name": "$~langue en double",
                     "explanation": "$~Vous avez utilisé la langue « $code » deux fois. Les balises multilingues ne doivent mentionner chaque langue qu'une seule fois.",
                     "resolution": "$~Supprimez la balise * $code * en double"
                 }
@@ -394,7 +394,7 @@
             ]
         },
         "Names": {
-            "name": "$~listedenoms",
+            "name": "$~liste de noms",
             "description": "$~liste les noms en plusieurs langues",
             "emotion": "kind",
             "doc": [
@@ -413,28 +413,28 @@
             "doc": "$~Je représente une ligne dans une @Table. Il est probablement préférable d'aller parler à @Table, ils savent tout de moi. Je reste assis et je garde les valeurs en ligne :(",
             "conflict": {
                 "InvalidRow": {
-                    "name": "$~lignenonvalide",
+                    "name": "$~ligne invalide",
                     "explanation": "$~Les lignes doivent soit contenir uniquement des valeurs, soit uniquement des @Bind.",
                     "resolutionKeepPositional": "$~Supprimez les cellules nommées, ne conservez que les cellules positionnelles.",
                     "resolutionUnwrapInputs": "$~Supprimer les noms des cellules nommées"
                 },
                 "MissingCell": {
-                    "name": "$~colonnemanquante",
+                    "name": "$~colonne manquante",
                     "explanation": "$~Il me manque la colonne $column",
                     "resolution": "$~Ajouter une cellule d'espace réservé pour * $column *"
                 },
                 "UnknownColumn": {
-                    "name": "$~nomdecolonneinconnu",
+                    "name": "$~nom de colonne inconnu",
                     "explanation": "$~Je ne connais pas de colonne portant ce nom.",
                     "resolution": "$~Renommer en * $name *"
                 },
                 "ExtraCell": {
-                    "name": "$~colonnesupplémentaire",
+                    "name": "$~colonne supplémentaire",
                     "explanation": "$~D'après le type de ma table, je suis une colonne supplémentaire qui n'a rien à faire là.",
                     "resolution": "$~Supprimer la cellule supplémentaire"
                 },
                 "UnexpectedColumnBind": {
-                    "name": "$~aucuneligneliée",
+                    "name": "$~aucune ligne liée",
                     "explanation": "$~Je devrais être une valeur, et non @Bind."
                 }
             }
@@ -449,19 +449,19 @@
             ]
         },
         "TypeInputs": {
-            "name": "$~entréesdetype",
+            "name": "$~entrées de type",
             "description": "$~remplis les emplacements de variables de type",
             "emotion": "curious",
             "doc": "$~Je suis une liste de types qui remplacent les @TypeVariables dans une @StructureDefinition ou une @FunctionDefinition. J'aide tout le monde à savoir quel type d'entrées ils recevront."
         },
         "TypeVariable": {
-            "name": "$~variabledetype",
+            "name": "$~variable de type",
             "description": "$~nomme un type donné par l'appelant",
             "emotion": "curious",
             "doc": "$~Je suis un type mystère sur @FunctionDefinition ou @StructureDefinition, fourni par @TypeInputs lorsque l'un ou l'autre est évalué. @Set, @List et @Map m'utilisent.",
             "conflict": {
                 "DuplicateTypeVariable": {
-                    "name": "$~variabledetypedupliquée",
+                    "name": "$~variable de type en double",
                     "explanation": "$~J'ai le même nom que $duplicate",
                     "resolution": "$~Supprimer la variable de type en double"
                 }
@@ -471,7 +471,7 @@
             }
         },
         "TypeVariables": {
-            "name": "$~variablesdetype",
+            "name": "$~variables de type",
             "description": "$~liste les variables de type d'une définition",
             "emotion": "curious",
             "doc": "$~Je suis une liste de @TypeVariable."
@@ -543,7 +543,7 @@
             ],
             "conflict": {
                 "UnsupportedFontFormat": {
-                    "name": "$~formatdepolicenonprisencharge",
+                    "name": "$~format de police non pris en charge",
                     "explanation": "$~Mon ami * $face * ne sait pas comment être $format .",
                     "resolution": "$~Supprimer la mise en forme"
                 }
@@ -580,7 +580,7 @@
             ]
         },
         "BinaryEvaluate": {
-            "name": "$~évaluationbinaire",
+            "name": "$~évaluation binaire",
             "description": "$~applique l'opérateur $operator à deux valeurs",
             "emotion": "insecure",
             "doc": [
@@ -601,7 +601,7 @@
             "finish": "$~Regarde, j'ai gagné $value !",
             "conflict": {
                 "OrderOfOperations": {
-                    "name": "$~ordreambigu",
+                    "name": "$~ordre ambigu",
                     "explanation": "$~J'évalue les expressions dans l'ordre de lecture, et non dans l'ordre mathématique des opérations. Souhaitez-vous utiliser `@Block` pour spécifier l'ordre d'évaluation ?",
                     "resolutionPEMDAS": "$~Appliquez l'ordre de priorité PEMDAS : évaluez $higher avant $lower",
                     "resolutionReading": "$~Poursuivez la lecture dans l'ordre suivant : évaluez $lower avant $higher",
@@ -647,18 +647,18 @@
             "conflict": {
                 "DuplicateName": {
                     "conflict": {
-                        "name": "$~nomendouble",
+                        "name": "$~nom en double",
                         "explanation": "$~Quelqu'un porte déjà le nom $shadowed, donc je ne peux pas avoir ce nom."
                     },
                     "resolution": "$~Il y a des noms en double, voulez-vous en supprimer un ?"
                 },
                 "DuplicateShare": {
-                    "name": "$~partageendouble",
+                    "name": "$~partage en double",
                     "explanation": "$~J'ai le même nom que $duplicate. Du coup, on ne sait pas trop ce qu'on partage.",
                     "resolution": "$~Supprimer ce partage en double"
                 },
                 "IncompatibleType": {
-                    "name": "$~typeincompatible",
+                    "name": "$~type incompatible",
                     "explanation": "$~Je m'attendais à $expected, mais j'ai reçu le type $given",
                     "resolution": "$~Convertir en $expected",
                     "resolutionLiteral": "$~Marquez la liste, l'ensemble ou la carte comme littérale avec !, afin que ses valeurs restent spécifiques au lieu d'être généralisées — $expected a besoin des valeurs exactes",
@@ -674,32 +674,32 @@
                     "explanationDivideByZero": "$~Cela pourrait être ø car $source pourrait être divisé par zéro, et un nombre est requis ici."
                 },
                 "MisplacedShare": {
-                    "name": "$~partmalplacée",
+                    "name": "$~partage mal placé",
                     "explanation": "$~Je ne peux partager que des choses au niveau du @Program, pas à l'intérieur des éléments !",
                     "resolution": "$~Supprimer le marqueur *↑*"
                 },
                 "MissingShareLanguages": {
-                    "name": "$~languemanquante",
+                    "name": "$~langue manquante",
                     "explanation": "$~Si vous souhaitez partager ceci, vous devez préciser dans quelle langue c'est, afin que les autres sachent s'ils peuvent le lire !",
                     "resolution": "$~Supprimer le marqueur *↑*"
                 },
                 "RequiredAfterOptional": {
-                    "name": "$~entréeobligatoireaprèsoptionnel",
+                    "name": "$~entrée requise après une entrée facultative",
                     "explanation": "$~Je ne peux pas être là, il y a une liaison optionnelle (@Bind) avant moi.",
                     "resolution": "$~Déplacez les entrées obligatoires avant les options."
                 },
                 "UnexpectedEtc": {
-                    "name": "$~entréeinattendueaprèslalisted'entrées",
+                    "name": "$~entrée inattendue après la liste d'entrées",
                     "explanation": "$~Je ne peux avoir qu'une longueur variable dans une @FunctionDefinition",
                     "resolution": "$~Supprimez les *…*"
                 },
                 "UnusedBind": {
-                    "name": "$~liaisoninutilisée",
+                    "name": "$~lien inutilisé",
                     "explanation": "$~Je m'appelle $name, mais personne ne m'utilise. Peut-être que je ne suis pas nécessaire ?",
                     "resolution": "$~Supprimez cette liaison"
                 },
                 "ShadowsKeyword": {
-                    "name": "$~ombreunmot-clé",
+                    "name": "$~masque un mot-clé",
                     "explanation": "$~Ce nom est également le mot-clé $keyword , je le lirai donc comme un nom ici ; le mot-clé $keyword fonctionne toujours ailleurs."
                 }
             },
@@ -735,7 +735,7 @@
             "finish": "$~C'est fait, j'ai $value",
             "conflict": {
                 "ExpectedEndingExpression": {
-                    "name": "$~expressionmanquante",
+                    "name": "$~expression manquante",
                     "explanation": "J'ai besoin d'au moins une expression qui ne soit pas un @Bind, pour avoir une valeur à retourner.",
                     "resolution": "$~Ajoutez une expression finale"
                 }
@@ -745,7 +745,7 @@
             }
         },
         "BooleanLiteral": {
-            "name": "$~littéralbooléen",
+            "name": "$~valeur booléenne",
             "description": "$~crée une valeur booléenne $value[vraie|fausse]",
             "emotion": "precise",
             "doc": "$~Je suis soit \\⊤\\, soit \\⊥\\. Voir @Boolean pour en savoir plus sur notre belle logique.",
@@ -759,12 +759,12 @@
             "start": "$~Emprunter $name à partir de $source",
             "conflict": {
                 "UnknownBorrow": {
-                    "name": "$~empruntinconnu",
+                    "name": "$~emprunt inconnu",
                     "explanation": "$~Je ne connais pas de source de données portant ce nom.",
                     "resolution": "$~Supprimez cet emprunt"
                 },
                 "BorrowCycle": {
-                    "name": "$~empruntautoréférencé",
+                    "name": "$~emprunt qui se référence lui-même",
                     "explanation": "$~Cela dépend de $borrow, qui dépend de cette source @Source, donc le programme ne peut pas être évalué.",
                     "resolution": "$~Supprimer cet emprunt permet de rompre le cycle."
                 }
@@ -813,7 +813,7 @@
             "finish": "$~Je suppose que c'est $value ?",
             "conflict": {
                 "ExpectedBooleanCondition": {
-                    "name": "$~conditionbooléenneattendue",
+                    "name": "$~condition booléenne attendue",
                     "explanation": "$~J'ai besoin d'un @Boolean pour prendre une décision, mais j'ai reçu un $type à la place.",
                     "resolution": "$~Convertissez-le en $expected , car $expected est requis",
                     "resolutionLiteral": "$~Marquez la liste, l'ensemble ou la carte comme littérale avec !, afin que ses valeurs restent spécifiques au lieu d'être généralisées — $expected a besoin des valeurs exactes",
@@ -835,7 +835,7 @@
             }
         },
         "ConversionDefinition": {
-            "name": "$~définitiondeconversion",
+            "name": "$~définition de conversion",
             "description": "$~définit la conversion de $input vers $output",
             "emotion": "excited",
             "doc": [
@@ -847,7 +847,7 @@
             "start": "$~Génial, une nouvelle conversion !",
             "conflict": {
                 "MisplacedConversion": {
-                    "name": "$~conversionmalplacée",
+                    "name": "$~conversion mal placée",
                     "explanation": "$~Oups, je ne peux pas être ici, juste dans @Block.",
                     "resolution": "$~Supprimer cette conversion"
                 }
@@ -875,7 +875,7 @@
             "finish": "$~Génial, j'ai gagné $value",
             "conflict": {
                 "UnknownConversion": {
-                    "name": "$~conversioninconnue",
+                    "name": "$~conversion inconnue",
                     "explanation": "$~Nous n'avons pas trouvé de moyen de convertir un $expected en un $given",
                     "resolution": "$~Supprimer la conversion"
                 }
@@ -901,7 +901,7 @@
             "finish": "$~J'ai créé un nouveau tableau sans les lignes correspondantes!"
         },
         "DocumentedExpression": {
-            "name": "$~expressionexpliquée",
+            "name": "$~expression expliquée",
             "description": "$~attache la documentation à une expression",
             "emotion": "eager",
             "doc": [
@@ -934,7 +934,7 @@
             "finish": "$~J'ai évalué à $value",
             "conflict": {
                 "IncompatibleInput": {
-                    "name": "$~entréeincompatible",
+                    "name": "$~entrée incompatible",
                     "explanation": "$~Je m'attendais à $expected, mais j'ai reçu $given",
                     "resolution": "$~Convertir en $expected",
                     "resolutionLiteral": "$~Marquez la liste, l'ensemble ou la carte comme littérale avec !, afin que ses valeurs restent spécifiques au lieu d'être généralisées — $expected a besoin des valeurs exactes",
@@ -950,43 +950,43 @@
                     "explanationDivideByZero": "$~Cela pourrait être ø car $source pourrait être divisé par zéro, et un nombre est requis ici."
                 },
                 "UnexpectedTypeInput": {
-                    "name": "$~entréedetypeinattendue",
+                    "name": "$~entrée de type inattendue",
                     "explanation": "$~Je suis un type d'entrée supplémentaire et inattendu.",
                     "resolution": "$~Supprimez ce type d'entrée"
                 },
                 "MissingInput": {
-                    "name": "$~entréemanquante",
+                    "name": "$~entrée manquante",
                     "explanation": "$~Je ne peux pas évaluer $name sans l'entrée $input :(",
                     "resolutionAddInput": "$~Ajoutez le $input manquant, avec sa valeur par défaut",
                     "resolutionPlaceholder": "$~Ajoutez le champ $input manquant comme espace réservé, puis choisissez une valeur dans le menu de saisie semi-automatique."
                 },
                 "NotInstantiable": {
-                    "name": "$~structureincomplète",
+                    "name": "$~structure incomplète",
                     "explanation": "$~Je ne peux pas faire de cela une @StructureDefinition, elle contient des fonctions non implémentées.",
                     "resolution": "$~Échafauder les fonctions manquantes"
                 },
                 "UnexpectedInput": {
-                    "name": "$~entréeinattendue",
+                    "name": "$~entrée inattendue",
                     "explanation": "$~Je suis un élément d'entrée inattendu.",
                     "resolution": "$~Supprimez cette entrée"
                 },
                 "UnknownInput": {
-                    "name": "$~entréeinconnue",
+                    "name": "$~entrée inconnue",
                     "explanation": "$~Cette fonction *$name* n'attend pas une entrée contenant mon nom.",
                     "resolution": "$~Renommez ce champ de saisie en * $name *"
                 },
                 "InputListMustBeLast": {
-                    "name": "$~lesentréessupplémentairesnesontpaslesdernières",
+                    "name": "$~les entrées supplémentaires ne sont pas en dernier",
                     "explanation": "$~La liste des entrées doit être la dernière",
                     "resolution": "$~Déplacez le champ de saisie de la liste à la fin."
                 },
                 "SeparatedEvaluate": {
-                    "name": "$~évaluationambiguë",
+                    "name": "$~évaluation ambiguë",
                     "explanation": "$~Est-ce que $name est le nom d'une $structure[$structure|@FunctionDefinition] que vous essayez d'évaluer ? Veuillez supprimer l'espace après moi afin que je sache qu'il s'agit d'une @Evaluate et non d'un @Block distinct.",
                     "resolution": "$~Supprimez l'espace entre * $name * et ses entrées"
                 },
                 "UnknownTimeZone": {
-                    "name": "$~fuseauHoraireInconnu",
+                    "name": "$~fuseau horaire inconnu",
                     "explanation": "$~Je ne connais pas de fuseau horaire appelé *$zone*. Les fuseaux horaires portent le nom de régions et de villes, comme \\'America/New_York'\\. Essaie d'écrire une ville que tu connais, et je t'en proposerai un !",
                     "resolution": "$~Le changer en *$zone*, le fuseau horaire de $city"
                 }
@@ -1069,7 +1069,7 @@
             "start": "$~Créons cette fonction !",
             "conflict": {
                 "NoExpression": {
-                    "name": "$~expressionmanquante",
+                    "name": "$~expression manquante",
                     "explanation": "$~J'ai besoin d'une expression à évaluer, pouvez-vous en ajouter une ?",
                     "resolution": "$~Ajouter un corps de texte de substitution"
                 }
@@ -1081,7 +1081,7 @@
             }
         },
         "Iteration": {
-            "name": "$~fonctiond'ordresupérieur",
+            "name": "$~fonction d'ordre supérieur",
             "description": "$~itère sur les valeurs de liste en interne",
             "emotion": "kind",
             "doc": "$~Je suis un type très spécial de @FunctionDefinition qui opère sur des listes d'éléments. Vous n'avez pas besoin de savoir quoi que ce soit sur moi, à part que je rends possibles des fonctions comme @List.translate.",
@@ -1132,7 +1132,7 @@
             "finish": "$~$value[la valeur est $type|la valeur n'est pas $type]",
             "conflict": {
                 "ImpossibleType": {
-                    "name": "$~typeimpossible",
+                    "name": "$~type impossible",
                     "explanation": "$~ceci ne peut jamais être $type",
                     "resolutionIsFalse": "$~Remplacez ce contrôle de type par *⊥* (la réponse est toujours fausse).",
                     "resolutionDropOtherwise": "$~Supprimez le *??* — le côté gauche n'est jamais *ø*"
@@ -1146,7 +1146,7 @@
             }
         },
         "IsLocale": {
-            "name": "$~estlelangage",
+            "name": "$~est une langue",
             "description": "$~Renvoie vrai si la langue est sélectionnée",
             "emotion": "kind",
             "doc": [
@@ -1158,7 +1158,7 @@
             "start": "$~La langue est-elle $locale ?"
         },
         "ListAccess": {
-            "name": "$~accèsàlaliste",
+            "name": "$~accès à la liste",
             "description": "$~obtient la valeur à la position dans la liste",
             "emotion": "cheerful",
             "doc": [
@@ -1169,7 +1169,7 @@
             "finish": "$~L'article coûte $value!"
         },
         "ListLiteral": {
-            "name": "$~listelittérale",
+            "name": "$~liste littérale",
             "description": "$~crée une liste de $count valeurs",
             "emotion": "eager",
             "doc": "$~Je suis une @List de valeurs spécifique ! Consultez @List pour en savoir plus sur ce que vous pouvez faire avec moi.",
@@ -1186,7 +1186,7 @@
             ]
         },
         "MapLiteral": {
-            "name": "$~cartelittérale",
+            "name": "$~carte littérale",
             "description": "$~crée une carte de $count paires clé-valeur",
             "emotion": "kind",
             "doc": "$~Je suis une @Map spécifique entre les clés et les valeurs. Consultez @Map pour en savoir plus sur mon utilité.",
@@ -1194,7 +1194,7 @@
             "finish": "$~J'ai connecté tout le monde, $value",
             "conflict": {
                 "NotAKeyValue": {
-                    "name": "$~valeurmanquante",
+                    "name": "$~valeur manquante",
                     "explanation": "$~Je suis dans une @Map, j'ai donc besoin d'une valeur.",
                     "resolution": "$~Envelopper sous forme de paire clé-valeur"
                 }
@@ -1224,28 +1224,28 @@
             }
         },
         "NumberLiteral": {
-            "name": "$~nombrelittéral",
+            "name": "$~nombre littéral",
             "description": "$~crée le nombre $number $unit[$unit|]",
             "emotion": "excited",
             "doc": "$~Je suis un @Number spécifique. Vous pouvez m'écrire avec n'importe quel type de chiffres et dans n'importe quelle langue. Voir @Number pour tout ce que je peux faire.",
             "start": "$~$value!",
             "conflict": {
                 "NotANumber": {
-                    "name": "$~pasunnuméro",
+                    "name": "$~pas un nombre",
                     "explanation": "$~Je croyais connaître tous les chiffres, mais celui-ci, je ne le connais pas.",
                     "resolution": "$~Remplacer par *0*"
                 }
             }
         },
         "InternalExpression": {
-            "name": "$~expressioninterne",
+            "name": "$~expression interne",
             "description": "$~exécute une expression créateur intégrée",
             "emotion": "neutral",
             "doc": "$~Je suis une expression que seuls mes créateurs originaux utilisent. Comment m'avez-vous trouvée ? Pour en savoir plus sur moi, il vous faudra leur parler.",
             "start": "$~Expression secrète"
         },
         "NoneLiteral": {
-            "name": "$~aucunlittéral",
+            "name": "$~aucun littéral",
             "description": "$~crée la valeur rien",
             "emotion": "neutral",
             "doc": "$~Je crée @None , la valeur unique du néant. Consultez @None pour en savoir plus.",
@@ -1347,7 +1347,7 @@
             "finish": "$~J'ai copié la structure, mais avec $property comme $value",
             "conflict": {
                 "InvalidProperty": {
-                    "name": "$~propriétéinconnue",
+                    "name": "$~propriété inconnue",
                     "explanation": "$~Je ne figure pas dans la structure $structure, je ne peux donc pas être affiné.",
                     "resolution": "$~Renommer en * $name *"
                 }
@@ -1387,7 +1387,7 @@
             "finish": "$~La nouvelle valeur du flux est $value",
             "conflict": {
                 "ExpectedStream": {
-                    "name": "$~fluxattendu",
+                    "name": "$~flux attendu",
                     "explanation": "$~$condition ne fait pas référence à un flux, donc je ne réagirai jamais !",
                     "resolution": "$~Supprimez la réaction, ne conservez que la valeur initiale"
                 }
@@ -1412,18 +1412,18 @@
             "conflict": {
                 "UnknownName": {
                     "conflict": {
-                        "name": "$~nominconnu",
+                        "name": "$~nom inconnu",
                         "explanation": "$~$name[Je ne connais personne qui s'appelle $name dans $scope[$scope|ce @Block]|Pouvez-vous me donner un nom ?]"
                     },
                     "resolution": "$~Vouliez-vous dire *$suggestion*?"
                 },
                 "ReferenceCycle": {
-                    "name": "$~valeurd'autoréférencement",
+                    "name": "$~valeur qui se référence elle-même",
                     "explanation": "$~Euh, la valeur de $name dépend d'elle-même, alors comment savoir quelle valeur lui attribuer ?",
                     "resolution": "$~Remplacez * $name * par un espace réservé pour rompre le cycle"
                 },
                 "UnexpectedTypeVariable": {
-                    "name": "$~variabledetypeinattendu",
+                    "name": "$~variable de type inattendue",
                     "explanation": "$~Je ne sais pas quoi faire avec ce type d'entrées.",
                     "resolution": "$~Supprimez cette variable de type de la fonction"
                 }
@@ -1449,14 +1449,14 @@
             "finish": "$~J'ai créé un nouveau tableau avec uniquement les lignes et les colonnes sélectionnées!",
             "conflict": {
                 "ExpectedSelectName": {
-                    "name": "$~nomdecolonnemanquant",
+                    "name": "$~nom de colonne manquant",
                     "explanation": "$~J'ai besoin d'au moins un nom de colonne.",
                     "resolution": "$~Supprimer cette cellule"
                 }
             }
         },
         "SetLiteral": {
-            "name": "$~définirunlittéral",
+            "name": "$~ensemble littéral",
             "description": "$~crée un ensemble de $count éléments",
             "emotion": "eager",
             "doc": "$~Je suis un @Set spécifique de valeurs spécifiques. Consultez @Set pour en savoir plus sur la façon de travailler avec moi.",
@@ -1464,7 +1464,7 @@
             "finish": "$~J'ai défini une $value !"
         },
         "SetOrMapAccess": {
-            "name": "$~accèsàl'ensemble/àlacarte",
+            "name": "$~accès à l'ensemble/carte",
             "description": "$~vérifie si l'ensemble ou la carte contient",
             "emotion": "kind",
             "doc": [
@@ -1478,7 +1478,7 @@
             "finish": "$~La valeur est $value",
             "conflict": {
                 "IncompatibleKey": {
-                    "name": "$~cléincompatible",
+                    "name": "$~clé incompatible",
                     "explanation": "$~Je m'attendais à une clé de type $expected",
                     "resolution": "$~Convertissez-le en $expected , car $expected est requis",
                     "resolutionLiteral": "$~Marquez la liste, l'ensemble ou la carte comme littérale avec !, afin que ses valeurs restent spécifiques au lieu d'être généralisées — $expected a besoin des valeurs exactes",
@@ -1531,17 +1531,17 @@
             "start": "$~Définissons cette belle structure",
             "conflict": {
                 "DisallowedInputs": {
-                    "name": "$~entréesnonautorisées",
+                    "name": "$~entrées non autorisées",
                     "explanation": "$~Je ne peux pas recevoir de données d'entrée car une ou plusieurs de mes fonctions d'interface ne sont pas implémentées.",
                     "resolution": "$~Supprimer les entrées"
                 },
                 "IncompleteImplementation": {
-                    "name": "$~structureincomplète",
+                    "name": "$~structure incomplète",
                     "explanation": "$~Mes fonctions doivent soit toutes être implémentées, soit aucune ne doit l'être. Pas de mélanges hasardeux !",
                     "resolution": "$~Supprimez les entrées pour en faire une interface."
                 },
                 "NotAnInterface": {
-                    "name": "$~pasuneinterface",
+                    "name": "$~pas une interface",
                     "explanation": "$~Je ne suis pas une interface ; une structure ne peut implémenter que des interfaces, et non d’autres structures.",
                     "resolution": "$~Supprimez ceci de la liste des interfaces"
                 },
@@ -1559,7 +1559,7 @@
             }
         },
         "StructureDefinitionType": {
-            "name": "$~définitiondelastructure",
+            "name": "$~définition de structure",
             "description": "$name",
             "emotion": "kind",
             "doc": [
@@ -1567,7 +1567,7 @@
             ]
         },
         "TableLiteral": {
-            "name": "$~littéraldetable",
+            "name": "$~table littérale",
             "description": "$~crée un tableau de $count lignes",
             "emotion": "angry",
             "doc": "$~Je suis une table spécifique avec des lignes spécifiques. Voir @Table pour savoir comment je peux vous aider.",
@@ -1575,7 +1575,7 @@
             "finish": "$~Évalué à la nouvelle table $value"
         },
         "TextLiteral": {
-            "name": "$~textelittéral",
+            "name": "$~texte littéral",
             "description": "$~crée la valeur texte $text",
             "emotion": "serious",
             "doc": "$~Je représente une ou plusieurs @Translation de texte spécifiques. Voir @Text pour en savoir plus sur ce que je peux faire!",
@@ -1591,29 +1591,29 @@
             "doc": "$~Je représente un texte avec une balise @Language. Voir @Text pour en savoir plus!",
             "conflict": {
                 "phone": {
-                    "name": "$~numérodetéléphonepossible",
+                    "name": "$~numéro de téléphone possible",
                     "explanation": "$~Le numéro *$text* est-il le numéro de téléphone de quelqu'un ? Si oui, ne le partagez pas en ligne !\n\n$reminder"
                 },
                 "email": {
-                    "name": "$~e-mailpossible",
+                    "name": "$~courriel possible",
                     "explanation": "$~L'adresse *$text* appartient-elle à quelqu'un ? Si oui, merci de ne pas la divulguer ici !\n\n$reminder"
                 },
                 "tin": {
-                    "name": "$~identifiantfiscalpossible",
+                    "name": "$~identifiant fiscal possible",
                     "explanation": "$~Est-ce que *$text* est un numéro d'identification fiscale ? Si oui, ne me partagez surtout pas, je suis une information très confidentielle !\n\n$reminder"
                 },
                 "address": {
-                    "name": "$~adressepossible",
+                    "name": "$~adresse possible",
                     "explanation": "$~Est-ce que *$text* est l'adresse de quelqu'un ? Si oui, ne m'inscrivez pas ici, on ne veut pas que quelqu'un soit harcelé !\n\n$reminder"
                 },
                 "handle": {
-                    "name": "$~nomd'utilisateurpossible",
+                    "name": "$~nom d'utilisateur possible",
                     "explanation": "$~Est-ce que *$text* est votre nom d'utilisateur sur un autre site internet ? Si oui, ne me mentionnez pas ici, sauf si c'est vraiment intentionnel.\n\n$reminder"
                 },
                 "resolution": "$~Ce ne sont pas des données sensibles",
                 "reminder": "$~Remarque: vous pouvez annuler cette action et voir d’autres éléments que vous avez marqués comme non sensibles dans la boîte de dialogue de partage.",
                 "character": {
-                    "name": "$~caractèrepersonnalisépossible",
+                    "name": "$~caractère personnalisé possible",
                     "explanation": "$~Cela ressemble à un nom de personnage. Pour les afficher correctement, utilisez @FormattedLiteral au lieu de @TextLiteral.",
                     "resolutionStrip": "$~Supprimez les caractères spéciaux du texte"
                 }
@@ -1623,14 +1623,14 @@
             }
         },
         "FormattedLiteral": {
-            "name": "$~formaté",
+            "name": "$~texte mis en forme",
             "description": "$~crée le texte formaté $text",
             "emotion": "serious",
             "doc": "$~Je représente de nombreux @FormattedTranslation différents de textes formatés. Lors de l'évaluation, je choisirai la meilleure correspondance en fonction des langues sélectionnées par le public.",
             "start": "$~Créons du texte dans la langue actuelle."
         },
         "FormattedTranslation": {
-            "name": "$~traductionformatée",
+            "name": "$~traduction mise en forme",
             "description": "$~traduit le texte formaté en $language",
             "emotion": "serious",
             "doc": [
@@ -1664,14 +1664,14 @@
             "start": "$~Évalué à $value",
             "conflict": {
                 "MisplacedThis": {
-                    "name": "$~j'aiégarécetteréférence",
+                    "name": "$~référence « this » mal placée",
                     "explanation": "$~Je suis uniquement autorisé à intervenir dans une structure, une conversion, une réaction ou une traduction.",
                     "resolution": "$~Remplacer par un espace réservé"
                 }
             }
         },
         "UnaryEvaluate": {
-            "name": "$~évaluerunaire",
+            "name": "$~évaluation unaire",
             "description": "$~applique l'opérateur unaire $operator",
             "emotion": "kind",
             "doc": [
@@ -1708,13 +1708,13 @@
             "conflict": {
                 "UnparsableConflict": {
                     "conflict": {
-                        "name": "$~codeillisible",
+                        "name": "$~code illisible",
                         "explanation": "$~@FunctionDefinition ici, @UnparsableExpression ne sait pas de quel type $expression[ expression | type ] il s'agit."
                     },
                     "resolution": "$~Vous vouliez dire $first, $second ?"
                 },
                 "UnclosedDelimiter": {
-                    "name": "$~délimiteurnonfermé",
+                    "name": "$~délimiteur non fermé",
                     "explanation": "$~Je m'attendais à ce que $expected soit quelque temps après $unclosed",
                     "resolution": "$~Ajoutez les valeurs manquantes * $expected *"
                 }
@@ -1740,12 +1740,12 @@
             "finish": "$~Évalué dans une nouvelle table avec des lignes révisées!",
             "conflict": {
                 "ExpectedColumnBind": {
-                    "name": "$~valeurdecolonnemanquante",
+                    "name": "$~valeur de colonne manquante",
                     "explanation": "$~J'ai besoin d'une valeur pour chaque colonne.",
                     "resolution": "$~Encadrez cette cellule comme une colonne nommée"
                 },
                 "IncompatibleCellType": {
-                    "name": "$~typedecelluleincompatible",
+                    "name": "$~type de cellule incompatible",
                     "explanation": "$~Je suis censé taper $expected, mais j'ai tapé $given.",
                     "resolution": "$~Convertissez-le en $expected , car $expected est requis",
                     "resolutionLiteral": "$~Marquez la liste, l'ensemble ou la carte comme littérale avec !, afin que ses valeurs restent spécifiques au lieu d'être généralisées — $expected a besoin des valeurs exactes",
@@ -1848,7 +1848,7 @@
             ],
             "conflict": {
                 "UnknownTypeName": {
-                    "name": "$~nomdetypeinconnu",
+                    "name": "$~nom de type inconnu",
                     "explanation": "$~Les noms de types ne peuvent faire référence qu'à des structures ou à des variables de type, mais ceci fait référence au type $type",
                     "resolution": "$~Remplacer par un espace réservé au type"
                 }
@@ -1879,7 +1879,7 @@
             ]
         },
         "StreamDefinitionType": {
-            "name": "$~définitionduflux",
+            "name": "$~définition de flux",
             "description": "$~type un flux défini",
             "emotion": "angry",
             "doc": "$~Je représente un flux que vous avez défini, ce qui n'est pas possible, alors pourquoi lisez-vous même ceci ?"
@@ -1906,7 +1906,7 @@
             "doc": "$~Je représente une Table.",
             "conflict": {
                 "ExpectedColumnType": {
-                    "name": "$~typedecolonnemanquant",
+                    "name": "$~type de colonne manquant",
                     "explanation": "$~J'ai besoin d'un type de colonne",
                     "resolution": "$~Ajouter un espace réservé au type"
                 }
@@ -1954,7 +1954,7 @@
             "doc": "$~Je représente le type d'une expression inconnue. J'apparais lorsque vous essayez d'utiliser cette expression pour quelque chose."
         },
         "VariableType": {
-            "name": "$~typedevariable",
+            "name": "$~type de variable",
             "description": "$~représente une variable de type en usage",
             "emotion": "curious",
             "doc": "$~Je représente une @TypeVariable — un type de valeur inconnu — dans toutes les négociations entre valeurs."
@@ -1979,13 +1979,13 @@
             "doc": "$~Je représente une valeur dont le type n'est pas celui attendu — comme lorsque @ListAccess a besoin d'un @Number mais obtient autre chose."
         },
         "NoExpressionType": {
-            "name": "$~aucuneexpression",
+            "name": "$~aucune expression",
             "description": "$~type un bloc vide",
             "emotion": "angry",
             "doc": "$~Je suis le genre de personne qui utilise @Block sans expression. Vous savez qu'il en faut au moins une — alors ajoutez-en une !"
         },
         "NotEnclosedType": {
-            "name": "$~pasdanslastructure,laconversionoularéaction",
+            "name": "$~pas dans une structure, une conversion ou une réaction",
             "description": "$~marque une utilisation hors d'une structure",
             "emotion": "curious",
             "doc": "$~J'apparaîts lorsque @This est utilisé là où il n'a pas sa place, de sorte que personne ne sache quelle valeur il représente."
@@ -1997,7 +1997,7 @@
             "doc": "$~Lorsque vous utilisez @ExpressionPlaceholder, mais que vous ne précisez pas de quel type il s'agit, je suis le type que vous obtenez. Faites avec !"
         },
         "UnknownNameType": {
-            "name": "$~nominconnu",
+            "name": "$~nom inconnu",
             "description": "$~$name [ $name n'est pas encore défini|le nom n'est pas donné]",
             "emotion": "curious",
             "doc": "$~Je représente un nom que @Reference ou @PropertyReference n'ont pas pu trouver, lorsque nous ne savons pas de qui vous parlez."
@@ -2009,7 +2009,7 @@
             "doc": "$~Certains d'entre nous s'attendaient à des fonctions ; j'arrive quand nous n'en avons pas."
         },
         "UnknownVariableType": {
-            "name": "$~variableinconnue",
+            "name": "$~variable inconnue",
             "description": "$~représente une variable de type inconnue",
             "emotion": "curious",
             "doc": "$~Parfois, nous essayons de deviner quelle est la valeur de quelque chose ; j'interviens alors que nous ne le savons pas."
@@ -2031,17 +2031,17 @@
             "next": "$~Élément suivant : $value !",
             "conflict": {
                 "ExpectedCollection": {
-                    "name": "$~collectionattendue",
+                    "name": "$~collection attendue",
                     "explanation": "$~Je m'attendais à ce que le membre gauche d'une conversion de collection soit une collection, mais j'ai obtenu $type"
                 },
                 "ExpectedThis": {
-                    "name": "$~Jem'yattendais.",
+                    "name": "$~« this » attendu",
                     "explanation": "$~Souhaitiez-vous utiliser @This pour faire référence à un élément de cette collection ?"
                 }
             }
         },
         "ExternalExample": {
-            "name": "$~exempleexterne",
+            "name": "$~exemple externe",
             "description": "$~afficher du code d'un autre langage de programmation dans la documentation",
             "emotion": "serious",
             "doc": [
@@ -2085,7 +2085,7 @@
             "start": "$~Voyons voir à quoi ressemble ce texte.",
             "conflict": {
                 "EmptyPattern": {
-                    "name": "$~motifvide",
+                    "name": "$~motif vide",
                     "explanation": "$~Je n'ai pas de pièces, donc je ne peux rien proposer d'utile. Pourriez-vous m'en ajouter une ?",
                     "resolution": "$~Ajoutez un \\◌\\ pour correspondre à n'importe quel caractère"
                 }
@@ -2115,13 +2115,13 @@
             ],
             "conflict": {
                 "OverlappingAlternatives": {
-                    "name": "$~choixquisechevauchent",
+                    "name": "$~choix qui se chevauchent",
                     "explanation": "$~$shorter est le début de $longer , et le choix le plus long l'emporte toujours ; donc $shorter ne correspond que lorsque $longer ne peut pas. C'est bien ce que vous vouliez dire ?"
                 }
             }
         },
         "PatternClass": {
-            "name": "$~classedepersonnage",
+            "name": "$~classe de caractères",
             "description": "$~correspondre à un type de personnage",
             "emotion": "curious",
             "doc": [
@@ -2145,7 +2145,7 @@
             ],
             "conflict": {
                 "UnrecognizedPatternProperty": {
-                    "name": "$~propriétéinconnue",
+                    "name": "$~propriété inconnue",
                     "explanation": "$~Je ne reconnais pas la propriété $name . Essayez une catégorie, un script ou un identifiant Unicode.",
                     "resolution": "$~Remplacez-le par $suggestion"
                 }
@@ -2163,7 +2163,7 @@
             ],
             "conflict": {
                 "MalformedQuantifier": {
-                    "name": "$~compteimpossible",
+                    "name": "$~nombre impossible",
                     "explanation": "$~Mon score minimal est supérieur à mon score maximal, je ne pourrai donc jamais égaler.",
                     "resolution": "$~Inversez le décompte pour que le plus petit apparaisse en premier."
                 }
@@ -2192,7 +2192,7 @@
             ],
             "conflict": {
                 "DuplicateCaptureName": {
-                    "name": "$~captureendouble",
+                    "name": "$~capture en double",
                     "explanation": "$~Une autre capture utilise déjà le nom $name , celle-ci l'écraserait donc.",
                     "resolution": "$~Renommez cette capture en $replacement"
                 }
@@ -2222,7 +2222,7 @@
             ]
         },
         "PatternSet": {
-            "name": "$~ensembledeglyphes",
+            "name": "$~ensemble de glyphes",
             "description": "$~Associez l'un de ces graphèmes",
             "emotion": "curious",
             "doc": [
@@ -2277,13 +2277,13 @@
             ],
             "conflict": {
                 "MissingPatternLocale": {
-                    "name": "$~languemanquante",
+                    "name": "$~langue manquante",
                     "explanation": "$~J'ai besoin d'une langue pour savoir comment trouver les mots. Pouvez-vous en ajouter une, comme \\/en\\ ?"
                 }
             }
         },
         "PatternWordEdge": {
-            "name": "$~borddumonde",
+            "name": "$~bord de mot",
             "description": "$~faire correspondre une limite de mot",
             "emotion": "curious",
             "doc": [
@@ -2317,7 +2317,7 @@
             ],
             "conflict": {
                 "UndefinedBackreference": {
-                    "name": "$~nominconnu",
+                    "name": "$~nom inconnu",
                     "explanation": "$~Il n'y a pas de capture ni de classe nommée $name , je n'ai donc rien à faire correspondre.",
                     "resolution": "$~Remplacez-le par $suggestion"
                 }
@@ -2335,7 +2335,7 @@
             ]
         },
         "PatternCaseFold": {
-            "name": "$~ignorerlacasse",
+            "name": "$~ignorer la casse",
             "description": "$~correspondance ignorant la casse (majuscules/minuscules)",
             "emotion": "curious",
             "doc": [
@@ -2346,7 +2346,7 @@
             ]
         },
         "PatternType": {
-            "name": "$~typedemodèle",
+            "name": "$~type de motif",
             "description": "$~le type d'un motif",
             "emotion": "curious",
             "doc": [
@@ -2996,7 +2996,7 @@
             "name": ["$~[]", "$~Liste"],
             "kind": "$~Gentil",
             "out": "$~Résultat",
-            "outofbounds": "$~hors limites",
+            "outofbounds": "$~horsLimites",
             "function": {
                 "add": {
                     "doc": [
@@ -5819,7 +5819,7 @@
             "tour": {
                 "launch": "$~Faites le tour des commandes du projet",
                 "controls": "$~Ces /commandes/ en bas s'appliquent à l'*ensemble du projet*, quelle que soit la tuile sur laquelle vous travaillez.",
-                "name": "$~Lechamp/name/correspondaunomdevotreprojet.Lesnomsapparaissentdanslesvues*projet*et*galerie*.",
+                "name": "$~Le champ /name/ est le nom de ton projet. Les noms apparaissent dans les vues *projet* et *galerie*.",
                 "sourceToggle": "$~Ce bouton permet d'afficher ou de masquer le *fichier source*. Les *autres boutons* de cette ligne font de même pour les autres vignettes.",
                 "addSource": "$~Certains projets tirent profit de l'utilisation de plusieurs fichiers sources, où les données sont stockées dans l'un et importées dans la source principale. Le bouton /ajouter une source/ permet d'en créer une nouvelle.",
                 "share": "$~La boîte de dialogue /share/ vous permet de partager votre projet avec des *galeries*, avec le *public*, ou de le copier en tant que *texte* pour le partager ailleurs.",
@@ -7048,7 +7048,7 @@
                     "confirm": "$~Vérifiez votre ancienne adresse e-mail pour confirmer votre nouvelle adresse.",
                     "delete": "$~Vous voulez que nous oubliions tout ce que vous avez fait ici ? C'est irréversible.",
                     "reallyDelete": "$~Êtes-vous sûr ? Votre compte et vos paramètres seront immédiatement supprimés et vos projets seront programmés pour suppression. Les collaborateurs de vos projets perdront immédiatement l'accès à ces derniers. Saisissez votre adresse e-mail ou votre nom d'utilisateur pour confirmer que c'est bien ce que vous souhaitez.",
-                    "name": "$~Choisissezunemojipourvousreprésenterauprèsdesautres.",
+                    "name": "$~Choisis un emoji ou un caractère personnalisé pour te représenter auprès des autres.",
                     "login": "$~Connectez-vous pour sauvegarder vos projets, collaborer et partager:",
                     "join": "$~Ou, <créez un compte@://join> pour commencer."
                 },
@@ -7474,7 +7474,7 @@
                     }
                 },
                 "feedback": {
-                    "name": "$~LespersonnagesdoiventavoirunnomWordplayvalided'aumoins1caractère.Ilnepeutpass'agirde«UI»,d'unnombredécimalouhexadécimal,oudunomd'unefonctionnalitédelangageintégrée.",
+                    "name": "$~Les caractères ont besoin d'un nom Wordplay valide d'au moins 1 caractère. Il ne peut pas être « UI », un nombre décimal ou hexadécimal, ni le nom d'une fonction intégrée du langage.",
                     "description": "$~Les personnages ont besoin d'une description pour que ceux qui ne peuvent pas voir sachent ce qu'ils représentent.",
                     "end": "$~ou appuyez sur Echap.",
                     "loadfail": "$~Il y a eu un problème lors du chargement de ce personnage.",

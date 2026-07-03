@@ -315,7 +315,7 @@
             ]
         },
         "Docs": {
-            "name": "$~daftarpenjelasan",
+            "name": "$~daftar penjelasan",
             "description": "$~daftar dokumentasi dalam berbagai bahasa",
             "emotion": "serious",
             "doc": [
@@ -359,17 +359,17 @@
             ],
             "conflict": {
                 "UnknownLanguage": {
-                    "name": "$~bahasayangtidakdikenal",
+                    "name": "$~bahasa tidak dikenal",
                     "explanation": "$~Saya tidak tahu bahasa ini",
                     "resolution": "$~Hapus kode bahasa ini"
                 },
                 "MissingLanguage": {
-                    "name": "$~bahasayanghilang",
+                    "name": "$~bahasa hilang",
                     "explanation": "$~Saya kekurangan satu bahasa. Bisakah Anda menambahkannya?",
                     "resolution": "$~Hapus tag bahasa yang kosong"
                 },
                 "DuplicateLanguage": {
-                    "name": "$~bahasaduplikat",
+                    "name": "$~bahasa ganda",
                     "explanation": "$~Anda menggunakan bahasa ' $code ' dua kali. Tag campuran bahasa seharusnya hanya mencantumkan setiap bahasa satu kali.",
                     "resolution": "$~Hapus tag * $code * yang duplikat"
                 }
@@ -394,7 +394,7 @@
             ]
         },
         "Names": {
-            "name": "$~daftarnama",
+            "name": "$~daftar nama",
             "description": "$~daftar nama dalam berbagai bahasa",
             "emotion": "kind",
             "label": {
@@ -413,28 +413,28 @@
             "doc": "$~Saya mewakili sebuah baris dalam sebuah @Table. Mungkin sebaiknya Anda berbicara langsung dengan @Table, mereka tahu segalanya tentang saya. Saya hanya duduk dan menjaga agar nilai-nilai tetap sesuai :(",
             "conflict": {
                 "InvalidRow": {
-                    "name": "$~baristidakvalid",
+                    "name": "$~baris tidak sah",
                     "explanation": "$~Baris harus berisi semua nilai atau semua @Bind.",
                     "resolutionKeepPositional": "$~Hapus sel yang diberi nama, hanya simpan sel yang menunjukkan posisinya.",
                     "resolutionUnwrapInputs": "$~Hapus nama dari sel yang diberi nama."
                 },
                 "MissingCell": {
-                    "name": "$~kolomhilang",
+                    "name": "$~kolom hilang",
                     "explanation": "$~Saya kehilangan kolom $column",
                     "resolution": "$~Tambahkan sel tempat penampung untuk * $column *"
                 },
                 "ExtraCell": {
-                    "name": "$~kolomtambahan",
+                    "name": "$~kolom tambahan",
                     "explanation": "$~Berdasarkan tipe tabel saya, saya adalah kolom tambahan yang seharusnya tidak ada di sini.",
                     "resolution": "$~Hapus sel tambahan"
                 },
                 "UnknownColumn": {
-                    "name": "$~namakolomtidakdiketahui",
+                    "name": "$~nama kolom tidak dikenal",
                     "explanation": "$~Saya tidak tahu kolom dengan nama ini.",
                     "resolution": "$~Ganti nama menjadi * $name *"
                 },
                 "UnexpectedColumnBind": {
-                    "name": "$~tidakadabarispengikat",
+                    "name": "$~tidak ada baris pengikat",
                     "explanation": "$~Seharusnya saya berupa nilai, bukan @Bind."
                 }
             }
@@ -449,13 +449,13 @@
             ]
         },
         "TypeInputs": {
-            "name": "$~ketikinput",
+            "name": "$~masukan jenis",
             "description": "$~isi slot variabel tipe",
             "emotion": "curious",
             "doc": "$~Saya adalah daftar tipe yang menggantikan @TypeVariables dalam @StructureDefinition atau @FunctionDefinition. Saya membantu semua orang mengetahui jenis input apa yang akan mereka terima."
         },
         "TypeVariable": {
-            "name": "$~tipevariabel",
+            "name": "$~variabel jenis",
             "description": "$~sebutkan tipe yang diberikan oleh pemanggil",
             "emotion": "curious",
             "label": {
@@ -464,14 +464,14 @@
             "doc": "$~Saya adalah tipe misteri pada @FunctionDefinition atau @StructureDefinition, yang disediakan oleh @TypeInputs ketika salah satunya dievaluasi. @Set, @List, dan @Map menggunakan saya.",
             "conflict": {
                 "DuplicateTypeVariable": {
-                    "name": "$~variabeltipeduplikat",
+                    "name": "$~variabel jenis ganda",
                     "explanation": "$~Saya memiliki nama yang sama dengan $duplicate",
                     "resolution": "$~Hapus variabel tipe duplikat."
                 }
             }
         },
         "TypeVariables": {
-            "name": "$~variabeltipe",
+            "name": "$~variabel jenis",
             "description": "$~daftar variabel tipe pada definisi",
             "emotion": "curious",
             "doc": "$~Saya adalah daftar @TypeVariable."
@@ -543,7 +543,7 @@
             ],
             "conflict": {
                 "UnsupportedFontFormat": {
-                    "name": "$~formatfonttidakdidukung",
+                    "name": "$~format huruf tidak didukung",
                     "explanation": "$~Temanku * $face * tidak tahu bagaimana menjadi $format .",
                     "resolution": "$~Hapus formatnya"
                 }
@@ -580,7 +580,7 @@
             ]
         },
         "BinaryEvaluate": {
-            "name": "$~evaluasibiner",
+            "name": "$~evaluasi biner",
             "description": "$~terapkan operator $operator pada dua nilai",
             "emotion": "insecure",
             "doc": [
@@ -604,7 +604,7 @@
             "finish": "$~Lihat, aku menghasilkan $value !",
             "conflict": {
                 "OrderOfOperations": {
-                    "name": "$~urutanyangambigu",
+                    "name": "$~urutan tidak jelas",
                     "explanation": "$~Saya melakukan evaluasi berdasarkan urutan baca, bukan urutan operasi matematika. Apakah Anda ingin menggunakan @Block untuk menentukan urutan evaluasi yang harus saya ikuti?",
                     "resolutionPEMDAS": "$~Terapkan urutan matematika PEMDAS: evaluasi $higher sebelum $lower",
                     "resolutionReading": "$~Lanjutkan urutan membaca: evaluasi $lower sebelum $higher",
@@ -652,18 +652,18 @@
             "conflict": {
                 "DuplicateName": {
                     "conflict": {
-                        "name": "$~namaduplikat",
+                        "name": "$~nama ganda",
                         "explanation": "$~Seseorang sudah menggunakan nama $shadowed sehingga saya tidak bisa menggunakan nama ini."
                     },
                     "resolution": "$~Terdapat nama yang sama, apakah Anda ingin menghapus salah satunya?"
                 },
                 "DuplicateShare": {
-                    "name": "$~berbagiduplikat",
+                    "name": "$~berbagi ganda",
                     "explanation": "$~Saya memiliki nama yang sama dengan $duplicate . Itu membuat tidak jelas apa yang kita bagikan.",
                     "resolution": "$~Hapus postingan duplikat ini"
                 },
                 "IncompatibleType": {
-                    "name": "$~tipetidakkompatibel",
+                    "name": "$~jenis tidak cocok",
                     "explanation": "$~Saya mengharapkan $expected , tetapi menerima tipe $given",
                     "resolution": "$~Konversikan ke $expected",
                     "resolutionLiteral": "$~Tandai daftar, himpunan, atau peta sebagai literal dengan !, sehingga nilainya tetap spesifik dan tidak digeneralisasi — $expected membutuhkan nilai yang tepat.",
@@ -679,32 +679,32 @@
                     "explanationDivideByZero": "$~Ini bisa jadi ø karena $source mungkin dibagi nol, dan angka diperlukan di sini."
                 },
                 "MisplacedShare": {
-                    "name": "$~sahamyangsalahtempat",
+                    "name": "$~berbagi salah tempat",
                     "explanation": "$~Saya hanya bisa membagikan hal-hal di tingkat @Program, bukan di dalam apa pun!",
                     "resolution": "$~Hapus tanda *↑*"
                 },
                 "MissingShareLanguages": {
-                    "name": "$~bahasayanghilang",
+                    "name": "$~bahasa hilang",
                     "explanation": "$~Jika Anda ingin membagikan ini, Anda harus menyebutkan bahasa apa yang digunakan, agar orang lain tahu apakah mereka dapat membacanya!",
                     "resolution": "$~Hapus tanda *↑*"
                 },
                 "RequiredAfterOptional": {
-                    "name": "$~inputwajibsetelahopsional",
+                    "name": "$~masukan wajib setelah masukan pilihan",
                     "explanation": "$~Saya tidak bisa berada di sini, ada @Bind opsional sebelum saya.",
                     "resolution": "$~Pindahkan input yang wajib diisi sebelum input opsional."
                 },
                 "UnexpectedEtc": {
-                    "name": "$~Masukantakterdugasetelahdaftarmasukan",
+                    "name": "$~masukan tak terduga setelah daftar masukan",
                     "explanation": "$~Panjangnya hanya bisa bervariasi di dalam @FunctionDefinition.",
                     "resolution": "$~Hapus ***"
                 },
                 "UnusedBind": {
-                    "name": "$~pengikatyangtidakterpakai",
+                    "name": "$~pengikat tak terpakai",
                     "explanation": "$~Nama saya $name , tetapi tidak ada yang menggunakan saya. Mungkin saya tidak dibutuhkan?",
                     "resolution": "$~Hapus pengikatan ini"
                 },
                 "ShadowsKeyword": {
-                    "name": "$~bayangansebuahkatakunci",
+                    "name": "$~menutupi kata kunci",
                     "explanation": "$~Nama ini juga merupakan kata kunci $keyword , jadi saya akan membacanya sebagai nama di sini; kata kunci $keyword masih berfungsi di tempat lain."
                 }
             }
@@ -738,14 +738,14 @@
             "finish": "$~Selesai, saya mendapatkan $value",
             "conflict": {
                 "ExpectedEndingExpression": {
-                    "name": "$~ekspresiyanghilang",
+                    "name": "$~ekspresi hilang",
                     "explanation": "$~Saya membutuhkan setidaknya satu ekspresi yang bukan @Bind, agar saya memiliki nilai untuk dikembalikan.",
                     "resolution": "$~Tambahkan ekspresi terakhir"
                 }
             }
         },
         "BooleanLiteral": {
-            "name": "$~literalboolean",
+            "name": "$~nilai benar-salah",
             "description": "$~buat $value [true|false] boolean",
             "emotion": "precise",
             "doc": "$~Saya adalah \\⊤\\ atau \\⊥\\. Lihat @Boolean untuk mempelajari lebih lanjut tentang logika indah kami.",
@@ -764,12 +764,12 @@
             "start": "$~Meminjam $name dari $source",
             "conflict": {
                 "UnknownBorrow": {
-                    "name": "$~pinjamantakdikenal",
+                    "name": "$~pinjaman tidak dikenal",
                     "explanation": "$~Saya tidak tahu @Source dengan nama ini.",
                     "resolution": "$~Hapus pinjaman ini"
                 },
                 "BorrowCycle": {
-                    "name": "$~meminjamyangmerujukdirisendiri",
+                    "name": "$~pinjaman merujuk diri sendiri",
                     "explanation": "$~Ini bergantung pada $borrow , yang bergantung pada @Source , sehingga program tidak dapat dievaluasi.",
                     "resolution": "$~Hapus pinjaman ini untuk memutus siklusnya."
                 }
@@ -818,7 +818,7 @@
             "finish": "$~Saya rasa itu adalah $value ?",
             "conflict": {
                 "ExpectedBooleanCondition": {
-                    "name": "$~kondisibooleanyangdiharapkan",
+                    "name": "$~diharapkan kondisi benar-salah",
                     "explanation": "$~Saya membutuhkan @Boolean untuk membuat keputusan, tetapi yang saya dapatkan malah $type .",
                     "resolution": "$~Konversikan ke $expected , karena $expected diperlukan.",
                     "resolutionLiteral": "$~Tandai daftar, himpunan, atau peta sebagai literal dengan !, sehingga nilainya tetap spesifik dan tidak digeneralisasi — $expected membutuhkan nilai yang tepat.",
@@ -835,7 +835,7 @@
             }
         },
         "ConversionDefinition": {
-            "name": "$~definisikonversi",
+            "name": "$~definisi konversi",
             "description": "$~definisikan konversi $input ke $output",
             "emotion": "excited",
             "label": {
@@ -852,7 +852,7 @@
             "start": "$~Mantap, konversi baru!",
             "conflict": {
                 "MisplacedConversion": {
-                    "name": "$~konversiyangsalahtempat",
+                    "name": "$~konversi salah tempat",
                     "explanation": "$~Wah, aku tidak bisa berada di sini, hanya di @Block.",
                     "resolution": "$~Hapus konversi ini"
                 }
@@ -875,7 +875,7 @@
             "finish": "$~Hebat, saya menghasilkan $value",
             "conflict": {
                 "UnknownConversion": {
-                    "name": "$~konversitidakdiketahui",
+                    "name": "$~konversi tidak dikenal",
                     "explanation": "$~Kami tidak menemukan cara untuk mengkonversi $expected menjadi $given",
                     "resolution": "$~Hapus konversi"
                 }
@@ -901,7 +901,7 @@
             "finish": "$~Saya membuat tabel baru tanpa baris yang cocok!"
         },
         "DocumentedExpression": {
-            "name": "$~menjelaskanungkapan",
+            "name": "$~ekspresi terjelaskan",
             "description": "$~lampirkan dokumentasi ke sebuah ekspresi",
             "emotion": "eager",
             "doc": [
@@ -939,7 +939,7 @@
             "finish": "$~Saya mengevaluasinya menjadi $value",
             "conflict": {
                 "IncompatibleInput": {
-                    "name": "$~masukanyangtidakkompatibel",
+                    "name": "$~masukan tidak cocok",
                     "explanation": "$~Saya mengharapkan $expected , tetapi menerima $given",
                     "resolution": "$~Konversikan ke $expected",
                     "resolutionLiteral": "$~Tandai daftar, himpunan, atau peta sebagai literal dengan !, sehingga nilainya tetap spesifik dan tidak digeneralisasi — $expected membutuhkan nilai yang tepat.",
@@ -955,43 +955,43 @@
                     "explanationDivideByZero": "$~Ini bisa jadi ø karena $source mungkin dibagi nol, dan angka diperlukan di sini."
                 },
                 "UnexpectedTypeInput": {
-                    "name": "$~inputtipeyangtidakterduga",
+                    "name": "$~masukan jenis tak terduga",
                     "explanation": "$~Saya adalah masukan tambahan yang tidak terduga.",
                     "resolution": "$~Hapus input tipe ini"
                 },
                 "MissingInput": {
-                    "name": "$~inputhilang",
+                    "name": "$~masukan hilang",
                     "explanation": "$~Saya tidak bisa mengevaluasi $name tanpa input $input :(",
                     "resolutionAddInput": "$~Tambahkan $input yang hilang, dengan nilai defaultnya.",
                     "resolutionPlaceholder": "$~Tambahkan $input yang hilang sebagai placeholder, lalu pilih nilai dari menu pelengkapan otomatis."
                 },
                 "NotInstantiable": {
-                    "name": "$~strukturtidaklengkap",
+                    "name": "$~struktur tidak lengkap",
                     "explanation": "$~Saya tidak bisa membuat @StructureDefinition ini karena memiliki fungsi yang belum diimplementasikan.",
                     "resolution": "$~Membangun kerangka untuk fungsi-fungsi yang hilang."
                 },
                 "UnexpectedInput": {
-                    "name": "$~masukantakterduga",
+                    "name": "$~masukan tak terduga",
                     "explanation": "$~Saya adalah masukan yang tak terduga.",
                     "resolution": "$~Hapus input ini"
                 },
                 "UnknownInput": {
-                    "name": "$~masukantidakdikenal",
+                    "name": "$~masukan tidak dikenal",
                     "explanation": "$~Fungsi ini * $name * tidak mengharapkan input berupa nama saya.",
                     "resolution": "$~Ubah nama input ini menjadi * $name *"
                 },
                 "InputListMustBeLast": {
-                    "name": "$~masukantambahanbukanlahyangterakhir",
+                    "name": "$~masukan tambahan bukan yang terakhir",
                     "explanation": "$~daftar input harus berada di akhir",
                     "resolution": "$~Pindahkan input daftar ke akhir."
                 },
                 "SeparatedEvaluate": {
-                    "name": "$~evaluasiambigu",
+                    "name": "$~evaluasi tidak jelas",
                     "explanation": "$~Apakah $name adalah nama dari $structure [ $structure | @FunctionDefinition ] yang ingin Anda evaluasi? Coba hapus spasi setelahnya, agar saya tahu itu adalah @Evaluate dan bukan @Block terpisah.",
                     "resolution": "$~Tutup spasi antara * $name * dan inputnya"
                 },
                 "UnknownTimeZone": {
-                    "name": "$~zonaWaktuTidakDikenal",
+                    "name": "$~zona waktu tidak dikenal",
                     "explanation": "$~Saya tidak tahu zona waktu bernama *$zone*. Zona waktu dinamai sesuai wilayah dan kota, seperti \\'America/New_York'\\. Coba tulis kota yang kamu tahu, dan saya akan menyarankan satu!",
                     "resolution": "$~Ubah menjadi *$zone*, zona waktu dari $city"
                 }
@@ -1074,14 +1074,14 @@
             "start": "$~Mari kita buat fungsi ini!",
             "conflict": {
                 "NoExpression": {
-                    "name": "$~ekspresiyanghilang",
+                    "name": "$~ekspresi hilang",
                     "explanation": "$~Saya membutuhkan ekspresi untuk dievaluasi, bisakah Anda menambahkannya?",
                     "resolution": "$~Tambahkan isi placeholder"
                 }
             }
         },
         "Iteration": {
-            "name": "$~fungsitingkattinggi",
+            "name": "$~fungsi tingkat lebih tinggi",
             "description": "$~mengulang nilai-nilai daftar secara internal",
             "emotion": "kind",
             "doc": "$~Saya adalah @FunctionDefinition yang sangat istimewa yang beroperasi pada daftar hal-hal. Anda tidak perlu tahu apa pun tentang saya, selain bahwa saya memungkinkan fungsi seperti @List.translate.",
@@ -1132,7 +1132,7 @@
             "finish": "$~$value [value adalah $type | value bukan $type ]",
             "conflict": {
                 "ImpossibleType": {
-                    "name": "$~tipeyangmustahil",
+                    "name": "$~jenis tidak mungkin",
                     "explanation": "$~ini tidak mungkin menjadi $type",
                     "resolutionIsFalse": "$~Ganti pemeriksaan tipe ini dengan *⊥* (jawabannya selalu salah)",
                     "resolutionDropOtherwise": "$~Hilangkan *??* — sisi kiri tidak pernah *ø*"
@@ -1146,7 +1146,7 @@
             }
         },
         "IsLocale": {
-            "name": "$~adalahbahasa",
+            "name": "$~adalah bahasa",
             "description": "$~Kembalikan nilai true jika bahasa telah dipilih.",
             "emotion": "kind",
             "doc": [
@@ -1158,7 +1158,7 @@
             "start": "$~Apakah bahasanya $locale ?"
         },
         "ListAccess": {
-            "name": "$~aksesdaftar",
+            "name": "$~akses daftar",
             "description": "$~dapatkan nilai pada posisi daftar",
             "emotion": "cheerful",
             "doc": [
@@ -1169,7 +1169,7 @@
             "finish": "$~Item pada indeks tersebut adalah $value !"
         },
         "ListLiteral": {
-            "name": "$~literaldaftar",
+            "name": "$~nilai daftar",
             "description": "$~Buat daftar berisi $count nilai.",
             "emotion": "eager",
             "doc": "$~Saya adalah @List nilai tertentu! Lihat @List untuk mempelajari lebih lanjut tentang apa yang dapat Anda lakukan dengan saya.",
@@ -1186,7 +1186,7 @@
             ]
         },
         "MapLiteral": {
-            "name": "$~petaliteral",
+            "name": "$~nilai peta",
             "description": "$~Buat peta berisi $count pasangan kunci-nilai.",
             "emotion": "kind",
             "label": {
@@ -1197,7 +1197,7 @@
             "finish": "$~Saya menghubungkan semua orang, $value",
             "conflict": {
                 "NotAKeyValue": {
-                    "name": "$~nilaiyanghilang",
+                    "name": "$~nilai hilang",
                     "explanation": "$~Saya berada di dalam @Map, jadi saya membutuhkan sebuah nilai.",
                     "resolution": "$~Bungkus sebagai pasangan kunci-nilai"
                 }
@@ -1224,28 +1224,28 @@
             "finish": "$~Oke, kita sudah mendapatkan nilai akhirnya!"
         },
         "NumberLiteral": {
-            "name": "$~literalangka",
+            "name": "$~nilai angka",
             "description": "$~buat angka $number $unit [ $unit |]",
             "emotion": "excited",
             "doc": "$~Saya adalah @Number tertentu. Anda dapat menulis kepada saya dengan berbagai jenis angka dari berbagai jenis bahasa. Lihat @Number untuk semua yang dapat saya lakukan.",
             "start": "$~$value !",
             "conflict": {
                 "NotANumber": {
-                    "name": "$~bukanangka",
+                    "name": "$~bukan angka",
                     "explanation": "$~Saya kira saya tahu semua angka, tapi saya tidak tahu angka yang ini.",
                     "resolution": "$~Ganti dengan 0*"
                 }
             }
         },
         "InternalExpression": {
-            "name": "$~ekspresiinternal",
+            "name": "$~ekspresi internal",
             "description": "$~jalankan ekspresi pembuat bawaan",
             "emotion": "neutral",
             "doc": "$~Saya adalah ungkapan yang hanya digunakan oleh pencipta aslinya. Bagaimana Anda menemukan saya? Untuk mempelajari lebih lanjut tentang saya, Anda perlu berbicara dengan mereka.",
             "start": "$~Ekspresi rahasia"
         },
         "NoneLiteral": {
-            "name": "$~tidakadayangharfiah",
+            "name": "$~nilai kosong",
             "description": "$~ciptakan nilai ketiadaan",
             "emotion": "neutral",
             "doc": "$~Saya membuat @None , nilai ketiadaan yang unik. Lihat @None untuk mempelajari lebih lanjut tentangnya.",
@@ -1351,7 +1351,7 @@
             "finish": "$~Saya menyalin strukturnya, tetapi dengan $property sebagai $value",
             "conflict": {
                 "InvalidProperty": {
-                    "name": "$~propertiyangtidakdiketahui",
+                    "name": "$~properti tidak dikenal",
                     "explanation": "$~Saya bukan nama dalam struktur $structure , jadi saya tidak dapat dimurnikan.",
                     "resolution": "$~Ganti nama menjadi * $name *"
                 }
@@ -1392,7 +1392,7 @@
             "finish": "$~Nilai stream yang baru adalah $value",
             "conflict": {
                 "ExpectedStream": {
-                    "name": "$~aliranyangdiharapkan",
+                    "name": "$~diharapkan aliran",
                     "explanation": "$~$condition tidak merujuk pada stream, jadi saya tidak akan pernah bereaksi!",
                     "resolution": "$~Abaikan reaksinya, pertahankan hanya nilai awalnya."
                 }
@@ -1412,18 +1412,18 @@
             "conflict": {
                 "UnknownName": {
                     "conflict": {
-                        "name": "$~namatidakdiketahui",
+                        "name": "$~nama tidak dikenal",
                         "explanation": "$~$name [Saya tidak kenal siapa pun bernama $name di $scope [ $scope |this @Block]|Bisakah Anda memberi saya sebuah nama?]"
                     },
                     "resolution": "$~Apakah maksud Anda * $suggestion ?*"
                 },
                 "ReferenceCycle": {
-                    "name": "$~nilaiyangmerujukpadadirisendiri",
+                    "name": "$~nilai merujuk diri sendiri",
                     "explanation": "$~Eh, nilai $name bergantung pada dirinya sendiri, jadi bagaimana saya tahu nilai apa yang harus saya berikan padanya?",
                     "resolution": "$~Ganti * $name * dengan placeholder untuk memutus siklus"
                 },
                 "UnexpectedTypeVariable": {
-                    "name": "$~variabeltipetakterduga",
+                    "name": "$~variabel jenis tak terduga",
                     "explanation": "$~Saya tidak tahu harus berbuat apa dengan jenis input ini.",
                     "resolution": "$~Hapus variabel tipe ini dari fungsi."
                 }
@@ -1449,14 +1449,14 @@
             "finish": "$~Saya membuat tabel baru hanya dengan baris dan kolom yang terpilih!",
             "conflict": {
                 "ExpectedSelectName": {
-                    "name": "$~namakolomhilang",
+                    "name": "$~nama kolom hilang",
                     "explanation": "$~Saya membutuhkan setidaknya satu nama kolom.",
                     "resolution": "$~Hapus sel ini"
                 }
             }
         },
         "SetLiteral": {
-            "name": "$~aturliteral",
+            "name": "$~nilai himpunan",
             "description": "$~buat satu set berisi $count item",
             "emotion": "eager",
             "doc": "$~Saya adalah @Set spesifik yang berisi nilai-nilai tertentu. Lihat @Set untuk mempelajari lebih lanjut tentang cara bekerja dengan saya.",
@@ -1464,7 +1464,7 @@
             "finish": "$~Saya membuat sebuah set $value !"
         },
         "SetOrMapAccess": {
-            "name": "$~aksesset/peta",
+            "name": "$~akses himpunan/peta",
             "description": "$~periksa apakah set atau peta berisi",
             "emotion": "kind",
             "doc": [
@@ -1478,7 +1478,7 @@
             "finish": "$~Nilainya adalah $value",
             "conflict": {
                 "IncompatibleKey": {
-                    "name": "$~kuncitidakkompatibel",
+                    "name": "$~kunci tidak cocok",
                     "explanation": "$~Saya mengharapkan kunci bertipe $expected",
                     "resolution": "$~Konversikan ke $expected , karena $expected diperlukan.",
                     "resolutionLiteral": "$~Tandai daftar, himpunan, atau peta sebagai literal dengan !, sehingga nilainya tetap spesifik dan tidak digeneralisasi — $expected membutuhkan nilai yang tepat.",
@@ -1537,17 +1537,17 @@
             "start": "$~Mari kita definisikan struktur yang indah ini.",
             "conflict": {
                 "DisallowedInputs": {
-                    "name": "$~inputtidakdiizinkan",
+                    "name": "$~masukan tidak diperbolehkan",
                     "explanation": "$~Saya tidak dapat menerima input karena satu atau lebih fungsi antarmuka saya belum diimplementasikan.",
                     "resolution": "$~Hapus inputnya"
                 },
                 "IncompleteImplementation": {
-                    "name": "$~strukturtidaklengkap",
+                    "name": "$~struktur tidak lengkap",
                     "explanation": "$~Semua fungsi saya harus diimplementasikan, atau tidak satu pun yang diimplementasikan. Tidak boleh ada campuran yang berantakan!",
                     "resolution": "$~Hilangkan input untuk menjadikannya antarmuka."
                 },
                 "NotAnInterface": {
-                    "name": "$~bukanantarmuka",
+                    "name": "$~bukan antarmuka",
                     "explanation": "$~Saya bukanlah sebuah antarmuka; sebuah struktur hanya dapat mengimplementasikan antarmuka, bukan struktur lain.",
                     "resolution": "$~Hapus ini dari daftar antarmuka"
                 },
@@ -1559,7 +1559,7 @@
             }
         },
         "StructureDefinitionType": {
-            "name": "$~definisistruktur",
+            "name": "$~definisi struktur",
             "description": "$~$name",
             "emotion": "kind",
             "doc": [
@@ -1567,7 +1567,7 @@
             ]
         },
         "TableLiteral": {
-            "name": "$~literaltabel",
+            "name": "$~nilai tabel",
             "description": "$~Buat tabel dengan jumlah baris sebanyak $count",
             "emotion": "angry",
             "doc": "$~Saya adalah tabel tertentu dengan baris-baris tertentu. Lihat @Table untuk mengetahui bagaimana saya dapat membantu.",
@@ -1575,7 +1575,7 @@
             "finish": "$~Dievaluasi ke tabel baru $value"
         },
         "TextLiteral": {
-            "name": "$~literalteks",
+            "name": "$~nilai teks",
             "description": "$~buat nilai teks $text",
             "emotion": "serious",
             "label": {
@@ -1594,43 +1594,43 @@
             "doc": "$~Saya menampilkan beberapa teks, dengan tag @Language opsional. Lihat @Text untuk mempelajari lebih lanjut!",
             "conflict": {
                 "phone": {
-                    "name": "$~kemungkinannomortelepon",
+                    "name": "$~kemungkinan nomor telepon",
                     "explanation": "$~Apakah * $text * nomor telepon seseorang? Jangan bagikan saya secara online jika iya! $reminder"
                 },
                 "email": {
-                    "name": "$~kemungkinanemail",
+                    "name": "$~kemungkinan surel",
                     "explanation": "$~Apakah * $text * adalah email seseorang? Jangan bagikan di sini jika memang demikian! $reminder"
                 },
                 "tin": {
-                    "name": "$~kemungkinanpengidentifikasipajak",
+                    "name": "$~kemungkinan nomor identitas pajak",
                     "explanation": "$~Apakah * $text * merupakan pengidentifikasi pajak? Jika ya, jangan bagikan saya, saya adalah informasi yang sangat sensitif! $reminder"
                 },
                 "address": {
-                    "name": "$~kemungkinanalamat",
+                    "name": "$~kemungkinan alamat",
                     "explanation": "$~Apakah * $text * alamat rumah seseorang? Jika ya, jangan cantumkan saya di sini, kita tidak ingin ada yang diuntit! $reminder"
                 },
                 "handle": {
-                    "name": "$~kemungkinannamapengguna",
+                    "name": "$~kemungkinan nama pengguna",
                     "explanation": "$~Apakah * $text * adalah nama pengguna Anda di tempat lain di internet? Jika ya, jangan bagikan di sini kecuali Anda benar-benar bermaksud demikian. $reminder"
                 },
                 "resolution": "$~Ini bukan data sensitif.",
                 "reminder": "$~Catatan: Anda dapat membatalkan tindakan ini dan melihat hal-hal lain yang telah Anda tandai sebagai tidak sensitif di dialog berbagi.",
                 "character": {
-                    "name": "$~karakterkustomyangmungkin",
+                    "name": "$~kemungkinan karakter khusus",
                     "explanation": "$~Ini sepertinya nama karakter. Untuk menampilkannya, gunakan @FormattedLiteral sebagai ganti @TextLiteral.",
                     "resolutionStrip": "$~Hapus karakter khusus dari teks."
                 }
             }
         },
         "FormattedLiteral": {
-            "name": "$~teksberformat",
+            "name": "$~teks berformat",
             "description": "$~buat teks berformat $text",
             "emotion": "serious",
             "doc": "$~Saya mewakili banyak @FormattedTranslation berbeda dari teks yang diformat. Saat mengevaluasi, saya akan memilih yang paling sesuai berdasarkan bahasa yang dipilih oleh audiens.",
             "start": "$~Mari kita buat teks dalam bahasa saat ini."
         },
         "FormattedTranslation": {
-            "name": "$~terjemahanberformat",
+            "name": "$~terjemahan berformat",
             "description": "$~menerjemahkan teks yang diformat ke $language",
             "emotion": "serious",
             "doc": [
@@ -1664,14 +1664,14 @@
             "start": "$~Dievaluasi menjadi $value",
             "conflict": {
                 "MisplacedThis": {
-                    "name": "$~referensiinisalahtempat",
+                    "name": "$~rujukan ini salah tempat",
                     "explanation": "$~Saya hanya diperbolehkan dalam struktur, konversi, reaksi, atau penerjemahan.",
                     "resolution": "$~Ganti dengan tempat penampung"
                 }
             }
         },
         "UnaryEvaluate": {
-            "name": "$~evaluasitunggal",
+            "name": "$~evaluasi tunggal",
             "description": "$~terapkan $operator unary",
             "emotion": "kind",
             "label": {
@@ -1708,13 +1708,13 @@
             "conflict": {
                 "UnparsableConflict": {
                     "conflict": {
-                        "name": "$~kodeyangtidakdapatdibaca",
+                        "name": "$~kode tidak terbaca",
                         "explanation": "$~@FunctionDefinition di sini, @UnparsableExpression tidak tahu jenis $expression [ expression | type ] apa ini."
                     },
                     "resolution": "$~Apakah maksud Anda mengetik $first , $second ?"
                 },
                 "UnclosedDelimiter": {
-                    "name": "$~pembatasyangtidaktertutup",
+                    "name": "$~pembatas tidak tertutup",
                     "explanation": "$~Saya memperkirakan $expected beberapa saat setelah $unclosed",
                     "resolution": "$~Tambahkan * $expected * yang hilang"
                 }
@@ -1740,12 +1740,12 @@
             "finish": "$~Dievaluasi ke tabel baru dengan baris yang direvisi!",
             "conflict": {
                 "ExpectedColumnBind": {
-                    "name": "$~nilaikolomhilang",
+                    "name": "$~nilai kolom hilang",
                     "explanation": "$~Saya membutuhkan nilai untuk setiap kolom.",
                     "resolution": "$~Bungkus sel ini sebagai kolom bernama."
                 },
                 "IncompatibleCellType": {
-                    "name": "$~tipeselyangtidakkompatibel",
+                    "name": "$~jenis sel tidak cocok",
                     "explanation": "$~Seharusnya saya bertipe $expected , tetapi saya bertipe $given",
                     "resolution": "$~Konversikan ke $expected , karena $expected diperlukan.",
                     "resolutionLiteral": "$~Tandai daftar, himpunan, atau peta sebagai literal dengan !, sehingga nilainya tetap spesifik dan tidak digeneralisasi — $expected membutuhkan nilai yang tepat.",
@@ -1848,7 +1848,7 @@
             ],
             "conflict": {
                 "UnknownTypeName": {
-                    "name": "$~namatipetidakdiketahui",
+                    "name": "$~nama jenis tidak dikenal",
                     "explanation": "$~Nama tipe hanya dapat merujuk ke struktur atau variabel tipe, tetapi ini merujuk ke tipe $type",
                     "resolution": "$~Ganti dengan placeholder tipe"
                 }
@@ -1879,7 +1879,7 @@
             ]
         },
         "StreamDefinitionType": {
-            "name": "$~definisialiran",
+            "name": "$~definisi aliran",
             "description": "$~tipe aliran yang ditentukan",
             "emotion": "angry",
             "doc": "$~Saya mewakili aliran data yang telah Anda definisikan, yang mana itu tidak mungkin, jadi mengapa Anda membaca ini?"
@@ -1913,7 +1913,7 @@
             "doc": "$~Saya mewakili sebuah Tabel.",
             "conflict": {
                 "ExpectedColumnType": {
-                    "name": "$~tipekolomhilang",
+                    "name": "$~jenis kolom hilang",
                     "explanation": "$~Saya membutuhkan tipe kolom.",
                     "resolution": "$~Tambahkan placeholder tipe"
                 }
@@ -1961,7 +1961,7 @@
             "doc": "$~Saya mewakili tipe dari ekspresi yang tidak dikenal. Saya muncul ketika Anda mencoba menggunakan ekspresi tersebut untuk sesuatu."
         },
         "VariableType": {
-            "name": "$~tipevariabel",
+            "name": "$~jenis variabel",
             "description": "$~mewakili variabel tipe yang sedang digunakan",
             "emotion": "curious",
             "doc": "$~Saya bertindak sebagai pengganti @TypeVariable — sebuah jenis nilai yang tidak diketahui — dalam semua negosiasi antar nilai."
@@ -1973,7 +1973,7 @@
             "doc": "$~Saya mewakili sebuah nilai yang tipenya bergantung pada dirinya sendiri, sehingga kita tidak bisa mengetahui jenis nilai apa itu."
         },
         "UnknownVariableType": {
-            "name": "$~variabeltidakdiketahui",
+            "name": "$~variabel tidak dikenal",
             "description": "$~mewakili variabel tipe yang tidak diketahui",
             "emotion": "curious",
             "doc": "$~Terkadang kita mencoba menebak nilai sesuatu; saya hadir ketika kita tidak tahu."
@@ -1985,13 +1985,13 @@
             "doc": "$~Saya mewakili sebuah nilai yang tipenya bukan seperti yang kita harapkan — seperti ketika @ListAccess membutuhkan @Number tetapi mendapatkan sesuatu yang lain."
         },
         "NoExpressionType": {
-            "name": "$~tidakadaekspresi",
+            "name": "$~tidak ada ekspresi",
             "description": "$~ketik blok kosong",
             "emotion": "angry",
             "doc": "$~Saya tipe orang yang Anda dapatkan ketika sebuah @Block tidak memiliki ekspresi di dalamnya. Anda tahu itu setidaknya membutuhkan satu ekspresi — jadi berikan satu!"
         },
         "NotEnclosedType": {
-            "name": "$~tidakdalamstruktur,konversi,ataureaksi",
+            "name": "$~tidak dalam struktur, konversi, atau reaksi",
             "description": "$~Tandai ini jika digunakan di luar struktur.",
             "emotion": "curious",
             "doc": "$~Saya muncul ketika @This digunakan di tempat yang tidak seharusnya, sehingga tidak ada yang tahu nilai apa yang diwakilinya."
@@ -2003,7 +2003,7 @@
             "doc": "$~Saat Anda menggunakan @ExpressionPlaceholder, tetapi tidak menyebutkan tipenya, sayalah tipe yang akan Anda dapatkan. Terima saja!"
         },
         "UnknownNameType": {
-            "name": "$~namatidakdiketahui",
+            "name": "$~nama tidak dikenal",
             "description": "$~$name [ $name belum didefinisikan|nama belum diberikan]",
             "emotion": "curious",
             "doc": "$~Saya mewakili nama yang tidak dapat ditemukan oleh @Reference atau @PropertyReference , ketika kami tidak tahu siapa yang Anda maksud."
@@ -2031,17 +2031,17 @@
             "next": "$~Item berikutnya: $value !",
             "conflict": {
                 "ExpectedCollection": {
-                    "name": "$~koleksiyangdiharapkan",
+                    "name": "$~diharapkan koleksi",
                     "explanation": "$~Saya mengharapkan sisi kiri dari konversi koleksi harus berupa koleksi, tetapi yang saya dapatkan $type"
                 },
                 "ExpectedThis": {
-                    "name": "$~mengharapkanini",
+                    "name": "$~diharapkan ini",
                     "explanation": "$~Apakah Anda bermaksud menggunakan @This untuk merujuk pada item dalam koleksi ini?"
                 }
             }
         },
         "ExternalExample": {
-            "name": "$~contoheksternal",
+            "name": "$~contoh eksternal",
             "description": "$~Tampilkan kode dari bahasa pemrograman lain dalam dokumentasi.",
             "emotion": "serious",
             "doc": [
@@ -2085,7 +2085,7 @@
             "start": "$~Coba saya lihat seperti apa teks ini.",
             "conflict": {
                 "EmptyPattern": {
-                    "name": "$~polakosong",
+                    "name": "$~pola kosong",
                     "explanation": "$~Saya tidak punya komponen, jadi saya tidak bisa mencocokkan apa pun yang berguna. Bisakah Anda menambahkan komponen?",
                     "resolution": "$~Tambahkan \\◌\\ untuk mencocokkan salah satu karakter."
                 }
@@ -2115,13 +2115,13 @@
             ],
             "conflict": {
                 "OverlappingAlternatives": {
-                    "name": "$~pilihanyangtumpangtindih",
+                    "name": "$~pilihan tumpang tindih",
                     "explanation": "$~$shorter adalah awal dari $longer , dan pilihan terpanjang selalu menang, jadi $shorter hanya cocok ketika $longer tidak bisa. Apakah maksudmu begitu?"
                 }
             }
         },
         "PatternClass": {
-            "name": "$~kelaskarakter",
+            "name": "$~kelas karakter",
             "description": "$~cocokkan satu jenis karakter",
             "emotion": "curious",
             "doc": [
@@ -2145,7 +2145,7 @@
             ],
             "conflict": {
                 "UnrecognizedPatternProperty": {
-                    "name": "$~propertiyangtidakdiketahui",
+                    "name": "$~properti tidak dikenal",
                     "explanation": "$~Saya tidak mengenali properti $name . Coba kategori, skrip, atau ID Unicode.",
                     "resolution": "$~Ubah menjadi $suggestion"
                 }
@@ -2163,7 +2163,7 @@
             ],
             "conflict": {
                 "MalformedQuantifier": {
-                    "name": "$~hitunganyangmustahil",
+                    "name": "$~jumlah mustahil",
                     "explanation": "$~Jumlah terendah saya lebih besar daripada jumlah tertinggi saya, jadi saya tidak akan pernah bisa mencocokkannya.",
                     "resolution": "$~Tukar urutan saya sehingga yang lebih kecil berada di urutan pertama."
                 }
@@ -2192,7 +2192,7 @@
             ],
             "conflict": {
                 "DuplicateCaptureName": {
-                    "name": "$~tangkapanduplikat",
+                    "name": "$~tangkapan ganda",
                     "explanation": "$~Tangkapan data lain sudah menggunakan nama $name , jadi yang ini akan menimpanya.",
                     "resolution": "$~Ganti nama tangkapan ini menjadi $replacement"
                 }
@@ -2222,7 +2222,7 @@
             ]
         },
         "PatternSet": {
-            "name": "$~setglif",
+            "name": "$~kumpulan glif",
             "description": "$~cocokkan salah satu grafem ini",
             "emotion": "curious",
             "doc": [
@@ -2277,13 +2277,13 @@
             ],
             "conflict": {
                 "MissingPatternLocale": {
-                    "name": "$~bahasayanghilang",
+                    "name": "$~bahasa hilang",
                     "explanation": "$~Saya butuh bahasa untuk mengetahui cara mencari kata. Bisakah Anda menambahkannya, seperti \\/en\\ ?"
                 }
             }
         },
         "PatternWordEdge": {
-            "name": "$~tepikata",
+            "name": "$~tepi kata",
             "description": "$~cocokkan batas kata",
             "emotion": "curious",
             "doc": [
@@ -2317,7 +2317,7 @@
             ],
             "conflict": {
                 "UndefinedBackreference": {
-                    "name": "$~namatidakdiketahui",
+                    "name": "$~nama tidak dikenal",
                     "explanation": "$~Tidak ada tangkapan atau kelas bernama $name , jadi saya tidak memiliki apa pun untuk dicocokkan.",
                     "resolution": "$~Ubah menjadi $suggestion"
                 }
@@ -2335,7 +2335,7 @@
             ]
         },
         "PatternCaseFold": {
-            "name": "$~abaikanperbedaanhurufbesardankecil",
+            "name": "$~abaikan huruf besar-kecil",
             "description": "$~pencocokan mengabaikan huruf besar/kecil",
             "emotion": "curious",
             "doc": [
@@ -2346,7 +2346,7 @@
             ]
         },
         "PatternType": {
-            "name": "$~jenispola",
+            "name": "$~jenis pola",
             "description": "$~jenis pola",
             "emotion": "curious",
             "doc": [
@@ -2996,7 +2996,7 @@
             "name": ["$~[]", "$~Daftar"],
             "kind": "$~Baik",
             "out": "$~Hasil",
-            "outofbounds": "$~di luar batas",
+            "outofbounds": "$~diLuarBatas",
             "function": {
                 "add": {
                     "doc": [
@@ -5816,7 +5816,7 @@
             "tour": {
                 "launch": "$~ikuti tur kontrol proyek",
                 "controls": "$~Kontrol-kontrol di bagian bawah ini berlaku untuk *proyek secara keseluruhan*, terlepas dari ubin mana yang sedang Anda kerjakan.",
-                "name": "$~Kolom/name/adalahnamaproyekAnda.Namaakanmunculditampilan*proyek*dan*galeri*.",
+                "name": "$~Kolom /name/ adalah nama proyekmu. Nama muncul di tampilan *proyek* dan *galeri*.",
                 "sourceToggle": "$~Tombol ini menampilkan atau menyembunyikan *file sumber*. *Tombol lainnya* pada baris ini melakukan hal yang sama untuk ubin lainnya.",
                 "addSource": "$~Beberapa proyek mendapat manfaat dari *beberapa* file sumber, di mana data disimpan dalam satu file dan diimpor ke sumber *utama*. Tombol /tambah sumber/ membuat sumber baru.",
                 "share": "$~Dialog /share/ memungkinkan Anda untuk membagikan proyek Anda dengan *galeri*, dengan *publik*, atau menyalinnya sebagai *teks* untuk dibagikan di tempat lain.",
@@ -7819,7 +7819,7 @@
                     }
                 },
                 "feedback": {
-                    "name": "$~KaraktermemerlukannamaWordplayyangvaliddenganpanjangminimal1karakter.Namatersebuttidakbolehberupa'UI',angkadesimalatauheksadesimal,ataunamafiturbahasabawaan.",
+                    "name": "$~Karakter membutuhkan nama Wordplay yang sah dengan panjang minimal 1 karakter. Nama tidak boleh 'UI', angka desimal atau heksadesimal, atau nama fitur bahasa bawaan.",
                     "description": "$~Karakter-karakter tersebut membutuhkan deskripsi agar mereka yang tidak dapat melihat tahu apa yang mereka wakili.",
                     "end": "$~atau tekan escape.",
                     "loadfail": "$~Terdapat masalah saat memuat karakter ini.",
@@ -7883,7 +7883,7 @@
                     "confirm": "$~Periksa alamat email lama Anda untuk mengkonfirmasi alamat email baru Anda.",
                     "delete": "$~Apakah Anda ingin kami melupakan semua yang telah Anda buat di sini? Ini tidak bisa diubah.",
                     "reallyDelete": "$~Apakah Anda yakin? Akun dan pengaturan Anda akan segera dihapus dan proyek Anda akan dijadwalkan untuk dihapus. Kolaborator pada proyek Anda akan segera kehilangan akses ke proyek tersebut. Ketik email atau nama pengguna Anda untuk mengkonfirmasi bahwa ini yang Anda inginkan.",
-                    "name": "$~PilihemojiataukarakterkhususuntukmewakilidiriAndakepadaoranglain."
+                    "name": "$~Pilih emoji atau karakter khusus untuk mewakili dirimu kepada orang lain."
                 },
                 "error": {
                     "expired": "$~Tautan ini telah kedaluwarsa.",

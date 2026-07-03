@@ -359,17 +359,17 @@
             ],
             "conflict": {
                 "UnknownLanguage": {
-                    "name": "$~okäntspråk",
+                    "name": "$~okänt språk",
                     "explanation": "$~Jag kan inte det här språket",
                     "resolution": "$~Ta bort den här språkkoden"
                 },
                 "MissingLanguage": {
-                    "name": "$~saknatspråk",
+                    "name": "$~saknat språk",
                     "explanation": "$~Jag saknar ett språk. Kan du lägga till ett?",
                     "resolution": "$~Ta bort den tomma språktaggen"
                 },
                 "DuplicateLanguage": {
-                    "name": "$~dupliceratspråk",
+                    "name": "$~dubblett av språk",
                     "explanation": "$~Du använde språket ' $code ' två gånger. Taggar för blandspråk bör bara lista varje språk en gång.",
                     "resolution": "$~Ta bort dubbletten * $code * tagg"
                 }
@@ -413,28 +413,28 @@
             "doc": "$~Jag representerar en rad i en @Table. Det är nog bäst att gå och prata med @Table, de vet allt om mig. Jag sitter bara och håller värderingar i linje :(",
             "conflict": {
                 "InvalidRow": {
-                    "name": "$~ogiltigrad",
+                    "name": "$~ogiltig rad",
                     "explanation": "$~Rader måste antingen vara alla värden eller alla @Bind.",
                     "resolutionKeepPositional": "$~Ta bort de namngivna cellerna, behåll endast de positionella",
                     "resolutionUnwrapInputs": "$~Ta bort namnen från de namngivna cellerna"
                 },
                 "MissingCell": {
-                    "name": "$~saknadkolumn",
+                    "name": "$~saknad kolumn",
                     "explanation": "$~Jag saknar kolumn $column",
                     "resolution": "$~Lägg till en platshållarcell för * $column *"
                 },
                 "ExtraCell": {
-                    "name": "$~extrakolumn",
+                    "name": "$~extra kolumn",
                     "explanation": "$~Baserat på min tabelltyp är jag en extra kolumn som inte borde vara här.",
                     "resolution": "$~Ta bort den extra cellen"
                 },
                 "UnknownColumn": {
-                    "name": "$~okäntkolumnnamn",
+                    "name": "$~okänt kolumnnamn",
                     "explanation": "$~Jag känner inte till en kolumn med det här namnet",
                     "resolution": "$~Byt namn till * $name *"
                 },
                 "UnexpectedColumnBind": {
-                    "name": "$~ingabindningsrader",
+                    "name": "$~inga binder rader",
                     "explanation": "$~Jag borde vara ett värde, inte @Bind."
                 }
             }
@@ -449,7 +449,7 @@
             ]
         },
         "TypeInputs": {
-            "name": "$~typingångar",
+            "name": "$~typindata",
             "description": "$~fyller i typvariabelplatser",
             "emotion": "curious",
             "doc": "$~Jag är en lista över typer som ersätter @TypeVariables i en @StructureDefinition eller @FunctionDefinition. Jag hjälper alla att veta vilken typ av input de kommer att få."
@@ -461,7 +461,7 @@
             "doc": "$~Jag är en mysterietyp på @FunctionDefinition eller @StructureDefinition, tillhandahållen av @TypeInputs när någon av dem utvärderas. @Set, @List och @Map använder mig.",
             "conflict": {
                 "DuplicateTypeVariable": {
-                    "name": "$~dupliceradtypvariabel",
+                    "name": "$~dubblett av typvariabel",
                     "explanation": "$~Jag har samma namn som $duplicate",
                     "resolution": "$~Ta bort den duplicerade typvariabeln"
                 }
@@ -543,7 +543,7 @@
             ],
             "conflict": {
                 "UnsupportedFontFormat": {
-                    "name": "$~teckensnittsformatsomintestöds",
+                    "name": "$~typsnittsformatet stöds inte",
                     "explanation": "$~Min vän * $face * vet inte hur man är $format .",
                     "resolution": "$~Ta bort formateringen"
                 }
@@ -580,7 +580,7 @@
             ]
         },
         "BinaryEvaluate": {
-            "name": "$~binärutvärdera",
+            "name": "$~binär beräkning",
             "description": "$~$operator operation",
             "emotion": "insecure",
             "doc": [
@@ -601,7 +601,7 @@
             "finish": "$~Titta, jag tjänade $value!",
             "conflict": {
                 "OrderOfOperations": {
-                    "name": "$~tvetydigordning",
+                    "name": "$~tvetydig ordning",
                     "explanation": "$~Jag utvärderar i läsordning, inte i matematisk ordning för operationerna. Vill du använda @Block för att ange i vilken ordning jag ska utvärdera?",
                     "resolutionPEMDAS": "$~Tillämpa PEMDAS matematiska ordning: utvärdera $higher före $lower",
                     "resolutionReading": "$~Fortsätt läsa ordningen: utvärdera $lower före $higher",
@@ -647,18 +647,18 @@
             "conflict": {
                 "DuplicateName": {
                     "conflict": {
-                        "name": "$~dupliceratnamn",
+                        "name": "$~dubblett av namn",
                         "explanation": "$~Någon har namnet $shadowed så jag kan inte ha det namnet."
                     },
                     "resolution": "$~Det finns dubbletter av namn, vill du ta bort ett?"
                 },
                 "DuplicateShare": {
-                    "name": "$~dupliceraddelning",
+                    "name": "$~dubblett av delning",
                     "explanation": "$~Jag har samma namn som $duplicate. Det gör det oklart vad vi delar.",
                     "resolution": "$~Ta bort den här duplicerade delningen"
                 },
                 "IncompatibleType": {
-                    "name": "$~inkompatibeltyp",
+                    "name": "$~inkompatibel typ",
                     "explanation": "$~Jag borde vara typ $expected, men jag är typ $given",
                     "resolution": "$~Konvertera till $expected",
                     "resolutionLiteral": "$~Markera listan, uppsättningen eller kartan som litteral med !, så att dess värden förblir specifika istället för att generaliseras — $expected behöver de exakta värdena",
@@ -674,32 +674,32 @@
                     "explanationDivideByZero": "$~Detta kan vara ø eftersom $source kan dividera med noll, och ett tal krävs här"
                 },
                 "MisplacedShare": {
-                    "name": "$~felplaceraddelning",
+                    "name": "$~felplacerad delning",
                     "explanation": "$~Jag kan bara dela saker på @Program-nivå, inte inuti någonting!",
                     "resolution": "$~Ta bort markören *↑*"
                 },
                 "MissingShareLanguages": {
-                    "name": "$~saknatspråk",
+                    "name": "$~saknat språk",
                     "explanation": "$~Om du vill dela detta måste du ange vilket språk det är på, så att andra vet om de kan läsa det!",
                     "resolution": "$~Ta bort markören *↑*"
                 },
                 "RequiredAfterOptional": {
-                    "name": "$~obligatoriskinmatningeftervalfritt",
+                    "name": "$~obligatorisk indata efter valfri",
                     "explanation": "$~Jag kan inte vara här, det finns en valfri @Bind framför mig",
                     "resolution": "$~Flytta obligatoriska inmatningar före valfria"
                 },
                 "UnexpectedEtc": {
-                    "name": "$~oväntadinmatningefterinmatningslista",
+                    "name": "$~oväntad indata efter indatalista",
                     "explanation": "$~Jag kan bara ha variabel längd i en @FunctionDefinition",
                     "resolution": "$~Ta bort *…*"
                 },
                 "UnusedBind": {
-                    "name": "$~oanvändbindning",
+                    "name": "$~oanvänd bindning",
                     "explanation": "$~Jag heter $name, men ingen utnyttjar mig. Kanske behövs jag inte?",
                     "resolution": "$~Ta bort den här bindningen"
                 },
                 "ShadowsKeyword": {
-                    "name": "$~skuggarettnyckelord",
+                    "name": "$~skuggar ett nyckelord",
                     "explanation": "$~Det här namnet är också nyckelordet $keyword , så jag kommer att läsa det som ett namn här; nyckelordet $keyword fungerar fortfarande på andra ställen."
                 }
             },
@@ -735,7 +735,7 @@
             "finish": "$~Klart, jag fick $value",
             "conflict": {
                 "ExpectedEndingExpression": {
-                    "name": "$~saknatuttryck",
+                    "name": "$~saknat uttryck",
                     "explanation": "Jag behöver minst ett uttryck som inte är @Bind, så att jag har ett värde att returnera.",
                     "resolution": "$~Lägg till ett slutligt uttryck"
                 }
@@ -745,7 +745,7 @@
             }
         },
         "BooleanLiteral": {
-            "name": "$~booleskbokstavlig",
+            "name": "$~boolesk bokstav",
             "description": "$~$value[true|false]",
             "emotion": "precise",
             "doc": "$~Jag är antingen \\⊤\\ eller \\⊥\\. Se @Boolean för att lära dig mer om vår vackra logik.",
@@ -759,12 +759,12 @@
             "start": "$~Lånar $name från $source",
             "conflict": {
                 "UnknownBorrow": {
-                    "name": "$~okändlån",
+                    "name": "$~okänd lån",
                     "explanation": "$~Jag känner inte till en @Source med det här namnet",
                     "resolution": "$~Ta bort detta lån"
                 },
                 "BorrowCycle": {
-                    "name": "$~självrefererandelån",
+                    "name": "$~självrefererande lån",
                     "explanation": "$~detta beror på $borrow, vilket beror på denna @Source, så programmet kan inte utvärderas",
                     "resolution": "$~Ta bort detta lån för att bryta cykeln"
                 }
@@ -813,7 +813,7 @@
             "finish": "$~Jag antar att det är $value?",
             "conflict": {
                 "ExpectedBooleanCondition": {
-                    "name": "$~förväntatboolesktvillkor",
+                    "name": "$~förväntat booleskt villkor",
                     "explanation": "$~Jag behöver en @Boolean för att fatta ett beslut, men jag fick en $type istället.",
                     "resolution": "$~Konvertera det till $expected , eftersom $expected är obligatoriskt.",
                     "resolutionLiteral": "$~Markera listan, uppsättningen eller kartan som litteral med !, så att dess värden förblir specifika istället för att generaliseras — $expected behöver de exakta värdena",
@@ -835,7 +835,7 @@
             }
         },
         "ConversionDefinition": {
-            "name": "$~omvandlingsdefinition",
+            "name": "$~konverteringsdefinition",
             "description": "$~$input → $output",
             "emotion": "excited",
             "doc": [
@@ -847,7 +847,7 @@
             "start": "$~Fantastiskt, en ny omställning!",
             "conflict": {
                 "MisplacedConversion": {
-                    "name": "$~felplaceradkonvertering",
+                    "name": "$~felplacerad konvertering",
                     "explanation": "$~Oj, jag kan inte vara här, bara i @Block.",
                     "resolution": "$~Ta bort den här konverteringen"
                 }
@@ -875,7 +875,7 @@
             "finish": "$~Fantastiskt, jag tjänade $value",
             "conflict": {
                 "UnknownConversion": {
-                    "name": "$~okändkonvertering",
+                    "name": "$~okänd konvertering",
                     "explanation": "$~Vi kunde inte hitta ett sätt att konvertera ett $expected till ett $given",
                     "resolution": "$~Ta bort konverteringen"
                 }
@@ -901,7 +901,7 @@
             "finish": "$~Jag gjorde ett nytt bord utan de matchande raderna!"
         },
         "DocumentedExpression": {
-            "name": "$~förklaratuttryck",
+            "name": "$~förklarat uttryck",
             "description": "$~bifogar dokumentation till ett uttryck",
             "emotion": "eager",
             "doc": [
@@ -934,7 +934,7 @@
             "finish": "$~Jag värderade till $value",
             "conflict": {
                 "IncompatibleInput": {
-                    "name": "$~inkompatibelingång",
+                    "name": "$~inkompatibel indata",
                     "explanation": "$~Jag borde vara typ $expected, men jag är typ $given",
                     "resolution": "$~Konvertera till $expected",
                     "resolutionLiteral": "$~Markera listan, uppsättningen eller kartan som litteral med !, så att dess värden förblir specifika istället för att generaliseras — $expected behöver de exakta värdena",
@@ -950,43 +950,43 @@
                     "explanationDivideByZero": "$~Detta kan vara ø eftersom $source kan dividera med noll, och ett tal krävs här"
                 },
                 "UnexpectedTypeInput": {
-                    "name": "$~oväntadtypinmatning",
+                    "name": "$~oväntad typindata",
                     "explanation": "$~Jag är en extra, oväntad typ av input.",
                     "resolution": "$~Ta bort den här typen av inmatning"
                 },
                 "MissingInput": {
-                    "name": "$~saknadinmatning",
+                    "name": "$~saknad indata",
                     "explanation": "$~Jag kan inte utvärdera $name utan indata $input :(",
                     "resolutionAddInput": "$~Lägg till den saknade $input , med dess standardvärde",
                     "resolutionPlaceholder": "$~Lägg till den saknade $input som en platshållare och välj sedan ett värde från autokompletteringsmenyn."
                 },
                 "NotInstantiable": {
-                    "name": "$~ofullständigstruktur",
+                    "name": "$~ofullständig struktur",
                     "explanation": "$~Jag kan inte skapa denna @StructureDefinition, den har oimplementerade funktioner.",
                     "resolution": "$~Bygg upp de saknade funktionerna"
                 },
                 "UnexpectedInput": {
-                    "name": "$~oväntadinmatning",
+                    "name": "$~oväntad indata",
                     "explanation": "$~Jag är en oväntad input.",
                     "resolution": "$~Ta bort den här inmatningen"
                 },
                 "UnknownInput": {
-                    "name": "$~okändingång",
+                    "name": "$~okänd indata",
                     "explanation": "$~Den här funktionen *$name* förväntar sig inte inmatning med mitt namn.",
                     "resolution": "$~Byt namn på denna inmatning till * $name *"
                 },
                 "InputListMustBeLast": {
-                    "name": "$~extrainmatningarärintesista",
+                    "name": "$~extra indata är inte sist",
                     "explanation": "$~listan över inmatningar måste vara sist",
                     "resolution": "$~Flytta listinmatningen till slutet"
                 },
                 "SeparatedEvaluate": {
-                    "name": "$~tvetydigutvärdering",
+                    "name": "$~tvetydig beräkning",
                     "explanation": "$~Är $name namnet på en $structure[$structure|@FunctionDefinition] som du försöker utvärdera? Försök att ta bort mellanslaget efter mig, så att jag vet att det är en @Evaluate och inte ett separat @Block.",
                     "resolution": "$~Stäng mellanrummet mellan * $name * och dess indata"
                 },
                 "UnknownTimeZone": {
-                    "name": "$~okändTidszon",
+                    "name": "$~okänd tidszon",
                     "explanation": "$~Jag känner inte till en tidszon som heter *$zone*. Tidszoner är uppkallade efter områden och städer, som \\'America/New_York'\\. Prova att skriva en stad du känner till, så föreslår jag en!",
                     "resolution": "$~Ändra den till *$zone*, tidszonen för $city"
                 }
@@ -1069,7 +1069,7 @@
             "start": "$~Låt oss göra den här funktionen!",
             "conflict": {
                 "NoExpression": {
-                    "name": "$~saknatuttryck",
+                    "name": "$~saknat uttryck",
                     "explanation": "$~Jag behöver ett uttryck för att utvärdera, kan du lägga till ett?",
                     "resolution": "$~Lägg till en platshållartext"
                 }
@@ -1081,7 +1081,7 @@
             }
         },
         "Iteration": {
-            "name": "$~högreordningsfunktion",
+            "name": "$~funktion av högre ordning",
             "description": "$~itererar internt över listvärden",
             "emotion": "kind",
             "doc": "$~Jag är en väldigt speciell sorts @FunctionDefinition som fungerar på listor med saker. Du behöver inte veta något om mig, förutom att jag gör funktioner som @List.translate möjliga.",
@@ -1132,7 +1132,7 @@
             "finish": "$~$value[värdet är $type|värdet är inte $type]",
             "conflict": {
                 "ImpossibleType": {
-                    "name": "$~omöjligtyp",
+                    "name": "$~omöjlig typ",
                     "explanation": "$~detta kan aldrig vara $type",
                     "resolutionIsFalse": "$~Ersätt denna typkontroll med *⊥* (svaret är alltid falskt)",
                     "resolutionDropOtherwise": "$~Släpp *??* — vänster sida är aldrig *ø*"
@@ -1146,7 +1146,7 @@
             }
         },
         "IsLocale": {
-            "name": "$~ärspråk",
+            "name": "$~är språk",
             "description": "$~returnera sant om språk är valt",
             "emotion": "kind",
             "doc": [
@@ -1169,7 +1169,7 @@
             "finish": "$~Objektet på indexet är $value!"
         },
         "ListLiteral": {
-            "name": "$~listabokstavlig",
+            "name": "$~listbokstav",
             "description": "$~$count objektlista",
             "emotion": "eager",
             "doc": "$~Jag är en specifik @List! Se @List för att lära dig mer om vad du kan göra med mig.",
@@ -1186,7 +1186,7 @@
             ]
         },
         "MapLiteral": {
-            "name": "$~kartabokstavlig",
+            "name": "$~kartbokstav",
             "description": "$~$count parningskarta",
             "emotion": "kind",
             "doc": "$~Jag är en specifik @Map mellan nycklar och värden. Se @Map för att lära dig mer om hur jag är till hjälp.",
@@ -1194,7 +1194,7 @@
             "finish": "$~Jag kopplade ihop alla, $value",
             "conflict": {
                 "NotAKeyValue": {
-                    "name": "$~saknatvärde",
+                    "name": "$~saknat värde",
                     "explanation": "$~Jag är i en @Map, så jag behöver ett värde.",
                     "resolution": "$~Radbryt som ett nyckel-värde-par"
                 }
@@ -1224,28 +1224,28 @@
             }
         },
         "NumberLiteral": {
-            "name": "$~bokstavligttal",
+            "name": "$~talbokstav",
             "description": "$~$number $unit[$unit|]",
             "emotion": "excited",
             "doc": "$~Jag är ett specifikt @Number. Du kan skriva till mig med alla typer av siffror från vilket språk som helst. Se @Number för allt jag kan göra.",
             "start": "$~$value!",
             "conflict": {
                 "NotANumber": {
-                    "name": "$~inteettnummer",
+                    "name": "$~inte ett tal",
                     "explanation": "$~Jag trodde jag kunde alla siffror, men jag kan inte den här.",
                     "resolution": "$~Ersätt med *0*"
                 }
             }
         },
         "InternalExpression": {
-            "name": "$~inreuttryck",
+            "name": "$~internt uttryck",
             "description": "$~kör ett inbyggt skaparuttryck",
             "emotion": "neutral",
             "doc": "$~Jag är ett uttryck som bara de ursprungliga skaparna använder. Hur hittade du mig? För att lära dig mer om mig måste du prata med dem.",
             "start": "$~Hemligt uttryck"
         },
         "NoneLiteral": {
-            "name": "$~ingenbokstavlig",
+            "name": "$~inget-bokstav",
             "description": "$~skapar ingenting-värdet",
             "emotion": "neutral",
             "doc": "$~Jag skapar @None , det unika ingenting-värdet. Se @None för att lära dig mer om dem.",
@@ -1347,7 +1347,7 @@
             "finish": "$~Jag kopierade strukturen, men med $property som $value",
             "conflict": {
                 "InvalidProperty": {
-                    "name": "$~okändegendom",
+                    "name": "$~okänd egenskap",
                     "explanation": "$~Jag är inte ett namn i strukturen $structure, så jag kan inte förfinas.",
                     "resolution": "$~Byt namn till * $name *"
                 }
@@ -1387,7 +1387,7 @@
             "finish": "$~Det nya streamvärdet är $value",
             "conflict": {
                 "ExpectedStream": {
-                    "name": "$~förväntadström",
+                    "name": "$~förväntad ström",
                     "explanation": "$~$condition refererar inte till en stream, så jag kommer aldrig att reagera!",
                     "resolution": "$~Släpp reaktionen, behåll bara det ursprungliga värdet"
                 }
@@ -1412,18 +1412,18 @@
             "conflict": {
                 "UnknownName": {
                     "conflict": {
-                        "name": "$~okäntnamn",
+                        "name": "$~okänt namn",
                         "explanation": "$~$name[Jag känner ingen som heter $name i $scope[$scope|detta @Block]|Kan du ge mig ett namn?]"
                     },
                     "resolution": "$~Menade du *$suggestion?*"
                 },
                 "ReferenceCycle": {
-                    "name": "$~självrefererandevärde",
+                    "name": "$~självrefererande värde",
                     "explanation": "$~um, $name värde beror på sig självt, så hur vet jag vilket värde jag ska ge det?",
                     "resolution": "$~Ersätt * $name * med en platshållare för att bryta cykeln"
                 },
                 "UnexpectedTypeVariable": {
-                    "name": "$~oväntadtypvariabel",
+                    "name": "$~oväntad typvariabel",
                     "explanation": "$~Jag vet inte vad jag ska göra med den här typen av inmatningar.",
                     "resolution": "$~Ta bort den här typen av variabel från funktionen"
                 }
@@ -1449,14 +1449,14 @@
             "finish": "$~Jag gjorde en ny tabell med bara de valda raderna och kolumnerna!",
             "conflict": {
                 "ExpectedSelectName": {
-                    "name": "$~saknatkolumnnamn",
+                    "name": "$~saknat kolumnnamn",
                     "explanation": "$~Jag behöver minst ett kolumnnamn.",
                     "resolution": "$~Ta bort den här cellen"
                 }
             }
         },
         "SetLiteral": {
-            "name": "$~sättabokstavlig",
+            "name": "$~mängdbokstav",
             "description": "$~$count föremål",
             "emotion": "eager",
             "doc": "$~Jag är en specifik @Set av specifika värden. Se @Set för att lära dig mer om hur du arbetar med mig.",
@@ -1464,7 +1464,7 @@
             "finish": "$~Jag gjorde ett set $value!"
         },
         "SetOrMapAccess": {
-            "name": "$~set/kartaåtkomst",
+            "name": "$~åtkomst till mängd/karta",
             "description": "$~kontrollerar om mängd eller karta innehåller",
             "emotion": "kind",
             "doc": [
@@ -1478,7 +1478,7 @@
             "finish": "$~Värdet är $value",
             "conflict": {
                 "IncompatibleKey": {
-                    "name": "$~inkompatibelnyckel",
+                    "name": "$~inkompatibel nyckel",
                     "explanation": "$~Jag förväntade mig en nyckel av typen $expected",
                     "resolution": "$~Konvertera det till $expected , eftersom $expected är obligatoriskt.",
                     "resolutionLiteral": "$~Markera listan, uppsättningen eller kartan som litteral med !, så att dess värden förblir specifika istället för att generaliseras — $expected behöver de exakta värdena",
@@ -1531,17 +1531,17 @@
             "start": "$~Låt oss definiera denna vackra struktur",
             "conflict": {
                 "DisallowedInputs": {
-                    "name": "$~inmatningarärintetillåtna",
+                    "name": "$~indata är inte tillåten",
                     "explanation": "$~Jag kan inte få indata eftersom en eller flera av mina gränssnittsfunktioner inte är implementerade.",
                     "resolution": "$~Ta bort ingångarna"
                 },
                 "IncompleteImplementation": {
-                    "name": "$~ofullständigstruktur",
+                    "name": "$~ofullständig struktur",
                     "explanation": "$~Antingen måste alla mina funktioner implementeras, eller så måste inga implementeras. Inga röriga blandningar!",
                     "resolution": "$~Ta bort ingångarna för att göra det till ett gränssnitt"
                 },
                 "NotAnInterface": {
-                    "name": "$~inteettgränssnitt",
+                    "name": "$~inte ett gränssnitt",
                     "explanation": "$~Jag är inte ett gränssnitt; en struktur kan bara implementera gränssnitt, inte andra strukturer.",
                     "resolution": "$~Ta bort detta från gränssnittslistan"
                 },
@@ -1567,7 +1567,7 @@
             ]
         },
         "TableLiteral": {
-            "name": "$~tabellbokstavlig",
+            "name": "$~tabellbokstav",
             "description": "$~$count radbord",
             "emotion": "angry",
             "doc": "$~Jag är en specifik tabell med specifika rader. Se @Table om hur jag kan hjälpa till.",
@@ -1575,7 +1575,7 @@
             "finish": "$~Utvärderad till nytt bord $value"
         },
         "TextLiteral": {
-            "name": "$~textbokstavlig",
+            "name": "$~textbokstav",
             "description": "$~sms:a $text",
             "emotion": "serious",
             "doc": "$~Jag representerar en eller flera specifika @Translation av text. Se @Text för att lära dig mer om vad jag kan göra!",
@@ -1591,29 +1591,29 @@
             "doc": "$~Jag representerar viss text, med en @Language-tagg. Se @Text för att lära dig mer!",
             "conflict": {
                 "phone": {
-                    "name": "$~möjligttelefonnummer",
+                    "name": "$~möjligt telefonnummer",
                     "explanation": "$~Är *$text* någons telefonnummer? Dela mig inte online i så fall!\n\n$reminder"
                 },
                 "email": {
-                    "name": "$~möjlige-post",
+                    "name": "$~möjlig e-post",
                     "explanation": "$~Är *$text* någons e-postadress? Dela mig inte här i så fall!\n\n$reminder"
                 },
                 "tin": {
-                    "name": "$~möjligskatteidentifiering",
+                    "name": "$~möjligt skatteidentifikationsnummer",
                     "explanation": "$~Är *$text* ett skatteidentifieringsnummer? Om ja, dela mig absolut inte, jag är mycket känslig information!\n\n$reminder"
                 },
                 "address": {
-                    "name": "$~möjligadress",
+                    "name": "$~möjlig adress",
                     "explanation": "$~Är *$text* någons hemadress? Om så är fallet, skriv mig inte här, vi vill inte att någon ska bli förföljd!\n\n$reminder"
                 },
                 "handle": {
-                    "name": "$~möjligtanvändarnamn",
+                    "name": "$~möjligt användarnamn",
                     "explanation": "$~Är *$text* ditt användarnamn någon annanstans på internet? Om så är fallet, dela mig inte här om du inte verkligen menar det.\n\n$reminder"
                 },
                 "resolution": "$~Det här är inte känslig information",
                 "reminder": "$~Obs! Du kan ångra den här åtgärden och se andra saker som du har markerat som okänsliga i delningsdialogrutan.",
                 "character": {
-                    "name": "$~möjliganpassadkaraktär",
+                    "name": "$~möjligt eget tecken",
                     "explanation": "$~Detta ser ut som ett teckennamn. För att visa dessa, använd @FormattedLiteral istället för @TextLiteral.",
                     "resolutionStrip": "$~Ta bort specialtecknen från texten"
                 }
@@ -1623,14 +1623,14 @@
             }
         },
         "FormattedLiteral": {
-            "name": "$~formaterad",
+            "name": "$~formaterad text",
             "description": "$~sms:a $text",
             "emotion": "serious",
             "doc": "$~Jag representerar många olika @FormattedTranslation av formaterad text. När jag utvärderar väljer jag den bästa matchningen baserat på publikens valda språk.",
             "start": "$~Låt oss skapa text på det aktuella språket"
         },
         "FormattedTranslation": {
-            "name": "$~formateradöversättning",
+            "name": "$~formaterad översättning",
             "description": "$~sms:a $language",
             "emotion": "serious",
             "doc": [
@@ -1664,14 +1664,14 @@
             "start": "$~Värderad till $value",
             "conflict": {
                 "MisplacedThis": {
-                    "name": "$~felplaceradedennareferens",
+                    "name": "$~felplacerad this-referens",
                     "explanation": "$~Jag är bara tillåten i en struktur, konvertering, reaktion eller översättning.",
                     "resolution": "$~Ersätt med en platshållare"
                 }
             }
         },
         "UnaryEvaluate": {
-            "name": "$~entydigtutvärdera",
+            "name": "$~unär beräkning",
             "description": "$~$operator",
             "emotion": "kind",
             "doc": [
@@ -1708,13 +1708,13 @@
             "conflict": {
                 "UnparsableConflict": {
                     "conflict": {
-                        "name": "$~oläsligkod",
+                        "name": "$~oläslig kod",
                         "explanation": "$~@FunctionDefinition här, @UnparsableExpression vet inte vilken typ av $expression[uttryck | typ] detta är."
                     },
                     "resolution": "$~Menade du $first, $second?"
                 },
                 "UnclosedDelimiter": {
-                    "name": "$~oavslutadavgränsare",
+                    "name": "$~oavslutad avgränsare",
                     "explanation": "$~Jag förväntade mig $expected någon gång efter $unclosed",
                     "resolution": "$~Lägg till den saknade * $expected *"
                 }
@@ -1740,12 +1740,12 @@
             "finish": "$~Utvärderad till en ny tabell med reviderade rader!",
             "conflict": {
                 "ExpectedColumnBind": {
-                    "name": "$~saknatkolumnvärde",
+                    "name": "$~saknat kolumnvärde",
                     "explanation": "$~Jag behöver ett värde för varje kolumn",
                     "resolution": "$~Radbryt den här cellen som en namngiven kolumn"
                 },
                 "IncompatibleCellType": {
-                    "name": "$~inkompatibelcelltyp",
+                    "name": "$~inkompatibel celltyp",
                     "explanation": "$~Jag borde vara typ $expected, men jag har för mig att jag är $given",
                     "resolution": "$~Konvertera det till $expected , eftersom $expected är obligatoriskt.",
                     "resolutionLiteral": "$~Markera listan, uppsättningen eller kartan som litteral med !, så att dess värden förblir specifika istället för att generaliseras — $expected behöver de exakta värdena",
@@ -1848,7 +1848,7 @@
             ],
             "conflict": {
                 "UnknownTypeName": {
-                    "name": "$~okänttypnamn",
+                    "name": "$~okänt typnamn",
                     "explanation": "$~typnamn kan bara referera till strukturer eller typvariabler, men detta refererar till typ $type",
                     "resolution": "$~Ersätt med en typplatshållare"
                 }
@@ -1913,7 +1913,7 @@
             "doc": "$~Jag representerar ett bord.",
             "conflict": {
                 "ExpectedColumnType": {
-                    "name": "$~saknadkolumntyp",
+                    "name": "$~saknad kolumntyp",
                     "explanation": "$~Jag behöver en kolumntyp",
                     "resolution": "$~Lägg till en platshållare för typ"
                 }
@@ -1973,7 +1973,7 @@
             "doc": "$~Jag representerar ett värde vars typ beror på sig själv, så vi kan inte avgöra vilken typ av värde det är."
         },
         "UnknownVariableType": {
-            "name": "$~okändvariabel",
+            "name": "$~okänd variabel",
             "description": "$~representerar en okänd typvariabel",
             "emotion": "curious",
             "doc": "$~Ibland försöker vi gissa vad något är för värde; Jag dyker upp när vi inte vet."
@@ -1985,13 +1985,13 @@
             "doc": "$~Jag representerar ett värde vars typ inte är den vi förväntade oss — som när @ListAccess behöver ett @Number men får något annat."
         },
         "NoExpressionType": {
-            "name": "$~ingetuttryck",
+            "name": "$~inget uttryck",
             "description": "$~typbestämmer ett tomt block",
             "emotion": "angry",
             "doc": "$~Jag är den typen man får när ett @Block inte har något uttryck i sig. Du vet att det behöver minst ett – så ge ett!"
         },
         "NotEnclosedType": {
-            "name": "$~inteistruktur,omvandlingellerreaktion",
+            "name": "$~inte i struktur, konvertering eller reaktion",
             "description": "$~markerar användning utanför en struktur",
             "emotion": "curious",
             "doc": "$~Jag dyker upp när @This används någonstans där det inte hör hemma, så ingen vet vilket värde det representerar."
@@ -2003,7 +2003,7 @@
             "doc": "$~När du använder @ExpressionPlaceholder, men inte säg vilken typ de är, är jag typen du får. Ta itu med det!"
         },
         "UnknownNameType": {
-            "name": "$~okäntnamn",
+            "name": "$~okänt namn",
             "description": "$~$name [ $name är inte definierat ännu|namnet är inte angivet]",
             "emotion": "curious",
             "doc": "$~Jag representerar ett namn som @Reference eller @PropertyReference inte kunde hitta, när vi inte vet vem du pratar om."
@@ -2031,17 +2031,17 @@
             "next": "$~Nästa punkt: $value !",
             "conflict": {
                 "ExpectedCollection": {
-                    "name": "$~förväntadinsamling",
+                    "name": "$~förväntad samling",
                     "explanation": "$~Jag förväntade mig att vänster sida av en samlingskonvertering måste vara en samling, men jag fick $type"
                 },
                 "ExpectedThis": {
-                    "name": "$~förväntadesigdetta",
+                    "name": "$~förväntade this",
                     "explanation": "$~Menade du att använda @This för att referera till ett objekt i den här samlingen?"
                 }
             }
         },
         "ExternalExample": {
-            "name": "$~externtexempel",
+            "name": "$~externt exempel",
             "description": "$~visa kod från ett annat programmeringsspråk i dokumentationen",
             "emotion": "serious",
             "doc": [
@@ -2085,7 +2085,7 @@
             "start": "$~Låt mig se hur den här texten ser ut.",
             "conflict": {
                 "EmptyPattern": {
-                    "name": "$~tomtmönster",
+                    "name": "$~tomt mönster",
                     "explanation": "$~Jag har inga delar, så jag matchar inget användbart. Kan du lägga till en del?",
                     "resolution": "$~Lägg till en \\◌\\ för att matcha valfritt tecken"
                 }
@@ -2115,13 +2115,13 @@
             ],
             "conflict": {
                 "OverlappingAlternatives": {
-                    "name": "$~överlappandeval",
+                    "name": "$~överlappande val",
                     "explanation": "$~$shorter är början på $longer , och det längsta alternativet vinner alltid, så $shorter matchar bara när $longer inte kan. Menade du det?"
                 }
             }
         },
         "PatternClass": {
-            "name": "$~karaktärsklass",
+            "name": "$~teckenklass",
             "description": "$~matcha en typ av karaktär",
             "emotion": "curious",
             "doc": [
@@ -2145,7 +2145,7 @@
             ],
             "conflict": {
                 "UnrecognizedPatternProperty": {
-                    "name": "$~okändegendom",
+                    "name": "$~okänd egenskap",
                     "explanation": "$~Jag känner inte igen egenskapen $name . Försök med en kategori, ett skript eller ett Unicode-ID.",
                     "resolution": "$~Ändra det till $suggestion"
                 }
@@ -2163,7 +2163,7 @@
             ],
             "conflict": {
                 "MalformedQuantifier": {
-                    "name": "$~omöjligräkning",
+                    "name": "$~omöjlig räkning",
                     "explanation": "$~Mitt låga antal är större än mitt höga antal, så jag kan aldrig matcha.",
                     "resolution": "$~Byt ut mina räkningar så att den mindre kommer först"
                 }
@@ -2192,7 +2192,7 @@
             ],
             "conflict": {
                 "DuplicateCaptureName": {
-                    "name": "$~dupliceradinspelning",
+                    "name": "$~dubblerad fångst",
                     "explanation": "$~En annan inspelning använder redan namnet $name , så den här skulle skriva över det.",
                     "resolution": "$~Byt namn på den här inspelningen till $replacement"
                 }
@@ -2222,7 +2222,7 @@
             ]
         },
         "PatternSet": {
-            "name": "$~glyfuppsättning",
+            "name": "$~teckenuppsättning",
             "description": "$~matcha ett av dessa grafem",
             "emotion": "curious",
             "doc": [
@@ -2277,7 +2277,7 @@
             ],
             "conflict": {
                 "MissingPatternLocale": {
-                    "name": "$~saknatspråk",
+                    "name": "$~saknat språk",
                     "explanation": "$~Jag behöver ett språk för att veta hur man hittar ord. Kan du lägga till ett, som \\/en\\ ?"
                 }
             }
@@ -2317,7 +2317,7 @@
             ],
             "conflict": {
                 "UndefinedBackreference": {
-                    "name": "$~okäntnamn",
+                    "name": "$~okänt namn",
                     "explanation": "$~Det finns ingen capture eller klass med namnet $name , så jag har inget som matchar.",
                     "resolution": "$~Ändra det till $suggestion"
                 }
@@ -2335,7 +2335,7 @@
             ]
         },
         "PatternCaseFold": {
-            "name": "$~ignoreraskiftläge",
+            "name": "$~strunta i stora och små bokstäver",
             "description": "$~matchning utan att använda stora/små bokstäver",
             "emotion": "curious",
             "doc": [
@@ -2996,7 +2996,7 @@
             "name": ["$~[]", "$~Lista"],
             "kind": "$~Slag",
             "out": "$~Resultat",
-            "outofbounds": "$~utanför gränserna",
+            "outofbounds": "$~utanförGränserna",
             "function": {
                 "add": {
                     "doc": [
@@ -5816,7 +5816,7 @@
             "tour": {
                 "launch": "$~ta en rundtur i projektkontrollerna",
                 "controls": "$~Dessa /controls/ längst ner gäller för *projektet som helhet*, oavsett vilken panel du arbetar i.",
-                "name": "$~Fältet/name/ärdittprojektsnamn.Namnenvisasivyerna*projekt*och*galleri*.",
+                "name": "$~Fältet /name/ är ditt projekts namn. Namn visas i vyerna för *projekt* och *galleri*.",
                 "sourceToggle": "$~Denna /toggle/ visar eller döljer *källfilen*. De *andra växlarna* på den här raden gör detsamma för de andra panelerna.",
                 "addSource": "$~Vissa projekt drar nytta av *flera* källfiler, där data lagras i en och importeras till *huvud*källan. Knappen /lägg till källa/ skapar en ny.",
                 "share": "$~I dialogrutan /share/ kan du dela ditt projekt med *gallerier*, med *allmänheten*, eller kopiera det som *text* för att dela det någon annanstans.",
@@ -7247,7 +7247,7 @@
                     "confirm": "$~Kontrollera din gamla e-postadress för att bekräfta din nya adress.",
                     "delete": "$~Vill du att vi ska glömma allt du har gjort här? Detta kan inte ångras.",
                     "reallyDelete": "$~Är du säker? Ditt konto och dina inställningar kommer att raderas omedelbart och dina projekt kommer att schemaläggas för radering. Samarbetspartners i dina projekt förlorar omedelbart åtkomst till dem. Skriv din e-postadress eller ditt användarnamn för att bekräfta att det är detta du vill ha.",
-                    "name": "$~Väljenemojiförattrepresenteradigsjälvförandra."
+                    "name": "$~Välj en emoji eller ett eget tecken som visar dig för andra."
                 },
                 "error": {
                     "expired": "$~Denna länk har upphört att gälla.",
@@ -7560,7 +7560,7 @@
                     }
                 },
                 "feedback": {
-                    "name": "$~Karaktärerbehöverettgiltigtordspelsnamnpåminst1teckenlångt.Detkanintevara\"UI\",ettdecimaltellerhexadecimalttal,ellernamnetpåeninbyggdspråkfunktion.",
+                    "name": "$~Tecken behöver ett giltigt Wordplay-namn som är minst 1 tecken långt. Det kan inte vara 'UI', ett decimaltal eller ett hexadecimalt tal, eller namnet på en inbyggd språkfunktion.",
                     "description": "$~Karaktärer behöver en beskrivning så att de som inte kan se vet vad de representerar.",
                     "end": "$~eller tryck på Escape.",
                     "loadfail": "$~Det gick inte att läsa in den här karaktären.",

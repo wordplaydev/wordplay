@@ -704,7 +704,7 @@
                     "resolution": "Apague esta vinculação"
                 },
                 "ShadowsKeyword": {
-                    "name": "$~sombrasumapalavra-chave",
+                    "name": "$~esconde uma palavra-chave",
                     "explanation": "$~Este nome é também a palavra-chave $keyword , por isso vou lê-lo como um nome aqui; a palavra- $keyword ainda funciona noutros locais."
                 }
             }
@@ -991,7 +991,7 @@
                     "resolution": "Feche o espaço entre * $name * e os seus valores de entrada."
                 },
                 "UnknownTimeZone": {
-                    "name": "$~fusoHorárioDesconhecido",
+                    "name": "$~fuso horário desconhecido",
                     "explanation": "$~Não conheço um fuso horário chamado *$zone*. Os fusos horários têm o nome de regiões e cidades, como \\'America/New_York'\\. Tenta escrever uma cidade que conheças e eu sugiro um!",
                     "resolution": "$~Muda-o para *$zone*, o fuso horário de $city"
                 }
@@ -2041,7 +2041,7 @@
             }
         },
         "ExternalExample": {
-            "name": "$~exemploexterno",
+            "name": "$~exemplo externo",
             "description": "$~Visualizar código de outra linguagem de programação na documentação",
             "emotion": "serious",
             "doc": [
@@ -2085,7 +2085,7 @@
             "start": "$~Deixe-me ver como é este texto.",
             "conflict": {
                 "EmptyPattern": {
-                    "name": "$~padrãovazio",
+                    "name": "$~padrão vazio",
                     "explanation": "$~Não tenho peças, por isso não consigo encontrar nada de útil. Pode adicionar uma peça?",
                     "resolution": "$~Adicione um \\◌\\ para corresponder a qualquer caractere."
                 }
@@ -2115,13 +2115,13 @@
             ],
             "conflict": {
                 "OverlappingAlternatives": {
-                    "name": "$~escolhassobrepostas",
+                    "name": "$~escolhas sobrepostas",
                     "explanation": "$~$shorter é o início de $longer , e a opção mais longa ganha sempre, pelo que $shorter só corresponde quando $longer não consegue. Era isso que queria dizer?"
                 }
             }
         },
         "PatternClass": {
-            "name": "$~classedepersonagem",
+            "name": "$~classe de caracteres",
             "description": "$~combine com um tipo de personagem",
             "emotion": "curious",
             "doc": [
@@ -2145,7 +2145,7 @@
             ],
             "conflict": {
                 "UnrecognizedPatternProperty": {
-                    "name": "$~propriedadedesconhecida",
+                    "name": "$~propriedade desconhecida",
                     "explanation": "$~Não reconheço a propriedade $name . Experimente uma categoria, um script ou um ID Unicode.",
                     "resolution": "$~Altere para $suggestion"
                 }
@@ -2163,7 +2163,7 @@
             ],
             "conflict": {
                 "MalformedQuantifier": {
-                    "name": "$~contagemimpossível",
+                    "name": "$~contagem impossível",
                     "explanation": "$~O meu nível de glicose baixo é superior ao meu nível de glicose alto, por isso nunca consigo encontrar um par.",
                     "resolution": "$~Inverta as minhas contagens para que a mais pequena venha primeiro."
                 }
@@ -2192,7 +2192,7 @@
             ],
             "conflict": {
                 "DuplicateCaptureName": {
-                    "name": "$~capturaduplicada",
+                    "name": "$~captura duplicada",
                     "explanation": "$~Outra captura já utiliza o nome $name , pelo que esta irá sobrescrevê-la.",
                     "resolution": "$~Renomeie esta captura para $replacement"
                 }
@@ -2222,7 +2222,7 @@
             ]
         },
         "PatternSet": {
-            "name": "$~conjuntodeglifos",
+            "name": "$~conjunto de glifos",
             "description": "$~Combine um destes grafemas",
             "emotion": "curious",
             "doc": [
@@ -2277,13 +2277,13 @@
             ],
             "conflict": {
                 "MissingPatternLocale": {
-                    "name": "$~idiomaausente",
+                    "name": "$~idioma em falta",
                     "explanation": "$~Preciso de um idioma para saber encontrar palavras. Pode adicionar um, como \\/en\\ ?"
                 }
             }
         },
         "PatternWordEdge": {
-            "name": "$~Bordadapalavra",
+            "name": "$~limite de palavra",
             "description": "$~combinar limite de palavras",
             "emotion": "curious",
             "doc": [
@@ -2317,7 +2317,7 @@
             ],
             "conflict": {
                 "UndefinedBackreference": {
-                    "name": "$~nomedesconhecido",
+                    "name": "$~nome desconhecido",
                     "explanation": "$~Não existe nenhuma captura ou classe chamada $name , pelo que não tenho nada com que comparar.",
                     "resolution": "$~Altere para $suggestion"
                 }
@@ -2335,7 +2335,7 @@
             ]
         },
         "PatternCaseFold": {
-            "name": "$~ignorarmaiúsculaseminúsculas",
+            "name": "$~ignorar maiúsculas e minúsculas",
             "description": "$~correspondência ignorando maiúsculas/minúsculas",
             "emotion": "curious",
             "doc": [
@@ -2346,7 +2346,7 @@
             ]
         },
         "PatternType": {
-            "name": "$~tipodepadrão",
+            "name": "$~tipo de padrão",
             "description": "$~o tipo de um padrão",
             "emotion": "curious",
             "doc": [

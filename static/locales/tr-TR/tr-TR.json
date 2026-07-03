@@ -315,7 +315,7 @@
             ]
         },
         "Docs": {
-            "name": "$~açıklamalistesi",
+            "name": "$~açıklama listesi",
             "description": "$~belgeleri birden fazla dilde listele",
             "emotion": "serious",
             "doc": [
@@ -359,17 +359,17 @@
             ],
             "conflict": {
                 "UnknownLanguage": {
-                    "name": "$~bilinmeyendil",
+                    "name": "$~bilinmeyen dil",
                     "explanation": "$~Bu dili bilmiyorum.",
                     "resolution": "$~Bu dil kodunu kaldırın"
                 },
                 "MissingLanguage": {
-                    "name": "$~eksikdil",
+                    "name": "$~eksik dil",
                     "explanation": "$~Bir dil eksik. Ekleyebilir misiniz?",
                     "resolution": "$~Boş dil etiketini kaldırın."
                 },
                 "DuplicateLanguage": {
-                    "name": "$~çiftdil",
+                    "name": "$~yinelenen dil",
                     "explanation": "$~' $code ' dilini iki kez kullandınız. Karma dil etiketlerinde her dil yalnızca bir kez listelenmelidir.",
                     "resolution": "$~Yinelenen * $code * etiketini kaldırın"
                 }
@@ -394,7 +394,7 @@
             ]
         },
         "Names": {
-            "name": "$~isimlistesi",
+            "name": "$~isim listesi",
             "description": "$~adları birden fazla dilde listele",
             "emotion": "kind",
             "doc": [
@@ -413,28 +413,28 @@
             "doc": "$~@Table'da bir satırı temsil ediyorum. Muhtemelen @Table ile konuşmak en iyisi, onlar benim hakkımda her şeyi biliyorlar. Ben sadece etrafta oturup değerleri aynı çizgide tutuyorum :(",
             "conflict": {
                 "InvalidRow": {
-                    "name": "$~geçersizsatır",
+                    "name": "$~geçersiz satır",
                     "explanation": "$~Satırların ya tamamen değerlerden oluşması ya da tamamen @Bind içermesi gerekir.",
                     "resolutionKeepPositional": "$~Adlandırılmış hücreleri silin, yalnızca konumlu hücreleri saklayın.",
                     "resolutionUnwrapInputs": "$~Adlandırılmış hücrelerden adları kaldırın."
                 },
                 "MissingCell": {
-                    "name": "$~eksiksütun",
+                    "name": "$~eksik kolon",
                     "explanation": "$~$column sütununu bulamadım.",
                     "resolution": "$~* $column * için bir yer tutucu hücre ekleyin."
                 },
                 "ExtraCell": {
-                    "name": "$~ekstrasütun",
+                    "name": "$~fazladan kolon",
                     "explanation": "$~Tablo türüme bakıldığında, burada olmaması gereken fazladan bir sütunum.",
                     "resolution": "$~Fazla hücreyi kaldırın"
                 },
                 "UnknownColumn": {
-                    "name": "$~bilinmeyensütunadı",
+                    "name": "$~bilinmeyen kolon ismi",
                     "explanation": "$~Bu isimde bir köşe yazısı bilmiyorum.",
                     "resolution": "$~* $name * olarak yeniden adlandırın."
                 },
                 "UnexpectedColumnBind": {
-                    "name": "$~hiçbirsatırbağlamaz",
+                    "name": "$~bağlanmış satır yok",
                     "explanation": "$~Ben bir değer olmalıyım, @Bind değil."
                 }
             }
@@ -449,19 +449,19 @@
             ]
         },
         "TypeInputs": {
-            "name": "$~tipgirişleri",
+            "name": "$~tip girdileri",
             "description": "$~tür değişken yuvalarını doldur",
             "emotion": "curious",
             "doc": "$~@StructureDefinition veya @FunctionDefinition'daki @TypeVariables'ın yerini alan türlerin bir listesiyim. Herkesin ne tür girdiler alacağını bilmesine yardımcı oluyorum."
         },
         "TypeVariable": {
-            "name": "$~tipdeğişkeni",
+            "name": "$~tip değişkeni",
             "description": "$~çağıran tarafından verilen türü adlandır",
             "emotion": "curious",
             "doc": "$~@FunctionDefinition veya @StructureDefinition üzerinde, her ikisi de değerlendirildiğinde @TypeInputs tarafından sağlanan gizemli bir tipim. @Set, @List ve @Map beni kullanıyor.",
             "conflict": {
                 "DuplicateTypeVariable": {
-                    "name": "$~yinelenentürdeğişkeni",
+                    "name": "$~yinelenen tip değişkeni",
                     "explanation": "$~Benim adım da $duplicate ile aynı.",
                     "resolution": "$~Yinelenen tür değişkenini kaldırın."
                 }
@@ -471,7 +471,7 @@
             }
         },
         "TypeVariables": {
-            "name": "$~tipdeğişkenleri",
+            "name": "$~tip değişkenleri",
             "description": "$~bir tanımda tür değişkenlerini listele",
             "emotion": "curious",
             "doc": "$~Ben @TypeVariable'lardan oluşan bir listeyim."
@@ -543,7 +543,7 @@
             ],
             "conflict": {
                 "UnsupportedFontFormat": {
-                    "name": "$~desteklenmeyenyazıtipiformatı",
+                    "name": "$~desteklenmeyen yazı tipi biçimi",
                     "explanation": "$~Arkadaşım * $face * $format olmayı bilmiyor.",
                     "resolution": "$~Biçimlendirmeyi kaldır"
                 }
@@ -580,7 +580,7 @@
             ]
         },
         "BinaryEvaluate": {
-            "name": "$~ikilideğerlendirme",
+            "name": "$~ikili değerlendirme",
             "description": "$~iki değere $operator işleci uygula",
             "emotion": "insecure",
             "doc": [
@@ -601,7 +601,7 @@
             "finish": "$~Bak, $value kazanç sağladım!",
             "conflict": {
                 "OrderOfOperations": {
-                    "name": "$~belirsizdüzen",
+                    "name": "$~belirsiz sıralama",
                     "explanation": "$~Değerlendirmeyi matematiksel işlem önceliğiyle değil, okuma önceliğiyle yapıyorum. Değerlendirme sırasını belirtmek için @Block kullanmak ister misiniz?",
                     "resolutionPEMDAS": "$~PEMDAS matematiksel sıralamasını uygulayın: $higher $lower önce değerlendirin.",
                     "resolutionReading": "$~Okuma sırasına göre devam edin: önce $lower sonra $higher değerlendirin.",
@@ -647,18 +647,18 @@
             "conflict": {
                 "DuplicateName": {
                     "conflict": {
-                        "name": "$~yinelenenisim",
+                        "name": "$~yinelenen isim",
                         "explanation": "$~Birinin adı $shadowed, o yüzden ben bu adı kullanamam."
                     },
                     "resolution": "$~Tekrar eden isimler var, birini kaldırmak ister misiniz?"
                 },
                 "DuplicateShare": {
-                    "name": "$~kopyalapaylaş",
+                    "name": "$~yinelenen paylaşım",
                     "explanation": "$~Benim adım da $duplicate ile aynı. Bu da neyi paylaştığımızı belirsizleştiriyor.",
                     "resolution": "$~Bu yinelenen paylaşımı kaldır"
                 },
                 "IncompatibleType": {
-                    "name": "$~uyumsuztip",
+                    "name": "$~uyumsuz tip",
                     "explanation": "$~Ben normalde $expected tipinde olmam gerekirken, $given tipindeyim.",
                     "resolution": "$~$expected dönüştür",
                     "resolutionLiteral": "$~Listeyi, kümeyi veya haritayı ! ile tam olarak belirtin, böylece değerleri genelleştirilmek yerine belirli kalır — $expected tam değerlere ihtiyaç duyar.",
@@ -674,32 +674,32 @@
                     "explanationDivideByZero": "$~Bu, $source sıfıra bölünebileceğinden ve burada bir sayı gerektiğinden ø olabilir."
                 },
                 "MisplacedShare": {
-                    "name": "$~yanlışyerleştirilmişpaylaşım",
+                    "name": "$~yanlış yerleştirilmiş paylaşım",
                     "explanation": "$~Sadece @Program düzeyinde bilgi paylaşabiliyorum, hiçbir şeyin içinde paylaşım yapamıyorum!",
                     "resolution": "$~*↑* işaretini kaldırın"
                 },
                 "MissingShareLanguages": {
-                    "name": "$~eksikdil",
+                    "name": "$~eksik dil",
                     "explanation": "$~Bunu paylaşmak istiyorsanız, başkalarının okuyup okuyamayacağını anlaması için hangi dilde olduğunu belirtmeniz gerekiyor!",
                     "resolution": "$~*↑* işaretini kaldırın"
                 },
                 "RequiredAfterOptional": {
-                    "name": "$~isteğebağlıdansonragerekligirdi",
+                    "name": "$~isteğe bağlıdan sonra gerekli girdi",
                     "explanation": "$~Burada olamam, benden önce isteğe bağlı bir @Bind işlemi var.",
                     "resolution": "$~Gerekli girdileri isteğe bağlı girdilerden önce taşıyın"
                 },
                 "UnexpectedEtc": {
-                    "name": "$~girişlistesindensonrabeklenmeyengiriş",
+                    "name": "$~girdi listesinden sonra beklenmeyen girdi",
                     "explanation": "$~@FunctionDefinition'da yalnızca değişken uzunlukta olabilirim.",
                     "resolution": "$~*…*'ı kaldırın"
                 },
                 "UnusedBind": {
-                    "name": "$~kullanılmamışbağ",
+                    "name": "$~kullanılmayan bağlama",
                     "explanation": "$~Benim adım $name, ama kimse beni kullanmıyor. Belki de bana ihtiyaç yok?",
                     "resolution": "$~Bu bağlantıyı sil"
                 },
                 "ShadowsKeyword": {
-                    "name": "$~gölgelerbiranahtarkelime",
+                    "name": "$~bir anahtar kelimeyi gölgeliyor",
                     "explanation": "$~Bu isim aynı zamanda $keyword anahtar kelimesi olduğundan, burada bir isim olarak okuyacağım; $keyword anahtar kelimesi başka yerlerde de çalışmaya devam ediyor."
                 }
             },
@@ -735,7 +735,7 @@
             "finish": "$~Tamam, $value para kazandım.",
             "conflict": {
                 "ExpectedEndingExpression": {
-                    "name": "$~eksikifade",
+                    "name": "$~eksik ifade",
                     "explanation": "Geri döndürebileceğim bir değerim olabilmesi için, @Bind olmayan en az bir ifadeye ihtiyacım var.",
                     "resolution": "$~Son bir ifade ekleyin"
                 }
@@ -745,7 +745,7 @@
             }
         },
         "BooleanLiteral": {
-            "name": "$~Booleansabiti",
+            "name": "$~mantıksal sabit",
             "description": "$~$value[doğru|yanlış] boolean değeri oluştur",
             "emotion": "precise",
             "doc": "$~Ben ya \\⊤\\ ya da \\⊥\\'yim. Güzel mantığımız hakkında daha fazla bilgi edinmek için @Boolean'a bakın.",
@@ -759,12 +759,12 @@
             "start": "$~$name'tan $source ödünç alınıyor",
             "conflict": {
                 "UnknownBorrow": {
-                    "name": "$~bilinmeyenödünç",
+                    "name": "$~bilinmeyen ödünç alma",
                     "explanation": "$~Bu isimde bir kaynak bilmiyorum.",
                     "resolution": "$~Bu ödünç almayı kaldır"
                 },
                 "BorrowCycle": {
-                    "name": "$~kendikendineatıftabulunanödünçalma",
+                    "name": "$~kendine gönderme yapan ödünç alma",
                     "explanation": "$~Bu, $borrow'e bağlıdır, $borrow de bu @Source'a bağlıdır, bu nedenle program değerlendirilemez.",
                     "resolution": "$~Bu ödünç almayı kaldırarak döngüyü kırın."
                 }
@@ -813,7 +813,7 @@
             "finish": "$~Sanırım bu $value demek?",
             "conflict": {
                 "ExpectedBooleanCondition": {
-                    "name": "$~beklenenbooleankoşulu",
+                    "name": "$~mantıksal koşul bekleniyordu",
                     "explanation": "$~Karar vermek için @Boolean'a ihtiyacım var, ancak bunun yerine $type aldım.",
                     "resolution": "$~$expected gerekli olduğundan, onu $expected expected'e dönüştürün.",
                     "resolutionLiteral": "$~Listeyi, kümeyi veya haritayı ! ile tam olarak belirtin, böylece değerleri genelleştirilmek yerine belirli kalır — $expected tam değerlere ihtiyaç duyar.",
@@ -835,7 +835,7 @@
             }
         },
         "ConversionDefinition": {
-            "name": "$~dönüşümtanımı",
+            "name": "$~dönüştürme tanımı",
             "description": "$~$input'den $output'ye dönüşüm tanımla",
             "emotion": "excited",
             "doc": [
@@ -847,7 +847,7 @@
             "start": "$~Harika, yeni bir dönüşüm!",
             "conflict": {
                 "MisplacedConversion": {
-                    "name": "$~yanlışyerleştirilmişdönüşüm",
+                    "name": "$~yanlış yerleştirilmiş dönüştürme",
                     "explanation": "$~Vay canına, burada olamam, sadece @Block'tayım.",
                     "resolution": "$~Bu dönüşümü kaldır"
                 }
@@ -875,7 +875,7 @@
             "finish": "$~Harika, $value kazandım!",
             "conflict": {
                 "UnknownConversion": {
-                    "name": "$~bilinmeyendönüşüm",
+                    "name": "$~bilinmeyen dönüştürme",
                     "explanation": "$~$expected $given dönüştürmenin bir yolunu bulamadık.",
                     "resolution": "$~Dönüştürmeyi kaldır"
                 }
@@ -901,7 +901,7 @@
             "finish": "$~Eşleşen satırlar olmadan yeni bir tablo oluşturdum!"
         },
         "DocumentedExpression": {
-            "name": "$~açıklanmışifade",
+            "name": "$~açıklanmış ifade",
             "description": "$~bir ifadeye belgeleme ekle",
             "emotion": "eager",
             "doc": [
@@ -934,7 +934,7 @@
             "finish": "$~$value bir değerlendirme yaptım.",
             "conflict": {
                 "IncompatibleInput": {
-                    "name": "$~uyumsuzgiriş",
+                    "name": "$~uyumsuz girdi",
                     "explanation": "$~$expected bekliyordum, ancak $given aldım.",
                     "resolution": "$~$expected dönüştür",
                     "resolutionLiteral": "$~Listeyi, kümeyi veya haritayı ! ile tam olarak belirtin, böylece değerleri genelleştirilmek yerine belirli kalır — $expected tam değerlere ihtiyaç duyar.",
@@ -950,43 +950,43 @@
                     "explanationDivideByZero": "$~Bu, $source sıfıra bölünebileceğinden ve burada bir sayı gerektiğinden ø olabilir."
                 },
                 "UnexpectedTypeInput": {
-                    "name": "$~beklenmeyentipgirişi",
+                    "name": "$~beklenmeyen tip girdisi",
                     "explanation": "$~Ben fazladan, beklenmedik bir girdi türüyüm.",
                     "resolution": "$~Bu türdeki girişi kaldırın"
                 },
                 "MissingInput": {
-                    "name": "$~eksikgiriş",
+                    "name": "$~eksik girdi",
                     "explanation": "$~$name girdisi olmadan $input'i değerlendiremiyorum :(",
                     "resolutionAddInput": "$~Eksik olan $input varsayılan değeriyle ekleyin.",
                     "resolutionPlaceholder": "$~Eksik olan $input değişkenini yer tutucu olarak ekleyin, ardından otomatik tamamlama menüsünden bir değer seçin."
                 },
                 "NotInstantiable": {
-                    "name": "$~tamamlanmamışyapı",
+                    "name": "$~eksik yapı",
                     "explanation": "$~Bu @StructureDefinition'ı oluşturamıyorum, çünkü uygulanmamış fonksiyonları var.",
                     "resolution": "$~Eksik işlevlerin iskeletini oluşturun."
                 },
                 "UnexpectedInput": {
-                    "name": "$~beklenmedikgirdi",
+                    "name": "$~beklenmeyen girdi",
                     "explanation": "$~Ben beklenmedik bir girdiyim.",
                     "resolution": "$~Bu girişi kaldır"
                 },
                 "UnknownInput": {
-                    "name": "$~bilinmeyengirdi",
+                    "name": "$~bilinmeyen girdi",
                     "explanation": "$~Bu *$name* fonksiyonu benim ismimi içeren bir girdi beklemiyor.",
                     "resolution": "$~Bu girdiyi * $name * olarak yeniden adlandırın."
                 },
                 "InputListMustBeLast": {
-                    "name": "$~ekstragirdilersondeğildir",
+                    "name": "$~fazladan girdiler en sonda değil",
                     "explanation": "$~Giriş listesi en sonda olmalıdır.",
                     "resolution": "$~Liste girişini sona taşı"
                 },
                 "SeparatedEvaluate": {
-                    "name": "$~belirsizdeğerlendirme",
+                    "name": "$~belirsiz değerlendirme",
                     "explanation": "$~$name, değerlendirmeye çalıştığınız $structure[$structure|@FunctionDefinition] adlı bir yapının adı mı? @Evaluate olduğunu ve ayrı bir @Block olmadığını anlamam için benden sonraki boşluğu kaldırmayı deneyin.",
                     "resolution": "$~* $name * ile girdileri arasındaki boşluğu kapatın."
                 },
                 "UnknownTimeZone": {
-                    "name": "$~bilinmeyenSaatDilimi",
+                    "name": "$~bilinmeyen saat dilimi",
                     "explanation": "$~*$zone* adında bir saat dilimi bilmiyorum. Saat dilimleri bölgelerin ve şehirlerin adını taşır, örneğin \\'America/New_York'\\. Bildiğin bir şehri yazmayı dene, ben de bir tane önereyim!",
                     "resolution": "$~Onu $zone şehrinin saat dilimi olan *$city* olarak değiştir"
                 }
@@ -1069,7 +1069,7 @@
             "start": "$~Hadi bunu bir fonksiyon haline getirelim!",
             "conflict": {
                 "NoExpression": {
-                    "name": "$~eksikifade",
+                    "name": "$~eksik ifade",
                     "explanation": "$~Değerlendirmek için bir ifadeye ihtiyacım var, ekleyebilir misiniz?",
                     "resolution": "$~Yer tutucu bir gövde ekleyin"
                 }
@@ -1081,7 +1081,7 @@
             }
         },
         "Iteration": {
-            "name": "$~dahayüksekmertebedenfonksiyon",
+            "name": "$~yüksek dereceli fonksiyon",
             "description": "$~liste değerleri üzerinde dahili olarak yinele",
             "emotion": "kind",
             "doc": "$~Ben, şeylerin listeleri üzerinde işlem yapan çok özel bir @FunctionDefinition türüyüm. @List.translate gibi fonksiyonları mümkün kılmam dışında, benim hakkımda hiçbir şey bilmenize gerek yok.",
@@ -1132,7 +1132,7 @@
             "finish": "$~$value[değer $type'dir|değer $type değildir]",
             "conflict": {
                 "ImpossibleType": {
-                    "name": "$~imkansıztip",
+                    "name": "$~imkansız tip",
                     "explanation": "$~Bu asla $type olamaz",
                     "resolutionIsFalse": "$~Bu tür kontrolünü *⊥* ile değiştirin (cevap her zaman yanlıştır).",
                     "resolutionDropOtherwise": "$~*??* işaretini kaldırın — sol taraf asla *ø* olmaz."
@@ -1146,7 +1146,7 @@
             }
         },
         "IsLocale": {
-            "name": "$~dildir",
+            "name": "$~dil mi",
             "description": "$~Dil seçiliyse true döndürün.",
             "emotion": "kind",
             "doc": [
@@ -1158,7 +1158,7 @@
             "start": "$~Dil $locale mı?"
         },
         "ListAccess": {
-            "name": "$~listeerişimi",
+            "name": "$~liste erişimi",
             "description": "$~liste konumundaki değeri al",
             "emotion": "cheerful",
             "doc": [
@@ -1169,7 +1169,7 @@
             "finish": "$~Dizindeki öğe $value!'dur."
         },
         "ListLiteral": {
-            "name": "$~listetamlaması",
+            "name": "$~liste sabiti",
             "description": "$~$count değerden oluşan liste oluştur",
             "emotion": "eager",
             "doc": "$~Ben belirli bir @List değerleriyim! Benimle neler yapabileceğinizi öğrenmek için @List'e bakın.",
@@ -1186,7 +1186,7 @@
             ]
         },
         "MapLiteral": {
-            "name": "$~haritakelimesikelimesine",
+            "name": "$~harita sabiti",
             "description": "$~$count anahtar-değer çiftli harita oluştur",
             "emotion": "kind",
             "doc": "$~Anahtarlar ve değerler arasında belirli bir @Map'im. Nasıl yardımcı olabileceğim hakkında daha fazla bilgi edinmek için @Map'e bakın.",
@@ -1194,7 +1194,7 @@
             "finish": "$~Herkesi birbirine bağladım, $value",
             "conflict": {
                 "NotAKeyValue": {
-                    "name": "$~eksikdeğer",
+                    "name": "$~eksik değer",
                     "explanation": "$~Bir @Map'in içindeyim, bu yüzden bir değere ihtiyacım var.",
                     "resolution": "$~Anahtar-değer çifti olarak paketleyin."
                 }
@@ -1224,28 +1224,28 @@
             }
         },
         "NumberLiteral": {
-            "name": "$~sayısabiti",
+            "name": "$~sayı sabiti",
             "description": "$~$number $unit[$unit|] sayısını oluştur",
             "emotion": "excited",
             "doc": "$~Ben belirli bir @Number'ım. Bana her türlü dilden her türlü rakamla yazabilirsiniz. Yapabileceğim her şey için @Number'a bakın.",
             "start": "$~$value!",
             "conflict": {
                 "NotANumber": {
-                    "name": "$~birsayıdeğil",
+                    "name": "$~sayı değil",
                     "explanation": "$~Bütün sayıları bildiğimi sanıyordum ama bunu bilmiyormuşum.",
                     "resolution": "$~*0* ile değiştirin"
                 }
             }
         },
         "InternalExpression": {
-            "name": "$~içselifade",
+            "name": "$~dahili ifade",
             "description": "$~yerleşik oluşturucu ifadesi çalıştır",
             "emotion": "neutral",
             "doc": "$~Ben, yalnızca orijinal yaratıcılarının kullandığı bir ifadeyim. Beni nasıl buldunuz? Benim hakkımda daha fazla bilgi edinmek için onlarla konuşmanız gerekecek.",
             "start": "$~Gizli ifade"
         },
         "NoneLiteral": {
-            "name": "$~hiçbirigerçekdeğil",
+            "name": "$~boş sabit",
             "description": "$~hiçlik değerini oluştur",
             "emotion": "neutral",
             "doc": "$~Ben, eşsiz bir hiçlik değeri olan @None yaratıyorum. Onlar hakkında daha fazla bilgi edinmek için @None bakın.",
@@ -1347,7 +1347,7 @@
             "finish": "$~Yapıyı kopyaladım ama $property'i $value olarak kullandım",
             "conflict": {
                 "InvalidProperty": {
-                    "name": "$~bilinmeyenmülk",
+                    "name": "$~bilinmeyen özellik",
                     "explanation": "$~Ben $structure yapısında bir isim değilim, bu yüzden rafine edilemem.",
                     "resolution": "$~* $name * olarak yeniden adlandırın."
                 }
@@ -1387,7 +1387,7 @@
             "finish": "$~Yeni akış değeri $value'dur.",
             "conflict": {
                 "ExpectedStream": {
-                    "name": "$~beklenenakış",
+                    "name": "$~akış bekleniyordu",
                     "explanation": "$~$condition bir akışa referans vermiyor, bu yüzden asla tepki vermeyeceğim!",
                     "resolution": "$~Tepkimeyi atlayın, sadece başlangıç değerini koruyun."
                 }
@@ -1412,18 +1412,18 @@
             "conflict": {
                 "UnknownName": {
                     "conflict": {
-                        "name": "$~bilinmeyenisim",
+                        "name": "$~bilinmeyen isim",
                         "explanation": "$~$name[Bu @Block'ta $name adında kimseyi tanımıyorum[$scope|bana bir isim verebilir misin?]"
                     },
                     "resolution": "$~*$suggestion* mı demek istediniz?"
                 },
                 "ReferenceCycle": {
-                    "name": "$~kendikendinireferansalandeğer",
+                    "name": "$~kendine gönderme yapan değer",
                     "explanation": "$~Şey, $name'in değeri kendisine bağlı, peki ona hangi değeri vereceğimi nasıl bileceğim?",
                     "resolution": "$~Döngüyü kırmak için * $name * yerine bir yer tutucu yazın."
                 },
                 "UnexpectedTypeVariable": {
-                    "name": "$~beklenmeyentipdeğişkeni",
+                    "name": "$~beklenmeyen tip değişkeni",
                     "explanation": "$~Bu tür girdilerle ne yapacağımı bilmiyorum.",
                     "resolution": "$~Bu tür değişkenini fonksiyondan kaldırın."
                 }
@@ -1449,14 +1449,14 @@
             "finish": "$~Sadece seçili satır ve sütunlardan oluşan yeni bir tablo oluşturdum!",
             "conflict": {
                 "ExpectedSelectName": {
-                    "name": "$~eksiksütunadı",
+                    "name": "$~eksik kolon ismi",
                     "explanation": "$~En az bir sütun adına ihtiyacım var.",
                     "resolution": "$~Bu hücreyi kaldır"
                 }
             }
         },
         "SetLiteral": {
-            "name": "$~tamolarakayarla",
+            "name": "$~küme sabiti",
             "description": "$~$count öğeli küme oluştur",
             "emotion": "eager",
             "doc": "$~Ben belirli değerlerin belirli bir @Set'iyim. Benimle nasıl çalışabileceğiniz hakkında daha fazla bilgi edinmek için @Set'e bakın.",
@@ -1464,7 +1464,7 @@
             "finish": "$~Bir $value değeri belirledim!"
         },
         "SetOrMapAccess": {
-            "name": "$~set/haritaerişimi",
+            "name": "$~küme/harita erişimi",
             "description": "$~küme veya haritanın içerip içermediğini kontrol et",
             "emotion": "kind",
             "doc": [
@@ -1478,7 +1478,7 @@
             "finish": "$~Değer $value'dur.",
             "conflict": {
                 "IncompatibleKey": {
-                    "name": "$~uyumsuzanahtar",
+                    "name": "$~uyumsuz anahtar",
                     "explanation": "$~$expected tipinde bir anahtar bekliyordum.",
                     "resolution": "$~$expected gerekli olduğundan, onu $expected expected'e dönüştürün.",
                     "resolutionLiteral": "$~Listeyi, kümeyi veya haritayı ! ile tam olarak belirtin, böylece değerleri genelleştirilmek yerine belirli kalır — $expected tam değerlere ihtiyaç duyar.",
@@ -1531,17 +1531,17 @@
             "start": "$~Bu güzel yapıyı tanımlayalım",
             "conflict": {
                 "DisallowedInputs": {
-                    "name": "$~girişlereizinverilmiyor",
+                    "name": "$~girdilere izin verilmiyor",
                     "explanation": "$~Arayüz fonksiyonlarımdan biri veya birkaçı uygulanmadığı için girdi alamıyorum.",
                     "resolution": "$~Girişleri kaldırın"
                 },
                 "IncompleteImplementation": {
-                    "name": "$~tamamlanmamışyapı",
+                    "name": "$~eksik yapı",
                     "explanation": "$~Fonksiyonlarımın ya tamamı uygulanmalı ya da hiçbiri uygulanmamalı. Karışık durumlar olmamalı!",
                     "resolution": "$~Girişleri kaldırarak arayüz haline getirin."
                 },
                 "NotAnInterface": {
-                    "name": "$~birarayüzdeğil",
+                    "name": "$~bir arayüz değil",
                     "explanation": "$~Ben bir arayüz değilim; bir yapı yalnızca arayüzleri uygulayabilir, diğer yapıları değil.",
                     "resolution": "$~Bunu arayüz listesinden çıkarın."
                 },
@@ -1559,7 +1559,7 @@
             }
         },
         "StructureDefinitionType": {
-            "name": "$~yapıtanımı",
+            "name": "$~yapı tanımı",
             "description": "$name",
             "emotion": "kind",
             "doc": [
@@ -1567,7 +1567,7 @@
             ]
         },
         "TableLiteral": {
-            "name": "$~tabloharfiharfine",
+            "name": "$~tablo sabiti",
             "description": "$~$count satırlı tablo oluştur",
             "emotion": "angry",
             "doc": "$~Belirli satırları olan belirli bir tabloyum. Nasıl yardımcı olabileceğimi öğrenmek için @Table'a bakın.",
@@ -1575,7 +1575,7 @@
             "finish": "$~Yeni tabloya göre değerlendirildi $value"
         },
         "TextLiteral": {
-            "name": "$~metintamanlamıyla",
+            "name": "$~metin sabiti",
             "description": "$~$text metin değeri oluştur",
             "emotion": "serious",
             "doc": "$~Bir veya daha fazla belirli @Translation çevirisini temsil ediyorum. Neler yapabileceğim hakkında daha fazla bilgi edinmek için @Text bakın!",
@@ -1591,29 +1591,29 @@
             "doc": "$~@Language etiketiyle bir miktar metin temsil ediyorum. Daha fazla bilgi edinmek için @Text'e bakın!",
             "conflict": {
                 "phone": {
-                    "name": "$~olasıtelefonnumarası",
+                    "name": "$~olası telefon numarası",
                     "explanation": "$~*$text* birinin telefon numarası mı? Eğer öyleyse, beni internette paylaşmayın!\n\n$reminder"
                 },
                 "email": {
-                    "name": "$~olasıe-posta",
+                    "name": "$~olası e-posta",
                     "explanation": "$~*$text* birinin e-posta adresi mi? Eğer öyleyse beni burada paylaşmayın!\n\n$reminder"
                 },
                 "tin": {
-                    "name": "$~olasıvergitanımlayıcısı",
+                    "name": "$~olası vergi kimliği",
                     "explanation": "$~*$text* bir vergi kimlik numarası mı? Eğer öyleyse, kesinlikle beni paylaşmayın, çok hassas bir bilgiyim!\n\n$reminder"
                 },
                 "address": {
-                    "name": "$~olasıadres",
+                    "name": "$~olası adres",
                     "explanation": "$~*$text* birinin ev adresi mi? Eğer öyleyse, beni buraya yazmayın, kimsenin takip edilmesini istemiyoruz!\n\n$reminder"
                 },
                 "handle": {
-                    "name": "$~olasıkullanıcıadı",
+                    "name": "$~olası kullanıcı adı",
                     "explanation": "$~*$text*, internette başka bir yerde kullandığınız kullanıcı adınız mı? Eğer öyleyse, gerçekten istemediğiniz sürece beni burada paylaşmayın.\n\n$reminder"
                 },
                 "resolution": "$~Bu hassas bir veri değil",
                 "reminder": "$~Not: Bu işlemi geri alabilir ve paylaşım iletişim kutusunda hassas olmayan olarak işaretlediğiniz diğer şeyleri görebilirsiniz.",
                 "character": {
-                    "name": "$~olasıözelkarakter",
+                    "name": "$~olası özel karakter",
                     "explanation": "$~Bu bir karakter adı gibi görünüyor. Bunları göstermek için @TextLiteral yerine @FormattedLiteral kullanın.",
                     "resolutionStrip": "$~Metinden özel karakterleri kaldırın."
                 }
@@ -1623,14 +1623,14 @@
             }
         },
         "FormattedLiteral": {
-            "name": "$~biçimlendirilmiş",
+            "name": "$~biçimlendirilmiş metin",
             "description": "$~$text biçimlendirilmiş metin oluştur",
             "emotion": "serious",
             "doc": "$~Biçimlendirilmiş metnin birçok farklı @FormattedTranslation'ını temsil ediyorum. Değerlendirdiğimde, izleyicinin seçtiği dillere göre en iyi eşleşmeyi seçeceğim.",
             "start": "$~Şimdi mevcut dilde metin oluşturalım."
         },
         "FormattedTranslation": {
-            "name": "$~biçimlendirilmişçeviri",
+            "name": "$~biçimlendirilmiş çeviri",
             "description": "$~biçimlendirilmiş metni $language'e çevir",
             "emotion": "serious",
             "doc": [
@@ -1664,14 +1664,14 @@
             "start": "$~$value olarak belirlenmiştir.",
             "conflict": {
                 "MisplacedThis": {
-                    "name": "$~bureferansıyanlışyerekoydum",
+                    "name": "$~yanlış yerleştirilmiş bu göndermesi",
                     "explanation": "$~Sadece yapı, dönüşüm, reaksiyon veya çeviri işlemlerine katılmama izin veriliyor.",
                     "resolution": "$~Yer tutucu ile değiştirin"
                 }
             }
         },
         "UnaryEvaluate": {
-            "name": "$~teklideğerlendirme",
+            "name": "$~tekli değerlendirme",
             "description": "$~$operator tekli işleci uygula",
             "emotion": "kind",
             "doc": [
@@ -1708,13 +1708,13 @@
             "conflict": {
                 "UnparsableConflict": {
                     "conflict": {
-                        "name": "$~okunamayankod",
+                        "name": "$~okunamayan kod",
                         "explanation": "$~Burada @FunctionDefinition kullanıldığında, @UnparsableExpression, $expression[ expression | type ] ifadesinin ne türde olduğunu bilmiyor."
                     },
                     "resolution": "$~$first, $second gibi türleri mi kastettiniz?"
                 },
                 "UnclosedDelimiter": {
-                    "name": "$~kapatılmamışayırıcı",
+                    "name": "$~kapatılmamış ayraç",
                     "explanation": "$~$expected'ın $unclosed'dan bir süre sonra olmasını bekliyordum.",
                     "resolution": "$~Eksik olan * $expected * öğesini ekleyin."
                 }
@@ -1740,12 +1740,12 @@
             "finish": "$~Revize edilmiş satırlarla yeni bir tabloya değerlendirildi!",
             "conflict": {
                 "ExpectedColumnBind": {
-                    "name": "$~eksiksütundeğeri",
+                    "name": "$~eksik kolon değeri",
                     "explanation": "$~Her sütun için bir değere ihtiyacım var.",
                     "resolution": "$~Bu hücreyi adlandırılmış bir sütun olarak sarmalayın."
                 },
                 "IncompatibleCellType": {
-                    "name": "$~uyumsuzhücretipi",
+                    "name": "$~uyumsuz hücre tipi",
                     "explanation": "$~Benim $expected türünde olmam gerekirken, $given türündeyim.",
                     "resolution": "$~$expected gerekli olduğundan, onu $expected expected'e dönüştürün.",
                     "resolutionLiteral": "$~Listeyi, kümeyi veya haritayı ! ile tam olarak belirtin, böylece değerleri genelleştirilmek yerine belirli kalır — $expected tam değerlere ihtiyaç duyar.",
@@ -1848,7 +1848,7 @@
             ],
             "conflict": {
                 "UnknownTypeName": {
-                    "name": "$~bilinmeyentüradı",
+                    "name": "$~bilinmeyen tip ismi",
                     "explanation": "$~Tür adları yalnızca yapılara veya tür değişkenlerine atıfta bulunabilir, ancak bu $type türüne atıfta bulunur.",
                     "resolution": "$~Bir tür yer tutucu ile değiştirin."
                 }
@@ -1879,7 +1879,7 @@
             ]
         },
         "StreamDefinitionType": {
-            "name": "$~akıştanımı",
+            "name": "$~akış tanımı",
             "description": "$~tanımlı akışı türlendir",
             "emotion": "angry",
             "doc": "$~Tanımladığınız bir akımı temsil ediyorum ki bu mümkün değil, o zaman bunu neden okuyorsunuz?"
@@ -1913,7 +1913,7 @@
             "doc": "$~Ben bir Tabloyu temsil ediyorum.",
             "conflict": {
                 "ExpectedColumnType": {
-                    "name": "$~eksiksütuntürü",
+                    "name": "$~eksik kolon tipi",
                     "explanation": "$~Bir sütun türüne ihtiyacım var.",
                     "resolution": "$~Bir tür yer tutucu ekleyin"
                 }
@@ -1961,7 +1961,7 @@
             "doc": "$~Bilinmeyen bir ifadenin türünü temsil ediyorum. O ifadeyi bir şey için kullanmaya çalıştığınızda ortaya çıkıyorum."
         },
         "VariableType": {
-            "name": "$~değişkentürü",
+            "name": "$~değişken tipi",
             "description": "$~kullanımdaki tür değişkenini temsil et",
             "emotion": "curious",
             "doc": "$~Değerler arasındaki tüm müzakerelerde, bilinmeyen bir değer türü olan @TypeVariable temsil ediyorum."
@@ -1973,7 +1973,7 @@
             "doc": "$~Ben, türü kendisine bağlı olan bir değeri temsil ediyorum, bu yüzden onun ne tür bir değer olduğunu söyleyemeyiz."
         },
         "UnknownVariableType": {
-            "name": "$~bilinmeyendeğişken",
+            "name": "$~bilinmeyen değişken",
             "description": "$~bilinmeyen tür değişkenini temsil et",
             "emotion": "curious",
             "doc": "$~Bazen bir şeyin ne tür bir değere sahip olduğunu tahmin etmeye çalışırız; bilmediğimiz zaman ben ortaya çıkarım."
@@ -1985,13 +1985,13 @@
             "doc": "$~Beklediğimiz türden olmayan bir değeri temsil ediyorum; örneğin, @ListAccess @Number türünde bir değere ihtiyaç duyması ancak başka bir tür alması gibi."
         },
         "NoExpressionType": {
-            "name": "$~hiçbirifade",
+            "name": "$~ifade yok",
             "description": "$~boş bloğu türlendir",
             "emotion": "angry",
             "doc": "$~@Block hiçbir ifade olmadığında ortaya çıkan tip benim. En az bir ifadeye ihtiyaç duyduğunu biliyorsunuz, o yüzden bir tane ekleyin!"
         },
         "NotEnclosedType": {
-            "name": "$~yapı,dönüşümveyatepkimeaçısındandeğil",
+            "name": "$~yapıda, dönüştürmede veya tepkide değil",
             "description": "$~yapı dışında kullanımı işaretle",
             "emotion": "curious",
             "doc": "$~@This kullanılmadığı bir yerde kullanıldığında ortaya çıkıyorum, bu yüzden kimse ne anlama geldiğini bilmiyor."
@@ -2003,7 +2003,7 @@
             "doc": "$~@ExpressionPlaceholder kullandığınızda, ancak bunların hangi tür olduğunu söylemediğinizde, elde ettiğiniz tür benim. Bununla başa çıkın!"
         },
         "UnknownNameType": {
-            "name": "$~bilinmeyenisim",
+            "name": "$~bilinmeyen isim",
             "description": "$~$name [ $name henüz tanımlanmadı | isim verilmedi ]",
             "emotion": "curious",
             "doc": "$~@Reference veya @PropertyReference bulamadığı bir ismi temsil ediyorum, yani kimden bahsettiğinizi bilmediğimiz durumlarda."
@@ -2031,17 +2031,17 @@
             "next": "$~Sonraki öğe: $value !",
             "conflict": {
                 "ExpectedCollection": {
-                    "name": "$~beklenentahsilat",
+                    "name": "$~koleksiyon bekleniyordu",
                     "explanation": "$~Koleksiyon dönüştürme işleminin sol tarafının bir koleksiyon olması gerektiğini bekliyordum, ancak $type aldım."
                 },
                 "ExpectedThis": {
-                    "name": "$~Bunubekliyordum.",
+                    "name": "$~bu bekleniyordu",
                     "explanation": "$~@This ifadesini bu koleksiyondaki bir öğeye atıfta bulunmak için mi kullandınız?"
                 }
             }
         },
         "ExternalExample": {
-            "name": "$~hariciörnek",
+            "name": "$~harici örnek",
             "description": "$~Belgelemede başka bir programlama dilinden kod göster",
             "emotion": "serious",
             "doc": [
@@ -2085,7 +2085,7 @@
             "start": "$~Metnin nasıl göründüğüne bir bakayım.",
             "conflict": {
                 "EmptyPattern": {
-                    "name": "$~boşdesen",
+                    "name": "$~boş desen",
                     "explanation": "$~Elimde hiç parça yok, bu yüzden işime yarayacak hiçbir şeyle eşleştiremiyorum. Bir parça ekleyebilir misiniz?",
                     "resolution": "$~Herhangi bir karakterle eşleşmesi için \\◌\\ ekleyin."
                 }
@@ -2115,13 +2115,13 @@
             ],
             "conflict": {
                 "OverlappingAlternatives": {
-                    "name": "$~örtüşenseçimler",
+                    "name": "$~örtüşen seçimler",
                     "explanation": "$~$shorter , $longer başlangıcıdır ve en uzun seçenek her zaman kazanır, bu nedenle $shorter yalnızca $longer eşleşemediğinde eşleşir. Bunu mu demek istediniz?"
                 }
             }
         },
         "PatternClass": {
-            "name": "$~karaktersınıfı",
+            "name": "$~karakter sınıfı",
             "description": "$~bir karakter türüyle eşleşin",
             "emotion": "curious",
             "doc": [
@@ -2145,7 +2145,7 @@
             ],
             "conflict": {
                 "UnrecognizedPatternProperty": {
-                    "name": "$~bilinmeyenözellik",
+                    "name": "$~bilinmeyen özellik",
                     "explanation": "$~$name özelliğini tanımıyorum. Bir kategori, komut dosyası veya Unicode kimliği deneyin.",
                     "resolution": "$~Bunu $suggestion olarak değiştirin."
                 }
@@ -2163,7 +2163,7 @@
             ],
             "conflict": {
                 "MalformedQuantifier": {
-                    "name": "$~imkansızsayım",
+                    "name": "$~imkansız sayım",
                     "explanation": "$~Düşük sayımım yüksek sayımımdan daha büyük, bu yüzden asla eşleşemem.",
                     "resolution": "$~Sayılarımı değiştir, böylece küçük olan önce gelsin."
                 }
@@ -2192,7 +2192,7 @@
             ],
             "conflict": {
                 "DuplicateCaptureName": {
-                    "name": "$~kopyayakalama",
+                    "name": "$~yinelenen yakalama",
                     "explanation": "$~Başka bir yakalama işlemi zaten $name adını kullanıyor, bu nedenle bu yakalama işlemi onu geçersiz kılacaktır.",
                     "resolution": "$~Bu yakalamayı $replacement olarak yeniden adlandırın."
                 }
@@ -2222,7 +2222,7 @@
             ]
         },
         "PatternSet": {
-            "name": "$~glifseti",
+            "name": "$~harf seti",
             "description": "$~Bu grafemlerden birini eşleştirin",
             "emotion": "curious",
             "doc": [
@@ -2277,13 +2277,13 @@
             ],
             "conflict": {
                 "MissingPatternLocale": {
-                    "name": "$~eksikdil",
+                    "name": "$~eksik dil",
                     "explanation": "$~Kelimeleri nasıl bulacağımı bilmek için bir dile ihtiyacım var. \\/en\\ gibi bir tane ekleyebilir misiniz?"
                 }
             }
         },
         "PatternWordEdge": {
-            "name": "$~kelimekenarı",
+            "name": "$~kelime kenarı",
             "description": "$~kelime sınırına uymak",
             "emotion": "curious",
             "doc": [
@@ -2317,7 +2317,7 @@
             ],
             "conflict": {
                 "UndefinedBackreference": {
-                    "name": "$~bilinmeyenisim",
+                    "name": "$~bilinmeyen isim",
                     "explanation": "$~$name adında bir yakalama veya sınıf yok, bu yüzden eşleştirebileceğim bir şey bulamıyorum.",
                     "resolution": "$~Bunu $suggestion olarak değiştirin."
                 }
@@ -2335,7 +2335,7 @@
             ]
         },
         "PatternCaseFold": {
-            "name": "$~büyük/küçükharfduyarlılığınıgözardıet",
+            "name": "$~büyük-küçük harf gözetme",
             "description": "$~büyük/küçük harf duyarlılığını göz ardı ederek eşleştirme",
             "emotion": "curious",
             "doc": [
@@ -2346,7 +2346,7 @@
             ]
         },
         "PatternType": {
-            "name": "$~desentürü",
+            "name": "$~desen tipi",
             "description": "$~bir desenin türü",
             "emotion": "curious",
             "doc": [
@@ -2996,7 +2996,7 @@
             "name": ["$~[]", "$~Liste"],
             "kind": "$~Tür",
             "out": "$~Sonuç",
-            "outofbounds": "$~sınır dışı",
+            "outofbounds": "$~sınırDışı",
             "function": {
                 "add": {
                     "doc": [
@@ -5822,7 +5822,7 @@
             "tour": {
                 "launch": "$~Proje kontrollerini inceleyin.",
                 "controls": "$~Alttaki bu kontroller, hangi kutucukta çalışıyor olursanız olun, *projenin tamamı* için geçerlidir.",
-                "name": "$~/name/alanıprojenizinadıdır.İsimler*proje*ve*galeri*görünümlerindegörünür.",
+                "name": "$~/isim/ alanı projenizin ismidir. İsimler *proje* ve *galeri* görünümlerinde görünür.",
                 "sourceToggle": "$~Bu /toggle/ düğmesi *kaynak dosyayı* gösterir veya gizler. Bu satırdaki *diğer /toggle/ düğmeleri* diğer kutucuklar için de aynı işlevi görür.",
                 "addSource": "$~Bazı projeler, verilerin birinde saklandığı ve *ana* kaynağa aktarıldığı *birden fazla* kaynak dosyasından faydalanır. \"/Kaynak ekle/\" düğmesi yeni bir dosya oluşturur.",
                 "share": "$~/paylaş/ iletişim kutusu, projenizi *galerilerle*, *herkesle* paylaşmanıza veya başka bir yerde paylaşmak üzere *metin* olarak kopyalamanıza olanak tanır.",
@@ -7253,7 +7253,7 @@
                     "confirm": "$~Yeni adresinizi doğrulamak için eski e-posta adresinizi kontrol edin.",
                     "delete": "$~Burada yaptığınız her şeyi unutmamızı mı istiyorsunuz? Bu geri alınamaz.",
                     "reallyDelete": "$~Emin misiniz? Hesabınız ve ayarlarınız hemen silinecek ve projeleriniz silinmek üzere planlanacak. Projelerinizdeki işbirlikçiler bunlara erişimi hemen kaybedecek. Bunu istediğinizi onaylamak için e-postanızı veya kullanıcı adınızı yazın.",
-                    "name": "$~Kendinizibaşkalarınatemsiledecekbiremojiseçin."
+                    "name": "$~Kendinizi başkalarına göstermek için bir emoji ya da özel karakter seçin."
                 },
                 "error": {
                     "expired": "$~Bu bağlantının süresi doldu.",
@@ -7566,7 +7566,7 @@
                     }
                 },
                 "feedback": {
-                    "name": "$~Karakterlerinenaz1karakteruzunluğundageçerlibirWordplayadınaihtiyacıvardır.'UI',ondalıkveyaonaltılıksayıveyayerleşikbirdilözelliğininadıolamaz.",
+                    "name": "$~Karakterler en az 1 karakter uzunluğunda geçerli bir Wordplay ismine ihtiyaç duyar. Bu isim 'UI', ondalık ya da onaltılık bir sayı, veya yerleşik bir dil özelliğinin ismi olamaz.",
                     "description": "$~Karakterlerin, neyi temsil ettiğini göremeyenler için bir tanıma ihtiyacı vardır.",
                     "end": "$~veya escape tuşuna basın.",
                     "loadfail": "$~Bu karakter yüklenirken bir sorun oluştu.",

@@ -359,17 +359,17 @@
             ],
             "conflict": {
                 "UnknownLanguage": {
-                    "name": "$~unbekannteSprache",
+                    "name": "$~unbekannte Sprache",
                     "explanation": "$~Ich kenne diese Sprache nicht.",
                     "resolution": "$~Diesen Sprachcode entfernen"
                 },
                 "MissingLanguage": {
-                    "name": "$~fehlendeSprache",
+                    "name": "$~fehlende Sprache",
                     "explanation": "$~Mir fehlt eine Sprache. Können Sie eine hinzufügen?",
                     "resolution": "$~Entfernen Sie das leere Sprach-Tag."
                 },
                 "DuplicateLanguage": {
-                    "name": "$~doppelteSprache",
+                    "name": "$~doppelte Sprache",
                     "explanation": "$~Sie haben die Sprache ' $code ' zweimal verwendet. Bei Tags mit gemischten Sprachen sollte jede Sprache nur einmal aufgeführt werden.",
                     "resolution": "$~Entfernen Sie das doppelte * $code * Tag"
                 }
@@ -413,28 +413,28 @@
             "doc": "$~Ich stelle eine Zeile in einer @Table dar. Am besten spreche ich mit @Table, die wissen alles über mich. Ich sitze einfach nur herum und halte die Werte in der Reihe :(",
             "conflict": {
                 "InvalidRow": {
-                    "name": "$~ungültigeZeile",
+                    "name": "$~ungültige Zeile",
                     "explanation": "$~Die Zeilen müssen entweder alle Werte oder alle @Bind enthalten.",
                     "resolutionKeepPositional": "$~Entfernen Sie die benannten Zellen, behalten Sie nur die positionellen Zellen.",
                     "resolutionUnwrapInputs": "$~Entfernen Sie die Namen aus den benannten Zellen."
                 },
                 "MissingCell": {
-                    "name": "$~fehlendeSpalte",
+                    "name": "$~fehlende Spalte",
                     "explanation": "$~Mir fehlt Spalte $column.",
                     "resolution": "$~Fügen Sie eine Platzhalterzelle für * $column * hinzu."
                 },
                 "UnknownColumn": {
-                    "name": "$~unbekannterSpaltenname",
+                    "name": "$~unbekannter Spaltenname",
                     "explanation": "$~Mir ist keine Kolumne mit diesem Namen bekannt.",
                     "resolution": "$~Umbenennen in * $name *"
                 },
                 "ExtraCell": {
-                    "name": "$~zusätzlicheSpalte",
+                    "name": "$~zusätzliche Spalte",
                     "explanation": "$~Aufgrund meines Tabellentyps bin ich eine zusätzliche Spalte, die hier nicht sein sollte.",
                     "resolution": "$~Entfernen Sie die überflüssige Zelle."
                 },
                 "UnexpectedColumnBind": {
-                    "name": "$~keineBindungszeilen",
+                    "name": "$~keine Bind-Zeilen",
                     "explanation": "$~Ich sollte ein Wert sein, nicht @Bind."
                 }
             }
@@ -449,7 +449,7 @@
             ]
         },
         "TypeInputs": {
-            "name": "$~Typeingaben",
+            "name": "$~Typ-Eingaben",
             "description": "$~fülle Typvariablen-Slots aus",
             "emotion": "curious",
             "doc": "$~Ich bin eine Liste von Typen, die den Platz von @TypeVariables in einer @StructureDefinition oder @FunctionDefinition einnehmen. Ich helfe allen dabei, zu wissen, welche Art von Eingaben sie erhalten werden."
@@ -461,7 +461,7 @@
             "doc": "$~Ich bin ein mysteriöser Typ für @FunctionDefinition oder @StructureDefinition, der von @TypeInputs bereitgestellt wird, wenn einer von beiden ausgewertet wird. @Set, @List und @Map verwenden mich.",
             "conflict": {
                 "DuplicateTypeVariable": {
-                    "name": "$~doppelteTypvariable",
+                    "name": "$~doppelte Typvariable",
                     "explanation": "$~Ich habe denselben Namen wie $duplicate",
                     "resolution": "$~Entferne die doppelte Typvariable"
                 }
@@ -543,7 +543,7 @@
             ],
             "conflict": {
                 "UnsupportedFontFormat": {
-                    "name": "$~nichtunterstütztesSchriftformat",
+                    "name": "$~nicht unterstütztes Schriftformat",
                     "explanation": "$~Mein Freund * $face * weiß nicht, wie man $format ist.",
                     "resolution": "$~Formatierung entfernen"
                 }
@@ -580,7 +580,7 @@
             ]
         },
         "BinaryEvaluate": {
-            "name": "$~binäreAuswertung",
+            "name": "$~binäre Auswertung",
             "description": "$~wende $operator auf zwei Werte an",
             "emotion": "insecure",
             "doc": [
@@ -601,7 +601,7 @@
             "finish": "$~schau, ich habe $value verdient!",
             "conflict": {
                 "OrderOfOperations": {
-                    "name": "$~mehrdeutigeReihenfolge",
+                    "name": "$~mehrdeutige Reihenfolge",
                     "explanation": "$~Ich werte in Lesereihenfolge aus, nicht in mathematischer Reihenfolge. Möchten Sie @Block verwenden, um die Auswertungsreihenfolge festzulegen?",
                     "resolutionPEMDAS": "$~Rechenregeln (PEMDAS) anwenden: $higher vor $lower auswerten.",
                     "resolutionReading": "$~Lesen Sie die Reihenfolge: Bewerten Sie zuerst $lower dann $higher",
@@ -647,18 +647,18 @@
             "conflict": {
                 "DuplicateName": {
                     "conflict": {
-                        "name": "$~doppelterName",
+                        "name": "$~doppelter Name",
                         "explanation": "$~Jemand hat den Namen $shadowed bereits, deshalb kann ich diesen Namen nicht haben."
                     },
                     "resolution": "$~Es gibt doppelte Namen. Möchten Sie einen entfernen?"
                 },
                 "DuplicateShare": {
-                    "name": "$~doppelteFreigabe",
+                    "name": "$~doppelte Freigabe",
                     "explanation": "$~Ich habe denselben Namen wie $duplicate. Dadurch ist unklar, was wir teilen.",
                     "resolution": "$~Diese doppelte Freigabe entfernen"
                 },
                 "IncompatibleType": {
-                    "name": "$~inkompatiblerTyp",
+                    "name": "$~inkompatibler Typ",
                     "explanation": "$~Ich erwartete $expected, erhielt aber den Typ $given.",
                     "resolution": "$~Umrechnen in $expected",
                     "resolutionLiteral": "$~Markieren Sie die Liste, Menge oder Map mit ! als Literal, damit ihre Werte spezifisch bleiben und nicht verallgemeinert werden – $expected benötigt die exakten Werte.",
@@ -674,32 +674,32 @@
                     "explanationDivideByZero": "$~Dies könnte ø sein, da $source durch Null geteilt werden könnte und hier eine Zahl benötigt wird."
                 },
                 "MisplacedShare": {
-                    "name": "$~falschplatzierteAktie",
+                    "name": "$~falsch platzierte Freigabe",
                     "explanation": "$~Ich kann Inhalte nur auf der @Program teilen, nicht innerhalb von irgendetwas!",
                     "resolution": "$~Entferne die *↑* Markierung"
                 },
                 "MissingShareLanguages": {
-                    "name": "$~fehlendeSprache",
+                    "name": "$~fehlende Sprache",
                     "explanation": "$~Wenn du dies teilen möchtest, musst du die Sprache angeben, damit andere wissen, ob sie es lesen können!",
                     "resolution": "$~Entferne die *↑* Markierung"
                 },
                 "RequiredAfterOptional": {
-                    "name": "$~erforderlicheEingabenachoptional",
+                    "name": "$~erforderliche Eingabe nach optionaler",
                     "explanation": "$~Ich kann nicht hier sein, es gibt ein optionales @Bind vor mir.",
                     "resolution": "$~Verschiebe die erforderlichen Eingaben vor die optionalen."
                 },
                 "UnexpectedEtc": {
-                    "name": "$~unerwarteteEingabenachEingabeliste",
+                    "name": "$~unerwartete Eingabe nach Eingabeliste",
                     "explanation": "$~Ich kann nur in einer @FunctionDefinition eine variable Länge haben.",
                     "resolution": "$~Entfernen Sie *…*"
                 },
                 "UnusedBind": {
-                    "name": "$~unbenutzteBindung",
+                    "name": "$~ungenutzter Bind",
                     "explanation": "$~Ich heiße $name, aber niemand benutzt mich. Vielleicht werde ich nicht gebraucht?",
                     "resolution": "$~Diese Bindung löschen"
                 },
                 "ShadowsKeyword": {
-                    "name": "$~SchatteneinSchlüsselwort",
+                    "name": "$~überdeckt ein Schlüsselwort",
                     "explanation": "$~Dieser Name ist gleichzeitig das Schlüsselwort $keyword , daher werde ich ihn hier als Namen lesen; das Schlüsselwort $keyword funktioniert auch an anderer Stelle."
                 }
             },
@@ -735,7 +735,7 @@
             "finish": "$~erledigt, ich habe $value bekommen",
             "conflict": {
                 "ExpectedEndingExpression": {
-                    "name": "$~fehlenderAusdruck",
+                    "name": "$~fehlender Ausdruck",
                     "explanation": "Ich brauche mindestens einen Ausdruck, der kein @Bind ist, damit ich einen Wert zurückgeben kann.",
                     "resolution": "$~Fügen Sie einen abschließenden Ausdruck hinzu"
                 }
@@ -745,7 +745,7 @@
             }
         },
         "BooleanLiteral": {
-            "name": "$~BooleschesLiteral",
+            "name": "$~boolescher Literalwert",
             "description": "$~erstelle $value[wahren|falschen] booleschen Wert",
             "emotion": "precise",
             "doc": "$~Ich bin entweder \\⊤\\ oder \\⊥\\. Weitere Informationen zu unserer schönen Logik finden Sie unter @Boolean.",
@@ -759,12 +759,12 @@
             "start": "$~$name wird aus $source ausgeliehen",
             "conflict": {
                 "UnknownBorrow": {
-                    "name": "$~unbekannteAusleihe",
+                    "name": "$~unbekannte Ausleihe",
                     "explanation": "$~Mir ist keine @Source mit diesem Namen bekannt",
                     "resolution": "$~Diese Ausleihe entfernen"
                 },
                 "BorrowCycle": {
-                    "name": "$~selbstreferenzierendeAusleihe",
+                    "name": "$~selbstbezügliche Ausleihe",
                     "explanation": "$~Dies hängt von $borrow ab, welches wiederum von dieser @Source abhängt, daher kann das Programm nicht ausgewertet werden.",
                     "resolution": "$~Entfernen Sie diese Kreditlinie, um den Kreislauf zu durchbrechen."
                 }
@@ -813,7 +813,7 @@
             "finish": "$~Ich schätze, es ist $value?",
             "conflict": {
                 "ExpectedBooleanCondition": {
-                    "name": "$~erwarteteboolescheBedingung",
+                    "name": "$~boolesche Bedingung erwartet",
                     "explanation": "$~Ich benötige einen @Boolean-Wert, um eine Entscheidung zu treffen, habe aber stattdessen einen $type erhalten.",
                     "resolution": "$~Konvertiere es in $expected , da $expected erforderlich ist.",
                     "resolutionLiteral": "$~Markieren Sie die Liste, Menge oder Map mit ! als Literal, damit ihre Werte spezifisch bleiben und nicht verallgemeinert werden – $expected benötigt die exakten Werte.",
@@ -835,7 +835,7 @@
             }
         },
         "ConversionDefinition": {
-            "name": "$~Konvertierungsdefinition",
+            "name": "$~Umwandlungsdefinition",
             "description": "$~definiere Konvertierung von $input nach $output",
             "emotion": "excited",
             "doc": [
@@ -847,7 +847,7 @@
             "start": "$~super, eine neue Konvertierung!",
             "conflict": {
                 "MisplacedConversion": {
-                    "name": "$~fehlplatzierteKonvertierung",
+                    "name": "$~falsch platzierte Umwandlung",
                     "explanation": "$~Wow, ich kann nicht hier sein, nur in @Block.",
                     "resolution": "$~Diese Konvertierung entfernen"
                 }
@@ -875,7 +875,7 @@
             "finish": "$~Super, ich habe $value verdient",
             "conflict": {
                 "UnknownConversion": {
-                    "name": "$~unbekannteKonvertierung",
+                    "name": "$~unbekannte Umwandlung",
                     "explanation": "$~Wir konnten keine Möglichkeit finden, einen $expected in einen $given umzuwandeln.",
                     "resolution": "$~Entferne die Konvertierung."
                 }
@@ -901,7 +901,7 @@
             "finish": "$~Ich habe eine neue Tabelle ohne die passenden Zeilen erstellt!"
         },
         "DocumentedExpression": {
-            "name": "$~erklärterAusdruck",
+            "name": "$~erklärter Ausdruck",
             "description": "$~hänge Dokumentation an einen Ausdruck",
             "emotion": "eager",
             "doc": [
@@ -934,7 +934,7 @@
             "finish": "$~Ich habe es auf $value geschätzt",
             "conflict": {
                 "IncompatibleInput": {
-                    "name": "$~inkompatibleEingabe",
+                    "name": "$~inkompatible Eingabe",
                     "explanation": "$~Ich erwartete $expected , erhielt aber $given",
                     "resolution": "$~Umrechnen in $expected",
                     "resolutionLiteral": "$~Markieren Sie die Liste, Menge oder Map mit ! als Literal, damit ihre Werte spezifisch bleiben und nicht verallgemeinert werden – $expected benötigt die exakten Werte.",
@@ -950,43 +950,43 @@
                     "explanationDivideByZero": "$~Dies könnte ø sein, da $source durch Null geteilt werden könnte und hier eine Zahl benötigt wird."
                 },
                 "UnexpectedTypeInput": {
-                    "name": "$~unerwarteteTypeingabe",
+                    "name": "$~unerwartete Typ-Eingabe",
                     "explanation": "$~Ich bin ein zusätzlicher, unerwarteter Eingabetyp.",
                     "resolution": "$~Diesen Eingabetyp entfernen"
                 },
                 "MissingInput": {
-                    "name": "$~fehlendeEingabe",
+                    "name": "$~fehlende Eingabe",
                     "explanation": "$~Ich kann $name nicht ohne die Eingabe $input auswerten :(",
                     "resolutionAddInput": "$~Fügen Sie die fehlende Variable $input mit ihrem Standardwert hinzu.",
                     "resolutionPlaceholder": "$~Fügen Sie das fehlende $input als Platzhalter hinzu und wählen Sie dann einen Wert aus dem Autocomplete-Menü aus."
                 },
                 "NotInstantiable": {
-                    "name": "$~unvollständigeStruktur",
+                    "name": "$~unvollständige Struktur",
                     "explanation": "$~Ich kann diese @StructureDefinition nicht erstellen, da sie nicht implementierte Funktionen enthält.",
                     "resolution": "$~Die fehlenden Funktionen als Gerüst bereitstellen"
                 },
                 "UnexpectedInput": {
-                    "name": "$~unerwarteteEingabe",
+                    "name": "$~unerwartete Eingabe",
                     "explanation": "$~Ich bin ein unerwarteter Faktor.",
                     "resolution": "$~Diese Eingabe entfernen"
                 },
                 "UnknownInput": {
-                    "name": "$~unbekannteEingabe",
+                    "name": "$~unbekannte Eingabe",
                     "explanation": "$~Diese Funktion *$name* erwartet keine Eingabe mit meinem Namen.",
                     "resolution": "$~Benennen Sie diese Eingabe in * $name * um."
                 },
                 "InputListMustBeLast": {
-                    "name": "$~zusätzlicheEingängesindnichtzuletzt",
+                    "name": "$~zusätzliche Eingaben sind nicht am Ende",
                     "explanation": "$~Die Liste der Eingaben muss die letzte sein.",
                     "resolution": "$~Verschiebe die Listeneingabe ans Ende"
                 },
                 "SeparatedEvaluate": {
-                    "name": "$~mehrdeutigeBewertung",
+                    "name": "$~mehrdeutige Auswertung",
                     "explanation": "$~Ist $name der Name einer $structure[$structure|@FunctionDefinition], die Sie auswerten möchten? Versuchen Sie, das Leerzeichen nach mir zu entfernen, damit ich weiß, dass es sich um eine @Evaluate-Anweisung und nicht um einen separaten @Block handelt.",
                     "resolution": "$~Schließen Sie den Abstand zwischen * $name * und seinen Eingaben."
                 },
                 "UnknownTimeZone": {
-                    "name": "$~unbekannteZeitzone",
+                    "name": "$~unbekannte Zeitzone",
                     "explanation": "$~Ich kenne keine Zeitzone namens *$zone*. Zeitzonen sind nach Regionen und Städten benannt, wie \\'America/New_York'\\. Schreib eine Stadt, die du kennst, und ich schlage eine vor!",
                     "resolution": "$~Ändere es zu *$zone*, der Zeitzone von $city"
                 }
@@ -1057,7 +1057,7 @@
             "start": "$~Lasst uns diese Funktion machen!",
             "conflict": {
                 "NoExpression": {
-                    "name": "$~fehlenderAusdruck",
+                    "name": "$~fehlender Ausdruck",
                     "explanation": "$~Ich benötige einen Ausdruck zur Auswertung, können Sie einen hinzufügen?",
                     "resolution": "$~Füge einen Platzhalterkörper hinzu"
                 }
@@ -1069,7 +1069,7 @@
             }
         },
         "Iteration": {
-            "name": "$~FunktionhöhererOrdnung",
+            "name": "$~Funktion höherer Ordnung",
             "description": "$~iteriere intern über Listenwerte",
             "emotion": "kind",
             "doc": "$~Ich bin eine ganz besondere Art von @FunctionDefinition, die mit Listen von Dingen arbeitet. Sie müssen nichts über mich wissen, außer dass ich Funktionen wie @List.translate ermögliche.",
@@ -1120,7 +1120,7 @@
             "finish": "$~$value[Wert ist $type|Wert ist nicht $type]",
             "conflict": {
                 "ImpossibleType": {
-                    "name": "$~unmöglicherTyp",
+                    "name": "$~unmöglicher Typ",
                     "explanation": "$~Das kann niemals $type sein.",
                     "resolutionIsFalse": "$~Ersetzen Sie diese Typprüfung durch *⊥* (die Antwort ist immer falsch).",
                     "resolutionDropOtherwise": "$~Lass das *??* weg – die linke Seite ist niemals *ø*"
@@ -1134,7 +1134,7 @@
             }
         },
         "IsLocale": {
-            "name": "$~istSprache",
+            "name": "$~ist Sprache",
             "description": "$~Gibt „true“ zurück, wenn die Sprache ausgewählt ist.",
             "emotion": "kind",
             "doc": [
@@ -1157,7 +1157,7 @@
             "finish": "$~Der Artikel kostet $value!"
         },
         "ListLiteral": {
-            "name": "$~Listenliteral",
+            "name": "$~Listen-Literalwert",
             "description": "$~erstelle eine Liste mit $count Werten",
             "emotion": "eager",
             "doc": "$~Ich bin eine bestimmte @List von Werten! Siehe @List, um mehr darüber zu erfahren, was Sie mit mir tun können.",
@@ -1174,7 +1174,7 @@
             ]
         },
         "MapLiteral": {
-            "name": "$~Kartenliteral",
+            "name": "$~Map-Literalwert",
             "description": "$~erstelle eine Karte mit $count Schlüssel-Wert-Paaren",
             "emotion": "kind",
             "doc": "$~Ich bin eine spezielle @Map zwischen Schlüsseln und Werten. Weitere Informationen dazu, wie ich Ihnen behilflich sein kann, finden Sie unter @Map.",
@@ -1182,7 +1182,7 @@
             "finish": "$~Ich habe alle verbunden, $value",
             "conflict": {
                 "NotAKeyValue": {
-                    "name": "$~fehlenderWert",
+                    "name": "$~fehlender Wert",
                     "explanation": "$~Ich befinde mich in einer @Map, daher benötige ich einen Wert.",
                     "resolution": "$~Als Schlüssel-Wert-Paar verpacken"
                 }
@@ -1212,28 +1212,28 @@
             }
         },
         "NumberLiteral": {
-            "name": "$~Zahlenliteral",
+            "name": "$~Zahlen-Literalwert",
             "description": "$~erstelle Zahl $number $unit[$unit|]",
             "emotion": "excited",
             "doc": "$~Ich bin eine bestimmte @Number. Sie können mir mit allen möglichen Ziffern aus allen möglichen Sprachen schreiben. Alles, was ich kann, finden Sie unter @Number.",
             "start": "$~$value!",
             "conflict": {
                 "NotANumber": {
-                    "name": "$~keineZahl",
+                    "name": "$~keine Zahl",
                     "explanation": "$~Ich dachte, ich kenne alle Zahlen, aber diese hier kenne ich nicht.",
                     "resolution": "$~Ersetzen Sie dies durch *0*"
                 }
             }
         },
         "InternalExpression": {
-            "name": "$~innererAusdruck",
+            "name": "$~interner Ausdruck",
             "description": "$~führe einen eingebauten Erstellerausdruck aus",
             "emotion": "neutral",
             "doc": "$~Ich bin ein Ausdruck, den nur die ursprünglichen Schöpfer verwenden. Wie hast du mich gefunden? Um mehr über mich zu erfahren, musst du mit ihnen sprechen.",
             "start": "$~geheimer Ausdruck"
         },
         "NoneLiteral": {
-            "name": "$~keinewörtliche",
+            "name": "$~Nichts-Literalwert",
             "description": "$~erstelle den Nichts-Wert",
             "emotion": "neutral",
             "doc": "$~Ich stelle @None her, den einzigartigen Wert des Nichts. Besuchen Sie @None , um mehr darüber zu erfahren.",
@@ -1335,7 +1335,7 @@
             "finish": "$~Ich habe die Struktur kopiert, aber mit $property als $value",
             "conflict": {
                 "InvalidProperty": {
-                    "name": "$~unbekannteEigenschaft",
+                    "name": "$~unbekannte Eigenschaft",
                     "explanation": "$~Ich bin kein Name in der Struktur $structure, daher kann ich nicht verfeinert werden.",
                     "resolution": "$~Umbenennen in * $name *"
                 }
@@ -1375,7 +1375,7 @@
             "finish": "$~Der neue Streamwert beträgt $value",
             "conflict": {
                 "ExpectedStream": {
-                    "name": "$~erwarteterDatenstrom",
+                    "name": "$~Stream erwartet",
                     "explanation": "$~$condition bezieht sich nicht auf einen Stream, daher werde ich niemals reagieren!",
                     "resolution": "$~Die Reaktion weglassen, nur den Anfangswert beibehalten"
                 }
@@ -1400,18 +1400,18 @@
             "conflict": {
                 "UnknownName": {
                     "conflict": {
-                        "name": "$~unbekannterName",
+                        "name": "$~unbekannter Name",
                         "explanation": "$~$name[Ich kenne niemanden namens $name in $scope[$scope|diesem @Block]|Kannst du mir einen Namen nennen?]"
                     },
                     "resolution": "$~Meinten Sie *$suggestion?*"
                 },
                 "ReferenceCycle": {
-                    "name": "$~selbstreferenzierenderWert",
+                    "name": "$~selbstbezüglicher Wert",
                     "explanation": "$~Ähm, der Wert von $name hängt von sich selbst ab, wie weiß ich also, welchen Wert ich ihm geben soll?",
                     "resolution": "$~Ersetzen Sie * $name * durch einen Platzhalter, um den Kreislauf zu unterbrechen."
                 },
                 "UnexpectedTypeVariable": {
-                    "name": "$~unerwarteteTypvariable",
+                    "name": "$~unerwartete Typvariable",
                     "explanation": "$~Ich weiß nicht, was ich mit solchen Eingaben anfangen soll.",
                     "resolution": "$~Entfernen Sie diese Typvariable aus der Funktion."
                 }
@@ -1437,14 +1437,14 @@
             "finish": "$~Ich habe eine neue Tabelle nur mit den ausgewählten Zeilen und Spalten erstellt!",
             "conflict": {
                 "ExpectedSelectName": {
-                    "name": "$~fehlenderSpaltenname",
+                    "name": "$~fehlender Spaltenname",
                     "explanation": "$~Ich benötige mindestens einen Spaltennamen.",
                     "resolution": "$~Diese Zelle entfernen"
                 }
             }
         },
         "SetLiteral": {
-            "name": "$~Literalfestlegen",
+            "name": "$~Set-Literalwert",
             "description": "$~erstelle eine Menge mit $count Elementen",
             "emotion": "eager",
             "doc": "$~Ich bin ein spezifisches @Set spezifischer Werte. Weitere Informationen zur Zusammenarbeit mit mir finden Sie unter @Set.",
@@ -1452,7 +1452,7 @@
             "finish": "$~Ich habe ein Set für $value gemacht!"
         },
         "SetOrMapAccess": {
-            "name": "$~Zugrifffestlegen/zuordnen",
+            "name": "$~Set-/Map-Zugriff",
             "description": "$~prüfe ob Menge oder Karte enthält",
             "emotion": "kind",
             "doc": [
@@ -1466,7 +1466,7 @@
             "finish": "$~der Wert beträgt $value",
             "conflict": {
                 "IncompatibleKey": {
-                    "name": "$~inkompatiblerSchlüssel",
+                    "name": "$~inkompatibler Schlüssel",
                     "explanation": "$~Ich habe einen Schlüssel vom Typ $expected erwartet.",
                     "resolution": "$~Konvertiere es in $expected , da $expected erforderlich ist.",
                     "resolutionLiteral": "$~Markieren Sie die Liste, Menge oder Map mit ! als Literal, damit ihre Werte spezifisch bleiben und nicht verallgemeinert werden – $expected benötigt die exakten Werte.",
@@ -1519,17 +1519,17 @@
             "start": "$~Lassen Sie uns diese schöne Struktur definieren",
             "conflict": {
                 "DisallowedInputs": {
-                    "name": "$~Eingabennichterlaubt",
+                    "name": "$~Eingaben nicht erlaubt",
                     "explanation": "$~Ich kann keine Eingaben erhalten, da eine oder mehrere meiner Schnittstellenfunktionen nicht implementiert sind.",
                     "resolution": "$~Entferne die Eingaben"
                 },
                 "IncompleteImplementation": {
-                    "name": "$~unvollständigeStruktur",
+                    "name": "$~unvollständige Struktur",
                     "explanation": "$~Meine Funktionen müssen entweder alle implementiert werden oder keine. Keine unübersichtlichen Mischungen!",
                     "resolution": "$~Entfernen Sie die Eingabefelder, um eine Schnittstelle zu erstellen."
                 },
                 "NotAnInterface": {
-                    "name": "$~keineSchnittstelle",
+                    "name": "$~keine Schnittstelle",
                     "explanation": "$~Ich bin keine Schnittstelle; eine Struktur kann nur Schnittstellen implementieren, keine anderen Strukturen.",
                     "resolution": "$~Entfernen Sie dies aus der Schnittstellenliste."
                 },
@@ -1547,7 +1547,7 @@
             }
         },
         "TableLiteral": {
-            "name": "$~Tabellenliteral",
+            "name": "$~Tabellen-Literalwert",
             "description": "$~erstelle eine Tabelle mit $count Zeilen",
             "emotion": "angry",
             "doc": "$~Ich bin eine bestimmte Tabelle mit bestimmten Zeilen. Siehe @Table, wie ich helfen kann.",
@@ -1555,7 +1555,7 @@
             "finish": "$~in neue Tabelle ausgewertet $value"
         },
         "TextLiteral": {
-            "name": "$~Textliteral",
+            "name": "$~Text-Literalwert",
             "description": "$~erstelle Textwert $text",
             "emotion": "serious",
             "doc": "$~Ich stelle eine oder mehrere spezifische @Translation von Texten dar. Unter @Text erfahren Sie mehr über meine Möglichkeiten!",
@@ -1571,29 +1571,29 @@
             "doc": "$~Ich stelle einen Text mit einem @Language-Tag dar. Weitere Informationen finden Sie unter @Text!",
             "conflict": {
                 "phone": {
-                    "name": "$~möglicheTelefonnummer",
+                    "name": "$~mögliche Telefonnummer",
                     "explanation": "$~Ist *$text* eine Telefonnummer? Falls ja, gib sie bitte nicht online weiter!\n\n$reminder"
                 },
                 "email": {
-                    "name": "$~möglicheE-Mail",
+                    "name": "$~mögliche E-Mail",
                     "explanation": "$~Ist *$text* die E-Mail-Adresse von jemandem? Falls ja, teile sie bitte nicht hier!\n\n$reminder"
                 },
                 "tin": {
-                    "name": "$~möglicheSteuernummer",
+                    "name": "$~mögliche Steuernummer",
                     "explanation": "$~Ist *$text* eine Steueridentifikationsnummer? Falls ja, geben Sie mich bitte auf keinen Fall weiter, ich enthalte sehr sensible Informationen!\n\n$reminder"
                 },
                 "address": {
-                    "name": "$~möglicheAdresse",
+                    "name": "$~mögliche Adresse",
                     "explanation": "$~Ist *$text* die Privatadresse einer Person? Falls ja, trage mich bitte nicht hier ein, wir wollen ja nicht, dass jemand gestalkt wird!\n\n$reminder"
                 },
                 "handle": {
-                    "name": "$~möglicherBenutzername",
+                    "name": "$~möglicher Benutzername",
                     "explanation": "$~Ist *$text* dein Benutzername für eine andere Website? Falls ja, teile ihn hier bitte nicht mit, es sei denn, du meinst es wirklich ernst.\n\n$reminder"
                 },
                 "resolution": "$~Dies sind keine sensiblen Daten",
                 "reminder": "$~Hinweis: Sie können diese Aktion rückgängig machen und im Freigabedialog andere Dinge sehen, die Sie als nicht vertraulich markiert haben.",
                 "character": {
-                    "name": "$~möglicherbenutzerdefinierterCharakter",
+                    "name": "$~mögliches eigenes Zeichen",
                     "explanation": "$~Das sieht aus wie ein Charaktername. Um solche anzuzeigen, verwenden Sie @FormattedLiteral anstelle von @TextLiteral.",
                     "resolutionStrip": "$~Entfernen Sie die Sonderzeichen aus dem Text."
                 }
@@ -1603,14 +1603,14 @@
             }
         },
         "FormattedLiteral": {
-            "name": "$~formatiert",
+            "name": "$~formatierter Text",
             "description": "$~erstelle formatierten Text $text",
             "emotion": "serious",
             "doc": "$~Ich stelle viele verschiedene @FormattedTranslation formatierten Textes dar. Bei der Bewertung wähle ich die beste Übereinstimmung basierend auf den ausgewählten Sprachen des Publikums aus.",
             "start": "$~Lasst uns einen Text in der aktuellen Sprache erstellen."
         },
         "FormattedTranslation": {
-            "name": "$~formatierteÜbersetzung",
+            "name": "$~formatierte Übersetzung",
             "description": "$~übersetze formatierten Text nach $language",
             "emotion": "serious",
             "doc": [
@@ -1644,14 +1644,14 @@
             "start": "$~Bewertet auf $value",
             "conflict": {
                 "MisplacedThis": {
-                    "name": "$~habediesenVerweisverlegt",
+                    "name": "$~falsch platzierte this-Referenz",
                     "explanation": "$~Ich darf nur in einer Struktur, Umwandlung, Reaktion oder Übersetzung.",
                     "resolution": "$~Durch einen Platzhalter ersetzen"
                 }
             }
         },
         "UnaryEvaluate": {
-            "name": "$~unäreAuswertung",
+            "name": "$~unäre Auswertung",
             "description": "$~wende $operator unären Operator an",
             "emotion": "kind",
             "doc": [
@@ -1688,13 +1688,13 @@
             "conflict": {
                 "UnparsableConflict": {
                     "conflict": {
-                        "name": "$~unlesbarerCode",
+                        "name": "$~unlesbarer Code",
                         "explanation": "$~@FunctionDefinition hier, @UnparsableExpression weiß nicht, um welche Art von $expression[ expression | type ] es sich handelt."
                     },
                     "resolution": "$~Meinten Sie „type $first, $second?"
                 },
                 "UnclosedDelimiter": {
-                    "name": "$~nichtgeschlossenesTrennzeichen",
+                    "name": "$~nicht geschlossenes Trennzeichen",
                     "explanation": "$~Ich erwartete $expected irgendwann nach $unclosed.",
                     "resolution": "$~Füge das fehlende * $expected * hinzu."
                 }
@@ -1720,12 +1720,12 @@
             "finish": "$~in eine neue Tabelle mit überarbeiteten Zeilen ausgewertet!",
             "conflict": {
                 "ExpectedColumnBind": {
-                    "name": "$~fehlenderSpaltenwert",
+                    "name": "$~fehlender Spaltenwert",
                     "explanation": "$~Ich benötige einen Wert für jede Spalte.",
                     "resolution": "$~Diese Zelle als benannte Spalte einbinden"
                 },
                 "IncompatibleCellType": {
-                    "name": "$~inkompatiblerZelltyp",
+                    "name": "$~inkompatibler Zellentyp",
                     "explanation": "$~Ich sollte vom Typ $expected sein, aber ich bin vom Typ $given.",
                     "resolution": "$~Konvertiere es in $expected , da $expected erforderlich ist.",
                     "resolutionLiteral": "$~Markieren Sie die Liste, Menge oder Map mit ! als Literal, damit ihre Werte spezifisch bleiben und nicht verallgemeinert werden – $expected benötigt die exakten Werte.",
@@ -1801,7 +1801,7 @@
             ]
         },
         "MapType": {
-            "name": "$~Karte",
+            "name": "$~Map",
             "description": "$~typisiere eine Karte von $key[$key|beliebig] zu $value[$value|beliebig]",
             "emotion": "kind",
             "doc": [
@@ -1828,7 +1828,7 @@
             ],
             "conflict": {
                 "UnknownTypeName": {
-                    "name": "$~unbekannterTypname",
+                    "name": "$~unbekannter Typname",
                     "explanation": "$~Typnamen können sich nur auf Strukturen oder Typvariablen beziehen, aber dies bezieht sich auf den Typ $type.",
                     "resolution": "$~Ersetzen Sie dies durch einen Platzhalter für den Typ."
                 }
@@ -1859,7 +1859,7 @@
             ]
         },
         "StreamDefinitionType": {
-            "name": "$~Streamdefinition",
+            "name": "$~Stream-Definition",
             "description": "$~typisiere einen definierten Datenstrom",
             "emotion": "angry",
             "doc": "$~Ich stelle einen Stream dar, den Sie definiert haben, was nicht möglich ist. Warum lesen Sie das hier also überhaupt?"
@@ -1886,7 +1886,7 @@
             "doc": "$~Ich stelle eine Tabelle dar.",
             "conflict": {
                 "ExpectedColumnType": {
-                    "name": "$~fehlenderSpaltentyp",
+                    "name": "$~fehlender Spaltentyp",
                     "explanation": "$~Ich benötige einen Spaltentyp",
                     "resolution": "$~Fügen Sie einen Platzhalter für einen Typ hinzu"
                 }
@@ -1959,13 +1959,13 @@
             "doc": "$~Ich repräsentiere einen Wert, dessen Typ nicht dem erwarteten entspricht – beispielsweise wenn @ListAccess eine @Number benötigt, aber etwas anderes erhält."
         },
         "NoExpressionType": {
-            "name": "$~keinAusdruck",
+            "name": "$~kein Ausdruck",
             "description": "$~typisiere einen leeren Block",
             "emotion": "angry",
             "doc": "$~Ich bin der Typ, der erscheint, wenn ein @Block keinen Ausdruck enthält. Du weißt, dass er mindestens einen braucht – also gib einen an!"
         },
         "NotEnclosedType": {
-            "name": "$~nichtinStruktur,UmwandlungoderReaktion",
+            "name": "$~nicht in Struktur, Umwandlung oder Reaktion",
             "description": "$~markiere Verwendung außerhalb einer Struktur",
             "emotion": "curious",
             "doc": "$~Ich tauche auf, wenn @This irgendwo verwendet wird, wo es nicht hingehört, sodass niemand weiß, welchen Wert es repräsentiert."
@@ -1977,7 +1977,7 @@
             "doc": "$~Wenn Sie @ExpressionPlaceholder verwenden, aber nicht sagen, um welchen Typ es sich handelt, bin ich der Typ, den Sie erhalten. Kommen Sie damit klar!"
         },
         "UnknownNameType": {
-            "name": "$~unbekannterName",
+            "name": "$~unbekannter Name",
             "description": "$~$name [ $name ist noch nicht definiert|der Name wurde nicht angegeben]",
             "emotion": "curious",
             "doc": "$~Ich repräsentiere einen Namen, den @Reference oder @PropertyReference nicht finden konnten, wenn wir nicht wissen, von wem Sie sprechen."
@@ -1989,7 +1989,7 @@
             "doc": "$~Einige von uns haben mit Funktionen gerechnet; ich tauche auf, wenn wir keine bekommen."
         },
         "UnknownVariableType": {
-            "name": "$~unbekannteVariable",
+            "name": "$~unbekannte Variable",
             "description": "$~stelle eine unbekannte Typvariable dar",
             "emotion": "curious",
             "doc": "$~Manchmal versuchen wir zu erraten, welchen Wert etwas hat. Ich tauche auf, wenn wir es nicht wissen."
@@ -2031,17 +2031,17 @@
             "next": "$~Nächster Eintrag: $value !",
             "conflict": {
                 "ExpectedCollection": {
-                    "name": "$~erwarteteEinnahmen",
+                    "name": "$~Sammlung erwartet",
                     "explanation": "$~Ich hatte erwartet, dass die linke Seite einer Collection-Konvertierung eine Collection sein muss, aber ich erhielt $type"
                 },
                 "ExpectedThis": {
-                    "name": "$~Ichhattedaserwartet.",
+                    "name": "$~this erwartet",
                     "explanation": "$~Wollten Sie mit @This auf ein Element in dieser Sammlung verweisen?"
                 }
             }
         },
         "ExternalExample": {
-            "name": "$~externesBeispiel",
+            "name": "$~externes Beispiel",
             "description": "$~Code aus einer anderen Programmiersprache in der Dokumentation anzeigen",
             "emotion": "serious",
             "doc": [
@@ -2085,7 +2085,7 @@
             "start": "$~Mal sehen, wie dieser Text aussieht.",
             "conflict": {
                 "EmptyPattern": {
-                    "name": "$~leeresMuster",
+                    "name": "$~leeres Muster",
                     "explanation": "$~Ich habe keine Teile, daher kann ich nichts Passendes beisteuern. Könnten Sie ein Teil hinzufügen?",
                     "resolution": "$~Füge ein \\◌\\ hinzu, um ein beliebiges einzelnes Zeichen zu ersetzen."
                 }
@@ -2115,7 +2115,7 @@
             ],
             "conflict": {
                 "OverlappingAlternatives": {
-                    "name": "$~sichüberschneidendeAuswahlmöglichkeiten",
+                    "name": "$~überlappende Auswahlmöglichkeiten",
                     "explanation": "$~$shorter ist der Anfang von $longer , und die längste Option gewinnt immer, daher passt $shorter nur, wenn $longer nicht passt. Meintest du das so?"
                 }
             }
@@ -2145,7 +2145,7 @@
             ],
             "conflict": {
                 "UnrecognizedPatternProperty": {
-                    "name": "$~unbekanntesEigentum",
+                    "name": "$~unbekannte Eigenschaft",
                     "explanation": "$~Die Eigenschaft $name ist mir unbekannt. Versuchen Sie es mit einer Kategorie, einem Skript oder einer Unicode-ID.",
                     "resolution": "$~Ändern Sie es in $suggestion"
                 }
@@ -2163,7 +2163,7 @@
             ],
             "conflict": {
                 "MalformedQuantifier": {
-                    "name": "$~unmöglichzählen",
+                    "name": "$~unmögliche Anzahl",
                     "explanation": "$~Mein niedrigster Wert ist höher als mein höchster Wert, deshalb kann ich nie ein Match erreichen.",
                     "resolution": "$~Vertausche meine Zählerstände, sodass der kleinere zuerst kommt."
                 }
@@ -2192,7 +2192,7 @@
             ],
             "conflict": {
                 "DuplicateCaptureName": {
-                    "name": "$~Duplikataufnahme",
+                    "name": "$~doppelte Erfassung",
                     "explanation": "$~Eine andere Aufzeichnung verwendet bereits den Namen $name , daher würde diese Aufzeichnung ihn überschreiben.",
                     "resolution": "$~Benennen Sie diese Erfassung in $replacement ."
                 }
@@ -2222,7 +2222,7 @@
             ]
         },
         "PatternSet": {
-            "name": "$~Glyphensatz",
+            "name": "$~Zeichensatz",
             "description": "$~Ordne eines dieser Grapheme zu",
             "emotion": "curious",
             "doc": [
@@ -2277,13 +2277,13 @@
             ],
             "conflict": {
                 "MissingPatternLocale": {
-                    "name": "$~fehlendeSprache",
+                    "name": "$~fehlende Sprache",
                     "explanation": "$~Ich benötige eine Sprache, um Wörter zu finden. Können Sie eine hinzufügen, z \\/en\\ ?"
                 }
             }
         },
         "PatternWordEdge": {
-            "name": "$~Wortkante",
+            "name": "$~Wortrand",
             "description": "$~eine Wortgrenze abgleichen",
             "emotion": "curious",
             "doc": [
@@ -2317,7 +2317,7 @@
             ],
             "conflict": {
                 "UndefinedBackreference": {
-                    "name": "$~unbekannterName",
+                    "name": "$~unbekannter Name",
                     "explanation": "$~Es gibt keine Erfassung oder Klasse mit dem Namen $name , daher habe ich nichts, womit ich übereinstimmen könnte.",
                     "resolution": "$~Ändern Sie es in $suggestion"
                 }
@@ -2335,7 +2335,7 @@
             ]
         },
         "PatternCaseFold": {
-            "name": "$~Fallignorieren",
+            "name": "$~Groß- und Kleinschreibung ignorieren",
             "description": "$~Übereinstimmung unter Berücksichtigung von Groß- und Kleinschreibung",
             "emotion": "curious",
             "doc": [
@@ -2999,7 +2999,7 @@
             "name": ["$~[]", "$~Aufführen"],
             "kind": "$~Art",
             "out": "$~Ergebnis",
-            "outofbounds": "$~außerhalb der Grenzen",
+            "outofbounds": "$~außerhalbDerGrenzen",
             "function": {
                 "add": {
                     "doc": [
@@ -5825,7 +5825,7 @@
             "tour": {
                 "launch": "$~Machen Sie eine Tour durch die Projektsteuerung",
                 "controls": "$~Diese /Steuerelemente/ am unteren Rand gelten für das *Projekt als Ganzes*, unabhängig davon, in welchem Bereich Sie gerade arbeiten.",
-                "name": "$~DasFeld/name/enthältdenNamenIhresProjekts.Namenwerdeninder*Projekt*-und*Galerie*-Ansichtangezeigt.",
+                "name": "$~Das Feld /name/ ist der Name deines Projekts. Namen erscheinen in den Ansichten *Projekt* und *Galerie*.",
                 "sourceToggle": "$~Dieser Schalter blendet die *Quelldatei* ein oder aus. Die *anderen Schalter* in dieser Zeile bewirken dasselbe für die anderen Kacheln.",
                 "addSource": "$~Manche Projekte profitieren von *mehreren* Quelldateien, in denen die Daten in einer Datei gespeichert und in die *Hauptquelldatei* importiert werden. Mit der Schaltfläche „Quelle hinzufügen“ wird eine neue Quelldatei erstellt.",
                 "share": "$~Über den Dialog „Teilen“ können Sie Ihr Projekt mit *Galerien*, mit der *Öffentlichkeit* teilen oder es als *Text* kopieren, um es an anderer Stelle zu teilen.",
@@ -7050,7 +7050,7 @@
                     "confirm": "$~Überprüfen Sie Ihre alte E-Mail-Adresse, um Ihre neue Adresse zu bestätigen.",
                     "delete": "$~Möchten Sie, dass wir alles vergessen, was Sie hier gemacht haben? Dies kann nicht rückgängig gemacht werden.",
                     "reallyDelete": "$~Sind Sie sicher? Ihr Konto und Ihre Einstellungen werden sofort gelöscht und Ihre Projekte werden zur Löschung vorgemerkt. Mitarbeiter Ihrer Projekte verlieren sofort den Zugriff darauf. Geben Sie Ihre E-Mail-Adresse oder Ihren Benutzernamen ein, um zu bestätigen, dass Sie dies wünschen.",
-                    "name": "$~WählenSieeinEmojiaus,umsichanderenvorzustellen.",
+                    "name": "$~Wähle ein Emoji oder ein eigenes Zeichen, das dich anderen gegenüber darstellt.",
                     "login": "$~Melden Sie sich an, um Ihre Projekte zu speichern, zusammenzuarbeiten und sie zu teilen:",
                     "join": "$~Oder <create an account@://join>, um zu beginnen."
                 },
@@ -7480,7 +7480,7 @@
                     }
                 },
                 "feedback": {
-                    "name": "$~CharakterebenötigeneinengültigenWordplay-Namenmitmindestens1ZeichenLänge.Esdarfnicht„UI“,eineDezimal-oderHexadezimalzahloderderNameeinerintegriertenSprachfunktionsein.",
+                    "name": "$~Zeichen brauchen einen gültigen Wordplay-Namen mit mindestens 1 Zeichen. Er darf nicht 'UI', eine Dezimal- oder Hexadezimalzahl oder der Name einer eingebauten Sprachfunktion sein.",
                     "description": "$~Charaktere benötigen eine Beschreibung, damit diejenigen, die nicht sehen können, wissen, was sie darstellen.",
                     "end": "$~oder drücken Sie die Escape-Taste.",
                     "loadfail": "$~Beim Laden dieses Zeichens ist ein Problem aufgetreten.",

@@ -32,3 +32,18 @@ test('caseless scripts just place glyphs adjacent (toUpperCase no-op)', () => {
 test('leaves an already-valid name unchanged', () => {
     expect(toValidName('miNombre')).toBe('miNombre');
 });
+
+test('folds hyphens and dashes into camelCase', () => {
+    expect(toValidName('mi-nombre')).toBe('miNombre');
+    expect(toValidName('mili-shniya')).toBe('miliShniya');
+    // Hebrew: caseless, so glyphs just become adjacent (one token).
+    expect(toValidName('מילי-שנייה')).toBe('מילישנייה');
+    // Unicode hyphen (U+2010) and en dash (U+2013).
+    expect(toValidName('mi‐nombre')).toBe('miNombre');
+    expect(toValidName('mi–nombre')).toBe('miNombre');
+});
+
+test('leaves a name that is nothing but separators unchanged', () => {
+    // `-` is a legitimate symbolic operator name (e.g. subtract).
+    expect(toValidName('-')).toBe('-');
+});

@@ -2,7 +2,7 @@ import type { Emotion } from '../lore/Emotion';
 import type { DocText, FormattedText, Template } from '@locale/LocaleText';
 
 export type NodeText = {
-    /** [name] The name that should be used to refer to the node type */
+    /** [plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine */
     name: string;
     /** [formatted] Documentation text that appears in the documentation view */
     doc: DocText;
@@ -38,7 +38,7 @@ export interface Conflicts<T> {
 
 /** The text that describes this conflict type. */
 export type ConflictText<Names extends readonly string[] = []> = {
-    /** [name] The short header to describe the conflict */
+    /** [plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine */
     name: string;
     /** [formatted] The text that describes this conflict on the node which generated it. */
     explanation: Template<Names>;

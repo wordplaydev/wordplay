@@ -15,13 +15,14 @@ import { withoutAnnotations } from '@locale/withoutAnnotations';
 import ConceptLink from '@nodes/ConceptLink';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
-import { tokenize } from '@parser/Tokenizer';
 import { toTokens } from '@parser/toTokens';
 import analyzeCode from '@util/verify-locales/analyzeCode';
 import checkGlobalNames from '@util/verify-locales/checkGlobalNames';
+import checkNames from '@util/verify-locales/checkNames';
 import checkStringArrays from '@util/verify-locales/checkStringArrays';
 import classifyLocalePath, {
     classifyPair,
+    isNameTextPath,
 } from '@util/verify-locales/classifyLocalePath';
 import getDocExamples from '@util/verify-locales/docExamples';
 import LocalePath, {
@@ -125,9 +126,10 @@ export async function verifyLocale(
     }
 
     // Check the array-kind contracts (positional lengths, markup paragraph
-    // breaks) before the doc-parse checks and translation below, so fix-mode
-    // repairs land first.
+    // breaks) and name validity before the doc-parse checks and translation
+    // below, so fix-mode repairs land first.
     revisedText = checkStringArrays(log, DefaultLocale, revisedText, fix);
+    revisedText = checkNames(log, DefaultLocale, revisedText, fix);
 
     // Don't warn if we're checking the example locale.
     revisedText = await checkLocale(
@@ -346,57 +348,28 @@ async function checkLocale(
                     );
             }
         }
-        // Is one or more names? Make sure they're valid names or operator symbols.
+        // Is one or more names? Single-token validity is checked (and repaired)
+        // in checkNames for every NameText-typed field; here, only make sure no
+        // other locale uses a global name for a different global.
         else if (path.key === 'names') {
             const names = Array.isArray(path.value) ? path.value : [path.value];
             for (const name of names) {
-                if (name.trim().length === 0) {
-                    log.bad(2, `Name is empty:: "${name}`);
-                } else {
-                    const nameWithoutPlaceholder = withoutAnnotations(name);
-
-                    // If it wasn't just a placeholder
-                    if (nameWithoutPlaceholder.length > 0) {
-                        const tokens = tokenize(
-                            nameWithoutPlaceholder,
-                        ).getTokens();
-
-                        // We expect one name and one end token.
-                        const token = tokens[0];
-                        if (!(token.isName() || token.isSymbol(Sym.Operator)))
-                            log.bad(
-                                2,
-                                `Name ${name} is not a valid name, it's a ${token
-                                    .getTypes()
-                                    .join(', ')}`,
-                            );
-                        else if (tokens.length > 2) {
-                            log.bad(
-                                2,
-                                `Name is valid, but is followed by additional text: "${tokens.slice(
-                                    1,
-                                    tokens.length - 1,
-                                )}": ${path.toString()}`,
-                            );
-                        }
-                        // If the name is valid, make sure no other locales use this name for a different global
-                        else if (path.isGlobalName()) {
-                            const existing =
-                                globalNames
-                                    .get(nameWithoutPlaceholder)
-                                    ?.filter(
-                                        (p) =>
-                                            p.locale !==
-                                                toLocaleString(original) &&
-                                            !p.path.equals(path),
-                                    ) ?? [];
-                            if (existing.length > 1)
-                                log.bad(
-                                    2,
-                                    `Name "${nameWithoutPlaceholder}" is already used by ${existing.map((l) => `${l.locale}: ${l.path.toString()}`).join(', ')}.`,
-                                );
-                        }
-                    }
+                const nameWithoutPlaceholder = withoutAnnotations(name);
+                if (nameWithoutPlaceholder.length === 0) continue;
+                if (path.isGlobalName()) {
+                    const existing =
+                        globalNames
+                            .get(nameWithoutPlaceholder)
+                            ?.filter(
+                                (p) =>
+                                    p.locale !== toLocaleString(original) &&
+                                    !p.path.equals(path),
+                            ) ?? [];
+                    if (existing.length > 1)
+                        log.bad(
+                            2,
+                            `Name "${nameWithoutPlaceholder}" is already used by ${existing.map((l) => `${l.locale}: ${l.path.toString()}`).join(', ')}.`,
+                        );
                 }
             }
         }
@@ -613,15 +586,15 @@ async function translateLocale(
                         );
                     }
                 } else {
+                    // Only identifier fields (NameText-typed) get folded into
+                    // valid names; display labels tagged [name] keep their spaces.
+                    const nameify = isNameTextPath([...path.path, path.key]);
                     const value: string[] = [];
                     let wroteAny = false;
                     for (let count = 0; count < match.length; count++) {
                         const next = translations.shift();
                         if (next != null) {
-                            const t =
-                                path.key === 'name' || path.key === 'names'
-                                    ? toValidName(next)
-                                    : next;
+                            const t = nameify ? toValidName(next) : next;
                             value.push(`${MachineTranslated}${t.trim()}`);
                             wroteAny = true;
                         } else {
@@ -636,10 +609,9 @@ async function translateLocale(
             } else {
                 const translation = translations.shift();
                 if (translation != null) {
-                    const t =
-                        path.key === 'name' || path.key === 'names'
-                            ? toValidName(translation)
-                            : translation;
+                    const t = isNameTextPath([...path.path, path.key])
+                        ? toValidName(translation)
+                        : translation;
                     path.repair(revised, `${MachineTranslated}${t.trim()}`);
                     translatedPaths?.add(path.toString());
                 } else {

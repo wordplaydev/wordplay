@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import classifyLocalePath from './classifyLocalePath';
+import classifyLocalePath, { isNameTextPath } from './classifyLocalePath';
 
 test('classifies markup ([formatted]) fields under any key name', () => {
     expect(classifyLocalePath(['node', 'Paragraph', 'doc'])).toBe('markup');
@@ -36,4 +36,27 @@ test('classifies positional ([plain] or untagged) fields', () => {
         classifyLocalePath(['ui', 'howto', 'editor', 'notification', 'labels']),
     ).toBe('plain');
     expect(classifyLocalePath(['regions'])).toBe('plain');
+});
+
+test('isNameTextPath is true only for NameText-typed identifier fields', () => {
+    expect(isNameTextPath(['basis', 'Number', 'function', 'add', 'names'])).toBe(
+        true,
+    );
+    expect(isNameTextPath(['basis', 'List', 'out'])).toBe(true);
+    expect(isNameTextPath(['basis', 'List', 'outofbounds'])).toBe(true);
+    expect(isNameTextPath(['basis', 'Map', 'key'])).toBe(true);
+    expect(isNameTextPath(['output', 'Easing', 'zippy'])).toBe(true);
+    expect(isNameTextPath(['basis', 'Boolean', 'name'])).toBe(true);
+    // Display labels tagged [plain] and inline string[] fields are not identifiers.
+    expect(isNameTextPath(['node', 'Paragraph', 'name'])).toBe(false);
+    expect(
+        isNameTextPath([
+            'node',
+            'Language',
+            'conflict',
+            'UnknownLanguage',
+            'name',
+        ]),
+    ).toBe(false);
+    expect(isNameTextPath(['input', 'Key', 'keys', 'Alt'])).toBe(false);
 });

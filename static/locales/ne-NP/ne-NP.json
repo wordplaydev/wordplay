@@ -315,7 +315,7 @@
             ]
         },
         "Docs": {
-            "name": "$~व्याख्यासूची",
+            "name": "$~व्याख्या सूची",
             "description": "$~धेरै भाषामा दस्तावेजीकरण सूचीबद्ध गर्नुहोस्",
             "emotion": "serious",
             "doc": [
@@ -359,17 +359,17 @@
             ],
             "conflict": {
                 "UnknownLanguage": {
-                    "name": "$~अज्ञातभाषा",
+                    "name": "$~अज्ञात भाषा",
                     "explanation": "$~मलाई यो भाषा थाहा छैन",
                     "resolution": "$~यो भाषा कोड हटाउनुहोस्"
                 },
                 "MissingLanguage": {
-                    "name": "$~भाषाछुटेको",
+                    "name": "$~हराइरहेको भाषा",
                     "explanation": "$~ममा भाषा छुटेको छ। के तपाईं एउटा थप्न सक्नुहुन्छ?",
                     "resolution": "$~खाली भाषा ट्याग हटाउनुहोस्"
                 },
                 "DuplicateLanguage": {
-                    "name": "$~दोहोरिएकोभाषा",
+                    "name": "$~दोहोरिएको भाषा",
                     "explanation": "$~तपाईंले '$code' भाषा दुई पटक प्रयोग गर्नुभयो। मिश्रित-भाषा ट्यागहरूले प्रत्येक भाषालाई एक पटक मात्र सूचीबद्ध गर्नुपर्छ।",
                     "resolution": "$~दोहोरिएको *$code* ट्याग हटाउनुहोस्"
                 }
@@ -394,7 +394,7 @@
             ]
         },
         "Names": {
-            "name": "$~nameList",
+            "name": "$~नाम सूची",
             "description": "$~धेरै भाषामा nameहरू सूचीबद्ध गर्नुहोस्",
             "emotion": "kind",
             "label": {
@@ -413,28 +413,28 @@
             "doc": "$~म @Table मा एउटा row प्रतिनिधित्व गर्छु। मसँग कुरा गर्नुभन्दा @Table सँग कुरा गर्नु राम्रो हुन्छ, उनीहरूलाई मेरो बारेमा सबै थाहा छ। म त बसेर valueहरू मिलाएर राख्छु मात्र :(",
             "conflict": {
                 "InvalidRow": {
-                    "name": "$~invalidRow",
+                    "name": "$~अमान्य पङ्क्ति",
                     "explanation": "$~Rowहरू या त सबै values हुनुपर्छ या सबै @Bind हुनुपर्छ।",
                     "resolutionKeepPositional": "$~नाम दिइएका cellहरू हटाउनुहोस्, स्थानअनुसारका मात्र राख्नुहोस्",
                     "resolutionUnwrapInputs": "$~नाम दिइएका cellहरूबाट nameहरू हटाउनुहोस्"
                 },
                 "MissingCell": {
-                    "name": "$~missingColumn",
+                    "name": "$~हराइरहेको स्तम्भ",
                     "explanation": "$~ममा column $column छुटेको छ",
                     "resolution": "$~*$column* का लागि एउटा placeholder cell थप्नुहोस्"
                 },
                 "ExtraCell": {
-                    "name": "$~extraColumn",
+                    "name": "$~अतिरिक्त स्तम्भ",
                     "explanation": "$~मेरो तालिकाको typeका आधारमा, म एउटा अतिरिक्त column हुँ जुन यहाँ हुनुहुँदैन।",
                     "resolution": "$~अतिरिक्त cell हटाउनुहोस्"
                 },
                 "UnknownColumn": {
-                    "name": "$~unknownColumnName",
+                    "name": "$~अज्ञात स्तम्भ नाम",
                     "explanation": "$~मलाई यो nameको column थाहा छैन",
                     "resolution": "$~*$name* मा पुनः नाम दिनुहोस्"
                 },
                 "UnexpectedColumnBind": {
-                    "name": "$~noBindsRows",
+                    "name": "$~कुनै बाइन्ड पङ्क्ति छैन",
                     "explanation": "$~म एउटा value हुनुपर्छ, @Bind होइन।"
                 }
             }
@@ -449,13 +449,13 @@
             ]
         },
         "TypeInputs": {
-            "name": "$~typeInputs",
+            "name": "$~प्रकार इनपुटहरू",
             "description": "$~type variable स्थानहरू भर्नुहोस्",
             "emotion": "curious",
             "doc": "$~म typeहरूको एउटा सूची हुँ जुन @StructureDefinition वा @FunctionDefinition मा @TypeVariables को ठाउँमा बस्छन्। उनीहरूले कस्तो किसिमका inputहरू पाउनेछन् भनेर सबैलाई थाहा दिन म मद्दत गर्छु।"
         },
         "TypeVariable": {
-            "name": "$~typeVariable",
+            "name": "$~प्रकार चल",
             "description": "$~कल गर्नेले दिएको typeलाई name दिनुहोस्",
             "emotion": "curious",
             "label": {
@@ -464,14 +464,14 @@
             "doc": "$~म @FunctionDefinition वा @StructureDefinition मा एउटा रहस्यमय @type हुँ, जुन ती मध्ये कुनै मूल्याङ्कन हुँदा @TypeInputs ले दिन्छ। @Set, @List, र @Map ले मलाई प्रयोग गर्छन्।",
             "conflict": {
                 "DuplicateTypeVariable": {
-                    "name": "$~duplicateTypeVariable",
+                    "name": "$~दोहोरिएको प्रकार चल",
                     "explanation": "$~मेरो name $duplicate सँग उस्तै छ",
                     "resolution": "$~दोहोरिएको type variable हटाउनुहोस्"
                 }
             }
         },
         "TypeVariables": {
-            "name": "$~typeVariables",
+            "name": "$~प्रकार चलहरू",
             "description": "$~परिभाषामा type variableहरू सूचीबद्ध गर्नुहोस्",
             "emotion": "curious",
             "doc": "$~म @TypeVariable को एउटा सूची हुँ।"
@@ -543,7 +543,7 @@
             ],
             "conflict": {
                 "UnsupportedFontFormat": {
-                    "name": "$~unsupportedFontFormat",
+                    "name": "$~असमर्थित फन्ट ढाँचा",
                     "explanation": "$~मेरो साथी *$face* लाई $format कसरी हुने भन्ने थाहा छैन।",
                     "resolution": "$~ढाँचा हटाउनुहोस्"
                 }
@@ -562,7 +562,7 @@
             ]
         },
         "ExternalExample": {
-            "name": "$~externalExample",
+            "name": "$~बाह्य उदाहरण",
             "description": "$~documentation मा अर्को programming भाषाको code देखाउनुहोस्",
             "emotion": "serious",
             "doc": [
@@ -589,7 +589,7 @@
             ]
         },
         "BinaryEvaluate": {
-            "name": "$~binaryEvaluate",
+            "name": "$~द्विआधारी मूल्याङ्कन",
             "description": "$~दुई valuesमा $operator operator लागू गर्नुहोस्",
             "emotion": "insecure",
             "doc": [
@@ -613,7 +613,7 @@
             "finish": "$~हेर, मैले $value बनाएँ!",
             "conflict": {
                 "OrderOfOperations": {
-                    "name": "$~अस्पष्टक्रम",
+                    "name": "$~अस्पष्ट क्रम",
                     "explanation": "$~म बायाँबाट दायाँ मूल्यांकन गर्छु, तर गणितले प्रायः ^ लाई × ÷ भन्दा पहिले, र × ÷ लाई + − भन्दा पहिले मूल्यांकन गर्छ। त्यो क्रमलाई PEMDAS भनिन्छ। म यसलाई कसरी मूल्यांकन गरूँ छान्नुहोस्।",
                     "resolutionPEMDAS": "$~PEMDAS गणित क्रम लागू गर: $higher भन्दा पहिले $lower मूल्यांकन गर",
                     "resolutionReading": "$~पढ्ने क्रम राख: $lower भन्दा पहिले $higher मूल्यांकन गर",
@@ -661,18 +661,18 @@
             "conflict": {
                 "DuplicateName": {
                     "conflict": {
-                        "name": "$~दोहोरिएकोनाम",
+                        "name": "$~दोहोरिएको नाम",
                         "explanation": "$~कसैसँग $shadowed नाम छ त्यसैले म यो नाम लिन सक्दिन।"
                     },
                     "resolution": "$~दोहोरिएका नामहरू छन्, के तपाईं एउटा हटाउन चाहनुहुन्छ?"
                 },
                 "DuplicateShare": {
-                    "name": "$~दोहोरिएकोसाझेदारी",
+                    "name": "$~दोहोरिएको साझेदारी",
                     "explanation": "$~मेरो $duplicate सँग उही नाम छ। यसले हामी के साझेदारी गर्दैछौं भन्ने अस्पष्ट बनाउँछ।",
                     "resolution": "$~यो दोहोरिएको साझेदारी हटाऊ"
                 },
                 "IncompatibleType": {
-                    "name": "$~मिल्दोनभएकोType",
+                    "name": "$~नमिल्ने प्रकार",
                     "explanation": "$~मैले $expected को अपेक्षा गरेको थिएँ, तर $given type प्राप्त गरेँ",
                     "explanationDivideByZero": "$~यो ø हुन सक्छ किनभने $source ले शून्यले भाग गर्न सक्छ, र यहाँ एउटा संख्या चाहिन्छ",
                     "resolution": "$~यसलाई $expected मा रूपान्तरण गर, किनभने $expected चाहिन्छ",
@@ -688,32 +688,32 @@
                     "resolutionPlaceholder": "$~अहिलेको लागि यसलाई placeholder ले बदल, किनभने $expected चाहिन्छ — त्यसपछि स्वतः-पूर्ण मेनुबाट एउटा value छान"
                 },
                 "MisplacedShare": {
-                    "name": "$~गलतठाउँमाराखिएकोसाझेदारी",
+                    "name": "$~गलत ठाउँमा साझेदारी",
                     "explanation": "$~म @Program तहमा मात्र कुराहरू साझेदारी गर्न सक्छु, कुनै कुराको भित्र होइन!",
                     "resolution": "$~*↑* चिन्ह हटाऊ"
                 },
                 "MissingShareLanguages": {
-                    "name": "$~हराइरहेकोभाषा",
+                    "name": "$~हराइरहेको भाषा",
                     "explanation": "$~यदि तपाईं यो साझेदारी गर्न चाहनुहुन्छ भने, तपाईंले यो कुन भाषामा छ भन्नुपर्छ, ताकि अरूले यो पढ्न सक्छन् कि सक्दैनन् थाहा पाऊन्!",
                     "resolution": "$~*↑* चिन्ह हटाऊ"
                 },
                 "RequiredAfterOptional": {
-                    "name": "$~वैकल्पिकपछिआवश्यकइनपुट",
+                    "name": "$~वैकल्पिकपछि आवश्यक इनपुट",
                     "explanation": "$~म यहाँ हुन सक्दिन, मभन्दा अघि एउटा वैकल्पिक @Bind छ",
                     "resolution": "$~आवश्यक इनपुटहरूलाई वैकल्पिकहरूभन्दा अघि सार"
                 },
                 "UnexpectedEtc": {
-                    "name": "$~इनपुटसूचीपछिअनपेक्षितइनपुट",
+                    "name": "$~इनपुट सूचीपछि अनपेक्षित इनपुट",
                     "explanation": "$~म @FunctionDefinition मा मात्र परिवर्तनशील लम्बाइको हुन सक्छु",
                     "resolution": "$~*…* हटाऊ"
                 },
                 "UnusedBind": {
-                    "name": "$~प्रयोगनभएकोबाँध",
+                    "name": "$~प्रयोग नभएको बाइन्ड",
                     "explanation": "$~मेरो नाम $name छ, तर कसैले मलाई प्रयोग गरिरहेको छैन। सायद मलाई आवश्यक छैन?",
                     "resolution": "$~यो बाँध्ने कुरा मेटाऊ"
                 },
                 "ShadowsKeyword": {
-                    "name": "$~कुञ्जीशब्दलाईछायाँपार्छ",
+                    "name": "$~किवर्डलाई छायाँ पार्छ",
                     "explanation": "$~यो नाम $keyword कुञ्जी शब्द पनि हो, त्यसैले म यसलाई यहाँ नामको रूपमा पढ्छु; $keyword कुञ्जी शब्द अन्य ठाउँमा अझै काम गर्छ।"
                 }
             }
@@ -747,14 +747,14 @@
             "finish": "$~भयो, मैले $value पाएँ",
             "conflict": {
                 "ExpectedEndingExpression": {
-                    "name": "$~हराइरहेकोExpression",
+                    "name": "$~हराइरहेको अभिव्यक्ति",
                     "explanation": "$~मलाई कम्तिमा एउटा expression चाहिन्छ जुन @Bind होइन, ताकि मसँग फिर्ता गर्न value होस्।",
                     "resolution": "$~अन्तिम expression थप"
                 }
             }
         },
         "BooleanLiteral": {
-            "name": "$~बुलियनशाब्दिक",
+            "name": "$~बुलियन लिटरल",
             "description": "$~$value[सत्य|असत्य] बुलियन value बनाऊ",
             "emotion": "precise",
             "doc": "$~म कि त \\⊤\\ हुँ कि त \\⊥\\. हाम्रो सुन्दर तर्क बारे थप जान्न @Boolean हेर्नुहोस्।",
@@ -773,12 +773,12 @@
             "start": "$~$name बाट $source ऋण लिँदै",
             "conflict": {
                 "UnknownBorrow": {
-                    "name": "$~अज्ञातऋण",
+                    "name": "$~अज्ञात उधारो",
                     "explanation": "$~म यो नामको स्रोत चिन्दिन",
                     "resolution": "$~यो ऋण हटाऊ"
                 },
                 "BorrowCycle": {
-                    "name": "$~आफैंलाईसन्दर्भगर्नेऋण",
+                    "name": "$~आफैलाई सन्दर्भ गर्ने उधारो",
                     "explanation": "$~यो $borrow मा निर्भर छ, जुन यो @Source मा निर्भर छ, त्यसैले कार्यक्रम मूल्यांकन गर्न सकिँदैन",
                     "resolution": "$~चक्र तोड्न यो ऋण हटाऊ"
                 }
@@ -827,7 +827,7 @@
             "finish": "$~सायद यो $value हो?",
             "conflict": {
                 "ExpectedBooleanCondition": {
-                    "name": "$~अपेक्षितBooleanCondition",
+                    "name": "$~बुलियन सर्त अपेक्षित",
                     "explanation": "$~निर्णय गर्न मलाई @Boolean चाहिएको थियो, तर बरु मैले $type पाएँ।",
                     "resolution": "$~यसलाई $expected मा बदल्नुहोस्, किनभने $expected आवश्यक छ",
                     "resolutionLiteral": "$~सूची, सेट, वा map लाई ! ले literal रूपमा चिनो लगाउनुहोस्, ताकि यसका value सामान्यीकृत नभई निश्चित रहून् — $expected लाई ठीक value चाहिन्छ",
@@ -844,7 +844,7 @@
             }
         },
         "ConversionDefinition": {
-            "name": "$~रूपान्तरणपरिभाषा",
+            "name": "$~रूपान्तरण परिभाषा",
             "description": "$~$input बाट $output मा रूपान्तरण परिभाषित गर्नुहोस्",
             "emotion": "excited",
             "label": {
@@ -861,7 +861,7 @@
             "start": "$~वाह, नयाँ रूपान्तरण!",
             "conflict": {
                 "MisplacedConversion": {
-                    "name": "$~गलतठाउँमाराखिएकोरूपान्तरण",
+                    "name": "$~गलत ठाउँमा रूपान्तरण",
                     "explanation": "$~ओहो, म यहाँ हुन सक्दिनँ, @Block मा मात्र हुन्छु।",
                     "resolution": "$~यो रूपान्तरण हटाउनुहोस्"
                 }
@@ -884,7 +884,7 @@
             "finish": "$~वाह, मैले $value बनाएँ",
             "conflict": {
                 "UnknownConversion": {
-                    "name": "$~अज्ञातरूपान्तरण",
+                    "name": "$~अज्ञात रूपान्तरण",
                     "explanation": "$~हामीले $expected लाई $given मा रूपान्तरण गर्ने तरिका भेट्टाउन सकेनौं",
                     "resolution": "$~रूपान्तरण हटाउनुहोस्"
                 }
@@ -913,11 +913,11 @@
             "next": "$~अर्को item: $value!",
             "conflict": {
                 "ExpectedCollection": {
-                    "name": "$~अपेक्षितसङ्ग्रह",
+                    "name": "$~सङ्ग्रह अपेक्षित",
                     "explanation": "$~मैले अपेक्षा गरेको थिएँ कि सङ्ग्रह रूपान्तरणको बायाँतिर सङ्ग्रह हुनुपर्छ, तर मैले $type पाएँ"
                 },
                 "ExpectedThis": {
-                    "name": "$~अपेक्षितThis",
+                    "name": "$~यो अपेक्षित",
                     "explanation": "$~के तपाईंले यो सङ्ग्रहको एउटा item लाई जनाउन @This प्रयोग गर्न खोज्नुभएको हो?"
                 }
             }
@@ -936,7 +936,7 @@
             "finish": "$~मैले मिल्ने पङ्क्तिहरू विनाको नयाँ table बनाएँ!"
         },
         "DocumentedExpression": {
-            "name": "$~व्याख्यागरिएकोExpression",
+            "name": "$~व्याख्या गरिएको अभिव्यक्ति",
             "description": "$~कुनै expression मा documentation जोड्नुहोस्",
             "emotion": "eager",
             "doc": [
@@ -974,7 +974,7 @@
             "finish": "$~मैले $value मा मूल्याङ्कन गरें",
             "conflict": {
                 "IncompatibleInput": {
-                    "name": "$~असंगतInput",
+                    "name": "$~नमिल्ने इनपुट",
                     "explanation": "$~मैले $expected को अपेक्षा गरेको थिएँ, तर $given पाएँ",
                     "explanationDivideByZero": "$~यो ø हुन सक्छ किनभने $source ले शून्यले भाग गर्न सक्छ, र यहाँ नम्बर आवश्यक छ",
                     "resolution": "$~यसलाई $expected मा बदल्नुहोस्, किनभने $expected आवश्यक छ",
@@ -990,43 +990,43 @@
                     "resolutionPlaceholder": "$~अहिलेका लागि यसलाई प्लेसहोल्डरले बदल्नुहोस्, किनभने $expected आवश्यक छ — त्यसपछि स्वतः-पूरा मेनुबाट एउटा मान छनोट गर्नुहोस्"
                 },
                 "UnexpectedTypeInput": {
-                    "name": "$~अनपेक्षितTypeइनपुट",
+                    "name": "$~अनपेक्षित प्रकार इनपुट",
                     "explanation": "$~म एउटा अतिरिक्त, अनपेक्षित type इनपुट हुँ।",
                     "resolution": "$~यो type इनपुट हटाउनुहोस्"
                 },
                 "MissingInput": {
-                    "name": "$~हराइरहेकोइनपुट",
+                    "name": "$~हराइरहेको इनपुट",
                     "explanation": "$~म $name इनपुट बिना $input मूल्याङ्कन गर्न सक्दिनँ :(",
                     "resolutionAddInput": "$~हराइरहेको $input यसको पूर्वनिर्धारित मानसहित थप्नुहोस्",
                     "resolutionPlaceholder": "$~हराइरहेको $input लाई प्लेसहोल्डरको रूपमा थप्नुहोस्, त्यसपछि स्वतः-पूरा मेनुबाट एउटा मान छनोट गर्नुहोस्"
                 },
                 "NotInstantiable": {
-                    "name": "$~अपूर्णसंरचना",
+                    "name": "$~अपूर्ण संरचना",
                     "explanation": "$~म यो @StructureDefinition बनाउन सक्दिनँ, यसमा कार्यान्वयन नभएका फङ्सनहरू छन्।",
                     "resolution": "$~हराइरहेका फङ्सनहरूको ढाँचा बनाउनुहोस्"
                 },
                 "UnexpectedInput": {
-                    "name": "$~अनपेक्षितइनपुट",
+                    "name": "$~अनपेक्षित इनपुट",
                     "explanation": "$~म एउटा अनपेक्षित इनपुट हुँ।",
                     "resolution": "$~यो इनपुट हटाउनुहोस्"
                 },
                 "UnknownInput": {
-                    "name": "$~अज्ञातइनपुट",
+                    "name": "$~अज्ञात इनपुट",
                     "explanation": "$~यो फङ्सन *$name* ले मेरो नाम भएको इनपुटको आशा गर्दैन।",
                     "resolution": "$~यो इनपुटको नाम *$name* मा बदल्नुहोस्"
                 },
                 "InputListMustBeLast": {
-                    "name": "$~अतिरिक्तइनपुटहरूअन्तिममाछैनन्",
+                    "name": "$~अतिरिक्त इनपुटहरू अन्तिममा छैनन्",
                     "explanation": "$~इनपुटहरूको सूची अन्तिममा हुनुपर्छ",
                     "resolution": "$~सूची इनपुटलाई अन्त्यमा सार्नुहोस्"
                 },
                 "SeparatedEvaluate": {
-                    "name": "$~अस्पष्टमूल्याङ्कन",
+                    "name": "$~अस्पष्ट मूल्याङ्कन",
                     "explanation": "$~के $name तपाईंले मूल्याङ्कन गर्न खोज्नुभएको $structure[$structure|@FunctionDefinition] को नाम हो? मपछिको खाली ठाउँ हटाएर हेर्नुहोस्, ताकि यो @Evaluate हो र छुट्टै @Block होइन भनेर मलाई थाहा होस्।",
                     "resolution": "$~*$name* र यसका इनपुटहरूबीचको खाली ठाउँ बन्द गर्नुहोस्"
                 },
                 "UnknownTimeZone": {
-                    "name": "$~अज्ञातसमयक्षेत्र",
+                    "name": "$~अज्ञात समय क्षेत्र",
                     "explanation": "$~मलाई *$zone* नामको समय क्षेत्र थाहा छैन। समय क्षेत्रहरूको नाम क्षेत्र र सहरहरूको नाममा राखिन्छ, जस्तै \\'America/New_York'\\। तपाईंलाई थाहा भएको कुनै सहरको नाम लेख्नुहोस्, म एउटा सुझाव दिनेछु!",
                     "resolution": "$~यसलाई *$zone* मा बदल्नुहोस्, जुन $city को समय क्षेत्र हो"
                 }
@@ -1108,14 +1108,14 @@
             "start": "$~अब यो फङ्सन बनाऔं!",
             "conflict": {
                 "NoExpression": {
-                    "name": "$~हराइरहेकोExpression",
+                    "name": "$~हराइरहेको अभिव्यक्ति",
                     "explanation": "$~मलाई मूल्याङ्कन गर्न एउटा expression चाहिन्छ, के तपाईं एउटा थप्न सक्नुहुन्छ?",
                     "resolution": "$~प्लेसहोल्डर बडी थप्नुहोस्"
                 }
             }
         },
         "Iteration": {
-            "name": "$~उच्चक्रमकोफङ्सन",
+            "name": "$~उच्च क्रमको फङ्सन",
             "description": "$~सूचीका मानहरूमा भित्रबाट दोहोर्‍याउनुहोस्",
             "emotion": "kind",
             "doc": "$~म @FunctionDefinition को एउटा धेरै विशेष किसिम हुँ जसले कुराहरूको सूचीमा काम गर्छ। तपाईंले मेरो बारेमा केही जान्नु पर्दैन, तर म @List.translate जस्ता फङ्सनहरू सम्भव बनाउँछु।",
@@ -1166,7 +1166,7 @@
             "finish": "$~$value[मान $type हो|मान $type होइन]",
             "conflict": {
                 "ImpossibleType": {
-                    "name": "$~असम्भवType",
+                    "name": "$~असम्भव प्रकार",
                     "explanation": "$~यो कहिल्यै $type हुन सक्दैन",
                     "resolutionIsFalse": "$~यो type जाँचलाई *⊥* ले बदल्नुहोस् (जवाफ सधैं false हुन्छ)",
                     "resolutionDropOtherwise": "$~*??* हटाउनुहोस् — बायाँ पट्टि कहिल्यै *ø* हुँदैन"
@@ -1180,7 +1180,7 @@
             }
         },
         "IsLocale": {
-            "name": "$~languageहो",
+            "name": "$~भाषा हो",
             "description": "$~language छनोट गरिएको छ भने true फिर्ता गर्नुहोस्",
             "emotion": "kind",
             "doc": [
@@ -1192,7 +1192,7 @@
             "start": "$~के भाषा $locale हो?"
         },
         "ListAccess": {
-            "name": "$~listAccess",
+            "name": "$~सूची पहुँच",
             "description": "$~सूचीको स्थानमा भएको value लिनुहोस्",
             "emotion": "cheerful",
             "doc": [
@@ -1203,7 +1203,7 @@
             "finish": "$~index मा भएको वस्तु $value हो!"
         },
         "ListLiteral": {
-            "name": "$~listLiteral",
+            "name": "$~सूची लिटरल",
             "description": "$~$count value को सूची बनाउनुहोस्",
             "emotion": "eager",
             "doc": "$~म value को एउटा खास @List हुँ! मसँग के गर्न सक्नुहुन्छ भनेर थप सिक्न @List हेर्नुहोस्।",
@@ -1267,7 +1267,7 @@
             },
             "conflict": {
                 "EmptyPattern": {
-                    "name": "$~खालीढाँचा",
+                    "name": "$~खाली ढाँचा",
                     "explanation": "$~मेरा कुनै भागहरू छैनन्, त्यसैले म कुनै उपयोगी कुरासँग मिल्दिनँ। के तपाईं एउटा भाग थप्न सक्नुहुन्छ?",
                     "resolution": "$~कुनै एउटा अक्षर मिलाउन एउटा \\◌\\ थप्नुहोस्"
                 }
@@ -1285,13 +1285,13 @@
             ],
             "conflict": {
                 "OverlappingAlternatives": {
-                    "name": "$~मिल्नेछनोटहरू",
+                    "name": "$~ओभरल्याप हुने रोजाइहरू",
                     "explanation": "$~$shorter ले $longer को सुरुवात हो, र सबैभन्दा लामो छनोट सधैं जित्छ, त्यसैले $shorter तब मात्र मिल्छ जब $longer मिल्न सक्दैन। के तपाईंले त्यही भन्न खोज्नुभएको हो?"
                 }
             }
         },
         "PatternClass": {
-            "name": "$~अक्षरवर्ग",
+            "name": "$~अक्षर वर्ग",
             "description": "$~कुनै एक प्रकारको अक्षर मिलाउनुहोस्",
             "emotion": "curious",
             "doc": [
@@ -1315,7 +1315,7 @@
             ],
             "conflict": {
                 "UnrecognizedPatternProperty": {
-                    "name": "$~अज्ञातगुण",
+                    "name": "$~अज्ञात गुण",
                     "explanation": "$~मैले $name property चिन्न सकिनँ। एउटा श्रेणी, script, वा Unicode id प्रयास गर्नुहोस्।",
                     "resolution": "$~यसलाई $suggestion मा बदल्नुहोस्"
                 }
@@ -1333,7 +1333,7 @@
             ],
             "conflict": {
                 "MalformedQuantifier": {
-                    "name": "$~असम्भवगणना",
+                    "name": "$~असम्भव गणना",
                     "explanation": "$~मेरो तल्लो गणना मेरो माथिल्लो गणनाभन्दा ठूलो छ, त्यसैले म कहिल्यै मिलाउन सक्दिनँ।",
                     "resolution": "$~मेरो गणनाहरू साटासाट गर्नुहोस् ताकि सानो पहिले आओस्"
                 }
@@ -1362,7 +1362,7 @@
             ],
             "conflict": {
                 "DuplicateCaptureName": {
-                    "name": "$~नक्कलीकब्जा",
+                    "name": "$~दोहोरिएको क्याप्चर",
                     "explanation": "$~अर्को कब्जाले पहिले नै $name नाम प्रयोग गर्छ, त्यसैले यसले त्यसलाई मेटाउँछ।",
                     "resolution": "$~यो कब्जाको नाम $replacement मा बदल्नुहोस्"
                 }
@@ -1392,7 +1392,7 @@
             ]
         },
         "PatternSet": {
-            "name": "$~ग्लिफसेट",
+            "name": "$~ग्लिफ सेट",
             "description": "$~यी graphemes मध्ये एउटा मिलाउनुहोस्",
             "emotion": "curious",
             "doc": [
@@ -1447,13 +1447,13 @@
             ],
             "conflict": {
                 "MissingPatternLocale": {
-                    "name": "$~भाषाछुटेको",
+                    "name": "$~हराइरहेको भाषा",
                     "explanation": "$~शब्दहरू कसरी भेट्ने भनेर थाहा पाउन मलाई एउटा भाषा चाहिन्छ। के तपाईं एउटा थप्न सक्नुहुन्छ, जस्तै \\/en\\?"
                 }
             }
         },
         "PatternWordEdge": {
-            "name": "$~शब्दकिनारा",
+            "name": "$~शब्द किनारा",
             "description": "$~एउटा शब्द सिमाना मिलाउनुहोस्",
             "emotion": "curious",
             "doc": [
@@ -1487,7 +1487,7 @@
             ],
             "conflict": {
                 "UndefinedBackreference": {
-                    "name": "$~अज्ञातनाम",
+                    "name": "$~अज्ञात नाम",
                     "explanation": "$~$name नाम भएको कुनै capture वा class छैन, त्यसैले मसँग मिलाउने केही छैन।",
                     "resolution": "$~यसलाई $suggestion मा परिवर्तन गर्नुहोस्"
                 }
@@ -1505,7 +1505,7 @@
             ]
         },
         "PatternCaseFold": {
-            "name": "$~केसबेवास्तागर्नुहोस्",
+            "name": "$~ठूलो-सानो अक्षर बेवास्ता गर्नुहोस्",
             "description": "$~ठूलो/सानो अक्षरको वास्ता नगरी मिलाउनुहोस्",
             "emotion": "curious",
             "doc": [
@@ -1516,7 +1516,7 @@
             ]
         },
         "PatternType": {
-            "name": "$~ढाँचाप्रकार",
+            "name": "$~ढाँचा प्रकार",
             "description": "$~ढाँचाको प्रकार",
             "emotion": "curious",
             "doc": [
@@ -1527,7 +1527,7 @@
             ]
         },
         "MapLiteral": {
-            "name": "$~mapLiteral",
+            "name": "$~नक्सा लिटरल",
             "description": "$~$count की-भ्यालु जोडीको map बनाउनुहोस्",
             "emotion": "kind",
             "label": {
@@ -1538,7 +1538,7 @@
             "finish": "$~मैले सबैलाई जोडें, $value",
             "conflict": {
                 "NotAKeyValue": {
-                    "name": "$~हराइरहेकोValue",
+                    "name": "$~हराइरहेको मान",
                     "explanation": "$~म @Map मा छु, त्यसैले मलाई एउटा value चाहिन्छ।",
                     "resolution": "$~की-भ्यालु जोडीका रूपमा बेर्नुहोस्"
                 }
@@ -1565,28 +1565,28 @@
             "finish": "$~ठीक छ, हामीसँग अन्तिम value छ!"
         },
         "NumberLiteral": {
-            "name": "$~numberLiteral",
+            "name": "$~सङ्ख्या लिटरल",
             "description": "$~सङ्ख्या $number $unit[$unit|] बनाउनुहोस्",
             "emotion": "excited",
             "doc": "$~म एउटा निश्चित @Number हुँ। तपाईंले मलाई कुनै पनि भाषाका कुनै पनि किसिमका अंकले लेख्न सक्नुहुन्छ। म गर्न सक्ने सबै कुराका लागि @Number हेर्नुहोस्।",
             "start": "$~$value!",
             "conflict": {
                 "NotANumber": {
-                    "name": "$~सङ्ख्याहोइन",
+                    "name": "$~सङ्ख्या होइन",
                     "explanation": "$~मैले सबै सङ्ख्या जान्दछु भन्ने सोचेको थिएँ, तर मलाई यो थाहा छैन",
                     "resolution": "$~*0* ले बदल्नुहोस्"
                 }
             }
         },
         "InternalExpression": {
-            "name": "$~आन्तरिकExpression",
+            "name": "$~आन्तरिक अभिव्यक्ति",
             "description": "$~निर्मित creator expression चलाउनुहोस्",
             "emotion": "neutral",
             "doc": "$~म एउटा @expression हुँ जुन मूल निर्माताहरूले मात्र प्रयोग गर्छन्। तपाईंले मलाई कसरी भेट्नुभयो? मेरो बारेमा थप जान्न, तपाईंले तिनीहरूसँग कुरा गर्नुपर्छ।",
             "start": "$~गोप्य expression"
         },
         "NoneLiteral": {
-            "name": "$~noneLiteral",
+            "name": "$~कुनै पनि होइन लिटरल",
             "description": "$~केही नभएको value बनाउनुहोस्",
             "emotion": "neutral",
             "doc": "$~म @None बनाउँछु, एउटै-किसिमको केही नभएको @None तिनीहरूका बारेमा थप जान्न @None हेर्नुहोस्।",
@@ -1692,7 +1692,7 @@
             "finish": "$~मैले संरचनाको प्रतिलिपि बनाएँ, तर $property सँग $value भएको",
             "conflict": {
                 "InvalidProperty": {
-                    "name": "$~अज्ञातProperty",
+                    "name": "$~अज्ञात गुण",
                     "explanation": "$~म संरचना $structure मा एउटा name होइन, त्यसैले मलाई परिष्कृत गर्न सकिँदैन।",
                     "resolution": "$~*$name* मा पुनः नामकरण गर्नुहोस्"
                 }
@@ -1733,7 +1733,7 @@
             "finish": "$~नयाँ स्ट्रिम value $value हो",
             "conflict": {
                 "ExpectedStream": {
-                    "name": "$~अपेक्षितस्ट्रिम",
+                    "name": "$~स्ट्रिम अपेक्षित",
                     "explanation": "$~$condition ले कुनै स्ट्रिमलाई सन्दर्भ गर्दैन, त्यसैले म कहिल्यै प्रतिक्रिया गर्दिनँ!",
                     "resolution": "$~प्रतिक्रिया हटाउनुहोस्, केवल प्रारम्भिक value मात्र राख्नुहोस्"
                 }
@@ -1753,18 +1753,18 @@
             "conflict": {
                 "UnknownName": {
                     "conflict": {
-                        "name": "$~अज्ञातName",
+                        "name": "$~अज्ञात नाम",
                         "explanation": "$~$name[$name[$scope|यो @Block] मा $scope नामको कसैलाई म चिन्दिनँ|के तपाईं मलाई एउटा name दिन सक्नुहुन्छ?]"
                     },
                     "resolution": "$~तपाईंको मतलब *$suggestion?* थियो?"
                 },
                 "ReferenceCycle": {
-                    "name": "$~आफैलाईसन्दर्भगर्नेValue",
+                    "name": "$~आफैलाई सन्दर्भ गर्ने मान",
                     "explanation": "$~उम, $name को value आफैमा निर्भर छ, त्यसैले यसलाई कुन value दिने भनेर मलाई कसरी थाहा हुन्छ?",
                     "resolution": "$~चक्र तोड्न *$name* लाई placeholder ले बदल्नुहोस्"
                 },
                 "UnexpectedTypeVariable": {
-                    "name": "$~अनपेक्षितTypeVariable",
+                    "name": "$~अनपेक्षित प्रकार चल",
                     "explanation": "$~यी type इनपुटहरूसँग के गर्ने मलाई थाहा छैन",
                     "resolution": "$~फङ्सनबाट यो type variable हटाउनुहोस्"
                 }
@@ -1790,14 +1790,14 @@
             "finish": "$~मैले केवल छानिएका पङ्क्ति र column सहितको नयाँ तालिका बनाएँ!",
             "conflict": {
                 "ExpectedSelectName": {
-                    "name": "$~columnNameछुटेको",
+                    "name": "$~हराइरहेको स्तम्भ नाम",
                     "explanation": "$~मलाई कम्तीमा एउटा column name चाहिन्छ।",
                     "resolution": "$~यो cell हटाउनुहोस्"
                 }
             }
         },
         "SetLiteral": {
-            "name": "$~सेटलिटरल",
+            "name": "$~सेट लिटरल",
             "description": "$~$count वस्तुहरूको एउटा सेट बनाउनुहोस्",
             "emotion": "eager",
             "doc": "$~म निश्चित value हरूको एउटा निश्चित @Set हुँ। मसँग कसरी काम गर्ने भनेर थप जान्न @Set हेर्नुहोस्।",
@@ -1805,7 +1805,7 @@
             "finish": "$~मैले एउटा सेट $value बनाएँ!"
         },
         "SetOrMapAccess": {
-            "name": "$~सेट/म्यापपहुँच",
+            "name": "$~सेट/नक्सा पहुँच",
             "description": "$~सेट वा म्यापमा छ कि छैन जाँच्नुहोस्",
             "emotion": "kind",
             "doc": [
@@ -1819,7 +1819,7 @@
             "finish": "$~value $value हो",
             "conflict": {
                 "IncompatibleKey": {
-                    "name": "$~नमिल्नेKey",
+                    "name": "$~नमिल्ने कुञ्जी",
                     "explanation": "$~मैले $expected type को एउटा key अपेक्षा गरेको थिएँ",
                     "resolution": "$~यसलाई $expected मा रूपान्तरण गर्नुहोस्, किनभने $expected आवश्यक छ",
                     "resolutionLiteral": "$~! सँग सूची, सेट, वा म्यापलाई लिटरल भनी चिन्ह लगाउनुहोस्, ताकि यसका value हरू सामान्यीकृत नभई निश्चित रहून् — $expected लाई ठ्याक्कै ती value हरू चाहिन्छ",
@@ -1878,17 +1878,17 @@
             "start": "$~यो राम्रो structure परिभाषित गरौं",
             "conflict": {
                 "DisallowedInputs": {
-                    "name": "$~inputsअनुमतिछैन",
+                    "name": "$~इनपुटहरू अनुमति छैन",
                     "explanation": "$~मसँग inputs हुन सक्दैन किनभने मेरो interface function मध्ये एक वा बढी लागू गरिएको छैन",
                     "resolution": "$~inputs हटाउनुहोस्"
                 },
                 "IncompleteImplementation": {
-                    "name": "$~अधुरोStructure",
+                    "name": "$~अपूर्ण संरचना",
                     "explanation": "$~मेरा function सबै लागू गरिनुपर्छ, वा कुनै पनि लागू नगरिनुपर्छ। बीचमा मिसमास नहोस्!",
                     "resolution": "$~यसलाई interface बनाउन inputs हटाउनुहोस्"
                 },
                 "NotAnInterface": {
-                    "name": "$~interfaceहोइन",
+                    "name": "$~इन्टरफेस होइन",
                     "explanation": "$~म interface होइन; structure ले interface मात्र लागू गर्न सक्छ, अन्य structure होइन",
                     "resolution": "$~यसलाई interface सूचीबाट हटाउनुहोस्"
                 },
@@ -1900,7 +1900,7 @@
             }
         },
         "StructureDefinitionType": {
-            "name": "$~structureपरिभाषा",
+            "name": "$~संरचना परिभाषा",
             "description": "$~$name",
             "emotion": "kind",
             "doc": [
@@ -1908,7 +1908,7 @@
             ]
         },
         "TableLiteral": {
-            "name": "$~tableLiteral",
+            "name": "$~तालिका लिटरल",
             "description": "$~$count पङ्क्तिको एउटा table बनाउनुहोस्",
             "emotion": "angry",
             "doc": "$~म निश्चित पङ्क्तिहरू भएको निश्चित table हुँ। म कसरी मद्दत गर्छु भन्ने @Table हेर्नुहोस्।",
@@ -1916,7 +1916,7 @@
             "finish": "$~नयाँ table $value मा मूल्याङ्कन गरियो"
         },
         "TextLiteral": {
-            "name": "$~textLiteral",
+            "name": "$~पाठ लिटरल",
             "description": "$~text value $text बनाउनुहोस्",
             "emotion": "serious",
             "label": {
@@ -1935,43 +1935,43 @@
             "doc": "$~म केही text जनाउँछु, ऐच्छिक @Language ट्याग सहित। थप जान्न @Text हेर्नुहोस्!",
             "conflict": {
                 "phone": {
-                    "name": "$~सम्भावितफोननम्बर",
+                    "name": "$~सम्भावित फोन नम्बर",
                     "explanation": "$~के *$text* कसैको फोन नम्बर हो? यदि हो भने मलाई अनलाइन साझा नगर्नुहोस्!\n\n$reminder"
                 },
                 "email": {
-                    "name": "$~सम्भावितइमेल",
+                    "name": "$~सम्भावित इमेल",
                     "explanation": "$~के *$text* कसैको इमेल हो? यदि हो भने मलाई यहाँ साझा नगर्नुहोस्!\n\n$reminder"
                 },
                 "tin": {
-                    "name": "$~सम्भावितकरपहिचान",
+                    "name": "$~सम्भावित कर परिचयकर्ता",
                     "explanation": "$~के *$text* कर पहिचान हो? यदि हो भने मलाई पक्कै साझा नगर्नुहोस्, म धेरै संवेदनशील जानकारी हुँ!\n\n$reminder"
                 },
                 "address": {
-                    "name": "$~सम्भावितठेगाना",
+                    "name": "$~सम्भावित ठेगाना",
                     "explanation": "$~के *$text* कसैको घरको ठेगाना हो? यदि हो भने मलाई यहाँ नराख्नुहोस्, हामी कसैको पीछा होस् भन्ने चाहँदैनौं!\n\n$reminder"
                 },
                 "handle": {
-                    "name": "$~सम्भावितप्रयोगकर्तानाम",
+                    "name": "$~सम्भावित प्रयोगकर्ता नाम",
                     "explanation": "$~के *$text* इन्टरनेटमा अन्यत्रको तपाईंको प्रयोगकर्ता नाम हो? यदि हो भने साँच्चै नचाहेसम्म मलाई यहाँ साझा नगर्नुहोस्।\n\n$reminder"
                 },
                 "resolution": "$~यो संवेदनशील डाटा होइन",
                 "reminder": "$~नोट: तपाईंले यो काम पूर्ववत् गर्न सक्नुहुन्छ र साझेदारी संवादमा तपाईंले गैर-संवेदनशील भनी चिनो लगाएका अन्य कुराहरू हेर्न सक्नुहुन्छ।",
                 "character": {
-                    "name": "$~सम्भावितआफ्नोअक्षर",
+                    "name": "$~सम्भावित आफ्नै अक्षर",
                     "explanation": "$~यो अक्षरको नाम जस्तो देखिन्छ। ती देखाउन @TextLiteral को साटो @FormattedLiteral प्रयोग गर्नुहोस्।",
                     "resolutionStrip": "$~text बाट विशेष अक्षरहरू हटाउनुहोस्"
                 }
             }
         },
         "FormattedLiteral": {
-            "name": "$~ढाँचाबद्धText",
+            "name": "$~ढाँचा गरिएको पाठ",
             "description": "$~ढाँचाबद्ध text $text बनाउनुहोस्",
             "emotion": "serious",
             "doc": "$~म ढाँचाबद्ध text का धेरै फरक @FormattedTranslation जनाउँछु। मैले मूल्याङ्कन गर्दा, दर्शकले छानेका भाषाहरूको आधारमा म सबैभन्दा राम्रो मिल्दो छान्छु।",
             "start": "$~अहिलेको भाषामा text बनाऔं"
         },
         "FormattedTranslation": {
-            "name": "$~ढाँचाबद्धTranslation",
+            "name": "$~ढाँचा गरिएको अनुवाद",
             "description": "$~ढाँचाबद्ध text लाई $language मा अनुवाद गर्नुहोस्",
             "emotion": "serious",
             "doc": [
@@ -2005,14 +2005,14 @@
             "start": "$~$value मा मूल्याङ्कन गरियो",
             "conflict": {
                 "MisplacedThis": {
-                    "name": "$~गलतठाउँमाThisजनाउने",
+                    "name": "$~गलत ठाउँमा यो सन्दर्भ",
                     "explanation": "$~म structure, conversion, reaction, वा translate भित्र मात्र अनुमति छु।",
                     "resolution": "$~placeholder ले बदल्नुहोस्"
                 }
             }
         },
         "UnaryEvaluate": {
-            "name": "$~एकलमूल्याङ्कन",
+            "name": "$~एकल मूल्याङ्कन",
             "description": "$~$operator एकल operator लागू गर्नुहोस्",
             "emotion": "kind",
             "label": {
@@ -2049,13 +2049,13 @@
             "conflict": {
                 "UnparsableConflict": {
                     "conflict": {
-                        "name": "$~पढ्ननसकिनेCode",
+                        "name": "$~पढ्न नसकिने कोड",
                         "explanation": "$~यहाँ @FunctionDefinition, @UnparsableExpression लाई यो कुन प्रकारको $expression[ expression | type ] हो भन्ने थाहा छैन।"
                     },
                     "resolution": "$~के तपाईंले type $first, $second भन्न खोज्नुभएको हो?"
                 },
                 "UnclosedDelimiter": {
-                    "name": "$~बन्दनगरिएकोसीमाङ्क",
+                    "name": "$~बन्द नगरिएको सीमांकक",
                     "explanation": "$~मैले $expected पछि कुनै बेला $unclosed आशा गरेको थिएँ",
                     "resolution": "$~हराएको *$expected* थप्नुहोस्"
                 }
@@ -2081,12 +2081,12 @@
             "finish": "$~परिमार्जित पङ्क्तिहरू भएको नयाँ table मा मूल्याङ्कन गरियो!",
             "conflict": {
                 "ExpectedColumnBind": {
-                    "name": "$~हराएकोColumnValue",
+                    "name": "$~हराइरहेको स्तम्भ मान",
                     "explanation": "$~मलाई हरेक column को लागि एउटा value चाहिन्छ",
                     "resolution": "$~यो सेललाई नाम दिइएको columnको रूपमा बेर्नुहोस्"
                 },
                 "IncompatibleCellType": {
-                    "name": "$~नमिल्नेCellType",
+                    "name": "$~नमिल्ने सेल प्रकार",
                     "explanation": "$~म $expected type हुनुपर्ने हो, तर म $given छु",
                     "resolution": "$~यसलाई $expected मा बदल्नुहोस्, किनकि $expected चाहिन्छ",
                     "resolutionLiteral": "$~list, set, वा mapलाई ! ले literal भनेर चिनो लगाउनुहोस्, ताकि यसका value सामान्यीकरण नभई निश्चित रहन्छन् — $expected लाई ठीक value चाहिन्छ",
@@ -2162,7 +2162,7 @@
             ]
         },
         "MapType": {
-            "name": "$~map",
+            "name": "$~नक्सा",
             "description": "$~$key[$key|कुनै पनि] देखि $value[$value|कुनै पनि] map टाइप गर्नुहोस्",
             "emotion": "kind",
             "doc": [
@@ -2189,7 +2189,7 @@
             ],
             "conflict": {
                 "UnknownTypeName": {
-                    "name": "$~अज्ञातTypeनाम",
+                    "name": "$~अज्ञात प्रकार नाम",
                     "explanation": "$~type नामहरूले structureहरू वा type variableहरूलाई मात्र जनाउन सक्छन्, तर यसले $type type लाई जनाउँछ",
                     "resolution": "$~type placeholder ले बदल्नुहोस्"
                 }
@@ -2220,7 +2220,7 @@
             ]
         },
         "StreamDefinitionType": {
-            "name": "$~streamपरिभाषा",
+            "name": "$~स्ट्रिम परिभाषा",
             "description": "$~परिभाषित stream टाइप गर्नुहोस्",
             "emotion": "angry",
             "doc": "$~म तपाईंले परिभाषित गरेको stream प्रतिनिधित्व गर्छु, जुन सम्भव छैन, त्यसैले तपाईं यो किन पढ्दै हुनुहुन्छ?"
@@ -2254,7 +2254,7 @@
             "doc": "$~म Table प्रतिनिधित्व गर्छु।",
             "conflict": {
                 "ExpectedColumnType": {
-                    "name": "$~columnTypeछुटेको",
+                    "name": "$~हराइरहेको स्तम्भ प्रकार",
                     "explanation": "$~मलाई column type चाहिन्छ",
                     "resolution": "$~type placeholder थप्नुहोस्"
                 }
@@ -2302,7 +2302,7 @@
             "doc": "$~म अज्ञात @expression को @type प्रतिनिधित्व गर्छु। तपाईंले त्यो expression कुनै कुराका लागि प्रयोग गर्ने प्रयास गर्दा म देखापर्छु।"
         },
         "VariableType": {
-            "name": "$~variableType",
+            "name": "$~चल प्रकार",
             "description": "$~प्रयोगमा रहेको type variable प्रतिनिधित्व गर्नुहोस्",
             "emotion": "curious",
             "doc": "$~म valueहरूबीचको सबै वार्तामा @TypeVariable — अज्ञात किसिमको @value — को प्रतिनिधित्व गर्छु।"
@@ -2314,7 +2314,7 @@
             "doc": "$~म त्यस्तो @value प्रतिनिधित्व गर्छु जसको @type आफैमा निर्भर हुन्छ, त्यसैले यो कस्तो किसिमको value हो भनी हामी भन्न सक्दैनौं।"
         },
         "UnknownVariableType": {
-            "name": "$~अज्ञातVariable",
+            "name": "$~अज्ञात चल",
             "description": "$~अज्ञात type variable प्रस्तुत गर्नुहोस्",
             "emotion": "curious",
             "doc": "$~कहिलेकाहीँ हामी कुनै कुरा कस्तो किसिमको @value हो भनेर अनुमान गर्न खोज्छौं; जब हामीलाई थाहा हुँदैन, तब म देखापर्छु।"
@@ -2326,13 +2326,13 @@
             "doc": "$~म एउटा @value प्रस्तुत गर्छु जसको @type हामीले अपेक्षा गरेको जस्तो होइन — जस्तै जब @ListAccess लाई @Number चाहिन्छ तर अरू केही पाउँछ।"
         },
         "NoExpressionType": {
-            "name": "$~कुनैExpressionछैन",
+            "name": "$~कुनै अभिव्यक्ति छैन",
             "description": "$~खाली block टाइप गर्नुहोस्",
             "emotion": "angry",
             "doc": "$~जब @Block मा कुनै @expression हुँदैन, तब म त्यो @type हुँ। तपाईंलाई थाहा छ कि यसलाई कम्तीमा एउटा चाहिन्छ — त्यसैले एउटा दिनुहोस्!"
         },
         "NotEnclosedType": {
-            "name": "$~structure,Conversion,वाReactionमाछैन",
+            "name": "$~संरचना, रूपान्तरण, वा प्रतिक्रियामा छैन",
             "description": "$~यो structure बाहिर प्रयोग भएको चिन्ह लगाउनुहोस्",
             "emotion": "curious",
             "doc": "$~जब @This लाई आफ्नो ठाउँ नभएको कतै प्रयोग गरिन्छ, तब म देखापर्छु, त्यसैले यसले कुन @value प्रस्तुत गर्छ भन्ने कसैलाई थाहा हुँदैन।"
@@ -2344,7 +2344,7 @@
             "doc": "$~जब तपाईंले @ExpressionPlaceholder प्रयोग गर्नुहुन्छ, तर तिनीहरू कुन @type हुन् भन्नुहुन्न, तब म त्यो type हुँ। यो स्वीकार गर्नुहोस्!"
         },
         "UnknownNameType": {
-            "name": "$~अज्ञातName",
+            "name": "$~अज्ञात नाम",
             "description": "$~$name[$name अझै परिभाषित गरिएको छैन|name दिइएको छैन]",
             "emotion": "curious",
             "doc": "$~म एउटा @name प्रस्तुत गर्छु जुन @Reference वा @PropertyReference ले फेला पार्न सकेन, जब तपाईं कसको बारेमा कुरा गर्दै हुनुहुन्छ हामीलाई थाहा हुँदैन।"
@@ -5827,7 +5827,7 @@
             "tour": {
                 "launch": "$~परियोजना नियन्त्रणहरूको भ्रमण गर्नुहोस्",
                 "controls": "$~तलका यी /नियन्त्रणहरू/ *सम्पूर्ण परियोजनामा* लागू हुन्छन्, तपाईं जुनसुकै टाइलमा काम गरिरहे पनि।",
-                "name": "$~/नाम/क्षेत्रतपाईंकोपरियोजनाकोनामहो।नामहरू*परियोजना*र*ग्यालरी*दृश्यहरूमादेखिन्छन्।",
+                "name": "$~/name/ फाँट तपाईंको परियोजनाको नाम हो। नामहरू *परियोजना* र *ग्यालेरी* दृश्यहरूमा देखिन्छन्।",
                 "sourceToggle": "$~यो /टगल/ले *स्रोत फाइल* देखाउँछ वा लुकाउँछ। यो पंक्तिका *अन्य टगलहरू*ले अन्य टाइलहरूका लागि उही गर्छन्।",
                 "addSource": "$~केही परियोजनाहरूलाई *धेरै* स्रोत फाइलहरूले फाइदा पुर्‍याउँछ, जहाँ डाटा एउटामा भण्डारण हुन्छ र *मुख्य* स्रोतमा आयात हुन्छ। /स्रोत थप्नुहोस्/ बटनले नयाँ बनाउँछ।",
                 "share": "$~/साझेदारी/ संवादले तपाईंलाई आफ्नो परियोजना *ग्यालरीहरू*सँग, *सार्वजनिक*सँग साझेदारी गर्न, वा अन्यत्र साझेदारी गर्न *पाठ*का रूपमा प्रतिलिपि गर्न दिन्छ।",
@@ -7878,7 +7878,7 @@
                     }
                 },
                 "feedback": {
-                    "name": "$~क्यारेक्टरहरूलाईकम्तीमा१क्यारेक्टरलामोमान्यWordplayनामचाहिन्छ।यो'UI',दशमलववाहेक्साडेसिमलसङ्ख्या,वाबिल्ट-इनभाषासुविधाकोनामहुनसक्दैन।",
+                    "name": "$~वर्णहरूलाई कम्तीमा १ वर्ण लामो मान्य Wordplay नाम चाहिन्छ। यो 'UI', दशमलव वा हेक्साडेसिमल सङ्ख्या, वा कुनै भित्री भाषा सुविधाको नाम हुन सक्दैन।",
                     "description": "$~क्यारेक्टरहरूलाई एउटा विवरण चाहिन्छ ताकि देख्न नसक्नेहरूले ती के प्रतिनिधित्व गर्छन् भन्ने थाहा पाऊन्।",
                     "end": "$~वा escape थिच्नुहोस्।",
                     "loadfail": "$~यो क्यारेक्टर लोड गर्न समस्या भयो।",
@@ -7942,7 +7942,7 @@
                     "confirm": "$~आफ्नो नयाँ ठेगाना पुष्टि गर्न आफ्नो पुरानो इमेल ठेगाना जाँच्नुहोस्।",
                     "delete": "$~तपाईंले यहाँ बनाएका सबै कुरा हामीले बिर्सिऔँ भन्ने चाहनुहुन्छ? यो फर्काउन सकिँदैन।",
                     "reallyDelete": "$~के तपाईं पक्का हुनुहुन्छ? तपाईंको खाता र सेटिङहरू तुरुन्तै मेटाइनेछन् र तपाईंका projects मेटाउन तय गरिनेछन्। तपाईंका projects का सहकर्मीहरूले तिनमा तुरुन्तै पहुँच गुमाउनेछन्। यो नै तपाईंको चाहना हो भनेर पुष्टि गर्न आफ्नो इमेल वा प्रयोगकर्ता नाम टाइप गर्नुहोस्।",
-                    "name": "$~अरूकालागिआफूलाईप्रतिनिधित्वगर्नइमोजीवाकस्टमक्यारेक्टरछान्नुहोस्।"
+                    "name": "$~अरूलाई आफूलाई देखाउन एउटा इमोजी वा आफ्नै वर्ण छान्नुहोस्।"
                 },
                 "error": {
                     "expired": "$~यो लिङ्क समाप्त भयो।",

@@ -1,4 +1,7 @@
-import { resolveDescription } from '@util/verify-locales/findUntaggedStrings';
+import {
+    resolveDescription,
+    resolveSchemaRefName,
+} from '@util/verify-locales/findUntaggedStrings';
 import type LocalePath from '@util/verify-locales/LocalePath';
 
 /**
@@ -35,4 +38,15 @@ export default function classifyLocalePath(
 
 export function classifyPair(path: LocalePath): LocaleStringKind {
     return classifyLocalePath([...path.path, path.key]);
+}
+
+/** Whether a path is declared as `NameText` — a Wordplay identifier (or list
+ *  of identifiers) fed to `Name.make` via `getNameLocales`. This is the scope
+ *  for name repair (`toValidName`) and single-token validation: it covers
+ *  `names`, `basis.*.name`, basis type variables (`kind`/`out`/`key`/…), and
+ *  `output.Easing.*`, while excluding display labels merely tagged [name]
+ *  (e.g. node and conflict names, which legitimately contain spaces) and
+ *  `input.Key.keys.*` (inline string[], values like "Caps Lock"). */
+export function isNameTextPath(segments: (string | number)[]): boolean {
+    return resolveSchemaRefName(segments) === 'NameText';
 }

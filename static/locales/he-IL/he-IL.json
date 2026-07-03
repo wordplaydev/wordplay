@@ -315,7 +315,7 @@
             ]
         },
         "Docs": {
-            "name": "$~רשימתהסברים",
+            "name": "$~רשימת הסברים",
             "description": "$~רשום תיעוד במספר שפות",
             "emotion": "serious",
             "doc": [
@@ -359,17 +359,17 @@
             ],
             "conflict": {
                 "UnknownLanguage": {
-                    "name": "$~שפהלאידועה",
+                    "name": "$~שָׂפָה לא ידועה",
                     "explanation": "$~אני לא מכיר את השפה הזאת",
                     "resolution": "$~הסר את קוד השפה הזה"
                 },
                 "MissingLanguage": {
-                    "name": "$~שפהחסרה",
+                    "name": "$~שָׂפָה חסרה",
                     "explanation": "$~חסרה לי שפה. האם תוכל להוסיף אחת?",
                     "resolution": "$~הסר את תגית השפה הריקה"
                 },
                 "DuplicateLanguage": {
-                    "name": "$~שפהכפולה",
+                    "name": "$~שָׂפָה כפולה",
                     "explanation": "$~השתמשת בשפה ' $code ' פעמיים. תגיות של שפות מעורבות צריכות לפרט כל שפה פעם אחת בלבד.",
                     "resolution": "$~הסר את התג הכפול * $code *"
                 }
@@ -394,7 +394,7 @@
             ]
         },
         "Names": {
-            "name": "$~רשימתשמות",
+            "name": "$~רשימת שמות",
             "description": "$~רשום שמות במספר שפות",
             "emotion": "kind",
             "label": {
@@ -413,28 +413,28 @@
             "doc": "$~אני מייצג שורה ב-@Table. כנראה שעדיף לדבר עם @Table, הם יודעים עליי הכל. אני פשוט יושב ושומר על ערכים מסודרים :(",
             "conflict": {
                 "InvalidRow": {
-                    "name": "$~שורהלאחוקית",
+                    "name": "$~שורה לא תקינה",
                     "explanation": "$~שורות צריכות להיות כולן ערכים או כולן @Bind.",
                     "resolutionKeepPositional": "$~השמט את התאים בעלי השם, השאיר רק את התאים בעלי המיקומים",
                     "resolutionUnwrapInputs": "$~מחיקת השמות מהתאים בעלי השם"
                 },
                 "MissingCell": {
-                    "name": "$~עמודהחסרה",
+                    "name": "$~עַמוּדָה חסרה",
                     "explanation": "$~חסרה לי עמודה $column",
                     "resolution": "$~הוסף תא מציין מיקום עבור * $column *"
                 },
                 "ExtraCell": {
-                    "name": "$~עמודהנוספת",
+                    "name": "$~עַמוּדָה מיותרת",
                     "explanation": "$~בהתבסס על סוג הטבלה שלי, אני עמודה נוספת שלא אמורה להיות כאן.",
                     "resolution": "$~הסר את התא הנוסף"
                 },
                 "UnknownColumn": {
-                    "name": "$~שםעמודהלאידוע",
+                    "name": "$~שֵׁם עַמוּדָה לא ידוע",
                     "explanation": "$~אני לא מכיר טור בשם הזה",
                     "resolution": "$~שינוי שם ל-* $name *"
                 },
                 "UnexpectedColumnBind": {
-                    "name": "$~איןשורותקשירה",
+                    "name": "$~אין שורות קישור",
                     "explanation": "$~אני צריך להיות ערך, לא @Bind."
                 }
             }
@@ -449,13 +449,13 @@
             ]
         },
         "TypeInputs": {
-            "name": "$~הקלדקלט",
+            "name": "$~קלטים של סוּג",
             "description": "$~מלא חריצי משתני טיפוס",
             "emotion": "curious",
             "doc": "$~אני רשימה של טיפוסים שתופסים את מקומם של @TypeVariables ב-@StructureDefinition או @FunctionDefinition. אני עוזר לכולם לדעת איזה סוג של קלטים הם יקבלו."
         },
         "TypeVariable": {
-            "name": "$~משתנהסוג",
+            "name": "$~משתנה סוּג",
             "description": "$~תן שם לטיפוס הניתן על-ידי הקורא",
             "emotion": "curious",
             "label": {
@@ -464,14 +464,14 @@
             "doc": "$~אני טיפוס מסתורי ב-@FunctionDefinition או ב-@StructureDefinition, המסופק על ידי @TypeInputs כאשר אחד מהם מוערך. ‏@Set,‏ @List, ו-@Map משתמשים בי.",
             "conflict": {
                 "DuplicateTypeVariable": {
-                    "name": "$~משתנהמסוגכפול",
+                    "name": "$~משתנה סוּג כפול",
                     "explanation": "$~יש לי את אותו שם כמו $duplicate",
                     "resolution": "$~הסר את משתנה הסוג הכפול"
                 }
             }
         },
         "TypeVariables": {
-            "name": "$~משתניסוג",
+            "name": "$~משתני סוּג",
             "description": "$~רשום משתני טיפוס בהגדרה",
             "emotion": "curious",
             "doc": "$~אני רשימה של @TypeVariable."
@@ -543,7 +543,7 @@
             ],
             "conflict": {
                 "UnsupportedFontFormat": {
-                    "name": "$~פורמטגופןלאנתמך",
+                    "name": "$~תבנית גופן לא נתמכת",
                     "explanation": "$~החבר שלי * $face * לא יודע איך להיות $format .",
                     "resolution": "$~הסר את העיצוב"
                 }
@@ -580,7 +580,7 @@
             ]
         },
         "BinaryEvaluate": {
-            "name": "$~הערכהבינארית",
+            "name": "$~חישוב בינארי",
             "description": "$~החל אופרטור $operator על שני ערכים",
             "emotion": "insecure",
             "doc": [
@@ -604,7 +604,7 @@
             "finish": "$~תראו, הרווחתי $value !",
             "conflict": {
                 "OrderOfOperations": {
-                    "name": "$~סדרדומשמעי",
+                    "name": "$~סדר לא ברור",
                     "explanation": "$~אני מעריך לפי סדר קריאה, לא לפי סדר פעולות מתמטי. האם ברצונך להשתמש ב-@Block כדי לציין את הסדר שבו עליי לבצע את ההערכה?",
                     "resolutionPEMDAS": "$~החלת סדר מתמטי של PEMDAS: הערך $higher לפני $lower",
                     "resolutionReading": "$~המשך לקרוא לפי סדר: הערך $lower לפני $higher",
@@ -652,18 +652,18 @@
             "conflict": {
                 "DuplicateName": {
                     "conflict": {
-                        "name": "$~שםכפול",
+                        "name": "$~שֵׁם כפול",
                         "explanation": "$~למישהו יש את השם $shadowed אז אני לא יכול לקבל את השם הזה."
                     },
                     "resolution": "$~ישנם שמות כפולים, האם ברצונך להסיר אחד?"
                 },
                 "DuplicateShare": {
-                    "name": "$~שיתוףכפול",
+                    "name": "$~שיתוף כפול",
                     "explanation": "$~יש לי את אותו שם כמו $duplicate. זה לא ברור מה אנחנו משתפים.",
                     "resolution": "$~הסר את השיתוף הכפול הזה"
                 },
                 "IncompatibleType": {
-                    "name": "$~סוגלאתואם",
+                    "name": "$~סוּג לא תואם",
                     "explanation": "$~אני אמור להיות סוג $expected, אבל אני סוג $given",
                     "resolution": "$~המרה ל-$expected",
                     "resolutionLiteral": "$~סמנו את הרשימה, הקבוצה או המפה כליטרליים עם !, כך שהערכים שלהן יישארו ספציפיים במקום להיות כלליים - $expected זקוק לערכים המדויקים",
@@ -679,32 +679,32 @@
                     "explanationDivideByZero": "$~זה יכול להיות ø מכיוון ש- $source עשוי לחלק באפס, ומספר נדרש כאן."
                 },
                 "MisplacedShare": {
-                    "name": "$~שיתוףלאבמקום",
+                    "name": "$~שיתוף במקום לא נכון",
                     "explanation": "$~אני יכול לשתף דברים רק ברמת @Program, לא בתוך שום דבר!",
                     "resolution": "$~הסר את הסמן *↑*"
                 },
                 "MissingShareLanguages": {
-                    "name": "$~שפהחסרה",
+                    "name": "$~שָׂפָה חסרה",
                     "explanation": "$~אם אתם רוצים לשתף את זה, עליכם לציין באיזו שפה זה כתוב, כדי שאחרים ידעו אם הם יכולים לקרוא את זה!",
                     "resolution": "$~הסר את הסמן *↑*"
                 },
                 "RequiredAfterOptional": {
-                    "name": "$~קלטנדרשלאחראופציונלי",
+                    "name": "$~קלט נדרש אחרי קלט אופציונלי",
                     "explanation": "$~אני לא יכול להיות כאן, יש @Bind אופציונלי לפניי",
                     "resolution": "$~הזזת קלטים נדרשים לפני קלטים אופציונליים"
                 },
                 "UnexpectedEtc": {
-                    "name": "$~קלטבלתיצפוילאחררשימתקלט",
+                    "name": "$~קלט לא צפוי אחרי רשימת קלטים",
                     "explanation": "$~אני יכול להיות באורך משתנה רק ב-@FunctionDefinition",
                     "resolution": "$~הסר את *…*"
                 },
                 "UnusedBind": {
-                    "name": "$~כריכהשאינהבשימוש",
+                    "name": "$~קישור שאינו בשימוש",
                     "explanation": "$~אני קוראים ל-$name, אבל אף אחד לא משתמש בי. אולי אני לא נחוץ?",
                     "resolution": "$~מחק את הקישור הזה"
                 },
                 "ShadowsKeyword": {
-                    "name": "$~צלליםשלמילתמפתח",
+                    "name": "$~מסתיר מילת מפתח",
                     "explanation": "$~שם זה הוא גם מילת המפתח $keyword , לכן אקרא אותו כשם כאן; מילת $keyword keyword עדיין עובדת במקומות אחרים."
                 }
             }
@@ -738,14 +738,14 @@
             "finish": "$~סיימתי, קיבלתי $value",
             "conflict": {
                 "ExpectedEndingExpression": {
-                    "name": "$~ביטויחסר",
+                    "name": "$~ביטוי חסר",
                     "explanation": "אני צריך לפחות ביטוי אחד שאינו @Bind, כדי שיהיה לי ערך להחזיר.",
                     "resolution": "$~הוסף ביטוי סופי"
                 }
             }
         },
         "BooleanLiteral": {
-            "name": "$~מילוליבוליאני",
+            "name": "$~ערך אמת או שקר",
             "description": "$~צור ערך בוליאני $value[אמת|שקר]",
             "emotion": "precise",
             "doc": "$~אני או \\⊤\\ או \\⊥\\. ראה @Boolean כדי ללמוד עוד על ההיגיון היפה שלנו.",
@@ -764,12 +764,12 @@
             "start": "$~השאלת $name מ-$source",
             "conflict": {
                 "UnknownBorrow": {
-                    "name": "$~לאידועללוות",
+                    "name": "$~השאלה לא ידועה",
                     "explanation": "$~אני לא מכיר @Source בשם הזה",
                     "resolution": "$~הסר את ההשאלה הזו"
                 },
                 "BorrowCycle": {
-                    "name": "$~הלוואהעצמית",
+                    "name": "$~השאלה שמפנה לעצמה",
                     "explanation": "$~זה תלוי ב-$borrow, שתלוי ב-@Source הזה, כך שלא ניתן להעריך את התוכנית",
                     "resolution": "$~הסירו את ההלוואה הזו כדי לשבור את המעגל"
                 }
@@ -818,7 +818,7 @@
             "finish": "$~אני מניח שזה $value ?",
             "conflict": {
                 "ExpectedBooleanCondition": {
-                    "name": "$~תנאיבוליאניצפוי",
+                    "name": "$~צפוי תנאי אמת או שקר",
                     "explanation": "$~אני צריך @Boolean כדי לקבל החלטה, אבל קיבלתי $type במקום זאת.",
                     "resolution": "$~המר אותו ל- $expected , מכיוון ש- $expected נדרש",
                     "resolutionLiteral": "$~סמנו את הרשימה, הקבוצה או המפה כליטרליים עם !, כך שהערכים שלהן יישארו ספציפיים במקום להיות כלליים - $expected זקוק לערכים המדויקים",
@@ -835,7 +835,7 @@
             }
         },
         "ConversionDefinition": {
-            "name": "$~הגדרתהמרה",
+            "name": "$~הגדרת המרה",
             "description": "$~הגדר המרה מ-$input ל-$output",
             "emotion": "excited",
             "label": {
@@ -852,7 +852,7 @@
             "start": "$~מדהים, המרה חדשה!",
             "conflict": {
                 "MisplacedConversion": {
-                    "name": "$~המרהשגויה",
+                    "name": "$~המרה במקום לא נכון",
                     "explanation": "$~וואו, אני לא יכול להיות פה, רק ב-@Block.",
                     "resolution": "$~הסר את ההמרה הזו"
                 }
@@ -875,7 +875,7 @@
             "finish": "$~מעולה, הרווחתי $value",
             "conflict": {
                 "UnknownConversion": {
-                    "name": "$~המרהלאידועה",
+                    "name": "$~המרה לא ידועה",
                     "explanation": "$~לא מצאנו דרך להמיר $expected ל-$given",
                     "resolution": "$~הסר את ההמרה"
                 }
@@ -901,7 +901,7 @@
             "finish": "$~יצרתי טבלה חדשה בלי השורות התואמות!"
         },
         "DocumentedExpression": {
-            "name": "$~ביטוימוסבר",
+            "name": "$~ביטוי מוסבר",
             "description": "$~צרף תיעוד לביטוי",
             "emotion": "eager",
             "doc": [
@@ -939,7 +939,7 @@
             "finish": "$~הערכתי ל-$value",
             "conflict": {
                 "IncompatibleInput": {
-                    "name": "$~קלטלאתואם",
+                    "name": "$~קלט לא תואם",
                     "explanation": "$~אני אמור להיות סוג $expected, אבל אני סוג $given",
                     "resolution": "$~המרה ל-$expected",
                     "resolutionLiteral": "$~סמנו את הרשימה, הקבוצה או המפה כליטרליים עם !, כך שהערכים שלהן יישארו ספציפיים במקום להיות כלליים - $expected זקוק לערכים המדויקים",
@@ -955,43 +955,43 @@
                     "explanationDivideByZero": "$~זה יכול להיות ø מכיוון ש- $source עשוי לחלק באפס, ומספר נדרש כאן."
                 },
                 "UnexpectedTypeInput": {
-                    "name": "$~קלטמסוגבלתיצפוי",
+                    "name": "$~קלט סוּג לא צפוי",
                     "explanation": "$~אני קלט מסוג נוסף, בלתי צפוי.",
                     "resolution": "$~הסר קלט מסוג זה"
                 },
                 "MissingInput": {
-                    "name": "$~קלטחסר",
+                    "name": "$~קלט חסר",
                     "explanation": "$~אני לא יכול להעריך את $name בלי הקלט $input :(",
                     "resolutionAddInput": "$~הוסף את ה- $input החסר, עם ערך ברירת המחדל שלו.",
                     "resolutionPlaceholder": "$~הוסף את ה- $input החסר כמציין מיקום, לאחר מכן בחר ערך מתפריט ההשלמה האוטומטית"
                 },
                 "NotInstantiable": {
-                    "name": "$~מבנהלאשלם",
+                    "name": "$~מבנה לא שלם",
                     "explanation": "$~אני לא יכול ליצור את ה-@StructureDefinition הזה, יש לו פונקציות לא ממומשות.",
                     "resolution": "$~פיגומים של הפונקציות החסרות"
                 },
                 "UnexpectedInput": {
-                    "name": "$~קלטבלתיצפוי",
+                    "name": "$~קלט לא צפוי",
                     "explanation": "$~אני קלט בלתי צפוי.",
                     "resolution": "$~הסר קלט זה"
                 },
                 "UnknownInput": {
-                    "name": "$~קלטלאידוע",
+                    "name": "$~קלט לא ידוע",
                     "explanation": "$~הפונקציה *$name* הזו לא מצפה לקלט עם השם שלי.",
                     "resolution": "$~שנה את שם הקלט הזה ל- * $name *"
                 },
                 "InputListMustBeLast": {
-                    "name": "$~קלטנוסףאינואחרון",
+                    "name": "$~קלטים נוספים אינם אחרונים",
                     "explanation": "$~רשימת הקלטים חייבת להיות אחרונה",
                     "resolution": "$~הזז את קלט הרשימה לסוף"
                 },
                 "SeparatedEvaluate": {
-                    "name": "$~הערכהמעורפלת",
+                    "name": "$~חישוב לא ברור",
                     "explanation": "$~האם $name הוא שם של פונקציה [$structure|$structure] של @FunctionDefinition שאתה מנסה להעריך? נסה להסיר את הרווח אחריי, כדי שאדע שזה @Evaluate ולא @Block נפרד.",
                     "resolution": "$~סגור את הרווח בין * $name * לבין הקלטים שלו"
                 },
                 "UnknownTimeZone": {
-                    "name": "$~אֵזוֹרזמןלאידוע",
+                    "name": "$~אֵזוֹר זמן לא ידוע",
                     "explanation": "$~אני לא מכיר אזור זמן בשם *$zone*. אזורי זמן נקראים על שם אזורים וערים, כמו \\'America/New_York'\\. נסה לכתוב עיר שאתה מכיר, ואני אציע לך אחת!",
                     "resolution": "$~שנה אותו ל-*$zone*, אֵזוֹר הזמן של $city"
                 }
@@ -1074,14 +1074,14 @@
             "start": "$~בואו ניצור את הפונקציה הזאת!",
             "conflict": {
                 "NoExpression": {
-                    "name": "$~ביטויחסר",
+                    "name": "$~ביטוי חסר",
                     "explanation": "$~אני צריך ביטוי כדי לחשב, האם תוכל להוסיף אחד?",
                     "resolution": "$~הוסף גוף מציין מיקום"
                 }
             }
         },
         "Iteration": {
-            "name": "$~פונקציהמסדרגבוהיותר",
+            "name": "$~פונקציה מסדר גבוה",
             "description": "$~עבר על ערכי רשימה פנימית",
             "emotion": "kind",
             "doc": "$~אני סוג מיוחד מאוד של @FunctionDefinition שפועל על רשימות של דברים. אתם לא צריכים לדעת עליי כלום, חוץ מזה שאני מאפשר פונקציות כמו @List.translate.",
@@ -1132,7 +1132,7 @@
             "finish": "$~$value[הערך הוא $type|הערך אינו $type]",
             "conflict": {
                 "ImpossibleType": {
-                    "name": "$~סוגבלתיאפשרי",
+                    "name": "$~סוּג בלתי אפשרי",
                     "explanation": "$~זה אף פעם לא יכול להיות $type",
                     "resolutionIsFalse": "$~החלף את בדיקת הסוג הזו ב-*⊥* (התשובה תמיד שגויה)",
                     "resolutionDropOtherwise": "$~זרוק את ה-*??* — צד שמאל אף פעם לא *ø*"
@@ -1146,7 +1146,7 @@
             }
         },
         "IsLocale": {
-            "name": "$~היאשפה",
+            "name": "$~היא שָׂפָה",
             "description": "$~החזר אמת אם נבחרה שפה",
             "emotion": "kind",
             "doc": [
@@ -1158,7 +1158,7 @@
             "start": "$~האם השפה היא $locale?"
         },
         "ListAccess": {
-            "name": "$~גישהלרשימה",
+            "name": "$~גישה לרשימה",
             "description": "$~קבל ערך במיקום ברשימה",
             "emotion": "cheerful",
             "doc": [
@@ -1169,7 +1169,7 @@
             "finish": "$~הפריט באינדקס הוא $value!"
         },
         "ListLiteral": {
-            "name": "$~רשימהמילולית",
+            "name": "$~רשימה קבועה",
             "description": "$~צור רשימה של $count ערכים",
             "emotion": "eager",
             "doc": "$~אני @List ספציפי של ערכים! ראה @List כדי ללמוד עוד על מה שאתה יכול לעשות איתי.",
@@ -1186,7 +1186,7 @@
             ]
         },
         "MapLiteral": {
-            "name": "$~מפהמילולית",
+            "name": "$~מפה קבועה",
             "description": "$~צור מיפוי של $count זוגות מפתח-ערך",
             "emotion": "kind",
             "label": {
@@ -1197,7 +1197,7 @@
             "finish": "$~חיברתי את כולם, $value",
             "conflict": {
                 "NotAKeyValue": {
-                    "name": "$~ערךחסר",
+                    "name": "$~עֵרֶך חסר",
                     "explanation": "$~אני נמצא ב-@Map, אז אני צריך ערך.",
                     "resolution": "$~עטיפה כזוג מפתח-ערך"
                 }
@@ -1224,28 +1224,28 @@
             "finish": "$~אוקיי, יש לנו ערך סופי!"
         },
         "NumberLiteral": {
-            "name": "$~מספרליטרלי",
+            "name": "$~מספר קבוע",
             "description": "$~צור מספר $number $unit[$unit|]",
             "emotion": "excited",
             "doc": "$~אני @Number ספציפי. אתם יכולים לכתוב לי עם כל מיני ספרות מכל סוג של שפה. ראו @Number עבור כל מה שאני יכול לעשות.",
             "start": "$~$value !",
             "conflict": {
                 "NotANumber": {
-                    "name": "$~לאמספר",
+                    "name": "$~לא מספר",
                     "explanation": "$~חשבתי שאני יודע את כל המספרים, אבל אני לא יודע את זה.",
                     "resolution": "$~החלף ב-*0*"
                 }
             }
         },
         "InternalExpression": {
-            "name": "$~ביטויפנימי",
+            "name": "$~ביטוי פנימי",
             "description": "$~הרץ ביטוי יוצר מובנה",
             "emotion": "neutral",
             "doc": "$~אני ביטוי שמשתמשים בו רק היוצרים המקוריים. איך מצאת אותי? כדי ללמוד עוד עליי, תצטרך לדבר איתם.",
             "start": "$~ביטוי סודי"
         },
         "NoneLiteral": {
-            "name": "$~לאמילולי",
+            "name": "$~ערך ריק קבוע",
             "description": "$~צור ערך ריק",
             "emotion": "neutral",
             "doc": "$~אני יוצר @None , ערך ה-none הייחודי. ראה @None כדי ללמוד עוד עליהם.",
@@ -1351,7 +1351,7 @@
             "finish": "$~העתקתי את המבנה, אבל עם $property בתור $value",
             "conflict": {
                 "InvalidProperty": {
-                    "name": "$~נכסלאידוע",
+                    "name": "$~תכונה לא ידועה",
                     "explanation": "$~אני לא שם במבנה $structure, אז אי אפשר לזקק אותי.",
                     "resolution": "$~שינוי שם ל-* $name *"
                 }
@@ -1392,7 +1392,7 @@
             "finish": "$~ערך הזרם החדש הוא $value",
             "conflict": {
                 "ExpectedStream": {
-                    "name": "$~הזרםהצפוי",
+                    "name": "$~צפוי זרם",
                     "explanation": "$~$condition לא מתייחס לשידור חי, אז אני לעולם לא אגיב!",
                     "resolution": "$~עזוב את התגובה, שמור רק את הערך ההתחלתי"
                 }
@@ -1412,18 +1412,18 @@
             "conflict": {
                 "UnknownName": {
                     "conflict": {
-                        "name": "$~שםלאידוע",
+                        "name": "$~שֵׁם לא ידוע",
                         "explanation": "$~$name[אני לא מכיר אף אחד בשם $name ב-$scope[$scope|בבלוק הזה]|תוכל לתת לי שם?]"
                     },
                     "resolution": "$~האם התכוונת ל-*$suggestion?*?"
                 },
                 "ReferenceCycle": {
-                    "name": "$~ערךעצמיהמפנה",
+                    "name": "$~עֵרֶך שמפנה לעצמו",
                     "explanation": "$~אממ, הערך של $name תלוי בעצמו, אז איך אני יודע איזה ערך לתת לו?",
                     "resolution": "$~החלף את * $name * ב-placeholder כדי לשבור את המעגל"
                 },
                 "UnexpectedTypeVariable": {
-                    "name": "$~משתנהמסוגבלתיצפוי",
+                    "name": "$~משתנה סוּג לא צפוי",
                     "explanation": "$~אני לא מבין עכשיו מה לעשות עם הקלטים האלה",
                     "resolution": "$~הסר משתנה מסוג זה מהפונקציה"
                 }
@@ -1449,14 +1449,14 @@
             "finish": "$~יצרתי טבלה חדשה עם השורות והעמודות שנבחרו בלבד!",
             "conflict": {
                 "ExpectedSelectName": {
-                    "name": "$~שםעמודהחסר",
+                    "name": "$~שֵׁם עַמוּדָה חסר",
                     "explanation": "$~אני צריך לפחות שם של עמודה אחת.",
                     "resolution": "$~הסר תא זה"
                 }
             }
         },
         "SetLiteral": {
-            "name": "$~קבעמילולי",
+            "name": "$~קבוצה קבועה",
             "description": "$~צור קבוצה של $count פריטים",
             "emotion": "eager",
             "doc": "$~אני קבוצת ערכים ספציפיים. ראה קבוצת ערכים ספציפיים כדי ללמוד עוד על איך לעבוד איתי.",
@@ -1464,7 +1464,7 @@
             "finish": "$~קבעתי ערך $value"
         },
         "SetOrMapAccess": {
-            "name": "$~גישהלמפה/סט",
+            "name": "$~גישה לקבוצה/מפה",
             "description": "$~בדוק אם קבוצה או מיפוי מכילים",
             "emotion": "kind",
             "doc": [
@@ -1478,7 +1478,7 @@
             "finish": "$~הערך הוא $value",
             "conflict": {
                 "IncompatibleKey": {
-                    "name": "$~מפתחלאתואם",
+                    "name": "$~מַפְתֵחַ לא תואם",
                     "explanation": "$~ציפיתי למפתח מסוג $expected",
                     "resolution": "$~המר אותו ל- $expected , מכיוון ש- $expected נדרש",
                     "resolutionLiteral": "$~סמנו את הרשימה, הקבוצה או המפה כליטרליים עם !, כך שהערכים שלהן יישארו ספציפיים במקום להיות כלליים - $expected זקוק לערכים המדויקים",
@@ -1537,17 +1537,17 @@
             "start": "$~בואו נגדיר את המבנה המקסים הזה",
             "conflict": {
                 "DisallowedInputs": {
-                    "name": "$~קלטאינומותר",
+                    "name": "$~קלטים אינם מותרים",
                     "explanation": "$~אני לא יכול לקבל קלט מכיוון שאחת או יותר מפונקציות הממשק שלי לא ממומשות",
                     "resolution": "$~הסר את הקלטים"
                 },
                 "IncompleteImplementation": {
-                    "name": "$~מבנהלאשלם",
+                    "name": "$~מבנה לא שלם",
                     "explanation": "$~או שכל הפונקציות שלי צריכות להיות ממומשות, או שאף אחת מהן לא צריכה להיות ממומשת. בלי תערובות מבולגנות!",
                     "resolution": "$~השמט את הקלטים כדי להפוך אותו לממשק"
                 },
                 "NotAnInterface": {
-                    "name": "$~לאממשק",
+                    "name": "$~לא ממשק",
                     "explanation": "$~אני לא ממשק; מבנה יכול ליישם רק ממשקים, לא מבנים אחרים.",
                     "resolution": "$~הסר את זה מרשימת הממשקים"
                 },
@@ -1559,7 +1559,7 @@
             }
         },
         "StructureDefinitionType": {
-            "name": "$~הגדרתמבנה",
+            "name": "$~הגדרת מבנה",
             "description": "$name",
             "emotion": "kind",
             "doc": [
@@ -1567,7 +1567,7 @@
             ]
         },
         "TableLiteral": {
-            "name": "$~ליטרליהטבלה",
+            "name": "$~טבלה קבועה",
             "description": "$~צור טבלה של $count שורות",
             "emotion": "angry",
             "doc": "$~אני טבלה ספציפית עם שורות ספציפיות. ראה @Table כיצד אוכל לעזור.",
@@ -1575,7 +1575,7 @@
             "finish": "$~הוערך לטבלה החדשה $value"
         },
         "TextLiteral": {
-            "name": "$~טקסטמילולי",
+            "name": "$~טקסט קבוע",
             "description": "$~צור ערך טקסט $text",
             "emotion": "serious",
             "label": {
@@ -1594,43 +1594,43 @@
             "doc": "$~אני מייצג טקסט כלשהו, עם תגית @Language אופציונלית. ראה @Text למידע נוסף!",
             "conflict": {
                 "phone": {
-                    "name": "$~מספרטלפוןאפשרי",
+                    "name": "$~מספר טלפון אפשרי",
                     "explanation": "$~האם *$text* מספר הטלפון של מישהו? אל תשתפו אותי באינטרנט אם כן!\n\n$reminder"
                 },
                 "email": {
-                    "name": "$~אימיילאפשרי",
+                    "name": "$~אימייל אפשרי",
                     "explanation": "$~האם *$text* הוא כתובת האימייל של מישהו? אם כן, אל תשתפו אותי כאן!\n\n$reminder"
                 },
                 "tin": {
-                    "name": "$~מזההמסאפשרי",
+                    "name": "$~מספר מזהה מס אפשרי",
                     "explanation": "$~האם *$text* הוא מזהה מס? אם כן, בהחלט אל תשתפו אותי, אני מידע רגיש מאוד!\n\n$reminder"
                 },
                 "address": {
-                    "name": "$~כתובתאפשרית",
+                    "name": "$~כתובת אפשרית",
                     "explanation": "$~האם *$text* היא כתובת הבית של מישהו? אם כן, אל תשימו אותי כאן, אנחנו לא רוצים שאף אחד יירדוף!\n\n$reminder"
                 },
                 "handle": {
-                    "name": "$~שםמשתמשאפשרי",
+                    "name": "$~שֵׁם משתמש אפשרי",
                     "explanation": "$~האם *$text* הוא שם המשתמש שלך במקום אחר באינטרנט? אם כן, אל תשתפו אותי כאן אלא אם כן אתם באמת מתכוונים לעשות זאת.\n\n$reminder"
                 },
                 "resolution": "$~זה לא מידע רגיש",
                 "reminder": "$~הערה: ניתן לבטל פעולה זו ולראות דברים אחרים שסימנת כלא רגישים בתיבת הדו-שיח של השיתוף.",
                 "character": {
-                    "name": "$~דמותמותאמתאישיתאפשרית",
+                    "name": "$~תו מותאם אישית אפשרי",
                     "explanation": "$~זה נראה כמו שם של תו. כדי להציג אותם, השתמש ב-@FormattedLiteral במקום ב-@TextLiteral.",
                     "resolutionStrip": "$~הסר את התווים המיוחדים מהטקסט"
                 }
             }
         },
         "FormattedLiteral": {
-            "name": "$~טקסטמעוצב",
+            "name": "$~טקסט מעוצב",
             "description": "$~צור טקסט מעוצב $text",
             "emotion": "serious",
             "doc": "$~אני מייצג מגוון רחב של @FormattedTranslation של טקסט מעוצב. כשאני מעריך, אבחר את ההתאמה הטובה ביותר בהתבסס על השפות שבחר הקהל.",
             "start": "$~בואו ניצור טקסט בשפה הנוכחית"
         },
         "FormattedTranslation": {
-            "name": "$~תרגוםמעוצב",
+            "name": "$~תרגום מעוצב",
             "description": "$~תרגם טקסט מעוצב ל-$language",
             "emotion": "serious",
             "doc": [
@@ -1664,14 +1664,14 @@
             "start": "$~הוערך ב-$value",
             "conflict": {
                 "MisplacedThis": {
-                    "name": "$~איבדתיאתההפניההזו",
+                    "name": "$~הפניית this במקום לא נכון",
                     "explanation": "$~מותר לי להשתמש רק במבנה, המרה, תגובה או תרגום.",
                     "resolution": "$~החלף במציין מיקום"
                 }
             }
         },
         "UnaryEvaluate": {
-            "name": "$~הערכהאונרית",
+            "name": "$~חישוב חד-אופרנדי",
             "description": "$~החל אופרטור חד-אופרנד $operator",
             "emotion": "kind",
             "label": {
@@ -1708,13 +1708,13 @@
             "conflict": {
                 "UnparsableConflict": {
                     "conflict": {
-                        "name": "$~קודבלתיקריא",
+                        "name": "$~קוד לא קריא",
                         "explanation": "$~@FunctionDefinition כאן, @UnparsableExpression לא יודע איזה סוג של $expression[ביטוי | סוג] זה."
                     },
                     "resolution": "$~האם התכוונת לסוג $first, $second?"
                 },
                 "UnclosedDelimiter": {
-                    "name": "$~מפרידלאסגור",
+                    "name": "$~מפריד לא סגור",
                     "explanation": "$~ציפיתי ש-$expected מתישהו אחרי $unclosed",
                     "resolution": "$~הוסף את ה-* $expected * החסר"
                 }
@@ -1740,12 +1740,12 @@
             "finish": "$~הוערך לטבלה חדשה עם שורות מתוקנות!",
             "conflict": {
                 "ExpectedColumnBind": {
-                    "name": "$~ערךעמודהחסר",
+                    "name": "$~עֵרֶך עַמוּדָה חסר",
                     "explanation": "$~אני צריך ערך לכל עמודה",
                     "resolution": "$~עוטף תא זה כעמודה בעלת שם"
                 },
                 "IncompatibleCellType": {
-                    "name": "$~סוגתאלאתואם",
+                    "name": "$~סוּג תָא לא תואם",
                     "explanation": "$~אני אמור להיות סוג של $expected, אבל הבנתי שאני $given",
                     "resolution": "$~המר אותו ל- $expected , מכיוון ש- $expected נדרש",
                     "resolutionLiteral": "$~סמנו את הרשימה, הקבוצה או המפה כליטרליים עם !, כך שהערכים שלהן יישארו ספציפיים במקום להיות כלליים - $expected זקוק לערכים המדויקים",
@@ -1848,7 +1848,7 @@
             ],
             "conflict": {
                 "UnknownTypeName": {
-                    "name": "$~שםסוגלאידוע",
+                    "name": "$~שֵׁם סוּג לא ידוע",
                     "explanation": "$~שמות סוגים יכולים להתייחס רק למבנים או משתני סוג, אך זה מתייחס לסוג $type",
                     "resolution": "$~החלפה במציין מיקום של סוג"
                 }
@@ -1879,7 +1879,7 @@
             ]
         },
         "StreamDefinitionType": {
-            "name": "$~הגדרתזרם",
+            "name": "$~הגדרת זרם",
             "description": "$~הקלד זרם מוגדר",
             "emotion": "angry",
             "doc": "$~אני מייצג זרם שהגדרת, וזה לא אפשרי, אז למה אתה בכלל קורא את זה?"
@@ -1913,7 +1913,7 @@
             "doc": "$~אני מייצג טבלה.",
             "conflict": {
                 "ExpectedColumnType": {
-                    "name": "$~סוגעמודהחסר",
+                    "name": "$~סוּג עַמוּדָה חסר",
                     "explanation": "$~אני צריך סוג עמודה",
                     "resolution": "$~הוסף מציין מיקום של סוג"
                 }
@@ -1961,7 +1961,7 @@
             "doc": "$~אני מייצג את הסוג של ביטוי לא ידוע. אני מופיע כשאתה מנסה להשתמש בביטוי הזה למשהו."
         },
         "VariableType": {
-            "name": "$~סוגמשתנה",
+            "name": "$~סוּג משתנה",
             "description": "$~ייצג משתנה סוג בשימוש",
             "emotion": "curious",
             "doc": "$~אני מייצג @TypeVariable - סוג לא ידוע של ערך - בכל המשא ומתן בין ערכים."
@@ -1973,7 +1973,7 @@
             "doc": "$~אני מייצג ערך שסוגו תלוי בעצמו, ולכן איננו יכולים לדעת איזה סוג של ערך הוא."
         },
         "UnknownVariableType": {
-            "name": "$~משתנהלאידוע",
+            "name": "$~משתנה לא ידוע",
             "description": "$~ייצג משתנה סוג לא ידוע",
             "emotion": "curious",
             "doc": "$~לפעמים אנחנו מנסים לנחש איזה ערך יש למשהו; אני מופיע כשאנחנו לא יודעים."
@@ -1985,13 +1985,13 @@
             "doc": "$~אני מייצג ערך שסוגו אינו זה שציפינו לו - כמו כאשר @ListAccess זקוק ל- @Number אך מקבל משהו אחר."
         },
         "NoExpressionType": {
-            "name": "$~איןהבעה",
+            "name": "$~אין ביטוי",
             "description": "$~הקלד בלוק ריק",
             "emotion": "angry",
             "doc": "$~אני מהסוג שמקבלים כש- @Block חסר ביטוי. אתם יודעים שהוא צריך לפחות אחד - אז תנו אחד!"
         },
         "NotEnclosedType": {
-            "name": "$~לאבמבנה,בהמרהאובתגובה",
+            "name": "$~לא במבנה, המרה או תגובה",
             "description": "$~סמן שימוש מחוץ למבנה",
             "emotion": "curious",
             "doc": "$~אני מופיע כאשר @This משמש במקום שהוא לא שייך, כך שאף אחד לא יודע איזה ערך הוא מייצג."
@@ -2003,7 +2003,7 @@
             "doc": "$~כשאתה משתמש ב-@ExpressionPlaceholder, אבל לא אומר איזה סוג הם, אני הסוג שאתה מקבל. תתמודד עם זה!"
         },
         "UnknownNameType": {
-            "name": "$~שםלאידוע",
+            "name": "$~שֵׁם לא ידוע",
             "description": "$~$name [ $name טרם הוגדר | השם לא ניתן]",
             "emotion": "curious",
             "doc": "$~אני מייצג שם ש- @Reference או @PropertyReference לא הצליחו למצוא, כשאנחנו לא יודעים על מי אתה מדבר."
@@ -2031,17 +2031,17 @@
             "next": "$~הפריט הבא: $value !",
             "conflict": {
                 "ExpectedCollection": {
-                    "name": "$~איסוףצפוי",
+                    "name": "$~צפוי אוסף",
                     "explanation": "$~ציפיתי שהצד השמאלי של המרת אוסף חייב להיות אוסף, אבל קיבלתי $type"
                 },
                 "ExpectedThis": {
-                    "name": "$~ציפיתילזה",
+                    "name": "$~צפוי this",
                     "explanation": "$~האם התכוונת להשתמש ב- @This כדי להתייחס לפריט באוסף הזה?"
                 }
             }
         },
         "ExternalExample": {
-            "name": "$~דוגמהחיצונית",
+            "name": "$~דוגמה חיצונית",
             "description": "$~הצגת קוד משפת תכנות אחרת בתיעוד",
             "emotion": "serious",
             "doc": [
@@ -2085,7 +2085,7 @@
             "start": "$~תן לי לראות איך הטקסט הזה נראה.",
             "conflict": {
                 "EmptyPattern": {
-                    "name": "$~דפוסריק",
+                    "name": "$~תבנית ריקה",
                     "explanation": "$~אין לי חלקים, אז אני לא מוצא שום דבר שימושי. האם תוכל להוסיף חלק?",
                     "resolution": "$~הוסף \\◌\\ כדי להתאים לכל תו"
                 }
@@ -2115,13 +2115,13 @@
             ],
             "conflict": {
                 "OverlappingAlternatives": {
-                    "name": "$~בחירותחופפות",
+                    "name": "$~בחירות חופפות",
                     "explanation": "$~$shorter הוא תחילתו של $longer , והאפשרות הארוכה ביותר תמיד מנצחת, כך ש- $shorter מתאים רק כאשר $longer לא יכול. האם התכוונת לזה?"
                 }
             }
         },
         "PatternClass": {
-            "name": "$~מחלקתאופי",
+            "name": "$~מחלקת תווים",
             "description": "$~להתאים סוג אחד של דמות",
             "emotion": "curious",
             "doc": [
@@ -2145,7 +2145,7 @@
             ],
             "conflict": {
                 "UnrecognizedPatternProperty": {
-                    "name": "$~נכסלאידוע",
+                    "name": "$~תכונה לא ידועה",
                     "explanation": "$~אני לא מזהה את המאפיין $name . נסה קטגוריה, סקריפט או מזהה יוניקוד.",
                     "resolution": "$~שנה את זה ל- $suggestion"
                 }
@@ -2163,7 +2163,7 @@
             ],
             "conflict": {
                 "MalformedQuantifier": {
-                    "name": "$~ספירהבלתיאפשרית",
+                    "name": "$~ספירה בלתי אפשרית",
                     "explanation": "$~הספירה הנמוכה שלי גדולה מהספירה הגבוהה שלי, כך שלעולם לא אוכל להתאים.",
                     "resolution": "$~החליפו את הספירות שלי כך שהקטן יותר יגיע ראשון"
                 }
@@ -2192,7 +2192,7 @@
             ],
             "conflict": {
                 "DuplicateCaptureName": {
-                    "name": "$~לכידתכפילויות",
+                    "name": "$~לכידה כפולה",
                     "explanation": "$~לכידה אחרת כבר משתמשת בשם $name , כך שזו תחליף אותה.",
                     "resolution": "$~שנה את שם הצילום הזה ל- $replacement"
                 }
@@ -2222,7 +2222,7 @@
             ]
         },
         "PatternSet": {
-            "name": "$~סטגליפים",
+            "name": "$~קבוצת סמלים",
             "description": "$~התאם אחת מהגרפמות האלה",
             "emotion": "curious",
             "doc": [
@@ -2277,13 +2277,13 @@
             ],
             "conflict": {
                 "MissingPatternLocale": {
-                    "name": "$~שפהחסרה",
+                    "name": "$~שָׂפָה חסרה",
                     "explanation": "$~אני צריך שפה כדי לדעת איך למצוא מילים. האם תוכל להוסיף אחת, כמו \\/en\\ ?"
                 }
             }
         },
         "PatternWordEdge": {
-            "name": "$~קצההמילה",
+            "name": "$~קצה מילה",
             "description": "$~התאם גבול מילים",
             "emotion": "curious",
             "doc": [
@@ -2317,7 +2317,7 @@
             ],
             "conflict": {
                 "UndefinedBackreference": {
-                    "name": "$~שםלאידוע",
+                    "name": "$~שֵׁם לא ידוע",
                     "explanation": "$~אין לכידה או מחלקה בשם $name , אז אין לי שום דבר להתאים.",
                     "resolution": "$~שנה את זה ל- $suggestion"
                 }
@@ -2335,7 +2335,7 @@
             ]
         },
         "PatternCaseFold": {
-            "name": "$~התעלםמהמקרה",
+            "name": "$~התעלם מאותיות גדולות וקטנות",
             "description": "$~התאמה תוך התעלמות מאותיות גדולות/קטנות",
             "emotion": "curious",
             "doc": [
@@ -2346,7 +2346,7 @@
             ]
         },
         "PatternType": {
-            "name": "$~סוגתבנית",
+            "name": "$~סוּג תבנית",
             "description": "$~סוג של תבנית",
             "emotion": "curious",
             "doc": [
@@ -2996,7 +2996,7 @@
             "name": ["$~[]", "$~רְשִׁימָה"],
             "kind": "$~סוּג",
             "out": "$~תוֹצָאָה",
-            "outofbounds": "$~מחוץ לתחום",
+            "outofbounds": "$~מחוץלתחום",
             "function": {
                 "add": {
                     "doc": [
@@ -5816,7 +5816,7 @@
             "tour": {
                 "launch": "$~סיור בבקרות הפרויקט",
                 "controls": "$~ה-/controls/ האלה בתחתית חלים על *הפרויקט בכללותו*, לא משנה באיזה אריח אתם עובדים.",
-                "name": "$~השדה/name/הואשםהפרויקטשלך.שמותמופיעיםבתצוגות*project*ו-*gallery*.",
+                "name": "$~השדה /name/ הוא השֵׁם של הפּרוֹיֶקט שלך. שמות מופיעים בתצוגות של ה*פּרוֹיֶקט* ושל ה*גלריה*.",
                 "sourceToggle": "$~הפעולה /toggle/ מציגה או מסתירה את *קובץ המקור*. ה*מתגים האחרים* בשורה זו עושים את אותו הדבר עבור שאר האריחים.",
                 "addSource": "$~חלק מהפרויקטים נהנים מקבצי מקור *מספר*, שבהם הנתונים מאוחסנים בקובץ אחד ומיובאים למקור *הראשי*. כפתור /הוסף מקור/ יוצר קובץ חדש.",
                 "share": "$~תיבת הדו-שיח /share/ מאפשרת לך לשתף את הפרויקט שלך עם *גלריות*, עם *הציבור*, או להעתיק אותו כ*טקסט* לשיתוף במקום אחר.",
@@ -7669,7 +7669,7 @@
                     }
                 },
                 "feedback": {
-                    "name": "$~תוויםצריכיםשםמשחקמיליםתקףבאורךתואחדלפחות.הואלאיכוללהיות'UI',מספרעשרוניאוהקסדצימלי,אושםשלתכונתשפהמובנית.",
+                    "name": "$~תווים צריכים שֵׁם תקין של Wordplay באורך של תו אחד לפחות. הוא לא יכול להיות 'UI', מספר עשרוני או הקסדצימלי, או שֵׁם של תכונת שָׂפָה מובנית.",
                     "description": "$~דמויות צריכות תיאור כדי שאלה שלא רואים ידעו מה הן מייצגות.",
                     "end": "$~או ללחוץ על Escape.",
                     "loadfail": "$~הייתה בעיה בטעינת הדמות הזו.",
@@ -7733,7 +7733,7 @@
                     "confirm": "$~בדוק את כתובת הדוא\"ל הישנה שלך כדי לאשר את הכתובת החדשה.",
                     "delete": "$~רוצה שנשכח את כל מה שעשית כאן? אי אפשר לבטל את זה.",
                     "reallyDelete": "$~האם אתה בטוח? החשבון וההגדרות שלך יימחקו באופן מיידי והפרויקטים שלך יתוזמנו למחיקה. משתפי פעולה בפרויקטים שלך יאבדו גישה אליהם באופן מיידי. הקלד את כתובת האימייל או שם המשתמש שלך כדי לאשר שזה מה שאתה רוצה.",
-                    "name": "$~בחראמוג'יאודמותמותאמתאישיתכדילייצגאתעצמךבפניאחרים."
+                    "name": "$~בחר אמוג'י או תו מותאם אישית כדי לייצג את עצמך בפני אחרים."
                 },
                 "error": {
                     "expired": "$~תוקף הקישור הזה פג.",

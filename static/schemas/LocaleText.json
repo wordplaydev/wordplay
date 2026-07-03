@@ -47,7 +47,7 @@
           "description": "[formatted] The text that describes this conflict on the node which generated it."
         },
         "name": {
-          "description": "[name] The short header to describe the conflict",
+          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
           "type": "string"
         }
       },
@@ -66,7 +66,7 @@
           "description": "[formatted] The text that describes this conflict on the node which generated it."
         },
         "name": {
-          "description": "[name] The short header to describe the conflict",
+          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
           "type": "string"
         }
       },
@@ -85,7 +85,7 @@
           "description": "[formatted] The text that describes this conflict on the node which generated it."
         },
         "name": {
-          "description": "[name] The short header to describe the conflict",
+          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
           "type": "string"
         }
       },
@@ -104,7 +104,7 @@
           "description": "[formatted] The text that describes this conflict on the node which generated it."
         },
         "name": {
-          "description": "[name] The short header to describe the conflict",
+          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
           "type": "string"
         }
       },
@@ -123,7 +123,7 @@
           "description": "[formatted] The text that describes this conflict on the node which generated it."
         },
         "name": {
-          "description": "[name] The short header to describe the conflict",
+          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
           "type": "string"
         }
       },
@@ -142,7 +142,7 @@
           "description": "[formatted] The text that describes this conflict on the node which generated it."
         },
         "name": {
-          "description": "[name] The short header to describe the conflict",
+          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
           "type": "string"
         }
       },
@@ -161,7 +161,7 @@
           "description": "[formatted] The text that describes this conflict on the node which generated it."
         },
         "name": {
-          "description": "[name] The short header to describe the conflict",
+          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
           "type": "string"
         }
       },
@@ -180,7 +180,7 @@
           "description": "[formatted] The text that describes this conflict on the node which generated it."
         },
         "name": {
-          "description": "[name] The short header to describe the conflict",
+          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
           "type": "string"
         }
       },
@@ -227,7 +227,7 @@
           "type": "string"
         },
         "name": {
-          "description": "[name] The name that should be used to refer to the node type",
+          "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
           "type": "string"
         }
       },
@@ -276,7 +276,7 @@
           "type": "string"
         },
         "name": {
-          "description": "[name] The name that should be used to refer to the node type",
+          "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
           "type": "string"
         }
       },
@@ -325,7 +325,7 @@
           "type": "string"
         },
         "name": {
-          "description": "[name] The name that should be used to refer to the node type",
+          "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
           "type": "string"
         }
       },
@@ -374,7 +374,7 @@
           "type": "string"
         },
         "name": {
-          "description": "[name] The name that should be used to refer to the node type",
+          "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
           "type": "string"
         }
       },
@@ -423,7 +423,7 @@
           "type": "string"
         },
         "name": {
-          "description": "[name] The name that should be used to refer to the node type",
+          "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
           "type": "string"
         }
       },
@@ -472,7 +472,7 @@
           "type": "string"
         },
         "name": {
-          "description": "[name] The name that should be used to refer to the node type",
+          "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
           "type": "string"
         }
       },
@@ -521,7 +521,7 @@
           "type": "string"
         },
         "name": {
-          "description": "[name] The name that should be used to refer to the node type",
+          "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
           "type": "string"
         }
       },
@@ -570,7 +570,7 @@
           "type": "string"
         },
         "name": {
-          "description": "[name] The name that should be used to refer to the node type",
+          "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
           "type": "string"
         }
       },
@@ -619,7 +619,7 @@
           "type": "string"
         },
         "name": {
-          "description": "[name] The name that should be used to refer to the node type",
+          "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
           "type": "string"
         }
       },
@@ -668,7 +668,7 @@
           "type": "string"
         },
         "name": {
-          "description": "[name] The name that should be used to refer to the node type",
+          "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
           "type": "string"
         }
       },
@@ -4489,7 +4489,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolutionPEMDAS": {
@@ -4571,7 +4571,7 @@
                   "type": "object"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "right": {
@@ -4631,7 +4631,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -4659,7 +4659,7 @@
                           "description": "[formatted] Explanation shown when the incompatible none value comes from a `÷`/`%` that could divide by zero."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -4734,7 +4734,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -4758,7 +4758,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -4782,7 +4782,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -4810,7 +4810,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -4834,7 +4834,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -4924,7 +4924,7 @@
                   "type": "object"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -4961,7 +4961,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -5033,7 +5033,7 @@
                   "type": "object"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -5091,7 +5091,7 @@
                   "type": "string"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -5129,7 +5129,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -5153,7 +5153,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -5246,7 +5246,7 @@
                   "type": "object"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -5321,7 +5321,7 @@
                   "type": "object"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -5406,7 +5406,7 @@
                   "type": "object"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 }
               },
@@ -5440,7 +5440,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -5576,7 +5576,7 @@
                   "type": "object"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -5615,7 +5615,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -5693,7 +5693,7 @@
                   "type": "object"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -5733,7 +5733,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -5806,7 +5806,7 @@
                   "description": "[formatted] The text shown when this expression type finishes evaluating and has a value."
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -5872,7 +5872,7 @@
                   "description": "[formatted] The text shown when this expression type finishes evaluating and has a value."
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -5936,7 +5936,7 @@
                   "type": "string"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -5991,7 +5991,7 @@
                   "type": "string"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -6029,7 +6029,7 @@
                           "description": "[formatted] Explanation shown when the incompatible none value comes from a `÷`/`%` that could divide by zero."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -6104,7 +6104,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -6128,7 +6128,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolutionAddInput": {
@@ -6157,7 +6157,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -6181,7 +6181,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -6205,7 +6205,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -6229,7 +6229,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -6253,7 +6253,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -6277,7 +6277,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -6385,7 +6385,7 @@
                   "type": "object"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -6431,7 +6431,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -6513,7 +6513,7 @@
                   "type": "object"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -6575,7 +6575,7 @@
                   "type": "string"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -6617,7 +6617,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -6695,7 +6695,7 @@
                   "type": "object"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -6759,7 +6759,7 @@
                   "type": "string"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -6818,7 +6818,7 @@
                   "description": "[formatted] The text shown when this expression type finishes evaluating and has a value."
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -6874,7 +6874,7 @@
                   "type": "string"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -6908,7 +6908,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolutionDropOtherwise": {
@@ -6986,7 +6986,7 @@
                   "description": "[formatted] The text shown when this expression type finishes evaluating and has a value."
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -7044,7 +7044,7 @@
                   "type": "string"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -7111,7 +7111,7 @@
                   "description": "[formatted] What to say when the iteration initialization begins"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "next": {
@@ -7156,7 +7156,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -7179,7 +7179,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -7202,7 +7202,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -7259,7 +7259,7 @@
                   "type": "string"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 }
               },
@@ -7314,7 +7314,7 @@
                   "description": "[formatted] The text shown when this expression type finishes evaluating and has a value."
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -7374,7 +7374,7 @@
                   "description": "[formatted] The text shown when this expression type finishes evaluating and has a value."
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -7447,7 +7447,7 @@
                   "type": "object"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -7482,7 +7482,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -7554,7 +7554,7 @@
                   "type": "object"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -7629,7 +7629,7 @@
                   "type": "object"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 }
               },
@@ -7706,7 +7706,7 @@
                   "type": "object"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -7751,7 +7751,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -7806,7 +7806,7 @@
                   "type": "string"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 }
               },
@@ -7870,7 +7870,7 @@
                   "type": "object"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 }
               },
@@ -7933,7 +7933,7 @@
                   "type": "string"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -7983,7 +7983,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -8038,7 +8038,7 @@
                   "type": "string"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -8102,7 +8102,7 @@
                   "description": "[formatted] The text shown when this expression type finishes evaluating and has a value."
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -8145,7 +8145,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -8200,7 +8200,7 @@
                   "type": "string"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 }
               },
@@ -8230,7 +8230,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -8285,7 +8285,7 @@
                   "type": "string"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 }
               },
@@ -8331,7 +8331,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -8386,7 +8386,7 @@
                   "type": "string"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -8489,7 +8489,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -8544,7 +8544,7 @@
                   "type": "string"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 }
               },
@@ -8578,7 +8578,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -8633,7 +8633,7 @@
                   "type": "string"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 }
               },
@@ -8706,7 +8706,7 @@
                   "type": "string"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 }
               },
@@ -8779,7 +8779,7 @@
                   "type": "string"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 }
               },
@@ -8851,7 +8851,7 @@
                   "type": "object"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -8977,7 +8977,7 @@
                   "type": "object"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -9020,7 +9020,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -9097,7 +9097,7 @@
                   "type": "object"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -9172,7 +9172,7 @@
                   "type": "object"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -9208,7 +9208,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -9290,7 +9290,7 @@
                   "type": "object"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -9327,7 +9327,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -9351,7 +9351,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -9440,7 +9440,7 @@
                   "type": "object"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -9476,7 +9476,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -9500,7 +9500,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolutionKeepPositional": {
@@ -9529,7 +9529,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -9557,7 +9557,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -9616,7 +9616,7 @@
                   "type": "string"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 }
               },
@@ -9646,7 +9646,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -9705,7 +9705,7 @@
                   "description": "[formatted] The text shown when this expression type finishes evaluating and has a value."
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -9766,7 +9766,7 @@
                   "description": "[formatted] The text shown when this expression type finishes evaluating and has a value."
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -9801,7 +9801,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -9910,7 +9910,7 @@
                   "description": "[formatted] The text shown when this expression type finishes evaluating and has a value."
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -9979,7 +9979,7 @@
                   "type": "string"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -10021,7 +10021,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -10045,7 +10045,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -10069,7 +10069,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -10093,7 +10093,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -10179,7 +10179,7 @@
                   "type": "object"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -10247,7 +10247,7 @@
                   "description": "[formatted] The text shown when this expression type finishes evaluating and has a value."
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -10282,7 +10282,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -10337,7 +10337,7 @@
                   "type": "string"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 }
               },
@@ -10401,7 +10401,7 @@
                   "type": "object"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -10439,7 +10439,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -10494,7 +10494,7 @@
                   "type": "string"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -10577,7 +10577,7 @@
                   "description": "[formatted] The text shown when this expression type finishes evaluating and has a value."
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "next": {
@@ -10620,7 +10620,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolutionStrip": {
@@ -10715,7 +10715,7 @@
                   "type": "object"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 }
               },
@@ -10754,7 +10754,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -10822,7 +10822,7 @@
                   "type": "object"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 }
               },
@@ -10895,7 +10895,7 @@
                   "type": "object"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -10956,7 +10956,7 @@
                   "type": "string"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 }
               },
@@ -11019,7 +11019,7 @@
                   "type": "string"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 }
               },
@@ -11053,7 +11053,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -11141,7 +11141,7 @@
                   "type": "object"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -11181,7 +11181,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -11205,7 +11205,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -11315,7 +11315,7 @@
                   "description": "[formatted] The text shown when this expression type finishes evaluating and has a value."
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 },
                 "start": {
@@ -11359,7 +11359,7 @@
                           "description": "[formatted] The text that describes this conflict on the node which generated it."
                         },
                         "name": {
-                          "description": "[name] The short header to describe the conflict",
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                           "type": "string"
                         },
                         "resolution": {
@@ -11414,7 +11414,7 @@
                   "type": "string"
                 },
                 "name": {
-                  "description": "[name] The name that should be used to refer to the node type",
+                  "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
                   "type": "string"
                 }
               },

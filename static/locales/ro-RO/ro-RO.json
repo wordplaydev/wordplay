@@ -315,7 +315,7 @@
             ]
         },
         "Docs": {
-            "name": "$~listădeexplicații",
+            "name": "$~listă de explicații",
             "description": "$~listați documentația în mai multe limbi",
             "emotion": "serious",
             "doc": [
@@ -359,17 +359,17 @@
             ],
             "conflict": {
                 "UnknownLanguage": {
-                    "name": "$~limbănecunoscută",
+                    "name": "$~limbă necunoscută",
                     "explanation": "$~Nu știu această limbă",
                     "resolution": "$~Eliminați acest cod de limbă"
                 },
                 "MissingLanguage": {
-                    "name": "$~limbălipsă",
+                    "name": "$~limbă lipsă",
                     "explanation": "$~Îmi lipsește o limbă. Poți adăuga una?",
                     "resolution": "$~Eliminați eticheta de limbă goală"
                 },
                 "DuplicateLanguage": {
-                    "name": "$~limbajduplicat",
+                    "name": "$~limbă duplicată",
                     "explanation": "$~Ai folosit codul limbii „ $code ” de două ori. Etichetele pentru limbi mixte ar trebui să listeze fiecare limbă o singură dată.",
                     "resolution": "$~Eliminați eticheta duplicată * $code *"
                 }
@@ -395,7 +395,7 @@
             ]
         },
         "Names": {
-            "name": "$~listădenume",
+            "name": "$~listă de nume",
             "description": "$~enumerați nume în mai multe limbi",
             "emotion": "kind",
             "label": {
@@ -414,28 +414,28 @@
             "doc": "$~Reprezint un rând într-un @Table. Probabil cel mai bine e să mergi să vorbești cu @Table, ei știu totul despre mine. Eu doar stau și mențin valorile în ordine :(",
             "conflict": {
                 "InvalidRow": {
-                    "name": "$~rândnevalid",
+                    "name": "$~rând nevalid",
                     "explanation": "$~Rândurile trebuie să fie fie toate valori, fie toate @Bind.",
                     "resolutionKeepPositional": "$~Eliminați celulele denumite, păstrați doar cele poziționale",
                     "resolutionUnwrapInputs": "$~Eliminați numele din celulele denumite"
                 },
                 "MissingCell": {
-                    "name": "$~coloanălipsă",
+                    "name": "$~coloană lipsă",
                     "explanation": "$~Îmi lipsește coloana $column",
                     "resolution": "$~Adăugați o celulă substituentă pentru * $column *"
                 },
                 "ExtraCell": {
-                    "name": "$~coloanăsuplimentară",
+                    "name": "$~coloană în plus",
                     "explanation": "$~Pe baza tipului de tabel, sunt o coloană suplimentară care nu ar trebui să fie aici.",
                     "resolution": "$~Eliminați celula suplimentară"
                 },
                 "UnknownColumn": {
-                    "name": "$~numedecoloanănecunoscut",
+                    "name": "$~nume de coloană necunoscut",
                     "explanation": "$~Nu cunosc nicio coloană cu acest nume.",
                     "resolution": "$~Redenumiți la * $name *"
                 },
                 "UnexpectedColumnBind": {
-                    "name": "$~fărărânduridelegături",
+                    "name": "$~fără rânduri de legături",
                     "explanation": "$~Ar trebui să fiu o valoare, nu @Bind."
                 }
             }
@@ -450,13 +450,13 @@
             ]
         },
         "TypeInputs": {
-            "name": "$~intrăridetip",
+            "name": "$~intrări de tip",
             "description": "$~completați sloturile variabilelor de tip",
             "emotion": "curious",
             "doc": "$~Sunt o listă de tipuri care înlocuiesc @TypeVariables într-o @StructureDefinition sau @FunctionDefinition. Îi ajut pe toți să știe ce fel de intrări vor primi."
         },
         "TypeVariable": {
-            "name": "$~variabilădetip",
+            "name": "$~variabilă de tip",
             "description": "$~numiți un tip dat de apelant",
             "emotion": "curious",
             "label": {
@@ -465,14 +465,14 @@
             "doc": "$~Sunt un tip misterios pe @FunctionDefinition sau @StructureDefinition, furnizat de @TypeInputs atunci când oricare dintre ele este evaluată. @Set, @List și @Map mă folosesc.",
             "conflict": {
                 "DuplicateTypeVariable": {
-                    "name": "$~variabilădetipduplicat",
+                    "name": "$~variabilă de tip duplicată",
                     "explanation": "$~Am același nume ca $duplicate",
                     "resolution": "$~Eliminați variabila de tip duplicat"
                 }
             }
         },
         "TypeVariables": {
-            "name": "$~variabiledetip",
+            "name": "$~variabile de tip",
             "description": "$~variabile de tip listă pe o definiție",
             "emotion": "curious",
             "doc": "$~Sunt o listă de @TypeVariable."
@@ -544,7 +544,7 @@
             ],
             "conflict": {
                 "UnsupportedFontFormat": {
-                    "name": "$~formatdefontneacceptat",
+                    "name": "$~format de font neacceptat",
                     "explanation": "$~Prietenul meu, * $face *, nu știe cum să fie $format .",
                     "resolution": "$~Eliminați formatarea"
                 }
@@ -581,7 +581,7 @@
             ]
         },
         "BinaryEvaluate": {
-            "name": "$~evaluarebinară",
+            "name": "$~evaluare binară",
             "description": "$~aplică operatorul $operator operator la două valori",
             "emotion": "insecure",
             "doc": [
@@ -605,7 +605,7 @@
             "finish": "$~Uite, am făcut $value !",
             "conflict": {
                 "OrderOfOperations": {
-                    "name": "$~ordineambiguă",
+                    "name": "$~ordine ambiguă",
                     "explanation": "$~Evaluez în ordinea de citire, nu în ordinea matematică a operațiilor. Vrei să folosești @Block pentru a specifica ordinea în care ar trebui să evaluez?",
                     "resolutionPEMDAS": "$~Aplicați ordinea matematică PEMDAS: evaluați $higher înainte de $lower",
                     "resolutionReading": "$~Continuați ordinea de citire: evaluați $lower înainte de $higher",
@@ -653,18 +653,18 @@
             "conflict": {
                 "DuplicateName": {
                     "conflict": {
-                        "name": "$~numeduplicat",
+                        "name": "$~nume duplicat",
                         "explanation": "$~Cineva are numele $shadowed așa că nu pot avea acest nume."
                     },
                     "resolution": "$~Există nume duplicate, doriți să eliminați unul?"
                 },
                 "DuplicateShare": {
-                    "name": "$~partajareduplicată",
+                    "name": "$~partajare duplicată",
                     "explanation": "$~Am același nume ca $duplicate . Asta face ca nu se știe ce anume distribuim.",
                     "resolution": "$~Eliminați această partajare duplicată"
                 },
                 "IncompatibleType": {
-                    "name": "$~tipincompatibil",
+                    "name": "$~tip incompatibil",
                     "explanation": "$~Mă așteptam la $expected , dar am primit tipul $given",
                     "resolution": "$~Conversie în $expected",
                     "resolutionLiteral": "$~Marcați lista, mulțimea sau harta ca literală cu !, astfel încât valorile sale să rămână specifice în loc să fie generalizate — $expected are nevoie de valorile exacte",
@@ -680,32 +680,32 @@
                     "explanationDivideByZero": "$~Aceasta ar putea fi ø deoarece $source s-ar putea împărți la zero și este necesar un număr aici."
                 },
                 "MisplacedShare": {
-                    "name": "$~acțiunepierdută",
+                    "name": "$~partajare plasată greșit",
                     "explanation": "$~Pot partaja lucruri doar la nivel de @Program, nu în interiorul nimicului!",
                     "resolution": "$~Eliminați marcajul *↑*"
                 },
                 "MissingShareLanguages": {
-                    "name": "$~limbălipsă",
+                    "name": "$~limbă lipsă",
                     "explanation": "$~Dacă vrei să distribui asta, trebuie să spui în ce limbă este, ca și alții să știe dacă îl pot citi!",
                     "resolution": "$~Eliminați marcajul *↑*"
                 },
                 "RequiredAfterOptional": {
-                    "name": "$~intrarenecesarădupăopțional",
+                    "name": "$~intrare obligatorie după una opțională",
                     "explanation": "$~Nu pot fi aici, există un @Bind opțional în fața mea.",
                     "resolution": "$~Mută intrările obligatorii înaintea celor opționale"
                 },
                 "UnexpectedEtc": {
-                    "name": "$~intrareneașteptatădupălistadeintrări",
+                    "name": "$~intrare neașteptată după lista de intrări",
                     "explanation": "$~Pot avea doar lungime variabilă într-o @FunctionDefinition",
                     "resolution": "$~Eliminați *…*"
                 },
                 "UnusedBind": {
-                    "name": "$~legareneutilizată",
+                    "name": "$~legătură nefolosită",
                     "explanation": "$~Mă numesc $name , dar nimeni nu mă folosește. Poate că nu este nevoie de mine?",
                     "resolution": "$~Ștergeți această legătură"
                 },
                 "ShadowsKeyword": {
-                    "name": "$~umbreșteuncuvântcheie",
+                    "name": "$~ascunde un cuvânt-cheie",
                     "explanation": "$~Acest nume este și cuvântul cheie $keyword , așa că îl voi citi aici ca nume; cuvântul $keyword funcționează în continuare în alte locuri."
                 }
             }
@@ -739,14 +739,14 @@
             "finish": "$~Gata, am primit $value",
             "conflict": {
                 "ExpectedEndingExpression": {
-                    "name": "$~expresielipsă",
+                    "name": "$~expresie lipsă",
                     "explanation": "$~Am nevoie de cel puțin o expresie care nu este @Bind, deci am o valoare de returnat.",
                     "resolution": "$~Adăugați o expresie finală"
                 }
             }
         },
         "BooleanLiteral": {
-            "name": "$~literalboolean",
+            "name": "$~literal boolean",
             "description": "$~creează $value [true|false] valoare booleană",
             "emotion": "precise",
             "doc": "$~Sunt fie \\⊤\\, fie \\⊥\\. Consultați @Boolean pentru a afla mai multe despre frumoasa noastră logică.",
@@ -765,12 +765,12 @@
             "start": "$~Împrumutând $name din $source",
             "conflict": {
                 "UnknownBorrow": {
-                    "name": "$~împrumutnecunoscut",
+                    "name": "$~împrumut necunoscut",
                     "explanation": "$~Nu cunosc o @Source cu acest nume.",
                     "resolution": "$~Eliminați această împrumut"
                 },
                 "BorrowCycle": {
-                    "name": "$~împrumutautoreferențial",
+                    "name": "$~împrumut care se referă la sine",
                     "explanation": "$~aceasta depinde de $borrow , care depinde și de această @Source , deci programul nu poate fi evaluat.",
                     "resolution": "$~Eliminați această împrumut pentru a rupe ciclul"
                 }
@@ -819,7 +819,7 @@
             "finish": "$~Presupun că e vorba de $value ?",
             "conflict": {
                 "ExpectedBooleanCondition": {
-                    "name": "$~condițiebooleanăașteptată",
+                    "name": "$~condiție booleană așteptată",
                     "explanation": "$~Am nevoie de un @Boolean pentru a lua o decizie, dar am primit în schimb un $type .",
                     "resolution": "$~Convertește-l în $expected , deoarece $expected este obligatoriu",
                     "resolutionLiteral": "$~Marcați lista, mulțimea sau harta ca literală cu !, astfel încât valorile sale să rămână specifice în loc să fie generalizate — $expected are nevoie de valorile exacte",
@@ -836,7 +836,7 @@
             }
         },
         "ConversionDefinition": {
-            "name": "$~definițiaconversiei",
+            "name": "$~definiție de conversie",
             "description": "$~definiți conversia $input la $output",
             "emotion": "excited",
             "label": {
@@ -853,7 +853,7 @@
             "start": "$~Minunat, o nouă conversie!",
             "conflict": {
                 "MisplacedConversion": {
-                    "name": "$~conversiegreșită",
+                    "name": "$~conversie plasată greșit",
                     "explanation": "$~Uau, nu pot fi aici, doar în @Block.",
                     "resolution": "$~Eliminați această conversie"
                 }
@@ -876,7 +876,7 @@
             "finish": "$~Minunat, am câștigat $value",
             "conflict": {
                 "UnknownConversion": {
-                    "name": "$~conversienecunoscută",
+                    "name": "$~conversie necunoscută",
                     "explanation": "$~Nu am găsit o modalitate de a converti un $expected într-un $given",
                     "resolution": "$~Eliminați conversia"
                 }
@@ -902,7 +902,7 @@
             "finish": "$~Am creat un tabel nou fără rândurile corespondente!"
         },
         "DocumentedExpression": {
-            "name": "$~expresieexplicată",
+            "name": "$~expresie explicată",
             "description": "$~atașează documentație la o expresie",
             "emotion": "eager",
             "doc": [
@@ -940,7 +940,7 @@
             "finish": "$~Am evaluat la $value",
             "conflict": {
                 "IncompatibleInput": {
-                    "name": "$~intrareincompatibilă",
+                    "name": "$~intrare incompatibilă",
                     "explanation": "$~M-am așteptat $expected , dar am primit $given",
                     "resolution": "$~Conversie în $expected",
                     "resolutionLiteral": "$~Marcați lista, mulțimea sau harta ca literală cu !, astfel încât valorile sale să rămână specifice în loc să fie generalizate — $expected are nevoie de valorile exacte",
@@ -956,43 +956,43 @@
                     "explanationDivideByZero": "$~Aceasta ar putea fi ø deoarece $source s-ar putea împărți la zero și este necesar un număr aici."
                 },
                 "UnexpectedTypeInput": {
-                    "name": "$~intraredetipneașteptat",
+                    "name": "$~intrare de tip neașteptată",
                     "explanation": "$~Sunt un input suplimentar, de tip neașteptat.",
                     "resolution": "$~Eliminați acest tip de intrare"
                 },
                 "MissingInput": {
-                    "name": "$~intrarelipsă",
+                    "name": "$~intrare lipsă",
                     "explanation": "$~Nu pot evalua $name fără inputul $input :(",
                     "resolutionAddInput": "$~Adăugați $input lipsă, cu valoarea sa implicită",
                     "resolutionPlaceholder": "$~Adăugați $input lipsă ca substituent, apoi alegeți o valoare din meniul de completare automată"
                 },
                 "NotInstantiable": {
-                    "name": "$~structurăincompletă",
+                    "name": "$~structură incompletă",
                     "explanation": "$~Nu pot face asta la @StructureDefinition, are funcții neimplementate.",
                     "resolution": "$~Eșafodajul funcțiilor lipsă"
                 },
                 "UnexpectedInput": {
-                    "name": "$~intrareneașteptată",
+                    "name": "$~intrare neașteptată",
                     "explanation": "$~Sunt o contribuție neașteptată.",
                     "resolution": "$~Eliminați această intrare"
                 },
                 "UnknownInput": {
-                    "name": "$~intrarenecunoscută",
+                    "name": "$~intrare necunoscută",
                     "explanation": "$~Această funcție * $name * nu așteaptă o intrare cu numele meu.",
                     "resolution": "$~Redenumiți această intrare la * $name *"
                 },
                 "InputListMustBeLast": {
-                    "name": "$~intrărilesuplimentarenusuntultimele",
+                    "name": "$~intrările în plus nu sunt ultimele",
                     "explanation": "$~lista de intrări trebuie să fie ultima",
                     "resolution": "$~Mută intrarea din listă la sfârșit"
                 },
                 "SeparatedEvaluate": {
-                    "name": "$~evaluareambiguă",
+                    "name": "$~evaluare ambiguă",
                     "explanation": "$~Este $name numele unei $structure [ $structure | @FunctionDefinition ] pe care încerci să o evaluezi? Încearcă să elimini spațiul de după mine, ca să știu că este un @Evaluate și nu un @Block separat.",
                     "resolution": "$~Închideți spațiul dintre * $name * și intrările sale"
                 },
                 "UnknownTimeZone": {
-                    "name": "$~fusOrarNecunoscut",
+                    "name": "$~fus orar necunoscut",
                     "explanation": "$~Nu cunosc un fus orar numit *$zone*. Fusurile orare sunt numite după regiuni și orașe, cum ar fi \\'America/New_York'\\. Încearcă să scrii un oraș pe care îl cunoști și îți voi sugera unul!",
                     "resolution": "$~Schimbă-l în *$zone*, fusul orar al orașului $city"
                 }
@@ -1075,14 +1075,14 @@
             "start": "$~Hai să facem această funcție!",
             "conflict": {
                 "NoExpression": {
-                    "name": "$~expresielipsă",
+                    "name": "$~expresie lipsă",
                     "explanation": "$~Am nevoie de o expresie pentru a evalua, poți adăuga una?",
                     "resolution": "$~Adăugați un corp substituent"
                 }
             }
         },
         "Iteration": {
-            "name": "$~funcțiedeordinsuperior",
+            "name": "$~funcție de ordin superior",
             "description": "$~iterează intern peste valorile listei",
             "emotion": "kind",
             "doc": "$~Sunt un tip foarte special de @FunctionDefinition care operează pe liste de lucruri. Nu trebuie să știi nimic despre mine, în afară de faptul că fac posibile funcții precum @List.translate.",
@@ -1133,7 +1133,7 @@
             "finish": "$~$value [valoarea este $type |valoarea nu este $type ]",
             "conflict": {
                 "ImpossibleType": {
-                    "name": "$~tipimposibil",
+                    "name": "$~tip imposibil",
                     "explanation": "$~asta nu poate fi niciodată $type",
                     "resolutionIsFalse": "$~Înlocuiți acest tip de verificare cu *⊥* (răspunsul este întotdeauna fals)",
                     "resolutionDropOtherwise": "$~Renunță la *??* — partea stângă nu este niciodată *ø*"
@@ -1147,7 +1147,7 @@
             }
         },
         "IsLocale": {
-            "name": "$~estelimbajul",
+            "name": "$~este limbă",
             "description": "$~returnează true dacă limba este selectată",
             "emotion": "kind",
             "doc": [
@@ -1159,7 +1159,7 @@
             "start": "$~Limba este $locale ?"
         },
         "ListAccess": {
-            "name": "$~acceslalistă",
+            "name": "$~acces la listă",
             "description": "$~obține valoare la poziția din listă",
             "emotion": "cheerful",
             "doc": [
@@ -1170,7 +1170,7 @@
             "finish": "$~Elementul din index este $value !"
         },
         "ListLiteral": {
-            "name": "$~listăliterală",
+            "name": "$~literal de listă",
             "description": "$~creează o listă de valori $count",
             "emotion": "eager",
             "doc": "$~Sunt o @List specifică de valori! Consultați @List pentru a afla mai multe despre ce puteți face cu mine.",
@@ -1187,7 +1187,7 @@
             ]
         },
         "MapLiteral": {
-            "name": "$~literalulhărții",
+            "name": "$~literal de hartă",
             "description": "$~creați o hartă a perechilor cheie-valoare $count",
             "emotion": "kind",
             "label": {
@@ -1198,7 +1198,7 @@
             "finish": "$~I-am conectat pe toți, $value",
             "conflict": {
                 "NotAKeyValue": {
-                    "name": "$~valoarelipsă",
+                    "name": "$~valoare lipsă",
                     "explanation": "$~Sunt într-o @Map, deci am nevoie de o valoare.",
                     "resolution": "$~Încadrați ca o pereche cheie-valoare"
                 }
@@ -1225,28 +1225,28 @@
             "finish": "$~Bine, avem o valoare finală!"
         },
         "NumberLiteral": {
-            "name": "$~numărliteral",
+            "name": "$~literal numeric",
             "description": "$~creează numărul $number $unit [ $unit |]",
             "emotion": "excited",
             "doc": "$~Sunt un @Number specific. Mă poți scrie cu orice fel de cifre, din orice limbă. Vezi @Number pentru tot ce pot face.",
             "start": "$~$value !",
             "conflict": {
                 "NotANumber": {
-                    "name": "$~nuunnumăr",
+                    "name": "$~nu este un număr",
                     "explanation": "$~Credeam că știu toate numerele, dar pe acesta nu-l știu.",
                     "resolution": "$~Înlocuiți cu *0*"
                 }
             }
         },
         "InternalExpression": {
-            "name": "$~expresieinternă",
+            "name": "$~expresie internă",
             "description": "$~rulează o expresie creator încorporată",
             "emotion": "neutral",
             "doc": "$~Sunt o expresie pe care o folosesc doar creatorii originali. Cum m-ai găsit? Pentru a afla mai multe despre mine, va trebui să vorbești cu ei.",
             "start": "$~Expresie secretă"
         },
         "NoneLiteral": {
-            "name": "$~niciunulliteral",
+            "name": "$~literal none",
             "description": "$~creează valoarea de nimic",
             "emotion": "neutral",
             "doc": "$~Eu creez @None , obiectele unice, fără valoare. Vizitați @None pentru a afla mai multe despre ele.",
@@ -1352,7 +1352,7 @@
             "finish": "$~Am copiat structura, dar cu $property ca $value",
             "conflict": {
                 "InvalidProperty": {
-                    "name": "$~proprietatenecunoscută",
+                    "name": "$~proprietate necunoscută",
                     "explanation": "$~Nu sunt un nume în structura $structure , deci nu pot fi rafinat.",
                     "resolution": "$~Redenumiți la * $name *"
                 }
@@ -1393,7 +1393,7 @@
             "finish": "$~Noua valoare a fluxului este $value",
             "conflict": {
                 "ExpectedStream": {
-                    "name": "$~fluxulașteptat",
+                    "name": "$~flux așteptat",
                     "explanation": "$~$condition nu face referire la un flux, deci nu voi reacționa niciodată!",
                     "resolution": "$~Renunțați la reacție, păstrați doar valoarea inițială"
                 }
@@ -1413,18 +1413,18 @@
             "conflict": {
                 "UnknownName": {
                     "conflict": {
-                        "name": "$~numenecunoscut",
+                        "name": "$~nume necunoscut",
                         "explanation": "$~$name [Nu cunosc pe nimeni pe nume $name în $scope [ $scope |this @Block]|Îmi poți da un nume?]"
                     },
                     "resolution": "$~Ai vrut să spui * $suggestion ?*"
                 },
                 "ReferenceCycle": {
-                    "name": "$~valoareautoreferențială",
+                    "name": "$~valoare care se referă la sine",
                     "explanation": "$~ăă, valoarea lui $name depinde de ea însăși, așa că de unde știu ce valoare să-i dau?",
                     "resolution": "$~Înlocuiți * $name * cu un provizoriu pentru a întrerupe ciclul"
                 },
                 "UnexpectedTypeVariable": {
-                    "name": "$~variabilădetipneașteptat",
+                    "name": "$~variabilă de tip neașteptată",
                     "explanation": "$~Nu știu ce să fac cu aceste tipuri de intrări.",
                     "resolution": "$~Eliminați această variabilă de tip din funcție"
                 }
@@ -1450,14 +1450,14 @@
             "finish": "$~Am creat un tabel nou doar cu rândurile și coloanele selectate!",
             "conflict": {
                 "ExpectedSelectName": {
-                    "name": "$~numelecoloaneilipsește",
+                    "name": "$~nume de coloană lipsă",
                     "explanation": "$~Am nevoie de cel puțin un nume de coloană.",
                     "resolution": "$~Eliminați această celulă"
                 }
             }
         },
         "SetLiteral": {
-            "name": "$~setliteral",
+            "name": "$~literal de set",
             "description": "$~creează un set de elemente $count",
             "emotion": "eager",
             "doc": "$~Sunt un @Set specific de valori specifice. Consultați @Set pentru a afla mai multe despre cum să lucrați cu mine.",
@@ -1465,7 +1465,7 @@
             "finish": "$~Am creat o $value !"
         },
         "SetOrMapAccess": {
-            "name": "$~acceslaset/hartă",
+            "name": "$~acces la set/hartă",
             "description": "$~verifică dacă setul sau harta conține",
             "emotion": "kind",
             "doc": [
@@ -1479,7 +1479,7 @@
             "finish": "$~Valoarea este $value",
             "conflict": {
                 "IncompatibleKey": {
-                    "name": "$~cheieincompatibilă",
+                    "name": "$~cheie incompatibilă",
                     "explanation": "$~Mă așteptam la o cheie de tip $expected",
                     "resolution": "$~Convertește-l în $expected , deoarece $expected este obligatoriu",
                     "resolutionLiteral": "$~Marcați lista, mulțimea sau harta ca literală cu !, astfel încât valorile sale să rămână specifice în loc să fie generalizate — $expected are nevoie de valorile exacte",
@@ -1538,17 +1538,17 @@
             "start": "$~Să definim această structură frumoasă",
             "conflict": {
                 "DisallowedInputs": {
-                    "name": "$~intrărinepermise",
+                    "name": "$~intrări nepermise",
                     "explanation": "$~Nu pot avea intrări deoarece una sau mai multe dintre funcțiile interfeței mele nu sunt implementate.",
                     "resolution": "$~Eliminați intrările"
                 },
                 "IncompleteImplementation": {
-                    "name": "$~structurăincompletă",
+                    "name": "$~structură incompletă",
                     "explanation": "$~Funcțiile mele trebuie fie implementate toate, fie nu trebuie implementată niciuna. Fără amestecuri dezordonate!",
                     "resolution": "$~Renunțați la intrări pentru a o transforma într-o interfață"
                 },
                 "NotAnInterface": {
-                    "name": "$~nuointerfață",
+                    "name": "$~nu este o interfață",
                     "explanation": "$~Nu sunt o interfață; o structură poate implementa doar interfețe, nu alte structuri.",
                     "resolution": "$~Eliminați asta din lista de interfețe"
                 },
@@ -1560,7 +1560,7 @@
             }
         },
         "StructureDefinitionType": {
-            "name": "$~definițiastructurii",
+            "name": "$~definiție de structură",
             "description": "$~$name",
             "emotion": "kind",
             "doc": [
@@ -1568,7 +1568,7 @@
             ]
         },
         "TableLiteral": {
-            "name": "$~literalultabelului",
+            "name": "$~literal de tabel",
             "description": "$~creează un tabel cu rânduri $count",
             "emotion": "angry",
             "doc": "$~Sunt un tabel specific cu rânduri specifice. Vedeți @Table pentru a afla cum vă pot ajuta.",
@@ -1576,7 +1576,7 @@
             "finish": "$~Evaluat în noul tabel $value"
         },
         "TextLiteral": {
-            "name": "$~textliteral",
+            "name": "$~literal de text",
             "description": "$~creează valoarea textului $text",
             "emotion": "serious",
             "label": {
@@ -1595,43 +1595,43 @@
             "doc": "$~Reprezint un text, cu o etichetă @Language opțională. Consultați @Text pentru a afla mai multe!",
             "conflict": {
                 "phone": {
-                    "name": "$~numărdetelefonposibil",
+                    "name": "$~posibil număr de telefon",
                     "explanation": "$~Este * $text * numărul de telefon al cuiva? Nu mă distribuiți online dacă da! $reminder"
                 },
                 "email": {
-                    "name": "$~posibile-mail",
+                    "name": "$~posibil e-mail",
                     "explanation": "$~Este * $text * adresa de e-mail a cuiva? Nu mă distribuiți aici dacă da! $reminder"
                 },
                 "tin": {
-                    "name": "$~posibilidentificatorfiscal",
+                    "name": "$~posibil identificator fiscal",
                     "explanation": "$~Este * $text * un identificator fiscal? Dacă da, nu mă distribuiți, sunt informații foarte sensibile! $reminder"
                 },
                 "address": {
-                    "name": "$~adresăposibilă",
+                    "name": "$~posibilă adresă",
                     "explanation": "$~Este * $text * adresa de domiciliu a cuiva? Dacă da, nu mă puneți aici, nu vrem ca nimeni să fie urmărit! $reminder"
                 },
                 "handle": {
-                    "name": "$~numedeutilizatorposibil",
+                    "name": "$~posibil nume de utilizator",
                     "explanation": "$~Este * $text * numele tău de utilizator pentru altcineva de pe internet? Dacă da, nu mă distribui aici decât dacă chiar intenționezi. $reminder"
                 },
                 "resolution": "$~Acestea nu sunt date sensibile",
                 "reminder": "$~Notă: Puteți anula această acțiune și puteți vedea alte lucruri pe care le-ați marcat ca nesensibile în caseta de dialog de partajare.",
                 "character": {
-                    "name": "$~posibilcaracterpersonalizat",
+                    "name": "$~posibil caracter personalizat",
                     "explanation": "$~Acesta pare a fi numele unui caracter. Pentru a le afișa, folosiți @FormattedLiteral în loc de @TextLiteral.",
                     "resolutionStrip": "$~Eliminați caracterele speciale din text"
                 }
             }
         },
         "FormattedLiteral": {
-            "name": "$~textformatat",
+            "name": "$~text formatat",
             "description": "$~creați text formatat $text",
             "emotion": "serious",
             "doc": "$~Reprezint multe tipuri diferite de @FormattedTranslation de text formatat. Când evaluez, voi alege cea mai potrivită traducere în funcție de limbile selectate de public.",
             "start": "$~Să facem text în limba curentă"
         },
         "FormattedTranslation": {
-            "name": "$~traducereformatată",
+            "name": "$~traducere formatată",
             "description": "$~traduce text formatat în $language",
             "emotion": "serious",
             "doc": [
@@ -1665,14 +1665,14 @@
             "start": "$~Evaluat la $value",
             "conflict": {
                 "MisplacedThis": {
-                    "name": "$~ampierdutaceastăreferință",
+                    "name": "$~referință this plasată greșit",
                     "explanation": "$~Am voie doar într-o structură, conversie, reacție sau traducere.",
                     "resolution": "$~Înlocuiți cu un substituent"
                 }
             }
         },
         "UnaryEvaluate": {
-            "name": "$~evaluareunară",
+            "name": "$~evaluare unară",
             "description": "$~aplică $operator operator",
             "emotion": "kind",
             "label": {
@@ -1709,13 +1709,13 @@
             "conflict": {
                 "UnparsableConflict": {
                     "conflict": {
-                        "name": "$~codilizibil",
+                        "name": "$~cod care nu poate fi citit",
                         "explanation": "$~@FunctionDefinition aici, @UnparsableExpression nu știe ce fel de $expression [ expresie | tip ] este aceasta."
                     },
                     "resolution": "$~Ai vrut să spui de tip $first , $second ?"
                 },
                 "UnclosedDelimiter": {
-                    "name": "$~delimitatorneînchis",
+                    "name": "$~delimitator neînchis",
                     "explanation": "$~Mă așteptam $expected cândva după $unclosed",
                     "resolution": "$~Adăugați elementul lipsă * $expected *"
                 }
@@ -1741,12 +1741,12 @@
             "finish": "$~Evaluat pentru un tabel nou cu rânduri revizuite!",
             "conflict": {
                 "ExpectedColumnBind": {
-                    "name": "$~valoarelipsăîncoloană",
+                    "name": "$~valoare de coloană lipsă",
                     "explanation": "$~Am nevoie de o valoare pentru fiecare coloană",
                     "resolution": "$~Încadrați această celulă într-o coloană denumită"
                 },
                 "IncompatibleCellType": {
-                    "name": "$~tipdecelulăincompatibil",
+                    "name": "$~tip de celulă incompatibil",
                     "explanation": "$~Se presupune că sunt genul $expected , dar sunt $given",
                     "resolution": "$~Convertește-l în $expected , deoarece $expected este obligatoriu",
                     "resolutionLiteral": "$~Marcați lista, mulțimea sau harta ca literală cu !, astfel încât valorile sale să rămână specifice în loc să fie generalizate — $expected are nevoie de valorile exacte",
@@ -1849,7 +1849,7 @@
             ],
             "conflict": {
                 "UnknownTypeName": {
-                    "name": "$~numedetipnecunoscut",
+                    "name": "$~nume de tip necunoscut",
                     "explanation": "$~numele de tipuri se pot referi doar la structuri sau variabile de tip, dar acestea se referă la tipul $type",
                     "resolution": "$~Înlocuiți cu un substituent de tip"
                 }
@@ -1880,7 +1880,7 @@
             ]
         },
         "StreamDefinitionType": {
-            "name": "$~definițiafluxului",
+            "name": "$~definiție de flux",
             "description": "$~tastează un flux definit",
             "emotion": "angry",
             "doc": "$~Reprezint un flux pe care l-ai definit, ceea ce nu este posibil, așa că de ce citești asta?"
@@ -1914,7 +1914,7 @@
             "doc": "$~Reprezint un tabel.",
             "conflict": {
                 "ExpectedColumnType": {
-                    "name": "$~tipuldecoloanălipsă",
+                    "name": "$~tip de coloană lipsă",
                     "explanation": "$~Am nevoie de un tip de coloană",
                     "resolution": "$~Adăugați un substituent pentru tip"
                 }
@@ -1962,7 +1962,7 @@
             "doc": "$~Reprezint tipul unei expresii necunoscute. Apar atunci când încerci să folosești acea expresie pentru ceva anume."
         },
         "VariableType": {
-            "name": "$~tipvariabilă",
+            "name": "$~tip de variabilă",
             "description": "$~reprezintă o variabilă de tip în uz",
             "emotion": "curious",
             "doc": "$~Eu înlocuiesc o @TypeVariable — un tip necunoscut de valoare — în toate negocierile dintre valori."
@@ -1974,7 +1974,7 @@
             "doc": "$~Reprezint o valoare al cărei tip depinde de ea însăși, deci nu putem spune ce fel de valoare este."
         },
         "UnknownVariableType": {
-            "name": "$~variabilănecunoscută",
+            "name": "$~variabilă necunoscută",
             "description": "$~reprezintă o variabilă de tip necunoscut",
             "emotion": "curious",
             "doc": "$~Uneori încercăm să ghicim ce valoare are ceva; Eu apar când nu știm."
@@ -1986,13 +1986,13 @@
             "doc": "$~Reprezint o valoare al cărei tip nu este cel așteptat — de exemplu, atunci când @ListAccess are nevoie de un @Number , dar primește altceva."
         },
         "NoExpressionType": {
-            "name": "$~nicioexpresie",
+            "name": "$~fără expresie",
             "description": "$~tastează un bloc gol",
             "emotion": "angry",
             "doc": "$~Sunt genul de persoană care apare atunci când un @Block nu are nicio expresie. Știi că are nevoie de cel puțin una - așa că dă-i una!"
         },
         "NotEnclosedType": {
-            "name": "$~nuînstructură,conversiesaureacție",
+            "name": "$~nu se află într-o structură, conversie sau reacție",
             "description": "$~marcați acest lucru utilizat în afara unei structuri",
             "emotion": "curious",
             "doc": "$~Apar când @This este folosit într-un loc unde nu-i este locul, așa că nimeni nu știe ce valoare reprezintă."
@@ -2004,7 +2004,7 @@
             "doc": "$~Când folosești @ExpressionPlaceholder, dar nu spui ce tip de expresie e, eu sunt genul de expresie pe care îl primești. Ai grijă de asta!"
         },
         "UnknownNameType": {
-            "name": "$~numenecunoscut",
+            "name": "$~nume necunoscut",
             "description": "$~$name [ $name nu este încă definit | numele nu este specificat]",
             "emotion": "curious",
             "doc": "$~Reprezint un nume pe care @Reference sau @PropertyReference nu l-au putut găsi, când nu știm despre cine vorbești."
@@ -2032,17 +2032,17 @@
             "next": "$~Următorul element: $value !",
             "conflict": {
                 "ExpectedCollection": {
-                    "name": "$~colectareașteptată",
+                    "name": "$~colecție așteptată",
                     "explanation": "$~Mă așteptam ca partea stângă a unei conversii de colecție să fie o colecție, dar am primit $type"
                 },
                 "ExpectedThis": {
-                    "name": "$~așteptamasta",
+                    "name": "$~this așteptat",
                     "explanation": "$~Ai vrut să folosești @This pentru a te referi la un element din această colecție?"
                 }
             }
         },
         "ExternalExample": {
-            "name": "$~exempluextern",
+            "name": "$~exemplu extern",
             "description": "$~afișarea codului dintr-un alt limbaj de programare în documentație",
             "emotion": "serious",
             "doc": [
@@ -2086,7 +2086,7 @@
             "start": "$~Stai să văd cum arată acest text.",
             "conflict": {
                 "EmptyPattern": {
-                    "name": "$~modelgol",
+                    "name": "$~tipar gol",
                     "explanation": "$~Nu am piese, deci nu găsesc nimic util. Poți adăuga o piesă?",
                     "resolution": "$~Adăugați un \\◌\\ pentru a se potrivi cu orice caracter"
                 }
@@ -2116,13 +2116,13 @@
             ],
             "conflict": {
                 "OverlappingAlternatives": {
-                    "name": "$~alegerisuprapuse",
+                    "name": "$~alegeri suprapuse",
                     "explanation": "$~$shorter este începutul lui $longer , iar cea mai lungă opțiune câștigă întotdeauna, așa că $shorter se potrivește doar atunci când $longer nu poate. Ai vrut să spui asta?"
                 }
             }
         },
         "PatternClass": {
-            "name": "$~clasădepersonaje",
+            "name": "$~clasă de caractere",
             "description": "$~potrivește un tip de personaj",
             "emotion": "curious",
             "doc": [
@@ -2146,7 +2146,7 @@
             ],
             "conflict": {
                 "UnrecognizedPatternProperty": {
-                    "name": "$~proprietatenecunoscută",
+                    "name": "$~proprietate necunoscută",
                     "explanation": "$~Nu recunosc proprietatea $name . Încercați o categorie, un script sau un ID Unicode.",
                     "resolution": "$~Schimbă-l în $suggestion"
                 }
@@ -2164,7 +2164,7 @@
             ],
             "conflict": {
                 "MalformedQuantifier": {
-                    "name": "$~numărătoareimposibilă",
+                    "name": "$~număr imposibil",
                     "explanation": "$~Numărul meu mic este mai mare decât numărul meu mare, așa că nu pot niciodată să egalez.",
                     "resolution": "$~Schimb numerele mele, astfel încât cele mai mici să fie primele"
                 }
@@ -2193,7 +2193,7 @@
             ],
             "conflict": {
                 "DuplicateCaptureName": {
-                    "name": "$~capturăduplicată",
+                    "name": "$~captură duplicată",
                     "explanation": "$~O altă captură folosește deja numele $name , deci aceasta îl va suprascrie.",
                     "resolution": "$~Redenumiți această captură în $replacement"
                 }
@@ -2223,7 +2223,7 @@
             ]
         },
         "PatternSet": {
-            "name": "$~setdeglife",
+            "name": "$~set de glife",
             "description": "$~potrivește unul dintre aceste grafeme",
             "emotion": "curious",
             "doc": [
@@ -2278,13 +2278,13 @@
             ],
             "conflict": {
                 "MissingPatternLocale": {
-                    "name": "$~limbălipsă",
+                    "name": "$~limbă lipsă",
                     "explanation": "$~Am nevoie de o limbă ca să știu cum să găsesc cuvinte. Poți adăuga una, cum ar fi \\/en\\ ?"
                 }
             }
         },
         "PatternWordEdge": {
-            "name": "$~margineacuvântului",
+            "name": "$~margine de cuvânt",
             "description": "$~potrivește o limită de cuvinte",
             "emotion": "curious",
             "doc": [
@@ -2318,7 +2318,7 @@
             ],
             "conflict": {
                 "UndefinedBackreference": {
-                    "name": "$~numenecunoscut",
+                    "name": "$~nume necunoscut",
                     "explanation": "$~Nu există nicio captură sau clasă numită $name , deci nu am nimic care să se potrivească.",
                     "resolution": "$~Schimbă-l în $suggestion"
                 }
@@ -2336,7 +2336,7 @@
             ]
         },
         "PatternCaseFold": {
-            "name": "$~ignorămajusculele/minusculele",
+            "name": "$~ignoră majusculele",
             "description": "$~potrivire ignorând majusculele/minusculele",
             "emotion": "curious",
             "doc": [
@@ -2347,7 +2347,7 @@
             ]
         },
         "PatternType": {
-            "name": "$~tipdemodel",
+            "name": "$~tip de tipar",
             "description": "$~tipul unui model",
             "emotion": "curious",
             "doc": [
@@ -2997,7 +2997,7 @@
             "name": ["$~[]", "$~Listă"],
             "kind": "$~Fel",
             "out": "$~Rezultat",
-            "outofbounds": "$~în afara limitelor",
+            "outofbounds": "$~înAfaraLimitelor",
             "function": {
                 "add": {
                     "doc": [
@@ -3824,7 +3824,7 @@
                 "\\`I am **bold** and /italic/`\\",
                 "Lucrez foarte asemănător cu @Text , dar pot folosi formatare. Poți să mă combini, să mă repeți, să verifici ce conțin și să mă convertești în @Text simplu."
             ],
-            "name": ["$~„…”", "$~Formatat"],
+            "name": ["$~`…`", "$~Formatat"],
             "function": {
                 "length": {
                     "doc": "$~Evaluez în funcție de numărul de caractere lizibile din textul meu, ignorând formatarea și pauzele de paragraf.",
@@ -5817,7 +5817,7 @@
             "tour": {
                 "launch": "$~faceți un tur al controalelor proiectului",
                 "controls": "$~Aceste /comenzi/ din partea de jos se aplică întregului *proiect*, indiferent de dala în care lucrați.",
-                "name": "$~Câmpul/nume/estenumeleproiectuluitău.Numeleaparînvizualizările*proiect*și*galerie*.",
+                "name": "$~Câmpul /name/ este numele proiectului tău. Numele apar în vizualizările *project* și *gallery*.",
                 "sourceToggle": "$~Această /comutare/ afișează sau ascunde *fișierul sursă*. *Celelalte comenzi* de pe acest rând fac același lucru și pentru celelalte plăci.",
                 "addSource": "$~Unele proiecte beneficiază de fișiere sursă *mai multe*, unde datele sunt stocate într-unul singur și importate în sursa *principală*. Butonul /adăugați sursă/ creează una nouă.",
                 "share": "$~Caseta de dialog /share/ vă permite să partajați proiectul cu *galerii*, cu *publicul* sau să îl copiați ca *text* pentru a-l partaja în altă parte.",
@@ -7820,7 +7820,7 @@
                     }
                 },
                 "feedback": {
-                    "name": "$~PersonajeleaunevoiedeunnumevaliddetipWordplay,cuolungimedecelpuținuncaracter.Nupoatefi„UI”,unnumărzecimalsauhexazecimalsaunumeleuneifuncțiilingvisticeîncorporate.",
+                    "name": "$~Caracterele au nevoie de un nume Wordplay valid, de cel puțin 1 caracter. Nu poate fi 'UI', un număr zecimal sau hexazecimal, ori numele unei funcții încorporate a limbii.",
                     "description": "$~Personajele au nevoie de o descriere, astfel încât cei care nu le pot vedea să știe ce reprezintă.",
                     "end": "$~sau apăsați tasta Escape.",
                     "loadfail": "$~A apărut o problemă la încărcarea acestui caracter.",
@@ -7884,7 +7884,7 @@
                     "confirm": "$~Verificați vechea adresă de e-mail pentru a confirma noua adresă.",
                     "delete": "$~Vrei să uităm tot ce ai făcut aici? Asta nu poate fi anulată.",
                     "reallyDelete": "$~Sigur? Contul și setările dvs. vor fi șterse imediat, iar proiectele dvs. vor fi programate pentru ștergere. Colaboratorii la proiectele dvs. vor pierde imediat accesul la acestea. Introduceți adresa de e-mail sau numele de utilizator pentru a confirma că doriți acest lucru.",
-                    "name": "$~Alegeunemojisauunpersonajpersonalizatcaresătereprezinteînfațacelorlalți."
+                    "name": "$~Alege un emoji sau un caracter personalizat care să te reprezinte în fața celorlalți."
                 },
                 "error": {
                     "expired": "$~Acest link a expirat.",
