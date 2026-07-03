@@ -9,6 +9,7 @@ import type { TemplateInput } from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
 import TermRef from '@locale/TermRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
+import { withoutAnnotations } from '@locale/withoutAnnotations';
 import { Purpose } from '@concepts/Purpose';
 import Characters from '../lore/BasisCharacters';
 import { LINK_SYMBOL } from '@parser/Symbols';
@@ -21,6 +22,56 @@ import Symbol from '@nodes/Sym';
 import Token from '@nodes/Token';
 
 export const HexRegEx = /^[0-9a-fA-F]+$/;
+
+/** True if the given locale entry (a NameAndDoc-like object) has a name or names field
+ * that includes the given name, ignoring write-status annotations. */
+function entryHasName(entry: unknown, name: string): boolean {
+    if (entry === null || typeof entry !== 'object') return false;
+    const names =
+        'names' in entry ? entry.names : 'name' in entry ? entry.name : undefined;
+    const list =
+        typeof names === 'string' ? [names] : Array.isArray(names) ? names : [];
+    return list.some(
+        (n) => typeof n === 'string' && withoutAnnotations(n) === name,
+    );
+}
+
+/** All the names by which properties of the given locale section entry can be referenced:
+ * its canonical keys, plus each property's localized names. Runtime concept resolution
+ * matches localized names (ConceptIndex.getSubConceptByName → Names.hasName), so
+ * validity must accept them too. */
+export function getConceptPropertyNames(sectionEntry: unknown): string[] {
+    if (sectionEntry === null || typeof sectionEntry !== 'object') return [];
+    const names: string[] = [];
+    for (const [key, value] of Object.entries(sectionEntry)) {
+        names.push(key);
+        if (value !== null && typeof value === 'object') {
+            const entryNames =
+                'names' in value
+                    ? value.names
+                    : 'name' in value
+                      ? value.name
+                      : undefined;
+            const list =
+                typeof entryNames === 'string'
+                    ? [entryNames]
+                    : Array.isArray(entryNames)
+                      ? entryNames
+                      : [];
+            for (const n of list)
+                if (typeof n === 'string') names.push(withoutAnnotations(n));
+        }
+    }
+    return names;
+}
+
+/** True if any property entry of the given locale section entry has a localized name matching the given property. */
+function hasLocalizedProperty(sectionEntry: unknown, property: string): boolean {
+    if (sectionEntry === null || typeof sectionEntry !== 'object') return false;
+    return Object.values(sectionEntry).some((entry) =>
+        entryHasName(entry, property),
+    );
+}
 
 // Valid concept references are:
 // 1) any input, output, basis, or node key in the locale.
@@ -207,18 +258,18 @@ export default class ConceptLink extends Content {
             locale.basis,
         ].find((c) => concept.name in c);
 
-        // Valid if we found it, and no property was specified, or it was, and the concept has it.
+        // Valid if we found it, and no property was specified, or it was, and the concept has it
+        // by canonical key or by one of its localized names, since runtime resolution accepts both.
+        if (section === undefined) return false;
+        if (concept.property === undefined) return true;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const entry = (section as Record<string, any>)[concept.name];
         return (
-            section !== undefined &&
-            (concept.property === undefined ||
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                concept.property in
-                    (section as Record<string, any>)[concept.name] ||
-                (section === locale.basis &&
-                    concept.property in
-                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                        (section as Record<string, any>)[concept.name]
-                            .function))
+            concept.property in entry ||
+            hasLocalizedProperty(entry, concept.property) ||
+            (section === locale.basis &&
+                (concept.property in entry.function ||
+                    hasLocalizedProperty(entry.function, concept.property)))
         );
     }
 

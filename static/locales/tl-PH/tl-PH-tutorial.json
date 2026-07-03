@@ -3401,7 +3401,7 @@
                         [
                             "Phrase",
                             "sad",
-                            "$~Oigod omigod omigod, HINDI ako makapaniwalang nakalimutan ko ang tungkol sa kulay. Sige, kaya nga kahit anong @Pose ay maaaring magkaroon ng kulay, di ba? Pero ang @Pose ay may tatlong bahagi. Una, ang @Pose.kaliwanagan sa pagitan ng 0 at 100%, na maiisip mo kung gaano kaliwanag ang isang silid, mula itim hanggang puti na may kulay sa gitna na nasa 50%.",
+                            "$~Oigod omigod omigod, HINDI ako makapaniwalang nakalimutan ko ang tungkol sa kulay. Sige, kaya nga kahit anong @Pose ay maaaring magkaroon ng kulay, di ba? Pero ang @Color ay may tatlong bahagi. Una, ang @Color.lightness sa pagitan ng 0 at 100%, na maiisip mo kung gaano kaliwanag ang isang silid, mula itim hanggang puti na may kulay sa gitna na nasa 50%.",
                             "$~Pagkatapos, ang isang @Color.chroma sa pagitan ng 0 at ∞, na maiisip mo, ay nagpapakita kung gaano karaming kulay ang mayroon, mula sa walang kulay na abo hanggang sa ganap na kulay.",
                             "$~At panghuli, isang @Color.hue, na maituturing mong parang color wheel, mula pula hanggang berde hanggang asul sa digri. Kaya gusto mo akong maging matingkad na pula? Itakda ang kulay ng aking natitirang pose sa \\Color(50% 300 30°)\\."
                         ],

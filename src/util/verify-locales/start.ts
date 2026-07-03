@@ -248,6 +248,7 @@ async function handleLocale(
                     selection.isIncluded(category),
                 OverrideMachineTranslations,
                 targets,
+                mode,
             );
 
             // If the tutorial was revised, write the results (Prettier-formatted).
