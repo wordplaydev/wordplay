@@ -10,6 +10,13 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 - 🕰️ We added `@Moment`, a value for dates and times, and `@Now`, a stream that ticks the current date and time. A Moment turns into text in your language, calendar, and time zone — so `Phrase(Now() → '')` is a live clock that changes language when your locale does (#1197).
 - 🌐 Moments work with 16 calendars — like Hebrew, Japanese, Chinese, and Islamic calendars — and any time zone in the world. Dates look the same on every computer, because Wordplay formats them itself instead of asking the browser (#1197).
+- 🔗 Web addresses you write in documentation are now clickable links, and they stay intact instead of losing one of their slashes.
+
+### Fixed
+
+- 🖱️ Links in documentation now open when you click them in the editor. To edit a link instead, move into it with the arrow keys or click right next to it.
+- ✍️ We stopped adding an extra `/`, `_`, or `*` when you type one inside plain text. Wordplay now only completes these marks in documentation, where they format words.
+- 📖 Symbols like `[`, `|`, `>`, and `@` in documentation are now just text unless they mean something there. Before, writing `[like this]` in docs could make your whole program unreadable to Wordplay.
 
 ## 0.25.1 - 2026-06-30
 

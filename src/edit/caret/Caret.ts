@@ -38,6 +38,7 @@ import type Definition from '@nodes/Definition';
 import DefinitionExpression from '@nodes/DefinitionExpression';
 import { LanguageTagged } from '@nodes/LanguageTagged';
 import Literal from '@nodes/Literal';
+import Markup from '@nodes/Markup';
 import Name from '@nodes/Name';
 import NameType from '@nodes/NameType';
 import NumberLiteral from '@nodes/NumberLiteral';
@@ -1515,14 +1516,36 @@ export default class Caret {
         );
     }
 
-    isInsideWords() {
-        const isText =
+    /** The words token the caret is in or immediately after, if any. Words appear both in markup and in text literals. */
+    getWordsTokenAtCaret(): Token | undefined {
+        if (
             this.tokenExcludingSpace !== undefined &&
-            this.tokenExcludingSpace.isSymbol(Sym.Words);
-        const isAfterText =
-            this.tokenPrior !== undefined &&
-            this.tokenPrior.isSymbol(Sym.Words);
-        return (isText && !this.betweenDelimiters()) || isAfterText;
+            this.tokenExcludingSpace.isSymbol(Sym.Words) &&
+            !this.betweenDelimiters()
+        )
+            return this.tokenExcludingSpace;
+        if (this.tokenPrior !== undefined && this.tokenPrior.isSymbol(Sym.Words))
+            return this.tokenPrior;
+        return undefined;
+    }
+
+    isInsideWords() {
+        return this.getWordsTokenAtCaret() !== undefined;
+    }
+
+    /** True if the caret is in words that are part of markup, where formatting has meaning — as opposed to text literal words.
+     * We find the nearest Markup or Translation ancestor so that nesting (e.g., a text literal inside a doc's example) resolves correctly. */
+    isInsideMarkupWords() {
+        const words = this.getWordsTokenAtCaret();
+        if (words === undefined) return false;
+        const container = this.source.root
+            .getAncestors(words)
+            .find(
+                (ancestor) =>
+                    ancestor instanceof Markup ||
+                    ancestor instanceof Translation,
+            );
+        return container instanceof Markup;
     }
 
     isPlaceholderNode() {

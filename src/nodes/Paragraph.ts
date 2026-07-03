@@ -71,6 +71,7 @@ export default class Paragraph extends Content {
                 kind: list(
                     true,
                     node(Sym.Words),
+                    node(Sym.URL),
                     node(Words),
                     node(WebLink),
                     node(ConceptLink),
@@ -132,7 +133,9 @@ export default class Paragraph extends Content {
             if (content instanceof ValueRef || content instanceof NodeRef)
                 return content;
             // Replace all repeated special characters with single special characters.
+            // URLs are left verbatim; unescaping would collapse the // in https://.
             else if (content instanceof Token) {
+                if (content.isSymbol(Sym.URL)) return content;
                 const replacement = content.withText(
                     unescapeMarkupSymbols(content.getText()),
                 );

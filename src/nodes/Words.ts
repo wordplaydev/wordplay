@@ -84,6 +84,7 @@ export default class Words extends Content {
                     node(ConceptLink),
                     node(Example),
                     node(Sym.Words),
+                    node(Sym.URL),
                     node(Mention),
                     node(Branch),
                 ),
@@ -204,7 +205,9 @@ export default class Words extends Content {
             if (content instanceof ValueRef || content instanceof NodeRef)
                 return content;
             // Replace all repeated special characters with single special characters.
+            // URLs are left verbatim; unescaping would collapse the // in https://.
             else if (content instanceof Token) {
+                if (content.isSymbol(Sym.URL)) return content;
                 const replacement = content.withText(
                     withColorEmoji(unescapeMarkupSymbols(content.getText())),
                 );
@@ -232,9 +235,14 @@ export default class Words extends Content {
         // `@<codepoint>` escapes. (Previously this used the text-literal scheme,
         // so doubled markup symbols survived into the converted text.)
         return resolveCodepoints(
-            unescapeMarkupSymbols(
-                this.segments.map((segment) => segment.toText()).join(''),
-            ),
+            this.segments
+                .map((segment) =>
+                    // URLs are left verbatim; unescaping would collapse the // in https://.
+                    segment instanceof Token && segment.isSymbol(Sym.URL)
+                        ? segment.toText()
+                        : unescapeMarkupSymbols(segment.toText()),
+                )
+                .join(''),
         );
     }
 }

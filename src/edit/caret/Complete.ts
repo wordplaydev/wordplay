@@ -293,7 +293,10 @@ function completeDelimiter({
             (!FormattingSymbols.includes(text) ||
                 // Allow the elision symbol, since it can be completed outside of words.
                 text === ELISION_SYMBOL)) ||
-            (caret.isInsideWords() && FormattingSymbols.includes(text))) &&
+            // Formatting only has meaning in markup words, not text literal words.
+            // The cheap includes check gates the ancestor walk.
+            (FormattingSymbols.includes(text) &&
+                caret.isInsideMarkupWords())) &&
         (caret.tokenPrior === undefined ||
             // The text typed does not close an unmatched delimiter
             (caret.source.getUnmatchedDelimiter(caret.tokenPrior, text) ===

@@ -5,6 +5,7 @@ import Block from '@nodes/Block';
 import BooleanLiteral from '@nodes/BooleanLiteral';
 import BooleanType from '@nodes/BooleanType';
 import Borrow from '@nodes/Borrow';
+import Branch from '@nodes/Branch';
 import Conditional from '@nodes/Conditional';
 import ConversionDefinition from '@nodes/ConversionDefinition';
 import ConversionType from '@nodes/ConversionType';
@@ -390,6 +391,36 @@ test('linked docs', () => {
     expect(((words as Words).segments[1] as WebLink).url?.getText()).toBe(
         'https://wikipedia.org',
     );
+});
+
+test('stray markup delimiters are words', () => {
+    // A bare [list] is words, not a leaked list literal.
+    const doc = parseDoc(toTokens('¶Hello [list]¶'));
+    expect(doc).toBeInstanceOf(Doc);
+    expect(doc.close).toBeDefined();
+    expect(doc.markup.paragraphs.length).toBe(1);
+    expect(doc.toWordplay()).toBe('¶Hello [list]¶');
+
+    // A bare URL is word-like content, kept as a URL token.
+    const urlDoc = parseDoc(toTokens('¶see https://amyjko.com works¶'));
+    expect(urlDoc.close).toBeDefined();
+    expect(urlDoc.toWordplay()).toBe('¶see https://amyjko.com works¶');
+});
+
+test('mention branches parse', () => {
+    const doc = parseDoc(toTokens('¶$1[hi|no]¶'));
+    const branch = doc.nodes().find((n): n is Branch => n instanceof Branch);
+    expect(branch).toBeInstanceOf(Branch);
+    expect(branch?.bar).toBeDefined();
+    expect(branch?.close).toBeDefined();
+});
+
+test('stray markup delimiters do not leak into code', () => {
+    const program = parseProgram(toTokens('¶Hello [list]¶\n1'));
+    expect(
+        program.nodes().some((n) => n instanceof UnparsableExpression),
+    ).toBe(false);
+    expect(program.nodes().some((n) => n instanceof ListLiteral)).toBe(false);
 });
 
 test('docs in docs', () => {

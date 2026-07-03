@@ -25,7 +25,12 @@
         {format}
     /><NodeView node={[node, 'close']} {format} />
 {:else}
-    <a href={node.url?.getText()} target="_blank" rel="noreferrer"
+    <!-- Stop pointerdown so the editor doesn't place the caret and re-render the anchor away before the click navigates. -->
+    <a
+        href={node.url?.getText()}
+        target="_blank"
+        rel="noreferrer"
+        onpointerdown={(event) => event.stopPropagation()}
         >{node.description?.getText() ?? ''}</a
     >
 {/if}

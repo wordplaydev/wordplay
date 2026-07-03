@@ -135,9 +135,11 @@ A concept link references a documented concept (e.g. `@Phrase`). A concept and o
 
 A bare lowercase `@term` (no separator) references a **glossary term** rather than a documented concept (e.g. `@value`, `@expression`). Resolution is by id: an `@id` resolves to a concept when the id is a concept's, otherwise to a glossary term — so concepts (capitalized ids like `@Phrase`) and glossary terms (lowercase ids) share the `@` reference syntax.
 
-A `$` mention substitutes a named template input (e.g. `$expected`), with `$?`/`$!` as special placeholders. `$` is only for input substitution; documented things — concepts and glossary terms alike — are referenced with `@` (above).
+A `$` mention substitutes a named template input (e.g. `$expected`), with `$?`/`$!` as special placeholders. `$` is only for input substitution; documented things — concepts and glossary terms alike — are referenced with `@` (above). A mention may be immediately followed (no space) by a **branch** `[yes|no]` that selects text based on whether the input is set (e.g. `$count[$count things|nothing]`); branches may nest.
 
 > words → _any sequence of characters between `markup` that aren't markup delimeters above_
+
+Markup delimiters only tokenize as delimiters where they have syntactic meaning; everywhere else they are ordinary `words` characters, so a stray symbol never breaks markup parsing. Specifically: `[` opens a branch only immediately after a mention; `|` and `]` are branch delimiters only inside an open branch; `<` opens a link only when the whole `<…@…>` tag follows on the line; `@` (the link separator) and `>` are tag delimiters only inside an open link tag; and any character that matches no markup token at all is a word, never an unknown token. A bare URL (`https://…`) is its own token so that its `//` isn't folded by the escape rule below, and it reads as word-like content. Doubling a markup symbol (e.g. `**`, `[[`, `@@`) always escapes it as a literal character.
 
 Compound data structures have several delimiters:
 
@@ -424,9 +426,10 @@ Two text values with different language declarations, however, are not equivalen
 > FORMATTED → `` ` `` CONTENT `` ` `` LANGUAGE  
 > CONTENT → PARAGRAPH＊  
 > PARAGRAPH → SEGMENT＊  
-> SEGMENT → words ｜ LINK ｜ concept ｜ CODE ｜ MENTION  
+> SEGMENT → words ｜ url ｜ LINK ｜ concept ｜ CODE ｜ MENTION ｜ BRANCH  
 > LINK → `<` words `@` words `>`  
-> CODE → `\` PROGRAM `\`
+> CODE → `\` PROGRAM `\`  
+> BRANCH → mention `[` SEGMENT＊ `|` SEGMENT＊ `]`
 
 The final basic value is markup, which behaves identically to text values aside from their delimiters, and the meaning of the delimiters internal to text:
 

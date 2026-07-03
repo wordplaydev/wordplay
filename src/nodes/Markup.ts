@@ -165,7 +165,9 @@ export default class Markup extends Content {
             .map((p) => p.nodes())
             .flat()
             .filter(
-                (n): n is Token => n instanceof Token && n.isSymbol(Sym.Words),
+                (n): n is Token =>
+                    n instanceof Token &&
+                    (n.isSymbol(Sym.Words) || n.isSymbol(Sym.URL)),
             )
             .map((w) => w.getText());
     }
@@ -225,7 +227,9 @@ export default class Markup extends Content {
         const words = paragraph
             .nodes()
             .filter(
-                (n): n is Token => n instanceof Token && n.isSymbol(Sym.Words),
+                (n): n is Token =>
+                    n instanceof Token &&
+                    (n.isSymbol(Sym.Words) || n.isSymbol(Sym.URL)),
             );
         let prose = '';
         for (const word of words) {
@@ -260,7 +264,7 @@ export default class Markup extends Content {
                 if (words[0] === node) words.shift();
                 else words.unshift(node);
             } else if (node instanceof Token) {
-                if (node.isSymbol(Sym.Words)) {
+                if (node.isSymbol(Sym.Words) || node.isSymbol(Sym.URL)) {
                     formats.push({ text: node.getText(), italic, weight });
                 } else if (node.isSymbol(Sym.Concept)) {
                     const match = ConceptLink.parse(node.getText().slice(1));

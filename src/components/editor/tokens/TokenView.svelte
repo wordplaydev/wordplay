@@ -26,6 +26,7 @@
     import { Sym } from '@nodes/Sym';
     import Token from '@nodes/Token';
     import Unit from '@nodes/Unit';
+    import WebLink from '@nodes/WebLink';
     import { withColorEmoji } from '@unicode/emoji';
 
     interface TokenProps {
@@ -177,6 +178,14 @@
                 : node.getText()),
     );
 
+    // A bare URL in markup renders as a link when the caret is outside it,
+    // mirroring WebLinkView. URLs inside a WebLink are left to WebLinkView.
+    let linkedURL = $derived(
+        node.isSymbol(Sym.URL) &&
+            !($caret?.isIn(node, true) ?? false) &&
+            !(root?.getParent(node) instanceof WebLink),
+    );
+
     // Prepare the text for rendering by replacing spaces with non-breaking spaces
     // and adding variation selectors after emoji to guarantee the correct emoji font is chosen.
     let renderedText = $derived(
@@ -188,7 +197,16 @@
     );
 </script>
 
-{#if format.block && root}
+{#if linkedURL}
+    <!-- Stop pointerdown so the editor doesn't place the caret and re-render the anchor away before the click navigates. -->
+    <a
+        href={node.getText()}
+        target="_blank"
+        rel="noreferrer"
+        onpointerdown={(event) => event.stopPropagation()}
+        >{node.getText()}</a
+    >
+{:else if format.block && root}
     {@const parent = root.getParent(node)}
     {@const grandparent = parent ? root.getParent(parent) : undefined}
     <div

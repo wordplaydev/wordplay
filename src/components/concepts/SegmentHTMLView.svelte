@@ -7,6 +7,7 @@
     import Example from '@nodes/Example';
     import ExternalExample from '@nodes/ExternalExample';
     import type { Segment } from '@nodes/Paragraph';
+    import { Sym } from '@nodes/Sym';
     import Token from '@nodes/Token';
     import UnknownType from '@nodes/UnknownType';
     import WebLink from '@nodes/WebLink';
@@ -14,6 +15,7 @@
     import type Spaces from '@parser/Spaces';
     import { unescapeMarkupSymbols } from '@parser/Tokenizer';
     import { BULLET_SYMBOL } from '@parser/Symbols';
+    import Link from '@components/app/Link.svelte';
     import RootView from '@components/project/RootView.svelte';
     import ValueView from '@components/values/ValueView.svelte';
     import ConceptPreview from '@components/concepts/ConceptPreview.svelte';
@@ -46,6 +48,12 @@
         if (first || !(token instanceof Token)) return false;
         const space = spaces.getSpace(token);
         return /^[ \t\n]+$/.test(space) && !space.includes('\n\n');
+    }
+
+    // Mirror WebLinkHTMLView: a schemeless ://path URL is an internal wordplay path.
+    function getTokenURL(token: Token) {
+        const text = token.getText();
+        return text.startsWith('://') ? text.replace('://', '/') : text;
     }
 
     function getTokenText(token: Token) {
@@ -119,6 +127,7 @@
         ><ValueView value={segment.value} /></strong
     >
     <!-- Remove the bullet if the words start with one. -->
-{:else if segment instanceof Token}{#if isTokenSpaced(segment)}&nbsp;{/if}<EmojisRepaired
-        text={getTokenText(segment)}
-    />{/if}
+{:else if segment instanceof Token}{#if isTokenSpaced(segment)}&nbsp;{/if}{#if segment.isSymbol(Sym.URL)}{@const url = getTokenURL(segment)}<Link
+            external={!url.startsWith('/')}
+            to={url}>{segment.getText()}</Link
+        >{:else}<EmojisRepaired text={getTokenText(segment)} />{/if}{/if}

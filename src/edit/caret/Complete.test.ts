@@ -41,6 +41,36 @@ describe('completeBinaryEvaluate skips characters with non-operator meanings', (
     });
 });
 
+describe('completeDelimiter only completes formatting symbols in markup words', () => {
+    test('typing formatting symbols inside a text literal does not autocomplete', () => {
+        // Formatting has no meaning in text literals, so no closing symbol is inserted.
+        expect(insert("'hello'", 3, '/')).toBe("'he/llo'");
+        expect(insert("'hello'", 3, '*')).toBe("'he*llo'");
+        expect(insert("'hello'", 3, '_')).toBe("'he_llo'");
+        expect(insert("'hello'", 3, '~')).toBe("'he~llo'");
+        expect(insert("'hello'", 3, '^')).toBe("'he^llo'");
+    });
+
+    test('typing formatting symbols in markup words autocompletes', () => {
+        expect(insert('¶hello¶1', 3, '/')).toBe('¶he//llo¶1');
+        expect(insert('`hello`', 3, '/')).toBe('`he//llo`');
+    });
+
+    test('typing formatting symbols in a text literal nested in a doc example does not autocomplete', () => {
+        // The nearest container of the words is the text literal, not the doc's markup.
+        expect(insert("¶a \\'hello'\\ b¶1", 7, '/')).toBe("¶a \\'he/llo'\\ b¶1");
+    });
+
+    test('typing an elision symbol outside words is unchanged', () => {
+        // A lone * outside words is treated as elision space, not completed; same as before this gate.
+        expect(insert('', 0, '*')).toBe('*');
+    });
+
+    test('typing structural delimiters in code still autocompletes', () => {
+        expect(insert('', 0, '(')).toBe('()');
+    });
+});
+
 describe('completeBindOrKeyValue respects content on the same line', () => {
     test('typing : after a reference on an otherwise empty line autocompletes a placeholder', () => {
         expect(insert('x', 1, ':')).toBe('x: _');

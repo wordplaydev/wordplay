@@ -1,3 +1,4 @@
+import { Sym, type SymType } from '@nodes/Sym';
 import { expect, test } from 'vitest';
 import { tokens } from '@parser/Tokenizer';
 
@@ -46,6 +47,7 @@ test.each([
         '¶|hello |<|link|@|https://amyjko.com|>|¶|',
     ],
     ['¶hello <3!¶', '¶|hello <3!|¶|'],
+    // A spaced branch is not a branch: the [, |, ] lex as words (see the sym tests below).
     ['¶this is $1 [hi|no]¶', '¶|this is |$1| |[|hi|||no|]|¶|'],
     [
         '\'hi\'"hi"‘hi’«hi»‹hi›„hi“「hi」',
@@ -124,4 +126,73 @@ test.each([
             .map((t) => t.toWordplay())
             .join('|'),
     ).toBe(segments);
+});
+
+/** In markup, delimiters only tokenize as delimiters where they have syntactic meaning;
+ * everywhere else they are ordinary words, so stray symbols never break markup parsing. */
+test.each([
+    // A branch immediately after a mention lexes as branch delimiters.
+    [
+        '¶this is $1[hi|no]¶',
+        [Sym.Doc, Sym.Words, Sym.Mention, Sym.ListOpen, Sym.Words, Sym.Union, Sym.Words, Sym.ListClose, Sym.Doc, Sym.End],
+    ],
+    // A space between the mention and the [ means no branch: all words.
+    [
+        '¶this is $1 [hi|no]¶',
+        [Sym.Doc, Sym.Words, Sym.Mention, Sym.Words, Sym.Words, Sym.Words, Sym.Words, Sym.Words, Sym.Words, Sym.Doc, Sym.End],
+    ],
+    // Bare list delimiters are words.
+    [
+        '¶Hello [list]¶',
+        [Sym.Doc, Sym.Words, Sym.Words, Sym.Words, Sym.Words, Sym.Doc, Sym.End],
+    ],
+    // Full width list delimiters are also words.
+    [
+        '¶Hello ［list］¶',
+        [Sym.Doc, Sym.Words, Sym.Words, Sym.Words, Sym.Words, Sym.Doc, Sym.End],
+    ],
+    // A bare union symbol is words.
+    ['¶a | b¶', [Sym.Doc, Sym.Words, Sym.Words, Sym.Words, Sym.Doc, Sym.End]],
+    // A bare list close is words.
+    ['¶x ] y¶', [Sym.Doc, Sym.Words, Sym.Words, Sym.Words, Sym.Doc, Sym.End]],
+    // Escaped list delimiters are unaffected: one words run.
+    ['¶a [[x]] b¶', [Sym.Doc, Sym.Words, Sym.Doc, Sym.End]],
+    // A union outside a branch is words even when a branch appears earlier.
+    [
+        '¶$1[a|b] | c¶',
+        [Sym.Doc, Sym.Mention, Sym.ListOpen, Sym.Words, Sym.Union, Sym.Words, Sym.ListClose, Sym.Words, Sym.Words, Sym.Words, Sym.Doc, Sym.End],
+    ],
+    // A bare tag close is words.
+    ['¶a > b¶', [Sym.Doc, Sym.Words, Sym.Words, Sym.Words, Sym.Doc, Sym.End]],
+    // A bare @ that isn't a concept link is words.
+    [
+        '¶email @ me¶',
+        [Sym.Doc, Sym.Words, Sym.Words, Sym.Words, Sym.Doc, Sym.End],
+    ],
+    // A link tag still lexes as tag delimiters.
+    [
+        '¶hello <link@https://amyjko.com>¶',
+        [Sym.Doc, Sym.Words, Sym.TagOpen, Sym.Words, Sym.Link, Sym.URL, Sym.TagClose, Sym.Doc, Sym.End],
+    ],
+    // A bare URL still lexes as a URL so its // isn't treated as an escaped italic.
+    [
+        '¶see https://amyjko.com works¶',
+        [Sym.Doc, Sym.Words, Sym.URL, Sym.Words, Sym.Doc, Sym.End],
+    ],
+    // A bare $ that isn't a mention is words, not unknown.
+    ['¶a $ b¶', [Sym.Doc, Sym.Words, Sym.Words, Sym.Words, Sym.Doc, Sym.End]],
+    // A dotless host is still a URL.
+    [
+        '¶see http://localhost:8080 now¶',
+        [Sym.Doc, Sym.Words, Sym.URL, Sym.Words, Sym.Doc, Sym.End],
+    ],
+    // An unclosed branch ends at a paragraph break, so a later ] or | is words.
+    [
+        '¶$1[unclosed\n\nsecond ] paragraph | here¶',
+        [Sym.Doc, Sym.Mention, Sym.ListOpen, Sym.Words, Sym.Words, Sym.Words, Sym.Words, Sym.Words, Sym.Words, Sym.Doc, Sym.End],
+    ],
+    // Full width list close now matches in code, like full width list open.
+    ['［1］', [Sym.ListOpen, Sym.Number, Sym.ListClose, Sym.End]],
+])('%s has syms %j', (code: string, expected: SymType[]) => {
+    expect(tokens(code).map((t) => t.getTypes()[0])).toEqual(expected);
 });
