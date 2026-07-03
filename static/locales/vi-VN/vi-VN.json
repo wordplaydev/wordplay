@@ -311,8 +311,7 @@
                 "$~\\¶This program says hello¶",
                 "$~'hello!'\\",
                 "$~You can give me a @Language to help others know what language I'm written in:",
-                "$~\\¶I'm an English doc¶/en\nduration: 5s\\🪲",
-                "$~Did you know you can make a list of me? Go talk to @Docs."
+                "$~\\¶I'm an English doc¶/en\nduration: 5s\\🪲\n\nDid you know you can make a list of me? Go talk to @Docs."
             ]
         },
         "Docs": {
@@ -497,9 +496,7 @@
                 "$~Để viết tôi, tất cả những gì bạn cần làm là viết một loạt từ trong @Doc:",
                 "$~\\¶Tôi là một đoạn văn trong một tài liệu.¶'một đoạn văn'\\",
                 "$~Nếu bạn muốn nhiều đoạn văn, chỉ cần thêm các dòng trống.",
-                "$~\\¶Đoạn 1.",
-                "$~Đoạn 2.",
-                "$~Đoạn 3.¶'ba đoạn văn'\\"
+                "$~\\¶Đoạn 1.\n\nĐoạn 2.\n\nĐoạn 3.¶'ba đoạn văn'\\"
             ]
         },
         "WebLink": {
@@ -992,6 +989,11 @@
                     "name": "$~đánhgiámơhồ",
                     "explanation": "$~$name có phải là tên của một $structure[$structure|@FunctionDefinition] mà bạn đang cố gắng đánh giá không? Hãy thử xóa khoảng trắng sau tôi để tôi biết đó là một @Evaluate chứ không phải là một @Block riêng biệt.",
                     "resolution": "$~Đóng khoảng trắng giữa * $name * và các đầu vào của nó."
+                },
+                "UnknownTimeZone": {
+                    "name": "$~múiGiờKhôngXácĐịnh",
+                    "explanation": "$~Mình không biết múi giờ nào tên là *$zone*. Múi giờ được đặt tên theo các vùng đất và thành phố, như \\'America/New_York'\\. Hãy thử viết tên một thành phố bạn biết, và mình sẽ gợi ý cho bạn một cái!",
+                    "resolution": "$~Đổi nó thành *$zone*, múi giờ của $city"
                 }
             },
             "exception": {
@@ -4396,6 +4398,104 @@
                 "unavailable": "$~Tôi không tìm thấy tệp phông chữ đó, nên tôi không thể đồ lại các chữ cái của nó.",
                 "unreadable": "$~Tôi đã tải phông chữ xuống, nhưng tôi không thể đọc được nó, vì vậy tôi không thể đồ lại các chữ cái của nó.",
                 "outline": "$~Tôi đã tải phông chữ lên, nhưng không thể tạo được hình dạng của các chữ cái này."
+            }
+        },
+        "Now": {
+            "doc": [
+                "$~Tôi đánh dấu một @Moment mới theo nhịp mà bạn chọn, nên chương trình luôn biết ngày hôm nay và giờ hiện tại.",
+                "$~Điều này biến một chiếc đồng hồ theo vùng đất thành một dòng mã số:",
+                "$~\\Cụmtừ(⏰() → '')\\",
+                "$~Mặc định thì tôi đánh dấu mỗi giây. Hãy cho tôi một @Now.frequency tính bằng giây, phút, hoặc giờ để đổi nhịp:",
+                "$~\\⏰(1min)\\",
+                "$~@Now.timezone và @Now.calendar của tôi phản chiếu các đầu vào của @Moment, và thiết lập các Moment mà tôi tạo ra. Ví dụ, đây là một chiếc đồng hồ hiển thị giờ hiện tại ở Tokyo, theo lịch Nhật Bản:",
+                "$~\\⏰(1s 'Asia/Tokyo' 'japanese')\\",
+                "$~Nếu các đầu vào đó thay đổi — chẳng hạn, một phản ứng cho tôi một múi giờ khác — thì tôi bắt đầu tạo ra các Moment với thiết lập mới.",
+                "$~Tôi khác @Time thế nào? @Time đếm số mili giây kể từ khi chương trình bắt đầu, điều này tốt cho hoạt hình. Tôi cho bạn biết ngày và giờ trên đồng hồ tường theo một lịch và một múi giờ, điều này tốt cho đồng hồ và lịch."
+            ],
+            "names": ["$~⏰", "$~Now"],
+            "frequency": {
+                "names": ["$~frequency"],
+                "doc": "$~Tôi tạo một @Moment mới thường xuyên thế nào, tính bằng giây, phút, hoặc giờ. Nếu \\ø\\, tôi đánh dấu mỗi \\1s\\."
+            },
+            "timezone": {
+                "names": ["$~timezone"],
+                "doc": "$~Một tên múi giờ chuẩn cho các Moment mà tôi tạo ra, gồm một vùng đất và một thành phố, ví dụ như \\'America/New_York'\\ hoặc \\'Châu Á/Tokyo'\\. Không biết tên? Hãy viết một thành phố mà bạn biết và tôi sẽ gợi ý múi giờ gần nhất. Nếu \\ø\\, tôi dùng múi giờ của thiết bị đang chạy chương trình."
+            },
+            "calendar": {
+                "names": ["$~calendar"],
+                "doc": "$~Một tên lịch Unicode cho các Moment mà tôi tạo ra, như \\'gregory'\\, \\'tiếng Hê-brơ'\\, \\'tiếng Trung'\\, hoặc \\'tiếng Nhật'\\. Nếu \\ø\\, tôi dùng lịch theo địa phương của người đọc."
+            }
+        },
+        "Moment": {
+            "doc": [
+                "$~Mình là một khoảnh khắc duy nhất trong thời gian: một ngày trên lịch, một giờ trong ngày, cùng với múi giờ và lịch mà chúng được ghi theo.",
+                "$~Tất cả thuộc tính của mình đều không bắt buộc. Hãy cho mình các phần ngày để mô tả một ngày:",
+                "$~\\📅(2026 7 1) → ''\\",
+                "$~Hoặc chỉ các phần giờ, để chỉ một giờ trong ngày:",
+                "$~\\📅(hour: 15 minute: 30) → ''\\",
+                "$~Nếu bạn không cho mình phần nào cả, mình sẽ chuyển thành ngày giờ hiện tại, ở bất cứ nơi nào chương trình đang chạy. Nếu bạn bỏ trống một số phần, thì bất kỳ phần nào lớn hơn phần lớn nhất bạn đã cho sẽ lấy từ ngày giờ hiện tại, còn các phần nhỏ hơn thì bắt đầu từ điểm khởi đầu của chúng: vậy nên \\📅(month: 12) → ''\\ là ngày 1 tháng 12 của năm nay, vào lúc nửa đêm. Khi chuyển mình chỉ hiện ra những loại phần mà bạn đã cho: các phần ngày tạo ra một ngày, các phần giờ tạo ra một giờ, và cả hai tạo ra cả hai:",
+                "$~\\📅() → ''\\",
+                "$~@Moment.timezone của mình nhận một tên múi giờ IANA chuẩn như \\'America/Los_Angeles'\\ hoặc \\'Châu Á/Tokyo'\\; nếu bạn để trống nó là \\ø\\, mình sẽ dùng múi giờ của thiết bị mà chương trình đang chạy trên đó. @Moment.calendar của mình nhận một tên lịch Unicode như \\'gregory'\\, \\'tiếng Do Thái'\\, hoặc \\'tiếng Nhật'\\; nếu bạn để trống nó là \\ø\\, mình sẽ dùng lịch theo vùng ngôn ngữ của người đọc. @Moment.year, @Moment.month, và @Moment.day của mình đều theo lịch đó:",
+                "$~\\📅(5786 10 4 calendar: 'hebrew') → ''\\",
+                "$~Khi chuyển mình sang @Text sẽ định dạng mình theo vùng ngôn ngữ của người đọc: cùng một Moment sẽ hiển thị khác nhau bằng tiếng Anh, 中文, hoặc हिन्दी, và thay đổi khi vùng ngôn ngữ của người đọc thay đổi.",
+                "$~@Moment.era, @Moment.week, và @Moment.weekday của mình mang tính thông tin: @Now điền chúng vào khi tạo ra các Moment, nhưng chúng bị bỏ qua khi định dạng.",
+                "$~Nếu bạn muốn một luồng các Moment tự cập nhật khi thời gian trôi qua — một cái đồng hồ — hãy xem @Now. Nếu bạn muốn số mili giây đã trôi qua kể từ khi chương trình của bạn bắt đầu — để làm hoạt hình — hãy xem @Time."
+            ],
+            "names": ["$~📅", "$~Moment"],
+            "year": {
+                "names": ["$~year"],
+                "doc": "$~Năm, theo lịch của tôi. Ví dụ, năm Gregory \\2026\\ là năm Do Thái \\5786\\."
+            },
+            "month": {
+                "names": ["$~month"],
+                "doc": "$~Tháng trong năm theo lịch của tôi, bắt đầu từ \\1\\."
+            },
+            "day": {
+                "names": ["$~day"],
+                "doc": "$~Ngày trong tháng."
+            },
+            "hour": {
+                "names": ["$~hour"],
+                "doc": "$~Giờ trong ngày, từ \\0\\ đến \\23\\."
+            },
+            "minute": {
+                "names": ["$~minute"],
+                "doc": "$~Phút trong giờ."
+            },
+            "second": {
+                "names": ["$~second"],
+                "doc": "$~Giây trong phút."
+            },
+            "millisecond": {
+                "names": ["$~millisecond"],
+                "doc": "$~Mili giây trong giây."
+            },
+            "timezone": {
+                "names": ["$~timezone"],
+                "doc": "$~Một tên múi giờ chuẩn, gồm một vùng đất và một thành phố, ví dụ như \\'America/New_York'\\, \\'Europe/Paris'\\, hoặc \\'Châu Á/Tokyo'\\. Không biết tên? Hãy viết một thành phố mà bạn biết và tôi sẽ gợi ý múi giờ gần nhất. Nếu \\ø\\, tôi dùng múi giờ của thiết bị đang chạy chương trình."
+            },
+            "calendar": {
+                "names": ["$~calendar"],
+                "doc": "$~Một tên lịch Unicode, như \\'gregory'\\, \\'tiếng Hê-brơ'\\, \\'tiếng Trung'\\, hoặc \\'tiếng Nhật'\\. Nếu \\ø\\, lịch theo địa phương của người đọc."
+            },
+            "era": {
+                "names": ["$~era"],
+                "doc": "$~Thời đại mà năm của tôi thuộc về, như \\'ce'\\ hoặc \\'reiwa'\\. Mang tính thông tin: @Now đặt nó, và việc định dạng bỏ qua nó."
+            },
+            "week": {
+                "names": ["$~week"],
+                "doc": "$~Tuần trong năm, bắt đầu từ \\1\\. Mang tính thông tin: @Now đặt nó, và việc định dạng bỏ qua nó."
+            },
+            "weekday": {
+                "names": ["$~weekday"],
+                "doc": "$~Ngày trong tuần, từ \\1\\ (Thứ Hai) đến \\7\\ (Chủ Nhật). Mang tính thông tin: @Now đặt nó, và việc định dạng bỏ qua nó."
+            },
+            "conversion": {
+                "text": "$~Một phiên bản @Text của tôi, được định dạng theo địa phương của người đọc, theo lịch và múi giờ của tôi. Thêm một ngôn ngữ sau kiểu @Text để định dạng cho một địa phương cụ thể, như \\Moment(2026 7 1) → ''/es\\."
+            },
+            "error": {
+                "timezone": "$~đây không phải là một tên múi giờ hợp lệ",
+                "calendar": "$~đây không phải là một tên lịch được hỗ trợ"
             }
         }
     },

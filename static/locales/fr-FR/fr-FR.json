@@ -984,6 +984,11 @@
                     "name": "$~évaluationambiguë",
                     "explanation": "$~Est-ce que $name est le nom d'une $structure[$structure|@FunctionDefinition] que vous essayez d'évaluer ? Veuillez supprimer l'espace après moi afin que je sache qu'il s'agit d'une @Evaluate et non d'un @Block distinct.",
                     "resolution": "$~Supprimez l'espace entre * $name * et ses entrées"
+                },
+                "UnknownTimeZone": {
+                    "name": "$~fuseauHoraireInconnu",
+                    "explanation": "$~Je ne connais pas de fuseau horaire appelé *$zone*. Les fuseaux horaires portent le nom de régions et de villes, comme \\'America/New_York'\\. Essaie d'écrire une ville que tu connais, et je t'en proposerai un !",
+                    "resolution": "$~Le changer en *$zone*, le fuseau horaire de $city"
                 }
             },
             "exception": {
@@ -4396,6 +4401,104 @@
                 "unavailable": "$~Je n'ai pas pu trouver le fichier de cette police, je ne peux donc pas en tracer les lettres.",
                 "unreadable": "$~J'ai téléchargé la police, mais je n'ai pas pu la lire, donc je ne peux pas tracer ses lettres.",
                 "outline": "$~J'ai chargé la police, mais je n'ai pas réussi à obtenir la forme de ces lettres."
+            }
+        },
+        "Now": {
+            "doc": [
+                "$~Je fais avancer un nouveau @Moment au rythme que tu choisis, pour qu'un programme connaisse toujours la date d'aujourd'hui et l'heure actuelle.",
+                "$~Cela permet de faire une horloge locale en une seule ligne de code :",
+                "$~\\💬(⏰() → '')\\",
+                "$~Par défaut, j'avance chaque seconde. Donne-moi une @Now.frequency en secondes, en minutes ou en heures pour changer le rythme :",
+                "$~\\⏰(1min)\\",
+                "$~Mes @Now.timezone et @Now.calendar reflètent les entrées de @Moment, et règlent les Moments que je crée. Par exemple, voici une horloge qui montre l'heure actuelle à Tokyo, sur le calendrier japonais :",
+                "$~\\Now(1s 'Asia/Tokyo' 'japanese')\\",
+                "$~Si ces entrées changent — par exemple, une réaction me donne un autre fuseau horaire — je commence à faire des Moments avec les nouveaux réglages.",
+                "$~En quoi suis-je différent de @Time ? @Time compte les millisecondes depuis le démarrage d'un programme, ce qui est utile pour l'animation. Moi, je te donne la date et l'heure réelles dans un calendrier et un fuseau horaire, ce qui est utile pour les horloges et les calendriers."
+            ],
+            "names": ["$~⏰", "$~Maintenant"],
+            "frequency": {
+                "names": ["$~fréquence"],
+                "doc": "$~À quelle fréquence je fais un nouveau @Moment, en secondes, minutes ou heures. Si \\ø\\, j'avance chaque \\1s\\."
+            },
+            "timezone": {
+                "names": ["$~fuseauHoraire"],
+                "doc": "$~Un nom standard de fuseau horaire pour les Moments que je crée, composé d'une région et d'une ville, comme \\'America/New_York'\\ ou \\'Asie/Tokyo'\\. Tu ne connais pas le nom ? Écris une ville que tu connais et je te proposerai le fuseau horaire le plus proche. Si \\ø\\, j'utilise le fuseau horaire de l'appareil sur lequel le programme s'exécute."
+            },
+            "calendar": {
+                "names": ["$~calendrier"],
+                "doc": "$~Un nom de calendrier Unicode pour les Moments que je fais, comme \\'gregory'\\, \\'hébreu'\\, \\'chinois'\\, ou \\'japonais'\\. Si \\ø\\, j'utilise le calendrier de la région du lecteur."
+            }
+        },
+        "Moment": {
+            "doc": [
+                "$~Je suis un seul moment dans le temps : une date sur un calendrier, une heure de la journée, ainsi que le fuseau horaire et le calendrier dans lesquels ils sont exprimés.",
+                "$~Toutes mes propriétés sont facultatives. Donne-moi des parties de date pour décrire une date :",
+                "$~\\📅(2026 7 1) → ''\\",
+                "$~Ou seulement des parties d'heure, pour une heure de la journée :",
+                "$~\\📅(hour: 15 minute: 30) → ''\\",
+                "$~Si tu ne me donnes aucune partie, je me convertis en la date et l'heure actuelles, là où le programme s'exécute. Si tu laisses de côté des parties, toute partie plus grande que la plus grande que tu as donnée provient de la date et de l'heure actuelles, et les parties plus petites commencent à leur début : ainsi \\📅(month: 12) → ''\\ est le 1er décembre de cette année, à minuit. Ma conversion montre seulement les types de parties que tu as donnés : les parties de date font une date, les parties d'heure font une heure, et les deux font les deux :",
+                "$~\\📅() → ''\\",
+                "$~Ma @Moment.timezone prend un nom de fuseau horaire IANA standard comme \\'America/Los_Angeles'\\ ou \\'Asie/Tokyo'\\ ; si tu la laisses \\ø\\, j'utilise le fuseau horaire de l'appareil sur lequel le programme s'exécute. Mon @Moment.calendar prend un nom de calendrier Unicode comme \\'gregory'\\, \\'hébreu'\\, ou \\'japonais'\\ ; si tu le laisses \\ø\\, j'utilise le calendrier de la région du lecteur. Mon @Moment.year, @Moment.month et @Moment.day sont dans ce calendrier :",
+                "$~\\📅(5786 10 4 calendar: 'hebrew') → ''\\",
+                "$~Me convertir en @Text me met en forme pour la région du lecteur : le même Moment s'affiche différemment en anglais, en 中文 ou en हिन्दी, et change quand la région du lecteur change.",
+                "$~Mes @Moment.era, @Moment.week et @Moment.weekday sont informatifs : @Now les remplit quand il crée des Moments, mais ils sont ignorés lors de la mise en forme.",
+                "$~Si tu veux un flux de Moments qui se met à jour au fil du temps — une horloge — regarde @Now. Si tu veux les millisecondes écoulées depuis le démarrage de ton programme — pour l'animation — regarde @Time."
+            ],
+            "names": ["$~📅", "$~Moment"],
+            "year": {
+                "names": ["$~année"],
+                "doc": "$~L'année, dans mon calendrier. Par exemple, l'année grégorienne \\2026\\ est l'année hébraïque \\5786\\."
+            },
+            "month": {
+                "names": ["$~mois"],
+                "doc": "$~Le mois de l'année dans mon calendrier, en commençant à \\1\\."
+            },
+            "day": {
+                "names": ["$~jour"],
+                "doc": "$~Le jour du mois."
+            },
+            "hour": {
+                "names": ["$~heure"],
+                "doc": "$~L'heure du jour, de \\0\\ à \\23\\."
+            },
+            "minute": {
+                "names": ["$~minute"],
+                "doc": "$~La minute de l'heure."
+            },
+            "second": {
+                "names": ["$~seconde"],
+                "doc": "$~La seconde de la minute."
+            },
+            "millisecond": {
+                "names": ["$~milliseconde"],
+                "doc": "$~La milliseconde de la seconde."
+            },
+            "timezone": {
+                "names": ["$~fuseauHoraire"],
+                "doc": "$~Un nom standard de fuseau horaire, composé d'une région et d'une ville, comme \\'America/New_York'\\, \\'Europe/Paris'\\, ou \\'Asie/Tokyo'\\. Tu ne connais pas le nom ? Écris une ville que tu connais et je te proposerai le fuseau horaire le plus proche. Si \\ø\\, j'utilise le fuseau horaire de l'appareil sur lequel le programme s'exécute."
+            },
+            "calendar": {
+                "names": ["$~calendrier"],
+                "doc": "$~Un nom de calendrier Unicode, comme \\'gregory'\\, \\'hébreu'\\, \\'chinois'\\, ou \\'japonais'\\. Si \\ø\\, le calendrier de la région du lecteur."
+            },
+            "era": {
+                "names": ["$~ère"],
+                "doc": "$~L'ère dans laquelle se trouve mon année, comme \\'ce'\\ ou \\'reiwa'\\. Informatif : @Now le règle, et la mise en forme l'ignore."
+            },
+            "week": {
+                "names": ["$~semaine"],
+                "doc": "$~La semaine de l'année, en commençant à \\1\\. Informatif : @Now le règle, et la mise en forme l'ignore."
+            },
+            "weekday": {
+                "names": ["$~jourDeLaSemaine"],
+                "doc": "$~Le jour de la semaine, de \\1\\ (lundi) à \\7\\ (dimanche). Informatif : @Now le règle, et la mise en forme l'ignore."
+            },
+            "conversion": {
+                "text": "$~Une version @Text de moi, mise en forme pour la région du lecteur, dans mon calendrier et mon fuseau horaire. Ajoute une langue après le type @Text pour mettre en forme pour une région précise, comme \\Moment(2026 7 1) → ''/es\\."
+            },
+            "error": {
+                "timezone": "$~ceci n'est pas un nom de fuseau horaire valide",
+                "calendar": "$~ceci n'est pas un nom de calendrier pris en charge"
             }
         }
     },

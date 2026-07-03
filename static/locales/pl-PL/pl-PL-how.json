@@ -147,6 +147,13 @@
         "related": ["track-points", "pick-from-a-list"]
     },
     {
+        "id": "show-time-in-another-city",
+        "title": "Pokaż czas w innym mieście",
+        "category": "animation",
+        "body": "@Now  podaje aktualną datę i czas jako  @Moment , a zamiana Momentu na tekst formatuje go dla twojego regionu. Dzięki temu zegar to jedna linia kodu:\n\n\\💬(⏰() → '')\\\n\nChcesz zobaczyć czas gdzie indziej? Podaj  @Now  strefę czasową. Strefy czasowe nazywają się od regionu i miasta, jak \\'America/New_York'\\, \\'Europe/Paris'\\ lub \\'Asia/Tokyo'\\. Możesz też dodać język po typie tekstowym, jak \\''/ja\\ dla japońskiego, aby pokazać zegar w języku tego miasta:\n\n\\Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\\\n\nNie znasz nazwy strefy czasowej? Po prostu wpisz miasto, które znasz — Wordplay ostrzeże cię, że to nie jest strefa czasowa, i zaproponuje najbliższą, więc możesz to poprawić jednym kliknięciem.\n\nMożesz też wybrać kalendarz, jak kalendarz japoński, i nadać zegarowi styl za pomocą czcionki:\n\n\\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\\",
+        "related": ["count-with-time"]
+    },
+    {
         "id": "react-to-sound",
         "title": "Spraw, aby postacie rosły wraz z dźwiękiem",
         "category": "animation",

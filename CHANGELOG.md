@@ -4,6 +4,13 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.26.0 - 2026-07-02
+
+### Added
+
+- 🕰️ We added `@Moment`, a value for dates and times, and `@Now`, a stream that ticks the current date and time. A Moment turns into text in your language, calendar, and time zone — so `Phrase(Now() → '')` is a live clock that changes language when your locale does (#1197).
+- 🌐 Moments work with 16 calendars — like Hebrew, Japanese, Chinese, and Islamic calendars — and any time zone in the world. Dates look the same on every computer, because Wordplay formats them itself instead of asking the browser (#1197).
+
 ## 0.25.1 - 2026-06-30
 
 ### Added

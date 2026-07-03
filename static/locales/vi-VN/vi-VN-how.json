@@ -147,6 +147,13 @@
         "related": ["track-points", "pick-from-a-list"]
     },
     {
+        "id": "show-time-in-another-city",
+        "title": "Hiển thị giờ ở một thành phố khác",
+        "category": "animation",
+        "body": "@Now  báo ngày và giờ hiện tại dưới dạng một  @Moment , và khi đổi một Khoảnh khắc thành văn bản, nó được định dạng theo vùng của bạn. Nhờ vậy, bạn có thể làm một chiếc đồng hồ chỉ với một dòng mã:\n\n\\Cụmtừ(⏰() → '')\\\n\nBạn muốn xem giờ ở nơi khác? Hãy cho  @Now  một múi giờ. Các múi giờ được đặt tên theo một vùng và một thành phố, ví dụ \\'America/New_York'\\, \\'Europe/Paris'\\, hoặc \\'Asia/Tokyo'\\. Bạn cũng có thể thêm một ngôn ngữ sau kiểu văn bản, ví dụ \\''/ja\\ cho tiếng Nhật, để hiển thị đồng hồ bằng ngôn ngữ của thành phố đó:\n\n\\Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\\\n\nBạn không biết tên múi giờ? Chỉ cần viết tên một thành phố mà bạn biết — Wordplay sẽ báo cho bạn rằng đó không phải là múi giờ và gợi ý múi giờ gần nhất, nên bạn có thể sửa chỉ bằng một cú nhấp.\n\nBạn cũng có thể chọn một loại lịch, ví dụ lịch Nhật Bản, và trang trí đồng hồ bằng một phông chữ:\n\n\\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\\",
+        "related": ["count-with-time"]
+    },
+    {
         "id": "react-to-sound",
         "title": "Giúp nhân vật phát triển cùng âm thanh.",
         "category": "animation",

@@ -1,0 +1,17 @@
+Visa tiden i en annan stad
+
+@Now  räknar det aktuella datumet och tiden som en  @Moment , och när ett Ögonblick görs om till text formateras det för din region. Det gör en klocka till en enda rad kod:
+
+\💬(⏰() → '')\
+
+Vill du ha tiden någon annanstans? Ge  @Now  en tidszon. Tidszoner är uppkallade efter en region och en stad, som \'America/New_York'\, \'Europe/Paris'\, eller \'Asia/Tokyo'\. Du kan också lägga till ett språk efter texttypen, som \''/ja\ för japanska, för att visa klockan på den stadens språk:
+
+\Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\
+
+Vet du inte tidszonens namn? Skriv bara en stad du känner till — Wordplay varnar dig att det inte är en tidszon och föreslår den närmaste, så du kan fixa det med ett klick.
+
+Du kan också välja en kalender, som den japanska kalendern, och forma klockan med ett typsnitt:
+
+\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\
+
+count-with-time

@@ -26,6 +26,10 @@ const config = {
             output: {
                 manualChunks: (id) => {
                     if (id.includes('node_modules')) {
+                        // Leave temporal-polyfill out of the vendor chunk so its
+                        // dynamic import (see src/util/getTemporal.ts) stays a
+                        // separate chunk that Temporal-native browsers never fetch.
+                        if (id.includes('temporal-polyfill')) return;
                         return 'vendor'; // Split vendor libraries
                     }
                     if (

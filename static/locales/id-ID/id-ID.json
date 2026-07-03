@@ -311,8 +311,7 @@
                 "$~\\¶This program says hello¶",
                 "$~'hello!'\\",
                 "$~You can give me a @Language to help others know what language I'm written in:",
-                "$~\\¶I'm an English doc¶/en\nduration: 5s\\🪲",
-                "$~Did you know you can make a list of me? Go talk to @Docs."
+                "$~\\¶I'm an English doc¶/en\nduration: 5s\\🪲\n\nDid you know you can make a list of me? Go talk to @Docs."
             ]
         },
         "Docs": {
@@ -497,9 +496,7 @@
                 "$~Yang perlu kamu lakukan untuk menulisku hanyalah menulis sekumpulan kata di dalam @Doc:",
                 "$~\\¶Saya adalah sebuah paragraf di dalam dokumen.¶'satu paragraf'\\",
                 "$~Jika kamu mau beberapa paragraf, cukup taruh baris kosong.",
-                "$~\\¶Paragraf 1.",
-                "$~Paragraf 2.",
-                "$~Paragraf 3.¶'tiga paragraf'\\"
+                "$~\\¶Paragraf 1.\n\nParagraf 2.\n\nParagraf 3.¶'tiga paragraf'\\"
             ]
         },
         "WebLink": {
@@ -992,6 +989,11 @@
                     "name": "$~evaluasiambigu",
                     "explanation": "$~Apakah $name adalah nama dari $structure [ $structure | @FunctionDefinition ] yang ingin Anda evaluasi? Coba hapus spasi setelahnya, agar saya tahu itu adalah @Evaluate dan bukan @Block terpisah.",
                     "resolution": "$~Tutup spasi antara * $name * dan inputnya"
+                },
+                "UnknownTimeZone": {
+                    "name": "$~zonaWaktuTidakDikenal",
+                    "explanation": "$~Saya tidak tahu zona waktu bernama *$zone*. Zona waktu dinamai sesuai wilayah dan kota, seperti \\'America/New_York'\\. Coba tulis kota yang kamu tahu, dan saya akan menyarankan satu!",
+                    "resolution": "$~Ubah menjadi *$zone*, zona waktu dari $city"
                 }
             },
             "exception": {
@@ -4396,6 +4398,104 @@
                 "unavailable": "$~Saya tidak dapat menemukan file font tersebut, jadi saya tidak dapat menelusuri huruf-hurufnya.",
                 "unreadable": "$~Saya sudah mengunduh font-nya, tetapi saya tidak bisa membacanya, jadi saya tidak bisa menjiplak huruf-hurufnya.",
                 "outline": "$~Saya sudah memuat font-nya, tetapi saya tidak bisa mendapatkan bentuk huruf-huruf ini."
+            }
+        },
+        "Now": {
+            "doc": [
+                "$~Saya berdetak dengan @Moment baru pada kecepatan yang kamu pilih, sehingga sebuah program selalu tahu tanggal hari ini dan waktu saat ini.",
+                "$~Hal ini membuat jam yang sesuai wilayah hanya menjadi satu baris kode:",
+                "$~\\💬(⏰() → '')\\",
+                "$~Secara bawaan saya berdetak setiap detik. Beri saya @Now.frequency dalam detik, menit, atau jam untuk mengubah kecepatannya:",
+                "$~\\⏰(1min)\\",
+                "$~@Now.timezone dan @Now.calendar saya mencerminkan input dari @Moment, dan mengatur Moment yang saya buat. Sebagai contoh, ini jam yang menunjukkan waktu saat ini di Tokyo, dengan kalender Jepang:",
+                "$~\\⏰(1s 'Asia/Tokyo' 'japanese')\\",
+                "$~Jika input tersebut berubah — misalnya, sebuah reaksi memberi saya zona waktu yang berbeda — saya mulai membuat Moment dengan pengaturan yang baru.",
+                "$~Apa bedanya saya dengan @Time? @Time menghitung milidetik sejak sebuah program dimulai, yang bagus untuk animasi. Saya memberitahumu tanggal dan waktu jam dinding dalam sebuah kalender dan zona waktu, yang bagus untuk jam dan kalender."
+            ],
+            "names": ["$~⏰", "$~Sekarang"],
+            "frequency": {
+                "names": ["$~frekuensi"],
+                "doc": "$~Seberapa sering saya membuat @Moment baru, dalam detik, menit, atau jam. Jika \\ø\\, saya menandai setiap \\1s\\."
+            },
+            "timezone": {
+                "names": ["$~zonawaktu"],
+                "doc": "$~Sebuah nama zona waktu baku untuk Moment yang saya buat, terdiri dari wilayah dan kota, seperti \\'America/New_York'\\ atau \\'Asia/Tokyo'\\. Tidak tahu namanya? Tuliskan kota yang kamu ketahui dan saya akan memberi saran zona waktu terdekat. Jika \\ø\\, saya memakai zona waktu dari perangkat tempat program itu berjalan."
+            },
+            "calendar": {
+                "names": ["$~kalender"],
+                "doc": "$~Nama kalender Unicode untuk Moment yang saya buat, seperti \\'gregory'\\, \\'ibrani'\\, \\'Tionghoa'\\, atau \\'bahasa Jepang'\\. Jika \\ø\\, saya menggunakan kalender wilayah pembaca."
+            }
+        },
+        "Moment": {
+            "doc": [
+                "$~Saya adalah satu momen dalam waktu: tanggal pada kalender, waktu dalam sehari, serta zona waktu dan kalender tempat keduanya ditulis.",
+                "$~Semua properti saya bersifat opsional. Beri saya bagian tanggal untuk menjelaskan sebuah tanggal:",
+                "$~\\📅(2026 7 1) → ''\\",
+                "$~Atau hanya bagian waktu, untuk waktu dalam sehari:",
+                "$~\\📅(hour: 15 minute: 30) → ''\\",
+                "$~Jika kamu tidak memberi saya bagian apa pun, saya berubah menjadi tanggal dan waktu saat ini, di mana pun program itu berjalan. Jika kamu menghilangkan beberapa bagian, setiap bagian yang lebih besar daripada bagian terbesar yang kamu beri diambil dari tanggal dan waktu saat ini, dan bagian yang lebih kecil dimulai dari awalnya: jadi \\📅(month: 12) → ''\\ adalah 1 Desember tahun ini, pada tengah malam. Mengubah saya hanya menunjukkan jenis bagian yang kamu beri: bagian tanggal membuat tanggal, bagian waktu membuat waktu, dan keduanya membuat keduanya:",
+                "$~\\📅() → ''\\",
+                "$~@Moment.timezone saya menerima nama zona waktu IANA standar seperti \\'America/Los_Angeles'\\ atau \\'Asia/Tokyo'\\; jika kamu membiarkannya \\ø\\, saya memakai zona waktu perangkat tempat program itu berjalan. @Moment.calendar saya menerima nama kalender Unicode seperti \\'gregory'\\, \\'ibrani'\\, atau \\'bahasa Jepang'\\; jika kamu membiarkannya \\ø\\, saya memakai kalender dari lokal pembaca. @Moment.year, @Moment.month, dan @Moment.day saya berada dalam kalender itu:",
+                "$~\\📅(5786 10 4 calendar: 'hebrew') → ''\\",
+                "$~Mengubah saya menjadi @Text menata saya untuk lokal pembaca: Moment yang sama tampil berbeda dalam bahasa Inggris, 中文, atau हिन्दी, dan berubah ketika lokal pembaca berubah.",
+                "$~@Moment.era, @Moment.week, dan @Moment.weekday saya hanya bersifat informasi: @Now mengisinya saat membuat Moment, tetapi keduanya diabaikan saat penataan.",
+                "$~Jika kamu ingin aliran Moment yang diperbarui seiring waktu berlalu — sebuah jam — lihat @Now. Jika kamu ingin milidetik yang berlalu sejak program kamu dimulai — untuk animasi — lihat @Time."
+            ],
+            "names": ["$~📅", "$~Momen"],
+            "year": {
+                "names": ["$~tahun"],
+                "doc": "$~Tahun, dalam kalender saya. Misalnya, tahun Gregorian \\2026\\ adalah tahun Ibrani \\5786\\."
+            },
+            "month": {
+                "names": ["$~bulan"],
+                "doc": "$~Bulan dalam tahun pada kalender saya, dimulai dari \\1\\."
+            },
+            "day": {
+                "names": ["$~hari"],
+                "doc": "$~Hari dalam bulan."
+            },
+            "hour": {
+                "names": ["$~jam"],
+                "doc": "$~Jam dalam sehari, dari \\0\\ sampai \\23\\."
+            },
+            "minute": {
+                "names": ["$~menit"],
+                "doc": "$~Menit dalam jam."
+            },
+            "second": {
+                "names": ["$~detik"],
+                "doc": "$~Detik dalam menit."
+            },
+            "millisecond": {
+                "names": ["$~milidetik"],
+                "doc": "$~Milidetik dalam detik."
+            },
+            "timezone": {
+                "names": ["$~zonawaktu"],
+                "doc": "$~Sebuah nama zona waktu baku, terdiri dari wilayah dan kota, seperti \\'America/New_York'\\, \\'Eropa/Paris'\\, atau \\'Asia/Tokyo'\\. Tidak tahu namanya? Tuliskan kota yang kamu ketahui dan saya akan memberi saran zona waktu terdekat. Jika \\ø\\, saya memakai zona waktu dari perangkat tempat program itu berjalan."
+            },
+            "calendar": {
+                "names": ["$~kalender"],
+                "doc": "$~Nama kalender Unicode, seperti \\'gregory'\\, \\'ibrani'\\, \\'Tionghoa'\\, atau \\'bahasa Jepang'\\. Jika \\ø\\, kalender wilayah pembaca."
+            },
+            "era": {
+                "names": ["$~era"],
+                "doc": "$~Era tempat tahun saya berada, seperti \\'ce'\\ atau \\'reiwa'\\. Bersifat informasi: @Now mengaturnya, dan pemformatan mengabaikannya."
+            },
+            "week": {
+                "names": ["$~minggu"],
+                "doc": "$~Minggu dalam tahun, dimulai dari \\1\\. Bersifat informasi: @Now mengaturnya, dan pemformatan mengabaikannya."
+            },
+            "weekday": {
+                "names": ["$~harikerja"],
+                "doc": "$~Hari dalam minggu, dari \\1\\ (Senin) sampai \\7\\ (Minggu). Bersifat informasi: @Now mengaturnya, dan pemformatan mengabaikannya."
+            },
+            "conversion": {
+                "text": "$~Versi @Text dari saya, diformat untuk wilayah pembaca, dalam kalender dan zona waktu saya. Tambahkan sebuah bahasa setelah jenis @Text untuk memformat bagi wilayah tertentu, seperti \\Moment(2026 7 1) → ''/es\\."
+            },
+            "error": {
+                "timezone": "$~ini bukan nama zona waktu yang sah",
+                "calendar": "$~ini bukan nama kalender yang didukung"
             }
         }
     },

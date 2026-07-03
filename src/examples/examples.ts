@@ -250,6 +250,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
             ),
             [
                 'Calculator',
+                'Clock',
                 'Literacy',
                 'Timer',
                 'Headlines',

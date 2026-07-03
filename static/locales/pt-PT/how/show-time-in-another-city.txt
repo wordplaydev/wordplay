@@ -1,0 +1,17 @@
+Mostra a hora noutra cidade
+
+@Now  dá a data e a hora atuais como um  @Moment , e converter um Momento em texto formata-o para a tua região. Assim, um relógio cabe numa linha de código:
+
+\💬(⏰() → '')\
+
+Queres a hora noutro sítio? Dá um fuso horário a  @Now . Os fusos horários têm o nome de uma região e de uma cidade, como \'America/New_York'\, \'Europe/Paris'\, ou \'Asia/Tokyo'\. Também podes acrescentar uma língua depois do tipo de texto, como \''/ja\ para japonês, para mostrar o relógio na língua dessa cidade:
+
+\Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\
+
+Não sabes o nome do fuso horário? Escreve uma cidade que conheças — o Wordplay vai avisar-te que não é um fuso horário e sugerir o mais próximo, para poderes corrigir com um clique.
+
+Também podes escolher um calendário, como o calendário japonês, e dar estilo ao relógio com uma fonte:
+
+\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\
+
+count-with-time

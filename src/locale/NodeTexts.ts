@@ -609,6 +609,14 @@ type NodeTexts = {
                 /** [formatted] Action description for the repair this conflict offers */
                 resolution: Template<['name']>;
             };
+            /**
+             * When a literal time zone given to Moment or Now isn't a known
+             * IANA time zone. $zone = the unrecognized text.
+             */
+            UnknownTimeZone: ConflictText<['zone']> & {
+                /** [formatted] Action description for each suggested repair; $zone = the IANA zone id, $city = its (possibly localized) city name */
+                resolution: Template<['zone', 'city']>;
+            };
         }> &
         Exceptions<{
             /**

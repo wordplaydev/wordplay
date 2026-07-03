@@ -984,6 +984,11 @@
                     "name": "$~belirsizdeğerlendirme",
                     "explanation": "$~$name, değerlendirmeye çalıştığınız $structure[$structure|@FunctionDefinition] adlı bir yapının adı mı? @Evaluate olduğunu ve ayrı bir @Block olmadığını anlamam için benden sonraki boşluğu kaldırmayı deneyin.",
                     "resolution": "$~* $name * ile girdileri arasındaki boşluğu kapatın."
+                },
+                "UnknownTimeZone": {
+                    "name": "$~bilinmeyenSaatDilimi",
+                    "explanation": "$~*$zone* adında bir saat dilimi bilmiyorum. Saat dilimleri bölgelerin ve şehirlerin adını taşır, örneğin \\'America/New_York'\\. Bildiğin bir şehri yazmayı dene, ben de bir tane önereyim!",
+                    "resolution": "$~Onu $zone şehrinin saat dilimi olan *$city* olarak değiştir"
                 }
             },
             "exception": {
@@ -4399,6 +4404,104 @@
                 "unavailable": "$~O yazı tipinin dosyasını bulamadım, bu yüzden harflerini çizemiyorum.",
                 "unreadable": "$~Yazı tipini indirdim ama okuyamadım, bu yüzden harflerini takip edemiyorum.",
                 "outline": "$~Yazı tipini yükledim ama bu harflerin şeklini elde edemedim."
+            }
+        },
+        "Now": {
+            "doc": [
+                "$~Seçtiğin hızda yeni bir @Moment tıklarım, böylece bir program her zaman bugünün tarihini ve şu anki saati bilir.",
+                "$~Bu, yerelleştirilmiş bir saati tek satırlık koda dönüştürür:",
+                "$~\\💬(⏰() → '')\\",
+                "$~Varsayılan olarak her saniye tıklarım. Hızı değiştirmek için bana saniye, dakika veya saat cinsinden bir @Now.frequency ver:",
+                "$~\\⏰(1min)\\",
+                "$~@Now.timezone ve @Now.calendar özelliklerim @Moment'in girdilerini yansıtır ve oluşturduğum anları yapılandırır. Örneğin, Japon takvimine göre Tokyo'daki şu anki saati gösteren bir saat burada:",
+                "$~\\Now(1s 'Asia/Tokyo' 'japanese')\\",
+                "$~Bu girdiler değişirse — diyelim ki bir tepki bana farklı bir saat dilimi verir — yeni ayarlarla anlar oluşturmaya başlarım.",
+                "$~@Time'dan nasıl farklıyım? @Time bir program başladığından beri geçen milisaniyeleri sayar, bu animasyon için iyidir. Ben sana bir takvim ve saat diliminde duvar saati tarihini ve saatini söylerim, bu saatler ve takvimler için iyidir."
+            ],
+            "names": ["$~⏰", "$~Şimdi"],
+            "frequency": {
+                "names": ["$~sıklık"],
+                "doc": "$~Yeni bir @Moment'i ne sıklıkta yaptığım, saniye, dakika veya saat cinsinden. Eğer \\ø\\, her \\1s\\ ilerlerim."
+            },
+            "timezone": {
+                "names": ["$~zamanDilimi"],
+                "doc": "$~Oluşturduğum anlar için bir bölge ve bir şehirden oluşan standart bir saat dilimi ismi, örneğin \\'America/New_York'\\ veya \\'Asya/Tokyo'\\. İsmi bilmiyor musun? Bildiğin bir şehir yaz, ben sana en yakın saat dilimini önereyim. Eğer \\ø\\, programın çalıştığı cihazın saat dilimini kullanırım."
+            },
+            "calendar": {
+                "names": ["$~takvim"],
+                "doc": "$~Yaptığım Momentler için bir Unicode takvim ismi, örneğin \\'gregory'\\, \\'İbranice'\\, \\'çince'\\ veya \\'japonca'\\. Eğer \\ø\\, okuyucunun yerel ayarının takvimini kullanırım."
+            }
+        },
+        "Moment": {
+            "doc": [
+                "$~Ben zaman içindeki tek bir andım: takvimdeki bir tarih, günün bir saati ve bunların ifade edildiği saat dilimi ile takvim.",
+                "$~Bütün özelliklerim isteğe bağlıdır. Bir tarihi anlatmam için bana tarih parçaları ver:",
+                "$~\\📅(2026 7 1) → ''\\",
+                "$~Ya da günün saati için sadece zaman parçaları:",
+                "$~\\📅(hour: 15 minute: 30) → ''\\",
+                "$~Bana hiç parça vermezsen, programın çalıştığı yerdeki şu anki tarih ve saate göre dönüştürürüm. Bazı parçaları atlarsan, verdiğin en büyük parçadan daha büyük olan parçalar şu anki tarih ve saatten alınır, daha küçük parçalar ise başlangıçlarından başlar: yani \\📅(month: 12) → ''\\ bu yılın 1 Aralık'ı, gece yarısıdır. Beni dönüştürmek sadece verdiğin türdeki parçaları gösterir: tarih parçaları bir tarih yapar, zaman parçaları bir zaman yapar, ikisi birden ikisini de yapar:",
+                "$~\\📅() → ''\\",
+                "$~@Moment.timezone standart bir IANA saat dilimi ismi alır, örneğin \\'America/Los_Angeles'\\ ya da \\'Asya/Tokyo'\\; bunu \\ø\\ bırakırsan, programın çalıştığı cihazın saat dilimini kullanırım. @Moment.calendar bir Unicode takvim ismi alır, örneğin \\'gregory'\\, \\'İbranice'\\, ya da \\'japonca'\\; bunu \\ø\\ bırakırsan, okuyucunun yerel ayarının takvimini kullanırım. @Moment.year, @Moment.month ve @Moment.day o takvime göredir:",
+                "$~\\📅(5786 10 4 calendar: 'hebrew') → ''\\",
+                "$~Beni @Text tipine dönüştürmek, okuyucunun yerel ayarına göre biçimlendirir: aynı Moment İngilizce, 中文 ya da हिन्दी dillerinde farklı görünür ve okuyucunun yerel ayarı değiştiğinde değişir.",
+                "$~@Moment.era, @Moment.week ve @Moment.weekday bilgi amaçlıdır: @Now, Moment yaparken bunları doldurur, ama biçimlendirirken göz ardı edilir.",
+                "$~Zaman geçtikçe güncellenen bir Moment akışı — bir saat — istersen, @Now'a bak. Programın başladığından beri geçen milisaniyeleri istersen — canlandırma için — @Time'a bak."
+            ],
+            "names": ["$~📅", "$~An"],
+            "year": {
+                "names": ["$~yıl"],
+                "doc": "$~Yıl, benim takvimimde. Örneğin, Miladi yıl \\2026\\, İbrani yılı \\5786\\."
+            },
+            "month": {
+                "names": ["$~ay"],
+                "doc": "$~Yılın ayı, benim takvimimde, \\1\\ ile başlayarak."
+            },
+            "day": {
+                "names": ["$~gün"],
+                "doc": "$~Ayın günü."
+            },
+            "hour": {
+                "names": ["$~saat"],
+                "doc": "$~Günün saati, \\0\\ ile \\23\\ arası."
+            },
+            "minute": {
+                "names": ["$~dakika"],
+                "doc": "$~Saatin dakikası."
+            },
+            "second": {
+                "names": ["$~saniye"],
+                "doc": "$~Dakikanın saniyesi."
+            },
+            "millisecond": {
+                "names": ["$~milisaniye"],
+                "doc": "$~Saniyenin milisaniyesi."
+            },
+            "timezone": {
+                "names": ["$~zamanDilimi"],
+                "doc": "$~Bir bölge ve bir şehirden oluşan standart bir saat dilimi ismi, örneğin \\'America/New_York'\\, \\'Europe/Paris'\\ veya \\'Asya/Tokyo'\\. İsmi bilmiyor musun? Bildiğin bir şehir yaz, ben sana en yakın saat dilimini önereyim. Eğer \\ø\\, programın çalıştığı cihazın saat dilimini kullanırım."
+            },
+            "calendar": {
+                "names": ["$~takvim"],
+                "doc": "$~Bir Unicode takvim ismi, örneğin \\'gregory'\\, \\'İbranice'\\, \\'çince'\\ veya \\'japonca'\\. Eğer \\ø\\, okuyucunun yerel ayarının takvimi."
+            },
+            "era": {
+                "names": ["$~çağ"],
+                "doc": "$~Yılımın içinde olduğu çağ, örneğin \\'ce'\\ veya \\'reiwa'\\. Bilgilendirici: @Now bunu ayarlar ve biçimlendirme bunu göz ardı eder."
+            },
+            "week": {
+                "names": ["$~hafta"],
+                "doc": "$~Yılın haftası, \\1\\ ile başlayarak. Bilgilendirici: @Now bunu ayarlar ve biçimlendirme bunu göz ardı eder."
+            },
+            "weekday": {
+                "names": ["$~haftanınGünü"],
+                "doc": "$~Haftanın günü, \\1\\ (Pazartesi) ile \\7\\ (Pazar) arası. Bilgilendirici: @Now bunu ayarlar ve biçimlendirme bunu göz ardı eder."
+            },
+            "conversion": {
+                "text": "$~Benim bir @Text sürümüm, okuyucunun yerel ayarına göre, benim takvimim ve zaman dilimimde biçimlendirilmiş. Belirli bir yerel ayara göre biçimlendirmek için @Text tipinden sonra bir dil ekle, örneğin \\Moment(2026 7 1) → ''/es\\."
+            },
+            "error": {
+                "timezone": "$~bu geçerli bir zaman dilimi ismi değil",
+                "calendar": "$~bu desteklenen bir takvim ismi değil"
             }
         }
     },

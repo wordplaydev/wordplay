@@ -4,6 +4,7 @@ import {
     getBasisConcepts,
     getNodeConcepts,
     getOutputConcepts,
+    getStructureOrFunctionConcept,
 } from '@concepts/DefaultConcepts';
 import FunctionConcept from '@concepts/FunctionConcept';
 import GalleryHowConcept from '@concepts/GalleryHowConcept';
@@ -244,10 +245,11 @@ export default class ConceptIndex {
             .map((def) =>
                 def instanceof StreamDefinition
                     ? makeStreamConcept(def)
-                    : new FunctionConcept(
-                          Purpose.Inputs,
-                          undefined,
+                    : // Non-stream input shares (Random, Moment) are functions
+                      // or structures that belong in the guide's input section.
+                      getStructureOrFunctionConcept(
                           def,
+                          Purpose.Inputs,
                           undefined,
                           locales,
                           context,

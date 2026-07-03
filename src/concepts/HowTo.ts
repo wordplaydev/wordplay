@@ -48,6 +48,7 @@ export const HowToMetadata = {
     'follow-the-pointer': { category: 'characters' },
     'your-own-template': { category: 'characters' },
     'count-with-time': { category: 'animation' },
+    'show-time-in-another-city': { category: 'animation' },
     'react-to-sound': { category: 'animation' },
     'pick-from-a-list': { category: 'randomization' },
     'show-when': { category: 'remembering' },

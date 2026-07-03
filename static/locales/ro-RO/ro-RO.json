@@ -989,6 +989,11 @@
                     "name": "$~evaluareambiguă",
                     "explanation": "$~Este $name numele unei $structure [ $structure | @FunctionDefinition ] pe care încerci să o evaluezi? Încearcă să elimini spațiul de după mine, ca să știu că este un @Evaluate și nu un @Block separat.",
                     "resolution": "$~Închideți spațiul dintre * $name * și intrările sale"
+                },
+                "UnknownTimeZone": {
+                    "name": "$~fusOrarNecunoscut",
+                    "explanation": "$~Nu cunosc un fus orar numit *$zone*. Fusurile orare sunt numite după regiuni și orașe, cum ar fi \\'America/New_York'\\. Încearcă să scrii un oraș pe care îl cunoști și îți voi sugera unul!",
+                    "resolution": "$~Schimbă-l în *$zone*, fusul orar al orașului $city"
                 }
             },
             "exception": {
@@ -4393,6 +4398,104 @@
                 "unavailable": "$~Nu am găsit fișierul fontului respectiv, așa că nu-i pot identifica literele.",
                 "unreadable": "$~Am descărcat fontul, dar nu l-am putut citi, așa că nu-i pot urmări literele.",
                 "outline": "$~Am încărcat fontul, dar nu am reușit să obțin forma acestor litere."
+            }
+        },
+        "Now": {
+            "doc": [
+                "$~Eu numesc un nou @Moment în ritmul pe care îl alegi tu, așa că un program știe mereu data de azi și ora curentă.",
+                "$~Acest lucru face dintr-un ceas localizat o singură linie de cod:",
+                "$~\\💬(⏰() → '')\\",
+                "$~În mod implicit, eu bat în fiecare secundă. Dă-mi o @Now.frequency în secunde, minute sau ore ca să schimbi ritmul:",
+                "$~\\⏰(1min)\\",
+                "$~@Now.timezone și @Now.calendar ale mele reflectă intrările lui @Moment și configurează Momentele pe care le creez. De exemplu, iată un ceas care arată ora curentă din Tokyo, pe calendarul japonez:",
+                "$~\\⏰(1s 'Asia/Tokyo' 'japanese')\\",
+                "$~Dacă acele intrări se schimbă — să zicem, o reacție îmi dă un fus orar diferit — încep să creez Momente cu noile setări.",
+                "$~Cu ce sunt diferit de @Time? @Time numără milisecundele de la pornirea unui program, ceea ce este bun pentru animație. Eu îți spun data și ora de ceas într-un calendar și un fus orar, ceea ce este bun pentru ceasuri și calendare."
+            ],
+            "names": ["$~⏰", "$~Acum"],
+            "frequency": {
+                "names": ["$~frecvență"],
+                "doc": "$~Cât de des fac un nou @Moment, în secunde, minute sau ore. Dacă \\ø\\, marchez la fiecare \\1s\\."
+            },
+            "timezone": {
+                "names": ["$~regiuneorară"],
+                "doc": "$~Un nume standard de fus orar pentru Momentele pe care le creez, format dintr-o regiune și un oraș, cum ar fi \\'America/New_York'\\ sau \\'Asia/Tokyo'\\. Nu cunoști numele? Scrie un oraș pe care îl cunoști și îți voi sugera cel mai apropiat fus orar. Dacă \\ø\\, folosesc fusul orar al dispozitivului pe care rulează programul."
+            },
+            "calendar": {
+                "names": ["$~calendar"],
+                "doc": "$~Un nume Unicode de calendar pentru Momentele pe care le fac, precum \\'gregory'\\, \\'ebraică'\\, \\'chineză'\\ sau \\'japoneză'\\. Dacă \\ø\\, folosesc calendarul locației cititorului."
+            }
+        },
+        "Moment": {
+            "doc": [
+                "$~Sunt un singur moment în timp: o dată dintr-un calendar, o oră din zi și fusul orar și calendarul în care sunt exprimate.",
+                "$~Toate proprietățile mele sunt opționale. Dă-mi părți de dată pentru a descrie o dată:",
+                "$~\\📅(2026 7 1) → ''\\",
+                "$~Sau doar părți de oră, pentru o oră din zi:",
+                "$~\\📅(hour: 15 minute: 30) → ''\\",
+                "$~Dacă nu îmi dai nicio parte, mă transform în data și ora curentă, oriunde rulează programul. Dacă lași părți deoparte, orice parte mai mare decât cea mai mare pe care ai dat-o vine din data și ora curentă, iar părțile mai mici încep de la începutul lor: astfel \\📅(month: 12) → ''\\ este 1 decembrie al acestui an, la miezul nopții. Transformarea mea arată doar tipurile de părți pe care le-ai dat: părțile de dată fac o dată, părțile de oră fac o oră, iar amândouă le fac pe amândouă:",
+                "$~\\📅() → ''\\",
+                "$~Proprietatea mea @Moment.timezone acceptă un nume standard de fus orar IANA, cum ar fi \\'America/Los_Angeles'\\ sau \\'Asia/Tokyo'\\; dacă îl lași \\ø\\, folosesc fusul orar al dispozitivului pe care rulează programul. Proprietatea mea @Moment.calendar acceptă un nume de calendar Unicode, cum ar fi \\'gregory'\\, \\'ebraică'\\, sau \\'japoneză'\\; dacă îl lași \\ø\\, folosesc calendarul din regiunea cititorului. Proprietățile mele @Moment.year, @Moment.month și @Moment.day sunt în acel calendar:",
+                "$~\\📅(5786 10 4 calendar: 'hebrew') → ''\\",
+                "$~Transformarea mea în @Text mă formatează pentru regiunea cititorului: același Moment se afișează diferit în engleză, 中文 sau हिन्दी, și se schimbă atunci când se schimbă regiunea cititorului.",
+                "$~Proprietățile mele @Moment.era, @Moment.week și @Moment.weekday sunt informative: @Now le completează atunci când creează Momente, dar sunt ignorate la formatare.",
+                "$~Dacă vrei un flux de Momente care se actualizează pe măsură ce trece timpul — un ceas — vezi @Now. Dacă vrei milisecundele scurse de când a pornit programul tău — pentru animație — vezi @Time."
+            ],
+            "names": ["$~📅", "$~Moment"],
+            "year": {
+                "names": ["$~an"],
+                "doc": "$~Anul, în calendarul meu. De exemplu, anul gregorian \\2026\\ este anul evreiesc \\5786\\."
+            },
+            "month": {
+                "names": ["$~lună"],
+                "doc": "$~Luna anului în calendarul meu, începând de la \\1\\."
+            },
+            "day": {
+                "names": ["$~zi"],
+                "doc": "$~Ziua lunii."
+            },
+            "hour": {
+                "names": ["$~oră"],
+                "doc": "$~Ora zilei, de la \\0\\ la \\23\\."
+            },
+            "minute": {
+                "names": ["$~minut"],
+                "doc": "$~Minutul orei."
+            },
+            "second": {
+                "names": ["$~secundă"],
+                "doc": "$~Secunda minutului."
+            },
+            "millisecond": {
+                "names": ["$~milisecundă"],
+                "doc": "$~Milisecunda secundei."
+            },
+            "timezone": {
+                "names": ["$~regiuneorară"],
+                "doc": "$~Un nume standard de fus orar, format dintr-o regiune și un oraș, cum ar fi \\'America/New_York'\\, \\'Europa/Paris'\\, sau \\'Asia/Tokyo'\\. Nu cunoști numele? Scrie un oraș pe care îl cunoști și îți voi sugera cel mai apropiat fus orar. Dacă \\ø\\, folosesc fusul orar al dispozitivului pe care rulează programul."
+            },
+            "calendar": {
+                "names": ["$~calendar"],
+                "doc": "$~Un nume Unicode de calendar, precum \\'gregory'\\, \\'ebraică'\\, \\'chineză'\\ sau \\'japoneză'\\. Dacă \\ø\\, calendarul locației cititorului."
+            },
+            "era": {
+                "names": ["$~eră"],
+                "doc": "$~Era în care se află anul meu, precum \\'ce'\\ sau \\'reiwa'\\. Informativ: @Now o setează, iar formatarea o ignoră."
+            },
+            "week": {
+                "names": ["$~săptămână"],
+                "doc": "$~Săptămâna anului, începând de la \\1\\. Informativ: @Now o setează, iar formatarea o ignoră."
+            },
+            "weekday": {
+                "names": ["$~ziuasăptămânii"],
+                "doc": "$~Ziua săptămânii, de la \\1\\ (luni) până la \\7\\ (duminică). Informativ: @Now o setează, iar formatarea o ignoră."
+            },
+            "conversion": {
+                "text": "$~O versiune @Text a mea, formatată pentru locația cititorului, în calendarul și regiunea orară a mea. Adaugă o limbă după tipul @Text ca să formatezi pentru o anumită locație, precum \\Moment(2026 7 1) → ''/es\\."
+            },
+            "error": {
+                "timezone": "$~acesta nu este un nume valid de regiune orară",
+                "calendar": "$~acesta nu este un nume de calendar acceptat"
             }
         }
     },

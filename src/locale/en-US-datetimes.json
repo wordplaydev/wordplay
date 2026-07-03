@@ -1,0 +1,498 @@
+{
+    "cldr": "48.0.0",
+    "calendar": "gregory",
+    "hourCycle": "h12",
+    "time": [
+        { "f": "hour" },
+        { "l": ":" },
+        { "f": "minute", "p": true },
+        { "l": ":" },
+        { "f": "second", "p": true },
+        { "l": " " },
+        { "f": "dayPeriod" }
+    ],
+    "calendars": {
+        "buddhist": {
+            "date": [
+                { "f": "monthName" },
+                { "l": " " },
+                { "f": "day" },
+                { "l": ", " },
+                { "f": "year" },
+                { "l": " " },
+                { "f": "era" }
+            ],
+            "months": {
+                "M01": "January",
+                "M02": "February",
+                "M03": "March",
+                "M04": "April",
+                "M05": "May",
+                "M06": "June",
+                "M07": "July",
+                "M08": "August",
+                "M09": "September",
+                "M10": "October",
+                "M11": "November",
+                "M12": "December"
+            },
+            "eras": { "be": "BE" }
+        },
+        "chinese": {
+            "date": [
+                { "f": "month" },
+                { "l": "/" },
+                { "f": "day" },
+                { "l": "/" },
+                { "f": "relatedYear" }
+            ]
+        },
+        "coptic": {
+            "date": [
+                { "f": "monthName" },
+                { "l": " " },
+                { "f": "day" },
+                { "l": ", " },
+                { "f": "year" },
+                { "l": " " },
+                { "f": "era" }
+            ],
+            "months": {
+                "M01": "Tout",
+                "M02": "Baba",
+                "M03": "Hator",
+                "M04": "Kiahk",
+                "M05": "Toba",
+                "M06": "Amshir",
+                "M07": "Baramhat",
+                "M08": "Baramouda",
+                "M09": "Bashans",
+                "M10": "Paona",
+                "M11": "Epep",
+                "M12": "Mesra",
+                "M13": "Nasie"
+            },
+            "eras": { "am": "AM" }
+        },
+        "dangi": {
+            "date": [
+                { "f": "month" },
+                { "l": "/" },
+                { "f": "day" },
+                { "l": "/" },
+                { "f": "relatedYear" }
+            ]
+        },
+        "ethioaa": {
+            "date": [
+                { "f": "monthName" },
+                { "l": " " },
+                { "f": "day" },
+                { "l": ", " },
+                { "f": "year" },
+                { "l": " " },
+                { "f": "era" }
+            ],
+            "months": {
+                "M01": "Meskerem",
+                "M02": "Tekemt",
+                "M03": "Hedar",
+                "M04": "Tahsas",
+                "M05": "Ter",
+                "M06": "Yekatit",
+                "M07": "Megabit",
+                "M08": "Miazia",
+                "M09": "Genbot",
+                "M10": "Sene",
+                "M11": "Hamle",
+                "M12": "Nehasse",
+                "M13": "Pagumen"
+            },
+            "eras": { "aa": "AA" }
+        },
+        "ethiopic": {
+            "date": [
+                { "f": "monthName" },
+                { "l": " " },
+                { "f": "day" },
+                { "l": ", " },
+                { "f": "year" },
+                { "l": " " },
+                { "f": "era" }
+            ],
+            "months": {
+                "M01": "Meskerem",
+                "M02": "Tekemt",
+                "M03": "Hedar",
+                "M04": "Tahsas",
+                "M05": "Ter",
+                "M06": "Yekatit",
+                "M07": "Megabit",
+                "M08": "Miazia",
+                "M09": "Genbot",
+                "M10": "Sene",
+                "M11": "Hamle",
+                "M12": "Nehasse",
+                "M13": "Pagumen"
+            },
+            "eras": { "am": "AM" }
+        },
+        "gregory": {
+            "date": [
+                { "f": "monthName" },
+                { "l": " " },
+                { "f": "day" },
+                { "l": ", " },
+                { "f": "year" }
+            ],
+            "months": {
+                "M01": "January",
+                "M02": "February",
+                "M03": "March",
+                "M04": "April",
+                "M05": "May",
+                "M06": "June",
+                "M07": "July",
+                "M08": "August",
+                "M09": "September",
+                "M10": "October",
+                "M11": "November",
+                "M12": "December"
+            }
+        },
+        "hebrew": {
+            "date": [
+                { "f": "day" },
+                { "l": " " },
+                { "f": "monthName" },
+                { "l": " " },
+                { "f": "year" }
+            ],
+            "months": {
+                "M01": "Tishri",
+                "M02": "Heshvan",
+                "M03": "Kislev",
+                "M04": "Tevet",
+                "M05": "Shevat",
+                "M05L": "Adar I",
+                "M06": "Adar",
+                "M07": "Nisan",
+                "M08": "Iyar",
+                "M09": "Sivan",
+                "M10": "Tamuz",
+                "M11": "Av",
+                "M12": "Elul"
+            }
+        },
+        "indian": {
+            "date": [
+                { "f": "monthName" },
+                { "l": " " },
+                { "f": "day" },
+                { "l": ", " },
+                { "f": "year" },
+                { "l": " " },
+                { "f": "era" }
+            ],
+            "months": {
+                "M01": "Chaitra",
+                "M02": "Vaisakha",
+                "M03": "Jyaistha",
+                "M04": "Asadha",
+                "M05": "Sravana",
+                "M06": "Bhadra",
+                "M07": "Asvina",
+                "M08": "Kartika",
+                "M09": "Agrahayana",
+                "M10": "Pausa",
+                "M11": "Magha",
+                "M12": "Phalguna"
+            },
+            "eras": { "shaka": "Śaka" }
+        },
+        "islamic-civil": {
+            "date": [
+                { "f": "monthName" },
+                { "l": " " },
+                { "f": "day" },
+                { "l": ", " },
+                { "f": "year" },
+                { "l": " " },
+                { "f": "era" }
+            ],
+            "months": {
+                "M01": "Muharram",
+                "M02": "Safar",
+                "M03": "Rabiʻ I",
+                "M04": "Rabiʻ II",
+                "M05": "Jumada I",
+                "M06": "Jumada II",
+                "M07": "Rajab",
+                "M08": "Shaʻban",
+                "M09": "Ramadan",
+                "M10": "Shawwal",
+                "M11": "Dhuʻl-Qiʻdah",
+                "M12": "Dhuʻl-Hijjah"
+            },
+            "eras": { "ah": "BH" }
+        },
+        "islamic-tbla": {
+            "date": [
+                { "f": "monthName" },
+                { "l": " " },
+                { "f": "day" },
+                { "l": ", " },
+                { "f": "year" },
+                { "l": " " },
+                { "f": "era" }
+            ],
+            "months": {
+                "M01": "Muharram",
+                "M02": "Safar",
+                "M03": "Rabiʻ I",
+                "M04": "Rabiʻ II",
+                "M05": "Jumada I",
+                "M06": "Jumada II",
+                "M07": "Rajab",
+                "M08": "Shaʻban",
+                "M09": "Ramadan",
+                "M10": "Shawwal",
+                "M11": "Dhuʻl-Qiʻdah",
+                "M12": "Dhuʻl-Hijjah"
+            },
+            "eras": { "ah": "BH" }
+        },
+        "islamic-umalqura": {
+            "date": [
+                { "f": "monthName" },
+                { "l": " " },
+                { "f": "day" },
+                { "l": ", " },
+                { "f": "year" },
+                { "l": " " },
+                { "f": "era" }
+            ],
+            "months": {
+                "M01": "Muharram",
+                "M02": "Safar",
+                "M03": "Rabiʻ I",
+                "M04": "Rabiʻ II",
+                "M05": "Jumada I",
+                "M06": "Jumada II",
+                "M07": "Rajab",
+                "M08": "Shaʻban",
+                "M09": "Ramadan",
+                "M10": "Shawwal",
+                "M11": "Dhuʻl-Qiʻdah",
+                "M12": "Dhuʻl-Hijjah"
+            },
+            "eras": { "ah": "BH" }
+        },
+        "japanese": {
+            "date": [
+                { "f": "monthName" },
+                { "l": " " },
+                { "f": "day" },
+                { "l": ", " },
+                { "f": "year" },
+                { "l": " " },
+                { "f": "era" }
+            ],
+            "months": {
+                "M01": "January",
+                "M02": "February",
+                "M03": "March",
+                "M04": "April",
+                "M05": "May",
+                "M06": "June",
+                "M07": "July",
+                "M08": "August",
+                "M09": "September",
+                "M10": "October",
+                "M11": "November",
+                "M12": "December"
+            },
+            "eras": {
+                "meiji": "Meiji",
+                "taisho": "Taishō",
+                "showa": "Shōwa",
+                "heisei": "Heisei",
+                "reiwa": "Reiwa"
+            }
+        },
+        "persian": {
+            "date": [
+                { "f": "monthName" },
+                { "l": " " },
+                { "f": "day" },
+                { "l": ", " },
+                { "f": "year" },
+                { "l": " " },
+                { "f": "era" }
+            ],
+            "months": {
+                "M01": "Farvardin",
+                "M02": "Ordibehesht",
+                "M03": "Khordad",
+                "M04": "Tir",
+                "M05": "Mordad",
+                "M06": "Shahrivar",
+                "M07": "Mehr",
+                "M08": "Aban",
+                "M09": "Azar",
+                "M10": "Dey",
+                "M11": "Bahman",
+                "M12": "Esfand"
+            },
+            "eras": { "ap": "AP" }
+        },
+        "roc": {
+            "date": [
+                { "f": "monthName" },
+                { "l": " " },
+                { "f": "day" },
+                { "l": ", " },
+                { "f": "year" },
+                { "l": " " },
+                { "f": "era" }
+            ],
+            "months": {
+                "M01": "January",
+                "M02": "February",
+                "M03": "March",
+                "M04": "April",
+                "M05": "May",
+                "M06": "June",
+                "M07": "July",
+                "M08": "August",
+                "M09": "September",
+                "M10": "October",
+                "M11": "November",
+                "M12": "December"
+            },
+            "eras": { "roc": "Minguo" }
+        },
+        "iso8601": {
+            "date": [
+                { "f": "monthName" },
+                { "l": " " },
+                { "f": "day" },
+                { "l": ", " },
+                { "f": "year" }
+            ],
+            "months": {
+                "M01": "January",
+                "M02": "February",
+                "M03": "March",
+                "M04": "April",
+                "M05": "May",
+                "M06": "June",
+                "M07": "July",
+                "M08": "August",
+                "M09": "September",
+                "M10": "October",
+                "M11": "November",
+                "M12": "December"
+            }
+        }
+    },
+    "dayPeriods": { "am": "AM", "pm": "PM" },
+    "zones": {
+        "Europe/Tirane": "Tirana",
+        "Europe/Busingen": "Büsingen",
+        "Europe/Chisinau": "Chișinău",
+        "Europe/Kiev": "Kyiv",
+        "Antarctica/Rothera": "Rothera Station",
+        "Antarctica/Palmer": "Palmer Land",
+        "Antarctica/Troll": "Troll Station",
+        "Antarctica/Syowa": "Showa Station",
+        "Antarctica/Mawson": "Mawson Station",
+        "Antarctica/Vostok": "Vostok Station",
+        "Antarctica/Casey": "Casey Station",
+        "Antarctica/DumontDUrville": "Dumont d’Urville Station",
+        "Antarctica/McMurdo": "McMurdo Station",
+        "Antarctica/Macquarie": "Macquarie Island",
+        "America/Argentina/Rio_Gallegos": "Río Gallegos",
+        "America/Argentina/Tucuman": "Tucumán",
+        "America/Cordoba": "Córdoba",
+        "America/St_Barthelemy": "St. Barthélemy",
+        "America/Eirunepe": "Eirunepé",
+        "America/Cuiaba": "Cuiabá",
+        "America/Santarem": "Santarém",
+        "America/Belem": "Belém",
+        "America/Araguaina": "Araguaína",
+        "America/Sao_Paulo": "São Paulo",
+        "America/Maceio": "Maceió",
+        "America/Noronha": "Fernando de Noronha",
+        "America/Coral_Harbour": "Atikokan",
+        "America/St_Johns": "St. John’s",
+        "America/Bogota": "Bogotá",
+        "America/Curacao": "Curaçao",
+        "America/Godthab": "Nuuk",
+        "America/Scoresbysund": "Ittoqqortoormiit",
+        "America/St_Kitts": "St. Kitts",
+        "America/St_Lucia": "St. Lucia",
+        "America/Ciudad_Juarez": "Ciudad Juárez",
+        "America/Mazatlan": "Mazatlán",
+        "America/Bahia_Banderas": "Bahía de Banderas",
+        "America/Mexico_City": "Mexico City",
+        "America/Merida": "Mérida",
+        "America/Cancun": "Cancún",
+        "America/Miquelon": "Saint-Pierre",
+        "America/Asuncion": "Asunción",
+        "America/Lower_Princes": "Lower Prince’s Quarter",
+        "America/North_Dakota/Beulah": "Beulah, North Dakota",
+        "America/North_Dakota/New_Salem": "New Salem, North Dakota",
+        "America/North_Dakota/Center": "Center, North Dakota",
+        "America/Indiana/Vincennes": "Vincennes, Indiana",
+        "America/Indiana/Petersburg": "Petersburg, Indiana",
+        "America/Indiana/Tell_City": "Tell City, Indiana",
+        "America/Indiana/Knox": "Knox, Indiana",
+        "America/Indiana/Winamac": "Winamac, Indiana",
+        "America/Indiana/Marengo": "Marengo, Indiana",
+        "America/Indiana/Vevay": "Vevay, Indiana",
+        "America/Kentucky/Monticello": "Monticello, Kentucky",
+        "America/St_Vincent": "St. Vincent",
+        "America/St_Thomas": "St. Thomas",
+        "Australia/Lord_Howe": "Lord Howe Island",
+        "Indian/Cocos": "Cocos Islands",
+        "Indian/Christmas": "Christmas Island",
+        "Indian/Chagos": "Chagos Archipelago",
+        "Indian/Comoro": "Comoros",
+        "Indian/Reunion": "Réunion",
+        "Indian/Mahe": "Mahé",
+        "Indian/Kerguelen": "Kerguelen Islands",
+        "Pacific/Easter": "Easter Island",
+        "Pacific/Galapagos": "Galápagos Islands",
+        "Pacific/Truk": "Chuuk",
+        "Pacific/Ponape": "Pohnpei",
+        "Pacific/Enderbury": "Canton Island",
+        "Pacific/Kwajalein": "Kwajalein Atoll",
+        "Pacific/Noumea": "Nouméa",
+        "Pacific/Norfolk": "Norfolk Island",
+        "Pacific/Chatham": "Chatham Islands",
+        "Pacific/Marquesas": "Marquesas Islands",
+        "Pacific/Pitcairn": "Pitcairn Islands",
+        "Pacific/Midway": "Midway Atoll",
+        "Pacific/Wake": "Wake Island",
+        "Pacific/Wallis": "Wallis & Futuna",
+        "Asia/Urumqi": "Ürümqi",
+        "Asia/Calcutta": "Kolkata",
+        "Asia/Aqtau": "Aktau",
+        "Asia/Qostanay": "Kostanay",
+        "Asia/Qyzylorda": "Kyzylorda",
+        "Asia/Rangoon": "Yangon",
+        "Asia/Hovd": "Khovd",
+        "Asia/Macau": "Macao",
+        "Asia/Katmandu": "Kathmandu",
+        "Asia/Saigon": "Ho Chi Minh City",
+        "Africa/El_Aaiun": "El Aaiún",
+        "Africa/Asmera": "Asmara",
+        "Africa/Sao_Tome": "São Tomé",
+        "Africa/Ndjamena": "N’Djamena",
+        "Africa/Lome": "Lomé",
+        "Atlantic/Canary": "Canaries",
+        "Atlantic/Faeroe": "Faroes",
+        "Atlantic/St_Helena": "St. Helena"
+    }
+}

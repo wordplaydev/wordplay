@@ -10,6 +10,7 @@ import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { BasisTypeName } from '@basis/BasisConstants';
 import { Emotion } from '../lore/Emotion';
 import type Context from '@nodes/Context';
+import type ConversionDefinition from '@nodes/ConversionDefinition';
 import type Definition from '@nodes/Definition';
 import NameToken from '@nodes/NameToken';
 import type Node from '@nodes/Node';
@@ -209,6 +210,28 @@ export default class NameType extends Type {
             return new StructureType(definition, this.types?.types ?? []);
         // Some other type? Get the definition's type.
         else return definition.getType(context);
+    }
+
+    /** Conversions live on the structure this name resolves to, so delegate to
+     * it — otherwise a name-typed value (e.g. a structure-valued stream's
+     * output) would only find generic basis conversions and miss the
+     * structure's own (like Moment's localized text conversion). */
+    getConversion(
+        context: Context,
+        input: Type,
+        output: Type,
+    ): ConversionDefinition | undefined {
+        const type = this.getType(context);
+        return type instanceof StructureType
+            ? type.getConversion(context, input, output)
+            : super.getConversion(context, input, output);
+    }
+
+    getAllConversions(context: Context): ConversionDefinition[] {
+        const type = this.getType(context);
+        return type instanceof StructureType
+            ? type.getAllConversions(context)
+            : super.getAllConversions(context);
     }
 
     getBasisTypeName(): BasisTypeName {

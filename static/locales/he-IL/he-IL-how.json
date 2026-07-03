@@ -147,6 +147,13 @@
         "related": ["track-points", "pick-from-a-list"]
     },
     {
+        "id": "show-time-in-another-city",
+        "title": "הראה את הזמן בעיר אחרת",
+        "category": "animation",
+        "body": "@Now  מציג את התאריך והשעה הנוכחיים כ־ @Moment , והמרה של Moment לטקסט מעצבת אותו לפי האזור שלך. כך שעון הוא שורת קוד אחת:\n\n\\💬(⏰() → '')\\\n\nרוצה את הזמן במקום אחר? תן ל־ @Now  אזור זמן. אזורי זמן נקראים על שם אזור ועיר, כמו \\'America/New_York'\\, \\'Europe/Paris'\\, או \\'Asia/Tokyo'\\. אפשר גם להוסיף שפה אחרי סוג הטקסט, כמו \\''/ja\\ ליפנית, כדי להציג את השעון בשפה של אותה עיר:\n\n\\Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\\\n\nלא יודע את שם אזור הזמן? פשוט כתוב עיר שאתה מכיר — Wordplay יזהיר אותך שזה לא אזור זמן ויציע את הקרוב ביותר, כך שתוכל לתקן אותו בלחיצה אחת.\n\nאפשר גם לבחור לוח שנה, כמו הלוח היפני, ולעצב את השעון עם גופן:\n\n\\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\\",
+        "related": ["count-with-time"]
+    },
+    {
         "id": "react-to-sound",
         "title": "לגרום לדמויות לגדול בעזרת צליל",
         "category": "animation",

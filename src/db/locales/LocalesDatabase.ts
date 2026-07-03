@@ -9,6 +9,7 @@ import {
 } from '@concepts/HowTo';
 import type { Database } from '@db/Database';
 import { type Concretizer } from '@locale/concretize';
+import { registerDateTimeData } from '@locale/dateTimeData';
 import DefaultLocale from '@locale/DefaultLocale';
 import DefaultLocales from '@locale/DefaultLocales';
 import type LanguageCode from '@locale/LanguageCode';
@@ -289,12 +290,26 @@ export default class LocalesDatabase {
             try {
                 const path = `/locales/${lang}/${lang}.json`;
                 const promise =
-                    // First, see if the locale exists
-                    fetch(versioned(path))
-                        .then(async (response) =>
-                            response.ok ? await response.json() : undefined,
-                        )
-                        .catch(() => undefined);
+                    // First, see if the locale exists. Fetch the locale's
+                    // date/time formatting data alongside it (a small companion
+                    // file used by Moment's localized text conversion), so it's
+                    // registered by the time the locale is active.
+                    Promise.all([
+                        fetch(versioned(path))
+                            .then(async (response) =>
+                                response.ok ? await response.json() : undefined,
+                            )
+                            .catch(() => undefined),
+                        fetch(versioned(`/locales/${lang}/${lang}-datetimes.json`))
+                            .then(async (response) =>
+                                response.ok ? await response.json() : undefined,
+                            )
+                            .catch(() => undefined),
+                    ]).then(([locale, datetimes]) => {
+                        if (datetimes !== undefined)
+                            registerDateTimeData(lang, datetimes);
+                        return locale;
+                    });
                 this.localesLoaded[lang] = promise;
                 const locale = await promise;
                 this.localesLoaded[lang] = locale;

@@ -147,6 +147,13 @@
         "related": ["track-points", "pick-from-a-list"]
     },
     {
+        "id": "show-time-in-another-city",
+        "title": "Menampilkan waktu di kota lain",
+        "category": "animation",
+        "body": "@Now  mengeluarkan tanggal dan waktu saat ini sebagai sebuah  @Moment , dan mengubah sebuah Moment menjadi teks akan memformatnya sesuai wilayahmu. Itu membuat sebuah jam hanya satu baris kode:\n\n\\💬(⏰() → '')\\\n\nIngin waktu di tempat lain? Berikan  @Now  sebuah zona waktu. Zona waktu diberi nama sesuai wilayah dan kota, seperti \\'America/New_York'\\, \\'Europe/Paris'\\, atau \\'Asia/Tokyo'\\. Kamu juga bisa menambahkan sebuah bahasa setelah tipe teks, seperti \\''/ja\\ untuk bahasa Jepang, untuk menampilkan jam dalam bahasa kota itu:\n\n\\Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\\\n\nTidak tahu nama zona waktunya? Cukup tulis kota yang kamu kenal — Wordplay akan memperingatkanmu bahwa itu bukan zona waktu dan menyarankan yang paling dekat, jadi kamu bisa memperbaikinya dengan satu klik.\n\nKamu juga bisa memilih sebuah kalender, seperti kalender Jepang, dan menata jam dengan sebuah font:\n\n\\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\\",
+        "related": ["count-with-time"]
+    },
+    {
         "id": "react-to-sound",
         "title": "Kembangkan karakter dengan suara.",
         "category": "animation",

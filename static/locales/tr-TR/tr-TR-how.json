@@ -147,6 +147,13 @@
         "related": ["track-points", "pick-from-a-list"]
     },
     {
+        "id": "show-time-in-another-city",
+        "title": "Zamanı başka bir şehirde göster",
+        "category": "animation",
+        "body": "@Now  şu anki tarihi ve saati bir  @Moment  olarak sayar ve bir Moment'i metne çevirmek onu bölgene göre biçimlendirir. Böylece bir saat tek satır koda dönüşür:\n\n\\💬(⏰() → '')\\\n\nBaşka bir yerdeki zamanı mı istiyorsun?  @Now  değerine bir saat dilimi ver. Saat dilimleri bir bölge ve bir şehir adıyla anılır, örneğin \\'America/New_York'\\, \\'Europe/Paris'\\ veya \\'Asia/Tokyo'\\. Ayrıca metin türünden sonra bir dil ekleyebilirsin, örneğin Japonca için \\''/ja\\ yazarak saati o şehrin dilinde gösterebilirsin:\n\n\\Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\\\n\nSaat diliminin adını bilmiyor musun? Sadece bildiğin bir şehir yaz — Wordplay bunun bir saat dilimi olmadığını sana bildirir ve en yakın olanı önerir, böylece tek tıklamayla düzeltebilirsin.\n\nAyrıca bir takvim seçebilirsin, örneğin Japon takvimi, ve saati bir yazı tipiyle biçimlendirebilirsin:\n\n\\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\\",
+        "related": ["count-with-time"]
+    },
+    {
         "id": "react-to-sound",
         "title": "Karakterlerin seslerle büyümesini sağlayın.",
         "category": "animation",

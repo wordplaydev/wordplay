@@ -147,6 +147,13 @@
         "related": ["track-points", "pick-from-a-list"]
     },
     {
+        "id": "show-time-in-another-city",
+        "title": "別の都市の時間を表示する",
+        "category": "animation",
+        "body": "@Now  は今の日付と時間を  @Moment  として刻みます。Moment をテキストに変換すると、あなたの地域に合わせて表示されます。これで時計はコード1行になります：\n\n\\💬(⏰() → '')\\\n\n別の場所の時間を知りたいですか？  @Now  にタイムゾーンを渡してください。タイムゾーンは地域と都市の名前でつけられています。たとえば \\'America/New_York'\\、\\'Europe/Paris'\\、または \\'Asia/Tokyo'\\ です。テキストの型のあとに言語を追加することもできます。たとえば \\''/ja\\ は日本語で、その都市の言語で時計を表示します：\n\n\\Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\\\n\nタイムゾーンの名前がわからないですか？ 知っている都市を書くだけです。Wordplay がそれはタイムゾーンではないと知らせて、いちばん近いものを教えてくれます。だから1回クリックするだけで直せます。\n\nカレンダーを選ぶこともできます。たとえば日本のカレンダーです。そしてフォントで時計を飾ることもできます：\n\n\\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\\",
+        "related": ["count-with-time"]
+    },
+    {
         "id": "react-to-sound",
         "title": "音でキャラクターを成長させよう",
         "category": "animation",

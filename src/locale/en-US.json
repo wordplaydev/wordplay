@@ -1024,6 +1024,11 @@
                     "name": "ambiguous evaluate",
                     "explanation": "Is $name the name of a $structure[$structure|@FunctionDefinition] you're trying to evaluate? Try removing the space after me, so I know it's an @Evaluate and not a separate @Block.",
                     "resolution": "Close the space between *$name* and its inputs"
+                },
+                "UnknownTimeZone": {
+                    "name": "unknown time zone",
+                    "explanation": "I don't know a time zone called *$zone*. Time zones are named after regions and cities, like \\'America/New_York'\\. Try writing a city you know, and I'll suggest one!",
+                    "resolution": "Change it to *$zone*, the time zone of $city"
                 }
             },
             "exception": {
@@ -4065,6 +4070,104 @@
             "relative": {
                 "names": ["relative"],
                 "doc": "If \\⊤\\, time starts at 0, when the program is first evaluated. Otherwise, it starts at the number of milliseconds since the start of today, UTC (Coordinated Universal Time), allowing you to keep track of the time of day."
+            }
+        },
+        "Now": {
+            "doc": [
+                "I tick a new @Moment at whatever pace you choose, so a program always knows today's date and the current time.",
+                "This makes a localized clock one line of code:",
+                "\\Phrase(Now() → '')\\",
+                "By default I tick every second. Give me a @Now.frequency in seconds, minutes, or hours to change the pace:",
+                "\\Now(1min)\\",
+                "My @Now.timezone and @Now.calendar mirror @Moment's inputs, and configure the Moments I create. For example, here's a clock showing the current time in Tokyo, on the Japanese calendar:",
+                "\\Now(1s 'Asia/Tokyo' 'japanese')\\",
+                "If those inputs change — say, a reaction gives me a different time zone — I start making Moments with the new settings.",
+                "How am I different from @Time? @Time counts the milliseconds since a program started, which is good for animation. I tell you the wall-clock date and time in a calendar and time zone, which is good for clocks and calendars."
+            ],
+            "names": ["⏰", "Now"],
+            "frequency": {
+                "names": ["frequency"],
+                "doc": "How often I make a new @Moment, in seconds, minutes, or hours. If \\ø\\, I tick every \\1s\\."
+            },
+            "timezone": {
+                "names": ["timezone"],
+                "doc": "A standard time zone name for the Moments I make, made of a region and a city, like \\'America/New_York'\\ or \\'Asia/Tokyo'\\. Don't know the name? Write a city you know and I'll suggest the closest time zone. If \\ø\\, I use the time zone of the device the program is running on."
+            },
+            "calendar": {
+                "names": ["calendar"],
+                "doc": "A Unicode calendar name for the Moments I make, like \\'gregory'\\, \\'hebrew'\\, \\'chinese'\\, or \\'japanese'\\. If \\ø\\, I use the calendar of the reader's locale."
+            }
+        },
+        "Moment": {
+            "doc": [
+                "I am a single moment in time: a date on a calendar, a time of day, and the time zone and calendar they are expressed in.",
+                "All of my properties are optional. Give me date parts to describe a date:",
+                "\\Moment(2026 7 1) → ''\\",
+                "Or just time parts, for a time of day:",
+                "\\Moment(hour: 15 minute: 30) → ''\\",
+                "If you give me no parts at all, I convert as the current date and time, wherever the program is running. If you leave out parts, any part bigger than the biggest one you gave comes from the current date and time, and smaller parts start at their beginning: so \\Moment(month: 12) → ''\\ is December 1 of this year, at midnight. Converting me only shows the kinds of parts you gave: date parts make a date, time parts make a time, and both make both:",
+                "\\Moment() → ''\\",
+                "My @Moment.timezone takes a standard IANA time zone name like \\'America/Los_Angeles'\\ or \\'Asia/Tokyo'\\; if you leave it \\ø\\, I use the time zone of the device the program is running on. My @Moment.calendar takes a Unicode calendar name like \\'gregory'\\, \\'hebrew'\\, or \\'japanese'\\; if you leave it \\ø\\, I use the calendar of the reader's locale. My @Moment.year, @Moment.month, and @Moment.day are in that calendar:",
+                "\\Moment(5786 10 4 calendar: 'hebrew') → ''\\",
+                "Converting me to @Text formats me for the reader's locale: the same Moment renders differently in English, 中文, or हिन्दी, and changes when the reader's locale changes.",
+                "My @Moment.era, @Moment.week, and @Moment.weekday are informational: @Now fills them in when it makes Moments, but they are ignored when formatting.",
+                "If you want a stream of Moments that updates as time passes — a clock — see @Now. If you want the milliseconds elapsed since your program started — for animation — see @Time."
+            ],
+            "names": ["📅", "Moment"],
+            "year": {
+                "names": ["year"],
+                "doc": "The year, in my calendar. For example, the Gregorian year \\2026\\ is the Hebrew year \\5786\\."
+            },
+            "month": {
+                "names": ["month"],
+                "doc": "The month of the year in my calendar, starting at \\1\\."
+            },
+            "day": {
+                "names": ["day"],
+                "doc": "The day of the month."
+            },
+            "hour": {
+                "names": ["hour"],
+                "doc": "The hour of the day, from \\0\\ to \\23\\."
+            },
+            "minute": {
+                "names": ["minute"],
+                "doc": "The minute of the hour."
+            },
+            "second": {
+                "names": ["second"],
+                "doc": "The second of the minute."
+            },
+            "millisecond": {
+                "names": ["millisecond"],
+                "doc": "The millisecond of the second."
+            },
+            "timezone": {
+                "names": ["timezone"],
+                "doc": "A standard time zone name, made of a region and a city, like \\'America/New_York'\\, \\'Europe/Paris'\\, or \\'Asia/Tokyo'\\. Don't know the name? Write a city you know and I'll suggest the closest time zone. If \\ø\\, I use the time zone of the device the program is running on."
+            },
+            "calendar": {
+                "names": ["calendar"],
+                "doc": "A Unicode calendar name, like \\'gregory'\\, \\'hebrew'\\, \\'chinese'\\, or \\'japanese'\\. If \\ø\\, the calendar of the reader's locale."
+            },
+            "era": {
+                "names": ["era"],
+                "doc": "The era my year is in, like \\'ce'\\ or \\'reiwa'\\. Informational: @Now sets it, and formatting ignores it."
+            },
+            "week": {
+                "names": ["week"],
+                "doc": "The week of the year, starting at \\1\\. Informational: @Now sets it, and formatting ignores it."
+            },
+            "weekday": {
+                "names": ["weekday"],
+                "doc": "The day of the week, from \\1\\ (Monday) through \\7\\ (Sunday). Informational: @Now sets it, and formatting ignores it."
+            },
+            "conversion": {
+                "text": "A @Text version of me, formatted for the reader's locale, in my calendar and time zone. Add a language after the @Text type to format for a specific locale, like \\Moment(2026 7 1) → ''/es\\."
+            },
+            "error": {
+                "timezone": "this is not a valid time zone name",
+                "calendar": "this is not a supported calendar name"
             }
         },
         "Volume": {

@@ -147,6 +147,13 @@
         "related": ["track-points", "pick-from-a-list"]
     },
     {
+        "id": "show-time-in-another-city",
+        "title": "Afficher l'heure d'une autre ville",
+        "category": "animation",
+        "body": "@Now  indique la date et l'heure actuelles sous forme de  @Moment , et convertir un Moment en texte le met en forme selon ta région. Ainsi, une horloge tient sur une seule ligne de code :\n\n\\💬(⏰() → '')\\\n\nTu veux l'heure d'un autre endroit ? Donne  @Now  un fuseau horaire. Les fuseaux horaires portent le nom d'une région et d'une ville, comme \\'America/New_York'\\, \\'Europe/Paris'\\, ou \\'Asia/Tokyo'\\. Tu peux aussi ajouter une langue après le type de texte, comme \\''/ja\\ pour le japonais, afin d'afficher l'horloge dans la langue de cette ville :\n\n\\Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\\\n\nTu ne connais pas le nom du fuseau horaire ? Écris simplement une ville que tu connais — Wordplay t'avertira que ce n'est pas un fuseau horaire et te proposera le plus proche, pour que tu puisses corriger en un clic.\n\nTu peux aussi choisir un calendrier, comme le calendrier japonais, et styliser l'horloge avec une police :\n\n\\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\\",
+        "related": ["count-with-time"]
+    },
+    {
         "id": "react-to-sound",
         "title": "Faites évoluer les personnages grâce au son",
         "category": "animation",

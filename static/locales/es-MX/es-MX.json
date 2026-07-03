@@ -468,9 +468,7 @@
                 "$~Todo lo que necesitas hacer para escribirme es escribir un montón de palabras en un @Doc:",
                 "$~\\¶Soy un párrafo en un documento.¶'un párrafo'\\",
                 "$~Si quieres varios párrafos, solo pon líneas en blanco.",
-                "$~\\¶Párrafo 1.",
-                "$~Párrafo 2.",
-                "$~Párrafo 3.¶'tres párrafos'\\"
+                "$~\\¶Párrafo 1.\n\nPárrafo 2.\n\nPárrafo 3.¶'tres párrafos'\\"
             ]
         },
         "WebLink": {
@@ -958,6 +956,11 @@
                     "name": "$~evaluaciónambigua",
                     "explanation": "$~¿Es $name el nombre de una $structure[$structure|@FunctionDefinition] que intentas evaluar? Intenta quitar el espacio después de mí, para que sepa que es un @Evaluate y no un @Block separado.",
                     "resolution": "$~Cierra el espacio entre *$name* y sus entradas"
+                },
+                "UnknownTimeZone": {
+                    "name": "$~zonaHorariaDesconocida",
+                    "explanation": "$~No conozco una zona horaria llamada *$zone*. Las zonas horarias tienen nombres de regiones y ciudades, como \\'America/New_York'\\. ¡Intenta escribir una ciudad que conozcas y te sugeriré una!",
+                    "resolution": "$~Cámbialo a *$zone*, la zona horaria de $city"
                 }
             },
             "exception": {
@@ -1309,8 +1312,7 @@
             "doc": [
                 "$~Hago una copia de un @value de @StructureDefinition con solo una @property cambiada — no necesitas reconstruir todo con los mismos valores.",
                 "$~Por ejemplo, ¿qué tal si guardas un registro de gatos, pero luego quieres crear una copia de un gato con un pasatiempo diferente? Puedo ayudarte a cambiarlo:",
-                "$~\\•gato(nombre•'' color•'' pasatiempo•'')",
-                "$~gatito: gato('chispitas' 'naranja' 'lamiendo')\ngatito.pasatiempo:'ronroneando'\\",
+                "$~\\•gato(nombre•'' color•'' pasatiempo•'')\n\ngatito: gato('chispitas' 'naranja' 'lamiendo')\ngatito.pasatiempo:'ronroneando'\\",
                 "$~Eso es mucho más fácil que hacer un \\Cat\\🪲 completamente nuevo con los mismos valores excepto el pasatiempo, ¿verdad?"
             ],
             "start": "primero obtengamos el valor",
@@ -1334,9 +1336,7 @@
             "doc": [
                 "$~Obtengo una de las propiedades de un @value de @StructureDefinition para ti.",
                 "$~Como si tuvieras una estructura sobre ciudades, podrías obtener sus valores conmigo así:",
-                "$~\\•ciudad(nombre•'' población•#people)",
-                "$~portland: ciudad('Portland' 800000people)",
-                "$~portland.población\\"
+                "$~\\•ciudad(nombre•'' población•#people)\n\nportland: ciudad('Portland' 800000people)\n\nportland.población\\"
             ],
             "start": "primero obtengamos el valor",
             "finish": "se encontró la propiedad $property, es $value",
@@ -1490,18 +1490,15 @@
             "doc": [
                 "$~Yo defino estructuras que guardan valores y funciones. Hola, ¿cómo estás? ¿Yo? Estoy muy bien — me encanta hacer esto todo el día.",
                 "$~Funciono así:",
-                "$~\\•pizza(\n\tingredientes•['']\n\ttamaño•#in\n) (\n\tƒ costo() tamaño × 10dollars/in\n)",
-                "$~pizza(['pepperoni' 'chiles'] 12in).costo()\\🪲",
+                "$~\\•pizza(\n\tingredientes•['']\n\ttamaño•#in\n) (\n\tƒ costo() tamaño × 10dollars/in\n)\n\npizza(['pepperoni' 'chiles'] 12in).costo()\\🪲",
                 "$~¿Ves cómo funciona? Definí \\Pizza\\🪲, que tiene dos entradas, \\ingredients\\🪲 (una lista de @Text) y \\size\\🪲 (un número en pulgadas).",
                 "$~Adentro, @FunctionDefinition hizo una función que evalúa el costo de una pizza, suponiendo $$10 por pulgada.",
                 "$~No necesito tener un @FunctionDefinition dentro de mí. Puedo ser solo entradas.",
                 "$~\\•pizza(\n\tingredientes•['']\n\ttamaño•#in\n)\\",
                 "$~También puedo tener @Bind adentro, así que podríamos evaluar el costo por adelantado.",
-                "$~\\•pizza(\n\tingredientes•['']\n\ttamaño•#in\n) (\n\tcosto: tamaño × 10dollars/in\n)",
-                "$~pizza(['pepperoni' 'chiles'] 12in).costo\\🪲",
+                "$~\\•pizza(\n\tingredientes•['']\n\ttamaño•#in\n) (\n\tcosto: tamaño × 10dollars/in\n)\n\npizza(['pepperoni' 'chiles'] 12in).costo\\🪲",
                 "$~Marca una función o @value con ↑ para que pertenezca a la estructura misma, no a las instancias. Así puedes usar el @name de la estructura para llegar a ella, sin crear una.",
-                "$~\\•matemáticas() (\n\t↑\n\tpi: 3.14159\n\t↑ƒ cuadrado(n•#) n × n\n)",
-                "$~matemáticas.pi\nmatemáticas.cuadrado(5)\\"
+                "$~\\•matemáticas() (\n\t↑\n\tpi: 3.14159\n\t↑ƒ cuadrado(n•#) n × n\n)\n\nmatemáticas.pi\nmatemáticas.cuadrado(5)\\"
             ],
             "start": "definamos esta encantadora estructura",
             "conflict": {
@@ -4398,6 +4395,104 @@
                 "unavailable": "$~No pude encontrar el archivo de esa fuente, así que no puedo trazar sus letras.",
                 "unreadable": "$~Descargué la fuente, pero no pude leerla, así que no puedo trazar sus letras.",
                 "outline": "$~Cargué la fuente, pero no pude obtener la forma de estas letras."
+            }
+        },
+        "Now": {
+            "doc": [
+                "$~Marco un nuevo @Moment al ritmo que elijas, así un programa siempre sabe la fecha de hoy y la hora actual.",
+                "$~Esto hace que un reloj localizado sea una línea de código:",
+                "$~\\💬(⏰() → '')\\",
+                "$~Por defecto marco cada segundo. Dame un @Now.frequency en segundos, minutos u horas para cambiar el ritmo:",
+                "$~\\⏰(1min)\\",
+                "$~Mi @Now.timezone y @Now.calendar reflejan las entradas de @Moment y configuran los Moments que creo. Por ejemplo, aquí hay un reloj que muestra la hora actual en Tokio, en el calendario japonés:",
+                "$~\\Now(1s 'Asia/Tokyo' 'japanese')\\",
+                "$~Si esas entradas cambian —por ejemplo, una reacción me da una zona horaria diferente— empiezo a crear Moments con la nueva configuración.",
+                "$~¿En qué me diferencio de @Time? @Time cuenta los milisegundos desde que un programa comenzó, lo cual es bueno para la animación. Yo te digo la fecha y la hora del reloj de pared en un calendario y una zona horaria, lo cual es bueno para relojes y calendarios."
+            ],
+            "names": ["$~⏰", "$~Ahora"],
+            "frequency": {
+                "names": ["$~frecuencia"],
+                "doc": "$~Con qué frecuencia creo un nuevo @Moment, en segundos, minutos u horas. Si \\ø\\, marco cada \\1s\\."
+            },
+            "timezone": {
+                "names": ["$~zonahoraria"],
+                "doc": "$~Un nombre de zona horaria estándar para los Moments que creo, formado por una región y una ciudad, como \\'America/New_York'\\ o \\'Asia/Tokio'\\. ¿No conoces el nombre? Escribe una ciudad que conozcas y te sugeriré la zona horaria más cercana. Si \\ø\\, uso la zona horaria del dispositivo donde se ejecuta el programa."
+            },
+            "calendar": {
+                "names": ["$~calendario"],
+                "doc": "$~Un nombre de calendario Unicode para los Momentos que creo, como \\'gregory'\\, \\'hebreo'\\, \\'chino'\\, o \\'japonés'\\. Si \\ø\\, uso el calendario de la región del lector."
+            }
+        },
+        "Moment": {
+            "doc": [
+                "$~Soy un solo momento en el tiempo: una fecha en un calendario, una hora del día, y la zona horaria y el calendario en que se expresan.",
+                "$~Todas mis propiedades son opcionales. Dame partes de fecha para describir una fecha:",
+                "$~\\📅(2026 7 1) → ''\\",
+                "$~O solo partes de hora, para una hora del día:",
+                "$~\\📅(hour: 15 minute: 30) → ''\\",
+                "$~Si no me das ninguna parte, me convierto como la fecha y hora actuales, donde sea que se esté ejecutando el programa. Si dejas fuera partes, cualquier parte más grande que la más grande que diste viene de la fecha y hora actuales, y las partes más pequeñas empiezan en su inicio: así que \\📅(month: 12) → ''\\ es el 1 de diciembre de este año, a la medianoche. Al convertirme solo muestro los tipos de partes que diste: las partes de fecha hacen una fecha, las partes de hora hacen una hora, y ambas hacen ambas:",
+                "$~\\📅() → ''\\",
+                "$~Mi @Moment.timezone toma un nombre estándar de zona horaria IANA como \\'America/Los_Angeles'\\ o \\'Asia/Tokio'\\; si lo dejas \\ø\\, uso la zona horaria del dispositivo en que se ejecuta el programa. Mi @Moment.calendar toma un nombre de calendario Unicode como \\'gregory'\\, \\'hebreo'\\, o \\'japonés'\\; si lo dejas \\ø\\, uso el calendario de la configuración regional del lector. Mi @Moment.year, @Moment.month y @Moment.day están en ese calendario:",
+                "$~\\📅(5786 10 4 calendar: 'hebrew') → ''\\",
+                "$~Al convertirme a @Text me da formato para la configuración regional del lector: el mismo Moment se muestra distinto en inglés, 中文 o हिन्दी, y cambia cuando cambia la configuración regional del lector.",
+                "$~Mi @Moment.era, @Moment.week y @Moment.weekday son informativos: @Now los llena cuando hace Moments, pero se ignoran al dar formato.",
+                "$~Si quieres un flujo de Moments que se actualiza a medida que pasa el tiempo —un reloj— consulta @Now. Si quieres los milisegundos transcurridos desde que empezó tu programa —para animación— consulta @Time."
+            ],
+            "names": ["$~📅", "$~Momento"],
+            "year": {
+                "names": ["$~año"],
+                "doc": "$~El año, en mi calendario. Por ejemplo, el año gregoriano \\2026\\ es el año hebreo \\5786\\."
+            },
+            "month": {
+                "names": ["$~mes"],
+                "doc": "$~El mes del año en mi calendario, comenzando en \\1\\."
+            },
+            "day": {
+                "names": ["$~día"],
+                "doc": "$~El día del mes."
+            },
+            "hour": {
+                "names": ["$~hora"],
+                "doc": "$~La hora del día, de \\0\\ a \\23\\."
+            },
+            "minute": {
+                "names": ["$~minuto"],
+                "doc": "$~El minuto de la hora."
+            },
+            "second": {
+                "names": ["$~segundo"],
+                "doc": "$~El segundo del minuto."
+            },
+            "millisecond": {
+                "names": ["$~milisegundo"],
+                "doc": "$~El milisegundo del segundo."
+            },
+            "timezone": {
+                "names": ["$~zonahoraria"],
+                "doc": "$~Un nombre de zona horaria estándar, formado por una región y una ciudad, como \\'America/New_York'\\, \\'Europa/París'\\, o \\'Asia/Tokio'\\. ¿No conoces el nombre? Escribe una ciudad que conozcas y te sugeriré la zona horaria más cercana. Si \\ø\\, uso la zona horaria del dispositivo donde se ejecuta el programa."
+            },
+            "calendar": {
+                "names": ["$~calendario"],
+                "doc": "$~Un nombre de calendario Unicode, como \\'gregory'\\, \\'hebreo'\\, \\'chino'\\, o \\'japonés'\\. Si \\ø\\, el calendario de la región del lector."
+            },
+            "era": {
+                "names": ["$~era"],
+                "doc": "$~La era en que está mi año, como \\'ce'\\ o \\'reiwa'\\. Informativo: @Now lo establece, y el formato lo ignora."
+            },
+            "week": {
+                "names": ["$~semana"],
+                "doc": "$~La semana del año, comenzando en \\1\\. Informativo: @Now lo establece, y el formato lo ignora."
+            },
+            "weekday": {
+                "names": ["$~díadesemana"],
+                "doc": "$~El día de la semana, de \\1\\ (lunes) a \\7\\ (domingo). Informativo: @Now lo establece, y el formato lo ignora."
+            },
+            "conversion": {
+                "text": "$~Una versión @Text de mí, con formato según la región del lector, en mi calendario y zona horaria. Agrega un idioma después del tipo @Text para dar formato a una región específica, como \\Moment(2026 7 1) → ''/es\\."
+            },
+            "error": {
+                "timezone": "$~este no es un nombre válido de zona horaria",
+                "calendar": "$~este no es un nombre de calendario compatible"
             }
         }
     },

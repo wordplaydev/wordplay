@@ -147,6 +147,13 @@
         "related": ["track-points", "pick-from-a-list"]
     },
     {
+        "id": "show-time-in-another-city",
+        "title": "Ipakita ang oras sa ibang lungsod",
+        "category": "animation",
+        "body": "@Now  nagbibigay ng kasalukuyang petsa at oras bilang isang  @Moment , at kapag ginawang teksto ang isang Moment, iaayos ito ayon sa iyong locale. Kaya't isang linya lang ng code ang orasan:\n\n\\💬(⏰() → '')\\\n\nGusto mo ba ng oras sa ibang lugar? Bigyan mo ang  @Now  ng isang time zone. Ang mga time zone ay pinangalanan ayon sa rehiyon at lungsod, tulad ng \\'America/New_York'\\, \\'Europe/Paris'\\, o \\'Asia/Tokyo'\\. Maaari ka ring magdagdag ng wika pagkatapos ng uri ng teksto, tulad ng \\''/ja\\ para sa Hapon, upang ipakita ang orasan sa wika ng lungsod na iyon:\n\n\\Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\\\n\nHindi mo alam ang pangalan ng time zone? Isulat mo lang ang isang lungsod na alam mo — babalaan ka ng Wordplay na hindi ito time zone at magmumungkahi ng pinakamalapit, kaya maaayos mo ito sa isang pag-click.\n\nMaaari ka ring pumili ng kalendaryo, tulad ng kalendaryong Hapon, at bigyan ng estilo ang orasan gamit ang isang font:\n\n\\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\\",
+        "related": ["count-with-time"]
+    },
+    {
         "id": "react-to-sound",
         "title": "Palaguin ang mga karakter gamit ang tunog",
         "category": "animation",

@@ -989,6 +989,11 @@
                     "name": "$~hindimalinawnapagsusuri",
                     "explanation": "$~Ang $name ba ang pangalan ng isang $structure[$structure|@FunctionDefinition] na sinusubukan mong suriin? Subukan mong alisin ang espasyo sa tabi ko, para malaman kong isa itong @Evaluate at hindi isang hiwalay na @Block.",
                     "resolution": "$~Isara ang espasyo sa pagitan ng * $name * at ng mga input nito"
+                },
+                "UnknownTimeZone": {
+                    "name": "$~hindiKilalangTimeZone",
+                    "explanation": "$~Hindi ko alam ang time zone na tinatawag na *$zone*. Ang mga time zone ay pinangalanan mula sa mga rehiyon at lungsod, tulad ng \\'America/New_York'\\. Subukang magsulat ng lungsod na kilala mo, at magmumungkahi ako!",
+                    "resolution": "$~Palitan ito ng *$zone*, ang time zone ng $city"
                 }
             },
             "exception": {
@@ -4393,6 +4398,104 @@
                 "unavailable": "$~Hindi ko mahanap ang file ng font na iyon, kaya hindi ko matunton ang mga letra nito.",
                 "unreadable": "$~Na-download ko na ang font, pero hindi ko mabasa, kaya hindi ko masubaybayan ang mga letra nito.",
                 "outline": "$~Ni-load ko na ang font, pero hindi ko makuha ang hugis ng mga letrang ito."
+            }
+        },
+        "Now": {
+            "doc": [
+                "$~Nagti-tik ako ng bagong @Moment sa bilis na pipiliin mo, kaya lagi nitong alam ang petsa ngayon at ang kasalukuyang oras.",
+                "$~Dahil dito, isang linya lang ng kodigo ang isang lokal na orasan:",
+                "$~\\💬(⏰() → '')\\",
+                "$~Bilang default, nagti-tik ako kada segundo. Bigyan mo ako ng @Now.frequency sa mga segundo, minuto, o oras para baguhin ang bilis:",
+                "$~\\⏰(1min)\\",
+                "$~Ang @Now.timezone at @Now.calendar ko ay sumasalamin sa mga input ng @Moment, at nagse-set ng mga Moment na ginagawa ko. Halimbawa, narito ang isang orasan na nagpapakita ng kasalukuyang oras sa Tokyo, sa kalendaryong Hapon:",
+                "$~\\⏰(1s 'Asia/Tokyo' 'japanese')\\",
+                "$~Kung magbago ang mga input na iyon — halimbawa, isang reaksyon ang nagbibigay sa akin ng ibang time zone — magsisimula akong gumawa ng mga Moment gamit ang bagong mga setting.",
+                "$~Paano ako naiiba sa @Time? Binibilang ng @Time ang mga milisegundo mula nang magsimula ang isang programa, na mabuti para sa animasyon. Sinasabi ko sa iyo ang petsa at oras ayon sa orasan sa dingding, sa isang kalendaryo at time zone, na mabuti para sa mga orasan at kalendaryo."
+            ],
+            "names": ["$~⏰", "$~Ngayon"],
+            "frequency": {
+                "names": ["$~dalas"],
+                "doc": "$~Gaano kadalas ako gumawa ng bagong @Moment, sa segundo, minuto, o oras. Kung \\ø\\, nagta-tik ako kada \\1s\\."
+            },
+            "timezone": {
+                "names": ["$~timeZone"],
+                "doc": "$~Isang karaniwang pangalan ng time zone para sa mga Moment na ginagawa ko, na binubuo ng isang rehiyon at isang lungsod, tulad ng \\'America/New_York'\\ o \\'Asia/Tokyo'\\. Hindi mo alam ang pangalan? Isulat ang isang lungsod na kilala mo at magmumungkahi ako ng pinakamalapit na time zone. Kung \\ø\\, ginagamit ko ang time zone ng device kung saan tumatakbo ang programa."
+            },
+            "calendar": {
+                "names": ["$~kalendaryo"],
+                "doc": "$~Isang pangalan ng Unicode calendar para sa mga Moment na ginagawa ko, tulad ng \\'gregory'\\, \\'hebreo'\\, \\'tsino'\\, o \\'hapon'\\. Kung \\ø\\, ginagamit ko ang kalendaryo ng locale ng mambabasa."
+            }
+        },
+        "Moment": {
+            "doc": [
+                "$~Ako ay isang solong sandali sa panahon: isang petsa sa kalendaryo, isang oras ng araw, at ang time zone at kalendaryo kung saan ito ipinahahayag.",
+                "$~Ang lahat ng aking mga property ay opsyonal. Bigyan mo ako ng mga bahagi ng petsa para ilarawan ang isang petsa:",
+                "$~\\📅(2026 7 1) → ''\\",
+                "$~O mga bahagi lamang ng oras, para sa isang oras ng araw:",
+                "$~\\📅(hour: 15 minute: 30) → ''\\",
+                "$~Kung hindi mo ako bibigyan ng anumang bahagi, ico-convert ko bilang kasalukuyang petsa at oras, kahit saan tumatakbo ang programa. Kung mag-iiwan ka ng mga bahagi, ang anumang bahaging mas malaki kaysa sa pinakamalaking ibinigay mo ay galing sa kasalukuyang petsa at oras, at ang mas maliliit na bahagi ay magsisimula sa kanilang simula: kaya ang \\📅(month: 12) → ''\\ ay Disyembre 1 ng taong ito, sa hatinggabi. Ang pag-convert sa akin ay nagpapakita lamang ng mga uri ng bahaging ibinigay mo: ang mga bahagi ng petsa ay gumagawa ng petsa, ang mga bahagi ng oras ay gumagawa ng oras, at kapwa ang gumagawa ng dalawa:",
+                "$~\\📅() → ''\\",
+                "$~Ang aking @Moment.timezone ay kumukuha ng karaniwang IANA time zone name tulad ng \\'America/Los_Angeles'\\ o \\'Asia/Tokyo'\\; kung iiwan mo itong \\ø\\, ginagamit ko ang time zone ng device kung saan tumatakbo ang programa. Ang aking @Moment.calendar ay kumukuha ng Unicode calendar name tulad ng \\'gregory'\\, \\'hebreo'\\, o \\'hapon'\\; kung iiwan mo itong \\ø\\, ginagamit ko ang kalendaryo ng locale ng mambabasa. Ang aking @Moment.year, @Moment.month, at @Moment.day ay nasa kalendaryong iyon:",
+                "$~\\📅(5786 10 4 calendar: 'hebrew') → ''\\",
+                "$~Ang pag-convert sa akin bilang @Text ay naga-format sa akin para sa locale ng mambabasa: ang parehong Moment ay nire-render nang iba sa English, 中文, o हिन्दी, at nagbabago kapag nagbago ang locale ng mambabasa.",
+                "$~Ang aking @Moment.era, @Moment.week, at @Moment.weekday ay pang-impormasyon lamang: pinupunan ito ng @Now kapag gumagawa ito ng Moments, ngunit hindi ito pinapansin kapag naga-format.",
+                "$~Kung gusto mo ng daloy ng Moments na nag-a-update habang lumilipas ang panahon — isang orasan — tingnan ang @Now. Kung gusto mo ang bilang ng milliseconds na lumipas mula nang magsimula ang iyong programa — para sa animation — tingnan ang @Time."
+            ],
+            "names": ["$~📅", "$~Moment"],
+            "year": {
+                "names": ["$~taon"],
+                "doc": "$~Ang taon, sa aking kalendaryo. Halimbawa, ang taong Gregorian na \\2026\\ ay ang taong Hebreo na \\5786\\."
+            },
+            "month": {
+                "names": ["$~buwan"],
+                "doc": "$~Ang buwan ng taon sa aking kalendaryo, nagsisimula sa \\1\\."
+            },
+            "day": {
+                "names": ["$~araw"],
+                "doc": "$~Ang araw ng buwan."
+            },
+            "hour": {
+                "names": ["$~oras"],
+                "doc": "$~Ang oras ng araw, mula \\0\\ hanggang \\23\\."
+            },
+            "minute": {
+                "names": ["$~minuto"],
+                "doc": "$~Ang minuto ng oras."
+            },
+            "second": {
+                "names": ["$~segundo"],
+                "doc": "$~Ang segundo ng minuto."
+            },
+            "millisecond": {
+                "names": ["$~milisegundo"],
+                "doc": "$~Ang milisegundo ng segundo."
+            },
+            "timezone": {
+                "names": ["$~timeZone"],
+                "doc": "$~Isang karaniwang pangalan ng time zone, na binubuo ng isang rehiyon at isang lungsod, tulad ng \\'America/New_York'\\, \\'Europe/Paris'\\, o \\'Asia/Tokyo'\\. Hindi mo alam ang pangalan? Isulat ang isang lungsod na kilala mo at magmumungkahi ako ng pinakamalapit na time zone. Kung \\ø\\, ginagamit ko ang time zone ng device kung saan tumatakbo ang programa."
+            },
+            "calendar": {
+                "names": ["$~kalendaryo"],
+                "doc": "$~Isang pangalan ng Unicode calendar, tulad ng \\'gregory'\\, \\'hebreo'\\, \\'tsino'\\, o \\'hapon'\\. Kung \\ø\\, ang kalendaryo ng locale ng mambabasa."
+            },
+            "era": {
+                "names": ["$~panahon"],
+                "doc": "$~Ang panahon kung saan nasa aking taon, tulad ng \\'ce'\\ o \\'reiwa'\\. Pang-impormasyon: itinatakda ito ng @Now, at hindi ito pinapansin ng pagfo-format."
+            },
+            "week": {
+                "names": ["$~linggo"],
+                "doc": "$~Ang linggo ng taon, nagsisimula sa \\1\\. Pang-impormasyon: itinatakda ito ng @Now, at hindi ito pinapansin ng pagfo-format."
+            },
+            "weekday": {
+                "names": ["$~arawNgLinggo"],
+                "doc": "$~Ang araw ng linggo, mula \\1\\ (Lunes) hanggang \\7\\ (Linggo). Pang-impormasyon: itinatakda ito ng @Now, at hindi ito pinapansin ng pagfo-format."
+            },
+            "conversion": {
+                "text": "$~Isang @Text na bersyon ko, na naka-format para sa locale ng mambabasa, sa aking kalendaryo at time zone. Magdagdag ng wika pagkatapos ng uri na @Text para mag-format para sa isang partikular na locale, tulad ng \\Moment(2026 7 1) → ''/es\\."
+            },
+            "error": {
+                "timezone": "$~hindi ito wastong pangalan ng time zone",
+                "calendar": "$~hindi ito sinusuportahang pangalan ng kalendaryo"
             }
         }
     },

@@ -14,7 +14,10 @@ import { createChoiceDefinition } from '@input/Choice';
 import { createCollisionDefinition } from '@input/Collision';
 import { createContourDefinition } from '@input/Contour';
 import { createKeyDefinition } from '@input/Key';
+import createTimeZoneAnalyzer from '@input/analyzeMomentTimeZone';
+import { createMomentType, MomentTimezoneIndex } from '@input/Moment';
 import { createMotionDefinition } from '@input/Motion';
+import { createNowDefinition, NowTimezoneIndex } from '@input/Now';
 import { createPitchDefinition } from '@input/Pitch';
 import { createPlacementDefinition } from '@input/Placement';
 import { createPointerDefinition } from '@input/Pointer';
@@ -66,6 +69,20 @@ export default function createDefaultShares(locales: Locales) {
 
     const HandType = createHandType(locales);
 
+    const MomentType = createMomentType(locales);
+    const NowType = createNowDefinition(locales, MomentType);
+    // Warn (with city-matched suggestions) when a literal time zone isn't a
+    // known IANA zone, via the same per-definition analyzer registry Phrase
+    // uses for font checks above.
+    registerEvaluateAnalyzer(
+        MomentType,
+        createTimeZoneAnalyzer(MomentType.inputs[MomentTimezoneIndex]),
+    );
+    registerEvaluateAnalyzer(
+        NowType,
+        createTimeZoneAnalyzer(NowType.inputs[NowTimezoneIndex]),
+    );
+
     const OutputTypes = {
         Output: OutputType,
         Phrase: PhraseType,
@@ -98,6 +115,8 @@ export default function createDefaultShares(locales: Locales) {
 
     const InputTypes = {
         Time: createTimeType(locales),
+        Now: NowType,
+        Moment: MomentType,
         Random: createRandomFunction(locales),
         Choice: createChoiceDefinition(locales),
         Motion: createMotionDefinition(locales, PlaceType, VelocityType),

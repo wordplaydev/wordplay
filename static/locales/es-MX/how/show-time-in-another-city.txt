@@ -1,0 +1,17 @@
+Mostrar la hora en otra ciudad
+
+@Now  marca la fecha y la hora actuales como un  @Moment , y al convertir un Momento en texto se da el formato de tu región. Así, un reloj cabe en una línea de código:
+
+\💬(⏰() → '')\
+
+¿Quieres la hora de otro lugar? Dale a  @Now  una zona horaria. Las zonas horarias llevan el nombre de una región y una ciudad, como \'America/New_York'\, \'Europe/Paris'\, o \'Asia/Tokyo'\. También puedes agregar un idioma después del tipo de texto, como \''/ja\ para japonés, para mostrar el reloj en el idioma de esa ciudad:
+
+\Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\
+
+¿No sabes el nombre de la zona horaria? Solo escribe una ciudad que conozcas. Wordplay te avisará que no es una zona horaria y te sugerirá la más cercana, para que lo arregles con un clic.
+
+También puedes elegir un calendario, como el calendario japonés, y darle estilo al reloj con una fuente:
+
+\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\
+
+count-with-time

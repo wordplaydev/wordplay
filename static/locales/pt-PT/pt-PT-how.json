@@ -147,6 +147,13 @@
         "related": ["track-points", "pick-from-a-list"]
     },
     {
+        "id": "show-time-in-another-city",
+        "title": "Mostra a hora noutra cidade",
+        "category": "animation",
+        "body": "@Now  dá a data e a hora atuais como um  @Moment , e converter um Momento em texto formata-o para a tua região. Assim, um relógio cabe numa linha de código:\n\n\\💬(⏰() → '')\\\n\nQueres a hora noutro sítio? Dá um fuso horário a  @Now . Os fusos horários têm o nome de uma região e de uma cidade, como \\'America/New_York'\\, \\'Europe/Paris'\\, ou \\'Asia/Tokyo'\\. Também podes acrescentar uma língua depois do tipo de texto, como \\''/ja\\ para japonês, para mostrar o relógio na língua dessa cidade:\n\n\\Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\\\n\nNão sabes o nome do fuso horário? Escreve uma cidade que conheças — o Wordplay vai avisar-te que não é um fuso horário e sugerir o mais próximo, para poderes corrigir com um clique.\n\nTambém podes escolher um calendário, como o calendário japonês, e dar estilo ao relógio com uma fonte:\n\n\\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\\",
+        "related": ["count-with-time"]
+    },
+    {
         "id": "react-to-sound",
         "title": "Faça crescer as personagens com o som.",
         "category": "animation",

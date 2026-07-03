@@ -147,6 +147,13 @@
         "related": ["track-points", "pick-from-a-list"]
     },
     {
+        "id": "show-time-in-another-city",
+        "title": "顯示另一個城市的時間",
+        "category": "animation",
+        "body": "@Now  會以  @Moment  的形式回報目前的日期和時間，而把 Moment 轉成文字時，會依照你的地區格式來顯示。這樣一來，做一個時鐘只需要一行程式碼：\n\n\\💬(⏰() → '')\\\n\n想看其他地方的時間嗎？給  @Now  一個時區。時區的名稱是用地區和城市來命名的，像是 \\'America/New_York'\\、\\'Europe/Paris'\\，或 \\'Asia/Tokyo'\\。你也可以在文字類型後面加上一種語言，像是 \\''/ja\\ 代表日文，這樣就能用那個城市的語言來顯示時鐘：\n\n\\Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\\\n\n不知道時區的名稱嗎？只要寫下你認識的城市——Wordplay 會提醒你那不是時區，並建議最接近的一個，你只要點一下就能修正。\n\n你也可以選一種曆法，像是日本曆，並用字型來設計時鐘的樣式：\n\n\\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\\",
+        "related": ["count-with-time"]
+    },
+    {
         "id": "react-to-sound",
         "title": "透過聲音讓角色成長",
         "category": "animation",

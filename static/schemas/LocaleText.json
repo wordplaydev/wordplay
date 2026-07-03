@@ -3480,6 +3480,120 @@
               ],
               "type": "object"
             },
+            "Moment": {
+              "additionalProperties": false,
+              "description": "A single moment in time: a date, a time of day, a time zone, and a calendar",
+              "properties": {
+                "calendar": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The Unicode calendar identifier the moment is expressed in"
+                },
+                "conversion": {
+                  "additionalProperties": false,
+                  "description": "Conversions on Moment",
+                  "properties": {
+                    "text": {
+                      "$ref": "#/definitions/DocText",
+                      "description": "[formatted] See `en-US.json` for documentation"
+                    }
+                  },
+                  "required": [
+                    "text"
+                  ],
+                  "type": "object"
+                },
+                "day": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The day of the month"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "era": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The era the moment's year is in, informational"
+                },
+                "error": {
+                  "additionalProperties": false,
+                  "description": "Errors from invalid time zone or calendar identifiers, generating exception values",
+                  "properties": {
+                    "calendar": {
+                      "description": "[plain] The given calendar is not a supported Unicode calendar identifier",
+                      "type": "string"
+                    },
+                    "timezone": {
+                      "description": "[plain] The given time zone is not a valid IANA time zone identifier",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "timezone",
+                    "calendar"
+                  ],
+                  "type": "object"
+                },
+                "hour": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The hour of the day, 0–23"
+                },
+                "millisecond": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The millisecond of the second"
+                },
+                "minute": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The minute of the hour"
+                },
+                "month": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The month of the year, starting at 1"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "second": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The second of the minute"
+                },
+                "timezone": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The IANA time zone identifier the moment is expressed in"
+                },
+                "week": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The week of the year, informational"
+                },
+                "weekday": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The day of the week, 1 (Monday) through 7 (Sunday), informational"
+                },
+                "year": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The calendar year"
+                }
+              },
+              "required": [
+                "calendar",
+                "conversion",
+                "day",
+                "doc",
+                "era",
+                "error",
+                "hour",
+                "millisecond",
+                "minute",
+                "month",
+                "names",
+                "second",
+                "timezone",
+                "week",
+                "weekday",
+                "year"
+              ],
+              "type": "object"
+            },
             "Motion": {
               "additionalProperties": false,
               "description": "A stream of phrases in places and rotations simulating physics",
@@ -3516,6 +3630,40 @@
                 "nextvelocity",
                 "place",
                 "velocity"
+              ],
+              "type": "object"
+            },
+            "Now": {
+              "additionalProperties": false,
+              "description": "A stream of wall-clock date/time Moments in a chosen time zone and calendar",
+              "properties": {
+                "calendar": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The optional Unicode calendar to compute Moments in"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "frequency": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "How often to emit a new Moment, in seconds, minutes, or hours"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "timezone": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The optional IANA time zone to compute Moments in"
+                }
+              },
+              "required": [
+                "calendar",
+                "doc",
+                "frequency",
+                "names",
+                "timezone"
               ],
               "type": "object"
             },
@@ -3872,6 +4020,8 @@
             "Pointer",
             "Key",
             "Time",
+            "Now",
+            "Moment",
             "Volume",
             "Pitch",
             "Speech",
@@ -6117,6 +6267,30 @@
                         "resolution"
                       ],
                       "type": "object"
+                    },
+                    "UnknownTimeZone": {
+                      "additionalProperties": false,
+                      "description": "When a literal time zone given to Moment or Now isn't a known IANA time zone. $zone = the unrecognized text.",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%22zone%22%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%22zone%22%2C%22city%22%5D%3E",
+                          "description": "[formatted] Action description for each suggested repair; $zone = the IANA zone id, $city = its (possibly localized) city name"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -6127,7 +6301,8 @@
                     "UnexpectedInput",
                     "UnknownInput",
                     "InputListMustBeLast",
-                    "SeparatedEvaluate"
+                    "SeparatedEvaluate",
+                    "UnknownTimeZone"
                   ],
                   "type": "object"
                 },
@@ -22351,6 +22526,12 @@
       "type": "string"
     },
     "Template<[\"x\",\"y\"]>": {
+      "type": "string"
+    },
+    "Template<[\"zone\",\"city\"]>": {
+      "type": "string"
+    },
+    "Template<[\"zone\"]>": {
       "type": "string"
     },
     "Template<[]>": {

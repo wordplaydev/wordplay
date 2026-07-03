@@ -1,5 +1,5 @@
 import type { WellKnownKey } from '@input/KeyboardKeys';
-import type { NameAndDoc } from '@locale/LocaleText';
+import type { DocText, NameAndDoc } from '@locale/LocaleText';
 
 type InputTexts = {
     /** The Random function, which generates random numbers */
@@ -35,6 +35,54 @@ type InputTexts = {
         frequency: NameAndDoc;
         /** Whether the time should be relative or absolute */
         relative: NameAndDoc;
+    };
+    /** A stream of wall-clock date/time Moments in a chosen time zone and calendar */
+    Now: NameAndDoc & {
+        /** How often to emit a new Moment, in seconds, minutes, or hours */
+        frequency: NameAndDoc;
+        /** The optional IANA time zone to compute Moments in */
+        timezone: NameAndDoc;
+        /** The optional Unicode calendar to compute Moments in */
+        calendar: NameAndDoc;
+    };
+    /** A single moment in time: a date, a time of day, a time zone, and a calendar */
+    Moment: NameAndDoc & {
+        /** The calendar year */
+        year: NameAndDoc;
+        /** The month of the year, starting at 1 */
+        month: NameAndDoc;
+        /** The day of the month */
+        day: NameAndDoc;
+        /** The hour of the day, 0–23 */
+        hour: NameAndDoc;
+        /** The minute of the hour */
+        minute: NameAndDoc;
+        /** The second of the minute */
+        second: NameAndDoc;
+        /** The millisecond of the second */
+        millisecond: NameAndDoc;
+        /** The IANA time zone identifier the moment is expressed in */
+        timezone: NameAndDoc;
+        /** The Unicode calendar identifier the moment is expressed in */
+        calendar: NameAndDoc;
+        /** The era the moment's year is in, informational */
+        era: NameAndDoc;
+        /** The week of the year, informational */
+        week: NameAndDoc;
+        /** The day of the week, 1 (Monday) through 7 (Sunday), informational */
+        weekday: NameAndDoc;
+        /** Conversions on Moment */
+        conversion: {
+            /** [formatted] See `en-US.json` for documentation */
+            text: DocText;
+        };
+        /** Errors from invalid time zone or calendar identifiers, generating exception values */
+        error: {
+            /** [plain] The given time zone is not a valid IANA time zone identifier */
+            timezone: string;
+            /** [plain] The given calendar is not a supported Unicode calendar identifier */
+            calendar: string;
+        };
     };
     /** A stream of amplitude values */
     Volume: NameAndDoc & {

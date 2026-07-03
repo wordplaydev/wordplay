@@ -183,6 +183,8 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'node.Evaluate.conflict.UnexpectedTypeInput.resolution': [],
     'node.Evaluate.conflict.UnknownInput.explanation': ['name'],
     'node.Evaluate.conflict.UnknownInput.resolution': ['name'],
+    'node.Evaluate.conflict.UnknownTimeZone.explanation': ['zone'],
+    'node.Evaluate.conflict.UnknownTimeZone.resolution': ['zone', 'city'],
     'node.Evaluate.description': ['name', 'stream', 'structure'],
     'node.Evaluate.exception.FunctionException.description': [],
     'node.Evaluate.exception.FunctionException.explanation': ['name', 'scope'],
