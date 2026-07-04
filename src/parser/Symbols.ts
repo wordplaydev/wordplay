@@ -179,8 +179,6 @@ export const BasisTypeSymbols = new Set<string>([
     FORMATTED_TYPE_SYMBOL, // `…`
 ]);
 
-export const DRAFT_SYMBOL = '🚧';
-
 export const LOCALE_SYMBOL = withMonoEmoji(GLOBE1_SYMBOL);
 
 export const IDEA_SYMBOL = '💡';

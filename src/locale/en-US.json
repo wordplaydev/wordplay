@@ -6904,7 +6904,7 @@
             },
             "locale": {
                 "header": "Language",
-                "explanation": "Choose languages for the interface, tutorial, and documentation.",
+                "explanation": "Choose languages for the interface, tutorial, and documentation. Languages marked 🤖 are still largely machine translated, so some text may be unreadable or incorrect.",
                 "localizeHelp": "/To help improve translations in your language, click the ✎ pencil icon at the *bottom of the page* to turn on localization mode and suggest improvements./",
                 "subheader": {
                     "selected": "Selected",

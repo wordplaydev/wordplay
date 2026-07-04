@@ -123,6 +123,7 @@
                         (sourceLocale === undefined ||
                             !localesAreEqual(locale, sourceLocale))}
                     tip={(l) => l.ui.project.button.primary}
+                    background
                     ><LocaleName
                         locale={localeToString(locale)}
                         supported
@@ -178,6 +179,7 @@
                         (sourceLocale === undefined ||
                             !localesAreEqual(sourceLocale, locale))}
                     tip={(l) => l.ui.project.button.destination}
+                    background
                     ><LocaleName
                         locale={localeToString(locale)}
                         supported
