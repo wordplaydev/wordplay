@@ -40,7 +40,11 @@
     import type { User } from 'firebase/auth';
     import { onMount, type Snippet } from 'svelte';
     import { writable, type Writable } from 'svelte/store';
-    import Fonts from '@basis/Fonts';
+    import Fonts from '@basis/faces/Fonts';
+    import {
+        appFontFamilies,
+        codeFontFamilies,
+    } from '@basis/faces/fontChains';
     import {
         setAnnouncer,
         setLocalizing,
@@ -182,38 +186,20 @@
     });
 
     function computeAppFace() {
-        return Array.from(
-            new Set([
-                // Get the override UI font from settings, if selected
-                ...[Settings.getFace()].filter((f) => f !== null),
-                // Get all of the fonts preferred by the locale
-                ...$locales.getLocales().map((locale) => locale.ui.font.app),
-                // Fall back to the emoji fonts for emojis, color first.
-                'Noto Color Emoji',
-                'Noto Emoji',
-            ]),
-        )
-            .map((font) => `"${font}"`)
-            .join(', ');
+        return appFontFamilies(
+            // The override UI font from settings, if selected
+            Settings.getFace(),
+            // All of the fonts preferred by the locales
+            $locales.getLocales().map((locale) => locale.ui.font.app),
+        );
     }
 
     let appFaces = $state(computeAppFace());
 
     let codeFonts = $derived(
-        Array.from(
-            new Set([
-                ...$locales.getLocales().map((locale) => locale.ui.font.code),
-                'Noto Sans Mono',
-                // Color emoji font before monochrome so skin-tone modifier sequences
-                // (e.g. 👍🏽) resolve to a combined glyph rather than splitting into
-                // base + standalone modifier swatch.
-                'Noto Color Emoji',
-                'Noto Emoji',
-                'Noto Sans',
-            ]),
-        )
-            .map((font) => `"${font}"`)
-            .join(', '),
+        codeFontFamilies(
+            $locales.getLocales().map((locale) => locale.ui.font.code),
+        ),
     );
 
     // When the face store changes, update the app faces and load the font, if not loaded.

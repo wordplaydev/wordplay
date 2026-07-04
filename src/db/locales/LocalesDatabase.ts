@@ -1,5 +1,5 @@
 import { Basis } from '@basis/Basis';
-import Fonts from '@basis/Fonts';
+import Fonts from '@basis/faces/Fonts';
 import type HowTo from '@concepts/HowTo';
 import {
     bundleEntryToHowTo,

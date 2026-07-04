@@ -70,9 +70,11 @@
     import {
         codepointKey,
         getCodepoints,
+        getGlyphNames,
         type Codepoint,
     } from '@unicode/Unicode';
     import { buildGlyphSearch } from '@unicode/glyphSearch';
+    import { isCodepointRenderable } from '@basis/faces/renderable';
     import { searchItems } from '@util/search';
     import { debounced } from '@util/debounce.svelte';
     import { Scripts, type Script } from '@locale/Scripts';
@@ -124,6 +126,10 @@
     /** The Unicode codepoints metadata, loaded async on mount */
     let codepoints = $state<Codepoint[] | null>(null);
 
+    /** English names/keywords for non-emoji glyphs (search + tooltips),
+     * loaded async on mount. */
+    let glyphNames = $state<Map<string, string[]> | null>(null);
+
     /** The ISO 15924 script filter, or undefined for no script filter. */
     let script = $state<string | undefined>(undefined);
 
@@ -168,6 +174,11 @@
         getCodepoints().then((cp) => {
             codepoints = cp;
         });
+        // Load English names for non-emoji glyphs (Han, letters, symbols) so
+        // they're searchable and tooltipped.
+        getGlyphNames().then((names) => {
+            glyphNames = names;
+        });
         // Kick off emoji-translation loading for the currently selected
         // locales so cross-language search works without blocking the
         // picker. New translations will arrive via the emojiMaps store.
@@ -198,6 +209,15 @@
             : Array.from(
                   new Set(
                       codepoints
+                          // Only scripts with at least one renderable single
+                          // codepoint; a script whose glyphs no bundled font
+                          // covers would otherwise show an all-tofu grid.
+                          .filter(
+                              (c) =>
+                                  c.script !== undefined &&
+                                  c.hex.length === 1 &&
+                                  isCodepointRenderable(c.hex[0]),
+                          )
                           .map((c) => c.script)
                           .filter((s): s is string => s !== undefined),
                   ),
@@ -237,6 +257,9 @@
             const entry = maps[localeCode]?.[key];
             if (entry && entry.length > 0) return entry[0];
         }
+        // Non-emoji glyphs fall back to the English Unicode/Unihan name.
+        const named = glyphNames?.get(key);
+        if (named && named.length > 0) return named[0];
         return '';
     }
 
@@ -262,21 +285,80 @@
                     ? groupTips[getEmojiGroupIndex(code.emoji.group)]
                     : undefined,
             $locales.getLanguages(),
+            glyphNames ?? undefined,
         );
     });
 
-    /** The matched codepoints for the current query, scoped to the active
-     * script, ordered by the shared search policy (name over keyword over group). */
+    /** The matched codepoints for the current query. Search is global — it
+     * ignores the active script/category filter so a query finds matches
+     * anywhere (e.g. "river" finds emoji even while a script is selected).
+     * Emoji sort first (they're the most recognizable to most creators),
+     * preserving the search ranking within each group. */
     let results = $derived.by(() => {
         if (debouncedQuery.current.length < 3 || codepoints === null) return [];
-        return searchItems(
-            searchRecords,
-            debouncedQuery.current,
-            $locales.getLanguages(),
-        )
-            .map(([code]) => code)
-            .filter((code) => script === undefined || code.script === script);
+        return (
+            searchItems(
+                searchRecords,
+                debouncedQuery.current,
+                $locales.getLanguages(),
+            )
+                .map(([code]) => code)
+                // Hide non-emoji glyphs no bundled font can draw.
+                .filter(
+                    (code) =>
+                        code.emoji !== undefined ||
+                        code.hex.every(isCodepointRenderable),
+                )
+                // Emoji first; stable, so search rank is preserved within.
+                .sort(
+                    (a, b) =>
+                        (a.emoji ? 0 : 1) - (b.emoji ? 0 : 1),
+                )
+        );
     });
+
+    /** Cap on how many glyphs a browse grid renders. codes.txt enumerates tens
+     * of thousands of codepoints (CJK, Hangul, …); rendering that many spans
+     * would freeze the picker, so we show a capped page and point users at
+     * search for the rest. */
+    const BrowseCap = 500;
+
+    /** The glyphs for the active script- or Unicode-category browse view,
+     * memoized (per-render filtering over the full codepoint list would lag)
+     * and capped. Null when a different view is active (search, emoji group,
+     * custom). */
+    let browse = $derived.by<{ list: Codepoint[]; total: number } | null>(
+        () => {
+            if (codepoints === null || query.length > 2) return null;
+            let all: Codepoint[] | null = null;
+            if (script !== undefined)
+                all = codepoints.filter(
+                    (code) =>
+                        code.script === script &&
+                        code.hex.length === 1 &&
+                        isCodepointRenderable(code.hex[0]),
+                );
+            else if (category === 'Shapes' || category === 'Arrows') {
+                const ranges = category === 'Shapes' ? Shapes : Arrows;
+                all = codepoints.filter(
+                    (code) =>
+                        code.hex.length === 1 &&
+                        isCodepointRenderable(code.hex[0]) &&
+                        ranges.some(
+                            ([start, end]) =>
+                                code.hex[0] >= start && code.hex[0] <= end,
+                        ),
+                );
+            } else if (category !== undefined && category.length === 2)
+                all = codepoints.filter(
+                    (code) =>
+                        code.category === category &&
+                        code.hex.every(isCodepointRenderable),
+                );
+            if (all === null) return null;
+            return { list: all.slice(0, BrowseCap), total: all.length };
+        },
+    );
 </script>
 
 {#snippet choice(hex: number[])}
@@ -381,11 +463,6 @@
         {:else if codepoints === null}
             <!-- Show loading feedback if the codepoints aren't yet loaded. -->
             <Spinning></Spinning>
-        {:else if script !== undefined}
-            <!-- A script filter is active; show every single-codepoint glyph belonging to that script. -->
-            {#each codepoints.filter((code) => code.script === script && code.hex.length === 1) as code}
-                {@render choice(code.hex)}
-            {/each}
         {:else if showCustom && category === 'Custom'}
             <!-- Show the public custom characters -->
             {#each publicCharacters as character}
@@ -431,25 +508,21 @@
             {#each filtered as code}
                 {@render choice(code.hex)}
             {/each}
-        {:else if category === 'Shapes' || category === 'Arrows'}
-            <!-- Is this composite category? Show all the codepoints in its ranges. -->
-            {@const ranges = category === 'Shapes' ? Shapes : Arrows}
-            {@const glyphs = codepoints.filter((code) =>
-                ranges.some(
-                    ([start, end]) =>
-                        code.hex.length === 1 &&
-                        code.hex[0] >= start &&
-                        code.hex[0] <= end,
-                ),
-            )}
-            {#each glyphs as code}
+        {:else if browse !== null}
+            <!-- A script or Unicode-category browse view: a memoized, capped
+                 page of renderable glyphs; the rest are reachable via search. -->
+            {#each browse.list as code}
                 {@render choice(code.hex)}
             {/each}
-        {:else if category !== undefined && category.length === 2}
-            <!-- Is this a Unicode category? Show all the codepoints with that category. -->
-            {#each codepoints.filter((code) => code.category === category) as code}
-                {@render choice(code.hex)}
-            {/each}
+            {#if browse.total > browse.list.length}
+                <div class="more">
+                    {$locales
+                        .concretize((l) => l.ui.emoji.moreGlyphs, {
+                            count: browse.list.length,
+                        })
+                        .toText()}
+                </div>
+            {/if}
         {:else}
             <!-- No category and no script: invite the user to pick one. -->
             <div class="hint">
@@ -489,7 +562,12 @@
     }
 
     .emoji {
-        font-family: 'Noto Color Emoji', 'Noto Emoji';
+        /* Emoji faces first, then Noto Sans for Latin/Cyrillic/Greek glyphs,
+           then the lazy per-script fallbacks so glyphs of any other script
+           render in their Noto font instead of tofu. */
+        font-family:
+            'Noto Color Emoji', 'Noto Emoji', 'Noto Sans',
+            var(--wordplay-fallback-fonts), sans-serif;
         font-size: 1.2em;
     }
 
@@ -500,6 +578,14 @@
     }
 
     .hint {
+        font-style: italic;
+        color: var(--wordplay-inactive-color);
+        padding: var(--wordplay-spacing-half);
+    }
+
+    /* The "showing N — search to find more" caption below a capped grid. */
+    .more {
+        flex-basis: 100%;
         font-style: italic;
         color: var(--wordplay-inactive-color);
         padding: var(--wordplay-spacing-half);

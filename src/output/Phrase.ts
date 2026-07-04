@@ -16,7 +16,7 @@ import Fonts, {
     SupportedFontsFamiliesType,
     type FontWeight,
     type SupportedFace,
-} from '@basis/Fonts';
+} from '@basis/faces/Fonts';
 import toStructure from '@basis/toStructure';
 import type Project from '@db/projects/Project';
 import type Locales from '@locale/Locales';
@@ -130,6 +130,9 @@ export default class Phrase extends Output {
     /** The effective layout the cached metrics were computed for, so we can
      *  recompute when an inherited (undefined-direction) layout changes. */
     private _metricsLayout: WritingLayout | undefined = undefined;
+    /** The font load generation the cached metrics were computed at, so they
+     *  recompute when lazily-loaded fonts finish arriving. */
+    private _metricsGeneration = -1;
 
     private _description: string | undefined = undefined;
 
@@ -203,8 +206,15 @@ export default class Phrase extends Output {
             ? layoutToCSS(this.direction)
             : context.layout;
 
-        // Return the cache, if there is one and it was computed for this layout.
-        if (parsed && this._metrics && this._metricsLayout === layout)
+        // Return the cache, if there is one, it was computed for this layout,
+        // and no fonts have finished loading since it was computed (lazily
+        // loaded faces change text dimensions when they arrive).
+        if (
+            parsed &&
+            this._metrics &&
+            this._metricsLayout === layout &&
+            this._metricsGeneration === Fonts.getLoadGeneration()
+        )
             return this._metrics;
 
         // The font is:
@@ -243,8 +253,10 @@ export default class Phrase extends Output {
                 : // Otherwise, get the list of formatted segments.
                   text?.getFormats();
 
-        // Remember whether the font is loaded, so we can decide whether to save the metrics.
-        const faceLoaded = Fonts.isFaceLoaded(renderedFace);
+        // Remember which font load generation these metrics are computed at;
+        // when more fonts arrive, the loadingdone event bumps the generation
+        // and invalidates the cache above.
+        const generation = Fonts.getLoadGeneration();
 
         // Is the text horizontal or vertical? This determines how we calculate size.
         const horizontal = layout === 'horizontal-tb';
@@ -318,11 +330,13 @@ export default class Phrase extends Output {
         }
 
         const dimensions = { width, height, ascent, descent };
-        // If the font is loaded, these metrics can be trusted, so we cache them
-        // along with the layout they were computed for.
-        if (height !== undefined && ascent !== undefined && faceLoaded) {
+        // Cache the metrics with the layout and font load generation they
+        // were computed at; if fonts were still downloading, the next
+        // loadingdone event invalidates this cache and they recompute.
+        if (height !== undefined && ascent !== undefined) {
             this._metrics = dimensions;
             this._metricsLayout = layout;
+            this._metricsGeneration = generation;
         }
 
         // Return the current dimensions.

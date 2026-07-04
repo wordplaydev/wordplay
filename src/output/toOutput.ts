@@ -1,6 +1,6 @@
 import ListValue from '@values/ListValue';
 import NoneValue from '@values/NoneValue';
-import type { SupportedFace } from '@basis/Fonts';
+import type { SupportedFace } from '@basis/faces/Fonts';
 import type Project from '@db/projects/Project';
 import type Evaluator from '@runtime/Evaluator';
 import StructureValue from '@values/StructureValue';

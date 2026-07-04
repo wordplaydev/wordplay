@@ -1,5 +1,5 @@
 import StructureValue from '@values/StructureValue';
-import { SupportedFontsFamiliesType, type SupportedFace } from '@basis/Fonts';
+import { SupportedFontsFamiliesType, type SupportedFace } from '@basis/faces/Fonts';
 import toStructure from '@basis/toStructure';
 import { describeColorLocalized } from '@output/BasicColors';
 import { getBind } from '@locale/getBind';

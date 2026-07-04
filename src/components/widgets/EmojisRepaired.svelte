@@ -1,6 +1,6 @@
 <!-- Renders an arbitrary run of text, repairing the keycap (2️⃣) and legacy color
      symbols (©️) that would otherwise render broken because their base codepoints
-     were dropped from the general emoji-font ranges (see static/fonts.css). Those
+     were dropped from the general emoji-font ranges (see static/fonts/fonts.css). Those
      runs are wrapped in the dedicated 'Noto Emoji Keycap' font; everything else —
      plain text and ordinary emoji alike — is left untouched for the ambient font
      cascade to render (honoring a creator's chosen face on the stage). Text with

@@ -3,7 +3,7 @@
         faceSupportsWeight,
         type Face,
         type FontWeight,
-    } from '@basis/Fonts';
+    } from '@basis/faces/Fonts';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { Scripts } from '@locale/Scripts';
     import { onMount } from 'svelte';

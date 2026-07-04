@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Fonts from '@basis/Fonts';
+    import Fonts from '@basis/faces/Fonts';
     import Spinning from '@components/app/Spinning.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import {

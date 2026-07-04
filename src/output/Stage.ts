@@ -8,7 +8,11 @@ import StructureValue from '@values/StructureValue';
 import TextValue from '@values/TextValue';
 import type Value from '@values/Value';
 import Decimal from 'decimal.js';
-import { SupportedFontsFamiliesType, type SupportedFace } from '@basis/Fonts';
+import {
+    SupportedFontsFamiliesType,
+    type SupportedFace,
+} from '@basis/faces/Fonts';
+import { FallbackFontFamilies } from '@basis/faces/FallbackFonts';
 import toStructure from '@basis/toStructure';
 import type Locales from '@locale/Locales';
 import { getFirstText } from '@locale/LocaleText';
@@ -29,7 +33,10 @@ import { getOutputInput } from '@output/Valued';
 
 export const DefaultGravity = 9.8;
 
-export const CSSFallbackFaces = '"Noto Color Emoji", "Noto Sans", sans serif';
+/** The fallback face chain appended to every rendered face. A literal (not
+ * var(--wordplay-fallback-fonts)) because it's also used in canvas font
+ * strings for text measurement, where CSS variables can't resolve. */
+export const CSSFallbackFaces = `"Noto Color Emoji", "Noto Sans", ${FallbackFontFamilies}, sans-serif`;
 export const DefaultSize = 1;
 
 export function createStageType(locales: Locales) {
@@ -242,16 +249,16 @@ export default class Stage extends Output {
                   )
                 : undefined;
             this._description = locales
-                .concretize(
-                    (l) => l.output.Stage.defaultDescription,
-                    {
-                        count: this.content.length,
-                        name: this.name instanceof TextValue ? this.name.text : undefined,
-                        frame: this.frame?.getDescription(locales),
-                        pose: this.pose.getDescription(locales).trim(),
-                        color: colorDescription,
-                    },
-                )
+                .concretize((l) => l.output.Stage.defaultDescription, {
+                    count: this.content.length,
+                    name:
+                        this.name instanceof TextValue
+                            ? this.name.text
+                            : undefined,
+                    frame: this.frame?.getDescription(locales),
+                    pose: this.pose.getDescription(locales).trim(),
+                    color: colorDescription,
+                })
                 .toText()
                 .trim();
         }

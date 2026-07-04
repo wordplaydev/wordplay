@@ -59,7 +59,7 @@ export function isEmoji(text: string) {
  *     color presentation (e.g. ©️). Without U+FE0F these stay text.
  *
  * Such sequences only render in color when wrapped in the .emoji-keycap class
- * (see segmentColorEmoji and static/fonts.css' 'Noto Emoji Keycap' face).
+ * (see segmentColorEmoji and static/fonts/fonts.css' 'Noto Emoji Keycap' face).
  */
 export const ColorComboRegex =
     /[#*0-9]\uFE0F?\u20E3|[\u00A9\u00AE\u203C\u2049\u2122\u2139]\uFE0F/gu;

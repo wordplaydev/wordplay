@@ -4,7 +4,7 @@
 
 <!-- svelte-ignore state_referenced_locally -->
 <script lang="ts">
-    import { loadedFonts } from '@basis/Fonts';
+    import { loadedFonts } from '@basis/faces/Fonts';
     import type Project from '@db/projects/Project';
     import Animator, { type Moved, type OutputInfoSet } from '@output/Animator';
     import Group from '@output/Group';

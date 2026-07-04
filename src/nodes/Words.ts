@@ -1,7 +1,7 @@
 import type Conflict from '@conflicts/Conflict';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
-import type { FontWeight } from '@basis/Fonts';
+import type { FontWeight } from '@basis/faces/Fonts';
 import { Purpose } from '@concepts/Purpose';
 import type Locales from '@locale/Locales';
 import type { TemplateInput } from '@locale/Locales';

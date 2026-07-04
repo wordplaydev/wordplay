@@ -5,9 +5,13 @@
 // (emoji groups, subgroups, and fully-qualified sequences) into a single
 // semicolon-separated file.
 //
-// The output omits the human-readable Unicode name. Emoji names come from
-// per-locale CLDR data (see src/util/verify-locales/generateEmojis.ts), so storing the
-// English name in codes.txt was redundant.
+// codes.txt has no names (emoji names come from per-locale CLDR data; see
+// src/util/verify-locales/generateEmojis.ts). Names for everything else are
+// written to a sibling glyph-names.txt: English Unicode names for
+// symbols/letters, and Unihan definitions + pinyin for Han (whose Unicode
+// names are just the codepoint). Large blocks that UnicodeData compresses into
+// First/Last markers (CJK ideographs, Hangul syllables, …) are expanded here so
+// every character is browsable and searchable.
 //
 // Output format, one entry per line:
 //   <hex>;<category>;<script>                          - non-emoji codepoints
@@ -29,14 +33,21 @@
 
 import fs from 'fs';
 import path from 'path';
+import zlib from 'zlib';
 import { fileURLToPath } from 'url';
 
 import { EmojiGroups, EmojiSubgroups } from '@unicode/emoji.ts';
 import { Scripts } from '@locale/Scripts.ts';
+// Only enumerate codepoints some bundled font can actually draw — the glyph
+// chooser filters to these anyway, so shipping the ~65k CJK-extension (and
+// other) codepoints no font covers is pure weight. This couples codes.txt to
+// the bundled fonts: rerun `npm run codes` after adding/removing fonts.
+import { isCodepointRenderable } from '@basis/faces/renderable.ts';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..', '..');
 const OUTPUT_PATH = path.join(ROOT, 'static', 'unicode', 'codes.txt');
+const NAMES_PATH = path.join(ROOT, 'static', 'unicode', 'glyph-names.txt');
 
 const UNICODE_DATA_URL =
     'https://www.unicode.org/Public/UCD/latest/ucd/UnicodeData.txt';
@@ -45,6 +56,12 @@ const EMOJI_TEST_URL =
 const SCRIPTS_URL = 'https://www.unicode.org/Public/UCD/latest/ucd/Scripts.txt';
 const PROPERTY_VALUE_ALIASES_URL =
     'https://www.unicode.org/Public/UCD/latest/ucd/PropertyValueAliases.txt';
+// Han meaning + pronunciation: UnicodeData names CJK ideographs algorithmically
+// (e.g. "CJK UNIFIED IDEOGRAPH-4E2D"), so their real definitions and pinyin come
+// from the Unihan database instead. Unihan ships as a zip; we extract just the
+// readings file (no external unzip dependency; see extractFromZip).
+const UNIHAN_ZIP_URL =
+    'https://www.unicode.org/Public/UCD/latest/ucd/Unihan.zip';
 
 /** Scripts to drop from the codes.txt script column. Common, Inherited, and
  * Unknown aren't real "user-pickable" scripts — they cover punctuation,
@@ -59,6 +76,53 @@ async function fetchText(url: string): Promise<string> {
             `Failed to fetch ${url}: ${res.status} ${res.statusText}`,
         );
     return await res.text();
+}
+
+/** Extract one file from a zip Buffer using the central directory, inflating
+ * DEFLATE entries with Node's built-in zlib — a minimal dependency-free reader
+ * (Unihan.zip is a standard, non-zip64 archive). */
+function extractFromZip(zip: Buffer, filename: string): string {
+    const EOCD_SIG = 0x06054b50;
+    const CD_SIG = 0x02014b50;
+    let eocd = -1;
+    for (let i = zip.length - 22; i >= Math.max(0, zip.length - 65557); i--)
+        if (zip.readUInt32LE(i) === EOCD_SIG) {
+            eocd = i;
+            break;
+        }
+    if (eocd < 0) throw new Error('Zip end-of-central-directory not found');
+    const count = zip.readUInt16LE(eocd + 10);
+    let p = zip.readUInt32LE(eocd + 16);
+    for (let n = 0; n < count; n++) {
+        if (zip.readUInt32LE(p) !== CD_SIG)
+            throw new Error('Corrupt zip central directory');
+        const method = zip.readUInt16LE(p + 10);
+        const compSize = zip.readUInt32LE(p + 20);
+        const nameLen = zip.readUInt16LE(p + 28);
+        const extraLen = zip.readUInt16LE(p + 30);
+        const commentLen = zip.readUInt16LE(p + 32);
+        const localOffset = zip.readUInt32LE(p + 42);
+        const name = zip.toString('utf8', p + 46, p + 46 + nameLen);
+        if (name === filename) {
+            const lNameLen = zip.readUInt16LE(localOffset + 26);
+            const lExtraLen = zip.readUInt16LE(localOffset + 28);
+            const start = localOffset + 30 + lNameLen + lExtraLen;
+            const data = zip.subarray(start, start + compSize);
+            const raw = method === 0 ? data : zlib.inflateRawSync(data);
+            return raw.toString('utf8');
+        }
+        p += 46 + nameLen + extraLen + commentLen;
+    }
+    throw new Error(`${filename} not found in zip`);
+}
+
+async function fetchUnihanReadings(): Promise<string> {
+    console.log(`Fetching ${UNIHAN_ZIP_URL} ...`);
+    const res = await fetch(UNIHAN_ZIP_URL);
+    if (!res.ok)
+        throw new Error(`Failed to fetch ${UNIHAN_ZIP_URL}: ${res.status}`);
+    const zip = Buffer.from(await res.arrayBuffer());
+    return extractFromZip(zip, 'Unihan_Readings.txt');
 }
 
 interface EmojiInfo {
@@ -187,14 +251,63 @@ function parseEmojis(text: string): Map<string, EmojiInfo> {
     return emojis;
 }
 
+/** Strip pinyin tone marks (and fold ü→u) so a toneless query like "shui"
+ * matches "shuǐ" — foldEntry in the search only lowercases, it doesn't remove
+ * diacritics. */
+function toneless(pinyin: string): string {
+    return pinyin.normalize('NFD').replace(/[̀-ͯ]/g, '');
+}
+
+interface UnihanEntry {
+    definition?: string;
+    /** Mandarin readings, toned (e.g. "shuǐ"). */
+    pinyin: string[];
+}
+
+/** Parse Unihan_Readings.txt: tab-separated `U+<hex>\t<field>\t<value>` lines.
+ * We keep kDefinition (English gloss) and kMandarin (space-separated pinyin). */
+function parseUnihan(text: string): Map<number, UnihanEntry> {
+    const map = new Map<number, UnihanEntry>();
+    for (const rawLine of text.split('\n')) {
+        if (rawLine.startsWith('#') || rawLine.trim() === '') continue;
+        const [codeField, field, value] = rawLine.split('\t');
+        if (!codeField?.startsWith('U+') || !field || !value) continue;
+        const cp = parseInt(codeField.slice(2), 16);
+        if (Number.isNaN(cp)) continue;
+        const entry = map.get(cp) ?? { pinyin: [] };
+        if (field === 'kDefinition') entry.definition = value.trim();
+        else if (field === 'kMandarin')
+            entry.pinyin = value.trim().split(/\s+/).filter(Boolean);
+        else continue;
+        map.set(cp, entry);
+    }
+    return map;
+}
+
+/** Title-case a screaming Unicode name for display: "N-ARY SUMMATION" →
+ * "N-Ary Summation". */
+function titleCase(name: string): string {
+    return name.toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+/** Whether a UnicodeData field-1 name is a real, human-meaningful name (not a
+ * `<range marker>` or an algorithmic `… IDEOGRAPH-XXXX`). */
+function isRealName(name: string): boolean {
+    return !name.startsWith('<') && !/IDEOGRAPH-[0-9A-F]+$/.test(name);
+}
+
 async function main() {
-    const [unicodeData, emojiText, scriptsText, aliasesText] =
+    const [unicodeData, emojiText, scriptsText, aliasesText, unihanText] =
         await Promise.all([
             fetchText(UNICODE_DATA_URL),
             fetchText(EMOJI_TEST_URL),
             fetchText(SCRIPTS_URL),
             fetchText(PROPERTY_VALUE_ALIASES_URL),
+            fetchUnihanReadings(),
         ]);
+
+    const unihan = parseUnihan(unihanText);
+    console.log(`Parsed ${unihan.size} Unihan readings.`);
 
     const emojis = parseEmojis(emojiText);
     console.log(`Parsed ${emojis.size} base emojis.`);
@@ -204,12 +317,48 @@ async function main() {
     console.log(`Parsed ${scriptRanges.length} script ranges.`);
 
     let output = '';
+    let names = '';
     let nonEmojiCount = 0;
     let emojiCount = 0;
+    let nameCount = 0;
     const scriptsSeen = new Set<string>();
 
-    for (const entry of unicodeData.split('\n')) {
-        const [hex, , category] = entry.split(';');
+    /** Format a codepoint the way codes.txt / codepointKey does: uppercase
+     * hex, min 4 digits. */
+    const key = (cp: number) => cp.toString(16).toUpperCase().padStart(4, '0');
+
+    /** Emit one non-emoji codepoint's codes.txt row + glyph-names.txt entry.
+     * `rawName` is the UnicodeData field-1 name (a real name, or a range
+     * marker for range-expanded codepoints). */
+    const emit = (cp: number, category: string, rawName: string) => {
+        // Skip codepoints no bundled font can render — the chooser hides them
+        // anyway. Keeps codes.txt to the browsable universe.
+        if (!isCodepointRenderable(cp)) return;
+        const hex = key(cp);
+        const script = lookupScript(scriptRanges, cp);
+        if (script) scriptsSeen.add(script);
+        output += `${hex};${category};${script}\n`;
+        nonEmojiCount++;
+
+        // Names/keywords for search + tooltips. Emoji get theirs from the
+        // per-locale CLDR maps, so they're excluded here.
+        const uni = unihan.get(cp);
+        if (uni?.definition) {
+            // Han: English gloss + toned & toneless pinyin keywords.
+            const pinyin = uni.pinyin.flatMap((p) =>
+                p === toneless(p) ? [p] : [p, toneless(p)],
+            );
+            names += [hex, uni.definition, ...pinyin].join('\t') + '\n';
+            nameCount++;
+        } else if (isRealName(rawName)) {
+            names += `${hex}\t${titleCase(rawName)}\n`;
+            nameCount++;
+        }
+    };
+
+    const lines = unicodeData.split('\n');
+    for (let i = 0; i < lines.length; i++) {
+        const [hex, name, category] = lines[i].split(';');
         if (!hex || !category) continue;
 
         // Skip control, separator, and mark codepoints. The picker never
@@ -222,13 +371,20 @@ async function main() {
         )
             continue;
 
-        const script = lookupScript(scriptRanges, parseInt(hex, 16));
-        if (script) scriptsSeen.add(script);
+        // UnicodeData compresses large blocks (CJK ideographs, Hangul
+        // syllables, …) into a `<…, First>` / `<…, Last>` marker pair. Expand
+        // them so every character is browsable and searchable, not just the
+        // block endpoints.
+        if (name.endsWith(', First>')) {
+            const start = parseInt(hex, 16);
+            const end = parseInt(lines[++i].split(';')[0], 16);
+            for (let cp = start; cp <= end; cp++) emit(cp, category, name);
+            continue;
+        }
 
         const emoji = emojis.get(hex);
         if (emoji === undefined) {
-            output += `${hex};${category};${script}\n`;
-            nonEmojiCount++;
+            emit(parseInt(hex, 16), category, name);
         } else {
             const group = EmojiGroups[emoji.group];
             const subgroup = EmojiSubgroups[emoji.subgroup];
@@ -240,6 +396,8 @@ async function main() {
                 throw new Error(
                     `Unknown emoji subgroup "${emoji.subgroup}". Add it to EmojiSubgroups in src/unicode/emoji.ts.`,
                 );
+            const script = lookupScript(scriptRanges, parseInt(hex, 16));
+            if (script) scriptsSeen.add(script);
             output += `${hex};${category};${script};${group};${subgroup}\n`;
             emojiCount++;
             for (const variation of emoji.variations) {
@@ -253,6 +411,18 @@ async function main() {
     fs.writeFileSync(OUTPUT_PATH, output.trimEnd() + '\n');
     console.log(
         `Wrote ${OUTPUT_PATH} (${nonEmojiCount} codepoints, ${emojiCount} emoji rows, ${(output.length / 1024).toFixed(1)} KB).`,
+    );
+
+    fs.writeFileSync(
+        NAMES_PATH,
+        '# GENERATED by `npm run codes` — English glyph names for search + tooltips.\n' +
+            '# <codepointKey>\\t<name>[\\t<keyword>...] — Unicode names for symbols/letters,\n' +
+            '# Unihan definitions + pinyin for Han. Emoji names come from the CLDR emoji maps.\n' +
+            names.trimEnd() +
+            '\n',
+    );
+    console.log(
+        `Wrote ${NAMES_PATH} (${nameCount} named codepoints, ${(names.length / 1024 / 1024).toFixed(1)} MB).`,
     );
 
     // Warn about any scripts that codes.txt references but Scripts.ts

@@ -8,12 +8,15 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Added
 
+- 🔣 We added fonts for more than 150 writing systems, from Arabic and Cherokee to Egyptian hieroglyphs. Wordplay downloads each one only when text on your screen needs it, so letters from any language now appear instead of empty boxes.
+- 🔠 When you add a character in the editor, you can now search for letters, symbols, and Chinese characters by name or meaning — type "water" to find 水, or "summation" to find ∑ — and point at any character to see its name. Emoji show up first in the results.
 - 🕰️ We added `@Moment`, a value for dates and times, and `@Now`, a stream that ticks the current date and time. A Moment turns into text in your language, calendar, and time zone — so `Phrase(Now() → '')` is a live clock that changes language when your locale does (#1197).
 - 🌐 Moments work with 16 calendars — like Hebrew, Japanese, Chinese, and Islamic calendars — and any time zone in the world. Dates look the same on every computer, because Wordplay formats them itself instead of asking the browser (#1197).
 - 🔗 Web addresses you write in documentation are now clickable links, and they stay intact instead of losing one of their slashes.
 
 ### Fixed
 
+- 🔠 The character picker no longer shows empty boxes for characters that none of our fonts can draw — it only offers ones you can actually see.
 - 🖱️ Links in documentation now open when you click them in the editor. To edit a link instead, move into it with the arrow keys or click right next to it.
 - ✍️ We stopped adding an extra `/`, `_`, or `*` when you type one inside plain text. Wordplay now only completes these marks in documentation, where they format words.
 - 📖 Symbols like `[`, `|`, `>`, and `@` in documentation are now just text unless they mean something there. Before, writing `[like this]` in docs could make your whole program unreadable to Wordplay.

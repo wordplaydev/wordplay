@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest';
 import type { PathCommand } from 'fontkit';
 import { glyphPathToPlaces } from '@input/Contour';
-import { Faces, getFontFileURL } from '@basis/Fonts';
+import { Faces, getFontFileURL } from '@basis/faces/Fonts';
 import evaluateCode from '@runtime/evaluate';
 
 test('Contour evaluates to an empty list with no fonts loaded', () => {

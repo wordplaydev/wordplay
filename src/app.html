@@ -73,7 +73,10 @@
             crossorigin
         />
 
-        <link rel="stylesheet" href="/fonts.css" />
+        <link rel="stylesheet" href="/fonts/fonts.css" />
+        <!-- Lazy per-script Noto fallback faces; browsers download a slice
+             only when rendered text intersects its unicode-range. -->
+        <link rel="stylesheet" href="/fonts/fonts-fallback.css" />
 
         <style>
             :root {
@@ -163,12 +166,16 @@
                     var(--wordplay-background)
                 );
 
-                /* Fonts */
+                /* Fonts. Both chains end with the lazy per-script Noto
+                   fallbacks (see static/fonts-fallback.css) so glyphs the
+                   preloaded faces don't cover fall back to a downloaded-on-
+                   demand script font instead of tofu. */
                 --wordplay-app-font:
-                    'Noto Sans', 'Noto Color Emoji', 'Noto Emoji', sans-serif;
+                    'Noto Sans', 'Noto Color Emoji', 'Noto Emoji',
+                    var(--wordplay-fallback-fonts), sans-serif;
                 --wordplay-code-font:
                     'Noto Sans Mono', 'Noto Sans', 'Noto Color Emoji',
-                    'Noto Emoji', monospace;
+                    'Noto Emoji', var(--wordplay-fallback-fonts), monospace;
                 /* Canonical emoji font cascades, shared by Emoji.svelte and
                    EmojisRepaired.svelte. The color cascade leads with the keycap face
                    (it only claims keycap codepoints; see static/fonts.css) so

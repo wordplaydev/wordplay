@@ -1,7 +1,7 @@
 <!-- @migration task: review uses of `navigating` -->
 <script lang="ts">
     import { navigating } from '$app/state';
-    import Fonts from '@basis/Fonts';
+    import Fonts from '@basis/faces/Fonts';
     import CreatorView from '@components/app/CreatorView.svelte';
     import Link from '@components/app/Link.svelte';
     import Spinning from '@components/app/Spinning.svelte';

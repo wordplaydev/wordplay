@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Faces, getFaceDescription } from '@basis/Fonts';
+    import { Faces, getFaceDescription } from '@basis/faces/Fonts';
     import {
         getLocalizing,
         getUser,

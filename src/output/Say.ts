@@ -122,7 +122,7 @@ export default class Say extends Output {
         return undefined;
     }
 
-    gatherFaces(set: Set<import('../basis/Fonts').SupportedFace>) {
+    gatherFaces(set: Set<import('../basis/faces/Fonts').SupportedFace>) {
         return set;
     }
 }

@@ -1,6 +1,6 @@
 <script lang="ts">
     import getConceptName from '@locale/getConceptName';
-    import Fonts from '@basis/Fonts';
+    import Fonts from '@basis/faces/Fonts';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type Project from '@db/projects/Project';

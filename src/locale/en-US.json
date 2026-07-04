@@ -8116,6 +8116,7 @@
             "scriptLabel": "filter by script",
             "moreLanguages": "and $count more",
             "pickFilter": "Choose a category or script",
+            "moreGlyphs": "Showing $count — search to find more",
             "groups": {
                 "label": "groups",
                 "labels": [

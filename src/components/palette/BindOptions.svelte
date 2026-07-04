@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { type Face } from '@basis/Fonts';
+    import { type Face } from '@basis/faces/Fonts';
     import FaceName from '@components/settings/FaceName.svelte';
     import type OutputProperty from '@edit/output/OutputProperty';
     import OutputPropertyOptions from '@edit/output/OutputPropertyOptions';

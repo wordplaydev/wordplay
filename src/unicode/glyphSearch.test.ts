@@ -25,7 +25,19 @@ const plain: Codepoint = {
     category: 'Lu',
     script: 'Latn',
     emoji: undefined,
-}; // 'A', no emoji/translation
+}; // 'A', named via the English Unicode names map
+const han: Codepoint = {
+    hex: [0x6c34],
+    category: 'Lo',
+    script: 'Hani',
+    emoji: undefined,
+}; // 水, named via Unihan definition + pinyin
+const unnamed: Codepoint = {
+    hex: [0x3400],
+    category: 'Lo',
+    script: 'Hani',
+    emoji: undefined,
+}; // no emoji entry and no names entry — unsearchable
 
 const maps: Partial<Record<SupportedLocale, EmojiMap>> = {
     'en-US': {
@@ -37,6 +49,12 @@ const maps: Partial<Record<SupportedLocale, EmojiMap>> = {
     },
 };
 
+/** English Unicode/Unihan names for the non-emoji glyphs. */
+const glyphNames = new Map<string, string[]>([
+    ['0041', ['Latin Capital Letter A']],
+    ['6C34', ['water, liquid, lotion, juice', 'shuǐ', 'shui']],
+]);
+
 const groupLabels: Record<string, string> = {
     fd: 'Food & Drink',
     an: 'Animals & Nature',
@@ -44,11 +62,12 @@ const groupLabels: Record<string, string> = {
 
 function build(locales: SupportedLocale[]) {
     return buildGlyphSearch(
-        [coffee, cat, plain],
+        [coffee, cat, plain, han, unnamed],
         locales,
         maps,
         (code) => (code.emoji ? groupLabels[code.emoji.group] : undefined),
         L,
+        glyphNames,
     );
 }
 
@@ -83,8 +102,18 @@ describe('buildGlyphSearch', () => {
         expect(match[3]).toBe(3);
     });
 
-    test('skips codepoints with no localized text', () => {
-        expect(search('A')).not.toContain(plain);
+    test('finds a non-emoji glyph by its English Unicode name', () => {
+        expect(search('capital letter a')).toContain(plain);
+    });
+
+    test('finds a Han glyph by its Unihan definition and toneless pinyin', () => {
+        expect(search('water')).toContain(han); // definition
+        expect(search('shui')).toContain(han); // pinyin without tone marks
+    });
+
+    test('still skips codepoints with no name at all', () => {
+        expect(search('ideograph')).not.toContain(unnamed);
+        expect(search('3400')).not.toContain(unnamed);
     });
 
     test('only indexes the requested locales', () => {

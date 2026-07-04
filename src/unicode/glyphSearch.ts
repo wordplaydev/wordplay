@@ -2,7 +2,8 @@
  * Builds searchable records for the glyph/emoji chooser so it can use the shared
  * search policy in src/util/search.ts. For each emoji codepoint, the localized
  * name ranks above its keywords, which rank above the emoji-group label. Only
- * codepoints with localized text are searchable (others carry no names anymore).
+ * codepoints with a name (localized emoji names, or English Unicode/Unihan
+ * names for everything else) are searchable; the rest carry no text.
  *
  * Pure (no Svelte/store deps) so it can be unit-tested; the chooser feeds it the
  * loaded emoji maps and a group-label resolver.
@@ -35,6 +36,11 @@ export function buildGlyphSearch(
     maps: Partial<Record<SupportedLocale, EmojiMap>>,
     groupLabelFor: (code: Codepoint) => string | undefined,
     languages: SearchLanguages,
+    /** English names/keywords for non-emoji glyphs (Unicode names + Unihan
+     * definitions/pinyin), keyed by codepointKey. Emoji use the localized
+     * `maps` above; everything else falls back to this so Han, letters, and
+     * symbols become searchable. */
+    glyphNames?: Map<string, string[]>,
 ): Searchable<Codepoint>[] {
     const records: Searchable<Codepoint>[] = [];
 
@@ -47,6 +53,15 @@ export function buildGlyphSearch(
             if (entry === undefined || entry.length === 0) continue;
             names.push(entry[0]);
             for (const keyword of entry.slice(1)) keywords.push(keyword);
+        }
+        // Non-emoji glyphs have no localized entry; fall back to the English
+        // Unicode/Unihan names so they're searchable at all.
+        if (names.length === 0) {
+            const entry = glyphNames?.get(key);
+            if (entry !== undefined && entry.length > 0) {
+                names.push(entry[0]);
+                for (const keyword of entry.slice(1)) keywords.push(keyword);
+            }
         }
 
         const fields: SearchField[] = [];

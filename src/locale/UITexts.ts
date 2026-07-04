@@ -1,4 +1,4 @@
-import type { SupportedFace } from '@basis/Fonts';
+import type { SupportedFace } from '@basis/faces/Fonts';
 import type { TileKind } from '@components/project/TileKind';
 import type { FormattedText, Template } from '@locale/LocaleText';
 
@@ -1551,6 +1551,8 @@ type UITexts = {
         moreLanguages: Template<['count']>;
         /** [plain] Hint shown in the glyph area when no category and no script is selected */
         pickFilter: string;
+        /** [plain] Hint shown below a large glyph grid that was capped. $count is how many are shown; the rest are reachable by searching. */
+        moreGlyphs: Template<['count']>;
         /** Emoji category labels for the filter */
         groups: ModeText<
             [
