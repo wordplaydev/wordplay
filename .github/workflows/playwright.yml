@@ -10,6 +10,10 @@ on:
                 description: 'GitHub runner to run on (ubuntu-latest, macos-latest, ...)'
                 type: string
                 default: ubuntu-latest
+            workers:
+                description: 'Playwright workers per shard. 1 serializes specs against the single Firebase emulator (less contention/flakiness), at the cost of wall-clock.'
+                type: string
+                default: '2'
 
 jobs:
     test:
@@ -76,7 +80,7 @@ jobs:
             - name: Build project
               run: npm run build:ci
             - name: Run end-to-end tests with emulator
-              run: npx firebase emulators:exec "npx playwright test --project=${{ inputs.browser }} --shard=${{ matrix.shard }}/3 --reporter=list" --project=demo-wordplay --log-verbosity QUIET
+              run: npx firebase emulators:exec "npx playwright test --project=${{ inputs.browser }} --shard=${{ matrix.shard }}/3 --workers=${{ inputs.workers }} --reporter=list" --project=demo-wordplay --log-verbosity QUIET
             - uses: actions/upload-artifact@v6
               if: always()
               with:

@@ -17,4 +17,9 @@ jobs:
         with:
             browser: webkit
             runner: macos-latest
+            # Serialize specs within each shard so the cloud-assertion tests
+            # (cloud-updates, collaborative-editing, gallery-sharing, feedback)
+            # don't contend on the single Firebase emulator — the leading source
+            # of WebKit-nightly flakiness on the contended macOS runner.
+            workers: '1'
         secrets: inherit
