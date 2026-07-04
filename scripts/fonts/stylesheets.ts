@@ -3,7 +3,7 @@ import { parseFontUrl } from './files';
 import { entryFiles } from './lockfile';
 import type { Lockfile } from './lockfile';
 import { buildFallback } from './faces';
-import { subtractRange } from './deriveRange';
+import { parseRangeString, toRangeString } from './deriveRange';
 import { FontManifest } from '../../src/basis/faces/fonts.manifest';
 import type { FontManifestEntry } from '../../src/basis/faces/fonts.manifest';
 
@@ -50,32 +50,66 @@ function fontFace(
 
 /** All mechanical @font-face rules for one face (skips override faces).
  *
- * `subtract`, when given, drops those codepoints from each slice's declared
- * range before emitting. Used only for the lazy fallback faces: their Google
- * slices bundle a shared Latin/punctuation slice (U+0000–00FF, U+2000–206F, …)
- * that Noto Sans already covers and — being earlier in every font-family chain —
- * already wins for. Declaring it on the fallbacks too is dead for rendering but
- * makes WebKit eagerly download dozens of script fonts the moment any ordinary
- * text renders (Chromium loads only the first match). Subtracting Noto Sans's
- * cmap leaves each fallback claiming only its script-unique codepoints, so it
- * downloads only when its script is actually shown — with no tofu, since every
- * removed codepoint still renders via Noto Sans. A slice left empty is omitted. */
+ * `ranges`, when given (the lazy fallback faces), replaces each slice's declared
+ * range with its de-duplicated range (see computeFallbackRanges); a slice left
+ * empty is omitted. Without it (the preloaded faces) the lockfile range is used
+ * verbatim. */
 function mechanicalFace(
     entry: FontManifestEntry,
     lock: Lockfile,
-    subtract?: ReadonlySet<number>,
+    ranges?: ReadonlyMap<string, string>,
 ): string {
     const rules: string[] = [];
     for (const url of entryFiles(entry)) {
-        let range = lock[url]?.range;
-        if (range == null) continue; // whole-file faces w/o a declared range aren't in CSS
-        if (subtract !== undefined) {
-            range = subtractRange(range, subtract);
-            if (range === '') continue; // fully covered by the base face
-        }
+        const range = ranges ? ranges.get(url) : lock[url]?.range;
+        if (range == null || range === '') continue; // no glyphs to declare here
         rules.push(fontFace(entry, url, range));
     }
     return rules.join('\n');
+}
+
+/** The de-duplicated unicode-range for every served fallback slice file.
+ *
+ * Google slices a shared Latin/punctuation/symbol range into ALL ~150 Noto
+ * fallback faces, so rendering a single shared glyph (an arrow, a special space,
+ * a dagger…) would download every one of them at once. This assigns each
+ * codepoint to exactly ONE face: starting from `baseCoverage` (what the
+ * preloaded Noto Sans already renders, stripped from every fallback), each face
+ * — symbol/math faces first, so shared symbols attribute to Noto Sans Symbols
+ * rather than a random script font — claims only the codepoints not already
+ * claimed by an earlier face. So a shared glyph now downloads one font, and each
+ * script glyph still downloads only its script's face. No tofu: every codepoint
+ * is still declared by exactly one face (base coverage by Noto Sans). */
+export function computeFallbackRanges(
+    lock: Lockfile,
+    baseCoverage: ReadonlySet<number>,
+): Map<string, string> {
+    const ordered = buildFallback(lock);
+    const byName = new Map(FontManifest.map((e) => [e.name, e]));
+    // Claim order: symbol/math faces (no scripts) first, then the chain order.
+    const priority = [
+        ...ordered.filter((f) => f.scripts.length === 0),
+        ...ordered.filter((f) => f.scripts.length > 0),
+    ];
+    const claimed = new Set<number>(baseCoverage);
+    const result = new Map<string, string>();
+    for (const face of priority) {
+        const entry = byName.get(face.name);
+        if (entry === undefined) continue;
+        const faceCps: number[] = [];
+        for (const url of entryFiles(entry)) {
+            const range = lock[url]?.range;
+            if (range == null) continue;
+            const kept = parseRangeString(range).filter(
+                (cp) => !claimed.has(cp),
+            );
+            result.set(url, toRangeString(kept));
+            faceCps.push(...kept);
+        }
+        // Claim after the whole face so its own slices don't shadow each other.
+        for (const cp of faceCps) claimed.add(cp);
+    }
+    return result;
 }
 
 export function emitFontsCss(lock: Lockfile): string {
@@ -127,17 +161,21 @@ export function emitFontsFallbackCss(
  * Do not edit by hand. Declares every Noto fallback face with unicode-range so
  * browsers lazily download only the slices needed by rendered text, and defines
  * --wordplay-fallback-fonts, the family list appended to every font-family
- * chain. Shared Latin/punctuation codepoints Noto Sans already covers are
- * stripped from each fallback's range (see mechanicalFace) so WebKit doesn't
- * eagerly download every script font. All fonts are licensed under the SIL
- * OFL 1.1 (see /fonts/OFL.txt).
+ * chain. Each codepoint is declared by exactly one face (see
+ * computeFallbackRanges) so a shared glyph downloads one font, not all ~150.
+ * All fonts are licensed under the SIL OFL 1.1 (see /fonts/OFL.txt).
  */\n`;
 
-    // Chain order comes from buildFallback (script → symbol → CJK).
+    // Chain order comes from buildFallback (script → symbol → CJK); the ranges
+    // are de-duplicated so each glyph lives on exactly one face.
+    const ranges = computeFallbackRanges(lock, baseCoverage);
     const ordered = buildFallback(lock);
     const byName = new Map(FontManifest.map((e) => [e.name, e]));
     const blocks = ordered
-        .map((f) => mechanicalFace(byName.get(f.name)!, lock, baseCoverage))
+        .map((f) => {
+            const entry = byName.get(f.name);
+            return entry ? mechanicalFace(entry, lock, ranges) : '';
+        })
         .join('\n');
 
     const varValue = ordered.map((f) => `'${f.name}'`).join(', ');

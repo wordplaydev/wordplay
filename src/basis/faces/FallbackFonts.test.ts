@@ -9,8 +9,11 @@ import {
     getFallbackFontFileURLs,
 } from './FallbackFonts';
 import { Faces, SupportedFaces, rangeContains } from './Fonts';
-import { subtractRange } from '../../../scripts/fonts/deriveRange';
-import { baseFallbackCoverage } from '../../../scripts/fonts/lockfile';
+import {
+    baseFallbackCoverage,
+    readLock,
+} from '../../../scripts/fonts/lockfile';
+import { computeFallbackRanges } from '../../../scripts/fonts/stylesheets';
 
 /** The scripts the preloaded Noto Sans covers, which therefore need no
  * fallback face. */
@@ -188,9 +191,13 @@ describe('CSS and TS artifacts stay in sync', () => {
 
         // Derive the same tuples from the registry. The registry keeps each
         // face's full range (its honest coverage, used only as data), but the
-        // CSS strips the base coverage Noto Sans provides, so apply the same
-        // subtraction here and drop any slice left empty (omitted from the CSS).
-        const base = await baseFallbackCoverage();
+        // CSS de-duplicates the ranges so each codepoint lives on exactly one
+        // face (computeFallbackRanges); look up each slice's de-duped range and
+        // drop any left empty (omitted from the CSS).
+        const deduped = computeFallbackRanges(
+            readLock(),
+            await baseFallbackCoverage(),
+        );
         const expected = new Set<string>();
         for (const face of FallbackFaces) {
             const weightKeys: { key: string; css: string }[] =
@@ -207,12 +214,13 @@ describe('CSS and TS artifacts stay in sync', () => {
                       }));
             expect(weightKeys.length).toBeGreaterThan(0);
             for (const { key, css: cssWeight } of weightKeys) {
-                for (const [index, range] of face.ranges.entries()) {
-                    const narrowed = subtractRange(range, base);
-                    if (narrowed === '') continue;
+                for (const index of face.ranges.keys()) {
                     const [url] = getFallbackFontFileURLs(face, index).filter(
                         (u) => u.includes(`-${key}-`),
                     );
+                    // deduped is keyed by the served path without a leading '/'.
+                    const narrowed = deduped.get(url.replace(/^\//, '')) ?? '';
+                    if (narrowed === '') continue;
                     expected.add(`${face.name}|${cssWeight}|${url}|${narrowed}`);
                 }
             }

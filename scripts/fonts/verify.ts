@@ -1,6 +1,6 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import { hashFile, readCharacterSet, subtractRange } from './deriveRange';
+import { hashFile, readCharacterSet } from './deriveRange';
 import {
     readLock,
     entryFiles,
@@ -10,6 +10,7 @@ import {
 } from './lockfile';
 import type { Lockfile } from './lockfile';
 import { buildFaces, buildFallback, facesRanges } from './faces';
+import { computeFallbackRanges } from './stylesheets';
 import { FontManifest } from '../../src/basis/faces/fonts.manifest';
 
 /**
@@ -82,14 +83,14 @@ function overrideFiles(): Set<string> {
 }
 
 /** Fast: the committed CSS ranges match the lockfile (catches hand-edits to
- * the generated stylesheets). Fallback faces declare their lockfile range minus
- * the base coverage Noto Sans provides (see emitFontsFallbackCss), so the check
- * applies the same subtraction before comparing them. */
+ * the generated stylesheets). Fallback faces declare a de-duplicated range (each
+ * codepoint on exactly one face; see computeFallbackRanges), so the check
+ * recomputes those and compares them; preloaded faces use the lockfile verbatim. */
 export async function checkCssConsistency(lock: Lockfile): Promise<Problem[]> {
     const problems: Problem[] = [];
     const island = overrideFiles();
     const fallback = fallbackFileSet();
-    const base = await baseFallbackCoverage();
+    const deduped = computeFallbackRanges(lock, await baseFallbackCoverage());
     const css = parseCssRanges();
     const norm = (r: string) => r.replaceAll(/\s+/g, ' ').trim();
     for (const [url, range] of css) {
@@ -101,7 +102,7 @@ export async function checkCssConsistency(lock: Lockfile): Promise<Problem[]> {
         }
         if (rec.range === null) continue;
         const expected = fallback.has(url)
-            ? subtractRange(rec.range, base)
+            ? (deduped.get(url) ?? '')
             : rec.range;
         if (norm(expected) !== norm(range))
             problems.push(`CSS range for ${url} differs from the lockfile`);
