@@ -161,27 +161,17 @@
         };
     });
 
-    function prefersDark() {
-        return (
-            typeof window !== 'undefined' &&
-            window.matchMedia &&
-            window.matchMedia('(prefers-color-scheme:dark)').matches
-        );
-    }
-
-    /** When dark mode changes, update the html element's dark/light classes */
+    /** When the dark setting changes, drive the html element's color-scheme,
+        which both light-dark() and native form controls track. 'light dark'
+        means follow the OS; a single keyword forces that mode. */
     $effect(() => {
         if (browser) {
-            if ($dark === true || ($dark === null && prefersDark())) {
-                document.documentElement.classList.add('dark');
-                document.documentElement.classList.remove('light');
-            } else if ($dark === false) {
-                document.documentElement.classList.remove('dark');
-                document.documentElement.classList.add('light');
-            } else {
-                document.documentElement.classList.remove('dark');
-                document.documentElement.classList.remove('light');
-            }
+            document.documentElement.style.colorScheme =
+                $dark === true
+                    ? 'dark'
+                    : $dark === false
+                      ? 'light'
+                      : 'light dark';
         }
     });
 

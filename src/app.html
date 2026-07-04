@@ -80,36 +80,80 @@
 
         <style>
             :root {
-                --color-blue: #648fff;
-                --color-blue-transparent: color-mix(
+                /* Light/dark palette pairs. Each raw value is authored exactly
+                   once here, then composed by both the light-dark() block and
+                   the legacy @media fallback below — so the light and dark
+                   values can never drift apart the way the old duplicated dark
+                   blocks did (they had, e.g. --color-dark-grey). */
+                --blue-light: #648fff;
+                --blue-dark: #3a72fe;
+                --blue-transparent-light: color-mix(
                     in srgb,
-                    var(--color-blue) 10%,
+                    var(--blue-light) 10%,
                     transparent
                 );
-                --color-purple: #785ef0;
-                --color-purple-transparent: color-mix(
+                --blue-transparent-dark: #0f1e45;
+                --purple-light: #785ef0;
+                --purple-dark: #c7b4ff;
+                --purple-transparent-light: color-mix(
                     in srgb,
-                    var(--color-purple) 10%,
+                    var(--purple-light) 10%,
                     transparent
                 );
-                --color-pink: #dc267f;
-                --color-pink-transparent: color-mix(
+                --purple-transparent-dark: #261862;
+                --pink-light: #dc267f;
+                --pink-dark: #ee68a9;
+                --pink-transparent-light: color-mix(
                     in srgb,
-                    var(--color-pink) 2%,
+                    var(--pink-light) 2%,
                     transparent
                 );
-                --color-orange: #fe6100;
+                --pink-transparent-dark: rgb(77, 15, 45);
+                --orange-light: #fe6100;
+                --orange-dark: #ff5e00;
+                --yellow-light: #c88800;
+                --yellow-dark: #b67c00;
+                --yellow-transparent-light: #ffb0004b;
+                --yellow-transparent-dark: #b67c004b;
+                --white-light: #ffffff;
+                --white-dark: #000000;
+                --black-light: #000000;
+                --black-dark: #ffffff;
+                --light-grey-light: #9f9f9f;
+                --light-grey-dark: #6d6d6d;
+                --very-light-grey-light: #f3f3f3;
+                --very-light-grey-dark: #1e1e1e;
+                --dark-grey-light: #303030;
+                --dark-grey-dark: #e1e1e1;
+                --shadow-light: rgb(0, 0, 0, 0.2);
+                --shadow-dark: rgba(227, 227, 227, 0.8);
+                --shadow-transparent-light: rgb(0, 0, 0, 0.05);
+                --shadow-transparent-dark: rgba(227, 227, 227, 0.15);
+
+                /* Light defaults, valid on every browser. Modern browsers get
+                   these overridden with light-dark() further down; browsers
+                   without light-dark() keep these plus the @media dark fallback.
+                   light-dark() must NOT live here — a browser that can't parse
+                   it would treat var(--color-*) as an invalid color and break
+                   every color that uses it. */
+                --color-blue: var(--blue-light);
+                --color-blue-transparent: var(--blue-transparent-light);
+                --color-purple: var(--purple-light);
+                --color-purple-transparent: var(--purple-transparent-light);
+                --color-pink: var(--pink-light);
+                --color-pink-transparent: var(--pink-transparent-light);
+                --color-orange: var(--orange-light);
                 --color-orange-transparent: #fe61004b;
-                --color-yellow: #c88800;
-                --color-yellow-transparent: #ffb0004b;
-                --color-white: #ffffff;
-                --color-black: #000000;
-                --color-light-grey: #9f9f9f;
+                --color-yellow: var(--yellow-light);
+                --color-yellow-transparent: var(--yellow-transparent-light);
+                --color-white: var(--white-light);
+                --color-black: var(--black-light);
+                --color-light-grey: var(--light-grey-light);
                 --color-light-grey-transparent: #9f9f9f36;
-                --color-very-light-grey: #f3f3f3;
-                --color-dark-grey: #303030;
-                --color-shadow: rgb(0, 0, 0, 0.2);
-                --color-shadow-transparent: rgb(0, 0, 0, 0.05);
+                --color-very-light-grey: var(--very-light-grey-light);
+                --color-dark-grey: var(--dark-grey-light);
+                --color-shadow: var(--shadow-light);
+                --color-shadow-transparent: var(--shadow-transparent-light);
 
                 /* Colors */
                 --wordplay-foreground: var(--color-black);
@@ -236,46 +280,112 @@
                 --wordplay-block-insertion-margin: 0.5rem;
             }
 
-            @media (prefers-color-scheme: dark) {
-                :root:not(.light) {
-                    --color-blue: #3a72fe;
-                    --color-blue-transparent: #0f1e45;
-                    --color-purple: #c7b4ff;
-                    --color-purple-transparent: #261862;
-                    --color-pink: #ee68a9;
-                    --color-pink-transparent: rgb(77, 15, 45);
-                    --color-orange: #ff5e00;
-                    --color-yellow: #b67c00;
-                    --color-yellow-transparent: #b67c004b;
-                    --color-white: #000000;
-                    --color-black: #ffffff;
-                    --color-light-grey: #6d6d6d;
-                    --color-very-light-grey: #1e1e1e;
-                    --color-dark-grey: #eaeaea;
-                    --color-shadow: rgba(227, 227, 227, 0.8);
-                    --color-shadow-transparent: rgba(227, 227, 227, 0.15);
+            /* Modern browsers: color-scheme + light-dark() give the OS-driven
+               default AND let JS force a mode by setting the color-scheme
+               property on <html> (see +layout.svelte). All values come from the
+               single-source pairs above, so there is nothing to keep in sync. */
+            @supports (color: light-dark(#000, #fff)) {
+                :root {
+                    color-scheme: light dark;
+                    --color-blue: light-dark(
+                        var(--blue-light),
+                        var(--blue-dark)
+                    );
+                    --color-blue-transparent: light-dark(
+                        var(--blue-transparent-light),
+                        var(--blue-transparent-dark)
+                    );
+                    --color-purple: light-dark(
+                        var(--purple-light),
+                        var(--purple-dark)
+                    );
+                    --color-purple-transparent: light-dark(
+                        var(--purple-transparent-light),
+                        var(--purple-transparent-dark)
+                    );
+                    --color-pink: light-dark(
+                        var(--pink-light),
+                        var(--pink-dark)
+                    );
+                    --color-pink-transparent: light-dark(
+                        var(--pink-transparent-light),
+                        var(--pink-transparent-dark)
+                    );
+                    --color-orange: light-dark(
+                        var(--orange-light),
+                        var(--orange-dark)
+                    );
+                    --color-yellow: light-dark(
+                        var(--yellow-light),
+                        var(--yellow-dark)
+                    );
+                    --color-yellow-transparent: light-dark(
+                        var(--yellow-transparent-light),
+                        var(--yellow-transparent-dark)
+                    );
+                    --color-white: light-dark(
+                        var(--white-light),
+                        var(--white-dark)
+                    );
+                    --color-black: light-dark(
+                        var(--black-light),
+                        var(--black-dark)
+                    );
+                    --color-light-grey: light-dark(
+                        var(--light-grey-light),
+                        var(--light-grey-dark)
+                    );
+                    --color-very-light-grey: light-dark(
+                        var(--very-light-grey-light),
+                        var(--very-light-grey-dark)
+                    );
+                    --color-dark-grey: light-dark(
+                        var(--dark-grey-light),
+                        var(--dark-grey-dark)
+                    );
+                    --color-shadow: light-dark(
+                        var(--shadow-light),
+                        var(--shadow-dark)
+                    );
+                    --color-shadow-transparent: light-dark(
+                        var(--shadow-transparent-light),
+                        var(--shadow-transparent-dark)
+                    );
                 }
             }
 
-            /* This is duplciated above because we want to avoid a flash on load. Dark mode values need
-             to be updated in both places.*/
-            :root.dark {
-                --color-blue: #3a72fe;
-                --color-blue-transparent: #0f1e45;
-                --color-purple: #c7b4ff;
-                --color-purple-transparent: #261862;
-                --color-pink: #ee68a9;
-                --color-pink-transparent: rgb(77, 15, 45);
-                --color-orange: #ff5e00;
-                --color-yellow: #b67c00;
-                --color-yellow-transparent: #b67c004b;
-                --color-white: #000000;
-                --color-black: #ffffff;
-                --color-light-grey: #6d6d6d;
-                --color-very-light-grey: #1e1e1e;
-                --color-dark-grey: #e1e1e1;
-                --color-shadow: rgba(227, 227, 227, 0.8);
-                --color-shadow-transparent: rgba(227, 227, 227, 0.15);
+            /* Legacy fallback: browsers without light-dark() still get OS-driven
+               dark mode (they can't honor a forced override — acceptable
+               degradation). @supports-not gates it so modern browsers, which go
+               dark via light-dark() above, never apply it — otherwise it would
+               re-darken a user who forced light on an OS-dark machine. */
+            @supports not (color: light-dark(#000, #fff)) {
+                @media (prefers-color-scheme: dark) {
+                    :root {
+                        --color-blue: var(--blue-dark);
+                        --color-blue-transparent: var(--blue-transparent-dark);
+                        --color-purple: var(--purple-dark);
+                        --color-purple-transparent: var(
+                            --purple-transparent-dark
+                        );
+                        --color-pink: var(--pink-dark);
+                        --color-pink-transparent: var(--pink-transparent-dark);
+                        --color-orange: var(--orange-dark);
+                        --color-yellow: var(--yellow-dark);
+                        --color-yellow-transparent: var(
+                            --yellow-transparent-dark
+                        );
+                        --color-white: var(--white-dark);
+                        --color-black: var(--black-dark);
+                        --color-light-grey: var(--light-grey-dark);
+                        --color-very-light-grey: var(--very-light-grey-dark);
+                        --color-dark-grey: var(--dark-grey-dark);
+                        --color-shadow: var(--shadow-dark);
+                        --color-shadow-transparent: var(
+                            --shadow-transparent-dark
+                        );
+                    }
+                }
             }
 
             @keyframes wobble {
