@@ -34,7 +34,7 @@ import {
 import { SvelteMap } from 'svelte/reactivity';
 import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
-import { notifications } from '../../routes/+layout.svelte';
+import { notifications } from '@db/notifications.svelte';
 
 ////////////////////////////////
 // SCHEMAS

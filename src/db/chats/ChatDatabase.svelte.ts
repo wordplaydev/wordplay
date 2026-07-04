@@ -36,7 +36,7 @@ import {
 import { SvelteMap } from 'svelte/reactivity';
 import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
-import { notifications } from '../../routes/+layout.svelte';
+import { notifications } from '@db/notifications.svelte';
 
 ////////////////////////////////
 // SCHEMAS
@@ -73,8 +73,7 @@ export const MessageSchemaLatestVersion = 2;
 
 export type SerializedMessage = z.infer<typeof MessageSchemaV2>;
 export type SerializedMessageUnknownVersion =
-    | z.infer<typeof MessageSchemaV1>
-    | SerializedMessage;
+    z.infer<typeof MessageSchemaV1> | SerializedMessage;
 
 const ChatSchemaV1 = z.object({
     // The version of the schema
@@ -107,8 +106,7 @@ const ChatSchemaLatestVersion = 2;
 
 export type SerializedChat = z.infer<typeof ChatSchemaV2>;
 export type SerializedChatUnknownVersion =
-    | z.infer<typeof ChatSchemaV1>
-    | SerializedChat;
+    z.infer<typeof ChatSchemaV1> | SerializedChat;
 
 /** Chat upgrader */
 export function upgradeChat(

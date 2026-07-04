@@ -25,7 +25,7 @@
         type Class,
     } from '@db/teachers/TeacherDatabase.svelte';
     import { CANCEL_SYMBOL, PREVIOUS_SYMBOL } from '@parser/Symbols';
-    import { getTeachData } from '../../+layout.svelte';
+    import { getTeachData } from '@db/teachers/TeachData.svelte';
     import { localeGoto } from '@util/localeGoto';
 
     let teach = getTeachData();

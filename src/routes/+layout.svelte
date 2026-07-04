@@ -1,22 +1,13 @@
-<script module lang="ts">
-    import type { NotificationData } from '@components/settings/Notifications.svelte';
-    import { SvelteMap } from 'svelte/reactivity';
-
-    /** User's notifications state
-     * Maps a string (notification's item ID + type) to data
-     * (Workaround to make sure that we don't send more than one notification of the same type)
-     */
-    export let notifications = $state<SvelteMap<string, NotificationData>>(
-        new SvelteMap(),
-    );
-</script>
-
 <script lang="ts">
     // Side-effect import: registers type-mismatch resolvers with the Conflict
     // registry. Loaded once at app startup so the registry is populated by
     // the time any annotation asks for resolutions. See the file's header
     // for why it can't be imported by the conflict files directly.
     import '@conflicts/registerTypeResolutions';
+
+    // Notifications state lives in @db so the databases that write it don't
+    // import from this route component (that cycle crashes WebKit hydration).
+    import { notifications } from '@db/notifications.svelte';
 
     import { browser } from '$app/environment';
     import { page } from '$app/state';
