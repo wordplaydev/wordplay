@@ -3,7 +3,9 @@ import * as path from 'node:path';
 import { faceFiles, spaceless } from './files';
 import { deriveRange, hashFile } from './deriveRange';
 import { FontManifest } from '../../src/basis/faces/fonts.manifest';
-import { Faces } from '../../src/basis/faces/Fonts';
+// NB: the generator must NOT import Fonts.ts — it imports the generated
+// faces.generated.ts, which doesn't exist yet on a fresh clone, so importing it
+// here would make `fonts-build` fail to bootstrap those very files.
 
 /**
  * The font lockfile records, per served font file, its content hash and the
@@ -88,10 +90,9 @@ export async function buildLockfile(
             if (entry.rangeSource === 'cmap') {
                 range = await deriveRange(filePath, { kind: 'full' });
             } else if (entry.rangeSource === 'preserve') {
-                // Decorative faces aren't in CSS; keep their current Faces
-                // range (a single string applied to the whole face, or none).
-                const current = Faces[entry.name]?.ranges;
-                range = typeof current === 'string' ? current : null;
+                // Decorative faces aren't in CSS; keep the range captured in the
+                // committed lockfile (a single string per whole face, or none).
+                range = previous[url]?.range ?? null;
             } else {
                 // google: keep the captured slice partition (a cmap can't
                 // reconstruct it). previous is the committed lockfile; the CSS
