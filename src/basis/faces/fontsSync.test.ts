@@ -23,8 +23,8 @@ describe('font artifacts are in sync with the manifest + font files', () => {
         expect(checkHashes(lock)).toEqual([]);
     });
 
-    test('the committed CSS ranges match the lockfile', () => {
-        expect(checkCssConsistency(lock)).toEqual([]);
+    test('the committed CSS ranges match the lockfile', async () => {
+        expect(await checkCssConsistency(lock)).toEqual([]);
     });
 
     test('faces.generated.ts matches the manifest + lockfile', async () => {

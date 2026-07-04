@@ -9,6 +9,8 @@ import {
     getFallbackFontFileURLs,
 } from './FallbackFonts';
 import { Faces, SupportedFaces, rangeContains } from './Fonts';
+import { subtractRange } from '../../../scripts/fonts/deriveRange';
+import { baseFallbackCoverage } from '../../../scripts/fonts/lockfile';
 
 /** The scripts the preloaded Noto Sans covers, which therefore need no
  * fallback face. */
@@ -168,7 +170,7 @@ describe('CSS and TS artifacts stay in sync', () => {
         ).toBe(FallbackFontFamilies);
     });
 
-    test('the CSS @font-face declarations match the registry', () => {
+    test('the CSS @font-face declarations match the registry', async () => {
         // Collect (family, weight, url, range) tuples from the CSS.
         const declared = new Set<string>();
         for (const block of css.matchAll(/@font-face\s*\{([^}]*)\}/g)) {
@@ -184,7 +186,11 @@ describe('CSS and TS artifacts stay in sync', () => {
             declared.add(`${family}|${weight}|${url}|${range}`);
         }
 
-        // Derive the same tuples from the registry.
+        // Derive the same tuples from the registry. The registry keeps each
+        // face's full range (its honest coverage, used only as data), but the
+        // CSS strips the base coverage Noto Sans provides, so apply the same
+        // subtraction here and drop any slice left empty (omitted from the CSS).
+        const base = await baseFallbackCoverage();
         const expected = new Set<string>();
         for (const face of FallbackFaces) {
             const weightKeys: { key: string; css: string }[] =
@@ -202,10 +208,12 @@ describe('CSS and TS artifacts stay in sync', () => {
             expect(weightKeys.length).toBeGreaterThan(0);
             for (const { key, css: cssWeight } of weightKeys) {
                 for (const [index, range] of face.ranges.entries()) {
+                    const narrowed = subtractRange(range, base);
+                    if (narrowed === '') continue;
                     const [url] = getFallbackFontFileURLs(face, index).filter(
                         (u) => u.includes(`-${key}-`),
                     );
-                    expected.add(`${face.name}|${cssWeight}|${url}|${range}`);
+                    expected.add(`${face.name}|${cssWeight}|${url}|${narrowed}`);
                 }
             }
         }

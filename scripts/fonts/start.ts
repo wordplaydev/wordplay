@@ -27,7 +27,7 @@ async function verify(deep: boolean): Promise<void> {
     const lock = readLock();
     const problems = [
         ...checkHashes(lock),
-        ...checkCssConsistency(lock),
+        ...(await checkCssConsistency(lock)),
         ...(await checkRegistryConsistency(
             lock,
             await import('../../src/basis/faces/faces.generated'),

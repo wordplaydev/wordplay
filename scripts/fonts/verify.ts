@@ -1,7 +1,13 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import { hashFile, readCharacterSet } from './deriveRange';
-import { readLock, entryFiles, parseCssRanges } from './lockfile';
+import { hashFile, readCharacterSet, subtractRange } from './deriveRange';
+import {
+    readLock,
+    entryFiles,
+    parseCssRanges,
+    fallbackFileSet,
+    baseFallbackCoverage,
+} from './lockfile';
 import type { Lockfile } from './lockfile';
 import { buildFaces, buildFallback, facesRanges } from './faces';
 import { FontManifest } from '../../src/basis/faces/fonts.manifest';
@@ -76,11 +82,16 @@ function overrideFiles(): Set<string> {
 }
 
 /** Fast: the committed CSS ranges match the lockfile (catches hand-edits to
- * the generated stylesheets). */
-export function checkCssConsistency(lock: Lockfile): Problem[] {
+ * the generated stylesheets). Fallback faces declare their lockfile range minus
+ * the base coverage Noto Sans provides (see emitFontsFallbackCss), so the check
+ * applies the same subtraction before comparing them. */
+export async function checkCssConsistency(lock: Lockfile): Promise<Problem[]> {
     const problems: Problem[] = [];
     const island = overrideFiles();
+    const fallback = fallbackFileSet();
+    const base = await baseFallbackCoverage();
     const css = parseCssRanges();
+    const norm = (r: string) => r.replaceAll(/\s+/g, ' ').trim();
     for (const [url, range] of css) {
         if (island.has(url)) continue; // emoji island, guarded separately
         const rec = lock[url];
@@ -88,8 +99,11 @@ export function checkCssConsistency(lock: Lockfile): Problem[] {
             problems.push(`CSS references a file not in the lockfile: ${url}`);
             continue;
         }
-        const norm = (r: string) => r.replaceAll(/\s+/g, ' ').trim();
-        if (rec.range !== null && norm(rec.range) !== norm(range))
+        if (rec.range === null) continue;
+        const expected = fallback.has(url)
+            ? subtractRange(rec.range, base)
+            : rec.range;
+        if (norm(expected) !== norm(range))
             problems.push(`CSS range for ${url} differs from the lockfile`);
     }
     return problems;

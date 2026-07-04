@@ -21,6 +21,14 @@ describe('appFontFamilies', () => {
             '"Noto Sans", "Noto Sans Korean", "Noto Color Emoji", "Noto Emoji", var(--wordplay-fallback-fonts), sans-serif',
         );
     });
+
+    test('inserts Noto Sans as the base face when a locale font omits it', () => {
+        // Noto Sans must precede the fallback var in every chain so the fallback
+        // CSS can strip shared Latin/punctuation from the script faces' ranges.
+        expect(appFontFamilies(null, ['Noto Sans Korean'])).toBe(
+            '"Noto Sans Korean", "Noto Sans", "Noto Color Emoji", "Noto Emoji", var(--wordplay-fallback-fonts), sans-serif',
+        );
+    });
 });
 
 describe('codeFontFamilies', () => {

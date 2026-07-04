@@ -1,6 +1,11 @@
 import * as fs from 'node:fs';
 import { deriveEmojiRange, EMOJI_WHOLE_FILE } from './deriveRange';
-import { buildLockfile, writeLock, readLock } from './lockfile';
+import {
+    buildLockfile,
+    writeLock,
+    readLock,
+    baseFallbackCoverage,
+} from './lockfile';
 import type { Lockfile } from './lockfile';
 import { buildFaces, buildFallback } from './faces';
 import type { FaceRecord } from './faces';
@@ -119,17 +124,19 @@ ${UNCOVERED_SCRIPTS.map((s) => `    '${s}',`).join('\n')}
 }
 
 /** Fast build step for postinstall/CI: re-emit the cheap artifacts
- * (faces.generated.ts + both stylesheets) from the COMMITTED lockfile, with no
- * cmap reads beyond the two small emoji fonts. Used to keep those files out of
- * the repo while still present in every build. renderable.generated.ts is
- * committed (its cmap-union is expensive) and left untouched here. */
+ * (faces.generated.ts + both stylesheets) from the COMMITTED lockfile. The only
+ * cmap reads are the two small emoji fonts and Noto Sans's 400 slices (for the
+ * fallback base coverage) — cheap enough to keep in every build. Used to keep
+ * these files out of the repo while still present in every build.
+ * renderable.generated.ts is committed (its cmap-union is expensive) and left
+ * untouched here. */
 export async function build(): Promise<void> {
     const lock = readLock();
     fs.writeFileSync(GENERATED, await emitFacesGenerated(lock));
     fs.writeFileSync('static/fonts/fonts.css', emitFontsCss(lock));
     fs.writeFileSync(
         'static/fonts/fonts-fallback.css',
-        emitFontsFallbackCss(lock),
+        emitFontsFallbackCss(lock, await baseFallbackCoverage()),
     );
 }
 

@@ -87,6 +87,33 @@ export async function readCharacterSet(fontPath: string): Promise<number[]> {
     return (font as { characterSet: number[] }).characterSet;
 }
 
+/** Parse a CSS unicode-range string (as produced by toRangeString or captured
+ * from Google's partition) back into its codepoints. Only the single-codepoint
+ * (`U+13a0`) and interval (`U+13a0-13ff`) forms appear in our ranges — no `?`
+ * wildcards — so those are all this handles. */
+export function parseRangeString(range: string): number[] {
+    const cps: number[] = [];
+    for (const token of range.split(',')) {
+        const t = token.trim();
+        if (t === '') continue;
+        const [lo, hi] = t.replace(/^U\+/i, '').split('-');
+        const a = parseInt(lo, 16);
+        const b = hi === undefined ? a : parseInt(hi, 16);
+        for (let cp = a; cp <= b; cp++) cps.push(cp);
+    }
+    return cps;
+}
+
+/** Drop `remove`'s codepoints from a unicode-range string, returning the
+ * compacted remainder (empty string if nothing is left). The one operation the
+ * fallback CSS and its drift check both apply, so they can't diverge. */
+export function subtractRange(
+    range: string,
+    remove: ReadonlySet<number>,
+): string {
+    return toRangeString(parseRangeString(range).filter((cp) => !remove.has(cp)));
+}
+
 /** Merge a sorted codepoint list into compact intervals and format as a CSS
  * unicode-range string (lowercase hex, matching Google's slice style). */
 export function toRangeString(codepoints: Iterable<number>): string {

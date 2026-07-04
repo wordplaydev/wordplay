@@ -1,7 +1,7 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { faceFiles, spaceless } from './files';
-import { deriveRange, hashFile } from './deriveRange';
+import { deriveRange, hashFile, readCharacterSet } from './deriveRange';
 import { FontManifest } from '../../src/basis/faces/fonts.manifest';
 // NB: the generator must NOT import Fonts.ts — it imports the generated
 // faces.generated.ts, which doesn't exist yet on a fresh clone, so importing it
@@ -64,6 +64,36 @@ export function parseCssRanges(): Map<string, string> {
 /** Every served font file for a manifest entry (per its format), relative to static/. */
 export function entryFiles(entry: (typeof FontManifest)[number]): string[] {
     return faceFiles(spaceless(entry.name), entry.format);
+}
+
+/** The served files of every fallback face, as a set for membership tests. */
+export function fallbackFileSet(): Set<string> {
+    const files = new Set<string>();
+    for (const entry of FontManifest)
+        if (entry.roles.includes('fallback'))
+            for (const url of entryFiles(entry)) files.add(url);
+    return files;
+}
+
+/** The codepoints the lazy fallback faces don't need to claim because Noto Sans
+ * (preloaded, and ahead of the fallback var in every font-family chain) already
+ * covers them. Read from Noto Sans's actual cmap — not its declared range,
+ * which can over-claim — so subtracting it can never strip a glyph Noto Sans
+ * lacks and cause tofu. Coverage is weight-independent, so only the 400 slices
+ * are read (keeps this cheap enough for the postinstall/CI build). Shared by the
+ * fallback CSS emitter and its drift check so they can't diverge. */
+export async function baseFallbackCoverage(): Promise<Set<number>> {
+    const noto = FontManifest.find((e) => e.name === 'Noto Sans');
+    if (noto === undefined) return new Set();
+    const all = entryFiles(noto);
+    const slices = all.filter(
+        (u) => /-400-\d+\./.test(u) && !u.includes('italic'),
+    );
+    const cov = new Set<number>();
+    for (const url of slices.length > 0 ? slices : all)
+        for (const cp of await readCharacterSet(path.join('static', url)))
+            cov.add(cp);
+    return cov;
 }
 
 /** Build the lockfile from scratch: hash every served file and record its
