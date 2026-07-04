@@ -303,6 +303,9 @@
         justify-content: center;
         width: 100%;
         height: 100%;
+        /* Preview shows creator output — keep it a stable light canvas (matching
+           OutputView/StageView) so its background/foreground don't invert in dark. */
+        color-scheme: light;
         background: var(--wordplay-background);
         text-decoration: none;
         color: var(--wordplay-foreground);

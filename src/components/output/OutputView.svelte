@@ -1630,6 +1630,15 @@
     }
 
     .value {
+        /* Creator output is a stable light canvas: pin the color scheme so the
+           theme tokens (--wordplay-background/foreground) and any native inputs
+           inside output resolve to their light values even when the UI chrome is
+           dark. Absolute lch() program colors are unaffected, so a program that
+           sets dark colors still gets them. (On browsers without light-dark()
+           the legacy @media dark fallback in app.html is global and can't be
+           overridden per element — acceptable legacy degradation.) */
+        color-scheme: light;
+
         transform-origin: top right;
 
         flex-grow: 1;

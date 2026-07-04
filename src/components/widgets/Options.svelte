@@ -266,6 +266,9 @@
         color: var(--wordplay-foreground);
         font-family: var(--wordplay-app-font);
         font-size: var(--wordplay-small-font-size);
+        /* Pin the line box so a tall fallback-font glyph in the selected value
+           can't inflate the control height or shift its baseline. */
+        line-height: 1;
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);
         gap: var(--wordplay-spacing);

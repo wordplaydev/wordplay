@@ -270,6 +270,9 @@
         color: inherit;
         border: none;
         outline: none;
+        /* Drop native rendering so the field's size doesn't shift with the UA's
+           color-scheme metrics once color-scheme is set on :root. */
+        appearance: none;
         min-width: 3em;
         cursor: text;
     }

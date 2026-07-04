@@ -238,6 +238,12 @@
         padding: 0;
         border: none;
         background: none;
+        /* Fully drop native rendering. Without this the button stays
+           appearance:auto and inherits the UA's color-scheme metrics once
+           color-scheme is set on :root, which shifts its height between light
+           and dark. line-height:1 keeps the box height from min-height + content. */
+        appearance: none;
+        line-height: 1;
         border-radius: var(--wordplay-border-radius);
         color: currentColor;
         cursor: pointer;

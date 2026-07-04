@@ -215,6 +215,11 @@
         font-family: var(--wordplay-app-font);
         font-size: var(--wordplay-small-font-size);
         font-weight: var(--wordplay-font-weight);
+        /* Drop native rendering and pin the line box so a tall fallback-font
+           icon glyph (e.g. an emoji or math symbol) can't inflate the button's
+           height or shift the baseline the row label aligns to. */
+        appearance: none;
+        line-height: 1;
         cursor: pointer;
         width: fit-content;
         white-space: nowrap;

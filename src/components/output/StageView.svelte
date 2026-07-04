@@ -563,6 +563,10 @@
         position: relative;
         flex-grow: 1;
 
+        /* Keep stages a stable light canvas even when rendered outside OutputView
+           (e.g. project previews), so the fallbacks below resolve light and don't
+           invert under a dark UI. */
+        color-scheme: light;
         color: var(--wordplay-foreground);
 
         --grid-color: currentColor;
