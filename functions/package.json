@@ -17,15 +17,15 @@
     },
     "main": "lib/index.js",
     "dependencies": {
-        "@anthropic-ai/sdk": "^0.106.0",
+        "@anthropic-ai/sdk": "^0",
         "@google-cloud/translate": "^9",
         "@supercharge/promise-pool": "^3",
         "firebase-admin": "^13",
         "firebase-functions": "^7",
         "nodemailer": "^9",
-        "prettier": "^3.8.3",
+        "prettier": "^3",
         "shared-types": "file:./src/shared",
-        "yjs": "^13.6.30"
+        "yjs": "^13"
     },
     "devDependencies": {
         "@types/nodemailer": "^8",
