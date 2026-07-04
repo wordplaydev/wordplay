@@ -8,11 +8,12 @@ import type { SupportedFace } from './Fonts';
  */
 
 /** The user's chosen face first (if any), then each locale's preferred app
- * font, then Noto Sans, then the emoji faces. Noto Sans is included so this
- * chain — like every other chain that ends in the fallback var — has the base
- * Latin/punctuation face ahead of the fallbacks; the fallback CSS strips those
- * shared codepoints from each script face's range (see scripts/fonts/
- * stylesheets.ts) to stop WebKit eagerly downloading every script font. */
+ * font, then the emoji faces, then Noto Sans. Noto Sans comes AFTER the emoji
+ * faces so a dual-covered codepoint renders as color emoji, not a monochrome
+ * Noto Sans glyph — but still ahead of the fallback var, which every chain needs
+ * as its base Latin/punctuation face (the fallback CSS strips those shared
+ * codepoints from each script face's range; see scripts/fonts/stylesheets.ts).
+ * Mirrors codeFontFamilies' ordering. */
 export function appFontFamilies(
     override: SupportedFace | null,
     localeFaces: string[],
@@ -21,10 +22,10 @@ export function appFontFamilies(
         [
             ...(override !== null ? [override] : []),
             ...localeFaces,
-            'Noto Sans',
             // Fall back to the emoji fonts for emojis, color first.
             'Noto Color Emoji',
             'Noto Emoji',
+            'Noto Sans',
         ],
         'sans-serif',
     );
