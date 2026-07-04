@@ -33,7 +33,7 @@
 </script>
 
 {#if playback}
-    <CommandButton padding background command={Restart} uiid="timelineReset" />
+    <CommandButton background command={Restart} uiid="timelineReset" />
     <Switch
         on={$evaluation?.playing === true}
         toggle={(play) => (play ? evaluator.play() : evaluator.pause())}

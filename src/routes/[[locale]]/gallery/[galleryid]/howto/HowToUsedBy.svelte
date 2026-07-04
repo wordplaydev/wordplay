@@ -116,7 +116,6 @@
         <MarkupHTMLView inline markup={name} />
         <Button
             submit
-            padding={false}
             tip={(l) => l.ui.howto.viewer.usedBy.removeButton}
             action={() => {
                 removeFromUsedByList(id);

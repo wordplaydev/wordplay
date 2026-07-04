@@ -57,7 +57,6 @@
                     ? l.ui.source.toggle.expandSequence.on
                     : l.ui.source.toggle.expandSequence.off}
             background
-            padding={false}
             action={() => (expanded = !expanded)}>{expanded ? '▴' : '…'}</Button
         >{:else if !isColor}<span class="static">…</span
         >{/if}<SymbolView symbol={EVAL_CLOSE_SYMBOL} type={Sym.EvalClose} />

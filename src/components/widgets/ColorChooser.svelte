@@ -343,7 +343,6 @@
                     )}<Button
                     classes="swatch"
                     tip={() => swatchLabel}
-                    padding={false}
                     action={() => {
                         lightness = primary[0] / 100;
                         chroma = primary[1];
@@ -421,7 +420,6 @@
         {#if editable && canPick}
             <Button
                 tip={(l) => l.ui.widget.color.pick.tip}
-                padding={false}
                 icon="💧"
                 action={() => pickColor()}
             ></Button>

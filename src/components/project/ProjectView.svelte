@@ -2242,7 +2242,6 @@
                                     <Button
                                         tip={(l) => l.ui.output.tour.launch}
                                         background="circular"
-                                        padding={false}
                                         icon={INFO_SYMBOL}
                                         uiid="stageTourLaunch"
                                         action={() => {
@@ -2253,7 +2252,6 @@
                                     <Button
                                         tip={(l) => l.ui.source.tour.launch}
                                         background="circular"
-                                        padding={false}
                                         icon={INFO_SYMBOL}
                                         uiid="sourceTourLaunch"
                                         action={() => {
@@ -2264,7 +2262,6 @@
                                     <Button
                                         tip={(l) => l.ui.docs.tour.launch}
                                         background="circular"
-                                        padding={false}
                                         icon={INFO_SYMBOL}
                                         uiid="docsTourLaunch"
                                         action={() => {
@@ -2275,7 +2272,6 @@
                                     <Button
                                         tip={(l) => l.ui.palette.tour.launch}
                                         background="circular"
-                                        padding={false}
                                         icon={INFO_SYMBOL}
                                         uiid="paletteTourLaunch"
                                         action={startPaletteTour}
@@ -2285,7 +2281,6 @@
                                         tip={(l) =>
                                             l.ui.collaborate.tour.launch}
                                         background="circular"
-                                        padding={false}
                                         icon={INFO_SYMBOL}
                                         uiid="collaborateTourLaunch"
                                         action={() => {
@@ -2335,7 +2330,6 @@
                                     {#snippet outputRestart()}
                                         <CommandButton
                                             background
-                                            padding
                                             command={Restart}
                                         />
                                     {/snippet}

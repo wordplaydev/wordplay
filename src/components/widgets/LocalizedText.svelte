@@ -263,7 +263,6 @@
             <Button
                 tip={(l) => l.ui.localize.button.edit}
                 action={startEditing}
-                padding={false}
                 background="salient"
                 size="inherit">{EDIT_SYMBOL}</Button
             >
@@ -295,7 +294,6 @@
                     ? (l) => l.ui.localize.button.editTip
                     : (l) => l.ui.localize.button.edit}
                 action={startEditing}
-                padding={false}
                 background="salient"
                 size="inherit"
                 >{#if tipIcon}{TOOLTIP_SYMBOL}{:else}{#if override}{EDIT_SYMBOL}{/if}{override ??

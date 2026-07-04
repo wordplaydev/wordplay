@@ -364,7 +364,6 @@
 {#snippet choice(hex: number[])}
     <div class="emoji" class:selected={String.fromCodePoint(...hex) === glyph}
         ><Button
-            padding={false}
             tip={() => localizedNameFor(hex)}
             action={() => pick(String.fromCodePoint(...hex))}
             ><span class="emoji">{String.fromCodePoint(...hex)}</span></Button
@@ -472,7 +471,6 @@
                 >
                     <Button
                         tip={() => character.description}
-                        padding={false}
                         action={() => pick(`@${character.name}`)}
                     >
                         {@html characterToSVG(character, '1.25em')}

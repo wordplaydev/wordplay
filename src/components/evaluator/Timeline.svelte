@@ -266,7 +266,6 @@
         <ButtonWidget
             tip={(l) => l.ui.timeline.tour.launch}
             background="circular"
-            padding={false}
             uiid="debugtour"
             icon={INFO_SYMBOL}
             action={() => (touring = true)}

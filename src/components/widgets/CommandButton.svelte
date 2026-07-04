@@ -23,7 +23,6 @@
         token?: boolean;
         focusAfter?: boolean;
         background?: boolean;
-        padding?: boolean;
         /** Override for the rendered `data-uiid`. Use when the same Command
          * is rendered in more than one place and each instance needs a
          * unique id (e.g. Restart appears in both the timeline and the
@@ -37,7 +36,6 @@
         token = false,
         focusAfter = false,
         background = false,
-        padding = false,
         uiid = undefined,
     }: Props = $props();
 
@@ -89,7 +87,6 @@
     bind:view
     uiid={uiid ?? command.uiid}
     {active}
-    {padding}
     action={async () => {
         const hadFocus = view !== undefined && document.activeElement === view;
 

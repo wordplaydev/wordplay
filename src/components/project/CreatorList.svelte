@@ -101,7 +101,6 @@
             <Button
                 submit
                 background
-                padding={false}
                 tip={(l) => l.ui.dialog.share.button.submit}
                 active={validCollaborator(emailOrUsername) === true}
                 action={addCreator}>&gt;</Button

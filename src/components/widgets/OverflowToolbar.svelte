@@ -1,7 +1,7 @@
 <script lang="ts">
+    import { placeNearTarget } from '@components/widgets/placeNearTarget';
     import Toggle from '@components/widgets/Toggle.svelte';
     import { locales } from '@db/Database';
-    import { placeNearTarget } from '@components/widgets/placeNearTarget';
     import { tick, type Snippet } from 'svelte';
 
     /** Either a list of zero-arg snippets, OR a count + indexed renderer. */
@@ -501,6 +501,9 @@
 
     .hamburger {
         display: inline-block;
+        /* Pin the line box so the ☰ glyph (rendered by a fallback symbol font
+           whose metrics are taller than square) doesn't stretch the button. */
+        line-height: 1;
         transition: rotate calc(var(--animation-factor) * 150ms);
     }
 

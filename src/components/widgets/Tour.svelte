@@ -234,7 +234,6 @@
             >
             <Button
                 tip={(l) => l.ui.tour.close}
-                padding={true}
                 action={close}
                 background>{CANCEL_SYMBOL}</Button
             >
@@ -253,7 +252,6 @@
             <Button
                 tip={(l) => l.ui.tour.previous}
                 active={step > 0}
-                padding={true}
                 background
                 bind:view={prevView}
                 action={previous}>←</Button
@@ -264,7 +262,6 @@
             <Button
                 tip={(l) => l.ui.tour.next}
                 active={step < explanations.length - 1}
-                padding={true}
                 background
                 bind:view={nextView}
                 action={next}>→</Button
