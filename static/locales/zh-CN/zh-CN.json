@@ -8027,7 +8027,8 @@
             "script": "$~文字",
             "scriptLabel": "$~按文字筛选",
             "pickFilter": "$~选择一个类别或文字",
-            "moreLanguages": "$~还有 $count 个"
+            "moreLanguages": "$~还有 $count 个",
+            "moreGlyphs": "$~显示 $count — 搜索以查找更多"
         },
         "localize": {
             "header": "$~本地化",

@@ -8060,7 +8060,8 @@
             "script": "$~스크립트",
             "scriptLabel": "$~스크립트로 필터링",
             "pickFilter": "$~카테고리 또는 스크립트를 선택하세요",
-            "moreLanguages": "$~그리고 $count 더"
+            "moreLanguages": "$~그리고 $count 더",
+            "moreGlyphs": "$~$count 표시 중 — 더 찾으려면 검색하세요"
         },
         "localize": {
             "header": "$~현지화",

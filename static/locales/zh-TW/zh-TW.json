@@ -8032,7 +8032,8 @@
             "script": "$~腳本",
             "scriptLabel": "$~按腳本篩選",
             "pickFilter": "$~選擇類別或腳本",
-            "moreLanguages": "$~以及$count"
+            "moreLanguages": "$~以及$count",
+            "moreGlyphs": "$~顯示 $count — 搜尋以找到更多"
         },
         "localize": {
             "header": "$~在地化",

@@ -8061,7 +8061,8 @@
             "script": "$~escrituras",
             "scriptLabel": "$~filtrar por escritura",
             "pickFilter": "$~Elige una categoría o escritura",
-            "moreLanguages": "$~y $count más"
+            "moreLanguages": "$~y $count más",
+            "moreGlyphs": "$~Mostrando $count — busca para encontrar más"
         },
         "localize": {
             "header": "$~Localizar",

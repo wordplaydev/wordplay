@@ -8076,7 +8076,8 @@
             "script": "$~Skripte",
             "scriptLabel": "$~Nach Skript filtern",
             "pickFilter": "$~Wählen Sie eine Kategorie oder ein Skript aus.",
-            "moreLanguages": "$~und $count mehr"
+            "moreLanguages": "$~und $count mehr",
+            "moreGlyphs": "$~$count werden angezeigt — suche, um mehr zu finden"
         },
         "localize": {
             "header": "$~Lokalisieren",

@@ -8063,7 +8063,8 @@
             "script": "$~תסריטים",
             "scriptLabel": "$~סינון לפי סקריפט",
             "pickFilter": "$~בחר קטגוריה או תסריט",
-            "moreLanguages": "$~ועוד $count"
+            "moreLanguages": "$~ועוד $count",
+            "moreGlyphs": "$~מציג $count — חפשו כדי למצוא עוד"
         },
         "localize": {
             "header": "$~לְמַקֵם",

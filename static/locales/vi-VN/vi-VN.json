@@ -8071,7 +8071,8 @@
             "script": "$~kịch bản",
             "scriptLabel": "$~lọc theo tập lệnh",
             "pickFilter": "$~Chọn một danh mục hoặc kịch bản",
-            "moreLanguages": "$~và $count thêm"
+            "moreLanguages": "$~và $count thêm",
+            "moreGlyphs": "$~Đang hiển thị $count — tìm kiếm để xem thêm"
         },
         "localize": {
             "header": "$~Bản địa hóa",

@@ -8072,7 +8072,8 @@
             "script": "$~লিপিসমূহ",
             "scriptLabel": "$~লিপি অনুসৰি ফিল্টাৰ কৰক",
             "pickFilter": "$~এটা শ্ৰেণী বা লিপি বাছক",
-            "moreLanguages": "$~আৰু $count অধিক"
+            "moreLanguages": "$~আৰু $count অধিক",
+            "moreGlyphs": "$~$count দেখুৱাইছে — অধিক বিচাৰিবলৈ সন্ধান কৰক"
         },
         "localize": {
             "header": "$~স্থানীয়কৰণ কৰক",

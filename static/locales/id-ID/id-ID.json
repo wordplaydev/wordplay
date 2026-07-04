@@ -8125,7 +8125,8 @@
             "script": "$~naskah",
             "scriptLabel": "$~filter berdasarkan skrip",
             "pickFilter": "$~Pilih kategori atau skrip",
-            "moreLanguages": "$~dan $count lebih banyak"
+            "moreLanguages": "$~dan $count lebih banyak",
+            "moreGlyphs": "$~Menampilkan $count — cari untuk menemukan lebih banyak"
         },
         "connection": {
             "offline": "$~Anda sedang offline. Beberapa fitur tidak akan berfungsi sampai Anda online.",

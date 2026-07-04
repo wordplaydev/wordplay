@@ -8067,7 +8067,8 @@
             "script": "$~скрипте",
             "scriptLabel": "$~филтрирај по скрипти",
             "pickFilter": "$~Изаберите категорију или скрипту",
-            "moreLanguages": "$~и још $count"
+            "moreLanguages": "$~и још $count",
+            "moreGlyphs": "$~Приказујем $count — претражи да пронађеш више"
         },
         "localize": {
             "header": "$~Локализуј",

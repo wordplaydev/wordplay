@@ -8061,7 +8061,8 @@
             "script": "$~الكتابات",
             "scriptLabel": "$~تصفية حسب الكتابة",
             "pickFilter": "$~اختر فئة أو كتابة",
-            "moreLanguages": "$~و$count أخرى"
+            "moreLanguages": "$~و$count أخرى",
+            "moreGlyphs": "$~عرض $count — ابحث للعثور على المزيد"
         },
         "localize": {
             "header": "$~ترجمة",

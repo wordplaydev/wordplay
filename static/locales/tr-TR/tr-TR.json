@@ -8070,7 +8070,8 @@
             "script": "$~komut dosyaları",
             "scriptLabel": "$~komut dosyasına göre filtrele",
             "pickFilter": "$~Bir kategori veya senaryo seçin.",
-            "moreLanguages": "$~ve daha fazla $count"
+            "moreLanguages": "$~ve daha fazla $count",
+            "moreGlyphs": "$~$count gösteriliyor — daha fazlasını bulmak için arama yap"
         },
         "localize": {
             "header": "$~Yerelleştir",

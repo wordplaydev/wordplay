@@ -8082,7 +8082,8 @@
             "script": "$~skrypty",
             "scriptLabel": "$~filtruj według skryptu",
             "pickFilter": "$~Wybierz kategorię lub skrypt",
-            "moreLanguages": "$~i $count więcej"
+            "moreLanguages": "$~i $count więcej",
+            "moreGlyphs": "$~Pokazano $count — szukaj, aby znaleźć więcej"
         },
         "localize": {
             "header": "$~Zlokalizować",

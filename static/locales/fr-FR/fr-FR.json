@@ -8070,7 +8070,8 @@
             "script": "$~scripts",
             "scriptLabel": "$~filtrer par script",
             "pickFilter": "$~Choisissez une catégorie ou un script",
-            "moreLanguages": "$~et $count plus"
+            "moreLanguages": "$~et $count plus",
+            "moreGlyphs": "$~Affichage de $count — recherchez pour en trouver plus"
         },
         "localize": {
             "header": "$~Localiser",

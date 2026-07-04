@@ -8126,7 +8126,8 @@
             "script": "$~scripturi",
             "scriptLabel": "$~filtrare după script",
             "pickFilter": "$~Alegeți o categorie sau un script",
-            "moreLanguages": "$~și mai multe $count"
+            "moreLanguages": "$~și mai multe $count",
+            "moreGlyphs": "$~Se afișează $count — caută pentru a găsi mai multe"
         },
         "connection": {
             "offline": "$~Ești offline. Unele funcții nu vor funcționa până când nu ești online.",

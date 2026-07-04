@@ -8065,7 +8065,8 @@
             "script": "$~लिपियों",
             "scriptLabel": "$~स्क्रिप्ट द्वारा फ़िल्टर करें",
             "pickFilter": "$~एक श्रेणी या लिपि चुनें",
-            "moreLanguages": "$~और अधिक $count"
+            "moreLanguages": "$~और अधिक $count",
+            "moreGlyphs": "$~$count दिखा रहे हैं — और खोजने के लिए ढूँढें"
         },
         "localize": {
             "header": "$~स्थानीय बनाना",

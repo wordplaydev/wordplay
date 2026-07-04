@@ -8061,7 +8061,8 @@
             "script": "$~manus",
             "scriptLabel": "$~filtrera efter skript",
             "pickFilter": "$~Välj en kategori eller ett manus",
-            "moreLanguages": "$~och $count mer"
+            "moreLanguages": "$~och $count mer",
+            "moreGlyphs": "$~Visar $count — sök för att hitta fler"
         },
         "localize": {
             "header": "$~Lokalisera",

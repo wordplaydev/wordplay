@@ -8071,7 +8071,8 @@
             "script": "$~સ્ક્રિપ્ટો",
             "scriptLabel": "$~સ્ક્રિપ્ટ દ્વારા ફિલ્ટર કરો",
             "pickFilter": "$~શ્રેણી અથવા સ્ક્રિપ્ટ પસંદ કરો",
-            "moreLanguages": "$~અને $count વધુ"
+            "moreLanguages": "$~અને $count વધુ",
+            "moreGlyphs": "$~$count બતાવી રહ્યા છીએ — વધુ શોધવા માટે શોધો"
         },
         "localize": {
             "header": "$~સ્થાનિકીકરણ કરો",

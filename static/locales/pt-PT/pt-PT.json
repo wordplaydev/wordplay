@@ -8113,7 +8113,8 @@
             "script": "roteiros",
             "scriptLabel": "filtrar por script",
             "pickFilter": "Escolha uma categoria ou itinerário",
-            "moreLanguages": "e $count mais"
+            "moreLanguages": "e $count mais",
+            "moreGlyphs": "$~A mostrar $count — pesquisa para encontrar mais"
         },
         "tour": {
             "label": "digressão",

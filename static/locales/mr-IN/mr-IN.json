@@ -8067,7 +8067,8 @@
             "script": "$~स्क्रिप्ट्स",
             "scriptLabel": "$~स्क्रिप्टनुसार फिल्टर करा",
             "pickFilter": "$~श्रेणी किंवा स्क्रिप्ट निवडा",
-            "moreLanguages": "$~आणि अधिक $count"
+            "moreLanguages": "$~आणि अधिक $count",
+            "moreGlyphs": "$~$count दाखवत आहे — अधिक शोधण्यासाठी शोध करा"
         },
         "localize": {
             "header": "$~स्थानिकीकरण",
