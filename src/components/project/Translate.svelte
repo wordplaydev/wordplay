@@ -9,7 +9,7 @@
     import Button from '@components/widgets/Button.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
     import { locales, Projects } from '@db/Database';
-    import { functions } from '@db/firebase';
+    import { getFunctionsInstance } from '@db/firebase';
     import type Project from '@db/projects/Project';
     import translateProject from '@db/projects/translate';
     import getTranslatableLocales from '@locale/getTranslatableLocales';
@@ -65,6 +65,7 @@
 
     /** Translate the project into another language */
     async function translate() {
+        const functions = await getFunctionsInstance();
         if (functions && sourceLocale && targetLocale) {
             translating = true;
             const revisedProject = await translateProject(

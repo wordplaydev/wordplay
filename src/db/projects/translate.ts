@@ -1,7 +1,7 @@
 import { Locales } from '@db/Database';
 import type Locale from '@locale/Locale';
 import { localeToString } from '@locale/Locale';
-import { httpsCallable, type Functions } from 'firebase/functions';
+import type { Functions } from 'firebase/functions';
 import type {
     GetLLMTranslationsInputs,
     GetLLMTranslationsOutput,
@@ -32,6 +32,7 @@ export default async function translateProject(
         sourceLocale,
         targetLocale,
         async (texts, from, to, context) => {
+            const { httpsCallable } = await import('firebase/functions');
             const getLLMTranslations = httpsCallable<
                 GetLLMTranslationsInputs,
                 GetLLMTranslationsOutput

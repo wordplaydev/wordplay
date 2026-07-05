@@ -101,8 +101,23 @@
         // Force default font to load
         Fonts.loadFace('Noto Sans');
 
-        // Show only after fonts are loaded, to prevent font jiggle.
-        document.fonts.ready.then(() => (loaded = true));
+        // Reveal once the app's TEXT faces (Noto Sans regular + bold, Latin
+        // slice) are ready, rather than waiting on document.fonts.ready — which
+        // also blocks on the 471KB block-display Noto Emoji face and so delays
+        // first paint. Emoji still loads (block + preloaded) and pops in a beat
+        // later; decoupling lets text and the project appear sooner, with no
+        // tofu. A timeout is a safety valve so a slow/failed font can't strand
+        // the overlay (mirrors the guard in scripts/locale-preload.js).
+        const textReady = Promise.all([
+            document.fonts.load('400 1em "Noto Sans"', 'Aa'),
+            document.fonts.load('700 1em "Noto Sans"', 'Aa'),
+        ]).catch(() => undefined);
+        const revealTimeout = new Promise((resolve) =>
+            setTimeout(resolve, 3000),
+        );
+        void Promise.race([textReady, revealTimeout]).then(
+            () => (loaded = true),
+        );
 
         // Listen for logged in users. On sign-in, (re-)request persistent
         // storage — Chrome grants it based on engagement, so asking once a

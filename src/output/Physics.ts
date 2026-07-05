@@ -1,4 +1,7 @@
-import MatterJS from 'matter-js';
+// Type-only: erased at build, so it adds no eager dependency on matter-js. The
+// runtime value is loaded on demand via matterLoader (see getEngineAtZ/sync).
+import type MatterJS from 'matter-js';
+import { getMatter, loadMatter, matterLoaded } from '@output/matterLoader';
 import { get } from 'svelte/store';
 import { animationFactor } from '@db/Database';
 import type { ReboundEvent } from '@input/Collision';
@@ -60,6 +63,8 @@ export default class Physics {
     }
 
     getEngineAtZ(z: number) {
+        // Only reached from sync()/barrier sync, past the loadMatter() gate.
+        const MatterJS = getMatter();
         let engine = this.enginesByZ.get(Math.round(z));
 
         // No engine yet for this depth? Make one.
@@ -157,6 +162,7 @@ export default class Physics {
 
     /** Rotation is degrees */
     createRectangle(rectangle: Rectangle, rotation: number | undefined) {
+        const MatterJS = getMatter();
         // Compute rectangle boundaries in engine coordinates.
         const left = rectangle.getLeft() * PX_PER_METER;
         const right =
@@ -182,6 +188,7 @@ export default class Physics {
 
     /** Create a circle form */
     createCircle(circle: Circle) {
+        const MatterJS = getMatter();
         // Compute rectangle boundaries in engine coordinates.
         const x = circle.x * PX_PER_METER;
         const y = -circle.y * PX_PER_METER;
@@ -193,6 +200,7 @@ export default class Physics {
 
     /** Create a circle form */
     createPolygon(polygon: Polygon) {
+        const MatterJS = getMatter();
         // Compute rectangle boundaries in engine coordinates.
         const x = polygon.x * PX_PER_METER;
         const y = -polygon.y * PX_PER_METER;
@@ -263,6 +271,12 @@ export default class Physics {
 
                 // If the output has matter or is in motion, make sure it's in the MatterJS world.
                 if (matter || motion) {
+                    // First frame that actually needs physics: kick off the
+                    // matter-js load and skip until it resolves (retried next
+                    // frame). Cheap once loaded — returns the cached module.
+                    const MatterJS = loadMatter();
+                    if (MatterJS === undefined) return;
+
                     // Get the body that we already made using it's name.
                     let shape = this.bodyByName.get(name);
 
@@ -371,6 +385,11 @@ export default class Physics {
                     shape.value.isEqualTo(shapes[index].value),
                 )
             ) {
+                // Barriers need matter-js too; load on demand and skip this
+                // frame until it's ready (same gate as moving output above).
+                const MatterJS = loadMatter();
+                if (MatterJS === undefined) return;
+
                 // Remove the bodies previously added
                 for (const record of this.currentShapeBodies)
                     MatterJS.Composite.remove(record.engine.world, record.body);
@@ -408,6 +427,12 @@ export default class Physics {
     }
 
     tick(elapsed: number) {
+        // Nothing to step until sync() has loaded matter-js and created bodies.
+        // tick() runs every frame for every project, so it must not itself
+        // trigger the load — only sync() does, when physics output appears.
+        if (!matterLoaded()) return;
+        const MatterJS = getMatter();
+
         const factor = get(animationFactor);
 
         // Frozen world (animationFactor 0 / calm mode): finalize any deferred
@@ -477,6 +502,8 @@ export default class Physics {
     removeOutputBody(name: string) {
         const outputBody = this.bodyByName.get(name);
         if (outputBody) {
+            // A body exists, so matter-js was loaded when it was created.
+            const MatterJS = getMatter();
             // Search through the engines and find the one with the body to remove.
             for (const [z, engine] of this.enginesByZ) {
                 if (MatterJS.World.allBodies) {
@@ -547,6 +574,8 @@ export default class Physics {
     }
 
     stopEngine(engine: MatterJS.Engine) {
+        // Only called for engines that exist, i.e. after matter-js loaded.
+        const MatterJS = getMatter();
         MatterJS.World.clear(engine.world, false);
         MatterJS.Engine.clear(engine);
     }
@@ -568,6 +597,8 @@ export class OutputBody {
         matter: Matter | undefined,
         form: Form | undefined,
     ) {
+        // Constructed only from Physics.createOutputBody, past the load gate.
+        const MatterJS = getMatter();
         const position = this.getPosition(left, bottom, width, height);
 
         // Options shared by every body kind. The body's SHAPE depends on the Shape's form (below);

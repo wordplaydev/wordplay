@@ -6,7 +6,8 @@ import {
 } from '../../../scripts/fonts/verify';
 import { emojiRanges } from '../../../scripts/fonts/generate';
 import { readLock } from '../../../scripts/fonts/lockfile';
-import * as generated from './faces.generated';
+import { Faces } from './faces.generated';
+import { FallbackFaces } from './faces.fallback.generated';
 
 /**
  * Uniform drift guard for the whole font system: if any font file changed, or
@@ -30,7 +31,7 @@ describe('font artifacts are in sync with the manifest + font files', () => {
     test('faces.generated.ts matches the manifest + lockfile', async () => {
         const problems = await checkRegistryConsistency(
             lock,
-            generated,
+            { Faces, FallbackFaces },
             await emojiRanges(),
         );
         expect(problems).toEqual([]);

@@ -74,7 +74,10 @@
         type Codepoint,
     } from '@unicode/Unicode';
     import { buildGlyphSearch } from '@unicode/glyphSearch';
-    import { isCodepointRenderable } from '@basis/faces/renderable';
+    import {
+        isCodepointRenderable,
+        loadRenderableRanges,
+    } from '@basis/faces/renderable';
     import { searchItems } from '@util/search';
     import { debounced } from '@util/debounce.svelte';
     import { Scripts, type Script } from '@locale/Scripts';
@@ -171,7 +174,10 @@
 
     /** Load the codepoints on mount */
     onMount(() => {
-        getCodepoints().then((cp) => {
+        // Load the renderable-ranges table (lazy — see renderable.ts) together
+        // with the codepoints, so isCodepointRenderable has its data before the
+        // grid (gated on `codepoints`) renders.
+        Promise.all([getCodepoints(), loadRenderableRanges()]).then(([cp]) => {
             codepoints = cp;
         });
         // Load English names for non-emoji glyphs (Han, letters, symbols) so

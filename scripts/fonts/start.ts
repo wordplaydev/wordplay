@@ -30,7 +30,16 @@ async function verify(deep: boolean): Promise<void> {
         ...(await checkCssConsistency(lock)),
         ...(await checkRegistryConsistency(
             lock,
-            await import('../../src/basis/faces/faces.generated'),
+            {
+                Faces: (
+                    await import('../../src/basis/faces/faces.generated')
+                ).Faces,
+                FallbackFaces: (
+                    await import(
+                        '../../src/basis/faces/faces.fallback.generated'
+                    )
+                ).FallbackFaces,
+            },
             await emojiRanges(),
         )),
         ...(deep

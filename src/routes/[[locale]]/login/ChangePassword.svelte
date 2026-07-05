@@ -4,7 +4,7 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import Toggle from '@components/widgets/Toggle.svelte';
-    import { auth } from '@db/firebase';
+    import { ensureAuth } from '@db/firebase';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import { SEARCH_SYMBOL } from '@parser/Symbols';
     import { FirebaseError } from 'firebase/app';
@@ -30,6 +30,7 @@
     let reveal = $state(false);
 
     async function update() {
+        const auth = await ensureAuth();
         if (auth === undefined || user === null || user.email === null) return;
 
         try {

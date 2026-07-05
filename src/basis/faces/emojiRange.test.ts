@@ -84,45 +84,73 @@ function declaredCodepoints(css: string, srcNeedle: string): Set<number> {
 
 const css = fs.readFileSync(path.join('static', 'fonts', 'fonts.css'), 'utf8');
 
-describe('emoji @font-face ranges match the fonts glyph coverage', () => {
-    test.each([
-        [
-            'Noto Emoji (mono)',
-            'static/fonts/NotoEmoji/NotoEmoji-400.woff2',
-            'NotoEmoji-400.woff2',
-        ],
-        [
-            'Noto Color Emoji (Safari SVG)',
-            'static/fonts/NotoColorEmoji/NotoColorEmoji.svg.ttf',
-            'NotoColorEmoji.svg.ttf',
-        ],
-    ])(
-        '%s declares exactly its glyph coverage',
-        async (_name, fontPath, srcNeedle) => {
-            const expected = await preciseCodepoints(fontPath);
-            const declared = declaredCodepoints(css, srcNeedle);
+/** The Safari SVG color-emoji font is sliced into 10 files by the same
+ * unicode-range partition as the Chromium COLRv1 slices; each slice covers a
+ * subset of the whole font's cmap. */
+const SVG_SLICES = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-            // No over-claim: every declared codepoint is one the font has a glyph
-            // for (or a needed format char). Over-claiming is what causes tofu.
+describe('emoji @font-face ranges match the fonts glyph coverage', () => {
+    test('Noto Emoji (mono) declares exactly its glyph coverage', async () => {
+        const expected = await preciseCodepoints(
+            'static/fonts/NotoEmoji/NotoEmoji-400.woff2',
+        );
+        const declared = declaredCodepoints(css, 'NotoEmoji-400.woff2');
+        // No over-claim: every declared codepoint is one the font has a glyph
+        // for (or a needed format char). Over-claiming is what causes tofu.
+        const overClaimed = [...declared].filter((cp) => !expected.has(cp));
+        expect(overClaimed.map((cp) => 'U+' + cp.toString(16))).toEqual([]);
+        // No under-claim: every glyph the font has in the emoji blocks is
+        // declared, so no renderable emoji is dropped.
+        const underClaimed = [...expected].filter((cp) => !declared.has(cp));
+        expect(underClaimed.map((cp) => 'U+' + cp.toString(16))).toEqual([]);
+    });
+
+    // Per Safari SVG slice: no over-claim — a slice must not declare a codepoint
+    // its own file lacks a glyph for, or Safari picks that slice and tofus.
+    test.each(SVG_SLICES)(
+        'Safari SVG slice %i declares no codepoint its file lacks',
+        async (n) => {
+            const expected = await preciseCodepoints(
+                `static/fonts/NotoColorEmoji/NotoColorEmoji.svg-${n}.ttf`,
+            );
+            const declared = declaredCodepoints(
+                css,
+                `NotoColorEmoji.svg-${n}.ttf`,
+            );
             const overClaimed = [...declared].filter((cp) => !expected.has(cp));
             expect(overClaimed.map((cp) => 'U+' + cp.toString(16))).toEqual([]);
-
-            // No under-claim: every glyph the font has in the emoji blocks is
-            // declared, so no renderable emoji is dropped.
-            const underClaimed = [...expected].filter(
-                (cp) => !declared.has(cp),
-            );
-            expect(underClaimed.map((cp) => 'U+' + cp.toString(16))).toEqual(
-                [],
-            );
         },
     );
 
-    test('neither whole-file emoji face claims the broad U+1F000-1FFFF block', () => {
-        for (const srcNeedle of [
+    // No under-claim across the split: the 10 slices' declared ranges together
+    // must cover every emoji GLYPH the whole SVG font has, so slicing drops none.
+    // Zero-width FORMAT chars (ZWJ, VS, flag tags) are excluded — they carry no
+    // glyph and each slice declares only the ones its sequences actually use.
+    test('the Safari SVG slices together cover the whole font glyph coverage', async () => {
+        const isFormat = (cp: number) =>
+            FORMAT.some(([a, b]) => cp >= a && cp <= b);
+        const whole = await preciseCodepoints(
+            'static/fonts/NotoColorEmoji/NotoColorEmoji.svg.ttf',
+        );
+        const union = new Set<number>();
+        for (const n of SVG_SLICES)
+            for (const cp of declaredCodepoints(
+                css,
+                `NotoColorEmoji.svg-${n}.ttf`,
+            ))
+                union.add(cp);
+        const dropped = [...whole].filter(
+            (cp) => !union.has(cp) && !isFormat(cp),
+        );
+        expect(dropped.map((cp) => 'U+' + cp.toString(16))).toEqual([]);
+    });
+
+    test('no emoji face claims the broad U+1F000-1FFFF block', () => {
+        const needles = [
             'NotoEmoji-400.woff2',
-            'NotoColorEmoji.svg.ttf',
-        ]) {
+            ...SVG_SLICES.map((n) => `NotoColorEmoji.svg-${n}.ttf`),
+        ];
+        for (const srcNeedle of needles) {
             const declared = declaredCodepoints(css, srcNeedle);
             // A precise range covers only a fraction of the 0x1000 SMP block.
             let smpClaimed = 0;

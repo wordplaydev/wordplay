@@ -28,3 +28,4 @@ src/routes/\[\[locale\]\]/updates/date.json
 /static/fonts/fonts.css
 /static/fonts/fonts-fallback.css
 /src/basis/faces/faces.generated.ts
+/src/basis/faces/faces.fallback.generated.ts

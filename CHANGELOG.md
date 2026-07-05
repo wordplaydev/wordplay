@@ -14,8 +14,13 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🌐 Moments work with 16 calendars — like Hebrew, Japanese, Chinese, and Islamic calendars — and any time zone in the world. Dates look the same on every computer, because Wordplay formats them itself instead of asking the browser (#1197).
 - 🔗 Web addresses you write in documentation are now clickable links, and they stay intact instead of losing one of their slashes.
 
+### Changed
+
+- ⚡ We made Wordplay start faster, especially the first time you open a project.
+
 ### Fixed
 
+- 🔣 We stopped Wordplay from downloading fonts it didn't need. Invisible marks next to emoji were quietly pulling in big fonts — like Chinese and math fonts — that nothing on your screen used.
 - 🔠 The character picker no longer shows empty boxes for characters that none of our fonts can draw — it only offers ones you can actually see.
 - 🖱️ Links in documentation now open when you click them in the editor. To edit a link instead, move into it with the arrow keys or click right next to it.
 - ✍️ We stopped adding an extra `/`, `_`, or `*` when you type one inside plain text. Wordplay now only completes these marks in documentation, where they format words.

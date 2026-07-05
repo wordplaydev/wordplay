@@ -16,7 +16,7 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Options from '@components/widgets/Options.svelte';
     import { locales } from '@db/Database';
-    import { functions } from '@db/firebase';
+    import { getFunctionsInstance } from '@db/firebase';
     import { Languages } from '@locale/LanguageCode';
     import { localeToString, stringToLocale } from '@locale/Locale';
     import { getLocaleLanguageName, isLocaleDraft } from '@locale/LocaleText';
@@ -30,7 +30,6 @@
         LOCALE_SYMBOL,
         MACHINE_TRANSLATED_SYMBOL,
     } from '@parser/Symbols';
-    import { httpsCallable } from 'firebase/functions';
 
     interface Props {
         /** Determines whether to show locale menu button (footer vs. speech bubble) */
@@ -115,6 +114,7 @@
             requestErrorKey = 'requiresLogin';
             return;
         }
+        const functions = await getFunctionsInstance();
         if (functions === undefined) {
             requestStatus = 'error';
             requestErrorKey = 'error';
@@ -124,6 +124,7 @@
         requestErrorKey = undefined;
         requestIssueUrl = undefined;
         try {
+            const { httpsCallable } = await import('firebase/functions');
             const submit = httpsCallable<
                 { language: string; region: string },
                 { issueUrl: string }

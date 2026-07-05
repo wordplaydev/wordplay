@@ -1,5 +1,5 @@
-import { describe, expect, test } from 'vitest';
-import { isCodepointRenderable } from './renderable';
+import { beforeAll, describe, expect, test } from 'vitest';
+import { isCodepointRenderable, loadRenderableRanges } from './renderable';
 import { RenderableRanges } from './renderable.generated';
 
 /**
@@ -8,6 +8,9 @@ import { RenderableRanges } from './renderable.generated';
  * generated intervals are well-formed; the full "matches every chain font's
  * cmap" check runs in `npm run fonts -- --deep`.
  */
+
+// The ranges load lazily now (see renderable.ts); load them before asserting.
+beforeAll(async () => await loadRenderableRanges());
 
 describe('isCodepointRenderable', () => {
     test('covered codepoints render', () => {

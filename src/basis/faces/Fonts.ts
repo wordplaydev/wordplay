@@ -3,12 +3,12 @@ import { Scripts, type Script } from '@locale/Scripts';
 import { OR_SYMBOL } from '@parser/Symbols';
 import { writable } from 'svelte/store';
 import type { Font as FontkitFont } from 'fontkit';
-// The face registry (creator Faces + lazy FallbackFaces) is GENERATED from
-// fonts.manifest.ts + fonts.lock.json by `npm run fonts-fix`. This module owns
-// the loading/measurement logic; the data lives in faces.generated.ts.
-import { Faces, FallbackFaces } from './faces.generated';
-export { Faces, FallbackFaces };
-export type { FallbackFace } from './faces.generated';
+// The creator face registry is GENERATED from fonts.manifest.ts +
+// fonts.lock.json by `npm run fonts-fix`. This module owns the
+// loading/measurement logic; the data lives in faces.generated.ts. (The
+// structured fallback table is test-only — see faces.fallback.generated.ts.)
+import { Faces } from './faces.generated';
+export { Faces };
 
 export type FontWeight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
 export type FontWeightRange = { min: FontWeight; max: FontWeight };

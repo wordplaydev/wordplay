@@ -7,11 +7,12 @@
     import { Creator } from '@db/creators/CreatorDatabase';
     import isValidEmail from '@db/creators/isValidEmail';
     import isValidUsername from '@db/creators/isValidUsername';
-    import { analytics, auth, functions } from '@db/firebase';
+    import { analytics, ensureAuth, getFunctionsInstance } from '@db/firebase';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import { logEvent } from 'firebase/analytics';
     import { FirebaseError } from 'firebase/app';
     import {
+        type Auth,
         isSignInWithEmailLink,
         sendSignInLinkToEmail,
         signInWithEmailAndPassword,
@@ -37,8 +38,15 @@
     let usernameFeedback: LocaleTextAccessor | undefined = $state(undefined);
     let emailFeedback: LocaleTextAccessor | undefined = $state(undefined);
 
-    /** When the page is mounted, see if the link is an email sign in link, and if so, attempt to finish logging in. */
-    onMount(() => {
+    /** Auth loads lazily; resolve it into local reactive state so the form's
+     *  guards react once the SDK is ready. Populated in onMount before any user
+     *  interaction. */
+    let auth = $state<Auth | undefined>(undefined);
+
+    /** When the page is mounted, load auth, then see if the link is an email
+     *  sign in link, and if so, attempt to finish logging in. */
+    onMount(async () => {
+        auth = await ensureAuth();
         if (auth && isSignInWithEmailLink(auth, window.location.href))
             finishEmailLogin();
     });
@@ -73,6 +81,7 @@
     }
 
     async function emailSignin() {
+        const functions = await getFunctionsInstance();
         if (auth && functions && isValidEmail(email)) {
             loading = true;
 

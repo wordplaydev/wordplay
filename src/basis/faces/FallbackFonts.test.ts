@@ -1,19 +1,38 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { describe, expect, test } from 'vitest';
-import { Scripts } from '@locale/Scripts';
-import { FallbackFaces, UncoveredScripts } from './faces.generated';
+import { Scripts, type Script } from '@locale/Scripts';
 import {
-    FallbackFontFamilies,
-    getFallbackFaceForScript,
-    getFallbackFontFileURLs,
-} from './FallbackFonts';
+    FallbackFaces,
+    UncoveredScripts,
+    type FallbackFace,
+} from './faces.fallback.generated';
+import { FallbackFontFamilies } from './FallbackFonts';
 import { Faces, SupportedFaces, rangeContains } from './Fonts';
 import {
     baseFallbackCoverage,
     readLock,
 } from '../../../scripts/fonts/lockfile';
 import { computeFallbackRanges } from '../../../scripts/fonts/stylesheets';
+
+/** The first fallback face covering the given script, if any. Test-only helper
+ *  (the runtime resolves fallback per-script via the CSS cascade, not JS). */
+function getFallbackFaceForScript(script: Script): FallbackFace | undefined {
+    return FallbackFaces.find((face) => face.scripts.includes(script));
+}
+
+/** The URLs of the font file(s) declared for the given face and range index,
+ *  one per weight file, mirroring the naming scheme of getFontFileURL. */
+function getFallbackFontFileURLs(
+    face: FallbackFace,
+    rangeIndex: number,
+): string[] {
+    const dir = face.name.replaceAll(/[^A-Za-z0-9]/g, '');
+    const keys = Array.isArray(face.weights)
+        ? face.weights.map((weight) => `${weight}`)
+        : ['all'];
+    return keys.map((key) => `/fonts/${dir}/${dir}-${key}-${rangeIndex}.woff2`);
+}
 
 /** The scripts the preloaded Noto Sans covers, which therefore need no
  * fallback face. */

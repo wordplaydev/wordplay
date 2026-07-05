@@ -1,5 +1,3 @@
-import { RenderableRanges } from './renderable.generated';
-
 /**
  * Whether some default-chain font can actually draw a codepoint — a binary
  * search over the generated cmap-union intervals (renderable.generated.ts,
@@ -11,11 +9,29 @@ import { RenderableRanges } from './renderable.generated';
  * This tests real glyph coverage, not declared unicode-ranges: Google's slice
  * partitions declare whole blocks the font doesn't fully populate, so a
  * declared-range check would over-report renderability and let tofu through.
+ *
+ * The ~24 KB generated interval table is only needed by the glyph chooser, so it
+ * loads lazily via loadRenderableRanges() (awaited on the chooser's mount) rather
+ * than being statically imported into the eager language chunk.
  */
+
+let RenderableRanges: readonly (readonly [number, number])[] | undefined;
+
+/** Load the generated cmap-union interval table on demand. Idempotent; the glyph
+ *  chooser awaits this before rendering its grid. */
+export async function loadRenderableRanges(): Promise<void> {
+    if (RenderableRanges === undefined)
+        RenderableRanges = (await import('./renderable.generated'))
+            .RenderableRanges;
+}
 
 const answers = new Map<number, boolean>();
 
 export function isCodepointRenderable(codepoint: number): boolean {
+    // Table not loaded yet → treat as renderable so the chooser doesn't hide
+    // glyphs before it arrives (loadRenderableRanges resolves before the grid renders).
+    if (RenderableRanges === undefined) return true;
+
     const cached = answers.get(codepoint);
     if (cached !== undefined) return cached;
 

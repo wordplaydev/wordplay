@@ -6,7 +6,7 @@ import Place, { createPlaceStructure, toPlace } from '@output/Place';
 import type Evaluation from '@runtime/Evaluation';
 import StructureValue from '@values/StructureValue';
 import TemporalStreamValue from '@values/TemporalStreamValue';
-import Matter from 'matter-js';
+import { getMatter } from '@output/matterLoader';
 import type Locales from '@locale/Locales';
 import type Context from '@nodes/Context';
 import NoneLiteral from '@nodes/NoneLiteral';
@@ -70,6 +70,9 @@ export default class Motion extends TemporalStreamValue<Value, number> {
     }
 
     updateBody(rect: OutputBody) {
+        // Only called from Physics.sync / updateBodies once a body exists, i.e.
+        // after Physics loaded matter-js, so the module is guaranteed present.
+        const Matter = getMatter();
         const body = rect.body;
         if (this.velocity !== undefined) {
             // Are either of the velocities non-zero? Update the body's velocity.

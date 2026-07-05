@@ -32,14 +32,23 @@ git clone https://github.com/googlefonts/noto-emoji.git
 # But these last two steps are just really slow, so patience.
 nanoemoji --color_format=picosvgz $(find ./noto-emoji/svg -name 'emoji*.svg')
 
-# Leave the virtual environment
-deactivate
-
-# Return to the scripts folder
+# Return to the scripts folder (keep the venv active — it has fonttools).
 cd ..
 
-# Move the built font file to the static fonts folder where Wordplay expects it.
+# Move the built (whole) font file to the static fonts folder. It stays there as
+# the canonical source + the slicing input; the served CSS references the slices
+# below, not this whole file.
 mv nanoemoji/build/Font.ttf ../static/fonts/NotoColorEmoji/NotoColorEmoji.svg.ttf
+
+# Slice the whole OT-SVG font into per-block files (NotoColorEmoji.svg-N.ttf) so
+# Safari lazily downloads only the emoji it renders instead of the whole ~3.3 MB
+# font. Mirrors the Chromium COLRv1 partition; see scripts/slice-emoji-svg.py.
+# pyftsubset needs lxml to subset the SVG table (not pulled in by nanoemoji).
+pip3 install --quiet lxml
+python3 slice-emoji-svg.py
+
+# Leave the virtual environment
+deactivate
 
 # Clean up the repository and its files
 rm -rf nanoemoji

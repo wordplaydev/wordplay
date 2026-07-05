@@ -44,12 +44,31 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <!--
-            Preload the fonts the landing page needs so document.fonts.ready resolves
-            before the "Loading fonts" overlay would appear: regular and bold Latin
-            Noto Sans (body text, h1/h2), and the all-in-one Noto Emoji file (it's
-            font-display: block, so it gates first paint until loaded). URLs must
-            match the @font-face rules in /fonts.css exactly — including the
+            Warm the DNS + TLS connection to Firestore so the first project
+            getDoc (every database/shared project link falls through to one — see
+            ProjectsDatabase.get) doesn't pay full connection setup on the
+            critical path. crossorigin because Firestore requests are CORS; drop
+            it if DevTools reports the preconnect as unused.
+        -->
+        <link
+            rel="preconnect"
+            href="https://firestore.googleapis.com"
+            crossorigin
+        />
+
+        <!--
+            Preload the regular + bold Latin Noto Sans slices — the text faces the
+            loading overlay waits on before revealing the app (see +layout.svelte,
+            which gates the reveal on `document.fonts.load('… "Noto Sans"')`). URLs
+            must match the @font-face rules in /fonts.css exactly — including the
             crossorigin attribute — for the browser to reuse the preloaded bytes.
+
+            The all-in-one Noto Emoji file (471 KB, font-display: block) is
+            deliberately NOT preloaded: the overlay no longer waits on it, and
+            Safari fails to reuse preloaded fonts for the @font-face request, so a
+            preload there double-fetches the file (once for the preload, once on
+            first emoji render) for no first-paint benefit. It now loads once, on
+            demand, when emoji first render.
         -->
         <link
             rel="preload"
@@ -61,13 +80,6 @@
         <link
             rel="preload"
             href="/fonts/NotoSans/NotoSans-700-7.woff2"
-            as="font"
-            type="font/woff2"
-            crossorigin
-        />
-        <link
-            rel="preload"
-            href="/fonts/NotoEmoji/NotoEmoji-400.woff2"
             as="font"
             type="font/woff2"
             crossorigin

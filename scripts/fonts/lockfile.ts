@@ -1,7 +1,12 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { faceFiles, spaceless } from './files';
-import { deriveRange, hashFile, readCharacterSet } from './deriveRange';
+import {
+    deriveRange,
+    hashFile,
+    parseRangeString,
+    readCharacterSet,
+} from './deriveRange';
 import { FontManifest } from '../../src/basis/faces/fonts.manifest';
 // NB: the generator must NOT import Fonts.ts — it imports the generated
 // faces.generated.ts, which doesn't exist yet on a fresh clone, so importing it
@@ -75,21 +80,48 @@ export function fallbackFileSet(): Set<string> {
     return files;
 }
 
-/** The codepoints the lazy fallback faces don't need to claim because Noto Sans
- * (preloaded, and ahead of the fallback var in every font-family chain) already
- * covers them. Read from Noto Sans's actual cmap — not its declared range,
+/** The codepoints declared by the hand-authored emoji island(s) inlined into
+ * fonts.css (Noto Emoji, Noto Color Emoji, keycap). These faces sit ahead of the
+ * fallback var in every font-family chain, so subtracting their DECLARED ranges
+ * from the fallback partition stops a lazy script face from re-claiming an emoji
+ * or — critically — a zero-width format char (VS-15/16 U+FE0E/FE0F, ZWJ U+200D,
+ * keycap combiner) it doesn't render. Those selectors have no cmap glyph, so they
+ * must come from the declared range, not a cmap read. Tofu-safe: the emoji faces
+ * (preloaded, one of them font-display:block) serve exactly what they declare
+ * (guarded by emojiRange.test.ts). Without this subtraction, every UI emoji icon
+ * (each carries a VS selector via withMonoEmoji/withColorEmoji) pulled a whole
+ * CJK/Symbol woff2 just to resolve the invisible selector. */
+function emojiIslandCoverage(): Set<number> {
+    const cov = new Set<number>();
+    for (const entry of FontManifest) {
+        if (entry.override?.target !== 'fonts.css') continue;
+        const css = fs.readFileSync(
+            path.join('src/basis/faces', entry.override.cssPartial),
+            'utf8',
+        );
+        for (const m of css.matchAll(/unicode-range:\s*([^;]+);/g))
+            for (const cp of parseRangeString(m[1])) cov.add(cp);
+    }
+    return cov;
+}
+
+/** The codepoints the lazy fallback faces don't need to claim because a
+ * preloaded face ahead of the fallback var in every font-family chain already
+ * covers them: Noto Sans and the emoji island (Noto Emoji / Noto Color Emoji /
+ * keycap). Noto Sans is read from its actual cmap — not its declared range,
  * which can over-claim — so subtracting it can never strip a glyph Noto Sans
  * lacks and cause tofu. Coverage is weight-independent, so only the 400 slices
- * are read (keeps this cheap enough for the postinstall/CI build). Shared by the
- * fallback CSS emitter and its drift check so they can't diverge. */
+ * are read (keeps this cheap enough for the postinstall/CI build). The emoji
+ * faces are read from their declared ranges (see emojiIslandCoverage). Shared by
+ * the fallback CSS emitter and its drift check so they can't diverge. */
 export async function baseFallbackCoverage(): Promise<Set<number>> {
+    const cov = emojiIslandCoverage();
     const noto = FontManifest.find((e) => e.name === 'Noto Sans');
-    if (noto === undefined) return new Set();
+    if (noto === undefined) return cov;
     const all = entryFiles(noto);
     const slices = all.filter(
         (u) => /-400-\d+\./.test(u) && !u.includes('italic'),
     );
-    const cov = new Set<number>();
     for (const url of slices.length > 0 ? slices : all)
         for (const cp of await readCharacterSet(path.join('static', url)))
             cov.add(cp);

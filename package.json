@@ -42,7 +42,7 @@
         "codes": "npx tsx src/unicode/compress.ts",
         "fonts": "npx tsx scripts/fonts/start.ts verify",
         "fonts-build": "npx tsx scripts/fonts/start.ts build && npx prettier --write static/fonts/fonts.css static/fonts/fonts-fallback.css src/basis/faces/faces.generated.ts",
-        "fonts-fix": "npx tsx scripts/fonts/start.ts fix && npx prettier --write static/fonts/fonts.css static/fonts/fonts-fallback.css src/basis/faces/faces.generated.ts src/basis/faces/renderable.generated.ts",
+        "fonts-fix": "npx tsx scripts/fonts/start.ts fix && npx prettier --write static/fonts/fonts.css static/fonts/fonts-fallback.css src/basis/faces/faces.generated.ts src/basis/faces/faces.fallback.generated.ts src/basis/faces/renderable.generated.ts",
         "fonts-download": "npx tsx scripts/fonts/start.ts download && npx prettier --write static/fonts/fonts.css static/fonts/fonts-fallback.css src/basis/faces/faces.generated.ts src/basis/faces/renderable.generated.ts",
         "rtl": "npx tsx scripts/check-logical-css.ts",
         "schemas": "npm-watch create-schemas",
@@ -112,7 +112,7 @@
         "dotenv": "^17",
         "firebase": "^12",
         "fontkit": "^2",
-        "graphemer": "^1",
+        "highlight.js": "^11",
         "matter-js": "^0",
         "picomatch": "^4",
         "pitchy": "^4",
@@ -123,7 +123,10 @@
         "zod": "^4"
     },
     "overrides": {
-        "cookie": "^0.7.0"
+        "cookie": "^0.7.0",
+        "jwks-rsa": {
+            "jose": "^5.10.0"
+        }
     },
     "browserslist": [
         "defaults",

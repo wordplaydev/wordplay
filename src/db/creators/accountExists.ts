@@ -1,6 +1,6 @@
 import { Creator } from '@db/creators/CreatorDatabase';
 import { firebaseReachable } from '@db/Database';
-import { functions } from '@db/firebase';
+import { getFunctionsInstance } from '@db/firebase';
 import { httpsCallable } from 'firebase/functions';
 import { type EmailExistsInputs, type EmailExistsOutput } from 'shared-types';
 
@@ -10,6 +10,7 @@ export async function usernameAccountExists(name: string) {
 }
 
 export async function emailAccountExists(email: string) {
+    const functions = await getFunctionsInstance();
     if (functions === undefined) return;
     const emailExists = httpsCallable<EmailExistsInputs, EmailExistsOutput>(
         functions,
@@ -26,6 +27,7 @@ export async function emailAccountExists(email: string) {
 }
 
 export async function usernamesExist(usernames: string[]) {
+    const functions = await getFunctionsInstance();
     if (functions === undefined) return;
 
     const emails = usernames.map((name) => Creator.usernameEmail(name));
