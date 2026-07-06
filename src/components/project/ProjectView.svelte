@@ -2688,7 +2688,7 @@
                                 {/if}
                             {/snippet}
                             {#snippet margin()}
-                                {#if tile.kind === TileKind.Source && editable}
+                                {#if tile.kind === TileKind.Source}
                                     {@const source = getSourceByTileID(tile.id)}
                                     {#if source}
                                         <Annotations
@@ -2696,6 +2696,7 @@
                                             evaluator={$evaluator}
                                             {source}
                                             sourceID={tile.id}
+                                            editable={editableAndCurrent}
                                             conflicts={visibleConflicts}
                                             stepping={$evaluation.playing ===
                                                 false}

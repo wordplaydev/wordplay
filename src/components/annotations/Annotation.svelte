@@ -24,11 +24,19 @@
         expanded: boolean;
         /** Toggle this conflict's expanded state */
         onToggle: () => void;
+        /** Whether the source is editable; false hides repair resolutions */
+        editable?: boolean;
         /** The tile ID this corresponds to */
         sourceID: string;
     }
 
-    let { annotation, expanded, onToggle, sourceID }: Props = $props();
+    let {
+        annotation,
+        expanded,
+        onToggle,
+        editable = true,
+        sourceID,
+    }: Props = $props();
 
     // Get the editor this corresponds to.
     const editors = getEditors();
@@ -126,14 +134,15 @@
 
 {#snippet messageBody()}
     {#each annotation.messages as explain}
-        {@const repairs = isStep
-            ? []
-            : annotation
-                  .resolutions()
-                  .filter(
-                      (r): r is Extract<typeof r, { kind: 'repair' }> =>
-                          r.kind === 'repair',
-                  )}
+        {@const repairs =
+            isStep || !editable
+                ? []
+                : annotation
+                      .resolutions()
+                      .filter(
+                          (r): r is Extract<typeof r, { kind: 'repair' }> =>
+                              r.kind === 'repair',
+                      )}
         <aside aria-label={explain($locales).toText()}>
             <MarkupHTMLView markup={{ perLocale: explain }} />
             {#each repairs as resolution}

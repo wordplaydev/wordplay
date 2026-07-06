@@ -17,6 +17,8 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Changed
 
 - ⚡ We made Wordplay start faster, especially the first time you open a project.
+- 🔒 When a project is read only, we replaced the lock icon with a checkerboard pattern, so you can tell it's read only without hiding anything. Screen readers now say when a project is read only, too.
+- 🚦 You can now see errors and hints in a read-only project. You still can't change the code, so we hide the fix buttons.
 
 ### Fixed
 

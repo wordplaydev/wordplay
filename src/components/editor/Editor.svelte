@@ -4,7 +4,6 @@
 
 <!-- svelte-ignore state_referenced_locally -->
 <script lang="ts">
-    import Emoji from '@components/app/Emoji.svelte';
     import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
     import CaretView, {
         type CaretBounds,
@@ -745,12 +744,9 @@
     // Whenever the caret changes, update it's announcements.
     const announce = getAnnouncer();
 
-    // True when the last key was ignored and we're not debugging.
-    let shakeCaret = $derived(
-        $evaluation !== undefined &&
-            $evaluation.playing === true &&
-            lastKeyDownIgnored,
-    );
+    // True right after an ignored keystroke, so the caret shakes regardless of
+    // whether the program is playing or stopped.
+    let shakeCaret = $derived(lastKeyDownIgnored);
 
     function setMenuAnchor(anchor: CaretPosition | FieldPosition) {
         if (
@@ -808,6 +804,11 @@
     function setIgnored(reason: LocaleTextAccessor | undefined) {
         lastKeyDownIgnored = true;
         keyIgnoredReason = reason;
+        // Announce the rejection so screen-reader users hear why the edit was
+        // ignored (read only, no delete, etc.) — the visual message alone isn't
+        // in a live region.
+        if (reason && $announce)
+            $announce('ignored', $caret.getLanguage(), $locales.getPlainText(reason));
         // Flip back to unignored after the animation so we can give more feedback.
         setTimeout(() => resetIgnored(false), $animationFactor * 250);
     }
@@ -3072,7 +3073,11 @@
     style:--zoom={`${zoom}pt`}
     aria-label={`${$locales.getPlainText((l) => l.ui.source.label)} ${$locales.getName(
         source.names,
-    )}`}
+    )}${
+        !editable
+            ? ` ${$locales.getPlainText((l) => l.ui.source.cursor.ignored.readOnly)}`
+            : ''
+    }`}
     dir={$locales.getDirection()}
     data-id={source.id}
     bind:this={editor}
@@ -3295,9 +3300,6 @@
                 >{/if}</div
         >
     {/key}
-    {#if !editable}<span class="readonly-indicator" aria-hidden="true"
-            ><Emoji text="🔒" /></span
-        >{/if}
     <!-- Editor controls cluster: a single container pinned to the editor's
          top-right corner that stacks floating controls vertically (search on
          top, optional output preview below). A flex column means controls
@@ -3360,13 +3362,21 @@
         min-width: 0;
     }
 
-    .readonly-indicator {
-        position: absolute;
-        top: 0;
-        left: var(--wordplay-spacing-half);
-        pointer-events: none;
-        font-size: 0.75em;
-        line-height: 1;
+    /* Read-only editor: a subtle 3px checkerboard texture signals the source can't be
+       edited (e.g. viewing a past checkpoint). Off quadrants are transparent over the
+       normal editor background; on quadrants are the alternating color. Both vars flow
+       through light-dark(), so this adapts to dark mode. Tokens paint their own
+       backgrounds on top, so the texture only shows in the gaps and never behind glyphs.
+       Each quadrant is half the background-size, so a 6px tile yields 3px squares. */
+    .editor.readonly {
+        background-color: var(--wordplay-background);
+        background-image: conic-gradient(
+            var(--wordplay-alternating-color) 25%,
+            transparent 0 50%,
+            var(--wordplay-alternating-color) 0 75%,
+            transparent 0
+        );
+        background-size: 6px 6px;
     }
 
     .editor.dragging {

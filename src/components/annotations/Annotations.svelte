@@ -72,6 +72,7 @@
         getEvaluation,
     } from '@components/project/Contexts';
     import Annotation from '@components/annotations/Annotation.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
 
     interface Props {
         /** The project for which annotations should be shown */
@@ -88,6 +89,8 @@
         conflicts: Conflict[];
         /** The caret of the editor this is annotating */
         caret: Caret | undefined;
+        /** Whether the source is editable; false shows a persistent read-only note */
+        editable?: boolean;
         /** Optional local expanded override — when provided, ignores the global showAnnotations setting */
         expanded?: boolean | undefined;
         /** Optional toggle callback — when provided, called instead of the global Settings toggle */
@@ -102,6 +105,7 @@
         stepping,
         conflicts,
         caret,
+        editable = true,
         expanded = undefined,
         onToggle = undefined,
     }: Props = $props();
@@ -351,6 +355,15 @@
 >
     {#snippet expandedContent()}
         <div class="annotations">
+            {#if !editable}
+                <!-- Persistent read-only note so the "why can't I edit" context
+                     sits alongside conflicts, sharing the caret/editor wording. -->
+                <div class="readonly">
+                    <LocalizedText
+                        path={(l) => l.ui.source.cursor.ignored.readOnly}
+                    />
+                </div>
+            {/if}
             {#if source.isEmpty()}
                 <Speech
                     eyes
@@ -438,7 +451,7 @@
                                         />
                                     </div>
                                 {/if}
-                                {#if adjustable}
+                                {#if adjustable && editable}
                                     <div class="tools">
                                         <CommandButton
                                             command={IncrementLiteral}
@@ -516,6 +529,7 @@
                     expanded={info.kind === 'step' ||
                         (expandedByKey.get(key) ?? false)}
                     onToggle={() => toggleExpanded(key)}
+                    {editable}
                     {sourceID}
                 />
             {/each}
@@ -565,6 +579,11 @@
            (e.g. literal text in a union enumeration) break at any character. */
         word-wrap: break-word;
         overflow-wrap: anywhere;
+    }
+
+    .readonly {
+        font-style: italic;
+        opacity: 0.7;
     }
 
     .annotation {
