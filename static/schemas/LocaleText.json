@@ -14046,13 +14046,18 @@
                   "additionalProperties": false,
                   "description": "The chat message input field",
                   "properties": {
+                    "language": {
+                      "description": "[plain] The ARIA label for the message language selector",
+                      "type": "string"
+                    },
                     "message": {
                       "$ref": "#/definitions/FieldText",
                       "description": "The chat message input field"
                     }
                   },
                   "required": [
-                    "message"
+                    "message",
+                    "language"
                   ],
                   "type": "object"
                 },
@@ -14238,10 +14243,25 @@
                     "restrict"
                   ],
                   "type": "object"
+                },
+                "translate": {
+                  "additionalProperties": false,
+                  "description": "Controls for translating received messages into another language",
+                  "properties": {
+                    "label": {
+                      "description": "[plain] Label for the control that translates received messages",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "label"
+                  ],
+                  "type": "object"
                 }
               },
               "required": [
                 "label",
+                "translate",
                 "field",
                 "role",
                 "button",

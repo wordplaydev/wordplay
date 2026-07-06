@@ -311,8 +311,7 @@
                 "$~\\¶This program says hello¶",
                 "$~'hello!'\\",
                 "$~You can give me a @Language to help others know what language I'm written in:",
-                "$~\\¶I'm an English doc¶/en\nduration: 5s\\🪲",
-                "$~Did you know you can make a list of me? Go talk to @Docs."
+                "$~\\¶I'm an English doc¶/en\nduration: 5s\\🪲"
             ]
         },
         "Docs": {
@@ -6678,7 +6677,8 @@
                 "message": {
                     "description": "$~સબમિટ કરવા માટે ચેટ સંદેશ",
                     "placeholder": "$~એક સંદેશ લખો"
-                }
+                },
+                "language": "$?"
             },
             "button": {
                 "submit": {
@@ -6738,6 +6738,9 @@
                 "commenters": "$~/ટિપ્પણીકર્તાઓ/ તમારી સાથે પ્રોજેક્ટ વિશે *ચર્ચા* કરી શકે છે, પરંતુ તેઓ તેને *સંપાદિત* કરી શકતા નથી.",
                 "viewers": "$~/દર્શકો/ પ્રોજેક્ટ અને તેનો *કોડ* *જોઈ* શકે છે, પરંતુ તેઓ તેની *ચર્ચા* અથવા *સંપાદન* કરી શકતા નથી.",
                 "restrict": "$~જ્યારે કોઈ પ્રોજેક્ટ *ગેલેરી* માં હોય છે, ત્યારે ડિફૉલ્ટ રૂપે *દરેક* જે ગેલેરી જોઈ શકે છે તે તમારા પ્રોજેક્ટને જોઈ શકે છે. /restrict/ ટૉગલ તેને તમારા અને ગેલેરી ક્યુરેટર્સ સિવાય બધાથી *છુપાવે છે*."
+            },
+            "translate": {
+                "label": "$?"
             }
         },
         "palette": {

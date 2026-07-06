@@ -311,8 +311,7 @@
                 "$~\\¶This program says hello¶",
                 "$~'hello!'\\",
                 "$~You can give me a @Language to help others know what language I'm written in:",
-                "$~\\¶I'm an English doc¶/en\nduration: 5s\\🪲",
-                "$~Did you know you can make a list of me? Go talk to @Docs."
+                "$~\\¶I'm an English doc¶/en\nduration: 5s\\🪲"
             ]
         },
         "Docs": {
@@ -6674,7 +6673,8 @@
                 "message": {
                     "description": "$~सबमिट करण्यासाठी चॅट संदेश",
                     "placeholder": "$~एक संदेश टाइप करा"
-                }
+                },
+                "language": "$?"
             },
             "button": {
                 "submit": {
@@ -6734,6 +6734,9 @@
                 "commenters": "$~टिप्पणी करणारे तुमच्यासोबत प्रकल्पावर चर्चा करू शकतात, पण ते त्यात बदल करू शकत नाहीत.",
                 "viewers": "$~दर्शक प्रकल्प आणि त्याचा कोड पाहू शकतात, परंतु त्यावर चर्चा करू शकत नाहीत किंवा त्यात बदल करू शकत नाहीत.",
                 "restrict": "$~जेव्हा एखादा प्रोजेक्ट *गॅलरीमध्ये* असतो, तेव्हा पूर्वनिर्धारितपणे गॅलरी पाहू शकणारे *प्रत्येकजण* तुमचा प्रोजेक्ट पाहू शकतो. /restrict/ टॉगल तो तुमच्या आणि गॅलरीच्या क्युरेटर्सव्यतिरिक्त इतरांपासून *लपवतो*."
+            },
+            "translate": {
+                "label": "$?"
             }
         },
         "palette": {

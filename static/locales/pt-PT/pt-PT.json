@@ -495,9 +495,7 @@
                 "$~Tudo o que precisas de fazer para me escrever é escrever um conjunto de palavras num @Doc:",
                 "$~\\¶Sou um parágrafo num documento.¶'um parágrafo'\\",
                 "$~Se quiseres vários parágrafos, basta colocar linhas em branco.",
-                "$~\\¶Parágrafo 1.",
-                "$~Parágrafo 2.",
-                "$~Parágrafo 3.¶'três parágrafos'\\"
+                "$~\\¶Parágrafo 1."
             ],
             "description": "agrupar palavras num parágrafo"
         },
@@ -6907,7 +6905,8 @@
                 "message": {
                     "description": "A mensagem de chat a enviar",
                     "placeholder": "Introduza uma mensagem"
-                }
+                },
+                "language": "$?"
             },
             "button": {
                 "submit": {
@@ -6967,6 +6966,9 @@
                 "commenters": "Os comentadores podem *discutir* o projeto consigo, mas não podem *editá-lo*.",
                 "viewers": "Os /Visualizadores/ podem *visualizar* o projeto e o seu *código*, mas não podem *discuti-lo* ou *editá-lo*.",
                 "restrict": "Quando um projeto está numa *galeria*, por defeito, *todos* os que conseguem ver a galeria podem também ver o seu projeto. A opção /restrict/ *oculta* o projeto de todos, exceto de si e dos curadores da galeria."
+            },
+            "translate": {
+                "label": "$?"
             }
         },
         "palette": {

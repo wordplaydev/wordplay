@@ -311,8 +311,7 @@
                 "$~\\¶This program says hello¶",
                 "$~'hello!'\\",
                 "$~You can give me a @Language to help others know what language I'm written in:",
-                "$~\\¶I'm an English doc¶/en\nduration: 5s\\🪲",
-                "$~Did you know you can make a list of me? Go talk to @Docs."
+                "$~\\¶I'm an English doc¶/en\nduration: 5s\\🪲"
             ]
         },
         "Docs": {
@@ -497,9 +496,7 @@
                 "$~Để viết tôi, tất cả những gì bạn cần làm là viết một loạt từ trong @Doc:",
                 "$~\\¶Tôi là một đoạn văn trong một tài liệu.¶'một đoạn văn'\\",
                 "$~Nếu bạn muốn nhiều đoạn văn, chỉ cần thêm các dòng trống.",
-                "$~\\¶Đoạn 1.",
-                "$~Đoạn 2.",
-                "$~Đoạn 3.¶'ba đoạn văn'\\"
+                "$~\\¶Đoạn 1."
             ]
         },
         "WebLink": {
@@ -6914,7 +6911,8 @@
                 "message": {
                     "description": "$~Tin nhắn trò chuyện cần gửi",
                     "placeholder": "$~Nhập tin nhắn"
-                }
+                },
+                "language": "$?"
             },
             "button": {
                 "submit": {
@@ -6974,6 +6972,9 @@
                 "commenters": "$~Người bình luận có thể *thảo luận* về dự án với bạn, nhưng không được phép *chỉnh sửa* nó.",
                 "viewers": "$~Người xem có thể xem dự án và mã nguồn của nó, nhưng không thể thảo luận hoặc chỉnh sửa.",
                 "restrict": "$~Khi một dự án nằm trong *thư viện ảnh*, theo mặc định *mọi người* có thể xem thư viện đều có thể thấy dự án của bạn. Nút /restrict/ sẽ *ẩn* dự án đó khỏi mọi người ngoại trừ bạn và người quản lý thư viện."
+            },
+            "translate": {
+                "label": "$?"
             }
         },
         "palette": {

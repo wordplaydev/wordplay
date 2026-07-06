@@ -6685,7 +6685,8 @@
                 "message": {
                     "description": "$~Wiadomość czatu do wysłania",
                     "placeholder": "$~Wpisz wiadomość"
-                }
+                },
+                "language": "$?"
             },
             "button": {
                 "submit": {
@@ -6745,6 +6746,9 @@
                 "commenters": "$~/Komentujący/ mogą *dyskutować* z Tobą o projekcie, ale nie mogą go *edytować*.",
                 "viewers": "$~/Widzowie/ mogą *przeglądać* projekt i jego *kod*, ale nie mogą go *dyskutować* ani *edytować*.",
                 "restrict": "$~Gdy projekt znajduje się w *galerii*, domyślnie *każdy*, kto może zobaczyć galerię, może zobaczyć Twój projekt. Przełącznik /restrict/ *ukrywa* go przed wszystkimi oprócz Ciebie i kuratorów galerii."
+            },
+            "translate": {
+                "label": "$?"
             }
         },
         "palette": {

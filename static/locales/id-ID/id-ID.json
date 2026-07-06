@@ -311,8 +311,7 @@
                 "$~\\¶This program says hello¶",
                 "$~'hello!'\\",
                 "$~You can give me a @Language to help others know what language I'm written in:",
-                "$~\\¶I'm an English doc¶/en\nduration: 5s\\🪲",
-                "$~Did you know you can make a list of me? Go talk to @Docs."
+                "$~\\¶I'm an English doc¶/en\nduration: 5s\\🪲"
             ]
         },
         "Docs": {
@@ -497,9 +496,7 @@
                 "$~Yang perlu kamu lakukan untuk menulisku hanyalah menulis sekumpulan kata di dalam @Doc:",
                 "$~\\¶Saya adalah sebuah paragraf di dalam dokumen.¶'satu paragraf'\\",
                 "$~Jika kamu mau beberapa paragraf, cukup taruh baris kosong.",
-                "$~\\¶Paragraf 1.",
-                "$~Paragraf 2.",
-                "$~Paragraf 3.¶'tiga paragraf'\\"
+                "$~\\¶Paragraf 1."
             ]
         },
         "WebLink": {
@@ -6917,7 +6914,8 @@
                 "message": {
                     "description": "$~Pesan obrolan yang akan dikirim",
                     "placeholder": "$~Ketik pesan"
-                }
+                },
+                "language": "$?"
             },
             "button": {
                 "submit": {
@@ -6977,6 +6975,9 @@
                 "commenters": "$~Para pemberi komentar dapat *mendiskusikan* proyek tersebut dengan Anda, tetapi mereka tidak dapat *mengedit*nya.",
                 "viewers": "$~Para penonton dapat *melihat* proyek dan *kode*-nya, tetapi mereka tidak dapat *mendiskusikan* atau *mengedit*nya.",
                 "restrict": "$~Saat sebuah proyek berada di *galeri*, secara default *semua orang* yang dapat melihat galeri dapat melihat proyek Anda. Tombol /restrict/ *menyembunyikannya* dari semua orang kecuali Anda dan kurator galeri."
+            },
+            "translate": {
+                "label": "$?"
             }
         },
         "palette": {

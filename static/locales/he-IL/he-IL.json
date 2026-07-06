@@ -311,8 +311,7 @@
                 "$~\\¶This program says hello¶",
                 "$~'hello!'\\",
                 "$~You can give me a @Language to help others know what language I'm written in:",
-                "$~\\¶I'm an English doc¶/en\nduration: 5s\\🪲",
-                "$~Did you know you can make a list of me? Go talk to @Docs."
+                "$~\\¶I'm an English doc¶/en\nduration: 5s\\🪲"
             ]
         },
         "Docs": {
@@ -6907,7 +6906,8 @@
                 "message": {
                     "description": "$~הודעת הצ'אט שיש לשלוח",
                     "placeholder": "$~הקלד הודעה"
-                }
+                },
+                "language": "$?"
             },
             "button": {
                 "submit": {
@@ -6967,6 +6967,9 @@
                 "commenters": "$~/מגיבים/ יכולים *לדון* איתך על הפרויקט, אבל הם לא יכולים *לערוך* אותו.",
                 "viewers": "$~/צופים/ יכולים *לראות* את הפרויקט ואת *הקוד* שלו, אך הם אינם יכולים *לדון* בו או *לערוך* אותו.",
                 "restrict": "$~כאשר פרויקט נמצא ב*גלריה*, כברירת מחדל *כל מי* שיכול לראות את הגלריה יכול לראות את הפרויקט שלך. כפתור ההפעלה /restrict/ *מסתיר* אותו מכולם מלבדך וממנהלי הגלריה."
+            },
+            "translate": {
+                "label": "$?"
             }
         },
         "palette": {

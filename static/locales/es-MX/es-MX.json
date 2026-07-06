@@ -468,9 +468,7 @@
                 "$~Todo lo que necesitas hacer para escribirme es escribir un montón de palabras en un @Doc:",
                 "$~\\¶Soy un párrafo en un documento.¶'un párrafo'\\",
                 "$~Si quieres varios párrafos, solo pon líneas en blanco.",
-                "$~\\¶Párrafo 1.",
-                "$~Párrafo 2.",
-                "$~Párrafo 3.¶'tres párrafos'\\"
+                "$~\\¶Párrafo 1."
             ]
         },
         "WebLink": {
@@ -1310,8 +1308,7 @@
                 "$~Hago una copia de un @value de @StructureDefinition con solo una @property cambiada — no necesitas reconstruir todo con los mismos valores.",
                 "$~Por ejemplo, ¿qué tal si guardas un registro de gatos, pero luego quieres crear una copia de un gato con un pasatiempo diferente? Puedo ayudarte a cambiarlo:",
                 "$~\\•gato(nombre•'' color•'' pasatiempo•'')",
-                "$~gatito: gato('chispitas' 'naranja' 'lamiendo')\ngatito.pasatiempo:'ronroneando'\\",
-                "$~Eso es mucho más fácil que hacer un \\Cat\\🪲 completamente nuevo con los mismos valores excepto el pasatiempo, ¿verdad?"
+                "$~gatito: gato('chispitas' 'naranja' 'lamiendo')\ngatito.pasatiempo:'ronroneando'\\"
             ],
             "start": "primero obtengamos el valor",
             "finish": "Copié la estructura, pero con $property como $value",
@@ -1334,9 +1331,7 @@
             "doc": [
                 "$~Obtengo una de las propiedades de un @value de @StructureDefinition para ti.",
                 "$~Como si tuvieras una estructura sobre ciudades, podrías obtener sus valores conmigo así:",
-                "$~\\•ciudad(nombre•'' población•#people)",
-                "$~portland: ciudad('Portland' 800000people)",
-                "$~portland.población\\"
+                "$~\\•ciudad(nombre•'' población•#people)"
             ],
             "start": "primero obtengamos el valor",
             "finish": "se encontró la propiedad $property, es $value",
@@ -1498,10 +1493,7 @@
                 "$~\\•pizza(\n\tingredientes•['']\n\ttamaño•#in\n)\\",
                 "$~También puedo tener @Bind adentro, así que podríamos evaluar el costo por adelantado.",
                 "$~\\•pizza(\n\tingredientes•['']\n\ttamaño•#in\n) (\n\tcosto: tamaño × 10dollars/in\n)",
-                "$~pizza(['pepperoni' 'chiles'] 12in).costo\\🪲",
-                "$~Marca una función o @value con ↑ para que pertenezca a la estructura misma, no a las instancias. Así puedes usar el @name de la estructura para llegar a ella, sin crear una.",
-                "$~\\•matemáticas() (\n\t↑\n\tpi: 3.14159\n\t↑ƒ cuadrado(n•#) n × n\n)",
-                "$~matemáticas.pi\nmatemáticas.cuadrado(5)\\"
+                "$~pizza(['pepperoni' 'chiles'] 12in).costo\\🪲"
             ],
             "start": "definamos esta encantadora estructura",
             "conflict": {
@@ -7601,7 +7593,8 @@
                 "message": {
                     "description": "$~El mensaje de chat para enviar",
                     "placeholder": "$~Escribe un mensaje"
-                }
+                },
+                "language": "$?"
             },
             "button": {
                 "submit": {
@@ -7661,6 +7654,9 @@
                 "commenters": "$~Los /comentaristas/ pueden *conversar* sobre el proyecto contigo, pero no pueden *editarlo*.",
                 "viewers": "$~Los /espectadores/ pueden *ver* el proyecto y su *código*, pero no pueden *conversar* ni *editarlo*.",
                 "restrict": "$~Cuando un proyecto está en una *galería*, de forma predeterminada *todos* los que pueden ver la galería pueden ver tu proyecto. El interruptor /limitar/ lo *oculta* de todos excepto de ti y de los curadores de la galería."
+            },
+            "translate": {
+                "label": "$?"
             }
         },
         "checkpoints": {
