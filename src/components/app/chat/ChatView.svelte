@@ -364,10 +364,14 @@
             />
         {/if}
         <div class="translate-bar">
-            <span class="translate-label">Translate messages to</span>
+            <span class="translate-label"
+                ><LocalizedText
+                    path={(l) => l.ui.collaborate.translate.label}
+                /></span
+            >
             <Options
                 id="translate-messages-to"
-                label="translate messages to"
+                label={(l) => l.ui.collaborate.translate.label}
                 value={translateTo}
                 options={translateOptions}
                 change={(value) => translateMessages(value)}
@@ -390,7 +394,7 @@
         <div class="language">
             <Options
                 id="new-message-language"
-                label="message language"
+                label={(l) => l.ui.collaborate.field.language}
                 value={messageLanguage}
                 options={languageOptions}
                 change={(value) => (messageLanguage = value)}
