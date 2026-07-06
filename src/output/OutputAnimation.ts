@@ -148,6 +148,21 @@ export default class OutputAnimation {
         }
         // If the new rest is a sequence, start the sequence.
         else if (currentPose instanceof Sequence) {
+            // A resting Sequence loops via one long-lived Web Animation. If the
+            // resting sequence and size are unchanged and it's already running,
+            // leave it alone — start() cancels + re-creates the animation,
+            // snapping it back to frame 0. Animator.animate() calls
+            // update()->rest() on every present phrase, so any stage re-render
+            // (e.g. a caret move) would otherwise reset every loop.
+            if (
+                prior &&
+                priorPose instanceof Sequence &&
+                prior.size === this.output.size &&
+                priorPose.equals(currentPose) &&
+                this.animation !== undefined &&
+                this.animation.playState === 'running'
+            )
+                return;
             const sequence = currentPose.compile(
                 undefined,
                 undefined,

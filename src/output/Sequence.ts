@@ -146,6 +146,11 @@ export default class Sequence extends Valued {
         return this.poses[0]?.pose;
     }
 
+    /** True if this sequence's underlying value equals the given sequence's. */
+    equals(sequence: Sequence): boolean {
+        return this.value.isEqualTo(sequence.value);
+    }
+
     getDescription(locales: Locales): string {
         return this.description && this.description.trim() !== ''
             ? this.description
