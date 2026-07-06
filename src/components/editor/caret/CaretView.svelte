@@ -323,6 +323,18 @@
 
     // Whenever the caret or blocks mode changes, wait for rendering, then update it's location.
     let animationDelayTimeout: NodeJS.Timeout | undefined = undefined;
+    // The layout-affecting inputs from the last run, so we can tell a pure caret
+    // move (only the position changed) from a change that reflows the DOM. Only
+    // the latter needs the post-reflow rAF re-measure below.
+    let prevLayout:
+        | {
+              source: typeof caret.source;
+              blocks: boolean;
+              zoom: number;
+              folded: Set<Node> | undefined;
+              evaluation: unknown;
+          }
+        | undefined = undefined;
     $effect(() => {
         caret;
         blocks;
@@ -334,8 +346,31 @@
         // We do this because when stepping, things hide and show and we need to update the caret
         // position when they do. But we don't want to do it when playing, otherwise the editor
         // scrolls to the caret whenever the evaluation steps, which can be a lot when playing!
-        if (untrack(() => $evaluation !== undefined && !$evaluation.playing))
-            $evaluation;
+        const paused = untrack(
+            () => $evaluation !== undefined && !$evaluation.playing,
+        );
+        if (paused) $evaluation;
+
+        // Did anything that reflows the DOM change (an edit changes source; folds/
+        // blocks/zoom/stepping shift layout)? A pure caret move changes none of
+        // these, so its tick() measurement is already final and the rAF correction
+        // below is pure waste (a second forced reflow on a later frame).
+        const evaluationSignal = paused ? $evaluation : undefined;
+        const layoutChanged =
+            prevLayout === undefined ||
+            prevLayout.source !== caret.source ||
+            prevLayout.blocks !== blocks ||
+            prevLayout.zoom !== zoom ||
+            prevLayout.folded !== $folded ||
+            prevLayout.evaluation !== evaluationSignal;
+        prevLayout = {
+            source: caret.source,
+            blocks,
+            zoom,
+            folded: $folded,
+            evaluation: evaluationSignal,
+        };
+
         tick().then(() => {
             location = computeLocation();
 
@@ -344,15 +379,18 @@
             // containing formatted docs): the prior token's measured rect
             // hasn't yet reflowed to its final position, so the caret is
             // published one line too high. Re-measure on the next
-            // animation frame and adopt the settled position.
+            // animation frame and adopt the settled position. Skip this for a
+            // pure caret move — nothing reflowed, so the tick() measurement is
+            // already correct and the extra reflow would just cost a frame.
             // computeLocation() clears `location` as its first step, so
             // capture before the call and fall back to it if the re-run
             // can't produce a value (e.g., editor being torn down).
-            requestAnimationFrame(() => {
-                const saved = location;
-                const corrected = computeLocation();
-                location = corrected ?? saved;
-            });
+            if (layoutChanged)
+                requestAnimationFrame(() => {
+                    const saved = location;
+                    const corrected = computeLocation();
+                    location = corrected ?? saved;
+                });
 
             if (animationDelayTimeout) clearTimeout(animationDelayTimeout);
             // Block-mode padding transitions over $animationDuration when the
@@ -365,6 +403,23 @@
                 }, $animationDuration);
             }
         });
+    });
+
+    // Suppress blinking briefly after any caret change (movement or edit) so the
+    // caret reads as solid while the user is active, resuming its blink once idle.
+    // Kept local (a timer) rather than routing through keyboardEditIdle, whose
+    // store round-trip is an expensive per-move fan-out we deliberately avoid
+    // (see Editor.handleEdit's navigation skip).
+    let blinkSuppressed = $state(false);
+    let blinkTimer: ReturnType<typeof setTimeout> | undefined = undefined;
+    $effect(() => {
+        caret; // re-arm on any caret change
+        blinkSuppressed = true;
+        if (blinkTimer) clearTimeout(blinkTimer);
+        blinkTimer = setTimeout(() => (blinkSuppressed = false), 500);
+        return () => {
+            if (blinkTimer) clearTimeout(blinkTimer);
+        };
     });
 
     // Code tokens have no measurable height until the editor's font loads, so
@@ -1327,9 +1382,9 @@
 />
 
 <span
-    class="caret {blink ? 'blink' : ''} {ignored ? 'ignored' : ''} {blocks
-        ? 'blocks'
-        : ''}"
+    class="caret {blink && !blinkSuppressed ? 'blink' : ''} {ignored
+        ? 'ignored'
+        : ''} {blocks ? 'blocks' : ''}"
     class:focused={$editor?.focused}
     class:readonly={!editable}
     class:node={caret && caret.isNode() && !caret.isPlaceholderNode()}

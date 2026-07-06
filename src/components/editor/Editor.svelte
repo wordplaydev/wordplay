@@ -698,6 +698,12 @@
     // The possible candidate for dragging
     let dragCandidate: Node | undefined = $state(undefined);
 
+    // The raw element under the pointer on the last processed hover, so a plain
+    // hover that stays within the same element skips its hit-tests and store
+    // writes (the per-pointermove forced-reflow cost). Reset on pointer leave so
+    // re-entry re-resolves.
+    let lastHoverElement: Element | null = null;
+
     // The identity of the drop target the drag-feedback notification was last computed for, so we
     // only re-simulate the drop (and re-render the explanation) when the pointer moves to a new target.
     let lastDragTargetKey: string | undefined = undefined;
@@ -1075,6 +1081,10 @@
             $blocks,
             $locales.getDirection() === 'rtl',
         );
+        // Resolve the element under the pointer once so placeCaretAt can reuse it
+        // (and clickIndex) instead of re-running the hit-test and the (possibly
+        // O(all-token)) getCaretPositionAt a second time.
+        const clickEl = document.elementFromPoint(event.clientX, event.clientY);
         let clickToken =
             clickIndex === undefined
                 ? undefined
@@ -1132,7 +1142,7 @@
         }
 
         if (clickDepth === 0 || lastClickToken === undefined) {
-            placeCaretAt(event);
+            placeCaretAt(event, { el: clickEl, index: clickIndex });
         } else {
             let node: Node = lastClickToken;
             for (let i = 0; i < clickDepth - 1; i++) {
@@ -1153,7 +1163,14 @@
         grabFocus('Focusing editor on pointer down.');
     }
 
-    function placeCaretAt(event: PointerEvent) {
+    // `hit` carries the pointer hit-test handlePointerDown already computed: the
+    // resolved element under the pointer (so getNodeAt reuses it instead of a
+    // second elementFromPoint) and the caret index (so we don't recompute
+    // getCaretPositionAt — the expensive call, which can sweep every token).
+    function placeCaretAt(
+        event: PointerEvent,
+        hit: { el: Element | null; index: number | undefined },
+    ) {
         if (editor === null) return;
 
         // If the token is over an empty list, insertion point for that list.
@@ -1163,8 +1180,8 @@
         const breakPosition = $blocks
             ? getBreakPosition(source, event)
             : undefined;
-        const tokenUnderPointer = getNodeAt(source, event, true);
-        const nonTokenNodeUnderPointer = getNodeAt(source, event, false);
+        const tokenUnderPointer = getNodeAt(source, event, true, hit.el);
+        const nonTokenNodeUnderPointer = getNodeAt(source, event, false, hit.el);
         const newPosition =
             // If there's an ampty position, use that.
             empty !== undefined
@@ -1179,14 +1196,7 @@
                           tokenUnderPointer,
                           source.root.getParent(tokenUnderPointer),
                       )
-                    ? getCaretPositionAt(
-                          $caret,
-                          event,
-                          getTokenViews,
-                          editor,
-                          $blocks,
-                          $locales.getDirection() === 'rtl',
-                      )
+                    ? hit.index
                     : // If shift is down or in blocks mode and not over an editable text token, select the non-token node at the position.
                       (event.shiftKey || $blocks) &&
                         nonTokenNodeUnderPointer !== undefined
@@ -1198,14 +1208,7 @@
                               .getAncestors(tokenUnderPointer)
                               .find((a) => a.isPlaceholder())
                         : // Otherwise choose an index position under the mouse
-                          getCaretPositionAt(
-                              $caret,
-                              event,
-                              getTokenViews,
-                              editor,
-                              $blocks,
-                              $locales.getDirection() === 'rtl',
-                          );
+                          hit.index;
         // If we found a position, set it and reset the ignore feedback.
         if (newPosition !== undefined) {
             caret.set($caret.withPosition(newPosition));
@@ -1384,18 +1387,35 @@
         // Update the selecting state
         selectingWithShift = event.shiftKey && dragCandidate === undefined;
 
+        // Resolve the element under the pointer once (a forced reflow). For a
+        // plain hover that stayed within the same element, the hovered node can't
+        // have changed, so skip the rest — re-running the hit-tests and store
+        // writes is the dominant per-pointermove cost (especially in WebKit). A
+        // drag or shift-select still tracks sub-token movement, so it proceeds.
+        const el = document.elementFromPoint(event.clientX, event.clientY);
+        // Proceed (don't short-circuit) whenever a pointer-drag interaction needs
+        // sub-token tracking: an active drag, a pending drag candidate about to
+        // cross the start threshold, or a shift-select extending a range.
+        const draggingOrSelecting =
+            $dragged !== undefined ||
+            dragCandidate !== undefined ||
+            selectingWithShift;
+        if (el === lastHoverElement && !draggingOrSelecting) return;
+        lastHoverElement = el;
+
         // By default, set the hovered state to whatever node is under the mouse. While dragging,
         // elevate it to the smallest enclosing node the drop is permitted on, so dropping on a
         // node whose most-specific view can't accept the drag (e.g. a call's function name) replaces
         // the enclosing node that can. Memoized so the ancestor walk only runs when the raw node
-        // under the pointer changes.
-        const under = getNodeAt(source, event, false);
-        hovered.set(
+        // under the pointer changes. Reuse `el` so we don't hit-test the same point twice.
+        const under = getNodeAt(source, event, false, el);
+        const newHovered =
             editable && $dragged !== undefined && under !== undefined
                 ? resolveReplacementTargetMemoized(under, $dragged)
-                : under,
-        );
-        hoveredAny.set(getNodeAt(source, event, true));
+                : under;
+        if (newHovered !== get(hovered)) hovered.set(newHovered);
+        const newHoveredAny = getNodeAt(source, event, true, el);
+        if (newHoveredAny !== get(hoveredAny)) hoveredAny.set(newHoveredAny);
 
         // If we have a drag candidate and it's past 5 pixels from the start point, set the insertion points to whatever points are under the mouse.
         if (
@@ -1472,16 +1492,19 @@
         const node = getNodeAt(source, event, false);
 
         // If the node is associated with a step, set it, otherwise unset it.
-        hovered.set(
+        const next =
             evaluator.isDone() || node === undefined
                 ? undefined
-                : evaluator.getEvaluableNode(node),
-        );
+                : evaluator.getEvaluableNode(node);
+        if (next !== get(hovered)) hovered.set(next);
     }
 
     function handlePointerLeave() {
         hovered.set(undefined);
         insertion.set(undefined);
+        // Re-resolve on re-entry: the hovered state was just cleared, so a
+        // return to the same element must not be short-circuited.
+        lastHoverElement = null;
     }
 
     // When the menu changes to undefined, focus back on this source.
@@ -1712,14 +1735,25 @@
             }
         }
 
-        // Always reset the 1s idle timer, even when the store value isn't
-        // changing — the timer is what debounces "is the user still typing?".
-        if (resetKeyboardIdle) resetKeyboardIdle();
-        // Only fire the keyboardEditIdle store on actual transitions. Hitting
-        // .set() with the same value still notifies every subscriber and
-        // produces a fanout cascade across the project per keystroke.
-        if (keyboardEditIdle && get(keyboardEditIdle) !== idle)
-            keyboardEditIdle.set(idle);
+        // A pure navigation move (arrow/click, no source change) needs none of
+        // the idle machinery: it makes no edit, so there's nothing to re-analyze
+        // and no display update to defer. Flipping keyboardEditIdle Idle→Typed→Idle
+        // for it would slip past every Typing-keyed guard and re-fire the conflicts
+        // republish, the editors-store publish, and the announcer 2-3× per move.
+        // We skip it ONLY for the non-deferred single move; a held-arrow flurry
+        // (deferDisplayUpdate) still relies on the Idle transition to flush its
+        // deferred displayedCaret/editors publish, and real edits still debounce.
+        const skipIdle = navigation && !deferDisplayUpdate;
+        if (!skipIdle) {
+            // Always reset the 1s idle timer, even when the store value isn't
+            // changing — the timer is what debounces "is the user still typing?".
+            if (resetKeyboardIdle) resetKeyboardIdle();
+            // Only fire the keyboardEditIdle store on actual transitions. Hitting
+            // .set() with the same value still notifies every subscriber and
+            // produces a fanout cascade across the project per keystroke.
+            if (keyboardEditIdle && get(keyboardEditIdle) !== idle)
+                keyboardEditIdle.set(idle);
+        }
 
         // Update the caret and project.
         if (newSource) {

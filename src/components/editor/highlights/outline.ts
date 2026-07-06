@@ -259,6 +259,28 @@ export function getRowsOf(
     rtl: boolean,
     blocks: boolean,
 ): Rect[] {
+    // Single-row fast path: a text-mode node that renders on one line has
+    // exactly one client rect, and that rect equals the leftmost-to-rightmost
+    // token span rectsToRows would otherwise build — so we can use the node's
+    // own box and skip a getBoundingClientRect per leaf token (the dominant cost
+    // when a large node is highlighted). Guarded off: blocks mode (node-views
+    // carry padding there, so the box would be larger than the token span and
+    // shift the outline; blocks has its own single-rect shortcut upstream), the
+    // Program node (its outline includes preceding-space rects), and any node
+    // with folded/hidden descendants (getNodeTokenRects deliberately excludes
+    // those, but they still occupy the layout as zero-size boxes).
+    if (
+        !blocks &&
+        nodeView.dataset.uiid !== 'Program' &&
+        nodeView.querySelector('.hide') === null &&
+        nodeView.getClientRects().length === 1
+    )
+        return rectsToRows(
+            [getViewRect(getEditorOffset(nodeView), nodeView)],
+            horizontal,
+            rtl,
+        );
+
     let rects: Rect[] = [
         // If this is a program node, include the program's preceding space, since it will be deleted if the program is deleted.
         ...(nodeView.dataset.uiid === 'Program'

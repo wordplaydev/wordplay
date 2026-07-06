@@ -20,41 +20,49 @@
     let filteredClasses = $derived(
         types.filter((type) => HighlightTypes[type] === above).join(' '),
     );
+    // Each highlight type belongs to exactly one layer (above/below), so an
+    // outline whose types are all in the *other* layer would render two empty,
+    // invisible SVGs here. Editor renders every outline in both layers, so this
+    // skip halves the painted SVG count — significant when a name's `related`
+    // highlight lights up every use (many overlays at once).
+    let hasContent = $derived(filteredClasses.length > 0);
 </script>
 
-<svg
-    class={`highlight outline ${filteredClasses}`}
-    class:ignored
-    aria-hidden="true"
-    style={`top: ${outline.miny - HIGHLIGHT_PADDING}px; left: ${
-        outline.minx - HIGHLIGHT_PADDING
-    }px; `}
-    width={outline.maxx - outline.minx + HIGHLIGHT_PADDING * 2}
-    height={outline.maxy - outline.miny + HIGHLIGHT_PADDING * 2}
-    viewBox={`${outline.minx - HIGHLIGHT_PADDING} ${
-        outline.miny - HIGHLIGHT_PADDING
-    } ${outline.maxx - outline.minx + HIGHLIGHT_PADDING * 2 - 1} ${
-        outline.maxy - outline.miny + HIGHLIGHT_PADDING * 2 - 1
-    }`}
->
-    <path d={outline.path} />
-</svg><svg
-    class={`highlight underline ${filteredClasses}`}
-    aria-hidden="true"
-    class:ignored
-    style={`top: ${outline.miny - HIGHLIGHT_PADDING}px; left: ${
-        outline.minx - HIGHLIGHT_PADDING
-    }px; `}
-    width={outline.maxx - outline.minx + HIGHLIGHT_PADDING * 2}
-    height={outline.maxy - outline.miny + HIGHLIGHT_PADDING * 2}
-    viewBox={`${outline.minx - HIGHLIGHT_PADDING} ${
-        outline.miny - HIGHLIGHT_PADDING
-    } ${outline.maxx - outline.minx + HIGHLIGHT_PADDING * 2 - 1} ${
-        outline.maxy - outline.miny + HIGHLIGHT_PADDING * 2 - 1
-    }`}
->
-    <path d={underline.path} />
-</svg>
+{#if hasContent}
+    <svg
+        class={`highlight outline ${filteredClasses}`}
+        class:ignored
+        aria-hidden="true"
+        style={`top: ${outline.miny - HIGHLIGHT_PADDING}px; left: ${
+            outline.minx - HIGHLIGHT_PADDING
+        }px; `}
+        width={outline.maxx - outline.minx + HIGHLIGHT_PADDING * 2}
+        height={outline.maxy - outline.miny + HIGHLIGHT_PADDING * 2}
+        viewBox={`${outline.minx - HIGHLIGHT_PADDING} ${
+            outline.miny - HIGHLIGHT_PADDING
+        } ${outline.maxx - outline.minx + HIGHLIGHT_PADDING * 2 - 1} ${
+            outline.maxy - outline.miny + HIGHLIGHT_PADDING * 2 - 1
+        }`}
+    >
+        <path d={outline.path} />
+    </svg><svg
+        class={`highlight underline ${filteredClasses}`}
+        aria-hidden="true"
+        class:ignored
+        style={`top: ${outline.miny - HIGHLIGHT_PADDING}px; left: ${
+            outline.minx - HIGHLIGHT_PADDING
+        }px; `}
+        width={outline.maxx - outline.minx + HIGHLIGHT_PADDING * 2}
+        height={outline.maxy - outline.miny + HIGHLIGHT_PADDING * 2}
+        viewBox={`${outline.minx - HIGHLIGHT_PADDING} ${
+            outline.miny - HIGHLIGHT_PADDING
+        } ${outline.maxx - outline.minx + HIGHLIGHT_PADDING * 2 - 1} ${
+            outline.maxy - outline.miny + HIGHLIGHT_PADDING * 2 - 1
+        }`}
+    >
+        <path d={underline.path} />
+    </svg>
+{/if}
 
 <style>
     @keyframes wave {
@@ -127,6 +135,12 @@
         animation: calc(250ms * var(--animation-factor)) linear wave infinite;
         fill: var(--wordplay-hover);
         transform-origin: center;
+        /* Promote to its own compositing layer so this infinite transform
+           animation runs on the GPU instead of re-rasterizing the whole
+           (viewport-sized) overlay every frame. The matched-delimiter highlight
+           appears whenever the caret is near a bracket, so on a bracket-dense
+           program it was a continuous, editor-wide composite/paint cost. */
+        will-change: transform;
     }
     .outline.dragged path {
         fill: var(--wordplay-hover);
@@ -154,6 +168,8 @@
     .outline.animating path {
         animation: shift ease-in-out infinite;
         animation-duration: calc(var(--animation-factor) * 1s);
+        /* GPU-isolate the infinite transform animation (see .delimiter above). */
+        will-change: transform;
     }
 
     /* In blocks mode, the SVG fill would be hidden behind the block's own
@@ -166,6 +182,8 @@
             var(--wordplay-evaluation-color);
         animation: shift ease-in-out infinite;
         animation-duration: calc(var(--animation-factor) * 1s);
+        /* GPU-isolate the infinite transform animation (see .delimiter above). */
+        will-change: transform;
     }
 
     /* Make the text legible inside animating/evaluating/dragging nodes —
@@ -209,6 +227,8 @@
     .attention path {
         transform-box: fill-box;
         animation: shake calc(var(--animation-factor) * 500ms) linear infinite;
+        /* GPU-isolate the infinite transform animation (see .delimiter above). */
+        will-change: transform;
     }
 
     .underline.exception path {

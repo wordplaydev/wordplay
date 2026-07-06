@@ -55,8 +55,16 @@ export function getNodeAt(
     source: Source,
     event: PointerEvent | MouseEvent,
     includeTokens: boolean,
+    // Optional pre-resolved element under the pointer. Pass this to avoid a
+    // second document.elementFromPoint (a forced reflow) when the caller already
+    // hit-tested the same point — e.g. hover resolves both the token and
+    // non-token node from one elementFromPoint.
+    resolved?: Element | null,
 ) {
-    const el = document.elementFromPoint(event.clientX, event.clientY);
+    const el =
+        resolved !== undefined
+            ? resolved
+            : document.elementFromPoint(event.clientX, event.clientY);
     // Only return a node if hovering over its text. Space isn't eligible.
     if (el instanceof HTMLElement) {
         const nodeView = el.closest(

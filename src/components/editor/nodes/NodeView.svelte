@@ -267,13 +267,21 @@
 <style>
     .node-view {
         display: inline;
-        position: relative;
         border-radius: var(--wordplay-editor-radius);
         padding: 0;
         border-color: transparent;
 
         /** This allows us to style things up the the tree. */
         text-decoration: inherit;
+    }
+
+    /* `position: relative` used to be on every .node-view, but that makes every
+       one of the (thousands of) inline token boxes a positioned box — a large
+       WebKit layout cost on any editor interaction. The only descendant that
+       needs the node-view as its containing block is the .removed strikethrough
+       below, so scope it there. */
+    .node-view.removed {
+        position: relative;
     }
 
     .value {
