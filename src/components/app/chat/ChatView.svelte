@@ -19,7 +19,8 @@
     import { Chats, Galleries, locales } from '@db/Database';
     import { functions } from '@db/firebase';
     import {
-        translateMarkupText,
+        normalizeSoftBreaks,
+        
         type RawTranslator,
     } from '@db/translateMarkup';
     import { getLanguageName } from '@locale/LanguageCode';
@@ -147,11 +148,9 @@
     }
 
     /** Translate every visible message into the chosen target language and show
-     *  each translation beneath its original. Each message is translated from
-     *  its own tagged language (falling back to the viewer's primary language
-     *  when a message predates language tags) via translateMarkupText, which
-     *  preserves embedded \code\ and is backed by the getLLMTranslations
-     *  callable. */
+     *  each translation beneath its original. Messages are grouped by source
+     *  language and translated in batches to avoid one network round-trip per
+     *  message. */
     async function translateMessages(target: string | undefined) {
         translateTo = target;
         translations = {};
@@ -176,20 +175,48 @@
             ).data;
 
         const next: Record<string, { language: string; text: string }> = {};
+        const grouped = new Map<
+            string,
+            { from: ReturnType<typeof stringToLocale>; ids: string[]; texts: string[] }
+        >();
+
         for (const msg of messages) {
             if (msg.text === null) continue;
             const source = msg.language ?? $locales.getLanguages()[0];
             const fromLocale = stringToLocale(source);
             if (fromLocale === undefined) continue;
-            const result = await translateMarkupText(
-                msg.text,
-                fromLocale,
-                toLocale,
-                translate,
-            );
-            if (result !== null)
-                next[msg.id] = { language: target, text: result };
+
+            const key = localeToString(fromLocale);
+            const existing = grouped.get(key);
+            if (existing) {
+                existing.ids.push(msg.id);
+                existing.texts.push(normalizeSoftBreaks(msg.text));
+            } else {
+                grouped.set(key, {
+                    from: fromLocale,
+                    ids: [msg.id],
+                    texts: [normalizeSoftBreaks(msg.text)],
+                });
+            }
         }
+
+        await Promise.all(
+            Array.from(grouped.values()).map(async (group) => {
+                if (group.from === undefined) return;
+                const result = await translate(group.texts, group.from, toLocale);
+                if (result === null) return;
+
+                for (let i = 0; i < group.ids.length; i += 1) {
+                    const translated = result[i];
+                    if (typeof translated === 'string')
+                        next[group.ids[i]] = {
+                            language: target,
+                            text: translated,
+                        };
+                }
+            }),
+        );
+
         translations = next;
         translating = false;
     }
