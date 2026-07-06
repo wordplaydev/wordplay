@@ -36,6 +36,10 @@ export type Font = {
 
 export const loadedFonts = writable<Set<SupportedFace>>(new Set());
 
+/** Bumped on every browser font-load completion so reactive consumers
+ *  re-measure text once lazily-loaded faces arrive. Mirrors loadGeneration. */
+export const fontsLoadedGeneration = writable(0);
+
 
 /** True if the face's metadata declares support for the given weight. */
 export function faceSupportsWeight(face: Face, weight: FontWeight): boolean {
@@ -99,6 +103,7 @@ export class FontManager {
         )
             document.fonts.addEventListener('loadingdone', () => {
                 this.loadGeneration++;
+                fontsLoadedGeneration.update((n) => n + 1);
             });
     }
 

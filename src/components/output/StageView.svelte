@@ -4,7 +4,7 @@
 
 <!-- svelte-ignore state_referenced_locally -->
 <script lang="ts">
-    import { loadedFonts } from '@basis/faces/Fonts';
+    import { fontsLoadedGeneration, loadedFonts } from '@basis/faces/Fonts';
     import type Project from '@db/projects/Project';
     import Animator, { type Moved, type OutputInfoSet } from '@output/Animator';
     import Group from '@output/Group';
@@ -100,11 +100,6 @@
                     }
                 }
             });
-
-        /** Whenever a font finishes loading, re-render. */
-        document.fonts.onloadingdone = () => {
-            stage = stage;
-        };
     });
 
     /**
@@ -255,16 +250,20 @@
             ? project.getLocales().getLayout()
             : $writingLayout,
     );
-    let context = $derived(
-        new RenderContext(
+    let context = $derived.by(() => {
+        // Depend on the font-load generation so text re-measures when
+        // lazily-loaded faces arrive (default/preloaded faces never touch
+        // the $loadedFonts store, so this is the signal that catches them).
+        $fontsLoadedGeneration;
+        return new RenderContext(
             stage.face ?? $locales.getLocale().ui.font.app,
             stage.size ?? DefaultSize,
             project.getLocales(),
             $loadedFonts,
             $animationFactor,
             outputLayout,
-        ),
-    );
+        );
+    });
     let contentBounds = $derived(stage.getLayout(context));
 
     /** Permanently disable autofit when the user starts a palette edit, so the
