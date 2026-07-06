@@ -77,6 +77,14 @@
         return options;
     })();
 
+    // Display name for a message/translation language code, falling back to the
+    // raw code when it isn't one of the translatable options.
+    function languageName(code: string): string {
+        return (
+            languageOptions.find((o) => o.value === code)?.label ?? code
+        );
+    }
+
     // The language the creator has chosen to tag their next message with,
     // defaulting to their current primary UI language.
     let messageLanguage = $state<string | undefined>(
@@ -317,9 +325,6 @@
         </div>
         {#if translations[msg.id]}
             <div class="translation">
-                {#if msg.language}
-                    <div class="lang-tag">{msg.language}</div>
-                {/if}
                 <hr class="divider" />
                 <div class="what">
                     <MarkupHTMLView
@@ -329,7 +334,11 @@
                         )}
                     />
                 </div>
-                <div class="lang-tag">{translations[msg.id].language}</div>
+                <div class="lang-tag">
+                    {#if msg.language}{languageName(
+                            msg.language,
+                        )} → {/if}{languageName(translations[msg.id].language)}
+                </div>
             </div>
         {/if}
         {#if !($user?.uid === msg.creator) && galleryID && (msg.moderation === undefined || msg.moderation === 'approved')}
@@ -523,7 +532,6 @@
         font-size: x-small;
         opacity: 0.6;
         text-align: end;
-        text-transform: uppercase;
     }
 
     .new {
