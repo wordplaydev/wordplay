@@ -99,7 +99,7 @@
         // last save. Readers skip the evaluation queue entirely.
         const cached = howTo?.getPreview();
         if (cached) {
-            if (cached.face) Fonts.loadFace(cached.face);
+            if (cached.face) Fonts.loadFaceFromCSS(cached.face);
             displayed = {
                 foreground: cached.foreground,
                 background: cached.background,
@@ -150,7 +150,7 @@
         enqueuePreviewCompute(project, $locales, DB, howTo.getHowToId())
             .then((extracted) => {
                 if (cancelled) return;
-                if (extracted.face) Fonts.loadFace(extracted.face);
+                if (extracted.face) Fonts.loadFaceFromCSS(extracted.face);
                 displayed = {
                     foreground: extracted.foreground,
                     background: extracted.background,

@@ -50,6 +50,11 @@ export type SupportedFace = keyof typeof Faces;
 /** A sorted list of font face names, used to generate drop downs for font choosers and union type definitions for font face inputs. */
 export const SupportedFaces = Object.keys(Faces).sort();
 
+/** Narrow an arbitrary string to a SupportedFace by checking the face registry. */
+export function isSupportedFace(name: string): name is SupportedFace {
+    return Object.hasOwn(Faces, name);
+}
+
 /**
  * This data structure managers the fonts that have been loaded,
  * responds to requests to load more fonts, and provides notificiations of when they are loaded
@@ -219,6 +224,14 @@ export class FontManager {
             name,
             loads.every((loaded) => loaded) ? 'loaded' : 'failed',
         );
+    }
+
+    /** Load a face given a getFaceCSS() string (`"Face", <fallbacks>`) by
+     *  extracting the leading face name. Preview tiles store faces as CSS
+     *  strings for rendering, but loadFace needs the bare SupportedFace. */
+    loadFaceFromCSS(css: string) {
+        const name = css.match(/^"([^"]+)"/)?.[1];
+        if (name !== undefined && isSupportedFace(name)) this.loadFace(name);
     }
 
     loadWeights(

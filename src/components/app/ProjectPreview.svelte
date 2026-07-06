@@ -64,7 +64,42 @@
             displayed = cached;
             // Make sure the font for the cached face is loaded so the glyph
             // renders in its intended typeface instead of falling back.
-            if (cached.face) Fonts.loadFace(cached.face);
+            if (cached.face) Fonts.loadFaceFromCSS(cached.face);
+
+            // Example projects ship a glyph-only auto preview (text with null
+            // colors/face; see parseSerializedProject). Upgrade it in the
+            // background so the tile shows the project's real Stage
+            // background/color/font. Manual (pinned) previews and already-
+            // computed previews (non-null foreground) are left untouched.
+            const glyphOnly =
+                cached.mode === 'auto' &&
+                cached.characterName === null &&
+                cached.foreground === null &&
+                cached.background === null &&
+                cached.face === null;
+            if (glyphOnly) {
+                let cancelled = false;
+                enqueuePreviewCompute(project, $locales, DB)
+                    .then((extracted) => {
+                        if (cancelled) return;
+                        // Overlay only the computed colors/face; keep the
+                        // authored glyph and characterName from the .wp file.
+                        displayed = {
+                            ...cached,
+                            foreground: extracted.foreground,
+                            background: extracted.background,
+                            face: extracted.face,
+                        };
+                        if (extracted.face)
+                            Fonts.loadFaceFromCSS(extracted.face);
+                    })
+                    .catch(() => {
+                        // Swallow — the authored glyph stays visible.
+                    });
+                return () => {
+                    cancelled = true;
+                };
+            }
             return;
         }
 
@@ -80,7 +115,7 @@
                     ...extracted,
                 };
                 displayed = full;
-                if (extracted.face) Fonts.loadFace(extracted.face);
+                if (extracted.face) Fonts.loadFaceFromCSS(extracted.face);
                 if (Projects.isEditable(project))
                     Projects.setAutoPreview(project.getID(), extracted);
             })
