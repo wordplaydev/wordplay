@@ -43,7 +43,7 @@
             {/each}
         </ul>
         <Button
-            tip={(l) => l.ui.output.permission.start}
+            tip={(l) => l.ui.output.permission.starttip}
             action={() => onstart()}
             background
             testid="permission-start"
@@ -75,6 +75,14 @@
         gap: 1em;
         max-width: 24em;
         text-align: center;
+        /* Legible on any stage: set its own font + contrasting colors like
+           <Notice>, rather than inheriting the output's (which can be white on
+           a white splash background). */
+        font-family: var(--wordplay-app-font);
+        color: var(--wordplay-background);
+        background: var(--wordplay-error);
+        padding: calc(2 * var(--wordplay-spacing));
+        border-radius: var(--wordplay-border-radius);
     }
 
     h2 {
@@ -100,6 +108,10 @@
 
     .emoji {
         font-size: 1.4em;
+        /* Force the monochrome emoji font first (mono-first, no color fallback)
+           so the withMonoEmoji glyph renders mono in every browser; otherwise
+           Safari falls through to the system color emoji. */
+        font-family: var(--wordplay-emoji-mono-font);
     }
 
     .note {

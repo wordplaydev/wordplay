@@ -6367,7 +6367,8 @@
                 "camera": "$~kamera",
                 "note": "$~Browser Anda akan meminta izin sebelum berbagi.",
                 "start": "$~Awal",
-                "retry": "$~Mencoba kembali"
+                "retry": "$~Mencoba kembali",
+                "starttip": "$~Beri izin untuk mengakses masukan ini."
             },
             "multiselect": "$~Gunakan tombol Tab, Alt, dan panah untuk berpindah antar output. Tekan spasi untuk menambah atau menghapus output yang sedang aktif dari pilihan Anda. Tekan Enter untuk memilih hanya output tersebut dan membuka palet. Tekan Escape untuk menghapus pilihan Anda. Tekan Control atau Command dan A untuk memilih semua output.",
             "selected": "$~$name terpilih, $count terpilih",

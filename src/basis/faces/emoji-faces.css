@@ -46,11 +46,10 @@
         U+1f590, U+1f595-1f596, U+1f5a4-1f5a5, U+1f5a8, U+1f5b1-1f5b2, U+1f5bc,
         U+1f5c2-1f5c4, U+1f5d1-1f5d3, U+1f5dc-1f5de, U+1f5e1, U+1f5e3, U+1f5e8,
         U+1f5ef, U+1f5f3, U+1f5fa-1f64f, U+1f680-1f6c5, U+1f6cb-1f6d2,
-        U+1f6d5-1f6d7, U+1f6dc-1f6e5, U+1f6e9, U+1f6eb-1f6ec, U+1f6f0,
+        U+1f6d5-1f6d8, U+1f6dc-1f6e5, U+1f6e9, U+1f6eb-1f6ec, U+1f6f0,
         U+1f6f3-1f6fc, U+1f7e0-1f7eb, U+1f7f0, U+1f90c-1f93a, U+1f93c-1f945,
-        U+1f947-1f9ff, U+1fa70-1fa7c, U+1fa80-1fa88, U+1fa90-1fabd,
-        U+1fabf-1fac5, U+1face-1fadb, U+1fae0-1fae8, U+1faf0-1faf8,
-        U+e0020-e007f;
+        U+1f947-1f9ff, U+1fa70-1fa7c, U+1fa80-1fa8a, U+1fa8e-1fac6, U+1fac8,
+        U+1facd-1fadc, U+1fadf-1faea, U+1faef-1faf8, U+e0020-e007f;
 }
 
 @supports (-webkit-hyphens: none) {
@@ -58,7 +57,7 @@
        the SAME unicode-range partition as the Chromium COLRv1 slices below
        (built from the same Noto sources), so Safari lazily downloads only the
        slices whose emoji render instead of the whole ~3.3 MB font. Slices are
-       produced by pyftsubset in scripts/notocolor.sh; ranges mirror the
+       produced by pyftsubset in scripts/emoji/notocolor.sh; ranges mirror the
        NotoColorEmoji-400-N faces and are cmap-guarded by emojiRange.test.ts. */
     @font-face {
         font-family: 'Noto Color Emoji';
@@ -237,15 +236,18 @@
             U+1fa75-1fa79, U+1fac0-1fac2, U+1fac6, U+1fae0-1fae6, U+1fae8-1faea,
             U+1faef-1faf8;
     }
-    /* Keycap face — slice 2 carries the keycap glyphs + GSUB ligatures.
-       Referenced ONLY via the .emoji-keycap class (see the Chromium keycap
-       face), never in a general cascade, so it doesn't shadow plain digits. */
+    /* Keycap face — its OWN dedicated file (keycap/legacy glyphs + GSUB
+       ligatures only). It must NOT reuse slice 2's file: Safari binds a file to
+       a single @font-face family, so sharing svg-2.ttf between this face and
+       'Noto Color Emoji' slice 2 makes every other slice-2 emoji (💬 etc.) fall
+       back to the system Apple emoji. Referenced ONLY via the .emoji-keycap
+       class, never in a general cascade, so it doesn't shadow plain digits. */
     @font-face {
         font-family: 'Noto Emoji Keycap';
         font-style: normal;
         font-weight: 400;
         font-display: swap;
-        src: url(/fonts/NotoColorEmoji/NotoColorEmoji.svg-2.ttf)
+        src: url(/fonts/NotoColorEmoji/NotoColorEmoji.svg-keycap.ttf)
             format('truetype');
         unicode-range:
             U+23, U+2a, U+30-39, U+a9, U+ae, U+203c, U+2049, U+2122, U+2139,

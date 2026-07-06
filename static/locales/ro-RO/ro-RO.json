@@ -6368,7 +6368,8 @@
                 "camera": "$~cameră",
                 "note": "$~Browserul tău te va întreba înainte de partajare.",
                 "start": "$~Început",
-                "retry": "$~Reîncercați"
+                "retry": "$~Reîncercați",
+                "starttip": "$~Acordă permisiunea de a accesa această intrare."
             },
             "multiselect": "$~Folosește Tab și tastele Alt și săgeată pentru a te deplasa între ieșiri. Apăsă Space pentru a adăuga sau elimina ieșirea focalizată din selecție. Apăsă Enter pentru a selecta doar acea ieșire și a deschide paleta. Apăsă Escape pentru a șterge selecția. Apăsă Control sau Command și A pentru a selecta toate ieșirile.",
             "selected": "$~$name selectat, $count selectat",

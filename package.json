@@ -40,6 +40,7 @@
         "locales-emojis": "npx tsx src/util/verify-locales/generateEmojis.ts",
         "how": "npx tsx src/util/verify-locales/buildHowTos.ts",
         "codes": "npx tsx src/unicode/compress.ts",
+        "emoji-update": "npx tsx scripts/emoji/update.ts",
         "fonts": "npx tsx scripts/fonts/start.ts verify",
         "fonts-build": "npx tsx scripts/fonts/start.ts build && npx prettier --write static/fonts/fonts.css static/fonts/fonts-fallback.css src/basis/faces/faces.generated.ts",
         "fonts-fix": "npx tsx scripts/fonts/start.ts fix && npx prettier --write static/fonts/fonts.css static/fonts/fonts-fallback.css src/basis/faces/faces.generated.ts src/basis/faces/faces.fallback.generated.ts src/basis/faces/renderable.generated.ts",

@@ -6141,7 +6141,8 @@
                 "camera": "$~kamera",
                 "note": "$~Przed udostępnieniem Twoja przeglądarka zapyta.",
                 "start": "$~Start",
-                "retry": "$~Spróbować ponownie"
+                "retry": "$~Spróbować ponownie",
+                "starttip": "$~Udziel pozwolenia na dostęp do tego wejścia."
             },
             "multiselect": "$~Użyj klawisza Tab oraz klawiszy Alt i strzałek, aby poruszać się między wyjściami. Naciśnij spację, aby dodać lub usunąć zaznaczone wyjście z zaznaczenia. Naciśnij Enter, aby zaznaczyć tylko to wyjście i otworzyć paletę. Naciśnij Esc, aby wyczyścić zaznaczenie. Naciśnij Ctrl lub Command i A, aby zaznaczyć wszystkie wyjścia.",
             "selected": "$~Wybrano $name , wybrano $count",

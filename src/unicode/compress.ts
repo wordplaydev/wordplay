@@ -42,7 +42,10 @@ import { Scripts } from '@locale/Scripts.ts';
 // chooser filters to these anyway, so shipping the ~65k CJK-extension (and
 // other) codepoints no font covers is pure weight. This couples codes.txt to
 // the bundled fonts: rerun `npm run codes` after adding/removing fonts.
-import { isCodepointRenderable } from '@basis/faces/renderable.ts';
+import {
+    isCodepointRenderable,
+    loadRenderableRanges,
+} from '@basis/faces/renderable.ts';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..', '..');
@@ -316,6 +319,13 @@ async function main() {
     const scriptRanges = parseScripts(scriptsText, longToIso);
     console.log(`Parsed ${scriptRanges.length} script ranges.`);
 
+    // Load the renderable set so `isCodepointRenderable` filters against real
+    // font coverage. Without this it fails open (returns true for everything),
+    // silently disabling the filter and shipping ~92k non-renderable codepoints
+    // — including scripts with no bundled font (see UncoveredScripts). This
+    // couples codes.txt to the fonts, so run `npm run codes` AFTER `fonts-fix`.
+    await loadRenderableRanges();
+
     let output = '';
     let names = '';
     let nonEmojiCount = 0;
@@ -397,10 +407,26 @@ async function main() {
                     `Unknown emoji subgroup "${emoji.subgroup}". Add it to EmojiSubgroups in src/unicode/emoji.ts.`,
                 );
             const script = lookupScript(scriptRanges, parseInt(hex, 16));
-            if (script) scriptsSeen.add(script);
-            output += `${hex};${category};${script};${group};${subgroup}\n`;
-            emojiCount++;
+            // Same renderability gate as non-emoji: don't ship an emoji or
+            // sequence no bundled font can draw, so codes.txt can't get ahead
+            // of the fonts and tofu in the picker. A sequence renders only if
+            // every codepoint (base, modifiers, and the emoji fonts' declared
+            // format chars — ZWJ/VS/tags/keycap combiner, all renderable) is
+            // covered; one missing codepoint drops just that sequence.
+            if (isCodepointRenderable(parseInt(hex, 16))) {
+                if (script) scriptsSeen.add(script);
+                output += `${hex};${category};${script};${group};${subgroup}\n`;
+                emojiCount++;
+            }
             for (const variation of emoji.variations) {
+                // codepoints are hex STRINGS ("1F469"), so parse before the
+                // renderable check — passing a string coerces it as decimal.
+                if (
+                    !variation.codepoints.every((c) =>
+                        isCodepointRenderable(parseInt(c, 16)),
+                    )
+                )
+                    continue;
                 output += `${variation.codepoints.join(' ')};${category};${script};${group};${subgroup}\n`;
                 emojiCount++;
             }

@@ -6367,7 +6367,8 @@
                 "camera": "$~máy ảnh",
                 "note": "$~Trình duyệt của bạn sẽ hỏi trước khi chia sẻ.",
                 "start": "$~Bắt đầu",
-                "retry": "$~Thử lại"
+                "retry": "$~Thử lại",
+                "starttip": "$~Cấp quyền để truy cập đầu vào này."
             },
             "multiselect": "$~Sử dụng phím Tab, Alt và các phím mũi tên để di chuyển giữa các đầu ra. Nhấn phím Space để thêm hoặc xóa đầu ra đang được chọn khỏi vùng chọn của bạn. Nhấn Enter để chỉ chọn đầu ra đó và mở bảng công cụ. Nhấn Escape để xóa vùng chọn của bạn. Nhấn Control hoặc Command và A để chọn tất cả các đầu ra.",
             "selected": "$~$name đã được chọn, $count đã được chọn",

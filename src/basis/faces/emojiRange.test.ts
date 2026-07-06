@@ -62,6 +62,23 @@ async function preciseCodepoints(fontPath: string): Promise<Set<number>> {
     return cps;
 }
 
+/** Every codepoint the font has a cmap glyph for (no emoji-block filtering) —
+ * for keycap bases (#, *, 0-9), which live below the emoji blocks. */
+async function rawCodepoints(fontPath: string): Promise<Set<number>> {
+    const mod = await import('fontkit');
+    const fontkit: { create(data: Uint8Array): unknown } =
+        'create' in mod
+            ? (mod as { create(data: Uint8Array): unknown })
+            : (mod as { default: { create(data: Uint8Array): unknown } })
+                  .default;
+    const created = fontkit.create(new Uint8Array(fs.readFileSync(fontPath)));
+    const font =
+        created !== null && typeof created === 'object' && 'fonts' in created
+            ? (created as { fonts: unknown[] }).fonts[0]
+            : created;
+    return new Set((font as { characterSet: number[] }).characterSet);
+}
+
 /** Parse the unicode-range of the first @font-face block whose src matches. */
 function declaredCodepoints(css: string, srcNeedle: string): Set<number> {
     const cps = new Set<number>();
@@ -84,10 +101,18 @@ function declaredCodepoints(css: string, srcNeedle: string): Set<number> {
 
 const css = fs.readFileSync(path.join('static', 'fonts', 'fonts.css'), 'utf8');
 
-/** The Safari SVG color-emoji font is sliced into 10 files by the same
+/** The Safari SVG color-emoji font is sliced into N files by the same
  * unicode-range partition as the Chromium COLRv1 slices; each slice covers a
- * subset of the whole font's cmap. */
-const SVG_SLICES = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+ * subset of the whole font's cmap. Derived from the CSS (not hardcoded) so a
+ * future Google re-partition — which changes the slice count — needs no edit
+ * here, matching how slice-emoji-svg.py reads its count from the same CSS. */
+const SVG_SLICES = [
+    ...new Set(
+        [...css.matchAll(/NotoColorEmoji\.svg-(\d+)\.ttf/g)].map((m) =>
+            Number(m[1]),
+        ),
+    ),
+].sort((a, b) => a - b);
 
 describe('emoji @font-face ranges match the fonts glyph coverage', () => {
     test('Noto Emoji (mono) declares exactly its glyph coverage', async () => {
@@ -121,6 +146,35 @@ describe('emoji @font-face ranges match the fonts glyph coverage', () => {
             expect(overClaimed.map((cp) => 'U+' + cp.toString(16))).toEqual([]);
         },
     );
+
+    // The keycap face ('Noto Emoji Keycap') has its OWN dedicated file (not a
+    // color slice — Safari binds a file to a single @font-face family, so sharing
+    // slice 2's file dropped every other slice-2 emoji to the system font; see
+    // slice-emoji-svg.py). It declares the keycap-base codepoints (#, *, 0-9)
+    // that the color faces' ranges trim; those live below the emoji blocks the
+    // other tests model, so guard them directly: the file must actually ship
+    // those glyphs, or Safari's keycap can't shape `digit + U+20E3` and falls
+    // back to the system emoji.
+    test('the keycap file ships the keycap-base glyphs it declares', async () => {
+        const face = [...css.matchAll(/@font-face\s*\{([^}]*)\}/g)]
+            .map((m) => m[1])
+            .find((b) => b.includes("'Noto Emoji Keycap'"));
+        expect(face).toBeDefined();
+        const file = face!.match(/NotoColorEmoji\.(svg-[\w-]+)\.ttf/);
+        expect(file).not.toBeNull();
+        const cmap = await rawCodepoints(
+            `static/fonts/NotoColorEmoji/NotoColorEmoji.${file![1]}.ttf`,
+        );
+        // The digit/#/* keycap bases must have glyphs. (FE0F is a zero-width
+        // selector the OT-SVG font intentionally lacks, so it's not required.)
+        const bases = [
+            0x23,
+            0x2a,
+            ...Array.from({ length: 10 }, (_, i) => 0x30 + i),
+        ];
+        const missing = bases.filter((cp) => !cmap.has(cp));
+        expect(missing.map((cp) => 'U+' + cp.toString(16))).toEqual([]);
+    });
 
     // No under-claim across the split: the 10 slices' declared ranges together
     // must cover every emoji GLYPH the whole SVG font has, so slicing drops none.

@@ -1,5 +1,10 @@
 import { describe, expect, test } from 'vitest';
-import { hasColorCombo, hasEmoji, segmentColorEmoji } from './emoji';
+import {
+    hasColorCombo,
+    hasEmoji,
+    segmentColorEmoji,
+    segmentEmoji,
+} from './emoji';
 
 // Build sequences from escapes so the (invisible) selectors are explicit.
 const keycap2 = '2\uFE0F\u20E3'; // 2 + FE0F + 20E3
@@ -22,6 +27,9 @@ describe('segmentColorEmoji', () => {
     });
 
     test('wraps a keycap missing the FE0F selector', () => {
+        // Both color fonts (Chromium COLRv1 and Safari OT-SVG) shape the
+        // UNQUALIFIED digit + U+20E3, so the run is passed through verbatim \u2014
+        // the keycap slice just needs the digit glyphs (see slice-emoji-svg.py).
         expect(segmentColorEmoji(keycapNoVS)).toEqual([
             { text: keycapNoVS, emoji: true },
         ]);
@@ -64,6 +72,59 @@ describe('segmentColorEmoji', () => {
 
     test('returns nothing for empty input', () => {
         expect(segmentColorEmoji('')).toEqual([]);
+    });
+});
+
+describe('segmentEmoji', () => {
+    const chat = '💬️'; // the editor appends FE0F via withColorEmoji
+    const zwj = '👨‍💻'; // ZWJ sequence: must stay one grapheme
+    const skin = '👍\u{1F3FD}'; // base + skin-tone modifier: one grapheme
+
+    test('classifies an ordinary pictograph as emoji (color face)', () => {
+        expect(segmentEmoji(chat)).toEqual([{ text: chat, kind: 'emoji' }]);
+    });
+
+    test('keeps a ZWJ sequence whole', () => {
+        expect(segmentEmoji(zwj)).toEqual([{ text: zwj, kind: 'emoji' }]);
+    });
+
+    test('keeps a skin-tone sequence whole', () => {
+        expect(segmentEmoji(skin)).toEqual([{ text: skin, kind: 'emoji' }]);
+    });
+
+    test('classifies keycaps and legacy combos as keycap (keycap face)', () => {
+        expect(segmentEmoji(keycap2)).toEqual([
+            { text: keycap2, kind: 'keycap' },
+        ]);
+        expect(segmentEmoji(copyright)).toEqual([
+            { text: copyright, kind: 'keycap' },
+        ]);
+    });
+
+    test('splits code text from emoji into ordered runs', () => {
+        expect(segmentEmoji(`hand: ${chat}`)).toEqual([
+            { text: 'hand: ', kind: 'text' },
+            { text: chat, kind: 'emoji' },
+        ]);
+    });
+
+    test('splits an ordinary emoji and an adjacent keycap into different kinds', () => {
+        // The whole point of the split: a keycap must not share the ordinary
+        // color run, since the two need different font stacks.
+        expect(segmentEmoji(`${chat}${keycap2}`)).toEqual([
+            { text: chat, kind: 'emoji' },
+            { text: keycap2, kind: 'keycap' },
+        ]);
+    });
+
+    test('coalesces adjacent ordinary emoji into one run', () => {
+        expect(segmentEmoji(`${chat}${chat}`)).toEqual([
+            { text: `${chat}${chat}`, kind: 'emoji' },
+        ]);
+    });
+
+    test('leaves plain code as a single text run', () => {
+        expect(segmentEmoji('hand')).toEqual([{ text: 'hand', kind: 'text' }]);
     });
 });
 

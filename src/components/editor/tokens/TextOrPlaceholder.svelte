@@ -18,6 +18,7 @@
         ><LocalizedText path={placeholder} /></span
     >{:else if text.length === 0}{#if !format.block}&ZeroWidthSpace;{/if}{:else}<EmojisRepaired
         text={rendered}
+        forceColorEmoji
     />{/if}
 
 <style>

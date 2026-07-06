@@ -16816,6 +16816,10 @@
                       "description": "[plain] Label of the button that starts the project after the splash",
                       "type": "string"
                     },
+                    "starttip": {
+                      "description": "[plain] Tooltip for the start button, explaining it grants the browser permission",
+                      "type": "string"
+                    },
                     "title": {
                       "description": "[plain] Heading on the splash explaining that the project needs browser permission",
                       "type": "string"
@@ -16827,6 +16831,7 @@
                     "camera",
                     "note",
                     "start",
+                    "starttip",
                     "retry"
                   ],
                   "type": "object"

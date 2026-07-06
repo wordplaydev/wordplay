@@ -233,11 +233,16 @@
                     'Noto Sans Mono', 'Noto Sans', 'Noto Color Emoji',
                     'Noto Emoji', var(--wordplay-fallback-fonts), monospace;
                 /* Canonical emoji font cascades, shared by Emoji.svelte and
-                   EmojisRepaired.svelte. The color cascade leads with the keycap face
-                   (it only claims keycap codepoints; see static/fonts.css) so
-                   keycaps assemble while ordinary emoji fall to Noto Color Emoji. */
+                   EmojisRepaired.svelte. Ordinary color emoji lead with Noto Color
+                   Emoji: Safari will NOT fall through a stack led by the OT-SVG
+                   keycap face (it drops to the system Apple emoji), so keeping the
+                   keycap face out of the general color cascade is required. The
+                   keycap face is used ONLY for keycap/legacy runs (which need its
+                   glyphs + GSUB ligatures), via --wordplay-emoji-keycap-font. */
                 --wordplay-emoji-mono-font: 'Noto Emoji', 'Noto Sans';
                 --wordplay-emoji-color-font:
+                    'Noto Color Emoji', 'Noto Sans', sans-serif;
+                --wordplay-emoji-keycap-font:
                     'Noto Emoji Keycap', 'Noto Color Emoji', 'Noto Sans';
 
                 /* Spacing */

@@ -6113,7 +6113,8 @@
                 "camera": "$~caméra",
                 "note": "$~Votre navigateur vous demandera votre autorisation avant de partager.",
                 "start": "$~Commencer",
-                "retry": "$~Réessayer"
+                "retry": "$~Réessayer",
+                "starttip": "$~Accorder l'autorisation d'accéder à cette entrée."
             },
             "multiselect": "$~Utilisez la touche Tabulation, Alt et les flèches directionnelles pour naviguer entre les sorties. Appuyez sur la barre d'espace pour ajouter ou supprimer la sortie sélectionnée. Appuyez sur Entrée pour sélectionner uniquement cette sortie et ouvrir la palette. Appuyez sur Échap pour annuler la sélection. Appuyez sur Ctrl ou Commande et A pour sélectionner toutes les sorties.",
             "selected": "$~$name sélectionné, $count sélectionné",

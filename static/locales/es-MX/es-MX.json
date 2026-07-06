@@ -6107,7 +6107,8 @@
                 "camera": "$~cámara",
                 "note": "$~Tu navegador preguntará antes de compartir.",
                 "start": "$~Comenzar",
-                "retry": "$~Reintentar"
+                "retry": "$~Reintentar",
+                "starttip": "$~Da permiso para usar esta entrada."
             },
             "multiselect": "$~Usa tab y las teclas alt y de flecha para moverte entre las salidas. Presiona espacio para agregar o quitar de tu selección la salida enfocada. Presiona enter para seleccionar solo esa salida y abrir la paleta. Presiona escape para limpiar tu selección. Presiona control o comando y A para seleccionar todas las salidas.",
             "selected": "$~$name seleccionado, $count seleccionados",

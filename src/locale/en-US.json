@@ -6386,6 +6386,7 @@
                 "camera": "camera",
                 "note": "Your browser will ask before sharing.",
                 "start": "Start",
+                "starttip": "Grant permission to access this input.",
                 "retry": "Retry"
             }
         },

@@ -6119,7 +6119,8 @@
                 "camera": "$~Kamera",
                 "note": "$~Ihr Browser fragt Sie vor dem Teilen.",
                 "start": "$~Start",
-                "retry": "$~Wiederholen"
+                "retry": "$~Wiederholen",
+                "starttip": "$~Erteile die Erlaubnis, auf diese Eingabe zuzugreifen."
             },
             "multiselect": "$~Verwenden Sie die Tabulatortaste, die Alt-Taste und die Pfeiltasten, um zwischen den Ausgängen zu wechseln. Drücken Sie die Leertaste, um den ausgewählten Ausgang hinzuzufügen oder zu entfernen. Drücken Sie die Eingabetaste, um nur diesen Ausgang auszuwählen und die Palette zu öffnen. Drücken Sie die Esc-Taste, um die Auswahl aufzuheben. Drücken Sie Strg oder Befehl + A, um alle Ausgänge auszuwählen.",
             "selected": "$~$name ausgewählt, $count ausgewählt",

@@ -117,6 +117,42 @@ export function segmentColorEmoji(
     return runs;
 }
 
+/** A run's presentation kind: plain text, a keycap/legacy color combo (needs the
+ * dedicated keycap face), or an ordinary color emoji (uses the general color
+ * face). Keycap and ordinary emoji must use DIFFERENT font stacks — see
+ * {@link segmentEmoji}. */
+export type EmojiRunKind = 'text' | 'keycap' | 'emoji';
+
+/**
+ * Like {@link segmentColorEmoji} but classifies EVERY grapheme — pictographs,
+ * ZWJ/skin-tone sequences, keycaps, and legacy color symbols — by
+ * {@link EmojiRunKind}, not just keycap/legacy combos. Segments over graphemes
+ * (Intl.Segmenter) so multi-codepoint emoji stay whole. The editor uses this to
+ * wrap emoji explicitly (its token font is monospace and won't render color
+ * emoji): ordinary emoji get the Noto-Color-Emoji-first face, while keycap/legacy
+ * runs get the keycap face — they cannot share one stack, because Safari won't
+ * fall through a stack led by the OT-SVG keycap face (it drops to system emoji).
+ * Gate with {@link hasEmoji} so the common all-text token skips segmentation.
+ */
+export function segmentEmoji(
+    text: string,
+): { text: string; kind: EmojiRunKind }[] {
+    const runs: { text: string; kind: EmojiRunKind }[] = [];
+    const segmenter = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
+    for (const { segment } of segmenter.segment(text)) {
+        const kind: EmojiRunKind = hasColorCombo(segment)
+            ? 'keycap'
+            : ExtendedPictographicRegex.test(segment)
+              ? 'emoji'
+              : 'text';
+        const prev = runs[runs.length - 1];
+        // Coalesce consecutive runs of the same kind into one node.
+        if (prev && prev.kind === kind) prev.text += segment;
+        else runs.push({ text: segment, kind });
+    }
+    return runs;
+}
+
 /** Converts a code point in a string to a JavaScript unicode escape string. */
 function toCodepoint(text: string, index: number) {
     const codepoint = text.codePointAt(index);

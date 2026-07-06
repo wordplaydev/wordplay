@@ -724,6 +724,8 @@ type UITexts = {
             note: string;
             /** [plain] Label of the button that starts the project after the splash */
             start: string;
+            /** [plain] Tooltip for the start button, explaining it grants the browser permission */
+            starttip: string;
             /** [plain] Label of the button that retries permission after a denial */
             retry: string;
         };

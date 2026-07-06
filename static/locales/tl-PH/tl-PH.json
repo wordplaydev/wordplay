@@ -6367,7 +6367,8 @@
                 "camera": "$~kamera",
                 "note": "$~Magtatanong ang iyong browser bago magbahagi.",
                 "start": "$~Simulan",
-                "retry": "$~Subukan muli"
+                "retry": "$~Subukan muli",
+                "starttip": "$~Magbigay ng pahintulot upang gamitin ang input na ito."
             },
             "multiselect": "$~Gamitin ang tab at ang alt at arrow keys para lumipat sa pagitan ng mga output. Pindutin ang space para idagdag o alisin ang naka-focus na output mula sa iyong selection. Pindutin ang enter para piliin lang ang output na iyon at buksan ang palette. Pindutin ang escape para i-clear ang iyong selection. Pindutin ang control o command at A para piliin ang lahat ng output.",
             "selected": "$~Napili $name , napili $count",
