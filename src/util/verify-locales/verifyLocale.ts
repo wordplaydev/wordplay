@@ -40,6 +40,7 @@ import {
     getDeclaredInputs,
 } from '@util/verify-locales/templateInputs';
 import getTranslator from '@util/verify-locales/getTranslator';
+import type Translator from '@util/verify-locales/Translator';
 import toValidName from '@util/verify-locales/toValidName';
 
 /** Create a copy of the default tutorial with all dialog marked unwritten */
@@ -492,13 +493,16 @@ function repairLocale(
     return revised;
 }
 
-async function translateLocale(
+export async function translateLocale(
     log: Log,
     source: LocaleText,
     target: LocaleText,
     unwritten: LocalePath[],
     /** Accumulator for paths whose translation succeeded; see verifyLocale. */
     translatedPaths?: Set<string>,
+    /** Injectable backend; defaults to the env-selected one. Tests pass a stub to
+     *  observe the translate-call ordering without hitting a real API. */
+    translator: Translator = getTranslator(),
 ) {
     const revised = JSON.parse(JSON.stringify(target)) as LocaleText;
 
@@ -507,7 +511,6 @@ async function translateLocale(
     const stripMarkers = (s: string) =>
         s.replace(Unwritten, '').replace(Revised, '');
 
-    const translator = getTranslator();
     const targetLocale = await translator.getTargetLocale(
         target.language,
         target.regions,
@@ -633,10 +636,26 @@ async function translateLocale(
     if (glossaryWords.length > 0)
         log.say(2, `Translating ${glossaryWords.length} glossary terms first…`);
     if (!(await apply(glossaryWords, undefined))) return revised;
-    // Phase 2: everything else, with the now-translated glossary supplied.
-    if (rest.length > 0)
-        log.say(2, `Translating ${rest.length} remaining strings…`);
-    await apply(rest, revised);
+
+    // Phase 2 is itself split so that construct names (NameText) are translated
+    // and written into `revised` BEFORE the docs that embed `\code\` examples.
+    // The example localizer retargets library references (e.g. @Phrase) by reading
+    // each construct's name from the target locale text it's handed; if names and
+    // example-docs were translated together, the localizer would see the pre-
+    // translation placeholder names and bake the wrong (soon-nonexistent) names
+    // into examples, producing UnknownName conflicts.
+    const namePaths = rest.filter((p) => isNameTextPath([...p.path, p.key]));
+    const otherPaths = rest.filter((p) => !isNameTextPath([...p.path, p.key]));
+
+    // Phase 2a: construct names first, with the now-translated glossary supplied.
+    if (namePaths.length > 0)
+        log.say(2, `Translating ${namePaths.length} construct names first…`);
+    if (!(await apply(namePaths, revised))) return revised;
+    // Phase 2b: everything else, now that `revised` carries the localized names, so
+    // embedded examples retarget their library references to those names.
+    if (otherPaths.length > 0)
+        log.say(2, `Translating ${otherPaths.length} remaining strings…`);
+    await apply(otherPaths, revised);
 
     return revised;
 }
