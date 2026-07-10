@@ -63,6 +63,11 @@
          *  which renders on the inline-end side. */
         startMargin?: Snippet;
         margin?: Snippet;
+        /** Optional non-scrolling content rendered directly below the scroll
+         *  viewport (not the full tile footer), so it shrinks the viewport and
+         *  stays visible without floating over the scrolling content — used for
+         *  the editor's notification band. */
+        contentFooter?: Snippet;
         footer?: Snippet;
         position: (position: Bounds) => void;
         resize: (
@@ -94,6 +99,7 @@
         content,
         startMargin,
         margin,
+        contentFooter,
         footer,
         position,
         resize,
@@ -418,18 +424,23 @@
                 {#if startMargin}
                     <div class="start-margin">{@render startMargin()}</div>
                 {/if}
-                <div
-                    class="content"
-                    onscroll={() => scroll()}
-                    bind:this={contentView}
-                    bind:clientWidth={tileWidth}
-                    bind:clientHeight={tileHeight}
-                    onpointermove={handleContentPointerMove}
-                    style:--tile-viewport-width={tileWidth > 0
-                        ? `${tileWidth}px`
-                        : undefined}
-                >
-                    {@render content()}
+                <!-- The scroll viewport and its non-scrolling content footer share a
+                     column so the footer shrinks the viewport rather than floating
+                     over it (keeping the caret and nodes visible when scrolling). -->
+                <div class="content-column">
+                    <div
+                        class="content"
+                        onscroll={() => scroll()}
+                        bind:this={contentView}
+                        bind:clientWidth={tileWidth}
+                        bind:clientHeight={tileHeight}
+                        onpointermove={handleContentPointerMove}
+                    >
+                        {@render content()}
+                    </div>
+                    {#if contentFooter}
+                        <div class="content-footer">{@render contentFooter()}</div>
+                    {/if}
                 </div>
                 {#if margin}
                     <div class="margin">{@render margin()}</div>
@@ -499,6 +510,17 @@
         flex-direction: row-reverse;
     }
 
+    /* Holds the scroll viewport plus its non-scrolling content footer, so the
+       footer takes real space below a shorter viewport instead of floating. */
+    .content-column {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        min-width: 0;
+        min-height: 0;
+        overflow: hidden;
+    }
+
     .content {
         position: relative;
         display: flex;
@@ -506,9 +528,16 @@
         overflow: auto;
         width: 100%;
         flex-grow: 1;
-        min-height: auto;
+        /* Must be 0 (not auto) so the flex item can shrink below its content and
+           actually scroll now that it sizes by flex-grow within the column. */
+        min-height: 0;
         /* This doesn't work in Chrome :( It prevents scrolling altogether */
         /* scroll-behavior: smooth; */
+    }
+
+    .content-footer {
+        width: 100%;
+        flex-shrink: 0;
     }
 
     .margin,

@@ -12,6 +12,10 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - ✍️ We fixed a freeze when you started to drag code in a long program.
 - 📋 We trimmed clipboard contents to avoid them from getting too big.
 
+### Fixed
+
+- ‼ We moved the clipboard and collaboration footer in the editor to its own space, so the cursor can't hide behind it.
+
 ## 0.26.0 - 2026-07-02
 
 ### Added
