@@ -11,7 +11,13 @@
      *  so the caret's logical position can be matched to it). */
     type BlockMember =
         | { kind: 'break'; position: number }
-        | { kind: 'token'; token: Token; el: HTMLElement; start: number; end: number };
+        | {
+              kind: 'token';
+              token: Token;
+              el: HTMLElement;
+              start: number;
+              end: number;
+          };
 
     /** Carve blocks-mode rendered content into visual rows. Members are the only
      *  navigable things in blocks mode: block-editable token-views and blank
@@ -103,7 +109,10 @@
         if (Caret.isTokenTextBlockEditable(token, parent))
             return getTokenPosition(
                 el,
-                { clientX: x, clientY: (member.rect.top + member.rect.bottom) / 2 },
+                {
+                    clientX: x,
+                    clientY: (member.rect.top + member.rect.bottom) / 2,
+                },
                 caret,
             );
         if (
@@ -135,7 +144,10 @@
             // A selected node has no usable bar (CaretView draws a scroll-
             // placement spot, not the node's location), so anchor on the node's
             // own box and step to the row just past its full vertical extent.
-            const box = getNodeView(editor, caret.position)?.getBoundingClientRect();
+            const box = getNodeView(
+                editor,
+                caret.position,
+            )?.getBoundingClientRect();
             if (box === undefined || box.height === 0) return noMove;
             goalX = caret.visualColumn ?? (box.left + box.right) / 2;
             target = targetRowPositionFromSpan(
@@ -185,12 +197,6 @@
 </script>
 
 <script lang="ts">
-    import Caret from '@edit/caret/Caret';
-    import type { LocaleTextAccessor } from '@locale/Locales';
-    import Node from '@nodes/Node';
-    import Token from '@nodes/Token';
-    import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-    import { TAB_TEXT } from '@parser/Spaces';
     import {
         buildRows,
         nearestInRow,
@@ -198,14 +204,6 @@
         type Row,
         type RowMember,
     } from '@components/editor/caret/rowModel';
-    import { tick, untrack } from 'svelte';
-    import { animationDuration, locales } from '@db/Database';
-    import UnicodeString from '@unicode/UnicodeString';
-    import {
-        getEditor,
-        getEvaluation,
-        getEffectiveFolded,
-    } from '@components/project/Contexts';
     import { measureTokenSegment } from '@components/editor/highlights/measureTokenSegment';
     import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
     import {
@@ -213,6 +211,22 @@
         elementRowRects,
         getTokenPosition,
     } from '@components/editor/pointer/PointerUtilities';
+    import {
+        getEditor,
+        getEffectiveFolded,
+        getEvaluation,
+        getWindowing,
+    } from '@components/project/Contexts';
+    import { animationDuration, locales } from '@db/Database';
+    import Caret from '@edit/caret/Caret';
+    import type { LocaleTextAccessor } from '@locale/Locales';
+    import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+    import Node from '@nodes/Node';
+    import Token from '@nodes/Token';
+    import { TAB_TEXT } from '@parser/Spaces';
+    import UnicodeString from '@unicode/UnicodeString';
+    import { tick, untrack } from 'svelte';
+    import { get } from 'svelte/store';
 
     interface Props {
         /** The current caret state to render */
@@ -265,6 +279,22 @@
 
     /** Derive the current token we're on. */
     let token = $derived(caret?.getToken());
+
+    // --- Off-window caret reachability (statement virtualization) ---
+    // When the caret's token is scrolled off-window it has no element, so
+    // computeLocation() returns undefined (caret hidden, no scroll). We then ask
+    // the window to scroll it in; the location effect re-runs on windowRevision and
+    // computeLocation succeeds. This also repairs Home/End/PageUp/PageDown and
+    // search navigation, which rely on the caret's own scroll-into-view.
+    const windowing = getWindowing();
+    let windowRevision = $state(0);
+    $effect(() => windowing?.revision.subscribe((n) => (windowRevision = n)));
+    // The Caret from the previous effect run. We scroll an off-window caret in
+    // ONLY when it CHANGES here (moves AND edits — undo/delete can keep the same
+    // numeric position yet reflow the caret off-window) — never when the user
+    // scrolls a stationary caret off-window (a windowRevision recompute reuses the
+    // same Caret object, so that must scroll freely, not snap back).
+    let lastCaretForScrollIn: Caret | undefined = undefined;
 
     /** Derive the direction of text for the current locale */
     let leftToRight = $derived($locales.getDirection() === 'ltr');
@@ -339,6 +369,9 @@
         caret;
         blocks;
         zoom;
+        // Recompute after the virtualization window scrolls (an off-window caret's
+        // token has no element until its statement renders).
+        windowRevision;
         // Folding/unfolding collapses or expands code, moving the caret's token,
         // so recompute the caret location when the folded set changes.
         $folded;
@@ -373,6 +406,18 @@
 
         tick().then(() => {
             location = computeLocation();
+
+            // If the caret just moved to an off-window position (its token isn't
+            // rendered), ask the window to scroll it in; the effect re-runs on
+            // windowRevision and computeLocation then succeeds. Gate on movement so
+            // scrolling a stationary caret off-window doesn't snap the view back.
+            const moved = caret !== lastCaretForScrollIn;
+            lastCaretForScrollIn = caret;
+            if (location === undefined && moved && windowing !== undefined) {
+                const target =
+                    caret.position instanceof Node ? caret.position : token;
+                if (target) get(windowing.scrollToNode)?.(target);
+            }
 
             // After a DOM-mutating edit, layout can be transient at
             // tick() time on WebKit (especially with complex programs
@@ -474,11 +519,20 @@
 
     // When caret location or view changes and not playing, tick, then scroll to it.
     let lastScroll = 0;
+    let lastAutoScrollCaret: Caret | undefined = undefined;
     $effect(() => {
+        // Only auto-scroll when the Caret actually CHANGED (a move or an edit —
+        // both create a new Caret) — not when `location` merely recomputed because
+        // the window scrolled (the windowRevision dependency above reuses the same
+        // Caret). Without this guard, scrolling a stationary text caret toward the
+        // viewport edge re-fires scrollIntoView and yanks it back into view, so the
+        // scrollbar snaps back to the caret.
+        const moved = caret !== lastAutoScrollCaret;
+        lastAutoScrollCaret = caret;
         // If the location is set and we're not playing, then scroll to it after updates are complete.
         // Skip scrolling when the caret was just placed by a pointer event — the user already
         // sees the position they clicked; scrolling would move the view unexpectedly.
-        if (location && !placedByPointer) {
+        if (location && !placedByPointer && moved) {
             // If it's been more than 200ms since the last scroll, then scroll to the caret after the next update.
             // This prevents them from pooling up and causing the editor to hang.
             if (
@@ -526,18 +580,30 @@
         return null;
     }
 
-    /** Whether a token was collapsed out of the DOM by a fold. A folded node's
-     *  hidden tokens have no token-view of their own (only the folded wrapper as
-     *  an ancestor), so caret geometry must skip them rather than resolve to the
-     *  wrapper. Ground truth is the absence of the token's own view. */
+    /** Whether a token has no view in the DOM — collapsed by a fold or (with
+     *  statement windowing) scrolled off-window — so caret geometry must skip it
+     *  rather than resolve to a wrapper. Ground truth is the absence of the
+     *  token's own view, checked against a rendered-id set built at most once per
+     *  computeLocation pass: the skip-hidden walks can traverse hundreds of
+     *  off-window tokens, and an editor-wide querySelector per step was an
+     *  O(tokens × DOM) storm on every window change. */
+    let renderedTokenIdSet: Set<string> | null = null;
     function isTokenHidden(node: Node): boolean {
         const editorView = element?.parentElement;
-        return (
-            node instanceof Token &&
-            editorView !== null &&
-            editorView !== undefined &&
-            getTokenView(editorView, node) === null
-        );
+        if (
+            !(node instanceof Token) ||
+            editorView === null ||
+            editorView === undefined
+        )
+            return false;
+        if (renderedTokenIdSet === null) {
+            renderedTokenIdSet = new Set();
+            for (const el of editorView.getElementsByClassName('token-view')) {
+                const id = el.getAttribute('data-id');
+                if (id !== null) renderedTokenIdSet.add(id);
+            }
+        }
+        return !renderedTokenIdSet.has(`${node.id}`);
     }
 
     /** The nearest token from `from` (inclusive of the next one) in `direction`
@@ -658,6 +724,9 @@
         return [caretHeight, lineHeight];
     }
 
+    /** Reused across computeSpaceDimensions calls (see the comment there). */
+    let sharedSpaceRange: Range | undefined = undefined;
+
     function computeSpaceDimensions(
         editor: HTMLElement,
         currentToken: Token,
@@ -716,14 +785,16 @@
         // implementation set innerHTML and read getBoundingClientRect,
         // forcing two synchronous layout flushes per call — the bulk of the
         // cost of vertical caret movement on long files, since DOWN-arrow
-        // typically lands in indentation whitespace.
+        // typically lands in indentation whitespace. The Range is a reused
+        // module-level singleton (the sharedRange pattern in outline.ts):
+        // allocating one per call was measurable garbage on held arrow keys.
         const textNode = containingLine.firstChild;
         if (!textNode || textNode.nodeType !== textNode.TEXT_NODE) return zero;
         const textLength = textNode.nodeValue?.length ?? 0;
-        const range = document.createRange();
-        range.setStart(textNode, 0);
-        range.setEnd(textNode, Math.min(renderedOffset, textLength));
-        const rect = range.getBoundingClientRect();
+        sharedSpaceRange ??= document.createRange();
+        sharedSpaceRange.setStart(textNode, 0);
+        sharedSpaceRange.setEnd(textNode, Math.min(renderedOffset, textLength));
+        const rect = sharedSpaceRange.getBoundingClientRect();
 
         // For an empty range or empty line, the rect is degenerate; fall back
         // to the line element's left/top so the caller still gets a usable
@@ -748,6 +819,10 @@
 
     function computeLocation(): CaretBounds | undefined {
         if (caret === undefined) return;
+
+        // The DOM may have changed since the last pass; rebuild the rendered-id
+        // set lazily if any hidden-token check needs it (see isTokenHidden).
+        renderedTokenIdSet = null;
 
         // The editor is always horizontal-tb
         const horizontal = true;
@@ -1135,7 +1210,8 @@
                     // collapsed lines away, so its rect can't anchor this space;
                     // use the measured .space element (as blocks mode does).
                     if (crossedFold && !blocksSpace) {
-                        const spaceTopAnchor = beforeSpaceTop - viewportRect.top;
+                        const spaceTopAnchor =
+                            beforeSpaceTop - viewportRect.top;
                         return {
                             left:
                                 beforeSpaceLeft -
@@ -1152,7 +1228,8 @@
                     // would pin the caret to the viewport top).
                     let priorTokenTop: number;
                     if (priorTokenViewRect !== undefined)
-                        priorTokenTop = priorTokenViewRect.top + viewportYOffset;
+                        priorTokenTop =
+                            priorTokenViewRect.top + viewportYOffset;
                     else if (explicitSpace.indexOfCharacter('\n') >= 0) {
                         const spaceRect = viewport
                             .querySelector(`.space[data-id='${token.id}']`)

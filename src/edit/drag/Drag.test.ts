@@ -18,7 +18,8 @@ import {
     InsertionPoint,
     isDropPermitted,
     isValidDropTarget,
-    resolveReplacementTarget,
+    resolvePermittedDropTarget,
+    resolveStructuralReplacementTarget,
 } from '@edit/drag/Drag';
 
 test.each([
@@ -403,10 +404,11 @@ test('dropping a structure into a wrong-typed function input is blocked', () => 
     ).toContain('IncompatibleInput');
 });
 
-test('resolveReplacementTarget elevates a blocked drop on a function name to the enclosing call', () => {
+test('resolvePermittedDropTarget elevates a blocked release on a function name to the enclosing call', () => {
     // The reported defect: in blocks mode the pointer over ⬇ resolves to the call's function name
-    // (Evaluate.fun), where dropping Row() is blocked (a non-function in function position). It must
-    // elevate to the whole ⬇() call, which accepts a Row.
+    // (Evaluate.fun), where dropping Row() is blocked (a non-function in function position, a
+    // CONFLICT rather than a structural rejection — so mid-drag structural resolution keeps the
+    // name). The RELEASE must elevate to the whole ⬇() call, which accepts a Row.
     const source = new Source('test', 'Group(⬇() [])');
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     const dragged = parseExpression(toTokens('Row()'));
@@ -415,24 +417,37 @@ test('resolveReplacementTarget elevates a blocked drop on a function name to the
 
     const fun = stack.fun; // the ⬇ Reference
     expect(isDropPermitted(project, source, dragged, fun)).toBe(false);
-    const resolved = resolveReplacementTarget(project, source, dragged, fun);
+    const resolved = resolvePermittedDropTarget(project, source, dragged, fun);
     expect(resolved).toBe(stack);
-    expect(isDropPermitted(project, source, dragged, resolved)).toBe(true);
+    if (resolved === undefined) return;
     const [newProject] = dropNodeOnSource(project, source, dragged, resolved);
     expect(newProject.getMain().toWordplay()).toBe('Group(Row() [])');
 });
 
-test('resolveReplacementTarget keeps a permitted direct target', () => {
+test('resolvePermittedDropTarget refuses when nothing near is permitted', () => {
+    // An unknown name is a blocking conflict at every level of the chain, so the
+    // release resolves to nothing and the drop is refused (the rest-feedback
+    // already explained why).
+    const source = new Source('test', 'Group(⬇() [])');
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const dragged = parseExpression(toTokens('saddf'));
+    const fun = source.find<Evaluate>(Evaluate, 0).fun;
+    expect(
+        resolvePermittedDropTarget(project, source, dragged, fun),
+    ).toBeUndefined();
+});
+
+test('resolveStructuralReplacementTarget keeps a permitted direct target', () => {
     const source = new Source('test', '1 + _');
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     const dragged = parseExpression(toTokens('2'));
     const target = source.find(ExpressionPlaceholder);
-    expect(resolveReplacementTarget(project, source, dragged, target)).toBe(
+    expect(resolveStructuralReplacementTarget(project, dragged, target)).toBe(
         target,
     );
 });
 
-test('resolveReplacementTarget does not elevate a permitted function-name replacement (rename)', () => {
+test('resolveStructuralReplacementTarget does not elevate a permitted function-name replacement (rename)', () => {
     // Dropping a valid function name onto a call's name yields Group(Row() []), which is valid, so
     // the drop stays on the name and replaces just it — no elevation.
     const source = new Source('test', 'Group(⬇() [])');
@@ -441,16 +456,7 @@ test('resolveReplacementTarget does not elevate a permitted function-name replac
     const stack = source.find<Evaluate>(Evaluate, 0); // the ⬇() call
     const fun = stack.fun;
     expect(isDropPermitted(project, source, dragged, fun)).toBe(true);
-    expect(resolveReplacementTarget(project, source, dragged, fun)).toBe(fun);
-});
-
-test('resolveReplacementTarget returns the hovered node when no ancestor accepts the drop', () => {
-    // An unknown name is a blocking error at every level of the chain, so there is nothing to
-    // elevate to; the hovered node is returned so the original rejection is still explained.
-    const source = new Source('test', 'Group(⬇() [])');
-    const project = Project.make(null, 'test', source, [], DefaultLocale);
-    const dragged = parseExpression(toTokens('saddf'));
-    const stack = source.find<Evaluate>(Evaluate, 0); // the ⬇() call
-    const fun = stack.fun;
-    expect(resolveReplacementTarget(project, source, dragged, fun)).toBe(fun);
+    expect(resolveStructuralReplacementTarget(project, dragged, fun)).toBe(
+        fun,
+    );
 });

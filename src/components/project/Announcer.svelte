@@ -120,6 +120,12 @@
         height: 1px;
         overflow: hidden;
         position: absolute;
+        /* Anchor the 1px box to the top of the page. Without an anchor it sits
+           at its static position — after the full-height app — where its single
+           pixel extends the document and summons a page scrollbar. Position has
+           no effect on screen readers; the live region announces regardless. */
+        top: 0;
+        left: 0;
         white-space: nowrap;
         width: 1px;
     }

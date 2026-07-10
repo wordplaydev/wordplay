@@ -4,11 +4,17 @@
     import NodeView, {
         type Format,
     } from '@components/editor/nodes/NodeView.svelte';
-    import { getDragTarget } from '@components/project/Contexts';
+    import WindowedStatements from '@components/editor/nodes/WindowedStatements.svelte';
+    import {
+        WINDOWING_ENABLED,
+        WINDOWING_MIN_STATEMENTS,
+    } from '@components/editor/util/windowModel';
+    import { getDragTarget, getEditor } from '@components/project/Contexts';
     import { spaceIndicator } from '@db/Database';
     import { InsertionPoint } from '@edit/drag/Drag';
     import type NodeRef from '@locale/NodeRef';
     import type ValueRef from '@locale/ValueRef';
+    import Block from '@nodes/Block';
     import Node from '@nodes/Node';
     import { EXPLICIT_NEWLINE_TEXT } from '@parser/Spaces';
     import type KeysOfType from '@util/KeysOfType';
@@ -59,6 +65,21 @@
     );
 
     let nodes = $derived(filtered ?? (node[field] as Node[]));
+
+    // Virtualize only an editor's root block's (long) statement list in text mode;
+    // every other list and blocks mode renders normally. Gated OFF by
+    // WINDOWING_ENABLED. The editor-context check excludes read-only RootViews
+    // (concept docs, previews) that render outside a scroll container, where the
+    // window would never grow past its initial buffer and silently truncate content.
+    const editor = getEditor();
+    let windowable = $derived(
+        WINDOWING_ENABLED &&
+            editor !== undefined &&
+            field === 'statements' &&
+            node instanceof Block &&
+            node.isRoot() &&
+            nodes.length > WINDOWING_MIN_STATEMENTS,
+    );
 </script>
 
 {#snippet insertFeedback()}
@@ -159,6 +180,8 @@
 
 {#if format.block}
     {@render list()}
+{:else if windowable}
+    <WindowedStatements statements={nodes} {format} />
 {:else}
     {#each nodes as node, index}<NodeView {node} {format} {index} />{/each}
 {/if}

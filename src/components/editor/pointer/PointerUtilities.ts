@@ -298,6 +298,10 @@ export function getTextInsertionPointsAt(
     blocks: boolean,
     /** True if the editor's writing direction is right-to-left */
     rtl: boolean,
+    /** Token rects frozen at drag-start, so the insertion marker's own reflow
+     *  can't perturb the line resolution mid-drag (fixes a per-pixel oscillation
+     *  when dragging over a blank line). See getEndOfLinePosition. */
+    rectFor?: (el: HTMLElement) => DOMRect,
 ): InsertionPoint[] {
     const source = caret.source;
 
@@ -310,6 +314,7 @@ export function getTextInsertionPointsAt(
         editor,
         blocks,
         rtl,
+        rectFor,
     );
 
     // If we found a position, find what's between.
@@ -393,6 +398,10 @@ export function getCaretPositionAt(
     blocks: boolean,
     /** True if the editor's writing direction is right-to-left */
     rtl: boolean,
+    /** Optional frozen-at-drag-start token rects (see getEndOfLinePosition). Only
+     *  the drag insertion path passes this; clicks/vertical movement use live
+     *  geometry (the default). */
+    rectFor?: (el: HTMLElement) => DOMRect,
 ): number | undefined {
     const source = caret.source;
 
@@ -430,8 +439,16 @@ export function getCaretPositionAt(
                       rtl,
                       point.clientX,
                       point.clientY,
+                      rectFor,
                   )
-                : getEndOfLinePosition(point, source, getTokenViews, caret, rtl);
+                : getEndOfLinePosition(
+                      point,
+                      source,
+                      getTokenViews,
+                      caret,
+                      rtl,
+                      rectFor,
+                  );
         if (fallback !== undefined) return fallback;
     }
 
@@ -479,6 +496,8 @@ function geometricCaretIndexAt(
     rtl: boolean,
     x: number,
     y: number,
+    /** See getEndOfLinePosition: frozen-at-drag-start token rects during a drag. */
+    rectFor: (el: HTMLElement) => DOMRect = (el) => el.getBoundingClientRect(),
 ): number | undefined {
     // Gather the token-views and space runs whose vertical band contains y —
     // i.e. everything on the target *visual* row. We resolve within this row
@@ -487,7 +506,7 @@ function geometricCaretIndexAt(
     // row's content, instead of to that row's end).
     const onRow: { el: HTMLElement; rect: DOMRect; space: boolean }[] = [];
     for (const tokenView of getTokenViews()) {
-        const r = tokenView.getBoundingClientRect();
+        const r = rectFor(tokenView);
         if (r.height > 0 && y >= r.top && y <= r.bottom)
             onRow.push({ el: tokenView, rect: r, space: false });
     }
@@ -508,6 +527,7 @@ function geometricCaretIndexAt(
             getTokenViews,
             caret,
             rtl,
+            rectFor,
         );
 
     const resolve = (item: (typeof onRow)[number], clientX: number) =>
@@ -922,13 +942,17 @@ function getEndOfLinePosition(
     caret: Caret,
     /** True if the editor's writing direction is right-to-left */
     rtl: boolean,
+    /** Measures a token view's rect. During a drag this returns positions
+     *  frozen at drag-start so the insertion marker's own layout reflow can't
+     *  shift `nearestBelowTop` and make this line resolution oscillate. */
+    rectFor: (el: HTMLElement) => DOMRect = (el) => el.getBoundingClientRect(),
 ): number | undefined {
     // Otherwise, the pointer is over the editor. We only place the caret
     // in text mode, where there is a predictable grid layout.
     // We first find the closest line, then find the end of that line.
     const closestToken = Array.from(getTokenViews())
         .map((tokenView) => {
-            const textRect = tokenView.getBoundingClientRect();
+            const textRect = rectFor(tokenView);
             return {
                 view: tokenView,
                 textDistance:
@@ -1012,7 +1036,7 @@ function getEndOfLinePosition(
 
     for (const tokenView of getTokenViews()) {
         if (tokenView.closest('.hide') !== null) continue;
-        const rect = tokenView.getBoundingClientRect();
+        const rect = rectFor(tokenView);
         if (rect.height > lineHeight) lineHeight = rect.height;
         if (rect.top > event.clientY && rect.top < nearestBelowTop) {
             const result = getTokenFromElement(caret, tokenView);

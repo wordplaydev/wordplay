@@ -16,12 +16,14 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Changed
 
+- ⚡ We made the code editor much faster on long programs.
 - ⚡ We made Wordplay start faster, especially the first time you open a project.
 - 🔒 When a project is read only, we replaced the lock icon with a checkerboard pattern, so you can tell it's read only without hiding anything. Screen readers now say when a project is read only, too.
 - 🚦 You can now see errors and hints in a read-only project. You still can't change the code, so we hide the fix buttons.
 
 ### Fixed
 
+- ✍️ We fixed a freeze when you started to drag code in a long program.
 - 🔣 We stopped Wordplay from downloading fonts it didn't need. Invisible marks next to emoji were quietly pulling in big fonts — like Chinese and math fonts — that nothing on your screen used.
 - 🔠 The character picker no longer shows empty boxes for characters that none of our fonts can draw — it only offers ones you can actually see.
 - 🖱️ Links in documentation now open when you click them in the editor. To edit a link instead, move into it with the arrow keys or click right next to it.

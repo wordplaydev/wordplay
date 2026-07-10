@@ -68,9 +68,20 @@
     });
 </script>
 
-<span class:changed={animating}>
-    <NodeView node={[node, 'name']} format={{ ...format, definition }} />
-</span>
+<!-- The .changed wrapper exists only to run the ~200ms "pop" on a stream
+     reaction, which is false the vast majority of the time. Render it only while
+     animating so the common case is one fewer element per Reference (every
+     variable use / function name / operator). The fresh span mounts when the pop
+     starts, so the animation still plays from the beginning. -->{#if animating}<span
+        class="changed"
+        ><NodeView
+            node={[node, 'name']}
+            format={{ ...format, definition }}
+        /></span
+    >{:else}<NodeView
+        node={[node, 'name']}
+        format={{ ...format, definition }}
+    />{/if}
 
 <style>
     .changed {

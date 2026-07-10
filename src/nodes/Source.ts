@@ -871,23 +871,32 @@ export default class Source extends Expression {
     }
 
     getTokensBefore(token: Token) {
-        const tokens = this.expression.nodes(
-            (n): n is Token => n instanceof Token,
-        );
-        const index = tokens.indexOf(token);
+        const index = this.getTokenIndex(token);
         if (index < 0) return undefined;
-        else return tokens.slice(0, index);
+        else return this.tokens.slice(0, index);
+    }
+
+    /** Lazily-built index of each token's position in `tokens`, so
+     * token-relative lookups are O(1) instead of a filtered tree scan plus
+     * indexOf per call — caret geometry can walk tokens step by step (skipping
+     * folded or off-window ones), which was O(tokens²) per caret placement.
+     * Safe to cache: Source is immutable. */
+    private tokenIndex: Map<Token, number> | undefined = undefined;
+    private getTokenIndex(token: Token): number {
+        if (this.tokenIndex === undefined) {
+            this.tokenIndex = new Map();
+            for (let i = 0; i < this.tokens.length; i++)
+                this.tokenIndex.set(this.tokens[i], i);
+        }
+        return this.tokenIndex.get(token) ?? -1;
     }
 
     getNextToken(token: Token, direction: -1 | 1): Token | undefined {
-        const tokens = this.expression.nodes(
-            (n): n is Token => n instanceof Token,
-        );
-        const index = tokens.indexOf(token);
+        const index = this.getTokenIndex(token);
 
         if (direction < 0 && index <= 0) return undefined;
-        if (direction > 0 && index >= tokens.length - 1) return undefined;
-        return tokens[index + direction];
+        if (direction > 0 && index >= this.tokens.length - 1) return undefined;
+        return this.tokens[index + direction];
     }
 
     getTokenBeforeNode(node: Node): Token | undefined {

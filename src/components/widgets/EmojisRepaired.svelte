@@ -16,13 +16,7 @@
      drops to the system Apple emoji. The stage leaves forceColorEmoji off so
      ordinary emoji keep honoring the creator's chosen face. -->
 <script lang="ts">
-    import {
-        hasColorCombo,
-        hasEmoji,
-        segmentColorEmoji,
-        segmentEmoji,
-        withoutVariationSelectors,
-    } from '@unicode/emoji';
+    import { emojiRuns } from '@unicode/emoji';
 
     interface Props {
         text: string;
@@ -31,41 +25,9 @@
 
     let { text, forceColorEmoji = false }: Props = $props();
 
-    // Normalize both segmenters to { text, cls } runs, where cls is the wrapper
-    // class (or undefined for a bare text node). Only segment when there's
-    // something to wrap; otherwise leave `runs` undefined and render text
-    // directly. In the editor (forceColorEmoji) every emoji is wrapped — ordinary
-    // emoji in .emoji-color, keycap/legacy in .emoji-keycap; elsewhere just the
-    // keycap/legacy combos.
-    let runs = $derived.by(() => {
-        if (forceColorEmoji) {
-            if (!hasEmoji(text)) return undefined;
-            return segmentEmoji(text).map((run) => ({
-                // Strip the variation selector from ordinary emoji. The
-                // .emoji-color wrapper already forces the color font, and a
-                // trailing U+FE0F makes Safari prefer the SYSTEM (Apple) emoji
-                // over the web color font even when it covers the sequence — the
-                // stage renders these bare and gets Noto Color, so we match it.
-                // Keycap/legacy runs keep their sequence (the keycap ligature
-                // shapes digit + U+20E3 and legacy color needs U+FE0F).
-                text:
-                    run.kind === 'emoji'
-                        ? withoutVariationSelectors(run.text)
-                        : run.text,
-                cls:
-                    run.kind === 'keycap'
-                        ? 'emoji-keycap'
-                        : run.kind === 'emoji'
-                          ? 'emoji-color'
-                          : undefined,
-            }));
-        }
-        if (!hasColorCombo(text)) return undefined;
-        return segmentColorEmoji(text).map((run) => ({
-            text: run.text,
-            cls: run.emoji ? 'emoji-keycap' : undefined,
-        }));
-    });
+    // The render plan (see emojiRuns): undefined means render `text` as a single
+    // bare text node; otherwise ordered runs, each wrapped per its class.
+    let runs = $derived(emojiRuns(text, forceColorEmoji));
 </script>
 
 {#if runs}{#each runs as run}{#if run.cls === 'emoji-keycap'}<span
