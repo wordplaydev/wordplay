@@ -1,1266 +1,1245 @@
 {
-  "$ref": "#/definitions/Tutorial",
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "definitions": {
-    "Act": {
-      "additionalProperties": false,
-      "properties": {
-        "performance": {
-          "$ref": "#/definitions/Performance"
-        },
-        "scenes": {
-          "items": {
-            "$ref": "#/definitions/Scene"
-          },
-          "type": "array"
-        },
-        "title": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "title",
-        "performance",
-        "scenes"
-      ],
-      "type": "object"
-    },
-    "CharacterName": {
-      "anyOf": [
-        {
-          "const": "Dimension",
-          "type": "string"
-        },
-        {
-          "const": "Doc",
-          "type": "string"
-        },
-        {
-          "const": "Docs",
-          "type": "string"
-        },
-        {
-          "const": "KeyValue",
-          "type": "string"
-        },
-        {
-          "const": "Language",
-          "type": "string"
-        },
-        {
-          "const": "Name",
-          "type": "string"
-        },
-        {
-          "const": "Names",
-          "type": "string"
-        },
-        {
-          "const": "Row",
-          "type": "string"
-        },
-        {
-          "const": "Token",
-          "type": "string"
-        },
-        {
-          "const": "TypeInputs",
-          "type": "string"
-        },
-        {
-          "const": "TypeVariable",
-          "type": "string"
-        },
-        {
-          "const": "TypeVariables",
-          "type": "string"
-        },
-        {
-          "const": "Markup",
-          "type": "string"
-        },
-        {
-          "const": "Paragraph",
-          "type": "string"
-        },
-        {
-          "const": "WebLink",
-          "type": "string"
-        },
-        {
-          "const": "ConceptLink",
-          "type": "string"
-        },
-        {
-          "const": "Words",
-          "type": "string"
-        },
-        {
-          "const": "Example",
-          "type": "string"
-        },
-        {
-          "const": "ExternalExample",
-          "type": "string"
-        },
-        {
-          "const": "Mention",
-          "type": "string"
-        },
-        {
-          "const": "Branch",
-          "type": "string"
-        },
-        {
-          "const": "BinaryEvaluate",
-          "type": "string"
-        },
-        {
-          "const": "Bind",
-          "type": "string"
-        },
-        {
-          "const": "Block",
-          "type": "string"
-        },
-        {
-          "const": "BooleanLiteral",
-          "type": "string"
-        },
-        {
-          "const": "Borrow",
-          "type": "string"
-        },
-        {
-          "const": "Changed",
-          "type": "string"
-        },
-        {
-          "const": "Conditional",
-          "type": "string"
-        },
-        {
-          "const": "Otherwise",
-          "type": "string"
-        },
-        {
-          "const": "Match",
-          "type": "string"
-        },
-        {
-          "const": "ConversionDefinition",
-          "type": "string"
-        },
-        {
-          "const": "Convert",
-          "type": "string"
-        },
-        {
-          "const": "Translate",
-          "type": "string"
-        },
-        {
-          "const": "Delete",
-          "type": "string"
-        },
-        {
-          "const": "DocumentedExpression",
-          "type": "string"
-        },
-        {
-          "const": "Evaluate",
-          "type": "string"
-        },
-        {
-          "const": "Input",
-          "type": "string"
-        },
-        {
-          "const": "ExpressionPlaceholder",
-          "type": "string"
-        },
-        {
-          "const": "FunctionDefinition",
-          "type": "string"
-        },
-        {
-          "const": "Iteration",
-          "type": "string"
-        },
-        {
-          "const": "Insert",
-          "type": "string"
-        },
-        {
-          "const": "Initial",
-          "type": "string"
-        },
-        {
-          "const": "Is",
-          "type": "string"
-        },
-        {
-          "const": "IsLocale",
-          "type": "string"
-        },
-        {
-          "const": "ListAccess",
-          "type": "string"
-        },
-        {
-          "const": "ListLiteral",
-          "type": "string"
-        },
-        {
-          "const": "Localized",
-          "type": "string"
-        },
-        {
-          "const": "Spread",
-          "type": "string"
-        },
-        {
-          "const": "PatternLiteral",
-          "type": "string"
-        },
-        {
-          "const": "PatternSequence",
-          "type": "string"
-        },
-        {
-          "const": "PatternClass",
-          "type": "string"
-        },
-        {
-          "const": "PatternProperty",
-          "type": "string"
-        },
-        {
-          "const": "PatternQuantifier",
-          "type": "string"
-        },
-        {
-          "const": "PatternQuantified",
-          "type": "string"
-        },
-        {
-          "const": "PatternCapture",
-          "type": "string"
-        },
-        {
-          "const": "PatternComplement",
-          "type": "string"
-        },
-        {
-          "const": "PatternGroup",
-          "type": "string"
-        },
-        {
-          "const": "PatternSet",
-          "type": "string"
-        },
-        {
-          "const": "PatternRange",
-          "type": "string"
-        },
-        {
-          "const": "PatternLiteralText",
-          "type": "string"
-        },
-        {
-          "const": "PatternAnchor",
-          "type": "string"
-        },
-        {
-          "const": "PatternWord",
-          "type": "string"
-        },
-        {
-          "const": "PatternWordEdge",
-          "type": "string"
-        },
-        {
-          "const": "PatternLook",
-          "type": "string"
-        },
-        {
-          "const": "PatternBackref",
-          "type": "string"
-        },
-        {
-          "const": "PatternRest",
-          "type": "string"
-        },
-        {
-          "const": "PatternCaseFold",
-          "type": "string"
-        },
-        {
-          "const": "PatternType",
-          "type": "string"
-        },
-        {
-          "const": "MapLiteral",
-          "type": "string"
-        },
-        {
-          "const": "NumberLiteral",
-          "type": "string"
-        },
-        {
-          "const": "InternalExpression",
-          "type": "string"
-        },
-        {
-          "const": "NoneLiteral",
-          "type": "string"
-        },
-        {
-          "const": "Previous",
-          "type": "string"
-        },
-        {
-          "const": "Program",
-          "type": "string"
-        },
-        {
-          "const": "PropertyBind",
-          "type": "string"
-        },
-        {
-          "const": "PropertyReference",
-          "type": "string"
-        },
-        {
-          "const": "Reaction",
-          "type": "string"
-        },
-        {
-          "const": "Reference",
-          "type": "string"
-        },
-        {
-          "const": "Select",
-          "type": "string"
-        },
-        {
-          "const": "SetLiteral",
-          "type": "string"
-        },
-        {
-          "const": "SetOrMapAccess",
-          "type": "string"
-        },
-        {
-          "const": "Source",
-          "type": "string"
-        },
-        {
-          "const": "StreamDefinition",
-          "type": "string"
-        },
-        {
-          "const": "StructureDefinition",
-          "type": "string"
-        },
-        {
-          "const": "StructureDefinitionType",
-          "type": "string"
-        },
-        {
-          "const": "TableLiteral",
-          "type": "string"
-        },
-        {
-          "const": "TextLiteral",
-          "type": "string"
-        },
-        {
-          "const": "Translation",
-          "type": "string"
-        },
-        {
-          "const": "FormattedLiteral",
-          "type": "string"
-        },
-        {
-          "const": "FormattedTranslation",
-          "type": "string"
-        },
-        {
-          "const": "This",
-          "type": "string"
-        },
-        {
-          "const": "UnaryEvaluate",
-          "type": "string"
-        },
-        {
-          "const": "UnparsableExpression",
-          "type": "string"
-        },
-        {
-          "const": "Update",
-          "type": "string"
-        },
-        {
-          "const": "AnyType",
-          "type": "string"
-        },
-        {
-          "const": "BooleanType",
-          "type": "string"
-        },
-        {
-          "const": "ConversionType",
-          "type": "string"
-        },
-        {
-          "const": "FormattedType",
-          "type": "string"
-        },
-        {
-          "const": "ExceptionType",
-          "type": "string"
-        },
-        {
-          "const": "FunctionType",
-          "type": "string"
-        },
-        {
-          "const": "ListType",
-          "type": "string"
-        },
-        {
-          "const": "MapType",
-          "type": "string"
-        },
-        {
-          "const": "NumberType",
-          "type": "string"
-        },
-        {
-          "const": "NameType",
-          "type": "string"
-        },
-        {
-          "const": "NeverType",
-          "type": "string"
-        },
-        {
-          "const": "NoneType",
-          "type": "string"
-        },
-        {
-          "const": "SetType",
-          "type": "string"
-        },
-        {
-          "const": "StreamDefinitionType",
-          "type": "string"
-        },
-        {
-          "const": "StreamType",
-          "type": "string"
-        },
-        {
-          "const": "StructureType",
-          "type": "string"
-        },
-        {
-          "const": "TableType",
-          "type": "string"
-        },
-        {
-          "const": "TextType",
-          "type": "string"
-        },
-        {
-          "const": "TypePlaceholder",
-          "type": "string"
-        },
-        {
-          "const": "UnionType",
-          "type": "string"
-        },
-        {
-          "const": "UnparsableType",
-          "type": "string"
-        },
-        {
-          "const": "Unit",
-          "type": "string"
-        },
-        {
-          "const": "VariableType",
-          "type": "string"
-        },
-        {
-          "const": "UnknownType",
-          "type": "string"
-        },
-        {
-          "const": "UnknownNameType",
-          "type": "string"
-        },
-        {
-          "const": "CycleType",
-          "type": "string"
-        },
-        {
-          "const": "UnknownVariableType",
-          "type": "string"
-        },
-        {
-          "const": "NoExpressionType",
-          "type": "string"
-        },
-        {
-          "const": "NotEnclosedType",
-          "type": "string"
-        },
-        {
-          "const": "NotImplementedType",
-          "type": "string"
-        },
-        {
-          "const": "NotAType",
-          "type": "string"
-        },
-        {
-          "const": "NonFunctionType",
-          "type": "string"
-        },
-        {
-          "const": "Random",
-          "type": "string"
-        },
-        {
-          "const": "Choice",
-          "type": "string"
-        },
-        {
-          "const": "Button",
-          "type": "string"
-        },
-        {
-          "const": "Pointer",
-          "type": "string"
-        },
-        {
-          "const": "Key",
-          "type": "string"
-        },
-        {
-          "const": "Time",
-          "type": "string"
-        },
-        {
-          "const": "Now",
-          "type": "string"
-        },
-        {
-          "const": "Moment",
-          "type": "string"
-        },
-        {
-          "const": "Volume",
-          "type": "string"
-        },
-        {
-          "const": "Pitch",
-          "type": "string"
-        },
-        {
-          "const": "Speech",
-          "type": "string"
-        },
-        {
-          "const": "Camera",
-          "type": "string"
-        },
-        {
-          "const": "Hand",
-          "type": "string"
-        },
-        {
-          "const": "Scene",
-          "type": "string"
-        },
-        {
-          "const": "Motion",
-          "type": "string"
-        },
-        {
-          "const": "Placement",
-          "type": "string"
-        },
-        {
-          "const": "Chat",
-          "type": "string"
-        },
-        {
-          "const": "Contour",
-          "type": "string"
-        },
-        {
-          "const": "Webpage",
-          "type": "string"
-        },
-        {
-          "const": "Collision",
-          "type": "string"
-        },
-        {
-          "const": "Rebound",
-          "type": "string"
-        },
-        {
-          "const": "Direction",
-          "type": "string"
-        },
-        {
-          "const": "Output",
-          "type": "string"
-        },
-        {
-          "const": "Group",
-          "type": "string"
-        },
-        {
-          "const": "Aura",
-          "type": "string"
-        },
-        {
-          "const": "Phrase",
-          "type": "string"
-        },
-        {
-          "const": "Stage",
-          "type": "string"
-        },
-        {
-          "const": "Shape",
-          "type": "string"
-        },
-        {
-          "const": "Say",
-          "type": "string"
-        },
-        {
-          "const": "Form",
-          "type": "string"
-        },
-        {
-          "const": "Rectangle",
-          "type": "string"
-        },
-        {
-          "const": "Circle",
-          "type": "string"
-        },
-        {
-          "const": "Polygon",
-          "type": "string"
-        },
-        {
-          "const": "Pose",
-          "type": "string"
-        },
-        {
-          "const": "Sequence",
-          "type": "string"
-        },
-        {
-          "const": "Color",
-          "type": "string"
-        },
-        {
-          "const": "Place",
-          "type": "string"
-        },
-        {
-          "const": "Gesture",
-          "type": "string"
-        },
-        {
-          "const": "Velocity",
-          "type": "string"
-        },
-        {
-          "const": "Result",
-          "type": "string"
-        },
-        {
-          "const": "Matter",
-          "type": "string"
-        },
-        {
-          "const": "Arrangement",
-          "type": "string"
-        },
-        {
-          "const": "Stack",
-          "type": "string"
-        },
-        {
-          "const": "Grid",
-          "type": "string"
-        },
-        {
-          "const": "Free",
-          "type": "string"
-        },
-        {
-          "const": "Easing",
-          "type": "string"
-        },
-        {
-          "const": "sequence",
-          "type": "string"
-        },
-        {
-          "const": "Boolean",
-          "type": "string"
-        },
-        {
-          "const": "None",
-          "type": "string"
-        },
-        {
-          "const": "Text",
-          "type": "string"
-        },
-        {
-          "const": "Formatted",
-          "type": "string"
-        },
-        {
-          "const": "Number",
-          "type": "string"
-        },
-        {
-          "const": "List",
-          "type": "string"
-        },
-        {
-          "const": "Set",
-          "type": "string"
-        },
-        {
-          "const": "Map",
-          "type": "string"
-        },
-        {
-          "const": "Table",
-          "type": "string"
-        },
-        {
-          "const": "Structure",
-          "type": "string"
-        },
-        {
-          "$ref": "#/definitions/HowToID"
-        },
-        {
-          "const": "⊤",
-          "type": "string"
-        },
-        {
-          "const": "⊥",
-          "type": "string"
-        }
-      ]
-    },
-    "Code": {
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "items": {
+    "$ref": "#/definitions/Tutorial",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "Act": {
+            "additionalProperties": false,
+            "properties": {
+                "performance": {
+                    "$ref": "#/definitions/Performance"
+                },
+                "scenes": {
+                    "items": {
+                        "$ref": "#/definitions/Scene"
+                    },
+                    "type": "array"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "required": ["title", "performance", "scenes"],
+            "type": "object"
+        },
+        "CharacterName": {
+            "anyOf": [
+                {
+                    "const": "Dimension",
+                    "type": "string"
+                },
+                {
+                    "const": "Doc",
+                    "type": "string"
+                },
+                {
+                    "const": "Docs",
+                    "type": "string"
+                },
+                {
+                    "const": "KeyValue",
+                    "type": "string"
+                },
+                {
+                    "const": "Language",
+                    "type": "string"
+                },
+                {
+                    "const": "Name",
+                    "type": "string"
+                },
+                {
+                    "const": "Names",
+                    "type": "string"
+                },
+                {
+                    "const": "Row",
+                    "type": "string"
+                },
+                {
+                    "const": "Token",
+                    "type": "string"
+                },
+                {
+                    "const": "TypeInputs",
+                    "type": "string"
+                },
+                {
+                    "const": "TypeVariable",
+                    "type": "string"
+                },
+                {
+                    "const": "TypeVariables",
+                    "type": "string"
+                },
+                {
+                    "const": "Markup",
+                    "type": "string"
+                },
+                {
+                    "const": "Paragraph",
+                    "type": "string"
+                },
+                {
+                    "const": "WebLink",
+                    "type": "string"
+                },
+                {
+                    "const": "ConceptLink",
+                    "type": "string"
+                },
+                {
+                    "const": "Words",
+                    "type": "string"
+                },
+                {
+                    "const": "Example",
+                    "type": "string"
+                },
+                {
+                    "const": "ExternalExample",
+                    "type": "string"
+                },
+                {
+                    "const": "Mention",
+                    "type": "string"
+                },
+                {
+                    "const": "Branch",
+                    "type": "string"
+                },
+                {
+                    "const": "BinaryEvaluate",
+                    "type": "string"
+                },
+                {
+                    "const": "Bind",
+                    "type": "string"
+                },
+                {
+                    "const": "Block",
+                    "type": "string"
+                },
+                {
+                    "const": "BooleanLiteral",
+                    "type": "string"
+                },
+                {
+                    "const": "Borrow",
+                    "type": "string"
+                },
+                {
+                    "const": "Changed",
+                    "type": "string"
+                },
+                {
+                    "const": "Conditional",
+                    "type": "string"
+                },
+                {
+                    "const": "Otherwise",
+                    "type": "string"
+                },
+                {
+                    "const": "Match",
+                    "type": "string"
+                },
+                {
+                    "const": "ConversionDefinition",
+                    "type": "string"
+                },
+                {
+                    "const": "Convert",
+                    "type": "string"
+                },
+                {
+                    "const": "Translate",
+                    "type": "string"
+                },
+                {
+                    "const": "Delete",
+                    "type": "string"
+                },
+                {
+                    "const": "DocumentedExpression",
+                    "type": "string"
+                },
+                {
+                    "const": "Evaluate",
+                    "type": "string"
+                },
+                {
+                    "const": "Input",
+                    "type": "string"
+                },
+                {
+                    "const": "ExpressionPlaceholder",
+                    "type": "string"
+                },
+                {
+                    "const": "FunctionDefinition",
+                    "type": "string"
+                },
+                {
+                    "const": "Iteration",
+                    "type": "string"
+                },
+                {
+                    "const": "Insert",
+                    "type": "string"
+                },
+                {
+                    "const": "Initial",
+                    "type": "string"
+                },
+                {
+                    "const": "Is",
+                    "type": "string"
+                },
+                {
+                    "const": "IsLocale",
+                    "type": "string"
+                },
+                {
+                    "const": "ListAccess",
+                    "type": "string"
+                },
+                {
+                    "const": "ListLiteral",
+                    "type": "string"
+                },
+                {
+                    "const": "Localized",
+                    "type": "string"
+                },
+                {
+                    "const": "Spread",
+                    "type": "string"
+                },
+                {
+                    "const": "PatternLiteral",
+                    "type": "string"
+                },
+                {
+                    "const": "PatternSequence",
+                    "type": "string"
+                },
+                {
+                    "const": "PatternClass",
+                    "type": "string"
+                },
+                {
+                    "const": "PatternProperty",
+                    "type": "string"
+                },
+                {
+                    "const": "PatternQuantifier",
+                    "type": "string"
+                },
+                {
+                    "const": "PatternQuantified",
+                    "type": "string"
+                },
+                {
+                    "const": "PatternCapture",
+                    "type": "string"
+                },
+                {
+                    "const": "PatternComplement",
+                    "type": "string"
+                },
+                {
+                    "const": "PatternGroup",
+                    "type": "string"
+                },
+                {
+                    "const": "PatternSet",
+                    "type": "string"
+                },
+                {
+                    "const": "PatternRange",
+                    "type": "string"
+                },
+                {
+                    "const": "PatternLiteralText",
+                    "type": "string"
+                },
+                {
+                    "const": "PatternAnchor",
+                    "type": "string"
+                },
+                {
+                    "const": "PatternWord",
+                    "type": "string"
+                },
+                {
+                    "const": "PatternWordEdge",
+                    "type": "string"
+                },
+                {
+                    "const": "PatternLook",
+                    "type": "string"
+                },
+                {
+                    "const": "PatternBackref",
+                    "type": "string"
+                },
+                {
+                    "const": "PatternRest",
+                    "type": "string"
+                },
+                {
+                    "const": "PatternCaseFold",
+                    "type": "string"
+                },
+                {
+                    "const": "PatternType",
+                    "type": "string"
+                },
+                {
+                    "const": "MapLiteral",
+                    "type": "string"
+                },
+                {
+                    "const": "NumberLiteral",
+                    "type": "string"
+                },
+                {
+                    "const": "InternalExpression",
+                    "type": "string"
+                },
+                {
+                    "const": "NoneLiteral",
+                    "type": "string"
+                },
+                {
+                    "const": "Previous",
+                    "type": "string"
+                },
+                {
+                    "const": "Program",
+                    "type": "string"
+                },
+                {
+                    "const": "PropertyBind",
+                    "type": "string"
+                },
+                {
+                    "const": "PropertyReference",
+                    "type": "string"
+                },
+                {
+                    "const": "Reaction",
+                    "type": "string"
+                },
+                {
+                    "const": "Reference",
+                    "type": "string"
+                },
+                {
+                    "const": "Select",
+                    "type": "string"
+                },
+                {
+                    "const": "SetLiteral",
+                    "type": "string"
+                },
+                {
+                    "const": "SetOrMapAccess",
+                    "type": "string"
+                },
+                {
+                    "const": "Source",
+                    "type": "string"
+                },
+                {
+                    "const": "StreamDefinition",
+                    "type": "string"
+                },
+                {
+                    "const": "StructureDefinition",
+                    "type": "string"
+                },
+                {
+                    "const": "StructureDefinitionType",
+                    "type": "string"
+                },
+                {
+                    "const": "TableLiteral",
+                    "type": "string"
+                },
+                {
+                    "const": "TextLiteral",
+                    "type": "string"
+                },
+                {
+                    "const": "Translation",
+                    "type": "string"
+                },
+                {
+                    "const": "FormattedLiteral",
+                    "type": "string"
+                },
+                {
+                    "const": "FormattedTranslation",
+                    "type": "string"
+                },
+                {
+                    "const": "This",
+                    "type": "string"
+                },
+                {
+                    "const": "UnaryEvaluate",
+                    "type": "string"
+                },
+                {
+                    "const": "UnparsableExpression",
+                    "type": "string"
+                },
+                {
+                    "const": "Update",
+                    "type": "string"
+                },
+                {
+                    "const": "AnyType",
+                    "type": "string"
+                },
+                {
+                    "const": "BooleanType",
+                    "type": "string"
+                },
+                {
+                    "const": "ConversionType",
+                    "type": "string"
+                },
+                {
+                    "const": "FormattedType",
+                    "type": "string"
+                },
+                {
+                    "const": "ExceptionType",
+                    "type": "string"
+                },
+                {
+                    "const": "FunctionType",
+                    "type": "string"
+                },
+                {
+                    "const": "ListType",
+                    "type": "string"
+                },
+                {
+                    "const": "MapType",
+                    "type": "string"
+                },
+                {
+                    "const": "NumberType",
+                    "type": "string"
+                },
+                {
+                    "const": "NameType",
+                    "type": "string"
+                },
+                {
+                    "const": "NeverType",
+                    "type": "string"
+                },
+                {
+                    "const": "NoneType",
+                    "type": "string"
+                },
+                {
+                    "const": "SetType",
+                    "type": "string"
+                },
+                {
+                    "const": "StreamDefinitionType",
+                    "type": "string"
+                },
+                {
+                    "const": "StreamType",
+                    "type": "string"
+                },
+                {
+                    "const": "StructureType",
+                    "type": "string"
+                },
+                {
+                    "const": "TableType",
+                    "type": "string"
+                },
+                {
+                    "const": "TextType",
+                    "type": "string"
+                },
+                {
+                    "const": "TypePlaceholder",
+                    "type": "string"
+                },
+                {
+                    "const": "UnionType",
+                    "type": "string"
+                },
+                {
+                    "const": "UnparsableType",
+                    "type": "string"
+                },
+                {
+                    "const": "Unit",
+                    "type": "string"
+                },
+                {
+                    "const": "VariableType",
+                    "type": "string"
+                },
+                {
+                    "const": "UnknownType",
+                    "type": "string"
+                },
+                {
+                    "const": "UnknownNameType",
+                    "type": "string"
+                },
+                {
+                    "const": "CycleType",
+                    "type": "string"
+                },
+                {
+                    "const": "UnknownVariableType",
+                    "type": "string"
+                },
+                {
+                    "const": "NoExpressionType",
+                    "type": "string"
+                },
+                {
+                    "const": "NotEnclosedType",
+                    "type": "string"
+                },
+                {
+                    "const": "NotImplementedType",
+                    "type": "string"
+                },
+                {
+                    "const": "NotAType",
+                    "type": "string"
+                },
+                {
+                    "const": "NonFunctionType",
+                    "type": "string"
+                },
+                {
+                    "const": "Random",
+                    "type": "string"
+                },
+                {
+                    "const": "Choice",
+                    "type": "string"
+                },
+                {
+                    "const": "Button",
+                    "type": "string"
+                },
+                {
+                    "const": "Pointer",
+                    "type": "string"
+                },
+                {
+                    "const": "Key",
+                    "type": "string"
+                },
+                {
+                    "const": "Time",
+                    "type": "string"
+                },
+                {
+                    "const": "Now",
+                    "type": "string"
+                },
+                {
+                    "const": "Moment",
+                    "type": "string"
+                },
+                {
+                    "const": "Volume",
+                    "type": "string"
+                },
+                {
+                    "const": "Pitch",
+                    "type": "string"
+                },
+                {
+                    "const": "Speech",
+                    "type": "string"
+                },
+                {
+                    "const": "Camera",
+                    "type": "string"
+                },
+                {
+                    "const": "Hand",
+                    "type": "string"
+                },
+                {
+                    "const": "Scene",
+                    "type": "string"
+                },
+                {
+                    "const": "Motion",
+                    "type": "string"
+                },
+                {
+                    "const": "Placement",
+                    "type": "string"
+                },
+                {
+                    "const": "Chat",
+                    "type": "string"
+                },
+                {
+                    "const": "Contour",
+                    "type": "string"
+                },
+                {
+                    "const": "Webpage",
+                    "type": "string"
+                },
+                {
+                    "const": "Collision",
+                    "type": "string"
+                },
+                {
+                    "const": "Rebound",
+                    "type": "string"
+                },
+                {
+                    "const": "Direction",
+                    "type": "string"
+                },
+                {
+                    "const": "Output",
+                    "type": "string"
+                },
+                {
+                    "const": "Group",
+                    "type": "string"
+                },
+                {
+                    "const": "Aura",
+                    "type": "string"
+                },
+                {
+                    "const": "Phrase",
+                    "type": "string"
+                },
+                {
+                    "const": "Stage",
+                    "type": "string"
+                },
+                {
+                    "const": "Shape",
+                    "type": "string"
+                },
+                {
+                    "const": "Say",
+                    "type": "string"
+                },
+                {
+                    "const": "Form",
+                    "type": "string"
+                },
+                {
+                    "const": "Rectangle",
+                    "type": "string"
+                },
+                {
+                    "const": "Circle",
+                    "type": "string"
+                },
+                {
+                    "const": "Polygon",
+                    "type": "string"
+                },
+                {
+                    "const": "Pose",
+                    "type": "string"
+                },
+                {
+                    "const": "Sequence",
+                    "type": "string"
+                },
+                {
+                    "const": "Color",
+                    "type": "string"
+                },
+                {
+                    "const": "Place",
+                    "type": "string"
+                },
+                {
+                    "const": "Gesture",
+                    "type": "string"
+                },
+                {
+                    "const": "Velocity",
+                    "type": "string"
+                },
+                {
+                    "const": "Result",
+                    "type": "string"
+                },
+                {
+                    "const": "Matter",
+                    "type": "string"
+                },
+                {
+                    "const": "Arrangement",
+                    "type": "string"
+                },
+                {
+                    "const": "Stack",
+                    "type": "string"
+                },
+                {
+                    "const": "Grid",
+                    "type": "string"
+                },
+                {
+                    "const": "Free",
+                    "type": "string"
+                },
+                {
+                    "const": "Easing",
+                    "type": "string"
+                },
+                {
+                    "const": "TextEffect",
+                    "type": "string"
+                },
+                {
+                    "const": "sequence",
+                    "type": "string"
+                },
+                {
+                    "const": "Boolean",
+                    "type": "string"
+                },
+                {
+                    "const": "None",
+                    "type": "string"
+                },
+                {
+                    "const": "Text",
+                    "type": "string"
+                },
+                {
+                    "const": "Formatted",
+                    "type": "string"
+                },
+                {
+                    "const": "Number",
+                    "type": "string"
+                },
+                {
+                    "const": "List",
+                    "type": "string"
+                },
+                {
+                    "const": "Set",
+                    "type": "string"
+                },
+                {
+                    "const": "Map",
+                    "type": "string"
+                },
+                {
+                    "const": "Table",
+                    "type": "string"
+                },
+                {
+                    "const": "Structure",
+                    "type": "string"
+                },
+                {
+                    "$ref": "#/definitions/HowToID"
+                },
+                {
+                    "const": "⊤",
+                    "type": "string"
+                },
+                {
+                    "const": "⊥",
+                    "type": "string"
+                }
+            ]
+        },
+        "Code": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
+            ],
+            "description": "A program: a single line, or an array of lines for a multi-line program (kept as an array so the JSON has no embedded newlines)."
+        },
+        "Dialog": {
+            "additionalItems": {
+                "type": "string"
+            },
+            "items": [
+                {
+                    "$ref": "#/definitions/CharacterName"
+                },
+                {
+                    "enum": [
+                        "angry",
+                        "arrogant",
+                        "bored",
+                        "cheerful",
+                        "curious",
+                        "confused",
+                        "eager",
+                        "excited",
+                        "grumpy",
+                        "happy",
+                        "insecure",
+                        "kind",
+                        "neutral",
+                        "sad",
+                        "scared",
+                        "serious",
+                        "shy",
+                        "surprised",
+                        "precise"
+                    ],
+                    "type": "string"
+                }
+            ],
+            "minItems": 2,
+            "type": "array"
+        },
+        "HowToID": {
+            "enum": [
+                "animate-phrase",
+                "move-phrase",
+                "custom-characters",
+                "styling-text",
+                "animated-scene",
+                "interactive-scene",
+                "layering-images",
+                "shake-phrase",
+                "video-grid",
+                "track-points",
+                "track-game-state",
+                "offer-choices",
+                "choose-adventure",
+                "repeating-a-movement",
+                "arrange-in-a-row",
+                "stack-up-and-down",
+                "make-a-grid",
+                "make-many-copies",
+                "follow-the-pointer",
+                "your-own-template",
+                "count-with-time",
+                "show-time-in-another-city",
+                "react-to-sound",
+                "pick-from-a-list",
+                "show-when",
+                "gravity-and-bouncing",
+                "gallery-how-to",
+                "mix-languages-in-text",
+                "find-text-with-patterns"
+            ],
             "type": "string"
-          },
-          "type": "array"
-        }
-      ],
-      "description": "A program: a single line, or an array of lines for a multi-line program (kept as an array so the JSON has no embedded newlines)."
-    },
-    "Dialog": {
-      "additionalItems": {
-        "type": "string"
-      },
-      "items": [
-        {
-          "$ref": "#/definitions/CharacterName"
         },
-        {
-          "enum": [
-            "angry",
-            "arrogant",
-            "bored",
-            "cheerful",
-            "curious",
-            "confused",
-            "eager",
-            "excited",
-            "grumpy",
-            "happy",
-            "insecure",
-            "kind",
-            "neutral",
-            "sad",
-            "scared",
-            "serious",
-            "shy",
-            "surprised",
-            "precise"
-          ],
-          "type": "string"
-        }
-      ],
-      "minItems": 2,
-      "type": "array"
-    },
-    "HowToID": {
-      "enum": [
-        "animate-phrase",
-        "move-phrase",
-        "custom-characters",
-        "styling-text",
-        "animated-scene",
-        "interactive-scene",
-        "layering-images",
-        "shake-phrase",
-        "video-grid",
-        "track-points",
-        "track-game-state",
-        "offer-choices",
-        "choose-adventure",
-        "repeating-a-movement",
-        "arrange-in-a-row",
-        "stack-up-and-down",
-        "make-a-grid",
-        "make-many-copies",
-        "follow-the-pointer",
-        "your-own-template",
-        "count-with-time",
-        "show-time-in-another-city",
-        "react-to-sound",
-        "pick-from-a-list",
-        "show-when",
-        "gravity-and-bouncing",
-        "gallery-how-to",
-        "mix-languages-in-text",
-        "find-text-with-patterns"
-      ],
-      "type": "string"
-    },
-    "Line": {
-      "anyOf": [
-        {
-          "$ref": "#/definitions/Dialog"
+        "Line": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/Dialog"
+                },
+                {
+                    "$ref": "#/definitions/Performance"
+                },
+                {
+                    "type": "null"
+                }
+            ]
         },
-        {
-          "$ref": "#/definitions/Performance"
+        "Performance": {
+            "anyOf": [
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "conflicts": {
+                            "type": "boolean"
+                        },
+                        "fit": {
+                            "$ref": "#/definitions/Code"
+                        },
+                        "sidebar": {
+                            "type": "boolean"
+                        }
+                    },
+                    "required": ["fit"],
+                    "type": "object"
+                },
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "conflicts": {
+                            "type": "boolean"
+                        },
+                        "fix": {
+                            "$ref": "#/definitions/Code"
+                        },
+                        "sidebar": {
+                            "type": "boolean"
+                        }
+                    },
+                    "required": ["fix"],
+                    "type": "object"
+                },
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "conflicts": {
+                            "type": "boolean"
+                        },
+                        "edit": {
+                            "$ref": "#/definitions/Code"
+                        },
+                        "sidebar": {
+                            "type": "boolean"
+                        }
+                    },
+                    "required": ["edit"],
+                    "type": "object"
+                }
+            ],
+            "description": "What the tutorial's project tile shows for a step: a mode-as-key object whose value is the program — literal Wordplay code, or a template reference (`#DarkVoid`, `#Symbol 📄`) resolving to a named program in Performances.ts. Mapped over  {@link  PerformanceMode }  so the modes aren't repeated; each member has exactly one mode key plus the shared  {@link  PerformanceOptions } .\n\n  { \"fit\": \"Phrase('🌙')\" }   { \"edit\": \"1 + 'hi'\", \"conflicts\": true, \"sidebar\": true }   { \"edit\": [\"score: 10\", \"score + 5\"], \"conflicts\": true }   { \"fix\": \"#DarkVoid\", \"sidebar\": true }"
         },
-        {
-          "type": "null"
-        }
-      ]
-    },
-    "Performance": {
-      "anyOf": [
-        {
-          "additionalProperties": false,
-          "properties": {
-            "conflicts": {
-              "type": "boolean"
+        "RegionCode": {
+            "type": ["string"]
+        },
+        "Scene": {
+            "additionalProperties": false,
+            "properties": {
+                "concept": {
+                    "$ref": "#/definitions/CharacterName"
+                },
+                "lines": {
+                    "items": {
+                        "$ref": "#/definitions/Line"
+                    },
+                    "type": "array"
+                },
+                "performance": {
+                    "$ref": "#/definitions/Performance"
+                },
+                "subtitle": {
+                    "type": ["string", "null"]
+                },
+                "title": {
+                    "type": "string"
+                }
             },
-            "fit": {
-              "$ref": "#/definitions/Code"
-            },
-            "sidebar": {
-              "type": "boolean"
-            }
-          },
-          "required": [
-            "fit"
-          ],
-          "type": "object"
+            "required": ["title", "subtitle", "performance", "lines"],
+            "type": "object"
         },
-        {
-          "additionalProperties": false,
-          "properties": {
-            "conflicts": {
-              "type": "boolean"
+        "Tutorial": {
+            "additionalProperties": false,
+            "properties": {
+                "$schema": {
+                    "description": "This is here so that when we generate a JSON schema for a tutorial, the VS Code schema property is allowed *",
+                    "type": "string"
+                },
+                "acts": {
+                    "description": "The acts of the tutorial. Variable length so that different tutorial modes (e.g. the \"quick\" tour) can have their own structure; see TutorialMode.",
+                    "items": {
+                        "$ref": "#/definitions/Act"
+                    },
+                    "type": "array"
+                },
+                "language": {
+                    "enum": [
+                        "ae",
+                        "ab",
+                        "aa",
+                        "😀",
+                        "af",
+                        "ak",
+                        "am",
+                        "an",
+                        "ar",
+                        "as",
+                        "ay",
+                        "av",
+                        "az",
+                        "ba",
+                        "be",
+                        "bg",
+                        "bm",
+                        "bi",
+                        "bh",
+                        "bn",
+                        "bo",
+                        "br",
+                        "bs",
+                        "ca",
+                        "ch",
+                        "ce",
+                        "co",
+                        "cr",
+                        "cs",
+                        "cv",
+                        "cu",
+                        "cy",
+                        "da",
+                        "de",
+                        "ee",
+                        "dz",
+                        "dv",
+                        "el",
+                        "en",
+                        "eo",
+                        "es",
+                        "et",
+                        "eu",
+                        "fa",
+                        "ff",
+                        "fi",
+                        "fil",
+                        "fj",
+                        "fo",
+                        "fr",
+                        "fy",
+                        "ga",
+                        "gd",
+                        "gl",
+                        "gn",
+                        "gu",
+                        "gv",
+                        "ha",
+                        "he",
+                        "hi",
+                        "ho",
+                        "hr",
+                        "ht",
+                        "hu",
+                        "hy",
+                        "ia",
+                        "hz",
+                        "id",
+                        "ie",
+                        "ig",
+                        "ii",
+                        "io",
+                        "ik",
+                        "is",
+                        "it",
+                        "iu",
+                        "ja",
+                        "jv",
+                        "ka",
+                        "kj",
+                        "ki",
+                        "kg",
+                        "kk",
+                        "kl",
+                        "km",
+                        "kn",
+                        "ko",
+                        "gom",
+                        "kw",
+                        "kv",
+                        "ku",
+                        "ks",
+                        "kr",
+                        "ky",
+                        "la",
+                        "lb",
+                        "ln",
+                        "li",
+                        "lg",
+                        "lo",
+                        "lt",
+                        "lu",
+                        "lv",
+                        "mh",
+                        "mg",
+                        "mi",
+                        "mk",
+                        "ml",
+                        "mn",
+                        "mr",
+                        "ms",
+                        "mt",
+                        "my",
+                        "nd",
+                        "nb",
+                        "na",
+                        "ne",
+                        "ng",
+                        "nl",
+                        "nn",
+                        "no",
+                        "ny",
+                        "nv",
+                        "nr",
+                        "oc",
+                        "os",
+                        "or",
+                        "om",
+                        "oj",
+                        "pa",
+                        "pi",
+                        "pl",
+                        "ps",
+                        "pt",
+                        "qu",
+                        "rm",
+                        "rn",
+                        "ro",
+                        "ru",
+                        "rw",
+                        "sa",
+                        "sg",
+                        "se",
+                        "sd",
+                        "sc",
+                        "si",
+                        "sk",
+                        "sl",
+                        "so",
+                        "sn",
+                        "sm",
+                        "sq",
+                        "sr",
+                        "su",
+                        "st",
+                        "ss",
+                        "sv",
+                        "sw",
+                        "syc",
+                        "ta",
+                        "te",
+                        "tg",
+                        "th",
+                        "tk",
+                        "ti",
+                        "tl",
+                        "tn",
+                        "to",
+                        "tr",
+                        "ts",
+                        "tt",
+                        "ty",
+                        "tw",
+                        "ug",
+                        "uk",
+                        "ur",
+                        "uz",
+                        "ve",
+                        "vi",
+                        "wa",
+                        "vo",
+                        "wo",
+                        "xh",
+                        "yi",
+                        "yo",
+                        "za",
+                        "zh",
+                        "zu",
+                        "ace",
+                        "awa",
+                        "ban",
+                        "bax",
+                        "bbc",
+                        "bik",
+                        "blt",
+                        "brx",
+                        "bsq",
+                        "bug",
+                        "ccp",
+                        "ceb",
+                        "chr",
+                        "cjm",
+                        "ckb",
+                        "cop",
+                        "doi",
+                        "emk",
+                        "fon",
+                        "hil",
+                        "hmn",
+                        "hnn",
+                        "hoc",
+                        "ilo",
+                        "khb",
+                        "kha",
+                        "kru",
+                        "lep",
+                        "lif",
+                        "lis",
+                        "luo",
+                        "mad",
+                        "mag",
+                        "mai",
+                        "mak",
+                        "men",
+                        "min",
+                        "mni",
+                        "mos",
+                        "mro",
+                        "new",
+                        "nnp",
+                        "nod",
+                        "nst",
+                        "osa",
+                        "raj",
+                        "rej",
+                        "rhg",
+                        "rom",
+                        "sah",
+                        "sat",
+                        "saz",
+                        "shn",
+                        "srb",
+                        "syl",
+                        "tbw",
+                        "tdd",
+                        "tem",
+                        "tzm",
+                        "txo",
+                        "unr",
+                        "vai",
+                        "war",
+                        "zza",
+                        "kbd",
+                        "ady",
+                        "lez",
+                        "crh",
+                        "myv",
+                        "mdf",
+                        "mhr",
+                        "udm",
+                        "bua",
+                        "tyv"
+                    ],
+                    "type": "string"
+                },
+                "regions": {
+                    "items": {
+                        "$ref": "#/definitions/RegionCode"
+                    },
+                    "type": "array"
+                }
             },
-            "fix": {
-              "$ref": "#/definitions/Code"
-            },
-            "sidebar": {
-              "type": "boolean"
-            }
-          },
-          "required": [
-            "fix"
-          ],
-          "type": "object"
-        },
-        {
-          "additionalProperties": false,
-          "properties": {
-            "conflicts": {
-              "type": "boolean"
-            },
-            "edit": {
-              "$ref": "#/definitions/Code"
-            },
-            "sidebar": {
-              "type": "boolean"
-            }
-          },
-          "required": [
-            "edit"
-          ],
-          "type": "object"
+            "required": ["$schema", "language", "regions", "acts"],
+            "type": "object"
         }
-      ],
-      "description": "What the tutorial's project tile shows for a step: a mode-as-key object whose value is the program — literal Wordplay code, or a template reference (`#DarkVoid`, `#Symbol 📄`) resolving to a named program in Performances.ts. Mapped over  {@link  PerformanceMode }  so the modes aren't repeated; each member has exactly one mode key plus the shared  {@link  PerformanceOptions } .\n\n  { \"fit\": \"Phrase('🌙')\" }   { \"edit\": \"1 + 'hi'\", \"conflicts\": true, \"sidebar\": true }   { \"edit\": [\"score: 10\", \"score + 5\"], \"conflicts\": true }   { \"fix\": \"#DarkVoid\", \"sidebar\": true }"
-    },
-    "RegionCode": {
-      "type": [
-        "string"
-      ]
-    },
-    "Scene": {
-      "additionalProperties": false,
-      "properties": {
-        "concept": {
-          "$ref": "#/definitions/CharacterName"
-        },
-        "lines": {
-          "items": {
-            "$ref": "#/definitions/Line"
-          },
-          "type": "array"
-        },
-        "performance": {
-          "$ref": "#/definitions/Performance"
-        },
-        "subtitle": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "title": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "title",
-        "subtitle",
-        "performance",
-        "lines"
-      ],
-      "type": "object"
-    },
-    "Tutorial": {
-      "additionalProperties": false,
-      "properties": {
-        "$schema": {
-          "description": "This is here so that when we generate a JSON schema for a tutorial, the VS Code schema property is allowed *",
-          "type": "string"
-        },
-        "acts": {
-          "description": "The acts of the tutorial. Variable length so that different tutorial modes (e.g. the \"quick\" tour) can have their own structure; see TutorialMode.",
-          "items": {
-            "$ref": "#/definitions/Act"
-          },
-          "type": "array"
-        },
-        "language": {
-          "enum": [
-            "ae",
-            "ab",
-            "aa",
-            "😀",
-            "af",
-            "ak",
-            "am",
-            "an",
-            "ar",
-            "as",
-            "ay",
-            "av",
-            "az",
-            "ba",
-            "be",
-            "bg",
-            "bm",
-            "bi",
-            "bh",
-            "bn",
-            "bo",
-            "br",
-            "bs",
-            "ca",
-            "ch",
-            "ce",
-            "co",
-            "cr",
-            "cs",
-            "cv",
-            "cu",
-            "cy",
-            "da",
-            "de",
-            "ee",
-            "dz",
-            "dv",
-            "el",
-            "en",
-            "eo",
-            "es",
-            "et",
-            "eu",
-            "fa",
-            "ff",
-            "fi",
-            "fil",
-            "fj",
-            "fo",
-            "fr",
-            "fy",
-            "ga",
-            "gd",
-            "gl",
-            "gn",
-            "gu",
-            "gv",
-            "ha",
-            "he",
-            "hi",
-            "ho",
-            "hr",
-            "ht",
-            "hu",
-            "hy",
-            "ia",
-            "hz",
-            "id",
-            "ie",
-            "ig",
-            "ii",
-            "io",
-            "ik",
-            "is",
-            "it",
-            "iu",
-            "ja",
-            "jv",
-            "ka",
-            "kj",
-            "ki",
-            "kg",
-            "kk",
-            "kl",
-            "km",
-            "kn",
-            "ko",
-            "gom",
-            "kw",
-            "kv",
-            "ku",
-            "ks",
-            "kr",
-            "ky",
-            "la",
-            "lb",
-            "ln",
-            "li",
-            "lg",
-            "lo",
-            "lt",
-            "lu",
-            "lv",
-            "mh",
-            "mg",
-            "mi",
-            "mk",
-            "ml",
-            "mn",
-            "mr",
-            "ms",
-            "mt",
-            "my",
-            "nd",
-            "nb",
-            "na",
-            "ne",
-            "ng",
-            "nl",
-            "nn",
-            "no",
-            "ny",
-            "nv",
-            "nr",
-            "oc",
-            "os",
-            "or",
-            "om",
-            "oj",
-            "pa",
-            "pi",
-            "pl",
-            "ps",
-            "pt",
-            "qu",
-            "rm",
-            "rn",
-            "ro",
-            "ru",
-            "rw",
-            "sa",
-            "sg",
-            "se",
-            "sd",
-            "sc",
-            "si",
-            "sk",
-            "sl",
-            "so",
-            "sn",
-            "sm",
-            "sq",
-            "sr",
-            "su",
-            "st",
-            "ss",
-            "sv",
-            "sw",
-            "syc",
-            "ta",
-            "te",
-            "tg",
-            "th",
-            "tk",
-            "ti",
-            "tl",
-            "tn",
-            "to",
-            "tr",
-            "ts",
-            "tt",
-            "ty",
-            "tw",
-            "ug",
-            "uk",
-            "ur",
-            "uz",
-            "ve",
-            "vi",
-            "wa",
-            "vo",
-            "wo",
-            "xh",
-            "yi",
-            "yo",
-            "za",
-            "zh",
-            "zu",
-            "ace",
-            "awa",
-            "ban",
-            "bax",
-            "bbc",
-            "bik",
-            "blt",
-            "brx",
-            "bsq",
-            "bug",
-            "ccp",
-            "ceb",
-            "chr",
-            "cjm",
-            "ckb",
-            "cop",
-            "doi",
-            "emk",
-            "fon",
-            "hil",
-            "hmn",
-            "hnn",
-            "hoc",
-            "ilo",
-            "khb",
-            "kha",
-            "kru",
-            "lep",
-            "lif",
-            "lis",
-            "luo",
-            "mad",
-            "mag",
-            "mai",
-            "mak",
-            "men",
-            "min",
-            "mni",
-            "mos",
-            "mro",
-            "new",
-            "nnp",
-            "nod",
-            "nst",
-            "osa",
-            "raj",
-            "rej",
-            "rhg",
-            "rom",
-            "sah",
-            "sat",
-            "saz",
-            "shn",
-            "srb",
-            "syl",
-            "tbw",
-            "tdd",
-            "tem",
-            "tzm",
-            "txo",
-            "unr",
-            "vai",
-            "war",
-            "zza",
-            "kbd",
-            "ady",
-            "lez",
-            "crh",
-            "myv",
-            "mdf",
-            "mhr",
-            "udm",
-            "bua",
-            "tyv"
-          ],
-          "type": "string"
-        },
-        "regions": {
-          "items": {
-            "$ref": "#/definitions/RegionCode"
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "$schema",
-        "language",
-        "regions",
-        "acts"
-      ],
-      "type": "object"
     }
-  }
 }

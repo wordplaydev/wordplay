@@ -92,6 +92,19 @@
         return { index: -1, x: 0 };
     }
 
+    /** The node Caret.getBlockPositions would select for `node`: an only-child
+     *  or placeholder token maps to its parent, any other node maps to itself.
+     *  Shared by member resolution and sibling navigation so keyboard, arrow, and
+     *  click selection all agree. */
+    export function blockPositionForNode(node: Node, caret: Caret): Node {
+        if (!(node instanceof Token)) return node;
+        const parent = caret.source.root.getParent(node);
+        return (parent !== undefined && parent.hasOneLeaf()) ||
+            parent instanceof ExpressionPlaceholder
+            ? (parent ?? node)
+            : node;
+    }
+
     /** Resolve a chosen blocks-mode row member to a caret position at horizontal
      *  `x`: a blank line to its beginning, a text-editable token to the precise
      *  interior position, and any other block-editable token to a node selection
@@ -115,12 +128,7 @@
                 },
                 caret,
             );
-        if (
-            (parent !== undefined && parent.hasOneLeaf()) ||
-            parent instanceof ExpressionPlaceholder
-        )
-            return parent;
-        return token;
+        return blockPositionForNode(token, caret);
     }
 
     /** Move the caret one visual row up (-1) or down (1) in blocks mode. Carves
@@ -141,13 +149,29 @@
         let target: { member: RowMember<BlockMember>; x: number } | undefined;
         let goalX: number;
         if (caret.position instanceof Node) {
-            // A selected node has no usable bar (CaretView draws a scroll-
-            // placement spot, not the node's location), so anchor on the node's
-            // own box and step to the row just past its full vertical extent.
-            const box = getNodeView(
-                editor,
-                caret.position,
-            )?.getBoundingClientRect();
+            const el = getNodeView(editor, caret.position);
+            // Structural first: if the selected node is a direct element of a
+            // vertically-laid-out list, select the sibling above/below. That's
+            // predictable list navigation, unlike a pixel-nearest geometric step.
+            const sibling =
+                el !== null ? verticalListSibling(el, direction) : undefined;
+            if (sibling?.dataset.id !== undefined) {
+                const node = caret.source.getNodeByID(
+                    parseInt(sibling.dataset.id),
+                );
+                // No goal column: a structural list move has no pixel goal-x.
+                if (node !== undefined)
+                    return caret.withPosition(
+                        blockPositionForNode(node, caret),
+                        undefined,
+                        undefined,
+                    );
+            }
+            // Fallback: no sibling, or not a vertical list. A selected node has no
+            // usable bar (CaretView draws a scroll-placement spot, not the node's
+            // location), so anchor on the node's own box and step to the row just
+            // past its full vertical extent.
+            const box = el?.getBoundingClientRect();
             if (box === undefined || box.height === 0) return noMove;
             goalX = caret.visualColumn ?? (box.left + box.right) / 2;
             target = targetRowPositionFromSpan(
@@ -193,6 +217,34 @@
         token: Node,
     ): HTMLElement | null {
         return editor.querySelector(`.node-view[data-id="${token.id}"]`);
+    }
+
+    /** In blocks mode, the previous (-1) or next (1) sibling element of `el`
+     *  within a vertically-laid-out list, or undefined if `el` isn't a direct
+     *  member of such a list or has no sibling that way. Pure DOM: the list's
+     *  `data-direction='block'` is the authoritative vertical-layout signal (some
+     *  node views choose their own direction), and its direct `.node-view`/
+     *  `.token-view` children are the members, so `.break` blank lines and
+     *  insertion/append decorations are skipped. */
+    export function verticalListSibling(
+        el: HTMLElement,
+        direction: -1 | 1,
+    ): HTMLElement | undefined {
+        const list = el.parentElement;
+        if (
+            list === null ||
+            !list.classList.contains('node-list') ||
+            list.dataset.direction !== 'block'
+        )
+            return undefined;
+        const members = Array.from(
+            list.querySelectorAll<HTMLElement>(
+                ':scope > .node-view[data-id], :scope > .token-view[data-id]',
+            ),
+        );
+        const index = members.indexOf(el);
+        if (index < 0) return undefined;
+        return members[index + direction];
     }
 </script>
 
@@ -419,6 +471,15 @@
                 if (target) get(windowing.scrollToNode)?.(target);
             }
 
+            // Scroll the (now on-window) caret into view once the just-computed
+            // `location` has been committed to the DOM — a nested tick() lets
+            // Svelte apply the caret element's new top/left before we measure it.
+            // Doing this here, chained off the location update, rather than in a
+            // separate effect that races it, is what makes the WHOLE caret land in
+            // view instead of scrolling to its stale pre-move position.
+            if (moved && location !== undefined)
+                tick().then(() => scrollCaretIntoView());
+
             // After a DOM-mutating edit, layout can be transient at
             // tick() time on WebKit (especially with complex programs
             // containing formatted docs): the prior token's measured rect
@@ -435,6 +496,9 @@
                     const saved = location;
                     const corrected = computeLocation();
                     location = corrected ?? saved;
+                    // The corrected position may differ by a line, so re-reveal it
+                    // (after the DOM commits the corrected location).
+                    if (moved) tick().then(() => scrollCaretIntoView());
                 });
 
             if (animationDelayTimeout) clearTimeout(animationDelayTimeout);
@@ -445,6 +509,10 @@
             if (blocks) {
                 animationDelayTimeout = setTimeout(() => {
                     location = computeLocation();
+                    // Reveal the FINAL settled position: the block's padding has
+                    // finished animating, so the selected node's box is now where
+                    // it will stay. 'nearest' no-ops if it's already fully visible.
+                    if (moved) tick().then(() => scrollCaretIntoView());
                 }, $animationDuration);
             }
         });
@@ -517,41 +585,29 @@
             document.removeEventListener('animationend', onAnimationEnd);
     });
 
-    // When caret location or view changes and not playing, tick, then scroll to it.
-    let lastScroll = 0;
-    let lastAutoScrollCaret: Caret | undefined = undefined;
-    $effect(() => {
-        // Only auto-scroll when the Caret actually CHANGED (a move or an edit —
-        // both create a new Caret) — not when `location` merely recomputed because
-        // the window scrolled (the windowRevision dependency above reuses the same
-        // Caret). Without this guard, scrolling a stationary text caret toward the
-        // viewport edge re-fires scrollIntoView and yanks it back into view, so the
-        // scrollbar snaps back to the caret.
-        const moved = caret !== lastAutoScrollCaret;
-        lastAutoScrollCaret = caret;
-        // If the location is set and we're not playing, then scroll to it after updates are complete.
-        // Skip scrolling when the caret was just placed by a pointer event — the user already
-        // sees the position they clicked; scrolling would move the view unexpectedly.
-        if (location && !placedByPointer && moved) {
-            // If it's been more than 200ms since the last scroll, then scroll to the caret after the next update.
-            // This prevents them from pooling up and causing the editor to hang.
-            if (
-                performance.now() - lastScroll > 100 &&
-                element &&
-                !caret.isNode()
-            ) {
-                tick().then(() => {
-                    // Only scroll when inside an editor tile (class set by TileView for source tiles).
-                    // Skipping this in embedded-example contexts (e.g. guide panel how-tos) prevents
-                    // the caret scroll from overriding the panel's own scroll-to-top and causing the
-                    // how-to to appear to open mid-page.
-                    if (element && isElementInEditor)
-                        element.scrollIntoView({ block: 'nearest' });
-                    lastScroll = performance.now();
-                });
-            }
-        }
-    });
+    // Scroll the caret — or, for a node selection, the selected node's real box —
+    // fully into view. Called from the location effect AFTER `location` is
+    // finalized and applied to the DOM (see the nested tick()s there), so
+    // scrollIntoView measures the caret's FINAL position. Previously this lived in
+    // a separate effect that read `location` and raced the location update, so it
+    // scrolled to the stale pre-move box and left the new caret/selection only
+    // partly visible. Callers gate on movement + editor membership.
+    function scrollCaretIntoView() {
+        // Skip when placed by pointer (the user already sees where they clicked)
+        // or outside a real editor tile (embedded examples own their own scroll).
+        if (placedByPointer || !isElementInEditor) return;
+        // For a node selection the caret element is an invisible placement spot,
+        // so scroll the selected node's real element to reveal its full box;
+        // otherwise scroll the caret span (which wraps the full-height bar, and is
+        // correct for a selected placeholder too). 'nearest' on both axes reveals
+        // the whole caret/selection with minimal movement (no unwanted recentering).
+        const selected =
+            caret.position instanceof Node && !caret.isPlaceholderNode()
+                ? caret.position
+                : undefined;
+        const target = selected ? getNodeView(selected) : element;
+        target?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    }
 
     function getNodeView(node: Node) {
         const editorView = element?.parentElement;

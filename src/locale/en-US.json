@@ -4726,6 +4726,10 @@
                 "doc": "The @Pose or @Sequence to should do before exiting stage.",
                 "names": "exiting"
             },
+            "changing": {
+                "doc": "The name of an effect to play when my text changes, over my @Phrase.duration, eased by my @Phrase.style. If \\ø\\, my text changes instantly. If 'edit', I erase the old text back to what the old and new text share, then type out the new text. If 'rewrite', I type the new text over the old, replacing one symbol at a time in a random order. If 'random', each of my symbols spins through random symbols from my text's language (or its script, when the language is unknown), matching my text's case, like a slot machine, until it lands on the new text. With @FormattedLiteral text, the changing symbols take on the new text's formatting during the effect.",
+                "names": "changing"
+            },
             "duration": {
                 "doc": "The duration to apply when moving to a different place on stage.",
                 "names": ["⏳", "duration"]
@@ -5438,6 +5442,11 @@
             "cautious": "cautious",
             "pokey": "pokey",
             "zippy": "zippy"
+        },
+        "TextEffect": {
+            "edit": "edit",
+            "rewrite": "rewrite",
+            "random": "random"
         },
         "sequence": {
             "sway": {

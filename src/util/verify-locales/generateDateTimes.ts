@@ -5,7 +5,7 @@
 //
 // Generation itself is deliberately independent of the developer's Node/ICU:
 // everything is extracted from Unicode's published CLDR JSON at the pinned
-// release tag below (measured drift between adjacent CLDR releases changes
+// release tag in cldr.ts (measured drift between adjacent CLDR releases changes
 // about half of all locale×calendar outputs — era renames, hour-cycle flips —
 // so extracting from the running engine would churn committed data whenever a
 // developer's Node differed). Output is a pure function of CLDR_VERSION, this
@@ -37,17 +37,17 @@ import {
     type DateTimePart,
     type SupportedCalendar,
 } from '@locale/dateTimeFormats';
-import { getCLDRCandidates } from '@locale/LanguageCode';
-import { getLocaleLanguage, getLocaleRegions } from '@locale/LocaleText';
+import { getLocaleRegions } from '@locale/LocaleText';
 import { SupportedLocales } from '@locale/SupportedLocales';
+import {
+    at,
+    cldrDirectoriesFor,
+    CLDR_VERSION,
+    fetchCLDR,
+    isRecord,
+    patternText,
+} from '@util/verify-locales/cldr';
 import writeFormatted from '@util/verify-locales/writeFormatted';
-
-/** The pinned CLDR release all data is extracted from. Bumping this is the
- *  only way generated output changes; expect a large, reviewable diff. The
- *  verifier checks every committed file's `cldr` field against this. */
-export const CLDR_VERSION = '48.0.0';
-
-const CLDR_BASE = `https://raw.githubusercontent.com/unicode-org/cldr-json/${CLDR_VERSION}/cldr-json`;
 
 /** Where each calendar's CLDR data lives. `key` is the property name inside
  *  `dates.calendars`. iso8601 has no CLDR file; it reuses gregorian data. */
@@ -142,63 +142,6 @@ const PreferenceAliases: Record<string, string> = {
     'ethiopic-amete-alem': 'ethioaa',
 };
 
-function isRecord(value: unknown): value is Record<string, unknown> {
-    return typeof value === 'object' && value !== null && !Array.isArray(value);
-}
-
-/** Walk nested keys of untyped CLDR JSON. */
-function at(value: unknown, ...keys: string[]): unknown {
-    let current = value;
-    for (const key of keys) {
-        if (!isRecord(current)) return undefined;
-        current = current[key];
-    }
-    return current;
-}
-
-/** CLDR patterns are either strings or { _value, _numbers? } objects. */
-function patternText(value: unknown): string | undefined {
-    if (typeof value === 'string') return value;
-    const inner = at(value, '_value');
-    return typeof inner === 'string' ? inner : undefined;
-}
-
-// Per-process fetch cache. Promises are cached (not resolved values) so
-// concurrent per-locale runs share one request per file; null records a 404.
-const fetchCache = new Map<string, Promise<unknown>>();
-
-function fetchCLDR(relativePath: string): Promise<unknown> {
-    const cached = fetchCache.get(relativePath);
-    if (cached !== undefined) return cached;
-    const url = `${CLDR_BASE}/${relativePath}`;
-    const promise = (async () => {
-        const response = await fetch(url);
-        if (response.status === 404) return null;
-        if (!response.ok)
-            throw new Error(
-                `${url}: ${response.status} ${response.statusText}`,
-            );
-        const json: unknown = await response.json();
-        return json;
-    })();
-    // Drop failed fetches from the cache so a retry is possible.
-    promise.catch(() => fetchCache.delete(relativePath));
-    fetchCache.set(relativePath, promise);
-    return promise;
-}
-
-/** The CLDR JSON locale directories to try for one of our locale names, in
- *  priority order (e.g. es-MX → ['es-MX', 'es']). CLDR XML candidates use '_';
- *  the JSON repository uses '-'. */
-function cldrDirectoriesFor(locale: string): string[] {
-    const language = getLocaleLanguage(locale);
-    if (language === undefined)
-        throw new Error(`No language for locale ${locale}`);
-    const region = getLocaleRegions(locale)[0];
-    return getCLDRCandidates(language, region).map((candidate) =>
-        candidate.replaceAll('_', '-'),
-    );
-}
 
 /** Fetch a calendar's `dates.calendars.<key>` object for the first CLDR
  *  directory that has the file. */

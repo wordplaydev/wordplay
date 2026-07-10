@@ -4734,7 +4734,11 @@
                 "doc": "$~Ang istilo ng animation na gagamitin kapag lumilipat sa ibang lugar sa entablado.",
                 "names": "$~estilo"
             },
-            "defaultDescription": "$~$size [ $size meter |]parirala $text $name [pinangalanang $name |] $face [ $face |] $animation $color [ $color |]"
+            "defaultDescription": "$~$size [ $size meter |]parirala $text $name [pinangalanang $name |] $face [ $face |] $animation $color [ $color |]",
+            "changing": {
+                "doc": "$~Ang pangalan ng isang epekto na patutugtugin kapag nagbago ang aking teksto, sa loob ng aking @Phrase.duration, na pinakikinis ng aking @Phrase.style. Kung \\ø\\, nagbabago agad ang aking teksto. Kung 'edit', binubura ko ang lumang teksto pabalik sa bahaging pareho ng luma at bagong teksto, pagkatapos ay ita-type ko ang bagong teksto. Kung 'rewrite', ita-type ko ang bagong teksto sa ibabaw ng luma, at pinapalitan ang isang simbolo sa bawat pagkakataon sa random na pagkakasunod-sunod. Kung 'random', ang bawat isa sa aking mga simbolo ay iikot sa mga random na simbolo mula sa wika ng aking teksto (o sa script nito, kapag hindi kilala ang wika), na tumutugma sa laki ng titik ng aking teksto, tulad ng isang slot machine, hanggang sa mapunta ito sa bagong teksto. Sa @FormattedLiteral na teksto, ang nagbabagong mga simbolo ay kukuha ng pormat ng bagong teksto habang tumatakbo ang epekto.",
+                "names": "$~nagbabago"
+            }
         },
         "Arrangement": {
             "doc": "$~Isa akong inspirasyon sa maraming iba pang uri ng pagkakaayos sa Talata, kabilang ang @Row, @Stack, @Grid, at @Free. Malapit akong nakikipagtulungan sa @Group para",
@@ -5637,6 +5641,11 @@
                 "doc": "$~Pangalan ng bawat kuha kung saan ito nagtatapos.",
                 "names": "$~mgadulo"
             }
+        },
+        "TextEffect": {
+            "edit": "$~iEdit",
+            "rewrite": "$~isulatMuli",
+            "random": "$~random"
         }
     },
     "ui": {

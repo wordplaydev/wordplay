@@ -22,7 +22,15 @@ test('Transitions', () => {
     expect(getTextTransition('hello', 'hi').join(' ')).toBe(
         'hello hell hel he h hi',
     );
-    expect(getTextTransition('amy', 'ko').join(' ')).toBe('amy am a  k ko');
+    // No common prefix: backspace only to one grapheme, never to blank.
+    expect(getTextTransition('amy', 'ko').join(' ')).toBe('amy am a k ko');
+});
+
+test('never blank unless an endpoint is empty', () => {
+    expect(getTextTransition('amy', 'ko')).not.toContain('');
+    // An empty endpoint is a legitimate blank.
+    expect(getTextTransition('hi', '').at(-1)).toBe('');
+    expect(getTextTransition('', 'hi').at(0)).toBe('');
 });
 
 test('Transition step indexing', () => {
@@ -44,7 +52,7 @@ test('no step splits an astral emoji into a lone surrogate', () => {
     // pass through a lone high surrogate (tofu) between them.
     const steps = getTextTransition('\u{1F44B}', '\u{1F590}');
     for (const s of steps) expect(hasLoneSurrogate(s)).toBe(false);
-    expect(steps).toContain(''); // fully backspaced (no common prefix)
+    expect(steps).not.toContain(''); // never blanks between non-empty texts
     expect(steps.at(-1)).toBe('\u{1F590}');
 });
 

@@ -685,3 +685,45 @@ function getStyleValueToKey(locale: LocaleText) {
 
     return mapping;
 }
+
+/** The canonical text change effects a Phrase's changing input can name. */
+export const TextEffects = ['edit', 'rewrite', 'random'] as const;
+export type TextEffect = (typeof TextEffects)[number];
+
+// A cache of localized effect names to canonical effect keys for each locale.
+const changingValueToKeyByLocale: Map<LocaleText, Map<string, string>> =
+    new Map();
+
+/**
+ * Resolve a Phrase's changing name to a canonical text effect, mirroring
+ * styleToCSSEasing so any locale's word for an effect resolves. Undefined or
+ * unrecognized names mean no effect: the text changes instantly.
+ */
+export function changingToTextEffect(
+    locales: Locales,
+    name: string | undefined,
+): TextEffect | undefined {
+    if (name === undefined) return undefined;
+
+    for (const locale of locales.getLocales()) {
+        const key = getChangingValueToKey(locale).get(name);
+        const effect = TextEffects.find((candidate) => candidate === key);
+        if (effect) return effect;
+    }
+
+    return undefined;
+}
+
+function getChangingValueToKey(locale: LocaleText) {
+    let mapping = changingValueToKeyByLocale.get(locale);
+    if (mapping) return mapping;
+
+    mapping = new Map();
+    for (const [key, value] of Object.entries(locale.output.TextEffect)) {
+        const values = typeof value === 'string' ? [value] : value;
+        for (const val of values) mapping.set(val, key);
+    }
+    changingValueToKeyByLocale.set(locale, mapping);
+
+    return mapping;
+}

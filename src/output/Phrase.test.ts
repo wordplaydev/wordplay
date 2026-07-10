@@ -39,6 +39,19 @@ test('an untagged phrase exposes no locale', () => {
     expect(phrase?.text.language).toBeUndefined();
 });
 
+test("a Phrase's changing input reaches output, defaulting to ø (instant text changes)", () => {
+    // Without a changing input, text changes are instant.
+    expect(phraseFrom("Phrase('hi')")?.changing).toBeUndefined();
+    // A named effect parses through, and the inputs after it (by name and
+    // position) still land where they should.
+    const phrase = phraseFrom(
+        "Phrase('hi' changing: 'edit' duration: 1s wrap: 5m)",
+    );
+    expect(phrase?.changing).toBe('edit');
+    expect(phrase?.duration).toBe(1);
+    expect(phrase?.wrap).toBe(5);
+});
+
 test("a Phrase's writing layout defaults to ø (inherit the render context)", () => {
     // The direction input defaults to ø ("none") so output inherits the
     // effective writingLayout setting at render time, rather than baking a

@@ -5,7 +5,7 @@
 // members). Grapheme boundaries are locale-independent, so one instance suffices.
 const Segmenter = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
 
-function graphemes(text: string): string[] {
+export function graphemes(text: string): string[] {
     return Array.from(Segmenter.segment(text), (s) => s.segment);
 }
 
@@ -25,7 +25,12 @@ export function getTextTransition(start: string, end: string): string[] {
     const steps: string[] = [start];
     // Backspace whole graphemes down to the common prefix, then insert whole
     // graphemes up to the end — every step is a valid, fully-formed string.
-    for (let i = from.length - 1; i >= common; i--)
+    // When the texts share no prefix, backspace only to one grapheme and jump
+    // to the first grapheme of the new text, so the text never blanks out
+    // mid-transition; erasing to nothing remains correct when either endpoint
+    // is itself empty.
+    const floor = common === 0 && from.length > 0 && to.length > 0 ? 1 : common;
+    for (let i = from.length - 1; i >= floor; i--)
         steps.push(from.slice(0, i).join(''));
     for (let i = common + 1; i <= to.length; i++)
         steps.push(to.slice(0, i).join(''));

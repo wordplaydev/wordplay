@@ -4740,7 +4740,11 @@
                 "doc": "$~ステージ上の別の場所に移動する場合に使用するアニメーション スタイル。",
                 "names": "$~スタイル"
             },
-            "defaultDescription": "$~$size [ $size |]フレーズ$text $name [名前付き$name |] $face [ $face |] $animation $color [ $color |]"
+            "defaultDescription": "$~$size [ $size |]フレーズ$text $name [名前付き$name |] $face [ $face |] $animation $color [ $color |]",
+            "changing": {
+                "doc": "$~文字が変わるときに再生する効果の名前です。@Phrase.duration の時間で再生され、@Phrase.style によってなめらかにされます。もし \\ø\\ なら、文字はすぐに変わります。'edit' の場合、古い文字を消して、古い文字と新しい文字が共通して持つ部分まで戻し、それから新しい文字を打ちます。'rewrite' の場合、古い文字の上に新しい文字を打ち、ランダムな順番で一つずつ記号を置きかえます。'random' の場合、それぞれの記号が、私の文字の言語（言語が分からないときはその文字体系）からランダムに選ばれた記号を、私の文字の大文字・小文字に合わせて回転させます。スロットマシンのように、新しい文字に落ち着くまで続きます。@FormattedLiteral の文字では、変わる記号は効果の間、新しい文字の書式を受け取ります。",
+                "names": "$~変わっている"
+            }
         },
         "Arrangement": {
             "doc": "$~私は、@Row、@Stack、@Grid、@Row、Verseの他の多くの種類の配置にインスピレーションを与えています。私は@Stack、",
@@ -5643,6 +5647,11 @@
                 "doc": "$~各キャプチャの名前を末尾まで表示します。",
                 "names": "$~終了"
             }
+        },
+        "TextEffect": {
+            "edit": "$~編集",
+            "rewrite": "$~書き直す",
+            "random": "$~ランダム"
         }
     },
     "ui": {

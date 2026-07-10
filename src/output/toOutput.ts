@@ -91,6 +91,7 @@ export function getTypeStyle(
     project: Project,
     value: StructureValue,
     index: number,
+    includeChanging = false,
 ): {
     size: number | undefined;
     face: SupportedFace | undefined;
@@ -104,6 +105,7 @@ export function getTypeStyle(
     entering: Pose | Sequence | undefined;
     moving: Pose | Sequence | undefined;
     exiting: Pose | Sequence | undefined;
+    changing: string | undefined;
     duration: number | undefined;
     style: string | undefined;
     shadow: Aura | undefined;
@@ -114,7 +116,7 @@ export function getTypeStyle(
     const face = toFace(faceVal) as SupportedFace;
     const place = toPlace(placeVal);
 
-    const style = getStyle(project, value, index + 3, place);
+    const style = getStyle(project, value, index + 3, place, includeChanging);
 
     return {
         size,
@@ -129,6 +131,7 @@ export function getTypeStyle(
         entering: style.entering,
         moving: style.moving,
         exiting: style.exiting,
+        changing: style.changing,
         duration: style.duration,
         style: style.style,
         shadow: style.shadow,
@@ -140,7 +143,10 @@ export function getStyle(
     value: StructureValue,
     index: number,
     place?: Place | undefined,
+    // Phrase only: its structure has a `changing` input between exiting and duration.
+    includeChanging = false,
 ) {
+    const inputs = getOutputInputs(value, index);
     const [
         nameVal,
         descriptionVal,
@@ -157,10 +163,12 @@ export function getStyle(
         restVal,
         moveVal,
         exitVal,
-        durationVal,
-        styleVal,
-        shadowVal,
-    ] = getOutputInputs(value, index);
+    ] = inputs;
+    const changingVal = includeChanging ? inputs[15] : undefined;
+    const after = includeChanging ? 16 : 15;
+    const durationVal = inputs[after];
+    const styleVal = inputs[after + 1];
+    const shadowVal = inputs[after + 2];
 
     const name = toText(nameVal);
     const description = toText(descriptionVal);
@@ -203,6 +211,8 @@ export function getStyle(
         entering: enter,
         moving: move,
         exiting: exit,
+        changing:
+            changingVal instanceof TextValue ? changingVal.text : undefined,
         duration,
         style: styleVal instanceof TextValue ? styleVal.text : undefined,
         shadow: shadow,

@@ -938,7 +938,17 @@ function parseEvaluate(left: Expression, tokens: Tokens): Evaluate {
 function parseInput(tokens: Tokens): Input {
     const name = tokens.read();
     const bind = tokens.read(Sym.Bind);
-    const value = parseExpression(tokens);
+    // If what follows starts another input (`name:`) or ends the evaluation or
+    // row, the value is missing: represent it as an empty unparsable expression
+    // rather than consuming the next input's name or the closing token as the
+    // value. This keeps an in-progress input (`changing:`) from garbling what
+    // follows it, so autocomplete can offer values for it.
+    const value =
+        !tokens.hasNext() ||
+        nextIsInput(tokens) ||
+        tokens.nextIsOneOf(Sym.EvalClose, Sym.TableClose, Sym.Code)
+            ? new UnparsableExpression([])
+            : parseExpression(tokens);
     const seperator = tokens.nextIs(Sym.Separator)
         ? tokens.read(Sym.Separator)
         : undefined;

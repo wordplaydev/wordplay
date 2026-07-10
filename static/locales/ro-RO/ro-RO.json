@@ -4735,7 +4735,11 @@
                 "doc": "$~Stilul de animație de utilizat atunci când vă mutați într-un alt loc pe scenă.",
                 "names": "$~stil"
             },
-            "defaultDescription": "$~$size [ $size meter |]phrase $text $name [named $name |] $face [ $face |] $animation $color [ $color |]"
+            "defaultDescription": "$~$size [ $size meter |]phrase $text $name [named $name |] $face [ $face |] $animation $color [ $color |]",
+            "changing": {
+                "doc": "$~Numele unui efect care rulează atunci când textul meu se schimbă, pe durata mea @Phrase.duration, atenuat de stilul meu @Phrase.style. Dacă \\ø\\, textul meu se schimbă instantaneu. Dacă 'edit', șterg textul vechi până la ce au în comun textul vechi și cel nou, apoi scriu textul nou. Dacă 'rewrite', scriu textul nou peste cel vechi, înlocuind câte un simbol pe rând într-o ordine aleatoare. Dacă 'random', fiecare dintre simbolurile mele se rotește prin simboluri aleatoare din limba textului meu (sau din scrierea sa, când limba este necunoscută), potrivind litera mare sau mică a textului meu, ca o mașină de joc, până când se oprește pe textul nou. Cu text @FormattedLiteral, simbolurile care se schimbă preiau formatarea textului nou în timpul efectului.",
+                "names": "$~seSchimbă"
+            }
         },
         "Arrangement": {
             "doc": "$~Sunt o sursă de inspirație pentru multe alte tipuri de aranjamente din Verse, inclusiv @Row, @Stack, @Grid și @Free. Lucrez îndeaproape cu @Group pentru a",
@@ -5638,6 +5642,11 @@
                 "doc": "$~De la numele fiecărei capturi până la punctul în care se termină.",
                 "names": "$~setermină"
             }
+        },
+        "TextEffect": {
+            "edit": "$~editare",
+            "rewrite": "$~rescriere",
+            "random": "$~aleatoriu"
         }
     },
     "ui": {

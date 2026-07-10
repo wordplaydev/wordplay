@@ -4731,6 +4731,10 @@
             "style": {
                 "doc": "El estilo de animación que applicar cuando se mueve a otro lugar en el escenario.",
                 "names": "estilo"
+            },
+            "changing": {
+                "doc": "$~El nombre de un efecto que se reproduce cuando mi texto cambia, durante mi @Phrase.duration, suavizado por mi @Phrase.style. Si \\ø\\, mi texto cambia al instante. Si es 'edit', borro el texto viejo hasta lo que el texto viejo y el nuevo comparten, y luego escribo el texto nuevo. Si es 'rewrite', escribo el texto nuevo sobre el viejo, reemplazando un símbolo a la vez en un orden aleatorio. Si es 'random', cada uno de mis símbolos gira por símbolos aleatorios del idioma de mi texto (o de su escritura, cuando el idioma es desconocido), respetando las mayúsculas y minúsculas de mi texto, como una máquina tragamonedas, hasta que llega al texto nuevo. Con texto @FormattedLiteral, los símbolos que cambian toman el formato del texto nuevo durante el efecto.",
+                "names": "$~cambiando"
             }
         },
         "Arrangement": {
@@ -5634,6 +5638,11 @@
                 "doc": "$~El @name de cada captura con dónde termina.",
                 "names": "$~fines"
             }
+        },
+        "TextEffect": {
+            "edit": "$~editar",
+            "rewrite": "$~reescribir",
+            "random": "$~aleatorio"
         }
     },
     "ui": {

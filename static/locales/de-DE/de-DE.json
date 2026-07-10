@@ -4849,7 +4849,11 @@
                 "doc": "$~Der zu verwendende Animationsstil beim Wechsel an eine andere Stelle auf der Bühne.",
                 "names": "$~Stil"
             },
-            "defaultDescription": "$~$size [ $size meter |]phrase $text $name [named $name |] $face [ $face |] $animation $color [ $color |]"
+            "defaultDescription": "$~$size [ $size meter |]phrase $text $name [named $name |] $face [ $face |] $animation $color [ $color |]",
+            "changing": {
+                "doc": "$~Der Name eines Effekts, der abgespielt wird, wenn sich mein Text ändert, über meine @Phrase.duration, geglättet durch meinen @Phrase.style. Wenn \\ø\\, ändert sich mein Text sofort. Bei 'edit' lösche ich den alten Text zurück bis zu dem, was der alte und der neue Text gemeinsam haben, und tippe dann den neuen Text aus. Bei 'rewrite' tippe ich den neuen Text über den alten und ersetze jeweils ein Symbol nach dem anderen in zufälliger Reihenfolge. Bei 'random' dreht sich jedes meiner Symbole durch zufällige Symbole aus der Sprache meines Textes (oder seiner Schrift, wenn die Sprache unbekannt ist), passt dabei zur Groß- und Kleinschreibung meines Textes, wie ein Spielautomat, bis es beim neuen Text landet. Bei @FormattedLiteral-Text übernehmen die wechselnden Symbole während des Effekts die Formatierung des neuen Textes.",
+                "names": "$~wechselnd"
+            }
         },
         "Arrangement": {
             "names": ["Arrangement"],
@@ -5646,6 +5650,11 @@
                 "doc": "$~Der Name jedes Fangs bis zu seinem Ende.",
                 "names": "$~Ende"
             }
+        },
+        "TextEffect": {
+            "edit": "$~bearbeiten",
+            "rewrite": "$~neuschreiben",
+            "random": "$~zufällig"
         }
     },
     "ui": {

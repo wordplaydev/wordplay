@@ -81,6 +81,15 @@ export function createPhraseType(locales: Locales) {
         ${getBind(locales, (locale) => locale.output.Phrase.resting)}•ø|🤪|💃: ø
         ${getBind(locales, (locale) => locale.output.Phrase.moving)}•ø|🤪|💃: ø
         ${getBind(locales, (locale) => locale.output.Phrase.exiting)}•ø|🤪|💃: ø
+        ${getBind(locales, (locale) => locale.output.Phrase.changing)}•ø|${locales
+            .getLocales()
+            .map((locale) =>
+                Object.values(locale.output.TextEffect).map(
+                    (id) => `"${id}"/${locale.language}`,
+                ),
+            )
+            .flat()
+            .join('|')}: ø
         ${getBind(locales, (locale) => locale.output.Phrase.duration)}•#s: 0.25s
         ${getBind(locales, (locale) => locale.output.Phrase.style)}•${locales
             .getLocales()
@@ -118,6 +127,8 @@ export type Metrics = {
 
 export default class Phrase extends Output {
     readonly text: TextValue | MarkupValue;
+    /** The localized name of the effect to play when the text changes, or undefined for an instant change. */
+    readonly changing: string | undefined;
     readonly wrap: number | undefined;
     readonly alignment: string | undefined;
     /** The explicit writing layout, or undefined to inherit the render context's
@@ -153,6 +164,7 @@ export default class Phrase extends Output {
         exiting: Pose | Sequence | undefined = undefined,
         duration: number,
         style: string,
+        changing: string | undefined,
         wrap: number | undefined,
         alignment: string | undefined,
         direction: WritingLayoutSymbol | undefined,
@@ -178,6 +190,7 @@ export default class Phrase extends Output {
         );
 
         this.text = text;
+        this.changing = changing;
         this.wrap = wrap === undefined ? undefined : Math.max(1, wrap);
         this.alignment = alignment;
         this.direction = direction;
@@ -490,11 +503,12 @@ export function toPhrase(
         entering: enter,
         moving: move,
         exiting: exit,
+        changing,
         duration,
         style,
-    } = getTypeStyle(project, value, 1);
+    } = getTypeStyle(project, value, 1, true);
 
-    const AfterStyleOffset = 21;
+    const AfterStyleOffset = 22;
 
     const wrap = toNumber(getOutputInput(value, AfterStyleOffset));
     const alignment = toText(getOutputInput(value, AfterStyleOffset + 1));
@@ -525,6 +539,7 @@ export function toPhrase(
               exit,
               duration,
               style,
+              changing,
               wrap,
               alignment?.text,
               // ø (None) → undefined, meaning "inherit the context's layout".

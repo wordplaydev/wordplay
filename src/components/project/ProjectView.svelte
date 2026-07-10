@@ -2519,9 +2519,6 @@
                                 {:else if tile.kind === TileKind.Source}
                                     {@const source = getSourceByTileID(tile.id)}
                                     {#if source}
-                                        {@const notifications =
-                                            editorNotifications.get(tile.id) ??
-                                            []}
                                         <div class="annotated-editor">
                                             <Editor
                                                 bind:this={editorViews[tile.id]}
@@ -2565,110 +2562,86 @@
                                                     tile.id,
                                                 )}
                                             />
-                                            <!-- Footer notifications (large deletions, drag/paste
-                                                 feedback) and the collaborator presence row overlay
-                                                 the bottom of the editor itself, within its bounds —
-                                                 close to the action and aligned with the Wellspring's
-                                                 recycle bar, rather than spanning the full tile footer
-                                                 below both margins. -->
-                                            {#if editable}
-                                                <div
-                                                    class="editor-notifications"
-                                                >
-                                                    {#each notifications as notification (notification.id)}
-                                                        <EditorNotice
-                                                            dismiss={() =>
-                                                                getEditorNotifier(
-                                                                    tile.id,
-                                                                ).clear(
-                                                                    notification.id,
-                                                                )}
-                                                            >{#if 'markup' in notification.content}{#if notification.content.prefix}<strong
-                                                                        ><LocalizedText
-                                                                            path={notification
-                                                                                .content
-                                                                                .prefix}
-                                                                        /></strong
-                                                                    >&nbsp;{/if}<MarkupHTMLView
-                                                                    markup={notification
-                                                                        .content
-                                                                        .markup}
-                                                                    inline
-                                                                />{:else}<LocalizedText
-                                                                    path={notification
-                                                                        .content
-                                                                        .path}
-                                                                />{/if}</EditorNotice
-                                                        >
-                                                    {/each}
-                                                    <!-- The clipboard's current contents, shown on the
-                                                         selected editor so it appears once. The close
-                                                         button clears Wordplay's clipboard. -->
-                                                    {#if $ClipboardContents !== undefined && getSourceIndexByID(tile.id) === selectedSourceIndex}
-                                                        <ClipboardNotice
-                                                            text={$ClipboardContents}
-                                                            dismiss={clearInternalClipboard}
-                                                        />
-                                                    {/if}
-                                                    <!-- "Viewing an older checkpoint — Restore" banner.
-                                                         Lives in the band (within editor bounds) rather
-                                                         than dangling in the footer; interactive (it has
-                                                         a Restore button), so pointer-events are enabled. -->
-                                                    {#if checkpoint > -1}
-                                                        <div
-                                                            class="interactive"
-                                                        >
-                                                            <EditorNotice
-                                                                ><LocalizedText
-                                                                    path={(l) =>
-                                                                        l.ui
-                                                                            .checkpoints
-                                                                            .label
-                                                                            .restore}
-                                                                />
-                                                                <Button
-                                                                    background
-                                                                    tip={(l) =>
-                                                                        l.ui
-                                                                            .checkpoints
-                                                                            .button
-                                                                            .restore}
-                                                                    active={checkpoint >
-                                                                        -1}
-                                                                    action={() => {
-                                                                        // Save a version of the project with the current source in the history and the new source the old source.
-                                                                        Projects.reviseProject(
-                                                                            getCheckpointProject(
-                                                                                project.withCheckpoint(),
-                                                                            ),
-                                                                        );
-                                                                        checkpoint =
-                                                                            -1;
-                                                                    }}
-                                                                    label={(
-                                                                        l,
-                                                                    ) =>
-                                                                        l.ui
-                                                                            .checkpoints
-                                                                            .button
-                                                                            .restore}
-                                                                /></EditorNotice
-                                                            >
-                                                        </div>
-                                                    {/if}
-                                                    <!-- Collaborator presence bar uses the same
-                                                         EditorNotice motif (see RemoteCarets), anchored
-                                                         to the bottom edge. Renders nothing when the
-                                                         local user is the only editor. -->
-                                                    <div class="interactive">
-                                                        <RemoteCarets
-                                                            projectID={project.getID()}
-                                                        />
-                                                    </div>
-                                                </div>
-                                            {/if}
                                         </div>
                                     {/if}
+                                {/if}
+                            {/snippet}
+                            {#snippet contentFooter()}
+                                <!-- Footer notifications (large deletions, drag/paste
+                                     feedback), the clipboard contents, the checkpoint
+                                     banner, and the collaborator presence row. Rendered
+                                     below the scroll viewport (not floating over it) so
+                                     they stay visible and never hide the caret or nodes;
+                                     sized to the editor's width, not the full tile footer. -->
+                                {#if tile.kind === TileKind.Source && editable}
+                                    {@const notifications =
+                                        editorNotifications.get(tile.id) ?? []}
+                                    <div class="editor-notifications">
+                                        {#each notifications as notification (notification.id)}
+                                            <EditorNotice
+                                                dismiss={() =>
+                                                    getEditorNotifier(
+                                                        tile.id,
+                                                    ).clear(notification.id)}
+                                                >{#if 'markup' in notification.content}{#if notification.content.prefix}<strong
+                                                            ><LocalizedText
+                                                                path={notification
+                                                                    .content
+                                                                    .prefix}
+                                                            /></strong
+                                                        >&nbsp;{/if}<MarkupHTMLView
+                                                        markup={notification
+                                                            .content.markup}
+                                                        inline
+                                                    />{:else}<LocalizedText
+                                                        path={notification
+                                                            .content.path}
+                                                    />{/if}</EditorNotice
+                                            >
+                                        {/each}
+                                        <!-- The clipboard's current contents, shown on the
+                                             selected editor so it appears once. The close
+                                             button clears Wordplay's clipboard. -->
+                                        {#if $ClipboardContents !== undefined && getSourceIndexByID(tile.id) === selectedSourceIndex}
+                                            <ClipboardNotice
+                                                text={$ClipboardContents}
+                                                dismiss={clearInternalClipboard}
+                                            />
+                                        {/if}
+                                        <!-- "Viewing an older checkpoint — Restore" banner. -->
+                                        {#if checkpoint > -1}
+                                            <EditorNotice
+                                                ><LocalizedText
+                                                    path={(l) =>
+                                                        l.ui.checkpoints.label
+                                                            .restore}
+                                                />
+                                                <Button
+                                                    background
+                                                    tip={(l) =>
+                                                        l.ui.checkpoints.button
+                                                            .restore}
+                                                    active={checkpoint > -1}
+                                                    action={() => {
+                                                        // Save a version of the project with the current source in the history and the new source the old source.
+                                                        Projects.reviseProject(
+                                                            getCheckpointProject(
+                                                                project.withCheckpoint(),
+                                                            ),
+                                                        );
+                                                        checkpoint = -1;
+                                                    }}
+                                                    label={(l) =>
+                                                        l.ui.checkpoints.button
+                                                            .restore}
+                                                /></EditorNotice
+                                            >
+                                        {/if}
+                                        <!-- Collaborator presence bar uses the same
+                                             EditorNotice motif (see RemoteCarets). Renders
+                                             nothing when the local user is the only editor. -->
+                                        <RemoteCarets projectID={project.getID()} />
+                                    </div>
                                 {/if}
                             {/snippet}
                             {#snippet footer()}
@@ -2919,43 +2892,26 @@
     .annotated-editor {
         display: flex;
         flex-direction: column;
-        /* Grow with the code in BOTH axes (at least filling the scroll viewport)
-           so the sticky notifications below have room to stay pinned across the
-           whole scroll range — not just vertically at scroll-top, but also
-           horizontally so they don't slide off when the code is scrolled right.
-           `min-width: fit-content` widens to the code only when it actually
-           overflows (no-wrap mode); in soft-wrap mode fit-content collapses to
-           the viewport so the editor still wraps instead of growing unbounded. */
+        /* `min-width: fit-content` widens to the code only when it actually
+           overflows (no-wrap mode) so the editor can scroll horizontally; in
+           soft-wrap mode fit-content collapses to the viewport so the editor
+           wraps instead of growing unbounded. `min-height: 100%` keeps short
+           code filling the viewport so clicks below it still land in the editor. */
         width: 100%;
         min-width: fit-content;
         min-height: 100%;
-        /* Positioning context for the footer-notification overlay below. */
-        position: relative;
     }
 
     .editor-notifications {
-        /* Pin to the bottom-left of the editor's scroll viewport (not the full tile footer). `sticky`
-           with bottom:0 + left:0 keeps the band glued to the viewport footer as the code scrolls in
-           either axis; `absolute` would anchor it to the content box and scroll away. The band is sized
-           to the viewport width (fed from TileView's measured content width) so it spans the footer and
-           its inline-end dismiss button stays on-screen rather than off the right of the wide content.
-           Every item is an EditorNotice (or contains one), so they share one rectangular, integrated
-           visual design and stack contiguously via their top borders. */
-        position: sticky;
-        bottom: 0;
-        left: 0;
-        width: var(--tile-viewport-width, 100%);
-        z-index: 2;
+        /* The notification band sits in TileView's non-scrolling content footer,
+           directly below the editor's scroll viewport (see TileView's
+           `contentFooter`), so it stays visible and shrinks the viewport rather
+           than floating over the code and hiding the caret. Every item is an
+           EditorNotice (or contains one), so they share one rectangular,
+           integrated design and stack contiguously via their top borders. */
+        width: 100%;
         display: flex;
         flex-direction: column;
-        /* Purely informational — don't intercept drops or clicks at the bottom of the editor. */
-        pointer-events: none;
-    }
-
-    /* Items that need interaction (the checkpoint banner's Restore button, the collaborator presence
-       chips' tooltips) opt back in, since the band itself is click-through. */
-    .interactive {
-        pointer-events: auto;
     }
 
     /* Group the two zoom buttons so the Tour can highlight them together. */

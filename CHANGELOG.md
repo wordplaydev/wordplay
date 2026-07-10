@@ -4,6 +4,26 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.26.1 - 2026-07-09
+
+### Added
+
+- 🎞️ We added a `changing` input to `@Phrase` that chooses how its text changes: `'edit'` erases and retypes it, `'rewrite'` replaces one letter at a time in a random order, and `'random'` spins each letter like a slot machine until it lands on the new text, using only letters that match your text's language and case (#74).
+
+### Changed
+
+- 🎞️ Text in a `@Phrase` now changes instantly unless you choose a `changing` effect. It used to always type itself out when it had a duration.
+- ⚡ We made the code editor much faster on long programs.
+- ✍️ We fixed a freeze when you started to drag code in a long program.
+- 📋 We trimmed clipboard contents to avoid them from getting too big.
+- 🖱️ In text mode, we now allow the selected node to be draggable with the shift key down.
+
+### Fixed
+
+- 💡 We fixed suggestions for unfinished inputs like `changing:` — the editor now offers the input's choices instead of nothing, and no longer mixes up which input you're setting.
+- ‼ We moved the clipboard and collaboration footer in the editor to its own space, so the cursor can't hide behind it.
+- ⌨️ We made vertical caret movement in the blocks editor more predictable.
+
 ## 0.26.0 - 2026-07-02
 
 ### Added
@@ -16,14 +36,12 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Changed
 
-- ⚡ We made the code editor much faster on long programs.
 - ⚡ We made Wordplay start faster, especially the first time you open a project.
 - 🔒 When a project is read only, we replaced the lock icon with a checkerboard pattern, so you can tell it's read only without hiding anything. Screen readers now say when a project is read only, too.
 - 🚦 You can now see errors and hints in a read-only project. You still can't change the code, so we hide the fix buttons.
 
 ### Fixed
 
-- ✍️ We fixed a freeze when you started to drag code in a long program.
 - 🔣 We stopped Wordplay from downloading fonts it didn't need. Invisible marks next to emoji were quietly pulling in big fonts — like Chinese and math fonts — that nothing on your screen used.
 - 🔠 The character picker no longer shows empty boxes for characters that none of our fonts can draw — it only offers ones you can actually see.
 - 🖱️ Links in documentation now open when you click them in the editor. To edit a link instead, move into it with the arrow keys or click right next to it.

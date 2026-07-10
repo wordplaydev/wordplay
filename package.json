@@ -1,6 +1,6 @@
 {
     "name": "wordplay",
-    "version": "0.26.0",
+    "version": "0.26.1",
     "type": "module",
     "scripts": {
         "sync": "svelte-kit sync",
@@ -33,6 +33,7 @@
         "locales-fix": "npx tsx src/util/verify-locales/start.ts fix",
         "locales-prune": "npx tsx src/util/verify-locales/prune.ts",
         "datetimes": "npx tsx src/util/verify-locales/generateDateTimes.ts",
+        "exemplars": "npx tsx src/util/verify-locales/generateExemplars.ts",
         "locales-translate": "WORDPLAY_TRANSLATOR=claude npx tsx src/util/verify-locales/start.ts translate",
         "locales-override": "WORDPLAY_TRANSLATOR=claude npx tsx src/util/verify-locales/start.ts override",
         "locales-translate-parallel": "WORDPLAY_TRANSLATOR=claude npx tsx src/util/verify-locales/batch.ts translate",
