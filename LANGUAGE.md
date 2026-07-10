@@ -729,6 +729,8 @@ laugh()
 
 Inputs must conform to the types defined in a function's definition. (We'll talk more about how to define functions later).
 
+Inputs may be given positionally or by name (`name: value`). A named input whose value is missing — because the tokens after its `:` begin another named input or close the evaluation — parses with an empty unparsable value rather than consuming what follows, so the inputs after an in-progress input remain intact (and editing tools can offer values for it).
+
 ### _conflicts_
 
 - The function expression given is not a function type

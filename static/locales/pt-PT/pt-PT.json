@@ -4734,7 +4734,11 @@
                 "doc": "O estilo de animação a utilizar quando se desloca para um local diferente no palco.",
                 "names": "estilo"
             },
-            "defaultDescription": "$size [ $size metros |]phrase $text $name [nomeado $name |] $face [ $face |] $animation $color [ $color |]"
+            "defaultDescription": "$size [ $size metros |]phrase $text $name [nomeado $name |] $face [ $face |] $animation $color [ $color |]",
+            "changing": {
+                "doc": "$~O nome de um efeito para reproduzir quando o meu texto muda, ao longo da minha @Phrase.duration, suavizado pelo meu @Phrase.style. Se \\ø\\, o meu texto muda instantaneamente. Se 'edit', apago o texto antigo até ao que o texto antigo e o novo partilham, e depois escrevo o novo texto. Se 'rewrite', escrevo o novo texto por cima do antigo, substituindo um símbolo de cada vez por uma ordem aleatória. Se 'random', cada um dos meus símbolos gira por símbolos aleatórios do idioma do meu texto (ou do seu alfabeto, quando o idioma é desconhecido), respeitando as maiúsculas e minúsculas do meu texto, como uma máquina de jogo, até parar no novo texto. Com texto @FormattedLiteral, os símbolos que mudam assumem a formatação do novo texto durante o efeito.",
+                "names": "$~aMudar"
+            }
         },
         "Arrangement": {
             "doc": "Sou uma inspiração para muitos outros tipos de arranjos no Verso, incluindo @Row, @Stack, @Grid e @Free. Trabalho em estreita colaboração com o @Group para",
@@ -5637,6 +5641,11 @@
                 "doc": "$~O nome de cada captura vai até ao fim.",
                 "names": "$~termina"
             }
+        },
+        "TextEffect": {
+            "edit": "$~editar",
+            "rewrite": "$~reescrever",
+            "random": "$~aleatório"
         }
     },
     "ui": {

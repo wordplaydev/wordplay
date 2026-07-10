@@ -4740,7 +4740,11 @@
                 "doc": "$~Sahnede farklı bir yere geçerken kullanılacak animasyon stili.",
                 "names": "$~stil"
             },
-            "defaultDescription": "$~$size [ $size metre |] ifade $text $name [adlandırılmış $name |] $face [ $face |] $animation $color [ $color |]"
+            "defaultDescription": "$~$size [ $size metre |] ifade $text $name [adlandırılmış $name |] $face [ $face |] $animation $color [ $color |]",
+            "changing": {
+                "doc": "$~Metnim değiştiğinde oynatılacak bir etkinin ismi. Bu etki @Phrase.duration süremce sürer ve @Phrase.style ile yumuşatılır. Eğer \\ø\\, metnim anında değişir. Eğer 'edit' (düzenle) ise, eski metni geriye doğru silerim; eski ve yeni metnin ortak olan kısmına kadar sildikten sonra yeni metni yazarım. Eğer 'rewrite' (yeniden yaz) ise, yeni metni eskinin üzerine yazarım; her seferinde rastgele bir sırayla bir sembolü değiştiririm. Eğer 'random' (rastgele) ise, her sembolüm metnimin dilinden (dil bilinmiyorsa yazısından) rastgele semboller arasında döner; metnimin büyük-küçük harf düzenine uyar ve bir çekiliş makinesi gibi yeni metnin üzerine iner. @FormattedLiteral metni ile, değişen semboller etki sırasında yeni metnin biçimini alır.",
+                "names": "$~değişiyor"
+            }
         },
         "Arrangement": {
             "doc": "$~Verse'deki @Row, @Stack, @Grid ve @Free gibi birçok diğer düzenleme türüne ilham kaynağıyım. @Group ile yakın bir şekilde çalışıyorum",
@@ -5643,6 +5647,11 @@
                 "doc": "$~Her bir yakalamanın adı, bittiği yere kadar.",
                 "names": "$~son"
             }
+        },
+        "TextEffect": {
+            "edit": "$~düzenle",
+            "rewrite": "$~yenidenYaz",
+            "random": "$~rastgele"
         }
     },
     "ui": {

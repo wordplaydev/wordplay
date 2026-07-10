@@ -4,11 +4,13 @@ import {
     VerticalRightLeftLayout,
 } from '@locale/Scripts';
 import Evaluate from '@nodes/Evaluate';
+import type Expression from '@nodes/Expression';
 import FormattedLiteral from '@nodes/FormattedLiteral';
 import Reference from '@nodes/Reference';
 import TextLiteral from '@nodes/TextLiteral';
 import type Project from '@db/projects/Project';
 import type Locales from '@locale/Locales';
+import type { NameText } from '@locale/LocaleText';
 import Language from '@nodes/Language';
 import NumberLiteral from '@nodes/NumberLiteral';
 import Unit from '@nodes/Unit';
@@ -112,5 +114,36 @@ export default function getPhraseProperties(
         ];
     }
 
-    return [...phraseProperties, ...typeProperties];
+    // The text change effect goes last, right after the duration and style
+    // that pace it.
+    const changingProperty = new OutputProperty(
+        (l) => l.output.Phrase.changing.names,
+        new OutputPropertyOptions(
+            Object.values(locales.getTextStructure((l) => l.output.TextEffect))
+                .reduce(
+                    (all: string[], next: NameText) => [
+                        ...all,
+                        ...(Array.isArray(next) ? next : [next]),
+                    ],
+                    [],
+                )
+                .map((name) => ({ value: name, label: name })),
+            // None means ø: the text changes instantly.
+            true,
+            (text: string) => TextLiteral.make(text),
+            (expression: Expression | undefined) =>
+                expression instanceof TextLiteral
+                    ? expression.getValue(locales.getLocales()).text
+                    : undefined,
+        ),
+        false,
+        false,
+        (expr) => expr instanceof TextLiteral,
+        () =>
+            TextLiteral.make(
+                locales.getUnannotatedTexts((l) => l.output.TextEffect.edit)[0],
+            ),
+    );
+
+    return [...phraseProperties, ...typeProperties, changingProperty];
 }

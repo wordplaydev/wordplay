@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
+import { CLDR_VERSION } from '@util/verify-locales/cldr';
 import {
-    CLDR_VERSION,
     coreOf,
     dateTimesPathFor,
     readDateTimesFor,

@@ -6,8 +6,13 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ## 0.26.1 - 2026-07-09
 
+### Added
+
+- 🎞️ We added a `changing` input to `@Phrase` that chooses how its text changes: `'edit'` erases and retypes it, `'rewrite'` replaces one letter at a time in a random order, and `'random'` spins each letter like a slot machine until it lands on the new text, using only letters that match your text's language and case (#74).
+
 ### Changed
 
+- 🎞️ Text in a `@Phrase` now changes instantly unless you choose a `changing` effect. It used to always type itself out when it had a duration.
 - ⚡ We made the code editor much faster on long programs.
 - ✍️ We fixed a freeze when you started to drag code in a long program.
 - 📋 We trimmed clipboard contents to avoid them from getting too big.
@@ -15,6 +20,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Fixed
 
+- 💡 We fixed suggestions for unfinished inputs like `changing:` — the editor now offers the input's choices instead of nothing, and no longer mixes up which input you're setting.
 - ‼ We moved the clipboard and collaboration footer in the editor to its own space, so the cursor can't hide behind it.
 - ⌨️ We made vertical caret movement in the blocks editor more predictable.
 

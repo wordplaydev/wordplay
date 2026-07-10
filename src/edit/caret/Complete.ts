@@ -10,6 +10,7 @@ import Example from '@nodes/Example';
 import Expression from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import FunctionType from '@nodes/FunctionType';
+import Input from '@nodes/Input';
 import Is from '@nodes/Is';
 import ListAccess from '@nodes/ListAccess';
 import ListType from '@nodes/ListType';
@@ -514,7 +515,7 @@ function completeIs({ source, position }: InsertInfo): Revision | undefined {
     if (newSource !== source) return [newSource, placeholder];
 }
 
-/** On a :, complete a Bind or KeyValue */
+/** On a :, complete a Bind, Input, or KeyValue */
 function completeBindOrKeyValue({
     source,
     position,
@@ -540,14 +541,24 @@ function completeBindOrKeyValue({
     const placeholder = ExpressionPlaceholder.make(
         preceding instanceof Is ? preceding.type : undefined,
     );
-    const bind = Bind.make(
-        undefined,
-        Names.make([reference.name.getText()]),
-        preceding instanceof Is ? preceding.type.clone() : undefined,
-        placeholder,
-    );
+    // A reference in an Evaluate's inputs is a named input being typed, not a
+    // bind: complete an Input so the input mapping matches it by name. A Bind
+    // here would be treated as a positional expression and mapped (and
+    // labeled) as whatever unset input its position happens to reach.
+    const parent = source.root.getParent(preceding);
+    const completion =
+        preceding instanceof Reference &&
+        parent instanceof Evaluate &&
+        parent.inputs.includes(preceding)
+            ? Input.make(reference.name.getText(), placeholder)
+            : Bind.make(
+                  undefined,
+                  Names.make([reference.name.getText()]),
+                  preceding instanceof Is ? preceding.type.clone() : undefined,
+                  placeholder,
+              );
     // Make a new source
-    const newSource = source.replace(preceding, bind, 'exception');
+    const newSource = source.replace(preceding, completion, 'exception');
     // Place the caret on the placeholder
     if (newSource !== source) return [newSource, placeholder];
 }

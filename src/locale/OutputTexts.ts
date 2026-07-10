@@ -78,6 +78,8 @@ type OutputTexts = {
     Phrase: NameAndDoc & {
         /** The characters to render */
         text: NameAndDoc;
+        /** The name of the effect used to animate changes to the text, played over the duration and eased by the style; ø means the text changes instantly */
+        changing: NameAndDoc;
         /** The boundary at which to wrap characters to another line */
         wrap: NameAndDoc;
         /** The alignment to use when wrapped */
@@ -417,6 +419,15 @@ type OutputTexts = {
         cautious: NameText;
         /** [name] CSS ease-out */
         zippy: NameText;
+    };
+    /** Localized names of text change effects for Phrase's changing input */
+    TextEffect: {
+        /** [name] Backspace the old text to the shared prefix, then type the new text */
+        edit: NameText;
+        /** [name] Replace old characters with new ones in place, in random order */
+        rewrite: NameText;
+        /** [name] Slot-machine: cycle random characters of the text's dominant script until each locks in */
+        random: NameText;
     };
     /** Convenience functions for generating maps for Sequences */
     sequence: {

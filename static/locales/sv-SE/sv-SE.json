@@ -4734,7 +4734,11 @@
                 "doc": "$~Animeringsstilen som ska användas när du flyttar till en annan plats på scenen.",
                 "names": "$~stil"
             },
-            "defaultDescription": "$~$size [ $size meter |]phrase $text $name [named $name |] $face [ $face |] $animation $color [ $color |]"
+            "defaultDescription": "$~$size [ $size meter |]phrase $text $name [named $name |] $face [ $face |] $animation $color [ $color |]",
+            "changing": {
+                "doc": "$~Namnet på en effekt som ska spelas när min text ändras, under min @Phrase.duration, mjukad av min @Phrase.style. Om \\ø\\, ändras min text direkt. Om 'edit' suddar jag bort den gamla texten tillbaka till det som den gamla och nya texten delar, och skriver sedan ut den nya texten. Om 'rewrite' skriver jag den nya texten över den gamla och byter ut en symbol i taget i slumpmässig ordning. Om 'random' snurrar var och en av mina symboler genom slumpmässiga symboler från min texts språk (eller dess skrift, när språket är okänt), och matchar min texts stora och små bokstäver, som en enarmad bandit, tills den landar på den nya texten. Med @FormattedLiteral-text tar de ändrade symbolerna den nya textens formatering under effekten.",
+                "names": "$~ändras"
+            }
         },
         "Arrangement": {
             "doc": "$~Jag är en inspiration till de många andra typerna av arrangemang i Versen, inklusive @Row, @Stack, @Grid och @Free. Jag har ett nära samarbete med @Group till",
@@ -5637,6 +5641,11 @@
                 "doc": "$~Varje tagnings namn till där den slutar.",
                 "names": "$~slutar"
             }
+        },
+        "TextEffect": {
+            "edit": "$~redigera",
+            "rewrite": "$~skrivOm",
+            "random": "$~slumpmässig"
         }
     },
     "ui": {

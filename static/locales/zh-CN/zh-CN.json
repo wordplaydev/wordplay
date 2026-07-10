@@ -4725,7 +4725,11 @@
                 "doc": "移动到舞台上不同位置时使用的动画风格。",
                 "names": "风格"
             },
-            "defaultDescription": "$~$size[$size meter |]phrase $text $name[named $name|] $face[$face|] $animation $color[$color|]"
+            "defaultDescription": "$~$size[$size meter |]phrase $text $name[named $name|] $face[$face|] $animation $color[$color|]",
+            "changing": {
+                "doc": "$~当我的文本改变时要播放的一种效果的名字，效果会持续我的 @Phrase.duration，并按我的 @Phrase.style 缓动。如果 \\ø\\，我的文本会立刻改变。如果是 'edit'（编辑），我会把旧文本擦掉，退回到旧文本和新文本相同的部分，然后打出新文本。如果是 'rewrite'（重写），我会把新文本打在旧文本上面，以随机顺序一次替换一个符号。如果是 'random'（随机），我的每个符号都会像老虎机一样，飞快地转过我文本语言（如果语言未知，则用它的文字系统）中的随机符号，并保持我文本的大小写，直到停在新文本上。使用 @FormattedLiteral 文本时，变化中的符号在效果进行期间会采用新文本的格式。",
+                "names": "$~正在改变"
+            }
         },
         "Arrangement": {
             "doc": "我是Verse中各种排列方式的灵感, 包括@Row、@Stack、@Grid 和@Free。我与@Group 密切合作，",
@@ -5624,6 +5628,11 @@
                 "doc": "$~每个捕获的 @name 对应它结束的位置。",
                 "names": "$~ends"
             }
+        },
+        "TextEffect": {
+            "edit": "$~编辑",
+            "rewrite": "$~重写",
+            "random": "$~随机"
         }
     },
     "ui": {

@@ -4748,7 +4748,11 @@
                 "doc": "$~Styl animacji stosowany przy przechodzeniu w inne miejsce sceny.",
                 "names": "$~styl"
             },
-            "defaultDescription": "$~$size [ $size meter |]fraza $text $name [named $name |] $face [ $face |] $animation $color [ $color |]"
+            "defaultDescription": "$~$size [ $size meter |]fraza $text $name [named $name |] $face [ $face |] $animation $color [ $color |]",
+            "changing": {
+                "doc": "$~Nazwa efektu, który ma się odtworzyć, gdy zmienia się mój tekst, przez mój @Phrase.duration, wygładzony moim @Phrase.style. Jeśli \\ø\\, mój tekst zmienia się natychmiast. Jeśli 'edit', wymazuję stary tekst do tego, co stary i nowy tekst mają wspólnego, a potem wpisuję nowy tekst. Jeśli 'rewrite', wpisuję nowy tekst na stary, zastępując jeden symbol na raz w losowej kolejności. Jeśli 'random', każdy z moich symboli obraca się przez losowe symbole z języka mojego tekstu (lub jego pisma, gdy język jest nieznany), dopasowując wielkość liter mojego tekstu, jak automat do gier, aż zatrzyma się na nowym tekście. Przy tekście @FormattedLiteral zmieniające się symbole przyjmują formatowanie nowego tekstu podczas efektu.",
+                "names": "$~zmienianie"
+            }
         },
         "Arrangement": {
             "doc": "$~Jestem inspiracją dla wielu innych rodzajów aranżacji w Verse, w tym @Row, @Stack, @Grid i @Free. Współpracuję ściśle z @Group, aby",
@@ -5651,6 +5655,11 @@
                 "doc": "$~Nazwa każdego przechwycenia aż do miejsca, w którym się kończy.",
                 "names": "$~kończysię"
             }
+        },
+        "TextEffect": {
+            "edit": "$~edycja",
+            "rewrite": "$~przepisywanie",
+            "random": "$~losowo"
         }
     },
     "ui": {

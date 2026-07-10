@@ -166,7 +166,18 @@ export default class Input extends Node {
                     }
                     return new NoExpressionType(this.value);
                 },
-                label: () => (l) => l.glossary.value.word,
+                label: (locales: Locales, context: Context) => {
+                    // Label the value with the name of the input it's bound
+                    // to, so placeholders read as the input, not just "value".
+                    const parent = this.getParent(context);
+                    if (parent instanceof Evaluate) {
+                        const bind = parent
+                            .getInputMapping(context)
+                            ?.inputs.find((i) => i.given === this)?.expected;
+                        if (bind) return () => locales.getName(bind.names);
+                    }
+                    return (l) => l.glossary.value.word;
+                },
             },
             { name: 'separator', kind: node(Sym.Separator), label: undefined },
         ];

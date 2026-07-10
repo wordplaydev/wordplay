@@ -612,3 +612,28 @@ test('unclosed backtick inside a deeply nested doc still closes correctly', () =
     expect(docTokens.length).toBe(4);
     expect(codeTokens.length).toBe(2);
 });
+
+test('an incomplete named input does not consume the next input or the close', () => {
+    // `changing:` has no value; the parser must not consume `wrap` (the next
+    // input's name) or the closing paren as its value, so the inputs after an
+    // in-progress input stay intact and autocomplete can offer values for it.
+    const block = parseBlock(toTokens('Phrase(1 changing: wrap: 20m)'));
+    const evaluate = block.nodes().find((n) => n instanceof Evaluate);
+    expect(evaluate?.inputs).toHaveLength(3);
+    const changing = evaluate?.inputs[1];
+    const wrap = evaluate?.inputs[2];
+    expect(changing).toBeInstanceOf(Input);
+    expect(changing instanceof Input && changing.value.toWordplay()).toBe('');
+    expect(wrap instanceof Input && wrap.toWordplay()).toBe('wrap:20m');
+    expect(evaluate?.close).toBeDefined();
+
+    // Same when the incomplete input ends the evaluation: the close must
+    // survive.
+    const trailingBlock = parseBlock(toTokens('Phrase(1 changing:)'));
+    const trailingEvaluate = trailingBlock
+        .nodes()
+        .find((n) => n instanceof Evaluate);
+    const last = trailingEvaluate?.inputs.at(-1);
+    expect(last instanceof Input && last.value.toWordplay()).toBe('');
+    expect(trailingEvaluate?.close).toBeDefined();
+});
