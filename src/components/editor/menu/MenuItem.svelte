@@ -192,6 +192,8 @@
 
     .revision:hover {
         background: var(--wordplay-hover);
+        /* Keep the note's links/concept-links legible on the gold hover (#1216). */
+        --wordplay-link-color: var(--wordplay-foreground);
     }
 
     /* Bound the hint so a long sentence can't widen the menu or run past two lines. */

@@ -269,7 +269,7 @@
         display: inline;
         font: inherit;
         text-align: start;
-        color: var(--wordplay-highlight-color);
+        color: var(--wordplay-link-color);
         background: none;
         border: none;
         padding: 0;

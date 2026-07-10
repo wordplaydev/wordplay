@@ -175,6 +175,10 @@
                 --wordplay-border-color: var(--color-light-grey);
                 --wordplay-evaluation-color: var(--color-pink);
                 --wordplay-highlight-color: var(--color-yellow);
+                /* Link/term text color. Inherits, so a hovered interactive
+                   element can flip it to the foreground to stay legible on the
+                   gold hover background (see #1216). */
+                --wordplay-link-color: var(--wordplay-highlight-color);
                 --wordplay-focus-color: var(--color-blue);
                 --wordplay-hover: var(--color-yellow);
                 --wordplay-hover-light: var(--color-yellow-transparent);
@@ -685,7 +689,7 @@
             }
 
             a {
-                color: var(--wordplay-highlight-color);
+                color: var(--wordplay-link-color);
                 text-decoration: none;
                 /* In case a parent disables pointer events, we need to enable them here. */
                 pointer-events: auto;
@@ -694,7 +698,7 @@
             /* Links in paragraphs should have underlines for visibility. */
             p > a {
                 text-decoration: calc(var(--wordplay-focus-width) / 2) underline
-                    var(--wordplay-highlight-color);
+                    var(--wordplay-link-color);
             }
 
             a:focus,

@@ -23,6 +23,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 💡 We fixed suggestions for unfinished inputs like `changing:` — the editor now offers the input's choices instead of nothing, and no longer mixes up which input you're setting.
 - ‼ We moved the clipboard and collaboration footer in the editor to its own space, so the cursor can't hide behind it.
 - ⌨️ We made vertical caret movement in the blocks editor more predictable.
+- 🔗 We fixed link colors in areas with backgrounds the same color as links.
 
 ## 0.26.0 - 2026-07-02
 

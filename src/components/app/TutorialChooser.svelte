@@ -120,6 +120,8 @@
     .card:hover,
     .card:focus {
         background: var(--wordplay-hover);
+        /* Keep nested links legible on the gold hover background (#1216). */
+        --wordplay-link-color: var(--wordplay-foreground);
         box-shadow: calc(2 * var(--wordplay-border-width))
             calc(2 * var(--wordplay-border-width)) 0
             var(--wordplay-border-color);

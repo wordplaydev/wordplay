@@ -161,6 +161,8 @@
 
     .button.inactive:hover {
         background-color: var(--wordplay-hover);
+        /* Keep nested links legible on the gold hover background (#1216). */
+        --wordplay-link-color: var(--wordplay-foreground);
         box-shadow: var(--wordplay-border-width) var(--wordplay-border-width) 0
             var(--wordplay-border-color);
         transform: translate(-1px, -1px);
