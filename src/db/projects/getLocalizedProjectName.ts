@@ -77,6 +77,16 @@ export function getLocalizedProjectName(
 }
 
 /**
+ * How many language-tagged names a project name holds: the translation
+ * count for a well-formed multilingual literal, else 1 for a non-empty
+ * plain name, 0 for empty. Drives whether the footer shows an edit toggle.
+ */
+export function getProjectNameCount(raw: string): number {
+    if (raw.length === 0) return 0;
+    return parseAsMultilingualName(raw)?.texts.length ?? 1;
+}
+
+/**
  * Inline-feedback validator for the project-name TextField. Returns
  * `true` for plain names (any string that doesn't look like a
  * TextLiteral) and well-formed multilingual TextLiterals; returns an

@@ -5820,6 +5820,10 @@
                 "fullscreen": {
                     "on": "exit browser full screen",
                     "off": "enter browser full screen"
+                },
+                "editName": {
+                    "on": "show the name in your language",
+                    "off": "edit the name in every language"
                 }
             },
             "tour": {

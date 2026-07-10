@@ -19672,12 +19672,16 @@
                                 "toggle": {
                                     "additionalProperties": false,
                                     "properties": {
+                                        "editName": {
+                                            "$ref": "#/definitions/ToggleText",
+                                            "description": "[plain] Toggles between showing the project's localized name and editing the raw multilingual name literal"
+                                        },
                                         "fullscreen": {
                                             "$ref": "#/definitions/ToggleText",
                                             "description": "[plain] Tip text for the project full screen button"
                                         }
                                     },
-                                    "required": ["fullscreen"],
+                                    "required": ["editName", "fullscreen"],
                                     "type": "object"
                                 },
                                 "tour": {

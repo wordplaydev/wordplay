@@ -9,6 +9,7 @@ import Project from '@db/projects/Project';
 import Source from '@nodes/Source';
 import {
     getLocalizedProjectName,
+    getProjectNameCount,
     parseAsMultilingualName,
     validateProjectName,
 } from './getLocalizedProjectName';
@@ -113,6 +114,28 @@ describe('parseAsMultilingualName', () => {
         ).toBeUndefined();
         // Missing language tag on second translation:
         expect(parseAsMultilingualName('"hi"/en"hola"')).toBeUndefined();
+    });
+});
+
+describe('getProjectNameCount', () => {
+    test('empty name → 0', () => {
+        expect(getProjectNameCount('')).toBe(0);
+    });
+
+    test('plain or single-quoted name → 1', () => {
+        expect(getProjectNameCount('Adventure')).toBe(1);
+        expect(getProjectNameCount('"hello"')).toBe(1);
+        // A single language-tagged translation is one name.
+        expect(getProjectNameCount('"hi"/en')).toBe(1);
+    });
+
+    test('multilingual literal → translation count', () => {
+        expect(getProjectNameCount('"hi"/en"hola"/es')).toBe(2);
+        expect(getProjectNameCount('"hi"/en"hola"/es"bonjour"/fr')).toBe(3);
+    });
+
+    test('malformed multilingual input counts as a single raw name', () => {
+        expect(getProjectNameCount('"hi/en"hola"/es')).toBe(1);
     });
 });
 

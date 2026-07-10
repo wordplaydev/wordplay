@@ -295,6 +295,8 @@ type UITexts = {
         toggle: {
             /** [plain] Tip text for the project full screen button */
             fullscreen: ToggleText;
+            /** [plain] Toggles between showing the project's localized name and editing the raw multilingual name literal */
+            editName: ToggleText;
         };
         /** Interactive tour explaining the bottom-row project controls */
         tour: {

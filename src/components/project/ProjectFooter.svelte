@@ -37,6 +37,7 @@
     import { MAX_NAME_LENGTH } from '@db/limits';
     import {
         getLocalizedProjectName,
+        getProjectNameCount,
         validateProjectName,
     } from '@db/projects/getLocalizedProjectName';
     import { isFlagged } from '@db/projects/Moderation';
@@ -44,7 +45,7 @@
     import { type ArrangementType } from '@db/settings/Arrangement';
     import type Locale from '@locale/Locale';
     import type Source from '@nodes/Source';
-    import { INFO_SYMBOL, PROJECT_SYMBOL } from '@parser/Symbols';
+    import { EDIT_SYMBOL, INFO_SYMBOL, PROJECT_SYMBOL } from '@parser/Symbols';
     import Characters from '../../lore/BasisCharacters';
 
     interface Props {
@@ -95,6 +96,14 @@
     }: Props = $props();
 
     const user = getUser();
+
+    // When a project's name is a multilingual literal (more than one
+    // language name), show the clean localized name by default and only
+    // reveal the raw-literal TextField when the creator toggles edit mode.
+    let editingName = $state(false);
+    const multipleNames = $derived(
+        getProjectNameCount(project.getName()) > 1,
+    );
 
     // Layout responsiveness:
     //  - Below the container query threshold (see CSS), the "project"
@@ -219,29 +228,46 @@
                 </span>
                 <span data-uiid="projectName">
                     {#if editable}
-                        <!-- The TextField shows the RAW underlying name
-                             (which may be Wordplay TextLiteral source for a
-                             multilingual project, e.g. `"hi"/en"hola"/es`)
-                             so the user edits the source directly. The
-                             validator surfaces inline feedback for
-                             malformed input, but it doesn't gate the save
-                             — mid-typing states are necessarily invalid
-                             and the user shouldn't lose keystrokes (#456). -->
-                        <TextField
-                            id="project-name"
-                            text={project.getName()}
-                            description={(l) =>
-                                l.ui.project.field.name.description}
-                            placeholder={(l) =>
-                                l.ui.project.field.name.placeholder}
-                            validator={validateProjectName}
-                            changed={(name) =>
-                                Projects.reviseProject(project.withName(name))}
-                            max="5em"
-                            maxlength={MAX_NAME_LENGTH}
-                        />
+                        {#if multipleNames && !editingName}
+                            <!-- Multilingual name, not editing: show the
+                                 localized name like the read-only view. -->
+                            {getLocalizedProjectName(project, $locales)}
+                        {:else}
+                            <!-- The TextField shows the RAW underlying name
+                                 (which may be Wordplay TextLiteral source for a
+                                 multilingual project, e.g. `"hi"/en"hola"/es`)
+                                 so the user edits the source directly. The
+                                 validator surfaces inline feedback for
+                                 malformed input, but it doesn't gate the save
+                                 — mid-typing states are necessarily invalid
+                                 and the user shouldn't lose keystrokes (#456). -->
+                            <TextField
+                                id="project-name"
+                                text={project.getName()}
+                                description={(l) =>
+                                    l.ui.project.field.name.description}
+                                placeholder={(l) =>
+                                    l.ui.project.field.name.placeholder}
+                                validator={validateProjectName}
+                                changed={(name) =>
+                                    Projects.reviseProject(
+                                        project.withName(name),
+                                    )}
+                                max="5em"
+                                maxlength={MAX_NAME_LENGTH}
+                            />
+                        {/if}
                     {:else}{getLocalizedProjectName(project, $locales)}{/if}
                 </span>
+                {#if editable && multipleNames}
+                    <Toggle
+                        uiid="editProjectName"
+                        tips={(l) => l.ui.project.toggle.editName}
+                        on={editingName}
+                        toggle={() => (editingName = !editingName)}
+                        >{EDIT_SYMBOL}</Toggle
+                    >
+                {/if}
             </Subheader>
             <Button
                 tip={(l) => l.ui.project.tour.launch}
