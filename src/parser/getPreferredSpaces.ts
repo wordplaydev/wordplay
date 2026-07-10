@@ -1,4 +1,5 @@
 /** Functions and helper functions for formatting the preceding space of tokens (aka "pretty printing"). */
+import Block from '@nodes/Block';
 import Node from '@nodes/Node';
 import Root from '@nodes/Root';
 import Source from '@nodes/Source';
@@ -32,6 +33,24 @@ export default function getPreferredSpaces(
     for (const token of root.root.leaves()) {
         // Find the ancestor of the token that determines its spacing.
         const spaceRoot = root.getSpaceRoot(token);
+        // The root block's FIRST statement is at the document start and never has
+        // a leading space. getSpaceRoot now attributes this statement's space to
+        // the statement itself (so it renders/windows with it) rather than to the
+        // Program; without this guard it would inherit the statements field's
+        // leading newline and the formatter would insert a blank line before the
+        // program. Gated precisely on "first statement of a root block" so subtree
+        // reformats (whose first leaf is not the source's first token) are untouched.
+        const spaceRootParent = spaceRoot
+            ? root.getParent(spaceRoot)
+            : undefined;
+        if (
+            spaceRootParent instanceof Block &&
+            spaceRootParent.isRoot() &&
+            spaceRootParent.statements[0] === spaceRoot
+        ) {
+            preferredSpaces.set(token, '');
+            continue;
+        }
         // Find the field of the ancestor to see what kind of spacing it wants.
         const field = spaceRoot
             ? root.getParent(spaceRoot)?.getFieldOfChild(spaceRoot)

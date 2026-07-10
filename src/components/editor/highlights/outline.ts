@@ -87,6 +87,39 @@ function getViewRect(offset: { left: number; top: number }, view: HTMLElement) {
     };
 }
 
+// Reused across token measurements to avoid per-call Range allocation.
+let sharedRange: Range | undefined;
+
+/**
+ * Like getViewRect, but for a text-mode token view it takes the VERTICAL extent
+ * (top/height) from a Range over the token's glyphs instead of the element's box.
+ * A merged token is `inline-block`, whose border box adds ~half the line-height's
+ * leading above and below the glyphs; the pre-merge inline node-view (what the
+ * outline used to measure) reported the tighter content box. Measuring the text
+ * range restores that tight fit — so single-line outlines don't gain padding and
+ * adjacent-line boxes (e.g. a name's `related` uses) stop overlapping into an
+ * incoherent shape. Horizontal (l/r/w) stays the border box to keep any token
+ * padding (e.g. the words-mode synthesized chip). Blocks mode is excluded — its
+ * token boxes are intentional. Falls back to the box when there's no measurable
+ * text (empty token, or a non-DOM/JSDOM environment where ranges measure 0).
+ */
+function getTokenContentRect(
+    offset: { left: number; top: number },
+    view: HTMLElement,
+    blocks: boolean,
+): Rect {
+    const rect = getViewRect(offset, view);
+    if (blocks || !view.matches('.token-view')) return rect;
+    sharedRange ??= document.createRange();
+    sharedRange.selectNodeContents(view);
+    const rr = sharedRange.getBoundingClientRect();
+    if (rr.height > 0 && rr.height < rect.h) {
+        const t = rr.top - offset.top;
+        return { ...rect, t, b: t + rr.height, h: rr.height };
+    }
+    return rect;
+}
+
 /** Given a node view, get the bounding boxes of the space prior to it. */
 function getPrecedingSpaceRects(nodeView: HTMLElement): Rect[] {
     const rects: Rect[] = [];
@@ -105,9 +138,16 @@ function getPrecedingSpaceRects(nodeView: HTMLElement): Rect[] {
 
 function getNodeTokenRects(nodeView: HTMLElement, blocks: boolean): Rect[] {
     // Get the rectangles of all of the tokens's text (or if a value, it's symbols).
-    const tokenViews = nodeView.querySelectorAll('.token-view, .symbol');
+    // Self-or-descendant: a merged text-mode token IS the token-view, so
+    // querySelectorAll (descendant-only) would return nothing for it — measure the
+    // element itself in that case (fixes both getRowsOf and createRectangleOutlineOf).
+    const tokenViews = nodeView.matches('.token-view, .symbol')
+        ? [nodeView]
+        : (Array.from(
+              nodeView.querySelectorAll('.token-view, .symbol'),
+          ) as HTMLElement[]);
 
-    return getTokenRects(Array.from(tokenViews) as HTMLElement[], blocks);
+    return getTokenRects(tokenViews, blocks);
 }
 
 export function getTokenRects(
@@ -128,14 +168,18 @@ export function getTokenRects(
         if (view instanceof HTMLElement) {
             // If the view is not hidden, include it in the rects.
             if (view.closest('.hide') === null) {
-                // Add rects for token
-                const tokenRect = getViewRect(offset, view);
+                // Add rects for token (vertically tight to the glyphs for tokens)
+                const tokenRect = getTokenContentRect(offset, view, blocks);
 
                 if (clip) {
                     const { start, end } = clip;
                     // If the start and end are the same, clip both sides of the rect
                     if (tokenViews[0] === view && view === tokenViews.at(-1)) {
-                        const tokenView = view.querySelector('.token-view');
+                        // Self-or-descendant: a merged text-mode token IS the
+                        // token-view, so querySelector (descendant-only) would miss it.
+                        const tokenView = view.matches('.token-view')
+                            ? view
+                            : view.querySelector('.token-view');
                         if (tokenView) {
                             const [startWidth] = measureTokenSegment(
                                 tokenView,
@@ -155,7 +199,11 @@ export function getTokenRects(
                     }
                     // If there is a start offset, clip the left side of the rect
                     else if (tokenViews[0] === view) {
-                        const tokenView = view.querySelector('.token-view');
+                        // Self-or-descendant: a merged text-mode token IS the
+                        // token-view, so querySelector (descendant-only) would miss it.
+                        const tokenView = view.matches('.token-view')
+                            ? view
+                            : view.querySelector('.token-view');
                         if (tokenView) {
                             const [width] = measureTokenSegment(
                                 tokenView,
@@ -168,7 +216,11 @@ export function getTokenRects(
                     }
                     // If there is an end offset, and this is the end token, clip the right side of the rect.
                     else if (tokenViews.at(-1) === view) {
-                        const tokenView = view.querySelector('.token-view');
+                        // Self-or-descendant: a merged text-mode token IS the
+                        // token-view, so querySelector (descendant-only) would miss it.
+                        const tokenView = view.matches('.token-view')
+                            ? view
+                            : view.querySelector('.token-view');
                         if (tokenView) {
                             const [width] = measureTokenSegment(
                                 tokenView,
@@ -276,7 +328,7 @@ export function getRowsOf(
         nodeView.getClientRects().length === 1
     )
         return rectsToRows(
-            [getViewRect(getEditorOffset(nodeView), nodeView)],
+            [getTokenContentRect(getEditorOffset(nodeView), nodeView, blocks)],
             horizontal,
             rtl,
         );

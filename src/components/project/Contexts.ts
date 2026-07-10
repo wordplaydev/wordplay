@@ -11,6 +11,7 @@ import type { LocaleTextAccessor, LocaleTextsAccessor } from '@locale/Locales';
 import type Node from '@nodes/Node';
 import type { FieldPosition } from '@nodes/Node';
 import type Root from '@nodes/Root';
+import type Token from '@nodes/Token';
 import type Color from '@output/Color';
 import type Spaces from '@parser/Spaces';
 import type Evaluator from '@runtime/Evaluator';
@@ -141,15 +142,45 @@ export const [getProjectCommandContext, setProjectCommandContext] =
     createContext<{ context: CommandContext }>();
 
 /** A collection of state that changes each time the evaluator updates. */
-export const [getEvaluation, setEvaluation] = createOptionalContext<
-    Writable<{
-        evaluator: Evaluator;
-        playing: boolean;
-        step: Step | undefined;
-        stepIndex: number;
-        streams: StreamChange[];
-    }>
->();
+export type EvaluationContext = {
+    evaluator: Evaluator;
+    playing: boolean;
+    step: Step | undefined;
+    stepIndex: number;
+    streams: StreamChange[];
+};
+export const [getEvaluation, setEvaluation] =
+    createOptionalContext<Writable<EvaluationContext>>();
+
+/** A play-rate-decoupled view of the evaluation context: the same shape, but
+ * updated only on step-relevant changes — play/pause flips, steps while paused,
+ * and evaluator replacement — NOT on every while-playing broadcast (~60 Hz).
+ * The Editor sets this for its subtree so each rendered NodeView's inline-value
+ * derived (which shows nothing while playing anyway) isn't re-run per node per
+ * frame during play. */
+export const [getSteppedEvaluation, setSteppedEvaluation] =
+    createOptionalContext<Writable<EvaluationContext>>();
+
+/** A once-per-caret-change summary of the caret's token relationships, so each
+ * rendered TokenView's caret flags (in-caret, active, added) are identity
+ * checks instead of re-running the caret's token-resolution walks per token per
+ * caret move — the dominant per-keystroke fan-out at 30–40 visible lines. Set
+ * by the Editor; absent in non-editor render contexts (previews), where tokens
+ * have no caret state. */
+export type CaretTokenSummary = {
+    /** The token the caret is directly on (excluding space). */
+    tokenAt: Token | undefined;
+    /** The token the caret trails: tokenPrior when at the start of the
+     * following token's space. */
+    priorBoundary: Token | undefined;
+    /** Whether the prior-boundary token also counts as "active" (the token at
+     * the caret has preceding space). */
+    priorBoundaryActive: boolean;
+    /** The ids of the recently added subtree's nodes, if any. */
+    addedIds: Set<number> | undefined;
+};
+export const [getCaretTokenSummary, setCaretTokenSummary] =
+    createOptionalContext<Writable<CaretTokenSummary>>();
 
 /** The set of nodes that are animating at runtime */
 export const [getAnimatingNodes, setAnimatingNodes] =
@@ -177,6 +208,10 @@ export type EditorState = {
     toggleMenu: () => void;
     grabFocus: (message: string) => void;
     setCaretPosition: (position: CaretPosition) => void;
+    /** Scroll a node into view and center it, scrolling a virtualized (off-window)
+     *  statement in first if needed. Used by the Annotations sidebar to reveal a
+     *  conflict on click. */
+    revealNode: (node: Node) => void;
     /** Invalidate the editor's cached highlight measurements and remeasure.
      * Call after a descendant changes its rendered shape (e.g. an elided
      * sequence expanded/collapsed) so selection outlines don't go stale. */
@@ -240,6 +275,25 @@ export const [getCaret, setCaret] = createOptionalContext<
  * where descendants like NodeSequenceView still call getEditor(). */
 export const [getEditor, setEditor] =
     createOptionalContext<Writable<EditorState>>();
+
+/** Bridge from the Editor to a deep, virtualized statement list
+ * (WindowedStatements). The Editor creates this; the windowed component
+ * REGISTERS itself into it (it mounts far below, so props can't reach it).
+ *
+ * - `scrollToNode`: set by WindowedStatements while it's mounted — scrolls its
+ *   container so the given node's statement renders, resolving true once the
+ *   node's element is in the DOM (false when the node isn't in the windowed list
+ *   or nothing is windowed). Off-window nodes have no DOM, so every "scroll to /
+ *   highlight a node" path calls this first, then re-resolves the element.
+ * - `revision`: bumped by WindowedStatements whenever its visible set changes, so
+ *   the Editor's outline/search-outline/node-view-cache effects re-run and
+ *   (re)measure highlights for statements that just scrolled into view. */
+export type WindowingBridge = {
+    scrollToNode: Writable<((node: Node) => Promise<boolean>) | undefined>;
+    revision: Writable<number>;
+};
+export const [getWindowing, setWindowing] =
+    createOptionalContext<WindowingBridge>();
 
 /** The current drag target being rendered. */
 export const [getDragTarget, setDragTarget] = createOptionalContext<

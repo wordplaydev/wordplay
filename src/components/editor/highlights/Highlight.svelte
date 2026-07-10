@@ -32,6 +32,7 @@
     <svg
         class={`highlight outline ${filteredClasses}`}
         class:ignored
+        class:below={!above}
         aria-hidden="true"
         style={`top: ${outline.miny - HIGHLIGHT_PADDING}px; left: ${
             outline.minx - HIGHLIGHT_PADDING
@@ -49,6 +50,7 @@
         class={`highlight underline ${filteredClasses}`}
         aria-hidden="true"
         class:ignored
+        class:below={!above}
         style={`top: ${outline.miny - HIGHLIGHT_PADDING}px; left: ${
             outline.minx - HIGHLIGHT_PADDING
         }px; `}
@@ -95,6 +97,17 @@
         /* Pure visual indicator. No events. Otherwise it interferes with node view events. */
         pointer-events: none;
         touch-action: none;
+    }
+
+    /* BELOW-layer highlights (fills like `animating`/`evaluating` that the token
+       text must paint OVER) sit at a negative z so they render above the
+       editor's background but under ALL in-flow content. Token views are plain
+       (non-positioned) inline boxes — making each one a positioned box was a
+       large WebKit layout cost — so without this the positioned SVG would paint
+       on top of their text and hide it. The editor isolates its stacking
+       context so the negative z can't escape beneath anything outside it. */
+    .highlight.below {
+        z-index: -1;
     }
 
     .highlight path {
@@ -193,7 +206,10 @@
     :global(
         .node-view:not(.block).evaluating .token-view,
         .node-view:not(.block).animating .token-view,
-        .node-view:not(.block).dragging .token-view
+        .node-view:not(.block).dragging .token-view,
+        .token-view:not(.block).evaluating,
+        .token-view:not(.block).animating,
+        .token-view:not(.block).dragging
     ) {
         color: var(--wordplay-background) !important;
     }

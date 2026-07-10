@@ -153,6 +153,51 @@ export function segmentEmoji(
     return runs;
 }
 
+/** A render-ready emoji run: the text plus the wrapper class it needs, or an
+ * undefined class for a bare text node. */
+export type EmojiRun = {
+    text: string;
+    cls: 'emoji-keycap' | 'emoji-color' | undefined;
+};
+
+/**
+ * The render plan for a run of text that may contain emoji: undefined when the
+ * text needs no wrapping (the common case — render it as a single bare text
+ * node), otherwise ordered {@link EmojiRun}s. With `forceColorEmoji` (the
+ * editor's monospace token font won't render color emoji) EVERY emoji is
+ * wrapped — ordinary emoji in .emoji-color (with variation selectors stripped:
+ * a trailing U+FE0F makes Safari prefer the SYSTEM emoji over the web color
+ * font), keycap/legacy combos in .emoji-keycap (which keep their sequence — the
+ * keycap ligature shapes digit + U+20E3 and legacy color needs U+FE0F).
+ * Without it, just the keycap/legacy combos. The two classes must map to
+ * DIFFERENT font stacks — see {@link segmentEmoji}.
+ */
+export function emojiRuns(
+    text: string,
+    forceColorEmoji: boolean,
+): EmojiRun[] | undefined {
+    if (forceColorEmoji) {
+        if (!hasEmoji(text)) return undefined;
+        return segmentEmoji(text).map<EmojiRun>((run) => ({
+            text:
+                run.kind === 'emoji'
+                    ? withoutVariationSelectors(run.text)
+                    : run.text,
+            cls:
+                run.kind === 'keycap'
+                    ? 'emoji-keycap'
+                    : run.kind === 'emoji'
+                      ? 'emoji-color'
+                      : undefined,
+        }));
+    }
+    if (!hasColorCombo(text)) return undefined;
+    return segmentColorEmoji(text).map<EmojiRun>((run) => ({
+        text: run.text,
+        cls: run.emoji ? 'emoji-keycap' : undefined,
+    }));
+}
+
 /** Converts a code point in a string to a JavaScript unicode escape string. */
 function toCodepoint(text: string, index: number) {
     const codepoint = text.codePointAt(index);

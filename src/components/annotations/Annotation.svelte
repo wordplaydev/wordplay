@@ -110,6 +110,11 @@
         // When expanding, reveal the node by moving the caret to it (without
         // stealing keyboard focus from this conflict).
         if (!expanded && editor) editor.setCaretPosition(annotation.node);
+        // Always scroll the editor to this conflict on click — regardless of
+        // whether it's already selected, being collapsed, or was hovered first.
+        // (A node selection from setCaretPosition doesn't auto-scroll, and the
+        // hover-emphasis path is inconsistent.)
+        editor?.revealNode(annotation.node);
         onToggle();
     }
 

@@ -1,4 +1,5 @@
 import Expression from '@nodes/Expression';
+import Block from '@nodes/Block';
 import type Node from '@nodes/Node';
 import type { Field } from '@nodes/Node';
 
@@ -119,8 +120,21 @@ export default class Root {
         }
     }
 
+    /** Memo for getSpaceRoot: every NodeView asks for its space root at mount,
+     * and windowed scrolling remounts the same nodes repeatedly; the leaf +
+     * ancestor walk is pure for an immutable tree. */
+    private spaceRoots: Map<Node, Node | undefined> | undefined = undefined;
+
     /** Get the highest ancestor of this node's first token. */
     getSpaceRoot(node: Node) {
+        this.spaceRoots ??= new Map();
+        if (this.spaceRoots.has(node)) return this.spaceRoots.get(node);
+        const root = this.computeSpaceRoot(node);
+        this.spaceRoots.set(node, root);
+        return root;
+    }
+
+    private computeSpaceRoot(node: Node) {
         // Find the first leaf of this node.
         const token = node.getFirstLeaf();
 
@@ -132,6 +146,13 @@ export default class Root {
         // Iterate up the ancestor ladder while the ancestor's first leaf is still the token.
         // Stop when it is not.
         for (const ancestor of this.getAncestors(token)) {
+            // Never hoist a token's space onto or past the ROOT block. The source's
+            // first token would otherwise resolve its space to the Program/Source
+            // (above the statement list), so its leading space + line number "1"
+            // render outside the root statements — orphaning them (and breaking
+            // statement virtualization). Stopping here makes the first statement own
+            // its own leading space, exactly like every other statement.
+            if (ancestor instanceof Block && ancestor.isRoot()) break;
             // If the first leaf of this ancestor is the token, then it's a possible root.
             if (ancestor.getFirstLeaf() === token) root = ancestor;
             // Otherwise, stop.
