@@ -44,6 +44,7 @@
     } from '@components/editor/highlights/outline';
     import isComposingKeyDown from '@components/editor/isComposingKeyDown';
     import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
+    import OutputPreview from '@components/editor/OutputPreview.svelte';
     import { pasteText } from '@components/editor/Paste';
     import {
         getBlockInsertionPoint,
@@ -62,8 +63,8 @@
         renderedTokenIds,
     } from '@components/editor/util/foldedCaret';
     import { isFoldableNode } from '@components/editor/util/folding';
-    import OutputPreview from '@components/editor/OutputPreview.svelte';
     import {
+        type CaretTokenSummary,
         type EditorState,
         IdleKind,
         getAnimatingNodes,
@@ -74,19 +75,18 @@
         getEditors,
         getEmphasizedConflict,
         getEvaluation,
-        setSteppedEvaluation,
-        setCaretTokenSummary,
-        type CaretTokenSummary,
         getKeyboardEditIdle,
         getResetKeyboardIdle,
         getSelectedOutput,
         setCaret,
+        setCaretTokenSummary,
         setDragTarget,
         setEditor,
         setEffectiveFolded,
         setFolded,
         setHighlights,
         setSetMenuAnchor,
+        setSteppedEvaluation,
         setWindowing,
     } from '@components/project/Contexts';
     import RootView from '@components/project/RootView.svelte';
@@ -557,9 +557,7 @@
     // would re-run per frame for nothing (values only display while paused). Skip
     // consecutive while-playing updates from the same evaluator.
     const steppedEvaluation =
-        evaluation !== undefined
-            ? writable(get(evaluation))
-            : undefined;
+        evaluation !== undefined ? writable(get(evaluation)) : undefined;
     if (steppedEvaluation !== undefined)
         setSteppedEvaluation(steppedEvaluation);
     $effect(() => {
@@ -824,7 +822,8 @@
     // and each target's verdict is cached for the drag — the simulation is a
     // full-project conflict analysis, far too slow to run per crossed target.
     const DRAG_FEEDBACK_REST_MS = 200;
-    let dragFeedbackTimer: ReturnType<typeof setTimeout> | undefined = undefined;
+    let dragFeedbackTimer: ReturnType<typeof setTimeout> | undefined =
+        undefined;
     let dragConflictCache = new Map<
         string,
         { conflicts: Conflict[]; project: Project }
@@ -834,8 +833,8 @@
     // ancestor walk and its drop simulations run only when the raw node under the pointer changes,
     // not on every pointer move while parked over a node. Reset on drag end.
     let lastResolvedTarget:
-        | { underId: number; draggedId: number; resolved: Node }
-        | undefined = undefined;
+        { underId: number; draggedId: number; resolved: Node } | undefined =
+        undefined;
 
     // Whether dropping on the current under-pointer target is permitted (no blocking conflict). Computed
     // once per target by updateDragFeedback and read by the highlight pass to gate the 'match' highlight.
@@ -948,7 +947,11 @@
         // ignored (read only, no delete, etc.) — the visual message alone isn't
         // in a live region.
         if (reason && $announce)
-            $announce('ignored', $caret.getLanguage(), $locales.getPlainText(reason));
+            $announce(
+                'ignored',
+                $caret.getLanguage(),
+                $locales.getPlainText(reason),
+            );
         // Flip back to unignored after the animation so we can give more feedback.
         setTimeout(() => resetIgnored(false), $animationFactor * 250);
     }
@@ -1194,7 +1197,12 @@
                 get(dragged) !== draggedNow
             )
                 return;
-            const result = getDropConflicts(project, source, draggedNow, target);
+            const result = getDropConflicts(
+                project,
+                source,
+                draggedNow,
+                target,
+            );
             dragConflictCache.set(key, result);
             applyDropConflicts(result);
         }, DRAG_FEEDBACK_REST_MS);
@@ -1371,7 +1379,12 @@
             ? getBreakPosition(source, event)
             : undefined;
         const tokenUnderPointer = getNodeAt(source, event, true, hit.el);
-        const nonTokenNodeUnderPointer = getNodeAt(source, event, false, hit.el);
+        const nonTokenNodeUnderPointer = getNodeAt(
+            source,
+            event,
+            false,
+            hit.el,
+        );
         const newPosition =
             // If there's an ampty position, use that.
             empty !== undefined
@@ -1549,12 +1562,15 @@
         if (!evaluator.isPlaying()) handleDebugHover(event);
     }
 
-    /** The STRUCTURAL replacement-target resolution, memoized on (raw node,
+    /** The structural replacement-target resolution, memoized on (raw node,
      * dragged node) — see lastResolvedTarget. Structural only: the conflict-
      * checked resolution ran a full-project analysis per ancestor per crossed
      * node, freezing the drag; conflicts refine in updateDragFeedback's rest
      * debounce and gate the actual drop in handleRelease. */
-    function resolveReplacementTargetMemoized(under: Node, dragged: Node): Node {
+    function resolveReplacementTargetMemoized(
+        under: Node,
+        dragged: Node,
+    ): Node {
         if (
             lastResolvedTarget !== undefined &&
             lastResolvedTarget.underId === under.id &&
@@ -1603,7 +1619,10 @@
         // and `.node-view` is inserted en masse during windowed scrolling — plus
         // the `:hover` inside it re-evaluates per frame as content moves under
         // the cursor. A direct class swap is O(1) per hover change.
-        if ($blocks) setLiftedBlock(el?.closest('.node-view.block.editable:not(.Token)') ?? null);
+        if ($blocks)
+            setLiftedBlock(
+                el?.closest('.node-view.block.editable:not(.Token)') ?? null,
+            );
 
         // By default, set the hovered state to whatever node is under the mouse. While dragging,
         // elevate it to the smallest enclosing node the drop is permitted on, so dropping on a
@@ -1634,12 +1653,10 @@
             // the blank-line insertion resolution oscillate. The source can't change
             // during a drag, so these frozen positions stay correct until drop.
             dragTokenRects = new Map(
-                getTokenViews().map(
-                    (tv): [HTMLElement, DOMRect] => [
-                        tv,
-                        tv.getBoundingClientRect(),
-                    ],
-                ),
+                getTokenViews().map((tv): [HTMLElement, DOMRect] => [
+                    tv,
+                    tv.getBoundingClientRect(),
+                ]),
             );
             // Drag has actually started — now suppress native scroll/zoom
             // for the rest of this gesture. Doing this on pointerdown would
@@ -3792,5 +3809,4 @@
             var(--wordplay-border-color);
         border-end-start-radius: var(--wordplay-border-radius);
     }
-
 </style>

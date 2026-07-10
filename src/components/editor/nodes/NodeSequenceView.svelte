@@ -4,18 +4,18 @@
     import NodeView, {
         type Format,
     } from '@components/editor/nodes/NodeView.svelte';
-    import { getDragTarget, getEditor } from '@components/project/Contexts';
-    import { spaceIndicator } from '@db/Database';
-    import { InsertionPoint } from '@edit/drag/Drag';
-    import type NodeRef from '@locale/NodeRef';
-    import type ValueRef from '@locale/ValueRef';
-    import Node from '@nodes/Node';
-    import Block from '@nodes/Block';
     import WindowedStatements from '@components/editor/nodes/WindowedStatements.svelte';
     import {
         WINDOWING_ENABLED,
         WINDOWING_MIN_STATEMENTS,
     } from '@components/editor/util/windowModel';
+    import { getDragTarget, getEditor } from '@components/project/Contexts';
+    import { spaceIndicator } from '@db/Database';
+    import { InsertionPoint } from '@edit/drag/Drag';
+    import type NodeRef from '@locale/NodeRef';
+    import type ValueRef from '@locale/ValueRef';
+    import Block from '@nodes/Block';
+    import Node from '@nodes/Node';
     import { EXPLICIT_NEWLINE_TEXT } from '@parser/Spaces';
     import type KeysOfType from '@util/KeysOfType';
 
@@ -66,7 +66,7 @@
 
     let nodes = $derived(filtered ?? (node[field] as Node[]));
 
-    // Virtualize only an EDITOR's root block's (long) statement list in text mode;
+    // Virtualize only an editor's root block's (long) statement list in text mode;
     // every other list and blocks mode renders normally. Gated OFF by
     // WINDOWING_ENABLED. The editor-context check excludes read-only RootViews
     // (concept docs, previews) that render outside a scroll container, where the
