@@ -5821,6 +5821,10 @@
                 "fullscreen": {
                     "on": "$~ieșire browser ecran complet",
                     "off": "$~accesează browserul pe tot ecranul"
+                },
+                "editName": {
+                    "on": "$~arată numele în limba ta",
+                    "off": "$~editează numele în fiecare limbă"
                 }
             },
             "tour": {

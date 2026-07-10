@@ -5819,6 +5819,10 @@
                 "fullscreen": {
                     "on": "$~avsluta webbläsarens helskärm",
                     "off": "$~öppna webbläsarens helskärm"
+                },
+                "editName": {
+                    "on": "$~visa namnet på ditt språk",
+                    "off": "$~ändra namnet på alla språk"
                 }
             },
             "label": "$~projektkontroller",

@@ -5822,6 +5822,10 @@
                 "fullscreen": {
                     "on": "$~Quitter le navigateur en plein écran",
                     "off": "$~Passer en mode plein écran du navigateur"
+                },
+                "editName": {
+                    "on": "$~affiche le nom dans ta langue",
+                    "off": "$~modifie le nom dans chaque langue"
                 }
             },
             "label": "$~contrôles de projet",

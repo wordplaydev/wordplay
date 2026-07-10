@@ -5816,6 +5816,10 @@
                 "fullscreen": {
                     "on": "$~salir de pantalla completa del navegador",
                     "off": "$~entrar en pantalla completa del navegador"
+                },
+                "editName": {
+                    "on": "$~muestra el nombre en tu idioma",
+                    "off": "$~edita el nombre en cada idioma"
                 }
             },
             "label": "$~proyecto",

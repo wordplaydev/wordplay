@@ -5819,6 +5819,10 @@
                 "fullscreen": {
                     "on": "$~lumabas sa browser nang buong screen",
                     "off": "$~ipasok ang buong screen ng browser"
+                },
+                "editName": {
+                    "on": "$~ipakita ang pangalan sa iyong wika",
+                    "off": "$~i-edit ang pangalan sa bawat wika"
                 }
             },
             "label": "$~mga kontrol sa proyekto",

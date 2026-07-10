@@ -5819,6 +5819,10 @@
                 "fullscreen": {
                     "on": "$~Thoát khỏi chế độ toàn màn hình của trình duyệt",
                     "off": "$~vào chế độ toàn màn hình trình duyệt"
+                },
+                "editName": {
+                    "on": "$~hiển thị tên bằng ngôn ngữ của bạn",
+                    "off": "$~chỉnh sửa tên trong mọi ngôn ngữ"
                 }
             },
             "label": "$~kiểm soát dự án",

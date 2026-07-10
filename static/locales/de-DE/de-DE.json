@@ -5828,6 +5828,10 @@
                 "fullscreen": {
                     "on": "$~Browser im Vollbildmodus beenden",
                     "off": "$~Browser im Vollbildmodus anzeigen"
+                },
+                "editName": {
+                    "on": "$~zeige den Namen in deiner Sprache",
+                    "off": "$~bearbeite den Namen in jeder Sprache"
                 }
             },
             "label": "$~Projektsteuerung",

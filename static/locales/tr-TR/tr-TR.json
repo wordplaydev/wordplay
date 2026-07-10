@@ -5825,6 +5825,10 @@
                 "fullscreen": {
                     "on": "$~Tarayıcıyı tam ekran modundan çıkar.",
                     "off": "$~Tarayıcıyı tam ekran moduna alın."
+                },
+                "editName": {
+                    "on": "$~ismi kendi dilinde göster",
+                    "off": "$~ismi her dilde düzenle"
                 }
             },
             "label": "$~proje kontrolleri",

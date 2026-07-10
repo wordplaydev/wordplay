@@ -5819,6 +5819,10 @@
                 "fullscreen": {
                     "on": "sair do browser em ecrã inteiro",
                     "off": "entrar no browser em ecrã inteiro"
+                },
+                "editName": {
+                    "on": "$~mostrar o nome no teu idioma",
+                    "off": "$~editar o nome em todos os idiomas"
                 }
             },
             "label": "projeto",

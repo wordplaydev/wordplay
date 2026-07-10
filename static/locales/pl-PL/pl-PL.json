@@ -5833,6 +5833,10 @@
                 "fullscreen": {
                     "on": "$~wyjdź z przeglądarki w trybie pełnoekranowym",
                     "off": "$~przejdź do trybu pełnoekranowego przeglądarki"
+                },
+                "editName": {
+                    "on": "$~pokaż nazwę w twoim języku",
+                    "off": "$~edytuj nazwę w każdym języku"
                 }
             },
             "label": "$~kontrola projektu",

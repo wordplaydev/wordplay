@@ -5820,6 +5820,10 @@
                 "fullscreen": {
                     "on": "$~Keluar dari mode layar penuh browser",
                     "off": "$~masuk ke mode layar penuh browser"
+                },
+                "editName": {
+                    "on": "$~tampilkan nama dalam bahasa kamu",
+                    "off": "$~ubah nama dalam setiap bahasa"
                 }
             },
             "tour": {
