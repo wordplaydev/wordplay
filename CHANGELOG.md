@@ -16,6 +16,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Fixed
 
 - ‼ We moved the clipboard and collaboration footer in the editor to its own space, so the cursor can't hide behind it.
+- ⌨️ We made vertical caret movement in the blocks editor more predictable.
 
 ## 0.26.0 - 2026-07-02
 
