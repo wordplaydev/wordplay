@@ -10,6 +10,7 @@
     } from '@components/editor/caret/CaretView.svelte';
     import { computeCaretDescriptionPosition } from '@components/editor/caretDescriptionPosition';
     import {
+        Category,
         type Edit,
         InsertSymbol,
         type ProjectRevision,
@@ -2381,7 +2382,16 @@
         // commands like Escape, a single arrow press, or a menu shortcut
         // fall through with deferDisplayUpdate=false and update the
         // description immediately.
-        deferDisplayUpdate = event.repeat || command?.typing === true;
+        //
+        // Cursor-movement commands are exempt even when held: navigation's whole
+        // point is seeing where the caret/selection landed, so deferring (which
+        // empties caretHighlights and freezes displayedCaret) would hide the
+        // selection until release. The block selection is a cheap CSS outline and
+        // caret movement makes no source edit, so keeping it live is affordable;
+        // typing and held edits (e.g. Backspace) still defer to skip re-analysis.
+        deferDisplayUpdate =
+            (event.repeat || command?.typing === true) &&
+            command?.category !== Category.Cursor;
 
         // If it produced a new caret and optionally a new project, update the stores.
         const idle =
