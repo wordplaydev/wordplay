@@ -69,7 +69,9 @@
                         inline
                         inert
                         editable={false}
-                    />
+                    />{#if parsed.hidden > 0}<div class="more" aria-label="elided">
+                            …
+                        </div>{/if}
                 {:else}{text}{/if}
             </div>
         </div>
@@ -98,5 +100,11 @@
     .scaler {
         width: max-content;
         transform-origin: top left;
+    }
+
+    /* The "…" shown when a copied sequence is truncated in the preview. Dim, and
+       on its own line below the shown statements (RootView renders inline-flex). */
+    .more {
+        color: var(--wordplay-inactive-color);
     }
 </style>
