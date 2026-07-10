@@ -1385,33 +1385,45 @@
             false,
             hit.el,
         );
-        const newPosition =
-            // If there's an ampty position, use that.
-            empty !== undefined
-                ? empty
-                : // If over a blank line's break in blocks mode, use its beginning.
-                  breakPosition !== undefined
-                  ? breakPosition
-                  : // If in blocks mode and over an editable text token, get the caret position
-                    $blocks &&
+        // When shift-dragging from within the current node selection, keep and
+        // drag that whole selection rather than re-selecting the smaller node
+        // under the pointer. Without shift the drag falls through to normal
+        // range selection.
+        const selectedNode =
+            $caret.position instanceof Node ? $caret.position : undefined;
+        const draggingSelection =
+            event.shiftKey &&
+            selectedNode !== undefined &&
+            nonTokenNodeUnderPointer !== undefined &&
+            selectedNode.contains(nonTokenNodeUnderPointer);
+        const newPosition = draggingSelection
+            ? selectedNode
+            : // If there's an ampty position, use that.
+              empty !== undefined
+              ? empty
+              : // If over a blank line's break in blocks mode, use its beginning.
+                breakPosition !== undefined
+                ? breakPosition
+                : // If in blocks mode and over an editable text token, get the caret position
+                  $blocks &&
+                    tokenUnderPointer instanceof Token &&
+                    Caret.isTokenTextBlockEditable(
+                        tokenUnderPointer,
+                        source.root.getParent(tokenUnderPointer),
+                    )
+                  ? hit.index
+                  : // If shift is down or in blocks mode and not over an editable text token, select the non-token node at the position.
+                    (event.shiftKey || $blocks) &&
+                      nonTokenNodeUnderPointer !== undefined
+                    ? nonTokenNodeUnderPointer
+                    : // If the node is a placeholder token, select it's placeholder ancestor
                       tokenUnderPointer instanceof Token &&
-                      Caret.isTokenTextBlockEditable(
-                          tokenUnderPointer,
-                          source.root.getParent(tokenUnderPointer),
-                      )
-                    ? hit.index
-                    : // If shift is down or in blocks mode and not over an editable text token, select the non-token node at the position.
-                      (event.shiftKey || $blocks) &&
-                        nonTokenNodeUnderPointer !== undefined
-                      ? nonTokenNodeUnderPointer
-                      : // If the node is a placeholder token, select it's placeholder ancestor
-                        tokenUnderPointer instanceof Token &&
-                          tokenUnderPointer.isSymbol(Sym.Placeholder)
-                        ? source.root
-                              .getAncestors(tokenUnderPointer)
-                              .find((a) => a.isPlaceholder())
-                        : // Otherwise choose an index position under the mouse
-                          hit.index;
+                        tokenUnderPointer.isSymbol(Sym.Placeholder)
+                      ? source.root
+                            .getAncestors(tokenUnderPointer)
+                            .find((a) => a.isPlaceholder())
+                      : // Otherwise choose an index position under the mouse
+                        hit.index;
         // If we found a position, set it and reset the ignore feedback.
         if (newPosition !== undefined) {
             caret.set($caret.withPosition(newPosition));
@@ -1439,7 +1451,9 @@
             nonTokenNodeUnderPointer &&
             ($blocks || event.shiftKey)
         ) {
-            dragCandidate = nonTokenNodeUnderPointer;
+            dragCandidate = draggingSelection
+                ? selectedNode
+                : nonTokenNodeUnderPointer;
 
             // A read-only drag source (e.g. an example) drags nodes into a
             // *different* editor. Release the implicit pointer capture the browser
@@ -3461,8 +3475,7 @@
             focused = false;
             // If we're composing and lose focus, end the composition.
             if (composing) handleCompositionEnd();
-        }}
-    ></textarea>
+        }}></textarea>
     <!-- Render the program -->
     <RootView
         node={source}

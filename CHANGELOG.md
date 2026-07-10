@@ -11,6 +11,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - ⚡ We made the code editor much faster on long programs.
 - ✍️ We fixed a freeze when you started to drag code in a long program.
 - 📋 We trimmed clipboard contents to avoid them from getting too big.
+- 🖱️ In text mode, we now allow the selected node to be draggable with the shift key down.
 
 ### Fixed
 
