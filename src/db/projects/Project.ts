@@ -853,6 +853,7 @@ export default class Project {
             [input.Speech, Permission.Microphone],
             [input.Camera, Permission.Camera],
             [input.Hand, Permission.Camera],
+            [input.Face, Permission.Camera],
         ];
         for (const [definition, permission] of map) {
             if (this.getReferences(definition).length > 0)

@@ -228,18 +228,11 @@ export default class ConceptLink extends Content {
                 ? undefined
                 : new CodepointName(codepoint);
         }
-        // A bare all-hex name (no member separator) is a codepoint reference.
-        if (property === undefined && name.match(HexRegEx)) {
-            const codepoint = getCodepointFromString(name);
-            return codepoint === undefined
-                ? undefined
-                : new CodepointName(codepoint);
-        }
         // A bare `@term` (no member/separator) whose id is a glossary term, and
         // not a concept id, is a glossary reference. Concept ids take precedence.
-        else if (property === undefined && ReservedGlossaryIDs.has(concept))
+        if (property === undefined && ReservedGlossaryIDs.has(concept))
             return new GlossaryName(concept);
-        else return new CharacterName(concept, property);
+        return new CharacterName(concept, property);
     }
 
     /** Is valid if it refers to a concept key in the given Locale */
