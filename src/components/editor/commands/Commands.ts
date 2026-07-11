@@ -115,8 +115,14 @@ export type Command = {
     typing?: boolean | undefined;
     /** An UI to place on buttons corresponding to this command for tutorial highlighting */
     uiid?: string;
-    /** A function that should indicate whether the command is active. If undefined, it's not executed, but the keystroke is consumed. */
-    active?: (context: CommandContext, key: string) => boolean | undefined;
+    /** A function that should indicate whether the command is active. Returning
+     * true executes it; false/undefined leaves the keystroke for the browser;
+     * null shows the command inactive but still consumes the keystroke (so a
+     * matched shortcut like Ctrl/Cmd+← doesn't trigger a browser default). */
+    active?: (
+        context: CommandContext,
+        key: string,
+    ) => boolean | null | undefined;
     /** Generates an edit or other editor command */
     execute: (context: CommandContext, key: string) => CommandResult;
 };
@@ -472,9 +478,11 @@ export const StepBack: Command = {
     control: true,
     key: 'ArrowLeft',
     keySymbol: '←',
-    // If we don't consume this, the browser will go back, which is annoying.
-    // active: (context) =>
-    //     !context.evaluator.isAtBeginning() ? true : undefined,
+    // Show the button inactive at the beginning, but return null (not undefined)
+    // so the dispatcher still consumes Ctrl/Cmd+← — otherwise the browser would
+    // navigate back.
+    active: (context) =>
+        !context.evaluator.isAtBeginning() ? true : null,
     execute: (context) => {
         context.evaluator.stepBackWithinProgram();
         return true;

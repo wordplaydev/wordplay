@@ -50,6 +50,9 @@
         /** Rendered when the output isn't a Stage. When omitted, the value is shown via
          *  ValueView (ExampleUI's behavior); how-to tiles pass a code preview instead. */
         fallback?: Snippet;
+        /** Show the corner play/stop button. Parents that render their own play
+         *  control (e.g. ExampleUI) pass false to avoid a duplicate. */
+        control?: boolean;
     }
 
     let {
@@ -60,6 +63,7 @@
         onPlay,
         onStop,
         fallback,
+        control = true,
     }: Props = $props();
 
     // Self-contained when the parent didn't hand us an evaluator.
@@ -106,7 +110,7 @@
     /** Whether playing this preview would actually do anything: either the project
      *  references streams (temporal like Time, or input like Key/Pointer) so it reevaluates,
      *  or its output animates (resting sequences, entry/move/exit transitions, durations).
-     *  Only then do we show the play/stop control. Computed from the first-frame evaluation. */
+     *  Only then do we show the corner play/stop control. Computed from the first-frame evaluation. */
     let playable = $state(false);
 
     // Isolate the project-scoped contexts OutputView/StageView read, mirroring ExampleUI.
@@ -271,7 +275,7 @@
         </div>
         <!-- A small corner control, only for projects that actually reevaluate or animate.
              It doesn't cover the stage, so stage clicks stay interactive while playing. -->
-        {#if playable}
+        {#if control && playable}
             <div class="control">
                 <!-- A single Button (not a play/stop pair) so activating it with the
                      keyboard keeps focus: swapping in a different element would drop it. -->

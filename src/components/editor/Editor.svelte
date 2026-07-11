@@ -166,6 +166,9 @@
         autofocus?: boolean;
         /** Whether the editor is editable */
         editable: boolean;
+        /** Show inline stepping values even when not editable (e.g. read-only
+         *  code examples in docs that step through evaluation). */
+        values?: boolean;
         /** Allow dragging nodes *out* of this editor even when it isn't editable,
          *  so read-only examples can be a drag source (e.g. ExampleUI). The
          *  editor remains a non-drop-target; only drag initiation is enabled. */
@@ -201,6 +204,7 @@
         selected = false,
         autofocus = true,
         editable,
+        values = false,
         dragSource = false,
         searchable = false,
         locale,
@@ -3493,6 +3497,7 @@
         {locale}
         caret={$caret}
         {editable}
+        {values}
         blocks={$blocks}
         lines={$showLines}
         inline={false}

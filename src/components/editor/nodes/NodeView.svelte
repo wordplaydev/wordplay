@@ -7,6 +7,9 @@
         editable: boolean;
         spaces: Spaces | undefined;
         definition?: Definition | undefined;
+        /** Show inline stepping values even when not editable (e.g. read-only
+         *  code examples in docs). Defaults to editable's behavior when absent. */
+        values?: boolean;
     };
 </script>
 
@@ -156,7 +159,7 @@
     // and 4) the node's evaluation is currently evaluating. Start by assuming there isn't a value.
     // Note that this interacts with Editor.handleEdit(), which adjust caret positions if a value is rendered.
     let value = $derived(
-        format.editable &&
+        (format.editable || format.values) &&
             $evaluation &&
             !$evaluation.playing &&
             node instanceof Expression &&

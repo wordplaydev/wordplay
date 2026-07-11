@@ -10,6 +10,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 - 🎞️ We added a `changing` input to `@Phrase` that chooses how its text changes: `'edit'` erases and retypes it, `'rewrite'` replaces one letter at a time in a random order, and `'random'` spins each letter like a slot machine until it lands on the new text, using only letters that match your text's language and case (#74).
 - 📛 Projects can have multilingual names now.
+- 🥾 You can now step through example programs to see how they evaluate.
 
 ### Changed
 

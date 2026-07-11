@@ -43,6 +43,9 @@
         caret?: Caret | undefined;
         /** Whether this view is editable. Affects appearance. */
         editable?: boolean;
+        /** Show inline stepping values even when not editable (e.g. read-only
+         *  code examples in docs). */
+        values?: boolean;
         /** Whether to show line numbers */
         lines?: boolean;
         /** Whether any particular nodes should be rendered as removed */
@@ -61,6 +64,7 @@
         locale = null,
         caret = undefined,
         editable = false,
+        values = false,
         lines = false,
         removed = [],
         elided = [],
@@ -315,7 +319,7 @@
         class:elide
         ><NodeView
             {node}
-            format={{ block: blocks, spaces, root, editable }}
+            format={{ block: blocks, spaces, root, editable, values }}
         /></span
     >
 {:else}
@@ -326,7 +330,7 @@
         class:elide
         ><NodeView
             {node}
-            format={{ block: blocks, spaces, root, editable }}
+            format={{ block: blocks, spaces, root, editable, values }}
         /></code
     >
 {/if}
