@@ -21,8 +21,6 @@ import { node, type Field, type Replacement } from '@nodes/Node';
 import Symbol from '@nodes/Sym';
 import Token from '@nodes/Token';
 
-export const HexRegEx = /^[0-9a-fA-F]+$/;
-
 /** True if the given locale entry (a NameAndDoc-like object) has a name or names field
  * that includes the given name, ignoring write-status annotations. */
 function entryHasName(entry: unknown, name: string): boolean {
@@ -76,7 +74,7 @@ function hasLocalizedProperty(sectionEntry: unknown, property: string): boolean 
 // Valid concept references are:
 // 1) any input, output, basis, or node key in the locale.
 // 2) a UI key in the locale.
-// 3) a codepoint in hex format.
+// 3) a Unicode codepoint in the reserved `U` namespace (e.g. @U/1F600).
 // 4) the name of a custom character
 
 export const ReservedConceptIDs = new Set([
@@ -197,27 +195,33 @@ export default class ConceptLink extends Content {
     }
 
     getCodepoint() {
-        const name = this.getName();
-        if (name.match(HexRegEx)) return getCodepointFromString(name);
-        return undefined;
+        return codepointOfConceptRef(this.getName());
     }
 
     static parse(name: string) {
-        if (name.match(HexRegEx)) {
-            const codepoint = getCodepointFromString(name);
+        // Split on either separator: `.` introduces a concept's member/
+        // subconcept (e.g. `@Color.random`), while `/` introduces a UI
+        // reference, how-to, codepoint, or character name (e.g.
+        // `@username/charactername`). Classification below is by the first
+        // segment, not the separator, so either separator resolves; authored
+        // content uses `.` for concepts.
+        const [concept, property] = name.split(/[./]/);
+        if (concept.toLowerCase() === 'ui') return new UIName(property);
+        if (concept.toLowerCase() === 'how') return new HowToName(property);
+        // The reserved `U` namespace is a Unicode codepoint reference (e.g.
+        // `@U/1F600` → 😀). An invalid codepoint (bad hex, out of range, NUL,
+        // or a surrogate) is unparseable, so `isValid` reports a conflict.
+        // The reserved namespaces `u`, `ui`, and `how` can never collide with
+        // a creator's username, since usernames require at least 5 characters
+        // (see isValidUsername).
+        if (concept.toLowerCase() === 'u') {
+            if (property === undefined) return undefined;
+            const codepoint = getCodepointFromString(property);
             return codepoint === undefined
                 ? undefined
                 : new CodepointName(codepoint);
         }
-        // Split on either separator: `.` introduces a concept's member/
-        // subconcept (e.g. `@Color.random`), while `/` introduces a UI
-        // reference, how-to, or character name (e.g. `@username/charactername`).
-        // Classification below is by the first segment, not the separator, so
-        // either separator resolves; authored content uses `.` for concepts.
-        const [concept, property] = name.split(/[./]/);
-        if (concept.toLowerCase() === 'ui') return new UIName(property);
-        if (concept.toLowerCase() === 'how') return new HowToName(property);
-        else if (ReservedConceptIDs.has(concept))
+        if (ReservedConceptIDs.has(concept))
             return new ConceptName(concept, property);
         // A bare `@term` (no member/separator) whose id is a glossary term, and
         // not a concept id, is a glossary reference. Concept ids take precedence.
@@ -364,12 +368,21 @@ export default class ConceptLink extends Content {
     }
 
     toText() {
-        // A `@<hex>` reference is a Unicode codepoint escape (a CodepointName),
-        // so converting markup to plain text resolves it to its character, the
-        // same as a text literal does. Other links have no plain-text form, so
-        // they fall back to their source.
+        // A `@U/<hex>` reference is a Unicode codepoint escape (a
+        // CodepointName), so converting markup to plain text resolves it to its
+        // character, the same as a text literal does. Other links have no
+        // plain-text form, so they fall back to their source.
         return this.getCodepoint() ?? this.toWordplay();
     }
+}
+
+/** The character a concept reference (the text after `@`) resolves to, if it
+ *  is a codepoint reference (e.g. `U/1F600` → 😀), and undefined otherwise.
+ *  The single decode path shared by markup, text literals, and formatted
+ *  literals, so codepoint resolution can't drift between them. */
+export function codepointOfConceptRef(name: string): string | undefined {
+    const parsed = ConceptLink.parse(name);
+    return parsed instanceof CodepointName ? parsed.codepoint : undefined;
 }
 
 /** Build concept-link completions that match the partial link `prefix` (the

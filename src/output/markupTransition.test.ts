@@ -42,6 +42,17 @@ test('truncateMarkup preserves formatting of surviving text', () => {
     expect(truncated.getFormats().some((f) => f.weight === 700)).toBe(true);
 });
 
+test('getFormats resolves a codepoint reference to its character', () => {
+    // A `@U/<hex>` reference renders as its character in output formats.
+    const m = Markup.words('check @U/2713');
+    expect(
+        m
+            .getFormats()
+            .map((f) => f.text)
+            .join(''),
+    ).toContain('✓');
+});
+
 test('truncateMarkup keeps inter-word spacing', () => {
     const m = Markup.words('hello there world');
     // Truncate past the first word; the space must survive in the plain text.

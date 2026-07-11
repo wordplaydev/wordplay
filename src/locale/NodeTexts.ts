@@ -225,7 +225,7 @@ type NodeTexts = {
     ConceptLink: DescriptiveNodeText<['concept']> & {
         /** Per-reference-kind descriptions, chosen by what the @ reference resolves to. */
         kind: {
-            /** [formatted] Description when the reference is a Unicode codepoint (e.g. @1F600). */
+            /** [formatted] Description when the reference is a Unicode codepoint (e.g. @U/1F600). */
             codepoint: Template<['concept']>;
             /** [formatted] Description when the reference is a UI element (e.g. @UI/toolbar). */
             ui: Template<['concept']>;

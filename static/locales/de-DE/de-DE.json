@@ -518,7 +518,7 @@
                 "Angenommen, Sie möchten über @Evaluate sprechen und wie großartig sie sind. Sie könnten schreiben:",
                 "\\¶You know, @Evaluate is pretty awesome.¶\n'look, a character link!'\\",
                 "Zeichen haben auch entsprechende Nummern. Beispielsweise ist @FunctionDefinition 192. Sie können sie über die Nummer aufrufen, und sie werden angezeigt:",
-                "\\`92 ist so nett!`\\",
+                "\\`@U/192 ist so nett!`\\",
                 "Und wenn Sie Ihren eigenen Charakter erstellen, können Sie ihn mit dem Namen ansprechen, den Sie ihm gegeben haben.",
                 "\\`@coolbeans`\\",
                 "Oh ... ich schätze, dieses Zeichen existiert nicht, also bekommst du ein kleines Quadrat. Aber wenn es das gäbe, würde es hier erscheinen!"
@@ -2474,7 +2474,7 @@
                 "\\\"Here are some sums \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
                 "Siehst du, wie schön ich gerade diese Summen ausgewertet und sie in den @Text gesetzt habe?",
                 "Ich habe noch ein letztes kleines Geheimnis: Wusstest du, dass wir alle eine einzigartige Zahl haben? Es stimmt! Du kannst uns über unsere Zahl ansprechen. Zum Beispiel ist @FunctionDefinition 192:",
-                "\\'92'\\",
+                "\\'@U/192'\\",
                 "Siehst du, wie 192 zu @FunctionDefinition wurde? Ich höre, dass ihr diese Zahlen 'Unicode' nennt.",
                 "Außerdem gibt es so viele großartige Funktionen, die @FunctionDefinition für mich gemacht hat, um alle möglichen Dinge mit Wörtern zu tun!"
             ],

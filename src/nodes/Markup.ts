@@ -10,7 +10,6 @@ import Characters from '../lore/BasisCharacters';
 import type { FormattedText } from '@output/Phrase';
 import Spaces from '@parser/Spaces';
 import { toMarkup } from '@parser/toMarkup';
-import { getCodepointFromString } from '@unicode/getCodepoint';
 import ConceptLink, { CharacterName, CodepointName } from '@nodes/ConceptLink';
 import Content from '@nodes/Content';
 import Example from '@nodes/Example';
@@ -270,10 +269,7 @@ export default class Markup extends Content {
                     const match = ConceptLink.parse(node.getText().slice(1));
                     if (match instanceof CodepointName)
                         formats.push({
-                            text:
-                                getCodepointFromString(
-                                    node.getText().slice(1),
-                                ) ?? node.getText(),
+                            text: match.codepoint,
                             italic,
                             weight,
                         });

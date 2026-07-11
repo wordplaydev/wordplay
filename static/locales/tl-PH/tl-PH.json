@@ -518,7 +518,7 @@
                 "Halimbawa, sabihin nating gusto mong pag-usapan ang @Evaluate, at kung gaano sila kahusay. Maaari mong isulat:",
                 "\\¶Alam mo, napakagaling ng @Evaluate.¶\n'tingnan mo, isang link ng karakter!'\\",
                 "Mayroon ding mga numero ang mga karakter na tumutugma sa kanila. Halimbawa, ang @FunctionDefinition ay 192. Maaari mo silang tukuyin sa pamamagitan ng numero at lilitaw sila:",
-                "\\`Ang 92 ay napakaganda!`\\",
+                "\\`Ang @U/192 ay napakaganda!`\\",
                 "At kung gagawa ka ng sarili mong karakter, maaari mo silang tukuyin sa pangalan na ibinigay mo sa kanila.",
                 "\\`@coolbeans`\\",
                 "Naku... mukhang wala ang karakter na iyon, kaya nakakakuha ka ng maliit na parisukat. Ngunit kung umiral sila, lilitaw sila rito!"
@@ -2474,7 +2474,7 @@
                 "\\\"Here are some sums \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
                 "Kita mo ba kung gaano kagandang naisagawa ko ang mga kabuuang iyon, at inilagay sila sa loob ng @Text?",
                 "Mayroon akong isang huling maliit na lihim: alam mo bang lahat kami ay may natatanging numero? Totoo iyon! Maaari mo kaming tukuyin sa pamamagitan ng aming numero. Halimbawa, ang @FunctionDefinition ay 192:",
-                "\\'92'\\",
+                "\\'@U/192'\\",
                 "Kita mo ba kung paano naging @FunctionDefinition ang 192? Naririnig kong tinatawag ninyo ang mga numerong ito na 'Unicode'.",
                 "Kung hindi, napakaraming kahanga-hangang mga function na ginawa ng @FunctionDefinition para sa akin upang gawin ang lahat ng uri ng bagay sa mga salita!"
             ],

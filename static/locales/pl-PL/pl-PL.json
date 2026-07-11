@@ -518,7 +518,7 @@
                 "Na przykład, powiedzmy, że chcesz porozmawiać o @Evaluate i jak są niesamowici. Możesz napisać:",
                 "\\¶Wiesz, @Evaluate jest całkiem niezłe.¶\n'patrz, link do znaku!'\\",
                 "Znaki mają również numery, które im odpowiadają. Na przykład @FunctionDefinition to 192. Możesz się do nich odwołać po numerze, a one się pojawią:",
-                "\\`92 jest takie miłe!`\\",
+                "\\`@U/192 jest takie miłe!`\\",
                 "A jeśli stworzysz własną postać, możesz zwracać się do niej, używając imienia, które jej nadałeś.",
                 "\\`@coolbeans`\\",
                 "Och... Chyba ta postać nie istnieje, więc dostajesz mały kwadrat. Ale gdyby istniała, to by się tu pojawiła!"
@@ -2474,7 +2474,7 @@
                 "\\\"Oto kilka sum \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
                 "Widzisz, jak elegancko obliczyłem te sumy i umieściłem je w @Text?",
                 "Mam jeszcze jeden mały sekret: czy wiesz, że wszyscy mamy unikalny numer? To prawda! Możesz się do nas odwoływać po naszym numerze. Na przykład @FunctionDefinition to 192:",
-                "\\'92'\\",
+                "\\'@U/192'\\",
                 "Widzisz jak 192 zamieniło się w @FunctionDefinition? Słyszałem, że nazywasz te liczby „Unicode”.",
                 "Poza tym @FunctionDefinition stworzyło mnóstwo wspaniałych funkcji, dzięki którym mogę robić najróżniejsze rzeczy za pomocą słów!"
             ],

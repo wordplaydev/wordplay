@@ -4,7 +4,7 @@ import { ConceptRegExPattern } from '@parser/Tokenizer';
 /**
  * A chunk of a plain-text string: either literal text or a custom-character
  * reference (e.g. @username/charname). Used to measure and render plain text
- * containing character references (#773). Codepoint references (@1F600) are
+ * containing character references (#773). Codepoint references (@U/1F600) are
  * already resolved to real characters during TextLiteral evaluation, and
  * non-character references (concept/UI/how links) are left as literal text.
  */

@@ -523,8 +523,8 @@
                 "I'm a link to Verse character. I'm helpful when you want to write a @Doc and refer to one of us.",
                 "For example, say you wanted to talk about @Evaluate, and how awesome they are. You could write:",
                 "\\¶You know, @Evaluate is pretty awesome.¶\n'look, a character link!'\\",
-                "Characters also have numbers that correspond to them. For example, @FunctionDefinition is 192. You can refer to them by number and they'll appear:",
-                "\\`@192 is so nice!`\\",
+                "Characters also have Unicode numbers that correspond to them. For example, @FunctionDefinition is 192. You can refer to any Unicode character by writing @U/ and its number, and it will appear:",
+                "\\`@U/192 is so nice!`\\",
                 "And if you make your own character, you can refer to them by the name you gave them.",
                 "\\`@coolbeans`\\",
                 "Oh... I guess that character doesn't exist, so you get a little square. But if they did, they would show up here!"
@@ -2473,9 +2473,9 @@
                 "If you want to make me with some other values, you can do this:",
                 "\\\"Here are some sums \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
                 "See how elegantly I just evaluated those sums, and placed them inside the @Text?",
-                "I have one last little secret: did you know we all have a unique number? It's true! You can refer to us by our number. For example, @FunctionDefinition is 192:",
-                "\\'@192'\\",
-                "See how 192 turned into @FunctionDefinition? I hear you call these numbers 'Unicode'.",
+                "I have one last little secret: did you know we all have a unique number? It's true! You can refer to us by writing @U/ and our number. For example, @FunctionDefinition is 192:",
+                "\\'@U/192'\\",
+                "See how @U/192 turned into @FunctionDefinition? I hear you call these numbers 'Unicode'.",
                 "Otherwise, there just so many glorious functions that @FunctionDefinition made for me to do all kinds of things with words!"
             ],
             "name": ["''", "Text"],

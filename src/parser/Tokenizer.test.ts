@@ -93,9 +93,12 @@ test.each([
     // A trailing sentence period is not part of the link.
     ['`see @Color.`', '`|see |@Color|.|`|'],
     ['`@Color. next`', '`|@Color|. next|`|'],
-    // UI, how-to, and character references keep `/`.
+    // UI, how-to, codepoint, and character references keep `/`.
     ['`@UI/button`', '`|@UI/button|`|'],
     ['`@Stage/color`', '`|@Stage/color|`|'],
+    ['`@U/1F600`', '`|@U/1F600|`|'],
+    // Hex-looking names are ordinary names (possible concept/character names),
+    // not codepoints; only the `@U/<hex>` namespace denotes a codepoint.
     ['`@11`', '`|@11|`|'],
     ['`@2222`', '`|@2222|`|'],
     ['`@ABCDEF`', '`|@ABCDEF|`|'],

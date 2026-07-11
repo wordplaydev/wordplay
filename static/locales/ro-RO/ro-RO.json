@@ -519,7 +519,7 @@
                 "For example, say you wanted to talk about @Evaluate, and how awesome they are. You could write:",
                 "\\¶You know, @Evaluate is pretty awesome.¶\n'look, a character link!'\\",
                 "Characters also have numbers that correspond to them. For example, @FunctionDefinition is 192. You can refer to them by number and they'll appear:",
-                "\\`@192 is so nice!`\\",
+                "\\`@U/192 is so nice!`\\",
                 "And if you make your own character, you can refer to them by the name you gave them.",
                 "\\`@coolbeans`\\",
                 "Oh... I guess that character doesn't exist, so you get a little square. But if they did, they would show up here!"
@@ -2475,7 +2475,7 @@
                 "\\\"Here are some sums \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
                 "Vezi cât de elegant am evaluat acele sume și le-am pus în @Text?",
                 "Am un ultim mic secret: știai că toți avem un număr unic? E adevărat! Ne poți referi prin numărul nostru. De exemplu, @FunctionDefinition este 192:",
-                "\\'92'\\",
+                "\\'@U/192'\\",
                 "Vezi cum 192 s-a transformat în @FunctionDefinition? Aud că voi numiți aceste numere „Unicode”.",
                 "În rest, sunt atât de multe funcții minunate pe care @FunctionDefinition le-a creat pentru mine ca să fac tot felul de lucruri cu cuvinte!"
             ],

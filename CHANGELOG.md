@@ -14,6 +14,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Changed
 
+- 🔣 We changed how you write a Unicode character by its number in text and documentation: it's now `@U/1F600` instead of `@1F600`. That way, a name made of letters and numbers always links to the thing it names.
 - 🎞️ Text in a `@Phrase` now changes instantly unless you choose a `changing` effect. It used to always type itself out when it had a duration.
 - ⚡ We made the code editor much faster on long programs.
 - ✍️ We fixed a freeze when you started to drag code in a long program.

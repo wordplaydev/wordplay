@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import DefaultLocale from '@locale/DefaultLocale';
-import ConceptLink from '@nodes/ConceptLink';
+import ConceptLink, { CodepointName } from '@nodes/ConceptLink';
 import parseDoc from '@parser/parseDoc';
 import { DOCS_SYMBOL } from '@parser/Symbols';
 import { toTokens } from '@parser/toTokens';
@@ -32,5 +32,41 @@ describe('ConceptLink.isValid', () => {
 
     test('a concept with an unknown property does not validate', () => {
         expect(link('@Phrase/notaprop').isValid(DefaultLocale)).toBe(false);
+    });
+
+    test('codepoint references validate (@U/1F600)', () => {
+        expect(link('@U/1F600').isValid(DefaultLocale)).toBe(true);
+    });
+
+    test.each(['@U', '@U/xyz', '@U/FFFFFF1', '@U/D800', '@U/00'])(
+        'an invalid codepoint reference does not validate (%s)',
+        (ref) => {
+            expect(link(ref).isValid(DefaultLocale)).toBe(false);
+        },
+    );
+});
+
+describe('ConceptLink.parse codepoints', () => {
+    test.each(['U/1F600', 'u/1f600', 'U.1F600'])(
+        'the reserved U namespace resolves a codepoint (%s)',
+        (name) => {
+            const parsed = ConceptLink.parse(name);
+            expect(parsed).toBeInstanceOf(CodepointName);
+            expect(
+                parsed instanceof CodepointName ? parsed.codepoint : undefined,
+            ).toBe('😀');
+        },
+    );
+
+    test('a hex-looking name is not a codepoint (@Face is a name)', () => {
+        // `Face` is all hex digits (0xFACE), but only the `U` namespace denotes
+        // a codepoint, so it classifies as a (possible) concept or character
+        // name — protecting concepts like a `Face` stream from being shadowed.
+        expect(ConceptLink.parse('Face')).not.toBeInstanceOf(CodepointName);
+        expect(link('@1F600').getCodepoint()).toBeUndefined();
+    });
+
+    test('getCodepoint agrees with parse', () => {
+        expect(link('@U/1F600').getCodepoint()).toBe('😀');
     });
 });

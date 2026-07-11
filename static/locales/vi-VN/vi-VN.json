@@ -518,7 +518,7 @@
                 "Ví dụ, giả sử bạn muốn nói về @Evaluate, và họ tuyệt vời thế nào. Bạn có thể viết:",
                 "\\¶Bạn biết không, @Evaluate khá tuyệt vời đấy.¶\n'nhìn này, một liên kết nhân vật!'\\",
                 "Các ký tự cũng có số tương ứng với chúng. Ví dụ, @FunctionDefinition là 192. Bạn có thể nhắc đến chúng bằng số và chúng sẽ xuất hiện:",
-                "\\`92 thật là tuyệt!`\\",
+                "\\`@U/192 thật là tuyệt!`\\",
                 "Và nếu bạn tự tạo ký tự của riêng mình, bạn có thể nhắc đến chúng bằng tên bạn đặt cho chúng.",
                 "\\`@coolbeans`\\",
                 "Ồ... Tôi đoán ký tự đó không tồn tại, nên bạn nhận được một ô vuông nhỏ. Nhưng nếu nó tồn tại, nó sẽ xuất hiện ở đây!"
@@ -2474,7 +2474,7 @@
                 "\\\"Here are some sums \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
                 "Thấy tôi đánh giá những phép tổng đó một cách thanh lịch và đặt chúng vào trong @Text chứ?",
                 "Tôi có một bí mật nhỏ cuối cùng: bạn có biết chúng tôi đều có một con số riêng không? Đúng thế đấy! Bạn có thể nhắc đến chúng tôi bằng con số của mình. Ví dụ, @FunctionDefinition là 192:",
-                "\\'92'\\",
+                "\\'@U/192'\\",
                 "Thấy 192 biến thành @FunctionDefinition chứ? Tôi nghe nói bạn gọi những con số này là 'Unicode'.",
                 "Ngoài ra, có rất nhiều hàm tuyệt vời mà @FunctionDefinition tạo ra cho tôi để làm đủ thứ với từ ngữ!"
             ],

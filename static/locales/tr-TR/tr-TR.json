@@ -518,7 +518,7 @@
                 "Örneğin, @Evaluate hakkında konuşmak istediğinizi ve ne kadar harika olduklarını varsayalım. Şunu yazabilirsiniz:",
                 "\\¶Biliyorsun, @Evaluate oldukça harika.¶\n'bak, bir karakter bağlantısı!'\\",
                 "Karakterlerin de kendilerine karşılık gelen sayıları vardır. Örneğin, @FunctionDefinition 192'dir. Onlara numarayla başvurabilirsiniz ve şu şekilde görünürler:",
-                "\\`92 çok güzel!`\\",
+                "\\`@U/192 çok güzel!`\\",
                 "Ve eğer kendi karakterinizi yaratırsanız, onlara verdiğiniz isimle hitap edebilirsiniz.",
                 "\\`@coolbeans`\\",
                 "Oh... Sanırım o karakter yok, bu yüzden küçük bir kare elde ediyorsunuz. Ama olsaydı, burada görünürdüler!"
@@ -2474,7 +2474,7 @@
                 "\\\"İşte bazı toplamlar \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
                 "Şu toplamları ne kadar zarif bir şekilde değerlendirip @Text'in içine yerleştirdiğimi görüyor musunuz?",
                 "Son bir küçük sırrım daha var: Hepimizin benzersiz bir numaramız olduğunu biliyor muydunuz? Doğru! Bize numaramızla hitap edebilirsiniz. Örneğin, @FunctionDefinition 192'dir:",
-                "\\'92'\\",
+                "\\'@U/192'\\",
                 "192'nin @FunctionDefinition'a nasıl dönüştüğünü görüyor musunuz? Bu sayılara 'Unicode' dediğinizi duyuyorum.",
                 "Aksi takdirde, @FunctionDefinition'ın benim için kelimelerle her türlü şeyi yapmamı sağlayan o kadar çok muhteşem fonksiyonu var ki!"
             ],

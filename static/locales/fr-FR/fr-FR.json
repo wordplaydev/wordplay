@@ -518,7 +518,7 @@
                 "Par exemple, imaginons que vous souhaitiez parler de @Evaluate et de son excellence. Vous pourriez écrire :",
                 "\\¶Tu sais, @Evaluate est vraiment génial.¶\n'Regarde, un lien de personnage !'\\",
                 "Les caractères ont également des numéros correspondants. Par exemple, @FunctionDefinition est 192. Vous pouvez les désigner par leur numéro :",
-                "\\`92 est tellement sympa!`\\",
+                "\\`@U/192 est tellement sympa!`\\",
                 "Et si vous créez votre propre personnage, vous pouvez vous y référer par le nom que vous lui avez donné.",
                 "\\`@coolbeans`\\",
                 "Oh… Je suppose que ce personnage n'existe pas, donc on obtient un petit carré. Mais s'il existait, il apparaîtrait ici !"
@@ -2474,7 +2474,7 @@
                 "\\\"Here are some sums \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
                 "Vois comme j'ai calculé ces sommes avec élégance, et comme je les ai placées dans le @Text ?",
                 "J'ai un dernier petit secret : savais-tu que nous avons tous un nombre unique ? C'est vrai ! Tu peux nous désigner par notre nombre. Par exemple, @FunctionDefinition est 192 :",
-                "\\'92'\\",
+                "\\'@U/192'\\",
                 "Vois comme 192 s'est transformé en @FunctionDefinition ? J'entends que tu appelles ces nombres « Unicode ».",
                 "Sinon, il y a tellement de fonctions magnifiques que @FunctionDefinition a créées pour me faire faire toutes sortes de choses avec les mots !"
             ],

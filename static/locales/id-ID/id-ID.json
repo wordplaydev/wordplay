@@ -518,7 +518,7 @@
                 "Misalnya, katakanlah kamu mau membahas @Evaluate, dan betapa hebatnya mereka. Kamu bisa menulis:",
                 "\\¶Kamu tahu, @Evaluate itu cukup keren.¶\n'lihat, tautan karakter!'\\",
                 "Karakter juga punya nomor yang sesuai dengan mereka. Misalnya, @FunctionDefinition adalah 192. Kamu bisa menyebut mereka dengan nomor dan mereka akan muncul:",
-                "\\`92 sangat bagus!`\\",
+                "\\`@U/192 sangat bagus!`\\",
                 "Dan jika kamu membuat karakter sendiri, kamu bisa menyebut mereka dengan nama yang kamu berikan.",
                 "\\`@coolbeans`\\",
                 "Oh... Sepertinya karakter itu tidak ada, jadi kamu dapat kotak kecil. Tapi jika ada, mereka akan muncul di sini!"
@@ -2474,7 +2474,7 @@
                 "\\\"Here are some sums \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
                 "See how elegantly I just evaluated those sums, and placed them inside the @Text?",
                 "I have one last little secret: did you know we all have a unique number? It's true! You can refer to us by our number. For example, @FunctionDefinition is 192:",
-                "\\'@192'\\",
+                "\\'@U/192'\\",
                 "See how 192 turned into @FunctionDefinition? I hear you call these numbers 'Unicode'.",
                 "Otherwise, there just so many glorious functions that @FunctionDefinition made for me to do all kinds of things with words!"
             ],

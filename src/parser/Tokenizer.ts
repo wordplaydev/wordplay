@@ -696,26 +696,26 @@ export const LiteralMultiCharTokens: ReadonlyArray<{
 );
 
 /**
- * A concept reference starts with a @ then is followed by:
- * 1) one or more names separated by a /
- * 2) a 2-6 digit hexadecimal number, referring to a Unicode codepoint
- * Names can refer to:
- * 1) a uesr interface concept (e.g., @UI/toolbar)
+ * A concept reference starts with a @ then is followed by one or two names
+ * separated by a `.` or `/`. Names can refer to:
+ * 1) a user interface concept (e.g., @UI/toolbar)
  * 2) a Wordplay programming language concept (e.g., @Bool)
- * 3) a Wordplay type or function (e.g., @Stage, @Stage/color)
- * 4) the globally unique name of a creator-defined character
+ * 3) a Wordplay type or function (e.g., @Stage, @Stage.color)
+ * 4) a Unicode codepoint (e.g., @U/1F600)
+ * 5) the globally unique name of a creator-defined character
  */
-// A concept link is `@` followed by either a hex codepoint or a name with an
-// optional second segment. The separator between the two segments is `.` for a
-// concept and its member/subconcept (e.g. `@Color.random`, mirroring property
-// access), or `/` for non-concepts: UI references (`@UI/toolbar`), how-tos
-// (`@How/...`), and character references (`@username/charactername`). The
-// separator must be followed by at least one name character, so a sentence
-// period after a link (e.g. `see @Color.`) is left as punctuation.
-export const ConceptRegExPattern = `${LINK_SYMBOL}(?!(https?)?://)([0-9a-fA-F]{2,6}(?!${NameRegExPattern})|${NameRegExPattern}([./]${NameRegExPattern})?)`;
+// A concept link is `@` followed by a name with an optional second segment.
+// The separator between the two segments is `.` for a concept and its
+// member/subconcept (e.g. `@Color.random`, mirroring property access), or `/`
+// for non-concepts: UI references (`@UI/toolbar`), how-tos (`@How/...`),
+// Unicode codepoints (`@U/1F600`), and character references
+// (`@username/charactername`). The separator must be followed by at least one
+// name character, so a sentence period after a link (e.g. `see @Color.`) is
+// left as punctuation.
+export const ConceptRegExPattern = `${LINK_SYMBOL}(?!(https?)?://)${NameRegExPattern}([./]${NameRegExPattern})?`;
 
 /** A global matcher for finding character references inside plain text, so
- *  references (e.g. @amy/cat or @1F600) are tokenized as concept tokens there
+ *  references (e.g. @amy/cat or @U/1F600) are tokenized as concept tokens there
  *  too (see #773). */
 const ConceptInTextRegEx = new RegExp(ConceptRegExPattern, 'gu');
 
@@ -735,9 +735,10 @@ const EmailLocalPartChar = /[A-Za-z0-9._%+-]/;
  *  matched text, or undefined if there is none. A reference is recognized when
  *  it is at a boundary (start of text, after whitespace, after punctuation, or
  *  after non-ASCII text) OR when it uses a `/` separator (e.g. @username/char,
- *  @UI/x). The `/` form disambiguates from email addresses — whose domain never
- *  contains a `/` — so character references work mid-word in Latin scripts too
- *  (e.g. `hi@amy/cat`), while emails like jdoe@example.com stay literal text. */
+ *  @U/1F600, @UI/x). The `/` form disambiguates from email addresses — whose
+ *  domain never contains a `/` — so character and codepoint references work
+ *  mid-word in Latin scripts too (e.g. `hi@amy/cat`), while emails like
+ *  jdoe@example.com stay literal text. */
 function findCharacterReference(
     source: string,
 ): { index: number; text: string } | undefined {
@@ -1068,7 +1069,7 @@ function getNextToken(
                 TextCloseByTextOpen[container.getText()],
             );
             const lineIndex = source.indexOf('\n');
-            // Custom-character references (e.g. @amy/cat or @1F600) are tokenized as
+            // Custom-character references (e.g. @amy/cat or @U/1F600) are tokenized as
             // concept tokens inside plain text too (#773), so the parser can build a
             // ConceptLink. We only treat a reference at a word boundary as one (see
             // findCharacterReference). Stop the words token at the next reference, and
