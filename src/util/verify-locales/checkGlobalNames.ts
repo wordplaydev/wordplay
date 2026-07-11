@@ -18,10 +18,22 @@ import type Log from '@util/verify-locales/Log';
  */
 export default function checkGlobalNames(log: Log, locale: LocaleText): void {
     // Build the shares with only this locale's names (its own fallback, not en-US), so we test the
-    // names the locale actually declares rather than en-US fill-ins.
-    const shares = createDefaultShares(
-        new Locales(concretize, [locale], locale),
-    ).all;
+    // names the locale actually declares rather than en-US fill-ins. A machine translation can
+    // produce a name that isn't a valid identifier (e.g. a multi-word phrase), which makes building
+    // the share definitions throw; report it as a repairable problem (npm run locales-fix folds such
+    // names via toValidName) rather than crashing the whole verify/translate run.
+    let shares;
+    try {
+        shares = createDefaultShares(
+            new Locales(concretize, [locale], locale),
+        ).all;
+    } catch (error) {
+        log.bad(
+            2,
+            `Could not build this locale's global definitions — a name likely translated to an invalid identifier. Run "npm run locales-fix" to repair. (${error instanceof Error ? error.message : String(error)})`,
+        );
+        return;
+    }
 
     const byName = new Map<string, Definition[]>();
     for (const def of shares)

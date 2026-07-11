@@ -21,6 +21,7 @@
     import Chat from '@input/Chat';
     import Choice from '@input/Choice';
     import { handLandmarkerStatus } from '@input/HandLandmarkerLoader.svelte';
+    import { faceLandmarkerStatus } from '@input/FaceLandmarkerLoader.svelte';
     import Key from '@input/Key';
     import Placement from '@input/Placement';
     import Pointer from '@input/Pointer';
@@ -1490,7 +1491,7 @@
                 {editable}
             />
         {/if}
-        {#if says.length > 0 || handLandmarkerStatus.loading}
+        {#if says.length > 0 || handLandmarkerStatus.loading || faceLandmarkerStatus.loading}
             <div class="say-overlay" aria-live="polite" aria-atomic="false">
                 {#if handLandmarkerStatus.loading}
                     <span
@@ -1498,6 +1499,14 @@
                         title="Loading hand tracker…"
                         aria-label="Loading hand tracker"
                         >{withMonoEmoji('🖐')}</span
+                    >
+                {/if}
+                {#if faceLandmarkerStatus.loading}
+                    <span
+                        class="say-item face-loading"
+                        title="Loading face tracker…"
+                        aria-label="Loading face tracker"
+                        >{withMonoEmoji('🙂')}</span
                     >
                 {/if}
                 {#each says as say, i (say.text.text + i)}
@@ -1790,7 +1799,8 @@
         user-select: none;
     }
 
-    .hand-loading {
+    .hand-loading,
+    .face-loading {
         animation: hand-loading-spin 1.5s linear infinite;
         display: inline-block;
         transform-origin: center;

@@ -4497,6 +4497,26 @@
                 "timezone": "$~ini bukan nama zona waktu yang sah",
                 "calendar": "$~ini bukan nama kalender yang didukung"
             }
+        },
+        "Face": {
+            "doc": [
+                "$~Ini melacak wajah yang dilihat kameramu — di mana wajah itu, dan apa yang sedang dilakukannya: mata terbuka atau tertutup, mulut terbuka, senyuman, cemberut, alis terangkat, dan ke arah mana kepala menoleh.",
+                "/katakan keju/",
+                "Lihat ke kamera, tersenyum, mengedipkan mata, buka mulut lebar-lebar — @Face akan mengikuti.",
+                "Di balik layar, @Face menggunakan model pembelajaran mesin. Saat pertama kali kamu memakainya dalam sebuah program, model itu perlu beberapa detik untuk diunduh, dan wajah kecil yang berputar muncul di pojok kanan atas panggung saat model itu dimuat. Setelah itu, model tetap tersimpan dan langsung mulai.",
+                "Pada setiap bingkai, @Face memberimu sebuah @Expression. Lihat di sana untuk daftar lengkap masukan dan artinya.",
+                "Contoh ini menampilkan emoji yang sesuai dengan wajahmu di mana pun wajah aslimu berada:",
+                "\\wajah: 🙂()\n💬((wajah.tersenyum ? '😀' wajah.mulutTerbuka ? '😮' '😐') place: wajah.tempat)\\"
+            ],
+            "names": ["$~🙂", "$~Wajah"],
+            "frequency": {
+                "names": ["$~frekuensi"],
+                "doc": "$~Waktu antara setiap sampel."
+            },
+            "resolution": {
+                "names": ["$~resolusi"],
+                "doc": "$~Lebar dalam piksel untuk mengambil sampel kamera sebelum menjalankan model wajah. Nilai yang lebih tinggi bisa memberi penanda yang sedikit lebih akurat, tetapi butuh lebih banyak waktu per bingkai."
+            }
         }
     },
     "output": {
@@ -5646,6 +5666,66 @@
             "edit": "$~sunting",
             "rewrite": "$~tulisUlang",
             "random": "$~acak"
+        },
+        "Expression": {
+            "doc": "$~Aku adalah potret dari ekspresi wajah yang dideteksi kamera, yang dipancarkan oleh aliran @Face. Posisiku memberitahumu di mana wajah itu berada di panggung. @Expression.leftEyeOpen, @Expression.rightEyeOpen, dan @Expression.eyesOpen milikku menyatakan apakah mata terbuka. @Expression.mouthOpen, @Expression.smiling, @Expression.frowning, dan @Expression.browsRaised milikku menyatakan apa yang sedang dilakukan wajah, dan masing-masing punya nilai yang cocok (@Expression.mouthOpenAmount, @Expression.smileAmount, @Expression.frownAmount, @Expression.browRaiseAmount) dari 0 sampai 1 untuk seberapa kuatnya. @Expression.turn dan @Expression.tilt milikku menyatakan ke arah mana kepala menghadap, dalam derajat.",
+            "names": ["$~😀", "$~Ekspresi"],
+            "place": {
+                "doc": "$~Di mana wajah berada di panggung.",
+                "names": ["$~tempat"]
+            },
+            "leftEyeOpen": {
+                "doc": "$~\\⊤\\ jika mata kiri terbuka, \\⊥\\ jika tertutup.",
+                "names": ["$~mataKiriTerbuka"]
+            },
+            "rightEyeOpen": {
+                "doc": "$~\\⊤\\ jika mata kanan terbuka, \\⊥\\ jika tertutup.",
+                "names": ["$~mataKananTerbuka"]
+            },
+            "eyesOpen": {
+                "doc": "$~\\⊤\\ jika kedua mata terbuka.",
+                "names": ["$~mataTerbuka"]
+            },
+            "mouthOpen": {
+                "doc": "$~\\⊤\\ jika mulut terbuka.",
+                "names": ["$~mulutTerbuka"]
+            },
+            "mouthOpenAmount": {
+                "doc": "$~Seberapa terbuka mulut, dari 0 (tertutup) sampai 1 (terbuka lebar).",
+                "names": ["$~jumlahMulutTerbuka"]
+            },
+            "smiling": {
+                "doc": "$~\\⊤\\ jika wajah tersenyum.",
+                "names": ["$~tersenyum"]
+            },
+            "smileAmount": {
+                "doc": "$~Seberapa lebar wajah tersenyum, dari 0 sampai 1.",
+                "names": ["$~jumlahSenyum"]
+            },
+            "frowning": {
+                "doc": "$~\\⊤\\ jika wajah cemberut.",
+                "names": ["$~cemberut"]
+            },
+            "frownAmount": {
+                "doc": "$~Seberapa cemberut wajah, dari 0 sampai 1.",
+                "names": ["$~jumlahCemberut"]
+            },
+            "browsRaised": {
+                "doc": "$~\\⊤\\ jika alis terangkat.",
+                "names": ["$~alisTerangkat"]
+            },
+            "browRaiseAmount": {
+                "doc": "$~Seberapa tinggi alis terangkat, dari 0 sampai 1.",
+                "names": ["$~jumlahAlisTerangkat"]
+            },
+            "turn": {
+                "doc": "$~Seberapa jauh kepala menghadap, dalam derajat — negatif ke kiri, positif ke kanan.",
+                "names": ["$~putar"]
+            },
+            "tilt": {
+                "doc": "$~Seberapa jauh kepala miring, dalam derajat — negatif ke bawah, positif ke atas.",
+                "names": ["$~miring"]
+            }
         }
     },
     "ui": {

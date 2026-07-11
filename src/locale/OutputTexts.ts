@@ -317,6 +317,37 @@ type OutputTexts = {
         /** True if the palm faces the camera, false if the back of the hand does */
         palm: NameAndDoc;
     };
+    /** A facial expression detected in the camera image (returned by the Face input stream) */
+    Expression: NameAndDoc & {
+        /** Where the face is on stage */
+        place: NameAndDoc;
+        /** True when the left eye is open */
+        leftEyeOpen: NameAndDoc;
+        /** True when the right eye is open */
+        rightEyeOpen: NameAndDoc;
+        /** True when both eyes are open */
+        eyesOpen: NameAndDoc;
+        /** True when the mouth is open */
+        mouthOpen: NameAndDoc;
+        /** How open the mouth is, from 0 (closed) to 1 (wide open) */
+        mouthOpenAmount: NameAndDoc;
+        /** True when the face is smiling */
+        smiling: NameAndDoc;
+        /** How much the face is smiling, from 0 to 1 */
+        smileAmount: NameAndDoc;
+        /** True when the face is frowning */
+        frowning: NameAndDoc;
+        /** How much the face is frowning, from 0 to 1 */
+        frownAmount: NameAndDoc;
+        /** True when the eyebrows are raised */
+        browsRaised: NameAndDoc;
+        /** How much the eyebrows are raised, from 0 to 1 */
+        browRaiseAmount: NameAndDoc;
+        /** How far the head is turned left or right, in degrees */
+        turn: NameAndDoc;
+        /** How far the head is tilted up or down, in degrees */
+        tilt: NameAndDoc;
+    };
     /** A velocity vector */
     Velocity: NameAndDoc & {
         /** x-coordinate */

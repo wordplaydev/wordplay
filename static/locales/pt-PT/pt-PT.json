@@ -4497,6 +4497,26 @@
                 "timezone": "$~este não é um nome de fuso horário válido",
                 "calendar": "$~este não é um nome de calendário suportado"
             }
+        },
+        "Face": {
+            "doc": [
+                "$~Segue um rosto visto pela tua câmara — onde está e o que faz: olhos abertos ou fechados, boca aberta, um sorriso, um ar carrancudo, sobrancelhas levantadas e para que lado está virada a cabeça.",
+                "/sorri para a câmara/",
+                "Olha para a câmara, sorri, pisca o olho, abre bem a boca — o @Face acompanha-te.",
+                "Por detrás, o @Face usa um modelo de aprendizagem automática. Da primeira vez que o usas num programa, o modelo demora alguns segundos a descarregar, e um rosto pequenino a girar aparece no canto superior direito do palco enquanto carrega. Depois disso, fica guardado e inicia de imediato.",
+                "Em cada fotograma, o @Face dá-te uma @Expression. Consulta aí a lista completa de entradas e o que significam.",
+                "Este exemplo mostra um emoji que corresponde ao teu rosto onde quer que o teu rosto real esteja:",
+                "\\cara: 🙂()\n💬((cara.sorrindo ? '😀' cara.bocaAberta ? '😮' '😐') place: cara.lugar)\\"
+            ],
+            "names": ["$~🙂", "$~Cara"],
+            "frequency": {
+                "names": ["$~frequência"],
+                "doc": "$~O tempo entre amostras."
+            },
+            "resolution": {
+                "names": ["$~resolução"],
+                "doc": "$~A largura em píxeis com que se amostra a câmara antes de correr o modelo de rosto. Valores maiores podem dar pontos de referência um pouco mais exatos, mas custam mais tempo por fotograma."
+            }
         }
     },
     "output": {
@@ -5646,6 +5666,66 @@
             "edit": "$~editar",
             "rewrite": "$~reescrever",
             "random": "$~aleatório"
+        },
+        "Expression": {
+            "doc": "$~Sou uma captura de uma expressão facial detetada pela câmara, emitida pelo fluxo @Face. O meu lugar diz-te onde está o rosto no palco. Os meus @Expression.leftEyeOpen, @Expression.rightEyeOpen e @Expression.eyesOpen dizem se os olhos estão abertos. Os meus @Expression.mouthOpen, @Expression.smiling, @Expression.frowning e @Expression.browsRaised dizem o que o rosto faz, e cada um tem uma quantidade correspondente (@Expression.mouthOpenAmount, @Expression.smileAmount, @Expression.frownAmount, @Expression.browRaiseAmount) de 0 a 1 para indicar a intensidade. Os meus @Expression.turn e @Expression.tilt dizem para que lado a cabeça está virada, em graus.",
+            "names": ["$~😀", "$~Expressão"],
+            "place": {
+                "doc": "$~Onde está o rosto no palco.",
+                "names": ["$~lugar"]
+            },
+            "leftEyeOpen": {
+                "doc": "$~\\⊤\\ se o olho esquerdo estiver aberto, \\⊥\\ se estiver fechado.",
+                "names": ["$~olhoEsquerdoAberto"]
+            },
+            "rightEyeOpen": {
+                "doc": "$~\\⊤\\ se o olho direito estiver aberto, \\⊥\\ se estiver fechado.",
+                "names": ["$~olhoDireitoAberto"]
+            },
+            "eyesOpen": {
+                "doc": "$~\\⊤\\ se ambos os olhos estiverem abertos.",
+                "names": ["$~olhosAbertos"]
+            },
+            "mouthOpen": {
+                "doc": "$~\\⊤\\ se a boca estiver aberta.",
+                "names": ["$~bocaAberta"]
+            },
+            "mouthOpenAmount": {
+                "doc": "$~O quão aberta está a boca, de 0 (fechada) a 1 (bem aberta).",
+                "names": ["$~quantidadeBocaAberta"]
+            },
+            "smiling": {
+                "doc": "$~\\⊤\\ se o rosto estiver a sorrir.",
+                "names": ["$~sorrindo"]
+            },
+            "smileAmount": {
+                "doc": "$~O quanto o rosto está a sorrir, de 0 a 1.",
+                "names": ["$~quantidadeSorriso"]
+            },
+            "frowning": {
+                "doc": "$~\\⊤\\ se o rosto estiver carrancudo.",
+                "names": ["$~franzindo"]
+            },
+            "frownAmount": {
+                "doc": "$~O quanto o rosto está franzido, de 0 a 1.",
+                "names": ["$~quantidadeFranzir"]
+            },
+            "browsRaised": {
+                "doc": "$~\\⊤\\ se as sobrancelhas estiverem levantadas.",
+                "names": ["$~sobrancelhasLevantadas"]
+            },
+            "browRaiseAmount": {
+                "doc": "$~O quanto as sobrancelhas estão levantadas, de 0 a 1.",
+                "names": ["$~quantidadeLevantarSobrancelha"]
+            },
+            "turn": {
+                "doc": "$~O quanto a cabeça está virada, em graus — negativo para a esquerda, positivo para a direita.",
+                "names": ["$~girar"]
+            },
+            "tilt": {
+                "doc": "$~O quanto a cabeça está inclinada, em graus — negativo para baixo, positivo para cima.",
+                "names": ["$~inclinar"]
+            }
         }
     },
     "ui": {

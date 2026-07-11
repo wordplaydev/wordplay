@@ -4498,6 +4498,26 @@
                 "timezone": "$~acesta nu este un nume valid de regiune orară",
                 "calendar": "$~acesta nu este un nume de calendar acceptat"
             }
+        },
+        "Face": {
+            "doc": [
+                "$~Urmărește o față văzută de camera ta — unde este și ce face: ochi deschiși sau închiși, o gură deschisă, un zâmbet, o încruntare, sprâncene ridicate și în ce direcție este întoarsă capul.",
+                "/spune brânză/",
+                "Uită-te la cameră, zâmbește, clipește, deschide gura larg — @Face urmărește totul.",
+                "În spatele scenei, @Face folosește un model de învățare automată. Prima dată când îl folosești într-un program, modelul are nevoie de câteva secunde pentru a se descărca și o mică față care se rotește apare în colțul din dreapta sus al scenei în timp ce se încarcă. După aceea rămâne salvat și pornește instantaneu.",
+                "La fiecare cadru, @Face îți dă o @Expression. Uită-te acolo pentru lista completă de intrări și ce înseamnă ele.",
+                "Acest exemplu arată un emoji care se potrivește cu fața ta oriunde este fața ta reală:",
+                "\\față: 🙂()\n💬((față.zâmbind ? '😀' față.gurăDeschisă ? '😮' '😐') place: față.loc)\\"
+            ],
+            "names": ["$~🙂", "$~Față"],
+            "frequency": {
+                "names": ["$~frecvență"],
+                "doc": "$~Timpul dintre eșantioane."
+            },
+            "resolution": {
+                "names": ["$~rezoluție"],
+                "doc": "$~Lățimea în pixeli la care se eșantionează camera înainte de a rula modelul feței. Valorile mai mari pot da repere puțin mai precise, dar costă mai mult timp pe cadru."
+            }
         }
     },
     "output": {
@@ -5647,6 +5667,66 @@
             "edit": "$~editare",
             "rewrite": "$~rescriere",
             "random": "$~aleatoriu"
+        },
+        "Expression": {
+            "doc": "$~Sunt o captură a unei expresii faciale detectate de cameră, emisă de fluxul @Face. Locul meu îți spune unde este fața pe scenă. @Expression.leftEyeOpen, @Expression.rightEyeOpen și @Expression.eyesOpen ale mele spun dacă ochii sunt deschiși. @Expression.mouthOpen, @Expression.smiling, @Expression.frowning și @Expression.browsRaised ale mele spun ce face fața, și fiecare are o cantitate corespunzătoare (@Expression.mouthOpenAmount, @Expression.smileAmount, @Expression.frownAmount, @Expression.browRaiseAmount) de la 0 la 1 pentru cât de puternică este. @Expression.turn și @Expression.tilt ale mele spun în ce direcție este orientat capul, în grade.",
+            "names": ["$~😀", "$~Expresie"],
+            "place": {
+                "doc": "$~Unde se află fața pe scenă.",
+                "names": ["$~loc"]
+            },
+            "leftEyeOpen": {
+                "doc": "$~\\⊤\\ dacă ochiul stâng este deschis, \\⊥\\ dacă este închis.",
+                "names": ["$~ochiStângDeschis"]
+            },
+            "rightEyeOpen": {
+                "doc": "$~\\⊤\\ dacă ochiul drept este deschis, \\⊥\\ dacă este închis.",
+                "names": ["$~ochiDreptDeschis"]
+            },
+            "eyesOpen": {
+                "doc": "$~\\⊤\\ dacă ambii ochi sunt deschiși.",
+                "names": ["$~ochiDeschiși"]
+            },
+            "mouthOpen": {
+                "doc": "$~\\⊤\\ dacă gura este deschisă.",
+                "names": ["$~gurăDeschisă"]
+            },
+            "mouthOpenAmount": {
+                "doc": "$~Cât de deschisă este gura, de la 0 (închisă) la 1 (larg deschisă).",
+                "names": ["$~câtDeDeschisăGura"]
+            },
+            "smiling": {
+                "doc": "$~\\⊤\\ dacă fața zâmbește.",
+                "names": ["$~zâmbind"]
+            },
+            "smileAmount": {
+                "doc": "$~Cât de mult zâmbește fața, de la 0 la 1.",
+                "names": ["$~câtDeMultZâmbet"]
+            },
+            "frowning": {
+                "doc": "$~\\⊤\\ dacă fața este încruntată.",
+                "names": ["$~încruntat"]
+            },
+            "frownAmount": {
+                "doc": "$~Cât de mult se încruntă fața, de la 0 la 1.",
+                "names": ["$~câtDeMultÎncruntat"]
+            },
+            "browsRaised": {
+                "doc": "$~\\⊤\\ dacă sprâncenele sunt ridicate.",
+                "names": ["$~sprânceneRidicate"]
+            },
+            "browRaiseAmount": {
+                "doc": "$~Cât de mult sunt ridicate sprâncenele, de la 0 la 1.",
+                "names": ["$~câtDeMultRidicateSprâncenele"]
+            },
+            "turn": {
+                "doc": "$~Cât de mult este întoarsă capul, în grade — negativ la stânga, pozitiv la dreapta.",
+                "names": ["$~rotire"]
+            },
+            "tilt": {
+                "doc": "$~Cât de mult este înclinată capul, în grade — negativ în jos, pozitiv în sus.",
+                "names": ["$~înclinare"]
+            }
         }
     },
     "ui": {

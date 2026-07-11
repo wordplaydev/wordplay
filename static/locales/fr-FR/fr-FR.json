@@ -4500,6 +4500,26 @@
                 "timezone": "$~ceci n'est pas un nom de fuseau horaire valide",
                 "calendar": "$~ceci n'est pas un nom de calendrier pris en charge"
             }
+        },
+        "Face": {
+            "doc": [
+                "$~Il suit un visage vu par ta caméra : où il se trouve et ce qu'il fait. Il détecte les yeux ouverts ou fermés, une bouche ouverte, un sourire, un froncement de sourcils, des sourcils levés, et dans quelle direction la tête est tournée.",
+                "/dis ouistiti/",
+                "Regarde la caméra, souris, cligne de l'œil, ouvre grand la bouche : @Face suit tout cela.",
+                "En coulisses, @Face utilise un modèle d'apprentissage automatique. La première fois que tu l'utilises dans un programme, le modèle met quelques secondes à se télécharger. Un tout petit visage qui tourne apparaît alors dans le coin supérieur droit de la scène pendant le chargement. Ensuite, il reste en mémoire et démarre tout de suite.",
+                "À chaque image, @Face te donne une @Expression. Regarde là-bas pour voir la liste complète des entrées et ce qu'elles signifient.",
+                "Cet exemple montre un emoji qui suit ton visage, où que ton vrai visage se trouve :",
+                "\\visage: 🙂()\n💬((visage.souriant ? '😀' visage.boucheOuverte ? '😮' '😐') place: visage.lieu)\\"
+            ],
+            "names": ["$~🙂", "$~Visage"],
+            "frequency": {
+                "names": ["$~fréquence"],
+                "doc": "$~Le temps entre les échantillons."
+            },
+            "resolution": {
+                "names": ["$~résolution"],
+                "doc": "$~La largeur en pixels à laquelle échantillonner la caméra avant d'exécuter le modèle de visage. Des valeurs plus élevées peuvent donner des points de repère un peu plus précis, mais coûtent plus de temps par image."
+            }
         }
     },
     "output": {
@@ -5649,6 +5669,66 @@
             "edit": "$~modifier",
             "rewrite": "$~réécrire",
             "random": "$~aléatoire"
+        },
+        "Expression": {
+            "doc": "$~Je suis un instantané d'une expression du visage détectée par la caméra, émis par le flux @Face. Ma position te dit où se trouve le visage sur la scène. Mes @Expression.leftEyeOpen, @Expression.rightEyeOpen et @Expression.eyesOpen disent si les yeux sont ouverts. Mes @Expression.mouthOpen, @Expression.smiling, @Expression.frowning et @Expression.browsRaised disent ce que fait le visage, et chacun a une quantité correspondante (@Expression.mouthOpenAmount, @Expression.smileAmount, @Expression.frownAmount, @Expression.browRaiseAmount) de 0 à 1 selon son intensité. Mes @Expression.turn et @Expression.tilt disent dans quelle direction la tête est tournée, en degrés.",
+            "names": ["$~😀", "$~Expression"],
+            "place": {
+                "doc": "$~Où se trouve le visage sur la scène.",
+                "names": ["$~lieu"]
+            },
+            "leftEyeOpen": {
+                "doc": "$~\\⊤\\ si l'œil gauche est ouvert, \\⊥\\ s'il est fermé.",
+                "names": ["$~œilGaucheOuvert"]
+            },
+            "rightEyeOpen": {
+                "doc": "$~\\⊤\\ si l'œil droit est ouvert, \\⊥\\ s'il est fermé.",
+                "names": ["$~œilDroitOuvert"]
+            },
+            "eyesOpen": {
+                "doc": "$~\\⊤\\ si les deux yeux sont ouverts.",
+                "names": ["$~yeuxOuverts"]
+            },
+            "mouthOpen": {
+                "doc": "$~\\⊤\\ si la bouche est ouverte.",
+                "names": ["$~boucheOuverte"]
+            },
+            "mouthOpenAmount": {
+                "doc": "$~À quel point la bouche est ouverte, de 0 (fermée) à 1 (grande ouverte).",
+                "names": ["$~quantitéBoucheOuverte"]
+            },
+            "smiling": {
+                "doc": "$~\\⊤\\ si le visage sourit.",
+                "names": ["$~souriant"]
+            },
+            "smileAmount": {
+                "doc": "$~À quel point le visage sourit, de 0 à 1.",
+                "names": ["$~quantitéSourire"]
+            },
+            "frowning": {
+                "doc": "$~\\⊤\\ si le visage fronce les sourcils.",
+                "names": ["$~grimaçant"]
+            },
+            "frownAmount": {
+                "doc": "$~À quel point le visage fait la moue, de 0 à 1.",
+                "names": ["$~quantitéGrimace"]
+            },
+            "browsRaised": {
+                "doc": "$~\\⊤\\ si les sourcils sont levés.",
+                "names": ["$~sourcilsLevés"]
+            },
+            "browRaiseAmount": {
+                "doc": "$~À quel point les sourcils sont levés, de 0 à 1.",
+                "names": ["$~quantitéSourcilsLevés"]
+            },
+            "turn": {
+                "doc": "$~À quel point la tête est tournée, en degrés — négatif vers la gauche, positif vers la droite.",
+                "names": ["$~tourner"]
+            },
+            "tilt": {
+                "doc": "$~À quel point la tête est inclinée, en degrés — négatif vers le bas, positif vers le haut.",
+                "names": ["$~incliner"]
+            }
         }
     },
     "ui": {

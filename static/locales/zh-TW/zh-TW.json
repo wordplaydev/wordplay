@@ -4491,6 +4491,26 @@
                 "timezone": "$~這不是有效的時區名稱",
                 "calendar": "$~這不是支援的曆法名稱"
             }
+        },
+        "Face": {
+            "doc": [
+                "$~它會追蹤你的相機看到的臉——臉在哪裡，還有它在做什麼：眼睛張開或閉上、嘴巴張開、微笑、皺眉、揚起眉毛，以及頭轉向哪個方向。",
+                "/笑一個/",
+                "看著相機、微笑、眨眼、張大嘴巴——@Face 都會跟著做。",
+                "在背後，@Face 使用一個機器學習模型。你第一次在程式裡使用它時，模型要花幾秒鐘下載，載入時舞台右上角會出現一個小小旋轉的臉。之後它會保留在快取中，下次就會立刻開始。",
+                "每一格畫面，@Face 都會給你一個 @Expression。你可以在那裡查看完整的輸入清單和它們的意思。",
+                "這個例子顯示一個表情符號，不論你真正的臉在哪裡，它都會配合你的臉：",
+                "\\face: Face()\nPhrase((face.smiling ? '😀' face.mouthOpen ? '😮' '😐') place: face.place)\\"
+            ],
+            "names": ["$~🙂", "$~臉"],
+            "frequency": {
+                "names": ["$~頻率"],
+                "doc": "$~每次取樣之間的時間。"
+            },
+            "resolution": {
+                "names": ["$~解析度"],
+                "doc": "$~在執行臉部模型之前，用來取樣相機的寬度（以像素為單位）。數值越高，標記點可能稍微更準確，但每一幀花的時間也更多。"
+            }
         }
     },
     "output": {
@@ -5632,6 +5652,66 @@
             "edit": "$~編輯",
             "rewrite": "$~重寫",
             "random": "$~隨機"
+        },
+        "Expression": {
+            "doc": "$~我是相機偵測到的臉部表情快照，由 @Face 串流發出。我的位置告訴你臉在舞台上的哪裡。我的 @Expression.leftEyeOpen、@Expression.rightEyeOpen 和 @Expression.eyesOpen 說明眼睛是否張開。我的 @Expression.mouthOpen、@Expression.smiling、@Expression.frowning 和 @Expression.browsRaised 說明臉在做什麼，而且每一個都有對應的程度值（@Expression.mouthOpenAmount、@Expression.smileAmount、@Expression.frownAmount、@Expression.browRaiseAmount），從 0 到 1，表示它有多強。我的 @Expression.turn 和 @Expression.tilt 用度數說明頭朝向哪個方向。",
+            "names": ["$~😀", "$~表情"],
+            "place": {
+                "doc": "$~臉在舞台上的位置。",
+                "names": ["$~位置"]
+            },
+            "leftEyeOpen": {
+                "doc": "$~\\⊤\\ 如果左眼是張開的， \\⊥\\ 如果它是閉上的。",
+                "names": ["$~左眼張開"]
+            },
+            "rightEyeOpen": {
+                "doc": "$~\\⊤\\ 如果右眼是張開的， \\⊥\\ 如果它是閉上的。",
+                "names": ["$~右眼張開"]
+            },
+            "eyesOpen": {
+                "doc": "$~\\⊤\\ 如果兩隻眼睛都張開。",
+                "names": ["$~雙眼張開"]
+            },
+            "mouthOpen": {
+                "doc": "$~\\⊤\\ 如果嘴巴是張開的。",
+                "names": ["$~嘴巴張開"]
+            },
+            "mouthOpenAmount": {
+                "doc": "$~嘴巴張開的程度，從 0（閉上）到 1（張大）。",
+                "names": ["$~嘴巴張開程度"]
+            },
+            "smiling": {
+                "doc": "$~\\⊤\\ 如果臉在微笑。",
+                "names": ["$~微笑"]
+            },
+            "smileAmount": {
+                "doc": "$~臉微笑的程度，從 0 到 1。",
+                "names": ["$~微笑程度"]
+            },
+            "frowning": {
+                "doc": "$~\\⊤\\ 如果臉在皺眉。",
+                "names": ["$~皺眉"]
+            },
+            "frownAmount": {
+                "doc": "$~臉皺眉的程度，從 0 到 1。",
+                "names": ["$~皺眉程度"]
+            },
+            "browsRaised": {
+                "doc": "$~\\⊤\\ 如果眉毛揚起來。",
+                "names": ["$~眉毛抬起"]
+            },
+            "browRaiseAmount": {
+                "doc": "$~眉毛揚起的程度，從 0 到 1。",
+                "names": ["$~眉毛抬起程度"]
+            },
+            "turn": {
+                "doc": "$~頭轉了多遠，以度為單位——負值往左，正值往右。",
+                "names": ["$~轉動"]
+            },
+            "tilt": {
+                "doc": "$~頭傾斜了多遠，以度為單位——負值往下，正值往上。",
+                "names": ["$~傾斜"]
+            }
         }
     },
     "ui": {
