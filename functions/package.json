@@ -17,8 +17,11 @@
     },
     "main": "lib/index.js",
     "dependencies": {
+        "@agentpond/firebase": "^0.4.2",
         "@anthropic-ai/sdk": "^0",
+        "@arizeai/openinference-instrumentation-anthropic": "^0.1.15",
         "@google-cloud/translate": "^9",
+        "@opentelemetry/sdk-node": "^0.220.0",
         "@supercharge/promise-pool": "^3",
         "firebase-admin": "^13",
         "firebase-functions": "^7",

@@ -1,5 +1,4 @@
 import type { UserIdentifier } from 'firebase-admin/auth';
-import { initializeApp } from 'firebase-admin/app';
 import {
     onDocumentCreated,
     onDocumentWritten,
@@ -15,6 +14,8 @@ import type {
     EmailExistsOutput,
     GetLLMTranslationsInputs,
 } from 'shared-types';
+
+import './instrumentation.js';
 
 import compactProjectUpdatesHandler from './compactProjectUpdates.js';
 import createClassHandler from './createClass.js';
@@ -36,8 +37,6 @@ import tidyStaleAssignmentsHandler, {
 
 export { submitLocalizationBundle } from './submitLocalization.js';
 export { submitLocaleRequest } from './submitLocaleRequest.js';
-
-initializeApp();
 
 // Permit local testing and calls from our two domains.
 const cors = {
