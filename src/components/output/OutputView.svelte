@@ -1491,41 +1491,45 @@
                 {editable}
             />
         {/if}
-        {#if says.length > 0 || handLandmarkerStatus.loading || faceLandmarkerStatus.loading}
-            <div class="say-overlay" aria-live="polite" aria-atomic="false">
-                {#if handLandmarkerStatus.loading}
-                    <span
-                        class="say-item hand-loading"
-                        title="Loading hand tracker…"
-                        aria-label="Loading hand tracker"
-                        >{withMonoEmoji('🖐')}</span
-                    >
+        <!-- Stage controls dock: stream status chips (Say, Hand/Face loading) + keyboard input -->
+        {#if says.length > 0 || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || keys || placements || chats}
+            <div class="stage-controls-dock">
+                <!-- Corner status chips: Say queue, Hand/Face loading indicators -->
+                {#if says.length > 0 || handLandmarkerStatus.loading || faceLandmarkerStatus.loading}
+                    <div class="stage-controls-row" aria-live="polite" aria-atomic="false">
+                        {#if handLandmarkerStatus.loading}
+                            <span
+                                class="stage-control-chip hand-loading"
+                                title="Loading hand tracker…"
+                                aria-label="Loading hand tracker"
+                                >{withMonoEmoji('🖐')}</span
+                            >
+                        {/if}
+                        {#if faceLandmarkerStatus.loading}
+                            <span
+                                class="stage-control-chip face-loading"
+                                title="Loading face tracker…"
+                                aria-label="Loading face tracker"
+                                >{withMonoEmoji('🙂')}</span
+                            >
+                        {/if}
+                        {#each says as say, i (say.text.text + i)}
+                            <span
+                                class="stage-control-chip"
+                                title={say.text.text}
+                                aria-label={say.text.text}
+                                >{i < speakingIndex
+                                    ? withMonoEmoji('🔇')
+                                    : i === speakingIndex
+                                      ? withMonoEmoji('🔊')
+                                      : withMonoEmoji('🔈')}</span
+                            >
+                        {/each}
+                    </div>
                 {/if}
-                {#if faceLandmarkerStatus.loading}
-                    <span
-                        class="say-item face-loading"
-                        title="Loading face tracker…"
-                        aria-label="Loading face tracker"
-                        >{withMonoEmoji('🙂')}</span
-                    >
-                {/if}
-                {#each says as say, i (say.text.text + i)}
-                    <span
-                        class="say-item"
-                        title={say.text.text}
-                        aria-label={say.text.text}
-                        >{i < speakingIndex
-                            ? withMonoEmoji('🔇')
-                            : i === speakingIndex
-                              ? withMonoEmoji('🔊')
-                              : withMonoEmoji('🔈')}</span
-                    >
-                {/each}
-            </div>
-        {/if}
-        <!-- These streams need keyboard input, so we make a text input field. If there's a chat stream, we make it visible. -->
-        {#if keys || placements || chats}
-            <div class="keyboard" class:visible={chats}>
+                <!-- Keyboard input for Key/Placement/Chat streams -->
+                {#if keys || placements || chats}
+                    <div class="keyboard" class:visible={chats}>
                 <input
                     type="text"
                     class="keyboard-input"
@@ -1557,6 +1561,8 @@
                         tip={(l) => l.ui.output.button.submit}
                         action={submitChat}>↑</ButtonUI
                     >
+                {/if}
+                    </div>
                 {/if}
             </div>
         {/if}
@@ -1736,11 +1742,27 @@
         justify-content: flex-start;
     }
 
-    .keyboard {
+    .stage-controls-dock {
         position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        inset-inline: 0;
+        inset-block-end: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        z-index: 1;
+    }
+
+    .stage-controls-row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: calc(var(--wordplay-spacing) / 2);
+        padding: var(--wordplay-spacing);
+        pointer-events: none;
+    }
+
+    .keyboard {
+        width: 100%;
         outline: none;
         opacity: 0;
         display: flex;
@@ -1754,12 +1776,13 @@
         border: none;
         flex-grow: 1;
         font-size: var(--wordplay-font-size);
-        padding: var(--wordplay-spacing);
+        padding-block: var(--wordplay-spacing);
+        padding-inline: var(--wordplay-spacing);
     }
 
     .keyboard.visible {
         opacity: 1;
-        border-top: var(--wordplay-border-color) solid
+        border-block-start: var(--wordplay-border-color) solid
             var(--wordplay-border-width);
     }
 
@@ -1776,19 +1799,7 @@
         margin-top: 1em;
     }
 
-    .say-overlay {
-        position: absolute;
-        top: var(--wordplay-spacing);
-        right: var(--wordplay-spacing);
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        gap: calc(var(--wordplay-spacing) / 2);
-        pointer-events: none;
-        z-index: 1;
-    }
-
-    .say-item {
+    .stage-control-chip {
         /* White + mix-blend-mode: difference inverts the indicator against
            whatever is rendered behind it — visible against any stage
            background color (white, black, or anywhere in between). */
