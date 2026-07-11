@@ -138,6 +138,13 @@ type InputTexts = {
         /** The width (in pixels) at which to sample the camera */
         resolution: NameAndDoc;
     };
+    /** A stream that tracks a face in the camera image using MediaPipe's face landmarker */
+    Face: NameAndDoc & {
+        /** The time between samples */
+        frequency: NameAndDoc;
+        /** The width (in pixels) at which to sample the camera */
+        resolution: NameAndDoc;
+    };
     /** A stream of animated outputs */
     Scene: NameAndDoc & {
         /** A list of outputs to show in sequence */

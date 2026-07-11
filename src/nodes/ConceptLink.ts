@@ -195,19 +195,26 @@ export default class ConceptLink extends Content {
     }
 
     getCodepoint() {
-        return codepointOfConceptRef(this.getName());
+        // Defer to parse() so a reserved concept name that also reads as hex
+        // (e.g. `Face` = 0xFACE) is treated as the concept, not a codepoint.
+        const parsed = ConceptLink.parse(this.getName());
+        return parsed instanceof CodepointName ? parsed.codepoint : undefined;
     }
 
     static parse(name: string) {
         // Split on either separator: `.` introduces a concept's member/
         // subconcept (e.g. `@Color.random`), while `/` introduces a UI
-        // reference, how-to, codepoint, or character name (e.g.
-        // `@username/charactername`). Classification below is by the first
-        // segment, not the separator, so either separator resolves; authored
-        // content uses `.` for concepts.
+        // reference, how-to, or character name (e.g. `@username/charactername`).
+        // Classification below is by the first segment, not the separator, so
+        // either separator resolves; authored content uses `.` for concepts.
         const [concept, property] = name.split(/[./]/);
         if (concept.toLowerCase() === 'ui') return new UIName(property);
         if (concept.toLowerCase() === 'how') return new HowToName(property);
+        // A reserved concept id wins over a hex-codepoint reading, so a concept
+        // whose name happens to be all hex digits (e.g. `Face` = 0xFACE) links
+        // to the concept instead of rendering the unassigned codepoint U+FACE.
+        if (ReservedConceptIDs.has(concept))
+            return new ConceptName(concept, property);
         // The reserved `U` namespace is a Unicode codepoint reference (e.g.
         // `@U/1F600` → 😀). An invalid codepoint (bad hex, out of range, NUL,
         // or a surrogate) is unparseable, so `isValid` reports a conflict.
@@ -221,8 +228,13 @@ export default class ConceptLink extends Content {
                 ? undefined
                 : new CodepointName(codepoint);
         }
-        if (ReservedConceptIDs.has(concept))
-            return new ConceptName(concept, property);
+        // A bare all-hex name (no member separator) is a codepoint reference.
+        if (property === undefined && name.match(HexRegEx)) {
+            const codepoint = getCodepointFromString(name);
+            return codepoint === undefined
+                ? undefined
+                : new CodepointName(codepoint);
+        }
         // A bare `@term` (no member/separator) whose id is a glossary term, and
         // not a concept id, is a glossary reference. Concept ids take precedence.
         else if (property === undefined && ReservedGlossaryIDs.has(concept))

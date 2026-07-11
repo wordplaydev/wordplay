@@ -199,6 +199,15 @@
             currentConcept($path ?? [])?.isEqualTo(concept) === true,
     );
 
+    /** True when this subconcept's owner is the concept currently being viewed,
+     *  so the owner prefix (e.g. `Expression.`) is redundant with the page and we
+     *  render only the subconcept's own name. */
+    let ownerIsCurrent = $derived(
+        ownerConcept !== undefined &&
+            path !== undefined &&
+            currentConcept($path ?? [])?.isEqualTo(ownerConcept) === true,
+    );
+
     function navigate() {
         // Inactive (already-here) links do nothing; otherwise push the concept onto
         // the navigation history as a new location.
@@ -223,7 +232,7 @@
             .concretize((l) => l.ui.docs.link, { name: longName })
             .toText()}
         onclick={navigate}
-        >{#if label}{withMonoEmoji(label)}{:else}{#if ownerConcept}<span
+        >{#if label}{withMonoEmoji(label)}{:else}{#if ownerConcept && !ownerIsCurrent}<span
                     class="long">{ownerConcept.getName($locales, false)}</span
                 >.{/if}<span class="long">{longName}</span
             >{#if symbolicName.toLocaleLowerCase($locales.getLocaleString()) !== longName.toLocaleLowerCase($locales.getLocaleString())}<sub

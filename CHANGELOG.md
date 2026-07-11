@@ -8,6 +8,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Added
 
+- 🙂 We added a `@Face` stream that watches your face with the camera. It tells you where your face is, whether your eyes and mouth are open, and if you're smiling, frowning, or raising your eyebrows — plus which way your head is turned. There's a new Face example in the [Galleries](https://wordplay.dev/galleries) to try.
 - 🎞️ We added a `changing` input to `@Phrase` that chooses how its text changes: `'edit'` erases and retypes it, `'rewrite'` replaces one letter at a time in a random order, and `'random'` spins each letter like a slot machine until it lands on the new text, using only letters that match your text's language and case (#74).
 - 📛 Projects can have multilingual names now.
 - 🥾 You can now step through example programs to see how they evaluate.
@@ -20,6 +21,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - ✍️ We fixed a freeze when you started to drag code in a long program.
 - 📋 We trimmed clipboard contents to avoid them from getting too big.
 - 🖱️ In text mode, we now allow the selected node to be draggable with the shift key down.
+- 📖 On a concept's own documentation page, links to its parts now show just the part's name (like `smiling`) instead of repeating the page's name (like `Expression.smiling`).
 
 ### Fixed
 
@@ -27,6 +29,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - ‼ We moved the clipboard and collaboration footer in the editor to its own space, so the cursor can't hide behind it.
 - ⌨️ We made vertical caret movement in the blocks editor more predictable.
 - 🔗 We fixed link colors in areas with backgrounds the same color as links.
+- 🔣 We fixed documentation links whose names look like number codes (like `@Face`), which used to show an empty box instead of linking to the right page.
 
 ## 0.26.0 - 2026-07-02
 

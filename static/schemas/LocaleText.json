@@ -2874,6 +2874,35 @@
                             "required": ["doc", "names", "x", "y"],
                             "type": "object"
                         },
+                        "Face": {
+                            "additionalProperties": false,
+                            "description": "A stream that tracks a face in the camera image using MediaPipe's face landmarker",
+                            "properties": {
+                                "doc": {
+                                    "$ref": "#/definitions/DocText",
+                                    "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                                },
+                                "frequency": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "The time between samples"
+                                },
+                                "names": {
+                                    "$ref": "#/definitions/NameText",
+                                    "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                                },
+                                "resolution": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "The width (in pixels) at which to sample the camera"
+                                }
+                            },
+                            "required": [
+                                "doc",
+                                "frequency",
+                                "names",
+                                "resolution"
+                            ],
+                            "type": "object"
+                        },
                         "Hand": {
                             "additionalProperties": false,
                             "description": "A stream that tracks a hand in the camera image using MediaPipe's hand landmarker",
@@ -3815,6 +3844,7 @@
                         "Speech",
                         "Camera",
                         "Hand",
+                        "Face",
                         "Scene",
                         "Motion",
                         "Placement",
@@ -11486,6 +11516,95 @@
                             ],
                             "type": "object"
                         },
+                        "Expression": {
+                            "additionalProperties": false,
+                            "description": "A facial expression detected in the camera image (returned by the Face input stream)",
+                            "properties": {
+                                "browRaiseAmount": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "How much the eyebrows are raised, from 0 to 1"
+                                },
+                                "browsRaised": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "True when the eyebrows are raised"
+                                },
+                                "doc": {
+                                    "$ref": "#/definitions/DocText",
+                                    "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                                },
+                                "eyesOpen": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "True when both eyes are open"
+                                },
+                                "frownAmount": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "How much the face is frowning, from 0 to 1"
+                                },
+                                "frowning": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "True when the face is frowning"
+                                },
+                                "leftEyeOpen": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "True when the left eye is open"
+                                },
+                                "mouthOpen": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "True when the mouth is open"
+                                },
+                                "mouthOpenAmount": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "How open the mouth is, from 0 (closed) to 1 (wide open)"
+                                },
+                                "names": {
+                                    "$ref": "#/definitions/NameText",
+                                    "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                                },
+                                "place": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "Where the face is on stage"
+                                },
+                                "rightEyeOpen": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "True when the right eye is open"
+                                },
+                                "smileAmount": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "How much the face is smiling, from 0 to 1"
+                                },
+                                "smiling": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "True when the face is smiling"
+                                },
+                                "tilt": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "How far the head is tilted up or down, in degrees"
+                                },
+                                "turn": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "How far the head is turned left or right, in degrees"
+                                }
+                            },
+                            "required": [
+                                "browRaiseAmount",
+                                "browsRaised",
+                                "doc",
+                                "eyesOpen",
+                                "frownAmount",
+                                "frowning",
+                                "leftEyeOpen",
+                                "mouthOpen",
+                                "mouthOpenAmount",
+                                "names",
+                                "place",
+                                "rightEyeOpen",
+                                "smileAmount",
+                                "smiling",
+                                "tilt",
+                                "turn"
+                            ],
+                            "type": "object"
+                        },
                         "Form": {
                             "$ref": "#/definitions/NameAndDoc",
                             "description": "The base form type"
@@ -13100,6 +13219,7 @@
                         "Color",
                         "Place",
                         "Gesture",
+                        "Expression",
                         "Velocity",
                         "Result",
                         "Matter",
@@ -19681,7 +19801,7 @@
                                             "description": "[plain] Tip text for the project full screen button"
                                         }
                                     },
-                                    "required": ["editName", "fullscreen"],
+                                    "required": ["fullscreen", "editName"],
                                     "type": "object"
                                 },
                                 "tour": {

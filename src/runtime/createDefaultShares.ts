@@ -13,6 +13,7 @@ import { createChatDefinition } from '@input/Chat';
 import { createChoiceDefinition } from '@input/Choice';
 import { createCollisionDefinition } from '@input/Collision';
 import { createContourDefinition } from '@input/Contour';
+import { createFaceDefinition } from '@input/Face';
 import { createKeyDefinition } from '@input/Key';
 import createTimeZoneAnalyzer from '@input/analyzeMomentTimeZone';
 import { createMomentType, MomentTimezoneIndex } from '@input/Moment';
@@ -32,6 +33,7 @@ import { createArrangementType } from '@output/Arrangement';
 import { createColorType } from '@output/Color';
 import { getDefaultSequences } from '@output/DefaultSequences';
 import { createDirectionType } from '@output/Direction';
+import { createExpressionType } from '@output/Expression';
 import { createFreeType } from '@output/Free';
 import { createGridType } from '@output/Grid';
 import { createGroupType } from '@output/Group';
@@ -68,6 +70,7 @@ export default function createDefaultShares(locales: Locales) {
     const ShapeType = createShapeType(locales);
 
     const HandType = createHandType(locales);
+    const ExpressionType = createExpressionType(locales);
 
     const MomentType = createMomentType(locales);
     const NowType = createNowDefinition(locales, MomentType);
@@ -99,6 +102,7 @@ export default function createDefaultShares(locales: Locales) {
         Direction: DirectionType,
         Rebound: ReboundType,
         Gesture: HandType,
+        Expression: ExpressionType,
         Form: createFormType(locales),
         Rectangle: createRectangleType(locales),
         Circle: createCircleType(locales),
@@ -129,6 +133,7 @@ export default function createDefaultShares(locales: Locales) {
         Speech: createSpeechDefinition(locales),
         Camera: createCameraDefinition(locales, ColorType),
         Hand: createHandDefinition(locales, HandType),
+        Face: createFaceDefinition(locales, ExpressionType),
         Webpage: createWebpageDefinition(locales),
         Chat: createChatDefinition(locales),
         Contour: createContourDefinition(locales, PlaceType),

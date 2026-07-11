@@ -1,27 +1,23 @@
 import type { Database } from '@db/Database';
-
-type CameraConfig = {
-    stream: MediaStream;
-    video: HTMLVideoElement;
-    canvas: HTMLCanvasElement;
-    context: CanvasRenderingContext2D;
-    sourceX: number;
-    sourceY: number;
-    sourceWidth: number;
-    sourceHeight: number;
-};
+import {
+    acquireCameraSource,
+    type CameraSourceHandle,
+} from '@input/CameraSource';
 
 /**
- * Wraps the browser camera API and frame sampling. Holds the MediaStream, a
- * hidden <video> + <canvas>, and exposes either raw `ImageData` (for callers
- * that want pixels) or the live `HTMLVideoElement` itself (for callers that
- * want to hand the stream to an ML model). Color-space conversion is *not*
- * the responsibility of this class — callers that need LCH or other spaces
- * do the conversion themselves.
+ * A per-consumer view onto the shared camera. The expensive, genuinely-shared
+ * resources — the `MediaStream` and the decoding `<video>` — live in
+ * `CameraSource` and are reference-counted across every stream using the same
+ * device. This class owns only the cheap, consumer-specific bits: a `<canvas>`
+ * at the caller's target sampling resolution and the aspect-crop math that maps
+ * the shared sensor frame into it. It exposes either raw `ImageData` (for
+ * callers that want pixels) or the shared `HTMLVideoElement` itself (for
+ * callers that hand the stream to an ML model). Color-space conversion is *not*
+ * this class's responsibility — callers that need LCH do it themselves.
  *
  * Pass targetHeight as null to use the camera sensor's full field of view;
  * the effective sampling height is derived from the actual sensor aspect
- * ratio once start() resolves.
+ * ratio once the shared source resolves.
  */
 export default class CameraFeed {
     private database: Database;
@@ -31,11 +27,19 @@ export default class CameraFeed {
     /** Resolved height after sensor info arrives; matches targetHeight when fixed. */
     private effectiveHeight: number;
     private idealFrequency: number;
-    private config: CameraConfig | undefined | null;
-    private playing = false;
-    private stopped = false;
     /** Called once all attempts to acquire a camera stream have failed (typically a denied permission). */
     private onDenied: (() => void) | undefined;
+
+    private source: CameraSourceHandle | undefined;
+    private canvas: HTMLCanvasElement | undefined;
+    private context: CanvasRenderingContext2D | null = null;
+    /** Source sub-rectangle (in sensor pixels) cropped to the target aspect. */
+    private sourceX = 0;
+    private sourceY = 0;
+    private sourceWidth = 0;
+    private sourceHeight = 0;
+    /** True once the crop + canvas size have been computed for the live sensor. */
+    private configured = false;
 
     constructor(
         database: Database,
@@ -58,33 +62,31 @@ export default class CameraFeed {
         if (width === this.targetWidth && height === this.targetHeight) return;
         this.targetWidth = width;
         this.targetHeight = height;
-        if (this.config) {
-            this.recomputeDimensions();
-            this.config.canvas.width = this.targetWidth;
-            this.config.canvas.height = this.effectiveHeight;
-        } else {
-            this.effectiveHeight = height ?? width;
-        }
+        this.effectiveHeight = height ?? width;
+        // Recompute against the live sensor on the next frame.
+        this.configured = false;
     }
 
-    /** Restart the stream with a different camera device. */
+    /** Restart against whatever camera device is now selected. */
     setDevice() {
-        if (!this.config) return;
-        this.stop();
-        this.config = undefined;
-        this.playing = false;
-        this.stopped = false;
-        this.start();
+        if (!this.source) return;
+        this.source.release();
+        this.source = acquireCameraSource(
+            this.database,
+            this.idealFrequency,
+            this.onDenied,
+        );
+        this.configured = false;
     }
 
     /** True once the underlying video is ready and a frame can be captured. */
     isReady() {
-        return this.config != null && this.playing;
+        return this.source?.isReady() ?? false;
     }
 
     /** True if camera permission was denied or the API is unavailable. */
     isFailed() {
-        return this.config === null;
+        return this.source?.isFailed() ?? false;
     }
 
     /**
@@ -93,37 +95,23 @@ export default class CameraFeed {
      * isn't ready. Callers convert to whatever color space they need.
      */
     grabImageData(): ImageData | undefined {
-        if (!this.config) return undefined;
-
-        const { context, video, sourceX, sourceY, sourceWidth, sourceHeight } =
-            this.config;
-        const width = this.targetWidth;
-        const height = this.effectiveHeight;
-
-        context.drawImage(
-            video,
-            sourceX,
-            sourceY,
-            sourceWidth,
-            sourceHeight,
+        if (!this.drawFrame()) return undefined;
+        return this.context?.getImageData(
             0,
             0,
-            width,
-            height,
+            this.targetWidth,
+            this.effectiveHeight,
+            { colorSpace: 'srgb' },
         );
-
-        return context.getImageData(0, 0, width, height, {
-            colorSpace: 'srgb',
-        });
     }
 
     /**
-     * Return the underlying <video> element. Useful for callers (like ML
-     * models) that prefer to consume the live stream directly instead of
-     * sampling into a canvas first.
+     * Return the shared <video> element. Useful for callers (like ML models)
+     * that prefer to consume the live stream directly instead of sampling into
+     * a canvas first.
      */
     getVideoElement(): HTMLVideoElement | undefined {
-        return this.config?.video;
+        return this.source?.getVideoElement();
     }
 
     /**
@@ -135,143 +123,72 @@ export default class CameraFeed {
      * larger than needed and cause noticeable WASM heap growth.
      */
     getCanvasFrame(): HTMLCanvasElement | undefined {
-        if (!this.config) return undefined;
-        const { context, video, sourceX, sourceY, sourceWidth, sourceHeight } =
-            this.config;
-        context.drawImage(
+        return this.drawFrame() ? this.canvas : undefined;
+    }
+
+    /**
+     * Draw the shared video's cropped sub-rectangle into our canvas. Returns
+     * false (drawing nothing) until the shared source is ready. Lazily computes
+     * the crop + canvas size the first time the sensor is available, since the
+     * shared source resolves asynchronously.
+     */
+    private drawFrame(): boolean {
+        const video = this.source?.getVideoElement();
+        if (!video || !this.isReady() || !this.context || !this.canvas)
+            return false;
+        if (!this.configured && !this.recomputeDimensions()) return false;
+        this.context.drawImage(
             video,
-            sourceX,
-            sourceY,
-            sourceWidth,
-            sourceHeight,
+            this.sourceX,
+            this.sourceY,
+            this.sourceWidth,
+            this.sourceHeight,
             0,
             0,
             this.targetWidth,
             this.effectiveHeight,
         );
-        return this.config.canvas;
+        return true;
     }
 
     start() {
-        if (
-            typeof navigator === 'undefined' ||
-            typeof navigator.mediaDevices === 'undefined' ||
-            this.config !== undefined
-        )
-            return;
-
-        const base: MediaTrackConstraints = {
-            width: { min: this.targetWidth },
-            // Cap the camera's frame production at our consumption rate.
-            // `ideal` is only a hint — Safari will happily produce at the
-            // sensor's native 30fps regardless, and the unread frames pool
-            // up inside the <video> element (~3MB each at 720p YUV). That
-            // accumulates Page memory at ~30MB/s and was the dominant
-            // source of the iOS tab crash and macOS Safari frame-rate
-            // degradation. `max` is a hard upper bound the browser must
-            // respect.
-            frameRate: { max: 1000 / this.idealFrequency },
-        };
-        // Only constrain height when caller pinned it; otherwise let the sensor
-        // pick its native size so we can read its aspect ratio.
-        if (this.targetHeight !== null)
-            base.height = { min: this.targetHeight };
-
-        // Build an ordered list of attempts. We always want to end up with
-        // *some* working camera, so we degrade gracefully: if the user picked a
-        // specific device that's now unplugged, fall back to the user-facing
-        // default, and beyond that to any available camera.
-        const device = this.database.Settings.getCamera();
-        const attempts: MediaTrackConstraints[] = [];
-        if (device) attempts.push({ ...base, deviceId: { exact: device } });
-        attempts.push({ ...base, facingMode: 'user' });
-        attempts.push(base);
-
-        this.requestStream(attempts, 0);
-    }
-
-    /** Try each constraint set in order until one succeeds. */
-    private requestStream(
-        attempts: MediaTrackConstraints[],
-        index: number,
-    ): void {
-        if (index >= attempts.length) {
-            this.config = null;
-            if (!this.stopped) this.onDenied?.();
-            return;
-        }
-        navigator.mediaDevices
-            .getUserMedia({ audio: false, video: attempts[index] })
-            .then((stream) => this.attachStream(stream))
-            .catch(() => this.requestStream(attempts, index + 1));
-    }
-
-    /** Wire up a successfully-acquired MediaStream as our config. */
-    private attachStream(stream: MediaStream) {
-        if (this.stopped) {
-            stream.getTracks().forEach((track) => track.stop());
-            return;
-        }
-        const settings = stream.getVideoTracks()[0].getSettings();
+        if (this.source !== undefined) return;
         const canvas = document.createElement('canvas');
         const context = canvas.getContext('2d', {
             alpha: false,
             willReadFrequently: true,
         });
-
-        if (settings && settings.width && settings.height && context) {
-            const video = document.createElement('video');
-            const config: CameraConfig = {
-                video,
-                canvas,
-                context,
-                stream,
-                // Filled in by recomputeDimensions below
-                sourceX: 0,
-                sourceY: 0,
-                sourceWidth: settings.width,
-                sourceHeight: settings.height,
-            };
-            this.config = config;
-            this.recomputeDimensions();
-
-            canvas.width = this.targetWidth;
-            canvas.height = this.effectiveHeight;
-
-            canvas.style.display = 'none';
-            video.style.display = 'none';
-
-            document.body.appendChild(video);
-            document.body.appendChild(canvas);
-
-            video.srcObject = stream;
-            video.play().then(() => (this.playing = true));
-        } else this.config = null;
+        canvas.style.display = 'none';
+        document.body.appendChild(canvas);
+        this.canvas = canvas;
+        this.context = context;
+        this.source = acquireCameraSource(
+            this.database,
+            this.idealFrequency,
+            this.onDenied,
+        );
     }
 
     stop() {
-        this.stopped = true;
-        if (this.config) {
-            if (this.playing)
-                this.config.stream.getTracks().forEach((track) => track.stop());
-            this.config.video.srcObject = null;
-
-            if (document.body.contains(this.config.canvas))
-                document.body.removeChild(this.config.canvas);
-            if (document.body.contains(this.config.video))
-                document.body.removeChild(this.config.video);
-        }
+        this.source?.release();
+        this.source = undefined;
+        if (this.canvas && document.body.contains(this.canvas))
+            document.body.removeChild(this.canvas);
+        this.canvas = undefined;
+        this.context = null;
+        this.configured = false;
     }
 
     /**
      * Resolve effectiveHeight from sensor + target, then compute the source
-     * sub-rectangle. With targetHeight === null we use the full sensor; otherwise
-     * we crop to match the target aspect ratio and center the crop.
+     * sub-rectangle and size our canvas. With targetHeight === null we use the
+     * full sensor; otherwise we crop to match the target aspect ratio and
+     * center the crop. Returns false if the sensor size isn't known yet.
      */
-    private recomputeDimensions() {
-        if (!this.config) return;
-        const settings = this.config.stream.getVideoTracks()[0].getSettings();
-        if (!settings || !settings.width || !settings.height) return;
+    private recomputeDimensions(): boolean {
+        const settings = this.source?.getSettings();
+        if (!settings || !settings.width || !settings.height || !this.canvas)
+            return false;
 
         const sensorAspect = settings.width / settings.height;
 
@@ -281,36 +198,32 @@ export default class CameraFeed {
                 1,
                 Math.round(this.targetWidth / sensorAspect),
             );
-            this.config.sourceX = 0;
-            this.config.sourceY = 0;
-            this.config.sourceWidth = settings.width;
-            this.config.sourceHeight = settings.height;
-            return;
+            this.sourceX = 0;
+            this.sourceY = 0;
+            this.sourceWidth = settings.width;
+            this.sourceHeight = settings.height;
+        } else {
+            this.effectiveHeight = this.targetHeight;
+            const targetAspect = this.targetWidth / this.targetHeight;
+            // Fit to height
+            if (targetAspect < sensorAspect) {
+                this.sourceHeight = settings.height;
+                this.sourceWidth = settings.height * targetAspect;
+                this.sourceX = (settings.width - this.sourceWidth) / 2;
+                this.sourceY = 0;
+            }
+            // Fit to width
+            else {
+                this.sourceWidth = settings.width;
+                this.sourceHeight = this.sourceWidth / targetAspect;
+                this.sourceX = 0;
+                this.sourceY = (settings.height - this.sourceHeight) / 2;
+            }
         }
 
-        this.effectiveHeight = this.targetHeight;
-        const targetAspect = this.targetWidth / this.targetHeight;
-
-        let sourceX: number, sourceY: number;
-        let sourceWidth: number, sourceHeight: number;
-        // Fit to height
-        if (targetAspect < sensorAspect) {
-            sourceHeight = settings.height;
-            sourceWidth = settings.height * targetAspect;
-            sourceX = (settings.width - sourceWidth) / 2;
-            sourceY = 0;
-        }
-        // Fit to width
-        else {
-            sourceWidth = settings.width;
-            sourceHeight = sourceWidth / targetAspect;
-            sourceX = 0;
-            sourceY = (settings.height - sourceHeight) / 2;
-        }
-
-        this.config.sourceX = sourceX;
-        this.config.sourceY = sourceY;
-        this.config.sourceWidth = sourceWidth;
-        this.config.sourceHeight = sourceHeight;
+        this.canvas.width = this.targetWidth;
+        this.canvas.height = this.effectiveHeight;
+        this.configured = true;
+        return true;
     }
 }

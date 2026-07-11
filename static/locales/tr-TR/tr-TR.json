@@ -4503,6 +4503,26 @@
                 "timezone": "$~bu geçerli bir zaman dilimi ismi değil",
                 "calendar": "$~bu desteklenen bir takvim ismi değil"
             }
+        },
+        "Face": {
+            "doc": [
+                "$~Kameranın gördüğü bir yüzü izler — yüzün nerede olduğunu ve ne yaptığını: açık ya da kapalı gözler, açık bir ağız, bir gülümseme, bir kaş çatma, kalkık kaşlar ve başın hangi yöne döndüğü.",
+                "/gülümse/",
+                "Kameraya bak, gülümse, göz kırp, ağzını iyice aç — @Face hepsini takip eder.",
+                "Arka planda @Face bir makine öğrenmesi modeli kullanır. Bir programda ilk kez kullandığında modelin inmesi birkaç saniye sürer. Model yüklenirken sahnenin sağ üst köşesinde küçük, dönen bir yüz görünür. Bundan sonra model önbellekte kalır ve anında başlar.",
+                "Her karede @Face sana bir @Expression verir. Girişlerin tam listesi ve anlamları için oraya bak.",
+                "Bu örnek, gerçek yüzün nerede olursa olsun yüzüne uyan bir emoji gösterir:",
+                "\\yüz: 🙂()\n💬((yüz.gülümseme ? '😀' yüz.ağızAçık ? '😮' '😐') place: yüz.yer)\\"
+            ],
+            "names": ["$~🙂", "$~Yüz"],
+            "frequency": {
+                "names": ["$~frekans"],
+                "doc": "$~Örnekler arasındaki süre."
+            },
+            "resolution": {
+                "names": ["$~çözünürlük"],
+                "doc": "$~Yüz modelini çalıştırmadan önce kameranın örnekleneceği piksel cinsinden genişlik. Daha yüksek değerler biraz daha doğru işaret noktaları verebilir ama kare başına daha fazla zaman alır."
+            }
         }
     },
     "output": {
@@ -5652,6 +5672,66 @@
             "edit": "$~düzenle",
             "rewrite": "$~yenidenYaz",
             "random": "$~rastgele"
+        },
+        "Expression": {
+            "doc": "$~Ben, kameranın algıladığı ve @Face akışının yaydığı bir yüz ifadesinin anlık görüntüsüyüm. Yerim, yüzün sahnede nerede olduğunu söyler. @Expression.leftEyeOpen, @Expression.rightEyeOpen ve @Expression.eyesOpen özelliklerim gözlerin açık olup olmadığını söyler. @Expression.mouthOpen, @Expression.smiling, @Expression.frowning ve @Expression.browsRaised özelliklerim yüzün ne yaptığını söyler. Her birinin, ne kadar güçlü olduğunu gösteren, 0 ile 1 arasında eşleşen bir miktarı vardır (@Expression.mouthOpenAmount, @Expression.smileAmount, @Expression.frownAmount, @Expression.browRaiseAmount). @Expression.turn ve @Expression.tilt özelliklerim başın hangi yöne baktığını derece cinsinden söyler.",
+            "names": ["$~😀", "$~İfade"],
+            "place": {
+                "doc": "$~Yüzün sahnede nerede olduğu.",
+                "names": ["$~yer"]
+            },
+            "leftEyeOpen": {
+                "doc": "$~\\⊤\\ sol göz açıksa, \\⊥\\ kapalıysa.",
+                "names": ["$~solGözAçık"]
+            },
+            "rightEyeOpen": {
+                "doc": "$~\\⊤\\ sağ göz açıksa, \\⊥\\ kapalıysa.",
+                "names": ["$~sağGözAçık"]
+            },
+            "eyesOpen": {
+                "doc": "$~\\⊤\\ her iki göz de açıksa.",
+                "names": ["$~gözlerAçık"]
+            },
+            "mouthOpen": {
+                "doc": "$~\\⊤\\ ağız açıksa.",
+                "names": ["$~ağızAçık"]
+            },
+            "mouthOpenAmount": {
+                "doc": "$~Ağzın ne kadar açık olduğu, 0'dan (kapalı) 1'e (iyice açık) kadar.",
+                "names": ["$~ağızAçıklıkMiktarı"]
+            },
+            "smiling": {
+                "doc": "$~\\⊤\\ yüz gülümsüyorsa.",
+                "names": ["$~gülümseme"]
+            },
+            "smileAmount": {
+                "doc": "$~Yüzün ne kadar gülümsediği, 0'dan 1'e kadar.",
+                "names": ["$~gülümsemeMiktarı"]
+            },
+            "frowning": {
+                "doc": "$~\\⊤\\ yüz kaşlarını çatıyorsa.",
+                "names": ["$~kaşÇatma"]
+            },
+            "frownAmount": {
+                "doc": "$~Yüzün ne kadar asık olduğu, 0'dan 1'e kadar.",
+                "names": ["$~kaşÇatmaMiktarı"]
+            },
+            "browsRaised": {
+                "doc": "$~\\⊤\\ kaşlar kalkıksa.",
+                "names": ["$~kaşlarKalkık"]
+            },
+            "browRaiseAmount": {
+                "doc": "$~Kaşların ne kadar kalkık olduğu, 0'dan 1'e kadar.",
+                "names": ["$~kaşKaldırmaMiktarı"]
+            },
+            "turn": {
+                "doc": "$~Başın ne kadar döndüğü, derece cinsinden — sola doğru negatif, sağa doğru pozitif.",
+                "names": ["$~dön"]
+            },
+            "tilt": {
+                "doc": "$~Başın ne kadar eğildiği, derece cinsinden — aşağı doğru negatif, yukarı doğru pozitif.",
+                "names": ["$~eğ"]
+            }
         }
     },
     "ui": {

@@ -4497,6 +4497,26 @@
                 "timezone": "$~đây không phải là một tên múi giờ hợp lệ",
                 "calendar": "$~đây không phải là một tên lịch được hỗ trợ"
             }
+        },
+        "Face": {
+            "doc": [
+                "$~Nó theo dõi một khuôn mặt mà máy ảnh của bạn nhìn thấy — nó ở đâu, và nó đang làm gì: mắt mở hay nhắm, miệng mở, một nụ cười, một cái cau mày, đôi lông mày nhướng lên, và đầu quay về hướng nào.",
+                "/cười lên nào/",
+                "Hãy nhìn vào máy ảnh, mỉm cười, nháy mắt, mở miệng thật to — @Face sẽ làm theo.",
+                "Đằng sau hậu trường, @Face dùng một mô hình học máy. Lần đầu tiên bạn dùng nó trong một chương trình, mô hình mất vài giây để tải xuống, và một khuôn mặt nhỏ đang quay xuất hiện ở góc trên bên phải của sân khấu trong khi nó tải. Sau đó nó được lưu lại và bắt đầu ngay lập tức.",
+                "Mỗi khung hình, @Face cho bạn một @Expression. Hãy xem ở đó để biết danh sách đầy đủ các đầu vào và ý nghĩa của chúng.",
+                "Ví dụ này cho thấy một biểu tượng cảm xúc khớp với khuôn mặt của bạn ở bất cứ nơi nào khuôn mặt thật của bạn ở đó:",
+                "\\khuônMặt: 🙂()\nCụmtừ((khuônMặt.cườiTươi ? '😀' khuônMặt.miệngMở ? '😮' '😐') place: khuônMặt.vịTrí)\\"
+            ],
+            "names": ["$~🙂", "$~KhuônMặt"],
+            "frequency": {
+                "names": ["$~tầnSố"],
+                "doc": "$~Khoảng thời gian giữa các mẫu."
+            },
+            "resolution": {
+                "names": ["$~độPhânGiải"],
+                "doc": "$~Chiều rộng tính bằng điểm ảnh mà máy ảnh được lấy mẫu trước khi chạy mô hình khuôn mặt. Giá trị cao hơn có thể cho các điểm mốc chính xác hơn một chút nhưng tốn nhiều thời gian hơn mỗi khung hình."
+            }
         }
     },
     "output": {
@@ -5646,6 +5666,66 @@
             "edit": "$~sửa",
             "rewrite": "$~viếtLại",
             "random": "$~ngẫuNhiên"
+        },
+        "Expression": {
+            "doc": "$~Tôi là một ảnh chụp nhanh của một biểu cảm khuôn mặt được máy ảnh phát hiện, phát ra từ luồng @Face. Vị trí của tôi cho bạn biết khuôn mặt ở đâu trên sân khấu. @Expression.leftEyeOpen, @Expression.rightEyeOpen, và @Expression.eyesOpen của tôi cho biết mắt có mở hay không. @Expression.mouthOpen, @Expression.smiling, @Expression.frowning, và @Expression.browsRaised của tôi cho biết khuôn mặt đang làm gì, và mỗi cái có một lượng tương ứng (@Expression.mouthOpenAmount, @Expression.smileAmount, @Expression.frownAmount, @Expression.browRaiseAmount) từ 0 đến 1 cho biết nó mạnh đến mức nào. @Expression.turn và @Expression.tilt của tôi cho biết đầu đang hướng về phía nào, tính bằng độ.",
+            "names": ["$~😀", "$~BiểuCảm"],
+            "place": {
+                "doc": "$~Khuôn mặt ở đâu trên sân khấu.",
+                "names": ["$~vịTrí"]
+            },
+            "leftEyeOpen": {
+                "doc": "$~\\⊤\\ nếu mắt trái mở, \\⊥\\ nếu nó nhắm.",
+                "names": ["$~mắtTráiMở"]
+            },
+            "rightEyeOpen": {
+                "doc": "$~\\⊤\\ nếu mắt phải mở, \\⊥\\ nếu nó nhắm.",
+                "names": ["$~mắtPhảiMở"]
+            },
+            "eyesOpen": {
+                "doc": "$~\\⊤\\ nếu cả hai mắt đều mở.",
+                "names": ["$~mắtMở"]
+            },
+            "mouthOpen": {
+                "doc": "$~\\⊤\\ nếu miệng mở.",
+                "names": ["$~miệngMở"]
+            },
+            "mouthOpenAmount": {
+                "doc": "$~Miệng há bao nhiêu, từ 0 (khép) đến 1 (há to).",
+                "names": ["$~mứcĐộMiệngMở"]
+            },
+            "smiling": {
+                "doc": "$~\\⊤\\ nếu khuôn mặt đang mỉm cười.",
+                "names": ["$~cườiTươi"]
+            },
+            "smileAmount": {
+                "doc": "$~Khuôn mặt cười bao nhiêu, từ 0 đến 1.",
+                "names": ["$~mứcĐộCười"]
+            },
+            "frowning": {
+                "doc": "$~\\⊤\\ nếu khuôn mặt đang cau mày.",
+                "names": ["$~cauMày"]
+            },
+            "frownAmount": {
+                "doc": "$~Khuôn mặt cau mày bao nhiêu, từ 0 đến 1.",
+                "names": ["$~mứcĐộCauMày"]
+            },
+            "browsRaised": {
+                "doc": "$~\\⊤\\ nếu đôi lông mày nhướng lên.",
+                "names": ["$~lôngMàyNhướn"]
+            },
+            "browRaiseAmount": {
+                "doc": "$~Lông mày nhướng lên bao nhiêu, từ 0 đến 1.",
+                "names": ["$~mứcĐộNhướnLôngMày"]
+            },
+            "turn": {
+                "doc": "$~Đầu quay đi bao xa, tính bằng độ — âm là sang trái, dương là sang phải.",
+                "names": ["$~xoay"]
+            },
+            "tilt": {
+                "doc": "$~Đầu nghiêng đi bao xa, tính bằng độ — âm là xuống dưới, dương là lên trên.",
+                "names": ["$~nghiêng"]
+            }
         }
     },
     "ui": {

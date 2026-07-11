@@ -4506,6 +4506,26 @@
                 "timezone": "$~das ist kein gültiger Zeitzonenname",
                 "calendar": "$~das ist kein unterstützter Kalendername"
             }
+        },
+        "Face": {
+            "doc": [
+                "$~Es verfolgt ein Gesicht, das deine Kamera sieht — wo es ist und was es tut: offene oder geschlossene Augen, ein offener Mund, ein Lächeln, ein Stirnrunzeln, hochgezogene Augenbrauen und in welche Richtung der Kopf gedreht ist.",
+                "/Bitte lächeln/",
+                "Schau in die Kamera, lächle, zwinkere, mach den Mund weit auf — @Face macht mit.",
+                "Hinter den Kulissen nutzt @Face ein Modell des maschinellen Lernens. Wenn du es zum ersten Mal in einem Programm verwendest, braucht das Modell ein paar Sekunden zum Herunterladen. Ein winziges sich drehendes Gesicht erscheint dann oben rechts auf der Bühne, während es lädt. Danach bleibt es gespeichert und startet sofort.",
+                "Bei jedem Einzelbild gibt dir @Face einen @Expression. Dort findest du die vollständige Liste der Eingaben und was sie bedeuten.",
+                "Dieses Beispiel zeigt ein Emoji, das zu deinem Gesicht passt, egal wo dein echtes Gesicht ist:",
+                "\\gesicht: 🙂()\n💬((gesicht.lächelnd ? '😀' gesicht.mundOffen ? '😮' '😐') place: gesicht.Ort)\\"
+            ],
+            "names": ["$~🙂", "$~Gesicht"],
+            "frequency": {
+                "names": ["$~Häufigkeit"],
+                "doc": "$~Die Zeit zwischen den Messungen."
+            },
+            "resolution": {
+                "names": ["$~Auflösung"],
+                "doc": "$~Die Breite in Pixeln, mit der die Kamera abgetastet wird, bevor das Gesichtsmodell läuft. Höhere Werte können etwas genauere Punkte liefern, brauchen aber mehr Zeit pro Einzelbild."
+            }
         }
     },
     "output": {
@@ -5655,6 +5675,66 @@
             "edit": "$~bearbeiten",
             "rewrite": "$~neuschreiben",
             "random": "$~zufällig"
+        },
+        "Expression": {
+            "doc": "$~Ich bin eine Momentaufnahme eines Gesichtsausdrucks, den die Kamera erkennt und den der @Face-Datenstrom aussendet. Mein Platz sagt dir, wo das Gesicht auf der Bühne ist. Meine @Expression.leftEyeOpen, @Expression.rightEyeOpen und @Expression.eyesOpen sagen, ob die Augen offen sind. Meine @Expression.mouthOpen, @Expression.smiling, @Expression.frowning und @Expression.browsRaised sagen, was das Gesicht tut, und jede hat einen passenden Betrag (@Expression.mouthOpenAmount, @Expression.smileAmount, @Expression.frownAmount, @Expression.browRaiseAmount) von 0 bis 1 dafür, wie stark es ist. Meine @Expression.turn und @Expression.tilt sagen, in welche Richtung der Kopf zeigt, in Grad.",
+            "names": ["$~😀", "$~Ausdruck"],
+            "place": {
+                "doc": "$~Wo das Gesicht auf der Bühne ist.",
+                "names": ["$~Ort"]
+            },
+            "leftEyeOpen": {
+                "doc": "$~\\⊤\\ wenn das linke Auge offen ist, \\⊥\\ wenn es geschlossen ist.",
+                "names": ["$~linkesAugeOffen"]
+            },
+            "rightEyeOpen": {
+                "doc": "$~\\⊤\\ wenn das rechte Auge offen ist, \\⊥\\ wenn es geschlossen ist.",
+                "names": ["$~rechtesAugeOffen"]
+            },
+            "eyesOpen": {
+                "doc": "$~\\⊤\\ wenn beide Augen offen sind.",
+                "names": ["$~augenOffen"]
+            },
+            "mouthOpen": {
+                "doc": "$~\\⊤\\ wenn der Mund offen ist.",
+                "names": ["$~mundOffen"]
+            },
+            "mouthOpenAmount": {
+                "doc": "$~Wie weit der Mund offen ist, von 0 (geschlossen) bis 1 (weit offen).",
+                "names": ["$~mundOffenMenge"]
+            },
+            "smiling": {
+                "doc": "$~\\⊤\\ wenn das Gesicht lächelt.",
+                "names": ["$~lächelnd"]
+            },
+            "smileAmount": {
+                "doc": "$~Wie stark das Gesicht lächelt, von 0 bis 1.",
+                "names": ["$~lächelnMenge"]
+            },
+            "frowning": {
+                "doc": "$~\\⊤\\ wenn das Gesicht die Stirn runzelt.",
+                "names": ["$~stirnrunzelnd"]
+            },
+            "frownAmount": {
+                "doc": "$~Wie stark das Gesicht finster schaut, von 0 bis 1.",
+                "names": ["$~stirnrunzelnMenge"]
+            },
+            "browsRaised": {
+                "doc": "$~\\⊤\\ wenn die Augenbrauen hochgezogen sind.",
+                "names": ["$~augenbrauenHoch"]
+            },
+            "browRaiseAmount": {
+                "doc": "$~Wie stark die Augenbrauen hochgezogen sind, von 0 bis 1.",
+                "names": ["$~augenbrauenHochMenge"]
+            },
+            "turn": {
+                "doc": "$~Wie weit der Kopf gedreht ist, in Grad — negativ nach links, positiv nach rechts.",
+                "names": ["$~drehen"]
+            },
+            "tilt": {
+                "doc": "$~Wie weit der Kopf geneigt ist, in Grad — negativ nach unten, positiv nach oben.",
+                "names": ["$~neigen"]
+            }
         }
     },
     "ui": {

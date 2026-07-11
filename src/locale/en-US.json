@@ -4276,6 +4276,26 @@
                 "doc": "The width in pixels at which to sample the camera before running the hand model. Higher values can give slightly more accurate landmarks but cost more time per frame."
             }
         },
+        "Face": {
+            "doc": [
+                "It tracks a face seen by your camera — where it is, and what it's doing: open or closed eyes, an open mouth, a smile, a frown, raised eyebrows, and which way the head is turned.",
+                "/say cheese/",
+                "Look at the camera, smile, wink, open wide — @Face follows along.",
+                "Behind the scenes, @Face uses a machine-learning model. The first time you use it in a program the model takes a few seconds to download, and a tiny spinning face appears in the top-right corner of the stage while it loads. After that it stays cached and starts instantly.",
+                "Each frame, @Face gives you an @Expression. Look there for the full list of inputs and what they mean.",
+                "This example shows an emoji that matches your face wherever your real face is:",
+                "\\face: Face()\nPhrase((face.smiling ? '😀' face.mouthOpen ? '😮' '😐') place: face.place)\\"
+            ],
+            "names": ["🙂", "Face"],
+            "frequency": {
+                "names": ["frequency"],
+                "doc": "The time between samples."
+            },
+            "resolution": {
+                "names": ["resolution"],
+                "doc": "The width in pixels at which to sample the camera before running the face model. Higher values can give slightly more accurate landmarks but cost more time per frame."
+            }
+        },
         "Scene": {
             "doc": [
                 "It shows a @List of @Phrase or @Group one at a time, stopping on the last.",
@@ -5234,6 +5254,66 @@
             "palm": {
                 "doc": "@True if the palm faces the camera, @False if the back of the hand does.",
                 "names": ["palm"]
+            }
+        },
+        "Expression": {
+            "doc": "!I'm a snapshot of a facial expression detected by the camera, emitted by the @Face stream. My place tells you where the face is on stage. My @Expression.leftEyeOpen, @Expression.rightEyeOpen, and @Expression.eyesOpen say whether the eyes are open. My @Expression.mouthOpen, @Expression.smiling, @Expression.frowning, and @Expression.browsRaised say what the face is doing, and each has a matching amount (@Expression.mouthOpenAmount, @Expression.smileAmount, @Expression.frownAmount, @Expression.browRaiseAmount) from 0 to 1 for how strong it is. My @Expression.turn and @Expression.tilt say which way the head is facing, in degrees.",
+            "names": ["😀", "Expression"],
+            "place": {
+                "doc": "Where the face is on stage.",
+                "names": ["place"]
+            },
+            "leftEyeOpen": {
+                "doc": "\\⊤\\ if the left eye is open, \\⊥\\ if it's closed.",
+                "names": ["leftEyeOpen"]
+            },
+            "rightEyeOpen": {
+                "doc": "\\⊤\\ if the right eye is open, \\⊥\\ if it's closed.",
+                "names": ["rightEyeOpen"]
+            },
+            "eyesOpen": {
+                "doc": "\\⊤\\ if both eyes are open.",
+                "names": ["eyesOpen"]
+            },
+            "mouthOpen": {
+                "doc": "\\⊤\\ if the mouth is open.",
+                "names": ["mouthOpen"]
+            },
+            "mouthOpenAmount": {
+                "doc": "How open the mouth is, from 0 (closed) to 1 (wide open).",
+                "names": ["mouthOpenAmount"]
+            },
+            "smiling": {
+                "doc": "\\⊤\\ if the face is smiling.",
+                "names": ["smiling"]
+            },
+            "smileAmount": {
+                "doc": "How much the face is smiling, from 0 to 1.",
+                "names": ["smileAmount"]
+            },
+            "frowning": {
+                "doc": "\\⊤\\ if the face is frowning.",
+                "names": ["frowning"]
+            },
+            "frownAmount": {
+                "doc": "How much the face is frowning, from 0 to 1.",
+                "names": ["frownAmount"]
+            },
+            "browsRaised": {
+                "doc": "\\⊤\\ if the eyebrows are raised.",
+                "names": ["browsRaised"]
+            },
+            "browRaiseAmount": {
+                "doc": "How much the eyebrows are raised, from 0 to 1.",
+                "names": ["browRaiseAmount"]
+            },
+            "turn": {
+                "doc": "How far the head is turned, in degrees — negative to the left, positive to the right.",
+                "names": ["turn"]
+            },
+            "tilt": {
+                "doc": "How far the head is tilted, in degrees — negative down, positive up.",
+                "names": ["tilt"]
             }
         },
         "Velocity": {

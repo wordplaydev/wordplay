@@ -580,6 +580,10 @@
                     "type": "string"
                 },
                 {
+                    "const": "Face",
+                    "type": "string"
+                },
+                {
                     "const": "Scene",
                     "type": "string"
                 },
@@ -677,6 +681,10 @@
                 },
                 {
                     "const": "Gesture",
+                    "type": "string"
+                },
+                {
+                    "const": "Expression",
                     "type": "string"
                 },
                 {

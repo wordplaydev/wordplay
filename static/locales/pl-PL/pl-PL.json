@@ -4511,6 +4511,26 @@
                 "timezone": "$~to nie jest prawidłowa nazwa strefy czasowej",
                 "calendar": "$~to nie jest obsługiwana nazwa kalendarza"
             }
+        },
+        "Face": {
+            "doc": [
+                "$~Śledzi twarz widzianą przez twoją kamerę — gdzie jest i co robi: otwarte lub zamknięte oczy, otwarte usta, uśmiech, grymas, uniesione brwi oraz w którą stronę zwrócona jest głowa.",
+                "/powiedz ser/",
+                "Spójrz w kamerę, uśmiechnij się, mrugnij, otwórz szeroko usta — @Face podąża za tobą.",
+                "Za kulisami @Face używa modelu uczenia maszynowego. Gdy użyjesz go w programie po raz pierwszy, model potrzebuje kilku sekund na pobranie, a w prawym górnym rogu sceny pojawia się mała kręcąca się twarz podczas ładowania. Potem pozostaje zapisany w pamięci i uruchamia się natychmiast.",
+                "W każdej klatce @Face daje ci @Expression. Zajrzyj tam po pełną listę wejść i ich znaczenie.",
+                "Ten przykład pokazuje emoji, które dopasowuje się do twojej twarzy tam, gdzie znajduje się twoja prawdziwa twarz:",
+                "\\twarz: 🙂()\n💬((twarz.uśmiech ? '😀' twarz.ustaOtwarte ? '😮' '😐') place: twarz.miejsce)\\"
+            ],
+            "names": ["$~🙂", "$~Twarz"],
+            "frequency": {
+                "names": ["$~częstotliwość"],
+                "doc": "$~Czas między próbkami."
+            },
+            "resolution": {
+                "names": ["$~rozdzielczość"],
+                "doc": "$~Szerokość w pikselach, przy której pobierana jest próbka z kamery przed uruchomieniem modelu twarzy. Wyższe wartości mogą dawać nieco dokładniejsze punkty charakterystyczne, ale zajmują więcej czasu na klatkę."
+            }
         }
     },
     "output": {
@@ -5660,6 +5680,66 @@
             "edit": "$~edycja",
             "rewrite": "$~przepisywanie",
             "random": "$~losowo"
+        },
+        "Expression": {
+            "doc": "$~Jestem migawką wyrazu twarzy wykrytego przez kamerę, wysyłaną przez strumień @Face. Moje miejsce mówi ci, gdzie na scenie znajduje się twarz. Moje @Expression.leftEyeOpen, @Expression.rightEyeOpen oraz @Expression.eyesOpen mówią, czy oczy są otwarte. Moje @Expression.mouthOpen, @Expression.smiling, @Expression.frowning oraz @Expression.browsRaised mówią, co robi twarz, a każde ma odpowiadającą wartość (@Expression.mouthOpenAmount, @Expression.smileAmount, @Expression.frownAmount, @Expression.browRaiseAmount) od 0 do 1 określającą, jak silne jest. Moje @Expression.turn oraz @Expression.tilt mówią, w którą stronę zwrócona jest głowa, w stopniach.",
+            "names": ["$~😀", "$~WyrazTwarzy"],
+            "place": {
+                "doc": "$~Gdzie na scenie znajduje się twarz.",
+                "names": ["$~miejsce"]
+            },
+            "leftEyeOpen": {
+                "doc": "$~\\⊤\\ jeśli lewe oko jest otwarte, \\⊥\\ jeśli jest zamknięte.",
+                "names": ["$~leweOkoOtwarte"]
+            },
+            "rightEyeOpen": {
+                "doc": "$~\\⊤\\ jeśli prawe oko jest otwarte, \\⊥\\ jeśli jest zamknięte.",
+                "names": ["$~praweOkoOtwarte"]
+            },
+            "eyesOpen": {
+                "doc": "$~\\⊤\\ jeśli oba oczy są otwarte.",
+                "names": ["$~oczyOtwarte"]
+            },
+            "mouthOpen": {
+                "doc": "$~\\⊤\\ jeśli usta są otwarte.",
+                "names": ["$~ustaOtwarte"]
+            },
+            "mouthOpenAmount": {
+                "doc": "$~Jak bardzo otwarte są usta, od 0 (zamknięte) do 1 (szeroko otwarte).",
+                "names": ["$~stopieńOtwarciaUst"]
+            },
+            "smiling": {
+                "doc": "$~\\⊤\\ jeśli twarz się uśmiecha.",
+                "names": ["$~uśmiech"]
+            },
+            "smileAmount": {
+                "doc": "$~Jak bardzo twarz się uśmiecha, od 0 do 1.",
+                "names": ["$~stopieńUśmiechu"]
+            },
+            "frowning": {
+                "doc": "$~\\⊤\\ jeśli twarz robi grymas.",
+                "names": ["$~grymas"]
+            },
+            "frownAmount": {
+                "doc": "$~Jak bardzo twarz robi grymas, od 0 do 1.",
+                "names": ["$~stopieńGrymasu"]
+            },
+            "browsRaised": {
+                "doc": "$~\\⊤\\ jeśli brwi są uniesione.",
+                "names": ["$~uniesioneBrwi"]
+            },
+            "browRaiseAmount": {
+                "doc": "$~Jak bardzo uniesione są brwi, od 0 do 1.",
+                "names": ["$~stopieńUniesieniaBrwi"]
+            },
+            "turn": {
+                "doc": "$~Jak bardzo głowa jest zwrócona w bok, w stopniach — ujemne w lewo, dodatnie w prawo.",
+                "names": ["$~obrót"]
+            },
+            "tilt": {
+                "doc": "$~Jak bardzo głowa jest pochylona, w stopniach — ujemne w dół, dodatnie w górę.",
+                "names": ["$~przechylenie"]
+            }
         }
     },
     "ui": {

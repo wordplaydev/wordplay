@@ -4494,6 +4494,26 @@
                 "timezone": "$~este no es un nombre válido de zona horaria",
                 "calendar": "$~este no es un nombre de calendario compatible"
             }
+        },
+        "Face": {
+            "doc": [
+                "$~Sigue una cara vista por tu cámara: dónde está y qué hace. Ojos abiertos o cerrados, la boca abierta, una sonrisa, un ceño fruncido, cejas levantadas y hacia qué lado gira la cabeza.",
+                "/di whisky/",
+                "Mira a la cámara, sonríe, guiña un ojo, abre grande la boca: @Face lo sigue todo.",
+                "Detrás de escena, @Face usa un modelo de aprendizaje automático. La primera vez que lo usas en un programa, el modelo tarda unos segundos en descargarse, y una carita giratoria pequeña aparece en la esquina superior derecha del escenario mientras carga. Después de eso, queda guardada y comienza al instante.",
+                "En cada cuadro, @Face te da una @Expression. Míralo ahí para ver la lista completa de entradas y qué significan.",
+                "Este ejemplo muestra un emoji que coincide con tu cara donde sea que esté tu cara real:",
+                "\\cara: 🙂()\n💬((cara.sonriendo ? '😀' cara.bocaAbierta ? '😮' '😐') place: cara.lugar)\\"
+            ],
+            "names": ["$~🙂", "$~Cara"],
+            "frequency": {
+                "names": ["$~frecuencia"],
+                "doc": "$~El tiempo entre muestras."
+            },
+            "resolution": {
+                "names": ["$~resolución"],
+                "doc": "$~El ancho en píxeles con el que se toma la muestra de la cámara antes de ejecutar el modelo de la cara. Los valores más altos pueden dar puntos un poco más exactos, pero cuestan más tiempo por cuadro."
+            }
         }
     },
     "output": {
@@ -5643,6 +5663,66 @@
             "edit": "$~editar",
             "rewrite": "$~reescribir",
             "random": "$~aleatorio"
+        },
+        "Expression": {
+            "doc": "$~Soy una instantánea de una expresión facial detectada por la cámara, emitida por el flujo @Face. Mi lugar te dice dónde está la cara en el escenario. Mis @Expression.leftEyeOpen, @Expression.rightEyeOpen y @Expression.eyesOpen dicen si los ojos están abiertos. Mis @Expression.mouthOpen, @Expression.smiling, @Expression.frowning y @Expression.browsRaised dicen qué hace la cara, y cada uno tiene una cantidad correspondiente (@Expression.mouthOpenAmount, @Expression.smileAmount, @Expression.frownAmount, @Expression.browRaiseAmount) de 0 a 1 para indicar qué tan fuerte es. Mis @Expression.turn y @Expression.tilt dicen hacia qué lado mira la cabeza, en grados.",
+            "names": ["$~😀", "$~Expresión"],
+            "place": {
+                "doc": "$~Dónde está la cara en el escenario.",
+                "names": ["$~lugar"]
+            },
+            "leftEyeOpen": {
+                "doc": "$~\\⊤\\ si el ojo izquierdo está abierto, \\⊥\\ si está cerrado.",
+                "names": ["$~ojoIzquierdoAbierto"]
+            },
+            "rightEyeOpen": {
+                "doc": "$~\\⊤\\ si el ojo derecho está abierto, \\⊥\\ si está cerrado.",
+                "names": ["$~ojoDerechoAbierto"]
+            },
+            "eyesOpen": {
+                "doc": "$~\\⊤\\ si ambos ojos están abiertos.",
+                "names": ["$~ojosAbiertos"]
+            },
+            "mouthOpen": {
+                "doc": "$~\\⊤\\ si la boca está abierta.",
+                "names": ["$~bocaAbierta"]
+            },
+            "mouthOpenAmount": {
+                "doc": "$~Qué tan abierta está la boca, de 0 (cerrada) a 1 (muy abierta).",
+                "names": ["$~cantidadBocaAbierta"]
+            },
+            "smiling": {
+                "doc": "$~\\⊤\\ si la cara está sonriendo.",
+                "names": ["$~sonriendo"]
+            },
+            "smileAmount": {
+                "doc": "$~Cuánto sonríe la cara, de 0 a 1.",
+                "names": ["$~cantidadSonrisa"]
+            },
+            "frowning": {
+                "doc": "$~\\⊤\\ si la cara tiene el ceño fruncido.",
+                "names": ["$~fruncido"]
+            },
+            "frownAmount": {
+                "doc": "$~Cuánto frunce el ceño la cara, de 0 a 1.",
+                "names": ["$~cantidadFruncido"]
+            },
+            "browsRaised": {
+                "doc": "$~\\⊤\\ si las cejas están levantadas.",
+                "names": ["$~cejasLevantadas"]
+            },
+            "browRaiseAmount": {
+                "doc": "$~Cuánto están levantadas las cejas, de 0 a 1.",
+                "names": ["$~cantidadCejasLevantadas"]
+            },
+            "turn": {
+                "doc": "$~Qué tanto está girada la cabeza, en grados: negativo a la izquierda, positivo a la derecha.",
+                "names": ["$~girar"]
+            },
+            "tilt": {
+                "doc": "$~Qué tanto está inclinada la cabeza, en grados: negativo hacia abajo, positivo hacia arriba.",
+                "names": ["$~inclinar"]
+            }
         }
     },
     "ui": {

@@ -4497,6 +4497,26 @@
                 "timezone": "$~detta är inte ett giltigt tidszonsnamn",
                 "calendar": "$~detta är inte ett kalendernamn som stöds"
             }
+        },
+        "Face": {
+            "doc": [
+                "$~Den följer ett ansikte som din kamera ser — var det är och vad det gör: öppna eller stängda ögon, en öppen mun, ett leende, en rynkad panna, höjda ögonbryn, och åt vilket håll huvudet är vänt.",
+                "/säg omelett/",
+                "Titta in i kameran, le, blinka, öppna munnen brett — @Face följer med.",
+                "Bakom kulisserna använder @Face en maskininlärningsmodell. Första gången du använder den i ett program tar modellen några sekunder att ladda ner, och ett litet snurrande ansikte syns i övre högra hörnet av scenen medan den laddas. Efter det ligger den kvar i cacheminnet och startar direkt.",
+                "För varje bildruta ger @Face dig ett @Expression. Titta där för hela listan med indata och vad de betyder.",
+                "Detta exempel visar en emoji som matchar ditt ansikte var ditt riktiga ansikte än är:",
+                "\\ansikte: 🙂()\n💬((ansikte.leende ? '😀' ansikte.munÖppen ? '😮' '😐') place: ansikte.plats)\\"
+            ],
+            "names": ["$~🙂", "$~Ansikte"],
+            "frequency": {
+                "names": ["$~frekvens"],
+                "doc": "$~Tiden mellan proverna."
+            },
+            "resolution": {
+                "names": ["$~upplösning"],
+                "doc": "$~Bredden i bildpunkter som kameran läses av med innan ansiktsmodellen körs. Högre värden kan ge lite mer exakta punkter men tar mer tid per bildruta."
+            }
         }
     },
     "output": {
@@ -5646,6 +5666,66 @@
             "edit": "$~redigera",
             "rewrite": "$~skrivOm",
             "random": "$~slumpmässig"
+        },
+        "Expression": {
+            "doc": "$~Jag är en ögonblicksbild av ett ansiktsuttryck som kameran upptäckt, utsänt av strömmen @Face. Min plats talar om var ansiktet är på scenen. Mina @Expression.leftEyeOpen, @Expression.rightEyeOpen och @Expression.eyesOpen säger om ögonen är öppna. Mina @Expression.mouthOpen, @Expression.smiling, @Expression.frowning och @Expression.browsRaised säger vad ansiktet gör, och var och en har en matchande mängd (@Expression.mouthOpenAmount, @Expression.smileAmount, @Expression.frownAmount, @Expression.browRaiseAmount) från 0 till 1 för hur stark den är. Mina @Expression.turn och @Expression.tilt säger åt vilket håll huvudet är vänt, i grader.",
+            "names": ["$~😀", "$~Uttryck"],
+            "place": {
+                "doc": "$~Var ansiktet är på scenen.",
+                "names": ["$~plats"]
+            },
+            "leftEyeOpen": {
+                "doc": "$~\\⊤\\ om vänster öga är öppet, \\⊥\\ om det är stängt.",
+                "names": ["$~vänsteragatÖppet"]
+            },
+            "rightEyeOpen": {
+                "doc": "$~\\⊤\\ om höger öga är öppet, \\⊥\\ om det är stängt.",
+                "names": ["$~högeraGatÖppet"]
+            },
+            "eyesOpen": {
+                "doc": "$~\\⊤\\ om båda ögonen är öppna.",
+                "names": ["$~ögonÖppna"]
+            },
+            "mouthOpen": {
+                "doc": "$~\\⊤\\ om munnen är öppen.",
+                "names": ["$~munÖppen"]
+            },
+            "mouthOpenAmount": {
+                "doc": "$~Hur öppen munnen är, från 0 (sluten) till 1 (vidöppen).",
+                "names": ["$~munÖppenMängd"]
+            },
+            "smiling": {
+                "doc": "$~\\⊤\\ om ansiktet ler.",
+                "names": ["$~leende"]
+            },
+            "smileAmount": {
+                "doc": "$~Hur mycket ansiktet ler, från 0 till 1.",
+                "names": ["$~leendeMängd"]
+            },
+            "frowning": {
+                "doc": "$~\\⊤\\ om ansiktet rynkar pannan.",
+                "names": ["$~rynkarPannan"]
+            },
+            "frownAmount": {
+                "doc": "$~Hur mycket ansiktet rynkar pannan, från 0 till 1.",
+                "names": ["$~rynkMängd"]
+            },
+            "browsRaised": {
+                "doc": "$~\\⊤\\ om ögonbrynen är höjda.",
+                "names": ["$~höjdaÖgonbryn"]
+            },
+            "browRaiseAmount": {
+                "doc": "$~Hur mycket ögonbrynen är höjda, från 0 till 1.",
+                "names": ["$~ögonbrynHöjdMängd"]
+            },
+            "turn": {
+                "doc": "$~Hur långt huvudet är vridet, i grader — negativt åt vänster, positivt åt höger.",
+                "names": ["$~vrid"]
+            },
+            "tilt": {
+                "doc": "$~Hur långt huvudet är lutat, i grader — negativt nedåt, positivt uppåt.",
+                "names": ["$~luta"]
+            }
         }
     },
     "ui": {
