@@ -10,6 +10,11 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 - 👁️ We added sensor preview panels to monitor your camera and microphone in real-time, showing hand and face landmarks as dots, volume levels, and pitch detection as a moving line. This can help when you're debugging things involving the camera and microphone.
 
+### Changed
+
+- 🧲 We replaced the physics engine that powers `@Motion` and `@Collision` with a faster one, so projects with lots of moving and colliding things run more smoothly, especially on slower computers. Falling, bouncing, and rolling should feel mostly the same as before, though projects that use these might need a bit of tuning.
+- 🧶 We changed the Pounce example so the ball bounces away from wherever it lands on the kitty, instead of always flying the way the kitty faces.
+
 ## 0.26.1 - 2026-07-09
 
 ### Added

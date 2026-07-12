@@ -84,7 +84,6 @@
         "@sveltejs/adapter-static": "^3",
         "@sveltejs/kit": "^2",
         "@sveltejs/vite-plugin-svelte": "^7",
-        "@types/matter-js": "^0",
         "ajv": "^8",
         "chalk": "^5",
         "firebase-admin": "^14",
@@ -106,6 +105,7 @@
     "dependencies": {
         "@anthropic-ai/sdk": "^0",
         "@axe-core/playwright": "^4",
+        "@dimforge/rapier2d-compat": "^0.19.3",
         "@mediapipe/tasks-vision": "^0",
         "@types/fontkit": "^2",
         "colorjs.io": "^0",
@@ -115,7 +115,6 @@
         "firebase": "^12",
         "fontkit": "^2",
         "highlight.js": "^11",
-        "matter-js": "^0",
         "picomatch": "^4",
         "pitchy": "^4",
         "shared-types": "file:./functions/src/shared",

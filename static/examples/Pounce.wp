@@ -19,16 +19,19 @@ kitty: Phrase(
     place: Place(kittyPlace.position 0m)
     resting: Pose(flipx: kittyPlace.direction < 0)
     moving: Sequence(sway(5°) 0.25s "zippy")
-    matter: Matter(1000kg)
+    matter: Matter(1000kg roundedness: 0.5)
 )
 
 pounce: Collision('ball' 'kitty')
 
 ballPlace: Motion(
     Place(0m 9m)
-    nextvelocity: 
-        pounce•ø ? ø 
-            Velocity((Random(5m/s 15m/s) × -kittyPlace.direction) (Random(27m/s 30m/s)) (-kittyPlace.direction × Random(0°/s 15°/s))) 
+    nextvelocity:
+        pounce•ø ? ø
+            Velocity(
+                ((pounce.direction.x ÷ -1m) × Random(15m/s 25m/s)) + Random(-3m/s 3m/s)
+                Random(27m/s 30m/s)
+                (pounce.direction.x ÷ -1m) × Random(0°/s 15°/s))
 )
 
 ball: Phrase("🧶" name: 'ball' place: ballPlace matter: Matter(1kg 0.5 0 1))
