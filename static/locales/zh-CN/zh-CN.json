@@ -5760,10 +5760,6 @@
                 "popup": "$~额外控件"
             },
             "color": {
-                "pick": {
-                    "label": "$~选取颜色",
-                    "tip": "$~从你的屏幕上选取一种颜色"
-                },
                 "field": "$~颜色字段",
                 "instructions": "$~用左右方向键改变色相，用上下方向键改变彩度。按住 shift 可以更精细地调整。",
                 "value": "$~$color，LCH $l、$c、$h",
@@ -5772,6 +5768,9 @@
                     "placeholder": "$~#f00、rgb()、hsl()、red",
                     "invalid": "$~不是可识别的颜色",
                     "format": "$~检测到的格式"
+                },
+                "pick": {
+                    "tip": "select a color from your screen"
                 }
             }
         },
@@ -5845,11 +5844,7 @@
             "help": "显示键盘快捷键",
             "collapsed": "你的所有窗口都已折叠！你可以在下面的工具栏中找到它们",
             "save": {
-                "projectsNotSavedLocally": "你的浏览器中保存项目时出现问题。",
-                "projectsCannotNotSaveLocally": "你的浏览器不支持保存项目。",
-                "projectContainedPII": "为了保护你的隐私，包含可能个人身份信息的项目未在线保存。请检查该项目以查看该信息是否具有身份识别性。",
                 "projectsNotLoadingOnline": "无法加载在线项目。",
-                "projectNotSavedOnline": "无法在线保存项目。",
                 "settingsUnsaved": "无法在线保存设置。",
                 "failureReason": {
                     "indexedDBWriteFailed": "$~你的浏览器无法在这台设备上保存这些项目。",
@@ -5857,11 +5852,9 @@
                     "firestoreBatchFailed": "$~我们无法把这些上传到云端。它们仍安全地保存在这台设备上。",
                     "projectContainsPII": "$~这些项目看起来含有个人信息，所以我们没有把它们保存到网上。请逐个打开，检查哪些内容看起来是私人的。",
                     "localProjectStorageFailed": "$~这台设备的保存空间已用完，而这些项目还没保存到云端，所以它们有丢失的风险。<登录@/login>，这样可以把它们保存到网上，而不是只保存在这台设备上。"
-                },
-                "failuresHeader": "$~$count 个项目没有保存："
+                }
             },
             "dialog": {
-                "unsaved": "未保存",
                 "translate": {
                     "header": "语言",
                     "explanation": [
@@ -5968,8 +5961,7 @@
             },
             "toggle": {
                 "blocks": {
-                    "on": "隐藏块背景",
-                    "off": "显示块背景"
+                    "on": "隐藏块背景"
                 },
                 "characters": {
                     "on": "折叠匹配的字形",
@@ -5986,8 +5978,6 @@
             },
             "button": {
                 "selectOutput": "在舞台上显示此输出",
-                "expandControls": "$~显示更多编辑命令",
-                "collapseControls": "$~隐藏更多编辑命令",
                 "zoomIn": "$~把代码放大",
                 "zoomOut": "$~把代码缩小",
                 "replace": "$~替换所有匹配项"
@@ -6528,11 +6518,9 @@
                         ]
                     },
                     "preview": {
-                        "label": "$~预览模式",
-                        "labels": ["$~自动", "$~自定义"],
                         "tips": [
-                            "$~让项目根据它显示的内容自动选择预览字形",
-                            "$~固定你选择的字形"
+                            "let the project pick its own preview glyph based on what it shows",
+                            "pin a glyph you choose"
                         ]
                     }
                 },
@@ -6896,7 +6884,6 @@
             "local": "本地保存",
             "unsaved": "未保存",
             "sync": {
-                "header": "$~正在与云同步",
                 "projects": "$~项目",
                 "galleries": "$~作品库",
                 "characters": "$~角色",
@@ -7010,10 +6997,6 @@
                 "header": "项目",
                 "projectprompt": "准备好说些什么了吗？你可以开始创建一个新项目，或者继续在现有项目上工作。如果你遇到困难，继续学习 <learning@://learn>",
                 "archiveprompt": "这些是你已归档的项目。只有所有者才能永久删除或取消归档它们。归档的项目将在最后编辑后的30天内永久删除。",
-                "add": {
-                    "header": "新项目",
-                    "explanation": "选择一个模板来创建一个新项目。"
-                },
                 "button": {
                     "newproject": "新项目",
                     "editproject": "编辑这个项目",
@@ -7854,7 +7837,6 @@
                 "subheaderEmpty": "创建第一个吧！",
                 "prompt": "操作指南是用 Wordplay 实现某个功能的简短说明和示例代码。当你学会想分享的内容后，为本画廊的其他创作者写一份指南，让他们也能学会。"
             },
-            "headerTooltip": "$~返回作品库",
             "drafts": {
                 "header": "$~📝 如何草稿",
                 "prompt": "$~这是放草稿的地方！只有你和你的合作者能看到这些草稿。",
@@ -7953,10 +7935,6 @@
                 "noGuidingQuestions": "$~这个作品库还没有任何引导问题，所以没有什么可写的。策展人需要先添加至少一个引导问题，然后才能写如何。"
             },
             "viewer": {
-                "view": {
-                    "label": "$~查看如何",
-                    "tip": "$~查看如何"
-                },
                 "edit": {
                     "label": "$~✏️ 编辑",
                     "tip": "$~编辑这篇如何"
@@ -7989,7 +7967,10 @@
                     "label": "$~🔗 复制如何链接",
                     "tip": "$~复制这篇如何的链接"
                 },
-                "collaborators": "$~作者"
+                "collaborators": "$~作者",
+                "view": {
+                    "tip": "view how-to"
+                }
             },
             "configuration": {
                 "configurationDialog": {
@@ -8194,8 +8175,7 @@
         },
         "connection": {
             "offline": "$~你处于离线状态。在你重新联网之前，有些功能无法使用。",
-            "unreachable": "$~我们无法连接到数据库，所以有些功能无法使用。可能是 VPN、浏览器扩展或网络过滤器在阻挡它。",
-            "label": "$~连接状态"
+            "unreachable": "$~我们无法连接到数据库，所以有些功能无法使用。可能是 VPN、浏览器扩展或网络过滤器在阻挡它。"
         },
         "presence": {
             "peersLabel": "$~正在编辑这个项目的协作者",
@@ -8204,7 +8184,6 @@
             "waitingForSlot": "$~正在等待编辑名额——已经有四位协作者在编辑了。当有人离开时，你就可以编辑了。"
         },
         "update": {
-            "label": "$~有新版本",
             "message": "$~我们发布了一个新版本。",
             "refresh": "$~刷新",
             "updates": "$~查看更新",

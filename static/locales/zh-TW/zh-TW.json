@@ -5759,10 +5759,6 @@
                 "popup": "$~附加控制項"
             },
             "color": {
-                "pick": {
-                    "label": "$~選擇顏色",
-                    "tip": "$~從螢幕上選擇一種顏色"
-                },
                 "field": "$~顏色場",
                 "instructions": "$~使用左右箭頭鍵改變色相，使用上下箭頭鍵改變色度。按住Shift鍵可進行更精細的調節。",
                 "value": "$~$color 、LCH $l 、 $c 、 $h",
@@ -5771,6 +5767,9 @@
                     "placeholder": "$~#f00、rgb()、hsl()、紅色",
                     "invalid": "$~未識別的顏色",
                     "format": "$~偵測到的格式"
+                },
+                "pick": {
+                    "tip": "select a color from your screen"
                 }
             }
         },
@@ -5844,11 +5843,7 @@
             "help": "顯示鍵盤快速鍵",
             "collapsed": "$~你所有的窗戶都塌陷了！您可以在下面的工具列中找到它們",
             "save": {
-                "projectsNotSavedLocally": "$~您的瀏覽器中儲存項目時發生問題。",
-                "projectsCannotNotSaveLocally": "$~您的瀏覽器不支援保存項目。",
-                "projectContainedPII": "$~為了保護您的隱私，包含潛在個人識別資訊的項目不會在線上保存。檢查項目以查看資訊是否具有識別性。",
                 "projectsNotLoadingOnline": "$~無法載入線上項目。",
-                "projectNotSavedOnline": "$~無法線上儲存項目。",
                 "settingsUnsaved": "$~無法線上儲存設定。",
                 "failureReason": {
                     "indexedDBWriteFailed": "$~您的瀏覽器無法將這些項目儲存到此裝置上。",
@@ -5856,11 +5851,9 @@
                     "firestoreBatchFailed": "$~我們無法將這些項目上傳到雲端。它們仍然安全地保存在這台設備上。",
                     "projectContainsPII": "$~這些項目看起來包含個人訊息，所以我們沒有將它們保存到網路上。請開啟每個項目，查看哪些內容可能涉及個人資訊。",
                     "localProjectStorageFailed": "$~該設備儲存空間不足，而這些項目尚未上傳到雲端，因此存在遺失的風險。<Sign in@/login>這樣一來，它們就會保存到雲端，而不僅僅是保存在這個裝置上。"
-                },
-                "failuresHeader": "$~$count："
+                }
             },
             "dialog": {
-                "unsaved": "$~未儲存的工作...",
                 "translate": {
                     "header": "$~翻譯",
                     "explanation": [
@@ -5967,8 +5960,7 @@
             },
             "toggle": {
                 "blocks": {
-                    "on": "隱藏區塊背景",
-                    "off": "顯示區塊背景"
+                    "on": "隱藏區塊背景"
                 },
                 "characters": {
                     "on": "折疊匹配的字形",
@@ -5985,8 +5977,6 @@
             },
             "button": {
                 "selectOutput": "在舞台上顯示此輸出",
-                "expandControls": "$~显示附加编辑命令",
-                "collapseControls": "$~隐藏附加编辑命令",
                 "zoomIn": "$~增加程式碼量",
                 "zoomOut": "$~縮小程式碼體積",
                 "replace": "$~替換所有匹配項"
@@ -6527,11 +6517,9 @@
                         ]
                     },
                     "preview": {
-                        "label": "$~預覽模式",
-                        "labels": ["$~汽車", "$~風俗"],
                         "tips": [
-                            "$~讓項目根據其顯示的內容自行選擇預覽字形",
-                            "$~固定你選擇的字形"
+                            "let the project pick its own preview glyph based on what it shows",
+                            "pin a glyph you choose"
                         ]
                     }
                 },
@@ -6904,7 +6892,6 @@
             "local": "本地儲存",
             "unsaved": "未儲存",
             "sync": {
-                "header": "$~與雲端同步",
                 "projects": "$~專案",
                 "galleries": "$~畫廊",
                 "characters": "$~人物",
@@ -7039,10 +7026,6 @@
                     "newgallery": "我們無法建立新的圖庫。",
                     "nodeletes": "您必須登入才能刪除已歸檔的項目。",
                     "delete": "哎呀，我們無法刪除該項目！"
-                },
-                "add": {
-                    "header": "新項目",
-                    "explanation": "選擇一個模板來創建新項目。"
                 },
                 "subheader": {
                     "shared": "共享",
@@ -7859,7 +7842,6 @@
                 "subheaderEmpty": "建立第一個吧！",
                 "prompt": "操作指南是用 Wordplay 實現某個功能的簡短說明和範例程式碼。當你學會想分享的內容後，為本畫廊的其他創作者寫一份指南，讓他們也能學會。"
             },
-            "headerTooltip": "$~返回圖庫",
             "drafts": {
                 "header": "$~📝 操作指南草稿",
                 "prompt": "$~這裡是存放草稿的地方！只有你和你的合作者才能看到這些草稿。",
@@ -7958,10 +7940,6 @@
                 "noGuidingQuestions": "$~這個展廳目前還沒有引導性問題，所以暫時無法撰寫相關內容。策展人至少需要增加一個引導性問題，才能撰寫參觀指南。"
             },
             "viewer": {
-                "view": {
-                    "label": "$~查看操作方法",
-                    "tip": "$~查看操作方法"
-                },
                 "edit": {
                     "label": "$~✏️ 編輯",
                     "tip": "$~編輯此操作指南"
@@ -7994,7 +7972,10 @@
                     "label": "$~🔗 複製操作指南鏈接",
                     "tip": "$~複製此教程的鏈接"
                 },
-                "collaborators": "$~作者："
+                "collaborators": "$~作者：",
+                "view": {
+                    "tip": "view how-to"
+                }
             },
             "configuration": {
                 "configurationDialog": {
@@ -8199,8 +8180,7 @@
         },
         "connection": {
             "offline": "$~您目前處於離線狀態。部分功能需要連網後才能使用。",
-            "unreachable": "$~我們無法存取資料庫，因此某些功能將無法使用。可能是 VPN、瀏覽器擴充功能或網路過濾器阻止了存取。",
-            "label": "$~連線狀態"
+            "unreachable": "$~我們無法存取資料庫，因此某些功能將無法使用。可能是 VPN、瀏覽器擴充功能或網路過濾器阻止了存取。"
         },
         "presence": {
             "peersLabel": "$~參與本計畫編輯的合作者",
@@ -8209,7 +8189,6 @@
             "waitingForSlot": "$~正在等待剪輯名額——目前已有四位合作者在剪輯。當其中一位離開後，您也可以進行剪輯。"
         },
         "update": {
-            "label": "$~新版本已發布",
             "message": "$~我們發布了新版本。",
             "refresh": "$~重新整理",
             "updates": "$~查看更新",

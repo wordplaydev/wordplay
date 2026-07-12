@@ -8,8 +8,6 @@ type PageText = {
     projectprompt: FormattedText;
     /** [formatted] Explanation for the archive subsection */
     archiveprompt: FormattedText;
-    /** Dialog text for the project addition dialog */
-    add: HeaderAndExplanationText;
     /** Buttons on the project page */
     subheader: {
         /** [plain] Header for the shared project list */

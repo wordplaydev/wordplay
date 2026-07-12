@@ -5776,10 +5776,6 @@
                 "popup": "$~Commandes supplémentaires"
             },
             "color": {
-                "pick": {
-                    "label": "$~choisir une couleur",
-                    "tip": "$~Sélectionnez une couleur sur votre écran."
-                },
                 "field": "$~champ de couleur",
                 "instructions": "$~Utilisez les flèches gauche et droite pour modifier la teinte et les flèches haut et bas pour modifier la saturation. Maintenez la touche Maj enfoncée pour des réglages plus précis.",
                 "value": "$~$color , LCH $l , $c , $h",
@@ -5788,6 +5784,9 @@
                     "placeholder": "$~#f00, rgb(), hsl(), rouge",
                     "invalid": "$~couleur non reconnue",
                     "format": "$~format détecté"
+                },
+                "pick": {
+                    "tip": "select a color from your screen"
                 }
             }
         },
@@ -5861,11 +5860,7 @@
             "help": "$~afficher les raccourcis clavier",
             "collapsed": "$~Toutes vos fenêtres sont fermées ! Vous pouvez les retrouver dans la barre d'outils ci-dessous",
             "save": {
-                "projectsNotSavedLocally": "$~Un problème est survenu lors de l'enregistrement des projets dans votre navigateur.",
-                "projectsCannotNotSaveLocally": "$~Votre navigateur ne prend pas en charge l'enregistrement de projets.",
-                "projectContainedPII": "$~Pour protéger votre vie privée, aucun projet contenant des informations potentiellement identifiables n'a été enregistré en ligne. Vérifiez le projet pour voir si les informations permettent de vous identifier.",
                 "projectsNotLoadingOnline": "$~Impossible de charger les projets en ligne.",
-                "projectNotSavedOnline": "$~Impossible de sauvegarder les projets en ligne.",
                 "settingsUnsaved": "$~Impossible d'enregistrer les paramètres en ligne.",
                 "failureReason": {
                     "indexedDBWriteFailed": "$~Votre navigateur n'a pas pu enregistrer ces projets sur cet appareil.",
@@ -5873,11 +5868,9 @@
                     "firestoreBatchFailed": "$~Nous n'avons pas pu transférer ces projets vers le cloud. Ils sont toujours en sécurité sur cet appareil.",
                     "projectContainsPII": "$~Ces fichiers semblent contenir des informations personnelles, nous ne les avons donc pas sauvegardés en ligne. Ouvrez-les un par un pour vérifier quelles informations semblent personnelles.",
                     "localProjectStorageFailed": "$~Cet appareil n'a plus d'espace de stockage et ces projets ne sont pas encore dans le cloud, ils sont donc menacés.<Sign in@/login> , ce qui permet de les enregistrer en ligne et non seulement sur cet appareil."
-                },
-                "failuresHeader": "$~$count projets n'ont pas été enregistrés :"
+                }
             },
             "dialog": {
-                "unsaved": "$~Travail non enregistré...",
                 "translate": {
                     "header": "$~Langues",
                     "explanation": [
@@ -5984,8 +5977,7 @@
             },
             "toggle": {
                 "blocks": {
-                    "on": "$~modifier en tant que texte",
-                    "off": "$~éditer en blocs"
+                    "on": "$~modifier en tant que texte"
                 },
                 "characters": {
                     "on": "$~réduire les caractères correspondants",
@@ -6002,8 +5994,6 @@
             },
             "button": {
                 "selectOutput": "$~montrer cette sortie sur scène",
-                "expandControls": "$~afficher des commandes d'édition supplémentaires",
-                "collapseControls": "$~masquer les commandes d'édition supplémentaires",
                 "zoomIn": "$~Agrandir le code",
                 "zoomOut": "$~Réduisez la taille du code.",
                 "replace": "$~remplacer toutes les correspondances"
@@ -6544,11 +6534,9 @@
                         ]
                     },
                     "preview": {
-                        "label": "$~mode aperçu",
-                        "labels": ["$~auto", "$~coutume"],
                         "tips": [
-                            "$~Laissez le projet choisir son propre glyphe d'aperçu en fonction de ce qu'il affiche.",
-                            "$~épingler un glyphe de votre choix"
+                            "let the project pick its own preview glyph based on what it shows",
+                            "pin a glyph you choose"
                         ]
                     }
                 },
@@ -6934,7 +6922,6 @@
             "local": "$~enregistré dans le navigateur",
             "unsaved": "$~non enregistré",
             "sync": {
-                "header": "$~Synchronisation avec le cloud",
                 "projects": "$~Projets",
                 "galleries": "$~Galeries",
                 "characters": "$~Personnages",
@@ -7048,10 +7035,6 @@
                 "header": "$~Projets",
                 "projectprompt": "$~Vous êtes prêt à dire quelque chose ? Créez un projet ou travaillez sur un projet. Si vous êtes bloqué, continuez à <learning@://learn>.",
                 "archiveprompt": "$~Il s'agit des projets que vous avez archivés. Seuls les propriétaires peuvent les supprimer ou les désarchiver définitivement. Les projets archivés seront définitivement supprimés 30 jours après leur dernière modification.",
-                "add": {
-                    "header": "$~Nouveau projet",
-                    "explanation": "$~Choisissez un modèle pour créer un nouveau projet."
-                },
                 "button": {
                     "newproject": "$~nouveau projet",
                     "editproject": "$~modifier ce projet",
@@ -7895,7 +7878,6 @@
                 "subheaderEmpty": "$~Créez le premier !",
                 "prompt": "$~Les tutoriels sont de courtes explications et des exemples de code pour utiliser Wordplay. Lorsque vous avez trouvé une solution que vous souhaitez partager, rédigez un tutoriel pour les autres créateurs de cette galerie ; ils pourront ainsi l'apprendre eux aussi !"
             },
-            "headerTooltip": "$~Retour à la galerie",
             "drafts": {
                 "header": "$~📝 Brouillons pratiques",
                 "prompt": "$~Cet espace est réservé à vos brouillons ! Seuls vous et vos collaborateurs pouvez les consulter.",
@@ -7994,10 +7976,6 @@
                 "noGuidingQuestions": "$~Cette galerie ne comporte pas encore de questions directrices, il n'y a donc rien à y écrire. Un conservateur doit en ajouter au moins une avant que des instructions puissent être rédigées."
             },
             "viewer": {
-                "view": {
-                    "label": "$~consulter le mode d'emploi",
-                    "tip": "$~consulter le mode d'emploi"
-                },
                 "edit": {
                     "label": "$~✏️ modifier",
                     "tip": "$~modifier ce tutoriel"
@@ -8030,7 +8008,10 @@
                     "label": "$~🔗 Copier le lien du tutoriel",
                     "tip": "$~copier le lien vers ce tutoriel"
                 },
-                "collaborators": "$~écrit par"
+                "collaborators": "$~écrit par",
+                "view": {
+                    "tip": "view how-to"
+                }
             },
             "configuration": {
                 "configurationDialog": {
@@ -8237,8 +8218,7 @@
         },
         "connection": {
             "offline": "$~Vous êtes hors ligne. Certaines fonctionnalités ne seront pas disponibles tant que vous ne serez pas connecté(e).",
-            "unreachable": "$~Nous ne pouvons pas accéder à la base de données ; certaines fonctionnalités sont donc indisponibles. Un VPN, une extension de navigateur ou un filtre réseau peut en être la cause.",
-            "label": "$~État de la connexion"
+            "unreachable": "$~Nous ne pouvons pas accéder à la base de données ; certaines fonctionnalités sont donc indisponibles. Un VPN, une extension de navigateur ou un filtre réseau peut en être la cause."
         },
         "presence": {
             "peersLabel": "$~collaborateurs travaillant sur ce projet",
@@ -8247,7 +8227,6 @@
             "waitingForSlot": "$~En attente d'un créneau de montage : quatre collaborateurs sont déjà en train de monter. Dès que l'un d'eux se libère, vous pourrez également participer."
         },
         "update": {
-            "label": "$~Nouvelle version disponible",
             "message": "$~Nous avons publié une nouvelle version.",
             "refresh": "$~Rafraîchir",
             "updates": "$~Consultez les mises à jour",

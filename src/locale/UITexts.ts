@@ -36,6 +36,11 @@ export type ButtonText = {
     tip: string;
 };
 
+export type IconButtonText = {
+    /** [plain] Icon button tooltip and ARIA-label, spoken by screen readers */
+    tip: string;
+};
+
 export type ToggleText = {
     /** [plain] The tooltip and ARIA-label for when the toggle is in the on state */
     on: string;
@@ -43,11 +48,21 @@ export type ToggleText = {
     off: string;
 };
 
+export type OnToggleText = {
+    /** [plain] The tooltip and ARIA-label for when the toggle is in the on state */
+    on: string;
+};
+
 export type ModeText<Options extends readonly string[]> = {
     /** [plain] The tooltip and ARIA-label for the entire mode widget, describing the kind of modes it supports switching to. */
     label: string;
     /** [plain] A list of short labels, one per mode */
     labels: Options;
+    /** [plain] A list of tooltip/ARIA descriptions, one per mode */
+    tips: Options;
+};
+
+export type TipsModeText<Options extends readonly string[]> = {
     /** [plain] A list of tooltip/ARIA descriptions, one per mode */
     tips: Options;
 };
@@ -132,7 +147,7 @@ type UITexts = {
         /** The color chooser widget */
         color: {
             /** The eyedropper button that picks a color from the screen */
-            pick: ButtonText;
+            pick: IconButtonText;
             /** [plain] Screen-reader role description for the 2-D chroma×hue color field */
             field: string;
             /** [plain] Screen-reader usage instructions for adjusting the color field with the keyboard */
@@ -247,16 +262,8 @@ type UITexts = {
         collapsed: string;
         /** The messages shown for save status */
         save: {
-            /** [formatted] When projects fail to save locally */
-            projectsNotSavedLocally: FormattedText;
-            /** [formatted] When projects can't save locally */
-            projectsCannotNotSaveLocally: FormattedText;
-            /** [formatted] When a project wasn't saved because it contained PII */
-            projectContainedPII: FormattedText;
             /** [formatted] Projects failed to load */
             projectsNotLoadingOnline: FormattedText;
-            /** [formatted] When a project couldn't be saved to the database */
-            projectNotSavedOnline: FormattedText;
             /** [formatted] When settings are being saved */
             settingsUnsaved: FormattedText;
             /** Per-reason explanations shown in the save-failure dialog,
@@ -274,12 +281,8 @@ type UITexts = {
                 /** [formatted] Project contained personal info so wasn't sent online */
                 projectContainsPII: FormattedText;
             };
-            /** [plain] Header above the per-project failure list. $count = total count */
-            failuresHeader: Template<['count']>;
         };
         dialog: {
-            /** [formatted] The header for the save error */
-            unsaved: FormattedText;
             /** The content for the translation dialog */
             translate: HeaderAndExplanationText & {
                 /** The field that filters destination languages by name or region */
@@ -340,7 +343,7 @@ type UITexts = {
         };
         toggle: {
             /** [plain] The blocks/text toggle */
-            blocks: ToggleText;
+            blocks: OnToggleText;
             /** [plain] The character chooser expand/collapse toggle */
             characters: ToggleText;
             /** [plain] The toggle for expanding and collapsing a long list of items in the editor */
@@ -365,10 +368,6 @@ type UITexts = {
         button: {
             /** [plain] Output preview button for selecting output for display in output tile */
             selectOutput: string;
-            /** [plain] The button tooltip for expanding the controls accordion */
-            expandControls: string;
-            /** [plain] The button tooltip for collapsing the controls accordion */
-            collapseControls: string;
             /** [plain] The zoom in button for the code editor */
             zoomIn: string;
             /** [plain] The zoom out button for the code editor */
@@ -1100,7 +1099,7 @@ type UITexts = {
                 /** The public/private toggle mode widget */
                 public: ModeText<[string, string]>;
                 /** The preview auto/custom toggle mode widget */
-                preview: ModeText<[string, string]>;
+                preview: TipsModeText<[string, string]>;
             };
             /** Errors in the share dialog */
             error: {
@@ -1332,8 +1331,6 @@ type UITexts = {
         unsaved: string;
         /** Per-domain cloud-sync status shown in the save-status dialog. */
         sync: {
-            /** [plain] Header for the cloud-sync status section */
-            header: string;
             /** [plain] Label for the projects sync row */
             projects: string;
             /** [plain] Label for the galleries sync row */
@@ -1388,8 +1385,6 @@ type UITexts = {
         offline: string;
         /** [plain] Banner shown when the device is online but Firebase requests are failing */
         unreachable: string;
-        /** [plain] ARIA label for the connection banner live region */
-        label: string;
     };
     /** Transient top-of-page banner messages for one-off action failures that
      *  aren't tied to a form field (e.g. a delete that couldn't reach the
@@ -1414,8 +1409,6 @@ type UITexts = {
     };
     /** Notification shown when a newer version of the app has been deployed while the tab was open. */
     update: {
-        /** [plain] ARIA label for the new-version notification region */
-        label: string;
         /** [plain] Message shown when a newer version of the app is available */
         message: string;
         /** [plain] Action label that reloads the page to the new version */

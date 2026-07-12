@@ -5770,10 +5770,6 @@
                 "popup": "$~Controles adicionales"
             },
             "color": {
-                "pick": {
-                    "label": "$~elegir color",
-                    "tip": "$~selecciona un color de tu pantalla"
-                },
                 "field": "$~campo de color",
                 "instructions": "$~Usa las teclas de flecha izquierda y derecha para cambiar el tono, y las flechas arriba y abajo para cambiar el croma. Mantén presionada la tecla shift para pasos más finos.",
                 "value": "$~$color, LCH $l, $c, $h",
@@ -5782,6 +5778,9 @@
                     "placeholder": "$~#f00, rgb(), hsl(), red",
                     "invalid": "$~color no reconocido",
                     "format": "$~formato detectado"
+                },
+                "pick": {
+                    "tip": "select a color from your screen"
                 }
             }
         },
@@ -5855,11 +5854,7 @@
             "help": "mostrar atajos de teclado",
             "collapsed": "$~¡Todas tus ventanas están minimizadas! Puedes encontrarlas en la barra de herramientas de abajo",
             "save": {
-                "projectsNotSavedLocally": "Hubo un problema al guardar proyectos en tu navegador.",
-                "projectsCannotNotSaveLocally": "Tu navegador no admite guardar proyectos.",
-                "projectContainedPII": "Para proteger tu privacidad, un proyecto con información potencialmente identificable personalmente no se guardó en línea. Verifica el proyecto para ver si la información es identificativa.",
                 "projectsNotLoadingOnline": "No se pueden cargar proyectos en línea.",
-                "projectNotSavedOnline": "No se pueden guardar proyectos en línea.",
                 "settingsUnsaved": "No se pueden guardar las configuraciones en línea.",
                 "failureReason": {
                     "indexedDBWriteFailed": "$~Tu navegador no pudo guardar estos proyectos en este dispositivo.",
@@ -5867,11 +5862,9 @@
                     "firestoreBatchFailed": "$~No pudimos enviar estos a la nube. Siguen seguros en este dispositivo.",
                     "projectContainsPII": "$~Estos proyectos parecen tener información personal, así que no los guardamos en línea. Abre cada uno para revisar qué parece personal.",
                     "localProjectStorageFailed": "$~Este dispositivo se quedó sin espacio para guardar, y estos proyectos aún no están en la nube, así que están en riesgo. <Inicia sesión@/login>, lo que los guarda en línea en lugar de solo en este dispositivo."
-                },
-                "failuresHeader": "$~$count proyecto(s) no se guardaron:"
+                }
             },
             "dialog": {
-                "unsaved": "Trabajo no salvado...",
                 "translate": {
                     "header": "$~Traducir",
                     "explanation": [
@@ -5978,8 +5971,7 @@
             },
             "toggle": {
                 "blocks": {
-                    "on": "esconder los fondos de los bloques",
-                    "off": "mostrar los fondos de los bloques"
+                    "on": "esconder los fondos de los bloques"
                 },
                 "characters": {
                     "on": "colapsar los glifos coincidentes",
@@ -5996,8 +5988,6 @@
             },
             "button": {
                 "selectOutput": "mostrar este resultado en el escenario",
-                "expandControls": "$~mostrar comandos de edición adicionales",
-                "collapseControls": "$~ocultar comandos de edición adicionales",
                 "zoomIn": "$~Hacer el código más grande",
                 "zoomOut": "$~Hacer el código más pequeño",
                 "replace": "$~reemplazar todas las coincidencias"
@@ -6538,11 +6528,9 @@
                         ]
                     },
                     "preview": {
-                        "label": "$~modo de vista previa",
-                        "labels": ["$~automático", "$~personalizado"],
                         "tips": [
-                            "$~deja que el proyecto elija su propio símbolo de vista previa según lo que muestra",
-                            "$~fija un símbolo que tú elijas"
+                            "let the project pick its own preview glyph based on what it shows",
+                            "pin a glyph you choose"
                         ]
                     }
                 },
@@ -6925,7 +6913,6 @@
             "local": "guardado localmente",
             "unsaved": "no guardado",
             "sync": {
-                "header": "$~Sincronizando con la nube",
                 "projects": "$~Proyectos",
                 "galleries": "$~Galerías",
                 "characters": "$~Caracteres",
@@ -7039,10 +7026,6 @@
                 "header": "Proyectos",
                 "projectprompt": "¿Listo para decir algo? Crea un proyecto o trabaja en uno. Si te quedas atascado, sigue <learning@://learn>.",
                 "archiveprompt": "Estos son proyectos que has archivado. Solo los propietarios pueden eliminarlos permanentemente o desarchivarlos. Los proyectos archivados se eliminarán permanentemente 30 días después de su última edición.",
-                "add": {
-                    "header": "$~Nuevo proyecto",
-                    "explanation": "$~Elige una plantilla para crear un nuevo proyecto."
-                },
                 "button": {
                     "newproject": "nuevo proyecto",
                     "editproject": "editar este proyecto",
@@ -7886,7 +7869,6 @@
                 "subheaderEmpty": "$~¡crea la primera!",
                 "prompt": "$~Las guías rápidas son explicaciones cortas y código de ejemplo sobre cómo hacer algo con Wordplay. Cuando descubras algo que quieras compartir, escribe una para los demás creadores de esta galería, ¡para que ellos también puedan aprenderlo!"
             },
-            "headerTooltip": "$~regresar a la galería",
             "drafts": {
                 "header": "$~📝 Borradores de guías rápidas",
                 "prompt": "$~¡Este es un espacio para tus borradores! Solo tú y tus colaboradores pueden ver estos borradores.",
@@ -7985,10 +7967,6 @@
                 "noGuidingQuestions": "$~Esta galería aún no tiene preguntas guía, así que no hay nada sobre lo que escribir. Un curador debe agregar al menos una pregunta guía antes de poder escribir guías rápidas."
             },
             "viewer": {
-                "view": {
-                    "label": "$~ver guía rápida",
-                    "tip": "$~ver guía rápida"
-                },
                 "edit": {
                     "label": "$~✏️ editar",
                     "tip": "$~editar esta guía rápida"
@@ -8021,7 +7999,10 @@
                     "label": "$~🔗 copiar enlace de la guía rápida",
                     "tip": "$~copiar enlace de esta guía rápida"
                 },
-                "collaborators": "$~escrita por"
+                "collaborators": "$~escrita por",
+                "view": {
+                    "tip": "view how-to"
+                }
             },
             "configuration": {
                 "configurationDialog": {
@@ -8228,8 +8209,7 @@
         },
         "connection": {
             "offline": "$~Estás sin conexión. Algunas cosas no funcionarán hasta que vuelvas a conectarte.",
-            "unreachable": "$~No podemos conectarnos a la base de datos, así que algunas cosas no funcionarán. Puede que una VPN, una extensión del navegador o un filtro de red lo esté bloqueando.",
-            "label": "$~Estado de la conexión"
+            "unreachable": "$~No podemos conectarnos a la base de datos, así que algunas cosas no funcionarán. Puede que una VPN, una extensión del navegador o un filtro de red lo esté bloqueando."
         },
         "presence": {
             "peersLabel": "$~colaboradores editando este proyecto",
@@ -8238,7 +8218,6 @@
             "waitingForSlot": "$~Esperando un lugar para editar — cuatro colaboradores ya están editando. Cuando uno salga, también podrás editar."
         },
         "update": {
-            "label": "$~Nueva versión disponible",
             "message": "$~Publicamos una nueva versión.",
             "refresh": "$~Actualizar",
             "updates": "$~ver las novedades",

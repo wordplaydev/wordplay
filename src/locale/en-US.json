@@ -5765,10 +5765,6 @@
                 "attention": "highlight this expression"
             },
             "color": {
-                "pick": {
-                    "label": "pick color",
-                    "tip": "select a color from your screen"
-                },
                 "field": "color field",
                 "instructions": "Use the left and right arrow keys to change hue and the up and down arrow keys to change chroma. Hold shift for finer steps.",
                 "value": "$color, LCH $l, $c, $h",
@@ -5777,6 +5773,9 @@
                     "placeholder": "#f00, rgb(), hsl(), red",
                     "invalid": "not a recognized color",
                     "format": "detected format"
+                },
+                "pick": {
+                    "tip": "select a color from your screen"
                 }
             },
             "backtotop": "back to top",
@@ -5862,11 +5861,7 @@
             "help": "show keyboard shortcuts",
             "collapsed": "All of your windows are collapsed! You can find them in the toolbar below",
             "save": {
-                "projectsNotSavedLocally": "There was a problem saving projects in your browser.",
-                "projectsCannotNotSaveLocally": "Your browser doesn't support saving projects.",
-                "projectContainedPII": "To protect your privacy, a project with potentially personally identifiable information was not saved online. Check the project to see if the information is identifying.",
                 "projectsNotLoadingOnline": "Unable to load online projects.",
-                "projectNotSavedOnline": "Unable to save projects online.",
                 "settingsUnsaved": "Unable to save settings online.",
                 "failureReason": {
                     "indexedDBWriteFailed": "Your browser couldn't save these projects on this device.",
@@ -5874,11 +5869,9 @@
                     "indexedDBUnsupported": "Your browser won't let Wordplay save projects on this device.",
                     "firestoreBatchFailed": "We couldn't send these to the cloud. They're still safe on this device.",
                     "projectContainsPII": "These projects look like they have personal information, so we didn't save them online. Open each one to check what looks personal."
-                },
-                "failuresHeader": "$count project(s) didn't save:"
+                }
             },
             "dialog": {
-                "unsaved": "Unsaved work...",
                 "translate": {
                     "header": "Translate",
                     "explanation": [
@@ -6013,7 +6006,6 @@
                 "subheaderEmpty": "create the first!",
                 "prompt": "How-tos are short explanations and example code for how to do something with Wordplay. When you figure how something you want to share, write one for the other creators in this gallery, so they can learn it too!"
             },
-            "headerTooltip": "go back to gallery",
             "drafts": {
                 "header": "📝 How-to drafts",
                 "prompt": "This is a space for your drafts! Only you and your collaborators can see these drafts.",
@@ -6112,10 +6104,6 @@
                 }
             },
             "viewer": {
-                "view": {
-                    "label": "view how-to",
-                    "tip": "view how-to"
-                },
                 "edit": {
                     "label": "✏️ edit",
                     "tip": "edit this how-to"
@@ -6148,7 +6136,10 @@
                     "label": "🔗 copy how-to link",
                     "tip": "copy link to this how-to"
                 },
-                "collaborators": "written by"
+                "collaborators": "written by",
+                "view": {
+                    "tip": "view how-to"
+                }
             },
             "configuration": {
                 "configurationDialog": {
@@ -6239,8 +6230,7 @@
             },
             "toggle": {
                 "blocks": {
-                    "on": "edit as text",
-                    "off": "edit as blocks"
+                    "on": "edit as text"
                 },
                 "characters": {
                     "on": "hide the emoji and symbol chooser",
@@ -6281,8 +6271,6 @@
             },
             "button": {
                 "selectOutput": "show this output on stage",
-                "expandControls": "show additional editing commands",
-                "collapseControls": "hide additional editing commands",
                 "zoomIn": "Make the code larger",
                 "zoomOut": "Make the code smaller",
                 "replace": "replace all matches"
@@ -6817,8 +6805,6 @@
                         ]
                     },
                     "preview": {
-                        "label": "preview mode",
-                        "labels": ["auto", "custom"],
                         "tips": [
                             "let the project pick its own preview glyph based on what it shows",
                             "pin a glyph you choose"
@@ -7282,7 +7268,6 @@
             "local": "saved",
             "unsaved": "unsaved",
             "sync": {
-                "header": "Syncing with the cloud",
                 "projects": "Projects",
                 "galleries": "Galleries",
                 "characters": "Characters",
@@ -7311,8 +7296,7 @@
         },
         "connection": {
             "offline": "You're offline. Some things won't work until you are online.",
-            "unreachable": "We can't reach the database, so some things won't work. A VPN, browser extension, or network filter may be blocking it.",
-            "label": "Connection status"
+            "unreachable": "We can't reach the database, so some things won't work. A VPN, browser extension, or network filter may be blocking it."
         },
         "banner": {
             "deleteFailed": "We couldn't delete that.",
@@ -7324,7 +7308,6 @@
             "saveTooLarge": "This is too big to save. Try removing some content."
         },
         "update": {
-            "label": "New version available",
             "message": "We released a new version.",
             "refresh": "Refresh",
             "updates": "see the updates",
@@ -7670,10 +7653,6 @@
                 "header": "Projects",
                 "projectprompt": "Ready to say something? Create a project or work on one. If you get stuck, keep <learning@://learn>.",
                 "archiveprompt": "These are projects you've archived. Only owners can permanently delete or unarchive them. Archived projects will be permanently deleted 30 days after they were last edited.",
-                "add": {
-                    "header": "New Project",
-                    "explanation": "Choose a template to create a new project."
-                },
                 "subheader": {
                     "shared": "Shared",
                     "archived": "Archived",

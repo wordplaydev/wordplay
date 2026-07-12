@@ -5773,10 +5773,6 @@
                 "popup": "$~Kontrol tambahan"
             },
             "color": {
-                "pick": {
-                    "label": "$~pilih warna",
-                    "tip": "$~Pilih warna dari layar Anda"
-                },
                 "field": "$~bidang warna",
                 "instructions": "$~Gunakan tombol panah kiri dan kanan untuk mengubah rona dan tombol panah atas dan bawah untuk mengubah saturasi. Tahan tombol Shift untuk langkah yang lebih halus.",
                 "value": "$~$color , LCH $l , $c , $h",
@@ -5785,6 +5781,9 @@
                     "placeholder": "$~#f00, rgb(), hsl(), merah",
                     "invalid": "$~bukan warna yang diakui",
                     "format": "$~format terdeteksi"
+                },
+                "pick": {
+                    "tip": "select a color from your screen"
                 }
             }
         },
@@ -5862,11 +5861,7 @@
             "help": "$~Tampilkan pintasan keyboard",
             "collapsed": "$~Semua jendela Anda telah dilipat! Anda dapat menemukannya di bilah alat di bawah ini.",
             "save": {
-                "projectsNotSavedLocally": "$~Terdapat masalah saat menyimpan proyek di browser Anda.",
-                "projectsCannotNotSaveLocally": "$~Browser Anda tidak mendukung penyimpanan proyek.",
-                "projectContainedPII": "$~Untuk melindungi privasi Anda, proyek yang berpotensi berisi informasi identitas pribadi tidak disimpan secara daring. Periksa proyek tersebut untuk melihat apakah informasinya bersifat identifikasi.",
                 "projectsNotLoadingOnline": "$~Tidak dapat memuat proyek online.",
-                "projectNotSavedOnline": "$~Tidak dapat menyimpan proyek secara online.",
                 "settingsUnsaved": "$~Tidak dapat menyimpan pengaturan secara online.",
                 "failureReason": {
                     "indexedDBWriteFailed": "$~Browser Anda tidak dapat menyimpan proyek-proyek ini di perangkat ini.",
@@ -5874,11 +5869,9 @@
                     "firestoreBatchFailed": "$~Kami tidak dapat mengirim proyek-proyek ini ke cloud. Proyek-proyek tersebut masih aman di perangkat ini.",
                     "projectContainsPII": "$~Proyek-proyek ini tampaknya berisi informasi pribadi, jadi kami tidak menyimpannya secara online. Buka setiap proyek untuk memeriksa apa yang tampak bersifat pribadi.",
                     "localProjectStorageFailed": "$~Perangkat ini kehabisan ruang penyimpanan, dan proyek-proyek ini belum ada di cloud, jadi berisiko.<Sign in@/login> yang menyimpannya secara online, bukan hanya di perangkat ini."
-                },
-                "failuresHeader": "$~$count proyek yang tidak tersimpan:"
+                }
             },
             "dialog": {
-                "unsaved": "$~Pekerjaan yang belum disimpan...",
                 "translate": {
                     "header": "$~Menerjemahkan",
                     "explanation": [
@@ -6013,7 +6006,6 @@
                 "subheaderEmpty": "$~ciptakan yang pertama!",
                 "prompt": "$~Tutorial adalah penjelasan singkat dan contoh kode tentang cara melakukan sesuatu dengan Wordplay. Setelah Anda menemukan cara untuk membagikan sesuatu, tulis tutorial untuk kreator lain di galeri ini, agar mereka juga dapat mempelajarinya!"
             },
-            "headerTooltip": "$~kembali ke galeri",
             "drafts": {
                 "header": "$~📝 Draf panduan",
                 "prompt": "$~Ini adalah ruang untuk draf Anda! Hanya Anda dan kolaborator Anda yang dapat melihat draf ini.",
@@ -6112,10 +6104,6 @@
                 "noGuidingQuestions": "$~Galeri ini belum memiliki pertanyaan panduan, jadi belum ada yang bisa ditulis. Seorang kurator perlu menambahkan setidaknya satu pertanyaan panduan sebelum petunjuk cara berkunjung dapat ditulis."
             },
             "viewer": {
-                "view": {
-                    "label": "$~lihat cara",
-                    "tip": "$~lihat cara"
-                },
                 "edit": {
                     "label": "$~✏️ edit",
                     "tip": "$~edit panduan ini"
@@ -6148,7 +6136,10 @@
                     "label": "$~🔗 salin tautan cara",
                     "tip": "$~salin tautan ke panduan ini"
                 },
-                "collaborators": "$~ditulis oleh"
+                "collaborators": "$~ditulis oleh",
+                "view": {
+                    "tip": "view how-to"
+                }
             },
             "configuration": {
                 "configurationDialog": {
@@ -6239,8 +6230,7 @@
             },
             "toggle": {
                 "blocks": {
-                    "on": "$~edit sebagai teks",
-                    "off": "$~edit sebagai blok"
+                    "on": "$~edit sebagai teks"
                 },
                 "characters": {
                     "on": "$~sembunyikan pemilih emoji dan simbol",
@@ -6263,8 +6253,6 @@
             },
             "button": {
                 "selectOutput": "$~Tampilkan hasil ini di atas panggung.",
-                "expandControls": "$~Tampilkan perintah pengeditan tambahan",
-                "collapseControls": "$~sembunyikan perintah pengeditan tambahan",
                 "zoomIn": "$~Perbesar kodenya",
                 "zoomOut": "$~Perkecil ukuran kode.",
                 "replace": "$~ganti semua kecocokan"
@@ -6805,11 +6793,9 @@
                         ]
                     },
                     "preview": {
-                        "label": "$~mode pratinjau",
-                        "labels": ["$~mobil", "$~kebiasaan"],
                         "tips": [
-                            "$~biarkan proyek memilih sendiri glif pratinjaunya berdasarkan apa yang ditampilkannya",
-                            "$~sematkan simbol yang Anda pilih"
+                            "let the project pick its own preview glyph based on what it shows",
+                            "pin a glyph you choose"
                         ]
                     }
                 },
@@ -7267,7 +7253,6 @@
             "local": "$~tersimpan",
             "unsaved": "$~belum disimpan",
             "sync": {
-                "header": "$~Sinkronisasi dengan cloud",
                 "projects": "$~Proyek",
                 "galleries": "$~Galeri",
                 "characters": "$~Karakter",
@@ -7633,10 +7618,6 @@
                 "header": "$~Proyek",
                 "projectprompt": "$~Siap untuk menyampaikan sesuatu? Buat proyek atau kerjakan proyek yang sudah ada. Jika Anda menemui kesulitan, jangan ragu untuk bertanya.<learning@://learn> .",
                 "archiveprompt": "$~Ini adalah proyek yang telah Anda arsipkan. Hanya pemilik yang dapat menghapus atau mengembalikan arsipnya secara permanen. Proyek yang diarsipkan akan dihapus secara permanen 30 hari setelah terakhir diedit.",
-                "add": {
-                    "header": "$~Proyek Baru",
-                    "explanation": "$~Pilih templat untuk membuat proyek baru."
-                },
                 "subheader": {
                     "shared": "$~Dibagikan",
                     "archived": "$~Diarsipkan",
@@ -8234,8 +8215,7 @@
         },
         "connection": {
             "offline": "$~Anda sedang offline. Beberapa fitur tidak akan berfungsi sampai Anda online.",
-            "unreachable": "$~Kami tidak dapat mengakses basis data, jadi beberapa hal tidak akan berfungsi. VPN, ekstensi peramban, atau filter jaringan mungkin memblokirnya.",
-            "label": "$~Status koneksi"
+            "unreachable": "$~Kami tidak dapat mengakses basis data, jadi beberapa hal tidak akan berfungsi. VPN, ekstensi peramban, atau filter jaringan mungkin memblokirnya."
         },
         "presence": {
             "peersLabel": "$~kolaborator yang menyunting proyek ini",
@@ -8244,7 +8224,6 @@
             "waitingForSlot": "$~Sedang menunggu giliran mengedit — empat kolaborator sudah sedang mengedit. Saat salah satu dari mereka pergi, Anda juga bisa mengedit."
         },
         "update": {
-            "label": "$~Versi baru tersedia",
             "message": "$~Kami telah merilis versi baru.",
             "refresh": "$~Menyegarkan",
             "updates": "$~lihat pembaruan",

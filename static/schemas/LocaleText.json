@@ -1069,6 +1069,19 @@
       ],
       "type": "object"
     },
+    "IconButtonText": {
+      "additionalProperties": false,
+      "properties": {
+        "tip": {
+          "description": "[plain] Icon button tooltip and ARIA-label, spoken by screen readers",
+          "type": "string"
+        }
+      },
+      "required": [
+        "tip"
+      ],
+      "type": "object"
+    },
     "LocaleText": {
       "additionalProperties": false,
       "description": "Represents a complete translation for Wordplay, including every user interface label, every description, etc. All of these fields must be included in order for a translation to be complete.",
@@ -14582,10 +14595,6 @@
               "additionalProperties": false,
               "description": "Banner shown when the device is offline or Firebase is unreachable.",
               "properties": {
-                "label": {
-                  "description": "[plain] ARIA label for the connection banner live region",
-                  "type": "string"
-                },
                 "offline": {
                   "description": "[plain] Banner shown when the browser reports no internet connection",
                   "type": "string"
@@ -14597,8 +14606,7 @@
               },
               "required": [
                 "offline",
-                "unreachable",
-                "label"
+                "unreachable"
               ],
               "type": "object"
             },
@@ -15315,7 +15323,7 @@
                       "description": "Modes in the share dialog",
                       "properties": {
                         "preview": {
-                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                          "$ref": "#/definitions/TipsModeText%3C%5Bstring%2Cstring%5D%3E",
                           "description": "The preview auto/custom toggle mode widget"
                         },
                         "public": {
@@ -16550,10 +16558,6 @@
                   ],
                   "type": "object"
                 },
-                "headerTooltip": {
-                  "description": "[plain] Tooltip for header/breadcrumb to gallery for the how-to space page",
-                  "type": "string"
-                },
                 "navigationtooltip": {
                   "description": "[plain] Navigation tooltip",
                   "type": "string"
@@ -16641,7 +16645,7 @@
                       "type": "object"
                     },
                     "view": {
-                      "$ref": "#/definitions/ButtonText",
+                      "$ref": "#/definitions/IconButtonText",
                       "description": "Button text for viewing the how-to"
                     }
                   },
@@ -16661,7 +16665,6 @@
               },
               "required": [
                 "galleryView",
-                "headerTooltip",
                 "drafts",
                 "bookmarks",
                 "navigationtooltip",
@@ -19230,10 +19233,6 @@
                   "additionalProperties": false,
                   "description": "The project creation and browsing page",
                   "properties": {
-                    "add": {
-                      "$ref": "#/definitions/HeaderAndExplanationText",
-                      "description": "Dialog text for the project addition dialog"
-                    },
                     "archiveprompt": {
                       "$ref": "#/definitions/FormattedText",
                       "description": "[formatted] Explanation for the archive subsection"
@@ -19368,7 +19367,6 @@
                     "header",
                     "projectprompt",
                     "archiveprompt",
-                    "add",
                     "subheader",
                     "search",
                     "button",
@@ -20206,14 +20204,9 @@
                         "search"
                       ],
                       "type": "object"
-                    },
-                    "unsaved": {
-                      "$ref": "#/definitions/FormattedText",
-                      "description": "[formatted] The header for the save error"
                     }
                   },
                   "required": [
-                    "unsaved",
                     "translate"
                   ],
                   "type": "object"
@@ -20326,29 +20319,9 @@
                       ],
                       "type": "object"
                     },
-                    "failuresHeader": {
-                      "$ref": "#/definitions/Template%3C%5B%22count%22%5D%3E",
-                      "description": "[plain] Header above the per-project failure list. $count = total count"
-                    },
-                    "projectContainedPII": {
-                      "$ref": "#/definitions/FormattedText",
-                      "description": "[formatted] When a project wasn't saved because it contained PII"
-                    },
-                    "projectNotSavedOnline": {
-                      "$ref": "#/definitions/FormattedText",
-                      "description": "[formatted] When a project couldn't be saved to the database"
-                    },
-                    "projectsCannotNotSaveLocally": {
-                      "$ref": "#/definitions/FormattedText",
-                      "description": "[formatted] When projects can't save locally"
-                    },
                     "projectsNotLoadingOnline": {
                       "$ref": "#/definitions/FormattedText",
                       "description": "[formatted] Projects failed to load"
-                    },
-                    "projectsNotSavedLocally": {
-                      "$ref": "#/definitions/FormattedText",
-                      "description": "[formatted] When projects fail to save locally"
                     },
                     "settingsUnsaved": {
                       "$ref": "#/definitions/FormattedText",
@@ -20356,14 +20329,9 @@
                     }
                   },
                   "required": [
-                    "projectsNotSavedLocally",
-                    "projectsCannotNotSaveLocally",
-                    "projectContainedPII",
                     "projectsNotLoadingOnline",
-                    "projectNotSavedOnline",
                     "settingsUnsaved",
-                    "failureReason",
-                    "failuresHeader"
+                    "failureReason"
                   ],
                   "type": "object"
                 },
@@ -20595,10 +20563,6 @@
                       "description": "[plain] Label for the galleries sync row",
                       "type": "string"
                     },
-                    "header": {
-                      "description": "[plain] Header for the cloud-sync status section",
-                      "type": "string"
-                    },
                     "howtos": {
                       "description": "[plain] Label for the how-tos sync row",
                       "type": "string"
@@ -20609,7 +20573,6 @@
                     }
                   },
                   "required": [
-                    "header",
                     "projects",
                     "galleries",
                     "characters",
@@ -20640,14 +20603,6 @@
                 "button": {
                   "additionalProperties": false,
                   "properties": {
-                    "collapseControls": {
-                      "description": "[plain] The button tooltip for collapsing the controls accordion",
-                      "type": "string"
-                    },
-                    "expandControls": {
-                      "description": "[plain] The button tooltip for expanding the controls accordion",
-                      "type": "string"
-                    },
                     "replace": {
                       "description": "[plain] The button that replaces all search matches with the replacement text",
                       "type": "string"
@@ -20667,8 +20622,6 @@
                   },
                   "required": [
                     "selectOutput",
-                    "expandControls",
-                    "collapseControls",
                     "zoomIn",
                     "zoomOut",
                     "replace"
@@ -21302,7 +21255,7 @@
                   "additionalProperties": false,
                   "properties": {
                     "blocks": {
-                      "$ref": "#/definitions/ToggleText",
+                      "$ref": "#/definitions/OnToggleText",
                       "description": "[plain] The blocks/text toggle"
                     },
                     "characters": {
@@ -21676,10 +21629,6 @@
                   "description": "[plain] Tooltip for the button that dismisses the notification",
                   "type": "string"
                 },
-                "label": {
-                  "description": "[plain] ARIA label for the new-version notification region",
-                  "type": "string"
-                },
                 "message": {
                   "description": "[plain] Message shown when a newer version of the app is available",
                   "type": "string"
@@ -21694,7 +21643,6 @@
                 }
               },
               "required": [
-                "label",
                 "message",
                 "refresh",
                 "updates",
@@ -21808,7 +21756,7 @@
                       "type": "string"
                     },
                     "pick": {
-                      "$ref": "#/definitions/ButtonText",
+                      "$ref": "#/definitions/IconButtonText",
                       "description": "The eyedropper button that picks a color from the screen"
                     },
                     "value": {
@@ -22466,6 +22414,19 @@
       ],
       "description": "[name] A single name or a list of names, all valid Wordplay names"
     },
+    "OnToggleText": {
+      "additionalProperties": false,
+      "properties": {
+        "on": {
+          "description": "[plain] The tooltip and ARIA-label for when the toggle is in the on state",
+          "type": "string"
+        }
+      },
+      "required": [
+        "on"
+      ],
+      "type": "object"
+    },
     "RegionCode": {
       "type": [
         "string"
@@ -22749,6 +22710,24 @@
     },
     "Template<[]>": {
       "type": "string"
+    },
+    "TipsModeText<[string,string]>": {
+      "additionalProperties": false,
+      "properties": {
+        "tips": {
+          "description": "[plain] A list of tooltip/ARIA descriptions, one per mode",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        }
+      },
+      "required": [
+        "tips"
+      ],
+      "type": "object"
     },
     "ToggleText": {
       "additionalProperties": false,

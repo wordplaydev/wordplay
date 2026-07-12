@@ -5782,10 +5782,6 @@
                 "popup": "$~Zusätzliche Bedienelemente"
             },
             "color": {
-                "pick": {
-                    "label": "$~Farbe auswählen",
-                    "tip": "$~Wählen Sie eine Farbe von Ihrem Bildschirm aus."
-                },
                 "field": "$~Farbfeld",
                 "instructions": "$~Verwenden Sie die Pfeiltasten links und rechts, um den Farbton zu ändern, und die Pfeiltasten oben und unten, um die Farbsättigung zu ändern. Halten Sie die Umschalttaste gedrückt, um feinere Abstufungen vorzunehmen.",
                 "value": "$~$color , LCH $l , $c , $h",
@@ -5794,6 +5790,9 @@
                     "placeholder": "$~#f00, rgb(), hsl(), red",
                     "invalid": "$~keine anerkannte Farbe",
                     "format": "$~erkanntes Format"
+                },
+                "pick": {
+                    "tip": "select a color from your screen"
                 }
             }
         },
@@ -5867,11 +5866,7 @@
             "help": "$~Tastaturkürzel anzeigen",
             "collapsed": "$~Alle Ihre Fenster sind ausgeblendet! Sie finden sie in der Symbolleiste unten",
             "save": {
-                "projectsNotSavedLocally": "$~Beim Speichern von Projekten in Ihrem Browser ist ein Problem aufgetreten.",
-                "projectsCannotNotSaveLocally": "$~Ihr Browser unterstützt das Speichern von Projekten nicht.",
-                "projectContainedPII": "$~Zum Schutz Ihrer Privatsphäre wurde ein Projekt mit potenziell persönlich identifizierbaren Informationen nicht online gespeichert. Überprüfen Sie das Projekt, um festzustellen, ob die Informationen identifizierend sind.",
                 "projectsNotLoadingOnline": "$~Online-Projekte können nicht geladen werden.",
-                "projectNotSavedOnline": "$~Projekte können nicht online gespeichert werden.",
                 "settingsUnsaved": "$~Einstellungen können nicht online gespeichert werden.",
                 "failureReason": {
                     "indexedDBWriteFailed": "$~Ihr Browser konnte diese Projekte auf diesem Gerät nicht speichern.",
@@ -5879,11 +5874,9 @@
                     "firestoreBatchFailed": "$~Wir konnten diese Projekte nicht in die Cloud hochladen. Sie sind aber weiterhin auf diesem Gerät sicher.",
                     "projectContainsPII": "$~Diese Projekte scheinen persönliche Informationen zu enthalten, daher haben wir sie nicht online gespeichert. Öffnen Sie jedes Projekt, um zu prüfen, welche Informationen persönlich erscheinen.",
                     "localProjectStorageFailed": "$~Auf diesem Gerät war kein Speicherplatz mehr verfügbar, und diese Projekte befinden sich noch nicht in der Cloud, daher sind sie gefährdet.<Sign in@/login> Dadurch werden sie online gespeichert, anstatt nur auf diesem Gerät."
-                },
-                "failuresHeader": "$~$count Projekte wurden nicht gespeichert:"
+                }
             },
             "dialog": {
-                "unsaved": "$~Nicht gespeicherte Arbeit …",
                 "translate": {
                     "header": "$~Sprachen",
                     "explanation": [
@@ -5990,8 +5983,7 @@
             },
             "toggle": {
                 "blocks": {
-                    "on": "$~Blockhintergründe ausblenden",
-                    "off": "$~Blockhintergründe anzeigen"
+                    "on": "$~Blockhintergründe ausblenden"
                 },
                 "characters": {
                     "on": "$~die übereinstimmenden Zeichen ausblenden",
@@ -6008,8 +6000,6 @@
             },
             "button": {
                 "selectOutput": "$~diese Ausgabe auf der Bühne zeigen",
-                "expandControls": "$~zusätzliche Bearbeitungsbefehle anzeigen",
-                "collapseControls": "$~zusätzliche Bearbeitungsbefehle ausblenden",
                 "zoomIn": "$~Vergrößern Sie den Code",
                 "zoomOut": "$~Verkleinern Sie den Code",
                 "replace": "$~Alle Übereinstimmungen ersetzen"
@@ -6550,11 +6540,9 @@
                         ]
                     },
                     "preview": {
-                        "label": "$~Vorschaumodus",
-                        "labels": ["$~Auto", "$~Brauch"],
                         "tips": [
-                            "$~Das Projekt soll basierend auf dem, was angezeigt wird, sein eigenes Vorschaubild auswählen.",
-                            "$~Wählen Sie ein Symbol aus"
+                            "let the project pick its own preview glyph based on what it shows",
+                            "pin a glyph you choose"
                         ]
                     }
                 },
@@ -6940,7 +6928,6 @@
             "local": "Im Browser gespeichert",
             "unsaved": "Ungespeichert",
             "sync": {
-                "header": "$~Synchronisierung mit der Cloud",
                 "projects": "$~Projekte",
                 "galleries": "$~Galerien",
                 "characters": "$~Charaktere",
@@ -7050,10 +7037,6 @@
                 "header": "Projekte",
                 "projectprompt": "$~Bereit, etwas zu sagen? Erstellen Sie ein Projekt oder arbeiten Sie an einem. Wenn Sie nicht weiterkommen, <learning@://learn> weiter.",
                 "archiveprompt": "$~Dies sind Projekte, die Sie archiviert haben. Nur Eigentümer können sie dauerhaft löschen oder aus dem Archiv entfernen. Archivierte Projekte werden 30 Tage nach ihrer letzten Bearbeitung dauerhaft gelöscht.",
-                "add": {
-                    "header": "$~Neues Projekt",
-                    "explanation": "$~Wählen Sie eine Vorlage, um ein neues Projekt zu erstellen."
-                },
                 "button": {
                     "newproject": "$~neues Projekt",
                     "editproject": "$~Dieses Projekt bearbeiten",
@@ -7901,7 +7884,6 @@
                 "subheaderEmpty": "$~Erschaffe den ersten!",
                 "prompt": "$~Anleitungen sind kurze Erklärungen und Beispielcodes, die zeigen, wie man etwas mit Wordplay macht. Wenn du herausgefunden hast, wie etwas funktioniert, das du teilen möchtest, schreibe eine Anleitung für die anderen Entwickler in dieser Galerie, damit auch sie es lernen können!"
             },
-            "headerTooltip": "$~Zurück zur Galerie",
             "drafts": {
                 "header": "$~📝 Anleitungen zum Entwerfen",
                 "prompt": "$~Dies ist der Bereich für Ihre Entwürfe! Nur Sie und Ihre Mitarbeiter können diese Entwürfe sehen.",
@@ -8000,10 +7982,6 @@
                 "noGuidingQuestions": "$~Diese Galerie hat noch keine Leitfragen, daher gibt es nichts zu schreiben. Ein Kurator muss mindestens eine Leitfrage hinzufügen, bevor Anleitungen verfasst werden können."
             },
             "viewer": {
-                "view": {
-                    "label": "$~Anleitung ansehen",
-                    "tip": "$~Anleitung ansehen"
-                },
                 "edit": {
                     "label": "$~✏️ Bearbeiten",
                     "tip": "$~Bearbeiten Sie diese Anleitung."
@@ -8036,7 +8014,10 @@
                     "label": "$~🔗 Link zur Anleitung kopieren",
                     "tip": "$~Link zu dieser Anleitung kopieren"
                 },
-                "collaborators": "$~geschrieben von"
+                "collaborators": "$~geschrieben von",
+                "view": {
+                    "tip": "view how-to"
+                }
             },
             "configuration": {
                 "configurationDialog": {
@@ -8243,8 +8224,7 @@
         },
         "connection": {
             "offline": "$~Sie sind offline. Einige Funktionen sind erst verfügbar, wenn Sie online sind.",
-            "unreachable": "$~Wir können nicht auf die Datenbank zugreifen, daher funktionieren einige Funktionen nicht. Möglicherweise wird der Zugriff durch ein VPN, eine Browsererweiterung oder einen Netzwerkfilter blockiert.",
-            "label": "$~Verbindungsstatus"
+            "unreachable": "$~Wir können nicht auf die Datenbank zugreifen, daher funktionieren einige Funktionen nicht. Möglicherweise wird der Zugriff durch ein VPN, eine Browsererweiterung oder einen Netzwerkfilter blockiert."
         },
         "presence": {
             "peersLabel": "$~Mitarbeiter, die dieses Projekt bearbeiten",
@@ -8253,7 +8233,6 @@
             "waitingForSlot": "$~Warten auf einen Bearbeitungsplatz – vier Mitarbeiter bearbeiten bereits. Sobald einer ausscheidet, können auch Sie bearbeiten."
         },
         "update": {
-            "label": "$~Neue Version verfügbar",
             "message": "$~Wir haben eine neue Version veröffentlicht.",
             "refresh": "$~Aktualisieren",
             "updates": "$~Siehe die Aktualisierungen",

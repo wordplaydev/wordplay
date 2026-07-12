@@ -5787,10 +5787,6 @@
                 "popup": "$~Dodatkowe elementy sterujące"
             },
             "color": {
-                "pick": {
-                    "label": "$~wybierz kolor",
-                    "tip": "$~wybierz kolor z ekranu"
-                },
                 "field": "$~pole kolorów",
                 "instructions": "$~Użyj klawiszy strzałek w lewo i w prawo, aby zmienić odcień, oraz klawiszy strzałek w górę i w dół, aby zmienić nasycenie. Przytrzymaj klawisz Shift, aby uzyskać dokładniejsze zmiany.",
                 "value": "$~$color , LCH $l , $c , $h",
@@ -5799,6 +5795,9 @@
                     "placeholder": "$~#f00, rgb(), hsl(), czerwony",
                     "invalid": "$~nierozpoznany kolor",
                     "format": "$~wykryto format"
+                },
+                "pick": {
+                    "tip": "select a color from your screen"
                 }
             }
         },
@@ -5872,11 +5871,7 @@
             "help": "$~pokaż skróty klawiaturowe",
             "collapsed": "$~Wszystkie Twoje okna są zwinięte! Możesz je znaleźć na pasku narzędzi poniżej",
             "save": {
-                "projectsNotSavedLocally": "$~Wystąpił problem podczas zapisywania projektów w Twojej przeglądarce.",
-                "projectsCannotNotSaveLocally": "$~Twoja przeglądarka nie obsługuje zapisywania projektów.",
-                "projectContainedPII": "$~Aby chronić Twoją prywatność, projekt z potencjalnie identyfikującymi Cię informacjami nie został zapisany online. Sprawdź projekt, aby zobaczyć, czy informacje są identyfikujące.",
                 "projectsNotLoadingOnline": "$~Nie można załadować projektów online.",
-                "projectNotSavedOnline": "$~Nie można zapisać projektu online.",
                 "settingsUnsaved": "$~Nie można zapisać ustawień online.",
                 "failureReason": {
                     "indexedDBWriteFailed": "$~Twoja przeglądarka nie mogła zapisać tych projektów na tym urządzeniu.",
@@ -5884,11 +5879,9 @@
                     "firestoreBatchFailed": "$~Nie mogliśmy wysłać tych projektów do chmury. Nadal są bezpieczne na tym urządzeniu.",
                     "projectContainsPII": "$~Te projekty wyglądają, jakby zawierały dane osobowe, więc nie zapisaliśmy ich online. Otwórz każdy z nich, aby sprawdzić, co wygląda na osobiste.",
                     "localProjectStorageFailed": "$~Na tym urządzeniu zabrakło miejsca do zapisania, a te projekty nie znajdują się jeszcze w chmurze, więc są zagrożone.<Sign in@/login> , co pozwala na ich zapisywanie online, a nie tylko na tym urządzeniu."
-                },
-                "failuresHeader": "$~Projekt(y) $count nie zostały zapisane:"
+                }
             },
             "dialog": {
-                "unsaved": "$~Niezapisana praca...",
                 "translate": {
                     "header": "$~Tłumaczyć",
                     "explanation": [
@@ -6012,8 +6005,7 @@
             },
             "toggle": {
                 "blocks": {
-                    "on": "$~edytuj jako tekst",
-                    "off": "$~edytuj jako bloki"
+                    "on": "$~edytuj jako tekst"
                 },
                 "characters": {
                     "on": "$~zwiń pasujące znaki",
@@ -6030,8 +6022,6 @@
             },
             "button": {
                 "selectOutput": "$~pokaż ten wynik na scenie",
-                "expandControls": "$~pokaż dodatkowe polecenia edycyjne",
-                "collapseControls": "$~ukryj dodatkowe polecenia edycyjne",
                 "zoomIn": "$~Powiększ kod",
                 "zoomOut": "$~Zmniejsz kod",
                 "replace": "$~zamień wszystkie mecze"
@@ -6572,11 +6562,9 @@
                         ]
                     },
                     "preview": {
-                        "label": "$~tryb podglądu",
-                        "labels": ["$~automatyczny", "$~zwyczaj"],
                         "tips": [
-                            "$~pozwól projektowi wybrać własny glif podglądu na podstawie tego, co pokazuje",
-                            "$~przypnij wybrany glif"
+                            "let the project pick its own preview glyph based on what it shows",
+                            "pin a glyph you choose"
                         ]
                     }
                 },
@@ -7038,7 +7026,6 @@
             "local": "$~zapisano w przeglądarce",
             "unsaved": "$~niezapisany",
             "sync": {
-                "header": "$~Synchronizacja z chmurą",
                 "projects": "$~Projektowanie",
                 "galleries": "$~Galerie",
                 "characters": "$~Pismo",
@@ -7262,10 +7249,6 @@
                 "header": "$~Projektowanie",
                 "projectprompt": "$~Chcesz coś powiedzieć? Stwórz projekt lub pracuj nad nim. Jeśli utkniesz, kontynuuj <learning@://learn>.",
                 "archiveprompt": "$~Są to projekty, które zarchiwizowałeś. Tylko właściciele mogą je trwale usunąć lub przywrócić z archiwum. Zarchiwizowane projekty zostaną trwale usunięte 30 dni po ostatniej edycji.",
-                "add": {
-                    "header": "$~Nowy projekt",
-                    "explanation": "$~Wybierz szablon, aby utworzyć nowy projekt."
-                },
                 "button": {
                     "newproject": "$~nowy projekt",
                     "editproject": "$~edytuj ten projekt",
@@ -7907,7 +7890,6 @@
                 "subheaderEmpty": "$~stwórz pierwszy!",
                 "prompt": "$~Instrukcje to krótkie wyjaśnienia i przykładowy kod pokazujący, jak coś zrobić za pomocą Wordplay. Kiedy już wiesz, jak coś zrobić, napisz instrukcję dla innych twórców w tej galerii, aby i oni mogli się jej nauczyć!"
             },
-            "headerTooltip": "$~wróć do galerii",
             "drafts": {
                 "header": "$~📝 Wersje robocze",
                 "prompt": "$~To miejsce na Twoje szkice! Tylko Ty i Twoi współpracownicy możecie je zobaczyć.",
@@ -8006,10 +7988,6 @@
                 "noGuidingQuestions": "$~W tej galerii nie ma jeszcze pytań pomocniczych, więc nie ma o czym pisać. Kurator musi dodać co najmniej jedno pytanie pomocnicze, zanim będzie można napisać poradnik."
             },
             "viewer": {
-                "view": {
-                    "label": "$~zobacz instrukcję",
-                    "tip": "$~zobacz instrukcję"
-                },
                 "edit": {
                     "label": "$~✏️ edytuj",
                     "tip": "$~edytuj ten poradnik"
@@ -8042,7 +8020,10 @@
                     "label": "$~🔗 skopiuj link z instrukcją",
                     "tip": "$~skopiuj link do tego poradnika"
                 },
-                "collaborators": "$~napisane przez"
+                "collaborators": "$~napisane przez",
+                "view": {
+                    "tip": "view how-to"
+                }
             },
             "configuration": {
                 "configurationDialog": {
@@ -8249,8 +8230,7 @@
         },
         "connection": {
             "offline": "$~Jesteś offline. Niektóre funkcje nie będą działać, dopóki nie będziesz online.",
-            "unreachable": "$~Nie możemy połączyć się z bazą danych, więc niektóre rzeczy nie będą działać. VPN, rozszerzenie przeglądarki lub filtr sieciowy mogą ją blokować.",
-            "label": "$~Status połączenia"
+            "unreachable": "$~Nie możemy połączyć się z bazą danych, więc niektóre rzeczy nie będą działać. VPN, rozszerzenie przeglądarki lub filtr sieciowy mogą ją blokować."
         },
         "presence": {
             "peersLabel": "$~współpracownicy edytujący ten projekt",
@@ -8259,7 +8239,6 @@
             "waitingForSlot": "$~Czekam na miejsce na edycję — czterech współpracowników już edytuje. Gdy jeden z nich odejdzie, Ty też będziesz mógł edytować."
         },
         "update": {
-            "label": "$~Nowa wersja dostępna",
             "message": "$~Wydaliśmy nową wersję.",
             "refresh": "$~Odświeżać",
             "updates": "$~zobacz aktualizacje",

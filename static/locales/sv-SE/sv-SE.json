@@ -5773,10 +5773,6 @@
                 "popup": "$~Ytterligare kontroller"
             },
             "color": {
-                "pick": {
-                    "label": "$~välj färg",
-                    "tip": "$~välj en färg från din skärm"
-                },
                 "field": "$~färgfält",
                 "instructions": "$~Använd vänster- och högerpiltangenterna för att ändra nyans och upp- och nedpiltangenterna för att ändra färgåtergivning. Håll shift-tangenten nedtryckt för finare steg.",
                 "value": "$~$color , LCH $l , $c , $h",
@@ -5785,6 +5781,9 @@
                     "placeholder": "$~#f00, rgb(), hsl(), röd",
                     "invalid": "$~inte en igenkänd färg",
                     "format": "$~upptäckt format"
+                },
+                "pick": {
+                    "tip": "select a color from your screen"
                 }
             }
         },
@@ -5858,11 +5857,7 @@
             "help": "$~visa kortkommandon",
             "collapsed": "$~Alla dina fönster är kollapsade! Du hittar dem i verktygsfältet nedan",
             "save": {
-                "projectsNotSavedLocally": "$~Det gick inte att spara projekt i din webbläsare.",
-                "projectsCannotNotSaveLocally": "$~Din webbläsare stöder inte att spara projekt.",
-                "projectContainedPII": "$~För att skydda din integritet sparades inte ett projekt med potentiellt personligt identifierbar information online. Kontrollera projektet för att se om informationen är identifierande.",
                 "projectsNotLoadingOnline": "$~Det går inte att ladda onlineprojekt.",
-                "projectNotSavedOnline": "$~Det går inte att spara projekt online.",
                 "settingsUnsaved": "$~Det går inte att spara inställningar online.",
                 "failureReason": {
                     "indexedDBWriteFailed": "$~Din webbläsare kunde inte spara dessa projekt på den här enheten.",
@@ -5870,11 +5865,9 @@
                     "firestoreBatchFailed": "$~Vi kunde inte skicka dessa projekt till molnet. De är fortfarande säkra på den här enheten.",
                     "projectContainsPII": "$~Dessa projekt ser ut att innehålla personlig information, så vi har inte sparat dem online. Öppna vart och ett för att kontrollera vad som ser personligt ut.",
                     "localProjectStorageFailed": "$~Den här enheten har slut på utrymme att spara, och dessa projekt finns inte i molnet än, så de är i riskzonen.<Sign in@/login> , vilket sparar dem online istället för bara på den här enheten."
-                },
-                "failuresHeader": "$~$count projekt sparades inte:"
+                }
             },
             "dialog": {
-                "unsaved": "$~Osparat arbete...",
                 "translate": {
                     "header": "$~Översätta",
                     "explanation": [
@@ -5998,8 +5991,7 @@
             },
             "toggle": {
                 "blocks": {
-                    "on": "$~redigera som text",
-                    "off": "$~redigera som block"
+                    "on": "$~redigera som text"
                 },
                 "characters": {
                     "on": "$~komprimera de matchande tecknen",
@@ -6016,8 +6008,6 @@
             },
             "button": {
                 "selectOutput": "$~visa denna produktion på scenen",
-                "expandControls": "$~visa ytterligare redigeringskommandon",
-                "collapseControls": "$~dölj ytterligare redigeringskommandon",
                 "zoomIn": "$~Gör koden större",
                 "zoomOut": "$~Gör koden mindre",
                 "replace": "$~ersätt alla träffar"
@@ -6558,11 +6548,9 @@
                         ]
                     },
                     "preview": {
-                        "label": "$~förhandsgranskningsläge",
-                        "labels": ["$~bil", "$~beställnings-"],
                         "tips": [
-                            "$~låt projektet välja sin egen förhandsgranskningsglyf baserat på vad den visar",
-                            "$~fäst en tecken du väljer"
+                            "let the project pick its own preview glyph based on what it shows",
+                            "pin a glyph you choose"
                         ]
                     }
                 },
@@ -7020,7 +7008,6 @@
             "local": "$~sparas i webbläsaren",
             "unsaved": "$~osparade",
             "sync": {
-                "header": "$~Synkronisera med molnet",
                 "projects": "$~Projekt",
                 "galleries": "$~Gallerier",
                 "characters": "$~Tecken",
@@ -7244,10 +7231,6 @@
                 "header": "$~Projekt",
                 "projectprompt": "$~Redo att säga något? Skapa ett projekt eller arbeta med ett. Om du fastnar, fortsätt med <learning@://learn>.",
                 "archiveprompt": "$~Det här är projekt som du har arkiverat. Endast ägare kan permanent ta bort eller avarkivera dem. Arkiverade projekt kommer att raderas permanent 30 dagar efter att de senast redigerades.",
-                "add": {
-                    "header": "$~Nytt projekt",
-                    "explanation": "$~Välj en mall för att skapa ett nytt projekt."
-                },
                 "button": {
                     "newproject": "$~nytt projekt",
                     "editproject": "$~redigera detta projekt",
@@ -7886,7 +7869,6 @@
                 "subheaderEmpty": "$~skapa den första!",
                 "prompt": "$~Instruktioner är korta förklaringar och exempelkod för hur man gör något med Wordplay. När du har kommit fram till något du vill dela, skriv en för de andra skaparna i det här galleriet, så att de kan lära sig det!"
             },
-            "headerTooltip": "$~gå tillbaka till galleriet",
             "drafts": {
                 "header": "$~📝 Instruktioner för utkast",
                 "prompt": "$~Det här är ett utrymme för dina utkast! Endast du och dina medarbetare kan se dessa utkast.",
@@ -7985,10 +7967,6 @@
                 "noGuidingQuestions": "$~Det här galleriet har inga vägledande frågor ännu, så det finns inget att skriva om. En kurator måste lägga till minst en vägledande fråga innan instruktioner kan skrivas."
             },
             "viewer": {
-                "view": {
-                    "label": "$~se instruktionsguide",
-                    "tip": "$~se instruktionsguide"
-                },
                 "edit": {
                     "label": "$~✏️ redigera",
                     "tip": "$~redigera den här instruktionen"
@@ -8021,7 +7999,10 @@
                     "label": "$~🔗 kopiera instruktionslänken",
                     "tip": "$~kopiera länken till den här instruktionen"
                 },
-                "collaborators": "$~skriven av"
+                "collaborators": "$~skriven av",
+                "view": {
+                    "tip": "view how-to"
+                }
             },
             "configuration": {
                 "configurationDialog": {
@@ -8228,8 +8209,7 @@
         },
         "connection": {
             "offline": "$~Du är offline. Vissa funktioner fungerar inte förrän du är online.",
-            "unreachable": "$~Vi kan inte nå databasen, så vissa saker kommer inte att fungera. Ett VPN, ett webbläsartillägg eller ett nätverksfilter kan blockera det.",
-            "label": "$~Anslutningsstatus"
+            "unreachable": "$~Vi kan inte nå databasen, så vissa saker kommer inte att fungera. Ett VPN, ett webbläsartillägg eller ett nätverksfilter kan blockera det."
         },
         "presence": {
             "peersLabel": "$~samarbetspartners som redigerar detta projekt",
@@ -8238,7 +8218,6 @@
             "waitingForSlot": "$~Väntar på en redigeringsplats – fyra medarbetare redigerar redan. När en lämnar kan du också redigera."
         },
         "update": {
-            "label": "$~Ny version tillgänglig",
             "message": "$~Vi släppte en ny version.",
             "refresh": "$~Uppdatera",
             "updates": "$~se uppdateringarna",

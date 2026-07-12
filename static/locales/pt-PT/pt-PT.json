@@ -5773,10 +5773,6 @@
                 "popup": "Controles adicionais"
             },
             "color": {
-                "pick": {
-                    "label": "escolha a cor",
-                    "tip": "Selecione uma cor no seu ecrã."
-                },
                 "field": "campo de cor",
                 "instructions": "Utilize as setas esquerda e direita para alterar a tonalidade e as setas para cima e para baixo para alterar a saturação. Mantenha a tecla Shift pressionada para ajustes mais precisos.",
                 "value": "$color , LCH $l , $c , $h",
@@ -5785,6 +5781,9 @@
                     "placeholder": "$~#f00, rgb(), hsl(), vermelho",
                     "invalid": "$~cor não reconhecida",
                     "format": "$~formato detectado"
+                },
+                "pick": {
+                    "tip": "select a color from your screen"
                 }
             }
         },
@@ -5861,11 +5860,7 @@
             "help": "Mostrar atalhos de teclado",
             "collapsed": "Todas as suas janelas estão recolhidas! Pode encontrá-las na barra de ferramentas abaixo.",
             "save": {
-                "projectsNotSavedLocally": "Ocorreu um problema ao guardar projetos no seu browser.",
-                "projectsCannotNotSaveLocally": "O seu navegador não suporta o salvamento de projetos.",
-                "projectContainedPII": "Para proteger a sua privacidade, um projeto com informações potencialmente identificáveis não foi guardado online. Verifique o projeto para ver se as informações são identificáveis.",
                 "projectsNotLoadingOnline": "Não foi possível carregar os projetos online.",
-                "projectNotSavedOnline": "Não foi possível guardar projetos online.",
                 "settingsUnsaved": "Não foi possível guardar as definições online.",
                 "failureReason": {
                     "indexedDBWriteFailed": "O seu navegador não conseguiu guardar estes projetos neste dispositivo.",
@@ -5873,11 +5868,9 @@
                     "firestoreBatchFailed": "Não foi possível enviar estes projetos para a nuvem. Ainda estão seguros neste dispositivo.",
                     "projectContainsPII": "Estes projetos parecem conter informações pessoais, por isso não os guardamos online. Abra cada um para verificar o que parece ser informação pessoal.",
                     "localProjectStorageFailed": "Este dispositivo ficou sem espaço para guardar, e estes projetos ainda não estão na cloud, pelo que estão em risco.<Sign in@/login> , que as guarda online em vez de apenas neste dispositivo."
-                },
-                "failuresHeader": "$count projetos não guardados foi:"
+                }
             },
             "dialog": {
-                "unsaved": "Trabalho não guardado...",
                 "translate": {
                     "header": "Traduzir",
                     "explanation": [
@@ -6013,7 +6006,6 @@
                 "subheaderEmpty": "Crie o primeiro!",
                 "prompt": "Os tutoriais são explicações curtas e exemplos de código sobre como fazer algo com o Wordplay. Quando descobrir como fazer algo que quer partilhar, escreva um tutorial para os outros criadores desta galeria, para que também eles possam aprender!"
             },
-            "headerTooltip": "voltar à galeria",
             "drafts": {
                 "header": "📝 Rascunhos de instruções",
                 "prompt": "Este é um espaço para os seus rascunhos! Só você e os seus colaboradores podem ver estes rascunhos.",
@@ -6112,10 +6104,6 @@
                 "noGuidingQuestions": "$~Esta galeria ainda não tem questões orientadoras, pelo que não há nada sobre o que escrever. Um curador precisa de adicionar pelo menos uma questão orientadora antes que as instruções possam ser escritas."
             },
             "viewer": {
-                "view": {
-                    "label": "veja o guia passo a passo.",
-                    "tip": "veja o guia passo a passo."
-                },
                 "edit": {
                     "label": "✏️ editar",
                     "tip": "editar este guia"
@@ -6148,7 +6136,10 @@
                     "label": "🔗 Copie o link com as instruções",
                     "tip": "copie o link para este tutorial."
                 },
-                "collaborators": "escrito por"
+                "collaborators": "escrito por",
+                "view": {
+                    "tip": "view how-to"
+                }
             },
             "configuration": {
                 "configurationDialog": {
@@ -6237,8 +6228,7 @@
             },
             "toggle": {
                 "blocks": {
-                    "on": "editar como texto",
-                    "off": "editar como blocos"
+                    "on": "editar como texto"
                 },
                 "characters": {
                     "on": "ocultar o seletor de emojis e símbolos",
@@ -6261,8 +6251,6 @@
             },
             "button": {
                 "selectOutput": "Exibir este resultado no palco",
-                "expandControls": "Mostrar comandos de edição adicionais",
-                "collapseControls": "ocultar comandos de edição adicionais",
                 "zoomIn": "Aumente o tamanho do código.",
                 "zoomOut": "Reduza o tamanho do código.",
                 "replace": "substituir todas as correspondências"
@@ -6796,11 +6784,9 @@
                         ]
                     },
                     "preview": {
-                        "label": "modo de pré-visualização",
-                        "labels": ["auto", "personalizado"],
                         "tips": [
-                            "Deixe o projeto escolher o seu próprio glifo de pré-visualização com base no que mostra.",
-                            "fixe um glifo à sua escolha."
+                            "let the project pick its own preview glyph based on what it shows",
+                            "pin a glyph you choose"
                         ]
                     }
                 },
@@ -7258,7 +7244,6 @@
             "local": "salvo",
             "unsaved": "não salvo",
             "sync": {
-                "header": "Sincronizando com a nuvem",
                 "projects": "Projetos",
                 "galleries": "Galerias",
                 "characters": "Carateres",
@@ -7533,10 +7518,6 @@
                 "header": "Projetos",
                 "projectprompt": "Pronto para dizer algo? Crie um projeto ou trabalhe num. Se ficar preso, continue a <aprender@://aprender>.",
                 "archiveprompt": "Estes são projetos que arquivou. Apenas os proprietários podem eliminá-los ou desarquivá-los permanentemente. Os projetos arquivados serão eliminados permanentemente 30 dias após a última edição.",
-                "add": {
-                    "header": "Novo projeto",
-                    "explanation": "Escolha um modelo para criar um novo projeto."
-                },
                 "subheader": {
                     "shared": "Compartilhado",
                     "archived": "Arquivado",
@@ -8229,8 +8210,7 @@
         },
         "connection": {
             "offline": "Está offline. Algumas funcionalidades só funcionarão quando estiver online.",
-            "unreachable": "Não conseguimos aceder à base de dados, então algumas coisas não funcionarão. Uma VPN, extensão de browser ou filtro de rede pode estar a bloquear o acesso.",
-            "label": "Estado da conexão"
+            "unreachable": "Não conseguimos aceder à base de dados, então algumas coisas não funcionarão. Uma VPN, extensão de browser ou filtro de rede pode estar a bloquear o acesso."
         },
         "presence": {
             "peersLabel": "colaboradores que editaram este projeto",
@@ -8239,7 +8219,6 @@
             "waitingForSlot": "Aguarda vaga para edição — quatro colaboradores já estão a editar. Quando um deles sair, também poderá editar."
         },
         "update": {
-            "label": "Nova versão disponível",
             "message": "Lançamos uma nova versão.",
             "refresh": "Atualizar",
             "updates": "Veja as atualizações",

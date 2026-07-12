@@ -5779,10 +5779,6 @@
                 "popup": "$~Ek kontroller"
             },
             "color": {
-                "pick": {
-                    "label": "$~renk seçin",
-                    "tip": "$~Ekranınızdan bir renk seçin."
-                },
                 "field": "$~renk alanı",
                 "instructions": "$~Renk tonunu değiştirmek için sol ve sağ ok tuşlarını, doygunluğu değiştirmek için yukarı ve aşağı ok tuşlarını kullanın. Daha ince ayarlar için Shift tuşunu basılı tutun.",
                 "value": "$~$color , LCH $l , $c , $h",
@@ -5791,6 +5787,9 @@
                     "placeholder": "$~#f00, rgb(), hsl(), kırmızı",
                     "invalid": "$~tanınmış bir renk değil",
                     "format": "$~algılanan format"
+                },
+                "pick": {
+                    "tip": "select a color from your screen"
                 }
             }
         },
@@ -5864,11 +5863,7 @@
             "help": "$~klavye kısayollarını göster",
             "collapsed": "$~Tüm pencereleriniz çöktü! Bunları aşağıdaki araç çubuğunda bulabilirsiniz",
             "save": {
-                "projectsNotSavedLocally": "$~Tarayıcınızda projeleri kaydederken bir sorun oluştu.",
-                "projectsCannotNotSaveLocally": "$~Tarayıcınız proje kaydetmeyi desteklemiyor.",
-                "projectContainedPII": "$~Gizliliğinizi korumak için, potansiyel olarak kişisel olarak tanımlanabilir bilgiler içeren bir proje çevrimiçi olarak kaydedilmedi. Bilgilerin tanımlayıcı olup olmadığını görmek için projeyi kontrol edin.",
                 "projectsNotLoadingOnline": "$~Çevrimiçi projeler yüklenemiyor.",
-                "projectNotSavedOnline": "$~Projeler çevrimiçi olarak kaydedilemiyor.",
                 "settingsUnsaved": "$~Ayarlar çevrimiçi olarak kaydedilemiyor.",
                 "failureReason": {
                     "indexedDBWriteFailed": "$~Tarayıcınız bu projeleri bu cihaza kaydedemedi.",
@@ -5876,11 +5871,9 @@
                     "firestoreBatchFailed": "$~Bu projeleri buluta gönderemedik. Hala bu cihazda güvendeler.",
                     "projectContainsPII": "$~Bu projelerde kişisel bilgiler bulunuyor gibi göründüğü için bunları çevrimiçi olarak kaydetmedik. Kişisel bilgi içerip içermediğini kontrol etmek için her birini açın.",
                     "localProjectStorageFailed": "$~Bu cihazda kaydedilecek yer kalmadı ve bu projeler henüz bulutta değil, bu yüzden risk altındalar.<Sign in@/login> Bu sayede veriler yalnızca bu cihazda değil, çevrimiçi olarak da kaydedilir."
-                },
-                "failuresHeader": "$~$count proje kaydedilmedi:"
+                }
             },
             "dialog": {
-                "unsaved": "$~Kaydedilmemiş çalışma...",
                 "translate": {
                     "header": "$~Çevir",
                     "explanation": [
@@ -6004,8 +5997,7 @@
             },
             "toggle": {
                 "blocks": {
-                    "on": "$~metin olarak düzenle",
-                    "off": "$~bloklar halinde düzenle"
+                    "on": "$~metin olarak düzenle"
                 },
                 "characters": {
                     "on": "$~eşleşen karakterleri daralt",
@@ -6022,8 +6014,6 @@
             },
             "button": {
                 "selectOutput": "$~bu çıktıyı sahnede göster",
-                "expandControls": "$~ek düzenleme komutlarını göster",
-                "collapseControls": "$~ek düzenleme komutlarını gizle",
                 "zoomIn": "$~Kodu daha büyük yapın",
                 "zoomOut": "$~Kodu küçültün",
                 "replace": "$~tüm eşleşmeleri değiştir"
@@ -6564,11 +6554,9 @@
                         ]
                     },
                     "preview": {
-                        "label": "$~önizleme modu",
-                        "labels": ["$~otomatik", "$~gelenek"],
                         "tips": [
-                            "$~Projenin, gösterdiği içeriğe göre kendi önizleme simgesini seçmesine izin verin.",
-                            "$~Seçtiğiniz bir sembolü sabitleyin."
+                            "let the project pick its own preview glyph based on what it shows",
+                            "pin a glyph you choose"
                         ]
                     }
                 },
@@ -7026,7 +7014,6 @@
             "local": "$~tarayıcıda kaydedildi",
             "unsaved": "$~kaydedilmemiş",
             "sync": {
-                "header": "$~Bulutla senkronizasyon",
                 "projects": "$~Projeler",
                 "galleries": "$~Galeriler",
                 "characters": "$~Karakterler",
@@ -7250,10 +7237,6 @@
                 "header": "$~Projeler",
                 "projectprompt": "$~Bir şey söylemeye hazır mısınız? Bir proje oluşturun veya üzerinde çalışın. Takılırsanız, <learning@://learn>'e devam edin.",
                 "archiveprompt": "$~Bunlar arşivlediğiniz projelerdir. Yalnızca sahipleri bunları kalıcı olarak silebilir veya arşivden çıkarabilir. Arşivlenen projeler, son düzenlendikten 30 gün sonra kalıcı olarak silinecektir.",
-                "add": {
-                    "header": "$~Yeni Proje",
-                    "explanation": "$~Yeni bir proje oluşturmak için bir şablon seçin."
-                },
                 "button": {
                     "newproject": "$~yeni proje",
                     "editproject": "$~bu projeyi düzenle",
@@ -7895,7 +7878,6 @@
                 "subheaderEmpty": "$~İlkini oluşturun!",
                 "prompt": "$~Nasıl yapılır kılavuzları, Wordplay ile bir şeyin nasıl yapılacağına dair kısa açıklamalar ve örnek kodlardır. Paylaşmak istediğiniz bir şeyi nasıl yapacağınızı bulduğunuzda, bu galerideki diğer içerik oluşturucuların da öğrenmesi için bir tane yazın!"
             },
-            "headerTooltip": "$~Galeriye geri dön",
             "drafts": {
                 "header": "$~📝 Nasıl yapılır taslakları",
                 "prompt": "$~Burası taslaklarınız için bir alan! Bu taslakları yalnızca siz ve işbirlikçileriniz görebilir.",
@@ -7994,10 +7976,6 @@
                 "noGuidingQuestions": "$~Bu galeride henüz yol gösterici sorular yok, bu yüzden yazılacak bir şey de yok. Nasıl yapılacağına dair kılavuzlar yazılabilmesi için küratörün en az bir yol gösterici soru eklemesi gerekiyor."
             },
             "viewer": {
-                "view": {
-                    "label": "$~nasıl yapılır'ı görüntüle",
-                    "tip": "$~nasıl yapılır'ı görüntüle"
-                },
                 "edit": {
                     "label": "$~✏️ düzenle",
                     "tip": "$~Bu kılavuzu düzenle"
@@ -8030,7 +8008,10 @@
                     "label": "$~🔗 Nasıl yapılır bağlantısını kopyala",
                     "tip": "$~Bu kılavuzun bağlantısını kopyala"
                 },
-                "collaborators": "$~tarafından yazılmıştır"
+                "collaborators": "$~tarafından yazılmıştır",
+                "view": {
+                    "tip": "view how-to"
+                }
             },
             "configuration": {
                 "configurationDialog": {
@@ -8237,8 +8218,7 @@
         },
         "connection": {
             "offline": "$~Çevrimdışı durumdasınız. Çevrimiçi olana kadar bazı özellikler çalışmayacaktır.",
-            "unreachable": "$~Veritabanına erişemiyoruz, bu nedenle bazı şeyler çalışmayacak. VPN, tarayıcı eklentisi veya ağ filtresi bunu engelliyor olabilir.",
-            "label": "$~Bağlantı durumu"
+            "unreachable": "$~Veritabanına erişemiyoruz, bu nedenle bazı şeyler çalışmayacak. VPN, tarayıcı eklentisi veya ağ filtresi bunu engelliyor olabilir."
         },
         "presence": {
             "peersLabel": "$~bu projeyi düzenleyen işbirlikçiler",
@@ -8247,7 +8227,6 @@
             "waitingForSlot": "$~Düzenleme için sıra bekliyorum — dört işbirlikçi zaten düzenleme yapıyor. Birisi ayrıldığında, siz de düzenleme yapabileceksiniz."
         },
         "update": {
-            "label": "$~Yeni sürüm mevcut.",
             "message": "$~Yeni bir sürüm yayınladık.",
             "refresh": "$~Yenile",
             "updates": "$~Güncellemeleri görün",

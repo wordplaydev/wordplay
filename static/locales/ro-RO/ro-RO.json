@@ -5774,10 +5774,6 @@
                 "popup": "$~Controale suplimentare"
             },
             "color": {
-                "pick": {
-                    "label": "$~alege culoarea",
-                    "tip": "$~selectați o culoare de pe ecran"
-                },
                 "field": "$~câmp de culoare",
                 "instructions": "$~Folosește tastele săgeată stânga și dreapta pentru a schimba nuanța și tastele săgeată sus și jos pentru a schimba croma. Ține apăsată tasta Shift pentru pași mai fini.",
                 "value": "$~$color , LCH $l , $c , $h",
@@ -5786,6 +5782,9 @@
                     "placeholder": "$~#f00, rgb(), hsl(), roșu",
                     "invalid": "$~nu este o culoare recunoscută",
                     "format": "$~format detectat"
+                },
+                "pick": {
+                    "tip": "select a color from your screen"
                 }
             }
         },
@@ -5863,11 +5862,7 @@
             "help": "$~afișați comenzile rapide de la tastatură",
             "collapsed": "$~Toate ferestrele sunt restrânse! Le puteți găsi în bara de instrumente de mai jos.",
             "save": {
-                "projectsNotSavedLocally": "$~A apărut o problemă la salvarea proiectelor în browser.",
-                "projectsCannotNotSaveLocally": "$~Browserul dvs. nu acceptă salvarea proiectelor.",
-                "projectContainedPII": "$~Pentru a vă proteja confidențialitatea, un proiect cu informații potențial identificabile personal nu a fost salvat online. Verificați proiectul pentru a vedea dacă informațiile vă identifică.",
                 "projectsNotLoadingOnline": "$~Nu se pot încărca proiectele online.",
-                "projectNotSavedOnline": "$~Nu se pot salva proiectele online.",
                 "settingsUnsaved": "$~Nu se pot salva setările online.",
                 "failureReason": {
                     "indexedDBWriteFailed": "$~Browserul dvs. nu a putut salva aceste proiecte pe acest dispozitiv.",
@@ -5875,11 +5870,9 @@
                     "firestoreBatchFailed": "$~Nu am putut trimite aceste proiecte în cloud. Sunt încă în siguranță pe acest dispozitiv.",
                     "projectContainsPII": "$~Aceste proiecte par să conțină informații personale, așa că nu le-am salvat online. Deschideți fiecare proiect pentru a vedea ce pare personal.",
                     "localProjectStorageFailed": "$~Acest dispozitiv a rămas fără spațiu pentru salvare, iar aceste proiecte nu sunt încă în cloud, așa că sunt în pericol.<Sign in@/login> , ceea ce le salvează online în loc să fie doar pe acest dispozitiv."
-                },
-                "failuresHeader": "$~$count proiect(e) nu a(u) fost salvat(e):"
+                }
             },
             "dialog": {
-                "unsaved": "$~Lucrare nesalvată...",
                 "translate": {
                     "header": "$~Traduce",
                     "explanation": [
@@ -6014,7 +6007,6 @@
                 "subheaderEmpty": "$~creează primul!",
                 "prompt": "$~Ghidurile „cum să faci” sunt explicații scurte și exemple de cod despre cum să faci ceva cu Wordplay. Când te-ai hotărât cum vrei să împărtășești ceva, scrie unul pentru ceilalți creatori din această galerie, astfel încât și ei să îl poată învăța!"
             },
-            "headerTooltip": "$~înapoi la galerie",
             "drafts": {
                 "header": "$~📝 Ghiduri pentru schițe",
                 "prompt": "$~Acesta este un spațiu pentru schițele tale! Doar tu și colaboratorii tăi puteți vedea aceste schițe.",
@@ -6113,10 +6105,6 @@
                 "noGuidingQuestions": "$~Această galerie nu are încă întrebări îndrumătoare, așa că nu există nimic despre care să scrieți. Un curator trebuie să adauge cel puțin o întrebare îndrumătoare înainte de a putea scrie instrucțiuni practice."
             },
             "viewer": {
-                "view": {
-                    "label": "$~vezi instrucțiuni",
-                    "tip": "$~vezi instrucțiuni"
-                },
                 "edit": {
                     "label": "$~✏️ editare",
                     "tip": "$~editează acest ghid practic"
@@ -6149,7 +6137,10 @@
                     "label": "$~🔗 copiați linkul cu instrucțiuni",
                     "tip": "$~Copiază linkul către acest ghid practic"
                 },
-                "collaborators": "$~scris de"
+                "collaborators": "$~scris de",
+                "view": {
+                    "tip": "view how-to"
+                }
             },
             "configuration": {
                 "configurationDialog": {
@@ -6240,8 +6231,7 @@
             },
             "toggle": {
                 "blocks": {
-                    "on": "$~editați ca text",
-                    "off": "$~editați ca blocuri"
+                    "on": "$~editați ca text"
                 },
                 "characters": {
                     "on": "$~ascunde selectorul de emoji-uri și simboluri",
@@ -6264,8 +6254,6 @@
             },
             "button": {
                 "selectOutput": "$~arată această ieșire pe scenă",
-                "expandControls": "$~afișați comenzi suplimentare de editare",
-                "collapseControls": "$~ascunde comenzile de editare suplimentare",
                 "zoomIn": "$~Măriți codul",
                 "zoomOut": "$~Faceți codul mai mic",
                 "replace": "$~înlocuiește toate chibriturile"
@@ -6806,11 +6794,9 @@
                         ]
                     },
                     "preview": {
-                        "label": "$~modul de previzualizare",
-                        "labels": ["$~auto", "$~personalizat"],
                         "tips": [
-                            "$~permite proiectului să își aleagă propriul glif de previzualizare pe baza a ceea ce afișează",
-                            "$~fixează un glif ales de tine"
+                            "let the project pick its own preview glyph based on what it shows",
+                            "pin a glyph you choose"
                         ]
                     }
                 },
@@ -7271,7 +7257,6 @@
             "local": "$~salvat",
             "unsaved": "$~nesalvat",
             "sync": {
-                "header": "$~Sincronizarea cu cloud-ul",
                 "projects": "$~Proiecte",
                 "galleries": "$~Galerii",
                 "characters": "$~Personaje",
@@ -7634,10 +7619,6 @@
                 "header": "$~Proiecte",
                 "projectprompt": "$~Ești gata să spui ceva? Creează un proiect sau lucrează la unul. Dacă te blochezi, continuă<learning@://learn> .",
                 "archiveprompt": "$~Acestea sunt proiecte pe care le-ați arhivat. Doar proprietarii le pot șterge sau dezarhiva definitiv. Proiectele arhivate vor fi șterse definitiv la 30 de zile de la ultima editare.",
-                "add": {
-                    "header": "$~Proiect nou",
-                    "explanation": "$~Alegeți un șablon pentru a crea un proiect nou."
-                },
                 "subheader": {
                     "shared": "$~Partajat",
                     "archived": "$~Arhivat",
@@ -8235,8 +8216,7 @@
         },
         "connection": {
             "offline": "$~Ești offline. Unele funcții nu vor funcționa până când nu ești online.",
-            "unreachable": "$~Nu putem accesa baza de date, așa că unele lucruri nu vor funcționa. Este posibil ca o rețea VPN, o extensie de browser sau un filtru de rețea să o blocheze.",
-            "label": "$~Starea conexiunii"
+            "unreachable": "$~Nu putem accesa baza de date, așa că unele lucruri nu vor funcționa. Este posibil ca o rețea VPN, o extensie de browser sau un filtru de rețea să o blocheze."
         },
         "presence": {
             "peersLabel": "$~colaboratori care editează acest proiect",
@@ -8245,7 +8225,6 @@
             "waitingForSlot": "$~Aștept un interval orar de editare — patru colaboratori editează deja. Când unul dintre ei pleacă, vei putea edita și tu."
         },
         "update": {
-            "label": "$~Versiune nouă disponibilă",
             "message": "$~Am lansat o nouă versiune.",
             "refresh": "$~Reîmprospăta",
             "updates": "$~vezi actualizările",

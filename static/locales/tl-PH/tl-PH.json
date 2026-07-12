@@ -5773,10 +5773,6 @@
                 "popup": "$~Mga karagdagang kontrol"
             },
             "color": {
-                "pick": {
-                    "label": "$~pumili ng kulay",
-                    "tip": "$~pumili ng kulay mula sa iyong screen"
-                },
                 "field": "$~patlang ng kulay",
                 "instructions": "$~Gamitin ang kaliwa at kanang mga arrow key para baguhin ang hue at ang pataas at pababang mga arrow key para baguhin ang chroma. Pindutin nang matagal ang shift para sa mas pinong mga hakbang.",
                 "value": "$~$color , LCH $l , $c , $h",
@@ -5785,6 +5781,9 @@
                     "placeholder": "$~#f00, rgb(), hsl(), pula",
                     "invalid": "$~hindi isang kinikilalang kulay",
                     "format": "$~natukoy na format"
+                },
+                "pick": {
+                    "tip": "select a color from your screen"
                 }
             }
         },
@@ -5861,11 +5860,7 @@
             "help": "$~ipakita ang mga shortcut sa keyboard",
             "collapsed": "$~Naka-collapse lahat ng window mo! Makikita mo ang mga ito sa toolbar sa ibaba.",
             "save": {
-                "projectsNotSavedLocally": "$~Nagkaroon ng problema sa pag-save ng mga proyekto sa iyong browser.",
-                "projectsCannotNotSaveLocally": "$~Hindi sinusuportahan ng iyong browser ang pag-save ng mga proyekto.",
-                "projectContainedPII": "$~Para protektahan ang iyong privacy, hindi na-save online ang isang proyekto na may posibleng personal na impormasyong makakapagpakilala. Suriin ang proyekto para makita kung ang impormasyon ay nakakapagpakilala.",
                 "projectsNotLoadingOnline": "$~Hindi ma-load ang mga online na proyekto.",
-                "projectNotSavedOnline": "$~Hindi ma-save ang mga proyekto online.",
                 "settingsUnsaved": "$~Hindi ma-save ang mga setting online.",
                 "failureReason": {
                     "indexedDBWriteFailed": "$~Hindi ma-save ng iyong browser ang mga proyektong ito sa device na ito.",
@@ -5873,11 +5868,9 @@
                     "firestoreBatchFailed": "$~Hindi namin maipadala ang mga proyektong ito sa cloud. Ligtas pa rin ang mga ito sa device na ito.",
                     "projectContainsPII": "$~Mukhang may personal na impormasyon ang mga proyektong ito, kaya hindi namin na-save online. Buksan ang bawat isa para tingnan kung ano ang mukhang personal.",
                     "localProjectStorageFailed": "$~Naubusan na ng espasyo para i-save ang device na ito, at wala pa sa cloud ang mga proyektong ito, kaya nasa panganib ang mga ito.<Sign in@/login> , na nagse-save sa mga ito online sa halip na sa device na ito lang."
-                },
-                "failuresHeader": "$~Hindi na-save ng proyektong $count :"
+                }
             },
             "dialog": {
-                "unsaved": "$~Hindi na-save na trabaho...",
                 "translate": {
                     "header": "$~Isalin",
                     "explanation": [
@@ -6013,7 +6006,6 @@
                 "subheaderEmpty": "$~lumikha ng una!",
                 "prompt": "$~Ang mga \"how-to\" ay maiikling paliwanag at halimbawang code kung paano gawin ang isang bagay gamit ang Wordplay. Kapag nalaman mo na ang isang bagay na gusto mong ibahagi, sumulat ng isa para sa iba pang mga tagalikha sa gallery na ito, para matutunan din nila ito!"
             },
-            "headerTooltip": "$~bumalik sa gallery",
             "drafts": {
                 "header": "$~📝 Mga draft na paano gawin",
                 "prompt": "$~Ito ay isang espasyo para sa iyong mga draft! Ikaw lamang at ang iyong mga collaborator ang makakakita ng mga draft na ito.",
@@ -6112,10 +6104,6 @@
                 "noGuidingQuestions": "$~Wala pang mga gabay na tanong ang gallery na ito, kaya wala pang maisusulat. Kailangang magdagdag ang isang curator ng kahit isang gabay na tanong bago maisulat ang mga how-to."
             },
             "viewer": {
-                "view": {
-                    "label": "$~tingnan kung paano gawin",
-                    "tip": "$~tingnan kung paano gawin"
-                },
                 "edit": {
                     "label": "$~✏️ i-edit",
                     "tip": "$~i-edit ang how-to na ito"
@@ -6148,7 +6136,10 @@
                     "label": "$~🔗 kopyahin ang link kung paano gawin",
                     "tip": "$~kopyahin ang link papunta sa how-to na ito"
                 },
-                "collaborators": "$~isinulat ni"
+                "collaborators": "$~isinulat ni",
+                "view": {
+                    "tip": "view how-to"
+                }
             },
             "configuration": {
                 "configurationDialog": {
@@ -6239,8 +6230,7 @@
             },
             "toggle": {
                 "blocks": {
-                    "on": "$~i-edit bilang teksto",
-                    "off": "$~i-edit bilang mga bloke"
+                    "on": "$~i-edit bilang teksto"
                 },
                 "characters": {
                     "on": "$~itago ang tagapili ng emoji at simbolo",
@@ -6263,8 +6253,6 @@
             },
             "button": {
                 "selectOutput": "$~ipakita ang output na ito sa entablado",
-                "expandControls": "$~magpakita ng mga karagdagang utos sa pag-edit",
-                "collapseControls": "$~itago ang mga karagdagang utos sa pag-edit",
                 "zoomIn": "$~Gawing mas malaki ang code",
                 "zoomOut": "$~Gawing mas maliit ang code",
                 "replace": "$~palitan ang lahat ng tugma"
@@ -6798,11 +6786,9 @@
                         ]
                     },
                     "preview": {
-                        "label": "$~paraan ng pag-preview",
-                        "labels": ["$~awto", "$~pasadyang"],
                         "tips": [
-                            "$~hayaan ang proyekto na pumili ng sarili nitong preview glyph batay sa ipinapakita nito",
-                            "$~i-pin ang isang glyph na iyong napili"
+                            "let the project pick its own preview glyph based on what it shows",
+                            "pin a glyph you choose"
                         ]
                     }
                 },
@@ -7260,7 +7246,6 @@
             "local": "$~na-save",
             "unsaved": "$~hindi na-save",
             "sync": {
-                "header": "$~Pag-sync sa cloud",
                 "projects": "$~Mga Proyekto",
                 "galleries": "$~Mga Galeriya",
                 "characters": "$~Mga Karakter",
@@ -7535,10 +7520,6 @@
                 "header": "$~Mga Proyekto",
                 "projectprompt": "$~Handa ka na bang magsabi ng kahit ano? Gumawa ng proyekto o gumawa ng isa. Kung nahihirapan ka, ipagpatuloy ang <learning@://learn>.",
                 "archiveprompt": "$~Ito ang mga proyektong na-archive mo. Tanging ang mga may-ari lamang ang maaaring permanenteng magbura o mag-alis ng mga ito sa archive. Ang mga naka-archive na proyekto ay permanenteng mabubura 30 araw pagkatapos ng huling pag-edit sa mga ito.",
-                "add": {
-                    "header": "$~Bagong Proyekto",
-                    "explanation": "$~Pumili ng template para lumikha ng bagong proyekto."
-                },
                 "subheader": {
                     "shared": "$~Ibinahagi",
                     "archived": "$~Naka-archive",
@@ -8234,8 +8215,7 @@
         },
         "connection": {
             "offline": "$~Naka-offline ka. Hindi gagana ang ilang feature hangga't hindi ka online.",
-            "unreachable": "$~Hindi namin ma-access ang database, kaya may ilang bagay na hindi gagana. Maaaring hinaharangan ito ng VPN, browser extension, o network filter.",
-            "label": "$~Katayuan ng koneksyon"
+            "unreachable": "$~Hindi namin ma-access ang database, kaya may ilang bagay na hindi gagana. Maaaring hinaharangan ito ng VPN, browser extension, o network filter."
         },
         "presence": {
             "peersLabel": "$~mga kolaborator na nag-eedit ng proyektong ito",
@@ -8244,7 +8224,6 @@
             "waitingForSlot": "$~Naghihintay ng slot sa pag-eedit — apat na kolaborator ang nag-eedit na. Kapag umalis ang isa, makakapag-edit ka na rin."
         },
         "update": {
-            "label": "$~May bagong bersyon na magagamit",
             "message": "$~Naglabas kami ng bagong bersyon.",
             "refresh": "$~I-refresh",
             "updates": "$~tingnan ang mga update",

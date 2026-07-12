@@ -5773,10 +5773,6 @@
                 "popup": "$~Các điều khiển bổ sung"
             },
             "color": {
-                "pick": {
-                    "label": "$~chọn màu",
-                    "tip": "$~Chọn một màu từ màn hình của bạn"
-                },
                 "field": "$~trường màu",
                 "instructions": "$~Sử dụng các phím mũi tên trái và phải để thay đổi sắc độ, và các phím mũi tên lên và xuống để thay đổi độ bão hòa màu. Giữ phím Shift để điều chỉnh chính xác hơn.",
                 "value": "$~$color , LCH $l , $c , $h",
@@ -5785,6 +5781,9 @@
                     "placeholder": "$~#f00, rgb(), hsl(), red",
                     "invalid": "$~không phải là màu được công nhận",
                     "format": "$~định dạng được phát hiện"
+                },
+                "pick": {
+                    "tip": "select a color from your screen"
                 }
             }
         },
@@ -5861,11 +5860,7 @@
             "help": "$~Hiển thị các phím tắt",
             "collapsed": "$~Tất cả các cửa sổ của bạn đã được thu gọn! Bạn có thể tìm thấy chúng trong thanh công cụ bên dưới.",
             "save": {
-                "projectsNotSavedLocally": "$~Đã xảy ra sự cố khi lưu dự án trong trình duyệt của bạn.",
-                "projectsCannotNotSaveLocally": "$~Trình duyệt của bạn không hỗ trợ lưu dự án.",
-                "projectContainedPII": "$~Để bảo vệ quyền riêng tư của bạn, dự án có chứa thông tin có khả năng nhận dạng cá nhân đã không được lưu trực tuyến. Hãy kiểm tra dự án để xem thông tin đó có thể nhận dạng cá nhân hay không.",
                 "projectsNotLoadingOnline": "$~Không thể tải các dự án trực tuyến.",
-                "projectNotSavedOnline": "$~Không thể lưu dự án trực tuyến.",
                 "settingsUnsaved": "$~Không thể lưu cài đặt trực tuyến.",
                 "failureReason": {
                     "indexedDBWriteFailed": "$~Trình duyệt của bạn không thể lưu các dự án này trên thiết bị này.",
@@ -5873,11 +5868,9 @@
                     "firestoreBatchFailed": "$~Chúng tôi không thể chuyển các dự án này lên đám mây. Chúng vẫn được lưu trữ an toàn trên thiết bị này.",
                     "projectContainsPII": "$~Những dự án này có vẻ chứa thông tin cá nhân, vì vậy chúng tôi không lưu chúng trực tuyến. Hãy mở từng dự án để kiểm tra xem thông tin nào có vẻ là thông tin cá nhân.",
                     "localProjectStorageFailed": "$~Thiết bị này đã hết dung lượng lưu trữ, và các dự án này chưa được lưu lên đám mây, vì vậy chúng đang gặp rủi ro.<Sign in@/login> , giúp lưu trữ chúng trực tuyến thay vì chỉ trên thiết bị này."
-                },
-                "failuresHeader": "$~$count dự án không được lưu:"
+                }
             },
             "dialog": {
-                "unsaved": "$~Công việc chưa được lưu...",
                 "translate": {
                     "header": "$~Dịch",
                     "explanation": [
@@ -6013,7 +6006,6 @@
                 "subheaderEmpty": "$~Hãy tạo ra cái đầu tiên!",
                 "prompt": "$~Hướng dẫn là những giải thích ngắn gọn và ví dụ mã lệnh về cách thực hiện một việc gì đó với Wordplay. Khi bạn tìm ra cách làm điều gì đó mà bạn muốn chia sẻ, hãy viết một bài hướng dẫn cho những người sáng tạo khác trong thư viện này, để họ cũng có thể học hỏi!"
             },
-            "headerTooltip": "$~quay lại thư viện ảnh",
             "drafts": {
                 "header": "$~📝 Bản nháp hướng dẫn",
                 "prompt": "$~Đây là không gian dành cho bản nháp của bạn! Chỉ bạn và các cộng sự của bạn mới có thể xem được các bản nháp này.",
@@ -6112,10 +6104,6 @@
                 "noGuidingQuestions": "$~Bộ sưu tập này hiện chưa có câu hỏi hướng dẫn nào, vì vậy chưa có gì để viết. Người phụ trách cần thêm ít nhất một câu hỏi hướng dẫn trước khi có thể viết hướng dẫn thực hành."
             },
             "viewer": {
-                "view": {
-                    "label": "$~xem hướng dẫn",
-                    "tip": "$~xem hướng dẫn"
-                },
                 "edit": {
                     "label": "$~✏️ chỉnh sửa",
                     "tip": "$~chỉnh sửa hướng dẫn này"
@@ -6148,7 +6136,10 @@
                     "label": "$~🔗 Sao chép liên kết hướng dẫn",
                     "tip": "$~Sao chép liên kết đến hướng dẫn này"
                 },
-                "collaborators": "$~được viết bởi"
+                "collaborators": "$~được viết bởi",
+                "view": {
+                    "tip": "view how-to"
+                }
             },
             "configuration": {
                 "configurationDialog": {
@@ -6238,8 +6229,7 @@
             },
             "toggle": {
                 "blocks": {
-                    "on": "$~chỉnh sửa dưới dạng văn bản",
-                    "off": "$~chỉnh sửa dưới dạng khối"
+                    "on": "$~chỉnh sửa dưới dạng văn bản"
                 },
                 "characters": {
                     "on": "$~thu gọn các ký tự trùng khớp",
@@ -6262,8 +6252,6 @@
             },
             "button": {
                 "selectOutput": "$~Hiển thị kết quả này trên sân khấu",
-                "expandControls": "$~Hiển thị các lệnh chỉnh sửa bổ sung",
-                "collapseControls": "$~ẩn các lệnh chỉnh sửa bổ sung",
                 "zoomIn": "$~Làm cho mã lớn hơn",
                 "zoomOut": "$~Thu nhỏ mã nguồn",
                 "replace": "$~thay thế tất cả các kết quả khớp"
@@ -6802,11 +6790,9 @@
                         ]
                     },
                     "preview": {
-                        "label": "$~chế độ xem trước",
-                        "labels": ["$~tự động", "$~phong tục"],
                         "tips": [
-                            "$~Hãy để dự án tự chọn biểu tượng xem trước dựa trên những gì nó hiển thị.",
-                            "$~Ghim một biểu tượng bạn chọn"
+                            "let the project pick its own preview glyph based on what it shows",
+                            "pin a glyph you choose"
                         ]
                     }
                 },
@@ -7264,7 +7250,6 @@
             "local": "$~đã lưu",
             "unsaved": "$~chưa được lưu",
             "sync": {
-                "header": "$~Đồng bộ hóa với đám mây",
                 "projects": "$~Dự án",
                 "galleries": "$~Phòng trưng bày",
                 "characters": "$~Nhân vật",
@@ -7488,10 +7473,6 @@
                 "header": "$~Dự án",
                 "projectprompt": "$~Bạn đã sẵn sàng nói điều gì đó chưa? Hãy tạo một dự án hoặc bắt tay vào thực hiện một dự án. Nếu gặp khó khăn, hãy tiếp tục <học hỏi@://học hỏi>.",
                 "archiveprompt": "$~Đây là các dự án bạn đã lưu trữ. Chỉ chủ sở hữu mới có thể xóa hoặc bỏ lưu trữ vĩnh viễn chúng. Các dự án đã lưu trữ sẽ bị xóa vĩnh viễn sau 30 ngày kể từ lần chỉnh sửa cuối cùng.",
-                "add": {
-                    "header": "$~Dự án mới",
-                    "explanation": "$~Chọn một mẫu để tạo dự án mới."
-                },
                 "subheader": {
                     "shared": "$~Chia sẻ",
                     "archived": "$~Đã lưu trữ",
@@ -8238,8 +8219,7 @@
         },
         "connection": {
             "offline": "$~Bạn đang ngoại tuyến. Một số tính năng sẽ không hoạt động cho đến khi bạn kết nối lại mạng.",
-            "unreachable": "$~Chúng tôi không thể truy cập cơ sở dữ liệu, vì vậy một số chức năng sẽ không hoạt động. Có thể do VPN, tiện ích mở rộng trình duyệt hoặc bộ lọc mạng đang chặn truy cập.",
-            "label": "$~Trạng thái kết nối"
+            "unreachable": "$~Chúng tôi không thể truy cập cơ sở dữ liệu, vì vậy một số chức năng sẽ không hoạt động. Có thể do VPN, tiện ích mở rộng trình duyệt hoặc bộ lọc mạng đang chặn truy cập."
         },
         "presence": {
             "peersLabel": "$~Các cộng tác viên chỉnh sửa dự án này",
@@ -8248,7 +8228,6 @@
             "waitingForSlot": "$~Đang chờ đến lượt chỉnh sửa — đã có bốn cộng tác viên đang chỉnh sửa. Khi một người rời đi, bạn cũng sẽ có thể chỉnh sửa."
         },
         "update": {
-            "label": "$~Phiên bản mới đã có sẵn",
             "message": "$~Chúng tôi đã phát hành phiên bản mới.",
             "refresh": "$~Làm cho khỏe lại",
             "updates": "$~xem các bản cập nhật",
