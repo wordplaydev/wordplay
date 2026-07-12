@@ -6469,7 +6469,17 @@
             "allSelected": "$~lahat ng output ay napili, $count ay napili",
             "cleared": "$~nabura ang pagpili",
             "selectedOnly": "$~Napili $name , binubuksan ang palette",
-            "selectedSuffix": "$~napili"
+            "selectedSuffix": "$~napili",
+            "sensor": {
+                "microphone": {
+                    "on": "$~itago ang waveform ng mikropono",
+                    "off": "$~ipakita ang waveform ng mikropono"
+                },
+                "camera": {
+                    "on": "$~itago ang preview ng kamera",
+                    "off": "$~ipakita ang preview ng kamera"
+                }
+            }
         },
         "timeline": {
             "label": "$~takdang panahon",

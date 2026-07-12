@@ -6469,7 +6469,17 @@
             "allSelected": "$~Tất cả các đầu ra đã được chọn, $count đã được chọn",
             "cleared": "$~lựa chọn đã được xóa",
             "selectedOnly": "$~$name đã được chọn, mở bảng màu",
-            "selectedSuffix": "$~đã chọn"
+            "selectedSuffix": "$~đã chọn",
+            "sensor": {
+                "microphone": {
+                    "on": "$~ẩn dạng sóng micrô",
+                    "off": "$~hiện dạng sóng micrô"
+                },
+                "camera": {
+                    "on": "$~ẩn xem trước máy ảnh",
+                    "off": "$~hiện xem trước máy ảnh"
+                }
+            }
         },
         "timeline": {
             "label": "$~dòng thời gian",

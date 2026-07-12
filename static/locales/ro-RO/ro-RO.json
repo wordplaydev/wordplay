@@ -6470,7 +6470,17 @@
             "allSelected": "$~toate ieșirile selectate, $count selectat",
             "cleared": "$~selecție ștersă",
             "selectedOnly": "$~$name selectat, se deschide paleta",
-            "selectedSuffix": "$~selectat"
+            "selectedSuffix": "$~selectat",
+            "sensor": {
+                "microphone": {
+                    "on": "$~ascunde forma de undă a microfonului",
+                    "off": "$~arată forma de undă a microfonului"
+                },
+                "camera": {
+                    "on": "$~ascunde previzualizarea camerei",
+                    "off": "$~arată previzualizarea camerei"
+                }
+            }
         },
         "timeline": {
             "label": "$~cronologie",

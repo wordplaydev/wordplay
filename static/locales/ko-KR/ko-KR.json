@@ -6211,7 +6211,17 @@
             "allSelected": "$~모든 출력 선택됨, $count 선택됨",
             "cleared": "$~선택이 완료되었습니다",
             "selectedOnly": "$~$name 선택되었습니다. 팔레트를 엽니다.",
-            "selectedSuffix": "$~선택된"
+            "selectedSuffix": "$~선택된",
+            "sensor": {
+                "microphone": {
+                    "on": "$~마이크 파형 숨기기",
+                    "off": "$~마이크 파형 보기"
+                },
+                "camera": {
+                    "on": "$~카메라 미리 보기 숨기기",
+                    "off": "$~카메라 미리 보기 보기"
+                }
+            }
         },
         "timeline": {
             "label": "$~타임라인",

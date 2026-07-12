@@ -12,16 +12,15 @@ import UnionType from '@nodes/UnionType';
 import Unit from '@nodes/Unit';
 import AudioStream, { DEFAULT_FREQUENCY } from '@input/AudioStream';
 import createStreamEvaluator from '@input/createStreamEvaluator';
-
-const FFT_SIZE = 32;
+import { VOLUME_FFT_SIZE, computeVolume } from '@input/AudioAnalysisMath';
 
 // A helpful article on getting raw data streams:
 // https://stackoverflow.com/questions/69237143/how-do-i-get-the-audio-frequency-from-my-mic-using-javascript
 export default class Volume extends AudioStream {
-    frequencies: Uint8Array<ArrayBuffer> = new Uint8Array(FFT_SIZE);
+    frequencies: Uint8Array<ArrayBuffer> = new Uint8Array(VOLUME_FFT_SIZE);
 
     constructor(evaluation: Evaluation, frequency: number | undefined) {
-        super(evaluation, frequency, undefined, FFT_SIZE);
+        super(evaluation, frequency, undefined, VOLUME_FFT_SIZE);
     }
 
     react(percent: number) {
@@ -30,27 +29,8 @@ export default class Volume extends AudioStream {
     }
 
     valueFromFrequencies(sampleRate: number, analyzer: AnalyserNode): number {
-        // Get the sample
         analyzer.getByteFrequencyData(this.frequencies);
-        const frequencies = Array.from(this.frequencies);
-
-        // Get a copy of the frequencies.
-        let sumOfSquares = 0.0;
-        let frequency = 0;
-        let count = 0;
-        // Only count the audible frequencies of the human voice.
-        for (const amplitude of frequencies) {
-            // The frequency increases in increments of the sample rate (usually 44100), divided by two since the byte frequency data only goes to
-            // half of the sample rate in frequencies, divided by the number of FFT bins. For our defaults, this is about 700Hz per bin,
-            // so we're only looking about about 6 of the 32 bins we sample.
-            frequency += sampleRate / 2 / frequencies.length;
-            if (frequency >= 0 && frequency <= 4000) {
-                sumOfSquares += amplitude * amplitude;
-                count++;
-            }
-        }
-
-        return Math.floor((100 * Math.sqrt(sumOfSquares / count)) / 256) / 100;
+        return computeVolume(sampleRate, this.frequencies);
     }
 
     getType() {

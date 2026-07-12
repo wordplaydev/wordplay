@@ -6229,7 +6229,17 @@
             "allSelected": "$~alla utdata valda, $count vald",
             "cleared": "$~valet rensat",
             "selectedOnly": "$~$name valt, öppnar paletten",
-            "selectedSuffix": "$~vald"
+            "selectedSuffix": "$~vald",
+            "sensor": {
+                "microphone": {
+                    "on": "$~dölj mikrofonens vågform",
+                    "off": "$~visa mikrofonens vågform"
+                },
+                "camera": {
+                    "on": "$~dölj kameraförhandsvisning",
+                    "off": "$~visa kameraförhandsvisning"
+                }
+            }
         },
         "timeline": {
             "label": "$~tidslinjen",

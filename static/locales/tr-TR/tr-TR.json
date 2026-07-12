@@ -6235,7 +6235,17 @@
             "allSelected": "$~Seçilen tüm çıktılar, $count seçildi.",
             "cleared": "$~seçim temizlendi",
             "selectedOnly": "$~$name seçildi, palet açılıyor",
-            "selectedSuffix": "$~seçildi"
+            "selectedSuffix": "$~seçildi",
+            "sensor": {
+                "microphone": {
+                    "on": "$~mikrofon dalga formunu gizle",
+                    "off": "$~mikrofon dalga formunu göster"
+                },
+                "camera": {
+                    "on": "$~kamera önizlemesini gizle",
+                    "off": "$~kamera önizlemesini göster"
+                }
+            }
         },
         "timeline": {
             "label": "$~zaman çizelgesi",

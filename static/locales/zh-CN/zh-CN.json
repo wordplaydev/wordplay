@@ -6199,7 +6199,17 @@
             "allSelected": "$~已选择所有输出，已选择 $count 个",
             "cleared": "$~已清除选择",
             "selectedOnly": "$~已选择 $name，正在打开调色板",
-            "selectedSuffix": "$~已选择"
+            "selectedSuffix": "$~已选择",
+            "sensor": {
+                "microphone": {
+                    "on": "$~隐藏麦克风波形",
+                    "off": "$~显示麦克风波形"
+                },
+                "camera": {
+                    "on": "$~隐藏摄像头预览",
+                    "off": "$~显示摄像头预览"
+                }
+            }
         },
         "timeline": {
             "label": "时间轴",

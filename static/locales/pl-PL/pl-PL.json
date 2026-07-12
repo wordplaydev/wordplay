@@ -6243,7 +6243,17 @@
             "allSelected": "$~wybrano wszystkie wyjścia, wybrano $count",
             "cleared": "$~wybór wyczyszczony",
             "selectedOnly": "$~$name wybrano, otwieranie palety",
-            "selectedSuffix": "$~wybrany"
+            "selectedSuffix": "$~wybrany",
+            "sensor": {
+                "microphone": {
+                    "on": "$~ukryj falę mikrofonu",
+                    "off": "$~pokaż falę mikrofonu"
+                },
+                "camera": {
+                    "on": "$~ukryj podgląd kamery",
+                    "off": "$~pokaż podgląd kamery"
+                }
+            }
         },
         "timeline": {
             "label": "$~oś czasu",

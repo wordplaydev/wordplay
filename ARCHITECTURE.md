@@ -180,6 +180,22 @@ All output is rendered in the [OutputView](https://github.com/wordplaydev/wordpl
 
 The typographic output is defined by `Stage`. It's responsible for managing any typographic outputs that are animating, for tracking outputs that have entered the stage, existed, or moved, and for rendering the output in a way that respects various settings, such as the Stage's place (i.e., its zoom level, rotation, etc.). It's also responsible in monitoring for inputs from input devices and passing them to the `Evaluator`'s streams, causing reevaluation.
 
+#### Sensor input monitoring
+
+The `SensorMonitor` component displays live input from sensor streams (microphone, camera) when expanded. This helps creators debug whether a device/permission issue or a program logic error is causing unexpected sensor behavior. Sensor monitors render as compact corner chips by default (using mix-blend-mode: difference for visibility against any stage background), expanding on click/hover to show:
+
+- **Microphone**: a canvas-based waveform visualization from the AnalyserNode's time-domain data
+- **Camera**: a live video preview from the shared MediaStream, with overlay dots for hand/face landmarks (when applicable)
+
+#### Shared sensor resource management
+
+To avoid opening multiple hardware sessions when multiple sensor streams run concurrently, Wordplay uses ref-counted shared resources:
+
+- **`CameraSource`** ([src/input/CameraSource.ts](https://github.com/wordplaydev/wordplay/blob/main/src/input/CameraSource.ts)) — a single `MediaStream` + hidden `<video>` per device, shared by `Camera`, `Hand`, and `Face` streams. Consumers acquire/release handles; the resource is torn down when the last handle is released. Live frame-rate re-negotiation as consumers come and go.
+- **`AudioSource`** ([src/input/AudioSource.ts](https://github.com/wordplaydev/wordplay/blob/main/src/input/AudioSource.ts)) — a single `MediaStream` + `AudioContext` per microphone device, shared by `Volume`, `Pitch`, and `Speech` streams. Each consumer builds its own AnalyserNode at its needed fft-size, connected to the shared source node.
+
+These shared resources eliminate the ~30MB/s frame-pooling cost and redundant `getUserMedia` calls that plagued earlier implementations.
+
 ### Editor
 
 The `Editor.svelte` is responsible for both rendering an AST and for modifying an AST.

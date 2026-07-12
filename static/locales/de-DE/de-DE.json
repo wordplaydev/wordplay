@@ -6221,7 +6221,17 @@
             "allSelected": "$~Alle Ausgänge ausgewählt, $count ausgewählt",
             "cleared": "$~Auswahl aufgehoben",
             "selectedOnly": "$~$name ausgewählt, Palette wird geöffnet",
-            "selectedSuffix": "$~ausgewählt"
+            "selectedSuffix": "$~ausgewählt",
+            "sensor": {
+                "microphone": {
+                    "on": "$~Wellenform des Mikrofons verbergen",
+                    "off": "$~Wellenform des Mikrofons zeigen"
+                },
+                "camera": {
+                    "on": "$~Kameravorschau verbergen",
+                    "off": "$~Kameravorschau zeigen"
+                }
+            }
         },
         "timeline": {
             "label": "$~Zeitleiste",

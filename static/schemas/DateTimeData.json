@@ -1,202 +1,221 @@
 {
-    "$ref": "#/definitions/DateTimeData",
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "definitions": {
-        "CalendarData": {
-            "additionalProperties": false,
-            "properties": {
-                "date": {
-                    "description": "The locale's long-style date pattern for this calendar.",
-                    "items": {
-                        "$ref": "#/definitions/DateTimePart"
-                    },
-                    "type": "array"
-                },
-                "eras": {
-                    "additionalProperties": {
-                        "type": "string"
-                    },
-                    "description": "Localized era names keyed by Temporal era code, for patterns that display an era (e.g. Japanese 令和, Ethiopic ዓ/ም).",
-                    "type": "object"
-                },
-                "months": {
-                    "additionalProperties": {
-                        "type": "string"
-                    },
-                    "description": "Localized month names in pattern context, keyed by stable monthCode (M01…M13, M05L, …). Absent when the pattern shows numeric months.",
-                    "type": "object"
-                }
-            },
-            "required": ["date"],
-            "type": "object"
+  "$ref": "#/definitions/DateTimeData",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "CalendarData": {
+      "additionalProperties": false,
+      "properties": {
+        "date": {
+          "description": "The locale's long-style date pattern for this calendar.",
+          "items": {
+            "$ref": "#/definitions/DateTimePart"
+          },
+          "type": "array"
         },
-        "DateTimeData": {
-            "additionalProperties": false,
-            "properties": {
-                "calendar": {
-                    "$ref": "#/definitions/SupportedCalendar",
-                    "description": "The locale's default calendar (used when a Moment leaves calendar unset)."
-                },
-                "calendars": {
-                    "additionalProperties": false,
-                    "description": "Per-calendar date patterns and names.",
-                    "properties": {
-                        "buddhist": {
-                            "$ref": "#/definitions/CalendarData"
-                        },
-                        "chinese": {
-                            "$ref": "#/definitions/CalendarData"
-                        },
-                        "coptic": {
-                            "$ref": "#/definitions/CalendarData"
-                        },
-                        "dangi": {
-                            "$ref": "#/definitions/CalendarData"
-                        },
-                        "ethioaa": {
-                            "$ref": "#/definitions/CalendarData"
-                        },
-                        "ethiopic": {
-                            "$ref": "#/definitions/CalendarData"
-                        },
-                        "gregory": {
-                            "$ref": "#/definitions/CalendarData"
-                        },
-                        "hebrew": {
-                            "$ref": "#/definitions/CalendarData"
-                        },
-                        "indian": {
-                            "$ref": "#/definitions/CalendarData"
-                        },
-                        "islamic-civil": {
-                            "$ref": "#/definitions/CalendarData"
-                        },
-                        "islamic-tbla": {
-                            "$ref": "#/definitions/CalendarData"
-                        },
-                        "islamic-umalqura": {
-                            "$ref": "#/definitions/CalendarData"
-                        },
-                        "iso8601": {
-                            "$ref": "#/definitions/CalendarData"
-                        },
-                        "japanese": {
-                            "$ref": "#/definitions/CalendarData"
-                        },
-                        "persian": {
-                            "$ref": "#/definitions/CalendarData"
-                        },
-                        "roc": {
-                            "$ref": "#/definitions/CalendarData"
-                        }
-                    },
-                    "type": "object"
-                },
-                "cldr": {
-                    "description": "The CLDR release the data was extracted from (provenance; see generateDateTimes.ts).",
-                    "type": "string"
-                },
-                "dayPeriods": {
-                    "additionalProperties": false,
-                    "description": "Localized day period names, when the hour cycle uses them.",
-                    "properties": {
-                        "am": {
-                            "type": "string"
-                        },
-                        "pm": {
-                            "type": "string"
-                        }
-                    },
-                    "required": ["am", "pm"],
-                    "type": "object"
-                },
-                "hourCycle": {
-                    "description": "The locale's clock convention, from CLDR.",
-                    "enum": ["h11", "h12", "h23", "h24"],
-                    "type": "string"
-                },
-                "time": {
-                    "description": "The locale's medium-style time pattern.",
-                    "items": {
-                        "$ref": "#/definitions/DateTimePart"
-                    },
-                    "type": "array"
-                },
-                "zones": {
-                    "additionalProperties": {
-                        "type": "string"
-                    },
-                    "description": "Localized exemplar city names keyed by IANA time zone id (e.g. 'Asia/Tokyo' → 'Tokio' in es), for time zone suggestions. Only zones CLDR localizes for this locale; others fall back to the id's city segment. Stripped from the bundled core to keep it small.",
-                    "type": "object"
-                }
-            },
-            "required": ["calendar", "hourCycle", "time", "calendars"],
-            "type": "object"
-        },
-        "DateTimeField": {
-            "description": "A field slot in a date or time pattern. `monthName` renders the localized month name by stable month code; `month` renders the month number. `relatedYear` is the Gregorian year shown alongside lunisolar dates (e.g. Chinese). `p` means zero-pad to two digits.",
-            "enum": [
-                "year",
-                "relatedYear",
-                "month",
-                "monthName",
-                "day",
-                "era",
-                "hour",
-                "minute",
-                "second",
-                "dayPeriod"
-            ],
+        "eras": {
+          "additionalProperties": {
             "type": "string"
+          },
+          "description": "Localized era names keyed by Temporal era code, for patterns that display an era (e.g. Japanese 令和, Ethiopic ዓ/ም).",
+          "type": "object"
         },
-        "DateTimePart": {
-            "anyOf": [
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "l": {
-                            "type": "string"
-                        }
-                    },
-                    "required": ["l"],
-                    "type": "object"
-                },
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "f": {
-                            "$ref": "#/definitions/DateTimeField"
-                        },
-                        "p": {
-                            "type": "boolean"
-                        }
-                    },
-                    "required": ["f"],
-                    "type": "object"
-                }
-            ]
-        },
-        "SupportedCalendar": {
-            "description": "The Unicode calendar identifiers Moment and Now support: everything ICU implements. Kept as an explicit committed list (not Intl.supportedValuesOf) so the set is identical in every environment.",
-            "enum": [
-                "buddhist",
-                "chinese",
-                "coptic",
-                "dangi",
-                "ethioaa",
-                "ethiopic",
-                "gregory",
-                "hebrew",
-                "indian",
-                "islamic-civil",
-                "islamic-tbla",
-                "islamic-umalqura",
-                "iso8601",
-                "japanese",
-                "persian",
-                "roc"
-            ],
+        "months": {
+          "additionalProperties": {
             "type": "string"
+          },
+          "description": "Localized month names in pattern context, keyed by stable monthCode (M01…M13, M05L, …). Absent when the pattern shows numeric months.",
+          "type": "object"
         }
+      },
+      "required": [
+        "date"
+      ],
+      "type": "object"
+    },
+    "DateTimeData": {
+      "additionalProperties": false,
+      "properties": {
+        "calendar": {
+          "$ref": "#/definitions/SupportedCalendar",
+          "description": "The locale's default calendar (used when a Moment leaves calendar unset)."
+        },
+        "calendars": {
+          "additionalProperties": false,
+          "description": "Per-calendar date patterns and names.",
+          "properties": {
+            "buddhist": {
+              "$ref": "#/definitions/CalendarData"
+            },
+            "chinese": {
+              "$ref": "#/definitions/CalendarData"
+            },
+            "coptic": {
+              "$ref": "#/definitions/CalendarData"
+            },
+            "dangi": {
+              "$ref": "#/definitions/CalendarData"
+            },
+            "ethioaa": {
+              "$ref": "#/definitions/CalendarData"
+            },
+            "ethiopic": {
+              "$ref": "#/definitions/CalendarData"
+            },
+            "gregory": {
+              "$ref": "#/definitions/CalendarData"
+            },
+            "hebrew": {
+              "$ref": "#/definitions/CalendarData"
+            },
+            "indian": {
+              "$ref": "#/definitions/CalendarData"
+            },
+            "islamic-civil": {
+              "$ref": "#/definitions/CalendarData"
+            },
+            "islamic-tbla": {
+              "$ref": "#/definitions/CalendarData"
+            },
+            "islamic-umalqura": {
+              "$ref": "#/definitions/CalendarData"
+            },
+            "iso8601": {
+              "$ref": "#/definitions/CalendarData"
+            },
+            "japanese": {
+              "$ref": "#/definitions/CalendarData"
+            },
+            "persian": {
+              "$ref": "#/definitions/CalendarData"
+            },
+            "roc": {
+              "$ref": "#/definitions/CalendarData"
+            }
+          },
+          "type": "object"
+        },
+        "cldr": {
+          "description": "The CLDR release the data was extracted from (provenance; see generateDateTimes.ts).",
+          "type": "string"
+        },
+        "dayPeriods": {
+          "additionalProperties": false,
+          "description": "Localized day period names, when the hour cycle uses them.",
+          "properties": {
+            "am": {
+              "type": "string"
+            },
+            "pm": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "am",
+            "pm"
+          ],
+          "type": "object"
+        },
+        "hourCycle": {
+          "description": "The locale's clock convention, from CLDR.",
+          "enum": [
+            "h11",
+            "h12",
+            "h23",
+            "h24"
+          ],
+          "type": "string"
+        },
+        "time": {
+          "description": "The locale's medium-style time pattern.",
+          "items": {
+            "$ref": "#/definitions/DateTimePart"
+          },
+          "type": "array"
+        },
+        "zones": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Localized exemplar city names keyed by IANA time zone id (e.g. 'Asia/Tokyo' → 'Tokio' in es), for time zone suggestions. Only zones CLDR localizes for this locale; others fall back to the id's city segment. Stripped from the bundled core to keep it small.",
+          "type": "object"
+        }
+      },
+      "required": [
+        "calendar",
+        "hourCycle",
+        "time",
+        "calendars"
+      ],
+      "type": "object"
+    },
+    "DateTimeField": {
+      "description": "A field slot in a date or time pattern. `monthName` renders the localized month name by stable month code; `month` renders the month number. `relatedYear` is the Gregorian year shown alongside lunisolar dates (e.g. Chinese). `p` means zero-pad to two digits.",
+      "enum": [
+        "year",
+        "relatedYear",
+        "month",
+        "monthName",
+        "day",
+        "era",
+        "hour",
+        "minute",
+        "second",
+        "dayPeriod"
+      ],
+      "type": "string"
+    },
+    "DateTimePart": {
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "l": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "l"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "f": {
+              "$ref": "#/definitions/DateTimeField"
+            },
+            "p": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "f"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "SupportedCalendar": {
+      "description": "The Unicode calendar identifiers Moment and Now support: everything ICU implements. Kept as an explicit committed list (not Intl.supportedValuesOf) so the set is identical in every environment.",
+      "enum": [
+        "buddhist",
+        "chinese",
+        "coptic",
+        "dangi",
+        "ethioaa",
+        "ethiopic",
+        "gregory",
+        "hebrew",
+        "indian",
+        "islamic-civil",
+        "islamic-tbla",
+        "islamic-umalqura",
+        "iso8601",
+        "japanese",
+        "persian",
+        "roc"
+      ],
+      "type": "string"
     }
+  }
 }

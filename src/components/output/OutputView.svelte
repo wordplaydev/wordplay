@@ -6,7 +6,6 @@
     import type Project from '@db/projects/Project';
     import concretize from '@locale/concretize';
     import type Evaluator from '@runtime/Evaluator';
-    import { withMonoEmoji } from '@unicode/emoji';
     import ExceptionValue from '@values/ExceptionValue';
     import type Value from '@values/Value';
     import { onDestroy, untrack } from 'svelte';
@@ -25,6 +24,14 @@
     import Key from '@input/Key';
     import Placement from '@input/Placement';
     import Pointer from '@input/Pointer';
+    import Volume from '@input/Volume';
+    import Pitch from '@input/Pitch';
+    import SpeechStream from '@input/Speech';
+    import Camera from '@input/Camera';
+    import Hand from '@input/Hand';
+    import Face from '@input/Face';
+    import SensorMonitor from '@components/output/SensorMonitor.svelte';
+    import Emoji from '@components/app/Emoji.svelte';
     import Evaluate from '@nodes/Evaluate';
     import {
         rotatedOutput,
@@ -61,8 +68,10 @@
         getKeyboardEditIdle,
         getRevealPalette,
         getSelectedOutput,
+        setSensorPanelStack,
         IdleKind,
     } from '@components/project/Contexts';
+    import { SensorPanelStack } from '@components/output/SensorPanelStack.svelte';
     import ValueView from '@components/values/ValueView.svelte';
     import { default as ButtonUI } from '@components/widgets/Button.svelte';
     import type PaintingConfiguration from '@components/output/PaintingConfiguration';
@@ -121,6 +130,10 @@
     const selection = getSelectedOutput();
     const announce = getAnnouncer();
     const revealPalette = getRevealPalette();
+
+    // Instantiate the sensor panel stack coordinator for this OutputView instance
+    const sensorPanelStack = new SensorPanelStack();
+    setSensorPanelStack(sensorPanelStack);
 
     let ignored = $state(false);
     let valueView = $state<HTMLElement | undefined>();
@@ -371,6 +384,21 @@
     const chats = $derived(
         $evaluation !== undefined &&
             $evaluation.evaluator.getBasisStreamsOfType(Chat).length > 0,
+    );
+
+    /** Keep track of active sensor streams */
+    const hasMicrophoneStream = $derived(
+        $evaluation !== undefined &&
+            ($evaluation.evaluator.getBasisStreamsOfType(Volume).length > 0 ||
+                $evaluation.evaluator.getBasisStreamsOfType(Pitch).length > 0 ||
+                $evaluation.evaluator.getBasisStreamsOfType(SpeechStream).length > 0),
+    );
+
+    const hasCameraStream = $derived(
+        $evaluation !== undefined &&
+            ($evaluation.evaluator.getBasisStreamsOfType(Camera).length > 0 ||
+                $evaluation.evaluator.getBasisStreamsOfType(Hand).length > 0 ||
+                $evaluation.evaluator.getBasisStreamsOfType(Face).length > 0),
     );
 
     // Announce changes in values.
@@ -1491,18 +1519,26 @@
                 {editable}
             />
         {/if}
-        <!-- Stage controls dock: stream status chips (Say, Hand/Face loading) + keyboard input -->
-        {#if says.length > 0 || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || keys || placements || chats}
+        <!-- Stage controls dock: stream status chips (Say, Hand/Face loading, sensors) + keyboard input -->
+        {#if says.length > 0 || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || hasMicrophoneStream || hasCameraStream || keys || placements || chats}
             <div class="stage-controls-dock">
-                <!-- Corner status chips: Say queue, Hand/Face loading indicators -->
-                {#if says.length > 0 || handLandmarkerStatus.loading || faceLandmarkerStatus.loading}
+                <!-- Corner status chips: Say queue, Hand/Face loading indicators, sensor monitors -->
+                {#if says.length > 0 || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || hasMicrophoneStream || hasCameraStream}
                     <div class="stage-controls-row" aria-live="polite" aria-atomic="false">
+                        <!-- Sensor monitors (camera before microphone in visual order) -->
+                        {#if hasCameraStream}
+                            <SensorMonitor kind="camera" database={DB} {evaluator} />
+                        {/if}
+                        {#if hasMicrophoneStream}
+                            <SensorMonitor kind="microphone" database={DB} {evaluator} />
+                        {/if}
+                        <!-- Model loading indicators -->
                         {#if handLandmarkerStatus.loading}
                             <span
                                 class="stage-control-chip hand-loading"
                                 title="Loading hand tracker…"
                                 aria-label="Loading hand tracker"
-                                >{withMonoEmoji('🖐')}</span
+                                ><Emoji text="🖐" /></span
                             >
                         {/if}
                         {#if faceLandmarkerStatus.loading}
@@ -1510,19 +1546,22 @@
                                 class="stage-control-chip face-loading"
                                 title="Loading face tracker…"
                                 aria-label="Loading face tracker"
-                                >{withMonoEmoji('🙂')}</span
+                                ><Emoji text="🙂" /></span
                             >
                         {/if}
+                        <!-- Speech synthesis queue -->
                         {#each says as say, i (say.text.text + i)}
                             <span
                                 class="stage-control-chip"
                                 title={say.text.text}
                                 aria-label={say.text.text}
-                                >{i < speakingIndex
-                                    ? withMonoEmoji('🔇')
-                                    : i === speakingIndex
-                                      ? withMonoEmoji('🔊')
-                                      : withMonoEmoji('🔈')}</span
+                                >{#if i < speakingIndex}
+                                    <Emoji text="🔇" />
+                                {:else if i === speakingIndex}
+                                    <Emoji text="🔊" />
+                                {:else}
+                                    <Emoji text="🔈" />
+                                {/if}</span
                             >
                         {/each}
                     </div>
@@ -1750,9 +1789,11 @@
         flex-direction: column;
         align-items: flex-end;
         z-index: 1;
+        pointer-events: auto;
     }
 
     .stage-controls-row {
+        position: relative;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -1800,14 +1841,17 @@
     }
 
     .stage-control-chip {
-        /* White + mix-blend-mode: difference inverts the indicator against
-           whatever is rendered behind it — visible against any stage
-           background color (white, black, or anywhere in between). */
-        color: white;
-        mix-blend-mode: difference;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--wordplay-background);
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
+        border-radius: var(--wordplay-border-radius);
+        color: var(--wordplay-foreground);
         font-size: 1em;
         line-height: 1;
         user-select: none;
+        padding: 4px 6px;
     }
 
     .hand-loading,

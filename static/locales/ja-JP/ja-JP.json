@@ -6235,7 +6235,17 @@
             "allSelected": "$~すべての出力が選択されました、 $count",
             "cleared": "$~選択が解除されました",
             "selectedOnly": "$~$name。パレットを開きます。",
-            "selectedSuffix": "$~選択済み"
+            "selectedSuffix": "$~選択済み",
+            "sensor": {
+                "microphone": {
+                    "on": "$~マイクの波形を隠す",
+                    "off": "$~マイクの波形を表示する"
+                },
+                "camera": {
+                    "on": "$~カメラのプレビューを隠す",
+                    "off": "$~カメラのプレビューを表示する"
+                }
+            }
         },
         "timeline": {
             "label": "$~タイムライン",

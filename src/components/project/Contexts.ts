@@ -1,4 +1,5 @@
 import type { ActiveHint } from '@components/widgets/Hint.svelte';
+import type { SensorPanelStack } from '@components/output/SensorPanelStack.svelte';
 import type ConceptIndex from '@concepts/ConceptIndex';
 import type { GuideHistory } from '@components/concepts/GuideHistory';
 import type Conflict from '@conflicts/Conflict';
@@ -97,6 +98,10 @@ export const [getFullscreen, setFullscreen] =
 
 /** The current tooltip shown for a widget */
 export const [getTip, setTip] = createContext<ActiveHint>();
+
+/** Coordinator for stacking sensor monitor preview panels */
+export const [getSensorPanelStack, setSensorPanelStack] =
+    createOptionalContext<SensorPanelStack>();
 
 // PROJECT-WIDE CONTEXTS
 

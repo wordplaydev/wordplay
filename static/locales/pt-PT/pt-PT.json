@@ -6467,7 +6467,17 @@
             "allSelected": "$~todas as saídas selecionadas, $count selecionado",
             "cleared": "$~seleção limpa",
             "selectedOnly": "$~$name selecionado, abrindo a paleta",
-            "selectedSuffix": "$~selecionado"
+            "selectedSuffix": "$~selecionado",
+            "sensor": {
+                "microphone": {
+                    "on": "$~ocultar forma de onda do microfone",
+                    "off": "$~mostrar forma de onda do microfone"
+                },
+                "camera": {
+                    "on": "$~ocultar pré-visualização da câmara",
+                    "off": "$~mostrar pré-visualização da câmara"
+                }
+            }
         },
         "timeline": {
             "label": "linha do tempo",

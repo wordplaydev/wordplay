@@ -6469,7 +6469,17 @@
             "allSelected": "$~semua output dipilih, $count dipilih",
             "cleared": "$~pilihan selesai",
             "selectedOnly": "$~$name terpilih, membuka palet",
-            "selectedSuffix": "$~terpilih"
+            "selectedSuffix": "$~terpilih",
+            "sensor": {
+                "microphone": {
+                    "on": "$~sembunyikan gelombang mikrofon",
+                    "off": "$~tampilkan gelombang mikrofon"
+                },
+                "camera": {
+                    "on": "$~sembunyikan pratinjau kamera",
+                    "off": "$~tampilkan pratinjau kamera"
+                }
+            }
         },
         "timeline": {
             "label": "$~garis waktu",

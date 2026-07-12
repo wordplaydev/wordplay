@@ -6198,7 +6198,17 @@
             "allSelected": "$~已選擇所有輸出，已選擇$count",
             "cleared": "$~選擇已清除",
             "selectedOnly": "$~已選取$name ，開啟調色板",
-            "selectedSuffix": "$~選定"
+            "selectedSuffix": "$~選定",
+            "sensor": {
+                "microphone": {
+                    "on": "$~隱藏麥克風波形",
+                    "off": "$~顯示麥克風波形"
+                },
+                "camera": {
+                    "on": "$~隱藏相機預覽",
+                    "off": "$~顯示相機預覽"
+                }
+            }
         },
         "timeline": {
             "label": "時間軸",

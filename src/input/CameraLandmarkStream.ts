@@ -109,6 +109,9 @@ export default abstract class CameraLandmarkStream<
     private lastEmittedY: number | undefined = undefined;
     private lastEmittedKey: string | undefined = undefined;
 
+    /** Observers to be notified on each detection result. */
+    private landmarkObservers: ((result: Result) => void)[] = [];
+
     protected constructor(
         evaluation: Evaluation,
         definition: StreamDefinition,
@@ -165,6 +168,15 @@ export default abstract class CameraLandmarkStream<
         }
     }
 
+    /** Subscribe to detection results. Returns an unsubscribe function. */
+    observeLandmarks(observer: (result: Result) => void): () => void {
+        this.landmarkObservers.push(observer);
+        return () => {
+            const i = this.landmarkObservers.indexOf(observer);
+            if (i >= 0) this.landmarkObservers.splice(i, 1);
+        };
+    }
+
     tick(time: DOMHighResTimeStamp) {
         // Skip while the tab is backgrounded. MediaPipe's WASM heap doesn't
         // shrink, but at least we stop feeding it frames the user can't see,
@@ -213,6 +225,7 @@ export default abstract class CameraLandmarkStream<
         // nextDetectTimestamp() bridges those via performance.now().
         const result = landmarker.detectForVideo(frame, nextDetectTimestamp());
         this.react(result);
+        this.landmarkObservers.forEach((observer) => observer(result));
     }
 
     /** Turn one MediaPipe detection into a structure and emit via emitIfChanged. */

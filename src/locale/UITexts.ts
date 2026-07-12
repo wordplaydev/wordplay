@@ -731,6 +731,21 @@ type UITexts = {
             /** [plain] Label of the button that retries permission after a denial */
             retry: string;
         };
+        /** Sensor input monitors (microphone waveform, camera preview) */
+        sensor: {
+            microphone: {
+                /** [plain] Tooltip when the microphone monitor toggle is on */
+                on: string;
+                /** [plain] Tooltip when the microphone monitor toggle is off */
+                off: string;
+            };
+            camera: {
+                /** [plain] Tooltip when the camera monitor toggle is on */
+                on: string;
+                /** [plain] Tooltip when the camera monitor toggle is off */
+                off: string;
+            };
+        };
     };
     /** The documentation browser */
     docs: DocumentationText;

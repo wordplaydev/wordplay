@@ -6481,6 +6481,16 @@
                 "start": "Start",
                 "starttip": "Grant permission to access this input.",
                 "retry": "Retry"
+            },
+            "sensor": {
+                "microphone": {
+                    "on": "hide microphone waveform",
+                    "off": "show microphone waveform"
+                },
+                "camera": {
+                    "on": "hide camera preview",
+                    "off": "show camera preview"
+                }
             }
         },
         "timeline": {
