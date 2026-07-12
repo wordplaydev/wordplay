@@ -40,12 +40,6 @@ const MaxSpeed = 6000;
  *  same effective acceleration rather than a physically literal g × PX_PER_METER. */
 const GravityPxPerS2PerUnit = 1_000_000 / (20 * 2 * PX_PER_METER);
 
-/** Velocity calibration. Matter.js velocities were px per 16.7ms frame and
- *  Wordplay passed Velocity's m/s numbers straight through, so the effective
- *  speed was v × 60 px/s. Rapier velocities are px/s; scale by 60 to keep
- *  every existing project's tuned velocities feeling identical. */
-export const VelocityPxPerSecond = 60;
-
 /** Air-resistance calibration. Matter.js bodies default to frictionAir 0.01 —
  *  1% velocity loss per 16.7ms frame — which is what made bounces settle and
  *  motion coast to rest. Rapier's exponential damping equivalent:
