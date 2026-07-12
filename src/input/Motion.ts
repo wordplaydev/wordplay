@@ -6,7 +6,6 @@ import Place, { createPlaceStructure, toPlace } from '@output/Place';
 import type Evaluation from '@runtime/Evaluation';
 import StructureValue from '@values/StructureValue';
 import TemporalStreamValue from '@values/TemporalStreamValue';
-import { getMatter } from '@output/matterLoader';
 import type Locales from '@locale/Locales';
 import type Context from '@nodes/Context';
 import NoneLiteral from '@nodes/NoneLiteral';
@@ -14,24 +13,45 @@ import type StructureDefinition from '@nodes/StructureDefinition';
 import type Type from '@nodes/Type';
 import UnionType from '@nodes/UnionType';
 import type { OutputBody } from '@output/Physics';
+import { VelocityPxPerSecond } from '@output/physicsCalibration';
 import type Velocity from '@output/Velocity';
 import { toVelocity } from '@output/Velocity';
 import NoneValue from '@values/NoneValue';
 import type Value from '@values/Value';
 import createStreamEvaluator from '@input/createStreamEvaluator';
 
-export default class Motion extends TemporalStreamValue<Value, number> {
+/** The raw payload Motion records for each value: the elapsed delta that
+ *  triggered it plus the engine-produced placement. Recording the placement
+ *  (rather than just the delta) makes replaying raw inputs on a new Evaluator
+ *  (Evaluator.mirror, on program edits) engine-independent: reconstruction
+ *  reads the recorded placement instead of re-querying live physics state. */
+export type MotionPayload = {
+    delta: number;
+    x: number;
+    y: number;
+    z: number;
+    angle: number;
+};
+
+export default class Motion extends TemporalStreamValue<Value, MotionPayload> {
     private initialPlace: Place | undefined;
 
     private place: Place | undefined;
     private velocity: Velocity | undefined;
 
     constructor(evaluation: Evaluation, place: Value, velocity: Value) {
+        const initial = toPlace(place);
         super(
             evaluation,
             evaluation.getEvaluator().project.shares.input.Motion,
             place,
-            0,
+            {
+                delta: 0,
+                x: initial?.x ?? 0,
+                y: initial?.y ?? 0,
+                z: initial?.z ?? 0,
+                angle: initial?.rotation ?? 0,
+            },
         );
 
         this.initialPlace = this.place = toPlace(place);
@@ -71,46 +91,50 @@ export default class Motion extends TemporalStreamValue<Value, number> {
 
     updateBody(rect: OutputBody) {
         // Only called from Physics.sync / updateBodies once a body exists, i.e.
-        // after Physics loaded matter-js, so the module is guaranteed present.
-        const Matter = getMatter();
-        const body = rect.body;
+        // after Physics loaded Rapier, so the rigid body is guaranteed present.
+        const body = rect.rigidBody;
         if (this.velocity !== undefined) {
             // Are either of the velocities non-zero? Update the body's velocity.
             if (
                 this.velocity.x !== undefined ||
                 this.velocity.y !== undefined
             ) {
+                const current = body.linvel();
+                // Velocities scale by VelocityPxPerSecond to match the speeds
+                // projects were tuned to under Matter.js (see Physics.ts).
                 const velocity = {
                     x:
                         this.velocity.x !== undefined
-                            ? this.velocity.x
-                            : body.velocity.x,
-                    // Flip the axis
+                            ? this.velocity.x * VelocityPxPerSecond
+                            : current.x,
+                    // Flip the axis (engine y is negated stage y)
                     y:
                         this.velocity.y !== undefined
-                            ? -this.velocity.y
-                            : body.velocity.y,
+                            ? -this.velocity.y * VelocityPxPerSecond
+                            : current.y,
                 };
-                Matter.Body.setVelocity(body, velocity);
+                body.setLinvel(velocity, true);
             }
-            // Is the rotational velocity defined? Update the body's.
+            // Is the rotational velocity defined? Update the body's. Same
+            // 60× calibration: Matter treated rad-per-frame as the unit.
             if (this.velocity.angle !== undefined)
-                Matter.Body.setAngularVelocity(
-                    body,
-                    (this.velocity.angle * Math.PI) / 180,
+                body.setAngvel(
+                    ((this.velocity.angle * Math.PI) / 180) *
+                        VelocityPxPerSecond,
+                    true,
                 );
         }
 
         // Did the place of the stream change? Reposition the body.
         if (this.place)
-            Matter.Body.setPosition(
-                body,
+            body.setTranslation(
                 rect.getPosition(
                     this.place.x,
                     this.place.y,
                     rect.width,
                     rect.height,
                 ),
+                true,
             );
     }
 
@@ -125,7 +149,24 @@ export default class Motion extends TemporalStreamValue<Value, number> {
         else return [];
     }
 
-    react(delta: number) {
+    /** Replaying a recorded payload (Evaluator.mirror): reconstruct the Place
+     *  from the recorded placement, without touching the physics engine. */
+    react(payload: MotionPayload) {
+        this.add(
+            createPlaceStructure(
+                this.evaluator,
+                payload.x,
+                payload.y,
+                payload.z,
+                payload.angle,
+            ),
+            payload,
+        );
+    }
+
+    /** Live path: read each influenced body's placement out of the physics
+     *  engine and record it (with the delta) as a new stream value. */
+    private reactToPhysics(delta: number) {
         if (this.evaluator.scene === undefined) return;
         for (const output of this.getOutputs()) {
             const name = output.getName();
@@ -134,15 +175,22 @@ export default class Motion extends TemporalStreamValue<Value, number> {
                 .getOutputBody(name)
                 ?.getPlace();
             if (placement) {
+                const z = this.place?.z ?? this.initialPlace?.z ?? 0;
                 this.add(
                     createPlaceStructure(
                         this.evaluator,
                         placement.x,
                         placement.y,
-                        this.place?.z ?? this.initialPlace?.z ?? 0,
+                        z,
                         placement.angle,
                     ),
-                    delta,
+                    {
+                        delta,
+                        x: placement.x,
+                        y: placement.y,
+                        z,
+                        angle: placement.angle,
+                    },
                 );
             }
         }
@@ -153,7 +201,7 @@ export default class Motion extends TemporalStreamValue<Value, number> {
         if (multiplier === 0) return;
 
         // React to how many seconds have elapsed.
-        this.react(delta / 1000 / Math.max(1, multiplier));
+        this.reactToPhysics(delta / 1000 / Math.max(1, multiplier));
     }
 
     getType(context: Context): Type {

@@ -30,7 +30,7 @@ const config = {
                         // import()s stay separate chunks the browser fetches only
                         // when the feature is used, instead of on every page load:
                         //   temporal-polyfill — src/util/getTemporal.ts
-                        //   matter-js         — src/output/matterLoader.ts (physics)
+                        //   @dimforge/rapier2d-compat — src/output/rapierLoader.ts (physics)
                         //   @mediapipe        — src/input/HandLandmarker.ts (Hand())
                         //   highlight.js      — highlightExternal.ts (tutorial code)
                         //   fontkit (+ deps)  — Fonts.ts (Contour() glyph parsing)
@@ -38,7 +38,7 @@ const config = {
                         // below overrides the dynamic import and force-loads them
                         // eagerly on every route.
                         if (id.includes('temporal-polyfill')) return;
-                        if (id.includes('matter-js')) return;
+                        if (id.includes('@dimforge/rapier2d')) return;
                         if (id.includes('@mediapipe')) return;
                         if (id.includes('highlight.js')) return;
                         if (

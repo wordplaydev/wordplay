@@ -9,7 +9,7 @@ keeperPlace/en,porteroLugar/es: Place(34m 0m) … ∆ Time(1000ms) … (Time(100
 
 ballObj/en,bolaObjeto/es: Phrase('⚽' 1m 
 		place: ballPlace
-		matter: Matter(1kg 1 0 )
+		matter: Matter(1kg 0.5 0 )
 		name: 'ball')
 
 footObj/en,pieObjeto/es: Phrase('🦶🏻' 1.5m
