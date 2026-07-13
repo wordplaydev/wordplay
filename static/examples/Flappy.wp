@@ -45,13 +45,19 @@ game•Game: Game(1 0) …
 ¶The countdown number to show: 3, 2, 1.¶
 count: (game.ticks < 12) ? 3 (game.ticks < 24) ? 2 1
 
-¶Flap when clicking or pressing any key.¶
-flap: ∆ Button() | ∆ Key()
+¶Choose how to play by selecting the 🎤 or ⌨️ button: humming moves the
+bird, or clicks and keys flap it. Separate modes, so talking near the
+microphone doesn't fight the keyboard.¶
+picked: Choice()
+mode•'': 'tap' … (picked = 'hum') | (picked = 'tap') … picked
 
-¶Or hum! The bird floats to the height of your hum's pitch — low notes
-near the ground, high notes near the sky — and no higher.¶
+¶In tap mode, flap when clicking or pressing any key.¶
+flap: (mode = 'tap') & (∆ Button() | ∆ Key())
+
+¶In hum mode, the bird floats to the height of your hum's pitch — low
+notes near the ground, high notes near the sky — and no higher.¶
 pitch: Pitch()
-humming: pitch > 50hz
+humming: (mode = 'hum') & (pitch > 50hz)
 
 ƒ pitchToHeight(hz•#hz)
 	(hz < 80hz) ? -4m
@@ -159,7 +165,13 @@ overlays:
 		3: [Phrase('💥' 3m place: Place(-1.5m -1.5m))]
 		[]
 
-instructions1: Phrase("Click or press a key to flap — or hum to float at your pitch!" 0.45m place: Place(-6m -4.7m))
+¶The mode switcher: the chosen way to play is bright, the other is dim.¶
+humButton: Phrase('🎤' 0.8m name: 'hum' selectable: ⊤ place: Place(-4.2m 4.7m)
+	resting: (mode = 'hum') ? Pose() Pose(opacity: 40%))
+tapButton: Phrase('⌨️' 0.8m name: 'tap' selectable: ⊤ place: Place(-3m 4.7m)
+	resting: (mode = 'tap') ? Pose() Pose(opacity: 40%))
+
+instructions1: Phrase("Pick ⌨️ to flap with clicks and keys, or 🎤 to hum your bird's height!" 0.45m place: Place(-6.9m -4.7m))
 instructions2: Phrase("Slip through the gaps. Don't touch the stacks!" 0.4m place: Place(-4.5m -5.4m))
 
 Stage(
@@ -168,6 +180,7 @@ Stage(
 		:stacks(pipe1) :stacks(pipe2) :stacks(pipe3) :stacks(pipe4)
 		ground sky leftWall rightWall
 		scoreView :overlays
+		humButton tapButton
 		instructions1 instructions2
 	]
 	place: Place(0m 0m -12m)
