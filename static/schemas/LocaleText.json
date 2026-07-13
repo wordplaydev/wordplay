@@ -14248,13 +14248,23 @@
                   "additionalProperties": false,
                   "description": "Controls for translating received messages into another language",
                   "properties": {
+                    "error": {
+                      "description": "[plain] Shown below the translate control when the whole chat couldn't be translated",
+                      "type": "string"
+                    },
                     "label": {
                       "description": "[plain] Label for the control that translates received messages",
+                      "type": "string"
+                    },
+                    "messageError": {
+                      "description": "[plain] Shown next to a message when that message couldn't be translated",
                       "type": "string"
                     }
                   },
                   "required": [
-                    "label"
+                    "label",
+                    "error",
+                    "messageError"
                   ],
                   "type": "object"
                 }

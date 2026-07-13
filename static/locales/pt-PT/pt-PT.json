@@ -6968,7 +6968,9 @@
                 "restrict": "Quando um projeto está numa *galeria*, por defeito, *todos* os que conseguem ver a galeria podem também ver o seu projeto. A opção /restrict/ *oculta* o projeto de todos, exceto de si e dos curadores da galeria."
             },
             "translate": {
-                "label": "$?"
+                "label": "$?",
+                "error": "$?",
+                "messageError": "$?"
             }
         },
         "palette": {

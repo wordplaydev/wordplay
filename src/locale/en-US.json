@@ -6913,7 +6913,9 @@
         "collaborate": {
             "label": "collaborate",
             "translate": {
-                "label": "Translate messages to"
+                "label": "Translate messages to",
+                "error": "There was an issue translating this chat.",
+                "messageError": "There is an issue translating this chat."
             },
             "role": {
                 "owner": "owner",

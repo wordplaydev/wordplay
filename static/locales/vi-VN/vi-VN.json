@@ -6974,7 +6974,9 @@
                 "restrict": "$~Khi một dự án nằm trong *thư viện ảnh*, theo mặc định *mọi người* có thể xem thư viện đều có thể thấy dự án của bạn. Nút /restrict/ sẽ *ẩn* dự án đó khỏi mọi người ngoại trừ bạn và người quản lý thư viện."
             },
             "translate": {
-                "label": "$?"
+                "label": "$?",
+                "error": "$?",
+                "messageError": "$?"
             }
         },
         "palette": {

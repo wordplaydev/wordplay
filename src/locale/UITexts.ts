@@ -738,6 +738,10 @@ type UITexts = {
         translate: {
             /** [plain] Label for the control that translates received messages */
             label: string;
+            /** [plain] Shown below the translate control when the whole chat couldn't be translated */
+            error: string;
+            /** [plain] Shown next to a message when that message couldn't be translated */
+            messageError: string;
         };
         /** The chat message input field */
         field: {

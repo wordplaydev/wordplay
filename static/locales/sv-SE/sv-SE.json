@@ -6730,7 +6730,9 @@
                 "restrict": "$~När ett projekt finns i ett *galleri* kan som standard *alla* som kan se galleriet se ditt projekt. /restrict/-knappen *döljer* det för alla utom dig och galleriets kuratorer."
             },
             "translate": {
-                "label": "$?"
+                "label": "$?",
+                "error": "$?",
+                "messageError": "$?"
             }
         },
         "palette": {

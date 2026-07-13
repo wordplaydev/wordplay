@@ -6977,7 +6977,9 @@
                 "restrict": "$~Saat sebuah proyek berada di *galeri*, secara default *semua orang* yang dapat melihat galeri dapat melihat proyek Anda. Tombol /restrict/ *menyembunyikannya* dari semua orang kecuali Anda dan kurator galeri."
             },
             "translate": {
-                "label": "$?"
+                "label": "$?",
+                "error": "$?",
+                "messageError": "$?"
             }
         },
         "palette": {

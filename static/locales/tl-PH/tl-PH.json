@@ -6970,7 +6970,9 @@
                 "restrict": "$~Kapag ang isang proyekto ay nasa isang *gallery*, bilang default, *lahat* ng makakakita sa gallery ay makakakita ng iyong proyekto. *Itinatago* ito ng /restrict/ toggle mula sa lahat maliban sa iyo at sa mga curator ng gallery."
             },
             "translate": {
-                "label": "$?"
+                "label": "$?",
+                "error": "$?",
+                "messageError": "$?"
             }
         },
         "palette": {

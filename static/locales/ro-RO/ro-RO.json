@@ -6980,7 +6980,9 @@
                 "restrict": "$~Când un proiect se află într-o *galerie*, în mod implicit, *toți* cei care pot vedea galeria pot vedea proiectul dvs. Comutatorul /restricționare/ îl *ascunde* de toată lumea, cu excepția dvs. și a curatorilor galeriei."
             },
             "translate": {
-                "label": "$?"
+                "label": "$?",
+                "error": "$?",
+                "messageError": "$?"
             }
         },
         "palette": {

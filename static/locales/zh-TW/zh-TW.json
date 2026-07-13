@@ -7629,7 +7629,9 @@
                 "restrict": "$~當專案位於*作品集*中時，預設情況下，*所有*能夠存取該作品集的人都可以看到您的專案。 /restrict/開關會將您的專案對除您和作品集管理員以外的所有人隱藏。"
             },
             "translate": {
-                "label": "$?"
+                "label": "$?",
+                "error": "$?",
+                "messageError": "$?"
             }
         },
         "checkpoints": {

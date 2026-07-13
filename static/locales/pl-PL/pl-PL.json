@@ -6748,7 +6748,9 @@
                 "restrict": "$~Gdy projekt znajduje się w *galerii*, domyślnie *każdy*, kto może zobaczyć galerię, może zobaczyć Twój projekt. Przełącznik /restrict/ *ukrywa* go przed wszystkimi oprócz Ciebie i kuratorów galerii."
             },
             "translate": {
-                "label": "$?"
+                "label": "$?",
+                "error": "$?",
+                "messageError": "$?"
             }
         },
         "palette": {

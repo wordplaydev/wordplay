@@ -6736,7 +6736,9 @@
                 "restrict": "$~Bir proje bir *galeride* olduğunda, varsayılan olarak galeriyi görebilen *herkes* projenizi görebilir. /restrict/ seçeneği, projeyi sizden ve galeri yöneticilerinden başka herkesten *gizler*."
             },
             "translate": {
-                "label": "$?"
+                "label": "$?",
+                "error": "$?",
+                "messageError": "$?"
             }
         },
         "palette": {

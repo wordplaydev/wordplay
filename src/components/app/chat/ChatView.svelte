@@ -111,6 +111,14 @@
     // Whether a translation pass is currently running.
     let translating = $state(false);
 
+    // Whether the whole translation pass failed (shown below the translate
+    // control), e.g. the translation service is unavailable.
+    let translateError = $state(false);
+
+    // Ids of messages whose individual translation failed (shown next to each
+    // message), when only some batches error out.
+    let messageErrors = $state<Record<string, boolean>>({});
+
     // get the gallery from the gallery ID
     let gallery: Gallery | undefined = $state(undefined);
     $effect(() => {
@@ -163,99 +171,135 @@
     async function translateMessages(target: string | undefined) {
         translateTo = target;
         translations = {};
-        if (target === undefined || !chat || !functions) return;
+        translateError = false;
+        messageErrors = {};
+        if (target === undefined || !chat) return;
         const toLocale = stringToLocale(target);
         if (toLocale === undefined) return;
 
-        translating = true;
-        const messages = chat.getMessages();
-        const call = httpsCallable<
-            GetLLMTranslationsInputs,
-            GetLLMTranslationsOutput
-        >(functions, 'getLLMTranslations');
-        const translate: RawTranslator = async (texts, from, to, context) =>
-            (
-                await call({
-                    from: localeToString(from),
-                    to: localeToString(to),
-                    texts,
-                    ...(context ? { projectContext: context } : {}),
-                })
-            ).data;
-
-        const next: Record<string, { language: string; text: string }> = {};
-        const grouped = new Map<
-            string,
-            {
-                from: ReturnType<typeof stringToLocale>;
-                ids: string[];
-                texts: string[];
-            }
-        >();
-
-        for (const msg of messages) {
-            if (msg.text === null) continue;
-
-            // Reuse a cached translation for this target if the message already
-            // has one, skipping the LLM call entirely.
-            const cached = msg.translations?.[target];
-            if (cached !== undefined) {
-                next[msg.id] = { language: target, text: cached };
-                continue;
-            }
-
-            const source = msg.language ?? $locales.getLanguages()[0];
-            const fromLocale = stringToLocale(source);
-            if (fromLocale === undefined) continue;
-
-            const key = localeToString(fromLocale);
-            const existing = grouped.get(key);
-            if (existing) {
-                existing.ids.push(msg.id);
-                existing.texts.push(normalizeSoftBreaks(msg.text));
-            } else {
-                grouped.set(key, {
-                    from: fromLocale,
-                    ids: [msg.id],
-                    texts: [normalizeSoftBreaks(msg.text)],
-                });
-            }
+        // Translation runs through a cloud function; if it isn't available at
+        // all, surface the general error rather than silently doing nothing.
+        if (!functions) {
+            translateError = true;
+            return;
         }
 
-        // Newly translated (id, text) pairs to persist after the passes finish.
-        const toCache: { id: string; text: string }[] = [];
+        translating = true;
+        try {
+            const messages = chat.getMessages();
+            const call = httpsCallable<
+                GetLLMTranslationsInputs,
+                GetLLMTranslationsOutput
+            >(functions, 'getLLMTranslations');
+            const translate: RawTranslator = async (texts, from, to, context) =>
+                (
+                    await call({
+                        from: localeToString(from),
+                        to: localeToString(to),
+                        texts,
+                        ...(context ? { projectContext: context } : {}),
+                    })
+                ).data;
 
-        await Promise.all(
-            Array.from(grouped.values()).map(async (group) => {
-                if (group.from === undefined) return;
-                const result = await translate(
-                    group.texts,
-                    group.from,
-                    toLocale,
-                );
-                if (result === null) return;
-
-                for (let i = 0; i < group.ids.length; i += 1) {
-                    const translated = result[i];
-                    if (typeof translated === 'string') {
-                        next[group.ids[i]] = {
-                            language: target,
-                            text: translated,
-                        };
-                        toCache.push({ id: group.ids[i], text: translated });
-                    }
+            const next: Record<string, { language: string; text: string }> = {};
+            const grouped = new Map<
+                string,
+                {
+                    from: ReturnType<typeof stringToLocale>;
+                    ids: string[];
+                    texts: string[];
                 }
-            }),
-        );
+            >();
 
-        translations = next;
-        translating = false;
+            for (const msg of messages) {
+                if (msg.text === null) continue;
 
-        // Cache each freshly translated message so future requests for this
-        // language reuse the stored text instead of calling the LLM again.
-        for (const { id, text } of toCache) {
-            const message = chat.getMessages().find((m) => m.id === id);
-            if (message) Chats.saveMessageTranslation(chat, message, target, text);
+                // Reuse a cached translation for this target if the message
+                // already has one, skipping the LLM call entirely.
+                const cached = msg.translations?.[target];
+                if (cached !== undefined) {
+                    next[msg.id] = { language: target, text: cached };
+                    continue;
+                }
+
+                const source = msg.language ?? $locales.getLanguages()[0];
+                const fromLocale = stringToLocale(source);
+                if (fromLocale === undefined) continue;
+
+                const key = localeToString(fromLocale);
+                const existing = grouped.get(key);
+                if (existing) {
+                    existing.ids.push(msg.id);
+                    existing.texts.push(normalizeSoftBreaks(msg.text));
+                } else {
+                    grouped.set(key, {
+                        from: fromLocale,
+                        ids: [msg.id],
+                        texts: [normalizeSoftBreaks(msg.text)],
+                    });
+                }
+            }
+
+            // Newly translated (id, text) pairs to persist after the passes finish.
+            const toCache: { id: string; text: string }[] = [];
+
+            // Ids of messages whose batch failed, marked so each shows an
+            // inline error beside the message.
+            const failedIds: Record<string, boolean> = {};
+
+            await Promise.all(
+                Array.from(grouped.values()).map(async (group) => {
+                    if (group.from === undefined) return;
+                    try {
+                        const result = await translate(
+                            group.texts,
+                            group.from,
+                            toLocale,
+                        );
+                        if (result === null) {
+                            for (const id of group.ids) failedIds[id] = true;
+                            return;
+                        }
+
+                        for (let i = 0; i < group.ids.length; i += 1) {
+                            const translated = result[i];
+                            if (typeof translated === 'string') {
+                                next[group.ids[i]] = {
+                                    language: target,
+                                    text: translated,
+                                };
+                                toCache.push({
+                                    id: group.ids[i],
+                                    text: translated,
+                                });
+                            } else {
+                                failedIds[group.ids[i]] = true;
+                            }
+                        }
+                    } catch (_) {
+                        // This batch failed; mark its messages so each shows
+                        // an inline error rather than failing the whole chat.
+                        for (const id of group.ids) failedIds[id] = true;
+                    }
+                }),
+            );
+
+            translations = next;
+            messageErrors = failedIds;
+
+            // Cache each freshly translated message so future requests for this
+            // language reuse the stored text instead of calling the LLM again.
+            for (const { id, text } of toCache) {
+                const message = chat.getMessages().find((m) => m.id === id);
+                if (message)
+                    Chats.saveMessageTranslation(chat, message, target, text);
+            }
+        } catch (_) {
+            // The whole pass failed (e.g. setting up the call threw); show the
+            // general error at the top of the chat.
+            translateError = true;
+        } finally {
+            translating = false;
         }
     }
 
@@ -371,6 +415,13 @@
                 </div>
             </div>
         {/if}
+        {#if messageErrors[msg.id]}
+            <div class="message-error" role="status">
+                <LocalizedText
+                    path={(l) => l.ui.collaborate.translate.messageError}
+                />
+            </div>
+        {/if}
         {#if !($user?.uid === msg.creator) && galleryID && (msg.moderation === undefined || msg.moderation === 'approved')}
             <Dialog
                 bind:show={showModerationDialog}
@@ -444,6 +495,13 @@
             />
             {#if translating}<Spinning />{/if}
         </div>
+        {#if translateError}
+            <div class="translate-error" role="status">
+                <LocalizedText
+                    path={(l) => l.ui.collaborate.translate.error}
+                />
+            </div>
+        {/if}
         <div class="scroller" bind:this={scrollerView}>
             <div class="messages">
                 {#each chat.getMessages() as msg}
@@ -543,6 +601,18 @@
 
     .translate-label {
         font-size: small;
+    }
+
+    .translate-error {
+        font-size: small;
+        color: var(--wordplay-error);
+        flex-shrink: 0;
+        padding-block-end: calc(0.5 * var(--wordplay-spacing));
+    }
+
+    .message-error {
+        font-size: var(--wordplay-small-font-size);
+        color: var(--wordplay-error);
     }
 
     .translation {

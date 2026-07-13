@@ -7656,7 +7656,9 @@
                 "restrict": "$~Cuando un proyecto está en una *galería*, de forma predeterminada *todos* los que pueden ver la galería pueden ver tu proyecto. El interruptor /limitar/ lo *oculta* de todos excepto de ti y de los curadores de la galería."
             },
             "translate": {
-                "label": "$?"
+                "label": "$?",
+                "error": "$?",
+                "messageError": "$?"
             }
         },
         "checkpoints": {
