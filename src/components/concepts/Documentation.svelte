@@ -12,7 +12,8 @@
     import ConceptGroupView from '@components/concepts/ConceptGroupView.svelte';
     import GlossaryEntry from '@components/concepts/GlossaryEntry.svelte';
     import GlossaryView from '@components/concepts/GlossaryView.svelte';
-    import { foldEntry, searchItems, type Searchable } from '@util/search';
+    import { searchItems } from '@util/search';
+    import { buildGlossarySearch } from '@locale/glossarySearch';
     import ConceptPreview from '@components/concepts/ConceptPreview.svelte';
     import ConceptsView from '@components/concepts/ConceptsView.svelte';
     import ConceptView from '@components/concepts/ConceptView.svelte';
@@ -369,29 +370,24 @@
                 : undefined,
         );
 
-    /** Glossary terms matching the global search, shown alongside concept
-     *  results. Clicking one opens the glossary and flashes the entry. */
+    /** Searchable glossary records (term words and definition prose). Derived
+     *  from the locale only — concretizing every definition is too expensive to
+     *  redo per query. */
+    let glossarySearchables = $derived(buildGlossarySearch($locales));
+
+    /** Glossary terms matching the global search — by word or definition text —
+     *  shown alongside concept results. Clicking one opens the glossary and
+     *  flashes the entry. */
     let glossaryResults: { id: string; word: string }[] = $derived.by(() => {
         const q = debouncedQuery.current.trim();
         if (q.length < MIN_QUERY_LENGTH) return [];
-        const langs = $locales.getLanguages();
-        // Match on the term's word only, not its definition.
-        const entries = Object.keys($locales.getLocale().glossary).map(
-            (id) => ({
-                id,
-                word: $locales.getTermByID(id) ?? id,
-            }),
-        );
-        const searchables: Searchable<string>[] = entries.map((entry) => ({
-            ref: entry.id,
-            fields: [{ entries: [foldEntry(entry.word, langs)], priority: 0 }],
-        }));
-        const wordById = new Map(
-            entries.map((entry) => [entry.id, entry.word]),
-        );
-        return searchItems(searchables, q, langs).map(([id]) => ({
+        return searchItems(
+            glossarySearchables,
+            q,
+            $locales.getLanguages(),
+        ).map(([id]) => ({
             id,
-            word: wordById.get(id) ?? id,
+            word: $locales.getTermByID(id) ?? id,
         }));
     });
 

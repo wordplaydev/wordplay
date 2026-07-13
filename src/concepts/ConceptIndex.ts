@@ -93,16 +93,16 @@ export default class ConceptIndex {
     private get searchable(): Searchable<Concept>[] {
         if (this.cachedSearchable === undefined) {
             const languages = this.locales.getLanguages();
-            this.cachedSearchable = this.concepts.map((concept) =>
-                makeSearchable(
+            this.cachedSearchable = this.concepts.map((concept) => {
+                const docs = concept.getDocs(this.locales);
+                return makeSearchable(
                     concept,
                     concept.getNames(this.locales, false),
-                    concept
-                        .getDocs(this.locales)
-                        .flatMap((markup) => markup.getWordsTexts()),
+                    docs.flatMap((markup) => markup.getWordsTexts()),
                     languages,
-                ),
-            );
+                    docs.flatMap((markup) => markup.getExampleTexts()),
+                );
+            });
         }
         return this.cachedSearchable;
     }
