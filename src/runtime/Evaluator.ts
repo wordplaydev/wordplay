@@ -258,9 +258,19 @@ export default class Evaluator {
 
     /**
      * Remember streams that were converted to values so we can convert them back to streams
-     * when needed in stream operations.
+     * when needed in stream operations (∆/Changed and ←/Previous resolve their operand
+     * values through this).
+     *
+     * This must be keyed by value identity but live as long as ANY expression history
+     * retains the value: the same value object appears in several expression histories
+     * (the stream's Evaluate, a Bind, each Reference), and evicting one history must not
+     * orphan the value for the others, which still resolve through it — that produced
+     * spurious TypeExceptions from ∆/← over a binding reference whenever an unrelated
+     * stream's reevaluation evicted a history sharing the value. A WeakMap ties each
+     * entry's lifetime to the value's reachability, which is exactly that invariant,
+     * and needs no manual eviction for memory management.
      */
-    readonly streamsResolved: Map<Value, StreamValue> = new Map();
+    #streamsResolved: WeakMap<Value, StreamValue> = new WeakMap();
 
     /** Remember streams accessed during reactions conditions so we can decide whether to reevaluate */
     readonly reactionDependencies: {
@@ -743,23 +753,23 @@ export default class Evaluator {
         broadcast = true,
     ) {
         // Reset the non-constant expression values and any values dependent on reaction.
+        // Note: we deliberately do NOT touch #streamsResolved here — a value evicted from
+        // one expression's history may still be memoized in another's, and must keep
+        // resolving to its stream there. The WeakMap reclaims entries when values become
+        // unreachable.
         if (keepConstants) {
-            for (const [expression, values] of this.values)
+            for (const [expression] of this.values)
                 if (
                     !this.project.isConstant(expression) &&
                     (this.#currentStreamDependencies === null ||
                         this.#currentStreamDependencies.has(expression))
-                ) {
+                )
                     this.values.delete(expression);
-                    for (const value of values)
-                        if (value.value)
-                            this.streamsResolved.delete(value.value);
-                }
         }
         // Not keeping constants? Reset histories entirely to avoid memory leaks.
         else {
             this.values.clear();
-            this.streamsResolved.clear();
+            this.#streamsResolved = new WeakMap();
         }
 
         // Reset the evluation stack.
@@ -1427,7 +1437,7 @@ export default class Evaluator {
     }
 
     getStreamResolved(value: Value): StreamValue | undefined {
-        const stream = this.streamsResolved.get(value);
+        const stream = this.#streamsResolved.get(value);
 
         // If we're tracking a reaction's dependencies, remember this was obtained.
         if (stream && this.reactionDependencies.length > 0)
@@ -1437,7 +1447,7 @@ export default class Evaluator {
     }
 
     setStreamResolved(value: Value, stream: StreamValue) {
-        this.streamsResolved.set(value, stream);
+        this.#streamsResolved.set(value, stream);
 
         // If we're tracking a reaction's dependencies, remember this was converted into a value.
         if (this.reactionDependencies.length > 0)
