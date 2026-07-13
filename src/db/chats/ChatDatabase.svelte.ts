@@ -78,13 +78,22 @@ const MessageSchemaV3 = MessageSchemaV2.extend(
     }).shape,
 );
 
-const MessageSchema = MessageSchemaV3;
-export const MessageSchemaLatestVersion = 3;
+const MessageSchemaV4 = MessageSchemaV3.extend(
+    z.object({
+        /** Cached translations of this message's text, keyed by target
+         * Wordplay language code (e.g. "es"). */
+        translations: z.record(z.string(), z.string()).optional(),
+    }).shape,
+);
 
-export type SerializedMessage = z.infer<typeof MessageSchemaV3>;
+const MessageSchema = MessageSchemaV4;
+export const MessageSchemaLatestVersion = 4;
+
+export type SerializedMessage = z.infer<typeof MessageSchemaV4>;
 export type SerializedMessageUnknownVersion =
     | z.infer<typeof MessageSchemaV1>
     | z.infer<typeof MessageSchemaV2>
+    | z.infer<typeof MessageSchemaV3>
     | SerializedMessage;
 
 const ChatSchemaV1 = z.object({
@@ -251,6 +260,25 @@ export default class Chat {
         );
 
         return new Chat({ ...this.data, messages: mergedMessages });
+    }
+
+    /** Cache a translation of the message's text into the given language. */
+    withMessageTranslation(
+        message: SerializedMessage,
+        language: string,
+        text: string,
+    ) {
+        return new Chat({
+            ...this.data,
+            messages: this.data.messages.map((m) =>
+                m.id === message.id
+                    ? {
+                        ...m,
+                        translations: { ...m.translations, [language]: text },
+                    }
+                    : m,
+            ),
+        });
     }
 
     /** Keep the message, but replace it's text with nothing. */
@@ -636,6 +664,24 @@ export class ChatDatabase {
         await this.modifyChatMessage(chat.getProjectID(), message.id, (m) => ({
             ...m,
             text: null,
+        }));
+    }
+
+    /** Cache a translation of a message into the given language, so future
+     *  viewers reuse it instead of re-calling the translation service. */
+    async saveMessageTranslation(
+        chat: Chat,
+        message: SerializedMessage,
+        language: string,
+        text: string,
+    ) {
+        this.chats.set(
+            chat.getProjectID(),
+            chat.withMessageTranslation(message, language, text),
+        );
+        await this.modifyChatMessage(chat.getProjectID(), message.id, (m) => ({
+            ...m,
+            translations: { ...m.translations, [language]: text },
         }));
     }
 

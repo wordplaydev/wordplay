@@ -156,9 +156,10 @@
     }
 
     /** Translate every visible message into the chosen target language and show
-     *  each translation beneath its original. Messages are grouped by source
+     *  each translation beneath its original. Messages already carrying a cached
+     *  translation for the target reuse it; the rest are grouped by source
      *  language and translated in batches to avoid one network round-trip per
-     *  message. */
+     *  message, then their results are cached on the message for next time. */
     async function translateMessages(target: string | undefined) {
         translateTo = target;
         translations = {};
@@ -185,11 +186,24 @@
         const next: Record<string, { language: string; text: string }> = {};
         const grouped = new Map<
             string,
-            { from: ReturnType<typeof stringToLocale>; ids: string[]; texts: string[] }
+            {
+                from: ReturnType<typeof stringToLocale>;
+                ids: string[];
+                texts: string[];
+            }
         >();
 
         for (const msg of messages) {
             if (msg.text === null) continue;
+
+            // Reuse a cached translation for this target if the message already
+            // has one, skipping the LLM call entirely.
+            const cached = msg.translations?.[target];
+            if (cached !== undefined) {
+                next[msg.id] = { language: target, text: cached };
+                continue;
+            }
+
             const source = msg.language ?? $locales.getLanguages()[0];
             const fromLocale = stringToLocale(source);
             if (fromLocale === undefined) continue;
@@ -208,25 +222,41 @@
             }
         }
 
+        // Newly translated (id, text) pairs to persist after the passes finish.
+        const toCache: { id: string; text: string }[] = [];
+
         await Promise.all(
             Array.from(grouped.values()).map(async (group) => {
                 if (group.from === undefined) return;
-                const result = await translate(group.texts, group.from, toLocale);
+                const result = await translate(
+                    group.texts,
+                    group.from,
+                    toLocale,
+                );
                 if (result === null) return;
 
                 for (let i = 0; i < group.ids.length; i += 1) {
                     const translated = result[i];
-                    if (typeof translated === 'string')
+                    if (typeof translated === 'string') {
                         next[group.ids[i]] = {
                             language: target,
                             text: translated,
                         };
+                        toCache.push({ id: group.ids[i], text: translated });
+                    }
                 }
             }),
         );
 
         translations = next;
         translating = false;
+
+        // Cache each freshly translated message so future requests for this
+        // language reuse the stored text instead of calling the LLM again.
+        for (const { id, text } of toCache) {
+            const message = chat.getMessages().find((m) => m.id === id);
+            if (message) Chats.saveMessageTranslation(chat, message, target, text);
+        }
     }
 
     function areSameDay(a: Date, b: Date): boolean {
