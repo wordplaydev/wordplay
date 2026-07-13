@@ -76,6 +76,7 @@ export default class Physics {
     private currentShapeBodies: {
         rigidBody: RAPIER.RigidBody;
         world: RAPIER.World;
+        collider: RAPIER.Collider;
     }[] = [];
 
     /** Simulated time owed to the engine but not yet stepped, in ms.
@@ -185,13 +186,17 @@ export default class Physics {
         angle: number,
         makeDesc: (rapier: typeof RAPIER) => RAPIER.ColliderDesc,
         z: number,
-    ): { rigidBody: RAPIER.RigidBody; world: RAPIER.World } {
+    ): {
+        rigidBody: RAPIER.RigidBody;
+        world: RAPIER.World;
+        collider: RAPIER.Collider;
+    } {
         const RAPIER = getRapier();
         const world = this.getWorldAtZ(z);
         const rigidBody = world.createRigidBody(
             RAPIER.RigidBodyDesc.fixed().setTranslation(x, y).setRotation(angle),
         );
-        world.createCollider(
+        const collider = world.createCollider(
             makeDesc(RAPIER)
                 // Matter.js gave barriers its default friction (0.1) and no
                 // restitution, and resolved pairs with min(friction) /
@@ -205,7 +210,7 @@ export default class Physics {
                 .setActiveCollisionTypes(AllCollisionTypes(RAPIER)),
             rigidBody,
         );
-        return { rigidBody, world };
+        return { rigidBody, world, collider };
     }
 
     /** Given the current and prior scenes, and the time elapsed since the last one, sync the physics world. */
@@ -402,9 +407,11 @@ export default class Physics {
                 const RAPIER = loadRapier();
                 if (RAPIER === undefined) return;
 
-                // Remove the bodies previously added
-                for (const record of this.currentShapeBodies)
+                // Remove the bodies previously added, and any name records.
+                for (const record of this.currentShapeBodies) {
+                    this.nameByColliderHandle.delete(record.collider.handle);
                     record.world.removeRigidBody(record.rigidBody);
+                }
 
                 // Add the revised bodies
                 this.currentShapeBodies = [];
@@ -422,6 +429,15 @@ export default class Physics {
                                 : undefined;
 
                     if (created) {
+                        // Named barriers appear in Collision rebounds by name
+                        // (matching the old Matter body labels), so programs can
+                        // react to specific Shapes — or exempt them from a
+                        // catch-all Collision by checking the name.
+                        if (barrier.name)
+                            this.nameByColliderHandle.set(
+                                created.collider.handle,
+                                barrier.getName(),
+                            );
                         this.currentShapeBodies.push(created);
                     }
                 }

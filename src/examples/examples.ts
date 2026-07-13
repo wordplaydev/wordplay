@@ -167,6 +167,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
             [
                 'Adventure',
                 'BasketballStar',
+                'Flappy',
                 'Maze',
                 'WhatWord',
                 'Catch',
