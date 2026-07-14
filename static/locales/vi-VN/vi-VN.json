@@ -6417,7 +6417,10 @@
             },
             "field": {
                 "key": {
-                    "description": "$~lắng nghe các lần nhấn phím",
+                    "description": "$~lắng nghe các lần nhấn phím"
+                },
+                "chat": {
+                    "description": "$~gửi một tin nhắn trò chuyện",
                     "placeholder": "$~tin nhắn"
                 }
             },

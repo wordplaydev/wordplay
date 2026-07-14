@@ -6149,8 +6149,11 @@
             },
             "field": {
                 "key": {
-                    "description": "聆听按键",
-                    "placeholder": "消息"
+                    "description": "聆听按键"
+                },
+                "chat": {
+                    "description": "$~发送一条聊天消息",
+                    "placeholder": "$~消息"
                 }
             },
             "button": {

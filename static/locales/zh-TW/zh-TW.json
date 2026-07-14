@@ -6148,8 +6148,11 @@
             },
             "field": {
                 "key": {
-                    "description": "聆聽按鍵",
-                    "placeholder": "訊息"
+                    "description": "聆聽按鍵"
+                },
+                "chat": {
+                    "description": "$~發送一則聊天訊息",
+                    "placeholder": "$~訊息"
                 }
             },
             "button": {

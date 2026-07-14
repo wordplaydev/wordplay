@@ -6193,7 +6193,10 @@
             },
             "field": {
                 "key": {
-                    "description": "$~słuchanie naciśnięć klawiszy",
+                    "description": "$~słuchanie naciśnięć klawiszy"
+                },
+                "chat": {
+                    "description": "$~wyślij wiadomość na czacie",
                     "placeholder": "$~wiadomość"
                 }
             },

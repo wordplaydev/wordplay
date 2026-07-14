@@ -6159,8 +6159,11 @@
             },
             "field": {
                 "key": {
-                    "description": "escuchando pulsaciones de teclas",
-                    "placeholder": "mensaje"
+                    "description": "escuchando pulsaciones de teclas"
+                },
+                "chat": {
+                    "description": "$~enviar un mensaje de chat",
+                    "placeholder": "$~mensaje"
                 }
             },
             "button": {

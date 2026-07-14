@@ -6429,7 +6429,10 @@
             },
             "field": {
                 "key": {
-                    "description": "$~কী-প্রেস শোনা",
+                    "description": "$~কী-প্রেস শোনা"
+                },
+                "chat": {
+                    "description": "$~একটি চ্যাট বার্তা পাঠান",
                     "placeholder": "$~বার্তা"
                 }
             },

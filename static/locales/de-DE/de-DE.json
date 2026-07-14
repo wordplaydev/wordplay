@@ -6171,7 +6171,10 @@
             },
             "field": {
                 "key": {
-                    "description": "$~Tastendrücke abhören",
+                    "description": "$~Tastendrücke abhören"
+                },
+                "chat": {
+                    "description": "$~eine Chat-Nachricht senden",
                     "placeholder": "$~Nachricht"
                 }
             },

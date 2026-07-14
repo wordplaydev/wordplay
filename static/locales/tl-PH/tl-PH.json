@@ -6417,7 +6417,10 @@
             },
             "field": {
                 "key": {
-                    "description": "$~pakikinig sa mga pagpindot sa key",
+                    "description": "$~pakikinig sa mga pagpindot sa key"
+                },
+                "chat": {
+                    "description": "$~magpadala ng mensahe sa chat",
                     "placeholder": "$~mensahe"
                 }
             },

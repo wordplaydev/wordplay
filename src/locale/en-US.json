@@ -6436,7 +6436,10 @@
             },
             "field": {
                 "key": {
-                    "description": "listening to key presses",
+                    "description": "listening to key presses"
+                },
+                "chat": {
+                    "description": "send a chat message",
                     "placeholder": "message"
                 }
             },

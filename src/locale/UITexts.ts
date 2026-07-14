@@ -673,8 +673,12 @@ type UITexts = {
             paint: ToggleText;
         };
         field: {
-            /** The text field that accepts key, placement, and chat input when a key stream is active */
-            key: FieldText;
+            key: {
+                /** [plain] The ARIA label for the hidden text field that receives keyboard focus for key and placement input streams */
+                description: string;
+            };
+            /** The text field for sending a message to a project's Chat stream */
+            chat: FieldText;
         };
         button: {
             /** [plain] The chat submit button */

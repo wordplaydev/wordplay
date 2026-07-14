@@ -6418,7 +6418,10 @@
             },
             "field": {
                 "key": {
-                    "description": "$~ascultând apăsările de taste",
+                    "description": "$~ascultând apăsările de taste"
+                },
+                "chat": {
+                    "description": "$~trimite un mesaj de chat",
                     "placeholder": "$~mesaj"
                 }
             },

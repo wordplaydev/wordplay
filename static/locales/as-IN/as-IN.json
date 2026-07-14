@@ -6402,7 +6402,10 @@
             },
             "field": {
                 "key": {
-                    "description": "$~কি টিপি শুনা",
+                    "description": "$~কি টিপি শুনা"
+                },
+                "chat": {
+                    "description": "$~এটা চাট বাৰ্তা পঠিয়াওক",
                     "placeholder": "$~বাৰ্তা"
                 }
             },

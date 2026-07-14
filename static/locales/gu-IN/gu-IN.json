@@ -6185,7 +6185,10 @@
             },
             "field": {
                 "key": {
-                    "description": "$~કી પ્રેસ સાંભળવું",
+                    "description": "$~કી પ્રેસ સાંભળવું"
+                },
+                "chat": {
+                    "description": "$~ચેટ સંદેશ મોકલો",
                     "placeholder": "$~સંદેશ"
                 }
             },

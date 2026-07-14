@@ -6179,7 +6179,10 @@
             },
             "field": {
                 "key": {
-                    "description": "$~lyssna på knapptryckningar",
+                    "description": "$~lyssna på knapptryckningar"
+                },
+                "chat": {
+                    "description": "$~skicka ett chattmeddelande",
                     "placeholder": "$~meddelande"
                 }
             },

@@ -6185,7 +6185,10 @@
             },
             "field": {
                 "key": {
-                    "description": "$~キーの押下音を聞く",
+                    "description": "$~キーの押下音を聞く"
+                },
+                "chat": {
+                    "description": "$~チャットメッセージを送る",
                     "placeholder": "$~メッセージ"
                 }
             },

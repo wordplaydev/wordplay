@@ -6161,7 +6161,10 @@
             },
             "field": {
                 "key": {
-                    "description": "$~키 누르는 소리 듣기",
+                    "description": "$~키 누르는 소리 듣기"
+                },
+                "chat": {
+                    "description": "$~채팅 메시지 보내기",
                     "placeholder": "$~메시지"
                 }
             },

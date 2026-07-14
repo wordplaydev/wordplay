@@ -6417,7 +6417,10 @@
             },
             "field": {
                 "key": {
-                    "description": "$~mendengarkan penekanan tombol",
+                    "description": "$~mendengarkan penekanan tombol"
+                },
+                "chat": {
+                    "description": "$~kirim pesan obrolan",
                     "placeholder": "$~pesan"
                 }
             },

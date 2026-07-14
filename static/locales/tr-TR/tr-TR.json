@@ -6185,7 +6185,10 @@
             },
             "field": {
                 "key": {
-                    "description": "$~tuş vuruşlarını dinlemek",
+                    "description": "$~tuş vuruşlarını dinlemek"
+                },
+                "chat": {
+                    "description": "$~bir sohbet mesajı gönder",
                     "placeholder": "$~mesaj"
                 }
             },

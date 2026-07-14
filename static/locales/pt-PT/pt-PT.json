@@ -6415,8 +6415,11 @@
             },
             "field": {
                 "key": {
-                    "description": "ouvindo o som das teclas premidas",
-                    "placeholder": "mensagem"
+                    "description": "ouvindo o som das teclas premidas"
+                },
+                "chat": {
+                    "description": "$~enviar uma mensagem de conversa",
+                    "placeholder": "$~mensagem"
                 }
             },
             "button": {

@@ -74,6 +74,7 @@
     import { SensorPanelStack } from '@components/output/SensorPanelStack.svelte';
     import ValueView from '@components/values/ValueView.svelte';
     import { default as ButtonUI } from '@components/widgets/Button.svelte';
+    import TextField from '@components/widgets/TextField.svelte';
     import type PaintingConfiguration from '@components/output/PaintingConfiguration';
     import StageView from '@components/output/StageView.svelte';
     import {
@@ -294,7 +295,8 @@
     let startGesturePlace = $state<Place | undefined>();
 
     let keyboardInputView = $state<HTMLInputElement | undefined>();
-    let keyboardInputText = $state('');
+    let chatInputView = $state<HTMLInputElement | undefined>();
+    let chatText = $state('');
 
     const interactive = $derived(!mini);
     const exception = $derived(
@@ -456,8 +458,8 @@
 
         if (event.key === 'Tab') return;
 
-        // Reset the value if there's not a chat.
-        if (!chats && keyboardInputView) {
+        // The keyboard input is just a focus sink for key events; discard anything typed into it.
+        if (keyboardInputView) {
             keyboardInputView.value = '';
         }
 
@@ -725,13 +727,18 @@
 
     function submitChat() {
         // Get the message
-        const message = keyboardInputText;
+        const message = chatText;
 
         // Reset the message
-        keyboardInputText = '';
+        chatText = '';
 
         // Pass the message to the chats
         evaluator.singletonReact(Chat, (stream) => stream.react(message));
+    }
+
+    function submitChatForm(event: SubmitEvent) {
+        event.preventDefault();
+        submitChat();
     }
 
     function handleWheel(event: WheelEvent) {
@@ -756,10 +763,11 @@
         // A second pointer turns this into a pinch gesture, so abandon any in-progress pan.
         if (pointersByIndex.length >= 2) drag = undefined;
 
-        // Focus the keyboard input if it exists.
-        if (keyboardInputView) {
+        // Focus the keyboard sink if it exists, otherwise the chat field.
+        const inputView = keyboardInputView ?? chatInputView;
+        if (inputView) {
             setKeyboardFocus(
-                keyboardInputView,
+                inputView,
                 'Focusing output text field on pointer down.',
             );
             event.stopPropagation();
@@ -1533,7 +1541,7 @@
             />
         {/if}
         <!-- Stage controls dock: stream status chips (Say, Hand/Face loading, sensors) + keyboard input -->
-        {#if says.length > 0 || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || hasMicrophoneStream || hasCameraStream || keys || placements || chats}
+        {#if says.length > 0 || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || hasMicrophoneStream || hasCameraStream || keys || placements}
             <div class="stage-controls-dock">
                 <!-- Corner status chips: Say queue, Hand/Face loading indicators, sensor monitors -->
                 {#if says.length > 0 || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || hasMicrophoneStream || hasCameraStream}
@@ -1579,46 +1587,52 @@
                         {/each}
                     </div>
                 {/if}
-                <!-- Keyboard input for Key/Placement/Chat streams -->
-                {#if keys || placements || chats}
-                    <div class="keyboard" class:visible={chats}>
-                <input
-                    type="text"
-                    class="keyboard-input"
-                    placeholder={chats
-                        ? $locales.getPlainText(
-                              (l) => l.ui.output.field.key.placeholder,
-                          )
-                        : null}
-                    data-defaultfocus
-                    aria-autocomplete="none"
-                    aria-label={$locales.getPlainText(
-                        (l) => l.ui.output.field.key.description,
-                    )}
-                    autocomplete={chats ? 'on' : 'off'}
-                    autocorrect={chats ? 'on' : 'off'}
-                    onkeydown={(event) =>
-                        chats &&
-                        event.key === 'Enter' &&
-                        event.target &&
-                        'value' in event.target
-                            ? submitChat()
-                            : null}
-                    bind:value={keyboardInputText}
-                    bind:this={keyboardInputView}
-                />
-                {#if chats}
-                    <ButtonUI
-                        background={background !== null}
-                        tip={(l) => l.ui.output.button.submit}
-                        action={submitChat}>↑</ButtonUI
-                    >
-                {/if}
+                <!-- Hidden focus sink that lets Key/Placement streams receive keyboard events -->
+                {#if keys || placements}
+                    <div class="keyboard">
+                        <input
+                            type="text"
+                            class="keyboard-input"
+                            data-defaultfocus
+                            aria-autocomplete="none"
+                            aria-label={$locales.getPlainText(
+                                (l) => l.ui.output.field.key.description,
+                            )}
+                            autocomplete="off"
+                            autocorrect="off"
+                            bind:this={keyboardInputView}
+                        />
                     </div>
                 {/if}
             </div>
         {/if}
     </div>
+    <!-- Chat stream message field. It lives OUTSIDE .value so it escapes the pinned
+         light color-scheme and follows the app theme like other chrome, and takes
+         real layout space below the stage rather than floating over creator output. -->
+    {#if chats}
+        <form
+            class="chat-footer"
+            data-indicates-focus
+            onsubmit={submitChatForm}
+        >
+            <TextField
+                id="stage-chat"
+                fill
+                defaultFocus
+                bind:text={chatText}
+                bind:view={chatInputView}
+                placeholder={(l) => l.ui.output.field.chat.placeholder}
+                description={(l) => l.ui.output.field.chat.description}
+            />
+            <ButtonUI
+                submit
+                background
+                tip={(l) => l.ui.output.button.submit}
+                action={submitChat}>↑</ButtonUI
+            >
+        </form>
+    {/if}
 </section>
 
 <style>
@@ -1646,12 +1660,14 @@
         white-space: nowrap;
     }
 
-    .output:focus-within {
+    /* Focus and selection feedback wrap the creator canvas only, not the
+       chat footer chrome that sits below it in the same section. */
+    .value:focus-within {
         outline: var(--wordplay-focus-width) solid var(--wordplay-focus-color);
         outline-offset: calc(-1 * var(--wordplay-focus-width));
     }
 
-    .output.editing.selected {
+    .output.editing.selected > .value {
         outline: var(--wordplay-focus-width) dotted
             var(--wordplay-highlight-color);
         outline-offset: calc(-1 * var(--wordplay-focus-width));
@@ -1834,14 +1850,20 @@
         padding-inline: var(--wordplay-spacing);
     }
 
-    .keyboard.visible {
-        opacity: 1;
-        border-block-start: var(--wordplay-border-color) solid
-            var(--wordplay-border-width);
-    }
-
     .keyboard-input:focus {
         outline: none;
+    }
+
+    /* Stable chrome, matching the tile toolbar, so the field is legible over any stage background. */
+    .chat-footer {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: var(--wordplay-spacing);
+        padding: var(--wordplay-spacing);
+        background: var(--wordplay-background);
+        border-block-start: solid var(--wordplay-border-color)
+            var(--wordplay-border-width);
     }
 
     .ignored {

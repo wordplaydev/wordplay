@@ -6415,8 +6415,11 @@
             },
             "field": {
                 "key": {
-                    "description": "$~האזנה ללחיצות מקשים",
-                    "placeholder": "$~הוֹדָעָה"
+                    "description": "$~האזנה ללחיצות מקשים"
+                },
+                "chat": {
+                    "description": "$~שליחת הודעת צ'אט",
+                    "placeholder": "$~הודעה"
                 }
             },
             "button": {

@@ -6185,7 +6185,10 @@
             },
             "field": {
                 "key": {
-                    "description": "$~की दाबणे ऐकणे",
+                    "description": "$~की दाबणे ऐकणे"
+                },
+                "chat": {
+                    "description": "$~गप्पांचा संदेश पाठवा",
                     "placeholder": "$~संदेश"
                 }
             },

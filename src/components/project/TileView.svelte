@@ -686,9 +686,17 @@
         height: var(--wordplay-focus-width);
         flex-shrink: 0;
         width: 100%;
+        /* Chrome-colored when idle so a tile's custom background (e.g. the stage color)
+           doesn't show through the reserved strip. */
+        background-color: var(--wordplay-background);
     }
 
-    .main:focus-within + .focus-indicator {
+    /* Skip the tile's focus indicator when the focused element renders its own focus
+       indication (marked with data-indicates-focus, e.g. the stage chat field). */
+    .main:focus-within:not(
+            :has(:global([data-indicates-focus]:focus-within))
+        )
+        + .focus-indicator {
         background-color: var(--wordplay-focus-color);
     }
 

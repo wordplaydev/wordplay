@@ -6165,7 +6165,10 @@
             },
             "field": {
                 "key": {
-                    "description": "$~écouter les touches appuyées",
+                    "description": "$~écouter les touches appuyées"
+                },
+                "chat": {
+                    "description": "$~envoyer un message de discussion",
                     "placeholder": "$~message"
                 }
             },
