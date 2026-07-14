@@ -96,7 +96,7 @@ export interface ExceptionText<
     DescNames extends readonly string[] = [],
     ExplNames extends readonly string[] = [],
 > {
-    /** [formatted] A description of the kind of exception this is; appears as screen reader text and a header when exception value is displayed on stage. */
+    /** [formatted] A concise description of the kind of exception. Shown next to the ! in the editor when stepping to an exception value, as a header above the exception's explanation on stage, and prepended to the screen reader announcement of the exception. */
     description: Template<DescNames>;
     /** [formatted] The text of the explanation, in the voice of the node that generated it. Appears when value is shown on stage. */
     explanation: Template<ExplNames>;

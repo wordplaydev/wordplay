@@ -419,7 +419,7 @@
             const output = toOutput(evaluator, value, new NameGenerator());
             const colorValue = output ? undefined : toColor(value);
             const body = exception
-                ? exception.getExplanation($locales).toText()
+                ? `${exception.getExceptionDescription($locales).toText()}: ${exception.getExplanation($locales).toText()}`
                 : output !== undefined
                   ? output.getDescription($locales)
                   : colorValue !== undefined
@@ -1460,7 +1460,15 @@
             <!-- If there's an exception, show that. -->
         {:else if exception !== undefined}
             <div class="message exception" class:mini data-uiid="exception"
-                >{#if mini}!{:else}<Speech
+                >{#if mini}!{:else}<h2
+                        ><MarkupHTMLView
+                            inline
+                            markup={{
+                                perLocale: (l) =>
+                                    exception.getExceptionDescription(l),
+                            }}
+                        /></h2
+                    ><Speech
                         eyes
                         character={index?.getNodeConcept(exception.creator) ??
                             exception.creator.getCharacter($locales)}

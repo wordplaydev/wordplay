@@ -17,6 +17,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🧲 We replaced the physics engine that powers `@Motion` and `@Collision` with a faster one, so projects with lots of moving and colliding things run more smoothly, especially on slower computers. Falling, bouncing, and rolling should feel mostly the same as before, though projects that use these might need a bit of tuning.
 - 🧶 We changed the Pounce example so the ball bounces away from wherever it lands on the kitty, instead of always flying the way the kitty faces.
 - 🔍 Search in the [Guide](https://wordplay.dev/guide) now also looks inside example code and glossary definitions, so you can find a concept by the code in its examples or a term by the words in its meaning.
+- ⚠️ When a program stops with an error, we now show a short name for the kind of error — like "unknown name" — both when stepping in the editor and above the error's explanation on stage, so it's easier to see how the two match.
 
 ### Fixed
 

@@ -699,7 +699,7 @@
       "properties": {
         "description": {
           "$ref": "#/definitions/Template%3C%5B%5D%3E",
-          "description": "[formatted] A description of the kind of exception this is; appears as screen reader text and a header when exception value is displayed on stage."
+          "description": "[formatted] A concise description of the kind of exception. Shown next to the ! in the editor when stepping to an exception value, as a header above the exception's explanation on stage, and prepended to the screen reader announcement of the exception."
         },
         "explanation": {
           "$ref": "#/definitions/Template%3C%5B%5D%3E",
@@ -717,7 +717,7 @@
       "properties": {
         "description": {
           "$ref": "#/definitions/Template%3C%5B%5D%3E",
-          "description": "[formatted] A description of the kind of exception this is; appears as screen reader text and a header when exception value is displayed on stage."
+          "description": "[formatted] A concise description of the kind of exception. Shown next to the ! in the editor when stepping to an exception value, as a header above the exception's explanation on stage, and prepended to the screen reader announcement of the exception."
         },
         "explanation": {
           "$ref": "#/definitions/Template%3C%5B%22borrow%22%5D%3E",
@@ -735,7 +735,7 @@
       "properties": {
         "description": {
           "$ref": "#/definitions/Template%3C%5B%5D%3E",
-          "description": "[formatted] A description of the kind of exception this is; appears as screen reader text and a header when exception value is displayed on stage."
+          "description": "[formatted] A concise description of the kind of exception. Shown next to the ! in the editor when stepping to an exception value, as a header above the exception's explanation on stage, and prepended to the screen reader announcement of the exception."
         },
         "explanation": {
           "$ref": "#/definitions/Template%3C%5B%22expected%22%2C%22given%22%5D%3E",
@@ -753,7 +753,7 @@
       "properties": {
         "description": {
           "$ref": "#/definitions/Template%3C%5B%5D%3E",
-          "description": "[formatted] A description of the kind of exception this is; appears as screen reader text and a header when exception value is displayed on stage."
+          "description": "[formatted] A concise description of the kind of exception. Shown next to the ! in the editor when stepping to an exception value, as a header above the exception's explanation on stage, and prepended to the screen reader announcement of the exception."
         },
         "explanation": {
           "$ref": "#/definitions/Template%3C%5B%22from%22%2C%22to%22%5D%3E",
@@ -771,7 +771,7 @@
       "properties": {
         "description": {
           "$ref": "#/definitions/Template%3C%5B%5D%3E",
-          "description": "[formatted] A description of the kind of exception this is; appears as screen reader text and a header when exception value is displayed on stage."
+          "description": "[formatted] A concise description of the kind of exception. Shown next to the ! in the editor when stepping to an exception value, as a header above the exception's explanation on stage, and prepended to the screen reader announcement of the exception."
         },
         "explanation": {
           "$ref": "#/definitions/Template%3C%5B%22function%22%5D%3E",
@@ -789,7 +789,7 @@
       "properties": {
         "description": {
           "$ref": "#/definitions/Template%3C%5B%5D%3E",
-          "description": "[formatted] A description of the kind of exception this is; appears as screen reader text and a header when exception value is displayed on stage."
+          "description": "[formatted] A concise description of the kind of exception. Shown next to the ! in the editor when stepping to an exception value, as a header above the exception's explanation on stage, and prepended to the screen reader announcement of the exception."
         },
         "explanation": {
           "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22scope%22%5D%3E",
@@ -807,7 +807,7 @@
       "properties": {
         "description": {
           "$ref": "#/definitions/Template%3C%5B%5D%3E",
-          "description": "[formatted] A description of the kind of exception this is; appears as screen reader text and a header when exception value is displayed on stage."
+          "description": "[formatted] A concise description of the kind of exception. Shown next to the ! in the editor when stepping to an exception value, as a header above the exception's explanation on stage, and prepended to the screen reader announcement of the exception."
         },
         "explanation": {
           "$ref": "#/definitions/Template%3C%5B%22permission%22%5D%3E",
@@ -825,7 +825,7 @@
       "properties": {
         "description": {
           "$ref": "#/definitions/Template%3C%5B%5D%3E",
-          "description": "[formatted] A description of the kind of exception this is; appears as screen reader text and a header when exception value is displayed on stage."
+          "description": "[formatted] A concise description of the kind of exception. Shown next to the ! in the editor when stepping to an exception value, as a header above the exception's explanation on stage, and prepended to the screen reader announcement of the exception."
         },
         "explanation": {
           "$ref": "#/definitions/Template%3C%5B%22reason%22%5D%3E",

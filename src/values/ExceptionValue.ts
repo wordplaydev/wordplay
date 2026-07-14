@@ -42,6 +42,12 @@ export default abstract class ExceptionValue extends SimpleValue {
         return (l: LocaleText) => getConceptName(l, 'exception');
     }
 
+    /** The concise per-exception-kind description, concretized as markup. Shown next to
+     *  the ! in the editor's stepping value view and as a header on stage. */
+    getExceptionDescription(locales: Locales): Markup {
+        return locales.concretize(this.getExceptionText(locales).description);
+    }
+
     abstract getExplanation(locales: Locales): Markup;
 
     getBasisTypeName(): BasisTypeName {
