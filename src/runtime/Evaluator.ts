@@ -175,6 +175,13 @@ export default class Evaluator {
     #replayingInputs = false;
 
     /**
+     * True if new stream inputs should be discarded entirely, neither recorded nor evaluated.
+     * Set while the project is in edit or step mode, where the evaluator is navigating a
+     * frozen input history that stray interactions must not extend. Never blocks mirror() replay.
+     */
+    #ignoringInputs = false;
+
+    /**
      * All of the streams created while evaluating the program, including basis ones and reactions.
      * Each node gets a list of streams because multiple evaluations of the
      * node in a single evaluation generates a distinct stream for each evaluation.
@@ -353,6 +360,7 @@ export default class Evaluator {
     mirror(evaluator: Evaluator) {
         this.seed = evaluator.seed;
         this.random = new NumberGenerator(this.seed);
+        this.#ignoringInputs = evaluator.#ignoringInputs;
 
         // If the previous evaluator has any raw inputs, replay them on this evaluator.
         if (evaluator.#inputs.length > 0) {
@@ -682,6 +690,19 @@ export default class Evaluator {
 
     isReplayingInputs() {
         return this.#replayingInputs;
+    }
+
+    isIgnoringInputs() {
+        return this.#ignoringInputs;
+    }
+
+    setIgnoringInputs(on: boolean) {
+        this.#ignoringInputs = on;
+    }
+
+    /** True if any raw stream inputs have been recorded, i.e. there is a history to navigate. */
+    hasInputHistory(): boolean {
+        return this.#inputs.length > 0;
     }
 
     isDone() {
@@ -1618,6 +1639,8 @@ export default class Evaluator {
     }
 
     react(stream: StreamValue, raw: unknown, silent: boolean) {
+        // Discard inputs entirely in edit/step mode, but never during mirror() replay.
+        if (this.#ignoringInputs && !this.#replayingInputs) return;
         if (!(stream instanceof Reaction)) {
             // Find the evaluate to which it corresponds.
             const evaluate = this.creatorByStream.get(stream);

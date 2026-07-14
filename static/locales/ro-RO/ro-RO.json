@@ -6468,15 +6468,35 @@
                     "on": "$~ascunde previzualizarea camerei",
                     "off": "$~arată previzualizarea camerei"
                 }
+            },
+            "mode": {
+                "evaluation": {
+                    "label": "$~mod de evaluare",
+                    "labels": ["$~editare", "$~pas", "$~redare"],
+                    "tips": [
+                        "$~treci la modul de editare: schimbă programul în timp ce scena rămâne oprită pe cadrul actual",
+                        "$~treci la modul pas cu pas: pune pe pauză și parcurge evaluarea programului, un pas pe rând",
+                        "$~treci la modul de redare: rulează programul în direct, răspunzând la intrări în timp real"
+                    ]
+                },
+                "evaluationView": {
+                    "label": "$~mod de evaluare",
+                    "labels": ["$~vizualizare", "$~pas", "$~redare"],
+                    "tips": [
+                        "$~treci la modul de vizualizare: citește programul în timp ce scena rămâne oprită pe cadrul actual",
+                        "$~treci la modul pas cu pas: pune pe pauză și parcurge evaluarea programului, un pas pe rând",
+                        "$~treci la modul de redare: rulează programul în direct, răspunzând la intrări în timp real"
+                    ]
+                },
+                "announce": "$~mod $mode",
+                "exception": "$~Programul a avut o eroare, așa că a trecut la modul pas cu pas ca să îl poți examina.",
+                "cycle": "$~comută între modurile de editare, pas cu pas și redare"
             }
         },
         "timeline": {
-            "label": "$~cronologie",
-            "debug": "$~depanare",
             "slider": "$~cursor de timp",
             "button": {
                 "play": "$~a evalua programul până la sfârșit, răspunzând la intrări în timp real",
-                "pause": "$~întrerupeți programul, permițând avansarea și reluarea mersului",
                 "backStep": "$~un pas înapoi",
                 "backNode": "$~pas către evaluarea anterioară a cursorului",
                 "backInput": "$~înapoi cu o intrare",
@@ -6489,15 +6509,12 @@
                 "reset": "$~repornirea performanței"
             },
             "tour": {
-                "launch": "$~faceți un tur al cronologiei",
                 "timeline": "$~/Cronologia/ vă permite să parcurgeți *pașii înainte* și *pașii înapoi* prin evaluarea programului, pas cu pas. Este o modalitate excelentă de a vedea *cum* își calculează programul valoarea și de a construi un model mental al modului în care programele Wordplay sunt evaluate, mai ales dacă nu observați comportamentul dorit.",
-                "reset": "$~Butonul /resetare/ derulează înapoi evaluarea programului până la *început*, astfel încât să puteți începe să urmăriți evaluarea de la zero.",
-                "playMode": "$~Programul este acum în /redare/. În modul *redare*, programul rulează până la finalizare (dacă se termină vreodată), răspunzând la intrări în timp real.",
-                "pauseMode": "$~Programul este acum în /pauză/. În modul *pauză*, puteți avansa *înainte* și *înapoi* prin evaluare. Fereastra /adnotări/ arată acum ce se întâmplă la fiecare pas, iar *valoarea curentă* a fiecărei părți a programului apare lângă ea în editor.",
                 "annotations": "$~Fereastra /adnotări/ este locul unde apar explicațiile fiecărui pas. Pe măsură ce parcurgeți programul, aici veți citi ce tocmai s-a întâmplat.",
                 "editor": "$~/Editorul/ afișează codul. În timpul execuției pas cu pas, *valoarea* fiecărei părți a programului va apărea lângă acea parte *după* evaluare, astfel încât să puteți urmări cum se acumulează valori pe măsură ce programul rulează.",
                 "history": "$~/Istoricul/ afișează fiecare *intrare* pe care programul a primit-o, cum ar fi chei, intervale de timp și evenimente de indicator. Este *glisabil*, așa că poți reveni la orice moment din istoricul de evaluare al programului pur și simplu trăgând.",
-                "stepControls": "$~Comenzile /step/ vă permit să parcurgeți evaluarea cu precizie. Puteți sări la *start* sau *sfârșit*, să mergeți *înainte* sau *înapoi* pas cu pas, să săriți cu *o intrare*, să ieșiți *din funcție* sau să sari la partea *selectată în prezent* a codului."
+                "stepControls": "$~Comenzile /step/ vă permit să parcurgeți evaluarea cu precizie. Puteți sări la *start* sau *sfârșit*, să mergeți *înainte* sau *înapoi* pas cu pas, să săriți cu *o intrare*, să ieșiți *din funcție* sau să sari la partea *selectată în prezent* a codului.",
+                "modes": "$~/Comutatorul de mod/ alege cum se evaluează programul tău. În modul ✏️ *editare*, schimbi programul în timp ce scena rămâne oprită pe cadrul actual. În modul ⏸️ *pas cu pas* — unde te afli acum — parcurgi *înainte* și *înapoi* prin evaluare, iar *valoarea actuală* a fiecărei părți a programului tău apare lângă ea în editor. În modul ▶️ *redare*, programul tău rulează în direct, răspunzând la intrări în timp real."
             }
         },
         "tour": {
@@ -6505,7 +6522,8 @@
             "close": "$~închide turul",
             "previous": "$~pasul anterior",
             "next": "$~următorul pas",
-            "offscreen": "$~Această parte a interfeței nu este vizibilă momentan pe ecran."
+            "offscreen": "$~Această parte a interfeței nu este vizibilă momentan pe ecran.",
+            "overflowed": "$~Acest control este ascuns în meniul evidențiat; deschide-l pentru a găsi controlul."
         },
         "docs": {
             "label": "$~ghid",
@@ -7205,7 +7223,8 @@
                 "sequence": "$~convertiți în secvență",
                 "createPhrase": "$~creează o frază, afișând valoarea existentă ca text",
                 "createGroup": "$~creați un Grup, încadrând orice Frază existentă",
-                "createStage": "$~creați o Scenă, încadrând orice Grup sau Frază existentă"
+                "createStage": "$~creați o Scenă, încadrând orice Grup sau Frază existentă",
+                "editMode": "$~treci la modul de editare"
             },
             "prompt": {
                 "offerPhrase": "$~Ar trebui să includ această valoare într-o frază @Phrase ?",
@@ -7214,7 +7233,8 @@
                 "select": "$~Pentru a edita, selectați un 💬, 🔳, ⬟ sau 🎭 în cod sau ⏸️ @Stage și selectați ieșirea.",
                 "editing": "$~Editează-mă!",
                 "offerShape": "$~Ar trebui să încapăl acest @Form în @Shape pentru a-l afișa pe @Stage ?",
-                "offerNothing": "$~Nimic aici încă! Ar trebui să adaug o @Phrase pentru a începe?"
+                "offerNothing": "$~Nimic aici încă! Ar trebui să adaug o @Phrase pentru a începe?",
+                "readonly": "$~Aceste valori sunt *doar pentru citire* în acest mod. Treci la modul ✏️ *editare* ca să le schimbi."
             },
             "field": {
                 "coordinate": "$~editați coordonatele",
@@ -7634,7 +7654,6 @@
                 "button": {
                     "newproject": "$~proiect nou",
                     "editproject": "$~editează acest proiect",
-                    "viewcode": "$~vizualizați codul acestui proiect",
                     "unarchive": "$~dearhivați acest proiect"
                 },
                 "confirm": {

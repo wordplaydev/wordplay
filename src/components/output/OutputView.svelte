@@ -86,6 +86,9 @@
         evaluator: Evaluator;
         value: Value | undefined;
         editable: boolean;
+        /** Whether output can be selected (for inspection or palette editing). Defaults to
+         * editable; ProjectView passes it separately so step mode can select without editing. */
+        selectable?: boolean;
         fit?: boolean;
         grid?: boolean;
         painting?: boolean;
@@ -109,6 +112,7 @@
         evaluator,
         value,
         editable,
+        selectable = editable,
         fit = $bindable(true),
         grid = $bindable(false),
         painting = $bindable(false),
@@ -552,13 +556,13 @@
             }
         }
 
-        // Keyboard multi-select of outputs (paused + editable), a decoupled "toggle" model: moving
+        // Keyboard multi-select of outputs (paused + selectable), a decoupled "toggle" model: moving
         // focus (Tab / Alt+Arrow) never changes the selection; Space toggles the focused output in or
         // out; Enter selects ONLY the focused output and opens the palette; Escape clears; Cmd/Ctrl+A
         // selects all. Never mutate the selection mid handle-drag (mirrors selectPointerOutput).
         if (
             !evaluator.isPlaying() &&
-            editable &&
+            selectable &&
             selection &&
             !selection.dragging
         ) {
@@ -774,8 +778,8 @@
                 if (output instanceof HTMLElement) recordSelection(event);
             }
         }
-        // If we're editable and not playing, select output.
-        else if (editable) {
+        // If we're selectable and not playing, select output.
+        else if (selectable) {
             if (painting) {
                 if (selection) selection.setPaths(project, [], 'output');
             } else if (!selectPointerOutput(event)) {
@@ -1212,7 +1216,7 @@
      *  (A phrase consumes dblclick for text editing before this fires, so this applies to shapes,
      *  groups, and the stage.) Read-only during play. */
     function handleDoubleClick(event: MouseEvent) {
-        if (evaluator.isPlaying() || !editable) return;
+        if (evaluator.isPlaying() || !selectable) return;
         selectPointerOutput(event);
         revealPalette?.();
     }
@@ -1411,18 +1415,18 @@
     data-uiid="stage"
     role="group"
     aria-label={$locales.getPlainText((l) => l.ui.output.label)}
-    aria-describedby={$evaluation?.playing === false && !painting && editable
+    aria-describedby={$evaluation?.playing === false && !painting && selectable
         ? 'output-multiselect-help'
         : null}
     class:mini
-    class:editing={$evaluation?.playing === false && !painting && editable}
+    class:editing={$evaluation?.playing === false && !painting && selectable}
     class:selected={stageValue &&
         stageValue.explicit &&
         stageValue.value.creator instanceof Evaluate &&
         selection !== undefined &&
         selection.includes(stageValue.value.creator, project)}
 >
-    {#if $evaluation?.playing === false && !painting && editable}
+    {#if $evaluation?.playing === false && !painting && selectable}
         <span id="output-multiselect-help" class="multiselect-help"
             ><LocalizedText path={(l) => l.ui.output.multiselect} /></span
         >
@@ -1517,6 +1521,7 @@
                 bind:focusOverridden
                 interactive={!mini}
                 {editable}
+                inspectable={selectable}
             />
         {/if}
         <!-- Stage controls dock: stream status chips (Say, Hand/Face loading, sensors) + keyboard input -->

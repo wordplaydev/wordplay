@@ -72,7 +72,6 @@
         getEvaluation,
     } from '@components/project/Contexts';
     import Annotation from '@components/annotations/Annotation.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
 
     interface Props {
         /** The project for which annotations should be shown */
@@ -110,8 +109,11 @@
         onToggle = undefined,
     }: Props = $props();
 
+    // While stepping, the annotations always show — they carry the step
+    // explanations — and can't be toggled. The stored preference is untouched,
+    // so leaving step mode restores it.
     let isExpanded = $derived(
-        expanded !== undefined ? expanded : $showAnnotations,
+        stepping || (expanded !== undefined ? expanded : $showAnnotations),
     );
     let toggle = $derived(
         onToggle !== undefined
@@ -345,6 +347,7 @@
     side="end"
     expanded={isExpanded}
     {toggle}
+    toggleable={!stepping}
     width={$annotationsWidth}
     min={ANNOTATIONS_MIN_WIDTH}
     max={ANNOTATIONS_MAX_WIDTH}
@@ -355,15 +358,6 @@
 >
     {#snippet expandedContent()}
         <div class="annotations">
-            {#if !editable}
-                <!-- Persistent read-only note so the "why can't I edit" context
-                     sits alongside conflicts, sharing the caret/editor wording. -->
-                <div class="readonly">
-                    <LocalizedText
-                        path={(l) => l.ui.source.cursor.ignored.readOnly}
-                    />
-                </div>
-            {/if}
             {#if source.isEmpty()}
                 <Speech
                     eyes
@@ -579,11 +573,6 @@
            (e.g. literal text in a union enumeration) break at any character. */
         word-wrap: break-word;
         overflow-wrap: anywhere;
-    }
-
-    .readonly {
-        font-style: italic;
-        opacity: 0.7;
     }
 
     .annotation {

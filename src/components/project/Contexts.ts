@@ -15,6 +15,7 @@ import type Root from '@nodes/Root';
 import type Token from '@nodes/Token';
 import type Color from '@output/Color';
 import type Spaces from '@parser/Spaces';
+import type { ProjectMode } from '@components/project/ProjectMode';
 import type Evaluator from '@runtime/Evaluator';
 import type { StreamChange } from '@runtime/Evaluator';
 import type Step from '@runtime/Step';
@@ -153,6 +154,9 @@ export type EvaluationContext = {
     step: Step | undefined;
     stepIndex: number;
     streams: StreamChange[];
+    /** The project's evaluation mode. Undefined outside a ProjectView (doc examples,
+     * previews), where playing alone determines behavior. */
+    mode?: ProjectMode;
 };
 export const [getEvaluation, setEvaluation] =
     createOptionalContext<Writable<EvaluationContext>>();

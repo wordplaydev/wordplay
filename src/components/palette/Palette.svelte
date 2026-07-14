@@ -18,6 +18,8 @@
         getSelectedOutput,
         type EditorState,
     } from '@components/project/Contexts';
+    import type { ProjectMode } from '@components/project/ProjectMode';
+    import Button from '@components/widgets/Button.svelte';
     import { DB, locales } from '@db/Database';
     import type Project from '@db/projects/Project';
     import OutputExpression from '@edit/output/OutputExpression';
@@ -35,10 +37,20 @@
     interface Props {
         project: Project;
         editable: boolean;
+        /** The project's current evaluation mode; fields are read-only outside edit mode. */
+        mode?: ProjectMode;
+        /** Switches the project to edit mode; undefined when the project isn't editable. */
+        enterEditMode?: (() => void) | undefined;
         editors: EditorState[];
     }
 
-    let { project, editable, editors }: Props = $props();
+    let {
+        project,
+        editable,
+        mode = 'edit',
+        enterEditMode = undefined,
+        editors,
+    }: Props = $props();
 
     let indexContext = getConceptIndex();
     let index = $derived(indexContext?.index);
@@ -215,6 +227,19 @@
     aria-label={$locales.getPlainText((l) => l.ui.palette.label)}
     bind:this={section}
 >
+    <!-- The switch-to-edit prompt, shown inside speech bubbles in step and play modes. -->
+    {#snippet readonlyPrompt()}
+        <MarkupHtmlView markup={(l) => l.ui.palette.prompt.readonly} />
+        {#if enterEditMode}
+            <Button
+                background
+                tip={(l) => l.ui.palette.button.editMode}
+                action={enterEditMode}
+                label={(l) => l.ui.palette.button.editMode}
+                icon="✏️"
+            />
+        {/if}
+    {/snippet}
     {#if propertyValues.size > 0}
         <Speech
             eyes
@@ -230,7 +255,15 @@
             }}
         >
             {#snippet content()}
-                <MarkupHtmlView markup={(l) => l.ui.palette.prompt.editing} />
+                <!-- In step and play modes, explain that values are read-only and offer
+                     a switch to edit mode instead of prompting to edit. -->
+                {#if mode === 'edit'}
+                    <MarkupHtmlView
+                        markup={(l) => l.ui.palette.prompt.editing}
+                    />
+                {:else}
+                    {@render readonlyPrompt()}
+                {/if}
             {/snippet}
         </Speech>
 
@@ -252,6 +285,11 @@
                 ></TextStyleEditor>
             {/if}
         {/each}
+    {:else if mode !== 'edit' && enterEditMode !== undefined}
+        <!-- Nothing selected in step or play mode? Explain how to get back to editing. -->
+        <Speech eyes character={{ symbols: PALETTE_SYMBOL }}
+            >{#snippet content()}{@render readonlyPrompt()}{/snippet}</Speech
+        >
     {:else if editable}
         {#if selection === undefined || selection.isEmpty()}
             <Speech eyes character={{ symbols: PALETTE_SYMBOL }}

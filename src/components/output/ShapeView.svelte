@@ -30,6 +30,8 @@
         parentAscent: number;
         context: RenderContext;
         editable: boolean;
+        /** Whether the creator can select this output for inspection (edit or step mode). */
+        inspectable?: boolean;
         editing: boolean;
         frame: number;
     }
@@ -42,6 +44,7 @@
         parentAscent,
         context,
         editable,
+        inspectable = editable,
         editing,
         frame,
     }: Props = $props();
@@ -66,10 +69,10 @@
         )[0] ?? '',
     );
 
-    // Selected if this shape's value creator is the selected output. Gated on `editable`
-    // and `editing` (paused) so the highlight only shows in an editable, stopped view.
+    // Selected if this shape's value creator is the selected output. Gated on `inspectable`
+    // and `editing` (paused) so the highlight only shows in a selectable, stopped view.
     let selected = $derived(
-        editable &&
+        inspectable &&
             editing &&
             shape.value.creator instanceof Evaluate &&
             $project !== undefined &&
@@ -104,12 +107,13 @@
             setKeyboardFocus(view, 'Focused on selected shape.');
     });
 
-    // Move the selected shape with the arrow keys (paused-only, since `selected` requires it),
-    // so it can be repositioned with the keyboard alone — mirroring PhraseView. Alt+arrow is
-    // left for the stage's output-to-output focus navigation.
+    // Move the selected shape with the arrow keys (edit-mode-only: moving mutates the
+    // program), so it can be repositioned with the keyboard alone — mirroring PhraseView.
+    // Alt+arrow is left for the stage's output-to-output focus navigation.
     function handleKeyDown(event: KeyboardEvent) {
         if (
             !selected ||
+            !editable ||
             event.altKey ||
             $project === undefined ||
             creator === undefined ||
@@ -150,7 +154,7 @@
         aria-disabled={!selectable}
         aria-label={description}
         aria-roledescription={!selectable ? shapeKindName : null}
-        aria-pressed={selectable && editing && editable ? selected : null}
+        aria-pressed={selectable && editing && inspectable ? selected : null}
         class="output shape {shape.form instanceof Rectangle
             ? 'rectangle'
             : shape.form instanceof Circle
@@ -200,8 +204,9 @@
                 fill={shape.background?.toCSS() ?? null}
             />
         </svg>
-        <!-- Handles render after the SVG so the (opaque) form fill doesn't paint over them. -->
-        {#if soleSelected && creator}
+        <!-- Handles render after the SVG so the (opaque) form fill doesn't paint over them.
+             Editable-only, since dragging them mutates the program. -->
+        {#if soleSelected && editable && creator}
             <OutputHandles
                 {creator}
                 {view}

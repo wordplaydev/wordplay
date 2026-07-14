@@ -6465,15 +6465,35 @@
                     "on": "$~ocultar pré-visualização da câmara",
                     "off": "$~mostrar pré-visualização da câmara"
                 }
+            },
+            "mode": {
+                "evaluation": {
+                    "label": "$~modo de avaliação",
+                    "labels": ["$~editar", "$~passo", "$~reproduzir"],
+                    "tips": [
+                        "$~mudar para o modo de edição: altera o programa enquanto o palco fica parado no fotograma atual",
+                        "$~mudar para o modo de passo: pausa e avança pela avaliação do programa, um passo de cada vez",
+                        "$~mudar para o modo de reprodução: executa o programa em direto, respondendo às entradas em tempo real"
+                    ]
+                },
+                "evaluationView": {
+                    "label": "$~modo de avaliação",
+                    "labels": ["$~ver", "$~passo", "$~reproduzir"],
+                    "tips": [
+                        "$~mudar para o modo de visualização: lê o programa enquanto o palco fica parado no fotograma atual",
+                        "$~mudar para o modo de passo: pausa e avança pela avaliação do programa, um passo de cada vez",
+                        "$~mudar para o modo de reprodução: executa o programa em direto, respondendo às entradas em tempo real"
+                    ]
+                },
+                "announce": "$~modo $mode",
+                "exception": "$~O programa teve um erro, por isso mudou para o modo de passo para que possas inspecioná-lo.",
+                "cycle": "$~alternar entre os modos editar, passo e reproduzir"
             }
         },
         "timeline": {
-            "label": "linha do tempo",
-            "debug": "depurar",
             "slider": "controle deslizante de tempo",
             "button": {
                 "play": "Avaliar o programa até ao fim, respondendo às entradas em tempo real.",
-                "pause": "Pausar o programa, permitindo avançar e recuar.",
                 "backStep": "dê um passo atrás",
                 "backNode": "passo para avaliação prévia do cursor",
                 "backInput": "voltar uma entrada",
@@ -6486,15 +6506,12 @@
                 "reset": "reiniciar desempenho"
             },
             "tour": {
-                "launch": "Faça um tour pela linha do tempo.",
                 "timeline": "A linha do tempo permite-lhe avançar e recuar na avaliação do seu programa, um passo de cada vez. É uma excelente forma de ver como o seu programa calcula o seu valor e de construir um modelo mental de como os programas Wordplay avaliam, especialmente se não estiver a ver o comportamento desejado.",
-                "reset": "O botão /reset/ faz recuar a avaliação do seu programa até ao *início*, para que possa começar a ver a avaliação a partir do zero.",
-                "playMode": "O programa está agora em execução. No modo de reprodução, o seu programa é executado até terminar (se é que termina), respondendo às entradas em tempo real.",
-                "pauseMode": "O programa está agora /pausado/. No modo *pausado*, pode *avançar* e *recuar* na avaliação. A janela /anotações/ mostra agora o que está a acontecer em cada passo, e o *valor actual* de cada parte do seu programa aparece ao lado no editor.",
                 "annotations": "A janela /annotations/ é onde aparecem as explicações de cada passo. À medida que executa o programa passo a passo, é aqui que irá ler o que acabou de acontecer.",
                 "editor": "O /editor/ apresenta o seu código. Ao depurar passo a passo, o *valor* de cada parte do seu programa aparecerá ao lado dessa parte *após* a sua avaliação, permitindo-lhe observar os valores a acumularem-se à medida que o programa é executado.",
                 "history": "O /histórico/ mostra todas as *entradas* que o seu programa recebeu, como teclas premidas, intervalos de tempo e eventos de ponteiros. É *arrastável*, pelo que pode voltar a qualquer momento no histórico de avaliação do programa simplesmente arrastando.",
-                "stepControls": "Os controlos de /passo/ permitem-lhe navegar pela avaliação com precisão. Pode saltar para o *início* ou *fim*, avançar ou recuar um passo de cada vez, saltar por *uma entrada*, *sair* de uma função ou saltar para a parte do código *atualmente selecionada*."
+                "stepControls": "Os controlos de /passo/ permitem-lhe navegar pela avaliação com precisão. Pode saltar para o *início* ou *fim*, avançar ou recuar um passo de cada vez, saltar por *uma entrada*, *sair* de uma função ou saltar para a parte do código *atualmente selecionada*.",
+                "modes": "$~O /seletor de modo/ escolhe como o teu programa é avaliado. No modo ✏️ *edição*, alteras o programa enquanto o palco fica parado no fotograma atual. No modo ⏸️ *passo* — onde estás agora — avanças para a *frente* e para *trás* pela avaliação, e o *valor atual* de cada parte do teu programa aparece ao lado dela no editor. No modo ▶️ *reprodução*, o teu programa executa em direto, respondendo às entradas em tempo real."
             }
         },
         "docs": {
@@ -7192,7 +7209,8 @@
                 "sequence": "Converter para sequência",
                 "createPhrase": "Criar uma frase, apresentando o valor existente como texto.",
                 "createGroup": "Criar um grupo que envolva qualquer frase existente.",
-                "createStage": "Criar um Palco, envolvendo qualquer Grupo ou Frase existente."
+                "createStage": "Criar um Palco, envolvendo qualquer Grupo ou Frase existente.",
+                "editMode": "$~mudar para o modo de edição"
             },
             "prompt": {
                 "offerPhrase": "$~Devo envolver este valor numa @Phrase ?",
@@ -7201,7 +7219,8 @@
                 "select": "$~Para editar, selecione um 💬, 🔳, ⬟ ou 🎭 no código, ou ⏸️ o @Stage e selecione a saída.",
                 "editing": "Edite-me!",
                 "offerShape": "$~Devo envolver este @Form num @Shape para o exibir no @Stage ?",
-                "offerNothing": "$~Ainda não há nada aqui! Devo adicionar uma @Phrase para começar?"
+                "offerNothing": "$~Ainda não há nada aqui! Devo adicionar uma @Phrase para começar?",
+                "readonly": "$~Estes valores são *só de leitura* neste modo. Muda para o modo ✏️ *edição* para os alterar."
             },
             "field": {
                 "coordinate": "editar coordenadas",
@@ -7533,7 +7552,6 @@
                 "button": {
                     "newproject": "novo projeto",
                     "editproject": "editar este projeto",
-                    "viewcode": "veja o código deste projeto",
                     "unarchive": "desarquivar este projeto"
                 },
                 "confirm": {
@@ -8206,7 +8224,8 @@
             "close": "terminar a visita guiada",
             "previous": "etapa anterior",
             "next": "próximo passo",
-            "offscreen": "Esta parte da interface não está visível no ecrã de momento."
+            "offscreen": "Esta parte da interface não está visível no ecrã de momento.",
+            "overflowed": "$~Este controlo está dentro do menu destacado; abre-o para encontrar o controlo."
         },
         "connection": {
             "offline": "Está offline. Algumas funcionalidades só funcionarão quando estiver online.",

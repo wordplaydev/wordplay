@@ -6452,6 +6452,29 @@
                 "locale": "preferred language for output",
                 "default": "$count languages"
             },
+            "mode": {
+                "evaluation": {
+                    "label": "evaluation mode",
+                    "labels": ["edit", "step", "play"],
+                    "tips": [
+                        "switch to edit mode: change the program while the stage stays frozen on the current frame",
+                        "switch to step mode: pause and step through the program's evaluation, one step at a time",
+                        "switch to play mode: run the program live, responding to inputs in real time"
+                    ]
+                },
+                "evaluationView": {
+                    "label": "evaluation mode",
+                    "labels": ["view", "step", "play"],
+                    "tips": [
+                        "switch to view mode: read the program while the stage stays frozen on the current frame",
+                        "switch to step mode: pause and step through the program's evaluation, one step at a time",
+                        "switch to play mode: run the program live, responding to inputs in real time"
+                    ]
+                },
+                "announce": "$mode mode",
+                "exception": "The program had an error, so it switched to step mode so you can inspect it.",
+                "cycle": "cycle between edit, step, and play modes"
+            },
             "tour": {
                 "launch": "take a tour of the stage",
                 "stage": "The /stage/ shows your program's *current value*. That value might be a *raw value* like a number or list, *visual output* you can see, or even *sound* you can hear.",
@@ -6482,12 +6505,9 @@
             }
         },
         "timeline": {
-            "label": "timeline",
-            "debug": "debug",
             "slider": "time slider",
             "button": {
-                "play": "evaluate the program to the end, responding to inputs in real time",
-                "pause": "pause the program, enabling stepping forward and backwards",
+                "play": "evaluate the program, responding to inputs in real time",
                 "backStep": "step back one",
                 "backNode": "step to previous evaluation of cursor",
                 "backInput": "back one input",
@@ -6500,11 +6520,8 @@
                 "reset": "restart performance"
             },
             "tour": {
-                "launch": "take a tour of the timeline",
-                "timeline": "The /timeline/ lets you step *forward* and *backward* through your program's evaluation, one step at a time. It's a great way to see *how* your program computes its value, and to build a mental model of how Wordplay programs evaluate, especially if you're not seeing the behavior you want.",
-                "reset": "The /reset/ button rewinds your program's evaluation all the way back to the *beginning*, so you can start watching the evaluation from scratch.",
-                "playMode": "The program is now /playing/. In *play* mode, your program runs until it's done (if ever), responding to inputs in real time.",
-                "pauseMode": "The program is now /paused/. In *pause* mode, you can step *forward* and *backward* through evaluation. The /annotations/ window now shows what's happening at each step, and the *current value* of each part of your program appears next to it in the editor.",
+                "timeline": "The /timeline/ lets you step *forward* and *backward* through your program's evaluation, one step at a time. It appears in the stage's toolbar in ⏸️ *step* mode, and it's a great way to see *how* your program computes its value, and to build a mental model of how Wordplay programs evaluate, especially if you're not seeing the behavior you want.",
+                "modes": "The /mode switcher/ chooses how your program evaluates. In ✏️ *edit* mode, you change the program while the stage stays frozen on the current frame. In ⏸️ *step* mode — where you are now — you step *forward* and *backward* through evaluation, and the *current value* of each part of your program appears next to it in the editor. In ▶️ *play* mode, your program runs live, responding to inputs in real time.",
                 "annotations": "The /annotations/ window is where explanations of each step appear. As you step through your program, this is where you'll read what just happened.",
                 "editor": "The /editor/ shows your code. While stepping, the *value* of each part of your program will appear next to that part *after* it's been evaluated, so you can watch values build up as the program runs.",
                 "history": "The /history/ shows every *input* your program has received, like keys, time ticks, and pointer events. It's *draggable*, so you can return to any moment in the program's evaluation history just by dragging.",
@@ -6516,7 +6533,8 @@
             "close": "close the tour",
             "previous": "previous step",
             "next": "next step",
-            "offscreen": "This part of the interface isn't currently visible on screen."
+            "offscreen": "This part of the interface isn't currently visible on screen.",
+            "overflowed": "This control is tucked inside the highlighted menu; open it to find the control."
         },
         "docs": {
             "label": "guide",
@@ -7216,7 +7234,8 @@
                 "sequence": "convert to Sequence",
                 "createPhrase": "create a Phrase, showing the existing value as text",
                 "createGroup": "create a Group, wrapping any existing Phrase",
-                "createStage": "create a Stage, wrapping any existing Group or Phrase"
+                "createStage": "create a Stage, wrapping any existing Group or Phrase",
+                "editMode": "switch to edit mode"
             },
             "prompt": {
                 "offerPhrase": "Shall I wrap this value in a @Phrase?",
@@ -7224,8 +7243,9 @@
                 "offerStage": "Shall I wrap this content in a @Stage, so you can control lighting, color, and frames?",
                 "offerShape": "Shall I wrap this @Form in @Shape to show it on @Stage?",
                 "offerNothing": "Nothing here yet! Shall I add a @Phrase to get started?",
-                "select": "To edit, select a 💬, 🔳, ⬟, or 🎭 in code, or ⏸️ the @Stage and select output.",
-                "editing": "Edit me!"
+                "select": "To edit, select a 💬, 🔳, ⬟, or 🎭 in code, or select output on the @Stage.",
+                "editing": "Edit me!",
+                "readonly": "The palette is *read-only* in this mode. Switch to ✏️ *edit* mode to make changes."
             },
             "field": {
                 "coordinate": "edit coordinate",
@@ -7254,7 +7274,7 @@
             },
             "tour": {
                 "launch": "take a tour of the palette",
-                "palette": "When the project is *paused*, you can use the /palette/ to edit *phrases*, *groups*, and the *stage*.",
+                "palette": "In ✏️ *edit* mode, you can use the /palette/ to edit *phrases*, *groups*, and the *stage*.",
                 "text": "All the /properties/ of a phrase can be edited here. This is the *text* of the phrase, but other properties have their own controls.",
                 "set": "When a property is currently using its /default/ value, the *pencil* button lets you set an *explicit* value for it.",
                 "unset": "When a property has an /explicit/ value set, the *X* button removes that value, returning the property to its *default*.",
@@ -7668,7 +7688,6 @@
                 "button": {
                     "newproject": "new project",
                     "editproject": "edit this project",
-                    "viewcode": "view this project's code",
                     "unarchive": "unarchive this project"
                 },
                 "confirm": {

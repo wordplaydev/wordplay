@@ -59,6 +59,8 @@
         parentAscent: number;
         context: RenderContext;
         editable: boolean;
+        /** Whether the creator can select this output for inspection (edit or step mode). */
+        inspectable?: boolean;
         editing: boolean;
         frame: number;
     }
@@ -71,6 +73,7 @@
         parentAscent,
         context,
         editable,
+        inspectable = editable,
         editing,
         frame,
     }: Props = $props();
@@ -129,11 +132,11 @@
     // The text field, if being edited.
     let input: HTMLInputElement | undefined = $state();
 
-    // Selected if this phrase's value creator is selected. Gated on `editable && editing`
-    // (paused) so the rotate/size handles, drag-move, and highlight only appear when the
-    // view is editable and stopped — consistent with ShapeView and GroupView.
+    // Selected if this phrase's value creator is selected. Gated on `inspectable && editing`
+    // (paused) so the highlight only appears when the creator can select output and the
+    // view is stopped — consistent with ShapeView and GroupView.
     let selected = $derived(
-        editable &&
+        inspectable &&
             editing &&
             phrase.value.creator instanceof Evaluate &&
             $project !== undefined &&
@@ -441,7 +444,7 @@
         aria-roledescription={!selectable
             ? $locales.getPlainText((l) => getConceptName(l, 'phrase'))
             : null}
-        aria-pressed={selectable && editing && editable ? selected : null}
+        aria-pressed={selectable && editing && inspectable ? selected : null}
         class="output phrase"
         class:selected
         tabIndex={interactive && ((!empty && selectable) || editing) ? 0 : null}

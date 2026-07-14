@@ -6467,14 +6467,35 @@
                     "on": "$~ẩn xem trước máy ảnh",
                     "off": "$~hiện xem trước máy ảnh"
                 }
+            },
+            "mode": {
+                "evaluation": {
+                    "label": "$~chế độ chạy",
+                    "labels": ["$~chỉnh sửa", "$~từng bước", "$~chạy"],
+                    "tips": [
+                        "$~chuyển sang chế độ chỉnh sửa: thay đổi chương trình trong khi sân khấu đứng yên ở khung hình hiện tại",
+                        "$~chuyển sang chế độ từng bước: tạm dừng và đi qua từng bước chạy của chương trình, mỗi lần một bước",
+                        "$~chuyển sang chế độ chạy: chạy chương trình trực tiếp, phản hồi các đầu vào theo thời gian thực"
+                    ]
+                },
+                "evaluationView": {
+                    "label": "$~chế độ chạy",
+                    "labels": ["$~xem", "$~từng bước", "$~chạy"],
+                    "tips": [
+                        "$~chuyển sang chế độ xem: đọc chương trình trong khi sân khấu đứng yên ở khung hình hiện tại",
+                        "$~chuyển sang chế độ từng bước: tạm dừng và đi qua từng bước chạy của chương trình, mỗi lần một bước",
+                        "$~chuyển sang chế độ chạy: chạy chương trình trực tiếp, phản hồi các đầu vào theo thời gian thực"
+                    ]
+                },
+                "announce": "$~chế độ $mode",
+                "exception": "$~Chương trình gặp lỗi, nên nó chuyển sang chế độ từng bước để bạn có thể xem xét lỗi đó.",
+                "cycle": "$~chuyển đổi giữa chế độ chỉnh sửa, bước và chơi"
             }
         },
         "timeline": {
-            "label": "$~dòng thời gian",
             "slider": "$~thanh trượt thời gian",
             "button": {
                 "play": "$~Đánh giá chương trình đến cùng, phản hồi các thông tin đầu vào trong thời gian thực.",
-                "pause": "$~Tạm dừng chương trình, cho phép tiến và lùi.",
                 "backStep": "$~lùi lại một bước",
                 "backNode": "$~bước tới đánh giá trước đó của con trỏ",
                 "backInput": "$~đầu vào trở lại",
@@ -6486,17 +6507,13 @@
                 "start": "$~Trở lại điểm khởi đầu",
                 "reset": "$~hiệu suất khởi động lại"
             },
-            "debug": "$~gỡ lỗi",
             "tour": {
-                "launch": "$~Hãy cùng tham quan dòng thời gian.",
                 "timeline": "$~Công cụ /timeline/ cho phép bạn tiến *về phía trước* và lùi *về phía sau* trong quá trình đánh giá chương trình của mình, từng bước một. Đây là một cách tuyệt vời để xem *cách* chương trình tính toán giá trị của nó, và để xây dựng mô hình tư duy về cách các chương trình Wordplay đánh giá, đặc biệt nếu bạn không thấy hành vi mình mong muốn.",
-                "reset": "$~Nút /reset/ sẽ tua lại quá trình đánh giá chương trình về *đầu tiên*, để bạn có thể bắt đầu xem lại toàn bộ quá trình đánh giá.",
                 "annotations": "$~Cửa sổ /annotations/ là nơi hiển thị giải thích cho từng bước. Khi bạn thực thi chương trình từng bước, đây là nơi bạn sẽ đọc những gì vừa xảy ra.",
                 "editor": "$~Cửa sổ /editor/ hiển thị mã của bạn. Trong quá trình chạy từng bước, *giá trị* của mỗi phần trong chương trình sẽ xuất hiện bên cạnh phần đó *sau* khi nó được đánh giá, vì vậy bạn có thể theo dõi sự tăng lên của các giá trị khi chương trình chạy.",
                 "history": "$~Cửa sổ /history/ hiển thị mọi *đầu vào* mà chương trình của bạn đã nhận được, chẳng hạn như phím bấm, thời gian cập nhật và sự kiện con trỏ. Cửa sổ này *có thể kéo thả*, vì vậy bạn có thể quay lại bất kỳ thời điểm nào trong lịch sử thực thi của chương trình chỉ bằng cách kéo.",
                 "stepControls": "$~Các điều khiển /step/ cho phép bạn di chuyển chính xác trong quá trình đánh giá. Bạn có thể nhảy đến *đầu* hoặc *cuối*, tiến *về* hoặc lùi *về* từng bước một, nhảy theo *một đầu vào*, thoát khỏi *một hàm* hoặc nhảy đến phần mã *đang được chọn*.",
-                "playMode": "$~Chương trình hiện đang /chạy/. Ở chế độ *chạy*, chương trình của bạn sẽ chạy cho đến khi hoàn thành (nếu có), phản hồi các đầu vào trong thời gian thực.",
-                "pauseMode": "$~Chương trình hiện đang ở trạng thái /tạm dừng/. Ở chế độ *tạm dừng*, bạn có thể thực hiện từng bước *tiến* và *lùi* trong quá trình đánh giá. Cửa sổ /chú thích/ hiện hiển thị những gì đang xảy ra ở mỗi bước và *giá trị hiện tại* của mỗi phần trong chương trình sẽ xuất hiện bên cạnh nó trong trình soạn thảo."
+                "modes": "$~/Bộ chuyển chế độ/ chọn cách chương trình của bạn chạy. Ở chế độ ✏️ *chỉnh sửa*, bạn thay đổi chương trình trong khi sân khấu đứng yên ở khung hình hiện tại. Ở chế độ ⏸️ *từng bước* — nơi bạn đang ở — bạn đi *tới* và *lùi* qua quá trình chạy, và *giá trị hiện tại* của mỗi phần trong chương trình sẽ hiện ra bên cạnh nó trong trình chỉnh sửa. Ở chế độ ▶️ *chạy*, chương trình của bạn chạy trực tiếp, phản hồi các đầu vào theo thời gian thực."
             }
         },
         "docs": {
@@ -7198,7 +7215,8 @@
                 "sequence": "$~chuyển đổi thành chuỗi",
                 "createPhrase": "$~Tạo một cụm từ, hiển thị giá trị hiện có dưới dạng văn bản.",
                 "createGroup": "$~Tạo một Nhóm, bao bọc bất kỳ Cụm từ hiện có nào.",
-                "createStage": "$~Tạo một Giai đoạn, bao bọc bất kỳ Nhóm hoặc Cụm từ hiện có nào."
+                "createStage": "$~Tạo một Giai đoạn, bao bọc bất kỳ Nhóm hoặc Cụm từ hiện có nào.",
+                "editMode": "$~chuyển sang chế độ chỉnh sửa"
             },
             "prompt": {
                 "offerPhrase": "$~Tôi có nên bọc giá trị này trong @Phrase không?",
@@ -7207,7 +7225,8 @@
                 "select": "$~Để chỉnh sửa, hãy chọn 💬, 🔳, ⬟ hoặc 🎭 trong mã, hoặc ⏸️ @Stage và chọn xuất.",
                 "editing": "$~Hãy chỉnh sửa tôi!",
                 "offerShape": "$~Tôi có nên bọc @Form này trong @Shape để hiển thị nó trên @Stage không?",
-                "offerNothing": "$~Chưa có gì ở đây cả! Tôi có nên thêm @Phrase để bắt đầu không?"
+                "offerNothing": "$~Chưa có gì ở đây cả! Tôi có nên thêm @Phrase để bắt đầu không?",
+                "readonly": "$~Các giá trị này *chỉ đọc* trong chế độ này. Hãy chuyển sang chế độ ✏️ *chỉnh sửa* để thay đổi chúng."
             },
             "field": {
                 "coordinate": "$~chỉnh sửa tọa độ",
@@ -7484,7 +7503,6 @@
                 "button": {
                     "newproject": "$~dự án mới",
                     "editproject": "$~chỉnh sửa dự án này",
-                    "viewcode": "$~Xem mã nguồn của dự án này",
                     "unarchive": "$~bỏ lưu trữ dự án này"
                 },
                 "confirm": {
@@ -8215,7 +8233,8 @@
             "close": "$~kết thúc chuyến tham quan",
             "previous": "$~bước trước",
             "next": "$~bước tiếp theo",
-            "offscreen": "$~Phần này của giao diện hiện không hiển thị trên màn hình."
+            "offscreen": "$~Phần này của giao diện hiện không hiển thị trên màn hình.",
+            "overflowed": "$~Điều khiển này nằm gọn bên trong menu được đánh dấu; hãy mở nó ra để tìm điều khiển."
         },
         "connection": {
             "offline": "$~Bạn đang ngoại tuyến. Một số tính năng sẽ không hoạt động cho đến khi bạn kết nối lại mạng.",

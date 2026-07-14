@@ -16923,6 +16923,40 @@
                   "description": "[plain] The ARIA label for the output section",
                   "type": "string"
                 },
+                "mode": {
+                  "additionalProperties": false,
+                  "description": "The evaluation mode switcher in the output toolbar",
+                  "properties": {
+                    "announce": {
+                      "$ref": "#/definitions/Template%3C%5B%22mode%22%5D%3E",
+                      "description": "[plain] Announced when the evaluation mode changes. $mode is the new mode's label."
+                    },
+                    "cycle": {
+                      "description": "[plain] Description of the keyboard command that cycles between the three evaluation modes",
+                      "type": "string"
+                    },
+                    "evaluation": {
+                      "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E",
+                      "description": "The edit/step/play mode switcher, shown for editable projects"
+                    },
+                    "evaluationView": {
+                      "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E",
+                      "description": "The view/step/play mode switcher, shown for read-only projects"
+                    },
+                    "exception": {
+                      "description": "[plain] Announced when an error pauses the program into step mode so it can be inspected",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "evaluation",
+                    "evaluationView",
+                    "announce",
+                    "exception",
+                    "cycle"
+                  ],
+                  "type": "object"
+                },
                 "multiselect": {
                   "description": "[plain] Screen-reader instructions for selecting multiple outputs on stage with the keyboard",
                   "type": "string"
@@ -17129,6 +17163,7 @@
                 "field",
                 "button",
                 "options",
+                "mode",
                 "tour",
                 "permission",
                 "sensor"
@@ -19251,16 +19286,11 @@
                         "unarchive": {
                           "description": "[plain] The project unarchive button description",
                           "type": "string"
-                        },
-                        "viewcode": {
-                          "description": "[plain] View a project's code",
-                          "type": "string"
                         }
                       },
                       "required": [
                         "newproject",
                         "editproject",
-                        "viewcode",
                         "unarchive"
                       ],
                       "type": "object"
@@ -19674,6 +19704,10 @@
                       "description": "[plain] Edit the child",
                       "type": "string"
                     },
+                    "editMode": {
+                      "description": "[plain] The button in the palette's read-only prompt that switches to edit mode",
+                      "type": "string"
+                    },
                     "remove": {
                       "description": "[plain] Remove child from this output",
                       "type": "string"
@@ -19710,7 +19744,8 @@
                     "sequence",
                     "createPhrase",
                     "createGroup",
-                    "createStage"
+                    "createStage",
+                    "editMode"
                   ],
                   "type": "object"
                 },
@@ -19865,6 +19900,10 @@
                       "$ref": "#/definitions/FormattedText",
                       "description": "[formatted] The text offering to create a stage in the palette without a stage"
                     },
+                    "readonly": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "[formatted] Shown at the top of the palette in step and play modes, explaining that values are read-only"
+                    },
                     "select": {
                       "$ref": "#/definitions/FormattedText",
                       "description": "[formatted] Prompt if no selection"
@@ -19877,7 +19916,8 @@
                     "offerShape",
                     "offerNothing",
                     "select",
-                    "editing"
+                    "editing",
+                    "readonly"
                   ],
                   "type": "object"
                 },
@@ -21441,7 +21481,7 @@
             },
             "timeline": {
               "additionalProperties": false,
-              "description": "The timeline view below the output",
+              "description": "The evaluation-history timeline and stepping controls, hosted in the output toolbar in step mode",
               "properties": {
                 "button": {
                   "additionalProperties": false,
@@ -21474,12 +21514,8 @@
                       "description": "[plain] Step out of the current function evaluation",
                       "type": "string"
                     },
-                    "pause": {
-                      "description": "[plain] Pause evaluation",
-                      "type": "string"
-                    },
                     "play": {
-                      "description": "[plain] Evaluate in real time",
+                      "description": "[plain] Evaluate in real time (used by doc example players)",
                       "type": "string"
                     },
                     "present": {
@@ -21497,7 +21533,6 @@
                   },
                   "required": [
                     "play",
-                    "pause",
                     "backStep",
                     "backNode",
                     "backInput",
@@ -21511,21 +21546,13 @@
                   ],
                   "type": "object"
                 },
-                "debug": {
-                  "description": "[plain] The label for the debug toolbar",
-                  "type": "string"
-                },
-                "label": {
-                  "description": "[plain] The ARIA label for the timeline section",
-                  "type": "string"
-                },
                 "slider": {
                   "description": "[plain] The description of the timeline slider",
                   "type": "string"
                 },
                 "tour": {
                   "additionalProperties": false,
-                  "description": "Interactive tour explaining the timeline UI",
+                  "description": "Explanations of the stepping controls, shown in the stage tour",
                   "properties": {
                     "annotations": {
                       "$ref": "#/definitions/FormattedText",
@@ -21539,21 +21566,9 @@
                       "$ref": "#/definitions/FormattedText",
                       "description": "[formatted] Markup describing the history slider"
                     },
-                    "launch": {
-                      "description": "[plain] The tooltip on the help button that opens the tour",
-                      "type": "string"
-                    },
-                    "pauseMode": {
+                    "modes": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "[formatted] Markup describing pause mode (after pausing)"
-                    },
-                    "playMode": {
-                      "$ref": "#/definitions/FormattedText",
-                      "description": "[formatted] Markup describing play mode (after starting evaluation)"
-                    },
-                    "reset": {
-                      "$ref": "#/definitions/FormattedText",
-                      "description": "[formatted] Markup describing the reset evaluation button"
+                      "description": "[formatted] Markup describing the edit/step/play mode switcher"
                     },
                     "stepControls": {
                       "$ref": "#/definitions/FormattedText",
@@ -21561,15 +21576,12 @@
                     },
                     "timeline": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "[formatted] Markup describing the entire timeline panel"
+                      "description": "[formatted] Markup describing the evaluation-history timeline"
                     }
                   },
                   "required": [
-                    "launch",
                     "timeline",
-                    "reset",
-                    "playMode",
-                    "pauseMode",
+                    "modes",
                     "annotations",
                     "editor",
                     "history",
@@ -21579,8 +21591,6 @@
                 }
               },
               "required": [
-                "label",
-                "debug",
                 "slider",
                 "button",
                 "tour"
@@ -21607,6 +21617,10 @@
                   "description": "[plain] Message shown when the targeted UI is not visible on screen",
                   "type": "string"
                 },
+                "overflowed": {
+                  "description": "[plain] Message shown when the targeted UI is tucked inside an overflow menu, and the menu's toggle is highlighted instead",
+                  "type": "string"
+                },
                 "previous": {
                   "description": "[plain] Tooltip for the previous step button",
                   "type": "string"
@@ -21617,7 +21631,8 @@
                 "close",
                 "previous",
                 "next",
-                "offscreen"
+                "offscreen",
+                "overflowed"
               ],
               "type": "object"
             },
@@ -22541,6 +22556,9 @@
       "type": "string"
     },
     "Template<[\"locale\"]>": {
+      "type": "string"
+    },
+    "Template<[\"mode\"]>": {
       "type": "string"
     },
     "Template<[\"moderated\",\"remaining\"]>": {

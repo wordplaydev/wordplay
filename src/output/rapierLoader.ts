@@ -26,13 +26,34 @@ let loading: Promise<void> | undefined;
 export function loadRapier(): RapierModule | undefined {
     if (rapier !== undefined) return rapier;
     if (loading === undefined)
-        loading = import('@dimforge/rapier2d-compat').then((m) =>
+        loading = import('@dimforge/rapier2d-compat').then((m) => {
+            // The -compat build's own init() passes its embedded WASM bytes
+            // positionally to the wasm-bindgen initializer, which logs a
+            // "deprecated parameters" warning we can't avoid from the outside
+            // (still present in 0.19.3). Filter exactly that message for the
+            // duration of init(); remove this when upstream fixes its call.
+            const warn = console.warn;
+            console.warn = (...data: unknown[]) => {
+                if (
+                    typeof data[0] === 'string' &&
+                    data[0].includes(
+                        'deprecated parameters for the initialization function',
+                    )
+                )
+                    return;
+                warn(...data);
+            };
             // init() compiles the embedded WASM; only after it resolves is the
-            // API usable, so we set `rapier` inside the second .then().
-            m.init().then(() => {
-                rapier = m;
-            }),
-        );
+            // API usable, so we set `rapier` after it.
+            return m
+                .init()
+                .finally(() => {
+                    console.warn = warn;
+                })
+                .then(() => {
+                    rapier = m;
+                });
+        });
     return undefined;
 }
 

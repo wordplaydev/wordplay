@@ -155,13 +155,16 @@
         }
     });
 
-    // Show a value if 1) it's an expression, 2) the evaluator is stepping, 3) it's not involved in the evaluation stack
+    // Show a value if 1) it's an expression, 2) the project is in step mode (or, outside
+    // a ProjectView, the evaluator is paused), 3) it's not involved in the evaluation stack
     // and 4) the node's evaluation is currently evaluating. Start by assuming there isn't a value.
     // Note that this interacts with Editor.handleEdit(), which adjust caret positions if a value is rendered.
     let value = $derived(
         (format.editable || format.values) &&
             $evaluation &&
-            !$evaluation.playing &&
+            ($evaluation.mode === undefined
+                ? !$evaluation.playing
+                : $evaluation.mode === 'step') &&
             node instanceof Expression &&
             !node.isEvaluationInvolved()
             ? $evaluation.evaluator.getLatestExpressionValue(node)

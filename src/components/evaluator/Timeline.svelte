@@ -1,28 +1,8 @@
 <script lang="ts">
-    import Emoji from '@components/app/Emoji.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
-    import {
-        StepBack,
-        StepBackInput,
-        StepBackNode,
-        StepForward,
-        StepForwardInput,
-        StepForwardNode,
-        StepOut,
-        StepToPresent,
-        StepToStart,
-    } from '@components/editor/commands/Commands';
-    import Controls from '@components/evaluator/Controls.svelte';
     import { getEvaluation } from '@components/project/Contexts';
-    import ButtonWidget from '@components/widgets/Button.svelte';
-    import CommandButton from '@components/widgets/CommandButton.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
-    import Tour, { type UIExplanation } from '@components/widgets/Tour.svelte';
-    import { animationDuration, locales, Settings } from '@db/Database';
+    import { animationDuration, locales } from '@db/Database';
     import Button from '@input/Button';
     import Key from '@input/Key';
-    import { DEFECT_SYMBOL, INFO_SYMBOL } from '@parser/Symbols';
     import type Evaluator from '@runtime/Evaluator';
     import BoolValue from '@values/BoolValue';
     import ExceptionValue from '@values/ExceptionValue';
@@ -38,46 +18,6 @@
     let { evaluator }: Props = $props();
 
     let evaluation = getEvaluation();
-
-    /** When true, the Tour overlay is shown. */
-    let touring = $state(false);
-
-    /** The sequence of explanations shown by the Tour, by `data-uiid`. */
-    const tourExplanations: UIExplanation[] = [
-        {
-            uiid: 'timelinePanel',
-            explanation: (l) => l.ui.timeline.tour.timeline,
-        },
-        {
-            uiid: 'timelineReset',
-            explanation: (l) => l.ui.timeline.tour.reset,
-        },
-        {
-            uiid: 'playToggle',
-            explanation: (l) => l.ui.timeline.tour.playMode,
-            onEnter: () => evaluator.play(),
-        },
-        {
-            uiid: 'playToggle',
-            explanation: (l) => l.ui.timeline.tour.pauseMode,
-            onEnter: () => {
-                evaluator.pause();
-                // Expand the annotations window so the next step's target
-                // and the program's values are visible.
-                Settings.setShowAnnotations(true);
-            },
-        },
-        {
-            uiid: 'conflict',
-            explanation: (l) => l.ui.timeline.tour.annotations,
-        },
-        { uiid: 'editor', explanation: (l) => l.ui.timeline.tour.editor },
-        { uiid: 'timeline', explanation: (l) => l.ui.timeline.tour.history },
-        {
-            uiid: 'stepControls',
-            explanation: (l) => l.ui.timeline.tour.stepControls,
-        },
-    ];
 
     /** The view of the timeline, for dragging calculations. */
     let timeline = $state<HTMLElement | undefined>();
@@ -252,216 +192,113 @@
     }
 </script>
 
-<section
-    class="evaluation"
-    aria-label={$locales.getPlainText((l) => l.ui.timeline.label)}
-    class:stepping={$evaluation?.playing === false}
-    data-uiid="timelinePanel"
->
-    {#snippet timelineHeader()}
-        <Subheader compact
-            ><Emoji text={DEFECT_SYMBOL} />
-            <LocalizedText path={(l) => l.ui.timeline.debug} /></Subheader
-        >
-        <ButtonWidget
-            tip={(l) => l.ui.timeline.tour.launch}
-            background="circular"
-            uiid="debugtour"
-            icon={INFO_SYMBOL}
-            action={() => (touring = true)}
-        ></ButtonWidget>
-        {#if touring}
-            <Tour
-                explanations={tourExplanations}
-                subheader={(l) => l.ui.timeline.debug}
-                close={() => (touring = false)}
-            />
-        {/if}
-    {/snippet}
-
-    {#snippet timelinePlayback()}
-        {#if $evaluation}
-            <Controls {evaluator} steps={false} />
-        {/if}
-    {/snippet}
-
-    {#snippet timelineSlider()}
-        {#if $evaluation}
-            <div
-                role="slider"
-                transition:slide|local={{ duration: $animationDuration }}
-                class="timeline"
-                tabindex={0}
-                data-uiid="timeline"
-                aria-label={$locales.getPlainText((l) => l.ui.timeline.slider)}
-                aria-valuemin={0}
-                aria-valuemax={$evaluation.evaluator.getStepCount()}
-                aria-valuenow={$evaluation.stepIndex}
-                aria-valuetext={$evaluation.step
-                    ? $evaluation.step
-                          .getExplanations($locales, evaluator)
-                          .toText()
-                    : $evaluation.stepIndex + ''}
-                aria-orientation="horizontal"
-                class:stepping={$evaluation.playing === false}
-                onpointerdown={(event) => {
-                    stepToPointer(event);
-                    timeline?.setPointerCapture(event.pointerId);
-                }}
-                onpointermove={(event) =>
-                    dragging && (event.buttons & 1) === 1
-                        ? stepToPointer(event)
-                        : undefined}
-                onpointerleave={() => (dragging = false)}
-                onpointerup={(event) => {
-                    dragging = false;
-                    timeline?.releasePointerCapture(event.pointerId);
-                }}
-                onkeydown={handleKey}
-                bind:this={timeline}
-            >
-                {#if historyTrimmed}<span class="stream-input">…</span>{/if}
-                {#if $evaluation.streams !== undefined}
-                    {#each $evaluation.streams as reaction, index}
-                        <!-- Compute the number of steps that occurred between this and the next input, or if there isn't one, the latest step. -->
-                        {@const stepCount =
-                            (index < $evaluation.streams.length - 1
-                                ? $evaluation.streams[index + 1].stepIndex
-                                : evaluator.getStepCount()) -
-                            reaction.stepIndex}
-                        <!-- Show up to three of the streams that changed -->
-                        {#each reaction.changes.slice(0, 3) as change}
-                            {@const down =
-                                change.stream instanceof Key &&
-                                change.value instanceof StructureValue
-                                    ? change.value.resolve(
-                                          change.value.type.inputs[1].names,
-                                      )
-                                    : change.stream instanceof Button
-                                      ? change.value
-                                      : undefined}
-                            <!-- Show an emoji representing the cause of the reevaluation -->
-                            <span
-                                class={`event stream-input ${
-                                    currentReaction === reaction
-                                        ? 'current'
-                                        : ''
-                                } ${
-                                    down instanceof BoolValue && down.bool
-                                        ? 'down'
-                                        : ''
-                                }`}
-                                data-inputindex={reaction.stepIndex}
-                            >
-                                {#if change.stream === undefined}
-                                    ◆
-                                {:else}
-                                    {change.stream.definition.names.getEmojiName()}
-                                {/if}
-                            </span>
+<!-- The draggable evaluation-history slider, hosted in the output tile's toolbar
+     while in step mode. -->
+{#if $evaluation}
+    <div
+        role="slider"
+        transition:slide|local={{ duration: $animationDuration }}
+        class="timeline"
+        tabindex={0}
+        data-uiid="timeline"
+        aria-label={$locales.getPlainText((l) => l.ui.timeline.slider)}
+        aria-valuemin={0}
+        aria-valuemax={$evaluation.evaluator.getStepCount()}
+        aria-valuenow={$evaluation.stepIndex}
+        aria-valuetext={$evaluation.step
+            ? $evaluation.step
+                  .getExplanations($locales, evaluator)
+                  .toText()
+            : $evaluation.stepIndex + ''}
+        aria-orientation="horizontal"
+        onpointerdown={(event) => {
+            stepToPointer(event);
+            timeline?.setPointerCapture(event.pointerId);
+        }}
+        onpointermove={(event) =>
+            dragging && (event.buttons & 1) === 1
+                ? stepToPointer(event)
+                : undefined}
+        onpointerleave={() => (dragging = false)}
+        onpointerup={(event) => {
+            dragging = false;
+            timeline?.releasePointerCapture(event.pointerId);
+        }}
+        onkeydown={handleKey}
+        bind:this={timeline}
+    >
+        {#if historyTrimmed}<span class="stream-input">…</span>{/if}
+        {#if $evaluation.streams !== undefined}
+            {#each $evaluation.streams as reaction, index}
+                <!-- Compute the number of steps that occurred between this and the next input, or if there isn't one, the latest step. -->
+                {@const stepCount =
+                    (index < $evaluation.streams.length - 1
+                        ? $evaluation.streams[index + 1].stepIndex
+                        : evaluator.getStepCount()) - reaction.stepIndex}
+                <!-- Show up to three of the streams that changed -->
+                {#each reaction.changes.slice(0, 3) as change}
+                    {@const down =
+                        change.stream instanceof Key &&
+                        change.value instanceof StructureValue
+                            ? change.value.resolve(
+                                  change.value.type.inputs[1].names,
+                              )
+                            : change.stream instanceof Button
+                              ? change.value
+                              : undefined}
+                    <!-- Show an emoji representing the cause of the reevaluation -->
+                    <span
+                        class={`event stream-input ${
+                            currentReaction === reaction ? 'current' : ''
+                        } ${
+                            down instanceof BoolValue && down.bool
+                                ? 'down'
+                                : ''
+                        }`}
+                        data-inputindex={reaction.stepIndex}
+                    >
+                        {#if change.stream === undefined}
+                            ◆
                         {:else}
-                            <!-- Represent the program start when there are no reactions-->
-                            <span
-                                class={`event stream-input ${
-                                    currentReaction === reaction
-                                        ? 'current'
-                                        : ''
-                                }`}
-                                data-inputindex={reaction.stepIndex}
-                            >
-                                ◆
-                            </span>
-                        {/each}
-                        <!-- If there were more than three, indicate the trimming -->
-                        {#if reaction.changes.length > 3}…{/if}
-                        <!-- Show dots representing the steps after the reevaluation -->
-                        <div
-                            class="event steps"
-                            data-startindex={reaction.stepIndex}
-                            data-endindex={reaction.stepIndex + stepCount}
-                            style:width="{Math.min(2, stepCount / 10)}em"
-                            >&ZeroWidthSpace;</div
-                        >
-                        <!-- If the value was an exception, show that it ended that way -->
-                        {#if evaluator.getSourceValueBefore(evaluator.getMain(), reaction.stepIndex + stepCount) instanceof ExceptionValue}<span
-                                data-exceptionindex={reaction.stepIndex +
-                                    stepCount}
-                                class="event exception">!</span
-                            >{/if}
-                    {/each}
-                {/if}
-                <!-- Render the time slider -->
-                <div class="time" style:left="{timePosition}px"
-                    ><span class="index">{$evaluation.stepIndex}</span></div
+                            {change.stream.definition.names.getEmojiName()}
+                        {/if}
+                    </span>
+                {:else}
+                    <!-- Represent the program start when there are no reactions-->
+                    <span
+                        class={`event stream-input ${
+                            currentReaction === reaction ? 'current' : ''
+                        }`}
+                        data-inputindex={reaction.stepIndex}
+                    >
+                        ◆
+                    </span>
+                {/each}
+                <!-- If there were more than three, indicate the trimming -->
+                {#if reaction.changes.length > 3}…{/if}
+                <!-- Show dots representing the steps after the reevaluation -->
+                <div
+                    class="event steps"
+                    data-startindex={reaction.stepIndex}
+                    data-endindex={reaction.stepIndex + stepCount}
+                    style:width="{Math.min(2, stepCount / 10)}em"
+                    >&ZeroWidthSpace;</div
                 >
-            </div>
+                <!-- If the value was an exception, show that it ended that way -->
+                {#if evaluator.getSourceValueBefore(evaluator.getMain(), reaction.stepIndex + stepCount) instanceof ExceptionValue}<span
+                        data-exceptionindex={reaction.stepIndex + stepCount}
+                        class="event exception">!</span
+                    >{/if}
+            {/each}
         {/if}
-    {/snippet}
-
-    <!-- Individual step buttons — each is its own item so they overflow one by one. -->
-    <!-- Anchor the `stepControls` UI reference (tutorial highlight + debug tour) on the leftmost,
-         most overflow-stable step button, since the step buttons are separate toolbar items with no
-         group wrapper to carry the data-uiid. -->
-    {#snippet stepToStart()}<CommandButton
-            command={StepToStart}
-            uiid="stepControls"
-        />{/snippet}
-    {#snippet stepBackInput()}<CommandButton
-            command={StepBackInput}
-        />{/snippet}
-    {#snippet stepBackNode()}<CommandButton command={StepBackNode} />{/snippet}
-    {#snippet stepBack()}<CommandButton command={StepBack} />{/snippet}
-    {#snippet stepOut()}<CommandButton command={StepOut} />{/snippet}
-    {#snippet stepForward()}<CommandButton command={StepForward} />{/snippet}
-    {#snippet stepForwardNode()}<CommandButton
-            command={StepForwardNode}
-        />{/snippet}
-    {#snippet stepForwardInput()}<CommandButton
-            command={StepForwardInput}
-        />{/snippet}
-    {#snippet stepToPresent()}<CommandButton
-            command={StepToPresent}
-        />{/snippet}
-
-    <OverflowToolbar
-        items={[
-            timelineHeader,
-            timelinePlayback,
-            stepToStart,
-            stepBackInput,
-            stepBackNode,
-            stepBack,
-            stepOut,
-            stepForward,
-            stepForwardNode,
-            stepForwardInput,
-            stepToPresent,
-        ]}
-        stretchy={timelineSlider}
-        stretchyMin={64}
-    />
-</section>
+        <!-- Render the time slider -->
+        <div class="time" style:left="{timePosition}px"
+            ><span class="index">{$evaluation.stepIndex}</span></div
+        >
+    </div>
+{/if}
 
 <style>
-    .evaluation {
-        background: var(--wordplay-background);
-        border-top: var(--wordplay-border-color) solid
-            var(--wordplay-border-width);
-        padding: var(--wordplay-spacing);
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        align-items: center;
-        gap: var(--wordplay-spacing);
-        width: 100%;
-    }
-
-    .evaluation.stepping {
-        background-color: var(--wordplay-evaluation-color);
-        color: var(--wordplay-background);
-        border-bottom: none;
-    }
-
     .timeline {
         flex: 1 1 0%;
         min-width: 0;

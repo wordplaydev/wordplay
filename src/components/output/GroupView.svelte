@@ -41,6 +41,8 @@
         parentAscent: number;
         context: RenderContext;
         editable: boolean;
+        /** Whether the creator can select this output for inspection (edit or step mode). */
+        inspectable?: boolean;
         editing: boolean;
         // A frame counter, used to update aria-labels at a slower rate then visual updates.
         frame: number;
@@ -57,6 +59,7 @@
         parentAscent,
         context,
         editable,
+        inspectable = editable,
         editing,
         frame,
         children,
@@ -82,10 +85,10 @@
     // into this view's coordinate system so that the perspective rendering is in the right coordinates.
     let offsetFocus = $derived(focus.offset(place));
 
-    // Gated on `editable && editing` (paused) so handles/highlight only show when stopped,
-    // consistent with PhraseView and ShapeView.
+    // Gated on `inspectable && editing` (paused) so the highlight only shows when the
+    // creator can select output and the view is stopped, consistent with PhraseView and ShapeView.
     let selected = $derived(
-        editable &&
+        inspectable &&
             editing &&
             group.value.creator instanceof Evaluate &&
             $project !== undefined &&
@@ -119,13 +122,14 @@
             setKeyboardFocus(view, 'Focused on selected group.');
     });
 
-    // Move the selected group with the arrow keys (paused-only, since `selected` requires it),
-    // so it can be repositioned with the keyboard alone — mirroring PhraseView/ShapeView. The
-    // root group (the Stage) is never `selected`, so it won't move. Alt+arrow is left for the
-    // stage's output-to-output focus navigation.
+    // Move the selected group with the arrow keys (edit-mode-only: moving mutates the
+    // program), so it can be repositioned with the keyboard alone — mirroring
+    // PhraseView/ShapeView. The root group (the Stage) is never `selected`, so it won't
+    // move. Alt+arrow is left for the stage's output-to-output focus navigation.
     function handleKeyDown(event: KeyboardEvent) {
         if (
             !selected ||
+            !editable ||
             event.altKey ||
             $project === undefined ||
             creator === undefined ||
@@ -226,6 +230,7 @@
                 parentAscent={root ? 0 : layout.height}
                 context={localContext}
                 {editable}
+                {inspectable}
                 {editing}
                 {frame}
             />
@@ -238,6 +243,7 @@
                 parentAscent={root ? 0 : layout.height}
                 context={localContext}
                 {editable}
+                {inspectable}
                 {editing}
                 {frame}
             />
@@ -250,6 +256,7 @@
                 {interactive}
                 context={localContext}
                 {editable}
+                {inspectable}
                 {editing}
                 {frame}
             />
@@ -268,8 +275,8 @@
             <path class="border" d={clip.toSVGPath(0, 0)} />
         </svg>
     {/if}
-    <!-- Rotate/resize handles for a selected (non-root) group. -->
-    {#if soleSelected && !root && creator}
+    <!-- Rotate/resize handles for a selected (non-root) group, only when editable since they mutate the program. -->
+    {#if soleSelected && editable && !root && creator}
         <OutputHandles
             {creator}
             {view}

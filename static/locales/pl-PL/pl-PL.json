@@ -6243,14 +6243,35 @@
                     "on": "$~ukryj podgląd kamery",
                     "off": "$~pokaż podgląd kamery"
                 }
+            },
+            "mode": {
+                "evaluation": {
+                    "label": "$~tryb wykonywania",
+                    "labels": ["$~edytuj", "$~krok", "$~odtwórz"],
+                    "tips": [
+                        "$~przełącz na tryb edycji: zmieniaj program, gdy scena pozostaje zamrożona na bieżącej klatce",
+                        "$~przełącz na tryb kroku: wstrzymaj i przechodź przez wykonywanie programu, krok po kroku",
+                        "$~przełącz na tryb odtwarzania: uruchom program na żywo, reagując na dane wejściowe w czasie rzeczywistym"
+                    ]
+                },
+                "evaluationView": {
+                    "label": "$~tryb wykonywania",
+                    "labels": ["$~widok", "$~krok", "$~odtwórz"],
+                    "tips": [
+                        "$~przełącz na tryb widoku: czytaj program, gdy scena pozostaje zamrożona na bieżącej klatce",
+                        "$~przełącz na tryb kroku: wstrzymaj i przechodź przez wykonywanie programu, krok po kroku",
+                        "$~przełącz na tryb odtwarzania: uruchom program na żywo, reagując na dane wejściowe w czasie rzeczywistym"
+                    ]
+                },
+                "announce": "$~tryb $mode",
+                "exception": "$~Program napotkał błąd, więc przełączył się na tryb kroku, abyś mógł go zbadać.",
+                "cycle": "$~przełączaj między trybem edycji, krokowania i odtwarzania"
             }
         },
         "timeline": {
-            "label": "$~oś czasu",
             "slider": "$~suwak czasu",
             "button": {
                 "play": "$~oceniać program do końca, reagując na dane wejściowe w czasie rzeczywistym",
-                "pause": "$~wstrzymaj program, umożliwiając przewijanie do przodu i do tyłu",
                 "backStep": "$~cofnij się o krok",
                 "backNode": "$~krok do poprzedniej oceny kursora",
                 "backInput": "$~cofnij jedno wejście",
@@ -6262,17 +6283,13 @@
                 "start": "$~Na początek",
                 "reset": "$~ponowne uruchomienie wydajności"
             },
-            "debug": "$~odpluskwić",
             "tour": {
-                "launch": "$~wybierz się na wycieczkę po osi czasu",
                 "timeline": "$~Oś czasu pozwala *przewijać* i *przewijać* proces ewaluacji programu krok po kroku. To świetny sposób, aby zobaczyć, *jak* program oblicza swoją wartość i zbudować mentalny model ewaluacji programów Wordplay, zwłaszcza jeśli nie obserwujesz pożądanego zachowania.",
-                "reset": "$~Przycisk /reset/ cofa ocenę programu aż do *początku*, dzięki czemu możesz rozpocząć oglądanie oceny od nowa.",
                 "annotations": "$~W oknie /adnotacje/ pojawiają się objaśnienia każdego kroku. Podczas przechodzenia przez program, tutaj dowiesz się, co się właśnie wydarzyło.",
                 "editor": "$~/Edytor/ pokazuje Twój kod. Podczas wykonywania kroków, *wartość* każdej części programu pojawi się obok tej części *po* jej ocenie, dzięki czemu możesz obserwować, jak wartości rosną w miarę działania programu.",
                 "history": "$~W zakładce /history/ wyświetlane są wszystkie *dane wejściowe* otrzymane przez program, takie jak klawisze, znaczniki czasu i zdarzenia wskaźnika. Można ją *przeciągać*, więc możesz wrócić do dowolnego momentu w historii ewaluacji programu, po prostu przeciągając.",
                 "stepControls": "$~Sterowanie krokami pozwala precyzyjnie poruszać się po ewaluacji. Możesz przejść do *początku* lub *końca*, przejść *do przodu* lub *do tyłu* o jeden krok na raz, przejść o *jeden element wejściowy*, *wyjść* z funkcji lub przejść do *aktualnie zaznaczonego* fragmentu kodu.",
-                "playMode": "$~Program jest teraz w trybie *odtwarzania*. W trybie *odtwarzania* program działa aż do zakończenia (jeśli w ogóle), reagując na dane wejściowe w czasie rzeczywistym.",
-                "pauseMode": "$~Program jest teraz /wstrzymany/. W trybie *wstrzymania* możesz krok po kroku *przewijać* i *przewijać* ewaluację. Okno /adnotacji/ pokazuje teraz, co dzieje się na każdym kroku, a *bieżąca wartość* każdej części programu pojawia się obok niej w edytorze."
+                "modes": "$~/Przełącznik trybu/ wybiera sposób, w jaki wykonuje się twój program. W trybie ✏️ *edycji* zmieniasz program, gdy scena pozostaje zamrożona na bieżącej klatce. W trybie ⏸️ *kroku* — w którym teraz jesteś — przechodzisz *do przodu* i *do tyłu* przez wykonywanie, a *bieżąca wartość* każdej części twojego programu pojawia się obok niej w edytorze. W trybie ▶️ *odtwarzania* twój program działa na żywo, reagując na dane wejściowe w czasie rzeczywistym."
             }
         },
         "docs": {
@@ -6974,7 +6991,8 @@
                 "sequence": "$~przekonwertować na sekwencję",
                 "createPhrase": "$~utwórz frazę, wyświetlając istniejącą wartość jako tekst",
                 "createGroup": "$~utwórz grupę, obejmując dowolną istniejącą frazę",
-                "createStage": "$~utwórz scenę, obejmując dowolną istniejącą grupę lub frazę"
+                "createStage": "$~utwórz scenę, obejmując dowolną istniejącą grupę lub frazę",
+                "editMode": "$~przełącz na tryb edycji"
             },
             "prompt": {
                 "offerPhrase": "$~Czy powinienem ująć tę wartość w @Phrase ?",
@@ -6983,7 +7001,8 @@
                 "editing": "$~Edytuj mnie!",
                 "select": "$~Aby edytować, zaznacz 💬, 🔳, ⬟ lub 🎭 w kodzie albo ⏸️ @Stage i wybierz wyjście.",
                 "offerShape": "$~Czy mam owinąć ten @Form w @Shape , aby pokazać go na @Stage ?",
-                "offerNothing": "$~Nic tu jeszcze nie ma! Czy mam dodać @Phrase , żeby zacząć?"
+                "offerNothing": "$~Nic tu jeszcze nie ma! Czy mam dodać @Phrase , żeby zacząć?",
+                "readonly": "$~Te wartości są *tylko do odczytu* w tym trybie. Przełącz na tryb ✏️ *edycji*, aby je zmienić."
             },
             "field": {
                 "coordinate": "$~edytuj współrzędne",
@@ -7252,7 +7271,6 @@
                 "button": {
                     "newproject": "$~nowy projekt",
                     "editproject": "$~edytuj ten projekt",
-                    "viewcode": "$~zobacz kod tego projektu",
                     "unarchive": "$~usuń archiwizację tego projektu"
                 },
                 "confirm": {
@@ -8226,7 +8244,8 @@
             "close": "$~zamknij wycieczkę",
             "previous": "$~poprzedni krok",
             "next": "$~następny krok",
-            "offscreen": "$~Ta część interfejsu nie jest obecnie widoczna na ekranie."
+            "offscreen": "$~Ta część interfejsu nie jest obecnie widoczna na ekranie.",
+            "overflowed": "$~Ten element sterujący jest schowany w podświetlonym menu. Otwórz je, aby go znaleźć."
         },
         "connection": {
             "offline": "$~Jesteś offline. Niektóre funkcje nie będą działać, dopóki nie będziesz online.",

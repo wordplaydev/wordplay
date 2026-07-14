@@ -11,7 +11,7 @@
         /** Items that overflow into the hamburger popup one by one as space shrinks. */
         items: ItemSource;
         /** Optional always-visible item that fills remaining width (e.g. a slider). */
-        stretchy?: Snippet;
+        stretchy?: Snippet | undefined;
         /** Minimum width reserved for the stretchy item, in CSS pixels.
          *  When set, items overflow into the popup as needed to preserve
          *  this minimum. */
@@ -309,9 +309,11 @@
         {/each}
     {/if}
 
-    <!-- Hamburger: only shown when some items overflow -->
+    <!-- Hamburger: only shown when some items overflow. `data-controls` links it
+         to its portaled popup so the Tour can highlight this toggle when a tour
+         target is tucked inside the (hidden) popup. -->
     {#if showButton}
-        <span class="toggle-wrap" bind:this={toggleEl}>
+        <span class="toggle-wrap" data-controls={panelId} bind:this={toggleEl}>
             <Toggle
                 tips={(l) => l.ui.widget.overflow.button}
                 on={open}

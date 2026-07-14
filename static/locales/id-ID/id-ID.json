@@ -6467,15 +6467,35 @@
                     "on": "$~sembunyikan pratinjau kamera",
                     "off": "$~tampilkan pratinjau kamera"
                 }
+            },
+            "mode": {
+                "evaluation": {
+                    "label": "$~mode evaluasi",
+                    "labels": ["$~ubah", "$~langkah", "$~jalankan"],
+                    "tips": [
+                        "$~beralih ke mode ubah: ubah program sementara panggung tetap membeku pada bingkai saat ini",
+                        "$~beralih ke mode langkah: jeda dan telusuri evaluasi program, satu langkah demi satu langkah",
+                        "$~beralih ke mode jalankan: jalankan program secara langsung, menanggapi masukan secara langsung"
+                    ]
+                },
+                "evaluationView": {
+                    "label": "$~mode evaluasi",
+                    "labels": ["$~lihat", "$~langkah", "$~jalankan"],
+                    "tips": [
+                        "$~beralih ke mode lihat: baca program sementara panggung tetap membeku pada bingkai saat ini",
+                        "$~beralih ke mode langkah: jeda dan telusuri evaluasi program, satu langkah demi satu langkah",
+                        "$~beralih ke mode jalankan: jalankan program secara langsung, menanggapi masukan secara langsung"
+                    ]
+                },
+                "announce": "$~mode $mode",
+                "exception": "$~Program mengalami kesalahan, jadi program beralih ke mode langkah agar kamu bisa memeriksanya.",
+                "cycle": "$~beralih antara mode sunting, langkah, dan main"
             }
         },
         "timeline": {
-            "label": "$~garis waktu",
-            "debug": "$~debug",
             "slider": "$~penggeser waktu",
             "button": {
                 "play": "$~mengevaluasi program hingga selesai, menanggapi masukan secara real time",
-                "pause": "$~jeda program, memungkinkan untuk melangkah maju dan mundur",
                 "backStep": "$~mundur satu langkah",
                 "backNode": "$~langkah ke evaluasi kursor sebelumnya",
                 "backInput": "$~kembali satu masukan",
@@ -6488,15 +6508,12 @@
                 "reset": "$~memulai ulang kinerja"
             },
             "tour": {
-                "launch": "$~ikuti tur garis waktu",
                 "timeline": "$~Fitur /timeline/ memungkinkan Anda melangkah *maju* dan *mundur* melalui evaluasi program Anda, selangkah demi selangkah. Ini adalah cara yang bagus untuk melihat *bagaimana* program Anda menghitung nilainya, dan untuk membangun model mental tentang bagaimana program Wordplay melakukan evaluasi, terutama jika Anda tidak melihat perilaku yang Anda inginkan.",
-                "reset": "$~Tombol /reset/ akan memundurkan evaluasi program Anda sepenuhnya ke *awal*, sehingga Anda dapat mulai mengamati evaluasi dari awal.",
-                "playMode": "$~Program sekarang sedang /berjalan/. Dalam mode *berjalan*, program Anda akan berjalan hingga selesai (jika memang selesai), merespons input secara real-time.",
-                "pauseMode": "$~Program sekarang /dijeda/. Dalam mode *jeda*, Anda dapat melangkah *maju* dan *mundur* melalui evaluasi. Jendela /anotasi/ sekarang menunjukkan apa yang terjadi di setiap langkah, dan *nilai saat ini* dari setiap bagian program Anda muncul di sebelahnya di editor.",
                 "annotations": "$~Jendela /annotations/ adalah tempat penjelasan setiap langkah muncul. Saat Anda menjalankan program langkah demi langkah, di sinilah Anda akan membaca apa yang baru saja terjadi.",
                 "editor": "$~Editor menampilkan kode Anda. Saat melakukan eksekusi langkah demi langkah, *nilai* setiap bagian program Anda akan muncul di sebelah bagian tersebut *setelah* dievaluasi, sehingga Anda dapat melihat nilai-nilai tersebut bertambah seiring berjalannya program.",
                 "history": "$~Bagian /history/ menampilkan setiap *input* yang diterima program Anda, seperti tombol, detak waktu, dan kejadian penunjuk. Bagian ini *dapat diseret*, sehingga Anda dapat kembali ke momen mana pun dalam riwayat evaluasi program hanya dengan menyeretnya.",
-                "stepControls": "$~Kontrol langkah memungkinkan Anda untuk bergerak melalui evaluasi dengan tepat. Anda dapat melompat ke *awal* atau *akhir*, melangkah *maju* atau *mundur* satu langkah pada satu waktu, melompat sebanyak *satu input*, keluar dari suatu fungsi, atau melompat ke bagian kode yang *sedang dipilih*."
+                "stepControls": "$~Kontrol langkah memungkinkan Anda untuk bergerak melalui evaluasi dengan tepat. Anda dapat melompat ke *awal* atau *akhir*, melangkah *maju* atau *mundur* satu langkah pada satu waktu, melompat sebanyak *satu input*, keluar dari suatu fungsi, atau melompat ke bagian kode yang *sedang dipilih*.",
+                "modes": "$~/Pengalih mode/ memilih cara program kamu dievaluasi. Dalam mode ✏️ *ubah*, kamu mengubah program sementara panggung tetap membeku pada bingkai saat ini. Dalam mode ⏸️ *langkah* — tempat kamu sekarang — kamu melangkah *maju* dan *mundur* melalui evaluasi, dan *nilai saat ini* dari setiap bagian program kamu muncul di sebelahnya di editor. Dalam mode ▶️ *jalankan*, program kamu berjalan secara langsung, menanggapi masukan secara langsung."
             }
         },
         "tour": {
@@ -6504,7 +6521,8 @@
             "close": "$~mengakhiri tur",
             "previous": "$~langkah sebelumnya",
             "next": "$~langkah selanjutnya",
-            "offscreen": "$~Bagian antarmuka ini saat ini tidak terlihat di layar."
+            "offscreen": "$~Bagian antarmuka ini saat ini tidak terlihat di layar.",
+            "overflowed": "$~Kontrol ini tersembunyi di dalam menu yang disorot; buka menu itu untuk menemukan kontrol tersebut."
         },
         "docs": {
             "label": "$~memandu",
@@ -7201,7 +7219,8 @@
                 "sequence": "$~konversi ke Urutan",
                 "createPhrase": "$~Buat Frasa, yang menampilkan nilai yang ada sebagai teks.",
                 "createGroup": "$~Buat Grup, yang membungkus Frasa yang sudah ada.",
-                "createStage": "$~Buat Tahap, yang membungkus Grup atau Frasa yang sudah ada."
+                "createStage": "$~Buat Tahap, yang membungkus Grup atau Frasa yang sudah ada.",
+                "editMode": "$~beralih ke mode ubah"
             },
             "prompt": {
                 "offerPhrase": "$~Apakah saya perlu membungkus nilai ini dengan @Phrase ?",
@@ -7210,7 +7229,8 @@
                 "select": "$~Untuk mengedit, pilih 💬, 🔳, ⬟, atau 🎭 dalam kode, atau ⏸️ @Stage dan pilih output.",
                 "editing": "$~Edit saya!",
                 "offerShape": "$~Apakah saya perlu membungkus @Form ini dengan @Shape agar dapat ditampilkan di @Stage ?",
-                "offerNothing": "$~Belum ada apa-apa di sini! Haruskah saya menambahkan @Phrase untuk memulainya?"
+                "offerNothing": "$~Belum ada apa-apa di sini! Haruskah saya menambahkan @Phrase untuk memulainya?",
+                "readonly": "$~Nilai-nilai ini *hanya dapat dibaca* dalam mode ini. Beralih ke mode ✏️ *ubah* untuk mengubahnya."
             },
             "field": {
                 "coordinate": "$~edit koordinat",
@@ -7633,7 +7653,6 @@
                 "button": {
                     "newproject": "$~proyek baru",
                     "editproject": "$~edit proyek ini",
-                    "viewcode": "$~lihat kode proyek ini",
                     "unarchive": "$~Buka arsip proyek ini"
                 },
                 "confirm": {

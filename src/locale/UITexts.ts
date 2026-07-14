@@ -696,6 +696,19 @@ type UITexts = {
             /** [plain] The "no filter" option in the output locale chooser, showing how many languages are available to choose from. $count is the number of languages. */
             default: Template<['count']>;
         };
+        /** The evaluation mode switcher in the output toolbar */
+        mode: {
+            /** The edit/step/play mode switcher, shown for editable projects */
+            evaluation: ModeText<[string, string, string]>;
+            /** The view/step/play mode switcher, shown for read-only projects */
+            evaluationView: ModeText<[string, string, string]>;
+            /** [plain] Announced when the evaluation mode changes. $mode is the new mode's label. */
+            announce: Template<['mode']>;
+            /** [plain] Announced when an error pauses the program into step mode so it can be inspected */
+            exception: string;
+            /** [plain] Description of the keyboard command that cycles between the three evaluation modes */
+            cycle: string;
+        };
         /** Interactive tour explaining the stage tile */
         tour: {
             /** [plain] Tooltip on the help button that opens the tour */
@@ -917,6 +930,8 @@ type UITexts = {
             createGroup: string;
             /** [plain] The button that creates a stage when there is none */
             createStage: string;
+            /** [plain] The button in the palette's read-only prompt that switches to edit mode */
+            editMode: string;
         };
         prompt: {
             /** [formatted] The text offering to create a phrase in the palette without a stage */
@@ -933,6 +948,8 @@ type UITexts = {
             select: FormattedText;
             /** [formatted] The text prompting the creator to edit the selected output */
             editing: FormattedText;
+            /** [formatted] Shown at the top of the palette in step and play modes, explaining that values are read-only */
+            readonly: FormattedText;
         };
         field: {
             /** [plain] The tooltip and ARIA-label for the text input to Phrase */
@@ -995,19 +1012,13 @@ type UITexts = {
             stage: FormattedText;
         };
     };
-    /** The timeline view below the output */
+    /** The evaluation-history timeline and stepping controls, hosted in the output toolbar in step mode */
     timeline: {
-        /** [plain] The ARIA label for the timeline section */
-        label: string;
-        /** [plain] The label for the debug toolbar */
-        debug: string;
         /** [plain] The description of the timeline slider */
         slider: string;
         button: {
-            /** [plain] Evaluate in real time */
+            /** [plain] Evaluate in real time (used by doc example players) */
             play: string;
-            /** [plain] Pause evaluation */
-            pause: string;
             /** [plain] One step back */
             backStep: string;
             /** [plain] Step to the previous evaluation of the node at the cursor  */
@@ -1029,18 +1040,12 @@ type UITexts = {
             /** [plain] Reset the input history to restart the performance */
             reset: string;
         };
-        /** Interactive tour explaining the timeline UI */
+        /** Explanations of the stepping controls, shown in the stage tour */
         tour: {
-            /** [plain] The tooltip on the help button that opens the tour */
-            launch: string;
-            /** [formatted] Markup describing the entire timeline panel */
+            /** [formatted] Markup describing the evaluation-history timeline */
             timeline: FormattedText;
-            /** [formatted] Markup describing the reset evaluation button */
-            reset: FormattedText;
-            /** [formatted] Markup describing play mode (after starting evaluation) */
-            playMode: FormattedText;
-            /** [formatted] Markup describing pause mode (after pausing) */
-            pauseMode: FormattedText;
+            /** [formatted] Markup describing the edit/step/play mode switcher */
+            modes: FormattedText;
             /** [formatted] Markup describing the annotations window */
             annotations: FormattedText;
             /** [formatted] Markup describing the editor */
@@ -1063,6 +1068,8 @@ type UITexts = {
         next: string;
         /** [plain] Message shown when the targeted UI is not visible on screen */
         offscreen: string;
+        /** [plain] Message shown when the targeted UI is tucked inside an overflow menu, and the menu's toggle is highlighted instead */
+        overflowed: string;
     };
     dialog: {
         /** The sharing dialog */

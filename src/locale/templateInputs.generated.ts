@@ -623,6 +623,7 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'ui.output.button.resize': ['name'],
     'ui.output.button.rotate': ['name'],
     'ui.output.deselected': ['name', 'count'],
+    'ui.output.mode.announce': ['mode'],
     'ui.output.options.default': ['count'],
     'ui.output.selected': ['name', 'count'],
     'ui.output.selectedOnly': ['name'],

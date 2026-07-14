@@ -46,6 +46,9 @@
         stage: Stage;
         interactive: boolean;
         editable: boolean;
+        /** Whether the creator can select output for inspection (edit or step mode).
+         * Defaults to editable, so read-only stages behave as before. */
+        inspectable?: boolean;
         fit: boolean;
         grid: boolean;
         painting: boolean;
@@ -63,6 +66,7 @@
         stage = $bindable(),
         interactive,
         editable,
+        inspectable = editable,
         fit = $bindable(),
         grid = $bindable(),
         painting = $bindable(),
@@ -440,7 +444,9 @@
         class="output stage {interactive && !editing ? 'live' : 'inert'}"
         class:interactive
         class:changed
-        class:editing={$evaluation?.playing === false && !painting && editable}
+        class:editing={$evaluation?.playing === false &&
+            !painting &&
+            inspectable}
         aria-label={stage.description?.text ?? stage.getDescription($locales)}
         data-id={stage.getHTMLID()}
         // Only add a node ID if a stage value created it. Stages are implicitly created when the project evalutes to just a phrase
@@ -464,6 +470,7 @@
             clip={stage.frame}
             parentAscent={0}
             {editable}
+            {inspectable}
             {context}
             {interactive}
             {editing}
@@ -535,6 +542,7 @@
                         parentAscent={0}
                         {context}
                         {editable}
+                        {inspectable}
                         {editing}
                         {frame}
                     />
@@ -547,6 +555,7 @@
                         {interactive}
                         {context}
                         {editable}
+                        {inspectable}
                         {editing}
                         {frame}
                     />

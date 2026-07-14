@@ -47,6 +47,9 @@
         dragging: boolean;
         fullscreenID: string | undefined;
         background?: Color | string | null;
+        /** Optional CSS background for the tile's header/toolbar row (e.g., the
+         *  evaluation color while stepping, to make the mode change clear). */
+        headerBackground?: string | null;
         focuscontent?: boolean;
         editable: boolean;
         animated: boolean;
@@ -58,6 +61,9 @@
          * the tile name rather than mixed in with the toolbar. */
         help?: Snippet;
         extra?: Snippet;
+        /** Optional second toolbar row below the header, sharing its coloring —
+         *  for controls that don't fit the main row (e.g. stepping controls). */
+        subtoolbar?: Snippet | undefined;
         /** Optional content rendered on the inline-start side of the tile's
          *  main area (e.g. the blocks-mode Wellspring). Symmetric to `margin`,
          *  which renders on the inline-end side. */
@@ -90,12 +96,14 @@
         dragging,
         fullscreenID,
         background = null,
+        headerBackground = null,
         focuscontent = false,
         editable,
         animated,
         title,
         help,
         extra,
+        subtoolbar,
         content,
         startMargin,
         margin,
@@ -344,8 +352,13 @@
             <!-- Render the toolbar -->
             <div
                 class="header"
-                style:color={foreground}
-                style:fill={foreground}
+                style:color={headerBackground !== null
+                    ? 'var(--wordplay-background)'
+                    : foreground}
+                style:fill={headerBackground !== null
+                    ? 'var(--wordplay-background)'
+                    : foreground}
+                style:background-color={headerBackground}
             >
                 <!-- This goes above the toolbar because we need the feedback to be visible. -->
                 <div class="name-section" style="z-index:2">
@@ -419,6 +432,20 @@
                     </Toggle>
                 </div>
             </div>
+            {#if subtoolbar}
+                <div
+                    class="subtoolbar"
+                    style:color={headerBackground !== null
+                        ? 'var(--wordplay-background)'
+                        : foreground}
+                    style:fill={headerBackground !== null
+                        ? 'var(--wordplay-background)'
+                        : foreground}
+                    style:background-color={headerBackground}
+                >
+                    {@render subtoolbar()}
+                </div>
+            {/if}
             <!-- Render the content -->
             <div class="main" class:rtl={$locales.getDirection() === 'rtl'}>
                 {#if startMargin}
@@ -627,6 +654,19 @@
         /** Dim the header a bit so that they don't demand so much attention */
         opacity: 0.8;
 
+        border-block-end: solid var(--wordplay-border-color)
+            var(--wordplay-border-width);
+    }
+
+    .subtoolbar {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: var(--wordplay-spacing);
+        padding: var(--wordplay-spacing);
+        width: 100%;
+        flex-shrink: 0;
+        opacity: 0.8;
         border-block-end: solid var(--wordplay-border-color)
             var(--wordplay-border-width);
     }

@@ -6467,15 +6467,35 @@
                     "on": "$~itago ang preview ng kamera",
                     "off": "$~ipakita ang preview ng kamera"
                 }
+            },
+            "mode": {
+                "evaluation": {
+                    "label": "$~mode ng pagsusuri",
+                    "labels": ["$~i-edit", "$~hakbang", "$~patakbuhin"],
+                    "tips": [
+                        "$~lumipat sa mode ng pag-edit: baguhin ang programa habang nananatiling nakapirmi ang entablado sa kasalukuyang frame",
+                        "$~lumipat sa mode ng hakbang: itigil at magpatuloy nang paisa-isang hakbang sa pagsusuri ng programa",
+                        "$~lumipat sa mode ng pagpapatakbo: patakbuhin ang programa nang live, tumutugon sa mga input sa totoong oras"
+                    ]
+                },
+                "evaluationView": {
+                    "label": "$~mode ng pagsusuri",
+                    "labels": ["$~tingnan", "$~hakbang", "$~patakbuhin"],
+                    "tips": [
+                        "$~lumipat sa mode ng pagtingin: basahin ang programa habang nananatiling nakapirmi ang entablado sa kasalukuyang frame",
+                        "$~lumipat sa mode ng hakbang: itigil at magpatuloy nang paisa-isang hakbang sa pagsusuri ng programa",
+                        "$~lumipat sa mode ng pagpapatakbo: patakbuhin ang programa nang live, tumutugon sa mga input sa totoong oras"
+                    ]
+                },
+                "announce": "$~mode na $mode",
+                "exception": "$~May error ang programa, kaya lumipat ito sa mode ng hakbang para masuri mo ito.",
+                "cycle": "$~magpalipat-lipat sa mga mode na pag-edit, hakbang, at pagpapatakbo"
             }
         },
         "timeline": {
-            "label": "$~takdang panahon",
-            "debug": "$~i-debug",
             "slider": "$~slider ng oras",
             "button": {
                 "play": "$~suriin ang programa hanggang sa huli, na tumutugon sa mga input sa totoong oras",
-                "pause": "$~ihinto ang programa, na nagbibigay-daan sa paghakbang pasulong at paatras",
                 "backStep": "$~umatras ng isa",
                 "backNode": "$~hakbang sa nakaraang pagsusuri ng cursor",
                 "backInput": "$~isang input pabalik",
@@ -6488,15 +6508,12 @@
                 "reset": "$~i-restart ang pagganap"
             },
             "tour": {
-                "launch": "$~libutin ang timeline",
                 "timeline": "$~Ang /timeline/ ay nagbibigay-daan sa iyong humakbang *pasulong* at *paatras* sa pagsusuri ng iyong programa, nang paisa-isang hakbang. Isa itong mahusay na paraan upang makita *kung paano* kinukuwenta ng iyong programa ang halaga nito, at upang bumuo ng isang mental na modelo kung paano sinusuri ng mga programang Wordplay, lalo na kung hindi mo nakikita ang gawi na gusto mo.",
-                "reset": "$~Ire-rewind ng button na /reset/ ang ebalwasyon ng iyong programa pabalik sa *simula*, para masimulan mo nang panoorin ang ebalwasyon mula sa simula.",
                 "annotations": "$~Ang window na /annotations/ ay kung saan lumalabas ang mga paliwanag ng bawat hakbang. Habang tinatahak mo ang iyong programa, dito mo mababasa ang nangyari.",
                 "editor": "$~Ipinapakita ng /editor/ ang iyong code. Habang nag-step, ang *value* ng bawat bahagi ng iyong programa ay lilitaw sa tabi ng bahaging iyon *pagkatapos* itong masuri, para mapanood mo ang pagtaas ng mga value habang tumatakbo ang programa.",
                 "history": "$~Ipinapakita ng /history/ ang bawat *input* na natanggap ng iyong programa, tulad ng mga key, time tick, at pointer event. Ito ay *maaaring i-drag*, kaya maaari kang bumalik sa anumang sandali sa evaluation history ng programa sa pamamagitan lamang ng pag-drag.",
                 "stepControls": "$~Ang /step ang kumokontrol sa/ na nagbibigay-daan sa iyong tumpak na pag-usad sa pagsusuri. Maaari kang tumalon sa *simula* o *dulo*, humakbang *pasulong* o *paatras* nang paisa-isang hakbang, tumalon sa *isang input*, humakbang *palabas* ng isang function, o tumalon sa *kasalukuyang napili* na bahagi ng code.",
-                "playMode": "$~Ang programa ay /nagpe-play/ na ngayon. Sa *play* mode, tatakbo ang iyong programa hanggang sa matapos ito (kung sakaling mangyari), na tumutugon sa mga input nang real time.",
-                "pauseMode": "$~Ang programa ay /naka-pause/ na ngayon. Sa *pause* mode, maaari kang humakbang *pasulong* at *paatras* sa pagsusuri. Ipinapakita na ngayon ng /annotations/ window kung ano ang nangyayari sa bawat hakbang, at ang *kasalukuyang halaga* ng bawat bahagi ng iyong programa ay lilitaw sa tabi nito sa editor."
+                "modes": "$~Pinipili ng /pampalit ng mode/ kung paano susuriin ang iyong programa. Sa ✏️ mode ng *pag-edit*, binabago mo ang programa habang nananatiling nakapirmi ang entablado sa kasalukuyang frame. Sa ⏸️ mode ng *hakbang* — kung nasaan ka ngayon — humahakbang ka *pasulong* at *paurong* sa pagsusuri, at lumilitaw ang *kasalukuyang halaga* ng bawat bahagi ng iyong programa sa tabi nito sa editor. Sa ▶️ mode ng *pagpapatakbo*, tumatakbo ang iyong programa nang live, tumutugon sa mga input sa totoong oras."
             }
         },
         "docs": {
@@ -7194,7 +7211,8 @@
                 "sequence": "$~i-convert sa Sequence",
                 "createPhrase": "$~lumikha ng isang Parirala, na nagpapakita ng umiiral na halaga bilang teksto",
                 "createGroup": "$~lumikha ng isang Grupo, na binabalot ang anumang umiiral na Parirala",
-                "createStage": "$~lumikha ng isang Entablado, na binabalot ang anumang umiiral na Grupo o Parirala"
+                "createStage": "$~lumikha ng isang Entablado, na binabalot ang anumang umiiral na Grupo o Parirala",
+                "editMode": "$~lumipat sa mode ng pag-edit"
             },
             "prompt": {
                 "offerPhrase": "$~Ibabalot ko ba ang halagang ito sa isang @Phrase ?",
@@ -7203,7 +7221,8 @@
                 "select": "$~Para mag-edit, pumili ng 💬, 🔳, ⬟, o 🎭 sa code, o ⏸️ ang @Stage at piliin ang output.",
                 "editing": "$~I-edit mo ako!",
                 "offerShape": "$~Ibabalot ko ba itong @Form sa @Shape para maipakita sa @Stage ?",
-                "offerNothing": "$~Wala pa rito! Magdaragdag ba ako ng @Phrase para makapagsimula?"
+                "offerNothing": "$~Wala pa rito! Magdaragdag ba ako ng @Phrase para makapagsimula?",
+                "readonly": "$~Ang mga halagang ito ay *para-basa-lamang* sa mode na ito. Lumipat sa ✏️ mode ng *pag-edit* para baguhin ang mga ito."
             },
             "field": {
                 "coordinate": "$~i-edit ang coordinate",
@@ -7535,7 +7554,6 @@
                 "button": {
                     "newproject": "$~bagong proyekto",
                     "editproject": "$~i-edit ang proyektong ito",
-                    "viewcode": "$~tingnan ang code ng proyektong ito",
                     "unarchive": "$~i-unarchive ang proyektong ito"
                 },
                 "confirm": {
@@ -8211,7 +8229,8 @@
             "close": "$~isara ang paglilibot",
             "previous": "$~nakaraang hakbang",
             "next": "$~susunod na hakbang",
-            "offscreen": "$~Ang bahaging ito ng interface ay hindi nakikita sa screen sa kasalukuyan."
+            "offscreen": "$~Ang bahaging ito ng interface ay hindi nakikita sa screen sa kasalukuyan.",
+            "overflowed": "$~Nakatago ang kontrol na ito sa loob ng naka-highlight na menu; buksan ito para mahanap ang kontrol."
         },
         "connection": {
             "offline": "$~Naka-offline ka. Hindi gagana ang ilang feature hangga't hindi ka online.",

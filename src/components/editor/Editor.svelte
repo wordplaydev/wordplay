@@ -77,6 +77,7 @@
         getEmphasizedConflict,
         getEvaluation,
         getKeyboardEditIdle,
+        getProjectCommandContext,
         getResetKeyboardIdle,
         getSelectedOutput,
         setCaret,
@@ -166,6 +167,11 @@
         autofocus?: boolean;
         /** Whether the editor is editable */
         editable: boolean;
+        /** Called when an edit is attempted while the editor is read-only. May make
+         *  the editor editable (e.g., by switching the project to edit mode) and
+         *  return true to let the attempted edit proceed. Undefined when read-only
+         *  is permanent (e.g., someone else's project). */
+        requestEditable?: (() => boolean) | undefined;
         /** Show inline stepping values even when not editable (e.g. read-only
          *  code examples in docs that step through evaluation). */
         values?: boolean;
@@ -204,6 +210,7 @@
         selected = false,
         autofocus = true,
         editable,
+        requestEditable = undefined,
         values = false,
         dragSource = false,
         searchable = false,
@@ -556,6 +563,19 @@
     // A menu of potential transformations based on the caret position.
     const selection = getSelectedOutput();
     const evaluation = getEvaluation();
+
+    /** The surrounding project's (or example's) command context, so evaluation-mode
+     * commands dispatched from the editor reach the project's mode switcher rather
+     * than falling back to evaluator-only behavior and desyncing the UI mode. */
+    const projectCommandContext = getProjectCommandContext();
+
+    /** Whether the editor should behave like a debugger right now (step-node scrolling,
+     * value hovers): step mode inside a ProjectView, otherwise simply paused. */
+    function inStepMode(): boolean {
+        const ev = evaluation !== undefined ? get(evaluation) : undefined;
+        if (ev?.mode !== undefined) return ev.mode === 'step';
+        return !evaluator.isPlaying();
+    }
     // Forward a play-rate-decoupled copy of the evaluation context for this
     // editor's NodeViews (see Contexts.getSteppedEvaluation): while PLAYING,
     // broadcasts arrive ~60 Hz and every rendered NodeView's inline-value derived
@@ -626,6 +646,9 @@
         // hit-testing and rendered-token sets would otherwise reflect a stale window.
         $effectiveFolded;
         $evaluation?.playing;
+        // The project mode also determines whether value views render (step mode only),
+        // so a mode switch re-renders tokens just like a play/pause flip.
+        $evaluation?.mode;
         $windowRevision;
         if (source) tokenViews = undefined;
     });
@@ -906,8 +929,8 @@
 
     /** Called when the program evaluates another step. */
     async function evalUpdate() {
-        // No evaluator, or we're playing? No need to update the eval editor info.
-        if (evaluator.isPlaying()) return;
+        // Not debugging? No need to update the eval editor info.
+        if (!inStepMode()) return;
 
         // If the program contains this node, scroll it's first token into view.
         const stepNode = evaluator.getStepNode();
@@ -1577,8 +1600,8 @@
             }
         }
 
-        // Hover debug stuff when paused.
-        if (!evaluator.isPlaying()) handleDebugHover(event);
+        // Hover debug stuff when debugging.
+        if (inStepMode()) handleDebugHover(event);
     }
 
     /** The structural replacement-target resolution, memoized on (raw node,
@@ -2020,9 +2043,11 @@
                 keyboardEditIdle.set(idle);
         }
 
-        // Update the caret and project.
+        // Update the caret and project. A read-only editor whose read-only-ness is
+        // mode-based (step/play) implicitly switches to edit mode when an edit is
+        // attempted — wanting to edit *is* the request to edit.
         if (newSource) {
-            if (editable) {
+            if (editable || (requestEditable?.() ?? false)) {
                 Projects.reviseProject(
                     newSource instanceof Project
                         ? newSource
@@ -2370,6 +2395,8 @@
             notify,
             zoom,
             setZoom,
+            getMode: projectCommandContext?.context.getMode,
+            setMode: projectCommandContext?.context.setMode,
         });
 
         // Don't insert symbols if composing.

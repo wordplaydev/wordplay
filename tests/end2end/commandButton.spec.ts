@@ -11,6 +11,19 @@ test('create project and check for command buttons and their functionalities ', 
     // Wait for the URL redirect to the project.
     await page.waitForURL(/\/project\/.+/);
 
+    // The mode switcher is in the output toolbar in every mode.
+    const ModeSwitcher = page.locator('[data-uiid="modeSwitcher"]');
+    await expect(ModeSwitcher).toBeVisible();
+
+    // Projects open in edit mode, so the debug footer is hidden until step mode.
+    const TimeLineSlider = page.locator('[data-uiid="timeline"]');
+    await expect(TimeLineSlider).not.toBeVisible();
+
+    // Enter step mode via the switcher's second button.
+    await ModeSwitcher.getByRole('radio').nth(1).click();
+
+    await expect(TimeLineSlider).toBeVisible();
+
     const StepBackButton = page.locator('[data-uiid="stepBack"]');
     await expect(StepBackButton).toBeVisible();
 
@@ -28,10 +41,4 @@ test('create project and check for command buttons and their functionalities ', 
 
     const ToEnd = page.locator('[data-uiid="stepOut"]');
     await expect(ToEnd).toBeVisible();
-
-    const TimeLineSlider = page.locator('[data-uiid="timeline"]');
-    await expect(TimeLineSlider).toBeVisible();
-
-    const PlayButton = page.locator('[data-uiid="playToggle"]');
-    await expect(PlayButton).toBeVisible();
 });

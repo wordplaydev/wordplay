@@ -44,6 +44,10 @@
     /** The bounding rect of the current target, or null if not on screen. */
     let rect = $state<DOMRect | null>(null);
 
+    /** True when the target is tucked inside a closed overflow menu, and the
+     * rect is the menu's toggle rather than the control itself. */
+    let overflowed = $state(false);
+
     let panelWidth = $state(0);
     let panelHeight = $state(0);
 
@@ -57,19 +61,55 @@
     /** The element that had focus when the tour opened, for restoring on close. */
     let returnFocusTo: HTMLElement | null = null;
 
-    /** Find the target element matching the current uiid and capture its rect. */
+    /** Whether an element is actually rendered and visible — a nonzero rect is
+     * not enough, since an element in a closed overflow popup keeps its layout
+     * under `visibility: hidden` and measures at (0, 0). */
+    function isShown(el: HTMLElement): boolean {
+        const r = el.getBoundingClientRect();
+        if (r.width === 0 || r.height === 0) return false;
+        if (typeof el.checkVisibility === 'function')
+            return el.checkVisibility({
+                checkOpacity: false,
+                checkVisibilityCSS: true,
+            });
+        // Fallback without checkVisibility: treat a closed overflow popup as hidden.
+        return el.closest('.overflow-panel.closed') === null;
+    }
+
+    /** Find the target element matching the current uiid and capture its rect.
+     * Prefer a visible match; when the only match is tucked inside a closed
+     * overflow menu, highlight the menu's toggle instead so the tour points at
+     * the place the control can be found. */
     function locate() {
         if (!browser || !current) return;
-        const el = document.querySelector(
-            `[data-uiid="${CSS.escape(current.uiid)}"]`,
-        ) as HTMLElement | null;
-        if (el) {
-            const r = el.getBoundingClientRect();
-            if (r.width > 0 && r.height > 0) {
-                rect = r;
-                return;
+        overflowed = false;
+        const candidates = Array.from(
+            document.querySelectorAll(
+                `[data-uiid="${CSS.escape(current.uiid)}"]`,
+            ),
+        ).filter((el): el is HTMLElement => el instanceof HTMLElement);
+
+        const visible = candidates.find(isShown);
+        if (visible) {
+            rect = visible.getBoundingClientRect();
+            return;
+        }
+
+        // Hidden inside an overflow popup? Point at the toggle that opens it.
+        for (const el of candidates) {
+            const panel = el.closest('.overflow-panel');
+            if (panel !== null && panel.id.length > 0) {
+                const toggle = document.querySelector(
+                    `[data-controls="${CSS.escape(panel.id)}"]`,
+                );
+                if (toggle instanceof HTMLElement && isShown(toggle)) {
+                    rect = toggle.getBoundingClientRect();
+                    overflowed = true;
+                    return;
+                }
             }
         }
+
         rect = null;
     }
 
@@ -242,6 +282,10 @@
             {#if rect === null}
                 <p class="offscreen">
                     <LocalizedText path={(l) => l.ui.tour.offscreen} />
+                </p>
+            {:else if overflowed}
+                <p class="offscreen">
+                    <LocalizedText path={(l) => l.ui.tour.overflowed} />
                 </p>
             {/if}
             <div class="explanation">

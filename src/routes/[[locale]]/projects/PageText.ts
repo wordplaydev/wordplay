@@ -29,8 +29,6 @@ type PageText = {
         newproject: string;
         /** [plain] Edit a project */
         editproject: string;
-        /** [plain] View a project's code */
-        viewcode: string;
         /** [plain] The project unarchive button description */
         unarchive: string;
     };

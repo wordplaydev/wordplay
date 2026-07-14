@@ -6229,14 +6229,35 @@
                     "on": "$~dölj kameraförhandsvisning",
                     "off": "$~visa kameraförhandsvisning"
                 }
+            },
+            "mode": {
+                "evaluation": {
+                    "label": "$~utvärderingsläge",
+                    "labels": ["$~redigera", "$~steg", "$~spela"],
+                    "tips": [
+                        "$~byt till redigeringsläge: ändra programmet medan scenen stannar frusen på den aktuella bilden",
+                        "$~byt till stegläge: pausa och gå igenom programmets utvärdering, ett steg i taget",
+                        "$~byt till spelläge: kör programmet live och svara på indata i realtid"
+                    ]
+                },
+                "evaluationView": {
+                    "label": "$~utvärderingsläge",
+                    "labels": ["$~visa", "$~steg", "$~spela"],
+                    "tips": [
+                        "$~byt till visningsläge: läs programmet medan scenen stannar frusen på den aktuella bilden",
+                        "$~byt till stegläge: pausa och gå igenom programmets utvärdering, ett steg i taget",
+                        "$~byt till spelläge: kör programmet live och svara på indata i realtid"
+                    ]
+                },
+                "announce": "$~$mode-läge",
+                "exception": "$~Programmet fick ett fel, så det bytte till stegläge så att du kan undersöka det.",
+                "cycle": "$~växla mellan lägena redigera, stega och spela"
             }
         },
         "timeline": {
-            "label": "$~tidslinjen",
             "slider": "$~tidsreglaget",
             "button": {
                 "play": "$~utvärdera programmet till slutet, svara på input i realtid",
-                "pause": "$~pausa programmet, vilket gör det möjligt att gå framåt och bakåt",
                 "backStep": "$~ett steg tillbaka",
                 "backNode": "$~steg till föregående utvärdering av markören",
                 "backInput": "$~tillbaka en ingång",
@@ -6248,17 +6269,13 @@
                 "start": "$~Till början",
                 "reset": "$~starta om prestandan"
             },
-            "debug": "$~felsöka",
             "tour": {
-                "launch": "$~ta en rundtur i tidslinjen",
                 "timeline": "$~Med /tidslinjen/ kan du gå *framåt* och *bakåt* genom programmets utvärdering, ett steg i taget. Det är ett bra sätt att se *hur* ditt program beräknar sitt värde, och att bygga en mental modell av hur Wordplay-program utvärderar, särskilt om du inte ser det beteende du vill ha.",
-                "reset": "$~Knappen /reset/ spolar tillbaka programmets utvärdering hela vägen tillbaka till *början*, så att du kan börja titta på utvärderingen från början.",
                 "annotations": "$~I fönstret /annotations/ visas förklaringar av varje steg. När du går igenom programmet kan du läsa vad som just hände.",
                 "editor": "$~/Editor/ visar din kod. När du stegar kommer *värdet* för varje del av ditt program att visas bredvid den delen *efter* att den har utvärderats, så att du kan se värdena byggas upp medan programmet körs.",
                 "history": "$~/History/ visar alla *indata* som ditt program har mottagit, som tangenter, tidstick och pekarhändelser. Den är *drabar*, så du kan återgå till när som helst i programmets utvärderingshistorik genom att bara dra.",
                 "stepControls": "$~Med /step-kontrollerna/ kan du gå igenom utvärderingen exakt. Du kan hoppa till *start* eller *slut*, gå *framåt* eller *bakåt* ett steg i taget, hoppa *en inmatning*, gå *ut* ur en funktion eller hoppa till den *nu valda* delen av koden.",
-                "playMode": "$~Programmet spelar nu upp. I *spela upp*-läge körs programmet tills det är klart (om det någonsin är klart) och svarar på inmatningar i realtid.",
-                "pauseMode": "$~Programmet är nu /pausat/. I *paus*-läge kan du stega *framåt* och *bakåt* genom utvärderingen. Fönstret /annotations/ visar nu vad som händer i varje steg, och det *nuvarande värdet* för varje del av ditt program visas bredvid det i redigeraren."
+                "modes": "$~/Lägesväxlaren/ väljer hur ditt program utvärderas. I ✏️ *redigeringsläge* ändrar du programmet medan scenen stannar frusen på den aktuella bilden. I ⏸️ *stegläge* — där du är nu — stegar du *framåt* och *bakåt* genom utvärderingen, och det *aktuella värdet* för varje del av ditt program visas bredvid den i redigeraren. I ▶️ *spelläge* körs ditt program live och svarar på indata i realtid."
             }
         },
         "docs": {
@@ -6956,7 +6973,8 @@
                 "sequence": "$~konvertera till Sequence",
                 "createPhrase": "$~skapa en fras som visar det befintliga värdet som text",
                 "createGroup": "$~skapa en grupp och slå in alla befintliga fraser",
-                "createStage": "$~skapa en scen, linda en befintlig grupp eller fras"
+                "createStage": "$~skapa en scen, linda en befintlig grupp eller fras",
+                "editMode": "$~byt till redigeringsläge"
             },
             "prompt": {
                 "offerPhrase": "$~Ska jag slå in det här värdet i en @Phrase ?",
@@ -6965,7 +6983,8 @@
                 "editing": "$~Redigera mig!",
                 "select": "$~För att redigera, välj en 💬, 🔳, ⬟ eller 🎭 i koden, eller ⏸️ @Stage och välj utdata.",
                 "offerShape": "$~Ska jag linda in denna @Form i @Shape för att visa den på @Stage ?",
-                "offerNothing": "$~Inget här än! Ska jag lägga till en @Phrase för att komma igång?"
+                "offerNothing": "$~Inget här än! Ska jag lägga till en @Phrase för att komma igång?",
+                "readonly": "$~Dessa värden är *skrivskyddade* i det här läget. Byt till ✏️ *redigeringsläge* för att ändra dem."
             },
             "field": {
                 "coordinate": "$~redigera koordinat",
@@ -7234,7 +7253,6 @@
                 "button": {
                     "newproject": "$~nytt projekt",
                     "editproject": "$~redigera detta projekt",
-                    "viewcode": "$~visa detta projekts kod",
                     "unarchive": "$~avarkivera detta projekt"
                 },
                 "confirm": {
@@ -8205,7 +8223,8 @@
             "close": "$~stäng rundturen",
             "previous": "$~föregående steg",
             "next": "$~nästa steg",
-            "offscreen": "$~Den här delen av gränssnittet syns för närvarande inte på skärmen."
+            "offscreen": "$~Den här delen av gränssnittet syns för närvarande inte på skärmen.",
+            "overflowed": "$~Den här kontrollen är gömd inuti den markerade menyn. Öppna menyn för att hitta kontrollen."
         },
         "connection": {
             "offline": "$~Du är offline. Vissa funktioner fungerar inte förrän du är online.",

@@ -6235,14 +6235,35 @@
                     "on": "$~kamera önizlemesini gizle",
                     "off": "$~kamera önizlemesini göster"
                 }
+            },
+            "mode": {
+                "evaluation": {
+                    "label": "$~değerlendirme modu",
+                    "labels": ["$~düzenle", "$~adım", "$~oynat"],
+                    "tips": [
+                        "$~düzenleme moduna geç: sahne mevcut karede donmuş kalırken programı değiştir",
+                        "$~adım moduna geç: programın değerlendirmesini duraklat ve tek tek adımlarla ilerle",
+                        "$~oynatma moduna geç: programı canlı çalıştır ve girişlere gerçek zamanlı yanıt ver"
+                    ]
+                },
+                "evaluationView": {
+                    "label": "$~değerlendirme modu",
+                    "labels": ["$~görüntüle", "$~adım", "$~oynat"],
+                    "tips": [
+                        "$~görüntüleme moduna geç: sahne mevcut karede donmuş kalırken programı oku",
+                        "$~adım moduna geç: programın değerlendirmesini duraklat ve tek tek adımlarla ilerle",
+                        "$~oynatma moduna geç: programı canlı çalıştır ve girişlere gerçek zamanlı yanıt ver"
+                    ]
+                },
+                "announce": "$~$mode modu",
+                "exception": "$~Programda bir hata vardı, bu yüzden inceleyebilmen için adım moduna geçti.",
+                "cycle": "$~düzenleme, adım ve oynatma modları arasında geçiş yap"
             }
         },
         "timeline": {
-            "label": "$~zaman çizelgesi",
             "slider": "$~zaman kaydırıcısı",
             "button": {
                 "play": "$~Programı sonuna kadar değerlendirin, girdilere gerçek zamanlı olarak yanıt verin",
-                "pause": "$~programı duraklatarak ileri ve geri adım atmayı etkinleştirir",
                 "backStep": "$~bir adım geri",
                 "backNode": "$~imlecin önceki değerlendirmesine adım",
                 "backInput": "$~bir giriş geri",
@@ -6254,17 +6275,13 @@
                 "start": "$~Başlangıca",
                 "reset": "$~yeniden başlatma performansı"
             },
-            "debug": "$~hata ayıklama",
             "tour": {
-                "launch": "$~Zaman çizelgesinde bir tur atın",
                 "timeline": "$~/Timeline/ özelliği, programınızın değerlendirme sürecini adım adım *ileri* ve *geri* olarak incelemenizi sağlar. Programınızın değerini *nasıl* hesapladığını görmek ve özellikle istediğiniz davranışı görmüyorsanız, Wordplay programlarının nasıl değerlendirildiğine dair zihinsel bir model oluşturmak için harika bir yoldur.",
-                "reset": "$~/Sıfırla/ düğmesi, programınızın değerlendirmesini *en başa* geri sarar, böylece değerlendirmeyi baştan izlemeye başlayabilirsiniz.",
                 "annotations": "$~/annotations/ penceresi, her adımın açıklamalarının göründüğü yerdir. Programınızda adım adım ilerlerken, neler olduğunu burada okuyacaksınız.",
                 "editor": "$~/editör/ kodunuzu gösterir. Adım adım ilerlerken, programınızın her bölümünün *değeri*, değerlendirildikten *sonra* o bölümün yanında görünecektir; böylece program çalışırken değerlerin nasıl biriktiğini izleyebilirsiniz.",
                 "history": "$~/history/ dizini, programınızın aldığı her *girdiyi* gösterir; örneğin tuşlar, zaman işaretleri ve işaretçi olayları. *Sürüklenebilir* olduğundan, programın değerlendirme geçmişindeki herhangi bir ana sürükleyerek geri dönebilirsiniz.",
                 "stepControls": "$~/Adım kontrolleri/ değerlendirme sürecinde hassas bir şekilde ilerlemenizi sağlar. *Başlangıç* veya *son* noktaya atlayabilir, birer adım ileri veya geri gidebilir, *bir girdi* kadar atlayabilir, bir fonksiyonun dışına çıkabilir veya kodun *şu anda seçili* bölümüne atlayabilirsiniz.",
-                "playMode": "$~Program şu anda çalışıyor. *Oynat* modunda, programınız (eğer hiç çalışırsa) tamamlanana kadar çalışır ve girdilere gerçek zamanlı olarak yanıt verir.",
-                "pauseMode": "$~Program şu anda duraklatıldı. Duraklatma modunda, değerlendirme sürecinde ileri ve geri adımlar atabilirsiniz. Açıklamalar penceresi artık her adımda neler olduğunu gösterir ve programınızın her bölümünün mevcut değeri düzenleyicide yanında görünür."
+                "modes": "$~/Mod değiştirici/ programının nasıl değerlendirileceğini seçer. ✏️ *düzenleme* modunda, sahne mevcut karede donmuş kalırken programı değiştirirsin. ⏸️ *adım* modunda — şu an bulunduğun yer — değerlendirmede *ileri* ve *geri* adım atarsın ve programının her parçasının *mevcut değeri* düzenleyicide yanında görünür. ▶️ *oynatma* modunda, programın canlı çalışır ve girişlere gerçek zamanlı yanıt verir."
             }
         },
         "docs": {
@@ -6962,7 +6979,8 @@
                 "sequence": "$~Sıraya dönüştür",
                 "createPhrase": "$~mevcut değeri metin olarak gösteren bir Cümle oluşturun",
                 "createGroup": "$~mevcut herhangi bir İfadeyi saran bir Grup oluşturun",
-                "createStage": "$~herhangi bir mevcut Grup veya İfadeyi saran bir Sahne oluşturun"
+                "createStage": "$~herhangi bir mevcut Grup veya İfadeyi saran bir Sahne oluşturun",
+                "editMode": "$~düzenleme moduna geç"
             },
             "prompt": {
                 "offerPhrase": "$~Bu değeri bir @Phrase içine mi sarmalıyım?",
@@ -6971,7 +6989,8 @@
                 "editing": "$~Beni düzenle!",
                 "select": "$~Düzenlemek için kodda 💬, 🔳, ⬟ veya 🎭 simgelerinden birini seçin veya @Stage ⏸️ seçip çıktıyı seçin.",
                 "offerShape": "$~@Form @Shape içine alıp @Stage Stage'de göstermeli miyim?",
-                "offerNothing": "$~Henüz burada bir şey yok! Başlamak için bir @Phrase ekleyeyim mi?"
+                "offerNothing": "$~Henüz burada bir şey yok! Başlamak için bir @Phrase ekleyeyim mi?",
+                "readonly": "$~Bu değerler bu modda *salt okunurdur*. Onları değiştirmek için ✏️ *düzenleme* moduna geç."
             },
             "field": {
                 "coordinate": "$~Koordinatı düzenle",
@@ -7240,7 +7259,6 @@
                 "button": {
                     "newproject": "$~yeni proje",
                     "editproject": "$~bu projeyi düzenle",
-                    "viewcode": "$~bu projenin kodunu görüntüle",
                     "unarchive": "$~bu projeyi arşivden çıkar"
                 },
                 "confirm": {
@@ -8214,7 +8232,8 @@
             "close": "$~turu kapat",
             "previous": "$~önceki adım",
             "next": "$~sonraki adım",
-            "offscreen": "$~Arayüzün bu kısmı şu anda ekranda görünmüyor."
+            "offscreen": "$~Arayüzün bu kısmı şu anda ekranda görünmüyor.",
+            "overflowed": "$~Bu denetim, vurgulanan menünün içinde gizlidir; denetimi bulmak için menüyü aç."
         },
         "connection": {
             "offline": "$~Çevrimdışı durumdasınız. Çevrimiçi olana kadar bazı özellikler çalışmayacaktır.",

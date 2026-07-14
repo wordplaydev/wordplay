@@ -35,10 +35,7 @@ import Root from '@nodes/Root';
 import { parseNames } from '@parser/parseBind';
 import { buildKeywordIndex, type KeywordIndex } from '@parser/Keywords';
 import { toTokens } from '@parser/toTokens';
-import {
-    PROJECT_PARAM_EDIT,
-    PROJECT_PARAM_PLAY,
-} from '../../routes/[[locale]]/project/constants';
+import { PROJECT_PARAM_MODE } from '../../routes/[[locale]]/project/constants';
 import type LocalesDatabase from '@db/locales/LocalesDatabase';
 import { type ModerationState, unknownFlags } from '@db/projects/Moderation';
 import {
@@ -326,8 +323,8 @@ export default class Project {
     }
 
     getLink(fullscreen: boolean) {
-        return `/project/${encodeURI(this.getID())}${
-            fullscreen ? `?${PROJECT_PARAM_PLAY}` : `?${PROJECT_PARAM_EDIT}`
+        return `/project/${encodeURI(this.getID())}?${PROJECT_PARAM_MODE}=${
+            fullscreen ? 'play' : 'edit'
         }`;
     }
 

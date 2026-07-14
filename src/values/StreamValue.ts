@@ -62,8 +62,14 @@ export default abstract class StreamValue<
     abstract react(raw: Raw): void;
 
     add(value: ValueType, raw: Raw, silent = false) {
-        // Ignore values during stepping.
-        if (!this.evaluator.isReplayingInputs() && this.evaluator.isStepping())
+        // Ignore values during stepping — except a stream's first value: creation
+        // happens during evaluation itself (including stepping re-runs), and a
+        // stream must always have an initial value to resolve to.
+        if (
+            this.values.length > 0 &&
+            !this.evaluator.isReplayingInputs() &&
+            this.evaluator.isStepping()
+        )
             return;
 
         // Update the time.
@@ -86,6 +92,11 @@ export default abstract class StreamValue<
 
     getFirstStepIndex() {
         return this.values[0].stepIndex;
+    }
+
+    /** The stream's first recorded value, a fallback when stepping has rewound before its history. */
+    getFirstValue(): ValueType | undefined {
+        return this.values[0]?.value;
     }
 
     latest(): ValueType | undefined {
