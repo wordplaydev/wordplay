@@ -8,6 +8,11 @@
 
 <script lang="ts">
     import OutputView from '@components/output/OutputView.svelte';
+    import StartGate from '@components/output/StartGate.svelte';
+    import {
+        ContentGate,
+        getPhotosensitivityWarnings,
+    } from '@components/output/gate.svelte';
     import {
         IdleKind,
         setAnimatingNodes,
@@ -105,6 +110,17 @@
     let project = $derived(externalProject ?? ownProject);
     let evaluator = $derived(externalEvaluator ?? ownEvaluator);
 
+    // Documentation/gallery previews are read-only, so gate their playback for
+    // photosensitivity too, just like the main stage. Risks are found by static
+    // analysis of the project (no frames painted). The gate holds `playing` (see
+    // the play effect) until the viewer clicks Start.
+    const photoWarnings = $derived(
+        project
+            ? getPhotosensitivityWarnings(project, DB, $locales.getLocales())
+            : [],
+    );
+    const gate = new ContentGate(() => photoWarnings);
+
     let value: Value | undefined = $state(undefined);
     let stage: Stage | undefined = $state(undefined);
     /** Whether playing this preview would actually do anything: either the project
@@ -153,7 +169,8 @@
     }
 
     function updateEvaluatorStores() {
-        if (selfContained && evaluator) evaluation.set(getEvalContext(evaluator));
+        if (selfContained && evaluator)
+            evaluation.set(getEvalContext(evaluator));
     }
 
     /** True if any output in the tree animates (recursing through Group/Stage children).
@@ -220,13 +237,15 @@
     // read/write reactive state (value, stage, the evaluation store) — tracking any of that
     // here would re-invalidate this effect and loop. Only `playing` is a dependency.
     $effect(() => {
-        const p = playing;
+        // Hold playback while the photosensitivity gate is up.
+        const p = playing && !gate.gated;
         untrack(() => {
             // Single-play: when we start, ask any other playing preview to stop; when we
             // stop, release the registry. The other's onStop schedules its effect (it won't
             // run synchronously here), so by then `activePreview` is already us.
             if (p) {
-                if (activePreview && activePreview !== self) activePreview.stop();
+                if (activePreview && activePreview !== self)
+                    activePreview.stop();
                 activePreview = self;
             } else if (activePreview === self) {
                 activePreview = undefined;
@@ -251,6 +270,12 @@
         });
     });
 
+    // Reset acknowledgment when the previewed project changes (new example).
+    $effect(() => {
+        project;
+        untrack(() => gate.reset());
+    });
+
     // On unmount, stop our own evaluator and release the single-play registry if we held it.
     $effect(() => {
         return () => {
@@ -272,6 +297,14 @@
                 wheel={false}
                 blurOnTyping={false}
             />
+            {#if gate.gated}
+                <StartGate
+                    warnings={gate.pending}
+                    blocks={[]}
+                    onstart={gate.acknowledge}
+                    mini
+                />
+            {/if}
         </div>
         <!-- A small corner control, only for projects that actually reevaluate or animate.
              It doesn't cover the stage, so stage clicks stay interactive while playing. -->

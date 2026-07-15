@@ -886,7 +886,7 @@
                                 {fit}
                                 autofocus={false}
                                 guide={false}
-                                warn={false}
+                                warn={!editable}
                                 shareable={false}
                                 persistLayout={false}
                             /></div

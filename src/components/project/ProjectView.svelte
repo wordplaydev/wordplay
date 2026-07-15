@@ -134,6 +134,7 @@
         getAnnouncer,
         getConceptPath,
         getFullscreen,
+        getUser,
         IdleKind,
         setAnimatingNodes,
         setConceptIndex,
@@ -155,7 +156,17 @@
     } from '@components/project/Contexts';
     import CopyButton from '@components/project/CopyButton.svelte';
     import Layout from '@components/project/Layout';
-    import Moderation from '@components/project/Moderation.svelte';
+    import type { GateBlock, GateWarning } from '@components/output/gate';
+    import {
+        ContentGate,
+        getPhotosensitivityWarnings,
+    } from '@components/output/gate.svelte';
+    import {
+        getBlockFlags,
+        getUnmoderatedFlags,
+        getWarnFlags,
+    } from '@db/projects/Moderation';
+    import { isAudience } from '@db/projects/ModerationUtils';
     import OutputLocaleChooser from '@components/project/OutputLocaleChooser.svelte';
     import PositionAdjuster from '@components/project/PositionAdjuster.svelte';
     import ProjectFooter from '@components/project/ProjectFooter.svelte';
@@ -1448,13 +1459,61 @@
         }
     });
 
+    const user = getUser();
+
     /**
-     * Any time the evaluator of the project changes, start it — unless a
-     * required browser permission has not yet been granted.
+     * Content warnings shown in the same blocking gate as permissions, for
+     * read-only viewers only (`warn`). Photosensitivity is detected by static
+     * analysis; moderation warnings come from a moderator's flags, and only for
+     * a public project's audience (not read-only collaborators of a private
+     * project). Computed synchronously (not in onMount) so the value is ready
+     * before the evaluator-start effect below reads it — otherwise the effect
+     * could start the evaluator before risks are known and the gate would never
+     * appear.
+     */
+    const showModeration = $derived(warn && isAudience($user, project));
+    const contentWarnings = $derived<GateWarning[]>([
+        ...(showModeration
+            ? [
+                  ...getWarnFlags(project.getFlags()).map<GateWarning>(
+                      (flag) => ({ kind: 'moderation', flag, moderated: true }),
+                  ),
+                  ...getUnmoderatedFlags(project.getFlags()).map<GateWarning>(
+                      (flag) => ({
+                          kind: 'moderation',
+                          flag,
+                          moderated: false,
+                      }),
+                  ),
+              ]
+            : []),
+        ...(warn
+            ? getPhotosensitivityWarnings(project, DB, $locales.getLocales())
+            : []),
+    ]);
+    const contentBlocks = $derived<GateBlock[]>(
+        showModeration
+            ? getBlockFlags(project.getFlags()).map<GateBlock>((flag) => ({
+                  kind: 'moderation',
+                  flag,
+              }))
+            : [],
+    );
+
+    const gate = new ContentGate(
+        () => contentWarnings,
+        () => contentBlocks,
+    );
+
+    /**
+     * Any time the evaluator of the project changes, start it — unless the
+     * blocking gate is holding it: a required browser permission hasn't been
+     * granted, the content is blocked, or content warnings await acknowledgment.
      * */
     let updateTimer = $state<NodeJS.Timeout | undefined>(undefined);
     $effect(() => {
         if (pendingPermissions.size > 0) return;
+        if (gate.gated) return;
         if (!$evaluator.isStarted()) {
             $evaluator.start();
             // In edit and step modes, freeze after the initial evaluation completes,
@@ -2346,9 +2405,8 @@
     }}
 />
 
-{#if warn}
-    <Moderation {project} />
-{/if}
+<!-- Content warnings (moderation, photosensitivity) are shown to read-only
+     viewers in the output's blocking start gate, unified with permissions. -->
 <!-- Render the current project. -->
 <main class="project" class:dragging={dragged !== undefined} bind:this={view}>
     <!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -2758,6 +2816,9 @@
                                         selectable={editableAndCurrent &&
                                             uiMode !== 'play'}
                                         onretry={() => updateEvaluator(project)}
+                                        warnings={gate.pending}
+                                        blocks={gate.blocks}
+                                        onacknowledge={gate.acknowledge}
                                     />
                                 {:else if tile.kind === TileKind.Collaborate}
                                     <CollaborateView {project} {chat} />
@@ -2893,7 +2954,9 @@
                                         <!-- Collaborator presence bar uses the same
                                              EditorNotice motif (see RemoteCarets). Renders
                                              nothing when the local user is the only editor. -->
-                                        <RemoteCarets projectID={project.getID()} />
+                                        <RemoteCarets
+                                            projectID={project.getID()}
+                                        />
                                     </div>
                                 {/if}
                             {/snippet}

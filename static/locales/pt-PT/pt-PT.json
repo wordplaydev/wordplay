@@ -6448,9 +6448,7 @@
                 "microphone": "microfone",
                 "camera": "câmera",
                 "note": "O seu navegador perguntará antes de partilhar.",
-                "start": "Iniciar",
-                "retry": "Tentar novamente",
-                "starttip": "$~Dá permissão para aceder a esta entrada."
+                "retry": "Tentar novamente"
             },
             "multiselect": "$~Utilize a tecla Tab e as teclas Alt e de seta para navegar entre as saídas. Prima a barra de espaço para adicionar ou remover a saída selecionada. Prima Enter para selecionar apenas a saída pretendida e abrir a paleta. Prima Esc para limpar a seleção. Prima Control ou Command e A para selecionar todas as saídas.",
             "selected": "$~$name selecionado, $count selecionado",
@@ -6491,6 +6489,12 @@
                 "announce": "$~modo $mode",
                 "exception": "$~O programa teve um erro, por isso mudou para o modo de passo para que possas inspecioná-lo.",
                 "cycle": "$~alternar entre os modos editar, passo e reproduzir"
+            },
+            "gate": {
+                "start": {
+                    "label": "$~iniciar",
+                    "tip": "$~mostrar o projeto"
+                }
             }
         },
         "timeline": {
@@ -8376,5 +8380,18 @@
         "range": "a",
         "complement": "não",
         "alternation": "ou"
+    },
+    "photosensitivity": {
+        "warning": {
+            "header": "$~Atenção",
+            "explanation": "$~As imagens deste projeto podem ser incómodas ou até causar convulsões em algumas pessoas. Pode incluir:"
+        },
+        "categories": {
+            "flashing": "$~Piscar rápido ou mudanças de contraste",
+            "redflash": "$~Vermelho muito intenso a piscar rapidamente",
+            "strobe": "$~Piscar como um estroboscópio que enche o ecrã",
+            "pattern": "$~Padrões geométricos densos e com muito contraste",
+            "motion": "$~Animação rápida de tamanho, posição ou transparência"
+        }
     }
 }

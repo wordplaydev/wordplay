@@ -6181,9 +6181,7 @@
                 "microphone": "$~麥克風",
                 "camera": "$~相機",
                 "note": "$~分享前，您的瀏覽器會詢問您。",
-                "start": "$~開始",
-                "retry": "$~重試",
-                "starttip": "$~授予存取這項輸入的權限。"
+                "retry": "$~重試"
             },
             "multiselect": "$~使用 Tab 鍵、Alt 鍵和方向鍵可在輸出之間移動。按空白鍵可將目前選取的輸出新增至選取範圍或從選取範圍移除。按 Enter 鍵可僅選取該輸出並開啟調色盤。按 Esc 鍵可清除選擇。按 Ctrl 鍵或 Command 鍵加 A 鍵可選擇所有輸出。",
             "selected": "$~已選擇$name ， $count",
@@ -6224,6 +6222,12 @@
                 "announce": "$~$mode 模式",
                 "exception": "$~程式發生了錯誤，所以它切換到步進模式，讓你可以檢查它。",
                 "cycle": "$~在編輯、單步和播放模式之間循環切換"
+            },
+            "gate": {
+                "start": {
+                    "label": "$~開始",
+                    "tip": "$~顯示工程"
+                }
             }
         },
         "timeline": {
@@ -8346,5 +8350,18 @@
         "range": "至",
         "complement": "非",
         "alternation": "或"
+    },
+    "photosensitivity": {
+        "warning": {
+            "header": "$~請注意",
+            "explanation": "$~這個工程的畫面可能會讓某些人感到不舒服，甚至引發癲癇。它可能包含："
+        },
+        "categories": {
+            "flashing": "$~快速閃爍或對比變化",
+            "redflash": "$~快速閃爍、色彩很濃的紅色",
+            "strobe": "$~像閃光燈一樣填滿整個螢幕的閃爍",
+            "pattern": "$~密集且對比很強的幾何圖案",
+            "motion": "$~大小、位置或透明度的快速動畫"
+        }
     }
 }

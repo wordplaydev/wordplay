@@ -6450,9 +6450,7 @@
                 "microphone": "$~micro",
                 "camera": "$~máy ảnh",
                 "note": "$~Trình duyệt của bạn sẽ hỏi trước khi chia sẻ.",
-                "start": "$~Bắt đầu",
-                "retry": "$~Thử lại",
-                "starttip": "$~Cấp quyền để truy cập đầu vào này."
+                "retry": "$~Thử lại"
             },
             "multiselect": "$~Sử dụng phím Tab, Alt và các phím mũi tên để di chuyển giữa các đầu ra. Nhấn phím Space để thêm hoặc xóa đầu ra đang được chọn khỏi vùng chọn của bạn. Nhấn Enter để chỉ chọn đầu ra đó và mở bảng công cụ. Nhấn Escape để xóa vùng chọn của bạn. Nhấn Control hoặc Command và A để chọn tất cả các đầu ra.",
             "selected": "$~$name đã được chọn, $count đã được chọn",
@@ -6493,6 +6491,12 @@
                 "announce": "$~chế độ $mode",
                 "exception": "$~Chương trình gặp lỗi, nên nó chuyển sang chế độ từng bước để bạn có thể xem xét lỗi đó.",
                 "cycle": "$~chuyển đổi giữa chế độ chỉnh sửa, bước và chơi"
+            },
+            "gate": {
+                "start": {
+                    "label": "$~bắt đầu",
+                    "tip": "$~hiển thị dự án"
+                }
             }
         },
         "timeline": {
@@ -8385,5 +8389,18 @@
         "range": "đến",
         "complement": "không",
         "alternation": "hoặc"
+    },
+    "photosensitivity": {
+        "warning": {
+            "header": "$~Chú ý",
+            "explanation": "$~Hình ảnh trong dự án này có thể gây khó chịu, hoặc thậm chí gây co giật cho một số người. Nó có thể bao gồm:"
+        },
+        "categories": {
+            "flashing": "$~Nhấp nháy nhanh hoặc thay đổi độ tương phản",
+            "redflash": "$~Màu đỏ đậm nhấp nháy nhanh",
+            "strobe": "$~Ánh sáng nhấp nháy như đèn nháy phủ khắp màn hình",
+            "pattern": "$~Các họa tiết hình học dày đặc, tương phản mạnh",
+            "motion": "$~Chuyển động nhanh về kích thước, vị trí, hoặc độ trong suốt"
+        }
     }
 }

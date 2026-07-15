@@ -6450,9 +6450,7 @@
                 "microphone": "$~mikropon",
                 "camera": "$~kamera",
                 "note": "$~Browser Anda akan meminta izin sebelum berbagi.",
-                "start": "$~Awal",
-                "retry": "$~Mencoba kembali",
-                "starttip": "$~Beri izin untuk mengakses masukan ini."
+                "retry": "$~Mencoba kembali"
             },
             "multiselect": "$~Gunakan tombol Tab, Alt, dan panah untuk berpindah antar output. Tekan spasi untuk menambah atau menghapus output yang sedang aktif dari pilihan Anda. Tekan Enter untuk memilih hanya output tersebut dan membuka palet. Tekan Escape untuk menghapus pilihan Anda. Tekan Control atau Command dan A untuk memilih semua output.",
             "selected": "$~$name terpilih, $count terpilih",
@@ -6493,6 +6491,12 @@
                 "announce": "$~mode $mode",
                 "exception": "$~Program mengalami kesalahan, jadi program beralih ke mode langkah agar kamu bisa memeriksanya.",
                 "cycle": "$~beralih antara mode sunting, langkah, dan main"
+            },
+            "gate": {
+                "start": {
+                    "label": "$~awal",
+                    "tip": "$~tampilkan proyek"
+                }
             }
         },
         "timeline": {
@@ -8381,5 +8385,18 @@
         "range": "sampai",
         "complement": "bukan",
         "alternation": "atau"
+    },
+    "photosensitivity": {
+        "warning": {
+            "header": "$~Perhatian",
+            "explanation": "$~Tampilan proyek ini dapat membuat sebagian orang tidak nyaman atau bahkan mengalami kejang. Proyek ini mungkin berisi:"
+        },
+        "categories": {
+            "flashing": "$~Kedipan cepat atau perubahan kontras",
+            "redflash": "$~Warna merah pekat yang berkedip cepat",
+            "strobe": "$~Kedipan seperti lampu strobo yang memenuhi layar",
+            "pattern": "$~Pola geometris yang rapat dan sangat kontras",
+            "motion": "$~Animasi ukuran, posisi, atau transparansi yang cepat"
+        }
     }
 }

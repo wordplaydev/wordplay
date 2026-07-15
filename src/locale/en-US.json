@@ -6492,9 +6492,13 @@
                 "microphone": "microphone",
                 "camera": "camera",
                 "note": "Your browser will ask before sharing.",
-                "start": "Start",
-                "starttip": "Grant permission to access this input.",
                 "retry": "Retry"
+            },
+            "gate": {
+                "start": {
+                    "label": "start",
+                    "tip": "show the project"
+                }
             },
             "sensor": {
                 "microphone": {
@@ -8305,6 +8309,19 @@
         },
         "error": {
             "notmod": "It looks like you're not a moderator. If you were recently given moderator privileges, you may need to login again. If not, see the wiki for how to request moderation privileges."
+        }
+    },
+    "photosensitivity": {
+        "warning": {
+            "header": "Heads up",
+            "explanation": "This project's visuals could be uncomfortable or even cause seizures for some people. It may include:"
+        },
+        "categories": {
+            "flashing": "Rapid flashing or contrast changes",
+            "redflash": "Rapidly flashing, strongly saturated red",
+            "strobe": "Strobe-like flashing that fills the screen",
+            "pattern": "Dense, highly contrasting geometric patterns",
+            "motion": "Fast animation of size, position, or transparency"
         }
     },
     "gallery": {

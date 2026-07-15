@@ -6451,9 +6451,7 @@
                 "microphone": "$~microfon",
                 "camera": "$~cameră",
                 "note": "$~Browserul tău te va întreba înainte de partajare.",
-                "start": "$~Început",
-                "retry": "$~Reîncercați",
-                "starttip": "$~Acordă permisiunea de a accesa această intrare."
+                "retry": "$~Reîncercați"
             },
             "multiselect": "$~Folosește Tab și tastele Alt și săgeată pentru a te deplasa între ieșiri. Apăsă Space pentru a adăuga sau elimina ieșirea focalizată din selecție. Apăsă Enter pentru a selecta doar acea ieșire și a deschide paleta. Apăsă Escape pentru a șterge selecția. Apăsă Control sau Command și A pentru a selecta toate ieșirile.",
             "selected": "$~$name selectat, $count selectat",
@@ -6494,6 +6492,12 @@
                 "announce": "$~mod $mode",
                 "exception": "$~Programul a avut o eroare, așa că a trecut la modul pas cu pas ca să îl poți examina.",
                 "cycle": "$~comută între modurile de editare, pas cu pas și redare"
+            },
+            "gate": {
+                "start": {
+                    "label": "$~început",
+                    "tip": "$~arată proiectul"
+                }
             }
         },
         "timeline": {
@@ -8382,5 +8386,18 @@
         "range": "la",
         "complement": "nu",
         "alternation": "sau"
+    },
+    "photosensitivity": {
+        "warning": {
+            "header": "$~Atenție",
+            "explanation": "$~Imaginile din acest proiect pot fi neplăcute sau chiar pot provoca crize la unele persoane. Ele pot include:"
+        },
+        "categories": {
+            "flashing": "$~Clipiri rapide sau schimbări puternice de contrast",
+            "redflash": "$~Roșu puternic saturat care clipește rapid",
+            "strobe": "$~Clipiri de tip stroboscop care umplu ecranul",
+            "pattern": "$~Modele geometrice dese, cu contrast foarte puternic",
+            "motion": "$~Animație rapidă a dimensiunii, poziției sau transparenței"
+        }
     }
 }

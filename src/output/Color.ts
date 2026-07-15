@@ -163,7 +163,9 @@ export function createColorType(locales: Locales) {
             const def = evaluator.project.shares.output.Color;
             const closure = evaluation.getClosure();
             const color =
-                closure instanceof StructureValue ? toColor(closure) : undefined;
+                closure instanceof StructureValue
+                    ? toColor(closure)
+                    : undefined;
             if (color === undefined)
                 return evaluation.getValueOrTypeException(
                     requestor,
@@ -349,4 +351,28 @@ export function LCHtoRGB(l: number, c: number, h: number) {
     // The previous way we converted to rgb prior to LCH support.
     // const color = new ColorJS(ColorJS.spaces.lch, [l * 100, c, h], 1);
     // return color.to('srgb').toString();
+}
+
+/**
+ * The absolute difference in LCH lightness (0-1) between two colors, used as a
+ * perceptual-luminance-contrast proxy for photosensitivity analysis.
+ */
+export function luminanceDelta(a: Color, b: Color): number {
+    return a.lightness.minus(b.lightness).abs().toNumber();
+}
+
+/** Minimum LCH chroma for a color to count as "saturated" red. */
+const SaturatedRedMinChroma = 60;
+
+/**
+ * True if a color is a strongly saturated red — a specific photosensitivity
+ * trigger. Red in LCH sits near hue 40°, so we accept the wrap-around band
+ * 340–360 ∪ 0–40 with high chroma.
+ */
+export function isSaturatedRed(color: Color): boolean {
+    const hue = color.hue.toNumber();
+    return (
+        color.chroma.toNumber() >= SaturatedRedMinChroma &&
+        (hue >= 340 || hue <= 40)
+    );
 }

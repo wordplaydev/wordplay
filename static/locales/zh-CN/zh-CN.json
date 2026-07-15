@@ -6182,9 +6182,7 @@
                 "microphone": "$~麦克风",
                 "camera": "$~相机",
                 "note": "$~你的浏览器会在分享前询问。",
-                "start": "$~开始",
-                "retry": "$~重试",
-                "starttip": "$~授予访问此输入的权限。"
+                "retry": "$~重试"
             },
             "multiselect": "$~用 Tab 键、Alt 键和方向键在输出之间移动。按空格键把焦点输出加入或移出你的选择。按回车键只选择那个输出并打开调色板。按 Esc 键清除你的选择。按 Control 或 Command 加 A 选择所有输出。",
             "selected": "$~已选择 $name，已选择 $count 个",
@@ -6225,6 +6223,12 @@
                 "announce": "$~$mode 模式",
                 "exception": "$~程序出现了错误，所以它切换到了单步模式，让你可以检查它。",
                 "cycle": "$~在编辑、单步和播放模式之间切换"
+            },
+            "gate": {
+                "start": {
+                    "label": "$~开始",
+                    "tip": "$~显示项目"
+                }
             }
         },
         "timeline": {
@@ -8341,5 +8345,18 @@
         "range": "至",
         "complement": "非",
         "alternation": "或"
+    },
+    "photosensitivity": {
+        "warning": {
+            "header": "$~请注意",
+            "explanation": "$~这个项目的画面可能让一些人不舒服，甚至引起癫痫发作。它可能包含："
+        },
+        "categories": {
+            "flashing": "$~快速闪烁或对比度变化",
+            "redflash": "$~快速闪烁的、非常鲜艳的红色",
+            "strobe": "$~充满整个屏幕的频闪式闪烁",
+            "pattern": "$~密集、对比强烈的几何图案",
+            "motion": "$~大小、位置或透明度的快速动画"
+        }
     }
 }

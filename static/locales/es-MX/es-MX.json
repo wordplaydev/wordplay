@@ -6192,9 +6192,7 @@
                 "microphone": "$~micrófono",
                 "camera": "$~cámara",
                 "note": "$~Tu navegador preguntará antes de compartir.",
-                "start": "$~Comenzar",
-                "retry": "$~Reintentar",
-                "starttip": "$~Da permiso para usar esta entrada."
+                "retry": "$~Reintentar"
             },
             "multiselect": "$~Usa tab y las teclas alt y de flecha para moverte entre las salidas. Presiona espacio para agregar o quitar de tu selección la salida enfocada. Presiona enter para seleccionar solo esa salida y abrir la paleta. Presiona escape para limpiar tu selección. Presiona control o comando y A para seleccionar todas las salidas.",
             "selected": "$~$name seleccionado, $count seleccionados",
@@ -6235,6 +6233,12 @@
                 "announce": "$~modo $mode",
                 "exception": "$~El programa tuvo un error, así que cambió al modo de pasos para que puedas revisarlo.",
                 "cycle": "$~cambia entre los modos de editar, paso a paso y jugar"
+            },
+            "gate": {
+                "start": {
+                    "label": "$~comenzar",
+                    "tip": "$~mostrar el proyecto"
+                }
             }
         },
         "timeline": {
@@ -8375,5 +8379,18 @@
         "range": "a",
         "complement": "no",
         "alternation": "o"
+    },
+    "photosensitivity": {
+        "warning": {
+            "header": "$~Aviso",
+            "explanation": "$~Las imágenes de este proyecto podrían ser incómodas o incluso causar convulsiones a algunas personas. Puede incluir:"
+        },
+        "categories": {
+            "flashing": "$~Destellos rápidos o cambios de contraste",
+            "redflash": "$~Rojo muy intenso que destella rápidamente",
+            "strobe": "$~Destellos como una luz estroboscópica que llenan la pantalla",
+            "pattern": "$~Patrones geométricos densos y de alto contraste",
+            "motion": "$~Animación rápida de tamaño, posición o transparencia"
+        }
     }
 }

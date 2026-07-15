@@ -6204,9 +6204,7 @@
                 "microphone": "$~Mikrofon",
                 "camera": "$~Kamera",
                 "note": "$~Ihr Browser fragt Sie vor dem Teilen.",
-                "start": "$~Start",
-                "retry": "$~Wiederholen",
-                "starttip": "$~Erteile die Erlaubnis, auf diese Eingabe zuzugreifen."
+                "retry": "$~Wiederholen"
             },
             "multiselect": "$~Verwenden Sie die Tabulatortaste, die Alt-Taste und die Pfeiltasten, um zwischen den Ausgängen zu wechseln. Drücken Sie die Leertaste, um den ausgewählten Ausgang hinzuzufügen oder zu entfernen. Drücken Sie die Eingabetaste, um nur diesen Ausgang auszuwählen und die Palette zu öffnen. Drücken Sie die Esc-Taste, um die Auswahl aufzuheben. Drücken Sie Strg oder Befehl + A, um alle Ausgänge auszuwählen.",
             "selected": "$~$name ausgewählt, $count ausgewählt",
@@ -6247,6 +6245,12 @@
                 "announce": "$~$mode-Modus",
                 "exception": "$~Das Programm hatte einen Fehler, deshalb ist es in den Schrittmodus gewechselt, damit du ihn untersuchen kannst.",
                 "cycle": "$~zwischen den Modi Bearbeiten, Schritt und Abspielen wechseln"
+            },
+            "gate": {
+                "start": {
+                    "label": "$~Anfang",
+                    "tip": "$~das Projekt zeigen"
+                }
             }
         },
         "timeline": {
@@ -8390,5 +8394,18 @@
         "range": "bis",
         "complement": "nicht",
         "alternation": "oder"
+    },
+    "photosensitivity": {
+        "warning": {
+            "header": "$~Achtung",
+            "explanation": "$~Die Bilder in diesem Projekt könnten für manche Menschen unangenehm sein oder sogar Anfälle auslösen. Sie können enthalten:"
+        },
+        "categories": {
+            "flashing": "$~Schnelles Blinken oder starke Wechsel im Kontrast",
+            "redflash": "$~Schnell blinkendes, sehr kräftiges Rot",
+            "strobe": "$~Blitzartiges Blinken, das den ganzen Bildschirm füllt",
+            "pattern": "$~Dichte geometrische Muster mit sehr starkem Kontrast",
+            "motion": "$~Schnelle Animation von Größe, Position oder Durchsichtigkeit"
+        }
     }
 }

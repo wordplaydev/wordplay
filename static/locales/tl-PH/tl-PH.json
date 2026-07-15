@@ -6450,9 +6450,7 @@
                 "microphone": "$~mikropono",
                 "camera": "$~kamera",
                 "note": "$~Magtatanong ang iyong browser bago magbahagi.",
-                "start": "$~Simulan",
-                "retry": "$~Subukan muli",
-                "starttip": "$~Magbigay ng pahintulot upang gamitin ang input na ito."
+                "retry": "$~Subukan muli"
             },
             "multiselect": "$~Gamitin ang tab at ang alt at arrow keys para lumipat sa pagitan ng mga output. Pindutin ang space para idagdag o alisin ang naka-focus na output mula sa iyong selection. Pindutin ang enter para piliin lang ang output na iyon at buksan ang palette. Pindutin ang escape para i-clear ang iyong selection. Pindutin ang control o command at A para piliin ang lahat ng output.",
             "selected": "$~Napili $name , napili $count",
@@ -6493,6 +6491,12 @@
                 "announce": "$~mode na $mode",
                 "exception": "$~May error ang programa, kaya lumipat ito sa mode ng hakbang para masuri mo ito.",
                 "cycle": "$~magpalipat-lipat sa mga mode na pag-edit, hakbang, at pagpapatakbo"
+            },
+            "gate": {
+                "start": {
+                    "label": "$~simulan",
+                    "tip": "$~ipakita ang proyekto"
+                }
             }
         },
         "timeline": {
@@ -8381,5 +8385,18 @@
         "range": "hanggang",
         "complement": "hindi",
         "alternation": "o"
+    },
+    "photosensitivity": {
+        "warning": {
+            "header": "$~Mag-ingat",
+            "explanation": "$~Ang mga larawan sa proyektong ito ay maaaring hindi komportable o kahit magdulot ng seizure sa ilang tao. Maaaring kabilang dito ang:"
+        },
+        "categories": {
+            "flashing": "$~Mabilis na pagkislap o pagbabago ng kaibahan",
+            "redflash": "$~Mabilis na kumukislap, matingkad na pulang kulay",
+            "strobe": "$~Kislap na parang strobe na pumupuno sa buong screen",
+            "pattern": "$~Siksik at may matinding kaibahan na mga hugis",
+            "motion": "$~Mabilis na paggalaw ng laki, posisyon, o pagiging malinaw"
+        }
     }
 }

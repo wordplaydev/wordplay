@@ -6226,9 +6226,7 @@
                 "microphone": "$~mikrofon",
                 "camera": "$~kamera",
                 "note": "$~Przed udostępnieniem Twoja przeglądarka zapyta.",
-                "start": "$~Start",
-                "retry": "$~Spróbować ponownie",
-                "starttip": "$~Udziel pozwolenia na dostęp do tego wejścia."
+                "retry": "$~Spróbować ponownie"
             },
             "multiselect": "$~Użyj klawisza Tab oraz klawiszy Alt i strzałek, aby poruszać się między wyjściami. Naciśnij spację, aby dodać lub usunąć zaznaczone wyjście z zaznaczenia. Naciśnij Enter, aby zaznaczyć tylko to wyjście i otworzyć paletę. Naciśnij Esc, aby wyczyścić zaznaczenie. Naciśnij Ctrl lub Command i A, aby zaznaczyć wszystkie wyjścia.",
             "selected": "$~Wybrano $name , wybrano $count",
@@ -6269,6 +6267,12 @@
                 "announce": "$~tryb $mode",
                 "exception": "$~Program napotkał błąd, więc przełączył się na tryb kroku, abyś mógł go zbadać.",
                 "cycle": "$~przełączaj między trybem edycji, krokowania i odtwarzania"
+            },
+            "gate": {
+                "start": {
+                    "label": "$~start",
+                    "tip": "$~pokaż projekt"
+                }
             }
         },
         "timeline": {
@@ -8396,5 +8400,18 @@
         "range": "do",
         "complement": "nie",
         "alternation": "lub"
+    },
+    "photosensitivity": {
+        "warning": {
+            "header": "$~Uwaga",
+            "explanation": "$~Efekty wizualne w tym projekcie mogą być nieprzyjemne, a nawet wywołać napady u niektórych osób. Mogą one zawierać:"
+        },
+        "categories": {
+            "flashing": "$~Szybkie miganie lub zmiany kontrastu",
+            "redflash": "$~Szybko migający, mocno nasycony czerwony",
+            "strobe": "$~Miganie jak stroboskop, które wypełnia ekran",
+            "pattern": "$~Gęste, mocno kontrastujące wzory geometryczne",
+            "motion": "$~Szybka animacja rozmiaru, położenia lub przezroczystości"
+        }
     }
 }

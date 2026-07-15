@@ -198,6 +198,12 @@ To avoid opening multiple hardware sessions when multiple sensor streams run con
 
 These shared resources eliminate the ~30MB/s frame-pooling cost and redundant `getUserMedia` calls that plagued earlier implementations.
 
+#### Start gate (permissions, moderation, and photosensitivity)
+
+Before a project plays, `OutputView` can show a single blocking [`StartGate`](https://github.com/wordplaydev/wordplay/blob/main/src/components/output/StartGate.svelte) that unifies three kinds of reasons to hold evaluation (modeled in [gate.ts](https://github.com/wordplaydev/wordplay/blob/main/src/components/output/gate.ts)): pending browser **permissions**, moderator **content warnings/blocks**, and **photosensitivity warnings**. `ProjectView` holds `evaluator.start()` until every reason clears — permissions via the `consent` store, warnings via the viewer clicking Start, and blocks never (the content stays gated). Content warnings apply only to read-only viewers (`warn`), so previews and the tutorial pass none.
+
+Photosensitivity risks are found by static analysis for read-only viewers: [`detectPhotosensitivityRisks`](https://github.com/wordplaydev/wordplay/blob/main/src/runtime/detectPhotosensitivity.ts) evaluates the project once with `getInitialValue()` (no DOM, no animations), walks the resulting output tree ([`analyzeOutput`](https://github.com/wordplaydev/wordplay/blob/main/src/output/PhotosensitivityAnalysis.ts)) for flashing (3–60 Hz), saturated-red flashing, strobes, dense high-contrast patterns, and very fast motion, and scans the source ([`analyzeSource`](https://github.com/wordplaydev/wordplay/blob/main/src/output/PhotosensitivityAnalysis.ts), same module) for references to fast built-in sequences like `flash` and `shake` that a single frame can't see. The three read-only hosts (`ProjectView`, `PlayView`, `OutputPreview`) share a `ContentGate` reactive helper ([gate.svelte.ts](https://github.com/wordplaydev/wordplay/blob/main/src/components/output/gate.svelte.ts)) that owns the acknowledgment state and holds playback until the viewer clicks Start. The gate then names the detected categories so the viewer knows what to expect.
+
 ### Editor
 
 The `Editor.svelte` is responsible for both rendering an AST and for modifying an AST.

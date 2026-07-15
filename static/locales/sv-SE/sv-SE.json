@@ -6212,9 +6212,7 @@
                 "microphone": "$~mikrofon",
                 "camera": "$~kamera",
                 "note": "$~Din webbläsare kommer att fråga innan delning.",
-                "start": "$~Start",
-                "retry": "$~Försöka igen",
-                "starttip": "$~Ge tillåtelse att använda den här inmatningen."
+                "retry": "$~Försöka igen"
             },
             "multiselect": "$~Använd tabbtangenten, alt- och piltangenterna för att flytta mellan utdata. Tryck på mellanslag för att lägga till eller ta bort den fokuserade utdatan från ditt val. Tryck på enter för att välja endast den utdatan och öppna paletten. Tryck på escape för att rensa ditt val. Tryck på ctrl eller command och A för att välja alla utdata.",
             "selected": "$~$name valt, $count valt",
@@ -6255,6 +6253,12 @@
                 "announce": "$~$mode-läge",
                 "exception": "$~Programmet fick ett fel, så det bytte till stegläge så att du kan undersöka det.",
                 "cycle": "$~växla mellan lägena redigera, stega och spela"
+            },
+            "gate": {
+                "start": {
+                    "label": "$~start",
+                    "tip": "$~visa projektet"
+                }
             }
         },
         "timeline": {
@@ -8375,5 +8379,18 @@
         "range": "till",
         "complement": "inte",
         "alternation": "eller"
+    },
+    "photosensitivity": {
+        "warning": {
+            "header": "$~Se upp",
+            "explanation": "$~Det här projektets bilder kan vara obehagliga eller till och med orsaka anfall hos vissa personer. Det kan innehålla:"
+        },
+        "categories": {
+            "flashing": "$~Snabbt blinkande eller ändringar i kontrast",
+            "redflash": "$~Snabbt blinkande, starkt mättat rött",
+            "strobe": "$~Stroboskopliknande blinkande som fyller skärmen",
+            "pattern": "$~Täta, mycket kontrastrika geometriska mönster",
+            "motion": "$~Snabb animation av storlek, position eller genomskinlighet"
+        }
     }
 }

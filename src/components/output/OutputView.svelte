@@ -39,7 +39,8 @@
         resizeIsIncremental,
     } from '@components/output/editHandles';
     import PermissionException from '@values/PermissionException';
-    import PermissionSplash from '@components/output/PermissionSplash.svelte';
+    import StartGate from '@components/output/StartGate.svelte';
+    import type { GateBlock, GateWarning } from '@components/output/gate';
     import {
         consent,
         grantConsent,
@@ -106,6 +107,13 @@
         blurOnTyping?: boolean;
         /** Called when the viewer clicks Retry after a PermissionException. The host should restart the evaluator so failed streams can re-attempt getUserMedia. */
         onretry?: () => void;
+        /** Content warnings the viewer must acknowledge before the project plays
+         *  (moderation, photosensitivity). Empty for previews and the tutorial. */
+        warnings?: GateWarning[];
+        /** Reasons the content is blocked entirely (moderation blocks). */
+        blocks?: GateBlock[];
+        /** Called when the viewer acknowledges the content warnings via the gate. */
+        onacknowledge?: () => void;
     }
 
     let {
@@ -125,6 +133,9 @@
         focusOverridden = $bindable(false),
         blurOnTyping = true,
         onretry = undefined,
+        warnings = [],
+        blocks = [],
+        onacknowledge = undefined,
     }: Props = $props();
 
     let indexContext = getConceptIndex();
@@ -315,13 +326,28 @@
         ),
     );
 
-    /** Show the pre-evaluation splash only before the evaluator has started — afterwards, denial flows through the exception branch. */
-    const needsPermission = $derived(
-        !evaluator.isStarted() && pendingPermissions.size > 0,
+    /** Permission reasons as gate warnings, in the same stable order as the splash. */
+    const permissionWarnings = $derived(
+        [...pendingPermissions].map<GateWarning>((permission) => ({
+            kind: 'permission',
+            permission,
+        })),
+    );
+
+    /** All reasons the gate shows: pending permissions plus content warnings. */
+    const gateWarnings = $derived([...permissionWarnings, ...warnings]);
+
+    /** Show the pre-evaluation gate only before the evaluator has started —
+     *  afterwards, permission denial flows through the exception branch, and
+     *  content warnings have already been acknowledged. */
+    const needsGate = $derived(
+        !evaluator.isStarted() &&
+            (gateWarnings.length > 0 || blocks.length > 0),
     );
 
     function handleStart() {
         for (const permission of pendingPermissions) grantConsent(permission);
+        onacknowledge?.();
     }
 
     function handleRetry() {
@@ -397,7 +423,8 @@
         $evaluation !== undefined &&
             ($evaluation.evaluator.getBasisStreamsOfType(Volume).length > 0 ||
                 $evaluation.evaluator.getBasisStreamsOfType(Pitch).length > 0 ||
-                $evaluation.evaluator.getBasisStreamsOfType(SpeechStream).length > 0),
+                $evaluation.evaluator.getBasisStreamsOfType(SpeechStream)
+                    .length > 0),
     );
 
     const hasCameraStream = $derived(
@@ -1458,10 +1485,11 @@
         onpointermove={interactive ? handlePointerMove : null}
         onpointerleave={interactive ? handlePointerLeave : null}
     >
-        <!-- If the project needs permission and evaluation hasn't started, show the splash. -->
-        {#if needsPermission}
-            <PermissionSplash
-                permissions={pendingPermissions}
+        <!-- Before evaluation starts, block on any permissions or content warnings. -->
+        {#if needsGate}
+            <StartGate
+                warnings={gateWarnings}
+                {blocks}
                 onstart={handleStart}
                 {mini}
             />
@@ -1545,13 +1573,25 @@
             <div class="stage-controls-dock">
                 <!-- Corner status chips: Say queue, Hand/Face loading indicators, sensor monitors -->
                 {#if says.length > 0 || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || hasMicrophoneStream || hasCameraStream}
-                    <div class="stage-controls-row" aria-live="polite" aria-atomic="false">
+                    <div
+                        class="stage-controls-row"
+                        aria-live="polite"
+                        aria-atomic="false"
+                    >
                         <!-- Sensor monitors (camera before microphone in visual order) -->
                         {#if hasCameraStream}
-                            <SensorMonitor kind="camera" database={DB} {evaluator} />
+                            <SensorMonitor
+                                kind="camera"
+                                database={DB}
+                                {evaluator}
+                            />
                         {/if}
                         {#if hasMicrophoneStream}
-                            <SensorMonitor kind="microphone" database={DB} {evaluator} />
+                            <SensorMonitor
+                                kind="microphone"
+                                database={DB}
+                                {evaluator}
+                            />
                         {/if}
                         <!-- Model loading indicators -->
                         {#if handLandmarkerStatus.loading}

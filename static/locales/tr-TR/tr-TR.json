@@ -6218,9 +6218,7 @@
                 "microphone": "$~mikrofon",
                 "camera": "$~kamera",
                 "note": "$~Paylaşmadan önce tarayıcınız size soracaktır.",
-                "start": "$~Başlangıç",
-                "retry": "$~Tekrar dene",
-                "starttip": "$~Bu girişe erişmek için izin ver."
+                "retry": "$~Tekrar dene"
             },
             "multiselect": "$~Çıktılar arasında geçiş yapmak için Tab, Alt ve ok tuşlarını kullanın. Odaklanmış çıktıyı seçime eklemek veya seçimden kaldırmak için Boşluk tuşuna basın. Yalnızca o çıktıyı seçmek ve paleti açmak için Enter tuşuna basın. Seçimi temizlemek için Escape tuşuna basın. Tüm çıktıları seçmek için Control veya Command ve A tuşlarına basın.",
             "selected": "$~$name seçildi, $count seçildi",
@@ -6261,6 +6259,12 @@
                 "announce": "$~$mode modu",
                 "exception": "$~Programda bir hata vardı, bu yüzden inceleyebilmen için adım moduna geçti.",
                 "cycle": "$~düzenleme, adım ve oynatma modları arasında geçiş yap"
+            },
+            "gate": {
+                "start": {
+                    "label": "$~başlangıç",
+                    "tip": "$~projeyi göster"
+                }
             }
         },
         "timeline": {
@@ -8384,5 +8388,18 @@
         "range": "kadar",
         "complement": "değil",
         "alternation": "veya"
+    },
+    "photosensitivity": {
+        "warning": {
+            "header": "$~Dikkat",
+            "explanation": "$~Bu projenin görüntüleri bazı insanları rahatsız edebilir, hatta nöbet geçirmelerine yol açabilir. Şunları içerebilir:"
+        },
+        "categories": {
+            "flashing": "$~Hızlı yanıp sönme veya kontrast değişimleri",
+            "redflash": "$~Hızla yanıp sönen, çok canlı kırmızı",
+            "strobe": "$~Ekranı kaplayan, ışık patlaması gibi yanıp sönme",
+            "pattern": "$~Sık ve çok kontrastlı geometrik desenler",
+            "motion": "$~Boyutun, konumun veya saydamlığın hızlı hareketi"
+        }
     }
 }
