@@ -535,8 +535,9 @@
     // tutorial is `progress.tutorial`, already loaded by the route.
     let extraTutorials = $state<Tutorial[]>([]);
     $effect(() => {
-        const primary = $locales.getLocale();
-        const others = $locales.getLocales().filter((l) => l !== primary);
+        // The non-primary *chosen* locales — not getLocales(), which appends the en-US
+        // fallback and would echo English for a single non-English locale.
+        const others = $locales.getPreferredLocales().slice(1);
         let cancelled = false;
         Promise.all(
             others.map((l) =>
@@ -789,9 +790,7 @@
                                             progress.mode,
                                             progress.act - 1,
                                         )}
-                                        sourceText={withoutAnnotations(
-                                            act.title,
-                                        )}
+                                        sourceText={act.title}
                                     /></em
                                 ></p
                             ></div
@@ -809,9 +808,7 @@
                                             progress.act - 1,
                                             progress.scene - 1,
                                         )}
-                                        sourceText={withoutAnnotations(
-                                            scene.title,
-                                        )}
+                                        sourceText={scene.title}
                                     /></em
                                 ></p
                             >{#if scene.subtitle}<em
@@ -821,9 +818,7 @@
                                             progress.act - 1,
                                             progress.scene - 1,
                                         )}
-                                        sourceText={withoutAnnotations(
-                                            scene.subtitle,
-                                        )}
+                                        sourceText={scene.subtitle}
                                     /></em
                                 >{/if}</div
                         >

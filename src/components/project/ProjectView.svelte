@@ -901,9 +901,11 @@
         }
     });
 
-    // If the URL requested play, set to full screen and focus on the stage.
+    // If the URL requested play, set to full screen and focus on the stage. Skip in embedded
+    // views (e.g. the tutorial), where the surrounding lesson owns the layout and focus — matching
+    // the mode-change path in setUIMode.
     onMount(() => {
-        if (playRequested) {
+        if (playRequested && persistLayout) {
             const output = layout.getOutput();
             if (output) {
                 setFullscreen(output);
