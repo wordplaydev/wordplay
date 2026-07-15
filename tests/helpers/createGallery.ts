@@ -1,4 +1,5 @@
 import type { Page } from '@playwright/test';
+import { idFromURL } from './idFromURL';
 
 /**
  * Create a new gallery via the /galleries page UI. The signed-in user becomes
@@ -15,7 +16,7 @@ export async function createTestGallery(
     await page.goto('/en-US/galleries');
     await page.getByRole('button', { name: 'new gallery' }).click();
     await page.waitForURL(/\/gallery\/[^/]+$/);
-    const galleryID = page.url().split('/').pop() as string;
+    const galleryID = idFromURL(page.url());
 
     if (name !== undefined) {
         const nameField = page.locator('#gallery-name');
