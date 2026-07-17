@@ -14,6 +14,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Changed
 
+- 🌐 We improved the Japanese, Marathi, and Bengali translations, making them more consistent with the platform and it's terminology.
 - 🎛️ We changed how projects run with a new three-mode switcher above the stage: ✏️ edit freezes the stage while you change your code, ⏸️ step lets you move through your program's evaluation with a timeline, and ▶️ play fills the screen and runs your project live. If your program has an error while playing, it now switches to step mode so you can see what went wrong (#859, #864).
 - 🧲 We replaced the physics engine that powers `@Motion` and `@Collision` with a faster one, so projects with lots of moving and colliding things run more smoothly, especially on slower computers. Falling, bouncing, and rolling should feel mostly the same as before, though projects that use these might need a bit of tuning.
 - 🧶 We changed the Pounce example so the ball bounces away from wherever it lands on the kitty, instead of always flying the way the kitty faces.
@@ -23,6 +24,8 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Fixed
 
 - 🐛 We fixed a bug where checking a named stream for changes with `∆` (or its history with `←`) could suddenly stop a program with an error after another input changed — which made projects quietly stop responding to clicks and choices.
+- 🔣 We fixed how we read number characters in Chinese, Japanese, and Korean, so everyday words that start with one — like 四角形, which means rectangle — now work as names. Before, we read the 四 as the number 4 and split the word in two.
+- 🌐 We fixed a bug where switching between two versions of the same language — like Chinese (Simplified) and Chinese (Traditional) — could show you the other one's names for things.
 
 ## 0.26.1 - 2026-07-09
 

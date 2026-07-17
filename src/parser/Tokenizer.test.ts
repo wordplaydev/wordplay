@@ -22,6 +22,10 @@ test.each([
         '一|十|百|百一|百四十五|百九十九|千一|万十一|万|',
     ],
     ['三億 五兆 三億五千万', '三億|五兆|三億五千万|'],
+    // A Han numeral never splits a word written entirely in Han, since 一/四/十 commonly
+    // start ordinary CJK words. Crossing scripts still reads as a number with a unit.
+    ['四角形 四捨五入 一致する 一部分', '四角形|四捨五入|一致する|一部分|'],
+    ['四m 十二s 三億kg 五つ', '四|m|十二|s|三億|kg|五|つ|'],
     ['๐ ๑๒๓ ๑๒๓.๔๕ -๔๒ ๕๐%', '๐|๑๒๓|๑๒๓.๔๕|-๔๒|๕๐%|'],
     ['১২৩ ১২৩.৪৫ -৪২ ৫০%', '১২৩|১২৩.৪৫|-৪২|৫০%|'],
     ['१२३ १२३.४५ -४२ ५०%', '१२३|१२३.४५|-४२|५०%|'],
@@ -196,6 +200,10 @@ test.each([
     ],
     // Full width list close now matches in code, like full width list open.
     ['［1］', [Sym.ListOpen, Sym.Number, Sym.ListClose, Sym.End]],
+    // A Han word that starts with a numeral is a name, not a number and a unit.
+    ['四角形', [Sym.Name, Sym.End]],
+    // Crossing out of Han still reads as a number with a unit.
+    ['四m', [Sym.Number, Sym.Name, Sym.End]],
 ])('%s has syms %j', (code: string, expected: SymType[]) => {
     expect(tokens(code).map((t) => t.getTypes()[0])).toEqual(expected);
 });

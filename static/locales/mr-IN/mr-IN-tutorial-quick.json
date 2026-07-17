@@ -64,7 +64,7 @@
                             "FunctionDefinition",
                             "curious",
                             "$~काही भाषांमध्ये एका @value वर आधारित वेगवेगळ्या गोष्टी करण्यासाठी *switch* statement देखील असते:",
-                            "$~\\py| n = 1\nmatch n:\n  case 1: print('one')\n  case 2: print('two')\n  case _: print('many')\\js| switch (n) {\n  case 1: console.log('one'); break;\n  case 2: console.log('two'); break;\n  default: console.log('many'); break;\n}\\jv | switch\n(n)\n{\n\tcase\n\t1: System.out.println('एक')\n\t;break;\n\tcase\n\t2: System.out.println('दोन')\n\t;break;\n\tdefault: System.out.println('अनेक')\n\t;break;\n}\\",
+                            "$~\\py | n = 1\nmatch\nn:\n\tcase\n1\n:print('one')\ncase\n2\n:print('two')\ncase\n_: print('अनेक')\\js| switch (n) {\n  case 1: console.log('one'); break;\n  case 2: console.log('two'); break;\n  default: console.log('many'); break;\n}\\jv | switch\n(n)\n{\n\tcase\n\t1: System.out.println('एक')\n\t;break;\n\tcase\n\t2: System.out.println('दोन')\n\t;break;\n\tdefault: System.out.println('अनेक')\n\t;break;\n}\\",
                             "$~Wordplay मध्ये @Match आहे, जे value नुसार निकाल निवडते."
                         ],
                         null,
@@ -99,7 +99,7 @@
                             "FunctionDefinition",
                             "neutral",
                             "$~बहुतेक भाषांमध्ये अनेक 'मूलभूत' @value type असतात.",
-                            "$~\\py| number: 1\ntext: 'hi'\nboolean: True\nnone: None\\js| let number = 1;\nlet text = 'hi';\nlet boolean = true;\nlet none = null;\\jv | int\nnumber = 1\n;\nString\ntext = 'नमस्कार'\n;\nboolean\nboolean = true\n;\nObject\nnone = null\n;\\",
+                            "$~\\py | number\n:1\nमजकूर: 'नमस्कार'\nबुलियन: True\nकाहीचनाही: None\\js| let number = 1;\nlet text = 'hi';\nlet boolean = true;\nlet none = null;\\jv | int\nnumber = 1\n;\nString\ntext = 'नमस्कार'\n;\nboolean\nboolean = true\n;\nObject\nnone = null\n;\\",
                             "$~Wordplay मध्ये या type साठी सारखीच लेखनपद्धती आहे, पण ती तुम्हाला इतर माहिती जोडण्याची देखील परवानगी देते, जसे की बहुभाषिक मजकुरासाठी @language खुणा आणि संख्यांवर एकके."
                         ],
                         null,
@@ -115,7 +115,7 @@
                             "FunctionDefinition",
                             "excited",
                             "$~प्रोग्रामिंग भाषांमध्ये value चे संग्रह तयार करण्याचे मार्ग देखील असतात, जसे की याद्या, संच आणि नकाशे (ज्यांना अनेकदा शब्दकोश किंवा हॅश म्हणतात):",
-                            "$~\\py | list = [1 ,2,3]\n\t\tset = {1 ,2,3}\n\t\t\t\tmap = {'a': 1}\\js|let list = [1, 2, 3];\nlet set = new Set([1, 2, 3]);\nlet map = { a: 1 };\\jv | let\narray = [\n\t\t1\n\t\t,2,3];\n\t\tlet\n\t\tset = new\n\t\tjava.util.HashSet < >([\n\t\t\t\t\t1\n\t\t\t\t\t,2,3]);\n\t\t\t\t\tlet\n\t\t\t\t\tmap = new\n\t\t\t\t\tjava.util.HashMap < >()\n\t\t\t\t\t;\n\t\t\t\t\tmap.put('अ' 1)\n\t\t\t\t\t;\\",
+                            "$~\\py | list = [1 ,2,3]\n\t\tset = {1 ,2,3}\n\t\t\t\tmap = {'अ': 1}\\js|let list = [1, 2, 3];\nlet set = new Set([1, 2, 3]);\nlet map = { a: 1 };\\jv | let\narray = [\n\t\t1\n\t\t,2,3];\n\t\tlet\n\t\tset = new\n\t\tjava.util.HashSet < >([\n\t\t\t\t\t1\n\t\t\t\t\t,2,3]);\n\t\t\t\t\tlet\n\t\t\t\t\tmap = new\n\t\t\t\t\tjava.util.HashMap < >()\n\t\t\t\t\t;\n\t\t\t\t\tmap.put('अ' 1)\n\t\t\t\t\t;\\",
                             "$~Wordplay या संग्रहांसाठी वेगळी लेखनपद्धती वापरते, विशेषतः value वेगळी करण्यासाठी स्वल्पविरामांऐवजी रिकाम्या जागा वापरते."
                         ],
                         null,

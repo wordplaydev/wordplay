@@ -96,6 +96,8 @@ Numbers can be:
 
 The `han` production covers the shared Han-character numeral system used across Chinese, Japanese, and Korean (一二三…十百千万億兆). It uses nested myriad grouping: small orders (十百千) accumulate into a group that is multiplied by the next big unit (万/億/兆), so 三億五千万 is 3·10⁸ + 5000·10⁴ = 350,000,000.
 
+Unlike the other numeral productions, `han` does not match when the numeral is immediately followed by another Han character, because 一/四/十 and their siblings very commonly begin ordinary CJK words: 四角形 (rectangle), 四捨五入 (rounding), 一致する (to match). Those read as `name`, not as a number followed by a unit. The restriction is limited to Han, so crossing into another script still reads as a measurement — 四m is 4 meters, and 五つ is 5 in units of つ.
+
 The `thai` production accepts the Thai digit characters ๐–๙, which are positional like Arabic decimals, so ๑๒๓ is 123 and ๑๒๓.๔๕ is 123.45. The seven Indic productions (`bengali`, `devanagari`, `gujarati`, `gurmukhi`, `kannada`, `tamil`, `telugu`) work the same way against their own digit sets; Bengali script is shared by Bengali and Assamese, Devanagari by Hindi and Marathi, and Gurmukhi by Punjabi.
 
 We hope to add other numerals as we localize other languages.

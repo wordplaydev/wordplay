@@ -67,11 +67,23 @@ export default function checkNames(
             );
             const annotations = leadingAnnotations(value);
             const folded = toValidName(clean);
-            const repair = isValidName(folded)
-                ? `${annotations}${folded}`
-                : sourceValues[index] !== undefined
-                  ? `${annotations}${sourceValues[index]}`
-                  : `${Unwritten}${clean}`;
+            let repair;
+            if (isValidName(folded)) repair = `${annotations}${folded}`;
+            else if (sourceValues[index] !== undefined) {
+                // Falling back to en-US discards a translation, so say so rather than
+                // letting the name quietly revert to English in the diff.
+                repair = `${annotations}${sourceValues[index]}`;
+                log.bad(
+                    2,
+                    `Replacing untranslatable name "${clean}" at ${pair.toString()} with the en-US name "${sourceValues[index]}". This drops a translation — give it a name that is a single valid token instead.`,
+                );
+            } else {
+                repair = `${Unwritten}${clean}`;
+                log.bad(
+                    2,
+                    `Marking "${clean}" at ${pair.toString()} unwritten; it has no en-US fallback, so this name will be missing at runtime.`,
+                );
+            }
             changed = true;
             return repair;
         });

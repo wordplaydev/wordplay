@@ -379,9 +379,13 @@ const CodeTokenPatterns: TokenPattern[] = [
     },
     // Han (CJK) numerals — covers Chinese, Japanese, and Korean uses of the
     // shared Han character set for numbers, including the larger magnitudes 億 (10^8) and 兆 (10^12).
+    // The trailing lookahead keeps a numeral from splitting a word written entirely in Han, since
+    // 一/四/十 and friends very commonly start ordinary CJK words (四角形, 四捨五入, 一致する). Only a
+    // following Han character blocks the match, so crossing scripts still reads as a unit (四m is 4
+    // meters). `・` is excluded too, so a numeral never matches the head of a decimal it can't finish.
     {
         pattern:
-            /^-?[0-9]*[一二三四五六七八九十百千万億兆]+(・[一二三四五六七八九分厘毛糸忽]+)?/u,
+            /^-?[0-9]*[一二三四五六七八九十百千万億兆]+(・[一二三四五六七八九分厘毛糸忽]+)?(?![\p{Script=Han}・])/u,
         types: [Sym.Number, Sym.HanNumeral],
     },
     // Thai numerals — positional digits ๐–๙ that read like Arabic decimal.
