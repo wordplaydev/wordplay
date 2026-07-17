@@ -5372,7 +5372,11 @@
                 "doc": "$~Lực hấp dẫn cần áp dụng cho đầu ra có vị trí trong @Motion.",
                 "names": "$~trọnglực"
             },
-            "defaultDescription": "$~giai đoạn $name [ $name |] của $count đầu ra $frame [với khung $frame |] $pose $color [ $color |]"
+            "defaultDescription": "$~giai đoạn $name [ $name |] của $count đầu ra $frame [với khung $frame |] $pose $color [ $color |]",
+            "overlay": {
+                "doc": "$~Một danh sách các @Output được ghim phẳng lên màn hình dưới dạng bảng hiển thị phía trước, không bị ảnh hưởng bởi máy quay @Place hay chiều sâu của sân khấu.",
+                "names": "$~lớpPhủ"
+            }
         },
         "Easing": {
             "straight": "$~thẳng",

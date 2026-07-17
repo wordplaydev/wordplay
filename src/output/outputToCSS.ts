@@ -84,6 +84,10 @@ export function toOutputTransform(
     parentAscent: number,
     metrics: Metrics,
     viewport: { width: number; height: number } | undefined = undefined,
+    /** When true, render on a flat 2D plane fixed to the screen: no perspective
+     *  scaling and the z-axis is ignored (used by the Stage's overlay/HUD layer,
+     *  whose focus is passed as the viewport center). */
+    flat: boolean = false,
 ) {
     const root = viewport !== undefined;
 
@@ -118,7 +122,12 @@ export function toOutputTransform(
     const candidateScale = root
         ? rootScale(z, focus.z)
         : incrementalScale(z, focus.z);
-    const perspectiveScale = isNaN(candidateScale) ? 100 : candidateScale;
+    // Flat (HUD) output ignores depth entirely: constant scale, no z effect.
+    const perspectiveScale = flat
+        ? 1
+        : isNaN(candidateScale)
+          ? 100
+          : candidateScale;
 
     // Find the center of the stage, around which we will rotate and scale.
     const centerXOffset = root ? 0 : metrics.width / 2;

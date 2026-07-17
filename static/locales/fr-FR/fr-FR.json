@@ -4634,7 +4634,11 @@
                 "doc": "$~La gravité à appliquer à la sortie dont la place est dans @Motion.",
                 "names": "$~pesanteur"
             },
-            "defaultDescription": "$~étape $name [ $name |]de $count sorties $frame [avec frame $frame |] $pose $color [ $color |]"
+            "defaultDescription": "$~étape $name [ $name |]de $count sorties $frame [avec frame $frame |] $pose $color [ $color |]",
+            "overlay": {
+                "doc": "$~Une liste de @Output épinglée à plat sur l'écran comme un affichage tête haute. La caméra @Place de la scène ou la profondeur ne la modifient pas.",
+                "names": "$~superposition"
+            }
         },
         "Group": {
             "names": ["$~🔳", "$~Groupe"],

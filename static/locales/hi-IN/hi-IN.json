@@ -4621,7 +4621,11 @@
                 "doc": "$~उस आउटपुट पर लगने वाला गुरुत्व, जिसका स्थान @Motion में है।",
                 "names": "$~गुरुत्व"
             },
-            "defaultDescription": "$~मंच $name[$name |]पर $count आउटपुट$frame[फ्रेम $frame के साथ|] $pose $color[$color|]"
+            "defaultDescription": "$~मंच $name[$name |]पर $count आउटपुट$frame[फ्रेम $frame के साथ|] $pose $color[$color|]",
+            "overlay": {
+                "doc": "$~@Output की एक सूची जो स्क्रीन पर सपाट टिकी रहती है, एक हेड्स-अप डिस्प्ले की तरह। यह स्टेज के @Place कैमरे या गहराई से प्रभावित नहीं होती।",
+                "names": "$~ओवरले"
+            }
         },
         "Group": {
             "names": ["$~🔳", "$~समूह"],

@@ -5359,7 +5359,11 @@
                 "doc": "应用于其位置在@Motion 中的输出的重力。",
                 "names": "重力"
             },
-            "defaultDescription": "$~stage $name[$name |]of $count outputs$frame[with frame $frame|] $pose $color[$color|]"
+            "defaultDescription": "$~stage $name[$name |]of $count outputs$frame[with frame $frame|] $pose $color[$color|]",
+            "overlay": {
+                "doc": "$~一个 @Output 列表，平贴在屏幕上作为抬头显示，不受舞台 @Place 相机或深度的影响。",
+                "names": "$~覆盖层"
+            }
         },
         "Easing": {
             "straight": "直线",

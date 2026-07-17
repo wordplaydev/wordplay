@@ -5387,7 +5387,11 @@
                 "doc": "$~Ang gravity na ilalapat sa output na ang lugar ay nasa @Motion.",
                 "names": "$~grabidad"
             },
-            "defaultDescription": "$~yugto $name [ $name |]ng $count ay naglalabas ng $frame [kasama ang frame na $frame |] $pose $color [ $color |]"
+            "defaultDescription": "$~yugto $name [ $name |]ng $count ay naglalabas ng $frame [kasama ang frame na $frame |] $pose $color [ $color |]",
+            "overlay": {
+                "doc": "$~Isang listahan ng @Output na nakadikit nang patag sa screen bilang heads-up display, hindi apektado ng @Place camera o lalim ng entablado.",
+                "names": "$~pangIbabaw"
+            }
         },
         "Easing": {
             "straight": "$~tuwid",

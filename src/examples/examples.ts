@@ -165,6 +165,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 locale.map((l) => [localeToString(l), l.gallery.games]),
             ),
             [
+                'HeartAttack',
                 'Adventure',
                 'BasketballStar',
                 'Flappy',

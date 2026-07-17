@@ -5372,7 +5372,11 @@
                 "doc": "$~Allvaret som ska tillämpas på utdata vars plats är i @Motion.",
                 "names": "$~allvar"
             },
-            "defaultDescription": "$~stage $name [ $name |]av $count utdata $frame [med frame $frame |] $pose $color [ $color |]"
+            "defaultDescription": "$~stage $name [ $name |]av $count utdata $frame [med frame $frame |] $pose $color [ $color |]",
+            "overlay": {
+                "doc": "$~En lista med @Output som fästs platt mot skärmen som en informationsvisning. Den påverkas inte av scenens @Place-kamera eller djup.",
+                "names": "$~överlagring"
+            }
         },
         "Easing": {
             "straight": "$~rakt",

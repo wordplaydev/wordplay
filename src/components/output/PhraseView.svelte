@@ -63,6 +63,8 @@
         inspectable?: boolean;
         editing: boolean;
         frame: number;
+        /** Render flat (screen-fixed, no perspective/z) — used by the overlay/HUD layer. */
+        flat?: boolean;
     }
 
     let {
@@ -76,6 +78,7 @@
         inspectable = editable,
         editing,
         frame,
+        flat = false,
     }: Props = $props();
 
     const selection = getSelectedOutput();
@@ -85,9 +88,10 @@
     // Compute a local context based on size and font.
     let localContext = $derived(phrase.getRenderContext(context));
 
-    // Visible if z is ahead of focus and font size is greater than 0.
+    // Visible if z is ahead of focus and font size is greater than 0. Flat
+    // (HUD) output ignores z, so it's always in front.
     let visible = $derived(
-        place.z > focus.z && (phrase.size ?? localContext.size > 0),
+        (flat || place.z > focus.z) && (phrase.size ?? localContext.size > 0),
     );
 
     // Get the phrase's text in the preferred language
@@ -475,6 +479,8 @@
             focus,
             parentAscent,
             metrics,
+            undefined,
+            flat,
         )}
         style:writing-mode={effectiveLayout}
         style:text-shadow={phrase.aura

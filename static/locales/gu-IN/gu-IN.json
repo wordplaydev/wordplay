@@ -5378,7 +5378,11 @@
                 "doc": "$~આઉટપુટ પર લાગુ કરવા માટેની ગુરુત્વાકર્ષણ જેની જગ્યા @Motion માં છે.",
                 "names": "$~ગુરુત્વાકર્ષણ"
             },
-            "defaultDescription": "$~સ્ટેજ $name [ $name |]of $count આઉટપુટ $frame [ફ્રેમ $frame સાથે |] $pose $color [ $color |]"
+            "defaultDescription": "$~સ્ટેજ $name [ $name |]of $count આઉટપુટ $frame [ફ્રેમ $frame સાથે |] $pose $color [ $color |]",
+            "overlay": {
+                "doc": "$~@Output ની એક યાદી જે સ્ક્રીન પર સપાટ રીતે જડેલી છે, હેડ્સ-અપ ડિસ્પ્લે તરીકે, અને સ્ટેજના @Place કૅમેરા કે ઊંડાઈથી અસર પામતી નથી.",
+                "names": "$~ઓવરલે"
+            }
         },
         "Easing": {
             "straight": "$~સીધા",

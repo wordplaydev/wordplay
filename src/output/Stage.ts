@@ -88,6 +88,10 @@ export function createStageType(locales: Locales) {
         locales,
         (locale) => locale.output.Stage.gravity,
     )}•#m/s^2: ${DefaultGravity}m/s^2
+    ${getBind(
+        locales,
+        (locale) => locale.output.Stage.overlay,
+    )}•[Phrase|Shape|Group|Say]|ø: ø
     )
 `);
 }
@@ -99,6 +103,9 @@ export default class Stage extends Output {
     readonly frame: Form | undefined;
     readonly back: Color;
     readonly gravity: number;
+    /** Content pinned flat to the screen (a HUD), rendered above the world
+     *  content and unaffected by the camera or depth. */
+    readonly overlay: (Output | null)[];
 
     private _description: string | undefined = undefined;
 
@@ -123,6 +130,7 @@ export default class Stage extends Output {
         duration = 0,
         style: string | undefined = 'zippy',
         gravity: number,
+        overlay: (Output | null)[] = [],
     ) {
         super(
             value,
@@ -147,6 +155,7 @@ export default class Stage extends Output {
         this.frame = frame;
         this.back = background;
         this.gravity = gravity;
+        this.overlay = overlay;
     }
 
     getOutput() {
@@ -423,6 +432,12 @@ export function toStage(
 
         const gravity = toNumber(getOutputInput(value, 22)) ?? DefaultGravity;
 
+        const overlayInput = getOutputInput(value, 23);
+        const overlay =
+            overlayInput instanceof ListValue
+                ? toOutputList(evaluator, overlayInput, namer)
+                : [];
+
         const {
             size,
             face: font,
@@ -466,6 +481,7 @@ export function toStage(
                   duration,
                   style,
                   gravity,
+                  overlay,
               )
             : undefined;
     }
@@ -516,6 +532,42 @@ function wrapInStage(
         0,
         DefaultStyle,
         DefaultGravity,
+    );
+}
+
+/** Wrap a stage's overlay outputs in a synthetic Stage so the flat overlay/HUD
+ *  layer can be rendered and animated by its own Animator, independent of the
+ *  world camera. Returns undefined when there's no overlay content. The distinct
+ *  name gives it a distinct HTML id so its DOM and animations never collide with
+ *  the world stage. Inherits the world stage's size/face/pose so HUD text
+ *  matches. */
+export function toOverlayStage(
+    stage: Stage,
+    defaultFace: SupportedFace,
+): Stage | undefined {
+    if (stage.overlay.length === 0) return undefined;
+    const value = stage.value;
+    return new Stage(
+        value,
+        false,
+        stage.overlay,
+        stage.back,
+        undefined,
+        stage.size ?? DefaultSize,
+        stage.face ?? defaultFace,
+        undefined,
+        `${stage.getName()}-overlay`,
+        undefined,
+        false,
+        stage.pose,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        0,
+        DefaultStyle,
+        DefaultGravity,
+        [],
     );
 }
 

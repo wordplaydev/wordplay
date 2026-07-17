@@ -5372,7 +5372,11 @@
                 "doc": "$~الجاذبية التي تُطبق على المخرجات التي يكون مكانها في @Motion.",
                 "names": "$~gravity"
             },
-            "defaultDescription": "$~stage $name[$name |]of $count outputs$frame[with frame $frame|] $pose $color[$color|]"
+            "defaultDescription": "$~stage $name[$name |]of $count outputs$frame[with frame $frame|] $pose $color[$color|]",
+            "overlay": {
+                "doc": "$~قائمة من @Output مثبتة بشكل مسطح على الشاشة كعرض علوي، لا تتأثر بكاميرا @Place للمسرح أو بالعمق.",
+                "names": "$~طبقةعلوية"
+            }
         },
         "Easing": {
             "straight": "$~straight",

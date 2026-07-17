@@ -20,7 +20,7 @@
     import Place, { createPlace } from '@output/Place';
     import RenderContext from '@output/RenderContext';
     import type Stage from '@output/Stage';
-    import { DefaultSize } from '@output/Stage';
+    import { DefaultSize, toOverlayStage } from '@output/Stage';
     import type Evaluator from '@runtime/Evaluator';
     import { onDestroy, onMount, tick, untrack } from 'svelte';
     import { animationFactor, locales, writingLayout } from '@db/Database';
@@ -145,10 +145,25 @@
     /** A stage to manage entries, exits, animations. A new one each time the for each project. */
     let animator = $state<Animator | undefined>();
 
+    /** A second animator for the flat overlay/HUD layer (stage.overlay), driven
+     *  with a constant screen-centered focus so it never pans with the camera. */
+    let overlayAnimator = $state<Animator | undefined>();
+    let overlayExiting: OutputInfoSet = $state(new Map());
+    let overlayRecentlyExited = new Set<string>();
+    /** The overlay content wrapped as a synthetic Stage, or undefined if none. */
+    let overlayStage = $derived(
+        toOverlayStage(stage, $locales.getLocale().ui.font.app),
+    );
+    /** A constant, screen-centered focus for the flat overlay layer. */
+    let hudFocus = $derived(createPlace(evaluator, 0, 0, 0));
+
     /** When this is unmounted, stop all animations.*/
     onDestroy(() => {
         if (animator) animator.stop();
+        if (overlayAnimator) overlayAnimator.stop();
         if (observer) observer.disconnect();
+        if (focusRAF !== undefined && typeof cancelAnimationFrame !== 'undefined')
+            cancelAnimationFrame(focusRAF);
     });
 
     /** Keep track of the tile view's content window size for use in fitting content to the window */
@@ -224,6 +239,21 @@
                     animatingNodes.set(new Set(nodes));
             },
         );
+
+        // A second, flat animator for the overlay/HUD layer.
+        if (overlayAnimator !== undefined) overlayAnimator.stop();
+        overlayAnimator = new Animator(
+            evaluator,
+            (name) => {
+                overlayRecentlyExited.add(name);
+                if (overlayExiting.has(name)) {
+                    overlayExiting.delete(name);
+                    overlayExiting = new Map(overlayExiting);
+                }
+            },
+            () => {},
+            true,
+        );
     }
 
     // When the evaluator changes, stop the animator and create a new animator for the new evaluator.
@@ -242,6 +272,7 @@
                     if (animator.isStopped()) untrack(() => resetAnimator());
                 } else {
                     animator.stop();
+                    overlayAnimator?.stop();
                 }
             }
         }
@@ -327,15 +358,81 @@
         }
     });
 
-    /** Define the rendered focused based on the stage's place, fit, and other states. Not derived since it is a bindable prop. */
-    $effect(() => {
-        renderedFocus = focusOverride
+    /** The focus the stage wants right now, computed instantly from the stage's
+     *  place, fit, and override states. The rendered focus eases toward this. */
+    let targetFocus = $derived(
+        focusOverride
             ? adjustedFocus
             : stage.place
               ? stage.place.flipX()
               : fit && fitFocus && $evaluation?.playing === true
                 ? fitFocus
-                : adjustedFocus;
+                : adjustedFocus,
+    );
+
+    /** Ease the camera toward the target over the stage's duration, so a moving
+     *  stage.place pans smoothly instead of snapping — matching how every other
+     *  output animates its place change. We only ease the creator-set camera
+     *  while playing; audience pan/zoom and fit stay instant so dragging and
+     *  layout changes remain responsive. */
+    let easeFocus = $derived(
+        stage.place !== undefined &&
+            !focusOverride &&
+            $evaluation?.playing === true,
+    );
+
+    let focusRAF: number | undefined = undefined;
+    let lastFocusFrame: number | undefined = undefined;
+    let focusStarted = false;
+
+    function stepFocus() {
+        focusRAF = undefined;
+        const target = targetFocus;
+        const duration = (stage.duration ?? 0) * $animationFactor;
+        if (!easeFocus || duration <= 0) {
+            lastFocusFrame = undefined;
+            renderedFocus = target;
+            return;
+        }
+        const now = performance.now();
+        const dt =
+            lastFocusFrame === undefined ? 0 : (now - lastFocusFrame) / 1000;
+        lastFocusFrame = now;
+        // Exponential approach: ~99% of the way there after `duration` seconds,
+        // frame-rate independent, with a natural decelerating (ease-out) feel.
+        const alpha = dt <= 0 ? 0 : 1 - Math.exp((-5 * dt) / duration);
+        const nx = renderedFocus.x + (target.x - renderedFocus.x) * alpha;
+        const ny = renderedFocus.y + (target.y - renderedFocus.y) * alpha;
+        const nz = renderedFocus.z + (target.z - renderedFocus.z) * alpha;
+        // Landed on every axis? Snap exactly and stop the loop.
+        if (
+            Math.abs(target.x - nx) < 0.001 &&
+            Math.abs(target.y - ny) < 0.001 &&
+            Math.abs(target.z - nz) < 0.001
+        ) {
+            lastFocusFrame = undefined;
+            renderedFocus = target;
+            return;
+        }
+        renderedFocus = createPlace(evaluator, nx, ny, nz);
+        focusRAF = requestAnimationFrame(stepFocus);
+    }
+
+    /** When the target focus or ease conditions change, snap or kick the ease
+     *  loop. First render, non-easing states, and non-browser contexts (no
+     *  requestAnimationFrame, e.g. tests/SSR) snap instantly to preserve the
+     *  prior behavior. */
+    $effect(() => {
+        const target = targetFocus;
+        const ease = easeFocus;
+        const canAnimate = typeof requestAnimationFrame !== 'undefined';
+        if (!focusStarted || !ease || !canAnimate) {
+            focusStarted = true;
+            lastFocusFrame = undefined;
+            renderedFocus = target;
+            return;
+        }
+        if (focusRAF === undefined) focusRAF = requestAnimationFrame(stepFocus);
     });
 
     /** Mirror the override flag out to the parent so the toolbar can reflect it. */
@@ -379,6 +476,38 @@
 
                 // Defer animation initialization until we have a view so that animations can be bound to DOM elements.
                 // Otherwise, animations will not have a DOM element to animate and will stop.
+                tick().then(() => {
+                    if (animate) animate();
+                });
+            });
+        }
+    });
+
+    /** Update the flat overlay/HUD layer's scene whenever its content or the
+     *  viewport changes. Uses a constant screen-centered focus so it never pans
+     *  with the camera. */
+    $effect(() => {
+        if (interactive && overlayAnimator && overlayStage) {
+            const results = overlayAnimator.update(
+                overlayStage,
+                interactive,
+                hudFocus,
+                viewportWidth,
+                viewportHeight,
+                context,
+            );
+            untrack(() => {
+                let animate: (() => void) | undefined = undefined;
+                if (results !== undefined) {
+                    animate = results.animate;
+                    const newExiting = new Map();
+                    for (const [name, info] of results.exiting) {
+                        if (!overlayRecentlyExited.has(name))
+                            newExiting.set(name, info);
+                    }
+                    overlayExiting = new Map(newExiting);
+                    overlayRecentlyExited.clear();
+                }
                 tick().then(() => {
                     if (animate) animate();
                 });
@@ -562,10 +691,80 @@
                 {/if}
             {/each}
         </GroupView>
+        {#if overlayStage}
+            <!-- The flat overlay/HUD layer: its own .stage.live container (so
+                 its animations resolve to a distinct DOM scope), pinned over the
+                 world content and rendered flat (screen-fixed, no camera/z). -->
+            <section
+                class="stage overlay-layer {interactive && !editing
+                    ? 'live'
+                    : 'inert'}"
+                data-id={overlayStage.getHTMLID()}
+                aria-hidden="true"
+            >
+                <GroupView
+                    group={overlayStage}
+                    place={center}
+                    focus={hudFocus}
+                    viewport={{ width: viewportWidth, height: viewportHeight }}
+                    parentAscent={0}
+                    {editable}
+                    {inspectable}
+                    {context}
+                    {interactive}
+                    {editing}
+                    {frame}
+                    flat={true}
+                >
+                    {#each Array.from(overlayExiting.entries()) as [name, info] (name)}
+                        {#if info.output instanceof Phrase}
+                            <PhraseView
+                                phrase={info.output}
+                                place={info.global}
+                                focus={hudFocus}
+                                {interactive}
+                                parentAscent={0}
+                                {context}
+                                {editable}
+                                {inspectable}
+                                {editing}
+                                {frame}
+                                flat={true}
+                            />
+                        {:else if info.output instanceof Group}
+                            <GroupView
+                                group={info.output}
+                                place={info.global}
+                                focus={hudFocus}
+                                parentAscent={0}
+                                {interactive}
+                                {context}
+                                {editable}
+                                {inspectable}
+                                {editing}
+                                {frame}
+                                flat={true}
+                            />
+                        {/if}
+                    {/each}
+                </GroupView>
+            </section>
+        {/if}
     </section>
 {/if}
 
 <style>
+    .overlay-layer {
+        position: absolute;
+        inset: 0;
+        /* Pin over the world content, but let clicks fall through to it;
+           selectable HUD children re-enable pointer events themselves. */
+        pointer-events: none;
+        background: none;
+        z-index: 10;
+        flex-grow: 0;
+    }
+
     .stage {
         user-select: none;
         position: relative;

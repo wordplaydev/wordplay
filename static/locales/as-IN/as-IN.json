@@ -5383,7 +5383,11 @@
                 "doc": "$~আউটপুটত প্ৰয়োগ কৰিবলগীয়া মাধ্যাকৰ্ষণ যাৰ স্থান @Motion ত।",
                 "names": "$~মাধ্যাকৰ্ষণশক্তি"
             },
-            "defaultDescription": "$~stage $name [ $name |]of $count আউটপুটসমূহৰ $frame [ফ্ৰেম $frame সৈতে |] $pose $color [ $color |]"
+            "defaultDescription": "$~stage $name [ $name |]of $count আউটপুটসমূহৰ $frame [ফ্ৰেম $frame সৈতে |] $pose $color [ $color |]",
+            "overlay": {
+                "doc": "$~@Output ৰ এখন তালিকা যিটো স্ক্ৰীনৰ ওপৰত সমতলভাৱে হেড্‌ছ-আপ ডিছপ্লে হিচাপে সংলগ্ন কৰা হৈছে, যিটো ষ্টেজৰ @Place কেমেৰা বা গভীৰতাৰ দ্বাৰা প্ৰভাৱিত নহয়।",
+                "names": "$~overlay"
+            }
         },
         "Easing": {
             "straight": "$~পোন",

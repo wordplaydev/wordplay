@@ -5386,7 +5386,11 @@
                 "doc": "$~Η βαρύτητα που θα εφαρμοστεί στην έξοδο της οποίας η θέση βρίσκεται στην @Motion.",
                 "names": "$~βαρύτητα"
             },
-            "defaultDescription": "$~στάδιο $name [ $name |]από $count εξόδους $frame [με πλαίσιο $frame |] $pose $color [ $color |]"
+            "defaultDescription": "$~στάδιο $name [ $name |]από $count εξόδους $frame [με πλαίσιο $frame |] $pose $color [ $color |]",
+            "overlay": {
+                "doc": "$~Μια λίστα από @Output καρφιτσωμένα επίπεδα στην οθόνη σαν οθόνη πληροφοριών, που δεν επηρεάζονται από την κάμερα @Place της σκηνής ή το βάθος.",
+                "names": "$~επικάλυψη"
+            }
         },
         "Easing": {
             "straight": "$~ευθεία",

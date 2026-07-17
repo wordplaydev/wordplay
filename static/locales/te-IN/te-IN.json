@@ -5381,7 +5381,11 @@
                 "doc": "$~@Motion లో ఉన్న అవుట్‌పుట్‌కు వర్తించే గురుత్వాకర్షణ.",
                 "names": "$~గురుత్వాకర్షణశక్తి"
             },
-            "defaultDescription": "$~stage $name [ $name |]of $count outputs $frame [with frame $frame |] $pose $color [ $color |]"
+            "defaultDescription": "$~stage $name [ $name |]of $count outputs $frame [with frame $frame |] $pose $color [ $color |]",
+            "overlay": {
+                "doc": "$~@Output జాబితా, ఇది స్క్రీన్‌కు చదునుగా అతికించబడి హెడ్స్-అప్ డిస్‌ప్లేగా ఉంటుంది. దీనిపై స్టేజ్ యొక్క @Place కెమెరా లేదా లోతు ప్రభావం చూపదు.",
+                "names": "$~ఓవర్‌లే"
+            }
         },
         "Easing": {
             "straight": "$~నేరుగా",

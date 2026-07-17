@@ -5372,7 +5372,11 @@
                 "doc": "$~ਆਉਟਪੁੱਟ 'ਤੇ ਲਾਗੂ ਹੋਣ ਵਾਲੀ ਗੰਭੀਰਤਾ ਜਿਸਦਾ ਸਥਾਨ @Motion ਸ਼ਨ ਵਿੱਚ ਹੈ।",
                 "names": "$~ਗੰਭੀਰਤਾ"
             },
-            "defaultDescription": "$~ਪੜਾਅ $name [ $name |] $count ਆਉਟਪੁੱਟ $frame [ਫਰੇਮ $frame ਦੇ ਨਾਲ |] $pose $color [ $color |]"
+            "defaultDescription": "$~ਪੜਾਅ $name [ $name |] $count ਆਉਟਪੁੱਟ $frame [ਫਰੇਮ $frame ਦੇ ਨਾਲ |] $pose $color [ $color |]",
+            "overlay": {
+                "doc": "$~@Output ਦੀ ਇੱਕ ਸੂਚੀ ਜੋ ਸਕ੍ਰੀਨ ਉੱਤੇ ਸਿੱਧੀ ਪਿੰਨ ਕੀਤੀ ਗਈ ਹੈ, ਜਿਵੇਂ ਇੱਕ ਸਿੱਧਾ ਦਿਖਾਈ ਦੇਣ ਵਾਲਾ ਪਰਦਾ, ਜਿਸ ਉੱਤੇ ਸਟੇਜ ਦੇ @Place ਕੈਮਰੇ ਜਾਂ ਡੂੰਘਾਈ ਦਾ ਕੋਈ ਅਸਰ ਨਹੀਂ ਹੁੰਦਾ।",
+                "names": "$~ਉੱਪਰਪਰਤ"
+            }
         },
         "Easing": {
             "straight": "$~ਸਿੱਧਾ",

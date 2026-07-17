@@ -5466,7 +5466,11 @@
                 "doc": "$~@Motion मा स्थान भएको आउटपुटमा लगाउने गुरुत्वाकर्षण।",
                 "names": "$~गुरुत्वाकर्षण"
             },
-            "defaultDescription": "$~stage $name[$name |]of $count outputs$frame[with frame $frame|] $pose $color[$color|]"
+            "defaultDescription": "$~stage $name[$name |]of $count outputs$frame[with frame $frame|] $pose $color[$color|]",
+            "overlay": {
+                "doc": "$~स्क्रिनमा समतल रूपमा टाँसिएको @Output को सूची, जुन एउटा हेड्स-अप डिस्प्ले जस्तै देखिन्छ। यो मञ्चको @Place क्यामेरा वा गहिराइले असर पार्दैन।",
+                "names": "$~ओभरले"
+            }
         },
         "Easing": {
             "straight": "$~सीधा",

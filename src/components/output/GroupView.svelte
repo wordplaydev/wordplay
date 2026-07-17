@@ -46,6 +46,8 @@
         editing: boolean;
         // A frame counter, used to update aria-labels at a slower rate then visual updates.
         frame: number;
+        /** Render flat (screen-fixed, no perspective/z) — used by the overlay/HUD layer. */
+        flat?: boolean;
         children?: import('svelte').Snippet;
     }
 
@@ -62,6 +64,7 @@
         inspectable = editable,
         editing,
         frame,
+        flat = false,
         children,
     }: Props = $props();
 
@@ -216,6 +219,7 @@
             descent: 0,
         },
         viewport,
+        flat,
     )}
     style:clip-path={clip ? clip.toCSSClip() : null}
 >
@@ -233,6 +237,7 @@
                 {inspectable}
                 {editing}
                 {frame}
+                {flat}
             />
         {:else if child instanceof Shape}
             <ShapeView
@@ -246,6 +251,7 @@
                 {inspectable}
                 {editing}
                 {frame}
+                {flat}
             />
         {:else if child instanceof Group || child instanceof Stage}
             <GroupView
@@ -259,6 +265,7 @@
                 {inspectable}
                 {editing}
                 {frame}
+                {flat}
             />
         {/if}
     {/each}

@@ -5386,7 +5386,11 @@
                 "doc": "$~Grawitacja ma zastosowanie do wyników, których miejsce znajduje się w @Motion.",
                 "names": "$~powaga"
             },
-            "defaultDescription": "$~etap $name [ $name |]z $count wyjść $frame [z ramką $frame |] $pose $color [ $color |]"
+            "defaultDescription": "$~etap $name [ $name |]z $count wyjść $frame [z ramką $frame |] $pose $color [ $color |]",
+            "overlay": {
+                "doc": "$~Lista @Output przypiętych płasko do ekranu jako wyświetlacz informacyjny, na który nie ma wpływu kamera @Place ani głębia sceny.",
+                "names": "$~nakładka"
+            }
         },
         "Easing": {
             "straight": "$~prosty",

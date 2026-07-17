@@ -5427,7 +5427,11 @@
                 "doc": "$~Gaya gravitasi yang diterapkan pada output yang tempatnya berada di @Motion.",
                 "names": "$~gayaberat"
             },
-            "defaultDescription": "$~panggung $name [ $name |] dari $count menghasilkan $frame [dengan frame $frame |] $pose $color [ $color |]"
+            "defaultDescription": "$~panggung $name [ $name |] dari $count menghasilkan $frame [dengan frame $frame |] $pose $color [ $color |]",
+            "overlay": {
+                "doc": "$~Daftar @Output yang disematkan rata pada layar sebagai tampilan informasi, tidak terpengaruh oleh kamera @Place panggung atau kedalaman.",
+                "names": "$~lapisanAtas"
+            }
         },
         "Easing": {
             "straight": "$~lurus",

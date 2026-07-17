@@ -5429,7 +5429,11 @@
                 "doc": "$~যেই আউটপুটের জায়গা @Motion-এ আছে, তার উপর প্রয়োগ করার মাধ্যাকর্ষণ।",
                 "names": "$~মাধ্যাকর্ষণ"
             },
-            "defaultDescription": "$~stage $name[$name |]of $count outputs$frame[with frame $frame|] $pose $color[$color|]"
+            "defaultDescription": "$~stage $name[$name |]of $count outputs$frame[with frame $frame|] $pose $color[$color|]",
+            "overlay": {
+                "doc": "$~পর্দার সাথে সমতলভাবে আটকানো @Output-এর একটি তালিকা, যা হেডস-আপ ডিসপ্লে হিসেবে দেখায়। এটি স্টেজের @Place ক্যামেরা বা গভীরতা দ্বারা প্রভাবিত হয় না।",
+                "names": "$~ওভারলে"
+            }
         },
         "Easing": {
             "straight": "$~সোজা",

@@ -5387,7 +5387,11 @@
                 "doc": "A gravidade a aplicar à saída cujo lugar se encontra em @Motion.",
                 "names": "gravidade"
             },
-            "defaultDescription": "estágio $name [ $name |] de $count produz $frame [com quadro $frame |] $pose $color [ $color |]"
+            "defaultDescription": "estágio $name [ $name |] de $count produz $frame [com quadro $frame |] $pose $color [ $color |]",
+            "overlay": {
+                "doc": "$~Uma lista de @Output fixada de forma plana no ecrã, como uma exibição sobreposta, sem ser afetada pela câmara @Place do palco nem pela profundidade.",
+                "names": "$~sobreposição"
+            }
         },
         "Easing": {
             "straight": "direito",

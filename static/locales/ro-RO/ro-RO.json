@@ -5428,7 +5428,11 @@
                 "doc": "$~Gravitația care se aplică ieșirii al cărei loc se află în @Motion.",
                 "names": "$~gravitaţie"
             },
-            "defaultDescription": "$~etapa $name [ $name |] din $count ieșiri $frame [cu cadrul $frame |] $pose $color [ $color |]"
+            "defaultDescription": "$~etapa $name [ $name |] din $count ieșiri $frame [cu cadrul $frame |] $pose $color [ $color |]",
+            "overlay": {
+                "doc": "$~O listă de @Output fixată plat pe ecran ca un afișaj informativ, neafectată de camera @Place a scenei sau de adâncime.",
+                "names": "$~suprapunere"
+            }
         },
         "Easing": {
             "straight": "$~Drept",

@@ -34,6 +34,8 @@
         inspectable?: boolean;
         editing: boolean;
         frame: number;
+        /** Render flat (screen-fixed, no perspective/z) — used by the overlay/HUD layer. */
+        flat?: boolean;
     }
 
     let {
@@ -47,13 +49,15 @@
         inspectable = editable,
         editing,
         frame,
+        flat = false,
     }: Props = $props();
 
     const selection = getSelectedOutput();
     const project = getProject();
 
-    // Visible if z is ahead of focus and font size is greater than 0.
-    let visible = $derived(place.z > focus.z);
+    // Visible if z is ahead of focus and font size is greater than 0. Flat
+    // (HUD) output ignores z, so it's always in front.
+    let visible = $derived(flat || place.z > focus.z);
 
     let selectable = $derived(shape.selectable);
 
@@ -189,6 +193,8 @@
                 ascent: height,
                 descent: 0,
             },
+            undefined,
+            flat,
         )}
     >
         <svg

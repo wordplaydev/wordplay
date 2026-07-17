@@ -5366,7 +5366,11 @@
                 "doc": "$~ज्या आउटपुटची जागा @Motion मध्ये आहे त्यावर लावायचे गुरुत्वाकर्षण.",
                 "names": "$~गुरुत्वाकर्षण"
             },
-            "defaultDescription": "$~stage $name[$name |]of $count outputs$frame[with frame $frame|] $pose $color[$color|]"
+            "defaultDescription": "$~stage $name[$name |]of $count outputs$frame[with frame $frame|] $pose $color[$color|]",
+            "overlay": {
+                "doc": "$~@Output ची यादी जी पडद्यावर सपाट जोडलेली असते, जसे एक माहिती दर्शवणारा पडदा. तिच्यावर रंगमंचाच्या @Place कॅमेरा किंवा खोलीचा परिणाम होत नाही.",
+                "names": "$~आच्छादन"
+            }
         },
         "Easing": {
             "straight": "$~सरळ",

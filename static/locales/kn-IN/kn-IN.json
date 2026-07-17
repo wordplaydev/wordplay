@@ -5378,7 +5378,11 @@
                 "doc": "$~@Motion ನಲ್ಲಿ ಸ್ಥಾನ ಹೊಂದಿರುವ ಔಟ್‌ಪುಟ್‌ಗೆ ಅನ್ವಯಿಸಬೇಕಾದ ಗುರುತ್ವಾಕರ್ಷಣೆ.",
                 "names": "$~ಗುರುತ್ವಾಕರ್ಷಣೆ"
             },
-            "defaultDescription": "$~ಹಂತ $name [ $name |] $count ಔಟ್‌ಪುಟ್‌ಗಳಲ್ಲಿ $frame [ಫ್ರೇಮ್ $frame |] $pose $color [ $color |]"
+            "defaultDescription": "$~ಹಂತ $name [ $name |] $count ಔಟ್‌ಪುಟ್‌ಗಳಲ್ಲಿ $frame [ಫ್ರೇಮ್ $frame |] $pose $color [ $color |]",
+            "overlay": {
+                "doc": "$~ಪರದೆಗೆ ಚಪ್ಪಟೆಯಾಗಿ ಅಂಟಿಸಿದ @Output ಗಳ ಪಟ್ಟಿ, ಇದು ಮೇಲ್ಭಾಗದ ಪ್ರದರ್ಶನವಾಗಿ ಕಾಣುತ್ತದೆ. ಇದು ವೇದಿಕೆಯ @Place ಕ್ಯಾಮೆರಾ ಅಥವಾ ಆಳದಿಂದ ಬದಲಾಗುವುದಿಲ್ಲ.",
+                "names": "$~ಮೇಲ್ಪದರ"
+            }
         },
         "Easing": {
             "straight": "$~ನೇರ",

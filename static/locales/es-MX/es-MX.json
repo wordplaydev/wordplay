@@ -5369,7 +5369,11 @@
                 "doc": "La gravedad a aplicar a la salida cuyo lugar está en @Motion.",
                 "names": "gravedad"
             },
-            "defaultDescription": "$~escenario $name[$name |]de $count salidas$frame[con marco $frame|] $pose $color[$color|]"
+            "defaultDescription": "$~escenario $name[$name |]de $count salidas$frame[con marco $frame|] $pose $color[$color|]",
+            "overlay": {
+                "doc": "$~Una lista de @Output fijados de forma plana a la pantalla como una visualización frontal, sin verse afectados por la cámara @Place ni la profundidad del escenario.",
+                "names": "$~superposición"
+            }
         },
         "Easing": {
             "straight": "recto",

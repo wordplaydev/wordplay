@@ -5378,7 +5378,11 @@
                 "doc": "$~Гравитација која се примењује на излаз чије је место у @Motion.",
                 "names": "$~гравитације"
             },
-            "defaultDescription": "$~сцена $name [ $name |]од $count излази $frame [са оквиром $frame |] $pose $color [ $color |]"
+            "defaultDescription": "$~сцена $name [ $name |]од $count излази $frame [са оквиром $frame |] $pose $color [ $color |]",
+            "overlay": {
+                "doc": "$~Листа @Output прикачена равно на екран као дисплеј испред тебе. На њу не утичу @Place камера сцене или дубина.",
+                "names": "$~преклоп"
+            }
         },
         "Easing": {
             "straight": "$~равно",

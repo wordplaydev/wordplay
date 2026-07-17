@@ -5377,7 +5377,11 @@
                 "doc": "$~@Motion இல் உள்ள வெளியீட்டிற்குப் பயன்படுத்த வேண்டிய ஈர்ப்பு.",
                 "names": "$~புவியீர்ப்பு"
             },
-            "defaultDescription": "$~நிலை $name [ $name |]இன் $count வெளியீடுகள் $frame [சட்டகம் $frame | உடன் $pose $color [ $color |]"
+            "defaultDescription": "$~நிலை $name [ $name |]இன் $count வெளியீடுகள் $frame [சட்டகம் $frame | உடன் $pose $color [ $color |]",
+            "overlay": {
+                "doc": "$~திரையில் தட்டையாக இணைக்கப்பட்ட @Output பட்டியல், தலைமேல் காட்சியாக (heads-up display) அமையும். மேடையின் @Place கேமராவோ ஆழமோ இதை பாதிக்காது.",
+                "names": "$~மேற்பொருத்து"
+            }
         },
         "Easing": {
             "straight": "$~நேராக",

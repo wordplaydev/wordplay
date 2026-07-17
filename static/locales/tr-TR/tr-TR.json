@@ -5378,7 +5378,11 @@
                 "doc": "$~@Motion'daki yeri olan çıktıya uygulanacak yerçekimi.",
                 "names": "$~yerçekimi"
             },
-            "defaultDescription": "$~aşama $name [ $name |] $count çıktı $frame [çerçeve $frame |] $pose $color [ $color |]"
+            "defaultDescription": "$~aşama $name [ $name |] $count çıktı $frame [çerçeve $frame |] $pose $color [ $color |]",
+            "overlay": {
+                "doc": "$~Ekrana düz olarak sabitlenmiş, bilgi göstergesi gibi çalışan bir @Output listesi. Bu, sahnenin @Place kamerasından veya derinliğinden etkilenmez.",
+                "names": "$~kaplama"
+            }
         },
         "Easing": {
             "straight": "$~dümdüz",

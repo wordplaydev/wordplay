@@ -5372,7 +5372,11 @@
                 "doc": "$~כוח המשיכה שיש להחיל על פלט שמקומו נמצא ב-@Motion.",
                 "names": "$~כּוֹחַמְשִׁיכָה"
             },
-            "defaultDescription": "$~stage $name [ $name |] מתוך $count פלטים $frame [עם מסגרת $frame |] $pose $color [ $color |]"
+            "defaultDescription": "$~stage $name [ $name |] מתוך $count פלטים $frame [עם מסגרת $frame |] $pose $color [ $color |]",
+            "overlay": {
+                "doc": "$~רשימה של @Output שמוצמדים שטוחים למסך כתצוגה עילית, ללא השפעה מהמצלמה או מהעומק של @Place בבמה.",
+                "names": "$~שכבתעל"
+            }
         },
         "Easing": {
             "straight": "$~יָשָׁר",

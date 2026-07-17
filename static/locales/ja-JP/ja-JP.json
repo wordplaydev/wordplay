@@ -5371,7 +5371,11 @@
                 "doc": "$~@Motion の中に位置がある出力にかける重力です。",
                 "names": "$~重力"
             },
-            "defaultDescription": "$~ステージ $name[$name |]の出力 $count 個$frame[フレーム $frame|] $pose $color[$color|]"
+            "defaultDescription": "$~ステージ $name[$name |]の出力 $count 個$frame[フレーム $frame|] $pose $color[$color|]",
+            "overlay": {
+                "doc": "$~画面に平らに固定された@Output。ヘッドアップディスプレイのように表示され、ステージの@Place。",
+                "names": "$~重ね表示"
+            }
         },
         "Easing": {
             "straight": "$~まっすぐ",

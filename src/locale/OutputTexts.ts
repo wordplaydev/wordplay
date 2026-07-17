@@ -108,6 +108,8 @@ type OutputTexts = {
     } & TypeTexts & {
             /** Gravity, influencing change in y velocity */
             gravity: NameAndDoc;
+            /** A list of content pinned flat to the screen (a HUD), unaffected by the camera or depth */
+            overlay: NameAndDoc;
         };
     /** The base interface for shape types */
     Shape: NameAndDoc & {
