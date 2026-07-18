@@ -75,7 +75,7 @@
     });
 </script>
 
-<Writing>
+<Writing wide>
     <PageHeader />
     {@render children()}
 </Writing>

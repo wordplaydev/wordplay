@@ -5981,7 +5981,8 @@
                     "description": "$~Galeri açıklaması",
                     "placeholder": "$~Galerinizi tanımlayın. Teması, hedefleri veya topluluğu nedir?"
                 }
-            }
+            },
+            "projects": "$~$count $one[proje|proje]"
         },
         "source": {
             "label": "$~program editörü",
@@ -7270,7 +7271,8 @@
                 "button": {
                     "newproject": "$~yeni proje",
                     "editproject": "$~bu projeyi düzenle",
-                    "unarchive": "$~bu projeyi arşivden çıkar"
+                    "unarchive": "$~bu projeyi arşivden çıkar",
+                    "viewproject": "$~bu projenin kodunu görüntüle"
                 },
                 "confirm": {
                     "archive": {

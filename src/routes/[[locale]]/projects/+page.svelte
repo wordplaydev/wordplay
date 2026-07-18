@@ -107,7 +107,7 @@
     <Title text={(l) => l.ui.page.projects.header} />
 </svelte:head>
 
-<Writing>
+<Writing wide>
     <PageHeader
         header={(l) => l.ui.page.projects.header}
         description={(l) => l.ui.page.projects.projectprompt}

@@ -5967,7 +5967,8 @@
                     "description": "$~Galeriebeschreibung",
                     "placeholder": "$~Beschreiben Sie Ihre Galerie. Was ist ihr Thema, ihre Ziele oder ihre Community?"
                 }
-            }
+            },
+            "projects": "$~$count $one[Projekt|Projekte]"
         },
         "source": {
             "label": "$~Programmeditor",
@@ -7070,7 +7071,8 @@
                 "button": {
                     "newproject": "$~neues Projekt",
                     "editproject": "$~Dieses Projekt bearbeiten",
-                    "unarchive": "$~Dieses Projekt aus dem Archiv nehmen"
+                    "unarchive": "$~Dieses Projekt aus dem Archiv nehmen",
+                    "viewproject": "$~den Code dieses Projekts ansehen"
                 },
                 "confirm": {
                     "archive": {

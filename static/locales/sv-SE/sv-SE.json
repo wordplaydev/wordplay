@@ -5975,7 +5975,8 @@
                     "description": "$~Galleribeskrivning",
                     "placeholder": "$~Beskriv ditt galleri. Vad är dess tema, mål eller gemenskap?"
                 }
-            }
+            },
+            "projects": "$~$count $one[projekt|projekt]"
         },
         "source": {
             "label": "$~programredaktör",
@@ -7264,7 +7265,8 @@
                 "button": {
                     "newproject": "$~nytt projekt",
                     "editproject": "$~redigera detta projekt",
-                    "unarchive": "$~avarkivera detta projekt"
+                    "unarchive": "$~avarkivera detta projekt",
+                    "viewproject": "$~visa det här projektets koda"
                 },
                 "confirm": {
                     "archive": {

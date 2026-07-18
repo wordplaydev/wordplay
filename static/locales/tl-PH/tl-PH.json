@@ -5978,7 +5978,8 @@
                     "description": "$~Paglalarawan ng gallery",
                     "placeholder": "$~Ilarawan ang iyong gallery. Ano ang tema, mga layunin, o komunidad nito?"
                 }
-            }
+            },
+            "projects": "$~$count $one[proyekto|mga proyekto]"
         },
         "gallerymoderation": {
             "header": "$~Pagmo-moderate ng Gallery",
@@ -7565,7 +7566,8 @@
                 "button": {
                     "newproject": "$~bagong proyekto",
                     "editproject": "$~i-edit ang proyektong ito",
-                    "unarchive": "$~i-unarchive ang proyektong ito"
+                    "unarchive": "$~i-unarchive ang proyektong ito",
+                    "viewproject": "$~tingnan ang kodigo ng proyektong ito"
                 },
                 "confirm": {
                     "archive": {

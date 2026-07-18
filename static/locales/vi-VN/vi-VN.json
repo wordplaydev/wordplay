@@ -5978,7 +5978,8 @@
                     "description": "$~Mô tả bộ sưu tập",
                     "placeholder": "$~Hãy mô tả phòng trưng bày của bạn. Chủ đề, mục tiêu hoặc đối tượng khách hàng của phòng trưng bày là gì?"
                 }
-            }
+            },
+            "projects": "$~$count $one[dự án|dự án]"
         },
         "gallerymoderation": {
             "header": "$~Kiểm duyệt thư viện ảnh",
@@ -7514,7 +7515,8 @@
                 "button": {
                     "newproject": "$~dự án mới",
                     "editproject": "$~chỉnh sửa dự án này",
-                    "unarchive": "$~bỏ lưu trữ dự án này"
+                    "unarchive": "$~bỏ lưu trữ dự án này",
+                    "viewproject": "$~xem mã số của dự án này"
                 },
                 "confirm": {
                     "archive": {

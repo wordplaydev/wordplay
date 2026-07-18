@@ -5935,7 +5935,8 @@
                     "description": "畫廊描述",
                     "placeholder": "描述您的畫廊。它的主題、目標或社區是什麼？"
                 }
-            }
+            },
+            "projects": "$~$count $one[工程|工程]"
         },
         "source": {
             "label": "程式編輯器",
@@ -7033,7 +7034,8 @@
                 "button": {
                     "newproject": "新專案",
                     "editproject": "編輯這個專案",
-                    "unarchive": "取消歸檔此項目"
+                    "unarchive": "取消歸檔此項目",
+                    "viewproject": "$~檢視這個工程的程式碼"
                 },
                 "confirm": {
                     "archive": {

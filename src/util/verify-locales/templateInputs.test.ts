@@ -121,6 +121,24 @@ describe('checkTemplateInputs', () => {
         expect(result?.unused).toEqual(['given']);
     });
 
+    test('does not flag unreferenced CLDR plural-category flags', () => {
+        // Each locale references only the plural categories its rules
+        // distinguish; English needs just $one of the declared flags.
+        const result = checkTemplateInputs(
+            'ui.gallery.projects',
+            '$count $one[project|projects]',
+        );
+        expect(result).toEqual({ numeric: [], unused: [], unknown: [] });
+    });
+
+    test('still flags an unreferenced non-plural input alongside plural flags', () => {
+        const result = checkTemplateInputs(
+            'ui.gallery.projects',
+            'projects: $one[one|several]',
+        );
+        expect(result?.unused).toEqual(['count']);
+    });
+
     test('flags a stale $term glossary ref as unknown (now @term)', () => {
         // Glossary terms moved from `$project` to `@project`; a leftover
         // `$project` is no longer a valid reference and is flagged.

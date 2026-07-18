@@ -13,6 +13,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🐤 We added Flappy, a new example in the [Games gallery](https://wordplay.dev/galleries) to celebrate our new physics engine. Flap a little bird through gaps between stacks of emojis by clicking, pressing keys, or humming — the bird floats up to match the pitch of your hum!
 - 🧟 We added Heart Attack, a new example in the [Games gallery](https://wordplay.dev/galleries): look out through the camera at a field of zombies, strafe left and right, and throw hearts to turn them all back into happy people before they reach you.
 - 📌 We added an `overlay` to `@Stage` for a heads-up display — a list of content pinned flat to the screen that stays put no matter where the camera looks, so a score or label can hold a fixed spot.
+- 👁️ We added a view button next to projects you can't edit, like those in someone else's gallery, so you can open their code and see how they work.
 
 ### Changed
 
@@ -23,6 +24,8 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🧶 We changed the Pounce example so the ball bounces away from wherever it lands on the kitty, instead of always flying the way the kitty faces.
 - 🔍 Search in the [Guide](https://wordplay.dev/guide) now also looks inside example code and glossary definitions, so you can find a concept by the code in its examples or a term by the words in its meaning.
 - ⚠️ When a program stops with an error, we now show a short name for the kind of error — like "unknown name" — both when stepping in the editor and above the error's explanation on stage, so it's easier to see how the two match.
+- 🔢 We replaced the row of dots next to each gallery's name in [Galleries](https://wordplay.dev/galleries) with a count, like "6 projects", so it's clear how many projects are inside (#1070).
+- 📐 We made lists of projects and galleries show in two side-by-side columns when your window is wide enough, so there's less scrolling.
 
 ### Fixed
 

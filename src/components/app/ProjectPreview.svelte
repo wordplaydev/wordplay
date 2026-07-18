@@ -1,16 +1,13 @@
 <!-- @migration task: review uses of `navigating` -->
 <script lang="ts">
     import { navigating } from '$app/state';
-    import Fonts from '@basis/faces/Fonts';
     import CreatorView from '@components/app/CreatorView.svelte';
+    import GlyphTile from '@components/app/GlyphTile.svelte';
     import Link from '@components/app/Link.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser, isAuthenticated } from '@components/project/Contexts';
-    import EmojisRepaired from '@components/widgets/EmojisRepaired.svelte';
     import Note from '@components/widgets/Note.svelte';
-    import type { Character } from '@db/characters/Character';
-    import { characterToSVG } from '@db/characters/Character';
     import { Chats, Creators, DB, locales, Projects } from '@db/Database';
     import { getLocalizedProjectName } from '@db/projects/getLocalizedProjectName';
     import { isFlagged } from '@db/projects/Moderation';
@@ -62,9 +59,6 @@
         const cached = project.getPreview();
         if (cached) {
             displayed = cached;
-            // Make sure the font for the cached face is loaded so the glyph
-            // renders in its intended typeface instead of falling back.
-            if (cached.face) Fonts.loadFaceFromCSS(cached.face);
 
             // Example projects ship a glyph-only auto preview (text with null
             // colors/face; see parseSerializedProject). Upgrade it in the
@@ -90,8 +84,6 @@
                             background: extracted.background,
                             face: extracted.face,
                         };
-                        if (extracted.face)
-                            Fonts.loadFaceFromCSS(extracted.face);
                     })
                     .catch(() => {
                         // Swallow — the authored glyph stays visible.
@@ -115,7 +107,6 @@
                     ...extracted,
                 };
                 displayed = full;
-                if (extracted.face) Fonts.loadFaceFromCSS(extracted.face);
                 if (Projects.isEditable(project))
                     Projects.setAutoPreview(project.getID(), extracted);
             })
@@ -126,44 +117,6 @@
         return () => {
             cancelled = true;
         };
-    });
-
-    // Convenience derivations for the template — keep the same names as
-    // before so the markup below didn't need to change.
-    let representativeForeground = $derived(displayed?.foreground ?? null);
-    let representativeBackground = $derived(displayed?.background ?? null);
-    let representativeFace = $derived(displayed?.face ?? null);
-    let representativeText = $derived(displayed?.text ?? '');
-    let characterName = $derived(displayed?.characterName ?? null);
-
-    // Add a state variable to hold the character
-    let character = $state<Character | null>(null);
-
-    // Effect to fetch the character from the database when characterName changes
-    $effect(() => {
-        // Clear character if characterName is not valid
-        if (!characterName) {
-            character = null;
-            return;
-        }
-
-        // Fetch the character
-        DB.Characters.getByName(characterName)
-            .then((result) => {
-                if (result) {
-                    character = result;
-                } else {
-                    character = null;
-                }
-            })
-            .catch((error) => {
-                console.error(
-                    'Failed to load character:',
-                    characterName,
-                    error,
-                );
-                character = null;
-            });
     });
 
     const user = getUser();
@@ -213,6 +166,7 @@
         data-sveltekit-preload-data="tap"
         style:width={`${size}rem`}
         style:height={`${size}rem`}
+        style:font-size={`${Math.max(4, size - 3)}rem`}
         href={action ? undefined : path}
         onclick={(event) =>
             action && event.button === 0 ? action() : undefined}
@@ -221,24 +175,10 @@
                 ? action()
                 : undefined}
     >
-        <div
-            class="output"
-            role="presentation"
-            style:background={representativeBackground}
-            style:color={representativeForeground}
-            style:font-family={representativeFace}
-            style:font-size={`${Math.max(4, size - 3)}rem`}
-            class:blurred={audience && isFlagged(project.getFlags())}
-        >
-            {#if displayed === null}
-                <!-- No persisted preview yet; the queue is computing one. -->
-                <Spinning />
-            {:else if character}
-                {@html characterToSVG(character, '100%')}
-            {:else}
-                <EmojisRepaired text={representativeText} />
-            {/if}
-        </div>
+        <GlyphTile
+            preview={displayed}
+            blurred={audience && isFlagged(project.getFlags())}
+        />
     </a>
     {#snippet highlighted(text: string)}
         {#if searchTerm.trim()}
@@ -331,21 +271,6 @@
         min-width: 12em;
     }
 
-    .output {
-        display: flex;
-        /** For some reason this is necessary for keeping the character centered. */
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        height: 100%;
-        /* Preview shows creator output — keep it a stable light canvas (matching
-           OutputView/StageView) so its background/foreground don't invert in dark. */
-        color-scheme: light;
-        background: var(--wordplay-background);
-        text-decoration: none;
-        color: var(--wordplay-foreground);
-    }
-
     a {
         text-decoration: none;
     }
@@ -383,10 +308,6 @@
     .preview:hover {
         border-color: var(--wordplay-highlight-color);
         border-width: var(--wordplay-focus-width);
-    }
-
-    .blurred {
-        filter: blur(10px);
     }
 
     .notification {

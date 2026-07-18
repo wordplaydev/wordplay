@@ -24,18 +24,21 @@
     } from '@components/project/Contexts';
     import SelectedOutput from '@components/project/SelectedOutput.svelte';
     import Button from '@components/widgets/Button.svelte';
+    import {
+        makeExampleProject,
+        makePreviewEvaluator,
+    } from '@components/concepts/previewEvaluator';
     import { DB, locales } from '@db/Database';
-    import Project from '@db/projects/Project';
+    import type Project from '@db/projects/Project';
     import type Example from '@nodes/Example';
     import type Node from '@nodes/Node';
-    import Source from '@nodes/Source';
     import getPreferredSpaces from '@parser/getPreferredSpaces';
     import ValueView from '@components/values/ValueView.svelte';
     import Group from '@output/Group';
     import type Output from '@output/Output';
     import Sequence from '@output/Sequence';
     import Stage, { NameGenerator, toStage } from '@output/Stage';
-    import Evaluator from '@runtime/Evaluator';
+    import type Evaluator from '@runtime/Evaluator';
     import type Value from '@values/Value';
     import { untrack, type Snippet } from 'svelte';
     import { writable } from 'svelte/store';
@@ -84,25 +87,20 @@
     // svelte-ignore state_referenced_locally
     const ownProject =
         selfContained && example
-            ? Project.make(
-                  null,
+            ? makeExampleProject(
                   'how',
-                  new Source('how', [
-                      example.program,
-                      getPreferredSpaces(example.program),
-                  ]),
-                  [],
+                  example.program,
+                  getPreferredSpaces(example.program),
                   $locales.getLocales(),
               )
             : undefined;
-    // The self-contained evaluator. It starts **non-reactive** so the static first frame
-    // evaluates without starting any streams — crucially, without claiming the mic/camera
-    // (AudioStream/CameraFeed only call getUserMedia when reactive). Pressing play recreates
-    // it reactive (see recreateOwn), which is when native streams initialize.
+    // The self-contained evaluator. It starts non-reactive so the static first frame
+    // evaluates without claiming the mic/camera; pressing play recreates it reactive
+    // (see recreateOwn and makePreviewEvaluator's contract).
     // svelte-ignore state_referenced_locally
     let ownEvaluator = $state<Evaluator | undefined>(
         ownProject
-            ? new Evaluator(ownProject, DB, $locales.getLocales(), false)
+            ? makePreviewEvaluator(ownProject, DB, $locales.getLocales(), false)
             : undefined,
     );
 
@@ -193,14 +191,13 @@
     }
 
     /** Recreate the self-contained evaluator in the given reactivity mode, but only when the
-     *  mode actually changes. Non-reactive evaluates without starting streams (no mic/camera
-     *  claim) for the static first frame; reactive starts streams — and so claims native
-     *  permissions — only once the creator presses play. */
+     *  mode actually changes. See makePreviewEvaluator for why reactivity switches require
+     *  recreation and what each mode does. */
     function recreateOwn(reactive: boolean) {
         if (!selfContained || !ownProject) return;
         if (ownEvaluator && ownEvaluator.reactive === reactive) return;
         ownEvaluator?.stop();
-        ownEvaluator = new Evaluator(
+        ownEvaluator = makePreviewEvaluator(
             ownProject,
             DB,
             $locales.getLocales(),

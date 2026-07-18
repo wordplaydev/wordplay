@@ -1,6 +1,10 @@
 <script lang="ts">
     import Annotations from '@components/annotations/Annotations.svelte';
     import OutputPreview from '@components/concepts/OutputPreview.svelte';
+    import {
+        makeExampleProject,
+        makePreviewEvaluator,
+    } from '@components/concepts/previewEvaluator';
     import { toClipboard } from '@components/editor/commands/Clipboard';
     import {
         StepBack,
@@ -29,11 +33,10 @@
     import CommandButton from '@components/widgets/CommandButton.svelte';
     import Mode from '@components/widgets/Mode.svelte';
     import { blocks, DB, locales, Settings } from '@db/Database';
-    import Project from '@db/projects/Project';
+    import type Project from '@db/projects/Project';
     import type Caret from '@edit/caret/Caret';
     import Example from '@nodes/Example';
     import type Node from '@nodes/Node';
-    import Source from '@nodes/Source';
     import getPreferredSpaces from '@parser/getPreferredSpaces';
     import type Spaces from '@parser/Spaces';
     import {
@@ -42,7 +45,7 @@
         COPY_SYMBOL,
         TEXT_EDITING_SYMBOL,
     } from '@parser/Symbols';
-    import Evaluator from '@runtime/Evaluator';
+    import type Evaluator from '@runtime/Evaluator';
     import { onMount, untrack } from 'svelte';
     import { writable } from 'svelte/store';
 
@@ -80,11 +83,10 @@
     // Derive a project from the example. Project.make always returns a
     // Project, so this is never undefined.
     let project = $derived<Project>(
-        Project.make(
-            null,
+        makeExampleProject(
             'example',
-            new Source('example', [example.program, spaces]),
-            [],
+            example.program,
+            spaces,
             $locales.getLocales(),
         ),
     );
@@ -105,14 +107,17 @@
         conflictsStore.set(project ? project.analyze().conflicts : []);
     });
 
-    // Build the evaluator in the given reactivity mode. It starts
-    // **non-reactive** so the static first frame (getInitialValue) evaluates
-    // without starting any streams — crucially without claiming the mic/camera
-    // (CameraFeed/AudioStream only call getUserMedia when reactive). It's
-    // recreated reactive only when the creator presses play (see the $effect
-    // below), mirroring OutputPreview's self-contained behavior.
+    // Build the evaluator in the given reactivity mode. It starts non-reactive
+    // so the static first frame evaluates without claiming the mic/camera, and
+    // is recreated reactive only when the creator presses play (see the $effect
+    // below and makePreviewEvaluator's contract).
     function makeEvaluator(reactive: boolean): Evaluator {
-        return new Evaluator(project, DB, $locales.getLocales(), reactive);
+        return makePreviewEvaluator(
+            project,
+            DB,
+            $locales.getLocales(),
+            reactive,
+        );
     }
 
     // Eagerly construct the evaluator so we can populate the evaluation

@@ -5955,7 +5955,8 @@
                     "description": "Descripción de la galería",
                     "placeholder": "Describe tu galería. ¿Cuál es su tema, objetivos o comunidad?"
                 }
-            }
+            },
+            "projects": "$~$count $one[proyecto|proyectos]"
         },
         "source": {
             "label": "editora de programas",
@@ -7059,7 +7060,8 @@
                 "button": {
                     "newproject": "nuevo proyecto",
                     "editproject": "editar este proyecto",
-                    "unarchive": "desarchivar este proyecto"
+                    "unarchive": "desarchivar este proyecto",
+                    "viewproject": "$~ver el código de este proyecto"
                 },
                 "confirm": {
                     "archive": {

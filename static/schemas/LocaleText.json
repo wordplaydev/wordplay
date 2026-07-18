@@ -15601,6 +15601,10 @@
                                     "required": ["name", "description"],
                                     "type": "object"
                                 },
+                                "projects": {
+                                    "$ref": "#/definitions/Template%3C%5B%22count%22%2C%22zero%22%2C%22one%22%2C%22two%22%2C%22few%22%2C%22many%22%5D%3E",
+                                    "description": "[plain] The count of projects in a gallery, shown on gallery preview cards. $count is the number; $zero/$one/$two/$few/$many are CLDR plural-category flags for choosing a plural form with ?? branches."
+                                },
                                 "subheader": {
                                     "additionalProperties": false,
                                     "description": "Headers on the page",
@@ -15642,6 +15646,7 @@
                             "required": [
                                 "untitled",
                                 "undescribed",
+                                "projects",
                                 "subheader",
                                 "confirm",
                                 "error",
@@ -18790,11 +18795,16 @@
                                                 "unarchive": {
                                                     "description": "[plain] The project unarchive button description",
                                                     "type": "string"
+                                                },
+                                                "viewproject": {
+                                                    "description": "[plain] Open a read-only view of a project's code",
+                                                    "type": "string"
                                                 }
                                             },
                                             "required": [
                                                 "newproject",
                                                 "editproject",
+                                                "viewproject",
                                                 "unarchive"
                                             ],
                                             "type": "object"
@@ -21890,6 +21900,9 @@
             "type": "string"
         },
         "Template<[\"count\",\"name\",\"frame\",\"pose\",\"color\"]>": {
+            "type": "string"
+        },
+        "Template<[\"count\",\"zero\",\"one\",\"two\",\"few\",\"many\"]>": {
             "type": "string"
         },
         "Template<[\"count\"]>": {

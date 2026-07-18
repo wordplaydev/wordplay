@@ -64,6 +64,14 @@ export function getTemplateReferences(
 }
 
 /**
+ * CLDR plural-category flags. When declared as template inputs, each locale
+ * references only the categories its plural rules distinguish (e.g. English
+ * uses just $one, Russian adds $few/$many), so they are exempt from the
+ * unused-input check. (`other` is the implicit fallback, never declared.)
+ */
+const PLURAL_CATEGORY_INPUTS = new Set(['zero', 'one', 'two', 'few', 'many']);
+
+/**
  * Compare a template's named refs against the declared input list for the
  * given field path. Returns the lists of problems, all empty if consistent.
  * Returns `undefined` when the field is not Template-typed in the schema.
@@ -87,7 +95,9 @@ export function checkTemplateInputs(
     );
 
     const unused: string[] = [];
-    for (const name of declared) if (!named.has(name)) unused.push(name);
+    for (const name of declared)
+        if (!named.has(name) && !PLURAL_CATEGORY_INPUTS.has(name))
+            unused.push(name);
     return {
         numeric: [...numeric].sort((a, b) => a - b),
         unused,

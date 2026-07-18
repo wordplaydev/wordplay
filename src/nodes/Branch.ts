@@ -19,11 +19,11 @@ import Token from '@nodes/Token';
 import Words from '@nodes/Words';
 
 /**
- * To conditionally select a string, use ??, followed by an input that is either a boolean or possibly undefined value,
- * and true and false cases
+ * To conditionally select a string, follow an input that is either a boolean or possibly
+ * undefined value immediately with true and false cases in brackets
  *
- *      "I received $1 ?? [$1 | nothing]"
- *      "I received $1 ?? [$2 ?? [$1 | $2] | nothing]"
+ *      "I received $value[$value|nothing]"
+ *      "I received $value[$other[$value|$other]|nothing]"
  *
  */
 export default class Branch extends Content {

@@ -5979,7 +5979,8 @@
                     "description": "$~Descrierea galeriei",
                     "placeholder": "$~Descrie galeria ta. Care este tema, obiectivele sau comunitatea sa?"
                 }
-            }
+            },
+            "projects": "$~$count $one[proiect|proiecte]"
         },
         "gallerymoderation": {
             "header": "$~Moderare galerie",
@@ -7665,7 +7666,8 @@
                 "button": {
                     "newproject": "$~proiect nou",
                     "editproject": "$~editează acest proiect",
-                    "unarchive": "$~dearhivați acest proiect"
+                    "unarchive": "$~dearhivați acest proiect",
+                    "viewproject": "$~vezi codul acestui proiect"
                 },
                 "confirm": {
                     "archive": {

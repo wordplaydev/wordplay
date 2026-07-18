@@ -5978,7 +5978,8 @@
                     "description": "Descrição da galeria",
                     "placeholder": "Descreva a sua galeria. Qual é o seu tema, objetivos ou comunidade?"
                 }
-            }
+            },
+            "projects": "$~$count $one[projeto|projetos]"
         },
         "gallerymoderation": {
             "header": "$~Moderação de Galeria",
@@ -7563,7 +7564,8 @@
                 "button": {
                     "newproject": "novo projeto",
                     "editproject": "editar este projeto",
-                    "unarchive": "desarquivar este projeto"
+                    "unarchive": "desarquivar este projeto",
+                    "viewproject": "$~ver o código deste projeto"
                 },
                 "confirm": {
                     "archive": {

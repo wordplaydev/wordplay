@@ -5934,6 +5934,7 @@
         "gallery": {
             "untitled": "Untitled",
             "undescribed": "No description",
+            "projects": "$count $one[project|projects]",
             "subheader": {
                 "classes": {
                     "header": "Classes",
@@ -7699,6 +7700,7 @@
                 "button": {
                     "newproject": "new project",
                     "editproject": "edit this project",
+                    "viewproject": "view this project's code",
                     "unarchive": "unarchive this project"
                 },
                 "confirm": {

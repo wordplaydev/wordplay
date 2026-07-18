@@ -5978,7 +5978,8 @@
                     "description": "$~Deskripsi galeri",
                     "placeholder": "$~Jelaskan galeri Anda. Apa tema, tujuan, atau komunitasnya?"
                 }
-            }
+            },
+            "projects": "$~$count $one[proyek|proyek]"
         },
         "gallerymoderation": {
             "header": "$~Moderasi Galeri",
@@ -7664,7 +7665,8 @@
                 "button": {
                     "newproject": "$~proyek baru",
                     "editproject": "$~edit proyek ini",
-                    "unarchive": "$~Buka arsip proyek ini"
+                    "unarchive": "$~Buka arsip proyek ini",
+                    "viewproject": "$~lihat kode proyek ini"
                 },
                 "confirm": {
                     "archive": {

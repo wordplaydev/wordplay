@@ -145,7 +145,7 @@
 {#if gallery === null}
     <Loading />
 {:else}
-    <Writing>
+    <Writing wide>
         {#if gallery === undefined}
             <!-- Distinguish "couldn't reach the database" (the read timed out /
                  we're disconnected) from a gallery that genuinely doesn't exist —
@@ -239,7 +239,13 @@
                                       localeGoto(project.getLink(false)),
                                   label: EDIT_SYMBOL,
                               }
-                            : false}
+                            : {
+                                  description: (l) =>
+                                      l.ui.page.projects.button.viewproject,
+                                  action: (project) =>
+                                      localeGoto(project.getLink(false)),
+                                  label: '👁️',
+                              }}
                         copy={{
                             description: (l) =>
                                 l.ui.project.button.duplicate.tip,

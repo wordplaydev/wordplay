@@ -614,6 +614,7 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'ui.edit.range': ['start', 'end'],
     'ui.emoji.moreGlyphs': ['count'],
     'ui.emoji.moreLanguages': ['count'],
+    'ui.gallery.projects': ['count', 'zero', 'one', 'two', 'few', 'many'],
     'ui.howto.announce.canvasPosition': ['x', 'y'],
     'ui.howto.announce.howToPosition': ['title', 'x', 'y'],
     'ui.howto.announce.moveActivated': ['target'],

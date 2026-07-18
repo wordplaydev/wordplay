@@ -5978,7 +5978,8 @@
                     "description": "$~وصف المعرض",
                     "placeholder": "$~صِف معرضك. ما هو موضوعه أو أهدافه أو مجتمعه؟"
                 }
-            }
+            },
+            "projects": "$~$count $one[مشروع|مشاريع]"
         },
         "howto": {
             "galleryView": {
@@ -7484,7 +7485,8 @@
                 "button": {
                     "newproject": "$~مشروع جديد",
                     "editproject": "$~حرّر هذا المشروع",
-                    "unarchive": "$~ألغِ أرشفة هذا المشروع"
+                    "unarchive": "$~ألغِ أرشفة هذا المشروع",
+                    "viewproject": "$~عرض كود هذا المشروع"
                 },
                 "confirm": {
                     "archive": {

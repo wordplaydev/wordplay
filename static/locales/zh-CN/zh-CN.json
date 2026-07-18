@@ -5945,7 +5945,8 @@
                     "description": "画廊描述",
                     "placeholder": "描述你的画廊。它的主题、目标或社区是什么？"
                 }
-            }
+            },
+            "projects": "$~$count $one[项目|项目]"
         },
         "source": {
             "label": "程序编辑器",
@@ -7030,7 +7031,8 @@
                 "button": {
                     "newproject": "新项目",
                     "editproject": "编辑这个项目",
-                    "unarchive": "取消归档此项目"
+                    "unarchive": "取消归档此项目",
+                    "viewproject": "$~查看这个项目的代码"
                 },
                 "confirm": {
                     "archive": {

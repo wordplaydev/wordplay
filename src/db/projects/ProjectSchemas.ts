@@ -107,14 +107,10 @@ const ProjectSchemaV5 = ProjectSchemaV4.omit({ v: true }).extend(
     }).shape,
 );
 
-/** Preview metadata used by ProjectPreview / HowToPreview / GalleryPreview tiles.
- *  Either auto-populated by ProjectView's live evaluator or by the on-demand
- *  fallback queue, or pinned by the user via the share dialog. */
-const PreviewSchema = z.object({
-    /** 'auto' = written by ProjectView's live evaluator or the on-demand
-     *           fallback queue. Overwritten by either source.
-     *  'manual' = pinned by the user in the share dialog. Never overwritten. */
-    mode: z.union([z.literal('auto'), z.literal('manual')]),
+/** The renderable content of a preview tile — what GlyphTile draws. Shared by
+ *  projects (extended with `mode` below) and how-tos (HowToPreviewSchema),
+ *  whose persisted previews are this exact shape. */
+export const PreviewContentSchema = z.object({
     /** Single grapheme to display. */
     text: z.string(),
     /** Foreground color (CSS) for auto previews — null for manual. */
@@ -125,6 +121,18 @@ const PreviewSchema = z.object({
     face: z.nullable(z.string()),
     /** Optional Character name to render instead of text. */
     characterName: z.nullable(z.string()),
+});
+
+export type SerializedPreviewContent = z.infer<typeof PreviewContentSchema>;
+
+/** Preview metadata used by ProjectPreview / HowToPreview / GalleryPreview tiles.
+ *  Either auto-populated by ProjectView's live evaluator or by the on-demand
+ *  fallback queue, or pinned by the user via the share dialog. */
+const PreviewSchema = PreviewContentSchema.extend({
+    /** 'auto' = written by ProjectView's live evaluator or the on-demand
+     *           fallback queue. Overwritten by either source.
+     *  'manual' = pinned by the user in the share dialog. Never overwritten. */
+    mode: z.union([z.literal('auto'), z.literal('manual')]),
 });
 
 /** v6 adds an optional preview metadata field. See {@link PreviewSchema}. */

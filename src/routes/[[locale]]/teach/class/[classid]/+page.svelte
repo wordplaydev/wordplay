@@ -189,15 +189,17 @@
         <Notice text={(l) => l.ui.page.class.error.gallery} />
     {/if}
 
-    {#each classData.galleries as gallery}
-        {#await Galleries.get(gallery)}
-            <Spinning></Spinning>
-        {:then gallery}
-            {#if gallery}
-                <GalleryPreview {gallery} />
-            {/if}
-        {/await}
-    {/each}
+    <div class="previews">
+        {#each classData.galleries as gallery}
+            {#await Galleries.get(gallery)}
+                <Spinning></Spinning>
+            {:then gallery}
+                {#if gallery}
+                    <GalleryPreview {gallery} />
+                {/if}
+            {/await}
+        {/each}
+    </div>
 
     <MarkupHTMLView markup={(l) => l.ui.page.class.prompt.delete} />
 
@@ -221,3 +223,16 @@
         >
     </p>
 {/if}
+
+<style>
+    /* A grid so that when the page is wide enough for multiple columns,
+       previews share a consistent inline-start across rows. */
+    .previews {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 28em), 1fr));
+        column-gap: calc(4 * var(--wordplay-spacing));
+        row-gap: calc(2 * var(--wordplay-spacing));
+        align-items: start;
+    }
+</style>
