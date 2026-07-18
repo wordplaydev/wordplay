@@ -11,12 +11,15 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - ⚠️ We now warn you before a project plays if it might flash or move fast in ways that could be uncomfortable or even cause seizures for some people. This shows only for projects you're viewing, not ones you're editing, and you click Start to play them (#716, #1043).
 - 👁️ We added sensor preview panels to monitor your camera and microphone in real-time, showing hand and face landmarks as dots, volume levels, and pitch detection as a moving line. This can help when you're debugging things involving the camera and microphone.
 - 🐤 We added Flappy, a new example in the [Games gallery](https://wordplay.dev/galleries) to celebrate our new physics engine. Flap a little bird through gaps between stacks of emojis by clicking, pressing keys, or humming — the bird floats up to match the pitch of your hum!
+- 🧟 We added Heart Attack, a new example in the [Games gallery](https://wordplay.dev/galleries): look out through the camera at a field of zombies, strafe left and right, and throw hearts to turn them all back into happy people before they reach you.
+- 📌 We added an `overlay` to `@Stage` for a heads-up display — a list of content pinned flat to the screen that stays put no matter where the camera looks, so a score or label can hold a fixed spot.
 
 ### Changed
 
 - 🌐 We improved the Japanese, Marathi, and Bengali translations, making them more consistent with the platform and it's terminology.
 - 🎛️ We changed how projects run with a new three-mode switcher above the stage: ✏️ edit freezes the stage while you change your code, ⏸️ step lets you move through your program's evaluation with a timeline, and ▶️ play fills the screen and runs your project live. If your program has an error while playing, it now switches to step mode so you can see what went wrong (#859, #864).
 - 🧲 We replaced the physics engine that powers `@Motion` and `@Collision` with a faster one, so projects with lots of moving and colliding things run more smoothly, especially on slower computers. Falling, bouncing, and rolling should feel mostly the same as before, though projects that use these might need a bit of tuning.
+- 🎞️ When a project moves the `@Stage` camera, the view now glides smoothly to its new spot instead of jumping — and everything on stage, even things that are swaying or bouncing, glides along with it.
 - 🧶 We changed the Pounce example so the ball bounces away from wherever it lands on the kitty, instead of always flying the way the kitty faces.
 - 🔍 Search in the [Guide](https://wordplay.dev/guide) now also looks inside example code and glossary definitions, so you can find a concept by the code in its examples or a term by the words in its meaning.
 - ⚠️ When a program stops with an error, we now show a short name for the kind of error — like "unknown name" — both when stepping in the editor and above the error's explanation on stage, so it's easier to see how the two match.
