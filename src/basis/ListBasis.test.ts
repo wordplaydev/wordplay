@@ -1,5 +1,8 @@
 import { expect, test } from 'vitest';
 import evaluateCode from '@runtime/evaluate';
+import Project from '@db/projects/Project';
+import Source from '@nodes/Source';
+import DefaultLocale from '@locale/DefaultLocale';
 
 test.each([
     ['[1 2 3 :[4 5 6]]', '[1 2 3 4 5 6]'],
@@ -42,4 +45,25 @@ test.each([
     ['["い" "あ" "う" "お" "え"].sorted()', '["あ" "い" "う" "え" "お"]'],
 ])('Expect %s to be %s', (code, value) => {
     expect(evaluateCode(code)?.toString()).toBe(value);
+});
+
+// A list function whose input is a predicate must declare that predicate as
+// evaluating to a boolean. List.find declared its checker as evaluating to an
+// item of the list instead, so every real predicate was rejected during
+// analysis — reported, confusingly, as a mismatch in the number of inputs.
+// Evaluation was unaffected, so only conflict checking catches this.
+test.each([
+    ['[1 3 5 7 9].find(ƒ(v) v > 6)'],
+    ['[1 3 5 7 9].find(ƒ(v index) (v > 6) & (index > 0))'],
+    ['[1 3 5 7 9].find(ƒ(v index list) (v > 6) & (index < list.length()))'],
+    ['[1 3 5 7 9].filter(ƒ(v) v > 6)'],
+    ['[1 3 5 7 9].all(ƒ(v) v > 6)'],
+    ['[1 3 5 7 9].until(ƒ(v) v > 6)'],
+])('Expect %s to have no conflicts', (code) => {
+    const source = new Source('test', code);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    project.analyze();
+    expect(Array.from(project.getConflictedNodes().values()).flat()).toHaveLength(
+        0,
+    );
 });
