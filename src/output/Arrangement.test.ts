@@ -10,6 +10,7 @@ import type Value from '@values/Value';
 import { toRow } from '@output/Row';
 import { toGrid } from '@output/Grid';
 import Shape, { toShape } from '@output/Shape';
+import { toStack } from '@output/Stack';
 import type Arrangement from '@output/Arrangement';
 import { NameGenerator, DefaultSize } from '@output/Stage';
 import RenderContext from '@output/RenderContext';
@@ -94,6 +95,27 @@ test('a Row mirrors children right-to-left under RTL', () => {
     expect(places[0][1].x).toBeGreaterThan(places[1][1].x);
     // The last (logical) child anchors at the inline-start (x=0).
     expect(places[1][1].x).toBe(0);
+});
+
+test('a Stack keeps every child at its own y, even with small padding', () => {
+    // Regression: y was snapped to 0 whenever it rounded to 0, which collapsed
+    // every child landing within half a meter of the baseline onto one row. With
+    // a padding smaller than that band, the last children overlapped exactly.
+    // Sized so the last two children land inside the old half-meter snap band:
+    // the bottom child sits at y=0 and the one above it at 0.4.
+    const stack = arrangementFrom("Stack('|' 0.1m)", toStack);
+    // Three 2m-wide, 0.3m-tall rectangles.
+    const children = [
+        rect('0m 0.3m 2m 0m'),
+        rect('0m 0.3m 2m 0m'),
+        rect('0m 0.3m 2m 0m'),
+    ];
+    const { places } = stack.getLayout(children, contextFor('ltr'));
+    const ys = places.map(([, place]) => place.y);
+    expect(new Set(ys).size).toBe(ys.length);
+    // Children descend, spaced by their height plus the padding.
+    expect(ys[0] - ys[1]).toBeCloseTo(0.4, 5);
+    expect(ys[1] - ys[2]).toBeCloseTo(0.4, 5);
 });
 
 test('a Grid mirrors its columns under RTL', () => {
