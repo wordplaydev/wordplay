@@ -358,6 +358,16 @@
         }
     });
 
+    /** Turning fitting back on is the audience handing the camera back, so it
+     *  clears any pan/zoom override. There are only two states worth having:
+     *  the audience drives the camera, or the platform does — and when the
+     *  platform does, a stage @Place from the program wins over fitting. Without
+     *  this, a zoom's override outlived the gesture: re-locking would fit the
+     *  content once and then keep ignoring a moving stage.place forever. */
+    $effect(() => {
+        if (fit) focusOverride = false;
+    });
+
     /** The focus the stage wants right now, computed instantly from the stage's
      *  place, fit, and override states. The rendered focus eases toward this. */
     let targetFocus = $derived(
