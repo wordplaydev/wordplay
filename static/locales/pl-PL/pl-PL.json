@@ -5926,6 +5926,11 @@
                 "share": "$~Okno dialogowe /share/ umożliwia udostępnianie projektu w *galeriach*, *publicznie* lub kopiowanie go jako *tekst* w celu udostępnienia gdzie indziej.",
                 "translate": "$~Przycisk /translate/ umożliwia dodanie *tłumaczeń* *nazw*, *tekstu* i *dokumentacji* Twojego projektu na inne języki.",
                 "checkpoints": "$~Panel /revisions/ umożliwia powrót do poprzednich wersji projektu oraz zapisanie *migawek* wersji, które chcesz zapamiętać."
+            },
+            "options": {
+                "layout": {
+                    "auto": "$~auto — aktualnie $layout"
+                }
             }
         },
         "checkpoints": {

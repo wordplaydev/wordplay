@@ -15603,7 +15603,7 @@
                                 },
                                 "projects": {
                                     "$ref": "#/definitions/Template%3C%5B%22count%22%2C%22zero%22%2C%22one%22%2C%22two%22%2C%22few%22%2C%22many%22%5D%3E",
-                                    "description": "[plain] The count of projects in a gallery, shown on gallery preview cards. $count is the number; $zero/$one/$two/$few/$many are CLDR plural-category flags for choosing a plural form with ?? branches."
+                                    "description": "[plain] The count of projects in a gallery, shown on gallery preview cards. $count is the number; $zero/$one/$two/$few/$many are CLDR plural-category flags for choosing a plural form with branches, e.g. \"$count $one[project|projects]\"."
                                 },
                                 "subheader": {
                                     "additionalProperties": false,
@@ -19800,6 +19800,25 @@
                                     "description": "[plain] The label for the bottom-row project controls section",
                                     "type": "string"
                                 },
+                                "options": {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "layout": {
+                                            "additionalProperties": false,
+                                            "description": "The tile layout chooser in the project footer",
+                                            "properties": {
+                                                "auto": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22layout%22%5D%3E",
+                                                    "description": "[plain] Tooltip when the layout is chosen automatically, naming the layout currently in effect"
+                                                }
+                                            },
+                                            "required": ["auto"],
+                                            "type": "object"
+                                        }
+                                    },
+                                    "required": ["layout"],
+                                    "type": "object"
+                                },
                                 "save": {
                                     "additionalProperties": false,
                                     "description": "The messages shown for save status",
@@ -19945,6 +19964,7 @@
                                 "save",
                                 "dialog",
                                 "subheader",
+                                "options",
                                 "toggle",
                                 "tour"
                             ],
@@ -21963,6 +21983,9 @@
             "type": "string"
         },
         "Template<[\"language\"]>": {
+            "type": "string"
+        },
+        "Template<[\"layout\"]>": {
             "type": "string"
         },
         "Template<[\"left\"]>": {

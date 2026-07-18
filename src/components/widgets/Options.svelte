@@ -27,6 +27,9 @@
         options: Group<Item>[] | Item[];
         change: (value: string | undefined) => void;
         width?: string;
+        /** Minimum width for the open picker, when the closed button is deliberately
+         *  narrower than its options (e.g. an icon-only chooser with descriptive rows). */
+        pickerWidth?: string;
         id?: string | undefined;
         editable?: boolean;
         code?: boolean;
@@ -56,6 +59,7 @@
         options,
         change,
         width = 'auto',
+        pickerWidth = undefined,
         id = undefined,
         editable = true,
         code = false,
@@ -151,6 +155,7 @@
         bind:this={view}
         style:width
         style:max-width={width === 'auto' ? undefined : width}
+        style:--picker-width={pickerWidth}
         disabled={!editable}
         class:code
         class:placeholder={value === undefined}
@@ -255,6 +260,13 @@
         min-width: 0;
     }
 
+    /* A custom `selection` snippet replaces <selectedcontent>, so it doesn't
+       inherit that element's clipping; without this it can spill past the
+       control's border and shove the picker icon outside it. */
+    select button {
+        overflow: hidden;
+    }
+
     selectedcontent {
         min-width: 0;
         overflow: hidden;
@@ -329,6 +341,9 @@
     }
 
     ::picker(select) {
+        /* Lets a deliberately narrow closed button open into a wider list. The
+           custom property inherits from the originating <select>. */
+        min-width: var(--picker-width, auto);
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
         border-top-left-radius: 0;
         border-top-right-radius: var(--wordplay-border-radius);

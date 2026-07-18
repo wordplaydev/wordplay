@@ -5912,6 +5912,11 @@
                 "share": "$~Ang dialog na /share/ ay nagbibigay-daan sa iyong ibahagi ang iyong proyekto sa mga *gallery*, sa *publiko*, o kopyahin ito bilang *text* upang ibahagi sa ibang lugar.",
                 "translate": "$~Ang buton na /translate/ ay maaaring magdagdag ng mga *salin* ng mga *pangalan*, *teksto*, at *dokumentasyon* ng iyong proyekto sa ibang mga wika.",
                 "checkpoints": "$~Ang panel na /revisions/ ay nagbibigay-daan sa iyong *bumalik* sa mga nakaraang bersyon ng iyong proyekto, at mga *snapshot* na bersyong gusto mong matandaan."
+            },
+            "options": {
+                "layout": {
+                    "auto": "$~awto — kasalukuyang $layout"
+                }
             }
         },
         "checkpoints": {

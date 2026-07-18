@@ -5912,6 +5912,11 @@
                 "share": "$~I dialogrutan /share/ kan du dela ditt projekt med *gallerier*, med *allmänheten*, eller kopiera det som *text* för att dela det någon annanstans.",
                 "translate": "$~Knappen /translate/ kan lägga till *översättningar* av ditt projekts *namn*, *text* och *dokumentation* till andra språk.",
                 "checkpoints": "$~Panelen /revisions/ låter dig gå *tillbaka* till tidigare versioner av ditt projekt och *ögonblicksbilder* av versioner som du vill komma ihåg."
+            },
+            "options": {
+                "layout": {
+                    "auto": "$~auto — för närvarande $layout"
+                }
             }
         },
         "checkpoints": {

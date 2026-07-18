@@ -5918,6 +5918,11 @@
                 "share": "$~/paylaş/ iletişim kutusu, projenizi *galerilerle*, *herkesle* paylaşmanıza veya başka bir yerde paylaşmak üzere *metin* olarak kopyalamanıza olanak tanır.",
                 "translate": "$~/çevir/ düğmesi, projenizin *adlarını*, *metinlerini* ve *belgelerini* diğer dillere *çevirebilir*.",
                 "checkpoints": "$~/revisions/ paneli, projenizin önceki sürümlerine *geri dönmenizi* ve hatırlamak istediğiniz sürümlerin *anlık görüntüsünü* almanızı sağlar."
+            },
+            "options": {
+                "layout": {
+                    "auto": "$~otomatik — şu anda $layout"
+                }
             }
         },
         "checkpoints": {

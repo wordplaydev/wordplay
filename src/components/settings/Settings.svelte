@@ -33,7 +33,7 @@
         AnimationFactors,
         AnimationFactorSetting,
     } from '@db/settings/AnimationFactorSetting';
-    import { Arrangement } from '@db/settings/Arrangement';
+    import { ArrangementOrder } from '@db/settings/Arrangement';
     import { FaceSetting } from '@db/settings/FaceSetting';
     import { TAB_SYMBOL } from '@parser/Spaces';
     import {
@@ -157,32 +157,12 @@
         <Mode
             modes={(l) => l.ui.dialog.settings.mode.layout}
             wrap
-            choice={$arrangement === Arrangement.Responsive
-                ? 0
-                : $arrangement === Arrangement.Horizontal
-                  ? 1
-                  : $arrangement === Arrangement.Vertical
-                    ? 2
-                    : $arrangement === Arrangement.Split
-                      ? 3
-                      : $arrangement === Arrangement.Single
-                        ? 4
-                        : 5}
-            select={(choice) =>
-                Settings.setArrangement(
-                    choice == 0
-                        ? Arrangement.Responsive
-                        : choice === 1
-                          ? Arrangement.Horizontal
-                          : choice === 2
-                            ? Arrangement.Vertical
-                            : choice === 3
-                              ? Arrangement.Split
-                              : choice === 4
-                                ? Arrangement.Single
-                                : Arrangement.Free,
-                )}
-            icons={Object.values(LayoutIcons)}
+            choice={ArrangementOrder.indexOf($arrangement)}
+            select={(choice) => {
+                const chosen = ArrangementOrder[choice];
+                if (chosen !== undefined) Settings.setArrangement(chosen);
+            }}
+            icons={ArrangementOrder.map((a) => LayoutIcons[a])}
         />
         <Mode
             modes={(l) => l.ui.dialog.settings.mode.animate}

@@ -5915,6 +5915,11 @@
                 "share": "$~La boîte de dialogue /share/ vous permet de partager votre projet avec des *galeries*, avec le *public*, ou de le copier en tant que *texte* pour le partager ailleurs.",
                 "translate": "$~Le bouton /translate/ permet d'ajouter des *traductions* des *noms*, des *textes* et de la *documentation* de votre projet dans d'autres langues.",
                 "checkpoints": "$~Le panneau /revisions/ vous permet de revenir aux versions précédentes de votre projet et de créer des versions instantanées que vous souhaitez conserver."
+            },
+            "options": {
+                "layout": {
+                    "auto": "$~auto — actuellement $layout"
+                }
             }
         },
         "gallery": {

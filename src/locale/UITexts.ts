@@ -295,6 +295,13 @@ type UITexts = {
             /** [formatted] The header for the destination language */
             destination: FormattedText;
         };
+        options: {
+            /** The tile layout chooser in the project footer */
+            layout: {
+                /** [plain] Tooltip when the layout is chosen automatically, naming the layout currently in effect */
+                auto: Template<['layout']>;
+            };
+        };
         toggle: {
             /** [plain] Tip text for the project full screen button */
             fullscreen: ToggleText;

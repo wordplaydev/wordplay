@@ -5912,6 +5912,11 @@
                 "share": "A caixa de diálogo /partilhar/ permite-lhe partilhar o seu projeto com *galerias*, com o *público* ou copiá-lo como *texto* para partilhar noutro local.",
                 "translate": "O botão /traduzir/ pode adicionar *traduções* dos *nomes*, *textos* e *documentação* do seu projeto para outros idiomas.",
                 "checkpoints": "O painel /revisions/ permite-lhe voltar às versões anteriores do seu projeto e guardar versões que pretende guardar."
+            },
+            "options": {
+                "layout": {
+                    "auto": "$~auto — atualmente $layout"
+                }
             }
         },
         "checkpoints": {

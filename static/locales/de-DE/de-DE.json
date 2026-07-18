@@ -5921,6 +5921,11 @@
                 "share": "$~Über den Dialog „Teilen“ können Sie Ihr Projekt mit *Galerien*, mit der *Öffentlichkeit* teilen oder es als *Text* kopieren, um es an anderer Stelle zu teilen.",
                 "translate": "$~Mit der Schaltfläche „/translate/“ können Sie *Übersetzungen* der *Namen*, *Texte* und *Dokumentation* Ihres Projekts in andere Sprachen hinzufügen.",
                 "checkpoints": "$~Über das Panel /revisions/ können Sie zu früheren Versionen Ihres Projekts zurückkehren und Momentaufnahmen von Versionen erstellen, die Sie sich merken möchten."
+            },
+            "options": {
+                "layout": {
+                    "auto": "$~auto — aktuell $layout"
+                }
             }
         },
         "gallery": {

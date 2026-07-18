@@ -16,6 +16,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🧟 We added [Heart Attack](https://wordplay.dev/project/example-HeartAttack?mode=play), a new example in the: look out through the camera at a field of zombies, strafe left and right, and throw hearts to turn them all back into happy people before they reach you.
 - We added [Code Gap](https://wordplay.dev/project/example-CodeGap?mode=play), a data visualization of data about gender differences computer science degrees.
 - 🔨 We added [Building Blocks](https://wordplay.dev/project/example-BuildingBlocks?mode=play), a new example in the Games gallery: chop trees and boulders into wood and brick, then stack the pieces to match a faded outline. You can only reach one block above your feet, so hop or build a step to get at anything higher.
+- ◫ We added a quick way to change the project layout in the project footer. Faster than going to settings! It also explains what layout is active.
 
 ### Changed
 

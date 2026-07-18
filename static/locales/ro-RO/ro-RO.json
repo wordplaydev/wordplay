@@ -5913,6 +5913,11 @@
                 "share": "$~Caseta de dialog /share/ vă permite să partajați proiectul cu *galerii*, cu *publicul* sau să îl copiați ca *text* pentru a-l partaja în altă parte.",
                 "translate": "$~Butonul /traduce/ poate adăuga *traduceri* ale *numelor*, *textului* și *documentației* proiectului în alte limbi.",
                 "checkpoints": "$~Panoul /revisions/ vă permite să *reveniți* la versiunile anterioare ale proiectului și la versiunile *snapshot* pe care doriți să le rețineți."
+            },
+            "options": {
+                "layout": {
+                    "auto": "$~auto — în prezent $layout"
+                }
             }
         },
         "checkpoints": {

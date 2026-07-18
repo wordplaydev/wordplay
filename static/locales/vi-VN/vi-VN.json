@@ -5912,6 +5912,11 @@
                 "share": "$~Hộp thoại /share/ cho phép bạn chia sẻ dự án của mình với *các thư viện ảnh*, với *công chúng*, hoặc sao chép nó dưới dạng *văn bản* để chia sẻ ở nơi khác.",
                 "translate": "$~Nút /translate/ cho phép bạn thêm bản dịch các *tên*, *văn bản* và *tài liệu* của dự án sang các ngôn ngữ khác.",
                 "checkpoints": "$~Mục /revisions/ cho phép bạn quay lại các phiên bản trước đó của dự án và chụp ảnh màn hình các phiên bản mà bạn muốn lưu lại."
+            },
+            "options": {
+                "layout": {
+                    "auto": "$~tự động — hiện tại $layout"
+                }
             }
         },
         "checkpoints": {

@@ -5912,6 +5912,11 @@
                 "share": "$~Dialog /share/ memungkinkan Anda untuk membagikan proyek Anda dengan *galeri*, dengan *publik*, atau menyalinnya sebagai *teks* untuk dibagikan di tempat lain.",
                 "translate": "$~Tombol /terjemahkan/ dapat menambahkan *terjemahan* dari *nama*, *teks*, dan *dokumentasi* proyek Anda ke dalam bahasa lain.",
                 "checkpoints": "$~Panel /revisi/ memungkinkan Anda untuk kembali ke versi proyek sebelumnya, dan mengambil snapshot versi yang ingin Anda simpan."
+            },
+            "options": {
+                "layout": {
+                    "auto": "$~otomatis — saat ini $layout"
+                }
             }
         },
         "checkpoints": {

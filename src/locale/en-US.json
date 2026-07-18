@@ -5893,6 +5893,11 @@
                 "source": "Source",
                 "destination": "Destination"
             },
+            "options": {
+                "layout": {
+                    "auto": "auto — currently $layout"
+                }
+            },
             "toggle": {
                 "fullscreen": {
                     "on": "exit browser full screen",
