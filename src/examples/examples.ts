@@ -189,6 +189,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
             ),
             [
                 'Amplitude',
+                'CodeGap',
                 'Garden',
                 'Letters',
                 'Poem',

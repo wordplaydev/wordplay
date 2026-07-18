@@ -10,10 +10,11 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 - ⚠️ We now warn you before a project plays if it might flash or move fast in ways that could be uncomfortable or even cause seizures for some people. This shows only for projects you're viewing, not ones you're editing, and you click Start to play them (#716, #1043).
 - 👁️ We added sensor preview panels to monitor your camera and microphone in real-time, showing hand and face landmarks as dots, volume levels, and pitch detection as a moving line. This can help when you're debugging things involving the camera and microphone.
-- 🐤 We added Flappy, a new example in the [Games gallery](https://wordplay.dev/galleries) to celebrate our new physics engine. Flap a little bird through gaps between stacks of emojis by clicking, pressing keys, or humming — the bird floats up to match the pitch of your hum!
-- 🧟 We added Heart Attack, a new example in the [Games gallery](https://wordplay.dev/galleries): look out through the camera at a field of zombies, strafe left and right, and throw hearts to turn them all back into happy people before they reach you.
 - 📌 We added an `overlay` to `@Stage` for a heads-up display — a list of content pinned flat to the screen that stays put no matter where the camera looks, so a score or label can hold a fixed spot.
 - 👁️ We added a view button next to projects you can't edit, like those in someone else's gallery, so you can open their code and see how they work.
+- 🐤 We added [Humming Bird](https://wordplay.dev/project/example-HummingBird?mode=play), a new example in the to celebrate our new physics engine. Flap a little bird through gaps between stacks of emojis by clicking, pressing keys, or humming — the bird floats up to match the pitch of your hum!
+- 🧟 We added [Heart Attack](https://wordplay.dev/project/example-HeartAttack?mode=play), a new example in the: look out through the camera at a field of zombies, strafe left and right, and throw hearts to turn them all back into happy people before they reach you.
+- We added [CodeGap](https://wordplay.dev/project/example-CodeGap?mode=play), a data visualization of data about gender differences computer science degrees.
 
 ### Changed
 

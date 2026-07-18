@@ -1,0 +1,178 @@
+👩‍💻
+"Code Gap"/en
+=== start/en
+¶
+This project visualizes real, public data about how many women earn
+computer science degrees in the United States, and how that has changed.
+It borrows two data tables, one named years and one named fields, then lets
+you pick one of three views with the buttons at the top. Each view is a bar
+chart made of woman emoji, with a plain-language explanation in the footer.
+¶
+↓ years
+↓ fields
+
+¶
+The fill function makes one solid bar. It repeats the woman emoji count
+times and joins them into a single piece of text with no gaps, so the row
+reads as one continuous bar instead of separate dots.
+¶
+ƒ fill(count•#) (count → []).translate(ƒ() '👩').join('')
+
+¶
+The chart function draws a bar chart from three matching lists: a label, a
+bar length in emoji, and a value. Every bar is one row of a left-aligned
+stack, so all bars begin at the same edge and their lengths can be compared
+directly. The label and value ride at the end of each bar in the same row,
+which keeps them lined up with their bar.
+¶
+ƒ chart(labels•[''] units•[#] values•[''])
+	Group(
+		⬇('<' padding: 0.2m)
+		units.translate(ƒ(u•# i•#)
+			Group(➡('|' padding: 0.3m) [
+					Phrase(fill(u) size: 0.3m)
+					Phrase(`\labels[i]\  \values[i]\` size: 0.28m color: 🌈(45% 0 0°))
+				]
+			)
+		)
+	)
+
+¶
+View 1 — "The Rise and Fall".
+For every year in the data we draw a bar whose length is the percent of
+computer science degrees earned by women. Each woman emoji stands for about
+5 percent, so we divide the percent by 5 to get the bar length.
+¶
+timeRows: (years ⎡? year percent⎦ ⊤) → []
+timeView: chart(
+	timeRows.translate(ƒ(row) row.year)
+	timeRows.translate(ƒ(row) (row.percent ÷ 5).round())
+	timeRows.translate(ƒ(row) (row.percent.round() → '') + '%')
+)
+
+¶
+View 2 — "One Field Out of Step".
+We compare the share of women across different fields of study in one
+recent year. The rows are already ordered from the most women to the
+fewest, so computer science falls to the bottom of the chart.
+¶
+fieldRows: (fields ⎡? field percent⎦ ⊤) → []
+fieldsView: chart(
+	fieldRows.translate(ƒ(row) row.field)
+	fieldRows.translate(ƒ(row) (row.percent ÷ 5).round())
+	fieldRows.translate(ƒ(row) (row.percent → '') + '%')
+)
+
+¶
+View 3 — "More Women, Smaller Share".
+These are two different measurements, so we draw them as two separate
+charts side by side. The left chart counts women (each emoji is about 2,000
+people); the right chart shows their share of all degrees (each emoji is
+about 5 percent). Within each chart the two bars use the same unit, so they
+are comparable: the count nearly doubles while the share falls.
+¶
+countRows: (years ⎡? year women percent⎦ ((year = '1984') | (year = '2022'))) → []
+old: countRows[1]
+now: countRows[2]
+
+womenChart: chart(
+	['1984' '2022']
+	[(old.women ÷ 2000).round() (now.women ÷ 2000).round()]
+	[old.women → '' now.women → '']
+)
+shareChart: chart(
+	['1984' '2022']
+	[(old.percent ÷ 5).round() (now.percent ÷ 5).round()]
+	[(old.percent.round() → '') + '%' (now.percent.round() → '') + '%']
+)
+countsView: Group(➡('<' padding: 1.5m) [
+		Group(⬇('|' padding: 0.3m) [
+				Phrase(`/Women earning CS degrees/` size: 0.28m)
+				womenChart
+			]
+		)
+		Group(⬇('|' padding: 0.3m) [
+				Phrase(`/Their share of all CS degrees/` size: 0.28m)
+				shareChart
+			]
+		)
+	]
+)
+
+¶
+The three buttons. Choice reports the name of whatever selectable Phrase
+the reader last clicked. We start on the time view and update whenever the
+choice changes.
+¶
+choice: Choice()
+current: 'time' … ∆ choice … choice
+
+tabs: Group(
+	➡('|' padding: 0.6m) [
+		Phrase('▸ Over time' selectable: ⊤ name: 'time' size: 0.35m color: 🌈(60% 50 20°))
+		Phrase('▸ By field' selectable: ⊤ name: 'fields' size: 0.35m color: 🌈(60% 50 140°))
+		Phrase('▸ Count vs share' selectable: ⊤ name: 'counts' size: 0.35m color: 🌈(60% 50 280°))
+	]
+)
+
+¶Pick the chart and the footer for the current view.¶
+body: current = 'time' ? timeView (current = 'fields' ? fieldsView countsView)
+
+footer:
+	current = 'time' ?
+		Phrase(`/The share of U.S. computer science bachelor's degrees earned by women peaked at 37% in 1984, then fell for about 25 years to roughly 18% around 2008, and has recovered only slowly. Each 👩 ≈ 5%. Source: NCES Digest of Education Statistics, Table 325.35./` wrap: 9m size: 0.26m)
+		current = 'fields' ?
+			Phrase(`/Around 2018, women earned most psychology and biology degrees, about half of math and social science degrees, but under 20% of computer science degrees — nearly the lowest share of any field. Each 👩 ≈ 5%. Source: NSF NCSES, Women, Minorities, and Persons with Disabilities in S&E./` wrap: 9m size: 0.26m)
+			Phrase(`/In 1984 about 12,000 women earned CS degrees — 37% of them. By 2022 over 24,000 did, twice as many people, yet only 23%: the field grew so fast that men's numbers grew even faster. A rising count can still be a shrinking share. Source: NCES./` wrap: 9m size: 0.26m)
+
+Stage([
+		Group(
+			⬇('|' padding: 0.4m) [
+				Phrase(`CODE GAP` size: 0.7m face: 'Monoton')
+				Phrase(`/Who earns computer science degrees?/` size: 0.35m)
+				tabs
+				body
+				footer
+			]
+		)
+	]
+	face: 'Quicksand'
+)
+=== years/en
+¶
+Percent of U.S. bachelor's degrees in computer and information sciences
+earned by women, by year, with the number of women and the total number
+of degrees. Source: National Center for Education Statistics, Digest of
+Education Statistics, Table 325.35.
+https://nces.ed.gov/programs/digest/d23/tables/dt23_325.35.asp
+¶
+⎡year•'' women•# total•# percent•#⎦
+⎡'1971' 324 2388 13.6⎦
+⎡'1976' 1118 5652 19.8⎦
+⎡'1984' 12023 32439 37.1⎦
+⎡'1990' 8188 27347 29.9⎦
+⎡'1995' 6749 24506 27.5⎦
+⎡'2001' 12219 44142 27.7⎦
+⎡'2005' 11986 54111 22.2⎦
+⎡'2008' 6792 38523 17.6⎦
+⎡'2011' 7589 43066 17.6⎦
+⎡'2015' 10742 59586 18⎦
+⎡'2019' 18316 88638 20.7⎦
+⎡'2022' 24542 108503 22.6⎦
+=== fields/en
+¶
+Percent of U.S. bachelor's degrees earned by women in each field of study,
+around 2018, ordered from the highest share to the lowest. Source: National
+Science Foundation, NCSES, Women, Minorities, and Persons with Disabilities
+in Science and Engineering.
+https://ncses.nsf.gov/pubs/nsf21321/report/field-of-degree-women
+¶
+⎡field•'' percent•#⎦
+⎡'Psychology' 72⎦
+⎡'Biology' 60⎦
+⎡'Social science' 55⎦
+⎡'Math & stats' 42⎦
+⎡'Physical science' 41⎦
+⎡'Earth science' 38⎦
+⎡'Engineering' 22⎦
+⎡'Computer science' 20⎦
