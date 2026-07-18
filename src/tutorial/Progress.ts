@@ -233,6 +233,12 @@ export default class Progress {
     static fromURL(
         tutorial: Tutorial,
         params: URLSearchParams,
+        // The mode to assume when the URL omits the tutorial parameter. getURL()
+        // drops that parameter for the default mode, so a canonical /learn link
+        // carries no mode; interpreting it in the active mode (rather than always
+        // the default) lets a shared/reloaded position resolve within whatever
+        // tutorial the viewer is actually in.
+        fallbackMode: TutorialMode = DEFAULT_TUTORIAL_MODE,
     ): Progress | undefined {
         // Figure out where we are in the tutorial.
         const act = params.get('act');
@@ -253,7 +259,7 @@ export default class Progress {
                 parseInt(act),
                 parseInt(scene),
                 parseInt(pause),
-                mode ?? DEFAULT_TUTORIAL_MODE,
+                mode ?? fallbackMode,
             );
         else return undefined;
     }

@@ -7,7 +7,7 @@
     import TutorialView from '@components/app/TutorialView.svelte';
     import TutorialChooser from '@components/app/TutorialChooser.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { onMount, untrack } from 'svelte';
+    import { onMount } from 'svelte';
     import { fade } from 'svelte/transition';
     import PageHeader from '@components/app/PageHeader.svelte';
     import Link from '@components/app/Link.svelte';
@@ -92,16 +92,23 @@
         });
     }
 
-    // Save tutorial progress with tutorial changes.
+    // Recompute the URL-derived position whenever the tutorial loads or the URL
+    // changes (e.g. the browser back/forward buttons), so the scene follows history.
+    // Assign via a local so `initial` is only written, never read here — reading it
+    // would make this effect depend on its own write and loop (Progress.fromURL
+    // returns a fresh instance each call).
     $effect(() => {
         if (tutorial) {
-            // Untrack, as we only want to be dependent on tutorial changes, not page or initial changes.
-            untrack(() => {
-                if (tutorial) {
-                    initial = Progress.fromURL(tutorial, page.url.searchParams);
-                    if (initial) Settings.setTutorialProgress(initial);
-                }
-            });
+            // Resolve a mode-less URL (canonical /learn links omit the default
+            // mode's parameter) against the active mode so shared/reloaded
+            // positions land in the tutorial the viewer is actually in.
+            const next = Progress.fromURL(
+                tutorial,
+                page.url.searchParams,
+                mode ?? DEFAULT_TUTORIAL_MODE,
+            );
+            initial = next;
+            if (next) Settings.setTutorialProgress(next);
         }
     });
 
