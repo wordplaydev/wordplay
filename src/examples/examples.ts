@@ -166,6 +166,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
             ),
             [
                 'HeartAttack',
+                'BuildingBlocks',
                 'Adventure',
                 'BasketballStar',
                 'HummingBird',

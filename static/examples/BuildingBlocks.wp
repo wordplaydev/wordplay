@@ -1,0 +1,436 @@
+🔨
+"Building Blocks"/en
+=== start/en
+¶Building Blocks — chop, carry, and stack. You are the little figure on a green
+field dotted with trees and boulders. Walk with the arrow keys; you turn to face
+the way you walked, and the floating cursor shows the cell you're about to act on.
+
+Space does both jobs, and the cursor tells you which. When the pile in front rises
+above your feet the cursor is a 🪏 and Space knocks its top off; when the pile is
+at or below your feet the cursor is a 🔨 and Space stacks a block onto it. So
+gathering is just walking up to a tree and pressing Space, and building upward
+means climbing as you go. Walk over a loose piece to pocket it — a tree gives 🪵
+wood, a boulder gives 🧱 brick — and press Shift to switch which you'd stack.
+
+You can only reach one block above your own footing, and the cursor fades when
+something is out of reach. A boulder is two tall, so you can top it from the
+ground — but a tree is three, so its crown needs height. Press j to hop and swing
+at the peak of it, or stack a block, walk up onto it, and work from there. Walking
+never climbs, so you can always square up to something and act on it.
+
+Faded blocks show the structure you're trying to make, and each one turns solid as
+you match it. Match them all and you win — anything else you leave lying around is
+your own business, so a step you built to climb can simply stay where it is.¶
+
+¶The world is a grid of whole-numbered cells, and meters only appear when
+drawing. That keeps every position exact: standing next to something, stacking on
+top of something, and matching the goal are all just whole numbers being equal,
+so nothing ever drifts half a block out of line.
+
+The field is only five cells deep on purpose, and that is tied to how close the
+camera sits — see the camera near the bottom.¶
+minX: -4
+maxX: 4
+minZ: 0
+maxZ: 4
+maxY: 4
+
+¶How far below eye level the ground sits, in cells. The closer the camera, the
+bigger everything renders and the further this pushes the field down the screen,
+so this and the camera distance have to move together.¶
+groundDrop: 0.8
+
+¶How far behind you the camera rides, in cells. This alone sets how big everything
+looks: the stage divides by distance from the camera, so three cells back renders
+you about two and a half times life size.¶
+cameraBack: 3
+
+¶How far the whole field sits out from the origin. The stage scales the world by
+one over the camera's own position and each piece by the inverse, which cancels
+out — unless the camera's position reaches zero, where the whole scene flattens
+and then turns inside out. The camera rides cameraBack cells behind you, so
+holding the field this far out keeps the camera's position comfortably negative
+even when you walk to the back row. It has no effect on what anything looks like;
+it only keeps the arithmetic away from zero.¶
+worldBack: 4
+
+¶A cell's center in meters. The half shifts x back because a phrase is placed by
+its left edge.¶
+ƒ atX(c•#) ((c - 0.5) · 1m)
+ƒ atY(c•#) ((c - groundDrop) · 1m)
+ƒ atZ(c•#) ((c - worldBack) · 1m)
+
+¶How long the hammer stays cocked, and how many frames you hang in the air after
+a hop. The hang is what makes jumping usable: without it a hop would last a
+single frame, far too short to press an arrow, swing, or land on a block.¶
+swingTicks: 2
+hangTicks: 4
+
+¶How much of the world behind you still gets drawn. See the camera below for why
+this exists at all: the closer the camera, the fewer rows behind you can be drawn
+before one of them ends up in front of the lens and balloons across the view.¶
+drawBehind: 1
+
+¶How far above your own footing you can work. One block is what makes height
+matter: a boulder is two tall, so you can top it standing on the ground, but a
+tree is three, so you have to hop or stand on something to reach its crown — and
+the same limit decides how high you can stack.¶
+reach: 1
+
+¶One cube sitting in one cell. Its kind is the emoji itself, so drawing a block
+never needs a lookup.¶
+•Block(x•# y•# z•# kind•"")
+
+¶A piece knocked loose and tumbling to the ground. It remembers the cell it broke
+from, so its first frame draws up where the block was and every frame after draws
+where it landed — the phrase's own easing does the flying. The id exists only to
+give it a name of its own on stage, since two pieces can land on one cell.¶
+•Item(id•# x•# z•# fromX•# fromY•# fromZ•# kind•"" age•#)
+
+¶The whole game in one value: the phase (1 = title, 2 = playing, 3 = won), where
+you stand and which way you last moved, how long you can hang in a jump, your
+pockets and which material you'd place, how much swing is left in the hammer, the
+id for the next loose piece, the structure to match, and everything in the world.¶
+•Game(phase•# x•# y•# z•# facingX•# facingZ•# hang•# wood•# brick•# selected•"" swing•# nextID•# goal•[Block] blocks•[Block] items•[Item])
+
+¶A tree is three stacked cubes and a boulder is two — not one object each, but
+several blocks in a column, so every piece has to be hammered off separately.
+Both are one column wide, which lets spawning promise that no two blocks ever
+share a cell.¶
+treeShape: [Block(0 0 0 '🌳') Block(0 1 0 '🌳') Block(0 2 0 '🌳')]
+boulderShape: [Block(0 0 0 '🪨') Block(0 1 0 '🪨')]
+
+ƒ shapeAt(shape•[Block] cx•# cz•#) shape.translate(ƒ(b•Block) Block(cx b.y cz b.kind))
+
+¶What a broken piece turns into.¶
+ƒ productOf(kind•"") kind ??? '🌳': '🪵' '🪨': '🧱' kind
+
+¶A fresh structure to match: two towers, each one to three blocks tall, in a
+random pair of the middle columns, on the field's back row. Those middle columns are
+exactly the ones resources never spawn in, so a tower can never land inside a tree.
+Every column is solid from the ground up, because stacking always drops onto the
+top of a column — there's no way to make a floating block, so there's no way to
+ask for one. Six blocks is the ceiling, which is what a field of three boulders
+yields in brick, so even an all-brick structure is buildable.¶
+ƒ spawnGoal() (
+	depth: maxZ
+	pair: [-1 0 1].shuffled().subsequence(1 2)
+	pair.combine([] ƒ(structure•[Block] cx•#)
+		structure.append((Random(1 2) → []).translate(ƒ(level•#)
+			Block(cx (level - 1) depth ['🪵' '🧱'].random()))))
+)
+
+¶Whether a cell is on the field at all.¶
+ƒ inBounds(cx•# cz•#) (cx ≥ minX) & (cx ≤ maxX) & (cz ≥ minZ) & (cz ≤ maxZ)
+
+¶How tall a column is. Every column is solid from the ground up — shapes grow
+that way, stacking adds to the top, and hammering takes from the top — so simply
+counting a column's blocks gives both its height and the first free cell above
+it.¶
+ƒ columnHeight(blocks•[Block] cx•# cz•#) blocks.filter(ƒ(b•Block) (b.x = cx) & (b.z = cz)).length()
+
+¶Whether one exact cell holds one exact kind of block. Asking the question this
+way — counting matches rather than fetching a block that might not be there —
+keeps a maybe-a-block from having to be carried around and unwrapped.¶
+ƒ cellHolds(blocks•[Block] cx•# cy•# cz•# kind•"")
+	blocks.filter(ƒ(b•Block) (b.x = cx) & (b.y = cy) & (b.z = cz) & (b.kind = kind)).length() > 0
+
+¶A fresh field: three trees and three boulders, each on its own column, at a
+random depth. Shuffling the columns first is what randomizes which ones grow
+trees. The columns nearest the middle are left out on purpose, so nothing ever
+sprouts where you're standing or where the towers go.¶
+spawnColumns: [-4 -3 -2 2 3 4]
+
+ƒ spawnWorld()
+	spawnColumns.shuffled().combine([] ƒ(field•[Block] cx•# index•#)
+		field.append(shapeAt(((index ≤ 3) ? treeShape boulderShape) cx Random(minZ maxZ))))
+
+¶Which goal blocks you haven't matched yet. This is the whole feedback loop: the
+faded towers dissolve a block at a time as you build, and it doubles as the
+reason a faded block and a real one never share a cell — which matters, because
+the stage sorts by depth alone and two things at one depth would be a coin flip.¶
+ƒ unmetGoal(blocks•[Block] goal•[Block])
+	goal.filter(ƒ(g•Block) ~cellHolds(blocks g.x g.y g.z g.kind))
+
+¶You've won once every block of the structure is matched. Anything else you left
+lying around is your business — steps you built to climb, a pile you never used —
+so nothing has to be tidied away to finish. A goal cell asks for one exact
+material, so a tree that happens to stand in the right place can't satisfy it.¶
+ƒ goalMet(blocks•[Block] goal•[Block]) unmetGoal(blocks goal).length() = 0
+
+¶Take a step. You always turn to face the way you tried to go, even when the step
+itself fails, so walking into something is how you square up to it. You only enter
+a cell whose stack is no taller than the height you're already at — walking never
+climbs, because a step that climbed would carry you on top of the very thing you
+were trying to hammer. Hop with j to get above a block, then walk onto it.¶
+ƒ move(game•Game dx•# dz•#) (
+	faced: (game.facingX: dx).facingZ: dz
+	targetX: game.x + dx
+	targetZ: game.z + dz
+	~inBounds(targetX targetZ) ? faced (
+		height: columnHeight(faced.blocks targetX targetZ)
+		(height ≤ game.y) ? ((faced.x: targetX).z: targetZ) faced
+	)
+)
+
+¶Hop, but only off something you're standing on. Asking whether you're above your
+own footing is the test that matters: the hang running out is not the same as
+having landed, so a hop that only refused while the hang lasted could be relaunched
+part way through the fall, and again on the way down from that — climbing the sky a
+cell at a time. This is how you get at anything above arm's reach without building a
+step first.¶
+ƒ jump(game•Game)
+	(game.y > columnHeight(game.blocks game.x game.z)) ? game
+		((game.y: (game.y + 1).min(maxY)).hang: hangTicks)
+
+¶Swing at whatever is in front of you. Only the top piece of that column comes
+off, which is what makes a tree take three hits — and it means you can never
+leave a piece floating, so nothing ever has to fall. You can only reach a block
+one above your own footing, so a crown out of reach simply doesn't come off; get
+higher and swing again. The loose piece tumbles one cell further on, away from
+you, unless that cell is off the field or already occupied, in which case it
+drops where it stood. The hammer cocks whether or not you connect, so a miss
+still swings.¶
+ƒ hit(game•Game) (
+	targetX: game.x + game.facingX
+	targetZ: game.z + game.facingZ
+	topY: columnHeight(game.blocks targetX targetZ) - 1
+	¶Folding the target cell straight into the piece it would yield sidesteps
+	carrying a maybe-a-block around: an empty column simply folds to nothing.¶
+	product: (topY > (game.y + reach)) ? '' game.blocks.filter(ƒ(b•Block) (b.x = targetX) & (b.y = topY) & (b.z = targetZ)).combine('' ƒ(sofar•"" b•Block) sofar + productOf(b.kind))
+	swung: game.swing: swingTicks
+	(product = '') ? swung (
+		remaining: swung.blocks.filter(ƒ(b•Block) ~((b.x = targetX) & (b.y = topY) & (b.z = targetZ)))
+		landX: targetX + game.facingX
+		landZ: targetZ + game.facingZ
+		clear: inBounds(landX landZ) & (columnHeight(remaining landX landZ) = 0)
+		dropped: swung.items.add(Item(swung.nextID (clear ? landX targetX) (clear ? landZ targetZ) targetX topY targetZ product 0))
+		((swung.blocks: remaining).items: dropped).nextID: (swung.nextID + 1)
+	)
+)
+
+¶Stack one of your blocks on top of the column in front of you, if you have one to
+spare and there's room above. Reach isn't checked here: this only ever runs when
+the pile is at or below your feet, so the new block always lands within arm's
+length.¶
+ƒ place(game•Game) (
+	targetX: game.x + game.facingX
+	targetZ: game.z + game.facingZ
+	height: columnHeight(game.blocks targetX targetZ)
+	stock: (game.selected = '🪵') ? game.wood game.brick
+	(~inBounds(targetX targetZ) | (stock = 0) | (height > maxY)) ? game (
+		spent: (game.selected = '🪵') ? (game.wood: (game.wood - 1)) (game.brick: (game.brick - 1))
+		spent.blocks: game.blocks.add(Block(targetX height targetZ game.selected))
+	)
+)
+
+¶Whether the space bar would build rather than break. The pile in front decides:
+at or below your feet you stack another block onto it, above them you knock its
+top off. One key does both, and the cursor shows which — so building upward means
+climbing as you go, which is what the hop is for, and you can always take back
+something you put in the wrong place by standing level with it.¶
+ƒ building(game•Game)
+	columnHeight(game.blocks (game.x + game.facingX) (game.z + game.facingZ)) ≤ game.y
+
+ƒ act(game•Game) building(game) ? place(game) hit(game)
+
+¶Switch which material you'd stack.¶
+ƒ toggle(game•Game) game.selected: ((game.selected = '🪵') ? '🧱' '🪵')
+
+¶A key press while playing. The key arrives as plain text here rather than being
+compared out in the reaction, which keeps the reaction's ∆ tests looking at the
+stream itself.¶
+ƒ applyKeyPress(game•Game key•"")
+	(key = 'ArrowLeft') ? move(game -1 0)
+		((key = 'ArrowRight') ? move(game 1 0)
+			((key = 'ArrowUp') ? move(game 0 1)
+				((key = 'ArrowDown') ? move(game 0 -1)
+					((key = 'Space') ? act(game)
+						((key = 'Shift') ? toggle(game)
+							((key = 'j') ? jump(game) game))))))
+
+¶A fresh round.¶
+ƒ newGame() Game(2 0 0 0 0 1 0 0 0 '🪵' 0 1 spawnGoal() spawnWorld() [])
+
+¶One frame: age the loose pieces so they land, hang and then fall to the top of
+whatever you're standing over, pocket anything on your cell, let the hammer fall
+back, and check the towers.¶
+ƒ advanceWorld(game•Game) (
+	aged: game.items.translate(ƒ(i•Item) (i.age = 0) ? (i.age: 1) i)
+	standing: columnHeight(game.blocks game.x game.z)
+	nextHang: (game.hang > 0) ? (game.hang - 1) 0
+	nextY: ((game.hang = 0) & (game.y > standing)) ? (game.y - 1) game.y
+	¶You're always at the height of the column you're standing on, and so is
+	anything lying there, so sharing a cell is all it takes to pick something up.¶
+	underfoot: aged.filter(ƒ(i•Item) (i.x = game.x) & (i.z = game.z) & (i.age > 0))
+	kept: aged.filter(ƒ(i•Item) ~((i.x = game.x) & (i.z = game.z) & (i.age > 0)))
+	gotWood: underfoot.filter(ƒ(i•Item) i.kind = '🪵').length()
+	gotBrick: underfoot.filter(ƒ(i•Item) i.kind = '🧱').length()
+	Game(
+		(goalMet(game.blocks game.goal) ? 3 game.phase)
+		game.x nextY game.z game.facingX game.facingZ nextHang
+		(game.wood + gotWood) (game.brick + gotBrick) game.selected
+		((game.swing > 0) ? (game.swing - 1) 0)
+		game.nextID game.goal game.blocks kept
+	)
+)
+
+key: Key()
+tick: Time(150ms)
+tap: Button()
+
+¶The heartbeat, driven by three inputs. While playing, a tick advances the world,
+keys do everything else, and a click swings. From the title or the win screen,
+Enter or a click starts a fresh round. Each ∆ test looks at a stream directly and
+every key comparison happens a level deeper — comparing a stream against a word
+in the same breath as testing it for change would narrow its type out from under
+the ∆.¶
+game•Game: Game(1 0 0 0 0 1 0 0 0 '🪵' 0 1 spawnGoal() spawnWorld() [])
+	… (∆ tick | ∆ key | ∆ tap) …
+	(game.phase = 2)
+		? (∆ tick ? advanceWorld(game)
+			(∆ key ? applyKeyPress(game key) act(game)))
+		(∆ tick ? game
+			(∆ key ? ((key = 'Enter') ? newGame() game)
+				(∆ tap ? newGame() game)))
+
+¶Everything in the world is drawn with no easing, so a step lands on the frame
+you press rather than sliding after you, and every piece carries a name built
+from its cell. The name is the important part: the stage tells outputs apart by
+name, and a list with no names is told apart by position, so breaking a block out
+of the middle of a stack would hand every block above it its neighbour's identity
+and set them all sliding down a slot.¶
+¶A green emoji is about a quarter wider than it is tall, so the tiles are sized
+down to land exactly one to a cell and keep the ground lined up with the blocks
+standing on it.¶
+tileSize: 0.8m
+
+groundRows: [0 1 2 3 4].filter(ƒ(row•#) row ≥ (game.z - drawBehind)).translate(ƒ(row•#)
+	Phrase("🟩🟩🟩🟩🟩🟩🟩🟩🟩" tileSize duration: 0s name: "g\row\"
+		place: Place(atX(minX) atY(-1) atZ(row))))
+
+blockViews: game.blocks.filter(ƒ(b•Block) b.z ≥ (game.z - drawBehind)).translate(ƒ(b•Block)
+	Phrase(b.kind 1m duration: 0s name: "b\b.x\,\b.y\,\b.z\"
+		place: Place(atX(b.x) atY(b.y) atZ(b.z))))
+
+¶The towers you're aiming for, faded, and only the parts you haven't built yet.¶
+ghostViews: unmetGoal(game.blocks game.goal).filter(ƒ(g•Block) g.z ≥ (game.z - drawBehind)).translate(ƒ(g•Block)
+	Phrase(g.kind 1m duration: 0s opacity: 35% name: "h\g.x\,\g.y\,\g.z\"
+		place: Place(atX(g.x) atY(g.y) atZ(g.z))))
+
+¶A loose piece. This is the one thing on stage that eases rather than snapping —
+its first frame is up where the block broke and the rest are where it landed, and
+the easing in between is the tumble.¶
+itemViews: game.items.filter(ƒ(i•Item) i.z ≥ (game.z - drawBehind)).translate(ƒ(i•Item)
+	Phrase(i.kind 0.6m duration: 0.3s name: "i\i.id\"
+		place: (i.age = 0)
+			? Place(atX(i.fromX) atY(i.fromY) atZ(i.fromZ))
+			Place(atX(i.x) atY(columnHeight(game.blocks i.x i.z)) atZ(i.z))))
+
+¶A duration is what turns a step into motion at all: with none, the stage skips
+building an animation for him and every move teleports. A shade under one tick
+means each step and each hop settles just before the next arrives. The stretch
+while he's off the ground is the same trick as the hammer's cocked swing — a
+different pose held for as long as the state lasts, rather than an animation to
+start and stop.¶
+playerView: Phrase('🚶🏻‍♀️' 1.1m duration: 0.14s name: "player"
+	scale: ((game.hang > 0) ? 1.08 1)
+	flipx: game.facingX > 0
+	place: Place(atX(game.x) atY(game.y) atZ(game.z)))
+
+¶The cursor hovers over the cell your next action lands on —
+the free space on top of the stack you're facing. A swing breaks the block
+directly beneath it and a stack fills the cell it marks, so there's never a
+question of what you're about to break or where a block will go. It floats a little
+above that cell so it stays in sight when the cell is straight ahead of you and
+your own body would otherwise cover it. It cocks back the
+moment you swing and eases home on its own, which fires exactly on the hit rather
+than looping. It hides when you're facing off the edge of the field, since
+there's nothing there to act on.¶
+targetX: game.x + game.facingX
+targetZ: game.z + game.facingZ
+targetY: columnHeight(game.blocks targetX targetZ)
+
+¶Which of the two jobs the space bar would do to the column in front, and whether
+it would come to anything: breaking needs the top within reach, and building needs
+something of the chosen material left in your pockets. The cursor fades whenever
+the answer is no, so an empty pocket reads the same as an out-of-reach crown
+rather than a press that quietly does nothing.¶
+buildingHere: targetY ≤ game.y
+inReach: (targetY - 1) ≤ (game.y + reach)
+stockHere: (game.selected = '🪵') ? game.wood game.brick
+canAct: buildingHere ? (stockHere > 0) inReach
+
+cursorView: Phrase((buildingHere ? '🔨' '🪏') 0.85m duration: 0.12s name: "cursor"
+	rotation: ((game.swing > 0) ? -55° 0°)
+	opacity: (canAct ? 100% 30%)
+	place: Place(atX(targetX) atY(targetY + 0.55) atZ(targetZ)))
+
+cursorList: inBounds(targetX targetZ) ? [cursorView] []
+
+¶Pockets and current material, pinned flat to the screen so depth never shrinks
+them.¶
+hud: [Phrase("🪵 \game.wood\   🧱 \game.brick\   🔨 \game.selected\" 0.5m
+	place: Place(-6.6m 4.3m))]
+
+screenTitle: (game.phase = 3) ? "🎉 You built it! 🎉" "🔨 BUILDING BLOCKS 🔨"
+startLine: (game.phase = 3) ? "Press Enter or click to build again" "Press Enter or click to start"
+
+¶The screens sit flat on top of a field full of trees and figures, so the group
+carries its own opaque backing — dark words over branches and rooftops are hard to
+read, and a solid panel keeps them legible while still leaving the world in view
+around it.¶
+screenView: [
+	Group(
+		Stack()
+		[
+			Phrase(screenTitle 1.1m name: "s1")
+			Phrase("Arrows walk · you face the way you walked" 0.5m name: "s2")
+			Phrase("Space acts on the cursor: 🪏 breaks · 🔨 builds" 0.5m name: "s3")
+			Phrase("Shift swaps 🪵 🧱 · j hops up to reach" 0.5m name: "s4")
+			Phrase("Reach one block up · match the faded blocks" 0.5m name: "s5")
+			Phrase(startLine 0.7m name: "s6")
+		]
+		background: Color(90% 10 240°)
+	)
+]
+
+¶The camera keeps a fixed distance behind you rather than sitting still, so you
+stay the same size on screen however far in you walk and the field slides past
+you, right over your shoulder. It tracks you sideways too, so walking to the edge
+of the field slides the world across rather than leaving you off the side of it.
+The fifth of a cell is a centring nudge: a figure is drawn from its left edge,
+which sits half a cell over, and its glyph is a little wider than the cell it
+stands in.
+
+The stage scales everything by its distance from the camera, and something a
+single cell in front of the lens renders eight times life size — so at this range
+the world more than a row behind you simply isn't drawn. The towers always stand
+on the back row, which is the one row the draw distance can never cut, so they
+stay in view from anywhere you can walk.¶
+cameraZ: ((game.z - worldBack - cameraBack) · 1m)
+
+¶The camera rides at the height of whatever you're standing over rather than your
+own, so climbing onto a stack brings the camera up with you and keeps you in
+frame, while a hop still reads as a hop — during one you genuinely rise away from
+the camera instead of dragging it along.¶
+cameraY: (columnHeight(game.blocks game.x game.z) · 1m)
+
+¶The world is drawn the same in every phase, so the title and win screens show the
+field exactly as you'll play it rather than a separate menu scene.¶
+worldLayer: [ :blockViews :ghostViews :itemViews playerView :cursorList ]
+
+¶Everything that talks to you rides in the stage's overlay, which is pinned flat
+to the screen and so is untouched by the camera and by depth. Putting the screens
+here rather than in the world is what keeps them legible: anything placed in the
+world sits at some depth, and the ground rows nearer the camera would be drawn
+over the top of it.¶
+overlayLayer: (game.phase = 2) ? hud screenView
+
+Stage(
+	[ :groundRows :worldLayer ]
+	place: Place(((game.x + 0.2) · 1m) cameraY cameraZ)
+	background: Color(78% 18 240°)
+	color: Color(20% 0 0°)
+	overlay: overlayLayer
+)

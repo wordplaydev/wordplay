@@ -14,7 +14,8 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 👁️ We added a view button next to projects you can't edit, like those in someone else's gallery, so you can open their code and see how they work.
 - 🐤 We added [Humming Bird](https://wordplay.dev/project/example-HummingBird?mode=play), a new example in the to celebrate our new physics engine. Flap a little bird through gaps between stacks of emojis by clicking, pressing keys, or humming — the bird floats up to match the pitch of your hum!
 - 🧟 We added [Heart Attack](https://wordplay.dev/project/example-HeartAttack?mode=play), a new example in the: look out through the camera at a field of zombies, strafe left and right, and throw hearts to turn them all back into happy people before they reach you.
-- We added [CodeGap](https://wordplay.dev/project/example-CodeGap?mode=play), a data visualization of data about gender differences computer science degrees.
+- We added [Code Gap](https://wordplay.dev/project/example-CodeGap?mode=play), a data visualization of data about gender differences computer science degrees.
+- 🔨 We added [Building Blocks](https://wordplay.dev/project/example-BuildingBlocks?mode=play), a new example in the Games gallery: chop trees and boulders into wood and brick, then stack the pieces to match a faded outline. You can only reach one block above your feet, so hop or build a step to get at anything higher.
 
 ### Changed
 
@@ -27,12 +28,16 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - ⚠️ When a program stops with an error, we now show a short name for the kind of error — like "unknown name" — both when stepping in the editor and above the error's explanation on stage, so it's easier to see how the two match.
 - 🔢 We replaced the row of dots next to each gallery's name in [Galleries](https://wordplay.dev/galleries) with a count, like "6 projects", so it's clear how many projects are inside (#1070).
 - 📐 We made lists of projects and galleries show in two side-by-side columns when your window is wide enough, so there's less scrolling.
+- 🛠️ We upgraded internal tooling for stability.
 
 ### Fixed
 
 - 🐛 We fixed a bug where checking a named stream for changes with `∆` (or its history with `←`) could suddenly stop a program with an error after another input changed — which made projects quietly stop responding to clicks and choices.
 - 🔣 We fixed how we read number characters in Chinese, Japanese, and Korean, so everyday words that start with one — like 四角形, which means rectangle — now work as names. Before, we read the 四 as the number 4 and split the word in two.
 - 🌐 We fixed a bug where switching between two versions of the same language — like Chinese (Simplified) and Chinese (Traditional) — could show you the other one's names for things.
+- 🚦 We fixed `find` and `until` on lists: giving them a function to check each item always showed an error, even when the function was right. They now take a check just like `filter` does.
+- 📐 We fixed `@Stack` so content with a small `padding` lines up in a row. Before, anything that landed close to the bottom piled into the same spot.
+- 🎞️ We fixed zooming on the stage: after you zoom in yourself, switching back to "fit zoom to content" now lets a project move its own `@Stage` camera again. Before, it stayed stuck on your last zoom.
 
 ## 0.26.1 - 2026-07-09
 
