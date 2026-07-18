@@ -418,6 +418,10 @@
             $evaluation.evaluator.getBasisStreamsOfType(Chat).length > 0,
     );
 
+    /** Interactive stage inputs (like the chat field) are only live in play mode;
+     *  both edit and step map to playing === false. */
+    const playing = $derived($evaluation?.playing === true);
+
     /** Keep track of active sensor streams */
     const hasMicrophoneStream = $derived(
         $evaluation !== undefined &&
@@ -753,6 +757,9 @@
     }
 
     function submitChat() {
+        // Chat is a live input, so only accept messages while playing (not in edit/step).
+        if (!evaluator.isPlaying()) return;
+
         // Get the message
         const message = chatText;
 
@@ -823,7 +830,9 @@
         }
 
         // If there's a Placement, send it some navigation events based on position.
-        if (valueView && stageValue) {
+        // Only while playing — Placement is a live input, so clicking output to select it
+        // in edit/step mode must not also nudge its placement.
+        if (evaluator.isPlaying() && valueView && stageValue) {
             evaluator.singletonReact(Placement, (placement) => {
                 // First, find the output on stage that this placement is placing,
                 // so we can find the position of the pointer relative to the output.
@@ -1660,6 +1669,7 @@
                 id="stage-chat"
                 fill
                 defaultFocus
+                editable={playing}
                 bind:text={chatText}
                 bind:view={chatInputView}
                 placeholder={(l) => l.ui.output.field.chat.placeholder}
@@ -1668,6 +1678,7 @@
             <ButtonUI
                 submit
                 background
+                active={playing}
                 tip={(l) => l.ui.output.button.submit}
                 action={submitChat}>↑</ButtonUI
             >
