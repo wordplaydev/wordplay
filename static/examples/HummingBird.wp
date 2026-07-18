@@ -1,7 +1,7 @@
 🐤
-"Flappy"/en"拍拍鸟"/zh-CN"拍拍鳥"/zh-TW
+"Humming Bird"/en"蜂鸟"/zh-CN"蜂鳥"/zh-TW
 === start/en
-¶A flappy bird game! Click or press a key to flap, or hum into the
+¶A humming bird game! Click or press a key to flap, or hum into the
 microphone — the bird floats to the height of your hum's pitch.
 Slip through the gaps between the emoji stacks. Touching a stack or
 the ground crashes the game; after a crash, it counts down and starts over.¶

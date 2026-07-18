@@ -3,13 +3,14 @@
 === start/en
 ¶Heart Attack — a gentle first-person riff on a battle royale. You stand still
 and look out through the Stage's camera while a horde of zombies waits ahead.
-One at a time, the nearest zombie shambles straight toward you. Strafe left and
-right with ← → and press Space to throw a heart down your lane. A heart stops at
-the first figure it meets, so line up a clear shot: hit a zombie and it turns
-back into a joyful person and you score a point — and every point makes the
-zombies close in faster. A turned person stays put and blocks your hearts, so
-mind your angle. Turn everyone to win; let a zombie reach you and it's over.
-Enter starts, and starts again.¶
+One at a time, the nearest zombie shambles straight toward you. Aim your lane
+with ← →, your pointer, or a tap to either side of the screen, and throw a heart
+with Space, a click, or a tap. A heart stops at the first figure it meets, so
+line up a clear shot: hit a zombie and it turns back into a joyful person and you
+score a point — and every point makes the zombies close in faster. A turned
+person stays put and blocks your hearts, so mind your angle. Turn everyone to
+win; let a zombie reach you and it's over. Enter or a tap starts, and starts
+again.¶
 
 ¶How many zombies start on the field.¶
 zombieCount: 8
@@ -31,12 +32,10 @@ spawnDepthFar: 22m
 roamDepthNear: 3m
 roamDepthFar: 24m
 
-¶Heart and collision tuning: how far a heart flies per tick and before it fades,
-the radius at which it strikes a figure, how close in depth a charging zombie
-must get to end the game, how fast a charger closes in and roams, how fast it
-weaves side to side and how far the weave swings around your lane, how gently it
-homes toward you between weaves, and how much each point speeds the charge up.
-The two nearest zombies charge at once; the rest roam.¶
+¶Heart and collision tuning: how a heart flies and fades, how it strikes, how
+close a zombie must get to end the game, and how chargers move — closing,
+roaming, weaving, homing, and speeding up per point. The two nearest zombies
+charge at once; the rest roam.¶
 heartSpeed: 1m
 heartRange: 26m
 hitRadius: 1.8m
@@ -69,10 +68,9 @@ stay tidy (meters times meters), so the comparison always type-checks.¶
 ¶How many figures are still zombies.¶
 ƒ livingCount(zombies•[Zombie]) zombies.filter(ƒ(zombie•Zombie) zombie.alive).length()
 
-¶Shamble one step toward the player: forward in depth, while weaving side to
-side to be harder to hit — it slides along its weave direction, flipping when it
-swings past the edges of a band around your lane, and homes gently toward you
-between swings so a dodge only buys a moment.¶
+¶Shamble one step toward the player: forward in depth while weaving side to side
+to be harder to hit, flipping the weave at the edges of a band around your lane,
+and homing gently toward you between swings so a dodge only buys a moment.¶
 ƒ chargeTowardPlayer(zombie•Zombie cameraX•#m chargeSpeed•#m) (
 	weavedX: zombie.x + (zombie.directionX · weaveSpeed)
 	homedX: weavedX + ((cameraX - weavedX).max(homeSpeed · -1)).min(homeSpeed)
@@ -99,12 +97,22 @@ roaming a random way.¶
 ¶Start a new round: playing, camera at eye level, no heart, no score.¶
 ƒ newGame() Game(2 0m playingDepth ⊥ 0m 0m 0m 0 spawnZombies())
 
-¶A key press while playing: strafe left or right (clamped to your limits), or
-throw a heart down your lane if one isn't already in the air.¶
+¶Throw a heart down your current lane, unless one is already in the air.¶
+ƒ throwHeart(game•Game)
+	game.heart ? game Game(game.phase game.cameraX game.cameraZ ⊤ game.cameraX (game.cameraZ + 1m) game.cameraZ game.score game.zombies)
+
+¶Nudge your lane one step toward a spot, never past your limits. The pointer
+reports the world spot it's over, so its distance from your lane is how far it
+sits to your left or right — stepping toward it lets the pointer aim and a tap on
+either side move you that way.¶
+ƒ focusToward(game•Game target•#m)
+	game.cameraX: (game.cameraX + ((target - game.cameraX).max(strafeStep · -1)).min(strafeStep)).max(leftLimit).min(rightLimit)
+
+¶A key press while playing: strafe left or right, or throw a heart.¶
 ƒ applyKeyPress(game•Game key•"")
-	(key = 'ArrowLeft') ? (game.cameraX: (game.cameraX - strafeStep).max(leftLimit))
-		(key = 'ArrowRight') ? (game.cameraX: (game.cameraX + strafeStep).min(rightLimit))
-			(key = 'Space') ? (game.heart ? game Game(game.phase game.cameraX game.cameraZ ⊤ game.cameraX (game.cameraZ + 1m) game.cameraZ game.score game.zombies))
+	(key = 'ArrowLeft') ? focusToward(game (game.cameraX - strafeStep))
+		(key = 'ArrowRight') ? focusToward(game (game.cameraX + strafeStep))
+			(key = 'Space') ? throwHeart(game)
 				game
 
 ¶One frame of the world: fly the heart until it strikes the first figure in its
@@ -144,17 +152,24 @@ the camera at the menu spot.¶
 
 key: Key()
 tick: Time(30ms)
+pointer: Pointer()
+tap: Button()
 
-¶The heartbeat of the game. Each event is either a clock tick or a key press.
-A tick advances the world; a key press strafes the camera (while playing) or,
-from a menu, starts a new round when it's the Enter key. We discriminate on
-∆ tick, so a key event is simply "not a tick." Using Enter (not Space) to start
-means mashing Space to throw hearts never accidentally starts a new game.¶
+¶The heartbeat of the game, driven by four inputs: a clock tick, a key, pointer
+movement, and a click/tap. While playing, a tick advances the world, keys strafe
+and throw, pointer movement aims your lane, and a tap throws a heart. From a
+menu, an Enter key or a tap starts a new round — a tap so touch players can
+start, and Enter (not Space) so mashing Space to throw never restarts by
+accident.¶
 game•Game: Game(1 0m menuDepth ⊥ 0m 0m 0m 0 spawnZombies())
-	… (∆ tick | ∆ key) …
+	… (∆ tick | ∆ key | ∆ pointer | ∆ tap) …
 	(game.phase = 2)
-		? (∆ tick ? advanceWorld(game) applyKeyPress(game key))
-		(∆ tick ? game ((key = 'Enter') ? newGame() game))
+		? (∆ tick ? advanceWorld(game)
+			(∆ key ? applyKeyPress(game key)
+				(∆ pointer ? focusToward(game pointer.x) throwHeart(game))))
+		(∆ tick ? game
+			(∆ key ? ((key = 'Enter') ? newGame() game)
+				(∆ tap ? newGame() game)))
 
 ¶One figure on stage: zombies sway, turned people give a happy little bounce.
 Depth does the rest — a charging zombie looms larger as it nears. The 0s
@@ -168,14 +183,11 @@ smooth frames rather than a lagging catch-up.¶
 			? Sequence(sway(4°) 1s "zippy")
 			Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} 0.6s))
 
-¶The floor: wide bars of blocks below the figures at rising depths. Perspective
-puts the near one low and wide and the far ones high and small, so together they
-read as a ground plane receding toward the horizon, whose width marks how far
-you can strafe. Each bar is written out separately on purpose — the stage tells
-two outputs apart by their creator and their x/y place, not their depth, so
-several bars sharing one x/y (built from a single helper) would collapse into
-one. The colors fade from bright green up close to a dim teal far away, which
-adds a little atmospheric depth.¶
+¶The floor: bars at rising depths that perspective reads as a ground plane
+receding to the horizon, fading green-to-teal for atmosphere. Each bar is written
+out separately on purpose — the stage tells outputs apart by creator and x/y
+place, not depth, so bars sharing one x/y from a single helper would collapse
+into one.¶
 floor: [
 	Phrase("▬▬▬▬▬▬▬▬▬▬" 1.4m duration: 0s place: Place(0m -2.8m 4m) color: Color(56% 40 130°))
 	Phrase("▬▬▬▬▬▬▬▬▬▬" 1.4m duration: 0s place: Place(0m -2.8m 6m) color: Color(50% 36 136°))
@@ -187,13 +199,13 @@ floor: [
 
 ¶A flying heart in the world, and a score readout pinned flat to the top of the
 screen via the stage's overlay, so it stays put as the camera strafes.¶
-heartView: Phrase('❤️' 1.2m duration: 0s place: Place(game.heartX 0m game.heartZ))
-scoreDisplay: Phrase("💗 \game.score\" 1.2m place: Place(0m 4m))
+heartView: Phrase('🫀' 1.2m duration: 0s place: Place(game.heartX 0m game.heartZ))
+scoreDisplay: Phrase("🫀 \game.score\" 1.2m place: Place(0m 4m))
 
 ¶The menu text, shared by the start, win, and lose screens.¶
-screenTitle: game.phase ??? 3: "🎉 You saved everyone! 🎉" 4: "💀 A zombie got you! 💀" "💘 HEART ATTACK 💘"
+screenTitle: game.phase ??? 3: "🎉 You saved everyone! 🎉" 4: "💀 A zombie got you! 💀" "🫀 HEART ATTACK 🫀"
 screenSubtitle: (game.phase = 1) ? "A horde of zombies is loose. Turn them back with love." "Score: \game.score\"
-startLine: (game.phase = 1) ? "Press Enter to start" "Press Enter to play again"
+startLine: (game.phase = 1) ? "Press Enter or tap to start" "Press Enter or tap to play again"
 
 screenView: [
 	Group(
@@ -201,8 +213,8 @@ screenView: [
 		[
 			Phrase(screenTitle 1.1m)
 			Phrase(screenSubtitle 0.6m)
-			Phrase("← → move" 0.5m)
-			Phrase("Space to throw a heart ❤️" 0.5m)
+			Phrase("← → or point to aim" 0.5m)
+			Phrase("Space, click, or tap for a heart 🫀" 0.5m)
 			Phrase(startLine 0.7m)
 		]
 	)
@@ -223,7 +235,6 @@ stageBackground: game.phase ??? 3: Color(48% 42 145°) 4: Color(22% 45 25°) Col
 Stage(
 	[ :floorList :zombieList :heartList :screenList ]
 	place: Place(game.cameraX 0m game.cameraZ)
-	frame: Rectangle(-8m 6m 8m -6m)
 	background: stageBackground
 	color: Color(97% 0 0°)
 	overlay: scoreLayer

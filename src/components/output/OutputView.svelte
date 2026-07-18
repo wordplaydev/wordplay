@@ -812,6 +812,9 @@
 
         // If the evaluator is playing, record button events.
         if (evaluator.isPlaying()) {
+            // Report where the tap landed before the button fires, so a touch
+            // tap (which may send no pointer move) still carries its position.
+            reactPointerStream(event);
             evaluator.singletonReact(Button, (stream) => stream.react(true));
 
             // Was the target clicked on output with a name? Add it to choice streams.
@@ -1129,6 +1132,13 @@
             }
         }
 
+        reactPointerStream(event);
+    }
+
+    /** Report the pointer's stage position to any Pointer stream. Called on both
+     * move and down, so a touch tap (which may fire no move) still tells the
+     * project where it landed. */
+    function reactPointerStream(event: PointerEvent) {
         const pointerStreams = evaluator.getBasisStreamsOfType(Pointer);
         if (valueView && evaluator.isPlaying() && pointerStreams.length > 0) {
             const valueRect = valueView.getBoundingClientRect();
