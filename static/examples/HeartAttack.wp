@@ -201,7 +201,8 @@ screenView: [
 		[
 			Phrase(screenTitle 1.1m)
 			Phrase(screenSubtitle 0.6m)
-			Phrase("← → strafe        Space throws a heart ❤️" 0.5m)
+			Phrase("← → move" 0.5m)
+			Phrase("Space to throw a heart ❤️" 0.5m)
 			Phrase(startLine 0.7m)
 		]
 	)
@@ -215,11 +216,15 @@ heartList: ((game.phase = 2) & game.heart) ? [heartView] []
 scoreLayer: (game.phase = 2) ? [scoreDisplay] []
 screenList: (game.phase ≠ 2) ? screenView []
 
+¶The stage tint reflects the outcome: a warm green on a win, a dark red on a
+loss, and the default twilight purple while starting or playing.¶
+stageBackground: game.phase ??? 3: Color(48% 42 145°) 4: Color(22% 45 25°) Color(25% 20 285°)
+
 Stage(
 	[ :floorList :zombieList :heartList :screenList ]
 	place: Place(game.cameraX 0m game.cameraZ)
 	frame: Rectangle(-8m 6m 8m -6m)
-	background: Color(25% 20 285°)
+	background: stageBackground
 	color: Color(97% 0 0°)
 	overlay: scoreLayer
 )
