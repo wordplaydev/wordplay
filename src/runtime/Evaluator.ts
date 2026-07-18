@@ -709,6 +709,11 @@ export default class Evaluator {
         return this.evaluations.length === 0;
     }
 
+    /** True once stop() has torn this evaluator down (e.g. the view unmounted). */
+    isStopped(): boolean {
+        return this.#stopped;
+    }
+
     getThis(requestor: Node): Value | undefined {
         return this.getCurrentEvaluation()?.getThis(requestor);
     }

@@ -1,7 +1,12 @@
 // Type-only: erased at build, so it adds no eager dependency on Rapier. The
 // runtime value is loaded on demand via rapierLoader (see getWorldAtZ/sync).
 import type * as RAPIER from '@dimforge/rapier2d-compat';
-import { getRapier, loadRapier, rapierLoaded } from '@output/rapierLoader';
+import {
+    getRapier,
+    loadRapier,
+    onRapierLoaded,
+    rapierLoaded,
+} from '@output/rapierLoader';
 import { get } from 'svelte/store';
 import { animationFactor } from '@db/Database';
 import type { ReboundEvent } from '@input/Collision';
@@ -92,8 +97,27 @@ export default class Physics {
         { from: { x: number; y: number }; to: { x: number; y: number } }
     > = new Map();
 
+    /** True once we've registered to re-evaluate when a pending Rapier load
+     *  finishes, so we register at most one callback per outstanding load. */
+    private awaitingRapier = false;
+
     constructor(evaluator: Evaluator) {
         this.evaluator = evaluator;
+    }
+
+    /** sync() bailed because Rapier isn't loaded yet. Rapier loads only on the
+     *  first frame that needs physics, and a pure-physics program produces no
+     *  new stream values (so no re-evaluation, so no re-sync) until bodies
+     *  exist — a deadlock the user can currently only break by clicking. Force
+     *  a fresh evaluation once the load resolves so sync() runs again and
+     *  creates the bodies. */
+    private resyncWhenRapierLoads() {
+        if (this.awaitingRapier) return;
+        this.awaitingRapier = true;
+        onRapierLoaded(() => {
+            this.awaitingRapier = false;
+            if (!this.evaluator.isStopped()) this.evaluator.start();
+        });
     }
 
     getWorldAtZ(z: number) {
@@ -274,7 +298,10 @@ export default class Physics {
                     // Rapier load and skip until it resolves (retried next
                     // frame). Cheap once loaded — returns the cached module.
                     const RAPIER = loadRapier();
-                    if (RAPIER === undefined) return;
+                    if (RAPIER === undefined) {
+                        this.resyncWhenRapierLoads();
+                        return;
+                    }
 
                     // Get the body that we already made using it's name.
                     let shape = this.bodyByName.get(name);
@@ -405,7 +432,10 @@ export default class Physics {
                 // Barriers need Rapier too; load on demand and skip this
                 // frame until it's ready (same gate as moving output above).
                 const RAPIER = loadRapier();
-                if (RAPIER === undefined) return;
+                if (RAPIER === undefined) {
+                    this.resyncWhenRapierLoads();
+                    return;
+                }
 
                 // Remove the bodies previously added, and any name records.
                 for (const record of this.currentShapeBodies) {

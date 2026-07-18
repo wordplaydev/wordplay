@@ -22,6 +22,12 @@ type RapierModule = typeof import('@dimforge/rapier2d-compat');
 let rapier: RapierModule | undefined;
 let loading: Promise<void> | undefined;
 
+/** One-shot callbacks to fire once the async load finishes. A pure-physics
+ *  program never re-evaluates on its own until bodies exist (and bodies only
+ *  get created once Rapier is loaded), so sync()'s bail-out registers here to
+ *  break that deadlock. */
+let loadListeners: Array<() => void> = [];
+
 /** Kick off loading + WASM init (idempotent) and return the module if ready, else undefined. */
 export function loadRapier(): RapierModule | undefined {
     if (rapier !== undefined) return rapier;
@@ -52,9 +58,23 @@ export function loadRapier(): RapierModule | undefined {
                 })
                 .then(() => {
                     rapier = m;
+                    // Notify anyone who bailed while we were loading, then clear
+                    // (the listeners are one-shot).
+                    const listeners = loadListeners;
+                    loadListeners = [];
+                    for (const listener of listeners) listener();
                 });
         });
     return undefined;
+}
+
+/** Register a one-shot callback fired when Rapier finishes loading. Callers
+ *  register only in the not-yet-loaded branch (right after loadRapier() returned
+ *  undefined, with no intervening await), so `rapier` is still undefined here;
+ *  the guard just makes the contract explicit. */
+export function onRapierLoaded(callback: () => void): void {
+    if (rapier !== undefined) callback();
+    else loadListeners.push(callback);
 }
 
 /** Whether Rapier has finished loading + initializing. Lets per-frame code
