@@ -184,10 +184,7 @@ smooth frames rather than a lagging catch-up.¶
 			Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} 0.6s))
 
 ¶The floor: bars at rising depths that perspective reads as a ground plane
-receding to the horizon, fading green-to-teal for atmosphere. Each bar is written
-out separately on purpose — the stage tells outputs apart by creator and x/y
-place, not depth, so bars sharing one x/y from a single helper would collapse
-into one.¶
+receding to the horizon, fading green-to-teal for atmosphere.¶
 floor: [
 	Phrase("▬▬▬▬▬▬▬▬▬▬" 1.4m duration: 0s place: Place(0m -2.8m 4m) color: Color(56% 40 130°))
 	Phrase("▬▬▬▬▬▬▬▬▬▬" 1.4m duration: 0s place: Place(0m -2.8m 6m) color: Color(50% 36 136°))
