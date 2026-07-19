@@ -237,3 +237,27 @@ ${expression}`,
 
     evaluator.stop();
 });
+
+// Regression: Reaction's Start pushed a reaction-dependency frame that was never
+// popped, so the stack grew without bound and every stream access after the first
+// reaction was attributed to the oldest frame (both consumers indexed [0]).
+test('reaction dependency frames are balanced across reactions', () => {
+    const { evaluator } = startReactive(
+        `picked: Choice()
+clicks: 0 … ∆ Button() … clicks + 1
+mode: 'none' … ∆ picked … picked
+[clicks mode]`,
+    );
+
+    expect(evaluator.reactionDependencies).toHaveLength(0);
+
+    for (let i = 0; i < 5; i++) {
+        evaluator.singletonReact(Button, (stream) => stream.react(true));
+        evaluator.singletonReact(Choice, (stream) => stream.react(`m${i}`));
+        expect(evaluator.exception).toBeUndefined();
+        // Every frame pushed while evaluating a reaction must be popped again.
+        expect(evaluator.reactionDependencies).toHaveLength(0);
+    }
+
+    evaluator.stop();
+});

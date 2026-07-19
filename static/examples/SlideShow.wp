@@ -38,9 +38,7 @@ Stage([
 				Phrase(slide.emoji size: 2m)
 				Phrase(`*\slide.title\*` size: 1.2m alignment: '|')
 				Phrase(slide.body size: 0.5m wrap: 12m alignment: '|')
-				¶The 10 is written out instead of using total, because combining
-				index with another name in one Phrase shows the wrong number.¶
-				Phrase(`\index\ of 10` size: 0.25m alignment: '|')
+				Phrase(`\index\ of \total\` size: 0.25m alignment: '|')
 			]
 		)
 	])

@@ -17,6 +17,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We added [Code Gap](https://wordplay.dev/project/example-CodeGap?mode=play), a data visualization of data about gender differences computer science degrees.
 - 🔨 We added [Building Blocks](https://wordplay.dev/project/example-BuildingBlocks?mode=play), a new example in the Games gallery: chop trees and boulders into wood and brick, then stack the pieces to match a faded outline. You can only reach one block above your feet, so hop or build a step to get at anything higher.
 - 📽️ We added [Slide Show](https://wordplay.dev/project/example-SlideShow?mode=play), an example that shows how to make a series of slides navigable with the keyboard.
+- 📖 We added a how-to in the [Guide](https://wordplay.dev/guide) that shows how to move between content with the arrow keys, using a list of things to show, `@Key`, and a number that remembers where you are. Before, the Guide explained how to react to letter keys, but not arrow keys (#756).
 - ◫ We added a quick way to change the project layout in the project footer. Faster than going to settings! It also explains what layout is active.
 
 ### Changed
@@ -35,6 +36,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Fixed
 
 - 🐛 We fixed a bug where checking a named stream for changes with `∆` (or its history with `←`) could suddenly stop a program with an error after another input changed — which made projects quietly stop responding to clicks and choices.
+- 🐛 We fixed a bug where a value that changes with an input showed the wrong thing once you used it together with another name in the same `@Phrase` — a slide counter like `1 of 10` would stick at `10 of 10` — and could stop the stage from showing anything at all.
 - 🔣 We fixed how we read number characters in Chinese, Japanese, and Korean, so everyday words that start with one — like 四角形, which means rectangle — now work as names. Before, we read the 四 as the number 4 and split the word in two.
 - 🌐 We fixed a bug where switching between two versions of the same language — like Chinese (Simplified) and Chinese (Traditional) — could show you the other one's names for things.
 - 🚦 We fixed `find` and `until` on lists: giving them a function to check each item always showed an error, even when the function was right. They now take a check just like `filter` does.

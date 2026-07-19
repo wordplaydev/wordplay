@@ -223,10 +223,8 @@ export default class Reaction extends Expression {
             // Start by setting up the reaction state and deciding whether to evaluate the initial value expression.
             new Start(this, (evaluator) => {
                 // Start tracking dependencies so that we can decide which value to use.
-                evaluator.reactionDependencies.push({
-                    reaction: this,
-                    streams: new Set(),
-                });
+                // Balanced by endReactionDependencies() in evaluate() below.
+                evaluator.startReactionDependencies(this);
 
                 // Notify the evaluator that we're evaluating a stream so it can keep
                 // track of the number of types the node has evaluated, identifying individual streams.
@@ -325,6 +323,7 @@ export default class Reaction extends Expression {
 
         // Unset the reaction tracking.
         evaluator.stopEvaluatingReaction();
+        evaluator.endReactionDependencies();
 
         // At this point in the compiled steps above, we should have a value on the stack
         // that is either the initial value for this reaction's stream or a new value.

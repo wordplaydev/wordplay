@@ -16,8 +16,14 @@ export default class Start extends Step {
     }
 
     evaluate(evaluator: Evaluator): Value | undefined {
-        const value = start(evaluator, this.node);
-        return this.action === undefined ? value : this.action(evaluator);
+        const skipped = start(evaluator, this.node);
+        // If we jumped past this expression to reuse its prior value, don't run the
+        // action. Many actions start a new Evaluation (Block, Evaluate, Convert, ...),
+        // which would evaluate the body we just skipped and push a second value —
+        // corrupting the stack for the enclosing expression, which then pops the
+        // wrong operands.
+        if (skipped) return undefined;
+        return this.action === undefined ? undefined : this.action(evaluator);
     }
 
     getExplanations(locales: Locales, evaluator: Evaluator) {
@@ -36,18 +42,13 @@ export function start(evaluator: Evaluator, expr: Expression) {
     // We check for ANY stored value (not filtered by current stepIndex), because Start and Finish must
     // agree on whether to skip — otherwise inner inputs get pushed onto the value stack but never popped,
     // corrupting later evaluations. shouldSkip already guarantees the expression is effectively constant in this context.
-    const sk = shouldSkip(evaluator, expr);
-    const hv = hasStoredValue(evaluator, expr);
-    if (process.env.WP_TRACE)
-        console.error(
-            `START ${expr.constructor.name} "${expr.toWordplay().replace(/\n/g,' ').slice(0,24)}" skip=${sk} stored=${hv}`,
-        );
-    if (sk && hv) {
+    if (shouldSkip(evaluator, expr) && hasStoredValue(evaluator, expr)) {
         // Ask the evaluator to jump past this start's corresponding finish.
         evaluator.jumpPast(expr);
+        return true;
     }
 
-    return undefined;
+    return false;
 }
 
 export function hasStoredValue(evaluator: Evaluator, expr: Expression) {

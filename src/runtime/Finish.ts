@@ -27,12 +27,7 @@ export function finish(evaluator: Evaluator, expr: Expression) {
     // Not in the past and the expression is either constant or not dependent on recenlty changed streams? Reuse the prior value.
     // Use ANY stored value (not filtered by current stepIndex) so Start and Finish agree on whether to skip —
     // see Start.start() for the rationale. shouldSkip already guarantees the expression is effectively constant here.
-    const sk2 = shouldSkip(evaluator, expr);
-    if (process.env.WP_TRACE)
-        console.error(
-            `FINISH ${expr.constructor.name} "${expr.toWordplay().replace(/\n/g,' ').slice(0,24)}" skip=${sk2} stored=${String(getStoredValue(evaluator, expr)?.toString()).slice(0,18)}`,
-        );
-    if (sk2) {
+    if (shouldSkip(evaluator, expr)) {
         const priorValue = getStoredValue(evaluator, expr);
         if (priorValue !== undefined) {
             // Ask the evaluator to remember the value we computed.
