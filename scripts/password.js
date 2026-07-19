@@ -2,9 +2,11 @@
  * This script enables viewing and updating a user's claims.
  * so it's what we've got. Run it with `node claims.cjs`
  */
-import admin from 'firebase-admin';
+import { cert, initializeApp } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
 import { readFileSync } from 'fs';
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
 
 // If there aren't any arguments, bail.
 if (process.argv.length <= 2) {
@@ -38,22 +40,28 @@ if (pass === undefined || pass.length < 8) {
 
 console.log('Reading service key...');
 
-const serviceKeyPath = `../firebase-${project}-service-key.json`;
-
-// Log in with the secret service key generated in the Firebase service accounts console.
-const serviceAccount = JSON.parse(
-    readFileSync(`../wordplay-${project}-service-key.json`, 'utf8'),
+// Resolve the key against the repo root rather than the cwd, so the script works
+// whether it's run from the root or from scripts/.
+const serviceKeyPath = join(
+    dirname(fileURLToPath(import.meta.url)),
+    '..',
+    `wordplay-${project}-service-key.json`,
 );
 
-if (serviceAccount === undefined) {
-    console.log(`Couldn't find service key at ${serviceKeyPath}`);
+// Log in with the secret service key generated in the Firebase service accounts console.
+// readFileSync throws rather than returning undefined, so report the path on failure.
+let serviceAccount;
+try {
+    serviceAccount = JSON.parse(readFileSync(serviceKeyPath, 'utf8'));
+} catch (error) {
+    console.log(`Couldn't read service key at ${serviceKeyPath}: ${error}`);
     process.exit();
 }
 
 console.log('Connecting to Firebase with key...');
 
 // Initialize the SDK with the service account.
-admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
+initializeApp({ credential: cert(serviceAccount) });
 
 // Add the publisher claim to the email address.
 getAuth()
