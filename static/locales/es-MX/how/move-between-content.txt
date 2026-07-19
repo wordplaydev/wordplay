@@ -1,0 +1,20 @@
+Muévete entre el contenido con las teclas de flecha
+
+A veces quieres que el público avance por el contenido pieza por pieza, como una presentación de diapositivas, yendo hacia adelante /y/ hacia atrás con las teclas de flecha.
+
+Cada versión de este patrón está hecha de las mismas tres partes:
+
+• Un  @List  del contenido que quieres mostrar• Un flujo de  @Key  , que cambia cada vez que se presiona una tecla• Un  @Reaction  que recuerda en qué pieza de contenido estás ahora
+
+Aquí está la versión más pequeña. Haz clic primero en el escenario para que escuche, luego presiona las teclas de flecha izquierda y derecha:
+
+\slides: ['primero' 'segundo' 'tercero']
+key: Key()
+index•#: 1 … ∆ key … (key = 'FlechaDerecha') ? ((index < slides.length()) ? index + 1 index) (key = 'FlechaIzquierda') ? ((index > 1) ? index - 1 index) index
+Phrase(slides[index])\
+
+El  @Reaction  es el corazón de todo. Empieza en \1\, y cada vez que  @Key  cambia, decide cuál debe ser el nuevo número.Si se presionó la flecha derecha, suma uno; si se presionó la flecha izquierda, resta uno; de lo contrario, se queda igual.
+
+Las comprobaciones adicionales de \?\ son las que evitan que el número pase de los extremos de la lista.Sin ellas podrías salirte del extremo y no habría ninguna diapositiva que mostrar.Si prefieres volver de la última diapositiva a la primera, puedes hacer eso en su lugar.
+
+interactive-scene, choose-adventure, offer-choices

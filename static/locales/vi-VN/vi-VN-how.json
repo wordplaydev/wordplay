@@ -42,6 +42,13 @@
         "related": ["animated-scene"]
     },
     {
+        "id": "move-between-content",
+        "title": "Di chuyển giữa các nội dung bằng phím mũi tên",
+        "category": "stories",
+        "body": "Đôi khi bạn muốn khán giả xem từng phần nội dung một, giống như một buổi trình chiếu, đi tới /và/ đi lui bằng các phím mũi tên.\n\nMọi phiên bản của mẫu này đều gồm ba phần giống nhau:\n\n• Một  @List  của nội dung bạn muốn hiển thị• Một  @Key  luồng, thay đổi mỗi khi một phím được nhấn• Một  @Reaction  ghi nhớ phần nội dung nào bạn đang xem hiện tại\n\nĐây là phiên bản nhỏ nhất của nó. Hãy nhấp vào sân khấu trước để nó lắng nghe, rồi nhấn phím mũi tên trái và phải:\n\n\\slides: ['thứ nhất' 'thứ hai' 'thứ ba']\nkey: Key()\nindex•#: 1 … ∆ key … (key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index) (key = 'ArrowLeft') ? ((index > 1) ? index - 1 index) index\nPhrase(slides[index])\\\n\nCái  @Reaction  là trái tim của nó. Nó bắt đầu ở \\1\\, và mỗi khi  @Key  thay đổi, nó quyết định con số mới nên là bao nhiêu.Nếu phím mũi tên phải được nhấn, nó cộng thêm một; nếu phím mũi tên trái được nhấn, nó trừ đi một; nếu không thì nó giữ nguyên.\n\nCác \\?\\ kiểm tra thêm là thứ giữ cho con số không vượt quá hai đầu của danh sách.Nếu không có chúng, bạn có thể đi quá phần cuối và sẽ không có trang nào để hiển thị.Nếu bạn muốn quay vòng từ trang cuối trở về trang đầu, bạn có thể làm điều đó thay thế.",
+        "related": ["interactive-scene", "choose-adventure", "offer-choices"]
+    },
+    {
         "id": "layering-images",
         "title": "Xếp chồng các hình ảnh lên nhau",
         "category": "stories",

@@ -1,0 +1,20 @@
+Treci de la un conținut la altul cu tastele săgeți
+
+Uneori vrei ca publicul să parcurgă conținutul câte o bucată pe rând, ca o prezentare cu diapozitive, mergând înainte /și/ înapoi cu tastele săgeți.
+
+Fiecare variantă a acestui tipar este făcută din aceleași trei părți:
+
+• Un  @List  al conținutului pe care vrei să îl arăți• Un flux  @Key , care se schimbă de fiecare dată când apeși o tastă• Un  @Reaction  care ține minte pe ce bucată de conținut te afli acum
+
+Iată cea mai mică variantă a lui. Apasă mai întâi pe scenă ca să asculte, apoi apasă tastele săgeată stânga și dreapta:
+
+\slides: ['primul' 'al doilea' 'al treilea']
+key: Key()
+index•#: 1 … ∆ key … (key = 'SăgeatăDreapta') ? ((index < slides.length()) ? index + 1 index) (key = 'SăgeatăStânga') ? ((index > 1) ? index - 1 index) index
+Phrase(slides[index])\
+
+Acest  @Reaction  este inima lui. Începe de la \1\, și de fiecare dată când se schimbă  @Key , decide care ar trebui să fie noul număr.Dacă a fost apăsată săgeata dreapta, adaugă unu; dacă a fost apăsată săgeata stânga, scade unu; altfel rămâne la fel.
+
+Verificările \?\ suplimentare sunt cele care împiedică numărul să treacă de capetele listei.Fără ele ai putea trece de capăt și nu ar mai fi niciun diapozitiv de arătat.Dacă preferi să treci de la ultimul diapozitiv înapoi la primul, poți face și asta în schimb.
+
+interactive-scene, choose-adventure, offer-choices

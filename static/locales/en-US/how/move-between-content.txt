@@ -1,0 +1,60 @@
+Move between content with arrow keys
+
+Sometimes you want the audience to step through content one piece at a time, like a slide show, going forward /and/ back with the arrow keys.
+
+Every version of this pattern is made of the same three parts:
+
+• A @List of the content you want to show
+• A @Key stream, which changes every time a key is pressed
+• A @Reaction that remembers which piece of content you're on now
+
+Here's the smallest version of it. Click the stage first so it's listening, then press the left and right arrow keys:
+
+\
+slides: ['first' 'second' 'third']
+
+key: Key()
+
+index•#: 1 … ∆ key …
+	(key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index)
+		(key = 'ArrowLeft') ? ((index > 1) ? index - 1 index)
+			index
+
+Phrase(slides[index])
+\
+
+The @Reaction is the heart of it. It starts at \1\, and every time the @Key changes, it decides what the new number should be.
+If the right arrow was pressed, it adds one; if the left arrow was pressed, it subtracts one; otherwise it stays the same.
+
+The extra \?\ checks are what keep the number from going past the ends of the list.
+Without them you could walk off the end and there would be no slide to show.
+If you'd rather wrap around from the last slide back to the first, you can do that instead.
+
+¶Note: the arrow keys are named \'ArrowLeft'\, \'ArrowRight'\, \'ArrowUp'\, and \'ArrowDown'\.
+You can also just write \'Left'\ and \'Right'\, and key names work in your own language too.¶
+
+Notice that \index\ is only a number, so this works for /any/ kind of content, not just text.
+Swap the @List for a list of @Group or whole scenes and the rest of the pattern doesn't change at all:
+
+\
+slides: [
+	Phrase('a story in three parts' size: 3m)
+	Group(Stack() [Phrase('🐈') Phrase('a cat appears')])
+	Phrase('the end 🎉')
+]
+
+key: Key()
+
+index•#: 1 … ∆ key …
+	(key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index)
+		(key = 'ArrowLeft') ? ((index > 1) ? index - 1 index)
+			index
+
+slides[index]
+\
+
+¶Note: see this pattern in a whole project in the gallery: <slide show@https://wordplay.dev/project/example-SlideShow?play>¶
+
+If you only ever need to go forward, and never back, a @Scene can be simpler.
+
+interactive-scene, choose-adventure, offer-choices

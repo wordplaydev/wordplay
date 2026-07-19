@@ -42,6 +42,13 @@
         "related": ["animated-scene"]
     },
     {
+        "id": "move-between-content",
+        "title": "Ok tuşlarıyla içerik arasında gezinme",
+        "category": "stories",
+        "body": "Bazen izleyicinin içeriği bir slayt gösterisi gibi tek tek görmesini istersin. Ok tuşlarıyla ileri /ve/ geri gidebilir.\n\nBu kalıbın her sürümü aynı üç parçadan oluşur:\n\n• Göstermek istediğin içeriğin bir  @List  hali• Bir tuşa her basıldığında değişen bir  @Key  akışı• Şu anda hangi içerik parçasında olduğunu hatırlayan bir  @Reaction  \n\nİşte bunun en küçük hali. Önce sahneye tıkla ki dinlesin, sonra sol ve sağ ok tuşlarına bas:\n\n\\slides: ['birinci' 'ikinci' 'üçüncü']\nkey: Key()\nindex•#: 1 … ∆ key … (key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index) (key = 'ArrowLeft') ? ((index > 1) ? index - 1 index) index\nPhrase(slides[index])\\\n\nEn önemli parça  @Reaction  burasıdır. Şurada başlar: \\1\\, ve her seferinde  @Key  değiştiğinde, yeni sayının ne olması gerektiğine karar verir.Sağ oka basıldıysa bir ekler; sol oka basıldıysa bir çıkarır; başka bir durumda aynı kalır.\n\nFazladan olan \\?\\ kontrolleri, sayının listenin uçlarını aşmasını önler.Onlar olmadan uçtan çıkabilirsin ve gösterilecek bir slayt kalmaz.Son slayttan tekrar ilkine dönmeyi istersen, bunun yerine bunu da yapabilirsin.",
+        "related": ["interactive-scene", "choose-adventure", "offer-choices"]
+    },
+    {
         "id": "layering-images",
         "title": "Görüntüleri Birbirinin Üzerine Katmanlayın",
         "category": "stories",

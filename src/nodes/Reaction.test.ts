@@ -207,3 +207,33 @@ clicks: 0 … ∆ Button() … clicks + 1
 
     evaluator.stop();
 });
+
+// Regression: an expression that combines a reaction-bound value with a SECOND
+// distinct name produced the wrong value after a stream fired. `i` rendered as
+// `n`'s value, and in the concatenation form the ' of ' literal vanished
+// entirely, which is the signature of a value-stack misalignment in the
+// reuse-prior-value fast path (Start/Finish must agree about skipping).
+test.each([
+    // [label, expression, expected after one Button press]
+    ['reaction value alone', `i → ''`, '"2"'],
+    ['same name twice', `(i → '') + (i → '')`, '"22"'],
+    ['no reaction value', `(n → '') + (n → '')`, '"55"'],
+    ['reaction value + literal', `(i → '') + ' of 5'`, '"2 of 5"'],
+    ['reaction value + second name', `(i → '') + ' of ' + (n → '')`, '"2 of 5"'],
+    ['second name first', `(n → '') + ' of ' + (i → '')`, '"5 of 2"'],
+])('%s', (_label, expression, expected) => {
+    const { evaluator, source } = startReactive(
+        `n: 5
+i•#: 1 … ∆ Button() … i + 1
+${expression}`,
+    );
+
+    expect(evaluator.exception).toBeUndefined();
+
+    evaluator.singletonReact(Button, (stream) => stream.react(true));
+
+    expect(evaluator.exception).toBeUndefined();
+    expect(evaluator.getLatestSourceValue(source)?.toString()).toBe(expected);
+
+    evaluator.stop();
+});

@@ -42,6 +42,13 @@
         "related": ["animated-scene"]
     },
     {
+        "id": "move-between-content",
+        "title": "Poruszaj się między treścią za pomocą strzałek",
+        "category": "stories",
+        "body": "Czasem chcesz, aby odbiorcy przechodzili przez treść po jednym kawałku, jak w pokazie slajdów, idąc do przodu /oraz/ wstecz za pomocą strzałek.\n\nKażda wersja tego wzoru składa się z tych samych trzech części:\n\n•  @List  treści, którą chcesz pokazać• Strumień  @Key , który zmienia się za każdym razem, gdy naciśniesz klawisz•  @Reaction , który pamięta, na którym kawałku treści teraz jesteś\n\nOto najmniejsza wersja tego. Najpierw kliknij scenę, aby nasłuchiwała, a potem naciśnij lewą i prawą strzałkę:\n\n\\slides: ['pierwszy' 'drugi' 'trzeci']\nkey: Key()\nindex•#: 1 … ∆ key … (key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index) (key = 'ArrowLeft') ? ((index > 1) ? index - 1 index) index\nPhrase(slides[index])\\\n\n @Reaction  to jego serce. Zaczyna się od \\1\\, a za każdym razem, gdy  @Key  się zmienia, decyduje, jaka powinna być nowa liczba.Jeśli naciśnięto prawą strzałkę, dodaje jeden; jeśli naciśnięto lewą strzałkę, odejmuje jeden; w przeciwnym razie zostaje taka sama.\n\nDodatkowe sprawdzenia \\?\\ powstrzymują liczbę od wyjścia poza końce listy.Bez nich mógłbyś wyjść poza koniec i nie byłoby żadnego slajdu do pokazania.Jeśli wolisz, aby z ostatniego slajdu wracało z powrotem do pierwszego, możesz zrobić to zamiast tego.",
+        "related": ["interactive-scene", "choose-adventure", "offer-choices"]
+    },
+    {
         "id": "layering-images",
         "title": "Nakładanie obrazów na siebie",
         "category": "stories",

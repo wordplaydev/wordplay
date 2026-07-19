@@ -42,6 +42,13 @@
         "related": ["animated-scene"]
     },
     {
+        "id": "move-between-content",
+        "title": "矢印キーで内容を移動する",
+        "category": "stories",
+        "body": "スライドショーのように、内容を一つずつ順番に見せたいことがあります。矢印キーで前へ進んだり /また/ 戻ったりできます。\n\nこのパターンはどれも、同じ三つの部分でできています。\n\n• 見せたい内容の  @List • キーが押されるたびに変わる  @Key  ストリーム• 今どの内容にいるかを覚えておく  @Reaction \n\nこれが一番小さな例です。まずステージをクリックして操作を受け付ける状態にし、それから左右の矢印キーを押してみましょう。\n\n\\slides: ['1番目' '2番目' '3番目']\nkey: Key()\nindex•#: 1 … ∆ key … (key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index) (key = 'ArrowLeft') ? ((index > 1) ? index - 1 index) index\nPhrase(slides[index])\\\n\nこの  @Reaction  が中心です。最初は \\1\\ から始まり、 @Key  が変わるたびに、新しい数がいくつになるかを決めます。右の矢印が押されたら1を足します。左の矢印が押されたら1を引きます。それ以外のときはそのままです。\n\n追加の \\?\\ のチェックは、数がリストの端を超えないようにするためのものです。これがないと端を超えてしまい、見せるスライドがなくなってしまいます。最後のスライドから最初のスライドへ戻るようにしたいなら、そうすることもできます。",
+        "related": ["interactive-scene", "choose-adventure", "offer-choices"]
+    },
+    {
         "id": "layering-images",
         "title": "画像を重ねる",
         "category": "stories",

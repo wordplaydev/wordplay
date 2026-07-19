@@ -33,6 +33,7 @@ export const HowToMetadata = {
     'styling-text': { category: 'characters' },
     'animated-scene': { category: 'stories' },
     'interactive-scene': { category: 'stories' },
+    'move-between-content': { category: 'stories' },
     'layering-images': { category: 'stories' },
     'shake-phrase': { category: 'randomization' },
     'video-grid': { category: 'video' },

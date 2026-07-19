@@ -42,6 +42,13 @@
         "related": ["animated-scene"]
     },
     {
+        "id": "move-between-content",
+        "title": "Berpindah antar konten dengan tombol panah",
+        "category": "stories",
+        "body": "Kadang kamu ingin penonton melihat konten satu per satu, seperti tayangan slide, maju /dan/ mundur dengan tombol panah.\n\nSetiap versi pola ini terdiri dari tiga bagian yang sama:\n\n• Sebuah  @List  dari konten yang ingin kamu tampilkan• Sebuah aliran  @Key , yang berubah setiap kali sebuah tombol ditekan• Sebuah  @Reaction  yang mengingat konten mana yang sedang kamu lihat sekarang\n\nIni versi terkecilnya. Klik panggung terlebih dahulu agar ia mendengarkan, lalu tekan tombol panah kiri dan kanan:\n\n\\slides: ['pertama' 'kedua' 'ketiga']\nkey: Key()\nindex•#: 1 … ∆ key … (key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index) (key = 'ArrowLeft') ? ((index > 1) ? index - 1 index) index\nPhrase(slides[index])\\\n\nBagian  @Reaction  adalah intinya. Ia mulai dari \\1\\, dan setiap kali  @Key  berubah, ia memutuskan angka baru yang seharusnya.Jika panah kanan ditekan, ia menambah satu; jika panah kiri ditekan, ia mengurangi satu; jika tidak, ia tetap sama.\n\nPemeriksaan \\?\\ tambahan itulah yang menjaga agar angka tidak melewati ujung daftar.Tanpa itu, kamu bisa keluar dari ujung dan tidak ada slide yang bisa ditampilkan.Jika kamu lebih suka melingkar kembali dari slide terakhir ke slide pertama, kamu bisa melakukannya sebagai gantinya.",
+        "related": ["interactive-scene", "choose-adventure", "offer-choices"]
+    },
+    {
         "id": "layering-images",
         "title": "Tumpuk gambar satu di atas yang lain",
         "category": "stories",
