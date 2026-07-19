@@ -478,33 +478,57 @@ test('unparsables in blocks', () => {
     );
 });
 
+/**
+ * Most insertion points a single program contributes to the comma fuzz below.
+ * Each one reparses the whole program, so an uncapped program costs time
+ * proportional to its size squared, and the largest examples drown out the rest:
+ * Building Blocks and Literacy alone are ~41KB. Capping lets us fuzz every
+ * example instead of an arbitrary alphabetical slice, and keeps the cost of
+ * adding an example roughly linear. Programs with fewer boundaries than this
+ * are still fuzzed at every one.
+ */
+const MAX_COMMA_INSERTIONS_PER_PROGRAM = 150;
+
 // Verify that no matter where we insert a comma, a complex program doesn't crash the parser.
 test("commas in complex programs don't crash", { timeout: 120000 }, () => {
-    // Get the first 10 example projects
-    const projects = readProjects('examples').slice(0, 10);
-    // For each one, insert a comma in all possible token gaps and see if the parser crashes.
+    const projects = readProjects('examples');
+    expect(projects.length).toBeGreaterThan(0);
+
     for (const project of projects) {
         const code = project.sources[0].code;
+
+        // Collect every token boundary, then sample evenly so that one huge
+        // example can't dominate the whole test.
+        const boundaries: number[] = [];
         const originalTokens = toTokens(code);
         let i = 0;
         while (i < code.length) {
+            boundaries.push(i);
+            // No more tokens? Stop.
+            if (!originalTokens.hasNext()) break;
+            // Skip past the next token, to try a comma after it.
+            i += originalTokens.read().getTextLength();
+        }
+
+        const stride = Math.ceil(
+            boundaries.length / MAX_COMMA_INSERTIONS_PER_PROGRAM,
+        );
+
+        // Insert a comma at each sampled gap and see if the parser crashes.
+        for (let b = 0; b < boundaries.length; b += stride) {
+            const at = boundaries[b];
             let error: Error | undefined = undefined;
-            const withComma = code.slice(0, i) + ',' + code.slice(i);
+            const withComma = code.slice(0, at) + ',' + code.slice(at);
             try {
                 parseProgram(toTokens(withComma));
             } catch (e) {
                 error = new Error(
                     '' +
                         e +
-                        `"${code.slice(i - 20, i)}-->,<--${code.slice(i, i + 20)}" crashed the parser`,
+                        ` in ${project.id}: "${code.slice(at - 20, at)}-->,<--${code.slice(at, at + 20)}" crashed the parser`,
                 );
             }
             expect(error).toBeFalsy();
-
-            // No more tokens? Stop.
-            if (!originalTokens.hasNext()) break;
-            // Skip past the next token, to try a comma after it.
-            i += originalTokens.read().getTextLength();
         }
     }
 });
