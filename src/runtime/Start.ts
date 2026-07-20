@@ -1,3 +1,4 @@
+import Borrow from '@nodes/Borrow';
 import Changed from '@nodes/Changed';
 import type Expression from '@nodes/Expression';
 import type Evaluator from '@runtime/Evaluator';
@@ -67,6 +68,10 @@ export function shouldSkip(evaluator: Evaluator, expr: Expression) {
         !expr.isInternal() &&
         // Never skip a Changed expression, as they can always affect evaluation
         !(expr instanceof Changed) &&
+        // Never skip a Borrow: its whole purpose is the side effect of binding the borrowed
+        // source or share into the current evaluation, which is fresh on every reevaluation.
+        // Skipping it leaves the borrowed names unbound and its Finish popping an empty stack.
+        !(expr instanceof Borrow) &&
         // Never skip an expression dependent on a Changed expression, as they can always change based on a Changed expression.
         !evaluator.project.isChangedDependentExpression(expr) &&
         // Don't reevaluate constants
